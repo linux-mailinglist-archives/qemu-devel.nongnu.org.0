@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA43559710
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:56:28 +0200 (CEST)
-Received: from localhost ([::1]:42166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A4F559742
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 12:03:05 +0200 (CEST)
+Received: from localhost ([::1]:48464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4g39-0001To-9E
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56906)
+	id 1o4g9Y-00067C-PN
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 06:03:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o4g0f-0008NQ-7J
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:53:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37977)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4g7E-0005B9-Ss
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 06:00:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o4g0b-0002JI-Ry
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:53:52 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4g7B-0003aS-GS
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 06:00:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656064428;
+ s=mimecast20190719; t=1656064836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TpgWEwO747QnaYNtIKBe9kEpUGqw6c8srgHJ7Tsgxbs=;
- b=YDf6A8ZZeWrUBsGfA4oxPEctBQQpxBpXFDxcvPshCkpJmo0rbKdCgSJFnOjNzt5IFQUNzI
- hEDoSuOA2e5Qgx3dxMFP7yMd2J9LxIuaC2ihzJP+kmb7ckoTJByUZNyb6vAZ3H8AqZQyFL
- ZHLcOBKZMPEZz+6UWedoydurjSr4mW0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=K7J4sHkfHi+DRdjvc1Re12K+9uABch9P13WoOjORI5E=;
+ b=bu5y0hNT/4SKeAeWkHU9TM4DBL7xw8DJXemRrta55F0B+dO1jcVCNBZwYiK35VUPwZgxbw
+ G8tRSFPMYh/RQumBsH7p5Nt5pgvqrgZq2eg+ztrKTm05dJBqIaaw1xC9p1YRG+j33QKUxS
+ 6UriGGCdxvoeTr99RZvTaFTKmwYU890=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-77-DaO7D2N-MeSP1H1p3zxLfA-1; Fri, 24 Jun 2022 05:53:47 -0400
-X-MC-Unique: DaO7D2N-MeSP1H1p3zxLfA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F13518188A2
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 09:53:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D57C3C28124;
- Fri, 24 Jun 2022 09:53:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 979F721E690D; Fri, 24 Jun 2022 11:53:45 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Jason Wang <jasowang@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [RFC PATCH v4 04/11] qapi: net: add stream and dgram netdevs
-References: <20220623155317.675932-1-lvivier@redhat.com>
- <20220623155317.675932-5-lvivier@redhat.com>
-Date: Fri, 24 Jun 2022 11:53:45 +0200
-In-Reply-To: <20220623155317.675932-5-lvivier@redhat.com> (Laurent Vivier's
- message of "Thu, 23 Jun 2022 17:53:10 +0200")
-Message-ID: <87zgi29yl2.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-618-TvdJAGluOteCIiMy6zcpLA-1; Fri, 24 Jun 2022 06:00:35 -0400
+X-MC-Unique: TvdJAGluOteCIiMy6zcpLA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ j31-20020a05600c1c1f00b0039c481c4664so821860wms.7
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 03:00:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=K7J4sHkfHi+DRdjvc1Re12K+9uABch9P13WoOjORI5E=;
+ b=GauVkviewT9tZU6SpSdJM8De2TIV6hE0qDatRr4EkjqyghL2neOjgSPdL/hNtevZO3
+ T4/Vw4pZlO8/0QrWRqiGMLH3syspWGJ/bsCkm/32zxp3x4h29IDrndv6NTthUv7YcV3F
+ gWIjTbZ++P/FBHvon5dUErHnwxUQadZ8RDNxYjXP+uH19DpVOz4yCGGXK7ieU3zdnX09
+ MV5LX5vC/XUvUz+ndvWKlSZtfAubsmRsSd0q4kH2WN6oB4zmi76zva9mIcZa+ahzkYqR
+ 01o77jCpO6aXkmG7f+Ev0iQw+Uq7lBy2/2G7i56/b9viHTSOrmEKoGO633wwBn1v8DrA
+ 35fg==
+X-Gm-Message-State: AJIora//l8t2t84FGN29cff9s6vFXecin343dW+Gl5XIU6uPVLsHq4EC
+ 2E/d02kJ+9uhseUlIc/tce8acaZDlE3s4jd3lnwt/UAMkV/LCVEgFIQzuSc6XRqczSps7RZCotp
+ fgspoVJEryHKMp6s=
+X-Received: by 2002:a05:6000:691:b0:21b:8d0a:6035 with SMTP id
+ bo17-20020a056000069100b0021b8d0a6035mr12854220wrb.230.1656064833981; 
+ Fri, 24 Jun 2022 03:00:33 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1si2HX4RGtwKj1RvjIKlt2KxPUfBqwZ9LqpiRYsWKQKej8PZCFjdQR5W8WlXwId8ZGmhyrBQg==
+X-Received: by 2002:a05:6000:691:b0:21b:8d0a:6035 with SMTP id
+ bo17-20020a056000069100b0021b8d0a6035mr12854202wrb.230.1656064833791; 
+ Fri, 24 Jun 2022 03:00:33 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-176-192.web.vodafone.de.
+ [109.43.176.192]) by smtp.gmail.com with ESMTPSA id
+ g1-20020adffc81000000b00213ba3384aesm1905953wrr.35.2022.06.24.03.00.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Jun 2022 03:00:33 -0700 (PDT)
+Message-ID: <f8f6a5d9-5ec5-8cd3-ccc9-ff06a80e4a74@redhat.com>
+Date: Fri, 24 Jun 2022 12:00:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] pc-bios/s390-ccw/virtio-blkdev: Simplify/fix
+ virtio_ipl_disk_is_valid()
+Content-Language: en-US
+To: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org, 
+ Eric Farman <farman@linux.ibm.com>
+Cc: qemu-devel@nongnu.org
+References: <20220624085037.612235-1-thuth@redhat.com>
+ <20220624085037.612235-2-thuth@redhat.com>
+ <fe1d0e25-b582-0220-db7e-c69df5460f51@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <fe1d0e25-b582-0220-db7e-c69df5460f51@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,120 +105,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
+On 24/06/2022 11.20, Christian Borntraeger wrote:
+> 
+> 
+> Am 24.06.22 um 10:50 schrieb Thomas Huth:
+>> The s390-ccw bios fails to boot if the boot disk is a virtio-blk
+>> disk with a sector size of 4096. For example:
+>>
+>>   dasdfmt -b 4096 -d cdl -y -p -M quick /dev/dasdX
+>>   fdasd -a /dev/dasdX
+>>   install a guest onto /dev/dasdX1 using virtio-blk
+>>   qemu-system-s390x -nographic -hda /dev/dasdX1
+> 
+> Interestingly enough a real DASD (dasdX and not dasdX1) did work in the
+> past and I also successfully uses an NVMe disk. So I guess the NVMe
+> was 512 byte sector size then?
 
-> Copied from socket netdev file and modified to use SocketAddress
-> to be able to introduce new features like unix socket.
->
-> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
-> according to the IP address type.
-> "listen" and "connect" modes are managed by stream netdev. An optional
-> parameter "server" defines the mode (server by default)
->
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
-> ---
+If you're using a full DASD, I think this was working thanks to the 
+virtio_disk_is_eckd() function recognizing the geometry.
 
-[...]
+For NVMe disk - no clue. It either used 512 sectors, or it was at least 
+accidentally still able to deal with the 512-byte sector requests after 
+virtio_assume_scsi() "fixed" up the geometry. If you've got some spare 
+minutes and still have access to those disks, it would be interesting to 
+know if the boot still works there with my patches applied.
 
-> diff --git a/net/hub.c b/net/hub.c
-> index 1375738bf121..67ca53485638 100644
-> --- a/net/hub.c
-> +++ b/net/hub.c
-> @@ -313,6 +313,8 @@ void net_hub_check_clients(void)
->              case NET_CLIENT_DRIVER_USER:
->              case NET_CLIENT_DRIVER_TAP:
->              case NET_CLIENT_DRIVER_SOCKET:
-> +            case NET_CLIENT_DRIVER_STREAM:
-> +            case NET_CLIENT_DRIVER_DGRAM:
->              case NET_CLIENT_DRIVER_VDE:
->              case NET_CLIENT_DRIVER_VHOST_USER:
->                  has_host_dev = 1;
-> diff --git a/net/meson.build b/net/meson.build
-> index 754e2d1d405c..896d86d43914 100644
-> --- a/net/meson.build
-> +++ b/net/meson.build
-> @@ -13,6 +13,8 @@ softmmu_ss.add(files(
->    'net.c',
->    'queue.c',
->    'socket.c',
-> +  'stream.c',
-> +  'dgram.c',
->    'util.c',
->  ))
->  
-> diff --git a/net/net.c b/net/net.c
-> index 531e6c5d2056..1295eb946b7a 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -48,6 +48,7 @@
->  #include "qemu/qemu-print.h"
->  #include "qemu/main-loop.h"
->  #include "qemu/option.h"
-> +#include "qemu/keyval.h"
->  #include "qapi/error.h"
->  #include "qapi/opts-visitor.h"
->  #include "sysemu/runstate.h"
-> @@ -1014,6 +1015,8 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
->  #endif
->          [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
->          [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
-> +        [NET_CLIENT_DRIVER_STREAM]    = net_init_stream,
-> +        [NET_CLIENT_DRIVER_DGRAM]     = net_init_dgram,
->  #ifdef CONFIG_VDE
->          [NET_CLIENT_DRIVER_VDE]       = net_init_vde,
->  #endif
-> @@ -1101,6 +1104,8 @@ void show_netdevs(void)
->      int idx;
->      const char *available_netdevs[] = {
->          "socket",
-> +        "stream",
-> +        "dgram",
->          "hubport",
->          "tap",
->  #ifdef CONFIG_SLIRP
-> @@ -1612,7 +1617,34 @@ void net_init_clients(void)
->   */
->  bool netdev_is_modern(const char *optarg)
->  {
-> -    return false;
-> +    QemuOpts *opts;
-> +    bool is_modern;
-> +    const char *type;
-> +    static QemuOptsList dummy_opts = {
-> +        .name = "netdev",
-> +        .implied_opt_name = "type",
-> +        .head = QTAILQ_HEAD_INITIALIZER(dummy_opts.head),
-> +        .desc = { { } },
-> +    };
-> +
-> +    if (optarg[0] == '{') {
-> +        /*
-> +         * detect JSON syntax. It is supported by
-
-Start the sentence with a capital letter.
-
-Maybe: /* This is JSON, which means it's modern syntax */
-
-> +         * qobject_input_visitor_new_str() (modern style syntax)
-> +         * but not by qemu_opts_parse_noisily() (old style syntax)
-> +         */
-> +        return true;
-> +    }
-> +
-> +    opts = qemu_opts_create(&dummy_opts, NULL, false, &error_abort);
-> +    qemu_opts_do_parse(opts, optarg, dummy_opts.implied_opt_name,
-> +                       &error_abort);
-> +    type = qemu_opt_get(opts, "type");
-> +    is_modern = !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
-> +
-> +    qemu_opts_reset(&dummy_opts);
-> +
-> +    return is_modern;
->  }
->  
->  /*
-
-[...]
+  Thomas
 
 
