@@ -2,79 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A37559E3E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 18:14:54 +0200 (CEST)
-Received: from localhost ([::1]:57580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6335C559E68
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 18:19:11 +0200 (CEST)
+Received: from localhost ([::1]:35178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4lxN-0002Qu-CT
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 12:14:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48868)
+	id 1o4m1V-0006gR-Rq
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 12:19:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o4lti-0008B5-5N; Fri, 24 Jun 2022 12:11:07 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:44692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o4ltZ-0005K2-BQ; Fri, 24 Jun 2022 12:11:04 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id i7so5229984ybe.11;
- Fri, 24 Jun 2022 09:10:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rFC6oK0cN33QkRG7dzhIjaItvJAWdiisEzC0Jtim9kU=;
- b=lr1AjVlwiDBxcwAMgx+KoZz22EdSlNAwb4V4fqEFCckpEMazAZBySit0fBou4WmJbz
- +GzZxdZwa0PQAnIKsfEQ6anmMfhS3Qiq/UdthNUhMbEhGwxjsIayKskz+rE/dlJl7GWB
- WQHRT+8OF7tuOVhOyCpAzIcdziKUqG1Tm8tp2XNMn6IovlPCXLprW6VFj+dhh5c+f5rW
- W00uTTlHti7yH/8/SRJO3YqSlrnIOHSdb34aG6pzYi1BHOUwaKNwAccu0gU16u229lY7
- 7tbsz5qHNeCikVlSlpxWkDLZqkukVteyYLfvN5da9+lKC9y7PzsA4GkXw3ucZ2N0s+Q+
- oyUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rFC6oK0cN33QkRG7dzhIjaItvJAWdiisEzC0Jtim9kU=;
- b=RmzoOUHbditkbVkccClm15e5y5xgC53i2UrlRFlIwW0uz6DBhRs/CFO3an6y7H4QUK
- g92KjGSy2e6w1bNFO43xrlZdN7vU0GC9q04RIYYXLXk+/jY0e11ecM8GD32zBFVQPGIr
- 56SA540RjKaQgJguizv3yd5im21gZD1Ten6TmhbQ84FKp2211uWNbaMB0oOFtC3li5br
- AhR1dqNYQphUAETIikL88A+50dS7W76O15XLCIjRBnrXY2MkzMNOMxgcyzFUyLTt85wJ
- CHyAjNt5RHc2uOY5vJTepFBbb9bKRTSEoMNKBspKHQvYmLCRJDG5i12+6hpr5jrVu2bI
- LNJQ==
-X-Gm-Message-State: AJIora86au+M7QAnKL7K1L/Kh1zDFCPdum1moMGjRT9wwRxau+cMFPaG
- tHenlohXzkZN3btb4gXpapQ57Np/EmsNFJsE4K0=
-X-Google-Smtp-Source: AGRyM1tJyNU+8tnL96n/N3uWzjXoM3Ijrs/aboj8m1rAfdwapdByaNIG/e6TAqn2TizSfc/RtjYkX6Cx0byxFEudSj0=
-X-Received: by 2002:a25:ae23:0:b0:668:daf8:c068 with SMTP id
- a35-20020a25ae23000000b00668daf8c068mr15667723ybj.427.1656087053999; Fri, 24
- Jun 2022 09:10:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1o4lym-00055R-TQ
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 12:16:20 -0400
+Received: from mail-os0jpn01on20711.outbound.protection.outlook.com
+ ([2a01:111:f403:700c::711]:1215
+ helo=JPN01-OS0-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1o4lyk-0006FS-Pw
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 12:16:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eldKReIRIW4KJyWh1TFSYEOhN2/Dn1vgcidz8bRbw7jtVDpy8V8bAVafc5DE+EfSPG1kFOrGhOzyXmxjo7W4B8uKTC2+WWfkdBdW4WsrYUiybwv0bo3IKYVnIeZVkhEv40QWj34244nrNdPW6pTpnZCz9wwrDHg8gw7iPIeKgZQ/ThJm/HX0UpJXOVkg1kE5U5zjbuNvmpQF6UAVxgPYWDWQyANB9sSGnHO9r56P/bdMCHKWHrnqMT8S8Cu3oouUZWICsAKA7sZrWV7tl/M/xAjxM5Ov2eyh1UgH2OWyFXe459poHvjFw7xTYauPfYZFuC/SZLiN+9/sdCDwnBUn0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D7K+jkRbQfxZIuSj9Ivm5AGrQQRSDrytx/VapNBKfAI=;
+ b=Crz2l9Zv2NC+EobGhIeo3JQFwRZ6orQE9PHe4XwYnl7+fiztVZHUn/M7c1LQPPd0NAC1S+NFyj0dZfRwsrwa0tQOoSElChZlGJ+NZgVsG9bUh/w4uEsgv7yiBb0NznrsnZVemW230oX56M2KMiGt0CTr1jqpAB0fNqO4yOPXypVP7lTFXwAvWkiYYONQeroXYkRjoEe3VnUDQbo/22PrgfKqPYavfxB+oMjC1+Eaf2831Cw0fESbSysSvuBUEPkyFHiaTRQJgYPftEz337b+JxcQ8g5IXppp4AC9qOwKJ8wK63gcxA4R36DgWDzWivpzM0ltwxqb9P4O/aFukUNXmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
+ dkim=pass header.d=zenithal.me; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D7K+jkRbQfxZIuSj9Ivm5AGrQQRSDrytx/VapNBKfAI=;
+ b=Tg/ESLNb8I5x+vpZK0MxUoWnDCGtroocc8jvPfEm2S+N4mKfWTQca+2tRh+4hkS6hOV4k7pElT6SuRBmmfRJBwll43UZn0HU8muBeonRej/hfYW47l5datla9lk7bATO2HQTyjKlaZ/r9Oaa4XJd9xDc34mKUvr/qb73WJkdUbc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=zenithal.me;
+Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
+ TYCP286MB2733.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:244::13) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5373.15; Fri, 24 Jun 2022 16:11:12 +0000
+Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::a162:2f17:bb41:c95]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::a162:2f17:bb41:c95%9]) with mapi id 15.20.5373.017; Fri, 24 Jun 2022
+ 16:11:12 +0000
+Date: Sat, 25 Jun 2022 00:11:05 +0800
+From: Hongren Zheng <i@zenithal.me>
+To: MkfsSion <mkfssion@mkfssion.com>
+Cc: qemu-devel@nongnu.org, "Canokeys.org" <contact@canokeys.org>
+Subject: Re: [PATCH v3 2/2] docs/system/devices/canokey: Document limitations
+ on usb-ehci
+Message-ID: <YrXiGXY8lo3zpVZ6@Sun>
+References: <20220624152940.11756-1-mkfssion@mkfssion.com>
+ <20220624152940.11756-2-mkfssion@mkfssion.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220624152940.11756-2-mkfssion@mkfssion.com>
+X-Operating-System: Linux Sun 5.15.26 
+X-Mailer: Mutt 2.2.1 (2022-02-19)
+X-ClientProxiedBy: SJ0PR13CA0045.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::20) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:c0::6)
 MIME-Version: 1.0
-References: <20220620033611.82166-1-faithilikerun@gmail.com>
- <YrAn2f4ORFziZ8vk@stefanha-x1.localdomain>
- <CAAAx-8JdYAKfoS_xBxx5g2iAJFoAHLMqDkz5QA6jhw2QH1L0=w@mail.gmail.com>
- <YrXdJQe+KiRcM5RN@stefanha-x1.localdomain>
-In-Reply-To: <YrXdJQe+KiRcM5RN@stefanha-x1.localdomain>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Sat, 25 Jun 2022 00:10:54 +0800
-Message-ID: <CAAAx-8+eBON8=bKXVkdpaT8_indgpdp8JPLaXAyWQE4phFE2mw@mail.gmail.com>
-Subject: Re: [RFC v2] Adding block layer APIs resembling Linux ZoneBlockDevice
- ioctls.
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, 
- Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu block <qemu-block@nongnu.org>, 
- Hanna Reitz <hreitz@redhat.com>, Hannes Reinecke <hare@suse.de>, 
- Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=faithilikerun@gmail.com; helo=mail-yb1-xb2a.google.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c54ff690-5aa7-4872-6f38-08da55fc2812
+X-MS-TrafficTypeDiagnostic: TYCP286MB2733:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Y44G/GHwxQrXpT7AUNHUugbppQCfg7ArWB6utqyXyewHg3C00DVeE8AwZc/GszlUzFjKsdHD8nj4KoaQdI0VyZkt//q0GHOSPz7b//4ckF5qz/W8ZyvkGHvEcF4L5XQvItBbGxvEZn6ukISIEJ1U0N9KQW0iFBx40sayMHVBYQpDAZEeqijIbbVK/6rYpka1ZI830q7GAvZc5rjjunxWd2CZxsBgHsrMsG5eiO32ZCa9TQ6mMkQqYMi6DoaCkM2v4atR7Qm+yR5nZyZjnIbtFqekIWvAg+Sd1Gsv5776+ReHpmED4mU/CxmsM7JvBxG6a5MKOQeuEhHmNErM+P8B7Ku0BT+c4A5ItJNVsyGf88j2f/YMLvHTBbXg1YNg6oldD8zuPRmb+mCNqAMadU/9qpqaFCD+NgPUEMqRRv0ij1b9YDruPSNGsFnqTc4HU1qYQTX/3ppKHr9JGt7vVkoaqJwH3lx3W2PjwYMXIOzdJY/sxEPLEYuiQDdyP28Anzqo2c7nlEwJNePMP8MCyLvxIW9W0/4FlbYlb7PeTHCwrS3/oj4+nu07/E/TqTi1gf1ivMeo83Q18Mqg632FEvwcdQi41EG2FjWILGxV9D+mzwBEX8Qjpai5tbRFTYIJFQ4beoeEzI0fN00sJ3xrf5f0oO3q0VYvpWZ7xW7H2+wRV13ki0V5pgxVn6IxyXWObLuIvhNOagGLWgDzaCFfl2xqbFgDWB1aQJHZwepg5uZyN5pvqUyEfhLgnGlbxUNobxDreHUr1fp4a/ddiU+UZhqK/hmTSf5CSSEUC52wwl3fy9M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230016)(7916004)(346002)(376002)(396003)(366004)(39830400003)(136003)(186003)(2906002)(6916009)(316002)(41300700001)(786003)(478600001)(41320700001)(6666004)(38100700002)(6486002)(8936002)(5660300002)(9686003)(6506007)(66946007)(6512007)(52116002)(86362001)(33716001)(66476007)(4326008)(83380400001)(8676002)(66556008)(49092004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VY1SwY8SCHB56MSH1PWP/UPrmcJIzW+pvH6T2FEqD27NgJDEv8toXimquHPt?=
+ =?us-ascii?Q?eUblVXMXERNP5Fkx6dnqM1cfl4wfoJC0PjtQDyu726IW3fapiP5Qm5w8aVpB?=
+ =?us-ascii?Q?fBG91K9kYAFGrxZf87zTfAmOLR3CDOVo1B4/CeJGVOj7Ea/R9iEzhOwerGqL?=
+ =?us-ascii?Q?riACaQpdwyhsWRLHAtRORJ51LwOL6q70adkukPBqU9rvClHdHdcEImsvpyaU?=
+ =?us-ascii?Q?K42Pq4GxpGyyM1Al4ct1z7I/HHMR1UfhEX65tRhO6GZtXNTOzWS/pnuNmEXc?=
+ =?us-ascii?Q?m79UkwXaHrEOcIEHQO+1UromplsJdY4OZeYvLZoLx8QqZQyZVYo+7npH0PAu?=
+ =?us-ascii?Q?7qFkkp13J6jxmSP3AD8XGdcnr8bwSSgON7zPt4G48kl06m+RZxMcy7sLMS+E?=
+ =?us-ascii?Q?SUxhlhlPRkaQ7sK08EUpSyG96lAKXGOTMYDFJ+RxI0xK21g6au09ImUb8m0S?=
+ =?us-ascii?Q?BH7YmQcHmH48sU9YDcoZJUpaR3o/CbHMNdGNooziJgUqVZvgS5UMC/MqDqZa?=
+ =?us-ascii?Q?XVf7004IC3Do+YCPJz+PRhJWsEuk5D1haGr1z0ttSTWxPHusmj3/oamQ/pvx?=
+ =?us-ascii?Q?6oL+Y/0KVlNJCdRJIsjc1H/McG8h0qTUioLDnZJkVCEhtP1R00Jcl/hDJiOR?=
+ =?us-ascii?Q?8E3TzmXRHXly9WnVe5852XNP5BOM1Uno6rO5xkY0zcEaVzcN9s1iiotgFJPH?=
+ =?us-ascii?Q?LGhmnTQUvzWS2hI9JVbpcbiYFY7+kXdDMDPtunlbD0xujQZrfL6dCaLTm+Jl?=
+ =?us-ascii?Q?lmDU1HK1xUiQ5VWkTYEy4tjHPn/BGUZSM5cpluM29X1yqTlTgvq3xkbgu0pC?=
+ =?us-ascii?Q?PmilXH1RL1zkRFykdvONMso1kYdMliuOIzTO33PbkGPYmIvfk+PHW1Br46MB?=
+ =?us-ascii?Q?wtAFN8uccFU0Zrxb1H0iGTrae3Cx7ySX5f3CbVZC+0lowLrS5zYBU0JUygUI?=
+ =?us-ascii?Q?gwbgULmWsXu3jP5MB16oz9Anv3SrDokdQ5/9X4KA0TUyFz4/5OB+HKgg7PtN?=
+ =?us-ascii?Q?fHvo9mbijHBG7deTkgLWJTaRCnplLWhZxyRoER7Rbf5+ia/hX2USdudsmn+e?=
+ =?us-ascii?Q?aYpbiIUgtnf10a3rs59xQpUD/D3+y+LgKYILRKxgdU6bdqABX0XQnIpPBoOp?=
+ =?us-ascii?Q?+XE8QcaBHqmmHW/8xoRG7tYtp8UGLDDYPFO27kQ4+clGlI3CWNuJ4lMkreAl?=
+ =?us-ascii?Q?uV1NHQY9WaKz9WUFEcFX7icNzAnnXo7G82MYNhC/c7ztqGW47KFBnKf4e1CT?=
+ =?us-ascii?Q?uTyHeWH8u1PhHDu6CjNSkg2Lu4iE+ZE49mrT42eGb52qbrpMGKYn+yaKkwxJ?=
+ =?us-ascii?Q?ftPVEVdc7iQxfVwRsChIxsQ9bRcDmtV696/fjZGHYI0iD8pz5Q8nMSVGEjj0?=
+ =?us-ascii?Q?0w0dJjladn6zx0EVstPt2nHparsdtWaBYG62424aQ9oUjQ7BMl1D/QCmc8EY?=
+ =?us-ascii?Q?/in7eK8JE2xxgL6sHFWKGPsRh+BCz5F97lEFr0Dqm3pmY2TBlJxZbRJMUSgH?=
+ =?us-ascii?Q?CHhU6Zza0+cDsAoYdecnaJKPdOZuyJ5g5VGoX5GS41M4TA2m7wJ3m3dZE2dj?=
+ =?us-ascii?Q?dGRqdOTl0L+AtUm5KlO4j10A6/q+hIv29/2chVvJ?=
+X-OriginatorOrg: zenithal.me
+X-MS-Exchange-CrossTenant-Network-Message-Id: c54ff690-5aa7-4872-6f38-08da55fc2812
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2022 16:11:12.1887 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BE5RArGxtYXPvD1ff5zP/+xqQOs9xVpToq40KVRdxRqJ5TGJ50B9TFBm6zAgcBcF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB2733
+Received-SPF: pass client-ip=2a01:111:f403:700c::711;
+ envelope-from=i@zenithal.me;
+ helo=JPN01-OS0-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,223 +136,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B46=E6=9C=8824=E6=
-=97=A5=E5=91=A8=E4=BA=94 23:50=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Fri, Jun 24, 2022 at 11:14:32AM +0800, Sam Li wrote:
-> > Hi Stefan,
-> >
-> > Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B46=E6=9C=882=
-0=E6=97=A5=E5=91=A8=E4=B8=80 15:55=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > On Mon, Jun 20, 2022 at 11:36:11AM +0800, Sam Li wrote:
-> > >
-> > > Hi Sam,
-> > > Is this version 2 of "[RFC v1] Add support for zoned device"? Please
-> > > keep the email subject line the same (except for "v2", "v3", etc) so
-> > > that it's clear which patch series this new version replaces.
-> > >
-> > > > Fix some mistakes before. It can report a range of zones now.
-> > >
-> > > This looks like the description of what changed compared to v1. Pleas=
-e
-> > > put the changelog below "---" in the future. When patch emails are
-> > > merged by git-am(1) it keeps the text above "---" and discards the te=
-xt
-> > > below "---". The changelog is usually no longer useful once the patch=
-es
-> > > are merged, so it should be located below the "---" line.
-> > >
-> > > The text above the "---" is the commit description (an explanation of
-> > > why this commit is necessary). In this case the commit description
-> > > should explain that this patch adds .bdrv_co_zone_report() and
-> > > .bdrv_co_zone_mgmt() to BlockDriver so that zoned block devices can b=
-e
-> > > supported.
-> > >
-> > > >
-> > > > Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> > > > ---
-> > > >  block/block-backend.c             |  22 ++++
-> > > >  block/coroutines.h                |   5 +
-> > > >  block/file-posix.c                | 182 ++++++++++++++++++++++++++=
-++++
-> > > >  block/io.c                        |  23 ++++
-> > > >  include/block/block-common.h      |  43 ++++++-
-> > > >  include/block/block-io.h          |  13 +++
-> > > >  include/block/block_int-common.h  |  20 ++++
-> > > >  qemu-io-cmds.c                    | 118 +++++++++++++++++++
-> > > >  tests/qemu-iotests/tests/zoned.sh |  52 +++++++++
-> > > >  9 files changed, 477 insertions(+), 1 deletion(-)
-> > > >  create mode 100644 tests/qemu-iotests/tests/zoned.sh
-> > > >
-> > > > diff --git a/block/block-backend.c b/block/block-backend.c
-> > > > index e0e1aff4b1..20248e4a35 100644
-> > > > --- a/block/block-backend.c
-> > > > +++ b/block/block-backend.c
-> > > > @@ -104,6 +104,8 @@ typedef struct BlockBackendAIOCB {
-> > > >      int ret;
-> > > >  } BlockBackendAIOCB;
-> > > >
-> > > > +
-> > > > +
-> > >
-> > > Please avoid whitespace changes in code that is otherwise untouched b=
-y
-> > > your patch. Code changes can cause merge conflicts and they make it
-> > > harder to use git-annotate(1), so only changes that are necessary sho=
-uld
-> > > be included in a patch.
-> > >
-> > > >  static const AIOCBInfo block_backend_aiocb_info =3D {
-> > > >      .get_aio_context =3D blk_aiocb_get_aio_context,
-> > > >      .aiocb_size =3D sizeof(BlockBackendAIOCB),
-> > > > @@ -1810,6 +1812,25 @@ int blk_flush(BlockBackend *blk)
-> > > >      return ret;
-> > > >  }
-> > > >
-> > >
-> > > Please add a documentation comment for blk_co_zone_report() that
-> > > explains how to use the functions and the purpose of the arguments. F=
-or
-> > > example, does offset have to be the first byte in a zone or can it be
-> > > any byte offset? What are the alignment requirements of offset and le=
-n?
-> > > Why is nr_zones a pointer?
-> > >
-> > > > +int blk_co_zone_report(BlockBackend *blk, int64_t offset, int64_t =
-len,
-> > >
-> > > Functions that run in coroutine context must be labeled with
-> > > coroutine_fn:
-> > >
-> > >     int coroutine_fn blk_co_zone_report(...)
-> > >
-> > > This tells humans and tools that the function can only be called from=
- a
-> > > coroutine. There is a blog post about coroutines in QEMU here:
-> > > https://blog.vmsplice.net/2014/01/coroutines-in-qemu-basics.html
-> > >
-> > > > +                       int64_t *nr_zones,
-> > > > +                       struct BlockZoneDescriptor *zones)
-> > >
-> > > QEMU coding style uses typedefs when defining structs, so "struct
-> > > BlockZoneDescriptor *zones" should be written as "BlockZoneDescriptor
-> > > *zones".
-> > >
-> > > > +{
-> > > > +    int ret;
-> > >
-> > > This function is called from the I/O code path, please mark it with:
-> > >
-> > >   IO_CODE();
-> > >
-> > > From include/block/block-io.h:
-> > >
-> > >   * I/O API functions. These functions are thread-safe, and therefore
-> > >   * can run in any thread as long as the thread has called
-> > >   * aio_context_acquire/release().
-> > >   *
-> > >   * These functions can only call functions from I/O and Common categ=
-ories,
-> > >   * but can be invoked by GS, "I/O or GS" and I/O APIs.
-> > >   *
-> > >   * All functions in this category must use the macro
-> > >   * IO_CODE();
-> > >   * to catch when they are accidentally called by the wrong API.
-> > >
-> > > > +    ret =3D bdrv_co_zone_report(blk->root->bs, offset, len, nr_zon=
-es, zones);
-> > >
-> > > Please add blk_inc_in_flight(blk) and blk_dec_in_flight(blk) around t=
-his
-> > > function call to ensure that zone report requests finish before I/O i=
-s
-> > > drained (see bdrv_drained_begin()). This is necessary so that it's
-> > > possible to wait for I/O requests, including zone report, to complete=
-.
-> > >
-> > > Similar to blk_co_do_preadv() we need blk_wait_while_drained(blk),
-> > > blk_check_byte_request(), and bdrv_inc_in_flight(bs) before calling
-> > > bdrv_co_zone_report(). bdrv_dec_in_flight(bs) needs to be called afte=
-r
-> > > bdrv_co_zone_report() returns.
-> > >
-> > After adding similar structure to blk_co_do_preadv(), zone operation
-> > command will always fail at blk_wait_while_drained(blk) because
-> > blk->inflight <=3D 0. Would it be ok to just remove
-> > blk_wait_while_drained?
->
-> Are you hitting the assertion in
-> block/block-backend.c:blk_wait_while_drained()?
->
->   assert(blk->in_flight > 0);
->
-> If yes, then there is a bug in the code. You need to make sure that
-> blk_inc_in_flight() is called before blk_wait_while_drained().
->
+On Fri, Jun 24, 2022 at 11:29:40PM +0800, MkfsSion wrote:
+>  
+> -Another limitation is that this device is not compatible with ``qemu-xhci``,
+> -in that this device would hang when there are FIDO2 packets (traffic on
+> -interrupt endpoints). If you do not use FIDO2 then it works as intended,
+> -but for full functionality you should use old uhci/ehci bus and attach canokey
+> -to it, for example
+> -
+> -.. parsed-literal::
+> -
+> -   |qemu_system| -device piix3-usb-uhci,id=uhci -device canokey,bus=uhci.0
 
-Right! I didn't add blk_inc_in/dec_flight() because similar
-blockdriver functions in file-posix.c don't use blk_inc_in_flight much
-and the location would be wrong.
+Hi, the fix for the limitation on qemu-xhci has not been landed and should not
+be removed by this patch.
 
-> > > > +    BLK_ZT_CONV =3D BLK_ZONE_TYPE_CONVENTIONAL,
-> > > > +    BLK_ZT_SWR =3D BLK_ZONE_TYPE_SEQWRITE_REQ,
-> > > > +    BLK_ZT_SWP =3D BLK_ZONE_TYPE_SEQWRITE_PREF,
-> > > > +};
-> > > > +
-> > > > +enum zone_cond {
-> > > > +    BLK_ZS_NOT_WP =3D BLK_ZONE_COND_NOT_WP,
-> > > > +    BLK_ZS_EMPTY =3D BLK_ZONE_COND_EMPTY,
-> > > > +    BLK_ZS_IOPEN =3D BLK_ZONE_COND_IMP_OPEN,
-> > > > +    BLK_ZS_EOPEN =3D BLK_ZONE_COND_EXP_OPEN,
-> > > > +    BLK_ZS_CLOSED =3D BLK_ZONE_COND_CLOSED,
-> > > > +    BLK_ZS_RDONLY =3D BLK_ZONE_COND_READONLY,
-> > > > +    BLK_ZS_FULL =3D BLK_ZONE_COND_FULL,
-> > > > +    BLK_ZS_OFFLINE =3D BLK_ZONE_COND_OFFLINE,
-> > > > +};
-> > >
-> > > This 1:1 correspondence with Linux constants could make the code a
-> > > little harder to port.
-> > >
-> > > Maybe QEMU's block layer should define its own numeric constants so t=
-he
-> > > code doesn't rely on operating system-specific headers.
-> > > block/file-posix.c #ifdef __linux__ code can be responsible for
-> > > converting Linux-specific constants to QEMU constants (and the 1:1
-> > > mapping can be used there).
-> > >
-> > Can we define those constants in block-common.h? Because
-> > BlockZoneDescriptor requires zone_condition, zone_type defined and
-> > BlockZoneDesicriptor are used in header files and qemu-io
-> > sub-commands. If we use #ifdef __linux__ in block-common.h, it can be
-> > responsible for converting Linux constants instead.
-> >
-> > Thanks for reviewing! If there is any problem, please let me know.
->
-> I suggest defining the constants in block-common.h. #ifdef __linux__ is
-> not necessary in block-common.h because the constants should just be an
-> enum with BLK_ZS_NOT_WP =3D 0 and so on (no need for Linux headers).
->
-> In block/file-posix.c you can define a helper function inside #ifdef
-> __linux__ that does something like:
->
->   BlkZoneCond zone_cond_from_linux(enum blk_zone_cond val)
->   {
->       switch (val) {
->       case BLK_ZONE_COND_NOT_WP:
->           return BLK_ZS_NOT_WP;
->       ...
->   }
->
-> The code in block/file-posix.c should call this helper to convert from
-> Linux values to QEMU values.
->
-> This way the QEMU block layer does not use Linux constants and compiles
-> on non-Linux machines.
->
+> +Another limitation is that this device is not compatible with ``usb-ehci``
+> +since we removed high-speed mode support. When a full-speed device attach
+> +to a high-speed port, ``usb-ehci`` would complain about speed mismatch.
 
-Thanks!
+I think we could rephrase the limitation here. Instead of saying "we
+removed the high-speed mode", how about saying "this device only
+provides the full-speed mode".
 
-> Stefan
+Also you should list the changes between two PATCH versions
+below the --- line just after your commit message
+so the mailing list can track what happened.
+
+Regards,
+
+Hongren
 
