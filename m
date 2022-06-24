@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5345A55964A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:18:53 +0200 (CEST)
-Received: from localhost ([::1]:46176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FD355961F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:11:23 +0200 (CEST)
+Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4fSm-000523-Dk
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:18:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43648)
+	id 1o4fLW-000200-Ch
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o4f0h-0002IK-RM; Fri, 24 Jun 2022 04:49:52 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:43672)
+ id 1o4f0j-0002JR-0C; Fri, 24 Jun 2022 04:49:53 -0400
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:41723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o4f0f-0000DV-Ps; Fri, 24 Jun 2022 04:49:50 -0400
-Received: by mail-oi1-x236.google.com with SMTP id q11so2749796oih.10;
- Fri, 24 Jun 2022 01:49:48 -0700 (PDT)
+ id 1o4f0h-0000Dk-7a; Fri, 24 Jun 2022 04:49:52 -0400
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-101bb9275bcso2888227fac.8; 
+ Fri, 24 Jun 2022 01:49:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9D0tUD26PSk86Xf2Qt6CGYPzLAH9wbOoYCVimWLzjX4=;
- b=HbEPoWqPBHhYK12tA9bzEMY1al98YIf5Z/vVO7nh3MAEx4+GgBa4R6J8/OpgUrOiiq
- rGbztraeFxkYAbv2U59iBfapLEYPEqep7a43z84gwUWoFt3uu9NtAvQX3UHPznOZBcYt
- 6OGguo0tSeZlrt84EIGYGPjPr9WVVWHCYb7l9YAmRLIHKXuuKhVj0Xk0KYF1JM8y8S6L
- jGKoIBDSjr7VdpQRqL7vd5JLQ3BsOZgZzhHfqXLl1bYAv9VZ0pr5MKUKzIXyUBczOgBc
- EmZ2AmZXfaLmoLz8MHlG3ho/MTFIAxm6SbdXlCu0DbEXVldniFPkkruK51Nhffo+/4aj
- VIxQ==
+ bh=6MgX6+9CuhGwOjr81lW7312NPWPPk/rouG+yP3Odce4=;
+ b=X0Eto6V3DPC2PM4RUwbidlde7SZhkHnQzzj1ItY2kqfsrbSooMQSXy3VP2mYoYQC0N
+ zs/NASr0H5ye31qTM8Dp3Jf+XBgWktDbN+da4v74a0ypbcT/YEDHpWzf/YyAsoJGTxkg
+ JZYmQNXbDtmTfxz6pSgSmypJmLU/4ktzXtpK+WD15xO+Btt8rTNH99yHlyTFWtG0mUiF
+ yNrcf5d/WB5xWwX3KbrldLGXoxFZy0z7/1P8+5WjXjdjK2PXslITUxpAfDG3WkmNGGlQ
+ yH9dY9Onk54qjxDe2Z/dyAGctM8m8968UzZBeTZGwebUxl879UvOv7d1bwUvpfTHSyPY
+ xdAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9D0tUD26PSk86Xf2Qt6CGYPzLAH9wbOoYCVimWLzjX4=;
- b=b+I0Ngwg4gRkUG+LR3ys3ApP/I3KBHj+lj2BywXg4KSqfRI9OvUUAro6CkqyeuUmR6
- Jzdhs0f1GXHvRCiwdBv4leSj+szuKncvVV47vdLCNcjNWHbFJ0u6WYL7j1rp24XagsNl
- aNQrjf7jy5miM27Dpj6dD3apQ1CoE/EG//jYVdbX9SMB9RfQ1zBlfUMHhH3iU/Ud5IXA
- sw1AENMhgP6uzqwG4yIA3auObFIhenkgvjnB9qBNeA6enRIt6Oczv93GfubY9IffWRka
- xkECpxl0T7PqxfunyB9tptnrwgn/kJaqwVMxX/8p4RLWgO4aABL12+29BcMOC/dWSvi4
- v6HQ==
-X-Gm-Message-State: AJIora/iv8Ic9+z9QxYnhElADGExIogQxmoFgKqADJXGsUdZHxaHMZ1P
- rcoc9xNxyEihuOpB4Pp05hCI1+skwRo=
-X-Google-Smtp-Source: AGRyM1urpJVsylywnhVhMz9PdahvuAtkXdR4BKOqgPHZvpYBkNYSf8fU1SEio1TInj/IbVyeWkfjPQ==
-X-Received: by 2002:a05:6808:1919:b0:335:370d:280d with SMTP id
- bf25-20020a056808191900b00335370d280dmr1308069oib.117.1656060587616; 
- Fri, 24 Jun 2022 01:49:47 -0700 (PDT)
+ bh=6MgX6+9CuhGwOjr81lW7312NPWPPk/rouG+yP3Odce4=;
+ b=kNRPowV6lhNx+OtwNVpGV+nzC9LTiJj7cYDKsL+fv2Br/k9T6njbxG3/TxMJKX7t2Q
+ INQ/5BY5UnbsfOHJLg5Bg4HlDWm/Yl/+SFKGYVaRFKnmyjAjvBi0vBYzibdadprJ+wuz
+ 1hkLB2RrHIDKZt+8OHmFKB46jGIJX/O1VJTzP0sukqufLnbVVdDv03fgHkeQ33c4nQTb
+ EMuDZFZ9BigDzeY/OlSP+/vzoVlxGPnjICocQT9wPgFL1SCuLFBEVYV+HqWf31dbhsqh
+ spVZIBrEbdR16opZdT7UIeF3HY+dr/33Fc4HdzTDYjjlk1/CJxZRVMvMkS04Ci76W7NY
+ Ty7w==
+X-Gm-Message-State: AJIora+miHxco/xFEv9bgorHPyAmjpRgnd8mo490pxLIGVXn3Rt4agDD
+ n9j732QyucnyaOjve+4ZeCGIC+aKDLo=
+X-Google-Smtp-Source: AGRyM1uSCj4c9np+uouCj/TZxopiiSq5YSk4uQl5eH6lY6eG+w6irBW4o4ScZwtH2qUvbP8bceVbBw==
+X-Received: by 2002:a05:6870:6492:b0:101:cdd8:fa2b with SMTP id
+ cz18-20020a056870649200b00101cdd8fa2bmr1367900oab.216.1656060589768; 
+ Fri, 24 Jun 2022 01:49:49 -0700 (PDT)
 Received: from balboa.ibmmodules.com ([191.193.1.105])
  by smtp.gmail.com with ESMTPSA id
- u8-20020a056830230800b0061698ef90e5sm1192768ote.31.2022.06.24.01.49.45
+ u8-20020a056830230800b0061698ef90e5sm1192768ote.31.2022.06.24.01.49.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jun 2022 01:49:47 -0700 (PDT)
+ Fri, 24 Jun 2022 01:49:49 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v3 10/12] ppc/pnv: remove pecc->rp_model
-Date: Fri, 24 Jun 2022 05:49:19 -0300
-Message-Id: <20220624084921.399219-11-danielhb413@gmail.com>
+Subject: [PATCH v3 11/12] ppc/pnv: remove PnvPHB4.version
+Date: Fri, 24 Jun 2022 05:49:20 -0300
+Message-Id: <20220624084921.399219-12-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220624084921.399219-1-danielhb413@gmail.com>
 References: <20220624084921.399219-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,46 +89,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The attribute is unused.
+It's unused.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4_pec.c     | 2 --
- include/hw/pci-host/pnv_phb4.h | 1 -
- 2 files changed, 3 deletions(-)
+ include/hw/pci-host/pnv_phb4.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 0ef66b9a9b..8dc363d69c 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -260,7 +260,6 @@ static void pnv_pec_class_init(ObjectClass *klass, void *data)
-     pecc->version = PNV_PHB4_VERSION;
-     pecc->phb_type = TYPE_PNV_PHB4;
-     pecc->num_phbs = pnv_pec_num_phbs;
--    pecc->rp_model = TYPE_PNV_PHB_ROOT_PORT;
- }
- 
- static const TypeInfo pnv_pec_type_info = {
-@@ -313,7 +312,6 @@ static void pnv_phb5_pec_class_init(ObjectClass *klass, void *data)
-     pecc->version = PNV_PHB5_VERSION;
-     pecc->phb_type = TYPE_PNV_PHB5;
-     pecc->num_phbs = pnv_phb5_pec_num_stacks;
--    pecc->rp_model = TYPE_PNV_PHB_ROOT_PORT;
- }
- 
- static const TypeInfo pnv_phb5_pec_type_info = {
 diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index 29c49ac79c..61a0cb9989 100644
+index 61a0cb9989..20aa4819d3 100644
 --- a/include/hw/pci-host/pnv_phb4.h
 +++ b/include/hw/pci-host/pnv_phb4.h
-@@ -200,7 +200,6 @@ struct PnvPhb4PecClass {
-     uint64_t version;
-     const char *phb_type;
-     const uint32_t *num_phbs;
--    const char *rp_model;
- };
+@@ -77,8 +77,6 @@ struct PnvPHB4 {
+     uint32_t chip_id;
+     uint32_t phb_id;
  
- /*
+-    uint64_t version;
+-
+     /* The owner PEC */
+     PnvPhb4PecState *pec;
+ 
 -- 
 2.36.1
 
