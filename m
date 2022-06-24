@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D53F559D42
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:28:04 +0200 (CEST)
-Received: from localhost ([::1]:36982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071DA559CFD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:07:27 +0200 (CEST)
+Received: from localhost ([::1]:47624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4lE3-000498-2Z
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60238)
+	id 1o4ku5-0005tX-RP
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shnusongshaobo@gmail.com>)
- id 1o4krl-0002yO-Jt
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:05:01 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42652)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o4kqF-0000b2-9z
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:03:27 -0400
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:46667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shnusongshaobo@gmail.com>)
- id 1o4krk-0002f0-3e
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:05:01 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id jb13so2346311plb.9
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:04:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RuXEFKGu+IvP8WBaKfeHy5hcr+avx7dIecUIVYdVqiY=;
- b=gYO1d0JN10SS2Ej3PVuC4ybRsUzZ1fZifozyeHDHC58bSHUgpjB5kBawHJPYgf/pwN
- qGERTMrMZjeQLsqcqAPD8AH7ajZZ2m3pAUsnxCwsPax1sdtDp4dTixjhmErnVQrwfmg7
- qqWMZcqjt/IZhk+lDUpaVt7PLNflDeumRgZS6AJOwmye0UdYmd27g+Odp3jg1ozciKLP
- K/67rrJiEtMi5Ub1UgxqOGQaKYAig9Ykf7/q3CchHxa6+8wWQ0r2gHcg/cTpG0/4GNLc
- oT3Epfis7qbCr4MNueg1Lc8PZfaGvMfGacVqRJBtT6OTEJbUrTpdGhk/B00EMoIcOLpJ
- bELQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o4kqD-0002Ug-QD
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:03:27 -0400
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-3178ea840easo27117947b3.13
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:03:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZMgcQP3SDdix/uL5DAxBOxf5bx/7mqKOZjDxOAb8Pcg=;
+ b=zMohoIigwHquNYd7LAcCtmXnb8FNNEaCCx1bE8uhazMByclv/47AQpkkVXBi1SGS76
+ Mc2QKw9lAVNKX9yehka3J6a3tzcoGpfN2e0HctL5UBsskzlU0SLgFzvtCjG2zwhvZxEZ
+ S5H+5pBRnAt+VBFwQZvn+5qt6RRQ8B5IpP5iHYWpYhaCID9H7Wc89nPtT18kURnmXUCz
+ D6HXlGb7tFKKSzYurLfDXsBeMYmgbV1Nn67L+n6ar83/IdUvzbSp4KRaqEYKaFhzKbh+
+ Yrdd23OdGe7PSdJmnDiLsdFbzT1XKzMi9RWmj1A2uWENw96l8bN6Z8gazLjZwJaYo4V0
+ kPgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RuXEFKGu+IvP8WBaKfeHy5hcr+avx7dIecUIVYdVqiY=;
- b=c3NTySmfD/CaIuB0NxY92vItduy0BWUDB0DXk/080aMCStPeA17tiShMHMKPsquFlO
- PRFCbISw7f0CHAd3nESJU3RUN06QgBvXF5NXXabdEQnCrTSCQ7nBS+JNDRvB5sbTYW0B
- Ww5pAVTNdNQPTacdGj1WQVOKt6B9uovgT9R8oC/fz5ufCTxia4vzEW05ytczIp1tDpvh
- 7hWe07PaqSnZLmEFEKvnx+BzDEytedkFLseu0Uk0KZ6XVsA0mBSFHPiDoaK/XwDjKs8f
- j9RYXGbU79ri8636Jy8tFvvfFY1EsEATXpJJkBVrwkoiftsLdqTo3FvH2qu7Y4lJ03b7
- Ea1A==
-X-Gm-Message-State: AJIora/6RCDCqs37AQQFRBJyCGKNv8h6f95qAC6J131Rl5IYYmi8NX8B
- cU9VqRVjNYLPglJvVGnhva00KAz0hSnUyQ==
-X-Google-Smtp-Source: AGRyM1sq4MBB9RFGFm7T4mF3OAXkMPyc4rqHmTd5ADGQFOwSm7rIH2lHCo5W47ib20f7ZgMiNbBA5Q==
-X-Received: by 2002:a17:902:cf10:b0:168:ef35:5bee with SMTP id
- i16-20020a170902cf1000b00168ef355beemr44546698plg.99.1656083098504; 
- Fri, 24 Jun 2022 08:04:58 -0700 (PDT)
-Received: from DESKTOP-VGAJ4S3.localdomain ([111.3.43.17])
- by smtp.gmail.com with ESMTPSA id
- f1-20020a654001000000b0040d22243295sm1746191pgp.79.2022.06.24.08.04.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jun 2022 08:04:58 -0700 (PDT)
-From: Shaobo Song <shnusongshaobo@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
-	Shaobo Song <shnusongshaobo@gmail.com>
-Subject: [PATCH] tcg: Fix returned type in
- alloc_code_gen_buffer_splitwx_memfd()
-Date: Fri, 24 Jun 2022 23:02:17 +0800
-Message-Id: <20220624150216.3627-1-shnusongshaobo@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZMgcQP3SDdix/uL5DAxBOxf5bx/7mqKOZjDxOAb8Pcg=;
+ b=vCIUN+w59wRx3L9tcOa7MqrhpvaGBylqPQ/lrS6DqmS3JAY9SGzu4ny2WDj2k5B+O0
+ ZCT12Jn4+uI7hxV3ydmWXwKEbt7hEhuxmSM47/7bSW3tkhgxlna8WymyzoTaDB3yAvSc
+ sP2KfvYALylyCXtY9Xl6zWHVNekB/GnWmReDJVklvpkQsIbvQ1/GUnvnaRCX+3HxGHDl
+ bZR2wxy/O/aqjsC5j9sz7Q8DtUPIFaKjmhtU9gdJ+N3oKYbCXYc0SNJf8JnopTM2zS5N
+ +fpKcjrFMqHM9cnNYY8cS8nND5eYg5/oG+dfWTaivnMqE33BViY2iFHaBufo4WEe9uo6
+ nv9A==
+X-Gm-Message-State: AJIora/fXHzGjAGuP7FuwaiYZC2+NUPMn75GMiIduCFiKA4PYlraezO4
+ h0AHiWUxHQ0FGXR5m23z3Zcpnkn7ebEZrEBpocwHZQ==
+X-Google-Smtp-Source: AGRyM1spin938+4NDWI98TUSCo6WF3oP8vevMT68nqaWKLhiYLiwX5XNn8JCobmfm+BpxXGVyB/jAtZvshIht6teeNk=
+X-Received: by 2002:a81:1cc:0:b0:317:a0fa:7a61 with SMTP id
+ 195-20020a8101cc000000b00317a0fa7a61mr17529235ywb.10.1656083004803; Fri, 24
+ Jun 2022 08:03:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=shnusongshaobo@gmail.com; helo=mail-pl1-x62a.google.com
+References: <20220620175235.60881-1-richard.henderson@linaro.org>
+In-Reply-To: <20220620175235.60881-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 24 Jun 2022 16:02:47 +0100
+Message-ID: <CAFEAcA_V=W_G1MFnaL9DkOMDouiqT-eqc-daJnqUunqWqKTMDg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/51] target/arm: Scalable Matrix Extension
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 24 Jun 2022 11:26:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,31 +82,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- This fixes a bug in POSIX-compliant environments. Since we had allocated 
- a buffer named 'tcg-jit' with read-write access protections we need a int 
- type to combine these access flags and return it, whereas we had inexplicably 
- return a bool type. It may cause an unnecessary protection change in 
- tcg_region_init().
+On Mon, 20 Jun 2022 at 18:52, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Changes for v3:
+>   * Rebase on mainline (20 patches upstreamed; new conflicts resolved).
+>   * Test bit 31 before disas_sme.
+>
+> The first 21 patches, excepting 17, have been reviewed.
 
-Signed-off-by: Shaobo Song <shnusongshaobo@gmail.com>
----
- tcg/region.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm applying patches 1-20 to target-arm.next (with the comment
+change for patch 9).
 
-diff --git a/tcg/region.c b/tcg/region.c
-index 71ea81d671..88d6bb273f 100644
---- a/tcg/region.c
-+++ b/tcg/region.c
-@@ -548,7 +548,7 @@ static int alloc_code_gen_buffer_anon(size_t size, int prot,
- #ifdef CONFIG_POSIX
- #include "qemu/memfd.h"
- 
--static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
-+static int alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
- {
-     void *buf_rw = NULL, *buf_rx = MAP_FAILED;
-     int fd = -1;
--- 
-2.25.1
-
+thanks
+-- PMM
 
