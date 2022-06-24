@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A026A559441
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 09:33:37 +0200 (CEST)
-Received: from localhost ([::1]:45184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BB255944F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 09:43:24 +0200 (CEST)
+Received: from localhost ([::1]:50640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4dou-0002OZ-AF
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 03:33:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
+	id 1o4dyN-0007Uh-1i
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 03:43:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4dnf-0001NT-Fp
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:32:19 -0400
-Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:44521)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4dsH-0004M7-Vg
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:37:07 -0400
+Received: from smtpout140.security-mail.net ([85.31.212.149]:48399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4dnc-0002ko-Fq
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:32:18 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.244])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id BF02D27157;
- Fri, 24 Jun 2022 07:32:12 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 24 Jun
- 2022 09:32:11 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004ae09ec7a-3e83-498e-9fe4-2e9047d44e58,
- 5EF2319963E9DB1A14486A5EC8730A2EE4B20F29) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <fb8cc3d1-767c-85d5-514f-89e7aa60ac8e@kaod.org>
-Date: Fri, 24 Jun 2022 09:32:11 +0200
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4drt-00041f-IA
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:37:04 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by fx409.security-mail.net (Postfix) with ESMTP id 2965F323C32
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 09:36:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+ s=sec-sig-email; t=1656056197;
+ bh=q7j1EN+FoWNCq//xAmYSMVAzLIIp5Z6dKVwnJHU8sGI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=RTmVKp80FLpBvbr6miSvxtPDxw1JFh1t9thhAKXuxd+N9VkGqywx/C1iA+Ui4Xj+z
+ hz4nSAmTsUEO+2YZY7aQ6JOLupqU6S6U+66l5V1bpeOTA3cY17mDJhydV78uXiPgEw
+ JAx4zukieNZnvWlh2DRj/oC5iShol3fOPMF4vMzY=
+Received: from fx409 (localhost [127.0.0.1]) by fx409.security-mail.net
+ (Postfix) with ESMTP id C9212323C20; Fri, 24 Jun 2022 09:36:36 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx409.security-mail.net (Postfix) with ESMTPS id 008AF3239D9; Fri, 24 Jun
+ 2022 09:35:49 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id DABC527E04FB; Fri, 24 Jun 2022
+ 09:35:49 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id C43D327E04FD; Fri, 24 Jun 2022 09:35:49 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ PS6aa-QZR3-9; Fri, 24 Jun 2022 09:35:49 +0200 (CEST)
+Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
+ (Postfix) with ESMTPSA id AA82B27E04FB; Fri, 24 Jun 2022 09:35:49 +0200
+ (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <ff16.62b56955.f35c5.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu C43D327E04FD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656056149;
+ bh=Q2jNr8q16H/XWZXK8E2B2Ty0X9oWsEf+pxoJXPY3Xgs=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=ZrSchCSnpuVkPY4E+8LRqDdWOc0c10O/zcY3f3z/zfchwZXh7dexvdPicOivvzeoo
+ bbN6VWdUgbJunX7EG3yNzMQ/JiciiUu3vFPpN1+asGgbZkPXj/MUS1Mqr+FKPUvJjy
+ WrD37cJVBSu5Bgf1DlvrOLOslQ5nZwMPka86mobQ=
+Date: Fri, 24 Jun 2022 09:35:49 +0200
+From: Luc Michel <lmichel@kalray.eu>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 35/53] semihosting: Split out semihost_sys_remove
+Message-ID: <20220624073549.GB25499@ws2101.lin.mbt.kalray.eu>
+References: <20220607204557.658541-1-richard.henderson@linaro.org>
+ <20220607204557.658541-36-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 4/9] hw/arm/aspeed: add Qualcomm Firework machine and FRU
- device
-Content-Language: en-US
-To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, Peter Maydell
- <peter.maydell@linaro.org>, Titus Rwantare <titusr@google.com>, Andrew
- Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
-CC: Graeme Gregory <quic_ggregory@quicinc.com>, Maheswara Kurapati
- <quic_mkurapat@quicinc.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
- <20220622172830.101210-5-quic_jaehyoo@quicinc.com>
- <1f050a11-b1ab-12ef-c83a-c0061d36aae9@kaod.org>
- <d978e798-eace-01a5-67fb-0a1d132322a3@quicinc.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <d978e798-eace-01a5-67fb-0a1d132322a3@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220607204557.658541-36-richard.henderson@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 48a2b1a1-62c8-4a0a-af5e-4f212bac1b9d
-X-Ovh-Tracer-Id: 7528892678166973231
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudefkedguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepudehkedtudfhgfelgffggfeffeefgefhudejvdekveeuveegieelteejiedugeevnecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedv
-Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
- helo=6.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-ALTERMIMEV2_out: done
+Received-SPF: pass client-ip=85.31.212.149; envelope-from=lmichel@kalray.eu;
+ helo=smtpout140.security-mail.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,129 +92,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/23/22 16:11, Jae Hyun Yoo wrote:
-> On 6/22/2022 11:43 PM, Cédric Le Goater wrote:
->> On 6/22/22 19:28, Jae Hyun Yoo wrote:
->>> From: Graeme Gregory <quic_ggregory@quicinc.com>
->>>
->>> Add base for Qualcomm Firework machine and add its FRU device which is
->>> defined by DC-SCM to be fixed address 0x50.
->>>
->>> Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
->>> ---
->>>   hw/arm/aspeed.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++++
->>>   1 file changed, 53 insertions(+)
->>>
->>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
->>> index 36d6b2c33e48..0e6edd2be4fa 100644
->>> --- a/hw/arm/aspeed.c
->>> +++ b/hw/arm/aspeed.c
->>> @@ -1017,6 +1017,35 @@ static void qcom_dc_scm_bmc_i2c_init(AspeedMachineState *bmc)
->>>       qcom_dc_scm_fru_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x53, 128 * 1024);
->>>   }
->>> +static void qcom_firework_fru_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
->>> +{
->>> +    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
->>> +    DeviceState *dev = DEVICE(i2c_dev);
->>> +    /* Use First Index for DC-SCM FRU */
->>> +    DriveInfo *dinfo = drive_get(IF_NONE, 0, 1);
->>> +
->>> +    qdev_prop_set_uint32(dev, "rom-size", rsize);
->>> +
->>> +    if (dinfo) {
->>> +        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
->>> +    }
->>> +
->>> +    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
->>> +}
->>> +
->>> +static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
->>> +{
->>> +    AspeedSoCState *soc = &bmc->soc;
->>> +
->>> +    /* Create the generic DC-SCM hardware */
->>> +    qcom_dc_scm_bmc_i2c_init(bmc);
->>> +
->>> +    /* Now create the Firework specific hardware */
->>> +
->>> +    /* I2C4 */
->>> +    qcom_firework_fru_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x50, 128 * 1024);
->>> +}
->>> +
->>>   static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
->>>   {
->>>       return ASPEED_MACHINE(obj)->mmio_exec;
->>> @@ -1489,6 +1518,26 @@ static void aspeed_machine_qcom_dc_scm_v1_class_init(ObjectClass *oc,
->>>           aspeed_soc_num_cpus(amc->soc_name);
->>>   };
->>> +static void aspeed_machine_qcom_firework_class_init(ObjectClass *oc,
->>> +                                                    void *data)
->>> +{
->>> +    MachineClass *mc = MACHINE_CLASS(oc);
->>> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
->>> +
->>> +    mc->desc       = "Qualcomm DC-SCM V1/Firework BMC (Cortex A7)";
->>> +    amc->soc_name  = "ast2600-a3";
->>> +    amc->hw_strap1 = QCOM_DC_SCM_V1_BMC_HW_STRAP1;
->>> +    amc->hw_strap2 = QCOM_DC_SCM_V1_BMC_HW_STRAP2;
->>> +    amc->fmc_model = "n25q512a";
->>> +    amc->spi_model = "n25q512a";
->>> +    amc->num_cs    = 2;
->>> +    amc->macs_mask = ASPEED_MAC2_ON | ASPEED_MAC3_ON;
->>> +    amc->i2c_init  = qcom_dc_scm_firework_i2c_init;
->>> +    mc->default_ram_size = 1 * GiB;
->>> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
->>> +        aspeed_soc_num_cpus(amc->soc_name);
->>> +};
->>> +
->>>   static const TypeInfo aspeed_machine_types[] = {
->>>       {
->>>           .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
->>> @@ -1534,6 +1583,10 @@ static const TypeInfo aspeed_machine_types[] = {
->>>           .name          = MACHINE_TYPE_NAME("qcom-dc-scm-v1-bmc"),
->>>           .parent        = TYPE_ASPEED_MACHINE,
->>>           .class_init    = aspeed_machine_qcom_dc_scm_v1_class_init,
->>> +    }, {
->>> +        .name          = MACHINE_TYPE_NAME("qcom-firework"),
->>
->> We should add the "-bmc" prefix to this machine name to be consistent
->> with the other BMCs. A "qcom-firework" machine would model the whole
->> system, host side included.
+On 13:45 Tue 07 Jun     , Richard Henderson wrote:
+> Split out the non-ARM specific portions of SYS_REMOVE to a
+> reusable function.
 > 
-> Right, so I added the "-bmc" tag to "qcom-dc-scm-v1-bmc" as it's an
-> add-in card type board, and it can be attached to the "qcom-firework"
-> baseboard. The "qcom-firework" doesn't have the "-bmc" tag intentionally
-> since it doesn't have a bmc soc on it.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-These are the Aspeed machines, they only model the BMC side of the
-overall system.
+Reviewed-by: Luc Michel <lmichel@kalray.eu>
 
-A "qcom-firework" machine would include the host SoC, possibly the
-service and management SoCs plus the BMC.
-
-As an example, see the fb35 machine being developed by Peter :
-  
-   http://patchwork.ozlabs.org/project/qemu-devel/list/?series=306294
-
-or the PowerNV machines which use an embedded or external Aspeed BMCs
-
-Thanks,
-
-C.
-
+> ---
+>  include/semihosting/syscalls.h |  3 +++
+>  semihosting/arm-compat-semi.c  | 13 +----------
+>  semihosting/syscalls.c         | 40 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 44 insertions(+), 12 deletions(-)
 > 
-> Thanks,
-> Jae
+> diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
+> index 1ae5ba6716..748a4b5e47 100644
+> --- a/include/semihosting/syscalls.h
+> +++ b/include/semihosting/syscalls.h
+> @@ -49,4 +49,7 @@ void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
+>                         gdb_syscall_complete_cb flen_cb,
+>                         int fd, target_ulong fstat_addr);
+>  
+> +void semihost_sys_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                         target_ulong fname, target_ulong fname_len);
+> +
+>  #endif /* SEMIHOSTING_SYSCALLS_H */
+> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+> index 81dd22e1c5..6c9d50176a 100644
+> --- a/semihosting/arm-compat-semi.c
+> +++ b/semihosting/arm-compat-semi.c
+> @@ -483,18 +483,7 @@ void do_common_semihosting(CPUState *cs)
+>      case TARGET_SYS_REMOVE:
+>          GET_ARG(0);
+>          GET_ARG(1);
+> -        if (use_gdb_syscalls()) {
+> -            gdb_do_syscall(common_semi_cb, "unlink,%s",
+> -                           arg0, (int)arg1 + 1);
+> -            break;
+> -        }
+> -        s = lock_user_string(arg0);
+> -        if (!s) {
+> -            goto do_fault;
+> -        }
+> -        ret = remove(s);
+> -        unlock_user(s, arg0, 0);
+> -        common_semi_cb(cs, ret, ret ? errno : 0);
+> +        semihost_sys_remove(cs, common_semi_cb, arg0, arg1 + 1);
+>          break;
+>  
+>      case TARGET_SYS_RENAME:
+> diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+> index fff9550c89..5ec4e8f827 100644
+> --- a/semihosting/syscalls.c
+> +++ b/semihosting/syscalls.c
+> @@ -133,6 +133,18 @@ static void gdb_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
+>      gdb_do_syscall(complete, "fstat,%x,%x", (target_ulong)gf->hostfd, addr);
+>  }
+>  
+> +static void gdb_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                       target_ulong fname, target_ulong fname_len)
+> +{
+> +    int len = validate_strlen(cs, fname, fname_len);
+> +    if (len < 0) {
+> +        complete(cs, -1, -len);
+> +        return;
+> +    }
+> +
+> +    gdb_do_syscall(complete, "unlink,%s", fname, len);
+> +}
+> +
+>  /*
+>   * Host semihosting syscall implementations.
+>   */
+> @@ -277,6 +289,24 @@ static void host_flen(CPUState *cs, gdb_syscall_complete_cb complete,
+>      }
+>  }
+>  
+> +static void host_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                        target_ulong fname, target_ulong fname_len)
+> +{
+> +    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
+> +    char *p;
+> +    int ret;
+> +
+> +    ret = validate_lock_user_string(&p, cs, fname, fname_len);
+> +    if (ret < 0) {
+> +        complete(cs, -1, -ret);
+> +        return;
+> +    }
+> +
+> +    ret = remove(p);
+> +    complete(cs, ret, ret ? errno : 0);
+> +    unlock_user(p, fname, 0);
+> +}
+> +
+>  /*
+>   * Static file semihosting syscall implementations.
+>   */
+> @@ -522,3 +552,13 @@ void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
+>          g_assert_not_reached();
+>      }
+>  }
+> +
+> +void semihost_sys_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                         target_ulong fname, target_ulong fname_len)
+> +{
+> +    if (use_gdb_syscalls()) {
+> +        gdb_remove(cs, complete, fname, fname_len);
+> +    } else {
+> +        host_remove(cs, complete, fname, fname_len);
+> +    }
+> +}
+> -- 
+> 2.34.1
 > 
->> Thanks,
->>
->> C.
->>
->>> +        .parent        = TYPE_ASPEED_MACHINE,
->>> +        .class_init    = aspeed_machine_qcom_firework_class_init,
->>>       }, {
->>>           .name          = MACHINE_TYPE_NAME("fp5280g2-bmc"),
->>>           .parent        = TYPE_ASPEED_MACHINE,
->>
+> 
+> 
+> 
+> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=56f7.629fcfdf.1710e.0&r=lmichel%40kalrayinc.com&s=qemu-devel-bounces%2Blmichel%3Dkalrayinc.com%40nongnu.org&o=%5BPATCH+v4+35%2F53%5D+semihosting%3A+Split+out+semihost_sys_remove&verdict=C&c=39cfc6ff2d269a1766ae8f34c5c705eca3f8a07e
+> 
+
+-- 
+
+
+
 
 
