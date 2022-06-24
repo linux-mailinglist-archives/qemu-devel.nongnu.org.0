@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9FF559FB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 19:48:35 +0200 (CEST)
-Received: from localhost ([::1]:49890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AFC559FC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 19:53:41 +0200 (CEST)
+Received: from localhost ([::1]:54966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4nQ2-0006sl-C4
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 13:48:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41286)
+	id 1o4nUy-0002QA-Dv
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 13:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o4nKY-0003By-DV
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 13:42:54 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:36771)
+ id 1o4nRg-0000rV-Kh
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 13:50:16 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:33976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o4nKW-0003XK-MQ
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 13:42:54 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- k12-20020a17090a404c00b001eaabc1fe5dso6465636pjg.1
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:42:52 -0700 (PDT)
+ id 1o4nRe-0004dl-Qk
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 13:50:16 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ a11-20020a17090acb8b00b001eca0041455so5845464pju.1
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sjjPdoko8sxpn3p9mtA9otESRm2IoKbyb1xR6mhm0b4=;
- b=Nfth8KxAbfbEDIAgcSDVA2zE/+fXWeNA5C7tCucmpqVT6TJKZzoaiWZ17hRFfXh9cO
- DMUFxpaSRkaTtyCQ/TT6VusSaMdLeKpKrZkus0HIk0TxnGFaCAx50Cv0cjTMvozILBCx
- z+eiDCFRntfG/MXIlnwJZfTlKGRP7BmLAMKl22tIJjk8+Ap9SD7dC4vElh86yMh0daNr
- 5XFxenEZ5pNrZgpY6FbpyWD94qlHk+taeCHPm1Rlua4K588+0jEnUT3ujnkG2iSQoXBu
- YwSXFuhLOUAXFukJ9P7y1h+VL37yrGwMtkzmZyjW+KX/ZQMf1ixUxvuFX2cZJYl8nkX1
- 2Evg==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=ZPtcRup4AjQet61UO9ea6q/T1k6/RVvd8+/zjAcghHQ=;
+ b=d0BYXlMiP7KG3Ji1Q2USJw+vurdRp8M6h9K3WsSAoZvqfYsdfgf4PSPNY2n2H5zFbk
+ qL87YDnERx8d2+Pix+e86il7muaBw8q+T3IOtpGYohXjvNbpsnDEsj5FUfSR9te6CEep
+ 31aMaWjakDRuDUQgN1jjX8qfOjwM48F0msdtrwBtaBeW462DahZ29ZKivmIDchKZg0wZ
+ 5Z/f8sGN6Dr8yYr+hml84ldSOBVZVEjFi/OMbn9/FussUj5Mh7yzfPOBTfeIV0EjQEgX
+ WXKmIT+fUmIWDV0LPC2RXuIsJHtB1xeDOm8skdUOnItdfJI9bbOS6OZ06HL4mKnvhp+u
+ JUGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=sjjPdoko8sxpn3p9mtA9otESRm2IoKbyb1xR6mhm0b4=;
- b=olLGU8/9LHP8IGXS5ROYIS/Dq3LCODxWQpEn0hpqjKiTpX5xHGdrAC0MgKSPRUQxxu
- mqZBTU6SV8mjuKq+ybgYxPEuifLqa7RMA7NledSROQTnBRWf+lNd7snQMSMtNJy7sKpV
- 5KgPlclN/Uwcgn3pH/udKeLOZUV59U6u5+2OclgIvxWMHR5FjoOLX1uV5uOkLdbx/iA8
- 0tF2p7byS6eeWVYY/kk9Ftx6uMrUi9pgDMsVdjzUJLFwcBaSDNSa+vdiiIuoA4CclisC
- PsE8AcZL9JGrWMrYyGeOd97j2tpti7R0ttyDhIKWddaEfsEQaShk8JdVSj5FKCxHPMGy
- 2mew==
-X-Gm-Message-State: AJIora/3pgmqsx8t2zmFXSUbvlq+U3XxWGGlmTwAlq9oebCYKZPqmhjl
- cOUbOr/0b9gHC4FlqIX+XreGqg==
-X-Google-Smtp-Source: AGRyM1vIMvcaaoQfvRmx3dB74egbZnTUhr/LtyZB8NyS7dYkv+5YuvOeXrlZmtX25267vpyL3TV3ag==
-X-Received: by 2002:a17:902:7c09:b0:16a:370a:e960 with SMTP id
- x9-20020a1709027c0900b0016a370ae960mr213103pll.92.1656092571083; 
- Fri, 24 Jun 2022 10:42:51 -0700 (PDT)
+ bh=ZPtcRup4AjQet61UO9ea6q/T1k6/RVvd8+/zjAcghHQ=;
+ b=NAWmOzM3g7wipmxVHQtF+whuGl2M4MF9z8NqiQgC7MpuN3bPcBQM3aNdCqnVsGwsLE
+ Z+ir+Mgk+Ui4kB7TptVsIW757u5fueXuFXeLEerR7JVB90TexAjYuTHPSBCaxEAsxj6B
+ Eu+LAbUrSdpGxeHhiHw4BORmLXvQtD7jrpS0kCrP5sMELQuFXdXY6bp5LCnZOockiFzx
+ 8VDAARInVnHt+Y8ZjT3+uITtvBiIRsE9Aenpm9bcxm3Izkw91jaHIQsXVpgFaWFPD1Fu
+ oGQbcwrb1GfY184JGlOzYN6ttPHspfIPHoBiYTi6LMXc6CMHgq6uixfzJ/c+Sm2p96ax
+ xaAg==
+X-Gm-Message-State: AJIora/xfaMCdvswsQzA3q+7evtmTbeaPTD+7gDEl6ZTszSkU5uGP8xP
+ lmcOvgo/O7SiqYH86TRyuBMo9w==
+X-Google-Smtp-Source: AGRyM1urBfSHYTs1G60ccJkR3jBAKmQpIIxOCyWS5SDO2M2eihWzdJi+vFOcwuYq/tEiCyRFo839Kg==
+X-Received: by 2002:a17:90b:3e8a:b0:1ec:c09d:7963 with SMTP id
+ rj10-20020a17090b3e8a00b001ecc09d7963mr36777pjb.199.1656093012871; 
+ Fri, 24 Jun 2022 10:50:12 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1543:f001:b25a:9949:8352:ec5d?
  ([2602:ae:1543:f001:b25a:9949:8352:ec5d])
  by smtp.gmail.com with ESMTPSA id
- s1-20020a170902c64100b0016392bd5060sm2084151pls.142.2022.06.24.10.42.50
+ y3-20020a17090322c300b001618b70dcc9sm2161373plg.101.2022.06.24.10.50.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jun 2022 10:42:50 -0700 (PDT)
-Message-ID: <758aba2d-bf7c-8356-aaa4-5104cde8c54c@linaro.org>
-Date: Fri, 24 Jun 2022 10:42:48 -0700
+ Fri, 24 Jun 2022 10:50:12 -0700 (PDT)
+Message-ID: <073a37fc-7423-846f-8b28-e272a8ab79ef@linaro.org>
+Date: Fri, 24 Jun 2022 10:50:10 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 2/2] target/arm: Check V7VE as well as LPAE in arm_pamax
+Subject: Re: [PULL 0/3] Linux user for 7.1 patches
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20220619001541.131672-1-richard.henderson@linaro.org>
- <20220619001541.131672-3-richard.henderson@linaro.org>
- <CAFEAcA-zUJV2FdFWM2UdS1BDrh_3Tw1p+vHkMoEn7g1G5kArMg@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20220624094943.729568-1-laurent@vivier.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-zUJV2FdFWM2UdS1BDrh_3Tw1p+vHkMoEn7g1G5kArMg@mail.gmail.com>
+In-Reply-To: <20220624094943.729568-1-laurent@vivier.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,26 +93,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/22 09:27, Peter Maydell wrote:
->> +    /*
->> +     * In machvirt_init, we call arm_pamax on a cpu that is not fully
->> +     * initialized, so we can't rely on the propagation done in realize.
->> +     */
->> +    if (arm_feature(&cpu->env, ARM_FEATURE_LPAE) ||
->> +        arm_feature(&cpu->env, ARM_FEATURE_V7VE)) {
->>           /* v7 with LPAE */
->>           return 40;
+On 6/24/22 02:49, Laurent Vivier wrote:
+> The following changes since commit c8b2d413761af732a0798d8df45ce968732083fe:
 > 
-> I guess this is expedient, so on that basis
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>    Merge tag 'bsd-user-syscall-2022q2-pull-request' of ssh://github.com/qemu-bsd-user/qemu-bsd-user into staging (2022-06-19 13:56:13 -0700)
 > 
-> but as I mentioned in the gitlab issue it's kind of bogus
-> that the virt board is doing stuff to a non-realized CPU object.
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.1-pull-request
+> 
+> for you to fetch changes up to 9a7f682c26acae5bc8bfd1f7c774070da54f1625:
+> 
+>    linux-user: Adjust child_tidptr on set_tid_address() syscall (2022-06-24 10:00:01 +0200)
+> 
+> ----------------------------------------------------------------
+> linux-user pull request 20220624
 
-My first look suggested that the virt board wasn't even setting all of the cpu properties 
-properly, so realization might not help.  I meant to go back again and soend more time, 
-but that hasn't happened yet.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
 
 r~
+
+
+> 
+> ----------------------------------------------------------------
+> 
+> Helge Deller (1):
+>    linux-user: Adjust child_tidptr on set_tid_address() syscall
+> 
+> Ilya Leoshkevich (1):
+>    linux-user: Add partial support for MADV_DONTNEED
+> 
+> Richard Henderson (1):
+>    linux-user/x86_64: Fix ELF_PLATFORM
+> 
+>   linux-user/elfload.c        | 30 +++++++++--------
+>   linux-user/mmap.c           | 64 +++++++++++++++++++++++++++++++++++++
+>   linux-user/syscall.c        | 20 ++++++------
+>   linux-user/user-internals.h |  1 +
+>   linux-user/user-mmap.h      |  1 +
+>   5 files changed, 92 insertions(+), 24 deletions(-)
+> 
+
 
