@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9236455971F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:57:53 +0200 (CEST)
-Received: from localhost ([::1]:45732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F512559711
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:56:33 +0200 (CEST)
+Received: from localhost ([::1]:42526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4g4W-00040N-Jq
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:57:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55778)
+	id 1o4g3E-0001ia-Cs
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:56:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o4fwn-0002wH-Pq
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:49:57 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:36559)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o4fwk-0002sw-7z
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:49:50 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:44729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o4fwk-0001aw-On
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:49:53 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o4fwi-0001af-Ke
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:49:49 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MoNy4-1nKNov3W5Q-00onNX; Fri, 24
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MfYHQ-1nT9GM1Yfg-00fxfr; Fri, 24
  Jun 2022 11:49:46 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>,
-	Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 2/3] linux-user: Add partial support for MADV_DONTNEED
-Date: Fri, 24 Jun 2022 11:49:42 +0200
-Message-Id: <20220624094943.729568-3-laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>, Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 3/3] linux-user: Adjust child_tidptr on set_tid_address()
+ syscall
+Date: Fri, 24 Jun 2022 11:49:43 +0200
+Message-Id: <20220624094943.729568-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220624094943.729568-1-laurent@vivier.eu>
 References: <20220624094943.729568-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:4HgF63GJ+EfhK442y+27a+Vgd80zRqW6kDXoCeWB9KSyoqmfDqc
- 0FvDo8Ojdxu61+/4bOkKVkMotwHsmrjT4ykZusKP3FOZ8UCL7domflScB1fb9GFoERHvA3u
- EITOiVWmSaKF9+ChmP3d1ziAdiCtrolJjrmeWP5S+MOuVpPWgfyjt5MZelpHWq3QVFrn5GZ
- 6rFF0z+AU7TE+aNZip0UA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/okCK9ar2RM=:xxD7NYbUOz/KBVgKzZ29QN
- Q5cR9amlmLpNbUubPhE6+hchMt1fPsAXpetVsk+rlQ+Qhj1WVo+Pysc+maQe7ON/QK/Q7flFt
- jYeZWCSjbC61UP4llZR7Ky5YgcYaaIRPVcHKZaZNf3RDdAqJXmriFpXjZ7Byxr4rVnCxqKQAp
- /8ZqfQnZ8yejoFjnY78qD7k9PIYBeyWWL3Pi0ngFF6YBjKP7M+MfUlsRt6PDNSCG5vtZiRg8A
- jw4Sme5gSNknHUYwK6rWG4M19H3bcEhBgVAkjEFRYSqAXEBvqBXT4bxAvYWxNXaMylQblT3su
- jTB6t1ocs34UqjczNzjFZV1lZY1Bt4svYv4kK3lBKSYyLdUX276ivvB8Zslmuft9JgzM7f1gh
- aDjXbV216kbsnpUP1gDFj1ZkoBp4YL+CJftVMLJgM787ovj5aQvWIRdnrCFZidhPsVPo+31o8
- QX/9D8f5FtH3E4kawjUUMMJzRx+noAc2nnEYUOMdI45SZ8/Hq6Z037GV/+K0ZbeThuJjzGaUn
- 1ewLw6DGp1yUVAJI+WY7Ywdqp20K7v/qHQazYJn1KlE42ZnEPS4i+PxdQ93RX1bjQvQObDOQ3
- kaumqd86Y7TlwxEbbPdq4aMaUSrlVDXZl9KJvUJgzNTNzmOgVvDTRvDvocfsuRHdkkJpJdoDv
- F/wkQfesIXHitt6LxKfuxn31lmFTJVpZ3QRN7C4s68jrVqAeoD3zP+NMvud0EOur8SavdmxWq
- Xgh95S7h+XeyaiQUlXNFN42hnjYd7dA90C9K+w==
+X-Provags-ID: V03:K1:Jdy6tD60Ahty6TTV1vrldTjxdWN0gFC2Vs6320oKES/XUHpaXkc
+ sfFYy4sTt0lux+94tmlo+qbuldx+vEEe1zzb7+VRf4cD16uz5LSPSq1oSKyZ32d7iplInWv
+ 6uTLE2NlE0vTzaQ5il/LtqMq0FRUV0olFcDXtIGWz6oA9hIoDKc1Meq1L+yCJ6fM+CzmMpi
+ UZnE7Wyn4rNGk4Z315VYw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WlsqVm8ndWY=:XQAKj8MWmWSMHWd/KlGMoN
+ Z+TOgBxWZLP8e7vR5fLGh3Wdal4/U2rHu0GgNEPDLiWYjRyJGFiMTdCL9OrSQB5mq7rN3x4bt
+ trwfSmoJkPX/5CXSZbMXe7Ks6an6OHTozFVqdl6Ria81zR2gCb0lAV3aPxJ2zS/78Mz2bQANN
+ 0014zM2v1fyejTdCYwVtl5U77DeRKQYyfKYJTEk/5xHRUte0LtixRAIycsvcIke7HPVBG2OL5
+ xmJIUIbDxXta2PQkdrDDx0U0jMu9S/+glQPJq4pllEEJ1w2otaM+DHHjDq2BTb8/eDsDBhvZP
+ bCI4tjBLm2U/5kwmSGnn9hI3FtZusDizALcjHver882z6RhU7fOeI7weLXt6SR5jC1pCiwcb6
+ A945fUYg/gztPoJYgNlwtsC1EsyfeJNP9k+XjKvgnDP6VHACTTzEBVobiArM4hqyFxqcYg6Qc
+ hhMWcqIf9AuRoGel3/1P+QbGk6UmOmJ12Ys+R0/tfKXAWpNuBU9kX/3ArnwLbrDeLCqwjNb0C
+ fRpp77Qz4Qz/uGqb70GE/LMiIYyBo5dqO16Q2MDX/cEVqExjhXkebIe7yKp1es2gISdh57ktV
+ WvUUGm7rUw/KlRC8RD1uxhOqVsv5Ee9SR6Hkfc7RpC0HAZTAls6Pc/yYMRnp1zEoenIOTxHkB
+ FWEczD0H60zQXXzvSs6iCeC7YxR0l/NgM3tw9VXS9SoTsUKJuPAhJNJ/hV+g3nNNZ4FJrPUp6
+ XX8PQeBSeeLB0QFOYDTIFlEiOneaXAh4wh5d3Q==
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -71,159 +72,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+From: Helge Deller <deller@gmx.de>
 
-Currently QEMU ignores madvise(MADV_DONTNEED), which break apps that
-rely on this for zeroing out memory [1]. Improve the situation by doing
-a passthrough when the range in question is a host-page-aligned
-anonymous mapping.
+Keep track of the new child tidptr given by a set_tid_address() syscall.
 
-This is based on the patches from Simon Hausmann [2] and Chris Fallin
-[3]. The structure is taken from Simon's patch. The PAGE_MAP_ANONYMOUS
-bits are superseded by commit 26bab757d41b ("linux-user: Introduce
-PAGE_ANON"). In the end the patch acts like the one from Chris: we
-either pass-through the entire syscall, or do nothing, since doing this
-only partially would not help the affected applications much. Finally,
-add some extra checks to match the behavior of the Linux kernel [4].
+Do not call the host set_tid_address() syscall because we are emulating
+the behaviour of writing to child_tidptr in the exit() path.
 
-[1] https://gitlab.com/qemu-project/qemu/-/issues/326
-[2] https://patchew.org/QEMU/20180827084037.25316-1-simon.hausmann@qt.io/
-[3] https://github.com/bytecodealliance/wasmtime/blob/v0.37.0/ci/qemu-madvise.patch
-[4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/madvise.c?h=v5.19-rc3#n1368
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Signed-off-by: Helge Deller<deller@gmx.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220621144205.158452-1-iii@linux.ibm.com>
+Message-Id: <YpH+2sw1PCRqx/te@p100>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/mmap.c           | 64 +++++++++++++++++++++++++++++++++++++
- linux-user/syscall.c        |  8 ++---
- linux-user/user-internals.h |  1 +
- linux-user/user-mmap.h      |  1 +
- 4 files changed, 68 insertions(+), 6 deletions(-)
+ linux-user/syscall.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 48e13737962a..4e7a6be6ee19 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -835,3 +835,67 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-     mmap_unlock();
-     return new_addr;
- }
-+
-+static bool can_passthrough_madv_dontneed(abi_ulong start, abi_ulong end)
-+{
-+    ulong addr;
-+
-+    if ((start | end) & ~qemu_host_page_mask) {
-+        return false;
-+    }
-+
-+    for (addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
-+        if (!(page_get_flags(addr) & PAGE_ANON)) {
-+            return false;
-+        }
-+    }
-+
-+    return true;
-+}
-+
-+abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
-+{
-+    abi_ulong len, end;
-+    int ret = 0;
-+
-+    if (start & ~TARGET_PAGE_MASK) {
-+        return -TARGET_EINVAL;
-+    }
-+    len = TARGET_PAGE_ALIGN(len_in);
-+
-+    if (len_in && !len) {
-+        return -TARGET_EINVAL;
-+    }
-+
-+    end = start + len;
-+    if (end < start) {
-+        return -TARGET_EINVAL;
-+    }
-+
-+    if (end == start) {
-+        return 0;
-+    }
-+
-+    if (!guest_range_valid_untagged(start, len)) {
-+        return -TARGET_EINVAL;
-+    }
-+
-+    /*
-+     * A straight passthrough may not be safe because qemu sometimes turns
-+     * private file-backed mappings into anonymous mappings.
-+     *
-+     * This is a hint, so ignoring and returning success is ok.
-+     *
-+     * This breaks MADV_DONTNEED, completely implementing which is quite
-+     * complicated. However, there is one low-hanging fruit: host-page-aligned
-+     * anonymous mappings. In this case passthrough is safe, so do it.
-+     */
-+    mmap_lock();
-+    if ((advice & MADV_DONTNEED) &&
-+        can_passthrough_madv_dontneed(start, end)) {
-+        ret = get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED));
-+    }
-+    mmap_unlock();
-+
-+    return ret;
-+}
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f55cdebee5ab..8f68f255c0d9 100644
+index 8f68f255c0d9..669add74c11a 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -538,7 +538,7 @@ static inline int target_to_host_errno(int target_errno)
-     }
- }
- 
--static inline abi_long get_errno(abi_long ret)
-+abi_long get_errno(abi_long ret)
- {
-     if (ret == -1)
-         return -host_to_target_errno(errno);
-@@ -11807,11 +11807,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
- 
- #ifdef TARGET_NR_madvise
-     case TARGET_NR_madvise:
--        /* A straight passthrough may not be safe because qemu sometimes
--           turns private file-backed mappings into anonymous mappings.
--           This will break MADV_DONTNEED.
--           This is a hint, so ignoring and returning success is ok.  */
--        return 0;
-+        return target_madvise(arg1, arg2, arg3);
+@@ -320,9 +320,6 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
+ #ifdef __NR_exit_group
+ _syscall1(int,exit_group,int,error_code)
  #endif
- #ifdef TARGET_NR_fcntl64
-     case TARGET_NR_fcntl64:
-diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
-index 6175ce53dbd6..0280e76addda 100644
---- a/linux-user/user-internals.h
-+++ b/linux-user/user-internals.h
-@@ -65,6 +65,7 @@ abi_long do_syscall(CPUArchState *cpu_env, int num, abi_long arg1,
-                     abi_long arg8);
- extern __thread CPUState *thread_cpu;
- G_NORETURN void cpu_loop(CPUArchState *env);
-+abi_long get_errno(abi_long ret);
- const char *target_strerror(int err);
- int get_osversion(void);
- void init_qemu_uname_release(void);
-diff --git a/linux-user/user-mmap.h b/linux-user/user-mmap.h
-index d1dec99c0249..480ce1c11487 100644
---- a/linux-user/user-mmap.h
-+++ b/linux-user/user-mmap.h
-@@ -25,6 +25,7 @@ int target_munmap(abi_ulong start, abi_ulong len);
- abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-                        abi_ulong new_size, unsigned long flags,
-                        abi_ulong new_addr);
-+abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice);
- extern unsigned long last_brk;
- extern abi_ulong mmap_next_start;
- abi_ulong mmap_find_vma(abi_ulong, abi_ulong, abi_ulong);
+-#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
+-_syscall1(int,set_tid_address,int *,tidptr)
+-#endif
+ #if defined(__NR_futex)
+ _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
+           const struct timespec *,timeout,int *,uaddr2,int,val3)
+@@ -12196,9 +12193,14 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+     }
+ #endif
+ 
+-#if defined(TARGET_NR_set_tid_address) && defined(__NR_set_tid_address)
++#if defined(TARGET_NR_set_tid_address)
+     case TARGET_NR_set_tid_address:
+-        return get_errno(set_tid_address((int *)g2h(cpu, arg1)));
++    {
++        TaskState *ts = cpu->opaque;
++        ts->child_tidptr = arg1;
++        /* do not call host set_tid_address() syscall, instead return tid() */
++        return get_errno(sys_gettid());
++    }
+ #endif
+ 
+     case TARGET_NR_tkill:
 -- 
 2.36.1
 
