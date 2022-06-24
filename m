@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBC7559388
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 08:34:32 +0200 (CEST)
-Received: from localhost ([::1]:36002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18E155939E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 08:38:49 +0200 (CEST)
+Received: from localhost ([::1]:38702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4ctj-0008FV-UY
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 02:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33960)
+	id 1o4cxs-0001yR-A0
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 02:38:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linmq006@gmail.com>)
- id 1o4crT-0007VL-25
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 02:32:11 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:46723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <linmq006@gmail.com>)
- id 1o4crR-0001bc-G1
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 02:32:10 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id q18so1249012pld.13
- for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 23:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xji3fCx86UpFu+GZKhC0W+HkLhkXd0Q5e2LpmrTD11s=;
- b=d/trCjOV9MqQDLLziG+sTTNMClEtFTMSZmnUbx/0wX+zABAFBE4r3ckocM+Qp72EDF
- 7F1UdWhWnu6fibOdOQ3s2cH14R/UsgQ0dAvadMB0SoTnKXnpg5zjUlSVvUae72X47xap
- Iivjnxq1LGkVCpSLGFyuWnneOhq7UYGxbwNl3UyTS5j57nAzvnlghCYJsAB36XNTGVji
- 7qbuQWhmUSFbVwRmAZLnGM2b30Hg4u3XOhXe1hzvqo/qnTwIyeO2dS2fnMPs2VGhkc9y
- ZRU6a0jkTBvGpUf3dPmwTxv2gp5pXMBsQoyBmd8IsaGQXdFnGOjoR6egS2GRl7Y16j8U
- RQtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xji3fCx86UpFu+GZKhC0W+HkLhkXd0Q5e2LpmrTD11s=;
- b=Ga+rrxhrj3cOXkzAKa7ggMuu74R6njfUzRL4QElEBAAec5Q4g6LxyfE3BYR6Kd1d30
- Bo7y2fw7R8MvV8pW1gAHV5ty2iDrHE98NabuuWXHnDr1YI6SqG4/WNpZDq1HiyI+UYE3
- 36CDsCOczcVEQB7RWkgqlFwzUEFrjG1F7Ss0Iy8VvaevtkmhGFW4og842b7u7/cUJLDx
- YvirV/WvlCsJ8vlSCd0z88l4qDMDdubuWJ+H0lXHvWa1gNJ+kHjE0p+Exsf7Oj02MWnb
- xCBg6xTinglEqG2JuHs6JK1X3bCwMPqzOtsuHG24VuSRlPO9ns4/gX9PgDFWDT9AQ9V/
- ZN9Q==
-X-Gm-Message-State: AJIora8dT2zlAhIzAFJd4D0VleUX77twFd9KQSHDYKzGSCeCFUuLB3OX
- G6XDFbnuu7702Te30LC3Wjw=
-X-Google-Smtp-Source: AGRyM1sFJOn671vfZucZ0uNvBZlBe2HBN+ET5+WFcyelgqRT8bM0GdA0pnkhzFSusdAjlnW/M/5e5A==
-X-Received: by 2002:a17:902:c944:b0:16a:3ed0:e60b with SMTP id
- i4-20020a170902c94400b0016a3ed0e60bmr15079113pla.7.1656052327632; 
- Thu, 23 Jun 2022 23:32:07 -0700 (PDT)
-Received: from localhost.localdomain ([202.120.234.246])
- by smtp.googlemail.com with ESMTPSA id
- h5-20020a635745000000b003fdcf361df6sm707524pgm.87.2022.06.23.23.32.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jun 2022 23:32:06 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- qemu-devel@nongnu.org
-Cc: linmq006@gmail.com
-Subject: [PATCH] accel: kvm: Fix memory leak in find_stats_descriptors
-Date: Fri, 24 Jun 2022 10:31:59 +0400
-Message-Id: <20220624063159.57411-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4cvv-0000nN-Mg
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 02:36:47 -0400
+Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:45991)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4cvs-0002Vf-3w
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 02:36:47 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.144])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 4430B26E5F;
+ Fri, 24 Jun 2022 06:36:41 +0000 (UTC)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 24 Jun
+ 2022 08:36:40 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0051b9e8ccf-034d-4f64-a4a2-c4100f9ad5a1,
+ 5EF2319963E9DB1A14486A5EC8730A2EE4B20F29) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <3ba89576-b482-14da-9a23-22c0e652e148@kaod.org>
+Date: Fri, 24 Jun 2022 08:36:35 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=linmq006@gmail.com; helo=mail-pl1-x62a.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 1/8] aspeed: Set CPU memory property explicitly
+Content-Language: en-US
+To: Peter Delevoryas <pdel@fb.com>
+CC: <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+References: <20220624003701.1363500-1-pdel@fb.com>
+ <20220624003701.1363500-2-pdel@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220624003701.1363500-2-pdel@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: d7bdad71-d9aa-4290-88a4-00f176ba925b
+X-Ovh-Tracer-Id: 6591299531615931360
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudefkedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
+ helo=7.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,28 +74,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function doesn't release descriptors in one error path,
-result in memory leak. Call g_free() to release it.
+On 6/24/22 02:36, Peter Delevoryas wrote:
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
 
-Fixes: cc01a3f4cadd ("kvm: Support for querying fd-based stats")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- accel/kvm/kvm-all.c | 1 +
- 1 file changed, 1 insertion(+)
+Please merge this patch with patch 2 in which the "memory" property
+is defined.
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index ba3210b1c10d..ed8b6b896ed3 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -3891,6 +3891,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
-         error_setg(errp, "KVM stats: failed to read stats header: "
-                    "expected %zu actual %zu",
-                    sizeof(*kvm_stats_header), ret);
-+        g_free(descriptors);
-         return NULL;
-     }
-     size_desc = sizeof(*kvm_stats_desc) + kvm_stats_header->name_size;
--- 
-2.25.1
+Thanks,
+
+C.
+
+
+> ---
+>   hw/arm/aspeed_ast2600.c | 2 ++
+>   hw/arm/aspeed_soc.c     | 2 ++
+>   2 files changed, 4 insertions(+)
+> 
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index f70b17d3f9..f950fff070 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -294,6 +294,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>   
+>           object_property_set_int(OBJECT(&s->cpu[i]), "cntfrq", 1125000000,
+>                                   &error_abort);
+> +        object_property_set_link(OBJECT(&s->cpu[i]), "memory",
+> +                                 OBJECT(get_system_memory()), &error_abort);
+>   
+>           if (!qdev_realize(DEVICE(&s->cpu[i]), NULL, errp)) {
+>               return;
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index f530028874..06e5629800 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -247,6 +247,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>   
+>       /* CPU */
+>       for (i = 0; i < sc->num_cpus; i++) {
+> +        object_property_set_link(OBJECT(&s->cpu[i]), "memory",
+> +                                 OBJECT(get_system_memory()), &error_abort);
+>           if (!qdev_realize(DEVICE(&s->cpu[i]), NULL, errp)) {
+>               return;
+>           }
 
 
