@@ -2,56 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA33559A4F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 15:25:44 +0200 (CEST)
-Received: from localhost ([::1]:57054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888E1559A5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 15:29:55 +0200 (CEST)
+Received: from localhost ([::1]:60334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4jJd-0004rF-IM
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 09:25:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33790)
+	id 1o4jNi-0007KJ-Lh
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 09:29:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1o4jGS-0003ur-Vr; Fri, 24 Jun 2022 09:22:25 -0400
-Received: from [187.72.171.209] (port=9380 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1o4jGP-0001cj-Vy; Fri, 24 Jun 2022 09:22:23 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 24 Jun 2022 10:22:10 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 8372780031F;
- Fri, 24 Jun 2022 10:22:10 -0300 (-03)
-Message-ID: <dde4feea-c16d-3c0d-b41e-28bec7e2de95@eldorado.org.br>
-Date: Fri, 24 Jun 2022 10:22:10 -0300
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o4jMW-0006G8-7v; Fri, 24 Jun 2022 09:28:40 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41386)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o4jMU-0002Uk-Oi; Fri, 24 Jun 2022 09:28:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:References:Cc:To:From:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=hPVCKdGsDA57z0x6GJijWzBj0TpPu6hl6+8W6ZSBlFk=; b=giXxg3utz5m736jvqbHMM4V60i
+ OOK7dO6mOQ7NX3hE/rQ2qryZObd+dnU1kQ1q1lmjUN+synV9ua0RL611ANO1GNgalzKkK38VknxLj
+ 3OK7ddikXRvUPqs0dhaePmQleqt8cZgrxjUHHV+x/P/ESdIM12qQcSmglcNVO776CxM6zYGjrIQxq
+ vUpmMexJga/kLDa6RawXmPga+fRNO3vEY7NpMUH0Bks657yY7Fl7QhohNKu9CRdi5QZJe4uebVAkI
+ fcUeSjNF4SHNCFEkur0eiEgO4S8UkKzMjGqZk/2HdMPf+5wuR1IGYVi9eaM4EhhMDnaqZL7RSH4ra
+ LOyHVf62MrhNaK3K2yzRftBckrSDDDZ9K3RmbyxbqXM0qxuWRz/h27OtV3HWjBySeVd6zzNk3md4c
+ KCVKc0ojL8vP2MGKvPeuxMtFygOoCvSKXgGg5pRfCxvF+rLPpcmdB3V+l0ve8b0SS+6/IU2ILFRDI
+ cAV/pUZ+kQwmdkvp0REPzFi5IeiJXZt1JztezvMl82Q91tDoxmBMpUTU3IHp4mcF9Ua+rfjpVk2gw
+ KpYcQ3zjsbpMsKNvmPvM9aY4Prmj5qZm3Sqn5b2GQzzawQDw0E509QpqpqrCXC6haA39Ds83en2AY
+ pg/nXu0wuH5EiS4AB0VZPofYosOJ6QBYz4NJ983JM=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o4jL5-0002xg-G5; Fri, 24 Jun 2022 14:27:15 +0100
+Message-ID: <1b95daf6-8a51-1ae3-4a55-a2136c3278e5@ilande.co.uk>
+Date: Fri, 24 Jun 2022 14:28:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 2/3] target/ppc: Improve Radix xlate level validation
+ Thunderbird/91.10.0
 Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org
-References: <20220620202704.78978-1-leandro.lupori@eldorado.org.br>
- <20220620202704.78978-3-leandro.lupori@eldorado.org.br>
- <87h74daf28.fsf@linux.ibm.com>
-From: Leandro Lupori <leandro.lupori@eldorado.org.br>
-In-Reply-To: <87h74daf28.fsf@linux.ibm.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
+ pbonzini@redhat.com, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
+ f4bug@amsat.org, jiaxun.yang@flygoat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220522181836.864-1-mark.cave-ayland@ilande.co.uk>
+ <20220522181836.864-28-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA8Rp9ta7zvcpxeg7YrgYD_EDp+t1CMU67pHDQHr2JeQXw@mail.gmail.com>
+ <39580972-c586-4822-b761-4b99772c8ed6@ilande.co.uk>
+In-Reply-To: <39580972-c586-4822-b761-4b99772c8ed6@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 24 Jun 2022 13:22:10.0875 (UTC)
- FILETIME=[691970B0:01D887CD]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 27/50] pckbd: alter i8042_mm_init() to return a I8042_MMIO
+ device
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,42 +86,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/22 18:21, Fabiano Rosas wrote:
-> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de e-mail suspeito entre imediatamente em contato com o DTI.
-> 
-> Leandro Lupori <leandro.lupori@eldorado.org.br> writes:
-> 
->> Check if the number and size of Radix levels are valid on
->> POWER9/POWER10 CPUs, according to the supported Radix Tree
->> Configurations described in their User Manuals.
->>
->> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
->> ---
->>   target/ppc/mmu-radix64.c | 36 +++++++++++++++++++++++++++++-------
->>   1 file changed, 29 insertions(+), 7 deletions(-)
->>
->> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
->> index 9a8a2e2875..2f0bcbfe2e 100644
->> --- a/target/ppc/mmu-radix64.c
->> +++ b/target/ppc/mmu-radix64.c
->> @@ -236,13 +236,31 @@ static void ppc_radix64_set_rc(PowerPCCPU *cpu, MMUAccessType access_type,
->>       }
->>   }
->>
->> +static bool ppc_radix64_is_valid_level(int level, int psize, uint64_t nls)
-> 
-> I wonder if we should take the time to make this per-CPU now to prepare
-> for any future CPU that supports a different layout.
-> 
+On 10/06/2022 08:04, Mark Cave-Ayland wrote:
 
-The downside would be that we would already take a performance hit by 
-calling this function through a CPU class pointer. It would also prevent 
-compiler optimizations that are possible with local static functions.
+> On 09/06/2022 11:58, Peter Maydell wrote:
+> 
+>> On Sun, 22 May 2022 at 19:19, Mark Cave-Ayland
+>> <mark.cave-ayland@ilande.co.uk> wrote:
+>>>
+>>> This exposes the I8042_MMIO device to the caller to allow the register memory
+>>> region to be mapped outside of i8042_mm_init().
+>>>
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>>
+>> I'm not sure where best to put this review comment in the patchseries,
+>> so I'll just note it here: I see that at the end of the series we end
+>> up with an i8042_mm_init() which is just "create a device with qdev_new,
+>> set properties, realize it, and connect its gpio lines". Since that
+>> function has exactly one callsite (in hw/mips/jazz.c) I think we should
+>> add a patch on the end that gets rid of i8042_mm_init() entirely in
+>> favour of the board doing all the "create and wire up device" code inline.
+> 
+> I actually have a patch to do this in the follow-up part 2 series locally. The aim 
+> was to get part 1 merged first (which is removing the update callback and the 
+> opaque), and then finish tidying up the QOM modelling of the devices in part 2.
+> 
+> However since part 1 has been posted, both Hervé and Helge have mentioned that they 
+> wouldn't mind if there was a migration break for the hppa and MIPS magnum machines. 
+> As this does save a bit of work for the I8042_MMIO device, I'll see if it is easy 
+> enough to bring forward into part 1.
 
-I can leave a comment in ppc_radix64_is_valid_level, suggesting the 
-addition of a new CPU class method, if a new CPU that supports other 
-Radix configurations is added (e.g., Microwatt).
+After a bit of experimentation I think deferring this to part 2 is the easiest 
+solution here: even though there is a patch to remove the "base" property again for 
+the I8042_MMIO_DEVICE, that solution still feels cleaner than scattering the 
+migration compatibility across multiple series.
 
-Thanks,
-Leandro
+
+ATB,
+
+Mark.
 
