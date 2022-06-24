@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A832559E2C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 18:07:56 +0200 (CEST)
-Received: from localhost ([::1]:42944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669A4559E3F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 18:15:05 +0200 (CEST)
+Received: from localhost ([::1]:58024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4lqd-0007XP-5m
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 12:07:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41444)
+	id 1o4lxY-0002mC-Gk
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 12:15:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o4lRA-0006Y5-3N
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:41:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57598)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o4lRC-0006fi-Kr
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:41:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o4lR4-0000t1-SE
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:41:35 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o4lR8-0000uZ-GT
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:41:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656085290;
+ s=mimecast20190719; t=1656085293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sd8VhQGWEpTDiSLevFE7jFgiFqnrOHTPUJ08CRqL42Q=;
- b=Mybk3CD+wh6ejTTPmXyZ6dIoH1pIyhT1mW84mEnuZ9ExfyFSQJ7l4QuL2/QDmyjoZ3dzmM
- yuZFsPM3jwUDQz+OID8I0683whjQ4q0TbOmzAJmSh/UIakzv6Pi0UL/OC6cUaHYC852Ty2
- 2oqfbxDrbCgiOHViB/+VNOFSNnBWCNA=
+ bh=BU9K3IOvrk1T3eT2STc7Mv7/W0/S/Y+dlLuFQAJhhnQ=;
+ b=e8+cZiK+Hd70vaTM+OIS2R743bipQaqbmcrlF/oaXUSDbCm0YF67CQjMYRTP/dmKlcgsP+
+ CDEMas1yXKoehCXMnCcsfwnbTZcJdfpUP43p1nvoReyJ9LdDiBp/CQndqyTGqFMbT+AsPs
+ x6dCf8i2ICH3FCO9Qqug1XNb/L5N8N0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-443-ozyxvMWXMT2wDKgjsJRpkQ-1; Fri, 24 Jun 2022 11:41:28 -0400
-X-MC-Unique: ozyxvMWXMT2wDKgjsJRpkQ-1
+ us-mta-459-1zUJH27kNc-ZzNkfYVNLFg-1; Fri, 24 Jun 2022 11:41:30 -0400
+X-MC-Unique: 1zUJH27kNc-ZzNkfYVNLFg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90DAA101E986;
- Fri, 24 Jun 2022 15:41:28 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42F52811E75;
+ Fri, 24 Jun 2022 15:41:30 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF71D492C3B;
- Fri, 24 Jun 2022 15:41:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3334492C3B;
+ Fri, 24 Jun 2022 15:41:29 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 16/20] block/gluster: correctly set max_pdiscard
-Date: Fri, 24 Jun 2022 17:40:59 +0200
-Message-Id: <20220624154103.185902-17-kwolf@redhat.com>
+Subject: [PULL v2 18/20] nbd: Drop dead code spotted by Coverity
+Date: Fri, 24 Jun 2022 17:41:01 +0200
+Message-Id: <20220624154103.185902-19-kwolf@redhat.com>
 In-Reply-To: <20220624154103.185902-1-kwolf@redhat.com>
 References: <20220624154103.185902-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,48 +77,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Fabian Ebner <f.ebner@proxmox.com>
+From: Eric Blake <eblake@redhat.com>
 
-On 64-bit platforms, assigning SIZE_MAX to the int64_t max_pdiscard
-results in a negative value, and the following assertion would trigger
-down the line (it's not the same max_pdiscard, but computed from the
-other one):
-qemu-system-x86_64: ../block/io.c:3166: bdrv_co_pdiscard: Assertion
-`max_pdiscard >= bs->bl.request_alignment' failed.
+CID 1488362 points out that the second 'rc >= 0' check is now dead
+code.
 
-On 32-bit platforms, it's fine to keep using SIZE_MAX.
-
-The assertion in qemu_gluster_co_pdiscard() is checking that the value
-of 'bytes' can safely be passed to glfs_discard_async(), which takes a
-size_t for the argument in question, so it is kept as is. And since
-max_pdiscard is still <= SIZE_MAX, relying on max_pdiscard is still
-fine.
-
-Fixes: 0c8022876f ("block: use int64_t instead of int in driver discard handlers")
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
-Message-Id: <20220520075922.43972-1-f.ebner@proxmox.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: 172f5f1a40(nbd: remove peppering of nbd_client_connected)
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20220516210519.76135-1-eblake@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/gluster.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/nbd.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/block/gluster.c b/block/gluster.c
-index 398976bc66..b60213ab80 100644
---- a/block/gluster.c
-+++ b/block/gluster.c
-@@ -891,7 +891,7 @@ out:
- static void qemu_gluster_refresh_limits(BlockDriverState *bs, Error **errp)
- {
-     bs->bl.max_transfer = GLUSTER_MAX_TRANSFER;
--    bs->bl.max_pdiscard = SIZE_MAX;
-+    bs->bl.max_pdiscard = MIN(SIZE_MAX, INT64_MAX);
- }
- 
- static int qemu_gluster_reopen_prepare(BDRVReopenState *state,
+diff --git a/block/nbd.c b/block/nbd.c
+index 6085ab1d2c..7f5f50ec46 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -521,12 +521,8 @@ static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
+     if (qiov) {
+         qio_channel_set_cork(s->ioc, true);
+         rc = nbd_send_request(s->ioc, request);
+-        if (rc >= 0) {
+-            if (qio_channel_writev_all(s->ioc, qiov->iov, qiov->niov,
+-                                       NULL) < 0) {
+-                rc = -EIO;
+-            }
+-        } else if (rc >= 0) {
++        if (rc >= 0 && qio_channel_writev_all(s->ioc, qiov->iov, qiov->niov,
++                                              NULL) < 0) {
+             rc = -EIO;
+         }
+         qio_channel_set_cork(s->ioc, false);
 -- 
 2.35.3
 
