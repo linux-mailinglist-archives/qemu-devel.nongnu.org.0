@@ -2,73 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13462559247
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 07:38:24 +0200 (CEST)
-Received: from localhost ([::1]:36980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1388D559276
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 07:44:26 +0200 (CEST)
+Received: from localhost ([::1]:40268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4c1O-0003Sq-NN
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 01:38:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53216)
+	id 1o4c7F-0005qY-4f
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 01:44:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o4byJ-0002cp-R9
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 01:35:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22071)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4c3w-0004Ti-66
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 01:41:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o4byF-0001J5-Lk
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 01:35:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4c3u-00027B-FA
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 01:40:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656048906;
+ s=mimecast20190719; t=1656049257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RZJgM10lZz9x5V4uProo0aIcuMBB9U5Ul2SRKo0Xips=;
- b=Ng49lOPox5RUnsiJbX1rmmXNiS70a4ATdjSS86ZYY94lfXLXrVCqM0hwCoh+hbXXdpYVwK
- xWC3rf4lK4LiU3vs5Q8cZRTFoB6GNasS4qG0Ancefsv09GCOyOEE1NWuo7KFxKjAHtf230
- 33BmRsCa9XStnbStdmKr8z2gQZhfzus=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NvZk4w/4NMxXzopQHF+1/MxkNYjHe8h3GsC16UgBLQU=;
+ b=VplrwI4pYyzyX9bg6STbhz4jY01bAMxIDzrW9+29NnMKB5u8x3/PQVfniDzfQFNQKWjfIu
+ 8faos4PhhIyp69O/DPt3OZ0RTxYBIcNbv7z9EZnksYP+yThsYqIyE42pQvrdG7DrR5fiJS
+ R7m0oQ9mlmHrVB+2VyqDD9lF3Giacyw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-qWGJRdknN0KlwUHWQFOIzg-1; Fri, 24 Jun 2022 01:35:02 -0400
-X-MC-Unique: qWGJRdknN0KlwUHWQFOIzg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 605E8801E67;
- Fri, 24 Jun 2022 05:35:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 170332166B26;
- Fri, 24 Jun 2022 05:35:02 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BCC3821E690D; Fri, 24 Jun 2022 07:35:00 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Yuan Yao <yuan.yao@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud?=
- =?utf-8?Q?=C3=A9?=
- <f4bug@amsat.org>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Yang
- Zhong <yang.zhong@intel.com>,  Connor Kuehl <ckuehl@redhat.com>,
- qemu-devel@nongnu.org,  Yamahata Isaku <isaku.yamahata@intel.com>
-Subject: Re: [PATCH 1/1] i386/monitor: Fix page table walking issue for LA57
- enabled guest
-References: <20220609083456.77946-1-yuan.yao@intel.com>
-Date: Fri, 24 Jun 2022 07:35:00 +0200
-In-Reply-To: <20220609083456.77946-1-yuan.yao@intel.com> (Yuan Yao's message
- of "Thu, 9 Jun 2022 16:34:56 +0800")
-Message-ID: <87czeyd3p7.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-524-9wj_pYBcOuqtFs8PyIKebA-1; Fri, 24 Jun 2022 01:40:56 -0400
+X-MC-Unique: 9wj_pYBcOuqtFs8PyIKebA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r65-20020a1c4444000000b003a02a3f0beeso956651wma.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 22:40:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=NvZk4w/4NMxXzopQHF+1/MxkNYjHe8h3GsC16UgBLQU=;
+ b=t5prnW5d+xFDE2fa8uZcSHtDeb97wpG0etOaJKE1axg/Y+w/ew55roL24/HlEiHyL7
+ A/a9ZDDP3k2ybf5W69B1HzZY8ZdErMDW5borQmnPKB9nv4dH/H0AA1J/2iAsdDd8LwJn
+ ToMJD9Fh8llGUV5PvKpYQpdLmmdwld7XGL+Kr/hPwN3YEhvJKE4hOg12L/VPgYAG0gxg
+ Pk7UyDqbbYrz+blxiuQM7O+h6Z/nZmBzu9wuqtTS3qVL15PPlOab+wzVEBnbAq1s1tH5
+ nDVA26UeQTdcg2DFQb1d2vHAz/etrMJLhnJiPeRG6MuTYR0H+vn6eE1f3YbEH/bYsMxQ
+ 0Wqw==
+X-Gm-Message-State: AJIora8jFGQG1Z1OGTiZNB8M4mq4y4QSFpvnns1wgB+QhgsLckpOEVlB
+ 0Ff+WlPTqhjVQkhYajHIEI4irAZ/4qa0J0iHM03Nccq631FH/kzJB+lx9wbEabRVgL8zKZXDtir
+ SyOIx9pCOsK7buc4=
+X-Received: by 2002:a5d:50d0:0:b0:21b:978f:e54 with SMTP id
+ f16-20020a5d50d0000000b0021b978f0e54mr11467573wrt.612.1656049254830; 
+ Thu, 23 Jun 2022 22:40:54 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tgKKSY1x+Gthr4WChN0xtjcDdICiquChCsMCBSYlv33VfRovjSKVjYUbOSSDdN3Ff2CHsVNg==
+X-Received: by 2002:a5d:50d0:0:b0:21b:978f:e54 with SMTP id
+ f16-20020a5d50d0000000b0021b978f0e54mr11467547wrt.612.1656049254534; 
+ Thu, 23 Jun 2022 22:40:54 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-176-192.web.vodafone.de.
+ [109.43.176.192]) by smtp.gmail.com with ESMTPSA id
+ i5-20020a5d6305000000b0020ff877cfbdsm1225347wru.87.2022.06.23.22.40.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jun 2022 22:40:54 -0700 (PDT)
+Message-ID: <d2dc72e9-3393-f7c2-f79f-2021d47c44b9@redhat.com>
+Date: Fri, 24 Jun 2022 07:40:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC PATCH] include/qemu/host-utils: Remove the *_overflow
+ wrappers
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20220623164051.506316-1-thuth@redhat.com>
+ <CAFEAcA-k73D5fPfp5XnD2gtRO0pTXpAt_xTG51dGnzji+=NGqA@mail.gmail.com>
+ <0a1ecd14-69a8-afc6-f74c-18d5abf2e4d0@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <0a1ecd14-69a8-afc6-f74c-18d5abf2e4d0@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,59 +107,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yuan Yao <yuan.yao@intel.com> writes:
+On 23/06/2022 23.29, Richard Henderson wrote:
+> On 6/23/22 12:30, Peter Maydell wrote:
+>>> -static inline bool sadd32_overflow(int32_t x, int32_t y, int32_t *ret)
+>>> -{
+>>> -#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
+>>> -    return __builtin_add_overflow(x, y, ret);
+>>> -#else
+>>> -    *ret = x + y;
+>>> -    return ((*ret ^ x) & ~(x ^ y)) < 0;
+>>> -#endif
+>>> -}
+>>
+>> I think I'd prefer to keep the wrapper functions and just delete
+>> the fallback ifdeffery, but I guess I don't feel really strongly
+>> about it. Richard, do you have an opinion?
+> 
+> Likewise I don't feel strongly, but lean toward keeping the names.  I will 
+> point out that without these names, one has to track down the type of each 
+> argument to figure out what is, or is not, overflowing.
 
-> Don't skip next leve page table for pdpe/pde when the
+Yes, I checked the calling sites, and some do use different types indeed, 
+but as far as I understood the __builtin_add_overflow(), it should be ok in 
+our cases. Anyway, it's maybe less error prone to keep the wrapper with the 
+fixed parameter types, so I'll send a v2 that just removes the #ifs instead.
 
-level
-
-> PG_PRESENT_MASK is set.
->
-> This fixs the issue that no mapping information was
-
-fixes
-
-> collected from "info mem" for guest with LA57 enabled.
->
-> Signed-off-by: Yuan Yao <yuan.yao@intel.com>
-
-Should we add
-
-  Fixes: 6c7c3c21f95dd9af8a0691c0dd29b07247984122
-
-?
-
-> ---
->  target/i386/monitor.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-> index 8e4b4d600c..3339550bbe 100644
-> --- a/target/i386/monitor.c
-> +++ b/target/i386/monitor.c
-> @@ -489,7 +489,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
->                  cpu_physical_memory_read(pdp_addr + l2 * 8, &pdpe, 8);
->                  pdpe = le64_to_cpu(pdpe);
->                  end = (l0 << 48) + (l1 << 39) + (l2 << 30);
-> -                if (pdpe & PG_PRESENT_MASK) {
-> +                if (!(pdpe & PG_PRESENT_MASK)) {
->                      prot = 0;
->                      mem_print(mon, env, &start, &last_prot, end, prot);
->                      continue;
-> @@ -508,7 +508,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
->                      cpu_physical_memory_read(pd_addr + l3 * 8, &pde, 8);
->                      pde = le64_to_cpu(pde);
->                      end = (l0 << 48) + (l1 << 39) + (l2 << 30) + (l3 << 21);
-> -                    if (pde & PG_PRESENT_MASK) {
-> +                    if (!(pde & PG_PRESENT_MASK)) {
->                          prot = 0;
->                          mem_print(mon, env, &start, &last_prot, end, prot);
->                          continue;
->
-> base-commit: 6d940eff4734bcb40b1a25f62d7cec5a396f994a
-
-The commit message talks about not skipping something when the flag is
-set.  However, the patch *flips* the sense of conditions, which means
-were *also* changing behavior when the flag is unset.  How?
+  Thomas
 
 
