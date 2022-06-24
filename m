@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C2355A3D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 23:43:44 +0200 (CEST)
-Received: from localhost ([::1]:50246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044AC55A3EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 23:50:30 +0200 (CEST)
+Received: from localhost ([::1]:60436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4r5b-0006Md-L4
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 17:43:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34804)
+	id 1o4rC9-0005XB-2q
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 17:50:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4r1Y-0001Oa-O1
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 17:39:33 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:34750)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o4r99-0002bX-7Z
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 17:47:23 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:37681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4r1X-0006D5-53
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 17:39:32 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-318889e6a2cso36604227b3.1
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 14:39:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vTdpvC51yempUAHC2edj1BajcdeqB+w+icd8GhZQLfk=;
- b=VPlBH/+RlULFaX+NYjCGxHc2skcJx6fWcx5cUa8cqNSTdWEU390B0k5qMq2pqOFIY6
- Ll3xKD4GLKDKPIw226Yv8Fw7hJviYT5K5kRorbvB0vtiQkPJ4QhUmu72Zl7zqs7doSoW
- P5mKWdHodlqJtJSCjOGEULuZAtXhs55F2Ii8COrOIdRTUwM2mInQjiaJah5PmGcz0Pl+
- zBCCm55jc9HHB4RlAjcNB20qYgY/Q5uohyFkTZr1y+o4T32jGAm4oeMzavmazCFtRq41
- ADXT5zu+sBO5JUD52jtbaS6naF+EV30Vjjcbmjvn/JVEdTbsifzQ+fBjRoVSwJR/8gIE
- ngDg==
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o4r97-0007Um-BT
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 17:47:22 -0400
+Received: by mail-io1-xd30.google.com with SMTP id h85so4031698iof.4
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 14:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rlVCbX0G0c18zZ2OLMLh/NfmjEai5rSDTy0njSdMwAE=;
+ b=0txoSJHbJJdz4OskXnoG2YJrILMcJcDHXa3OMmffaF+GFIUYp1BfdS6Ia6AzRAYZ/u
+ 0VUWk8oktt5fkr0aW6qn4sKxG8loTVSsZs1v6ilusYcnQ0a03LaS1e8XlxvoHNely9Ia
+ hKoBjeEOJTOCOCw3mB/VgpAXqFPRY25Fq7za+yX0hODvilCuoCh7zZ5ptpNYQuPttcpk
+ Uu8Fv4kN8a7zF+MIpRi6XaBeGdSbcDXWEBmk4PeXE7PyeOUXZCDPnSXjOS0eXpWGhf+1
+ e41eXfMEgyf88cGWOxDs9b8x/sXKI/Uh/0LuxGx/a0938gQS0DVItSQ15pX3ixN1A6V6
+ 9H0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vTdpvC51yempUAHC2edj1BajcdeqB+w+icd8GhZQLfk=;
- b=sklPy9EI+EUm0HfZNu6BbkfWXQvZ8MyqHuvLAaSitbDFtTqPUo04MUXof9zyn5sG6o
- DS3LCKOx46oOne2BIRiGohFLWDuju7rrwd1CRksksB6vuI4GR3KOLk+Hut2ZYKYljHGg
- RDhb+OaCSx62FYMOfU0ltkMMstifnsOmrprFI/tsvwMRYbP4Acxl9rsLnaeH2Tk8kqMD
- 5gigMqjJ3j9lj2Jeh+9zWXqmPoRcDBxOgEJ8bptfzoUJd+nqt9FLMRd9Dt+WFfgBQP/7
- 4kxG7Ey3hhUtUbdXSmWLfRSxU3YG4gs+250JFIeZskj8IQQv6w5GrsKcwRRVyT5dUbEx
- jPIg==
-X-Gm-Message-State: AJIora8AedXaANBfsT/dATOECkIbMYe1kIMgz9k2O2C+aai0QJbzRpIt
- +IOGU5g/JDGwE7f2paVcZWosJRUJGcfi9ATEw3T/vg==
-X-Google-Smtp-Source: AGRyM1tpgiE6pVReGt/PBkmHLQAMuQZkUkAWd76+v1Ep/a4daMY9d007XDxS47ZGuZqf5BZDbkNdsG7621arz3P2IW4=
-X-Received: by 2002:a0d:d712:0:b0:317:a108:9778 with SMTP id
- z18-20020a0dd712000000b00317a1089778mr1161071ywd.64.1656106768278; Fri, 24
- Jun 2022 14:39:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rlVCbX0G0c18zZ2OLMLh/NfmjEai5rSDTy0njSdMwAE=;
+ b=iXVGVqcVgnlMIk6oeDFWVxnEa4BZ8KrWFEw84kUO9wlX4uVP1+/h0JsDGjDuyElsWW
+ I92eGEcZfrrGH7Xi6V/p/JlqhWAGBY8zF5ABvqC3hxBx1uorHfyS4pIPEwcg8ytKBXM/
+ 2XZQ17X86y4M2xop5CDV1WnS346/TIn2W54DWCTvKCyNdZ+V+wjPUZB8weGUXfiLjfQG
+ ya0xBM5ZV0EojCeymEw0lLDz/6q48fZm/SxJ8zNpOFpVq4Tt0pIU/d0m6xLjLmV0/t4k
+ dJs/kVwCm87q8q4c0XINODF+c1TxMwv/Z1uu9M08JmJDia9Z3FwadpQeyZoElQ8eehCr
+ X8hg==
+X-Gm-Message-State: AJIora/Ut1u+kDdzE3bqdABUao3+yKv11gjNOj3FJn7QMGvYh214CHPI
+ YS7uIXjwCR5l3R4QpD4Rw7FzW2J2k9zAjQ==
+X-Google-Smtp-Source: AGRyM1umtTsyTEO8VMrgmslkFSOD8E+paU5ulrojwVvun2uGwaT4sBVp/dIxu7fhaX6QC39cyhz+mg==
+X-Received: by 2002:a5d:9948:0:b0:669:a41d:6ee8 with SMTP id
+ v8-20020a5d9948000000b00669a41d6ee8mr538235ios.24.1656107239207; 
+ Fri, 24 Jun 2022 14:47:19 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
+ q45-20020a056638346d00b00331563be3ecsm1553561jav.121.2022.06.24.14.47.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jun 2022 14:47:18 -0700 (PDT)
+From: Warner Losh <imp@bsdimp.com>
+To: qemu-devel@nongnu.org
+Cc: Kyle Evans <kevans@freebsd.org>,
+	Warner Losh <imp@bsdimp.com>
+Subject: [PATCH v2 00/11] bsd-user: More file-related system calls
+Date: Fri, 24 Jun 2022 15:47:31 -0600
+Message-Id: <20220624214742.89229-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220620175235.60881-1-richard.henderson@linaro.org>
- <20220620175235.60881-23-richard.henderson@linaro.org>
- <CAFEAcA-9XuMV06P_A079c24xeUGuxOQ2hR+mxwJy-fA3xVS+Ug@mail.gmail.com>
- <eecb93a9-0f5a-2a40-eef5-3a5fe0a2079b@linaro.org>
-In-Reply-To: <eecb93a9-0f5a-2a40-eef5-3a5fe0a2079b@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Jun 2022 22:38:50 +0100
-Message-ID: <CAFEAcA8pVo_ua62r4SvUC242afcJvD-1EHSV28OY8GpWtpjq0A@mail.gmail.com>
-Subject: Re: [PATCH v3 22/51] target/arm: Trap AdvSIMD usage when Streaming
- SVE is active
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd30.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,45 +86,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 Jun 2022 at 21:34, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 6/24/22 08:30, Peter Maydell wrote:
-> > So the thing that worries me about structuring this this way
-> > is that the SME supplement appendix includes this caution:
-> >
-> > # The instruction encoding tables in this section [...] will
-> > # require correction if subsequent versions of the A64 ISA
-> > # add new instructions which overlap with these encodings.
-> >
-> > My guess (based on how the H.a Arm ARM has incorporated
-> > SME) is that these tables aren't going to be included
-> > in the Arm ARM and updated going forward. Instead the
-> > behaviour will be documented based on whether (existing
-> > and new) instructions call CheckNonStreamingSVEEnabled()
-> > or CheckSVEEnabled() in their pseudocode.
->
-> I agree that this would be cleaner and more correct long-term.
->
-> > So I'm a bit uncertain about how awkward it's going to be
-> > in future to maintain this transliteration of the SME
-> > supplement tables into decodetree: we might find that
-> > we have to look at new instructions and kind of
-> > reverse-engineer back out any required changes to the
-> > tables here, rather than simply "write the trans_ function
-> > for the new insn, looking at the pseudocode to see which
-> > _access_check() function it should be calling"...
->
-> I thought about this, and if it were simply a matter of annotating the trans_* functions
-> within translate-sve.c, I would have done it.  But I would need to adjust A64 AdvSIMD as
-> well, which is still done with the by-hand decoder.
->
-> Can we use this solution in the short term, and fix up advsimd while coverting it to
-> decodetree?  I'm more and more convinced we'll want this sooner than later.
+A second round of mostly BSD-independent filesystem calls: mount, unmount,
+nmount, symlink, symlinkat, readlink, readlinkat, chmod, fchmod, lchmod,
+fchmodat, freebsd11_mknod, freebsd11_monodat, mknodat, chown, fchown, lchown,
+fchownat, chflags, lchflags, fchflags, chroot, flock, mkfifo, mkfifoat,
+pathconf, lpathconf, fpathconf, undelete.
 
-Yeah, I guess so. Is it possible to do the SVE stuff the right
-long-term way and have the short-term fix only for the A64 AdvSIMD,
-or do we need to do both the same way ?
+These are all non-reentrant system calls, so these wrappers are pretty simple
+and no safe_* versions need to be created.
 
--- PMM
+In addition, a small correction to an earlier series is included.
+
+V2: Updated with review comments.
+    Reworked freebsd11_mknod* stuff after unifdef BSD_HAVE_INO64
+    Fixed comments that had too many words
+    Added one more hunk to remove a stary 'inline' that slipped through earlier
+
+Need reviews on:
+       bsd-user: Implement symlink, symlinkat, readlink and readlinkat
+       bsd-user: Implement freebsd11_mknod, freebsd11_mknodat and mknodat
+       bsd-user: Remove stray 'inline' from do_bsd_close
+
+Warner Losh (11):
+  bsd-user: Implement mount, umount and nmount
+  bsd-user: Implement symlink, symlinkat, readlink and readlinkat
+  bsd-user: implement chmod, fchmod, lchmod and fchmodat
+  bsd-user: Implement freebsd11_mknod, freebsd11_mknodat and mknodat
+  bsd-user: Implement chown, fchown, lchown and fchownat
+  bsd-user: Implement chflags, lchflags and fchflags
+  bsd-user: Implement chroot and flock
+  bsd-user: Implement mkfifo and mkfifoat
+  bsd-user: Implement pathconf, lpathconf and fpathconf
+  bsd-user: Implement undelete
+  bsd-user: Remove stray 'inline' from do_bsd_close
+
+ bsd-user/bsd-file.h           | 392 +++++++++++++++++++++++++++++++++-
+ bsd-user/freebsd/os-syscall.c | 118 ++++++++++
+ 2 files changed, 509 insertions(+), 1 deletion(-)
+
+-- 
+2.33.1
+
 
