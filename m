@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480515593EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 09:04:14 +0200 (CEST)
-Received: from localhost ([::1]:35654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27830559402
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 09:18:25 +0200 (CEST)
+Received: from localhost ([::1]:39610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4dMT-0002sY-DN
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 03:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38968)
+	id 1o4daB-00068w-NM
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 03:18:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1o4dJM-0007Tt-QM; Fri, 24 Jun 2022 03:01:03 -0400
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:55035)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4dXr-0005PJ-3U
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:15:59 -0400
+Received: from smtpout30.security-mail.net ([85.31.212.38]:30942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1o4dJK-0006AR-3L; Fri, 24 Jun 2022 03:01:00 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 4663922F45;
- Fri, 24 Jun 2022 07:00:56 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 24 Jun
- 2022 09:00:55 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G00176969940-de30-45b9-9827-fd908585c2b8,
- 5EF2319963E9DB1A14486A5EC8730A2EE4B20F29) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <76e7219d-5b0f-9763-86cf-c398a41647f2@kaod.org>
-Date: Fri, 24 Jun 2022 09:00:46 +0200
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4dXn-0000Jy-7v
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:15:58 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by fx308.security-mail.net (Postfix) with ESMTP id 98A386EF9CB
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 09:15:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+ s=sec-sig-email; t=1656054952;
+ bh=Vt649ZnEsEc/R/lBkSIlzESkf3apxBdOp5Z5cm9NXzY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=Bsfbhii+x+8hzM2gq5WjEWEIwMLI3ZzZE9Hkn6f4qjaVbbDPH0UBg3rQe4/UoWr3Z
+ WINa/SWyO8e2z55Gs7bxZz2tVAAYHeJ3uWn3+cfBGjczuhpxqQytQIq+V//d+DgCRz
+ vb5tYq7Q6NIAPXkVWBbkdtuUUzXsi50dBMltCskg=
+Received: from fx308 (localhost [127.0.0.1]) by fx308.security-mail.net
+ (Postfix) with ESMTP id 5C89D6EF9C7; Fri, 24 Jun 2022 09:15:52 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx308.security-mail.net (Postfix) with ESMTPS id C8E106EF9C0; Fri, 24 Jun
+ 2022 09:15:51 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id AFA4C27E04F8; Fri, 24 Jun 2022
+ 09:15:51 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 98FAA27E04FB; Fri, 24 Jun 2022 09:15:51 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ KbnNKxCELr5n; Fri, 24 Jun 2022 09:15:51 +0200 (CEST)
+Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
+ (Postfix) with ESMTPSA id 78A7C27E04F8; Fri, 24 Jun 2022 09:15:51 +0200
+ (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <9eb4.62b564a7.c878f.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 98FAA27E04FB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656054951;
+ bh=1V3/ulyIQ8jgJjyYKjADq7aRtPdLXm7YOyp1xSVXCv0=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=MhiBASn7BoTTJ0eyEm292MW6nJDEQoItZ6aBDz01UAHP8/g1jlg0IRr/whbwQnorZ
+ 2ONPerUvI6jzfIHeZ5ElJGLFv7icOhckE8prkGHG18+F4sFwHcYGPnNkaHsiSHxWud
+ hUxZz51c7j8ZW8P5Hy6fmT4i7YIZ+S+d553oxfmg=
+Date: Fri, 24 Jun 2022 09:15:51 +0200
+From: Luc Michel <lmichel@kalray.eu>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 34/53] semihosting: Split out semihost_sys_flen
+Message-ID: <20220624071551.GA25499@ws2101.lin.mbt.kalray.eu>
+References: <20220607204557.658541-1-richard.henderson@linaro.org>
+ <20220607204557.658541-35-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 6/8] aspeed: Add fby35 skeleton
-Content-Language: en-US
-To: Peter Delevoryas <pdel@fb.com>
-CC: <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-References: <20220624003701.1363500-1-pdel@fb.com>
- <20220624003701.1363500-7-pdel@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220624003701.1363500-7-pdel@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220607204557.658541-35-richard.henderson@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 72ae6816-320a-4587-9290-50fd16a84030
-X-Ovh-Tracer-Id: 7000845624571366368
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudefkedgudduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeekfeejvedthfevueetteduleejfeejtdeugfevjedtuedttdefieeuueduudetnecuffhomhgrihhnpehmvghtrgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-ALTERMIMEV2_out: done
+Received-SPF: pass client-ip=85.31.212.38; envelope-from=lmichel@kalray.eu;
+ helo=smtpout30.security-mail.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,109 +92,245 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/22 02:36, Peter Delevoryas wrote:
-> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+On 13:45 Tue 07 Jun     , Richard Henderson wrote:
+> The ARM-specific SYS_FLEN isn't really something that can be
+> reused by other semihosting apis, but there are parts that can
+> reused for the implementation of semihost_sys_fstat.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-
-Thanks,
-
-C.
-
+Reviewed-by: Luc Michel <lmichel@kalray.eu>
 
 > ---
->   MAINTAINERS        |  1 +
->   hw/arm/fby35.c     | 54 ++++++++++++++++++++++++++++++++++++++++++++++
->   hw/arm/meson.build |  3 ++-
->   3 files changed, 57 insertions(+), 1 deletion(-)
->   create mode 100644 hw/arm/fby35.c
+>  include/semihosting/syscalls.h |  4 ++
+>  semihosting/arm-compat-semi.c  | 74 ++++++----------------------------
+>  semihosting/syscalls.c         | 49 ++++++++++++++++++++++
+>  3 files changed, 66 insertions(+), 61 deletions(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index aaa649a50d..b43b428a30 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1067,6 +1067,7 @@ F: hw/net/ftgmac100.c
->   F: include/hw/net/ftgmac100.h
->   F: docs/system/arm/aspeed.rst
->   F: tests/qtest/*aspeed*
-> +F: hw/arm/fby35.c
->   
->   NRF51
->   M: Joel Stanley <joel@jms.id.au>
-> diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
-> new file mode 100644
-> index 0000000000..dc1ae8e62a
-> --- /dev/null
-> +++ b/hw/arm/fby35.c
-> @@ -0,0 +1,54 @@
-> +/*
-> + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> + * of this software and associated documentation files (the "Software"), to deal
-> + * in the Software without restriction, including without limitation the rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> + * THE SOFTWARE.
-> + */
+> diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
+> index c60ebafb85..1ae5ba6716 100644
+> --- a/include/semihosting/syscalls.h
+> +++ b/include/semihosting/syscalls.h
+> @@ -45,4 +45,8 @@ void semihost_sys_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
+>  void semihost_sys_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
+>                           int fd);
+>  
+> +void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
+> +                       gdb_syscall_complete_cb flen_cb,
+> +                       int fd, target_ulong fstat_addr);
 > +
-> +#include "qemu/osdep.h"
-> +#include "hw/boards.h"
-> +
-> +#define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
-> +OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
-> +
-> +struct Fby35State {
-> +    MachineState parent_obj;
-> +};
-> +
-> +static void fby35_init(MachineState *machine)
+>  #endif /* SEMIHOSTING_SYSCALLS_H */
+> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+> index 4529c9df06..81dd22e1c5 100644
+> --- a/semihosting/arm-compat-semi.c
+> +++ b/semihosting/arm-compat-semi.c
+> @@ -285,44 +285,25 @@ static target_ulong common_semi_flen_buf(CPUState *cs)
+>  }
+>  
+>  static void
+> -common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
+> +common_semi_flen_fstat_cb(CPUState *cs, target_ulong ret, target_ulong err)
+>  {
+>      if (!err) {
+>          /* The size is always stored in big-endian order, extract the value. */
+>          uint64_t size;
+> -        cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) +
+> -                            offsetof(struct gdb_stat, gdb_st_size),
+> -                            &size, 8, 0);
+> -        ret = be64_to_cpu(size);
+> +        if (cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) +
+> +                                offsetof(struct gdb_stat, gdb_st_size),
+> +                                &size, 8, 0)) {
+> +            ret = -1, err = EFAULT;
+> +        } else {
+> +            size = be64_to_cpu(size);
+> +            if (ret != size) {
+> +                ret = -1, err = EOVERFLOW;
+> +            }
+> +        }
+>      }
+>      common_semi_cb(cs, ret, err);
+>  }
+>  
+> -/*
+> - * Types for functions implementing various semihosting calls
+> - * for specific types of guest file descriptor. These must all
+> - * do the work and return the required return value to the guest
+> - * via common_semi_cb.
+> - */
+> -typedef void sys_flenfn(CPUState *cs, GuestFD *gf);
+> -
+> -static void host_flenfn(CPUState *cs, GuestFD *gf)
+> -{
+> -    struct stat buf;
+> -
+> -    if (fstat(gf->hostfd, &buf)) {
+> -        common_semi_cb(cs, -1, errno);
+> -    } else {
+> -        common_semi_cb(cs, buf.st_size, 0);
+> -    }
+> -}
+> -
+> -static void gdb_flenfn(CPUState *cs, GuestFD *gf)
+> -{
+> -    gdb_do_syscall(common_semi_flen_cb, "fstat,%x,%x",
+> -                   gf->hostfd, common_semi_flen_buf(cs));
+> -}
+> -
+>  #define SHFB_MAGIC_0 0x53
+>  #define SHFB_MAGIC_1 0x48
+>  #define SHFB_MAGIC_2 0x46
+> @@ -340,27 +321,6 @@ static const uint8_t featurefile_data[] = {
+>      SH_EXT_EXIT_EXTENDED | SH_EXT_STDOUT_STDERR, /* Feature byte 0 */
+>  };
+>  
+> -static void staticfile_flenfn(CPUState *cs, GuestFD *gf)
+> -{
+> -    common_semi_cb(cs, gf->staticfile.len, 0);
+> -}
+> -
+> -typedef struct GuestFDFunctions {
+> -    sys_flenfn *flenfn;
+> -} GuestFDFunctions;
+> -
+> -static const GuestFDFunctions guestfd_fns[] = {
+> -    [GuestFDHost] = {
+> -        .flenfn = host_flenfn,
+> -    },
+> -    [GuestFDGDB] = {
+> -        .flenfn = gdb_flenfn,
+> -    },
+> -    [GuestFDStatic] = {
+> -        .flenfn = staticfile_flenfn,
+> -    },
+> -};
+> -
+>  /*
+>   * Do a semihosting call.
+>   *
+> @@ -379,7 +339,6 @@ void do_common_semihosting(CPUState *cs)
+>      char * s;
+>      int nr;
+>      uint32_t ret;
+> -    GuestFD *gf;
+>      int64_t elapsed;
+>  
+>      nr = common_semi_arg(cs, 0) & 0xffffffffU;
+> @@ -492,12 +451,8 @@ void do_common_semihosting(CPUState *cs)
+>  
+>      case TARGET_SYS_FLEN:
+>          GET_ARG(0);
+> -
+> -        gf = get_guestfd(arg0);
+> -        if (!gf) {
+> -            goto do_badf;
+> -        }
+> -        guestfd_fns[gf->type].flenfn(cs, gf);
+> +        semihost_sys_flen(cs, common_semi_flen_fstat_cb, common_semi_cb,
+> +                          arg0, common_semi_flen_buf(cs));
+>          break;
+>  
+>      case TARGET_SYS_TMPNAM:
+> @@ -819,9 +774,6 @@ void do_common_semihosting(CPUState *cs)
+>          cpu_dump_state(cs, stderr, 0);
+>          abort();
+>  
+> -    do_badf:
+> -        common_semi_cb(cs, -1, EBADF);
+> -        break;
+>      do_fault:
+>          common_semi_cb(cs, -1, EFAULT);
+>          break;
+> diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+> index 1f1baf7e2d..fff9550c89 100644
+> --- a/semihosting/syscalls.c
+> +++ b/semihosting/syscalls.c
+> @@ -127,6 +127,12 @@ static void gdb_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
+>      gdb_do_syscall(complete, "isatty,%x", (target_ulong)gf->hostfd);
+>  }
+>  
+> +static void gdb_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                      GuestFD *gf, target_ulong addr)
 > +{
+> +    gdb_do_syscall(complete, "fstat,%x,%x", (target_ulong)gf->hostfd, addr);
 > +}
 > +
-> +static void fby35_class_init(ObjectClass *oc, void *data)
+>  /*
+>   * Host semihosting syscall implementations.
+>   */
+> @@ -259,6 +265,18 @@ static void host_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
+>      complete(cs, ret, ret ? 0 : errno);
+>  }
+>  
+> +static void host_flen(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                      GuestFD *gf)
 > +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +    struct stat buf;
 > +
-> +    mc->desc = "Meta Platforms fby35";
-> +    mc->init = fby35_init;
+> +    if (fstat(gf->hostfd, &buf) < 0) {
+> +        complete(cs, -1, errno);
+> +    } else {
+> +        complete(cs, buf.st_size, 0);
+> +    }
 > +}
 > +
-> +static const TypeInfo fby35_types[] = {
-> +    {
-> +        .name = MACHINE_TYPE_NAME("fby35"),
-> +        .parent = TYPE_MACHINE,
-> +        .class_init = fby35_class_init,
-> +        .instance_size = sizeof(Fby35State),
-> +    },
-> +};
+>  /*
+>   * Static file semihosting syscall implementations.
+>   */
+> @@ -311,6 +329,12 @@ static void staticfile_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
+>      }
+>  }
+>  
+> +static void staticfile_flen(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                            GuestFD *gf)
+> +{
+> +    complete(cs, gf->staticfile.len, 0);
+> +}
 > +
-> +DEFINE_TYPES(fby35_types);
-> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-> index 2d8381339c..92f9f6e000 100644
-> --- a/hw/arm/meson.build
-> +++ b/hw/arm/meson.build
-> @@ -51,7 +51,8 @@ arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
->     'aspeed_soc.c',
->     'aspeed.c',
->     'aspeed_ast2600.c',
-> -  'aspeed_ast10x0.c'))
-> +  'aspeed_ast10x0.c',
-> +  'fby35.c'))
->   arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
->   arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
->   arm_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-soc.c'))
+>  /*
+>   * Syscall entry points.
+>   */
+> @@ -473,3 +497,28 @@ void semihost_sys_isatty(CPUState *cs, gdb_syscall_complete_cb complete, int fd)
+>          g_assert_not_reached();
+>      }
+>  }
+> +
+> +void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
+> +                       gdb_syscall_complete_cb flen_cb, int fd,
+> +                       target_ulong fstat_addr)
+> +{
+> +    GuestFD *gf = get_guestfd(fd);
+> +
+> +    if (!gf) {
+> +        flen_cb(cs, -1, EBADF);
+> +        return;
+> +    }
+> +    switch (gf->type) {
+> +    case GuestFDGDB:
+> +        gdb_fstat(cs, fstat_cb, gf, fstat_addr);
+> +        break;
+> +    case GuestFDHost:
+> +        host_flen(cs, flen_cb, gf);
+> +        break;
+> +    case GuestFDStatic:
+> +        staticfile_flen(cs, flen_cb, gf);
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +}
+> -- 
+> 2.34.1
+> 
+> 
+> 
+> 
+> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=aa67.629fd36d.4e8a3.0&r=lmichel%40kalrayinc.com&s=qemu-devel-bounces%2Blmichel%3Dkalrayinc.com%40nongnu.org&o=%5BPATCH+v4+34%2F53%5D+semihosting%3A+Split+out+semihost_sys_flen&verdict=C&c=a467e715c0918a0a23cc8411b01a8abf95ca1564
+> 
+
+-- 
+
+
+
 
 
