@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27830559402
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 09:18:25 +0200 (CEST)
-Received: from localhost ([::1]:39610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A026A559441
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 09:33:37 +0200 (CEST)
+Received: from localhost ([::1]:45184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4daB-00068w-NM
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 03:18:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43668)
+	id 1o4dou-0002OZ-AF
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 03:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4dXr-0005PJ-3U
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:15:59 -0400
-Received: from smtpout30.security-mail.net ([85.31.212.38]:30942)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4dnf-0001NT-Fp
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:32:19 -0400
+Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:44521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4dXn-0000Jy-7v
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:15:58 -0400
-Received: from localhost (localhost [127.0.0.1])
- by fx308.security-mail.net (Postfix) with ESMTP id 98A386EF9CB
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 09:15:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1656054952;
- bh=Vt649ZnEsEc/R/lBkSIlzESkf3apxBdOp5Z5cm9NXzY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=Bsfbhii+x+8hzM2gq5WjEWEIwMLI3ZzZE9Hkn6f4qjaVbbDPH0UBg3rQe4/UoWr3Z
- WINa/SWyO8e2z55Gs7bxZz2tVAAYHeJ3uWn3+cfBGjczuhpxqQytQIq+V//d+DgCRz
- vb5tYq7Q6NIAPXkVWBbkdtuUUzXsi50dBMltCskg=
-Received: from fx308 (localhost [127.0.0.1]) by fx308.security-mail.net
- (Postfix) with ESMTP id 5C89D6EF9C7; Fri, 24 Jun 2022 09:15:52 +0200 (CEST)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx308.security-mail.net (Postfix) with ESMTPS id C8E106EF9C0; Fri, 24 Jun
- 2022 09:15:51 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id AFA4C27E04F8; Fri, 24 Jun 2022
- 09:15:51 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 98FAA27E04FB; Fri, 24 Jun 2022 09:15:51 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- KbnNKxCELr5n; Fri, 24 Jun 2022 09:15:51 +0200 (CEST)
-Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id 78A7C27E04F8; Fri, 24 Jun 2022 09:15:51 +0200
- (CEST)
-X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <9eb4.62b564a7.c878f.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 98FAA27E04FB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656054951;
- bh=1V3/ulyIQ8jgJjyYKjADq7aRtPdLXm7YOyp1xSVXCv0=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=MhiBASn7BoTTJ0eyEm292MW6nJDEQoItZ6aBDz01UAHP8/g1jlg0IRr/whbwQnorZ
- 2ONPerUvI6jzfIHeZ5ElJGLFv7icOhckE8prkGHG18+F4sFwHcYGPnNkaHsiSHxWud
- hUxZz51c7j8ZW8P5Hy6fmT4i7YIZ+S+d553oxfmg=
-Date: Fri, 24 Jun 2022 09:15:51 +0200
-From: Luc Michel <lmichel@kalray.eu>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 34/53] semihosting: Split out semihost_sys_flen
-Message-ID: <20220624071551.GA25499@ws2101.lin.mbt.kalray.eu>
-References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-35-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o4dnc-0002ko-Fq
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:32:18 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.244])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id BF02D27157;
+ Fri, 24 Jun 2022 07:32:12 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 24 Jun
+ 2022 09:32:11 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004ae09ec7a-3e83-498e-9fe4-2e9047d44e58,
+ 5EF2319963E9DB1A14486A5EC8730A2EE4B20F29) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <fb8cc3d1-767c-85d5-514f-89e7aa60ac8e@kaod.org>
+Date: Fri, 24 Jun 2022 09:32:11 +0200
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220607204557.658541-35-richard.henderson@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 4/9] hw/arm/aspeed: add Qualcomm Firework machine and FRU
+ device
+Content-Language: en-US
+To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Titus Rwantare <titusr@google.com>, Andrew
+ Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
+CC: Graeme Gregory <quic_ggregory@quicinc.com>, Maheswara Kurapati
+ <quic_mkurapat@quicinc.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
+ <20220622172830.101210-5-quic_jaehyoo@quicinc.com>
+ <1f050a11-b1ab-12ef-c83a-c0061d36aae9@kaod.org>
+ <d978e798-eace-01a5-67fb-0a1d132322a3@quicinc.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <d978e798-eace-01a5-67fb-0a1d132322a3@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.38; envelope-from=lmichel@kalray.eu;
- helo=smtpout30.security-mail.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 48a2b1a1-62c8-4a0a-af5e-4f212bac1b9d
+X-Ovh-Tracer-Id: 7528892678166973231
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudefkedguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepudehkedtudfhgfelgffggfeffeefgefhudejvdekveeuveegieelteejiedugeevnecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,245 +80,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13:45 Tue 07 Jun     , Richard Henderson wrote:
-> The ARM-specific SYS_FLEN isn't really something that can be
-> reused by other semihosting apis, but there are parts that can
-> reused for the implementation of semihost_sys_fstat.
+On 6/23/22 16:11, Jae Hyun Yoo wrote:
+> On 6/22/2022 11:43 PM, Cédric Le Goater wrote:
+>> On 6/22/22 19:28, Jae Hyun Yoo wrote:
+>>> From: Graeme Gregory <quic_ggregory@quicinc.com>
+>>>
+>>> Add base for Qualcomm Firework machine and add its FRU device which is
+>>> defined by DC-SCM to be fixed address 0x50.
+>>>
+>>> Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
+>>> ---
+>>>   hw/arm/aspeed.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++++
+>>>   1 file changed, 53 insertions(+)
+>>>
+>>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+>>> index 36d6b2c33e48..0e6edd2be4fa 100644
+>>> --- a/hw/arm/aspeed.c
+>>> +++ b/hw/arm/aspeed.c
+>>> @@ -1017,6 +1017,35 @@ static void qcom_dc_scm_bmc_i2c_init(AspeedMachineState *bmc)
+>>>       qcom_dc_scm_fru_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x53, 128 * 1024);
+>>>   }
+>>> +static void qcom_firework_fru_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
+>>> +{
+>>> +    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
+>>> +    DeviceState *dev = DEVICE(i2c_dev);
+>>> +    /* Use First Index for DC-SCM FRU */
+>>> +    DriveInfo *dinfo = drive_get(IF_NONE, 0, 1);
+>>> +
+>>> +    qdev_prop_set_uint32(dev, "rom-size", rsize);
+>>> +
+>>> +    if (dinfo) {
+>>> +        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
+>>> +    }
+>>> +
+>>> +    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
+>>> +}
+>>> +
+>>> +static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
+>>> +{
+>>> +    AspeedSoCState *soc = &bmc->soc;
+>>> +
+>>> +    /* Create the generic DC-SCM hardware */
+>>> +    qcom_dc_scm_bmc_i2c_init(bmc);
+>>> +
+>>> +    /* Now create the Firework specific hardware */
+>>> +
+>>> +    /* I2C4 */
+>>> +    qcom_firework_fru_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x50, 128 * 1024);
+>>> +}
+>>> +
+>>>   static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
+>>>   {
+>>>       return ASPEED_MACHINE(obj)->mmio_exec;
+>>> @@ -1489,6 +1518,26 @@ static void aspeed_machine_qcom_dc_scm_v1_class_init(ObjectClass *oc,
+>>>           aspeed_soc_num_cpus(amc->soc_name);
+>>>   };
+>>> +static void aspeed_machine_qcom_firework_class_init(ObjectClass *oc,
+>>> +                                                    void *data)
+>>> +{
+>>> +    MachineClass *mc = MACHINE_CLASS(oc);
+>>> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+>>> +
+>>> +    mc->desc       = "Qualcomm DC-SCM V1/Firework BMC (Cortex A7)";
+>>> +    amc->soc_name  = "ast2600-a3";
+>>> +    amc->hw_strap1 = QCOM_DC_SCM_V1_BMC_HW_STRAP1;
+>>> +    amc->hw_strap2 = QCOM_DC_SCM_V1_BMC_HW_STRAP2;
+>>> +    amc->fmc_model = "n25q512a";
+>>> +    amc->spi_model = "n25q512a";
+>>> +    amc->num_cs    = 2;
+>>> +    amc->macs_mask = ASPEED_MAC2_ON | ASPEED_MAC3_ON;
+>>> +    amc->i2c_init  = qcom_dc_scm_firework_i2c_init;
+>>> +    mc->default_ram_size = 1 * GiB;
+>>> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
+>>> +        aspeed_soc_num_cpus(amc->soc_name);
+>>> +};
+>>> +
+>>>   static const TypeInfo aspeed_machine_types[] = {
+>>>       {
+>>>           .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
+>>> @@ -1534,6 +1583,10 @@ static const TypeInfo aspeed_machine_types[] = {
+>>>           .name          = MACHINE_TYPE_NAME("qcom-dc-scm-v1-bmc"),
+>>>           .parent        = TYPE_ASPEED_MACHINE,
+>>>           .class_init    = aspeed_machine_qcom_dc_scm_v1_class_init,
+>>> +    }, {
+>>> +        .name          = MACHINE_TYPE_NAME("qcom-firework"),
+>>
+>> We should add the "-bmc" prefix to this machine name to be consistent
+>> with the other BMCs. A "qcom-firework" machine would model the whole
+>> system, host side included.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Right, so I added the "-bmc" tag to "qcom-dc-scm-v1-bmc" as it's an
+> add-in card type board, and it can be attached to the "qcom-firework"
+> baseboard. The "qcom-firework" doesn't have the "-bmc" tag intentionally
+> since it doesn't have a bmc soc on it.
 
-Reviewed-by: Luc Michel <lmichel@kalray.eu>
+These are the Aspeed machines, they only model the BMC side of the
+overall system.
 
-> ---
->  include/semihosting/syscalls.h |  4 ++
->  semihosting/arm-compat-semi.c  | 74 ++++++----------------------------
->  semihosting/syscalls.c         | 49 ++++++++++++++++++++++
->  3 files changed, 66 insertions(+), 61 deletions(-)
-> 
-> diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
-> index c60ebafb85..1ae5ba6716 100644
-> --- a/include/semihosting/syscalls.h
-> +++ b/include/semihosting/syscalls.h
-> @@ -45,4 +45,8 @@ void semihost_sys_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
->  void semihost_sys_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
->                           int fd);
->  
-> +void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
-> +                       gdb_syscall_complete_cb flen_cb,
-> +                       int fd, target_ulong fstat_addr);
-> +
->  #endif /* SEMIHOSTING_SYSCALLS_H */
-> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-> index 4529c9df06..81dd22e1c5 100644
-> --- a/semihosting/arm-compat-semi.c
-> +++ b/semihosting/arm-compat-semi.c
-> @@ -285,44 +285,25 @@ static target_ulong common_semi_flen_buf(CPUState *cs)
->  }
->  
->  static void
-> -common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
-> +common_semi_flen_fstat_cb(CPUState *cs, target_ulong ret, target_ulong err)
->  {
->      if (!err) {
->          /* The size is always stored in big-endian order, extract the value. */
->          uint64_t size;
-> -        cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) +
-> -                            offsetof(struct gdb_stat, gdb_st_size),
-> -                            &size, 8, 0);
-> -        ret = be64_to_cpu(size);
-> +        if (cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) +
-> +                                offsetof(struct gdb_stat, gdb_st_size),
-> +                                &size, 8, 0)) {
-> +            ret = -1, err = EFAULT;
-> +        } else {
-> +            size = be64_to_cpu(size);
-> +            if (ret != size) {
-> +                ret = -1, err = EOVERFLOW;
-> +            }
-> +        }
->      }
->      common_semi_cb(cs, ret, err);
->  }
->  
-> -/*
-> - * Types for functions implementing various semihosting calls
-> - * for specific types of guest file descriptor. These must all
-> - * do the work and return the required return value to the guest
-> - * via common_semi_cb.
-> - */
-> -typedef void sys_flenfn(CPUState *cs, GuestFD *gf);
-> -
-> -static void host_flenfn(CPUState *cs, GuestFD *gf)
-> -{
-> -    struct stat buf;
-> -
-> -    if (fstat(gf->hostfd, &buf)) {
-> -        common_semi_cb(cs, -1, errno);
-> -    } else {
-> -        common_semi_cb(cs, buf.st_size, 0);
-> -    }
-> -}
-> -
-> -static void gdb_flenfn(CPUState *cs, GuestFD *gf)
-> -{
-> -    gdb_do_syscall(common_semi_flen_cb, "fstat,%x,%x",
-> -                   gf->hostfd, common_semi_flen_buf(cs));
-> -}
-> -
->  #define SHFB_MAGIC_0 0x53
->  #define SHFB_MAGIC_1 0x48
->  #define SHFB_MAGIC_2 0x46
-> @@ -340,27 +321,6 @@ static const uint8_t featurefile_data[] = {
->      SH_EXT_EXIT_EXTENDED | SH_EXT_STDOUT_STDERR, /* Feature byte 0 */
->  };
->  
-> -static void staticfile_flenfn(CPUState *cs, GuestFD *gf)
-> -{
-> -    common_semi_cb(cs, gf->staticfile.len, 0);
-> -}
-> -
-> -typedef struct GuestFDFunctions {
-> -    sys_flenfn *flenfn;
-> -} GuestFDFunctions;
-> -
-> -static const GuestFDFunctions guestfd_fns[] = {
-> -    [GuestFDHost] = {
-> -        .flenfn = host_flenfn,
-> -    },
-> -    [GuestFDGDB] = {
-> -        .flenfn = gdb_flenfn,
-> -    },
-> -    [GuestFDStatic] = {
-> -        .flenfn = staticfile_flenfn,
-> -    },
-> -};
-> -
->  /*
->   * Do a semihosting call.
->   *
-> @@ -379,7 +339,6 @@ void do_common_semihosting(CPUState *cs)
->      char * s;
->      int nr;
->      uint32_t ret;
-> -    GuestFD *gf;
->      int64_t elapsed;
->  
->      nr = common_semi_arg(cs, 0) & 0xffffffffU;
-> @@ -492,12 +451,8 @@ void do_common_semihosting(CPUState *cs)
->  
->      case TARGET_SYS_FLEN:
->          GET_ARG(0);
-> -
-> -        gf = get_guestfd(arg0);
-> -        if (!gf) {
-> -            goto do_badf;
-> -        }
-> -        guestfd_fns[gf->type].flenfn(cs, gf);
-> +        semihost_sys_flen(cs, common_semi_flen_fstat_cb, common_semi_cb,
-> +                          arg0, common_semi_flen_buf(cs));
->          break;
->  
->      case TARGET_SYS_TMPNAM:
-> @@ -819,9 +774,6 @@ void do_common_semihosting(CPUState *cs)
->          cpu_dump_state(cs, stderr, 0);
->          abort();
->  
-> -    do_badf:
-> -        common_semi_cb(cs, -1, EBADF);
-> -        break;
->      do_fault:
->          common_semi_cb(cs, -1, EFAULT);
->          break;
-> diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-> index 1f1baf7e2d..fff9550c89 100644
-> --- a/semihosting/syscalls.c
-> +++ b/semihosting/syscalls.c
-> @@ -127,6 +127,12 @@ static void gdb_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
->      gdb_do_syscall(complete, "isatty,%x", (target_ulong)gf->hostfd);
->  }
->  
-> +static void gdb_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                      GuestFD *gf, target_ulong addr)
-> +{
-> +    gdb_do_syscall(complete, "fstat,%x,%x", (target_ulong)gf->hostfd, addr);
-> +}
-> +
->  /*
->   * Host semihosting syscall implementations.
->   */
-> @@ -259,6 +265,18 @@ static void host_isatty(CPUState *cs, gdb_syscall_complete_cb complete,
->      complete(cs, ret, ret ? 0 : errno);
->  }
->  
-> +static void host_flen(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                      GuestFD *gf)
-> +{
-> +    struct stat buf;
-> +
-> +    if (fstat(gf->hostfd, &buf) < 0) {
-> +        complete(cs, -1, errno);
-> +    } else {
-> +        complete(cs, buf.st_size, 0);
-> +    }
-> +}
-> +
->  /*
->   * Static file semihosting syscall implementations.
->   */
-> @@ -311,6 +329,12 @@ static void staticfile_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
->      }
->  }
->  
-> +static void staticfile_flen(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                            GuestFD *gf)
-> +{
-> +    complete(cs, gf->staticfile.len, 0);
-> +}
-> +
->  /*
->   * Syscall entry points.
->   */
-> @@ -473,3 +497,28 @@ void semihost_sys_isatty(CPUState *cs, gdb_syscall_complete_cb complete, int fd)
->          g_assert_not_reached();
->      }
->  }
-> +
-> +void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
-> +                       gdb_syscall_complete_cb flen_cb, int fd,
-> +                       target_ulong fstat_addr)
-> +{
-> +    GuestFD *gf = get_guestfd(fd);
-> +
-> +    if (!gf) {
-> +        flen_cb(cs, -1, EBADF);
-> +        return;
-> +    }
-> +    switch (gf->type) {
-> +    case GuestFDGDB:
-> +        gdb_fstat(cs, fstat_cb, gf, fstat_addr);
-> +        break;
-> +    case GuestFDHost:
-> +        host_flen(cs, flen_cb, gf);
-> +        break;
-> +    case GuestFDStatic:
-> +        staticfile_flen(cs, flen_cb, gf);
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +}
-> -- 
-> 2.34.1
-> 
-> 
-> 
-> 
-> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=aa67.629fd36d.4e8a3.0&r=lmichel%40kalrayinc.com&s=qemu-devel-bounces%2Blmichel%3Dkalrayinc.com%40nongnu.org&o=%5BPATCH+v4+34%2F53%5D+semihosting%3A+Split+out+semihost_sys_flen&verdict=C&c=a467e715c0918a0a23cc8411b01a8abf95ca1564
-> 
+A "qcom-firework" machine would include the host SoC, possibly the
+service and management SoCs plus the BMC.
 
--- 
+As an example, see the fb35 machine being developed by Peter :
+  
+   http://patchwork.ozlabs.org/project/qemu-devel/list/?series=306294
 
+or the PowerNV machines which use an embedded or external Aspeed BMCs
 
+Thanks,
 
+C.
+
+> 
+> Thanks,
+> Jae
+> 
+>> Thanks,
+>>
+>> C.
+>>
+>>> +        .parent        = TYPE_ASPEED_MACHINE,
+>>> +        .class_init    = aspeed_machine_qcom_firework_class_init,
+>>>       }, {
+>>>           .name          = MACHINE_TYPE_NAME("fp5280g2-bmc"),
+>>>           .parent        = TYPE_ASPEED_MACHINE,
+>>
 
 
