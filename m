@@ -2,66 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE0D559E67
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 18:18:35 +0200 (CEST)
-Received: from localhost ([::1]:34196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C53D559E6A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 18:21:34 +0200 (CEST)
+Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4m0v-000611-UL
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 12:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41588)
+	id 1o4m3p-0001H7-OF
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 12:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o4lRF-0006lA-58
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:41:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o4lRB-0000vb-8T
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:41:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656085296;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MTd0ioJvujytHd/FaAzP6kzHRiCLScIWBWT+1tOzdK4=;
- b=UXww5Nz4MLNEzbnhBDpoP0Zck52251NXFGDPpdDdMK9GMxf22WWS28zY6icEtVQQEEQVAR
- FhapCkWzUOl5Kt6r3DT7UDRhrTK0AVQVcalFkVh0KTqQLpeE2i0RzKvnW3gIHrE4hBKIHC
- m0WsqrkZyTrmVR6mR+8vDmd6BONTKm8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-290-TVKUddNWPoWkcxBUrlAX-g-1; Fri, 24 Jun 2022 11:41:32 -0400
-X-MC-Unique: TVKUddNWPoWkcxBUrlAX-g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54226801E67;
- Fri, 24 Jun 2022 15:41:32 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.194.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4B7C492C3B;
- Fri, 24 Jun 2022 15:41:31 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PULL v2 20/20] vduse-blk: Add name option
-Date: Fri, 24 Jun 2022 17:41:03 +0200
-Message-Id: <20220624154103.185902-21-kwolf@redhat.com>
-In-Reply-To: <20220624154103.185902-1-kwolf@redhat.com>
-References: <20220624154103.185902-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1o4lZx-0007cV-1t
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:50:41 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:46011)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1o4lZv-00026j-3K
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:50:40 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id h23so5494312ejj.12
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=oknH46YjdeVmdb/AYLELv8S0kHpClhZF2xy4iPz4Q3s=;
+ b=WMIaZ8Jptbd1qM+MBegWuYL/9o4ca4c7L0uMoGkPzi2at4HS2OP2oJ9q0fdA1+zsGw
+ tYJu51YvolAQ5amZQZP59E79BG7Yui85RdiO3ZadIOukFHhjHY+dXM2lEN9uH5U7S5wg
+ czPHBAZARpRe9pJGtMQQSF59BWO+eoLV0G+7b4+Y4+3mlz/NyU/QOlpc0zI6I3DWrOQi
+ m2nKJU5P9kQJtXJLlwbC7IMYBawk3DMMf6fW3qf9Xvta6BQsk3JrEB5S7VXL+3Hx1D/V
+ 3BtrmQDw7lUnUHLsh49vWvzsr+b4v5y/dRGp24se/mB+9mY2nYVA1MoGuG0cG1CQFXWX
+ Yk6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=oknH46YjdeVmdb/AYLELv8S0kHpClhZF2xy4iPz4Q3s=;
+ b=oDPwQFGKKtgItGf3EkGDsiRypJwBBc57EUwx2Gc8LK2BlCskHvY2/iHwgjRstI+G9R
+ HoFuSUkl6jFTtNCKD0vXXZnWAO66aEUqQCd4wD0ghffovv9kOr2mA6NB7QgHY9cBiSYK
+ SqRHHIT2zqpGQOkM11wz2z2KTJ0Y6cBr3cVhTzebcAw0reAoxQGEhB8uT2MbPbgMeAbK
+ dGMs3ObICT4ooeHMa4fHFiaPPrrlcRErETJ7RL2h7mpntauFD/DBGEYlP71ezJwumMwF
+ Bctf/VBzTMItJlJ1/n4tjDvnn3xo88NQ/BnppWuwyIxW9kYdK4l1OJyBDHKRWdEZSfuX
+ r5Kg==
+X-Gm-Message-State: AJIora/IhPVZjND9eUIbMt1QczOnF0//r43feHNqGQkl7k2yzs1XOHlo
+ FbZXs7tJOM9UBGx6d6WX9lE=
+X-Google-Smtp-Source: AGRyM1vY9QKIwwPZQOC5cdp3N3GiNqxXTlgl5lqqPeLr3bG1SBk5iIE7aHflOGzVFnfwNKIE4P+vZQ==
+X-Received: by 2002:a17:906:2086:b0:715:7983:a277 with SMTP id
+ 6-20020a170906208600b007157983a277mr14622485ejq.386.1656085837233; 
+ Fri, 24 Jun 2022 08:50:37 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ g4-20020a170906868400b006fee98045cdsm1381395ejx.10.2022.06.24.08.50.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Jun 2022 08:50:36 -0700 (PDT)
+Message-ID: <9c5ddc81-1401-b787-6944-0af21f1a9d6c@redhat.com>
+Date: Fri, 24 Jun 2022 17:50:35 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] meson: Prefix each element of firmware path
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, "Daniel P . Berrange"
+ <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20220624154042.51512-1-akihiko.odaki@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220624154042.51512-1-akihiko.odaki@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,128 +101,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xie Yongji <xieyongji@bytedance.com>
+Queued, thanks!
 
-Currently we use 'id' option as the name of VDUSE device.
-It's a bit confusing since we use one value for two different
-purposes: the ID to identfy the export within QEMU (must be
-distinct from any other exports in the same QEMU process, but
-can overlap with names used by other processes), and the VDUSE
-name to uniquely identify it on the host (must be distinct from
-other VDUSE devices on the same host, but can overlap with other
-export types like NBD in the same process). To make it clear,
-this patch adds a separate 'name' option to specify the VDUSE
-name for the vduse-blk export instead.
+Paolo
 
-Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-Message-Id: <20220614051532.92-7-xieyongji@bytedance.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- qapi/block-export.json               | 7 ++++---
- docs/tools/qemu-storage-daemon.rst   | 5 +++--
- block/export/vduse-blk.c             | 4 ++--
- storage-daemon/qemu-storage-daemon.c | 8 ++++----
- 4 files changed, 13 insertions(+), 11 deletions(-)
-
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index 618a6367c9..4627bbc4e6 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -183,6 +183,7 @@
- #
- # A vduse-blk block export.
- #
-+# @name: the name of VDUSE device (must be unique across the host).
- # @num-queues: the number of virtqueues. Defaults to 1.
- # @queue-size: the size of virtqueue. Defaults to 256.
- # @logical-block-size: Logical block size in bytes. Range [512, PAGE_SIZE]
-@@ -192,7 +193,8 @@
- # Since: 7.1
- ##
- { 'struct': 'BlockExportOptionsVduseBlk',
--  'data': { '*num-queues': 'uint16',
-+  'data': { 'name': 'str',
-+            '*num-queues': 'uint16',
-             '*queue-size': 'uint16',
-             '*logical-block-size': 'size',
-             '*serial': 'str' } }
-@@ -320,8 +322,7 @@
- # Describes a block export, i.e. how single node should be exported on an
- # external interface.
- #
--# @id: A unique identifier for the block export (across the host for vduse-blk
--#      export type or across all export types for other types)
-+# @id: A unique identifier for the block export (across all export types)
- #
- # @node-name: The node name of the block node to be exported (since: 5.2)
- #
-diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-index 034f2809a6..ea00149a63 100644
---- a/docs/tools/qemu-storage-daemon.rst
-+++ b/docs/tools/qemu-storage-daemon.rst
-@@ -77,7 +77,7 @@ Standard options:
-   --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=unix,addr.path=<socket-path>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
-   --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,addr.type=fd,addr.str=<fd>[,writable=on|off][,logical-block-size=<block-size>][,num-queues=<num-queues>]
-   --export [type=]fuse,id=<id>,node-name=<node-name>,mountpoint=<file>[,growable=on|off][,writable=on|off][,allow-other=on|off|auto]
--  --export [type=]vduse-blk,id=<id>,node-name=<node-name>[,writable=on|off][,num-queues=<num-queues>][,queue-size=<queue-size>][,logical-block-size=<block-size>][,serial=<serial-number>]
-+  --export [type=]vduse-blk,id=<id>,node-name=<node-name>,name=<vduse-name>[,writable=on|off][,num-queues=<num-queues>][,queue-size=<queue-size>][,logical-block-size=<block-size>][,serial=<serial-number>]
- 
-   is a block export definition. ``node-name`` is the block node that should be
-   exported. ``writable`` determines whether or not the export allows write
-@@ -111,7 +111,8 @@ Standard options:
-   ``allow-other`` to auto (the default) will try enabling this option, and on
-   error fall back to disabling it.
- 
--  The ``vduse-blk`` export type uses the ``id`` as the VDUSE device name.
-+  The ``vduse-blk`` export type takes a ``name`` (must be unique across the host)
-+  to create the VDUSE device.
-   ``num-queues`` sets the number of virtqueues (the default is 1).
-   ``queue-size`` sets the virtqueue descriptor table size (the default is 256).
- 
-diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-index 066e088b00..f101c24c3f 100644
---- a/block/export/vduse-blk.c
-+++ b/block/export/vduse-blk.c
-@@ -300,7 +300,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-         features |= 1ULL << VIRTIO_BLK_F_RO;
-     }
- 
--    vblk_exp->dev = vduse_dev_create(exp->id, VIRTIO_ID_BLOCK, 0,
-+    vblk_exp->dev = vduse_dev_create(vblk_opts->name, VIRTIO_ID_BLOCK, 0,
-                                      features, num_queues,
-                                      sizeof(struct virtio_blk_config),
-                                      (char *)&config, &vduse_blk_ops,
-@@ -312,7 +312,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-     }
- 
-     vblk_exp->recon_file = g_strdup_printf("%s/vduse-blk-%s",
--                                           g_get_tmp_dir(), exp->id);
-+                                           g_get_tmp_dir(), vblk_opts->name);
-     if (vduse_set_reconnect_log_file(vblk_exp->dev, vblk_exp->recon_file)) {
-         error_setg(errp, "failed to set reconnect log file");
-         ret = -EINVAL;
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 4e18d3fc85..b8e910f220 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -123,12 +123,12 @@ static void help(void)
- #endif /* CONFIG_VHOST_USER_BLK_SERVER */
- #ifdef CONFIG_VDUSE_BLK_EXPORT
- "  --export [type=]vduse-blk,id=<id>,node-name=<node-name>\n"
--"           [,writable=on|off][,num-queues=<num-queues>]\n"
--"           [,queue-size=<queue-size>]\n"
-+"           ,name=<vduse-name>[,writable=on|off]\n"
-+"           [,num-queues=<num-queues>][,queue-size=<queue-size>]\n"
- "           [,logical-block-size=<logical-block-size>]\n"
- "           [,serial=<serial-number>]\n"
--"                         export the specified block node as a vduse-blk\n"
--"                         device using the id as the VDUSE device name\n"
-+"                         export the specified block node as a\n"
-+"                         vduse-blk device\n"
- "\n"
- #endif /* CONFIG_VDUSE_BLK_EXPORT */
- "  --monitor [chardev=]name[,mode=control][,pretty[=on|off]]\n"
--- 
-2.35.3
+On 6/24/22 17:40, Akihiko Odaki wrote:
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>   configure                     | 23 +++++++++++++++++++++++
+>   meson.build                   | 10 ++++++++--
+>   meson_options.txt             |  2 +-
+>   scripts/meson-buildoptions.py |  7 +++++--
+>   scripts/meson-buildoptions.sh |  6 +++---
+>   softmmu/datadir.c             |  8 +++++---
+>   6 files changed, 45 insertions(+), 11 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 4b12a8094ca..ab952e7ce3b 100755
+> --- a/configure
+> +++ b/configure
+> @@ -675,6 +675,29 @@ fi
+>   
+>   werror=""
+>   
+> +meson_option_build_array() {
+> +  local a
+> +  local ifs
+> +
+> +  if test "$targetos" == windows; then
+> +    ifs=\;
+> +  else
+> +    ifs=:
+> +  fi
+> +
+> +  echo -n "["
+> +
+> +  while IFS="$ifs" read -ra a; do
+> +    for e in "${a[@]}"; do
+> +      echo -n '"""'
+> +      echo -n "$e" | sed 's/\\/\\\\/g; s/"/\\"/g'
+> +      echo -n '"""',
+> +    done
+> +  done <<< "$1"
+> +
+> +  echo "]"
+> +}
+> +
+>   . $source_path/scripts/meson-buildoptions.sh
+>   
+>   meson_options=
+> diff --git a/meson.build b/meson.build
+> index 0c2e11ff071..40111ce4053 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1684,7 +1684,13 @@ config_host_data.set_quoted('CONFIG_PREFIX', get_option('prefix'))
+>   config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_confdir)
+>   config_host_data.set_quoted('CONFIG_QEMU_DATADIR', get_option('prefix') / qemu_datadir)
+>   config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR', get_option('prefix') / qemu_desktopdir)
+> -config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('prefix') / get_option('qemu_firmwarepath'))
+> +
+> +qemu_firmwarepath = ''
+> +foreach k : get_option('qemu_firmwarepath')
+> +  qemu_firmwarepath += '"' + get_option('prefix') / k + '", '
+> +endforeach
+> +config_host_data.set('CONFIG_QEMU_FIRMWAREPATH', qemu_firmwarepath)
+> +
+>   config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix') / get_option('libexecdir'))
+>   config_host_data.set_quoted('CONFIG_QEMU_ICONDIR', get_option('prefix') / qemu_icondir)
+>   config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix') / get_option('localedir'))
+> @@ -3622,7 +3628,7 @@ endif
+>   summary_info = {}
+>   summary_info += {'Install prefix':    get_option('prefix')}
+>   summary_info += {'BIOS directory':    qemu_datadir}
+> -summary_info += {'firmware path':     get_option('prefix') / get_option('qemu_firmwarepath')}
+> +summary_info += {'firmware path':     qemu_firmwarepath}
+>   summary_info += {'binary directory':  get_option('prefix') / get_option('bindir')}
+>   summary_info += {'library directory': get_option('prefix') / get_option('libdir')}
+>   summary_info += {'module directory':  qemu_moddir}
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 0e8197386b9..8ad5cd73819 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -6,7 +6,7 @@ option('qemu_suffix', type : 'string', value: 'qemu',
+>          description: 'Suffix for QEMU data/modules/config directories (can be empty)')
+>   option('docdir', type : 'string', value : 'share/doc',
+>          description: 'Base directory for documentation installation (can be empty)')
+> -option('qemu_firmwarepath', type : 'string', value : 'qemu-firmware',
+> +option('qemu_firmwarepath', type : 'array', value : ['qemu-firmware'],
+>          description: 'search PATH for firmware files')
+>   option('pkgversion', type : 'string', value : '',
+>          description: 'use specified string as sub-version of the package')
+> diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
+> index e624c16b01a..3e2b4785388 100755
+> --- a/scripts/meson-buildoptions.py
+> +++ b/scripts/meson-buildoptions.py
+> @@ -156,7 +156,7 @@ def cli_metavar(opt):
+>       if opt["type"] == "string":
+>           return "VALUE"
+>       if opt["type"] == "array":
+> -        return "CHOICES"
+> +        return "CHOICES" if "choices" in opt else "VALUES"
+>       return "CHOICE"
+>   
+>   
+> @@ -199,7 +199,10 @@ def print_parse(options):
+>           key = cli_option(opt)
+>           name = opt["name"]
+>           if require_arg(opt):
+> -            print(f'    --{key}=*) quote_sh "-D{name}=$2" ;;')
+> +            if opt["type"] == "array" and not "choices" in opt:
+> +                print(f'    --{key}=*) quote_sh "-D{name}=$(meson_option_build_array $2)" ;;')
+> +            else:
+> +                print(f'    --{key}=*) quote_sh "-D{name}=$2" ;;')
+>           elif opt["type"] == "boolean":
+>               print(f'    --enable-{key}) printf "%s" -D{name}=true ;;')
+>               print(f'    --disable-{key}) printf "%s" -D{name}=false ;;')
+> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+> index 1fc1d2e2c36..238bab162bd 100644
+> --- a/scripts/meson-buildoptions.sh
+> +++ b/scripts/meson-buildoptions.sh
+> @@ -42,12 +42,12 @@ meson_options_help() {
+>     printf "%s\n" '  --enable-trace-backends=CHOICES'
+>     printf "%s\n" '                           Set available tracing backends [log] (choices:'
+>     printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
+> -  printf "%s\n" '  --firmwarepath=VALUE     search PATH for firmware files [qemu-firmware]'
+> +  printf "%s\n" '  --firmwarepath=VALUES    search PATH for firmware files [qemu-firmware]'
+>     printf "%s\n" '  --iasl=VALUE             Path to ACPI disassembler'
+>     printf "%s\n" '  --includedir=VALUE       Header file directory [include]'
+>     printf "%s\n" '  --interp-prefix=VALUE    where to find shared libraries etc., use %M for'
+>     printf "%s\n" '                           cpu name [/usr/gnemul/qemu-%M]'
+> -  printf "%s\n" '  --libdir=VALUE           Library directory [lib64]'
+> +  printf "%s\n" '  --libdir=VALUE           Library directory [lib]'
+>     printf "%s\n" '  --libexecdir=VALUE       Library executable directory [libexec]'
+>     printf "%s\n" '  --localedir=VALUE        Locale data directory [share/locale]'
+>     printf "%s\n" '  --localstatedir=VALUE    Localstate data directory [/var/local]'
+> @@ -356,7 +356,7 @@ _meson_option_parse() {
+>       --disable-qcow1) printf "%s" -Dqcow1=disabled ;;
+>       --enable-qed) printf "%s" -Dqed=enabled ;;
+>       --disable-qed) printf "%s" -Dqed=disabled ;;
+> -    --firmwarepath=*) quote_sh "-Dqemu_firmwarepath=$2" ;;
+> +    --firmwarepath=*) quote_sh "-Dqemu_firmwarepath=$(meson_option_build_array $2)" ;;
+>       --enable-qga-vss) printf "%s" -Dqga_vss=enabled ;;
+>       --disable-qga-vss) printf "%s" -Dqga_vss=disabled ;;
+>       --enable-qom-cast-debug) printf "%s" -Dqom_cast_debug=true ;;
+> diff --git a/softmmu/datadir.c b/softmmu/datadir.c
+> index 160cac999a6..fd24629c543 100644
+> --- a/softmmu/datadir.c
+> +++ b/softmmu/datadir.c
+> @@ -105,15 +105,17 @@ static char *find_datadir(void)
+>   
+>   void qemu_add_default_firmwarepath(void)
+>   {
+> -    char **dirs;
+> +    static const char * const dirs[] = {
+> +        CONFIG_QEMU_FIRMWAREPATH
+> +        NULL
+> +    };
+> +
+>       size_t i;
+>   
+>       /* add configured firmware directories */
+> -    dirs = g_strsplit(CONFIG_QEMU_FIRMWAREPATH, G_SEARCHPATH_SEPARATOR_S, 0);
+>       for (i = 0; dirs[i] != NULL; i++) {
+>           qemu_add_data_dir(get_relocated_path(dirs[i]));
+>       }
+> -    g_strfreev(dirs);
+>   
+>       /* try to find datadir relative to the executable path */
+>       qemu_add_data_dir(find_datadir());
 
 
