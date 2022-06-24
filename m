@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015E5559451
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 09:44:51 +0200 (CEST)
-Received: from localhost ([::1]:53146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C19655945E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 09:52:55 +0200 (CEST)
+Received: from localhost ([::1]:37046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4dzm-0000sL-13
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 03:44:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54404)
+	id 1o4e7a-0000iv-3H
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 03:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4dw9-0006jT-Vj
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:41:05 -0400
-Received: from mxout.security-mail.net ([85.31.212.42]:59958)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4e6S-0008OZ-Vf
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:51:45 -0400
+Received: from smtpout30.security-mail.net ([85.31.212.35]:28977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4dw6-0005ar-9V
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:41:04 -0400
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4e6Q-0007ty-4U
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:51:44 -0400
 Received: from localhost (localhost [127.0.0.1])
- by fx302.security-mail.net (Postfix) with ESMTP id 320B63D3B0B8
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 09:40:59 +0200 (CEST)
+ by fx305.security-mail.net (Postfix) with ESMTP id F299430FE8E
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 09:51:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1656056459;
- bh=tXM08XT5LDv1z4eJ7f18nrXXRRHS+krPe2ebPZDrjzY=;
+ s=sec-sig-email; t=1656057099;
+ bh=WKz+HxvNfyMoafGwPt74GdwDZmOH/v/P9R4rUglXgJ4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=OWJBHPgCD1TVXP215aLhqEuJ3Omru5wKy19xDLOebRmLmTP8d6hOpdC75getbvkcX
- DJPC34qtu2zPtqiCPts7N0rh2FAzjt8fzcFiCOZlcwTFiePXImvIWE6wFXh7wk32xC
- lwGeTdLKEn/YQMHxbGdTa5tXaafiuq+0HnQ3G+Ig=
-Received: from fx302 (localhost [127.0.0.1]) by fx302.security-mail.net
- (Postfix) with ESMTP id D4ABF3D3B095; Fri, 24 Jun 2022 09:40:58 +0200 (CEST)
+ b=u26qJTzsU4NRL3xW5tmRhsXMGNoDAqQMQEyM9f15SROwQzlV+tiZg+mg69Qebt3QU
+ BxVUG1yDgsXasiDIfvPd2UPyuPA8TFB9NdrQsEpd0GLmmOKW+cZNd8zipwqf0lRYZv
+ 6sL1/YO8R2cmzJA40KfQW6tZQ8eqrrAsuJsSUaxI=
+Received: from fx305 (localhost [127.0.0.1]) by fx305.security-mail.net
+ (Postfix) with ESMTP id 827B730FE71; Fri, 24 Jun 2022 09:51:38 +0200 (CEST)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx302.security-mail.net (Postfix) with ESMTPS id 57F473D3B073; Fri, 24 Jun
- 2022 09:40:58 +0200 (CEST)
+ fx305.security-mail.net (Postfix) with ESMTPS id BD4DC30FE61; Fri, 24 Jun
+ 2022 09:51:37 +0200 (CEST)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 3E73927E04FB; Fri, 24 Jun 2022
- 09:40:58 +0200 (CEST)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 90D2827E04FD; Fri, 24 Jun 2022
+ 09:51:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 2870C27E04FD; Fri, 24 Jun 2022 09:40:58 +0200 (CEST)
+ (Postfix) with ESMTP id 7ADA127E04FB; Fri, 24 Jun 2022 09:51:37 +0200 (CEST)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- K0ckIHCDF_MI; Fri, 24 Jun 2022 09:40:58 +0200 (CEST)
+ jzVMZ31lP8yp; Fri, 24 Jun 2022 09:51:37 +0200 (CEST)
 Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id 0FA4E27E04FB; Fri, 24 Jun 2022 09:40:58 +0200
+ (Postfix) with ESMTPSA id 6164127E04F8; Fri, 24 Jun 2022 09:51:37 +0200
  (CEST)
 X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <9faa.62b56a8a.578c4.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 2870C27E04FD
+Secumail-id: <b567.62b56d09.b1f39.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 7ADA127E04FB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656056458;
- bh=dFpyM/rGKCVP3CeRK3soNB9z+xVQc5zC5N6bDwVEl1I=;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656057097;
+ bh=URt4sOpVOkAdl0lnewoUgoZVQsaruzCTf6RzUC61WhI=;
  h=Date:From:To:Message-ID:MIME-Version;
- b=pGi4HSA8IIY+jxMuNTetxrwEKlDCpWc8JkYw1l34Sxr5YrpiAQ0Ib0V1Q9JFbCJ/6
- SF2kskENFoF1KcSt6P5gCdHdN1+zqBX1V1uQar2DuH+XaCx4Eirnd76Gohb3tePEqN
- XAe2IJIROQ79JZrKSC/abm4j70r8zkishKlLnWDQ=
-Date: Fri, 24 Jun 2022 09:40:57 +0200
+ b=C50F3C2DwtHZSnpj4hqgwV6DNuEPGppc8HEr6HeBpg0U9DY+xW1YdK2OlHVeVdREP
+ nLQFfLwHWr0ygjxjM4GUA3/qDazXxzRrhYrMddnl22PEg9Tb40yE7FV3dv5Ip8fmvG
+ tzxN+kfB8S7z3ziu6sooz+eH3vtLOF00IKfFsFwU=
+Date: Fri, 24 Jun 2022 09:51:36 +0200
 From: Luc Michel <lmichel@kalray.eu>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 36/53] semihosting: Split out semihost_sys_rename
-Message-ID: <20220624074057.GC25499@ws2101.lin.mbt.kalray.eu>
+Subject: Re: [PATCH v4 37/53] semihosting: Split out semihost_sys_system
+Message-ID: <20220624075136.GD25499@ws2101.lin.mbt.kalray.eu>
 References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-37-richard.henderson@linaro.org>
+ <20220607204557.658541-38-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220607204557.658541-37-richard.henderson@linaro.org>
+In-Reply-To: <20220607204557.658541-38-richard.henderson@linaro.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.42; envelope-from=lmichel@kalray.eu;
- helo=mxout.security-mail.net
+Received-SPF: pass client-ip=85.31.212.35; envelope-from=lmichel@kalray.eu;
+ helo=smtpout30.security-mail.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -93,7 +93,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 13:45 Tue 07 Jun     , Richard Henderson wrote:
-> Split out the non-ARM specific portions of SYS_RENAME to a
+> Split out the non-ARM specific portions of SYS_SYSTEM to a
 > reusable function.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
@@ -101,145 +101,111 @@ On 13:45 Tue 07 Jun     , Richard Henderson wrote:
 Reviewed-by: Luc Michel <lmichel@kalray.eu>
 
 > ---
->  include/semihosting/syscalls.h |  4 +++
->  semihosting/arm-compat-semi.c  | 21 +------------
->  semihosting/syscalls.c         | 57 ++++++++++++++++++++++++++++++++++
->  3 files changed, 62 insertions(+), 20 deletions(-)
+>  include/semihosting/syscalls.h |  3 +++
+>  semihosting/arm-compat-semi.c  | 12 +---------
+>  semihosting/syscalls.c         | 40 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 44 insertions(+), 11 deletions(-)
 > 
 > diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
-> index 748a4b5e47..21430aa0ef 100644
+> index 21430aa0ef..c9f9e66be1 100644
 > --- a/include/semihosting/syscalls.h
 > +++ b/include/semihosting/syscalls.h
-> @@ -52,4 +52,8 @@ void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
->  void semihost_sys_remove(CPUState *cs, gdb_syscall_complete_cb complete,
->                           target_ulong fname, target_ulong fname_len);
+> @@ -56,4 +56,7 @@ void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
+>                           target_ulong oname, target_ulong oname_len,
+>                           target_ulong nname, target_ulong nname_len);
 >  
-> +void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                         target_ulong oname, target_ulong oname_len,
-> +                         target_ulong nname, target_ulong nname_len);
+> +void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                         target_ulong cmd, target_ulong cmd_len);
 > +
 >  #endif /* SEMIHOSTING_SYSCALLS_H */
 > diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-> index 6c9d50176a..da5c80b3d5 100644
+> index da5c80b3d5..8a4e22a20a 100644
 > --- a/semihosting/arm-compat-semi.c
 > +++ b/semihosting/arm-compat-semi.c
-> @@ -491,26 +491,7 @@ void do_common_semihosting(CPUState *cs)
+> @@ -506,17 +506,7 @@ void do_common_semihosting(CPUState *cs)
+>      case TARGET_SYS_SYSTEM:
+>          GET_ARG(0);
 >          GET_ARG(1);
->          GET_ARG(2);
->          GET_ARG(3);
 > -        if (use_gdb_syscalls()) {
-> -            gdb_do_syscall(common_semi_cb, "rename,%s,%s",
-> -                           arg0, (int)arg1 + 1, arg2, (int)arg3 + 1);
-> -        } else {
-> -            char *s2;
-> -
-> -            s = lock_user_string(arg0);
-> -            if (!s) {
-> -                goto do_fault;
-> -            }
-> -            s2 = lock_user_string(arg2);
-> -            if (!s2) {
-> -                unlock_user(s, arg0, 0);
-> -                goto do_fault;
-> -            }
-> -            ret = rename(s, s2);
-> -            unlock_user(s2, arg2, 0);
-> -            unlock_user(s, arg0, 0);
-> -            common_semi_cb(cs, ret, ret ? errno : 0);
+> -            gdb_do_syscall(common_semi_cb, "system,%s", arg0, (int)arg1 + 1);
+> -            break;
 > -        }
-> +        semihost_sys_rename(cs, common_semi_cb, arg0, arg1 + 1, arg2, arg3 + 1);
+> -        s = lock_user_string(arg0);
+> -        if (!s) {
+> -            goto do_fault;
+> -        }
+> -        ret = system(s);
+> -        unlock_user(s, arg0, 0);
+> -        common_semi_cb(cs, ret, ret == -1 ? errno : 0);
+> +        semihost_sys_system(cs, common_semi_cb, arg0, arg1 + 1);
 >          break;
 >  
->      case TARGET_SYS_CLOCK:
+>      case TARGET_SYS_ERRNO:
 > diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-> index 5ec4e8f827..223916b110 100644
+> index 223916b110..de846ced32 100644
 > --- a/semihosting/syscalls.c
 > +++ b/semihosting/syscalls.c
-> @@ -145,6 +145,26 @@ static void gdb_remove(CPUState *cs, gdb_syscall_complete_cb complete,
->      gdb_do_syscall(complete, "unlink,%s", fname, len);
+> @@ -165,6 +165,18 @@ static void gdb_rename(CPUState *cs, gdb_syscall_complete_cb complete,
+>      gdb_do_syscall(complete, "rename,%s,%s", oname, olen, nname, nlen);
 >  }
 >  
-> +static void gdb_rename(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                       target_ulong oname, target_ulong oname_len,
-> +                       target_ulong nname, target_ulong nname_len)
+> +static void gdb_system(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                       target_ulong cmd, target_ulong cmd_len)
 > +{
-> +    int olen, nlen;
-> +
-> +    olen = validate_strlen(cs, oname, oname_len);
-> +    if (olen < 0) {
-> +        complete(cs, -1, -olen);
-> +        return;
-> +    }
-> +    nlen = validate_strlen(cs, nname, nname_len);
-> +    if (nlen < 0) {
-> +        complete(cs, -1, -nlen);
+> +    int len = validate_strlen(cs, cmd, cmd_len);
+> +    if (len < 0) {
+> +        complete(cs, -1, -len);
 > +        return;
 > +    }
 > +
-> +    gdb_do_syscall(complete, "rename,%s,%s", oname, olen, nname, nlen);
+> +    gdb_do_syscall(complete, "system,%s", cmd, len);
 > +}
 > +
 >  /*
 >   * Host semihosting syscall implementations.
 >   */
-> @@ -307,6 +327,32 @@ static void host_remove(CPUState *cs, gdb_syscall_complete_cb complete,
->      unlock_user(p, fname, 0);
+> @@ -353,6 +365,24 @@ static void host_rename(CPUState *cs, gdb_syscall_complete_cb complete,
+>      unlock_user(nstr, nname, 0);
 >  }
 >  
-> +static void host_rename(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                        target_ulong oname, target_ulong oname_len,
-> +                        target_ulong nname, target_ulong nname_len)
+> +static void host_system(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                        target_ulong cmd, target_ulong cmd_len)
 > +{
 > +    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-> +    char *ostr, *nstr;
+> +    char *p;
 > +    int ret;
 > +
-> +    ret = validate_lock_user_string(&ostr, cs, oname, oname_len);
+> +    ret = validate_lock_user_string(&p, cs, cmd, cmd_len);
 > +    if (ret < 0) {
-> +        complete(cs, -1, -ret);
-> +        return;
-> +    }
-> +    ret = validate_lock_user_string(&nstr, cs, nname, nname_len);
-> +    if (ret < 0) {
-> +        unlock_user(ostr, oname, 0);
 > +        complete(cs, -1, -ret);
 > +        return;
 > +    }
 > +
-> +    ret = rename(ostr, nstr);
-> +    complete(cs, ret, ret ? errno : 0);
-> +    unlock_user(ostr, oname, 0);
-> +    unlock_user(nstr, nname, 0);
+> +    ret = system(p);
+> +    complete(cs, ret, ret == -1 ? errno : 0);
+> +    unlock_user(p, cmd, 0);
 > +}
 > +
 >  /*
 >   * Static file semihosting syscall implementations.
 >   */
-> @@ -562,3 +608,14 @@ void semihost_sys_remove(CPUState *cs, gdb_syscall_complete_cb complete,
->          host_remove(cs, complete, fname, fname_len);
+> @@ -619,3 +649,13 @@ void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
+>          host_rename(cs, complete, oname, oname_len, nname, nname_len);
 >      }
 >  }
 > +
-> +void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                         target_ulong oname, target_ulong oname_len,
-> +                         target_ulong nname, target_ulong nname_len)
+> +void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                         target_ulong cmd, target_ulong cmd_len)
 > +{
 > +    if (use_gdb_syscalls()) {
-> +        gdb_rename(cs, complete, oname, oname_len, nname, nname_len);
+> +        gdb_system(cs, complete, cmd, cmd_len);
 > +    } else {
-> +        host_rename(cs, complete, oname, oname_len, nname, nname_len);
+> +        host_system(cs, complete, cmd, cmd_len);
 > +    }
 > +}
 > -- 
 > 2.34.1
 > 
-> 
-> 
-> 
-> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=db2a.629fd094.619c9.0&r=lmichel%40kalrayinc.com&s=qemu-devel-bounces%2Blmichel%3Dkalrayinc.com%40nongnu.org&o=%5BPATCH+v4+36%2F53%5D+semihosting%3A+Split+out+semihost_sys_rename&verdict=C&c=a6b432f19d21e185c7e45b7892ef238d104b49ae
-> 
-
--- 
 
 
 
