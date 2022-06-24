@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEF2559D74
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:39:50 +0200 (CEST)
-Received: from localhost ([::1]:60030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD047559D81
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:42:53 +0200 (CEST)
+Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4lPQ-0002xY-B5
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:39:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39314)
+	id 1o4lSO-00080e-Om
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:42:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o4lNU-0001EX-AO; Fri, 24 Jun 2022 11:37:48 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:33772)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o4lQX-0005Fu-NU
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:40:57 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:45013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o4lNS-0008H0-8k; Fri, 24 Jun 2022 11:37:48 -0400
-Received: by mail-oi1-x235.google.com with SMTP id s124so4128753oia.0;
- Fri, 24 Jun 2022 08:37:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o4lQV-0000l0-Rg
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:40:57 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id l6so2420682plg.11
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:40:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=qsjU3AiH5per4DrVGOI7a/6vfVDRzIE9sL+d0k0p5Pk=;
- b=VE+UGrfxL56aDh4wQkaWGwLALhoTlnBIjBPGlRdPG6m7/tL+8dN1gtX+mHAAI9mRWH
- sO1tDwEKXK7Kbg5Z1ymk4q+kYHX40ELlrXFM4R2uSmRrNvg91jTsMKUbgJNQ/9PgCzcA
- kS32Z6h5mr30DJrBP5K3boPWYPper9NiO3LaCk9jpafOSzPu+8gc4whFW2QUi98Fv0lA
- Mg+BlrgzOGk6oyKGAhAZtqyl/04RdKtWQJ/mRv9KxWtBiZ1ZhKvB2ZdEXiiV9rQfBdCm
- AsFMgIZ55RPMStG0n9SuNR/TG/q9C7joXJCHVbD2M3OSqLkke9D+FXJedyVDG8wGRLpL
- yz0w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UrYp6BtTmV01k+BVuCbUQLaqB0tJ0DIjyqxHmDWKB3o=;
+ b=Qv29mOP9nNTNG3zTgvmQxmkqiODhAL/0ZcpzblKPLlthmbWLE45CNFNgbehriMi+hH
+ klJX0ONbkQHcIUrZYOFoSJeRAhJNYdyxvROpTfQ98jSmuvij26HRbcgRb9BP91dMqINd
+ 3jtxzX67RswVddhfvTD3etFOY5hljjme5z+1ZENKsxAFKt+MlMyXV+uDt03XFNtfRkb5
+ iwLWY1oqHExVlbeJBxzoQ2jDh5eglSrleNjy5lfBuNHAyQ36Z6ufVYplUSXes6/vGP75
+ qseIuGGeui8HlNlunJTyhDnqieorQBAyTli7fyW2LPX2fyO7PjxXkU8KeH+A5Xn5MSuR
+ SKvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qsjU3AiH5per4DrVGOI7a/6vfVDRzIE9sL+d0k0p5Pk=;
- b=p706GJIZWQXXFmtqRPU/Ur0EgEDrbqmKLIgXLQE7i7310/MwmhUOQ9jVZqLNA5j0xH
- hWjPseEtiSYf1SPwSJAmOI/xbiFPvdJF162cT13TG2QVbW4qqL8MdTzNGY3enOqxdFKA
- pgDWUzv5onTxJRLXv8RpFGYHaKVozn0/P+SPwmaHDGTpSiQmcB2cHB6A6PwM0wLe+nWt
- uKYCvDd4aiHPROEBp2g9KPFAsTMCq/bq+jDQHHCE8PI7BvaUrkDx1USiZYOB6egMkLnI
- KiwNaDqHqZgWzJYfC8cXhc/GuWK47TrfL8v85W1eA5wn9migb31Qh1eodV8fZvXR/BDf
- QlcQ==
-X-Gm-Message-State: AJIora88+EQQjkCC0WUNkbJT+/4b1WQC/0qagQet3LRA0u3875wgZqnh
- Jb9Wkq4O0eg/qor+jHb7ouL8qmyNbF8=
-X-Google-Smtp-Source: AGRyM1vI2156/FFqogB9hBdNtdgrx/Bkr/PF+3JPF7Nya2q50jET0jQeOiMrGGcp72bDmPXaqUbxxw==
-X-Received: by 2002:a05:6808:13c6:b0:331:3e35:a048 with SMTP id
- d6-20020a05680813c600b003313e35a048mr2203378oiw.223.1656085061953; 
- Fri, 24 Jun 2022 08:37:41 -0700 (PDT)
-Received: from [192.168.10.102] ([191.193.1.105])
+ bh=UrYp6BtTmV01k+BVuCbUQLaqB0tJ0DIjyqxHmDWKB3o=;
+ b=lb7v2urYAUGBfAgpzB76hc7nhD9p1DrqqYeE9LFGL/AhbDEty6imFBr2bFBUPEUySK
+ BcsrlbFOwAm6zla3LzU3ebAQVa3ops3Na8sBhyzXQ89XL9ENlWIBcqYvzIWAZwTCasz7
+ 2Fq0xF/ijbwvaM9ASb6iSTay3huZLk3seNllFOxNJFioFDftBW6JZ3chodUA7zACFBaZ
+ UzYXHdKDm7IVsQoRpjxqUPR2gMZ3Mg+u9Yjs1h9N7nnDVEZ/CIDhPg+SywwJL6NqOBaF
+ MEApzMtBfYbgU16yjhDRNo1IEVvQfzzfFElUQYeC7Yqx+740V3csOIaXcDy3oWbtd9L9
+ WZow==
+X-Gm-Message-State: AJIora8hq9wDYZB+stbvKB2vxqaVImJ6f3//9/khFuGHbmpff4PTI4QW
+ ueRDEnZaS0X7UhFzRihrSe8=
+X-Google-Smtp-Source: AGRyM1twv41n7YWKUpvZ2rgHjiwlwzyFqwRPtqeAzjT5a5/xacqt2YrXy/53gSduaw+mfOlBiUh70A==
+X-Received: by 2002:a17:902:ce8b:b0:16a:4a3e:4fa1 with SMTP id
+ f11-20020a170902ce8b00b0016a4a3e4fa1mr13232069plg.167.1656085254224; 
+ Fri, 24 Jun 2022 08:40:54 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:80ba:2fd0:a1d1:c891])
  by smtp.gmail.com with ESMTPSA id
- u13-20020a056870f28d00b001048b819e13sm2056144oap.8.2022.06.24.08.37.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jun 2022 08:37:41 -0700 (PDT)
-Message-ID: <15b5c451-eeec-1b52-3191-f21597ed2e85@gmail.com>
-Date: Fri, 24 Jun 2022 12:37:38 -0300
+ t6-20020a170902b20600b0016a1e2d148csm1993785plr.32.2022.06.24.08.40.51
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 24 Jun 2022 08:40:53 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: [PATCH] meson: Prefix each element of firmware path
+Date: Sat, 25 Jun 2022 00:40:42 +0900
+Message-Id: <20220624154042.51512-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH qemu v2] ppc: Define SETFIELD for the ppc target
-Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20220622050844.1067391-1-aik@ozlabs.ru>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220622050844.1067391-1-aik@ozlabs.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x235.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,235 +94,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alexey,
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ configure                     | 23 +++++++++++++++++++++++
+ meson.build                   | 10 ++++++++--
+ meson_options.txt             |  2 +-
+ scripts/meson-buildoptions.py |  7 +++++--
+ scripts/meson-buildoptions.sh |  6 +++---
+ softmmu/datadir.c             |  8 +++++---
+ 6 files changed, 45 insertions(+), 11 deletions(-)
 
-Gitlab does not like what you're doing here. Several cross compile runners
-fails with errors like these (this is from cross-win64-system):
+diff --git a/configure b/configure
+index 4b12a8094ca..ab952e7ce3b 100755
+--- a/configure
++++ b/configure
+@@ -675,6 +675,29 @@ fi
+ 
+ werror=""
+ 
++meson_option_build_array() {
++  local a
++  local ifs
++
++  if test "$targetos" == windows; then
++    ifs=\;
++  else
++    ifs=:
++  fi
++
++  echo -n "["
++
++  while IFS="$ifs" read -ra a; do
++    for e in "${a[@]}"; do
++      echo -n '"""'
++      echo -n "$e" | sed 's/\\/\\\\/g; s/"/\\"/g'
++      echo -n '"""',
++    done
++  done <<< "$1"
++
++  echo "]"
++}
++
+ . $source_path/scripts/meson-buildoptions.sh
+ 
+ meson_options=
+diff --git a/meson.build b/meson.build
+index 0c2e11ff071..40111ce4053 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1684,7 +1684,13 @@ config_host_data.set_quoted('CONFIG_PREFIX', get_option('prefix'))
+ config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_confdir)
+ config_host_data.set_quoted('CONFIG_QEMU_DATADIR', get_option('prefix') / qemu_datadir)
+ config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR', get_option('prefix') / qemu_desktopdir)
+-config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('prefix') / get_option('qemu_firmwarepath'))
++
++qemu_firmwarepath = ''
++foreach k : get_option('qemu_firmwarepath')
++  qemu_firmwarepath += '"' + get_option('prefix') / k + '", '
++endforeach
++config_host_data.set('CONFIG_QEMU_FIRMWAREPATH', qemu_firmwarepath)
++
+ config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix') / get_option('libexecdir'))
+ config_host_data.set_quoted('CONFIG_QEMU_ICONDIR', get_option('prefix') / qemu_icondir)
+ config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix') / get_option('localedir'))
+@@ -3622,7 +3628,7 @@ endif
+ summary_info = {}
+ summary_info += {'Install prefix':    get_option('prefix')}
+ summary_info += {'BIOS directory':    qemu_datadir}
+-summary_info += {'firmware path':     get_option('prefix') / get_option('qemu_firmwarepath')}
++summary_info += {'firmware path':     qemu_firmwarepath}
+ summary_info += {'binary directory':  get_option('prefix') / get_option('bindir')}
+ summary_info += {'library directory': get_option('prefix') / get_option('libdir')}
+ summary_info += {'module directory':  qemu_moddir}
+diff --git a/meson_options.txt b/meson_options.txt
+index 0e8197386b9..8ad5cd73819 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -6,7 +6,7 @@ option('qemu_suffix', type : 'string', value: 'qemu',
+        description: 'Suffix for QEMU data/modules/config directories (can be empty)')
+ option('docdir', type : 'string', value : 'share/doc',
+        description: 'Base directory for documentation installation (can be empty)')
+-option('qemu_firmwarepath', type : 'string', value : 'qemu-firmware',
++option('qemu_firmwarepath', type : 'array', value : ['qemu-firmware'],
+        description: 'search PATH for firmware files')
+ option('pkgversion', type : 'string', value : '',
+        description: 'use specified string as sub-version of the package')
+diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
+index e624c16b01a..3e2b4785388 100755
+--- a/scripts/meson-buildoptions.py
++++ b/scripts/meson-buildoptions.py
+@@ -156,7 +156,7 @@ def cli_metavar(opt):
+     if opt["type"] == "string":
+         return "VALUE"
+     if opt["type"] == "array":
+-        return "CHOICES"
++        return "CHOICES" if "choices" in opt else "VALUES"
+     return "CHOICE"
+ 
+ 
+@@ -199,7 +199,10 @@ def print_parse(options):
+         key = cli_option(opt)
+         name = opt["name"]
+         if require_arg(opt):
+-            print(f'    --{key}=*) quote_sh "-D{name}=$2" ;;')
++            if opt["type"] == "array" and not "choices" in opt:
++                print(f'    --{key}=*) quote_sh "-D{name}=$(meson_option_build_array $2)" ;;')
++            else:
++                print(f'    --{key}=*) quote_sh "-D{name}=$2" ;;')
+         elif opt["type"] == "boolean":
+             print(f'    --enable-{key}) printf "%s" -D{name}=true ;;')
+             print(f'    --disable-{key}) printf "%s" -D{name}=false ;;')
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 1fc1d2e2c36..238bab162bd 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -42,12 +42,12 @@ meson_options_help() {
+   printf "%s\n" '  --enable-trace-backends=CHOICES'
+   printf "%s\n" '                           Set available tracing backends [log] (choices:'
+   printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
+-  printf "%s\n" '  --firmwarepath=VALUE     search PATH for firmware files [qemu-firmware]'
++  printf "%s\n" '  --firmwarepath=VALUES    search PATH for firmware files [qemu-firmware]'
+   printf "%s\n" '  --iasl=VALUE             Path to ACPI disassembler'
+   printf "%s\n" '  --includedir=VALUE       Header file directory [include]'
+   printf "%s\n" '  --interp-prefix=VALUE    where to find shared libraries etc., use %M for'
+   printf "%s\n" '                           cpu name [/usr/gnemul/qemu-%M]'
+-  printf "%s\n" '  --libdir=VALUE           Library directory [lib64]'
++  printf "%s\n" '  --libdir=VALUE           Library directory [lib]'
+   printf "%s\n" '  --libexecdir=VALUE       Library executable directory [libexec]'
+   printf "%s\n" '  --localedir=VALUE        Locale data directory [share/locale]'
+   printf "%s\n" '  --localstatedir=VALUE    Localstate data directory [/var/local]'
+@@ -356,7 +356,7 @@ _meson_option_parse() {
+     --disable-qcow1) printf "%s" -Dqcow1=disabled ;;
+     --enable-qed) printf "%s" -Dqed=enabled ;;
+     --disable-qed) printf "%s" -Dqed=disabled ;;
+-    --firmwarepath=*) quote_sh "-Dqemu_firmwarepath=$2" ;;
++    --firmwarepath=*) quote_sh "-Dqemu_firmwarepath=$(meson_option_build_array $2)" ;;
+     --enable-qga-vss) printf "%s" -Dqga_vss=enabled ;;
+     --disable-qga-vss) printf "%s" -Dqga_vss=disabled ;;
+     --enable-qom-cast-debug) printf "%s" -Dqom_cast_debug=true ;;
+diff --git a/softmmu/datadir.c b/softmmu/datadir.c
+index 160cac999a6..fd24629c543 100644
+--- a/softmmu/datadir.c
++++ b/softmmu/datadir.c
+@@ -105,15 +105,17 @@ static char *find_datadir(void)
+ 
+ void qemu_add_default_firmwarepath(void)
+ {
+-    char **dirs;
++    static const char * const dirs[] = {
++        CONFIG_QEMU_FIRMWAREPATH
++        NULL
++    };
++
+     size_t i;
+ 
+     /* add configured firmware directories */
+-    dirs = g_strsplit(CONFIG_QEMU_FIRMWAREPATH, G_SEARCHPATH_SEPARATOR_S, 0);
+     for (i = 0; dirs[i] != NULL; i++) {
+         qemu_add_data_dir(get_relocated_path(dirs[i]));
+     }
+-    g_strfreev(dirs);
+ 
+     /* try to find datadir relative to the executable path */
+     qemu_add_data_dir(find_datadir());
+-- 
+2.32.1 (Apple Git-133)
 
-
-../hw/intc/pnv_xive.c: In function 'pnv_xive_block_id':
-3328/builds/danielhb/qemu/target/ppc/cpu.h:45:33: error: overflow in conversion from 'long long unsigned int' to 'long int' changes value from '4222124650659840' to '0' [-Werror=overflow]
-3329   45 | #define PPC_BITMASK(bs, be)     ((PPC_BIT(bs) - PPC_BIT(be)) | PPC_BIT(bs))
-3330      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-3331/builds/danielhb/qemu/target/ppc/cpu.h:57:49: note: in definition of macro 'MASK_TO_LSH'
-3332   57 | #define MASK_TO_LSH(m)          (__builtin_ffsl(m) - 1)
-3333      |                                                 ^
-3334../hw/intc/pnv_xive.c:80:15: note: in expansion of macro 'GETFIELD'
-3335   80 |         blk = GETFIELD(PC_TCTXT_CHIPID, cfg_val);
-3336      |               ^~~~~~~~
-3337../hw/intc/pnv_xive_regs.h:77:41: note: in expansion of macro 'PPC_BITMASK'
-3338   77 | #define  PC_TCTXT_CHIPID                PPC_BITMASK(12, 15)
-3339      |                                         ^~~~~~~~~~~
-3340../hw/intc/pnv_xive.c:80:24: note: in expansion of macro 'PC_TCTXT_CHIPID'
-3341   80 |         blk = GETFIELD(PC_TCTXT_CHIPID, cfg_val);
-3342      |                        ^~~~~~~~~~~~~~~
-3343/builds/danielhb/qemu/target/ppc/cpu.h:58:46: error: right shift count is negative [-Werror=shift-count-negative]
-3344   58 | #define GETFIELD(m, v)          (((v) & (m)) >> MASK_TO_LSH(m))
-3345      |                                              ^~
-3346../hw/intc/pnv_xive.c:80:15: note: in expansion of macro 'GETFIELD'
-3347   80 |         blk = GETFIELD(PC_TCTXT_CHIPID, cfg_val);
-3348      |               ^~~~~~~~
-../hw/intc/pnv_xive.c: In function 'pnv_xive_vst_addr':
-3350/builds/danielhb/qemu/target/ppc/cpu.h:45:33: error: overflow in conversion from 'long long unsigned int' to 'long int' changes value from '13835058055282163712' to '0' [-Werror=overflow]
-3351   45 | #define PPC_BITMASK(bs, be)     ((PPC_BIT(bs) - PPC_BIT(be)) | PPC_BIT(bs))
-3352      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-3353/builds/danielhb/qemu/target/ppc/cpu.h:57:49: note: in definition of macro 'MASK_TO_LSH'
-3354   57 | #define MASK_TO_LSH(m)          (__builtin_ffsl(m) - 1)
-3355      |                                                 ^
-3356../hw/intc/pnv_xive.c:226:9: note: in expansion of macro 'GETFIELD'
-3357  226 |     if (GETFIELD(VSD_MODE, vsd) == VSD_MODE_FORWARD) {
-3358      |         ^~~~~~~~
-3359../hw/intc/pnv_xive_regs.h:230:33: note: in expansion of macro 'PPC_BITMASK'
-3360  230 | #define VSD_MODE                PPC_BITMASK(0, 1)
-3361      |                                 ^~~~~~~~~~~
-3362../hw/intc/pnv_xive.c:226:18: note: in expansion of macro 'VSD_MODE'
-3363  226 |     if (GETFIELD(VSD_MODE, vsd) == VSD_MODE_FORWARD) {
-3364      |                  ^~~~~~~~
-3365/builds/danielhb/qemu/target/ppc/cpu.h:58:46: error: right shift count is negative [-Werror=shift-count-negative]
-3366   58 | #define GETFIELD(m, v)          (((v) & (m)) >> MASK_TO_LSH(m))
-3367      |                                              ^~
-3368../hw/intc/pnv_xive.c:226:9: note: in expansion of macro 'GETFIELD'
-3369  226 |     if (GETFIELD(VSD_MODE, vsd) == VSD_MODE_FORWARD) {
-3370      |         ^~~~~~~~
-
-
-You can see the results here:
-
-https://gitlab.com/danielhb/qemu/-/jobs/2636585317
-
-Other failing runners include cross-armel-system and cross-mips-system, so I don't
-think that the error is related to Windows specifics.
-
-
-I guess we're missing an uint64_t cast somewhere like you did in the v2 of
-this patch. The skiboot macros as is will not cut it.
-
-
-Thanks,
-
-
-Daniel
-
-
-On 6/22/22 02:08, Alexey Kardashevskiy wrote:
-> It keeps repeating, move it to the header. This uses __builtin_ffsl() to
-> allow using the macros in #define.
-> 
-> This is not using the QEMU's FIELD macros as this would require changing
-> all such macros found in skiboot (the PPC PowerNV firmware).
-> 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
-> Changes:
-> v2:
-> * preserved the comment about skiboot
-> * copied the actual macros from skiboot:
-> https://github.com/open-power/skiboot/blob/master/include/bitutils.h#L31
-> ---
->   include/hw/pci-host/pnv_phb3_regs.h | 16 ----------------
->   target/ppc/cpu.h                    | 12 ++++++++++++
->   hw/intc/pnv_xive.c                  | 20 --------------------
->   hw/intc/pnv_xive2.c                 | 20 --------------------
->   hw/pci-host/pnv_phb4.c              | 16 ----------------
->   5 files changed, 12 insertions(+), 72 deletions(-)
-> 
-> diff --git a/include/hw/pci-host/pnv_phb3_regs.h b/include/hw/pci-host/pnv_phb3_regs.h
-> index a174ef1f7045..38f8ce9d7406 100644
-> --- a/include/hw/pci-host/pnv_phb3_regs.h
-> +++ b/include/hw/pci-host/pnv_phb3_regs.h
-> @@ -12,22 +12,6 @@
->   
->   #include "qemu/host-utils.h"
->   
-> -/*
-> - * QEMU version of the GETFIELD/SETFIELD macros
-> - *
-> - * These are common with the PnvXive model.
-> - */
-> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
-> -{
-> -    return (word & mask) >> ctz64(mask);
-> -}
-> -
-> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
-> -                                uint64_t value)
-> -{
-> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
-> -}
-> -
->   /*
->    * PBCQ XSCOM registers
->    */
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 6d78078f379d..e45cc7a8c115 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -47,6 +47,18 @@
->                                    PPC_BIT32(bs))
->   #define PPC_BITMASK8(bs, be)    ((PPC_BIT8(bs) - PPC_BIT8(be)) | PPC_BIT8(bs))
->   
-> +/*
-> + * QEMU version of the GETFIELD/SETFIELD macros
-> + *
-> + * It might be better to use the existing extract64() and
-> + * deposit64() but this means that all the register definitions will
-> + * change and become incompatible with the ones found in skiboot.
-> + */
-> +#define MASK_TO_LSH(m)          (__builtin_ffsl(m) - 1)
-> +#define GETFIELD(m, v)          (((v) & (m)) >> MASK_TO_LSH(m))
-> +#define SETFIELD(m, v, val) \
-> +        (((v) & ~(m)) | ((((typeof(v))(val)) << MASK_TO_LSH(m)) & (m)))
-> +
->   /*****************************************************************************/
->   /* Exception vectors definitions                                             */
->   enum {
-> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-> index 1ce1d7b07d63..c7b75ed12ee0 100644
-> --- a/hw/intc/pnv_xive.c
-> +++ b/hw/intc/pnv_xive.c
-> @@ -66,26 +66,6 @@ static const XiveVstInfo vst_infos[] = {
->       qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
->                     (xive)->chip->chip_id, ## __VA_ARGS__);
->   
-> -/*
-> - * QEMU version of the GETFIELD/SETFIELD macros
-> - *
-> - * TODO: It might be better to use the existing extract64() and
-> - * deposit64() but this means that all the register definitions will
-> - * change and become incompatible with the ones found in skiboot.
-> - *
-> - * Keep it as it is for now until we find a common ground.
-> - */
-> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
-> -{
-> -    return (word & mask) >> ctz64(mask);
-> -}
-> -
-> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
-> -                                uint64_t value)
-> -{
-> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
-> -}
-> -
->   /*
->    * When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID
->    * field overrides the hardwired chip ID in the Powerbus operations
-> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
-> index f31c53c28dd2..f22ce5ca59ae 100644
-> --- a/hw/intc/pnv_xive2.c
-> +++ b/hw/intc/pnv_xive2.c
-> @@ -75,26 +75,6 @@ static const XiveVstInfo vst_infos[] = {
->       qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
->                     (xive)->chip->chip_id, ## __VA_ARGS__);
->   
-> -/*
-> - * QEMU version of the GETFIELD/SETFIELD macros
-> - *
-> - * TODO: It might be better to use the existing extract64() and
-> - * deposit64() but this means that all the register definitions will
-> - * change and become incompatible with the ones found in skiboot.
-> - *
-> - * Keep it as it is for now until we find a common ground.
-> - */
-> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
-> -{
-> -    return (word & mask) >> ctz64(mask);
-> -}
-> -
-> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
-> -                                uint64_t value)
-> -{
-> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
-> -}
-> -
->   /*
->    * TODO: Document block id override
->    */
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index 6594016121a3..5d72c0c432b2 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -31,22 +31,6 @@
->       qemu_log_mask(LOG_GUEST_ERROR, "phb4_pec[%d:%d]: " fmt "\n",        \
->                     (pec)->chip_id, (pec)->index, ## __VA_ARGS__)
->   
-> -/*
-> - * QEMU version of the GETFIELD/SETFIELD macros
-> - *
-> - * These are common with the PnvXive model.
-> - */
-> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
-> -{
-> -    return (word & mask) >> ctz64(mask);
-> -}
-> -
-> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
-> -                                uint64_t value)
-> -{
-> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
-> -}
-> -
->   static PCIDevice *pnv_phb4_find_cfg_dev(PnvPHB4 *phb)
->   {
->       PCIHostState *pci = PCI_HOST_BRIDGE(phb);
 
