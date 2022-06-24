@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E406559AC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 15:57:47 +0200 (CEST)
-Received: from localhost ([::1]:47012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8C1559AD5
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 16:01:57 +0200 (CEST)
+Received: from localhost ([::1]:58062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4jog-0005HW-9t
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 09:57:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38088)
+	id 1o4jsi-0004NY-TG
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 10:01:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o4ja0-00018E-81; Fri, 24 Jun 2022 09:42:36 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41802)
+ id 1o4ja3-0001C7-SE; Fri, 24 Jun 2022 09:42:41 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o4jZy-00058k-M4; Fri, 24 Jun 2022 09:42:35 -0400
+ id 1o4ja2-00059c-9C; Fri, 24 Jun 2022 09:42:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=iJeZHKd2ESfTdLxK3gngrDHiZnVgxD1i9JMP8ahasbE=; b=u/sZyxJ8w7dvgIh6YPb5F1mupt
- H5sehCNdI6t4roXt1VtFgdFzezhUUbp2jEu28dgBi7GGRCxtwlTSiPp9X/a+Srk0ORtwyp0wOF1kR
- nn+vrjvaVlL01UBazD6hBzCTl9tPt4uIpArooyzs7Rw0ceAmItxLlsEMvYulZytx2wpkvIYjWV7lg
- ZnTSmNjweTwt9JhYb+Kv7za20nQ4tfU/lIjLawoq7REzgS8JwanXQiyOJkxe9nt3S+DJ6JCpcPhsF
- UjDTEdWAh8dTyrmdF+T8mNCPnJmQq9IGaTvOET7D1ZV81PDFVaSIZKP611UKveumHR8oRzN+NYn7b
- u3+S0EtcxYnZ00LGNKV15XIymHCLRBEBAQh0MiqrrQJKQGtuNJjx9tB/3JKYZA1bJYblV9cZ6zyUi
- diQ1Cct6qJCY+VVZbt3D6VNtICwvvzwhiNXwGMeZIgyPHRIo/Aq/9CKFMN60+WUPTEvpkcFGSfm/s
- t6llJQT6+G6aSUukdDvgX+b64h7QmNoCQ8K0Ym33sWEWfQIJQ/Wd7Yi4ojrDbxW/+GtoZw9dJfkTg
- RdhuvCcDTFB+VwZxBBw3mkCMh10xP3+Mbjx+otC/gn5ctEf/PJE0kf1XAAUw7NjeOvvWHaOhwia+s
- XL/Qe/vKp7V12XhwoLn7+3qmkZXH9zZBpXsMwgkXA=;
+ bh=YcsPtnedy787CRYrviUMvRysA7y4KFa7Jb53DABOCoc=; b=ouWEs6uFDIzVJLzpNxdVcSWAup
+ BKQXikYHWBXDR0KfglDcE6ewvJeLtqeQQBsxA0/5QqqB2pdH7G7GWvC9J7hzr5kxY3xn5V7KeAXDP
+ eo3Vcq3WF6jneXWdYndD1iR+bcHj10q1uRUBflO7Ajsg6tLTfBSyHP2xAmqnY7qw9+cyam55zKMYz
+ wU8kTwXoGTc+Wf5Sk6a0r0zxyq2Ub5+slKRQKx7Necw5DQS/+YdES6SEPYZui4OFhZ5rUuVkB4m+T
+ 9EPxI3OgzO9wt4vvZbQ1cK9iNkWkkJpej2UNO7vedTbBMcEohltaUjJBUN9QA8ZtGS+nsUwKAwNn9
+ snTe0Mss1bgW57Scq0LRhpctEbFdjbNHw9BV/Zkq0ScasoZ2Z+5MDbxOTB6PxmVfg7oOHTcU0EOeN
+ t75jsnJ7nnN84zKBW/KEZ7w1ETiIjhKNuzS0hk0hN6sDp1NuDtud1nefBM5DaFf5ZhTKIAF1Z4Kf9
+ 5RtklxMfKUnGZScYsuMz4RMjuYOfAsVcl3+PlGI4ZGtQJ6elb4hl0Rx5wIzq0zJjUBMXFZT6VmJU3
+ lWiIkNEU+85BnWxeXIkVlYDqCm3YmL4ZcvH761A/sP33LQhbf9LPQDFW+ZFSIyixGYq0SU+nu/Iwe
+ zOJrPM1ZGlqbnVVINywdWE23UaTUoH1S3Gc+hmKMU=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o4jYM-00037t-80; Fri, 24 Jun 2022 14:40:57 +0100
+ id 1o4jYP-00037t-Sj; Fri, 24 Jun 2022 14:41:01 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
  pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
  aleksandar.rikalo@syrmia.com, f4bug@amsat.org, jiaxun.yang@flygoat.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Date: Fri, 24 Jun 2022 14:40:29 +0100
-Message-Id: <20220624134109.881989-15-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 24 Jun 2022 14:40:30 +0100
+Message-Id: <20220624134109.881989-16-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220624134109.881989-1-mark.cave-ayland@ilande.co.uk>
 References: <20220624134109.881989-1-mark.cave-ayland@ilande.co.uk>
@@ -52,7 +52,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 14/54] pl050: checkpatch fixes
+Subject: [PATCH v2 15/54] pl050: split pl050_update_irq() into separate
+ pl050_set_irq() and pl050_update_irq() functions
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,74 +79,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch also includes a couple of minor spacing updates.
+This will soon allow pl050_set_irq() to be used as a GPIO input function.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- hw/input/pl050.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+ hw/input/pl050.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/hw/input/pl050.c b/hw/input/pl050.c
-index d279b6c148..889a0674d3 100644
+index 889a0674d3..66f8c20d9f 100644
 --- a/hw/input/pl050.c
 +++ b/hw/input/pl050.c
-@@ -53,8 +53,9 @@ static const VMStateDescription vmstate_pl050 = {
- #define PL050_KMIC            (1 << 1)
- #define PL050_KMID            (1 << 0)
+@@ -57,15 +57,20 @@ static const unsigned char pl050_id[] = {
+     0x50, 0x10, 0x04, 0x00, 0x0d, 0xf0, 0x05, 0xb1
+ };
  
--static const unsigned char pl050_id[] =
--{ 0x50, 0x10, 0x04, 0x00, 0x0d, 0xf0, 0x05, 0xb1 };
-+static const unsigned char pl050_id[] = {
-+    0x50, 0x10, 0x04, 0x00, 0x0d, 0xf0, 0x05, 0xb1
-+};
- 
- static void pl050_update(void *opaque, int level)
- {
-@@ -71,8 +72,10 @@ static uint64_t pl050_read(void *opaque, hwaddr offset,
-                            unsigned size)
+-static void pl050_update(void *opaque, int level)
++static void pl050_update_irq(PL050State *s)
++{
++    int level = (s->pending && (s->cr & 0x10) != 0)
++                 || (s->cr & 0x08) != 0;
++
++    qemu_set_irq(s->irq, level);
++}
++
++static void pl050_set_irq(void *opaque, int level)
  {
      PL050State *s = (PL050State *)opaque;
--    if (offset >= 0xfe0 && offset < 0x1000)
-+
-+    if (offset >= 0xfe0 && offset < 0x1000) {
-         return pl050_id[(offset - 0xfe0) >> 2];
-+    }
+-    int raise;
  
-     switch (offset >> 2) {
-     case 0: /* KMICR */
-@@ -88,16 +91,19 @@ static uint64_t pl050_read(void *opaque, hwaddr offset,
-             val = (val ^ (val >> 1)) & 1;
+     s->pending = level;
+-    raise = (s->pending && (s->cr & 0x10) != 0)
+-            || (s->cr & 0x08) != 0;
+-    qemu_set_irq(s->irq, raise);
++    pl050_update_irq(s);
+ }
  
-             stat = PL050_TXEMPTY;
--            if (val)
-+            if (val) {
-                 stat |= PL050_RXPARITY;
--            if (s->pending)
-+            }
-+            if (s->pending) {
-                 stat |= PL050_RXFULL;
-+            }
- 
-             return stat;
-         }
-     case 2: /* KMIDATA */
--        if (s->pending)
-+        if (s->pending) {
-             s->last = ps2_read_data(s->dev);
-+        }
-         return s->last;
-     case 3: /* KMICLKDIV */
-         return s->clk;
-@@ -114,6 +120,7 @@ static void pl050_write(void *opaque, hwaddr offset,
-                         uint64_t value, unsigned size)
- {
-     PL050State *s = (PL050State *)opaque;
-+
+ static uint64_t pl050_read(void *opaque, hwaddr offset,
+@@ -124,7 +129,7 @@ static void pl050_write(void *opaque, hwaddr offset,
      switch (offset >> 2) {
      case 0: /* KMICR */
          s->cr = value;
+-        pl050_update(s, s->pending);
++        pl050_update_irq(s);
+         /* ??? Need to implement the enable/disable bit.  */
+         break;
+     case 2: /* KMIDATA */
+@@ -159,9 +164,9 @@ static void pl050_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(sbd, &s->iomem);
+     sysbus_init_irq(sbd, &s->irq);
+     if (s->is_mouse) {
+-        s->dev = ps2_mouse_init(pl050_update, s);
++        s->dev = ps2_mouse_init(pl050_set_irq, s);
+     } else {
+-        s->dev = ps2_kbd_init(pl050_update, s);
++        s->dev = ps2_kbd_init(pl050_set_irq, s);
+     }
+ }
+ 
 -- 
 2.30.2
 
