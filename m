@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5595C5595FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:06:21 +0200 (CEST)
-Received: from localhost ([::1]:50836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 762F25595CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 10:54:34 +0200 (CEST)
+Received: from localhost ([::1]:58006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4fGe-0005EV-Ba
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:06:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41632)
+	id 1o4f5F-0007SE-Hy
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 04:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4epa-0005B6-99
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:38:22 -0400
-Received: from smtpout30.security-mail.net ([85.31.212.36]:15100)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4eu5-0003MB-Rx
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:43:03 -0400
+Received: from smtpout140.security-mail.net ([85.31.212.143]:53284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4epX-00071P-Ju
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:38:21 -0400
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4eu2-0007iE-KR
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:43:01 -0400
 Received: from localhost (localhost [127.0.0.1])
- by fx301.security-mail.net (Postfix) with ESMTP id 6AC0624BD1E6
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:38:17 +0200 (CEST)
+ by fx403.security-mail.net (Postfix) with ESMTP id C58013877E5
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:42:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1656059897;
- bh=yb73KlYeFx1/F9HY0nIGWidWEev6s86tmzPjkhz8gok=;
+ s=sec-sig-email; t=1656060175;
+ bh=j1A5Pea82mqVnFxZrObKlXuML62ZMtmvc09/LUAX0iM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=Zhwlt+5+h4iAdzXebcOaaVl0i0tdBkhQr+p+kU+YWdXBX917t5bpzQW/YVEEV1lP4
- Uhdiku2gBvLVx+ZP2EgBSzBkNuzDV0fvDCVhQFhMgBH79jhghVoASrpi08js9nTfKf
- EWtPLTDGXYgXRuwpotFr51cmjBiVQbSk12EPfXMc=
-Received: from fx301 (localhost [127.0.0.1]) by fx301.security-mail.net
- (Postfix) with ESMTP id 2F21E24BD19E; Fri, 24 Jun 2022 10:37:27 +0200 (CEST)
+ b=iTDdgUt4qQbD6Bqas4twN8F0EJRu9k+gSGuuXOFsMDGN86kObVHDO4Bq2sDInInMu
+ HgBset9reMMnl3wF2/AgBxV7XdqRfCkjkb6HPJzYEIzuvV/N2dKs9/rJOjSf9rc1Ah
+ IPLqJRp72FNJQoM8GmbXER9ySbYtXlKv7J0V7Fhc=
+Received: from fx403 (localhost [127.0.0.1]) by fx403.security-mail.net
+ (Postfix) with ESMTP id 6972D3877D7; Fri, 24 Jun 2022 10:42:55 +0200 (CEST)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx301.security-mail.net (Postfix) with ESMTPS id 9F84F24BD18E; Fri, 24 Jun
- 2022 10:37:26 +0200 (CEST)
+ fx403.security-mail.net (Postfix) with ESMTPS id E2D4838778D; Fri, 24 Jun
+ 2022 10:42:53 +0200 (CEST)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 8F3BD27E04FD; Fri, 24 Jun 2022
- 10:37:25 +0200 (CEST)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id C226F27E04FE; Fri, 24 Jun 2022
+ 10:42:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 78BC827E04FB; Fri, 24 Jun 2022 10:37:25 +0200 (CEST)
+ (Postfix) with ESMTP id AC50827E04FD; Fri, 24 Jun 2022 10:42:53 +0200 (CEST)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- rZpw2uH0RcpI; Fri, 24 Jun 2022 10:37:25 +0200 (CEST)
+ CGN9y-rg768J; Fri, 24 Jun 2022 10:42:53 +0200 (CEST)
 Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id 5F3D627E04F8; Fri, 24 Jun 2022 10:37:25 +0200
+ (Postfix) with ESMTPSA id 93E2327E04FB; Fri, 24 Jun 2022 10:42:53 +0200
  (CEST)
 X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <c91.62b577c6.4e508.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 78BC827E04FB
+Secumail-id: <8df6.62b5790d.e1db2.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu AC50827E04FD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656059845;
- bh=Ugj+uXdJsU+PFGhH6wJNSDFl8chbLiNxbBZS61dCiMs=;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656060173;
+ bh=NKbZcO0PuXFuoxb5937eF/h/jzngVh6mn5oK4K6t1FU=;
  h=Date:From:To:Message-ID:MIME-Version;
- b=T1Sti9tlTzG7gTudK3YWcTTwDZmOs9tHsCTPPAZrdoggp2kuw4P60OLJVgbpY01ZH
- ufjOQ0lz3Gu8YxfCDK9O5kwOme/RXjO0zuoWmlG/uuT/Cy0huKyxSninIWQyRnfo0y
- f6nlOXEXFP6obkdqRhhQ0EHYA6TZqrzPyrd+BF6Y=
-Date: Fri, 24 Jun 2022 10:37:24 +0200
+ b=XZdeNd0dliKcVmjy/jKYh5C5DJmhwp6rJ4yuoqTxI4sOKS89QL7mCEi6FCcs8wSB1
+ CgX7HOjfJ82mJO9BToRr5ycwvs96QfxUViL+UZmY7SKP78/wZ5D2xicsjpzB4/qZWE
+ 3IiJ2vharUHvT10xCYO/jJu/et9cOIPH04CdoL9c=
+Date: Fri, 24 Jun 2022 10:42:53 +0200
 From: Luc Michel <lmichel@kalray.eu>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 40/53] gdbstub: Adjust gdb_syscall_complete_cb
- declaration
-Message-ID: <20220624083724.GH25499@ws2101.lin.mbt.kalray.eu>
+Subject: Re: [PATCH v4 41/53] semihosting: Fix docs comment for
+ qemu_semihosting_console_inc
+Message-ID: <20220624084253.GI25499@ws2101.lin.mbt.kalray.eu>
 References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-41-richard.henderson@linaro.org>
+ <20220607204557.658541-42-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220607204557.658541-41-richard.henderson@linaro.org>
+In-Reply-To: <20220607204557.658541-42-richard.henderson@linaro.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.36; envelope-from=lmichel@kalray.eu;
- helo=smtpout30.security-mail.net
+Received-SPF: pass client-ip=85.31.212.143; envelope-from=lmichel@kalray.eu;
+ helo=smtpout140.security-mail.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -94,46 +94,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 13:45 Tue 07 Jun     , Richard Henderson wrote:
-> Change 'ret' to uint64_t.  This resolves a FIXME in the
-> m68k and nios2 semihosting that we've lost data.
-> Change 'err' to int.  There is nothing target-specific
-> about the width of the errno value.
+> The implementation of qemu_semihosting_console_inc does not
+> defer to gdbstub, but only reads from the fifo in console.c.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/gdbstub.h        |  3 +--
->  gdbstub.c                     |  7 ++++---
->  semihosting/arm-compat-semi.c | 12 +++++-------
->  semihosting/console.c         |  7 +++----
->  semihosting/syscalls.c        |  2 +-
->  target/m68k/m68k-semi.c       | 10 +++-------
->  target/nios2/nios2-semi.c     |  8 +++-----
->  7 files changed, 20 insertions(+), 29 deletions(-)
-> 
-> diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-> index b588c306cc..f667014888 100644
-> --- a/include/exec/gdbstub.h
-> +++ b/include/exec/gdbstub.h
-
-[...]
-
-> -static void semihosting_cb(CPUState *cs, target_ulong ret, target_ulong err)
-> +static void semihosting_cb(CPUState *cs, uint64_t ret, int err)
->  {
-> -    if (ret == (target_ulong) -1) {
-> -        qemu_log("%s: gdb console output failed ("TARGET_FMT_ld")",
-> -                 __func__, err);
-> +    if (err) {
-> +        qemu_log("%s: gdb console output failed (%d)", __func__, err);
-
-While you're at it, this qemu_log() call probably lacks a '\n'.
-
 
 Reviewed-by: Luc Michel <lmichel@kalray.eu>
 
+> ---
+>  include/semihosting/console.h | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/semihosting/console.h b/include/semihosting/console.h
+> index 0238f540f4..4f6217bf10 100644
+> --- a/include/semihosting/console.h
+> +++ b/include/semihosting/console.h
+> @@ -41,11 +41,10 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
+>   * qemu_semihosting_console_inc:
+>   * @env: CPUArchState
+>   *
+> - * Receive single character from debug console. This may be the remote
+> - * gdb session if a softmmu guest is currently being debugged. As this
+> - * call may block if no data is available we suspend the CPU and will
+> - * re-execute the instruction when data is there. Therefore two
+> - * conditions must be met:
+> + * Receive single character from debug console.  As this call may block
+> + * if no data is available we suspend the CPU and will re-execute the
+> + * instruction when data is there. Therefore two conditions must be met:
+> + *
+>   *   - CPUState is synchronized before calling this function
+>   *   - pc is only updated once the character is successfully returned
+>   *
+> -- 
+> 2.34.1
+> 
+> 
+> 
+> 
+> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=5699.629fd40f.c3695.0&r=lmichel%40kalrayinc.com&s=qemu-devel-bounces%2Blmichel%3Dkalrayinc.com%40nongnu.org&o=%5BPATCH+v4+41%2F53%5D+semihosting%3A+Fix+docs+comment+for+qemu_semihosting_console_inc&verdict=C&c=4edb0e3b3a44b5db8e011cdb60e9e8174e2cc844
+> 
 
->      }
->  }
+-- 
 
 
 
