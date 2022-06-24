@@ -2,157 +2,163 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8339559307
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 08:08:36 +0200 (CEST)
-Received: from localhost ([::1]:52612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38016559350
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 08:23:57 +0200 (CEST)
+Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4cUd-0007GV-Kt
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 02:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59080)
+	id 1o4cjT-0004Ks-HW
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 02:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o4cSE-0005YF-3e; Fri, 24 Jun 2022 02:06:06 -0400
-Received: from mga04.intel.com ([192.55.52.120]:31554)
+ (Exim 4.90_1) (envelope-from <yuan.yao@intel.com>)
+ id 1o4chX-0003ZT-OA
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 02:21:55 -0400
+Received: from mga18.intel.com ([134.134.136.126]:7111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1o4cS9-0006Um-9v; Fri, 24 Jun 2022 02:06:05 -0400
+ (Exim 4.90_1) (envelope-from <yuan.yao@intel.com>)
+ id 1o4chU-0000H7-BB
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 02:21:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656050761; x=1687586761;
+ t=1656051712; x=1687587712;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=Nv4U0NBQSnVKKyWlJzbmeLKnkevWS/Xt/kCq6H5vHFU=;
- b=FqfoR9bCOV19BmWZI4x32HPXURGpTG3Ri0FUeorgFMKEDCQVyAPnoOl/
- wz0IoWsBdRS4WdGr3pL5o1tP4+9n7qkg5XA3T9WmIWRJk1FLYB12RPiyv
- WzOSPiV+LSeogwNU8FsnINH7UMSMPhtcbIAZdJnlB16poEKYgf5WmmdMu
- fBkxGGSNZ69KyyQCSK46wUwzcgXPgknXFtKJ8cx+9NU3h6oNr5UOcvitQ
- u+8rs7Rkpf+d+L+2zp1IFjagBlAGuZDdBJc+VzvX9hM9Ft4mMH41doqUS
- vAIMGXgqfrKi83Rkz1f6wrQkNo+COwXJvG7+O7ZRsoVIgnAQz4lBW7XtA w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10387"; a="279697644"
-X-IronPort-AV: E=Sophos;i="5.92,218,1650956400"; d="scan'208";a="279697644"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2022 23:05:53 -0700
+ bh=kh426Va9cfQoo+wQby1eR3srNZWvHZH9plp9NQ7NstU=;
+ b=HInDvGU8d+FHqPJrtOno86yIOwHRdzNSNW2SOxEn8JVFnbZ4fpmuOHuL
+ 6VFkXU+ZYZqGhVnNnDnOqLn7j7WGoN63O7YaM11I5CcQ4o7qe88NvjZlr
+ as41FRrfSW/iN6n0p0fRtD3Hd1rskVKYLCd4d5NeDAfHiwXZOVqg6/Erg
+ k5GQcaZvbMVRw+a97qTvZR0+fQpeyBzFYKdnpFY2ypYJmQ2d1ATGxWufI
+ eNz1c3JZTAvfn24XFlxCKLuNcFUU86TlvA3X7bAdvdIKWVSfJ5sIg2ZyI
+ 8gR8Y7Vejb/2HiI7ygsxoxpAmpRYXkUTo9bWhvNqwHfTCVDR8vsLKFKGY A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10387"; a="263972002"
+X-IronPort-AV: E=Sophos;i="5.92,218,1650956400"; d="scan'208";a="263972002"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2022 23:21:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,218,1650956400"; d="scan'208";a="716120344"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by orsmga004.jf.intel.com with ESMTP; 23 Jun 2022 23:05:53 -0700
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.92,218,1650956400"; d="scan'208";a="621616635"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+ by orsmga001.jf.intel.com with ESMTP; 23 Jun 2022 23:21:39 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 23 Jun 2022 23:05:52 -0700
-Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ 15.1.2308.27; Thu, 23 Jun 2022 23:21:39 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 23 Jun 2022 23:05:52 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Thu, 23 Jun 2022 23:05:52 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2308.27 via Frontend Transport; Thu, 23 Jun 2022 23:21:39 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.177)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Thu, 23 Jun 2022 23:05:52 -0700
+ 15.1.2308.27; Thu, 23 Jun 2022 23:21:26 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aFnCeKkgk+B+1Gbt50aOn0q/9TM9OD4cek9/AFX1fH1Oh3lrx3yEVmkrR9piy+/nIZ7AhdVpxeEqZBX2IGDGFFwjCVZzMhKcR1SXxKCCdaaCBxhAbEXQcPdlQsD5Ggrlrpfn8g3SQrHGBymwNmtcqIaqug1xSia5Lb7x3Lsaeul4+dawzufDpv4T7wG95LrAejUcYwjh1Xzv0KTeCnjBRjwMvJvhzLgzRvmozNoRAPDUGNhg0nD36AcGMRxQM0QQoacVPml/c6wvml1rH87Rhqrf/lHb4X9/Oqz73mlPKxnNp8nANaE/lPf77bAtLJEBsy5W+Mr0oezYXHdFEJvWgg==
+ b=UFb5nYr2rG51Yxcccf1fxUoxMpbbxEmOEcAaTaeh8EbUA5irmsKpfSsHErPmBLMn3w/PaF1M825ZLIoGUxf1V1C41P61+nEpbmaqcQysHwtulzUSSy74/Tt4evaS6LZF9DiS9YuR32o5bv9Of6xBULDb0yZs2F4dB8j8gyFnjdFO9xDGV+oRev6/W06lO3iLoN3FeMubdnx4TkliOJKDfxsLEKv4VVUEN5AZp4AszY3enVYqw7HnJ/VQeeELf/1uvFZhMaQnDQvLvbqK211UzJbUCt0xQIwyh6b9EYNQs/2Hq+3G9Gzxu+Vuio5+xxHW/SUKCNh2ZnqUDo7Dn/xsjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EHHmgFabPGm+azG4iQpjUnxKPrv8yR2uajeWsvGAFr0=;
- b=lrsUakimL0FDLOxr+9Xfq/d+COOWl1A8p8mxbGB56BZqiDC1o6E8EOjONrrD3p5+OHli1Fjmd6p3+XZN7qmNyKmoY2tW97/QedTf9A/+iDECL1uhPcovFGhkedb60KafLQhVrxPxcAq9Q3fujQQNXV2hkhgOmUxdrk8g08gvsNgpcvBd8C31C9XgAl2zMdidSvv8oqx22tQikb6be3VeMn86aznyAViRHn1KuInE1J0prwc0MEOsCi1SHcNnBPRkh+I5yVSSFrBf+kxSlbj9Lm8pyAKnK4mIj0qm6hG/4Z1u+guHmApyFDYOmm+RfwdsLCzzIajv+sPh1fEGEbUQyw==
+ bh=rfNPGO0PkoSIxsx5m44xVOnnYvbRuLCiDm0flmtZXfc=;
+ b=W1H5n56CpWd7qTk8VsWRQE9wr1StfiD/OawAT6nRGI+f18ooF4T3Nxr3lubNzmd/A76gp7Z+y71evjxTU5De117HbTYwaIWOPRPaKuHVQe584Oz4eQEUbwC6bYSOVyX7NIn1b8slM8eftldGEihHWKOFBpNeiUc8ZjVwj09X7PTq3OK1iWwvX9+rowsRMkHWBJ39PPoSmJL2zmMOPIwYhGRcEv+oA2euTrqTJlDdyoNxj/ncz5E2d1eLp1mTos4eznTWUecBVBFF11Cyqv86kvn+kTnezil4Mdmheva5jh//z/C8rpxtGkBe4mdjKFo10N2rswje/OV6mMh9PNzqUA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB0031.namprd11.prod.outlook.com (2603:10b6:301:69::37)
- by CY4PR11MB0037.namprd11.prod.outlook.com (2603:10b6:910:77::29)
+Received: from BYAPR11MB3717.namprd11.prod.outlook.com (2603:10b6:a03:b0::12)
+ by IA1PR11MB6514.namprd11.prod.outlook.com (2603:10b6:208:3a2::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15; Fri, 24 Jun
- 2022 06:05:50 +0000
-Received: from MWHPR11MB0031.namprd11.prod.outlook.com
- ([fe80::e1f5:a0f0:bccf:9c42]) by MWHPR11MB0031.namprd11.prod.outlook.com
- ([fe80::e1f5:a0f0:bccf:9c42%7]) with mapi id 15.20.5353.022; Fri, 24 Jun 2022
- 06:05:50 +0000
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Thomas Huth <thuth@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, Riku Voipio <riku.voipio@iki.fi>
-CC: Michael Tokarev <mjt@tls.msk.ru>, "qemu-trivial@nongnu.org"
- <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: RE: [PATCH] common-user: Only compile the common user code if
- have_user is set
-Thread-Topic: [PATCH] common-user: Only compile the common user code if
- have_user is set
-Thread-Index: AQHYhkFTepY764/lU0itO3P/HG9nUa1eE/2A
-Date: Fri, 24 Jun 2022 06:05:50 +0000
-Message-ID: <MWHPR11MB00312AB5FD51C3D313F24D3F9BB49@MWHPR11MB0031.namprd11.prod.outlook.com>
-References: <20220622140328.383961-1-thuth@redhat.com>
-In-Reply-To: <20220622140328.383961-1-thuth@redhat.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.16; Fri, 24 Jun
+ 2022 06:21:24 +0000
+Received: from BYAPR11MB3717.namprd11.prod.outlook.com
+ ([fe80::a11f:64e8:4555:ad6a]) by BYAPR11MB3717.namprd11.prod.outlook.com
+ ([fe80::a11f:64e8:4555:ad6a%5]) with mapi id 15.20.5353.022; Fri, 24 Jun 2022
+ 06:21:24 +0000
+From: "Yao, Yuan" <yuan.yao@intel.com>
+To: Markus Armbruster <armbru@redhat.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, "Zhong, Yang" <yang.zhong@intel.com>, "Connor
+ Kuehl" <ckuehl@redhat.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Yamahata, Isaku" <isaku.yamahata@intel.com>
+Subject: RE: [PATCH 1/1] i386/monitor: Fix page table walking issue for LA57
+ enabled guest
+Thread-Topic: [PATCH 1/1] i386/monitor: Fix page table walking issue for LA57
+ enabled guest
+Thread-Index: AQHYe9viDVA1WJqoCUaizrs+j1JVhq1eILmLgAAKUoA=
+Date: Fri, 24 Jun 2022 06:21:24 +0000
+Message-ID: <BYAPR11MB3717F03961AC6518C4D3F04195B49@BYAPR11MB3717.namprd11.prod.outlook.com>
+References: <20220609083456.77946-1-yuan.yao@intel.com>
+ <87czeyd3p7.fsf@pond.sub.org>
+In-Reply-To: <87czeyd3p7.fsf@pond.sub.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
+dlp-version: 11.6.500.17
+dlp-product: dlpe-windows
+dlp-reaction: no-action
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f0abdf24-426a-4bd0-f94e-08da55a796ab
-x-ms-traffictypediagnostic: CY4PR11MB0037:EE_
+x-ms-office365-filtering-correlation-id: 8e09bfab-d1ed-49bd-f1a8-08da55a9c35a
+x-ms-traffictypediagnostic: IA1PR11MB6514:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: pzHh4UWdhsLc/81rVBh1g7Sm+5IycTFR6qXqVjoGdtqfuBaPUVs7tQGP9agfCiW7B9Hpdbs6/9/2Syfdh3IEcrdmWKihAOrnPeQcwHSQFRGdW7MBJn9ye4MrCrweFunfD5wjDGCQf577k+DIJ9y24mEF4+nzEuXs3eGh2ndJbzMOQD0QxzUyGpbsjgg2nd2A1609/Pkfk+gyKzK48c/MSGvpVJ9UQrwsibtDoYsj/QfBVa+3qdJUqYKjeZQwhE0OydNxthk8TIHsRQL9SbdNnURGr/9qrZEcaiJxD/DYcCJFR6jNXyydwKgLtPjSmnMH4QHM/HQI4pXBtWnA6dBCSK/FszSGilJjiNb7Ruq9EwOCbF8ihuUmyElkqGtjSOTo2BnyURSkBJXTRWfI4RcNzFbxFoQXFccuJYrvXxnAaHUNLKmHKR+IOtK0v0laTDKiRgESAKaGmM6Gl2CIt6QZF1TnoBbxp4cyyVjMQeyi2bd+EAMwntCTIZTMU+NSuRnT45Wn427VPmOu+YdXYblIe4S3qNW31eFmdunrhEtoqTaPnHN6x8LxsbsquuaYf5BovShLgARVEWLOylQ9/uZIFxYkEpBNUvyNaEZzyclOx4CKtZuTXwzwz5coRhF9IVC0VmGrBOb625PEPraf9eSg8GUycQo/vJ8kv4CqtvOC8mYXsCtiHOi6GN+qNb500tp51nYl80Uw2TAAo5E7hpzkLtzFzo67biGIBrTLblhQM/22mdksmtoRlIsK7kf6inbM4LlOTR1Tg21WGvH1MSJ4cTMnbp0lZ9D8hOuJmCeKCyg=
+x-microsoft-antispam-message-info: evQtCZHBFg3avsF6qGjh6BzUutkzUmxrqm1g/jWQvm1myDn2wx9wmD68x+gqCG4tbBRpHp7pa94TupakG4XX/HtE0M7FElpANOiHS+S5VIskIjZWyQkxnxAX8/4fYZ2+FR5i3ycR9ykenh9gDm5RS418N/RHRtCK0w4FCZUTPe6Cgwp+jGtcWllwBws6QVl/zSBafzBgtxm0AX0Pv7EzwSHyOCrH3uPRp9wC+8Fv433jk8h4/7VJVSavDSfFOxIJ/JKjDGFH3ScqP9KqmHIMtbE8vMBawqNUAInzMoDpQ2bRoalUF5RUTSYGUhRJV2snFOq+vRduAjdKIgpVtWp8dFvKyaBGQUhKLJBIqACoOoiTlW0jxvC9bsFcgLzUVKw/o58wMejRSfmEgqyv4qCJhBwfqb5wNnKjZ92+XolxjuNhbIgJp9IDlcb4Oh7/2cVeJ69tncbVMhgkMMZIOS3+HfaQMjTpLDOy1usQQbm0ItqQSmQPup+vLM2nsdFWHh0tmktW8nXS17w5yGOoXBmplqnpkJYEfbXvInKVdVvHSes+givrE5DHhoGdxnQrDCCrOJsbJkMGwwkbjopU66qw31Z07qtwjdmdf837ndNxGeYm/CSZ4kOmZ6iVUt5hEimrRJd88Vh1h3CAjGsBTtyArgrNEbUdnnd0CtAc2lMLyPb+Zd4XbebODA70aEbGo45LGxA6fqcz/cvCL1ErpYc1JW+wDY7o07JRV7Wx7Q2/sdi5kUQrqjpyc8Hpsi9ttxQjTSXhKGRRSreDBdMnEiWAZhcxMskviqevGu7BMcBA2qE=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(376002)(396003)(366004)(346002)(39860400002)(136003)(66556008)(66476007)(83380400001)(66946007)(4326008)(6506007)(66446008)(64756008)(8676002)(26005)(53546011)(7696005)(5660300002)(76116006)(186003)(52536014)(8936002)(2906002)(38070700005)(86362001)(9686003)(55016003)(110136005)(33656002)(54906003)(478600001)(82960400001)(122000001)(71200400001)(38100700002)(41300700001)(316002);
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB3717.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(39860400002)(376002)(366004)(136003)(346002)(396003)(83380400001)(8936002)(38100700002)(186003)(38070700005)(122000001)(107886003)(82960400001)(5660300002)(41300700001)(4326008)(6506007)(33656002)(86362001)(66476007)(316002)(2906002)(66946007)(478600001)(54906003)(55016003)(7696005)(76116006)(6916009)(9686003)(66556008)(8676002)(64756008)(66446008)(52536014)(71200400001)(26005);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?qbZZP4/HzUUzq4ODFPpn1M3RXTEtSvkqZ2TTyQUMXfRwVCX2qIwgiKNm9T2D?=
- =?us-ascii?Q?coYKm3sz5uV0LjysUazwOboFks3PugZ+fRr2EW4u1uafAoXom0t882USUm1S?=
- =?us-ascii?Q?8s16WwpshQtPWe0BRaGrn7+2kQiqj2FI9f7Js+GKNNA1tby4X+3nJecbyiPr?=
- =?us-ascii?Q?aKyfIqI7aiCGQ35smA2nkK38f9tUaWvCt5/xX30HMIdEXUteigOs21mZ9Bo6?=
- =?us-ascii?Q?zWtskqwI9j+SLZEgnHMolSaFC4SoOXhSkYdKLF85pMzMrjqQECt6xtBB8MS9?=
- =?us-ascii?Q?eGxQB3yQDxb3TUcYrNz0VO8B3bMZCHMGIo3UmpbvJnIb09uOjmhoc8LFD9+X?=
- =?us-ascii?Q?+dVkP/0pmgGQ6mWXirNL+Jagi8lBayqBB337eY8JDmiNj09leQuWXYUWICti?=
- =?us-ascii?Q?mMyO+Cp4x1EzlunR0LpaP0SrJwZqhZdwTIKoCPMJqbQevW9vvyCg6/YBeSpe?=
- =?us-ascii?Q?aqT/oOC71sMKXjiUgPYFTXZnNLrcpct3F4zSXonp4qSvQc0j0VGLrRk3heP4?=
- =?us-ascii?Q?SAQ+XZEIiAKUNYR5JH1twbRHn2W1tte7QY648qy+yv1isM22IDR+gPX7pFT8?=
- =?us-ascii?Q?HpJqRVtkooPSArVs3eaRJ/KOCpU2pdSW/f2JmxrWbTTCOwCNPrfaRUxrloLQ?=
- =?us-ascii?Q?11qdvCrSwpPRLffmXSOaVFq7NPgajb8ykS24bRgVx7SJ7mWVe5hxZOrbQ6U0?=
- =?us-ascii?Q?FGX/vL1WnBGkJqW22eVJ/C1LxjL2vJK3nJpwerpaH1EiIax5tExQv3uuI22t?=
- =?us-ascii?Q?2/7ca2PXoAQESYVpalTQ8pn8fcGCPR7jzEV4dCXElzU9Yz4vZJxZjsODqVWe?=
- =?us-ascii?Q?9/PYwzPQ8qzTn6moQH5kjcOMmJnbGBipA5+9KqjBCpkap88WL1uJARe2u9k9?=
- =?us-ascii?Q?1dbsd1+Pxz+Po9DuHD90Vq0qvMuNhtaat7R5kKOEPAG0fn2uheht8k++kjcX?=
- =?us-ascii?Q?jLPX28FWN8lIMfOQ2xzbumb1O28k8NpXqa/jWZkqgbPfnoPXeuWAYnNQPd2t?=
- =?us-ascii?Q?A7EJKPAJUzHF3DHR6OWALUAJ/3zd7PuRJ4bPuEIwRPBAAKc2p8XG7SmmShYc?=
- =?us-ascii?Q?IIvOXGK2eu411i7HLk1cJV75R8nDFLfkG4Btjioii3q1VKb3ePby7xbtfig4?=
- =?us-ascii?Q?UUIRLKaTrfp1ZVLV5OkDZTZCa1a8dhZz8dtLWu+6AclZPeArkovx98VYHdSj?=
- =?us-ascii?Q?XJ7zyf8yr5zU3Ppw9ULj5fdFPSTI2Bx9ip1iGRqtihYk7xElfiyUtgE/iDEB?=
- =?us-ascii?Q?HcUh9BN4nOfujUZnVzZeAXj4Lk9CZfEakUJZW+T0Xuk5dObdZ6IJRMCrLbaQ?=
- =?us-ascii?Q?pXKdNy+TOQq4R36pdD1IkKSW5Vcp22kDyblVLpb/FVKDUb6Gx7dfBMuhCFQB?=
- =?us-ascii?Q?ZQqApyui66GsdgAj7Zn760wtX/HQroPcP6+HwF3B+B2LhoH+KEJD+7XJkhIu?=
- =?us-ascii?Q?9jdV0vdcrtkJLltb+6BZBMYUTw5eYmm59ANbMZ1AiNVuwjDmIPZR8+yRO/Bw?=
- =?us-ascii?Q?Y0O1slzUTyCVy+/m6NXOK/9F1EFzwyTXqzALDNLBYRMH4KR0zZXnFQn+CD/Q?=
- =?us-ascii?Q?cmL+DtQF7d7Titq1yWiujj6D9BZzZQBXxDG427GC?=
-Content-Type: text/plain; charset="us-ascii"
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?lYp5agwgQ7u0ySj9GJ6Yjm/dGEOeREIup6cnxWoQeWhi/58J/YZ3bUrQnf?=
+ =?iso-8859-1?Q?RIKWO8cJzJknl6lVKI7vVtOXUYsUZSw0PAWaKULCJ8Ena52B6ctya3bsmI?=
+ =?iso-8859-1?Q?CQ4dH1hi0NmkgSmZX8Rk03N50Y50oDnHKauzqYMFePN4ccyuitCOXDs8dp?=
+ =?iso-8859-1?Q?VwxLBuycVp9mIE3iw/JG0OJSjA1mTu9B+XmBb974/E6hJ5+p4jWCsjhV3U?=
+ =?iso-8859-1?Q?WxPAeulOph/lHUajPzmnIb7OHqSs/RFfAvoG6n9O5U9SDh4szwQc1KJPeq?=
+ =?iso-8859-1?Q?6RsRFiB09N/0W9QSQW3kfly8diuXVefEj2pvIGfQ9auSjHYqcSDwGBLzVw?=
+ =?iso-8859-1?Q?qs2vCwcuEt/ZxzrTrPc1MLZ5evxFp5o1if17wTmnCu+a87QPeyotKI9MFZ?=
+ =?iso-8859-1?Q?vE66pX+PyLyZON3UQyy3/3t7UllxiSNVjQVuHKpL/bhmXrNuWDmnPk4zrB?=
+ =?iso-8859-1?Q?UCK6GJVD1OflcNINzdTtlLxTLn0y783y1CILT8/U7ow1tyJEpsmrHFGeg4?=
+ =?iso-8859-1?Q?YApaohyaa+WOOp/n2votmTPTCLY80dSpz9q3iuakphaMqf0hnCiTqqgsyn?=
+ =?iso-8859-1?Q?/dD1vfQTqheLRm6PvuZgmMD+3+VZfXpKHP6KnCSmq2zb6QPG7i+2ny662X?=
+ =?iso-8859-1?Q?GuGyDfIEg+L1KurbFN9wXWfuuma++EDOU98O7wCtYZA2VDc5fll6vf7Pc2?=
+ =?iso-8859-1?Q?SeOaGHg0YAqgeMB2D++rj4+U+mpgLa3+TeACbqC8R+jLKwdCgqT4SUmHbH?=
+ =?iso-8859-1?Q?RJCgFFtR/yOfjoU4ZXAQs/5viHPihWWzFGORz7fZ0shPoQeHuRxZ4OXXot?=
+ =?iso-8859-1?Q?iUmYdRdQ70qRLe1LIGLBWqsxLpepeSNbFmSfx9dug7HnArt/2Wj4XGdvd6?=
+ =?iso-8859-1?Q?EtnrmJniP0eu8fG9ByOObU+Hsv7Nu/Oc6/X8JJmurGfns4v+lltepHAsY1?=
+ =?iso-8859-1?Q?6k7iEXFq2OzOj1qTXQCxHKKlJ/VTzWGEw7mVKI8scnVkLO9apjHfQn2jop?=
+ =?iso-8859-1?Q?1rjpffk2vjuahTjCu7305RUZ8IQWm2T62nvkWA6qUK9206QSSmM/3Hwrz9?=
+ =?iso-8859-1?Q?cl3cvJObtELfSLnT7+5Q1rZghFqgHYNslBEvzL5JF5EpsZpjGbp2nCs+le?=
+ =?iso-8859-1?Q?EYAww0fX+2JzgoBXcwh6bD43vWt4u+g/NmD5dLuflttI4wGn2atWNPMuzQ?=
+ =?iso-8859-1?Q?QMEbL02Uuf8wLLYKCBql/LH3LObg2Rnkdfj7IPiMQUJHRqlbJ+f22z0Ttl?=
+ =?iso-8859-1?Q?DI/W3OMj8T8jq9T8I6c/axzR9l648Ab98ld/SihrS0jJQDjvaeqGs8sCO+?=
+ =?iso-8859-1?Q?iMcchxj4WUulVWHDOuFRQGHnATnSgc6d5gzVyh2gnz4DhBxc0CJiv2w+ry?=
+ =?iso-8859-1?Q?i87JSxbsP5uOug+RRdOG1u0yYBaFKNHZzHzvROjfrX+8isJTJc8bFmIN1S?=
+ =?iso-8859-1?Q?F3wVI9pHxDTzslGuWoFYBUiePXnQCrUh27Eu82k9lyUzvK7d4yL8OQ+iMh?=
+ =?iso-8859-1?Q?B7tMUcoOqradrRTj35V8/OOXPYYnU1sw8vf1A03FBG2SF25/jHyWPPaVf3?=
+ =?iso-8859-1?Q?0UcVxaVdwEBoM8VXYRwPWoSBoiy+3wOEtg2Qw9ZEZxsXsdj3YUIzUAv4EN?=
+ =?iso-8859-1?Q?7iRYmrI38+BBEBMIxtTo7RCInbtJQPhlLB?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0abdf24-426a-4bd0-f94e-08da55a796ab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2022 06:05:50.1630 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3717.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e09bfab-d1ed-49bd-f1a8-08da55a9c35a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2022 06:21:24.1541 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MVD26s3ex3e8BxBy072USehRbg9Zjmzrq2XniGaVsBGXTrEfM71T/RcYktwUCmS2q7Omu/ooN2SdSexrRAuNsw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB0037
+X-MS-Exchange-CrossTenant-userprincipalname: TGsuVMotdNvgQuDPX8dR/hZ5u5WQVPU9UjBMqWT8KlTrbQw5weuNUAGVLbOVlFjomi0ScyHFn/6rT6ghqbI3wg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6514
 X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=chen.zhang@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Received-SPF: pass client-ip=134.134.136.126; envelope-from=yuan.yao@intel.com;
+ helo=mga18.intel.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -169,51 +175,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+>-----Original Message-----
+>From: Markus Armbruster <armbru@redhat.com>
+>Sent: Friday, June 24, 2022 13:35
+>To: Yao, Yuan <yuan.yao@intel.com>
+>Cc: Paolo Bonzini <pbonzini@redhat.com>; Philippe Mathieu-Daud=E9 <f4bug@a=
+msat.org>; Dr. David Alan Gilbert
+><dgilbert@redhat.com>; Zhong, Yang <yang.zhong@intel.com>; Connor Kuehl <c=
+kuehl@redhat.com>; qemu-devel@nongnu.org;
+>Yamahata, Isaku <isaku.yamahata@intel.com>
+>Subject: Re: [PATCH 1/1] i386/monitor: Fix page table walking issue for LA=
+57 enabled guest
+>
+>Yuan Yao <yuan.yao@intel.com> writes:
+>
+>> Don't skip next leve page table for pdpe/pde when the
+>
+>level
 
+Sorry for my typo.
 
-> -----Original Message-----
-> From: Qemu-devel <qemu-devel-
-> bounces+chen.zhang=3Dintel.com@nongnu.org> On Behalf Of Thomas Huth
-> Sent: Wednesday, June 22, 2022 10:03 PM
-> To: qemu-devel@nongnu.org; Riku Voipio <riku.voipio@iki.fi>
-> Cc: Michael Tokarev <mjt@tls.msk.ru>; qemu-trivial@nongnu.org; Paolo
-> Bonzini <pbonzini@redhat.com>
-> Subject: [PATCH] common-user: Only compile the common user code if
-> have_user is set
->=20
-> There is no need to waste cycles here if we only compile the system binar=
-ies
-> or tools. Additionally, this change is even a hard requirement for buildi=
-ng the
-> tools on systems that do not have an entry in the common-user/host/ folde=
-r
-> (since common-user/meson.build is trying to add such a path via the
-> include_directories() command).
->=20
-> Reported-by: Michael Tokarev <mjt@tls.msk.ru>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>
+>> PG_PRESENT_MASK is set.
+>>
+>> This fixs the issue that no mapping information was
+>
+>fixes
+>
+>> collected from "info mem" for guest with LA57 enabled.
+>>
+>> Signed-off-by: Yuan Yao <yuan.yao@intel.com>
+>
+>Should we add
+>
+>  Fixes: 6c7c3c21f95dd9af8a0691c0dd29b07247984122
 
-Looks good to me.
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Yes, I will add this next time, thanks.
 
-> ---
->  common-user/meson.build | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/common-user/meson.build b/common-user/meson.build index
-> 26212dda5c..ac9de5b9e3 100644
-> --- a/common-user/meson.build
-> +++ b/common-user/meson.build
-> @@ -1,3 +1,7 @@
-> +if not have_user
-> +   subdir_done()
-> +endif
-> +
->  common_user_inc +=3D include_directories('host/' / host_arch)
->=20
->  user_ss.add(files(
-> --
-> 2.31.1
->=20
+>
+>?
+>
+>> ---
+>>  target/i386/monitor.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+>> index 8e4b4d600c..3339550bbe 100644
+>> --- a/target/i386/monitor.c
+>> +++ b/target/i386/monitor.c
+>> @@ -489,7 +489,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState=
+ *env)
+>>                  cpu_physical_memory_read(pdp_addr + l2 * 8, &pdpe, 8);
+>>                  pdpe =3D le64_to_cpu(pdpe);
+>>                  end =3D (l0 << 48) + (l1 << 39) + (l2 << 30);
+>> -                if (pdpe & PG_PRESENT_MASK) {
+>> +                if (!(pdpe & PG_PRESENT_MASK)) {
+>>                      prot =3D 0;
+>>                      mem_print(mon, env, &start, &last_prot, end, prot);
+>>                      continue;
+>> @@ -508,7 +508,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState=
+ *env)
+>>                      cpu_physical_memory_read(pd_addr + l3 * 8, &pde, 8)=
+;
+>>                      pde =3D le64_to_cpu(pde);
+>>                      end =3D (l0 << 48) + (l1 << 39) + (l2 << 30) + (l3 =
+<< 21);
+>> -                    if (pde & PG_PRESENT_MASK) {
+>> +                    if (!(pde & PG_PRESENT_MASK)) {
+>>                          prot =3D 0;
+>>                          mem_print(mon, env, &start, &last_prot, end, pr=
+ot);
+>>                          continue;
+>>
+>> base-commit: 6d940eff4734bcb40b1a25f62d7cec5a396f994a
+>
+>The commit message talks about not skipping something when the flag is
+>set.  However, the patch *flips* the sense of conditions, which means
+>were *also* changing behavior when the flag is unset.  How?
+
+Yes, this also changes the behavior when the flag is unset, because the
+original code does wrong for both set and unset , flips the checking
+condition bring all of them to right behavior. I think I can add these
+to the commit message in v2.
 
 
