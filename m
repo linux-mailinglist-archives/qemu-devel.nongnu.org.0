@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403CE55A02E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 20:07:51 +0200 (CEST)
-Received: from localhost ([::1]:38574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979EA55A097
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 20:27:54 +0200 (CEST)
+Received: from localhost ([::1]:45810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4nig-00040c-9X
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 14:07:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45028)
+	id 1o4o25-0002Oh-5C
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 14:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o4nfN-0001cC-Ho
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 14:04:25 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:32769)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o4nfL-0006Wx-I5
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 14:04:25 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- i8-20020a17090aee8800b001ecc929d14dso6109550pjz.0
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 11:04:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=bY9oA4EaB11tYsRhr3ohUTdYalVWQGhYUamyU87YuoM=;
- b=OMyPOKTxlD4Pb6bc74jGRpU77NeNM2l3eNimaI72Rc2JZyeRsXK0habLUkKFvvfW+b
- I4Eytmqqzr0KEf3ZEc17Ft3otGS2SOa8JHKiIp7nHpuwO2HtztelnU9rFKZQKy3w5/SW
- nrkeuZxoHlCvbxsJdyTfWbDd4nben9EixGjO2REua2KfkesqF0t6uBoBygm9ooND4xA2
- p0TZRnz7l3h8xWLWhGXXBdngzq6Wf0k95wcZlN7vSNjuPPTJn/HAS5wGYZ3GJejxS2cE
- d+574LLgqsfU8lHC1MBn6uc13j0JXqtka8WRwKdvWjpp+0n68yFSrGNxWMXWtYjHE6E7
- N4Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=bY9oA4EaB11tYsRhr3ohUTdYalVWQGhYUamyU87YuoM=;
- b=R/I0jnGM5VZUA7pIXt3BCUgVFV45cvzmqusTqj2JRuSNBf0fzZpbuyWOdLCOtRGj+N
- c+5EFVn3APlI4JzjrpnX2Hz5923mMItcSWk2K5wMXYHSLanhi6NZiFnndQrNbvSAbfLy
- W+zbAVkXtqBbQWvFH10WQqmfsXTWhzIeVlW3Qmx6bsDpJrS8j8NYuv5xh9LU1TjD4wE8
- bISg+k8L+txazkE2ryJpcsngAK9ibFONVcCjKfUqgBfzItzwj5h1CCK7ZFqUn5iOjKk3
- qvsVd6vI2drW7ZlJu6dauYpf31dQzPuTNkE4QXdTKiBE6Hu+oBvFRxRHzjKt5fhN8eKm
- N0TQ==
-X-Gm-Message-State: AJIora831xbjIKKgw7jTUUTMMi/kDxJpwY376RVPmKbpzXMf5pPB3eSI
- u5Q2yR6btwtZPWnX/YxPc7k/RA==
-X-Google-Smtp-Source: AGRyM1t3rfEDjAQe7mc2Yzi+GrCOlp/9Atgej+gWk8VKlxY53m5kzQUfymSLh5J9dqhuqsdm50M6ew==
-X-Received: by 2002:a17:90b:1247:b0:1ec:7e21:c2d9 with SMTP id
- gx7-20020a17090b124700b001ec7e21c2d9mr5382787pjb.240.1656093861865; 
- Fri, 24 Jun 2022 11:04:21 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1543:f001:b25a:9949:8352:ec5d?
- ([2602:ae:1543:f001:b25a:9949:8352:ec5d])
- by smtp.gmail.com with ESMTPSA id
- x188-20020a6263c5000000b0052513c1c4bbsm2043518pfb.38.2022.06.24.11.04.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jun 2022 11:04:21 -0700 (PDT)
-Message-ID: <1228a7e9-4c25-bd43-68d6-53225fc30384@linaro.org>
-Date: Fri, 24 Jun 2022 11:04:19 -0700
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o4nxi-0000gm-5B; Fri, 24 Jun 2022 14:23:22 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:48036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o4nxY-0000vk-V2; Fri, 24 Jun 2022 14:23:21 -0400
+Received: from iva8-c5ee4261001e.qloud-c.yandex.net
+ (iva8-c5ee4261001e.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:a8a6:0:640:c5ee:4261])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 40B762E2FC0;
+ Fri, 24 Jun 2022 21:23:01 +0300 (MSK)
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net [2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by iva8-c5ee4261001e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ dus7zyl5NQ-N0JqljeV; Fri, 24 Jun 2022 21:23:01 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1656094981; bh=6Tu2SNBlgwIePCEee4QtdGVGXc6fa8nfNglVwnxxG10=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=b6IjRHTFLzazgUxTE2UVjLTd7u2c/a/c+YnElif7LtBSSHsqd7qwxNJCWLfZkHBnU
+ RsgQCVhrbHJO8/fFQBtzMIpjcRXoEJy4lAgctO+Fu2avwjaf7L4PT9St4jQ+HNfHJB
+ l9ixTZHkMost6jOHHFjQ4XVC8cf/UUkWEwoRm1nw=
+Authentication-Results: iva8-c5ee4261001e.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:b64c::1:2c] (unknown
+ [2a02:6b8:b081:b64c::1:2c])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ IEvfKlj3mh-N0NOCLnV; Fri, 24 Jun 2022 21:23:00 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <5284a1ef-6b46-3fc0-12ce-f7fab820e47a@yandex-team.ru>
+Date: Fri, 24 Jun 2022 21:22:59 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 3/3] target/ppc: Check page dir/table base alignment
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v7 01/18] job.c: make job_mutex and job_lock/unlock()
+ public
 Content-Language: en-US
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org
-References: <20220624171653.143740-1-leandro.lupori@eldorado.org.br>
- <20220624171653.143740-4-leandro.lupori@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220624171653.143740-4-leandro.lupori@eldorado.org.br>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220616131835.2004262-1-eesposit@redhat.com>
+ <20220616131835.2004262-2-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220616131835.2004262-2-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,48 +88,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/22 10:16, Leandro Lupori wrote:
-> Check if each page dir/table base address is properly aligned and
-> log a guest error if not, as real hardware behave incorrectly in
-> this case.
+I've already acked this (honestly, because Stefan do), but still, want to clarify:
+
+On 6/16/22 16:18, Emanuele Giuseppe Esposito wrote:
+> job mutex will be used to protect the job struct elements and list,
+> replacing AioContext locks.
 > 
-> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-> ---
->   target/ppc/mmu-radix64.c | 15 +++++++++++++++
->   1 file changed, 15 insertions(+)
+> Right now use a shared lock for all jobs, in order to keep things
+> simple. Once the AioContext lock is gone, we can introduce per-job
+> locks.
 > 
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index 339cf5b4d8..1e7d932893 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -280,6 +280,14 @@ static int ppc_radix64_next_level(AddressSpace *as, vaddr eaddr,
->       *psize -= *nls;
->       if (!(pde & R_PTE_LEAF)) { /* Prepare for next iteration */
->           *nls = pde & R_PDE_NLS;
-> +
-> +        if ((pde & R_PDE_NLB) & MAKE_64BIT_MASK(0, *nls + 3)) {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                "%s: misaligned page dir/table base: 0x%"VADDR_PRIx
-> +                " page dir size: 0x"TARGET_FMT_lx"\n",
-> +                __func__, (pde & R_PDE_NLB), BIT(*nls + 3));
-> +        }
-> +
->           index = eaddr >> (*psize - *nls);       /* Shift */
->           index &= ((1UL << *nls) - 1);           /* Mask */
->           *pte_addr = (pde & R_PDE_NLB) + (index * sizeof(pde));
+> To simplify the switch from aiocontext to job lock, introduce
+> *nop*  lock/unlock functions and macros.
+> We want to always call job_lock/unlock outside the AioContext locks,
+> and not vice-versa, otherwise we might get a deadlock.
 
-In your response to my question on v1, you said that it appears that the cpu ignores bits 
-*nls+3. This isn't ignoring them -- it's including [nls+2 : nls] into pte_addr.
+Could you describe here, why we get a deadlock?
 
-It would be better to compute this as
+As I understand, we'll deadlock if two code paths exist simultaneously:
 
-     index = ...
-     index &= ...
-     *pte_addr = ...
-     if (*pte_addr & 7) {
-         qemu_log(...);
-     }
+1. we take job mutex under aiocontext lock
+2. we take aiocontex lock under job mutex
+
+If these paths exists, it's possible that one thread goes through [1] and another through [2]. If thread [1] holds job-mutex and want to take aiocontext-lock, and in the same time thread [2] holds aiocontext-lock and want to take job-mutext, that's a dead-lock.
+
+If you say, that we must avoid [1], do you have in mind that we have [2] somewhere? If so, this should be mentioned here.
+
+If not, could we just make a normal mutex, not a noop?
+
+> This is not
+> straightforward to do, and that's why we start with nop functions.
+> Once everything is protected by job_lock/unlock, we can change the nop into
+> an actual mutex and remove the aiocontext lock.
+> 
+> Since job_mutex is already being used, add static
+> real_job_{lock/unlock} for the existing usage.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi<stefanha@redhat.com>
 
 
-r~
+-- 
+Best regards,
+Vladimir
 
