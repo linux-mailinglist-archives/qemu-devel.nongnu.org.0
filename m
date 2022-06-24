@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 071DA559CFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:07:27 +0200 (CEST)
-Received: from localhost ([::1]:47624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C48559CF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:05:52 +0200 (CEST)
+Received: from localhost ([::1]:42304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4ku5-0005tX-RP
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59710)
+	id 1o4ksZ-0002Cp-Cw
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:05:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4kqF-0000b2-9z
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:03:27 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:46667)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o4kpz-0000Mq-2Y
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:03:11 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:41497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4kqD-0002Ug-QD
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:03:27 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-3178ea840easo27117947b3.13
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZMgcQP3SDdix/uL5DAxBOxf5bx/7mqKOZjDxOAb8Pcg=;
- b=zMohoIigwHquNYd7LAcCtmXnb8FNNEaCCx1bE8uhazMByclv/47AQpkkVXBi1SGS76
- Mc2QKw9lAVNKX9yehka3J6a3tzcoGpfN2e0HctL5UBsskzlU0SLgFzvtCjG2zwhvZxEZ
- S5H+5pBRnAt+VBFwQZvn+5qt6RRQ8B5IpP5iHYWpYhaCID9H7Wc89nPtT18kURnmXUCz
- D6HXlGb7tFKKSzYurLfDXsBeMYmgbV1Nn67L+n6ar83/IdUvzbSp4KRaqEYKaFhzKbh+
- Yrdd23OdGe7PSdJmnDiLsdFbzT1XKzMi9RWmj1A2uWENw96l8bN6Z8gazLjZwJaYo4V0
- kPgQ==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o4kpx-0002Sf-Hg
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:03:10 -0400
+Received: by mail-pg1-x535.google.com with SMTP id 23so2657257pgc.8
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KHVAnKap8arAL/CJ/RRCZLqAxsImPdNLBj2NT1+94XQ=;
+ b=N5yO4QFcO5dzUdjyYVrJU3vDAWCSqKtT4esSopwTz5IeUKPiEYbpwYzZ64mD5okDJN
+ pY+jh4OP46vDeglLAMrajER4ivmVEKsr1+BqTdfMIzFjyLmMn0w1ITEx1it33B2nePfN
+ mIypoRCPcm/2OITs0FuOeuzXtlLm/Bb+waf68Tay5zSjH06B9qQTBkJr1V2rXDXw28G5
+ LbYaKZ/AHkRaAWJac2fXQblhVoRehBob2h4thu5s4iG2fi8hHo6sqln20JsEIhj2uOFu
+ 6oEMMLcLPnKDBHEWdTqgTkM8z7+LjE3mkJUbacNteayz596kokZbR2eAS5d+2gsLqtVj
+ kxBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZMgcQP3SDdix/uL5DAxBOxf5bx/7mqKOZjDxOAb8Pcg=;
- b=vCIUN+w59wRx3L9tcOa7MqrhpvaGBylqPQ/lrS6DqmS3JAY9SGzu4ny2WDj2k5B+O0
- ZCT12Jn4+uI7hxV3ydmWXwKEbt7hEhuxmSM47/7bSW3tkhgxlna8WymyzoTaDB3yAvSc
- sP2KfvYALylyCXtY9Xl6zWHVNekB/GnWmReDJVklvpkQsIbvQ1/GUnvnaRCX+3HxGHDl
- bZR2wxy/O/aqjsC5j9sz7Q8DtUPIFaKjmhtU9gdJ+N3oKYbCXYc0SNJf8JnopTM2zS5N
- +fpKcjrFMqHM9cnNYY8cS8nND5eYg5/oG+dfWTaivnMqE33BViY2iFHaBufo4WEe9uo6
- nv9A==
-X-Gm-Message-State: AJIora/fXHzGjAGuP7FuwaiYZC2+NUPMn75GMiIduCFiKA4PYlraezO4
- h0AHiWUxHQ0FGXR5m23z3Zcpnkn7ebEZrEBpocwHZQ==
-X-Google-Smtp-Source: AGRyM1spin938+4NDWI98TUSCo6WF3oP8vevMT68nqaWKLhiYLiwX5XNn8JCobmfm+BpxXGVyB/jAtZvshIht6teeNk=
-X-Received: by 2002:a81:1cc:0:b0:317:a0fa:7a61 with SMTP id
- 195-20020a8101cc000000b00317a0fa7a61mr17529235ywb.10.1656083004803; Fri, 24
- Jun 2022 08:03:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KHVAnKap8arAL/CJ/RRCZLqAxsImPdNLBj2NT1+94XQ=;
+ b=QtWRbuZ3BKODtdvDdAU5ShXBQffGVC2QWi3RwBMtvvmiPeBWUNPyU3CeONqJRnABb3
+ GIsLEO8kh+PRSIDd3WCNSadwxl/1F7g3q1tz/6gqS/U+4SRhrN0cky0+AamWw6vGG9RH
+ MwJ3OdeW1zsxaH6vdUL3cY9LgDxRyEanmNEFMSOZK0wp8hL1pcu7etHHhNEQbO6djGrw
+ nvCGwzVwmI3I0/UL2/U6NRUzNAPMmLlZmSZm8id4vY+yJ4RZ5GHkcGM9nMSzbBduZ5sV
+ V9ggsYmSQr2gSEGmWPEtuZNTg+Yk1CVr7BlDcNYpZhhVglI/3H7flnIdg48eSrcg2xzl
+ ey7g==
+X-Gm-Message-State: AJIora8/Rg/4xp1IWIHUeeJehHche0mb2VfC8qmXSy46XvLccFSfchqG
+ Gm+nDsHY3TvWvE21e/lJ+J8=
+X-Google-Smtp-Source: AGRyM1tHnHR+PWbhlUqGOpDrpxYsiDr8FDrKuqfyMJ/tqZBSSg67Q8Opkq34X1Wmlmy3Dtmzm7Ly2w==
+X-Received: by 2002:a63:2c15:0:b0:408:a75e:340a with SMTP id
+ s21-20020a632c15000000b00408a75e340amr12540117pgs.313.1656082988188; 
+ Fri, 24 Jun 2022 08:03:08 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:80ba:2fd0:a1d1:c891])
+ by smtp.gmail.com with ESMTPSA id
+ u10-20020a170902714a00b001693bd7427asm1951253plm.170.2022.06.24.08.03.04
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 24 Jun 2022 08:03:06 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: [PATCH] build: Do not depend on pc-bios for config-host.mak
+Date: Sat, 25 Jun 2022 00:02:58 +0900
+Message-Id: <20220624150258.50449-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
-References: <20220620175235.60881-1-richard.henderson@linaro.org>
-In-Reply-To: <20220620175235.60881-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Jun 2022 16:02:47 +0100
-Message-ID: <CAFEAcA_V=W_G1MFnaL9DkOMDouiqT-eqc-daJnqUunqWqKTMDg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/51] target/arm: Scalable Matrix Extension
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,18 +90,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Jun 2022 at 18:52, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Changes for v3:
->   * Rebase on mainline (20 patches upstreamed; new conflicts resolved).
->   * Test bit 31 before disas_sme.
->
-> The first 21 patches, excepting 17, have been reviewed.
+Commit 45f1eecdd63f9e4fa93fef01dd826e7706ac6d7b removed the dependency
+from configure to pc-bios
 
-I'm applying patches 1-20 to target-arm.next (with the comment
-change for patch 9).
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks
--- PMM
+diff --git a/Makefile b/Makefile
+index 3c0d89057eb..2e95d473b3e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -87,7 +87,7 @@ x := $(shell rm -rf meson-private meson-info meson-logs)
+ endif
+ 
+ # 1. ensure config-host.mak is up-to-date
+-config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/scripts/meson-buildoptions.sh $(SRC_PATH)/pc-bios $(SRC_PATH)/VERSION
++config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/scripts/meson-buildoptions.sh $(SRC_PATH)/VERSION
+ 	@echo config-host.mak is out-of-date, running configure
+ 	@if test -f meson-private/coredata.dat; then \
+ 	  ./config.status --skip-meson; \
+-- 
+2.32.1 (Apple Git-133)
+
 
