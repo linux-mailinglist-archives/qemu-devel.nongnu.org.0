@@ -2,80 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7F5559689
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:31:08 +0200 (CEST)
-Received: from localhost ([::1]:43136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD5055965F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 11:24:04 +0200 (CEST)
+Received: from localhost ([::1]:55178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4fed-0005lV-8r
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:31:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46562)
+	id 1o4fXn-0002xB-9T
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 05:24:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4fIC-0000rz-7e
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:07:57 -0400
-Received: from mxout.security-mail.net ([85.31.212.42]:40203)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1o4fUc-0008M1-K3; Fri, 24 Jun 2022 05:20:47 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37188
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4fI9-0003EL-0G
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 05:07:54 -0400
-Received: from localhost (localhost [127.0.0.1])
- by fx302.security-mail.net (Postfix) with ESMTP id 436853D3B1C8
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 11:07:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1656061670;
- bh=vXGn7y5oqx9vrteTxSi9na3WW0PDuAqCPhHp0d7aaHg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=QIo5qYmtYsx+OSz8WwFMkbP3gQKtqbjdvWfcztDG8GxnICKdz7zMIFHJIhohyk6/f
- sgKb04Ppsmh94gsBPljjj2CsculBYIMjAujNpCJYmwc6eDwQKWIWncxhd1zIga3TA5
- 8pDS1TPNomv5XfDMLYJOvcCi4dqEci5eiomkmk2E=
-Received: from fx302 (localhost [127.0.0.1]) by fx302.security-mail.net
- (Postfix) with ESMTP id DDBED3D3B1AB; Fri, 24 Jun 2022 11:07:48 +0200 (CEST)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx302.security-mail.net (Postfix) with ESMTPS id 51AD63D3B174; Fri, 24 Jun
- 2022 11:07:48 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 14F7027E04FE; Fri, 24 Jun 2022
- 11:07:48 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id F220F27E04FD; Fri, 24 Jun 2022 11:07:47 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- TZ7HZYfhlZwZ; Fri, 24 Jun 2022 11:07:47 +0200 (CEST)
-Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id D7BC827E04FB; Fri, 24 Jun 2022 11:07:47 +0200
- (CEST)
-X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <9ab2.62b57ee4.30d64.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu F220F27E04FD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656061668;
- bh=K9QVd2pyrt9mW3H2keeRQmDUT5Uy3XmWLiu+IMcVcPg=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=qg2qa8lIDaeS6W2NKx2YdHIKR/INNp2mmFFJtn0AcgJdkCxMhAVLu25UmttqntwLY
- B501CTjlSTNkBfM4Zlr6SRIN1ubjjnnws20ulM9LT8mXqJpNBO6tXS+frw28+TExSI
- Lhd2IoVNs8YrjWerdulJWq6sY85w1TkxYE5hZDg4=
-Date: Fri, 24 Jun 2022 11:07:47 +0200
-From: Luc Michel <lmichel@kalray.eu>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 44/53] semihosting: Cleanup chardev init
-Message-ID: <20220624090747.GL25499@ws2101.lin.mbt.kalray.eu>
-References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-45-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1o4fUa-0005Gk-Mj; Fri, 24 Jun 2022 05:20:46 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25O7qFu7028757;
+ Fri, 24 Jun 2022 09:20:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=v+fGv+XcgcoNFZNNJpVWw4arI2S1yVLgFw6WqLhyUx0=;
+ b=Ftr7Z7ZtqH8HosKbbg7EBC4a4NQmQFWOC6F3mCXJ33OrQpZi4hNj1pxYB+mHAT2nIQ4+
+ Y1AO3fWlDqSnrmFn9N9Ow9fIjE6FiCQtGSUJjp8k+cFJWWkSMnQDpr7wmQ8MIqnb99ZO
+ Rxt1d6C5wgNdkyfj+zo3LrvFN415bSHlvt0c9H9cl6X2xpCgvGWS/blVPRgu+FCHon/Q
+ DRGd6HZW9N3i7BplGn7RpJ/P2f+4MYV6vWP1clYzVWrL5ZpB+VqP3QrG91M+fwYF8o6Q
+ Db1QOINewNUhPC3X8g662awMF2hGFxUnAtaxVO4fHE/D9I6Emz+KQcsaeD9Gb28nRImm Fw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gw98sa1k6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 24 Jun 2022 09:20:41 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25O8kOHW008423;
+ Fri, 24 Jun 2022 09:20:40 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gw98sa1jm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 24 Jun 2022 09:20:40 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25O9K7Wx009979;
+ Fri, 24 Jun 2022 09:20:38 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3gs6b98r1w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 24 Jun 2022 09:20:38 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25O9Kava14287350
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 24 Jun 2022 09:20:36 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8AA9B52050;
+ Fri, 24 Jun 2022 09:20:36 +0000 (GMT)
+Received: from [9.171.24.107] (unknown [9.171.24.107])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 5031D52052;
+ Fri, 24 Jun 2022 09:20:36 +0000 (GMT)
+Message-ID: <fe1d0e25-b582-0220-db7e-c69df5460f51@linux.ibm.com>
+Date: Fri, 24 Jun 2022 11:20:36 +0200
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220607204557.658541-45-richard.henderson@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.42; envelope-from=lmichel@kalray.eu;
- helo=mxout.security-mail.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/2] pc-bios/s390-ccw/virtio-blkdev: Simplify/fix
+ virtio_ipl_disk_is_valid()
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Eric Farman <farman@linux.ibm.com>
+Cc: qemu-devel@nongnu.org
+References: <20220624085037.612235-1-thuth@redhat.com>
+ <20220624085037.612235-2-thuth@redhat.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20220624085037.612235-2-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ZLLAMddaNjRZ2_bzRXYsxzMyORq2ySMb
+X-Proofpoint-GUID: eFWp_ZQMgH6NhA3Ctq1ya2FpDkbhAVsm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-24_05,2022-06-23_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 spamscore=0
+ mlxscore=0 bulkscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ clxscore=1015 malwarescore=0 lowpriorityscore=0 phishscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206240035
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,210 +116,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13:45 Tue 07 Jun     , Richard Henderson wrote:
-> Rename qemu_semihosting_connect_chardevs to
-> qemu_semihosting_chardev_init; pass the result
-> directly to qemu_semihosting_console_init.
-> 
-> Store the chardev in SemihostingConsole instead
-> of SemihostingConfig, which lets us drop
-> semihosting_get_chardev.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Luc Michel <lmichel@kalray.eu>
 
+Am 24.06.22 um 10:50 schrieb Thomas Huth:
+> The s390-ccw bios fails to boot if the boot disk is a virtio-blk
+> disk with a sector size of 4096. For example:
+> 
+>   dasdfmt -b 4096 -d cdl -y -p -M quick /dev/dasdX
+>   fdasd -a /dev/dasdX
+>   install a guest onto /dev/dasdX1 using virtio-blk
+>   qemu-system-s390x -nographic -hda /dev/dasdX1
+
+Interestingly enough a real DASD (dasdX and not dasdX1) did work in the
+past and I also successfully uses an NVMe disk. So I guess the NVMe
+was 512 byte sector size then?
+
+> 
+> The bios then bails out with:
+> 
+>   ! Cannot read block 0 !
+> 
+> Looking at virtio_ipl_disk_is_valid() and especially the function
+> virtio_disk_is_scsi(), it does not really make sense that we expect
+> only such a limited disk geometry (like a block size of 512) for
+> out boot disks. Let's relax the check and allow everything that
+> remotely looks like a sane disk.
+
+I agree that we should accept as much list-directed IPL formats as possible.
+I have not fully looked into your changes though.
+
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  include/semihosting/semihost.h | 13 ++-----------
->  semihosting/config.c           | 17 +++++++----------
->  semihosting/console.c          | 31 +++++++++++++++----------------
->  softmmu/vl.c                   |  3 +--
->  stubs/semihost.c               |  6 +-----
->  5 files changed, 26 insertions(+), 44 deletions(-)
+>   pc-bios/s390-ccw/virtio.h        |  2 --
+>   pc-bios/s390-ccw/virtio-blkdev.c | 41 ++++++--------------------------
+>   2 files changed, 7 insertions(+), 36 deletions(-)
 > 
-> diff --git a/include/semihosting/semihost.h b/include/semihosting/semihost.h
-> index 0c55ade3ac..5b36a76f08 100644
-> --- a/include/semihosting/semihost.h
-> +++ b/include/semihosting/semihost.h
-> @@ -51,14 +51,6 @@ static inline const char *semihosting_get_cmdline(void)
->  {
->      return NULL;
->  }
+> diff --git a/pc-bios/s390-ccw/virtio.h b/pc-bios/s390-ccw/virtio.h
+> index 19fceb6495..07fdcabd9f 100644
+> --- a/pc-bios/s390-ccw/virtio.h
+> +++ b/pc-bios/s390-ccw/virtio.h
+> @@ -186,8 +186,6 @@ void virtio_assume_scsi(void);
+>   void virtio_assume_eckd(void);
+>   void virtio_assume_iso9660(void);
+>   
+> -extern bool virtio_disk_is_scsi(void);
+> -extern bool virtio_disk_is_eckd(void);
+>   extern bool virtio_ipl_disk_is_valid(void);
+>   extern int virtio_get_block_size(void);
+>   extern uint8_t virtio_get_heads(void);
+> diff --git a/pc-bios/s390-ccw/virtio-blkdev.c b/pc-bios/s390-ccw/virtio-blkdev.c
+> index 7d35050292..b5506bb29d 100644
+> --- a/pc-bios/s390-ccw/virtio-blkdev.c
+> +++ b/pc-bios/s390-ccw/virtio-blkdev.c
+> @@ -166,46 +166,19 @@ void virtio_assume_eckd(void)
+>           virtio_eckd_sectors_for_block_size(vdev->config.blk.blk_size);
+>   }
+>   
+> -bool virtio_disk_is_scsi(void)
+> -{
+> -    VDev *vdev = virtio_get_device();
 > -
-> -static inline Chardev *semihosting_get_chardev(void)
-> -{
-> -    return NULL;
-> -}
-> -static inline void qemu_semihosting_console_init(void)
-> -{
-> -}
->  #else /* !CONFIG_USER_ONLY */
->  bool semihosting_enabled(void);
->  SemihostingTarget semihosting_get_target(void);
-> @@ -66,12 +58,11 @@ const char *semihosting_get_arg(int i);
->  int semihosting_get_argc(void);
->  const char *semihosting_get_cmdline(void);
->  void semihosting_arg_fallback(const char *file, const char *cmd);
-> -Chardev *semihosting_get_chardev(void);
->  /* for vl.c hooks */
->  void qemu_semihosting_enable(void);
->  int qemu_semihosting_config_options(const char *opt);
-> -void qemu_semihosting_connect_chardevs(void);
-> -void qemu_semihosting_console_init(void);
-> +void qemu_semihosting_chardev_init(void);
-> +void qemu_semihosting_console_init(Chardev *);
->  #endif /* CONFIG_USER_ONLY */
->  
->  #endif /* SEMIHOST_H */
-> diff --git a/semihosting/config.c b/semihosting/config.c
-> index 50d82108e6..4bca769fad 100644
-> --- a/semihosting/config.c
-> +++ b/semihosting/config.c
-> @@ -50,7 +50,6 @@ QemuOptsList qemu_semihosting_config_opts = {
->  typedef struct SemihostingConfig {
->      bool enabled;
->      SemihostingTarget target;
-> -    Chardev *chardev;
->      char **argv;
->      int argc;
->      const char *cmdline; /* concatenated argv */
-> @@ -121,11 +120,6 @@ void semihosting_arg_fallback(const char *file, const char *cmd)
->      }
->  }
->  
-> -Chardev *semihosting_get_chardev(void)
-> -{
-> -    return semihosting.chardev;
+> -    if (vdev->guessed_disk_nature == VIRTIO_GDN_SCSI) {
+> -        return true;
+> -    }
+> -    switch (vdev->senseid.cu_model) {
+> -    case VIRTIO_ID_BLOCK:
+> -        return (vdev->config.blk.geometry.heads == 255)
+> -            && (vdev->config.blk.geometry.sectors == 63)
+> -            && (virtio_get_block_size()  == VIRTIO_SCSI_BLOCK_SIZE);
+> -    case VIRTIO_ID_SCSI:
+> -        return true;
+> -    }
+> -    return false;
 > -}
 > -
->  void qemu_semihosting_enable(void)
->  {
->      semihosting.enabled = true;
-> @@ -171,16 +165,19 @@ int qemu_semihosting_config_options(const char *optarg)
->      return 0;
->  }
->  
-> -void qemu_semihosting_connect_chardevs(void)
-> +/* We had to defer this until chardevs were created */
-> +void qemu_semihosting_chardev_init(void)
->  {
-> -    /* We had to defer this until chardevs were created */
-> +    Chardev *chr = NULL;
-> +
->      if (semihost_chardev) {
-> -        Chardev *chr = qemu_chr_find(semihost_chardev);
-> +        chr = qemu_chr_find(semihost_chardev);
->          if (chr == NULL) {
->              error_report("semihosting chardev '%s' not found",
->                           semihost_chardev);
->              exit(1);
->          }
-> -        semihosting.chardev = chr;
->      }
-> +
-> +    qemu_semihosting_console_init(chr);
->  }
-> diff --git a/semihosting/console.c b/semihosting/console.c
-> index df618a28a4..4088192842 100644
-> --- a/semihosting/console.c
-> +++ b/semihosting/console.c
-> @@ -27,11 +27,21 @@
->  #include "qapi/error.h"
->  #include "qemu/fifo8.h"
->  
-> +/* Access to this structure is protected by the BQL */
-> +typedef struct SemihostingConsole {
-> +    CharBackend         backend;
-> +    Chardev             *chr;
-> +    GSList              *sleeping_cpus;
-> +    bool                got;
-> +    Fifo8               fifo;
-> +} SemihostingConsole;
-> +
-> +static SemihostingConsole console;
-> +
->  int qemu_semihosting_log_out(const char *s, int len)
->  {
-> -    Chardev *chardev = semihosting_get_chardev();
-> -    if (chardev) {
-> -        return qemu_chr_write_all(chardev, (uint8_t *) s, len);
-> +    if (console.chr) {
-> +        return qemu_chr_write_all(console.chr, (uint8_t *) s, len);
->      } else {
->          return write(STDERR_FILENO, s, len);
->      }
-> @@ -106,16 +116,6 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong addr)
->  
->  #define FIFO_SIZE   1024
->  
-> -/* Access to this structure is protected by the BQL */
-> -typedef struct SemihostingConsole {
-> -    CharBackend         backend;
-> -    GSList              *sleeping_cpus;
-> -    bool                got;
-> -    Fifo8               fifo;
-> -} SemihostingConsole;
-> -
-> -static SemihostingConsole console;
-> -
->  static int console_can_read(void *opaque)
->  {
->      SemihostingConsole *c = opaque;
-> @@ -169,10 +169,9 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
->      return ret;
->  }
->  
-> -void qemu_semihosting_console_init(void)
-> +void qemu_semihosting_console_init(Chardev *chr)
->  {
-> -    Chardev *chr = semihosting_get_chardev();
-> -
-> +    console.chr = chr;
->      if  (chr) {
->          fifo8_create(&console.fifo, FIFO_SIZE);
->          qemu_chr_fe_init(&console.backend, chr, &error_abort);
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 4c1e94b00e..83e2af4eab 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -1944,8 +1944,7 @@ static void qemu_create_late_backends(void)
->          exit(1);
->  
->      /* now chardevs have been created we may have semihosting to connect */
-> -    qemu_semihosting_connect_chardevs();
-> -    qemu_semihosting_console_init();
-> +    qemu_semihosting_chardev_init();
->  }
->  
->  static void cxl_set_opts(void)
-> diff --git a/stubs/semihost.c b/stubs/semihost.c
-> index 4bf2cf71b9..f486651afb 100644
-> --- a/stubs/semihost.c
-> +++ b/stubs/semihost.c
-> @@ -65,10 +65,6 @@ void semihosting_arg_fallback(const char *file, const char *cmd)
->  {
->  }
->  
-> -void qemu_semihosting_connect_chardevs(void)
-> -{
+> -bool virtio_disk_is_eckd(void)
+> +bool virtio_ipl_disk_is_valid(void)
+>   {
+> +    int blksize = virtio_get_block_size();
+>       VDev *vdev = virtio_get_device();
+> -    const int block_size = virtio_get_block_size();
+>   
+> -    if (vdev->guessed_disk_nature == VIRTIO_GDN_DASD) {
+> +    if (vdev->guessed_disk_nature == VIRTIO_GDN_SCSI ||
+> +        vdev->guessed_disk_nature == VIRTIO_GDN_DASD) {
+>           return true;
+>       }
+> -    switch (vdev->senseid.cu_model) {
+> -    case VIRTIO_ID_BLOCK:
+> -        return (vdev->config.blk.geometry.heads == 15)
+> -            && (vdev->config.blk.geometry.sectors ==
+> -                virtio_eckd_sectors_for_block_size(block_size));
+> -    case VIRTIO_ID_SCSI:
+> -        return false;
+> -    }
+> -    return false;
 > -}
-> -
-> -void qemu_semihosting_console_init(void)
-> +void qemu_semihosting_chardev_init(void)
->  {
->  }
-> -- 
-> 2.34.1
-> 
-> 
-> 
-> 
-> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=f3b8.629fd419.cecd0.0&r=lmichel%40kalrayinc.com&s=qemu-devel-bounces%2Blmichel%3Dkalrayinc.com%40nongnu.org&o=%5BPATCH+v4+44%2F53%5D+semihosting%3A+Cleanup+chardev+init&verdict=C&c=10d71a2e8353924e95ea4f98e698ba376e5bb76b
-> 
-
--- 
-
-
-
-
+>   
+> -bool virtio_ipl_disk_is_valid(void)
+> -{
+> -    return virtio_disk_is_scsi() || virtio_disk_is_eckd();
+> +    return (vdev->senseid.cu_model == VIRTIO_ID_BLOCK ||
+> +            vdev->senseid.cu_model == VIRTIO_ID_SCSI) &&
+> +           blksize >= 512 && blksize <= 4096;
+>   }
+>   
+>   int virtio_get_block_size(void)
 
