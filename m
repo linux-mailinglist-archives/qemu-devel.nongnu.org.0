@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8198A559594
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 10:43:19 +0200 (CEST)
-Received: from localhost ([::1]:38510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED49D5595D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 10:55:16 +0200 (CEST)
+Received: from localhost ([::1]:60316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4euM-0001gX-CP
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 04:43:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39750)
+	id 1o4f5w-0000Zc-16
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 04:55:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o4efd-0006Nf-Ka
+ id 1o4efd-0006OM-TW
  for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:28:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46029)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1o4efY-0005W5-Mk
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:28:02 -0400
+ id 1o4efc-0005WU-6k
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:28:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656059280;
+ s=mimecast20190719; t=1656059282;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v588GaBKDDpuCNEdCzM5sGhdQL3uUyd+/iy8ZROE6Hg=;
- b=DH1O2iF/z8lKIz6j0AYsBTkyu/T4fz8KmWBvrtFCx59e1wVLNCy6yIjFg2xbbOdDsnE/0n
- ml+/SuuqXXBUQNeTqD5g8++NKD/vA6Y7dPGK/Lwi89aIDUEaZhUAqSZHWFHC7gZ47BFuya
- y+TXkici9iVUNQ761uYeqqs3wrFGLVs=
+ bh=JhT2ZFpO3KJr1H7Z4giO4e6EM4PklFeAguLG50U8/JM=;
+ b=XcTvfPKb1KdeL55hCPmLLlhRmVk8ptZVetDHLOzKFT6V0Bi6x1TYcpDiBwPRCQBBQZaxHy
+ CWcRz5nGatqjAPZ9P5JeMnd4ZIM1FG/3A22NYpMw1qYxTZNv5ydBDX8OlTtpsi32CHuJTe
+ kchPr4HzfSO4Gwc1l3yOvZUdovx5uP8=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-Sfyc4RVYOJODdpZTB7udgw-1; Fri, 24 Jun 2022 04:27:59 -0400
-X-MC-Unique: Sfyc4RVYOJODdpZTB7udgw-1
+ us-mta-201-zXi2G2SAMwaLpdTx7Io9CQ-1; Fri, 24 Jun 2022 04:28:00 -0400
+X-MC-Unique: zXi2G2SAMwaLpdTx7Io9CQ-1
 Received: by mail-ed1-f71.google.com with SMTP id
- y5-20020a056402358500b0043592ac3961so1381519edc.6
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 01:27:58 -0700 (PDT)
+ h16-20020a05640250d000b00435bab1a7b4so1371262edb.10
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 01:28:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v588GaBKDDpuCNEdCzM5sGhdQL3uUyd+/iy8ZROE6Hg=;
- b=p6se4pJtXEH2CQnzDa820bvqE8Q0VMAxYZ3rwsjWU2KvzlRUJaBLycUy74984Kd51U
- m4LsjT4bdsZ9l6ahKnZCHHpnVgnaLvkf0MGfK3wDwDnevnC0vmGKHfNK9D1pJIh13wgH
- wG/TCIJ6/4Dv1T4wBACimsqJwHUXKA+oChj1lyzRYnHkIjl5JrobmplNpu8zZl0x7wnp
- QTyCYyIaiIdcB9z7RQEZ4zu63nZ0UAURABPHPpIJNxMCJpye0O09p13MzgX51r25rDik
- EutmqlWmo+xm7xfnq14OEsBSeETp5TpCS3et1nhQmxlBQN1qenoL4S4ZpiAVxXM0aC4F
- pmcg==
-X-Gm-Message-State: AJIora/l519lmP7vrlyUgzTXPrcKp06LfLWZVmZMicuWOUTlmn3HpNRi
- z99Hn6eXGzGqkX5HoMi4Ro5dZQXZb07CeyV6jxbQzbz64kCdzWhCatf52SDjQgibMk40h+gkCas
- EmHXzj3H6psT83pgm1qu68y9jW/q1tV8zdnSviJmsX2YQIP+BqG0na2TH+bW5vMnODqg=
-X-Received: by 2002:a05:6402:1e8b:b0:41c:59f6:2c26 with SMTP id
- f11-20020a0564021e8b00b0041c59f62c26mr16055669edf.156.1656059277663; 
- Fri, 24 Jun 2022 01:27:57 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1too4n7VxDKdtitWHwjsQIZjO+zm63q56vOciwMH/5K0oemY3rW8lRipRSn9VaMWQ0nJfhZ1Q==
-X-Received: by 2002:a05:6402:1e8b:b0:41c:59f6:2c26 with SMTP id
- f11-20020a0564021e8b00b0041c59f62c26mr16055654edf.156.1656059277433; 
- Fri, 24 Jun 2022 01:27:57 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- a21-20020a056402169500b004357063bf60sm1414927edv.41.2022.06.24.01.27.56
+ bh=JhT2ZFpO3KJr1H7Z4giO4e6EM4PklFeAguLG50U8/JM=;
+ b=grA/0nmyvd+bdR8OvAwLpxR7nmvPSis3HWHhMUtRGqAa8VXrwDNBeXoiUEj5LpZOAk
+ 5q1HaEDYjsjYcKiPaaL4yEBcRsBjBN0+///ROudv5YIrfKlG2sFq4UyTKadpMeRSy0N9
+ tjdO5q4qqqBF0plSSG+OFMT18U/oKFjDQKRhZpU3J0drMkpoG3n3Aoj29++KH27N8Y1H
+ iq36YDi2y5ZpWmN9dGyvCHBuYzLiLgPz8Hs/2gAlYLWbYb1vicx/mZ4OQRXHtKJ40WnN
+ Yo5qJxGSE5Y4oKZKIpv5f29m21JQ24Ir06Kt+zsk5PjKG0nPHvlat094n8NpTSLK9D0b
+ YsiQ==
+X-Gm-Message-State: AJIora8nQfaBKPzl9LkA8sHSbl0oE+oqToSrxtkApNcS7TLQ9GRbtDoL
+ ICOQKN5VPS/VDmT+hDx5/ixsmWwJzdXlkSDP5hIq/M3/4zzp7951fF3x/Iqu/A9a6FPqDfHv81W
+ VqlrS0vS7dlUL/7kARVskKKhcxCfTYf8jogj4ExWCqhGTXzISOO0M/hGEEILgAdOZ1KU=
+X-Received: by 2002:a17:907:c14:b0:722:bc08:c4ae with SMTP id
+ ga20-20020a1709070c1400b00722bc08c4aemr12361321ejc.8.1656059279374; 
+ Fri, 24 Jun 2022 01:27:59 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1ubbpR4fWtQX3lUpkeiYR8tozIrCUWjjzLREOqHOY+W8xor5U1UKrJI8h+zdtIHNB7f9Rem6Q==
+X-Received: by 2002:a17:907:c14:b0:722:bc08:c4ae with SMTP id
+ ga20-20020a1709070c1400b00722bc08c4aemr12361305ejc.8.1656059279095; 
+ Fri, 24 Jun 2022 01:27:59 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ q18-20020a17090609b200b006feaa22e367sm694353eje.165.2022.06.24.01.27.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jun 2022 01:27:56 -0700 (PDT)
+ Fri, 24 Jun 2022 01:27:58 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 13/14] meson.build: Require a recent version of libpng
-Date: Fri, 24 Jun 2022 10:27:29 +0200
-Message-Id: <20220624082730.246924-14-pbonzini@redhat.com>
+Cc: Miaoqian Lin <linmq006@gmail.com>
+Subject: [PULL 14/14] accel: kvm: Fix memory leak in find_stats_descriptors
+Date: Fri, 24 Jun 2022 10:27:30 +0200
+Message-Id: <20220624082730.246924-15-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220624082730.246924-1-pbonzini@redhat.com>
 References: <20220624082730.246924-1-pbonzini@redhat.com>
@@ -100,51 +98,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Miaoqian Lin <linmq006@gmail.com>
 
-According to https://gitlab.com/qemu-project/qemu/-/issues/1080#note_998088246
-QEMU does not compile with older versions of libpng, so we should check
-for a good version in meson.build. According to repology.org, our supported
-host target operating systems ship these versions:
+This function doesn't release descriptors in one error path,
+result in memory leak. Call g_free() to release it.
 
-             Fedora 35: 1.6.37
-     CentOS 8 (RHEL-8): 1.6.34
-             Debian 11: 1.6.37
-    OpenSUSE Leap 15.3: 1.6.34
-      Ubuntu LTS 20.04: 1.6.37
-         FreeBSD Ports: 1.6.37
-         NetBSD pkgsrc: 1.6.37
-         OpenBSD Ports: 1.6.37
-              Homebrew: 1.6.37
-           MSYS2 mingw: 1.6.37
-
-So it seem reasonable to require at least libpng version 1.6.34 for
-our builds.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1080
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220623174941.531196-1-thuth@redhat.com>
+Fixes: cc01a3f4cadd ("kvm: Support for querying fd-based stats")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+Message-Id: <20220624063159.57411-1-linmq006@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/kvm/kvm-all.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meson.build b/meson.build
-index 4b2a0b35cb..bf8cfcd5f9 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1211,7 +1211,7 @@ if gtkx11.found()
- endif
- png = not_found
- if get_option('png').allowed() and have_system
--   png = dependency('libpng', required: get_option('png'),
-+   png = dependency('libpng', version: '>=1.6.34', required: get_option('png'),
-                     method: 'pkg-config', kwargs: static_kwargs)
- endif
- vnc = not_found
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index ba3210b1c1..ed8b6b896e 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -3891,6 +3891,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
+         error_setg(errp, "KVM stats: failed to read stats header: "
+                    "expected %zu actual %zu",
+                    sizeof(*kvm_stats_header), ret);
++        g_free(descriptors);
+         return NULL;
+     }
+     size_desc = sizeof(*kvm_stats_desc) + kvm_stats_header->name_size;
 -- 
 2.36.1
-
 
 
