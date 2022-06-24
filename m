@@ -2,99 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24045559D65
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:36:14 +0200 (CEST)
-Received: from localhost ([::1]:51812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9F4559D70
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:38:11 +0200 (CEST)
+Received: from localhost ([::1]:57206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4lLx-0005l5-7Q
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37732)
+	id 1o4lNq-00011J-Pd
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:38:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1o4lEN-0007G3-7q; Fri, 24 Jun 2022 11:28:23 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:47093)
+ (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
+ id 1o4lFx-0001QY-VL
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:30:07 -0400
+Received: from mail-108-mta163.mxroute.com ([136.175.108.163]:44567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1o4lEL-0006ij-JR; Fri, 24 Jun 2022 11:28:22 -0400
-Received: by mail-ed1-x535.google.com with SMTP id z7so3932626edm.13;
- Fri, 24 Jun 2022 08:28:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WB/CdIR1Sfl0LGCR+bWlqHYwhKQsreIlJO0l8F3USmQ=;
- b=N3QDv+mPVYJ1OhrGRL7XQmOlU4TlCjZznQD96BmFUsa6jlTHgAvBhqDBwgqKnB0nwM
- Dzm3kcArrpr26/caEsNTLX4wXiUxX1OUx06aDUiuhmXdtA1phHvYjdcyjyRI8lZZvEDT
- +2xjgq1vkpxZ2kTHcIJeVb87qX4IIVfWRGguHyOn1VWUfu21A5fJ6aSxx4Stc0WDJ+Yt
- 7qGaMIireIyXdWI8yBFykM9gSs/6f23E+ZCnPY+QZyHJaYQz2lA4HfcI5pXeLcsG048d
- qaec1QE8NHANNnuP+E2QB5nBlmfD63ra8oHlca81ibGer7+K6SH2yEUfsb6qtd6I0ZiG
- iR5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WB/CdIR1Sfl0LGCR+bWlqHYwhKQsreIlJO0l8F3USmQ=;
- b=jCkOUBlYmw/iGI4tk8CvIBOJeoGTLOLBq0f2QfW2VLJdCmArR314+bR6NyUZelAv9N
- MXeOVPHhSVbJJPTB2jaH6ioPCW4MZw3OdI/avEaCgF2y2g+iR4KuQlJA7p+ezmqdTepy
- Um/I37dZMHCQ0DVDew8j50dBmxspjbjaGowLKv6kx1jJ0MX8rOj6xsK253EIBfotwBEv
- pSUDFo12prVvRqHViRb4L19qUXFVg7ytIc/SxcQT04ZBPGr9lUUR6OSTyT5VV/y+zpRv
- 7VtZhekOE1htNNwkLukI/VKvofj20iqaJ6n7kBpdrgdnzWtkw+r4URAXPNLt45EOxsJK
- 0GAA==
-X-Gm-Message-State: AJIora/iH3YTeBeD4lthYk649yvvmUc/nc21Zz5HRKZCbAs4eZILyWyI
- MIstxzftKUBsWQuR1ZiFsII=
-X-Google-Smtp-Source: AGRyM1tsgowAcAV8HLdrj3JI7Rreaks5J5d75XClpcSSd49SLGnfXFmwjR2h5Tq5/C9+qJW975jDkw==
-X-Received: by 2002:a05:6402:5cb:b0:434:eb48:754f with SMTP id
- n11-20020a05640205cb00b00434eb48754fmr18563196edx.421.1656084499814; 
- Fri, 24 Jun 2022 08:28:19 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- t15-20020a170906608f00b006f3ef214dc0sm1326908ejj.38.2022.06.24.08.28.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jun 2022 08:28:19 -0700 (PDT)
-Message-ID: <d39ec22a-938d-d32a-bcd3-8f5cedb7b23c@redhat.com>
-Date: Fri, 24 Jun 2022 17:28:18 +0200
+ (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
+ id 1o4lFw-0006nn-5F
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:30:01 -0400
+Received: from filter006.mxroute.com ([140.82.40.27] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta163.mxroute.com (ZoneMTA) with ESMTPSA id
+ 181965584fe00028a7.002 for <qemu-devel@nongnu.org>
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256);
+ Fri, 24 Jun 2022 15:29:55 +0000
+X-Zone-Loop: 52f4a36c54376147bc758100411fcd25b96cb12feae3
+X-Originating-IP: [140.82.40.27]
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mkfssion.com; s=x; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date
+ :Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=EqNlKr6yIv9MTP6XJewjMRBR6Y+N7XbK9fI0jnMDGvY=; b=dR8ALRFhWZcQAyE4Guc2FuaoaM
+ Xz+YX1W59zSB2cbDoahwIhKCYJVwNr+0mGvE7WnYwd2uV6tmT2N86vhEgKbW85vifDh4OuXTYyscu
+ mACZ8LiYV3f7sVo+3voOdrvxzcvfcykJGP5Jc8Xm/F7p+ItggbrqhvEloH5Bb4mP1K5wWOL3Tetu9
+ ZqT1b3D+f6rOl7ie0govMENqUe48nRvn9hMgT/RgZ/AKoyWnsl2bu9qGEts0017EbIBFT/piuEAi7
+ VWjmuCi8v3jETwn/1KfIp1PPmS8qAJ2Z/9DBGx7Y32jxFWUNfHmfovDzoAFtCTqzBMugg61Os6724
+ +vSeykjg==;
+From: MkfsSion <mkfssion@mkfssion.com>
+To: qemu-devel@nongnu.org
+Cc: MkfsSion <mkfssion@mkfssion.com>, Hongren Zheng <i@zenithal.me>,
+ "Canokeys.org" <contact@canokeys.org>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v3 1/2] hw: canokey: Remove HS support as not compliant to the
+ spec
+Date: Fri, 24 Jun 2022 23:29:39 +0800
+Message-Id: <20220624152940.11756-1-mkfssion@mkfssion.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v7 10/18] jobs: rename static functions called with
- job_mutex held
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220616131835.2004262-1-eesposit@redhat.com>
- <20220616131835.2004262-11-eesposit@redhat.com>
- <c0401616-f246-ce1d-2a0f-b7e23dd55ab8@yandex-team.ru>
- <0aaa344b-aecb-13de-f82f-cad27a768ba9@redhat.com>
- <c234668d-0156-548b-e1e8-d1fda1b85ad7@yandex-team.ru>
- <f59f2894-667c-8940-cc34-2407783b5699@redhat.com>
- <be74272f-f22b-f649-c299-deed65699e2f@yandex-team.ru>
- <b420f70a-6e69-1913-5019-05a8118a49f5@redhat.com>
- <YrXKRWO7tQ9yvFKI@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YrXKRWO7tQ9yvFKI@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-AuthUser: mkfssion@mkfssion.com
+Received-SPF: pass client-ip=136.175.108.163;
+ envelope-from=mkfssion@mkfssion.com; helo=mail-108-mta163.mxroute.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,16 +73,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/22 16:29, Kevin Wolf wrote:
-> Yes, I think Vladimir is having the same difficulties with reading the
-> series as I had. And I believe his suggestion would make the
-> intermediate states less impossible to review. The question is how much
-> work it would be and whether you're willing to do this. As I said, if
-> reorganising is too hard, I'm okay with just ignoring the intermediate
-> state and reviewing the series as if it were a single patch.
+Canokey core currently using 16 bytes as maximum packet size for
+control endpoint, but to run the device in high-speed a 64 bytes
+maximum packet size is required according to USB 2.0 specification.
+Since we don't acutally need to run the device in high-speed, simply
+don't assign high member in USBDesc.
 
-I think we've tried different intermediate states for each of the 
-previous 6 versions, and none of them were really satisfactory. :(
+When canokey-qemu is used with xhci, xhci would drive canokey
+in high speed mode, since the bcdUSB in canokey-core is 2.1,
+yet canokey-core set bMaxPacketSize0 to be 16, this is out
+of the spec as the spec said that ``The allowable maximum
+control transfer data payload sizes...for high-speed devices,
+it is 64 bytes''.
 
-Paolo
+In this case, usb device validation in Windows 10 LTSC 2021
+as the guest would fail. It would complain
+USB\DEVICE_DESCRIPTOR_VALIDATION_FAILURE.
+
+Note that bcdUSB only identifies the spec version the device
+complies, but it has no indication of its speed. So it is
+allowed for the device to run in FS but comply the 2.1 spec.
+
+To solve the issue we decided to just drop the high
+speed support. This only affects usb-ehci as usb-ehci would
+complain speed mismatch when FS device is attached to a HS port.
+That's why the .high member was initialized in the first place.
+Meanwhile, xhci is not affected as it works well with FS device.
+Since everyone is now using xhci, it does no harm to most users.
+
+Suggested-by: Hongren (Zenithal) Zheng <i@zenithal.me>
+Signed-off-by: YuanYang Meng <mkfssion@mkfssion.com>
+---
+ hw/usb/canokey.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/hw/usb/canokey.c b/hw/usb/canokey.c
+index 4a08b1cbd7..6a7ab965a5 100644
+--- a/hw/usb/canokey.c
++++ b/hw/usb/canokey.c
+@@ -56,7 +56,6 @@ static const USBDesc desc_canokey = {
+         .iSerialNumber     = STR_SERIALNUMBER,
+     },
+     .full = &desc_device_canokey,
+-    .high = &desc_device_canokey,
+     .str  = desc_strings,
+ };
+ 
+-- 
+2.36.1
+
 
