@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC61559FB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 19:42:44 +0200 (CEST)
-Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B7E559FB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 19:42:46 +0200 (CEST)
+Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4nKL-000097-Ri
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 13:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39850)
+	id 1o4nKP-000098-3S
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 13:42:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o4nCD-0005E5-P4
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 13:34:17 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:36394)
+ id 1o4nCH-0005Ky-6P
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 13:34:21 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:51148)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o4nCC-00027V-01
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 13:34:17 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id x138so461842pfc.3
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:34:15 -0700 (PDT)
+ id 1o4nCF-000296-Jd
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 13:34:20 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id go6so3471602pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8owhFFnRQ1vWrVWsYClpmbknyw928ToB7PAcea7Qu7g=;
- b=ng+SJkQLuq/okj6Ty7WUu+UMWeIkfxQ1H0EYFnz/uhfU/nWMe68DuD/YmdBDIodEK/
- Wn6rJ2lyIVSDa1R1eQPKPgZUMvmjzsWetdYLk3ObFCLX3y/BRQFBIMoE9jB21+Bm4pLw
- GvHTruL1PeHWtOUQD5kFNMe01kL1T6/R1ujZ5ysZ7as+sHPRh1k8Wu3YyrSjyAkivYvm
- rgY9OL7OKa9WF6YLr1SnRL2gO0vGix40fXCfysDOUr6Jic/bJ5W8tGvYAgCOibJ3x7cH
- Ff3YGRmU50i4J3IgxEL1mXqaoVYLa5wj4JPOne67NFdIj+reY8iPregwxZXf9TbK8bxl
- YlXQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=pv04gkshDxNH3B9RohTSkXVFQo/HTk4n+LV9OX7qnAM=;
+ b=AugesnIAo7XBZbW4sZwzUNzNyIxG4KNUttJ6CU9mMtCBKGm90g3nor/1GN6OzewjKI
+ LEoV1yABwl9HnG+I42jVIC/wQYknaqbGIKQZpb/peQpi3FainKm4Fh4Ik2QsTwKYZ3WC
+ IUefF70ULSK9NamiXO8HqBGH964ONndj5eOQ07Ih9tJH2TFAgjdn7ZrMhmdb1/3yONN0
+ OokF7CSgSCgAhOf0tI12+EMg269TgLCaxjBUoYkh8LuN82NCuxst56DZFBYgcjInjt08
+ I/cLDgNUqTv5CgQhckXSr5qPBZV2p5qHhCjcH+QHuizujHHu/NR6L0Cr/u6oNxpqoNPM
+ EZtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8owhFFnRQ1vWrVWsYClpmbknyw928ToB7PAcea7Qu7g=;
- b=dQFUKUIkHZM6nQunjjWZzhe6sgA169EWlFXSbuW9WgalvQol07bNNiXj+DYglRVrum
- soAAlFtJMuxAsUsA8+Av6r5yWJWLAgaUxhq0eFVzPPW5LjxxWUWcZvQKoRxCyKWQYoTv
- aiVyNjslmPdDam6OaLt2fPWI0cHoQXRbkAdwjw4Y+ChyZNEylTW5BErlrHLnNVyTWL6r
- e97Vn9KorC/NOYaA9c7pl224ZYZgTRmw6ancy8co3brnRJ3k+hH6m/lacYdxk9jKTKWu
- DDco1kE1pjYonUmV3MYg+BqT+SAUAGUvkNazwQNY68iVMd97AzZJoCRGV02wF4LTG4Ll
- DJ8Q==
-X-Gm-Message-State: AJIora/tkLmx7G3O2t6ksU6J0amsF6JhNvYnHdvDoF7zBCw307i6e+Pv
- 8Xr3NPJVSTAbH9aFs6xYeEA=
-X-Google-Smtp-Source: AGRyM1uuhR60WG/E6KkJ9KbBCOcekbwUakmJYF1gbw09/0EyWa76hf8m3tj5Ln6gugJ9qVEi8LuV7w==
-X-Received: by 2002:a63:6942:0:b0:40d:b8a:c55f with SMTP id
- e63-20020a636942000000b0040d0b8ac55fmr12950079pgc.542.1656092054522; 
- Fri, 24 Jun 2022 10:34:14 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=pv04gkshDxNH3B9RohTSkXVFQo/HTk4n+LV9OX7qnAM=;
+ b=JOd0pTdDnjyOGgTi1RrCvjNu6O36irYOpZIzdaAfxDIlfXA1pVfkd7+81lNBCQSqa3
+ 2vxh0en/27iACcmburtR3qTNGnPHIkmhsbxPIVWzNUeSu/Lf0z3VsV2ZVgWRGDwZUopB
+ RVLHffW6I8AkyhLcCbI/vQeXJqcQDMZYVmjtHD9JxBcPga/XuW43Db5D38E6mRlrctZg
+ EHHCMZiKQiOKzlRvRIJADAsm/kB1TCchbMnGiewiVW73FfyILLz1aVI/3gjDOlL49cfw
+ KPM/S8WUq2pmo4ogcGxk3Nog7lixKPTAm+F550fhoiG0D3iVk+lxv/H0t+/oPb93BiAY
+ B3sw==
+X-Gm-Message-State: AJIora+0MTN1zTNRESGIW1y8E9UashDHiaaw++6dBcLRwAdIuT0pDcHM
+ KX7SX57oL04ibHEbW/vjpMk=
+X-Google-Smtp-Source: AGRyM1tfoSrHkITGxkRmX1xwqDYEKe+yvCmAA83Ej8RbMYgvsb46qry6w9t1fqMHVstbmH9l0tRzOQ==
+X-Received: by 2002:a17:903:41d2:b0:16a:2cca:4869 with SMTP id
+ u18-20020a17090341d200b0016a2cca4869mr161593ple.13.1656092058277; 
+ Fri, 24 Jun 2022 10:34:18 -0700 (PDT)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:80ba:2fd0:a1d1:c891])
  by smtp.gmail.com with ESMTPSA id
- mv24-20020a17090b199800b001d954837197sm4269406pjb.22.2022.06.24.10.34.10
+ mv24-20020a17090b199800b001d954837197sm4269406pjb.22.2022.06.24.10.34.14
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 24 Jun 2022 10:34:13 -0700 (PDT)
+ Fri, 24 Jun 2022 10:34:17 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
@@ -66,15 +66,17 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
  Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
  Cleber Rosa <crosa@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH v9 0/4] cutils: Introduce bundle mechanism
-Date: Sat, 25 Jun 2022 02:34:01 +0900
-Message-Id: <20220624173405.85131-1-akihiko.odaki@gmail.com>
+Subject: [PATCH v9 1/4] tests/vm: do not specify -bios option
+Date: Sat, 25 Jun 2022 02:34:02 +0900
+Message-Id: <20220624173405.85131-2-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.1 (Apple Git-133)
+In-Reply-To: <20220624173405.85131-1-akihiko.odaki@gmail.com>
+References: <20220624173405.85131-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,80 +99,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Developers often run QEMU without installing. The bundle mechanism
-allows to look up files which should be present in installation even in
-such a situation.
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-It is a general mechanism and can find any files located relative
-to the installation tree. The build tree must have a new directory,
-qemu-bundle, to represent what files the installation tree would
-have for reference by the executables.
+When running from the build tree, the executable is able to find
+the BIOS on its own; when running from the source tree, a firmware
+blob should already be installed and there is no guarantee that
+the one in the source tree works with the QEMU that is being used for
+the installation.
 
-Note that this abandons compatibility with Windows older than 8 to use
-PathCchSkipRoot(). The extended support for the prior version, 7 ended
-more than 2 years ago, and it is unlikely that anyone would like to run
-the latest QEMU on such an old system.
+Just remove the -bios option, since it is unnecessary and in fact
+there are other x86 VM tests that do not bother specifying it.
 
-v9:
-* Update _WIN32_WINNT in include/qemu/osdep.h (Thomas Huth)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Message-Id: <20220616083025.116902-1-pbonzini@redhat.com>
+---
+ tests/vm/fedora  | 1 -
+ tests/vm/freebsd | 1 -
+ tests/vm/netbsd  | 1 -
+ tests/vm/openbsd | 1 -
+ 4 files changed, 4 deletions(-)
 
-v8:
-* Pass absolute paths to get_relocated_path() (Paolo Bonzini)
-* Use meson introspection (Paolo Bonzini)
-* Drop "qga: Relocate a path emitted in the help text" as it is no longer
-  relevant for the bundle mechanism.
-
-v7: Properly fix --firmwarepath (Daniel P. Berrangé)
-
-v6: Reuse get_relocated_path() in find_bundle() (Paolo Bonzini)
-
-v5:
-* Prefer qemu-bundle if it exists. (Daniel P. Berrangé)
-* Check install_blobs option before installing BIOSes (Paolo Bonzini)
-* Add common code to set up qemu-bundle to the top level meson.build
-  (Paolo Bonzini)
-
-v4:
-* Add Daniel P. Berrangé to CC. Hopefully this helps merging his patch:
-  https://mail.gnu.org/archive/html/qemu-devel/2022-06/msg02276.html
-* Rebased to the latest QEMU.
-
-v3:
-* Note that the bundle mechanism is for any files located relative to the
-  installation tree including but not limited to datadir. (Peter Maydell)
-* Fix "bridge" typo (Philippe Mathieu-Daudé)
-
-v2: Rebased to the latest QEMU.
-
-Akihiko Odaki (3):
-  cutils: Introduce bundle mechanism
-  datadir: Use bundle mechanism
-  module: Use bundle mechanism
-
-Paolo Bonzini (1):
-  tests/vm: do not specify -bios option
-
- .travis.yml                     |  2 +-
- docs/about/build-platforms.rst  |  2 +-
- include/qemu/cutils.h           | 18 +++++++--
- include/qemu/osdep.h            |  2 +-
- meson.build                     |  4 ++
- pc-bios/keymaps/meson.build     | 21 +++-------
- pc-bios/meson.build             | 13 ++-----
- scripts/oss-fuzz/build.sh       |  2 +-
- scripts/symlink-install-tree.py | 37 ++++++++++++++++++
- softmmu/datadir.c               | 22 +----------
- tests/qtest/fuzz/fuzz.c         | 15 --------
- tests/vm/fedora                 |  1 -
- tests/vm/freebsd                |  1 -
- tests/vm/netbsd                 |  1 -
- tests/vm/openbsd                |  1 -
- util/cutils.c                   | 68 +++++++++++++++++++++++----------
- util/meson.build                |  1 +
- util/module.c                   |  1 -
- 18 files changed, 118 insertions(+), 94 deletions(-)
- create mode 100755 scripts/symlink-install-tree.py
-
+diff --git a/tests/vm/fedora b/tests/vm/fedora
+index 92b78d6e2c9..12eca919a08 100755
+--- a/tests/vm/fedora
++++ b/tests/vm/fedora
+@@ -79,7 +79,6 @@ class FedoraVM(basevm.BaseVM):
+         self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+-            "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
+             "-device", "VGA",
+             "-cdrom", iso
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 805db759d67..cd1fabde523 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -95,7 +95,6 @@ class FreeBSDVM(basevm.BaseVM):
+ 
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+-            "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
+             "-device", "VGA",
+             "-cdrom", iso
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index 45aa9a7fda7..aa883ec23c9 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -86,7 +86,6 @@ class NetBSDVM(basevm.BaseVM):
+ 
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+-            "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
+             "-cdrom", iso
+         ])
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index 13c82542140..6f1b6f5b98a 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -82,7 +82,6 @@ class OpenBSDVM(basevm.BaseVM):
+ 
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+-            "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
+             "-device", "VGA",
+             "-cdrom", iso
 -- 
 2.32.1 (Apple Git-133)
 
