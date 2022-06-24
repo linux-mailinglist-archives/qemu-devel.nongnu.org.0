@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FA1559D44
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:28:10 +0200 (CEST)
-Received: from localhost ([::1]:37222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1004F559D45
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:28:18 +0200 (CEST)
+Received: from localhost ([::1]:37980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4lE9-0004JR-Ei
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
+	id 1o4lEG-0004ng-Rw
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:28:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4lCV-0001RM-RC
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:26:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o4lCS-0006b0-GD
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1o4lCU-0001Qm-7n
  for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:26:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656084380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nSEKYOFtyRN1L0qTB7i20oQSSJeAR9fV3qwMI1Nzwkw=;
- b=gL9jWizY1DZeqBFx9v/lv7dlFJYHV+iGE+rblCyLCPgSQX1+WX8Hu9LGb1n4QmxbsRfD65
- RzNQRWDZkZeJ8Npat8ofnPO4FSch/1VSRg4xENyt04rERINFmMGs/8KLXCW7lC7pbDoPOd
- IX09TDvy6JyStCY0r69bD5m7dbxDgJ0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-125-z7SUatZ_OOm98GktCl0ccg-1; Fri, 24 Jun 2022 11:26:16 -0400
-X-MC-Unique: z7SUatZ_OOm98GktCl0ccg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- m7-20020adfa3c7000000b0021b94088ba2so421316wrb.9
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:26:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:38679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1o4lCS-0006ar-Bo
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:26:25 -0400
+Received: by mail-ed1-x533.google.com with SMTP id fd6so3969490edb.5
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:26:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=nSEKYOFtyRN1L0qTB7i20oQSSJeAR9fV3qwMI1Nzwkw=;
- b=Fu9K3Bu+VjJrRgwYyxwxijR2MCWOZWxUpmJ/sb/VFLCYIs/el+Y9PpVhhTIYEon35h
- 5w9w7fcg8/o0aN+k9duR8iwGE5tnMdUGKGjM3ExiissxlI8VRgnMc8vmrGPrxlTgzSlo
- p0HgXI62AGc88RBXEGGav/Axq+Idh+1Hsec4aByIDeyzgtIO8WJ3XM5FsPaTLk9tpV3q
- qb6FaEOJXuGEWlj1m4SILUm4t97yLYKDOE19682TnrAyqIUCFc4EcWQnqimPj7RlmJPd
- mBrlrdoU8RoUHClpqndBo64WJJvKeZLSnZUFU8wTKnlvMfTBGLwa2gYSk6QfRr9BS2tC
- fBeA==
-X-Gm-Message-State: AJIora8TqZAOLe8UAmE2mfxFMkIKv3Yd8Cn4ldoleFZuDcCTkaC7nh1v
- WWSm2GoUPirM4SMcom0ijq4fvIaI1bI/soygcqFX9mjAbbiDX6hZeHwEUew8BWO4Nnp73jVHsI2
- gcJQEp5/dNzpymPo=
-X-Received: by 2002:a7b:c450:0:b0:3a0:32ec:efa9 with SMTP id
- l16-20020a7bc450000000b003a032ecefa9mr4457726wmi.12.1656084375643; 
- Fri, 24 Jun 2022 08:26:15 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vbuJmBd+FQJ6QE1o8OCUtnbzSFsDyIStoACUT7QDh2UuI+zg1cwrBXTN5uLRzaRCLsD1nczw==
-X-Received: by 2002:a7b:c450:0:b0:3a0:32ec:efa9 with SMTP id
- l16-20020a7bc450000000b003a032ecefa9mr4457690wmi.12.1656084375375; 
- Fri, 24 Jun 2022 08:26:15 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-39.customers.d1-online.com.
- [80.187.98.39]) by smtp.gmail.com with ESMTPSA id
- m34-20020a05600c3b2200b003a03ae64f57sm3044661wms.8.2022.06.24.08.26.14
+ bh=PLrEm/Z4fQRtoIfLmcAxX7Ao8rHjLYyrYlBVJeu/kWs=;
+ b=hLekJZH1M+Hb8lzBKwToo4yT1aG+NkoZHESTwEyCmubh31jFMgH1E8RfUjBD0sKoUz
+ 7pisrfMgOf/2hF5mFwtyFqxpqpLBY4eF3ax6dZf2avoZZ1zEoV0wGSkUoWNg8Y0gKuAI
+ 653M0+lhXlKk8PApo+3/s/fSb3M6Ng4brG8F0udP+aoZQ/guAO0JkCZmazxWYx/7Da0j
+ 4sE7rqVRUlC7LIK/j4IemTHtYAsbY1ryjyBN7Vn7dpQT6B+TO98VNLccvL/0mOlUfaHi
+ bQf0EWDiXbS7BL/8/Z62SOK0kThBqv1BfiCr1jbuwQ6dQpQwF/rtKXILPUeoOO44cJJy
+ 3TwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=PLrEm/Z4fQRtoIfLmcAxX7Ao8rHjLYyrYlBVJeu/kWs=;
+ b=5alzzWzRlloQUTaesP1yrjBrou6w2w7AfnFMTXdDrQcU+6NvdgvonjX7WetKSrHHRu
+ nB0cdeZz7NX/ephxaqHG16g1+IXaLbBUy3pJoBEnNO2h2YNVKI3pn4AwwIrAZy0ArYwS
+ Urqe1/I49lnGsJEm7yb8b9lQHBL0b/ylu1ysLIpYPrt76oPMev8Mu/HCWEQXOqvTT5GU
+ 3MoekrUA7Kq4vdG7/ByST7uG6EN+qr2XZJMpw4NTcd8Uq4mUilZS9n8mNsAsbFXQnfZN
+ eztQ1k4H61FII1kasc7GvbSzsCX8/ceG0lZGEivnRB4vdNAf/2nWgsqdOUlIuFqZcqw/
+ UWAw==
+X-Gm-Message-State: AJIora9uDXNjnc0hG/U0Zcp2zzMVc4s1E0YV8MwPEXwTEUpwpdZmcyYt
+ sk8o0nym+QyE74vskXug1lOW/85SVGw=
+X-Google-Smtp-Source: AGRyM1uM0eTlQl40EDw5K9bN+Ch8eN43VI0h9iwnZTJ3Am2Jn3IJpdsEsj5Mjkj9m3tgcvJRRc3Vrg==
+X-Received: by 2002:a05:6402:42cb:b0:435:8c3b:faf8 with SMTP id
+ i11-20020a05640242cb00b004358c3bfaf8mr18451232edc.300.1656084377072; 
+ Fri, 24 Jun 2022 08:26:17 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ da26-20020a056402177a00b004359a690905sm2284402edb.78.2022.06.24.08.26.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jun 2022 08:26:14 -0700 (PDT)
-Message-ID: <a70890d9-6a1b-709c-f672-1e7473ac7804@redhat.com>
+ Fri, 24 Jun 2022 08:26:16 -0700 (PDT)
+Message-ID: <cc7f1005-fe08-320e-0108-8585760de7b5@redhat.com>
 Date: Fri, 24 Jun 2022 17:26:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v8 2/4] cutils: Introduce bundle mechanism
+Subject: Re: [PATCH v8 0/4] cutils: Introduce bundle mechanism
 Content-Language: en-US
 To: Akihiko Odaki <akihiko.odaki@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang
@@ -75,25 +69,25 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang
  Programmingkid <programmingkidx@gmail.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ <berrange@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Thomas Huth <thuth@redhat.com>,
  John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Stefan Weil <sw@weilnetz.de>
 References: <20220624145039.49929-1-akihiko.odaki@gmail.com>
- <20220624145039.49929-3-akihiko.odaki@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220624145039.49929-3-akihiko.odaki@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220624145039.49929-1-akihiko.odaki@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,50 +103,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/06/2022 16.50, Akihiko Odaki wrote:
+On 6/24/22 16:50, Akihiko Odaki wrote:
 > Developers often run QEMU without installing. The bundle mechanism
 > allows to look up files which should be present in installation even in
 > such a situation.
 > 
-> It is a general mechanism and can find any files in the installation
-> tree. The build tree will have a new directory, qemu-bundle, to
-> represent what files the installation tree would have for reference by
-> the executables.
+> It is a general mechanism and can find any files located relative
+> to the installation tree. The build tree must have a new directory,
+> qemu-bundle, to represent what files the installation tree would
+> have for reference by the executables.
 > 
-> Note that it abandons compatibility with Windows older than 8. The
-> extended support for the prior version, 7 ended more than 2 years ago,
-> and it is unlikely that someone would like to run the latest QEMU on
-> such an old system.
+> Note that this abandons compatibility with Windows older than 8 to use
+> PathCchSkipRoot(). The extended support for the prior version, 7 ended
+> more than 2 years ago, and it is unlikely that anyone would like to run
+> the latest QEMU on such an old system.
+
+Thanks, this looks good.  Even though technically it adds more lines 
+than it removes (thanks Windows...), it replaces lots of special cases 
+with a single general mechanism, which is nice and future proof.
+
+The only change I'd make (which I can do when queueing the patch) is to 
+change the directory name to something "strange" like "=install", so 
+that it's unlikely to have a directory named like that in the $bindir.
+
+Any opinions?
+
+Paolo
+
+> v8:
+> * Pass absolute paths to get_relocated_path() (Paolo Bonzini)
+> * Use meson introspection (Paolo Bonzini)
+> * Drop "qga: Relocate a path emitted in the help text" as it is no longer
+>    relevant for the bundle mechanism.
 > 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
+> v7: Properly fix --firmwarepath (Daniel P. Berrangé)
+> 
+> v6: Reuse get_relocated_path() in find_bundle() (Paolo Bonzini)
+> 
+> v5:
+> * Prefer qemu-bundle if it exists. (Daniel P. Berrangé)
+> * Check install_blobs option before installing BIOSes (Paolo Bonzini)
+> * Add common code to set up qemu-bundle to the top level meson.build
+>    (Paolo Bonzini)
+> 
+> v4:
+> * Add Daniel P. Berrangé to CC. Hopefully this helps merging his patch:
+>    https://mail.gnu.org/archive/html/qemu-devel/2022-06/msg02276.html
+> * Rebased to the latest QEMU.
+> 
+> v3:
+> * Note that the bundle mechanism is for any files located relative to the
+>    installation tree including but not limited to datadir. (Peter Maydell)
+> * Fix "bridge" typo (Philippe Mathieu-Daudé)
+> 
+> v2: Rebased to the latest QEMU.
+> 
+> Akihiko Odaki (3):
+>    cutils: Introduce bundle mechanism
+>    datadir: Use bundle mechanism
+>    module: Use bundle mechanism
+> 
+> Paolo Bonzini (1):
+>    tests/vm: do not specify -bios option
+> 
+>   .travis.yml                     |  2 +-
 >   docs/about/build-platforms.rst  |  2 +-
 >   include/qemu/cutils.h           | 18 +++++++--
 >   meson.build                     |  4 ++
+>   pc-bios/keymaps/meson.build     | 21 +++-------
+>   pc-bios/meson.build             | 13 ++-----
+>   scripts/oss-fuzz/build.sh       |  2 +-
 >   scripts/symlink-install-tree.py | 37 ++++++++++++++++++
+>   softmmu/datadir.c               | 22 +----------
+>   tests/qtest/fuzz/fuzz.c         | 15 --------
+>   tests/vm/fedora                 |  1 -
+>   tests/vm/freebsd                |  1 -
+>   tests/vm/netbsd                 |  1 -
+>   tests/vm/openbsd                |  1 -
 >   util/cutils.c                   | 68 +++++++++++++++++++++++----------
 >   util/meson.build                |  1 +
->   6 files changed, 105 insertions(+), 25 deletions(-)
+>   util/module.c                   |  1 -
+>   17 files changed, 117 insertions(+), 93 deletions(-)
 >   create mode 100755 scripts/symlink-install-tree.py
 > 
-> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-> index 1958edb4305..ebde20f9815 100644
-> --- a/docs/about/build-platforms.rst
-> +++ b/docs/about/build-platforms.rst
-> @@ -88,7 +88,7 @@ Windows
->   
->   The project aims to support the two most recent versions of Windows that are
->   still supported by the vendor. The minimum Windows API that is currently
-> -targeted is "Windows 7", so theoretically the QEMU binaries can still be run
-> +targeted is "Windows 8", so theoretically the QEMU binaries can still be run
->   on older versions of Windows, too. However, such old versions of Windows are
->   not tested anymore, so it is recommended to use one of the latest versions of
->   Windows instead.
-
-Please update _WIN32_WINNT in include/qemu/osdep.h accordingly.
-
-Thanks,
-  Thomas
 
 
