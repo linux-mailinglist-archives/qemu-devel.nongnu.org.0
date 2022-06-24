@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E02255956D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 10:28:46 +0200 (CEST)
-Received: from localhost ([::1]:36682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58B5559576
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 10:30:31 +0200 (CEST)
+Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4egG-0005dM-9Y
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 04:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39108)
+	id 1o4ehy-0007KD-P8
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 04:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4edl-0003sE-DX
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:26:09 -0400
-Received: from smtpout140.security-mail.net ([85.31.212.143]:25880)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4ee8-0004br-Ti
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:26:32 -0400
+Received: from mxout.security-mail.net ([85.31.212.42]:52490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4edh-0005Av-Tc
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:26:09 -0400
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4ee4-0005Co-VX
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:26:32 -0400
 Received: from localhost (localhost [127.0.0.1])
- by fx403.security-mail.net (Postfix) with ESMTP id 1F7813B67B4
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:26:03 +0200 (CEST)
+ by fx302.security-mail.net (Postfix) with ESMTP id 02BEC3D3B0D2
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:26:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1656059163;
- bh=OTQGWB09P21y/n/8RONdNOdrwvG0rK6VMBA0eh6fD/g=;
+ s=sec-sig-email; t=1656059187;
+ bh=uzFQXW8IfbPFyuQQSEx2mK+M9UYpVEqCcbXXGozebyE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=mYRdFuoKdfvzxZM/LI3n0B0EtoFAvEZPJY+f/gw5OaoB++iwEKvHFyH8+3uADmRIJ
- YwNLoI+cae+S/Cx4X4zwMPpOA6Np38acto4o8bYP7UxYKtibqVZ9CNrtH+edLPpHHF
- D5K2jrV2EeyKEOnSgKGKuuscy7JCNoS8jJkEjThA=
-Received: from fx403 (localhost [127.0.0.1]) by fx403.security-mail.net
- (Postfix) with ESMTP id A72AF3B67A1; Fri, 24 Jun 2022 10:26:02 +0200 (CEST)
+ b=FNto5OrjlzC2KU+8JKQG1ZCA/k9fq9IHpfOgvHwZjbcrwv++ScIE8CQN7xV2YZMsK
+ 3+Gu/3ojGzlZMuBBGaAGhUBoegqKrHTLz6mneoUOLg18g1N4XezUjhaMtWFzN0P7Ai
+ ZQaleb1yPAF6tf84NIzqXEhjPaSFHTRV8QTxao9w=
+Received: from fx302 (localhost [127.0.0.1]) by fx302.security-mail.net
+ (Postfix) with ESMTP id A62323D3B0C7; Fri, 24 Jun 2022 10:26:26 +0200 (CEST)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx403.security-mail.net (Postfix) with ESMTPS id 1AE383B676B; Fri, 24 Jun
- 2022 10:26:01 +0200 (CEST)
+ fx302.security-mail.net (Postfix) with ESMTPS id 217CF3D3B0B8; Fri, 24 Jun
+ 2022 10:26:26 +0200 (CEST)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id F40C527E04F8; Fri, 24 Jun 2022
- 10:26:00 +0200 (CEST)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 0633427E04FD; Fri, 24 Jun 2022
+ 10:26:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id DB7F027E04FB; Fri, 24 Jun 2022 10:26:00 +0200 (CEST)
+ (Postfix) with ESMTP id E4BB227E04FB; Fri, 24 Jun 2022 10:26:25 +0200 (CEST)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- y0IRJcSakSmq; Fri, 24 Jun 2022 10:26:00 +0200 (CEST)
+ iYk5f-JmqtqR; Fri, 24 Jun 2022 10:26:25 +0200 (CEST)
 Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id BF14E27E04F8; Fri, 24 Jun 2022 10:26:00 +0200
+ (Postfix) with ESMTPSA id CC3FB27E04F8; Fri, 24 Jun 2022 10:26:25 +0200
  (CEST)
 X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <20ed.62b57519.19ce7.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu DB7F027E04FB
+Secumail-id: <1ac5.62b57532.210f2.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu E4BB227E04FB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656059160;
- bh=aENvgyfeuMlXgzaPhHkt0yJPpuA7phdIplwB6MZhK+I=;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656059185;
+ bh=J5UaBcwvx8XObd4EAfsuLP0NvJwQpwwpSArpC7N/nE4=;
  h=Date:From:To:Message-ID:MIME-Version;
- b=Jo4edmZG2zzeGJxH8kExDfQT7eSedMMVdI+6cH+qyYeUnfrGE4049Xp3wP1ceELOr
- 5pk9hopmO4hXkty9RKC9vDv8MngELfuAAgRVMHRJfFijt/W5WDIPGeK1J5iT6ZfyW+
- ABT7XrpkVXQg/zuOCCtNwuJbFSVXYcjPj54Qt0Fo=
-Date: Fri, 24 Jun 2022 10:26:00 +0200
+ b=eRpat1iPzLtudPLC5BNG5gU0fZwOH/geHasUyPowblhz+yfrNV93v2kKxuYOA27u6
+ ZfVlu4Y69cuEY35DJA2zBvuZPO5vcL+lnHRsA/i8biY9sFxJ6Cm8uy9kI0K1Hvf1m7
+ Zluixf1FAGBjNXNj0OeEpy2vgH7ygl/4m0d4tna4=
+Date: Fri, 24 Jun 2022 10:26:25 +0200
 From: Luc Michel <lmichel@kalray.eu>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 38/53] semihosting: Create semihost_sys_{stat,fstat}
-Message-ID: <20220624082600.GF25499@ws2101.lin.mbt.kalray.eu>
+Subject: Re: [PATCH v4 39/53] semihosting: Create semihost_sys_gettimeofday
+Message-ID: <20220624082625.GG25499@ws2101.lin.mbt.kalray.eu>
 References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-39-richard.henderson@linaro.org>
+ <20220607204557.658541-40-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220607204557.658541-39-richard.henderson@linaro.org>
+In-Reply-To: <20220607204557.658541-40-richard.henderson@linaro.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.143; envelope-from=lmichel@kalray.eu;
- helo=smtpout140.security-mail.net
+Received-SPF: pass client-ip=85.31.212.42; envelope-from=lmichel@kalray.eu;
+ helo=mxout.security-mail.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -93,211 +93,100 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 13:45 Tue 07 Jun     , Richard Henderson wrote:
-> These syscalls will be used by m68k and nios2 semihosting.
+> This syscall will be used by m68k and nios2 semihosting.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Luc Michel <lmichel@kalray.eu>
 
 > ---
->  include/semihosting/syscalls.h |   7 ++
->  semihosting/syscalls.c         | 137 +++++++++++++++++++++++++++++++++
->  2 files changed, 144 insertions(+)
+>  include/semihosting/syscalls.h |  3 +++
+>  semihosting/syscalls.c         | 42 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 45 insertions(+)
 > 
 > diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
-> index c9f9e66be1..ecc97751a9 100644
+> index ecc97751a9..347200cb9f 100644
 > --- a/include/semihosting/syscalls.h
 > +++ b/include/semihosting/syscalls.h
-> @@ -49,6 +49,13 @@ void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
->                         gdb_syscall_complete_cb flen_cb,
->                         int fd, target_ulong fstat_addr);
+> @@ -66,4 +66,7 @@ void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
+>  void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
+>                           target_ulong cmd, target_ulong cmd_len);
 >  
-> +void semihost_sys_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                        int fd, target_ulong addr);
+> +void semihost_sys_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                               target_ulong tv_addr, target_ulong tz_addr);
 > +
-> +void semihost_sys_stat(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                       target_ulong fname, target_ulong fname_len,
-> +                       target_ulong addr);
-> +
->  void semihost_sys_remove(CPUState *cs, gdb_syscall_complete_cb complete,
->                           target_ulong fname, target_ulong fname_len);
->  
+>  #endif /* SEMIHOSTING_SYSCALLS_H */
 > diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-> index de846ced32..d21064716d 100644
+> index d21064716d..db1e9f6cc9 100644
 > --- a/semihosting/syscalls.c
 > +++ b/semihosting/syscalls.c
-> @@ -63,6 +63,52 @@ static int validate_lock_user_string(char **pstr, CPUState *cs,
->      return ret;
+> @@ -236,6 +236,12 @@ static void gdb_system(CPUState *cs, gdb_syscall_complete_cb complete,
+>      gdb_do_syscall(complete, "system,%s", cmd, len);
 >  }
 >  
-> +/*
-> + * TODO: Note that gdb always stores the stat structure big-endian.
-> + * So far, that's ok, as the only two targets using this are also
-> + * big-endian.  Until we do something with gdb, also produce the
-> + * same big-endian result from the host.
-> + */
-> +static int copy_stat_to_user(CPUState *cs, target_ulong addr,
-> +                             const struct stat *s)
+> +static void gdb_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                             target_ulong tv_addr, target_ulong tz_addr)
 > +{
-> +    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-> +    struct gdb_stat *p;
-> +
-> +    if (s->st_dev != (uint32_t)s->st_dev ||
-> +        s->st_ino != (uint32_t)s->st_ino) {
-> +        return -EOVERFLOW;
-> +    }
-> +
-> +    p = lock_user(VERIFY_WRITE, addr, sizeof(struct gdb_stat), 0);
-> +    if (!p) {
-> +        return -EFAULT;
-> +    }
-> +
-> +    p->gdb_st_dev = cpu_to_be32(s->st_dev);
-> +    p->gdb_st_ino = cpu_to_be32(s->st_ino);
-> +    p->gdb_st_mode = cpu_to_be32(s->st_mode);
-> +    p->gdb_st_nlink = cpu_to_be32(s->st_nlink);
-> +    p->gdb_st_uid = cpu_to_be32(s->st_uid);
-> +    p->gdb_st_gid = cpu_to_be32(s->st_gid);
-> +    p->gdb_st_rdev = cpu_to_be32(s->st_rdev);
-> +    p->gdb_st_size = cpu_to_be64(s->st_size);
-> +#ifdef _WIN32
-> +    /* Windows stat is missing some fields.  */
-> +    p->gdb_st_blksize = 0;
-> +    p->gdb_st_blocks = 0;
-> +#else
-> +    p->gdb_st_blksize = cpu_to_be64(s->st_blksize);
-> +    p->gdb_st_blocks = cpu_to_be64(s->st_blocks);
-> +#endif
-> +    p->gdb_st_atime = cpu_to_be32(s->st_atime);
-> +    p->gdb_st_mtime = cpu_to_be32(s->st_mtime);
-> +    p->gdb_st_ctime = cpu_to_be32(s->st_ctime);
-> +
-> +    unlock_user(p, addr, sizeof(struct gdb_stat));
-> +    return 0;
+> +    gdb_do_syscall(complete, "gettimeofday,%x,%x", tv_addr, tz_addr);
 > +}
 > +
 >  /*
->   * GDB semihosting syscall implementations.
+>   * Host semihosting syscall implementations.
 >   */
-> @@ -133,6 +179,19 @@ static void gdb_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
->      gdb_do_syscall(complete, "fstat,%x,%x", (target_ulong)gf->hostfd, addr);
+> @@ -487,6 +493,32 @@ static void host_system(CPUState *cs, gdb_syscall_complete_cb complete,
+>      unlock_user(p, cmd, 0);
 >  }
 >  
-> +static void gdb_stat(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                     target_ulong fname, target_ulong fname_len,
-> +                     target_ulong addr)
-> +{
-> +    int len = validate_strlen(cs, fname, fname_len);
-> +    if (len < 0) {
-> +        complete(cs, -1, -len);
-> +        return;
-> +    }
-> +
-> +    gdb_do_syscall(complete, "stat,%s,%x", fname, len, addr);
-> +}
-> +
->  static void gdb_remove(CPUState *cs, gdb_syscall_complete_cb complete,
->                         target_ulong fname, target_ulong fname_len)
->  {
-> @@ -321,6 +380,51 @@ static void host_flen(CPUState *cs, gdb_syscall_complete_cb complete,
->      }
->  }
->  
-> +static void host_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                       GuestFD *gf, target_ulong addr)
-> +{
-> +    struct stat buf;
-> +    int ret;
-> +
-> +    ret = fstat(gf->hostfd, &buf);
-> +    if (ret) {
-> +        complete(cs, -1, errno);
-> +        return;
-> +    }
-> +    ret = copy_stat_to_user(cs, addr, &buf);
-> +    complete(cs, ret ? -1 : 0, ret ? -ret : 0);
-> +}
-> +
-> +static void host_stat(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                      target_ulong fname, target_ulong fname_len,
-> +                      target_ulong addr)
+> +static void host_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                              target_ulong tv_addr, target_ulong tz_addr)
 > +{
 > +    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-> +    struct stat buf;
-> +    char *name;
-> +    int ret, err;
+> +    struct gdb_timeval *p;
+> +    int64_t rt;
 > +
-> +    ret = validate_lock_user_string(&name, cs, fname, fname_len);
-> +    if (ret < 0) {
-> +        complete(cs, -1, -ret);
+> +    /* GDB fails on non-null TZ, so be consistent. */
+> +    if (tz_addr != 0) {
+> +        complete(cs, -1, EINVAL);
 > +        return;
 > +    }
 > +
-> +    ret = stat(name, &buf);
-> +    if (ret) {
-> +        err = errno;
-> +    } else {
-> +        ret = copy_stat_to_user(cs, addr, &buf);
-> +        err = 0;
-> +        if (ret < 0) {
-> +            err = -ret;
-> +            ret = -1;
-> +        }
+> +    p = lock_user(VERIFY_WRITE, tv_addr, sizeof(struct gdb_timeval), 0);
+> +    if (!p) {
+> +        complete(cs, -1, EFAULT);
+> +        return;
 > +    }
-> +    complete(cs, ret, err);
-> +    unlock_user(name, fname, 0);
+> +
+> +    /* TODO: Like stat, gdb always produces big-endian results; match it. */
+> +    rt = g_get_real_time();
+> +    p->tv_sec = cpu_to_be32(rt / G_USEC_PER_SEC);
+> +    p->tv_usec = cpu_to_be64(rt % G_USEC_PER_SEC);
+> +    unlock_user(p, tv_addr, sizeof(struct gdb_timeval));
 > +}
 > +
->  static void host_remove(CPUState *cs, gdb_syscall_complete_cb complete,
->                          target_ulong fname, target_ulong fname_len)
->  {
-> @@ -629,6 +733,39 @@ void semihost_sys_flen(CPUState *cs, gdb_syscall_complete_cb fstat_cb,
+>  /*
+>   * Static file semihosting syscall implementations.
+>   */
+> @@ -796,3 +828,13 @@ void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
+>          host_system(cs, complete, cmd, cmd_len);
 >      }
 >  }
->  
-> +void semihost_sys_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                        int fd, target_ulong addr)
-> +{
-> +    GuestFD *gf = get_guestfd(fd);
 > +
-> +    if (!gf) {
-> +        complete(cs, -1, EBADF);
-> +        return;
-> +    }
-> +    switch (gf->type) {
-> +    case GuestFDGDB:
-> +        gdb_fstat(cs, complete, gf, addr);
-> +        break;
-> +    case GuestFDHost:
-> +        host_fstat(cs, complete, gf, addr);
-> +        break;
-> +    case GuestFDStatic:
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +}
-> +
-> +void semihost_sys_stat(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                       target_ulong fname, target_ulong fname_len,
-> +                       target_ulong addr)
+> +void semihost_sys_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
+> +                               target_ulong tv_addr, target_ulong tz_addr)
 > +{
 > +    if (use_gdb_syscalls()) {
-> +        gdb_stat(cs, complete, fname, fname_len, addr);
+> +        gdb_gettimeofday(cs, complete, tv_addr, tz_addr);
 > +    } else {
-> +        host_stat(cs, complete, fname, fname_len, addr);
+> +        host_gettimeofday(cs, complete, tv_addr, tz_addr);
 > +    }
 > +}
-> +
->  void semihost_sys_remove(CPUState *cs, gdb_syscall_complete_cb complete,
->                           target_ulong fname, target_ulong fname_len)
->  {
 > -- 
 > 2.34.1
 > 
 > 
 > 
 > 
-> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=c440.629fd46f.95a21.0&r=lmichel%40kalrayinc.com&s=qemu-devel-bounces%2Blmichel%3Dkalrayinc.com%40nongnu.org&o=%5BPATCH+v4+38%2F53%5D+semihosting%3A+Create+semihost_sys_%7Bstat%2Cfstat%7D&verdict=C&c=883b33c80ed77b64c3d11130c7aa79d39004fc91
+> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=c119.629fd54f.4e3dd.0&r=lmichel%40kalrayinc.com&s=qemu-devel-bounces%2Blmichel%3Dkalrayinc.com%40nongnu.org&o=%5BPATCH+v4+39%2F53%5D+semihosting%3A+Create+semihost_sys_gettimeofday&verdict=C&c=72ff7ee6d62e9655defaed81c32535afbc86c0b7
 > 
 
 -- 
