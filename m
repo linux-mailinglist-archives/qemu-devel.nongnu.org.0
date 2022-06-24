@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310FC558CAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 03:14:50 +0200 (CEST)
-Received: from localhost ([::1]:57692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707B0558CC1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 03:22:00 +0200 (CEST)
+Received: from localhost ([::1]:60930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4XuK-0005sg-OA
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 21:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38332)
+	id 1o4Y1G-0008Vp-96
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jun 2022 21:21:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
- id 1o4XtP-00051b-4k
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 21:13:52 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57398 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maobibo@loongson.cn>) id 1o4XtM-00054L-Qp
- for qemu-devel@nongnu.org; Thu, 23 Jun 2022 21:13:50 -0400
-Received: from [10.20.42.170] (unknown [10.20.42.170])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxj0zDD7ViV+lXAA--.2167S3;
- Fri, 24 Jun 2022 09:13:39 +0800 (CST)
-Message-ID: <933763bb-f65e-ada6-fdf2-525e2229a51a@loongson.cn>
-Date: Fri, 24 Jun 2022 09:13:39 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o4XzU-0007Pz-DH
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 21:20:08 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o4XzS-00062a-9G
+ for qemu-devel@nongnu.org; Thu, 23 Jun 2022 21:20:07 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id d129so1000760pgc.9
+ for <qemu-devel@nongnu.org>; Thu, 23 Jun 2022 18:20:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=pRrUPz0xYjNlJsveb1Vmc7MeLq51QQk292lIAl5XYPU=;
+ b=pw1234ghNZRHuv44JY86uZY5B1/n1MmjCK3XV/uYtpr8Id90XndEdX4MYYwYRfjhF2
+ PxShf6Lc9ZM+nnHruq49/npvV7oVlfmy1+zUwPIycMIgeyOb8Ab4JrzCbN/rrjEeAuGR
+ q6LJBGT97pGgG8OktS7oINiIJMMwO41CM6d/vPu9yAuZfEb2bKFd1DFlGeYEpsda/rbV
+ dwE1bY/+MoEUjKrDTvtwMDoVPZ+sgshQLdU6Db30c2wNXP4rNpz4cg6bRe2vyV7G6UXA
+ 6BzcXXhPhDJVXX5oLvcoSNyv+oIPyDusGtnxrqshYNJvsrAH3YolYRjO39BobY69H6ID
+ EW3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pRrUPz0xYjNlJsveb1Vmc7MeLq51QQk292lIAl5XYPU=;
+ b=LsKbtsoI5ftghr32Xfv/ZXMEnHHENdFi3n50rRlLwStpQThuoNJLa4B172t2xtGHp0
+ /VjQZodc0EOYOnU1LExDsAobcsEJrMj2yNtGXPO84PCShxfNNjiXXpKTYNsHMdQYul9o
+ iQY439dEyghTv0JuuoRsX3d46oDvgMSWEcdP2ggWvIyKKAucSTm8WUQJwTjsfPhnGPlV
+ CFOIMyiv//zyX1yHuU63H5FDVB1/FRkhULZBoZQ6l1L5Yfbe6PMNm8l5FYD2nO/IEloN
+ 0Ioxo2u/UPjF7Kgm1SvQ79oaM4tK4fHjAQE56I2u1HTtkYlGF2H003t+kbsalMSr4vHH
+ znmw==
+X-Gm-Message-State: AJIora973pCxYAQn0PJgskXUNHTeQLhjrsOGwh87CQLf9SGRV32FhoBd
+ OcLla/tbCwSuBsHFaaTOS9aHvg==
+X-Google-Smtp-Source: AGRyM1vFEFQ+AD1eJ5V30o/v0mBy/cPV4fg+Xtl0f6JMOnc8amy8zf77oZo1Z2uoCjHfgY0qep74MQ==
+X-Received: by 2002:a62:528c:0:b0:525:3bfc:a5f7 with SMTP id
+ g134-20020a62528c000000b005253bfca5f7mr14796964pfb.66.1656033604639; 
+ Thu, 23 Jun 2022 18:20:04 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1543:f001:8d3b:10e5:674f:8876?
+ ([2602:ae:1543:f001:8d3b:10e5:674f:8876])
+ by smtp.gmail.com with ESMTPSA id
+ l12-20020a62be0c000000b005254344bf48sm295013pff.5.2022.06.23.18.20.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jun 2022 18:20:04 -0700 (PDT)
+Message-ID: <7fbda1a0-938d-fe5d-a6e7-ddaef3577555@linaro.org>
+Date: Thu, 23 Jun 2022 18:20:02 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+ Thunderbird/91.9.1
 Subject: Re: [PATCH v19 02/13] linux-user: Add LoongArch signal support
 Content-Language: en-US
-From: maobibo <maobibo@loongson.cn>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+To: maobibo <maobibo@loongson.cn>, Song Gao <gaosong@loongson.cn>,
+ qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, Xiaojuan Yang <yangxiaojuan@loongson.cn>
 References: <20220623085526.1678168-1-gaosong@loongson.cn>
  <20220623085526.1678168-3-gaosong@loongson.cn>
  <fe3d36d7-2ad1-94d1-dd06-e650916b37fd@linaro.org>
  <2fc368ce-7323-b49b-20f1-54a449a40ce4@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <2fc368ce-7323-b49b-20f1-54a449a40ce4@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxj0zDD7ViV+lXAA--.2167S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kr43Ww48Aw4DWF4kXF1fWFg_yoW8Gr45pr
- 48JF48CryUJr1rCrnFk3WjqFy5AFn7J34UXw18XFyUGrZ8Zr12gryjgryq9FyUAa18Jr1j
- yr4UGF9xZrn8JFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvv14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
- 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
- 8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
- xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
- 8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2
- z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73Uj
- IFyTuYvjfU5WlkUUUUU
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,9 +97,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-在 2022/6/24 08:45, maobibo 写道:
+On 6/23/22 17:45, maobibo wrote:
 > 
 > 
 > 在 2022/6/24 07:34, Richard Henderson 写道:
@@ -101,16 +116,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 >>
 >> This is incorrect.  Where did this come from?  It certainly doesn't appear in the kernel's version of setup_sigcontext.  The only reason the result works for you is that this is overwritten by copy_fpu_to_sigframe within setup_sigframe.
 > 
-> The val of flags is SC_USED_FP alway in function setup_extcontext in this version. We want to optimization in future if FP is not used for application where sigcontext for FP is not necessary. Also it can will be extended for 128bit/256bit vector FPU. 
+> The val of flags is SC_USED_FP alway in function setup_extcontext in this version. We want to optimization in future if FP is not used for application where sigcontext for FP is not necessary. Also it can will be extended for 128bit/256bit vector FPU.
 
-Oh, it is my fault. It is not necessary to set sc_extcontext[0], we will remove these sentences, and thank for your guidance.
+No, that's not what I mean.  The store of the address is incorrect.
+This is no such address stored in the frame at this location.
 
-> 
-> regards
-> bibo,mao
->>
->>
->> r~
-> 
+If you believe that I am incorrect, please point to the line within the kernel source to 
+which this corresponds.
 
+
+r~
 
