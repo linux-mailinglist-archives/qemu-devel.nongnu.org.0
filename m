@@ -2,82 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88AFC559FC4
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 19:53:41 +0200 (CEST)
-Received: from localhost ([::1]:54966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAA255A0CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 20:30:10 +0200 (CEST)
+Received: from localhost ([::1]:48534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4nUy-0002QA-Dv
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 13:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42548)
+	id 1o4o4B-0004N7-0W
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 14:30:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o4nRg-0000rV-Kh
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 13:50:16 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:33976)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o4nRe-0004dl-Qk
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 13:50:16 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- a11-20020a17090acb8b00b001eca0041455so5845464pju.1
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=ZPtcRup4AjQet61UO9ea6q/T1k6/RVvd8+/zjAcghHQ=;
- b=d0BYXlMiP7KG3Ji1Q2USJw+vurdRp8M6h9K3WsSAoZvqfYsdfgf4PSPNY2n2H5zFbk
- qL87YDnERx8d2+Pix+e86il7muaBw8q+T3IOtpGYohXjvNbpsnDEsj5FUfSR9te6CEep
- 31aMaWjakDRuDUQgN1jjX8qfOjwM48F0msdtrwBtaBeW462DahZ29ZKivmIDchKZg0wZ
- 5Z/f8sGN6Dr8yYr+hml84ldSOBVZVEjFi/OMbn9/FussUj5Mh7yzfPOBTfeIV0EjQEgX
- WXKmIT+fUmIWDV0LPC2RXuIsJHtB1xeDOm8skdUOnItdfJI9bbOS6OZ06HL4mKnvhp+u
- JUGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ZPtcRup4AjQet61UO9ea6q/T1k6/RVvd8+/zjAcghHQ=;
- b=NAWmOzM3g7wipmxVHQtF+whuGl2M4MF9z8NqiQgC7MpuN3bPcBQM3aNdCqnVsGwsLE
- Z+ir+Mgk+Ui4kB7TptVsIW757u5fueXuFXeLEerR7JVB90TexAjYuTHPSBCaxEAsxj6B
- Eu+LAbUrSdpGxeHhiHw4BORmLXvQtD7jrpS0kCrP5sMELQuFXdXY6bp5LCnZOockiFzx
- 8VDAARInVnHt+Y8ZjT3+uITtvBiIRsE9Aenpm9bcxm3Izkw91jaHIQsXVpgFaWFPD1Fu
- oGQbcwrb1GfY184JGlOzYN6ttPHspfIPHoBiYTi6LMXc6CMHgq6uixfzJ/c+Sm2p96ax
- xaAg==
-X-Gm-Message-State: AJIora/xfaMCdvswsQzA3q+7evtmTbeaPTD+7gDEl6ZTszSkU5uGP8xP
- lmcOvgo/O7SiqYH86TRyuBMo9w==
-X-Google-Smtp-Source: AGRyM1urBfSHYTs1G60ccJkR3jBAKmQpIIxOCyWS5SDO2M2eihWzdJi+vFOcwuYq/tEiCyRFo839Kg==
-X-Received: by 2002:a17:90b:3e8a:b0:1ec:c09d:7963 with SMTP id
- rj10-20020a17090b3e8a00b001ecc09d7963mr36777pjb.199.1656093012871; 
- Fri, 24 Jun 2022 10:50:12 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1543:f001:b25a:9949:8352:ec5d?
- ([2602:ae:1543:f001:b25a:9949:8352:ec5d])
- by smtp.gmail.com with ESMTPSA id
- y3-20020a17090322c300b001618b70dcc9sm2161373plg.101.2022.06.24.10.50.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jun 2022 10:50:12 -0700 (PDT)
-Message-ID: <073a37fc-7423-846f-8b28-e272a8ab79ef@linaro.org>
-Date: Fri, 24 Jun 2022 10:50:10 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 0/3] Linux user for 7.1 patches
-Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20220624094943.729568-1-laurent@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220624094943.729568-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+ (Exim 4.90_1)
+ (envelope-from <0201553e4342535b0fe98840d84489259442f739@lizzy.crudebyte.com>)
+ id 1o4o0J-0002dN-79
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 14:26:03 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:54185)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <0201553e4342535b0fe98840d84489259442f739@lizzy.crudebyte.com>)
+ id 1o4o0D-000154-Pn
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 14:26:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=XL2Bk1XB1pLJWTcGgxkO41fj57K4SnoWCrZmsgR1mqY=; b=UK9Z5
+ d3CQf6/3Yp/Nq5/iluqstXv8LqoZ+jFl70aXSDwXI1AlNP/n7gOYo6s3feaOsIcIU8c9HrJlxlf8m
+ sFBgm/1Xh4ZnY5rV/yFRFziZvWOfUIepjDYiDr8e0Vi2YOmxBeLTPHcBoDThJRx1/HhHXNrQRp3Jm
+ uflbi86aq+kDcwcCkuQtcpq+NQaNVzuxcjIdCk4r+Wfpcx6OU0FPSlkd03zIEj6/IVYlaWUOoy9Aq
+ 47TtnPv3jU1AjWZyRL5xyx2ozoqxSLh+t3EBW0nrkaYosLZWTu+YHDJwaGBl735yuukBcEgsVU60k
+ vjvkzUBM0rv0/vnHdAS34dK0HCv9w==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Fri, 24 Jun 2022 19:46:18 +0200
+Subject: [RFC PATCH] tests/9p: introduce declarative function calls
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Message-Id: <E1o4nzC-0005fT-RL@lizzy.crudebyte.com>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=0201553e4342535b0fe98840d84489259442f739@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,46 +60,226 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/22 02:49, Laurent Vivier wrote:
-> The following changes since commit c8b2d413761af732a0798d8df45ce968732083fe:
-> 
->    Merge tag 'bsd-user-syscall-2022q2-pull-request' of ssh://github.com/qemu-bsd-user/qemu-bsd-user into staging (2022-06-19 13:56:13 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.1-pull-request
-> 
-> for you to fetch changes up to 9a7f682c26acae5bc8bfd1f7c774070da54f1625:
-> 
->    linux-user: Adjust child_tidptr on set_tid_address() syscall (2022-06-24 10:00:01 +0200)
-> 
-> ----------------------------------------------------------------
-> linux-user pull request 20220624
+There are currently 3 different functions for sending a 9p 'Twalk'
+request. They are all doing the same thing, just in a slightly different
+way and with slightly different function arguments.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Merge those 3 functions into a single function by using a struct for
+function call arguments and use designated initializers when calling this
+function to turn usage into a declarative approach, which is better
+readable and easier to maintain.
 
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+  Before working on actual new stuff, I looked at the current unit test code
+  and thought it's probably a good time to make the overall test code better
+  readable before piling up more test code soon.
 
-r~
+  In this patch I am suggesting to use named function arguments. For instance
+ 
+     do_walk_expect_error(v9p, "non-existent", ENOENT);
 
+  is probably a bit hard to tell what it is supposed to be doing without
+  looking up the function prototype, whereas
+  
+    Twalk((TWalkOpt) {
+      .client = v9p, .path = "non-existent", .expectErr = ENOENT
+    });
 
-> 
-> ----------------------------------------------------------------
-> 
-> Helge Deller (1):
->    linux-user: Adjust child_tidptr on set_tid_address() syscall
-> 
-> Ilya Leoshkevich (1):
->    linux-user: Add partial support for MADV_DONTNEED
-> 
-> Richard Henderson (1):
->    linux-user/x86_64: Fix ELF_PLATFORM
-> 
->   linux-user/elfload.c        | 30 +++++++++--------
->   linux-user/mmap.c           | 64 +++++++++++++++++++++++++++++++++++++
->   linux-user/syscall.c        | 20 ++++++------
->   linux-user/user-internals.h |  1 +
->   linux-user/user-mmap.h      |  1 +
->   5 files changed, 92 insertions(+), 24 deletions(-)
-> 
+  should make it immediately clear (provided you have some knowledge about the
+  9p network protocol). I'm using this coding style of declarative functions
+  calls a lot nowadays, which makes especially sense in the context of unit
+  test code as those are typically passing literals as function arguments as
+  shown above very often. But also in other contexts it is beneficial as it
+  allows various linear combinations of possible function arguments being
+  used / ommitted on function calls and still being handled with only one
+  function implementation.
+  
+  Caller has a great flexibility of which function arguments to use, and is
+  also completely free of the order of the arguments being specified.
+
+  Another benefit is that you can also extend functionality later on, without
+  breaking existing function calls. So this avoids a lot of refactoring work
+  on the long-term.
+
+  With C++ you could also define specific default values for ommitted function
+  arguments. In C unfortunately it is just the language default initializer
+  which usually is simply zero.
+
+  Obviously with a large number of possible function arguments provided, some
+  combinations make sense and some simply don't. In this patch for instance
+  this is handled with assertion faults like:
+  
+    /* you can expect either Rwalk or Rlerror, but obviously not both */
+    g_assert(!opt.expectErr || !(opt.Rwalk.nwqid || opt.Rwalk.wqid));
+
+  So this would be a runtime error. In C++ you could turn the function into
+  a constexpr and make that a compile error instead, in C there is
+  
+    _Static_assert(...)
+
+  but as there is no constexpr, that would probably be a hard to achieve.
+
+  Thoughts?
+---
+ tests/qtest/virtio-9p-test.c | 79 +++++++++++++++++++-----------------
+ 1 file changed, 42 insertions(+), 37 deletions(-)
+
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 25305a4cf7..6a7f1f6252 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -669,50 +669,51 @@ static void do_version(QVirtio9P *v9p)
+     g_assert_cmpmem(server_version, server_len, version, strlen(version));
+ }
+ 
++/* options for 'Twalk' 9p request */
++typedef struct TWalkOpt {
++    /* 9P client being used (mandatory) */
++    QVirtio9P *client;
++    /* path to walk to (mandatory) */
++    const char *path;
++    /* data being received from 9p server as 'Rwalk' response (optional) */
++    struct {
++        uint16_t *nwqid;
++        v9fs_qid **wqid;
++    } Rwalk;
++    /* do we expect an Rlerror response, if yes which error code? (optional) */
++    uint32_t expectErr;
++} TWalkOpt;
++
+ /*
+  * utility function: walk to requested dir and return fid for that dir and
+  * the QIDs of server response
+  */
+-static uint32_t do_walk_rqids(QVirtio9P *v9p, const char *path, uint16_t *nwqid,
+-                              v9fs_qid **wqid)
++static uint32_t Twalk(TWalkOpt opt)
+ {
+     char **wnames;
+     P9Req *req;
++    uint32_t err;
+     const uint32_t fid = genfid();
+ 
+-    int nwnames = split(path, "/", &wnames);
+-
+-    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rwalk(req, nwqid, wqid);
+-
+-    split_free(&wnames);
+-    return fid;
+-}
++    g_assert(opt.client);
++    g_assert(opt.path);
++    /* you can expect either Rwalk or Rlerror, but obviously not both */
++    g_assert(!opt.expectErr || !(opt.Rwalk.nwqid || opt.Rwalk.wqid));
+ 
+-/* utility function: walk to requested dir and return fid for that dir */
+-static uint32_t do_walk(QVirtio9P *v9p, const char *path)
+-{
+-    return do_walk_rqids(v9p, path, NULL, NULL);
+-}
++    int nwnames = split(opt.path, "/", &wnames);
+ 
+-/* utility function: walk to requested dir and expect passed error response */
+-static void do_walk_expect_error(QVirtio9P *v9p, const char *path, uint32_t err)
+-{
+-    char **wnames;
+-    P9Req *req;
+-    uint32_t _err;
+-    const uint32_t fid = genfid();
+-
+-    int nwnames = split(path, "/", &wnames);
+-
+-    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
++    req = v9fs_twalk(opt.client, 0, fid, nwnames, wnames, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rlerror(req, &_err);
+ 
+-    g_assert_cmpint(_err, ==, err);
++    if (opt.expectErr) {
++        v9fs_rlerror(req, &err);
++        g_assert_cmpint(err, ==, opt.expectErr);
++    } else {
++        v9fs_rwalk(req, opt.Rwalk.nwqid, opt.Rwalk.wqid);
++    }
+ 
+     split_free(&wnames);
++    return fid;
+ }
+ 
+ static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
+@@ -1098,7 +1099,9 @@ static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
+      * The 9p2000 protocol spec says: "If the first element cannot be walked
+      * for any reason, Rerror is returned."
+      */
+-    do_walk_expect_error(v9p, "non-existent", ENOENT);
++    Twalk((TWalkOpt) {
++        .client = v9p, .path = "non-existent", .expectErr = ENOENT
++    });
+ }
+ 
+ static void fs_walk_2nd_nonexistent(void *obj, void *data,
+@@ -1116,7 +1119,9 @@ static void fs_walk_2nd_nonexistent(void *obj, void *data,
+     );
+ 
+     do_attach_rqid(v9p, &root_qid);
+-    fid = do_walk_rqids(v9p, path, &nwqid, &wqid);
++    fid = Twalk((TWalkOpt) {
++        .client = v9p, .path = path, .Rwalk.nwqid = &nwqid, .Rwalk.wqid = &wqid
++    });
+     /*
+      * The 9p2000 protocol spec says: "nwqid is therefore either nwname or the
+      * index of the first elementwise walk that failed."
+@@ -1311,7 +1316,7 @@ static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
+     uint32_t fid;
+     P9Req *req;
+ 
+-    fid = do_walk(v9p, path);
++    fid = Twalk((TWalkOpt) { .client = v9p, .path = path });
+ 
+     req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+@@ -1326,7 +1331,7 @@ static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
+     uint32_t fid;
+     P9Req *req;
+ 
+-    fid = do_walk(v9p, path);
++    fid = Twalk((TWalkOpt) { .client = v9p, .path = path });
+ 
+     req = v9fs_tlcreate(v9p, fid, name, 0, 0750, 0, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+@@ -1344,7 +1349,7 @@ static void do_symlink(QVirtio9P *v9p, const char *path, const char *clink,
+     uint32_t fid;
+     P9Req *req;
+ 
+-    fid = do_walk(v9p, path);
++    fid = Twalk((TWalkOpt) { .client = v9p, .path = path });
+ 
+     req = v9fs_tsymlink(v9p, fid, name, dst, 0, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+@@ -1358,8 +1363,8 @@ static void do_hardlink(QVirtio9P *v9p, const char *path, const char *clink,
+     uint32_t dfid, fid;
+     P9Req *req;
+ 
+-    dfid = do_walk(v9p, path);
+-    fid = do_walk(v9p, to);
++    dfid = Twalk((TWalkOpt) { .client = v9p, .path = path });
++    fid = Twalk((TWalkOpt) { .client = v9p, .path = to });
+ 
+     req = v9fs_tlink(v9p, dfid, fid, clink, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+@@ -1373,7 +1378,7 @@ static void do_unlinkat(QVirtio9P *v9p, const char *atpath, const char *rpath,
+     uint32_t fid;
+     P9Req *req;
+ 
+-    fid = do_walk(v9p, atpath);
++    fid = Twalk((TWalkOpt) { .client = v9p, .path = atpath });
+ 
+     req = v9fs_tunlinkat(v9p, fid, name, flags, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+-- 
+2.30.2
 
 
