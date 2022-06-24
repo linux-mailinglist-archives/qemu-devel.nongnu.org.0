@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F44559CF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:06:19 +0200 (CEST)
-Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D53F559D42
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 17:28:04 +0200 (CEST)
+Received: from localhost ([::1]:36982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4kt0-0003dp-LA
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:06:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59356)
+	id 1o4lE3-000498-2Z
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 11:28:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4kpD-0007YG-Rs
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:02:23 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:41906)
+ (Exim 4.90_1) (envelope-from <shnusongshaobo@gmail.com>)
+ id 1o4krl-0002yO-Jt
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:05:01 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o4kpC-0002OY-7y
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:02:23 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id 23so4933765ybe.8
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:02:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EnYWT6+eru3uHPWApb4vpG/T5apsG8TSW4cZmehz1lw=;
- b=zq7QZtDLmFXHZztoUKje/w4bFHHUIrWSc+EfGMYwAsFnl94+nuNoEQtNLEwY9Utw2w
- XXlgeWTqV4VMtIEmbW2CQR22pTCLVggk1Cv4M2swje8tO3XyslNXhF9lkSfls1aH91vE
- lUldpVSJyfvzAPqlakH7K6aa3dkNP4Y3Z5OfRaloT4Rf2Z/fAT4EuXhgzD8drzW8jIui
- dS+whmMIYPOloBJV86hpTHDS0Vj/ImCxuJGnN+5JSw7HIJ6QxhIwj6ZM2FozegAZVkoj
- 1Ej1zI2qRvyaz/uh/2rMK9RGC3pgcofibN/k/HtkE8jg+mQR5hwjTDPgGLiSK1yVRAY2
- Narg==
+ (Exim 4.90_1) (envelope-from <shnusongshaobo@gmail.com>)
+ id 1o4krk-0002f0-3e
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 11:05:01 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id jb13so2346311plb.9
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 08:04:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RuXEFKGu+IvP8WBaKfeHy5hcr+avx7dIecUIVYdVqiY=;
+ b=gYO1d0JN10SS2Ej3PVuC4ybRsUzZ1fZifozyeHDHC58bSHUgpjB5kBawHJPYgf/pwN
+ qGERTMrMZjeQLsqcqAPD8AH7ajZZ2m3pAUsnxCwsPax1sdtDp4dTixjhmErnVQrwfmg7
+ qqWMZcqjt/IZhk+lDUpaVt7PLNflDeumRgZS6AJOwmye0UdYmd27g+Odp3jg1ozciKLP
+ K/67rrJiEtMi5Ub1UgxqOGQaKYAig9Ykf7/q3CchHxa6+8wWQ0r2gHcg/cTpG0/4GNLc
+ oT3Epfis7qbCr4MNueg1Lc8PZfaGvMfGacVqRJBtT6OTEJbUrTpdGhk/B00EMoIcOLpJ
+ bELQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EnYWT6+eru3uHPWApb4vpG/T5apsG8TSW4cZmehz1lw=;
- b=U54WVoxgzT6dlX0oJVdBk73RRClGj7WQQocTnwHatiiJD6Sb/U0gf95KvwTxRb0FqV
- LfIS6vYgKUpSp6NY/Z+j0aYypepvOP8mbyPM66efFkPVjG2ohgv7Db1GjQln7+sV6Fkz
- hEJYZN+rue2uZjCELjkwUFUMp79Ozf7uTzblSd/uBNjc394hvyebpmkXsXjOzGx6AgIX
- R/kwYO3IvR04mrNo98s6aWFYu/DChxIJE/9o626OlSb8M+V9oo96tHhBYyKVPvtS6FBn
- 6YFWaUHczESlO3RPndut4oZQuvIC+PUdAzNFk/N7Rwq1cLa2UPX1NduRVk6nRGVPIXJZ
- JViw==
-X-Gm-Message-State: AJIora8ieE+3+N2lcr7OxfegmoLSIf+/tXfOXQroY/eWt2YwjHd0ZfWV
- nv+I9OEFmGI+oRCYAz7u7Mri22KAp5Xips6cY1LrhA==
-X-Google-Smtp-Source: AGRyM1uMXPWDr04izJp2BwkDssX+25tzbf0qMTakadA3kQlppmVhNAe/FMBviiZzY01JVp7a7VLvfBEFR7iSRsB3KFE=
-X-Received: by 2002:a25:d655:0:b0:66c:84b7:df40 with SMTP id
- n82-20020a25d655000000b0066c84b7df40mr19510ybg.193.1656082940786; Fri, 24 Jun
- 2022 08:02:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RuXEFKGu+IvP8WBaKfeHy5hcr+avx7dIecUIVYdVqiY=;
+ b=c3NTySmfD/CaIuB0NxY92vItduy0BWUDB0DXk/080aMCStPeA17tiShMHMKPsquFlO
+ PRFCbISw7f0CHAd3nESJU3RUN06QgBvXF5NXXabdEQnCrTSCQ7nBS+JNDRvB5sbTYW0B
+ Ww5pAVTNdNQPTacdGj1WQVOKt6B9uovgT9R8oC/fz5ufCTxia4vzEW05ytczIp1tDpvh
+ 7hWe07PaqSnZLmEFEKvnx+BzDEytedkFLseu0Uk0KZ6XVsA0mBSFHPiDoaK/XwDjKs8f
+ j9RYXGbU79ri8636Jy8tFvvfFY1EsEATXpJJkBVrwkoiftsLdqTo3FvH2qu7Y4lJ03b7
+ Ea1A==
+X-Gm-Message-State: AJIora/6RCDCqs37AQQFRBJyCGKNv8h6f95qAC6J131Rl5IYYmi8NX8B
+ cU9VqRVjNYLPglJvVGnhva00KAz0hSnUyQ==
+X-Google-Smtp-Source: AGRyM1sq4MBB9RFGFm7T4mF3OAXkMPyc4rqHmTd5ADGQFOwSm7rIH2lHCo5W47ib20f7ZgMiNbBA5Q==
+X-Received: by 2002:a17:902:cf10:b0:168:ef35:5bee with SMTP id
+ i16-20020a170902cf1000b00168ef355beemr44546698plg.99.1656083098504; 
+ Fri, 24 Jun 2022 08:04:58 -0700 (PDT)
+Received: from DESKTOP-VGAJ4S3.localdomain ([111.3.43.17])
+ by smtp.gmail.com with ESMTPSA id
+ f1-20020a654001000000b0040d22243295sm1746191pgp.79.2022.06.24.08.04.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jun 2022 08:04:58 -0700 (PDT)
+From: Shaobo Song <shnusongshaobo@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	Shaobo Song <shnusongshaobo@gmail.com>
+Subject: [PATCH] tcg: Fix returned type in
+ alloc_code_gen_buffer_splitwx_memfd()
+Date: Fri, 24 Jun 2022 23:02:17 +0800
+Message-Id: <20220624150216.3627-1-shnusongshaobo@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220616141950.23374-1-Jonathan.Cameron@huawei.com>
- <20220616141950.23374-2-Jonathan.Cameron@huawei.com>
- <CAFEAcA8U9oNDStfLpxOwodGm9MCTdLrt-WV+x_-rTGw9UpBGvA@mail.gmail.com>
- <20220624133909.00005f6e@Huawei.com>
- <CAFEAcA8GA+ZXr2eS9bVxnhZRtda17Wx0Ud8CfcA90T6yiaecew@mail.gmail.com>
- <20220624150844.000005ec@Huawei.com> <20220624155436.000047cb@Huawei.com>
-In-Reply-To: <20220624155436.000047cb@Huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Jun 2022 16:01:42 +0100
-Message-ID: <CAFEAcA8MLTm9XwAV_JU_EPiT9wfaZed8B19-pL=HobKepJsnkg@mail.gmail.com>
-Subject: Re: [PATCH v11 1/2] hw/arm/virt: Basic CXL enablement on
- pci_expander_bridge instances pxb-cxl
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org, qemu-arm@nongnu.org, 
- "Michael S . Tsirkin" <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, 
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
- Adam Manzanares <a.manzanares@samsung.com>, Tong Zhang <ztong0001@gmail.com>, 
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>, 
- Dan Williams <dan.j.williams@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=shnusongshaobo@gmail.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 24 Jun 2022 11:26:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,15 +89,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 Jun 2022 at 15:54, Jonathan Cameron
-<Jonathan.Cameron@huawei.com> wrote:
-> Just occurred to me there is another barrier to an approach that adds
-> DT bindings.
-> I fairly sure hw/pci-bridge/pci_expander_bridge.c (PXB)
-> only works on ACPI platforms and is the only host bridge supported
-> for CXL emulation in QEMU.
+ This fixes a bug in POSIX-compliant environments. Since we had allocated 
+ a buffer named 'tcg-jit' with read-write access protections we need a int 
+ type to combine these access flags and return it, whereas we had inexplicably 
+ return a bool type. It may cause an unnecessary protection change in 
+ tcg_region_init().
 
-Isn't it probeable like any other PCI device/bridge ?
+Signed-off-by: Shaobo Song <shnusongshaobo@gmail.com>
+---
+ tcg/region.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- PMM
+diff --git a/tcg/region.c b/tcg/region.c
+index 71ea81d671..88d6bb273f 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -548,7 +548,7 @@ static int alloc_code_gen_buffer_anon(size_t size, int prot,
+ #ifdef CONFIG_POSIX
+ #include "qemu/memfd.h"
+ 
+-static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
++static int alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+ {
+     void *buf_rw = NULL, *buf_rx = MAP_FAILED;
+     int fd = -1;
+-- 
+2.25.1
+
 
