@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C19655945E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 09:52:55 +0200 (CEST)
-Received: from localhost ([::1]:37046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB1E559530
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 10:19:12 +0200 (CEST)
+Received: from localhost ([::1]:50250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4e7a-0000iv-3H
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 03:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58726)
+	id 1o4eX0-0003cw-SR
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 04:19:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4e6S-0008OZ-Vf
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:51:45 -0400
-Received: from smtpout30.security-mail.net ([85.31.212.35]:28977)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1o4eUC-0001PR-BB
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:16:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4e6Q-0007ty-4U
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 03:51:44 -0400
-Received: from localhost (localhost [127.0.0.1])
- by fx305.security-mail.net (Postfix) with ESMTP id F299430FE8E
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 09:51:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1656057099;
- bh=WKz+HxvNfyMoafGwPt74GdwDZmOH/v/P9R4rUglXgJ4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=u26qJTzsU4NRL3xW5tmRhsXMGNoDAqQMQEyM9f15SROwQzlV+tiZg+mg69Qebt3QU
- BxVUG1yDgsXasiDIfvPd2UPyuPA8TFB9NdrQsEpd0GLmmOKW+cZNd8zipwqf0lRYZv
- 6sL1/YO8R2cmzJA40KfQW6tZQ8eqrrAsuJsSUaxI=
-Received: from fx305 (localhost [127.0.0.1]) by fx305.security-mail.net
- (Postfix) with ESMTP id 827B730FE71; Fri, 24 Jun 2022 09:51:38 +0200 (CEST)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx305.security-mail.net (Postfix) with ESMTPS id BD4DC30FE61; Fri, 24 Jun
- 2022 09:51:37 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 90D2827E04FD; Fri, 24 Jun 2022
- 09:51:37 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 7ADA127E04FB; Fri, 24 Jun 2022 09:51:37 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- jzVMZ31lP8yp; Fri, 24 Jun 2022 09:51:37 +0200 (CEST)
-Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id 6164127E04F8; Fri, 24 Jun 2022 09:51:37 +0200
- (CEST)
-X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <b567.62b56d09.b1f39.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 7ADA127E04FB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656057097;
- bh=URt4sOpVOkAdl0lnewoUgoZVQsaruzCTf6RzUC61WhI=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=C50F3C2DwtHZSnpj4hqgwV6DNuEPGppc8HEr6HeBpg0U9DY+xW1YdK2OlHVeVdREP
- nLQFfLwHWr0ygjxjM4GUA3/qDazXxzRrhYrMddnl22PEg9Tb40yE7FV3dv5Ip8fmvG
- tzxN+kfB8S7z3ziu6sooz+eH3vtLOF00IKfFsFwU=
-Date: Fri, 24 Jun 2022 09:51:36 +0200
-From: Luc Michel <lmichel@kalray.eu>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 37/53] semihosting: Split out semihost_sys_system
-Message-ID: <20220624075136.GD25499@ws2101.lin.mbt.kalray.eu>
-References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-38-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1o4eU7-0003hq-FG
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:16:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656058570;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=QW4QBE1RAWxddDcRZFkerpHP0g6ZmEI6JR9Fbv4Hum1EiI89I7pO/lG/Qa+HRGaxRvyF3i
+ cgjSj2SxalgIbEjsOt4zpiPGb/jXj6GmXm8Iwd1yMoZJD3pm0LaL7FSaoxnlimsuHjEcC2
+ wC7u2A0JIFRwZOEOssIRB60F6pVdY14=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-317-TVL8I-gXNKOk6s5ECw_wUQ-1; Fri, 24 Jun 2022 04:16:08 -0400
+X-MC-Unique: TVL8I-gXNKOk6s5ECw_wUQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ c20-20020a05640227d400b004369cf00c6bso1131493ede.22
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 01:16:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=qApy+cXjeGTDl9wq4fW8fAP3mgoaPmpW5W1kyug6B/IYNFUa5+csEW0SC7MAH7xwDg
+ 74h2IUM2b8EhXgJOftLUJkuAyhJklH14j7SfoMY8Lbhx/ohuTW0+pwevvGeAo3NPat+e
+ IqYv2gk+lOKFmzgDMNvruAkW6nhV78N45xXzE8YaJoog35PQt8cv/Np1mA1vDCE4LEPt
+ xl++mfayahBuPRGvoyqB1x8EGXKtprtoeQyDR5I5miEQU1vR3WpTXfr44qqNMwOI4sMJ
+ vl3zWlBVRKWAqbTjLPmuNVpDOxWnQwK4LPFu9OnXpVEhz369cxdz1z82pZoT/98eD78s
+ pOgA==
+X-Gm-Message-State: AJIora8Dxl+M9ZJBoGUcnGt6vdw6IMIIgQLge9VPkfmnynD2etcpINnk
+ w4lb6zCeLbaw+jRAYAT4sLxPzGgHtLOr2VGOJBwRIQ/beCOUQPzp3Z7+ie2od+0JpRbQJq0SbQ1
+ gUGbPAdnvCR4pUDI=
+X-Received: by 2002:a05:6402:1f14:b0:435:97f3:640 with SMTP id
+ b20-20020a0564021f1400b0043597f30640mr15867318edb.169.1656058566996; 
+ Fri, 24 Jun 2022 01:16:06 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sjEo+3jZ96Mm5vtq/ZnTyGZOldJJrYfD52XUBAEGdTa0yGqW39bSsH1f/L2BDNg5+6jBR60g==
+X-Received: by 2002:a05:6402:1f14:b0:435:97f3:640 with SMTP id
+ b20-20020a0564021f1400b0043597f30640mr15867292edb.169.1656058566789; 
+ Fri, 24 Jun 2022 01:16:06 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ u6-20020a170906780600b006fef557bb7asm694687ejm.80.2022.06.24.01.16.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jun 2022 01:16:05 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-devel@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>
+Subject: Re: [PATCH v2] fuzz: only use generic-fuzz targets on oss-fuzz
+Date: Fri, 24 Jun 2022 10:16:00 +0200
+Message-Id: <20220624081600.245265-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220623125505.2137534-1-alxndr@bu.edu>
+References: 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220607204557.658541-38-richard.henderson@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.35; envelope-from=lmichel@kalray.eu;
- helo=smtpout30.security-mail.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,122 +100,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13:45 Tue 07 Jun     , Richard Henderson wrote:
-> Split out the non-ARM specific portions of SYS_SYSTEM to a
-> reusable function.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Queued, thanks.
 
-Reviewed-by: Luc Michel <lmichel@kalray.eu>
-
-> ---
->  include/semihosting/syscalls.h |  3 +++
->  semihosting/arm-compat-semi.c  | 12 +---------
->  semihosting/syscalls.c         | 40 ++++++++++++++++++++++++++++++++++
->  3 files changed, 44 insertions(+), 11 deletions(-)
-> 
-> diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
-> index 21430aa0ef..c9f9e66be1 100644
-> --- a/include/semihosting/syscalls.h
-> +++ b/include/semihosting/syscalls.h
-> @@ -56,4 +56,7 @@ void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
->                           target_ulong oname, target_ulong oname_len,
->                           target_ulong nname, target_ulong nname_len);
->  
-> +void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                         target_ulong cmd, target_ulong cmd_len);
-> +
->  #endif /* SEMIHOSTING_SYSCALLS_H */
-> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-> index da5c80b3d5..8a4e22a20a 100644
-> --- a/semihosting/arm-compat-semi.c
-> +++ b/semihosting/arm-compat-semi.c
-> @@ -506,17 +506,7 @@ void do_common_semihosting(CPUState *cs)
->      case TARGET_SYS_SYSTEM:
->          GET_ARG(0);
->          GET_ARG(1);
-> -        if (use_gdb_syscalls()) {
-> -            gdb_do_syscall(common_semi_cb, "system,%s", arg0, (int)arg1 + 1);
-> -            break;
-> -        }
-> -        s = lock_user_string(arg0);
-> -        if (!s) {
-> -            goto do_fault;
-> -        }
-> -        ret = system(s);
-> -        unlock_user(s, arg0, 0);
-> -        common_semi_cb(cs, ret, ret == -1 ? errno : 0);
-> +        semihost_sys_system(cs, common_semi_cb, arg0, arg1 + 1);
->          break;
->  
->      case TARGET_SYS_ERRNO:
-> diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-> index 223916b110..de846ced32 100644
-> --- a/semihosting/syscalls.c
-> +++ b/semihosting/syscalls.c
-> @@ -165,6 +165,18 @@ static void gdb_rename(CPUState *cs, gdb_syscall_complete_cb complete,
->      gdb_do_syscall(complete, "rename,%s,%s", oname, olen, nname, nlen);
->  }
->  
-> +static void gdb_system(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                       target_ulong cmd, target_ulong cmd_len)
-> +{
-> +    int len = validate_strlen(cs, cmd, cmd_len);
-> +    if (len < 0) {
-> +        complete(cs, -1, -len);
-> +        return;
-> +    }
-> +
-> +    gdb_do_syscall(complete, "system,%s", cmd, len);
-> +}
-> +
->  /*
->   * Host semihosting syscall implementations.
->   */
-> @@ -353,6 +365,24 @@ static void host_rename(CPUState *cs, gdb_syscall_complete_cb complete,
->      unlock_user(nstr, nname, 0);
->  }
->  
-> +static void host_system(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                        target_ulong cmd, target_ulong cmd_len)
-> +{
-> +    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-> +    char *p;
-> +    int ret;
-> +
-> +    ret = validate_lock_user_string(&p, cs, cmd, cmd_len);
-> +    if (ret < 0) {
-> +        complete(cs, -1, -ret);
-> +        return;
-> +    }
-> +
-> +    ret = system(p);
-> +    complete(cs, ret, ret == -1 ? errno : 0);
-> +    unlock_user(p, cmd, 0);
-> +}
-> +
->  /*
->   * Static file semihosting syscall implementations.
->   */
-> @@ -619,3 +649,13 @@ void semihost_sys_rename(CPUState *cs, gdb_syscall_complete_cb complete,
->          host_rename(cs, complete, oname, oname_len, nname, nname_len);
->      }
->  }
-> +
-> +void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
-> +                         target_ulong cmd, target_ulong cmd_len)
-> +{
-> +    if (use_gdb_syscalls()) {
-> +        gdb_system(cs, complete, cmd, cmd_len);
-> +    } else {
-> +        host_system(cs, complete, cmd, cmd_len);
-> +    }
-> +}
-> -- 
-> 2.34.1
-> 
-
-
+Paolo
 
 
 
