@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D04559587
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 10:36:52 +0200 (CEST)
-Received: from localhost ([::1]:52646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E02255956D
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 10:28:46 +0200 (CEST)
+Received: from localhost ([::1]:36682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4eo7-00009D-4w
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 04:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38148)
+	id 1o4egG-0005dM-9Y
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 04:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4eYs-0006aM-Kt
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:21:06 -0400
-Received: from mxout.security-mail.net ([85.31.212.46]:18004)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4edl-0003sE-DX
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:26:09 -0400
+Received: from smtpout140.security-mail.net ([85.31.212.143]:25880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4eYo-0004Rs-C2
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:21:06 -0400
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o4edh-0005Av-Tc
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 04:26:09 -0400
 Received: from localhost (localhost [127.0.0.1])
- by fx303.security-mail.net (Postfix) with ESMTP id A0CAF3238C0
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:20:59 +0200 (CEST)
+ by fx403.security-mail.net (Postfix) with ESMTP id 1F7813B67B4
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 10:26:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1656058859;
+ s=sec-sig-email; t=1656059163;
  bh=OTQGWB09P21y/n/8RONdNOdrwvG0rK6VMBA0eh6fD/g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=XcpsPwg2ntfVeg2oYp0Y9T/lpkJzsRLQZ9QnRtHNO8lRSmGRwkN9AB2KTIKHCBLVQ
- afN00PUCM6QfjOyYVTTRvXQzX/LucaQjumO4md4cfLAawTDPmnDXnInbIQc4autC3x
- RQIZuMUNOaNR6wFJ7b5S4/k5gtE2pJCoRIWFTW6c=
-Received: from fx303 (localhost [127.0.0.1]) by fx303.security-mail.net
- (Postfix) with ESMTP id 361363238BA; Fri, 24 Jun 2022 10:20:59 +0200 (CEST)
+ b=mYRdFuoKdfvzxZM/LI3n0B0EtoFAvEZPJY+f/gw5OaoB++iwEKvHFyH8+3uADmRIJ
+ YwNLoI+cae+S/Cx4X4zwMPpOA6Np38acto4o8bYP7UxYKtibqVZ9CNrtH+edLPpHHF
+ D5K2jrV2EeyKEOnSgKGKuuscy7JCNoS8jJkEjThA=
+Received: from fx403 (localhost [127.0.0.1]) by fx403.security-mail.net
+ (Postfix) with ESMTP id A72AF3B67A1; Fri, 24 Jun 2022 10:26:02 +0200 (CEST)
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx303.security-mail.net (Postfix) with ESMTPS id 8644332387D; Fri, 24 Jun
- 2022 10:20:58 +0200 (CEST)
+ fx403.security-mail.net (Postfix) with ESMTPS id 1AE383B676B; Fri, 24 Jun
+ 2022 10:26:01 +0200 (CEST)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 680E327E04F8; Fri, 24 Jun 2022
- 10:20:58 +0200 (CEST)
+ zimbra2.kalray.eu (Postfix) with ESMTPS id F40C527E04F8; Fri, 24 Jun 2022
+ 10:26:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 517B327E04FB; Fri, 24 Jun 2022 10:20:58 +0200 (CEST)
+ (Postfix) with ESMTP id DB7F027E04FB; Fri, 24 Jun 2022 10:26:00 +0200 (CEST)
 Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
  (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- yDektAbc3rzq; Fri, 24 Jun 2022 10:20:58 +0200 (CEST)
+ y0IRJcSakSmq; Fri, 24 Jun 2022 10:26:00 +0200 (CEST)
 Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id 37B7927E04F8; Fri, 24 Jun 2022 10:20:58 +0200
+ (Postfix) with ESMTPSA id BF14E27E04F8; Fri, 24 Jun 2022 10:26:00 +0200
  (CEST)
 X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <9d9c.62b573ea.839d6.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 517B327E04FB
+Secumail-id: <20ed.62b57519.19ce7.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu DB7F027E04FB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656058858;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656059160;
  bh=aENvgyfeuMlXgzaPhHkt0yJPpuA7phdIplwB6MZhK+I=;
  h=Date:From:To:Message-ID:MIME-Version;
- b=DwTrRtSm5rbxXnQehJA1sA7I+GPiky9HrOmJNRtbfr84xZSBgG762MpeJidz9cgtS
- z6wQM9YAUZaoGCyDUluxdRG9mG8cJmQ/RuBvP8t9SiyBYkzem/AsnY0Jcu5vsxbswM
- Poiz+PBqhzeiBiVWaL3S0iPMLGCYXkLZJJO/6fKA=
-Date: Fri, 24 Jun 2022 10:20:57 +0200
+ b=Jo4edmZG2zzeGJxH8kExDfQT7eSedMMVdI+6cH+qyYeUnfrGE4049Xp3wP1ceELOr
+ 5pk9hopmO4hXkty9RKC9vDv8MngELfuAAgRVMHRJfFijt/W5WDIPGeK1J5iT6ZfyW+
+ ABT7XrpkVXQg/zuOCCtNwuJbFSVXYcjPj54Qt0Fo=
+Date: Fri, 24 Jun 2022 10:26:00 +0200
 From: Luc Michel <lmichel@kalray.eu>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org
 Subject: Re: [PATCH v4 38/53] semihosting: Create semihost_sys_{stat,fstat}
-Message-ID: <20220624082057.GE25499@ws2101.lin.mbt.kalray.eu>
+Message-ID: <20220624082600.GF25499@ws2101.lin.mbt.kalray.eu>
 References: <20220607204557.658541-1-richard.henderson@linaro.org>
  <20220607204557.658541-39-richard.henderson@linaro.org>
 MIME-Version: 1.0
@@ -68,8 +68,8 @@ User-Agent: Mutt/1.9.4 (2018-02-28)
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.46; envelope-from=lmichel@kalray.eu;
- helo=mxout.security-mail.net
+Received-SPF: pass client-ip=85.31.212.143; envelope-from=lmichel@kalray.eu;
+ helo=smtpout140.security-mail.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
