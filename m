@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D22559897
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 13:36:12 +0200 (CEST)
-Received: from localhost ([::1]:49180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CB45598DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jun 2022 13:47:38 +0200 (CEST)
+Received: from localhost ([::1]:54412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4hbf-0000p1-3Q
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 07:36:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37668)
+	id 1o4hmj-0004x6-1W
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 07:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o4haK-0008Tl-U3
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 07:34:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o4haF-0006Nf-QJ
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 07:34:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656070482;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=17vvSFhUiQVF8xRO4nCszKN3THo/uNxED1RyO4qo1PA=;
- b=LQU9BQkkEW5t/jYViQh0xV6gBeJ8aQjMiuOHDYxssLE7r6dgPfkfJJVGuZKKKy+uofWqpG
- o5AkivZcLID/e2GUGEhGJ8zdC5ehhi/tALd/lWuhQzGTWAD0U+BI9CNDGAuVW2sg2aHc/u
- zY4ljyTL65oayrLeRpt2M8fGo2Ag/Wk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-122-9pDs69-zNcysqS8LogIbkg-1; Fri, 24 Jun 2022 07:34:41 -0400
-X-MC-Unique: 9pDs69-zNcysqS8LogIbkg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC41F80174C;
- Fri, 24 Jun 2022 11:34:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.37.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E4A42166B26;
- Fri, 24 Jun 2022 11:34:37 +0000 (UTC)
-Date: Fri, 24 Jun 2022 12:34:34 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Andrey Ryabinin <arbn@yandex-team.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Jason Wang <jasowang@redhat.com>, yc-core@yandex-team.ru
-Subject: Re: [PATCH 1/2] chardev: don't set O_NONBLOCK on SCM_RIGHTS file
- descriptors.
-Message-ID: <YrWhShg0FBRdVGZh@redhat.com>
-References: <20220614111843.24960-1-arbn@yandex-team.com>
- <20220614111843.24960-2-arbn@yandex-team.com>
- <Yqna2umG17+Q73z3@stefanha-x1.localdomain>
- <83350578-69d7-2b17-6aa1-4faf7f51b3f3@yandex-team.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1o4hkZ-00047a-HX
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 07:45:23 -0400
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34]:38806)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1o4hkX-00084l-5b
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 07:45:22 -0400
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-101b4f9e825so3407848fac.5
+ for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 04:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fwAx7ST9y49n/sWxTlqLUzvNrfcFuufoo6MtygQHwxE=;
+ b=EHUBK7pyK0lo4yjjZT+9Clo9722Fo3bemQjWjO5jDh0iazvRT5ghY6P1jcwqohwpEp
+ FB0LpSgi/VGCPFgt90GwLna73FUpJc7ZOOXEjLkT1TjIpsywv5w+L7WY/p5vAJ8lYRRN
+ 9oscnZTYXCngs8jkQUibeXk/NRTWADv4pRK00OWoToXr0w4QPXUZrf8AhwhVUGbCAVwj
+ 6CJj1TNoXy0pZVMRHNkHFfbUEy9Ph3InsDwgeZqLNOoaxrfnfxODSq8jXVCiMoDDmTdj
+ r0b6WyYZL5JXkpzhBN5dR0zpaEFo6xyS5s/DcI62FGn4YEVjRQMof8/sUnY0vQXbrzWi
+ Ww6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fwAx7ST9y49n/sWxTlqLUzvNrfcFuufoo6MtygQHwxE=;
+ b=Vw62dpJ4N1E77M/lywXWutlOKACJftIUQT6o06HWwW+CRk1HagV44qwOdstJ+pMZ00
+ redPHypccTj6laX4Z7mg8t8vBF3UBB811ipdsSOB8NkpNYRKWaVOVtUAlAIXB39Br2KL
+ iTzLMnDJhzlUgK/fsvdF5LSJ6cqncirdXeKHW8shDY3k/afkSU8+YjYpmhf3oaYEyIvY
+ u3XLZBWRoQ5Dj1K8spg/zs/SpDpmaUflBat8c6m7nmlJrQlhLyR8QQSv2mfJta0E7Tn1
+ SUo0Na/W3dri9XUS46c3HJW4sf5s7yINCPeurV/ZsKjf3bBuJh0nw3uafkn5BYX8/ExZ
+ FfQQ==
+X-Gm-Message-State: AJIora+115sYJFvq0uR1mL2KD3Gczf1RNw3uJa+rLlpMcOpPlTrsU4yr
+ yabAhufLMlLvDVH1sQCjA4qIenyjL3h4qKLDwM4=
+X-Google-Smtp-Source: AGRyM1t11Qwto/op2LRVOMw0fPKK0tiv87J1Ot0qYhhKNbGFvQqWLvVVDQjh/Zt1twuVg2W1fwiZMTFDf2NNlUUp8u0=
+X-Received: by 2002:a05:6870:a792:b0:f3:1eca:5ba6 with SMTP id
+ x18-20020a056870a79200b000f31eca5ba6mr1851417oao.212.1656071119530; Fri, 24
+ Jun 2022 04:45:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <83350578-69d7-2b17-6aa1-4faf7f51b3f3@yandex-team.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220614111843.24960-1-arbn@yandex-team.com>
+ <YqnaYfYxv0yPCmpP@stefanha-x1.localdomain>
+ <05c5bb1f-9a7f-1bad-8318-e85d4d2b3d9c@yandex-team.com>
+In-Reply-To: <05c5bb1f-9a7f-1bad-8318-e85d4d2b3d9c@yandex-team.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Fri, 24 Jun 2022 12:45:10 +0100
+Message-ID: <CAJSP0QXc=Hu2FZo5GHSFfJ=zgsfzYS3OroW=9V69hB4B4VCkMw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Make local migration with TAP network device possible
+To: Andrey Ryabinin <arbn@yandex-team.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, yc-core@yandex-team.ru
+Content-Type: multipart/alternative; boundary="000000000000cd710f05e2301a90"
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=stefanha@gmail.com; helo=mail-oa1-x34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,58 +87,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 24, 2022 at 02:00:15PM +0300, Andrey Ryabinin wrote:
-> 
-> 
-> On 6/15/22 16:12, Stefan Hajnoczi wrote:
-> > On Tue, Jun 14, 2022 at 02:18:42PM +0300, Andrey Ryabinin wrote:
-> >> This reverts commit 9b938c7262e4 ("chardev: clear O_NONBLOCK on SCM_RIGHTS file descriptors").
-> >> File descriptor passed to QEMU via 'getfd' QMP command always
-> >> changed to blocking mode. Instead of that, change blocking mode by QEMU
-> >> file descriptors users when necessary, e.g. like migration.
+--000000000000cd710f05e2301a90
+Content-Type: text/plain; charset="UTF-8"
+
+Thanks! I will be offline for the next week.
+
+Feel free to progress this series without my review.
+
+Stefan
+
+On Fri, Jun 24, 2022, 11:53 Andrey Ryabinin <arbn@yandex-team.com> wrote:
+
+>
+>
+> On 6/15/22 16:10, Stefan Hajnoczi wrote:
+> > On Tue, Jun 14, 2022 at 02:18:41PM +0300, Andrey Ryabinin wrote:
+> >> Hi
 > >>
-> >> We need to preserve the state of the file descriptor in case it's still
-> >> used by an external process and before the QEMU itself started
-> >> using it.
+> >> These couple patches aims to  make possible local migration (within one
+> host)
+> >> on the same TAP device used by source and destination QEMU
 > >>
-> >> E.g. our local migration scenario with TAP networking looks like this:
+> >> The scenario looks like this
 > >>  1. Create TAP devices and pass file descriptors to source QEMU
-> >>  2. Launch destination QEMU (-incoming defer) and pass same descriptors to it.
+> >>  2. Launch destination QEMU (-incoming defer) and pass same descriptors
+> to it.
 > >>  3. Start migration
 > >>
-> >> In such scenario setting blocking state at stage (2) will hang source QEMU
-> >> since TAP fd suddenly become blocking.
-> > 
-> > Is it possible to add a special flag or API for preserving the
-> > O_NONBLOCK open flag? That way the rest of QEMU could continue to safely
-> > reset the flag while the tap fd passing code would explicitly ask for
-> > the O_NONBLOCK open flag to be preserved. That seems safer but I haven't
-> > checked whether it's possible to do this.
-> > 
-> 
-> The only possibility I see here is embedding some kind 'nonblock' in the message
-> itself along with fds. Not sure if this sensible approach.
-> 
-> Not changing fd state seems like more correct approach to me. E.g. I would expect
-> that sending fd to qemu and executing qmp commands 'getfd' & 'closefd' shouldn't
-> induce any changes in fd state. Which is currently no true.
+> >>
+> >> Regarding the first patch: It makes possible to receive file descriptor
+> in non-blocking
+> >> state. But I probably didn't cover all FD users which might need to set
+> blocking state after
+> >> the patch. So I'm hopping for the hints where else, besides
+> fd_start_incoming_migration()
+> >> I need to put qemu_socket_set_block() calls.
+> >
+> > Nice feature. I am worried that these patches are unsafe/incomplete
+> > though.
+> >
+> > Tap local migration isn't explicitly visible in the code. How will other
+> > developers know the feature is there and how to avoid breaking it when
+> > modifying the code? Maybe a migration test case, comments that explain
+> > the rules about accessing the tap fd, and/or assertions?
+> >
+>
+> Yeah, I'm writing avocado test case, will add it in future next iterations.
+>
+> > How does this interact with hw/net/vhost_net.c, which uses tap_get_fd()
+> > to borrow the fd? I guess the idea is that the source VM is paused and
+> > no tap activity is expected. Then migration handover happens and the
+> > destination VM starts running and is allowed to access the tap fd.
+> > However, the source VM still has vhost_net with the tap fd set up. I
+> > wonder if there is any issue with interference between the two vhost_net
+> > instances?
+> >
+>
+> I'll try to take a closer look at code, let's see if I can find any
+> possible issues.
+> But I did some brief testing with vhost=on net device, and it find any
+> problems.
+> The test was
+> 1. launch pings from source VM to host
+> 2. Migrate
+> 3. Check at dest VM that there is no lost packets.
+>
+>
+> > These kinds of questions should be answered, mostly in the code but also
+> > in the cover letter. It should be clear why this approach is correct.
+> >
+> > Thanks,
+> > Stefan
+> >
+> >>
+> >>
+> >> Andrey Ryabinin (2):
+> >>   chardev: don't set O_NONBLOCK on SCM_RIGHTS file descriptors.
+> >>   tap: initialize TAPState->enabled according to the actual state of
+> >>     queue
+> >>
+> >>  chardev/char-socket.c |  3 ---
+> >>  io/channel-socket.c   |  3 ---
+> >>  migration/fd.c        |  2 ++
+> >>  net/tap-bsd.c         |  5 +++++
+> >>  net/tap-linux.c       | 12 ++++++++++++
+> >>  net/tap-solaris.c     |  5 +++++
+> >>  net/tap.c             |  2 +-
+> >>  net/tap_int.h         |  1 +
+> >>  8 files changed, 26 insertions(+), 7 deletions(-)
+> >>
+> >> --
+> >> 2.35.1
+> >>
+>
+>
 
-I think that's a wrong expectation. The contract with 'getfd' is that
-you are giving the target QEMU ownership of the file. The caller should
-not expect todo anything with the FD after it has passd it to QEMU, and
-target QEMU has freedom todo whatever it wants.  Admittedly this usage
-model doesn't fit with what you're trying to make it now do, but those
-are the historical expectations of getfd.
+--000000000000cd710f05e2301a90
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+<div dir=3D"auto">Thanks! I will be offline for the next week.<div dir=3D"a=
+uto"><br></div><div dir=3D"auto">Feel free to progress this series without =
+my review.<br><div dir=3D"auto"><br></div><div dir=3D"auto">Stefan</div></d=
+iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Fri, Jun 24, 2022, 11:53 Andrey Ryabinin &lt;<a href=3D"mailto:arbn@y=
+andex-team.com">arbn@yandex-team.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex"><br>
+<br>
+On 6/15/22 16:10, Stefan Hajnoczi wrote:<br>
+&gt; On Tue, Jun 14, 2022 at 02:18:41PM +0300, Andrey Ryabinin wrote:<br>
+&gt;&gt; Hi<br>
+&gt;&gt;<br>
+&gt;&gt; These couple patches aims to=C2=A0 make possible local migration (=
+within one host)<br>
+&gt;&gt; on the same TAP device used by source and destination QEMU<br>
+&gt;&gt;<br>
+&gt;&gt; The scenario looks like this<br>
+&gt;&gt;=C2=A0 1. Create TAP devices and pass file descriptors to source QE=
+MU<br>
+&gt;&gt;=C2=A0 2. Launch destination QEMU (-incoming defer) and pass same d=
+escriptors to it.<br>
+&gt;&gt;=C2=A0 3. Start migration<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Regarding the first patch: It makes possible to receive file descr=
+iptor in non-blocking<br>
+&gt;&gt; state. But I probably didn&#39;t cover all FD users which might ne=
+ed to set blocking state after<br>
+&gt;&gt; the patch. So I&#39;m hopping for the hints where else, besides fd=
+_start_incoming_migration()<br>
+&gt;&gt; I need to put qemu_socket_set_block() calls.<br>
+&gt; <br>
+&gt; Nice feature. I am worried that these patches are unsafe/incomplete<br=
+>
+&gt; though.<br>
+&gt; <br>
+&gt; Tap local migration isn&#39;t explicitly visible in the code. How will=
+ other<br>
+&gt; developers know the feature is there and how to avoid breaking it when=
+<br>
+&gt; modifying the code? Maybe a migration test case, comments that explain=
+<br>
+&gt; the rules about accessing the tap fd, and/or assertions?<br>
+&gt; <br>
+<br>
+Yeah, I&#39;m writing avocado test case, will add it in future next iterati=
+ons.<br>
+<br>
+&gt; How does this interact with hw/net/vhost_net.c, which uses tap_get_fd(=
+)<br>
+&gt; to borrow the fd? I guess the idea is that the source VM is paused and=
+<br>
+&gt; no tap activity is expected. Then migration handover happens and the<b=
+r>
+&gt; destination VM starts running and is allowed to access the tap fd.<br>
+&gt; However, the source VM still has vhost_net with the tap fd set up. I<b=
+r>
+&gt; wonder if there is any issue with interference between the two vhost_n=
+et<br>
+&gt; instances?<br>
+&gt; <br>
+<br>
+I&#39;ll try to take a closer look at code, let&#39;s see if I can find any=
+ possible issues.<br>
+But I did some brief testing with vhost=3Don net device, and it find any pr=
+oblems.<br>
+The test was<br>
+1. launch pings from source VM to host<br>
+2. Migrate<br>
+3. Check at dest VM that there is no lost packets.<br>
+<br>
+<br>
+&gt; These kinds of questions should be answered, mostly in the code but al=
+so<br>
+&gt; in the cover letter. It should be clear why this approach is correct.<=
+br>
+&gt; <br>
+&gt; Thanks,<br>
+&gt; Stefan<br>
+&gt; <br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Andrey Ryabinin (2):<br>
+&gt;&gt;=C2=A0 =C2=A0chardev: don&#39;t set O_NONBLOCK on SCM_RIGHTS file d=
+escriptors.<br>
+&gt;&gt;=C2=A0 =C2=A0tap: initialize TAPState-&gt;enabled according to the =
+actual state of<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0queue<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 chardev/char-socket.c |=C2=A0 3 ---<br>
+&gt;&gt;=C2=A0 io/channel-socket.c=C2=A0 =C2=A0|=C2=A0 3 ---<br>
+&gt;&gt;=C2=A0 migration/fd.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
+&gt;&gt;=C2=A0 net/tap-bsd.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 5 +++=
+++<br>
+&gt;&gt;=C2=A0 net/tap-linux.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 12 ++++++++++++<=
+br>
+&gt;&gt;=C2=A0 net/tap-solaris.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 5 +++++<br>
+&gt;&gt;=C2=A0 net/tap.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 2 +-<br>
+&gt;&gt;=C2=A0 net/tap_int.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<b=
+r>
+&gt;&gt;=C2=A0 8 files changed, 26 insertions(+), 7 deletions(-)<br>
+&gt;&gt;<br>
+&gt;&gt; -- <br>
+&gt;&gt; 2.35.1<br>
+&gt;&gt;<br>
+<br>
+</blockquote></div>
 
+--000000000000cd710f05e2301a90--
 
