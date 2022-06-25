@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA7255AB61
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 17:47:23 +0200 (CEST)
-Received: from localhost ([::1]:44206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D960C55ABCE
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 19:47:14 +0200 (CEST)
+Received: from localhost ([::1]:45852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o580I-0006uv-CU
-	for lists+qemu-devel@lfdr.de; Sat, 25 Jun 2022 11:47:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59254)
+	id 1o59sH-0003Fx-W1
+	for lists+qemu-devel@lfdr.de; Sat, 25 Jun 2022 13:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o57xv-0004lK-9j
- for qemu-devel@nongnu.org; Sat, 25 Jun 2022 11:44:55 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:44353)
+ (Exim 4.90_1) (envelope-from <simon@kangae.exyr.org>)
+ id 1o58gC-0003ti-4E
+ for qemu-devel@nongnu.org; Sat, 25 Jun 2022 12:30:51 -0400
+Received: from r0-2.smtpout1.paris1.alwaysdata.com
+ ([2a00:b6e0:1:40:1:0:10:6]:44403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o57xt-0005xz-Mk
- for qemu-devel@nongnu.org; Sat, 25 Jun 2022 11:44:55 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MFL8J-1ntpHc2YBN-00Fl2p; Sat, 25 Jun 2022 17:44:49 +0200
-Message-ID: <224a6efd-6ca7-bfd8-478b-31e2c8acf2e5@vivier.eu>
-Date: Sat, 25 Jun 2022 17:44:48 +0200
+ (Exim 4.90_1) (envelope-from <simon@kangae.exyr.org>)
+ id 1o58gA-00023P-2T
+ for qemu-devel@nongnu.org; Sat, 25 Jun 2022 12:30:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=alwaysdata.net; s=default; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Pug4NUdld9aQfRTVwsu1Dt3V4LuLDZxnNBeT0As6ToI=; b=aaYoEKLRBZfVkJ07xR+jLk+UmU
+ fTgelP6set3ste3jWBSlbAPGzfsPJFj1m6VItpf1bsjJHK8jBViU10Fh5G/481WYxklfa/xTGkz2e
+ 7kNCBdlNfwGbEkowNra6MhNW3/Mu+v1zgW26BuV261yL6cIvfZjJ6U8KEybk7cIuvbAk=;
+Received: from [2a01:e34:ecb8:5a0:f192:bd1d:5684:24ee] (helo=kangae.exyr.org)
+ by smtpout1.paris1.alwaysdata.com with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <simon@kangae.exyr.org>)
+ id 1o58RS-0006mx-P3; Sat, 25 Jun 2022 18:15:26 +0200
+Received: from simon by kangae.exyr.org with local (Exim 4.95)
+ (envelope-from <simon@kangae.exyr.org>) id 1o58RS-005AmT-DM;
+ Sat, 25 Jun 2022 18:15:26 +0200
+From: Simon Sapin <simon.sapin@exyr.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Simon Sapin <simon.sapin@exyr.org>
+Subject: [PATCH 1/2] Rename docs/specs/fw_cfg.txt to .rst
+Date: Sat, 25 Jun 2022 18:14:54 +0200
+Message-Id: <20220625161455.1232954-1-simon.sapin@exyr.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] m68k: use correct variable name in boot info string macro
-Content-Language: fr
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20220625152318.120849-1-Jason@zx2c4.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220625152318.120849-1-Jason@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VLKH1kUiT5l6YPDD1XmPChlPHN0yb+1JrvyUvVpFxiVwPZDZlz2
- Jyq3DMA2s6/TFO+n2dpIPEQNRjwV/aDOPKhuzcggcFml6asJ+xUbYM8yZRoP4ywER7+NIsB
- JHEhc2VMDSihPohlRBetXgW/7xuVD6AeL+OX5ckkNs7SecW5VNeM8EFsd0KbTvxFM/vMIP7
- nFPyG+A9lcbvIYD62ljvw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:T8l9NIfx4aQ=:vMprowe/cqjdUsYmV0M+/Z
- adtBCQabusVCAcIJUdgaVcgnXnHko+ss86pJmn5DG+iQEOMKUd5PVGFHa+TmvXy4X6EOYjLhl
- mFuCDg20Yxq49gZwKBkZ4ZJGI0FzI8NvW1idP8qoW2QGRzxvfXvMX61en7UHrAvvfeWNvhRxU
- //lby86Kfwtwk5qZ/gVv9NmywrEG6jYrM9iWAE3I8/2RluYXF4oOwHD+uYKdmTGjv+Rl+4ZDS
- JEflTJjNMfJEC4q1px/JrSF1C9QppYseen3m9a51PfcNtx35BU5izMPXy/WmpvL7PKdW8UWZx
- IU1mKlJRbo7XSV6NIICj8COvULCTZ3tqsi1oBvRT7pBNvAHv8EJvAXAbZxegDRnIifYiey/eD
- JkTz4sG+c+xTze2mfC++XXNhP8EFDQjnD2AUsa9fvd047+WlBfeeBlqS5Qab10xnY6rW0Nizx
- H73lkxZRZSS0WPBtMAwdjnSwnpVEdd1oI3YFR7zirWjWvXL2Se4ElPk5O+jTvjxrFbIUPH8Tv
- pw0RhYM3kiUrpPUMPgp8FCNBz+SYC0IRodw7gKjTN6S3dE5uHSIcNoQHqXe4XVtx4aFbY/5aC
- BBtgZA5jV84gSMIklJV6RDafx0S/Pi8WUh8qtu4XCpQwVBTky5wZWjL3Vp7NEcEZiF1Ccu3Vr
- gLL0fNBne9FEKjk149LoNAMvpSFgFy65jSAXievjCu3C9DPWqkzdiPtrJGUk5s/+TMYzjygYD
- dz28Rwxg2SFa4N0+FfcQCvXkI5ut9ibSoLMe9A==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+X-alwaysdata-ID: 127134824
+Received-SPF: none client-ip=2a00:b6e0:1:40:1:0:10:6;
+ envelope-from=simon@kangae.exyr.org; helo=r0-2.smtpout1.paris1.alwaysdata.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 25 Jun 2022 13:44:35 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,28 +72,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/06/2022 à 17:23, Jason A. Donenfeld a écrit :
-> Every time this macro is used, the caller is passing in
-> "parameters_base", so this bug wasn't spotted. But the actual macro
-> variable name is "base", so use that instead.
-> 
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
->   hw/m68k/bootinfo.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
-> index adbf0c5521..ff4e155a3c 100644
-> --- a/hw/m68k/bootinfo.h
-> +++ b/hw/m68k/bootinfo.h
-> @@ -54,6 +54,6 @@
->               stb_phys(as, base++, string[i]); \
->           } \
->           stb_phys(as, base++, 0); \
-> -        base = (parameters_base + 1) & ~1; \
-> +        base = (base + 1) & ~1; \
->       } while (0)
->   #endif
+This is a separate commit in order to make reviewing the next one easier.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Simon Sapin <simon.sapin@exyr.org>
+---
+ docs/specs/{fw_cfg.txt => fw_cfg.rst} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename docs/specs/{fw_cfg.txt => fw_cfg.rst} (100%)
+
+diff --git docs/specs/fw_cfg.txt docs/specs/fw_cfg.rst
+similarity index 100%
+rename from docs/specs/fw_cfg.txt
+rename to docs/specs/fw_cfg.rst
+-- 
+2.36.1
+
 
