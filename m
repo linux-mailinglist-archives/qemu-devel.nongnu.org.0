@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF95B55AB47
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 17:25:02 +0200 (CEST)
-Received: from localhost ([::1]:55376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE49555AB5F
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 17:46:16 +0200 (CEST)
+Received: from localhost ([::1]:41232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o57ef-0002fj-IU
-	for lists+qemu-devel@lfdr.de; Sat, 25 Jun 2022 11:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55680)
+	id 1o57zD-0004kX-ET
+	for lists+qemu-devel@lfdr.de; Sat, 25 Jun 2022 11:46:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=GKyN=XA=zx2c4.com=Jason@kernel.org>)
- id 1o57dL-0001uo-6A
- for qemu-devel@nongnu.org; Sat, 25 Jun 2022 11:23:39 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:46360)
+ id 1o57xL-00045j-TW
+ for qemu-devel@nongnu.org; Sat, 25 Jun 2022 11:44:19 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:41830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=GKyN=XA=zx2c4.com=Jason@kernel.org>)
- id 1o57dJ-0005NY-2i
- for qemu-devel@nongnu.org; Sat, 25 Jun 2022 11:23:38 -0400
+ id 1o57xJ-0005vW-F3
+ for qemu-devel@nongnu.org; Sat, 25 Jun 2022 11:44:19 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7EF7FB80B79;
- Sat, 25 Jun 2022 15:23:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6318C3411C;
- Sat, 25 Jun 2022 15:23:25 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A25EBB8095A;
+ Sat, 25 Jun 2022 15:44:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 943A9C3411C;
+ Sat, 25 Jun 2022 15:44:12 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="SKoDA45b"
+ header.b="cIUADsCK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1656170603;
+ t=1656171851;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=+KQ9fTqikCtoWxlozsIdrEYs8tjWGyatqOB0/AN3C4g=;
- b=SKoDA45bvvsD2PKqaInLyp4M/7kyK0Un4MQ58AswNkXQoJ2D+5UMU2mWhlCKm2WlPaTMdQ
- 1fmc/Fa/usg5a4Q+EGGxJGtmZ/g3B3yEy9pj6hkdF2UQHKS6CjgcOBCnZObrprYy+9RFUz
- cjk5++dfzvnHfS1ZdnbSkXXdl2Dh7So=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f1539f70
+ bh=8R4CaV/OEt3lr+fj/h7Drz8mOofV0RCqbg5qshPp2Kw=;
+ b=cIUADsCKvtljLtAMAU3Idmd0fKP7YlHD6l64J+mHFf4qnNr/AX6wsdeI/5ZqAeETRmJ8U1
+ /djJkcfGR7lqgkkhyNMFp6diFQOoaqmG/duGIFx+044RvYETP4GKK3zTFrwre9Aa4LxmV/
+ FHCLy7SRM6TGhSLO51Vo/spOz0VNHYE=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ae9c7f36
  (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Sat, 25 Jun 2022 15:23:23 +0000 (UTC)
+ Sat, 25 Jun 2022 15:44:10 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: Laurent Vivier <laurent@vivier.eu>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, geert@linux-m68k.org,
+ linux-m68k@lists.linux-m68k.org, qemu-devel@nongnu.org
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH] m68k: use correct variable name in boot info string macro
-Date: Sat, 25 Jun 2022 17:23:18 +0200
-Message-Id: <20220625152318.120849-1-Jason@zx2c4.com>
+Subject: [PATCH qemu] m68k: virt: pass RNG seed via bootinfo block
+Date: Sat, 25 Jun 2022 17:44:02 +0200
+Message-Id: <20220625154402.146403-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+Received-SPF: pass client-ip=145.40.68.75;
  envelope-from=SRS0=GKyN=XA=zx2c4.com=Jason@kernel.org;
  helo=ams.source.kernel.org
 X-Spam_score_int: -67
@@ -77,27 +78,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Every time this macro is used, the caller is passing in
-"parameters_base", so this bug wasn't spotted. But the actual macro
-variable name is "base", so use that instead.
+This commit wires up bootinfo's RNG seed attribute so that Linux VMs can
+have their RNG seeded from the earliest possible time in boot, just like
+the "rng-seed" device tree property on those platforms. The link
+contains the corresponding Linux patch.
 
+Link: https://lore.kernel.org/lkml/20220625153841.143928-1-Jason@zx2c4.com/
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- hw/m68k/bootinfo.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This requires this trivial cleanup commit first:
+    https://lore.kernel.org/qemu-devel/20220625152318.120849-1-Jason@zx2c4.com/
+
+ hw/m68k/bootinfo.h                               | 16 ++++++++++++++++
+ hw/m68k/virt.c                                   |  7 +++++++
+ .../standard-headers/asm-m68k/bootinfo-virt.h    |  1 +
+ 3 files changed, 24 insertions(+)
 
 diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
-index adbf0c5521..ff4e155a3c 100644
+index ff4e155a3c..2f31c13b6e 100644
 --- a/hw/m68k/bootinfo.h
 +++ b/hw/m68k/bootinfo.h
-@@ -54,6 +54,6 @@
-             stb_phys(as, base++, string[i]); \
-         } \
+@@ -56,4 +56,20 @@
          stb_phys(as, base++, 0); \
--        base = (parameters_base + 1) & ~1; \
-+        base = (base + 1) & ~1; \
+         base = (base + 1) & ~1; \
      } while (0)
++
++#define BOOTINFODATA(as, base, id, data, len) \
++    do { \
++        int i; \
++        stw_phys(as, base, id); \
++        base += 2; \
++        stw_phys(as, base, \
++                 (sizeof(struct bi_record) + len + 5) & ~1); \
++        base += 2; \
++        stl_phys(as, base, len); \
++        base += 4; \
++        for (i = 0; i < len; ++i) { \
++            stb_phys(as, base++, data[i]); \
++        } \
++        base = (base + 1) & ~1; \
++    } while (0)
  #endif
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index e215aa3d42..0aa383fa6b 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -9,6 +9,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
++#include "qemu/guest-random.h"
+ #include "sysemu/sysemu.h"
+ #include "cpu.h"
+ #include "hw/boards.h"
+@@ -120,6 +121,7 @@ static void virt_init(MachineState *machine)
+     hwaddr io_base;
+     int i;
+     ResetInfo *reset_info;
++    uint8_t rng_seed[32];
+ 
+     if (ram_size > 3399672 * KiB) {
+         /*
+@@ -245,6 +247,11 @@ static void virt_init(MachineState *machine)
+                         kernel_cmdline);
+         }
+ 
++	/* Pass seed to RNG. */
++	qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++	BOOTINFODATA(cs->as, parameters_base, BI_VIRT_RNG_SEED,
++		     rng_seed, sizeof(rng_seed));
++
+         /* load initrd */
+         if (initrd_filename) {
+             initrd_size = get_image_size(initrd_filename);
+diff --git a/include/standard-headers/asm-m68k/bootinfo-virt.h b/include/standard-headers/asm-m68k/bootinfo-virt.h
+index 81be1e0924..1b1ffd4705 100644
+--- a/include/standard-headers/asm-m68k/bootinfo-virt.h
++++ b/include/standard-headers/asm-m68k/bootinfo-virt.h
+@@ -12,6 +12,7 @@
+ #define BI_VIRT_GF_TTY_BASE	0x8003
+ #define BI_VIRT_VIRTIO_BASE	0x8004
+ #define BI_VIRT_CTRL_BASE	0x8005
++#define BI_VIRT_RNG_SEED	0x8006
+ 
+ #define VIRT_BOOTI_VERSION	MK_BI_VERSION(2, 0)
+ 
 -- 
 2.35.1
 
