@@ -2,76 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0CE455A42F
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 00:06:51 +0200 (CEST)
-Received: from localhost ([::1]:34814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4B055A652
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 05:32:21 +0200 (CEST)
+Received: from localhost ([::1]:34072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4rRy-0002DM-Sx
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 18:06:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36248)
+	id 1o4wWy-0000r0-6m
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 23:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o4r9H-0002qV-Dy
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 17:47:31 -0400
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:33454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o4r9F-0007Wj-Ul
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 17:47:31 -0400
-Received: by mail-il1-x135.google.com with SMTP id p13so2366536ilq.0
- for <qemu-devel@nongnu.org>; Fri, 24 Jun 2022 14:47:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=iRRKSO1rSwzhJvNkiVF11IeWLxX/jjQkuC6nogP90gA=;
- b=JUDV/Cg6FXZvDR24Lv3m0gamK+enNqTC9yJqZzq3baCX/SgOzmLCcS1hMxzYYPUHof
- I3Lf+NBA5LfRjfVbvo6B0yt0Yb9WBrfTh0U9lxSVHuQXAJqdHhwuY6/FyMKb/bTy1NcP
- wTuVo/505hrym5BXCCMyCNDAWKR3LxYsZcsNsyfAftUw9nQhSigYggrPY5t3Td1TqElw
- MNVX/rhh+Zodva21Rpujx+xzTNlyGoccf/kory67e4/JoDrwCZsjKMKVlKLNPqJR/+Sk
- o4W6ID4hHzPhGWzZBblbWnM7lNxBhCIeEelOYNglXjr9L+l5nk5HwC2z3g2CaXNsluks
- Gznw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iRRKSO1rSwzhJvNkiVF11IeWLxX/jjQkuC6nogP90gA=;
- b=lQZ7I0vKlbZXblYKq6hcOhNR1VGR9l0syQlXh4jRAZMst1s91s+luPbPyhDWBNaCWW
- VjiCxTxWduvRSnAcVtfELgv0EC2/MI4P3TauZ2628FnupO/kfOpO3pkmC38uc7XcnkMe
- ADoC9CMNmdsf/t6Yg0E+AgDmaTOXzNIFB+YjYrpWqGI9eyoWE0+jI8Uens8BNXsA09cM
- SsMToP8CatcWdSPBrR92i0EOx+UzQUA9zE3OR+jvmiMp8AjNTyjySGL6l/VbXZMF2G9+
- 1+Mwr6GzeYymNmVgsCoyMwQyFBDsNuVCV2g8Sa4Njy9me8JFreMABPxBfZORVMBXpAU4
- XBGw==
-X-Gm-Message-State: AJIora9yO/iGgHf6djHwVElMKyzeb87uaChl4hd0RLH7g7qko0MKPP98
- OPf5ax8L/u2F6Bl3VJ9qhnTFIpALDTq8FQ==
-X-Google-Smtp-Source: AGRyM1tCsVvKYWqVHqZ/lptPI5NK5rBHebEM4kF829MFFiqq6UIk1wZz21jbD0wgEWIcWpr0FNRVoA==
-X-Received: by 2002:a05:6e02:1908:b0:2d9:5288:bd04 with SMTP id
- w8-20020a056e02190800b002d95288bd04mr623555ilu.148.1656107248682; 
- Fri, 24 Jun 2022 14:47:28 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
- q45-20020a056638346d00b00331563be3ecsm1553561jav.121.2022.06.24.14.47.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jun 2022 14:47:28 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
-To: qemu-devel@nongnu.org
-Cc: Kyle Evans <kevans@freebsd.org>,
-	Warner Losh <imp@bsdimp.com>
-Subject: [PATCH v2 11/11] bsd-user: Remove stray 'inline' from do_bsd_close
-Date: Fri, 24 Jun 2022 15:47:42 -0600
-Message-Id: <20220624214742.89229-12-imp@bsdimp.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220624214742.89229-1-imp@bsdimp.com>
-References: <20220624214742.89229-1-imp@bsdimp.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::135;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x135.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o4wUF-00082S-UE
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 23:29:31 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:43312 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o4wUD-0003wH-8o
+ for qemu-devel@nongnu.org; Fri, 24 Jun 2022 23:29:31 -0400
+Received: from smtpclient.apple (unknown [111.199.64.159])
+ by APP-01 (Coremail) with SMTP id qwCowAAniBUEgbZi8hY0CA--.59415S2;
+ Sat, 25 Jun 2022 11:29:09 +0800 (CST)
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: hw/nvme: why schedule sq timer when cq is full?
+Message-Id: <7F3456C2-BF36-4FE0-A5FD-8F8848E63611@ict.ac.cn>
+Date: Sat, 25 Jun 2022 11:29:07 +0800
+Cc: Klaus Jensen <its@irrelevant.dk>,
+ qemu-devel@nongnu.org
+To: Keith Busch <kbusch@kernel.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowAAniBUEgbZi8hY0CA--.59415S2
+X-Coremail-Antispam: 1UD129KBjvdXoW5KF1DuF17KF48Kry7JFWxCrg_yoWxXrX_Aw
+ naqw1jvFsagFn8AwsxCa15Aa18Cr17Zr1rXFWfZF1xt343AF4furWqqanxuFyUW3s0qF13
+ A3y8CryxCryjgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbw8YjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+ 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC2
+ 0s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
+ 0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
+ 14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20x
+ vaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+ 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jeXdbUUUUU=
+X-Originating-IP: [111.199.64.159]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,28 +74,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the last series, I inadvertantly didn't remove this inline, but did
-all the others. Remove it for consistency.
+Hi Keith,
 
-Signed-off-by: Warner Losh <imp@bsdimp.com>
----
- bsd-user/bsd-file.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I just came across this piece of code in nvme_process_db() that I found =
+weird:
 
-diff --git a/bsd-user/bsd-file.h b/bsd-user/bsd-file.h
-index 108a5061850..588e0c50d45 100644
---- a/bsd-user/bsd-file.h
-+++ b/bsd-user/bsd-file.h
-@@ -252,7 +252,7 @@ static abi_long do_bsd_openat(abi_long arg1, abi_long arg2,
- }
- 
- /* close(2) */
--static inline abi_long do_bsd_close(abi_long arg1)
-+static abi_long do_bsd_close(abi_long arg1)
- {
-     return get_errno(close(arg1));
- }
--- 
-2.33.1
+start_sqs =3D nvme_cq_full(cq) ? 1 : 0;
+...
+if (start_sqs) {
+    NvmeSQueue *sq;
+    QTAILQ_FOREACH(sq, &cq->sq_list, entry) {
+        timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + =
+500);
+    }
+    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+}
+
+
+The logic seems to be =E2=80=9CIf CQ is full, schedule SQ timer to =
+produce more=20
+completions=E2=80=9D. I cannot understand this. I think it would make =
+more sense
+with =E2=80=9CIf CQ is NOT full, schedule SQ timer to produce more =
+completions=E2=80=9D.Am=20
+I missing something?
+
+Thanks,
+Jinhao Fan=
 
 
