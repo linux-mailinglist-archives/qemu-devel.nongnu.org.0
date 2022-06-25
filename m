@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D452D55AB95
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 18:34:36 +0200 (CEST)
-Received: from localhost ([::1]:46628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA61D55AB98
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 18:35:56 +0200 (CEST)
+Received: from localhost ([::1]:48914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o58jz-0005JS-FC
-	for lists+qemu-devel@lfdr.de; Sat, 25 Jun 2022 12:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39424)
+	id 1o58lH-0006qY-S0
+	for lists+qemu-devel@lfdr.de; Sat, 25 Jun 2022 12:35:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o58iM-0004F2-S2
- for qemu-devel@nongnu.org; Sat, 25 Jun 2022 12:32:54 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:34268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o58iL-0002Mr-9j
- for qemu-devel@nongnu.org; Sat, 25 Jun 2022 12:32:54 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- p6-20020a05600c1d8600b0039c630b8d96so4319797wms.1
- for <qemu-devel@nongnu.org>; Sat, 25 Jun 2022 09:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=JuOFqKiyMagpR9P965bRJnoUeSF0VRIYXh/fSIsOcSE=;
- b=S6c1mdVgLVtpcJ0z3RUPtM2EeYbvN9fkR5IjZA5TRqoDxE0fzFFtWbinIidBgOiSm0
- OiiY8XZ8TxLe8RCYSgTjx8N51GlFjtBVx/MaEK7Ml+luBJGEloAFsE/aJs7dZNvYHXQp
- ajcghWE8S+QEr9lADw0y62YW7mo9aWVRTlIes21gui8K6+pm7Vf/1pACseWkrJJy4LxS
- DHOixPlNlEDx1Z/qjRPYwZiFO3O42oNAQ4Irn+BFsigrSGam0gow3jXnEji1bLhB1doN
- WmdvR18g5o48VFlQsTRivWW7vxnEBJ208VGPMqAvbBh0QCoDRf24z/3I0RxGjwpat/ml
- fiWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=JuOFqKiyMagpR9P965bRJnoUeSF0VRIYXh/fSIsOcSE=;
- b=O8+skxWcdm9MzhaxC2N9rYARyzmL/qd003OkjpEM6rBdTA1s/HqOuIo0jafchrwB5J
- nWCG02uaVgMdyomp1eHoEigB+S+P34GXlLKa6GuuqHf/xZWoac3ZXmdvNHryik7qkwl8
- OvvGyBEJeAQM4u+X3juYbWGSOhj5QY5a+UuQyyR/nqNAnmHUj4KhdJRW1IooDa6BrGC9
- M00Tt3g9Q9ZxCJjGcFanTsDwQA5qbl7DgM8e34y9bJd+H/ZS+eJXDwduh4fZUoqdbnUt
- dERZ7gYX3FSnetuCfHdPbHGgYAgc9QnwuYevA7V3JsNlikvEp10MCoOF8YIGgTMg/ZSF
- X6UQ==
-X-Gm-Message-State: AJIora+6HK1dewL1UmVSbEM3nx1zIMJ5VNf9ULGAjknfHx39nMH9Ccee
- bND8FB3dPy6F2IRSgci2R9uB1g==
-X-Google-Smtp-Source: AGRyM1v1RdsfEE7sFzGS8h6+Bcl+pu4tLbEUXocmQuqqwjR47mBMkhLgKGlq9sgvkPBogIKUIntwjw==
-X-Received: by 2002:a05:600c:286:b0:3a0:30f8:8a43 with SMTP id
- 6-20020a05600c028600b003a030f88a43mr5385962wmk.90.1656174771081; 
- Sat, 25 Jun 2022 09:32:51 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- u16-20020a05600c441000b0039c4d022a44sm7121776wmn.1.2022.06.25.09.32.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Jun 2022 09:32:49 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1DF391FFB7;
- Sat, 25 Jun 2022 17:32:49 +0100 (BST)
-References: <20220624150216.3627-1-shnusongshaobo@gmail.com>
-User-agent: mu4e 1.7.27; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Shaobo Song <shnusongshaobo@gmail.com>
-Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH] tcg: Fix returned type in
- alloc_code_gen_buffer_splitwx_memfd()
-Date: Sat, 25 Jun 2022 17:32:42 +0100
-In-reply-to: <20220624150216.3627-1-shnusongshaobo@gmail.com>
-Message-ID: <87fsjsaekv.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o58jd-0005Z8-Qt
+ for qemu-devel@nongnu.org; Sat, 25 Jun 2022 12:34:15 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:55773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o58ja-0002dN-DL
+ for qemu-devel@nongnu.org; Sat, 25 Jun 2022 12:34:12 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MQeI4-1oGkMV48ko-00NfXh; Sat, 25 Jun 2022 18:34:06 +0200
+Message-ID: <9df7a700-0744-3a9f-f925-48de994ba70e@vivier.eu>
+Date: Sat, 25 Jun 2022 18:34:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH qemu] m68k: virt: pass RNG seed via bootinfo block
+Content-Language: fr
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, geert@linux-m68k.org,
+ linux-m68k@lists.linux-m68k.org, qemu-devel@nongnu.org
+References: <20220625154402.146403-1-Jason@zx2c4.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220625154402.146403-1-Jason@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:YIv92L2MCDvBBy/5RjyEOv9rA4g42f5/+KcxdAQWewrc5hvbudk
+ Bsw243qtyzFSXGev8ID/DBLHs5JcNPva9FqiT1nOpQP8GLDfirdZatdoTAqxdOuZazI/gmm
+ yUlIRv4JJXKyAQPYfV4o1papjCHunP8ri498RPFQSW5A9YPvs+6n1cobRvY95SNt2X3LBQF
+ /NqKZLez8eCmGMMAMKZ1g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6B2OjsC5hYQ=:7BPasNpqrM8lD1K9WAiHwo
+ lvF4+GPsvJnPQPeOvWNUe/4NwAaJvVeWMZFVCmSQn7kR6c/JgZ3udOL5KrvjHXWJ/Fxbfa14z
+ ekqWZLYLIsLQvbtcWsAplxS+TGuwI3qtQX/lxzVbNBK/dZRtYfJZRhg/c+OvU7vThdN9rx6cw
+ 3PQsIFybsnB+n/r68I9jsJfqXJw9gZrWNbOwI2Gnf7O9VR833IlMygWxuk/m5V3ZI73imIyMQ
+ O/vI6g7v1n2fcJ5DGrsJ64fR7bNhGN5lvZEk8X61OTMsEHjd/zFJ1kMNYI/pZ/xYTSMFmzw64
+ Z+tAtCE4XX6mwan6UVQY706ZRA2fCsi+pCiKDs+kO6TUOtUaviW7V1DS9AFlHsLOnzdROtpKY
+ 7HulEwWgh0ukauPlbRdNEBkL5VEJsumkpXBGuS6QlKLsoZMnkRxvkYQFqNUMOrCA8HNDM3Kn1
+ Nx/f6pQxEDWiXKRzIY40hsf6pWimVaWNdU+T8RIAb9EWslh2yjaJtZ1pQwqh/U3svpM20GeSn
+ rVW+lPPbUZIjzpUJUdq3DG5knRqbcow/Mip0z6tydUTdjSH2GAaYQ1hmsQ9/fCF2tPDOHrWic
+ 1QJnZgiB8gfIgm0frX5XMs8T0V21hpzM+mQGQ98wCnTwR5VNJYoWC551UpQiv+wj4YGUu/7DK
+ EYYuLLADs6eXW06FOktXwYCe/2fvcN+pyz6MNcb0dqVMFyx5rJMwsq45B+bGUHWGruhM6ppuq
+ TFLfzQ7V+yCM6KRamQM/SdXEOvC061rzYLP21g==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,22 +74,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 25/06/2022 à 17:44, Jason A. Donenfeld a écrit :
+> This commit wires up bootinfo's RNG seed attribute so that Linux VMs can
+> have their RNG seeded from the earliest possible time in boot, just like
+> the "rng-seed" device tree property on those platforms. The link
+> contains the corresponding Linux patch.
+> 
+> Link: https://lore.kernel.org/lkml/20220625153841.143928-1-Jason@zx2c4.com/
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+> This requires this trivial cleanup commit first:
+>      https://lore.kernel.org/qemu-devel/20220625152318.120849-1-Jason@zx2c4.com/
 
-Shaobo Song <shnusongshaobo@gmail.com> writes:
+For patchew, the syntax is:
 
->  This fixes a bug in POSIX-compliant environments. Since we had allocated=
-=20
->  a buffer named 'tcg-jit' with read-write access protections we need a in=
-t=20
->  type to combine these access flags and return it, whereas we had inexpli=
-cably=20
->  return a bool type. It may cause an unnecessary protection change in=20
->  tcg_region_init().
->
-> Signed-off-by: Shaobo Song <shnusongshaobo@gmail.com>
+Based-on: <20220625152318.120849-1-Jason@zx2c4.com>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> 
+>   hw/m68k/bootinfo.h                               | 16 ++++++++++++++++
+>   hw/m68k/virt.c                                   |  7 +++++++
+>   .../standard-headers/asm-m68k/bootinfo-virt.h    |  1 +
+>   3 files changed, 24 insertions(+)
+> 
+> diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
+> index ff4e155a3c..2f31c13b6e 100644
+> --- a/hw/m68k/bootinfo.h
+> +++ b/hw/m68k/bootinfo.h
+> @@ -56,4 +56,20 @@
+>           stb_phys(as, base++, 0); \
+>           base = (base + 1) & ~1; \
+>       } while (0)
+> +
+> +#define BOOTINFODATA(as, base, id, data, len) \
+> +    do { \
+> +        int i; \
+> +        stw_phys(as, base, id); \
+> +        base += 2; \
+> +        stw_phys(as, base, \
+> +                 (sizeof(struct bi_record) + len + 5) & ~1); \
+> +        base += 2; \
+> +        stl_phys(as, base, len); \
+> +        base += 4; \
+> +        for (i = 0; i < len; ++i) { \
+> +            stb_phys(as, base++, data[i]); \
+> +        } \
+> +        base = (base + 1) & ~1; \
+> +    } while (0)
+>   #endif
+> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+> index e215aa3d42..0aa383fa6b 100644
+> --- a/hw/m68k/virt.c
+> +++ b/hw/m68k/virt.c
+> @@ -9,6 +9,7 @@
+>   
+>   #include "qemu/osdep.h"
+>   #include "qemu/units.h"
+> +#include "qemu/guest-random.h"
+>   #include "sysemu/sysemu.h"
+>   #include "cpu.h"
+>   #include "hw/boards.h"
+> @@ -120,6 +121,7 @@ static void virt_init(MachineState *machine)
+>       hwaddr io_base;
+>       int i;
+>       ResetInfo *reset_info;
+> +    uint8_t rng_seed[32];
+>   
+>       if (ram_size > 3399672 * KiB) {
+>           /*
+> @@ -245,6 +247,11 @@ static void virt_init(MachineState *machine)
+>                           kernel_cmdline);
+>           }
+>   
+> +	/* Pass seed to RNG. */
+> +	qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+> +	BOOTINFODATA(cs->as, parameters_base, BI_VIRT_RNG_SEED,
+> +		     rng_seed, sizeof(rng_seed));
+> +
+>           /* load initrd */
+>           if (initrd_filename) {
+>               initrd_size = get_image_size(initrd_filename);
+> diff --git a/include/standard-headers/asm-m68k/bootinfo-virt.h b/include/standard-headers/asm-m68k/bootinfo-virt.h
+> index 81be1e0924..1b1ffd4705 100644
+> --- a/include/standard-headers/asm-m68k/bootinfo-virt.h
+> +++ b/include/standard-headers/asm-m68k/bootinfo-virt.h
+> @@ -12,6 +12,7 @@
+>   #define BI_VIRT_GF_TTY_BASE	0x8003
+>   #define BI_VIRT_VIRTIO_BASE	0x8004
+>   #define BI_VIRT_CTRL_BASE	0x8005
+> +#define BI_VIRT_RNG_SEED	0x8006
+>   
+>   #define VIRT_BOOTI_VERSION	MK_BI_VERSION(2, 0)
+>   
 
---=20
-Alex Benn=C3=A9e
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
