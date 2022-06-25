@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4B055A652
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 05:32:21 +0200 (CEST)
-Received: from localhost ([::1]:34072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C1655AADF
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 16:23:27 +0200 (CEST)
+Received: from localhost ([::1]:52846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o4wWy-0000r0-6m
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jun 2022 23:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49684)
+	id 1o56h3-0004aA-Rw
+	for lists+qemu-devel@lfdr.de; Sat, 25 Jun 2022 10:23:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1o4wUF-00082S-UE
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 23:29:31 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:43312 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o4wUD-0003wH-8o
- for qemu-devel@nongnu.org; Fri, 24 Jun 2022 23:29:31 -0400
-Received: from smtpclient.apple (unknown [111.199.64.159])
- by APP-01 (Coremail) with SMTP id qwCowAAniBUEgbZi8hY0CA--.59415S2;
- Sat, 25 Jun 2022 11:29:09 +0800 (CST)
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: hw/nvme: why schedule sq timer when cq is full?
-Message-Id: <7F3456C2-BF36-4FE0-A5FD-8F8848E63611@ict.ac.cn>
-Date: Sat, 25 Jun 2022 11:29:07 +0800
-Cc: Klaus Jensen <its@irrelevant.dk>,
- qemu-devel@nongnu.org
-To: Keith Busch <kbusch@kernel.org>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: qwCowAAniBUEgbZi8hY0CA--.59415S2
-X-Coremail-Antispam: 1UD129KBjvdXoW5KF1DuF17KF48Kry7JFWxCrg_yoWxXrX_Aw
- naqw1jvFsagFn8AwsxCa15Aa18Cr17Zr1rXFWfZF1xt343AF4furWqqanxuFyUW3s0qF13
- A3y8CryxCryjgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbw8YjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC2
- 0s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
- 0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
- 14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20x
- vaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
- 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jeXdbUUUUU=
-X-Originating-IP: [111.199.64.159]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
+ id 1o56fl-0003t3-Uf
+ for qemu-devel@nongnu.org; Sat, 25 Jun 2022 10:22:06 -0400
+Received: from mail-108-mta25.mxroute.com ([136.175.108.25]:44097)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
+ id 1o56fj-0000PA-6U
+ for qemu-devel@nongnu.org; Sat, 25 Jun 2022 10:22:04 -0400
+Received: from filter006.mxroute.com ([140.82.40.27] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta25.mxroute.com (ZoneMTA) with ESMTPSA id 1819b3da2ba00028a7.002
+ for <qemu-devel@nongnu.org>
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256);
+ Sat, 25 Jun 2022 14:21:56 +0000
+X-Zone-Loop: 4802461cd02d89f31beb90c5ce58fb74cf487b3ba38d
+X-Originating-IP: [140.82.40.27]
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mkfssion.com; s=x; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date
+ :Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=EqNlKr6yIv9MTP6XJewjMRBR6Y+N7XbK9fI0jnMDGvY=; b=Lb0ngfqy31H5/6F4Y2cvnutMDT
+ Qe77R387gSVvBUbEo5bUqLCx01VK+xYJ9jwV/8tBVBm3B27NvIrE362/uUOWiv8FNVN6hBHSJX99S
+ SiQtKxUOBOPY8+qIX2Wr6LPAlJdhrgRAwisuFgXsybUXvU/DxcaCEwJGG3U8BcYDOAefFrqqiQ8BI
+ tlYw0LRQSTEmXJhkBNyN24zZ3FV76AhsAAdnLPL221CTpCjItfooPH89qvn6tW8a5wPRieF7m361A
+ tOznhG3/WjdS08kOh8zCbg89yJX5OOldl0awN/tJWwEbzsI9S/DNfixP5wLT3tEQ3Mv0FXwXZQIlh
+ 8By2pYZQ==;
+From: MkfsSion <mkfssion@mkfssion.com>
+To: qemu-devel@nongnu.org
+Cc: MkfsSion <mkfssion@mkfssion.com>, Hongren Zheng <i@zenithal.me>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Canokeys.org" <contact@canokeys.org>
+Subject: [PATCH v4 1/2] hw: canokey: Remove HS support as not compliant to the
+ spec
+Date: Sat, 25 Jun 2022 22:21:37 +0800
+Message-Id: <20220625142138.19363-1-mkfssion@mkfssion.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-AuthUser: mkfssion@mkfssion.com
+Received-SPF: pass client-ip=136.175.108.25;
+ envelope-from=mkfssion@mkfssion.com; helo=mail-108-mta25.mxroute.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,32 +74,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Keith,
+Canokey core currently using 16 bytes as maximum packet size for
+control endpoint, but to run the device in high-speed a 64 bytes
+maximum packet size is required according to USB 2.0 specification.
+Since we don't acutally need to run the device in high-speed, simply
+don't assign high member in USBDesc.
 
-I just came across this piece of code in nvme_process_db() that I found =
-weird:
+When canokey-qemu is used with xhci, xhci would drive canokey
+in high speed mode, since the bcdUSB in canokey-core is 2.1,
+yet canokey-core set bMaxPacketSize0 to be 16, this is out
+of the spec as the spec said that ``The allowable maximum
+control transfer data payload sizes...for high-speed devices,
+it is 64 bytes''.
 
-start_sqs =3D nvme_cq_full(cq) ? 1 : 0;
-...
-if (start_sqs) {
-    NvmeSQueue *sq;
-    QTAILQ_FOREACH(sq, &cq->sq_list, entry) {
-        timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + =
-500);
-    }
-    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
-}
+In this case, usb device validation in Windows 10 LTSC 2021
+as the guest would fail. It would complain
+USB\DEVICE_DESCRIPTOR_VALIDATION_FAILURE.
 
+Note that bcdUSB only identifies the spec version the device
+complies, but it has no indication of its speed. So it is
+allowed for the device to run in FS but comply the 2.1 spec.
 
-The logic seems to be =E2=80=9CIf CQ is full, schedule SQ timer to =
-produce more=20
-completions=E2=80=9D. I cannot understand this. I think it would make =
-more sense
-with =E2=80=9CIf CQ is NOT full, schedule SQ timer to produce more =
-completions=E2=80=9D.Am=20
-I missing something?
+To solve the issue we decided to just drop the high
+speed support. This only affects usb-ehci as usb-ehci would
+complain speed mismatch when FS device is attached to a HS port.
+That's why the .high member was initialized in the first place.
+Meanwhile, xhci is not affected as it works well with FS device.
+Since everyone is now using xhci, it does no harm to most users.
 
-Thanks,
-Jinhao Fan=
+Suggested-by: Hongren (Zenithal) Zheng <i@zenithal.me>
+Signed-off-by: YuanYang Meng <mkfssion@mkfssion.com>
+---
+ hw/usb/canokey.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/hw/usb/canokey.c b/hw/usb/canokey.c
+index 4a08b1cbd7..6a7ab965a5 100644
+--- a/hw/usb/canokey.c
++++ b/hw/usb/canokey.c
+@@ -56,7 +56,6 @@ static const USBDesc desc_canokey = {
+         .iSerialNumber     = STR_SERIALNUMBER,
+     },
+     .full = &desc_device_canokey,
+-    .high = &desc_device_canokey,
+     .str  = desc_strings,
+ };
+ 
+-- 
+2.36.1
 
 
