@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA61D55AB98
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 18:35:56 +0200 (CEST)
-Received: from localhost ([::1]:48914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F285855ABC7
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jun 2022 19:43:11 +0200 (CEST)
+Received: from localhost ([::1]:37974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o58lH-0006qY-S0
-	for lists+qemu-devel@lfdr.de; Sat, 25 Jun 2022 12:35:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39812)
+	id 1o59oM-0006GF-BI
+	for lists+qemu-devel@lfdr.de; Sat, 25 Jun 2022 13:43:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o58jd-0005Z8-Qt
- for qemu-devel@nongnu.org; Sat, 25 Jun 2022 12:34:15 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:55773)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o58ja-0002dN-DL
- for qemu-devel@nongnu.org; Sat, 25 Jun 2022 12:34:12 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MQeI4-1oGkMV48ko-00NfXh; Sat, 25 Jun 2022 18:34:06 +0200
-Message-ID: <9df7a700-0744-3a9f-f925-48de994ba70e@vivier.eu>
-Date: Sat, 25 Jun 2022 18:34:04 +0200
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1o59kI-0003Lg-8S
+ for qemu-devel@nongnu.org; Sat, 25 Jun 2022 13:38:58 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:53071
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1o59kE-0007Qw-F7
+ for qemu-devel@nongnu.org; Sat, 25 Jun 2022 13:38:58 -0400
+HMM_SOURCE_IP: 172.18.0.48:34982.1285566443
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.97.81 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 52C622800D7;
+ Sun, 26 Jun 2022 01:38:38 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id de52caa68a5f47d78487c049feece665 for
+ qemu-devel@nongnu.org; Sun, 26 Jun 2022 01:38:42 CST
+X-Transaction-ID: de52caa68a5f47d78487c049feece665
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Hyman <huangy81@chinatelecom.cn>
+Subject: [PATCH v25 0/8] support dirty restraint on vCPU 
+Date: Sun, 26 Jun 2022 01:38:29 +0800
+Message-Id: <cover.1656177590.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH qemu] m68k: virt: pass RNG seed via bootinfo block
-Content-Language: fr
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, geert@linux-m68k.org,
- linux-m68k@lists.linux-m68k.org, qemu-devel@nongnu.org
-References: <20220625154402.146403-1-Jason@zx2c4.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220625154402.146403-1-Jason@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YIv92L2MCDvBBy/5RjyEOv9rA4g42f5/+KcxdAQWewrc5hvbudk
- Bsw243qtyzFSXGev8ID/DBLHs5JcNPva9FqiT1nOpQP8GLDfirdZatdoTAqxdOuZazI/gmm
- yUlIRv4JJXKyAQPYfV4o1papjCHunP8ri498RPFQSW5A9YPvs+6n1cobRvY95SNt2X3LBQF
- /NqKZLez8eCmGMMAMKZ1g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6B2OjsC5hYQ=:7BPasNpqrM8lD1K9WAiHwo
- lvF4+GPsvJnPQPeOvWNUe/4NwAaJvVeWMZFVCmSQn7kR6c/JgZ3udOL5KrvjHXWJ/Fxbfa14z
- ekqWZLYLIsLQvbtcWsAplxS+TGuwI3qtQX/lxzVbNBK/dZRtYfJZRhg/c+OvU7vThdN9rx6cw
- 3PQsIFybsnB+n/r68I9jsJfqXJw9gZrWNbOwI2Gnf7O9VR833IlMygWxuk/m5V3ZI73imIyMQ
- O/vI6g7v1n2fcJ5DGrsJ64fR7bNhGN5lvZEk8X61OTMsEHjd/zFJ1kMNYI/pZ/xYTSMFmzw64
- Z+tAtCE4XX6mwan6UVQY706ZRA2fCsi+pCiKDs+kO6TUOtUaviW7V1DS9AFlHsLOnzdROtpKY
- 7HulEwWgh0ukauPlbRdNEBkL5VEJsumkpXBGuS6QlKLsoZMnkRxvkYQFqNUMOrCA8HNDM3Kn1
- Nx/f6pQxEDWiXKRzIY40hsf6pWimVaWNdU+T8RIAb9EWslh2yjaJtZ1pQwqh/U3svpM20GeSn
- rVW+lPPbUZIjzpUJUdq3DG5knRqbcow/Mip0z6tydUTdjSH2GAaYQ1hmsQ9/fCF2tPDOHrWic
- 1QJnZgiB8gfIgm0frX5XMs8T0V21hpzM+mQGQ98wCnTwR5VNJYoWC551UpQiv+wj4YGUu/7DK
- EYYuLLADs6eXW06FOktXwYCe/2fvcN+pyz6MNcb0dqVMFyx5rJMwsq45B+bGUHWGruhM6ppuq
- TFLfzQ7V+yCM6KRamQM/SdXEOvC061rzYLP21g==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Received-SPF: pass client-ip=42.123.76.228;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,97 +72,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/06/2022 à 17:44, Jason A. Donenfeld a écrit :
-> This commit wires up bootinfo's RNG seed attribute so that Linux VMs can
-> have their RNG seeded from the earliest possible time in boot, just like
-> the "rng-seed" device tree property on those platforms. The link
-> contains the corresponding Linux patch.
-> 
-> Link: https://lore.kernel.org/lkml/20220625153841.143928-1-Jason@zx2c4.com/
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
-> This requires this trivial cleanup commit first:
->      https://lore.kernel.org/qemu-devel/20220625152318.120849-1-Jason@zx2c4.com/
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-For patchew, the syntax is:
+v25:
+- rebase master
+- fix 32-bit and non-Linux(freebsd) build failures
+  use qatomic_read_i64() to replace qatomic_read()
+  move the DIRTYLIMIT_TOLERANCE_RANGE MARCO out of 'linux' scope.
 
-Based-on: <20220625152318.120849-1-Jason@zx2c4.com>
+Please review, thanks !
 
-> 
->   hw/m68k/bootinfo.h                               | 16 ++++++++++++++++
->   hw/m68k/virt.c                                   |  7 +++++++
->   .../standard-headers/asm-m68k/bootinfo-virt.h    |  1 +
->   3 files changed, 24 insertions(+)
-> 
-> diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
-> index ff4e155a3c..2f31c13b6e 100644
-> --- a/hw/m68k/bootinfo.h
-> +++ b/hw/m68k/bootinfo.h
-> @@ -56,4 +56,20 @@
->           stb_phys(as, base++, 0); \
->           base = (base + 1) & ~1; \
->       } while (0)
-> +
-> +#define BOOTINFODATA(as, base, id, data, len) \
-> +    do { \
-> +        int i; \
-> +        stw_phys(as, base, id); \
-> +        base += 2; \
-> +        stw_phys(as, base, \
-> +                 (sizeof(struct bi_record) + len + 5) & ~1); \
-> +        base += 2; \
-> +        stl_phys(as, base, len); \
-> +        base += 4; \
-> +        for (i = 0; i < len; ++i) { \
-> +            stb_phys(as, base++, data[i]); \
-> +        } \
-> +        base = (base + 1) & ~1; \
-> +    } while (0)
->   #endif
-> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-> index e215aa3d42..0aa383fa6b 100644
-> --- a/hw/m68k/virt.c
-> +++ b/hw/m68k/virt.c
-> @@ -9,6 +9,7 @@
->   
->   #include "qemu/osdep.h"
->   #include "qemu/units.h"
-> +#include "qemu/guest-random.h"
->   #include "sysemu/sysemu.h"
->   #include "cpu.h"
->   #include "hw/boards.h"
-> @@ -120,6 +121,7 @@ static void virt_init(MachineState *machine)
->       hwaddr io_base;
->       int i;
->       ResetInfo *reset_info;
-> +    uint8_t rng_seed[32];
->   
->       if (ram_size > 3399672 * KiB) {
->           /*
-> @@ -245,6 +247,11 @@ static void virt_init(MachineState *machine)
->                           kernel_cmdline);
->           }
->   
-> +	/* Pass seed to RNG. */
-> +	qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-> +	BOOTINFODATA(cs->as, parameters_base, BI_VIRT_RNG_SEED,
-> +		     rng_seed, sizeof(rng_seed));
-> +
->           /* load initrd */
->           if (initrd_filename) {
->               initrd_size = get_image_size(initrd_filename);
-> diff --git a/include/standard-headers/asm-m68k/bootinfo-virt.h b/include/standard-headers/asm-m68k/bootinfo-virt.h
-> index 81be1e0924..1b1ffd4705 100644
-> --- a/include/standard-headers/asm-m68k/bootinfo-virt.h
-> +++ b/include/standard-headers/asm-m68k/bootinfo-virt.h
-> @@ -12,6 +12,7 @@
->   #define BI_VIRT_GF_TTY_BASE	0x8003
->   #define BI_VIRT_VIRTIO_BASE	0x8004
->   #define BI_VIRT_CTRL_BASE	0x8005
-> +#define BI_VIRT_RNG_SEED	0x8006
->   
->   #define VIRT_BOOTI_VERSION	MK_BI_VERSION(2, 0)
->   
+Yong.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+v24:
+- add "Acked-by: Peter Xu <peterx@redhat.com>" tag in (PATCH [8/8])
+
+v23:
+
+This is v23 of dirtylimit series. Since v22 posted abount 1 month ago,
+i did some modifications to make sure it's ready to be queued:
+
+- rebased the master and changed the qapi version tag from 7.0 to 7.1
+- do not set error if when query_vcpu_dirty_limit find dirtylimit not
+  in service, returning NULL is sufficient. (PATCH v22 [7/8]). 
+
+The following is the history of the patchset, since v22 kind of different from
+the original version, i made abstracts of changelog:
+
+RFC and v1: https://lore.kernel.org/qemu-devel/cover.1637214721.git.huangy81@chinatelecom.cn/
+v2: https://lore.kernel.org/qemu-devel/cover.1637256224.git.huangy81@chinatelecom.cn/
+v1->v2 changelog: 
+- rename some function and variables. refactor the original algo of dirtylimit. Thanks for
+  the comments given by Juan Quintela.
+v3: https://lore.kernel.org/qemu-devel/cover.1637403404.git.huangy81@chinatelecom.cn/
+v4: https://lore.kernel.org/qemu-devel/cover.1637653303.git.huangy81@chinatelecom.cn/
+v5: https://lore.kernel.org/qemu-devel/cover.1637759139.git.huangy81@chinatelecom.cn/
+v6: https://lore.kernel.org/qemu-devel/cover.1637856472.git.huangy81@chinatelecom.cn/
+v7: https://lore.kernel.org/qemu-devel/cover.1638202004.git.huangy81@chinatelecom.cn/
+v2->v7 changelog:
+- refactor the docs, annotation and fix bugs of the original algo of dirtylimit.
+  Thanks for the review given by Markus Armbruster. 
+v8: https://lore.kernel.org/qemu-devel/cover.1638463260.git.huangy81@chinatelecom.cn/
+v9: https://lore.kernel.org/qemu-devel/cover.1638495274.git.huangy81@chinatelecom.cn/
+v10: https://lore.kernel.org/qemu-devel/cover.1639479557.git.huangy81@chinatelecom.cn/
+v7->v10 changelog:
+- introduce a simpler but more efficient algo of dirtylimit inspired by Peter Xu.
+- keep polishing the annotation suggested by Markus Armbruster.
+v11: https://lore.kernel.org/qemu-devel/cover.1641315745.git.huangy81@chinatelecom.cn/
+v12: https://lore.kernel.org/qemu-devel/cover.1642774952.git.huangy81@chinatelecom.cn/
+v13: https://lore.kernel.org/qemu-devel/cover.1644506963.git.huangy81@chinatelecom.cn/
+v10->v13 changelog:
+- handle the hotplug/unplug scenario.
+- refactor the new algo, split the commit and make the code more clean.
+v14: https://lore.kernel.org/qemu-devel/cover.1644509582.git.huangy81@chinatelecom.cn/
+v13->v14 changelog:
+- sent by accident.
+v15: https://lore.kernel.org/qemu-devel/cover.1644976045.git.huangy81@chinatelecom.cn/ 
+v16: https://lore.kernel.org/qemu-devel/cover.1645067452.git.huangy81@chinatelecom.cn/ 
+v17: https://lore.kernel.org/qemu-devel/cover.1646243252.git.huangy81@chinatelecom.cn/
+v14->v17 changelog: 
+- do some code clean and fix test bug reported by Dr. David Alan Gilbert.
+v18: https://lore.kernel.org/qemu-devel/cover.1646247968.git.huangy81@chinatelecom.cn/
+v19: https://lore.kernel.org/qemu-devel/cover.1647390160.git.huangy81@chinatelecom.cn/
+v20: https://lore.kernel.org/qemu-devel/cover.1647396907.git.huangy81@chinatelecom.cn/
+v21: https://lore.kernel.org/qemu-devel/cover.1647435820.git.huangy81@chinatelecom.cn/
+v17->v21 changelog:
+- add qtest, fix bug and do code clean. 
+v21->v22 changelog:
+- move the vcpu dirty limit test into migration-test and do some modification suggested
+  by Peter.
+
+Please review.
+
+Yong.
+
+Abstract
+========
+
+This patchset introduce a mechanism to impose dirty restraint
+on vCPU, aiming to keep the vCPU running in a certain dirtyrate
+given by user. dirty restraint on vCPU maybe an alternative
+method to implement convergence logic for live migration,
+which could improve guest memory performance during migration
+compared with traditional method in theory.
+
+For the current live migration implementation, the convergence
+logic throttles all vCPUs of the VM, which has some side effects.
+-'read processes' on vCPU will be unnecessarily penalized
+- throttle increase percentage step by step, which seems
+  struggling to find the optimal throttle percentage when
+  dirtyrate is high.
+- hard to predict the remaining time of migration if the
+  throttling percentage reachs 99%
+
+to a certain extent, the dirty restraint machnism can fix these
+effects by throttling at vCPU granularity during migration.
+
+the implementation is rather straightforward, we calculate
+vCPU dirtyrate via the Dirty Ring mechanism periodically
+as the commit 0e21bf246 "implement dirty-ring dirtyrate calculation"
+does, for vCPU that be specified to impose dirty restraint,
+we throttle it periodically as the auto-converge does, once after
+throttling, we compare the quota dirtyrate with current dirtyrate,
+if current dirtyrate is not under the quota, increase the throttling
+percentage until current dirtyrate is under the quota.
+
+this patchset is the basis of implmenting a new auto-converge method
+for live migration, we introduce two qmp commands for impose/cancel
+the dirty restraint on specified vCPU, so it also can be an independent
+api to supply the upper app such as libvirt, which can use it to
+implement the convergence logic during live migration, supplemented
+with the qmp 'calc-dirty-rate' command or whatever.
+
+we post this patchset for RFC and any corrections and suggetions about
+the implementation, api, throttleing algorithm or whatever are very
+appreciated!
+
+Please review, thanks !
+
+Best Regards !
+
+Hyman Huang (8):
+  accel/kvm/kvm-all: Refactor per-vcpu dirty ring reaping
+  cpus: Introduce cpu_list_generation_id
+  migration/dirtyrate: Refactor dirty page rate calculation
+  softmmu/dirtylimit: Implement vCPU dirtyrate calculation periodically
+  accel/kvm/kvm-all: Introduce kvm_dirty_ring_size function
+  softmmu/dirtylimit: Implement virtual CPU throttle
+  softmmu/dirtylimit: Implement dirty page rate limit
+  tests: Add dirty page rate limit test
+
+ accel/kvm/kvm-all.c             |  46 ++-
+ accel/stubs/kvm-stub.c          |   5 +
+ cpus-common.c                   |   8 +
+ hmp-commands-info.hx            |  13 +
+ hmp-commands.hx                 |  32 +++
+ include/exec/cpu-common.h       |   1 +
+ include/exec/memory.h           |   5 +-
+ include/hw/core/cpu.h           |   6 +
+ include/monitor/hmp.h           |   3 +
+ include/sysemu/dirtylimit.h     |  37 +++
+ include/sysemu/dirtyrate.h      |  28 ++
+ include/sysemu/kvm.h            |   2 +
+ migration/dirtyrate.c           | 227 +++++++++------
+ migration/dirtyrate.h           |   7 +-
+ qapi/migration.json             |  80 ++++++
+ softmmu/dirtylimit.c            | 601 ++++++++++++++++++++++++++++++++++++++++
+ softmmu/meson.build             |   1 +
+ softmmu/trace-events            |   7 +
+ tests/qtest/migration-helpers.c |  22 ++
+ tests/qtest/migration-helpers.h |   2 +
+ tests/qtest/migration-test.c    | 256 +++++++++++++++++
+ tests/qtest/qmp-cmd-test.c      |   2 +
+ 22 files changed, 1292 insertions(+), 99 deletions(-)
+ create mode 100644 include/sysemu/dirtylimit.h
+ create mode 100644 include/sysemu/dirtyrate.h
+ create mode 100644 softmmu/dirtylimit.c
+
+-- 
+1.8.3.1
+
 
