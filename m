@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEB055B34F
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 19:58:16 +0200 (CEST)
-Received: from localhost ([::1]:40446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C3455B34C
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 19:56:10 +0200 (CEST)
+Received: from localhost ([::1]:33020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5WWV-00055V-SO
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 13:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39260)
+	id 1o5WUT-0008Th-27
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 13:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WL8-0002SK-Jy
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:46:35 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45048)
+ id 1o5WLG-0002fJ-D4
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:46:38 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WL7-0008PT-1p
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:46:30 -0400
+ id 1o5WLE-0008Pu-Qd
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:46:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=v3BeuKvN1HFFVFyhxPG45d5c0zcz/a+eu42PlpVEBdw=; b=jXecmCYOf/jDrdPnCBbDxFQvYZ
- JNbiGsfTbXYfVDlCaj7YAVryvpmNGE3RJ+dP9F+MkV2XTwAGhKlp/U9z1cOG6/w1fIg/0p89YIPcO
- WU43jrjMOazrhvlfsLjf3GQqNxDUdy8dXlote3PW5aFHlFK9Ov6gsHcHmRWKmAkshnbYDPOtyHETL
- cEoIcA/Kk2468GfwpDJkfRHuuVFytbuj1JgnZ5eUaM9Vml/FN6H/o58WsXHsxT8LVjlla6jO+TtrZ
- OMNhVd9lkqQ70+TmLR0rXDU+KKoiiGLQrMzKnNl3FzKu+E4o9kNvOeR+1aHFVQK5OOI6uLcjPdmzC
- PneupnsbdmwRONrVDsKPRiL768/iPQLWNuGYCchgGpJarLiSwSfBQTKDYzMCXeJjt3i2cDqtO7a+I
- 7+wr6qcZxJQEyJSRRRXE/64AkOSSO8y7ZIsJiZJbu6LsS5l9UieNnhxw1FudIfk5Q2vVAf+rIVYcd
- CmVIKlcbLrcomz/XcbIyln7H2M5uhREog792EVorAqQrs3GkUvhsFtmLOM/FPB/R6mRdz0e1gVaOn
- eZvgWuRjrrCX03Yc77f71e2VSLvzmsk/7VZ6d6jOwfAdesxcpy0KrkqqaiLPBLzxoY8EKHftuyoIC
- 9fQFcXcvLajhF55sJeF8XhvdemRv4REbqofEgIGB4=;
+ bh=nTv/GntpdFOeKbpIoIbnma4io06TzyCNKdAwqPdh5t4=; b=yULPkJxmrM/IQRBsKhHWN+j9YI
+ 73Id0JyyBBCNAdsZmeZp8Dnn8KDgUDpPyPWJg8GRL7Dh8x+FTHIWo6KjeMofkbE4gWDUbY7NZyOjR
+ KuHclUgnEazYTrahj47S5f0bazFMfigXusX8sE3XVdLeEXbZXnnYQWyAawNKIacSwLtqx80jSJIG2
+ VR+ikSwWf6w08u+8V7Yg2XOBoBO5+6h4M8qngKy9jleHBiahKAsk+n7XKk+TRDAxLFAHhOEH5Eh+p
+ w7uZGbCunTBLWdj9MFu3Epk22yrzu/tp5TZTlKh+yvY4z9w+gL/9wz8F60ZdHYHuuF7QB83Ua2tCz
+ QcOa4srY5QBGsCFEgwv7IaRw4WeB61e32AG0zz3/6fh3xdCBWJgc+oX0HB3qo2EcCjgBj2KjyMO7P
+ rr/s+zwo8DFnBo1F9T0xOmsNeRFgf4L5CfpM8xoD1bd+EF28L5Zu9Hmx8wz2TGqE+5alJw4LCgsj+
+ WlO+o4BvAKh4UI2vGo59u6RXtCb5vrp5xaedOrUy48gv/6D1sBMeVzWgH+RnT09Ybt4byjP1H08ig
+ mB/31Ghnzi62bugALHLp8Tk8aIjzrthFmIh1gJCjCehVgawJaWyQVBzQqa65PVUzJB2opy5Ih55Kv
+ jUOaBqU5AzQhRG7DKEwbwowfwwtZOVcQ6WftTi/HE=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WJt-0007KY-5o; Sun, 26 Jun 2022 18:45:16 +0100
+ id 1o5WK0-0007KY-Ib; Sun, 26 Jun 2022 18:45:24 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Date: Sun, 26 Jun 2022 18:44:48 +0100
-Message-Id: <20220626174531.969187-13-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 26 Jun 2022 18:44:50 +0100
+Message-Id: <20220626174531.969187-15-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
 References: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
@@ -52,7 +52,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 12/55] ps2: don't use vmstate_register() in ps2_kbd_init()
+Subject: [PULL 14/55] pl050: checkpatch fixes
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,39 +78,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since PS2_KBD_DEVICE is a qdev device then vmstate_ps2_keyboard can be registered
-using the DeviceClass vmsd field instead. There is no need to use
-qdev_set_legacy_instance_id() to ensure migration compatibility since the first 2
-parameters to vmstate_register() are NULL and 0 respectively.
+This patch also includes a couple of minor spacing updates.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Helge Deller <deller@gmx.de>
-Message-Id: <20220624134109.881989-13-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220624134109.881989-15-mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/ps2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/input/pl050.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index eae7df2096..97e9172ba5 100644
---- a/hw/input/ps2.c
-+++ b/hw/input/ps2.c
-@@ -1232,7 +1232,6 @@ void *ps2_kbd_init(void (*update_irq)(void *, int), void *update_arg)
-     trace_ps2_kbd_init(s);
-     ps2->update_irq = update_irq;
-     ps2->update_arg = update_arg;
--    vmstate_register(NULL, 0, &vmstate_ps2_keyboard, s);
+diff --git a/hw/input/pl050.c b/hw/input/pl050.c
+index d279b6c148..889a0674d3 100644
+--- a/hw/input/pl050.c
++++ b/hw/input/pl050.c
+@@ -53,8 +53,9 @@ static const VMStateDescription vmstate_pl050 = {
+ #define PL050_KMIC            (1 << 1)
+ #define PL050_KMID            (1 << 0)
  
-     return s;
- }
-@@ -1274,6 +1273,7 @@ static void ps2_kbd_class_init(ObjectClass *klass, void *data)
+-static const unsigned char pl050_id[] =
+-{ 0x50, 0x10, 0x04, 0x00, 0x0d, 0xf0, 0x05, 0xb1 };
++static const unsigned char pl050_id[] = {
++    0x50, 0x10, 0x04, 0x00, 0x0d, 0xf0, 0x05, 0xb1
++};
  
-     dc->realize = ps2_kbd_realize;
-     device_class_set_parent_reset(dc, ps2_kbd_reset, &ps2dc->parent_reset);
-+    dc->vmsd = &vmstate_ps2_keyboard;
- }
+ static void pl050_update(void *opaque, int level)
+ {
+@@ -71,8 +72,10 @@ static uint64_t pl050_read(void *opaque, hwaddr offset,
+                            unsigned size)
+ {
+     PL050State *s = (PL050State *)opaque;
+-    if (offset >= 0xfe0 && offset < 0x1000)
++
++    if (offset >= 0xfe0 && offset < 0x1000) {
+         return pl050_id[(offset - 0xfe0) >> 2];
++    }
  
- static const TypeInfo ps2_kbd_info = {
+     switch (offset >> 2) {
+     case 0: /* KMICR */
+@@ -88,16 +91,19 @@ static uint64_t pl050_read(void *opaque, hwaddr offset,
+             val = (val ^ (val >> 1)) & 1;
+ 
+             stat = PL050_TXEMPTY;
+-            if (val)
++            if (val) {
+                 stat |= PL050_RXPARITY;
+-            if (s->pending)
++            }
++            if (s->pending) {
+                 stat |= PL050_RXFULL;
++            }
+ 
+             return stat;
+         }
+     case 2: /* KMIDATA */
+-        if (s->pending)
++        if (s->pending) {
+             s->last = ps2_read_data(s->dev);
++        }
+         return s->last;
+     case 3: /* KMICLKDIV */
+         return s->clk;
+@@ -114,6 +120,7 @@ static void pl050_write(void *opaque, hwaddr offset,
+                         uint64_t value, unsigned size)
+ {
+     PL050State *s = (PL050State *)opaque;
++
+     switch (offset >> 2) {
+     case 0: /* KMICR */
+         s->cr = value;
 -- 
 2.30.2
 
