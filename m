@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0111455B35A
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 20:06:40 +0200 (CEST)
-Received: from localhost ([::1]:58072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3BF55B360
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 20:09:06 +0200 (CEST)
+Received: from localhost ([::1]:38354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5Wed-0000aP-Qz
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 14:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39668)
+	id 1o5Wgz-0006JB-F0
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 14:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WMN-0003bY-9E
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:47 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45158)
+ id 1o5WMV-0003vd-3B
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:55 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WMK-00009a-8D
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:45 -0400
+ id 1o5WMO-0000A7-1a
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=SX5sGDsYhnrMkHelRj4QfC540JSg6IFOdLXbq5ato8M=; b=HVO2Mvx90L459+EEZKAqKA4gIX
- MMz+ahG6zRtZszxcenn6/nSdENt8+/SYmlcDHrwUyXREkOCu/SjG019tljS8ZaoFKQ8PoM5D06GQ4
- 4u6BwQKvDEMzqNXB9tWtA+SVwlDI0q3VetAA4tRXGQlCtkv8BLkS66dCeEqZmYbJadMWAVVO2xoMr
- 0hCnv2oee4QtCT8di2LgfaaFmruF0jgKaeQADTt1x39MSHrNE08ZFG/t+cYee2pAJFVC4rni2zIAr
- zkXa2H3TA9c9SjRYAeFfQAZ0JNDSI1vetDmFsPUIHUytsKdGHtxAj7q8Ihe3za7As//Kz4OFVBshl
- NlOih8HH3vSmS9thgR/k3bpsMFw3TwVwNSuYe2vrSCGOL/MXaVtpwM2TD5vAERVkqrlePGV2gtIWO
- 16VAHbBQgGc2coVHCxbUgm4r2g4s3xnzygI1ydvmR4/Fg+2juCpL6gI5fzxT6PA5Dv+GWTTqFi6jJ
- XYZkik0gxCl0I4Bcddajl+ZJch2A50eRsF3m84+DkJrgjLYbD3pRNfaca5QbbbAjYIGteGfCYKEGj
- 2Fl9/F0fvmkRBmvyR32taQdCTcljJMqCtqq79utKMoFRZJ8Pw0hR5+tXhJjIkr+vjx5ngdzb7+Ddb
- +vy3Qdj0Fq1gwTffK2LaMIaKmB8FCBrm+NqB/PpDs=;
+ bh=V5VZyOKYKJumebR040/WcY+thJDB9ZncWnfrphsxbUU=; b=jZ50deckk4geE1Xr7E0A7ys1CU
+ yjIzNtF4ZnRb44RHDe/JnKxBqNliKLBmcM7ehtlf17tMlssrbWFNotjJITzxG920FQum944UUBsoU
+ +bZN5/ld9qF50AQ8/EBXxY5bB6baaT/K+FDzAmavfRL43UPwSue5N09hvenfGHeni6xfkc/k5VeD/
+ Hw4UTfW3q5To2n9NqeEmxp7IN3fmopvn/PvOoPl2dQItw6ymcxeyiRQwa+Csr8XzmrAcxBKOH8+r0
+ yZKeIxw9nHze5njj25QtHAEJB1ib1/QZvK88bG3mSpEiu08wz2ZEhT8xCo/9xxDWqRVoW/4mEwr/K
+ 38mgXGN00uSgnN+ZdxUdl7PEAQ5U98o3SNgcgI5zBSBujpDAcURKhgmbTIQXdVa1+7ziZrN/DA+qc
+ N7DIfsyK7bDPLHkdHcusy1S5oRD5Ot2+7kRfEmgd/03kYF3RyTXyhx9athvwGy4iKwiYd7ONSTm9o
+ q5NfI9Rm/BKLbQzKtxmOG1UHTs3FXk7tu+s8VtzKf+vv1Yc6FTPL1hVRQoTxefNHaX71PunUap9Mu
+ Kykny17PczGVg1P11M6SgFhrz03oWOSvx1hspuwF0LsKUrovA7CErx8fC/TD5vFkIUpubLWlGwK8S
+ SsVsIaQWblZgsrCW5fY5ids0C3PDhagwPD9E/yqic=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WKw-0007KY-OQ; Sun, 26 Jun 2022 18:46:22 +0100
+ id 1o5WL0-0007KY-B9; Sun, 26 Jun 2022 18:46:26 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Date: Sun, 26 Jun 2022 18:45:06 +0100
-Message-Id: <20220626174531.969187-31-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 26 Jun 2022 18:45:07 +0100
+Message-Id: <20220626174531.969187-32-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
 References: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
@@ -51,8 +51,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 30/55] pckbd: move ps2_kbd_init() and ps2_mouse_init() to
- i8042_mmio_realize()
+Subject: [PULL 31/55] ps2: make ps2_raise_irq() function static
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,42 +77,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move ps2_kbd_init() and ps2_mouse_init() from i8042_mm_init() to
-i8042_mmio_realize() to further reduce the initialisation logic done in
-i8042_mm_init().
+This function is no longer used outside of ps2.c and so can be declared static.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Acked-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220624134109.881989-31-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220624134109.881989-32-mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/pckbd.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/input/ps2.c         | 2 +-
+ include/hw/input/ps2.h | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index 1ab76793ea..72843f770e 100644
---- a/hw/input/pckbd.c
-+++ b/hw/input/pckbd.c
-@@ -685,6 +685,9 @@ static void i8042_mmio_realize(DeviceState *dev, Error **errp)
- 
-     /* Note we can't use dc->vmsd without breaking migration compatibility */
-     vmstate_register(NULL, 0, &vmstate_kbd, ks);
-+
-+    ks->kbd = ps2_kbd_init(kbd_update_kbd_irq, ks);
-+    ks->mouse = ps2_mouse_init(kbd_update_aux_irq, ks);
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index 9c046ac500..24c9853d37 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -172,7 +172,7 @@ void ps2_queue_noirq(PS2State *s, int b)
+     q->count++;
  }
  
- static void i8042_mmio_init(Object *obj)
-@@ -726,9 +729,6 @@ MMIOKBDState *i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
-     s->irq_kbd = kbd_irq;
-     s->irq_mouse = mouse_irq;
- 
--    s->kbd = ps2_kbd_init(kbd_update_kbd_irq, s);
--    s->mouse = ps2_mouse_init(kbd_update_aux_irq, s);
--
-     return I8042_MMIO(dev);
+-void ps2_raise_irq(PS2State *s)
++static void ps2_raise_irq(PS2State *s)
+ {
+     s->update_irq(s->update_arg, 1);
  }
- 
+diff --git a/include/hw/input/ps2.h b/include/hw/input/ps2.h
+index 4be27de316..410ec66baf 100644
+--- a/include/hw/input/ps2.h
++++ b/include/hw/input/ps2.h
+@@ -102,7 +102,6 @@ void ps2_write_mouse(PS2MouseState *s, int val);
+ void ps2_write_keyboard(PS2KbdState *s, int val);
+ uint32_t ps2_read_data(PS2State *s);
+ void ps2_queue_noirq(PS2State *s, int b);
+-void ps2_raise_irq(PS2State *s);
+ void ps2_queue(PS2State *s, int b);
+ void ps2_queue_2(PS2State *s, int b1, int b2);
+ void ps2_queue_3(PS2State *s, int b1, int b2, int b3);
 -- 
 2.30.2
 
