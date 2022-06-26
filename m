@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D68655B114
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 12:17:27 +0200 (CEST)
-Received: from localhost ([::1]:43360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D8E55B116
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 12:19:45 +0200 (CEST)
+Received: from localhost ([::1]:45968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5PKX-0005tj-Pj
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 06:17:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56914)
+	id 1o5PMm-0007hX-9I
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 06:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5PI5-0004OT-G8; Sun, 26 Jun 2022 06:14:53 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44662)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5PI3-0000KN-VK; Sun, 26 Jun 2022 06:14:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:References:To:From:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=WsOuRUWrFMgbOC/rj5gAOjpQXdTDCYE/fhrGK5BLKME=; b=sn+nWsae8vS2kKAitZS7q+7Ryd
- W2iHoztxHx36bPVazz6SgenSPQaja4Zoyy9Krnf23G8/UbMMcQMScTNXKTyDphmsYur/n4rD4IDwR
- fbX0edCyndQtzMgwyoD4MflBmkDiFK3EnMdTzM+2WmLe5k5IdwA9PREE11h+UGLMr2zHKI8ZGtTuH
- yQPc3r7+ZdAZKzvHC94cGWH9eUQlIGFJcmaUOjErZkYiYEV2nfbTaCjI1kJZ/nICdTuGF1q3HlkgT
- 028kPQJ353PUzrqJL6M+Z9dgEMa+IalEAx7nuAb5F5mYKuvb2+CA9CyLep34vl8DMBPPyNDIptKji
- ly6CQBd0wlLkDnfaUzdYo46tGhxpe8FbNtf5IPdGtuu4DbG9r0altjLGraHcjtqb4+Q9Vqph7rhKc
- nljUxfBr2ggRqf7Kf8RGYqqmexcKnMDIoCP8e+l706s29Fx5a5jYj1RLLfE55bdICfOAtxEYvUPLE
- Zp8BEf8rDq+xdc94gLJ5i4Y+oUVfTjJvzTHzFGcPkG/Yafjr56Q+dMRIelnlRUrfQ6WfPz5hTv7MN
- Dvnpz61LosZb1SCNcg1VD7gIQDJCWGjZHkMl8ds7ZYlrAKstalW9yzeYBPzq5B77npIxnDSvWk+X/
- sg/9k7LfR6qUxzXLu3jc7EDC+w8udPuyHby6LdAsY=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5PGb-0005AU-Nh; Sun, 26 Jun 2022 11:13:25 +0100
-Message-ID: <2d47b22e-c865-8cc1-2f29-cfda57d07717@ilande.co.uk>
-Date: Sun, 26 Jun 2022 11:14:30 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o5PK7-0006Kz-Bp
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 06:16:59 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:41773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o5PK5-00010P-HQ
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 06:16:59 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id v185so2469632ybe.8
+ for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 03:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/ACeV8SkCDjNXFtvA3lLRQ01BvMG3tA9CRLg7EeLG4w=;
+ b=j51W2z3Xxe6hFqndVU5Ti25BBIxJSEmmtMxb5Dn5Y4PPGdoRUfBbTuFB+BJc99d7yt
+ 9ZkrWZFKo/+BHld5bIkggu0r/xod4YyB9jmt46UqKPOo8oLXElWrUMKTTozocj4VGngB
+ ThKQ0CbSTsX8BXm03r58wTDPO77hQI3JxJQyb7DSonTZbtNA8H8ekN/FsQyHUL1a2e9G
+ X+PPt8PcxVZb/iyAAo8rJ/MXAOf+A+f8UbOdKETWci9yB8se9rpmtPBXD5EwSe5z7xe9
+ RUUozsczUEBeCtDYHHKkYxVzYRtOFj27lhrLDm7dpPL689PFWij5yiPavSi4YZShC6R3
+ PtNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/ACeV8SkCDjNXFtvA3lLRQ01BvMG3tA9CRLg7EeLG4w=;
+ b=0Qm160Zwr0cZkG0cqKhq0JZFSX4r+DElYtvBe+CiuektnJOaXctUgqlnAl/Vksloqc
+ QykxbA4STRh2m1HgwztoJrlzxRKDw81UhSi4JOYSKXoudiB8qN2MNlQ2+FsAPXgS43Vu
+ PqireSQdfzSSEM+uwJeOuK06tjvytBVyuDBHluSfKFADzz0JwCMRPaNAnLcABeA3TcIb
+ 8LUkJlbIetcPgeUW7FaaS1mp5nDXE/ijLcdgC+Bp3jil8jvmTdOa6lLtVdZ4SJzl0tS0
+ /XtrUKtegiMc5t4nUmDAIrc7qk2HiTgJCPkZQLY1UpUcoOdmnFC/TjulJpbZL3KXirUk
+ A4ng==
+X-Gm-Message-State: AJIora8YU+YQnan1n5YIXm8X4X6MnZdts+9fo7EOLZXNfFH4mBg/a4RQ
+ rAgJD0sNurDfneKI9IyHzJOoXua4gPaPIUpzUf37ElUwRRU=
+X-Google-Smtp-Source: AGRyM1v72yVgnYdXT2iZSAtugU1T01z+4kmDzt+AKpvE324jywIxKLRSXPw+f71UKuEzYYCH1LodJIzntGHwBoep8vo=
+X-Received: by 2002:a05:6902:1505:b0:668:c93b:d1d0 with SMTP id
+ q5-20020a056902150500b00668c93bd1d0mr8028118ybu.140.1656238616048; Sun, 26
+ Jun 2022 03:16:56 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
- pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
- aleksandar.rikalo@syrmia.com, f4bug@amsat.org, jiaxun.yang@flygoat.com,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-References: <20220624134109.881989-1-mark.cave-ayland@ilande.co.uk>
- <20220624134109.881989-48-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220624134109.881989-48-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 47/54] lasips2: switch over from update_irq() function
- to PS2 device gpio
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+References: <20220624195206.671993-1-andrey.makarov@auriga.com>
+In-Reply-To: <20220624195206.671993-1-andrey.makarov@auriga.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 26 Jun 2022 11:16:18 +0100
+Message-ID: <CAFEAcA_xQd45CGsmU-_C4LcTP6M+5PfkgKOJuk2SSBVDbm7pyg@mail.gmail.com>
+Subject: Re: [PATCH] Align Raspberry Pi DMA interrupts with Linux DTS
+To: Andrey Makarov <ph.makarov@gmail.com>
+Cc: qemu-devel@nongnu.org, Andrey Makarov <andrey.makarov@auriga.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,89 +81,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/06/2022 14:41, Mark Cave-Ayland wrote:
+On Fri, 24 Jun 2022 at 21:54, Andrey Makarov <ph.makarov@gmail.com> wrote:
+>
+> All Raspberry Pi models 1-3 (based on bcm2835) have
+> Linux device tree (arch/arm/boot/dts/bcm2835-common.dtsi +25):
+>
+>     /* dma channel 11-14 share one irq */
+>
+> which mismatched the Qemu model.
+> In this patch channels 0--10 and 11--14 are handled separately.
 
-> Add a qdev gpio input in lasips2_init() by taking the existing lasips2_port_set_irq()
-> function, updating it accordingly and then renaming to lasips2_set_irq(). Use these
-> new qdev gpio inputs to wire up the PS2 keyboard and mouse devices.
-> 
-> At the same time set update_irq() and update_arg to NULL in ps2_kbd_init() and
-> ps2_mouse_init() to ensure that any accidental attempt to use the legacy update_irq()
-> function will cause a NULL pointer dereference.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Acked-by: Helge Deller <deller@gmx.de>
+Is there any hardware documentation that says whether QEMU or
+the DTB is correct? The device tree is at best a secondary source...
+
+> Signed-off-by: Andrey Makarov <andrey.makarov@auriga.com>
 > ---
->   hw/input/lasips2.c | 30 ++++++++++++++++++++++++++----
->   1 file changed, 26 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
-> index bd72505411..e1a8a7e34b 100644
-> --- a/hw/input/lasips2.c
-> +++ b/hw/input/lasips2.c
-> @@ -237,9 +237,19 @@ static const MemoryRegionOps lasips2_reg_ops = {
->       .endianness = DEVICE_NATIVE_ENDIAN,
->   };
->   
-> -static void lasips2_port_set_irq(void *opaque, int level)
-> +static void lasips2_set_kbd_irq(void *opaque, int n, int level)
->   {
-> -    LASIPS2Port *port = opaque;
-> +    LASIPS2State *s = LASIPS2(opaque);
-> +    LASIPS2Port *port = &s->kbd;
-> +
-> +    port->irq = level;
-> +    lasips2_update_irq(port->parent);
-> +}
-> +
-> +static void lasips2_set_mouse_irq(void *opaque, int n, int level)
-> +{
-> +    LASIPS2State *s = LASIPS2(opaque);
-> +    LASIPS2Port *port = &s->mouse;
->   
->       port->irq = level;
->       lasips2_update_irq(port->parent);
-> @@ -264,8 +274,14 @@ static void lasips2_realize(DeviceState *dev, Error **errp)
->   
->       vmstate_register(NULL, s->base, &vmstate_lasips2, s);
->   
-> -    s->kbd.dev = ps2_kbd_init(lasips2_port_set_irq, &s->kbd);
-> -    s->mouse.dev = ps2_mouse_init(lasips2_port_set_irq, &s->mouse);
-> +    s->kbd.dev = ps2_kbd_init(NULL, NULL);
-> +    qdev_connect_gpio_out(DEVICE(s->kbd.dev), PS2_DEVICE_IRQ,
-> +                          qdev_get_gpio_in_named(dev, "ps2-kbd-input-irq",
-> +                                                 0));
-> +    s->mouse.dev = ps2_mouse_init(NULL, NULL);
-> +    qdev_connect_gpio_out(DEVICE(s->mouse.dev), PS2_DEVICE_IRQ,
-> +                          qdev_get_gpio_in_named(dev, "ps2-mouse-input-irq",
-> +                                                 0));
->   }
->   
->   static void lasips2_init(Object *obj)
-> @@ -286,6 +302,12 @@ static void lasips2_init(Object *obj)
->       sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mouse.reg);
->   
->       sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
-> +
-> +    qdev_init_gpio_out(DEVICE(obj), &s->irq, 1);
+>  hw/arm/bcm2835_peripherals.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+> index 48538c9360..3d808b0e31 100644
+> --- a/hw/arm/bcm2835_peripherals.c
+> +++ b/hw/arm/bcm2835_peripherals.c
+> @@ -322,13 +322,21 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+>      memory_region_add_subregion(&s->peri_mr, DMA15_OFFSET,
+>                  sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dma), 1));
+>
+> -    for (n = 0; n <= 12; n++) {
+> +    for (n = 0; n <= 10; n++) {
+>          sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
+>                             qdev_get_gpio_in_named(DEVICE(&s->ic),
+>                                                    BCM2835_IC_GPU_IRQ,
+>                                                    INTERRUPT_DMA0 + n));
+>      }
+>
+> +    /* According to DTS, dma channels 11-14 share one irq */
+> +    for (n = 11; n <= 14; n++) {
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
+> +                           qdev_get_gpio_in_named(DEVICE(&s->ic),
+> +                                                  BCM2835_IC_GPU_IRQ,
+> +                                                  INTERRUPT_DMA0 + 11));
 
-I was just rebasing and testing part 2 of this series which flagged up that the 
-rebase on part 1 had inadvertently pulled the old qdev_init_gpio_out() back in again 
-on this patch. This line is no longer needed and should simply be removed.
+You can't connect multiple qemu_irq lines to one like this.
+If the hardware behaves this way then you need to create
+an OR gate, wire all the lines from the devices to the
+OR gate inputs, and wire the OR gate output to the destination.
 
-I'll remove it locally and if everything still looks good after testing (including 
-gitlab CI) then I shall queue this series to my qemu-sparc branch and send an MR.
-
-> +    qdev_init_gpio_in_named(DEVICE(obj), lasips2_set_kbd_irq,
-> +                            "ps2-kbd-input-irq", 1);
-> +    qdev_init_gpio_in_named(DEVICE(obj), lasips2_set_mouse_irq,
-> +                            "ps2-mouse-input-irq", 1);
->   }
->   
->   static Property lasips2_properties[] = {
-
-
-ATB,
-
-Mark.
+thanks
+-- PMM
 
