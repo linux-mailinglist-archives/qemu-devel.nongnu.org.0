@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE6255B358
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 20:04:05 +0200 (CEST)
-Received: from localhost ([::1]:52196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C9D55B35D
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 20:07:19 +0200 (CEST)
+Received: from localhost ([::1]:60990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5Wc8-0004vk-Kn
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 14:04:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39458)
+	id 1o5WfG-0002W4-U8
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 14:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WLr-0003M0-4b
+ id 1o5WLs-0003MM-9y
  for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:17 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45092)
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WLf-0008RE-Gn
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:14 -0400
+ id 1o5WLj-0008RU-9F
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xqAQx69OFfHewtrEYYQeUe4W5WyLC1wb0ecyArMrfY8=; b=wrquJZv8qfyjm3Cvl8JgpIyfU2
- gQQ7qjVBX34E0CvVkX3gn6DhY+BzZCT/6X70pZUKi47OgWUuJW/MlW3pho+rxTG948RPdZcWgUCX0
- taUKcBIXqbLvYHB39SrYsLVP59x14vLg2VXPvyUirUpi0xQb3FKWNTBIgbOgTOBJi655YLnmACYRt
- DGtsHZ/cm0z1P+fDQuZHmgVKujfmaMrolyZgRvU24JI06WLCHFb/Ekt3QTY/7LFzpasTJJMuJnIhu
- daQz7yBH+hCeOaVBc9pUuleuDvQwJ9Wth1Qzb+Vm4A4OqVa8lATQHlCKz9lBnAnsc8iesJwNDolXe
- HXOWzXqDh68e8oxYCXOBz6uYpGryjfOjq51XQIlC8iOd0WrQilHqdRVtZduq0s9lB4Y1NdzYtUlek
- 8F0qoc7Xko4zifV4WyhPf1Ia+KnGtdpcsCESdJUHlfJ9h9S1ZJeFcZT5dTaZrJmZsup9ehz+AmMpL
- TeBvo4xFGCd66tdkxn9IF2ckPSVEGccmSCInenUm62oD/FAc23zqSFPMPuJoE7caHmmpaMl4y08SW
- vtAlOqLgJZN7hhD3M1XPB3Dryzt/eiE/sRu4kZHY2xoIYPoTfgAKQbQiyatlpZk87tZNIh6CXRmGL
- OzBolh/LMVu5mjWptZ5O1AjWT8O9cZeWdtSTv7YMQ=;
+ bh=ffEIle0RGdymNzShb95uqFJlGbjQZny04LTKy9xBLCQ=; b=MeMg7f/Q7wkd9JB1wL0DgITj9n
+ c0LrQP36wCumvib6xgUI2WxPWD6GO9NitvUntBOrqSE9h7qEkUQnqKKIeMNBnekqtxoBwl4gWEuT/
+ DmFbt1RyKtAjvwevDVXPi6QJ61sPTfqx7YiLtSy11V6SqhZSvuxrSPtXrfXK+akfeMDjWpzbmfkX0
+ 6auPPt5bKRvR1sHZsVQWWJwpOnBeS59jZjrgEXTUDTHZqFwmeDcFoHcpUXY9xRfTuqOvZbm4AUm2Y
+ iNwSuYCV8xy7hKMVL2bAZxaxJbcDAQ0wt85nc4UTTKV0KZspnGqpteqEXowjMuP4mGblL15LGIsBu
+ kmXlBDoKO+NnS9UNOqiX0ZllwkLknaSUurt0MWqE0DjUIOvZAE1P9Vu7POEIYHxDQVcHvZ5rS2Jiz
+ mSeiQf7zo2zSjjnGm4boSsQ5ygMklCaeBjjRg5gq2GmfBtkuL8HMr2glx/eO8ebHgt+7rhQ6jI9AS
+ 2f+npb7Rn0JAPCVSLvzBuZy3whkpMexpr/D9YiA1CkUtbMaMCp2SnRXqv7LNldmw0Joxh4xYaxa16
+ s7dHueIMprV6IHrLCZFsidSzknMUCGcADWSP6PK3MATpQfLFaPVAVe57vzVwEFbELbFwxCuduHqtw
+ 4vJ83ZMGrCeH+PiXVtbOS8NgusBD++It2GErbDXig=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WKH-0007KY-JX; Sun, 26 Jun 2022 18:45:41 +0100
+ id 1o5WKL-0007KY-Gg; Sun, 26 Jun 2022 18:45:45 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Date: Sun, 26 Jun 2022 18:44:55 +0100
-Message-Id: <20220626174531.969187-20-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 26 Jun 2022 18:44:56 +0100
+Message-Id: <20220626174531.969187-21-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
 References: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
@@ -52,7 +52,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 19/55] pckbd: move KBDState from pckbd.c to i8042.h
+Subject: [PULL 20/55] pckbd: move ISAKBDState from pckbd.c to i8042.h
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -84,82 +84,53 @@ i8042.h.
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Helge Deller <deller@gmx.de>
-Message-Id: <20220624134109.881989-20-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220624134109.881989-21-mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/pckbd.c         | 24 ------------------------
- include/hw/input/i8042.h | 25 +++++++++++++++++++++++++
- 2 files changed, 25 insertions(+), 24 deletions(-)
+ hw/input/pckbd.c         | 10 ----------
+ include/hw/input/i8042.h | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index c18a1a7fae..7b14cd007e 100644
+index 7b14cd007e..f99e10cfcf 100644
 --- a/hw/input/pckbd.c
 +++ b/hw/input/pckbd.c
-@@ -146,30 +146,6 @@
- #define KBD_OBSRC_MOUSE         0x02
- #define KBD_OBSRC_CTRL          0x04
+@@ -686,16 +686,6 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+     qemu_register_reset(kbd_reset, s);
+ }
  
--typedef struct KBDState {
--    uint8_t write_cmd; /* if non zero, write data to port 60 is expected */
--    uint8_t status;
--    uint8_t mode;
--    uint8_t outport;
--    uint32_t migration_flags;
--    uint32_t obsrc;
--    bool outport_present;
--    bool extended_state;
--    bool extended_state_loaded;
--    /* Bitmask of devices with data available.  */
--    uint8_t pending;
--    uint8_t obdata;
--    uint8_t cbdata;
--    uint8_t pending_tmp;
--    void *kbd;
--    void *mouse;
--    QEMUTimer *throttle_timer;
+-struct ISAKBDState {
+-    ISADevice parent_obj;
 -
--    qemu_irq irq_kbd;
--    qemu_irq irq_mouse;
--    qemu_irq a20_out;
--    hwaddr mask;
--} KBDState;
- 
- /*
-  * XXX: not generating the irqs if KBD_MODE_DISABLE_KBD is set may be
+-    KBDState kbd;
+-    bool kbd_throttle;
+-    MemoryRegion io[2];
+-    uint8_t kbd_irq;
+-    uint8_t mouse_irq;
+-};
+-
+ void i8042_isa_mouse_fake_event(ISAKBDState *isa)
+ {
+     KBDState *s = &isa->kbd;
 diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
-index e070f546e4..84b5aa7f23 100644
+index 84b5aa7f23..a246250d1f 100644
 --- a/include/hw/input/i8042.h
 +++ b/include/hw/input/i8042.h
-@@ -11,6 +11,31 @@
- #include "hw/isa/isa.h"
- #include "qom/object.h"
- 
-+typedef struct KBDState {
-+    uint8_t write_cmd; /* if non zero, write data to port 60 is expected */
-+    uint8_t status;
-+    uint8_t mode;
-+    uint8_t outport;
-+    uint32_t migration_flags;
-+    uint32_t obsrc;
-+    bool outport_present;
-+    bool extended_state;
-+    bool extended_state_loaded;
-+    /* Bitmask of devices with data available.  */
-+    uint8_t pending;
-+    uint8_t obdata;
-+    uint8_t cbdata;
-+    uint8_t pending_tmp;
-+    void *kbd;
-+    void *mouse;
-+    QEMUTimer *throttle_timer;
-+
-+    qemu_irq irq_kbd;
-+    qemu_irq irq_mouse;
-+    qemu_irq a20_out;
-+    hwaddr mask;
-+} KBDState;
-+
+@@ -39,6 +39,16 @@ typedef struct KBDState {
  #define TYPE_I8042 "i8042"
  OBJECT_DECLARE_SIMPLE_TYPE(ISAKBDState, I8042)
+ 
++struct ISAKBDState {
++    ISADevice parent_obj;
++
++    KBDState kbd;
++    bool kbd_throttle;
++    MemoryRegion io[2];
++    uint8_t kbd_irq;
++    uint8_t mouse_irq;
++};
++
+ #define I8042_A20_LINE "a20"
+ 
  
 -- 
 2.30.2
