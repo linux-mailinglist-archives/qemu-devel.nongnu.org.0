@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C9D55B35D
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 20:07:19 +0200 (CEST)
-Received: from localhost ([::1]:60990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E9455B362
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 20:09:36 +0200 (CEST)
+Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5WfG-0002W4-U8
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 14:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39472)
+	id 1o5WhT-0007dG-Or
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 14:09:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WLs-0003MM-9y
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:17 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45098)
+ id 1o5WLw-0003No-Uc
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:21 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WLj-0008RU-9F
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:15 -0400
+ id 1o5WLu-0008TV-7G
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:47:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ffEIle0RGdymNzShb95uqFJlGbjQZny04LTKy9xBLCQ=; b=MeMg7f/Q7wkd9JB1wL0DgITj9n
- c0LrQP36wCumvib6xgUI2WxPWD6GO9NitvUntBOrqSE9h7qEkUQnqKKIeMNBnekqtxoBwl4gWEuT/
- DmFbt1RyKtAjvwevDVXPi6QJ61sPTfqx7YiLtSy11V6SqhZSvuxrSPtXrfXK+akfeMDjWpzbmfkX0
- 6auPPt5bKRvR1sHZsVQWWJwpOnBeS59jZjrgEXTUDTHZqFwmeDcFoHcpUXY9xRfTuqOvZbm4AUm2Y
- iNwSuYCV8xy7hKMVL2bAZxaxJbcDAQ0wt85nc4UTTKV0KZspnGqpteqEXowjMuP4mGblL15LGIsBu
- kmXlBDoKO+NnS9UNOqiX0ZllwkLknaSUurt0MWqE0DjUIOvZAE1P9Vu7POEIYHxDQVcHvZ5rS2Jiz
- mSeiQf7zo2zSjjnGm4boSsQ5ygMklCaeBjjRg5gq2GmfBtkuL8HMr2glx/eO8ebHgt+7rhQ6jI9AS
- 2f+npb7Rn0JAPCVSLvzBuZy3whkpMexpr/D9YiA1CkUtbMaMCp2SnRXqv7LNldmw0Joxh4xYaxa16
- s7dHueIMprV6IHrLCZFsidSzknMUCGcADWSP6PK3MATpQfLFaPVAVe57vzVwEFbELbFwxCuduHqtw
- 4vJ83ZMGrCeH+PiXVtbOS8NgusBD++It2GErbDXig=;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=auHlZ+wkV6v3/EEN8/cki5WMOS9NxMTa97s3q/YR2hU=; b=SiJq2xpfoc2r4IiBo7/6tNM9gr
+ uNJCFrFFh9hsbILEcLc2H3b+SWxuxn7Sb235I0w6haWqDWeKusI4090jCy8FQITFi/fYVxybbVwG8
+ GIwzSp6LYynuG7zxCptGbIgfIx2/WVpK7USoeWsMljWQK6mxG3WV7AhhGBA28HOPjctx7gyNk4UJ6
+ rd1HSypaUz1sHMKPngi60xfzhZjS9SYz6mRue9lnMDGT+lN2D6cAy2ooTF2B77cGyLQaAahe+N+oy
+ XryCWbSsQZGxf6Qi3CP1g1ma3B2wzH7EFPekwg3isQEAeDlgsd2jhVzBiyHCw4oDrzwrrJy4IQn43
+ ghhQnAMRyygMA3UcR0ScqWFi0kXnW8Sd0JSRoQuKUGa+tQLKAWUyqRA2zmX4KucamCCFM21KMTCHo
+ /SouZyK5mSjO+3ooiI9ILnUu+222TP52mbIuEGpURvGQzISCxYchdbdvBOe56t8dTBYUXv22VS7o0
+ q172Vl5rRzRWR7w3RYR5euDvFuzR4PYWwjQbQx6pqbNtDLBvhSbkIK6nkdkcUcwCN7j8PDv62T7lw
+ wwIeopNqiKJfKmsNG2r8tNmnO3npYHK7X9iS998YBZkc5g7t8GvPEwYl8i5IrcOBUOsj1n3ts/kcW
+ mB6wenX6n6/Pxn+fH951VclgBJSq7uWlK3gpmAiTM=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WKL-0007KY-Gg; Sun, 26 Jun 2022 18:45:45 +0100
+ id 1o5WKP-0007KY-C0; Sun, 26 Jun 2022 18:45:49 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Date: Sun, 26 Jun 2022 18:44:56 +0100
-Message-Id: <20220626174531.969187-21-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 26 Jun 2022 18:44:57 +0100
+Message-Id: <20220626174531.969187-22-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
 References: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 20/55] pckbd: move ISAKBDState from pckbd.c to i8042.h
+Subject: [PULL 21/55] pckbd: introduce new I8042_MMIO QOM type
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,55 +77,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows the QOM types in pckbd.c to be used elsewhere by simply including
-i8042.h.
+Currently i8042_mm_init() creates a new KBDState directly which is used by the MIPS
+magnum machine. Introduce a new I8042_MMIO QOM type that will soon be used to
+allow the MIPS magnum machine to be wired up using standard qdev GPIOs.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Helge Deller <deller@gmx.de>
-Message-Id: <20220624134109.881989-21-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20220624134109.881989-22-mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/pckbd.c         | 10 ----------
+ hw/input/pckbd.c         | 22 +++++++++++++++++++++-
  include/hw/input/i8042.h | 10 ++++++++++
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ 2 files changed, 31 insertions(+), 1 deletion(-)
 
 diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index 7b14cd007e..f99e10cfcf 100644
+index f99e10cfcf..89a41ed566 100644
 --- a/hw/input/pckbd.c
 +++ b/hw/input/pckbd.c
-@@ -686,16 +686,6 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+@@ -665,11 +665,23 @@ static const MemoryRegionOps i8042_mmio_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
++static void i8042_mmio_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
++}
++
+ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+                    MemoryRegion *region, ram_addr_t size,
+                    hwaddr mask)
+ {
+-    KBDState *s = g_new0(KBDState, 1);
++    DeviceState *dev;
++    KBDState *s;
++
++    dev = qdev_new(TYPE_I8042_MMIO);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    s = &I8042_MMIO(dev)->kbd;
+ 
+     s->irq_kbd = kbd_irq;
+     s->irq_mouse = mouse_irq;
+@@ -686,6 +698,13 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
      qemu_register_reset(kbd_reset, s);
  }
  
--struct ISAKBDState {
--    ISADevice parent_obj;
--
--    KBDState kbd;
--    bool kbd_throttle;
--    MemoryRegion io[2];
--    uint8_t kbd_irq;
--    uint8_t mouse_irq;
--};
--
++static const TypeInfo i8042_mmio_info = {
++    .name          = TYPE_I8042_MMIO,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(MMIOKBDState),
++    .class_init    = i8042_mmio_class_init
++};
++
  void i8042_isa_mouse_fake_event(ISAKBDState *isa)
  {
      KBDState *s = &isa->kbd;
+@@ -841,6 +860,7 @@ static const TypeInfo i8042_info = {
+ static void i8042_register_types(void)
+ {
+     type_register_static(&i8042_info);
++    type_register_static(&i8042_mmio_info);
+ }
+ 
+ type_init(i8042_register_types)
 diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
-index 84b5aa7f23..a246250d1f 100644
+index a246250d1f..b7df9ace6e 100644
 --- a/include/hw/input/i8042.h
 +++ b/include/hw/input/i8042.h
-@@ -39,6 +39,16 @@ typedef struct KBDState {
- #define TYPE_I8042 "i8042"
- OBJECT_DECLARE_SIMPLE_TYPE(ISAKBDState, I8042)
+@@ -9,6 +9,7 @@
+ #define HW_INPUT_I8042_H
  
-+struct ISAKBDState {
-+    ISADevice parent_obj;
+ #include "hw/isa/isa.h"
++#include "hw/sysbus.h"
+ #include "qom/object.h"
+ 
+ typedef struct KBDState {
+@@ -49,6 +50,15 @@ struct ISAKBDState {
+     uint8_t mouse_irq;
+ };
+ 
++#define TYPE_I8042_MMIO "i8042-mmio"
++OBJECT_DECLARE_SIMPLE_TYPE(MMIOKBDState, I8042_MMIO)
++
++struct MMIOKBDState {
++    SysBusDevice parent_obj;
 +
 +    KBDState kbd;
-+    bool kbd_throttle;
-+    MemoryRegion io[2];
-+    uint8_t kbd_irq;
-+    uint8_t mouse_irq;
 +};
 +
  #define I8042_A20_LINE "a20"
