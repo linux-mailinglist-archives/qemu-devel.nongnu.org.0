@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66B5755B156
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 12:52:06 +0200 (CEST)
-Received: from localhost ([::1]:35964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59AD55B16A
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 13:16:55 +0200 (CEST)
+Received: from localhost ([::1]:47180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5Ps5-0004EX-1A
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 06:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33208)
+	id 1o5QG6-0005mH-02
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 07:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o5PpW-0002sw-8c
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 06:49:26 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:44688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o5PpU-0001VP-Ny
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 06:49:26 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- n16-20020a17090ade9000b001ed15b37424so6782255pjv.3
- for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 03:49:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=eh4nZ4XVYVdK3eh2aHh9BEJgQ6/QWAX0pNzsYacVdOc=;
- b=ACD6QxirAY11vTFYVsRJM0LqzzveqsbCuUzdT3eRi8ypj04vbH8kIYraUznd/qR0j/
- A5eiIilR6cyhwyDb1rarR/LSkrq/NbdDXmjxmx2sEO6xzJabyLAWljv8+Xcduq2KfPX1
- 3UcAQsUbB0RXbHXDCtisDnuVrW8J7xF0tTGLhv0erW7pf0ZcG1lqVYvJgq62v2JEju4m
- un5pp9ZHz5Mgrw7eCf6rsuUR1FpA7pNoVLkH6SVKt6w1EJ8MIaUG19kFN8gIqPCuI1Hj
- GzIpARtwxPuoWGkFeyeXSsA0bKk/C2Nl8x9rptHMym0MXsEMMMcugABwuV0MoJi8KgIe
- KuWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=eh4nZ4XVYVdK3eh2aHh9BEJgQ6/QWAX0pNzsYacVdOc=;
- b=5w4Y+EqLfbWNsWQ/kPRcw5hbudmyy7lJOhhkeEBItYJY52MsOJzcFwcFDZ8LJyt12R
- Efpx60sMftRr03F+X/lbMe+4SAxZ0Ju5XICDtJmoKw9kWrPG4m7h/1C5swnSeE9qFgXR
- OHmbqlVgF0TFGahrGA4svScSla36AA8xInrJm6gi3aujFCmJvc1jXwYK1FmIRIBtHfqO
- mnPXwEdj2zy0EScUYNK3/MF981nsyNf5K1EoffxUp6Cb+8TPcv9JGeT3FDI4fHa/SqB3
- pZhLPyMhM4IBjAuoYFtqO4ca1wGRGoofIACd3V4XlgILw0Kis8u6GDsN/PS+jF0XjvkI
- e+rw==
-X-Gm-Message-State: AJIora+iJmTAxgrLSkTVCBKZJoz3gKW04wWrQY7YrEhmqrpxS4+jjK28
- 6f8OLi1ty+TWUSLuB6SonLvEQw==
-X-Google-Smtp-Source: AGRyM1vM5qf6L3uhK9r9NgNNbZrCZWxBqvrNpXk1hy7FDJA6E+pTH1WwUOcbOilkjf80qRPFtM6vow==
-X-Received: by 2002:a17:902:dac1:b0:16a:3ebe:c722 with SMTP id
- q1-20020a170902dac100b0016a3ebec722mr8254280plx.169.1656240562847; 
- Sun, 26 Jun 2022 03:49:22 -0700 (PDT)
-Received: from [192.168.44.231] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- mv24-20020a17090b199800b001d954837197sm7176652pjb.22.2022.06.26.03.49.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Jun 2022 03:49:21 -0700 (PDT)
-Message-ID: <ea652243-c114-628d-647e-a0df3f14d688@linaro.org>
-Date: Sun, 26 Jun 2022 16:19:14 +0530
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1o5QEx-00053h-6d
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 07:15:43 -0400
+Received: from mout.gmx.net ([212.227.17.20]:46019)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1o5QEv-0001Yq-4k
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 07:15:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1656242136;
+ bh=CAaTAT0TubzkBCdS9GrXElapKxcdx3fDdOu6C5xnPRY=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=GPoytT/dJe2sebWCzGNhD4OcalistPrVL/nJBMzRYoAywdTp0l7DohLHqiuXKy58H
+ aKEZkUdeL0xfryxq+S+CAvMlf5yx5rpMrQgtt3uBgAQLmCnvovsBsIzRWFRsqC7sUt
+ VbVpESmwYxnQ0ARfSMR/9rkfdBH9fdu7pheZ6Oso=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.135.166]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mz9Z5-1nkQwG3ZDv-00wDxq; Sun, 26
+ Jun 2022 13:15:35 +0200
+Message-ID: <62edb200-5989-3d8e-9570-e47ed7f1db69@gmx.de>
+Date: Sun, 26 Jun 2022 13:15:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] tcg: Fix returned type in
- alloc_code_gen_buffer_splitwx_memfd()
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] artist: set memory region owners for buffers to the
+ artist device
 Content-Language: en-US
-To: Shaobo Song <shnusongshaobo@gmail.com>, qemu-devel@nongnu.org
-References: <20220624150216.3627-1-shnusongshaobo@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220624150216.3627-1-shnusongshaobo@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, svens@stackframe.org,
+ qemu-devel@nongnu.org
+References: <20220624160839.886649-1-mark.cave-ayland@ilande.co.uk>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20220624160839.886649-1-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+pqkbLSuN5M0f3zZ04dYQOuOz9c3VS5AiF6mJ02DHmbgQcFJ/DN
+ l8n+WW5sxdngwkDiQEwddMpa0YVuEkV6MXRSLX0nimM+/P/h+mBjJarCigpnorZFKDWRCCd
+ fDcE4FqTsYaFF2BCFwrg8YW90u9juDbCOjpqsJqSGOICRguTzVY8QxOHYJc8ElQk3ZC4+KP
+ QRW3W3mBhywTevJYFl8cg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6DtcBaQYalQ=:UOq1FniCsE4C6GPa0wjviu
+ BIOm5+qw5sVXq9gA6Tf5K7Cvr4j/TvYkUg0wDBvf4abxgxkCarwppFrlP0yvK1qDAbj0RQR8e
+ ifjOELj93WGT1xSqRQG83DQGVqoXBxCFvLT2BLg5XRAurWSdMjzjhAWk7YJjPixllV9CzR0jG
+ GrJ679glIrNqGJF15FvPi8M4vtA0gZh6H1AXjLVNwuK2b9P59hBFzZsyXskwAl/5I4/KSqxEm
+ dVRVFDe3fqrtnMPO/KQjwatwUrasxGWIwwKKPtPhcc6HpD+SinMxRV0EDpGjbjtvpAmAotO/N
+ j27Cair02lDXyzKKz+cCPwZRSa6GlHBX16gNHBQn7dp/wlYRNDUqCYKH1l24Xobtf93p4DCVU
+ aI9VOqpJQiFBtywIf3L1WEu9+eDXgjCTA+Bw/RKiVAOhFjdKh5kVYmNPN1pq9HDhzBXb1pm2f
+ tl/VGcHb4bd4176yoqQnl1+MzuJaW2NRrh+cXP4e6lIvZJux1I7X8XcFvRsw4OSUPoGnq0CGG
+ cPT5YkTvNsiXn0PDUoKysDiqc9ddb9zxyV8QDGwHEt9YQsG9V1dmFXJU2RCjs9d32BskEHjU6
+ WVYqaybXJqKdIFG+Tb0xfCNPyiBV6hrzhTiBi8hYmWPFAcoMSt9WzVzzSpReZg34LXl8GXpl5
+ gVFUlXSfkPSuQs2Tc31CeGjDu55jLyL6UnHSvMS4GB2WHsggdJVxHZ6Mnbj49sRrfpNRs8aZd
+ UNoW6PwOs61IO3GTcfcRJkOC/hrAOI4EEG003R5dKgaSsEnkxabFOZMJg/AaF/1rEGGG4Njoc
+ Jr7Xoeb9eeVgOOZoRPg6oVeWpgALEAElHVbfdLS97nCE30E9hNVVJnhVMTqSgkbbNyGKB6Dpp
+ oHASoxKmWAsbqXFwxNESRcne708Zvy+wi1aYUWGQdRDaS/mjHUnvb4+p1hKt/U3dXfWtw8tmb
+ A7oVGvpTcjD5ZTmm2Tg0qHOfSe+akOAcFmSzuU8cz4KsMoP0A3I7p+4yDjd9/mPFQhtftiEmy
+ drgJ/rcRsqXaQtXMcjGaYe62847kl+ShIkLMYklPhPSk4zxEkXNzjyrCUDLtSYqVfLlL/MIBo
+ EKAOgwCB2QpcM1N7k1bf/MLGTXwvIcIcObtu6DETCPotLykMJyIYmAYuA==
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,34 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/22 20:32, Shaobo Song wrote:
->   This fixes a bug in POSIX-compliant environments. Since we had allocated
->   a buffer named 'tcg-jit' with read-write access protections we need a int
->   type to combine these access flags and return it, whereas we had inexplicably
->   return a bool type. It may cause an unnecessary protection change in
->   tcg_region_init().
-> 
-> Signed-off-by: Shaobo Song <shnusongshaobo@gmail.com>
+On 6/24/22 18:08, Mark Cave-Ayland wrote:
+> This fixes the output of "info qom-tree" so that the buffers appear as c=
+hildren
+> of the artist device, rather than underneath the "unattached" container.
+>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+Reviewed-by: Helge Deller <deller@gmx.de>
+
+Thanks!
+
+Helge
+
 > ---
->   tcg/region.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tcg/region.c b/tcg/region.c
-> index 71ea81d671..88d6bb273f 100644
-> --- a/tcg/region.c
-> +++ b/tcg/region.c
-> @@ -548,7 +548,7 @@ static int alloc_code_gen_buffer_anon(size_t size, int prot,
->   #ifdef CONFIG_POSIX
->   #include "qemu/memfd.h"
->   
-> -static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
-> +static int alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
->   {
->       void *buf_rw = NULL, *buf_rx = MAP_FAILED;
->       int fd = -1;
+>  hw/display/artist.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/display/artist.c b/hw/display/artist.c
+> index eadaef0d46..fde050c882 100644
+> --- a/hw/display/artist.c
+> +++ b/hw/display/artist.c
+> @@ -1358,7 +1358,7 @@ static void artist_create_buffer(ARTISTState *s, c=
+onst char *name,
+>  {
+>      struct vram_buffer *buf =3D s->vram_buffer + idx;
+>
+> -    memory_region_init_ram(&buf->mr, NULL, name, width * height,
+> +    memory_region_init_ram(&buf->mr, OBJECT(s), name, width * height,
+>                             &error_fatal);
+>      memory_region_add_subregion_overlap(&s->mem_as_root, *offset, &buf-=
+>mr, 0);
+>
 
-Thanks, queued to tcg-next.
-
-
-r~
 
