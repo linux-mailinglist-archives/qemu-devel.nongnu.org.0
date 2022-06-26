@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A5C55B0EC
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 11:51:39 +0200 (CEST)
-Received: from localhost ([::1]:59280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D68655B114
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 12:17:27 +0200 (CEST)
+Received: from localhost ([::1]:43360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5Ova-0004Bw-Gd
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 05:51:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52616)
+	id 1o5PKX-0005tj-Pj
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 06:17:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o5Orr-0008EU-90; Sun, 26 Jun 2022 05:47:47 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:34418)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o5Orp-0000DG-L7; Sun, 26 Jun 2022 05:47:47 -0400
-Received: by mail-ej1-x633.google.com with SMTP id d2so1452351ejy.1;
- Sun, 26 Jun 2022 02:47:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GE5xBWjtG9WBcqQI8QpdzBg3P6kzmtE86vK5W8A22FE=;
- b=a4377qvEOvu3e1RTfuQHxJNPGsEaFzLBzKYodFBIEb2E1GNijJZcTVwGr5bD9befZ0
- JpJaEMJNHnDTjVdJnoPxuQPvBYdl9U6yXsj9p2qGi79fPrVYpM3QAmOAT2ppnrTn0D3P
- U7JQCpBP09rFtCwCEL0pih2PVJ2uPi3Hbay6sEHcBhdodIs8k+DLz/JFcavfnOjaCg17
- nESFOkVfPHUvWU2OMNEkN4gb5Lus7Eu0GK6ro3W5Ebh/44PCoV4lrM6ld8wJpZmpvSfJ
- jbiSB0EdpEEM1cZpiH8vVpw1KfH+YF5T11FlSFr2nPntX8U9XqUDtbFLv7Q2NZyfB0VR
- /YEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GE5xBWjtG9WBcqQI8QpdzBg3P6kzmtE86vK5W8A22FE=;
- b=n4nXpZMgCzlcBpR7q/DO87lLolnvEnDuCDS/ZkQ07eVSOOXAihDpb0/ncOg9/WKeCQ
- DvwPJl+0KKU9LE3oTeitNKBNxRLlGlvm3tAIwyiJB/9qpMImrc1bZiNkTHS9XD/iifbh
- 4VoV31rUsQbhH5rNtsg+y1SQItKGesQfkRsDoni3tnWttLY67poaJuQurSLcbgm3LASV
- geZvSz/dCBEDKzCqmIYw8AFR9x/WGAsxPmaAZzG8u/fe1JdH8Te/v0oEKRLiVC3WT2Qf
- B2yY60xK1bJUgHFIR0SO/43jE0ecERQzof3l/5FGfi2Vl9M1VS8HB47arKuiQeAk15R6
- kpJQ==
-X-Gm-Message-State: AJIora8r6thEZgCJqnMIt/mUtQrGC99zjNqzSrdBz2bWXyxo3XZmkSeJ
- 7dcoaGLlMMpAOADkdv0EfDvJYJ3pgEw=
-X-Google-Smtp-Source: AGRyM1u8/kthGc0kpB9GQ15WfHOOb7ssiu2IAI5tCBcbMUyhhCKcEeCpk68TInH1f8s1P+3vxGqdmg==
-X-Received: by 2002:a17:906:b05a:b0:718:cc6b:61e0 with SMTP id
- bj26-20020a170906b05a00b00718cc6b61e0mr7378413ejb.501.1656236862769; 
- Sun, 26 Jun 2022 02:47:42 -0700 (PDT)
-Received: from localhost.localdomain
- (dynamic-078-055-174-013.78.55.pool.telefonica.de. [78.55.174.13])
- by smtp.gmail.com with ESMTPSA id
- t4-20020a17090605c400b00706242d297fsm3504752ejt.212.2022.06.26.02.47.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jun 2022 02:47:42 -0700 (PDT)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 2/2] hw/i386/xen/xen-hvm: Inline
- xen_piix_pci_write_config_client() and remove it
-Date: Sun, 26 Jun 2022 11:46:56 +0200
-Message-Id: <20220626094656.15673-3-shentey@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220626094656.15673-1-shentey@gmail.com>
-References: <20220626094656.15673-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o5PI5-0004OT-G8; Sun, 26 Jun 2022 06:14:53 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44662)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o5PI3-0000KN-VK; Sun, 26 Jun 2022 06:14:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:References:To:From:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=WsOuRUWrFMgbOC/rj5gAOjpQXdTDCYE/fhrGK5BLKME=; b=sn+nWsae8vS2kKAitZS7q+7Ryd
+ W2iHoztxHx36bPVazz6SgenSPQaja4Zoyy9Krnf23G8/UbMMcQMScTNXKTyDphmsYur/n4rD4IDwR
+ fbX0edCyndQtzMgwyoD4MflBmkDiFK3EnMdTzM+2WmLe5k5IdwA9PREE11h+UGLMr2zHKI8ZGtTuH
+ yQPc3r7+ZdAZKzvHC94cGWH9eUQlIGFJcmaUOjErZkYiYEV2nfbTaCjI1kJZ/nICdTuGF1q3HlkgT
+ 028kPQJ353PUzrqJL6M+Z9dgEMa+IalEAx7nuAb5F5mYKuvb2+CA9CyLep34vl8DMBPPyNDIptKji
+ ly6CQBd0wlLkDnfaUzdYo46tGhxpe8FbNtf5IPdGtuu4DbG9r0altjLGraHcjtqb4+Q9Vqph7rhKc
+ nljUxfBr2ggRqf7Kf8RGYqqmexcKnMDIoCP8e+l706s29Fx5a5jYj1RLLfE55bdICfOAtxEYvUPLE
+ Zp8BEf8rDq+xdc94gLJ5i4Y+oUVfTjJvzTHzFGcPkG/Yafjr56Q+dMRIelnlRUrfQ6WfPz5hTv7MN
+ Dvnpz61LosZb1SCNcg1VD7gIQDJCWGjZHkMl8ds7ZYlrAKstalW9yzeYBPzq5B77npIxnDSvWk+X/
+ sg/9k7LfR6qUxzXLu3jc7EDC+w8udPuyHby6LdAsY=;
+Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o5PGb-0005AU-Nh; Sun, 26 Jun 2022 11:13:25 +0100
+Message-ID: <2d47b22e-c865-8cc1-2f29-cfda57d07717@ilande.co.uk>
+Date: Sun, 26 Jun 2022 11:14:30 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: richard.henderson@linaro.org, deller@gmx.de, mst@redhat.com,
+ pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
+ aleksandar.rikalo@syrmia.com, f4bug@amsat.org, jiaxun.yang@flygoat.com,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20220624134109.881989-1-mark.cave-ayland@ilande.co.uk>
+ <20220624134109.881989-48-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220624134109.881989-48-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 47/54] lasips2: switch over from update_irq() function
+ to PS2 device gpio
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,110 +83,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-xen_piix_pci_write_config_client() is implemented in the xen sub tree and
-uses PIIX constants internally, thus creating a direct dependency on
-PIIX. Now that xen_set_pci_link_route() is stubbable, the logic of
-xen_piix_pci_write_config_client() can be moved to PIIX which resolves
-the dependency.
+On 24/06/2022 14:41, Mark Cave-Ayland wrote:
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/i386/xen/xen-hvm.c | 18 ------------------
- hw/isa/piix3.c        | 15 ++++++++++++++-
- include/hw/xen/xen.h  |  1 -
- stubs/xen-hw-stub.c   |  4 ----
- 4 files changed, 14 insertions(+), 24 deletions(-)
+> Add a qdev gpio input in lasips2_init() by taking the existing lasips2_port_set_irq()
+> function, updating it accordingly and then renaming to lasips2_set_irq(). Use these
+> new qdev gpio inputs to wire up the PS2 keyboard and mouse devices.
+> 
+> At the same time set update_irq() and update_arg to NULL in ps2_kbd_init() and
+> ps2_mouse_init() to ensure that any accidental attempt to use the legacy update_irq()
+> function will cause a NULL pointer dereference.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Acked-by: Helge Deller <deller@gmx.de>
+> ---
+>   hw/input/lasips2.c | 30 ++++++++++++++++++++++++++----
+>   1 file changed, 26 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
+> index bd72505411..e1a8a7e34b 100644
+> --- a/hw/input/lasips2.c
+> +++ b/hw/input/lasips2.c
+> @@ -237,9 +237,19 @@ static const MemoryRegionOps lasips2_reg_ops = {
+>       .endianness = DEVICE_NATIVE_ENDIAN,
+>   };
+>   
+> -static void lasips2_port_set_irq(void *opaque, int level)
+> +static void lasips2_set_kbd_irq(void *opaque, int n, int level)
+>   {
+> -    LASIPS2Port *port = opaque;
+> +    LASIPS2State *s = LASIPS2(opaque);
+> +    LASIPS2Port *port = &s->kbd;
+> +
+> +    port->irq = level;
+> +    lasips2_update_irq(port->parent);
+> +}
+> +
+> +static void lasips2_set_mouse_irq(void *opaque, int n, int level)
+> +{
+> +    LASIPS2State *s = LASIPS2(opaque);
+> +    LASIPS2Port *port = &s->mouse;
+>   
+>       port->irq = level;
+>       lasips2_update_irq(port->parent);
+> @@ -264,8 +274,14 @@ static void lasips2_realize(DeviceState *dev, Error **errp)
+>   
+>       vmstate_register(NULL, s->base, &vmstate_lasips2, s);
+>   
+> -    s->kbd.dev = ps2_kbd_init(lasips2_port_set_irq, &s->kbd);
+> -    s->mouse.dev = ps2_mouse_init(lasips2_port_set_irq, &s->mouse);
+> +    s->kbd.dev = ps2_kbd_init(NULL, NULL);
+> +    qdev_connect_gpio_out(DEVICE(s->kbd.dev), PS2_DEVICE_IRQ,
+> +                          qdev_get_gpio_in_named(dev, "ps2-kbd-input-irq",
+> +                                                 0));
+> +    s->mouse.dev = ps2_mouse_init(NULL, NULL);
+> +    qdev_connect_gpio_out(DEVICE(s->mouse.dev), PS2_DEVICE_IRQ,
+> +                          qdev_get_gpio_in_named(dev, "ps2-mouse-input-irq",
+> +                                                 0));
+>   }
+>   
+>   static void lasips2_init(Object *obj)
+> @@ -286,6 +302,12 @@ static void lasips2_init(Object *obj)
+>       sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mouse.reg);
+>   
+>       sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
+> +
+> +    qdev_init_gpio_out(DEVICE(obj), &s->irq, 1);
 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index 204fda7949..e4293d6d66 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -15,7 +15,6 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
- #include "hw/i386/pc.h"
--#include "hw/southbridge/piix.h"
- #include "hw/irq.h"
- #include "hw/hw.h"
- #include "hw/i386/apic-msidef.h"
-@@ -149,23 +148,6 @@ void xen_piix3_set_irq(void *opaque, int irq_num, int level)
-                            irq_num & 3, level);
- }
- 
--void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
--{
--    int i;
--
--    /* Scan for updates to PCI link routes (0x60-0x63). */
--    for (i = 0; i < len; i++) {
--        uint8_t v = (val >> (8 * i)) & 0xff;
--        if (v & 0x80) {
--            v = 0;
--        }
--        v &= 0xf;
--        if (((address + i) >= PIIX_PIRQCA) && ((address + i) <= PIIX_PIRQCD)) {
--            xen_set_pci_link_route(address + i - PIIX_PIRQCA, v);
--        }
--    }
--}
--
- int xen_set_pci_link_route(uint8_t link, uint8_t irq)
- {
-     return xendevicemodel_set_pci_link_route(xen_dmod, xen_domid, link, irq);
-diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index 6388558f92..48f9ab1096 100644
---- a/hw/isa/piix3.c
-+++ b/hw/isa/piix3.c
-@@ -138,7 +138,20 @@ static void piix3_write_config(PCIDevice *dev,
- static void piix3_write_config_xen(PCIDevice *dev,
-                                    uint32_t address, uint32_t val, int len)
- {
--    xen_piix_pci_write_config_client(address, val, len);
-+    int i;
-+
-+    /* Scan for updates to PCI link routes (0x60-0x63). */
-+    for (i = 0; i < len; i++) {
-+        uint8_t v = (val >> (8 * i)) & 0xff;
-+        if (v & 0x80) {
-+            v = 0;
-+        }
-+        v &= 0xf;
-+        if (((address + i) >= PIIX_PIRQCA) && ((address + i) <= PIIX_PIRQCD)) {
-+            xen_set_pci_link_route(address + i - PIIX_PIRQCA, v);
-+        }
-+    }
-+
-     piix3_write_config(dev, address, val, len);
- }
- 
-diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
-index 13bffaef53..afdf9c436a 100644
---- a/include/hw/xen/xen.h
-+++ b/include/hw/xen/xen.h
-@@ -23,7 +23,6 @@ extern bool xen_domid_restrict;
- int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num);
- int xen_set_pci_link_route(uint8_t link, uint8_t irq);
- void xen_piix3_set_irq(void *opaque, int irq_num, int level);
--void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len);
- void xen_hvm_inject_msi(uint64_t addr, uint32_t data);
- int xen_is_pirq_msi(uint32_t msi_data);
- 
-diff --git a/stubs/xen-hw-stub.c b/stubs/xen-hw-stub.c
-index 743967623f..34a22f2ad7 100644
---- a/stubs/xen-hw-stub.c
-+++ b/stubs/xen-hw-stub.c
-@@ -19,10 +19,6 @@ void xen_piix3_set_irq(void *opaque, int irq_num, int level)
- {
- }
- 
--void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
--{
--}
--
- int xen_set_pci_link_route(uint8_t link, uint8_t irq)
- {
-     return -1;
--- 
-2.36.1
+I was just rebasing and testing part 2 of this series which flagged up that the 
+rebase on part 1 had inadvertently pulled the old qdev_init_gpio_out() back in again 
+on this patch. This line is no longer needed and should simply be removed.
 
+I'll remove it locally and if everything still looks good after testing (including 
+gitlab CI) then I shall queue this series to my qemu-sparc branch and send an MR.
+
+> +    qdev_init_gpio_in_named(DEVICE(obj), lasips2_set_kbd_irq,
+> +                            "ps2-kbd-input-irq", 1);
+> +    qdev_init_gpio_in_named(DEVICE(obj), lasips2_set_mouse_irq,
+> +                            "ps2-mouse-input-irq", 1);
+>   }
+>   
+>   static Property lasips2_properties[] = {
+
+
+ATB,
+
+Mark.
 
