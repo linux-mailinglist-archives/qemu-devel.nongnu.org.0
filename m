@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478ED55B17C
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 13:20:20 +0200 (CEST)
-Received: from localhost ([::1]:49600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5708555B205
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 15:02:26 +0200 (CEST)
+Received: from localhost ([::1]:46026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5QJP-0007T9-CT
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 07:20:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37344)
+	id 1o5Ru8-0005l7-3a
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 09:02:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=7stR=XB=zx2c4.com=Jason@kernel.org>)
- id 1o5QHf-0006ll-DH
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 07:18:31 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:42518)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o5RrN-0004wx-Uu
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 08:59:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=7stR=XB=zx2c4.com=Jason@kernel.org>)
- id 1o5QHc-0001vu-91
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 07:18:30 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1ABA6B80B70;
- Sun, 26 Jun 2022 11:18:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D75DC34114;
- Sun, 26 Jun 2022 11:18:22 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="NbAA5UI/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1656242300;
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o5RrK-0003a2-Bi
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 08:59:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656248359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MzfgHlIFeuW1D38diEU/bncFCWc1XJBbHQtgtN+yKR0=;
- b=NbAA5UI/mdmv02fRLmFjplfSrzw2waO0Df3mDImv4xkBoWjflravhzfOVDmyVXD9YVN+dV
- 6MMEs8ULOKeQQaJbMAfow37cphGowbJwtCOR5UuwD58P1T6+YEeJaUldYfXcJxL2TLmDHA
- jiRftgsAAOR/3kcEi/qo3jHw0I/FZeg=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a0c28cd4
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Sun, 26 Jun 2022 11:18:20 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, geert@linux-m68k.org,
- linux-m68k@lists.linux-m68k.org, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH v2] m68k: virt: pass RNG seed via bootinfo block
-Date: Sun, 26 Jun 2022 13:18:04 +0200
-Message-Id: <20220626111804.330745-1-Jason@zx2c4.com>
-In-Reply-To: <9df7a700-0744-3a9f-f925-48de994ba70e@vivier.eu>
-References: <9df7a700-0744-3a9f-f925-48de994ba70e@vivier.eu>
+ bh=EWKAhxlYGU/zXw6dAaoTgwOVq0KRBRGkFCQdwQ8ZYEI=;
+ b=dGagiqUTsheALfqqEJQJZUQg9Y84U31IsYHFPUSxbkOTf9pM+Usqz59c38fuY0OXegSnoF
+ qIuFzAxIw+xlYwXp5ypBNtzT9ykFVdW4k8ZAqMfV5Gc4Wi93qITXZgPei0hhW4OSwRVffp
+ 0Puzx09wssmxCXf7DI4Oo5TIwzia8iQ=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-487-WWSs68TAMl2b8VIIWbzDxg-1; Sun, 26 Jun 2022 08:59:17 -0400
+X-MC-Unique: WWSs68TAMl2b8VIIWbzDxg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ x21-20020a05640226d500b00435bd7f9367so5269637edd.8
+ for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 05:59:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=EWKAhxlYGU/zXw6dAaoTgwOVq0KRBRGkFCQdwQ8ZYEI=;
+ b=oLIy655/GMsRELN3hQ1v7jcs0TH8A1jehokjtwO62xnia6XhPphxt13zUVPeX58A8g
+ wBvYaytC6BUEEg1pCyp5+hV3mwik1KYuLYGrFtGLM/VsluJWIZfGGPk9S6H85kqWrw3l
+ dncCKZA9EEePcbKaj6HoIW27KymQTFIq9L5VVfSIOim3RuWXHTGKwqtmMEmCmXLualxP
+ 8pFVMEFQ2XqxMXAT/14eC/L6R7wuxmEchg0fYIkIeGXMjKN35X+rgsAinM62SDe4R1/S
+ 7d609vRCsUKwIb2fBBPBm4q5G0qcB/hpfNXiLPJ9fDc7IPT0OLDcyzgi0vAE1C6sGryT
+ KIYg==
+X-Gm-Message-State: AJIora8Hfk73C/MKbW9g01G1p7FC4uYuvBXK1+HmTw5JbKOq5LTdroEl
+ Bk7rsHKFUibPd+nmoJSzZQcZr0DD/xiMOjVegArVot3RI0odK9DMz9dLU3LXE7013XIAJwpfmu2
+ hR92iRnL1+o6/tKA=
+X-Received: by 2002:a50:fc15:0:b0:435:7897:e8ab with SMTP id
+ i21-20020a50fc15000000b004357897e8abmr10723585edr.17.1656248356432; 
+ Sun, 26 Jun 2022 05:59:16 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vWZ8v0/l6cE/oBqSOcuPEcSCQehWDW5ulN3bcCd4MSEDOnZY2sq6sSedgWnQ4Hs6d/v0G4yw==
+X-Received: by 2002:a50:fc15:0:b0:435:7897:e8ab with SMTP id
+ i21-20020a50fc15000000b004357897e8abmr10723556edr.17.1656248356202; 
+ Sun, 26 Jun 2022 05:59:16 -0700 (PDT)
+Received: from redhat.com ([2.54.171.2]) by smtp.gmail.com with ESMTPSA id
+ p24-20020a170906615800b00709343c0017sm3831548ejl.98.2022.06.26.05.59.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 26 Jun 2022 05:59:15 -0700 (PDT)
+Date: Sun, 26 Jun 2022 08:59:11 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+Subject: Re: [PATCH 2/2] hw/i386/xen/xen-hvm: Inline
+ xen_piix_pci_write_config_client() and remove it
+Message-ID: <20220626085903-mutt-send-email-mst@kernel.org>
+References: <20220626094656.15673-1-shentey@gmail.com>
+ <20220626094656.15673-3-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=7stR=XB=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220626094656.15673-3-shentey@gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,91 +102,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit wires up bootinfo's RNG seed attribute so that Linux VMs can
-have their RNG seeded from the earliest possible time in boot, just like
-the "rng-seed" device tree property on those platforms. The link
-contains the corresponding Linux patch.
+On Sun, Jun 26, 2022 at 11:46:56AM +0200, Bernhard Beschow wrote:
+> xen_piix_pci_write_config_client() is implemented in the xen sub tree and
+> uses PIIX constants internally, thus creating a direct dependency on
+> PIIX. Now that xen_set_pci_link_route() is stubbable, the logic of
+> xen_piix_pci_write_config_client() can be moved to PIIX which resolves
+> the dependency.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 
-Link: https://lore.kernel.org/lkml/20220626111509.330159-1-Jason@zx2c4.com/
-Based-on: <20220625152318.120849-1-Jason@zx2c4.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/m68k/bootinfo.h                               | 16 ++++++++++++++++
- hw/m68k/virt.c                                   |  7 +++++++
- .../standard-headers/asm-m68k/bootinfo-virt.h    |  1 +
- 3 files changed, 24 insertions(+)
+Fine by me
 
-diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
-index ff4e155a3c..bd8b212fd3 100644
---- a/hw/m68k/bootinfo.h
-+++ b/hw/m68k/bootinfo.h
-@@ -56,4 +56,20 @@
-         stb_phys(as, base++, 0); \
-         base = (base + 1) & ~1; \
-     } while (0)
-+
-+#define BOOTINFODATA(as, base, id, data, len) \
-+    do { \
-+        int i; \
-+        stw_phys(as, base, id); \
-+        base += 2; \
-+        stw_phys(as, base, \
-+                 (sizeof(struct bi_record) + len + 3) & ~1); \
-+        base += 2; \
-+        stw_phys(as, base, len); \
-+        base += 2; \
-+        for (i = 0; i < len; ++i) { \
-+            stb_phys(as, base++, data[i]); \
-+        } \
-+        base = (base + 1) & ~1; \
-+    } while (0)
- #endif
-diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-index e215aa3d42..0aa383fa6b 100644
---- a/hw/m68k/virt.c
-+++ b/hw/m68k/virt.c
-@@ -9,6 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/guest-random.h"
- #include "sysemu/sysemu.h"
- #include "cpu.h"
- #include "hw/boards.h"
-@@ -120,6 +121,7 @@ static void virt_init(MachineState *machine)
-     hwaddr io_base;
-     int i;
-     ResetInfo *reset_info;
-+    uint8_t rng_seed[32];
- 
-     if (ram_size > 3399672 * KiB) {
-         /*
-@@ -245,6 +247,11 @@ static void virt_init(MachineState *machine)
-                         kernel_cmdline);
-         }
- 
-+	/* Pass seed to RNG. */
-+	qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+	BOOTINFODATA(cs->as, parameters_base, BI_VIRT_RNG_SEED,
-+		     rng_seed, sizeof(rng_seed));
-+
-         /* load initrd */
-         if (initrd_filename) {
-             initrd_size = get_image_size(initrd_filename);
-diff --git a/include/standard-headers/asm-m68k/bootinfo-virt.h b/include/standard-headers/asm-m68k/bootinfo-virt.h
-index 81be1e0924..1b1ffd4705 100644
---- a/include/standard-headers/asm-m68k/bootinfo-virt.h
-+++ b/include/standard-headers/asm-m68k/bootinfo-virt.h
-@@ -12,6 +12,7 @@
- #define BI_VIRT_GF_TTY_BASE	0x8003
- #define BI_VIRT_VIRTIO_BASE	0x8004
- #define BI_VIRT_CTRL_BASE	0x8005
-+#define BI_VIRT_RNG_SEED	0x8006
- 
- #define VIRT_BOOTI_VERSION	MK_BI_VERSION(2, 0)
- 
--- 
-2.35.1
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+
+> ---
+>  hw/i386/xen/xen-hvm.c | 18 ------------------
+>  hw/isa/piix3.c        | 15 ++++++++++++++-
+>  include/hw/xen/xen.h  |  1 -
+>  stubs/xen-hw-stub.c   |  4 ----
+>  4 files changed, 14 insertions(+), 24 deletions(-)
+> 
+> diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+> index 204fda7949..e4293d6d66 100644
+> --- a/hw/i386/xen/xen-hvm.c
+> +++ b/hw/i386/xen/xen-hvm.c
+> @@ -15,7 +15,6 @@
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pci_host.h"
+>  #include "hw/i386/pc.h"
+> -#include "hw/southbridge/piix.h"
+>  #include "hw/irq.h"
+>  #include "hw/hw.h"
+>  #include "hw/i386/apic-msidef.h"
+> @@ -149,23 +148,6 @@ void xen_piix3_set_irq(void *opaque, int irq_num, int level)
+>                             irq_num & 3, level);
+>  }
+>  
+> -void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
+> -{
+> -    int i;
+> -
+> -    /* Scan for updates to PCI link routes (0x60-0x63). */
+> -    for (i = 0; i < len; i++) {
+> -        uint8_t v = (val >> (8 * i)) & 0xff;
+> -        if (v & 0x80) {
+> -            v = 0;
+> -        }
+> -        v &= 0xf;
+> -        if (((address + i) >= PIIX_PIRQCA) && ((address + i) <= PIIX_PIRQCD)) {
+> -            xen_set_pci_link_route(address + i - PIIX_PIRQCA, v);
+> -        }
+> -    }
+> -}
+> -
+>  int xen_set_pci_link_route(uint8_t link, uint8_t irq)
+>  {
+>      return xendevicemodel_set_pci_link_route(xen_dmod, xen_domid, link, irq);
+> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+> index 6388558f92..48f9ab1096 100644
+> --- a/hw/isa/piix3.c
+> +++ b/hw/isa/piix3.c
+> @@ -138,7 +138,20 @@ static void piix3_write_config(PCIDevice *dev,
+>  static void piix3_write_config_xen(PCIDevice *dev,
+>                                     uint32_t address, uint32_t val, int len)
+>  {
+> -    xen_piix_pci_write_config_client(address, val, len);
+> +    int i;
+> +
+> +    /* Scan for updates to PCI link routes (0x60-0x63). */
+> +    for (i = 0; i < len; i++) {
+> +        uint8_t v = (val >> (8 * i)) & 0xff;
+> +        if (v & 0x80) {
+> +            v = 0;
+> +        }
+> +        v &= 0xf;
+> +        if (((address + i) >= PIIX_PIRQCA) && ((address + i) <= PIIX_PIRQCD)) {
+> +            xen_set_pci_link_route(address + i - PIIX_PIRQCA, v);
+> +        }
+> +    }
+> +
+>      piix3_write_config(dev, address, val, len);
+>  }
+>  
+> diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
+> index 13bffaef53..afdf9c436a 100644
+> --- a/include/hw/xen/xen.h
+> +++ b/include/hw/xen/xen.h
+> @@ -23,7 +23,6 @@ extern bool xen_domid_restrict;
+>  int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num);
+>  int xen_set_pci_link_route(uint8_t link, uint8_t irq);
+>  void xen_piix3_set_irq(void *opaque, int irq_num, int level);
+> -void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len);
+>  void xen_hvm_inject_msi(uint64_t addr, uint32_t data);
+>  int xen_is_pirq_msi(uint32_t msi_data);
+>  
+> diff --git a/stubs/xen-hw-stub.c b/stubs/xen-hw-stub.c
+> index 743967623f..34a22f2ad7 100644
+> --- a/stubs/xen-hw-stub.c
+> +++ b/stubs/xen-hw-stub.c
+> @@ -19,10 +19,6 @@ void xen_piix3_set_irq(void *opaque, int irq_num, int level)
+>  {
+>  }
+>  
+> -void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
+> -{
+> -}
+> -
+>  int xen_set_pci_link_route(uint8_t link, uint8_t irq)
+>  {
+>      return -1;
+> -- 
+> 2.36.1
 
 
