@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117AB55B0EA
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 11:49:57 +0200 (CEST)
-Received: from localhost ([::1]:55878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FBF55B0EB
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 11:49:58 +0200 (CEST)
+Received: from localhost ([::1]:55950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5Otu-0001kP-QV
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 05:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52594)
+	id 1o5Otx-0001n6-2P
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 05:49:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o5Orp-0008DZ-P9; Sun, 26 Jun 2022 05:47:45 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41564)
+ id 1o5Orr-0008EW-9t; Sun, 26 Jun 2022 05:47:47 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:33748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o5Orn-000097-AJ; Sun, 26 Jun 2022 05:47:45 -0400
-Received: by mail-ed1-x535.google.com with SMTP id cf14so9172014edb.8;
- Sun, 26 Jun 2022 02:47:42 -0700 (PDT)
+ id 1o5Orp-0000AJ-NX; Sun, 26 Jun 2022 05:47:46 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id mf9so13329233ejb.0;
+ Sun, 26 Jun 2022 02:47:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/18Wn59mCVUcj5sOf0xFz2mH+5FELr59xslfCm8MOAc=;
- b=KQFT2epSHelgMWfg3dPUpwaqRsz0pA/6e5/iNbH31U8kKSk7PILo/zpeyNLhXSDyXY
- ksboRyLpVAxrJRZjtAxwI3LHi4Wev6eMXmfCmklaVS9jL5Z0KdOvXRm8kckW8cQo37FC
- YxXRil6dPmLObGen9MY5oVQjsCSzQpEAo2wWpnmmO4mbiRNQBYOWldMYZSjEPl0225FR
- bEtKL5nACHbm2OBsnHlqafqzkrPAhIn/1zznkFdgYP0bcXQdy3zrgOkXKwbBqj6/7JAa
- sV981rtXpApP/c92nYXlgVMSFrNCgMY6+ei3LwETElwYuEt2S19vSnyRJs3hiw/3EKzy
- utPg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8y1YigI7ttxs3tTld6DKvzpRpRRmju3jx/o0m9Wy9os=;
+ b=pCD3TQyytOn6s8CgipMMRlMe8ipJcM/lIt7qDuGLUPIXeg+yWx4ZdloptdUVNTKaDd
+ sIqtC44UFMxDUCcPpiTrv/DTyFcxvk14BVhRcpSdhEXoaf908w64RBTvxNgIDr4RrQ+A
+ qDHr74I4ghmr96AdkqiCMd+wk7vx9jqomIqAHyHMSFhdEvknJijiil+FPfF99ISYxHqD
+ dxrbvGTN3OF/WlTnvJ/82NPHYogw5Rh3UyRYTonV0et257btT/LL3q1q00H1Vb6HENGr
+ B58hlzz3kx3m7E0zYwSsRIvtuKla1CQeAPPct1v6EAPf4hH3zdy3eMn4TTSbjKGM1GgT
+ gqvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/18Wn59mCVUcj5sOf0xFz2mH+5FELr59xslfCm8MOAc=;
- b=l2y8ZZFWAlcdPRWkvoRlI1UFK15RyXoV1YgpsBtibjHRoVDyfvliq1Ev/hG1J69ob4
- tEd3NAcLDQEkYhK2qH+DHw9zLMqepAhQQSpBWZ3jOVrMHY7/LEU5mY7wsc7KL+QvnLu5
- Y+2PzTetlMFnSzFZaGkx/mOFCHtX05MP/5U/9LTxPnZGuUMmaQqD3COleoF1hEQVaZhT
- YThDZpha5Fh/FzsNKR7JzazS80U74T2t25JyI2uFT4lLRR53jP2dRUg2NJ0j5D3ln6Ai
- E09v49kA2nzzBccsUxD7Se3MZUKR0DVrzdg1mlNKGBDAGn62yeAGp9hO0oWORnEuWP5J
- I/dw==
-X-Gm-Message-State: AJIora/1ajoWpA1y1JBq+wtn7PXgyVn8DY63gUPCHmqHtaaxSZd4arkv
- FBs1/aeWCAVB6mQWCecdlioC4wEma4k=
-X-Google-Smtp-Source: AGRyM1v/lS+4NjVferS6kUoLylyCQHZ+ljz7kEWCPuWjTusvwodjvL0yfMAzSACL+nodY1l45DSCNg==
-X-Received: by 2002:a05:6402:26d5:b0:435:aba2:9495 with SMTP id
- x21-20020a05640226d500b00435aba29495mr9923552edd.133.1656236860604; 
- Sun, 26 Jun 2022 02:47:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8y1YigI7ttxs3tTld6DKvzpRpRRmju3jx/o0m9Wy9os=;
+ b=ehEw8AAPYzcpsRtjKEAVv+rpqFGvzJon6abiKBGfb2uqsaylL9OKVeO+Bq8xnqoqY9
+ D16Zt0gElfsaO7o1W0n93IJj8f7bcZl06D/cmzVMihg+PdLLOTx4qkiP6cZCWaPiw/Hi
+ /HFaampMwQo0vd92Bi1FUqXPm4uBo3B5XlM9AFbTAPowkKq3WOwJFlB54SEwuz4ZTsdp
+ BEhQ5jwGs7hggnSYwtNiNHPOqhEOZnR5Ta7Qj0brh7GaJtn7Hc0EK1omdI4ozwADvcyM
+ ZYEyymIX6k1QtqS4JWOaPVtMdnyy7iuk9DPLwGutQxZFI7qVrnD5yG0PZthu7Eqn7Dxm
+ 8/CA==
+X-Gm-Message-State: AJIora+Tgld/LJPU0lpoYBQVVOHMbLHTHmG1wDWRoI2kveSZsy2xJ0UM
+ 7uOIH5D7XheQvPezd6aD733hMA3YBvo=
+X-Google-Smtp-Source: AGRyM1v6iTzO4uMHp2vLzEWX53KPy01bIP+vC0hI0N/lRCRouLltezCBvCVoffSlli5cWMnSFE53BA==
+X-Received: by 2002:a17:907:968a:b0:722:e508:fc15 with SMTP id
+ hd10-20020a170907968a00b00722e508fc15mr7614907ejc.188.1656236861608; 
+ Sun, 26 Jun 2022 02:47:41 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-078-055-174-013.78.55.pool.telefonica.de. [78.55.174.13])
  by smtp.gmail.com with ESMTPSA id
- t4-20020a17090605c400b00706242d297fsm3504752ejt.212.2022.06.26.02.47.39
+ t4-20020a17090605c400b00706242d297fsm3504752ejt.212.2022.06.26.02.47.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jun 2022 02:47:40 -0700 (PDT)
+ Sun, 26 Jun 2022 02:47:41 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -62,15 +62,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 0/2] Decouple Xen-HVM from PIIX
-Date: Sun, 26 Jun 2022 11:46:54 +0200
-Message-Id: <20220626094656.15673-1-shentey@gmail.com>
+Subject: [PATCH 1/2] hw/i386/xen/xen-hvm: Allow for stubbing
+ xen_set_pci_link_route()
+Date: Sun, 26 Jun 2022 11:46:55 +0200
+Message-Id: <20220626094656.15673-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220626094656.15673-1-shentey@gmail.com>
+References: <20220626094656.15673-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,23 +95,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hw/i386/xen/xen-hvm.c contains logic which is PIIX-specific. This makes xen=
--hvm.c depend on PIIX which can be avoided if PIIX logic was isolated in PI=
-IX itself.=0D
-=0D
-Bernhard Beschow (2):=0D
-  hw/i386/xen/xen-hvm: Allow for stubbing xen_set_pci_link_route()=0D
-  hw/i386/xen/xen-hvm: Inline xen_piix_pci_write_config_client() and=0D
-    remove it=0D
-=0D
- hw/i386/xen/xen-hvm.c       | 17 ++---------------=0D
- hw/isa/piix3.c              | 15 ++++++++++++++-=0D
- include/hw/xen/xen.h        |  2 +-=0D
- include/hw/xen/xen_common.h |  6 ------=0D
- stubs/xen-hw-stub.c         |  3 ++-=0D
- 5 files changed, 19 insertions(+), 24 deletions(-)=0D
-=0D
--- =0D
-2.36.1=0D
-=0D
+The only user of xen_set_pci_link_route() is
+xen_piix_pci_write_config_client() which implements PIIX-specific logic in
+the xen namespace. This makes xen-hvm depend on PIIX which could be
+avoided if xen_piix_pci_write_config_client() was implemented in PIIX. In
+order to do this, xen_set_pci_link_route() needs to be stubbable which
+this patch addresses.
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ hw/i386/xen/xen-hvm.c       | 7 ++++++-
+ include/hw/xen/xen.h        | 1 +
+ include/hw/xen/xen_common.h | 6 ------
+ stubs/xen-hw-stub.c         | 5 +++++
+ 4 files changed, 12 insertions(+), 7 deletions(-)
+
+diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+index 0731f70410..204fda7949 100644
+--- a/hw/i386/xen/xen-hvm.c
++++ b/hw/i386/xen/xen-hvm.c
+@@ -161,11 +161,16 @@ void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
+         }
+         v &= 0xf;
+         if (((address + i) >= PIIX_PIRQCA) && ((address + i) <= PIIX_PIRQCD)) {
+-            xen_set_pci_link_route(xen_domid, address + i - PIIX_PIRQCA, v);
++            xen_set_pci_link_route(address + i - PIIX_PIRQCA, v);
+         }
+     }
+ }
+ 
++int xen_set_pci_link_route(uint8_t link, uint8_t irq)
++{
++    return xendevicemodel_set_pci_link_route(xen_dmod, xen_domid, link, irq);
++}
++
+ int xen_is_pirq_msi(uint32_t msi_data)
+ {
+     /* If vector is 0, the msi is remapped into a pirq, passed as
+diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
+index 0f9962b1c1..13bffaef53 100644
+--- a/include/hw/xen/xen.h
++++ b/include/hw/xen/xen.h
+@@ -21,6 +21,7 @@ extern enum xen_mode xen_mode;
+ extern bool xen_domid_restrict;
+ 
+ int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num);
++int xen_set_pci_link_route(uint8_t link, uint8_t irq);
+ void xen_piix3_set_irq(void *opaque, int irq_num, int level);
+ void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len);
+ void xen_hvm_inject_msi(uint64_t addr, uint32_t data);
+diff --git a/include/hw/xen/xen_common.h b/include/hw/xen/xen_common.h
+index 179741ff79..77ce17d8a4 100644
+--- a/include/hw/xen/xen_common.h
++++ b/include/hw/xen/xen_common.h
+@@ -316,12 +316,6 @@ static inline int xen_set_pci_intx_level(domid_t domid, uint16_t segment,
+                                              device, intx, level);
+ }
+ 
+-static inline int xen_set_pci_link_route(domid_t domid, uint8_t link,
+-                                         uint8_t irq)
+-{
+-    return xendevicemodel_set_pci_link_route(xen_dmod, domid, link, irq);
+-}
+-
+ static inline int xen_inject_msi(domid_t domid, uint64_t msi_addr,
+                                  uint32_t msi_data)
+ {
+diff --git a/stubs/xen-hw-stub.c b/stubs/xen-hw-stub.c
+index 15f3921a76..743967623f 100644
+--- a/stubs/xen-hw-stub.c
++++ b/stubs/xen-hw-stub.c
+@@ -23,6 +23,11 @@ void xen_piix_pci_write_config_client(uint32_t address, uint32_t val, int len)
+ {
+ }
+ 
++int xen_set_pci_link_route(uint8_t link, uint8_t irq)
++{
++    return -1;
++}
++
+ void xen_hvm_inject_msi(uint64_t addr, uint32_t data)
+ {
+ }
+-- 
+2.36.1
+
 
