@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC58255B340
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 19:49:56 +0200 (CEST)
-Received: from localhost ([::1]:42616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C2955B345
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 19:52:43 +0200 (CEST)
+Received: from localhost ([::1]:51406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5WOR-0004M4-NZ
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 13:49:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39044)
+	id 1o5WR8-0001uy-CU
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 13:52:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WKZ-0001O9-U7
+ id 1o5WKc-0001OE-Oe
  for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:46:02 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44990)
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WKW-0008Kz-OM
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:45:54 -0400
+ id 1o5WKa-0008L9-Rm
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:45:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=3c8LZ7lwJGM6UsltFoeVrKrMFOBOfG5nlGNHi8yZus4=; b=l2WtmKQsvVUw7b7TkXeoNAkU1E
- y/VbyZT90kDsGgYMnvwv6xNGVmse1EHBtYomqADURNcxKqXLoU13NNGApNzg3+jB0FffXr3vLK2AL
- d/mdMpmfdbacK19duTh9u5vFcpf3hA84ojEKW6Vmfn4UqYcPx2We5Q3J+mdhW+xeatZUv0l1W99c8
- vFfW0nJwNZ9iY49cUH4omrMfVGvLabCSGc5+OZjEt91gjOhk5NUOlJ400MmfJYNG+3JOotuY6TQ77
- qRArUL3P/iS0E/vHaMwyzKHzdJi2i/vrAH39cDpPk+ahBdPMhiTdJrLE1NNQfoj0JSdJocfjS1leB
- crLsMH/DSvqxzthrN+C4GbYkU7FuFBrCMfRBZAWudlU4wWFZG6kq2xEfk15p0Yvj8x8AFQ8HGv9Mv
- aZp4sZuHaQNubswcGfE+ZnKV8b3fa28BsF4yW9KCrv/DG1Jsw3qKNen+IGwotki+o6bVgDxMtcrG5
- m3gimC7FxC7J/+CYRPcTGvD6GMLAROUXpn5REBhpr75Lg2yfOComkR/XHlwcE2lESUM+Xyeb0M0bT
- 4wt7YN1z7sqx/zU1LrlCCBTUR9hDP7NCOBolTYaCJBD9/jS/7R+5EGOv2d5B6kT7S15bxpCrchSjV
- A1Rx3I2mmMMMSYTcBjq0cmV0fVXtgzEz+34CxmGik=;
+ bh=qF2ib9a3TV4Z9QxylkCCDNvkDBnDkUi8d79dl/SrpCU=; b=b/iCmQq3EJ9OEs24MrRLaLO9LK
+ TS0Tak7D15Idm6g0/TK5MiKoctnj5MGk2S04rbuYtk2FfWzrxXwEecyOE+AMfg7+bCWxeoYpot/MK
+ unmZyeTe1lcjK53MGcYonAKAAibFbqE7B83vj/cL90ArHDehGAgEon/d0b4DRUVBvbFXP4/TR3UuH
+ WeZnfzQrvVwAL9BimVky3ZVy39yELsegwwpwAYcK0ZY1prG8EEvn+hJvUhQk23hTKpz0zvqR47L++
+ vckY7AKKmEoLdUQ6dI7ejkir+MfNy6kGnPTp2kkWU11dmy/q8obHCqfNY4zgfuWfyqo3rNzQQUSOF
+ wJRTLufZ1Ni73p1J/t0/r0Jzm2sK6hBRG13j5m6VVcVl9KW76DxsKBRZz9m75keKNPXRHN9O72iUH
+ V20XVhMGf43tQX6mK8LPivy2Q8etLBG7QKl6Q+eGSrDm9JUmQ3/JBwwPytneZkvyOBjFe3X619TcV
+ lUpkTXjhidsFqfBYpBSnT+cjFmL9uPeixfBDGWPf/6yrDrPZvY/5RcDyBOe/4UfzIEMdFVDITorZp
+ daCcC2rK8NRe/fDqUFJ+YWhiylg23mp5QtcRZi4OBarJcyb4hLsBNzXZAO9K5uQpVb+uJ2XHsf9Am
+ aNge8NOWGuoP3PQYB+YFrMmV5qotHVrcmql+6YRbU=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WJI-0007KY-BM; Sun, 26 Jun 2022 18:44:40 +0100
+ id 1o5WJM-0007KY-HV; Sun, 26 Jun 2022 18:44:44 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Date: Sun, 26 Jun 2022 18:44:38 +0100
-Message-Id: <20220626174531.969187-3-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 26 Jun 2022 18:44:39 +0100
+Message-Id: <20220626174531.969187-4-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
 References: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
@@ -52,7 +52,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 02/55] ps2: QOMify PS2State
+Subject: [PULL 03/55] ps2: QOMify PS2KbdState
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,73 +78,295 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make PS2State a new abstract PS2_DEVICE QOM type to represent the common
-functionality shared between PS2 keyboard and mouse devices.
+Make PS2KbdState into a new PS2_KBD_DEVICE QOM type which inherits from the
+abstract PS2_DEVICE type.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Helge Deller <deller@gmx.de>
-Message-Id: <20220624134109.881989-3-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220624134109.881989-4-mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/ps2.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ hw/input/ps2.c | 104 ++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 65 insertions(+), 39 deletions(-)
 
 diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 67dd2eca84..514e55cbb6 100644
+index 514e55cbb6..14eb777c3f 100644
 --- a/hw/input/ps2.c
 +++ b/hw/input/ps2.c
-@@ -24,6 +24,7 @@
+@@ -31,6 +31,7 @@
+ #include "ui/input.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
++#include "qapi/error.h"
  
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "hw/sysbus.h"
- #include "hw/input/ps2.h"
- #include "migration/vmstate.h"
- #include "ui/console.h"
-@@ -96,12 +97,17 @@ typedef struct {
- } PS2Queue;
+ #include "trace.h"
  
- struct PS2State {
-+    SysBusDevice parent_obj;
+@@ -108,15 +109,19 @@ struct PS2State {
+ #define TYPE_PS2_DEVICE "ps2-device"
+ OBJECT_DECLARE_SIMPLE_TYPE(PS2State, PS2_DEVICE)
+ 
+-typedef struct {
+-    PS2State common;
++struct PS2KbdState {
++    PS2State parent_obj;
 +
-     PS2Queue queue;
-     int32_t write_cmd;
-     void (*update_irq)(void *, int);
-     void *update_arg;
- };
- 
-+#define TYPE_PS2_DEVICE "ps2-device"
-+OBJECT_DECLARE_SIMPLE_TYPE(PS2State, PS2_DEVICE)
-+
- typedef struct {
-     PS2State common;
      int scan_enabled;
-@@ -1277,3 +1283,25 @@ void *ps2_mouse_init(void (*update_irq)(void *, int), void *update_arg)
-     qemu_register_reset(ps2_mouse_reset, s);
-     return s;
- }
-+
-+static void ps2_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-+}
-+
-+static const TypeInfo ps2_info = {
-+    .name          = TYPE_PS2_DEVICE,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(PS2State),
-+    .class_init    = ps2_class_init,
-+    .abstract      = true
+     int translate;
+     int scancode_set; /* 1=XT, 2=AT, 3=PS/2 */
+     int ledstate;
+     bool need_high_bit;
+     unsigned int modifiers; /* bitmask of MOD_* constants above */
+-} PS2KbdState;
 +};
 +
-+static void ps2_register_types(void)
-+{
-+    type_register_static(&ps2_info);
-+}
++#define TYPE_PS2_KBD_DEVICE "ps2-kbd"
++OBJECT_DECLARE_SIMPLE_TYPE(PS2KbdState, PS2_KBD_DEVICE)
+ 
+ typedef struct {
+     PS2State common;
+@@ -330,6 +335,7 @@ static void ps2_cqueue_reset(PS2State *s)
+ static void ps2_put_keycode(void *opaque, int keycode)
+ {
+     PS2KbdState *s = opaque;
++    PS2State *ps = PS2_DEVICE(s);
+ 
+     trace_ps2_put_keycode(opaque, keycode);
+     qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, NULL);
+@@ -338,13 +344,13 @@ static void ps2_put_keycode(void *opaque, int keycode)
+         if (keycode == 0xf0) {
+             s->need_high_bit = true;
+         } else if (s->need_high_bit) {
+-            ps2_queue(&s->common, translate_table[keycode] | 0x80);
++            ps2_queue(ps, translate_table[keycode] | 0x80);
+             s->need_high_bit = false;
+         } else {
+-            ps2_queue(&s->common, translate_table[keycode]);
++            ps2_queue(ps, translate_table[keycode]);
+         }
+     } else {
+-        ps2_queue(&s->common, keycode);
++        ps2_queue(ps, keycode);
+     }
+ }
+ 
+@@ -617,96 +623,99 @@ static void ps2_set_ledstate(PS2KbdState *s, int ledstate)
+ 
+ static void ps2_reset_keyboard(PS2KbdState *s)
+ {
++    PS2State *ps2 = PS2_DEVICE(s);
 +
-+type_init(ps2_register_types)
+     trace_ps2_reset_keyboard(s);
+     s->scan_enabled = 1;
+     s->scancode_set = 2;
+-    ps2_reset_queue(&s->common);
++    ps2_reset_queue(ps2);
+     ps2_set_ledstate(s, 0);
+ }
+ 
+ void ps2_write_keyboard(void *opaque, int val)
+ {
+     PS2KbdState *s = (PS2KbdState *)opaque;
++    PS2State *ps2 = PS2_DEVICE(s);
+ 
+     trace_ps2_write_keyboard(opaque, val);
+-    ps2_cqueue_reset(&s->common);
+-    switch (s->common.write_cmd) {
++    ps2_cqueue_reset(ps2);
++    switch (ps2->write_cmd) {
+     default:
+     case -1:
+         switch (val) {
+         case 0x00:
+-            ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
++            ps2_cqueue_1(ps2, KBD_REPLY_ACK);
+             break;
+         case 0x05:
+-            ps2_cqueue_1(&s->common, KBD_REPLY_RESEND);
++            ps2_cqueue_1(ps2, KBD_REPLY_RESEND);
+             break;
+         case KBD_CMD_GET_ID:
+             /* We emulate a MF2 AT keyboard here */
+-            ps2_cqueue_3(&s->common, KBD_REPLY_ACK, KBD_REPLY_ID,
++            ps2_cqueue_3(ps2, KBD_REPLY_ACK, KBD_REPLY_ID,
+                          s->translate ? 0x41 : 0x83);
+             break;
+         case KBD_CMD_ECHO:
+-            ps2_cqueue_1(&s->common, KBD_CMD_ECHO);
++            ps2_cqueue_1(ps2, KBD_CMD_ECHO);
+             break;
+         case KBD_CMD_ENABLE:
+             s->scan_enabled = 1;
+-            ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
++            ps2_cqueue_1(ps2, KBD_REPLY_ACK);
+             break;
+         case KBD_CMD_SCANCODE:
+         case KBD_CMD_SET_LEDS:
+         case KBD_CMD_SET_RATE:
+         case KBD_CMD_SET_MAKE_BREAK:
+-            s->common.write_cmd = val;
+-            ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
++            ps2->write_cmd = val;
++            ps2_cqueue_1(ps2, KBD_REPLY_ACK);
+             break;
+         case KBD_CMD_RESET_DISABLE:
+             ps2_reset_keyboard(s);
+             s->scan_enabled = 0;
+-            ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
++            ps2_cqueue_1(ps2, KBD_REPLY_ACK);
+             break;
+         case KBD_CMD_RESET_ENABLE:
+             ps2_reset_keyboard(s);
+             s->scan_enabled = 1;
+-            ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
++            ps2_cqueue_1(ps2, KBD_REPLY_ACK);
+             break;
+         case KBD_CMD_RESET:
+             ps2_reset_keyboard(s);
+-            ps2_cqueue_2(&s->common,
++            ps2_cqueue_2(ps2,
+                          KBD_REPLY_ACK,
+                          KBD_REPLY_POR);
+             break;
+         case KBD_CMD_SET_TYPEMATIC:
+-            ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
++            ps2_cqueue_1(ps2, KBD_REPLY_ACK);
+             break;
+         default:
+-            ps2_cqueue_1(&s->common, KBD_REPLY_RESEND);
++            ps2_cqueue_1(ps2, KBD_REPLY_RESEND);
+             break;
+         }
+         break;
+     case KBD_CMD_SET_MAKE_BREAK:
+-        ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
+-        s->common.write_cmd = -1;
++        ps2_cqueue_1(ps2, KBD_REPLY_ACK);
++        ps2->write_cmd = -1;
+         break;
+     case KBD_CMD_SCANCODE:
+         if (val == 0) {
+-            ps2_cqueue_2(&s->common, KBD_REPLY_ACK, s->translate ?
++            ps2_cqueue_2(ps2, KBD_REPLY_ACK, s->translate ?
+                 translate_table[s->scancode_set] : s->scancode_set);
+         } else if (val >= 1 && val <= 3) {
+             s->scancode_set = val;
+-            ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
++            ps2_cqueue_1(ps2, KBD_REPLY_ACK);
+         } else {
+-            ps2_cqueue_1(&s->common, KBD_REPLY_RESEND);
++            ps2_cqueue_1(ps2, KBD_REPLY_RESEND);
+         }
+-        s->common.write_cmd = -1;
++        ps2->write_cmd = -1;
+         break;
+     case KBD_CMD_SET_LEDS:
+         ps2_set_ledstate(s, val);
+-        ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
+-        s->common.write_cmd = -1;
++        ps2_cqueue_1(ps2, KBD_REPLY_ACK);
++        ps2->write_cmd = -1;
+         break;
+     case KBD_CMD_SET_RATE:
+-        ps2_cqueue_1(&s->common, KBD_REPLY_ACK);
+-        s->common.write_cmd = -1;
++        ps2_cqueue_1(ps2, KBD_REPLY_ACK);
++        ps2->write_cmd = -1;
+         break;
+     }
+ }
+@@ -1075,9 +1084,10 @@ static void ps2_common_post_load(PS2State *s)
+ static void ps2_kbd_reset(void *opaque)
+ {
+     PS2KbdState *s = (PS2KbdState *) opaque;
++    PS2State *ps2 = PS2_DEVICE(s);
+ 
+     trace_ps2_kbd_reset(opaque);
+-    ps2_common_reset(&s->common);
++    ps2_common_reset(ps2);
+     s->scan_enabled = 1;
+     s->translate = 0;
+     s->scancode_set = 2;
+@@ -1164,15 +1174,16 @@ static const VMStateDescription vmstate_ps2_keyboard_need_high_bit = {
+ static bool ps2_keyboard_cqueue_needed(void *opaque)
+ {
+     PS2KbdState *s = opaque;
++    PS2State *ps2 = PS2_DEVICE(s);
+ 
+-    return s->common.queue.cwptr != -1; /* the queue is mostly empty */
++    return ps2->queue.cwptr != -1; /* the queue is mostly empty */
+ }
+ 
+ static const VMStateDescription vmstate_ps2_keyboard_cqueue = {
+     .name = "ps2kbd/command_reply_queue",
+     .needed = ps2_keyboard_cqueue_needed,
+     .fields = (VMStateField[]) {
+-        VMSTATE_INT32(common.queue.cwptr, PS2KbdState),
++        VMSTATE_INT32(parent_obj.queue.cwptr, PS2KbdState),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -1180,7 +1191,7 @@ static const VMStateDescription vmstate_ps2_keyboard_cqueue = {
+ static int ps2_kbd_post_load(void *opaque, int version_id)
+ {
+     PS2KbdState *s = (PS2KbdState *)opaque;
+-    PS2State *ps2 = &s->common;
++    PS2State *ps2 = PS2_DEVICE(s);
+ 
+     if (version_id == 2) {
+         s->scancode_set = 2;
+@@ -1197,7 +1208,8 @@ static const VMStateDescription vmstate_ps2_keyboard = {
+     .minimum_version_id = 2,
+     .post_load = ps2_kbd_post_load,
+     .fields = (VMStateField[]) {
+-        VMSTATE_STRUCT(common, PS2KbdState, 0, vmstate_ps2_common, PS2State),
++        VMSTATE_STRUCT(parent_obj, PS2KbdState, 0, vmstate_ps2_common,
++                       PS2State),
+         VMSTATE_INT32(scan_enabled, PS2KbdState),
+         VMSTATE_INT32(translate, PS2KbdState),
+         VMSTATE_INT32_V(scancode_set, PS2KbdState, 3),
+@@ -1250,11 +1262,18 @@ static QemuInputHandler ps2_keyboard_handler = {
+ 
+ void *ps2_kbd_init(void (*update_irq)(void *, int), void *update_arg)
+ {
+-    PS2KbdState *s = g_new0(PS2KbdState, 1);
++    DeviceState *dev;
++    PS2KbdState *s;
++    PS2State *ps2;
++
++    dev = qdev_new(TYPE_PS2_KBD_DEVICE);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    s = PS2_KBD_DEVICE(dev);
++    ps2 = PS2_DEVICE(s);
+ 
+     trace_ps2_kbd_init(s);
+-    s->common.update_irq = update_irq;
+-    s->common.update_arg = update_arg;
++    ps2->update_irq = update_irq;
++    ps2->update_arg = update_arg;
+     s->scancode_set = 2;
+     vmstate_register(NULL, 0, &vmstate_ps2_keyboard, s);
+     qemu_input_handler_register((DeviceState *)s,
+@@ -1284,6 +1303,12 @@ void *ps2_mouse_init(void (*update_irq)(void *, int), void *update_arg)
+     return s;
+ }
+ 
++static const TypeInfo ps2_kbd_info = {
++    .name          = TYPE_PS2_KBD_DEVICE,
++    .parent        = TYPE_PS2_DEVICE,
++    .instance_size = sizeof(PS2KbdState),
++};
++
+ static void ps2_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -1302,6 +1327,7 @@ static const TypeInfo ps2_info = {
+ static void ps2_register_types(void)
+ {
+     type_register_static(&ps2_info);
++    type_register_static(&ps2_kbd_info);
+ }
+ 
+ type_init(ps2_register_types)
 -- 
 2.30.2
 
