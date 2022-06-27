@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4DB555B91F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:25:58 +0200 (CEST)
-Received: from localhost ([::1]:57374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6749955B92B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:36:38 +0200 (CEST)
+Received: from localhost ([::1]:46312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5lwL-0005Hb-Tr
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:25:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41284)
+	id 1o5m6f-0000W5-0A
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:36:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltF-0002Fo-Cp
+ id 1o5ltF-0002Fp-D0
  for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:45 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38724)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltB-0004rd-Qj
+ id 1o5ltD-0004ri-5W
  for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:44 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id v14so12340152wra.5
+Received: by mail-wr1-x434.google.com with SMTP id o4so8387287wrh.3
  for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=EOVXgkGRtIpIGzJkFF4/6zpJoNS3CC73Hky3UMqCS5s=;
- b=FwVFcRrXy3p4zKvB6Ev4hnglI3w6Ldi4RJaKtatZ83oXHyJakWfOaLu96jqIZc4LJH
- t+b8v+bhSuVtE61XWN3g1VCdXDCj+0/IpZKEE40/m/DKyTMFygJCRqtacbd1CZgCbE/2
- 8w6FWqoodA7m7cx3+a4jaXN7Tcefv2oxXm2BcA7+Dl33MELo8X1bSEu4FIYYZ3RFsr5V
- XbD2HyQ4wK72cLHh14WykL0sM2lxeYLW9NLsDDOC+E0XZa/4qK9NR3362hpSH3XORKIj
- usaxkfJGrz5vMyqmUbEcGfYstYNbFSf8UDRB2i9K1liRQ46Kk0iCWmyZV0QCYEb7OcTZ
- GNCg==
+ bh=Exdw1jWh9d45wApshJRlkzNaiGP955/A0t+N8/5I8ww=;
+ b=VGEaueDjpQqajNT7NmPZfYOb14uNL6cD5u2rnzxPiHj09CbYGhDd3k3vp+G5DORQ/Q
+ iISdou4i4WXsopmL0l9DSOox0Dky+dkTnFR1Xg0YxJUHmg47EXHOvyxQvMK2c8CMG+ZX
+ l6TGokpHFjkBlHo75axcTh1n2yagyVTs8oN/ea6UgkbJtLuW9hHip4QvW0J6rxnuJZzQ
+ CW2+1SV5oaI5kSe8C118yiOld5LN3eBxp2ciA6RDt8GwoFGoij0XbIScJkVrQ/2+2UVi
+ JonEKyVPCEdaiYp4I5yMGxrbyGjWOnfUO/V9RaZ0Ch262cac+HcGq8JdcExLsdw0LCco
+ AHXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EOVXgkGRtIpIGzJkFF4/6zpJoNS3CC73Hky3UMqCS5s=;
- b=jPrqmxpKC8J8WwtxfNMel/LDiN5zLTgxxMP/1XZtr+21UkahfuleBrYogpQp5g2NPS
- 1jNRugGxYTL3v7BrxX2uXnMtsOvZ1yZCjqTPaPvrV5GPfNujqX455X0mzQTU4lp4oLaO
- Zitdu6G/BQa60uyi+/1OEnmXlxmtdR46q7yamUt+sRbNMau08T4LTfubLBPf0OToOeAI
- XxckWkRlR2Q+N7V0JRLSVMynB3njxqPJ4LrC+Npu/Z/DT7n8CfzkGnsWUcvPdzsVhtrZ
- pzXq84cr4fqAnfU9cXjWcNn4kpEM+teaSq5KVIW+HGt+PepwD4itq9KdocTIKFvgkM2J
- CvHg==
-X-Gm-Message-State: AJIora9XhNVQB+tc/jtUretd8NQhc0h/8FHU5T/agvsdUmPXB6/evkX4
- 7gDSV1i/pT1iNKBnRIMNUp+y3X2PnahvNQ==
-X-Google-Smtp-Source: AGRyM1tPjmXO9M7DjX1DAOA22ec56KWmClDbiN4fFD6UBqCCQZhfkzidCPhV7MK6qkzA9GqqptsrFg==
-X-Received: by 2002:a5d:584d:0:b0:21b:a3a2:d67c with SMTP id
- i13-20020a5d584d000000b0021ba3a2d67cmr10861641wrf.149.1656325360030; 
+ bh=Exdw1jWh9d45wApshJRlkzNaiGP955/A0t+N8/5I8ww=;
+ b=lzX4GCBGC1qk/LkQgRsdIAomuCN9QnVdVJfDPWHu5sOqY+jO6QyUbQM1RGc8JBA3Jg
+ rFSbP6yFCpCNKfNjEemJqqu5ty38yqCp0ypke5FwEawvDLq87bfSnIFPqghCuZplnpWA
+ 9br3CUVG233+bJSODQumD82P+EFqReDFAJRkMOzP8iZJd+XdtUMu281bZ9keSqC1KCyh
+ wyKlGuqBBsJae/Q5aaYAIPjTTo16C0F4atezgpK9bX0qHhXcP8/MUGmY4tA+8cMcpRVm
+ IaF4JDoANbzOh7FFEopC7tSa7d92S6rmdCnceg7qgT6onWokBqQswvX5JvKCkJD6kC8t
+ KiyA==
+X-Gm-Message-State: AJIora+kHwx1l6OnmLh6RaaaUKXHy9vunp3hC3R2F/+nj+aJ9wSXIWhH
+ BAO44p8vKRZC4lmERnbct7wJXckMGAxX3w==
+X-Google-Smtp-Source: AGRyM1srzSUnbZ66fU0G34J/1N7QquxvEzs0Sp8AeRuDKIk9fnxEJ3vBxFzJv0nCNjKOhVPo3TbIxw==
+X-Received: by 2002:a05:6000:1689:b0:218:3fb1:fd30 with SMTP id
+ y9-20020a056000168900b002183fb1fd30mr11430304wrd.302.1656325360761; 
  Mon, 27 Jun 2022 03:22:40 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- d11-20020a5d6dcb000000b0020e6ce4dabdsm9754335wrz.103.2022.06.27.03.22.39
+ d11-20020a5d6dcb000000b0020e6ce4dabdsm9754335wrz.103.2022.06.27.03.22.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 03:22:39 -0700 (PDT)
+ Mon, 27 Jun 2022 03:22:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/25] accel: Introduce current_accel_name()
-Date: Mon, 27 Jun 2022 11:22:13 +0100
-Message-Id: <20220627102236.3097629-3-peter.maydell@linaro.org>
+Subject: [PULL 03/25] target/arm: Catch invalid kvm state also for hvf
+Date: Mon, 27 Jun 2022 11:22:14 +0100
+Message-Id: <20220627102236.3097629-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220627102236.3097629-1-peter.maydell@linaro.org>
 References: <20220627102236.3097629-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,65 +90,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Graf <agraf@csgraf.de>
 
-We need to fetch the name of the current accelerator in flexible error
-messages more going forward. Let's create a helper that gives it to us
-without casting in the target code.
+Some features such as running in EL3 or running M profile code are
+incompatible with virtualization as QEMU implements it today. To prevent
+users from picking invalid configurations on other virt solutions like
+Hvf, let's run the same checks there too.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1073
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220620192242.70573-1-agraf@csgraf.de
+Message-id: 20220620192242.70573-2-agraf@csgraf.de
+[PMM: Allow qtest accelerator too; tweak comment]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/qemu/accel.h | 1 +
- accel/accel-common.c | 8 ++++++++
- softmmu/vl.c         | 3 +--
- 3 files changed, 10 insertions(+), 2 deletions(-)
+ target/arm/cpu.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index 4f4c283f6fc..be56da1b999 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -68,6 +68,7 @@ typedef struct AccelClass {
- 
- AccelClass *accel_find(const char *opt_name);
- AccelState *current_accel(void);
-+const char *current_accel_name(void);
- 
- void accel_init_interfaces(AccelClass *ac);
- 
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 7b8ec7e0f72..50035bda55d 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -49,6 +49,14 @@ AccelClass *accel_find(const char *opt_name)
-     return ac;
- }
- 
-+/* Return the name of the current accelerator */
-+const char *current_accel_name(void)
-+{
-+    AccelClass *ac = ACCEL_GET_CLASS(current_accel());
-+
-+    return ac->name;
-+}
-+
- static void accel_init_cpu_int_aux(ObjectClass *klass, void *opaque)
- {
-     CPUClass *cc = CPU_CLASS(klass);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 54e920ada1a..3dca5936c76 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2271,8 +2271,7 @@ static void configure_accelerators(const char *progname)
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 1b5d5357880..d9c4a9f56d2 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -39,6 +39,7 @@
+ #include "hw/boards.h"
+ #endif
+ #include "sysemu/tcg.h"
++#include "sysemu/qtest.h"
+ #include "sysemu/hw_accel.h"
+ #include "kvm_arm.h"
+ #include "disas/capstone.h"
+@@ -1490,25 +1491,32 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         }
      }
  
-     if (init_failed && !qtest_chrdev) {
--        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
--        error_report("falling back to %s", ac->name);
-+        error_report("falling back to %s", current_accel_name());
+-    if (kvm_enabled()) {
++    if (!tcg_enabled() && !qtest_enabled()) {
+         /*
++         * We assume that no accelerator except TCG (and the "not really an
++         * accelerator" qtest) can handle these features, because Arm hardware
++         * virtualization can't virtualize them.
++         *
+          * Catch all the cases which might cause us to create more than one
+          * address space for the CPU (otherwise we will assert() later in
+          * cpu_address_space_init()).
+          */
+         if (arm_feature(env, ARM_FEATURE_M)) {
+             error_setg(errp,
+-                       "Cannot enable KVM when using an M-profile guest CPU");
++                       "Cannot enable %s when using an M-profile guest CPU",
++                       current_accel_name());
+             return;
+         }
+         if (cpu->has_el3) {
+             error_setg(errp,
+-                       "Cannot enable KVM when guest CPU has EL3 enabled");
++                       "Cannot enable %s when guest CPU has EL3 enabled",
++                       current_accel_name());
+             return;
+         }
+         if (cpu->tag_memory) {
+             error_setg(errp,
+-                       "Cannot enable KVM when guest CPUs has MTE enabled");
++                       "Cannot enable %s when guest CPUs has MTE enabled",
++                       current_accel_name());
+             return;
+         }
      }
- 
-     if (icount_enabled() && !tcg_enabled()) {
 -- 
 2.25.1
 
