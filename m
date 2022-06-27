@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CAD255B934
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:39:22 +0200 (CEST)
-Received: from localhost ([::1]:54078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC58955B94E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:56:45 +0200 (CEST)
+Received: from localhost ([::1]:36156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5m9J-0005wd-Ez
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:39:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41612)
+	id 1o5mQ8-0007eX-QH
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltO-0002Nn-5b
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:54 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:44576)
+ id 1o5ltO-0002Oz-Ty
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:56 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltM-0004sY-Gt
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:53 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- be14-20020a05600c1e8e00b003a04a458c54so1319529wmb.3
+ id 1o5ltN-0004rL-6P
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:54 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id n1so12308150wrg.12
  for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=qQ9xMY+fBwqOtzYbC4O5Fev27/fyhXhJftbNfnRNex0=;
- b=MFei5Lb2ysYgFDN2S+smEI1uvZB7d1NJlax1CdPZF2mlcKyvYTK47JjxfCgd00m2Pu
- lIMNpOUk+xBlDP8SKsWW6a2ZQ1vVbVKpJh+FP//azhN66T6rFZBGUrsGYkszZ7bG3QRD
- /pK3J6xmItjlzuqTfKskpYBnl9AQ02CoTFZEtNOhSJ9TCiCFYoVWKmQZHO9zHdiWV195
- 5cTNLVtYVpqw76woWMRFv+2aK6Tk9256/MnTOCzfBl0yci/iC68zKf6C1EkZUu41JNJK
- PGo7uyfDD0mbsJqa6YP3mCYLA7bs3WXNzsDM9uVCovjW0HbDwcmKmuM76arRdc9pEFOf
- BTiw==
+ bh=EeDydKWKnx270Po7PJkxSD0CsPsoZG7caWBOvCNY4hc=;
+ b=Mis8lEefL3isVnrEdh+atC4/6B0KMFMkT8AFQaQ82hs3O3OrkY4zLU1sJ0k67pFqT7
+ ReHPmrV8pkkOviY+msuG8eE11ivAcBYN2QsPtVZzEqVgQV4qZeuyD+0GIocjk8H8Uz0W
+ NqCvikyffk2InTsm0/Z41qsrdU5sNQI2IevPzcVfnozD5sqtT248ej0PaK/L5pXNAaWJ
+ DYQao+ldCa/z5pBzRNKSzPk8NZxL9H/AFRqidMaW7v4+fbBToUacQtOjJFtM1SdJX3L5
+ h8NGrwYmNGk7Va+TMVaDP4WU6+kxpOVyUh/dgQ8lmQA+PBXYGUShbb28puJy3oN4nQND
+ 45Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qQ9xMY+fBwqOtzYbC4O5Fev27/fyhXhJftbNfnRNex0=;
- b=hhnXehMfihg2X4ja54q62XYzod2lvwndRqw07FbbycK4L2hq2Fn4AVCHLfiFczJgQT
- 063ZR1saYNOf9E5BTGb0TaTI4tuZU7MQ7CqxbrbB+5VZM6KRLWB9iVXOdDOPrtAxuTFA
- uSjjKSMgCdYnXKrmVlS8OgTr8a2z8HIgyWvPNy9S1Rx3/2DNIw0D5UG8iMzQ3Y5k1xE/
- ntXOlHqSfLcwvKsx3Dj1+9s29OUvKTMJLG9tlEGjPjFNsygcKWCTjovKXdRKvSetGp0T
- S5LQxCmcUEzzDcArU+USI/Ulc1kZLtn3ySzRHNU8O1T5NuXJKcTOcPpjap/qqOjW00/h
- vvyw==
-X-Gm-Message-State: AJIora/PLPA1LwhIVidOGYjtWx9DVxQFrF00UcjrubBxBYn5lLDnib7r
- QCF4tnea3smJgBX0PGYet9s7XYkf3k/1Dw==
-X-Google-Smtp-Source: AGRyM1vSSn94kX8DI7ogrmygnnR7xtOeMIiBaj5fZgMk0Kq3QYn3MpCLinjJsTCw1/MVsWFMmd0ezw==
-X-Received: by 2002:a05:600c:3b04:b0:39c:951e:6813 with SMTP id
- m4-20020a05600c3b0400b0039c951e6813mr14439060wms.193.1656325371806; 
- Mon, 27 Jun 2022 03:22:51 -0700 (PDT)
+ bh=EeDydKWKnx270Po7PJkxSD0CsPsoZG7caWBOvCNY4hc=;
+ b=lra8peRJhnzEpT3YmIlBXVTtDY60UE5Bh8yADgtZONyPVMtWnp5GyUiVMD6PuPh0HT
+ E5VUpmHP9XU7r3EZCN8+4as18N/mT3rRsNNLGMisrE6/qakeDUOsbUYOS8df1aIk5Sg0
+ iGcaPKs2wTuNq32vmn4vky32mB7e6rpkRqzqKnCOB6OfbDa4UBgJ1OCouUs5dhh1wC1X
+ ZI08+fDh3Pzd4AOR8laDxfI9FGjEvy6o5th/mYxdme6y9QCKtAHLpJ3adb0TebOlQYtn
+ K2PhiI2Zqk2eDNWhTT7p8IklX7T+MHhJhFEg1YMtJd36qZshAHX/EQDOoqETiQBjx5PD
+ 4Aag==
+X-Gm-Message-State: AJIora9lNWBQhbB4pwatlnWNpwhyWSnj+YK6YcADVkDWjYMy5pGqunMg
+ gc4utTxkX3GmLAlEzpotowGsPPZO4TFCNw==
+X-Google-Smtp-Source: AGRyM1tFpXqeawAfpAjtHp1SMRJPNy+cuVBCCzF6fv3UUXaK9b4nWsK7YIHAT6NXKrTf4Pnu8BXrkw==
+X-Received: by 2002:a5d:69d2:0:b0:21b:8e3f:8557 with SMTP id
+ s18-20020a5d69d2000000b0021b8e3f8557mr11394348wrw.422.1656325372468; 
+ Mon, 27 Jun 2022 03:22:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  d11-20020a5d6dcb000000b0020e6ce4dabdsm9754335wrz.103.2022.06.27.03.22.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 03:22:51 -0700 (PDT)
+ Mon, 27 Jun 2022 03:22:52 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/25] target/arm: Move arm_cpu_*_finalize to internals.h
-Date: Mon, 27 Jun 2022 11:22:29 +0100
-Message-Id: <20220627102236.3097629-19-peter.maydell@linaro.org>
+Subject: [PULL 19/25] target/arm: Unexport aarch64_add_*_properties
+Date: Mon, 27 Jun 2022 11:22:30 +0100
+Message-Id: <20220627102236.3097629-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220627102236.3097629-1-peter.maydell@linaro.org>
 References: <20220627102236.3097629-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,72 +90,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Drop the aa32-only inline fallbacks,
-and just use a couple of ifdefs.
+These functions are not used outside cpu64.c,
+so make them static.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220620175235.60881-16-richard.henderson@linaro.org
+Message-id: 20220620175235.60881-17-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h       | 6 ------
- target/arm/internals.h | 3 +++
- target/arm/cpu.c       | 2 ++
- 3 files changed, 5 insertions(+), 6 deletions(-)
+ target/arm/cpu.h   | 3 ---
+ target/arm/cpu64.c | 4 ++--
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 2ce47f8d29f..675c49f93e0 100644
+index 675c49f93e0..d2b005f76c8 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -205,14 +205,8 @@ typedef struct {
+@@ -1111,8 +1111,6 @@ int aarch64_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
+ void aarch64_sve_change_el(CPUARMState *env, int old_el,
+                            int new_el, bool el0_a64);
+-void aarch64_add_sve_properties(Object *obj);
+-void aarch64_add_pauth_properties(Object *obj);
+ void arm_reset_sve_state(CPUARMState *env);
  
- #ifdef TARGET_AARCH64
- # define ARM_MAX_VQ    16
--void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp);
--void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
--void arm_cpu_lpa2_finalize(ARMCPU *cpu, Error **errp);
- #else
- # define ARM_MAX_VQ    1
--static inline void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp) { }
--static inline void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp) { }
--static inline void arm_cpu_lpa2_finalize(ARMCPU *cpu, Error **errp) { }
+ /*
+@@ -1144,7 +1142,6 @@ static inline void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq) { }
+ static inline void aarch64_sve_change_el(CPUARMState *env, int o,
+                                          int n, bool a)
+ { }
+-static inline void aarch64_add_sve_properties(Object *obj) { }
  #endif
  
- typedef struct ARMVectorReg {
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 6f94f3019db..aef568adf75 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1288,6 +1288,9 @@ int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg);
- int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg);
- int aarch64_fpu_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg);
- int aarch64_fpu_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg);
-+void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp);
-+void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
-+void arm_cpu_lpa2_finalize(ARMCPU *cpu, Error **errp);
+ void aarch64_sync_32_to_64(CPUARMState *env);
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index b15a0d398ad..6f6ee57a914 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -689,7 +689,7 @@ static void cpu_arm_get_default_vec_len(Object *obj, Visitor *v,
+ }
  #endif
  
- #ifdef CONFIG_USER_ONLY
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index d9c4a9f56d2..660fd8b8b90 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1422,6 +1422,7 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+-void aarch64_add_sve_properties(Object *obj)
++static void aarch64_add_sve_properties(Object *obj)
  {
-     Error *local_err = NULL;
+     ARMCPU *cpu = ARM_CPU(obj);
+     uint32_t vq;
+@@ -752,7 +752,7 @@ static Property arm_cpu_pauth_property =
+ static Property arm_cpu_pauth_impdef_property =
+     DEFINE_PROP_BOOL("pauth-impdef", ARMCPU, prop_pauth_impdef, false);
  
-+#ifdef TARGET_AARCH64
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         arm_cpu_sve_finalize(cpu, &local_err);
-         if (local_err != NULL) {
-@@ -1441,6 +1442,7 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
-             return;
-         }
-     }
-+#endif
+-void aarch64_add_pauth_properties(Object *obj)
++static void aarch64_add_pauth_properties(Object *obj)
+ {
+     ARMCPU *cpu = ARM_CPU(obj);
  
-     if (kvm_enabled()) {
-         kvm_arm_steal_time_finalize(cpu, &local_err);
 -- 
 2.25.1
 
