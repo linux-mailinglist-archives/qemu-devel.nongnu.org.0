@@ -2,52 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2016E55B98A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 14:33:55 +0200 (CEST)
-Received: from localhost ([::1]:50720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C5555B970
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 14:07:07 +0200 (CEST)
+Received: from localhost ([::1]:34572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5nw9-0004qS-Ss
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 08:33:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41544)
+	id 1o5nWE-0007aN-54
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 08:07:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.coutinho@eldorado.org.br>)
- id 1o5nd0-0006ZR-12; Mon, 27 Jun 2022 08:14:06 -0400
-Received: from [200.168.210.66] (port=26430 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.coutinho@eldorado.org.br>)
- id 1o5ncy-0001dl-8N; Mon, 27 Jun 2022 08:14:05 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 27 Jun 2022 08:56:23 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 0B5DF8001D4;
- Mon, 27 Jun 2022 08:56:23 -0300 (-03)
-From: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org,
- Lucas Coutinho <lucas.coutinho@eldorado.org.br>
-Subject: [PATCH RESEND 11/11] target/ppc: Implement slbiag
-Date: Mon, 27 Jun 2022 08:54:24 -0300
-Message-Id: <20220627115424.348073-12-lucas.coutinho@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220627115424.348073-1-lucas.coutinho@eldorado.org.br>
-References: <20220627115424.348073-1-lucas.coutinho@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o5nU7-0006bl-El
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 08:04:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45485)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o5nU3-0008TX-Pc
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 08:04:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656331490;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gtAqLXv5Hqs5D3sGfiJXoSL5x7P2cwpXTB1KoYyjqHs=;
+ b=ex7jhPAOBvXET9x+dyQq/8YFM61Y3VfKKqRUXeoNVF98LXZg6QBEAJYj1I9Q4qdKOUKifW
+ 50vxBa2EZVjd3mtroaYcf3liZTuOGHPJDigYET6/fwkE1FGo4KCjL5owMVNLmJxL+mKpgK
+ rdBgJowqxJmC/+WAmBUBSNVwlkzQaks=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-380-ncZpA1YAMAqZ4NCkI--ZjA-1; Mon, 27 Jun 2022 08:04:49 -0400
+X-MC-Unique: ncZpA1YAMAqZ4NCkI--ZjA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q6-20020adfea06000000b0021bad47edaeso1145762wrm.20
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 05:04:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=gtAqLXv5Hqs5D3sGfiJXoSL5x7P2cwpXTB1KoYyjqHs=;
+ b=1CX3B2XVKHHGEpXFgN0EZv7WnEEwtKINJb+tz/GGiIZ9uQjQyqi+626XVyPpQDURBm
+ AiAJVk3t4XPLHLQ+qz9/qu8mBFFxPpcttosHc5LI7kY/620KAmkSRPWpSj4zOtQawgDz
+ WE/DYb2LkvNe9dlAzNYzp24cAvUiTtJLOsJUcwic8LqZr2YevOO5IJeC7eoJvQd5tRXo
+ Wa+kTbTEjNB/Cy5fSx4wZuCiIELk5e4Q7Z4gdEfXrIO+SloI/LSAO3XJNpsxirkOoLqg
+ Z/fSOK5Y3qOFXh/3iu1VByLDx+QiPOsruPmEABjShCmc0cu8DAd1XrYDWV5+Q5UuZa2I
+ NIMQ==
+X-Gm-Message-State: AJIora8FevzjU0JqkrGCwc//BhVGz1GdPYUjNOED+dh6QVYrp/I9NsHE
+ cTa8QVzrfFHZqWlmIBAXuGJ7nLRvwtNB5yEh7n/ZfcjLlj4qXsQahmcNuFvF+0wnUA4KNZFs7uh
+ B5W6Wnc/jBBp1xGg=
+X-Received: by 2002:a05:6000:38f:b0:21b:aded:e791 with SMTP id
+ u15-20020a056000038f00b0021badede791mr11669357wrf.225.1656331488375; 
+ Mon, 27 Jun 2022 05:04:48 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vclRS4yKOYbXow/9LJ88+ey17viP15qqcekEDNpq5twi0TnNAbvRSXkzZecXc819MrM+p/8g==
+X-Received: by 2002:a05:6000:38f:b0:21b:aded:e791 with SMTP id
+ u15-20020a056000038f00b0021badede791mr11669321wrf.225.1656331488016; 
+ Mon, 27 Jun 2022 05:04:48 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ d18-20020adfe852000000b0021ba3d1f2a0sm10163198wrn.48.2022.06.27.05.04.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 05:04:47 -0700 (PDT)
+Date: Mon, 27 Jun 2022 13:04:45 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Fam Zheng <fam@euphon.net>, Hailiang Zhang <zhanghailiang@xfusion.com>
+Subject: Re: [PATCH v2 18/21] migration: remove the QEMUFileOps 'get_buffer'
+ callback
+Message-ID: <Yrmc3Tvj7GAwKYaf@work-vm>
+References: <20220620110205.1357829-1-berrange@redhat.com>
+ <20220620110205.1357829-19-berrange@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Jun 2022 11:56:23.0355 (UTC)
- FILETIME=[EC2D78B0:01D88A1C]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.coutinho@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220620110205.1357829-19-berrange@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,112 +106,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
----
- target/ppc/helper.h                          |  1 +
- target/ppc/insn32.decode                     |  4 +++
- target/ppc/mmu-hash64.c                      | 27 ++++++++++++++++++++
- target/ppc/translate/storage-ctrl-impl.c.inc | 14 ++++++++++
- 4 files changed, 46 insertions(+)
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> This directly implements the get_buffer logic using QIOChannel APIs.
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 649b2a9c58..2e7c61e117 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -695,6 +695,7 @@ DEF_HELPER_2(SLBMFEE, tl, env, tl)
- DEF_HELPER_2(SLBMFEV, tl, env, tl)
- DEF_HELPER_2(SLBFEE, tl, env, tl)
- DEF_HELPER_FLAGS_2(SLBIA, TCG_CALL_NO_RWG, void, env, i32)
-+DEF_HELPER_FLAGS_3(SLBIAG, TCG_CALL_NO_RWG, void, env, tl, i32)
- DEF_HELPER_FLAGS_2(SLBIE, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_FLAGS_2(SLBIEG, TCG_CALL_NO_RWG, void, env, tl)
- #endif
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index fb53bce0c8..e4aa336bbf 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -137,6 +137,9 @@
- &X_rb           rb
- @X_rb           ...... ..... ..... rb:5 .......... .            &X_rb
- 
-+&X_rs_l         rs l:bool
-+@X_rs_l         ...... rs:5 .... l:1 ..... .......... .         &X_rs_l
-+
- &X_uim5         xt uim:uint8_t
- @X_uim5         ...... ..... ..... uim:5 .......... .           &X_uim5 xt=%x_xt
- 
-@@ -822,6 +825,7 @@ SLBIE           011111 ----- ----- ..... 0110110010 -   @X_rb
- SLBIEG          011111 ..... ----- ..... 0111010010 -   @X_tb
- 
- SLBIA           011111 --... ----- ----- 0111110010 -   @X_ih
-+SLBIAG          011111 ..... ----. ----- 1101010010 -   @X_rs_l
- 
- SLBMTE          011111 ..... ----- ..... 0110010010 -   @X_tb
- 
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 7ec7a67a78..b9b31fd276 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -173,6 +173,33 @@ void helper_SLBIA(CPUPPCState *env, uint32_t ih)
-     }
- }
- 
-+#if defined(TARGET_PPC64)
-+void helper_SLBIAG(CPUPPCState *env, target_ulong rs, uint32_t l)
-+{
-+    PowerPCCPU *cpu = env_archcpu(env);
-+    int n;
-+
-+    /*
-+     * slbiag must always flush all TLB (which is equivalent to ERAT in ppc
-+     * architecture). Matching on SLB_ESID_V is not good enough, because slbmte
-+     * can overwrite a valid SLB without flushing its lookaside information.
-+     *
-+     * It would be possible to keep the TLB in synch with the SLB by flushing
-+     * when a valid entry is overwritten by slbmte, and therefore slbiag would
-+     * not have to flush unless it evicts a valid SLB entry. However it is
-+     * expected that slbmte is more common than slbiag, and slbiag is usually
-+     * going to evict valid SLB entries, so that tradeoff is unlikely to be a
-+     * good one.
-+     */
-+    env->tlb_need_flush |= TLB_NEED_LOCAL_FLUSH;
-+
-+    for (n = 0; n < cpu->hash64_opts->slb_size; n++) {
-+        ppc_slb_t *slb = &env->slb[n];
-+        slb->esid &= ~SLB_ESID_V;
-+    }
-+}
-+#endif
-+
- static void __helper_slbie(CPUPPCState *env, target_ulong addr,
-                            target_ulong global)
- {
-diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
-index c90cad10b4..6a4ba4089e 100644
---- a/target/ppc/translate/storage-ctrl-impl.c.inc
-+++ b/target/ppc/translate/storage-ctrl-impl.c.inc
-@@ -63,6 +63,20 @@ static bool trans_SLBIA(DisasContext *ctx, arg_SLBIA *a)
-     return true;
- }
- 
-+static bool trans_SLBIAG(DisasContext *ctx, arg_SLBIAG *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_SV(ctx);
-+
-+#if !defined(CONFIG_USER_ONLY) && defined(TARGET_PPC64)
-+    gen_helper_SLBIAG(cpu_env, cpu_gpr[a->rs], tcg_constant_i32(a->l));
-+#else
-+    qemu_build_not_reached();
-+#endif
-+    return true;
-+}
-+
- static bool trans_SLBMTE(DisasContext *ctx, arg_SLBMTE *a)
- {
-     REQUIRE_64BIT(ctx);
+Coverity is pointing out a fun deadcode path from this:
+
+> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> index 5eb8cf0e28..df438724cd 100644
+> --- a/migration/qemu-file.c
+> +++ b/migration/qemu-file.c
+> @@ -377,8 +377,22 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+>          return 0;
+>      }
+>  
+> -    len = f->ops->get_buffer(f->ioc, f->buf + pending, f->total_transferred,
+> -                             IO_BUF_SIZE - pending, &local_error);
+> +    do {
+> +        len = qio_channel_read(f->ioc,
+> +                               (char *)f->buf + pending,
+> +                               IO_BUF_SIZE - pending,
+> +                               &local_error);
+> +        if (len == QIO_CHANNEL_ERR_BLOCK) {
+> +            if (qemu_in_coroutine()) {
+> +                qio_channel_yield(f->ioc, G_IO_IN);
+> +            } else {
+> +                qio_channel_wait(f->ioc, G_IO_IN);
+> +            }
+> +        } else if (len < 0) {
+> +            len = EIO;
+> +        }
+> +    } while (len == QIO_CHANNEL_ERR_BLOCK);
+> +
+
+the next code is:
+    if (len > 0) {
+        f->buf_size += len;
+        f->total_transferred += len;      
+    } else if (len == 0) {
+        qemu_file_set_error_obj(f, -EIO, local_error);
+    } else if (len != -EAGAIN) {          
+        qemu_file_set_error_obj(f, len, local_error);
+    } else {
+****    error_free(local_error);          
+    }
+
+because of the while loop, we should never actually see
+len = QIO_CHANNEL_ERR_BLOCK out of the bottom; so the only
+error value we should have is -EIO;  so that error_free is 
+not hittable.
+
+Dave
+
+>      if (len > 0) {
+>          f->buf_size += len;
+>          f->total_transferred += len;
+> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+> index 4a3beedb5b..f7ed568894 100644
+> --- a/migration/qemu-file.h
+> +++ b/migration/qemu-file.h
+> @@ -29,14 +29,6 @@
+>  #include "exec/cpu-common.h"
+>  #include "io/channel.h"
+>  
+> -/* Read a chunk of data from a file at the given position.  The pos argument
+> - * can be ignored if the file is only be used for streaming.  The number of
+> - * bytes actually read should be returned.
+> - */
+> -typedef ssize_t (QEMUFileGetBufferFunc)(void *opaque, uint8_t *buf,
+> -                                        int64_t pos, size_t size,
+> -                                        Error **errp);
+> -
+>  /*
+>   * This function writes an iovec to file. The handler must write all
+>   * of the data or return a negative errno value.
+> @@ -77,7 +69,6 @@ typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
+>  typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
+>  
+>  typedef struct QEMUFileOps {
+> -    QEMUFileGetBufferFunc *get_buffer;
+>      QEMUFileWritevBufferFunc *writev_buffer;
+>      QEMURetPathFunc *get_return_path;
+>  } QEMUFileOps;
+> -- 
+> 2.36.1
+> 
 -- 
-2.25.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
