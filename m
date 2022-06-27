@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD6255B494
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 02:21:55 +0200 (CEST)
-Received: from localhost ([::1]:51110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9866555B4A8
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 02:25:24 +0200 (CEST)
+Received: from localhost ([::1]:58014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5cVm-0001Qv-Mi
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 20:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43084)
+	id 1o5cZ9-000686-NR
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 20:25:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o5cTu-0007aF-K7; Sun, 26 Jun 2022 20:20:00 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:32983)
+ id 1o5cTx-0007cC-23; Sun, 26 Jun 2022 20:20:01 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:38407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o5cTt-0000cC-25; Sun, 26 Jun 2022 20:19:58 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- i8-20020a17090aee8800b001ecc929d14dso9145995pjz.0; 
- Sun, 26 Jun 2022 17:19:55 -0700 (PDT)
+ id 1o5cTv-0000cT-JI; Sun, 26 Jun 2022 20:20:00 -0400
+Received: by mail-pg1-x529.google.com with SMTP id e63so7606141pgc.5;
+ Sun, 26 Jun 2022 17:19:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DhnRgF9lt7hzXqkLaTIFS4codVu1vrUHflYtD4rxjHs=;
- b=qPATO2SkgnvroTVv/bkyU1lfey30y9qzTs6pfM2osDxLNlUFdF/aukQ9+KiiiA0rLW
- gr7VfpYQE9VzBXdK0kZ4wNt5j/ydErxy8YKHrl7A8vNqqu2LajuYdjUj+BPEu2cS5ZP+
- T3P8DTZceJTVbCypLx+LVl1gKzsoxT3+LssEdKOr9TPbizffcOhQ0ip5EGfO3fktdled
- oqUM2NxIEm5b5k8x3TwMivCnJ+OWj3zs8+h2A0vYA1kYStiMiNTbs7+LOHnDj2Wfbn2h
- RJz7CxFsKIhxQqGvqbNHjqQaCU1o3ueASW8NMbk3VXVm3oMGb6kBXKlr4an/hZVM9gbX
- VpjA==
+ bh=aQauG1xPWeXI+3hfKGKaEx5Uo9MpNuqh+ACmDAc1ZzE=;
+ b=aWXAjIFRFoUn1lu8WZWdcitgCH70rSMTKMWc5IsK+JeYA02NIgA8xYNCYJmmzucPrV
+ JPKWXNlWXa67SlnQ8jL0CzfqxELvsZtcvb57pDLqn0d9vU5qfvV76toaAJm3IDiXDZ7W
+ BDfqvUnEP9PqgZmiwf+TJISXkMGHuhgEciYNiGHk+ZmirDQt/0tn8nOP1Ziu33G8MsqQ
+ df72ZTs91teS4nJIUTm+qCSQtPlzT8WH1JUFL6kCbVBBshwacxjArI5TtA8Dt7U5Nav+
+ lV/ZR1fc95B2/S7j/8oXyKAH5glc1juY+c7J0SQ30r0aNErKNZwR1dNC24bkthzfSUJl
+ H4uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DhnRgF9lt7hzXqkLaTIFS4codVu1vrUHflYtD4rxjHs=;
- b=MZqoxMNih4tjGrootu8nDcsus7yn/J5eQuA/3IuE7fU9k4MkJF1mmfs6s5mCehLjD+
- D6S2D3H9REMInowi6EezpgZmjiRTRd4iocU6fxKTU9zZm+YxGZA7CpqJckV293f0tC0z
- di32SDKtXxCHrMD8vREJd+UojI0QTYvn6ll4MA7U+iM4uJW6Hpc3aMRef7l4jfAmyEq8
- q/tSnwtUcZv8O0EIcntGupOytkSQyEB3keCDAyV17OW3SeVePdkKNaaOkxWrtTm/ahoq
- FGvfKxwg0jScY0wg3VwXO7OOW43Sdyq+N3U0KtVImgFz9ztPGDfiMy6wyj10qm7qi9Yf
- +SfQ==
-X-Gm-Message-State: AJIora/ZrFaBYbm/tXsCvmszGIfKwbyeBrzCPBkPzqleexOUlVGkgiRz
- xSOxmYyldrVrP78s5QyMlTcOL+dYgS7m/g==
-X-Google-Smtp-Source: AGRyM1t3yfUwLJJnbeZ1PeoDUf/dtLrpAyLFfUn2BhbldTKbtr2nB37TcPpu8TCyF/DebWihqQxUrA==
-X-Received: by 2002:a17:90b:17d2:b0:1ec:be52:56e2 with SMTP id
- me18-20020a17090b17d200b001ecbe5256e2mr17009057pjb.207.1656289194375; 
- Sun, 26 Jun 2022 17:19:54 -0700 (PDT)
+ bh=aQauG1xPWeXI+3hfKGKaEx5Uo9MpNuqh+ACmDAc1ZzE=;
+ b=35qSKQ20d/spti7xnycZq2BBR4nc1yl2u246ggbk41xMB9uo8nnCHZE8sXmS7N0c0N
+ cD9r0LwKnoM9y1h5gwCL9PI8Mddyc5y+2Gtt9BBiHz61XQU5J1TcCtrqDk0QTXZ0YPtb
+ 9DNaaL2fpa94ZPGNluQyXJ1vBvOYAEaoknRqx59g+cC2RO/l1CXyU/ZOygZngRTPaXBq
+ cQwcO5CUskiIKXPbBqhid2vVouuWXjMRUUN7pGBKmNbqWK3o9KZQ/A7N+1pg9aIm/zE4
+ JyJ5rAMrN9CNWz1JtpGDXVTl9WppM02UaPQTGP1omlKARjec0eunv4PrP7ZRJKTziEPU
+ t6Fg==
+X-Gm-Message-State: AJIora/gkI6qYCKqxW71cINCHyRHl+mgug6NiGmB8wISg7ZM2o4GEINW
+ cYCkiwOxKqabeqos7H6Ec2kBHkGul8fxWQ==
+X-Google-Smtp-Source: AGRyM1ug3HIg7eEB+p9y1Swwh5+5wajVhKElOIz86ty7UaREXqjw5gmd3YxxE6YK68d3IHEMbU0GPA==
+X-Received: by 2002:a63:454c:0:b0:40d:ffa7:9dc4 with SMTP id
+ u12-20020a63454c000000b0040dffa79dc4mr1596506pgk.500.1656289197881; 
+ Sun, 26 Jun 2022 17:19:57 -0700 (PDT)
 Received: from fedora.. ([106.84.130.34]) by smtp.gmail.com with ESMTPSA id
- e11-20020a6558cb000000b00408b89e4282sm5715294pgu.47.2022.06.26.17.19.50
+ e11-20020a6558cb000000b00408b89e4282sm5715294pgu.47.2022.06.26.17.19.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jun 2022 17:19:54 -0700 (PDT)
+ Sun, 26 Jun 2022 17:19:57 -0700 (PDT)
 From: Sam Li <faithilikerun@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: hare@suse.de, Hanna Reitz <hreitz@redhat.com>, dmitry.fomichev@wdc.com,
  Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  Stefan Hajnoczi <stefanha@redhat.com>, damien.lemoal@opensource.wdc.com,
  qemu-block@nongnu.org, Sam Li <faithilikerun@gmail.com>
-Subject: [RFC v3 4/5] file-posix: introduce get_sysfs_str_val for device zoned
- model.
-Date: Mon, 27 Jun 2022 08:19:16 +0800
-Message-Id: <20220627001917.9417-5-faithilikerun@gmail.com>
+Subject: [RFC v3 5/5] qemu-iotests: add zone operation tests.
+Date: Mon, 27 Jun 2022 08:19:17 +0800
+Message-Id: <20220627001917.9417-6-faithilikerun@gmail.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220627001917.9417-1-faithilikerun@gmail.com>
 References: <20220627001917.9417-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,96 +89,65 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ---
- block/file-posix.c           | 60 ++++++++++++++++++++++++++++++++++++
- include/block/block-common.h |  4 +--
- 2 files changed, 62 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/tests/zoned.sh | 49 +++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/zoned.sh
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 73c2cdfbca..74c0245e0f 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1277,6 +1277,66 @@ out:
- #endif
- }
- 
-+/*
-+ * Convert the zoned attribute file in sysfs to internal value.
-+ */
-+static zone_model get_sysfs_str_val(int fd, struct stat *st) {
-+#ifdef CONFIG_LINUX
-+    char buf[32];
-+    char *sysfspath = NULL;
-+    int ret;
-+    int sysfd = -1;
+diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-iotests/tests/zoned.sh
+new file mode 100755
+index 0000000000..262c0b5427
+--- /dev/null
++++ b/tests/qemu-iotests/tests/zoned.sh
+@@ -0,0 +1,49 @@
++#!/usr/bin/env bash
++#
++# Test zone management operations.
++#
 +
-+    if (S_ISCHR(st->st_mode)) {
-+        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) == 0) {
-+            return ret;
-+        }
-+        return -ENOTSUP;
-+    }
++QEMU_IO="build/qemu-io"
++IMG="--image-opts driver=zoned_host_device,filename=/dev/nullb0"
++QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
 +
-+    if (!S_ISBLK(st->st_mode)) {
-+        return -ENOTSUP;
-+    }
++echo "Testing a null_blk device"
++echo "Simple cases: if the operations work"
++sudo modprobe null_blk nr_devices=1 zoned=1
++# hidden issues:
++# 1. memory allocation error of "unaligned tcache chunk detected" when the nr_zone=1 in zone report
++# 2. qemu-io: after report 10 zones, the program failed at double free error and exited.
++echo "report the first zone"
++sudo $QEMU_IO $IMG -c "zone_report 0 0 1"
++echo "report: the first 10 zones"
++sudo $QEMU_IO $IMG -c "zone_report 0 0 10"
 +
-+    sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/zoned",
-+                                major(st->st_rdev), minor(st->st_rdev));
-+    sysfd = open(sysfspath, O_RDONLY);
-+    if (sysfd == -1) {
-+        ret = -errno;
-+        goto out;
-+    }
-+    do {
-+        ret = read(sysfd, buf, sizeof(buf) - 1);
-+    } while (ret == -1 && errno == EINTR);
-+    if (ret < 0) {
-+        ret = -errno;
-+        goto out;
-+    } else if (ret == 0) {
-+        ret = -EIO;
-+        goto out;
-+    }
-+    buf[ret] = 0;
++echo "open the first zone"
++sudo $QEMU_IO $IMG -c "zone_open 0 0x80000"
++echo "report after:"
++sudo $QEMU_IO $IMG -c "zone_report 0 0 1"
++echo "open the last zone"
++sudo $QEMU_IO $IMG -c "zone_open 0x3e70000000 0x80000"
++echo "report after:"
++sudo $QEMU_IO $IMG -c "zone_report 0x3e70000000 0 2"
 +
-+    /* The file is ended with '\n' */
-+    if (strcmp(buf, "host-managed\n") == 0) {
-+        return BLK_Z_HM;
-+    } else if (strcmp(buf, "host-aware\n") == 0) {
-+        return BLK_Z_HA;
-+    } else {
-+        return -ENOTSUP;
-+    }
++echo "close the first zone"
++sudo $QEMU_IO $IMG -c "zone_close 0 0x80000"
++echo "report after:"
++sudo $QEMU_IO $IMG -c "zone_report 0 0 1"
++echo "close the last zone"
++sudo $QEMU_IO $IMG -c "zone_close 0x3e70000000 0x80000"
++echo "report after:"
++sudo $QEMU_IO $IMG -c "zone_report 0x3e70000000 0 2"
 +
-+out:
-+    if (sysfd != -1) {
-+        close(sysfd);
-+    }
-+    g_free(sysfspath);
-+    return ret;
-+#else
-+    return -ENOTSUP;
-+#endif
-+}
 +
- static int hdev_get_max_segments(int fd, struct stat *st) {
-     int ret;
-     ret = get_sysfs_long_val(fd, st, "max_segments");
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index 78cddeeda5..35e00afe8e 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -56,8 +56,8 @@ typedef enum zone_op {
- } zone_op;
- 
- typedef enum zone_model {
--    BLK_Z_HM,
--    BLK_Z_HA,
-+    BLK_Z_HM = 0x1,
-+    BLK_Z_HA = 0x2,
- } zone_model;
- 
- typedef enum BlkZoneCondition {
++echo "reset the second zone"
++sudo $QEMU_IO $IMG -c "zone_reset 0x80000 0x80000"
++echo "After resetting a zone:"
++sudo $QEMU_IO $IMG -c "zone_report 0x80000 0 5"
++
++# success, all done
++sudo rmmod null_blk
++echo "*** done"
++#rm -f $seq.full
++status=0
 -- 
 2.35.3
 
