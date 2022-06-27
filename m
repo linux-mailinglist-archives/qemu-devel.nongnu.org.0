@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E717355BB18
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 18:22:52 +0200 (CEST)
-Received: from localhost ([::1]:39362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 209EF55BB1B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 18:24:27 +0200 (CEST)
+Received: from localhost ([::1]:45810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5rVj-0000BD-Ix
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 12:22:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46074)
+	id 1o5rXG-0004cx-7Z
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 12:24:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
- id 1o5rAn-0007lT-Vk
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o5rAn-0007lR-2M
  for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:01:14 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:44028)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
- id 1o5rAl-0007Z1-To
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:01:13 -0400
-Received: by mail-ej1-x634.google.com with SMTP id u15so20107687ejc.10
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 09:01:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0R3aDNwisYBknlWnG8tojf14cv7RBUE7yB0t+qLY9r0=;
- b=NMfdWs1bKzJ9yxuSG8TKMVTTmjdsR1i8ICUOitcG0UZbLSTp0cuIUdnMkKT+AO1Lzy
- OufSq4fDpRVNjSj2zWoKwE4oWhfKBiupSDEmG9H7Q+YuHuvHh1hkYN3v15uNpAupRESP
- pO812GtA4bA5mEy7T7oI2QNX6pFKQvXOfPNiboWHr5qbRTR1fLg9y0yKT0GN9IYQYMk+
- uLYfpjtD+GDyUJx6bAQbgymMj0P4ohjfFrKGwH/ORaNgifBFQADxMqMP1YrK2/x+P2mz
- gs9MJN8ziDKexWD0E04sOqlpK/TyYLMZE/m7fJnDfkSWvGdtukcrNh6hLmswQMA6HgIB
- dJmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0R3aDNwisYBknlWnG8tojf14cv7RBUE7yB0t+qLY9r0=;
- b=0KFIdiv2VXuEwG0MERPD/cGjWB82b1t2XQ3PuWwz7tEQcBRt4bK14FhxMCURk4Qpru
- 3qsMrrxnaQrle2Ktkp9pwR6oA+aILdGF2IWMd2Dmyo6TmUDwg2kX/L4CEDikum8WEAk6
- 74ou7vY9Oidy+DIYDKRZzQdqqypt7DF403blyw+ZHGAwkkIISIuyFCil6szdtywROmN9
- 75oCTzuZy5oHFdcE2JzJnglx+vFMHF2vd11hr8sUM53i75ttYBF1tDvESmW4J1Mne3fL
- dzPOJEMRMkhfcaMSeNt6cdBgcZXyiGlu2AZwtOmW4chSc7TgSiEdwf0pFXsXYhEM/kYU
- QPiA==
-X-Gm-Message-State: AJIora9dPzZcWc6fODYubIzxOvpWw3L0y45rl1aJrRfxVian8hV3XjO5
- pVnqsgmJQO+vMUhf+BnbMIQ32WL0/AkA7BLzcgHPXw==
-X-Google-Smtp-Source: AGRyM1uSUOHLh2H/xAdVcR3rl5z7MYdjbNDYA6l0C4TeBBqv2g2aaWiIVIDvAUeUF8cMwR9y/uFxY5IzG5Fb+VIwBMA=
-X-Received: by 2002:a17:907:3e03:b0:722:e694:438 with SMTP id
- hp3-20020a1709073e0300b00722e6940438mr13697831ejc.755.1656345669615; Mon, 27
- Jun 2022 09:01:09 -0700 (PDT)
+Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:45737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o5rAg-0007Xs-Tf
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:01:12 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.217])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 27B8B25708;
+ Mon, 27 Jun 2022 16:01:05 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 27 Jun
+ 2022 18:01:03 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R00618e0e2dc-2dec-4167-b6fb-82e72a910f47,
+ 659C98CE65B422D4D127A36693B7EAD6442F0B22) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <19da941d-8717-cecf-371f-7c0b6269635a@kaod.org>
+Date: Mon, 27 Jun 2022 18:01:03 +0200
 MIME-Version: 1.0
-References: <20220627094029.1379700-1-rpathak@ventanamicro.com>
- <CAEUhbmUcyDNN5APO4yXALposd8Vt6f5RV=t4_VfPL6bHnGkNUQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmUcyDNN5APO4yXALposd8Vt6f5RV=t4_VfPL6bHnGkNUQ@mail.gmail.com>
-From: Rahul Pathak <rpathak@ventanamicro.com>
-Date: Mon, 27 Jun 2022 21:30:33 +0530
-Message-ID: <CA+Oz1=Y15iyi85UG+MmBahT-q6pvbt31N5fY7+J5pjrJaex-hg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: fix user-mode build issue because mhartid
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <apatel@ventanamicro.com>, 
- Rahul Pathak <rpathakmailbox@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=rpathak@ventanamicro.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 3/7] hw/i2c: pmbus: Page #255 is valid page for read
+ requests.
+Content-Language: en-US
+To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Titus Rwantare <titusr@google.com>, Andrew
+ Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Patrick Venture
+ <venture@google.com>, Hao Wu <wuhaotsh@google.com>
+CC: Graeme Gregory <quic_ggregory@quicinc.com>, Maheswara Kurapati
+ <quic_mkurapat@quicinc.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220627154703.148943-1-quic_jaehyoo@quicinc.com>
+ <20220627154703.148943-4-quic_jaehyoo@quicinc.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220627154703.148943-4-quic_jaehyoo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: d5a47e17-6971-4716-bd9f-0ff033b0b28a
+X-Ovh-Tracer-Id: 15294505813468679157
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeghedgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevffeigedttddvgfetjeehvdegkeetleeigeffgeduleevfeefgedvvdeftdekvdenucffohhmrghinhepmhgrgihimhhinhhtvghgrhgrthgvugdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
+ helo=7.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,59 +79,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin, Victor,
-
-Going to send the v2 by fixing these
-silly mistakes.
-
-Thanks
-Rahul
-
-On Mon, Jun 27, 2022 at 7:59 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Mon, Jun 27, 2022 at 5:40 PM Rahul Pathak <rpathak@ventanamicro.com> wrote:
-> >
-> > mhartid csr is not available in user-mode code path and
-> > user-mode build fails because of its reference in
-> > riscv_cpu_realize function
-> >
->
-> Normally a "Fixes" tag should be added, but see below:
->
-> > Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
-> > ---
-> >  target/riscv/cpu.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 0a794ef622..03f23d4b6d 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -643,9 +643,15 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-> >          if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
-> >              (env->priv_ver < isa_edata_arr[i].min_version)) {
-> >              isa_ext_update_enabled(cpu, &isa_edata_arr[i], false);
-> > +#ifndef CONFIG_USER_ONLY
-> >              warn_report("disabling %s extension for hart 0x%lx because "
-> >                          "privilege spec version does not match",
-> >                          isa_edata_arr[i].name, (unsigned long)env->mhartid);
->
-> I can't find this in the mainline codes, so I assume this code exists
-> in Alistair's tree?
->
-> If that, please indicate in the commit message that this patch should
-> be squashed into the offending commit in Alistair's tree.
->
-> > +#else
-> > +            warn_report("disabling %s extension for hart 0x%lx because "
-> > +                        "privilege spec version does not match",
-> > +                        isa_edata_arr[i].name);
-> > +#endif
->
-> Regards,
-> Bin
+On 6/27/22 17:46, Jae Hyun Yoo wrote:
+> From: Maheswara Kurapati <quic_mkurapat@quicinc.com>
+> 
+> Current implementation of the pmbus core driver treats the read request
+> for page 255 as invalid request and sets the invalid command bit (bit 7)
+> in the STATUS_CML register. As per the PMBus specification it is a valid
+> request.
+> 
+> Refer to the PMBus specification, revision 1.3.1, section 11.10 PAGE,
+> on the page 58:
+>    "Setting the PAGE to FFh means that all subsequent comands are to be
+>     applied to all outputs.
+> 
+>     Some commands, such as READ_TEMPERATURE, may use a common sensor but
+>     be available on all pages of a device. Such implementations are the
+>     decision of each device manufacturer or are specified in a PMBus
+>     Application Profile. Consult the manufacturer's documents or the
+>     Application Profile Specification as needed."
+> 
+> For e.g.,
+> The VOUT_MODE is a valid command for page 255 for maxim 31785 device.
+> refer to Table 1. PMBus Command Codes on page 14 in the datasheet.
+> https://datasheets.maximintegrated.com/en/ds/MAX31785.pdf
+> 
+> Fixes: 38870253f1d1 ("hw/i2c: pmbus: fix error returns and guard against out of range accesses")
+> 
+> Signed-off-by: Maheswara Kurapati <quic_mkurapat@quicinc.com>
+> Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+> Reviewed-by: Titus Rwantare <titusr@google.com>
 
 
 
---
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
+
+> ---
+> Changes in v2:
+> * Fixed comment for a case of PB_ALL_PAGES. (Titus)
+> * Removed an error log printing when it handles PB_ALL_PAGES. (Jae)
+> 
+>   hw/i2c/pmbus_device.c | 6 +-----
+>   1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+> index 62885fa6a15e..749a33af827b 100644
+> --- a/hw/i2c/pmbus_device.c
+> +++ b/hw/i2c/pmbus_device.c
+> @@ -284,14 +284,10 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
+>   
+>       /*
+>        * Reading from all pages will return the value from page 0,
+> -     * this is unspecified behaviour in general.
+> +     * means that all subsequent commands are to be applied to all output.
+>        */
+>       if (pmdev->page == PB_ALL_PAGES) {
+>           index = 0;
+> -        qemu_log_mask(LOG_GUEST_ERROR,
+> -                      "%s: tried to read from all pages\n",
+> -                      __func__);
+> -        pmbus_cml_error(pmdev);
+>       } else if (pmdev->page > pmdev->num_pages - 1) {
+>           qemu_log_mask(LOG_GUEST_ERROR,
+>                         "%s: page %d is out of range\n",
+
 
