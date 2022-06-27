@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0895855B7B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 07:22:07 +0200 (CEST)
-Received: from localhost ([::1]:45676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE1A55B7BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 07:27:09 +0200 (CEST)
+Received: from localhost ([::1]:48142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5hCH-00027h-PX
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 01:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56206)
+	id 1o5hHA-0003nG-8Q
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 01:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o5hB7-0001Cx-U6; Mon, 27 Jun 2022 01:20:53 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:43862)
+ id 1o5hFk-00035c-Oq
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 01:25:41 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o5hB5-0006cw-UF; Mon, 27 Jun 2022 01:20:53 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id 136so2818135pfy.10;
- Sun, 26 Jun 2022 22:20:51 -0700 (PDT)
+ id 1o5hFf-0007DZ-0Z
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 01:25:39 -0400
+Received: by mail-pg1-x533.google.com with SMTP id q140so8085903pgq.6
+ for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 22:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pEUrN6F9zmhBj6NvAqH0fsLfDQ3evohGGYwEvBpMrPE=;
- b=JSN95Q7k66vBwBQV1aYzG9Hw5WWinM5INr3cj6H+yV+BZhJvcWgQ+z6TxDTp69EA79
- vtUdsULqhvrBZ/RZnZBKne2Or++OwNEURFAvI3hdeE5Aga8r5xxZ86SSAKpCQn2FFWfO
- vvi6cvXm6JGInEK43xsKRgGDYRsDhXdGjxJRHqxbB+1XDXTKj2shnMmfG2nTt7Z/YYYy
- dSXpQgCYxKfOKqO67fnbqp2Ny3GQo2Dt/jhJD6sQnELcPS/Jl1UeOEVJMCRBxwLRkGWs
- oZia559tCZz7c7LvjNV0Pbe3atxHDFiKUsK20RHKQ2eVdp+RyKiiwN88/3J/4+JPXS8v
- h2bw==
+ :cc; bh=V3MA+xy8NjDefcdphVEfP3segevXjm2DfA82pGauQtA=;
+ b=QkK03AGGZR8TEDSREoPbNNRogl5CadQ9hb7+Pn6C3wolRXbxfL495v6rzGihjmKjvK
+ jGILM4Axf9u2AtfVlfoiLAdQPS8A1KvfK7fVBy/FxV3NNLj+Uo668zeq9ko+IcXVbDJ5
+ T+P7lKgJhtPD9BIvRkiVojM6m4D++0aBObT7BiMzhrgAR2imOufialjfiuXLUZMDHGQ3
+ y8cVpLa1O5o41jxnjW8Ct2aoDSIUUsfskmJhhKi99bxF/tnkU/oyIOmNFVb1FrS/0DIX
+ qp9k2bkM2v7CPiGrX0ZLG4pIX1M+LV3B3RFQVzj4l7fGB/Dut93bY0NkGd3V26qLdahQ
+ 7p6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pEUrN6F9zmhBj6NvAqH0fsLfDQ3evohGGYwEvBpMrPE=;
- b=oB9ryvlzoCzFJPY9mMhfFOHGJWBnvSPVJJqsUd1BZycJMXwAvl1L5qe/SwYeS/GIEK
- m+NU3wJPyCyR0dVVKrBNktdNA+459hVHDPtLOxWiaSe+Wtrvlw6VYBiH8LjfecwN1nqu
- 91TmJJaYddiGaMqC3EAlIPqAXqksz1eOCBowMVwxuIbAwq5Do1ZKNRHw+eJBm1S18PeK
- 2aCsCF1ETnmfM1CNrsmvNfdfyxkAxIbMpzoXqmfCGvh1j+Hj0aC0rxVL40RXRbI5P2FV
- 0dUbOABOoSGeijk+l7zwdTGrUrv2p//l0zb/iWbYQez0hBAnoe1ohmwAHc/GGfWzWix4
- miEg==
-X-Gm-Message-State: AJIora9sC4UmhZYNOdvYiHMfS/+mlJBlZuzm/Z4cPo3b8wzO77zKTUuH
- kAD/rSQq5iNbKkvNGXZBsQRy4P3U4t1IkLTUVPg=
-X-Google-Smtp-Source: AGRyM1vH/PpicgZdu8kfuj3WG3GmMrUiAhu/jgoGW7hF9HqZwnJLsioQ1DQZlkNI6vm1gTMRlaMZnC26eFAOaXpJUoA=
-X-Received: by 2002:a65:6b8a:0:b0:3db:7dc5:fec2 with SMTP id
- d10-20020a656b8a000000b003db7dc5fec2mr11035524pgw.223.1656307250067; Sun, 26
- Jun 2022 22:20:50 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=V3MA+xy8NjDefcdphVEfP3segevXjm2DfA82pGauQtA=;
+ b=gPbiQ2Xs2PeTgQ7oKqIgJRjqz86gVM6jTNiR5If8PfnPneg9avYh4AHn0u4FmNGOe2
+ C2wua4msOPUNs/wgi8haW37+8wh76FhPwM9olRjg3XdKMfES1kTb2NAp/joT6FpuPyUt
+ BP0sJYn7b5qPCBm5xOQNAI99nNT3anhQzc4/gsNfJcCsv+/ng4nM5lKr8D3Gssp6xW36
+ KKYna+7lPANI9SSOlDblhkFUGfECIHgPXQ/CoQWT0B5Y3QkxeQ/E2cxcB/79PXuUR6dy
+ uFLKrp9zANlZRdtJNQs81guj8cuSXp4uODrCYAndi5RS1hJVLK7WZ6yG5oV5cbwfkNog
+ WZbA==
+X-Gm-Message-State: AJIora+IfWHGkckniOnXdOfD/Ac8FdlOL1a5jUwaPqdKmLorkoSByuCe
+ vMWbH7M+XMj6SxNFLkRI6eqKQwSzCmh+3sFDXBnPfrnMaVo=
+X-Google-Smtp-Source: AGRyM1uPFTf7/p4w6T7pu9UV7NPfx7L7BGoDnY+F329m3XxxzpqN0Ci2nx/3q4ULhTRDWLAl7Aj3frDtDNcx4W+6VQA=
+X-Received: by 2002:a63:4d5:0:b0:40d:77fd:cff8 with SMTP id
+ 204-20020a6304d5000000b0040d77fdcff8mr11143349pge.361.1656307526773; Sun, 26
+ Jun 2022 22:25:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220623152907.1606964-1-christoph.muellner@vrull.eu>
-In-Reply-To: <20220623152907.1606964-1-christoph.muellner@vrull.eu>
+References: <20220625223458.1273408-1-simon.sapin@exyr.org>
+In-Reply-To: <20220625223458.1273408-1-simon.sapin@exyr.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 27 Jun 2022 15:20:23 +1000
-Message-ID: <CAKmqyKN2A1kMNdNpDg0wy+1uC3cz0o7sc0SWt6m01jo4DZe6xQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3] RISC-V: Add Zawrs ISA extension support
-To: Christoph Muellner <christoph.muellner@vrull.eu>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+Date: Mon, 27 Jun 2022 15:25:00 +1000
+Message-ID: <CAKmqyKOtnwVJE1+Gmkb+qNjhzqm4roxAf1e-16Mrk1-_ZXuaXQ@mail.gmail.com>
+Subject: Re: [PATCH] Add some documentation for "dtb" devices tree blobs
+To: Simon Sapin <simon.sapin@exyr.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Philipp Tomsich <philipp.tomsich@vrull.eu>, 
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
- Aaron Durbin <adurbin@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Richard Henderson <richard.henderson@linaro.org>
+ Bin Meng <bin.meng@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=alistair23@gmail.com; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -72,7 +70,8 @@ X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,184 +87,216 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 24, 2022 at 1:31 AM Christoph Muellner
-<christoph.muellner@vrull.eu> wrote:
+On Sun, Jun 26, 2022 at 8:40 AM Simon Sapin <simon.sapin@exyr.org> wrote:
 >
-> This patch adds support for the Zawrs ISA extension.
-> Given the current (incomplete) implementation of reservation sets
-> there seems to be no way to provide a full emulation of the WRS
-> instruction (wake on reservation set invalidation or timeout or
-> interrupt). Therefore, we just pretend that an interrupt occured,
-> exit the execution loop and finally continue execution.
->
-> The specification can be found here:
-> https://github.com/riscv/riscv-zawrs/blob/main/zawrs.adoc
->
-> Note, that the Zawrs extension is not frozen or ratified yet.
-> Therefore this patch is an RFC and not intended to get merged.
->
-> Changes since v2:
-> * Adjustments according to a specification change
-> * Inline REQUIRE_ZAWRS() since it has only one user
->
-> Changes since v1:
-> * Adding zawrs to the ISA string that is passed to the kernel
->
-> Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
-> ---
->  target/riscv/cpu.c                          |  2 +
->  target/riscv/cpu.h                          |  1 +
->  target/riscv/insn32.decode                  |  4 ++
->  target/riscv/insn_trans/trans_rvzawrs.c.inc | 54 +++++++++++++++++++++
->  target/riscv/translate.c                    |  1 +
->  5 files changed, 62 insertions(+)
->  create mode 100644 target/riscv/insn_trans/trans_rvzawrs.c.inc
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 05e6521351..6cb00fadff 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -882,6 +882,7 @@ static Property riscv_cpu_extensions[] =3D {
->      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> +    DEFINE_PROP_BOOL("zawrs", RISCVCPU, cfg.ext_zawrs, true),
+> Signed-off-by: Simon Sapin <simon.sapin@exyr.org>
 
-Would this be enabled by default?
-
->      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
->      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-> @@ -1075,6 +1076,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, cha=
-r **isa_str, int max_str_len)
->          ISA_EDATA_ENTRY(zicsr, ext_icsr),
->          ISA_EDATA_ENTRY(zifencei, ext_ifencei),
->          ISA_EDATA_ENTRY(zmmul, ext_zmmul),
-> +        ISA_EDATA_ENTRY(zawrs, ext_zawrs),
->          ISA_EDATA_ENTRY(zfh, ext_zfh),
->          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
->          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 7d6397acdf..a22bc0fa09 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -380,6 +380,7 @@ struct RISCVCPUConfig {
->      bool ext_h;
->      bool ext_j;
->      bool ext_v;
-> +    bool ext_zawrs;
->      bool ext_zba;
->      bool ext_zbb;
->      bool ext_zbc;
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 4033565393..513ea227fe 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -711,6 +711,10 @@ vsetvli         0 ........... ..... 111 ..... 101011=
-1  @r2_zimm11
->  vsetivli        11 .......... ..... 111 ..... 1010111  @r2_zimm10
->  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
->
-> +# *** Zawrs Standard Extension ***
-> +wrs_nto    000000001101 00000 000 00000 1110011
-> +wrs_sto    000000011101 00000 000 00000 1110011
-> +
->  # *** RV32 Zba Standard Extension ***
->  sh1add     0010000 .......... 010 ..... 0110011 @r
->  sh2add     0010000 .......... 100 ..... 0110011 @r
-> diff --git a/target/riscv/insn_trans/trans_rvzawrs.c.inc b/target/riscv/i=
-nsn_trans/trans_rvzawrs.c.inc
-> new file mode 100644
-> index 0000000000..d0df56378e
-> --- /dev/null
-> +++ b/target/riscv/insn_trans/trans_rvzawrs.c.inc
-> @@ -0,0 +1,54 @@
-> +/*
-> + * RISC-V translation routines for the RISC-V Zawrs Extension.
-> + *
-> + * Copyright (c) 2022 Christoph Muellner, christoph.muellner@vrull.io
-> + *
-> + * This program is free software; you can redistribute it and/or modify =
-it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOU=
-T
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License alo=
-ng with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +static bool trans_wrs(DisasContext *ctx)
-> +{
-> +    if (!ctx->cfg_ptr->ext_zawrs) {
-> +        return false;
-> +    }
-> +
-> +    /*
-> +     * We may continue if one or more of the following conditions are me=
-t:
-> +     * a) The reservation set is invalid
-
-Shouldn't this be valid?
-
-> +     * b) If WRS.STO, a short time since start of stall has elapsed
-> +     * c) An interrupt is observed
-> +     *
-> +     * A reservation set can be invalidated by any store to a reserved
-> +     * memory location. However, that's currently not implemented in QEM=
-U.
-> +     * So let's just exit the CPU loop and pretend that an interrupt occ=
-ured.
-
-We don't actually pretend an interrupt occurs though. It seems like
-it's valid to terminate the stall early, so we should just be able to
-do that.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
-> +     */
+> ---
+>  docs/specs/device-trees.rst                | 57 ++++++++++++++++++++++
+>  docs/specs/index.rst                       |  1 +
+>  docs/system/arm/virt.rst                   |  5 +-
+>  docs/system/arm/xlnx-versal-virt.rst       |  3 +-
+>  docs/system/ppc/ppce500.rst                |  3 +-
+>  docs/system/riscv/microchip-icicle-kit.rst |  3 +-
+>  docs/system/riscv/sifive_u.rst             |  3 +-
+>  docs/system/riscv/virt.rst                 |  3 +-
+>  qemu-options.hx                            |  5 ++
+>  9 files changed, 77 insertions(+), 6 deletions(-)
+>  create mode 100644 docs/specs/device-trees.rst
+>
+> diff --git docs/specs/device-trees.rst docs/specs/device-trees.rst
+> new file mode 100644
+> index 0000000000..8160342124
+> --- /dev/null
+> +++ docs/specs/device-trees.rst
+> @@ -0,0 +1,57 @@
+> +============
+> +Device Trees
+> +============
 > +
-> +    /* Clear the load reservation  (if any).  */
-> +    tcg_gen_movi_tl(load_res, -1);
+> +On some targets, guests can find out what devices are emulated and how to access them
+> +through a *Device Tree Blob* (dtb), also called *Flattened Device Tree* (fdt).
+> +The dtb can be passed by the user through the ``-dtb file`` command-line options,
+> +or automatically generated by QEMU.
 > +
-> +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-> +    tcg_gen_exit_tb(NULL, 0);
-> +    ctx->base.is_jmp =3D DISAS_NORETURN;
+> +Host: dumping the dtb
+> +=====================
 > +
-> +    return true;
-> +}
+> +The (possibly generated) dtb can be written to a file with
+> +the ``dumpdtb`` property of the ``machine`` command-line option.
+> +Then `dtc <Device Tree Compiler_>`_ can convert it to Device Tree Source text "dts" format
+> +For example::
 > +
-> +#define GEN_TRANS_WRS(insn)                                            \
-> +static bool trans_ ## insn(DisasContext *ctx, arg_ ## insn *a)         \
-> +{                                                                      \
-> +       (void)a;                                                        \
-> +       return trans_wrs(ctx);                                          \
-> +}
+> +    qemu-system-riscv32 -machine virt,dumpdtb=rv32-virt.dtb
+> +    dtc -q rv32-virt.dtb -o rv32-virt.dts
+> +    head -n 7 rv32-virt.dts
 > +
-> +GEN_TRANS_WRS(wrs_nto)
-> +GEN_TRANS_WRS(wrs_sto)
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index b151c20674..a4f07d5166 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -1007,6 +1007,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase,=
- target_ulong pc)
->  #include "insn_trans/trans_rvh.c.inc"
->  #include "insn_trans/trans_rvv.c.inc"
->  #include "insn_trans/trans_rvb.c.inc"
-> +#include "insn_trans/trans_rvzawrs.c.inc"
->  #include "insn_trans/trans_rvzfh.c.inc"
->  #include "insn_trans/trans_rvk.c.inc"
->  #include "insn_trans/trans_privileged.c.inc"
+> +::
+> +
+> +    qemu-system-riscv32: info: dtb dumped to rv32-virt.dtb. Exiting.
+> +    /dts-v1/;
+> +
+> +    / {
+> +        #address-cells = <0x02>;
+> +        #size-cells = <0x02>;
+> +        compatible = "riscv-virtio";
+> +        model = "riscv-virtio,qemu";
+> +
+> +Guest: finding the dtb
+> +======================
+> +
+> +On startup, the dtb is memory-mapped and its address is passed to the guest
+> +in a target-specific way:
+> +
+> +* Arm: :ref:`arm-baremetal`
+> +* **TODO**: document other targets
+> +
+> +Resources
+> +=========
+> +
+> +* `Devicetree Specification <https://www.devicetree.org/specifications/>`_.
+> +
+> +* Embedded Linux Wiki:
+> +
+> +  - `Device Tree: What It Is <https://elinux.org/Device_Tree_What_It_Is>`_
+> +  - `Device Tree Usage <https://elinux.org/Device_Tree_Usage>`_
+> +
+> +* `Device Tree Compiler <https://git.kernel.org/pub/scm/utils/dtc/dtc.git>`_:
+> +
+> +  - ``dtc`` CLI tool (package name might be ``device-tree-compiler``)
+> +  - ``libfdt`` C library
+> +
+> +* ``fdt`` `Rust library <https://crates.io/crates/fdt>`_
+> diff --git docs/specs/index.rst docs/specs/index.rst
+> index a58d9311cb..3bd69305e2 100644
+> --- docs/specs/index.rst
+> +++ docs/specs/index.rst
+> @@ -8,6 +8,7 @@ guest hardware that is specific to QEMU.
+>  .. toctree::
+>     :maxdepth: 2
+>
+> +   device-trees
+>     ppc-xive
+>     ppc-spapr-xive
+>     ppc-spapr-numa
+> diff --git docs/system/arm/virt.rst docs/system/arm/virt.rst
+> index 3d1058a80c..04a90df613 100644
+> --- docs/system/arm/virt.rst
+> +++ docs/system/arm/virt.rst
+> @@ -153,10 +153,13 @@ need::
+>    CONFIG_DRM=y
+>    CONFIG_DRM_VIRTIO_GPU=y
+>
+> +.. _arm-baremetal:
+> +
+>  Hardware configuration information for bare-metal programming
+>  """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+>
+> -The ``virt`` board automatically generates a device tree blob ("dtb")
+> +The ``virt`` board automatically generates a
+> +:doc:`device tree blob ("dtb") </specs/device-trees>`
+>  which it passes to the guest. This provides information about the
+>  addresses, interrupt lines and other configuration of the various devices
+>  in the system. Guest code can rely on and hard-code the following
+> diff --git docs/system/arm/xlnx-versal-virt.rst docs/system/arm/xlnx-versal-virt.rst
+> index 92ad10d2da..3387c74bfa 100644
+> --- docs/system/arm/xlnx-versal-virt.rst
+> +++ docs/system/arm/xlnx-versal-virt.rst
+> @@ -53,7 +53,8 @@ to use the ``-kernel`` command line option.
+>
+>  Users can load firmware or boot-loaders with the ``-device loader`` options.
+>
+> -When loading an OS, QEMU generates a DTB and selects an appropriate address
+> +When loading an OS, QEMU generates a :doc:`DTB </specs/device-trees>`
+> +and selects an appropriate address
+>  where it gets loaded. This DTB will be passed to the kernel in register x0.
+>
+>  If there's no ``-kernel`` option, we generate a DTB and place it at 0x1000
+> diff --git docs/system/ppc/ppce500.rst docs/system/ppc/ppce500.rst
+> index 9beef39171..24fd91a084 100644
+> --- docs/system/ppc/ppce500.rst
+> +++ docs/system/ppc/ppce500.rst
+> @@ -24,7 +24,8 @@ The ``ppce500`` machine supports the following devices:
+>  Hardware configuration information
+>  ----------------------------------
+>
+> -The ``ppce500`` machine automatically generates a device tree blob ("dtb")
+> +The ``ppce500`` machine automatically generates a
+> +:doc:`device tree blob ("dtb") </specs/device-trees>`
+>  which it passes to the guest, if there is no ``-dtb`` option. This provides
+>  information about the addresses, interrupt lines and other configuration of
+>  the various devices in the system.
+> diff --git docs/system/riscv/microchip-icicle-kit.rst docs/system/riscv/microchip-icicle-kit.rst
+> index 40798b1aae..a6c8b46263 100644
+> --- docs/system/riscv/microchip-icicle-kit.rst
+> +++ docs/system/riscv/microchip-icicle-kit.rst
+> @@ -37,7 +37,8 @@ can be loaded from U-Boot. It also supports direct kernel booting via the
+>  boot is used, the OpenSBI fw_dynamic BIOS image is used to boot a payload
+>  like U-Boot or OS kernel directly.
+>
+> -The user provided DTB should have the following requirements:
+> +The user provided :doc:`DTB </specs/device-trees>`
+> +should have the following requirements:
+>
+>  * The /cpus node should contain at least one subnode for E51 and the number
+>    of subnodes should match QEMU's ``-smp`` option
+> diff --git docs/system/riscv/sifive_u.rst docs/system/riscv/sifive_u.rst
+> index 7b166567f9..fd70ee8278 100644
+> --- docs/system/riscv/sifive_u.rst
+> +++ docs/system/riscv/sifive_u.rst
+> @@ -36,7 +36,8 @@ testing of 32-bit guest software.
+>  Hardware configuration information
+>  ----------------------------------
+>
+> -The ``sifive_u`` machine automatically generates a device tree blob ("dtb")
+> +The ``sifive_u`` machine automatically generates a
+> +:doc:`device tree blob ("dtb") </specs/device-trees>`
+>  which it passes to the guest, if there is no ``-dtb`` option. This provides
+>  information about the addresses, interrupt lines and other configuration of
+>  the various devices in the system. Guest software should discover the devices
+> diff --git docs/system/riscv/virt.rst docs/system/riscv/virt.rst
+> index f8ecec95f3..81ea53eb20 100644
+> --- docs/system/riscv/virt.rst
+> +++ docs/system/riscv/virt.rst
+> @@ -30,7 +30,8 @@ declaring.
+>  Hardware configuration information
+>  ----------------------------------
+>
+> -The ``virt`` machine automatically generates a device tree blob ("dtb")
+> +The ``virt`` machine automatically generates a
+> +:doc:`device tree blob ("dtb") </specs/device-trees>`
+>  which it passes to the guest, if there is no ``-dtb`` option. This provides
+>  information about the addresses, interrupt lines and other configuration of
+>  the various devices in the system. Guest software should discover the devices
+> diff --git qemu-options.hx qemu-options.hx
+> index 377d22fbd8..eea75ddb37 100644
+> --- qemu-options.hx
+> +++ qemu-options.hx
+> @@ -38,6 +38,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+>      "                hmat=on|off controls ACPI HMAT support (default=off)\n"
+>      "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
+>      "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
+> +    "                dumpdtb=file dump current device tree blob to a file and quit\n"
+>      QEMU_ARCH_ALL)
+>  SRST
+>  ``-machine [type=]name[,prop=value[,...]]``
+> @@ -157,6 +158,10 @@ SRST
+>          ::
+>
+>              -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
+> +
+> +    ``dumpdtb=file``
+> +        Dump the current :doc:`Device Tree Blob </specs/device-trees>`
+> +        to the give file name, then exit.
+>  ERST
+>
+>  DEF("M", HAS_ARG, QEMU_OPTION_M,
 > --
-> 2.35.3
+> 2.36.1
 >
 >
 
