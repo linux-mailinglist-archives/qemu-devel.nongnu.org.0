@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91A355B838
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:32:59 +0200 (CEST)
-Received: from localhost ([::1]:53128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC2055B83D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:35:08 +0200 (CEST)
+Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5jEw-0006kj-Pg
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:32:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55584)
+	id 1o5jH1-0002eR-Sp
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5jBT-0003gy-I9
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:29:23 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:41598)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5jBS-0003e7-Iu
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:29:22 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:35535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5jBH-0005eI-Rv
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:29:23 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id i64so8174782pfc.8
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 00:29:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5jBR-0005eX-5x
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:29:22 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ x1-20020a17090abc8100b001ec7f8a51f5so11535995pjr.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 00:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cRsTRN1AsSgsAmzGyYvfKibHMH7K74pROfGImtCsGRM=;
- b=Z8Cp09cFyT2AOElG7UD2pzw50UA6JkSf3XBGWae2NdoAojic3SQsNXmd1kyJBH/Exx
- gzHsMO9F6hcK70ujRKWX9aZy1QAD0hBOPxTPlF6Nz+Kar/pFVjgU2vI4L1GEI2FJMVsZ
- YhCLPQYXtsYBClvQ0S98Qe5e7HcXEGaJ+yJbn2cfHoVH+8zngmUupph6xbzys5VyZ86R
- kzruGjop8rkhnJRSbWd8rkbPNk6tTWhJWlYOROM1v/BK2BSE0g05kzpHFK8cTiffefCQ
- wJoTj0kH0jjNT0ka0njQdi85Kb3K9qt37Ce8BNR8KxcLX1N/XnLXhMNy9uBKwXOcNNE0
- DiDA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=W7jXqIdXZQPkgSueqM6O32O53MWeJR4fQ7cpQitnJZY=;
+ b=CMpZOq43vBg/0vs7NaZ0tLCN7YsXZei4OIiSCmJOb+2FFxojACQ1R6uOtNLwK2E7d9
+ IxNcZu8DS5TI4d8pAIgu1/XK70158VhtHNW10kaS6Rt3O8TyPXD2bRvQBvpX2h2pwAsq
+ VcRpu4ZJLfA/NX6o3C/oe1v2ANei7aPBMX6AGyV8KbbfY/R5SzvFv7OoozHrNfh2IGnY
+ J+V5ktAaHDCpvDsxDNLBv98NLxqI+tU/6x6JEd0p3Uvf2IpOaRYJhiLi0SLHtfQ1GLZR
+ jEaFzL/AS0P+CGQIaRtwCC8INU1kWBCJOs50DQPVA1O7JastRrV/omM15ob59MD41f3z
+ 135A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cRsTRN1AsSgsAmzGyYvfKibHMH7K74pROfGImtCsGRM=;
- b=4uhWB4Op2eE1/kMh/fcKztv9J0ljqADKF79trLIPWv9qZIPonxES90oFEKb7TB4onS
- /RcF8fz2wbmqXyCSnlB85q7WeRJntng3KeE0/pGNIuOm2kq+nUH4TJET8yUGlkEZBZML
- EDu7EdPfJKkKJH3e3lDK3rkAKs1bgTJ9QHiJEkxicZS1CmNhCl06Ed7GIWa/UA6eZIus
- RZgfkljiXs3woe3B+dNnOMyRhIF/TSOvQBon+t8N/YGbuFVjc2uTgwB7lExrvbPFgW9d
- U9vRTAuDSNMxLPc+fK0OmjItg4VGaTIpPcjmNvij9cVHxxOBrz4KMryMVrrVrZCJtuby
- GTyQ==
-X-Gm-Message-State: AJIora98fSI9rkb9kqFrTwiBPngBDXL++TVWJ9QniTeNpLqqwqWUWyQ6
- Vrd2XbwqHq40dY19jHr0CVQ8amqjVU8n+BqjShU=
-X-Google-Smtp-Source: AGRyM1ujbHWzoybEemA3k1iBPMfF/FJ47a+omYcuBB/d8d00uBCboHzfN66AIZTsidaCZkhFUXt85Q==
-X-Received: by 2002:a05:6a00:1306:b0:512:ca3d:392f with SMTP id
- j6-20020a056a00130600b00512ca3d392fmr13195862pfu.79.1656314949954; 
- Mon, 27 Jun 2022 00:29:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=W7jXqIdXZQPkgSueqM6O32O53MWeJR4fQ7cpQitnJZY=;
+ b=siUzLbvhnjpNkSVpvkyIFJy1nE8Xm1F9y+sbb9TFpEnl/R5w+cy5xf92RiMCi735sI
+ Ka3uKBmKM46C4OMDFRu5GDX658Hogb6RDmcagifkrJjMSyszZ+5UkXwWsXGq9DSkUIE8
+ PXh289fX9pX5UI+DLR9psijleT+Ij0Wo9AfVrjQo0HIf/Lwa2ed16vvuemXVLUAKIxKM
+ rWCHC6GtJFMCz/AY9N9f9bIdu6IzEWZ+Nin8WHmGlb4Xq4CBY3SoQodAEYVovDlP1Erk
+ W+yoFoE/EONOGCQErwaBMjonGoQIu0FnEjsEsqxP3AGSl7ZLTKnvXCTZc57rsUbiHgr8
+ x/0g==
+X-Gm-Message-State: AJIora/JMKO9Bm2/nCNVGygtko8YUvRGKVYV9qvkFiPCVKp1ckQKso/3
+ YULFv43+mX6TG9fPfqhHq2NiJHYCxonEt6Xp7xc=
+X-Google-Smtp-Source: AGRyM1sxGuqkQEjBjo0laBdPIWY7bRaCKlbVyrBheyWr/hloKfS08n0m0SslNzaT3WkzsGM6dD3IiA==
+X-Received: by 2002:a17:902:cec4:b0:16a:16d6:f67f with SMTP id
+ d4-20020a170902cec400b0016a16d6f67fmr12855360plg.139.1656314958693; 
+ Mon, 27 Jun 2022 00:29:18 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.136.66])
  by smtp.googlemail.com with ESMTPSA id
- h6-20020a170902680600b00163ffe73300sm6420928plk.137.2022.06.27.00.29.07
+ h6-20020a170902680600b00163ffe73300sm6420928plk.137.2022.06.27.00.29.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 00:29:09 -0700 (PDT)
+ Mon, 27 Jun 2022 00:29:18 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org
+To: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Cc: imammedo@redhat.com,
 	mst@redhat.com,
 	Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH 00/12] Introduce new acpi/smbios qtests using biosbits
-Date: Mon, 27 Jun 2022 12:58:44 +0530
-Message-Id: <20220627072856.1529357-1-ani@anisinha.ca>
+Subject: [PATCH 01/12] qtest: meson.build changes required to integrate python
+ based qtests
+Date: Mon, 27 Jun 2022 12:58:45 +0530
+Message-Id: <20220627072856.1529357-2-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220627072856.1529357-1-ani@anisinha.ca>
+References: <20220627072856.1529357-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42f;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x42f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,91 +91,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Biosbits is a software written by Josh Triplett that can be downloaded by
-visiting https://biosbits.org/. The github codebase can be found here:
-https://github.com/biosbits/bits/tree/master. It is a software that exercizes
-the bios components such as acpi and smbios tables directly through acpica
-bios interpreter (a freely available C based library written by Intel,
-downloadable from https://acpica.org/ and is included with biosbits) without an
-operating system getting involved in between.
-There are several advantages to directly testing the bios in a real physical
-machine or VM as opposed to indirectly discovering bios issues through the
-operating system. For one thing, the OSes tend to hide bios problems from the
-end user. The other is that we have more control of what we wanted to test
-and how by directly using acpica interpreter on top of the bios on a running
-system. More details on the inspiration for developing biosbits and its real
-life uses can be found in (a) and (b).
-This patchset contains QEMU qtests written in python that exercizes the QEMU
-bios components using biosbits and reports test failures.
+These are some basic changes required in meson.build file in order to
+incorporate python based qtests later on. No new qtests have been added in this
+change.
 
-Details of each of the files added by this patchset are provided in the README
-file which is part of Patch 11. Every effort to contact Josh, through various
-means including email, twitter, linkedIn etc has failed. Hence, the changes to
-build biosbits with the newer compiler, upgrade acpica and other changes are
-currently maintained in a forked project in my personal github. We may want to
-maintain bits in a separate fork in a stable repository that is accessible by
-QEMU developers.
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ tests/qtest/meson.build | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-The newly introduced qtest currently only run for x86_64 platform. They pass
-both when running make check on a baremetal box as well as from inside a vm.
-
-Thanks to Igor M for pointing me to this work.
-
-(a) https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/867/original/bits.pdf
-(b) https://www.youtube.com/watch?v=36QIepyUuhg
-
-Ani Sinha (12):
-  qtest: meson.build changes required to integrate python based qtests
-  acpi/tests/bits: add prebuilt bios bits zip archive
-  acpi/tests/bits: add prebuilt bits generated grub modules and scripts
-  acpi/tests/bits: initial commit of test scripts that are run by
-    biosbits
-  acpi/tests/bits: disable acpi PSS tests that are failing in biosbits
-  acpi/tests/bits: add smilatency test suite from bits in order to
-    disable it
-  acpi/tests/bits: disable smilatency test since it does not pass
-    everytime
-  acpi/tests/bits: add biosbits config file for running bios tests
-  acpi/tests/bits: add acpi and smbios python tests that uses biosbits
-  acpi/tests/bits: add acpi bits qtest directory in meson for running
-    tests
-  acpi/tests/bits: add README file for bits qtests
-  MAINTAINERS: add myself as the maintainer for acpi biosbits qtests
-
- MAINTAINERS                                   |    5 +
- tests/qtest/acpi-bits/README                  |  168 ++
- tests/qtest/acpi-bits/acpi-bits-test-venv.sh  |   59 +
- tests/qtest/acpi-bits/acpi-bits-test.py       |  327 +++
- .../qtest/acpi-bits/bits-config/bits-cfg.txt  |   18 +
- tests/qtest/acpi-bits/bits-config/meson.build |   11 +
- tests/qtest/acpi-bits/bits-tests/meson.build  |   11 +
- tests/qtest/acpi-bits/bits-tests/smbios.py    | 2430 +++++++++++++++++
- .../qtest/acpi-bits/bits-tests/smilatency.py  |  103 +
- tests/qtest/acpi-bits/bits-tests/testacpi.py  |  283 ++
- tests/qtest/acpi-bits/bits-tests/testcpuid.py |   83 +
- tests/qtest/acpi-bits/meson.build             |   39 +
- .../acpi-bits/prebuilt/bits-2095-grub.tar.gz  |  Bin 0 -> 41416278 bytes
- tests/qtest/acpi-bits/prebuilt/bits-2095.zip  |  Bin 0 -> 31922898 bytes
- tests/qtest/acpi-bits/prebuilt/meson.build    |   11 +
- tests/qtest/acpi-bits/requirements.txt        |    1 +
- tests/qtest/meson.build                       |    7 +-
- 17 files changed, 3555 insertions(+), 1 deletion(-)
- create mode 100644 tests/qtest/acpi-bits/README
- create mode 100644 tests/qtest/acpi-bits/acpi-bits-test-venv.sh
- create mode 100644 tests/qtest/acpi-bits/acpi-bits-test.py
- create mode 100644 tests/qtest/acpi-bits/bits-config/bits-cfg.txt
- create mode 100644 tests/qtest/acpi-bits/bits-config/meson.build
- create mode 100644 tests/qtest/acpi-bits/bits-tests/meson.build
- create mode 100644 tests/qtest/acpi-bits/bits-tests/smbios.py
- create mode 100644 tests/qtest/acpi-bits/bits-tests/smilatency.py
- create mode 100644 tests/qtest/acpi-bits/bits-tests/testacpi.py
- create mode 100644 tests/qtest/acpi-bits/bits-tests/testcpuid.py
- create mode 100644 tests/qtest/acpi-bits/meson.build
- create mode 100644 tests/qtest/acpi-bits/prebuilt/bits-2095-grub.tar.gz
- create mode 100644 tests/qtest/acpi-bits/prebuilt/bits-2095.zip
- create mode 100644 tests/qtest/acpi-bits/prebuilt/meson.build
- create mode 100644 tests/qtest/acpi-bits/requirements.txt
-
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 31287a9173..ad52f1c81b 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -310,6 +310,8 @@ qtests += {'dbus-display-test': [dbus_display1, gio]}
+ endif
+ 
+ qtest_executables = {}
++other_deps = []
++
+ foreach dir : target_dirs
+   if not dir.endswith('-softmmu')
+     continue
+@@ -327,6 +329,7 @@ foreach dir : target_dirs
+   endif
+   qtest_env.set('G_TEST_DBUS_DAEMON', meson.project_source_root() / 'tests/dbus-vmstate-daemon.sh')
+   qtest_env.set('QTEST_QEMU_BINARY', './qemu-system-' + target_base)
++  qtest_env.set('QTEST_SOURCE_ROOT', meson.project_source_root())
+   if have_tools and have_vhost_user_blk_server
+     qtest_env.set('QTEST_QEMU_STORAGE_DAEMON_BINARY', './storage-daemon/qemu-storage-daemon')
+     test_deps += [qsd]
+@@ -351,7 +354,7 @@ foreach dir : target_dirs
+     endif
+     test('qtest-@0@/@1@'.format(target_base, test),
+          qtest_executables[test],
+-         depends: [test_deps, qtest_emulator, emulator_modules],
++         depends: [test_deps, qtest_emulator, emulator_modules, other_deps],
+          env: qtest_env,
+          args: ['--tap', '-k'],
+          protocol: 'tap',
 -- 
 2.25.1
 
