@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A003355B82E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:27:07 +0200 (CEST)
-Received: from localhost ([::1]:42478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A04C55B826
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:20:21 +0200 (CEST)
+Received: from localhost ([::1]:58202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5j9G-0007k6-LC
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53790)
+	id 1o5j2i-0007Tv-Dh
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o5izS-0003gb-7H; Mon, 27 Jun 2022 03:16:59 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:35401)
+ id 1o5izQ-0003fu-A7; Mon, 27 Jun 2022 03:16:56 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:44674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o5izO-0003tc-EU; Mon, 27 Jun 2022 03:16:57 -0400
-Received: by mail-ed1-x536.google.com with SMTP id e40so11647166eda.2;
- Mon, 27 Jun 2022 00:16:49 -0700 (PDT)
+ id 1o5izN-0003tm-7n; Mon, 27 Jun 2022 03:16:55 -0400
+Received: by mail-ed1-x536.google.com with SMTP id z19so11571026edb.11;
+ Mon, 27 Jun 2022 00:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PCwZzAUgvUr9rmEVpXX+ZUgA//EEMyR5LEAQr/9gy9c=;
- b=j+eED5IKZ878Wev1wc0fHoW8ddR2x7B9LjXHFRrgxKLj8Exv3g4Hm+kLG3KQfnBm+S
- uz6t5cgB9eiFI4p6SKJnF9b3S3icyWyoyjwmzwBxmnretta/J9rX+B9BQnzILOUu3TxT
- X/P3IZvLFi/EHroYQcBI3DFDiJtmFGLi838DA27Sne7kS7CYJc/rrdyCy8SzhoH/2WEo
- 5wX8LbVLqM70kof4fKO4o7g9nDEEnHAzTwbZn+ZV5eKLyFo5/8vq89XsPk4UnO0a1N2x
- DM7Qv0DNFsg+NGkB7jAaBhcwCWcw0TYfD8pjzulCMHbAmnb/lG9aN3ER69zInpxXHhI8
- YaYQ==
+ bh=o52L6RrnUDqK3SXfYbgJj8ZZPWiN199qyUgLPkMswD4=;
+ b=dH6kcn37vLGmjZ9WONTRNbv/u5UGzZB95B6TKToUsieK8So7rw/kGsjzqINksUZd+m
+ Vf43U4UnI+JJM4s82ARZT8ArjkmtgFir5sYnWg7B9ec+YsmrIMqoI8Sjtc0Sg9V5EfX0
+ 0qHagT8cG0zXRHwDOJb+5FzSCex37O0BN6jtH3Mu56pt7FLCcpEqO7t/rkTC1fQCKsuZ
+ TWahoCT9Zo9gSQ0cEg1tCALGWncrdWFMFatsnTS9CneEuLRTRPxiUjVaZ96Ao+7HkVvz
+ 8Ho/7+zFkBbj2Sx4MNkGNA4vejFtWaDLLC9GvGdj+LqpFR5Px7Pc7CDMIiljS/v0XDP7
+ pvvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PCwZzAUgvUr9rmEVpXX+ZUgA//EEMyR5LEAQr/9gy9c=;
- b=rN8xoM4hscNaEB56SglP5M8lpRzXVj7H+ic4yKsl3LNSMMtUzzMRPruHGlZfjtavUK
- h3xnS2W/S3PABtzh/CFYZy9yTMREmQ3HOVBi9VrHJ5v2n6pRZF2Xk7gWustx1GDIBY4Z
- vpB+GXr5l4cMctKPaSs0Dx6MCVjRDVXH93arve2ElDtqh470957tVXVDUyyu7tQT6SqB
- h99eZgzRr1+kmf+BgErtrqizCzZY5t5s2kT2JUpX9GNB/dfqCL8vni0GaC6z4zMzaOBO
- HZK1lLMBBTH8gWcBCmak400sKRigIEe9AHJTtV21XE+iVzMDDmDgXPosv2PIGu4tYVlq
- zO2Q==
-X-Gm-Message-State: AJIora/RYPny4L8uGtyIuAKz3uauuIjVGyv3DeptNm4u7cqElt0pxcMB
- Im6/zyAHR4SNW2RcHNp1DbF40B/IeZkj0g==
-X-Google-Smtp-Source: AGRyM1uZET3tawJEoBFjqw8Ol+MO3Ofe2kWtKCZPkpH0qMm18ME6qbV4XqSatVA/HGgLZzo7RLT++w==
-X-Received: by 2002:a05:6402:403:b0:434:eb49:218f with SMTP id
- q3-20020a056402040300b00434eb49218fmr14926944edv.426.1656314208547; 
- Mon, 27 Jun 2022 00:16:48 -0700 (PDT)
+ bh=o52L6RrnUDqK3SXfYbgJj8ZZPWiN199qyUgLPkMswD4=;
+ b=7wxougw61S2gnAIZD3uwWGUVWc3i5OvwClcqs5lJd94OGpvn/1HkHmvWzDXLUU5UP9
+ NDqKPGAgurH9AYKERM5eYTDdIPf5C0Fw/gI3bw8VJlTFzGRFxv2ipxxHAFtzqikaR4In
+ MBIyP18vFHUFu+rPYR32S2s5fjWTMIb42JRQXj4EMzWUhdC+7nDEQcc7Fwy5C2ujM3h1
+ hHs3Y+VYljROuyEnwge8Kgz4QomJGd2je/mpJE8I2mqLf43byc+zn7Tm4SAkGa1hO7lK
+ z4srhyhntjAEj7RxpNPnWVgRspQOgMtlhIVYwFf9ZtYPOJ4h6bmruHmi3bSkt6HWwiGV
+ Rl5w==
+X-Gm-Message-State: AJIora8HVZ5QdgkeB0sFmvIpLcFEzhlZiiea8pmpnhw9UD1zrzGLCzOw
+ gKhCURwTSLTXB5WahLY6w6cL1pWb7Kq2kA==
+X-Google-Smtp-Source: AGRyM1s8pZBrMtrYtjKYDyu8ysrrb5P6yz1bIXQGs3VkEF5n5zZfr+UGEdtOs/YXIMnFS+3B5NBKxw==
+X-Received: by 2002:a05:6402:34c2:b0:436:7edf:ba with SMTP id
+ w2-20020a05640234c200b004367edf00bamr15196652edc.67.1656314209658; 
+ Mon, 27 Jun 2022 00:16:49 -0700 (PDT)
 Received: from Provence.localdomain
  (dynamic-077-183-075-191.77.183.pool.telefonica.de. [77.183.75.191])
  by smtp.gmail.com with ESMTPSA id
- g16-20020a1709064e5000b007072dc80e06sm4593294ejw.190.2022.06.27.00.16.47
+ g16-20020a1709064e5000b007072dc80e06sm4593294ejw.190.2022.06.27.00.16.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 00:16:48 -0700 (PDT)
+ Mon, 27 Jun 2022 00:16:49 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -64,10 +64,10 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  John Snow <jsnow@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [RFC PATCH 05/10] hw/isa/isa-bus: assert() if isa_get_irq() gets
- passed a NULL ISADevice
-Date: Mon, 27 Jun 2022 09:16:06 +0200
-Message-Id: <20220627071611.8793-6-shentey@gmail.com>
+Subject: [RFC PATCH 06/10] hw/ide/ioport: Rename ide_init_ioport() to
+ isa_ide_init_ioport()
+Date: Mon, 27 Jun 2022 09:16:07 +0200
+Message-Id: <20220627071611.8793-7-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220627071611.8793-1-shentey@gmail.com>
 References: <20220627071611.8793-1-shentey@gmail.com>
@@ -97,31 +97,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that all call-sites have been fixed to pass non-NULL ISADevices, we can
-assert() on NULL ISADevices to catch regressions.
+ide_init_ioport() takes an ISADevice* parameter which eventually gets passed
+to isa_address_space_io(). Unfortunately, there is no ISADevice in hw/ide/
+piix, so NULL gets passed instead. This causes isa_address_space_io() to
+resort to using the isabus global - which we want to get rid of.
+
+To resolve this, observe that hw/isa/piix* models pass PCI's IO address
+space to ISA which can be used instead. The next patch therefore introduces
+pci_ide_init_ioport() which takes a PCIDevice* parameter instead and is
+available in hw/ide/piix.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/isa-bus.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/ide/ioport.c           | 2 +-
+ hw/ide/isa.c              | 2 +-
+ hw/ide/piix.c             | 4 ++--
+ include/hw/ide/internal.h | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 0537a9f2c1..9e8b5da027 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -81,9 +81,10 @@ void isa_bus_irqs(ISABus *bus, qemu_irq *irqs)
-  */
- qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
- {
--    assert(!dev || ISA_BUS(qdev_get_parent_bus(DEVICE(dev))) == isabus);
-+    assert(dev);
-     assert(isairq < ISA_NUM_IRQS);
--    return isabus->irqs[isairq];
-+
-+    return isa_bus_from_device(dev)->irqs[isairq];
- }
+diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
+index b613ff3bba..ed1f34f573 100644
+--- a/hw/ide/ioport.c
++++ b/hw/ide/ioport.c
+@@ -50,7 +50,7 @@ static const MemoryRegionPortio ide_portio2_list[] = {
+     PORTIO_END_OF_LIST(),
+ };
  
- void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
+-void ide_init_ioport(IDEBus *bus, ISADevice *dev, int iobase, int iobase2)
++void isa_ide_init_ioport(IDEBus *bus, ISADevice *dev, int iobase, int iobase2)
+ {
+     /* ??? Assume only ISA and PCI configurations, and that the PCI-ISA
+        bridge has been setup properly to always register with ISA.  */
+diff --git a/hw/ide/isa.c b/hw/ide/isa.c
+index 8bedbd13f1..79ed33aefa 100644
+--- a/hw/ide/isa.c
++++ b/hw/ide/isa.c
+@@ -74,7 +74,7 @@ static void isa_ide_realizefn(DeviceState *dev, Error **errp)
+     ISAIDEState *s = ISA_IDE(dev);
+ 
+     ide_bus_init(&s->bus, sizeof(s->bus), dev, 0, 2);
+-    ide_init_ioport(&s->bus, isadev, s->iobase, s->iobase2);
++    isa_ide_init_ioport(&s->bus, isadev, s->iobase, s->iobase2);
+     s->irq = isa_get_irq(isadev, s->isairq);
+     ide_init2(&s->bus, s->irq);
+     vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_isa, s);
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index fbf2756b47..312611c61f 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -161,8 +161,8 @@ static int pci_piix_init_ports(PCIIDEState *d)
+ 
+     for (i = 0; i < 2; i++) {
+         ide_bus_init(&d->bus[i], sizeof(d->bus[i]), dev, i, 2);
+-        ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
+-                        port_info[i].iobase2);
++        isa_ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
++                            port_info[i].iobase2);
+         ide_init2(&d->bus[i], qdev_get_gpio_in(dev, i));
+ 
+         bmdma_init(&d->bus[i], &d->bmdma[i], d);
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index 348e7f2510..86ecc04ce4 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -624,7 +624,7 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
+                    int chs_trans, Error **errp);
+ void ide_init2(IDEBus *bus, qemu_irq irq);
+ void ide_exit(IDEState *s);
+-void ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
++void isa_ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
+ void ide_register_restart_cb(IDEBus *bus);
+ 
+ void ide_exec_cmd(IDEBus *bus, uint32_t val);
 -- 
 2.36.1
 
