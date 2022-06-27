@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852CF55B85B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:53:51 +0200 (CEST)
-Received: from localhost ([::1]:35836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C9955B850
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:44:58 +0200 (CEST)
+Received: from localhost ([::1]:50184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5jZ8-0008ID-Jr
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59284)
+	id 1o5jQX-0007Bw-E5
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1o5jMp-0004Ol-IA; Mon, 27 Jun 2022 03:41:11 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:49508)
+ id 1o5jNp-0005E1-Mv; Mon, 27 Jun 2022 03:42:10 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:49510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1o5jMn-0000AR-QS; Mon, 27 Jun 2022 03:41:07 -0400
+ id 1o5jNo-0000Lb-0z; Mon, 27 Jun 2022 03:42:09 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DC11D21B55;
- Mon, 27 Jun 2022 07:41:03 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 039DD21B51;
+ Mon, 27 Jun 2022 07:42:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1656315663; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1656315724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KrNvcoGmZFncVXD8/k3xm7a1JZccg4qjIaqXas/8hG0=;
- b=0ycffnun0XwcCWXSPdZAXFMpFqzH5L6ZQVrCdaVAY8LaXayF7n6bxevq5nW52nEn4LCWde
- nh3SqSYnnO192qtBT4MKTSEoePANPSQGvMnFBU7a4ONGEGRc49kyDx1ZmNuq60PTQNuAJ5
- DPRz7an3bYauL1bo2ixDxogsarhmNzs=
+ bh=vkUGsKr8fjOdjm2YRnkahiVhw1CvLkFJk1DG4EccaXo=;
+ b=PuSVDLpoQbfwBDj8zuidXe4Y3t/XnnYEm59FP2Gptsb7yv5WCZr6EA8L27jPgm0p84Er94
+ s3+TkZvXwck7UelhQ6TWrLpYr019hRTF+PuhdZZORA4Jdyx/wLYOP/CIs2Ew/7kbfRToQb
+ pBIEd2Z+cejK6HYxsEeQHqDCdwMePWM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1656315663;
+ s=susede2_ed25519; t=1656315724;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KrNvcoGmZFncVXD8/k3xm7a1JZccg4qjIaqXas/8hG0=;
- b=UidH2QEtbTa1Xq44xCQ/VRvUX4uTYJmk1W4vNqwEKroMU5vcsEMwyiLLaCfHjFd6D2a7sO
- ouYtArusIIuT6zCg==
+ bh=vkUGsKr8fjOdjm2YRnkahiVhw1CvLkFJk1DG4EccaXo=;
+ b=dqesQnVKJk3GiySR5+4MLvJYU70682hmrcKapKvINQ60u18e32DDeyu6hmeSsW+Ui90BSQ
+ PbNojT4P86zjFWBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B28FE13456;
- Mon, 27 Jun 2022 07:41:03 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C388713456;
+ Mon, 27 Jun 2022 07:42:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id HCiYKQ9fuWJieAAAMHmgww
- (envelope-from <hare@suse.de>); Mon, 27 Jun 2022 07:41:03 +0000
-Message-ID: <b9fab319-aaef-9f4e-090e-b10fa010eb5d@suse.de>
-Date: Mon, 27 Jun 2022 09:41:03 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id mg5FL0tfuWLheAAAMHmgww
+ (envelope-from <hare@suse.de>); Mon, 27 Jun 2022 07:42:03 +0000
+Message-ID: <b0c0ec17-5c85-e95f-c0c1-35a9cc714c1d@suse.de>
+Date: Mon, 27 Jun 2022 09:42:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
+Subject: Re: [RFC v3 5/5] qemu-iotests: add zone operation tests.
 Content-Language: en-US
 To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
 Cc: Hanna Reitz <hreitz@redhat.com>, dmitry.fomichev@wdc.com,
@@ -62,11 +63,9 @@ Cc: Hanna Reitz <hreitz@redhat.com>, dmitry.fomichev@wdc.com,
  Stefan Hajnoczi <stefanha@redhat.com>, damien.lemoal@opensource.wdc.com,
  qemu-block@nongnu.org
 References: <20220627001917.9417-1-faithilikerun@gmail.com>
- <20220627001917.9417-5-faithilikerun@gmail.com>
+ <20220627001917.9417-6-faithilikerun@gmail.com>
 From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [RFC v3 4/5] file-posix: introduce get_sysfs_str_val for device
- zoned model.
-In-Reply-To: <20220627001917.9417-5-faithilikerun@gmail.com>
+In-Reply-To: <20220627001917.9417-6-faithilikerun@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.28; envelope-from=hare@suse.de;
@@ -95,127 +94,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/27/22 02:19, Sam Li wrote:
 > ---
->   block/file-posix.c           | 60 ++++++++++++++++++++++++++++++++++++
->   include/block/block-common.h |  4 +--
->   2 files changed, 62 insertions(+), 2 deletions(-)
+>   tests/qemu-iotests/tests/zoned.sh | 49 +++++++++++++++++++++++++++++++
+>   1 file changed, 49 insertions(+)
+>   create mode 100755 tests/qemu-iotests/tests/zoned.sh
 > 
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 73c2cdfbca..74c0245e0f 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1277,6 +1277,66 @@ out:
->   #endif
->   }
->   
-> +/*
-> + * Convert the zoned attribute file in sysfs to internal value.
-> + */
-> +static zone_model get_sysfs_str_val(int fd, struct stat *st) {
-> +#ifdef CONFIG_LINUX
-> +    char buf[32];
-> +    char *sysfspath = NULL;
-> +    int ret;
-> +    int sysfd = -1;
+> diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-iotests/tests/zoned.sh
+> new file mode 100755
+> index 0000000000..262c0b5427
+> --- /dev/null
+> +++ b/tests/qemu-iotests/tests/zoned.sh
+> @@ -0,0 +1,49 @@
+> +#!/usr/bin/env bash
+> +#
+> +# Test zone management operations.
+> +#
 > +
-> +    if (S_ISCHR(st->st_mode)) {
-> +        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) == 0) {
-> +            return ret;
-> +        }
-> +        return -ENOTSUP;
-> +    }
+> +QEMU_IO="build/qemu-io"
+> +IMG="--image-opts driver=zoned_host_device,filename=/dev/nullb0"
+> +QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
 > +
-> +    if (!S_ISBLK(st->st_mode)) {
-> +        return -ENOTSUP;
-> +    }
+> +echo "Testing a null_blk device"
+> +echo "Simple cases: if the operations work"
+> +sudo modprobe null_blk nr_devices=1 zoned=1
+> +# hidden issues:
+> +# 1. memory allocation error of "unaligned tcache chunk detected" when the nr_zone=1 in zone report
+> +# 2. qemu-io: after report 10 zones, the program failed at double free error and exited.
+> +echo "report the first zone"
+> +sudo $QEMU_IO $IMG -c "zone_report 0 0 1"
+> +echo "report: the first 10 zones"
+> +sudo $QEMU_IO $IMG -c "zone_report 0 0 10"
 > +
-> +    sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/zoned",
-> +                                major(st->st_rdev), minor(st->st_rdev));
-> +    sysfd = open(sysfspath, O_RDONLY);
-> +    if (sysfd == -1) {
-> +        ret = -errno;
-> +        goto out;
-> +    }
-> +    do {
-> +        ret = read(sysfd, buf, sizeof(buf) - 1);
-> +    } while (ret == -1 && errno == EINTR);
-
-This is wrong.
-read() might return a value smaller than the 'len' argument (sizeof(buf) 
--1 in your case). But in that case it's a short read, and one need to 
-call 'read()' again to fetch the remaining bytes.
-
-So the correct code would be something like:
-
-offset = 0;
-do {
-     ret = read(sysfd, buf + offset, sizeof(buf) - 1 + offset);
-     if (ret > 0)
-         offset += ret;
-} while (ret > 0);
-
-Not that you'd actually need it; reads from sysfs are basically never 
-interrupted, so you should be able to read from an attribute in one go.
-IE alternatively you can drop the 'while' loop and just call read().
-
-> +    if (ret < 0) {
-> +        ret = -errno;
-> +        goto out;
-> +    } else if (ret == 0) {
-> +        ret = -EIO;
-> +        goto out;
-> +    }
-> +    buf[ret] = 0;
+> +echo "open the first zone"
+> +sudo $QEMU_IO $IMG -c "zone_open 0 0x80000"
+> +echo "report after:"
+> +sudo $QEMU_IO $IMG -c "zone_report 0 0 1"
+> +echo "open the last zone"
+> +sudo $QEMU_IO $IMG -c "zone_open 0x3e70000000 0x80000"
+> +echo "report after:"
+> +sudo $QEMU_IO $IMG -c "zone_report 0x3e70000000 0 2"
 > +
-> +    /* The file is ended with '\n' */
-
-I'd rather check if the string ends with an '\n', and overwrite
-it with a '\0'. That way you'd be insulated against any changes
-to sysfs.
-
-> +    if (strcmp(buf, "host-managed\n") == 0) {
-> +        return BLK_Z_HM;
-> +    } else if (strcmp(buf, "host-aware\n") == 0) {
-> +        return BLK_Z_HA;
-> +    } else {
-> +        return -ENOTSUP;
-> +    }
+> +echo "close the first zone"
+> +sudo $QEMU_IO $IMG -c "zone_close 0 0x80000"
+> +echo "report after:"
+> +sudo $QEMU_IO $IMG -c "zone_report 0 0 1"
+> +echo "close the last zone"
+> +sudo $QEMU_IO $IMG -c "zone_close 0x3e70000000 0x80000"
+> +echo "report after:"
+> +sudo $QEMU_IO $IMG -c "zone_report 0x3e70000000 0 2"
 > +
-> +out:
-> +    if (sysfd != -1) {
-> +        close(sysfd);
-> +    }
-> +    g_free(sysfspath);
-> +    return ret;
-> +#else
-> +    return -ENOTSUP;
-> +#endif
-> +}
 > +
->   static int hdev_get_max_segments(int fd, struct stat *st) {
->       int ret;
->       ret = get_sysfs_long_val(fd, st, "max_segments");
+> +echo "reset the second zone"
+> +sudo $QEMU_IO $IMG -c "zone_reset 0x80000 0x80000"
+> +echo "After resetting a zone:"
+> +sudo $QEMU_IO $IMG -c "zone_report 0x80000 0 5"
+> +
+> +# success, all done
+> +sudo rmmod null_blk
+> +echo "*** done"
+> +#rm -f $seq.full
+> +status=0
 
-And as you already set a precedent in your previous patch, I'd recommend 
-split this in two patches, one introducing a generic function 
-'get_sysfs_str_val()' which returns a string and another function
-(eg hdev_get_zone_model()) which calls this function to fetch the device 
-zoned model.
+Caveat: I'm not that familiar with qemu-iotests.
+FWIW:
 
-> diff --git a/include/block/block-common.h b/include/block/block-common.h
-> index 78cddeeda5..35e00afe8e 100644
-> --- a/include/block/block-common.h
-> +++ b/include/block/block-common.h
-> @@ -56,8 +56,8 @@ typedef enum zone_op {
->   } zone_op;
->   
->   typedef enum zone_model {
-> -    BLK_Z_HM,
-> -    BLK_Z_HA,
-> +    BLK_Z_HM = 0x1,
-> +    BLK_Z_HA = 0x2,
->   } zone_model;
->   
->   typedef enum BlkZoneCondition {
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
