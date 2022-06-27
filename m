@@ -2,95 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C5555B970
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 14:07:07 +0200 (CEST)
-Received: from localhost ([::1]:34572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2AB655B971
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 14:10:59 +0200 (CEST)
+Received: from localhost ([::1]:37380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5nWE-0007aN-54
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 08:07:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39244)
+	id 1o5nZr-00010F-UP
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 08:10:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o5nU7-0006bl-El
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 08:04:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o5nU3-0008TX-Pc
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 08:04:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656331490;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gtAqLXv5Hqs5D3sGfiJXoSL5x7P2cwpXTB1KoYyjqHs=;
- b=ex7jhPAOBvXET9x+dyQq/8YFM61Y3VfKKqRUXeoNVF98LXZg6QBEAJYj1I9Q4qdKOUKifW
- 50vxBa2EZVjd3mtroaYcf3liZTuOGHPJDigYET6/fwkE1FGo4KCjL5owMVNLmJxL+mKpgK
- rdBgJowqxJmC/+WAmBUBSNVwlkzQaks=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380-ncZpA1YAMAqZ4NCkI--ZjA-1; Mon, 27 Jun 2022 08:04:49 -0400
-X-MC-Unique: ncZpA1YAMAqZ4NCkI--ZjA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q6-20020adfea06000000b0021bad47edaeso1145762wrm.20
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 05:04:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o5nXD-00008d-Tn
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 08:08:09 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:40574)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o5nXA-0000n8-E2
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 08:08:06 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ g16-20020a17090a7d1000b001ea9f820449so12221464pjl.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 05:08:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=AaYG+oCGz4OgXG9O68HWOpLCp8iIFENEcQB4HQ/elVw=;
+ b=dfZybid51kVd9w5JsCA16VQtz+g/3KIu0KRZ8Ey83q7G1ltATSMvz4Xp4b8Pe2hUJf
+ rOLx6zTJTzE5BlFbBX48VtDW6ZEAiLKoYSpPt72KptCNHnsBP2wIrLelLZspQqQ5BF3C
+ gTjIjNwp9FAMKjt8c0lIkTyW8IYJOlgeuOSuVG5UeRpxyqsdB25PCQa+9FlN49Yzvm8E
+ 9JwYQfuxZltln26PzK/3DtuNaiE5vaPGfp4K7sGBP1wN/o7Zwyl76yBrOakC6EiijOv8
+ Fe+dQg3h6bMqcZ/wmkirgnD1V6hm9TJQ0YepwdAQmM6cWEzy6FZTG10gWoinGmzS6tD5
+ XAEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=gtAqLXv5Hqs5D3sGfiJXoSL5x7P2cwpXTB1KoYyjqHs=;
- b=1CX3B2XVKHHGEpXFgN0EZv7WnEEwtKINJb+tz/GGiIZ9uQjQyqi+626XVyPpQDURBm
- AiAJVk3t4XPLHLQ+qz9/qu8mBFFxPpcttosHc5LI7kY/620KAmkSRPWpSj4zOtQawgDz
- WE/DYb2LkvNe9dlAzNYzp24cAvUiTtJLOsJUcwic8LqZr2YevOO5IJeC7eoJvQd5tRXo
- Wa+kTbTEjNB/Cy5fSx4wZuCiIELk5e4Q7Z4gdEfXrIO+SloI/LSAO3XJNpsxirkOoLqg
- Z/fSOK5Y3qOFXh/3iu1VByLDx+QiPOsruPmEABjShCmc0cu8DAd1XrYDWV5+Q5UuZa2I
- NIMQ==
-X-Gm-Message-State: AJIora8FevzjU0JqkrGCwc//BhVGz1GdPYUjNOED+dh6QVYrp/I9NsHE
- cTa8QVzrfFHZqWlmIBAXuGJ7nLRvwtNB5yEh7n/ZfcjLlj4qXsQahmcNuFvF+0wnUA4KNZFs7uh
- B5W6Wnc/jBBp1xGg=
-X-Received: by 2002:a05:6000:38f:b0:21b:aded:e791 with SMTP id
- u15-20020a056000038f00b0021badede791mr11669357wrf.225.1656331488375; 
- Mon, 27 Jun 2022 05:04:48 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vclRS4yKOYbXow/9LJ88+ey17viP15qqcekEDNpq5twi0TnNAbvRSXkzZecXc819MrM+p/8g==
-X-Received: by 2002:a05:6000:38f:b0:21b:aded:e791 with SMTP id
- u15-20020a056000038f00b0021badede791mr11669321wrf.225.1656331488016; 
- Mon, 27 Jun 2022 05:04:48 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- d18-20020adfe852000000b0021ba3d1f2a0sm10163198wrn.48.2022.06.27.05.04.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 05:04:47 -0700 (PDT)
-Date: Mon, 27 Jun 2022 13:04:45 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Fam Zheng <fam@euphon.net>, Hailiang Zhang <zhanghailiang@xfusion.com>
-Subject: Re: [PATCH v2 18/21] migration: remove the QEMUFileOps 'get_buffer'
- callback
-Message-ID: <Yrmc3Tvj7GAwKYaf@work-vm>
-References: <20220620110205.1357829-1-berrange@redhat.com>
- <20220620110205.1357829-19-berrange@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AaYG+oCGz4OgXG9O68HWOpLCp8iIFENEcQB4HQ/elVw=;
+ b=36QpTTcw0Jfwnyv5rOFjW3AqpJrcY0aJb/Gz1K62Q3vMW82J27nqrTfbl7ZOA7iY+Y
+ ttFbLVqDJ7cLtHDrNDAGaASxgMGMbqSN+USULhs2LIQhuKK9EAlQB4R+ljzprJ6iJSpk
+ lF7xbqIoxvNqcj38CfUHMK0GK3CWwCgFiBTDkQZpDjgBLk3bqkTM/vj2MORN4Q4ST/S2
+ hJw7xZreDzqgFFHaN90cd57bGHMFPg0/uLDSQuSi1rTcTsyjOghl8QREyJqXVICZEdME
+ DMFQ2NKOoO1VJew896MvUJlfQNkBHt0JZFuGPRFzPLdch5SYq/3T5xm9+b+yrS0oKaJ0
+ gqMg==
+X-Gm-Message-State: AJIora/dKXFmtAka7FPGOETy8solsPD3iV6xmuZBtp0rJy7xOqARejrd
+ QESmJuiwN4f+u+l+OMueUwVChQ==
+X-Google-Smtp-Source: AGRyM1sKbx6eDATksM+JoYiZiSpxZ+rw5Q/lzPfGd+BbgUr3cr7/zztc6SXyG28IPjhajXQao1Fiug==
+X-Received: by 2002:a17:90b:164a:b0:1ec:b991:b69 with SMTP id
+ il10-20020a17090b164a00b001ecb9910b69mr20593282pjb.173.1656331682768; 
+ Mon, 27 Jun 2022 05:08:02 -0700 (PDT)
+Received: from [192.168.123.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ l124-20020a622582000000b00518285976cdsm7249423pfl.9.2022.06.27.05.07.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jun 2022 05:08:01 -0700 (PDT)
+Message-ID: <6bcec8e5-4fb6-db96-20ee-853f159c8a9a@linaro.org>
+Date: Mon, 27 Jun 2022 17:37:56 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: virgl avocado hang
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+References: <7ad664fc-ca40-e446-028f-47ea1fd1c21d@linaro.org>
+ <CAJ+F1CKJycsXw=o4=tr+GNFBWkK41WAM_0h428_joW+cF0-V2g@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAJ+F1CKJycsXw=o4=tr+GNFBWkK41WAM_0h428_joW+cF0-V2g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220620110205.1357829-19-berrange@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,94 +94,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang� (berrange@redhat.com) wrote:
-> This directly implements the get_buffer logic using QIOChannel APIs.
+On 6/27/22 16:10, Marc-André Lureau wrote:
+> Could you describe how to reproduce? I naively --disable-virglrenderer and I get:
 > 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Daniel P. Berrang� <berrange@redhat.com>
+> $ tests/venv/bin/avocado run tests/avocado/virtio-gpu.py
+> Fetching asset from tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl
+> Fetching asset from tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl
+> Fetching asset from tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl
+> Fetching asset from tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl
+> JOB ID     : d9c5b65777777564d1d926fdfb58deaf0e967d15
+> JOB LOG    : /home/elmarco/avocado/job-results/job-2022-06-27T12.56-d9c5b65/job.log
+>   (1/2) tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl: CANCEL: VirGL not 
+> enabled? (0.08 s)
+>   (2/2) tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl: CANCEL: Could 
+> not find vhost-user-gpu (0.02 s)
+> RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 2
+> JOB TIME   : 0.56 s
 
-Coverity is pointing out a fun deadcode path from this:
+Ah, I beg your pardon -- virglrenderer is *not* disabled, I merely assumed it was.  But 
+the effect is still there -- dead qemu not reaped, indefinite hang on the driver.
 
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 5eb8cf0e28..df438724cd 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -377,8 +377,22 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
->          return 0;
->      }
->  
-> -    len = f->ops->get_buffer(f->ioc, f->buf + pending, f->total_transferred,
-> -                             IO_BUF_SIZE - pending, &local_error);
-> +    do {
-> +        len = qio_channel_read(f->ioc,
-> +                               (char *)f->buf + pending,
-> +                               IO_BUF_SIZE - pending,
-> +                               &local_error);
-> +        if (len == QIO_CHANNEL_ERR_BLOCK) {
-> +            if (qemu_in_coroutine()) {
-> +                qio_channel_yield(f->ioc, G_IO_IN);
-> +            } else {
-> +                qio_channel_wait(f->ioc, G_IO_IN);
-> +            }
-> +        } else if (len < 0) {
-> +            len = EIO;
-> +        }
-> +    } while (len == QIO_CHANNEL_ERR_BLOCK);
-> +
+The end of the log is:
 
-the next code is:
-    if (len > 0) {
-        f->buf_size += len;
-        f->total_transferred += len;      
-    } else if (len == 0) {
-        qemu_file_set_error_obj(f, -EIO, local_error);
-    } else if (len != -EAGAIN) {          
-        qemu_file_set_error_obj(f, len, local_error);
-    } else {
-****    error_free(local_error);          
-    }
+> 2022-06-27 17:32:19,746 stacktrace       L0045 ERROR|   Command: ./qemu-system-x86_64 -display none -vga none -chardev socket,id=mon,path=/var/tmp/avo_qemu_sock_4j1r4bdf/qemu-245052-7f2a8c8a3bb0-monitor.sock -mon chardev=mon,mode=control -chardev socket,id=console,path=/var/tmp/avo_qemu_sock_4j1r4bdf/qemu-245052-7f2a8c8a3bb0-console.sock,server=on,wait=off -serial chardev:console -cpu host -m 2G -machine pc,accel=kvm -device virtio-vga-gl -display egl-headless -kernel /home/rth/avocado/data/cache/by_location/892ae21f3ae7d04994d81e1c0bf204ecebe555bb/vmlinuz -initrd /home/rth/avocado/data/cache/by_location/892ae21f3ae7d04994d81e1c0bf204ecebe555bb/initrd.img -append printk.time=0 console=ttyS0 rdinit=/bin/bash
 
-because of the while loop, we should never actually see
-len = QIO_CHANNEL_ERR_BLOCK out of the bottom; so the only
-error value we should have is -EIO;  so that error_free is 
-not hittable.
+> 2022-06-27 17:32:19,746 stacktrace       L0045 ERROR|   Output: qemu-system-x86_64: -display egl-headless: Parameter 'type' does not accept value 'egl-headless'
 
-Dave
 
->      if (len > 0) {
->          f->buf_size += len;
->          f->total_transferred += len;
-> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-> index 4a3beedb5b..f7ed568894 100644
-> --- a/migration/qemu-file.h
-> +++ b/migration/qemu-file.h
-> @@ -29,14 +29,6 @@
->  #include "exec/cpu-common.h"
->  #include "io/channel.h"
->  
-> -/* Read a chunk of data from a file at the given position.  The pos argument
-> - * can be ignored if the file is only be used for streaming.  The number of
-> - * bytes actually read should be returned.
-> - */
-> -typedef ssize_t (QEMUFileGetBufferFunc)(void *opaque, uint8_t *buf,
-> -                                        int64_t pos, size_t size,
-> -                                        Error **errp);
-> -
->  /*
->   * This function writes an iovec to file. The handler must write all
->   * of the data or return a negative errno value.
-> @@ -77,7 +69,6 @@ typedef size_t (QEMURamSaveFunc)(QEMUFile *f,
->  typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
->  
->  typedef struct QEMUFileOps {
-> -    QEMUFileGetBufferFunc *get_buffer;
->      QEMUFileWritevBufferFunc *writev_buffer;
->      QEMURetPathFunc *get_return_path;
->  } QEMUFileOps;
-> -- 
-> 2.36.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+if that helps.
 
+
+r~
 
