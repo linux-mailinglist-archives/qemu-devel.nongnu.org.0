@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B7355B581
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 05:15:37 +0200 (CEST)
-Received: from localhost ([::1]:42382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C46B55B5F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 06:11:14 +0200 (CEST)
+Received: from localhost ([::1]:57496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5fDs-0004R3-9h
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 23:15:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40194)
+	id 1o5g5g-0001uh-3K
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 00:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o5fC0-0003el-Ok
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 23:13:40 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:33717)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o5fss-0004Va-2i
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 23:57:58 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:41477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o5fBz-0000Hx-2u
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 23:13:40 -0400
-Received: by mail-pf1-x429.google.com with SMTP id n12so7793859pfq.0
- for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 20:13:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:content-language:to:cc:from
- :subject:content-transfer-encoding;
- bh=nhfT/J10ChbggGVkDnIIRP+RUqJ6RSdJr7ythrGzhCE=;
- b=paVDaSsBpskJEyq3vLRfocOM5zGIBnfmCqCTJahVuY4oABv9ZGety9k/YZ9OKHc9tH
- 9kWBJ6KuO/9hUq5g9oLldaJSG5clEghx1dGRU8qACrgWYsppWLVReV6UovtoEZQ0KmZ6
- VYUMvCwScp93HoPgMPAWwTenQm8qoMNLDUF2Eo1C5WSwFNx+v+tCSFNCDRr91bVx8d1n
- j87QOo2crciRrPz2Zyrb1K9NOXpErgX0/srZfXjwOzvtDvIqMuGFfS1HfmZp7IGyadew
- Ku7VfYhxUbIMHfepQohiWVHATQjrlzig4JFW6x9s3oYu/+EEYMXh8ww625fXEas7XRag
- /+LQ==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1o5fsq-0007ul-8l
+ for qemu-devel@nongnu.org; Sun, 26 Jun 2022 23:57:57 -0400
+Received: by mail-pg1-x534.google.com with SMTP id 23so7942452pgc.8
+ for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 20:57:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WG79Q3C3z9wSqmKXKw3izrvrHSntzWjM2H7yoBKElJE=;
+ b=Tfzx3J7NjMFys9UhaXRj9vcVllNiDpvV0oYgy2APdTUI+Bn7XjIXAp0NMaMF8klXZq
+ WJkyac5Hs9p/PCH96gRtTPn/H5jul7ovEuKkEbtHDc9Bqhy/9axv0IRLDh4h8qIRzrkB
+ pkkVTJ9NUWu/SMRKvCbUDmEjfMXo7tdc/13Nl541/cdwnEUP06OEH/zr+0TB0ow/Ek9j
+ PNextAuszIBLXCAd8NcmTz2TKLJ45miSNyDIjEC72rE0WZulwxOuHiD3p7O+Bs1oSCIc
+ 9iwSEcdTBrd/ty/wCuDeorsNUtpwWZvESwyjPDMCaDxrvM/XpmnnBjEpM6FlBGIqbpKf
+ 6VNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:from:subject:content-transfer-encoding;
- bh=nhfT/J10ChbggGVkDnIIRP+RUqJ6RSdJr7ythrGzhCE=;
- b=5Xz102xa2obJPLmra9yA8ZSWY99HoaPMtHdmS9nm5d5JuKvKPU2izbK5fj2a5shPGq
- owmdN4w6r2n1iRPGT+eK1ZHrPgEVddxdW5J48HpfhMWRiEPbpIKdFn9faPQr4jsZWvAs
- 4/+2fvsWckAAS5YA+Ebe8tJz9mvB7vZn8BTBPR42+p8VM+DouAH/2nyddOCjbNQ+GNOn
- Mtyi5ZKh3X4tDJk2jtLU05GYKMFnp3Tow4MwrgqkfyJVh1vJWQdeDeY4rACXvO8vcS5M
- Ek/kWjWRMjPdzPar1OXjnSA13vO4R2LLVsnpzZ5BsRuLu6VRW8m3rc8TBhmLr03pLHJC
- ying==
-X-Gm-Message-State: AJIora/uwM0ERoyacAOvARiGtZHycOEcSHE3yEquNg1SWRHMx6wU2IUv
- XdS6kVLO1Qrx1xMmIjX6z53B1w==
-X-Google-Smtp-Source: AGRyM1vWttm5AOj++DxZ7fBOLLYOz7SojXiq0d0jM2DvLepkxPLWK5A1aZNXaN1JCD+ysdQepWoyhw==
-X-Received: by 2002:a65:6c08:0:b0:3f2:6a6a:98d with SMTP id
- y8-20020a656c08000000b003f26a6a098dmr11100762pgu.30.1656299616799; 
- Sun, 26 Jun 2022 20:13:36 -0700 (PDT)
-Received: from [192.168.44.231] ([122.255.60.245])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WG79Q3C3z9wSqmKXKw3izrvrHSntzWjM2H7yoBKElJE=;
+ b=J/EsxcT0G+Rk/+SjM5g+MWCgK7LIktboNhelGTpxKDsXDdXvk707D1GqCM2rpDZ3O1
+ +VXrSjayROKUUZtg5IljlBXtGqHSJRUaWKf5E+xwGKxBslU0CPb023FG1dOytmUVgy5N
+ 2hNcIRzriK/haVL2go3Ui2gQ0o1NhYpJ8SxJFhgTaA4af0tL8rb9Zb+NukRxQwySlOh7
+ 4gFu1RsgpBGzlPPKtO2krRsFwbnu/e1SbuUEm26S5AUfQHXo2Vc5IjZqg+H8ew1C4v5C
+ +x+v+pbFvmaKcf6PNTrYPMoXWhjRn6mXyl9De8wEbYpYhvtGk8YKlHfVdAKIF2h8H3nx
+ xGMA==
+X-Gm-Message-State: AJIora/7J5IXPA3yTsQfR5VFMzB6+oh5lv9tdbQYIW1MD9xcu8kD1YKM
+ zO+fePsyDIIjwKMx16VU79M=
+X-Google-Smtp-Source: AGRyM1vVYvY/dcbMXayo/x5yM9N51yAg8mF6UKK5FXjKL+8vmrRIw4QE7beUvYTNUZf9Vj0q0s6akg==
+X-Received: by 2002:a65:490d:0:b0:40d:9867:2df with SMTP id
+ p13-20020a65490d000000b0040d986702dfmr11120664pgs.171.1656302274214; 
+ Sun, 26 Jun 2022 20:57:54 -0700 (PDT)
+Received: from localhost.localdomain ([157.82.194.15])
  by smtp.gmail.com with ESMTPSA id
- k63-20020a632442000000b003fd3a3db089sm5799697pgk.11.2022.06.26.20.13.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Jun 2022 20:13:36 -0700 (PDT)
-Message-ID: <7ad664fc-ca40-e446-028f-47ea1fd1c21d@linaro.org>
-Date: Mon, 27 Jun 2022 08:43:31 +0530
+ a9-20020aa78649000000b0052531985e3esm5951314pfo.22.2022.06.26.20.57.49
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sun, 26 Jun 2022 20:57:53 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Programmingkid <programmingkidx@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: [PATCH v10 0/4] cutils: Introduce bundle mechanism
+Date: Mon, 27 Jun 2022 12:57:40 +0900
+Message-Id: <20220627035744.23218-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Subject: virgl avocado hang
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x534.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,36 +96,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Mark,
+Developers often run QEMU without installing. The bundle mechanism
+allows to look up files which should be present in installation even in
+such a situation.
 
-> +    def test_virtio_vga_virgl(self):
+It is a general mechanism and can find any files located relative
+to the installation tree. The build tree must have a new directory,
+qemu-bundle, to represent what files the installation tree would
+have for reference by the executables.
 
-> +        """
+Note that this abandons compatibility with Windows older than 8 to use
+PathCchSkipRoot(). The extended support for the prior version, 7 ended
+more than 2 years ago, and it is unlikely that anyone would like to run
+the latest QEMU on such an old system.
 
-> +        :avocado: tags=arch:x86_64
+v10:
+* Update destdir_join() in scripts/symlink-install-tree.py with the
+  latest implementation from Meson:
+  https://github.com/mesonbuild/meson/pull/10531
 
-> +        :avocado: tags=device:virtio-vga
+v9:
+* Update _WIN32_WINNT in include/qemu/osdep.h (Thomas Huth)
 
-> +        """
+v8:
+* Pass absolute paths to get_relocated_path() (Paolo Bonzini)
+* Use meson introspection (Paolo Bonzini)
+* Drop "qga: Relocate a path emitted in the help text" as it is no longer
+  relevant for the bundle mechanism.
 
-> +        kernel_command_line = (
+v7: Properly fix --firmwarepath (Daniel P. Berrangé)
 
-> +            self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
+v6: Reuse get_relocated_path() in find_bundle() (Paolo Bonzini)
 
-> +        )
+v5:
+* Prefer qemu-bundle if it exists. (Daniel P. Berrangé)
+* Check install_blobs option before installing BIOSes (Paolo Bonzini)
+* Add common code to set up qemu-bundle to the top level meson.build
+  (Paolo Bonzini)
 
-> +        # FIXME: should check presence of virtio, virgl etc
+v4:
+* Add Daniel P. Berrangé to CC. Hopefully this helps merging his patch:
+  https://mail.gnu.org/archive/html/qemu-devel/2022-06/msg02276.html
+* Rebased to the latest QEMU.
 
+v3:
+* Note that the bundle mechanism is for any files located relative to the
+  installation tree including but not limited to datadir. (Peter Maydell)
+* Fix "bridge" typo (Philippe Mathieu-Daudé)
 
-This little nugget really must be fixed.
+v2: Rebased to the latest QEMU.
 
-The observed behaviour is an indefinite hang in avocado, waiting for qemu, which is in 
-zombie state.  A manual kill -INT to the parent wakes it up like so:
+Akihiko Odaki (3):
+  cutils: Introduce bundle mechanism
+  datadir: Use bundle mechanism
+  module: Use bundle mechanism
 
-  (159/184) tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl: CANCEL: VirGL 
-not enabled? (1264.25 s)
+Paolo Bonzini (1):
+  tests/vm: do not specify -bios option
 
+ .travis.yml                     |  2 +-
+ docs/about/build-platforms.rst  |  2 +-
+ include/qemu/cutils.h           | 18 +++++++--
+ include/qemu/osdep.h            |  2 +-
+ meson.build                     |  4 ++
+ pc-bios/keymaps/meson.build     | 21 +++-------
+ pc-bios/meson.build             | 13 ++-----
+ scripts/oss-fuzz/build.sh       |  2 +-
+ scripts/symlink-install-tree.py | 34 +++++++++++++++++
+ softmmu/datadir.c               | 22 +----------
+ tests/qtest/fuzz/fuzz.c         | 15 --------
+ tests/vm/fedora                 |  1 -
+ tests/vm/freebsd                |  1 -
+ tests/vm/netbsd                 |  1 -
+ tests/vm/openbsd                |  1 -
+ util/cutils.c                   | 68 +++++++++++++++++++++++----------
+ util/meson.build                |  1 +
+ util/module.c                   |  1 -
+ 18 files changed, 115 insertions(+), 94 deletions(-)
+ create mode 100755 scripts/symlink-install-tree.py
 
+-- 
+2.32.1 (Apple Git-133)
 
-r~
 
