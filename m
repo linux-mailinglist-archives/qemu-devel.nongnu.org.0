@@ -2,51 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73DD55B9C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 15:15:52 +0200 (CEST)
-Received: from localhost ([::1]:50922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C663A55B9D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 15:18:32 +0200 (CEST)
+Received: from localhost ([::1]:56570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5oal-00030E-Mj
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 09:15:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56692)
+	id 1o5odL-0007ON-LU
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 09:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=MnSX=XC=kaod.org=clg@ozlabs.org>)
- id 1o5oYh-0001MP-Bc; Mon, 27 Jun 2022 09:13:44 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:38309)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o5oZQ-0002U0-El; Mon, 27 Jun 2022 09:14:28 -0400
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:55917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=MnSX=XC=kaod.org=clg@ozlabs.org>)
- id 1o5oYd-0004V1-Ir; Mon, 27 Jun 2022 09:13:42 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LWp7x1RPQz4xLX;
- Mon, 27 Jun 2022 23:13:33 +1000 (AEST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LWp7t6Bktz4xDH;
- Mon, 27 Jun 2022 23:13:30 +1000 (AEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>, Peter Delevoryas <pdel@fb.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v4] aspeed: Set the dram container at the SoC level
-Date: Mon, 27 Jun 2022 15:13:27 +0200
-Message-Id: <20220627131327.741192-1-clg@kaod.org>
-X-Mailer: git-send-email 2.35.3
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o5oZL-0004YF-IS; Mon, 27 Jun 2022 09:14:28 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.68])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 60993282FF;
+ Mon, 27 Jun 2022 13:14:18 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 27 Jun
+ 2022 15:14:18 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006667ce887-29b3-47ff-b4d9-2dbed898d180,
+ 659C98CE65B422D4D127A36693B7EAD6442F0B22) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <24a7020e-10b8-7a46-65be-a24054de2d93@kaod.org>
+Date: Mon, 27 Jun 2022 15:14:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] aspeed/hace: Accumulative mode supported
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>
+CC: Peter Maydell <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>, Steven Lee <steven_lee@aspeedtech.com>
+References: <20220627100816.125956-1-joel@jms.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220627100816.125956-1-joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=SRS0=MnSX=XC=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: c8a64324-f8ac-4563-ab4b-3602f4fa58e0
+X-Ovh-Tracer-Id: 12477785720702077859
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeghedgieegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehsthgvvhgvnhgplhgvvgesrghsphgvvgguthgvtghhrdgtohhmpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,239 +74,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the Aspeed machines allocate a ram container region in
-which the machine ram region is mapped. See commit ad1a9782186d
-("aspeed: add a RAM memory region container"). An extra region is
-mapped after ram in the ram container to catch invalid access done by
-FW. That's how FW determines the size of ram. See commit ebe31c0a8ef7
-("aspeed: add a max_ram_size property to the memory controller").
+On 6/27/22 12:08, Joel Stanley wrote:
+> While the HMAC mode is not modelled, the accumulative mode is.
+> 
+> Accumulative mode is enabled by setting one of the bits in the HMAC
+> engine command mode part of the register, so fix the unimplemented check
+> to only look at the upper of the two bits.
+> 
+> Fixes: 5cd7d8564a8b ("aspeed/hace: Support AST2600 HACE")
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
 
-Let's move all the logic under the SoC where it should be. It will
-also ease the work on multi SoC support.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-Reviewed-by: Peter Delevoryas <pdel@fb.com>
-Message-Id: <20220623202123.3972977-1-clg@kaod.org>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
+Thanks,
 
- Changes in v4:
+C.
 
- - Fix the zero size case for unimp device (sigh): 
-
-   Unexpected error in unimp_realize() at ../hw/misc/unimp.c:57:
-   qemu-system-arm: property 'size' not specified or zero
-
- Changes in v3:
-
- - Create RAM after SDMC has been realized to get correct values of
-   RAM size and max-size
- - Size the RAM container region to max-size. We don't need more.
-
- Changes in v2:
-
- - handle errors
-
- include/hw/arm/aspeed_soc.h |  2 ++
- hw/arm/aspeed.c             | 39 ++---------------------------
- hw/arm/aspeed_ast2600.c     |  7 ++++--
- hw/arm/aspeed_soc.c         | 49 +++++++++++++++++++++++++++++++++++--
- 4 files changed, 56 insertions(+), 41 deletions(-)
-
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 02a5a9ffcbd3..e8a104823d35 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -50,6 +50,7 @@ struct AspeedSoCState {
-     A15MPPrivState     a7mpcore;
-     ARMv7MState        armv7m;
-     MemoryRegion *dram_mr;
-+    MemoryRegion dram_container;
-     MemoryRegion sram;
-     AspeedVICState vic;
-     AspeedRtcState rtc;
-@@ -165,5 +166,6 @@ enum {
- 
- qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
- void aspeed_soc_uart_init(AspeedSoCState *s);
-+bool aspeed_soc_dram_init(AspeedSoCState *s, Error **errp);
- 
- #endif /* ASPEED_SOC_H */
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index a06f7c1b62a9..dc09773b0ba5 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -174,27 +174,6 @@ struct AspeedMachineState {
- #define BLETCHLEY_BMC_HW_STRAP1 AST2600_EVB_HW_STRAP1
- #define BLETCHLEY_BMC_HW_STRAP2 AST2600_EVB_HW_STRAP2
- 
--/*
-- * The max ram region is for firmwares that scan the address space
-- * with load/store to guess how much RAM the SoC has.
-- */
--static uint64_t max_ram_read(void *opaque, hwaddr offset, unsigned size)
--{
--    return 0;
--}
--
--static void max_ram_write(void *opaque, hwaddr offset, uint64_t value,
--                           unsigned size)
--{
--    /* Discard writes */
--}
--
--static const MemoryRegionOps max_ram_ops = {
--    .read = max_ram_read,
--    .write = max_ram_write,
--    .endianness = DEVICE_NATIVE_ENDIAN,
--};
--
- #define AST_SMP_MAILBOX_BASE            0x1e6e2180
- #define AST_SMP_MBOX_FIELD_ENTRY        (AST_SMP_MAILBOX_BASE + 0x0)
- #define AST_SMP_MBOX_FIELD_GOSIGN       (AST_SMP_MAILBOX_BASE + 0x4)
-@@ -324,20 +303,16 @@ static void aspeed_machine_init(MachineState *machine)
-     AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(machine);
-     AspeedSoCClass *sc;
-     DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
--    ram_addr_t max_ram_size;
-     int i;
-     NICInfo *nd = &nd_table[0];
- 
--    memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
--                       4 * GiB);
--    memory_region_add_subregion(&bmc->ram_container, 0, machine->ram);
--
-     object_initialize_child(OBJECT(machine), "soc", &bmc->soc, amc->soc_name);
- 
-     sc = ASPEED_SOC_GET_CLASS(&bmc->soc);
- 
-     /*
--     * This will error out if isize is not supported by memory controller.
-+     * This will error out if the RAM size is not supported by the
-+     * memory controller of the SoC.
-      */
-     object_property_set_uint(OBJECT(&bmc->soc), "ram-size", machine->ram_size,
-                              &error_fatal);
-@@ -369,16 +344,6 @@ static void aspeed_machine_init(MachineState *machine)
-                          amc->uart_default);
-     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
- 
--    memory_region_add_subregion(get_system_memory(),
--                                sc->memmap[ASPEED_DEV_SDRAM],
--                                &bmc->ram_container);
--
--    max_ram_size = object_property_get_uint(OBJECT(&bmc->soc), "max-ram-size",
--                                            &error_abort);
--    memory_region_init_io(&bmc->max_ram, NULL, &max_ram_ops, NULL,
--                          "max_ram", max_ram_size  - machine->ram_size);
--    memory_region_add_subregion(&bmc->ram_container, machine->ram_size, &bmc->max_ram);
--
-     aspeed_board_init_flashes(&bmc->soc.fmc,
-                               bmc->fmc_model ? bmc->fmc_model : amc->fmc_model,
-                               amc->num_cs, 0);
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index b0a4199b6960..bb5927c36bbf 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -197,8 +197,6 @@ static void aspeed_soc_ast2600_init(Object *obj)
-     object_initialize_child(obj, "sdmc", &s->sdmc, typename);
-     object_property_add_alias(obj, "ram-size", OBJECT(&s->sdmc),
-                               "ram-size");
--    object_property_add_alias(obj, "max-ram-size", OBJECT(&s->sdmc),
--                              "max-ram-size");
- 
-     for (i = 0; i < sc->wdts_num; i++) {
-         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
-@@ -443,6 +441,11 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-                         sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
-     }
- 
-+    /* RAM */
-+    if (!aspeed_soc_dram_init(s, errp)) {
-+        return;
-+    }
-+
-     /* Net */
-     for (i = 0; i < sc->macs_num; i++) {
-         object_property_set_bool(OBJECT(&s->ftgmac100[i]), "aspeed", true,
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 30574d4276ab..3e6055ac9129 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -11,6 +11,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qapi/error.h"
- #include "hw/misc/unimp.h"
- #include "hw/arm/aspeed_soc.h"
-@@ -191,8 +192,6 @@ static void aspeed_soc_init(Object *obj)
-     object_initialize_child(obj, "sdmc", &s->sdmc, typename);
-     object_property_add_alias(obj, "ram-size", OBJECT(&s->sdmc),
-                               "ram-size");
--    object_property_add_alias(obj, "max-ram-size", OBJECT(&s->sdmc),
--                              "max-ram-size");
- 
-     for (i = 0; i < sc->wdts_num; i++) {
-         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
-@@ -369,6 +368,11 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-                         sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
-     }
- 
-+    /* RAM  */
-+    if (!aspeed_soc_dram_init(s, errp)) {
-+        return;
-+    }
-+
-     /* Net */
-     for (i = 0; i < sc->macs_num; i++) {
-         object_property_set_bool(OBJECT(&s->ftgmac100[i]), "aspeed", true,
-@@ -561,3 +565,44 @@ void aspeed_soc_uart_init(AspeedSoCState *s)
-                        serial_hd(i), DEVICE_LITTLE_ENDIAN);
-     }
- }
-+
-+/*
-+ * SDMC should be realized first to get correct RAM size and max size
-+ * values
-+ */
-+bool aspeed_soc_dram_init(AspeedSoCState *s, Error **errp)
-+{
-+    AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-+    ram_addr_t ram_size, max_ram_size;
-+
-+    ram_size = object_property_get_uint(OBJECT(&s->sdmc), "ram-size",
-+                                        &error_abort);
-+    max_ram_size = object_property_get_uint(OBJECT(&s->sdmc), "max-ram-size",
-+                                            &error_abort);
-+
-+    memory_region_init(&s->dram_container, OBJECT(s), "ram-container",
-+                       max_ram_size);
-+    memory_region_add_subregion(&s->dram_container, 0, s->dram_mr);
-+
-+    /*
-+     * Add a memory region beyond the RAM region to let firmwares scan
-+     * the address space with load/store and guess how much RAM the
-+     * SoC has.
-+     */
-+    if (ram_size < max_ram_size) {
-+        DeviceState *dev = qdev_new(TYPE_UNIMPLEMENTED_DEVICE);
-+
-+        qdev_prop_set_string(dev, "name", "ram-empty");
-+        qdev_prop_set_uint64(dev, "size", max_ram_size  - ram_size);
-+        if (!sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), errp)) {
-+            return false;
-+        }
-+
-+        memory_region_add_subregion_overlap(&s->dram_container, ram_size,
-+                      sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0), -1000);
-+    }
-+
-+    memory_region_add_subregion(get_system_memory(),
-+                      sc->memmap[ASPEED_DEV_SDRAM], &s->dram_container);
-+    return true;
-+}
--- 
-2.35.3
+>   hw/misc/aspeed_hace.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
+> index 731234b78c4c..ac21be306c69 100644
+> --- a/hw/misc/aspeed_hace.c
+> +++ b/hw/misc/aspeed_hace.c
+> @@ -338,10 +338,10 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
+>           int algo;
+>           data &= ahc->hash_mask;
+>   
+> -        if ((data & HASH_HMAC_MASK)) {
+> +        if ((data & HASH_DIGEST_HMAC)) {
+>               qemu_log_mask(LOG_UNIMP,
+> -                          "%s: HMAC engine command mode %"PRIx64" not implemented\n",
+> -                          __func__, (data & HASH_HMAC_MASK) >> 8);
+> +                          "%s: HMAC mode not implemented\n",
+> +                          __func__);
+>           }
+>           if (data & BIT(1)) {
+>               qemu_log_mask(LOG_UNIMP,
 
 
