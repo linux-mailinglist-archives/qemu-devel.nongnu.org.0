@@ -2,53 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925D355BA8E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 16:42:44 +0200 (CEST)
-Received: from localhost ([::1]:35894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13D055BA7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 16:25:47 +0200 (CEST)
+Received: from localhost ([::1]:36520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5pwo-0007e7-5X
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 10:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56112)
+	id 1o5pgO-0004uK-Uh
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 10:25:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1o5pjH-0000VA-TD; Mon, 27 Jun 2022 10:28:43 -0400
-Received: from [200.168.210.66] (port=27402 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1o5pjG-0002K1-D2; Mon, 27 Jun 2022 10:28:43 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 27 Jun 2022 11:11:12 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 985DF8001D4;
- Mon, 27 Jun 2022 11:11:12 -0300 (-03)
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, farosas@linux.ibm.com, laurent@vivier.eu,
- Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH 6/6] target/ppc: fix exception error code in
- spr_write_excp_vector
-Date: Mon, 27 Jun 2022 11:11:04 -0300
-Message-Id: <20220627141104.669152-7-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
-References: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o5pdg-0003LS-NE
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 10:22:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37293)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o5pdd-0001TP-BP
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 10:22:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656339772;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+RXT75b1Vgv8c1lhA1TsnwoRCMYfskvTRpaH+PCLfLo=;
+ b=DKOEL+tAe9CgpufCoTDcnZkmk0+vkosPh8BYa8uFmISBF5muH/VitKcC1vkxTcZ7IofmBH
+ NdGipDszkLDr8L50kHalKh1UUsAKe8yOIk71+CdfRG8yGoVnLeA5yUyPdJ95gRXM8vwLTi
+ SAANcFjqYOGYX1J+8CFN2plJlDOcTvc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-664-XQ8H9dZsNASN148SOh6KHw-1; Mon, 27 Jun 2022 10:22:50 -0400
+X-MC-Unique: XQ8H9dZsNASN148SOh6KHw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ j14-20020adfa54e000000b0021b8c8204easo1227819wrb.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 07:22:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=+RXT75b1Vgv8c1lhA1TsnwoRCMYfskvTRpaH+PCLfLo=;
+ b=4bfXMAU2Zlos1H/iXy++nDGXcrh91BxeEW9SDTQoE4Isd9bCcbA4XXJFwQ2Ft4FOU0
+ hs+eTrEe/T43l1PSt69zYDKAfXZPfdmD6xyNGBxUc2zLhe5j6WpYTz4uUmD2st+uIdlD
+ akJBsecAF9KyQW6wmLd6KiWL6A2vmU9qPDeIjdpwBOlsawbCPPW0Hpu4TH7xFnD2kw9c
+ EXoWEB1DEzmOO3lQN94DAl+W5NZFD1P3CP6Ol3cGteM0OBSZg0qXccYVUQBybXgSqiaC
+ fSQJa2bGO5AuV+YLKzJH9wUgsAEG0LAczsaB2U32QloP7+AKs30pDet0kq0lba6yD+j2
+ xLQQ==
+X-Gm-Message-State: AJIora+L2VFhzK08GQ6o18K+vxfngPMwWECssMptin0BaOY3Si7i5R/p
+ YVCXUQ6j2cAcaCcios6mHwxaCbduRjxcwvCgKfUu3PdXRghkSAyWDz1Pjw7IxQxAWywecBUnCsq
+ RzzJV9a41AYi+H18=
+X-Received: by 2002:a05:6000:83:b0:21b:a7bd:e388 with SMTP id
+ m3-20020a056000008300b0021ba7bde388mr12410527wrx.41.1656339769346; 
+ Mon, 27 Jun 2022 07:22:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vvL+dP84OBvf/DIiVhjnq8CAk7rkYjLi0ywKTAjqxdNyfPbIo/Uo1Qf4arS7N/WR9xkniCIg==
+X-Received: by 2002:a05:6000:83:b0:21b:a7bd:e388 with SMTP id
+ m3-20020a056000008300b0021ba7bde388mr12410512wrx.41.1656339769170; 
+ Mon, 27 Jun 2022 07:22:49 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ c130-20020a1c3588000000b0039c454067ddsm13456964wma.15.2022.06.27.07.22.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 07:22:48 -0700 (PDT)
+Date: Mon, 27 Jun 2022 15:22:46 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] migration: remove unreachable code after reading data
+Message-ID: <Yrm9NsPN3RQUmZ6j@work-vm>
+References: <20220627135318.156121-1-berrange@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Jun 2022 14:11:12.0895 (UTC)
- FILETIME=[C1EB50F0:01D88A2F]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220627135318.156121-1-berrange@redhat.com>
+User-Agent: Mutt/2.2.5 (2022-05-16)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,38 +101,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'error' argument of gen_inval_exception will be or-ed with
-POWERPC_EXCP_INVAL, so it should always be a constant prefixed with
-POWERPC_EXCP_INVAL_. No functional change is intended,
-spr_write_excp_vector is only used by register_BookE_sprs, and
-powerpc_excp_booke ignores the lower 4 bits of the error code on
-POWERPC_EXCP_INVAL exceptions.
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> The code calls qio_channel_read() in a loop when it reports
+> QIO_CHANNEL_ERR_BLOCK. This code is reported when errno==EAGAIN.
+> 
+> As such the later block of code will always hit the 'errno != EAGAIN'
+> condition, making the final 'else' unreachable.
+> 
+> Fixes: Coverity CID 1490203
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Also, take the opportunity to replace printf with qemu_log_mask.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/translate.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 30dd524959..da11472877 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -907,9 +907,9 @@ void spr_write_excp_vector(DisasContext *ctx, int sprn, int gprn)
-     } else if (sprn >= SPR_BOOKE_IVOR38 && sprn <= SPR_BOOKE_IVOR42) {
-         sprn_offs = sprn - SPR_BOOKE_IVOR38 + 38;
-     } else {
--        printf("Trying to write an unknown exception vector %d %03x\n",
--               sprn, sprn);
--        gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
-+        qemu_log_mask(LOG_GUEST_ERROR, "Trying to write an unknown exception"
-+                      " vector 0x%03x\n", sprn);
-+        gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
-         return;
-     }
- 
+> ---
+>  migration/qemu-file.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> index 1e80d496b7..1615c48b7e 100644
+> --- a/migration/qemu-file.c
+> +++ b/migration/qemu-file.c
+> @@ -384,10 +384,8 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+>          f->total_transferred += len;
+>      } else if (len == 0) {
+>          qemu_file_set_error_obj(f, -EIO, local_error);
+> -    } else if (len != -EAGAIN) {
+> -        qemu_file_set_error_obj(f, len, local_error);
+>      } else {
+> -        error_free(local_error);
+> +        qemu_file_set_error_obj(f, len, local_error);
+>      }
+>  
+>      return len;
+> -- 
+> 2.36.1
+> 
 -- 
-2.25.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
