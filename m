@@ -2,102 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754DB55B9C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 15:14:58 +0200 (CEST)
-Received: from localhost ([::1]:49568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C73DD55B9C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 15:15:52 +0200 (CEST)
+Received: from localhost ([::1]:50922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5oZt-00025E-3I
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 09:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56616)
+	id 1o5oal-00030E-Mj
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 09:15:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1o5oY3-0000q8-Ia; Mon, 27 Jun 2022 09:13:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7850
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <SRS0=MnSX=XC=kaod.org=clg@ozlabs.org>)
+ id 1o5oYh-0001MP-Bc; Mon, 27 Jun 2022 09:13:44 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:38309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1o5oY1-0004SQ-B8; Mon, 27 Jun 2022 09:13:03 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25RClOYY015549;
- Mon, 27 Jun 2022 13:12:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=lh50HFoYNCQlj9EKW7boHSwNjHdxeE88dTXxCKMeHxk=;
- b=RH70reuJqN+0HvgmrFQ4n1Pa+yB5wIMmekUhKCkc+sKFf3leEtojRUt+nogWW80HKNIN
- BTkJtdc0YjLB/ei7+xCPuYNcPGBtpDrzEQnBOQwbs6BZzH6BWypcTSegZf0quLeB4WSf
- Ypva9wjAdB4rdtapa5flKAweSwzogBInFyLLSE7rNJxD7zA3v3Xm/BmhLyzK69Gw9GO4
- l5XGKp5b7011u6bT3e//S8qssRP3qh4sooYsHHEnDgllp6H4ssEemZArfiOdO6PFojeQ
- T4Wj3P5gAWbWuFth7g7beCsHerrrp4h0MY/epHT8I1niWRtzolaeS7ayb0P4DIgZeV0d 7w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gycuwgwm9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jun 2022 13:12:58 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25RDCvK2024463;
- Mon, 27 Jun 2022 13:12:57 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gycuwgwkn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jun 2022 13:12:57 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25RD5Xo8024192;
- Mon, 27 Jun 2022 13:12:55 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma01fra.de.ibm.com with ESMTP id 3gwt08t9a5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jun 2022 13:12:55 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25RDCrbw21168536
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Jun 2022 13:12:53 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7421742042;
- Mon, 27 Jun 2022 13:12:53 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2F90B42041;
- Mon, 27 Jun 2022 13:12:53 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 27 Jun 2022 13:12:53 +0000 (GMT)
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Cc: Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
-Subject: [PATCH] target/s390x/tcg: SPX: check validity of new prefix
-Date: Mon, 27 Jun 2022 15:12:51 +0200
-Message-Id: <20220627131251.2832076-1-scgl@linux.ibm.com>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <SRS0=MnSX=XC=kaod.org=clg@ozlabs.org>)
+ id 1o5oYd-0004V1-Ir; Mon, 27 Jun 2022 09:13:42 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LWp7x1RPQz4xLX;
+ Mon, 27 Jun 2022 23:13:33 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LWp7t6Bktz4xDH;
+ Mon, 27 Jun 2022 23:13:30 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, Peter Delevoryas <pdel@fb.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH v4] aspeed: Set the dram container at the SoC level
+Date: Mon, 27 Jun 2022 15:13:27 +0200
+Message-Id: <20220627131327.741192-1-clg@kaod.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: SnlhqX7VHY53OadoU0NsUPoq-3QddY4Z
-X-Proofpoint-ORIG-GUID: qbF0o47pBbivJlrqqfV-wcCcwPlh-jtJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-27_06,2022-06-24_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- lowpriorityscore=0 suspectscore=0 adultscore=0 bulkscore=0 phishscore=0
- mlxlogscore=676 impostorscore=0 malwarescore=0 mlxscore=0
- priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2204290000 definitions=main-2206270058
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=SRS0=MnSX=XC=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,40 +62,239 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the architecture, SET PREFIX must try to access the new
-prefix area and recognize an addressing exception if the area is not
-accessible.
-For qemu this check prevents a crash in cpu_map_lowcore after an
-inaccessible prefix area has been set.
+Currently, the Aspeed machines allocate a ram container region in
+which the machine ram region is mapped. See commit ad1a9782186d
+("aspeed: add a RAM memory region container"). An extra region is
+mapped after ram in the ram container to catch invalid access done by
+FW. That's how FW determines the size of ram. See commit ebe31c0a8ef7
+("aspeed: add a max_ram_size property to the memory controller").
 
-Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+Let's move all the logic under the SoC where it should be. It will
+also ease the work on multi SoC support.
+
+Reviewed-by: Peter Delevoryas <pdel@fb.com>
+Message-Id: <20220623202123.3972977-1-clg@kaod.org>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
 
+ Changes in v4:
 
-Is there a stricter check to see if the memory is accessible?
+ - Fix the zero size case for unimp device (sigh): 
 
+   Unexpected error in unimp_realize() at ../hw/misc/unimp.c:57:
+   qemu-system-arm: property 'size' not specified or zero
 
- target/s390x/tcg/misc_helper.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ Changes in v3:
 
-diff --git a/target/s390x/tcg/misc_helper.c b/target/s390x/tcg/misc_helper.c
-index aab9c47747..c8447b36fc 100644
---- a/target/s390x/tcg/misc_helper.c
-+++ b/target/s390x/tcg/misc_helper.c
-@@ -158,6 +158,10 @@ void HELPER(spx)(CPUS390XState *env, uint64_t a1)
-     if (prefix == old_prefix) {
-         return;
-     }
-+    if (!mmu_absolute_addr_valid(prefix, true) ||
-+        !mmu_absolute_addr_valid(prefix + TARGET_PAGE_SIZE, true)) {
-+        tcg_s390_program_interrupt(env, PGM_ADDRESSING, GETPC());
-+    }
+ - Create RAM after SDMC has been realized to get correct values of
+   RAM size and max-size
+ - Size the RAM container region to max-size. We don't need more.
+
+ Changes in v2:
+
+ - handle errors
+
+ include/hw/arm/aspeed_soc.h |  2 ++
+ hw/arm/aspeed.c             | 39 ++---------------------------
+ hw/arm/aspeed_ast2600.c     |  7 ++++--
+ hw/arm/aspeed_soc.c         | 49 +++++++++++++++++++++++++++++++++++--
+ 4 files changed, 56 insertions(+), 41 deletions(-)
+
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index 02a5a9ffcbd3..e8a104823d35 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -50,6 +50,7 @@ struct AspeedSoCState {
+     A15MPPrivState     a7mpcore;
+     ARMv7MState        armv7m;
+     MemoryRegion *dram_mr;
++    MemoryRegion dram_container;
+     MemoryRegion sram;
+     AspeedVICState vic;
+     AspeedRtcState rtc;
+@@ -165,5 +166,6 @@ enum {
  
-     env->psa = prefix;
-     HELPER_LOG("prefix: %#x\n", prefix);
-
-base-commit: 3a821c52e1a30ecd9a436f2c67cc66b5628c829f
+ qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
+ void aspeed_soc_uart_init(AspeedSoCState *s);
++bool aspeed_soc_dram_init(AspeedSoCState *s, Error **errp);
+ 
+ #endif /* ASPEED_SOC_H */
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index a06f7c1b62a9..dc09773b0ba5 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -174,27 +174,6 @@ struct AspeedMachineState {
+ #define BLETCHLEY_BMC_HW_STRAP1 AST2600_EVB_HW_STRAP1
+ #define BLETCHLEY_BMC_HW_STRAP2 AST2600_EVB_HW_STRAP2
+ 
+-/*
+- * The max ram region is for firmwares that scan the address space
+- * with load/store to guess how much RAM the SoC has.
+- */
+-static uint64_t max_ram_read(void *opaque, hwaddr offset, unsigned size)
+-{
+-    return 0;
+-}
+-
+-static void max_ram_write(void *opaque, hwaddr offset, uint64_t value,
+-                           unsigned size)
+-{
+-    /* Discard writes */
+-}
+-
+-static const MemoryRegionOps max_ram_ops = {
+-    .read = max_ram_read,
+-    .write = max_ram_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+ #define AST_SMP_MAILBOX_BASE            0x1e6e2180
+ #define AST_SMP_MBOX_FIELD_ENTRY        (AST_SMP_MAILBOX_BASE + 0x0)
+ #define AST_SMP_MBOX_FIELD_GOSIGN       (AST_SMP_MAILBOX_BASE + 0x4)
+@@ -324,20 +303,16 @@ static void aspeed_machine_init(MachineState *machine)
+     AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(machine);
+     AspeedSoCClass *sc;
+     DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
+-    ram_addr_t max_ram_size;
+     int i;
+     NICInfo *nd = &nd_table[0];
+ 
+-    memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
+-                       4 * GiB);
+-    memory_region_add_subregion(&bmc->ram_container, 0, machine->ram);
+-
+     object_initialize_child(OBJECT(machine), "soc", &bmc->soc, amc->soc_name);
+ 
+     sc = ASPEED_SOC_GET_CLASS(&bmc->soc);
+ 
+     /*
+-     * This will error out if isize is not supported by memory controller.
++     * This will error out if the RAM size is not supported by the
++     * memory controller of the SoC.
+      */
+     object_property_set_uint(OBJECT(&bmc->soc), "ram-size", machine->ram_size,
+                              &error_fatal);
+@@ -369,16 +344,6 @@ static void aspeed_machine_init(MachineState *machine)
+                          amc->uart_default);
+     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+ 
+-    memory_region_add_subregion(get_system_memory(),
+-                                sc->memmap[ASPEED_DEV_SDRAM],
+-                                &bmc->ram_container);
+-
+-    max_ram_size = object_property_get_uint(OBJECT(&bmc->soc), "max-ram-size",
+-                                            &error_abort);
+-    memory_region_init_io(&bmc->max_ram, NULL, &max_ram_ops, NULL,
+-                          "max_ram", max_ram_size  - machine->ram_size);
+-    memory_region_add_subregion(&bmc->ram_container, machine->ram_size, &bmc->max_ram);
+-
+     aspeed_board_init_flashes(&bmc->soc.fmc,
+                               bmc->fmc_model ? bmc->fmc_model : amc->fmc_model,
+                               amc->num_cs, 0);
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index b0a4199b6960..bb5927c36bbf 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -197,8 +197,6 @@ static void aspeed_soc_ast2600_init(Object *obj)
+     object_initialize_child(obj, "sdmc", &s->sdmc, typename);
+     object_property_add_alias(obj, "ram-size", OBJECT(&s->sdmc),
+                               "ram-size");
+-    object_property_add_alias(obj, "max-ram-size", OBJECT(&s->sdmc),
+-                              "max-ram-size");
+ 
+     for (i = 0; i < sc->wdts_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+@@ -443,6 +441,11 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+                         sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
+     }
+ 
++    /* RAM */
++    if (!aspeed_soc_dram_init(s, errp)) {
++        return;
++    }
++
+     /* Net */
+     for (i = 0; i < sc->macs_num; i++) {
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), "aspeed", true,
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 30574d4276ab..3e6055ac9129 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -11,6 +11,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "hw/misc/unimp.h"
+ #include "hw/arm/aspeed_soc.h"
+@@ -191,8 +192,6 @@ static void aspeed_soc_init(Object *obj)
+     object_initialize_child(obj, "sdmc", &s->sdmc, typename);
+     object_property_add_alias(obj, "ram-size", OBJECT(&s->sdmc),
+                               "ram-size");
+-    object_property_add_alias(obj, "max-ram-size", OBJECT(&s->sdmc),
+-                              "max-ram-size");
+ 
+     for (i = 0; i < sc->wdts_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+@@ -369,6 +368,11 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+                         sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
+     }
+ 
++    /* RAM  */
++    if (!aspeed_soc_dram_init(s, errp)) {
++        return;
++    }
++
+     /* Net */
+     for (i = 0; i < sc->macs_num; i++) {
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), "aspeed", true,
+@@ -561,3 +565,44 @@ void aspeed_soc_uart_init(AspeedSoCState *s)
+                        serial_hd(i), DEVICE_LITTLE_ENDIAN);
+     }
+ }
++
++/*
++ * SDMC should be realized first to get correct RAM size and max size
++ * values
++ */
++bool aspeed_soc_dram_init(AspeedSoCState *s, Error **errp)
++{
++    AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
++    ram_addr_t ram_size, max_ram_size;
++
++    ram_size = object_property_get_uint(OBJECT(&s->sdmc), "ram-size",
++                                        &error_abort);
++    max_ram_size = object_property_get_uint(OBJECT(&s->sdmc), "max-ram-size",
++                                            &error_abort);
++
++    memory_region_init(&s->dram_container, OBJECT(s), "ram-container",
++                       max_ram_size);
++    memory_region_add_subregion(&s->dram_container, 0, s->dram_mr);
++
++    /*
++     * Add a memory region beyond the RAM region to let firmwares scan
++     * the address space with load/store and guess how much RAM the
++     * SoC has.
++     */
++    if (ram_size < max_ram_size) {
++        DeviceState *dev = qdev_new(TYPE_UNIMPLEMENTED_DEVICE);
++
++        qdev_prop_set_string(dev, "name", "ram-empty");
++        qdev_prop_set_uint64(dev, "size", max_ram_size  - ram_size);
++        if (!sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), errp)) {
++            return false;
++        }
++
++        memory_region_add_subregion_overlap(&s->dram_container, ram_size,
++                      sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0), -1000);
++    }
++
++    memory_region_add_subregion(get_system_memory(),
++                      sc->memmap[ASPEED_DEV_SDRAM], &s->dram_container);
++    return true;
++}
 -- 
-2.36.1
+2.35.3
 
 
