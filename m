@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378C755B928
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:33:03 +0200 (CEST)
-Received: from localhost ([::1]:39178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD5B55B92C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:37:09 +0200 (CEST)
+Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5m3C-0003qH-6m
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41436)
+	id 1o5m7A-00012U-Od
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltJ-0002Ja-Ni
+ id 1o5ltK-0002Jc-6s
  for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:50 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33879)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltH-0004sk-88
+ id 1o5ltH-0004st-SM
  for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:49 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- m6-20020a05600c3b0600b003a0489f412cso1151907wms.1
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:46 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id i1so7844312wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=UTv8wcV/DPc1kqXdo7thfBSpvl/+DZKxa8gDxsT5bAo=;
- b=TneaXHkM0fXpTarEfQI31y/ee0jSB/jVfAHkfjIosObO2/4CocUTQMR1TuR8OlDeZP
- YuLocisOt5J/NrSxWU1zJ4FoHouf301ZLK+UUPs0WvkXEge69OF+vWG0Pgic0KEcTpiH
- x/JtPbLPej/g0LLIBW3delR+nVxRRKex+xh7UzrmVrzJobIvwhK5qwNLWvXqX+wG61ag
- b+HK/0vO92DcJKP4tbRWuTATHgPANeLIh4FSdyC3GhtIn5Oohos7/G0cSZa6DRrNBiEE
- H7mQqqZEzoadhH9IfN+F2LZnSXV8NYThJL6VD1tM8x9MgslRUv5+x0pxMjvQ4GFCILr+
- GGxQ==
+ bh=5wziFx4VrUkDL3R6unNxwrzbYVixhlidQEgVavCRMsE=;
+ b=n/J6yPinG1LqfWCQtbOnNPM/nUCvRgKDHEm2ii0BHR45ChdudLgloKFUSxeF8Cwjsj
+ 0H4yhQHPj8tg6/7+UE8/LnZFXkeOJVodu+bCAMKhPDDGDN9rd7B7D+vNqXKHwpH440zN
+ XHeSyWvz0O34H0uQWePQ4H66BK6yUGoP9bKwO8szcGQcU5QUGWJDyup+DZT09vyrhxFJ
+ FzieaupHyItmCoCvBonGJh5io8BzEC9PlRRF4z0nFCBJyb0Z0k5mvw6pl4dPyP0HfDYV
+ CVGgz1rQx70wLB4I1WKyokfvTBHjbLkG6KVNchRPXT7oCvbz1TPARaJC9wHM9a7D78Cd
+ VGSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UTv8wcV/DPc1kqXdo7thfBSpvl/+DZKxa8gDxsT5bAo=;
- b=ZfLSeIT4alN0Qz7HuIZ8V16+apDinlptjnrA15mJWWojqtPCifv25fQMnRQhut/m73
- 1Z5uzaUotPCjhx+cQBMQd1VXh6HZstbVRsg+FrjHsEWNn+tfooWOlaXvPrysoixcO+Ve
- /s/+S/pIA12kc/eCgVqqG/gn6TdvlnNVoPw4q/keRPG+P7DvY4ebg05MrGVXnJJ5XrMw
- 8+06WggOpCRh6hZwGQvMJY66XfA2eWoimNPQNsm2j7FeUCqzvxqGUfpBOhjwfZRVYI/O
- hfMBM5hWDWCjrBE+cGbaVvruLqrRdApQFYJaPUT5ABSjFYZBmLuV+9UasjG7oMUfmZQ5
- bEng==
-X-Gm-Message-State: AJIora+ELsM6KdDaghS87xp5i6Nv0B1WlXtV+oPML9HBtfufAFbusEJA
- 9BkX/KMoMbVA3AyUJU0Q5g1AYp4yIQfLOQ==
-X-Google-Smtp-Source: AGRyM1suHhxwqAc6u/FL3G1A+6CzgIgWNPzjse9RBX50ZcnW3R6mE/kseJkNxR4nxOlLtN8d7OFuhg==
-X-Received: by 2002:a1c:7719:0:b0:3a0:31a6:4469 with SMTP id
- t25-20020a1c7719000000b003a031a64469mr14404228wmi.20.1656325365869; 
- Mon, 27 Jun 2022 03:22:45 -0700 (PDT)
+ bh=5wziFx4VrUkDL3R6unNxwrzbYVixhlidQEgVavCRMsE=;
+ b=aqgKeAb578YE1XAKooCZOouHv66SWWCwkugf3iwdFm93a0nvHiSTU61JUvEE793IBO
+ tvhGjseNeeZcoz/Lt/UdhAKgoaFrFW3CX3JoALojswPC/Au7ko4jnnvEV46nDZRtH7Dj
+ qPophT33F4ZGLgEu2qFeTON0mjRBxW/tWy+1Dz469eaZEY7ltnYDsDUytV74C5seRK6w
+ aCjOr+txre+98BAj5WtT/ARKgcbIp5kV9KuN6l3P1bohcXrtIB5MXDvKxL3mLe9zZzLk
+ fknAqrgqV2EVdiOLBeyzwwWYr5itHBqAbXbZf6tX9j5JsTAo4XGAlFTw5JXg2MzXBf/2
+ Jn8w==
+X-Gm-Message-State: AJIora/kf/vV8EQyPQLGQVhqlqEkivagqdOULNCElfW7hpmHbdjaCD6k
+ sBnS6pJq6ndsa7PF4VmvPDvpyQN9ikOOSw==
+X-Google-Smtp-Source: AGRyM1uyeYLxJZlCB65Cuua+befZvH/lqQhQiTOpoZyp+MBzRs7CUXXW6Jp+8I7i240IwZ/LwJM/iQ==
+X-Received: by 2002:adf:f245:0:b0:21b:c705:8b1 with SMTP id
+ b5-20020adff245000000b0021bc70508b1mr6764332wrp.282.1656325366522; 
+ Mon, 27 Jun 2022 03:22:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  d11-20020a5d6dcb000000b0020e6ce4dabdsm9754335wrz.103.2022.06.27.03.22.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 03:22:45 -0700 (PDT)
+ Mon, 27 Jun 2022 03:22:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/25] target/arm: Add SMIDR_EL1, SMPRI_EL1, SMPRIMAP_EL2
-Date: Mon, 27 Jun 2022 11:22:21 +0100
-Message-Id: <20220627102236.3097629-11-peter.maydell@linaro.org>
+Subject: [PULL 11/25] target/arm: Add PSTATE.{SM,ZA} to TB flags
+Date: Mon, 27 Jun 2022 11:22:22 +0100
+Message-Id: <20220627102236.3097629-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220627102236.3097629-1-peter.maydell@linaro.org>
 References: <20220627102236.3097629-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,68 +90,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Implement the streaming mode identification register, and the
-two streaming priority registers.  For QEMU, they are all RES0.
+These are required to determine if various insns
+are allowed to issue.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220620175235.60881-8-richard.henderson@linaro.org
+Message-id: 20220620175235.60881-9-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ target/arm/cpu.h           | 2 ++
+ target/arm/translate.h     | 4 ++++
+ target/arm/helper.c        | 4 ++++
+ target/arm/translate-a64.c | 2 ++
+ 4 files changed, 12 insertions(+)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index dec52c6c3b9..05d369e690a 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3160,6 +3160,8 @@ FIELD(TBFLAG_A64, TCMA, 16, 2)
+ FIELD(TBFLAG_A64, MTE_ACTIVE, 18, 1)
+ FIELD(TBFLAG_A64, MTE0_ACTIVE, 19, 1)
+ FIELD(TBFLAG_A64, SMEEXC_EL, 20, 2)
++FIELD(TBFLAG_A64, PSTATE_SM, 22, 1)
++FIELD(TBFLAG_A64, PSTATE_ZA, 23, 1)
+ 
+ /*
+  * Helpers for using the above.
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index c88c9533253..93766649f7f 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -97,6 +97,10 @@ typedef struct DisasContext {
+     bool align_mem;
+     /* True if PSTATE.IL is set */
+     bool pstate_il;
++    /* True if PSTATE.SM is set. */
++    bool pstate_sm;
++    /* True if PSTATE.ZA is set. */
++    bool pstate_za;
+     /* True if MVE insns are definitely not predicated by VPR or LTPSIZE */
+     bool mve_no_pred;
+     /*
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 2072f2a550e..bbd04fbd67b 100644
+index bbd04fbd67b..e06c054c3d7 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6351,6 +6351,18 @@ static CPAccessResult access_tpidr2(CPUARMState *env, const ARMCPRegInfo *ri,
-     return CP_ACCESS_OK;
- }
+@@ -11335,6 +11335,10 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+     }
+     if (cpu_isar_feature(aa64_sme, env_archcpu(env))) {
+         DP_TBFLAG_A64(flags, SMEEXC_EL, sme_exception_el(env, el));
++        if (FIELD_EX64(env->svcr, SVCR, SM)) {
++            DP_TBFLAG_A64(flags, PSTATE_SM, 1);
++        }
++        DP_TBFLAG_A64(flags, PSTATE_ZA, FIELD_EX64(env->svcr, SVCR, ZA));
+     }
  
-+static CPAccessResult access_esm(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                 bool isread)
-+{
-+    /* TODO: FEAT_FGT for SMPRI_EL1 but not SMPRIMAP_EL2 */
-+    if (arm_current_el(env) < 3
-+        && arm_feature(env, ARM_FEATURE_EL3)
-+        && !FIELD_EX64(env->cp15.cptr_el[3], CPTR_EL3, ESM)) {
-+        return CP_ACCESS_TRAP_EL3;
-+    }
-+    return CP_ACCESS_OK;
-+}
-+
- static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                        uint64_t value)
- {
-@@ -6408,6 +6420,27 @@ static const ARMCPRegInfo sme_reginfo[] = {
-       .access = PL3_RW, .type = ARM_CP_SME,
-       .fieldoffset = offsetof(CPUARMState, vfp.smcr_el[3]),
-       .writefn = smcr_write, .raw_writefn = raw_write },
-+    { .name = "SMIDR_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 6,
-+      .access = PL1_R, .accessfn = access_aa64_tid1,
-+      /*
-+       * IMPLEMENTOR = 0 (software)
-+       * REVISION    = 0 (implementation defined)
-+       * SMPS        = 0 (no streaming execution priority in QEMU)
-+       * AFFINITY    = 0 (streaming sve mode not shared with other PEs)
-+       */
-+      .type = ARM_CP_CONST, .resetvalue = 0, },
-+    /*
-+     * Because SMIDR_EL1.SMPS is 0, SMPRI_EL1 and SMPRIMAP_EL2 are RES 0.
-+     */
-+    { .name = "SMPRI_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 1, .crm = 2, .opc2 = 4,
-+      .access = PL1_RW, .accessfn = access_esm,
-+      .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "SMPRIMAP_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 2, .opc2 = 5,
-+      .access = PL2_RW, .accessfn = access_esm,
-+      .type = ARM_CP_CONST, .resetvalue = 0 },
- };
- #endif /* TARGET_AARCH64 */
- 
+     sctlr = regime_sctlr(env, stage1);
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 8f609f46b6a..5cf4a283bac 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14630,6 +14630,8 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->ata = EX_TBFLAG_A64(tb_flags, ATA);
+     dc->mte_active[0] = EX_TBFLAG_A64(tb_flags, MTE_ACTIVE);
+     dc->mte_active[1] = EX_TBFLAG_A64(tb_flags, MTE0_ACTIVE);
++    dc->pstate_sm = EX_TBFLAG_A64(tb_flags, PSTATE_SM);
++    dc->pstate_za = EX_TBFLAG_A64(tb_flags, PSTATE_ZA);
+     dc->vec_len = 0;
+     dc->vec_stride = 0;
+     dc->cp_regs = arm_cpu->cp_regs;
 -- 
 2.25.1
 
