@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F33C55BAE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 17:56:24 +0200 (CEST)
-Received: from localhost ([::1]:45748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCC055BAE1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 17:53:57 +0200 (CEST)
+Received: from localhost ([::1]:39564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5r67-0007AA-OJ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 11:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43292)
+	id 1o5r3k-0002yk-5B
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 11:53:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
- id 1o5qxu-0001UA-6B; Mon, 27 Jun 2022 11:47:54 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:56387)
+ id 1o5qxo-0001SW-7b; Mon, 27 Jun 2022 11:47:48 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:49002)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
- id 1o5qxr-0005eX-No; Mon, 27 Jun 2022 11:47:53 -0400
+ id 1o5qxl-0005eI-99; Mon, 27 Jun 2022 11:47:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1656344871; x=1687880871;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=vBgQt0zz/0b55IfTM8Iv8peB3xv6k7qk91htfd6lJQM=;
- b=VNJDldcVdBUscxhD3cFMAxho2qYlc3KboKqEE1Qb5zlL/6Z66E1nBOqv
- nznGyy043GeYY3RXv85/ZBORJ/V30qHAa5t0qpCkZhODoqNt82dTzp49c
- Zhx1r4qsTEOSV8ANlSrPv8I1yW9CBG/f/h4/EMgs7nr6af5V2/yAfhxhc M=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 27 Jun 2022 08:47:50 -0700
+ t=1656344865; x=1687880865;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=wlE4/kRVP+JrOBEciIqPQfCAOuGeAuBM13j3gCsmiyw=;
+ b=XPI01AHCHUzNCYyXldCXSh2yJ1IiLilqkQi5XCBpefpsr5OTquLFOBMx
+ ck/aQ9256sEqLOtz5U9FHiY+BDYv2diPaOdQ6EdqXif8fIs6Saz0Cr7CR
+ 8pt5mJKDwSGLdCk2IXTeekum5CinwgNz9caSLZM56DQusU9WnNfC9TB1J 0=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 27 Jun 2022 08:47:37 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2022 08:47:35 -0700
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2022 08:47:36 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 27 Jun 2022 08:47:34 -0700
+ 15.2.986.22; Mon, 27 Jun 2022 08:47:36 -0700
 Received: from maru.qualcomm.com (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 27 Jun
- 2022 08:47:33 -0700
+ 2022 08:47:34 -0700
 From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Titus Rwantare
@@ -49,18 +49,21 @@ To: Peter Maydell <peter.maydell@linaro.org>,
 CC: Graeme Gregory <quic_ggregory@quicinc.com>, Maheswara Kurapati
  <quic_mkurapat@quicinc.com>, Jae Hyun Yoo <quic_jaehyoo@quicinc.com>,
  <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v2 0/7] Add Qualcomm BMC machines
-Date: Mon, 27 Jun 2022 08:46:56 -0700
-Message-ID: <20220627154703.148943-1-quic_jaehyoo@quicinc.com>
+Subject: [PATCH v2 1/7] hw/arm/aspeed: add support for the Qualcomm DC-SCM v1
+ board
+Date: Mon, 27 Jun 2022 08:46:57 -0700
+Message-ID: <20220627154703.148943-2-quic_jaehyoo@quicinc.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220627154703.148943-1-quic_jaehyoo@quicinc.com>
+References: <20220627154703.148943-1-quic_jaehyoo@quicinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
-Received-SPF: pass client-ip=129.46.98.28;
- envelope-from=quic_jaehyoo@quicinc.com; helo=alexa-out.qualcomm.com
+Received-SPF: pass client-ip=199.106.114.38;
+ envelope-from=quic_jaehyoo@quicinc.com; helo=alexa-out-sd-01.qualcomm.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -83,52 +86,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Add qcom-dc-scm-v1 board support.
 
-I'm sending a series to add Qualcomm BMC machines that are equipped with
-Aspeed AST2600 SoC. Also, this series adds MAX31785 fan controller device
-emulation. Please help to review.
-
-Thanks,
-
-Jae
-
+Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+---
 Changes in v2:
-* Fixed a typo in QCOM DC-SCM V1 HW strap value comment. (Rebecca)
+* Fixed a typo in HW strap value comment. (Rebecca)
 * Removed a useless change which is reverted by the next patch. (Joel)
-* Changed machine name to 'qcom-firework-bmc'. (Cedric)
-* Dropped FRU eeprom initialization part. (Patrick)
-* Fixed comment for a case of PB_ALL_PAGES. (Titus)
-* Removed an error log printing when it handles PB_ALL_PAGES. (Jae)
-* Fixed a typo in copyright in max31785.c. (Rebecca)
-* Fixed indentation issues in max31785.c. (Titus)
-* Fixed license identifier style and refined indentation of defines. (Jae)
-* Added PMBUS and MAX31785 config selection under ASPEED_SOC. (Titus)
-* Moved machine updating part from the previous patch. (Cedric)
-* Refined code to avoid retouching by the next patch. (Joel)
 
-Graeme Gregory (1):
-  hw/arm/aspeed: add Qualcomm Firework BMC machine
+ hw/arm/aspeed.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-Jae Hyun Yoo (2):
-  hw/arm/aspeed: add support for the Qualcomm DC-SCM v1 board
-  hw/arm/aspeed: firework: add I2C MUXes for VR channels
-
-Maheswara Kurapati (4):
-  hw/i2c: pmbus: Page #255 is valid page for read requests.
-  hw/sensor: add Maxim MAX31785 device
-  hw/arm/aspeed: Add MAX31785 Fan controllers
-  hw/arm/aspeed: firework: Add Thermal Diodes
-
- hw/arm/Kconfig        |   2 +
- hw/arm/aspeed.c       |  95 ++++++-
- hw/i2c/pmbus_device.c |   6 +-
- hw/sensor/Kconfig     |   4 +
- hw/sensor/max31785.c  | 573 ++++++++++++++++++++++++++++++++++++++++++
- hw/sensor/meson.build |   1 +
- 6 files changed, 674 insertions(+), 7 deletions(-)
- create mode 100644 hw/sensor/max31785.c
-
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 98dc185acd9a..cb7d99513816 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -174,6 +174,10 @@ struct AspeedMachineState {
+ #define BLETCHLEY_BMC_HW_STRAP1 AST2600_EVB_HW_STRAP1
+ #define BLETCHLEY_BMC_HW_STRAP2 AST2600_EVB_HW_STRAP2
+ 
++/* Qualcomm DC-SCM hardware value */
++#define QCOM_DC_SCM_V1_BMC_HW_STRAP1  0x00000000
++#define QCOM_DC_SCM_V1_BMC_HW_STRAP2  0x00000041
++
+ /*
+  * The max ram region is for firmwares that scan the address space
+  * with load/store to guess how much RAM the SoC has.
+@@ -988,6 +992,13 @@ static void fby35_i2c_init(AspeedMachineState *bmc)
+      */
+ }
+ 
++static void qcom_dc_scm_bmc_i2c_init(AspeedMachineState *bmc)
++{
++    AspeedSoCState *soc = &bmc->soc;
++
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 15), "tmp105", 0x4d);
++}
++
+ static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
+ {
+     return ASPEED_MACHINE(obj)->mmio_exec;
+@@ -1420,6 +1431,26 @@ static void aspeed_minibmc_machine_ast1030_evb_class_init(ObjectClass *oc,
+     amc->macs_mask = 0;
+ }
+ 
++static void aspeed_machine_qcom_dc_scm_v1_class_init(ObjectClass *oc,
++                                                     void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
++
++    mc->desc       = "Qualcomm DC-SCM V1 BMC (Cortex A7)";
++    amc->soc_name  = "ast2600-a3";
++    amc->hw_strap1 = QCOM_DC_SCM_V1_BMC_HW_STRAP1;
++    amc->hw_strap2 = QCOM_DC_SCM_V1_BMC_HW_STRAP2;
++    amc->fmc_model = "n25q512a";
++    amc->spi_model = "n25q512a";
++    amc->num_cs    = 2;
++    amc->macs_mask = ASPEED_MAC2_ON | ASPEED_MAC3_ON;
++    amc->i2c_init  = qcom_dc_scm_bmc_i2c_init;
++    mc->default_ram_size = 1 * GiB;
++    mc->default_cpus = mc->min_cpus = mc->max_cpus =
++        aspeed_soc_num_cpus(amc->soc_name);
++};
++
+ static const TypeInfo aspeed_machine_types[] = {
+     {
+         .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
+@@ -1457,6 +1488,10 @@ static const TypeInfo aspeed_machine_types[] = {
+         .name          = MACHINE_TYPE_NAME("g220a-bmc"),
+         .parent        = TYPE_ASPEED_MACHINE,
+         .class_init    = aspeed_machine_g220a_class_init,
++    }, {
++        .name          = MACHINE_TYPE_NAME("qcom-dc-scm-v1-bmc"),
++        .parent        = TYPE_ASPEED_MACHINE,
++        .class_init    = aspeed_machine_qcom_dc_scm_v1_class_init,
+     }, {
+         .name          = MACHINE_TYPE_NAME("fp5280g2-bmc"),
+         .parent        = TYPE_ASPEED_MACHINE,
 -- 
 2.25.1
 
