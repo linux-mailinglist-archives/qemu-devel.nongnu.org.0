@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3759E55BBE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 21:59:52 +0200 (CEST)
-Received: from localhost ([::1]:36386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826AA55BF2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 09:40:31 +0200 (CEST)
+Received: from localhost ([::1]:47306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5uti-00009e-RX
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 15:59:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43076)
+	id 1o65pm-0006RL-I5
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 03:40:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=71779173e5=pdel@fb.com>)
- id 1o5upa-0004eb-QN
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 15:55:34 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:10412)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o655x-000224-Vn
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 02:53:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=71779173e5=pdel@fb.com>)
- id 1o5upY-0000fH-U8
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 15:55:34 -0400
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25RJ1QtM010903
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 12:55:32 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=facebook;
- bh=YnSoyQOrwBcMGgkMZvl1ogHCeNgy/jX5OX+hBxDpfZs=;
- b=kABmYFBNyFI049/kzjUO88nA7uZkzO+TJjqsguOfg4kS+miqJUGeYSZu5eM4E5EvK8Mt
- A8DjCbu2WAPof6YG+D2suKbPVfWXBwInLSJCcqLkiHMIYchD/1Hv8n9MvLd5iezLPRbF
- TY8SJusG7Lku1XnrkO+b3HJ7HgpI0o0YCZo= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gwyvyp71n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 12:55:32 -0700
-Received: from twshared13315.14.prn3.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Mon, 27 Jun 2022 12:55:30 -0700
-Received: by devvm9194.prn0.facebook.com (Postfix, from userid 385188)
- id C7B7D8D206E7; Mon, 27 Jun 2022 12:55:07 -0700 (PDT)
-From: Peter Delevoryas <pdel@fb.com>
-To: 
-CC: <pdel@fb.com>, <zhdaniel@fb.com>, <clg@kaod.org>, <qemu-devel@nongnu.org>, 
- <qemu-arm@nongnu.org>, <komlodi@google.com>, <titusr@google.com>,
- <andrew@aj.id.au>, <joel@jms.id.au>
-Subject: [PATCH 04/14] aspeed: i2c: Fix DMA len write-enable bit handling
-Date: Mon, 27 Jun 2022 12:54:56 -0700
-Message-ID: <20220627195506.403715-5-pdel@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220627195506.403715-1-pdel@fb.com>
-References: <20220627195506.403715-1-pdel@fb.com>
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: F0GLFGE5SkbaJOeyoaj3R9G3H6ESDVJg
-X-Proofpoint-GUID: F0GLFGE5SkbaJOeyoaj3R9G3H6ESDVJg
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o655t-0007BM-Hy
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 02:53:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656399184;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=b290Ec9ZTD0SbYLQ7X+ZQRezxYuCdlMSGysI1oYRCsg=;
+ b=isb1Nd8pUl6VP5//RouA7F1OtmWf8m7t+EPNayz9Z4r94jVaiFYis1t/IlQPUtc5CgBNug
+ j/sd0qPlR/TYz/62851mE67yv7HvXvAlyKHEq5wFEgc00TMYFBB0dh5ojQCAIW/I+Ae9SW
+ UaMLW2PhCVbzZY9qW3Jt9CuEre23YUs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-629--CCvMsl3Pnad2zbQUrM8Xw-1; Tue, 28 Jun 2022 02:52:47 -0400
+X-MC-Unique: -CCvMsl3Pnad2zbQUrM8Xw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C7233833280;
+ Tue, 28 Jun 2022 06:52:47 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78ACF40F9D40;
+ Tue, 28 Jun 2022 06:52:45 +0000 (UTC)
+Date: Mon, 27 Jun 2022 15:15:36 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org, hare@suse.de, Hanna Reitz <hreitz@redhat.com>,
+ dmitry.fomichev@wdc.com, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, damien.lemoal@opensource.wdc.com,
+ qemu-block@nongnu.org
+Subject: Re: [RFC v3 1/5] block: add block layer APIs resembling Linux
+ ZonedBlockDevice ioctls.
+Message-ID: <Yrm7iNLdIJjOjQmR@stefanha-x1.localdomain>
+References: <20220627001917.9417-1-faithilikerun@gmail.com>
+ <20220627001917.9417-2-faithilikerun@gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-27_06,2022-06-24_01,2022-06-22_01
-Received-SPF: pass client-ip=67.231.153.30;
- envelope-from=prvs=71779173e5=pdel@fb.com; helo=mx0b-00082601.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WL3zi9vIwBbjkOvU"
+Content-Disposition: inline
+In-Reply-To: <20220627001917.9417-2-faithilikerun@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIMWL_WL_HIGH=-0.082, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,57 +85,206 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I noticed i2c rx transfers were getting shortened to "1" on Zephyr. It
-seems to be because the Zephyr i2c driver sets the RX DMA len with the
-RX field write-enable bit set (bit 31) to avoid a read-modify-write. [1]
 
-/* 0x1C : I2CM Master DMA Transfer Length Register   */
+--WL3zi9vIwBbjkOvU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think we should be checking the write-enable bits on the incoming
-value, not checking the register array. I'm not sure we're even writing
-the write-enable bits to the register array, actually.
+On Mon, Jun 27, 2022 at 08:19:13AM +0800, Sam Li wrote:
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index e0e1aff4b1..786f964d02 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -1810,6 +1810,62 @@ int blk_flush(BlockBackend *blk)
+>      return ret;
+>  }
+> =20
+> +/*
+> + * Return zone_report from BlockDriver. Offset can be any number within
+> + * the zone size. No alignment for offset and len.
 
-[1] https://github.com/AspeedTech-BMC/zephyr/blob/db3dbcc9c52e67a47180890ac=
-938ed380b33f91c/drivers/i2c/i2c_aspeed.c#L145-L148
+What is the purpose of len? Is it the maximum number of zones to return
+in nr_zones[]?
 
-Fixes: ba2cccd64e90f34 ("aspeed: i2c: Add new mode support")
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
----
- hw/i2c/aspeed_i2c.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+How does the caller know how many zones were returned?
 
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 2cfd05cb6c..6c8222717f 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -644,18 +644,18 @@ static void aspeed_i2c_bus_new_write(AspeedI2CBus *bu=
-s, hwaddr offset,
-                                                      RX_BUF_LEN) + 1;
-         break;
-     case A_I2CM_DMA_LEN:
--        w1t =3D ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, RX_BUF_LEN_W1T) =
-||
--                   ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, TX_BUF_LEN_W1=
-T);
-+        w1t =3D FIELD_EX32(value, I2CM_DMA_LEN, RX_BUF_LEN_W1T) ||
-+              FIELD_EX32(value, I2CM_DMA_LEN, TX_BUF_LEN_W1T);
-         /* If none of the w1t bits are set, just write to the reg as norma=
-l. */
-         if (!w1t) {
-             bus->regs[R_I2CM_DMA_LEN] =3D value;
-             break;
-         }
--        if (ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, RX_BUF_LEN_W1T)) {
-+        if (FIELD_EX32(value, I2CM_DMA_LEN, RX_BUF_LEN_W1T)) {
-             ARRAY_FIELD_DP32(bus->regs, I2CM_DMA_LEN, RX_BUF_LEN,
-                              FIELD_EX32(value, I2CM_DMA_LEN, RX_BUF_LEN));
-         }
--        if (ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, TX_BUF_LEN_W1T)) {
-+        if (FIELD_EX32(value, I2CM_DMA_LEN, TX_BUF_LEN_W1T)) {
-             ARRAY_FIELD_DP32(bus->regs, I2CM_DMA_LEN, TX_BUF_LEN,
-                              FIELD_EX32(value, I2CM_DMA_LEN, TX_BUF_LEN));
-         }
---=20
-2.30.2
+> + */
+> +int coroutine_fn blk_co_zone_report(BlockBackend *blk, int64_t offset,
+> +                       int64_t len, int64_t *nr_zones,
+> +                       BlockZoneDescriptor *zones)
+> +{
+> +    int ret;
+> +    BlockDriverState *bs;
+> +    IO_CODE();
+> +
+> +    blk_inc_in_flight(blk); /* increase before waiting */
+> +    blk_wait_while_drained(blk);
+> +    bs =3D blk_bs(blk);
+> +
+> +    ret =3D blk_check_byte_request(blk, offset, len);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    bdrv_inc_in_flight(bs);
+
+The bdrv_inc/dec_in_flight() call should be inside
+bdrv_co_zone_report(). See bdrv_co_ioctl() for an example.
+
+> +    ret =3D bdrv_co_zone_report(blk->root->bs, offset, len,
+> +                              nr_zones, zones);
+> +    bdrv_dec_in_flight(bs);
+> +    blk_dec_in_flight(blk);
+> +    return ret;
+> +}
+> +
+> +/*
+> + * Return zone_mgmt from BlockDriver.
+
+Maybe this should be:
+
+  Send a zone management command.
+
+> @@ -216,6 +217,11 @@ typedef struct RawPosixAIOData {
+>              PreallocMode prealloc;
+>              Error **errp;
+>          } truncate;
+> +        struct {
+> +            int64_t *nr_zones;
+> +            BlockZoneDescriptor *zones;
+> +        } zone_report;
+> +        zone_op op;
+
+It's cleaner to put op inside a struct zone_mgmt so its purpose is
+self-explanatory:
+
+  struct {
+      zone_op op;
+  } zone_mgmt;
+
+> +static int handle_aiocb_zone_report(void *opaque) {
+> +    RawPosixAIOData *aiocb =3D opaque;
+> +    int fd =3D aiocb->aio_fildes;
+> +    int64_t *nr_zones =3D aiocb->zone_report.nr_zones;
+> +    BlockZoneDescriptor *zones =3D aiocb->zone_report.zones;
+> +    int64_t offset =3D aiocb->aio_offset;
+> +    int64_t len =3D aiocb->aio_nbytes;
+> +
+> +    struct blk_zone *blkz;
+> +    int64_t rep_size, nrz;
+> +    int ret, n =3D 0, i =3D 0;
+> +
+> +    nrz =3D *nr_zones;
+> +    if (len =3D=3D -1) {
+> +        return -errno;
+
+Where is errno set? Should this be an errno constant instead like
+-EINVAL?
+
+> +    }
+> +    rep_size =3D sizeof(struct blk_zone_report) + nrz * sizeof(struct bl=
+k_zone);
+> +    g_autofree struct blk_zone_report *rep =3D g_new(struct blk_zone_rep=
+ort, nrz);
+
+g_new() looks incorrect. There should be 1 struct blk_zone_report
+followed by nrz struct blk_zone structs. Please use g_malloc(rep_size)
+instead.
+
+> +    offset =3D offset / 512; /* get the unit of the start sector: sector=
+ size is 512 bytes. */
+> +    printf("start to report zone with offset: 0x%lx\n", offset);
+> +
+> +    blkz =3D (struct blk_zone *)(rep + 1);
+> +    while (n < nrz) {
+> +        memset(rep, 0, rep_size);
+> +        rep->sector =3D offset;
+> +        rep->nr_zones =3D nrz;
+
+What prevents zones[] overflowing? nrz isn't being reduced in the loop,
+so maybe the rep->nr_zones return value will eventually exceed the
+number of elements still available in zones[n..]?
+
+> +static int handle_aiocb_zone_mgmt(void *opaque) {
+> +    RawPosixAIOData *aiocb =3D opaque;
+> +    int fd =3D aiocb->aio_fildes;
+> +    int64_t offset =3D aiocb->aio_offset;
+> +    int64_t len =3D aiocb->aio_nbytes;
+> +    zone_op op =3D aiocb->op;
+> +
+> +    struct blk_zone_range range;
+> +    const char *ioctl_name;
+> +    unsigned long ioctl_op;
+> +    int64_t zone_size;
+> +    int64_t zone_size_mask;
+> +    int ret;
+> +
+> +    ret =3D ioctl(fd, BLKGETZONESZ, &zone_size);
+
+Can this value be stored in bs (maybe in BlockLimits) to avoid calling
+ioctl(BLKGETZONESZ) each time?
+
+> +    if (ret) {
+> +        return -1;
+
+The return value should be a negative errno. -1 is -EPERM but it's
+probably not that error code you wanted. This should be:
+
+  return -errno;
+
+> +    }
+> +
+> +    zone_size_mask =3D zone_size - 1;
+> +    if (offset & zone_size_mask) {
+> +        error_report("offset is not the start of a zone");
+> +        return -1;
+
+return -EINVAL;
+
+> +    }
+> +
+> +    if (len & zone_size_mask) {
+> +        error_report("len is not aligned to zones");
+> +        return -1;
+
+return -EINVAL;
+
+> +static int coroutine_fn raw_co_zone_report(BlockDriverState *bs, int64_t=
+ offset,
+> +        int64_t len, int64_t *nr_zones,
+> +        BlockZoneDescriptor *zones) {
+> +    BDRVRawState *s =3D bs->opaque;
+> +    RawPosixAIOData acb;
+> +
+> +    acb =3D (RawPosixAIOData) {
+> +        .bs         =3D bs,
+> +        .aio_fildes =3D s->fd,
+> +        .aio_type   =3D QEMU_AIO_IOCTL,
+> +        .aio_offset =3D offset,
+> +        .aio_nbytes =3D len,
+> +        .zone_report    =3D {
+> +                .nr_zones       =3D nr_zones,
+> +                .zones          =3D zones,
+> +                },
+
+Indentation is off here. Please use 4-space indentation.
+
+--WL3zi9vIwBbjkOvU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmK5u4gACgkQnKSrs4Gr
+c8iVoQf9GDC/wVII0mxayVlLZNFt9V1tJMQVkaEdzeUwcE75akQGVWVKVCgXiqvQ
+lINJ49CLmYui5SuKc08guYLN/VwkuoGyNYmNlaR2Wev8ncg9kebq//4iv1Kg0aF3
+CChtGFzo0bdFksRk9KsbwL2ZxYsOhcRHetiJy0f2wqHQO6mtssVhnjq10sUvKVkW
+AtMnXYB71mFiDrGYgCipTE6En4T0FXuC6lsWz6+WIQYJ54ml0l8DGKoENc1UGbtP
+YOCGwEAQRr7Yv4XX4huT+XOkOt2gAYPHCNmemYesW9PA3owcS5RGQouU7YS6oHXN
+gpu5j3d4IciDu1OyZDQKoOj4O1dghQ==
+=hLHu
+-----END PGP SIGNATURE-----
+
+--WL3zi9vIwBbjkOvU--
 
 
