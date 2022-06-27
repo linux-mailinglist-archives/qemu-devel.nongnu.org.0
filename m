@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109D555B80D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 08:58:14 +0200 (CEST)
-Received: from localhost ([::1]:38714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7994355B815
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:05:27 +0200 (CEST)
+Received: from localhost ([::1]:44488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5ihI-0002MB-C7
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 02:58:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49420)
+	id 1o5ioF-0006UU-DE
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:05:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5ifI-0000YD-I9
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:56:09 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:38656)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1o5ikz-0005Ce-R8
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:02:01 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:39873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5ifG-0008D2-I4
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:56:08 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id g26so17037323ejb.5
- for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 23:56:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1o5iku-0000hE-Bw
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:02:01 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id r3so15153178ybr.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 00:01:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ d=atishpatra.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W/SBgG0dJdJrkaOHS43xw7WgW3zchwd0zSES9W6VwfI=;
- b=J2fFAcWbNFPCV935+I8UpVVOluxKrlsVRNhctiZWczj91Xv4upTzkTbqtUUVq/7xg4
- t4A49Qxd0CywFwylGLVDaDa7Pq3bj6FaYr4kbQE7q1E2lcHSGITPXH8LGd8tXIz9rFT2
- tq9yHzlDgvR9WxJWfnozqWRme3ZCj+CxcMta+wq9YiAAxexYeqIYufwoLhVEALK2jqzo
- NVtxams/Rlhb3WI8BruP44yvqA6ViGgZVMZ5mlIQcA9ouJ5201R5HFt1mYsp3EqrNURJ
- CJJ2R6mEQt3yjehhtPQn6g09BsbMykZ2JnTJKixfowqK+wrGlm8uc8tL2UqTWBiLreAB
- VaSg==
+ :cc; bh=aLN80trak9GFXzASdT2oj/4CVlTYZPUHoQzGhAMByUk=;
+ b=V9XmOoW4JzkzAHetbiR+2NA0+034A8ab7qOg554mw47KLh3H6x71fwzvDoO862ihRw
+ 7peIt2788i+aruPrndyMneij3wA30lgGpmJ/cHgxbWz/e93ISRDdguYIXnswYwrC1kUz
+ BnG5eumZxcn298ZRT0IDO5svS6dwentwzqGKw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=W/SBgG0dJdJrkaOHS43xw7WgW3zchwd0zSES9W6VwfI=;
- b=C1IwZBjL4utl0BXYni69/pECXwgoLcI9U+X+SrF6yZVFmp8bLdCjRGpqhwOg7z+B0S
- UYDy0WkJjK9x0zM0P/HVgYEmbxCzDsYJdTo+sZ+S1SsMkviGiqHRFso1AtvjiaIe7v55
- /VZUbna1U5Cav0Df/crBtaxgdKOg3r3xJhxyoNTGBBOuzWRm1cB4yRACocQhdS7mGRZs
- mzEkKxstLrghRSpu736iv+6yWuWYkQMvxX1MVSRfPJ6MGypaQ2xNATlGrQUPAVdqmQnh
- cCERqKCYdXHpz5l0MIClPh0rG16cmoFO91KtEzFGMrHlY5TBSmAQISUND7gLG3gcRA4b
- YCmg==
-X-Gm-Message-State: AJIora9ljevCQAnoC1nhm3SEh0P9bBrQodZcRPU2jiniM9owigM+jvZl
- 0l6dMkd/k3OIJUthFz2dATMlG3VxpCiA/yZCowz1SAMbJCmcSSyhmRY=
-X-Google-Smtp-Source: AGRyM1skLuIptEDE4EdZGD2u58j+ejlY5ZTYs9zT0StM+2D67Moqn83y9xGdQcrcpRhCxP9pXqXDxGEee5d3KNJwt0E=
-X-Received: by 2002:a17:907:97d4:b0:722:e550:7490 with SMTP id
- js20-20020a17090797d400b00722e5507490mr11555803ejc.625.1656312965066; Sun, 26
- Jun 2022 23:56:05 -0700 (PDT)
+ bh=aLN80trak9GFXzASdT2oj/4CVlTYZPUHoQzGhAMByUk=;
+ b=KbDB428JnqrfnIu5KjsFhP/AyD5GHlnHZnsiE03/1vCMbzhtV2MFhxBNYXfuYnQDYH
+ X89OvA+H4hh3cHLbVPk5EJbHdmVNJ+suAN6+BeOU9sYf/xFunpHwcGyb7hoJespkGj78
+ RX8uhtZtqovzKmeWtq2qwdW3LMJrlds5/PClGe38IT4EgvO8DJAB9iUmomt7ieXbgTVQ
+ +DViuIbKJPId82KBqQSpubyNb01FIS1L7VQxxSjXMJT06teApIpGvHmU6Rq0rnCYHwH0
+ 6nLBNYbRuUNfKL3O5HXseK2Bq2W20STCmsEveb7+5df6yztufdHSu43+e3lwY8lwEzeS
+ RhHw==
+X-Gm-Message-State: AJIora/+fsen4zV7ZHJGyg4VxkctuMd0zf6mlG82yr14fLoO3MHwu02+
+ wiNo8aMvFOg5lw/ZJJIlsYP3/S8RLDEzr2d0nOkD
+X-Google-Smtp-Source: AGRyM1uV35/WYmS989DInmu/6VT4x6G6Ovlu6YKOG2Vf5kMmmMCNIIAk/hh+t/cNOjwBEcLysWsqJveLvBo36USkT9I=
+X-Received: by 2002:a05:6902:136c:b0:649:81aa:5f7b with SMTP id
+ bt12-20020a056902136c00b0064981aa5f7bmr11983455ybb.303.1656313314777; Mon, 27
+ Jun 2022 00:01:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220627064414.1527623-1-ani@anisinha.ca>
- <CAARzgwyKJrzd78enu7y+s-bP9vs6L9Q=3hjrZ8_99FYKt98GrA@mail.gmail.com>
-In-Reply-To: <CAARzgwyKJrzd78enu7y+s-bP9vs6L9Q=3hjrZ8_99FYKt98GrA@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 27 Jun 2022 12:25:54 +0530
-Message-ID: <CAARzgwxNyByTJhwNT-MobgCPBjm4DPVFL3WpP8kAxp8yjxXrhA@mail.gmail.com>
-Subject: Re: [PATCH 00/12] Introduce new acpi/smbios qtests using biosbits
-To: qemu-devel@nongnu.org
-Cc: imammedo@redhat.com, mst@redhat.com
+References: <20220608062015.317894-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20220608062015.317894-1-alistair.francis@opensource.wdc.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Mon, 27 Jun 2022 00:01:44 -0700
+Message-ID: <CAOnJCUJWvF_hMitqhBSJevqaFmpfL6V74+Cud=MH-tQ0kFpK4Q@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: boot: Reduce FDT address alignment constraints
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair23@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::62e;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,105 +84,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 27, 2022 at 12:22 PM Ani Sinha <ani@anisinha.ca> wrote:
+On Tue, Jun 7, 2022 at 11:21 PM Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
 >
-> On Mon, Jun 27, 2022 at 12:14 PM Ani Sinha <ani@anisinha.ca> wrote:
-> >
-> > Biosbits is a software written by Josh Triplett that can be downloaded by
-> > visiting https://biosbits.org/. The github codebase can be found here:
-> > https://github.com/biosbits/bits/tree/master. It is a software that exercizes
-> > the bios components such as acpi and smbios tables directly through acpica
-> > bios interpreter (a freely available C based library written by Intel,
-> > downloadable from https://acpica.org/ and is included with biosbits) without an
-> > operating system getting involved in between.
-> > There are several advantages to directly testing the bios in a real physical
-> > machine or VM as opposed to indirectly discovering bios issues through the
-> > operating system. For one thing, the OSes tend to hide bios problems from the
-> > end user. The other is that we have more control of what we wanted to test
-> > and how by directly using acpica interpreter on top of the bios on a running
-> > system. More details on the inspiration for developing biosbits and its real
-> > life uses can be found in (a) and (b).
-> > This patchset contains QEMU qtests written in python that exercizes the QEMU
-> > bios components using biosbits and reports test failures.
-> >
-> > Details of each of the files added by this patchset are provided in the README
-> > file which is part of Patch 11. Every effort to contact Josh, through various
-> > means including email, twitter, linkedIn etc has failed. Hence, the changes to
-> > build biosbits with the newer compiler, upgrade acpica and other changes are
-> > currently maintained in a forked project in my personal github. We may want to
-> > maintain bits in a separate fork in a stable repository that is accessible by
-> > QEMU developers.
-> >
-> > The newly introduced qtest currently only run for x86_64 platform. They pass
-> > both when running make check on a baremetal box as well as from inside a vm.
-> >
-> > Thanks to Igor M for pointing me to this work.
-> >
-> > (a) https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/867/original/bits.pdf
-> > (b) https://www.youtube.com/watch?v=36QIepyUuhg
+> From: Alistair Francis <alistair.francis@wdc.com>
 >
-> Doh, sending the patch series failed since google won't allow file
-> sizes larger than 25 MB. The bits prebuilt binaries have sizes 30 MB
-> and 40 MB in two separate patches :(
+> We previously stored the device tree at a 16MB alignment from the end of
+> memory (or 3GB). This means we need at least 16MB of memory to be able
+> to do this. We don't actually need the FDT to be 16MB aligned, so let's
+> drop it down to 2MB so that we can support systems with less memory,
+> while also allowing FDT size expansion.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/992
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/riscv/boot.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 57a41df8e9..e476d8f491 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -226,11 +226,11 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+>      /*
+>       * We should put fdt as far as possible to avoid kernel/initrd overwriting
+>       * its content. But it should be addressable by 32 bit system as well.
+> -     * Thus, put it at an 16MB aligned address that less than fdt size from the
+> +     * Thus, put it at an 2MB aligned address that less than fdt size from the
+>       * end of dram or 3GB whichever is lesser.
+>       */
+>      temp = (dram_base < 3072 * MiB) ? MIN(dram_end, 3072 * MiB) : dram_end;
+> -    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 16 * MiB);
+> +    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
+>
+>      ret = fdt_pack(fdt);
+>      /* Should only fail if we've built a corrupted tree */
+> --
+> 2.36.1
+>
+>
 
-I have pushed the patchset here:
-https://gitlab.com/anisinha/qemu/-/commits/acpi-bits .
+Reviewed-by: Atish Patra <atishp@rivosinc.com>
 
->
-> >
-> > Ani Sinha (12):
-> >   qtest: meson.build changes required to integrate python based qtests
-> >   acpi/tests/bits: add prebuilt bios bits zip archive
-> >   acpi/tests/bits: add prebuilt bits generated grub modules and scripts
-> >   acpi/tests/bits: initial commit of test scripts that are run by
-> >     biosbits
-> >   acpi/tests/bits: disable acpi PSS tests that are failing in biosbits
-> >   acpi/tests/bits: add smilatency test suite from bits in order to
-> >     disable it
-> >   acpi/tests/bits: disable smilatency test since it does not pass
-> >     everytime
-> >   acpi/tests/bits: add biosbits config file for running bios tests
-> >   acpi/tests/bits: add acpi and smbios python tests that uses biosbits
-> >   acpi/tests/bits: add acpi bits qtest directory in meson for running
-> >     tests
-> >   acpi/tests/bits: add README file for bits qtests
-> >   MAINTAINERS: add myself as the maintainer for acpi biosbits qtests
-> >
-> >  MAINTAINERS                                   |    5 +
-> >  tests/qtest/acpi-bits/README                  |  168 ++
-> >  tests/qtest/acpi-bits/acpi-bits-test-venv.sh  |   59 +
-> >  tests/qtest/acpi-bits/acpi-bits-test.py       |  327 +++
-> >  .../qtest/acpi-bits/bits-config/bits-cfg.txt  |   18 +
-> >  tests/qtest/acpi-bits/bits-config/meson.build |   11 +
-> >  tests/qtest/acpi-bits/bits-tests/meson.build  |   11 +
-> >  tests/qtest/acpi-bits/bits-tests/smbios.py    | 2430 +++++++++++++++++
-> >  .../qtest/acpi-bits/bits-tests/smilatency.py  |  103 +
-> >  tests/qtest/acpi-bits/bits-tests/testacpi.py  |  283 ++
-> >  tests/qtest/acpi-bits/bits-tests/testcpuid.py |   83 +
-> >  tests/qtest/acpi-bits/meson.build             |   39 +
-> >  .../acpi-bits/prebuilt/bits-2095-grub.tar.gz  |  Bin 0 -> 41416278 bytes
-> >  tests/qtest/acpi-bits/prebuilt/bits-2095.zip  |  Bin 0 -> 31922898 bytes
-> >  tests/qtest/acpi-bits/prebuilt/meson.build    |   11 +
-> >  tests/qtest/acpi-bits/requirements.txt        |    1 +
-> >  tests/qtest/meson.build                       |    7 +-
-> >  17 files changed, 3555 insertions(+), 1 deletion(-)
-> >  create mode 100644 tests/qtest/acpi-bits/README
-> >  create mode 100644 tests/qtest/acpi-bits/acpi-bits-test-venv.sh
-> >  create mode 100644 tests/qtest/acpi-bits/acpi-bits-test.py
-> >  create mode 100644 tests/qtest/acpi-bits/bits-config/bits-cfg.txt
-> >  create mode 100644 tests/qtest/acpi-bits/bits-config/meson.build
-> >  create mode 100644 tests/qtest/acpi-bits/bits-tests/meson.build
-> >  create mode 100644 tests/qtest/acpi-bits/bits-tests/smbios.py
-> >  create mode 100644 tests/qtest/acpi-bits/bits-tests/smilatency.py
-> >  create mode 100644 tests/qtest/acpi-bits/bits-tests/testacpi.py
-> >  create mode 100644 tests/qtest/acpi-bits/bits-tests/testcpuid.py
-> >  create mode 100644 tests/qtest/acpi-bits/meson.build
-> >  create mode 100644 tests/qtest/acpi-bits/prebuilt/bits-2095-grub.tar.gz
-> >  create mode 100644 tests/qtest/acpi-bits/prebuilt/bits-2095.zip
-> >  create mode 100644 tests/qtest/acpi-bits/prebuilt/meson.build
-> >  create mode 100644 tests/qtest/acpi-bits/requirements.txt
-> >
-> > --
-> > 2.25.1
-> >
+-- 
+Regards,
+Atish
 
