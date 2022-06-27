@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B148C55B7E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 08:17:44 +0200 (CEST)
-Received: from localhost ([::1]:38646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9B755B7E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 08:21:52 +0200 (CEST)
+Received: from localhost ([::1]:42464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5i47-0000LB-Ip
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 02:17:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41802)
+	id 1o5i87-0002IQ-EU
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 02:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <simon.sapin@exyr.org>)
- id 1o5i1f-0007pe-Bm
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:15:11 -0400
-Received: from r0-2.smtpout1.paris1.alwaysdata.com
- ([2a00:b6e0:1:40:1:0:10:6]:46183)
+ (Exim 4.90_1) (envelope-from <yuan.yao@intel.com>)
+ id 1o5i5T-0001PW-Es
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:19:07 -0400
+Received: from mga17.intel.com ([192.55.52.151]:55381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <simon.sapin@exyr.org>)
- id 1o5i1c-0000Pw-F6
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:15:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=alwaysdata.net; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=a/HDckDCTgqMeUj3lqmuq9wc9NsWYnJ++VwBRdwDunM=; b=SLzYLTgGNVi6DdPhi4/5s6vFuA
- 7hcVdnD4ltAZlU09y/yfsltBtswSXGNIV0g+LxZ5p59i4MsYNGqQVnZ5Pdg2qZO8nBu3IFwrYhYfN
- bZ+elMn7yzaCNYJs9ttnRk7XNGlSoH3TtyivtJ8ni5iEnVXzS87/m/ZXU9T6MYFzaIGI=;
-Received: from [2a01:e34:ecb8:5a0:f192:bd1d:5684:24ee]
- by smtpout1.paris1.alwaysdata.com with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <simon.sapin@exyr.org>)
- id 1o5i1U-0002pw-Gc; Mon, 27 Jun 2022 08:15:00 +0200
-Message-ID: <357832d7-6e23-4298-5dbf-cf9171e32e6e@exyr.org>
-Date: Mon, 27 Jun 2022 08:15:00 +0200
+ (Exim 4.90_1) (envelope-from <yuan.yao@intel.com>)
+ id 1o5i5O-00013v-3C
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:19:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656310742; x=1687846742;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Yl3W5cbd8JhLFYmtQSivPF+jTkKrZmBsYGHNvoCbMmk=;
+ b=J1Ck0hxSIfyAAxpLDcgLPYSpLWcokB61VRUmz3Lt598xPKBwH5ctwd1e
+ NIxfm6EzZ3iAfq69viSs/+nSMg7amFy4xOdKoxeUz4hGwUF35wuhQ0l+2
+ 6rg1BtChVLonooz+deR3PGFuP3NbjKkq3QGun0gA+uaHcnCFo2DzsHDox
+ nu/0Qyj5SAmkftPUJmHzOduHasxk3DabWOnixrwIClcDBAo5fp0gBcI5Q
+ cpvk2qTuh30cdaajlbi7HT3nVxPAfL3saoTbrEVjFBlVRf8RlxlaZ+fbf
+ DtJYhVm/o7uT7FWR+SHF9BRXpQ5qR6r2YnLa9QzM3LMEVmLO0p/z+7Bq1 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10390"; a="261783221"
+X-IronPort-AV: E=Sophos;i="5.92,225,1650956400"; d="scan'208";a="261783221"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2022 23:18:57 -0700
+X-IronPort-AV: E=Sophos;i="5.92,225,1650956400"; d="scan'208";a="539999432"
+Received: from sqa-gate.sh.intel.com (HELO localhost.tsp.org) ([10.239.48.212])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2022 23:18:55 -0700
+From: Yuan Yao <yuan.yao@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
+ Connor Kuehl <ckuehl@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, Yuan Yao <yuan.yao@intel.com>,
+ Yamahata Isaku <isaku.yamahata@intel.com>
+Subject: [PATCH v2 1/1] i386/monitor: Fix page table walking issue for LA57
+ enabled guest
+Date: Mon, 27 Jun 2022 14:18:46 +0800
+Message-Id: <20220627061846.18294-1-yuan.yao@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: Booting bare-metal RISC-V virt (Was: [PATCH] Add some
- documentation for "dtb" devices tree blobs)
-Content-Language: en-US-large
-To: Alistair Francis <alistair23@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>
-References: <20220625223458.1273408-1-simon.sapin@exyr.org>
- <da785d05-e322-2e40-7a89-e926256c6dbe@exyr.org>
- <CAKmqyKN+xvOseT_5XeFgZ=b77giU+wdaZy=w9OgEFL8EXNGDVg@mail.gmail.com>
-From: Simon Sapin <simon.sapin@exyr.org>
-In-Reply-To: <CAKmqyKN+xvOseT_5XeFgZ=b77giU+wdaZy=w9OgEFL8EXNGDVg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-alwaysdata-ID: 127430093
-Received-SPF: pass client-ip=2a00:b6e0:1:40:1:0:10:6;
- envelope-from=simon.sapin@exyr.org; helo=r0-2.smtpout1.paris1.alwaysdata.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=yuan.yao@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,46 +78,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/06/2022 07:40, Alistair Francis wrote:
-> We have previously kept the addresses backwards compatible. So that
-> software for an older virt machine will work on a newer one. There is
-> currently talks about changing the virt machine memory layout in a
-> breaking way and versioning in the current one though.
-> 
-> So I don't really have a good answer for you. I would recommend
-> reading as much as possible from the device tree dynamically at boot.
-> 
-> In general though we don't want to break people, we just might have to
-> make changes in the future to allow for new functionality.
+Inverse the condition checking to PG_PRESENT_MASK when walk LA57
+guest's pdpe/pde for "info mem" command.
 
-I agree that reading from the device tree as much as possible is good. We there’s 
-still a need to get code running at all, and finding the device tree.
+The current condition checking:
+if (PG_PRESENT_MASK is set)
+    Skip low level page table.
+else
+    Try to walk low level page table.
 
-So it would be good to decide to make stable what’s needed to get there (like was 
-apparently decided for ARM) and document it.
+This is wrong because PG_PRESENT_MASK is set means the pdpe/pde is
+present so we should continue walking the low level page table it
+points to. This issue leads to no mapping information is collected for
+LA57 guest when run the command.
 
-On principle maybe a firmware/bootloader could be entirely position-independent? But 
-in what I’ve done/seen so far https://docs.rs/riscv-rt/latest/riscv_rt/ has address 
-ranges hard-coded in a linker script for different regions, and when passing an ELF 
-file to -kernel, QEMU maps it to those addresses but boots at 0x8000_0000 regardless.
+v2:
+1. Fix Typo (Zhang Chen <chen.zhang@intel.com> and Markus Armbruster
+<armbru@redhat.com>).
+2. Rewrite commit message (Markus Armbruster <armbru@redhat.com>).
+3. Add Fixes tag (Markus Armbruster <armbru@redhat.com>).
 
+Fixes: 6c7c3c21f9 ("x86: implement la57 paging mode")
+Signed-off-by: Yuan Yao <yuan.yao@intel.com>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+---
+ target/i386/monitor.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->> * With `qemu-system-riscv32 -machine virt -bios none -kernel something.elf -s -S`,
->> GDB shows that execution starts at the lowest address of RAM, not of flash like I
->> expected. Then what is emulated flash for?
-> 
-> If you supply a flash image we will start executing from flash automatically.
-
-Passing with -drive? Should I use that instead of -kernel?
-
-
->> * To what extent is the above calling convention standardized? I found similar things
->> in coreboot[4] and in OpenSBI[5]
-> 
-> Good question. I don't think it's specified in a spec, but it is very common
-
-Should we document this convention as something guest code can rely on?
-
+diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+index 8e4b4d600c..3339550bbe 100644
+--- a/target/i386/monitor.c
++++ b/target/i386/monitor.c
+@@ -489,7 +489,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
+                 cpu_physical_memory_read(pdp_addr + l2 * 8, &pdpe, 8);
+                 pdpe = le64_to_cpu(pdpe);
+                 end = (l0 << 48) + (l1 << 39) + (l2 << 30);
+-                if (pdpe & PG_PRESENT_MASK) {
++                if (!(pdpe & PG_PRESENT_MASK)) {
+                     prot = 0;
+                     mem_print(mon, env, &start, &last_prot, end, prot);
+                     continue;
+@@ -508,7 +508,7 @@ static void mem_info_la57(Monitor *mon, CPUArchState *env)
+                     cpu_physical_memory_read(pd_addr + l3 * 8, &pde, 8);
+                     pde = le64_to_cpu(pde);
+                     end = (l0 << 48) + (l1 << 39) + (l2 << 30) + (l3 << 21);
+-                    if (pde & PG_PRESENT_MASK) {
++                    if (!(pde & PG_PRESENT_MASK)) {
+                         prot = 0;
+                         mem_print(mon, env, &start, &last_prot, end, prot);
+                         continue;
 -- 
-Simon Sapin
+2.27.0
+
 
