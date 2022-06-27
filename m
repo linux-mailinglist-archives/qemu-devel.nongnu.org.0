@@ -2,98 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB7D55BC5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 00:49:10 +0200 (CEST)
-Received: from localhost ([::1]:57174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE5A55BC64
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 00:55:58 +0200 (CEST)
+Received: from localhost ([::1]:35972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5xXY-0006VK-KW
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 18:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45566)
+	id 1o5xe8-00038k-Lw
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 18:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o5xTS-0003k5-GK
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 18:44:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49429)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o5xTP-00087M-Kq
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 18:44:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656369890;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=REIyZDSDcr2skaI6495nIQHNz4ZdQYXixOS58GS6QBY=;
- b=OzpCL/pVHfRQfrmNAASSM3HjIXweGhJ5SK3xtOm62K+MBesBhIQB11SgqFbUjz/PHQJzdU
- LFHuKjE8hIr9XIBCeNBjzhx1kGW3EWhGcVztGD6ZFgzZ0oyufQEZI/HhyY6vUA/PUySWwn
- iypEo7TIWMjJDdo8KCEH7NfYbfJ6tpo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-341-8fMkDoeoNraCpOE5uoze3g-1; Mon, 27 Jun 2022 18:44:49 -0400
-X-MC-Unique: 8fMkDoeoNraCpOE5uoze3g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 6-20020a1c0206000000b003a02cd754d1so4200080wmc.9
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 15:44:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o5xc7-0002Ac-Lt
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 18:53:51 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38869)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o5xc3-00014X-Ga
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 18:53:49 -0400
+Received: by mail-pl1-x633.google.com with SMTP id m14so9474218plg.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 15:53:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=vYqXd79+V8jayTOkJhsqghC4+xfdJz7wmyDIIc9y5K8=;
+ b=t46IGSRECvFJy+uZorMe0b7NFz6RJbmhJ4ZmU4Ct7K14I1Y1FK9LbmHyeyENi/Y8II
+ Um/lHrN4wqn0TF3XkuXjcEFzQKu5ddRFWhNcCEhUhDaDnxUI1sL9YnRy4Asy1ZQoNvkj
+ T8pjRx+7TMrW/TfkLBE/GetN4p/og1ardDO6E6XAF82FSyIkTlIa6FIa6/yPqDTi1ZY9
+ eOqGYdJYmn17wRGC6MugWSCtIlgVmVF1wOEo76gX3X+Hpu+LF6ciGdI9yt/Knb+C9Qd2
+ 2z742wBZ+rUhG1U9SEXwk+jWZssYxSxMNCddXhID+Bbmt224VGcVZitLbKVwF/UynlVc
+ c+9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=REIyZDSDcr2skaI6495nIQHNz4ZdQYXixOS58GS6QBY=;
- b=Z1ory8WghISBmjZud+qvzg2rHIOJI7XgbaxKMn1hWShpH9UV381gREnny/5MtXFKUS
- Jgs+IYaUQwthi91CDPh4GTu14OIpS9igbujWh34upySEQkPphxWu4AJhnNnxXcPkfOyS
- qPUUfBsz/mI9U6UN1KutVXDFDob5TEs69uxPzJLapwvorAbReicD+VCaWwLhxxy6gYXW
- 0FixyS0HCDxHkxYT1XDptlYZAULDXLpkp+e9mxgva/dwJy/zNJIjYau1QtAmuC5W8dCh
- fc45i7gZ373zVzFzHqqp42BGatyy8TaVvdu9K3u8IZmhTyNYWPk29wxkJxCN5HSbUXEx
- h3xw==
-X-Gm-Message-State: AJIora+7/2PtA39RhDhkZl7FFKOHw/O7N54A+cAQILYXNycw4jTV6Qmi
- YD4m21KyIW2EozqTwsFyxfB38u1d8me9qMGy53l1C8zxJyTqVy8HkyiEXMA+mx3b48/kF1xIstF
- 0jLxvyxjeZY14N8I=
-X-Received: by 2002:a5d:6484:0:b0:21b:b121:679b with SMTP id
- o4-20020a5d6484000000b0021bb121679bmr15063100wri.482.1656369887906; 
- Mon, 27 Jun 2022 15:44:47 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1unK62BCp3lgzw3/+TWOS3YGbD/4DhgSP1AVRz5iZ+80u1+C2qFx0tVoz3MHJzj5Pt72JkQXA==
-X-Received: by 2002:a5d:6484:0:b0:21b:b121:679b with SMTP id
- o4-20020a5d6484000000b0021bb121679bmr15063065wri.482.1656369887608; 
- Mon, 27 Jun 2022 15:44:47 -0700 (PDT)
-Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- z5-20020adfe545000000b0021b81855c1csm14187572wrm.27.2022.06.27.15.44.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 15:44:46 -0700 (PDT)
-Date: Mon, 27 Jun 2022 18:44:39 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Zheng Chuan <zhengchuan@huawei.com>,
- Mark Kanda <mark.kanda@oracle.com>, Guoyi Tu <tugy@chinatelecom.cn>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philippe.mathieu.daude@gmail.com>, 
- Igor Mammedov <imammedo@redhat.com>,
- David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH V8 24/39] pci: export export msix_is_pending
-Message-ID: <20220627184410-mutt-send-email-mst@kernel.org>
-References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
- <1655304746-102776-25-git-send-email-steven.sistare@oracle.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vYqXd79+V8jayTOkJhsqghC4+xfdJz7wmyDIIc9y5K8=;
+ b=r5YT+6tKRVpPWnnI5WXiCd7mAGRM3Y6TKZF3gedur03kiffqWIJfED8DgxgBZUryW7
+ kg27nw3E8CwIQ0na4SB7dExxqCZIkybkkHK18pHh0+m+XJ9hhc/FEzfy8iJNfcyPmwTL
+ z7wFU5MYxWxUQ+PR4xS62QD2PvUV0jT5JNYiB5nQ06FwxD50yvm3WwlsB9ze9fBza+kx
+ vl5khzw1RGIa9wg1lfjDVedeFwOP4f3Fw74jz+Ym+GYZ+4ZDw0T3MkJOlD/IfUcLrhYQ
+ cnzP+4OzEyPsJKaBYnK63BbZp2ErwSVYJsFgglbrTt+cKg93RyYPRZb6tm3dQEqVx7qe
+ AssQ==
+X-Gm-Message-State: AJIora9i+sa9fiLj6k9UlTuhMrlEb9cYiT7YtN5hjHQ4xmegZT3JYn6A
+ ujBB0BjBbr0Tis5K/sVmRlD7Fg==
+X-Google-Smtp-Source: AGRyM1vRQne9lzGXHouOYNTLqG2ivn8OQnMRDdIyM2f8xlIF2+wFIyuDeCCwbeOk2+FMT1dzLj2VbQ==
+X-Received: by 2002:a17:902:d502:b0:16a:797c:cfb1 with SMTP id
+ b2-20020a170902d50200b0016a797ccfb1mr1765573plg.137.1656370425843; 
+ Mon, 27 Jun 2022 15:53:45 -0700 (PDT)
+Received: from [192.168.123.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ ip11-20020a17090b314b00b001ec84b0f199sm83181pjb.1.2022.06.27.15.53.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jun 2022 15:53:45 -0700 (PDT)
+Message-ID: <a1467ccb-e0a8-b908-dfa6-08ead6aa3633@linaro.org>
+Date: Tue, 28 Jun 2022 04:23:38 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1655304746-102776-25-git-send-email-steven.sistare@oracle.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] target/arm: Fix qemu-system-arm handling of LPAE block
+ descriptors for highmem
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: He Zhe <zhe.he@windriver.com>
+References: <20220627134620.3190252-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220627134620.3190252-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,48 +94,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 15, 2022 at 07:52:11AM -0700, Steve Sistare wrote:
-> Export msix_is_pending for use by cpr.  No functional change.
+On 6/27/22 19:16, Peter Maydell wrote:
+> In commit 39a1fd25287f5d we fixed a bug in the handling of LPAE block
+> descriptors where we weren't correctly zeroing out some RES0 bits.
+> However this fix has a bug because the calculation of the mask is
+> done at the wrong width: in
+>    descaddr &= ~(page_size - 1);
+> page_size is a target_ulong, so in the 'qemu-system-arm' binary it is
+> only 32 bits, and the effect is that we always zero out the top 32
+> bits of the calculated address.  Fix the calculation by forcing the
+> mask to be calculated with the same type as descaddr.
 > 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-
-the subject repeats export twice.
-With that fixed:
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-
+> This only affects 32-bit CPUs which support LPAE (e.g. cortex-a15)
+> when used on board models which put RAM or devices above the 4GB
+> mark and when the 'qemu-system-arm' executable is being used.
+> It was also masked in 7.0 by the main bug reported in
+> https://gitlab.com/qemu-project/qemu/-/issues/1078 where the
+> virt board incorrectly does not enable 'highmem' for 32-bit CPUs.
+> 
+> The workaround is to use 'qemu-system-aarch64' with the same
+> command line.
+> 
+> Reported-by: He Zhe <zhe.he@windriver.com>
+> Fixes: 39a1fd25287f5de
+> ("target/arm: Fix handling of LPAE block descriptors")
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/pci/msix.c         | 2 +-
->  include/hw/pci/msix.h | 1 +
->  2 files changed, 2 insertions(+), 1 deletion(-)
+>   target/arm/ptw.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-> index ae9331c..e492ce0 100644
-> --- a/hw/pci/msix.c
-> +++ b/hw/pci/msix.c
-> @@ -64,7 +64,7 @@ static uint8_t *msix_pending_byte(PCIDevice *dev, int vector)
->      return dev->msix_pba + vector / 8;
->  }
->  
-> -static int msix_is_pending(PCIDevice *dev, int vector)
-> +int msix_is_pending(PCIDevice *dev, unsigned int vector)
->  {
->      return *msix_pending_byte(dev, vector) & msix_pending_mask(vector);
->  }
-> diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
-> index 4c4a60c..0065354 100644
-> --- a/include/hw/pci/msix.h
-> +++ b/include/hw/pci/msix.h
-> @@ -32,6 +32,7 @@ int msix_present(PCIDevice *dev);
->  bool msix_is_masked(PCIDevice *dev, unsigned vector);
->  void msix_set_pending(PCIDevice *dev, unsigned vector);
->  void msix_clr_pending(PCIDevice *dev, int vector);
-> +int msix_is_pending(PCIDevice *dev, unsigned vector);
->  
->  int msix_vector_use(PCIDevice *dev, unsigned vector);
->  void msix_vector_unuse(PCIDevice *dev, unsigned vector);
-> -- 
-> 1.8.3.1
+> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> index da478104f05..e71fc1f4293 100644
+> --- a/target/arm/ptw.c
+> +++ b/target/arm/ptw.c
+> @@ -1257,7 +1257,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+>            * clear the lower bits here before ORing in the low vaddr bits.
+>            */
+>           page_size = (1ULL << ((stride * (4 - level)) + 3));
+> -        descaddr &= ~(page_size - 1);
+> +        descaddr &= ~(hwaddr)(page_size - 1);
+>           descaddr |= (address & (page_size - 1));
+>           /* Extract attributes from the descriptor */
+>           attrs = extract64(descriptor, 2, 10)
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
