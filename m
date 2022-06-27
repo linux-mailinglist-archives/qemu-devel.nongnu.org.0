@@ -2,91 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 993DD55B901
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 11:50:17 +0200 (CEST)
-Received: from localhost ([::1]:50234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3B355B8FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 11:48:27 +0200 (CEST)
+Received: from localhost ([::1]:45226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5lNo-0005cB-O1
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 05:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59020)
+	id 1o5lLz-0002bY-Sq
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 05:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o5lIH-000845-Qm
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 05:44:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49625)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o5lId-0008RV-Ah
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 05:44:56 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:35205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o5lIE-00069m-KF
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 05:44:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656323068;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iG7tDiGxU0wP99DKLLuS8vaWTrFaV92ThFHt4wNAi0E=;
- b=Jp4Nx0bboplnYdtndl2ClTgKPP5Qq/Be6UGDKuy3aMqIXy4dB2QVQo5gmIHHU4bqyDLTgO
- KAICEWgSmZJgVGpqQKPanogro0Wvu2krZqZZFdFt20A5106l070DVr5I9kClWfF5rkg2ma
- rHTuE++0MtV8F3oOOmzzeWtiE95d5MU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-463-sp5RvB_WOV6b06-QLgoIbQ-1; Mon, 27 Jun 2022 05:44:27 -0400
-X-MC-Unique: sp5RvB_WOV6b06-QLgoIbQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- s14-20020adfa28e000000b0020ac7532f08so1043274wra.15
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 02:44:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:from:to:cc:references:subject:in-reply-to
- :content-transfer-encoding;
- bh=iG7tDiGxU0wP99DKLLuS8vaWTrFaV92ThFHt4wNAi0E=;
- b=mXZM6HICzmNmJhWyNU9kCN+gFsiZp8RQ/wm95FLkvZtnymeMiVCr3XlaXnzL6TSX2I
- rVhT32HJG6vzHcCcnmcsOGXqcG3KFgkrSGDpGMwxEY8XOsgho0IbTG3deLN0DTO+iZXd
- RoQivNm40kPsnh0p3uxD7Jek8cn5JYtTWYQYsjXDyoDwWMemPDGaiewiL1XAAWhbvwSu
- h9i6xKGFAWs8dlKMxTHvxJMwKZQ7fcjqllvC+D/wkmknCZsdqO7FXnQSZmIPnjr4dkFE
- Jxnu2kPdiJhQo3UwMS7MA8nXe/DT2a8+BAv6QuFDd3+HfeOpR/9G6yltzj3E5pvx+rjT
- FKRw==
-X-Gm-Message-State: AJIora8ji1vQL7t3xdLItWmaaoCaZFc/t1RBKsg/7cso0ePKEkC74yw0
- 9UnIujG2yt91nQKZSq5DnxIw8Io2+H5nsnOJyptTqbGu6OLWysvSn2WM5hbP25WnUxnl3Fa+yGh
- 8KQtkh4TLayfvI3U=
-X-Received: by 2002:adf:e28a:0:b0:210:b31:722 with SMTP id
- v10-20020adfe28a000000b002100b310722mr11415463wri.65.1656323066176; 
- Mon, 27 Jun 2022 02:44:26 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uHPBvE/yE2G/wLRM1HyezdnpL4LT+uPKFE9ct1WfEJ7MEs2dIyN3eFyj5y3Z0w9LWDdowW9g==
-X-Received: by 2002:adf:e28a:0:b0:210:b31:722 with SMTP id
- v10-20020adfe28a000000b002100b310722mr11415452wri.65.1656323065947; 
- Mon, 27 Jun 2022 02:44:25 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-178-150.web.vodafone.de.
- [109.43.178.150]) by smtp.gmail.com with ESMTPSA id
- p26-20020a1c741a000000b0039c798b2dc5sm16403912wmc.8.2022.06.27.02.44.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 02:44:25 -0700 (PDT)
-Message-ID: <94c840e5-c126-f42a-666b-8375c7a4169d@redhat.com>
-Date: Mon, 27 Jun 2022 11:44:24 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o5lIa-0006Ao-Bn
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 05:44:54 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.149])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 860C1111B3AE6;
+ Mon, 27 Jun 2022 11:44:41 +0200 (CEST)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 27 Jun
+ 2022 11:44:40 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001e822b5c6-ad83-45a9-886e-856dbc549403,
+ 659C98CE65B422D4D127A36693B7EAD6442F0B22) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <963efd69-0ed8-0400-ae2c-bc9b66d14f57@kaod.org>
+Date: Mon, 27 Jun 2022 11:44:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v4] hw: m25p80: add tests for write protect (WP# and SRWD
+ bit)
 Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-s390x@nongnu.org, Eric Farman <farman@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220624085037.612235-1-thuth@redhat.com>
- <20220624085037.612235-2-thuth@redhat.com>
-Subject: Re: [PATCH 1/2] pc-bios/s390-ccw/virtio-blkdev: Simplify/fix
- virtio_ipl_disk_is_valid()
-In-Reply-To: <20220624085037.612235-2-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Iris Chen <irischenlj@fb.com>
+CC: <pdel@fb.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
+ <patrick@stwcx.xyz>, <alistair@alistair23.me>, <kwolf@redhat.com>,
+ <hreitz@redhat.com>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
+ <joel@jms.id.au>, <thuth@redhat.com>, <lvivier@redhat.com>,
+ <pbonzini@redhat.com>, <qemu-block@nongnu.org>
+References: <20220624183016.2125264-1-irischenlj@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220624183016.2125264-1-irischenlj@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9115939f-d3d4-48bf-821a-79d76d2d8b84
+X-Ovh-Tracer-Id: 8937674938322422657
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeghedgvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,34 +78,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/06/2022 10.50, Thomas Huth wrote:
-> The s390-ccw bios fails to boot if the boot disk is a virtio-blk
-> disk with a sector size of 4096. For example:
-> 
->   dasdfmt -b 4096 -d cdl -y -p -M quick /dev/dasdX
->   fdasd -a /dev/dasdX
->   install a guest onto /dev/dasdX1 using virtio-blk
->   qemu-system-s390x -nographic -hda /dev/dasdX1
-> 
-> The bios then bails out with:
-> 
->   ! Cannot read block 0 !
-> 
-> Looking at virtio_ipl_disk_is_valid() and especially the function
-> virtio_disk_is_scsi(), it does not really make sense that we expect
-> only such a limited disk geometry (like a block size of 512) for
-> out boot disks. Let's relax the check and allow everything that
-> remotely looks like a sane disk.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 6/24/22 20:30, Iris Chen wrote:
+> Signed-off-by: Iris Chen <irischenlj@fb.com>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
+
 > ---
->   pc-bios/s390-ccw/virtio.h        |  2 --
->   pc-bios/s390-ccw/virtio-blkdev.c | 41 ++++++--------------------------
->   2 files changed, 7 insertions(+), 36 deletions(-)
-
-I just noticed that this breaks booting ISO images via the "-cdrom" option 
-... looks like this needs some additional fixes on top.
-
-  Thomas
+> Adding Signed Off By tag -- sorry I missed that !
+> 
+>   tests/qtest/aspeed_smc-test.c | 62 +++++++++++++++++++++++++++++++++++
+>   1 file changed, 62 insertions(+)
+> 
+> diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
+> index ec233315e6..7786addfb8 100644
+> --- a/tests/qtest/aspeed_smc-test.c
+> +++ b/tests/qtest/aspeed_smc-test.c
+> @@ -56,7 +56,9 @@ enum {
+>       BULK_ERASE = 0xc7,
+>       READ = 0x03,
+>       PP = 0x02,
+> +    WRSR = 0x1,
+>       WREN = 0x6,
+> +    SRWD = 0x80,
+>       RESET_ENABLE = 0x66,
+>       RESET_MEMORY = 0x99,
+>       EN_4BYTE_ADDR = 0xB7,
+> @@ -390,6 +392,64 @@ static void test_read_status_reg(void)
+>       flash_reset();
+>   }
+>   
+> +static void test_status_reg_write_protection(void)
+> +{
+> +    uint8_t r;
+> +
+> +    spi_conf(CONF_ENABLE_W0);
+> +
+> +    /* default case: WP# is high and SRWD is low -> status register writable */
+> +    spi_ctrl_start_user();
+> +    writeb(ASPEED_FLASH_BASE, WREN);
+> +    /* test ability to write SRWD */
+> +    writeb(ASPEED_FLASH_BASE, WRSR);
+> +    writeb(ASPEED_FLASH_BASE, SRWD);
+> +    writeb(ASPEED_FLASH_BASE, RDSR);
+> +    r = readb(ASPEED_FLASH_BASE);
+> +    spi_ctrl_stop_user();
+> +    g_assert_cmphex(r & SRWD, ==, SRWD);
+> +
+> +    /* WP# high and SRWD high -> status register writable */
+> +    spi_ctrl_start_user();
+> +    writeb(ASPEED_FLASH_BASE, WREN);
+> +    /* test ability to write SRWD */
+> +    writeb(ASPEED_FLASH_BASE, WRSR);
+> +    writeb(ASPEED_FLASH_BASE, 0);
+> +    writeb(ASPEED_FLASH_BASE, RDSR);
+> +    r = readb(ASPEED_FLASH_BASE);
+> +    spi_ctrl_stop_user();
+> +    g_assert_cmphex(r & SRWD, ==, 0);
+> +
+> +    /* WP# low and SRWD low -> status register writable */
+> +    qtest_set_irq_in(global_qtest,
+> +                     "/machine/soc/fmc/ssi.0/child[0]", "WP#", 0, 0);
+> +    spi_ctrl_start_user();
+> +    writeb(ASPEED_FLASH_BASE, WREN);
+> +    /* test ability to write SRWD */
+> +    writeb(ASPEED_FLASH_BASE, WRSR);
+> +    writeb(ASPEED_FLASH_BASE, SRWD);
+> +    writeb(ASPEED_FLASH_BASE, RDSR);
+> +    r = readb(ASPEED_FLASH_BASE);
+> +    spi_ctrl_stop_user();
+> +    g_assert_cmphex(r & SRWD, ==, SRWD);
+> +
+> +    /* WP# low and SRWD high -> status register NOT writable */
+> +    spi_ctrl_start_user();
+> +    writeb(ASPEED_FLASH_BASE, WREN);
+> +    /* test ability to write SRWD */
+> +    writeb(ASPEED_FLASH_BASE, WRSR);
+> +    writeb(ASPEED_FLASH_BASE, 0);
+> +    writeb(ASPEED_FLASH_BASE, RDSR);
+> +    r = readb(ASPEED_FLASH_BASE);
+> +    spi_ctrl_stop_user();
+> +    /* write is not successful */
+> +    g_assert_cmphex(r & SRWD, ==, SRWD);
+> +
+> +    qtest_set_irq_in(global_qtest,
+> +                     "/machine/soc/fmc/ssi.0/child[0]", "WP#", 0, 1);
+> +    flash_reset();
+> +}
+> +
+>   static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
+>   
+>   int main(int argc, char **argv)
+> @@ -416,6 +476,8 @@ int main(int argc, char **argv)
+>       qtest_add_func("/ast2400/smc/read_page_mem", test_read_page_mem);
+>       qtest_add_func("/ast2400/smc/write_page_mem", test_write_page_mem);
+>       qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg);
+> +    qtest_add_func("/ast2400/smc/status_reg_write_protection",
+> +                   test_status_reg_write_protection);
+>   
+>       ret = g_test_run();
+>   
 
 
