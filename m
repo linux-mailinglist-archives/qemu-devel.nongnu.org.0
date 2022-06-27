@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0833A55B998
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 14:52:06 +0200 (CEST)
-Received: from localhost ([::1]:36942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BECF55B9AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 15:04:28 +0200 (CEST)
+Received: from localhost ([::1]:43006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5oDk-0000m9-Jg
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 08:52:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
+	id 1o5oPj-0005YV-3J
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 09:04:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1o5oAa-0007Ie-LL
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 08:48:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34354)
+ (Exim 4.90_1) (envelope-from <SRS0=MnSX=XC=kaod.org=clg@ozlabs.org>)
+ id 1o5oN5-00043I-OQ; Mon, 27 Jun 2022 09:01:44 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:38635
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1o5oAW-0000NZ-Jy
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 08:48:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656334123;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D5AhM5eo3HZAjHn2jBUUuT6qhJrdVJF8JGtCkDe/5Es=;
- b=Vi1Wi3QBpWaMuA85ZF2CgsXxb0LGSKrBwC/6KNWeomenp8bdwI8cntTT1c5pZ1bdM7BuLm
- D+Q1avEvvAIqU6hBic3bXw24eAd/n1a+C2PaMfjds5E5PgIbQCKEaQHg2dzUHG7tubBQL1
- 0lrPbHM0M9vtpEIFhgC5AEnQmIVvvxs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-248-GrQ_7hgoPLyb8b91PfxidA-1; Mon, 27 Jun 2022 08:48:41 -0400
-X-MC-Unique: GrQ_7hgoPLyb8b91PfxidA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <SRS0=MnSX=XC=kaod.org=clg@ozlabs.org>)
+ id 1o5oMz-0002Yw-Ne; Mon, 27 Jun 2022 09:01:41 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LWnsv09DRz4xXD;
+ Mon, 27 Jun 2022 23:01:23 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03F6E2803025
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 12:48:41 +0000 (UTC)
-Received: from localhost (unknown [10.40.194.91])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C588415F5E;
- Mon, 27 Jun 2022 12:48:40 +0000 (UTC)
-Date: Mon, 27 Jun 2022 14:48:39 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- John Snow <jsnow@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>
-Subject: Re: [RFC PATCH v2 0/8] qapi: add generator for Golang interface
-Message-ID: <20220627124839.fliskdn4twbazqqk@tapioca>
-References: <20220617121932.249381-1-victortoso@redhat.com>
- <87fsjq60gm.fsf@pond.sub.org>
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LWnsr0L6Cz4xDH;
+ Mon, 27 Jun 2022 23:01:19 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, Peter Delevoryas <pdel@fb.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH v3] aspeed: Set the dram container at the SoC level
+Date: Mon, 27 Jun 2022 15:01:14 +0200
+Message-Id: <20220627130114.705892-1-clg@kaod.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mnsoslogsu7shf7n"
-Content-Disposition: inline
-In-Reply-To: <87fsjq60gm.fsf@pond.sub.org>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=SRS0=MnSX=XC=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,113 +65,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Currently, the Aspeed machines allocate a ram container region in
+which the machine ram region is mapped. See commit ad1a9782186d
+("aspeed: add a RAM memory region container"). An extra region is
+mapped after ram in the ram container to catch invalid access done by
+FW. That's how FW determines the size of ram. See commit ebe31c0a8ef7
+("aspeed: add a max_ram_size property to the memory controller").
 
---mnsoslogsu7shf7n
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Let's move all the logic under the SoC where it should be. It will
+also ease the work on multi SoC support.
 
-Hi Markus,
+Reviewed-by: Peter Delevoryas <pdel@fb.com>
+Message-Id: <20220623202123.3972977-1-clg@kaod.org>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
 
-On Mon, Jun 27, 2022 at 09:15:53AM +0200, Markus Armbruster wrote:
-> Victor Toso <victortoso@redhat.com> writes:
->=20
-> > Hi,
-> >
-> > This is the second iteration of RFC v1:
-> >   https://lists.gnu.org/archive/html/qemu-devel/2022-04/msg00226.html
-> >
-> >
-> > # What this is about?
-> >
-> > To generate a simple Golang interface that could communicate with QEMU
-> > over QMP. The Go code that is generated is meant to be used as the bare
-> > bones to exchange QMP messages.
-> >
-> > The goal is to have this as a Go module in QEMU gitlab namespace,
-> > similar to what have been done to pyhon-qemu-qmp
-> >   https://gitlab.com/qemu-project/python-qemu-qmp
->=20
-> Aspects of review:
->=20
-> (1) Impact on common code, if any
->=20
->     I care, because any messes made there are likely to affect me down
->     the road.
+ Changes in v3:
 
-For the first version of the Go generated interface, my goal is
-to have something that works and can be considered alpha to other
-Go projects.
+ - Create RAM after SDMC has been realized to get correct values of
+   RAM size and max-size
+ - Size the RAM container region to max-size. We don't need more.
 
-With this first version, I don't want to bring huge changes to
-the python library or to the QAPI spec and its usage in QEMU.
-Unless someone finds that a necessity.
+ Changes in v2:
 
-So I hope (1) is simple :)
+ - handle errors
 
-> (2) The generated Go code
->=20
->     Is it (close to) what we want long term?  If not, is it good enough
->     short term, and how could we make necessary improvements?
->=20
->     I'd prefer to leave this to folks who actually know their Go.
-> (3) General Python sanity
->=20
->     We need eyes, but not necessarily mine.  Any takers?
->=20
-> [...]
->=20
-> >  scripts/qapi/golang.py | 765 +++++++++++++++++++++++++++++++++++++++++
-> >  scripts/qapi/main.py   |   2 +
-> >  2 files changed, 767 insertions(+)
-> >  create mode 100644 scripts/qapi/golang.py
->=20
-> This adds a new generator and calls it from generate(), i.e.
-> review aspect (1) is empty.  "Empty" is a quick & easy way to
-> get my ACK!
->=20
-> No tests?
+ include/hw/arm/aspeed_soc.h |  2 ++
+ hw/arm/aspeed.c             | 39 ++-----------------------------
+ hw/arm/aspeed_ast2600.c     |  7 ++++--
+ hw/arm/aspeed_soc.c         | 46 +++++++++++++++++++++++++++++++++++--
+ 4 files changed, 53 insertions(+), 41 deletions(-)
 
-I've added tests but on the qapi-go module, those are the files
-with _test.go prefix on them. Example for commands:
-
-    https://gitlab.com/victortoso/qapi-go/-/blob/main/pkg/qapi/commands_tes=
-t.go
-
-Should the generator itself have tests or offloading that to the
-qapi-go seems reasonable?
-
-> No documentation?
-
-Yes, this iteration removed the documentation of the generated
-types. I'm a bit sad about that. I want to consume the
-documentation in the QAPI files to provide the latest info from
-types/fields but we can't 'copy' it, the only solution is 'refer'
-to it with hyperlink, which I haven't done yet.
-
-Cheers,
-Victor
-
---mnsoslogsu7shf7n
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmK5pyYACgkQl9kSPeN6
-SE8pWhAAhcIyh9A/3JipFVuFlTNvfTi55g7TP+/hNhl/+ozQJIWzsijU2BKtWRej
-VR/e0qbQLcY3KWOthvGnSG0D524TykS/83dnJ/DP3oLL7sFZs9J3a4A7723V2Nn8
-6jxH7GXRFWg5FrRJB6+XW202s8THS1d7oZVJw5KEag1+kcotKkR4d8ezc9bWu5yr
-MSIOkzQ58U2+Ii79Ac7aXC0RMAEDs+ZfLA0JjCiS4SyFBNyScSbs296yZryB9KDJ
-iHLLsPDQAN08O5gWXl44kIfId6M0hTrPcsInoWo1jrLg+eziLI6bg+k6O/DfhoSX
-mDReQARHdKNfWtZ0injC3veDGhRRD8ObzbdvX+NZHupQL1j8CCeP64Gs3+fPPmqD
-t5Otexdv/0J/B1/jQZoQd7Ny4Tz1zHkW4f+wSvKcJFdfh/PBwqECCA092WNyXO/U
-JB0NjzHSyabd36ZJiew3QQQhYBkk7OvIWB5scjrsWwkwSifuok69QUzIIPz3mflh
-fhaqX8jbafp1q+t7NLmNpOR0M6OYUxT0LGqCIUjX4WntmM+gwLykbwUiWCPqRsuG
-93TufiIQFFCkquI6JnNV1ES0a72vJpscUh1WgZVCJ7sgHwfoRt5ueqFWf/q3K0CE
-2LWUt8bVNknWX+Lmn1a73vK30AvZYRgD7rRuGT06eXzzfMBCfrU=
-=di2f
------END PGP SIGNATURE-----
-
---mnsoslogsu7shf7n--
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index 02a5a9ffcbd3..e8a104823d35 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -50,6 +50,7 @@ struct AspeedSoCState {
+     A15MPPrivState     a7mpcore;
+     ARMv7MState        armv7m;
+     MemoryRegion *dram_mr;
++    MemoryRegion dram_container;
+     MemoryRegion sram;
+     AspeedVICState vic;
+     AspeedRtcState rtc;
+@@ -165,5 +166,6 @@ enum {
+ 
+ qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
+ void aspeed_soc_uart_init(AspeedSoCState *s);
++bool aspeed_soc_dram_init(AspeedSoCState *s, Error **errp);
+ 
+ #endif /* ASPEED_SOC_H */
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index a06f7c1b62a9..dc09773b0ba5 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -174,27 +174,6 @@ struct AspeedMachineState {
+ #define BLETCHLEY_BMC_HW_STRAP1 AST2600_EVB_HW_STRAP1
+ #define BLETCHLEY_BMC_HW_STRAP2 AST2600_EVB_HW_STRAP2
+ 
+-/*
+- * The max ram region is for firmwares that scan the address space
+- * with load/store to guess how much RAM the SoC has.
+- */
+-static uint64_t max_ram_read(void *opaque, hwaddr offset, unsigned size)
+-{
+-    return 0;
+-}
+-
+-static void max_ram_write(void *opaque, hwaddr offset, uint64_t value,
+-                           unsigned size)
+-{
+-    /* Discard writes */
+-}
+-
+-static const MemoryRegionOps max_ram_ops = {
+-    .read = max_ram_read,
+-    .write = max_ram_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+ #define AST_SMP_MAILBOX_BASE            0x1e6e2180
+ #define AST_SMP_MBOX_FIELD_ENTRY        (AST_SMP_MAILBOX_BASE + 0x0)
+ #define AST_SMP_MBOX_FIELD_GOSIGN       (AST_SMP_MAILBOX_BASE + 0x4)
+@@ -324,20 +303,16 @@ static void aspeed_machine_init(MachineState *machine)
+     AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(machine);
+     AspeedSoCClass *sc;
+     DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
+-    ram_addr_t max_ram_size;
+     int i;
+     NICInfo *nd = &nd_table[0];
+ 
+-    memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
+-                       4 * GiB);
+-    memory_region_add_subregion(&bmc->ram_container, 0, machine->ram);
+-
+     object_initialize_child(OBJECT(machine), "soc", &bmc->soc, amc->soc_name);
+ 
+     sc = ASPEED_SOC_GET_CLASS(&bmc->soc);
+ 
+     /*
+-     * This will error out if isize is not supported by memory controller.
++     * This will error out if the RAM size is not supported by the
++     * memory controller of the SoC.
+      */
+     object_property_set_uint(OBJECT(&bmc->soc), "ram-size", machine->ram_size,
+                              &error_fatal);
+@@ -369,16 +344,6 @@ static void aspeed_machine_init(MachineState *machine)
+                          amc->uart_default);
+     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+ 
+-    memory_region_add_subregion(get_system_memory(),
+-                                sc->memmap[ASPEED_DEV_SDRAM],
+-                                &bmc->ram_container);
+-
+-    max_ram_size = object_property_get_uint(OBJECT(&bmc->soc), "max-ram-size",
+-                                            &error_abort);
+-    memory_region_init_io(&bmc->max_ram, NULL, &max_ram_ops, NULL,
+-                          "max_ram", max_ram_size  - machine->ram_size);
+-    memory_region_add_subregion(&bmc->ram_container, machine->ram_size, &bmc->max_ram);
+-
+     aspeed_board_init_flashes(&bmc->soc.fmc,
+                               bmc->fmc_model ? bmc->fmc_model : amc->fmc_model,
+                               amc->num_cs, 0);
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index b0a4199b6960..bb5927c36bbf 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -197,8 +197,6 @@ static void aspeed_soc_ast2600_init(Object *obj)
+     object_initialize_child(obj, "sdmc", &s->sdmc, typename);
+     object_property_add_alias(obj, "ram-size", OBJECT(&s->sdmc),
+                               "ram-size");
+-    object_property_add_alias(obj, "max-ram-size", OBJECT(&s->sdmc),
+-                              "max-ram-size");
+ 
+     for (i = 0; i < sc->wdts_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+@@ -443,6 +441,11 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+                         sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
+     }
+ 
++    /* RAM */
++    if (!aspeed_soc_dram_init(s, errp)) {
++        return;
++    }
++
+     /* Net */
+     for (i = 0; i < sc->macs_num; i++) {
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), "aspeed", true,
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 30574d4276ab..efc7baf14133 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -11,6 +11,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "hw/misc/unimp.h"
+ #include "hw/arm/aspeed_soc.h"
+@@ -191,8 +192,6 @@ static void aspeed_soc_init(Object *obj)
+     object_initialize_child(obj, "sdmc", &s->sdmc, typename);
+     object_property_add_alias(obj, "ram-size", OBJECT(&s->sdmc),
+                               "ram-size");
+-    object_property_add_alias(obj, "max-ram-size", OBJECT(&s->sdmc),
+-                              "max-ram-size");
+ 
+     for (i = 0; i < sc->wdts_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+@@ -369,6 +368,11 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+                         sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
+     }
+ 
++    /* RAM  */
++    if (!aspeed_soc_dram_init(s, errp)) {
++        return;
++    }
++
+     /* Net */
+     for (i = 0; i < sc->macs_num; i++) {
+         object_property_set_bool(OBJECT(&s->ftgmac100[i]), "aspeed", true,
+@@ -561,3 +565,41 @@ void aspeed_soc_uart_init(AspeedSoCState *s)
+                        serial_hd(i), DEVICE_LITTLE_ENDIAN);
+     }
+ }
++
++/*
++ * SDMC should be realized first to get correct RAM size and max size
++ * values
++ */
++bool aspeed_soc_dram_init(AspeedSoCState *s, Error **errp)
++{
++    AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
++    ram_addr_t ram_size, max_ram_size;
++    DeviceState *dev;
++
++    ram_size = object_property_get_uint(OBJECT(&s->sdmc), "ram-size",
++                                        &error_abort);
++    max_ram_size = object_property_get_uint(OBJECT(&s->sdmc), "max-ram-size",
++                                            &error_abort);
++
++    memory_region_init(&s->dram_container, OBJECT(s), "ram-container",
++                       max_ram_size);
++    memory_region_add_subregion(&s->dram_container, 0, s->dram_mr);
++
++    /*
++     * Add a memory region beyond the RAM region to let firmwares scan
++     * the address space with load/store and guess how much RAM the
++     * SoC has.
++     */
++    dev = qdev_new(TYPE_UNIMPLEMENTED_DEVICE);
++    qdev_prop_set_string(dev, "name", "ram-empty");
++    qdev_prop_set_uint64(dev, "size", max_ram_size  - ram_size);
++    if (!sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), errp)) {
++        return false;
++    }
++
++    memory_region_add_subregion_overlap(&s->dram_container, ram_size,
++                      sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0), -1000);
++    memory_region_add_subregion(get_system_memory(),
++                      sc->memmap[ASPEED_DEV_SDRAM], &s->dram_container);
++    return true;
++}
+-- 
+2.35.3
 
 
