@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D5F55B927
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:32:35 +0200 (CEST)
-Received: from localhost ([::1]:38348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F2155B933
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:39:15 +0200 (CEST)
+Received: from localhost ([::1]:53400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5m2k-0003JH-7d
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:32:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41412)
+	id 1o5m9C-0005Uh-2b
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:39:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltJ-0002JR-3h
+ id 1o5ltJ-0002JL-2w
  for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:49 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39866)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:33876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltD-0004rv-K1
+ id 1o5ltG-0004s9-5R
  for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:48 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id k22so12340593wrd.6
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:43 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id
+ m6-20020a05600c3b0600b003a0489f412cso1151850wms.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=n62ubY7+iB/7rTCXmZ/zUPH5zT2IZxj1SHTY5yvBRm8=;
- b=QxR2jP0RbnY9kNPOLur59/p6YtdZX6h5GZmjUVDzr9DCAPmrUDMNCK3LeAFTf3lWOq
- Z/oPFdQyNPtHRznDVLVL/YJItlrIBbMDxSpyG7h6n5idQMLqysPugHeSpazMlwtM4f40
- CJKjNkF8WJbipUf9X0yMljZZ+Pvlm6FBqQ59vaPLrOIhj+0pXhpi9Q4xrvdk7Obf0hb6
- zhKdI40oqgUnL4raENszGAXUdoKFtbIf25Shcpn52MmILoDW3MMqYdc5DU0xxGNKqm3C
- /Yj+bO1XLLRasaQpv2p57X65iPMedsh09P7tIIxrPx8Nv4cRMqeaA5V14FWZRVzfCRkC
- CrFA==
+ bh=mo4a3ghMukRKZTagsQFpVCwO5R9nPbKULZ+sDL0pomM=;
+ b=n1pKZ2BRXC70h1ue4c1A4udzo/6vOUGBuUbZlJy9jqsOCXENpsEwwdj1MYcY99R7yN
+ TOkngBdjKX9VbSbXvMFmCwsuDK1hMpHMXJkEWnoNHmXTmMvn20OjqCHXWCwiUnno5X6f
+ EF/3F1/hGWnGefGB3S/mwGIHgIBH5ZWhfhdCbbZ02PUKUspHVNgsAZF4A0rgsfgJcjEw
+ peD7Ya6gHRc2gA3Z8W+YYxHflWrwY/DDo0vmXXxaVjESgkCj9qHpEIkGhe5yfi+KyoOA
+ 3AE1yNZj6p+fLV5eHBWPFI927vJ0wpgKqw+o0EtkqDriec9+CMQXMbvO8zcEKzClvwsx
+ WVkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=n62ubY7+iB/7rTCXmZ/zUPH5zT2IZxj1SHTY5yvBRm8=;
- b=3FfzDqxL4JJNNIaxn8GaN0Ws6VFe4mM3sq/N2ai24vUMruNvmkz2T+w4xE0sl49Tip
- X4NVoxc4wVuOddCjCN8IVae7LQnBZ0JO7gimnot1WbDDCyRW775zafQd/WE9Oko/tddl
- BD3rVDaxTszoFshDr83ikhOIcVkR3teHOlzdJWeqc55p9BTGkxEtjxPHix2Ty4N27N3i
- vQDOC6kzkjGxP70K+TY+8Dr+daU50yGo8+pOW6ehw3fQxJp/T4PD1wNFUlvNT7zaCNbo
- qY/lubljqZxyzMRloJi939AzAtHY/6sON2yl3hbssfIagFBiv1nqlSuBhCrcm7UnfZPJ
- JiTQ==
-X-Gm-Message-State: AJIora+1eMkofXyOzLyBZeB+0VQ+IPd72WpCH2hqzsTmfQpqpHr/FVCe
- xXCJPwxaOL0jGWNLUSEUIxAQu0SPLy2vCQ==
-X-Google-Smtp-Source: AGRyM1vB+BMOQh0eVuDKTJsbRlZPTdrr/T6Sj9w0b5kjw2u059Hi4HBXCy0e9mgsGB48cJahii6Kgg==
-X-Received: by 2002:adf:db50:0:b0:21b:8a4c:594b with SMTP id
- f16-20020adfdb50000000b0021b8a4c594bmr11420005wrj.564.1656325362299; 
+ bh=mo4a3ghMukRKZTagsQFpVCwO5R9nPbKULZ+sDL0pomM=;
+ b=I5xv6hpNN8Z3MneDRq+0Sl1cu7q/TGREEppE4uL2d+cRESICgSXS8HdRuz9wEmgHyz
+ OdiwtB4Dd6Dt00chqZayoLxgJ1dZ+aEwe4zxUU+ct8sTaP9zPlTTA0jQJtSJuRorStHU
+ gP9C8GrJYruUnaejzJT7AKQ0JKo1yK6EBGD+LxJrJ9b6GqFzmT8duVW2BfZCE+3Sdu2P
+ p5/TiIeUt3IDVbgZjJdx9Q3JbA4Epnpwh0qV4uTGBo0QHFBt8kj+Je3WvbAqzbQzDq62
+ KvN8VejR+06CF3nyEENZ47wy7bDN6QsraOWbG98SIMx3/pkDNfDgyDRLa33Hi2WzvCWa
+ 4gxw==
+X-Gm-Message-State: AJIora/ETXjecUaIk3LfOEqtsJ4MOK8Z+neV0gqwNP7D7Mjr2jdoA7HK
+ 9I5E8+tNb620MntuO27cr3Ugg1Dnd0giVg==
+X-Google-Smtp-Source: AGRyM1v50/rVVeo6i5rSwTAZTYpTvh0mzKeVItaTBUylbUhVgAY6uuKMNj2lj24zMLz9trfVPgWipQ==
+X-Received: by 2002:a05:600c:a47:b0:39e:f953:84e2 with SMTP id
+ c7-20020a05600c0a4700b0039ef95384e2mr19168615wmq.202.1656325362997; 
  Mon, 27 Jun 2022 03:22:42 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- d11-20020a5d6dcb000000b0020e6ce4dabdsm9754335wrz.103.2022.06.27.03.22.41
+ d11-20020a5d6dcb000000b0020e6ce4dabdsm9754335wrz.103.2022.06.27.03.22.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 27 Jun 2022 03:22:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/25] target/arm: Add SMEEXC_EL to TB flags
-Date: Mon, 27 Jun 2022 11:22:16 +0100
-Message-Id: <20220627102236.3097629-6-peter.maydell@linaro.org>
+Subject: [PULL 06/25] target/arm: Add syn_smetrap
+Date: Mon, 27 Jun 2022 11:22:17 +0100
+Message-Id: <20220627102236.3097629-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220627102236.3097629-1-peter.maydell@linaro.org>
 References: <20220627102236.3097629-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,134 +91,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This is CheckSMEAccess, which is the basis for a set of
-related tests for various SME cpregs and instructions.
+This will be used for raising various traps for SME.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220620175235.60881-3-richard.henderson@linaro.org
+Message-id: 20220620175235.60881-4-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h           |  2 ++
- target/arm/translate.h     |  1 +
- target/arm/helper.c        | 52 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-a64.c |  1 +
- 4 files changed, 56 insertions(+)
+ target/arm/syndrome.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 05d1e2e8dd1..e99de180978 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1134,6 +1134,7 @@ void aarch64_sync_64_to_32(CPUARMState *env);
+diff --git a/target/arm/syndrome.h b/target/arm/syndrome.h
+index c105f9e6ba5..73df5e37938 100644
+--- a/target/arm/syndrome.h
++++ b/target/arm/syndrome.h
+@@ -48,6 +48,7 @@ enum arm_exception_class {
+     EC_AA64_SMC               = 0x17,
+     EC_SYSTEMREGISTERTRAP     = 0x18,
+     EC_SVEACCESSTRAP          = 0x19,
++    EC_SMETRAP                = 0x1d,
+     EC_INSNABORT              = 0x20,
+     EC_INSNABORT_SAME_EL      = 0x21,
+     EC_PCALIGNMENT            = 0x22,
+@@ -68,6 +69,13 @@ enum arm_exception_class {
+     EC_AA64_BKPT              = 0x3c,
+ };
  
- int fp_exception_el(CPUARMState *env, int cur_el);
- int sve_exception_el(CPUARMState *env, int cur_el);
-+int sme_exception_el(CPUARMState *env, int cur_el);
- 
- /**
-  * sve_vqm1_for_el:
-@@ -3148,6 +3149,7 @@ FIELD(TBFLAG_A64, ATA, 15, 1)
- FIELD(TBFLAG_A64, TCMA, 16, 2)
- FIELD(TBFLAG_A64, MTE_ACTIVE, 18, 1)
- FIELD(TBFLAG_A64, MTE0_ACTIVE, 19, 1)
-+FIELD(TBFLAG_A64, SMEEXC_EL, 20, 2)
- 
- /*
-  * Helpers for using the above.
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 88dc18a034b..c88c9533253 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -42,6 +42,7 @@ typedef struct DisasContext {
-     bool ns;        /* Use non-secure CPREG bank on access */
-     int fp_excp_el; /* FP exception EL or 0 if enabled */
-     int sve_excp_el; /* SVE exception EL or 0 if enabled */
-+    int sme_excp_el; /* SME exception EL or 0 if enabled */
-     int vl;          /* current vector length in bytes */
-     bool vfp_enabled; /* FP enabled via FPSCR.EN */
-     int vec_len;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d21ba7ab836..2c080c6cac0 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6218,6 +6218,55 @@ int sve_exception_el(CPUARMState *env, int el)
-     return 0;
++typedef enum {
++    SME_ET_AccessTrap,
++    SME_ET_Streaming,
++    SME_ET_NotStreaming,
++    SME_ET_InactiveZA,
++} SMEExceptionType;
++
+ #define ARM_EL_EC_SHIFT 26
+ #define ARM_EL_IL_SHIFT 25
+ #define ARM_EL_ISV_SHIFT 24
+@@ -207,6 +215,12 @@ static inline uint32_t syn_sve_access_trap(void)
+     return EC_SVEACCESSTRAP << ARM_EL_EC_SHIFT;
  }
  
-+/*
-+ * Return the exception level to which exceptions should be taken for SME.
-+ * C.f. the ARM pseudocode function CheckSMEAccess.
-+ */
-+int sme_exception_el(CPUARMState *env, int el)
++static inline uint32_t syn_smetrap(SMEExceptionType etype, bool is_16bit)
 +{
-+#ifndef CONFIG_USER_ONLY
-+    if (el <= 1 && !el_is_in_host(env, el)) {
-+        switch (FIELD_EX64(env->cp15.cpacr_el1, CPACR_EL1, SMEN)) {
-+        case 1:
-+            if (el != 0) {
-+                break;
-+            }
-+            /* fall through */
-+        case 0:
-+        case 2:
-+            return 1;
-+        }
-+    }
-+
-+    if (el <= 2 && arm_is_el2_enabled(env)) {
-+        /* CPTR_EL2 changes format with HCR_EL2.E2H (regardless of TGE). */
-+        if (env->cp15.hcr_el2 & HCR_E2H) {
-+            switch (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, SMEN)) {
-+            case 1:
-+                if (el != 0 || !(env->cp15.hcr_el2 & HCR_TGE)) {
-+                    break;
-+                }
-+                /* fall through */
-+            case 0:
-+            case 2:
-+                return 2;
-+            }
-+        } else {
-+            if (FIELD_EX64(env->cp15.cptr_el[2], CPTR_EL2, TSM)) {
-+                return 2;
-+            }
-+        }
-+    }
-+
-+    /* CPTR_EL3.  Since ESM is negative we must check for EL3.  */
-+    if (arm_feature(env, ARM_FEATURE_EL3)
-+        && !FIELD_EX64(env->cp15.cptr_el[3], CPTR_EL3, ESM)) {
-+        return 3;
-+    }
-+#endif
-+    return 0;
++    return (EC_SMETRAP << ARM_EL_EC_SHIFT)
++        | (is_16bit ? 0 : ARM_EL_IL) | etype;
 +}
 +
- /*
-  * Given that SVE is enabled, return the vector length for EL.
-  */
-@@ -11197,6 +11246,9 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-         }
-         DP_TBFLAG_A64(flags, SVEEXC_EL, sve_el);
-     }
-+    if (cpu_isar_feature(aa64_sme, env_archcpu(env))) {
-+        DP_TBFLAG_A64(flags, SMEEXC_EL, sme_exception_el(env, el));
-+    }
- 
-     sctlr = regime_sctlr(env, stage1);
- 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 4c64546090c..9a285dd1774 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -14603,6 +14603,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
-     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
-     dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
-     dc->sve_excp_el = EX_TBFLAG_A64(tb_flags, SVEEXC_EL);
-+    dc->sme_excp_el = EX_TBFLAG_A64(tb_flags, SMEEXC_EL);
-     dc->vl = (EX_TBFLAG_A64(tb_flags, VL) + 1) * 16;
-     dc->pauth_active = EX_TBFLAG_A64(tb_flags, PAUTH_ACTIVE);
-     dc->bt = EX_TBFLAG_A64(tb_flags, BT);
+ static inline uint32_t syn_pactrap(void)
+ {
+     return EC_PACTRAP << ARM_EL_EC_SHIFT;
 -- 
 2.25.1
 
