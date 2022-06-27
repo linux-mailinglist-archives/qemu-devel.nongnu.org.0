@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F3555B943
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:49:26 +0200 (CEST)
-Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C913E55B94C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:55:08 +0200 (CEST)
+Received: from localhost ([::1]:60006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5mJ3-00037V-D2
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45930)
+	id 1o5mOZ-0004c7-Tm
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:55:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o5mAQ-0001NM-Gq
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:40:30 -0400
-Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:47077)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o5mAO-0008MA-I2
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:40:30 -0400
-Received: by mail-lj1-x234.google.com with SMTP id o23so10443034ljg.13
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:40:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pmufDitHoEjKclOwd2tGRfZ5RgE30llOobKYIimE6Uc=;
- b=PZ3ftAklMWQRvuvg2nbFKlwJZlmbyh0AbEmOdjTr5i4ke9hEjSBru2wJfyqDUxIm4K
- tPy1UP2A7srRlVXkryWu6eoNzyecNaOWFQkR/SNGkqF+6xgNaj9MDP/TMblA+/yMUnPq
- Gi+5EtSl54g7hKtH86i9wJycZDEuQHU6l5MYF8xnO9K3ORoLje7bGAt/oNiraxbu50H/
- 24phDzzU7Pn4XJvYEvr2zaG0CJW1vWLJwaUjKDHAclw6tbeuy1fbbgeJhpUzRFgv6Rsy
- FfiPPMV3r3ZBxpQJg1y8TGklfRf0JER9S/BgLFuPx+eXFNMAHC+ux++m6rW0pcOes4uD
- L1gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pmufDitHoEjKclOwd2tGRfZ5RgE30llOobKYIimE6Uc=;
- b=LsL5U6PEAvvFbV0ij9kvRUBtcqIU0nNgG0IeVoc9Pa+MCgcdMasYu2+0rLrllZrk8q
- 5vEBBeafaqEVOQrwd+DVk+4/OMh5TTLpUs+di02hqTHyIyOsxUi5tOy6cQX9TF6/K2YQ
- GXAb6DgWLQgc8BiL8vYOuQwcPKL6uj5bHUZb4lusd++XmDST+MKS5o4r+Jwa4bx+B7Oc
- GCKm16rh6JE54WxNclAKENZWnqZ8ErCarLN5w/dksHV5nbc0FDTz9307X/lFPNkTz9VR
- foaR9z5/jc6QtlWHhZz7f8g4QeDGNOg9+wr7l1FwaNo2KnGoDQct+8NCsaTxGg4+pDyq
- 0N+A==
-X-Gm-Message-State: AJIora/ghQGk6DHoepub2hNCdoaUykiE5SFTAsA4vQ56PxmNHkbKX3Cu
- EO4VZDm3Zu0VmUTSUFUScM5nRRB69dJRT11q8xE=
-X-Google-Smtp-Source: AGRyM1vw5P4WY1sULVQvL7xhbR8W2xv7tU5TM6XZ6B2txmoQKB02KG0VIGRD0hw/aakS2V7T3HMEZSNg6L/ccvw9piU=
-X-Received: by 2002:a2e:8881:0:b0:255:7790:25e6 with SMTP id
- k1-20020a2e8881000000b00255779025e6mr6386604lji.525.1656326425667; Mon, 27
- Jun 2022 03:40:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o5mId-0003oW-7k
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:48:59 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:57662 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o5mIY-000156-SZ
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:48:57 -0400
+Received: from localhost.localdomain (unknown [159.226.43.7])
+ by APP-05 (Coremail) with SMTP id zQCowAAXHrIBi7liWdLOBw--.61672S2;
+ Mon, 27 Jun 2022 18:48:40 +0800 (CST)
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+To: qemu-devel@nongnu.org
+Cc: its@irrelevant.dk, kbusch@kernel.org, Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Subject: [PATCH] hw/nvme: Use ioeventfd to handle doorbell updates
+Date: Mon, 27 Jun 2022 18:48:13 +0800
+Message-Id: <20220627104813.2173852-1-fanjinhao21s@ict.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <7ad664fc-ca40-e446-028f-47ea1fd1c21d@linaro.org>
-In-Reply-To: <7ad664fc-ca40-e446-028f-47ea1fd1c21d@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 27 Jun 2022 14:40:14 +0400
-Message-ID: <CAJ+F1CKJycsXw=o4=tr+GNFBWkK41WAM_0h428_joW+cF0-V2g@mail.gmail.com>
-Subject: Re: virgl avocado hang
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000003bef2a05e26b8ca1"
-Received-SPF: pass client-ip=2a00:1450:4864:20::234;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x234.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAAXHrIBi7liWdLOBw--.61672S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jw1kXw4kAr48WFW5Jw4rAFb_yoWxZw1DpF
+ Z5WFZ3KFs7XF17urZYqrs7Jwn8u3y8Xr1DCrZxGr1ft3Z3CryxAFW8GFWUAFs8ZFZ7XFW5
+ Cr4xtF47G3yxJ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+ 6r4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
+ rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+ xKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+ 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfU0iiSUUUUU
+X-Originating-IP: [159.226.43.7]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,135 +70,236 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003bef2a05e26b8ca1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Add property "ioeventfd" which is enabled by default. When this is
+enabled, updates on the doorbell registers will cause KVM to signal
+an event to the QEMU main loop to handle the doorbell updates.
+Therefore, instead of letting the vcpu thread run both guest VM and
+IO emulation, we now use the main loop thread to do IO emulation and
+thus the vcpu thread has more cycles for the guest VM.
 
-Hi
+Since ioeventfd does not tell us the exact value that is written, it is
+only useful when shadow doorbell buffer is enabled, where we check
+for the value in the shadow doorbell buffer when we get the doorbell
+update event.
 
-On Mon, Jun 27, 2022 at 7:14 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+IOPS comparison on Linux 5.19-rc2: (Unit: KIOPS)
 
-> Hi Mark,
->
-> > +    def test_virtio_vga_virgl(self):
->
-> > +        """
->
-> > +        :avocado: tags=3Darch:x86_64
->
-> > +        :avocado: tags=3Ddevice:virtio-vga
->
-> > +        """
->
-> > +        kernel_command_line =3D (
->
-> > +            self.KERNEL_COMMON_COMMAND_LINE + "console=3DttyS0
-> rdinit=3D/bin/bash"
->
-> > +        )
->
-> > +        # FIXME: should check presence of virtio, virgl etc
->
->
-> This little nugget really must be fixed.
->
-> The observed behaviour is an indefinite hang in avocado, waiting for qemu=
-,
-> which is in
-> zombie state.  A manual kill -INT to the parent wakes it up like so:
->
->   (159/184)
-> tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl: CANCEL:
-> VirGL
-> not enabled? (1264.25 s)
->
->
-Could you describe how to reproduce? I naively --disable-virglrenderer and
-I get:
+qd           1   4  16  64
+qemu        35 121 176 153
+ioeventfd   41 133 258 313
 
-$ tests/venv/bin/avocado run tests/avocado/virtio-gpu.py
-Fetching asset from
-tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl
-Fetching asset from
-tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl
-Fetching asset from
-tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl
-Fetching asset from
-tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl
-JOB ID     : d9c5b65777777564d1d926fdfb58deaf0e967d15
-JOB LOG    :
-/home/elmarco/avocado/job-results/job-2022-06-27T12.56-d9c5b65/job.log
- (1/2) tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl:
-CANCEL: VirGL not enabled? (0.08 s)
- (2/2) tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl:
-CANCEL: Could not find vhost-user-gpu (0.02 s)
-RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 |
-CANCEL 2
-JOB TIME   : 0.56 s
+Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+---
+ hw/nvme/ctrl.c | 97 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ hw/nvme/nvme.h |  5 +++
+ 2 files changed, 101 insertions(+), 1 deletion(-)
 
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index c952c34f94..787b89f7d3 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -1374,7 +1374,14 @@ static void nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
+ 
+     QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
+     QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
+-    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
++
++    if (req->sq->ioeventfd_enabled) {
++        /* Post CQE directly since we are in main loop thread */
++        nvme_post_cqes(cq);
++    } else {
++        /* Schedule the timer to post CQE later since we are in vcpu thread */
++        timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
++    }
+ }
+ 
+ static void nvme_process_aers(void *opaque)
+@@ -4195,10 +4202,74 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_INVALID_OPCODE | NVME_DNR;
+ }
+ 
++static void nvme_cq_notifier(EventNotifier *e)
++{
++    NvmeCQueue *cq = container_of(e, NvmeCQueue, notifier);
++    NvmeCtrl *n = cq->ctrl;
++
++    event_notifier_test_and_clear(&cq->notifier);
++
++    nvme_update_cq_head(cq);
++
++    if (cq->tail == cq->head) {
++        if (cq->irq_enabled) {
++            n->cq_pending--;
++        }
++
++        nvme_irq_deassert(n, cq);
++    }
++
++    nvme_post_cqes(cq);
++}
++
++static int nvme_init_cq_ioeventfd(NvmeCQueue *cq)
++{
++    NvmeCtrl *n = cq->ctrl;
++    uint16_t offset = (cq->cqid << 3) + (1 << 2);
++    int ret;
++
++    if ((ret = event_notifier_init(&cq->notifier, 0))) {
++        return ret;
++    }
++
++    event_notifier_set_handler(&cq->notifier, nvme_cq_notifier);
++    memory_region_add_eventfd(&n->iomem,
++                              0x1000 + offset, 4, false, 0, &cq->notifier);
++    
++    return 0;
++}
++
++static void nvme_sq_notifier(EventNotifier *e)
++{
++    NvmeSQueue *sq = container_of(e, NvmeSQueue, notifier);
++
++    event_notifier_test_and_clear(&sq->notifier);
++
++    nvme_process_sq(sq);
++}
++
++static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
++{
++    NvmeCtrl *n = sq->ctrl;
++    uint16_t offset = sq->sqid << 3;
++    int ret;
++
++    if ((ret = event_notifier_init(&sq->notifier, 0))) {
++        return ret;
++    }
++
++    event_notifier_set_handler(&sq->notifier, nvme_sq_notifier);
++    memory_region_add_eventfd(&n->iomem,
++                              0x1000 + offset, 4, false, 0, &sq->notifier);
++
++    return 0;
++}
++
+ static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
+ {
+     n->sq[sq->sqid] = NULL;
+     timer_free(sq->timer);
++    event_notifier_cleanup(&sq->notifier);
+     g_free(sq->io_req);
+     if (sq->sqid) {
+         g_free(sq);
+@@ -4250,6 +4321,7 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
+                          uint16_t sqid, uint16_t cqid, uint16_t size)
+ {
+     int i;
++    int ret;
+     NvmeCQueue *cq;
+ 
+     sq->ctrl = n;
+@@ -4271,6 +4343,11 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
+     if (n->dbbuf_enabled) {
+         sq->db_addr = n->dbbuf_dbs + (sqid << 3);
+         sq->ei_addr = n->dbbuf_eis + (sqid << 3);
++            
++        if (n->params.ioeventfd && sq->sqid != 0) {
++            ret = nvme_init_sq_ioeventfd(sq);
++            sq->ioeventfd_enabled = ret == 0;
++        }
+     }
+ 
+     assert(n->cq[cqid]);
+@@ -4577,6 +4654,7 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
+ {
+     n->cq[cq->cqid] = NULL;
+     timer_free(cq->timer);
++    event_notifier_cleanup(&cq->notifier);
+     if (msix_enabled(&n->parent_obj)) {
+         msix_vector_unuse(&n->parent_obj, cq->vector);
+     }
+@@ -4635,6 +4713,11 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+     if (n->dbbuf_enabled) {
+         cq->db_addr = n->dbbuf_dbs + (cqid << 3) + (1 << 2);
+         cq->ei_addr = n->dbbuf_eis + (cqid << 3) + (1 << 2);
++
++        if (n->params.ioeventfd && cqid != 0) {
++            ret = nvme_init_cq_ioeventfd(cq);
++            cq->ioeventfd_enabled = ret == 0;
++        }
+     }
+     n->cq[cqid] = cq;
+     cq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
+@@ -5793,6 +5876,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
+     uint64_t dbs_addr = le64_to_cpu(req->cmd.dptr.prp1);
+     uint64_t eis_addr = le64_to_cpu(req->cmd.dptr.prp2);
+     int i;
++    int ret;
+ 
+     /* Address should be page aligned */
+     if (dbs_addr & (n->page_size - 1) || eis_addr & (n->page_size - 1)) {
+@@ -5818,6 +5902,11 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
+             sq->ei_addr = eis_addr + (i << 3);
+             pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
+                     sizeof(sq->tail));
++            
++            if (n->params.ioeventfd && sq->sqid != 0) {
++                ret = nvme_init_sq_ioeventfd(sq);
++                sq->ioeventfd_enabled = ret == 0;
++            }
+         }
+ 
+         if (cq) {
+@@ -5826,6 +5915,11 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
+             cq->ei_addr = eis_addr + (i << 3) + (1 << 2);
+             pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
+                     sizeof(cq->head));
++            
++            if (n->params.ioeventfd && cq->cqid != 0) {
++                ret = nvme_init_cq_ioeventfd(cq);
++                cq->ioeventfd_enabled = ret == 0;
++            }
+         }
+     }
+ 
+@@ -7040,6 +7134,7 @@ static Property nvme_props[] = {
+     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
+     DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
+                      params.auto_transition_zones, true),
++    DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 4452e4b1bf..2a9beea0c8 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -369,6 +369,8 @@ typedef struct NvmeSQueue {
+     uint64_t    db_addr;
+     uint64_t    ei_addr;
+     QEMUTimer   *timer;
++    EventNotifier notifier;
++    bool        ioeventfd_enabled;
+     NvmeRequest *io_req;
+     QTAILQ_HEAD(, NvmeRequest) req_list;
+     QTAILQ_HEAD(, NvmeRequest) out_req_list;
+@@ -388,6 +390,8 @@ typedef struct NvmeCQueue {
+     uint64_t    db_addr;
+     uint64_t    ei_addr;
+     QEMUTimer   *timer;
++    EventNotifier notifier;
++    bool        ioeventfd_enabled;
+     QTAILQ_HEAD(, NvmeSQueue) sq_list;
+     QTAILQ_HEAD(, NvmeRequest) req_list;
+ } NvmeCQueue;
+@@ -410,6 +414,7 @@ typedef struct NvmeParams {
+     uint8_t  zasl;
+     bool     auto_transition_zones;
+     bool     legacy_cmb;
++    bool     ioeventfd;
+ } NvmeParams;
+ 
+ typedef struct NvmeCtrl {
+-- 
+2.25.1
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000003bef2a05e26b8ca1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 27, 2022 at 7:14 AM Ric=
-hard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.=
-henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">Hi Mark,<br>
-<br>
-&gt; +=C2=A0 =C2=A0 def test_virtio_vga_virgl(self):<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:x86_64<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Ddevice:virtio-vga<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_command_line =3D (<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.KERNEL_COMMON_COMMAND_=
-LINE + &quot;console=3DttyS0 rdinit=3D/bin/bash&quot;<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # FIXME: should check presence of virtio,=
- virgl etc<br>
-<br>
-<br>
-This little nugget really must be fixed.<br>
-<br>
-The observed behaviour is an indefinite hang in avocado, waiting for qemu, =
-which is in <br>
-zombie state.=C2=A0 A manual kill -INT to the parent wakes it up like so:<b=
-r>
-<br>
-=C2=A0 (159/184) tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_v=
-irgl: CANCEL: VirGL <br>
-not enabled? (1264.25 s)<br clear=3D"all"><br></blockquote><div><br></div><=
-div>Could you describe how to reproduce? I naively --disable-virglrenderer =
-and I get:</div><div><br></div><div>$ tests/venv/bin/avocado run tests/avoc=
-ado/virtio-gpu.py<br>Fetching asset from tests/avocado/virtio-gpu.py:Virtio=
-GPUx86.test_virtio_vga_virgl<br>Fetching asset from tests/avocado/virtio-gp=
-u.py:VirtioGPUx86.test_virtio_vga_virgl<br>Fetching asset from tests/avocad=
-o/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl<br>Fetching asset fr=
-om tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl<br>JO=
-B ID =C2=A0 =C2=A0 : d9c5b65777777564d1d926fdfb58deaf0e967d15<br>JOB LOG =
-=C2=A0 =C2=A0: /home/elmarco/avocado/job-results/job-2022-06-27T12.56-d9c5b=
-65/job.log<br>=C2=A0(1/2) tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vir=
-tio_vga_virgl: CANCEL: VirGL not enabled? (0.08 s)<br>=C2=A0(2/2) tests/avo=
-cado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl: CANCEL: Could no=
-t find vhost-user-gpu (0.02 s)<br>RESULTS =C2=A0 =C2=A0: PASS 0 | ERROR 0 |=
- FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 2<br>JOB TIME =C2=A0 : 0.5=
-6 s</div><div><br> </div></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000003bef2a05e26b8ca1--
 
