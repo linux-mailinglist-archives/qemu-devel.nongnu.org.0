@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFBF55B846
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:39:16 +0200 (CEST)
-Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C91A355B838
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:32:59 +0200 (CEST)
+Received: from localhost ([::1]:53128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5jL1-00006V-Tz
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:39:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54642)
+	id 1o5jEw-0006kj-Pg
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o5j6D-0004Rw-UJ
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:23:57 -0400
-Received: from smtpout140.security-mail.net ([85.31.212.149]:35826)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1o5j6B-0004qx-Hm
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:23:57 -0400
-Received: from localhost (localhost [127.0.0.1])
- by fx409.security-mail.net (Postfix) with ESMTP id C27A6323662
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 09:23:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1656314631;
- bh=g0O7hAuRjmBl/wb0Jw7pBOxO1Nq3wRUREURr+xKlR5c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=hBPNVz3r/dPCMolfxW+9JMJw20SdGf0rV8Rv4xRQfcNsvB3BhIMuPEwSFrovutCWt
- Goevc9CuQg1Dn6hexz3oLckLfn84IaSfbdmOgNGtWjRXkaeWE03H0uwgRV4uGuBBvs
- TiPGFAQN0RAkKjFe6H0KbjIk1rjqQH6GchAHxMGw=
-Received: from fx409 (localhost [127.0.0.1]) by fx409.security-mail.net
- (Postfix) with ESMTP id 73B653237C5; Mon, 27 Jun 2022 09:23:51 +0200 (CEST)
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
- fx409.security-mail.net (Postfix) with ESMTPS id AA889323788; Mon, 27 Jun
- 2022 09:23:50 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
- zimbra2.kalray.eu (Postfix) with ESMTPS id 8638227E04D6; Mon, 27 Jun 2022
- 09:23:50 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
- (Postfix) with ESMTP id 6FBE227E04F8; Mon, 27 Jun 2022 09:23:50 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
- (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
- RI4j4FO1pH5n; Mon, 27 Jun 2022 09:23:50 +0200 (CEST)
-Received: from localhost (unknown [192.168.36.68]) by zimbra2.kalray.eu
- (Postfix) with ESMTPSA id 5111A27E04D6; Mon, 27 Jun 2022 09:23:50 +0200
- (CEST)
-X-Virus-Scanned: E-securemail, by Secumail
-Secumail-id: <b53b.62b95b06.a50e1.0>
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 6FBE227E04F8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1656314630;
- bh=vfS4u9frxa9e/3D3Qwfqj+KjygrPIShcMMB/LULBESc=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=Tp0X8HS5OvARa94zwaWpGuZTztJedSME1pJjBXLY3ByptW5js5FI9PREQL6iQNpct
- e6Py880lcsImo+qH4JL2e35cTwWOOwiwVQOC9CQXyW2P0jujaKNycQzJxkx5C7xb2o
- MVGlvo6vm5W/7VSvTDOvGbE+WWLjXHWGLCs2QpIo=
-Date: Mon, 27 Jun 2022 09:23:49 +0200
-From: Luc Michel <lmichel@kalray.eu>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 45/53] semihosting: Create
- qemu_semihosting_console_write
-Message-ID: <20220627072349.GA1789@ws2101.lin.mbt.kalray.eu>
-References: <20220607204557.658541-1-richard.henderson@linaro.org>
- <20220607204557.658541-46-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5jBT-0003gy-I9
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:29:23 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:41598)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5jBH-0005eI-Rv
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:29:23 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id i64so8174782pfc.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 00:29:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cRsTRN1AsSgsAmzGyYvfKibHMH7K74pROfGImtCsGRM=;
+ b=Z8Cp09cFyT2AOElG7UD2pzw50UA6JkSf3XBGWae2NdoAojic3SQsNXmd1kyJBH/Exx
+ gzHsMO9F6hcK70ujRKWX9aZy1QAD0hBOPxTPlF6Nz+Kar/pFVjgU2vI4L1GEI2FJMVsZ
+ YhCLPQYXtsYBClvQ0S98Qe5e7HcXEGaJ+yJbn2cfHoVH+8zngmUupph6xbzys5VyZ86R
+ kzruGjop8rkhnJRSbWd8rkbPNk6tTWhJWlYOROM1v/BK2BSE0g05kzpHFK8cTiffefCQ
+ wJoTj0kH0jjNT0ka0njQdi85Kb3K9qt37Ce8BNR8KxcLX1N/XnLXhMNy9uBKwXOcNNE0
+ DiDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cRsTRN1AsSgsAmzGyYvfKibHMH7K74pROfGImtCsGRM=;
+ b=4uhWB4Op2eE1/kMh/fcKztv9J0ljqADKF79trLIPWv9qZIPonxES90oFEKb7TB4onS
+ /RcF8fz2wbmqXyCSnlB85q7WeRJntng3KeE0/pGNIuOm2kq+nUH4TJET8yUGlkEZBZML
+ EDu7EdPfJKkKJH3e3lDK3rkAKs1bgTJ9QHiJEkxicZS1CmNhCl06Ed7GIWa/UA6eZIus
+ RZgfkljiXs3woe3B+dNnOMyRhIF/TSOvQBon+t8N/YGbuFVjc2uTgwB7lExrvbPFgW9d
+ U9vRTAuDSNMxLPc+fK0OmjItg4VGaTIpPcjmNvij9cVHxxOBrz4KMryMVrrVrZCJtuby
+ GTyQ==
+X-Gm-Message-State: AJIora98fSI9rkb9kqFrTwiBPngBDXL++TVWJ9QniTeNpLqqwqWUWyQ6
+ Vrd2XbwqHq40dY19jHr0CVQ8amqjVU8n+BqjShU=
+X-Google-Smtp-Source: AGRyM1ujbHWzoybEemA3k1iBPMfF/FJ47a+omYcuBB/d8d00uBCboHzfN66AIZTsidaCZkhFUXt85Q==
+X-Received: by 2002:a05:6a00:1306:b0:512:ca3d:392f with SMTP id
+ j6-20020a056a00130600b00512ca3d392fmr13195862pfu.79.1656314949954; 
+ Mon, 27 Jun 2022 00:29:09 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.136.66])
+ by smtp.googlemail.com with ESMTPSA id
+ h6-20020a170902680600b00163ffe73300sm6420928plk.137.2022.06.27.00.29.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 00:29:09 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Cc: imammedo@redhat.com,
+	mst@redhat.com,
+	Ani Sinha <ani@anisinha.ca>
+Subject: [PATCH 00/12] Introduce new acpi/smbios qtests using biosbits
+Date: Mon, 27 Jun 2022 12:58:44 +0530
+Message-Id: <20220627072856.1529357-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220607204557.658541-46-richard.henderson@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-ALTERMIMEV2_out: done
-Received-SPF: pass client-ip=85.31.212.149; envelope-from=lmichel@kalray.eu;
- helo=smtpout140.security-mail.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,88 +86,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13:45 Tue 07 Jun     , Richard Henderson wrote:
-> Will replace qemu_semihosting_console_{outs,outc},
-> but we need more plumbing first.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Biosbits is a software written by Josh Triplett that can be downloaded by
+visiting https://biosbits.org/. The github codebase can be found here:
+https://github.com/biosbits/bits/tree/master. It is a software that exercizes
+the bios components such as acpi and smbios tables directly through acpica
+bios interpreter (a freely available C based library written by Intel,
+downloadable from https://acpica.org/ and is included with biosbits) without an
+operating system getting involved in between.
+There are several advantages to directly testing the bios in a real physical
+machine or VM as opposed to indirectly discovering bios issues through the
+operating system. For one thing, the OSes tend to hide bios problems from the
+end user. The other is that we have more control of what we wanted to test
+and how by directly using acpica interpreter on top of the bios on a running
+system. More details on the inspiration for developing biosbits and its real
+life uses can be found in (a) and (b).
+This patchset contains QEMU qtests written in python that exercizes the QEMU
+bios components using biosbits and reports test failures.
 
-Reviewed-by: Luc Michel <lmichel@kalray.eu>
+Details of each of the files added by this patchset are provided in the README
+file which is part of Patch 11. Every effort to contact Josh, through various
+means including email, twitter, linkedIn etc has failed. Hence, the changes to
+build biosbits with the newer compiler, upgrade acpica and other changes are
+currently maintained in a forked project in my personal github. We may want to
+maintain bits in a separate fork in a stable repository that is accessible by
+QEMU developers.
 
-> ---
->  include/semihosting/console.h | 12 ++++++++++++
->  linux-user/semihost.c         |  5 +++++
->  semihosting/console.c         |  9 +++++++++
->  3 files changed, 26 insertions(+)
-> 
-> diff --git a/include/semihosting/console.h b/include/semihosting/console.h
-> index 39dbf1b062..6994f23c82 100644
-> --- a/include/semihosting/console.h
-> +++ b/include/semihosting/console.h
-> @@ -54,6 +54,18 @@ void qemu_semihosting_console_outc(CPUArchState *env, target_ulong c);
->   */
->  int qemu_semihosting_console_read(CPUState *cs, void *buf, int len);
->  
-> +/**
-> + * qemu_semihosting_console_write:
-> + * @buf: host buffer
-> + * @len: buffer size
-> + *
-> + * Write len bytes from buf to the debug console.
-> + *
-> + * Returns: number of bytes written -- this should only ever be short
-> + * on some sort of i/o error.
-> + */
-> +int qemu_semihosting_console_write(void *buf, int len);
-> +
->  /**
->   * qemu_semihosting_log_out:
->   * @s: pointer to string
-> diff --git a/linux-user/semihost.c b/linux-user/semihost.c
-> index 2029fb674c..871edf993a 100644
-> --- a/linux-user/semihost.c
-> +++ b/linux-user/semihost.c
-> @@ -76,3 +76,8 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
->  
->      return ret;
->  }
-> +
-> +int qemu_semihosting_console_write(void *buf, int len)
-> +{
-> +    return fwrite(buf, 1, len, stderr);
-> +}
-> diff --git a/semihosting/console.c b/semihosting/console.c
-> index 4088192842..b6a342744d 100644
-> --- a/semihosting/console.c
-> +++ b/semihosting/console.c
-> @@ -169,6 +169,15 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
->      return ret;
->  }
->  
-> +int qemu_semihosting_console_write(void *buf, int len)
-> +{
-> +    if (console.chr) {
-> +        return qemu_chr_write_all(console.chr, (uint8_t *)buf, len);
-> +    } else {
-> +        return fwrite(buf, 1, len, stderr);
-> +    }
-> +}
-> +
->  void qemu_semihosting_console_init(Chardev *chr)
->  {
->      console.chr = chr;
-> -- 
-> 2.34.1
-> 
-> 
-> 
-> 
-> To declare a filtering error, please use the following link : https://www.security-mail.net/reporter.php?mid=17cb8.629fd4d3.e3b54.0&r=lmichel%40kalrayinc.com&s=qemu-devel-bounces%2Blmichel%3Dkalrayinc.com%40nongnu.org&o=%5BPATCH+v4+45%2F53%5D+semihosting%3A+Create+qemu_semihosting_console_write&verdict=C&c=62fc4b596a4980c709b5ba86793f19d99fbc6d6f
-> 
+The newly introduced qtest currently only run for x86_64 platform. They pass
+both when running make check on a baremetal box as well as from inside a vm.
+
+Thanks to Igor M for pointing me to this work.
+
+(a) https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/867/original/bits.pdf
+(b) https://www.youtube.com/watch?v=36QIepyUuhg
+
+Ani Sinha (12):
+  qtest: meson.build changes required to integrate python based qtests
+  acpi/tests/bits: add prebuilt bios bits zip archive
+  acpi/tests/bits: add prebuilt bits generated grub modules and scripts
+  acpi/tests/bits: initial commit of test scripts that are run by
+    biosbits
+  acpi/tests/bits: disable acpi PSS tests that are failing in biosbits
+  acpi/tests/bits: add smilatency test suite from bits in order to
+    disable it
+  acpi/tests/bits: disable smilatency test since it does not pass
+    everytime
+  acpi/tests/bits: add biosbits config file for running bios tests
+  acpi/tests/bits: add acpi and smbios python tests that uses biosbits
+  acpi/tests/bits: add acpi bits qtest directory in meson for running
+    tests
+  acpi/tests/bits: add README file for bits qtests
+  MAINTAINERS: add myself as the maintainer for acpi biosbits qtests
+
+ MAINTAINERS                                   |    5 +
+ tests/qtest/acpi-bits/README                  |  168 ++
+ tests/qtest/acpi-bits/acpi-bits-test-venv.sh  |   59 +
+ tests/qtest/acpi-bits/acpi-bits-test.py       |  327 +++
+ .../qtest/acpi-bits/bits-config/bits-cfg.txt  |   18 +
+ tests/qtest/acpi-bits/bits-config/meson.build |   11 +
+ tests/qtest/acpi-bits/bits-tests/meson.build  |   11 +
+ tests/qtest/acpi-bits/bits-tests/smbios.py    | 2430 +++++++++++++++++
+ .../qtest/acpi-bits/bits-tests/smilatency.py  |  103 +
+ tests/qtest/acpi-bits/bits-tests/testacpi.py  |  283 ++
+ tests/qtest/acpi-bits/bits-tests/testcpuid.py |   83 +
+ tests/qtest/acpi-bits/meson.build             |   39 +
+ .../acpi-bits/prebuilt/bits-2095-grub.tar.gz  |  Bin 0 -> 41416278 bytes
+ tests/qtest/acpi-bits/prebuilt/bits-2095.zip  |  Bin 0 -> 31922898 bytes
+ tests/qtest/acpi-bits/prebuilt/meson.build    |   11 +
+ tests/qtest/acpi-bits/requirements.txt        |    1 +
+ tests/qtest/meson.build                       |    7 +-
+ 17 files changed, 3555 insertions(+), 1 deletion(-)
+ create mode 100644 tests/qtest/acpi-bits/README
+ create mode 100644 tests/qtest/acpi-bits/acpi-bits-test-venv.sh
+ create mode 100644 tests/qtest/acpi-bits/acpi-bits-test.py
+ create mode 100644 tests/qtest/acpi-bits/bits-config/bits-cfg.txt
+ create mode 100644 tests/qtest/acpi-bits/bits-config/meson.build
+ create mode 100644 tests/qtest/acpi-bits/bits-tests/meson.build
+ create mode 100644 tests/qtest/acpi-bits/bits-tests/smbios.py
+ create mode 100644 tests/qtest/acpi-bits/bits-tests/smilatency.py
+ create mode 100644 tests/qtest/acpi-bits/bits-tests/testacpi.py
+ create mode 100644 tests/qtest/acpi-bits/bits-tests/testcpuid.py
+ create mode 100644 tests/qtest/acpi-bits/meson.build
+ create mode 100644 tests/qtest/acpi-bits/prebuilt/bits-2095-grub.tar.gz
+ create mode 100644 tests/qtest/acpi-bits/prebuilt/bits-2095.zip
+ create mode 100644 tests/qtest/acpi-bits/prebuilt/meson.build
+ create mode 100644 tests/qtest/acpi-bits/requirements.txt
 
 -- 
-
-
-
+2.25.1
 
 
