@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D8055BA9C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 16:53:27 +0200 (CEST)
-Received: from localhost ([::1]:52680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D556955BAA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 17:01:48 +0200 (CEST)
+Received: from localhost ([::1]:56340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5q7C-0002gX-EO
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 10:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60058)
+	id 1o5qFG-0005k7-Od
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 11:01:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
- id 1o5q32-0000dq-Kj; Mon, 27 Jun 2022 10:49:08 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:56948)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
- id 1o5q2z-0005PU-Ny; Mon, 27 Jun 2022 10:49:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1656341346; x=1687877346;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=RoSVQmGJOQT3CtKyHqdRFzGWnLQKjC82iQFrBm8ftXY=;
- b=nP2LltkRj1a68COVXuxSIUJ0HhX5iEFEQA/lOkCUPALUg8u93xXz4wfV
- j7KzZ+xlgEdGENIxw57qrt3ktyQGB5hrVrppw/Cztl/PGB0P1qyn4kf4T
- b16gOJ7TRJ4/XH9d+w4vku/R01uDQJ7su/SYoDgEPvGzU2EruJnJCOuTx I=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 27 Jun 2022 07:48:59 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2022 07:48:58 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 27 Jun 2022 07:48:58 -0700
-Received: from [10.110.86.108] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 27 Jun
- 2022 07:48:57 -0700
-Message-ID: <938880f5-799c-f28c-b44c-5c44267e1fd8@quicinc.com>
-Date: Mon, 27 Jun 2022 07:48:56 -0700
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1o5qDA-0004vl-LF
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 10:59:36 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1o5qD8-0006oy-24
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 10:59:36 -0400
+Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LWrRR429cz6H7nW;
+ Mon, 27 Jun 2022 22:57:07 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 27 Jun 2022 16:59:21 +0200
+Received: from localhost (10.202.226.42) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 27 Jun
+ 2022 15:59:20 +0100
+Date: Mon, 27 Jun 2022 15:59:19 +0100
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>, Alex
+ =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Ben Widawsky
+ <ben.widawsky@intel.com>
+Subject: Re: [PULL v2 28/86] hw/cxl/component: Add utils for interleave
+ parameter encoding/decoding
+Message-ID: <20220627155919.0000477a@Huawei.com>
+In-Reply-To: <CAFEAcA-Zoi+7barPqmfuOc1OQoEpSSPmyB6wyiAmuCrM0WrNeA@mail.gmail.com>
+References: <20220516204913.542894-1-mst@redhat.com>
+ <20220516204913.542894-29-mst@redhat.com>
+ <CAFEAcA-Zoi+7barPqmfuOc1OQoEpSSPmyB6wyiAmuCrM0WrNeA@mail.gmail.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 4/9] hw/arm/aspeed: add Qualcomm Firework machine and FRU
- device
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Peter Maydell
- <peter.maydell@linaro.org>, Titus Rwantare <titusr@google.com>, "Andrew
- Jeffery" <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
-CC: Graeme Gregory <quic_ggregory@quicinc.com>, Maheswara Kurapati
- <quic_mkurapat@quicinc.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
- <20220622172830.101210-5-quic_jaehyoo@quicinc.com>
- <1f050a11-b1ab-12ef-c83a-c0061d36aae9@kaod.org>
- <d978e798-eace-01a5-67fb-0a1d132322a3@quicinc.com>
- <fb8cc3d1-767c-85d5-514f-89e7aa60ac8e@kaod.org>
-From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-In-Reply-To: <fb8cc3d1-767c-85d5-514f-89e7aa60ac8e@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-Received-SPF: pass client-ip=129.46.98.28;
- envelope-from=quic_jaehyoo@quicinc.com; helo=alexa-out.qualcomm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.202.226.42]
+X-ClientProxiedBy: lhreml736-chm.china.huawei.com (10.201.108.87) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,144 +73,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On 6/24/2022 12:32 AM, Cédric Le Goater wrote:
-> On 6/23/22 16:11, Jae Hyun Yoo wrote:
->> On 6/22/2022 11:43 PM, Cédric Le Goater wrote:
->>> On 6/22/22 19:28, Jae Hyun Yoo wrote:
->>>> From: Graeme Gregory <quic_ggregory@quicinc.com>
->>>>
->>>> Add base for Qualcomm Firework machine and add its FRU device which is
->>>> defined by DC-SCM to be fixed address 0x50.
->>>>
->>>> Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
->>>> ---
->>>>   hw/arm/aspeed.c | 53 
->>>> +++++++++++++++++++++++++++++++++++++++++++++++++
->>>>   1 file changed, 53 insertions(+)
->>>>
->>>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
->>>> index 36d6b2c33e48..0e6edd2be4fa 100644
->>>> --- a/hw/arm/aspeed.c
->>>> +++ b/hw/arm/aspeed.c
->>>> @@ -1017,6 +1017,35 @@ static void 
->>>> qcom_dc_scm_bmc_i2c_init(AspeedMachineState *bmc)
->>>>       qcom_dc_scm_fru_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x53, 
->>>> 128 * 1024);
->>>>   }
->>>> +static void qcom_firework_fru_init(I2CBus *bus, uint8_t addr, 
->>>> uint32_t rsize)
->>>> +{
->>>> +    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
->>>> +    DeviceState *dev = DEVICE(i2c_dev);
->>>> +    /* Use First Index for DC-SCM FRU */
->>>> +    DriveInfo *dinfo = drive_get(IF_NONE, 0, 1);
->>>> +
->>>> +    qdev_prop_set_uint32(dev, "rom-size", rsize);
->>>> +
->>>> +    if (dinfo) {
->>>> +        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
->>>> +    }
->>>> +
->>>> +    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
->>>> +}
->>>> +
->>>> +static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
->>>> +{
->>>> +    AspeedSoCState *soc = &bmc->soc;
->>>> +
->>>> +    /* Create the generic DC-SCM hardware */
->>>> +    qcom_dc_scm_bmc_i2c_init(bmc);
->>>> +
->>>> +    /* Now create the Firework specific hardware */
->>>> +
->>>> +    /* I2C4 */
->>>> +    qcom_firework_fru_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x50, 
->>>> 128 * 1024);
->>>> +}
->>>> +
->>>>   static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
->>>>   {
->>>>       return ASPEED_MACHINE(obj)->mmio_exec;
->>>> @@ -1489,6 +1518,26 @@ static void 
->>>> aspeed_machine_qcom_dc_scm_v1_class_init(ObjectClass *oc,
->>>>           aspeed_soc_num_cpus(amc->soc_name);
->>>>   };
->>>> +static void aspeed_machine_qcom_firework_class_init(ObjectClass *oc,
->>>> +                                                    void *data)
->>>> +{
->>>> +    MachineClass *mc = MACHINE_CLASS(oc);
->>>> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
->>>> +
->>>> +    mc->desc       = "Qualcomm DC-SCM V1/Firework BMC (Cortex A7)";
->>>> +    amc->soc_name  = "ast2600-a3";
->>>> +    amc->hw_strap1 = QCOM_DC_SCM_V1_BMC_HW_STRAP1;
->>>> +    amc->hw_strap2 = QCOM_DC_SCM_V1_BMC_HW_STRAP2;
->>>> +    amc->fmc_model = "n25q512a";
->>>> +    amc->spi_model = "n25q512a";
->>>> +    amc->num_cs    = 2;
->>>> +    amc->macs_mask = ASPEED_MAC2_ON | ASPEED_MAC3_ON;
->>>> +    amc->i2c_init  = qcom_dc_scm_firework_i2c_init;
->>>> +    mc->default_ram_size = 1 * GiB;
->>>> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
->>>> +        aspeed_soc_num_cpus(amc->soc_name);
->>>> +};
->>>> +
->>>>   static const TypeInfo aspeed_machine_types[] = {
->>>>       {
->>>>           .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
->>>> @@ -1534,6 +1583,10 @@ static const TypeInfo aspeed_machine_types[] = {
->>>>           .name          = MACHINE_TYPE_NAME("qcom-dc-scm-v1-bmc"),
->>>>           .parent        = TYPE_ASPEED_MACHINE,
->>>>           .class_init    = aspeed_machine_qcom_dc_scm_v1_class_init,
->>>> +    }, {
->>>> +        .name          = MACHINE_TYPE_NAME("qcom-firework"),
->>>
->>> We should add the "-bmc" prefix to this machine name to be consistent
->>> with the other BMCs. A "qcom-firework" machine would model the whole
->>> system, host side included.
->>
->> Right, so I added the "-bmc" tag to "qcom-dc-scm-v1-bmc" as it's an
->> add-in card type board, and it can be attached to the "qcom-firework"
->> baseboard. The "qcom-firework" doesn't have the "-bmc" tag intentionally
->> since it doesn't have a bmc soc on it.
-> 
-> These are the Aspeed machines, they only model the BMC side of the
-> overall system.
-> 
-> A "qcom-firework" machine would include the host SoC, possibly the
-> service and management SoCs plus the BMC.
-> 
-> As an example, see the fb35 machine being developed by Peter :
-> 
->    http://patchwork.ozlabs.org/project/qemu-devel/list/?series=306294
-> 
-> or the PowerNV machines which use an embedded or external Aspeed BMCs
+On Mon, 27 Jun 2022 14:29:19 +0100
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-Okay. I'll add the '-bmc' suffix for the Firework's BMC part in this
-series so that the 'qcom-firework' can be used for a machine that
-has the host SoC. I'll submit v2 soon.
+> On Mon, 16 May 2022 at 21:51, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > From: Jonathan Cameron <jonathan.cameron@huawei.com>
+> >
+> > Both registers and the CFMWS entries in CDAT use simple encodings
+> > for the number of interleave ways and the interleave granularity.
+> > Introduce simple conversion functions to/from the unencoded
+> > number / size.  So far the iw decode has not been needed so is
+> > it not implemented.
+> >
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> > Message-Id: <20220429144110.25167-27-Jonathan.Cameron@huawei.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >  include/hw/cxl/cxl_component.h |  8 ++++++++
+> >  hw/cxl/cxl-component-utils.c   | 34 ++++++++++++++++++++++++++++++++++
+> >  2 files changed, 42 insertions(+)
+> >
+> > diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_compon=
+ent.h
+> > index 7d8f395cbe..4f69688c47 100644
+> > --- a/include/hw/cxl/cxl_component.h
+> > +++ b/include/hw/cxl/cxl_component.h
+> > @@ -210,4 +210,12 @@ static inline int cxl_decoder_count_enc(int count)
+> >      return 0;
+> >  }
+> >
+> > +uint8_t cxl_interleave_ways_enc(int iw, Error **errp);
+> > +uint8_t cxl_interleave_granularity_enc(uint64_t gran, Error **errp);
+> > +
+> > +static inline hwaddr cxl_decode_ig(int ig)
+> > +{
+> > +    return 1 << (ig + 8);
+> > +} =20
+>=20
+> Hi; Coverity warns about this (CID 1488868) because the shift
+> is calculated with 32-bit arithmetic but the function returns
+> a 64-bit result. I assume that 'ig' is supposed to never be
+> large enough that the result is >4GB, but we can make Coverity
+> happy by using "1ULL" here.
+>=20
+You are correct on range never hitting that.
 
-Thanks,
-Jae
+Will send a fix in next few days.
 
-> Thanks,
-> 
-> C.
-> 
->>
->> Thanks,
->> Jae
->>
->>> Thanks,
->>>
->>> C.
->>>
->>>> +        .parent        = TYPE_ASPEED_MACHINE,
->>>> +        .class_init    = aspeed_machine_qcom_firework_class_init,
->>>>       }, {
->>>>           .name          = MACHINE_TYPE_NAME("fp5280g2-bmc"),
->>>>           .parent        = TYPE_ASPEED_MACHINE,
->>>
-> 
+Jonathan
+
+> thanks
+> -- PMM
+
 
