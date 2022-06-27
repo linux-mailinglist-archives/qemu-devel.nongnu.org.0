@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF68355B823
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:19:50 +0200 (CEST)
-Received: from localhost ([::1]:56914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9893355B82A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:24:21 +0200 (CEST)
+Received: from localhost ([::1]:36750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5j2D-0006bz-PZ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53676)
+	id 1o5j6a-0003h2-MP
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:24:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o5izM-0003eV-9n; Mon, 27 Jun 2022 03:16:52 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:35779)
+ id 1o5izN-0003ev-48; Mon, 27 Jun 2022 03:16:53 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:34667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o5izG-0003sn-5Y; Mon, 27 Jun 2022 03:16:48 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id pk21so17190696ejb.2;
- Mon, 27 Jun 2022 00:16:45 -0700 (PDT)
+ id 1o5izH-0003sv-D8; Mon, 27 Jun 2022 03:16:49 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id o10so11653449edi.1;
+ Mon, 27 Jun 2022 00:16:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TR7o8npeCsSKFGJvppVbOeFp+PwNckjxSIksu1sdxqw=;
- b=WrmRulFkL2RwWM/7zfLELAmBqEM0H5rnPq2lnZZ8irfZQmpV8s3jjg5dvw5+BGBQqZ
- jBVrbEf2yuR2QoB0ATmdFm+hHtJPttmo8+Rt+zWmIVxvounZuaiAAR1XPLuM648CLo+m
- nnrntiEAe49zRvF3VLeXzGMKWa2Fx+enRSECicHcu7iKdf9H7C9ANhGvIPco/P77mN0D
- SPZp8y8keoc7CYNmiqteg06DOyg6bGLj/DHkiLmacspKOTxAAZ7/82I2EhUANbXUmc6V
- x98KSQ7bEim/kRMNzPdMiVj5JrGevy90yx+/y9/PdhN/PHtwbNCEpcAD5FrT6t00b3Y3
- 2oeg==
+ bh=Owsck5Aw6Urq8fF1sfCFdLXNiN0ri19YPUA3MBR7xfA=;
+ b=nVjfnpAXbD/IT7+jmfqopuIO6OmTo7ARqGTNXmo/Z5xpMAt8kyhGD6T6skRHBrDEp5
+ lHHTRYYHy+77RGxVbZhNVL+M3VV4anBiQaoTwjqG6fnDjMqEHKpnpEcLfeJhwxY9+prc
+ faHAfFI0byPPkVaaDBHSUPQOvwo5+rJfWtTTCVOXuQV2XbAepGSv6P94wu5JmPNRlK6m
+ O0p4dRqib2Smar680WMbh/CvyL6fVe13TuI4FC2YRVHrgEOGw9NapS1tm41Pz/3F/SPw
+ /0wfxodGcnS87kJ1fos5aFcYsdxta2wiAt3vJ7it49wcS0awfADzJyX/W696pJR7TKMm
+ WEhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TR7o8npeCsSKFGJvppVbOeFp+PwNckjxSIksu1sdxqw=;
- b=UysTiY6PltXg+MGRmH7KJimFSgPwQoCB6I/SEV7Yobn7TAq0z4HlA5EKOYMzyzgO7R
- XTY6OrdSEH2kbsFKXqOkeM4gXE4XM+IKZcCO/o3dHRO2Z86JRuN5njlnXIGguA6GU+7k
- e5wjgghDXA9gLdOUzXipdOiTlcWCXrilzjYYAYEVj1pWzFxLIPMqohZnOrdoalgoND0a
- Fnw6I7n43M3mudazBrIXG9TaAXTKrFGJWb58js/8VAFy2/dRgvEwQ8Rc/qGmgvTSzGKr
- Oz+g1Kqu3HF3zyTVOakJjP80QvZ84oV34dbMj0FFowPkoyvB8RnhjKZAK1LGSlAXpB2D
- UQ+g==
-X-Gm-Message-State: AJIora/EQv/PYzpv/0WgZy1M5N1GMlEvF2yad2/P3QqzLae5St9B4z+j
- ++ExRY7jEnYG/jvcDp3WipDjcdi/fW4eVg==
-X-Google-Smtp-Source: AGRyM1uxYoDvK44MM8BNT49qTILHCpv7CQW6rNOlnMmM8lrns6INoxIdV50l9mvlaftIEOuHvGO+vA==
-X-Received: by 2002:a17:906:2a86:b0:711:d8a5:cb0c with SMTP id
- l6-20020a1709062a8600b00711d8a5cb0cmr11566299eje.426.1656314204116; 
- Mon, 27 Jun 2022 00:16:44 -0700 (PDT)
+ bh=Owsck5Aw6Urq8fF1sfCFdLXNiN0ri19YPUA3MBR7xfA=;
+ b=6pLxDVM+z3kXYrhoTMbaEF9ucbbCr58Ejuw1eFw3N6ZGmJD5L8EYnXaAb9h0kcjRtH
+ q4eTUsELnbAnBKqnXeEmqNY/kVvYXU2AncNBNtXrhOfTIHrIQunBLcbDGHiLfgCvEmWg
+ 6b008WsvSTBOgoa6L9uI7oNC1andmkENI+lhHGaJ41eF0M5n0mW24NtPtfGcSobXZ2RG
+ FlWEOPZeiYltzHQa332FwIDsyuAkWamJK1mSVcUGtuDsN/v80hiYTWxE2WGNPfffVq5Z
+ 37S8ZptxBQAX6u4GslugFQeBWIK+2PvSWL6pGcgfKHmzSR/KTn75F4vBlDFUFFC8JKI1
+ G28A==
+X-Gm-Message-State: AJIora8jdkpGI7lh9BWcjbMOWShRQmJF6tQLnIxRPfAEL+/44hMRH9zw
+ vFm/i2HijXUy/D37ZExjZEVgnQSKNKUN3w==
+X-Google-Smtp-Source: AGRyM1uPJEZ6Bmo98wpFZHjeRQapFXL+ghqR4Lq7pgnxZm2JFcKUt0st3q9YKwVtsSyPKhit//hjaA==
+X-Received: by 2002:a05:6402:d6b:b0:435:7170:cf15 with SMTP id
+ ec43-20020a0564020d6b00b004357170cf15mr14595161edb.314.1656314205256; 
+ Mon, 27 Jun 2022 00:16:45 -0700 (PDT)
 Received: from Provence.localdomain
  (dynamic-077-183-075-191.77.183.pool.telefonica.de. [77.183.75.191])
  by smtp.gmail.com with ESMTPSA id
- g16-20020a1709064e5000b007072dc80e06sm4593294ejw.190.2022.06.27.00.16.43
+ g16-20020a1709064e5000b007072dc80e06sm4593294ejw.190.2022.06.27.00.16.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 00:16:43 -0700 (PDT)
+ Mon, 27 Jun 2022 00:16:45 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -64,17 +64,17 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  John Snow <jsnow@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [RFC PATCH 01/10] hw/ide/piix: Check for presence of ISABus before
- using it
-Date: Mon, 27 Jun 2022 09:16:02 +0200
-Message-Id: <20220627071611.8793-2-shentey@gmail.com>
+Subject: [RFC PATCH 02/10] Revert "hw/ide: Fix crash when plugging a piix3-ide
+ device into the x-remote machine"
+Date: Mon, 27 Jun 2022 09:16:03 +0200
+Message-Id: <20220627071611.8793-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220627071611.8793-1-shentey@gmail.com>
 References: <20220627071611.8793-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,39 +97,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an alternative solution to commit
-9405d87be25db6dff4d7b5ab48a81bbf6d083e47 'hw/ide: Fix crash when plugging a
-piix3-ide device into the x-remote machine' which allows for cleaning up the
-ISA API while keeping PIIX IDE functions user-createable for an arbitrarily
-long deprecation period.
+Now that the PIIX IDE device models check for presence of an ISABus before
+using it, this fix isn't needed any longer.
+
+This reverts commit 9405d87be25db6dff4d7b5ab48a81bbf6d083e47.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/ide/piix.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ hw/ide/ioport.c           | 16 ++++++----------
+ hw/ide/piix.c             |  9 +++------
+ hw/isa/isa-bus.c          | 14 ++++----------
+ include/hw/ide/internal.h |  2 +-
+ include/hw/isa/isa.h      | 13 +++++--------
+ 5 files changed, 19 insertions(+), 35 deletions(-)
 
+diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
+index e6caa537fa..b613ff3bba 100644
+--- a/hw/ide/ioport.c
++++ b/hw/ide/ioport.c
+@@ -50,19 +50,15 @@ static const MemoryRegionPortio ide_portio2_list[] = {
+     PORTIO_END_OF_LIST(),
+ };
+ 
+-int ide_init_ioport(IDEBus *bus, ISADevice *dev, int iobase, int iobase2)
++void ide_init_ioport(IDEBus *bus, ISADevice *dev, int iobase, int iobase2)
+ {
+-    int ret;
+-
+     /* ??? Assume only ISA and PCI configurations, and that the PCI-ISA
+        bridge has been setup properly to always register with ISA.  */
+-    ret = isa_register_portio_list(dev, &bus->portio_list,
+-                                   iobase, ide_portio_list, bus, "ide");
++    isa_register_portio_list(dev, &bus->portio_list,
++                             iobase, ide_portio_list, bus, "ide");
+ 
+-    if (ret == 0 && iobase2) {
+-        ret = isa_register_portio_list(dev, &bus->portio2_list,
+-                                       iobase2, ide_portio2_list, bus, "ide");
++    if (iobase2) {
++        isa_register_portio_list(dev, &bus->portio2_list,
++                                 iobase2, ide_portio2_list, bus, "ide");
+     }
+-
+-    return ret;
+ }
 diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index 9a9b28078e..e8f3abc4b5 100644
+index e8f3abc4b5..21777ecc8b 100644
 --- a/hw/ide/piix.c
 +++ b/hw/ide/piix.c
-@@ -136,6 +136,17 @@ static int pci_piix_init_ports(PCIIDEState *d)
+@@ -134,7 +134,7 @@ static int pci_piix_init_ports(PCIIDEState *d)
+         {0x1f0, 0x3f6, 14},
+         {0x170, 0x376, 15},
      };
-     int i, ret;
+-    int i, ret;
++    int i;
  
-+    {
-+        ISABus *isa_bus;
-+        bool ambiguous;
-+
-+        isa_bus = ISA_BUS(object_resolve_path_type("", TYPE_ISA_BUS,
-+                                                   &ambiguous));
-+        if (!isa_bus || ambiguous) {
-+            return -ENODEV;
-+        }
-+    }
-+
+     {
+         ISABus *isa_bus;
+@@ -149,11 +149,8 @@ static int pci_piix_init_ports(PCIIDEState *d)
+ 
      for (i = 0; i < 2; i++) {
          ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
-         ret = ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
+-        ret = ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
+-                              port_info[i].iobase2);
+-        if (ret) {
+-            return ret;
+-        }
++        ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
++                        port_info[i].iobase2);
+         ide_init2(&d->bus[i], isa_get_irq(NULL, port_info[i].isairq));
+ 
+         bmdma_init(&d->bus[i], &d->bmdma[i], d);
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 1bee1a47f1..0537a9f2c1 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -119,17 +119,13 @@ void isa_register_ioport(ISADevice *dev, MemoryRegion *io, uint16_t start)
+     isa_init_ioport(dev, start);
+ }
+ 
+-int isa_register_portio_list(ISADevice *dev,
+-                             PortioList *piolist, uint16_t start,
+-                             const MemoryRegionPortio *pio_start,
+-                             void *opaque, const char *name)
++void isa_register_portio_list(ISADevice *dev,
++                              PortioList *piolist, uint16_t start,
++                              const MemoryRegionPortio *pio_start,
++                              void *opaque, const char *name)
+ {
+     assert(piolist && !piolist->owner);
+ 
+-    if (!isabus) {
+-        return -ENODEV;
+-    }
+-
+     /* START is how we should treat DEV, regardless of the actual
+        contents of the portio array.  This is how the old code
+        actually handled e.g. the FDC device.  */
+@@ -137,8 +133,6 @@ int isa_register_portio_list(ISADevice *dev,
+ 
+     portio_list_init(piolist, OBJECT(dev), pio_start, opaque, name);
+     portio_list_add(piolist, isabus->address_space_io, start);
+-
+-    return 0;
+ }
+ 
+ ISADevice *isa_new(const char *name)
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index 97e7e59dc5..348e7f2510 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -624,7 +624,7 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
+                    int chs_trans, Error **errp);
+ void ide_init2(IDEBus *bus, qemu_irq irq);
+ void ide_exit(IDEState *s);
+-int ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
++void ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
+ void ide_register_restart_cb(IDEBus *bus);
+ 
+ void ide_exec_cmd(IDEBus *bus, uint32_t val);
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index 6c8a8a92cb..8dd2953211 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -114,15 +114,12 @@ void isa_register_ioport(ISADevice *dev, MemoryRegion *io, uint16_t start);
+  * @portio: the ports, sorted by offset.
+  * @opaque: passed into the portio callbacks.
+  * @name: passed into memory_region_init_io.
+- *
+- * Returns: 0 on success, negative error code otherwise (e.g. if the
+- *          ISA bus is not available)
+  */
+-int isa_register_portio_list(ISADevice *dev,
+-                             PortioList *piolist,
+-                             uint16_t start,
+-                             const MemoryRegionPortio *portio,
+-                             void *opaque, const char *name);
++void isa_register_portio_list(ISADevice *dev,
++                              PortioList *piolist,
++                              uint16_t start,
++                              const MemoryRegionPortio *portio,
++                              void *opaque, const char *name);
+ 
+ static inline ISABus *isa_bus_from_device(ISADevice *d)
+ {
 -- 
 2.36.1
 
