@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25C555B7C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 07:43:40 +0200 (CEST)
-Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23BC55B7E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 08:03:28 +0200 (CEST)
+Received: from localhost ([::1]:58920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5hX9-0007Wk-LX
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 01:43:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58792)
+	id 1o5hqI-0003gl-V8
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 02:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o5hUy-0006mE-QO
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 01:41:24 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:51159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o5hUx-000273-3V
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 01:41:24 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id go6so8236164pjb.0
- for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 22:41:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=44Pd4G2+iDEO9VYngz3lzb0T/d6dttUrgpewfisYIl4=;
- b=X634DBrl5eu3B1tZwU43slORa1PaEOXpCKCUUlW7WKZddfsY7Fhmxk3JzRQN2zsRiy
- K1jzhXBfL1rHEdnSJVjNCWfroKYSDkBapkbgws32QxfjktbaWBPywoNXW2CCGlr5B1dU
- s5BUJ1VnZL6T8dnkIsRjoq0pZE9I0lTLu6mBWs4oddg/NOTiLeTcmVKNarM0YUK86iow
- /wMu7gDHIy0TxljmiCYRrFFcBNKBcBwnLzgKPYWezg52MK4eNAMhULrCWBe1WxZAibs8
- FwbWxsDvmBlxG2BpFhIBEHbm5AZpi4JtJitJRCczXG68OvDLyWWXdtUX/uklF5eh9eN2
- 3MKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=44Pd4G2+iDEO9VYngz3lzb0T/d6dttUrgpewfisYIl4=;
- b=n6lfn3rpgU1l1jIHUfwOodrS1+ygSZqjxa8Bp1yC0sWBw4hgjl95XP3zAF5uJcRRVL
- rH+2Iy4oeHw1WmnncsCFdK+vzbgubCeZpH0Cs9kkJNcTqbmUbMTeUSGV0ZyTyDTZFi+M
- o0H1O/c+hgKyUnb6VbOCorCcSISVPwegYqOxxZARlmd25nzHO1ab54Jq1py4cTpLXBn6
- hVOWYi+fD37VORjdhrFvZfr24D1pyZfhKdW36dE4GecK9WkBn+H4RGqZ9eJbLmpX6sN7
- eQjB0awz6gAvVgLorqYG9GiXHqh5h8Pb4MvFHGcE8JMoJc9QcWu8sUwlXHDUXqXzWl+d
- fOfg==
-X-Gm-Message-State: AJIora8SIQM2V6jEXBLiWx2uVRQSOqI+k7mkqg6qLKTVqEHLBtW9yb55
- EF0QhxZJeObEEVeZEJ+D4UtJlGxzbVqSL1B4sWE=
-X-Google-Smtp-Source: AGRyM1tjnBc1afwSaj5BklSUfz3tCypm3l0iHjO4gC7wuFdXqODhbSpINFCKeVb1iZ6aTLO9XWtAzXJU5XUyHReh0xk=
-X-Received: by 2002:a17:903:216:b0:167:921c:6590 with SMTP id
- r22-20020a170903021600b00167921c6590mr13004012plh.83.1656308480997; Sun, 26
- Jun 2022 22:41:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o5hnl-0002Mh-Uv
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:00:50 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:34901)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o5hnL-0004oc-Re
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:00:45 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 5EED4320084E;
+ Mon, 27 Jun 2022 02:00:17 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 27 Jun 2022 02:00:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1656309616; x=1656396016; bh=1p
+ dChQV7l3azc1irc87om8wDjynXx2U0fLY8WrZvLzE=; b=bohGGFQGANSpkdbenM
+ 0WSgEAmoFT9u/1hYeVepg50u7kQeIFKtsLUwDYTmhlpyQ9CX19SqSjUtAd767lgo
+ QoOo4Q/KIPAuogqaCU/YgA551o7fikBwdjTR9xpss9QIv3vFftT0bvAeQr2Qx7e6
+ DElZ8L8Wr+7reWet+5vfz7fFggBvZQGvbOZV4CFK7V1njj9BBVhZC9qhrTMDkJuC
+ VEMed6yX2VYYgHGmf/MjHT+kwYOemyFCCkCcDEj9zuURdf7tG5FAZ8xUS7cmL5XM
+ 9AgCQ3vTbIAUBkjaJT3muRBU3Vd9ls3u/D/ep7WgPRdFM7BIAjLaGX86S9exWH7v
+ m6aQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1656309616; x=1656396016; bh=1pdChQV7l3azc1irc87om8wDjynX
+ x2U0fLY8WrZvLzE=; b=a0NDPvsKuoW/oGRp29iFwT5l8/4QULoqGefq0eiryCpe
+ iilQXryh1iJ0U3aou3JBNy3dRWonIF3IRHN8MJmdRJR7DioCUK7jDe3OQMxPwtLz
+ f9HT3h+knboiPWwak3BYwpjuV+BvkPPS/6s+rOjflQs7J5Vf9L8CFPSok/wr9FcV
+ Poiya6JXLdjwY2KMhZFVjbF+YxoyVSyL6CVBbGFODtQvy97mFpOS5Wfv20RNY+sz
+ yH5l1WO/2ym5/dwgnqkJhlDbVtR53Hrb2t7HWLmLM9nHdkkaa4sZZIpg1jlbNJxz
+ AkkrlGeJ3wcMT+1n21LRUc+cPAYx35ffL7pgLUbN+Q==
+X-ME-Sender: <xms:b0e5YlB88a0Spb_IqcUW63y3-rwOZeEkc0XhtUR5rK5veQ5mUnZFxg>
+ <xme:b0e5YjjqN0dRO6llnsl9g7LbA8fSa-I-i6kXGaNr9CTrxr9Vy10jDUK_A3H_Da2Lj
+ mmIRQdBvyeJSsc9NqE>
+X-ME-Received: <xmr:b0e5YgliPQKfYGlrfUW7_WzxgRpFJNbncA9rEaBTj2aVU0soDEvF4-DuIzjtot0XJPsBtx_xyARCG2_fVg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeggedgleelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeffuddvhfehjedugfeijeeuieelge
+ evuddvlefhkefhgfettefftddvkeevieelfeenucffohhmrghinhepkhgvrhhnvghlrdho
+ rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:b0e5Yvw_Zo3rWS68MTIhYD5DuggB2ROrmt7Er5g1Mj8Yx7QesLLOjg>
+ <xmx:b0e5YqRqmdKAN35KCOB12-1m8p4TJIrCJYT98HWLqEhey39Ae8KgqQ>
+ <xmx:b0e5YiZcOInbVJKDjwAYeGHxGriSm9eSoBT688C9rgOgKm1f7b5nxw>
+ <xmx:cEe5YleogXHPZ-T1sRyGw_U1FbcO_8Lb5Ih3ySRWDkWVdhyaxb2foA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Jun 2022 02:00:14 -0400 (EDT)
+Date: Mon, 27 Jun 2022 08:00:13 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org
+Subject: Re: [PATCH v3 0/2] hw/nvme: Add shadow doorbell buffer support
+Message-ID: <YrlHbYVI3rP0SMc8@apples>
+References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
-References: <20220625223458.1273408-1-simon.sapin@exyr.org>
- <da785d05-e322-2e40-7a89-e926256c6dbe@exyr.org>
-In-Reply-To: <da785d05-e322-2e40-7a89-e926256c6dbe@exyr.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 27 Jun 2022 15:40:54 +1000
-Message-ID: <CAKmqyKN+xvOseT_5XeFgZ=b77giU+wdaZy=w9OgEFL8EXNGDVg@mail.gmail.com>
-Subject: Re: Booting bare-metal RISC-V virt (Was: [PATCH] Add some
- documentation for "dtb" devices tree blobs)
-To: Simon Sapin <simon.sapin@exyr.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pSt+WDwaioybXmRs"
+Content-Disposition: inline
+In-Reply-To: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,121 +100,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 26, 2022 at 9:04 AM Simon Sapin <simon.sapin@exyr.org> wrote:
->
-> On 26/06/2022 00:34, Simon Sapin wrote:
-> > +On startup, the dtb is memory-mapped and its address is passed to the =
-guest
-> > +in a target-specific way:
-> > +
-> > +* Arm: :ref:`arm-baremetal`
-> > +* **TODO**: document other targets
->
-> Hello,
 
-Hello
+--pSt+WDwaioybXmRs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> My current interest is playing with bare-metal / freestanding RISC-V, usi=
-ng QEMU as a
-> reference emulator. Based on various blog posts, reading QEMU source code=
-, and lots
-> of trial-and-error I=E2=80=99ve managed to get something running[1] but i=
-t wasn=E2=80=99t easy.
+On Jun 16 20:34, Jinhao Fan wrote:
+> This patch adds shadow doorbell buffer support in NVMe 1.3 to QEMU
+> NVMe. The Doorbell Buffer Config admin command is implemented for the
+> guest to enable shadow doobell buffer. When this feature is enabled, each
+> SQ/CQ is associated with two buffers, i.e., Shadow Doorbell buffer and
+> EventIdx buffer. According to the Spec, each queue's doorbell register
+> is only updated when the Shadow Doorbell buffer value changes from being
+> less than or equal to the value of the corresponding EventIdx buffer
+> entry to being greater than that value. Therefore, the number of MMIO's
+> on the doorbell registers is greatly reduced.
+>=20
+> This patch is adapted from Huaicheng Li's patch[1] in 2018.
+>=20
+> [1] https://patchwork.kernel.org/project/qemu-devel/patch/20180305194906.=
+GA3630@gmail.com/
+>=20
+> IOPS comparison with FIO:
+>=20
+> iodepth    1      2      4      8
+>   QEMU   25.1k  25.9k  24.5k  24.0k
+>  +dbbuf  29.1k  60.1k  99.8k  82.5k
+>=20
+> MMIO's per IO measured by perf-kvm:
+>=20
+> iodepth    1      2      4      8
+>   QEMU   2.01   1.99   1.99   1.99
+>  +dbbuf  1.00   0.52   0.27   0.46
+>=20
+> The tests are done on Ubuntu 22.04 with 5.15.0-33 kernel with Intel(R)=20
+> Xeon(R) Gold 6248R CPU @ 3.00GHz.
+>=20
+> QEMU set up:
+>=20
+> bin/x86_64-softmmu/qemu-system-x86_64 \
+>     -name "nvme-test" \
+>     -machine accel=3Dkvm \
+>     -cpu host \
+>     -smp 4 \
+>     -m 8G \
+>     -daemonize \
+>     -device virtio-scsi-pci,id=3Dscsi0 \
+>     -device scsi-hd,drive=3Dhd0 \
+>     -drive file=3D$OSIMGF,if=3Dnone,aio=3Dnative,cache=3Dnone,format=3Dqc=
+ow2,id=3Dhd0,snapshot=3Don \
+>     -drive "id=3Dnvm,if=3Dnone,file=3Dnull-co://,file.read-zeroes=3Don,fo=
+rmat=3Draw" \
+>     -device nvme,serial=3Ddeadbeef,drive=3Dnvm \
+>     -net user,hostfwd=3Dtcp::8080-:22 \
+>     -net nic,model=3Dvirtio
+>=20
+> FIO configuration:
+>=20
+> [global]
+> ioengine=3Dlibaio
+> filename=3D/dev/nvme0n1
+> thread=3D1
+> group_reporting=3D1
+> direct=3D1
+> verify=3D0
+> time_based=3D1
+> ramp_time=3D0
+> runtime=3D30
+> ;size=3D1G
+> ;iodepth=3D1
+> rw=3Drandread
+> bs=3D4k
+>=20
+> [test]
+> numjobs=3D1
+>=20
+> Changes since v2:
+>   - Do not ignore admin queue updates in nvme_process_db and nvme_post_cq=
+es
+>   - Calculate db_addr and ei_addr in hard-coded way
+>=20
+> Changes since v1:
+>   - Add compatibility with hosts that do not use admin queue shadow doorb=
+ell
+>=20
+> Jinhao Fan (2):
+>   hw/nvme: Implement shadow doorbell buffer support
+>   hw/nvme: Add trace events for shadow doorbell buffer
+>=20
+>  hw/nvme/ctrl.c       | 118 ++++++++++++++++++++++++++++++++++++++++++-
+>  hw/nvme/nvme.h       |   8 +++
+>  hw/nvme/trace-events |   5 ++
+>  include/block/nvme.h |   2 +
+>  4 files changed, 132 insertions(+), 1 deletion(-)
+>=20
+> --=20
+> 2.25.1
+>=20
+>=20
 
-Written in Rust as well, nice!
+Jinhao,
 
-I'm sorry to hear that you had so much trouble getting started with
-RISC-V QEMU. We do try to make it easy, but everyone is busy and
-documentation usually ends up being the last thing we do.
+Thanks, applied to nvme-next!
 
->
-> In comparison, the docs for Arm virt have a very helpful section[2] for t=
-his
-> scenario. I would like to contribute similar docs for RISC-V virt but I=
-=E2=80=99d need
-> confirmation of the information to put in it:
->
-> * Through `dumpdtb` I see that flash memory starts at address 0x2_000_000=
-0, and RAM
-> at 0x8_000_0000. Is this information that guest code can rely on and hard=
--code? What
-> details can or cannot be similarly relied on?
+--pSt+WDwaioybXmRs
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Good question.
+-----BEGIN PGP SIGNATURE-----
 
-So first up, you can see all of the memory mappings in the
-hw/riscv/virt.c file, if you find that easier than dumping device
-trees.
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmK5R2sACgkQTeGvMW1P
+DeknZggApcBMrVee2iuIPQUrzjTKp/rz5U//ItVmuo1+S7Ue+yRg8zJ5Cr+XeYtf
+ZA9jkSXoPmIvqs/+Cq4l1Un7ns0b4cmyN12e6XoZoJpNU5e0B937W3egtPALGP9H
+QxTYeCcomlrL2zxq34v9V6fR1/D14MRY5jaf9UMQSiM8o+Bi3xc1aN/KpdU64A7Y
+M13+MWZ8dp+CIUIBlkm6aqyWdh26/IxXLztOS9LWLOo98MZiqMI6GRpEuEGlDys9
+5IyoijnuD9rRuM6vVPS/5U5Wbnn6hG4/381kWoIOle8rbJOOa7meJlTnwKbnw6gc
+n2UW32T9m1nkKqyprObkvAlRuMCkCg==
+=EajH
+-----END PGP SIGNATURE-----
 
-We have previously kept the addresses backwards compatible. So that
-software for an older virt machine will work on a newer one. There is
-currently talks about changing the virt machine memory layout in a
-breaking way and versioning in the current one though.
-
-So I don't really have a good answer for you. I would recommend
-reading as much as possible from the device tree dynamically at boot.
-
-In general though we don't want to break people, we just might have to
-make changes in the future to allow for new functionality.
-
->
-> * With `qemu-system-riscv32 -machine virt -bios none -kernel something.el=
-f -s -S`,
-> GDB shows that execution starts at the lowest address of RAM, not of flas=
-h like I
-> expected. Then what is emulated flash for?
-
-If you supply a flash image we will start executing from flash automaticall=
-y.
-
->
-> * What=E2=80=99s the difference between a bios and a kernel? The previous=
- command is based on
-> a blog post but I don=E2=80=99t fully quite the details.
-
-For a bare metal setup like yours there isn't really a difference. We
-use -bios to specify the OpenSBI firmware and -kernel to specify a
-Linux kernel. For your use you can use `-bios none -kernel ...`
-
->
-> * I see in source code[3] that QEMU passes some arguments to the firmware=
-. Register
-> a0 gets the hart ID, a1 is the dtb address, but what=E2=80=99s in a2?
-
-a2 stores the "dynamic firmware info" which is used by OpenSBI. The
-riscv_rom_copy_firmware_info() copies the data to memory
-
->
-> * To what extent is the above calling convention standardized? I found si=
-milar things
-> in coreboot[4] and in OpenSBI[5]
-
-Good question. I don't think it's specified in a spec, but it is very commo=
-n
-
-Alistair
-
->
->
-> [1] https://github.com/SimonSapin/riscv-qemu-demo
->
-> [2]
-> https://www.qemu.org/docs/master/system/arm/virt.html#hardware-configurat=
-ion-information-for-bare-metal-programming
->
-> [3] https://gitlab.com/qemu-project/qemu/-/blob/v7.0.0/hw/riscv/boot.c#L2=
-97-317
->
-> [4] https://doc.coreboot.org/arch/riscv/index.html#stage-handoff-protocol
->
-> [5]
-> https://github.com/riscv-software-src/opensbi/blob/v1.1/platform/generic/=
-platform.c#L59-L75
->
->
-> Thanks!
-> --
-> Simon Sapin
->
+--pSt+WDwaioybXmRs--
 
