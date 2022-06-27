@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F16B55B651
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 06:56:02 +0200 (CEST)
-Received: from localhost ([::1]:33968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF7155B6D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 07:16:36 +0200 (CEST)
+Received: from localhost ([::1]:41682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5gn3-0001uh-K1
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 00:56:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52744)
+	id 1o5h6x-0007ob-AD
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 01:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1o5glJ-00012x-2r
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 00:54:13 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:35462)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o5h3m-0006Hi-Ib; Mon, 27 Jun 2022 01:13:18 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:44830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1o5glG-0001Ue-K9
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 00:54:12 -0400
-Received: by mail-pg1-x533.google.com with SMTP id r66so8052342pgr.2
- for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 21:54:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=j6KQ0xx2sEEnKzh2E0t4JGgrr1lxUxV2BmjDHZHNSM8=;
- b=AdiHqWpSPJwtFVhtt8G/EtcuME71yHc7Ufiv02Hu6cCtnvlGz1HiOTEN4COs9wmIjY
- bo+Hhq3222x9A8fiaK3giTHHHNVgIUxWzUa9mY8Lma/EKxEvOV73GPJJQjrTD4yCZLk/
- cDzLK0torn2Cc1ksvk6lTE/ZL/Tm8nIoAmTunGRs0UN65qMgzARqMD6OvjCB07Cu1twY
- l/EJj+1T7nry9TRzEE9u6i8nRZ6dVp1RIRe1KPC8zomrL4DZgQ5xLJesv4wGvSrAwlsX
- t3OzWxn3oRIN4Y5qi5jBdRAOQ6qJCr7sL/9r6BgMtnzw0nV5mUcp3sJ9zuuKhWQkZPl1
- DKKg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o5h3k-0005T7-Or; Mon, 27 Jun 2022 01:13:18 -0400
+Received: by mail-pl1-x630.google.com with SMTP id l6so7133445plg.11;
+ Sun, 26 Jun 2022 22:13:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=a68BPhoA1A5/sytnQGPWhGsGiN9xQWtdpJ+HlRjJx6M=;
+ b=l96MAOSdbNwpjM+UHKrjoyH8UAQr33VDzVy1BQDDwa06VG1fIB2tlaHevdrTDhxXx0
+ U81fhnEkJx752CGbLWFxo8f0R3rDHcZ0ptzA2CZxLNe+phgeSFdHX1mKgoEjyhJXOPJ4
+ BIFNnYYLV0RGNiLVjlz2y7VJmp89EHSnwpo8Etnn4+ROQS34zeOYIRyXOaf4aKfDuKH+
+ FB8/jxvivDInb7wpNfR3vAfSY2NtYT1bxHS4gJMh27oDaMs1kKkrkfa6LGDJ1DEy51xD
+ Vg5MScrnHFqUlQjq/nvPlO7JwFzTpky6P0HOoS9AiOAL1cF5xjRXy/ialmIDMHdfjrWN
+ r/lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=j6KQ0xx2sEEnKzh2E0t4JGgrr1lxUxV2BmjDHZHNSM8=;
- b=rebFABijBMz03pFjFrleXw3HOWKrJNf7nj75JOxiQOauXAHSCK8VF5XcrEGuJnBsHT
- rGHqMUc7tHupwLg3RUI9ART4QjymiONRwkHECi1fRk58VusiQ0D0YfV9MGG4s1MDyIfK
- N5ftunxJj2jtKKOmGmCz7Pe4BCjbX4QQ91gpx6tV1EUMKBDbrZwcc+9AEaghMfxXn9Zu
- B9hnc883LRkLO0iJv7So7TSJqzPzg7zEuA5x1zc2mKobZ47dUjGTxD2lxpPDXMc0lI5d
- OEuC37mrkJF2kp36YkK+mypyQ3mmVskqfBGSmka197fWtETyTHnFjAi/r/Tm1EK2hzib
- oLtA==
-X-Gm-Message-State: AJIora+vqgynBcRXDhSH3vwRxUA88PozfqK9k/4HAvKxmzhAQKoDlBeX
- Gop/yuYF+evcGwMBpkndlhO/MA==
-X-Google-Smtp-Source: AGRyM1tTA53TsIfRuJlWBZc43vXqyfi00Z40DSQzbdR8UBbE5DaoiV34MctKcLCZgOatDddz3yGxig==
-X-Received: by 2002:a63:7844:0:b0:40c:9792:5d6d with SMTP id
- t65-20020a637844000000b0040c97925d6dmr10930799pgc.360.1656305647298; 
- Sun, 26 Jun 2022 21:54:07 -0700 (PDT)
-Received: from [10.61.2.177] (110-175-254-242.static.tpgi.com.au.
- [110.175.254.242]) by smtp.gmail.com with ESMTPSA id
- y6-20020aa78f26000000b005251ec8bb5bsm6085683pfr.199.2022.06.26.21.54.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Jun 2022 21:54:06 -0700 (PDT)
-Message-ID: <6fca16ae-5df2-0bc3-8a98-0d31594f89a9@ozlabs.ru>
-Date: Mon, 27 Jun 2022 14:54:03 +1000
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a68BPhoA1A5/sytnQGPWhGsGiN9xQWtdpJ+HlRjJx6M=;
+ b=zEIVx82pspVorGCl2G33y17qAvzhM2r1ULxXiRs+tfrPucYTqeqEq1BTP0dOfJVjww
+ f98kAbQ+ihP0fP47Lqf1Ef3GKruw8KX4ICZA7Gv0NysbRsD71k9DrHt7ds0Z9DFWNrWV
+ 9tWycdWq1nG4FUmyKgMGbOk3S6/Y3b7gBfYCFjgN5VUstFr+S6JQls1LXq/yO5a0mnZ+
+ httnek58U0OgbnrBrqLbY3etBWM4OI9iKrGYZmSVwz+i3EX5et6yALjRrh+HSfVrgN3I
+ L7Hv3hQhORQ1zmyu93rI+c7XX+uSc/Vqt3e0OR5rzfGVp1x0H7HbM0f1pAUCcKDn/UzS
+ QOaw==
+X-Gm-Message-State: AJIora8weCazDy6fxhJqirs3sPOMXj9KgHFietA1StENVq3FIzONACBB
+ MjnlROQ9Xiy2Eg18a7HQS6EZA7PaJFYLQdvicHY=
+X-Google-Smtp-Source: AGRyM1uqAyNJkbvU3Izi3yNyPq/wigylq0759P8iCRrq+jjs4GVux5VHdqFuVRGaNF06XdWw2SAIrVq5tE/aiR1+N54=
+X-Received: by 2002:a17:90a:7e82:b0:1ec:9d45:7759 with SMTP id
+ j2-20020a17090a7e8200b001ec9d457759mr18515509pjl.166.1656306794896; Sun, 26
+ Jun 2022 22:13:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.0
-Subject: Re: [PATCH qemu v2 1/2] ppc: Define SETFIELD for the ppc target
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20220617060703.951747-1-aik@ozlabs.ru>
- <20220617060703.951747-2-aik@ozlabs.ru>
- <806270d7-c630-d436-43fc-bed8fd3ef694@gmail.com>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <806270d7-c630-d436-43fc-bed8fd3ef694@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=aik@ozlabs.ru; helo=mail-pg1-x533.google.com
+References: <20220609044046.1903865-1-daolu@rivosinc.com>
+ <20220609044046.1903865-2-daolu@rivosinc.com>
+ <CAKmqyKN91QyYdhse0jUTGCX1i31tPuKpxBk46qJQVur4+50_tA@mail.gmail.com>
+ <CAKh7v-THr8vn0WXnYEDuR3fCGjOmFLYMG1pkj6ar++51G0DuUw@mail.gmail.com>
+In-Reply-To: <CAKh7v-THr8vn0WXnYEDuR3fCGjOmFLYMG1pkj6ar++51G0DuUw@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 27 Jun 2022 15:12:48 +1000
+Message-ID: <CAKmqyKOQk=ZADkZ=t+scMXPrBAvDjvC_EiUpmESNsY=-48w=2Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] target/riscv: Add Zihintpause support
+To: Dao Lu <daolu@rivosinc.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Heiko Stuebner <heiko@sntech.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,138 +87,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jun 22, 2022 at 2:17 AM Dao Lu <daolu@rivosinc.com> wrote:
+>
+> From what I know that's generally the way reservations are handled:
+> if the forward progress requirements aren't met then the implementation
+> is free to break any outstanding reservations (the hardware is always
+> free to do that to a degree, but once forward progress is gone it can
+> always do that).  So this is legal, as would be not breaking the reservation.
 
+I'm thinking let's not break the reservation. That way we are
+consistent with the fence instruction. If we do want to clear the
+reservation then we should do it for fence as well.
 
-On 6/25/22 06:12, Daniel Henrique Barboza wrote:
-> Alexey,
-> 
-> The newer version of this patch is having trouble with Gitlab runners, as
-> you can read in my feedback there.
-> 
-> I've tested this one just in case. The same problems happen. E.g. for the
-> cross-armel-system runner:
-> 
-> 
-> In file included from ../hw/intc/pnv_xive.c:14:
-> ../hw/intc/pnv_xive.c: In function ‘pnv_xive_block_id’:
-> /builds/danielhb/qemu/target/ppc/cpu.h:45:33: error: conversion from 
-> ‘long long unsigned int’ to ‘long unsigned int’ changes value from 
-> ‘4222124650659840’ to ‘0’ [-Werror=overflow]
->     45 | #define PPC_BITMASK(bs, be)     ((PPC_BIT(bs) - PPC_BIT(be)) | 
-> PPC_BIT(bs))
->        |                                 
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> /builds/danielhb/qemu/target/ppc/cpu.h:51:42: note: in definition of 
-> macro ‘GETFIELD’
->     51 |     (((word) & (mask)) >> __builtin_ctzl(mask))
->        |                                          ^~~~
-> ../hw/intc/pnv_xive_regs.h:77:41: note: in expansion of macro ‘PPC_BITMASK’
->     77 | #define  PC_TCTXT_CHIPID                PPC_BITMASK(12, 15)
->        |                                         ^~~~~~~~~~~
-> ../hw/intc/pnv_xive.c:80:24: note: in expansion of macro ‘PC_TCTXT_CHIPID’
->     80 |         blk = GETFIELD(PC_TCTXT_CHIPID, cfg_val);
->        |                        ^~~~~~~~~~~~~~~
-> ../hw/intc/pnv_xive.c: In function ‘pnv_xive_vst_addr’:
-> /builds/danielhb/qemu/target/ppc/cpu.h:45:33: error: conversion from 
-> ‘long long unsigned int’ to ‘long unsigned int’ changes value from 
-> ‘13835058055282163712’ to ‘0’ [-Werror=overflow]
->     45 | #define PPC_BITMASK(bs, be)     ((PPC_BIT(bs) - PPC_BIT(be)) | 
-> PPC_BIT(bs))
->        |                                 
-> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> /builds/danielhb/qemu/target/ppc/cpu.h:51:42: note: in definition of 
-> macro ‘GETFIELD’
->     51 |     (((word) & (mask)) >> __builtin_ctzl(mask))
->        |                                          ^~~~
-> ../hw/intc/pnv_xive_regs.h:230:33: note: in expansion of macro 
-> ‘PPC_BITMASK’
->    230 | #define VSD_MODE                PPC_BITMASK(0, 1)
->        |                                 ^~~~~~~~~~~
-> ../hw/intc/pnv_xive.c:226:18: note: in expansion of macro ‘VSD_MODE’
->    226 |     if (GETFIELD(VSD_MODE, vsd) == VSD_MODE_FORWARD) {
->        |                  ^~~~~~~~
-> ../hw/intc/pnv_xive.c: In function ‘pnv_xive_end_update’:
-> 
-> 
-> Link:
-> 
-> https://gitlab.com/danielhb/qemu/-/jobs/2637716673
-> 
-> 
-> I don´t know how to deal with that.
-> 
-> 
-> For the record: if this is too troublesome to fix, I am ok with just 
-> consolidating
-> the GETFIELD and SETFIELD inlines we already have, under cpu.h, keeping 
-> them exactly
-> as they are today (functions, not macros).
-> 
-> 
+Alistair
+
+>
+> I don't have a strong opinion on this and am fine about changing it if
+> anyone does.
+>
 > Thanks,
-> 
-> 
-> Daniel
-> 
-> 
-> 
-> On 6/17/22 03:07, Alexey Kardashevskiy wrote:
->> It keeps repeating, move it to the header. This uses __builtin_ctzl() to
->> allow using the macros in #define.
->>
->> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->> ---
->>   include/hw/pci-host/pnv_phb3_regs.h | 16 ----------------
->>   target/ppc/cpu.h                    |  5 +++++
->>   hw/intc/pnv_xive.c                  | 20 --------------------
->>   hw/intc/pnv_xive2.c                 | 20 --------------------
->>   hw/pci-host/pnv_phb4.c              | 16 ----------------
->>   5 files changed, 5 insertions(+), 72 deletions(-)
->>
->> diff --git a/include/hw/pci-host/pnv_phb3_regs.h 
->> b/include/hw/pci-host/pnv_phb3_regs.h
->> index a174ef1f7045..38f8ce9d7406 100644
->> --- a/include/hw/pci-host/pnv_phb3_regs.h
->> +++ b/include/hw/pci-host/pnv_phb3_regs.h
->> @@ -12,22 +12,6 @@
->>   #include "qemu/host-utils.h"
->> -/*
->> - * QEMU version of the GETFIELD/SETFIELD macros
->> - *
->> - * These are common with the PnvXive model.
->> - */
->> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
->> -{
->> -    return (word & mask) >> ctz64(mask);
->> -}
->> -
->> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
->> -                                uint64_t value)
->> -{
->> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
->> -}
->> -
->>   /*
->>    * PBCQ XSCOM registers
->>    */
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index 6d78078f379d..9a1f1e9999a3 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -47,6 +47,11 @@
->>                                    PPC_BIT32(bs))
->>   #define PPC_BITMASK8(bs, be)    ((PPC_BIT8(bs) - PPC_BIT8(be)) | 
->> PPC_BIT8(bs))
->> +#define GETFIELD(mask, word)   \
->> +    (((word) & (mask)) >> __builtin_ctzl(mask))
-
-
-Replacing __builtin_ctzl with __builtin_ctzll seems fixing it though, do 
-you have a quick way to test this? Gitlab's CI takes time :)
-https://gitlab.com/aik1/qemu/-/pipelines/573497191 is the current run.
-Thanks,
-
-
--- 
-Alexey
+> Dao
+>
+> On Mon, Jun 20, 2022 at 4:39 PM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Thu, Jun 9, 2022 at 2:42 PM Dao Lu <daolu@rivosinc.com> wrote:
+> > >
+> > > Added support for RISC-V PAUSE instruction from Zihintpause extension,
+> > > enabled by default.
+> > >
+> > > Tested-by: Heiko Stuebner <heiko@sntech.de>
+> > > Signed-off-by: Dao Lu <daolu@rivosinc.com>
+> > > ---
+> > >  target/riscv/cpu.c                      |  2 ++
+> > >  target/riscv/cpu.h                      |  1 +
+> > >  target/riscv/insn32.decode              |  7 ++++++-
+> > >  target/riscv/insn_trans/trans_rvi.c.inc | 18 ++++++++++++++++++
+> > >  4 files changed, 27 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > > index ccacdee215..183fb37fdf 100644
+> > > --- a/target/riscv/cpu.c
+> > > +++ b/target/riscv/cpu.c
+> > > @@ -825,6 +825,7 @@ static Property riscv_cpu_properties[] = {
+> > >      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+> > >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+> > >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> > > +    DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
+> > >      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+> > >      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+> > >      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+> > > @@ -996,6 +997,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+> > >       *    extensions by an underscore.
+> > >       */
+> > >      struct isa_ext_data isa_edata_arr[] = {
+> > > +        ISA_EDATA_ENTRY(zihintpause, ext_zihintpause),
+> > >          ISA_EDATA_ENTRY(zfh, ext_zfh),
+> > >          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+> > >          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+> > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > > index fe6c9a2c92..e466a04a59 100644
+> > > --- a/target/riscv/cpu.h
+> > > +++ b/target/riscv/cpu.h
+> > > @@ -394,6 +394,7 @@ struct RISCVCPUConfig {
+> > >      bool ext_counters;
+> > >      bool ext_ifencei;
+> > >      bool ext_icsr;
+> > > +    bool ext_zihintpause;
+> > >      bool ext_svinval;
+> > >      bool ext_svnapot;
+> > >      bool ext_svpbmt;
+> > > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> > > index 4033565393..595fdcdad8 100644
+> > > --- a/target/riscv/insn32.decode
+> > > +++ b/target/riscv/insn32.decode
+> > > @@ -149,7 +149,12 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
+> > >  sra      0100000 .....    ..... 101 ..... 0110011 @r
+> > >  or       0000000 .....    ..... 110 ..... 0110011 @r
+> > >  and      0000000 .....    ..... 111 ..... 0110011 @r
+> > > -fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
+> > > +
+> > > +{
+> > > +  pause  0000 0001   0000   00000 000 00000 0001111
+> > > +  fence  ---- pred:4 succ:4 ----- 000 ----- 0001111
+> > > +}
+> > > +
+> > >  fence_i  ---- ----   ----   ----- 001 ----- 0001111
+> > >  csrrw    ............     ..... 001 ..... 1110011 @csr
+> > >  csrrs    ............     ..... 010 ..... 1110011 @csr
+> > > diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> > > index f1342f30f8..ca75e05f4b 100644
+> > > --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> > > +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> > > @@ -796,6 +796,24 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
+> > >      return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl, NULL);
+> > >  }
+> > >
+> > > +static bool trans_pause(DisasContext *ctx, arg_pause *a)
+> > > +{
+> > > +    if (!ctx->cfg_ptr->ext_zihintpause) {
+> > > +        return false;
+> > > +    }
+> > > +
+> > > +    /*
+> > > +     * PAUSE is a no-op in QEMU,
+> > > +     * however we need to clear the reservation,
+> > > +     * end the TB and return to main loop
+> > > +     */
+> > > +    tcg_gen_movi_tl(load_res, -1);
+> >
+> > I'm not clear why we need to clear the load_res? We don't do it for
+> > fence instruction
+> >
+> > Alistair
+> >
+> > > +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
+> > > +    tcg_gen_exit_tb(NULL, 0);
+> > > +    ctx->base.is_jmp = DISAS_NORETURN;
+> > > +
+> > > +    return true;
+> > > +}
+> > >
+> > >  static bool trans_fence(DisasContext *ctx, arg_fence *a)
+> > >  {
+> > > --
+> > > 2.25.1
+> > >
+> > >
 
