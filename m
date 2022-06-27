@@ -2,96 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CD555BB2F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 18:53:11 +0200 (CEST)
-Received: from localhost ([::1]:40418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E167A55BB34
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 18:57:17 +0200 (CEST)
+Received: from localhost ([::1]:43936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5rz4-0006yc-Qz
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 12:53:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53320)
+	id 1o5s32-0000ry-FB
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 12:57:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1o5rZ0-0001d6-6S
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:26:15 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10472)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1o5rYx-0003bA-Od
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:26:13 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25RFpRKx027916
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:26:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : from : subject : to : content-type :
- content-transfer-encoding; s=pp1;
- bh=efrDfl4CRbpZ++awl6Gyi/Dtir3l8T95RpN0aiJeUWU=;
- b=jZUqxem7l/xL7B17YOBOxB7+sWCuCzVJmj39ieeDrSZzqbUkHVAYm7GLbTioiuJwHGBo
- g0tB0ul19z/8pq44v6Zb1lQi41P/DsjZY0lJqexTuDxcx/g5C7aWjfGMh8Bn5N5h1GLD
- QBs/960lcnXjN4HJpixQYxlbBBwKpxwuqnBS3GivSWfDU0RwRhxn7WJ4wly2bQZLF4p8
- CGxixFtCOuoQJ+woSSVPnpRdzd3beNrtWtHdfbZbyUVtbwPls3yHM0+h+3oaPhh3ssyO
- imDXO9e4QpxitLRQh9Dr69PEL4cDw6KGPZSRjNOlG3qdS3QHkwPc64TYmihp4GUDWttk SQ== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gyfj515p2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:26:05 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25RGKvPD003195
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:26:03 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma04ams.nl.ibm.com with ESMTP id 3gwt08u715-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:26:02 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25RGQ0d423986680
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:26:00 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9066B11C04A
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:26:00 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6E0C611C050
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:26:00 +0000 (GMT)
-Received: from [9.145.19.215] (unknown [9.145.19.215])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:26:00 +0000 (GMT)
-Message-ID: <6bb77384-8648-c672-4510-f3eb88c89fdb@linux.ibm.com>
-Date: Mon, 27 Jun 2022 18:25:59 +0200
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1o5rZ6-0001iq-Kh
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:26:22 -0400
+Received: from [200.168.210.66] (port=12140 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>) id 1o5rZ4-0003ac-Uv
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:26:20 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 27 Jun 2022 13:26:03 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 7FD5F8001D4;
+ Mon, 27 Jun 2022 13:26:02 -0300 (-03)
+Message-ID: <8853c633-a9bd-503a-730f-5096032d83a7@eldorado.org.br>
+Date: Mon, 27 Jun 2022 13:26:02 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 5/7] target/ppc: use int128.h methods in vsubuqm
 Content-Language: en-US
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-Subject: Slowness with multi-thread TCG?
-To: qemu-devel@nongnu.org
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org
+References: <20220606150037.338931-1-matheus.ferst@eldorado.org.br>
+ <20220606150037.338931-6-matheus.ferst@eldorado.org.br>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <20220606150037.338931-6-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: pmqObHfKLPCLoA1h6TwHqGOlFg7JubVk
-X-Proofpoint-GUID: pmqObHfKLPCLoA1h6TwHqGOlFg7JubVk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-27_06,2022-06-24_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 impostorscore=0 spamscore=0
- adultscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206270068
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 27 Jun 2022 16:26:03.0345 (UTC)
+ FILETIME=[98340410:01D88A42]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,68 +67,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On 06/06/2022 12:00, Matheus Ferst wrote:
+> And also move the insn to decodetree
+> 
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> ---
+>   target/ppc/helper.h                 |  2 +-
+>   target/ppc/insn32.decode            |  2 ++
+>   target/ppc/int_helper.c             | 19 ++-----------------
+>   target/ppc/translate/vmx-impl.c.inc |  5 ++---
+>   target/ppc/translate/vmx-ops.c.inc  |  2 +-
+>   5 files changed, 8 insertions(+), 22 deletions(-)
+> 
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index f6b1b2fad2..1c02ad85e5 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -208,7 +208,7 @@ DEF_HELPER_FLAGS_3(VADDUQM, TCG_CALL_NO_RWG, void, avr, avr, avr)
+>   DEF_HELPER_FLAGS_4(VADDECUQ, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
+>   DEF_HELPER_FLAGS_4(VADDEUQM, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
+>   DEF_HELPER_FLAGS_3(VADDCUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
+> -DEF_HELPER_FLAGS_3(vsubuqm, TCG_CALL_NO_RWG, void, avr, avr, avr)
+> +DEF_HELPER_FLAGS_3(VSUBUQM, TCG_CALL_NO_RWG, void, avr, avr, avr)
+>   DEF_HELPER_FLAGS_4(vsubecuq, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
+>   DEF_HELPER_FLAGS_4(vsubeuqm, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
+>   DEF_HELPER_FLAGS_3(vsubcuq, TCG_CALL_NO_RWG, void, avr, avr, avr)
+> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+> index 35252ddd4f..a8d3a5a8a1 100644
+> --- a/target/ppc/insn32.decode
+> +++ b/target/ppc/insn32.decode
+> @@ -556,6 +556,8 @@ VADDUQM         000100 ..... ..... ..... 00100000000    @VX
+>   VADDEUQM        000100 ..... ..... ..... ..... 111100   @VA
+>   VADDECUQ        000100 ..... ..... ..... ..... 111101   @VA
+> 
+> +VSUBUQM         000100 ..... ..... ..... 10100000000    @VX
+> +
+>   VEXTSB2W        000100 ..... 10000 ..... 11000000010    @VX_tb
+>   VEXTSH2W        000100 ..... 10001 ..... 11000000010    @VX_tb
+>   VEXTSB2D        000100 ..... 11000 ..... 11000000010    @VX_tb
+> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+> index a12f2831ac..625cc92a55 100644
+> --- a/target/ppc/int_helper.c
+> +++ b/target/ppc/int_helper.c
+> @@ -2176,12 +2176,6 @@ VGENERIC_DO(popcntd, u64)
+> 
+>   #undef VGENERIC_DO
+> 
+> -#if HOST_BIG_ENDIAN
+> -#define QW_ONE { .u64 = { 0, 1 } }
+> -#else
+> -#define QW_ONE { .u64 = { 1, 0 } }
+> -#endif
+> -
+>   #ifndef CONFIG_INT128
+> 
+>   static inline void avr_qw_not(ppc_avr_t *t, ppc_avr_t a)
+> @@ -2245,18 +2239,9 @@ void helper_VADDECUQ(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
+>       r->VsrD(1) = carry_out;
+>   }
+> 
+> -void helper_vsubuqm(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+> +void helper_VSUBUQM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+>   {
+> -#ifdef CONFIG_INT128
+> -    r->u128 = a->u128 - b->u128;
+> -#else
+> -    ppc_avr_t tmp;
+> -    ppc_avr_t one = QW_ONE;
+> -
+> -    avr_qw_not(&tmp, *b);
+> -    avr_qw_add(&tmp, *a, tmp);
+> -    avr_qw_add(r, tmp, one);
+> -#endif
+> +    r->s128 = int128_sub(a->s128, b->s128);
+>   }
+> 
+>   void helper_vsubeuqm(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
+> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+> index 8c0e5bcc03..1e665534c3 100644
+> --- a/target/ppc/translate/vmx-impl.c.inc
+> +++ b/target/ppc/translate/vmx-impl.c.inc
+> @@ -1234,7 +1234,6 @@ GEN_VXFORM_SAT(vsubuws, MO_32, sub, ussub, 0, 26);
+>   GEN_VXFORM_SAT(vsubsbs, MO_8, sub, sssub, 0, 28);
+>   GEN_VXFORM_SAT(vsubshs, MO_16, sub, sssub, 0, 29);
+>   GEN_VXFORM_SAT(vsubsws, MO_32, sub, sssub, 0, 30);
+> -GEN_VXFORM(vsubuqm, 0, 20);
+>   GEN_VXFORM(vsubcuq, 0, 21);
+>   GEN_VXFORM3(vsubeuqm, 31, 0);
+>   GEN_VXFORM3(vsubecuq, 31, 0);
+> @@ -2858,8 +2857,6 @@ GEN_VXFORM_DUAL(vsubuwm, PPC_ALTIVEC, PPC_NONE, \
+>                   bcdus, PPC_NONE, PPC2_ISA300)
+>   GEN_VXFORM_DUAL(vsubsbs, PPC_ALTIVEC, PPC_NONE, \
+>                   bcdtrunc, PPC_NONE, PPC2_ISA300)
+> -GEN_VXFORM_DUAL(vsubuqm, PPC2_ALTIVEC_207, PPC_NONE, \
+> -                bcdtrunc, PPC_NONE, PPC2_ISA300)
+>   GEN_VXFORM_DUAL(vsubcuq, PPC2_ALTIVEC_207, PPC_NONE, \
+>                   bcdutrunc, PPC_NONE, PPC2_ISA300)
+> 
+> @@ -3102,6 +3099,8 @@ TRANS_FLAGS2(ALTIVEC_207, VADDUQM, do_vx_helper, gen_helper_VADDUQM)
+> 
+>   TRANS_FLAGS2(ALTIVEC_207, VPMSUMD, do_vx_helper, gen_helper_VPMSUMD)
+> 
+> +TRANS_FLAGS2(ALTIVEC_207, VSUBUQM, do_vx_helper, gen_helper_VSUBUQM)
+> +
+>   static bool do_vx_vmuleo(DisasContext *ctx, arg_VX *a, bool even,
+>                            void (*gen_mul)(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_i64))
+>   {
+> diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
+> index 33e05929cb..9feef9afee 100644
+> --- a/target/ppc/translate/vmx-ops.c.inc
+> +++ b/target/ppc/translate/vmx-ops.c.inc
+> @@ -126,7 +126,7 @@ GEN_VXFORM(vsubuws, 0, 26),
+>   GEN_VXFORM_DUAL(vsubsbs, bcdtrunc, 0, 28, PPC_ALTIVEC, PPC2_ISA300),
+>   GEN_VXFORM(vsubshs, 0, 29),
+>   GEN_VXFORM_DUAL(vsubsws, xpnd04_2, 0, 30, PPC_ALTIVEC, PPC_NONE),
+> -GEN_VXFORM_DUAL(vsubuqm, bcdtrunc, 0, 20, PPC2_ALTIVEC_207, PPC2_ISA300),
+> +GEN_VXFORM_300(bcdtrunc, 0, 20),
+>   GEN_VXFORM_DUAL(vsubcuq, bcdutrunc, 0, 21, PPC2_ALTIVEC_207, PPC2_ISA300),
+>   GEN_VXFORM_DUAL(vsubeuqm, vsubecuq, 31, 0xFF, PPC_NONE, PPC2_ALTIVEC_207),
+>   GEN_VXFORM(vsl, 2, 7),
+> --
+> 2.25.1
+> 
+> 
 
-I've been looking at why our qemu powernv model is so slow when booting 
-a compressed linux kernel, using multiple vcpus and multi-thread tcg. 
-With only one vcpu, the decompression time of the kernel is what it is, 
-but when using multiple vcpus, the decompression is actually slower. And 
-worse: it degrades very fast with the number of vcpus!
+Reviewed-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-Rough measurement of the decompression time on a x86 laptop with 
-multi-thread tcg and using the qemu powernv10 machine:
-1 vcpu => 15 seconds
-2 vcpus => 45 seconds
-4 vcpus => 1 min 30 seconds
-
-Looking in details, when the firmware (skiboot) hands over execution to 
-the linux kernel, there's one main thread entering some bootstrap code 
-and running the kernel decompression algorithm. All the other secondary 
-threads are left spinning in skiboot (1 thread per vpcu). So on paper, 
-with multi-thread tcg and assuming the system has enough available 
-physical cpus, I would expect the decompression to hog one physical cpu 
-and the time needed to be constant, no matter the number of vpcus.
-
-All the secondary threads are left spinning in code like this:
-
-	for (;;) {
-		if (cpu_check_jobs(cpu))  // reading cpu-local data
-			break;
-		if (reconfigure_idle)     // global variable
-			break;
-		barrier();
-	}
-
-The barrier is to force reading the memory with each iteration. It's 
-defined as:
-
-   asm volatile("" : : : "memory");
-
-
-Some time later, the main thread in the linux kernel will get the 
-secondary threads out of that loop by posting a job.
-
-My first thought was that the translation of that code through tcg was 
-somehow causing some abnormally slow behavior, maybe due to some 
-non-obvious contention between the threads. However, if I send the 
-threads spinning forever with simply:
-
-     for (;;) ;
-
-supposedly removing any contention, then the decompression time is the same.
-
-Ironically, the behavior seen with single thread tcg is what I would 
-expect: 1 thread decompressing in 15 seconds, all the other threads 
-spinning for that same amount of time, all sharing the same physical 
-cpu, so it all adds up nicely: I see 60 seconds decompression time with 
-4 vcpus (4x15). Which means multi-thread tcg is slower by quite a bit. 
-And single thread tcg hogs one physical cpu of the laptop vs. 4 physical 
-cpus for the slower multi-thread tcg.
-
-Does anybody have an idea of what might happen or have suggestion to 
-keep investigating?
-Thanks for your help!
-
-   Fred
-
+-- 
+Víctor Cora Colombo
+Instituto de Pesquisas ELDORADO
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
