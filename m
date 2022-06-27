@@ -2,110 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE92055BA16
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 15:36:06 +0200 (CEST)
-Received: from localhost ([::1]:47108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F0055BA17
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 15:36:52 +0200 (CEST)
+Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5ouL-0004A3-Pj
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 09:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43654)
+	id 1o5ov5-0006dz-50
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 09:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1o5oqo-0002ay-Mk; Mon, 27 Jun 2022 09:32:30 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1o5oqe-00022S-Dn; Mon, 27 Jun 2022 09:32:21 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25RDKt63014576;
- Mon, 27 Jun 2022 13:32:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : to : cc : references : from : subject : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=+Mo61ITBWrWYmG2D2dJjN3BQTgnMuVfDsP5HC+bX8BY=;
- b=XwNR8uPQWsTPgB6AU260kUAyQ2SjYWex85feLXxDzExWL8nU4n7HWtnCuQc7sbq5HiUm
- wphtvn/gP00ZyLpUPPx7Yl2x1ypnG16Z8Olfwz6v/TYUOY+g4YQtGBncrepgWQXx2uWm
- 3QX3GztKBtkrtIn6T1xLXmko6efkUtbMV9RYm/t6x5j8F/AzLuByiayxKx524d48F64o
- Q+4sxV6DAZuT3BQCYZdJTzJdhe4Kr98QhJ2Ydj9HDW8aRh9u+i9h3nlUF+JKPbRQy5lL
- YLXWNg9jJdY4JNjmUIKZpxUNQOQlHceprdtn6kJzrM9VBKp/bXj3xUvEJHAloquNoo66 KA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gydbw0917-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jun 2022 13:32:08 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25RDLbVG021945;
- Mon, 27 Jun 2022 13:32:07 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gydbw08r0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jun 2022 13:32:07 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25RDK76x028083;
- Mon, 27 Jun 2022 13:31:35 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04fra.de.ibm.com with ESMTP id 3gwt0929rw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jun 2022 13:31:34 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25RDVVGR20185378
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Jun 2022 13:31:31 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7164C11C04A;
- Mon, 27 Jun 2022 13:31:31 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BB92D11C04C;
- Mon, 27 Jun 2022 13:31:30 +0000 (GMT)
-Received: from [9.145.155.49] (unknown [9.145.155.49])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 27 Jun 2022 13:31:30 +0000 (GMT)
-Message-ID: <35c562e1-cdcd-41ce-1957-bd35c72a78ca@linux.ibm.com>
-Date: Mon, 27 Jun 2022 15:31:30 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o5ot2-0004IV-8A
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 09:34:46 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:43994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o5osu-0002EY-OD
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 09:34:38 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id q132so16735460ybg.10
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 06:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qAEZcZ8Ew7ErxhkIETEF94pv0xdlvOq+KlyYLzRTcFI=;
+ b=PZaBdJPr3RSYSo9OBFAdHEFlwOY3fjLMdH8+rKXKmQkYejB1cEDCyy0ISxAyflYYKn
+ sjA782OtiejJNbobIfO0MJFNZN24WGIMKcEb5Ya1PcuxPIHtGypXPEfIuuuQCxuIAiW8
+ +NiYA+TnH10IpX5DcHu8GkrmHHj9OS2QWJgQYjc8RlSkT4QLjz/3PAduEPR6yNf3123u
+ 23Y44d/7zXYZkAJ0tBosFL4z4iJmt8oP+EIRbny6GizSD4fvztV+rKLHSB9jSbfjmBQW
+ ZLuQdSLwP/4vsmvaMDmVI245f837/vKLOsBhBjVuXMHRlW4uXfyM6ffwg9gOaOqWRFtZ
+ yT8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qAEZcZ8Ew7ErxhkIETEF94pv0xdlvOq+KlyYLzRTcFI=;
+ b=GHw6TOGNBysguJbmqdnGTXYBPeT+Qw1+XL2j9e2Nmalxw0/eu7eFjq1+sJdCSO4j5a
+ eYFBAdnTY1pqfqIKlp0yEyrdw5TACgfR24+HM8b7wZd7cmE7W8Jkg4KVbXf37EKY6J0p
+ PHjLnCdvLcAoomMnkpUg2De7puAcs9kS/S7uy9xF/S9MA2lId6dsM9bOTPxz9JvpQlY4
+ YCbcdD99KgT88aMVCrs3MVitDwTLt5dQgZJVGzGmR9UytPgvpRrB8KxofVNv1XeX/c0a
+ u5FMQMWU3wGCnSc8j4wBv7uFB/sEZ5dZWKkhMU7BprSeqUUmas/uxTMeWHlWkEpdX64Q
+ uwXA==
+X-Gm-Message-State: AJIora9NaZYFt0k59vDxuBKzbi0l/8S7dy/RaeLejaJubRtyzwkC0ZuP
+ 5TdaR/3OTUZmwZwCgytyEzCsKTcDgY7ZXRrhOGH5Ow==
+X-Google-Smtp-Source: AGRyM1sKPde9AM2J2wccAGccZkBKpNYqWXnIVGRr1aO6xlTHgE7Sdl1oQWy8Ygi0dbQtR5Yy7xnzcuKhhOcmRMi3Gyw=
+X-Received: by 2002:a25:83cf:0:b0:66b:c7e5:faf with SMTP id
+ v15-20020a2583cf000000b0066bc7e50fafmr13587039ybm.288.1656336870206; Mon, 27
+ Jun 2022 06:34:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com
-References: <20220620140352.39398-1-pmorel@linux.ibm.com>
- <20220620140352.39398-3-pmorel@linux.ibm.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v8 02/12] s390x/cpu_topology: CPU topology objects and
- structures
-In-Reply-To: <20220620140352.39398-3-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: D1KJHIDtUJvBVhdSZQpohxyC-g9sDkuF
-X-Proofpoint-ORIG-GUID: W0rMNabKiycDDEVU9OA33bxtbJEncRxn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-27_06,2022-06-24_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- phishscore=0 adultscore=0 spamscore=0 malwarescore=0 mlxlogscore=999
- impostorscore=0 bulkscore=0 priorityscore=1501 clxscore=1011
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206270059
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <CAFEAcA-wExOSiuJ5F6nBwWXcWW2c1rqHCfT=JNrdWQ4baqu3Og@mail.gmail.com>
+ <CABgObfbu3MK6SCNGOFGGHWO72e3dYygUybgyavALKq5_pnWK0A@mail.gmail.com>
+In-Reply-To: <CABgObfbu3MK6SCNGOFGGHWO72e3dYygUybgyavALKq5_pnWK0A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Jun 2022 14:33:52 +0100
+Message-ID: <CAFEAcA-OBz90QjcDFCjm=gEZOnS1RRwEVY6=5+QBZNwvo7hD-g@mail.gmail.com>
+Subject: Re: use of uninitialized variable involving visit_type_uint32() and
+ friends
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,106 +83,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/22 16:03, Pierre Morel wrote:
-> We use new objects to have a dynamic administration of the CPU topology.
-> The highest level object in this implementation is the s390 book and
-> in this first implementation of CPU topology for S390 we have a single
-> book.
-> The book is built as a SYSBUS bridge during the CPU initialization.
-> Other objects, sockets and core will be built after the parsing
-> of the QEMU -smp argument.
-> 
-> Every object under this single book will be build dynamically
-> immediately after a CPU has be realized if it is needed.
-> The CPU will fill the sockets once after the other, according to the
-> number of core per socket defined during the smp parsing.
-> 
-> Each CPU inside a socket will be represented by a bit in a 64bit
-> unsigned long. Set on plug and clear on unplug of a CPU.
-> 
-> For the S390 CPU topology, thread and cores are merged into
-> topology cores and the number of topology cores is the multiplication
-> of cores by the numbers of threads.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+On Fri, 1 Apr 2022 at 09:08, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+>
+>
+> On Thu, Mar 31, 2022 at 7:35 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> Coverity warns about use of uninitialized data in what seems
+>> to be a common pattern of use of visit_type_uint32() and similar
+>> functions. Here's an example from target/arm/cpu64.c:
+>>
+>> static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *name,
+>>                                    void *opaque, Error **errp)
+>> {
+>>     ARMCPU *cpu = ARM_CPU(obj);
+>>     uint32_t max_vq;
+>>     if (!visit_type_uint32(v, name, &max_vq, errp)) {
+>>         return;
+>>     }
+>>     [code that does something with max_vq here]
+>> }
+>>
+>> This doesn't initialize max_vq, on the apparent assumption
+>> that visit_type_uint32() will do so. But that function [...]
+>> reads the value of *obj (the uninitialized max_vq).
+>
+>
+> The visit_type_* functions are written to work for both getters and setters.
+> For the leaves, that means potentially reading uninitialized data.  It is
+> harmless but very ugly, and with respect to static analysis it was all but
+> a time bomb, all the time.
+>
+> The best (but most intrusive) solution would be to add a parameter to all
+> visit_type_* functions with the expected "direction" of the visit, which
+> could be checked against v->type.
 
-[...]
+So do we have a plan for what we want to do with this issue?
 
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index 7d6d01325b..216adfde26 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -565,6 +565,53 @@ typedef union SysIB {
->   } SysIB;
->   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
->   
-> +/* CPU type Topology List Entry */
-> +typedef struct SysIBTl_cpu {
-> +        uint8_t nl;
-> +        uint8_t reserved0[3];
-> +        uint8_t reserved1:5;
-> +        uint8_t dedicated:1;
-> +        uint8_t polarity:2;
-> +        uint8_t type;
-> +        uint16_t origin;
-> +        uint64_t mask;
-> +} SysIBTl_cpu;
-> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
-> +
-> +/* Container type Topology List Entry */
-> +typedef struct SysIBTl_container {
-> +        uint8_t nl;
-> +        uint8_t reserved[6];
-> +        uint8_t id;
-> +} QEMU_PACKED SysIBTl_container;
-> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
-> +
-> +/* Generic Topology List Entry */
-> +typedef union SysIBTl_entry {
-> +        uint8_t nl;
+In the meantime, any objections to my just marking all the Coverity
+issues which are pointing out that visit_* functions use uninitialized
+data as 'false positive' ? There are a ton of them, and they clog up
+the issue UI and make it hard to see other actually interesting reports.
 
-This union member is unused, isn't it?
-
-> +        SysIBTl_container container;
-> +        SysIBTl_cpu cpu;
-> +} SysIBTl_entry;
-> +
-> +#define TOPOLOGY_NR_MAG  6
-
-TOPOLOGY_TOTAL_NR_MAGS ?
-
-> +#define TOPOLOGY_NR_MAG6 0
-
-TOPOLOGY_NR_TLES_MAG6 ?
-
-I'm open to other suggestions but we need to differentiate between the 
-number of mag array entries and the number of TLEs in the MAGs.
-
-> +#define TOPOLOGY_NR_MAG5 1
-> +#define TOPOLOGY_NR_MAG4 2
-> +#define TOPOLOGY_NR_MAG3 3
-> +#define TOPOLOGY_NR_MAG2 4
-> +#define TOPOLOGY_NR_MAG1 5
-
-I'd appreciate a \n here.
-
-> +/* Configuration topology */
-> +typedef struct SysIB_151x {
-> +    uint8_t  res0[2];
-
-You're using "reserved" everywhere but now it's "rev"?
-
-> +    uint16_t length;
-> +    uint8_t  mag[TOPOLOGY_NR_MAG];
-> +    uint8_t  res1;
-> +    uint8_t  mnest;
-> +    uint32_t res2;
-> +    SysIBTl_entry tle[0];
-> +} SysIB_151x;
-> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
-> +
->   /* MMU defines */
->   #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
->   #define ASCE_SUBSPACE         0x200       /* subspace group control           */
-
+thanks
+-- PMM
 
