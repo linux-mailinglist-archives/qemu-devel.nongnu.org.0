@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B33055BC01
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 22:35:23 +0200 (CEST)
-Received: from localhost ([::1]:41880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CFD955BC03
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 22:37:11 +0200 (CEST)
+Received: from localhost ([::1]:45216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5vS5-0008KV-Of
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 16:35:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50094)
+	id 1o5vTq-00029X-LL
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 16:37:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o5vP1-0007Nx-FS
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 16:32:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46042)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o5vPf-0007iI-CM
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 16:32:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o5vOx-0005uF-5s
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 16:32:09 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o5vPb-0005wX-NO
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 16:32:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656361925;
+ s=mimecast20190719; t=1656361967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+Fk6cgoFqEkXBzuCnRvq1CYoM/ia+S6d7r37vmIjq8s=;
- b=NTde/9NbAH9miOyKsqepqT8hd4UQgozpEExzEKTe93pTh9+NvSJ5Cw10xRR/qlrvQCmPd+
- Duqot6le+lL5NOJ6uimvUrNUz7BRweJE6HXaPwdy/OFTvA3K7kGnesV4cgQVcB9YwBeVyy
- +rLA9uLyoPDkeOVrdC5we4xnGPsEdT4=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VZ6Eh3JCxNlugFrvyr2kZoIEo5INIw4nMEBeJeT5GHU=;
+ b=gpZu/un6rXho6nWgM+LYvhJf6UyLJqITZm4GiyIkQ+BKmIPntFbdF8E9qMuqPJlOOkX/v2
+ /04+KcKL1SBEdTdhGqDTT/ARPCbvWAV2bijJARlyYp/BjPDEMXiM7ViHD58zZTnbdM+3sI
+ OCIf3580fFut+aAzH8kmOcK96ZtiNlo=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-65-fT5vJ-bYOgOGQ9KnBBp1pg-1; Mon, 27 Jun 2022 16:32:04 -0400
-X-MC-Unique: fT5vJ-bYOgOGQ9KnBBp1pg-1
-Received: by mail-il1-f199.google.com with SMTP id
- x5-20020a923005000000b002d1a91c4d13so6247106ile.4
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 13:32:04 -0700 (PDT)
+ us-mta-537-JTjLq2cbNomCninNCnjYxw-1; Mon, 27 Jun 2022 16:32:46 -0400
+X-MC-Unique: JTjLq2cbNomCninNCnjYxw-1
+Received: by mail-il1-f198.google.com with SMTP id
+ w15-20020a056e021a6f00b002d8eef284f0so6190119ilv.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 13:32:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=+Fk6cgoFqEkXBzuCnRvq1CYoM/ia+S6d7r37vmIjq8s=;
- b=kwywzIAFo07Ap2hafVM9C3Qdq2JR8ETDGpngpglntk+YpdPTDWV2j/mvPEekgqifhK
- SMqK5A01Ri+NeGdxo+G3eZnBWhaqD5U60FgLkYxSki09xNVUZRPXSlX0Vr5i3uXrwiLJ
- pdMNmYzirj9jHuGE/9nDsOLxyIOP287UCNtHnTvXkxDMpWQxYuso37X5ZwF4FUgp+RxC
- q7+7XXT68oyOkUQqdM98r97jXVg/e9zlQNmoXwbYyQ9cpwFMNtag3zqa00hipU4qwNcS
- gVvgLKH04IKT8G64JP+cXtvf6cajhjtAqXGJK5KUmqh2H8fYZPapSvFI2k6GGRlwSTiz
- kVZw==
-X-Gm-Message-State: AJIora+eXNudkiP1LaULmQsKHIA934xgtcIq3b8AyCXa0fY8PkvkhBQQ
- rqEee9SS0bd0j9tFF4drVr/54x7zl+dTrx1jpXGYTHK0qNDKGe7/TTKpqxXpLvX2mOmlEUhoCt8
- ojbaS9yHrB/JXQ+w=
-X-Received: by 2002:a05:6602:2d13:b0:669:cae1:8bab with SMTP id
- c19-20020a0566022d1300b00669cae18babmr7762247iow.70.1656361923478; 
- Mon, 27 Jun 2022 13:32:03 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uwP+xTf2QN7W98EWCaYGK8kNIq9eGV7w2Mv+TiO8p1Q6ME/hzeAj02BuNl/6aTGfh0uYQhCg==
-X-Received: by 2002:a05:6602:2d13:b0:669:cae1:8bab with SMTP id
- c19-20020a0566022d1300b00669cae18babmr7762236iow.70.1656361923257; 
- Mon, 27 Jun 2022 13:32:03 -0700 (PDT)
+ bh=VZ6Eh3JCxNlugFrvyr2kZoIEo5INIw4nMEBeJeT5GHU=;
+ b=7wz6oCbBoygn647+8lbbznnwLmj7Y0go659J0yY/y/fOWHlXlVlBrcJhc3VAg3yv/j
+ nzRPEZewv4xoK1dP231VbiMO0HlgTvB87BjmOATwvhQRrvVE0dP7yr19LW5pci+c+p5g
+ xX8JE5XMyYbwOrZp1z1E1HmQYdFEbeC6t+jpLOHENngldaRS09xDj5roBVZY20a/6pV5
+ PIAkn5JalowKvtVyPz/J0T8skZN6MZcjEoOeZdOGYe6oVMdlzGTCQ05mzw2XMp0ap/aQ
+ LbXlPS1G10VY7VBdsvE74HkMJ3xQv8A7xLs2VtBr/E6zjOG3DJgVenIiEN78Kkrbi1fW
+ 5U3Q==
+X-Gm-Message-State: AJIora9ndMLai5ci/Z4hpbLIPGkqTnfQiawykDttlZlzmZnaVV7HVmCs
+ Wqa7nnRtDh0WC31kBUuf2KNgM9edYIsCtrf0VyxuyDB64BFnJ2Jmt6+TRXJL3is7JjBevS2MsRr
+ NofrhlkwEWI6kYTA=
+X-Received: by 2002:a05:6e02:144f:b0:2d1:90c9:9047 with SMTP id
+ p15-20020a056e02144f00b002d190c99047mr7944546ilo.211.1656361965476; 
+ Mon, 27 Jun 2022 13:32:45 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sbdlWZbaciwc73PZWqavw2VgKt4svrivSRy3YrWi+yf7gRqMpPNAdCbUrKsGowepA9adh0IQ==
+X-Received: by 2002:a05:6e02:144f:b0:2d1:90c9:9047 with SMTP id
+ p15-20020a056e02144f00b002d190c99047mr7944528ilo.211.1656361965255; 
+ Mon, 27 Jun 2022 13:32:45 -0700 (PDT)
 Received: from xz-m1.local
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a056e020c6100b002d95d67fbc5sm5075539ilj.2.2022.06.27.13.32.01
+ z18-20020a05663822b200b00335c0e07abdsm5126564jas.14.2022.06.27.13.32.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 13:32:02 -0700 (PDT)
-Date: Mon, 27 Jun 2022 16:32:00 -0400
+ Mon, 27 Jun 2022 13:32:44 -0700 (PDT)
+Date: Mon, 27 Jun 2022 16:32:42 -0400
 From: Peter Xu <peterx@redhat.com>
 To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
@@ -71,15 +71,17 @@ Cc: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
  quintela@redhat.com, leobras@redhat.com, jdenemar@redhat.com
 Subject: Re: [PULL 22/33] migration: remove the QEMUFileOps 'get_buffer'
  callback
-Message-ID: <YroTwDmAzE7uImvu@xz-m1.local>
+Message-ID: <YroT6ld/XrZaUNf9@xz-m1.local>
 References: <20220622183917.155308-1-dgilbert@redhat.com>
  <20220622183917.155308-23-dgilbert@redhat.com>
- <YrNu3KesFVVvoWVb@xz-m1.local> <YrnGrXpwBdmt69Fp@redhat.com>
+ <YrNu3KesFVVvoWVb@xz-m1.local> <YrN381XWrhTFStlp@xz-m1.local>
+ <YrQot90/2gzdh/gt@redhat.com> <YrS7YHglHhhDMvbP@xz-m1.local>
+ <YrnBtWrjA5D8TlTP@redhat.com> <YrnCRR5r9x6Io8Ud@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YrnGrXpwBdmt69Fp@redhat.com>
+In-Reply-To: <YrnCRR5r9x6Io8Ud@redhat.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -104,65 +106,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 27, 2022 at 04:03:09PM +0100, Daniel P. Berrangé wrote:
-> On Wed, Jun 22, 2022 at 03:34:52PM -0400, Peter Xu wrote:
-> > On Wed, Jun 22, 2022 at 07:39:06PM +0100, Dr. David Alan Gilbert (git) wrote:
-> > > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> > > index 74f919de67..e206b05550 100644
-> > > --- a/migration/qemu-file.c
-> > > +++ b/migration/qemu-file.c
-> > > @@ -377,8 +377,22 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
-> > >          return 0;
-> > >      }
-> > >  
-> > > -    len = f->ops->get_buffer(f->ioc, f->buf + pending, f->total_transferred,
-> > > -                             IO_BUF_SIZE - pending, &local_error);
-> > > +    do {
-> > > +        len = qio_channel_read(f->ioc,
-> > > +                               (char *)f->buf + pending,
-> > > +                               IO_BUF_SIZE - pending,
-> > > +                               &local_error);
-> > > +        if (len == QIO_CHANNEL_ERR_BLOCK) {
-> > > +            if (qemu_in_coroutine()) {
-> > > +                qio_channel_yield(f->ioc, G_IO_IN);
-> > > +            } else {
-> > > +                qio_channel_wait(f->ioc, G_IO_IN);
-> > > +            }
-> > > +        } else if (len < 0) {
-> > > +            len = EIO;
+On Mon, Jun 27, 2022 at 03:44:21PM +0100, Daniel P. Berrangé wrote:
+> On Mon, Jun 27, 2022 at 03:41:57PM +0100, Daniel P. Berrangé wrote:
+> > On Thu, Jun 23, 2022 at 03:13:36PM -0400, Peter Xu wrote:
+> > > On Thu, Jun 23, 2022 at 09:47:51AM +0100, Daniel P. Berrangé wrote:
+> > > > > Hmm, when I wanted to run the whole bunch of the migration-test again I
+> > > > > found that precopy tls test hangs (/x86_64/migration/precopy/unix/tls/psk).
+> > > > > Though for this time it also hangs for me even with the master branch, so
+> > > > > maybe not anything wrong with this specific pull req but still something
+> > > > > needs fixing..
+> > > > 
+> > > > That pre-existing test has been runnnig by default in CI for a while
+> > > > now, under different OS builds, so I'm surprised. Is there anything
+> > > > especially unusual / different about your setup that could explain
+> > > > why you see hang that we don't get anywhere else ?
+> > > 
+> > > TL;DR: I think it's not run in CI?
+> > > 
+> > > Please see ufd_version_check(), as when uffd not detected we'll skip the
+> > > whole thing.
 > > 
-> > This should be -EIO.
+> > Our CI should be passing that check for the private runners eg
 > > 
-> > > +        }
-> > > +    } while (len == QIO_CHANNEL_ERR_BLOCK);
+> > https://gitlab.com/qemu-project/qemu/-/jobs/2641920502
 > > 
-> > It's failing only with the new TLS test I added for postcopy somehow (at
-> > least /x86_64/migration/postcopy/recovery/tls).. I also verified after the
-> > change it'll work again.
+> > shows us running 35 tests
+> > 
+> >   2/178 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test         OK             65.57s   35 subtests passed
+> > 
+> > but yes, the container based jobs are all skipping
+> > 
+> > > 
+> > > We really need to apply this patch, soon-ish..
+> > > 
+> > >   https://lore.kernel.org/all/20210615175523.439830-2-peterx@redhat.com/
 > 
-> Assuming you can still reproduce the pre-existing flaw, can you capture
-> a stack trace when it hangs.   I'm wondering if it is a sign that the
-> migration is not converging when using TLS under certain load conditions,
-> because the test waits forever for converge.
+> BTW, I'd suggest re-sending that patch to bump it up in the inbox as
+> its a year old at this point.
 
-Yes it is, and it reproduces here every time.  It hangs at:
-
- if (!got_stop) {
-     qtest_qmp_eventwait(from, "STOP");
- }
-
-> 
-> Also what scenario are you running in ? Bare metal or a VM, and what
-> host arch ? Wondering if the machine is at all slow, or for example
-> missing AES hardware acceleration or some such thing.
-
-It's Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz, 40 cores.
-
-It'll pass after I modify the downtime:
-
-  migrate_set_parameter_int(from, "downtime-limit", 100000);
-
-And with QTEST_LOG=1 I found that the bw is indeed low, ~700mbps.
+Indeed it already conflicts with the preempt series, I'll post one based on
+that.  Thanks.
 
 -- 
 Peter Xu
