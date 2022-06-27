@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6749955B92B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:36:38 +0200 (CEST)
-Received: from localhost ([::1]:46312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE4955B91E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:25:54 +0200 (CEST)
+Received: from localhost ([::1]:57192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5m6f-0000W5-0A
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:36:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41286)
+	id 1o5lwF-0005Al-6g
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:25:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltF-0002Fp-D0
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:45 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36625)
+ id 1o5ltI-0002Ic-0o
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:48 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltD-0004ri-5W
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:44 -0400
-Received: by mail-wr1-x434.google.com with SMTP id o4so8387287wrh.3
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:41 -0700 (PDT)
+ id 1o5ltD-0004rq-5v
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:47 -0400
+Received: by mail-wr1-x436.google.com with SMTP id e28so7168599wra.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Exdw1jWh9d45wApshJRlkzNaiGP955/A0t+N8/5I8ww=;
- b=VGEaueDjpQqajNT7NmPZfYOb14uNL6cD5u2rnzxPiHj09CbYGhDd3k3vp+G5DORQ/Q
- iISdou4i4WXsopmL0l9DSOox0Dky+dkTnFR1Xg0YxJUHmg47EXHOvyxQvMK2c8CMG+ZX
- l6TGokpHFjkBlHo75axcTh1n2yagyVTs8oN/ea6UgkbJtLuW9hHip4QvW0J6rxnuJZzQ
- CW2+1SV5oaI5kSe8C118yiOld5LN3eBxp2ciA6RDt8GwoFGoij0XbIScJkVrQ/2+2UVi
- JonEKyVPCEdaiYp4I5yMGxrbyGjWOnfUO/V9RaZ0Ch262cac+HcGq8JdcExLsdw0LCco
- AHXg==
+ bh=Ka8T6WbFRnliAmr+bft7mWOY5gWROhUwaTzzbJ3vo7o=;
+ b=zaGklMlwCc7G726S4DHHILYmG8H9cY8UWqO+muTPPGQzrbCdwafx2G/ur6M4yPdyFA
+ BAVA+i7yQZdul/EXZycBWYLMnxKaGMSlthdvpsY44HCQO8LW1HXdmh8m+o+JjuZKcMb4
+ WQW3uDm+ucxfn9wfblfDded3oVw+0U3g3gFP0iReYLX6pzuC85T4m52zKWPb9VSPoJgQ
+ QfJ6YoMNokfxSpTNq+ouYzC/jHS7jTYAkIkZVIJJgd1L/b0vzjTvIaWpL3TpWQZ9rlt5
+ tpwBMuSj37XohkO+fuFDc6kYknwhJiZ10FoLP6MBTnUyEcKqWeT3cRHGFmis3TWD/j5L
+ VOIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Exdw1jWh9d45wApshJRlkzNaiGP955/A0t+N8/5I8ww=;
- b=lzX4GCBGC1qk/LkQgRsdIAomuCN9QnVdVJfDPWHu5sOqY+jO6QyUbQM1RGc8JBA3Jg
- rFSbP6yFCpCNKfNjEemJqqu5ty38yqCp0ypke5FwEawvDLq87bfSnIFPqghCuZplnpWA
- 9br3CUVG233+bJSODQumD82P+EFqReDFAJRkMOzP8iZJd+XdtUMu281bZ9keSqC1KCyh
- wyKlGuqBBsJae/Q5aaYAIPjTTo16C0F4atezgpK9bX0qHhXcP8/MUGmY4tA+8cMcpRVm
- IaF4JDoANbzOh7FFEopC7tSa7d92S6rmdCnceg7qgT6onWokBqQswvX5JvKCkJD6kC8t
- KiyA==
-X-Gm-Message-State: AJIora+kHwx1l6OnmLh6RaaaUKXHy9vunp3hC3R2F/+nj+aJ9wSXIWhH
- BAO44p8vKRZC4lmERnbct7wJXckMGAxX3w==
-X-Google-Smtp-Source: AGRyM1srzSUnbZ66fU0G34J/1N7QquxvEzs0Sp8AeRuDKIk9fnxEJ3vBxFzJv0nCNjKOhVPo3TbIxw==
-X-Received: by 2002:a05:6000:1689:b0:218:3fb1:fd30 with SMTP id
- y9-20020a056000168900b002183fb1fd30mr11430304wrd.302.1656325360761; 
- Mon, 27 Jun 2022 03:22:40 -0700 (PDT)
+ bh=Ka8T6WbFRnliAmr+bft7mWOY5gWROhUwaTzzbJ3vo7o=;
+ b=h8to+n9gOHo+BjFcGCIHQUtzJbgp0tcxDL9yy0uMUdVVQy7rm/JLobcdtool1K6RFt
+ KsPE7j/Qw+jlYMsfUUFQ/IIifpPtV0+mb4CmGSC6rDlrFLn1PpHScHlxS7RmFjQ6r3SR
+ FyzFoyYd4ScKh552E35+waPDPSbasWkLdOb7ND6duqjwEOLQ2Q+B729D3ySXehjJ1uiz
+ XGoOCEhzeuXBACZP8PTw0DJLhQpERkMLOH+Kv0FXgWcMAyZ7WTN78Q2iulwMZKtGVXjz
+ KLFvHqdAbg/pJ6roOb0oiLWEScTYBmHnIL4zWIgsjBs3hKHisl79wZep1MtFsBMAcHLA
+ yISQ==
+X-Gm-Message-State: AJIora89/Ph/JdZA265dg2EKYb6/9NTgn8iGVHYbdjLKgBvdN401VPPK
+ y9n9915aVz2uiIs6wEk+vzibfXwbEyQS1Q==
+X-Google-Smtp-Source: AGRyM1sPs2eBzfKitmatuzvH3hgNI/JVyWYY4LB7RBtnDSwe/85WOPMzBxthWEt7Svl2MOtrjpWS8g==
+X-Received: by 2002:adf:e350:0:b0:21a:3bc:7d85 with SMTP id
+ n16-20020adfe350000000b0021a03bc7d85mr11453354wrj.400.1656325361571; 
+ Mon, 27 Jun 2022 03:22:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  d11-20020a5d6dcb000000b0020e6ce4dabdsm9754335wrz.103.2022.06.27.03.22.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 03:22:40 -0700 (PDT)
+ Mon, 27 Jun 2022 03:22:41 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/25] target/arm: Catch invalid kvm state also for hvf
-Date: Mon, 27 Jun 2022 11:22:14 +0100
-Message-Id: <20220627102236.3097629-4-peter.maydell@linaro.org>
+Subject: [PULL 04/25] target/arm: Implement TPIDR2_EL0
+Date: Mon, 27 Jun 2022 11:22:15 +0100
+Message-Id: <20220627102236.3097629-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220627102236.3097629-1-peter.maydell@linaro.org>
 References: <20220627102236.3097629-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,71 +88,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Graf <agraf@csgraf.de>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Some features such as running in EL3 or running M profile code are
-incompatible with virtualization as QEMU implements it today. To prevent
-users from picking invalid configurations on other virt solutions like
-Hvf, let's run the same checks there too.
+This register is part of SME, but isn't closely related to the
+rest of the extension.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1073
-Signed-off-by: Alexander Graf <agraf@csgraf.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220620192242.70573-2-agraf@csgraf.de
-[PMM: Allow qtest accelerator too; tweak comment]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220620175235.60881-2-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ target/arm/cpu.h    |  1 +
+ target/arm/helper.c | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 1b5d5357880..d9c4a9f56d2 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -39,6 +39,7 @@
- #include "hw/boards.h"
- #endif
- #include "sysemu/tcg.h"
-+#include "sysemu/qtest.h"
- #include "sysemu/hw_accel.h"
- #include "kvm_arm.h"
- #include "disas/capstone.h"
-@@ -1490,25 +1491,32 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index df677b2d5d2..05d1e2e8dd1 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -474,6 +474,7 @@ typedef struct CPUArchState {
+             };
+             uint64_t tpidr_el[4];
+         };
++        uint64_t tpidr2_el0;
+         /* The secure banks of these registers don't map anywhere */
+         uint64_t tpidrurw_s;
+         uint64_t tpidrprw_s;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 6457e6301cd..d21ba7ab836 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6279,6 +6279,35 @@ static const ARMCPRegInfo zcr_reginfo[] = {
+       .writefn = zcr_write, .raw_writefn = raw_write },
+ };
+ 
++#ifdef TARGET_AARCH64
++static CPAccessResult access_tpidr2(CPUARMState *env, const ARMCPRegInfo *ri,
++                                    bool isread)
++{
++    int el = arm_current_el(env);
++
++    if (el == 0) {
++        uint64_t sctlr = arm_sctlr(env, el);
++        if (!(sctlr & SCTLR_EnTP2)) {
++            return CP_ACCESS_TRAP;
++        }
++    }
++    /* TODO: FEAT_FGT */
++    if (el < 3
++        && arm_feature(env, ARM_FEATURE_EL3)
++        && !(env->cp15.scr_el3 & SCR_ENTP2)) {
++        return CP_ACCESS_TRAP_EL3;
++    }
++    return CP_ACCESS_OK;
++}
++
++static const ARMCPRegInfo sme_reginfo[] = {
++    { .name = "TPIDR2_EL0", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 3, .crn = 13, .crm = 0, .opc2 = 5,
++      .access = PL0_RW, .accessfn = access_tpidr2,
++      .fieldoffset = offsetof(CPUARMState, cp15.tpidr2_el0) },
++};
++#endif /* TARGET_AARCH64 */
++
+ void hw_watchpoint_update(ARMCPU *cpu, int n)
+ {
+     CPUARMState *env = &cpu->env;
+@@ -8440,6 +8469,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
      }
  
--    if (kvm_enabled()) {
-+    if (!tcg_enabled() && !qtest_enabled()) {
-         /*
-+         * We assume that no accelerator except TCG (and the "not really an
-+         * accelerator" qtest) can handle these features, because Arm hardware
-+         * virtualization can't virtualize them.
-+         *
-          * Catch all the cases which might cause us to create more than one
-          * address space for the CPU (otherwise we will assert() later in
-          * cpu_address_space_init()).
-          */
-         if (arm_feature(env, ARM_FEATURE_M)) {
-             error_setg(errp,
--                       "Cannot enable KVM when using an M-profile guest CPU");
-+                       "Cannot enable %s when using an M-profile guest CPU",
-+                       current_accel_name());
-             return;
-         }
-         if (cpu->has_el3) {
-             error_setg(errp,
--                       "Cannot enable KVM when guest CPU has EL3 enabled");
-+                       "Cannot enable %s when guest CPU has EL3 enabled",
-+                       current_accel_name());
-             return;
-         }
-         if (cpu->tag_memory) {
-             error_setg(errp,
--                       "Cannot enable KVM when guest CPUs has MTE enabled");
-+                       "Cannot enable %s when guest CPUs has MTE enabled",
-+                       current_accel_name());
-             return;
-         }
+ #ifdef TARGET_AARCH64
++    if (cpu_isar_feature(aa64_sme, cpu)) {
++        define_arm_cp_regs(cpu, sme_reginfo);
++    }
+     if (cpu_isar_feature(aa64_pauth, cpu)) {
+         define_arm_cp_regs(cpu, pauth_reginfo);
      }
 -- 
 2.25.1
