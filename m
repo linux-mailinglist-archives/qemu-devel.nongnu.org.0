@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D745A55BAE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 17:54:06 +0200 (CEST)
-Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1801F55BAE7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 17:56:31 +0200 (CEST)
+Received: from localhost ([::1]:46014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5r3t-0003Vt-VR
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 11:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43220)
+	id 1o5r6E-0007LR-4Q
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 11:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
- id 1o5qxn-0001RP-Jy; Mon, 27 Jun 2022 11:47:47 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:57702)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quic_jaehyoo@quicinc.com>)
- id 1o5qxl-0005et-8U; Mon, 27 Jun 2022 11:47:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1656344865; x=1687880865;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Y09mCb5si9Qj7bmCcbC9RswbhEYEXytjucZp5yK9lbo=;
- b=udbBe35HcpCcE4ehh76fFtqGyQdT5HqVjoy3mJ4uYqLj8av7SqTdY6eu
- QPHafM4UjJW6hzYHzf+6IixH50dNV6nOssuGYYyAzaPU1HSSdA5r+vuWV
- ed1+oNcmnBNZUD99oTYdqQluXNikLnL1v/G/HYioRMJT4+J5iuDkXy6wN c=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 27 Jun 2022 08:47:42 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2022 08:47:42 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 27 Jun 2022 08:47:42 -0700
-Received: from maru.qualcomm.com (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 27 Jun
- 2022 08:47:40 -0700
-From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Titus Rwantare
- <titusr@google.com>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, Patrick Venture <venture@google.com>, Hao Wu
- <wuhaotsh@google.com>
-CC: Graeme Gregory <quic_ggregory@quicinc.com>, Maheswara Kurapati
- <quic_mkurapat@quicinc.com>, Jae Hyun Yoo <quic_jaehyoo@quicinc.com>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v2 7/7] hw/arm/aspeed: firework: add I2C MUXes for VR channels
-Date: Mon, 27 Jun 2022 08:47:03 -0700
-Message-ID: <20220627154703.148943-8-quic_jaehyoo@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220627154703.148943-1-quic_jaehyoo@quicinc.com>
-References: <20220627154703.148943-1-quic_jaehyoo@quicinc.com>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o5qy6-0001kM-AS
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 11:48:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21406)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o5qy3-0005hA-CK
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 11:48:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656344881;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UfCz+XS6t5JQ0mz1puBaDbFZ7gcRD04mU0cmoLqbLQI=;
+ b=E0wB5HV5MgmGl1GGcxIo6iRmYJPd89filiLa/ifXqRxW5Z8Xb8JyspbUC7BB0kxM4yq1X6
+ qj0VqvUz1naGWq133tSZIkDQM1hheusRcmLMNm9Y5UdvR20I6Y5Itzd9gkJDbSGdD8vCFx
+ Drl8M8aMwQkN8IaNr1iRwYS0KmMT1nQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-251-s0Icza85PDaokyJWFoiG_g-1; Mon, 27 Jun 2022 11:48:00 -0400
+X-MC-Unique: s0Icza85PDaokyJWFoiG_g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC01A29DD998
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 15:47:59 +0000 (UTC)
+Received: from thinkpad.redhat.com (unknown [10.39.194.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BCA82166B26;
+ Mon, 27 Jun 2022 15:47:56 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH v5 02/12] net: remove the @errp argument of net_client_inits()
+Date: Mon, 27 Jun 2022 17:47:39 +0200
+Message-Id: <20220627154749.871943-3-lvivier@redhat.com>
+In-Reply-To: <20220627154749.871943-1-lvivier@redhat.com>
+References: <20220627154749.871943-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-Received-SPF: pass client-ip=199.106.114.38;
- envelope-from=quic_jaehyoo@quicinc.com; helo=alexa-out-sd-01.qualcomm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,45 +83,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add 2-level cascaded I2C MUXes for SOC VR channels into the Firework
-machine.
+The only caller passes &error_fatal, so use this directly in the function.
 
-Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+It's what we do for -blockdev, -device, and -object.
+
+Suggested-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
-Changes in v2:
-* None
+ include/net/net.h |  2 +-
+ net/net.c         | 20 +++++++-------------
+ softmmu/vl.c      |  2 +-
+ 3 files changed, 9 insertions(+), 15 deletions(-)
 
- hw/arm/aspeed.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index cfc322ee30e9..1708a8f3408d 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -1002,13 +1002,21 @@ static void qcom_dc_scm_bmc_i2c_init(AspeedMachineState *bmc)
- static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
+diff --git a/include/net/net.h b/include/net/net.h
+index 523136c7acba..c53c64ac18c4 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -216,7 +216,7 @@ extern const char *host_net_devices[];
+ /* from net.c */
+ int net_client_parse(QemuOptsList *opts_list, const char *str);
+ void show_netdevs(void);
+-int net_init_clients(Error **errp);
++void net_init_clients(void);
+ void net_check_clients(void);
+ void net_cleanup(void);
+ void hmp_host_net_add(Monitor *mon, const QDict *qdict);
+diff --git a/net/net.c b/net/net.c
+index d2288bd3a929..15958f881776 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -1562,27 +1562,21 @@ out:
+     return ret;
+ }
+ 
+-int net_init_clients(Error **errp)
++void net_init_clients(void)
  {
-     AspeedSoCState *soc = &bmc->soc;
--    I2CSlave *therm_mux;
-+    I2CSlave *therm_mux, *cpuvr_mux;
+     net_change_state_entry =
+         qemu_add_vm_change_state_handler(net_vm_change_state_handler, NULL);
  
-     /* Create the generic DC-SCM hardware */
-     qcom_dc_scm_bmc_i2c_init(bmc);
+     QTAILQ_INIT(&net_clients);
  
-     /* Now create the Firework specific hardware */
+-    if (qemu_opts_foreach(qemu_find_opts("netdev"),
+-                          net_init_netdev, NULL, errp)) {
+-        return -1;
+-    }
+-
+-    if (qemu_opts_foreach(qemu_find_opts("nic"), net_param_nic, NULL, errp)) {
+-        return -1;
+-    }
++    qemu_opts_foreach(qemu_find_opts("netdev"), net_init_netdev, NULL,
++                      &error_fatal);
  
-+    /* I2C7 CPUVR MUX */
-+    cpuvr_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7),
-+                                        "pca9546", 0x70);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 0), "pca9548", 0x72);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 1), "pca9548", 0x72);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 2), "pca9548", 0x72);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(cpuvr_mux, 3), "pca9548", 0x72);
-+
-     /* I2C8 Thermal Diodes*/
-     therm_mux = i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 8),
-                                         "pca9548", 0x70);
+-    if (qemu_opts_foreach(qemu_find_opts("net"), net_init_client, NULL, errp)) {
+-        return -1;
+-    }
++    qemu_opts_foreach(qemu_find_opts("nic"), net_param_nic, NULL,
++                      &error_fatal);
+ 
+-    return 0;
++    qemu_opts_foreach(qemu_find_opts("net"), net_init_client, NULL,
++                      &error_fatal);
+ }
+ 
+ int net_client_parse(QemuOptsList *opts_list, const char *optarg)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 54e920ada1a1..c244e8afc4cc 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1898,7 +1898,7 @@ static void qemu_create_late_backends(void)
+         qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
+     }
+ 
+-    net_init_clients(&error_fatal);
++    net_init_clients();
+ 
+     object_option_foreach_add(object_create_late);
+ 
 -- 
-2.25.1
+2.36.1
 
 
