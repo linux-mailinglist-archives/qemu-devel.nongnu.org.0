@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2C555BB38
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 19:02:08 +0200 (CEST)
-Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D5D55BB39
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 19:05:38 +0200 (CEST)
+Received: from localhost ([::1]:56466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5s7j-0006tv-Aj
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 13:02:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56080)
+	id 1o5sB7-0001B4-8P
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 13:05:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=EJqm=XC=zx2c4.com=Jason@kernel.org>)
- id 1o5rjQ-0006sq-5c
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:37:00 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:35456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=EJqm=XC=zx2c4.com=Jason@kernel.org>)
- id 1o5rjO-0005IP-Ha
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:36:59 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 41EE6B818DC
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:36:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9AE4C3411D
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:36:53 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="e9XzVsQc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1656347811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Umjv2uPXwck43nyYw6+/9hoZ0oq6X4n8I6/+4N+o7+o=;
- b=e9XzVsQcATDiDH70sp8qUun0OYIHdcF6yY8n6fjR47BtAHEb1WFB93Ckj/0TsRVnPeGB0+
- 8JS23zn8Sd9j27fSvVrPAzcqDovbNd21Ej3bk/hCyN0sFA0h1k496IfWYnAsaMPKWWfdQN
- c8db0a8XaioFqd6wpdf2ZJVF2D+yPGQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 850aa0e7
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Mon, 27 Jun 2022 16:36:51 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id h85so10144444iof.4
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 09:36:50 -0700 (PDT)
-X-Gm-Message-State: AJIora9AeuoFuCmRIwmJCBvV/DbipA/rG2YR1pbAOUlNsaeJTYCN9VSc
- GwKNf21aKA63aZFr/FQcBQWRN1dIK+ndWlu4YSM=
-X-Google-Smtp-Source: AGRyM1vdblyOKY4DwVLSWqz25uoyaPlu4UENRO7hNfaAeEpDyXmjHEi2D0LbcRAzr1CXn0G0CQM0pqPOM/1gpm4aec4=
-X-Received: by 2002:a02:8568:0:b0:339:c51c:867 with SMTP id
- g95-20020a028568000000b00339c51c0867mr8411747jai.170.1656347810287; Mon, 27
- Jun 2022 09:36:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
+ id 1o5rnP-0004TM-9i
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:41:07 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:37447)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
+ id 1o5rnL-0006Z0-1x
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:41:07 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ w19-20020a17090a8a1300b001ec79064d8dso13037497pjn.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 09:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oOi+DoXNamcchYtk/5LRIx8vypDln25eD4Ti0nz/Yl8=;
+ b=AZ5vvTy+XfFkE6nAf3xCL/Nkz/OOcLOpbTPBF4EJx8ITpC/l9PLstBlNApM5RzwWuy
+ uwgreWyxgD+vOYufV9wQ8fqjlkInmBbmBkMzO2aULt/6VpCoKUGbpu0kPGK2zPPf45dN
+ PuyMFIT+d85j7j81GH25qXVKBlzqtqde2tYsPDd6kb6C/kVZlPvRutYAG+RqvMOmSEtd
+ eCYt0O4Nbya6VdQM/pvS1PbpBWeDJIkiVDmrTDyRmEhc9hoMsAXU6/JSkoiB2IJRldNA
+ WegPXiUml2lnkwkJ8DBDn/rkk+2Ml1YG+493IvxcZncfv833S3KL0UvpA1fgNX0H8xtE
+ tK0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oOi+DoXNamcchYtk/5LRIx8vypDln25eD4Ti0nz/Yl8=;
+ b=EKz+XmMkB4ME6TJ89SVTo0QVwY8dV4Dt0VrsyWEA1yxp5lVSZ8hWO4N9POpLcSfAhr
+ DH/IwuEax60fUGeyZvxCaMBLrUKNRgJQTz5+ETzWS3aiLeb9KPA6e/h/eUSK7ft0F/Yr
+ +S+nYP+QaxuLg+xSptSQtXNodGeFr04tQZaBKcuEbDCMMed/p5hXQfDL5w0/u/6suTzv
+ daYKM5BKBvp3GV0KbZKtLsjj/tmSC7sNdiSF2B8RuaERg7G9RhGxhI+8sbphFSB5sdhM
+ dqYowWaPJDxsrYSN/Wi0MkDEygKWooSApK7NGJMq9uYwrEIs0Mxc0Ql2X92/pNF6fqxo
+ 9SAA==
+X-Gm-Message-State: AJIora9KhGqsvjSISiT26UM0j7U1SyVIEWnbzHB+KaH+6lypRFWb2ZT8
+ tpT/EIK6aBK3dFypdeufxVUA5Q==
+X-Google-Smtp-Source: AGRyM1syanIACDvCdQ+AlH1MxiD4dxGPVDJI7PN4wJ/j94/ppf/Ho8+NLls0RwYVoYtgN5wFleo34g==
+X-Received: by 2002:a17:902:ca91:b0:16a:1126:c5af with SMTP id
+ v17-20020a170902ca9100b0016a1126c5afmr373559pld.78.1656348061023; 
+ Mon, 27 Jun 2022 09:41:01 -0700 (PDT)
+Received: from rpathak-ThinkPad-T490.dc1.ventanamicro.com
+ ([2405:201:1010:106f:39d1:78b4:ede5:f50c])
+ by smtp.googlemail.com with ESMTPSA id
+ n12-20020a17090ade8c00b001ec84b0f199sm18743772pjv.1.2022.06.27.09.40.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 09:41:00 -0700 (PDT)
+From: Rahul Pathak <rpathak@ventanamicro.com>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ apatel@ventanamicro.com, rpathak@ventanamicro.com,
+ rpathakmailbox@gmail.com, victor.colombo@eldorado.org.br
+Subject: [PATCH v2] target/riscv: fix user-mode build issue because mhartid
+Date: Mon, 27 Jun 2022 22:10:44 +0530
+Message-Id: <20220627164044.1512862-1-rpathak@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a05:6e02:16cc:0:0:0:0 with HTTP; Mon, 27 Jun 2022 09:36:49
- -0700 (PDT)
-In-Reply-To: <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
-References: <20220627160734.749861-1-Jason@zx2c4.com>
- <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Mon, 27 Jun 2022 18:36:49 +0200
-X-Gmail-Original-Message-ID: <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
-Message-ID: <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/virt: dt: add rng-seed property
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=EJqm=XC=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=rpathak@ventanamicro.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,28 +92,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/27/22, Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Mon, 27 Jun 2022 at 17:07, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->>
->> In 60592cfed2 ("hw/arm/virt: dt: add kaslr-seed property"), the
->> kaslr-seed property was added, but the equally as important rng-seed
->> property was forgotten about, which has identical semantics for a
->> similar purpose. This commit implements it in exactly the same way as
->> kaslr-seed.
->
-> Not an objection, since if this is what the dtb spec says we need
-> to provide then I guess we need to provide it, but:
-> Why do we need to give the kernel two separate random seeds?
-> Isn't one sufficient for the kernel to seed its RNG and generate
-> whatever randomness it needs for whatever purposes it wants it?
->
+mhartid csr is not available in user-mode code path and
+user-mode build fails because of its reference in
+riscv_cpu_realize function
 
-Seems a bit silly to me too. `rng-seed` alone ought to be sufficient.
-After the kernel calls add_bootloader_randomness() on it,
-get_random_long() can be used for kaslr'ing and everything else too.
-So I'm not sure what's up, but here we are. Maybe down the line I'll
-look into the details and formulate a plan to remove `kaslr-seed` if
-my supposition is correct.
+Commit causing the issue is currently in Alistair's
+riscv-to-apply.next branch and need to be squashed there.
 
-Jason
+Fixes: 7ecee770d40 ("target/riscv: Force disable extensions if priv spec version does not match")
+
+Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
+---
+
+Changes in V2:
+- remove the stray format specifier
+- add the Fixes tag and reference to external tree
+---
+ target/riscv/cpu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index e4ec05abf4..509923f15e 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -636,9 +636,15 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
+             (env->priv_ver < isa_edata_arr[i].min_version)) {
+             isa_ext_update_enabled(cpu, &isa_edata_arr[i], false);
++#ifndef CONFIG_USER_ONLY
+             warn_report("disabling %s extension for hart 0x%lx because "
+                         "privilege spec version does not match",
+                         isa_edata_arr[i].name, (unsigned long)env->mhartid);
++#else
++            warn_report("disabling %s extension for hart because "
++                        "privilege spec version does not match",
++                        isa_edata_arr[i].name);
++#endif
+         }
+     }
+ 
+-- 
+2.34.1
+
 
