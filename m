@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2730755B86A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 10:03:26 +0200 (CEST)
-Received: from localhost ([::1]:46698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DBB55B889
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 10:19:48 +0200 (CEST)
+Received: from localhost ([::1]:58850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5jiP-0007pg-79
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 04:03:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60002)
+	id 1o5jyF-0008V7-C9
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 04:19:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o5jQy-0001CM-8Z; Mon, 27 Jun 2022 03:45:24 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:43922)
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1o5jvG-0007Z4-DY
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 04:16:48 -0400
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:43746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o5jQv-0000qn-29; Mon, 27 Jun 2022 03:45:23 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-3137316bb69so76724017b3.10; 
- Mon, 27 Jun 2022 00:45:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1o5jv5-0007BO-QY
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 04:16:37 -0400
+Received: by mail-qv1-xf32.google.com with SMTP id y14so13673239qvs.10
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 01:16:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rQ7lQXQ925z1+AUfqD806f+osk+YMetITrFazGmSQ+c=;
- b=iDDbV/rlSzfLfGCQV1bOnO56sbWL7cgOBjeFANdyVEzr1eJaqHiHdDSReautIFDys6
- wUr/8QAu6/NY/WR24YICjBvDIrhBEsuYw6aIwi42cUdP1Qv5R8BAYFacOhuwbigpHQnb
- NUhAiJGqH3YLrN1lbUguZ1LOPNMFNxqB+VQOU8KlaMCkU9WxiItV5MTUaKqXkmPLiG72
- TcTdVNP0AA15eqWFMEQUtkG0uA3vjbuTKHwrNKAORZWxFVhmAchCnPUXiYe5sOpm3LMz
- 9LMsgbvxFAqTIpc0883Hh422hz2njvwTzLhXS7pKDNmoiGuWDx7C0phpmo11HN5AMrTu
- e3sA==
+ :cc; bh=NVOr3NL84Ac3K/7JoBoBosDNJ46Lx2g+qz0drFiRprc=;
+ b=MknjWiwsVMfLI4wAxiTUMduXUqCM6AfgWl3CROGPRvH3AN8dTkrdW7K46OOcPZNhFy
+ lQFQiR0edXfxl4gcPoFIIajhPP8YIN5bt6JtflsXAUOAFLFtgNLbD0Eaw/+1L3ez9m9G
+ ZpBk6pGaAAvJeQH/PCFxPgMR12+xr8O5gnKfN6K6PqX0af6F+h4yf16KfvdPuGYZ7Vs5
+ zrT9X/RwQRyufNlDitQxd8UZP/z46izDpgIXKsSCLzFkHDs33reYJjJMeA/1kA6xE4nu
+ GnoDlaad0bvaZDxLHuevlPbAPZqVrCG2wlQ77vKKZivMbC1LDUZ22ShpRb5sxoyezVhC
+ Uxww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rQ7lQXQ925z1+AUfqD806f+osk+YMetITrFazGmSQ+c=;
- b=kPPESUgISPYSjhIpdeJtXX/UQHSDfCB1xWPyKSsTJMvzxjFxdFqrreydkrXdM4rao1
- 2yGEREEekIGQFAAmYFAiG/RFz5yMHx+A3hKfLfTmZ4uzLHRMfc58q8mNNZYbAgxHzHC8
- +BqD67zWk4Pd8R+byK5YuC1uS93x7e5aFMDRSWO7b5xQaTfRjug3ehvehT2FjTwK8EcF
- YQfaGkkebxyW0xGoWu/OyXAKE2L5FgUCpPIt8awM2uX/UOOAXxci01mJgFIIF5xIxFBf
- 0RIV/6OhaUJRmepCzMAXqT80zHGNExpakUk0Ul9Y05Tpok1zeQG0l5nvQF0fXWBR9vjN
- SN7A==
-X-Gm-Message-State: AJIora/+rWyURgnqdFk2wzvRrKRH+NLB00410LcsV77y8jmjwYBARMI9
- POUyWNwF/bRPD7e64lsHhmngPmDcm9wcaJOu7vg=
-X-Google-Smtp-Source: AGRyM1srDYsz+w6BcVMpkwb2hQArpEZCILzu1KwwibGnRnxENqX+j6KRTgZTKWG3DcNshFMNQFDeu7msBv/PGE+cVlM=
-X-Received: by 2002:a81:1654:0:b0:317:8608:9f6b with SMTP id
- 81-20020a811654000000b0031786089f6bmr13715263yww.267.1656315919343; Mon, 27
- Jun 2022 00:45:19 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=NVOr3NL84Ac3K/7JoBoBosDNJ46Lx2g+qz0drFiRprc=;
+ b=g7oS6SjjXn48zBHZmbfvPmFSPu14IDvUUSrlDGL9EecjCy2xEWtYlbhuS3GH4HUqaM
+ jCd60nLOt8XiaCniis6blVEhrBtGyt2z7ZjDYE5haQpoEn+aUGw6KE+QZWjvgPKsWyUl
+ j9VdLgSp2kKDTWdPNSXICE5534+2Q/MoXBcUPaNYS2zVUskjZTSzjRXoUc9VEy47aUg0
+ BR1Dh9wpnnjvS8XRYGP/yGHJZwk5XfB8AEH0UTqzSuBlG7YXcnn51st9SToPFwiUS3DK
+ vQoGimEAXP+E5ALKkJp2fUCi8KL47ultBpccZ4tTcUSvNPPI40SUDXOue+p3FJvQR1MG
+ rLWw==
+X-Gm-Message-State: AJIora+qwq1iHlUg/Ddv8UH1roDo/eAJjahotN5GTceeH/1jTeXWFHpC
+ 7NMCl2YCBKEgpdr2wSpJg7icwZHJdF77bqP/BQfkPw==
+X-Google-Smtp-Source: AGRyM1vBXLP2G0jdsvMuUKwSx3sD3h3O4EgVRK39j+5WN3N/HBvWnMOViLdlGJePVMBb+YcXfmvCXq4N2ZEwGqLyUXs=
+X-Received: by 2002:a05:622a:d0:b0:305:c643:68fe with SMTP id
+ p16-20020a05622a00d000b00305c64368femr8247282qtw.232.1656317786909; Mon, 27
+ Jun 2022 01:16:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220627001917.9417-1-faithilikerun@gmail.com>
- <20220627001917.9417-2-faithilikerun@gmail.com>
- <92651be0-a2d7-833d-0e9c-3b085427963b@suse.de>
-In-Reply-To: <92651be0-a2d7-833d-0e9c-3b085427963b@suse.de>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Mon, 27 Jun 2022 15:45:19 +0800
-Message-ID: <CAAAx-8+gXjg5zX_SprGnqVQumW1Ds6AdpgUCZ6+K_MVuEBo5kw@mail.gmail.com>
-Subject: Re: [RFC v3 1/5] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls.
-To: Hannes Reinecke <hare@suse.de>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
- qemu block <qemu-block@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x1131.google.com
+References: <20220623152907.1606964-1-christoph.muellner@vrull.eu>
+ <CAKmqyKN2A1kMNdNpDg0wy+1uC3cz0o7sc0SWt6m01jo4DZe6xQ@mail.gmail.com>
+In-Reply-To: <CAKmqyKN2A1kMNdNpDg0wy+1uC3cz0o7sc0SWt6m01jo4DZe6xQ@mail.gmail.com>
+From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>
+Date: Mon, 27 Jun 2022 10:16:15 +0200
+Message-ID: <CAEg0e7hc6t75eK93TZAiFAVwuJXiZQn6d7FMiS+Y=BaDNg7Pgg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3] RISC-V: Add Zawrs ISA extension support
+To: Alistair Francis <alistair23@gmail.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Philipp Tomsich <philipp.tomsich@vrull.eu>, 
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
+ Aaron Durbin <adurbin@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000005305c505e2698933"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
+ envelope-from=christoph.muellner@vrull.eu; helo=mail-qv1-xf32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,542 +88,505 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Hannes,
+--0000000000005305c505e2698933
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hannes Reinecke <hare@suse.de> =E4=BA=8E2022=E5=B9=B46=E6=9C=8827=E6=97=A5=
-=E5=91=A8=E4=B8=80 15:21=E5=86=99=E9=81=93=EF=BC=9A
+On Mon, Jun 27, 2022 at 7:20 AM Alistair Francis <alistair23@gmail.com>
+wrote:
 
->
-> On 6/27/22 02:19, Sam Li wrote:
-> > By adding zone management operations in BlockDriver, storage
-> > controller emulation can use the new block layer APIs including
-> > zone_report and zone_mgmt(open, close, finish, reset).
+> On Fri, Jun 24, 2022 at 1:31 AM Christoph Muellner
+> <christoph.muellner@vrull.eu> wrote:
+> >
+> > This patch adds support for the Zawrs ISA extension.
+> > Given the current (incomplete) implementation of reservation sets
+> > there seems to be no way to provide a full emulation of the WRS
+> > instruction (wake on reservation set invalidation or timeout or
+> > interrupt). Therefore, we just pretend that an interrupt occured,
+> > exit the execution loop and finally continue execution.
+> >
+> > The specification can be found here:
+> > https://github.com/riscv/riscv-zawrs/blob/main/zawrs.adoc
+> >
+> > Note, that the Zawrs extension is not frozen or ratified yet.
+> > Therefore this patch is an RFC and not intended to get merged.
+> >
+> > Changes since v2:
+> > * Adjustments according to a specification change
+> > * Inline REQUIRE_ZAWRS() since it has only one user
+> >
+> > Changes since v1:
+> > * Adding zawrs to the ISA string that is passed to the kernel
+> >
+> > Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
 > > ---
-> >   block/block-backend.c            |  56 ++++++++
-> >   block/coroutines.h               |   5 +
-> >   block/file-posix.c               | 238 ++++++++++++++++++++++++++++++=
-+
-> >   include/block/block-common.h     |  43 +++++-
-> >   include/block/block_int-common.h |  20 +++
-> >   5 files changed, 361 insertions(+), 1 deletion(-)
+> >  target/riscv/cpu.c                          |  2 +
+> >  target/riscv/cpu.h                          |  1 +
+> >  target/riscv/insn32.decode                  |  4 ++
+> >  target/riscv/insn_trans/trans_rvzawrs.c.inc | 54 +++++++++++++++++++++
+> >  target/riscv/translate.c                    |  1 +
+> >  5 files changed, 62 insertions(+)
+> >  create mode 100644 target/riscv/insn_trans/trans_rvzawrs.c.inc
 > >
-> > diff --git a/block/block-backend.c b/block/block-backend.c
-> > index e0e1aff4b1..786f964d02 100644
-> > --- a/block/block-backend.c
-> > +++ b/block/block-backend.c
-> > @@ -1810,6 +1810,62 @@ int blk_flush(BlockBackend *blk)
-> >       return ret;
-> >   }
-> >
-> > +/*
-> > + * Return zone_report from BlockDriver. Offset can be any number withi=
-n
-> > + * the zone size. No alignment for offset and len.
-> > + */
-> > +int coroutine_fn blk_co_zone_report(BlockBackend *blk, int64_t offset,
-> > +                       int64_t len, int64_t *nr_zones,
-> > +                       BlockZoneDescriptor *zones)
-> > +{
-> > +    int ret;
-> > +    BlockDriverState *bs;
-> > +    IO_CODE();
-> > +
-> > +    blk_inc_in_flight(blk); /* increase before waiting */
-> > +    blk_wait_while_drained(blk);
-> > +    bs =3D blk_bs(blk);
-> > +
-> > +    ret =3D blk_check_byte_request(blk, offset, len);
-> > +    if (ret < 0) {
-> > +        return ret;
-> > +    }
-> > +
-> > +    bdrv_inc_in_flight(bs);
-> > +    ret =3D bdrv_co_zone_report(blk->root->bs, offset, len,
-> > +                              nr_zones, zones);
-> > +    bdrv_dec_in_flight(bs);
-> > +    blk_dec_in_flight(blk);
-> > +    return ret;
-> > +}
-> > +
-> > +/*
-> > + * Return zone_mgmt from BlockDriver.
-> > + * Offset is the start of a zone and len is aligned to zones.
-> > + */
-> > +int coroutine_fn blk_co_zone_mgmt(BlockBackend *blk, enum zone_op op,
-> > +        int64_t offset, int64_t len)
-> > +{
-> > +    int ret;
-> > +    BlockDriverState *bs;
-> > +    IO_CODE();
-> > +
-> > +    blk_inc_in_flight(blk);
-> > +    blk_wait_while_drained(blk);
-> > +    bs =3D blk_bs(blk);
-> > +
-> > +    ret =3D blk_check_byte_request(blk, offset, len);
-> > +    if (ret < 0) {
-> > +        return ret;
-> > +    }
-> > +
-> > +    bdrv_inc_in_flight(bs);
-> > +    ret =3D bdrv_co_zone_mgmt(blk->root->bs, op, offset, len);
-> > +    bdrv_dec_in_flight(bs);
-> > +    blk_dec_in_flight(blk);
-> > +    return ret;
-> > +}
-> > +
-> >   void blk_drain(BlockBackend *blk)
-> >   {
-> >       BlockDriverState *bs =3D blk_bs(blk);
-> > diff --git a/block/coroutines.h b/block/coroutines.h
-> > index 830ecaa733..a114d7bc30 100644
-> > --- a/block/coroutines.h
-> > +++ b/block/coroutines.h
-> > @@ -80,6 +80,11 @@ int coroutine_fn
-> >   blk_co_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes);
-> >
-> >   int coroutine_fn blk_co_do_flush(BlockBackend *blk);
-> > +int coroutine_fn blk_co_zone_report(BlockBackend *blk, int64_t offset,
-> > +                                    int64_t len, int64_t *nr_zones,
-> > +                                    BlockZoneDescriptor *zones);
-> > +int coroutine_fn blk_co_zone_mgmt(BlockBackend *blk, enum zone_op op,
-> > +        int64_t offset, int64_t len);
-> >
-> >
-> >   /*
-> > diff --git a/block/file-posix.c b/block/file-posix.c
-> > index 48cd096624..1b8b0d351f 100644
-> > --- a/block/file-posix.c
-> > +++ b/block/file-posix.c
-> > @@ -67,6 +67,7 @@
-> >   #include <sys/param.h>
-> >   #include <sys/syscall.h>
-> >   #include <sys/vfs.h>
-> > +#include <linux/blkzoned.h>
-> >   #include <linux/cdrom.h>
-> >   #include <linux/fd.h>
-> >   #include <linux/fs.h>
-> > @@ -216,6 +217,11 @@ typedef struct RawPosixAIOData {
-> >               PreallocMode prealloc;
-> >               Error **errp;
-> >           } truncate;
-> > +        struct {
-> > +            int64_t *nr_zones;
-> > +            BlockZoneDescriptor *zones;
-> > +        } zone_report;
-> > +        zone_op op;
-> >       };
-> >   } RawPosixAIOData;
-> >
-> > @@ -1801,6 +1807,135 @@ static off_t copy_file_range(int in_fd, off_t *=
-in_off, int out_fd,
-> >   }
-> >   #endif
-> >
-> > +/*
-> > + * parse_zone - Fill a zone descriptor
-> > + */
-> > +static inline void parse_zone(struct BlockZoneDescriptor *zone,
-> > +                              struct blk_zone *blkz) {
-> > +    zone->start =3D blkz->start;
-> > +    zone->length =3D blkz->len;
-> > +    zone->cap =3D blkz->capacity;
-> > +    zone->wp =3D blkz->wp - blkz->start;
-> > +    zone->type =3D blkz->type;
-> > +    zone->cond =3D blkz->cond;
-> > +}
-> > +
-> > +static int handle_aiocb_zone_report(void *opaque) {
-> > +    RawPosixAIOData *aiocb =3D opaque;
-> > +    int fd =3D aiocb->aio_fildes;
-> > +    int64_t *nr_zones =3D aiocb->zone_report.nr_zones;
-> > +    BlockZoneDescriptor *zones =3D aiocb->zone_report.zones;
-> > +    int64_t offset =3D aiocb->aio_offset;
-> > +    int64_t len =3D aiocb->aio_nbytes;
-> > +
-> > +    struct blk_zone *blkz;
-> > +    int64_t rep_size, nrz;
-> > +    int ret, n =3D 0, i =3D 0;
-> > +
-> > +    nrz =3D *nr_zones;
-> > +    if (len =3D=3D -1) {
-> > +        return -errno;
-> > +    }
-> > +    rep_size =3D sizeof(struct blk_zone_report) + nrz * sizeof(struct =
-blk_zone);
-> > +    g_autofree struct blk_zone_report *rep =3D g_new(struct blk_zone_r=
-eport, nrz);
-> > +    offset =3D offset / 512; /* get the unit of the start sector: sect=
-or size is 512 bytes. */
-> > +    printf("start to report zone with offset: 0x%lx\n", offset);
-> > +
-> > +    blkz =3D (struct blk_zone *)(rep + 1);
-> > +    while (n < nrz) {
-> > +        memset(rep, 0, rep_size);
-> > +        rep->sector =3D offset;
-> > +        rep->nr_zones =3D nrz;
-> > +
-> > +        ret =3D ioctl(fd, BLKREPORTZONE, rep);
-> > +        if (ret !=3D 0) {
-> > +            ret =3D -errno;
-> > +            error_report("%d: ioctl BLKREPORTZONE at %ld failed %d",
-> > +                         fd, offset, errno);
-> > +            return ret;
-> > +        }
-> > +
-> > +        if (!rep->nr_zones) {
-> > +            break;
-> > +        }
-> > +
-> > +        for (i =3D 0; i < rep->nr_zones; i++, n++) {
-> > +            parse_zone(&zones[n], &blkz[i]);
-> > +            /* The next report should start after the last zone report=
-ed */
-> > +            offset =3D blkz[i].start + blkz[i].len;
-> > +        }
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 05e6521351..6cb00fadff 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -882,6 +882,7 @@ static Property riscv_cpu_extensions[] =3D {
+> >      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+> >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+> >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> > +    DEFINE_PROP_BOOL("zawrs", RISCVCPU, cfg.ext_zawrs, true),
 >
-> Where do you increase 'n' such that the loop can make forward progress?
-> Wouldn't it be better to use a for() loop here?
+> Would this be enabled by default?
 >
-'n' increases in this for loop as 'i' increases. I think the for()
-loop can serve the same purpose with some modifications.
 
-> > +    }
-> > +
-> > +    *nr_zones =3D n;
-> > +    return 0;
-> > +}
-> > +
-> > +static int handle_aiocb_zone_mgmt(void *opaque) {
-> > +    RawPosixAIOData *aiocb =3D opaque;
-> > +    int fd =3D aiocb->aio_fildes;
-> > +    int64_t offset =3D aiocb->aio_offset;
-> > +    int64_t len =3D aiocb->aio_nbytes;
-> > +    zone_op op =3D aiocb->op;
-> > +
-> > +    struct blk_zone_range range;
-> > +    const char *ioctl_name;
-> > +    unsigned long ioctl_op;
-> > +    int64_t zone_size;
-> > +    int64_t zone_size_mask;
-> > +    int ret;
-> > +
->
-> Shouldn't we add a check here if 'fd' points to a zoned device?
-> ioctl errors are not _that_ helpful here, as you might get a variety
-> of errors and it's not quite obvious which of those errors indicate
-> an unsupported feature.
->
-Yes, I'll add it in the next patch.
+The "true" was a personal preference (I prefer to keep the argument list
+for QEMU short)
+and I did not see any conflicts with existing behavior (no code should
+break).
+If you prefer otherwise or if I missed a policy I will change it.
 
-> > +    ret =3D ioctl(fd, BLKGETZONESZ, &zone_size);
-> > +    if (ret) {
-> > +        return -1;
-> > +    }
-> > +
-> > +    zone_size_mask =3D zone_size - 1;
-> > +    if (offset & zone_size_mask) {
-> > +        error_report("offset is not the start of a zone");
-> > +        return -1;
-> > +    }
-> > +
-> > +    if (len & zone_size_mask) {
-> > +        error_report("len is not aligned to zones");
-> > +        return -1;
-> > +    }
-> > +
-> > +    switch (op) {
-> > +    case zone_open:
-> > +        ioctl_name =3D "BLKOPENZONE";
-> > +        ioctl_op =3D BLKOPENZONE;
-> > +        break;
-> > +    case zone_close:
-> > +        ioctl_name =3D "BLKCLOSEZONE";
-> > +        ioctl_op =3D BLKCLOSEZONE;
-> > +        break;
-> > +    case zone_finish:
-> > +        ioctl_name =3D "BLKFINISHZONE";
-> > +        ioctl_op =3D BLKFINISHZONE;
-> > +        break;
-> > +    case zone_reset:
-> > +        ioctl_name =3D "BLKRESETZONE";
-> > +        ioctl_op =3D BLKRESETZONE;
-> > +        break;
-> > +    default:
-> > +        error_report("Invalid zone operation 0x%x", op);
-> > +        errno =3D -EINVAL;
-> > +        return -1;
-> > +    }
-> > +
-> > +    /* Execute the operation */
-> > +    range.sector =3D offset;
-> > +    range.nr_sectors =3D len;
-> > +    ret =3D ioctl(fd, ioctl_op, &range);
-> > +    if (ret !=3D 0) {
-> > +        error_report("ioctl %s failed %d",
-> > +                     ioctl_name, errno);
-> > +        return -1;
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> >   static int handle_aiocb_copy_range(void *opaque)
-> >   {
-> >       RawPosixAIOData *aiocb =3D opaque;
-> > @@ -2973,6 +3108,58 @@ static void raw_account_discard(BDRVRawState *s,=
- uint64_t nbytes, int ret)
-> >       }
-> >   }
+
+>
+> >      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+> >      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+> >      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+> > @@ -1075,6 +1076,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu,
+> char **isa_str, int max_str_len)
+> >          ISA_EDATA_ENTRY(zicsr, ext_icsr),
+> >          ISA_EDATA_ENTRY(zifencei, ext_ifencei),
+> >          ISA_EDATA_ENTRY(zmmul, ext_zmmul),
+> > +        ISA_EDATA_ENTRY(zawrs, ext_zawrs),
+> >          ISA_EDATA_ENTRY(zfh, ext_zfh),
+> >          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+> >          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 7d6397acdf..a22bc0fa09 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -380,6 +380,7 @@ struct RISCVCPUConfig {
+> >      bool ext_h;
+> >      bool ext_j;
+> >      bool ext_v;
+> > +    bool ext_zawrs;
+> >      bool ext_zba;
+> >      bool ext_zbb;
+> >      bool ext_zbc;
+> > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> > index 4033565393..513ea227fe 100644
+> > --- a/target/riscv/insn32.decode
+> > +++ b/target/riscv/insn32.decode
+> > @@ -711,6 +711,10 @@ vsetvli         0 ........... ..... 111 .....
+> 1010111  @r2_zimm11
+> >  vsetivli        11 .......... ..... 111 ..... 1010111  @r2_zimm10
+> >  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 > >
+> > +# *** Zawrs Standard Extension ***
+> > +wrs_nto    000000001101 00000 000 00000 1110011
+> > +wrs_sto    000000011101 00000 000 00000 1110011
+> > +
+> >  # *** RV32 Zba Standard Extension ***
+> >  sh1add     0010000 .......... 010 ..... 0110011 @r
+> >  sh2add     0010000 .......... 100 ..... 0110011 @r
+> > diff --git a/target/riscv/insn_trans/trans_rvzawrs.c.inc
+> b/target/riscv/insn_trans/trans_rvzawrs.c.inc
+> > new file mode 100644
+> > index 0000000000..d0df56378e
+> > --- /dev/null
+> > +++ b/target/riscv/insn_trans/trans_rvzawrs.c.inc
+> > @@ -0,0 +1,54 @@
 > > +/*
-> > + * zone report - Get a zone block device's information in the form
-> > + * of an array of zone descriptors.
+> > + * RISC-V translation routines for the RISC-V Zawrs Extension.
 > > + *
-> > + * @param bs: passing zone block device file descriptor
-> > + * @param zones: an array of zone descriptors to hold zone
-> > + * information on reply
-> > + * @param offset: offset can be any byte within the zone size.
-> > + * @param len: (not sure yet.
-> > + * @return 0 on success, -1 on failure
+> > + * Copyright (c) 2022 Christoph Muellner, christoph.muellner@vrull.io
+> > + *
+> > + * This program is free software; you can redistribute it and/or modif=
+y
+> it
+> > + * under the terms and conditions of the GNU General Public License,
+> > + * version 2 or later, as published by the Free Software Foundation.
+> > + *
+> > + * This program is distributed in the hope it will be useful, but
+> WITHOUT
+> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY =
+or
+> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
+> License for
+> > + * more details.
+> > + *
+> > + * You should have received a copy of the GNU General Public License
+> along with
+> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
 > > + */
-> > +static int coroutine_fn raw_co_zone_report(BlockDriverState *bs, int64=
-_t offset,
-> > +        int64_t len, int64_t *nr_zones,
-> > +        BlockZoneDescriptor *zones) {
-> > +    BDRVRawState *s =3D bs->opaque;
-> > +    RawPosixAIOData acb;
 > > +
-> > +    acb =3D (RawPosixAIOData) {
-> > +        .bs         =3D bs,
-> > +        .aio_fildes =3D s->fd,
-> > +        .aio_type   =3D QEMU_AIO_IOCTL,
-> > +        .aio_offset =3D offset,
-> > +        .aio_nbytes =3D len,
-> > +        .zone_report    =3D {
-> > +                .nr_zones       =3D nr_zones,
-> > +                .zones          =3D zones,
-> > +                },
-> > +    };
+> > +static bool trans_wrs(DisasContext *ctx)
+> > +{
+> > +    if (!ctx->cfg_ptr->ext_zawrs) {
+> > +        return false;
+> > +    }
 > > +
-> > +    return raw_thread_pool_submit(bs, handle_aiocb_zone_report, &acb);
-> > +}
-> > +
-> > +/*
-> > + * zone management operations - Execute an operation on a zone
-> > + */
-> > +static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, zone_op=
- op,
-> > +        int64_t offset, int64_t len) {
-> > +    BDRVRawState *s =3D bs->opaque;
-> > +    RawPosixAIOData acb;
-> > +
-> > +    acb =3D (RawPosixAIOData) {
-> > +        .bs             =3D bs,
-> > +        .aio_fildes     =3D s->fd,
-> > +        .aio_type       =3D QEMU_AIO_IOCTL,
-> > +        .aio_offset     =3D offset,
-> > +        .aio_nbytes     =3D len,
-> > +        .op             =3D op,
-> > +    };
-> > +
-> > +    return raw_thread_pool_submit(bs, handle_aiocb_zone_mgmt, &acb);
-> > +}
-> > +
-> >   static coroutine_fn int
-> >   raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes,
-> >                   bool blkdev)
-> > @@ -3324,6 +3511,9 @@ BlockDriver bdrv_file =3D {
-> >       .bdrv_abort_perm_update =3D raw_abort_perm_update,
-> >       .create_opts =3D &raw_create_opts,
-> >       .mutable_opts =3D mutable_opts,
-> > +
-> > +    .bdrv_co_zone_report =3D raw_co_zone_report,
-> > +    .bdrv_co_zone_mgmt =3D raw_co_zone_mgmt,
-> >   };
-> >
-> >   /***********************************************/
-> > @@ -3703,6 +3893,53 @@ static BlockDriver bdrv_host_device =3D {
-> >   #endif
-> >   };
-> >
-> > +static BlockDriver bdrv_zoned_host_device =3D {
-> > +        .format_name =3D "zoned_host_device",
-> > +        .protocol_name =3D "zoned_host_device",
-> > +        .instance_size =3D sizeof(BDRVRawState),
-> > +        .bdrv_needs_filename =3D true,
-> > +        .bdrv_probe_device  =3D hdev_probe_device,
-> > +        .bdrv_parse_filename =3D hdev_parse_filename,
-> > +        .bdrv_file_open     =3D hdev_open,
-> > +        .bdrv_close         =3D raw_close,
-> > +        .bdrv_reopen_prepare =3D raw_reopen_prepare,
-> > +        .bdrv_reopen_commit  =3D raw_reopen_commit,
-> > +        .bdrv_reopen_abort   =3D raw_reopen_abort,
-> > +        .bdrv_co_create_opts =3D bdrv_co_create_opts_simple,
-> > +        .create_opts         =3D &bdrv_create_opts_simple,
-> > +        .mutable_opts        =3D mutable_opts,
-> > +        .bdrv_co_invalidate_cache =3D raw_co_invalidate_cache,
-> > +        .bdrv_co_pwrite_zeroes =3D hdev_co_pwrite_zeroes,
-> > +
-> > +        .bdrv_co_preadv         =3D raw_co_preadv,
-> > +        .bdrv_co_pwritev        =3D raw_co_pwritev,
-> > +        .bdrv_co_flush_to_disk  =3D raw_co_flush_to_disk,
-> > +        .bdrv_co_pdiscard       =3D hdev_co_pdiscard,
-> > +        .bdrv_co_copy_range_from =3D raw_co_copy_range_from,
-> > +        .bdrv_co_copy_range_to  =3D raw_co_copy_range_to,
-> > +        .bdrv_refresh_limits =3D raw_refresh_limits,
-> > +        .bdrv_io_plug =3D raw_aio_plug,
-> > +        .bdrv_io_unplug =3D raw_aio_unplug,
-> > +        .bdrv_attach_aio_context =3D raw_aio_attach_aio_context,
-> > +
-> > +        .bdrv_co_truncate       =3D raw_co_truncate,
-> > +        .bdrv_getlength =3D raw_getlength,
-> > +        .bdrv_get_info =3D raw_get_info,
-> > +        .bdrv_get_allocated_file_size
-> > +                            =3D raw_get_allocated_file_size,
-> > +        .bdrv_get_specific_stats =3D hdev_get_specific_stats,
-> > +        .bdrv_check_perm =3D raw_check_perm,
-> > +        .bdrv_set_perm   =3D raw_set_perm,
-> > +        .bdrv_abort_perm_update =3D raw_abort_perm_update,
-> > +        .bdrv_probe_blocksizes =3D hdev_probe_blocksizes,
-> > +        .bdrv_probe_geometry =3D hdev_probe_geometry,
-> > +        .bdrv_co_ioctl =3D hdev_co_ioctl,
-> > +
-> > +        /* zone management operations */
-> > +        .bdrv_co_zone_report =3D raw_co_zone_report,
-> > +        .bdrv_co_zone_mgmt =3D raw_co_zone_mgmt,
-> > +};
-> > +
-> >   #if defined(__linux__) || defined(__FreeBSD__) || defined(__FreeBSD_k=
-ernel__)
-> >   static void cdrom_parse_filename(const char *filename, QDict *options=
-,
-> >                                    Error **errp)
-> > @@ -3964,6 +4201,7 @@ static void bdrv_file_init(void)
-> >   #if defined(HAVE_HOST_BLOCK_DEVICE)
-> >       bdrv_register(&bdrv_host_device);
-> >   #ifdef __linux__
-> > +    bdrv_register(&bdrv_zoned_host_device);
-> >       bdrv_register(&bdrv_host_cdrom);
-> >   #endif
-> >   #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-> > diff --git a/include/block/block-common.h b/include/block/block-common.=
-h
-> > index fdb7306e78..78cddeeda5 100644
-> > --- a/include/block/block-common.h
-> > +++ b/include/block/block-common.h
-> > @@ -23,7 +23,6 @@
-> >    */
-> >   #ifndef BLOCK_COMMON_H
-> >   #define BLOCK_COMMON_H
-> > -
-> >   #include "block/aio.h"
-> >   #include "block/aio-wait.h"
-> >   #include "qemu/iov.h"
-> > @@ -49,6 +48,48 @@ typedef struct BlockDriver BlockDriver;
-> >   typedef struct BdrvChild BdrvChild;
-> >   typedef struct BdrvChildClass BdrvChildClass;
-> >
-> > +typedef enum zone_op {
-> > +    zone_open,
-> > +    zone_close,
-> > +    zone_finish,
-> > +    zone_reset,
-> > +} zone_op;
-> > +
-> > +typedef enum zone_model {
-> > +    BLK_Z_HM,
-> > +    BLK_Z_HA,
-> > +} zone_model;
-> > +
-> > +typedef enum BlkZoneCondition {
-> > +    BLK_ZS_NOT_WP =3D 0x0,
-> > +    BLK_ZS_EMPTY =3D 0x1,
-> > +    BLK_ZS_IOPEN =3D 0x2,
-> > +    BLK_ZS_EOPEN =3D 0x3,
-> > +    BLK_ZS_CLOSED =3D 0x4,
-> > +    BLK_ZS_RDONLY =3D 0xD,
-> > +    BLK_ZS_FULL =3D 0xE,
-> > +    BLK_ZS_OFFLINE =3D 0xF,
-> > +} BlkZoneCondition;
-> > +
-> > +typedef enum BlkZoneType {
-> > +    BLK_ZT_CONV =3D 0x1,
-> > +    BLK_ZT_SWR =3D 0x2,
-> > +    BLK_ZT_SWP =3D 0x3,
-> > +} BlkZoneType;
-> > +
-> > +/*
-> > + * Zone descriptor data structure.
-> > + * Provide information on a zone with all position and size values in =
-bytes.
-> > + */
-> > +typedef struct BlockZoneDescriptor {
-> > +    uint64_t start;
-> > +    uint64_t length;
-> > +    uint64_t cap;
-> > +    uint64_t wp;
-> > +    BlkZoneType type;
-> > +    BlkZoneCondition cond;
-> > +} BlockZoneDescriptor;
-> > +
-> >   typedef struct BlockDriverInfo {
-> >       /* in bytes, 0 if irrelevant */
-> >       int cluster_size;
-> > diff --git a/include/block/block_int-common.h b/include/block/block_int=
--common.h
-> > index 8947abab76..b9ea9db6dc 100644
-> > --- a/include/block/block_int-common.h
-> > +++ b/include/block/block_int-common.h
-> > @@ -94,6 +94,20 @@ typedef struct BdrvTrackedRequest {
-> >       struct BdrvTrackedRequest *waiting_for;
-> >   } BdrvTrackedRequest;
-> >
-> > +/**
-> > + * Zone device information data structure.
-> > + * Provide information on a device.
-> > + */
-> > +typedef struct zbd_dev {
-> > +    uint32_t zone_size;
-> > +    zone_model model;
-> > +    uint32_t block_size;
-> > +    uint32_t write_granularity;
-> > +    uint32_t nr_zones;
-> > +    struct BlockZoneDescriptor *zones; /* array of zones */
-> > +    uint32_t max_nr_open_zones; /* maximum number of explicitly open z=
-ones */
-> > +    uint32_t max_nr_active_zones;
-> > +} zbd_dev;
-> >
-> >   struct BlockDriver {
-> >       /*
-> > @@ -691,6 +705,12 @@ struct BlockDriver {
-> >                                             QEMUIOVector *qiov,
-> >                                             int64_t pos);
-> >
-> > +    int coroutine_fn (*bdrv_co_zone_report)(BlockDriverState *bs,
-> > +            int64_t offset, int64_t len, int64_t *nr_zones,
-> > +            BlockZoneDescriptor *zones);
-> > +    int coroutine_fn (*bdrv_co_zone_mgmt)(BlockDriverState *bs, enum z=
-one_op op,
-> > +            int64_t offset, int64_t len);
-> > +
-> >       /* removable device specific */
-> >       bool (*bdrv_is_inserted)(BlockDriverState *bs);
-> >       void (*bdrv_eject)(BlockDriverState *bs, bool eject_flag);
+> > +    /*
+> > +     * We may continue if one or more of the following conditions are
+> met:
+> > +     * a) The reservation set is invalid
 >
-> Other than that: Well done!
+> Shouldn't this be valid?
 >
-Thanks for reviewing!
 
-Have a good day!
-Sam
-> Cheers,
+The CPU is supposed to continue (stop waiting) when the reservation set
+becomes invalid.
+An earlier LR instruction registers a reservation set and the WRS.*
+instructions wait until
+this reservation set becomes invalided by a store from another hart to the
+same reservation set.
+So I think the description is correct.
+
+
 >
-> Hannes
-> --
-> Dr. Hannes Reinecke                        Kernel Storage Architect
-> hare@suse.de                                      +49 911 74053 688
-> SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: Felix Imend=C3=B6rffer
+> > +     * b) If WRS.STO, a short time since start of stall has elapsed
+> > +     * c) An interrupt is observed
+> > +     *
+> > +     * A reservation set can be invalidated by any store to a reserved
+> > +     * memory location. However, that's currently not implemented in
+> QEMU.
+> > +     * So let's just exit the CPU loop and pretend that an interrupt
+> occured.
+>
+> We don't actually pretend an interrupt occurs though. It seems like
+> it's valid to terminate the stall early, so we should just be able to
+> do that.
+>
+
+The specification allows stopping the CPU stall if an interrupt occurs that
+is disabled.
+I think that would match the implemented behavior.
+
+The latest spec update introduced the following sentence:
+"While stalled, an implementation is permitted to occasionally terminate
+the stall and complete execution for any reason."
+I did not want to use this justification for the implementation, because of
+the word "occasionally" (the correct word would
+be "always" in the implementation). Do you prefer to use this sentence
+instead?
+
+Thanks,
+Christoph
+
+
+
+
+>
+> Alistair
+>
+> > +     */
+> > +
+> > +    /* Clear the load reservation  (if any).  */
+> > +    tcg_gen_movi_tl(load_res, -1);
+> > +
+> > +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
+> > +    tcg_gen_exit_tb(NULL, 0);
+> > +    ctx->base.is_jmp =3D DISAS_NORETURN;
+> > +
+> > +    return true;
+> > +}
+> > +
+> > +#define GEN_TRANS_WRS(insn)                                           =
+ \
+> > +static bool trans_ ## insn(DisasContext *ctx, arg_ ## insn *a)        =
+ \
+> > +{                                                                     =
+ \
+> > +       (void)a;                                                       =
+ \
+> > +       return trans_wrs(ctx);                                         =
+ \
+> > +}
+> > +
+> > +GEN_TRANS_WRS(wrs_nto)
+> > +GEN_TRANS_WRS(wrs_sto)
+> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> > index b151c20674..a4f07d5166 100644
+> > --- a/target/riscv/translate.c
+> > +++ b/target/riscv/translate.c
+> > @@ -1007,6 +1007,7 @@ static uint32_t opcode_at(DisasContextBase
+> *dcbase, target_ulong pc)
+> >  #include "insn_trans/trans_rvh.c.inc"
+> >  #include "insn_trans/trans_rvv.c.inc"
+> >  #include "insn_trans/trans_rvb.c.inc"
+> > +#include "insn_trans/trans_rvzawrs.c.inc"
+> >  #include "insn_trans/trans_rvzfh.c.inc"
+> >  #include "insn_trans/trans_rvk.c.inc"
+> >  #include "insn_trans/trans_privileged.c.inc"
+> > --
+> > 2.35.3
+> >
+> >
+>
+
+--0000000000005305c505e2698933
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 27, 2022 at 7:20 AM Alist=
+air Francis &lt;<a href=3D"mailto:alistair23@gmail.com">alistair23@gmail.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>On Fri, Jun 24, 2022 at 1:31 AM Christoph Muellner<br>
+&lt;<a href=3D"mailto:christoph.muellner@vrull.eu" target=3D"_blank">christ=
+oph.muellner@vrull.eu</a>&gt; wrote:<br>
+&gt;<br>
+&gt; This patch adds support for the Zawrs ISA extension.<br>
+&gt; Given the current (incomplete) implementation of reservation sets<br>
+&gt; there seems to be no way to provide a full emulation of the WRS<br>
+&gt; instruction (wake on reservation set invalidation or timeout or<br>
+&gt; interrupt). Therefore, we just pretend that an interrupt occured,<br>
+&gt; exit the execution loop and finally continue execution.<br>
+&gt;<br>
+&gt; The specification can be found here:<br>
+&gt; <a href=3D"https://github.com/riscv/riscv-zawrs/blob/main/zawrs.adoc" =
+rel=3D"noreferrer" target=3D"_blank">https://github.com/riscv/riscv-zawrs/b=
+lob/main/zawrs.adoc</a><br>
+&gt;<br>
+&gt; Note, that the Zawrs extension is not frozen or ratified yet.<br>
+&gt; Therefore this patch is an RFC and not intended to get merged.<br>
+&gt;<br>
+&gt; Changes since v2:<br>
+&gt; * Adjustments according to a specification change<br>
+&gt; * Inline REQUIRE_ZAWRS() since it has only one user<br>
+&gt;<br>
+&gt; Changes since v1:<br>
+&gt; * Adding zawrs to the ISA string that is passed to the kernel<br>
+&gt;<br>
+&gt; Signed-off-by: Christoph M=C3=BCllner &lt;<a href=3D"mailto:christoph.=
+muellner@vrull.eu" target=3D"_blank">christoph.muellner@vrull.eu</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +<br>
+&gt;=C2=A0 target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+&gt;=C2=A0 target/riscv/insn32.decode=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++<br>
+&gt;=C2=A0 target/riscv/insn_trans/trans_rvzawrs.c.inc | 54 +++++++++++++++=
+++++++<br>
+&gt;=C2=A0 target/riscv/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+&gt;=C2=A0 5 files changed, 62 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 target/riscv/insn_trans/trans_rvzawrs.c.inc<b=
+r>
+&gt;<br>
+&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+&gt; index 05e6521351..6cb00fadff 100644<br>
+&gt; --- a/target/riscv/cpu.c<br>
+&gt; +++ b/target/riscv/cpu.c<br>
+&gt; @@ -882,6 +882,7 @@ static Property riscv_cpu_extensions[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;Counters&quot;, RISCVCPU, c=
+fg.ext_counters, true),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;Zifencei&quot;, RISCVCPU, c=
+fg.ext_ifencei, true),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;Zicsr&quot;, RISCVCPU, cfg.=
+ext_icsr, true),<br>
+&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;zawrs&quot;, RISCVCPU, cfg.ext_z=
+awrs, true),<br>
+<br>
+Would this be enabled by default?<br></blockquote><div><br></div><div>The &=
+quot;true&quot; was a personal preference (I prefer to keep the argument li=
+st for QEMU short)</div><div>and I did not see any conflicts with existing =
+behavior (no code should break).</div><div>If you prefer otherwise or if I =
+missed a policy I will change it.</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;Zfh&quot;, RISCVCPU, cfg.ex=
+t_zfh, false),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;Zfhmin&quot;, RISCVCPU, cfg=
+.ext_zfhmin, false),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;Zve32f&quot;, RISCVCPU, cfg=
+.ext_zve32f, false),<br>
+&gt; @@ -1075,6 +1076,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, =
+char **isa_str, int max_str_len)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zicsr, ext_icsr),<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zifencei, ext_ifence=
+i),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zmmul, ext_zmmul),<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zawrs, ext_zawrs),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfh, ext_zfh),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfinx, ext_zfinx),<b=
+r>
+&gt; diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
+&gt; index 7d6397acdf..a22bc0fa09 100644<br>
+&gt; --- a/target/riscv/cpu.h<br>
+&gt; +++ b/target/riscv/cpu.h<br>
+&gt; @@ -380,6 +380,7 @@ struct RISCVCPUConfig {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_h;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_j;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_v;<br>
+&gt; +=C2=A0 =C2=A0 bool ext_zawrs;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_zba;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_zbb;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_zbc;<br>
+&gt; diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode<b=
+r>
+&gt; index 4033565393..513ea227fe 100644<br>
+&gt; --- a/target/riscv/insn32.decode<br>
+&gt; +++ b/target/riscv/insn32.decode<br>
+&gt; @@ -711,6 +711,10 @@ vsetvli=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00 ......=
+..... ..... 111 ..... 1010111=C2=A0 @r2_zimm11<br>
+&gt;=C2=A0 vsetivli=C2=A0 =C2=A0 =C2=A0 =C2=A0 11 .......... ..... 111 ....=
+. 1010111=C2=A0 @r2_zimm10<br>
+&gt;=C2=A0 vsetvl=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1000000 ..... ..... 111=
+ ..... 1010111=C2=A0 @r<br>
+&gt;<br>
+&gt; +# *** Zawrs Standard Extension ***<br>
+&gt; +wrs_nto=C2=A0 =C2=A0 000000001101 00000 000 00000 1110011<br>
+&gt; +wrs_sto=C2=A0 =C2=A0 000000011101 00000 000 00000 1110011<br>
+&gt; +<br>
+&gt;=C2=A0 # *** RV32 Zba Standard Extension ***<br>
+&gt;=C2=A0 sh1add=C2=A0 =C2=A0 =C2=A00010000 .......... 010 ..... 0110011 @=
+r<br>
+&gt;=C2=A0 sh2add=C2=A0 =C2=A0 =C2=A00010000 .......... 100 ..... 0110011 @=
+r<br>
+&gt; diff --git a/target/riscv/insn_trans/trans_rvzawrs.c.inc b/target/risc=
+v/insn_trans/trans_rvzawrs.c.inc<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..d0df56378e<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/target/riscv/insn_trans/trans_rvzawrs.c.inc<br>
+&gt; @@ -0,0 +1,54 @@<br>
+&gt; +/*<br>
+&gt; + * RISC-V translation routines for the RISC-V Zawrs Extension.<br>
+&gt; + *<br>
+&gt; + * Copyright (c) 2022 Christoph Muellner, <a href=3D"mailto:christoph=
+.muellner@vrull.io" target=3D"_blank">christoph.muellner@vrull.io</a><br>
+&gt; + *<br>
+&gt; + * This program is free software; you can redistribute it and/or modi=
+fy it<br>
+&gt; + * under the terms and conditions of the GNU General Public License,<=
+br>
+&gt; + * version 2 or later, as published by the Free Software Foundation.<=
+br>
+&gt; + *<br>
+&gt; + * This program is distributed in the hope it will be useful, but WIT=
+HOUT<br>
+&gt; + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY=
+ or<br>
+&gt; + * FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU General Public=
+ License for<br>
+&gt; + * more details.<br>
+&gt; + *<br>
+&gt; + * You should have received a copy of the GNU General Public License =
+along with<br>
+&gt; + * this program.=C2=A0 If not, see &lt;<a href=3D"http://www.gnu.org/=
+licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.org/licenses=
+/</a>&gt;.<br>
+&gt; + */<br>
+&gt; +<br>
+&gt; +static bool trans_wrs(DisasContext *ctx)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 if (!ctx-&gt;cfg_ptr-&gt;ext_zawrs) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* We may continue if one or more of the following=
+ conditions are met:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* a) The reservation set is invalid<br>
+<br>
+Shouldn&#39;t this be valid?<br></blockquote><div><br></div><div>The CPU is=
+ supposed to continue (stop waiting) when the reservation set becomes inval=
+id.</div><div>An earlier LR instruction registers a reservation set and the=
+ WRS.* instructions wait until</div><div>this reservation set becomes inval=
+ided by a store from another hart to the same reservation set.</div><div>So=
+ I think the description is correct.</div><div>=C2=A0<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* b) If WRS.STO, a short time since start of stal=
+l has elapsed<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* c) An interrupt is observed<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* A reservation set can be invalidated by any sto=
+re to a reserved<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* memory location. However, that&#39;s currently =
+not implemented in QEMU.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* So let&#39;s just exit the CPU loop and pretend=
+ that an interrupt occured.<br>
+<br>
+We don&#39;t actually pretend an interrupt occurs though. It seems like<br>
+it&#39;s valid to terminate the stall early, so we should just be able to<b=
+r>
+do that.<br></blockquote><div><br></div><div>The specification allows stopp=
+ing the CPU stall if an interrupt occurs that is disabled.</div><div>I thin=
+k that would match the implemented behavior.</div><div><br></div><div>The l=
+atest spec update introduced the following sentence:</div><div>&quot;While =
+stalled, an implementation is permitted to occasionally terminate the stall=
+ and complete execution for any reason.&quot;</div><div>I did not want to u=
+se this justification for the implementation, because of the word &quot;occ=
+asionally&quot; (the correct word would</div><div>be &quot;always&quot; in =
+the implementation). Do you prefer to use this sentence instead?</div><div>=
+<br></div><div>Thanks,</div><div>Christoph</div><div><br></div><div><br></d=
+iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Alistair<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Clear the load reservation=C2=A0 (if any).=C2=A0 */<=
+br>
+&gt; +=C2=A0 =C2=A0 tcg_gen_movi_tl(load_res, -1);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 gen_set_pc_imm(ctx, ctx-&gt;pc_succ_insn);<br>
+&gt; +=C2=A0 =C2=A0 tcg_gen_exit_tb(NULL, 0);<br>
+&gt; +=C2=A0 =C2=A0 ctx-&gt;base.is_jmp =3D DISAS_NORETURN;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return true;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +#define GEN_TRANS_WRS(insn)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt; +static bool trans_ ## insn(DisasContext *ctx, arg_ ## insn *a)=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+&gt; +{=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0(void)a;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return trans_wrs(ctx);=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +GEN_TRANS_WRS(wrs_nto)<br>
+&gt; +GEN_TRANS_WRS(wrs_sto)<br>
+&gt; diff --git a/target/riscv/translate.c b/target/riscv/translate.c<br>
+&gt; index b151c20674..a4f07d5166 100644<br>
+&gt; --- a/target/riscv/translate.c<br>
+&gt; +++ b/target/riscv/translate.c<br>
+&gt; @@ -1007,6 +1007,7 @@ static uint32_t opcode_at(DisasContextBase *dcba=
+se, target_ulong pc)<br>
+&gt;=C2=A0 #include &quot;insn_trans/trans_rvh.c.inc&quot;<br>
+&gt;=C2=A0 #include &quot;insn_trans/trans_rvv.c.inc&quot;<br>
+&gt;=C2=A0 #include &quot;insn_trans/trans_rvb.c.inc&quot;<br>
+&gt; +#include &quot;insn_trans/trans_rvzawrs.c.inc&quot;<br>
+&gt;=C2=A0 #include &quot;insn_trans/trans_rvzfh.c.inc&quot;<br>
+&gt;=C2=A0 #include &quot;insn_trans/trans_rvk.c.inc&quot;<br>
+&gt;=C2=A0 #include &quot;insn_trans/trans_privileged.c.inc&quot;<br>
+&gt; --<br>
+&gt; 2.35.3<br>
+&gt;<br>
+&gt;<br>
+</blockquote></div></div>
+
+--0000000000005305c505e2698933--
 
