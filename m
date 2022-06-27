@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E10155B940
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:49:12 +0200 (CEST)
-Received: from localhost ([::1]:45112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9C955B93B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:44:27 +0200 (CEST)
+Received: from localhost ([::1]:38860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5mIp-0002Z4-4J
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41476)
+	id 1o5mEE-0006Sk-NE
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltL-0002LQ-6g
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:52 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40848)
+ id 1o5ltL-0002M1-Fp
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:51 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:46812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o5ltJ-0004tX-FP
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:50 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- v65-20020a1cac44000000b003a03c76fa38so4562710wme.5
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:48 -0700 (PDT)
+ id 1o5ltJ-0004tn-Fi
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:51 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ h14-20020a1ccc0e000000b0039eff745c53so5301557wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wY3OykP5QHqWmEIls0rL9GmMD7xE9ejKcExTSvnF+xk=;
- b=Zf1v4eWRh/SE1p02CbKsz5aSK16JlJcMOyqii3YAU4v2aR2iXHmxCM5lliEvU+WIAg
- wuJj0d2nCePOfPYEyAj2VEwli0KqMcRaTVXUKLGHN80oTeWWwITV9lXCvYqJ+0dpEOhM
- YqZqxQWM/iWLnhdRNMEPvPaUWJ8mYx/3ftvu2ImULNRNpUbFaKAUCh+q/nVDYhhiAHc1
- 2dycGIDJvmMlAfFc/qoYWwd5gjFzflCwQd7dHlxmETQ4AmrqijF41Tghppz1I5c2voLd
- 3BTy+lZCdhXBO3xjdar36KpVYj7rXfAs8vm3EXGkMdBrr6yp72j6H1ic2Lvq6xwttD6E
- XXHw==
+ bh=QsvjWMzgsdTwwngS2VVn55eZ7SqtlCnLDP2YP9slkkg=;
+ b=bzr1+Xx1wurrDhFdJ9L9DWiEFefUF/jXINFuoj4hodQjk6jW4vf8Walb7gS8OY2309
+ ucEFqNwVBcwYZlZrExu0XSeV3gMmNrjk0i7vLRYtkfA8Avn5YEaR/p9OFeUAwhittWfi
+ vZniXfCF0E6joDIxYfUs8EtGDZZLdzE/OpIa830pAqf5VEkmM68bS6nimq/sqwjOKkll
+ NjKgLGCguD3jbD+lc61o3xJtkCcoUg8uHD3X65hRbnQl5GueK4Xd6XPN1weo3uR5LF23
+ CTbI0ZY6ZJwmYpjpHq3IS9o9oDdY1EUzMWe8itg+QOtqux25ho0qrtGCcxrgAiP4hAsP
+ RiAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wY3OykP5QHqWmEIls0rL9GmMD7xE9ejKcExTSvnF+xk=;
- b=zwzJW42H+D+UBbFimTk/x7D4RAWrXNeZh31Q8DpJNBUzz1bLLkk3rHgt7tyCL3O8jl
- x2Vyodh7ZEdSTYWpWKmvChX2j0JDByxjuyjs00GdhJtuC1rnhDD6SML22LP7FbyxKO1I
- CaUts20vrEyuEBWCVPNi3AWFWBw5Hx5e+9+H0o2xVPN4MfaDL63qGP9mFd6DMtRuNlJ/
- qn2RrD0VE7T9smrC+egAe+m/g2fLARUhQEH5+LZZ3lQfdNNnkHpp4L96v7iRlog38SH9
- 44gAJ0u58UiZ5hpWHK5zvmSXmezKcn+3hqA6WW98gZLm209us7XN/jXEosSETbNSfL5Z
- s5Yg==
-X-Gm-Message-State: AJIora/uuOBA9hLefKUunXmbkwZTieCoeKZoxse7xnrEnWoX6zDeEXuE
- ydLasrJ0uQsdzsi4W08ZhuHKQmIhDWx8MA==
-X-Google-Smtp-Source: AGRyM1sKaTTlAuxru2DCq3YDKpoyCPl6E4DTmv/OmMW3aYuSNUbXMl0pGtaA3/9gov4A3KXUO83GYQ==
-X-Received: by 2002:a05:600c:3d8b:b0:3a0:466c:b08d with SMTP id
- bi11-20020a05600c3d8b00b003a0466cb08dmr8818225wmb.125.1656325367254; 
- Mon, 27 Jun 2022 03:22:47 -0700 (PDT)
+ bh=QsvjWMzgsdTwwngS2VVn55eZ7SqtlCnLDP2YP9slkkg=;
+ b=qc3yvv9Vq91etsA0Q+Ou9/XSoKxF1LYSUUIPbUqtptPN637cCW6cCa/mL3Ghs01i3p
+ 0rJosZzBVJuAX2fPA2oUlWiXm42JdzcRoAzJs0vZUp02h7h3J19+S7t5ZiyxZ5sh1c5t
+ pKaGm3MHCdKKZ3ctMW+21YMPdVFyqakaVZomBUGVNzXQQVS6ADZyXH28dnx0nIHgor0N
+ Sn5ZDXmsQB4p0tOwV9F44b4cMixzOZK06pshFiPF2xobAnh/TGu7TM4uwX4J4rdzOF/3
+ cxQwsmkbk/9kfFFhxxupujbNl2mGSavt/DkTs5bqKN6g2mugHOFHNEu/T5jkfT13eRV8
+ BcWA==
+X-Gm-Message-State: AJIora8Z+5+2r/TV3SMbrvC/IfIn6FVH967sBhNfQYmpY2WnU2lcob1k
+ iyfUmUQcXqoSZobS2UoOvc9rBJlDxMm8CA==
+X-Google-Smtp-Source: AGRyM1s9rMcLAxDvbiel2uQtLUAUynZePHWJhr7bGwo4DLIUiaXYyyMOtlhi1t7kv9oUjPWKGBTa1w==
+X-Received: by 2002:a05:600c:1c8d:b0:39c:4db1:5595 with SMTP id
+ k13-20020a05600c1c8d00b0039c4db15595mr18820972wms.175.1656325368097; 
+ Mon, 27 Jun 2022 03:22:48 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- d11-20020a5d6dcb000000b0020e6ce4dabdsm9754335wrz.103.2022.06.27.03.22.46
+ d11-20020a5d6dcb000000b0020e6ce4dabdsm9754335wrz.103.2022.06.27.03.22.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 03:22:46 -0700 (PDT)
+ Mon, 27 Jun 2022 03:22:47 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/25] target/arm: Add the SME ZA storage to CPUARMState
-Date: Mon, 27 Jun 2022 11:22:23 +0100
-Message-Id: <20220627102236.3097629-13-peter.maydell@linaro.org>
+Subject: [PULL 13/25] target/arm: Implement SMSTART, SMSTOP
+Date: Mon, 27 Jun 2022 11:22:24 +0100
+Message-Id: <20220627102236.3097629-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220627102236.3097629-1-peter.maydell@linaro.org>
 References: <20220627102236.3097629-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,104 +91,207 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Place this late in the resettable section of the structure,
-to keep the most common element offsets from being > 64k.
+These two instructions are aliases of MSR (immediate).
+Use the two helpers to properly implement svcr_write.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220620175235.60881-10-richard.henderson@linaro.org
-[PMM: expanded comment on zarray[] format]
+Message-id: 20220620175235.60881-11-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h     | 22 ++++++++++++++++++++++
- target/arm/machine.c | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+ target/arm/cpu.h           |  1 +
+ target/arm/helper-sme.h    | 21 +++++++++++++
+ target/arm/helper.h        |  1 +
+ target/arm/helper.c        |  6 ++--
+ target/arm/sme_helper.c    | 61 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-a64.c | 24 +++++++++++++++
+ target/arm/meson.build     |  1 +
+ 7 files changed, 112 insertions(+), 3 deletions(-)
+ create mode 100644 target/arm/helper-sme.h
+ create mode 100644 target/arm/sme_helper.c
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 05d369e690a..52ab6f9bb99 100644
+index 52ab6f9bb99..5877d76c9f3 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -694,6 +694,28 @@ typedef struct CPUArchState {
-     } keys;
+@@ -1120,6 +1120,7 @@ void aarch64_sve_change_el(CPUARMState *env, int old_el,
+                            int new_el, bool el0_a64);
+ void aarch64_add_sve_properties(Object *obj);
+ void aarch64_add_pauth_properties(Object *obj);
++void arm_reset_sve_state(CPUARMState *env);
  
-     uint64_t scxtnum_el[4];
+ /*
+  * SVE registers are encoded in KVM's memory in an endianness-invariant format.
+diff --git a/target/arm/helper-sme.h b/target/arm/helper-sme.h
+new file mode 100644
+index 00000000000..3bd48c235f0
+--- /dev/null
++++ b/target/arm/helper-sme.h
+@@ -0,0 +1,21 @@
++/*
++ *  AArch64 SME specific helper definitions
++ *
++ *  Copyright (c) 2022 Linaro, Ltd
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+    /*
-+     * SME ZA storage -- 256 x 256 byte array, with bytes in host word order,
-+     * as we do with vfp.zregs[].  This corresponds to the architectural ZA
-+     * array, where ZA[N] is in the least-significant bytes of env->zarray[N].
-+     * When SVL is less than the architectural maximum, the accessible
-+     * storage is restricted, such that if the SVL is X bytes the guest can
-+     * see only the bottom X elements of zarray[], and only the least
-+     * significant X bytes of each element of the array. (In other words,
-+     * the observable part is always square.)
-+     *
-+     * The ZA storage can also be considered as a set of square tiles of
-+     * elements of different sizes. The mapping from tiles to the ZA array
-+     * is architecturally defined, such that for tiles of elements of esz
-+     * bytes, the Nth row (or "horizontal slice") of tile T is in
-+     * ZA[T + N * esz]. Note that this means that each tile is not contiguous
-+     * in the ZA storage, because its rows are striped through the ZA array.
-+     *
-+     * Because this is so large, keep this toward the end of the reset area,
-+     * to keep the offsets into the rest of the structure smaller.
-+     */
-+    ARMVectorReg zarray[ARM_MAX_VQ * 16];
++DEF_HELPER_FLAGS_2(set_pstate_sm, TCG_CALL_NO_RWG, void, env, i32)
++DEF_HELPER_FLAGS_2(set_pstate_za, TCG_CALL_NO_RWG, void, env, i32)
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index 07d45faf495..3a8ce42ab01 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -1022,6 +1022,7 @@ DEF_HELPER_FLAGS_6(gvec_bfmlal_idx, TCG_CALL_NO_RWG,
+ #ifdef TARGET_AARCH64
+ #include "helper-a64.h"
+ #include "helper-sve.h"
++#include "helper-sme.h"
  #endif
  
- #if defined(CONFIG_USER_ONLY)
-diff --git a/target/arm/machine.c b/target/arm/machine.c
-index 285e387d2c3..54c5c62433d 100644
---- a/target/arm/machine.c
-+++ b/target/arm/machine.c
-@@ -167,6 +167,39 @@ static const VMStateDescription vmstate_sve = {
-         VMSTATE_END_OF_LIST()
-     }
- };
+ #include "helper-mve.h"
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index e06c054c3d7..88d96f7991f 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6366,9 +6366,9 @@ static CPAccessResult access_esm(CPUARMState *env, const ARMCPRegInfo *ri,
+ static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                        uint64_t value)
+ {
+-    value &= R_SVCR_SM_MASK | R_SVCR_ZA_MASK;
+-    /* TODO: Side effects. */
+-    env->svcr = value;
++    helper_set_pstate_sm(env, FIELD_EX64(value, SVCR, SM));
++    helper_set_pstate_za(env, FIELD_EX64(value, SVCR, ZA));
++    arm_rebuild_hflags(env);
+ }
+ 
+ static void smcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+diff --git a/target/arm/sme_helper.c b/target/arm/sme_helper.c
+new file mode 100644
+index 00000000000..b2157255943
+--- /dev/null
++++ b/target/arm/sme_helper.c
+@@ -0,0 +1,61 @@
++/*
++ * ARM SME Operations
++ *
++ * Copyright (c) 2022 Linaro, Ltd.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+static const VMStateDescription vmstate_vreg = {
-+    .name = "vreg",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64_ARRAY(d, ARMVectorReg, ARM_MAX_VQ * 2),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "internals.h"
++#include "exec/helper-proto.h"
 +
-+static bool za_needed(void *opaque)
++/* ResetSVEState */
++void arm_reset_sve_state(CPUARMState *env)
 +{
-+    ARMCPU *cpu = opaque;
-+
-+    /*
-+     * When ZA storage is disabled, its contents are discarded.
-+     * It will be zeroed when ZA storage is re-enabled.
-+     */
-+    return FIELD_EX64(cpu->env.svcr, SVCR, ZA);
++    memset(env->vfp.zregs, 0, sizeof(env->vfp.zregs));
++    /* Recall that FFR is stored as pregs[16]. */
++    memset(env->vfp.pregs, 0, sizeof(env->vfp.pregs));
++    vfp_set_fpcr(env, 0x0800009f);
 +}
 +
-+static const VMStateDescription vmstate_za = {
-+    .name = "cpu/sme",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = za_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_STRUCT_ARRAY(env.zarray, ARMCPU, ARM_MAX_VQ * 16, 0,
-+                             vmstate_vreg, ARMVectorReg),
-+        VMSTATE_END_OF_LIST()
++void helper_set_pstate_sm(CPUARMState *env, uint32_t i)
++{
++    if (i == FIELD_EX64(env->svcr, SVCR, SM)) {
++        return;
 +    }
-+};
- #endif /* AARCH64 */
++    env->svcr ^= R_SVCR_SM_MASK;
++    arm_reset_sve_state(env);
++}
++
++void helper_set_pstate_za(CPUARMState *env, uint32_t i)
++{
++    if (i == FIELD_EX64(env->svcr, SVCR, ZA)) {
++        return;
++    }
++    env->svcr ^= R_SVCR_ZA_MASK;
++
++    /*
++     * ResetSMEState.
++     *
++     * SetPSTATE_ZA zeros on enable and disable.  We can zero this only
++     * on enable: while disabled, the storage is inaccessible and the
++     * value does not matter.  We're not saving the storage in vmstate
++     * when disabled either.
++     */
++    if (i) {
++        memset(env->zarray, 0, sizeof(env->zarray));
++    }
++}
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 5cf4a283bac..c050ebe0053 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1762,6 +1762,30 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
+         }
+         break;
  
- static bool serror_needed(void *opaque)
-@@ -884,6 +917,7 @@ const VMStateDescription vmstate_arm_cpu = {
-         &vmstate_m_security,
- #ifdef TARGET_AARCH64
-         &vmstate_sve,
-+        &vmstate_za,
- #endif
-         &vmstate_serror,
-         &vmstate_irq_line_state,
++    case 0x1b: /* SVCR* */
++        if (!dc_isar_feature(aa64_sme, s) || crm < 2 || crm > 7) {
++            goto do_unallocated;
++        }
++        if (sme_access_check(s)) {
++            bool i = crm & 1;
++            bool changed = false;
++
++            if ((crm & 2) && i != s->pstate_sm) {
++                gen_helper_set_pstate_sm(cpu_env, tcg_constant_i32(i));
++                changed = true;
++            }
++            if ((crm & 4) && i != s->pstate_za) {
++                gen_helper_set_pstate_za(cpu_env, tcg_constant_i32(i));
++                changed = true;
++            }
++            if (changed) {
++                gen_rebuild_hflags(s);
++            } else {
++                s->base.is_jmp = DISAS_NEXT;
++            }
++        }
++        break;
++
+     default:
+     do_unallocated:
+         unallocated_encoding(s);
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index ac571fc45db..43dc6005478 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -47,6 +47,7 @@ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'mte_helper.c',
+   'pauth_helper.c',
+   'sve_helper.c',
++  'sme_helper.c',
+   'translate-a64.c',
+   'translate-sve.c',
+ ))
 -- 
 2.25.1
 
