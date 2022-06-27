@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B59655B832
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:29:10 +0200 (CEST)
-Received: from localhost ([::1]:45562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473A055B839
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:33:15 +0200 (CEST)
+Received: from localhost ([::1]:54158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5jBE-0001TJ-Qw
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:29:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54254)
+	id 1o5jFC-0007Ra-AV
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o5j2v-0001Cj-Ce
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:20:33 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:45915)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1o5j3o-00024B-3f; Mon, 27 Jun 2022 03:21:28 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:49490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o5j2p-0004WT-I2
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:20:32 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id 184so8267644pga.12
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 00:20:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=TMaTdOHtpn/LSRLUxa5FqEM8u5tTx7XeGNkZ51ZC4iI=;
- b=WvqYj0Ozg8nddMso5Aigb1u4S7ysh64nVcbj4jmhcSwg5/aZNwGaJzcAk1ijGNcQyf
- ScEx01yaNztbCjlAT0ItBiyg2aKNr6MpAUJHfXWfrVBW9qOlTR5auvIY7I0g+8PfbhpU
- YtyT31hSlwyDVIDMqVPr5ZNHqgIrMfPG3eaRqUJHJwyN/aSwM5YYtbDwSGm70+QU2BuB
- R/mK2KYiCYlE1WUvL9kpaBxs2kokVrQKd9EhOHnzKM4nP8nuolhMtYP5EXbcG0n6RH+m
- pv3nUpPe1qjzNNbo6rynVHrMrei0LVpN0dKvTD6ylVw0g9cfTgJ1+nyoqssmn/57N5yY
- rb9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TMaTdOHtpn/LSRLUxa5FqEM8u5tTx7XeGNkZ51ZC4iI=;
- b=HSeeVooBgcbd6ixKPCcLVjfaIQZbELzMndsMFlJ4kjdHQ07w8cGvEzb4+xYSlWDhR+
- En+AWu1ScxktkuYt5462fTjbwy4PSRo5KzmgCLfhgh4WoWvFHS3+bV6Bs0XVtjp+txYk
- /c12PGrFUYZpzW/R3xMThOaMBv3sI3JJExmuUH1jaIOTTnSTOCpVU90Fa7NuiI8mOTLG
- xvwtiYmLTy3TKesV1EIKoGxxnCvGExr3mbBUZ1J5xd8Ddd/klqYQ5OmVU07ft3e6J34T
- BB7UTvqwkvOM4gDbNWE/ZjmTo+Z4Jv3xtUdguqBN0Gk8kKb9YO5nmENlRxXIlZAjDEqJ
- 1wLg==
-X-Gm-Message-State: AJIora+lHORinyM0gFiP5f1U2x2spcFLEfbAKSEJzftCXapFtIVKpDef
- 5tRBGrcFgrm4eZAxRbu3zBQNug==
-X-Google-Smtp-Source: AGRyM1sABh7PMC+N9ySpScZQeiCTHX0GGNQFSQecC5zWKGbt1BGNwub41MviwFKsaGzMW+LTOdA+9g==
-X-Received: by 2002:a63:1619:0:b0:40d:37aa:9ace with SMTP id
- w25-20020a631619000000b0040d37aa9acemr11380698pgl.609.1656314425932; 
- Mon, 27 Jun 2022 00:20:25 -0700 (PDT)
-Received: from [192.168.123.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- b3-20020a170902650300b001637529493esm6411710plk.66.2022.06.27.00.20.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 00:20:25 -0700 (PDT)
-Message-ID: <4986d31e-00b3-bb94-654d-9659af8ae09f@linaro.org>
-Date: Mon, 27 Jun 2022 12:50:17 +0530
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1o5j3l-0004az-Ef; Mon, 27 Jun 2022 03:21:27 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 79BCF21CA4;
+ Mon, 27 Jun 2022 07:21:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1656314482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6mrsPjZh/eNmJOOe4CanMttKA9sIR/sqruIwtpkbMdU=;
+ b=N4MGYgd0UMuZPh9H8XnPobO7frlkbghNbq/wJ43JjXfrmSa0t2rKkv+46397J5fkPhSJIK
+ pgBS8HWBHrSsk5s1+td0RulkotmsfsOLuv0DQvy6Z9RyPhXlJoSQmQhjXfatYW8RGPHegF
+ kx9FNx+izvAoT1qYmp4nAfabD7wofDg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1656314482;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6mrsPjZh/eNmJOOe4CanMttKA9sIR/sqruIwtpkbMdU=;
+ b=nIa+Y7U5+Gf+bNHAucvQeZ8oFGOGPE7hKr29kqdrUdQ0X1zZQ8QQSiCtoVtVt9d9n+ZdLr
+ 9nlruRiaD7+PIlAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3040113456;
+ Mon, 27 Jun 2022 07:21:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id hEK8CXJauWIBcAAAMHmgww
+ (envelope-from <hare@suse.de>); Mon, 27 Jun 2022 07:21:22 +0000
+Message-ID: <92651be0-a2d7-833d-0e9c-3b085427963b@suse.de>
+Date: Mon, 27 Jun 2022 09:21:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: QEMU Disassembler
+ Thunderbird/91.4.0
+Subject: Re: [RFC v3 1/5] block: add block layer APIs resembling Linux
+ ZonedBlockDevice ioctls.
 Content-Language: en-US
-To: Kenneth Adam Miller <kennethadammiller@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAK7rcp-2qVkc_G_OsfF=nCp2VfpOHjvRZR=tevN0fOSsgFpZYw@mail.gmail.com>
- <CAK7rcp_qq1GC-Mtp8FW9KhVbtUKehweLCOTv-sB8deODrbBgfQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAK7rcp_qq1GC-Mtp8FW9KhVbtUKehweLCOTv-sB8deODrbBgfQ@mail.gmail.com>
+To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
+Cc: Hanna Reitz <hreitz@redhat.com>, dmitry.fomichev@wdc.com,
+ Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>, damien.lemoal@opensource.wdc.com,
+ qemu-block@nongnu.org
+References: <20220627001917.9417-1-faithilikerun@gmail.com>
+ <20220627001917.9417-2-faithilikerun@gmail.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20220627001917.9417-2-faithilikerun@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=hare@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,74 +93,510 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/27/22 12:10, Kenneth Adam Miller wrote:
-> Actually, I have gotten the QEMU disassembler to run with some short customization. But I 
-> am having trouble understanding the output. I see lots of lines like this:
-> |
-> OBJD-H: 06040102a83507000cd8027620272573004c000004c0000d20c100782244038c
+On 6/27/22 02:19, Sam Li wrote:
+> By adding zone management operations in BlockDriver, storage
+> controller emulation can use the new block layer APIs including
+> zone_report and zone_mgmt(open, close, finish, reset).
+> ---
+>   block/block-backend.c            |  56 ++++++++
+>   block/coroutines.h               |   5 +
+>   block/file-posix.c               | 238 +++++++++++++++++++++++++++++++
+>   include/block/block-common.h     |  43 +++++-
+>   include/block/block_int-common.h |  20 +++
+>   5 files changed, 361 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index e0e1aff4b1..786f964d02 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -1810,6 +1810,62 @@ int blk_flush(BlockBackend *blk)
+>       return ret;
+>   }
+>   
+> +/*
+> + * Return zone_report from BlockDriver. Offset can be any number within
+> + * the zone size. No alignment for offset and len.
+> + */
+> +int coroutine_fn blk_co_zone_report(BlockBackend *blk, int64_t offset,
+> +                       int64_t len, int64_t *nr_zones,
+> +                       BlockZoneDescriptor *zones)
+> +{
+> +    int ret;
+> +    BlockDriverState *bs;
+> +    IO_CODE();
+> +
+> +    blk_inc_in_flight(blk); /* increase before waiting */
+> +    blk_wait_while_drained(blk);
+> +    bs = blk_bs(blk);
+> +
+> +    ret = blk_check_byte_request(blk, offset, len);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    bdrv_inc_in_flight(bs);
+> +    ret = bdrv_co_zone_report(blk->root->bs, offset, len,
+> +                              nr_zones, zones);
+> +    bdrv_dec_in_flight(bs);
+> +    blk_dec_in_flight(blk);
+> +    return ret;
+> +}
+> +
+> +/*
+> + * Return zone_mgmt from BlockDriver.
+> + * Offset is the start of a zone and len is aligned to zones.
+> + */
+> +int coroutine_fn blk_co_zone_mgmt(BlockBackend *blk, enum zone_op op,
+> +        int64_t offset, int64_t len)
+> +{
+> +    int ret;
+> +    BlockDriverState *bs;
+> +    IO_CODE();
+> +
+> +    blk_inc_in_flight(blk);
+> +    blk_wait_while_drained(blk);
+> +    bs = blk_bs(blk);
+> +
+> +    ret = blk_check_byte_request(blk, offset, len);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    bdrv_inc_in_flight(bs);
+> +    ret = bdrv_co_zone_mgmt(blk->root->bs, op, offset, len);
+> +    bdrv_dec_in_flight(bs);
+> +    blk_dec_in_flight(blk);
+> +    return ret;
+> +}
+> +
+>   void blk_drain(BlockBackend *blk)
+>   {
+>       BlockDriverState *bs = blk_bs(blk);
+> diff --git a/block/coroutines.h b/block/coroutines.h
+> index 830ecaa733..a114d7bc30 100644
+> --- a/block/coroutines.h
+> +++ b/block/coroutines.h
+> @@ -80,6 +80,11 @@ int coroutine_fn
+>   blk_co_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes);
+>   
+>   int coroutine_fn blk_co_do_flush(BlockBackend *blk);
+> +int coroutine_fn blk_co_zone_report(BlockBackend *blk, int64_t offset,
+> +                                    int64_t len, int64_t *nr_zones,
+> +                                    BlockZoneDescriptor *zones);
+> +int coroutine_fn blk_co_zone_mgmt(BlockBackend *blk, enum zone_op op,
+> +        int64_t offset, int64_t len);
+>   
+>   
+>   /*
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 48cd096624..1b8b0d351f 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -67,6 +67,7 @@
+>   #include <sys/param.h>
+>   #include <sys/syscall.h>
+>   #include <sys/vfs.h>
+> +#include <linux/blkzoned.h>
+>   #include <linux/cdrom.h>
+>   #include <linux/fd.h>
+>   #include <linux/fs.h>
+> @@ -216,6 +217,11 @@ typedef struct RawPosixAIOData {
+>               PreallocMode prealloc;
+>               Error **errp;
+>           } truncate;
+> +        struct {
+> +            int64_t *nr_zones;
+> +            BlockZoneDescriptor *zones;
+> +        } zone_report;
+> +        zone_op op;
+>       };
+>   } RawPosixAIOData;
+>   
+> @@ -1801,6 +1807,135 @@ static off_t copy_file_range(int in_fd, off_t *in_off, int out_fd,
+>   }
+>   #endif
+>   
+> +/*
+> + * parse_zone - Fill a zone descriptor
+> + */
+> +static inline void parse_zone(struct BlockZoneDescriptor *zone,
+> +                              struct blk_zone *blkz) {
+> +    zone->start = blkz->start;
+> +    zone->length = blkz->len;
+> +    zone->cap = blkz->capacity;
+> +    zone->wp = blkz->wp - blkz->start;
+> +    zone->type = blkz->type;
+> +    zone->cond = blkz->cond;
+> +}
+> +
+> +static int handle_aiocb_zone_report(void *opaque) {
+> +    RawPosixAIOData *aiocb = opaque;
+> +    int fd = aiocb->aio_fildes;
+> +    int64_t *nr_zones = aiocb->zone_report.nr_zones;
+> +    BlockZoneDescriptor *zones = aiocb->zone_report.zones;
+> +    int64_t offset = aiocb->aio_offset;
+> +    int64_t len = aiocb->aio_nbytes;
+> +
+> +    struct blk_zone *blkz;
+> +    int64_t rep_size, nrz;
+> +    int ret, n = 0, i = 0;
+> +
+> +    nrz = *nr_zones;
+> +    if (len == -1) {
+> +        return -errno;
+> +    }
+> +    rep_size = sizeof(struct blk_zone_report) + nrz * sizeof(struct blk_zone);
+> +    g_autofree struct blk_zone_report *rep = g_new(struct blk_zone_report, nrz);
+> +    offset = offset / 512; /* get the unit of the start sector: sector size is 512 bytes. */
+> +    printf("start to report zone with offset: 0x%lx\n", offset);
+> +
+> +    blkz = (struct blk_zone *)(rep + 1);
+> +    while (n < nrz) {
+> +        memset(rep, 0, rep_size);
+> +        rep->sector = offset;
+> +        rep->nr_zones = nrz;
+> +
+> +        ret = ioctl(fd, BLKREPORTZONE, rep);
+> +        if (ret != 0) {
+> +            ret = -errno;
+> +            error_report("%d: ioctl BLKREPORTZONE at %ld failed %d",
+> +                         fd, offset, errno);
+> +            return ret;
+> +        }
+> +
+> +        if (!rep->nr_zones) {
+> +            break;
+> +        }
+> +
+> +        for (i = 0; i < rep->nr_zones; i++, n++) {
+> +            parse_zone(&zones[n], &blkz[i]);
+> +            /* The next report should start after the last zone reported */
+> +            offset = blkz[i].start + blkz[i].len;
+> +        }
 
-You want --enable-capstone, and to have libcapstone-dev installed.
+Where do you increase 'n' such that the loop can make forward progress?
+Wouldn't it be better to use a for() loop here?
 
-But for the record, these lines can be decoded by e.g.
+> +    }
+> +
+> +    *nr_zones = n;
+> +    return 0;
+> +}
+> +
+> +static int handle_aiocb_zone_mgmt(void *opaque) {
+> +    RawPosixAIOData *aiocb = opaque;
+> +    int fd = aiocb->aio_fildes;
+> +    int64_t offset = aiocb->aio_offset;
+> +    int64_t len = aiocb->aio_nbytes;
+> +    zone_op op = aiocb->op;
+> +
+> +    struct blk_zone_range range;
+> +    const char *ioctl_name;
+> +    unsigned long ioctl_op;
+> +    int64_t zone_size;
+> +    int64_t zone_size_mask;
+> +    int ret;
+> +
 
-./scripts/disas-objdump.pl -h i386:x86-64 <dumpfile>
+Shouldn't we add a check here if 'fd' points to a zoned device?
+ioctl errors are not _that_ helpful here, as you might get a variety
+of errors and it's not quite obvious which of those errors indicate
+an unsupported feature.
 
-to turn
+> +    ret = ioctl(fd, BLKGETZONESZ, &zone_size);
+> +    if (ret) {
+> +        return -1;
+> +    }
+> +
+> +    zone_size_mask = zone_size - 1;
+> +    if (offset & zone_size_mask) {
+> +        error_report("offset is not the start of a zone");
+> +        return -1;
+> +    }
+> +
+> +    if (len & zone_size_mask) {
+> +        error_report("len is not aligned to zones");
+> +        return -1;
+> +    }
+> +
+> +    switch (op) {
+> +    case zone_open:
+> +        ioctl_name = "BLKOPENZONE";
+> +        ioctl_op = BLKOPENZONE;
+> +        break;
+> +    case zone_close:
+> +        ioctl_name = "BLKCLOSEZONE";
+> +        ioctl_op = BLKCLOSEZONE;
+> +        break;
+> +    case zone_finish:
+> +        ioctl_name = "BLKFINISHZONE";
+> +        ioctl_op = BLKFINISHZONE;
+> +        break;
+> +    case zone_reset:
+> +        ioctl_name = "BLKRESETZONE";
+> +        ioctl_op = BLKRESETZONE;
+> +        break;
+> +    default:
+> +        error_report("Invalid zone operation 0x%x", op);
+> +        errno = -EINVAL;
+> +        return -1;
+> +    }
+> +
+> +    /* Execute the operation */
+> +    range.sector = offset;
+> +    range.nr_sectors = len;
+> +    ret = ioctl(fd, ioctl_op, &range);
+> +    if (ret != 0) {
+> +        error_report("ioctl %s failed %d",
+> +                     ioctl_name, errno);
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>   static int handle_aiocb_copy_range(void *opaque)
+>   {
+>       RawPosixAIOData *aiocb = opaque;
+> @@ -2973,6 +3108,58 @@ static void raw_account_discard(BDRVRawState *s, uint64_t nbytes, int ret)
+>       }
+>   }
+>   
+> +/*
+> + * zone report - Get a zone block device's information in the form
+> + * of an array of zone descriptors.
+> + *
+> + * @param bs: passing zone block device file descriptor
+> + * @param zones: an array of zone descriptors to hold zone
+> + * information on reply
+> + * @param offset: offset can be any byte within the zone size.
+> + * @param len: (not sure yet.
+> + * @return 0 on success, -1 on failure
+> + */
+> +static int coroutine_fn raw_co_zone_report(BlockDriverState *bs, int64_t offset,
+> +        int64_t len, int64_t *nr_zones,
+> +        BlockZoneDescriptor *zones) {
+> +    BDRVRawState *s = bs->opaque;
+> +    RawPosixAIOData acb;
+> +
+> +    acb = (RawPosixAIOData) {
+> +        .bs         = bs,
+> +        .aio_fildes = s->fd,
+> +        .aio_type   = QEMU_AIO_IOCTL,
+> +        .aio_offset = offset,
+> +        .aio_nbytes = len,
+> +        .zone_report    = {
+> +                .nr_zones       = nr_zones,
+> +                .zones          = zones,
+> +                },
+> +    };
+> +
+> +    return raw_thread_pool_submit(bs, handle_aiocb_zone_report, &acb);
+> +}
+> +
+> +/*
+> + * zone management operations - Execute an operation on a zone
+> + */
+> +static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, zone_op op,
+> +        int64_t offset, int64_t len) {
+> +    BDRVRawState *s = bs->opaque;
+> +    RawPosixAIOData acb;
+> +
+> +    acb = (RawPosixAIOData) {
+> +        .bs             = bs,
+> +        .aio_fildes     = s->fd,
+> +        .aio_type       = QEMU_AIO_IOCTL,
+> +        .aio_offset     = offset,
+> +        .aio_nbytes     = len,
+> +        .op             = op,
+> +    };
+> +
+> +    return raw_thread_pool_submit(bs, handle_aiocb_zone_mgmt, &acb);
+> +}
+> +
+>   static coroutine_fn int
+>   raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes,
+>                   bool blkdev)
+> @@ -3324,6 +3511,9 @@ BlockDriver bdrv_file = {
+>       .bdrv_abort_perm_update = raw_abort_perm_update,
+>       .create_opts = &raw_create_opts,
+>       .mutable_opts = mutable_opts,
+> +
+> +    .bdrv_co_zone_report = raw_co_zone_report,
+> +    .bdrv_co_zone_mgmt = raw_co_zone_mgmt,
+>   };
+>   
+>   /***********************************************/
+> @@ -3703,6 +3893,53 @@ static BlockDriver bdrv_host_device = {
+>   #endif
+>   };
+>   
+> +static BlockDriver bdrv_zoned_host_device = {
+> +        .format_name = "zoned_host_device",
+> +        .protocol_name = "zoned_host_device",
+> +        .instance_size = sizeof(BDRVRawState),
+> +        .bdrv_needs_filename = true,
+> +        .bdrv_probe_device  = hdev_probe_device,
+> +        .bdrv_parse_filename = hdev_parse_filename,
+> +        .bdrv_file_open     = hdev_open,
+> +        .bdrv_close         = raw_close,
+> +        .bdrv_reopen_prepare = raw_reopen_prepare,
+> +        .bdrv_reopen_commit  = raw_reopen_commit,
+> +        .bdrv_reopen_abort   = raw_reopen_abort,
+> +        .bdrv_co_create_opts = bdrv_co_create_opts_simple,
+> +        .create_opts         = &bdrv_create_opts_simple,
+> +        .mutable_opts        = mutable_opts,
+> +        .bdrv_co_invalidate_cache = raw_co_invalidate_cache,
+> +        .bdrv_co_pwrite_zeroes = hdev_co_pwrite_zeroes,
+> +
+> +        .bdrv_co_preadv         = raw_co_preadv,
+> +        .bdrv_co_pwritev        = raw_co_pwritev,
+> +        .bdrv_co_flush_to_disk  = raw_co_flush_to_disk,
+> +        .bdrv_co_pdiscard       = hdev_co_pdiscard,
+> +        .bdrv_co_copy_range_from = raw_co_copy_range_from,
+> +        .bdrv_co_copy_range_to  = raw_co_copy_range_to,
+> +        .bdrv_refresh_limits = raw_refresh_limits,
+> +        .bdrv_io_plug = raw_aio_plug,
+> +        .bdrv_io_unplug = raw_aio_unplug,
+> +        .bdrv_attach_aio_context = raw_aio_attach_aio_context,
+> +
+> +        .bdrv_co_truncate       = raw_co_truncate,
+> +        .bdrv_getlength = raw_getlength,
+> +        .bdrv_get_info = raw_get_info,
+> +        .bdrv_get_allocated_file_size
+> +                            = raw_get_allocated_file_size,
+> +        .bdrv_get_specific_stats = hdev_get_specific_stats,
+> +        .bdrv_check_perm = raw_check_perm,
+> +        .bdrv_set_perm   = raw_set_perm,
+> +        .bdrv_abort_perm_update = raw_abort_perm_update,
+> +        .bdrv_probe_blocksizes = hdev_probe_blocksizes,
+> +        .bdrv_probe_geometry = hdev_probe_geometry,
+> +        .bdrv_co_ioctl = hdev_co_ioctl,
+> +
+> +        /* zone management operations */
+> +        .bdrv_co_zone_report = raw_co_zone_report,
+> +        .bdrv_co_zone_mgmt = raw_co_zone_mgmt,
+> +};
+> +
+>   #if defined(__linux__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+>   static void cdrom_parse_filename(const char *filename, QDict *options,
+>                                    Error **errp)
+> @@ -3964,6 +4201,7 @@ static void bdrv_file_init(void)
+>   #if defined(HAVE_HOST_BLOCK_DEVICE)
+>       bdrv_register(&bdrv_host_device);
+>   #ifdef __linux__
+> +    bdrv_register(&bdrv_zoned_host_device);
+>       bdrv_register(&bdrv_host_cdrom);
+>   #endif
+>   #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+> diff --git a/include/block/block-common.h b/include/block/block-common.h
+> index fdb7306e78..78cddeeda5 100644
+> --- a/include/block/block-common.h
+> +++ b/include/block/block-common.h
+> @@ -23,7 +23,6 @@
+>    */
+>   #ifndef BLOCK_COMMON_H
+>   #define BLOCK_COMMON_H
+> -
+>   #include "block/aio.h"
+>   #include "block/aio-wait.h"
+>   #include "qemu/iov.h"
+> @@ -49,6 +48,48 @@ typedef struct BlockDriver BlockDriver;
+>   typedef struct BdrvChild BdrvChild;
+>   typedef struct BdrvChildClass BdrvChildClass;
+>   
+> +typedef enum zone_op {
+> +    zone_open,
+> +    zone_close,
+> +    zone_finish,
+> +    zone_reset,
+> +} zone_op;
+> +
+> +typedef enum zone_model {
+> +    BLK_Z_HM,
+> +    BLK_Z_HA,
+> +} zone_model;
+> +
+> +typedef enum BlkZoneCondition {
+> +    BLK_ZS_NOT_WP = 0x0,
+> +    BLK_ZS_EMPTY = 0x1,
+> +    BLK_ZS_IOPEN = 0x2,
+> +    BLK_ZS_EOPEN = 0x3,
+> +    BLK_ZS_CLOSED = 0x4,
+> +    BLK_ZS_RDONLY = 0xD,
+> +    BLK_ZS_FULL = 0xE,
+> +    BLK_ZS_OFFLINE = 0xF,
+> +} BlkZoneCondition;
+> +
+> +typedef enum BlkZoneType {
+> +    BLK_ZT_CONV = 0x1,
+> +    BLK_ZT_SWR = 0x2,
+> +    BLK_ZT_SWP = 0x3,
+> +} BlkZoneType;
+> +
+> +/*
+> + * Zone descriptor data structure.
+> + * Provide information on a zone with all position and size values in bytes.
+> + */
+> +typedef struct BlockZoneDescriptor {
+> +    uint64_t start;
+> +    uint64_t length;
+> +    uint64_t cap;
+> +    uint64_t wp;
+> +    BlkZoneType type;
+> +    BlkZoneCondition cond;
+> +} BlockZoneDescriptor;
+> +
+>   typedef struct BlockDriverInfo {
+>       /* in bytes, 0 if irrelevant */
+>       int cluster_size;
+> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+> index 8947abab76..b9ea9db6dc 100644
+> --- a/include/block/block_int-common.h
+> +++ b/include/block/block_int-common.h
+> @@ -94,6 +94,20 @@ typedef struct BdrvTrackedRequest {
+>       struct BdrvTrackedRequest *waiting_for;
+>   } BdrvTrackedRequest;
+>   
+> +/**
+> + * Zone device information data structure.
+> + * Provide information on a device.
+> + */
+> +typedef struct zbd_dev {
+> +    uint32_t zone_size;
+> +    zone_model model;
+> +    uint32_t block_size;
+> +    uint32_t write_granularity;
+> +    uint32_t nr_zones;
+> +    struct BlockZoneDescriptor *zones; /* array of zones */
+> +    uint32_t max_nr_open_zones; /* maximum number of explicitly open zones */
+> +    uint32_t max_nr_active_zones;
+> +} zbd_dev;
+>   
+>   struct BlockDriver {
+>       /*
+> @@ -691,6 +705,12 @@ struct BlockDriver {
+>                                             QEMUIOVector *qiov,
+>                                             int64_t pos);
+>   
+> +    int coroutine_fn (*bdrv_co_zone_report)(BlockDriverState *bs,
+> +            int64_t offset, int64_t len, int64_t *nr_zones,
+> +            BlockZoneDescriptor *zones);
+> +    int coroutine_fn (*bdrv_co_zone_mgmt)(BlockDriverState *bs, enum zone_op op,
+> +            int64_t offset, int64_t len);
+> +
+>       /* removable device specific */
+>       bool (*bdrv_is_inserted)(BlockDriverState *bs);
+>       void (*bdrv_eject)(BlockDriverState *bs, bool eject_flag);
 
-PROLOGUE: [size=45]
+Other than that: Well done!
 
-0x7f5010000000:
+Cheers,
 
-OBJD-H: 55534154415541564157488bef4881c478fbffffffe633c04881c488040000c5
-
-OBJD-H: f877415f415e415d415c5b5dc3
-
-
-into
-
-PROLOGUE: [size=45]
-
-0x7f5010000000:
-
-     7f5010000000:       55                      push   %rbp
-
-     7f5010000001:       53                      push   %rbx
-
-     7f5010000002:       41 54                   push   %r12
-
-     7f5010000004:       41 55                   push   %r13
-
-     7f5010000006:       41 56                   push   %r14
-
-     7f5010000008:       41 57                   push   %r15
-
-     7f501000000a:       48 8b ef                mov    %rdi,%rbp
-
-     7f501000000d:       48 81 c4 78 fb ff ff    add    $0xfffffffffffffb78,%rsp
-
-     7f5010000014:       ff e6                   jmp    *%rsi
-
-     7f5010000016:       33 c0                   xor    %eax,%eax
-
-     7f5010000018:       48 81 c4 88 04 00 00    add    $0x488,%rsp
-
-     7f501000001f:       c5 f8 77                vzeroupper
-
-     7f5010000022:       41 5f                   pop    %r15
-
-     7f5010000024:       41 5e                   pop    %r14
-
-     7f5010000026:       41 5d                   pop    %r13
-
-     7f5010000028:       41 5c                   pop    %r12
-
-     7f501000002a:       5b                      pop    %rbx
-
-     7f501000002b:       5d                      pop    %rbp
-
-     7f501000002c:       c3                      ret
-
-
-
-r~
+Hannes
+-- 
+Dr. Hannes Reinecke		           Kernel Storage Architect
+hare@suse.de			                  +49 911 74053 688
+SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
 
