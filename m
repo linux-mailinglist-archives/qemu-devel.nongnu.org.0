@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494BB55B83C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:34:54 +0200 (CEST)
-Received: from localhost ([::1]:58318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E4455B830
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:27:57 +0200 (CEST)
+Received: from localhost ([::1]:43090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5jGn-0001rD-DO
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53834)
+	id 1o5jA4-00088u-4D
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o5izW-0003iS-2s; Mon, 27 Jun 2022 03:17:02 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35398)
+ id 1o5izS-0003gc-7O; Mon, 27 Jun 2022 03:16:59 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:39778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o5izS-0003ts-BB; Mon, 27 Jun 2022 03:17:01 -0400
-Received: by mail-ed1-x532.google.com with SMTP id e40so11647284eda.2;
- Mon, 27 Jun 2022 00:16:51 -0700 (PDT)
+ id 1o5izP-0003u6-Pj; Mon, 27 Jun 2022 03:16:57 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id ay16so17160780ejb.6;
+ Mon, 27 Jun 2022 00:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8v+otkILnaLVE4jysgeV47PF0Np5ww+CCUJXKRHwxJw=;
- b=kcQduIUWtTGR2Shh0+LXn7VqoXG3ebbunVgxeAvzvOz9j09SyIh0W+UkIkLJjsPXbq
- tjrX9wN+rXJCnqn5nwltWyfcv9wtEOO+gECCwWh+eWYHw+CBAATEEitrEl0ZJGlgjuKm
- xy9SKJVfis86UivA2TFf2cXXdExkyz3BHaEn9drV0YTEsbVPK2RgYyYJYivvITLTpC7j
- C2HJQjcO5xUre14EtO4EC9X8VcfwZMfYjd83cJzfr5nxFZzaUMy1Vd6lYlYDyMPLnTbR
- Csr0DzpbQYKjTJI2Z4VGlHhgK3tYxoTqxgID4VHUd1DOXGWG2P8mnjYTLcKA8yKxmuz1
- FimQ==
+ bh=oo7ypyvUebOkqcGL5BdIfd3NhdOwiRUM4reqQb4VVlY=;
+ b=EbtxfAwAWU1lVQ9PL53Cyb8OMyhEzN3H3c/l+9/mpYym/pNV5bUqj8tlxMO4ut5C+B
+ o7ZVnjfJq7MDdUdXQRKv6Db+BmbtulaBpUcYuq5/DdTOvJOy+iMN/DLJCX7QwwMBqL9b
+ KtN2BBwjW1XO8qbtUCKo/BDW86Q+OfshbuA9d/OUElwoufNgUUfYY527sBQGXZcebPeI
+ /kfyH9nLMp4O9bXO4uQ6r6iagMkOQIY/Ny/Gllyjxx+vxPuOZ9u7Y3J9XLeGKFbfvH3b
+ uCWXPsb+nZLgzLg7u9FmeGAYKFtIALMZYT9KhgmhXHoI0der6VWVLy+VES/+iAGEKXLF
+ y8nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8v+otkILnaLVE4jysgeV47PF0Np5ww+CCUJXKRHwxJw=;
- b=2ZRm6+DMdUqVWgOlCAnBB2iKL06+eQC6/hjUtYt2hdrVjXiD1blMo5F8s2V6rTxW01
- w6ZTafj1sRU8pMHRuCJqVhnLXni1q9Zaj5FEkIJQ9Lr2hrZGM9OWLPMDL8dj3miOsxe2
- JNUqa5su1mCMQuJGO5isnSLau6mNPITt6Sja3CI+/wdY/mY58pOYXJDVUHn97tzXSqv+
- LjKWDncUi/i/CH4Ki98Uc9/Bg1S2IfXtcOqqMwaGfYDkpATs/Xx5iqLET2eeA76khaqb
- hQDzLNFaVy59b+wrYWZMyrxvrmx+fqUjoNKwUSx8ww+C/aTjVnQpCAZ05+KKdzCeflmk
- BsuQ==
-X-Gm-Message-State: AJIora/IVNN88OhF+6tMG7dsqL5ot63FcXP4o4nG5NXgc6gxe0uNgQgg
- NKtudeu2wN+ixwz195IhzueBckPX6XwEhA==
-X-Google-Smtp-Source: AGRyM1sH48BmoYvqhS4IQ9UVTQ/M86BD7O3rC1lUoinJsaSgZy6NNtdq1cOjhsPeQdDI0ZT4BkZHUw==
-X-Received: by 2002:a05:6402:5288:b0:435:ccbb:2a3a with SMTP id
- en8-20020a056402528800b00435ccbb2a3amr15091632edb.382.1656314210713; 
- Mon, 27 Jun 2022 00:16:50 -0700 (PDT)
+ bh=oo7ypyvUebOkqcGL5BdIfd3NhdOwiRUM4reqQb4VVlY=;
+ b=IQE0xyWOR7kyv5L/PkS5av6PZmF/vz0LlcjYPM8yPLxz7UgBVjOLfeiigz4da6/cZe
+ MY8qWJ6b4pOx7OUmvLL1RlwxLQY5IFZko0FezvH2HP7jfik595VSflKpH8yqt4Qzalei
+ PzzeJRq0zDwhTwGsF8RqaVlxSOSObrRFMcBV2JjtYtESpY1KsZgxh2M7H7rTNKpfvuu3
+ 8om7WxGdUedZSawdAyaA4PmgbQDTGwlRceg/0KDYyxnQ01CniQoyOyxsAc81ELIPyx7w
+ 0Jyb/L8YDJxbluzhnAFFwseersIip3CS0H665RQOlesYqEOoaZZb2FuHIjzi538x7AKS
+ l2iQ==
+X-Gm-Message-State: AJIora+yCRkcL5+ZMROedqCh6hZQhSY9ZRVe5sVEiFxgy/hh2mFXQIFU
+ lPy3Ft6JmuOE8fp+53lw8n4iRMB4WDZl3g==
+X-Google-Smtp-Source: AGRyM1uMUKn6ZnmgPB1qUC4Qr31MCoBeyCp5nanYCIBQv0sJxcuZBXFEKrMbuyRz8UxZV52cHuD1DA==
+X-Received: by 2002:a17:906:d54f:b0:726:4424:9d31 with SMTP id
+ cr15-20020a170906d54f00b0072644249d31mr10450568ejc.227.1656314211776; 
+ Mon, 27 Jun 2022 00:16:51 -0700 (PDT)
 Received: from Provence.localdomain
  (dynamic-077-183-075-191.77.183.pool.telefonica.de. [77.183.75.191])
  by smtp.gmail.com with ESMTPSA id
- g16-20020a1709064e5000b007072dc80e06sm4593294ejw.190.2022.06.27.00.16.49
+ g16-20020a1709064e5000b007072dc80e06sm4593294ejw.190.2022.06.27.00.16.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 00:16:50 -0700 (PDT)
+ Mon, 27 Jun 2022 00:16:51 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
@@ -64,16 +64,17 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  John Snow <jsnow@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [RFC PATCH 07/10] hw/pci/pci: Introduce pci_register_portio_list()
-Date: Mon, 27 Jun 2022 09:16:08 +0200
-Message-Id: <20220627071611.8793-8-shentey@gmail.com>
+Subject: [RFC PATCH 08/10] hw/ide/piix: Use pci_ide_init_ioport() rather than
+ isa_ide_init_ioport()
+Date: Mon, 27 Jun 2022 09:16:09 +0200
+Message-Id: <20220627071611.8793-9-shentey@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220627071611.8793-1-shentey@gmail.com>
 References: <20220627071611.8793-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,127 +97,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pci_ide_init_ioport() and pci_register_portio_list() are introduced which
-mirror their ISA counterparts. But rather than asking for an ISADevice, the
-functions ask for PCIDevice which can be used in hw/ide/piix which fixes
-having to pass a NULL ISADevice which is not avialable there.
-
-Passing NULL as ISADevice to pci_ide_init_ioport() also causes a NULL
-ISADevice to be passed to isa_register_ioport(). Currently this function
-always uses the isabus global. To fix this, we'll want to determine the
-ISABus using isa_bus_from_device(), so no call-site must pass a NULL
-ISADevice.
+This should fix the last caller causing a NULL ISADev to be passed to
+isa_register_portio_list() which now allows for disusing the isabus global
+there.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/ide/ioport.c           | 14 ++++++++++++++
- hw/pci/pci.c              | 18 ++++++++++++++++++
- include/hw/ide/internal.h |  1 +
- include/hw/pci/pci.h      | 21 +++++++++++++++++++++
- 4 files changed, 54 insertions(+)
+ hw/ide/piix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
-index ed1f34f573..69e4fa15d4 100644
---- a/hw/ide/ioport.c
-+++ b/hw/ide/ioport.c
-@@ -25,6 +25,7 @@
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index 312611c61f..087568ecf1 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -161,7 +161,7 @@ static int pci_piix_init_ports(PCIIDEState *d)
  
- #include "qemu/osdep.h"
- #include "hw/isa/isa.h"
-+#include "hw/pci/pci_bus.h"
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
- #include "sysemu/blockdev.h"
-@@ -62,3 +63,16 @@ void isa_ide_init_ioport(IDEBus *bus, ISADevice *dev, int iobase, int iobase2)
-                                  iobase2, ide_portio2_list, bus, "ide");
-     }
- }
-+
-+void pci_ide_init_ioport(IDEBus *bus, PCIDevice *dev, int iobase, int iobase2)
-+{
-+    assert(dev);
-+
-+    pci_register_portio_list(dev, &bus->portio_list,
-+                             iobase, ide_portio_list, bus, "ide");
-+
-+    if (iobase2) {
-+        pci_register_portio_list(dev, &bus->portio2_list,
-+                                 iobase2, ide_portio2_list, bus, "ide");
-+    }
-+}
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 2f450f6a72..3046dd5477 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1440,6 +1440,24 @@ pcibus_t pci_bar_address(PCIDevice *d,
-     return new_addr;
- }
+     for (i = 0; i < 2; i++) {
+         ide_bus_init(&d->bus[i], sizeof(d->bus[i]), dev, i, 2);
+-        isa_ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
++        pci_ide_init_ioport(&d->bus[i], PCI_DEVICE(d), port_info[i].iobase,
+                             port_info[i].iobase2);
+         ide_init2(&d->bus[i], qdev_get_gpio_in(dev, i));
  
-+void pci_register_portio_list(PCIDevice *dev,
-+                              PortioList *piolist, uint16_t start,
-+                              const MemoryRegionPortio *pio_start,
-+                              void *opaque, const char *name)
-+{
-+    PCIBus *bus;
-+
-+    assert(dev);
-+    assert(piolist && !piolist->owner);
-+
-+    bus = pci_get_bus(dev);
-+
-+    assert(bus);
-+
-+    portio_list_init(piolist, OBJECT(dev), pio_start, opaque, name);
-+    portio_list_add(piolist, bus->address_space_io, start);
-+}
-+
- static void pci_update_mappings(PCIDevice *d)
- {
-     PCIIORegion *r;
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 86ecc04ce4..4a375d3c09 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -625,6 +625,7 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
- void ide_init2(IDEBus *bus, qemu_irq irq);
- void ide_exit(IDEState *s);
- void isa_ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
-+void pci_ide_init_ioport(IDEBus *bus, PCIDevice *isa, int iobase, int iobase2);
- void ide_register_restart_cb(IDEBus *bus);
- 
- void ide_exec_cmd(IDEBus *bus, uint32_t val);
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index b54b6ef88f..91b479d542 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -522,6 +522,27 @@ void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque);
- pcibus_t pci_bar_address(PCIDevice *d,
-                          int reg, uint8_t type, pcibus_t size);
- 
-+/**
-+ * pci_register_portio_list: Initialize a set of io ports
-+ *
-+ * Several ISA devices have many dis-joint I/O ports.  Worse, these I/O
-+ * ports can be interleaved with I/O ports from other devices.  This
-+ * function makes it easy to create multiple MemoryRegions for a single
-+ * device and use the legacy portio routines.
-+ *
-+ * @dev: the PCIDevice against which these are registered
-+ * @piolist: the PortioList associated with the io ports
-+ * @start: the base I/O port against which the portio->offset is applied.
-+ * @portio: the ports, sorted by offset.
-+ * @opaque: passed into the portio callbacks.
-+ * @name: passed into memory_region_init_io.
-+ */
-+void pci_register_portio_list(PCIDevice *dev,
-+                              PortioList *piolist,
-+                              uint16_t start,
-+                              const MemoryRegionPortio *portio,
-+                              void *opaque, const char *name);
-+
- static inline void
- pci_set_byte(uint8_t *config, uint8_t val)
- {
 -- 
 2.36.1
 
