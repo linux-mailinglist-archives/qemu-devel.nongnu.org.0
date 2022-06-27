@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C61D55BC38
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 23:46:35 +0200 (CEST)
-Received: from localhost ([::1]:50978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747A255BC37
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 23:45:31 +0200 (CEST)
+Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5wZ0-000540-Bz
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 17:46:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34408)
+	id 1o5wXy-0003JZ-Hi
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 17:45:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o5wTm-0007bo-RB; Mon, 27 Jun 2022 17:41:10 -0400
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:43540)
+ id 1o5wU4-00088x-OQ; Mon, 27 Jun 2022 17:41:29 -0400
+Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35]:34689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o5wTl-0007dg-0c; Mon, 27 Jun 2022 17:41:10 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id q11so14633380oih.10;
- Mon, 27 Jun 2022 14:41:08 -0700 (PDT)
+ id 1o5wU3-0007kV-7p; Mon, 27 Jun 2022 17:41:28 -0400
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-101ab23ff3fso14679263fac.1; 
+ Mon, 27 Jun 2022 14:41:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6gQAlcMabLRTGfP2t4jNUzt7pV3giPefBPvRA10xUh4=;
- b=qWmHEnTg6WQHogGNYvBAGdFEKrXsl2+rPB9UF1VNJJ5m9GU8vIIYYRgLfmkM9sHJ+T
- uoQoFrftL5fNK8nO++vArKofQ+HxfGEJgZSEbGFHpTzZ3ltQ90Z77UHQwhTesO44lMjW
- zV+fptpO5z75Mf755rzExFGfXy1RCSQ2k7f6GPdUuoMsXrZ5gVxfJVFQkjAGv+izGu3e
- wYOLt32K1hLLDz6FPxmMtjAUPEVBJlzB5kDRSQl8ex1BuPhMEdZUOGRKdWIO+eH37WtP
- hXrbCbKamAFhu0n/pmk3om8/u/ddWSLdx9yS+upWGuG+ZJNjlboxH+iZHHtVtD18y/6W
- hXRw==
+ bh=fr0rJBCOAprnqQuFqfE+SesqsLZLvYVfKh6c3Slbn/Q=;
+ b=JYRsUV2NFoqiy+Yhcf70k2meYC0MFNqVBB4VUmW2OA1PQJSNRP2lpuwQdikcm7i+BQ
+ im9Vd9j0bgmT0ibympiC8GsF9IAVjMcGDSDFGuUxyAAezYvcfaZZSidP7Ye1uqbrSwZ3
+ ZP9+q8H/EUw+JFRC4LsWf9Q62a8dckNEH4ytqPK64ADw13YrkwEX7+ymbKqnry2RmhSL
+ O/29AzWEu19HEs9u4jD3ozQC5/JEOeriYZDbu8rARK0RMZVcP+rrqCqMGkUN9HqXYaqL
+ +0xbyw/IJBxxhx165e5EsnUk8+b9vlpuYn9NL/409HDlmct00L193CozPccXLSoaGbeR
+ e/kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6gQAlcMabLRTGfP2t4jNUzt7pV3giPefBPvRA10xUh4=;
- b=7oPG1tAwkG5MLsi1rLbpGI6Qm0NBanT7hymFcDz5YmbTKsw93GvTYeC5EBOT8OHHcu
- z9ur1jZZBb3skG9HLAYFOYPDPozkyu+bgFMbfTNgdEUyHq/g+SIwCiBR+fTOiKbJIcUN
- kWKb2FVy4VeirE1lcewnhIhJRunjSIVLn/s6Bn7inBCZLBZtDFGmSV5Rv4qu4A7bJSMD
- tZ6d2HZKyCFCkZqBN3AllIwj9ELw7jl9KxzUYx9APBxAqXf633Boh+eQWpYi1NTfQ6XM
- 3tQodEcHArTSTBTCw7PcSVaoMU+D/9bo+Xan74ImLkTjN6HHFPK88QUnwMS1uHquUFit
- ku4w==
-X-Gm-Message-State: AJIora/32nHWarlPrY4Cdgx7aAvrvw+wpGC9qF0x+K32ZbUc5uZIfaEu
- 13LMJB/yCHtZ5DCStKv0tM+JtW5FN6A=
-X-Google-Smtp-Source: AGRyM1tXaqX/XIGmK0CoxwY3elcxdOcODH/YWfjXg1m94H4iwG5nTR4qBe8LrAnzB0NnyM0y/EcD5Q==
-X-Received: by 2002:a05:6808:1b2a:b0:32e:df2a:cfc4 with SMTP id
- bx42-20020a0568081b2a00b0032edf2acfc4mr8696252oib.288.1656366067653; 
- Mon, 27 Jun 2022 14:41:07 -0700 (PDT)
+ bh=fr0rJBCOAprnqQuFqfE+SesqsLZLvYVfKh6c3Slbn/Q=;
+ b=1+dsIOJI/RsviBavPisH+tmHOO5npTh4+EplIjramI5QuhmAe2QssF+AJ1L4vTUBv0
+ tfW9FeCpENQDDOhjEnYlO79MrzOTjpD1XckdXmyVIl29M2Nk5Ymki5CTFo4/SHBMpnH/
+ qAt+so7Ln8sGFEHXCzVed8TY+5CxC2125MxzMLK341cdmI8/bSLOYgWrvrw135Qgx5GB
+ w6zWgGuS5oaoagCXoT+3myGH5o28QTisgyaDMoqkyLE0IUJaLUDEJCB4CYJWEj6PiB26
+ 9mLtSZLqXcQDLTZNohIKk5xCuMH3Kh5My7URrcrHC7xHlg+0qtj2Hrl4FpDJGP6ekhYA
+ kErQ==
+X-Gm-Message-State: AJIora9hlWU1HNllpIBbMA42o6aj10tvraKTa9lFQBqT48yVi8cSyAXq
+ vgMtlXtKfTeHG9QaHcyn9746w9kbFe8=
+X-Google-Smtp-Source: AGRyM1uTW9jFLMPXrkjAJD4PsBYaiWtBmn4cOdFcVo7v9TkKtgh5yptGACrKZ37W2iuBLqUttTSC1A==
+X-Received: by 2002:a05:6870:972a:b0:101:bc3a:38bd with SMTP id
+ n42-20020a056870972a00b00101bc3a38bdmr11414278oaq.13.1656366085919; 
+ Mon, 27 Jun 2022 14:41:25 -0700 (PDT)
 Received: from [192.168.10.102] ([191.193.1.105])
  by smtp.gmail.com with ESMTPSA id
- t24-20020a9d7298000000b0061691db3807sm5053763otj.23.2022.06.27.14.41.06
+ j18-20020a544812000000b00333295a8919sm5992081oij.28.2022.06.27.14.41.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 14:41:07 -0700 (PDT)
-Message-ID: <77f0af29-f2aa-d122-236e-56dcf237ef1f@gmail.com>
-Date: Mon, 27 Jun 2022 18:41:04 -0300
+ Mon, 27 Jun 2022 14:41:25 -0700 (PDT)
+Message-ID: <ed151ae9-5870-3cd7-347a-dd82a9e8c9bd@gmail.com>
+Date: Mon, 27 Jun 2022 18:41:22 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH qemu v2] spapr/ddw: Reset DMA when the last non-default
- window is removed
+Subject: Re: [PATCH 0/7] Remove CONFIG_INT128 conditional code from
+ target/ppc/*
 Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org
-References: <20220622052955.1069903-1-aik@ozlabs.ru>
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ richard.henderson@linaro.org
+References: <20220606150037.338931-1-matheus.ferst@eldorado.org.br>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220622052955.1069903-1-aik@ozlabs.ru>
+In-Reply-To: <20220606150037.338931-1-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::35;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x35.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,110 +100,34 @@ Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 Daniel
 
-On 6/22/22 02:29, Alexey Kardashevskiy wrote:
-> PAPR+/LoPAPR says:
-> ===
-> The platform must restore the default DMA window for the PE on a call
-> to the ibm,remove-pe-dma-window RTAS call when all of the following
-> are true:
->   a. The call removes the last DMA window remaining for the PE.
->   b. The DMA window being removed is not the default window
+On 6/6/22 12:00, Matheus Ferst wrote:
+> PPC-specific methods to handle 128-bits integers operations, like
+> avr_qw_not and avr_qw_add, are currently only tested indirectly (through
+> the behavior of the insns that use them) in !CONFIG_INT128 builds. They
+> can be replaced by the methods provided by int128.h, which are shared
+> with other archs and have unit tests.
 > 
-> ===
+> We also take the opportunity to move some instructions to decodetree and
+> drop unnecessary uses of VECTOR_FOR_INORDER_I.
 > 
-> This resets DMA as PAPR mandates.
+> Based-on: <20220525134954.85056-1-lucas.araujo@eldorado.org.br>
+> because int128_ult, implemented in 'host-utils: Implemented unsigned
+> 256-by-128 division'
 > 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
-> Changes:
-> v2:
-> * reverted changes to spapr_tce_table_enable()
-> ---
->   include/hw/ppc/spapr.h  |  1 +
->   hw/ppc/spapr_iommu.c    |  3 ++-
->   hw/ppc/spapr_pci.c      |  1 +
->   hw/ppc/spapr_rtas_ddw.c | 15 +++++++++++++++
->   4 files changed, 19 insertions(+), 1 deletion(-)
+> Matheus Ferst (7):
+>    target/ppc: use int128.h methods in vpmsumd
+>    target/ppc: use int128.h methods in vadduqm
+>    target/ppc: use int128.h methods in vaddecuq and vaddeuqm
+>    target/ppc: use int128.h methods in vaddcuq
+>    target/ppc: use int128.h methods in vsubuqm
+>    target/ppc: use int128.h methods in vsubecuq and vsubeuqm
+>    target/ppc: use int128.h methods in vsubcuq
 > 
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 072dda2c7265..4ba2b27b8c4f 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -902,6 +902,7 @@ struct SpaprTceTable {
->       bool bypass;
->       bool need_vfio;
->       bool skipping_replay;
-> +    bool def_win;
->       int fd;
->       MemoryRegion root;
->       IOMMUMemoryRegion iommu;
-> diff --git a/hw/ppc/spapr_iommu.c b/hw/ppc/spapr_iommu.c
-> index 81e5a1aea3a6..63e34d457a0e 100644
-> --- a/hw/ppc/spapr_iommu.c
-> +++ b/hw/ppc/spapr_iommu.c
-> @@ -279,7 +279,7 @@ static const VMStateDescription vmstate_spapr_tce_table_ex = {
->   
->   static const VMStateDescription vmstate_spapr_tce_table = {
->       .name = "spapr_iommu",
-> -    .version_id = 2,
-> +    .version_id = 3,
->       .minimum_version_id = 2,
->       .pre_save = spapr_tce_table_pre_save,
->       .post_load = spapr_tce_table_post_load,
-> @@ -292,6 +292,7 @@ static const VMStateDescription vmstate_spapr_tce_table = {
->           VMSTATE_BOOL(bypass, SpaprTceTable),
->           VMSTATE_VARRAY_UINT32_ALLOC(mig_table, SpaprTceTable, mig_nb_table, 0,
->                                       vmstate_info_uint64, uint64_t),
-> +        VMSTATE_BOOL_V(def_win, SpaprTceTable, 3),
->   
->           VMSTATE_END_OF_LIST()
->       },
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index b2f5fbef0c83..5e95d7940fc8 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -2067,6 +2067,7 @@ void spapr_phb_dma_reset(SpaprPhbState *sphb)
->       tcet = spapr_tce_find_by_liobn(sphb->dma_liobn[0]);
->       spapr_tce_table_enable(tcet, SPAPR_TCE_PAGE_SHIFT, sphb->dma_win_addr,
->                              sphb->dma_win_size >> SPAPR_TCE_PAGE_SHIFT);
-> +    tcet->def_win = true;
->   }
->   
->   static void spapr_phb_reset(DeviceState *qdev)
-> diff --git a/hw/ppc/spapr_rtas_ddw.c b/hw/ppc/spapr_rtas_ddw.c
-> index 13d339c807c1..bb7d91b6d1af 100644
-> --- a/hw/ppc/spapr_rtas_ddw.c
-> +++ b/hw/ppc/spapr_rtas_ddw.c
-> @@ -215,6 +215,7 @@ static void rtas_ibm_remove_pe_dma_window(PowerPCCPU *cpu,
->       SpaprPhbState *sphb;
->       SpaprTceTable *tcet;
->       uint32_t liobn;
-> +    bool def_win_removed;
->   
->       if ((nargs != 1) || (nret != 1)) {
->           goto param_error_exit;
-> @@ -231,9 +232,23 @@ static void rtas_ibm_remove_pe_dma_window(PowerPCCPU *cpu,
->           goto param_error_exit;
->       }
->   
-> +    def_win_removed = tcet->def_win;
->       spapr_tce_table_disable(tcet);
->       trace_spapr_iommu_ddw_remove(liobn);
->   
-> +    /*
-> +     * PAPR+/LoPAPR says:
-> +     * The platform must restore the default DMA window for the PE on a call
-> +     * to the ibm,remove-pe-dma-window RTAS call when all of the following
-> +     * are true:
-> +     * a. The call removes the last DMA window remaining for the PE.
-> +     * b. The DMA window being removed is not the default window
-> +     */
-> +    if (spapr_phb_get_active_win_num(sphb) == 0 && !def_win_removed) {
-> +        spapr_phb_dma_reset(sphb);
-> +        trace_spapr_iommu_ddw_reset(sphb->buid, 0);
-> +    }
-> +
->       rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->       return;
->   
+>   target/ppc/helper.h                 |  18 +-
+>   target/ppc/insn32.decode            |  16 ++
+>   target/ppc/int_helper.c             | 255 ++++++----------------------
+>   target/ppc/translate/vmx-impl.c.inc |  32 ++--
+>   target/ppc/translate/vmx-ops.c.inc  |   9 +-
+>   5 files changed, 93 insertions(+), 237 deletions(-)
+> 
 
