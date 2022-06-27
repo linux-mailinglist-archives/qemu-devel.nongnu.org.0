@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE1A55B7BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 07:27:09 +0200 (CEST)
-Received: from localhost ([::1]:48142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25C555B7C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 07:43:40 +0200 (CEST)
+Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5hHA-0003nG-8Q
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 01:27:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56828)
+	id 1o5hX9-0007Wk-LX
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 01:43:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o5hFk-00035c-Oq
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 01:25:41 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39481)
+ id 1o5hUy-0006mE-QO
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 01:41:24 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:51159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o5hFf-0007DZ-0Z
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 01:25:39 -0400
-Received: by mail-pg1-x533.google.com with SMTP id q140so8085903pgq.6
- for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 22:25:27 -0700 (PDT)
+ id 1o5hUx-000273-3V
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 01:41:24 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id go6so8236164pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 22:41:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V3MA+xy8NjDefcdphVEfP3segevXjm2DfA82pGauQtA=;
- b=QkK03AGGZR8TEDSREoPbNNRogl5CadQ9hb7+Pn6C3wolRXbxfL495v6rzGihjmKjvK
- jGILM4Axf9u2AtfVlfoiLAdQPS8A1KvfK7fVBy/FxV3NNLj+Uo668zeq9ko+IcXVbDJ5
- T+P7lKgJhtPD9BIvRkiVojM6m4D++0aBObT7BiMzhrgAR2imOufialjfiuXLUZMDHGQ3
- y8cVpLa1O5o41jxnjW8Ct2aoDSIUUsfskmJhhKi99bxF/tnkU/oyIOmNFVb1FrS/0DIX
- qp9k2bkM2v7CPiGrX0ZLG4pIX1M+LV3B3RFQVzj4l7fGB/Dut93bY0NkGd3V26qLdahQ
- 7p6g==
+ :cc:content-transfer-encoding;
+ bh=44Pd4G2+iDEO9VYngz3lzb0T/d6dttUrgpewfisYIl4=;
+ b=X634DBrl5eu3B1tZwU43slORa1PaEOXpCKCUUlW7WKZddfsY7Fhmxk3JzRQN2zsRiy
+ K1jzhXBfL1rHEdnSJVjNCWfroKYSDkBapkbgws32QxfjktbaWBPywoNXW2CCGlr5B1dU
+ s5BUJ1VnZL6T8dnkIsRjoq0pZE9I0lTLu6mBWs4oddg/NOTiLeTcmVKNarM0YUK86iow
+ /wMu7gDHIy0TxljmiCYRrFFcBNKBcBwnLzgKPYWezg52MK4eNAMhULrCWBe1WxZAibs8
+ FwbWxsDvmBlxG2BpFhIBEHbm5AZpi4JtJitJRCczXG68OvDLyWWXdtUX/uklF5eh9eN2
+ 3MKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=V3MA+xy8NjDefcdphVEfP3segevXjm2DfA82pGauQtA=;
- b=gPbiQ2Xs2PeTgQ7oKqIgJRjqz86gVM6jTNiR5If8PfnPneg9avYh4AHn0u4FmNGOe2
- C2wua4msOPUNs/wgi8haW37+8wh76FhPwM9olRjg3XdKMfES1kTb2NAp/joT6FpuPyUt
- BP0sJYn7b5qPCBm5xOQNAI99nNT3anhQzc4/gsNfJcCsv+/ng4nM5lKr8D3Gssp6xW36
- KKYna+7lPANI9SSOlDblhkFUGfECIHgPXQ/CoQWT0B5Y3QkxeQ/E2cxcB/79PXuUR6dy
- uFLKrp9zANlZRdtJNQs81guj8cuSXp4uODrCYAndi5RS1hJVLK7WZ6yG5oV5cbwfkNog
- WZbA==
-X-Gm-Message-State: AJIora+IfWHGkckniOnXdOfD/Ac8FdlOL1a5jUwaPqdKmLorkoSByuCe
- vMWbH7M+XMj6SxNFLkRI6eqKQwSzCmh+3sFDXBnPfrnMaVo=
-X-Google-Smtp-Source: AGRyM1uPFTf7/p4w6T7pu9UV7NPfx7L7BGoDnY+F329m3XxxzpqN0Ci2nx/3q4ULhTRDWLAl7Aj3frDtDNcx4W+6VQA=
-X-Received: by 2002:a63:4d5:0:b0:40d:77fd:cff8 with SMTP id
- 204-20020a6304d5000000b0040d77fdcff8mr11143349pge.361.1656307526773; Sun, 26
- Jun 2022 22:25:26 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=44Pd4G2+iDEO9VYngz3lzb0T/d6dttUrgpewfisYIl4=;
+ b=n6lfn3rpgU1l1jIHUfwOodrS1+ygSZqjxa8Bp1yC0sWBw4hgjl95XP3zAF5uJcRRVL
+ rH+2Iy4oeHw1WmnncsCFdK+vzbgubCeZpH0Cs9kkJNcTqbmUbMTeUSGV0ZyTyDTZFi+M
+ o0H1O/c+hgKyUnb6VbOCorCcSISVPwegYqOxxZARlmd25nzHO1ab54Jq1py4cTpLXBn6
+ hVOWYi+fD37VORjdhrFvZfr24D1pyZfhKdW36dE4GecK9WkBn+H4RGqZ9eJbLmpX6sN7
+ eQjB0awz6gAvVgLorqYG9GiXHqh5h8Pb4MvFHGcE8JMoJc9QcWu8sUwlXHDUXqXzWl+d
+ fOfg==
+X-Gm-Message-State: AJIora8SIQM2V6jEXBLiWx2uVRQSOqI+k7mkqg6qLKTVqEHLBtW9yb55
+ EF0QhxZJeObEEVeZEJ+D4UtJlGxzbVqSL1B4sWE=
+X-Google-Smtp-Source: AGRyM1tjnBc1afwSaj5BklSUfz3tCypm3l0iHjO4gC7wuFdXqODhbSpINFCKeVb1iZ6aTLO9XWtAzXJU5XUyHReh0xk=
+X-Received: by 2002:a17:903:216:b0:167:921c:6590 with SMTP id
+ r22-20020a170903021600b00167921c6590mr13004012plh.83.1656308480997; Sun, 26
+ Jun 2022 22:41:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220625223458.1273408-1-simon.sapin@exyr.org>
-In-Reply-To: <20220625223458.1273408-1-simon.sapin@exyr.org>
+ <da785d05-e322-2e40-7a89-e926256c6dbe@exyr.org>
+In-Reply-To: <da785d05-e322-2e40-7a89-e926256c6dbe@exyr.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 27 Jun 2022 15:25:00 +1000
-Message-ID: <CAKmqyKOtnwVJE1+Gmkb+qNjhzqm4roxAf1e-16Mrk1-_ZXuaXQ@mail.gmail.com>
-Subject: Re: [PATCH] Add some documentation for "dtb" devices tree blobs
+Date: Mon, 27 Jun 2022 15:40:54 +1000
+Message-ID: <CAKmqyKN+xvOseT_5XeFgZ=b77giU+wdaZy=w9OgEFL8EXNGDVg@mail.gmail.com>
+Subject: Re: Booting bare-metal RISC-V virt (Was: [PATCH] Add some
+ documentation for "dtb" devices tree blobs)
 To: Simon Sapin <simon.sapin@exyr.org>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Peter Maydell <peter.maydell@linaro.org>, 
@@ -61,8 +64,9 @@ Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Alistair Francis <alistair.francis@wdc.com>, 
  Bin Meng <bin.meng@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x533.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,8 +74,7 @@ X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,216 +90,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 26, 2022 at 8:40 AM Simon Sapin <simon.sapin@exyr.org> wrote:
+On Sun, Jun 26, 2022 at 9:04 AM Simon Sapin <simon.sapin@exyr.org> wrote:
 >
-> Signed-off-by: Simon Sapin <simon.sapin@exyr.org>
+> On 26/06/2022 00:34, Simon Sapin wrote:
+> > +On startup, the dtb is memory-mapped and its address is passed to the =
+guest
+> > +in a target-specific way:
+> > +
+> > +* Arm: :ref:`arm-baremetal`
+> > +* **TODO**: document other targets
+>
+> Hello,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Hello
+
+>
+> My current interest is playing with bare-metal / freestanding RISC-V, usi=
+ng QEMU as a
+> reference emulator. Based on various blog posts, reading QEMU source code=
+, and lots
+> of trial-and-error I=E2=80=99ve managed to get something running[1] but i=
+t wasn=E2=80=99t easy.
+
+Written in Rust as well, nice!
+
+I'm sorry to hear that you had so much trouble getting started with
+RISC-V QEMU. We do try to make it easy, but everyone is busy and
+documentation usually ends up being the last thing we do.
+
+>
+> In comparison, the docs for Arm virt have a very helpful section[2] for t=
+his
+> scenario. I would like to contribute similar docs for RISC-V virt but I=
+=E2=80=99d need
+> confirmation of the information to put in it:
+>
+> * Through `dumpdtb` I see that flash memory starts at address 0x2_000_000=
+0, and RAM
+> at 0x8_000_0000. Is this information that guest code can rely on and hard=
+-code? What
+> details can or cannot be similarly relied on?
+
+Good question.
+
+So first up, you can see all of the memory mappings in the
+hw/riscv/virt.c file, if you find that easier than dumping device
+trees.
+
+We have previously kept the addresses backwards compatible. So that
+software for an older virt machine will work on a newer one. There is
+currently talks about changing the virt machine memory layout in a
+breaking way and versioning in the current one though.
+
+So I don't really have a good answer for you. I would recommend
+reading as much as possible from the device tree dynamically at boot.
+
+In general though we don't want to break people, we just might have to
+make changes in the future to allow for new functionality.
+
+>
+> * With `qemu-system-riscv32 -machine virt -bios none -kernel something.el=
+f -s -S`,
+> GDB shows that execution starts at the lowest address of RAM, not of flas=
+h like I
+> expected. Then what is emulated flash for?
+
+If you supply a flash image we will start executing from flash automaticall=
+y.
+
+>
+> * What=E2=80=99s the difference between a bios and a kernel? The previous=
+ command is based on
+> a blog post but I don=E2=80=99t fully quite the details.
+
+For a bare metal setup like yours there isn't really a difference. We
+use -bios to specify the OpenSBI firmware and -kernel to specify a
+Linux kernel. For your use you can use `-bios none -kernel ...`
+
+>
+> * I see in source code[3] that QEMU passes some arguments to the firmware=
+. Register
+> a0 gets the hart ID, a1 is the dtb address, but what=E2=80=99s in a2?
+
+a2 stores the "dynamic firmware info" which is used by OpenSBI. The
+riscv_rom_copy_firmware_info() copies the data to memory
+
+>
+> * To what extent is the above calling convention standardized? I found si=
+milar things
+> in coreboot[4] and in OpenSBI[5]
+
+Good question. I don't think it's specified in a spec, but it is very commo=
+n
 
 Alistair
 
-> ---
->  docs/specs/device-trees.rst                | 57 ++++++++++++++++++++++
->  docs/specs/index.rst                       |  1 +
->  docs/system/arm/virt.rst                   |  5 +-
->  docs/system/arm/xlnx-versal-virt.rst       |  3 +-
->  docs/system/ppc/ppce500.rst                |  3 +-
->  docs/system/riscv/microchip-icicle-kit.rst |  3 +-
->  docs/system/riscv/sifive_u.rst             |  3 +-
->  docs/system/riscv/virt.rst                 |  3 +-
->  qemu-options.hx                            |  5 ++
->  9 files changed, 77 insertions(+), 6 deletions(-)
->  create mode 100644 docs/specs/device-trees.rst
 >
-> diff --git docs/specs/device-trees.rst docs/specs/device-trees.rst
-> new file mode 100644
-> index 0000000000..8160342124
-> --- /dev/null
-> +++ docs/specs/device-trees.rst
-> @@ -0,0 +1,57 @@
-> +============
-> +Device Trees
-> +============
-> +
-> +On some targets, guests can find out what devices are emulated and how to access them
-> +through a *Device Tree Blob* (dtb), also called *Flattened Device Tree* (fdt).
-> +The dtb can be passed by the user through the ``-dtb file`` command-line options,
-> +or automatically generated by QEMU.
-> +
-> +Host: dumping the dtb
-> +=====================
-> +
-> +The (possibly generated) dtb can be written to a file with
-> +the ``dumpdtb`` property of the ``machine`` command-line option.
-> +Then `dtc <Device Tree Compiler_>`_ can convert it to Device Tree Source text "dts" format
-> +For example::
-> +
-> +    qemu-system-riscv32 -machine virt,dumpdtb=rv32-virt.dtb
-> +    dtc -q rv32-virt.dtb -o rv32-virt.dts
-> +    head -n 7 rv32-virt.dts
-> +
-> +::
-> +
-> +    qemu-system-riscv32: info: dtb dumped to rv32-virt.dtb. Exiting.
-> +    /dts-v1/;
-> +
-> +    / {
-> +        #address-cells = <0x02>;
-> +        #size-cells = <0x02>;
-> +        compatible = "riscv-virtio";
-> +        model = "riscv-virtio,qemu";
-> +
-> +Guest: finding the dtb
-> +======================
-> +
-> +On startup, the dtb is memory-mapped and its address is passed to the guest
-> +in a target-specific way:
-> +
-> +* Arm: :ref:`arm-baremetal`
-> +* **TODO**: document other targets
-> +
-> +Resources
-> +=========
-> +
-> +* `Devicetree Specification <https://www.devicetree.org/specifications/>`_.
-> +
-> +* Embedded Linux Wiki:
-> +
-> +  - `Device Tree: What It Is <https://elinux.org/Device_Tree_What_It_Is>`_
-> +  - `Device Tree Usage <https://elinux.org/Device_Tree_Usage>`_
-> +
-> +* `Device Tree Compiler <https://git.kernel.org/pub/scm/utils/dtc/dtc.git>`_:
-> +
-> +  - ``dtc`` CLI tool (package name might be ``device-tree-compiler``)
-> +  - ``libfdt`` C library
-> +
-> +* ``fdt`` `Rust library <https://crates.io/crates/fdt>`_
-> diff --git docs/specs/index.rst docs/specs/index.rst
-> index a58d9311cb..3bd69305e2 100644
-> --- docs/specs/index.rst
-> +++ docs/specs/index.rst
-> @@ -8,6 +8,7 @@ guest hardware that is specific to QEMU.
->  .. toctree::
->     :maxdepth: 2
 >
-> +   device-trees
->     ppc-xive
->     ppc-spapr-xive
->     ppc-spapr-numa
-> diff --git docs/system/arm/virt.rst docs/system/arm/virt.rst
-> index 3d1058a80c..04a90df613 100644
-> --- docs/system/arm/virt.rst
-> +++ docs/system/arm/virt.rst
-> @@ -153,10 +153,13 @@ need::
->    CONFIG_DRM=y
->    CONFIG_DRM_VIRTIO_GPU=y
+> [1] https://github.com/SimonSapin/riscv-qemu-demo
 >
-> +.. _arm-baremetal:
-> +
->  Hardware configuration information for bare-metal programming
->  """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+> [2]
+> https://www.qemu.org/docs/master/system/arm/virt.html#hardware-configurat=
+ion-information-for-bare-metal-programming
 >
-> -The ``virt`` board automatically generates a device tree blob ("dtb")
-> +The ``virt`` board automatically generates a
-> +:doc:`device tree blob ("dtb") </specs/device-trees>`
->  which it passes to the guest. This provides information about the
->  addresses, interrupt lines and other configuration of the various devices
->  in the system. Guest code can rely on and hard-code the following
-> diff --git docs/system/arm/xlnx-versal-virt.rst docs/system/arm/xlnx-versal-virt.rst
-> index 92ad10d2da..3387c74bfa 100644
-> --- docs/system/arm/xlnx-versal-virt.rst
-> +++ docs/system/arm/xlnx-versal-virt.rst
-> @@ -53,7 +53,8 @@ to use the ``-kernel`` command line option.
+> [3] https://gitlab.com/qemu-project/qemu/-/blob/v7.0.0/hw/riscv/boot.c#L2=
+97-317
 >
->  Users can load firmware or boot-loaders with the ``-device loader`` options.
+> [4] https://doc.coreboot.org/arch/riscv/index.html#stage-handoff-protocol
 >
-> -When loading an OS, QEMU generates a DTB and selects an appropriate address
-> +When loading an OS, QEMU generates a :doc:`DTB </specs/device-trees>`
-> +and selects an appropriate address
->  where it gets loaded. This DTB will be passed to the kernel in register x0.
+> [5]
+> https://github.com/riscv-software-src/opensbi/blob/v1.1/platform/generic/=
+platform.c#L59-L75
 >
->  If there's no ``-kernel`` option, we generate a DTB and place it at 0x1000
-> diff --git docs/system/ppc/ppce500.rst docs/system/ppc/ppce500.rst
-> index 9beef39171..24fd91a084 100644
-> --- docs/system/ppc/ppce500.rst
-> +++ docs/system/ppc/ppce500.rst
-> @@ -24,7 +24,8 @@ The ``ppce500`` machine supports the following devices:
->  Hardware configuration information
->  ----------------------------------
 >
-> -The ``ppce500`` machine automatically generates a device tree blob ("dtb")
-> +The ``ppce500`` machine automatically generates a
-> +:doc:`device tree blob ("dtb") </specs/device-trees>`
->  which it passes to the guest, if there is no ``-dtb`` option. This provides
->  information about the addresses, interrupt lines and other configuration of
->  the various devices in the system.
-> diff --git docs/system/riscv/microchip-icicle-kit.rst docs/system/riscv/microchip-icicle-kit.rst
-> index 40798b1aae..a6c8b46263 100644
-> --- docs/system/riscv/microchip-icicle-kit.rst
-> +++ docs/system/riscv/microchip-icicle-kit.rst
-> @@ -37,7 +37,8 @@ can be loaded from U-Boot. It also supports direct kernel booting via the
->  boot is used, the OpenSBI fw_dynamic BIOS image is used to boot a payload
->  like U-Boot or OS kernel directly.
->
-> -The user provided DTB should have the following requirements:
-> +The user provided :doc:`DTB </specs/device-trees>`
-> +should have the following requirements:
->
->  * The /cpus node should contain at least one subnode for E51 and the number
->    of subnodes should match QEMU's ``-smp`` option
-> diff --git docs/system/riscv/sifive_u.rst docs/system/riscv/sifive_u.rst
-> index 7b166567f9..fd70ee8278 100644
-> --- docs/system/riscv/sifive_u.rst
-> +++ docs/system/riscv/sifive_u.rst
-> @@ -36,7 +36,8 @@ testing of 32-bit guest software.
->  Hardware configuration information
->  ----------------------------------
->
-> -The ``sifive_u`` machine automatically generates a device tree blob ("dtb")
-> +The ``sifive_u`` machine automatically generates a
-> +:doc:`device tree blob ("dtb") </specs/device-trees>`
->  which it passes to the guest, if there is no ``-dtb`` option. This provides
->  information about the addresses, interrupt lines and other configuration of
->  the various devices in the system. Guest software should discover the devices
-> diff --git docs/system/riscv/virt.rst docs/system/riscv/virt.rst
-> index f8ecec95f3..81ea53eb20 100644
-> --- docs/system/riscv/virt.rst
-> +++ docs/system/riscv/virt.rst
-> @@ -30,7 +30,8 @@ declaring.
->  Hardware configuration information
->  ----------------------------------
->
-> -The ``virt`` machine automatically generates a device tree blob ("dtb")
-> +The ``virt`` machine automatically generates a
-> +:doc:`device tree blob ("dtb") </specs/device-trees>`
->  which it passes to the guest, if there is no ``-dtb`` option. This provides
->  information about the addresses, interrupt lines and other configuration of
->  the various devices in the system. Guest software should discover the devices
-> diff --git qemu-options.hx qemu-options.hx
-> index 377d22fbd8..eea75ddb37 100644
-> --- qemu-options.hx
-> +++ qemu-options.hx
-> @@ -38,6 +38,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
->      "                hmat=on|off controls ACPI HMAT support (default=off)\n"
->      "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
->      "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
-> +    "                dumpdtb=file dump current device tree blob to a file and quit\n"
->      QEMU_ARCH_ALL)
->  SRST
->  ``-machine [type=]name[,prop=value[,...]]``
-> @@ -157,6 +158,10 @@ SRST
->          ::
->
->              -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
-> +
-> +    ``dumpdtb=file``
-> +        Dump the current :doc:`Device Tree Blob </specs/device-trees>`
-> +        to the give file name, then exit.
->  ERST
->
->  DEF("M", HAS_ARG, QEMU_OPTION_M,
+> Thanks!
 > --
-> 2.36.1
->
+> Simon Sapin
 >
 
