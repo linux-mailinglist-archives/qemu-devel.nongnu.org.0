@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000C155B8CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 10:54:51 +0200 (CEST)
-Received: from localhost ([::1]:47160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DF355B8D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 11:01:36 +0200 (CEST)
+Received: from localhost ([::1]:56186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5kWA-0005At-RR
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 04:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47418)
+	id 1o5kch-0003AS-9S
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 05:01:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1o5kTv-0002zH-RB; Mon, 27 Jun 2022 04:52:33 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40906)
+ id 1o5kUL-0003s5-K3; Mon, 27 Jun 2022 04:52:58 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1o5kTu-0005Ar-EG; Mon, 27 Jun 2022 04:52:31 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- v65-20020a1cac44000000b003a03c76fa38so4407403wme.5; 
- Mon, 27 Jun 2022 01:52:29 -0700 (PDT)
+ id 1o5kUK-0005EO-7K; Mon, 27 Jun 2022 04:52:57 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id w17so11984284wrg.7;
+ Mon, 27 Jun 2022 01:52:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:reply-to:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zD66L3mdITq6+N0oV3/QTMI5HSL0Xxy8B+3UI/gTIVM=;
- b=TUSft++HYTitNFoJnWHbmDqufQ4HfFly1XJ4egP6cXvI5z266MLmIl7Ce3bMsU2YMs
- fNcDKlR8JNXt6e+Utbq3VP1DIH+/QT5/SXiBygQRX/wJNourEWlo11KETbNEUk+fQRgG
- fuxJyCkABCAZF04NPfC/cH8urAZj9MCmXLfFobyuncMGq5Ji1wU6gnEjN8YJ2/FhOqdB
- yvWsnyuhH/tY4wPTDyResr7nm3TtptsknA092VQf5QudMjpDP9zxEEuhEy4gRz3dnWmF
- GSTXZfrmujZ38tCF7ScXpFfRoV+e1menEOotT7PheEkKOsjelG44c+Sko/TRCZn8BNTN
- CJqg==
+ bh=YxRvcSf7ptmHEAYJ6Lp/sYOIY/HDDd80u0zELz0O8Rg=;
+ b=EVJcXnYxGeVieQhSeOobV7k1U5qEBLh66Tb+4iTzlm7+StkuQ+u3asnIz4U8fiBzTf
+ 0umbG5MBglrtNKmXjJP97eeuVS/uOVu1ksrs5Cs6uSw3dhB9pUmvQEH3qxEYzOIaNJo5
+ fgXXHRZfwU6u3uFTMuvfU6w4mi5IU2cOLcCvSosPuveAEqnoVO6Nld+kYMUXbSuaD9/+
+ Q9oSXSH6u8lte9NUpeMucqprHFlnngCCUIQzJY2+aE5oq6kglUm2DxJH8CrwEs7WlqMG
+ 18hLEMdEfg3z7+vHQqtvJlHsdJ1qcDG0MkqAt+kwDI0LRKkH5quMmB/jEwoDTt7h7uhv
+ UQIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zD66L3mdITq6+N0oV3/QTMI5HSL0Xxy8B+3UI/gTIVM=;
- b=OspuG1fQvRuJevHZw65+WnJOP/CbthOtneuLvApZp4ctu4DPrBiQbJ+T1IAvbK8alQ
- 2djSOjA9ktwyIPxoHqzUvCvwO+rHTteHpetyQLwOvc9i4SNXN20nkUaJ+JbbQ79nnrkc
- RGOBPHWtIKV6qYXB755RvvlcFP6EtOSnmcwBDUAYcgmtCRky7DN4R4k8iELO3A1w1xKM
- 1VgGEnr79a7t7nFKU2L5huWL/Aare+6L92K2lCFyBkHYagans1TQuXZ42MdKa8nbDk31
- ML7MMi2TPx3LOs2oD1u4N0guBXhok0GbuY1XB/FdJE7VuItjqmNe3PaSdam4WeK5cciB
- WBIw==
-X-Gm-Message-State: AJIora+wde8/baTNihif36r1+MmKBGdp1UIdt5jh65IqPb5LU2rcfZla
- 9K6m6XbRCIqFiMuHViZPnN0=
-X-Google-Smtp-Source: AGRyM1ue2+04Ox+iCpYrG9OKwUuld6DMVA7PofR/8yOuTsxVhCP+SVqFxzUGM+CPo+6IY4qnNykyJg==
-X-Received: by 2002:a05:600c:35ce:b0:39c:7dc2:aec0 with SMTP id
- r14-20020a05600c35ce00b0039c7dc2aec0mr14143744wmq.33.1656319947966; 
- Mon, 27 Jun 2022 01:52:27 -0700 (PDT)
+ bh=YxRvcSf7ptmHEAYJ6Lp/sYOIY/HDDd80u0zELz0O8Rg=;
+ b=hR8opll8KlZihDQCaDVYPmXH89VQDSKhFShPr32dvWkqiXyg+TjHgCWoJtm6LBBiya
+ JNoql874JnCssBmQxZCHowi34YaIz1aijqTO3U237DvJ8Zs9cr+MKav0txqsB01WL51Y
+ so07xC9wA70GF8vnXp0S7Nj2SQKtkorDk/3TFWs+NtZVqtW3BFUc9qkt0Mk4TpxDERKx
+ tJmHie+Y/AztP/W5/DJmrKggiKoSdqsYCb6vl+KZJ25fDuWDwmNEsghTy8Qt+bqMu9y8
+ E3ZOu5bEe/T4BTmeojbJQ2rM49K8RTw7xck8kad2/NG3S0TG7mxbMJBiDkWvrgGw2iuU
+ La9w==
+X-Gm-Message-State: AJIora+RT2nOxCuIWCHHeGus5MmPALL2hUVQQ4l/tl27oHiyi7w2gGMC
+ RbFJyXE3W70o6FENQGLAA3Y=
+X-Google-Smtp-Source: AGRyM1sakRCV4QFb6DvtU4gnXvhnzZNuVTvM9I0nKjKAn0cOFnvi2cXEqpaAGuHVniGGE9URjY6kog==
+X-Received: by 2002:a5d:4589:0:b0:21b:8568:f38e with SMTP id
+ p9-20020a5d4589000000b0021b8568f38emr11039593wrq.165.1656319974592; 
+ Mon, 27 Jun 2022 01:52:54 -0700 (PDT)
 Received: from [10.7.237.7] (54-240-197-231.amazon.com. [54.240.197.231])
  by smtp.gmail.com with ESMTPSA id
- h13-20020adff4cd000000b002103aebe8absm9720868wrp.93.2022.06.27.01.52.26
+ l1-20020a5d4bc1000000b00219e77e489fsm9633148wrt.17.2022.06.27.01.52.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 01:52:27 -0700 (PDT)
-Message-ID: <0044de2b-d25e-ba76-64e1-46316e786fb4@gmail.com>
-Date: Mon, 27 Jun 2022 09:52:26 +0100
+ Mon, 27 Jun 2022 01:52:54 -0700 (PDT)
+Message-ID: <c4dae18f-5337-ef74-ea9d-0d6f20c9b919@gmail.com>
+Date: Mon, 27 Jun 2022 09:52:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 1/2] hw/i386/xen/xen-hvm: Allow for stubbing
- xen_set_pci_link_route()
+Subject: Re: [PATCH 2/2] hw/i386/xen/xen-hvm: Inline
+ xen_piix_pci_write_config_client() and remove it
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -71,13 +70,13 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
 References: <20220626094656.15673-1-shentey@gmail.com>
- <20220626094656.15673-2-shentey@gmail.com>
+ <20220626094656.15673-3-shentey@gmail.com>
 From: "Durrant, Paul" <xadimgnik@gmail.com>
-In-Reply-To: <20220626094656.15673-2-shentey@gmail.com>
+In-Reply-To: <20220626094656.15673-3-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,12 +101,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 26/06/2022 10:46, Bernhard Beschow wrote:
-> The only user of xen_set_pci_link_route() is
-> xen_piix_pci_write_config_client() which implements PIIX-specific logic in
-> the xen namespace. This makes xen-hvm depend on PIIX which could be
-> avoided if xen_piix_pci_write_config_client() was implemented in PIIX. In
-> order to do this, xen_set_pci_link_route() needs to be stubbable which
-> this patch addresses.
+> xen_piix_pci_write_config_client() is implemented in the xen sub tree and
+> uses PIIX constants internally, thus creating a direct dependency on
+> PIIX. Now that xen_set_pci_link_route() is stubbable, the logic of
+> xen_piix_pci_write_config_client() can be moved to PIIX which resolves
+> the dependency.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 
