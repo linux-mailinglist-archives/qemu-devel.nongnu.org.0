@@ -2,88 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DF355B8D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 11:01:36 +0200 (CEST)
-Received: from localhost ([::1]:56186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668E955B8D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 11:04:56 +0200 (CEST)
+Received: from localhost ([::1]:33040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5kch-0003AS-9S
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 05:01:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47498)
+	id 1o5kfv-0006gq-8E
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 05:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1o5kUL-0003s5-K3; Mon, 27 Jun 2022 04:52:58 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40688)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o5kYC-0008Sj-MQ
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 04:56:56 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1o5kUK-0005EO-7K; Mon, 27 Jun 2022 04:52:57 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id w17so11984284wrg.7;
- Mon, 27 Jun 2022 01:52:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:reply-to:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YxRvcSf7ptmHEAYJ6Lp/sYOIY/HDDd80u0zELz0O8Rg=;
- b=EVJcXnYxGeVieQhSeOobV7k1U5qEBLh66Tb+4iTzlm7+StkuQ+u3asnIz4U8fiBzTf
- 0umbG5MBglrtNKmXjJP97eeuVS/uOVu1ksrs5Cs6uSw3dhB9pUmvQEH3qxEYzOIaNJo5
- fgXXHRZfwU6u3uFTMuvfU6w4mi5IU2cOLcCvSosPuveAEqnoVO6Nld+kYMUXbSuaD9/+
- Q9oSXSH6u8lte9NUpeMucqprHFlnngCCUIQzJY2+aE5oq6kglUm2DxJH8CrwEs7WlqMG
- 18hLEMdEfg3z7+vHQqtvJlHsdJ1qcDG0MkqAt+kwDI0LRKkH5quMmB/jEwoDTt7h7uhv
- UQIA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o5kYA-00062r-A6
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 04:56:55 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ r81-20020a1c4454000000b003a0297a61ddso5600629wma.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 01:56:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=vw+4KlHe3+4eh78zLuLQH///2Hyz6HeH8C0n/7jdC7M=;
+ b=vUxasnUUiR3Hx4ubOhY5G8iPovXXLOWW55Ee/yz+XOSeKHZg9hmuqhN0+QqbjE+vMQ
+ hgTx5J6mhiuYpJi8OhU77SYXdrLaHyzNcqW5GwW/WvjODhhdKpTcqejN+1B8IX4eXyTf
+ q09TqbB5GW+7oKQi1gbspU/PHZePFl3gtNDjY4Nfe/avlLB0/sblGUfg7pwBlFDrVo5a
+ nKuaCCc+bHIN/VYcOnzGneb4CWlgvryUSD0W+cMjtsC6w5TveAxDWN4+oYvgjZM+gdTi
+ 3HaipU3eLkVioA4ig6v3Eyqtog+Z9ib+nsyHhuWQECtS3dO6yNbHH3xTDGrnbRbU9Lrr
+ urXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YxRvcSf7ptmHEAYJ6Lp/sYOIY/HDDd80u0zELz0O8Rg=;
- b=hR8opll8KlZihDQCaDVYPmXH89VQDSKhFShPr32dvWkqiXyg+TjHgCWoJtm6LBBiya
- JNoql874JnCssBmQxZCHowi34YaIz1aijqTO3U237DvJ8Zs9cr+MKav0txqsB01WL51Y
- so07xC9wA70GF8vnXp0S7Nj2SQKtkorDk/3TFWs+NtZVqtW3BFUc9qkt0Mk4TpxDERKx
- tJmHie+Y/AztP/W5/DJmrKggiKoSdqsYCb6vl+KZJ25fDuWDwmNEsghTy8Qt+bqMu9y8
- E3ZOu5bEe/T4BTmeojbJQ2rM49K8RTw7xck8kad2/NG3S0TG7mxbMJBiDkWvrgGw2iuU
- La9w==
-X-Gm-Message-State: AJIora+RT2nOxCuIWCHHeGus5MmPALL2hUVQQ4l/tl27oHiyi7w2gGMC
- RbFJyXE3W70o6FENQGLAA3Y=
-X-Google-Smtp-Source: AGRyM1sakRCV4QFb6DvtU4gnXvhnzZNuVTvM9I0nKjKAn0cOFnvi2cXEqpaAGuHVniGGE9URjY6kog==
-X-Received: by 2002:a5d:4589:0:b0:21b:8568:f38e with SMTP id
- p9-20020a5d4589000000b0021b8568f38emr11039593wrq.165.1656319974592; 
- Mon, 27 Jun 2022 01:52:54 -0700 (PDT)
-Received: from [10.7.237.7] (54-240-197-231.amazon.com. [54.240.197.231])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=vw+4KlHe3+4eh78zLuLQH///2Hyz6HeH8C0n/7jdC7M=;
+ b=qo+jvVv5PfPCavbFp/3mkbtLxqKnwbgjgHC2Kt5sCGmxhElu2eppXPqynpotcW8GTa
+ xjGV0qrD2wswAV52i4Xdg2hax8BMvz+hhUlZp0mj2aIUObSlI19nWFQI9xkjJiY42Oum
+ zxqDgpNtT7/R6+YycRLMW0fEFonuIPjRRMS8UZcwxUw2nUsX85do7iZZUissUTofv6De
+ 848xvaSWbNDXJHK6MyCynnzeslrJIxH8N+lyODGIh35d20E/0/BZr9tAxTTO9gheSE++
+ YcT2Q8g2fEw6CmVEROm52R1rdwCi6RwkJGMrTAjrvwplY48RVwn4+8S7PWgqgnzIK8DY
+ eHTQ==
+X-Gm-Message-State: AJIora9ejiijgmfx0kmOdcuTZfjJGPtUDX/3OPuYrgEWrJM9ow3HIitU
+ sUhOREkgXd03m27E47bMm4Ywrg==
+X-Google-Smtp-Source: AGRyM1tWRvCm/BW0e0yEk0X0BhmrzLitL9+lkADsbBA61LlfBdT8dJ2zx5K05J0HO/I2F87ZOAOKHQ==
+X-Received: by 2002:a05:600c:2246:b0:3a0:4d14:e9ca with SMTP id
+ a6-20020a05600c224600b003a04d14e9camr1498280wmm.25.1656320211203; 
+ Mon, 27 Jun 2022 01:56:51 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a5d4bc1000000b00219e77e489fsm9633148wrt.17.2022.06.27.01.52.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 01:52:54 -0700 (PDT)
-Message-ID: <c4dae18f-5337-ef74-ea9d-0d6f20c9b919@gmail.com>
-Date: Mon, 27 Jun 2022 09:52:53 +0100
+ l15-20020a05600c1d0f00b003a04962ad3esm4762821wms.31.2022.06.27.01.56.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 01:56:50 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9ABEB1FFB7;
+ Mon, 27 Jun 2022 09:56:49 +0100 (BST)
+References: <20220607204557.658541-1-richard.henderson@linaro.org>
+ <20220607204557.658541-47-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.27; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 46/53] semihosting: Add GuestFDConsole
+Date: Mon, 27 Jun 2022 09:56:44 +0100
+In-reply-to: <20220607204557.658541-47-richard.henderson@linaro.org>
+Message-ID: <87k092lc1a.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 2/2] hw/i386/xen/xen-hvm: Inline
- xen_piix_pci_write_config_client() and remove it
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-References: <20220626094656.15673-1-shentey@gmail.com>
- <20220626094656.15673-3-shentey@gmail.com>
-From: "Durrant, Paul" <xadimgnik@gmail.com>
-In-Reply-To: <20220626094656.15673-3-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42e.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,18 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/06/2022 10:46, Bernhard Beschow wrote:
-> xen_piix_pci_write_config_client() is implemented in the xen sub tree and
-> uses PIIX constants internally, thus creating a direct dependency on
-> PIIX. Now that xen_set_pci_link_route() is stubbable, the logic of
-> xen_piix_pci_write_config_client() can be moved to PIIX which resolves
-> the dependency.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Add a GuestFDType for connecting to the semihosting console.
+> Hook up to read, write, isatty, and fstat syscalls.
+>
+> Note that the arm-specific syscall flen cannot be applied
+> to the console, because the console is not a descriptor
+> exposed to the guest.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
