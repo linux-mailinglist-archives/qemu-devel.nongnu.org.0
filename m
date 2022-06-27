@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A2F55BB7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 20:08:09 +0200 (CEST)
-Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A0B55BB9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 20:27:15 +0200 (CEST)
+Received: from localhost ([::1]:49156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5t9c-0005bs-B0
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 14:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47942)
+	id 1o5tS6-0006WJ-7e
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 14:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o5t6M-0003Je-5q; Mon, 27 Jun 2022 14:04:46 -0400
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:44579)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o5t68-00010Y-6U; Mon, 27 Jun 2022 14:04:45 -0400
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-101e1a33fe3so13874474fac.11; 
- Mon, 27 Jun 2022 11:04:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Lngr2u/wkCQ0HhwKFEjeFOtUKqjd/bWeZD0lbyHWSm4=;
- b=LjcQw6BpghKjRgWdd2VEHLAm5bcPMZVucrblSyfgMG4BubrVK1D+rIesLQ+hDe9g6b
- xLWcMTy3LMywTND6GNp+fzbsdC0leeMOWz/w65iobf5dPHPtbqAZXXOsIVC4PJGUjOvJ
- Xm2bbq1NpCSPMdWumfdBBWR7LVHgipQhwaAk2QdFoajrKT1Ibpq3EZmJ2qRget8HUf5t
- r8V6U1ps4aj1uX1k3PRzntirFl2nne4O1pqGctjCwpTS0gPEERuAj9qXU8nhDEq5ynWf
- VepB4oNbXo6Yyea6a4+5ynHj39NY5CUQt6hoSt7YqplJForcpM2EXxL0I1pF0gbnQT0H
- /LHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Lngr2u/wkCQ0HhwKFEjeFOtUKqjd/bWeZD0lbyHWSm4=;
- b=j/QQQEAOQuOi85v1K4fnWvsfbKOAmUnXeOHG3fiiamxglAxNzB1jV15KTEcW1P/09M
- SKIMHjUVOCfHSa0byoyC8W1FRy1utd6LemehhL9P0k09QpT4AsXlgcEJs+UTIsH7F0Xn
- 8EQpmM5IAZHZJeF4LOP18gL+lgwf+V/Fn5xbkq00HQCVHwKWQmZ1lDdAucWB9n/CkWh3
- Rrzu45YoeJbnEZgpcom5qkGppHPfJHK/V/wtcZj2Qdc5G6CsejAyB2t8GfIWmaKMWPUm
- 2QUN727bzpxEXGfNZrD1enRbvq/KWGCloO17p+rlXFTE3nRPhN5x9mxSlPYfZ90xVZ3v
- RSzA==
-X-Gm-Message-State: AJIora+Ky74/j+O2SDKzpnS9wTfntjVGqzncrNmjLoU8jJNYzxhn+Qkd
- sQncJ2juBqxrrE1xFQPnTNk=
-X-Google-Smtp-Source: AGRyM1vlkICbZ/IbfJ7cmY28VxzvuKBM0cCCceH92TThj4DD9vlmuFWR8XNmWDPNUgtXNhy9vV/YCQ==
-X-Received: by 2002:a05:6870:5715:b0:101:a89e:8d6b with SMTP id
- k21-20020a056870571500b00101a89e8d6bmr7893752oap.277.1656353061485; 
- Mon, 27 Jun 2022 11:04:21 -0700 (PDT)
-Received: from [192.168.10.102] ([191.193.1.105])
- by smtp.gmail.com with ESMTPSA id
- e23-20020a9d0197000000b0060c05f45c38sm6750376ote.48.2022.06.27.11.04.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 11:04:21 -0700 (PDT)
-Message-ID: <68899a51-f375-38ad-3196-d7d9c557f5c6@gmail.com>
-Date: Mon, 27 Jun 2022 15:04:18 -0300
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o5tQe-0005YS-Gl; Mon, 27 Jun 2022 14:25:44 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45234)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o5tQc-0004HP-4A; Mon, 27 Jun 2022 14:25:43 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25RGhbh4022954;
+ Mon, 27 Jun 2022 18:25:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : from : subject : to : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=9uSgT02IuOfaSZDmG8X7I7qIRwi4V57wvBc6yL6Qlj0=;
+ b=SobdZuZUOL83fjQ94G+KWxXXdHAp033Wfu9n7+bGwou3ztKj1iPnlOBpwxcPM/m/eQK4
+ CGHbveDZitwtcOEPizpyreYAsP53bBD9YDMVDmL3VhJddi02iF0WbT9SRIGs2+rDkKEC
+ /7BDXF9vltSHkNVKGs37JHAVjYFqpyTz9OS0FGPn8gTetwK8t3NXvE5torRII9CVQVCp
+ Pf8LSGNUQgFZUWYphrmxMPuokwQAGkeCCJYbugHVLaplEe6gVJF7z6a3goplzqexGTck
+ P2GH8uOo3DsEU5mLtg9a+onLH1tafM3xWLsSC16Ih90y10XJbpoTqPmAykPLsccZLIRg Jw== 
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gygakjt41-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Jun 2022 18:25:40 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25RIK4LH010577;
+ Mon, 27 Jun 2022 18:25:38 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04fra.de.ibm.com with ESMTP id 3gwt092hkc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Jun 2022 18:25:38 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25RIPauB25231778
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Jun 2022 18:25:36 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4ADCB11C04C;
+ Mon, 27 Jun 2022 18:25:36 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1077411C04A;
+ Mon, 27 Jun 2022 18:25:36 +0000 (GMT)
+Received: from [9.145.72.213] (unknown [9.145.72.213])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 27 Jun 2022 18:25:35 +0000 (GMT)
+Message-ID: <111e5b6c-41a7-89a4-b4d2-2eda1a295ffa@linux.ibm.com>
+Date: Mon, 27 Jun 2022 20:25:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH qemu v2 1/2] ppc: Define SETFIELD for the ppc target
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+Subject: Slowness with multi-thread TCG?
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20220617060703.951747-1-aik@ozlabs.ru>
- <20220617060703.951747-2-aik@ozlabs.ru>
- <806270d7-c630-d436-43fc-bed8fd3ef694@gmail.com>
- <6fca16ae-5df2-0bc3-8a98-0d31594f89a9@ozlabs.ru>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <6fca16ae-5df2-0bc3-8a98-0d31594f89a9@ozlabs.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: zXACTLyTAk00bOLdes0NPXRBg5XEn7PU
+X-Proofpoint-GUID: zXACTLyTAk00bOLdes0NPXRBg5XEn7PU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-27_06,2022-06-24_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ bulkscore=0 mlxlogscore=999 phishscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 suspectscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206270074
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,146 +105,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+[ Resending as it was meant for the qemu-ppc list ]
+
+Hello,
+
+I've been looking at why our qemu powernv model is so slow when booting 
+a compressed linux kernel, using multiple vcpus and multi-thread tcg. 
+With only one vcpu, the decompression time of the kernel is what it is, 
+but when using multiple vcpus, the decompression is actually slower. And 
+worse: it degrades very fast with the number of vcpus!
+
+Rough measurement of the decompression time on a x86 laptop with 
+multi-thread tcg and using the qemu powernv10 machine:
+1 vcpu => 15 seconds
+2 vcpus => 45 seconds
+4 vcpus => 1 min 30 seconds
+
+Looking in details, when the firmware (skiboot) hands over execution to 
+the linux kernel, there's one main thread entering some bootstrap code 
+and running the kernel decompression algorithm. All the other secondary 
+threads are left spinning in skiboot (1 thread per vpcu). So on paper, 
+with multi-thread tcg and assuming the system has enough available 
+physical cpus, I would expect the decompression to hog one physical cpu 
+and the time needed to be constant, no matter the number of vpcus.
+
+All the secondary threads are left spinning in code like this:
+
+	for (;;) {
+		if (cpu_check_jobs(cpu))  // reading cpu-local data
+			break;
+		if (reconfigure_idle)     // global variable
+			break;
+		barrier();
+	}
+
+The barrier is to force reading the memory with each iteration. It's 
+defined as:
+
+   asm volatile("" : : : "memory");
 
 
-On 6/27/22 01:54, Alexey Kardashevskiy wrote:
-> 
-> 
-> On 6/25/22 06:12, Daniel Henrique Barboza wrote:
->> Alexey,
->>
->> The newer version of this patch is having trouble with Gitlab runners, as
->> you can read in my feedback there.
->>
->> I've tested this one just in case. The same problems happen. E.g. for the
->> cross-armel-system runner:
->>
->>
->> In file included from ../hw/intc/pnv_xive.c:14:
->> ../hw/intc/pnv_xive.c: In function ‘pnv_xive_block_id’:
->> /builds/danielhb/qemu/target/ppc/cpu.h:45:33: error: conversion from ‘long long unsigned int’ to ‘long unsigned int’ changes value from ‘4222124650659840’ to ‘0’ [-Werror=overflow]
->>     45 | #define PPC_BITMASK(bs, be)     ((PPC_BIT(bs) - PPC_BIT(be)) | PPC_BIT(bs))
->>        | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> /builds/danielhb/qemu/target/ppc/cpu.h:51:42: note: in definition of macro ‘GETFIELD’
->>     51 |     (((word) & (mask)) >> __builtin_ctzl(mask))
->>        |                                          ^~~~
->> ../hw/intc/pnv_xive_regs.h:77:41: note: in expansion of macro ‘PPC_BITMASK’
->>     77 | #define  PC_TCTXT_CHIPID                PPC_BITMASK(12, 15)
->>        |                                         ^~~~~~~~~~~
->> ../hw/intc/pnv_xive.c:80:24: note: in expansion of macro ‘PC_TCTXT_CHIPID’
->>     80 |         blk = GETFIELD(PC_TCTXT_CHIPID, cfg_val);
->>        |                        ^~~~~~~~~~~~~~~
->> ../hw/intc/pnv_xive.c: In function ‘pnv_xive_vst_addr’:
->> /builds/danielhb/qemu/target/ppc/cpu.h:45:33: error: conversion from ‘long long unsigned int’ to ‘long unsigned int’ changes value from ‘13835058055282163712’ to ‘0’ [-Werror=overflow]
->>     45 | #define PPC_BITMASK(bs, be)     ((PPC_BIT(bs) - PPC_BIT(be)) | PPC_BIT(bs))
->>        | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> /builds/danielhb/qemu/target/ppc/cpu.h:51:42: note: in definition of macro ‘GETFIELD’
->>     51 |     (((word) & (mask)) >> __builtin_ctzl(mask))
->>        |                                          ^~~~
->> ../hw/intc/pnv_xive_regs.h:230:33: note: in expansion of macro ‘PPC_BITMASK’
->>    230 | #define VSD_MODE                PPC_BITMASK(0, 1)
->>        |                                 ^~~~~~~~~~~
->> ../hw/intc/pnv_xive.c:226:18: note: in expansion of macro ‘VSD_MODE’
->>    226 |     if (GETFIELD(VSD_MODE, vsd) == VSD_MODE_FORWARD) {
->>        |                  ^~~~~~~~
->> ../hw/intc/pnv_xive.c: In function ‘pnv_xive_end_update’:
->>
->>
->> Link:
->>
->> https://gitlab.com/danielhb/qemu/-/jobs/2637716673
->>
->>
->> I don´t know how to deal with that.
->>
->>
->> For the record: if this is too troublesome to fix, I am ok with just consolidating
->> the GETFIELD and SETFIELD inlines we already have, under cpu.h, keeping them exactly
->> as they are today (functions, not macros).
->>
->>
->> Thanks,
->>
->>
->> Daniel
->>
->>
->>
->> On 6/17/22 03:07, Alexey Kardashevskiy wrote:
->>> It keeps repeating, move it to the header. This uses __builtin_ctzl() to
->>> allow using the macros in #define.
->>>
->>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>> ---
->>>   include/hw/pci-host/pnv_phb3_regs.h | 16 ----------------
->>>   target/ppc/cpu.h                    |  5 +++++
->>>   hw/intc/pnv_xive.c                  | 20 --------------------
->>>   hw/intc/pnv_xive2.c                 | 20 --------------------
->>>   hw/pci-host/pnv_phb4.c              | 16 ----------------
->>>   5 files changed, 5 insertions(+), 72 deletions(-)
->>>
->>> diff --git a/include/hw/pci-host/pnv_phb3_regs.h b/include/hw/pci-host/pnv_phb3_regs.h
->>> index a174ef1f7045..38f8ce9d7406 100644
->>> --- a/include/hw/pci-host/pnv_phb3_regs.h
->>> +++ b/include/hw/pci-host/pnv_phb3_regs.h
->>> @@ -12,22 +12,6 @@
->>>   #include "qemu/host-utils.h"
->>> -/*
->>> - * QEMU version of the GETFIELD/SETFIELD macros
->>> - *
->>> - * These are common with the PnvXive model.
->>> - */
->>> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
->>> -{
->>> -    return (word & mask) >> ctz64(mask);
->>> -}
->>> -
->>> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
->>> -                                uint64_t value)
->>> -{
->>> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
->>> -}
->>> -
->>>   /*
->>>    * PBCQ XSCOM registers
->>>    */
->>> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->>> index 6d78078f379d..9a1f1e9999a3 100644
->>> --- a/target/ppc/cpu.h
->>> +++ b/target/ppc/cpu.h
->>> @@ -47,6 +47,11 @@
->>>                                    PPC_BIT32(bs))
->>>   #define PPC_BITMASK8(bs, be)    ((PPC_BIT8(bs) - PPC_BIT8(be)) | PPC_BIT8(bs))
->>> +#define GETFIELD(mask, word)   \
->>> +    (((word) & (mask)) >> __builtin_ctzl(mask))
-> 
-> 
-> Replacing __builtin_ctzl with __builtin_ctzll seems fixing it though, do you have a quick way to test this? Gitlab's CI takes time :)
-> https://gitlab.com/aik1/qemu/-/pipelines/573497191 is the current run.
-> Thanks,
+Some time later, the main thread in the linux kernel will get the 
+secondary threads out of that loop by posting a job.
 
-This worked for me as well.
+My first thought was that the translation of that code through tcg was 
+somehow causing some abnormally slow behavior, maybe due to some 
+non-obvious contention between the threads. However, if I send the 
+threads spinning forever with simply:
 
-Can you re-send this patch with this fix plus the extra comment Peter mentioned
-in his review?
+     for (;;) ;
 
-----
-Can we retain the explanatory comment that says why we don't
-use the standard QEMU mechanism for field extraction
-(ie the FIELD_EX*/FIELD_DP* macros and the extract64()/deposit64()
-functions) ?
-------
+supposedly removing any contention, then the decompression time is the same.
 
+Ironically, the behavior seen with single thread tcg is what I would 
+expect: 1 thread decompressing in 15 seconds, all the other threads 
+spinning for that same amount of time, all sharing the same physical 
+cpu, so it all adds up nicely: I see 60 seconds decompression time with 
+4 vcpus (4x15). Which means multi-thread tcg is slower by quite a bit. 
+And single thread tcg hogs one physical cpu of the laptop vs. 4 physical 
+cpus for the slower multi-thread tcg.
 
-You can re-send this as v4 (I'm assuming that we're giving up trying to copy
-the Skiboot macros) and then I'll take the patch together with the watchdog
-v3 implementation.
+Does anybody have an idea of what might happen or have suggestion to 
+keep investigating?
+Thanks for your help!
 
+   Fred
 
-Thanks,
-
-Daniel
-
-> 
-> 
 
