@@ -2,73 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE0A555BA3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 16:05:04 +0200 (CEST)
-Received: from localhost ([::1]:55432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF71D55BA93
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 16:48:46 +0200 (CEST)
+Received: from localhost ([::1]:47688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5pMN-0005og-8w
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 10:05:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51438)
+	id 1o5q2f-0007Ve-QK
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 10:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1o5pKp-0004p2-Ux; Mon, 27 Jun 2022 10:03:27 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:34579)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1o5pKl-00070R-Vz; Mon, 27 Jun 2022 10:03:26 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id t16so14883039qvh.1;
- Mon, 27 Jun 2022 07:03:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hEKzFTDXl73R/avhdjm1AghHuuMtVzKGAZrRfKUqK/s=;
- b=mpepH2sxWEdtCGVMU07b37EG0MfMYj+hclhDCM++QoWVd+hV7qzU9Wv9WUFzn8StF/
- YW8p70msJQRNucGrWtxU8QxIRZ080FPbIY4RSNobaG77E2eHSixbR54Pr7oak4PNvlGT
- ci+QNLTLqelwO5T9vIcmUbeZVd7FT0j2uxQjC2xwxGdCMPzUqGXs2vb6B1DyrueCuZH/
- SGJ0ZZ+TS+O3TMfqSLlTGsckSXDbz5DNnK3KoXhGcyyhrN5jz4cdWAxHiyinU6LrjvwJ
- 6y2gD4oyZBJr7QWwov+MBg8PMEoh02pRDwds6TUY+f+X09hfy3LzjOjy1FSOWxNBR0+/
- Uarg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hEKzFTDXl73R/avhdjm1AghHuuMtVzKGAZrRfKUqK/s=;
- b=U2LASUUw2x0ls2N5EOuY3YL70dgbGHHmBAiDgHgKVrTIpp/2XuCnTaYuCFqq3YeUeV
- qkcJs6N5l/9MGMlsSrcc0yUqApWRZdmI0JCrqbEX/lW6jsACOWMRz1YdhvzzwWLOOOEI
- m2j5lHJU8IjY4ybtASvlCq98KEZKY1WJhuo0SGpdWWKItLS/J2RCyE0kIxerI9z0k3p6
- eoPHuKieTJ9uI3F0wZ6ycrV2JZemsHMZCAZ1x5Z7BzsqhTE9EN3kXfHBTF1kSbMt3IBP
- W2nKmqBQ+RL6R7UHqCAEyzCfYIxvTjLvpy4gNvgvXzO1wFjg79oas8JLF0k8dsRPRaxe
- HGOg==
-X-Gm-Message-State: AJIora+tTAQRbXXECupqiRTaR3de1RXZMJNN/TyBcsceve2D5NGg4qKm
- 7yqqzuCh0QtOHzabHVhQ2D5l55zram2OqqYmV6A=
-X-Google-Smtp-Source: AGRyM1tMxOEJJ5bc4Ss5uxpIUn5NVB1eJmgVEHzOSOdZmr+l2JGaS+VoNKEYxkVYMJDQsc8/Ja5aYrMw8GOmtAnu9zw=
-X-Received: by 2002:a05:622a:14f:b0:31b:a118:8833 with SMTP id
- v15-20020a05622a014f00b0031ba1188833mr1080448qtw.543.1656338600550; Mon, 27
- Jun 2022 07:03:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1o5q01-00066I-4M; Mon, 27 Jun 2022 10:46:01 -0400
+Received: from [200.168.210.66] (port=24325 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1o5pzz-0005Gk-Ly; Mon, 27 Jun 2022 10:46:00 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 27 Jun 2022 11:11:11 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 459D58001D4;
+ Mon, 27 Jun 2022 11:11:11 -0300 (-03)
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, farosas@linux.ibm.com, laurent@vivier.eu,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>
+Subject: [PATCH 0/6] Fix gen_*_exception error codes
+Date: Mon, 27 Jun 2022 11:10:58 -0300
+Message-Id: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220608062015.317894-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220608062015.317894-1-alistair.francis@opensource.wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 27 Jun 2022 22:03:08 +0800
-Message-ID: <CAEUhbmW+4r75w0rL1=ho_28HyFWX-ZnnsXpC9-ZsOzrGZ9MDzg@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: boot: Reduce FDT address alignment constraints
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 27 Jun 2022 14:11:11.0535 (UTC)
+ FILETIME=[C11BCBF0:01D88A2F]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,27 +61,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 8, 2022 at 2:20 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> We previously stored the device tree at a 16MB alignment from the end of
-> memory (or 3GB). This means we need at least 16MB of memory to be able
-> to do this. We don't actually need the FDT to be 16MB aligned, so let's
-> drop it down to 2MB so that we can support systems with less memory,
-> while also allowing FDT size expansion.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/992
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/riscv/boot.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
+The first patch of this series is the RFC of [1] (hence the r-b in v1).
+Patches 2~4 follow the other problems that Laurent pointed out, and
+patches 5-6 fix similar problems that I found.
 
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
+[1] https://lists.gnu.org/archive/html/qemu-ppc/2022-01/msg00400.html
 
-Tested booting Linux 64-bit/32-bit v5.18 kernel, VxWorks 7
-64-bit/32-bit 22.06 release kernel
-Tested-by: Bin Meng <bin.meng@windriver.com>
+Matheus Ferst (6):
+  target/ppc: Fix gen_priv_exception error value in mfspr/mtspr
+  target/ppc: fix exception error value in slbfee
+  target/ppc: remove mfdcrux and mtdcrux
+  target/ppc: fix exception error code in helper_{load,store}_dcr
+  target/ppc: fix PMU Group A register read/write exceptions
+  target/ppc: fix exception error code in spr_write_excp_vector
+
+ target/ppc/cpu.h                 |  6 ++----
+ target/ppc/helper.h              |  2 +-
+ target/ppc/power8-pmu-regs.c.inc | 10 ++++-----
+ target/ppc/timebase_helper.c     |  6 +++---
+ target/ppc/translate.c           | 36 ++++++++------------------------
+ 5 files changed, 20 insertions(+), 40 deletions(-)
+
+-- 
+2.25.1
+
 
