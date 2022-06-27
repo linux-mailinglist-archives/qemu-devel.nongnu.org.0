@@ -2,80 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8587A55B8FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 11:42:08 +0200 (CEST)
-Received: from localhost ([::1]:39358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993DD55B901
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 11:50:17 +0200 (CEST)
+Received: from localhost ([::1]:50234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5lFv-0006jJ-6y
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 05:42:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58412)
+	id 1o5lNo-0005cB-O1
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 05:50:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
- id 1o5lEd-0005vV-Oj
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 05:40:47 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:40571)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
- id 1o5lEa-0005hW-9N
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 05:40:45 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- g16-20020a17090a7d1000b001ea9f820449so11813799pjl.5
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 02:40:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Eoem14HyIKeEgta9L2NWsRLO0Mx5dugcrbGLdCtuEbo=;
- b=BGGVYXxKCoKy1ZUWE44q/laozZapDu+pfGsrUqJH7AuxV0g0FsE2z5xk4C7RUElIo1
- sZqTXRl9Aca/VzvgR4JlTsDq7n+5l0TGxKAQHe8gfeh4dGM3vc2TSCsDS2xgzoD0SrBO
- A31960IPoXv26beQTI1n40gj3AksKpwu5DMS9Y5twV+qcrFH/NJZseWR+Z6fBEq+lDKK
- PRweKaugMTsKExOYcFYi33NHGcIMY35PEjE3fHAis387Imxl7qWke3BeUR0X5C+nwLxj
- IS5XJxdMD/Tcp9QeAYH3Eix6UkCDt0gutUNPmWq59PjfOpDjEtYNVGOYjF9oH5GvMAi6
- 5mAQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o5lIH-000845-Qm
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 05:44:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o5lIE-00069m-KF
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 05:44:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656323068;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iG7tDiGxU0wP99DKLLuS8vaWTrFaV92ThFHt4wNAi0E=;
+ b=Jp4Nx0bboplnYdtndl2ClTgKPP5Qq/Be6UGDKuy3aMqIXy4dB2QVQo5gmIHHU4bqyDLTgO
+ KAICEWgSmZJgVGpqQKPanogro0Wvu2krZqZZFdFt20A5106l070DVr5I9kClWfF5rkg2ma
+ rHTuE++0MtV8F3oOOmzzeWtiE95d5MU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-463-sp5RvB_WOV6b06-QLgoIbQ-1; Mon, 27 Jun 2022 05:44:27 -0400
+X-MC-Unique: sp5RvB_WOV6b06-QLgoIbQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s14-20020adfa28e000000b0020ac7532f08so1043274wra.15
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 02:44:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:from:to:cc:references:subject:in-reply-to
  :content-transfer-encoding;
- bh=Eoem14HyIKeEgta9L2NWsRLO0Mx5dugcrbGLdCtuEbo=;
- b=ruRDz18gLwf3w7EXHHHG7UuOgR28nZfb8PtfgtcL0mMNHooc8Vg6UOAsEVc78exvZQ
- DudtCvgDD9Z8Rj7JMUhMSIwfemWV8shOv+glbzVJdui6pH19LD9Ah2R5BkQAMp91OVvU
- K0+/oyc/hPddOUJ8abHc9/p4+/yvgr4X8XsCHK8TfcnaHcuBWr1NCAG/VzpFzurbT37R
- RjerZYDl1bD2L/UxH1gH66deNfRPslMgaKUOd99eZYayn57aQ9oKFlnCDI2eJnffnZ9l
- 5AqpDccnJIauycW9VjZ0Ei6AoPhhI1XUJHryKBPPY60m0vszyzc0ZXCHzidYRF4h5sYp
- Mezg==
-X-Gm-Message-State: AJIora/9Zc1rQ/hoCf4dbsRVxCk3kDEdRVcp+yiRHy1jYWGTx/dJ6wrJ
- YXBJofHAyx0KXGJWiVx3DgsPEQ==
-X-Google-Smtp-Source: AGRyM1tTVFpxUss4T8NZ/gdUTyFCz3etYEM853Jx1xpgrPSJMHqvZBAk1eamcc0cEpjX3uGkGHw8XQ==
-X-Received: by 2002:a17:90a:4944:b0:1ec:7585:3167 with SMTP id
- c62-20020a17090a494400b001ec75853167mr14448909pjh.35.1656322842437; 
- Mon, 27 Jun 2022 02:40:42 -0700 (PDT)
-Received: from rpathak-ThinkPad-T490.dc1.ventanamicro.com
- ([2405:201:1010:106f:39d1:78b4:ede5:f50c])
- by smtp.googlemail.com with ESMTPSA id
- c12-20020a624e0c000000b005258df61ceesm4183667pfb.90.2022.06.27.02.40.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 02:40:41 -0700 (PDT)
-From: Rahul Pathak <rpathak@ventanamicro.com>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- apatel@ventanamicro.com, rpathak@ventanamicro.com, rpathakmailbox@gmail.com
-Subject: [PATCH] target/riscv: fix user-mode build issue because mhartid
-Date: Mon, 27 Jun 2022 15:10:29 +0530
-Message-Id: <20220627094029.1379700-1-rpathak@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
+ bh=iG7tDiGxU0wP99DKLLuS8vaWTrFaV92ThFHt4wNAi0E=;
+ b=mXZM6HICzmNmJhWyNU9kCN+gFsiZp8RQ/wm95FLkvZtnymeMiVCr3XlaXnzL6TSX2I
+ rVhT32HJG6vzHcCcnmcsOGXqcG3KFgkrSGDpGMwxEY8XOsgho0IbTG3deLN0DTO+iZXd
+ RoQivNm40kPsnh0p3uxD7Jek8cn5JYtTWYQYsjXDyoDwWMemPDGaiewiL1XAAWhbvwSu
+ h9i6xKGFAWs8dlKMxTHvxJMwKZQ7fcjqllvC+D/wkmknCZsdqO7FXnQSZmIPnjr4dkFE
+ Jxnu2kPdiJhQo3UwMS7MA8nXe/DT2a8+BAv6QuFDd3+HfeOpR/9G6yltzj3E5pvx+rjT
+ FKRw==
+X-Gm-Message-State: AJIora8ji1vQL7t3xdLItWmaaoCaZFc/t1RBKsg/7cso0ePKEkC74yw0
+ 9UnIujG2yt91nQKZSq5DnxIw8Io2+H5nsnOJyptTqbGu6OLWysvSn2WM5hbP25WnUxnl3Fa+yGh
+ 8KQtkh4TLayfvI3U=
+X-Received: by 2002:adf:e28a:0:b0:210:b31:722 with SMTP id
+ v10-20020adfe28a000000b002100b310722mr11415463wri.65.1656323066176; 
+ Mon, 27 Jun 2022 02:44:26 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uHPBvE/yE2G/wLRM1HyezdnpL4LT+uPKFE9ct1WfEJ7MEs2dIyN3eFyj5y3Z0w9LWDdowW9g==
+X-Received: by 2002:adf:e28a:0:b0:210:b31:722 with SMTP id
+ v10-20020adfe28a000000b002100b310722mr11415452wri.65.1656323065947; 
+ Mon, 27 Jun 2022 02:44:25 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-178-150.web.vodafone.de.
+ [109.43.178.150]) by smtp.gmail.com with ESMTPSA id
+ p26-20020a1c741a000000b0039c798b2dc5sm16403912wmc.8.2022.06.27.02.44.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jun 2022 02:44:25 -0700 (PDT)
+Message-ID: <94c840e5-c126-f42a-666b-8375c7a4169d@redhat.com>
+Date: Mon, 27 Jun 2022 11:44:24 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=rpathak@ventanamicro.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-s390x@nongnu.org, Eric Farman <farman@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220624085037.612235-1-thuth@redhat.com>
+ <20220624085037.612235-2-thuth@redhat.com>
+Subject: Re: [PATCH 1/2] pc-bios/s390-ccw/virtio-blkdev: Simplify/fix
+ virtio_ipl_disk_is_valid()
+In-Reply-To: <20220624085037.612235-2-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,36 +102,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mhartid csr is not available in user-mode code path and
-user-mode build fails because of its reference in
-riscv_cpu_realize function
+On 24/06/2022 10.50, Thomas Huth wrote:
+> The s390-ccw bios fails to boot if the boot disk is a virtio-blk
+> disk with a sector size of 4096. For example:
+> 
+>   dasdfmt -b 4096 -d cdl -y -p -M quick /dev/dasdX
+>   fdasd -a /dev/dasdX
+>   install a guest onto /dev/dasdX1 using virtio-blk
+>   qemu-system-s390x -nographic -hda /dev/dasdX1
+> 
+> The bios then bails out with:
+> 
+>   ! Cannot read block 0 !
+> 
+> Looking at virtio_ipl_disk_is_valid() and especially the function
+> virtio_disk_is_scsi(), it does not really make sense that we expect
+> only such a limited disk geometry (like a block size of 512) for
+> out boot disks. Let's relax the check and allow everything that
+> remotely looks like a sane disk.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   pc-bios/s390-ccw/virtio.h        |  2 --
+>   pc-bios/s390-ccw/virtio-blkdev.c | 41 ++++++--------------------------
+>   2 files changed, 7 insertions(+), 36 deletions(-)
 
-Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
----
- target/riscv/cpu.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+I just noticed that this breaks booting ISO images via the "-cdrom" option 
+... looks like this needs some additional fixes on top.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 0a794ef622..03f23d4b6d 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -643,9 +643,15 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
-             (env->priv_ver < isa_edata_arr[i].min_version)) {
-             isa_ext_update_enabled(cpu, &isa_edata_arr[i], false);
-+#ifndef CONFIG_USER_ONLY
-             warn_report("disabling %s extension for hart 0x%lx because "
-                         "privilege spec version does not match",
-                         isa_edata_arr[i].name, (unsigned long)env->mhartid);
-+#else
-+            warn_report("disabling %s extension for hart 0x%lx because "
-+                        "privilege spec version does not match",
-+                        isa_edata_arr[i].name);
-+#endif
-         }
-     }
- 
--- 
-2.34.1
+  Thomas
 
 
