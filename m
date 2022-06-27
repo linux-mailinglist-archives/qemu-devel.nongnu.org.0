@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A3E55BA8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 16:37:50 +0200 (CEST)
-Received: from localhost ([::1]:55854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A7155BA85
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 16:33:19 +0200 (CEST)
+Received: from localhost ([::1]:46238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5ps5-0001m8-1M
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 10:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56050)
+	id 1o5pni-0003bV-Bp
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 10:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1o5pjC-0000HK-Kp; Mon, 27 Jun 2022 10:28:38 -0400
+ id 1o5pjF-0000P4-9s; Mon, 27 Jun 2022 10:28:41 -0400
 Received: from [200.168.210.66] (port=27402 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1o5pjA-0002K1-5q; Mon, 27 Jun 2022 10:28:38 -0400
+ id 1o5pjD-0002K1-PJ; Mon, 27 Jun 2022 10:28:41 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Mon, 27 Jun 2022 11:11:12 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 2F4198001D4;
+ by p9ibm (Postfix) with ESMTP id 6C985800310;
  Mon, 27 Jun 2022 11:11:12 -0300 (-03)
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -29,17 +29,16 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, farosas@linux.ibm.com, laurent@vivier.eu,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH 4/6] target/ppc: fix exception error code in helper_{load,
- store}_dcr
-Date: Mon, 27 Jun 2022 11:11:02 -0300
-Message-Id: <20220627141104.669152-5-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 5/6] target/ppc: fix PMU Group A register read/write exceptions
+Date: Mon, 27 Jun 2022 11:11:03 -0300
+Message-Id: <20220627141104.669152-6-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
 References: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Jun 2022 14:11:12.0505 (UTC)
- FILETIME=[C1AFCE90:01D88A2F]
+X-OriginalArrivalTime: 27 Jun 2022 14:11:12.0708 (UTC)
+ FILETIME=[C1CEC840:01D88A2F]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,68 +63,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-POWERPC_EXCP_INVAL should only be or-ed with other constants prefixed
-with POWERPC_EXCP_INVAL_. Also, take the opportunity to move both
-helpers under #if !defined(CONFIG_USER_ONLY) as the instructions that
-use them are privileged.
+A call to "gen_(hv)priv_exception" should use POWERPC_EXCP_PRIV_* as the
+'error' argument instead of POWERPC_EXCP_INVAL_*, and POWERPC_EXCP_FU is
+an exception type, not an exception error code. To correctly set
+FSCR[IC], we should raise Facility Unavailable with this exception type
+and IC value as the error code.
 
-No functional change is intended, the lower 4 bits of the error code are
-ignored by all powerpc_excp_* methods on POWERPC_EXCP_INVAL exceptions.
-
-Reported-by: Laurent Vivier <laurent@vivier.eu>
+Fixes: 565cb1096733 ("target/ppc: add user read/write functions for MMCR0")
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/helper.h          | 2 +-
- target/ppc/timebase_helper.c | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ target/ppc/power8-pmu-regs.c.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 6233e28d85..c6895f2f99 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -684,10 +684,10 @@ DEF_HELPER_2(book3s_msgclr, void, env, tl)
- DEF_HELPER_4(dlmzb, tl, env, tl, tl, i32)
- #if !defined(CONFIG_USER_ONLY)
- DEF_HELPER_2(rac, tl, env, tl)
--#endif
- 
- DEF_HELPER_2(load_dcr, tl, env, tl)
- DEF_HELPER_3(store_dcr, void, env, tl, tl)
-+#endif
- 
- DEF_HELPER_2(load_dump_spr, void, env, i32)
- DEF_HELPER_2(store_dump_spr, void, env, i32)
-diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
-index 86d01d6e4e..b80f56af7e 100644
---- a/target/ppc/timebase_helper.c
-+++ b/target/ppc/timebase_helper.c
-@@ -143,7 +143,6 @@ void helper_store_booke_tsr(CPUPPCState *env, target_ulong val)
+diff --git a/target/ppc/power8-pmu-regs.c.inc b/target/ppc/power8-pmu-regs.c.inc
+index 2bab6cece7..c3cc919ee4 100644
+--- a/target/ppc/power8-pmu-regs.c.inc
++++ b/target/ppc/power8-pmu-regs.c.inc
+@@ -22,7 +22,7 @@
+ static bool spr_groupA_read_allowed(DisasContext *ctx)
  {
-     store_booke_tsr(env, val);
- }
--#endif
+     if (!ctx->mmcr0_pmcc0 && ctx->mmcr0_pmcc1) {
+-        gen_hvpriv_exception(ctx, POWERPC_EXCP_FU);
++        gen_exception_err(ctx, POWERPC_EXCP_FU, FSCR_IC_PMU);
+         return false;
+     }
  
- /*****************************************************************************/
- /* Embedded PowerPC specific helpers */
-@@ -169,7 +168,7 @@ target_ulong helper_load_dcr(CPUPPCState *env, target_ulong dcrn)
-                           (uint32_t)dcrn, (uint32_t)dcrn);
-             raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
-                                    POWERPC_EXCP_INVAL |
--                                   POWERPC_EXCP_PRIV_REG, GETPC());
-+                                   POWERPC_EXCP_INVAL_INVAL, GETPC());
-         }
+@@ -46,10 +46,10 @@ static bool spr_groupA_write_allowed(DisasContext *ctx)
+ 
+     if (ctx->mmcr0_pmcc1) {
+         /* PMCC = 0b01 */
+-        gen_hvpriv_exception(ctx, POWERPC_EXCP_FU);
++        gen_exception_err(ctx, POWERPC_EXCP_FU, FSCR_IC_PMU);
+     } else {
+         /* PMCC = 0b00 */
+-        gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++        gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_REG);
      }
-     return val;
-@@ -192,7 +191,8 @@ void helper_store_dcr(CPUPPCState *env, target_ulong dcrn, target_ulong val)
-                           (uint32_t)dcrn, (uint32_t)dcrn);
-             raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
-                                    POWERPC_EXCP_INVAL |
--                                   POWERPC_EXCP_PRIV_REG, GETPC());
-+                                   POWERPC_EXCP_INVAL_INVAL, GETPC());
-         }
+ 
+     return false;
+@@ -214,7 +214,7 @@ void spr_read_PMC56_ureg(DisasContext *ctx, int gprn, int sprn)
+      * Interrupt.
+      */
+     if (ctx->mmcr0_pmcc0 && ctx->mmcr0_pmcc1) {
+-        gen_hvpriv_exception(ctx, POWERPC_EXCP_FU);
++        gen_exception_err(ctx, POWERPC_EXCP_FU, FSCR_IC_PMU);
+         return;
      }
- }
-+#endif
+ 
+@@ -249,7 +249,7 @@ void spr_write_PMC56_ureg(DisasContext *ctx, int sprn, int gprn)
+      * Interrupt.
+      */
+     if (ctx->mmcr0_pmcc0 && ctx->mmcr0_pmcc1) {
+-        gen_hvpriv_exception(ctx, POWERPC_EXCP_FU);
++        gen_exception_err(ctx, POWERPC_EXCP_FU, FSCR_IC_PMU);
+         return;
+     }
+ 
 -- 
 2.25.1
 
