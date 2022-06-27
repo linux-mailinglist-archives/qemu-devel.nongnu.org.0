@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F33955B379
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jun 2022 20:22:46 +0200 (CEST)
-Received: from localhost ([::1]:52686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1827355B493
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 02:21:48 +0200 (CEST)
+Received: from localhost ([::1]:50616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5WuD-0001Tu-8h
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 14:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40638)
+	id 1o5cVe-00013N-Q1
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jun 2022 20:21:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WSE-0005hW-2k
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:53:50 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WSC-0000xc-Kg
- for qemu-devel@nongnu.org; Sun, 26 Jun 2022 13:53:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=DdfsgBk5Hv35aSUZHdyDtgQuMj2it9QBOMnBaPOa99g=; b=hvbzfHimgZFDaMikV1823xxWuw
- WxBwQ4GJ+JRRvAW8HfaKRMHCJFdpMgNMc+n6SY5C3Bk0q+ys+3GOggUt4hpa0nyRWsSLoRrdCMRnD
- ss27St2U/URs4BCBBSOQZLWZ/vkorOa5QZwjFoB84a2lcJMQIR2WkJNNk78bUVuhquw7O/qZNeT59
- ttoG7KkLTPrU2kGO02Wa2LIOV86F5j1kcqzkfQiHkw/N5y1S/WA0RQG7zGSMQK93gwSNzPlhuZMns
- kD2mQkBceZMVksv0L2SF9mn0rNYGWfoY0tsXrtLZdL4LBpF89lh506TRuSwYBSwD1p2M4u1MuNk2s
- QWOgal/iI4ztox4axuP1AUsi0a3VdOIgWbC80oihleiHcdO/RAlI6B/jb8VReNS9GdNbPATIMcX52
- F0TKO/vOZKFLcu2hAvhBkc05vEG9YbAHsPj3b7Bg2kquNdTv4E1MfyV1knvklpR8RIU80O/cB5Bo9
- wikdnuySKQQRH6ZsLDAEOqfRyj3ZYwR85wfvHnWzkcEA6u+lJQg6JCUeJGW34w78NFogSRs5Fx0Go
- SmJDCFFGcyV+xjeEcQbEyOKFDO4STcBd/Y2Nss1Bi79rQ488EVHf073sL6KPNLAl2PHuuwc4W0Dxf
- utsp0tsB27eajR32EUu2UkYeGuSjbV3Xvem8+JYDA=;
-Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o5WMT-0007KY-Kl; Sun, 26 Jun 2022 18:47:57 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: richard.henderson@linaro.org,
-	qemu-devel@nongnu.org
-Date: Sun, 26 Jun 2022 18:45:31 +0100
-Message-Id: <20220626174531.969187-56-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
-References: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1o5cTe-0007Hl-F9; Sun, 26 Jun 2022 20:19:42 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:33593)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1o5cTd-0000aq-0u; Sun, 26 Jun 2022 20:19:42 -0400
+Received: by mail-pg1-x531.google.com with SMTP id z14so7653465pgh.0;
+ Sun, 26 Jun 2022 17:19:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hhtn3F1FpwB1cqvTLXGZXEA5q+CYpzZn1sPF5SV7S8E=;
+ b=VgLICf+411mZXh8FXiaUL0T5kiGFSpqxaBbvCFeOSD3pEoVjETC9VGxqi8u7d6tEcc
+ Tp0ftSV9JgEURzJPZ2z9U7Ds0P48bnp97Qo8l3Hb4WCfP9fFA27Ofr4RTocHTTrR1i6I
+ q/db/uYFhYeKTSBAr5s0v7C17ORJhoFrLDnU6PENB3dst475HzVCYVr6fUP2i3906nUq
+ nq/8EWxO3XBAMdON+7fuFMMSNVHH9o40W4PxETvTvKAfxA9QVQShaOStq+xXmq6l/xxk
+ 9MMFEQNgbCPFPA0R0bl3jKZlLmzTswm1TePdN1TuaD/n5rJRECmgfEcDRR6USpuZHAkH
+ opdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hhtn3F1FpwB1cqvTLXGZXEA5q+CYpzZn1sPF5SV7S8E=;
+ b=zzuAQ+l1gwXrmngRV48AFJFqLhouAL3WqGIoBTMK1KQSEh2kgXxJ1V2CEuP7qu9s6K
+ iBAqN5S6FWgMXf/I1F+BCew9NdNjYu+RomHys+GsL5GLxZLTn5eczkz/vChbVBhP20Cq
+ Fdkj4laLbs+m+so93Gt69OtcKZU+PY0RAA4ddVjwxGbRqNw/VWC+STvP5aSxbhdsUnnt
+ qY7Y7Tw0JtdBAmsu2s1r+lCDZVLgYhuF1d+4umzNI9habusssuUqGFjO7F25OJ1g/zMv
+ VrSJvtAhl2btzGrOis+RpDa+Yh7KOlreeaXMaB9J9ikeRtcWW8hkzcn4XM+CcHBWeYRW
+ rxsg==
+X-Gm-Message-State: AJIora/wMPVmD/+XpovM+ZfjQRq6HqHjLe1s2RDAZmFw6Cs0OXgdIIZj
+ 3nP4btLbr/KBCAfoCNBiK27gyBN7rj9vXw==
+X-Google-Smtp-Source: AGRyM1sdZ5dfxDYPRSVAjaAvIAHkxKqzHgAYa1qA8sWpJ1/ZSPpNVbj9wAsJuyuV9LbK6tT8I1Ui2g==
+X-Received: by 2002:a63:ee10:0:b0:40d:7f37:77c4 with SMTP id
+ e16-20020a63ee10000000b0040d7f3777c4mr10006846pgi.28.1656289178654; 
+ Sun, 26 Jun 2022 17:19:38 -0700 (PDT)
+Received: from fedora.. ([106.84.130.34]) by smtp.gmail.com with ESMTPSA id
+ e11-20020a6558cb000000b00408b89e4282sm5715294pgu.47.2022.06.26.17.19.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 26 Jun 2022 17:19:38 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: hare@suse.de, Hanna Reitz <hreitz@redhat.com>, dmitry.fomichev@wdc.com,
+ Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>, damien.lemoal@opensource.wdc.com,
+ qemu-block@nongnu.org, Sam Li <faithilikerun@gmail.com>
+Subject: [RFC v3 0/5] *** Add support for zoned device ***
+Date: Mon, 27 Jun 2022 08:19:12 +0800
+Message-Id: <20220627001917.9417-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.35.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 55/55] artist: set memory region owners for buffers to the
- artist device
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,30 +87,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes the output of "info qom-tree" so that the buffers appear as children
-of the artist device, rather than underneath the "unattached" container.
+*** This patch series adds support for zoned device to virtio-blk emulation. Zoned
+Storage can support sequential writes, which reduces write amplification in SSD,
+leading to higher write throughput and increased capacity.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20220624160839.886649-1-mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Helge Deller <deller@gmx.de>
----
- hw/display/artist.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v3:
+- add block layer APIs resembling Linux ZoneBlockDevice ioctls (developing) ***
 
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index eadaef0d46..fde050c882 100644
---- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -1358,7 +1358,7 @@ static void artist_create_buffer(ARTISTState *s, const char *name,
- {
-     struct vram_buffer *buf = s->vram_buffer + idx;
- 
--    memory_region_init_ram(&buf->mr, NULL, name, width * height,
-+    memory_region_init_ram(&buf->mr, OBJECT(s), name, width * height,
-                            &error_fatal);
-     memory_region_add_subregion_overlap(&s->mem_as_root, *offset, &buf->mr, 0);
- 
+Sam Li (5):
+  block: add block layer APIs resembling Linux ZonedBlockDevice ioctls.
+  qemu-io: add zoned block device operations.
+  file-posix: introduce get_sysfs_long_val for zoned device information.
+  file-posix: introduce get_sysfs_str_val for device zoned model.
+  qemu-iotests: add zone operation tests.
+
+ block/block-backend.c             |  56 +++++
+ block/coroutines.h                |   5 +
+ block/file-posix.c                | 325 +++++++++++++++++++++++++++++-
+ block/io.c                        |  21 ++
+ include/block/block-common.h      |  43 +++-
+ include/block/block-io.h          |  13 ++
+ include/block/block_int-common.h  |  20 ++
+ qemu-io-cmds.c                    | 121 +++++++++++
+ tests/qemu-iotests/tests/zoned.sh |  49 +++++
+ 9 files changed, 645 insertions(+), 8 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/zoned.sh
+
 -- 
-2.30.2
+2.35.3
 
 
