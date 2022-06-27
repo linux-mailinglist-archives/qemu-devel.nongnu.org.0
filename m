@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3229F55BBE8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 22:07:54 +0200 (CEST)
-Received: from localhost ([::1]:43556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A28055BBEB
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 22:09:53 +0200 (CEST)
+Received: from localhost ([::1]:45172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5v1V-0005ZQ-1R
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 16:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42912)
+	id 1o5v3P-0006m2-OL
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 16:09:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=71779173e5=pdel@fb.com>)
- id 1o5upR-0004In-E0
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 15:55:25 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:40516)
+ id 1o5upT-0004Lw-PC
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 15:55:27 -0400
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:9840
+ helo=mx0a-00082601.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=71779173e5=pdel@fb.com>)
- id 1o5upN-0000Xl-PG
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 15:55:25 -0400
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25RJ1SX3017564
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 12:55:19 -0700
+ id 1o5upR-0000bx-Dt
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 15:55:27 -0400
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+ by m0089730.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 25RJ1QFG015418
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 12:55:24 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=facebook;
- bh=F2M+/W7OcKmbHr/gmbp9s2sKL3xBRP/zawDGlUMf3D8=;
- b=HmmmHrlsPwNv46a+D+taYNblzUYomXs8nObzmnO6IKCFOnrnwBsdntFxUPP2xPKWe/qs
- r+OsEeeCuYAtEegOKMVOBcrXXUWLtqqEcQZ8N03+sDVfnI8Sk0zkIS2K9eKdd45NtK7Z
- kMUrMIkdPwpxokzoU20sOUIBNNTGR2P2I6g= 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=facebook;
+ bh=8rr/SRIwXN18c3w8eDU8LTPgf1MtZxfK3S3aGcaNIHE=;
+ b=azohcghHZYbTvJRdr3UFdUOoO+QJ9nLvdSVelcy9+JqAWfqC8IgD9k/mxtFg8guQiQoT
+ JJLI9fec9y6JKHWGVuKC8X2zf0Kc4esh0nqsdGBUt4uYPRHGqjB+nCwebXoC3KhlL6qU
+ mfKAhPl1YHamm3SlAqNahngm9nRACwRPPCA= 
 Received: from mail.thefacebook.com ([163.114.132.120])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3gx1p54uwu-1
+ by m0089730.ppops.net (PPS) with ESMTPS id 3gwwv756s5-15
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 12:55:18 -0700
-Received: from twshared13579.04.prn5.facebook.com (2620:10d:c085:208::11) by
- mail.thefacebook.com (2620:10d:c085:21d::4) with Microsoft SMTP Server
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 12:55:24 -0700
+Received: from twshared31479.05.prn5.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c085:11d::4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Mon, 27 Jun 2022 12:55:18 -0700
+ 15.1.2375.28; Mon, 27 Jun 2022 12:55:19 -0700
 Received: by devvm9194.prn0.facebook.com (Postfix, from userid 385188)
- id B68D28D206E3; Mon, 27 Jun 2022 12:55:07 -0700 (PDT)
+ id C07598D206E5; Mon, 27 Jun 2022 12:55:07 -0700 (PDT)
 From: Peter Delevoryas <pdel@fb.com>
 To: 
 CC: <pdel@fb.com>, <zhdaniel@fb.com>, <clg@kaod.org>, <qemu-devel@nongnu.org>, 
  <qemu-arm@nongnu.org>, <komlodi@google.com>, <titusr@google.com>,
  <andrew@aj.id.au>, <joel@jms.id.au>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 02/14] hw/i2c: add asynchronous send
-Date: Mon, 27 Jun 2022 12:54:54 -0700
-Message-ID: <20220627195506.403715-3-pdel@fb.com>
+Subject: [PATCH 03/14] hw/i2c/aspeed: add slave device in old register mode
+Date: Mon, 27 Jun 2022 12:54:55 -0700
+Message-ID: <20220627195506.403715-4-pdel@fb.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220627195506.403715-1-pdel@fb.com>
 References: <20220627195506.403715-1-pdel@fb.com>
-Content-Type: text/plain; charset="UTF-8"
-X-FB-Internal: Safe
-X-Proofpoint-ORIG-GUID: yVlyrKHYCw2tafPZnT62Y_Gld5jX1KJq
-X-Proofpoint-GUID: yVlyrKHYCw2tafPZnT62Y_Gld5jX1KJq
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+X-Proofpoint-GUID: vP3kQ6QqqS6NQnuJawZfLOXjzpXWgBGN
+X-Proofpoint-ORIG-GUID: vP3kQ6QqqS6NQnuJawZfLOXjzpXWgBGN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-06-27_06,2022-06-24_01,2022-06-22_01
-Received-SPF: pass client-ip=67.231.145.42;
+Received-SPF: pass client-ip=67.231.153.30;
  envelope-from=prvs=71779173e5=pdel@fb.com; helo=mx0a-00082601.pphosted.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -88,249 +88,190 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add an asynchronous version of i2c_send() that requires the slave to
-explicitly acknowledge on the bus with i2c_ack().
+Add slave mode functionality for the Aspeed I2C controller in old
+register mode. This is implemented by realizing an I2C slave device
+owned by the I2C controller and attached to its own bus.
 
-The current master must use the new i2c_start_send_async() to indicate
-that it wants to do an asynchronous transfer. This allows the i2c core
-to check if the target slave supports this or not. This approach relies
-on adding a new enum i2c_event member, which is why a bunch of other
-devices needs changes in their event handling switches.
+The I2C slave device only implements asynchronous sends on the bus, so
+slaves not supporting that will not be able to communicate with it.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Message-Id: <20220601210831.67259-5-its@irrelevant.dk>
+[ clg: checkpatch fixes ]
+Message-Id: <20220601210831.67259-6-its@irrelevant.dk>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
 ---
- hw/arm/pxa2xx.c            |  2 ++
- hw/display/sii9022.c       |  2 ++
- hw/display/ssd0303.c       |  2 ++
- hw/i2c/core.c              | 36 +++++++++++++++++++++++++++++++++++-
- hw/i2c/smbus_slave.c       |  4 ++++
- hw/i2c/trace-events        |  2 ++
- hw/nvram/eeprom_at24c.c    |  2 ++
- hw/sensor/lsm303dlhc_mag.c |  2 ++
- include/hw/i2c/i2c.h       | 16 ++++++++++++++++
- 9 files changed, 67 insertions(+), 1 deletion(-)
+ hw/i2c/aspeed_i2c.c         | 89 +++++++++++++++++++++++++++++++++----
+ include/hw/i2c/aspeed_i2c.h |  8 ++++
+ 2 files changed, 88 insertions(+), 9 deletions(-)
 
-diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
-index f4f687df68..93dda83d7a 100644
---- a/hw/arm/pxa2xx.c
-+++ b/hw/arm/pxa2xx.c
-@@ -1305,6 +1305,8 @@ static int pxa2xx_i2c_event(I2CSlave *i2c, enum i2c_e=
-vent event)
-     case I2C_NACK:
-         s->status |=3D 1 << 1;				/* set ACKNAK */
-         break;
-+    default:
-+        return -1;
-     }
-     pxa2xx_i2c_update(s);
-=20
-diff --git a/hw/display/sii9022.c b/hw/display/sii9022.c
-index b591a58789..664fd4046d 100644
---- a/hw/display/sii9022.c
-+++ b/hw/display/sii9022.c
-@@ -76,6 +76,8 @@ static int sii9022_event(I2CSlave *i2c, enum i2c_event ev=
-ent)
-         break;
-     case I2C_NACK:
-         break;
-+    default:
-+        return -1;
-     }
-=20
-     return 0;
-diff --git a/hw/display/ssd0303.c b/hw/display/ssd0303.c
-index aeae22da9c..d67b0ad7b5 100644
---- a/hw/display/ssd0303.c
-+++ b/hw/display/ssd0303.c
-@@ -196,6 +196,8 @@ static int ssd0303_event(I2CSlave *i2c, enum i2c_event =
-event)
-     case I2C_NACK:
-         /* Nothing to do.  */
-         break;
-+    default:
-+        return -1;
-     }
-=20
-     return 0;
-diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-index 145dce6078..d4ba8146bf 100644
---- a/hw/i2c/core.c
-+++ b/hw/i2c/core.c
-@@ -161,7 +161,8 @@ static int i2c_do_start_transfer(I2CBus *bus, uint8_t a=
-ddress,
-            start condition.  */
-=20
-         if (sc->event) {
--            trace_i2c_event("start", s->address);
-+            trace_i2c_event(event =3D=3D I2C_START_SEND ? "start" : "start=
-_async",
-+                            s->address);
-             rv =3D sc->event(s, event);
-             if (rv && !bus->broadcast) {
-                 if (bus_scanned) {
-@@ -212,6 +213,11 @@ int i2c_start_send(I2CBus *bus, uint8_t address)
-     return i2c_do_start_transfer(bus, address, I2C_START_SEND);
- }
-=20
-+int i2c_start_send_async(I2CBus *bus, uint8_t address)
-+{
-+    return i2c_do_start_transfer(bus, address, I2C_START_SEND_ASYNC);
-+}
-+
- void i2c_end_transfer(I2CBus *bus)
- {
-     I2CSlaveClass *sc;
-@@ -261,6 +267,23 @@ int i2c_send(I2CBus *bus, uint8_t data)
-     return ret ? -1 : 0;
- }
-=20
-+int i2c_send_async(I2CBus *bus, uint8_t data)
-+{
-+    I2CNode *node =3D QLIST_FIRST(&bus->current_devs);
-+    I2CSlave *slave =3D node->elt;
-+    I2CSlaveClass *sc =3D I2C_SLAVE_GET_CLASS(slave);
-+
-+    if (!sc->send_async) {
-+        return -1;
-+    }
-+
-+    trace_i2c_send_async(slave->address, data);
-+
-+    sc->send_async(slave, data);
-+
-+    return 0;
-+}
-+
- uint8_t i2c_recv(I2CBus *bus)
- {
-     uint8_t data =3D 0xff;
-@@ -297,6 +320,17 @@ void i2c_nack(I2CBus *bus)
-     }
- }
-=20
-+void i2c_ack(I2CBus *bus)
-+{
-+    if (!bus->bh) {
-+        return;
-+    }
-+
-+    trace_i2c_ack();
-+
-+    qemu_bh_schedule(bus->bh);
-+}
-+
- static int i2c_slave_post_load(void *opaque, int version_id)
- {
-     I2CSlave *dev =3D opaque;
-diff --git a/hw/i2c/smbus_slave.c b/hw/i2c/smbus_slave.c
-index 5d10e27664..feb3ec6333 100644
---- a/hw/i2c/smbus_slave.c
-+++ b/hw/i2c/smbus_slave.c
-@@ -143,6 +143,10 @@ static int smbus_i2c_event(I2CSlave *s, enum i2c_event=
- event)
-             dev->mode =3D SMBUS_CONFUSED;
-             break;
+diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+index 37ae1f2e04..2cfd05cb6c 100644
+--- a/hw/i2c/aspeed_i2c.c
++++ b/hw/i2c/aspeed_i2c.c
+@@ -696,9 +696,7 @@ static void aspeed_i2c_bus_old_write(AspeedI2CBus *bu=
+s, hwaddr offset,
+     switch (offset) {
+     case A_I2CD_FUN_CTRL:
+         if (SHARED_FIELD_EX32(value, SLAVE_EN)) {
+-            qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
+-                          __func__);
+-            break;
++            i2c_slave_set_address(bus->slave, bus->regs[R_I2CD_DEV_ADDR]=
+);
          }
+         bus->regs[R_I2CD_FUN_CTRL] =3D value & 0x0071C3FF;
+         break;
+@@ -719,12 +717,15 @@ static void aspeed_i2c_bus_old_write(AspeedI2CBus *=
+bus, hwaddr offset,
+             bus->controller->intr_status &=3D ~(1 << bus->id);
+             qemu_irq_lower(aic->bus_get_irq(bus));
+         }
+-        if (handle_rx && (SHARED_ARRAY_FIELD_EX32(bus->regs, R_I2CD_CMD,
+-                                                  M_RX_CMD) ||
+-                      SHARED_ARRAY_FIELD_EX32(bus->regs, R_I2CD_CMD,
+-                                              M_S_RX_CMD_LAST))) {
+-            aspeed_i2c_handle_rx_cmd(bus);
+-            aspeed_i2c_bus_raise_interrupt(bus);
++        if (handle_rx) {
++            if (SHARED_ARRAY_FIELD_EX32(bus->regs, R_I2CD_CMD, M_RX_CMD)=
+ ||
++                SHARED_ARRAY_FIELD_EX32(bus->regs, R_I2CD_CMD,
++                                        M_S_RX_CMD_LAST)) {
++                aspeed_i2c_handle_rx_cmd(bus);
++                aspeed_i2c_bus_raise_interrupt(bus);
++            } else if (aspeed_i2c_get_state(bus) =3D=3D I2CD_STXD) {
++                i2c_ack(bus->bus);
++            }
+         }
+         break;
+     case A_I2CD_DEV_ADDR:
+@@ -1036,6 +1037,73 @@ static const TypeInfo aspeed_i2c_info =3D {
+     .abstract   =3D true,
+ };
+=20
++static int aspeed_i2c_bus_slave_event(I2CSlave *slave, enum i2c_event ev=
+ent)
++{
++    BusState *qbus =3D qdev_get_parent_bus(DEVICE(slave));
++    AspeedI2CBus *bus =3D ASPEED_I2C_BUS(qbus->parent);
++    uint32_t reg_intr_sts =3D aspeed_i2c_bus_intr_sts_offset(bus);
++    uint32_t reg_byte_buf =3D aspeed_i2c_bus_byte_buf_offset(bus);
++    uint32_t value;
++
++    switch (event) {
++    case I2C_START_SEND_ASYNC:
++        value =3D SHARED_ARRAY_FIELD_EX32(bus->regs, reg_byte_buf, TX_BU=
+F);
++        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_byte_buf, RX_BUF, value <=
+< 1);
++
++        ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, SLAVE_ADDR_RX_MATCH, =
+1);
++        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_intr_sts, RX_DONE, 1);
++
++        aspeed_i2c_set_state(bus, I2CD_STXD);
++
++        break;
++
++    case I2C_FINISH:
++        SHARED_ARRAY_FIELD_DP32(bus->regs, reg_intr_sts, NORMAL_STOP, 1)=
+;
++
++        aspeed_i2c_set_state(bus, I2CD_IDLE);
++
 +        break;
 +
 +    default:
 +        return -1;
-     }
++    }
++
++    aspeed_i2c_bus_raise_interrupt(bus);
++
++    return 0;
++}
++
++static void aspeed_i2c_bus_slave_send_async(I2CSlave *slave, uint8_t dat=
+a)
++{
++    BusState *qbus =3D qdev_get_parent_bus(DEVICE(slave));
++    AspeedI2CBus *bus =3D ASPEED_I2C_BUS(qbus->parent);
++    uint32_t reg_intr_sts =3D aspeed_i2c_bus_intr_sts_offset(bus);
++    uint32_t reg_byte_buf =3D aspeed_i2c_bus_byte_buf_offset(bus);
++
++    SHARED_ARRAY_FIELD_DP32(bus->regs, reg_byte_buf, RX_BUF, data);
++    SHARED_ARRAY_FIELD_DP32(bus->regs, reg_intr_sts, RX_DONE, 1);
++
++    aspeed_i2c_bus_raise_interrupt(bus);
++}
++
++static void aspeed_i2c_bus_slave_class_init(ObjectClass *klass, void *da=
+ta)
++{
++    DeviceClass *dc =3D DEVICE_CLASS(klass);
++    I2CSlaveClass *sc =3D I2C_SLAVE_CLASS(klass);
++
++    dc->desc =3D "Aspeed I2C Bus Slave";
++
++    sc->event =3D aspeed_i2c_bus_slave_event;
++    sc->send_async =3D aspeed_i2c_bus_slave_send_async;
++}
++
++static const TypeInfo aspeed_i2c_bus_slave_info =3D {
++    .name           =3D TYPE_ASPEED_I2C_BUS_SLAVE,
++    .parent         =3D TYPE_I2C_SLAVE,
++    .instance_size  =3D sizeof(AspeedI2CBusSlave),
++    .class_init     =3D aspeed_i2c_bus_slave_class_init,
++};
++
+ static void aspeed_i2c_bus_reset(DeviceState *dev)
+ {
+     AspeedI2CBus *s =3D ASPEED_I2C_BUS(dev);
+@@ -1060,6 +1128,8 @@ static void aspeed_i2c_bus_realize(DeviceState *dev=
+, Error **errp)
+     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
 =20
-     return 0;
-diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
-index 209275ed2d..af181d43ee 100644
---- a/hw/i2c/trace-events
-+++ b/hw/i2c/trace-events
-@@ -4,7 +4,9 @@
+     s->bus =3D i2c_init_bus(dev, name);
++    s->slave =3D i2c_slave_create_simple(s->bus, TYPE_ASPEED_I2C_BUS_SLA=
+VE,
++                                       0xff);
 =20
- i2c_event(const char *event, uint8_t address) "%s(addr:0x%02x)"
- i2c_send(uint8_t address, uint8_t data) "send(addr:0x%02x) data:0x%02x"
-+i2c_send_async(uint8_t address, uint8_t data) "send_async(addr:0x%02x) dat=
-a:0x%02x"
- i2c_recv(uint8_t address, uint8_t data) "recv(addr:0x%02x) data:0x%02x"
-+i2c_ack(void) ""
+     memory_region_init_io(&s->mr, OBJECT(s), &aspeed_i2c_bus_ops,
+                           s, name, aic->reg_size);
+@@ -1219,6 +1289,7 @@ static const TypeInfo aspeed_1030_i2c_info =3D {
+ static void aspeed_i2c_register_types(void)
+ {
+     type_register_static(&aspeed_i2c_bus_info);
++    type_register_static(&aspeed_i2c_bus_slave_info);
+     type_register_static(&aspeed_i2c_info);
+     type_register_static(&aspeed_2400_i2c_info);
+     type_register_static(&aspeed_2500_i2c_info);
+diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+index 1398befc10..ba148b2f6d 100644
+--- a/include/hw/i2c/aspeed_i2c.h
++++ b/include/hw/i2c/aspeed_i2c.h
+@@ -223,6 +223,9 @@ struct AspeedI2CBus {
 =20
- # aspeed_i2c.c
+     struct AspeedI2CState *controller;
 =20
-diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-index 01a3093600..d695f6ae89 100644
---- a/hw/nvram/eeprom_at24c.c
-+++ b/hw/nvram/eeprom_at24c.c
-@@ -75,6 +75,8 @@ int at24c_eeprom_event(I2CSlave *s, enum i2c_event event)
-         break;
-     case I2C_NACK:
-         break;
-+    default:
-+        return -1;
-     }
-     return 0;
- }
-diff --git a/hw/sensor/lsm303dlhc_mag.c b/hw/sensor/lsm303dlhc_mag.c
-index 4c98ddbf20..bb8d48b2fd 100644
---- a/hw/sensor/lsm303dlhc_mag.c
-+++ b/hw/sensor/lsm303dlhc_mag.c
-@@ -427,6 +427,8 @@ static int lsm303dlhc_mag_event(I2CSlave *i2c, enum i2c=
-_event event)
-         break;
-     case I2C_NACK:
-         break;
-+    default:
-+        return -1;
-     }
++    /* slave mode */
++    I2CSlave *slave;
++
+     MemoryRegion mr;
 =20
-     s->len =3D 0;
-diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index be8bb8b78a..9b9581d230 100644
---- a/include/hw/i2c/i2c.h
-+++ b/include/hw/i2c/i2c.h
-@@ -12,6 +12,7 @@
- enum i2c_event {
-     I2C_START_RECV,
-     I2C_START_SEND,
-+    I2C_START_SEND_ASYNC,
-     I2C_FINISH,
-     I2C_NACK /* Masker NACKed a receive byte.  */
+     I2CBus *bus;
+@@ -249,6 +252,11 @@ struct AspeedI2CState {
+     AddressSpace dram_as;
  };
-@@ -28,6 +29,9 @@ struct I2CSlaveClass {
-     /* Master to slave. Returns non-zero for a NAK, 0 for success. */
-     int (*send)(I2CSlave *s, uint8_t data);
 =20
-+    /* Master to slave (asynchronous). Receiving slave must call i2c_ack()=
-. */
-+    void (*send_async)(I2CSlave *s, uint8_t data);
-+
-     /*
-      * Slave to master.  This cannot fail, the device should always
-      * return something here.
-@@ -127,11 +131,23 @@ int i2c_start_recv(I2CBus *bus, uint8_t address);
-  */
- int i2c_start_send(I2CBus *bus, uint8_t address);
++#define TYPE_ASPEED_I2C_BUS_SLAVE "aspeed.i2c.slave"
++OBJECT_DECLARE_SIMPLE_TYPE(AspeedI2CBusSlave, ASPEED_I2C_BUS_SLAVE)
++struct AspeedI2CBusSlave {
++    I2CSlave i2c;
++};
 =20
-+/**
-+ * i2c_start_send_async: start an asynchronous 'send' transfer on an I2C b=
-us.
-+ *
-+ * @bus: #I2CBus to be used
-+ * @address: address of the slave
-+ *
-+ * Return: 0 on success, -1 on error
-+ */
-+int i2c_start_send_async(I2CBus *bus, uint8_t address);
-+
- void i2c_end_transfer(I2CBus *bus);
- void i2c_nack(I2CBus *bus);
-+void i2c_ack(I2CBus *bus);
- void i2c_bus_master(I2CBus *bus, QEMUBH *bh);
- void i2c_bus_release(I2CBus *bus);
- int i2c_send(I2CBus *bus, uint8_t data);
-+int i2c_send_async(I2CBus *bus, uint8_t data);
- uint8_t i2c_recv(I2CBus *bus);
- bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
-                   I2CNodeList *current_devs);
+ struct AspeedI2CClass {
+     SysBusDeviceClass parent_class;
 --=20
 2.30.2
 
