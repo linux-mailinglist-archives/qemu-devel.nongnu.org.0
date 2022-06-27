@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BADD055BB26
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 18:36:13 +0200 (CEST)
-Received: from localhost ([::1]:40844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F54755BB29
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 18:38:32 +0200 (CEST)
+Received: from localhost ([::1]:46944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5rie-00044T-Re
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 12:36:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48382)
+	id 1o5rkt-0008H3-4i
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 12:38:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=EJqm=XC=zx2c4.com=Jason@kernel.org>)
- id 1o5rHM-00051G-HE
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:08:00 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:35718)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=EJqm=XC=zx2c4.com=Jason@kernel.org>)
- id 1o5rHJ-0000Ti-OU
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:08:00 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2F866B818AB;
- Mon, 27 Jun 2022 16:07:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82BB3C3411D;
- Mon, 27 Jun 2022 16:07:46 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="bPsP0ZAe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1656346064;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=gl2bGCwvidHGRf34EOahEdvPd+oVpSmthXOgsUIqYwM=;
- b=bPsP0ZAekNbwOB0Cdfb6aJtjU8MhT0gLYjt3K/juXR/1Nlab216Wnsg5lJ9wYyUBfBDBfw
- lDJnEFcDvwwCqlLuPShirG8ewIXNAbeFR3sKHz3Kgi6eDu++Rt3hLIORxJDk3gypNDEEhh
- 2D/L+Wvzkb15blroqATjemOKuErFCJQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 1d41bbf6
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Mon, 27 Jun 2022 16:07:43 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH] hw/arm/virt: dt: add rng-seed property
-Date: Mon, 27 Jun 2022 18:07:34 +0200
-Message-Id: <20220627160734.749861-1-Jason@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o5rMG-0005nP-Is
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:13:04 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:40552)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o5rME-0001aZ-Ko
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:13:04 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-317a66d62dfso90475227b3.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 09:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BSvE1ZTuE+EoqToDl4loDG0Q8vp56zKQmic1ZPoEdvk=;
+ b=KW21QLuZnWoreV8uf0759UCjf1r/hjM86l45HzlcpgXJ5gshQtPWeKqkgdqUXWJtzK
+ GyrsWRa5n3pUmhrOhFfY35gosKXpzU9bjzW4X6Xh4iZowGsXQhuQjaFuk4aDEiORBH0o
+ +erJKgYgv0FZW4ZSQ3zNmlDHT+cmf5GeDgrCT1Emd3OXltTPIaY+Kq43nD4y4IbMWD1S
+ m2e2iCCNNZ8oljNgYQqiSjEXTraVDAfZg8tkM14I0Zs2XR/p9xAtFJ6QHvLtUywCDobx
+ MAXxRt9aNUMp6lvQzwwJ0/DxOvIQ+YPf+yL/tMOrEid9Ftf//JzOROGj9/8Id45SWctC
+ yZgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BSvE1ZTuE+EoqToDl4loDG0Q8vp56zKQmic1ZPoEdvk=;
+ b=TZjzgqkxMR91RA91IkMuxxwoCJmeEdrbPaWqOmkowsSddACk80dNjIiQyS8KZ+bJLO
+ xiiKG60FhYcWv0bTVcpb+Ti/rQiQrS0gN7jW2d+Q4XV3K5QDuCcey9HbA30cRa5Nhjyx
+ Ky4LjPjb312JzNwTFTU3qhjxxE8aN0MRrCtp544z423ZOstFQOIqx3bYPtWNsgRVm7HJ
+ 6M408ggZtmYR5AMeCyn3G8KCGdwN2wCjYtrNhE2uWZ4phZgCmSx03/wHFZSOn8QBaLPs
+ Ox93IZfQbaJ+gLFZHoAhpJlHDAiSkYCaQpkRV563MYqG2tI/BhSmFuSwpZ2ovya4yJBQ
+ c1AA==
+X-Gm-Message-State: AJIora+uwQsabRa3TrNCeTSLQsnU8kno3JwrUrQGsNeGSwwmDMukeRRb
+ XFfakTe+0AvXCHUW/3AnhOCCnZTdtqZOgKFCmNdQcA==
+X-Google-Smtp-Source: AGRyM1tYoFKZ9L/uekiyGfMXATpGTvHkRBxcujVAp8Uhb2t9GISI3tmxjNlzIAa1BdXRr/68TJGekaWGSqoBVOaKnd4=
+X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
+ d8-20020a818d08000000b00317a4cdd65dmr15023264ywg.329.1656346381282; Mon, 27
+ Jun 2022 09:13:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=EJqm=XC=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220627160734.749861-1-Jason@zx2c4.com>
+In-Reply-To: <20220627160734.749861-1-Jason@zx2c4.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Jun 2022 17:12:23 +0100
+Message-ID: <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: dt: add rng-seed property
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,118 +82,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In 60592cfed2 ("hw/arm/virt: dt: add kaslr-seed property"), the
-kaslr-seed property was added, but the equally as important rng-seed
-property was forgotten about, which has identical semantics for a
-similar purpose. This commit implements it in exactly the same way as
-kaslr-seed.
+On Mon, 27 Jun 2022 at 17:07, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>
+> In 60592cfed2 ("hw/arm/virt: dt: add kaslr-seed property"), the
+> kaslr-seed property was added, but the equally as important rng-seed
+> property was forgotten about, which has identical semantics for a
+> similar purpose. This commit implements it in exactly the same way as
+> kaslr-seed.
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/arm/virt.c         | 40 ++++++++++++++++++++++++++++++++++++++++
- include/hw/arm/virt.h |  1 +
- 2 files changed, 41 insertions(+)
+Not an objection, since if this is what the dtb spec says we need
+to provide then I guess we need to provide it, but:
+Why do we need to give the kernel two separate random seeds?
+Isn't one sufficient for the kernel to seed its RNG and generate
+whatever randomness it needs for whatever purposes it wants it?
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 097238faa7..8a3436a370 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -221,6 +221,16 @@ static bool cpu_type_valid(const char *cpu)
-     return false;
- }
- 
-+static void create_rng_seed(MachineState *ms, const char *node)
-+{
-+    uint8_t seed[32];
-+
-+    if (qemu_guest_getrandom(&seed, sizeof(seed), NULL)) {
-+        return;
-+    }
-+    qemu_fdt_setprop(ms->fdt, node, "rng-seed", seed, sizeof(seed));
-+}
-+
- static void create_kaslr_seed(MachineState *ms, const char *node)
- {
-     uint64_t seed;
-@@ -251,6 +261,9 @@ static void create_fdt(VirtMachineState *vms)
- 
-     /* /chosen must exist for load_dtb to fill in necessary properties later */
-     qemu_fdt_add_subnode(fdt, "/chosen");
-+    if (vms->dtb_rng_seed) {
-+        create_rng_seed(ms, "/chosen");
-+    }
-     if (vms->dtb_kaslr_seed) {
-         create_kaslr_seed(ms, "/chosen");
-     }
-@@ -260,6 +273,9 @@ static void create_fdt(VirtMachineState *vms)
-         if (vms->dtb_kaslr_seed) {
-             create_kaslr_seed(ms, "/secure-chosen");
-         }
-+        if (vms->dtb_rng_seed) {
-+            create_rng_seed(ms, "/secure-chosen");
-+        }
-     }
- 
-     /* Clock node, for the benefit of the UART. The kernel device tree
-@@ -2348,6 +2364,20 @@ static void virt_set_its(Object *obj, bool value, Error **errp)
-     vms->its = value;
- }
- 
-+static bool virt_get_dtb_rng_seed(Object *obj, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    return vms->dtb_rng_seed;
-+}
-+
-+static void virt_set_dtb_rng_seed(Object *obj, bool value, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    vms->dtb_rng_seed = value;
-+}
-+
- static bool virt_get_dtb_kaslr_seed(Object *obj, Error **errp)
- {
-     VirtMachineState *vms = VIRT_MACHINE(obj);
-@@ -2988,6 +3018,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "Set on/off to enable/disable "
-                                           "ITS instantiation");
- 
-+    object_class_property_add_bool(oc, "dtb-rng-seed",
-+                                   virt_get_dtb_rng_seed,
-+                                   virt_set_dtb_rng_seed);
-+    object_class_property_set_description(oc, "dtb-rng-seed",
-+                                          "Set off to disable passing of rng-seed "
-+                                          "dtb node to guest");
-+
-     object_class_property_add_bool(oc, "dtb-kaslr-seed",
-                                    virt_get_dtb_kaslr_seed,
-                                    virt_set_dtb_kaslr_seed);
-@@ -3061,6 +3098,9 @@ static void virt_instance_init(Object *obj)
-     /* MTE is disabled by default.  */
-     vms->mte = false;
- 
-+    /* Supply a rng-seed by default */
-+    vms->dtb_rng_seed = true;
-+
-     /* Supply a kaslr-seed by default */
-     vms->dtb_kaslr_seed = true;
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 15feabac63..cf652f1f3d 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -152,6 +152,7 @@ struct VirtMachineState {
-     bool virt;
-     bool ras;
-     bool mte;
-+    bool dtb_rng_seed;
-     bool dtb_kaslr_seed;
-     OnOffAuto acpi;
-     VirtGICType gic_version;
--- 
-2.35.1
-
+thanks
+-- PMM
 
