@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B825655BB3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 19:12:59 +0200 (CEST)
-Received: from localhost ([::1]:40430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8074F55BB40
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 19:13:11 +0200 (CEST)
+Received: from localhost ([::1]:40902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5sIE-0002DE-Qw
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 13:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43914)
+	id 1o5sIQ-0002XT-JG
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 13:13:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o5sFK-00081C-Fu; Mon, 27 Jun 2022 13:09:58 -0400
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:42981)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o5sF1-0003pc-TC; Mon, 27 Jun 2022 13:09:58 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-f2a4c51c45so13712909fac.9; 
- Mon, 27 Jun 2022 10:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=9iVexefOIm9MrEtx+W5ndOa+kcIFelBfJDo1l3VLEmo=;
- b=KDTZL/hj+171L9lKazNPGAEhXAWisg46g/hLfMQrQTkTIK+7pK/uZbpjRZBWfrrAjd
- t6P+A6xZui4chcoLgzUd8/UC0QqMceGil+oCLXkbVYoTLmyplRruSwrXWWC0zAHFpuSZ
- bBApgr5xw0N5QwwTdZAIASZVaaQ9P+rQszKe0tRysl9lI8doS0bvDZHF6LtrpZSAEZBQ
- DynOgHIJ/DAJrjZ1j7vWFClA89yqaOVWGTmryAkUJnmM0F2Q8laP4oHm6PTXx+gWe96G
- AjMTO07mEzQsbzTC8T9kw5r59xtjT8TE6WAfHDGhfjObeRY1uVUN2B/HkQkwWYeVqeo1
- RCVw==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o5sGF-0000Db-2J
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 13:10:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44367)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o5sGB-0004Xt-EC
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 13:10:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656349850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dxqvWSINd8vZdg9myoKz1MK+85ea9ipVwHJ0sDj8oow=;
+ b=K5MzMA2nKDwYBIMdjT5gRx8Y5rqp4psNMPKfBYrLBvFJa/5jNOLD3D2EOvbziXNbXxLvJT
+ K+TAExyg4h9T01cvI6m/Ioit8iAG8SL+y2d7PEWd3Rr5ysib7+DQPl3Xg2hBan80gehez1
+ n0xyoCWMOnmvuIFETeWnVf+qfgm5KX0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-661-c-L0j64iP2qSwVYl_6RTTA-1; Mon, 27 Jun 2022 13:10:48 -0400
+X-MC-Unique: c-L0j64iP2qSwVYl_6RTTA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bg6-20020a05600c3c8600b003a03d5d19e4so4778745wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 10:10:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=9iVexefOIm9MrEtx+W5ndOa+kcIFelBfJDo1l3VLEmo=;
- b=T7NC3h3N5xGAFKhel9ZADkfwDS7FenxWilkhqtKGV1nyvF3vej9Klc12S4gykv8r63
- XAPMYoH8fF+bfz7jT4Lz0cu3+mbgPQQGu4cZZun9Tmc9uisHt7y0uDxUbRz6cJuwuY7B
- /q3twsU256W2cOo3b0t+y28lN16F8rqTJjhmPpDtIkZjm8iIoukPNAFXg36tgWSjXfiY
- P9udFQjFWmUZC2YlEM951P3DK7rnbg6Wnp6VwEZsLeX7LtyOsxzJazq0Gam194oqwCRy
- iKgd515wJbltNPIt80LrCfooJdj/ygQWceV/jRufYMCsZSPSlaqKDobuyf6xwhHaBjnB
- 2uyQ==
-X-Gm-Message-State: AJIora+8ogClcFLfwPHEumjL5PRgyOBxzwfcpir/rP2ZDP8nKkuyInV6
- k+JXYBmiNS/UAiSIbjPv6+AarDjxfO8=
-X-Google-Smtp-Source: AGRyM1uvIepe057APB3TuAhmac9y3A4U1hpvjebwYjDd4ohr9l4/IU2NFiiWIOjaP2UbcREEQ72VuQ==
-X-Received: by 2002:a05:6870:b148:b0:101:a001:77f with SMTP id
- a8-20020a056870b14800b00101a001077fmr8404049oal.90.1656349777821; 
- Mon, 27 Jun 2022 10:09:37 -0700 (PDT)
-Received: from [192.168.10.102] ([191.193.1.105])
+ bh=dxqvWSINd8vZdg9myoKz1MK+85ea9ipVwHJ0sDj8oow=;
+ b=r9Hh97xUHFT4Pu6sBD/sYvqyWwreB9SEIxCTH9y0apGZ+IE4KlNmDarRK7wvZzjeWT
+ DxOvabOV+zJ4eP1LgAOuB5/a3Z9WwIr5lLEElD81HhaGmEiNA2p07DDJxuXNcxl/lv2B
+ PEaRBiggT/LAjVrFMECH/iU+cs2tgRGY14lrBOfplIb1dFFPicuf2AfUlj0sX+KSFwrZ
+ tKkhvBWSGzpthSKFybd82iWcxX+f6BzQL3e/lmFUvNfQ9HOr2lAUGrOHjAdJHFQYb55P
+ +xAXgkcxHdjVHqFwINFugZ10EoO3zp3w6F5quUgPAs0ltauDnNMwo7o8t9yBmK8gTk7E
+ eh2Q==
+X-Gm-Message-State: AJIora/0pSTh+PYTsxeI+22o09PJsrNjLbGby07ZMhUII3hhV+tIZ3gb
+ alwF9eOw9YqA0DihLAC8QRLo4GrxpdW4KXL6Khuoz2tnMM+IKGXS5nHn85sE1Rt3+odW9FaamPf
+ 1t3kai2ZsoGePSi0=
+X-Received: by 2002:a05:6000:1a87:b0:21c:65c8:2d8 with SMTP id
+ f7-20020a0560001a8700b0021c65c802d8mr5738193wry.370.1656349847726; 
+ Mon, 27 Jun 2022 10:10:47 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1soX0zwzclnolMyX9GX2qP7e95wF0TiFPlaHXnQi04Ew8o62H9pb4HJk3DOeyiXqM/LsR6HWg==
+X-Received: by 2002:a05:6000:1a87:b0:21c:65c8:2d8 with SMTP id
+ f7-20020a0560001a8700b0021c65c802d8mr5738175wry.370.1656349847485; 
+ Mon, 27 Jun 2022 10:10:47 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c708:d100:dd9:b2f7:f126:11c2?
+ (p200300cbc708d1000dd9b2f7f12611c2.dip0.t-ipconnect.de.
+ [2003:cb:c708:d100:dd9:b2f7:f126:11c2])
  by smtp.gmail.com with ESMTPSA id
- q17-20020a05683033d100b0060c237c6355sm1761605ott.71.2022.06.27.10.09.35
+ i1-20020adffc01000000b0021b5861eaf7sm11268144wrr.3.2022.06.27.10.10.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 10:09:37 -0700 (PDT)
-Message-ID: <f1b0dace-8876-7654-41cb-fa068c4dfed1@gmail.com>
-Date: Mon, 27 Jun 2022 14:09:34 -0300
+ Mon, 27 Jun 2022 10:10:46 -0700 (PDT)
+Message-ID: <ee9658cf-bb40-aafe-8afb-f345ee2794c0@redhat.com>
+Date: Mon, 27 Jun 2022 19:10:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3 01/12] ppc/pnv: add PHB3 bus init helper
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] target/s390x/tcg: SPX: check validity of new prefix
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, fbarrat@linux.ibm.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20220624084921.399219-1-danielhb413@gmail.com>
- <20220624084921.399219-2-danielhb413@gmail.com>
- <9e8671ea-1d13-5df1-64e5-1d28cab0ac80@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <9e8671ea-1d13-5df1-64e5-1d28cab0ac80@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220627131251.2832076-1-scgl@linux.ibm.com>
+ <bb5c26f1-5b78-8abe-48ba-72cb78597d05@redhat.com>
+ <c75a6e08-00e5-45cb-fa67-ff41a8ec67fe@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <c75a6e08-00e5-45cb-fa67-ff41a8ec67fe@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,135 +107,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 6/24/22 10:44, Cédric Le Goater wrote:
-> (Adding people who could help making the right change)
-> 
-> On 6/24/22 10:49, Daniel Henrique Barboza wrote:
->> The PnvPHB3 bus init consists of initializing the pci_io and pci_mmio
->> regions, registering it via pci_register_root_bus() and then setup the
->> iommu.
+On 27.06.22 19:06, Janis Schoetterl-Glausch wrote:
+> On 6/27/22 18:27, David Hildenbrand wrote:
+>> On 27.06.22 15:12, Janis Schoetterl-Glausch wrote:
+>>> According to the architecture, SET PREFIX must try to access the new
+>>> prefix area and recognize an addressing exception if the area is not
+>>> accessible.
+>>> For qemu this check prevents a crash in cpu_map_lowcore after an
+>>> inaccessible prefix area has been set.
 >>
->> We'll want to init the bus from outside pnv_phb3.c when the bus is
->> removed from the PnvPHB3 device and put into a new parent PnvPHB device.
->> The new pnv_phb3_bus_init() helper will be used by the parent to init
->> the bus when using the PHB3 backend.
+>> I don't think that's possible. Our memory increments are 1 MiB and one
+>> would have to cross a 1~MiB range with the second page to trigger that.
+>> IIRC that's impossible with SPX address alignment requirements?
 >>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/pci-host/pnv_phb3.c         | 39 ++++++++++++++++++++--------------
->>   include/hw/pci-host/pnv_phb3.h |  1 +
->>   2 files changed, 24 insertions(+), 16 deletions(-)
->>
->> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
->> index d58d3c1701..058cbab555 100644
->> --- a/hw/pci-host/pnv_phb3.c
->> +++ b/hw/pci-host/pnv_phb3.c
->> @@ -986,6 +986,28 @@ static void pnv_phb3_instance_init(Object *obj)
->>   }
->> +void pnv_phb3_bus_init(DeviceState *dev, PnvPHB3 *phb)
->> +{
->> +    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
->> +
->> +    /*
->> +     * PHB3 doesn't support IO space. However, qemu gets very upset if
->> +     * we don't have an IO region to anchor IO BARs onto so we just
->> +     * initialize one which we never hook up to anything
->> +     */
->> +    memory_region_init(&phb->pci_io, OBJECT(phb), "pci-io", 0x10000);
->> +    memory_region_init(&phb->pci_mmio, OBJECT(phb), "pci-mmio",
->> +                       PCI_MMIO_TOTAL_SIZE);
-> 
-> 
-> Could we change the root port settings with io-reserve=0 to remove
-> the IO range ?
+> Are you saying that checking the first page is sufficient?
 
+Yes, unless I'm wrong. :)
 
-I don't think so, and I think this is what the comment right before refers to. Even
-with io-reserve=0 I can't remove phb->pci_io. The code breaks in the middle of
-the root port realize core code, pci_bridge_initfn(), when trying to create the
-bridge windows via
+/* Due to alignment and QEMU memory sizes, it's sufficient to check the
+first page only. */
 
-     br->windows = pci_bridge_region_init(br);
+> I'm not sure that this the case for the architecture in general,
+> but I guess it is true for tcg. Do you want me to remove the second check?
 
-There's no verification of io-reserve value (via res_reserve.io) influencing the
-init of those regions. What I can see related to io-reserve, for example, is this
-piece of code from gen_rp_realize() in gen_pcie_root_port.c:
+Should have been clearer (and I somehow thought we'd be checking the
+first page already :))
 
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-     if (!grp->res_reserve.io) {
-         pci_word_test_and_clear_mask(d->wmask + PCI_COMMAND,
-                                      PCI_COMMAND_IO);
-         d->wmask[PCI_IO_BASE] = 0;
-         d->wmask[PCI_IO_LIMIT] = 0;
-     }
-
-Of course that this piece of code does nothing to avoid the segfault described
-below.
-
-
-I think this might be worth a investigation later on as a follow up. For now
-I'd like to focus on pnv-phb changes (including the user created support)
-before the freeze.
-
-
+-- 
 Thanks,
 
+David / dhildenb
 
-Daniel
-
-> 
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
-> 
->> +    pci->bus = pci_register_root_bus(dev,
->> +                                     dev->id ? dev->id : NULL,
->> +                                     pnv_phb3_set_irq, pnv_phb3_map_irq, phb,
->> +                                     &phb->pci_mmio, &phb->pci_io,
->> +                                     0, 4, TYPE_PNV_PHB3_ROOT_BUS);
->> +
->> +    pci_setup_iommu(pci->bus, pnv_phb3_dma_iommu, phb);
->> +}
->> +
->>   static void pnv_phb3_realize(DeviceState *dev, Error **errp)
->>   {
->>       PnvPHB3 *phb = PNV_PHB3(dev);
->> @@ -1035,22 +1057,7 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
->>       memory_region_init_io(&phb->mr_regs, OBJECT(phb), &pnv_phb3_reg_ops, phb,
->>                             "phb3-regs", 0x1000);
->> -    /*
->> -     * PHB3 doesn't support IO space. However, qemu gets very upset if
->> -     * we don't have an IO region to anchor IO BARs onto so we just
->> -     * initialize one which we never hook up to anything
->> -     */
->> -    memory_region_init(&phb->pci_io, OBJECT(phb), "pci-io", 0x10000);
->> -    memory_region_init(&phb->pci_mmio, OBJECT(phb), "pci-mmio",
->> -                       PCI_MMIO_TOTAL_SIZE);
->> -
->> -    pci->bus = pci_register_root_bus(dev,
->> -                                     dev->id ? dev->id : NULL,
->> -                                     pnv_phb3_set_irq, pnv_phb3_map_irq, phb,
->> -                                     &phb->pci_mmio, &phb->pci_io,
->> -                                     0, 4, TYPE_PNV_PHB3_ROOT_BUS);
->> -
->> -    pci_setup_iommu(pci->bus, pnv_phb3_dma_iommu, phb);
->> +    pnv_phb3_bus_init(dev, phb);
->>       pnv_phb_attach_root_port(pci, TYPE_PNV_PHB3_ROOT_PORT,
->>                                phb->phb_id, phb->chip_id);
->> diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
->> index af6ec83cf6..1375f18fc1 100644
->> --- a/include/hw/pci-host/pnv_phb3.h
->> +++ b/include/hw/pci-host/pnv_phb3.h
->> @@ -164,5 +164,6 @@ uint64_t pnv_phb3_reg_read(void *opaque, hwaddr off, unsigned size);
->>   void pnv_phb3_reg_write(void *opaque, hwaddr off, uint64_t val, unsigned size);
->>   void pnv_phb3_update_regions(PnvPHB3 *phb);
->>   void pnv_phb3_remap_irqs(PnvPHB3 *phb);
->> +void pnv_phb3_bus_init(DeviceState *dev, PnvPHB3 *phb);
->>   #endif /* PCI_HOST_PNV_PHB3_H */
-> 
 
