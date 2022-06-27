@@ -2,88 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23BC55B7E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 08:03:28 +0200 (CEST)
-Received: from localhost ([::1]:58920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9B155B7E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 08:14:59 +0200 (CEST)
+Received: from localhost ([::1]:35790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5hqI-0003gl-V8
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 02:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34210)
+	id 1o5i1S-0006yh-Ml
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 02:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o5hnl-0002Mh-Uv
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:00:50 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:34901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o5hnL-0004oc-Re
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:00:45 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 5EED4320084E;
- Mon, 27 Jun 2022 02:00:17 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 27 Jun 2022 02:00:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656309616; x=1656396016; bh=1p
- dChQV7l3azc1irc87om8wDjynXx2U0fLY8WrZvLzE=; b=bohGGFQGANSpkdbenM
- 0WSgEAmoFT9u/1hYeVepg50u7kQeIFKtsLUwDYTmhlpyQ9CX19SqSjUtAd767lgo
- QoOo4Q/KIPAuogqaCU/YgA551o7fikBwdjTR9xpss9QIv3vFftT0bvAeQr2Qx7e6
- DElZ8L8Wr+7reWet+5vfz7fFggBvZQGvbOZV4CFK7V1njj9BBVhZC9qhrTMDkJuC
- VEMed6yX2VYYgHGmf/MjHT+kwYOemyFCCkCcDEj9zuURdf7tG5FAZ8xUS7cmL5XM
- 9AgCQ3vTbIAUBkjaJT3muRBU3Vd9ls3u/D/ep7WgPRdFM7BIAjLaGX86S9exWH7v
- m6aQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1656309616; x=1656396016; bh=1pdChQV7l3azc1irc87om8wDjynX
- x2U0fLY8WrZvLzE=; b=a0NDPvsKuoW/oGRp29iFwT5l8/4QULoqGefq0eiryCpe
- iilQXryh1iJ0U3aou3JBNy3dRWonIF3IRHN8MJmdRJR7DioCUK7jDe3OQMxPwtLz
- f9HT3h+knboiPWwak3BYwpjuV+BvkPPS/6s+rOjflQs7J5Vf9L8CFPSok/wr9FcV
- Poiya6JXLdjwY2KMhZFVjbF+YxoyVSyL6CVBbGFODtQvy97mFpOS5Wfv20RNY+sz
- yH5l1WO/2ym5/dwgnqkJhlDbVtR53Hrb2t7HWLmLM9nHdkkaa4sZZIpg1jlbNJxz
- AkkrlGeJ3wcMT+1n21LRUc+cPAYx35ffL7pgLUbN+Q==
-X-ME-Sender: <xms:b0e5YlB88a0Spb_IqcUW63y3-rwOZeEkc0XhtUR5rK5veQ5mUnZFxg>
- <xme:b0e5YjjqN0dRO6llnsl9g7LbA8fSa-I-i6kXGaNr9CTrxr9Vy10jDUK_A3H_Da2Lj
- mmIRQdBvyeJSsc9NqE>
-X-ME-Received: <xmr:b0e5YgliPQKfYGlrfUW7_WzxgRpFJNbncA9rEaBTj2aVU0soDEvF4-DuIzjtot0XJPsBtx_xyARCG2_fVg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeggedgleelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeffuddvhfehjedugfeijeeuieelge
- evuddvlefhkefhgfettefftddvkeevieelfeenucffohhmrghinhepkhgvrhhnvghlrdho
- rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:b0e5Yvw_Zo3rWS68MTIhYD5DuggB2ROrmt7Er5g1Mj8Yx7QesLLOjg>
- <xmx:b0e5YqRqmdKAN35KCOB12-1m8p4TJIrCJYT98HWLqEhey39Ae8KgqQ>
- <xmx:b0e5YiZcOInbVJKDjwAYeGHxGriSm9eSoBT688C9rgOgKm1f7b5nxw>
- <xmx:cEe5YleogXHPZ-T1sRyGw_U1FbcO_8Lb5Ih3ySRWDkWVdhyaxb2foA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Jun 2022 02:00:14 -0400 (EDT)
-Date: Mon, 27 Jun 2022 08:00:13 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org
-Subject: Re: [PATCH v3 0/2] hw/nvme: Add shadow doorbell buffer support
-Message-ID: <YrlHbYVI3rP0SMc8@apples>
-References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o5hzh-00061c-VJ
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:13:11 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:37422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o5hzf-0008LY-W6
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 02:13:09 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ w19-20020a17090a8a1300b001ec79064d8dso11327478pjn.2
+ for <qemu-devel@nongnu.org>; Sun, 26 Jun 2022 23:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=AIR8fdVAPGwrMFxEu7zXPofflBi6PJDXUTq9PFCYWGA=;
+ b=biL1CwMSE7Nx+siFgfKTyRkjjF51HCnai0YDyC/yQY6dYMJBYno74QB1P70sOzfKiE
+ 4x78nS7Bvi0NsEJRXlQLyl0d529Y5zW711roBaYkN+Jab5BsULttjjR9hAaggfxcSdYR
+ 0OqYLrQum4AP8ZFfBQ0i12IjtCxrj1x3Aqnl9TvdRUM8p7CFp/X8Vpn1IM1nXChvvRfd
+ 4sZPf18QY5TWpg4UhcnOWnjRhz5cCjemGsgBwj4MByD5Asiz6LXfIEAORVBL8iHK401a
+ kw/axxo2lJ0Um4ztN0axFwGWy1lmFEPdvQqcZWZXZoCy93NxJ0jqG2Ou2cz8mkdrhNeR
+ GRyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AIR8fdVAPGwrMFxEu7zXPofflBi6PJDXUTq9PFCYWGA=;
+ b=8QclAOozwI1E+nxUbjwFwEuvWuX8EYQpqR4tW3w3Bz4OVmiRfPNnXC0doMDbMiktfI
+ C3V505NsFiFaqmUZ0ZOi6q6zRtewMRHxpdMAGwrh2vIGYEhZtsETQgGcNzNxE8nkRrDy
+ TsVMxQhOWT5xjsv005JUNLGKwQJ0Tk/EAC0X/U1LdrbylvnkdiZwV8BI/Wg4BD6RBhfR
+ XUK/dBLdhRLFCIMX9VM3WJ21gyAD50mVPmsx0vvNFNzMNfcdPkdZnAdW5KGa+uoplWIm
+ vJaoFcFiEMWI7C1h6m1DJvWAABZDfLjBj8SWx6C8MVIUuKV+CpH3PchceW+HTtzgG/Yq
+ FmGA==
+X-Gm-Message-State: AJIora9cqrLrbzKvk/CJ/DYMEEqSnp+frBB8Hd5T+PO4V5zSMBIbazYv
+ 7loEWQ3A3XNVeNS4smhZ0pXatg==
+X-Google-Smtp-Source: AGRyM1vWeUHelIzHV0mB+W32y3lVfOCHI2uf3K8e0dCg1K92o6kdNCJG1WpZ3Yc6tGhFY67J8Hfd2A==
+X-Received: by 2002:a17:90b:3e86:b0:1ec:f7e8:e4e4 with SMTP id
+ rj6-20020a17090b3e8600b001ecf7e8e4e4mr19390464pjb.218.1656310385449; 
+ Sun, 26 Jun 2022 23:13:05 -0700 (PDT)
+Received: from [192.168.44.231] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ mm9-20020a17090b358900b001ec729d4f08sm6165489pjb.54.2022.06.26.23.13.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 26 Jun 2022 23:13:04 -0700 (PDT)
+Message-ID: <849c6eac-428c-a1f1-9e87-f470da5fbc76@linaro.org>
+Date: Mon, 27 Jun 2022 11:42:59 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pSt+WDwaioybXmRs"
-Content-Disposition: inline
-In-Reply-To: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 00/55] qemu-sparc queue 20220626
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220626174531.969187-1-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,124 +92,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/26/22 23:14, Mark Cave-Ayland wrote:
+> The following changes since commit 40d522490714b65e0856444277db6c14c5cc3796:
+> 
+>    Merge tag 'for-upstream' of git://repo.or.cz/qemu/kevin into staging (2022-06-24 10:52:46 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/mcayland/qemu.git tags/qemu-sparc-20220626
+> 
+> for you to fetch changes up to 39fbaeca096a9bf6cbe2af88572c1cb2aa62aa8c:
+> 
+>    artist: set memory region owners for buffers to the artist device (2022-06-26 18:40:28 +0100)
+> 
+> ----------------------------------------------------------------
+> qemu-sparc queue
+> - This is the PS2 QOM part 1 series, along with the trivial artist patch
 
---pSt+WDwaioybXmRs
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-On Jun 16 20:34, Jinhao Fan wrote:
-> This patch adds shadow doorbell buffer support in NVMe 1.3 to QEMU
-> NVMe. The Doorbell Buffer Config admin command is implemented for the
-> guest to enable shadow doobell buffer. When this feature is enabled, each
-> SQ/CQ is associated with two buffers, i.e., Shadow Doorbell buffer and
-> EventIdx buffer. According to the Spec, each queue's doorbell register
-> is only updated when the Shadow Doorbell buffer value changes from being
-> less than or equal to the value of the corresponding EventIdx buffer
-> entry to being greater than that value. Therefore, the number of MMIO's
-> on the doorbell registers is greatly reduced.
->=20
-> This patch is adapted from Huaicheng Li's patch[1] in 2018.
->=20
-> [1] https://patchwork.kernel.org/project/qemu-devel/patch/20180305194906.=
-GA3630@gmail.com/
->=20
-> IOPS comparison with FIO:
->=20
-> iodepth    1      2      4      8
->   QEMU   25.1k  25.9k  24.5k  24.0k
->  +dbbuf  29.1k  60.1k  99.8k  82.5k
->=20
-> MMIO's per IO measured by perf-kvm:
->=20
-> iodepth    1      2      4      8
->   QEMU   2.01   1.99   1.99   1.99
->  +dbbuf  1.00   0.52   0.27   0.46
->=20
-> The tests are done on Ubuntu 22.04 with 5.15.0-33 kernel with Intel(R)=20
-> Xeon(R) Gold 6248R CPU @ 3.00GHz.
->=20
-> QEMU set up:
->=20
-> bin/x86_64-softmmu/qemu-system-x86_64 \
->     -name "nvme-test" \
->     -machine accel=3Dkvm \
->     -cpu host \
->     -smp 4 \
->     -m 8G \
->     -daemonize \
->     -device virtio-scsi-pci,id=3Dscsi0 \
->     -device scsi-hd,drive=3Dhd0 \
->     -drive file=3D$OSIMGF,if=3Dnone,aio=3Dnative,cache=3Dnone,format=3Dqc=
-ow2,id=3Dhd0,snapshot=3Don \
->     -drive "id=3Dnvm,if=3Dnone,file=3Dnull-co://,file.read-zeroes=3Don,fo=
-rmat=3Draw" \
->     -device nvme,serial=3Ddeadbeef,drive=3Dnvm \
->     -net user,hostfwd=3Dtcp::8080-:22 \
->     -net nic,model=3Dvirtio
->=20
-> FIO configuration:
->=20
-> [global]
-> ioengine=3Dlibaio
-> filename=3D/dev/nvme0n1
-> thread=3D1
-> group_reporting=3D1
-> direct=3D1
-> verify=3D0
-> time_based=3D1
-> ramp_time=3D0
-> runtime=3D30
-> ;size=3D1G
-> ;iodepth=3D1
-> rw=3Drandread
-> bs=3D4k
->=20
-> [test]
-> numjobs=3D1
->=20
-> Changes since v2:
->   - Do not ignore admin queue updates in nvme_process_db and nvme_post_cq=
-es
->   - Calculate db_addr and ei_addr in hard-coded way
->=20
-> Changes since v1:
->   - Add compatibility with hosts that do not use admin queue shadow doorb=
-ell
->=20
-> Jinhao Fan (2):
->   hw/nvme: Implement shadow doorbell buffer support
->   hw/nvme: Add trace events for shadow doorbell buffer
->=20
->  hw/nvme/ctrl.c       | 118 ++++++++++++++++++++++++++++++++++++++++++-
->  hw/nvme/nvme.h       |   8 +++
->  hw/nvme/trace-events |   5 ++
->  include/block/nvme.h |   2 +
->  4 files changed, 132 insertions(+), 1 deletion(-)
->=20
-> --=20
-> 2.25.1
->=20
->=20
 
-Jinhao,
+r~
 
-Thanks, applied to nvme-next!
 
---pSt+WDwaioybXmRs
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> ----------------------------------------------------------------
+> Mark Cave-Ayland (55):
+>        ps2: checkpatch fixes
+>        ps2: QOMify PS2State
+>        ps2: QOMify PS2KbdState
+>        ps2: QOMify PS2MouseState
+>        ps2: move QOM type definitions from ps2.c to ps2.h
+>        ps2: improve function prototypes in ps2.c and ps2.h
+>        ps2: introduce PS2DeviceClass
+>        ps2: implement ps2_reset() for the PS2_DEVICE QOM type based upon ps2_common_reset()
+>        ps2: remove duplicate setting of scancode_set in ps2_kbd_init()
+>        ps2: implement ps2_kbd_realize() and use it to register ps2_keyboard_handler
+>        ps2: implement ps2_mouse_realize() and use it to register ps2_mouse_handler
+>        ps2: don't use vmstate_register() in ps2_kbd_init()
+>        ps2: don't use vmstate_register() in ps2_mouse_init()
+>        pl050: checkpatch fixes
+>        pl050: split pl050_update_irq() into separate pl050_set_irq() and pl050_update_irq() functions
+>        lasips2: spacing fixes
+>        lasips2: rename ps2dev_update_irq() to lasips2_port_set_irq()
+>        pckbd: checkpatch fixes
+>        pckbd: move KBDState from pckbd.c to i8042.h
+>        pckbd: move ISAKBDState from pckbd.c to i8042.h
+>        pckbd: introduce new I8042_MMIO QOM type
+>        pckbd: implement i8042_mmio_reset() for I8042_MMIO device
+>        pckbd: add mask qdev property to I8042_MMIO device
+>        pckbd: add size qdev property to I8042_MMIO device
+>        pckbd: implement i8042_mmio_realize() function
+>        pckbd: implement i8042_mmio_init() function
+>        pckbd: alter i8042_mm_init() to return a I8042_MMIO device
+>        pckbd: move mapping of I8042_MMIO registers to MIPS magnum machine
+>        pckbd: more vmstate_register() from i8042_mm_init() to i8042_mmio_realize()
+>        pckbd: move ps2_kbd_init() and ps2_mouse_init() to i8042_mmio_realize()
+>        ps2: make ps2_raise_irq() function static
+>        ps2: use ps2_raise_irq() instead of calling update_irq() directly
+>        ps2: introduce ps2_lower_irq() instead of calling update_irq() directly
+>        ps2: add gpio for output IRQ and optionally use it in ps2_raise_irq() and ps2_lower_irq()
+>        pckbd: replace irq_kbd and irq_mouse with qemu_irq array in KBDState
+>        pl050: switch over from update_irq() function to PS2 device gpio
+>        pl050: add QEMU interface comment
+>        lasips2: QOMify LASIPS2State
+>        lasips2: move lasips2 QOM types from lasips2.c to lasips2.h
+>        lasips2: rename lasips2_init() to lasips2_initfn() and update it to return the LASIPS2 device
+>        lasips2: implement lasips2_init() function
+>        lasips2: move mapping of LASIPS2 registers to HPPA machine
+>        lasips2: move initialisation of PS2 ports from lasi_initfn() to lasi_init()
+>        lasips2: add base property
+>        lasips2: implement lasips2_realize()
+>        lasips2: use sysbus IRQ for output IRQ
+>        lasips2: switch over from update_irq() function to PS2 device gpio
+>        lasips2: add QEMU interface comment
+>        pckbd: switch I8042_MMIO device from update_irq() function to PS2 device gpio
+>        pckbd: add QEMU interface comment for I8042_MMIO device
+>        pckbd: add i8042_reset() function to I8042 device
+>        pckbd: switch I8042 device from update_irq() function to PS2 device gpio
+>        pckbd: add QEMU interface comment for I8042 device
+>        ps2: remove update_irq() function and update_arg parameter
+>        artist: set memory region owners for buffers to the artist device
+> 
+>   hw/display/artist.c        |   2 +-
+>   hw/hppa/machine.c          |  11 +-
+>   hw/input/lasips2.c         | 123 +++++++----
+>   hw/input/pckbd.c           | 338 ++++++++++++++++++++----------
+>   hw/input/pl050.c           |  56 +++--
+>   hw/input/ps2.c             | 501 ++++++++++++++++++++++++++-------------------
+>   hw/mips/jazz.c             |  11 +-
+>   include/hw/input/i8042.h   |  75 ++++++-
+>   include/hw/input/lasips2.h |  39 +++-
+>   include/hw/input/ps2.h     |  79 ++++++-
+>   10 files changed, 846 insertions(+), 389 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmK5R2sACgkQTeGvMW1P
-DeknZggApcBMrVee2iuIPQUrzjTKp/rz5U//ItVmuo1+S7Ue+yRg8zJ5Cr+XeYtf
-ZA9jkSXoPmIvqs/+Cq4l1Un7ns0b4cmyN12e6XoZoJpNU5e0B937W3egtPALGP9H
-QxTYeCcomlrL2zxq34v9V6fR1/D14MRY5jaf9UMQSiM8o+Bi3xc1aN/KpdU64A7Y
-M13+MWZ8dp+CIUIBlkm6aqyWdh26/IxXLztOS9LWLOo98MZiqMI6GRpEuEGlDys9
-5IyoijnuD9rRuM6vVPS/5U5Wbnn6hG4/381kWoIOle8rbJOOa7meJlTnwKbnw6gc
-n2UW32T9m1nkKqyprObkvAlRuMCkCg==
-=EajH
------END PGP SIGNATURE-----
-
---pSt+WDwaioybXmRs--
 
