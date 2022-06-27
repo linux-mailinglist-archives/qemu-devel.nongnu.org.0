@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8DB55B84A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:41:53 +0200 (CEST)
-Received: from localhost ([::1]:45226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CF955B851
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:45:15 +0200 (CEST)
+Received: from localhost ([::1]:51082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5jNY-0003l6-5Z
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:41:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55978)
+	id 1o5jQo-0007lw-Dx
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:45:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5jCh-0005Jf-2N
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:30:40 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:41603)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5jCj-0005Lf-J0
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:30:42 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:35784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5jCe-0005zI-3L
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:30:37 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id i64so8177881pfc.8
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 00:30:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o5jCh-0005yY-MX
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 03:30:41 -0400
+Received: by mail-pg1-x535.google.com with SMTP id r66so8336476pgr.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 00:30:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Fh1ZoyGzwA4iqvZSNk0dn7iRIAjcMEjp8nc1fuCg7M4=;
- b=lu3X575LrTy/mZ4/GxTok9RbZ2FXgD6wFaZnbQavu5KwbNI5qj5jcRUgrias/kDtvD
- yP7WV93biVwN4jDnQHAPJbgSxYLTi8/Enib6jxnalEPlZniHT2YANxLv+Lw7lYFjfCa8
- 39jfV661BbnOvBlhGWud2GL01n+zuP0WdLtgcBqoCbuOewaz1zHiHnE+57IRl62E2Nkm
- qpUVcJUYbWGVjJS3jugk2bVm0KfxxDbSOzJEKsySToXej4dWOeVvUMPzmX+GijnHAFDy
- 8/unAl0Et4CO1iB/y+dCFMAxFGe/MD/dWe79kuQgacXOw3rNFQNvaTGhsLi+Zrmc6ZJ3
- yc4w==
+ bh=7yaooi/YX0N1Ovq8r6H8DlJjBpFlIStDURKxX0nntKs=;
+ b=FEjgd0+bMAo5JEYusqi9u9bkfUx8jDL03q4hSpLrLnAwRU7KFwYUBvX60wfRt/4JaH
+ kSPOt57C5INgUsXUnQkQUGFUMCm+nXW5EHctVjQ6rnBfW4uK6yzbcfqW0mFeba8I3bRE
+ 7ZPNaKlpEXm49XGZzGPgbDKhTyLI/UyGhyMr2Fohm+6xzR7wKHu8Ka+cTXSSRITNyEPy
+ xDH4w6n4lkCc50PlNeAeTmZ4qsL7c93xrfZ3umZDDGlfAzhvVeYnsE/xA/Vz4KYMYNxD
+ j8uSXD1Xv0+0oRIMRtQp+1TK9ELv6syOMX8Jaof66MJ0OhQymUPD9gYnpeSJq7d3PX7D
+ ZbCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Fh1ZoyGzwA4iqvZSNk0dn7iRIAjcMEjp8nc1fuCg7M4=;
- b=kW1jVfFjwVJbMxHGERsNVpyCmAXAcoS8tOAxnqKJpgrddsB8XvFvH+ALLcQ2DkCkfd
- cYnUK0JbmLr73CRuqmF/7/BneTgpgprIS7uJI0D1iydi3HrmXHw4a3DZy768xQGJ3eB1
- uQI56HRLizDlWgSjpqc6SbA81bnZOFHJcR214JNxkBH+f4juDfELN+8twT2s9/+2IccI
- 3Wz04P3rlRfU2OhoXW/s5zb5aMJP8qoSvh6G/F0yy3IRk3j21sDy86HBNe1vsEsiIiPl
- fOQep4Nu4gSd/keD06T9Zpqpk2C0/pjHyKmLZxkzanFWA6ucSociw1d9C0Q3n3xGMUAQ
- LVrw==
-X-Gm-Message-State: AJIora+ziGZspSfxU56v28yjsgeqrqYRhbvUpn/wtsDZmAaHli4xqkcp
- nlKoT+xPqWY7YjlSQdIuGpl5dsKSOAs3N6r1s+M=
-X-Google-Smtp-Source: AGRyM1sWo55qYl2+JAZ+f/CIg/PoJ0eMCEE0okhrIfe+ay7CzCgkhgxB9mXO9wRrhrp5MsAqqWuMKw==
-X-Received: by 2002:a63:371e:0:b0:40c:f411:6768 with SMTP id
- e30-20020a63371e000000b0040cf4116768mr11738470pga.471.1656315034300; 
- Mon, 27 Jun 2022 00:30:34 -0700 (PDT)
+ bh=7yaooi/YX0N1Ovq8r6H8DlJjBpFlIStDURKxX0nntKs=;
+ b=TOkH5R58LfB4ZyVufcVnEQmqNBfXAVmbmKQZhLJ1Qe1EKt1fiV8KZp6qnzzqo9thtD
+ R9zyAMBQ3SAPdC8D7OvVt2nI/HnXF/KB71oU4jO9oUJaMJ44pB0pURg+5q0lBEineICk
+ esfoVne/9bHdvEjGGcAs7+fMvclP5qE4GtmX4vdj2MPqKancNAEJpkae8QoAfoevAuCa
+ amoGcuyXdRRk51Dnuv+O0n1FfU5JzFaG0FNAiOZ6fXzGQ15n0fhp361qYSpqrxHlZr53
+ y5BS42fiEE62O8dG8bpiWuN7m2HNJJyqwaut05aI9XuEiwQReU+qFZL67OJnX5IfYvvd
+ rVyg==
+X-Gm-Message-State: AJIora+oPSQCaWDTAfGPC0YnoWS5XLcBdpKDtr/1h8FfIQ13F6dquUba
+ FZO5aQ/FJaE9tcG17wUlw2szI52lSDfFqWgoHqg=
+X-Google-Smtp-Source: AGRyM1vgPO5xrzfq3AgcoS+CYyohXG4vF4/wsb8J3nabhkO613ZCKf4B+9Cz73w1CbWv9OB7WIgZDA==
+X-Received: by 2002:a63:4407:0:b0:40d:f0c7:8277 with SMTP id
+ r7-20020a634407000000b0040df0c78277mr4291360pga.163.1656315038630; 
+ Mon, 27 Jun 2022 00:30:38 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.136.66])
  by smtp.googlemail.com with ESMTPSA id
- h6-20020a170902680600b00163ffe73300sm6420928plk.137.2022.06.27.00.30.31
+ h6-20020a170902680600b00163ffe73300sm6420928plk.137.2022.06.27.00.30.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 00:30:33 -0700 (PDT)
+ Mon, 27 Jun 2022 00:30:38 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Cc: imammedo@redhat.com,
 	mst@redhat.com,
 	Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH 06/12] acpi/tests/bits: add smilatency test suite from bits in
- order to disable it
-Date: Mon, 27 Jun 2022 12:58:50 +0530
-Message-Id: <20220627072856.1529357-7-ani@anisinha.ca>
+Subject: [PATCH 07/12] acpi/tests/bits: disable smilatency test since it does
+ not pass everytime
+Date: Mon, 27 Jun 2022 12:58:51 +0530
+Message-Id: <20220627072856.1529357-8-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220627072856.1529357-1-ani@anisinha.ca>
 References: <20220627072856.1529357-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42a;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x42a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::535;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,135 +90,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-smilatency tests does not reliably pass every time it is run from QEMU. This
-change adds the test file unchanged from bits so that the next change can
-disable the test.
+smilatency test is latency sensitive and does not pass deterministically when
+run in QEMU environment under biosbits. Disable the test suite for now.
+
+Example failure:
+
+==== SMI latency test ====
+Warning: touching the keyboard can affect the results of this test.
+Starting test. Wait here, I will be back in 15 seconds.
+[assert] SMI latency < 150us to minimize risk of OS timeouts FAIL
+  1us   < t <=  10us; average = 1372ns; count = 10912449
+   Times between first few observations:  176us 1646ns 1441ns 1450ns 1462ns
+  10us  < t <= 100us; average = 16us; count = 1187
+   Times between first few observations:   15ms 3148us 5856us   49ms   33ms
+  100us < t <=   1ms; average = 259us; count = 8
+   Times between first few observations:  111ms 2227ms 1779ms  999ms  219ms
+  0 SMI detected using MSR_SMI_COUNT (MSR 0x34)
+  Summary of impact: observed maximum latency = 298us
+Summary: 0 passed, 1 failed
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/qtest/acpi-bits/bits-tests/meson.build  |   2 +-
- .../qtest/acpi-bits/bits-tests/smilatency.py  | 102 ++++++++++++++++++
- 2 files changed, 103 insertions(+), 1 deletion(-)
- create mode 100644 tests/qtest/acpi-bits/bits-tests/smilatency.py
+ tests/qtest/acpi-bits/bits-tests/smilatency.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/acpi-bits/bits-tests/meson.build b/tests/qtest/acpi-bits/bits-tests/meson.build
-index 3056731a53..06bca75d99 100644
---- a/tests/qtest/acpi-bits/bits-tests/meson.build
-+++ b/tests/qtest/acpi-bits/bits-tests/meson.build
-@@ -1,4 +1,4 @@
--test_files = ['smbios.py', 'testacpi.py', 'testcpuid.py']
-+test_files = ['smbios.py', 'smilatency.py', 'testacpi.py', 'testcpuid.py']
- 
- copytestfiles = custom_target('copy test files',
-   input : test_files,
 diff --git a/tests/qtest/acpi-bits/bits-tests/smilatency.py b/tests/qtest/acpi-bits/bits-tests/smilatency.py
-new file mode 100644
-index 0000000000..fb1b7228e3
---- /dev/null
+index fb1b7228e3..53b5f820a5 100644
+--- a/tests/qtest/acpi-bits/bits-tests/smilatency.py
 +++ b/tests/qtest/acpi-bits/bits-tests/smilatency.py
-@@ -0,0 +1,102 @@
-+# Copyright (c) 2015, Intel Corporation
-+# All rights reserved.
-+#
-+# Redistribution and use in source and binary forms, with or without
-+# modification, are permitted provided that the following conditions are met:
-+#
-+#     * Redistributions of source code must retain the above copyright notice,
-+#       this list of conditions and the following disclaimer.
-+#     * Redistributions in binary form must reproduce the above copyright notice,
-+#       this list of conditions and the following disclaimer in the documentation
-+#       and/or other materials provided with the distribution.
-+#     * Neither the name of Intel Corporation nor the names of its contributors
-+#       may be used to endorse or promote products derived from this software
-+#       without specific prior written permission.
-+#
-+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-+# ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+
-+"""SMI latency test."""
-+
-+import bits
-+from collections import namedtuple
-+import testsuite
-+import time
-+import usb
-+
-+def register_tests():
-+    testsuite.add_test("SMI latency test", smi_latency);
-+    testsuite.add_test("SMI latency test with USB disabled via BIOS handoff", test_with_usb_disabled, runall=False);
-+
-+def smi_latency():
-+    MSR_SMI_COUNT = 0x34
-+
-+    print "Warning: touching the keyboard can affect the results of this test."
-+
-+    tsc_per_sec = bits.tsc_per_sec()
-+    tsc_per_usec = tsc_per_sec / (1000 * 1000)
-+    bins = [long(tsc_per_usec * 10**i) for i in range(9)]
-+    bin_descs = [
-+        "0     < t <=   1us",
-+        "1us   < t <=  10us",
-+        "10us  < t <= 100us",
-+        "100us < t <=   1ms",
-+        "1ms   < t <=  10ms",
-+        "10ms  < t <= 100ms",
-+        "100ms < t <=   1s ",
-+        "1s    < t <=  10s ",
-+        "10s   < t <= 100s ",
-+        "100s  < t         ",
-+    ]
-+
-+    print "Starting test. Wait here, I will be back in 15 seconds."
-+    (max_latency, smi_count_delta, bins) = bits.smi_latency(long(15 * tsc_per_sec), bins)
-+    BinType = namedtuple('BinType', ("max", "total", "count", "times"))
-+    bins = [BinType(*b) for b in bins]
-+
-+    testsuite.test("SMI latency < 150us to minimize risk of OS timeouts", max_latency / tsc_per_usec <= 150)
-+    if not testsuite.show_detail():
-+        return
-+
-+    for bin, desc in zip(bins, bin_descs):
-+        if bin.count == 0:
-+            continue
-+        testsuite.print_detail("{}; average = {}; count = {}".format(desc, bits.format_tsc(bin.total/bin.count), bin.count))
-+        deltas = (bits.format_tsc(t2 - t1) for t1,t2 in zip(bin.times, bin.times[1:]))
-+        testsuite.print_detail(" Times between first few observations: {}".format(" ".join("{:>6}".format(delta) for delta in deltas)))
-+
-+    if smi_count_delta is not None:
-+        testsuite.print_detail("{} SMI detected using MSR_SMI_COUNT (MSR {:#x})".format(smi_count_delta, MSR_SMI_COUNT))
-+
-+    testsuite.print_detail("Summary of impact: observed maximum latency = {}".format(bits.format_tsc(max_latency)))
-+
-+def test_with_usb_disabled():
-+    if usb.handoff_to_os():
-+        smi_latency()
-+
-+def average_io_smi(port, value, count):
-+    def f():
-+        tsc_start = bits.rdtsc()
-+        bits.outb(port, value)
-+        return bits.rdtsc() - tsc_start
-+    counts = [f() for i in range(count)]
-+    return sum(counts)/len(counts)
-+
-+def time_io_smi(port=0xb2, value=0, count=1000):
-+    count_for_estimate = 10
-+    start = time.time()
-+    average_io_smi(port, value, count_for_estimate)
-+    avg10 = time.time() - start
-+    estimate = avg10 * count/count_for_estimate
-+    if estimate > 1:
-+        print "Running test, estimated time: {}s".format(int(estimate))
-+    average = average_io_smi(port, value, count)
-+    print "Average of {} SMIs (via outb, port={:#x}, value={:#x}): {}".format(count, port, value, bits.format_tsc(average))
+@@ -33,8 +33,9 @@
+ import usb
+ 
+ def register_tests():
+-    testsuite.add_test("SMI latency test", smi_latency);
+-    testsuite.add_test("SMI latency test with USB disabled via BIOS handoff", test_with_usb_disabled, runall=False);
++    pass
++    # testsuite.add_test("SMI latency test", smi_latency);
++    # testsuite.add_test("SMI latency test with USB disabled via BIOS handoff", test_with_usb_disabled, runall=False);
+ 
+ def smi_latency():
+     MSR_SMI_COUNT = 0x34
 -- 
 2.25.1
 
