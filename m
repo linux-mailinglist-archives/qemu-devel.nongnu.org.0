@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AB455BC36
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 23:44:37 +0200 (CEST)
-Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C61D55BC38
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 23:46:35 +0200 (CEST)
+Received: from localhost ([::1]:50978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5wX6-0001f5-LB
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 17:44:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34280)
+	id 1o5wZ0-000540-Bz
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 17:46:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o5wTI-00070U-EQ; Mon, 27 Jun 2022 17:40:44 -0400
-Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:44896)
+ id 1o5wTm-0007bo-RB; Mon, 27 Jun 2022 17:41:10 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:43540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o5wTG-0007aI-Sg; Mon, 27 Jun 2022 17:40:40 -0400
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-101e1a33fe3so14585999fac.11; 
- Mon, 27 Jun 2022 14:40:37 -0700 (PDT)
+ id 1o5wTl-0007dg-0c; Mon, 27 Jun 2022 17:41:10 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id q11so14633380oih.10;
+ Mon, 27 Jun 2022 14:41:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=w+nSnw2ApuqEtOL4HTAiLPnZF6ze9e+UsqWBQ6eU+A8=;
- b=X3dJEBSzwB2LkyTZTCi9cqu8s6Dx/AU1cta21kYoeG0h4jaiNxxCiQbjI4YYXRpGiu
- orE+ks4J8Sz7b9gZds3wE5OlvM4DuCCYN7AEiZIehrpB3hox0OXCzDBHv95OKhcFdhvt
- NqGaOfLMdnqbG0ej0c5pawf8cag7XOYFG/N/rvZOEgZSJ05mTUiZx/2zWQC3tObnSi44
- V/fLcPTut5R8xT8SH2t2qjqDvs3bKRfL3MBNE1qYANkwSS1RT4kiLknG82wl9uNK76qZ
- PacuOoQ40BcXp2CJpcaUIiy5V+p8r/03oL9PQQU57sVGJRpisagmdk214FnE3veqJq3i
- xPZw==
+ bh=6gQAlcMabLRTGfP2t4jNUzt7pV3giPefBPvRA10xUh4=;
+ b=qWmHEnTg6WQHogGNYvBAGdFEKrXsl2+rPB9UF1VNJJ5m9GU8vIIYYRgLfmkM9sHJ+T
+ uoQoFrftL5fNK8nO++vArKofQ+HxfGEJgZSEbGFHpTzZ3ltQ90Z77UHQwhTesO44lMjW
+ zV+fptpO5z75Mf755rzExFGfXy1RCSQ2k7f6GPdUuoMsXrZ5gVxfJVFQkjAGv+izGu3e
+ wYOLt32K1hLLDz6FPxmMtjAUPEVBJlzB5kDRSQl8ex1BuPhMEdZUOGRKdWIO+eH37WtP
+ hXrbCbKamAFhu0n/pmk3om8/u/ddWSLdx9yS+upWGuG+ZJNjlboxH+iZHHtVtD18y/6W
+ hXRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=w+nSnw2ApuqEtOL4HTAiLPnZF6ze9e+UsqWBQ6eU+A8=;
- b=ixH6Rxsh6wKMxfyyo+Pm0QZ2GXF+te8ebtL6lkLnqQi+CeM0baQN+x7d2TiDhFNf3X
- K26p8H7rUcfUxMcWFcnAhdbzKLaRU0rSkRQMGKii6cMh0CADXkznKbADHCtO03Ut7g7P
- +U3rD+JMad+AyyVeHXVxuO4bSeKDgA2rh1nr1h33NExNq5LwdP8L4XlE0jQ0wV8yMOCQ
- XXaG8qqTupslThLtOCTBHEegWRKqJSVAFL3xru/sv1OOfu8E+l1p1Nf+kgcNPMI0zMuk
- 2wap51GXrBKIa7kc4UzKgB3Znd6g2Jvb505vaE9JC51k2UGsVdHaW3XVnILHCm91REBc
- ZYpA==
-X-Gm-Message-State: AJIora+53L5bNCjDSAT/Gmd4eZB+cngmr+R6rJ+dIp/or4SRBPtYzmo8
- 6MMXUGOUAHHNAyY2XwUDX4PvdBJGHB0=
-X-Google-Smtp-Source: AGRyM1vVt78+4acC7R3yfJlBq3ErlopqqkRJLaCiQONbnISdIFX9f+BQNIcr2ZDDjOy4dMRqk6Hkhg==
-X-Received: by 2002:a05:6870:461b:b0:e9:a015:36a6 with SMTP id
- z27-20020a056870461b00b000e9a01536a6mr10854274oao.185.1656366036690; 
- Mon, 27 Jun 2022 14:40:36 -0700 (PDT)
+ bh=6gQAlcMabLRTGfP2t4jNUzt7pV3giPefBPvRA10xUh4=;
+ b=7oPG1tAwkG5MLsi1rLbpGI6Qm0NBanT7hymFcDz5YmbTKsw93GvTYeC5EBOT8OHHcu
+ z9ur1jZZBb3skG9HLAYFOYPDPozkyu+bgFMbfTNgdEUyHq/g+SIwCiBR+fTOiKbJIcUN
+ kWKb2FVy4VeirE1lcewnhIhJRunjSIVLn/s6Bn7inBCZLBZtDFGmSV5Rv4qu4A7bJSMD
+ tZ6d2HZKyCFCkZqBN3AllIwj9ELw7jl9KxzUYx9APBxAqXf633Boh+eQWpYi1NTfQ6XM
+ 3tQodEcHArTSTBTCw7PcSVaoMU+D/9bo+Xan74ImLkTjN6HHFPK88QUnwMS1uHquUFit
+ ku4w==
+X-Gm-Message-State: AJIora/32nHWarlPrY4Cdgx7aAvrvw+wpGC9qF0x+K32ZbUc5uZIfaEu
+ 13LMJB/yCHtZ5DCStKv0tM+JtW5FN6A=
+X-Google-Smtp-Source: AGRyM1tXaqX/XIGmK0CoxwY3elcxdOcODH/YWfjXg1m94H4iwG5nTR4qBe8LrAnzB0NnyM0y/EcD5Q==
+X-Received: by 2002:a05:6808:1b2a:b0:32e:df2a:cfc4 with SMTP id
+ bx42-20020a0568081b2a00b0032edf2acfc4mr8696252oib.288.1656366067653; 
+ Mon, 27 Jun 2022 14:41:07 -0700 (PDT)
 Received: from [192.168.10.102] ([191.193.1.105])
  by smtp.gmail.com with ESMTPSA id
- e19-20020a05680809b300b0032efb577cbasm5974126oig.8.2022.06.27.14.40.35
+ t24-20020a9d7298000000b0061691db3807sm5053763otj.23.2022.06.27.14.41.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 14:40:36 -0700 (PDT)
-Message-ID: <eaf36385-90dd-908c-4772-2397690ad01d@gmail.com>
-Date: Mon, 27 Jun 2022 18:40:34 -0300
+ Mon, 27 Jun 2022 14:41:07 -0700 (PDT)
+Message-ID: <77f0af29-f2aa-d122-236e-56dcf237ef1f@gmail.com>
+Date: Mon, 27 Jun 2022 18:41:04 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH qemu] spapr/ddw: Implement 64bit query extension
+Subject: Re: [PATCH qemu v2] spapr/ddw: Reset DMA when the last non-default
+ window is removed
 Content-Language: en-US
 To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
 Cc: qemu-devel@nongnu.org
-References: <20220623073136.1380214-1-aik@ozlabs.ru>
+References: <20220622052955.1069903-1-aik@ozlabs.ru>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220623073136.1380214-1-aik@ozlabs.ru>
+In-Reply-To: <20220622052955.1069903-1-aik@ozlabs.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::33;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,74 +97,110 @@ Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 Daniel
 
-On 6/23/22 04:31, Alexey Kardashevskiy wrote:
-> PAPR 2.8 (2018) defines an extension to return 64bit value for
-> the largest TCE block in "ibm,query-pe-dma-window". Recent Linux kernels
-> support this already.
+On 6/22/22 02:29, Alexey Kardashevskiy wrote:
+> PAPR+/LoPAPR says:
+> ===
+> The platform must restore the default DMA window for the PE on a call
+> to the ibm,remove-pe-dma-window RTAS call when all of the following
+> are true:
+>   a. The call removes the last DMA window remaining for the PE.
+>   b. The DMA window being removed is not the default window
 > 
-> This adds the extension and supports the older format.
+> ===
 > 
-> This advertises a bigger window for the new format as the biggest
-> window with 2M pages below the start of the 64bit window as it is
-> the maximum we will see in practice.
+> This resets DMA as PAPR mandates.
 > 
 > Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 > ---
->   hw/ppc/spapr_pci.c      |  5 +++--
->   hw/ppc/spapr_rtas_ddw.c | 19 +++++++++++++++----
->   2 files changed, 18 insertions(+), 6 deletions(-)
+> Changes:
+> v2:
+> * reverted changes to spapr_tce_table_enable()
+> ---
+>   include/hw/ppc/spapr.h  |  1 +
+>   hw/ppc/spapr_iommu.c    |  3 ++-
+>   hw/ppc/spapr_pci.c      |  1 +
+>   hw/ppc/spapr_rtas_ddw.c | 15 +++++++++++++++
+>   4 files changed, 19 insertions(+), 1 deletion(-)
 > 
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 072dda2c7265..4ba2b27b8c4f 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -902,6 +902,7 @@ struct SpaprTceTable {
+>       bool bypass;
+>       bool need_vfio;
+>       bool skipping_replay;
+> +    bool def_win;
+>       int fd;
+>       MemoryRegion root;
+>       IOMMUMemoryRegion iommu;
+> diff --git a/hw/ppc/spapr_iommu.c b/hw/ppc/spapr_iommu.c
+> index 81e5a1aea3a6..63e34d457a0e 100644
+> --- a/hw/ppc/spapr_iommu.c
+> +++ b/hw/ppc/spapr_iommu.c
+> @@ -279,7 +279,7 @@ static const VMStateDescription vmstate_spapr_tce_table_ex = {
+>   
+>   static const VMStateDescription vmstate_spapr_tce_table = {
+>       .name = "spapr_iommu",
+> -    .version_id = 2,
+> +    .version_id = 3,
+>       .minimum_version_id = 2,
+>       .pre_save = spapr_tce_table_pre_save,
+>       .post_load = spapr_tce_table_post_load,
+> @@ -292,6 +292,7 @@ static const VMStateDescription vmstate_spapr_tce_table = {
+>           VMSTATE_BOOL(bypass, SpaprTceTable),
+>           VMSTATE_VARRAY_UINT32_ALLOC(mig_table, SpaprTceTable, mig_nb_table, 0,
+>                                       vmstate_info_uint64, uint64_t),
+> +        VMSTATE_BOOL_V(def_win, SpaprTceTable, 3),
+>   
+>           VMSTATE_END_OF_LIST()
+>       },
 > diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 5e95d7940fc8..67e9d468aa9c 100644
+> index b2f5fbef0c83..5e95d7940fc8 100644
 > --- a/hw/ppc/spapr_pci.c
 > +++ b/hw/ppc/spapr_pci.c
-> @@ -2360,8 +2360,9 @@ int spapr_dt_phb(SpaprMachineState *spapr, SpaprPhbState *phb,
->           cpu_to_be32(RTAS_IBM_REMOVE_PE_DMA_WINDOW)
->       };
->       uint32_t ddw_extensions[] = {
-> -        cpu_to_be32(1),
-> -        cpu_to_be32(RTAS_IBM_RESET_PE_DMA_WINDOW)
-> +        cpu_to_be32(2),
-> +        cpu_to_be32(RTAS_IBM_RESET_PE_DMA_WINDOW),
-> +        cpu_to_be32(1), /* 1: ibm,query-pe-dma-window 6 outputs, PAPR 2.8 */
->       };
->       SpaprTceTable *tcet;
->       SpaprDrc *drc;
+> @@ -2067,6 +2067,7 @@ void spapr_phb_dma_reset(SpaprPhbState *sphb)
+>       tcet = spapr_tce_find_by_liobn(sphb->dma_liobn[0]);
+>       spapr_tce_table_enable(tcet, SPAPR_TCE_PAGE_SHIFT, sphb->dma_win_addr,
+>                              sphb->dma_win_size >> SPAPR_TCE_PAGE_SHIFT);
+> +    tcet->def_win = true;
+>   }
+>   
+>   static void spapr_phb_reset(DeviceState *qdev)
 > diff --git a/hw/ppc/spapr_rtas_ddw.c b/hw/ppc/spapr_rtas_ddw.c
-> index bb7d91b6d1af..7ba11382bc3f 100644
+> index 13d339c807c1..bb7d91b6d1af 100644
 > --- a/hw/ppc/spapr_rtas_ddw.c
 > +++ b/hw/ppc/spapr_rtas_ddw.c
-> @@ -100,7 +100,7 @@ static void rtas_ibm_query_pe_dma_window(PowerPCCPU *cpu,
->       uint64_t buid;
->       uint32_t avail, addr, pgmask = 0;
+> @@ -215,6 +215,7 @@ static void rtas_ibm_remove_pe_dma_window(PowerPCCPU *cpu,
+>       SpaprPhbState *sphb;
+>       SpaprTceTable *tcet;
+>       uint32_t liobn;
+> +    bool def_win_removed;
 >   
-> -    if ((nargs != 3) || (nret != 5)) {
-> +    if ((nargs != 3) || ((nret != 5) && (nret != 6))) {
+>       if ((nargs != 1) || (nret != 1)) {
+>           goto param_error_exit;
+> @@ -231,9 +232,23 @@ static void rtas_ibm_remove_pe_dma_window(PowerPCCPU *cpu,
 >           goto param_error_exit;
 >       }
 >   
-> @@ -118,9 +118,20 @@ static void rtas_ibm_query_pe_dma_window(PowerPCCPU *cpu,
+> +    def_win_removed = tcet->def_win;
+>       spapr_tce_table_disable(tcet);
+>       trace_spapr_iommu_ddw_remove(liobn);
 >   
->       rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->       rtas_st(rets, 1, avail);
-> -    rtas_st(rets, 2, 0x80000000); /* The largest window we can possibly have */
-> -    rtas_st(rets, 3, pgmask);
-> -    rtas_st(rets, 4, 0); /* DMA migration mask, not supported */
-> +    if (nret == 6) {
-> +        /*
-> +         * Set the Max TCE number as 1<<(58-21) = 0x20.0000.0000
-> +         * 1<<59 is the huge window start and 21 is 2M page shift.
-> +         */
-> +        rtas_st(rets, 2, 0x00000020);
-> +        rtas_st(rets, 3, 0x00000000);
-> +        rtas_st(rets, 4, pgmask);
-> +        rtas_st(rets, 5, 0); /* DMA migration mask, not supported */
-> +    } else {
-> +        rtas_st(rets, 2, 0x80000000);
-> +        rtas_st(rets, 3, pgmask);
-> +        rtas_st(rets, 4, 0); /* DMA migration mask, not supported */
+> +    /*
+> +     * PAPR+/LoPAPR says:
+> +     * The platform must restore the default DMA window for the PE on a call
+> +     * to the ibm,remove-pe-dma-window RTAS call when all of the following
+> +     * are true:
+> +     * a. The call removes the last DMA window remaining for the PE.
+> +     * b. The DMA window being removed is not the default window
+> +     */
+> +    if (spapr_phb_get_active_win_num(sphb) == 0 && !def_win_removed) {
+> +        spapr_phb_dma_reset(sphb);
+> +        trace_spapr_iommu_ddw_reset(sphb->buid, 0);
 > +    }
->   
->       trace_spapr_iommu_ddw_query(buid, addr, avail, 0x80000000, pgmask);
+> +
+>       rtas_st(rets, 0, RTAS_OUT_SUCCESS);
 >       return;
+>   
 
