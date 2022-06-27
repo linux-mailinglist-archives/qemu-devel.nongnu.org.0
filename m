@@ -2,55 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A3D55BB3D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 19:08:23 +0200 (CEST)
-Received: from localhost ([::1]:60824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BDC55BB28
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 18:38:31 +0200 (CEST)
+Received: from localhost ([::1]:47040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5sDl-0004d1-QO
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 13:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58136)
+	id 1o5rks-0008Ky-MB
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 12:38:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1o5roH-0005na-V7; Mon, 27 Jun 2022 12:42:01 -0400
-Received: from [200.168.210.66] (port=30292 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1o5roF-0006cy-0x; Mon, 27 Jun 2022 12:42:01 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 27 Jun 2022 13:26:36 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id A8B588001D4;
- Mon, 27 Jun 2022 13:26:35 -0300 (-03)
-Message-ID: <7b5d9e38-cf9e-a3e4-bd07-7da155eb7607@eldorado.org.br>
-Date: Mon, 27 Jun 2022 13:26:35 -0300
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o5ra4-0003Rw-61
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:27:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26990)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o5ra0-0003n2-4A
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:27:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656347234;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xpNUbvUuLGXgcvaQ4NF2y3L+LPZEUEHC4LqEAjaRmDc=;
+ b=NYxAp/yzxwqSZwHIc1LjRIpAdlYQVximS7/FM3QPseLOWqW0FJYkIh7q5oY/53lETdjCmX
+ Y8SpNiU65AdjM9RwGyWxvDo5BP6i9yi7V8H5uc5X8VdtheAlAAKO6KLnbUomWnTbU4ieMx
+ iHDgAe8D25APAbIkmQilMyJCb/ZFAh0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-56-83jUE8UvOxagFD5v4A1tMQ-1; Mon, 27 Jun 2022 12:27:13 -0400
+X-MC-Unique: 83jUE8UvOxagFD5v4A1tMQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h125-20020a1c2183000000b003a03a8475c6so3283717wmh.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 09:27:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=xpNUbvUuLGXgcvaQ4NF2y3L+LPZEUEHC4LqEAjaRmDc=;
+ b=5oEPJ7WtDjaMTg39U37UNi9QnvbcmbZnT+/Sc3RCl9rva3CBUshSD4jdReWaei2lZ4
+ lB/TduptS0iaMFVHL1tdQvPPSYFHKcPrDznkUGyLoWAWhV/eaGJP6jB5EdwnrIzT73gW
+ WN3NqjU7KTpdchBO7AbxuzvtqK1oTUS1HHbgT8o2Wfuo640fTwKgGJKY11mrYhhkQm4l
+ hQ5LWElJ1E1DtVKC8UgiQ2UNPwQ6MBFL2DU5dj+iMFN1b43GrOe9CKVo9Fl+vFcKq5uR
+ MNL2TNcSpPiziR+n+J0U+MPQXIjctwd/EtX2P8hzpBF88kesXaq+bsVsyQuPELKoCm1/
+ LhbQ==
+X-Gm-Message-State: AJIora/VKZ/82fO+w59k1VVfIeMvVx+dW1zkWqqIHGqvyXJCYHWk/UPq
+ V1io2vkVzgryAHyUvd53GBkdP0Yfv/13tNwnmCmZPiW375kd1OTcUEbrA4Eff7BPFUy4lU2aizb
+ tTvJUHqmRW7SMpvE=
+X-Received: by 2002:a5d:584c:0:b0:21c:1395:f0c4 with SMTP id
+ i12-20020a5d584c000000b0021c1395f0c4mr5665767wrf.24.1656347232246; 
+ Mon, 27 Jun 2022 09:27:12 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1soGSIUvxyLTx6eBFcueiS49CyP0YyZ8hdsPol4CoB837fAB8rp8SDgsR+VsvDMgzvZgfZIKA==
+X-Received: by 2002:a5d:584c:0:b0:21c:1395:f0c4 with SMTP id
+ i12-20020a5d584c000000b0021c1395f0c4mr5665752wrf.24.1656347231936; 
+ Mon, 27 Jun 2022 09:27:11 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c708:d100:dd9:b2f7:f126:11c2?
+ (p200300cbc708d1000dd9b2f7f12611c2.dip0.t-ipconnect.de.
+ [2003:cb:c708:d100:dd9:b2f7:f126:11c2])
+ by smtp.gmail.com with ESMTPSA id
+ e17-20020a05600c4e5100b003a04e900552sm1665497wmq.1.2022.06.27.09.27.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jun 2022 09:27:11 -0700 (PDT)
+Message-ID: <bb5c26f1-5b78-8abe-48ba-72cb78597d05@redhat.com>
+Date: Mon, 27 Jun 2022 18:27:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 7/7] target/ppc: use int128.h methods in vsubcuq
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] target/s390x/tcg: SPX: check validity of new prefix
 Content-Language: en-US
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org
-References: <20220606150037.338931-1-matheus.ferst@eldorado.org.br>
- <20220606150037.338931-8-matheus.ferst@eldorado.org.br>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <20220606150037.338931-8-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Jun 2022 16:26:36.0134 (UTC)
- FILETIME=[ABBF3860:01D88A42]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220627131251.2832076-1-scgl@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220627131251.2832076-1-scgl@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,167 +105,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/06/2022 12:00, Matheus Ferst wrote:
-> And also move the insn to decodetree and remove the now unused
-> avr_qw_not, avr_qw_cmpu, and avr_qw_add methods.
-> 
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/helper.h                 |  2 +-
->   target/ppc/insn32.decode            |  1 +
->   target/ppc/int_helper.c             | 51 +++--------------------------
->   target/ppc/translate/vmx-impl.c.inc |  5 +--
->   target/ppc/translate/vmx-ops.c.inc  |  2 +-
->   5 files changed, 9 insertions(+), 52 deletions(-)
-> 
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index 04ced6ef70..84a41d85b0 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -211,7 +211,7 @@ DEF_HELPER_FLAGS_3(VADDCUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
->   DEF_HELPER_FLAGS_3(VSUBUQM, TCG_CALL_NO_RWG, void, avr, avr, avr)
->   DEF_HELPER_FLAGS_4(VSUBECUQ, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
->   DEF_HELPER_FLAGS_4(VSUBEUQM, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
-> -DEF_HELPER_FLAGS_3(vsubcuq, TCG_CALL_NO_RWG, void, avr, avr, avr)
-> +DEF_HELPER_FLAGS_3(VSUBCUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
->   DEF_HELPER_FLAGS_4(vsldoi, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
->   DEF_HELPER_FLAGS_3(vextractub, TCG_CALL_NO_RWG, void, avr, avr, i32)
->   DEF_HELPER_FLAGS_3(vextractuh, TCG_CALL_NO_RWG, void, avr, avr, i32)
-> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-> index 5e6f3b668e..65a6a42f78 100644
-> --- a/target/ppc/insn32.decode
-> +++ b/target/ppc/insn32.decode
-> @@ -556,6 +556,7 @@ VADDUQM         000100 ..... ..... ..... 00100000000    @VX
->   VADDEUQM        000100 ..... ..... ..... ..... 111100   @VA
->   VADDECUQ        000100 ..... ..... ..... ..... 111101   @VA
-> 
-> +VSUBCUQ         000100 ..... ..... ..... 10101000000    @VX
->   VSUBUQM         000100 ..... ..... ..... 10100000000    @VX
-> 
->   VSUBECUQ        000100 ..... ..... ..... ..... 111111   @VA
-> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-> index c995f8de77..f1a9fbf0c5 100644
-> --- a/target/ppc/int_helper.c
-> +++ b/target/ppc/int_helper.c
-> @@ -2176,38 +2176,6 @@ VGENERIC_DO(popcntd, u64)
-> 
->   #undef VGENERIC_DO
-> 
-> -#ifndef CONFIG_INT128
-> -
-> -static inline void avr_qw_not(ppc_avr_t *t, ppc_avr_t a)
-> -{
-> -    t->u64[0] = ~a.u64[0];
-> -    t->u64[1] = ~a.u64[1];
-> -}
-> -
-> -static int avr_qw_cmpu(ppc_avr_t a, ppc_avr_t b)
-> -{
-> -    if (a.VsrD(0) < b.VsrD(0)) {
-> -        return -1;
-> -    } else if (a.VsrD(0) > b.VsrD(0)) {
-> -        return 1;
-> -    } else if (a.VsrD(1) < b.VsrD(1)) {
-> -        return -1;
-> -    } else if (a.VsrD(1) > b.VsrD(1)) {
-> -        return 1;
-> -    } else {
-> -        return 0;
-> -    }
-> -}
-> -
-> -static void avr_qw_add(ppc_avr_t *t, ppc_avr_t a, ppc_avr_t b)
-> -{
-> -    t->VsrD(1) = a.VsrD(1) + b.VsrD(1);
-> -    t->VsrD(0) = a.VsrD(0) + b.VsrD(0) +
-> -                     (~a.VsrD(1) < b.VsrD(1));
-> -}
-> -
-> -#endif
-> -
->   void helper_VADDUQM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
->   {
->       r->s128 = int128_add(a->s128, b->s128);
-> @@ -2250,22 +2218,13 @@ void helper_VSUBEUQM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
->                            int128_make64(int128_getlo(c->s128) & 1));
->   }
-> 
-> -void helper_vsubcuq(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-> +void helper_VSUBCUQ(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
->   {
-> -#ifdef CONFIG_INT128
-> -    r->u128 = (~a->u128 < ~b->u128) ||
-> -                 (a->u128 + ~b->u128 == (__uint128_t)-1);
-> -#else
-> -    int carry = (avr_qw_cmpu(*a, *b) > 0);
-> -    if (!carry) {
-> -        ppc_avr_t tmp;
-> -        avr_qw_not(&tmp, *b);
-> -        avr_qw_add(&tmp, *a, tmp);
-> -        carry = ((tmp.VsrSD(0) == -1ull) && (tmp.VsrSD(1) == -1ull));
-> -    }
-> +    Int128 tmp = int128_not(b->s128);
-> +
-> +    r->VsrD(1) = int128_ult(int128_not(a->s128), tmp) ||
-> +                 int128_eq(int128_add(a->s128, tmp), int128_makes64(-1));
->       r->VsrD(0) = 0;
-> -    r->VsrD(1) = carry;
-> -#endif
->   }
-> 
->   void helper_VSUBECUQ(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
-> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-> index 671992f7d1..e644ad3236 100644
-> --- a/target/ppc/translate/vmx-impl.c.inc
-> +++ b/target/ppc/translate/vmx-impl.c.inc
-> @@ -1234,7 +1234,6 @@ GEN_VXFORM_SAT(vsubuws, MO_32, sub, ussub, 0, 26);
->   GEN_VXFORM_SAT(vsubsbs, MO_8, sub, sssub, 0, 28);
->   GEN_VXFORM_SAT(vsubshs, MO_16, sub, sssub, 0, 29);
->   GEN_VXFORM_SAT(vsubsws, MO_32, sub, sssub, 0, 30);
-> -GEN_VXFORM(vsubcuq, 0, 21);
->   GEN_VXFORM_TRANS(vsl, 2, 7);
->   GEN_VXFORM_TRANS(vsr, 2, 11);
->   GEN_VXFORM_ENV(vpkuhum, 7, 0);
-> @@ -2856,9 +2855,6 @@ GEN_VXFORM_DUAL(vsubuwm, PPC_ALTIVEC, PPC_NONE, \
->                   bcdus, PPC_NONE, PPC2_ISA300)
->   GEN_VXFORM_DUAL(vsubsbs, PPC_ALTIVEC, PPC_NONE, \
->                   bcdtrunc, PPC_NONE, PPC2_ISA300)
-> -GEN_VXFORM_DUAL(vsubcuq, PPC2_ALTIVEC_207, PPC_NONE, \
-> -                bcdutrunc, PPC_NONE, PPC2_ISA300)
-> -
-> 
->   static void gen_vsbox(DisasContext *ctx)
->   {
-> @@ -3098,6 +3094,7 @@ TRANS_FLAGS2(ALTIVEC_207, VADDUQM, do_vx_helper, gen_helper_VADDUQM)
-> 
->   TRANS_FLAGS2(ALTIVEC_207, VPMSUMD, do_vx_helper, gen_helper_VPMSUMD)
-> 
-> +TRANS_FLAGS2(ALTIVEC_207, VSUBCUQ, do_vx_helper, gen_helper_VSUBCUQ)
->   TRANS_FLAGS2(ALTIVEC_207, VSUBUQM, do_vx_helper, gen_helper_VSUBUQM)
-> 
->   static bool do_vx_vmuleo(DisasContext *ctx, arg_VX *a, bool even,
-> diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-> index 9395806f3d..a3a0fd0650 100644
-> --- a/target/ppc/translate/vmx-ops.c.inc
-> +++ b/target/ppc/translate/vmx-ops.c.inc
-> @@ -127,7 +127,7 @@ GEN_VXFORM_DUAL(vsubsbs, bcdtrunc, 0, 28, PPC_ALTIVEC, PPC2_ISA300),
->   GEN_VXFORM(vsubshs, 0, 29),
->   GEN_VXFORM_DUAL(vsubsws, xpnd04_2, 0, 30, PPC_ALTIVEC, PPC_NONE),
->   GEN_VXFORM_300(bcdtrunc, 0, 20),
-> -GEN_VXFORM_DUAL(vsubcuq, bcdutrunc, 0, 21, PPC2_ALTIVEC_207, PPC2_ISA300),
-> +GEN_VXFORM_300(bcdutrunc, 0, 21),
->   GEN_VXFORM(vsl, 2, 7),
->   GEN_VXFORM(vsr, 2, 11),
->   GEN_VXFORM(vpkuhum, 7, 0),
-> --
-> 2.25.1
-> 
-> 
+On 27.06.22 15:12, Janis Schoetterl-Glausch wrote:
+> According to the architecture, SET PREFIX must try to access the new
+> prefix area and recognize an addressing exception if the area is not
+> accessible.
+> For qemu this check prevents a crash in cpu_map_lowcore after an
+> inaccessible prefix area has been set.
 
-Reviewed-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+I don't think that's possible. Our memory increments are 1 MiB and one
+would have to cross a 1~MiB range with the second page to trigger that.
+IIRC that's impossible with SPX address alignment requirements?
+
+
+> 
+> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> ---
+> 
+> 
+> Is there a stricter check to see if the memory is accessible?
+> 
+> 
+>  target/s390x/tcg/misc_helper.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/target/s390x/tcg/misc_helper.c b/target/s390x/tcg/misc_helper.c
+> index aab9c47747..c8447b36fc 100644
+> --- a/target/s390x/tcg/misc_helper.c
+> +++ b/target/s390x/tcg/misc_helper.c
+> @@ -158,6 +158,10 @@ void HELPER(spx)(CPUS390XState *env, uint64_t a1)
+>      if (prefix == old_prefix) {
+>          return;
+>      }
+> +    if (!mmu_absolute_addr_valid(prefix, true) ||
+> +        !mmu_absolute_addr_valid(prefix + TARGET_PAGE_SIZE, true)) {
+> +        tcg_s390_program_interrupt(env, PGM_ADDRESSING, GETPC());
+> +    }
+>  
+>      env->psa = prefix;
+>      HELPER_LOG("prefix: %#x\n", prefix);
+> 
+> base-commit: 3a821c52e1a30ecd9a436f2c67cc66b5628c829f
+
 
 -- 
-Víctor Cora Colombo
-Instituto de Pesquisas ELDORADO
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+Thanks,
+
+David / dhildenb
+
 
