@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1003F55BB37
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 18:59:25 +0200 (CEST)
-Received: from localhost ([::1]:50240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2C555BB38
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 19:02:08 +0200 (CEST)
+Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5s56-0005BL-6B
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 12:59:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55242)
+	id 1o5s7j-0006tv-Aj
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 13:02:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o5rfo-0001Qn-TD
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:33:17 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:55479)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=EJqm=XC=zx2c4.com=Jason@kernel.org>)
+ id 1o5rjQ-0006sq-5c
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:37:00 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:35456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o5rfj-0004j3-4k
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:33:16 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B472E111DC919;
- Mon, 27 Jun 2022 18:33:08 +0200 (CEST)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 27 Jun
- 2022 18:33:07 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R00438de6169-8622-491a-8a5c-195e37d4bd23,
- 659C98CE65B422D4D127A36693B7EAD6442F0B22) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <f4866421-06b2-a2b5-5c60-8a3cf3457e9e@kaod.org>
-Date: Mon, 27 Jun 2022 18:33:01 +0200
+ (Exim 4.90_1)
+ (envelope-from <SRS0=EJqm=XC=zx2c4.com=Jason@kernel.org>)
+ id 1o5rjO-0005IP-Ha
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 12:36:59 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 41EE6B818DC
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:36:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9AE4C3411D
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 16:36:53 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="e9XzVsQc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1656347811;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Umjv2uPXwck43nyYw6+/9hoZ0oq6X4n8I6/+4N+o7+o=;
+ b=e9XzVsQcATDiDH70sp8qUun0OYIHdcF6yY8n6fjR47BtAHEb1WFB93Ckj/0TsRVnPeGB0+
+ 8JS23zn8Sd9j27fSvVrPAzcqDovbNd21Ej3bk/hCyN0sFA0h1k496IfWYnAsaMPKWWfdQN
+ c8db0a8XaioFqd6wpdf2ZJVF2D+yPGQ=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 850aa0e7
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Mon, 27 Jun 2022 16:36:51 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id h85so10144444iof.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 09:36:50 -0700 (PDT)
+X-Gm-Message-State: AJIora9AeuoFuCmRIwmJCBvV/DbipA/rG2YR1pbAOUlNsaeJTYCN9VSc
+ GwKNf21aKA63aZFr/FQcBQWRN1dIK+ndWlu4YSM=
+X-Google-Smtp-Source: AGRyM1vdblyOKY4DwVLSWqz25uoyaPlu4UENRO7hNfaAeEpDyXmjHEi2D0LbcRAzr1CXn0G0CQM0pqPOM/1gpm4aec4=
+X-Received: by 2002:a02:8568:0:b0:339:c51c:867 with SMTP id
+ g95-20020a028568000000b00339c51c0867mr8411747jai.170.1656347810287; Mon, 27
+ Jun 2022 09:36:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 0/7] Add Qualcomm BMC machines
-Content-Language: en-US
-To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, Peter Maydell
- <peter.maydell@linaro.org>, Titus Rwantare <titusr@google.com>, Andrew
- Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Patrick Venture
- <venture@google.com>, Hao Wu <wuhaotsh@google.com>
-CC: Graeme Gregory <quic_ggregory@quicinc.com>, Maheswara Kurapati
- <quic_mkurapat@quicinc.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220627154703.148943-1-quic_jaehyoo@quicinc.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220627154703.148943-1-quic_jaehyoo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3b7343b0-0e1b-42aa-b585-bd22f36849f3
-X-Ovh-Tracer-Id: 15835782191662140405
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeghedguddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received: by 2002:a05:6e02:16cc:0:0:0:0 with HTTP; Mon, 27 Jun 2022 09:36:49
+ -0700 (PDT)
+In-Reply-To: <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
+References: <20220627160734.749861-1-Jason@zx2c4.com>
+ <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Mon, 27 Jun 2022 18:36:49 +0200
+X-Gmail-Original-Message-ID: <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
+Message-ID: <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: dt: add rng-seed property
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=EJqm=XC=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,61 +90,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Titus,
+On 6/27/22, Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Mon, 27 Jun 2022 at 17:07, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>>
+>> In 60592cfed2 ("hw/arm/virt: dt: add kaslr-seed property"), the
+>> kaslr-seed property was added, but the equally as important rng-seed
+>> property was forgotten about, which has identical semantics for a
+>> similar purpose. This commit implements it in exactly the same way as
+>> kaslr-seed.
+>
+> Not an objection, since if this is what the dtb spec says we need
+> to provide then I guess we need to provide it, but:
+> Why do we need to give the kernel two separate random seeds?
+> Isn't one sufficient for the kernel to seed its RNG and generate
+> whatever randomness it needs for whatever purposes it wants it?
+>
 
-On 6/27/22 17:46, Jae Hyun Yoo wrote:
-> Hello,
-> 
-> I'm sending a series to add Qualcomm BMC machines that are equipped with
-> Aspeed AST2600 SoC. Also, this series adds MAX31785 fan controller device
-> emulation. Please help to review.
-> 
-> Thanks,
-> 
-> Jae
-> 
-> Changes in v2:
-> * Fixed a typo in QCOM DC-SCM V1 HW strap value comment. (Rebecca)
-> * Removed a useless change which is reverted by the next patch. (Joel)
-> * Changed machine name to 'qcom-firework-bmc'. (Cedric)
-> * Dropped FRU eeprom initialization part. (Patrick)
-> * Fixed comment for a case of PB_ALL_PAGES. (Titus)
-> * Removed an error log printing when it handles PB_ALL_PAGES. (Jae)
-> * Fixed a typo in copyright in max31785.c. (Rebecca)
-> * Fixed indentation issues in max31785.c. (Titus)
-> * Fixed license identifier style and refined indentation of defines. (Jae)
-> * Added PMBUS and MAX31785 config selection under ASPEED_SOC. (Titus)
-> * Moved machine updating part from the previous patch. (Cedric)
-> * Refined code to avoid retouching by the next patch. (Joel)
-> 
-> Graeme Gregory (1):
->    hw/arm/aspeed: add Qualcomm Firework BMC machine
-> 
-> Jae Hyun Yoo (2):
->    hw/arm/aspeed: add support for the Qualcomm DC-SCM v1 board
->    hw/arm/aspeed: firework: add I2C MUXes for VR channels
-> 
-> Maheswara Kurapati (4):
->    hw/i2c: pmbus: Page #255 is valid page for read requests.
->    hw/sensor: add Maxim MAX31785 device
->    hw/arm/aspeed: Add MAX31785 Fan controllers
->    hw/arm/aspeed: firework: Add Thermal Diodes
-> 
->   hw/arm/Kconfig        |   2 +
->   hw/arm/aspeed.c       |  95 ++++++-
->   hw/i2c/pmbus_device.c |   6 +-
->   hw/sensor/Kconfig     |   4 +
->   hw/sensor/max31785.c  | 573 ++++++++++++++++++++++++++++++++++++++++++
->   hw/sensor/meson.build |   1 +
->   6 files changed, 674 insertions(+), 7 deletions(-)
->   create mode 100644 hw/sensor/max31785.c
+Seems a bit silly to me too. `rng-seed` alone ought to be sufficient.
+After the kernel calls add_bootloader_randomness() on it,
+get_random_long() can be used for kaslr'ing and everything else too.
+So I'm not sure what's up, but here we are. Maybe down the line I'll
+look into the details and formulate a plan to remove `kaslr-seed` if
+my supposition is correct.
 
-Will you handle the pmbus/sensor patches or would you mind if I took them
-through the aspeed branch ?
-
-Thanks,
-
-C.
-  
-
+Jason
 
