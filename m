@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF71D55BA93
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 16:48:46 +0200 (CEST)
-Received: from localhost ([::1]:47688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2626655BA84
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 16:33:10 +0200 (CEST)
+Received: from localhost ([::1]:45454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5q2f-0007Ve-QK
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 10:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59656)
+	id 1o5pnY-0002vj-KR
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 10:33:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1o5q01-00066I-4M; Mon, 27 Jun 2022 10:46:01 -0400
-Received: from [200.168.210.66] (port=24325 helo=outlook.eldorado.org.br)
+ id 1o5pj1-0008OF-US; Mon, 27 Jun 2022 10:28:29 -0400
+Received: from [200.168.210.66] (port=27402 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1o5pzz-0005Gk-Ly; Mon, 27 Jun 2022 10:46:00 -0400
+ id 1o5piz-0002K1-Q7; Mon, 27 Jun 2022 10:28:27 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Mon, 27 Jun 2022 11:11:11 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 459D58001D4;
+ by p9ibm (Postfix) with ESMTP id 78169800310;
  Mon, 27 Jun 2022 11:11:11 -0300 (-03)
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -29,14 +29,17 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, farosas@linux.ibm.com, laurent@vivier.eu,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH 0/6] Fix gen_*_exception error codes
-Date: Mon, 27 Jun 2022 11:10:58 -0300
-Message-Id: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 1/6] target/ppc: Fix gen_priv_exception error value in
+ mfspr/mtspr
+Date: Mon, 27 Jun 2022 11:10:59 -0300
+Message-Id: <20220627141104.669152-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
+References: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Jun 2022 14:11:11.0535 (UTC)
- FILETIME=[C11BCBF0:01D88A2F]
+X-OriginalArrivalTime: 27 Jun 2022 14:11:11.0910 (UTC)
+ FILETIME=[C1550460:01D88A2F]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -61,27 +64,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The first patch of this series is the RFC of [1] (hence the r-b in v1).
-Patches 2~4 follow the other problems that Laurent pointed out, and
-patches 5-6 fix similar problems that I found.
+The code in linux-user/ppc/cpu_loop.c expects POWERPC_EXCP_PRIV
+exception with error POWERPC_EXCP_PRIV_OPC or POWERPC_EXCP_PRIV_REG,
+while POWERPC_EXCP_INVAL_SPR is expected in POWERPC_EXCP_INVAL
+exceptions. This mismatch caused an EXCP_DUMP with the message "Unknown
+privilege violation (03)", as seen in [1].
 
-[1] https://lists.gnu.org/archive/html/qemu-ppc/2022-01/msg00400.html
+[1] https://gitlab.com/qemu-project/qemu/-/issues/588
 
-Matheus Ferst (6):
-  target/ppc: Fix gen_priv_exception error value in mfspr/mtspr
-  target/ppc: fix exception error value in slbfee
-  target/ppc: remove mfdcrux and mtdcrux
-  target/ppc: fix exception error code in helper_{load,store}_dcr
-  target/ppc: fix PMU Group A register read/write exceptions
-  target/ppc: fix exception error code in spr_write_excp_vector
+Fixes: 9b2fadda3e01 ("ppc: Rework generation of priv and inval interrupts")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/588
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+This patch was split from
+https://lists.gnu.org/archive/html/qemu-ppc/2022-01/msg00400.html
+---
+ target/ppc/translate.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- target/ppc/cpu.h                 |  6 ++----
- target/ppc/helper.h              |  2 +-
- target/ppc/power8-pmu-regs.c.inc | 10 ++++-----
- target/ppc/timebase_helper.c     |  6 +++---
- target/ppc/translate.c           | 36 ++++++++------------------------
- 5 files changed, 20 insertions(+), 40 deletions(-)
-
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 1d6daa4608..55f34eb490 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4789,11 +4789,11 @@ static inline void gen_op_mfspr(DisasContext *ctx)
+          */
+         if (sprn & 0x10) {
+             if (ctx->pr) {
+-                gen_priv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++                gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+             }
+         } else {
+             if (ctx->pr || sprn == 0 || sprn == 4 || sprn == 5 || sprn == 6) {
+-                gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++                gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+             }
+         }
+     }
+@@ -4976,11 +4976,11 @@ static void gen_mtspr(DisasContext *ctx)
+          */
+         if (sprn & 0x10) {
+             if (ctx->pr) {
+-                gen_priv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++                gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+             }
+         } else {
+             if (ctx->pr || sprn == 0) {
+-                gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++                gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+             }
+         }
+     }
 -- 
 2.25.1
 
