@@ -2,95 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFD955BC03
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 22:37:11 +0200 (CEST)
-Received: from localhost ([::1]:45216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7357A55BC18
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 23:16:24 +0200 (CEST)
+Received: from localhost ([::1]:58892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5vTq-00029X-LL
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 16:37:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50238)
+	id 1o5w5n-0005nM-0l
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 17:16:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o5vPf-0007iI-CM
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 16:32:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o5vPb-0005wX-NO
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 16:32:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656361967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VZ6Eh3JCxNlugFrvyr2kZoIEo5INIw4nMEBeJeT5GHU=;
- b=gpZu/un6rXho6nWgM+LYvhJf6UyLJqITZm4GiyIkQ+BKmIPntFbdF8E9qMuqPJlOOkX/v2
- /04+KcKL1SBEdTdhGqDTT/ARPCbvWAV2bijJARlyYp/BjPDEMXiM7ViHD58zZTnbdM+3sI
- OCIf3580fFut+aAzH8kmOcK96ZtiNlo=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-JTjLq2cbNomCninNCnjYxw-1; Mon, 27 Jun 2022 16:32:46 -0400
-X-MC-Unique: JTjLq2cbNomCninNCnjYxw-1
-Received: by mail-il1-f198.google.com with SMTP id
- w15-20020a056e021a6f00b002d8eef284f0so6190119ilv.6
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 13:32:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o5w1K-000416-H6
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 17:11:46 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44852)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o5w1H-0003Me-Ah
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 17:11:46 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id i1so10274763wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 14:11:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=/jEdd5mUt3FP4JRvKBdThJ2OhdkiFW8ceRKMcJGFggQ=;
+ b=MjnlAeqbBV0T3xiWZQCY84n1w0jLZLTZTmq/eZ/IIcbW7t59muV2n46AUH2nuGgyfv
+ 2qt22iOMLizM2cpw8bYTXI57o6l11QP5mpW2N9GQJAPiFZmoQOXyaN99cYTqkP8mjT2J
+ tq1gBGCYLYKMdC9bsye5Ne6k6WjF0o01auprqOBwdvPku5094O1+yXI3geq+pcGgIO3+
+ KS0Y30+7VWOJ7QpUlZ1WpAExLqu5BkPL573eTcbiWTb/tFdDX3g/Wbe+/kJMuLlae/s5
+ 0Csv1Pe/yXrhCO0OWIXCMJYlwmA6CADpFjOIbR8JSDF+xOSxABND216/39DEB3VI7cNo
+ 3K3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=VZ6Eh3JCxNlugFrvyr2kZoIEo5INIw4nMEBeJeT5GHU=;
- b=7wz6oCbBoygn647+8lbbznnwLmj7Y0go659J0yY/y/fOWHlXlVlBrcJhc3VAg3yv/j
- nzRPEZewv4xoK1dP231VbiMO0HlgTvB87BjmOATwvhQRrvVE0dP7yr19LW5pci+c+p5g
- xX8JE5XMyYbwOrZp1z1E1HmQYdFEbeC6t+jpLOHENngldaRS09xDj5roBVZY20a/6pV5
- PIAkn5JalowKvtVyPz/J0T8skZN6MZcjEoOeZdOGYe6oVMdlzGTCQ05mzw2XMp0ap/aQ
- LbXlPS1G10VY7VBdsvE74HkMJ3xQv8A7xLs2VtBr/E6zjOG3DJgVenIiEN78Kkrbi1fW
- 5U3Q==
-X-Gm-Message-State: AJIora9ndMLai5ci/Z4hpbLIPGkqTnfQiawykDttlZlzmZnaVV7HVmCs
- Wqa7nnRtDh0WC31kBUuf2KNgM9edYIsCtrf0VyxuyDB64BFnJ2Jmt6+TRXJL3is7JjBevS2MsRr
- NofrhlkwEWI6kYTA=
-X-Received: by 2002:a05:6e02:144f:b0:2d1:90c9:9047 with SMTP id
- p15-20020a056e02144f00b002d190c99047mr7944546ilo.211.1656361965476; 
- Mon, 27 Jun 2022 13:32:45 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sbdlWZbaciwc73PZWqavw2VgKt4svrivSRy3YrWi+yf7gRqMpPNAdCbUrKsGowepA9adh0IQ==
-X-Received: by 2002:a05:6e02:144f:b0:2d1:90c9:9047 with SMTP id
- p15-20020a056e02144f00b002d190c99047mr7944528ilo.211.1656361965255; 
- Mon, 27 Jun 2022 13:32:45 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=/jEdd5mUt3FP4JRvKBdThJ2OhdkiFW8ceRKMcJGFggQ=;
+ b=5c41KoIJLtK/D3g8Wwdi/IgSXu/JuwGJTJqjsWPPFGJCOvxKwWoLgox3HevSMQkCso
+ 64bIX1jWBggBhLMK6LnshvC4Hur8dHbon4W52EBqJfzP6hRLUjDspMIoW+03o/89P0N+
+ PLCVgq9zEhxSpV82lZxK2c1RAj/mWgCRspOaq+hL+vnIrHsTxcuFurFo9U1r6UvZJcWF
+ qBo5T6moNvKPIS5gz1dGLi3pme+3mAQL43v9XfgIVwC4ofONABoy29VYh9tRCa0SmDuj
+ 7ktLW1QKH6AbRpABIfX5T8jPtbnMEibeX7XeKJEYBMxYfw6z8ewaoau+/xwKW1fyBf7+
+ qevg==
+X-Gm-Message-State: AJIora9OOpQvJ56XBhqpW0LqnHJYcCOIkNdWTTAqAQY0urB1wlxbWbRx
+ W2Z5CKQ/pnYPSWOJiKTfLzN36A==
+X-Google-Smtp-Source: AGRyM1uKKY1u2DNgeFi3th7v+K6MtM1gzbo5jddjb8GFRXNHNcGLG1B2YBa9s7p5QAXXMZE7lyhFMg==
+X-Received: by 2002:adf:f8c8:0:b0:21b:9bfa:c1bd with SMTP id
+ f8-20020adff8c8000000b0021b9bfac1bdmr14217930wrq.304.1656364301250; 
+ Mon, 27 Jun 2022 14:11:41 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- z18-20020a05663822b200b00335c0e07abdsm5126564jas.14.2022.06.27.13.32.43
+ o6-20020adfcf06000000b0021a34023ca3sm11388315wrj.62.2022.06.27.14.11.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 13:32:44 -0700 (PDT)
-Date: Mon, 27 Jun 2022 16:32:42 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, huangy81@chinatelecom.cn,
- quintela@redhat.com, leobras@redhat.com, jdenemar@redhat.com
-Subject: Re: [PULL 22/33] migration: remove the QEMUFileOps 'get_buffer'
- callback
-Message-ID: <YroT6ld/XrZaUNf9@xz-m1.local>
-References: <20220622183917.155308-1-dgilbert@redhat.com>
- <20220622183917.155308-23-dgilbert@redhat.com>
- <YrNu3KesFVVvoWVb@xz-m1.local> <YrN381XWrhTFStlp@xz-m1.local>
- <YrQot90/2gzdh/gt@redhat.com> <YrS7YHglHhhDMvbP@xz-m1.local>
- <YrnBtWrjA5D8TlTP@redhat.com> <YrnCRR5r9x6Io8Ud@redhat.com>
+ Mon, 27 Jun 2022 14:11:40 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BAD301FFB7;
+ Mon, 27 Jun 2022 22:11:39 +0100 (BST)
+References: <111e5b6c-41a7-89a4-b4d2-2eda1a295ffa@linux.ibm.com>
+User-agent: mu4e 1.7.27; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Frederic Barrat <fbarrat@linux.ibm.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: Slowness with multi-thread TCG?
+Date: Mon, 27 Jun 2022 22:10:34 +0100
+In-reply-to: <111e5b6c-41a7-89a4-b4d2-2eda1a295ffa@linux.ibm.com>
+Message-ID: <87y1xhke0k.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YrnCRR5r9x6Io8Ud@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,48 +92,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 27, 2022 at 03:44:21PM +0100, Daniel P. Berrangé wrote:
-> On Mon, Jun 27, 2022 at 03:41:57PM +0100, Daniel P. Berrangé wrote:
-> > On Thu, Jun 23, 2022 at 03:13:36PM -0400, Peter Xu wrote:
-> > > On Thu, Jun 23, 2022 at 09:47:51AM +0100, Daniel P. Berrangé wrote:
-> > > > > Hmm, when I wanted to run the whole bunch of the migration-test again I
-> > > > > found that precopy tls test hangs (/x86_64/migration/precopy/unix/tls/psk).
-> > > > > Though for this time it also hangs for me even with the master branch, so
-> > > > > maybe not anything wrong with this specific pull req but still something
-> > > > > needs fixing..
-> > > > 
-> > > > That pre-existing test has been runnnig by default in CI for a while
-> > > > now, under different OS builds, so I'm surprised. Is there anything
-> > > > especially unusual / different about your setup that could explain
-> > > > why you see hang that we don't get anywhere else ?
-> > > 
-> > > TL;DR: I think it's not run in CI?
-> > > 
-> > > Please see ufd_version_check(), as when uffd not detected we'll skip the
-> > > whole thing.
-> > 
-> > Our CI should be passing that check for the private runners eg
-> > 
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2641920502
-> > 
-> > shows us running 35 tests
-> > 
-> >   2/178 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test         OK             65.57s   35 subtests passed
-> > 
-> > but yes, the container based jobs are all skipping
-> > 
-> > > 
-> > > We really need to apply this patch, soon-ish..
-> > > 
-> > >   https://lore.kernel.org/all/20210615175523.439830-2-peterx@redhat.com/
-> 
-> BTW, I'd suggest re-sending that patch to bump it up in the inbox as
-> its a year old at this point.
 
-Indeed it already conflicts with the preempt series, I'll post one based on
-that.  Thanks.
+Frederic Barrat <fbarrat@linux.ibm.com> writes:
 
--- 
-Peter Xu
+> [ Resending as it was meant for the qemu-ppc list ]
+>
+> Hello,
+>
+> I've been looking at why our qemu powernv model is so slow when
+> booting a compressed linux kernel, using multiple vcpus and
+> multi-thread tcg. With only one vcpu, the decompression time of the
+> kernel is what it is, but when using multiple vcpus, the decompression
+> is actually slower. And worse: it degrades very fast with the number
+> of vcpus!
+>
+> Rough measurement of the decompression time on a x86 laptop with
+> multi-thread tcg and using the qemu powernv10 machine:
+> 1 vcpu =3D> 15 seconds
+> 2 vcpus =3D> 45 seconds
+> 4 vcpus =3D> 1 min 30 seconds
+>
+> Looking in details, when the firmware (skiboot) hands over execution
+> to the linux kernel, there's one main thread entering some bootstrap
+> code and running the kernel decompression algorithm. All the other
+> secondary threads are left spinning in skiboot (1 thread per vpcu). So
+> on paper, with multi-thread tcg and assuming the system has enough
+> available physical cpus, I would expect the decompression to hog one
+> physical cpu and the time needed to be constant, no matter the number
+> of vpcus.
+>
+> All the secondary threads are left spinning in code like this:
+>
+> 	for (;;) {
+> 		if (cpu_check_jobs(cpu))  // reading cpu-local data
+> 			break;
+> 		if (reconfigure_idle)     // global variable
+> 			break;
+> 		barrier();
+> 	}
+>
+> The barrier is to force reading the memory with each iteration. It's
+> defined as:
+>
+>   asm volatile("" : : : "memory");
+>
+>
+> Some time later, the main thread in the linux kernel will get the
+> secondary threads out of that loop by posting a job.
+>
+> My first thought was that the translation of that code through tcg was
+> somehow causing some abnormally slow behavior, maybe due to some
+> non-obvious contention between the threads. However, if I send the
+> threads spinning forever with simply:
+>
+>     for (;;) ;
+>
+> supposedly removing any contention, then the decompression time is the sa=
+me.
+>
+> Ironically, the behavior seen with single thread tcg is what I would
+> expect: 1 thread decompressing in 15 seconds, all the other threads
+> spinning for that same amount of time, all sharing the same physical
+> cpu, so it all adds up nicely: I see 60 seconds decompression time
+> with 4 vcpus (4x15). Which means multi-thread tcg is slower by quite a
+> bit. And single thread tcg hogs one physical cpu of the laptop vs. 4
+> physical cpus for the slower multi-thread tcg.
+>
+> Does anybody have an idea of what might happen or have suggestion to
+> keep investigating?
 
+Usually it becomes clear when running under "perf record" and then you
+can post the top 20 functions in perf report. It's usually some event
+that triggers syncronisation between all the threads which is a costly
+thing to do.
+
+> Thanks for your help!
+>
+>   Fred
+
+
+--=20
+Alex Benn=C3=A9e
 
