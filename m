@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0492D55B83E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:35:55 +0200 (CEST)
-Received: from localhost ([::1]:33236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBF2D55B85F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 09:56:00 +0200 (CEST)
+Received: from localhost ([::1]:38860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5jHm-00040H-1g
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:35:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55900)
+	id 1o5jbE-0001zb-1E
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 03:56:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1o5jCR-0004k1-Da; Mon, 27 Jun 2022 03:30:23 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:35856)
+ id 1o5jDU-0006LD-Cq; Mon, 27 Jun 2022 03:31:28 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:49502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1o5jCP-0005wz-An; Mon, 27 Jun 2022 03:30:23 -0400
+ id 1o5jDS-00069E-54; Mon, 27 Jun 2022 03:31:27 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 709171FA72;
- Mon, 27 Jun 2022 07:30:19 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B96D721CA4;
+ Mon, 27 Jun 2022 07:31:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1656315019; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1656315084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zrTz+MGN8+I1fwI+O7uRLdchY4S3OoMLDQqgxFt8BMc=;
- b=zzLHshyF9qEMuBfZP+C4uNFzWnjt8+OPdOBxtD44oH5lE5G1Nos6xgbh0kEUkk0xKUOsaR
- gUquSCHVD9n91P6vBWgJwnIzeP8+cZ9bh0fWGHwa3NncDzeuGknZofTXyrZ8r7QDHPbPJf
- Fu1itDErjLRNzsRVx63pa7KWRnEGReM=
+ bh=GG8B4NadEXOMeeFq5HQuz6Yk5KdBBlrNdFl3Vzo9gS8=;
+ b=WZOa6iGYO/49SmQWb9+Rn7G7TWGrVQ5rtBpM8ItXag9KGolxLl6/UhL4OMOJ6Z6ldK32gA
+ CVFXdQ+I9lqi9+gGVy7FQgrrEw0EhBX3nqXZ4z3qDJWP7my3lVuCCrGpe9nvKiALabF7v7
+ AMh50jSFJYp7L0Xt2FD3MgMEkXZx4d0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1656315019;
+ s=susede2_ed25519; t=1656315084;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zrTz+MGN8+I1fwI+O7uRLdchY4S3OoMLDQqgxFt8BMc=;
- b=Snc0H8qSSXckyK9sVfhf+1c/ya45DNAEKO2DQtouQ45cFcqLCD9LlL4lMWUkkse2ITL31c
- i0oJ9REvc4/4eaCg==
+ bh=GG8B4NadEXOMeeFq5HQuz6Yk5KdBBlrNdFl3Vzo9gS8=;
+ b=QI+tZBcn9O9q+Pt5qgXBmbYMBxMemJL/QPzjjBF02v2EVMPUMxcXeYNvUgjYtwL/IPbAqi
+ 6TaduDsLAtCPhNDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5567C13456;
- Mon, 27 Jun 2022 07:30:19 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7889C13456;
+ Mon, 27 Jun 2022 07:31:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 7dWpE4tcuWKpcwAAMHmgww
- (envelope-from <hare@suse.de>); Mon, 27 Jun 2022 07:30:19 +0000
-Message-ID: <4b283da3-8f9b-2064-95b0-e0e963e5044a@suse.de>
-Date: Mon, 27 Jun 2022 09:30:18 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id VSufGsxcuWIwdAAAMHmgww
+ (envelope-from <hare@suse.de>); Mon, 27 Jun 2022 07:31:24 +0000
+Message-ID: <09739a27-358f-8150-fcb3-2d2b8be0caaf@suse.de>
+Date: Mon, 27 Jun 2022 09:31:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
+Subject: Re: [RFC v3 3/5] file-posix: introduce get_sysfs_long_val for zoned
+ device information.
 Content-Language: en-US
 To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
 Cc: Hanna Reitz <hreitz@redhat.com>, dmitry.fomichev@wdc.com,
@@ -62,14 +64,13 @@ Cc: Hanna Reitz <hreitz@redhat.com>, dmitry.fomichev@wdc.com,
  Stefan Hajnoczi <stefanha@redhat.com>, damien.lemoal@opensource.wdc.com,
  qemu-block@nongnu.org
 References: <20220627001917.9417-1-faithilikerun@gmail.com>
- <20220627001917.9417-3-faithilikerun@gmail.com>
+ <20220627001917.9417-4-faithilikerun@gmail.com>
 From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [RFC v3 2/5] qemu-io: add zoned block device operations.
-In-Reply-To: <20220627001917.9417-3-faithilikerun@gmail.com>
+In-Reply-To: <20220627001917.9417-4-faithilikerun@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=hare@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=hare@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -93,265 +94,108 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/27/22 02:19, Sam Li wrote:
+> Use sysfs attribute files to get the zoned device information in case
+> that ioctl() commands of zone management interface won't work. It can
+> return long type of value like chunk_sectors, zoned_append_max_bytes,
+> max_open_zones, max_active_zones.
 > ---
-
-Good coding style would advise to add some text here what the patch does.
-
->   block/io.c               |  21 +++++++
->   include/block/block-io.h |  13 +++++
->   qemu-io-cmds.c           | 121 +++++++++++++++++++++++++++++++++++++++
->   3 files changed, 155 insertions(+)
+>   block/file-posix.c | 37 +++++++++++++++++++++++++------------
+>   1 file changed, 25 insertions(+), 12 deletions(-)
 > 
-> diff --git a/block/io.c b/block/io.c
-> index 789e6373d5..656a1b7271 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -3258,6 +3258,27 @@ out:
->       return co.ret;
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 1b8b0d351f..73c2cdfbca 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1216,15 +1216,19 @@ static int hdev_get_max_hw_transfer(int fd, struct stat *st)
+>   #endif
 >   }
 >   
-> +int bdrv_co_zone_report(BlockDriverState *bs, int64_t offset,
-> +                        int64_t len, int64_t *nr_zones,
-> +                        BlockZoneDescriptor *zones)
-> +{
-> +    if (!bs->drv->bdrv_co_zone_report) {
-> +        return -ENOTSUP;
-
-ENOTSUP or EOPNOTSUP?
-Kevin?
-
-> +    }
-> +
-> +    return bs->drv->bdrv_co_zone_report(bs, offset, len, nr_zones, zones);
-> +}
-> +
-> +int bdrv_co_zone_mgmt(BlockDriverState *bs, enum zone_op op,
-> +        int64_t offset, int64_t len)
-> +{
-> +    if (!bs->drv->bdrv_co_zone_mgmt) {
-> +        return -ENOTSUP;
-> +    }
-> +
-> +    return bs->drv->bdrv_co_zone_mgmt(bs, op, offset, len);
-> +}
-> +
->   void *qemu_blockalign(BlockDriverState *bs, size_t size)
->   {
->       IO_CODE();
-> diff --git a/include/block/block-io.h b/include/block/block-io.h
-> index 62c84f0519..c85c174579 100644
-> --- a/include/block/block-io.h
-> +++ b/include/block/block-io.h
-> @@ -80,6 +80,13 @@ int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
->   /* Ensure contents are flushed to disk.  */
->   int coroutine_fn bdrv_co_flush(BlockDriverState *bs);
+> -static int hdev_get_max_segments(int fd, struct stat *st)
+> -{
+> +/*
+> + * Get zoned device information (chunk_sectors, zoned_append_max_bytes,
+> + * max_open_zones, max_active_zones) through sysfs attribute files.
+> + */
+> +static long get_sysfs_long_val(int fd, struct stat *st,
+> +                               const char *attribute) {
+>   #ifdef CONFIG_LINUX
+>       char buf[32];
+>       const char *end;
+>       char *sysfspath = NULL;
+>       int ret;
+>       int sysfd = -1;
+> -    long max_segments;
+> +    long val;
 >   
-> +/* Report zone information of zone block device. */
-> +int coroutine_fn bdrv_co_zone_report(BlockDriverState *bs, int64_t offset,
-> +                                     int64_t len, int64_t *nr_zones,
-> +                                     BlockZoneDescriptor *zones);
-> +int coroutine_fn bdrv_co_zone_mgmt(BlockDriverState *bs, zone_op op,
-> +        int64_t offset, int64_t len);
-> +
-
-There's the thing with the intendation ... please make it consistent, 
-and ideally follow with whatever the remaining prototypes do.
-
->   int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
->   bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
->   int bdrv_block_status(BlockDriverState *bs, int64_t offset,
-> @@ -290,6 +297,12 @@ bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
->   int generated_co_wrapper
->   bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
+>       if (S_ISCHR(st->st_mode)) {
+>           if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) == 0) {
+> @@ -1237,8 +1241,9 @@ static int hdev_get_max_segments(int fd, struct stat *st)
+>           return -ENOTSUP;
+>       }
 >   
-> +int generated_co_wrapper blk_zone_report(BlockBackend *blk, int64_t offset,
-> +                                         int64_t len, int64_t *nr_zones,
-> +                                         BlockZoneDescriptor *zones);
-> +int generated_co_wrapper blk_zone_mgmt(BlockBackend *blk, enum zone_op op,
-> +        int64_t offset, int64_t len);
-> +
-
-Again here.
-
->   /**
->    * bdrv_parent_drained_begin_single:
->    *
-> diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-> index 2f0d8ac25a..3f2592b9f5 100644
-> --- a/qemu-io-cmds.c
-> +++ b/qemu-io-cmds.c
-> @@ -1706,6 +1706,122 @@ static const cmdinfo_t flush_cmd = {
->       .oneline    = "flush all in-core file state to disk",
->   };
+> -    sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segments",
+> -                                major(st->st_rdev), minor(st->st_rdev));
+> +    sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/%s",
+> +                                major(st->st_rdev), minor(st->st_rdev),
+> +                                attribute);
+>       sysfd = open(sysfspath, O_RDONLY);
+>       if (sysfd == -1) {
+>           ret = -errno;
+> @@ -1256,9 +1261,9 @@ static int hdev_get_max_segments(int fd, struct stat *st)
+>       }
+>       buf[ret] = 0;
+>       /* The file is ended with '\n', pass 'end' to accept that. */
+> -    ret = qemu_strtol(buf, &end, 10, &max_segments);
+> +    ret = qemu_strtol(buf, &end, 10, &val);
+>       if (ret == 0 && end && *end == '\n') {
+> -        ret = max_segments;
+> +        ret = val;
+>       }
 >   
-> +static int zone_report_f(BlockBackend *blk, int argc, char **argv)
-> +{
+>   out:
+> @@ -1272,6 +1277,15 @@ out:
+>   #endif
+>   }
+>   
+> +static int hdev_get_max_segments(int fd, struct stat *st) {
 > +    int ret;
-> +    int64_t offset, len, nr_zones;
-> +    int i = 0;
-> +
-> +    ++optind;
-> +    offset = cvtnum(argv[optind]);
-> +    ++optind;
-> +    len = cvtnum(argv[optind]);
-> +    ++optind;
-> +    nr_zones = cvtnum(argv[optind]);
-> +
-And 'optind' is set where?
-Plus do check for 'argv' overflow; before increasing 'optind' and using 
-'argv[optind]' you have to validate that 'argv[optind]' is a valid pointer.
-
-> +    g_autofree BlockZoneDescriptor *zones = g_new(BlockZoneDescriptor, nr_zones);
-> +    ret = blk_zone_report(blk, offset, len, &nr_zones, zones);
-> +    while (i < nr_zones) {
-> +        fprintf(stdout, "start: 0x%lx, len 0x%lx, cap 0x%lx, wptr 0x%lx, "
-> +                        "zcond:%u, [type: %u]\n",
-> +                zones[i].start, zones[i].length, zones[i].cap, zones[i].wp,
-> +                zones[i].cond, zones[i].type);
-> +        ++i;
-As 'i' is a simple iterator maybe use a 'for' loop here.
-But that really is a matter of preference :-)
-
+> +    ret = get_sysfs_long_val(fd, st, "max_segments");
+> +    if (ret < 0) {
+> +        return -1;
 > +    }
 > +    return ret;
 > +}
 > +
-> +static const cmdinfo_t zone_report_cmd = {
-> +        .name = "zone_report",
-> +        .altname = "f",
+>   static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>   {
+>       BDRVRawState *s = bs->opaque;
+> @@ -1872,6 +1886,7 @@ static int handle_aiocb_zone_report(void *opaque) {
+>   
+>   static int handle_aiocb_zone_mgmt(void *opaque) {
+>       RawPosixAIOData *aiocb = opaque;
+> +    BlockDriverState *s = aiocb->bs;
+>       int fd = aiocb->aio_fildes;
+>       int64_t offset = aiocb->aio_offset;
+>       int64_t len = aiocb->aio_nbytes;
+> @@ -1884,11 +1899,9 @@ static int handle_aiocb_zone_mgmt(void *opaque) {
+>       int64_t zone_size_mask;
+>       int ret;
+>   
+> -    ret = ioctl(fd, BLKGETZONESZ, &zone_size);
+> -    if (ret) {
+> -        return -1;
+> -    }
+> -
+> +    g_autofree struct stat *file = g_new(struct stat, 1);
+> +    stat(s->filename, file);
+> +    zone_size = get_sysfs_long_val(fd, file, "chunk_sectors");
+>       zone_size_mask = zone_size - 1;
+>       if (offset & zone_size_mask) {
+>           error_report("offset is not the start of a zone");
 
-altname 'f'?
-Is that correct?
+Round of applause.
 
-> +        .cfunc = zone_report_f,
-> +        .argmin = 3,
-> +        .argmax = 3,
-> +        .args = "offset [offset..] len [len..] number [num..]",
-> +        .oneline = "report a number of zones",
-> +};
-> +
-> +static int zone_open_f(BlockBackend *blk, int argc, char **argv)
-> +{
-> +    int64_t offset, len;
-> +    ++optind;
-> +    offset = cvtnum(argv[optind]);
-> +    ++optind;
-> +    len = cvtnum(argv[optind]);
-
-Same here: please check for 'argv' overflow.
-
-> +    return blk_zone_mgmt(blk, zone_open, offset, len);
-> +}
-> +
-> +static const cmdinfo_t zone_open_cmd = {
-> +        .name = "zone_open",
-> +        .altname = "f",
-
-Same here; shouldn't 'altname' be different for each function?
-'zo', maybe?
-
-> +        .cfunc = zone_open_f,
-> +        .argmin = 2,
-> +        .argmax = 2,
-> +        .args = "offset [offset..] len [len..]",
-> +        .oneline = "explicit open a range of zones in zone block device",
-> +};
-> +
-> +static int zone_close_f(BlockBackend *blk, int argc, char **argv)
-> +{
-> +    int64_t offset, len;
-> +    ++optind;
-> +    offset = cvtnum(argv[optind]);
-> +    ++optind;
-> +    len = cvtnum(argv[optind]);
-
-argv checking.
-
-> +    return blk_zone_mgmt(blk, zone_close, offset, len);
-> +}
-> +
-> +static const cmdinfo_t zone_close_cmd = {
-> +        .name = "zone_close",
-> +        .altname = "f",
-
-altname 'zc'
-
-> +        .cfunc = zone_close_f,
-> +        .argmin = 2,
-> +        .argmax = 2,
-> +        .args = "offset [offset..] len [len..]",
-> +        .oneline = "close a range of zones in zone block device",
-> +};
-> +
-> +static int zone_finish_f(BlockBackend *blk, int argc, char **argv)
-> +{
-> +    int64_t offset, len;
-> +    ++optind;
-> +    offset = cvtnum(argv[optind]);
-> +    ++optind;
-> +    len = cvtnum(argv[optind]);
-
-Argv checking.
-
-> +    return blk_zone_mgmt(blk, zone_finish, offset, len);
-> +}
-> +
-> +static const cmdinfo_t zone_finish_cmd = {
-> +        .name = "zone_finish",
-> +        .altname = "f",
-
-altname 'zf'
-
-> +        .cfunc = zone_finish_f,
-> +        .argmin = 2,
-> +        .argmax = 2,
-> +        .args = "offset [offset..] len [len..]",
-> +        .oneline = "finish a range of zones in zone block device",
-> +};
-> +
-> +static int zone_reset_f(BlockBackend *blk, int argc, char **argv)
-> +{
-> +    int64_t offset, len;
-> +    ++optind;
-> +    offset = cvtnum(argv[optind]);
-> +    ++optind;
-> +    len = cvtnum(argv[optind]);
-
-Argv checking.
-
-> +    return blk_zone_mgmt(blk, zone_reset, offset, len);
-> +}
-> +
-> +static const cmdinfo_t zone_reset_cmd = {
-> +        .name = "zone_reset",
-> +        .altname = "f",
-
-altname 'zf'
-
-> +        .cfunc = zone_reset_f, > +        .argmin = 2,
-> +        .argmax = 2,
-> +        .args = "offset [offset..] len [len..]",
-> +        .oneline = "reset a zone write pointer in zone block device",
-> +};
-> +
-> +
->   static int truncate_f(BlockBackend *blk, int argc, char **argv);
->   static const cmdinfo_t truncate_cmd = {
->       .name       = "truncate",
-> @@ -2498,6 +2614,11 @@ static void __attribute((constructor)) init_qemuio_commands(void)
->       qemuio_add_command(&aio_write_cmd);
->       qemuio_add_command(&aio_flush_cmd);
->       qemuio_add_command(&flush_cmd);
-> +    qemuio_add_command(&zone_report_cmd);
-> +    qemuio_add_command(&zone_open_cmd);
-> +    qemuio_add_command(&zone_close_cmd);
-> +    qemuio_add_command(&zone_finish_cmd);
-> +    qemuio_add_command(&zone_reset_cmd);
->       qemuio_add_command(&truncate_cmd);
->       qemuio_add_command(&length_cmd);
->       qemuio_add_command(&info_cmd);
-
-Otherwise looks okay.
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
 Cheers,
 
