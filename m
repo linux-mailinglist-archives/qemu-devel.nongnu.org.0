@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077D755B912
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:11:55 +0200 (CEST)
-Received: from localhost ([::1]:37896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8196255B91C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jun 2022 12:25:19 +0200 (CEST)
+Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5lig-0000MH-Ky
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37162)
+	id 1o5lve-0005Dp-FK
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 06:25:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o5lfU-0007my-VK; Mon, 27 Jun 2022 06:08:32 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41955)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o5ltD-0002FG-FY
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:43 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o5lfS-00022y-PD; Mon, 27 Jun 2022 06:08:32 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id 23so8655602pgc.8;
- Mon, 27 Jun 2022 03:08:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o5ltA-0004r9-Fk
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 06:22:42 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id o4so8387192wrh.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 03:22:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=eP0j2lMLRSaXDCig0lrnVjG3GTAbfYlE1Lq00GjRMkQ=;
- b=qj4DVMYHFUBj0NA5ElIEi2S98Tz4M+QZm6tB5ctW0Bt5ggjnSTiGwv+mQd7OEXQoyi
- 4tFtfHgSMx4xh48KZtL1q+H4P6YaqVElkHf+RheBRTSsWYL4Oj7r55fq7j1Ra6C6hp6W
- OZH4LXoUZV1dvSFcJj8NMw2ftxjVu9+ACf0FCuF0XPq1+bW6tFY8JGuiVqJRif6vsV/n
- ZWvKWQ5c8AH4GdpMrKhFFDtZ8AGbvAVgDHzftdAfNbYDc7GMscO3zAL3A2nh7ffErSpk
- J5wc1YJ1T+VI56IDzkKFpJ5BJDS0QE74CeAahgfwBPLvGmXPICY5ulvY6SiinOMrO1C9
- UztA==
+ bh=84JiihRoFzsiR4iOYh7KxAlyc73ufBO8lBbyriviNyQ=;
+ b=KEWRqLcutXOagsLDgIKS/36AYe5THp0eZEdwgSIVbCE3XAYTsZtFHusVgFD4xfwk1Y
+ alBnCm92MnbCj1keZvTiPJ3/rAgM62Tblq/nT1Bk939mmhbCxjEWFBSSckulJdc6SH0s
+ 8l/y1j6/VKDkxwdzIdR5cFXIRX1LZGfgRsykKJUIch8Gy+rXM4IJwe9ivUyF++mKBYab
+ XTZjHSMu9EI435C9C4XGGMSAD5rqqqWbIV8JUYTBoRqf8JR/r0nMrTC3D5O8kraUp8wG
+ Ru/PB5TYoLxCH9glS3d7E67N1ChZNVdhzBNCEinW06TiVSEU+j99QET506ntL4UFAksP
+ uilA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=eP0j2lMLRSaXDCig0lrnVjG3GTAbfYlE1Lq00GjRMkQ=;
- b=LO2n5KRZ6oI2F4aKtaARQ14RDKwdMXBK1FLkjyY9kew+hI1qps5vVa0IILT9+fMe8W
- z+pxc4i5UuI7FJokLETGU0UUwdUuzBWBDppx7r1Ccjuy42hDAT3PiJ1sFAjJx2OD5aPc
- 8ecp8/SkB7TXjeNC5Bi3wXgmTVDLgt82zoZGU8gbWnuslIHZCZOaZUiGv566CRfK+2k5
- aCX+R+9ZhkF9AXQP0zB57YnbU0x8ITCPVnzHBcZMqgBavND3p7ITRD3aqQV+DOPR9Wsp
- lyWVSk8Hj+lJdo21r4ygqq3OcMwDYy2ArrdptLQBUL/k9g2kO60uTyr3PDu1Db3z4xRt
- KrTA==
-X-Gm-Message-State: AJIora8eRKq3bY9VOeduRtjsnp6j/z8KScVmgTmlrOADgh2r4Lpc7TFs
- bSnitg/ik7H2DLIkjgH0Guw=
-X-Google-Smtp-Source: AGRyM1tZuaFcufChgOhZelz7wqeBQVAcx4EsBLjH/Gtpj84k/p6t3xJaa1be0xs3b5FDsT4gQcLkqg==
-X-Received: by 2002:a05:6a00:451c:b0:525:b802:bc3d with SMTP id
- cw28-20020a056a00451c00b00525b802bc3dmr4659092pfb.43.1656324507514; 
- Mon, 27 Jun 2022 03:08:27 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.18])
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=84JiihRoFzsiR4iOYh7KxAlyc73ufBO8lBbyriviNyQ=;
+ b=UARUlASiGM4WLcXZOUE694jGFFZkN69t+QyNuYQFzGIYe97uMoVU7t1v8gn+qbX8ZC
+ XbonIRm2Ff7XF8i88dzhp313T87kAD6R5uKF8o82TxkADchGbX1VAvDIW8Tc6LmWGspI
+ 4eBiXnQ4wtyLWtBUdlZlDDLqvKmrKT8x7w9h7QM92INVNrPAXOG6AwTnK/AJG1aKziW9
+ Qy3Y/HhjWsqunc7QbAb0bNXi742yqf2TBUqONJ1XReckoniv3cDZSWj4b9Ksuqt6AAA7
+ ySSzp/k0U+55GDyiwt0wFrqlVo5W8WgBky0DQmWfIFxD7YWC1dthV6BMsJE35HWjU8Vp
+ YXLQ==
+X-Gm-Message-State: AJIora8xVFx0xHX/OPmEU1m4z2VuKVZJwqhmiKHhLaf6kAKNvdNdNZld
+ XD81jUZSXiNNEIjJZm5TZmC0enDca3wtvA==
+X-Google-Smtp-Source: AGRyM1vRDu9sb1pTLk/kEUSDg56kqE2gSbF48KBp//r4V16TIf+Y8ExJmVLeyxQoISHW/GtNgwW/WQ==
+X-Received: by 2002:a05:6000:2ab:b0:211:7fd6:24ef with SMTP id
+ l11-20020a05600002ab00b002117fd624efmr11705468wry.67.1656325358577; 
+ Mon, 27 Jun 2022 03:22:38 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- w8-20020a1709026f0800b00168c523032fsm6753675plk.269.2022.06.27.03.08.24
+ d11-20020a5d6dcb000000b0020e6ce4dabdsm9754335wrz.103.2022.06.27.03.22.37
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 03:08:26 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Steven Lee <steven_lee@aspeedtech.com>
-Subject: [PATCH] aspeed/hace: Accumulative mode supported
-Date: Mon, 27 Jun 2022 19:38:15 +0930
-Message-Id: <20220627100816.125956-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.35.1
+ Mon, 27 Jun 2022 03:22:38 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/25] target-arm queue
+Date: Mon, 27 Jun 2022 11:22:11 +0100
+Message-Id: <20220627102236.3097629-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=joel.stan@gmail.com; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,37 +87,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While the HMAC mode is not modelled, the accumulative mode is.
+target-arm queue, mostly SME preliminaries.
 
-Accumulative mode is enabled by setting one of the bits in the HMAC
-engine command mode part of the register, so fix the unimplemented check
-to only look at the upper of the two bits.
+In the unlikely event we don't land the rest of SME before freeze
+for 7.1 we can revert the docs/property changes included here.
 
-Fixes: 5cd7d8564a8b ("aspeed/hace: Support AST2600 HACE")
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- hw/misc/aspeed_hace.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+-- PMM
 
-diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-index 731234b78c4c..ac21be306c69 100644
---- a/hw/misc/aspeed_hace.c
-+++ b/hw/misc/aspeed_hace.c
-@@ -338,10 +338,10 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
-         int algo;
-         data &= ahc->hash_mask;
- 
--        if ((data & HASH_HMAC_MASK)) {
-+        if ((data & HASH_DIGEST_HMAC)) {
-             qemu_log_mask(LOG_UNIMP,
--                          "%s: HMAC engine command mode %"PRIx64" not implemented\n",
--                          __func__, (data & HASH_HMAC_MASK) >> 8);
-+                          "%s: HMAC mode not implemented\n",
-+                          __func__);
-         }
-         if (data & BIT(1)) {
-             qemu_log_mask(LOG_UNIMP,
--- 
-2.35.1
+The following changes since commit 097ccbbbaf2681df1e65542e5b7d2b2d0c66e2bc:
 
+  Merge tag 'qemu-sparc-20220626' of https://github.com/mcayland/qemu into staging (2022-06-27 05:21:05 +0530)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220627
+
+for you to fetch changes up to 59e1b8a22ea9f947d038ccac784de1020f266e14:
+
+  target/arm: Check V7VE as well as LPAE in arm_pamax (2022-06-27 11:18:17 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * sphinx: change default language to 'en'
+ * Diagnose attempts to emulate EL3 in hvf as well as kvm
+ * More SME groundwork patches
+ * virt: Fix calculation of physical address space size
+   for v7VE CPUs (eg cortex-a15)
+
+----------------------------------------------------------------
+Alexander Graf (2):
+      accel: Introduce current_accel_name()
+      target/arm: Catch invalid kvm state also for hvf
+
+Martin Liška (1):
+      sphinx: change default language to 'en'
+
+Richard Henderson (22):
+      target/arm: Implement TPIDR2_EL0
+      target/arm: Add SMEEXC_EL to TB flags
+      target/arm: Add syn_smetrap
+      target/arm: Add ARM_CP_SME
+      target/arm: Add SVCR
+      target/arm: Add SMCR_ELx
+      target/arm: Add SMIDR_EL1, SMPRI_EL1, SMPRIMAP_EL2
+      target/arm: Add PSTATE.{SM,ZA} to TB flags
+      target/arm: Add the SME ZA storage to CPUARMState
+      target/arm: Implement SMSTART, SMSTOP
+      target/arm: Move error for sve%d property to arm_cpu_sve_finalize
+      target/arm: Create ARMVQMap
+      target/arm: Generalize cpu_arm_{get,set}_vq
+      target/arm: Generalize cpu_arm_{get, set}_default_vec_len
+      target/arm: Move arm_cpu_*_finalize to internals.h
+      target/arm: Unexport aarch64_add_*_properties
+      target/arm: Add cpu properties for SME
+      target/arm: Introduce sve_vqm1_for_el_sm
+      target/arm: Add SVL to TB flags
+      target/arm: Move pred_{full, gvec}_reg_{offset, size} to translate-a64.h
+      target/arm: Extend arm_pamax to more than aarch64
+      target/arm: Check V7VE as well as LPAE in arm_pamax
+
+ docs/conf.py                     |   2 +-
+ docs/system/arm/cpu-features.rst |  56 ++++++++++
+ include/qemu/accel.h             |   1 +
+ target/arm/cpregs.h              |   5 +
+ target/arm/cpu.h                 | 103 ++++++++++++++-----
+ target/arm/helper-sme.h          |  21 ++++
+ target/arm/helper.h              |   1 +
+ target/arm/internals.h           |   4 +
+ target/arm/syndrome.h            |  14 +++
+ target/arm/translate-a64.h       |  38 +++++++
+ target/arm/translate.h           |   6 ++
+ accel/accel-common.c             |   8 ++
+ hw/arm/virt.c                    |  10 +-
+ softmmu/vl.c                     |   3 +-
+ target/arm/cpu.c                 |  32 ++++--
+ target/arm/cpu64.c               | 205 ++++++++++++++++++++++++++++---------
+ target/arm/helper.c              | 213 +++++++++++++++++++++++++++++++++++++--
+ target/arm/kvm64.c               |   2 +-
+ target/arm/machine.c             |  34 +++++++
+ target/arm/ptw.c                 |  26 +++--
+ target/arm/sme_helper.c          |  61 +++++++++++
+ target/arm/translate-a64.c       |  46 +++++++++
+ target/arm/translate-sve.c       |  36 -------
+ target/arm/meson.build           |   1 +
+ 24 files changed, 782 insertions(+), 146 deletions(-)
+ create mode 100644 target/arm/helper-sme.h
+ create mode 100644 target/arm/sme_helper.c
 
