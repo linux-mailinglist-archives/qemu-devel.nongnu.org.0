@@ -2,106 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3C355F00B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 22:57:56 +0200 (CEST)
-Received: from localhost ([::1]:58190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A9A55F016
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 23:00:36 +0200 (CEST)
+Received: from localhost ([::1]:32884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6IHS-0001It-Ue
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 16:57:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37854)
+	id 1o6IK3-0003K5-Jj
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 17:00:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1o6IFy-00007U-Hj; Tue, 28 Jun 2022 16:56:25 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58324)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1o6IFu-000633-Sg; Tue, 28 Jun 2022 16:56:22 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25SKObKx002875;
- Tue, 28 Jun 2022 20:55:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=KnA9Wfsq16ytkMm+OD0tF7rhZHAlhsg2ejjpUfpVs8g=;
- b=jfQJdn48sA+KHx6Dw2IZbl3wbERFRewlz6BxAtJi/z6ZZkheJCumhrqzS9JiS9gHKT0K
- tm1kqnikOk6oSmDrJ0pzkB2gJdblZK6czeJQh83ZSZF/EAaDaapjOVVKzLwORYZIpTkh
- fX+8HaT1XrQ3PxV1zA6692CRgWAG/79/VBBP+8oe2NODAbXoSKAsq5Ug/OJlx/d/QF2F
- q0VG9GSDnf8Ebx/+vBuMUFvwdc93jszHNvB0MmJzBrEfy6gX/foKyT9aBnCv2xEr8zmR
- B+K5eXGHPFWH58Ys1GS8bmEfr/M7hsO+5qR4qMjmSZy9emQ/K+/2LBqe2pUF8dzlnJn8 JA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h08ngs5u6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jun 2022 20:55:57 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25SKQPva007089;
- Tue, 28 Jun 2022 20:55:57 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h08ngs5t6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jun 2022 20:55:57 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25SKppcA018073;
- Tue, 28 Jun 2022 20:55:55 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma05wdc.us.ibm.com with ESMTP id 3gwt0a10u6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jun 2022 20:55:55 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25SKts6l23724538
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Jun 2022 20:55:54 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9097EBE054;
- Tue, 28 Jun 2022 20:55:54 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0AB08BE053;
- Tue, 28 Jun 2022 20:55:54 +0000 (GMT)
-Received: from localhost (unknown [9.211.150.53])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Tue, 28 Jun 2022 20:55:53 +0000 (GMT)
-From: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-To: qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- mopsfelder@gmail.com, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>,
- "Matheus K . Ferst" <matheus.ferst@eldorado.org.br>,
- Thomas Huth <thuth@redhat.com>, Fabiano Rosas <farosas@linux.ibm.com>
-Subject: [PATCH v2] target/ppc: Return default CPU for max CPU
-Date: Tue, 28 Jun 2022 17:55:13 -0300
-Message-Id: <20220628205513.81917-1-muriloo@linux.ibm.com>
-X-Mailer: git-send-email 2.36.1
-Content-Type: text/plain; charset="utf-8"
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: QBuw4NmNbz1NmiP8q3r-tQOPsbOwfIY9
-X-Proofpoint-GUID: 2m39YB_Y8rFhkl1aPVwZneS4cpzNz7B3
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1o6IIZ-0002RE-Ut; Tue, 28 Jun 2022 16:59:04 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:42979)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1o6IIX-0006GH-Dp; Tue, 28 Jun 2022 16:59:03 -0400
+Received: by mail-ed1-x533.google.com with SMTP id r18so11420002edb.9;
+ Tue, 28 Jun 2022 13:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:in-reply-to:references:message-id
+ :mime-version:content-transfer-encoding;
+ bh=VYyYVaguM9AiFz2TacfiRyojZpDmxjlgMkPeylJcdgQ=;
+ b=mF8IcLcvwuMm6Be0+eyVflbaFtOrEUkx2oDWudB0rvhcP3nnoJpFFyJzqlgu1ouxTU
+ PEt0871jMzuVjrOrpAC5V1HejZYdYGefXtzUK8HVxefBgJ/HQksV1wAnrdGRx7tnroOo
+ 0mzGEUhOYLweECH17El+RhxCDSlYQX3PxbrZvsK1Zg+3KLARmzs0yG+FpLjrINLjZVWR
+ 1YwxKYRoOmUs5Sy5MvGrziqRJi01v8gji08yCwY222RRt41gP27pA+ii6EjXFABzllXL
+ 0coiCUqWPcr92Td8O5ovc8NYErIo/adThn2kECuTfAwb0xqOVwktjcOrmpq13Kumanzp
+ uG6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=VYyYVaguM9AiFz2TacfiRyojZpDmxjlgMkPeylJcdgQ=;
+ b=TIcJBwecV1adZHZMm/WGPAQ23T6PIxp3vP73iR6xq+1KclMT/ITuTNrf3dmOh4HB7U
+ FWlyEY8+s/QYsCKGMhNJ65NPbu7nHLIROYrGyvT+wvY9gfwNsUJQVgVs/CkGxnmVg6NV
+ HZJ5J6mGRtm9QQD+a4kN4JmVcbMoSgB/JA4Xcqt44MG4rKb/Kz8cNIo61b/9pWs7DaE6
+ 0IkVrqaHpnLMOR7csQyKMnssGzaQjLQ+nsfRzX+bz7LgYDyowhfQMuqH6uSGEaSgdwt4
+ REBHt1MacT0JWOyQGCqP9CSNQ81OvIzdPhWOhW9zEvzxTf9143d9hrARcWHTD2yEiKXh
+ hn/w==
+X-Gm-Message-State: AJIora8GbmBjPnVfZF0mBx1BXX+SOF83xWOPJxgqzoPtyl1FX9f+16Gs
+ oOSGyzVvA3EzJkJ7Ickf+S7nIr3gABY=
+X-Google-Smtp-Source: AGRyM1s3dozt9bvArLV6A7D/jktCc2unZFpP4SoY0M8gCtHnEeirqTD4xhcTN6fkDmV7R6YoFH0EOQ==
+X-Received: by 2002:aa7:d38e:0:b0:435:6785:66d1 with SMTP id
+ x14-20020aa7d38e000000b00435678566d1mr25310422edq.393.1656449938552; 
+ Tue, 28 Jun 2022 13:58:58 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-013-111-114.77.13.pool.telefonica.de.
+ [77.13.111.114]) by smtp.gmail.com with ESMTPSA id
+ d20-20020aa7ce14000000b00435d4179bbdsm10331687edv.4.2022.06.28.13.58.57
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 28 Jun 2022 13:58:58 -0700 (PDT)
+Date: Tue, 28 Jun 2022 20:58:52 +0000
+From: B <shentey@gmail.com>
+To: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+CC: Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+Subject: Re: [PATCH 0/2] Decouple Xen-HVM from PIIX
+In-Reply-To: <20220626094656.15673-1-shentey@gmail.com>
+References: <20220626094656.15673-1-shentey@gmail.com>
+Message-ID: <D8EF825B-45A2-4DE5-A787-8FE7BE88D2E6@gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-28_11,2022-06-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 spamscore=0 mlxlogscore=999 clxscore=1011 suspectscore=0
- impostorscore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206280081
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=muriloo@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,80 +93,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All ppc CPUs represent hardware that exists in the real world, i.e.: we
-do not have a "max" CPU with all possible emulated features enabled.
-Return the default CPU type for the machine because that has greater
-chance of being useful as the "max" CPU.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1038
-Cc: Cédric Le Goater <clg@kaod.org>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Greg Kurz <groug@kaod.org>
-Cc: Matheus K. Ferst <matheus.ferst@eldorado.org.br>
-Cc: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
-v2:
-- Return the default CPU of the machine instead of hard-coded alias.
 
-v1: https://lore.kernel.org/qemu-devel/20220531172711.94564-1-muriloo@linux.ibm.com/
+Am 26=2E Juni 2022 09:46:54 UTC schrieb Bernhard Beschow <shentey@gmail=2E=
+com>:
+>hw/i386/xen/xen-hvm=2Ec contains logic which is PIIX-specific=2E This mak=
+es xen-hvm=2Ec depend on PIIX which can be avoided if PIIX logic was isolat=
+ed in PIIX itself=2E
+>
+>
+>
+>Bernhard Beschow (2):
+>
+>  hw/i386/xen/xen-hvm: Allow for stubbing xen_set_pci_link_route()
+>
+>  hw/i386/xen/xen-hvm: Inline xen_piix_pci_write_config_client() and
+>
+>    remove it
+>
+>
+>
+> hw/i386/xen/xen-hvm=2Ec       | 17 ++---------------
+>
+> hw/isa/piix3=2Ec              | 15 ++++++++++++++-
+>
+> include/hw/xen/xen=2Eh        |  2 +-
+>
+> include/hw/xen/xen_common=2Eh |  6 ------
+>
+> stubs/xen-hw-stub=2Ec         |  3 ++-
+>
+> 5 files changed, 19 insertions(+), 24 deletions(-)
+>
+>
+>
+>-- >
+>2=2E36=2E1
+>
+>
+>
 
- target/ppc/cpu-models.c |  1 -
- target/ppc/cpu_init.c   | 19 +++++++++++++++++++
- 2 files changed, 19 insertions(+), 1 deletion(-)
+Hi Laurent,
 
-diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
-index 976be5e0d1..05589eb21d 100644
---- a/target/ppc/cpu-models.c
-+++ b/target/ppc/cpu-models.c
-@@ -879,7 +879,6 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
-     { "755", "755_v2.8" },
-     { "goldfinger", "755_v2.8" },
-     { "7400", "7400_v2.9" },
--    { "max", "7400_v2.9" },
-     { "g4",  "7400_v2.9" },
-     { "7410", "7410_v1.4" },
-     { "nitro", "7410_v1.4" },
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index c16cb8dbe7..8ee0b7c785 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -47,6 +47,10 @@
- #include "spr_common.h"
- #include "power8-pmu.h"
- 
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/boards.h"
-+#endif
-+
- /* #define PPC_DEBUG_SPR */
- /* #define USE_APPLE_GDB */
- 
-@@ -6963,6 +6967,21 @@ static ObjectClass *ppc_cpu_class_by_name(const char *name)
-         }
-     }
- 
-+    /*
-+     * All ppc CPUs represent hardware that exists in the real world, i.e.: we
-+     * do not have a "max" CPU with all possible emulated features enabled.
-+     * Return the default CPU type for the machine because that has greater
-+     * chance of being useful as the "max" CPU.
-+     */
-+#if !defined(CONFIG_USER_ONLY)
-+    if (strcmp(name, "max") == 0) {
-+        MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
-+        if (mc) {
-+            return object_class_by_name(mc->default_cpu_type);
-+        }
-+    }
-+#endif
-+
-     cpu_model = g_ascii_strdown(name, -1);
-     p = ppc_cpu_lookup_alias(cpu_model);
-     if (p) {
--- 
-2.36.1
+would you like to queue this as well? Both patches have been reviewed at l=
+east once, piix twice=2E Or would you rather keep the review period open fo=
+r longer?
 
+Best regards,
+Bernhard
 
