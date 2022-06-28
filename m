@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC3255BF91
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 10:43:36 +0200 (CEST)
-Received: from localhost ([::1]:57384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB8055BF96
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 10:48:47 +0200 (CEST)
+Received: from localhost ([::1]:39468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o66op-00089C-AN
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 04:43:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46132)
+	id 1o66tq-0006O8-EB
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 04:48:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o66SW-0003s7-NE
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:20:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36857)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o66SV-0003Ku-5H
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:20:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656404429;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PKW1qxe32vaQi6ctGmaJQhGhmXzVFu7373j6crrdyBk=;
- b=VNFMZcJEV9rFFo5QBf4dooAvXzhzK5EF7NPXw8vH1cZIfBqNI5pBZbi17MGoenz3k4+CkB
- xRF59bETKAB2JrVXjPKCqM+fUoo1W5I8f4JJ4iiVshc4ZdZXCMEwJHUAZyhZiaGa736GDu
- Ve39QS5aqtGPKfLqdo7xupTvloBQQUc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-656-lMPLdcDUM9CDJSmA5tE4Fw-1; Tue, 28 Jun 2022 04:20:23 -0400
-X-MC-Unique: lMPLdcDUM9CDJSmA5tE4Fw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3740C811E80;
- Tue, 28 Jun 2022 08:20:23 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF6E11121314;
- Tue, 28 Jun 2022 08:20:22 +0000 (UTC)
-Date: Tue, 28 Jun 2022 09:19:27 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, hare@suse.de, Hanna Reitz <hreitz@redhat.com>,
- dmitry.fomichev@wdc.com, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, damien.lemoal@opensource.wdc.com,
- qemu-block@nongnu.org
-Subject: Re: [RFC v3 5/5] qemu-iotests: add zone operation tests.
-Message-ID: <Yrq5j3TQs8crLRVn@stefanha-x1.localdomain>
-References: <20220627001917.9417-1-faithilikerun@gmail.com>
- <20220627001917.9417-6-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o66TG-0005SB-3T
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:21:18 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:35697)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o66TD-0003RE-W6
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:21:17 -0400
+Received: by mail-pf1-x435.google.com with SMTP id x4so11359857pfq.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 01:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=eQuj7/44hN+UfqvPlR5ZsIKTw2ILc/juzQOTV17+KCs=;
+ b=KO5Loiu8fMGI/eiIeDbGcXRZ+aBRTJvWzfcggM8BFuxtdp7NxnBAlS4o04Q4mSe6HD
+ OrZgIQKsWvP/kwJMqDU5Hs3pJMzdYxN2OfJ5KhX1to57Xk1FFCeVN7OYtbLkYq7NbXVu
+ h/uMqqKdsSegS9UUf3dTDTFybUYJSEuC+BSj3PMQWlGAjN2MBvv68xrUP621pU/2P2QH
+ dXC7CgTJLWieHwuH+uSXRrfYz62sglVaXAV/ldQ3NDSpSisF7moAcrMQBjmQS4e3mvTy
+ dLiRfGJcTysju+2Oon3bCejkvBFVTQ3WW97myhumZQMlBmeyM/kd0hwBnlGSbc7PKp9f
+ nksQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=eQuj7/44hN+UfqvPlR5ZsIKTw2ILc/juzQOTV17+KCs=;
+ b=GYwVograCzFIo59X4FF926deRYnW53APVV/hb/Zsb8AwSNItE9PQvd1vfXVRn0/vtS
+ IE/aiJRMpmeiF3BpzVZs0isdwDN8s+9QbrePcylDR5XWsfDbk3ksfVzQzPbuqVBOE/f5
+ H7/JigOz9cJCAzOW14tfyjXXk5LGnepONKLM9h+zyap2N12nQOEYiTKbWL71Us4O6bpk
+ UGlX4o4HegtqFRMk6sbHjyoX3GAgBI+lUMaUeXgdqOo7TU5Ku3+g3JRBucHOLx/FZuTV
+ pL31VbgY8UZB4dLhfBsfgkszseimLZXfsXbNBfCM+BtjsrVrMMnobhHXUR6ubQUVCbAV
+ A/EQ==
+X-Gm-Message-State: AJIora9T+UiVSSHu/nfddx8yfYhDKmmDl17fUfvYywDkyilgqp4Is04E
+ AAu4NlQhKklXBi5NZflHwQFChRCBlbzwZA==
+X-Google-Smtp-Source: AGRyM1vwsArqKXXCQCRRt8tUv5pVMR9QPJRWGsTEPOM9HjbudxL24KeXgmI+fdUH21DBbuWsr6AhGw==
+X-Received: by 2002:a63:4d65:0:b0:408:9e5c:f7b7 with SMTP id
+ n37-20020a634d65000000b004089e5cf7b7mr16438275pgl.553.1656404474464; 
+ Tue, 28 Jun 2022 01:21:14 -0700 (PDT)
+Received: from [192.168.123.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ p22-20020a1709027ed600b0016a111c83cdsm8618824plb.119.2022.06.28.01.21.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jun 2022 01:21:14 -0700 (PDT)
+Message-ID: <5c307343-49cc-a506-b960-315822ebf11b@linaro.org>
+Date: Tue, 28 Jun 2022 13:51:09 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="oGqZyyPiqIb/cBdo"
-Content-Disposition: inline
-In-Reply-To: <20220627001917.9417-6-faithilikerun@gmail.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: Can legacy vga memory base address be defined different with
+ architectures
+Content-Language: en-US
+To: maobibo <maobibo@loongson.cn>, f4bug@amsat.org
+Cc: qemu-devel@nongnu.org
+References: <dcca81c1-4675-edb9-a6f8-f97dc9860192@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <dcca81c1-4675-edb9-a6f8-f97dc9860192@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,57 +93,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/28/22 12:12, maobibo wrote:
+> Hi Philippe,
+> 
+>      In file include/hw/pci/pci.h, the macro QEMU_PCI_VGA_MEM_BASE is defined as 0xa0000, which represents legacy VGA memory base address. I want to know whether it should be the same for all architectures, or does this vga mmio space exist on arm64/riscv physical machines with pci host bridges?
 
---oGqZyyPiqIb/cBdo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This is x86 only.
 
-On Mon, Jun 27, 2022 at 08:19:17AM +0800, Sam Li wrote:
-> diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-iotests/tests/zoned.sh
-> new file mode 100755
-> index 0000000000..262c0b5427
-> --- /dev/null
-> +++ b/tests/qemu-iotests/tests/zoned.sh
-> @@ -0,0 +1,49 @@
-> +#!/usr/bin/env bash
-> +#
-> +# Test zone management operations.
-> +#
-> +
-> +QEMU_IO="build/qemu-io"
-> +IMG="--image-opts driver=zoned_host_device,filename=/dev/nullb0"
-> +QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
-> +
-> +echo "Testing a null_blk device"
-> +echo "Simple cases: if the operations work"
-> +sudo modprobe null_blk nr_devices=1 zoned=1
 
-Please use bash's "trap" command to remove null_blk on exit. That way
-cleanup happens whether the script exits successfully or not. See
-tests/qemu-iotests/108 for an example.
-
-> +# success, all done
-> +sudo rmmod null_blk
-> +echo "*** done"
-> +#rm -f $seq.full
-
-Why is this commented out?
-
---oGqZyyPiqIb/cBdo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmK6uY8ACgkQnKSrs4Gr
-c8hSCwf/XQUJFAix1h3Jj1kWd8SGVAbfmwFPU1HHIGSEocHRLD+6plLJjDW5Rq+l
-EzO3TCuJtUVyJ5CmhuHUFoTATcta2FEYtk2na2ET75hSx28omA89W7hyCGAyeHR9
-zaGur7rsJnJISiJUvC9YyPHH1CwicwyXjUO/wqGJBl2s55leU7+1F7/au4Y4CFsN
-rpBpfLJYVkN2+nuH3qCdi6FIjV2xbixdqEaWC8ceGbJ+3PMdTaxIgs24/GCrYCa7
-O9FKxRsJyXh2mWu0iAP5JiRc5gPPwpCi8VZ8pX3sZ6RJJvgtn6/uELeXoyuGbk12
-s89ih70xPEO8yteu/BHiwR/mP3CVLQ==
-=m8YQ
------END PGP SIGNATURE-----
-
---oGqZyyPiqIb/cBdo--
-
+r~
 
