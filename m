@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDF655BF41
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 09:53:53 +0200 (CEST)
-Received: from localhost ([::1]:43646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42BB455BEC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 08:34:10 +0200 (CEST)
+Received: from localhost ([::1]:58910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o662i-0007Be-LJ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 03:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43644)
+	id 1o64nY-0008I3-Uq
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 02:34:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o63G4-0003Xy-Iw
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:55:29 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:46058)
+ id 1o63Fw-0003Su-Kq
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:55:22 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:38779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o63Fq-0008Ks-DO
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:55:28 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- g20-20020a17090a579400b001ed52939d72so6016270pji.4
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:55:13 -0700 (PDT)
+ id 1o63Ft-00007r-3g
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:55:19 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id k9so1725230pfg.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:55:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SB0SPUk72cCTkCcvpipl11hti/rXHdZHTqbefwlQDxE=;
- b=csh/rdijizk9mK6S2gozHoKd2YdBbZ1kOqvVopSrXGwyiaPgQc9uzNMIpTSZiz/1sQ
- TtE01wuqTtr6QG8QdIi3JqqUFsLjGbgKy6EB3iTk5ePch/wqLmFBuj4gF/VhFbLd6iHL
- UMX6cUI7E5V3cZLWqCkgmYp0cJoJtM+foowbSbuSCgCSb/Dw4s7P3OcOHfSMNx0VjtqN
- jwwUY5kKJi8Don3GTmRxWmY4kgn6QOegKn1M9qKVXWRJga7tB9zjPHbo7otp4aRQWSQf
- iROpzzv4L/aucdwrk/z/K53h3yhUFOfR5cePAFA/aYyeHbKRbmHgx0H21Od/vhno3PsC
- 2GlA==
+ bh=n33T5xELKuAGnE/iYC5J4cnvv6uYJy7huCb2qTzez6s=;
+ b=BApJ7H1eSP6cdgBR9Pxkgtq0fqfsFXaBoyF28LtYDm7l5nsA5gUwDgIUBMkDliwhSp
+ 7ZitEQDemIjuuorOA46GKCNO+u38gULrHVg/WTLKfBGHkiEaV34VYuoa0y+zI3VgttzJ
+ IMnFy4IeY3ZzgOKLVaGvYrAel5SejGlr+NSYVc8xBJLubWtSODsjeetJeyKclscE5IOo
+ cyIgE7yBL0/l9yWsmL227Jb3gypZ8k9tRagHa4pTHMTls1xKga6vR0jpXBmm1SZetGQP
+ vQvPHfJC7JZOTrWlVFgEArbVtOaz01YEEtRDyyFH44u6ogsImF/+8p/2iub8Cj6eU5/h
+ 9X7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SB0SPUk72cCTkCcvpipl11hti/rXHdZHTqbefwlQDxE=;
- b=Bbxbb7pi098P2YoINedIdmuFdmizHv4F6LJxwuACW3ciNE9z/F5l4XAU6i31Ec6rD7
- AripR+LmK8lKaWoyGLFxiPHxWykq7Br4Hq9k72rrIVu+wrfRqaCbcF/tpM4KhNVKaZ/P
- eTteWT2d8qgz/uc0VgYCCfP51IGi/PHUFyWtohvOgxxen6SC2/meuXcRMPdlTY64UtSC
- tyLaq5nzNR6ZbytckkK18k76VHqXMOY6cPMQ6gKkaSxzHjDxkvCjSl+Ko96uJ3je4Ti0
- kbhNyvbJDIDX6s1Utm4cjSOEd0ot/W+zGC62wiySTUpgnKGnyR7rgen5V5qjnC+YWje0
- WSww==
-X-Gm-Message-State: AJIora/wtJRsDoBKfAtD0Of7Q/jc+ywor0X9X+hQnih4Ut++Xlzp104R
- oHBiWv0AVM+Z4Hl5g5aFahFmXNOt9miwxw==
-X-Google-Smtp-Source: AGRyM1sUXwPsAPNrxBQsjm/dRPzGWgmPkS/Fbnb8ouBIIhuc0Yc60XvHs/5iOzLKdsw4vPrGoC+8Kw==
-X-Received: by 2002:a17:902:db0d:b0:16b:9057:8042 with SMTP id
- m13-20020a170902db0d00b0016b90578042mr698580plx.165.1656392113426; 
- Mon, 27 Jun 2022 21:55:13 -0700 (PDT)
+ bh=n33T5xELKuAGnE/iYC5J4cnvv6uYJy7huCb2qTzez6s=;
+ b=757NoX2QXDKQVsQOHSBoyIFO80OfOyPXbzlfdxa7gxk8hocBaGc5aVy4Q9X43Ux67e
+ CTObBc9zpErB/zq3JVYI9ccm/UaUvhO2lU1yrf6L74ygp/dm1IlEWJdsd9w3ezGLT9uI
+ dKqCtvFzpBJ8EK8VZaBuQ+9oIRtkB9KIVqHBmM4cto1WfXci/qHqHm04/CS3MG1BDn5m
+ RS9e8hi4HhXUU4d6EjLX0+1H1IlY7ylDacIsnu0QkGgjf+vY+eCptjeLBHnK7CKETD6c
+ 5uopAoeBUFW7+OPUCMGCdC5EQGozN6kqda4V0dkSO+Piayzw0390VnoxG/svNSaPirPc
+ XnNg==
+X-Gm-Message-State: AJIora83sMUByq5ziNL2rNu0LrGdTONR+OAA0VzP4GJizQ+zG/0aHnCu
+ cMtzpho6MgM7AFkeY76rNoietlY8pXvVrg==
+X-Google-Smtp-Source: AGRyM1sFcRF4MXCELWBHkXdUYT1ao6+4DuEcjvy1Xz5cI5KSbXRtWiCZrmBOivlQPFU+vq0D2untjw==
+X-Received: by 2002:a65:490d:0:b0:40d:9867:2df with SMTP id
+ p13-20020a65490d000000b0040d986702dfmr16132499pgs.171.1656392115739; 
+ Mon, 27 Jun 2022 21:55:15 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- w8-20020a1709026f0800b00168c523032fsm8073735plk.269.2022.06.27.21.55.11
+ w8-20020a1709026f0800b00168c523032fsm8073735plk.269.2022.06.27.21.55.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:55:13 -0700 (PDT)
+ Mon, 27 Jun 2022 21:55:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Luc Michel <lmichel@kalray.eu>
-Subject: [PULL 27/60] semihosting: Split out semihost_sys_open
-Date: Tue, 28 Jun 2022 10:23:30 +0530
-Message-Id: <20220628045403.508716-28-richard.henderson@linaro.org>
+Subject: [PULL 28/60] semihosting: Split out semihost_sys_close
+Date: Tue, 28 Jun 2022 10:23:31 +0530
+Message-Id: <20220628045403.508716-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220628045403.508716-1-richard.henderson@linaro.org>
 References: <20220628045403.508716-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,335 +87,232 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out the non-ARM specific portions of SYS_OPEN to a
-reusable function.  This handles gdb and host file i/o.
+Split out the non-ARM specific portions of SYS_CLOSE to a
+reusable function.  This handles all GuestFD.
 
-Add helpers to validate the length of the filename string.
-Prepare for usage by other semihosting by allowing the
-filename length parameter to be 0, and calling strlen.
+Note that gdb_do_syscall %x reads target_ulong, not int.
 
 Reviewed-by: Luc Michel <lmichel@kalray.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/syscalls.h |  25 ++++++
- semihosting/arm-compat-semi.c  |  53 ++---------
- semihosting/guestfd.c          |   5 ++
- semihosting/syscalls.c         | 156 +++++++++++++++++++++++++++++++++
- semihosting/meson.build        |   1 +
- 5 files changed, 194 insertions(+), 46 deletions(-)
- create mode 100644 include/semihosting/syscalls.h
- create mode 100644 semihosting/syscalls.c
+ include/semihosting/syscalls.h |  3 +++
+ semihosting/arm-compat-semi.c  | 41 +----------------------------
+ semihosting/guestfd.c          |  7 ++++-
+ semihosting/syscalls.c         | 47 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 57 insertions(+), 41 deletions(-)
 
 diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
-new file mode 100644
-index 0000000000..991658bf79
---- /dev/null
+index 991658bf79..00e718f11d 100644
+--- a/include/semihosting/syscalls.h
 +++ b/include/semihosting/syscalls.h
-@@ -0,0 +1,25 @@
-+/*
-+ * Syscall implementations for semihosting.
-+ *
-+ * Copyright (c) 2022 Linaro
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
+@@ -22,4 +22,7 @@ void semihost_sys_open(CPUState *cs, gdb_syscall_complete_cb complete,
+                        target_ulong fname, target_ulong fname_len,
+                        int gdb_flags, int mode);
+ 
++void semihost_sys_close(CPUState *cs, gdb_syscall_complete_cb complete,
++                        int fd);
 +
-+#ifndef SEMIHOSTING_SYSCALLS_H
-+#define SEMIHOSTING_SYSCALLS_H
-+
-+/*
-+ * Argument loading from the guest is performed by the caller;
-+ * results are returned via the 'complete' callback.
-+ *
-+ * String operands are in address/len pairs.  The len argument may be 0
-+ * (when the semihosting abi does not already provide the length),
-+ * or non-zero (where it should include the terminating zero).
-+ */
-+
-+void semihost_sys_open(CPUState *cs, gdb_syscall_complete_cb complete,
-+                       target_ulong fname, target_ulong fname_len,
-+                       int gdb_flags, int mode);
-+
-+#endif /* SEMIHOSTING_SYSCALLS_H */
+ #endif /* SEMIHOSTING_SYSCALLS_H */
 diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 72a1350512..07960658d8 100644
+index 07960658d8..0cb3db2a1a 100644
 --- a/semihosting/arm-compat-semi.c
 +++ b/semihosting/arm-compat-semi.c
-@@ -32,12 +32,13 @@
+@@ -276,7 +276,6 @@ common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
+  * do the work and return the required return value to the guest
+  * via common_semi_cb.
   */
+-typedef void sys_closefn(CPUState *cs, GuestFD *gf);
+ typedef void sys_writefn(CPUState *cs, GuestFD *gf,
+                          target_ulong buf, uint32_t len);
+ typedef void sys_readfn(CPUState *cs, GuestFD *gf,
+@@ -285,23 +284,6 @@ typedef void sys_isattyfn(CPUState *cs, GuestFD *gf);
+ typedef void sys_seekfn(CPUState *cs, GuestFD *gf, target_ulong offset);
+ typedef void sys_flenfn(CPUState *cs, GuestFD *gf);
  
- #include "qemu/osdep.h"
-+#include "qemu/timer.h"
-+#include "exec/gdbstub.h"
- #include "semihosting/semihost.h"
- #include "semihosting/console.h"
- #include "semihosting/common-semi.h"
- #include "semihosting/guestfd.h"
--#include "qemu/timer.h"
--#include "exec/gdbstub.h"
-+#include "semihosting/syscalls.h"
- 
- #ifdef CONFIG_USER_ONLY
- #include "qemu.h"
-@@ -98,21 +99,6 @@ static int gdb_open_modeflags[12] = {
-     GDB_O_RDWR | GDB_O_CREAT | GDB_O_APPEND,
- };
- 
--static int open_modeflags[12] = {
--    O_RDONLY,
--    O_RDONLY | O_BINARY,
--    O_RDWR,
--    O_RDWR | O_BINARY,
--    O_WRONLY | O_CREAT | O_TRUNC,
--    O_WRONLY | O_CREAT | O_TRUNC | O_BINARY,
--    O_RDWR | O_CREAT | O_TRUNC,
--    O_RDWR | O_CREAT | O_TRUNC | O_BINARY,
--    O_WRONLY | O_CREAT | O_APPEND,
--    O_WRONLY | O_CREAT | O_APPEND | O_BINARY,
--    O_RDWR | O_CREAT | O_APPEND,
--    O_RDWR | O_CREAT | O_APPEND | O_BINARY
--};
--
- #ifndef CONFIG_USER_ONLY
- 
- /**
-@@ -284,20 +270,6 @@ common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
-     common_semi_cb(cs, ret, err);
- }
- 
--static int common_semi_open_guestfd;
--
--static void
--common_semi_open_cb(CPUState *cs, target_ulong ret, target_ulong err)
+-static void host_closefn(CPUState *cs, GuestFD *gf)
 -{
--    if (err) {
--        dealloc_guestfd(common_semi_open_guestfd);
+-    int ret;
+-    /*
+-     * Only close the underlying host fd if it's one we opened on behalf
+-     * of the guest in SYS_OPEN.
+-     */
+-    if (gf->hostfd == STDIN_FILENO ||
+-        gf->hostfd == STDOUT_FILENO ||
+-        gf->hostfd == STDERR_FILENO) {
+-        ret = 0;
 -    } else {
--        associate_guestfd(common_semi_open_guestfd, ret);
--        ret = common_semi_open_guestfd;
+-        ret = close(gf->hostfd);
 -    }
--    common_semi_cb(cs, ret, err);
+-    common_semi_cb(cs, ret, ret ? errno : 0);
 -}
 -
- /*
-  * Types for functions implementing various semihosting calls
-  * for specific types of guest file descriptor. These must all
-@@ -601,22 +573,11 @@ void do_common_semihosting(CPUState *cs)
-                 staticfile_guestfd(ret, featurefile_data,
-                                    sizeof(featurefile_data));
-             }
--        } else if (use_gdb_syscalls()) {
--            unlock_user(s, arg0, 0);
--            common_semi_open_guestfd = alloc_guestfd();
--            gdb_do_syscall(common_semi_open_cb,
--                           "open,%s,%x,1a4", arg0, (int)arg2 + 1,
--                           gdb_open_modeflags[arg1]);
--            break;
-         } else {
--            hostfd = open(s, open_modeflags[arg1], 0644);
--            if (hostfd < 0) {
--                ret = -1;
--                err = errno;
--            } else {
--                ret = alloc_guestfd();
--                associate_guestfd(ret, hostfd);
--            }
-+            unlock_user(s, arg0, 0);
-+            semihost_sys_open(cs, common_semi_cb, arg0, arg2 + 1,
-+                              gdb_open_modeflags[arg1], 0644);
-+            break;
-         }
-         unlock_user(s, arg0, 0);
-         common_semi_cb(cs, ret, err);
+ static void host_writefn(CPUState *cs, GuestFD *gf,
+                          target_ulong buf, uint32_t len)
+ {
+@@ -362,11 +344,6 @@ static void host_flenfn(CPUState *cs, GuestFD *gf)
+     }
+ }
+ 
+-static void gdb_closefn(CPUState *cs, GuestFD *gf)
+-{
+-    gdb_do_syscall(common_semi_cb, "close,%x", gf->hostfd);
+-}
+-
+ static void gdb_writefn(CPUState *cs, GuestFD *gf,
+                         target_ulong buf, uint32_t len)
+ {
+@@ -414,12 +391,6 @@ static const uint8_t featurefile_data[] = {
+     SH_EXT_EXIT_EXTENDED | SH_EXT_STDOUT_STDERR, /* Feature byte 0 */
+ };
+ 
+-static void staticfile_closefn(CPUState *cs, GuestFD *gf)
+-{
+-    /* Nothing to do */
+-    common_semi_cb(cs, 0, 0);
+-}
+-
+ static void staticfile_writefn(CPUState *cs, GuestFD *gf,
+                                target_ulong buf, uint32_t len)
+ {
+@@ -468,7 +439,6 @@ static void staticfile_flenfn(CPUState *cs, GuestFD *gf)
+ }
+ 
+ typedef struct GuestFDFunctions {
+-    sys_closefn *closefn;
+     sys_writefn *writefn;
+     sys_readfn *readfn;
+     sys_isattyfn *isattyfn;
+@@ -478,7 +448,6 @@ typedef struct GuestFDFunctions {
+ 
+ static const GuestFDFunctions guestfd_fns[] = {
+     [GuestFDHost] = {
+-        .closefn = host_closefn,
+         .writefn = host_writefn,
+         .readfn = host_readfn,
+         .isattyfn = host_isattyfn,
+@@ -486,7 +455,6 @@ static const GuestFDFunctions guestfd_fns[] = {
+         .flenfn = host_flenfn,
+     },
+     [GuestFDGDB] = {
+-        .closefn = gdb_closefn,
+         .writefn = gdb_writefn,
+         .readfn = gdb_readfn,
+         .isattyfn = gdb_isattyfn,
+@@ -494,7 +462,6 @@ static const GuestFDFunctions guestfd_fns[] = {
+         .flenfn = gdb_flenfn,
+     },
+     [GuestFDStatic] = {
+-        .closefn = staticfile_closefn,
+         .writefn = staticfile_writefn,
+         .readfn = staticfile_readfn,
+         .isattyfn = staticfile_isattyfn,
+@@ -586,13 +553,7 @@ void do_common_semihosting(CPUState *cs)
+ 
+     case TARGET_SYS_CLOSE:
+         GET_ARG(0);
+-
+-        gf = get_guestfd(arg0);
+-        if (!gf) {
+-            goto do_badf;
+-        }
+-        guestfd_fns[gf->type].closefn(cs, gf);
+-        dealloc_guestfd(arg0);
++        semihost_sys_close(cs, common_semi_cb, arg0);
+         break;
+ 
+     case TARGET_SYS_WRITEC:
 diff --git a/semihosting/guestfd.c b/semihosting/guestfd.c
-index b6405f5663..7ac2e147a8 100644
+index 7ac2e147a8..e3122ebba9 100644
 --- a/semihosting/guestfd.c
 +++ b/semihosting/guestfd.c
-@@ -11,6 +11,11 @@
- #include "qemu/osdep.h"
- #include "exec/gdbstub.h"
- #include "semihosting/guestfd.h"
-+#ifdef CONFIG_USER_ONLY
-+#include "qemu.h"
-+#else
-+#include "semihosting/softmmu-uaccess.h"
-+#endif
+@@ -49,6 +49,11 @@ int alloc_guestfd(void)
+     return i;
+ }
  
- static GArray *guestfd_array;
++static void do_dealloc_guestfd(GuestFD *gf)
++{
++    gf->type = GuestFDUnused;
++}
++
+ /*
+  * Look up the guestfd in the data structure; return NULL
+  * for out of bounds, but don't check whether the slot is unused.
+@@ -119,5 +124,5 @@ void dealloc_guestfd(int guestfd)
+     GuestFD *gf = do_get_guestfd(guestfd);
  
+     assert(gf);
+-    gf->type = GuestFDUnused;
++    do_dealloc_guestfd(gf);
+ }
 diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-new file mode 100644
-index 0000000000..9f9d19a59a
---- /dev/null
+index 9f9d19a59a..3648b9dd49 100644
+--- a/semihosting/syscalls.c
 +++ b/semihosting/syscalls.c
-@@ -0,0 +1,156 @@
-+/*
-+ * Syscall implementations for semihosting.
-+ *
-+ * Copyright (c) 2022 Linaro
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "exec/gdbstub.h"
-+#include "semihosting/guestfd.h"
-+#include "semihosting/syscalls.h"
-+#ifdef CONFIG_USER_ONLY
-+#include "qemu.h"
-+#else
-+#include "semihosting/softmmu-uaccess.h"
-+#endif
-+
-+
-+/*
-+ * Validate or compute the length of the string (including terminator).
-+ */
-+static int validate_strlen(CPUState *cs, target_ulong str, target_ulong tlen)
+@@ -94,6 +94,12 @@ static void gdb_open(CPUState *cs, gdb_syscall_complete_cb complete,
+                    fname, len, (target_ulong)gdb_flags, (target_ulong)mode);
+ }
+ 
++static void gdb_close(CPUState *cs, gdb_syscall_complete_cb complete,
++                      GuestFD *gf)
 +{
-+    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-+    char c;
-+
-+    if (tlen == 0) {
-+        ssize_t slen = target_strlen(str);
-+
-+        if (slen < 0) {
-+            return -EFAULT;
-+        }
-+        if (slen >= INT32_MAX) {
-+            return -ENAMETOOLONG;
-+        }
-+        return slen + 1;
-+    }
-+    if (tlen > INT32_MAX) {
-+        return -ENAMETOOLONG;
-+    }
-+    if (get_user_u8(c, str + tlen - 1)) {
-+        return -EFAULT;
-+    }
-+    if (c != 0) {
-+        return -EINVAL;
-+    }
-+    return tlen;
++    gdb_do_syscall(complete, "close,%x", (target_ulong)gf->hostfd);
 +}
 +
-+static int validate_lock_user_string(char **pstr, CPUState *cs,
-+                                     target_ulong tstr, target_ulong tlen)
+ /*
+  * Host semihosting syscall implementations.
+  */
+@@ -140,6 +146,23 @@ static void host_open(CPUState *cs, gdb_syscall_complete_cb complete,
+     unlock_user(p, fname, 0);
+ }
+ 
++static void host_close(CPUState *cs, gdb_syscall_complete_cb complete,
++                       GuestFD *gf)
 +{
-+    int ret = validate_strlen(cs, tstr, tlen);
-+    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-+    char *str = NULL;
-+
-+    if (ret > 0) {
-+        str = lock_user(VERIFY_READ, tstr, ret, true);
-+        ret = str ? 0 : -EFAULT;
-+    }
-+    *pstr = str;
-+    return ret;
-+}
-+
-+/*
-+ * GDB semihosting syscall implementations.
-+ */
-+
-+static gdb_syscall_complete_cb gdb_open_complete;
-+
-+static void gdb_open_cb(CPUState *cs, target_ulong ret, target_ulong err)
-+{
-+    if (!err) {
-+        int guestfd = alloc_guestfd();
-+        associate_guestfd(guestfd, ret);
-+        ret = guestfd;
-+    }
-+    gdb_open_complete(cs, ret, err);
-+}
-+
-+static void gdb_open(CPUState *cs, gdb_syscall_complete_cb complete,
-+                     target_ulong fname, target_ulong fname_len,
-+                     int gdb_flags, int mode)
-+{
-+    int len = validate_strlen(cs, fname, fname_len);
-+    if (len < 0) {
-+        complete(cs, -1, -len);
-+        return;
-+    }
-+
-+    gdb_open_complete = complete;
-+    gdb_do_syscall(gdb_open_cb, "open,%s,%x,%x",
-+                   fname, len, (target_ulong)gdb_flags, (target_ulong)mode);
-+}
-+
-+/*
-+ * Host semihosting syscall implementations.
-+ */
-+
-+static void host_open(CPUState *cs, gdb_syscall_complete_cb complete,
-+                      target_ulong fname, target_ulong fname_len,
-+                      int gdb_flags, int mode)
-+{
-+    CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-+    char *p;
-+    int ret, host_flags;
-+
-+    ret = validate_lock_user_string(&p, cs, fname, fname_len);
-+    if (ret < 0) {
-+        complete(cs, -1, -ret);
-+        return;
-+    }
-+
-+    if (gdb_flags & GDB_O_WRONLY) {
-+        host_flags = O_WRONLY;
-+    } else if (gdb_flags & GDB_O_RDWR) {
-+        host_flags = O_RDWR;
-+    } else {
-+        host_flags = O_RDONLY;
-+    }
-+    if (gdb_flags & GDB_O_CREAT) {
-+        host_flags |= O_CREAT;
-+    }
-+    if (gdb_flags & GDB_O_TRUNC) {
-+        host_flags |= O_TRUNC;
-+    }
-+    if (gdb_flags & GDB_O_EXCL) {
-+        host_flags |= O_EXCL;
-+    }
-+
-+    ret = open(p, host_flags, mode);
-+    if (ret < 0) {
++    /*
++     * Only close the underlying host fd if it's one we opened on behalf
++     * of the guest in SYS_OPEN.
++     */
++    if (gf->hostfd != STDIN_FILENO &&
++        gf->hostfd != STDOUT_FILENO &&
++        gf->hostfd != STDERR_FILENO &&
++        close(gf->hostfd) < 0) {
 +        complete(cs, -1, errno);
 +    } else {
-+        int guestfd = alloc_guestfd();
-+        associate_guestfd(guestfd, ret);
-+        complete(cs, guestfd, 0);
++        complete(cs, 0, 0);
 +    }
-+    unlock_user(p, fname, 0);
 +}
 +
-+/*
-+ * Syscall entry points.
-+ */
+ /*
+  * Syscall entry points.
+  */
+@@ -154,3 +177,27 @@ void semihost_sys_open(CPUState *cs, gdb_syscall_complete_cb complete,
+         host_open(cs, complete, fname, fname_len, gdb_flags, mode);
+     }
+ }
 +
-+void semihost_sys_open(CPUState *cs, gdb_syscall_complete_cb complete,
-+                       target_ulong fname, target_ulong fname_len,
-+                       int gdb_flags, int mode)
++void semihost_sys_close(CPUState *cs, gdb_syscall_complete_cb complete, int fd)
 +{
-+    if (use_gdb_syscalls()) {
-+        gdb_open(cs, complete, fname, fname_len, gdb_flags, mode);
-+    } else {
-+        host_open(cs, complete, fname, fname_len, gdb_flags, mode);
++    GuestFD *gf = get_guestfd(fd);
++
++    if (!gf) {
++        complete(cs, -1, EBADF);
++        return;
 +    }
++    switch (gf->type) {
++    case GuestFDGDB:
++        gdb_close(cs, complete, gf);
++        break;
++    case GuestFDHost:
++        host_close(cs, complete, gf);
++        break;
++    case GuestFDStatic:
++        complete(cs, 0, 0);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    dealloc_guestfd(fd);
 +}
-diff --git a/semihosting/meson.build b/semihosting/meson.build
-index d2c1c37bfd..8057db5494 100644
---- a/semihosting/meson.build
-+++ b/semihosting/meson.build
-@@ -1,5 +1,6 @@
- specific_ss.add(when: 'CONFIG_SEMIHOSTING', if_true: files(
-   'guestfd.c',
-+  'syscalls.c',
- ))
- 
- specific_ss.add(when: ['CONFIG_SEMIHOSTING', 'CONFIG_SOFTMMU'], if_true: files(
 -- 
 2.34.1
 
