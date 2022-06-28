@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD29555F037
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 23:12:00 +0200 (CEST)
-Received: from localhost ([::1]:42408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E42455F0F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 00:14:42 +0200 (CEST)
+Received: from localhost ([::1]:39382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6IV5-0002qv-Cz
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 17:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40046)
+	id 1o6JTk-0001I6-Sp
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 18:14:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1o6ITK-0001mF-Mp; Tue, 28 Jun 2022 17:10:11 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:45578)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1o6ITE-0007uM-0O; Tue, 28 Jun 2022 17:10:10 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7EC7B61865;
- Tue, 28 Jun 2022 21:09:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CB1C341C8;
- Tue, 28 Jun 2022 21:09:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656450595;
- bh=1QJk4e5j0/pz9uIpQ4JWK8nVogVrZMYPM6m/PAoDjys=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=nsBw1UXuvcxUmPH3tNOnNFdZmPyjltPcid9fynO3ewZauLE/h0Zh18vREFpG4Nqzu
- OURDTsKPHFaUrB6xAS/uDBdZlT6nup9UQFWqRhV7bVH6dvrG2vyOgconcovvPAiI8T
- YjNjQtMDgVUJPw8gTKybzJR8uJnlc6pUBGobQBf2CENvKROG01H7xvF7nKGdEiIvNp
- 05spaUErlHtzYRv6eXBbkgHYR3MmWa6k64+oOwWq4PkEy/1+g6OHMldslx6Cd72eOE
- kxE6BeyIZl2aTxC9kXzoZny7+GOf5ELCBrK194czS1pUKo3lMpZGRQ7A/j3ZPYBo4U
- FdTV4tqNYeaEQ==
-Date: Tue, 28 Jun 2022 14:09:39 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: B <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org, 
- Eduardo Habkost <eduardo@habkost.net>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Stefano Stabellini <sstabellini@kernel.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-Subject: Re: [PATCH 0/2] Decouple Xen-HVM from PIIX
-In-Reply-To: <D8EF825B-45A2-4DE5-A787-8FE7BE88D2E6@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2206281408490.247593@ubuntu-linux-20-04-desktop>
-References: <20220626094656.15673-1-shentey@gmail.com>
- <D8EF825B-45A2-4DE5-A787-8FE7BE88D2E6@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o6JSO-0000T2-Bc; Tue, 28 Jun 2022 18:13:16 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:44549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o6JSM-0000Gr-IU; Tue, 28 Jun 2022 18:13:15 -0400
+Received: by mail-pf1-x433.google.com with SMTP id 65so13211410pfw.11;
+ Tue, 28 Jun 2022 15:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tDZg9mjBgdklL4z1Cc8879U7ltxiF8io/sK3P45EuvE=;
+ b=ft47DGbJZP+ZikKUcEZpwuYavkdisK+axPbygkzpGpFvRKFUfK2OZgpyHyILoz5IeN
+ iq7zUd9IBVFbB0QMYmfKtC8j65lnhJpZ3m52265ftqE6oq5JEBre/u76F+XgOt5z8Ylu
+ z9E6QUORiwB8vHzrSG8XHDxuOC4V8fRjuB99txjvMmhgMEicePLkx0loB6xYjjLAGGVU
+ Fm08JCNvpPy82AF1dKv/G8fiOdOi3sNdRynULxQT+XtZS5yZPJTwjS52AUjXmQaq1Rc7
+ dwjOpgYeKoO+kFCdoojENT9xiKUaSqNCYiVD8dLrztxcSXjsoMEsZhASz+UkE2u+licM
+ kShA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tDZg9mjBgdklL4z1Cc8879U7ltxiF8io/sK3P45EuvE=;
+ b=nvRaEpQ+4sjYvdJMEX2DXivFav1EqA2wZVPo0I/8y/Jglzp0++EhbJZidhxTaAgymb
+ xchdnYHdjp8yEeBVN7U1WDvxseDQWB5oknodlHSaC6t59LkBP+a86O5goyhlog3BROHk
+ yPndnrHKrE8ro6qTFxIYH0ePkxute+kwYorRqI53vxAnZpBro3N6y6sNH4IaNIlRXgsh
+ VAWSYez64E2U1B5iITBVg8kEz9XTpnfmeFOXhFfByo7aD6EQTm0L1Y5res5w4/iBFRRz
+ VTkVSdj9bEAf0zt/UUyhBqWrfzirCcqJi5kB1eH4I8dJCLnGw5d7yIa9VPS3LxOAbbXK
+ zofQ==
+X-Gm-Message-State: AJIora9aVICUj3mEZV0/42gkpz2ekCOOut0ek/j1Q+0HzPLATxaVTIAj
+ MmYOfG9HPRsZs/LJgGcpeGEcNYQHDQM5mIqBAkM=
+X-Google-Smtp-Source: AGRyM1stj19bwReE6NiqkfRUkmEwUnjSEh+PMhw2O+FRPxxtFNGXw4tgxMYcJt4+9olkkwgJvi7vKM7OHW6QK0v6bAU=
+X-Received: by 2002:a05:6a00:1306:b0:512:ca3d:392f with SMTP id
+ j6-20020a056a00130600b00512ca3d392fmr5709100pfu.79.1656454392177; Tue, 28 Jun
+ 2022 15:13:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220628101737.786681-1-apatel@ventanamicro.com>
+ <20220628101737.786681-3-apatel@ventanamicro.com>
+In-Reply-To: <20220628101737.786681-3-apatel@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 29 Jun 2022 08:12:45 +1000
+Message-ID: <CAKmqyKMxLAnLkLrr8qfnorN9L3nf3OqsKN1Uzzvr2kLnuUkXhA@mail.gmail.com>
+Subject: Re: [PATCH v8 2/4] target/riscv: Set minumum priv spec version for
+ mcountinhibit
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,46 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jun 2022, B wrote:
-> Am 26. Juni 2022 09:46:54 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
-> >hw/i386/xen/xen-hvm.c contains logic which is PIIX-specific. This makes xen-hvm.c depend on PIIX which can be avoided if PIIX logic was isolated in PIIX itself.
-> >
-> >
-> >
-> >Bernhard Beschow (2):
-> >
-> >  hw/i386/xen/xen-hvm: Allow for stubbing xen_set_pci_link_route()
-> >
-> >  hw/i386/xen/xen-hvm: Inline xen_piix_pci_write_config_client() and
-> >
-> >    remove it
-> >
-> >
-> >
-> > hw/i386/xen/xen-hvm.c       | 17 ++---------------
-> >
-> > hw/isa/piix3.c              | 15 ++++++++++++++-
-> >
-> > include/hw/xen/xen.h        |  2 +-
-> >
-> > include/hw/xen/xen_common.h |  6 ------
-> >
-> > stubs/xen-hw-stub.c         |  3 ++-
-> >
-> > 5 files changed, 19 insertions(+), 24 deletions(-)
-> >
-> >
-> >
-> >-- >
-> >2.36.1
-> >
-> >
-> >
-> 
-> Hi Laurent,
-> 
-> would you like to queue this as well? Both patches have been reviewed at least once, piix twice. Or would you rather keep the review period open for longer?
- 
-Paul reviewed them both -- I don't think we need further reviews.
-Laurent could just take them.
+On Tue, Jun 28, 2022 at 8:23 PM Anup Patel <apatel@ventanamicro.com> wrote:
+>
+> The minimum priv spec versino for mcountinhibit to v1.11 so that it
+> is not available for v1.10 (or lower).
+>
+> Fixes: eab4776b2bad ("target/riscv: Add support for hpmcounters/hpmevents")
+> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  target/riscv/csr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index d65318dcc6..f7bfd2eab5 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -3944,7 +3944,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>                                                         write_mhpmcounter },
+>
+>      [CSR_MCOUNTINHIBIT]  = { "mcountinhibit",  any, read_mcountinhibit,
+> -                                                    write_mcountinhibit },
+> +               write_mcountinhibit, .min_priv_ver = PRIV_VERSION_1_11_0  },
+>
+>      [CSR_MHPMEVENT3]     = { "mhpmevent3",     any,    read_mhpmevent,
+>                                                         write_mhpmevent },
+> --
+> 2.34.1
+>
+>
 
