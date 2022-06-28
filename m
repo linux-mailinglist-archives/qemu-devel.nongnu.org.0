@@ -2,58 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F24E55C057
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:44:56 +0200 (CEST)
-Received: from localhost ([::1]:41668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E7655C061
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:46:56 +0200 (CEST)
+Received: from localhost ([::1]:44244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68iE-0007mV-Mg
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58618)
+	id 1o68kC-0001DJ-2V
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:46:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o68gA-0005wV-2A
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:42:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27946)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o68g8-0004Ug-8F
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:42:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656412963;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+1v+Z4MDwT76n5bw0bk31AybpNYAGIXH8xcSLGvVGI8=;
- b=KQiF4Yt6taYpPP//OEvuE6t0x9lQWaGN+AXa7ljTjNiHFowm1w6nw77k1NK2EotKxQUqTu
- Krz+R4HaZ4ZDZAwOM3SIPhUCwAZmZknsxlR5cW0CDzzi/uPOtOYDdpi7e7jYxhstk2oqsw
- w0pZGhzgfStRgmccbYWK8xU2wwSFQP0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-19-vpWOjLtMNBeIYXy8IS4hcg-1; Tue, 28 Jun 2022 06:42:42 -0400
-X-MC-Unique: vpWOjLtMNBeIYXy8IS4hcg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC319811E75;
- Tue, 28 Jun 2022 10:42:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 518D22026D07;
- Tue, 28 Jun 2022 10:42:40 +0000 (UTC)
-Date: Tue, 28 Jun 2022 11:42:37 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-Message-ID: <YrrbHYJn5soL/V6n@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o68i0-0008OQ-QE
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:44:40 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:34694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o68hz-0004fG-6b
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:44:40 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id i15so21587378ybp.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:44:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cNcGVkikA/Ag9kwOEDlL/3XLn1GeD9DJedwjjOB79sw=;
+ b=PGasteOldNhGW95ze3T3/lrwmFW+wXH/1c3IkYrZ/wKBebHx4feJfne6vHswaLJXu9
+ 97PSKIEurozsPkEl1RYkefuGLJqEeD+aRnpDQygeyL7x4s6JaJgl1kx4pS3wHy1maRRG
+ Pz7LRhFIr2ly1xbk3ecu/l8XwgjM9K2D7f9glparafCPTsm5ghSgEshx/3vpbMdQ8xfr
+ 7i8tJ6dcBN9eqrBrDWAZYNJKdOmIxdD9tikzCkon4KYm7up89Yt3mp46RCQ2GqtuwQaE
+ XqESt4tsNHX24Bh8++aQn2AnruupIV8cepuqfMVHVNKEfmQRbCtfsGSX4qZO4u+w5sYY
+ KbIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cNcGVkikA/Ag9kwOEDlL/3XLn1GeD9DJedwjjOB79sw=;
+ b=ezVgd5nXsBBnjU6Udkore+HV4uw/oU5iV156WEADnqb5STPxaDDH7EbA1PYCHL4wIp
+ Op4djpDKJLOjGyR3i8I5A5QbWhb90i9LdF8ixhuML0XjzARTtGTWnTW6VI9Ufht2b+VV
+ W7Pgc8gMx3R+67t1ALm49YDe77U4Dlc6w2H8XRD+eru6W1nlAMpqfmge4VrGM8gX8fyd
+ 6EYZgsaNiRp8dGj7bvME2XZGYXSDZfb3ruwf2RAg/RzsFlh47Ty9fLjf4pKCXDGGa/bE
+ YmD00rC+BCdBZD4jknvpiEP7hM8orofWCpECH1l16VRrJRA3NVceULqf5mvm/jQQVJkY
+ O7yw==
+X-Gm-Message-State: AJIora8/2EBrv3Rt5PnrqmcPoUn1KJdtFLNSfLlxewCIVnQEh/ZFZb0t
+ qv95Kso+Re5eM8Auh3hXwYGQioHCcwQ2feDpNzfk4g==
+X-Google-Smtp-Source: AGRyM1tscbjNsrZe/r19sIL3NPj3mxnVF/lAmo6lZNwNVlCb796NTIVySgNBxpgpM6XNOKQ2qJ+77KLv6oHzE2lGP2w=
+X-Received: by 2002:a5b:e87:0:b0:66d:4669:9871 with SMTP id
+ z7-20020a5b0e87000000b0066d46699871mr354810ybr.288.1656413076698; Tue, 28 Jun
+ 2022 03:44:36 -0700 (PDT)
+MIME-Version: 1.0
 References: <20220628030749-mutt-send-email-mst@kernel.org>
  <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
  <YrqyWhu8ThAcUGI4@redhat.com>
@@ -61,24 +55,29 @@ References: <20220628030749-mutt-send-email-mst@kernel.org>
  <Yrq6anPW60FkjmK6@redhat.com>
  <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
  <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <YrrSFig7Qo/PKqNx@redhat.com>
- <20220628060510-mutt-send-email-mst@kernel.org>
- <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
+ <20220628060210-mutt-send-email-mst@kernel.org>
+ <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
+ <20220628062551-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220628062551-mutt-send-email-mst@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Jun 2022 11:43:58 +0100
+Message-ID: <CAFEAcA985ardY5zWkrZYgWjj+tdVNUnRcaBUChGFX0-o99cjQA@mail.gmail.com>
+Subject: Re: Why we should avoid new submodules if possible
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,42 +91,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 03:58:21PM +0530, Ani Sinha wrote:
-> On Tue, Jun 28, 2022 at 3:37 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Tue, Jun 28, 2022 at 11:04:30AM +0100, Daniel P. Berrangé wrote:
-> > > If it is actually booting a real guest image (from biosbits) and interacting
-> > > with it, then it does feel like the scope of this testing is more appropriate
-> > > to QEMU's avocado framework than qtest, especially given the desire to use
-> > > python for it all.
-> > >
-> > > With regards,
-> > > Daniel
-> >
-> > I feel avocado is directed towards booting full fledged guest OS.
-> > It makes it much easier to figure out guest issues but it also
-> > prone to false positives and is harder to debug as a result.
-> > Booting a minimal image like this shouldn't require that.
-> 
-> Yes 100% agree with Michael on this. Biobits is *not* booting any OS
-> image. It runs off grub, that is, directly from bootloader stage. The
-> interraction with the VM is minimal.
+On Tue, 28 Jun 2022 at 11:38, Michael S. Tsirkin <mst@redhat.com> wrote:
+> On Tue, Jun 28, 2022 at 12:21:39PM +0200, Thomas Huth wrote:
+> > - we include the submodule content in our release tarballs, so people get
+> > the impression that hte submodule content is part of the QEMU sources. This
+> > has two disadvantages:
+> >  * We already got bug reports for the code in the submodule,
+> >    where people did not understand that they should report that
+> >    rather to the original project instead (i.e. you ship it - you
+> >    own it)
+> >  * People get the impression that QEMU is a huge monster
+> >    application if they count the number of code lines, run
+> >    their code scanner tools on the tarball contents, etc.
+> >    Remember "nemu", for example, where one of the main complaints
+> >    was that QEMU has too many lines of code?
+>
+> I think we can skip the checkout in the tarball if we like.
+> If people want to run the test they can checkout then.
 
-Just because it doesn't run a whole Linux kernel, doesn't make it
-not a guest OS image. It is merely unsual in that it can do everything
-it needs from grub stage, because it is just poking low level BIOS
-stuff and doesn't need a full OS like Linux on top. This is still
-functional integration testing IMHO and relevant to avocado in QEMU.
+For tarballs and submodules, we want to provide the code in the
+cases where we're providing binary blobs, and for where it's
+required to build QEMU proper.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Overall I think that the approach we use today for providing
+guest binaries (submodules with the code, pre-built blobs checked
+into git) is creaking at the seams and often awkward for downstream
+distros (who want to rebuild the binaries anyway).
 
+Plus submodules in general in git work really badly and awkwardly,
+and I'd rather we didn't add them unless we really must.
+
+We already have an approach for "tests that use binaries" --
+the avocado test suites. Is that something we could use in this
+case ?
+
+thanks
+-- PMM
 
