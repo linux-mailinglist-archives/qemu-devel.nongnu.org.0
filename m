@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB87A55BEF2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 09:03:14 +0200 (CEST)
-Received: from localhost ([::1]:39552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E41455BEFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 09:13:16 +0200 (CEST)
+Received: from localhost ([::1]:49756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o65Fh-00029H-QI
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 03:03:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44768)
+	id 1o65PP-0001e8-Af
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 03:13:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o63M3-0005HS-7E
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 01:01:39 -0400
-Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:42941)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o63Nz-0006mU-CD
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 01:03:40 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:39763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o63M0-0000zt-1u
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 01:01:38 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.36])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 4D17D24B60;
- Tue, 28 Jun 2022 05:01:31 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o63Nw-0001Bx-VZ
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 01:03:38 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.173])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B691111202D7F;
+ Tue, 28 Jun 2022 07:03:33 +0200 (CEST)
+Received: from kaod.org (37.59.142.108) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 28 Jun
- 2022 07:01:30 +0200
+ 2022 07:03:33 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-107S00125de806b-0c1c-439f-a5fd-f30486f6647c,
+ (GARM-108S00293ad9f36-b753-4a9e-a4c7-9e7d098cfc57,
  366CF7EF17C4C6544BD620BB2F2D78A15BAD5133) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ca9813f5-50f6-4391-8ec9-824d38b697d0@kaod.org>
-Date: Tue, 28 Jun 2022 07:01:29 +0200
+Message-ID: <62c1c907-8c4a-7c75-5c63-ce799cbbfa70@kaod.org>
+Date: Tue, 28 Jun 2022 07:03:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v2 8/8] aspeed: Add AST2600 (BMC) to fby35
+Subject: Re: [PATCH v2 7/8] aspeed: Make aspeed_board_init_flashes public
 Content-Language: en-US
 To: Peter Delevoryas <pdel@fb.com>
 CC: <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
 References: <20220624003701.1363500-1-pdel@fb.com>
- <20220624003701.1363500-9-pdel@fb.com>
+ <20220624003701.1363500-8-pdel@fb.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220624003701.1363500-9-pdel@fb.com>
+In-Reply-To: <20220624003701.1363500-8-pdel@fb.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.108]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 5ad385bf-4158-4ece-a2a0-f3df997218c1
-X-Ovh-Tracer-Id: 10028108998342052832
+X-Ovh-Tracer-GUID: 8bc2d5ff-5cef-447d-a236-43bb12139c50
+X-Ovh-Tracer-Id: 10062448944434285536
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudegiedgledvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgefggffgheejgfdufeeiueffveehteejgfelueekgfegtefgffejhedtgfejgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
- helo=10.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudegiedgledvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,120 +75,109 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/24/22 02:37, Peter Delevoryas wrote:
-> You can test booting the BMC with both '-device loader' and '-drive
-> file'. This is necessary because of how the fb-openbmc boot sequence
-> works (jump to 0x20000000 after U-Boot SPL).
->
-> 
->      wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
->      qemu-system-arm -machine fby35 -nographic \
->          -device loader,file=fby35.mtd,addr=0,cpu-num=0 -drive file=fby35.mtd,format=raw,if=mtd
-> 
 > Signed-off-by: Peter Delevoryas <pdel@fb.com>
-> ---
->   hw/arm/fby35.c | 39 +++++++++++++++++++++++++++++++++++++++
->   1 file changed, 39 insertions(+)
-> 
-> diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
-> index dc1ae8e62a..1e24cbf3f8 100644
-> --- a/hw/arm/fby35.c
-> +++ b/hw/arm/fby35.c
-> @@ -21,17 +21,53 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include "qemu/units.h"
-> +#include "qapi/error.h"
->   #include "hw/boards.h"
-> +#include "hw/arm/aspeed_soc.h"
->   
->   #define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
->   OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
->   
->   struct Fby35State {
->       MachineState parent_obj;
-> +
-> +    MemoryRegion bmc_memory;
-> +    MemoryRegion bmc_dram;
-> +    MemoryRegion bmc_boot_rom;
-> +
-> +    AspeedSoCState bmc;
->   };
->   
-> +static void fby35_bmc_init(Fby35State *s)
-> +{
-> +    uint32_t boot_rom_size;
-> +
-> +    memory_region_init(&s->bmc_memory, OBJECT(s), "bmc-memory", UINT64_MAX);
-> +    memory_region_init_ram(&s->bmc_dram, OBJECT(s), "bmc-dram", 2 * GiB, &error_abort);
-> +
-> +    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
-> +    object_property_set_int(OBJECT(&s->bmc), "ram-size", s->bmc_dram.size, &error_abort);
 
-This fails to compile on some platforms :
-
-./hw/arm/fby35.c: In function ‘fby35_bmc_init’:
-../hw/arm/fby35.c:50:69: error: incompatible type for argument 3 of ‘object_property_set_int’
-    50 |     object_property_set_int(OBJECT(&s->bmc), "ram-size", s->bmc_dram.size, &error_abort);
-       |                                                          ~~~~~~~~~~~^~~~~
-       |                                                                     |
-       |                                                                     Int128
-In file included from /builds/legoater/qemu/include/exec/memory.h:28,
-                  from /builds/legoater/qemu/include/hw/boards.h:6,
-                  from ../hw/arm/fby35.c:26:
-/builds/legoater/qemu/include/qom/object.h:1342:38: note: expected ‘int64_t’ {aka ‘long long int’} but argument is of type ‘Int128’
-  1342 |                              int64_t value, Error **errp);
-       |                              ~~~~~~~~^~~~~
-
-
-You don't need to resend the patches 1-7. I have pulled them in my branch
-for the next PR.
-
-> +    object_property_set_link(OBJECT(&s->bmc), "memory", OBJECT(&s->bmc_memory), &error_abort);
-> +    object_property_set_link(OBJECT(&s->bmc), "dram", OBJECT(&s->bmc_dram), &error_abort);
-> +    object_property_set_int(OBJECT(&s->bmc), "hw-strap1", 0x000000C0, &error_abort);
-> +    object_property_set_int(OBJECT(&s->bmc), "hw-strap2", 0x00000003, &error_abort);
-
-We could share common definitions with the BMC machine in .h file.
-
-> +    object_property_set_int(OBJECT(&s->bmc), "uart-default", ASPEED_DEV_UART5, &error_abort);
-> +    qdev_realize(DEVICE(&s->bmc), NULL, &error_abort);
-> +
-> +    boot_rom_size = ASPEED_SMC_GET_CLASS(&s->bmc.fmc)->segments[0].size;
-> +
-> +    memory_region_init_rom(&s->bmc_boot_rom, OBJECT(s), "bmc-boot-rom", boot_rom_size, &error_abort);
-> +    memory_region_add_subregion(&s->bmc_memory, 0, &s->bmc_boot_rom);
-> +
-> +    aspeed_board_init_flashes(&s->bmc.fmc, "n25q00", 2, 0);
-
-I am not totally convinced with the ROM because it complexifies how the
-machine is started but I haven't tried the other way using the loader
-either. It is my TODO list.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
 
 C.
-  
 
-> +}
-> +
->   static void fby35_init(MachineState *machine)
+
+> ---
+>   hw/arm/aspeed.c             | 25 -------------------------
+>   hw/arm/aspeed_soc.c         | 26 ++++++++++++++++++++++++++
+>   include/hw/arm/aspeed_soc.h |  2 ++
+>   3 files changed, 28 insertions(+), 25 deletions(-)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index b43dc0fda8..a7352ca837 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -257,31 +257,6 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
+>       rom_add_blob_fixed("aspeed.boot_rom", storage, rom_size, addr);
+>   }
+>   
+> -static void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
+> -                                      unsigned int count, int unit0)
+> -{
+> -    int i;
+> -
+> -    if (!flashtype) {
+> -        return;
+> -    }
+> -
+> -    for (i = 0; i < count; ++i) {
+> -        DriveInfo *dinfo = drive_get(IF_MTD, 0, unit0 + i);
+> -        qemu_irq cs_line;
+> -        DeviceState *dev;
+> -
+> -        dev = qdev_new(flashtype);
+> -        if (dinfo) {
+> -            qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
+> -        }
+> -        qdev_realize_and_unref(dev, BUS(s->spi), &error_fatal);
+> -
+> -        cs_line = qdev_get_gpio_in_named(dev, SSI_GPIO_CS, 0);
+> -        sysbus_connect_irq(SYS_BUS_DEVICE(s), i + 1, cs_line);
+> -    }
+> -}
+> -
+>   static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
 >   {
-> +    Fby35State *s = FBY35(machine);
+>           DeviceState *card;
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index 16394c8e0b..4183f5ffbf 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -21,6 +21,7 @@
+>   #include "hw/i2c/aspeed_i2c.h"
+>   #include "net/net.h"
+>   #include "sysemu/sysemu.h"
+> +#include "sysemu/blockdev.h"
+>   
+>   #define ASPEED_SOC_IOMEM_SIZE       0x00200000
+>   
+> @@ -626,3 +627,28 @@ void aspeed_mmio_map_unimplemented(AspeedSoCState *s, SysBusDevice *dev,
+>       memory_region_add_subregion_overlap(s->memory, addr,
+>                                           sysbus_mmio_get_region(dev, 0), -1000);
+>   }
 > +
-> +    fby35_bmc_init(s);
->   }
+> +void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
+> +                               unsigned int count, int unit0)
+> +{
+> +    int i;
+> +
+> +    if (!flashtype) {
+> +        return;
+> +    }
+> +
+> +    for (i = 0; i < count; ++i) {
+> +        DriveInfo *dinfo = drive_get(IF_MTD, 0, unit0 + i);
+> +        qemu_irq cs_line;
+> +        DeviceState *dev;
+> +
+> +        dev = qdev_new(flashtype);
+> +        if (dinfo) {
+> +            qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
+> +        }
+> +        qdev_realize_and_unref(dev, BUS(s->spi), &error_fatal);
+> +
+> +        cs_line = qdev_get_gpio_in_named(dev, SSI_GPIO_CS, 0);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(s), i + 1, cs_line);
+> +    }
+> +}
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index 6cfc063985..5cd31c1306 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -178,5 +178,7 @@ void aspeed_mmio_map(AspeedSoCState *s, SysBusDevice *dev, int n, hwaddr addr);
+>   void aspeed_mmio_map_unimplemented(AspeedSoCState *s, SysBusDevice *dev,
+>                                      const char *name, hwaddr addr,
+>                                      uint64_t size);
+> +void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
+> +                               unsigned int count, int unit0);
 >   
->   static void fby35_class_init(ObjectClass *oc, void *data)
-> @@ -40,6 +76,9 @@ static void fby35_class_init(ObjectClass *oc, void *data)
->   
->       mc->desc = "Meta Platforms fby35";
->       mc->init = fby35_init;
-> +    mc->no_floppy = 1;
-> +    mc->no_cdrom = 1;
-> +    mc->min_cpus = mc->max_cpus = mc->default_cpus = 2;
->   }
->   
->   static const TypeInfo fby35_types[] = {
+>   #endif /* ASPEED_SOC_H */
 
 
