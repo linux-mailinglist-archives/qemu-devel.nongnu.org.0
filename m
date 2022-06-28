@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E6D55E58D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 16:56:33 +0200 (CEST)
-Received: from localhost ([::1]:44542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D2C55E59C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 17:16:49 +0200 (CEST)
+Received: from localhost ([::1]:53426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Cdj-0001iC-PI
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 10:56:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46766)
+	id 1o6CxM-0001Vr-6g
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 11:16:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1o6Cbe-0000iI-Uz
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 10:54:22 -0400
-Received: from mail-vk1-xa2f.google.com ([2607:f8b0:4864:20::a2f]:41485)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o6CvG-0008HT-Qw
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 11:14:39 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:36835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1o6Cbd-0001QP-3d
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 10:54:22 -0400
-Received: by mail-vk1-xa2f.google.com with SMTP id r1so4990404vke.8
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 07:54:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6jlHexNdraPGgV0Fndr824ScPeLMK/AymMR/fc8vwak=;
- b=ELkOs3uakN6N6oI6dCnPo1hHrc2GRokf+l+3Fp+MhC3yvWmbr7q9YpVzSmt+ZqurOb
- k3KRxYXcrDJUxrMp2NKGotY2mWc4GLMeYoLCvBTkYhJAQUgT4m+bSlFmlVVj6kmXkvD+
- IjbcokqL9NM+tI+SLXI4JOSr7xtloHDjCBYJAQvciSPjQkZgg3PsY3AxSQYfRU91EZo5
- Xt+Sbvblb10rz1TeDFh32aQYlRoJSYgDkU/np4L2es9AmA1Zea0eOWs1C7NDB1X5qiLV
- I6rebL5l+sMKf1Ak+6zl9FdEgbjAUB71UnpRrMC1UDK0Kndbl36zQ2FOvA+970TuWNpX
- 02Fw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o6CvF-0004VC-39
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 11:14:38 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id e2so18074510edv.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 08:14:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=lXNlvyGhAaRTRb0F1Oifi2Fp7Fa5fpEVSMGQxsKPOZk=;
+ b=PdqhaGGXF9hX59YEegwfxrS6H+NWZtA1sbNo7QJs4QMFAVrZkNq6TUbkLDS7LY3rzZ
+ tPRg587Iy0f5Jm5tZKPQC5PUWdLgCB8wbw8tSpzNudxGf6j2yJVITT/vGlwJ7i4sKku5
+ EGfr02pd3w5urGrNfvvYqpiqLTlI2o0OIaINYsddt7dHAWs9skUV93lry532rFMHbWCJ
+ l5Ad1Yp0orUYCxXzfJUFtIgbyqRUXcpws37LuqikfnKtUIH0ihuOmLrrvlsag2T2H8xO
+ VbfCPM3gSQt+e1hurbyB15O19lbq9DtfCdK8Rcj8wRf3/Xnl8DB5MMBNLr23AEx0Wlzm
+ Q/zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6jlHexNdraPGgV0Fndr824ScPeLMK/AymMR/fc8vwak=;
- b=Gzod+tZNW5tKYaWbBtyPvMGDmpnOqCo0noR3hgH6kmKU+L/DYATcEHJCims4883DxU
- E7gNJT7N9OkzvqTJJrw2JAIsM22Nf42VyUJ8V/Bd1PDMWwEhzWa6VWP5jdg3xR3+Xt1f
- DjZLwum+QqkaNXmpynW4bmRPT5zMWH3itLp2fHk6nsRrPZuoXOFXczrK6Sm/FenhWv3l
- 5vQjBdbxi+OQB2A2T1RYQxOqQ6RdiF/ud54QS1j3a868+kSFnEa7ZIvEZaiPIImqfDMG
- 4tuoTud/J6s3lQRhc8s2VOehzDzQq5cLDM2B2+HIJu8QICloLlIxO1Tp7tycIaaKIdRT
- Hf/Q==
-X-Gm-Message-State: AJIora/xaeVQgIKco0hZqwH1W5LnEg63ZgWnkqOJYGuxfWYaBHTY8hK2
- /7hk1QBZFznh6GMopoTJQY9Px68HReI7gJu451BJAw==
-X-Google-Smtp-Source: AGRyM1uRkUMbrpMd5RcfYh9XUmhJHOPs85/BTulfUkBu22aTjOF1D1xs+B21Ts4q+HBR/syYG//MutEV8A7auP9dBRg=
-X-Received: by 2002:a1f:85:0:b0:36c:509a:bf65 with SMTP id
- 127-20020a1f0085000000b0036c509abf65mr2346752vka.21.1656428058055; 
- Tue, 28 Jun 2022 07:54:18 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=lXNlvyGhAaRTRb0F1Oifi2Fp7Fa5fpEVSMGQxsKPOZk=;
+ b=k11cCHSXlc9+ta4ZQaMUnhG6lNE/ovC+iNecfywy+wHxVDIFIzvg1VXGZoaEZverF8
+ 5vxxoSEXlcPxDiWAkm6v2dm1KS8LMlYwSHLu73u0NLJLB6OQY8GtbrMJaUGh5lHHc3/e
+ WrvF2ZNi9NOs0b1IF2e6SJPo/PuNkGmIuVwlu5rT9kttv8h8bLtszJbNSXU+YptLDI56
+ wKqLxV/e1K+aF4UV3MXkHXxzEnce9BWjIBc9wJiGtGyB0W7pLc86saTrhtVWKMoqrIQb
+ zOZ+Q3A7HYVpmb8gWQiVbMVK2JUqT+h2df3XhmB+Ac47yZqkGe+0R2kTUsnCD6Ren3+R
+ qEHg==
+X-Gm-Message-State: AJIora+3lUdyBv3E3uW19dpEBTAIEs1Fpg2dLbJFocYUHFdFf0aloVxJ
+ df6zTEJqXyRbObs2e/R5vpaVGw==
+X-Google-Smtp-Source: AGRyM1tERG3Q4/8eiHlVgdTfm32sYjm2aC3i3a8CHeOEOf8DO/7Us6gnfj75ynVsVuHKXpvgejTXAQ==
+X-Received: by 2002:a05:6402:b48:b0:435:728c:d127 with SMTP id
+ bx8-20020a0564020b4800b00435728cd127mr23713065edb.392.1656429275457; 
+ Tue, 28 Jun 2022 08:14:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ b5-20020aa7cd05000000b0042bc5a536edsm9536702edw.28.2022.06.28.08.14.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 08:14:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B15D01FFB7;
+ Tue, 28 Jun 2022 16:14:32 +0100 (BST)
+References: <111e5b6c-41a7-89a4-b4d2-2eda1a295ffa@linux.ibm.com>
+ <dd5f1753-ff56-f248-9863-b39739fb6093@eldorado.org.br>
+ <cf38218a-6e13-8024-8e08-fcdd74faa5a8@linux.ibm.com>
+User-agent: mu4e 1.7.27; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Frederic Barrat <fbarrat@linux.ibm.com>
+Cc: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: Slowness with multi-thread TCG?
+Date: Tue, 28 Jun 2022 16:12:40 +0100
+In-reply-to: <cf38218a-6e13-8024-8e08-fcdd74faa5a8@linux.ibm.com>
+Message-ID: <87h744keg7.fsf@linaro.org>
 MIME-Version: 1.0
-References: <YrqyWhu8ThAcUGI4@redhat.com>
- <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
- <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
- <20220628060210-mutt-send-email-mst@kernel.org>
- <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
- <20220628062551-mutt-send-email-mst@kernel.org>
- <CAFEAcA985ardY5zWkrZYgWjj+tdVNUnRcaBUChGFX0-o99cjQA@mail.gmail.com>
- <20220628064831-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220628064831-mutt-send-email-mst@kernel.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Tue, 28 Jun 2022 08:54:07 -0600
-Message-ID: <CANCZdfrG=HVS0DLTucfBxH+2pTPNDYhERyQgViHP0=YdNKE+jg@mail.gmail.com>
-Subject: Re: Why we should avoid new submodules if possible
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
- Ani Sinha <ani@anisinha.ca>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, 
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000ff2c3805e28335e8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::a2f;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,44 +95,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ff2c3805e28335e8
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 28, 2022 at 5:10 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+Frederic Barrat <fbarrat@linux.ibm.com> writes:
 
-> git submodules are awkward basically because they are an automated wget.
-> I don't think an explicit wget is much better ... but
-> looks like I'm alone in this. Oh well.
+> On 28/06/2022 13:25, Matheus K. Ferst wrote:
+>> On 27/06/2022 15:25, Frederic Barrat wrote:
+>>> [ Resending as it was meant for the qemu-ppc list ]
+>>>
+>>> Hello,
+>>>
+>>> I've been looking at why our qemu powernv model is so slow when booting
+>>> a compressed linux kernel, using multiple vcpus and multi-thread tcg.
+>>> With only one vcpu, the decompression time of the kernel is what it is,
+>>> but when using multiple vcpus, the decompression is actually slower. And
+>>> worse: it degrades very fast with the number of vcpus!
+>>>
+>>> Rough measurement of the decompression time on a x86 laptop with
+>>> multi-thread tcg and using the qemu powernv10 machine:
+>>> 1 vcpu =3D> 15 seconds
+>>> 2 vcpus =3D> 45 seconds
+>>> 4 vcpus =3D> 1 min 30 seconds
+>>>
+>>> Looking in details, when the firmware (skiboot) hands over execution to
+>>> the linux kernel, there's one main thread entering some bootstrap code
+>>> and running the kernel decompression algorithm. All the other secondary
+>>> threads are left spinning in skiboot (1 thread per vpcu). So on paper,
+>>> with multi-thread tcg and assuming the system has enough available
+>>> physical cpus, I would expect the decompression to hog one physical cpu
+>>> and the time needed to be constant, no matter the number of vpcus.
+<snip>
+>>>
+>>> Ironically, the behavior seen with single thread tcg is what I would
+>>> expect: 1 thread decompressing in 15 seconds, all the other threads
+>>> spinning for that same amount of time, all sharing the same physical
+>>> cpu, so it all adds up nicely: I see 60 seconds decompression time with
+>>> 4 vcpus (4x15). Which means multi-thread tcg is slower by quite a bit.
+>>> And single thread tcg hogs one physical cpu of the laptop vs. 4 physical
+>>> cpus for the slower multi-thread tcg.
+>>>
+>>> Does anybody have an idea of what might happen or have suggestion to
+>>> keep investigating?
+>>> Thanks for your help!
+>>>
+>>> =C2=A0=C2=A0 Fred
+>>>
+>>>
+>> Hi Frederic,
+>> I did some boot time tests recently and didn't notice this behavior.
+>> Could you share your QEMU command line with us? Did you build QEMU
+>> with any debug option or sanitizer enabled?
 >
+>
+> You should be able to see it with:
+>
+> qemu-system-ppc64 -machine powernv10 -smp 4 -m 4G -nographic -bios
+> <path to skiboot.lid> -kernel <path to compresses kernel>   -initrd
+> <path to initd>  -serial mon:stdio
+>
+>
+> -smp is what matters.
+>
+> When simplifying the command line above, I noticed something
+> interesting: the problem doesn't show using the skiboot.lid shipped
+> with qemu! I'm using something closer to the current upstream head and
+> the idle code (the for loop in my initial mail) had been reworked in
+> between. So, clearly, the way the guest code is written matters. But
+> that doesn't explain it.
+>
+> I'm using a kernel in debug mode, so it's pretty big and that's why I
+> was using a compressed image. The compressed image is about 8 MB.
 
-submodules are 90% of the hassles I have  in upstreaming and updating the
-bsd-user stuff. They play terribly with branches, rebases, and any number of
-other things and are a pain to reset at times. They are easily the most
-brittle,
-error-prone and difficult to use feature of git.
+If the debug mode on PPC enables live patching of kernel functions for
+instrumentation that can certainly slow things down. You would see that
+in tcg_optimize appearing in the perf log and "info jit" showing
+constantly growing translation buffers.
 
-I hate them with a burning passion. You are not alone.
+>
+> The initrd shouldn't matter, the issue is seen during kernel
+> decompression, before the init ram is used.
+>
+> I can share my binaries if you'd like. Especially a recent version of
+> skiboot showing the problem.
+>
+>   Fred
 
-Warner
 
---000000000000ff2c3805e28335e8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 28, 2022 at 5:10 AM Micha=
-el S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">git submo=
-dules are awkward basically because they are an automated wget.<br>
-I don&#39;t think an explicit wget is much better ... but<br>
-looks like I&#39;m alone in this. Oh well.<br></blockquote><div><br></div><=
-div>submodules are 90% of the hassles I have=C2=A0 in upstreaming and updat=
-ing the</div><div>bsd-user stuff. They play terribly with branches, rebases=
-, and any number of</div><div>other things and are a pain to reset at times=
-. They are easily the most brittle,</div><div>error-prone and difficult to =
-use feature of git.</div><div><br></div><div>I hate them with a burning pas=
-sion. You are not alone.</div><div><br></div><div>Warner</div></div></div>
-
---000000000000ff2c3805e28335e8--
+--=20
+Alex Benn=C3=A9e
 
