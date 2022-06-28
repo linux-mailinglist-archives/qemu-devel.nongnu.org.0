@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E6B55BE0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 06:25:18 +0200 (CEST)
-Received: from localhost ([::1]:51572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537B055BE29
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 06:25:43 +0200 (CEST)
+Received: from localhost ([::1]:53116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o62mr-00042N-DH
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 00:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36666)
+	id 1o62nF-00053n-Sa
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 00:25:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o62j8-00014G-Oy
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:21:26 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:45835)
+ id 1o62jA-00014Y-3M
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:21:28 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:46638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o62j6-0003cs-TF
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:21:26 -0400
-Received: by mail-pf1-x431.google.com with SMTP id 128so10859853pfv.12
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:21:24 -0700 (PDT)
+ id 1o62j8-0003d4-IQ
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:21:27 -0400
+Received: by mail-pg1-x535.google.com with SMTP id x8so6401790pgj.13
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ILJ4Kz68ASRNzR6UBmLHINCe4zgwapAsaTAlt+05Ed8=;
- b=nLPbe7q5Wql7A/8XQ+XnINuS8M59VAhkVNRnhQRJwMOakD+FwPDZUUd0xe1j+T6ac9
- RT+EH57wyqoBcAV+nct0M38Hx0BuAp5y3iJybu3mLtGEZuoQEoCrsve/RFUP6v/yY2uq
- qkpr2LlZTKmQ5kUPTLq98ExQkZj9g4Xt2+/DfN7AzYD9KQ4a3W3EW6H3XBCU5rq+a+bb
- nPJvUbMH5Ne3AfAp+kac+ItASGcvNHHwaSoNpsMcQcOwVIgdN1BJpa0mmzD8CcDx6aR4
- cnO8Ok+MoxK9SeOYXkUgf9HKSzgavKqw1TtH21t1RI4Va6z3Q7Yx1/ja5LyNEaEseCEM
- veGQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=PGqw0sxa6NjptPHDaNA2dvYv/+Ms1B8A00v4y3WH0Pc=;
+ b=YedXqtbOcueLJpv1nlhqQBHEoDo7moGeUJAAO9TBdRYClIowsNiM7cuRnhDk+ESOj0
+ DvFmTZpCwqbwW8IZ8z20tWNPZbku4Mh1oD3A7btb0MGeGEDZVm6MLY+uxYWwxnAoRDmD
+ lCOzhplMMCZ5CBMDI2JNqW29+hzjsOZ5ubGV5oBclp5HhbRzfYKV4XpmI9/ZosG0V4j/
+ 9l+u2QKH80TU3pohhwY0VhXKWrP297zZYA06IIIbiwtfHy+6jIp1x6Uc9aQ3r4jqRyKX
+ dnC6dZImPoH+jmBkdXN8V447zxjsLzC9pnQAw70htbLB4szUcIgrEugVSboH5CVy1s4m
+ JDvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ILJ4Kz68ASRNzR6UBmLHINCe4zgwapAsaTAlt+05Ed8=;
- b=pBzP4jnvO0k7EeZSCDEx99XPAzH0DeZjlk/RQaxSx/s/YS7fQFya6eqBm+64PkFqfG
- 2bZ4HMiB8B7gytrJ4LMxKOknRrW5FBa+NYJ2IfhKfQsj2E7W8wgkYxUMCoJcLKLWurkt
- 147l0rVZ7lo91QeL/YMZQzq6PTq8m4cmZMBP46qCcEzqGDX8HwOWLR6Y+9YFtn4H4vDJ
- 1YwlQc5v3TIQ8OzC9klQTOoM8k4Q+ZVG4nxdju5ULz2aAzIzjdAgy6L/rWrBmi34uU4s
- k5e9Duz/ev0PC+2GmVNNch/c+MxPCMGC90B60txqt8axMy/YPuCFmxfPY8s2CQ/gLqVe
- 0Ypw==
-X-Gm-Message-State: AJIora9dYhzC9PzXAe9/FcTPcIgsB5lhV2dbiJGNFfq9Ah8v0lEvQebh
- GrTnrnhH0eu5DTJSKIz9rSEQDnqDjixExg==
-X-Google-Smtp-Source: AGRyM1sSqwUBLHAgxLD+VCDy+QWHEsh6833PoYw2rXMzEPD5qODe8kPl6UiIk7C8TFp98yfdH0M+Lg==
-X-Received: by 2002:a65:6e9b:0:b0:3fc:587a:6dcd with SMTP id
- bm27-20020a656e9b000000b003fc587a6dcdmr15549810pgb.200.1656390083008; 
- Mon, 27 Jun 2022 21:21:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=PGqw0sxa6NjptPHDaNA2dvYv/+Ms1B8A00v4y3WH0Pc=;
+ b=UBtZlqSZxR1f42rvy2E5gf+f05WoI5MQ8CAqAhKPuwpsV0HgRQw6/FcnVfOnB6ur9u
+ hc9STLuRy51daFZgTQiN+/O9YkRvXbvuue1Awb1wisot2lyauXgRvAnBu7a1glQTzO2/
+ sZiRTZUwa45sRqHauvObzSWDnWix1YiZbEVAiD/Qm8iBT7ybjhucElVCm8vIfIAy7XwA
+ Sca6qSq4FfKTkc980LzYSW5Olv4RMVgC1vvwLVQvZToodxq1PRXM0rkhTKIecJhU/JhT
+ 4QhpEzKbg+olafHsmmsGOs8Vz1HO/lrAkgbZY9ebQcbDqexPyFkhv9V57hzYAciME2bE
+ 4UIg==
+X-Gm-Message-State: AJIora923ldC+L+zSxXvjBiu9u4q9OJl1f7flSIfo+wKMg3px6xOpb/G
+ JpmrUTgFiJWUrpOY96HyYrjx8db5kdS77Q==
+X-Google-Smtp-Source: AGRyM1sGBUQx0Z68q+b6BHSDKZP3VFFL72R83cruMbzHedtUT/CcmdU4n+07Iw2JLEmSyvA97R/bBg==
+X-Received: by 2002:a65:604a:0:b0:3f9:f423:b474 with SMTP id
+ a10-20020a65604a000000b003f9f423b474mr15397374pgp.527.1656390085093; 
+ Mon, 27 Jun 2022 21:21:25 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- jg6-20020a17090326c600b0016a087cfad8sm7994929plb.264.2022.06.27.21.21.20
+ jg6-20020a17090326c600b0016a087cfad8sm7994929plb.264.2022.06.27.21.21.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:21:22 -0700 (PDT)
+ Mon, 27 Jun 2022 21:21:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH v4 00/45] target/arm: Scalable Matrix Extension
-Date: Tue, 28 Jun 2022 09:50:32 +0530
-Message-Id: <20220628042117.368549-1-richard.henderson@linaro.org>
+Subject: [PATCH v4 01/45] target/arm: Handle SME in aarch64_cpu_dump_state
+Date: Tue, 28 Jun 2022 09:50:33 +0530
+Message-Id: <20220628042117.368549-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220628042117.368549-1-richard.henderson@linaro.org>
+References: <20220628042117.368549-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,97 +87,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v4:
-  * Rebase on mainline (20 patches upstreamed).
-  * Adjust sve_access_check when PSTATE.SM set.
-  * Adjust sve insns to indicate not valid while streaming.
-  * Other misc adjustments per review.
+Dump SVCR, plus use the correct access check for Streaming Mode.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpu.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-r~
-
-
-Richard Henderson (45):
-  target/arm: Handle SME in aarch64_cpu_dump_state
-  target/arm: Add infrastructure for disas_sme
-  target/arm: Trap non-streaming usage when Streaming SVE is active
-  target/arm: Mark ADR as non-streaming
-  target/arm: Mark RDFFR, WRFFR, SETFFR as non-streaming
-  target/arm: Mark BDEP, BEXT, BGRP, COMPACT, FEXPA, FTSSEL as
-    non-streaming
-  target/arm: Mark PMULL, FMMLA as non-streaming
-  target/arm: Mark FTSMUL, FTMAD, FADDA as non-streaming
-  target/arm: Mark SMMLA, UMMLA, USMMLA as non-streaming
-  target/arm: Mark string/histo/crypto as non-streaming
-  target/arm: Mark gather/scatter load/store as non-streaming
-  target/arm: Mark gather prefetch as non-streaming
-  target/arm: Mark LDFF1 and LDNF1 as non-streaming
-  target/arm: Mark LD1RO as non-streaming
-  target/arm: Add SME enablement checks
-  target/arm: Handle SME in sve_access_check
-  target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
-  target/arm: Implement SME ZERO
-  target/arm: Implement SME MOVA
-  target/arm: Implement SME LD1, ST1
-  target/arm: Export unpredicated ld/st from translate-sve.c
-  target/arm: Implement SME LDR, STR
-  target/arm: Implement SME ADDHA, ADDVA
-  target/arm: Implement FMOPA, FMOPS (non-widening)
-  target/arm: Implement BFMOPA, BFMOPS
-  target/arm: Implement FMOPA, FMOPS (widening)
-  target/arm: Implement SME integer outer product
-  target/arm: Implement PSEL
-  target/arm: Implement REVD
-  target/arm: Implement SCLAMP, UCLAMP
-  target/arm: Reset streaming sve state on exception boundaries
-  target/arm: Enable SME for -cpu max
-  linux-user/aarch64: Clear tpidr2_el0 if CLONE_SETTLS
-  linux-user/aarch64: Reset PSTATE.SM on syscalls
-  linux-user/aarch64: Add SM bit to SVE signal context
-  linux-user/aarch64: Tidy target_restore_sigframe error return
-  linux-user/aarch64: Do not allow duplicate or short sve records
-  linux-user/aarch64: Verify extra record lock succeeded
-  linux-user/aarch64: Move sve record checks into restore
-  linux-user/aarch64: Implement SME signal handling
-  linux-user: Rename sve prctls
-  linux-user/aarch64: Implement PR_SME_GET_VL, PR_SME_SET_VL
-  target/arm: Only set ZEN in reset if SVE present
-  target/arm: Enable SME for user-only
-  linux-user/aarch64: Add SME related hwcap entries
-
- docs/system/arm/emulation.rst     |    4 +
- linux-user/aarch64/target_cpu.h   |    5 +-
- linux-user/aarch64/target_prctl.h |   56 +-
- target/arm/cpu.h                  |    7 +
- target/arm/helper-sme.h           |  126 ++++
- target/arm/helper-sve.h           |    4 +
- target/arm/helper.h               |   18 +
- target/arm/translate-a64.h        |   45 ++
- target/arm/translate.h            |   16 +
- target/arm/sme-fa64.decode        |   59 ++
- target/arm/sme.decode             |   88 +++
- target/arm/sve.decode             |   41 +-
- linux-user/aarch64/cpu_loop.c     |    9 +
- linux-user/aarch64/signal.c       |  242 ++++++-
- linux-user/elfload.c              |   20 +
- linux-user/syscall.c              |   28 +-
- target/arm/cpu.c                  |   35 +-
- target/arm/cpu64.c                |   11 +
- target/arm/helper.c               |   57 +-
- target/arm/sme_helper.c           | 1104 +++++++++++++++++++++++++++++
- target/arm/sve_helper.c           |   28 +
- target/arm/translate-a64.c        |  103 ++-
- target/arm/translate-sme.c        |  376 ++++++++++
- target/arm/translate-sve.c        |  387 ++++++++--
- target/arm/translate-vfp.c        |   12 +
- target/arm/translate.c            |    2 +
- target/arm/vec_helper.c           |   24 +
- target/arm/meson.build            |    3 +
- 28 files changed, 2776 insertions(+), 134 deletions(-)
- create mode 100644 target/arm/sme-fa64.decode
- create mode 100644 target/arm/sme.decode
- create mode 100644 target/arm/translate-sme.c
-
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index bb44ad45aa..4a35890853 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -885,6 +885,7 @@ static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     int i;
+     int el = arm_current_el(env);
+     const char *ns_status;
++    bool sve;
+ 
+     qemu_fprintf(f, " PC=%016" PRIx64 " ", env->pc);
+     for (i = 0; i < 32; i++) {
+@@ -911,6 +912,12 @@ static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+                  el,
+                  psr & PSTATE_SP ? 'h' : 't');
+ 
++    if (cpu_isar_feature(aa64_sme, cpu)) {
++        qemu_fprintf(f, "  SVCR=%08" PRIx64 " %c%c",
++                     env->svcr,
++                     (FIELD_EX64(env->svcr, SVCR, ZA) ? 'Z' : '-'),
++                     (FIELD_EX64(env->svcr, SVCR, SM) ? 'S' : '-'));
++    }
+     if (cpu_isar_feature(aa64_bti, cpu)) {
+         qemu_fprintf(f, "  BTYPE=%d", (psr & PSTATE_BTYPE) >> 10);
+     }
+@@ -925,7 +932,15 @@ static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     qemu_fprintf(f, "     FPCR=%08x FPSR=%08x\n",
+                  vfp_get_fpcr(env), vfp_get_fpsr(env));
+ 
+-    if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) == 0) {
++    if (cpu_isar_feature(aa64_sme, cpu) && FIELD_EX64(env->svcr, SVCR, SM)) {
++        sve = sme_exception_el(env, el) == 0;
++    } else if (cpu_isar_feature(aa64_sve, cpu)) {
++        sve = sve_exception_el(env, el) == 0;
++    } else {
++        sve = false;
++    }
++
++    if (sve) {
+         int j, zcr_len = sve_vqm1_for_el(env, el);
+ 
+         for (i = 0; i <= FFR_PRED_NUM; i++) {
 -- 
 2.34.1
 
