@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488FF55C0E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 14:12:14 +0200 (CEST)
-Received: from localhost ([::1]:45880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275D555C0EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 14:23:42 +0200 (CEST)
+Received: from localhost ([::1]:53224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6A4f-00026i-AR
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 08:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55600)
+	id 1o6AFo-0007fi-HG
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 08:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o6A3Q-0000xw-Sa
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:10:53 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:33589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o6A3P-0004Ro-58
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:10:52 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-317710edb9dso115235337b3.0
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 05:10:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+UQq89eUj6ibQmpOmG8rRHPnrqxkfOi8jJhvLJO9wOg=;
- b=bS3KCd6BCL8hYSBRL8chE5Z3BmMSCHDLDvS5W4G5XuqainfHvv74ozFC2VdKtV5qwX
- qSdzfShwROXNaRV7Vkx8MvNsd35LIHtTffbTS7bJOyZluVIceAwpTpZ+uO3HrifR4t8b
- hVcnAGwi0ef4v7oBnJIygOWoVRQ6vYfesl8IGj+fLLSiaX3ZWVn58bANYfeARoHpkfEo
- 6K24n2bDK/FdDzMkrRqYDc4QZ1SZFP79ie9PUIArtTvD2xBAlJYlHsaVoznTCAdRKxj6
- dzuTeuqVRBcsw3fbPiekuVO/hmXgaY1Qsv80dxicsG9EfOgWZK9cE1y8K20xuzVdILG6
- 0fFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+UQq89eUj6ibQmpOmG8rRHPnrqxkfOi8jJhvLJO9wOg=;
- b=RpSQj7Eb6RGeFQdfXOSGqcsxYTg3Gm5ToixVd2ymyiabRm1hKgGHFqkl/STWnq0/gP
- ZY8yudiu3MXpbn/g78VuQXxx4rwNjM/b9+qXqIsLscHshcH9hApg5NPR7p+Gfi0Al87Y
- /5JkMxyGyCGE1TpVzBYORiu36I1UO8gX5gaGO9Eei/wqZnI9koBbXza7S7VWWUM9Xxja
- U96A9Z7QBko29coNy8usDbzjs5y+dHOsEuTBfB+Rd9yxN7K+sFkI1pAv6dv9UGbaOzVf
- 9ttG04sKsePnRPH0gJ4UC5N9If20mFH/V32/RHwzfFbooWuKtv7oBq/FDLQFlyhAN59w
- VsNw==
-X-Gm-Message-State: AJIora+dS7LDgPbWz+3LMSWDf0yBXR2E/5bdkiHGvOf30ty3sSqyuTRF
- aV6PD7YB22Qjmt+WiBmoB5bKrul3fKk5OdRiupIrlQ==
-X-Google-Smtp-Source: AGRyM1teAWkBS+5gZoIMNGUfWUw45WPuQONM3gNvhTEecpPh71pB0erkpQr1T07fN3MQ07vqHMmFwGiEYSxrv3fNeAU=
-X-Received: by 2002:a0d:d712:0:b0:317:a108:9778 with SMTP id
- z18-20020a0dd712000000b00317a1089778mr21255235ywd.64.1656418249885; Tue, 28
- Jun 2022 05:10:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <prvs=171ad38db=niklas.cassel@wdc.com>)
+ id 1o6AEk-0006Nt-TN; Tue, 28 Jun 2022 08:22:34 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:15504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=171ad38db=niklas.cassel@wdc.com>)
+ id 1o6AEh-0006TM-KZ; Tue, 28 Jun 2022 08:22:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1656418949; x=1687954949;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HJTSrKwLut5ZKnHOe8aGXc4DlbMTOL8yIrcYaxpj8Mc=;
+ b=ccHJ1ljoxhJ+xjrLXJMlRaKg+5JizN8RAefPZE/vJPzpO6TYflZ3rOE7
+ WBomL2HTe7lFgpZ1aKDhDq7b47XhZFHnkquJojva3cDGyuUOnsCnMiMph
+ NItrXU1YWg6krF6aj7nAxRNWVmhDonIseqhKp/sQszlkpRDUPdVKfdk5R
+ 1r52uc9WH76/PMrIt3EcL/EKi0CnAeHMBvFAvdI8KONC3atYfiaj/VlJZ
+ STTQtMHIO96CijyE9V2rH9bFQEAT1Pc89rJlT+jdHQ5XvaGtoY9/lNoZC
+ 9Sx4MoFsIBDsU5sJJGKbNRohVSR5cwdO08s62fpbQp4NA7M4NBpQKFC6K g==;
+X-IronPort-AV: E=Sophos;i="5.92,227,1650902400"; d="scan'208";a="209156964"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 28 Jun 2022 20:22:22 +0800
+IronPort-SDR: U3ciiSCwDvgbdWFBFNe/kvkW642tOj2xXFy238bsAu0r01iy0TYpP7yPidmynMdEJzBcePnVLR
+ a7FDCJQYyYG7E28GKp7Y2OAM48Q3OPwaVlmTpa5hMBYA1d0/2gqfqkmNGzSbq9ofX0cLDz856y
+ MbnT8SI3MHLO3hls8l00YmKn4T9tapLi62agw45lmUbLu3+6EfpxFZz/PnvYa2me4/SK+hUdHc
+ +O1s8HwWRWb8n2eGJSWpDmdscHQmmoKSHoDM06A2UDN9S0UQVa4JdOv92yuqKiDbygqlxFHE3G
+ tfdUaLPVaWtYZ8aU3uC1uVFj
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 28 Jun 2022 04:44:45 -0700
+IronPort-SDR: 5N1G5BumggmcT6kLC9vKYEx3SGOG/c5Z/nXa1AUkPEVbxj9kF8/BHCjl9b6uLs2lau2Xu1n1l6
+ JPWKnIHRQdfkqxfp3GxmKuLo+mDRPSYoN194+LOumTKqezWRwrMJNSlgvzlcbypzglFmjVnzrP
+ 2T8GLDFMUd1k9HyVf8PAUr7M7QFZ1AaWuT0Zka8x3yrZvK3fSa2HD24KvV5kpl2qAQhEVyctZR
+ Bt7/PLGQHWLL3IDf8cBy8nm8CSfALkzvMsh4DeehfjblXfXv7WWVsAHzfqRjdK8mkrM+Nopsd3
+ nRc=
+WDCIronportException: Internal
+Received: from unknown (HELO x1-carbon.cphwdc) ([10.225.164.111])
+ by uls-op-cesaip01.wdc.com with ESMTP; 28 Jun 2022 05:22:22 -0700
+To: kbusch@kernel.org,
+	its@irrelevant.dk
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, hch@infradead.org,
+ Niklas Cassel <niklas.cassel@wdc.com>
+Subject: [PATCH] hw/nvme: force nvme-ns param 'shared' to false if no
+ nvme-subsys node
+Date: Tue, 28 Jun 2022 14:22:09 +0200
+Message-Id: <20220628122209.415725-1-niklas.cassel@wdc.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
- <YrqyWhu8ThAcUGI4@redhat.com>
- <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
- <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <YrrSFig7Qo/PKqNx@redhat.com> <20220628060510-mutt-send-email-mst@kernel.org>
- <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
- <YrrbHYJn5soL/V6n@redhat.com> <20220628072610-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220628072610-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 Jun 2022 13:10:12 +0100
-Message-ID: <CAFEAcA8Z9uasRtyf5=oFx7ScFO_+T01ooH-zWLdkjECMaZpuQw@mail.gmail.com>
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, 
- qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=171ad38db=niklas.cassel@wdc.com; helo=esa3.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,22 +83,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Niklas Cassel <niklas.cassel@wdc.com>
+From:  Niklas Cassel via <qemu-devel@nongnu.org>
 
-On Tue, 28 Jun 2022 at 12:50, Michael S. Tsirkin <mst@redhat.com> wrote:
-> I think the main difference is not even in how it works, it's
-> in what it does. Which is check that ACPI tables are sane.
-> Who cares about that? Well developers do when they change the
-> tables. Users really don't because for users we have the expected
-> tables in tree and we check against these.
+Since commit 916b0f0b5264 ("hw/nvme: change nvme-ns 'shared' default")
+the default value of nvme-ns param 'shared' is set to true, regardless
+if there is a nvme-subsys node or not.
 
-It wants to build and run a big guest binary blob -- that to me is
-the main difference. Users don't much care about any of our tests,
-whether they're under 'make check' or 'make check-avocado' or the
-iotests framework. The reason to pick one framework or another
-is mostly I think whether the properties of the test are such
-that one framework works better. Avocado is (for better or worse)
-the one we have for dealing with "actually run a guest machine
-with a big lump of guest code in it".
+On a system without a nvme-subsys node, a namespace will never be able
+to be attached to more than one controller, so for this configuration,
+it is counterintuitive for this parameter to be set by default.
 
--- PMM
+Force the nvme-ns param 'shared' to false for configurations where
+there is no nvme-subsys node, as the namespace will never be able to
+attach to more than one controller anyway.
+
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+---
+ hw/nvme/ns.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index 870c3ca1a2..62a1f97be0 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -546,6 +546,8 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+     int i;
+ 
+     if (!n->subsys) {
++        /* If no subsys, the ns cannot be attached to more than one ctrl. */
++        ns->params.shared = false;
+         if (ns->params.detached) {
+             error_setg(errp, "detached requires that the nvme device is "
+                        "linked to an nvme-subsys device");
+-- 
+2.36.1
+
 
