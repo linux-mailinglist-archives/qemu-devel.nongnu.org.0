@@ -2,96 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C916C55E51C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 15:55:51 +0200 (CEST)
-Received: from localhost ([::1]:57004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D07255E522
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 15:58:16 +0200 (CEST)
+Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Bh0-00084k-UD
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 09:55:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55242)
+	id 1o6BjL-0002NZ-Hd
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 09:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o6BdS-0003fz-Bm
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:52:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o6BdQ-0007bj-Du
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:52:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656424327;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wnt5oc7gLxZB9J9iZOnM7dfk2SWBy3LEE5lXBRM+I00=;
- b=VbccKctsHctyFYDnehEtYiy4jBl30eE4G35JM5wiFnfQWUvnthDHcB5TT4D3cb+52+NxyX
- vUoi/R3WjJMQudSEot6Qhvi2fjHMFJ+bX5aD0IV/1P/jcs/eqVGoMuSdYOLxxj0jjY3Ph3
- 0CtDdZGQEIW9XAwLjcsfPKrW25Qr3f0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-TxGjzR1sN2qGZKhALfIU7g-1; Tue, 28 Jun 2022 09:52:05 -0400
-X-MC-Unique: TxGjzR1sN2qGZKhALfIU7g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w12-20020adf8bcc000000b0021d20a5b24fso409744wra.22
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 06:52:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o6Bf1-0006eb-8b
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:53:47 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:40596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o6Bez-0007og-0t
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:53:46 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id ej4so17692503edb.7
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 06:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4HFsJxs9BNWQHudKr/kCHACvCzVH1R++EQnHWkrdk5M=;
+ b=g8VqVFHh5CoMN1lQFr313v0GcRWFRMHQ8mOPvtWT5yOyM9u7BuaVFHBxTdVSU+BQuK
+ DjAEjBwsh9+Dx+Mx770hahdB6uPAXOl4K/K5TfqI6OriGyaTAoBi4o/yuCo7nHymbWWp
+ zcDStGeHRYqTEYzuSm0znj2scSBpBc3jx2jYOCdJ3/Fu9inrPaFVf/bLVTW/F1elHYYd
+ OCMkrMl9m+0NKu9ap5dyF8HK31mmWzd5nQv1GWMWCIQDQdB/pEGQj+hGjSl8jcLXZi7u
+ JoQv2X3LzXRGxFPS3L+V1yEiluDAuSvVg64c5Fn9sVuLSLK50OnfYuIuTnsnlT4/NN0A
+ cQOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=wnt5oc7gLxZB9J9iZOnM7dfk2SWBy3LEE5lXBRM+I00=;
- b=W4O8zng6IA3YsXh88bYFJttg7TsrXWrb3StcWgL1ZaEDo/RCt+obyEE3zc7kbjnOVw
- DlwUGagc2sRf47bcnZA0MA/9IsLafZARHKBriUP61pq2tUUop2YW/hYzk/JLq0aD/lsf
- 1JlKTiP4Rzp9iEfbmCHHJL38iouX72wy5+xmy7E3MgHzQQWf7nts2XWSRZHAruhNqWNO
- XAVMXEJ3MDIK4SUNnhalxV/ypj2TxqXRPHkAMIcDzhI+d16L+7U3CVvoZIeCsfkSiBDJ
- M0BbfS4A06pQcBlFmwnYynH7C2u/KJf3g148bxx9HE8jsXccEkCKSAH2QDx4fVnz5C57
- aUxQ==
-X-Gm-Message-State: AJIora9V2Uez+SdogU7u7+qdl8Wk9SzYagNJ8qQZtFFI8mTpTi4FPwRK
- J31Znv9v585p8LngpTFwQikbGDV1zy2K/Y3OWdUj/7ItLNokj3IzD8nhMYIBHPQ7obyaUu2S7AF
- UXH5evcfmp48RdNI=
-X-Received: by 2002:a1c:7719:0:b0:3a0:31a6:4469 with SMTP id
- t25-20020a1c7719000000b003a031a64469mr21674957wmi.20.1656424324287; 
- Tue, 28 Jun 2022 06:52:04 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uS1y+QtSMduFZf2EyQiNSwNdK2CKunKBTquaQiZh7P5qUzTwf9ArIyIAGPQ8nQvtqwjCVggg==
-X-Received: by 2002:a1c:7719:0:b0:3a0:31a6:4469 with SMTP id
- t25-20020a1c7719000000b003a031a64469mr21674934wmi.20.1656424324027; 
- Tue, 28 Jun 2022 06:52:04 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- p129-20020a1c2987000000b003974cb37a94sm21784243wmp.22.2022.06.28.06.52.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 06:52:03 -0700 (PDT)
-Date: Tue, 28 Jun 2022 14:52:01 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Leonardo Bras Soares Passos <leobras@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v1 2/2] migration/multifd: Warn user when zerocopy not
- working
-Message-ID: <YrsHgWbhifokl6yL@work-vm>
-References: <20220628010908.390564-1-leobras@redhat.com>
- <20220628010908.390564-3-leobras@redhat.com>
- <YrqzhFAePnnEl8A8@redhat.com>
- <CAJ6HWG5UGpgBqK-7OTA6Gxu0LKMfGq5gVvYffOaSMWO1bfyjVw@mail.gmail.com>
- <Yrr77NfKtKcXTVCr@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4HFsJxs9BNWQHudKr/kCHACvCzVH1R++EQnHWkrdk5M=;
+ b=0Y8YPKChVScNIaWi66UCX5d/FsJjjTMuX/dXnzEJ7GPUWHb1wFBTb9LzHZ9zAN91pg
+ VOz/MPGGmItf8UWBRycfwojMu5kE0TArKJkGqII1i4BP1PXIBzYD2Ga/N1nujdFF/i5J
+ xx/tL69w32SvWAYxvxXGpoTJKzCL6xOdupdbqUtAGGsv0MFlRFkFoBtYBE2n+ENNNfT7
+ LZzmFsp1sUy+z5BY/SiCzi0LZx6EaIdShgFLf1ELZDrjCGrv0xfNhMx3EplQdOuswml6
+ fFYEiPBybjsAqipANFc0jrHDLbdlQ6rGH+l0tgb08RSAxHwFmYL07a48FnSQlJpx6UkC
+ IRjw==
+X-Gm-Message-State: AJIora/4kAgAGQov28QFDwF0YsxB4seVy+DJtBXAT7rvNnVF6UzcGmov
+ E/ULnIpoG6hAbGid3Y7YxP6v3H6HUib/wVeVQqU/9g==
+X-Google-Smtp-Source: AGRyM1s5iy7WUxg9PQD8TVL8VdnUNunD33RMinXIE43xOWVeF8Ee4Cf/PC02VJ/wgotpA9VscurlGWDRuDkcMhq/MfY=
+X-Received: by 2002:a05:6402:2708:b0:435:da6f:3272 with SMTP id
+ y8-20020a056402270800b00435da6f3272mr22783083edd.160.1656424423030; Tue, 28
+ Jun 2022 06:53:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yrr77NfKtKcXTVCr@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <Yrq6anPW60FkjmK6@redhat.com>
+ <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
+ <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
+ <YrrSFig7Qo/PKqNx@redhat.com> <20220628060510-mutt-send-email-mst@kernel.org>
+ <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
+ <YrrbHYJn5soL/V6n@redhat.com> <20220628072610-mutt-send-email-mst@kernel.org>
+ <CAFEAcA8Z9uasRtyf5=oFx7ScFO_+T01ooH-zWLdkjECMaZpuQw@mail.gmail.com>
+ <CAARzgwyLbVFCKJZXwdwwweVxgmG8VX1wc1bBYEaNpvKiPcU+TQ@mail.gmail.com>
+ <Yrr6VDCuKpp8SqW9@redhat.com>
+ <CAARzgww4LP7xjDPjWuCCERO1fRp9JwuTtPTG6Lix0KDWPC9FUA@mail.gmail.com>
+ <CAFEAcA-Rsqze4zKR7NZKRGSJLqQ77Lcc7Grh=tTSCQCZSNHozA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-Rsqze4zKR7NZKRGSJLqQ77Lcc7Grh=tTSCQCZSNHozA@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 28 Jun 2022 19:23:32 +0530
+Message-ID: <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
+Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
+ acpi/tests/bits: add README file for bits qtests)
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, imammedo@redhat.com, qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000005513a005e2825d3a"
+Received-SPF: none client-ip=2a00:1450:4864:20::52b;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,67 +94,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Tue, Jun 28, 2022 at 09:32:04AM -0300, Leonardo Bras Soares Passos wrote:
-> > On Tue, Jun 28, 2022 at 4:53 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > >
-> > > On Mon, Jun 27, 2022 at 10:09:09PM -0300, Leonardo Bras wrote:
-> > > > Some errors, like the lack of Scatter-Gather support by the network
-> > > > interface(NETIF_F_SG) may cause sendmsg(...,MSG_ZEROCOPY) to fail on using
-> > > > zero-copy, which causes it to fall back to the default copying mechanism.
-> > >
-> > > How common is this lack of SG support ? What NICs did you have that
-> > > were affected ?
-> > 
-> > I am not aware of any NIC without SG available for testing, nor have
-> > any idea on how common they are.
-> > But since we can detect sendmsg() falling back to copying we should
-> > warn the user if this ever happens.
-> > 
-> > There is also a case in IPv6 related to fragmentation that may cause
-> > MSG_ZEROCOPY to fall back to the copying mechanism, so it's also
-> > covered.
-> > 
-> > >
-> > > > After each full dirty-bitmap scan there should be a zero-copy flush
-> > > > happening, which checks for errors each of the previous calls to
-> > > > sendmsg(...,MSG_ZEROCOPY). If all of them failed to use zero-copy, then
-> > > > warn the user about it.
-> > > >
-> > > > Since it happens once each full dirty-bitmap scan, even in worst case
-> > > > scenario it should not print a lot of warnings, and will allow tracking
-> > > > how many dirty-bitmap iterations were not able to use zero-copy send.
-> > >
-> > > For long running migrations which are not converging, or converging
-> > > very slowly there could be 100's of passes.
-> > >
-> > 
-> > I could change it so it only warns once, if that is too much output.
-> 
-> Well I'm mostly wondering what we're expecting the user todo with this
-> information. Generally a log file containing warnings ends up turning
-> into a bug report. If we think it is important for users and/or mgmt
-> apps to be aware of this info, then it might be better to actually
-> put a field in the query-migrate stats to report if zero-copy is
-> being honoured or not,
+--0000000000005513a005e2825d3a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yeh just a counter would work there I think.
+On Tue, Jun 28, 2022 at 19:15 Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-> and just have a trace point in this location
-> instead.
+> On Tue, 28 Jun 2022 at 14:23, Ani Sinha <ani@anisinha.ca> wrote:
+> > On Tue, Jun 28, 2022 at 6:25 PM Daniel P. Berrang=C3=A9 <berrange@redha=
+t.com>
+> wrote:
+> > > This proposed biosbits test also involves a considerable download.
+> >
+> > I do not think 50 MB is "considerable" . Last time I tried to run
+> > avocado tests, my laptop ran out of disk space!
+>
+> I think 50MB is pretty big. It might be smaller than some other
+> avocado tests, but it's not exactly the "no binary involved"
+> that most qtests are.
 
-Yeh.
 
-Dave
+Well bios-tables-test uses the binary blobs of the acpi tables. Only
+difference is that in this case, we could maintain them within  the qemu
+tree. In this case the blob in slightly larger and comes from a third
+party. That is the difference.
 
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
+
+>
+> > > The test is said to be irrelevant for anyone except those working
+> > > on a fairly narrow set of QEMU firmware related bits.
+> >
+> > Well ok that is just a bad argument. You can say the same thing for
+> > most qtests. In fact, that is why most qtetes can run directly simply
+> > by passing QTEST_QEMU_BINARY in the environment. No need to go through
+> > make check. Same with the bits test. It can be run directly.
+>
+> 'make check' is generally the small, fast, no-binary-blobs tests.
+
+
+See above.
+
+
+> Very few 'make check' tests even run code in the guest.
+
+
+So bits test is similar here. It runs code in the guest vm.
+
+
+>
+> > So by the same
+> > > rationale we shouldn't impose that burden on everyone working on
+> > > QEMU by having it in qtest.
+> >
+> > So why burden everyone by having bios-tables-test when it only affects
+> > acpi/smbios developers?
+>
+> Because it's small and fast and doesn't have a binary blob to download.
+>
+> There are definitely some awkwardnesses with 'check-avocado',
+> but we should work on fixing those, not use them as a reason
+> to refuse to put tests into the avocado tests if that's where
+> they fit best.
+
+
+I think this test fits best in the qtrst not with the integration test
+framework. Very few path developers will ever run it and wrote new tests
+for it if we have it there. I would be terribly discouraged if that=E2=80=
+=99s where
+this test landed.
+
+
+>
+> -- PMM
+>
+
+--0000000000005513a005e2825d3a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Jun 28, 2022 at 19:15 Peter Maydell &lt;<a href=3D"=
+mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex">On Tue, 28 Jun 2022 at 14:23, Ani Sin=
+ha &lt;<a href=3D"mailto:ani@anisinha.ca" target=3D"_blank">ani@anisinha.ca=
+</a>&gt; wrote:<br>
+&gt; On Tue, Jun 28, 2022 at 6:25 PM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
+"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt; =
+wrote:<br>
+&gt; &gt; This proposed biosbits test also involves a considerable download=
+.<br>
+&gt;<br>
+&gt; I do not think 50 MB is &quot;considerable&quot; . Last time I tried t=
+o run<br>
+&gt; avocado tests, my laptop ran out of disk space!<br>
+<br>
+I think 50MB is pretty big. It might be smaller than some other<br>
+avocado tests, but it&#39;s not exactly the &quot;no binary involved&quot;<=
+br>
+that most qtests are.</blockquote><div dir=3D"auto"><br></div><div dir=3D"a=
+uto">Well bios-tables-test uses the binary blobs of the acpi tables. Only d=
+ifference is that in this case, we could maintain them within =C2=A0the qem=
+u tree. In this case the blob in slightly larger and comes from a third par=
+ty. That is the difference.=C2=A0</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+&gt; &gt; The test is said to be irrelevant for anyone except those working=
+<br>
+&gt; &gt; on a fairly narrow set of QEMU firmware related bits.<br>
+&gt;<br>
+&gt; Well ok that is just a bad argument. You can say the same thing for<br=
+>
+&gt; most qtests. In fact, that is why most qtetes can run directly simply<=
+br>
+&gt; by passing QTEST_QEMU_BINARY in the environment. No need to go through=
+<br>
+&gt; make check. Same with the bits test. It can be run directly.<br>
+<br>
+&#39;make check&#39; is generally the small, fast, no-binary-blobs tests.</=
+blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">See above.</div><d=
+iv dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+Very few &#39;make check&#39; tests even run code in the guest.</blockquote=
+><div dir=3D"auto"><br></div><div dir=3D"auto">So bits test is similar here=
+. It runs code in the guest vm.</div><div dir=3D"auto"><br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex" dir=3D"auto"><br>
+<br>
+&gt; So by the same<br>
+&gt; &gt; rationale we shouldn&#39;t impose that burden on everyone working=
+ on<br>
+&gt; &gt; QEMU by having it in qtest.<br>
+&gt;<br>
+&gt; So why burden everyone by having bios-tables-test when it only affects=
+<br>
+&gt; acpi/smbios developers?<br>
+<br>
+Because it&#39;s small and fast and doesn&#39;t have a binary blob to downl=
+oad.<br>
+<br>
+There are definitely some awkwardnesses with &#39;check-avocado&#39;,<br>
+but we should work on fixing those, not use them as a reason<br>
+to refuse to put tests into the avocado tests if that&#39;s where<br>
+they fit best.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I =
+think this test fits best in the qtrst not with the integration test framew=
+ork. Very few path developers will ever run it and wrote new tests for it i=
+f we have it there. I would be terribly discouraged if that=E2=80=99s where=
+ this test landed.</div><div dir=3D"auto"><br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex" dir=3D"auto"><br>
+<br>
+-- PMM<br>
+</blockquote></div></div>
+
+--0000000000005513a005e2825d3a--
 
