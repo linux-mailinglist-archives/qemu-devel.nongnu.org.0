@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3877A55E549
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 16:20:15 +0200 (CEST)
-Received: from localhost ([::1]:34878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6187455E54B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 16:21:27 +0200 (CEST)
+Received: from localhost ([::1]:37770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6C4c-0007re-As
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 10:20:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34922)
+	id 1o6C5m-0001V7-87
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 10:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o6C2c-0006Qa-Ia
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 10:18:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52329)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o6C3x-0007zd-C4
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 10:19:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o6C2Z-0003iu-9q
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 10:18:08 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o6C3u-0003tk-Tq
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 10:19:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656425886;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1656425970;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VfkoGla9yV2IApAdDInulzPRAtcK3Cgvt3Kl2iWt/Aw=;
- b=EhtOMFrASTYQwOmtmlsnfY0R3QmND9lHjSSw2A3JZQoLN4TpAiLIKFHkhno2OkzPOFB5v5
- cA+28zDCioflkRkKlgL9VvWxeXpGTP2U5Rc9ACJSTnv/Vpp1h6GD6smAFAZ37Sw0pHrNzm
- 4zdsI78KFQRcudIxC/QdVaOWD9HSxTs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KPZTgFPJ2H/nmdW+70JgPtdl4Jdz/o/Fi40gVUlSi/k=;
+ b=d6cNUYRgd0rL797rq6tniZzZsYxu9UfoXGPolMn4Y7uKk7fH8/6dcIiwQsDf4SRpd7He6f
+ p9CsGPcoWh63P5karIVyrujAs8lRd8WxbDX1phn6DQiWC8c67K+rl+0XPhiloL6iyIk9I3
+ Fr8v6xNSlLDEW4ZKPexQlFiDVW+t1Rg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-360-B81wodacOXKo7Fh0e9sVPQ-1; Tue, 28 Jun 2022 10:18:04 -0400
-X-MC-Unique: B81wodacOXKo7Fh0e9sVPQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FF2A1C0750E;
- Tue, 28 Jun 2022 14:17:12 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0446040CFD0B;
- Tue, 28 Jun 2022 14:17:10 +0000 (UTC)
-Date: Tue, 28 Jun 2022 15:17:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH 2/2] python/qemu/machine: accept QMP connection
- asynchronously
-Message-ID: <YrsNZAznZrxUr/zr@redhat.com>
-References: <20220628134939.680174-1-marcandre.lureau@redhat.com>
- <20220628134939.680174-3-marcandre.lureau@redhat.com>
+ us-mta-115-KPiNdIw0PJyNmE4o8q0aCw-1; Tue, 28 Jun 2022 10:19:26 -0400
+X-MC-Unique: KPiNdIw0PJyNmE4o8q0aCw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ l9-20020adfa389000000b0021b8b489336so1840482wrb.13
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 07:19:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KPZTgFPJ2H/nmdW+70JgPtdl4Jdz/o/Fi40gVUlSi/k=;
+ b=mSOBY787KqHQKuT8A2Rt8Kpu2VeaqeJ/azd/51adVzjtfFj6B90WOE7oKOPeZC9fzY
+ HaUYanbHglx7dcC+5OEXXlfifS49hS3mGf83KrRlIE1e1XCR3TZbvaJg4mnsgNIag9Q1
+ 2ZrYHNa3cVKrBkZ4/W4Xv2a2jjh6ZWVyHObp21KXJ1lZhzsKumCslccsggPqC09y8ZhG
+ O/a4Dm0OHi78GUHensY+hSjxV3/R/Kodr+Qig+I7slCLEfnBX78opfxL8Dr0TFyx4YBa
+ GLCjXCLCrDUy8C1OqeoYijNSBbkrvKykcIG75Fyodtd9KRqjXADBxdx2l8j2zW7uUVQi
+ lhUA==
+X-Gm-Message-State: AJIora+jN+kJRWPjjgpPApRQEwXYAaLVgREAa4p6xh/crsx8pRYj9yw8
+ QNX1zgaT39fC53jsLo4gRrm36pq+G2IeEOg19diXULVLXJin2n+KmCZD/Oudjfu6Hzp02u5Wmrl
+ 1FU+02HWP1vbeK38=
+X-Received: by 2002:a5d:6d49:0:b0:21b:a3ba:30b5 with SMTP id
+ k9-20020a5d6d49000000b0021ba3ba30b5mr18295339wri.513.1656425965774; 
+ Tue, 28 Jun 2022 07:19:25 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vlUv7us29fsRiZK1CFFCMYC9zPNGEPxnBjwWjDanKB1xiwwkAluNMP9DmG5RsoApwW4j1yvA==
+X-Received: by 2002:a5d:6d49:0:b0:21b:a3ba:30b5 with SMTP id
+ k9-20020a5d6d49000000b0021ba3ba30b5mr18295321wri.513.1656425965516; 
+ Tue, 28 Jun 2022 07:19:25 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ v14-20020a05600c214e00b0039c96b97359sm10895278wml.37.2022.06.28.07.19.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 07:19:25 -0700 (PDT)
+Date: Tue, 28 Jun 2022 16:19:23 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Brice Goglin <Brice.Goglin@inria.fr>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Liu Jingqi
+ <jingqi.liu@intel.com>, Eduardo Habkost <eduardo@habkost.net>, Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>, Philippe =?UTF-8?B?TWF0aGlldS1E?=
+ =?UTF-8?B?YXVkw6k=?= <f4bug@amsat.org>, Yanan Wang
+ <wangyanan55@huawei.com>, Jonathan Cameron <jonathan.cameron@huawei.com>
+Subject: Re: [PATCH 1/4] hmat acpi: Don't require initiator value in -numa
+Message-ID: <20220628161923.5804ec2a@redhat.com>
+In-Reply-To: <7d0c6957-a781-58dc-552b-41afeb8b9c7e@inria.fr>
+References: <d7e41f9c-745d-3ef2-31c3-c5e5921fc025@inria.fr>
+ <7d0c6957-a781-58dc-552b-41afeb8b9c7e@inria.fr>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220628134939.680174-3-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,77 +101,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 05:49:39PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> QMP accept is currently synchronous. If qemu dies before the connection
-> is established, it will wait there. Instead turn the code to do
-> concurrently accept() and wait(). Returns when the first task is
-> completed to determine whether a connection was established.
+On Thu, 23 Jun 2022 16:58:28 +0200
+Brice Goglin <Brice.Goglin@inria.fr> wrote:
 
-If the spawned QEMU process was given -daemonize, won't this code
-mistakenly think the subprocess has quit ?
-
+> The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
+> has a "Processor Proximity Domain Valid" flag that is currently
+> always set because Qemu -numa requires an initiator=X value
+> when hmat=on. Unsetting this flag allows to create more complex
+> memory topologies by having multiple best initiators for a single
+> memory target.
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> This patch allows -numa without initiator=X when hmat=on by keeping
+> the default value MAX_NODES in numa_state->nodes[i].initiator.
+> All places reading numa_state->nodes[i].initiator already check
+> whether it's different from MAX_NODES before using it.
+> 
+> Tested with
+> qemu-system-x86_64 -accel kvm \
+>   -machine pc,hmat=on \
+>   -drive if=pflash,format=raw,file=./OVMF.fd \
+>   -drive media=disk,format=qcow2,file=efi.qcow2 \
+>   -smp 4 \
+>   -m 3G \
+>   -object memory-backend-ram,size=1G,id=ram0 \
+>   -object memory-backend-ram,size=1G,id=ram1 \
+>   -object memory-backend-ram,size=1G,id=ram2 \
+>   -numa node,nodeid=0,memdev=ram0,cpus=0-1 \
+>   -numa node,nodeid=1,memdev=ram1,cpus=2-3 \
+>   -numa node,nodeid=2,memdev=ram2 \
+>   -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \
+>   -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+>   -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \
+>   -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+>   -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+>   -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
+>   -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \
+>   -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+>   -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \
+>   -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+>   -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+>   -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576
+> which reports NUMA node2 at same distance from both node0 and node1 as seen in lstopo:
+> Machine (2966MB total) + Package P#0
+>    NUMANode P#2 (979MB)
+>    Group0
+>      NUMANode P#0 (980MB)
+>      Core P#0 + PU P#0
+>      Core P#1 + PU P#1
+>    Group0
+>      NUMANode P#1 (1007MB)
+>      Core P#2 + PU P#2
+>      Core P#3 + PU P#3
+> 
+> Before this patch, we had to add ",initiator=X" to "-numa node,nodeid=2,memdev=ram2".
+> The lstopo output difference between initiator=1 and no initiator is:
+> @@ -1,10 +1,10 @@
+>   Machine (2966MB total) + Package P#0
+> +  NUMANode P#2 (979MB)
+>     Group0
+>       NUMANode P#0 (980MB)
+>       Core P#0 + PU P#0
+>       Core P#1 + PU P#1
+>     Group0
+>       NUMANode P#1 (1007MB)
+> -    NUMANode P#2 (979MB)
+>       Core P#2 + PU P#2
+>       Core P#3 + PU P#3
+> 
+> Corresponding changes in the HMAT MPDA structure:
+> @@ -49,10 +49,10 @@
+>   [078h 0120   2]               Structure Type : 0000 [Memory Proximity Domain Attributes]
+>   [07Ah 0122   2]                     Reserved : 0000
+>   [07Ch 0124   4]                       Length : 00000028
+> -[080h 0128   2]        Flags (decoded below) : 0001
+> -            Processor Proximity Domain Valid : 1
+> +[080h 0128   2]        Flags (decoded below) : 0000
+> +            Processor Proximity Domain Valid : 0
+>   [082h 0130   2]                    Reserved1 : 0000
+> -[084h 0132   4] Attached Initiator Proximity Domain : 00000001
+> +[084h 0132   4] Attached Initiator Proximity Domain : 00000080
+                                                         ^^^^^^^^
+where does this value come from?
+
+
+>   [088h 0136   4]      Memory Proximity Domain : 00000002
+>   [08Ch 0140   4]                    Reserved2 : 00000000
+>   [090h 0144   8]                    Reserved3 : 0000000000000000
+> 
+> Final HMAT SLLB structures:
+> [0A0h 0160   2]               Structure Type : 0001 [System Locality Latency and Bandwidth Information]
+> [0A2h 0162   2]                     Reserved : 0000
+> [0A4h 0164   4]                       Length : 00000040
+> [0A8h 0168   1]        Flags (decoded below) : 00
+>                              Memory Hierarchy : 0
+> [0A9h 0169   1]                    Data Type : 00
+> [0AAh 0170   2]                    Reserved1 : 0000
+> [0ACh 0172   4] Initiator Proximity Domains # : 00000002
+> [0B0h 0176   4]   Target Proximity Domains # : 00000003
+> [0B4h 0180   4]                    Reserved2 : 00000000
+> [0B8h 0184   8]              Entry Base Unit : 0000000000002710
+> [0C0h 0192   4] Initiator Proximity Domain List : 00000000
+> [0C4h 0196   4] Initiator Proximity Domain List : 00000001
+> [0C8h 0200   4] Target Proximity Domain List : 00000000
+> [0CCh 0204   4] Target Proximity Domain List : 00000001
+> [0D0h 0208   4] Target Proximity Domain List : 00000002
+> [0D4h 0212   2]                        Entry : 0001
+> [0D6h 0214   2]                        Entry : 0002
+> [0D8h 0216   2]                        Entry : 0003
+> [0DAh 0218   2]                        Entry : 0002
+> [0DCh 0220   2]                        Entry : 0001
+> [0DEh 0222   2]                        Entry : 0003
+> 
+> [0E0h 0224   2]               Structure Type : 0001 [System Locality Latency and Bandwidth Information]
+> [0E2h 0226   2]                     Reserved : 0000
+> [0E4h 0228   4]                       Length : 00000040
+> [0E8h 0232   1]        Flags (decoded below) : 00
+>                              Memory Hierarchy : 0
+> [0E9h 0233   1]                    Data Type : 03
+> [0EAh 0234   2]                    Reserved1 : 0000
+> [0ECh 0236   4] Initiator Proximity Domains # : 00000002
+> [0F0h 0240   4]   Target Proximity Domains # : 00000003
+> [0F4h 0244   4]                    Reserved2 : 00000000
+> [0F8h 0248   8]              Entry Base Unit : 0000000000000001
+> [100h 0256   4] Initiator Proximity Domain List : 00000000
+> [104h 0260   4] Initiator Proximity Domain List : 00000001
+> [108h 0264   4] Target Proximity Domain List : 00000000
+> [10Ch 0268   4] Target Proximity Domain List : 00000001
+> [110h 0272   4] Target Proximity Domain List : 00000002
+> [114h 0276   2]                        Entry : 000A
+> [116h 0278   2]                        Entry : 0005
+> [118h 0280   2]                        Entry : 0001
+> [11Ah 0282   2]                        Entry : 0005
+> [11Ch 0284   2]                        Entry : 000A
+> [11Eh 0286   2]                        Entry : 0001
+> 
+> Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
 > ---
->  python/qemu/machine/machine.py | 11 ++++++++++-
->  python/qemu/qmp/legacy.py      | 10 ++++++++++
->  2 files changed, 20 insertions(+), 1 deletion(-)
+>   hw/core/machine.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-> index 55c45f4b1205..5e2df7dc5055 100644
-> --- a/python/qemu/machine/machine.py
-> +++ b/python/qemu/machine/machine.py
-> @@ -362,9 +362,18 @@ def _pre_launch(self) -> None:
->              self._args
->          ))
->  
-> +    async def _async_accept(self) -> bool:
-> +        accept = asyncio.create_task(self._qmp.async_accept())
-> +        wait = asyncio.create_task(self._subproc.wait())
-> +        done, pending = await asyncio.wait([accept, wait],
-> +                                           return_when=asyncio.FIRST_COMPLETED)
-> +        return accept in done
-> +
->      def _post_launch(self) -> None:
->          if self._qmp_connection:
-> -            self._qmp.accept(self._qmp_timer)
-> +            accepted = self._sync(self._async_accept())
-> +            if not accepted:
-> +                raise QEMUMachineError('VM returned before QMP accept')
->  
->      def _close_qemu_log_file(self) -> None:
->          if self._qemu_log_file is not None:
-> diff --git a/python/qemu/qmp/legacy.py b/python/qemu/qmp/legacy.py
-> index 03b5574618fa..88bdbfb6e350 100644
-> --- a/python/qemu/qmp/legacy.py
-> +++ b/python/qemu/qmp/legacy.py
-> @@ -167,6 +167,16 @@ def accept(self, timeout: Optional[float] = 15.0) -> QMPMessage:
->          assert ret is not None
->          return ret
->  
-> +    async def async_accept(self) -> QMPMessage:
-> +        self._qmp.await_greeting = True
-> +        self._qmp.negotiate = True
-> +
-> +        await self._qmp.accept()
-> +
-> +        ret = self._get_greeting()
-> +        assert ret is not None
-> +        return ret
-> +
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index a673302cce..d4d7e77401 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -1173,9 +1173,7 @@ static void numa_validate_initiator(NumaState *numa_state)
+>   
+>       for (i = 0; i < numa_state->num_nodes; i++) {
+>           if (numa_info[i].initiator == MAX_NODES) {
+> -            error_report("The initiator of NUMA node %d is missing, use "
+> -                         "'-numa node,initiator' option to declare it", i);
+> -            exit(1);
+> +            continue;
+>           }
+>   
+>           if (!numa_info[numa_info[i].initiator].present) {
 
 
