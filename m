@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9D655BE35
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 06:37:17 +0200 (CEST)
-Received: from localhost ([::1]:51130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A3655BE39
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 06:41:12 +0200 (CEST)
+Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o62yR-0006Kb-Tn
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 00:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
+	id 1o632F-0003p0-Ko
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 00:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o62jU-0001Zz-Ju
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:21:48 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:36576)
+ id 1o62jW-0001dO-V0
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:21:51 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:46025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o62jS-0003gy-Qc
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:21:48 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- c6-20020a17090abf0600b001eee794a478so3905963pjs.1
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:21:46 -0700 (PDT)
+ id 1o62jU-0003hL-NI
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:21:50 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id 184so10986344pga.12
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:21:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Olqir63f5/Kf497Jw21bcj1fKrQr3VFFu+FKw75pZwk=;
- b=bfYhMfmL4GOvEmNB83NFv7ZbJn2xG2jPRxrvf1Ex9XozX66c1VdDWvm3QbDm9OxsEB
- F+C4EaQeg/NjWGq3wQPZIx9qdO5RvjiC5JvRkliREU4nzcf/tUBnHfAKl7tsHsmXfMYz
- vfygeQty2mWCRBKtCYPFNBiwCFCekmOsBrteKfY23RwffBxYCluMLXUdUPAaFc0DcnIr
- NWBegp7XJ8pPJ0XZ4wM8e4XU4obUkXcmCxn7qDKzO3G91gl3QLQsYK6gFlyIYKhY3T1Q
- yBwqn0B1ZuhuXy3ku2ki1VFSh17q/4m9IrM0Is1hZ/0ug+tn5RVA1axyRIqSKPW61ouc
- upUQ==
+ bh=LkdgUQ+JvOvBJ2qAkFuSD3rXAe1IkZmBYBBm8jukjA4=;
+ b=QbggUhIktc0UPG9RF7U2SEGR4WhLywA5SjCbibXV+ZHv2ay0YJEVb06xg7sW0BKFr1
+ Bshux9D3k419xa3WJdYsCXkFVxw5/L0Aeuh1lwvd3QC+D40AUIBCEOQSZuiLizuu6j1h
+ 4YTCDKLMWQVqkX972L4rcT4KJgofLbwZWEE1YHZ/ELBQSBU0Kg8njfMAchkn8qhnMf1H
+ PU+WI7Lja9MqjBiYX11J5P5YXrme7KckpILfis/4dx+5wS68LkFlAMSTqtNsNC5e4HAc
+ gRmzg414/YlGTIleOkTNbqLu9gIxdcbXgtYe8SsifdC94wWlZ6FS1NF2QT+1CZW57mw6
+ HglA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Olqir63f5/Kf497Jw21bcj1fKrQr3VFFu+FKw75pZwk=;
- b=sZDzqccdpMb6xK3y63WAUPc2oeE2JoMwzTQOpYUb73+JNU+yKOMGWjCfDsBfyk4w9g
- v9qgYLW4JzyB+HoRMrd2o99E9Fq1uY1gbJbQWz0PXZ+dnDC0xB7O6fp9jlguHJdKRFI6
- uEKDkAC2qvNsEeKNe0WHXygIKW1Xt4Z5UUBDFKRe691dj3BQB5XfSTMMH7mhgWIS924/
- 9d0//EpnJyCqYXk85h+DXNgb4Y/4wbh95/QkF1PhYAsPwBAtYoJqdr+V3K3/o7JEmGas
- hAJX8RSHHKiyeYgWaYQBSq6a7PJtb7GAen5vvDrkvnlPAj8bISfhRhll6F0pj3X81q9V
- Ma3g==
-X-Gm-Message-State: AJIora92bG8eIjloxIroSH1MBCSgFO9znwLeU3HJ+6uhKrApNTCCfaJT
- 7LTUzkbreA+R46jkvcHrwbIu4vSXMIX3zg==
-X-Google-Smtp-Source: AGRyM1tXOsS54Y1goUNlkBsvJVLrd3FXeQvLLl73UvGD1+cT969usfjpbHOM3imqJYrE16YuJWMX4A==
-X-Received: by 2002:a17:90b:4f41:b0:1ed:712:fd80 with SMTP id
- pj1-20020a17090b4f4100b001ed0712fd80mr24306641pjb.224.1656390105386; 
- Mon, 27 Jun 2022 21:21:45 -0700 (PDT)
+ bh=LkdgUQ+JvOvBJ2qAkFuSD3rXAe1IkZmBYBBm8jukjA4=;
+ b=iu52dLh06nXq/P/fYtRzI23Trhd98uKCUV0LfZp10oLGSjs1X9L5uJI7HipynDal5v
+ ZAevlm8hsXiL/RoBkoh9/y2/EkBsAJRo1rBRnKy1VkluZPflxOH/ZVF62BN84sVfwnmH
+ CZIWyVqmb4LqN7tddJiU9DkQLNJFhxFaSCJIRuhslDJ34gU8M51LbnW3pHV5D1/fql/m
+ KXe/A14LkLXhtFXSb9uVDwetOih1eELxL/sw+HdCnXAdJ38+yPbRery2m0V0Ya+Ra0Iz
+ i2Q9YE7m/XsJG4wTT/74ltoxEce43SPMAA7+hobeftaQkPqhETKuDPgniMoEyfjqSWW1
+ 6OMQ==
+X-Gm-Message-State: AJIora8E7gu3o95z9fscKY/ti49hVrtGPRQGtZgsaxaTHhsWTOp0rVyS
+ /xzU1yQuuF66VJVwu8bbKZ9zHiR7A/aU1Q==
+X-Google-Smtp-Source: AGRyM1s/87mdDczgQatotnePdMd83v7jk6eb95nfNnS8/m6e9WOYr51+yZnSlpuJWQnFHojPUMM9OA==
+X-Received: by 2002:a63:2b8c:0:b0:3fe:2062:c14b with SMTP id
+ r134-20020a632b8c000000b003fe2062c14bmr15655533pgr.345.1656390107477; 
+ Mon, 27 Jun 2022 21:21:47 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- jg6-20020a17090326c600b0016a087cfad8sm7994929plb.264.2022.06.27.21.21.43
+ jg6-20020a17090326c600b0016a087cfad8sm7994929plb.264.2022.06.27.21.21.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:21:45 -0700 (PDT)
+ Mon, 27 Jun 2022 21:21:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH v4 10/45] target/arm: Mark string/histo/crypto as non-streaming
-Date: Tue, 28 Jun 2022 09:50:42 +0530
-Message-Id: <20220628042117.368549-11-richard.henderson@linaro.org>
+Subject: [PATCH v4 11/45] target/arm: Mark gather/scatter load/store as
+ non-streaming
+Date: Tue, 28 Jun 2022 09:50:43 +0530
+Message-Id: <20220628042117.368549-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220628042117.368549-1-richard.henderson@linaro.org>
 References: <20220628042117.368549-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,87 +93,86 @@ if full a64 support is not enabled in streaming mode.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sme-fa64.decode |  1 -
- target/arm/translate-sve.c | 35 ++++++++++++++++++-----------------
- 2 files changed, 18 insertions(+), 18 deletions(-)
+ target/arm/sme-fa64.decode | 9 ---------
+ target/arm/translate-sve.c | 6 ++++++
+ 2 files changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/target/arm/sme-fa64.decode b/target/arm/sme-fa64.decode
-index d3039a8bb2..4683850fa5 100644
+index 4683850fa5..711636ed30 100644
 --- a/target/arm/sme-fa64.decode
 +++ b/target/arm/sme-fa64.decode
-@@ -58,7 +58,6 @@ FAIL    1100 1110 ---- ---- ---- ---- ---- ----   # Advanced SIMD cryptography e
+@@ -58,19 +58,10 @@ FAIL    1100 1110 ---- ---- ---- ---- ---- ----   # Advanced SIMD cryptography e
  #       --11 1100 --1- ---- ---- ---- ---- --10   # Load/store FP register (register offset)
  #       --11 1101 ---- ---- ---- ---- ---- ----   # Load/store FP register (scaled imm)
  
--FAIL    0100 0101 --1- ---- 1--- ---- ---- ----   # SVE2 string/histo/crypto instructions
- FAIL    1000 010- -00- ---- 10-- ---- ---- ----   # SVE2 32-bit gather NT load (vector+scalar)
+-FAIL    1000 010- -00- ---- 10-- ---- ---- ----   # SVE2 32-bit gather NT load (vector+scalar)
  FAIL    1000 010- -00- ---- 111- ---- ---- ----   # SVE 32-bit gather prefetch (vector+imm)
  FAIL    1000 0100 0-1- ---- 0--- ---- ---- ----   # SVE 32-bit gather prefetch (scalar+vector)
+-FAIL    1000 010- -01- ---- 1--- ---- ---- ----   # SVE 32-bit gather load (vector+imm)
+-FAIL    1000 0100 0-0- ---- 0--- ---- ---- ----   # SVE 32-bit gather load byte (scalar+vector)
+-FAIL    1000 0100 1--- ---- 0--- ---- ---- ----   # SVE 32-bit gather load half (scalar+vector)
+-FAIL    1000 0101 0--- ---- 0--- ---- ---- ----   # SVE 32-bit gather load word (scalar+vector)
+ FAIL    1010 010- ---- ---- 011- ---- ---- ----   # SVE contiguous FF load (scalar+scalar)
+ FAIL    1010 010- ---1 ---- 101- ---- ---- ----   # SVE contiguous NF load (scalar+imm)
+ FAIL    1010 010- -10- ---- 000- ---- ---- ----   # SVE load & replicate 32 bytes (scalar+scalar)
+ FAIL    1010 010- -100 ---- 001- ---- ---- ----   # SVE load & replicate 32 bytes (scalar+imm)
+ FAIL    1100 010- ---- ---- ---- ---- ---- ----   # SVE 64-bit gather load/prefetch
+-FAIL    1110 010- -00- ---- 001- ---- ---- ----   # SVE2 64-bit scatter NT store (vector+scalar)
+-FAIL    1110 010- -10- ---- 001- ---- ---- ----   # SVE2 32-bit scatter NT store (vector+scalar)
+-FAIL    1110 010- ---- ---- 1-0- ---- ---- ----   # SVE scatter store (scalar+32-bit vector)
+-FAIL    1110 010- ---- ---- 101- ---- ---- ----   # SVE scatter store (misc)
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 7524d713ab..4c28cc9200 100644
+index 4c28cc9200..a50b2f485b 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -7106,21 +7106,21 @@ DO_SVE2_ZZZ_NARROW(RSUBHNT, rsubhnt)
- static gen_helper_gvec_flags_4 * const match_fns[4] = {
-     gen_helper_sve2_match_ppzz_b, gen_helper_sve2_match_ppzz_h, NULL, NULL
- };
--TRANS_FEAT(MATCH, aa64_sve2, do_ppzz_flags, a, match_fns[a->esz])
-+TRANS_FEAT_NONSTREAMING(MATCH, aa64_sve2, do_ppzz_flags, a, match_fns[a->esz])
- 
- static gen_helper_gvec_flags_4 * const nmatch_fns[4] = {
-     gen_helper_sve2_nmatch_ppzz_b, gen_helper_sve2_nmatch_ppzz_h, NULL, NULL
- };
--TRANS_FEAT(NMATCH, aa64_sve2, do_ppzz_flags, a, nmatch_fns[a->esz])
-+TRANS_FEAT_NONSTREAMING(NMATCH, aa64_sve2, do_ppzz_flags, a, nmatch_fns[a->esz])
- 
- static gen_helper_gvec_4 * const histcnt_fns[4] = {
-     NULL, NULL, gen_helper_sve2_histcnt_s, gen_helper_sve2_histcnt_d
- };
--TRANS_FEAT(HISTCNT, aa64_sve2, gen_gvec_ool_arg_zpzz,
--           histcnt_fns[a->esz], a, 0)
-+TRANS_FEAT_NONSTREAMING(HISTCNT, aa64_sve2, gen_gvec_ool_arg_zpzz,
-+                        histcnt_fns[a->esz], a, 0)
- 
--TRANS_FEAT(HISTSEG, aa64_sve2, gen_gvec_ool_arg_zzz,
--           a->esz == 0 ? gen_helper_sve2_histseg : NULL, a, 0)
-+TRANS_FEAT_NONSTREAMING(HISTSEG, aa64_sve2, gen_gvec_ool_arg_zzz,
-+                        a->esz == 0 ? gen_helper_sve2_histseg : NULL, a, 0)
- 
- DO_ZPZZ_FP(FADDP, aa64_sve2, sve2_faddp_zpzz)
- DO_ZPZZ_FP(FMAXNMP, aa64_sve2, sve2_fmaxnmp_zpzz)
-@@ -7234,20 +7234,21 @@ TRANS_FEAT(SQRDCMLAH_zzzz, aa64_sve2, gen_gvec_ool_zzzz,
- TRANS_FEAT(USDOT_zzzz, aa64_sve_i8mm, gen_gvec_ool_arg_zzzz,
-            a->esz == 2 ? gen_helper_gvec_usdot_b : NULL, a, 0)
- 
--TRANS_FEAT(AESMC, aa64_sve2_aes, gen_gvec_ool_zz,
--           gen_helper_crypto_aesmc, a->rd, a->rd, a->decrypt)
-+TRANS_FEAT_NONSTREAMING(AESMC, aa64_sve2_aes, gen_gvec_ool_zz,
-+                        gen_helper_crypto_aesmc, a->rd, a->rd, a->decrypt)
- 
--TRANS_FEAT(AESE, aa64_sve2_aes, gen_gvec_ool_arg_zzz,
--           gen_helper_crypto_aese, a, false)
--TRANS_FEAT(AESD, aa64_sve2_aes, gen_gvec_ool_arg_zzz,
--           gen_helper_crypto_aese, a, true)
-+TRANS_FEAT_NONSTREAMING(AESE, aa64_sve2_aes, gen_gvec_ool_arg_zzz,
-+                        gen_helper_crypto_aese, a, false)
-+TRANS_FEAT_NONSTREAMING(AESD, aa64_sve2_aes, gen_gvec_ool_arg_zzz,
-+                        gen_helper_crypto_aese, a, true)
- 
--TRANS_FEAT(SM4E, aa64_sve2_sm4, gen_gvec_ool_arg_zzz,
--           gen_helper_crypto_sm4e, a, 0)
--TRANS_FEAT(SM4EKEY, aa64_sve2_sm4, gen_gvec_ool_arg_zzz,
--           gen_helper_crypto_sm4ekey, a, 0)
-+TRANS_FEAT_NONSTREAMING(SM4E, aa64_sve2_sm4, gen_gvec_ool_arg_zzz,
-+                        gen_helper_crypto_sm4e, a, 0)
-+TRANS_FEAT_NONSTREAMING(SM4EKEY, aa64_sve2_sm4, gen_gvec_ool_arg_zzz,
-+                        gen_helper_crypto_sm4ekey, a, 0)
- 
--TRANS_FEAT(RAX1, aa64_sve2_sha3, gen_gvec_fn_arg_zzz, gen_gvec_rax1, a)
-+TRANS_FEAT_NONSTREAMING(RAX1, aa64_sve2_sha3, gen_gvec_fn_arg_zzz,
-+                        gen_gvec_rax1, a)
- 
- TRANS_FEAT(FCVTNT_sh, aa64_sve2, gen_gvec_fpst_arg_zpz,
-            gen_helper_sve2_fcvtnt_sh, a, 0, FPST_FPCR)
+@@ -5669,6 +5669,7 @@ static bool trans_LD1_zprz(DisasContext *s, arg_LD1_zprz *a)
+     if (!dc_isar_feature(aa64_sve, s)) {
+         return false;
+     }
++    s->is_nonstreaming = true;
+     if (!sve_access_check(s)) {
+         return true;
+     }
+@@ -5700,6 +5701,7 @@ static bool trans_LD1_zpiz(DisasContext *s, arg_LD1_zpiz *a)
+     if (!dc_isar_feature(aa64_sve, s)) {
+         return false;
+     }
++    s->is_nonstreaming = true;
+     if (!sve_access_check(s)) {
+         return true;
+     }
+@@ -5734,6 +5736,7 @@ static bool trans_LDNT1_zprz(DisasContext *s, arg_LD1_zprz *a)
+     if (!dc_isar_feature(aa64_sve2, s)) {
+         return false;
+     }
++    s->is_nonstreaming = true;
+     if (!sve_access_check(s)) {
+         return true;
+     }
+@@ -5857,6 +5860,7 @@ static bool trans_ST1_zprz(DisasContext *s, arg_ST1_zprz *a)
+     if (!dc_isar_feature(aa64_sve, s)) {
+         return false;
+     }
++    s->is_nonstreaming = true;
+     if (!sve_access_check(s)) {
+         return true;
+     }
+@@ -5887,6 +5891,7 @@ static bool trans_ST1_zpiz(DisasContext *s, arg_ST1_zpiz *a)
+     if (!dc_isar_feature(aa64_sve, s)) {
+         return false;
+     }
++    s->is_nonstreaming = true;
+     if (!sve_access_check(s)) {
+         return true;
+     }
+@@ -5921,6 +5926,7 @@ static bool trans_STNT1_zprz(DisasContext *s, arg_ST1_zprz *a)
+     if (!dc_isar_feature(aa64_sve2, s)) {
+         return false;
+     }
++    s->is_nonstreaming = true;
+     if (!sve_access_check(s)) {
+         return true;
+     }
 -- 
 2.34.1
 
