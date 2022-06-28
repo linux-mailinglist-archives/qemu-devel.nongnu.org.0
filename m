@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40A455C032
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:31:54 +0200 (CEST)
-Received: from localhost ([::1]:46614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BF155C03B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:34:11 +0200 (CEST)
+Received: from localhost ([::1]:50478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68Vc-0006mW-9J
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:31:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53890)
+	id 1o68Xq-0001Ai-Is
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:34:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o68SS-0004Qv-4p
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:28:36 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:41578)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o68U7-0006XS-Rw
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:30:19 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:41768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o68SQ-0001dM-Bs
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:28:35 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id u12so24755761eja.8
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:28:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o68U5-0001z6-HU
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:30:19 -0400
+Received: by mail-ed1-x534.google.com with SMTP id cf14so16894422edb.8
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=qmayKHSKODDp41JQbkXBxX3IxzEacFxNqWNsvyDmGn0=;
- b=3mmeU5YvB6o3AjxDXq5x/LGehBzlWKLZAL/vaE0P8FKcywbUcqQmpBMIyhBwPVpPfK
- BHwsT7RzIxXq8w2dFxSE6q54+NavD/cNULP86UIwr3F8T5SSCNGOD0v/Q0xdykc8u4+Y
- cvYE2mwbwqeDDaEpYKybAPua+pv+bxGkoEHPDiutGL4HUpbmwlhefdP1eo+mlPJ49A+9
- Re42FlwaC0wsNiJlOyyfx+4CrYUUlggVdUEuqK9V7JHJZ2+808TLD629XmF2Vc3Ykfy5
- AvyU5ls/ehUhoygemBfJBnEb6Lu6x3BF5ywbnJX4egsbiR/kEA2HmRjd/ymqvnPjOZTQ
- L3iQ==
+ bh=QSc+jfDFweX5wWvK9edkW7IA+IJBs5k6ZYkc0eCc1DA=;
+ b=jT/4u8bh6AkF6F2093KHWTIvMVNP6C81jOUOFCPz2pPzn7uqeacqvbw5xmx/Zq+uF2
+ nyOeUXT2OSC6kqv27bOfzmUHXArYtDH/zpzBddzAVh8xoaiKPlxdmhRxVHP0GQPr8X84
+ 2Zkma9e3Syy6IGf1/haX0llC0eoei5lSOjMIjurFHv9kJW7L/yW3u4EdYpqEUelAtmM1
+ DvanqqFPWTnMpBDOnpt06cC3xMfWg0h6K7XZAaa+IwcoG5gsrz7cMfILkK8HDWnXR0s8
+ 3i4Ks0aj0wN13X4oUttkUTsDcsCjBITMNVQVN1yZRnef5BMcB477duR6SXLCPl0PCHut
+ XbSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=qmayKHSKODDp41JQbkXBxX3IxzEacFxNqWNsvyDmGn0=;
- b=8Bmp0NRJFvssiJIekztX9yccu8jFzQTDKaEu3LFodLusnaFiGZNCTySbCNf0qda6GJ
- +4hNCS1p8xVARUVrnteT6Iu78eUXYovKlFivfX1YvJuOcij9apReT+mwyZHsjf6cTlag
- FpFcaGH1csrWKHPtPqMKI8RbYbxOVk6kv+RfHUUau9umX/fcaRVO7WzjPXVd44odG8ul
- 7JxzV+kNtGVZ4n3xAyPFiaRQ18QQGCevpU9lEQN23Zyuv2q4i6b+MPiuq52OeFIDUcCg
- Qb56wWk/P6QEdGGgDRSA2JDPBxZzLYeBEO/LuLV93M32ucr02mmT1b6CPr5hX9XZeOMe
- w25w==
-X-Gm-Message-State: AJIora9qD1a21vAuKQnHX5MmVEhmDKa3BTYHhprWgVeVQBU2NuH6vaJ6
- nKNY0Y3k2skm5VP0j8NOtanxme0D2mrLIQhCiOVyyw==
-X-Google-Smtp-Source: AGRyM1s8uxBnEoq5x08oKA1ZHUw9S+kMyfD+RhjTabFO+AApMkQQlJgBiRK9TCc84xXNg7KzKgcRGj54vvai83EeyxU=
-X-Received: by 2002:a17:906:53c7:b0:711:d2e9:99d4 with SMTP id
- p7-20020a17090653c700b00711d2e999d4mr17256848ejo.716.1656412112666; Tue, 28
- Jun 2022 03:28:32 -0700 (PDT)
+ bh=QSc+jfDFweX5wWvK9edkW7IA+IJBs5k6ZYkc0eCc1DA=;
+ b=GakpMUDB18WnNB1Rcwka1fm0DUSNrVD9UPTZwnlh4uNlRo1Zm9BF8W0+NZKTu3wSjw
+ mZLx8u89NnlabsmAkwL6u2Og4nqLeT13lwg6IsW+o579ghWESXboYUuY5CXfRMHlut8Q
+ 2wrb4cmUirDaom/TOFtjb3e5wqhGdONIqddFkme2C4lST+xkvO3TkplW5LMDzXjOxLKo
+ Ncxic1Gj4ZqKxXG7/mDTe3JDwsIdSmrGWNqjP8N2aiXubJ1/llT/EMCImY+MTML3KAQj
+ N4g0Ix0hJwxxv7dL3TYudhPXouOmuZR6jA7qU6ttYDJJON5AK00jI6MHyh36/xy08w9y
+ 4aRA==
+X-Gm-Message-State: AJIora/v1BK5JdXP2Ppg2LxCM+30szV1w13hTwrSLXcT/2lKO6f9Sheg
+ juHizh2dhSQn09t3lgW9WDXV2VYqPGxc/9cueVbR0w==
+X-Google-Smtp-Source: AGRyM1tcRaOQymDi8WtKN3wJWZs6F3QAD+0AvK6+x3Tz1IcRkqyNyerz1Ovj+WOLiBD2GgiVonAZRARyO9ClScgcd40=
+X-Received: by 2002:a05:6402:524d:b0:437:8d2e:c675 with SMTP id
+ t13-20020a056402524d00b004378d2ec675mr14161584edd.65.1656412211514; Tue, 28
+ Jun 2022 03:30:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
+References: <CAARzgwyWK2HNbz=9=uoA+DDTpnn2q3CRmYVyjLwfMs1wi24-LA@mail.gmail.com>
+ <20220628024810-mutt-send-email-mst@kernel.org>
+ <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
  <4e1c2a45-eb53-e210-1ce1-05837bf1e7c3@redhat.com>
  <20220628030749-mutt-send-email-mst@kernel.org>
  <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
@@ -56,24 +58,22 @@ References: <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
  <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
  <Yrq6anPW60FkjmK6@redhat.com>
  <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <YrrSFig7Qo/PKqNx@redhat.com> <20220628060510-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220628060510-mutt-send-email-mst@kernel.org>
+ <YrrUnfHwmu50JrJD@redhat.com>
+In-Reply-To: <YrrUnfHwmu50JrJD@redhat.com>
 From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 28 Jun 2022 15:58:21 +0530
-Message-ID: <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
+Date: Tue, 28 Jun 2022 16:00:00 +0530
+Message-ID: <CAARzgwz5jKne-qqThoWij78ZjGiUfb0q1wPnc=Ch2agvJJn_Dg@mail.gmail.com>
 Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
  acpi/tests/bits: add README file for bits qtests)
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- imammedo@redhat.com
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ John Snow <jsnow@redhat.com>, 
+ qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::62c;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62c.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::534;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,31 +95,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 3:37 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+On Tue, Jun 28, 2022 at 3:45 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> On Tue, Jun 28, 2022 at 11:04:30AM +0100, Daniel P. Berrang=C3=A9 wrote:
-> > If it is actually booting a real guest image (from biosbits) and intera=
-cting
-> > with it, then it does feel like the scope of this testing is more appro=
-priate
-> > to QEMU's avocado framework than qtest, especially given the desire to =
-use
-> > python for it all.
+> On Tue, Jun 28, 2022 at 10:28:04AM +0200, Thomas Huth wrote:
+> > On 28/06/2022 10.23, Daniel P. Berrang=C3=A9 wrote:
+> > > On Tue, Jun 28, 2022 at 01:21:35PM +0530, Ani Sinha wrote:
+> > > > On Tue, Jun 28, 2022 at 1:19 PM Daniel P. Berrang=C3=A9 <berrange@r=
+edhat.com> wrote:
+> > > > >
+> > > > > On Tue, Jun 28, 2022 at 09:25:35AM +0200, Thomas Huth wrote:
+> > > > > > On 28/06/2022 09.10, Michael S. Tsirkin wrote:
+> > > > > > > On Tue, Jun 28, 2022 at 09:03:33AM +0200, Thomas Huth wrote:
+> > > > > > > > > > > > > > No problem with that. So that's venv. But do we=
+ need pip and pulling
+> > > > > > > > > > > > > > packages from the net during testing?
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > We do that too. See requirements.txt in tests/
+> > > > > > > > > > > > > Following two are downloaded:
+> > > > > > > > > > > > > avocado-framework=3D=3D88.1
+> > > > > > > > > > > > > pycdlib=3D=3D1.11.0
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Also see this line in Makefie.include:
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > $(call quiet-venv-pip,install -r $(TESTS_VENV_REQ=
+))
+> > > > > > > > > > > >
+> > > > > > > > > > > > Right but that's avocado since it pulls lots of stu=
+ff from
+> > > > > > > > > > > > the net anyway.
+> > > > > > > > > > > > Are the libraries in question not packaged on major=
+ distros?
+> > > > > > > > > > >
+> > > > > > > > > > > Currently I only need this:
+> > > > > > > > > > > https://github.com/python-tap/tappy
+> > > > > > > > > > > which is the basic TAP processing library for python.
+> > > > > > > > > > >
+> > > > > > > > > > > It seems its only installed through pip:
+> > > > > > > > > > > https://tappy.readthedocs.io/en/latest/
+> > > > > > > > > > >
+> > > > > > > > > > > I do not think this is packaged by default. It's such=
+ a basic library
+> > > > > > > > > > > for parsing test output that maybe we can keep this s=
+omewhere within
+> > > > > > > > > > > the python src tree? Not sure ...
+> > > > > > > > > >
+> > > > > > > > > > It's pretty small for sure. Another submodule?
+> > > > > > > > >
+> > > > > > > > > Unlike BITS, this one is likely going to be maintained fo=
+r a while and
+> > > > > > > > > will receive new releases through
+> > > > > > > > > https://pypi.org/project/tap.py/
+> > > > > > > > > so forking is OK but someone has to keep this updated.
+> > > > > > > > >
+> > > > > > > > > I am open to anything. Whatever feels right is fine to me=
+.
+> > > > > > > >
+> > > > > > > > John Snow is currently working on the "Pythonification" of =
+various QEMU
+> > > > > > > > bits, I think you should loop him into this discussion, too=
+.
+> > > > > > > >
+> > > > > > > >    Thomas
+> > > > > > >
+> > > > > > > submodule does not mean we fork necessarily. We could have
+> > > > > > > all options: check for the module and use it if there, if not
+> > > > > > > use one from system if not there install with pip ..
+> > > > > > > But yea, I'm not sure what's best either.
+> > > > > >
+> > > > > > submodules create a dependency on an internet connection, too. =
+So before you
+> > > > > > add yet another submodule (which have a couple of other disadva=
+ntages), I
+> > > > > > think you could also directly use the venv here.
+> > > > >
+> > > > > Definitely not submodules.
+> > > > >
+> > > > > We need to get out of the mindset that submodules are needed for =
+every new
+> > > > > dependancy we add. Submodules are only appropriate if the externa=
+l project
+> > > > > is designed to be used as a copylib (eg the keycodemapdb tool), o=
+r if we
+> > > > > need to bundle in order to prevent a regression for previously de=
+ployed
+> > > > > QEMU installs where the dependancy is known not to exist on all o=
+ur
+> > > > > supported platforms.
+> > > > >
+> > > > > This does not apply in this case, because the proposed use of tap=
+py is
+> > > > > merely for a test case. Meson just needs to check if tappy exists=
+ and if
+> > > > > it does, then use it, otherwise skip the tests that need it. The =
+user can
+> > > > > arrange to install tappy, as they do with the majority of other d=
+eps.
+> > > > >
+> > > > > If John's venv stuff is relevant, then we don't even need the mes=
+on checks,
+> > > > > just delegate to the venv setup.
+> > > > >
+> > > > > Regardless, no submodules are needed or desirable.
+> > > >
+> > > > What about keeping biosbits stuff? Source or pre-built.
+> > >
+> > > Shipping them as pre-built binaries in QEMU is not a viable option
+> > > IMHO, especially for grub as a GPL'd project we need to be extremely
+> > > clear about the exact corresponding source and build process for any
+> > > binary.
+> > >
+> > > For this kind of thing I would generally expect the distro to provide
+> > > packages that we consume. Looking at biosbits I see it is itself
+> > > bundling a bunch more 3rd party projects, libffi, grub2, and includin=
+g
+> > > even an ancient version of python as a submodule.
+> > >
+> > > So bundling a pre-built biosbits in QEMU appears to mean that we're i=
+n
+> > > turn going to unexpectedly bundle a bunch of other 3rd party projects
+> > > too, all with dubious license compliance. I don't think this looks li=
+ke
+> > > something we should have in qemu.git or qemu tarballs. It will also
+> > > make it challenging for the distro to take biosbits at all, unless
+> > > those 3rd party bundles can be eliminated in favour of using existing
+> > > builds their have packaged for grub, python, libffi, etc.
 > >
-> > With regards,
-> > Daniel
+> > So if this depends on some third party binary bits, I think this is pre=
+tty
+> > similar to the tests in the avocado directory ... there we download thi=
+rd
+> > party binaries, too... Wouldn't it make sense to adapt your tests to th=
+at
+> > framework?
 >
-> I feel avocado is directed towards booting full fledged guest OS.
-> It makes it much easier to figure out guest issues but it also
-> prone to false positives and is harder to debug as a result.
-> Booting a minimal image like this shouldn't require that.
+> Now that you mention it, avocado does feel like a more appropriate fit.
+> IIUC the biosbits project appears to be effectively providing a custom
+> guest OS ISO image. IOW this testing is quite biased towards being
+> integration testing which is the target of avocado, while qtest is much
+> more to the unit testing end of the spectrum.
 
-Yes 100% agree with Michael on this. Biobits is *not* booting any OS
-image. It runs off grub, that is, directly from bootloader stage. The
-interraction with the VM is minimal.
+This is more like unit testing than integration testing, now that you
+mention it. It tests only the bios, very narrowly and does not involve
+any OS at all.
 
+This would avoid all the
+> discussion and patches around introducing python to qtest
 >
+> With regards,
+> Daniel
 > --
-> MST
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 >
 
