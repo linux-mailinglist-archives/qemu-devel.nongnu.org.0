@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49F655C01B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:14:57 +0200 (CEST)
-Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40EFE55C019
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:12:05 +0200 (CEST)
+Received: from localhost ([::1]:54796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68FE-0003yh-Qd
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:14:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47528)
+	id 1o68CS-00071c-Am
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
- id 1o6876-00030k-9Q
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:06:33 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57872 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maobibo@loongson.cn>) id 1o6872-0005tG-3j
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:06:32 -0400
-Received: from [10.20.42.170] (unknown [10.20.42.170])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_0+S0rpinGFhAA--.7317S3;
- Tue, 28 Jun 2022 18:06:10 +0800 (CST)
-Message-ID: <9fd7c47f-76bb-31ca-8bda-785134c0c767@loongson.cn>
-Date: Tue, 28 Jun 2022 18:06:10 +0800
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o686y-0002wM-BE
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:06:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o686u-0005s2-Fu
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:06:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656410778;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X6BbkySCfARKVCcHNnCRw9/SWyiUK2lPllc4llt4TLg=;
+ b=cOyEqNaBlgHiCc5ipWKUdPut/fcJOHAm15HUS1ycXFHzdfMDEK9qpAYwYRuKs9lwhAU7g3
+ sWQbLsVUUzT/RUBlyYKEkIPrA9lM+lDjWnF7TY6HQLUIYvOerdlUIblPUP1IROUru+kxMP
+ mVwbe55AEObm0EnHyeAsXrkUX49wnGA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-150-e-pESkBCMtWMLeaRmrQURg-1; Tue, 28 Jun 2022 06:06:15 -0400
+X-MC-Unique: e-pESkBCMtWMLeaRmrQURg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 709AC18A6523;
+ Tue, 28 Jun 2022 10:06:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E43F492C3B;
+ Tue, 28 Jun 2022 10:06:14 +0000 (UTC)
+Date: Tue, 28 Jun 2022 11:06:11 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com
+Subject: Re: [PATCH 00/12] Introduce new acpi/smbios qtests using biosbits
+Message-ID: <YrrSk+HPXqCc/Jz3@redhat.com>
+References: <20220627072856.1529357-1-ani@anisinha.ca>
+ <Yrq3HUEghZ7IFh//@redhat.com>
+ <CAARzgwzDdQGQ81bNAOg6t=4rhfdkQjunscT+x=sUOEp92R=cmg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: Can legacy vga memory base address be defined different with
- architectures
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org
-Cc: qemu-devel@nongnu.org
-References: <dcca81c1-4675-edb9-a6f8-f97dc9860192@loongson.cn>
- <5c307343-49cc-a506-b960-315822ebf11b@linaro.org>
-From: maobibo <maobibo@loongson.cn>
-In-Reply-To: <5c307343-49cc-a506-b960-315822ebf11b@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx_0+S0rpinGFhAA--.7317S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7Wr4DGw4rJw48ZF4fCFW7Arb_yoWxZwb_Z3
- 9rCa1Dtr47ZFW2kayayr45Gry2g3ykAF12vF4agrs3GF4rA3Waq34Igrs8W34DWrWrKFn8
- Cr4vqa45ury3GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbxkYjsxI4VWkKwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I
- 8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCY
- 02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
- xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17
- MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
- 0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v2
- 6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU5
- PpnJUUUUU==
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+In-Reply-To: <CAARzgwzDdQGQ81bNAOg6t=4rhfdkQjunscT+x=sUOEp92R=cmg@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,25 +81,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-在 2022/6/28 16:21, Richard Henderson 写道:
-> On 6/28/22 12:12, maobibo wrote:
->> Hi Philippe,
->>
->>      In file include/hw/pci/pci.h, the macro QEMU_PCI_VGA_MEM_BASE is defined as 0xa0000, which represents legacy VGA memory base address. I want to know whether it should be the same for all architectures, or does this vga mmio space exist on arm64/riscv physical machines with pci host bridges?
+On Tue, Jun 28, 2022 at 02:03:15PM +0530, Ani Sinha wrote:
+> On Tue, Jun 28, 2022 at 1:39 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Mon, Jun 27, 2022 at 12:58:44PM +0530, Ani Sinha wrote:
+> > > Biosbits is a software written by Josh Triplett that can be downloaded by
+> > > visiting https://biosbits.org/. The github codebase can be found here:
+> > > https://github.com/biosbits/bits/tree/master. It is a software that exercizes
+> > > the bios components such as acpi and smbios tables directly through acpica
+> > > bios interpreter (a freely available C based library written by Intel,
+> > > downloadable from https://acpica.org/ and is included with biosbits) without an
+> > > operating system getting involved in between.
+> > > There are several advantages to directly testing the bios in a real physical
+> > > machine or VM as opposed to indirectly discovering bios issues through the
+> > > operating system. For one thing, the OSes tend to hide bios problems from the
+> > > end user. The other is that we have more control of what we wanted to test
+> > > and how by directly using acpica interpreter on top of the bios on a running
+> > > system. More details on the inspiration for developing biosbits and its real
+> > > life uses can be found in (a) and (b).
+> > > This patchset contains QEMU qtests written in python that exercizes the QEMU
+> > > bios components using biosbits and reports test failures.
+> > >
+> > > Details of each of the files added by this patchset are provided in the README
+> > > file which is part of Patch 11. Every effort to contact Josh, through various
+> > > means including email, twitter, linkedIn etc has failed. Hence, the changes to
+> > > build biosbits with the newer compiler, upgrade acpica and other changes are
+> > > currently maintained in a forked project in my personal github. We may want to
+> > > maintain bits in a separate fork in a stable repository that is accessible by
+> > > QEMU developers.
+> > >
+> > > The newly introduced qtest currently only run for x86_64 platform. They pass
+> > > both when running make check on a baremetal box as well as from inside a vm.
+> > >
+> > > Thanks to Igor M for pointing me to this work.
+> > >
+> > > (a) https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/867/original/bits.pdf
+> > > (b) https://www.youtube.com/watch?v=36QIepyUuhg
+> > >
+> > > Ani Sinha (12):
+> > >   qtest: meson.build changes required to integrate python based qtests
+> > >   acpi/tests/bits: add prebuilt bios bits zip archive
+> > >   acpi/tests/bits: add prebuilt bits generated grub modules and scripts
+> >
+> > These two files didn't arrive on the mailing list, presumaby because
+> > pre-built binaries made the patches way too large.
 > 
-> This is x86 only.
+> Yes they are over 25 MB and my gmail account does not support
+> attachments more than that size.
 
-I see. On aarch64 virt platform, "virtio-gpu-pci" video card is used rather than "virtio-vga", there is no such legacy pci vga memory space with "virtio-gpu-pci" video card. I will check code, and thanks for your explanation. 
+Ok, with that kind of size, it is definitely not something we want to
+be committing to git either, nor consuming via a submodule since the
+latter would bloat the release tarballs too.
 
-regards
-bibo, mao 
-> 
-> 
-> r~
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
