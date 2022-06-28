@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AE655BEA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 08:11:45 +0200 (CEST)
-Received: from localhost ([::1]:33420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD6D55BF29
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 09:36:16 +0200 (CEST)
+Received: from localhost ([::1]:37588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o64Rs-00057v-1y
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 02:11:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43316)
+	id 1o65lf-0007w3-GU
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 03:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o63FY-0003FC-Jc
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:54:58 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:43737)
+ id 1o63Fd-0003G8-4r
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:55:03 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:53002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o63FW-0008Km-4J
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:54:55 -0400
-Received: by mail-pl1-x634.google.com with SMTP id r1so10016460plo.10
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:54:53 -0700 (PDT)
+ id 1o63FZ-0008Is-SX
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:54:59 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id g7so6378232pjj.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:54:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h8LQotJB86tKW7baXHd45kRYb/tuL0ssQ0shlDYqkXc=;
- b=Yb0ZDcXD0G11W8UTrUonyloyWUOMF66yZUfWAK4MBwt6rY0klsKxImqCKi1TdLDK7R
- Ht2AuDaMrCFXb0XFQNh0Gumawx4beJRx5+C8gVAUkBGIIlEtVcitZ9bfMNYQ8vNVguQI
- 9VMZuVDOXwralfeXE4Ehp3oVzxt2K80Lk9FQJcoUHIEm67BGm24oCoYXrxGVlJKMCBnb
- ZIcpypFEI7z0F7/FznaCvALM9DslKuev+qXPP6AGGCQ0XUnXnfizrpOdOXhQqmraVEdB
- te+IiKYgg+6eH+aMRrcVtyZQWdRR6RNNDSEZDSzCpjV6eQ5ZU5k+66bNEFWB62zCPs5v
- thIA==
+ bh=+SUmfyQ28nnP+FCpGEWeUk9jn7QL0Ax1+bQ0aHyUN6Q=;
+ b=zpGw/8zCcCCsYwIGhp8OeQD6dM2dXFiG1oNAMKh/bMmyAp7tfZvezrs+eaRHfvV/c4
+ m/m6JrQdpawQnGZe9/zM+kAOwqh8Bq4RL6PTuOpvw9xzYRhBIaBX9+7kfNIQoHKTiwm/
+ /zHVtUQUX+cuBp1ooh1XEs6BTbPtg53YW4UsIkQaPPKaYysF33cqVdwNKna/7yyGNIWM
+ dM4GUSFFrlCt9Ioi27df3MPimbj/pKJf82Z478Vpd8CXBn569mpRgSza3kAQWVpalmD7
+ VG9+bq5ovnUwEY9RoFcxkBUtKc2q90/3Fs5BO9E02tlTLGg5de8Wp2ie5p17Td2P5nRw
+ LM0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h8LQotJB86tKW7baXHd45kRYb/tuL0ssQ0shlDYqkXc=;
- b=oT0t1pQxSKVnFkUmhBH9DPpzgjymoA9RT4KTpidmvDkOZNPORqzqRokDv3RwCZhbHU
- EwrMLYzOOwN9ysPKHtfMr4qU2qZ8f3phDCeTCXjeYEPM1fggQJjR7ISLaoGEV6CkKkvF
- v20LEX3DxKRrvkV/KZZDJN6OAYQnqLgykdNzwrJcZ1emtrpjjyvt4mxgLGYigI5H0Xrw
- ISTTSVdGciL+3Hm7i9KjXncqZcJCVHuahW6xH3VsJDHfCp+Gwf7mntm86DTaBVJiT5hN
- P2sNv1dkOuLKMpwf5rMAgZg9UisVKYsWzwt4dWWm7Lw5e+6zyJfDDUsk1sJWjzf93qYW
- PWYg==
-X-Gm-Message-State: AJIora9qnHZeE+ne8nDRz+gx/RnYS0UoSME/dAx5q7KExkqET1qbaaVx
- AKlyoeX0o1AphtJ9sju6IuMIIIRYvUSuvA==
-X-Google-Smtp-Source: AGRyM1v/Tuch7TaUXVnpgd7uzgaxpxuRtnPoAoM9/df4xdojlVHyo7GqI/kx5mrsVFCWizJxz6lVFg==
-X-Received: by 2002:a17:90a:dc81:b0:1ec:afea:3b17 with SMTP id
- j1-20020a17090adc8100b001ecafea3b17mr20353877pjv.203.1656392093386; 
- Mon, 27 Jun 2022 21:54:53 -0700 (PDT)
+ bh=+SUmfyQ28nnP+FCpGEWeUk9jn7QL0Ax1+bQ0aHyUN6Q=;
+ b=5RjA/qlJMbQaHNAWovf3uUnLdFvjaA6ZflAC5dZvAsxJQRL4nmVgqDUNwI5jjWv37N
+ t9RTkgI57Lu67HyMGtTGm6nh4w7TooNi5RButRPvhaTdintkZz16R2n9yiwGa/9kwT7v
+ IwEav1g2KvMkRh9gRBbuJfMvhOFVW+2aTeB+l8pRItn36lpj0O+8U8o58oWEEiK5TPnX
+ BTQ89oXw6sy0s/qIETu04OIXrjC+uoOMtBtwpCIlO1wThsQz4XNc1AzENZ4MbUAsvvQL
+ 6TIdlJONwTYyPiND+GylMWsg8sx2vEwNUwx5mlEqjTTRdEJ1hB5UklqGqRGgfZoe/e9M
+ w6tQ==
+X-Gm-Message-State: AJIora+u7XWWuiYfRkJmJ5P4WIdfspfhQMCSaP5ork/RXBrxd/qIxVZI
+ KYqiUTn4Xsr2VnF8DQMarAilrxNB7OIQ2A==
+X-Google-Smtp-Source: AGRyM1sm3hk5DwcH/eN0kXiuz6Dh1lIHE1ukrpI4S8TjQeev8U4El9wRS9jo1i47Vr/8/XsmdmVmjA==
+X-Received: by 2002:a17:90a:8413:b0:1ea:ebf4:7079 with SMTP id
+ j19-20020a17090a841300b001eaebf47079mr20506313pjn.48.1656392095753; 
+ Mon, 27 Jun 2022 21:54:55 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- w8-20020a1709026f0800b00168c523032fsm8073735plk.269.2022.06.27.21.54.51
+ w8-20020a1709026f0800b00168c523032fsm8073735plk.269.2022.06.27.21.54.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:54:53 -0700 (PDT)
+ Mon, 27 Jun 2022 21:54:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Luc Michel <lmichel@kalray.eu>
-Subject: [PULL 19/60] gdbstub: Convert GDB error numbers to host error numbers
-Date: Tue, 28 Jun 2022 10:23:22 +0530
-Message-Id: <20220628045403.508716-20-richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 20/60] semihosting: Use struct gdb_stat in common_semi_flen_cb
+Date: Tue, 28 Jun 2022 10:23:23 +0530
+Message-Id: <20220628045403.508716-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220628045403.508716-1-richard.henderson@linaro.org>
 References: <20220628045403.508716-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,58 +87,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide the callback with consistent state -- always use
-host error numbers.  The individual callback can then
-decide if the errno requires conversion for the guest.
+Load the entire 64-bit size value.  While we're at it,
+use offsetof instead of an integer constant.
 
-Reviewed-by: Luc Michel <lmichel@kalray.eu>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- gdbstub.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ semihosting/arm-compat-semi.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 88a34c8f52..f3a4664453 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -1886,6 +1886,37 @@ static void handle_file_io(GArray *params, void *user_ctx)
-         } else {
-             err = 0;
-         }
-+
-+        /* Convert GDB error numbers back to host error numbers. */
-+#define E(X)  case GDB_E##X: err = E##X; break
-+        switch (err) {
-+        case 0:
-+            break;
-+        E(PERM);
-+        E(NOENT);
-+        E(INTR);
-+        E(BADF);
-+        E(ACCES);
-+        E(FAULT);
-+        E(BUSY);
-+        E(EXIST);
-+        E(NODEV);
-+        E(NOTDIR);
-+        E(ISDIR);
-+        E(INVAL);
-+        E(NFILE);
-+        E(MFILE);
-+        E(FBIG);
-+        E(NOSPC);
-+        E(SPIPE);
-+        E(ROFS);
-+        E(NAMETOOLONG);
-+        default:
-+            err = EINVAL;
-+            break;
-+        }
-+#undef E
-+
-         gdbserver_state.current_syscall_cb(gdbserver_state.c_cpu, ret, err);
-         gdbserver_state.current_syscall_cb = NULL;
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index abf543ce91..a9e488886a 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -325,14 +325,12 @@ static void
+ common_semi_flen_cb(CPUState *cs, target_ulong ret, target_ulong err)
+ {
+     if (!err) {
+-        /*
+-         * The size is always stored in big-endian order, extract
+-         * the value. We assume the size always fit in 32 bits.
+-         */
+-        uint32_t size;
+-        cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) + 32,
+-                            (uint8_t *)&size, 4, 0);
+-        ret = be32_to_cpu(size);
++        /* The size is always stored in big-endian order, extract the value. */
++        uint64_t size;
++        cpu_memory_rw_debug(cs, common_semi_flen_buf(cs) +
++                            offsetof(struct gdb_stat, gdb_st_size),
++                            &size, 8, 0);
++        ret = be64_to_cpu(size);
      }
+     common_semi_cb(cs, ret, err);
+ }
 -- 
 2.34.1
 
