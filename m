@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853ED55BFC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:28:51 +0200 (CEST)
-Received: from localhost ([::1]:55956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5802A55BFA3
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 10:55:23 +0200 (CEST)
+Received: from localhost ([::1]:51896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o67Wc-0008Ec-CK
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
+	id 1o670E-0006Sp-CB
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 04:55:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1o66NH-00050x-MB
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:15:08 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1o66ND-0002G0-5z
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:15:07 -0400
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LXHQC67Flz6H7jC;
- Tue, 28 Jun 2022 16:12:35 +0800 (CST)
-Received: from lhreml716-chm.china.huawei.com (10.201.108.67) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 28 Jun 2022 10:14:52 +0200
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml716-chm.china.huawei.com (10.201.108.67) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 28 Jun 2022 09:14:51 +0100
-Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
- lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
- 15.01.2375.024; Tue, 28 Jun 2022 09:14:51 +0100
-To: Yi Liu <yi.l.liu@intel.com>, "zhangfei.gao@foxmail.com"
- <zhangfei.gao@foxmail.com>, Jason Gunthorpe <jgg@nvidia.com>, Zhangfei Gao
- <zhangfei.gao@linaro.org>
-CC: "eric.auger@redhat.com" <eric.auger@redhat.com>, Alex Williamson
- <alex.williamson@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
- "thuth@redhat.com" <thuth@redhat.com>, "farman@linux.ibm.com"
- <farman@linux.ibm.com>, "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
- "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>, "pasic@linux.ibm.com"
- <pasic@linux.ibm.com>, "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>, "kvm@vger.kernel.org"
- <kvm@vger.kernel.org>, "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>, "kevin.tian@intel.com"
- <kevin.tian@intel.com>, "chao.p.peng@intel.com" <chao.p.peng@intel.com>,
- "yi.y.sun@intel.com" <yi.y.sun@intel.com>, "peterx@redhat.com"
- <peterx@redhat.com>
-Subject: RE: [RFC 00/18] vfio: Adopt iommufd
-Thread-Topic: [RFC 00/18] vfio: Adopt iommufd
-Thread-Index: AQHYT+0OTGNprklv2E6ANQZpjBJsW60CAlLggAATGICAABalMIAAOoCAgBRJ8gCAANfIgIAAO+qAgABf6QCAAAMMAIAAFykAgAGUvYCAAToMAIAH2gMAgAF4VACAAG9AgIBAHOOA
-Date: Tue, 28 Jun 2022 08:14:51 +0000
-Message-ID: <c1ee978d787b4e43af4619fb4ef0bfc1@huawei.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <4f920d463ebf414caa96419b625632d5@huawei.com>
- <be8aa86a-25d1-d034-5e3b-6406aa7ff897@redhat.com>
- <4ac4956cfe344326a805966535c1dc43@huawei.com>
- <20220426103507.5693a0ca.alex.williamson@redhat.com>
- <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
- <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
- <720d56c8-da84-5e4d-f1f8-0e1878473b93@redhat.com>
- <29475423-33ad-bdd2-2d6a-dcd484d257a7@linaro.org>
- <20220510124554.GY49344@nvidia.com>
- <637b3992-45d9-f472-b160-208849d3d27a@intel.com>
- <tencent_5823CCB7CFD4C49A90D3CC1A183AB406EB09@qq.com>
- <tencent_B5689033C2703B476DA909302DA141A0A305@qq.com>
- <faff3515-896c-a445-ebbe-f7077cb52dd4@intel.com>
- <tencent_C3C342C7F0605284FB368A1A63534B5A4806@qq.com>
- <24cb7ff5-dec8-3c84-b23e-4170d331a4d2@intel.com>
-In-Reply-To: <24cb7ff5-dec8-3c84-b23e-4170d331a4d2@intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.202.227.178]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1o66Np-0005vj-2t
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:15:41 -0400
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:43786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1o66Nm-0002bj-5p
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:15:40 -0400
+Received: by mail-lj1-x235.google.com with SMTP id by38so13912896ljb.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 01:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CP3xzwITTLyAieK/68CY4q8i4RE7Oc6xq+hQ3xLawCI=;
+ b=Wf1QOybnWyP02/oJfjrRPr/FAWgCGS9wvnwsKZXxbNEf76ztjv7OvT0suPOJTMauA8
+ VyfQbCXRp64++/dMoiJcAD436CY9bMg57g+zKiBOKIHNrfQEWtrJLFTx+W+2iXglFcIj
+ 3P8np5+vTugDDl1Q1h9qwpgRe+qi3s3qcPf6r3ra2xOOKTgzY/UHsSsNB8wZR/TOEI26
+ PjsW6eqEFMPgfD7ppG5i3MIpeCJCn/eAe/Fq5FlbmIJ2Zxw2zISNHu40Ye6VGjX7Q8dC
+ l66HN8q8afdd6AOm71zzUQbs/Zm7XytADXaq0q6I+ySDAD72lZpSbFIn62DDW86YK2fR
+ hlig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CP3xzwITTLyAieK/68CY4q8i4RE7Oc6xq+hQ3xLawCI=;
+ b=k5nA/k8sFrwr11Pv3I5NNL06BsvcEJbqYMnmPJOiPNJ5RDjZYpVp3pJtZFFstIV/77
+ 4NDN+3zWDOkp50ZE+aPzdZPyayeE2kEOfh93Kiaoqnyp8/kEJE/9IvT/7tasGISjw5ng
+ l+I5nRMJLbWPDMfuwssOMafdXBNpjsw6QUItrhxUe3sAWm7/oSo++HZOHOKBGOhV8Boc
+ 5Djb5layDnabEphdmJJdN/ocmkH2x7da7uId4Qx1MQnTbJ9GbIzzuZf24h/4+gbu2sbI
+ 2SBKsq0FqxdxoaJuksxtQVE7+Wbq4vZ56rsWKaSlk43R97akUW+Rn9Qg5EUy6LN9hR4u
+ 85mw==
+X-Gm-Message-State: AJIora9IREJo4C4hzz5HqPSzohYtPmo17Xfj0dFZqtJR8s6wOZIGkyqN
+ NNXfq76mmY5uyTu08DNH5Ani3Me4RkDFYEf5su/3USwhzuc=
+X-Google-Smtp-Source: AGRyM1sYX2jXifZIRR162MY3wECw9O7ALyBXmG51E0etHp5LeNUelcXHmsCwCcYfgGaHNKSecdRgNk7fdnr9Mb5dYDE=
+X-Received: by 2002:a2e:a801:0:b0:24a:ff0b:ae7a with SMTP id
+ l1-20020a2ea801000000b0024aff0bae7amr8880588ljq.287.1656404134834; Tue, 28
+ Jun 2022 01:15:34 -0700 (PDT)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=shameerali.kolothum.thodi@huawei.com;
- helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 28 Jun 2022 12:15:23 +0400
+Message-ID: <CAJ+F1CLv2UfT2cL_JSMAmw6VkEN0gmDZ6=k-4F+mF3=KgHv15w@mail.gmail.com>
+Subject: Re: [PATCH 0/9] Preliminary patches for subproject split
+To: QEMU <qemu-devel@nongnu.org>
+Cc: Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000fb56905e27da485"
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,89 +80,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-From:  Shameerali Kolothum Thodi via <qemu-devel@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogWWkgTGl1IFttYWlsdG86
-eWkubC5saXVAaW50ZWwuY29tXQ0KPiBTZW50OiAxOCBNYXkgMjAyMiAxNTowMQ0KPiBUbzogemhh
-bmdmZWkuZ2FvQGZveG1haWwuY29tOyBKYXNvbiBHdW50aG9ycGUgPGpnZ0BudmlkaWEuY29tPjsN
-Cj4gWmhhbmdmZWkgR2FvIDx6aGFuZ2ZlaS5nYW9AbGluYXJvLm9yZz4NCj4gQ2M6IGVyaWMuYXVn
-ZXJAcmVkaGF0LmNvbTsgQWxleCBXaWxsaWFtc29uIDxhbGV4LndpbGxpYW1zb25AcmVkaGF0LmNv
-bT47DQo+IFNoYW1lZXJhbGkgS29sb3RodW0gVGhvZGkgPHNoYW1lZXJhbGkua29sb3RodW0udGhv
-ZGlAaHVhd2VpLmNvbT47DQo+IGNvaHVja0ByZWRoYXQuY29tOyBxZW11LWRldmVsQG5vbmdudS5v
-cmc7DQo+IGRhdmlkQGdpYnNvbi5kcm9wYmVhci5pZC5hdTsgdGh1dGhAcmVkaGF0LmNvbTsgZmFy
-bWFuQGxpbnV4LmlibS5jb207DQo+IG1qcm9zYXRvQGxpbnV4LmlibS5jb207IGFrcm93aWFrQGxp
-bnV4LmlibS5jb207IHBhc2ljQGxpbnV4LmlibS5jb207DQo+IGpqaGVybmVAbGludXguaWJtLmNv
-bTsgamFzb3dhbmdAcmVkaGF0LmNvbTsga3ZtQHZnZXIua2VybmVsLm9yZzsNCj4gbmljb2xpbmNA
-bnZpZGlhLmNvbTsgZXJpYy5hdWdlci5wcm9AZ21haWwuY29tOyBrZXZpbi50aWFuQGludGVsLmNv
-bTsNCj4gY2hhby5wLnBlbmdAaW50ZWwuY29tOyB5aS55LnN1bkBpbnRlbC5jb207IHBldGVyeEBy
-ZWRoYXQuY29tDQo+IFN1YmplY3Q6IFJlOiBbUkZDIDAwLzE4XSB2ZmlvOiBBZG9wdCBpb21tdWZk
-DQo+IA0KPiBPbiAyMDIyLzUvMTggMTU6MjIsIHpoYW5nZmVpLmdhb0Bmb3htYWlsLmNvbSB3cm90
-ZToNCj4gPg0KPiA+DQo+ID4gT24gMjAyMi81LzE3IOS4i+WNiDQ6NTUsIFlpIExpdSB3cm90ZToN
-Cj4gPj4gSGkgWmhhbmdmZWksDQo+ID4+DQo+ID4+IE9uIDIwMjIvNS8xMiAxNzowMSwgemhhbmdm
-ZWkuZ2FvQGZveG1haWwuY29tIHdyb3RlOg0KPiA+Pj4NCj4gPj4+IEhpLCBZaQ0KPiA+Pj4NCj4g
-Pj4+IE9uIDIwMjIvNS8xMSDkuIvljYgxMDoxNywgemhhbmdmZWkuZ2FvQGZveG1haWwuY29tIHdy
-b3RlOg0KPiA+Pj4+DQo+ID4+Pj4NCj4gPj4+PiBPbiAyMDIyLzUvMTAg5LiL5Y2IMTA6MDgsIFlp
-IExpdSB3cm90ZToNCj4gPj4+Pj4gT24gMjAyMi81LzEwIDIwOjQ1LCBKYXNvbiBHdW50aG9ycGUg
-d3JvdGU6DQo+ID4+Pj4+PiBPbiBUdWUsIE1heSAxMCwgMjAyMiBhdCAwODozNTowMFBNICswODAw
-LCBaaGFuZ2ZlaSBHYW8gd3JvdGU6DQo+ID4+Pj4+Pj4gVGhhbmtzIFlpIGFuZCBFcmljLA0KPiA+
-Pj4+Pj4+IFRoZW4gd2lsbCB3YWl0IGZvciB0aGUgdXBkYXRlZCBpb21tdWZkIGtlcm5lbCBmb3Ig
-dGhlIFBDSSBNTUlPDQo+IHJlZ2lvbi4NCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+IEFub3RoZXIgcXVl
-c3Rpb24sDQo+ID4+Pj4+Pj4gSG93IHRvIGdldCB0aGUgaW9tbXVfZG9tYWluIGluIHRoZSBpb2N0
-bC4NCj4gPj4+Pj4+DQo+ID4+Pj4+PiBUaGUgSUQgb2YgdGhlIGlvbW11X2RvbWFpbiAoY2FsbGVk
-IHRoZSBod3B0KSBpdCBzaG91bGQgYmUgcmV0dXJuZWQNCj4gYnkNCj4gPj4+Pj4+IHRoZSB2Zmlv
-IGF0dGFjaCBpb2N0bC4NCj4gPj4+Pj4NCj4gPj4+Pj4geWVzLCBod3B0X2lkIGlzIHJldHVybmVk
-IGJ5IHRoZSB2ZmlvIGF0dGFjaCBpb2N0bCBhbmQgcmVjb3JkZWQgaW4NCj4gPj4+Pj4gcWVtdS4g
-WW91IGNhbiBxdWVyeSBwYWdlIHRhYmxlIHJlbGF0ZWQgY2FwYWJpbGl0aWVzIHdpdGggdGhpcyBp
-ZC4NCj4gPj4+Pj4NCj4gPj4+Pj4NCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcva3ZtLzIwMjIw
-NDE0MTA0NzEwLjI4NTM0LTE2LXlpLmwubGl1QGludGVsLmNvbS8NCj4gPj4+Pj4NCj4gPj4+PiBU
-aGFua3MgWWksDQo+ID4+Pj4NCj4gPj4+PiBEbyB3ZSB1c2UgaW9tbXVmZF9od19wYWdldGFibGVf
-ZnJvbV9pZCBpbiBrZXJuZWw/DQo+ID4+Pj4NCj4gPj4+PiBUaGUgcWVtdSBzZW5kIGh3cHRfaWQg
-dmlhIGlvY3RsLg0KPiA+Pj4+IEN1cnJlbnRseSBWRklPSU9NTVVGRENvbnRhaW5lciBoYXMgaHdw
-dF9saXN0LA0KPiA+Pj4+IFdoaWNoIG1lbWJlciBpcyBnb29kIHRvIHNhdmUgaHdwdF9pZCwgSU9N
-TVVUTEJFbnRyeT8NCj4gPj4+DQo+ID4+PiBDYW4gVkZJT0lPTU1VRkRDb250YWluZXLCoCBoYXZl
-IG11bHRpIGh3cHQ/DQo+ID4+DQo+ID4+IHllcywgaXQgaXMgcG9zc2libGUNCj4gPiBUaGVuIGhv
-dyB0byBnZXQgaHdwdF9pZCBpbiBtYXAvdW5tYXBfbm90aWZ5KElPTU1VTm90aWZpZXIgKm4sDQo+
-IElPTU1VVExCRW50cnkNCj4gPiAqaW90bGIpDQo+IA0KPiBpbiBtYXAvdW5tYXAsIHNob3VsZCB1
-c2UgaW9hc19pZCBpbnN0ZWFkIG9mIGh3cHRfaWQNCj4gDQo+ID4NCj4gPj4NCj4gPj4+IFNpbmNl
-IFZGSU9JT01NVUZEQ29udGFpbmVyIGhhcyBod3B0X2xpc3Qgbm93Lg0KPiA+Pj4gSWYgc28sIGhv
-dyB0byBnZXQgc3BlY2lmaWMgaHdwdCBmcm9tIG1hcC91bm1hcF9ub3RpZnkgaW4gaHcvdmZpby9h
-cy5jLA0KPiA+Pj4gd2hlcmUgbm8gdmJhc2VkZXYgY2FuIGJlIHVzZWQgZm9yIGNvbXBhcmUuDQo+
-ID4+Pg0KPiA+Pj4gSSBhbSB0ZXN0aW5nIHdpdGggYSB3b3JrYXJvdW5kLCBhZGRpbmcgVkZJT0lP
-QVNId3B0ICpod3B0IGluDQo+ID4+PiBWRklPSU9NTVVGRENvbnRhaW5lci4NCj4gPj4+IEFuZCBz
-YXZlIGh3cHQgd2hlbiB2ZmlvX2RldmljZV9hdHRhY2hfY29udGFpbmVyLg0KPiA+Pj4NCj4gPj4+
-Pg0KPiA+Pj4+IEluIGtlcm5lbCBpb2N0bDogaW9tbXVmZF92ZmlvX2lvY3RsDQo+ID4+Pj4gQGRl
-djogRGV2aWNlIHRvIGdldCBhbiBpb21tdV9kb21haW4gZm9yDQo+ID4+Pj4gaW9tbXVmZF9od19w
-YWdldGFibGVfZnJvbV9pZChzdHJ1Y3QgaW9tbXVmZF9jdHggKmljdHgsIHUzMiBwdF9pZCwNCj4g
-Pj4+PiBzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ID4+Pj4gQnV0IGlvbW11ZmRfdmZpb19pb2N0bCBz
-ZWVtcyBubyBwYXJhIGRldj8NCj4gPj4+DQo+ID4+PiBXZSBjYW4gc2V0IGRldj1OdWxsIHNpbmNl
-IElPTU1VRkRfT0JKX0hXX1BBR0VUQUJMRSBkb2VzIG5vdA0KPiBuZWVkIGRldi4NCj4gPj4+IGlv
-bW11ZmRfaHdfcGFnZXRhYmxlX2Zyb21faWQoaWN0eCwgaHdwdF9pZCwgTlVMTCkNCj4gPj4NCj4g
-Pj4gdGhpcyBpcyBub3QgZ29vZC4gZGV2IGlzIHBhc3NlZCBpbiB0byB0aGlzIGZ1bmN0aW9uIHRv
-IGFsbG9jYXRlIGRvbWFpbg0KPiA+PiBhbmQgYWxzbyBjaGVjayBzd19tc2kgdGhpbmdzLiBJZiB5
-b3UgcGFzcyBpbiBhIE5VTEwsIGl0IG1heSBldmVuIHVuYWJsZQ0KPiA+PiB0byBnZXQgYSBkb21h
-aW4gZm9yIHRoZSBod3B0LiBJdCB3b24ndCB3b3JrIEkgZ3Vlc3MuDQo+ID4NCj4gPiBUaGUgaW9t
-bXVmZF9od19wYWdldGFibGVfZnJvbV9pZCBjYW4gYmUgdXNlZCBmb3INCj4gPiAxLCBhbGxvY2F0
-ZSBkb21haW4sIHdoaWNoIG5lZWQgcGFyYSBkZXYNCj4gPiBjYXNlIElPTU1VRkRfT0JKX0lPQVMN
-Cj4gPiBod3B0ID0gaW9tbXVmZF9od19wYWdldGFibGVfYXV0b19nZXQoaWN0eCwgaW9hcywgZGV2
-KTsNCj4gDQo+IHRoaXMgaXMgdXNlZCB3aGVuIGF0dGFjaGluZyBpb2FzLg0KPiANCj4gPiAyLiBK
-dXN0IHJldHVybiBhbGxvY2F0ZWQgZG9tYWluIHZpYSBod3B0X2lkLCB3aGljaCBkb2VzIG5vdCBu
-ZWVkIGRldi4NCj4gPiBjYXNlIElPTU1VRkRfT0JKX0hXX1BBR0VUQUJMRToNCj4gPiByZXR1cm4g
-Y29udGFpbmVyX29mKG9iaiwgc3RydWN0IGlvbW11ZmRfaHdfcGFnZXRhYmxlLCBvYmopOw0KPiAN
-Cj4geWVzLCB0aGlzIHdvdWxkIGJlIHRoZSB1c2FnZSBpbiBuZXN0aW5nLiB5b3UgbWF5IGNoZWNr
-IG15IGJlbG93DQo+IGJyYW5jaC4gSXQncyBmb3IgbmVzdGluZyBpbnRlZ3JhdGlvbi4NCj4gDQo+
-IGh0dHBzOi8vZ2l0aHViLmNvbS9sdXhpczE5OTkvaW9tbXVmZC90cmVlL2lvbW11ZmQtdjUuMTgt
-cmM0LW5lc3RpbmcNCj4gDQo+ID4gQnkgdGhlIHdheSwgYW55IHBsYW4gb2YgdGhlIG5lc3RlZCBt
-b2RlPw0KPiBJJ20gd29ya2luZyB3aXRoIEVyaWMsIE5pYyBvbiBpdC4gQ3VycmVudGx5LCBJJ3Zl
-IGdvdCB0aGUgYWJvdmUga2VybmVsDQo+IGJyYW5jaCwgUUVNVSBzaWRlIGlzIGFsc28gV0lQLg0K
-DQpIaSBZaS9FcmljLA0KDQpJIGhhZCBhIGxvb2sgYXQgdGhlIGFib3ZlIG5lc3Rpbmcga2VybmVs
-IGFuZCBRZW11IGJyYW5jaGVzIGFuZCBhcyBtZW50aW9uZWQNCmluIHRoZSBjb3ZlciBsZXR0ZXIg
-aXQgaXMgbm90IHdvcmtpbmcgb24gQVJNIHlldC4NCg0KSUlVQywgdG8gZ2V0IGl0IHdvcmtpbmcg
-dmlhIHRoZSBpb21tdWZkIHRoZSBtYWluIHRoaW5nIGlzIHdlIG5lZWQgYSB3YXkgdG8gY29uZmln
-dXJlDQp0aGUgcGh5cyBTTU1VIGluIG5lc3RlZCBtb2RlIGFuZCBzZXR1cCB0aGUgbWFwcGluZ3Mg
-Zm9yIHRoZSBzdGFnZSAyLiBUaGUNCkNhY2hlL1BBU0lEIHJlbGF0ZWQgY2hhbmdlcyBsb29rcyBt
-b3JlIHN0cmFpZ2h0IGZvcndhcmQuIA0KDQpJIGhhZCBxdWl0ZSBhIGZldyBoYWNrcyB0byBnZXQg
-aXQgd29ya2luZyBvbiBBUk0sIGJ1dCBzdGlsbCBhIFdJUC4gU28ganVzdCB3b25kZXJpbmcNCmRv
-IHlvdSBndXlzIGhhdmUgc29tZXRoaW5nIHRoYXQgY2FuIGJlIHNoYXJlZCB5ZXQ/DQoNClBsZWFz
-ZSBsZXQgbWUga25vdy4NCg0KVGhhbmtzLA0KU2hhbWVlcg0K
+--0000000000000fb56905e27da485
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Markus
+
+On Thu, Jun 16, 2022 at 4:48 PM <marcandre.lureau@redhat.com> wrote:
+
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Hi,
+>
+> Here is another subset of the large "subproject(qga)"" series I intend to
+> send
+> soon after (https://gitlab.com/marcandre.lureau/qemu/-/commits/qga).
+>
+> Thanks
+>
+> Marc-Andr=C3=A9 Lureau (9):
+>   monitor: make error_vprintf_unless_qmp() static
+>   error-report: misc comment fix
+>   error-report: introduce "detailed" variable
+>   error-report: simplify print_loc()
+>   error-report: introduce ErrorReportDetailedFunc
+>   error-report: add a callback to overwrite error_vprintf
+>   qapi: move QEMU-specific dispatch code in monitor
+>   scripts/qapi-gen: add -i option
+>   scripts/qapi: add required system includes to visitor
+>
+
+This is mostly your area of maintenance. Do you have time for the remaining
+reviews? (The progress feels very slow, compared to what is left in the
+queue, I'd like to flush this before next year!)
+
+thanks
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000000fb56905e27da485
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Markus<br></div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 16, 2022 at 4:48=
+ PM &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@red=
+hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
+redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<br>
+Hi,<br>
+<br>
+Here is another subset of the large &quot;subproject(qga)&quot;&quot; serie=
+s I intend to send<br>
+soon after (<a href=3D"https://gitlab.com/marcandre.lureau/qemu/-/commits/q=
+ga" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/marcandre.lurea=
+u/qemu/-/commits/qga</a>).<br>
+<br>
+Thanks<br>
+<br>
+Marc-Andr=C3=A9 Lureau (9):<br>
+=C2=A0 monitor: make error_vprintf_unless_qmp() static<br>
+=C2=A0 error-report: misc comment fix<br>
+=C2=A0 error-report: introduce &quot;detailed&quot; variable<br>
+=C2=A0 error-report: simplify print_loc()<br>
+=C2=A0 error-report: introduce ErrorReportDetailedFunc<br>
+=C2=A0 error-report: add a callback to overwrite error_vprintf<br>
+=C2=A0 qapi: move QEMU-specific dispatch code in monitor<br>
+=C2=A0 scripts/qapi-gen: add -i option<br>
+=C2=A0 scripts/qapi: add required system includes to visitor<br></blockquot=
+e><div><br></div><div>This is mostly your area of maintenance. Do you have =
+time for the remaining reviews? (The progress feels very slow, compared to =
+what is left in the queue, I&#39;d like to flush this before next year!)<br=
+></div><div><br></div><div>thanks<br></div><div>=C2=A0<br></div></div>-- <b=
+r><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></di=
+v></div>
+
+--0000000000000fb56905e27da485--
 
