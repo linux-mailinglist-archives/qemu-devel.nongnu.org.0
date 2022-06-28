@@ -2,88 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13F255C81E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 14:55:05 +0200 (CEST)
-Received: from localhost ([::1]:58314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7853455C992
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 14:57:10 +0200 (CEST)
+Received: from localhost ([::1]:33666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6AkC-0000YG-My
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 08:55:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37988)
+	id 1o6AmD-0003RO-AE
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 08:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1o6AdB-0002M8-1b
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:47:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49051)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o6AfO-0004TH-Ky
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:50:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1o6Ad9-0003KS-F3
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:47:48 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o6AfM-0003rf-7W
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:50:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656420466;
+ s=mimecast20190719; t=1656420603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UhTf2P9bOrWBc3dF8qnx9UxondQ4DZL8ncSnluTsMh4=;
- b=TnzbA8iWxsrCwoBInnigLIbdeEumz/Hlu7UgZSCZYLVo3ME8Ktc78FSa3qDNbAUqiW1YQ4
- 5ue/0O0jEl9kJYT8M1xYMwzC8e1joLTD/liQUZaWsTC1DfNlLy1bLhEci+7kbzXRw7OXjT
- 6xhIqCuwZxNZJViFwsjbjj+gRZ0CQmw=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=p7hMuR6WaiIPf6N2uUkIWLm4fRumP1ClZDC/beJJGt8=;
+ b=geksdBz5Fv87lqDp80lj9HVol42lHB9jWcgkL05BjBfX+v5/nL079HR+gJC1HCGiSgkxdZ
+ lnK0Rxivs9lIjwhAhClSDaxbX3X8MWalJQZtyxjT6S/OPJWcxB3YcYyBQt6Vf5JkUvd95Z
+ +2TFf7p2ztgbTgQ3OenecWmMRbo+ZHU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-fhgRkCjgNGyoDtGmGXWBNQ-1; Tue, 28 Jun 2022 08:47:45 -0400
-X-MC-Unique: fhgRkCjgNGyoDtGmGXWBNQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- l189-20020a37bbc6000000b006af2596c5e8so6323543qkf.14
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 05:47:45 -0700 (PDT)
+ us-mta-627-1oWcU-lmNsyxQQscBp9MWA-1; Tue, 28 Jun 2022 08:50:02 -0400
+X-MC-Unique: 1oWcU-lmNsyxQQscBp9MWA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ z11-20020a056000110b00b0021b9c009d09so1789734wrw.17
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 05:50:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UhTf2P9bOrWBc3dF8qnx9UxondQ4DZL8ncSnluTsMh4=;
- b=0GgKpi6y2L6jRa9lg2qO+sL7+VOvLHvmq3uP5wzi7G8YfSyAFv3itLJSwPdhxk7rec
- Gr8+RUEBumWy1iRRmnE15GgOiDMLh4PoDjOMlr3obsR5UFSW8nGKlTcjtpR5RvZX1aor
- FPRgTQaawf81wnU/p2e0KT6fRjg5Q5OG5qiFPnoZr/o+CFf799znuD0k7bKXerc/+OJL
- J8WtXF0jb84t+KB9W3vaOdOsvcTEQNcUdamYjnZBShtTNFUeNGpnYCsz2bYyodjhlfkP
- cDKjCYFIHYz6GA8wVvjEaAMlczt4zmIhyhmfZ7Jbsf892vJAejvNx/oBMmTDPgf4GbK2
- werg==
-X-Gm-Message-State: AJIora9wAndl8my4kOqfjNnST731YQsoW8PhCqjFX4zsaFbbPS5dS4GJ
- JjZKccNR5yAIweivnQCzm9MoS2vV22IEq7zH01DtMKB/jAxom+gH7Xc0RhRTxgn8luQ9J2QiWAA
- BMD+aA+bBcshuIPI=
-X-Received: by 2002:a05:622a:120e:b0:31b:f5d8:c63c with SMTP id
- y14-20020a05622a120e00b0031bf5d8c63cmr855622qtx.316.1656420464774; 
- Tue, 28 Jun 2022 05:47:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u0W2ajWVpnvwvpl2rjIWElQ2iA/d71hN9jUuJ19F5D6PK255U83c2n95AJArUzmPGm5BbQ+g==
-X-Received: by 2002:a05:622a:120e:b0:31b:f5d8:c63c with SMTP id
- y14-20020a05622a120e00b0031bf5d8c63cmr855610qtx.316.1656420464543; 
- Tue, 28 Jun 2022 05:47:44 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.8.70])
+ bh=p7hMuR6WaiIPf6N2uUkIWLm4fRumP1ClZDC/beJJGt8=;
+ b=K+jInKs/GNn6I9VpKgbydfmabHUbyS/CFPeC7lBTUAiI3yYOeiTQ7J7FxZ6UAvIpfk
+ kI8A209AVqxYZYzDl6nDBvyjPooYihULshVVEJGL+AuyA+cnQoUDGpGsrRTleGWLBfYD
+ ioKzcxdk4iBiuPO+JGhBh8qihCgMsRyoaNyqmFzAyY7XwtWMdmiymoRDR2cX0XLtyOPi
+ Wl/CgUhEH/54N4cF9KCH9aKfgeO7YnDFB+u+duVe0X2wRBE6VAMPTL8W6fYvUmADZKOM
+ PXXlVY94wHIkOgwfMVWAIBzCsD6030RWHRc+EymghSZaLrgEKpAAe/iGSz/9HCRwtPtJ
+ nnEg==
+X-Gm-Message-State: AJIora82HSv7tYYrewHY/DcS3f0PC3gUbuk+dNfnWXWYGqE0KQQ3l395
+ /T3e2W3AUwnpmngcet8Wt2Ey1loAgRd4HLLHC2CYhVR2lVLBavxv7laxNRp2aAuLBiEemXAiw/a
+ QFW3ngCKg00awyic=
+X-Received: by 2002:a5d:51d2:0:b0:21b:bd52:c9c9 with SMTP id
+ n18-20020a5d51d2000000b0021bbd52c9c9mr17190351wrv.498.1656420600828; 
+ Tue, 28 Jun 2022 05:50:00 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vUWpDeBcH2zs4rRuQ1nv3h3YbjwA/++c+x5rjxT48c8iYb/2FzIlS82O8V89XWKdHUbWhAsg==
+X-Received: by 2002:a5d:51d2:0:b0:21b:bd52:c9c9 with SMTP id
+ n18-20020a5d51d2000000b0021bbd52c9c9mr17190329wrv.498.1656420600578; 
+ Tue, 28 Jun 2022 05:50:00 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- v2-20020a05622a130200b00304e47b9602sm9632743qtk.9.2022.06.28.05.47.42
+ f18-20020a7bc8d2000000b0039c747a1e8fsm20869071wml.7.2022.06.28.05.49.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jun 2022 05:47:44 -0700 (PDT)
-Message-ID: <f968139f-5c07-8852-96e1-8a0b62e2b877@redhat.com>
-Date: Tue, 28 Jun 2022 14:47:41 +0200
+ Tue, 28 Jun 2022 05:49:59 -0700 (PDT)
+Message-ID: <ec781a1c-3088-1600-a317-f7f00eefc5fa@redhat.com>
+Date: Tue, 28 Jun 2022 14:49:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 3/5] tests: increase migration test converge downtime to
- 30 seconds
+Subject: Re: [PATCH 1/5] tests: wait max 120 seconds for migration test status
+ changes
 Content-Language: en-US
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  qemu-s390x@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <20220628105434.295905-1-berrange@redhat.com>
- <20220628105434.295905-4-berrange@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <20220628105434.295905-4-berrange@redhat.com>
+ <20220628105434.295905-2-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220628105434.295905-2-berrange@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -107,33 +105,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/06/2022 12:54, Daniel P. Berrangé wrote:
-> While 1 second might be enough to converge migration on a fast host,
-> this is not guaranteed, especially if using TLS in the tests without
-> hardware accelerated crypto available.
+On 28/06/2022 12.54, Daniel P. Berrangé wrote:
+> Currently the wait_for_migration_fail and wait_for_migration_complete
+> functions will spin in an infinite loop checking query-migrate status
+> to detect a specific change/goal. This is fine when everything goes
+> to plan, but when the unusual happens, these will hang the test suite
+> forever.
 > 
-> Increasing the downtime to 30 seconds should guarantee it can converge
-> in any sane scenario.
+> Any normally executing migration test case normally takes < 1 second
+> for a state change, with exception of the autoconverge test which
+> takes about 5 seconds. Taking into account possibility of people
+> running tests inside TCG, allowing a factor of x20 slowdown gives
+> a reasonable worst case of 120 seconds. Anything taking longer than
+> this is a strong sign that the test has hung, or the test should be
+> rewritten to be faster.
 > 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   tests/qtest/migration-test.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   tests/qtest/migration-helpers.c | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
 > 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index ac9e303b1f..a54eff6d56 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -47,7 +47,7 @@ unsigned end_address;
->   static bool uffd_feature_thread_id;
+> diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
+> index a6aa59e4e6..e81e831c85 100644
+> --- a/tests/qtest/migration-helpers.c
+> +++ b/tests/qtest/migration-helpers.c
+> @@ -15,6 +15,14 @@
 >   
->   /* A downtime where the test really should converge */
-> -#define CONVERGE_DOWNTIME 1000
-> +#define CONVERGE_DOWNTIME (1000 * 30)
+>   #include "migration-helpers.h"
 >   
->   #if defined(__linux__)
->   #include <sys/syscall.h>
+> +/*
+> + * Number of seconds we wait when looking for migration
+> + * status changes, to avoid test suite hanging forever
+> + * when things go wrong. Needs to be higher enough to
+> + * avoid false positives on loaded hosts.
+> + */
+> +#define MIGRATION_STATUS_WAIT_TIMEOUT 120
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+... but I think I'd suggest to use an even longer timeout - sometimes people 
+try to run the tests with TCI, or on heavy loaded CI machines, and then you 
+can get really really long timeouts. Maybe 240 or even 300 seconds?
 
 
