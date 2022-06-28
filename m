@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D36F55BE6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:21:20 +0200 (CEST)
-Received: from localhost ([::1]:49674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB60C55BEC5
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 08:34:11 +0200 (CEST)
+Received: from localhost ([::1]:58930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o63f5-0006Ep-4A
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:21:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41500)
+	id 1o64na-0008Ie-Q9
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 02:34:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633o-0007my-9h
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24669)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633k-0007fN-In
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633b-0006nQ-KQ
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:46 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633h-0006p5-1i
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656391353;
+ s=mimecast20190719; t=1656391357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YLp/mOxNxnF8DObHBmdL/z0ALK0H7bOTQmMQTKlLt8Q=;
- b=eWBmjzvq0nBSRScWho9Jq0JdF1OKIxf71MVlwlBSetnRjn8RoKY8G4uKk9yJIh3Sx+cREJ
- ydWH4yO52nib2OUMqY1qJQnq7otCNzul/Totlz8EeDAPtWmV09InstXohgG8I7hXH+fKs2
- gxjpHd3w7ITNabhuFwYaeJVajsRgDfo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rsJM2XN1k5xLdA4WoRw6Yh/T9zUNL7IrEHO/2qKbDbs=;
+ b=YRn2wZN9SStIVGJ6iuEssRpUltERM0W8apWdI5YWHYBzWIFf1DDMmdUdIbYHz5uFVMflkV
+ QHO8I3h4EljWQuI2F+bfkAZMYYXXwKgdGst+PKh1tNVunhr4hpZ6cb1X3PAzFoGyuW8F2c
+ Hm0pXXr8sfisrT9+1Wzw/VOG8QhJdQE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-249-nr2UytLEPf-FbeDS67OXKQ-1; Tue, 28 Jun 2022 00:42:31 -0400
-X-MC-Unique: nr2UytLEPf-FbeDS67OXKQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k32-20020a05600c1ca000b0039c4cf75023so8316215wms.9
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:42:31 -0700 (PDT)
+ us-mta-369-ED25ewKCM7GCinrWMNmHpA-1; Tue, 28 Jun 2022 00:42:35 -0400
+X-MC-Unique: ED25ewKCM7GCinrWMNmHpA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o28-20020a05600c511c00b003a04f97f27aso1086383wms.9
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:42:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=YLp/mOxNxnF8DObHBmdL/z0ALK0H7bOTQmMQTKlLt8Q=;
- b=RBw6JyQK0JA8bI4rQRIAzHjC/W15Rs1SLFkVkIrB4Y3/Ia28VyNhS+b9Gl1hpe2pc5
- vGQrj0jKf6JKzFyA3nsagExEuazV5EAikVHM05UQlm1KRWkqbkqeNjKQGIlnPlDWgRwW
- i8eDFm3f0F7Yw+0guC5ovS4QVygykuuMICfK6JC0gC5CVnTbMgsoBs+30oWejZhLhZZ4
- Zcmn6zNQQlx0OIBiUJRZvJLL+C+0LIkYqccXwIGa1BY5fNS5Yn442PPX70F16a7IRNLf
- ypI09Kpm9qW6tV+LbtXmK1mF5xr5uVJWesKA/Nl9Ijurkf2tnMvrGLuVme7LpPM/T0LH
- 9FqQ==
-X-Gm-Message-State: AJIora+lCIB9N08jK3HxJiTzsNx8vyNh7uE25/jreSw+Tru6Y4CP2Zsr
- 9LBDdSrsTdbyrIdo6oHS0mX2QlisIqSV4DxxkOU4NBjM8lIz95xvSR1yXpNEhIvSGI2pPSfc8Pq
- SJKJLC73jTu/1dNcuqgi7d3ycu7LvHoh3x6NLWa1DbITzEtwvxvd0/djx8nHC
-X-Received: by 2002:a5d:59a4:0:b0:218:4a29:f12b with SMTP id
- p4-20020a5d59a4000000b002184a29f12bmr14812326wrr.145.1656391350415; 
- Mon, 27 Jun 2022 21:42:30 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tBnMmDxviq/tnboUWtDs7Pw8mOVebCD+6EONITBiEpSCNZGjEX3AYdnfiCHHmVObM97mdz2A==
-X-Received: by 2002:a5d:59a4:0:b0:218:4a29:f12b with SMTP id
- p4-20020a5d59a4000000b002184a29f12bmr14812303wrr.145.1656391350097; 
- Mon, 27 Jun 2022 21:42:30 -0700 (PDT)
+ bh=rsJM2XN1k5xLdA4WoRw6Yh/T9zUNL7IrEHO/2qKbDbs=;
+ b=P2MmAYLXklgoLm5KcJQmLQVx4AXlZ637jfkPwWVIRoKDMbgAD5DNPeeRTSDr4BXJm1
+ 7n6kcvO1na5K1qkSnHYS5Vt/wKfuiOmsvfmyVk8dfQoLSKE2Fw1hnm0WLZedN9db/vWn
+ NuGLEFJpx6NsnZMJKPS71stCzTswZla+bUXIHtc3lOWI3dcwIZLNODBB8wfhewKgvORs
+ Za4fLgx1BOSeLWhV/lF5AV1C1W8T7+ggmDWROmOOo4bVKwrSDFic5stLUgRuHWN7SpjN
+ xW/x6YQ7NdcxixX7XLlLuuPb6hvyafxFBCYNY2AhxmVAD7n4wiM38g7MAC/dBVQM3v+t
+ xZeA==
+X-Gm-Message-State: AJIora8PdOcX1YqvtJCYBLuzb+ylMH3HnagUuv59SHB3JiA2XCf8cWws
+ tO5OUjKur6TMCAfpNeXeggjSoAobMLZCA4zjStUQ19yqtMOmB1fVcpTciHVTn8UDodQnK12ZtYC
+ cMQIJfdB7q83/ibCaAf8UtCvrhIG0mx8xsjbpvn3mad04of4T9cK2TgX96K8O
+X-Received: by 2002:a5d:5846:0:b0:21b:c444:9913 with SMTP id
+ i6-20020a5d5846000000b0021bc4449913mr11574698wrf.128.1656391353857; 
+ Mon, 27 Jun 2022 21:42:33 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vu0Nflzc4Jnpn+LuoVvZFzkCDywq1wI1GzHq2Kcfcr1TF2qOv9jng9LPQbzxlvzx7GWQA1kw==
+X-Received: by 2002:a5d:5846:0:b0:21b:c444:9913 with SMTP id
+ i6-20020a5d5846000000b0021bc4449913mr11574684wrf.128.1656391353636; 
+ Mon, 27 Jun 2022 21:42:33 -0700 (PDT)
 Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- w9-20020a5d6089000000b0020e5b4ebaecsm12341291wrt.4.2022.06.27.21.42.28
+ h6-20020adffd46000000b0021b96cdf68fsm12205741wrs.97.2022.06.27.21.42.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:42:29 -0700 (PDT)
-Date: Tue, 28 Jun 2022 00:42:27 -0400
+ Mon, 27 Jun 2022 21:42:33 -0700 (PDT)
+Date: Tue, 28 Jun 2022 00:42:30 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Zhenzhong Duan <zhenzhong.duan@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Eric Auger <eric.auger@redhat.com>
-Subject: [PULL 01/12] virtio-iommu: Fix the partial copy of probe request
-Message-ID: <20220628044201.217173-2-mst@redhat.com>
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 02/12] msi: fix MSI vector limit check in msi_set_mask()
+Message-ID: <20220628044201.217173-3-mst@redhat.com>
 References: <20220628044201.217173-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -99,55 +99,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+From: Jagannathan Raman <jag.raman@oracle.com>
 
-The structure of probe request doesn't include the tail, this leads
-to a few field missed to be copied. Currently this isn't an issue as
-those missed field belong to reserved field, just in case reserved
-field will be used in the future.
+MSI supports a maximum of PCI_MSI_VECTORS_MAX vectors - from 0 to
+PCI_MSI_VECTORS_MAX - 1.
 
-Changed 4th parameter of virtio_iommu_iov_to_req() to receive size
-of device-readable part.
+msi_set_mask() was previously using PCI_MSI_VECTORS_MAX as the upper
+limit for MSI vectors. Fix the upper limit to PCI_MSI_VECTORS_MAX - 1.
 
-Fixes: 1733eebb9e75b ("virtio-iommu: Implement RESV_MEM probe request")
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Message-Id: <20220623023152.3473231-1-zhenzhong.duan@intel.com>
+Fixes: Coverity CID 1490141
+Fixes: 08cf3dc61199 vfio-user: handle device interrupts
+
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Message-Id: <20220623153844.7367-1-jag.raman@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/virtio/virtio-iommu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/pci/msi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 7c122ab957..08b227e828 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -675,11 +675,10 @@ static int virtio_iommu_probe(VirtIOIOMMU *s,
+diff --git a/hw/pci/msi.c b/hw/pci/msi.c
+index 5c471b9616..058d1d1ef1 100644
+--- a/hw/pci/msi.c
++++ b/hw/pci/msi.c
+@@ -322,9 +322,9 @@ void msi_set_mask(PCIDevice *dev, int vector, bool mask, Error **errp)
+     bool msi64bit = flags & PCI_MSI_FLAGS_64BIT;
+     uint32_t irq_state, vector_mask, pending;
  
- static int virtio_iommu_iov_to_req(struct iovec *iov,
-                                    unsigned int iov_cnt,
--                                   void *req, size_t req_sz)
-+                                   void *req, size_t payload_sz)
- {
--    size_t sz, payload_sz = req_sz - sizeof(struct virtio_iommu_req_tail);
-+    size_t sz = iov_to_buf(iov, iov_cnt, 0, req, payload_sz);
- 
--    sz = iov_to_buf(iov, iov_cnt, 0, req, payload_sz);
-     if (unlikely(sz != payload_sz)) {
-         return VIRTIO_IOMMU_S_INVAL;
+-    if (vector > PCI_MSI_VECTORS_MAX) {
++    if (vector >= PCI_MSI_VECTORS_MAX) {
+         error_setg(errp, "msi: vector %d not allocated. max vector is %d",
+-                   vector, PCI_MSI_VECTORS_MAX);
++                   vector, (PCI_MSI_VECTORS_MAX - 1));
+         return;
      }
-@@ -692,7 +691,8 @@ static int virtio_iommu_handle_ ## __req(VirtIOIOMMU *s,                \
-                                          unsigned int iov_cnt)          \
- {                                                                       \
-     struct virtio_iommu_req_ ## __req req;                              \
--    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req)); \
-+    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req,               \
-+                    sizeof(req) - sizeof(struct virtio_iommu_req_tail));\
-                                                                         \
-     return ret ? ret : virtio_iommu_ ## __req(s, &req);                 \
- }
+ 
 -- 
 MST
 
