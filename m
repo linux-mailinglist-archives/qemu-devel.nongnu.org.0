@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0DE755BFD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:42:53 +0200 (CEST)
-Received: from localhost ([::1]:50076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27AC155BFCE
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:37:06 +0200 (CEST)
+Received: from localhost ([::1]:40172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o67kC-0008GX-OI
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58640)
+	id 1o67ea-0001Tp-Ui
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o67MQ-00039d-LK; Tue, 28 Jun 2022 05:18:18 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:46725)
+ id 1o67cY-0008GL-Bw; Tue, 28 Jun 2022 05:34:58 -0400
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:42555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o67MN-0004N4-Fb; Tue, 28 Jun 2022 05:18:17 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id l11so21113448ybu.13;
- Tue, 28 Jun 2022 02:18:14 -0700 (PDT)
+ id 1o67cW-0007Ur-QO; Tue, 28 Jun 2022 05:34:58 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-2ef5380669cso110519397b3.9; 
+ Tue, 28 Jun 2022 02:34:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Ojhk6QpBzpPpiS0FQ4LNWeVNRNc1d1kr/CCJF24g1Co=;
- b=hSrIYoyGLdZMphdbZjIHRElCT/PoRu5fBLf04qNVI9fEFcXTf2DZUf8NJNlz+KoO/H
- Z38+OB4cHC9/3tbHBadc7x/UPfxkal3QJknCdMDAoSEMN5yjyJA5Mpa8ot2RBecTzJge
- uJPZ37+AAHu1PzAEIWG9CVF8QEfpr4POSmsVeYZjTdnStgwFoXOONphH1hffk1wWqIY8
- 2SRuWMk1y+U6iiIz3P3uprEQhCnsjs768gTu1bN4xeYf0mg/IYwoegjfyvySk5+mFLDo
- EDQH8LYNE/v1UZtisKf4AxO+SzVxJJv+ju7EOWidPqTJ+LXlmMxFn6aZKOsryZt/L70W
- r+YQ==
+ bh=EzxpaQz7bxIUmNeE87P52neE+w9xvYN22Zxnp8GO8I0=;
+ b=SH8el+TNEhy2nRDnfF9F7Nx4Ax5WKt0laITHjkdqfUQao79wxUmw21vMS795itDfCq
+ x6nQngnftKpS39EQMGxcgTBeJW4UkqN+W9WhFP/K+/PqWX9FrhuhO+rAPkmatjEvQ4T/
+ tZI9E0e+t+JCc4SCD2okv0UQUA1g7g2LA2JTrIKfbQc0ebDs2itaOvRuVHONAiaryiya
+ WBKXm3tiI+pzmUnjxWlqmBv1nYclV8XXF/R3mIm1zDZFsF2DLqRa8IPShSv3FL+srqPj
+ uRMJGFlIkap2cSd2Iq2JjyfRvrb9bazPClknJjIQxukGe3DfIg2hDWdA/AqNOHOTU49k
+ 1xfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ojhk6QpBzpPpiS0FQ4LNWeVNRNc1d1kr/CCJF24g1Co=;
- b=He16z/agO1coG4FEeSGIC5MDTf7EnLhYEv25l/4k+Sh3E+gLwr/sOYU6w2JlBgHGrP
- oho7yS749pAJ/ozb+i1fRf3/a/+XZAbDf1/zR9w41prBPwQGijsNfORHjTjmsC6bBNMH
- 43rZZJPWlvATKu4FNNhQA+L1iMHOLmHsC4Xc+Dk/rybHDDBdNcwO+UahUjb5NTHJacjB
- wvKIHYg98kGO9hSacJIEw+B+lhHmrULeRLoOzRnX4TLx26T4HPHA9mF07C+AVFW0Evnk
- Rw+SGjYvuxHlpzmVFdbQhmuz74BoWvzHMPv8NRxzvgF8WiYv+D4acJmUajFcQdmpbSOH
- 3n2Q==
-X-Gm-Message-State: AJIora/Z3mLt8I6mMx8Heo9sLNlYj/rl9L8yvRSEpUqwQkRwz8CsRtj7
- NH2o6EXvf2RgOCeMk6T3zj16GRjkRtZgQINoEzs=
-X-Google-Smtp-Source: AGRyM1u2DAaGbkHGIzNcjQ/mJrseqSRtjh5MY415jb1OmR7lqS3YMHJlbesVbz0IyRpBQx9xeekaglavD53Du7lRRIA=
-X-Received: by 2002:a25:d957:0:b0:66c:9476:708f with SMTP id
- q84-20020a25d957000000b0066c9476708fmr15216307ybg.427.1656407893886; Tue, 28
- Jun 2022 02:18:13 -0700 (PDT)
+ bh=EzxpaQz7bxIUmNeE87P52neE+w9xvYN22Zxnp8GO8I0=;
+ b=dzJloYMd3Og5RpdmZGFXvyYoCt/Su50Xb9x0aQPbnPfKCtxGaFWCtyUKy3hu7cq3XJ
+ E911Zjyl1b6Dq4+Qny9A4EI9/HsWNkj4Gz/jCqsG3I8jIvMnb/5+xJpw/OtPKt39WVGG
+ FDKsVk/LFR8+NHQzBvtg/66WZNZTvi4mZr8F4MMngdbxGhN/VgKdSQlchBrc/vLT/uC0
+ h6D7mUYt4wSOEnbKr0I+AcsrZ39VAI9BYcS/uOlc3bYrKM1TTysEaUgzya4yU/JWWZlE
+ LicDkNlhTaF7lDigQKfpQKUnT1mCQ20PFlSiwD6U3QExYktvpELa9KkUMGFBItoNxfGr
+ xknQ==
+X-Gm-Message-State: AJIora+rbbDhIPGNpoGtx+N7CbgCaOuwN/bW4MvfsgEozztMCHkpka4A
+ B3z8Ucod+Jat+VJXVTpA6DTzWep+SAO/fLO2Q2k=
+X-Google-Smtp-Source: AGRyM1vEYm9qfHZOUk7oSvXSVeTWZcWK+na1zGDlDQzxYsXDxoC2FV4onvXyuHHW1iFUb/zpM5O4NRfMgnN9sKUVbcw=
+X-Received: by 2002:a81:c4c:0:b0:317:cba2:a610 with SMTP id
+ 73-20020a810c4c000000b00317cba2a610mr21025570ywm.147.1656408894350; Tue, 28
+ Jun 2022 02:34:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220627001917.9417-1-faithilikerun@gmail.com>
- <20220627001917.9417-4-faithilikerun@gmail.com>
- <Yrq3HUPe3QBjS2kq@stefanha-x1.localdomain>
-In-Reply-To: <Yrq3HUPe3QBjS2kq@stefanha-x1.localdomain>
+ <20220627001917.9417-6-faithilikerun@gmail.com>
+ <Yrq5j3TQs8crLRVn@stefanha-x1.localdomain>
+In-Reply-To: <Yrq5j3TQs8crLRVn@stefanha-x1.localdomain>
 From: Sam Li <faithilikerun@gmail.com>
-Date: Tue, 28 Jun 2022 17:18:03 +0800
-Message-ID: <CAAAx-8J95y6vFnwMNYT+WmYki-cgdB8SRNbAzy7VPQ5A6j+_wQ@mail.gmail.com>
-Subject: Re: [RFC v3 3/5] file-posix: introduce get_sysfs_long_val for zoned
- device information.
+Date: Tue, 28 Jun 2022 17:34:43 +0800
+Message-ID: <CAAAx-8JTDjSUw+AAnp5mc2TUoX8GS85sE--BqyBMEsgbG0fGQw@mail.gmail.com>
+Subject: Re: [RFC v3 5/5] qemu-iotests: add zone operation tests.
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
  Hanna Reitz <hreitz@redhat.com>, 
@@ -65,8 +65,8 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
  qemu block <qemu-block@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=faithilikerun@gmail.com; helo=mail-yb1-xb2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x1130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,150 +92,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B46=E6=9C=8828=E6=
 =97=A5=E5=91=A8=E4=BA=8C 16:20=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Mon, Jun 27, 2022 at 08:19:15AM +0800, Sam Li wrote:
-> > Use sysfs attribute files to get the zoned device information in case
-> > that ioctl() commands of zone management interface won't work. It can
-> > return long type of value like chunk_sectors, zoned_append_max_bytes,
-> > max_open_zones, max_active_zones.
-> > ---
-> >  block/file-posix.c | 37 +++++++++++++++++++++++++------------
-> >  1 file changed, 25 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/block/file-posix.c b/block/file-posix.c
-> > index 1b8b0d351f..73c2cdfbca 100644
-> > --- a/block/file-posix.c
-> > +++ b/block/file-posix.c
-> > @@ -1216,15 +1216,19 @@ static int hdev_get_max_hw_transfer(int fd, str=
-uct stat *st)
-> >  #endif
-> >  }
-> >
-> > -static int hdev_get_max_segments(int fd, struct stat *st)
-> > -{
-> > +/*
-> > + * Get zoned device information (chunk_sectors, zoned_append_max_bytes=
-,
-> > + * max_open_zones, max_active_zones) through sysfs attribute files.
->
-> This function is also used to get max_segments, which is not related to
-> zoned devices. How about:
->
->   Get a block queue sysfs attribute value.
->
-> > + */
-> > +static long get_sysfs_long_val(int fd, struct stat *st,
-> > +                               const char *attribute) {
-> >  #ifdef CONFIG_LINUX
-> >      char buf[32];
-> >      const char *end;
-> >      char *sysfspath =3D NULL;
-> >      int ret;
-> >      int sysfd =3D -1;
-> > -    long max_segments;
-> > +    long val;
-> >
-> >      if (S_ISCHR(st->st_mode)) {
-> >          if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) =3D=3D 0) {
-> > @@ -1237,8 +1241,9 @@ static int hdev_get_max_segments(int fd, struct s=
-tat *st)
-> >          return -ENOTSUP;
-> >      }
-> >
-> > -    sysfspath =3D g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segm=
-ents",
-> > -                                major(st->st_rdev), minor(st->st_rdev)=
-);
-> > +    sysfspath =3D g_strdup_printf("/sys/dev/block/%u:%u/queue/%s",
-> > +                                major(st->st_rdev), minor(st->st_rdev)=
-,
-> > +                                attribute);
-> >      sysfd =3D open(sysfspath, O_RDONLY);
-> >      if (sysfd =3D=3D -1) {
-> >          ret =3D -errno;
-> > @@ -1256,9 +1261,9 @@ static int hdev_get_max_segments(int fd, struct s=
-tat *st)
-> >      }
-> >      buf[ret] =3D 0;
-> >      /* The file is ended with '\n', pass 'end' to accept that. */
-> > -    ret =3D qemu_strtol(buf, &end, 10, &max_segments);
-> > +    ret =3D qemu_strtol(buf, &end, 10, &val);
-> >      if (ret =3D=3D 0 && end && *end =3D=3D '\n') {
-> > -        ret =3D max_segments;
-> > +        ret =3D val;
-> >      }
-> >
-> >  out:
-> > @@ -1272,6 +1277,15 @@ out:
-> >  #endif
-> >  }
-> >
-> > +static int hdev_get_max_segments(int fd, struct stat *st) {
-> > +    int ret;
-> > +    ret =3D get_sysfs_long_val(fd, st, "max_segments");
-> > +    if (ret < 0) {
-> > +        return -1;
->
-> This hides the actual error number. The if statement can be dropped and
-> the function can be simplified to:
->
->   static int hdev_get_max_segments(int fd, struct stat *st) {
->       return get_sysfs_long_val(fd, st, "max_segments");
->   }
->
-> Whether you want to keep the tiny helper function or inline
-> get_sysfs_long_val(fd, st, "max_segments") into the caller is up to you.
->
-> > +    }
-> > +    return ret;
-> > +}
+> On Mon, Jun 27, 2022 at 08:19:17AM +0800, Sam Li wrote:
+> > diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-iotests/tes=
+ts/zoned.sh
+> > new file mode 100755
+> > index 0000000000..262c0b5427
+> > --- /dev/null
+> > +++ b/tests/qemu-iotests/tests/zoned.sh
+> > @@ -0,0 +1,49 @@
+> > +#!/usr/bin/env bash
+> > +#
+> > +# Test zone management operations.
+> > +#
 > > +
-> >  static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
-> >  {
-> >      BDRVRawState *s =3D bs->opaque;
-> > @@ -1872,6 +1886,7 @@ static int handle_aiocb_zone_report(void *opaque)=
- {
-> >
-> >  static int handle_aiocb_zone_mgmt(void *opaque) {
-> >      RawPosixAIOData *aiocb =3D opaque;
-> > +    BlockDriverState *s =3D aiocb->bs;
-> >      int fd =3D aiocb->aio_fildes;
-> >      int64_t offset =3D aiocb->aio_offset;
-> >      int64_t len =3D aiocb->aio_nbytes;
-> > @@ -1884,11 +1899,9 @@ static int handle_aiocb_zone_mgmt(void *opaque) =
-{
-> >      int64_t zone_size_mask;
-> >      int ret;
-> >
-> > -    ret =3D ioctl(fd, BLKGETZONESZ, &zone_size);
-> > -    if (ret) {
-> > -        return -1;
-> > -    }
-> > -
-> > +    g_autofree struct stat *file =3D g_new(struct stat, 1);
-> > +    stat(s->filename, file);
+> > +QEMU_IO=3D"build/qemu-io"
+> > +IMG=3D"--image-opts driver=3Dzoned_host_device,filename=3D/dev/nullb0"
+> > +QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
+> > +
+> > +echo "Testing a null_blk device"
+> > +echo "Simple cases: if the operations work"
+> > +sudo modprobe null_blk nr_devices=3D1 zoned=3D1
 >
-> There is no need to allocate struct stat using g_new(). It's a small
-> struct that can be on the stack.
->
-> Also, fstat(fd, &st) is preferred when the file descriptor is already
-> open because it avoids race conditions due to file renaming/path
-> traversal.
->
-> Here is how this could be written:
->
->   struct stat st;
->   if (fstat(fd, &st) < 0) {
->       return -errno;
->   }
+> Please use bash's "trap" command to remove null_blk on exit. That way
+> cleanup happens whether the script exits successfully or not. See
+> tests/qemu-iotests/108 for an example.
 
-Thanks for the suggestions!
+Noted. Should I just include "rmmod null_blk" in _cleanup()? I'm a
+little confused about the normal way to write qemu-iotests.
 
 >
-> > +    zone_size =3D get_sysfs_long_val(fd, file, "chunk_sectors");
-> >      zone_size_mask =3D zone_size - 1;
-> >      if (offset & zone_size_mask) {
-> >          error_report("offset is not the start of a zone");
-> > --
-> > 2.35.3
-> >
+> > +# success, all done
+> > +sudo rmmod null_blk
+> > +echo "*** done"
+> > +#rm -f $seq.full
+>
+> Why is this commented out?
+I should just remove it. seq is not used.
 
