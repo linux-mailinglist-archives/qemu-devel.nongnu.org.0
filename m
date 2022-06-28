@@ -2,64 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E1F55BF28
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 09:34:51 +0200 (CEST)
-Received: from localhost ([::1]:34242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF1D55BF2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 09:36:16 +0200 (CEST)
+Received: from localhost ([::1]:37630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o65kH-0005gu-L1
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 03:34:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57710)
+	id 1o65lf-0007y0-VQ
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 03:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o651D-0007Li-EI
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 02:48:21 -0400
-Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:35749)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o653h-0000ju-8l
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 02:50:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o651A-0006WO-At
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 02:48:14 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.170])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9B57522A1B;
- Tue, 28 Jun 2022 06:47:59 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 28 Jun
- 2022 08:47:57 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0027fb7a07c-2d50-4bcf-b908-4f18dfb31205,
- 366CF7EF17C4C6544BD620BB2F2D78A15BAD5133) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <1640c86d-cd18-b7cf-67ca-0e9d7abd16b3@kaod.org>
-Date: Tue, 28 Jun 2022 08:47:56 +0200
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o653a-0006tL-L4
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 02:50:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656399041;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p9crZ1SllLNZ1E+dkdR881t7JUFZueG2Z9KZ4mmeNaA=;
+ b=eEfYjcJI3rXB9mccdQSZm4cshu49qU2nqes87T0pF6eBlTP6iXVVaExYrU+4+50Y0NyL+9
+ 1taeTRwFX3RjXj36ztJsymFOXQtWqULtbgxsSEOO6CahJKzH9CSyyn8HmFISIWe6SZIpMb
+ 9N5tCLNHqeAMtTDhf2vKVQJOhSCfHGo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-321-A4fGJIT_NxKGR0R4OzB1zQ-1; Tue, 28 Jun 2022 02:50:40 -0400
+X-MC-Unique: A4fGJIT_NxKGR0R4OzB1zQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ b7-20020a056402350700b00435bd1c4523so8856792edd.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 23:50:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=p9crZ1SllLNZ1E+dkdR881t7JUFZueG2Z9KZ4mmeNaA=;
+ b=60yn1IBWdfffjfhQwcZVDvOAcA/QRpUbm30UcBlLNHs5QrLiSLkAo2nnoJCx/fuUHe
+ AzFbPfbC3GSS0SZumEUaDZvvSH6SkBSHktG2gqP4A6t28QkeK0q6D8DqO5EcGy5iISKC
+ 6MD7QgwvWtZfE+GrIQIG3WNR6KORr4uuHsDGpiK9VziK3UcA2UuYZ7vw+ZoG43bsCMdA
+ Z68hiL2R3RZfHigEyO+k/VMkdhUBPNRsp0s1cLdiof/bVrpStuqx9syIvR0rHeR6ECt9
+ AePPDtPwodcTksmTTDE3bus443aEMjeh7/Q+vAofp9nbxdo7yNck+E3hFyxlb4yDXTwm
+ 93fg==
+X-Gm-Message-State: AJIora+AIFOprNXMzWvlGq3Foll5GjokBPWEg4tNEocctcKEXIW9BrBo
+ VnhY9Ewi9WgkujLe9ddDv4EDtZEj38b58+QHlR2NSW7nPKPx/duGvC1LuKG09+77eny+UX1AuR4
+ mZGKCJ5OhG1edGPM=
+X-Received: by 2002:a05:6402:5188:b0:437:618c:c124 with SMTP id
+ q8-20020a056402518800b00437618cc124mr21386567edd.233.1656399038153; 
+ Mon, 27 Jun 2022 23:50:38 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uxaeKepdxOzPoKGZcN9yacdMRRQrf6TN1NztdF/rEOeKLjm2fbLq/mQWYKuYADkADcJYXSYw==
+X-Received: by 2002:a05:6402:5188:b0:437:618c:c124 with SMTP id
+ q8-20020a056402518800b00437618cc124mr21386536edd.233.1656399037758; 
+ Mon, 27 Jun 2022 23:50:37 -0700 (PDT)
+Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
+ f19-20020a05640214d300b00435bcb87591sm8913360edx.2.2022.06.27.23.50.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 23:50:37 -0700 (PDT)
+Date: Tue, 28 Jun 2022 02:50:33 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
+Subject: Re: [PATCH 11/12] acpi/tests/bits: add README file for bits qtests
+Message-ID: <20220628024810-mutt-send-email-mst@kernel.org>
+References: <20220627072856.1529357-1-ani@anisinha.ca>
+ <20220627072856.1529357-12-ani@anisinha.ca>
+ <20220627182027-mutt-send-email-mst@kernel.org>
+ <CAARzgwznJUrO-7kjZ+58qj=UG6V9wojP=ZfW7FePyvb6GxdNtA@mail.gmail.com>
+ <20220628020017-mutt-send-email-mst@kernel.org>
+ <CAARzgwwf_WRWzbwPorpa-4XN7T6f6D7CRo70+07Z8LgZO+5Spg@mail.gmail.com>
+ <20220628021757-mutt-send-email-mst@kernel.org>
+ <CAARzgwyWK2HNbz=9=uoA+DDTpnn2q3CRmYVyjLwfMs1wi24-LA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 07/14] aspeed: Add PECI controller
-Content-Language: en-US
-To: Peter Delevoryas <pdel@fb.com>
-CC: <zhdaniel@fb.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- <komlodi@google.com>, <titusr@google.com>, <andrew@aj.id.au>,
- <joel@jms.id.au>
-References: <20220627195506.403715-1-pdel@fb.com>
- <20220627195506.403715-8-pdel@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220627195506.403715-8-pdel@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 48e9fa85-c57f-47be-82b1-055a814fbc01
-X-Ovh-Tracer-Id: 11826171150167935852
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudegiedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdegleehgfeffefhudeutdfgfeekteekjeefveehfeektdeiueevvdfhueekjeeknecuffhomhgrihhnpehmvghtrgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhhovghlsehjmhhsrdhiugdrrghupdfovfetjfhoshhtpehmohehhedv
-Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
- helo=6.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAARzgwyWK2HNbz=9=uoA+DDTpnn2q3CRmYVyjLwfMs1wi24-LA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,384 +106,288 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/27/22 21:54, Peter Delevoryas wrote:
-
-Could we have some short intro ? :)
-
-> Signed-off-by: Peter Delevoryas <pdel@fb.com>
-> ---
->   hw/arm/aspeed_ast10x0.c       |  11 ++
->   hw/misc/aspeed_peci.c         | 225 ++++++++++++++++++++++++++++++++++
->   hw/misc/meson.build           |   3 +-
->   include/hw/arm/aspeed_soc.h   |   3 +
->   include/hw/misc/aspeed_peci.h |  34 +++++
->   5 files changed, 275 insertions(+), 1 deletion(-)
->   create mode 100644 hw/misc/aspeed_peci.c
->   create mode 100644 include/hw/misc/aspeed_peci.h
+On Tue, Jun 28, 2022 at 12:06:31PM +0530, Ani Sinha wrote:
+> On Tue, Jun 28, 2022 at 11:50 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Tue, Jun 28, 2022 at 11:46:13AM +0530, Ani Sinha wrote:
+> > > On Tue, Jun 28, 2022 at 11:36 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Tue, Jun 28, 2022 at 10:27:38AM +0530, Ani Sinha wrote:
+> > > > > On Tue, Jun 28, 2022 at 3:56 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > > > >
+> > > > > > On Mon, Jun 27, 2022 at 12:58:55PM +0530, Ani Sinha wrote:
+> > > > > > > The README file is added describing the directory structure and the purpose
+> > > > > > > of every file it contains. It also describes how to add new tests, make changes
+> > > > > > > to existing tests or bits config files or regenerate the bits software.
+> > > > > > >
+> > > > > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > > > > > ---
+> > > > > > >  tests/qtest/acpi-bits/README | 168 +++++++++++++++++++++++++++++++++++
+> > > > > > >  1 file changed, 168 insertions(+)
+> > > > > > >  create mode 100644 tests/qtest/acpi-bits/README
+> > > > > > >
+> > > > > > > diff --git a/tests/qtest/acpi-bits/README b/tests/qtest/acpi-bits/README
+> > > > > > > new file mode 100644
+> > > > > > > index 0000000000..97b15f1665
+> > > > > > > --- /dev/null
+> > > > > > > +++ b/tests/qtest/acpi-bits/README
+> > > > > > > @@ -0,0 +1,168 @@
+> > > > > > > +=============================================================================
+> > > > > > > +ACPI/SMBIOS QTESTS USING BIOSBITS
+> > > > > > > +=============================================================================
+> > > > > > > +
+> > > > > > > +Biosbits is a software written by Josh Triplett that can be downloaded by
+> > > > > > > +visiting https://biosbits.org/. The github codebase can be found here:
+> > > > > > > +https://github.com/biosbits/bits/tree/master. It is a software that exercizes
+> > > > > > > +the bios components such as acpi and smbios tables directly through acpica
+> > > > > > > +bios interpreter (a freely available C based library written by Intel,
+> > > > > > > +downloadable from https://acpica.org/ and is included with biosbits) without an
+> > > > > > > +operating system getting involved in between.
+> > > > > > > +There are several advantages to directly testing the bios in a real physical
+> > > > > > > +machine or VM as opposed to indirectly discovering bios issues through the
+> > > > > > > +operating system. For one thing, the OSes tend to hide bios problems from the
+> > > > > > > +end user. The other is that we have more control of what we wanted to test
+> > > > > > > +and how by directly using acpica interpreter on top of the bios on a running
+> > > > > > > +system. More details on the inspiration for developing biosbits and its real
+> > > > > > > +life uses can be found in (a) and (b).
+> > > > > > > +This directory contains QEMU qtests written in python that exercizes the QEMU
+> > > > > > > +bios components using biosbits and reports test failures.
+> > > > > > > +
+> > > > > > > +These tests use python virtual environment. In debian/ubuntu system, the tests
+> > > > > > > +would require python3.8-venv and python3-pip packages to be installed.
+> > > > > >
+> > > > > > Why do we mess with venv and pip? Certainly possible but
+> > > > > > what's wrong with using distro provided packages?
+> > > > >
+> > > > > There are two things:
+> > > > > (a) We are already using pip and venv for our avocado based
+> > > > > integration tests. Look for TESTS_VENV_DIR in Makefile.include under
+> > > > > tests.
+> > > > > (b) the venv is primarily needed because I wanted to take advantage of
+> > > > > our rich python library that handles QEMU based machines. There are
+> > > > > python qtest libraries as well. These are well tested and used with
+> > > > > integration tests and I wanted to keep the test part of the code
+> > > > > simple by simply reusing them. however, in order to use them, we need
+> > > > > a venv environment within which these qemu python libraries are
+> > > > > installed. Integration tests does the same thing.
+> > > > >
+> > > > > A note about my language of choice - python. I gave a lot of thoughts
+> > > > > on this. We do not do a lot of stuff here. All we do is:
+> > > > > (a) generate bits iso.
+> > > > > (b) spawn a QEMU vm with the iso which then runs a bunch of tests within the vm.
+> > > > > (c) collect and analyze logs.
+> > > > >
+> > > > > We are not inspecting guest memory or manipulating devices or pci
+> > > > > buses. We do not need the power of C here. We need something that is
+> > > > > simple to write, easy to maintain and understand and can deal with
+> > > > > things like manipulating text files and configs easily. Python seems a
+> > > > > better fit for the role.
+> > > >
+> > > > No problem with that. So that's venv. But do we need pip and pulling
+> > > > packages from the net during testing?
+> > >
+> > > We do that too. See requirements.txt in tests/
+> > > Following two are downloaded:
+> > > avocado-framework==88.1
+> > > pycdlib==1.11.0
+> > >
+> > > Also see this line in Makefie.include:
+> > >
+> > > $(call quiet-venv-pip,install -r $(TESTS_VENV_REQ))
+> >
+> > Right but that's avocado since it pulls lots of stuff from
+> > the net anyway.
+> > Are the libraries in question not packaged on major distros?
 > 
-> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-> index 5df480a21f..780841ea84 100644
-> --- a/hw/arm/aspeed_ast10x0.c
-> +++ b/hw/arm/aspeed_ast10x0.c
-> @@ -47,6 +47,7 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
->       [ASPEED_DEV_UART13]    = 0x7E790700,
->       [ASPEED_DEV_WDT]       = 0x7E785000,
->       [ASPEED_DEV_LPC]       = 0x7E789000,
-> +    [ASPEED_DEV_PECI]      = 0x7E78B000,
->       [ASPEED_DEV_I2C]       = 0x7E7B0000,
->   };
->   
-> @@ -75,6 +76,7 @@ static const int aspeed_soc_ast1030_irqmap[] = {
->       [ASPEED_DEV_TIMER8]    = 23,
->       [ASPEED_DEV_WDT]       = 24,
->       [ASPEED_DEV_LPC]       = 35,
-> +    [ASPEED_DEV_PECI]      = 38,
->       [ASPEED_DEV_FMC]       = 39,
->       [ASPEED_DEV_PWM]       = 44,
->       [ASPEED_DEV_ADC]       = 46,
-> @@ -133,6 +135,8 @@ static void aspeed_soc_ast1030_init(Object *obj)
->   
->       object_initialize_child(obj, "lpc", &s->lpc, TYPE_ASPEED_LPC);
->   
-> +    object_initialize_child(obj, "peci", &s->peci, TYPE_ASPEED_PECI);
-> +
->       object_initialize_child(obj, "sbc", &s->sbc, TYPE_ASPEED_SBC);
->   
->       for (i = 0; i < sc->wdts_num; i++) {
-> @@ -238,6 +242,13 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
->       /* UART */
->       aspeed_soc_uart_init(s);
->   
-> +    /* PECI */
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->peci), errp)) {
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->peci), 0, sc->memmap[ASPEED_DEV_PECI]);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peci), 0, aspeed_soc_get_irq(s, ASPEED_DEV_PECI));
-> +
->       /* Timer */
->       object_property_set_link(OBJECT(&s->timerctrl), "scu", OBJECT(&s->scu),
->                                &error_abort);
-> diff --git a/hw/misc/aspeed_peci.c b/hw/misc/aspeed_peci.c
-> new file mode 100644
-> index 0000000000..670e532fc0
-> --- /dev/null
-> +++ b/hw/misc/aspeed_peci.c
-> @@ -0,0 +1,225 @@
-> +/*
-> + * Aspeed PECI Controller
-> + *
-> + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
-> + *
-> + * This code is licensed under the GPL version 2 or later. See the COPYING
-> + * file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "hw/irq.h"
-> +#include "hw/misc/aspeed_peci.h"
-> +
-> +#define U(x) (x##U)
-> +#define GENMASK(h, l) \
-> +	(((~U(0)) - (U(1) << (l)) + 1) & \
-> +	 (~U(0) >> (32 - 1 - (h))))
+> Currently I only need this:
+> https://github.com/python-tap/tappy
+> which is the basic TAP processing library for python.
+> 
+> It seems its only installed through pip:
+> https://tappy.readthedocs.io/en/latest/
+> 
+> I do not think this is packaged by default. It's such a basic library
+> for parsing test output that maybe we can keep this somewhere within
+> the python src tree? Not sure ...
 
-I beleive QEMU has similar macros to generate masks.
+It's pretty small for sure. Another submodule?
 
-
-> +/* ASPEED PECI Registers */
-> +/* Control Register */
-> +#define ASPEED_PECI_CTRL (0x00 / 4)
-> +#define   ASPEED_PECI_CTRL_SAMPLING_MASK 	GENMASK(19, 16)
-> +#define   ASPEED_PECI_CTRL_RD_MODE_MASK 	GENMASK(13, 12)
-> +#define     ASPEED_PECI_CTRL_RD_MODE_DBG BIT(13)
-> +#define     ASPEED_PECI_CTRL_RD_MODE_COUNT BIT(12)
-> +#define   ASPEED_PECI_CTRL_CLK_SRC_HCLK BIT(11)
-> +#define   ASPEED_PECI_CTRL_CLK_DIV_MASK GENMASK(10, 8)
-> +#define   ASPEED_PECI_CTRL_INVERT_OUT BIT(7)
-> +#define   ASPEED_PECI_CTRL_INVERT_IN BIT(6)
-> +#define   ASPEED_PECI_CTRL_BUS_CONTENTION_EN BIT(5)
-> +#define   ASPEED_PECI_CTRL_PECI_EN  BIT(4)
-> +#define   ASPEED_PECI_CTRL_PECI_CLK_EN  BIT(0)
-> +
-> +/* Timing Negotiation Register */
-> +#define ASPEED_PECI_TIMING_NEGOTIATION (0x04 / 4)
-> +#define   ASPEED_PECI_T_NEGO_MSG_MASK  GENMASK(15, 8)
-> +#define   ASPEED_PECI_T_NEGO_ADDR_MASK  GENMASK(7, 0)
-> +
-> +/* Command Register */
-> +#define ASPEED_PECI_CMD (0x08 / 4)
-> +#define   ASPEED_PECI_CMD_PIN_MONITORING BIT(31)
-> +#define   ASPEED_PECI_CMD_STS_MASK  GENMASK(27, 24)
-> +#define     ASPEED_PECI_CMD_STS_ADDR_T_NEGO 0x3
-> +#define   ASPEED_PECI_CMD_IDLE_MASK  \
-> +   (ASPEED_PECI_CMD_STS_MASK | ASPEED_PECI_CMD_PIN_MONITORING)
-> +#define   ASPEED_PECI_CMD_FIRE   BIT(0)
-> +
-> +/* Read/Write Length Register */
-> +#define ASPEED_PECI_RW_LENGTH (0x0c / 4)
-> +#define   ASPEED_PECI_AW_FCS_EN   BIT(31)
-> +#define   ASPEED_PECI_RD_LEN_MASK  GENMASK(23, 16)
-> +#define   ASPEED_PECI_WR_LEN_MASK  GENMASK(15, 8)
-> +#define   ASPEED_PECI_TARGET_ADDR_MASK  GENMASK(7, 0)
-> +
-> +/* Expected FCS Data Register */
-> +#define ASPEED_PECI_EXPECTED_FCS (0x10 / 4)
-> +#define   ASPEED_PECI_EXPECTED_RD_FCS_MASK GENMASK(23, 16)
-> +#define   ASPEED_PECI_EXPECTED_AW_FCS_AUTO_MASK GENMASK(15, 8)
-> +#define   ASPEED_PECI_EXPECTED_WR_FCS_MASK GENMASK(7, 0)
-> +
-> +/* Captured FCS Data Register */
-> +#define ASPEED_PECI_CAPTURED_FCS (0x14 / 4)
-> +#define   ASPEED_PECI_CAPTURED_RD_FCS_MASK GENMASK(23, 16)
-> +#define   ASPEED_PECI_CAPTURED_WR_FCS_MASK GENMASK(7, 0)
-> +
-> +/* Interrupt Register */
-> +#define ASPEED_PECI_INT_CTRL (0x18 / 4)
-> +#define   ASPEED_PECI_TIMING_NEGO_SEL_MASK GENMASK(31, 30)
-> +#define     ASPEED_PECI_1ST_BIT_OF_ADDR_NEGO 0
-> +#define     ASPEED_PECI_2ND_BIT_OF_ADDR_NEGO 1
-> +#define     ASPEED_PECI_MESSAGE_NEGO  2
-> +#define   ASPEED_PECI_INT_MASK   GENMASK(4, 0)
-> +#define     ASPEED_PECI_INT_BUS_TIMEOUT  BIT(4)
-> +#define     ASPEED_PECI_INT_BUS_CONTENTION BIT(3)
-> +#define     ASPEED_PECI_INT_WR_FCS_BAD  BIT(2)
-> +#define     ASPEED_PECI_INT_WR_FCS_ABORT BIT(1)
-> +#define     ASPEED_PECI_INT_CMD_DONE  BIT(0)
-> +
-> +/* Interrupt Status Register */
-> +#define ASPEED_PECI_INT_STS (0x1c / 4)
-> +#define   ASPEED_PECI_INT_TIMING_RESULT_MASK GENMASK(29, 16)
-> +   /* bits[4..0]: Same bit fields in the 'Interrupt Register' */
-> +
-> +/* Rx/Tx Data Buffer Registers */
-> +#define ASPEED_PECI_WR_DATA0 (0x20 / 4)
-> +#define ASPEED_PECI_WR_DATA1 (0x24 / 4)
-> +#define ASPEED_PECI_WR_DATA2 (0x28 / 4)
-> +#define ASPEED_PECI_WR_DATA3 (0x2c / 4)
-> +#define ASPEED_PECI_RD_DATA0 (0x30 / 4)
-> +#define ASPEED_PECI_RD_DATA1 (0x34 / 4)
-> +#define ASPEED_PECI_RD_DATA2 (0x38 / 4)
-> +#define ASPEED_PECI_RD_DATA3 (0x3c / 4)
-> +#define ASPEED_PECI_WR_DATA4 (0x40 / 4)
-> +#define ASPEED_PECI_WR_DATA5 (0x44 / 4)
-> +#define ASPEED_PECI_WR_DATA6 (0x48 / 4)
-> +#define ASPEED_PECI_WR_DATA7 (0x4c / 4)
-> +#define ASPEED_PECI_RD_DATA4 (0x50 / 4)
-> +#define ASPEED_PECI_RD_DATA5 (0x54 / 4)
-> +#define ASPEED_PECI_RD_DATA6 (0x58 / 4)
-> +#define ASPEED_PECI_RD_DATA7 (0x5c / 4)
-> +#define   ASPEED_PECI_DATA_BUF_SIZE_MAX 32
-> +
-> +/** PECI read/write supported responses */
-> +#define PECI_CC_RSP_SUCCESS              (0x40U)
-> +#define PECI_CC_RSP_TIMEOUT              (0x80U)
-> +#define PECI_CC_OUT_OF_RESOURCES_TIMEOUT (0x81U)
-> +#define PECI_CC_RESOURCES_LOWPWR_TIMEOUT (0x82U)
-> +#define PECI_CC_ILLEGAL_REQUEST          (0x90U)
-> +
-> +static void aspeed_peci_instance_init(Object *obj)
-> +{
-> +}
-
-May be drop this routine if it is empty.
-
-> +static uint64_t aspeed_peci_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    AspeedPECIState *s = ASPEED_PECI(opaque);
-> +
-> +    if (addr >= ASPEED_PECI_NR_REGS << 2) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx "\n",
-> +                      __func__, addr);
-> +        return 0;
-> +    }
-> +    addr >>= 2;
-> +
-> +    uint32_t reg = s->regs[addr];
-> +    //printf("%s:  0x%08lx 0x%08x %u\n", __func__, addr << 2, reg, size);
-
-Convert to trace event ? or please remove.
-
-> +
-> +    return reg;
-> +}
-> +
-> +static void aspeed_peci_write(void *opaque, hwaddr addr, uint64_t data, unsigned size)
-> +{
-> +    AspeedPECIState *s = ASPEED_PECI(opaque);
-> +
-> +    //printf("%s: 0x%08lx 0x%08x %u\n", __func__, addr, reg, size);
-> +
-> +    if (addr >= ASPEED_PECI_NR_REGS << 2) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Out-of-bounds write at offset 0x%" HWADDR_PRIx "\n",
-> +                      __func__, addr);
-> +        return;
-> +    }
-> +    addr >>= 2;
-> +
-> +    switch (addr) {
-> +    case ASPEED_PECI_INT_STS:
-> +        s->regs[addr] &= ~data;
-> +        break;
-> +    default:
-> +        s->regs[addr] = data;
-> +        break;
-> +    }
-> +
-> +    switch (addr) {
-> +    case ASPEED_PECI_CMD:
-> +        if (!(s->regs[ASPEED_PECI_CMD] & ASPEED_PECI_CMD_FIRE)) {
-> +            break;
-> +        }
-> +        s->regs[ASPEED_PECI_RD_DATA0] = PECI_CC_RSP_SUCCESS;
-> +        s->regs[ASPEED_PECI_WR_DATA0] = PECI_CC_RSP_SUCCESS;
-> +
-> +        s->regs[ASPEED_PECI_INT_STS] |= ASPEED_PECI_INT_CMD_DONE;
-> +        qemu_irq_raise(s->irq);
-> +        break;
-> +    case ASPEED_PECI_INT_STS:
-> +        if (s->regs[ASPEED_PECI_INT_STS]) {
-> +            break;
-> +        }
-> +        qemu_irq_lower(s->irq);
-> +        break;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP, "%s: register 0x%03" HWADDR_PRIx " writes unimplemented\n",
-> +                      __func__, addr);
-> +        break;
-> +    }
-> +}
-> +
-> +static const MemoryRegionOps aspeed_peci_ops = {
-> +    .read = aspeed_peci_read,
-> +    .write = aspeed_peci_write,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +};
-> +
-> +static void aspeed_peci_realize(DeviceState *dev, Error **errp)
-> +{
-> +    AspeedPECIState *s = ASPEED_PECI(dev);
-> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-> +
-> +    memory_region_init_io(&s->mmio, OBJECT(s), &aspeed_peci_ops, s, TYPE_ASPEED_PECI, 0x1000);
-> +    sysbus_init_mmio(sbd, &s->mmio);
-> +    sysbus_init_irq(sbd, &s->irq);
-> +}
-> +
-> +static void aspeed_peci_reset(DeviceState *dev)
-> +{
-> +    AspeedPECIState *s = ASPEED_PECI(dev);
-> +
-> +    memset(s->regs, 0, sizeof(s->regs));
-> +}
-> +
-> +static void aspeed_peci_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->realize = aspeed_peci_realize;
-> +    dc->reset = aspeed_peci_reset;
-> +    dc->desc = "Aspeed PECI Controller";
-> +}
-> +
-> +static const TypeInfo aspeed_peci_info = {
-> +    .name = TYPE_ASPEED_PECI,
-> +    .parent = TYPE_SYS_BUS_DEVICE,
-> +    .instance_init = aspeed_peci_instance_init,
-> +    .instance_size = sizeof(AspeedPECIState),
-> +    .class_init = aspeed_peci_class_init,
-> +    .class_size = sizeof(AspeedPECIClass),
-> +    .abstract = false,
-> +};
-> +
-> +static void aspeed_peci_register_types(void)
-> +{
-> +    type_register_static(&aspeed_peci_info);
-> +}
-> +
-> +type_init(aspeed_peci_register_types);
-> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-> index 132b7b7344..95268eddc0 100644
-> --- a/hw/misc/meson.build
-> +++ b/hw/misc/meson.build
-> @@ -116,7 +116,8 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
->     'aspeed_scu.c',
->     'aspeed_sbc.c',
->     'aspeed_sdmc.c',
-> -  'aspeed_xdma.c'))
-> +  'aspeed_xdma.c',
-> +  'aspeed_peci.c'))
->   
->   softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
->   softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
-> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-> index 02a5a9ffcb..fd2aa1880a 100644
-> --- a/include/hw/arm/aspeed_soc.h
-> +++ b/include/hw/arm/aspeed_soc.h
-> @@ -34,6 +34,7 @@
->   #include "hw/usb/hcd-ehci.h"
->   #include "qom/object.h"
->   #include "hw/misc/aspeed_lpc.h"
-> +#include "hw/misc/aspeed_peci.h"
->   
->   #define ASPEED_SPIS_NUM  2
->   #define ASPEED_EHCIS_NUM 2
-> @@ -73,6 +74,7 @@ struct AspeedSoCState {
->       AspeedSDHCIState sdhci;
->       AspeedSDHCIState emmc;
->       AspeedLPCState lpc;
-> +    AspeedPECIState peci;
->       uint32_t uart_default;
->       Clock *sysclk;
->   };
-> @@ -161,6 +163,7 @@ enum {
->       ASPEED_DEV_DPMCU,
->       ASPEED_DEV_DP,
->       ASPEED_DEV_I3C,
-> +    ASPEED_DEV_PECI,
->   };
->   
->   qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
-> diff --git a/include/hw/misc/aspeed_peci.h b/include/hw/misc/aspeed_peci.h
-> new file mode 100644
-> index 0000000000..81c7d31700
-> --- /dev/null
-> +++ b/include/hw/misc/aspeed_peci.h
-> @@ -0,0 +1,34 @@
-> +/*
-> + * Aspeed PECI Controller
-> + *
-> + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
-> + *
-> + * This code is licensed under the GPL version 2 or later. See the COPYING
-> + * file in the top-level directory.
-> + */
-> +
-> +#ifndef ASPEED_PECI_H
-> +#define ASPEED_PECI_H
-> +
-> +#include "hw/sysbus.h"
-> +
-> +#define TYPE_ASPEED_PECI "aspeed.peci"
-> +OBJECT_DECLARE_TYPE(AspeedPECIState, AspeedPECIClass, ASPEED_PECI);
-> +
-> +#define ASPEED_PECI_NR_REGS ((0xFC + 4) >> 2)
-> +
-> +struct AspeedPECIState {
-> +    /* <private> */
-> +    SysBusDevice parent;
-> +
-> +    MemoryRegion mmio;
-> +    qemu_irq irq;
-> +
-> +    uint32_t regs[ASPEED_PECI_NR_REGS];
-> +};
-> +
-> +struct AspeedPECIClass {
-> +    SysBusDeviceClass parent_class;
-> +};
-> +
-> +#endif
+> >
+> > > >
+> > > > > >
+> > > > > > > +
+> > > > > > > +A brief description of the contents of this directory follows:
+> > > > > > > +
+> > > > > > > +├── acpi-bits-test.py
+> > > > > > > +├── acpi-bits-test-venv.sh
+> > > > > > > +├── bits-config
+> > > > > > > +│   ├── bits-cfg.txt
+> > > > > > > +│   └── meson.build
+> > > > > > > +├── bits-tests
+> > > > > > > +│   ├── meson.build
+> > > > > > > +│   ├── smbios.py
+> > > > > > > +│   ├── smilatency.py
+> > > > > > > +│   ├── testacpi.py
+> > > > > > > +│   └── testcpuid.py
+> > > > > > > +├── meson.build
+> > > > > > > +├── prebuilt
+> > > > > > > +│   ├── bits-2095-grub.tar.gz
+> > > > > > > +│   ├── bits-2095.zip
+> > > > > > > +│   └── meson.build
+> > > > > > > +├── README
+> > > > > > > +└── requirements.txt
+> > > > > > > +
+> > > > > > > +acpi-bits:
+> > > > > > > + - acpi-bits-test-venv.sh: This is a shell script that sets up the virtual
+> > > > > > > +   environment necessary for the actual python test script to run. Amongst
+> > > > > > > +   other things, it makes sure that QEMU python library is available within
+> > > > > > > +   that venv so that QEMU machines can be forked. QEMU python library can be
+> > > > > > > +   found within python/ directory in QEMU source.
+> > > > > > > +   After setting up the virtual environment, it runs the python test script
+> > > > > > > +   from within that environment.
+> > > > > > > +   If you want to enable verbose mode only for bits test and run make check,
+> > > > > > > +   one trick is to add V=1 before the call to execute the python script in
+> > > > > > > +   this file.
+> > > > > > > + - acpi-bits-test.py: This is the main python test script that generates a
+> > > > > > > +   biosbits iso. It then spawns a QEMU VM with it, collects the logs and reports
+> > > > > > > +   test failures. This is the script one would be interested in if they wanted
+> > > > > > > +   to add or change some component of the log parsing, add a new commandline to
+> > > > > > > +   how QEMU is spawned etc. Test writers typically would not need to modify
+> > > > > > > +   this script unless they wanted to enhance or change the log parsing for
+> > > > > > > +   their tests.
+> > > > > > > + - requirements.txt: This text file contains the dependent python libraries
+> > > > > > > +   needed for the tests to run. If a new dependent library is needed, it would
+> > > > > > > +   be added here as a new entry and then acpi-bits-test-venv.sh would install
+> > > > > > > +   it when setting up the python virtual environment using pip.
+> > > > > > > + - README: This text file.
+> > > > > > > +
+> > > > > > > +acpi-bits/bits-config:
+> > > > > > > +   This location contains biosbits config files that determine how the software
+> > > > > > > +   runs the tests.
+> > > > > > > + - bits-config.txt: this is the biosbits config file that determines what tests
+> > > > > > > +   or actions are performed by bits. The description of the config options are
+> > > > > > > +   provided in the file itself.
+> > > > > > > +
+> > > > > > > +acpi-bits/prebuilt:
+> > > > > > > +   This location contains prebuilt biosbits binaries that are used to generate
+> > > > > > > +   the bits iso file for testing.
+> > > > > > > + - bits-2095.zip: The contents from this zip archive are the main contents of
+> > > > > > > +    the iso file that are used for testing. This binary zip archive also
+> > > > > > > +    contains the full source of the bits software including the full text of
+> > > > > > > +    the license agreement listed here:
+> > > > > > > +    https://github.com/biosbits/bits/blob/master/COPYING
+> > > > > > > +    The source tarball can be found in this location in the zip file:
+> > > > > > > +    boot/src/bits-2095.tar.gz
+> > > > > > > +    The additional changes beyond those that are present in the official
+> > > > > > > +    biosbits github repository can be found here:
+> > > > > > > +    https://github.com/ani-sinha/bits/tree/bits-qemu-logging
+> > > > > > > +
+> > > > > > > +    Basically these changes can be categorized into the following:
+> > > > > > > +    (a) changes to make sure biosbits builds with the latest gcc compiler
+> > > > > > > +    (gcc 9.4).
+> > > > > > > +    (b) upgrade of acpica to the latest version (march 2022).
+> > > > > > > +    (c) send bits logs to the debug IO port at addresss 0x403 so that isa
+> > > > > > > +    debugcon can be used to collect the logs.
+> > > > > > > +    (d) send a gub halt command to shutdown the VM once all the tests have been
+> > > > > > > +    executed.
+> > > > > > > +
+> > > > > > > +    This zip file is automatically generated by the bits build system. It can
+> > > > > > > +    be found in the bits build directory and it is suffixed by the bits build
+> > > > > > > +    number.
+> > > > > > > +    Normally, there is no need to make any alteration to this zip archive
+> > > > > > > +    unless one wanted to change the bits software itself (for example to add
+> > > > > > > +    a new config option or change actions of existing options or change the
+> > > > > > > +    debug IO port etc). When such changes are made and a new biosbits software
+> > > > > > > +    is needed to be generated, please refresh this zip archive as well as the
+> > > > > > > +    grub tarball at the same time. Tests will break if changes are made to bits
+> > > > > > > +    that are incompatible with existing behavior. So care must be taken to make
+> > > > > > > +    sure that the change is compatible with existing bits software as much as
+> > > > > > > +    possible. When a new config option is introduced for example, bits must
+> > > > > > > +    be upadated here first before introducing the new config option through
+> > > > > > > +    a later commit.
+> > > > > >
+> > > > > > I don't think playing with source tarballs is a reasonable work environment.
+> > > > >
+> > > > > I agree. However, we do not do much with the source tarball. It is
+> > > > > there as part of bits to satisfy the license requirement. If we need
+> > > > > to manipulate any test script that is in the source file, we would
+> > > > > copy it over and keep it in the bits-test directory and change it
+> > > > > there.
+> > > > >
+> > > > > > Let's use submodules just like e.g. firmware does?
+> > > > >
+> > > > > Yes I also proposed this to Igor on IRC. We can/maybe need to figure
+> > > > > out a place to store the bits source if we think my github is not the
+> > > > > best place. However, we need the source only if/when we need to
+> > > > > rebuild bits. I suspect it won't be too often if at all.
+> > > >
+> > > > Why not on git.qemu.org ?
+> > >
+> > > Sounds good to me. Do I get push access? :-)
+> > >
+> > > >
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > > > + - prebuilt/bits-2095-grub.tar.gz: This tarbball contains bits generated grub
+> > > > > > > +    scripts and modules to the prebuilt directory. These prebuilt grub
+> > > > > > > +    artifacts are required in order to generate a bootable bits iso file that
+> > > > > > > +    can run tests.
+> > > > > > > +    In order to generate this tar archive, please put the following two
+> > > > > > > +    directories that can be found in the bits build directory in a single
+> > > > > > > +    tar archive file named as bits-<n>-grub.tar.gz where n is the version of
+> > > > > > > +    bits that generated the archive:
+> > > > > > > +
+> > > > > > > +    grub-inst-x86_64-efi
+> > > > > > > +    grub-inst
+> > > > > > > +
+> > > > > > > +    This version should be the same as the version number of bits that generated
+> > > > > > > +    bits-<n>.zip file. In other words, the two files must be in sync and should
+> > > > > > > +    come from the same build of biosbits of the same version. Things may still
+> > > > > > > +    work if they come from different versions but mixing version numbers are
+> > > > > > > +    not recommended.
+> > > > > > > +    There is normally no need to regenerate this archive unless some fixes or
+> > > > > > > +    changes have gone into the grub that are part of biosbits.
+> > > > > > > +
+> > > > > > > +acpi-bits/bits-tests:
+> > > > > > > +   This directory contains biosbits python based tests that are run from within
+> > > > > > > +   the biosbits environment in the spawned VM. New additions of test cases can
+> > > > > > > +   be made in the appropriate test file. For example, new acpi tests can go
+> > > > > > > +   into testacpi.py and one would call testsuite.add_test() to register the new
+> > > > > > > +   test so that it gets executed as a part of the ACPI tests.
+> > > > > > > +   It might be occassionally necessary to disable some subtests or add a new
+> > > > > > > +   test that belongs to a test suite not already present in this directory. To
+> > > > > > > +   do this, please extract the bits source from the zip file mentioned above.
+> > > > > > > +   Copy the test suite/script that needs modification (addition of new tests
+> > > > > > > +   or disabling them) from boot/python location of the extracted directory
+> > > > > > > +   into this directory.
+> > > > > > > +
+> > > > > > > +   step (a): copy unmodified test script to this directory.
+> > > > > > > +   step (b): update meson.build and add this file to the list.
+> > > > > > > +   Commit (a) and (b) together in the same commit.
+> > > > > > > +
+> > > > > > > +   step (c): perform modifications to the test.
+> > > > > > > +   Commit (c) in a separate commit.
+> > > > > > > +
+> > > > > > > +   The test framework will then use your modified test script to run the test.
+> > > > > > > +   No further changes would be needed. Please check the logs to make sure that
+> > > > > > > +   appropriate changes have taken effect.
+> > > > > > > +
+> > > > > > > +meson.build files makes sure that the bits qtests are appropriately integrated
+> > > > > > > +into the QEMU qtest framework and are run with "make check-qtest".
+> > > > > > > +Currently, the bits test is configured to run only for x86_64 architectures. Bits
+> > > > > > > +has been built only for this architecture.
+> > > > > > > +
+> > > > > > > +
+> > > > > > > +Author: Ani Sinha <ani@anisinha.ca>
+> > > > > > > +
+> > > > > > > +References:
+> > > > > > > +(a) https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/867/original/bits.pdf
+> > > > > > > +(b) https://www.youtube.com/watch?v=36QIepyUuhg
+> > > > > > > --
+> > > > > > > 2.25.1
+> > > > > >
+> > > >
+> >
 
 
