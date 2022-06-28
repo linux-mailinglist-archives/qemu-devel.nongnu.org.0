@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE4455C0D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 14:06:03 +0200 (CEST)
-Received: from localhost ([::1]:39842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488FF55C0E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 14:12:14 +0200 (CEST)
+Received: from localhost ([::1]:45880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o69yk-0005lw-1f
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 08:06:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53844)
+	id 1o6A4f-00026i-AR
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 08:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1o69x3-0004zC-Qq
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:04:17 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:36372 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1o69wz-0002wQ-Sb
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:04:17 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxj0w17rpiHZFhAA--.8480S3;
- Tue, 28 Jun 2022 20:04:05 +0800 (CST)
-Subject: Re: [PULL 38/43] hw/loongarch: Add LoongArch ls7a rtc device support
-To: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Song Gao <gaosong@loongson.cn>
-References: <20220606231450.448443-1-richard.henderson@linaro.org>
- <20220606231450.448443-39-richard.henderson@linaro.org>
- <CAFEAcA91qww2x1iO7L+CsMnJA3txA_cmTzAQ=RLd6ftO0HOkuQ@mail.gmail.com>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <9641db0b-816f-ae0a-ea2c-bcbd3d69a5ee@loongson.cn>
-Date: Tue, 28 Jun 2022 20:04:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o6A3Q-0000xw-Sa
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:10:53 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:33589)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o6A3P-0004Ro-58
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:10:52 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-317710edb9dso115235337b3.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 05:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+UQq89eUj6ibQmpOmG8rRHPnrqxkfOi8jJhvLJO9wOg=;
+ b=bS3KCd6BCL8hYSBRL8chE5Z3BmMSCHDLDvS5W4G5XuqainfHvv74ozFC2VdKtV5qwX
+ qSdzfShwROXNaRV7Vkx8MvNsd35LIHtTffbTS7bJOyZluVIceAwpTpZ+uO3HrifR4t8b
+ hVcnAGwi0ef4v7oBnJIygOWoVRQ6vYfesl8IGj+fLLSiaX3ZWVn58bANYfeARoHpkfEo
+ 6K24n2bDK/FdDzMkrRqYDc4QZ1SZFP79ie9PUIArtTvD2xBAlJYlHsaVoznTCAdRKxj6
+ dzuTeuqVRBcsw3fbPiekuVO/hmXgaY1Qsv80dxicsG9EfOgWZK9cE1y8K20xuzVdILG6
+ 0fFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+UQq89eUj6ibQmpOmG8rRHPnrqxkfOi8jJhvLJO9wOg=;
+ b=RpSQj7Eb6RGeFQdfXOSGqcsxYTg3Gm5ToixVd2ymyiabRm1hKgGHFqkl/STWnq0/gP
+ ZY8yudiu3MXpbn/g78VuQXxx4rwNjM/b9+qXqIsLscHshcH9hApg5NPR7p+Gfi0Al87Y
+ /5JkMxyGyCGE1TpVzBYORiu36I1UO8gX5gaGO9Eei/wqZnI9koBbXza7S7VWWUM9Xxja
+ U96A9Z7QBko29coNy8usDbzjs5y+dHOsEuTBfB+Rd9yxN7K+sFkI1pAv6dv9UGbaOzVf
+ 9ttG04sKsePnRPH0gJ4UC5N9If20mFH/V32/RHwzfFbooWuKtv7oBq/FDLQFlyhAN59w
+ VsNw==
+X-Gm-Message-State: AJIora+dS7LDgPbWz+3LMSWDf0yBXR2E/5bdkiHGvOf30ty3sSqyuTRF
+ aV6PD7YB22Qjmt+WiBmoB5bKrul3fKk5OdRiupIrlQ==
+X-Google-Smtp-Source: AGRyM1teAWkBS+5gZoIMNGUfWUw45WPuQONM3gNvhTEecpPh71pB0erkpQr1T07fN3MQ07vqHMmFwGiEYSxrv3fNeAU=
+X-Received: by 2002:a0d:d712:0:b0:317:a108:9778 with SMTP id
+ z18-20020a0dd712000000b00317a1089778mr21255235ywd.64.1656418249885; Tue, 28
+ Jun 2022 05:10:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA91qww2x1iO7L+CsMnJA3txA_cmTzAQ=RLd6ftO0HOkuQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9Dxj0w17rpiHZFhAA--.8480S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3JFyfWrW7tw1UGFyUXryxXwb_yoW7WryxpF
- W7uwnrtFWkXF4UCr18Xr4DZr1ftws5XrnxZr45CaySkryv9wn3JF1kGrW3CFy7ZFnakF15
- ZFWSvr9xJ3Z8KrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9G14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUXVWUAwAv7VCY1x0262k0Y48FwI0_Jr0_Gr1lYx0Ex4A2jsIE14v26r
- 1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I
- 648v4I1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I
- 8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
- xVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
- AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8I
- cIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
- 0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUjldgJUUUUU==
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+References: <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
+ <YrqyWhu8ThAcUGI4@redhat.com>
+ <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
+ <Yrq6anPW60FkjmK6@redhat.com>
+ <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
+ <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
+ <YrrSFig7Qo/PKqNx@redhat.com> <20220628060510-mutt-send-email-mst@kernel.org>
+ <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
+ <YrrbHYJn5soL/V6n@redhat.com> <20220628072610-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220628072610-mutt-send-email-mst@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Jun 2022 13:10:12 +0100
+Message-ID: <CAFEAcA8Z9uasRtyf5=oFx7ScFO_+T01ooH-zWLdkjECMaZpuQw@mail.gmail.com>
+Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
+ acpi/tests/bits: add README file for bits qtests)
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
+ John Snow <jsnow@redhat.com>, 
+ qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,155 +95,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter
+On Tue, 28 Jun 2022 at 12:50, Michael S. Tsirkin <mst@redhat.com> wrote:
+> I think the main difference is not even in how it works, it's
+> in what it does. Which is check that ACPI tables are sane.
+> Who cares about that? Well developers do when they change the
+> tables. Users really don't because for users we have the expected
+> tables in tree and we check against these.
 
-On 2022/6/28 下午7:05, Peter Maydell wrote:
-> On Tue, 7 Jun 2022 at 00:34, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->> From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->>
->> This patch add ls7a rtc device support.
->>
->> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->> Signed-off-by: Song Gao <gaosong@loongson.cn>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Message-Id: <20220606124333.2060567-39-yangxiaojuan@loongson.cn>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Hi; Coverity points out some issues with this code, and I
-> noticed a few more reading through it.
-Thanks for your advice. I am reading your comments carefully now, and I 
-will correct it immediately,
+It wants to build and run a big guest binary blob -- that to me is
+the main difference. Users don't much care about any of our tests,
+whether they're under 'make check' or 'make check-avocado' or the
+iotests framework. The reason to pick one framework or another
+is mostly I think whether the properties of the test are such
+that one framework works better. Avocado is (for better or worse)
+the one we have for dealing with "actually run a guest machine
+with a big lump of guest code in it".
 
-Thanks.
-Xiaojuan
->> +static inline void toymatch_val_to_time(uint64_t val, struct tm *tm)
->> +{
->> +    tm->tm_sec = FIELD_EX32(val, TOY_MATCH, SEC);
->> +    tm->tm_min = FIELD_EX32(val, TOY_MATCH, MIN);
->> +    tm->tm_hour = FIELD_EX32(val, TOY_MATCH, HOUR);
->> +    tm->tm_mday = FIELD_EX32(val, TOY_MATCH, DAY);
->> +    tm->tm_mon = FIELD_EX32(val, TOY_MATCH, MON) - 1;
->> +    tm->tm_year += (FIELD_EX32(val, TOY_MATCH, YEAR) - (tm->tm_year & 0x3f));
->> +}
->> +
->> +static void toymatch_write(LS7ARtcState *s, struct tm *tm, uint64_t val, int num)
->> +{
-> Why does this function take a pointer to a struct tm? The callsites
-> all pass in an entirely uninitialized struct tm and don't try to
-> read from it after the call. It would be clearer to just define
-> the struct tm as a local in this function.
->
->> +    int64_t now, expire_time;
->> +
->> +    /* it do not support write when toy disabled */
->> +    if (toy_enabled(s)) {
->> +        s->toymatch[num] = val;
->> +        /* caculate expire time */
->> +        now = qemu_clock_get_ms(rtc_clock);
->> +        toymatch_val_to_time(val, tm);
->> +        expire_time = now + (qemu_timedate_diff(tm) - s->offset_toy) * 1000;
-> Coverity complains (CID 1489766) that we end up using uninitialized
-> fields in the struct tm here. There's two reasons for that:
-> (1) toymatch_val_to_time() doesn't set all the fields in the struct,
-> and we never zero-initialized the struct. This accounts for
-> tm_gmtoff, tm_isdst, tm_wday, tm_yday, tm_zone. You need to look
-> at whether any of those ought to be initialized, and set them.
-> Zero-init the struct to make Coverity happy about the rest of them.
->
-> (2) toymatch_val_to_time() sets tm_year based on the previous value
-> of tm_year. This doesn't make sense if the struct isn't initialized.
-> What was the intention here ?
->
->
->> +        timer_mod(s->toy_timer[num], expire_time);
->> +    }
->> +}
->> +static void ls7a_toy_start(LS7ARtcState *s)
->> +{
->> +    int i;
->> +    uint64_t expire_time, now;
->> +    struct tm tm;
-> Coverity issue CID 1489763: we don't zero initialize the struct tm here,
-> but we don't individually initialize all its fields. In particular
-> the tm_wday field is never set up and Coverity complains it might
-> be used uninitialized.
->
-> The easy fix is to zero-init everything:
->     struct tm tm = {};
->
->> +    /*
->> +     * need to recaculate toy offset
-> typo: "recalculate" (here and in other comments above and below)
->
->> +     * and expire time when enable it.
->> +     */
->> +    toy_val_to_time_mon(s->save_toy_mon, &tm);
->> +    toy_val_to_time_year(s->save_toy_year, &tm);
->> +
->> +    s->offset_toy = qemu_timedate_diff(&tm);
->> +    now = qemu_clock_get_ms(rtc_clock);
->> +
->> +    /* recaculate expire time and enable timer */
->> +    for (i = 0; i < TIMER_NUMS; i++) {
->> +        toymatch_val_to_time(s->toymatch[i], &tm);
->> +        expire_time = now + (qemu_timedate_diff(&tm) - s->offset_toy) * 1000;
->> +        timer_mod(s->toy_timer[i], expire_time);
->> +    }
->> +}
->> +static void toy_timer_cb(void *opaque)
->> +{
->> +    LS7ARtcState *s = opaque;
->> +
->> +    if (toy_enabled(s)) {
->> +        qemu_irq_pulse(s->irq);
->> +    }
->> +}
->> +
->> +static void rtc_timer_cb(void *opaque)
->> +{
->> +    LS7ARtcState *s = opaque;
->> +
->> +    if (rtc_enabled(s)) {
->> +        qemu_irq_pulse(s->irq);
->> +    }
-> Does the real hardware really pulse the IRQ line?
->
->> +}
->> +
->> +static void ls7a_rtc_realize(DeviceState *dev, Error **errp)
->> +{
->> +    int i;
->> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
->> +    LS7ARtcState *d = LS7A_RTC(sbd);
->> +    memory_region_init_io(&d->iomem, NULL, &ls7a_rtc_ops,
->> +                         (void *)d, "ls7a_rtc", 0x100);
->> +
->> +    sysbus_init_irq(sbd, &d->irq);
->> +
->> +    sysbus_init_mmio(sbd, &d->iomem);
->> +    for (i = 0; i < TIMER_NUMS; i++) {
->> +        d->toymatch[i] = 0;
->> +        d->rtcmatch[i] = 0;
->> +        d->toy_timer[i] = timer_new_ms(rtc_clock, toy_timer_cb, d);
->> +        d->rtc_timer[i] = timer_new_ms(rtc_clock, rtc_timer_cb, d);
->> +    }
->> +    d->offset_toy = 0;
->> +    d->offset_rtc = 0;
->> +    d->save_toy_mon = 0;
->> +    d->save_toy_year = 0;
->> +    d->save_rtc = 0;
-> This device is missing an implementation of the reset method,
-> and a lot of this looks like it is code that ought to be in reset.
->
->> +
->> +    create_unimplemented_device("mmio fallback 1", 0x10013ffc, 0x4);
-> This call to create_unimplemented_device() is wrong -- device realize
-> code must not map anything into the system memory map. That is up to
-> board or SoC level code to do. I'm not sure what it's trying to do,
-> but it should be done some other way.
->
->> +}
-> thanks
-> -- PMM
-
+-- PMM
 
