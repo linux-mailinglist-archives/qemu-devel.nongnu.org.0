@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F99155BE7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:44:27 +0200 (CEST)
-Received: from localhost ([::1]:51428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BEF55BE88
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:53:43 +0200 (CEST)
+Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o641H-0002LO-1V
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:44:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43022)
+	id 1o64AQ-0003YC-3E
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o63Ev-0002BJ-Ml
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:54:19 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:40559)
+ id 1o63Ey-0002Ck-Gk
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:54:21 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:51860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o63Eu-0008Fk-96
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:54:17 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- g16-20020a17090a7d1000b001ea9f820449so14628330pjl.5
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:54:15 -0700 (PDT)
+ id 1o63Ew-0008H4-U0
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:54:20 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id l2so10248114pjf.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+d9/jr06nswWZQd9Uw/cJzKLCMbhQR5Mz1vx++OuQjc=;
- b=m2BdSOuDP/An0yZke11I+RfufApZBTFYghcf61IYewiSeOUVWISuF/xaDKerW4M2rL
- hKF6rHsiXmTPwtRcGptOGPt3rj+FHN1GcOs4iuZlH47O3GIEn98gOAgkl0VeZddlLXu1
- GHTN9stlJmr5ZW9j1hW5mqd0kF79UryqVmVtncaWi55zJ1CryfSKDGiJE/lMuX8l+4S3
- nBjeQ6x7ihUU5vTNFRAluJdMrbqWenKwnWejYBfhA1IZHYXa60J8suine2fcpdsSxEzZ
- Mc2Ece3nu6hRVWowuczkNBkgpZ49gsq5/zJ1A5m5Gj2aHh3hJU9iVY5pR85WBb23NLEd
- cE+g==
+ bh=UtCh1R/o+jWczZ2gQY+9f4Xav0T6t+bxgoxTR2mENvU=;
+ b=qGMtCKFKQ/U+TbLepNcm1TBMz8/zuUTmR3SAF2lbc1iJTUeLGTXpE2wy4OALtVW6Mx
+ eyhWzWzd1NUH6NpMQ37tPTsQJMXkY2B7nfnNKQoI6P6CZ97Cf3JEX0YxC8c9Mrx2Z0i4
+ 2UvRus1ai+XWCtEl8VDnhgXWundayqjCwWISossbSvscHBKGyyRaMak6osp23xAuLLCG
+ jBOi65PcSeA+u7cptt6PjidNudmzEt04mDvSpJyy6L42dZZJBgebfqHVhSv9jlcwwH7r
+ Hpz5rJAJ/95j7FYqpnLcajOLN3ccAcjJNnfQ2w//wwmDV8I+NoSaA7VM46PNe7S7BoW/
+ 70aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+d9/jr06nswWZQd9Uw/cJzKLCMbhQR5Mz1vx++OuQjc=;
- b=3kE/NwVkAv4+Uhtfl1vyamFui3gPTWnX0ABhSbQoNvgUahXEBN589D2kZzwXmNRprJ
- LIAFX1nIme3rPszSGXhP9nJsMii9naETWAtL/yKsj/gykNB4qlpO5F50NkM0ken/ezg3
- fL/rrPFEGSHtBsiTkuP0qnlygHQLBKJ5bISJoTBeo02csOTXP2LGh12HcsUtRi+oWJxl
- fvK/NCaHFu5jtF2QEGknlSpIiwcEYXcY5sXXsZ4fYcB8Tg9OGktD8nGfMNtecDLShP57
- n/QCsKDN7SUu5sRV81qWz57xFSg/xonzCWPRX6zzMk67lfUM/DW8N9SHZd2cQbCZPlQF
- xVrA==
-X-Gm-Message-State: AJIora9WbglV+HZ3r+/4ZNyWX04DMm+CEWmyfZwaodfphdmq6I6g+kXi
- CcjlvWdxvCELQ6YZ1kZkJmvgfnCQtD9GaA==
-X-Google-Smtp-Source: AGRyM1vgnFlm4QvMI8hbpqF0VueS9mIaKILjLu3XbfiPIlyeGpdbDYWn+IIamHF/9PMXxAOGtcjoOg==
-X-Received: by 2002:a17:90a:404a:b0:1ea:e936:b69 with SMTP id
- k10-20020a17090a404a00b001eae9360b69mr19594783pjg.133.1656392055506; 
- Mon, 27 Jun 2022 21:54:15 -0700 (PDT)
+ bh=UtCh1R/o+jWczZ2gQY+9f4Xav0T6t+bxgoxTR2mENvU=;
+ b=cxo238cMfIOFyUD/M8yl4KmPLEDs4iVWlXnhL61YmL8/jix95FxqPMXBgu9xyEf0j6
+ 3zdRYFVGZjc0fWdrBsSZ6Pgw3Hau9Av51gP2vgqwyx7QUZex45sUwp37gYezUMGwAKES
+ 68QStDInW/uAoCQeTPszrGgST4lrKHn8KjXgrlFXtXZnjnXqHM0QYnfS9UHTuEi4y5Wz
+ VmdlfT7TYxSuYtU+HXe7yPtRpDMEgQHc9DTYAKF3vJZNSrjxGkzOfYMgTAzk9CTw6tc0
+ CE4Gguvem0nj0DJX9ikWVey/TNs62zHc/U4cb9NFS/VWWrQknjMnAcyuhgaV6EIM9T8A
+ k8jw==
+X-Gm-Message-State: AJIora/RMNcYx7fwDvdbgMw32/ldSBGi9QOkGxfhxHNojYsk9f4fM78k
+ Db+Pqixo2dRvPSkXgSXwWAdlS4z582CD+w==
+X-Google-Smtp-Source: AGRyM1s9jqR5olQTeZrctg9q4nfBlP1B4PXSjN+p1eLR9pjovuWOpFXyMFJAbdBJs2slXx17ol8IwQ==
+X-Received: by 2002:a17:90b:2251:b0:1ed:29d2:e013 with SMTP id
+ hk17-20020a17090b225100b001ed29d2e013mr22800287pjb.223.1656392057628; 
+ Mon, 27 Jun 2022 21:54:17 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- w8-20020a1709026f0800b00168c523032fsm8073735plk.269.2022.06.27.21.54.13
+ w8-20020a1709026f0800b00168c523032fsm8073735plk.269.2022.06.27.21.54.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:54:15 -0700 (PDT)
+ Mon, 27 Jun 2022 21:54:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 03/60] semihosting: Improve condition for config.c and console.c
-Date: Tue, 28 Jun 2022 10:23:06 +0530
-Message-Id: <20220628045403.508716-4-richard.henderson@linaro.org>
+Subject: [PULL 04/60] semihosting: Move softmmu-uaccess.h functions out of line
+Date: Tue, 28 Jun 2022 10:23:07 +0530
+Message-Id: <20220628045403.508716-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220628045403.508716-1-richard.henderson@linaro.org>
 References: <20220628045403.508716-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,25 +87,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While CONFIG_SEMIHOSTING is currently only set for softmmu,
-this will not continue to be true.
+Rather that static (and not even inline) functions within a
+header, move the functions to semihosting/uaccess.c.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- semihosting/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/semihosting/softmmu-uaccess.h | 42 +++-------------------
+ semihosting/uaccess.c                 | 51 +++++++++++++++++++++++++++
+ semihosting/meson.build               |  1 +
+ 3 files changed, 57 insertions(+), 37 deletions(-)
+ create mode 100644 semihosting/uaccess.c
 
+diff --git a/include/semihosting/softmmu-uaccess.h b/include/semihosting/softmmu-uaccess.h
+index 5246a91570..03300376d3 100644
+--- a/include/semihosting/softmmu-uaccess.h
++++ b/include/semihosting/softmmu-uaccess.h
+@@ -42,47 +42,15 @@
+ 
+ #define put_user_ual(arg, p) put_user_u32(arg, p)
+ 
+-static void *softmmu_lock_user(CPUArchState *env, target_ulong addr,
+-                               target_ulong len, bool copy)
+-{
+-    void *p = malloc(len);
+-    if (p && copy) {
+-        if (cpu_memory_rw_debug(env_cpu(env), addr, p, len, 0)) {
+-            free(p);
+-            p = NULL;
+-        }
+-    }
+-    return p;
+-}
++void *softmmu_lock_user(CPUArchState *env, target_ulong addr,
++                        target_ulong len, bool copy);
+ #define lock_user(type, p, len, copy) softmmu_lock_user(env, p, len, copy)
+ 
+-static char *softmmu_lock_user_string(CPUArchState *env, target_ulong addr)
+-{
+-    /* TODO: Make this something that isn't fixed size.  */
+-    char *s = malloc(1024);
+-    size_t len = 0;
+-
+-    if (!s) {
+-        return NULL;
+-    }
+-    do {
+-        if (cpu_memory_rw_debug(env_cpu(env), addr++, s + len, 1, 0)) {
+-            free(s);
+-            return NULL;
+-        }
+-    } while (s[len++]);
+-    return s;
+-}
++char *softmmu_lock_user_string(CPUArchState *env, target_ulong addr);
+ #define lock_user_string(p) softmmu_lock_user_string(env, p)
+ 
+-static void softmmu_unlock_user(CPUArchState *env, void *p, target_ulong addr,
+-                                target_ulong len)
+-{
+-    if (len) {
+-        cpu_memory_rw_debug(env_cpu(env), addr, p, len, 1);
+-    }
+-    free(p);
+-}
++void softmmu_unlock_user(CPUArchState *env, void *p,
++                         target_ulong addr, target_ulong len);
+ #define unlock_user(s, args, len) softmmu_unlock_user(env, s, args, len)
+ 
+ #endif /* SEMIHOSTING_SOFTMMU_UACCESS_H */
+diff --git a/semihosting/uaccess.c b/semihosting/uaccess.c
+new file mode 100644
+index 0000000000..0d3b32b75d
+--- /dev/null
++++ b/semihosting/uaccess.c
+@@ -0,0 +1,51 @@
++/*
++ * Helper routines to provide target memory access for semihosting
++ * syscalls in system emulation mode.
++ *
++ * Copyright (c) 2007 CodeSourcery.
++ *
++ * This code is licensed under the GPL
++ */
++
++#include "qemu/osdep.h"
++#include "semihosting/softmmu-uaccess.h"
++
++void *softmmu_lock_user(CPUArchState *env, target_ulong addr,
++                        target_ulong len, bool copy)
++{
++    void *p = malloc(len);
++    if (p && copy) {
++        if (cpu_memory_rw_debug(env_cpu(env), addr, p, len, 0)) {
++            free(p);
++            p = NULL;
++        }
++    }
++    return p;
++}
++
++char *softmmu_lock_user_string(CPUArchState *env, target_ulong addr)
++{
++    /* TODO: Make this something that isn't fixed size.  */
++    char *s = malloc(1024);
++    size_t len = 0;
++
++    if (!s) {
++        return NULL;
++    }
++    do {
++        if (cpu_memory_rw_debug(env_cpu(env), addr++, s + len, 1, 0)) {
++            free(s);
++            return NULL;
++        }
++    } while (s[len++]);
++    return s;
++}
++
++void softmmu_unlock_user(CPUArchState *env, void *p,
++                         target_ulong addr, target_ulong len)
++{
++    if (len) {
++        cpu_memory_rw_debug(env_cpu(env), addr, p, len, 1);
++    }
++    free(p);
++}
 diff --git a/semihosting/meson.build b/semihosting/meson.build
-index ea8090abe3..4344e43fb9 100644
+index 4344e43fb9..10b3b99921 100644
 --- a/semihosting/meson.build
 +++ b/semihosting/meson.build
-@@ -1,4 +1,4 @@
--specific_ss.add(when: 'CONFIG_SEMIHOSTING', if_true: files(
-+specific_ss.add(when: ['CONFIG_SEMIHOSTING', 'CONFIG_SOFTMMU'], if_true: files(
+@@ -1,6 +1,7 @@
+ specific_ss.add(when: ['CONFIG_SEMIHOSTING', 'CONFIG_SOFTMMU'], if_true: files(
    'config.c',
    'console.c',
++  'uaccess.c',
  ))
+ 
+ specific_ss.add(when: ['CONFIG_ARM_COMPATIBLE_SEMIHOSTING'],
 -- 
 2.34.1
 
