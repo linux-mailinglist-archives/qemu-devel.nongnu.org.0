@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBEE55ED07
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 20:49:58 +0200 (CEST)
-Received: from localhost ([::1]:56706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AEE55EDFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 21:44:27 +0200 (CEST)
+Received: from localhost ([::1]:55602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6GHd-00027X-Fo
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 14:49:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39938)
+	id 1o6H8M-0007El-06
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 15:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=jTXH=XD=zx2c4.com=Jason@kernel.org>)
- id 1o6GDL-0006iL-SK
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 14:45:35 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:45102)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o6H6n-0006P5-Ry; Tue, 28 Jun 2022 15:42:50 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:52168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=jTXH=XD=zx2c4.com=Jason@kernel.org>)
- id 1o6GDJ-0003hr-UP
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 14:45:31 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 686BCB81F21
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 18:45:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E884EC3411D
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 18:45:18 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Ej9v27/w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1656441917;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vSIkTw384/B+vutTJWpLz06aCGmL2eVAmb6+o0D5jHo=;
- b=Ej9v27/w5+eUKwbJ81ebVOdZr4cDUK5kqqwllCezxfpWi9sCrv1F0Wt9Ikg9vvb6RfgyPm
- Wc5vr/tYoDVP/IJKA996tGX6Nr8NJNwce/QfwOn7V+CcfJjBFo9hUk2RyJCq+NuzEyxRLt
- hzFE2sXK+Lv4YZ6tf+zji5t5loHNOoE=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 69d38287
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Tue, 28 Jun 2022 18:45:16 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id y18so13793076iof.2
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 11:45:16 -0700 (PDT)
-X-Gm-Message-State: AJIora/Cy11AvjZ7tmcnSS+KSI3k3g4Py4l75NUzydMEcpPGIm4QL0RO
- QM8HAhIu2cr3JrFpfyCpJfENMlUQIEde+C5HV0c=
-X-Google-Smtp-Source: AGRyM1vaRVt41/puZAQ+708vQxEw2WZoEHJ8WPft4bX/jS3kRFPNrwDNB06nr5PkcFDLQdYwwbzO4N/IkL3zKL7a8wg=
-X-Received: by 2002:a05:6602:2b02:b0:65a:fea9:c715 with SMTP id
- p2-20020a0566022b0200b0065afea9c715mr10475293iov.142.1656441916205; Tue, 28
- Jun 2022 11:45:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o6H6j-0003rg-U0; Tue, 28 Jun 2022 15:42:48 -0400
+Received: from sas1-3cba3404b018.qloud-c.yandex.net
+ (sas1-3cba3404b018.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:bd26:0:640:3cba:3404])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 6C0112E1FF7;
+ Tue, 28 Jun 2022 22:42:34 +0300 (MSK)
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net [2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by sas1-3cba3404b018.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ OLO7cBoEVj-gXKe80d7; Tue, 28 Jun 2022 22:42:34 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1656445354; bh=km24fGQdCkIpsfUhd0UWm7Vz1Xu3slO1bLx7Ua6DgaU=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=ZliQvmroMKkg1Ww+a1TbLqYuvrd5+F4rVKhMdXzJYLVjwfD63S0+6nOZOaDlUUIre
+ RWbbAKkOe9eb7PbLK+vYzcHyajrK7t4P46sMvLBtTjgqLZdBz2pePt19LaP89mi95R
+ FSYWoO38p5hSYPgbS1UxTldiZUptvBZic1GMx1Y4=
+Authentication-Results: sas1-3cba3404b018.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:b686::1:1f] (unknown
+ [2a02:6b8:b081:b686::1:1f])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ S3imkMMSMC-gWMWa98w; Tue, 28 Jun 2022 22:42:33 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <eb58e3e9-691a-7dce-1857-4d3e800c9d4b@yandex-team.ru>
+Date: Tue, 28 Jun 2022 22:42:32 +0300
 MIME-Version: 1.0
-Received: by 2002:a05:6e02:16cc:0:0:0:0 with HTTP; Tue, 28 Jun 2022 11:45:15
- -0700 (PDT)
-In-Reply-To: <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
-References: <20220627160734.749861-1-Jason@zx2c4.com>
- <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
- <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Tue, 28 Jun 2022 20:45:15 +0200
-X-Gmail-Original-Message-ID: <CAHmME9pPxKnJbFUWCmzJw8fYikugSwuRo+AO599-cb56UELqrQ@mail.gmail.com>
-Message-ID: <CAHmME9pPxKnJbFUWCmzJw8fYikugSwuRo+AO599-cb56UELqrQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/virt: dt: add rng-seed property
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=jTXH=XD=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v7 10/18] jobs: rename static functions called with
+ job_mutex held
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220616131835.2004262-1-eesposit@redhat.com>
+ <20220616131835.2004262-11-eesposit@redhat.com>
+ <c0401616-f246-ce1d-2a0f-b7e23dd55ab8@yandex-team.ru>
+ <0aaa344b-aecb-13de-f82f-cad27a768ba9@redhat.com>
+ <c234668d-0156-548b-e1e8-d1fda1b85ad7@yandex-team.ru>
+ <8248df6b-3b48-6e09-5a5e-021cf65041dd@redhat.com>
+ <98558a3e-3bd6-40b0-07da-1d022dfb0c0c@yandex-team.ru>
+ <458dfa2c-4161-394c-95a0-d9e06757add5@redhat.com>
+ <bdfafb6d-baaf-55ac-c323-dd2cbfb02d11@yandex-team.ru>
+ <97ebf37c-1e86-7627-18de-d5d740dd0a6f@yandex-team.ru>
+ <0a2914ed-2976-1e6e-ca90-73bffb92d361@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <0a2914ed-2976-1e6e-ca90-73bffb92d361@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,34 +98,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/27/22, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> On 6/27/22, Peter Maydell <peter.maydell@linaro.org> wrote:
->> On Mon, 27 Jun 2022 at 17:07, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On 6/28/22 20:28, Emanuele Giuseppe Esposito wrote:
+> 
+> 
+> Am 28/06/2022 um 17:26 schrieb Vladimir Sementsov-Ogievskiy:
+>> On 6/28/22 18:22, Vladimir Sementsov-Ogievskiy wrote:
+>>> On 6/28/22 16:04, Emanuele Giuseppe Esposito wrote:
+>>>>>> Ok so far I did the following:
+>>>>>>
+>>>>>> - duplicated each public function as static {function}_locked()
+>>>>> They shouldn't be duplicates: function without _locked suffix should
+>>>>> take the mutex.
+>>>> By "duplicate" I mean same function name, with just _locked suffix.
+>>>> Maybe a better definition?
+>>>>
+>>>> Almost done preparing the patches!
 >>>
->>> In 60592cfed2 ("hw/arm/virt: dt: add kaslr-seed property"), the
->>> kaslr-seed property was added, but the equally as important rng-seed
->>> property was forgotten about, which has identical semantics for a
->>> similar purpose. This commit implements it in exactly the same way as
->>> kaslr-seed.
+>>> Why not just add _locked version and rework the version without suffix
+>>> to call _locked under mutex one in one patch, to just keep it all
+>>> meaningful?
+>>>
 >>
->> Not an objection, since if this is what the dtb spec says we need
->> to provide then I guess we need to provide it, but:
->> Why do we need to give the kernel two separate random seeds?
->> Isn't one sufficient for the kernel to seed its RNG and generate
->> whatever randomness it needs for whatever purposes it wants it?
+>> I mean, instead of:
 >>
->
-> Seems a bit silly to me too. `rng-seed` alone ought to be sufficient.
-> After the kernel calls add_bootloader_randomness() on it,
-> get_random_long() can be used for kaslr'ing and everything else too.
-> So I'm not sure what's up, but here we are. Maybe down the line I'll
-> look into the details and formulate a plan to remove `kaslr-seed` if
-> my supposition is correct.
->
-> Jason
->
+>> patch 1: add a _locked() duplicate
+>>
+>>    At this point we have a duplicated function that's just bad practice.
+>>
+>> patch 2: remake version without prefix to call _locked() under mutex
+>>   
+>>    Now everything is correct. But we have to track the moment when
+>> something strange becomes something correct.
+>>
+>>
+>> do just
+>>
+>> patch 1: rename function to _locked() and add a wrapper without suffix,
+>> that calls _locked() under mutex
+>>
+>>
+> 
+> That's what I always intended to do. As I said, I just used the wrong word.
+> 
 
-Was wondering if you planned to queue this up?
+Ah, OK then, I misunderstood.
 
-Jason
+
+-- 
+Best regards,
+Vladimir
 
