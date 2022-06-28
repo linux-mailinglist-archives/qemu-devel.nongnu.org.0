@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984E055BF75
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 10:34:52 +0200 (CEST)
-Received: from localhost ([::1]:39634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DB955BF67
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 10:23:53 +0200 (CEST)
+Received: from localhost ([::1]:48326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o66gN-0004UI-DG
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 04:34:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38640)
+	id 1o66Vk-0007XL-GK
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 04:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o65qM-0001uh-Ky
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 03:41:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25922)
+ id 1o65yJ-0001iv-Bj
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 03:49:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o65qJ-0005wS-0k
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 03:41:04 -0400
+ id 1o65yC-0006rt-3H
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 03:49:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656402062;
+ s=mimecast20190719; t=1656402551;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rAvYwnr8iOs9E8Uwgl64rxx4S2TtYaQ5k3etHYmZe4s=;
- b=a0ApjZIniGGbINeyX3VVXexRU79HhqN6lYsRV0nLKWIgdo63vRzer3MH5BLxMICrpemJ/u
- fx7iLhaHXb+jLqoqSCqY7d8LJbZkVbrjsPa0Gay1TtlHHNG4sK6r/ZE4lWA5596SY02LTk
- Rrd7YY/CCU6xQuHgvrYtS+fmMk4kESI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=8X9BNAA267pUPJ/uYfoAdgfsIVCUcQka3EH65nPSMOU=;
+ b=BqnjXxDPXKuwBMqMW3BYALfpdgcjM2wQPU/O5ZocMsp/+PP0xeAa4GujCaBzmDAoOtoJwY
+ MAmKUrwOHGK8F6Hr3cqOV/TcuI2A0bKMh9a8srZ9JduDnD1xtt1BA+24QnkM/gk26uhOME
+ 6m3nt5Kut1RCq5grQQpT0oF01wicNcA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-90-YO6B5a6dOX6cSH-0bGeHOA-1; Tue, 28 Jun 2022 03:40:58 -0400
-X-MC-Unique: YO6B5a6dOX6cSH-0bGeHOA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-567-1_iMcmb0OxGCUP8aKm2LHg-1; Tue, 28 Jun 2022 03:49:09 -0400
+X-MC-Unique: 1_iMcmb0OxGCUP8aKm2LHg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D95941C01E85;
- Tue, 28 Jun 2022 07:40:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0F0618E526F;
+ Tue, 28 Jun 2022 07:48:45 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9550F815B;
- Tue, 28 Jun 2022 07:40:54 +0000 (UTC)
-Date: Tue, 28 Jun 2022 08:40:52 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A6C940334D;
+ Tue, 28 Jun 2022 07:48:44 +0000 (UTC)
+Date: Tue, 28 Jun 2022 08:48:42 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, huangy81@chinatelecom.cn,
- quintela@redhat.com, leobras@redhat.com, jdenemar@redhat.com
-Subject: Re: [PULL 22/33] migration: remove the QEMUFileOps 'get_buffer'
- callback
-Message-ID: <YrqwhNla7KDgxaQ0@redhat.com>
-References: <20220622183917.155308-1-dgilbert@redhat.com>
- <20220622183917.155308-23-dgilbert@redhat.com>
- <YrNu3KesFVVvoWVb@xz-m1.local> <YrnGrXpwBdmt69Fp@redhat.com>
- <YroTwDmAzE7uImvu@xz-m1.local>
+To: Thomas Huth <thuth@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
+Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
+ acpi/tests/bits: add README file for bits qtests)
+Message-ID: <YrqyWhu8ThAcUGI4@redhat.com>
+References: <CAARzgwznJUrO-7kjZ+58qj=UG6V9wojP=ZfW7FePyvb6GxdNtA@mail.gmail.com>
+ <20220628020017-mutt-send-email-mst@kernel.org>
+ <CAARzgwwf_WRWzbwPorpa-4XN7T6f6D7CRo70+07Z8LgZO+5Spg@mail.gmail.com>
+ <20220628021757-mutt-send-email-mst@kernel.org>
+ <CAARzgwyWK2HNbz=9=uoA+DDTpnn2q3CRmYVyjLwfMs1wi24-LA@mail.gmail.com>
+ <20220628024810-mutt-send-email-mst@kernel.org>
+ <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
+ <4e1c2a45-eb53-e210-1ce1-05837bf1e7c3@redhat.com>
+ <20220628030749-mutt-send-email-mst@kernel.org>
+ <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YroTwDmAzE7uImvu@xz-m1.local>
+In-Reply-To: <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,69 +93,77 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 27, 2022 at 04:32:00PM -0400, Peter Xu wrote:
-> On Mon, Jun 27, 2022 at 04:03:09PM +0100, Daniel P. Berrangé wrote:
-> > On Wed, Jun 22, 2022 at 03:34:52PM -0400, Peter Xu wrote:
-> > > On Wed, Jun 22, 2022 at 07:39:06PM +0100, Dr. David Alan Gilbert (git) wrote:
-> > > > diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> > > > index 74f919de67..e206b05550 100644
-> > > > --- a/migration/qemu-file.c
-> > > > +++ b/migration/qemu-file.c
-> > > > @@ -377,8 +377,22 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
-> > > >          return 0;
-> > > >      }
-> > > >  
-> > > > -    len = f->ops->get_buffer(f->ioc, f->buf + pending, f->total_transferred,
-> > > > -                             IO_BUF_SIZE - pending, &local_error);
-> > > > +    do {
-> > > > +        len = qio_channel_read(f->ioc,
-> > > > +                               (char *)f->buf + pending,
-> > > > +                               IO_BUF_SIZE - pending,
-> > > > +                               &local_error);
-> > > > +        if (len == QIO_CHANNEL_ERR_BLOCK) {
-> > > > +            if (qemu_in_coroutine()) {
-> > > > +                qio_channel_yield(f->ioc, G_IO_IN);
-> > > > +            } else {
-> > > > +                qio_channel_wait(f->ioc, G_IO_IN);
-> > > > +            }
-> > > > +        } else if (len < 0) {
-> > > > +            len = EIO;
+On Tue, Jun 28, 2022 at 09:25:35AM +0200, Thomas Huth wrote:
+> On 28/06/2022 09.10, Michael S. Tsirkin wrote:
+> > On Tue, Jun 28, 2022 at 09:03:33AM +0200, Thomas Huth wrote:
+> > > > > > > > > No problem with that. So that's venv. But do we need pip and pulling
+> > > > > > > > > packages from the net during testing?
+> > > > > > > > 
+> > > > > > > > We do that too. See requirements.txt in tests/
+> > > > > > > > Following two are downloaded:
+> > > > > > > > avocado-framework==88.1
+> > > > > > > > pycdlib==1.11.0
+> > > > > > > > 
+> > > > > > > > Also see this line in Makefie.include:
+> > > > > > > > 
+> > > > > > > > $(call quiet-venv-pip,install -r $(TESTS_VENV_REQ))
+> > > > > > > 
+> > > > > > > Right but that's avocado since it pulls lots of stuff from
+> > > > > > > the net anyway.
+> > > > > > > Are the libraries in question not packaged on major distros?
+> > > > > > 
+> > > > > > Currently I only need this:
+> > > > > > https://github.com/python-tap/tappy
+> > > > > > which is the basic TAP processing library for python.
+> > > > > > 
+> > > > > > It seems its only installed through pip:
+> > > > > > https://tappy.readthedocs.io/en/latest/
+> > > > > > 
+> > > > > > I do not think this is packaged by default. It's such a basic library
+> > > > > > for parsing test output that maybe we can keep this somewhere within
+> > > > > > the python src tree? Not sure ...
+> > > > > 
+> > > > > It's pretty small for sure. Another submodule?
+> > > > 
+> > > > Unlike BITS, this one is likely going to be maintained for a while and
+> > > > will receive new releases through
+> > > > https://pypi.org/project/tap.py/
+> > > > so forking is OK but someone has to keep this updated.
+> > > > 
+> > > > I am open to anything. Whatever feels right is fine to me.
 > > > 
-> > > This should be -EIO.
+> > > John Snow is currently working on the "Pythonification" of various QEMU
+> > > bits, I think you should loop him into this discussion, too.
 > > > 
-> > > > +        }
-> > > > +    } while (len == QIO_CHANNEL_ERR_BLOCK);
-> > > 
-> > > It's failing only with the new TLS test I added for postcopy somehow (at
-> > > least /x86_64/migration/postcopy/recovery/tls).. I also verified after the
-> > > change it'll work again.
+> > >   Thomas
 > > 
-> > Assuming you can still reproduce the pre-existing flaw, can you capture
-> > a stack trace when it hangs.   I'm wondering if it is a sign that the
-> > migration is not converging when using TLS under certain load conditions,
-> > because the test waits forever for converge.
+> > submodule does not mean we fork necessarily. We could have
+> > all options: check for the module and use it if there, if not
+> > use one from system if not there install with pip ..
+> > But yea, I'm not sure what's best either.
 > 
-> Yes it is, and it reproduces here every time.  It hangs at:
-> 
->  if (!got_stop) {
->      qtest_qmp_eventwait(from, "STOP");
->  }
-> 
-> > 
-> > Also what scenario are you running in ? Bare metal or a VM, and what
-> > host arch ? Wondering if the machine is at all slow, or for example
-> > missing AES hardware acceleration or some such thing.
-> 
-> It's Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz, 40 cores.
-> 
-> It'll pass after I modify the downtime:
-> 
->   migrate_set_parameter_int(from, "downtime-limit", 100000);
-> 
-> And with QTEST_LOG=1 I found that the bw is indeed low, ~700mbps.
+> submodules create a dependency on an internet connection, too. So before you
+> add yet another submodule (which have a couple of other disadvantages), I
+> think you could also directly use the venv here.
 
-Good, this all makes sense, and I've got pending patchues I'm testing
-that will fix this.
+Definitely not submodules.
+
+We need to get out of the mindset that submodules are needed for every new
+dependancy we add. Submodules are only appropriate if the external project
+is designed to be used as a copylib (eg the keycodemapdb tool), or if we
+need to bundle in order to prevent a regression for previously deployed
+QEMU installs where the dependancy is known not to exist on all our
+supported platforms.
+
+This does not apply in this case, because the proposed use of tappy is
+merely for a test case. Meson just needs to check if tappy exists and if
+it does, then use it, otherwise skip the tests that need it. The user can
+arrange to install tappy, as they do with the majority of other deps.
+
+If John's venv stuff is relevant, then we don't even need the meson checks,
+just delegate to the venv setup.
+
+Regardless, no submodules are needed or desirable.
 
 With regards,
 Daniel
