@@ -2,112 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4780555C082
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:02:33 +0200 (CEST)
-Received: from localhost ([::1]:42316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CBE55C091
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:09:01 +0200 (CEST)
+Received: from localhost ([::1]:54910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68zI-0003IN-Db
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:02:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36248)
+	id 1o695Y-00059q-Ao
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1o68wI-00011J-Gs; Tue, 28 Jun 2022 06:59:26 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2126
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1o68wG-0007Fo-Ay; Tue, 28 Jun 2022 06:59:26 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25SAhrnq007602;
- Tue, 28 Jun 2022 10:59:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=mQQRMRN7haOEkE3iOHqBBfmUNmw/CG99nkzUiDKe8dM=;
- b=IkwsXfnJSJpOdN/S6A8t3AZbN5KHfTZD/Via3LBp8QN+PudR2vRz9wuxMOoAYaO8+hxK
- UvP41nu2kA/UPmpKDjdcpIYHvFTGlWAGcRvl/kX41BcgEfLAGcPmM1IeE9W9qBJD18Mp
- paFbADR20wjSFEzptUrZr6IcwHXufNgvJ48gcPo019zkNmWzi4vpT18t1yohxjcZOb6s
- oqPWzrnk0ZnMbR+aphq0ZvfIj4tAMGX0OXD540w6fdHet88BobZmpY7Z7w32cD8AF6DW
- 0t3qOdSvgwGJ2aUGPmqH5Oia+c3HcDP8Lc13JidnJJUdl07aYdVEPzg+OnDw1Tb9UVL5 +w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0055089j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jun 2022 10:59:20 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25SAsZ4p010388;
- Tue, 28 Jun 2022 10:59:20 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0055088p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jun 2022 10:59:20 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25SAqtQk027675;
- Tue, 28 Jun 2022 10:59:17 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 3gwt08vpr4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jun 2022 10:59:17 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25SAxDYu22217042
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Jun 2022 10:59:13 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B2BBFAE051;
- Tue, 28 Jun 2022 10:59:13 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD6C4AE04D;
- Tue, 28 Jun 2022 10:59:12 +0000 (GMT)
-Received: from [9.171.41.104] (unknown [9.171.41.104])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 28 Jun 2022 10:59:12 +0000 (GMT)
-Message-ID: <5a6a8daf-6bac-9c97-4faa-488aa4a27b26@linux.ibm.com>
-Date: Tue, 28 Jun 2022 13:03:40 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o692P-0000P1-LL
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:05:45 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:33458)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o692N-0000O5-Jc
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:05:45 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id h187so19386598ybg.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 04:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aFiw+YEaJ8hLQfBiMazi0tYmEyK0DDorf+sLDSbTO2A=;
+ b=vFIV5AuqFkDI/DkNISnotzCeTkVOSaSkAbLEwqz7bY0QVtYyBecIfMYdvLODggLqmw
+ Ycp5tzLaZ0l0IdrWoGNU8orRejXWRldYv14ZDv971ZysZHe/YoZH24shsAMHdmTVTSVt
+ +qHMHv0Cx9Yj08Mc2jXlDB/BJnMtHS9u+JZyO5RHTNYrjLeUn5RZs3sxjNeEnzP1Lez3
+ zaUAIg2ZL+DusEjWSezaFvxRF2t9ZzK7Fk5MLdqPdPACuEn8bEs//U8k/hW4GKOAGD0A
+ sBftCCFIYq5WQF24KlrQNH5diEIchUg2nQUdSRwGFOGTUwHX0IyVqPh77DxT7QVP13bm
+ qY0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aFiw+YEaJ8hLQfBiMazi0tYmEyK0DDorf+sLDSbTO2A=;
+ b=SQjWSN2fhT3peG4Sc+sa3TvcsFv18qtbBD96sM2KzzvSVOnS5brmG4lQbYC7VTqUL3
+ wAvqvILz4mXtISRdNTNWTNfrCy+tfdZwhfVjugIjCI+WijkMm9dOYiPW+EWxLD+kCUzO
+ QB58DzR893uz9t2ZX+qn8vhjFeKYPdfyR//kYCSWb2khO9L/2Y7nT/geMODVuiFAza+5
+ yw9rIry7A3FnYuZBLgUhN5nZnSEi+wXWBn+2E0ucRHbvlpmiNe/POWTF67BambA20jKR
+ j3kgCPfNPj7tnUi12WgNpG7Yk5B3+OH65JBNZmadXAnavXDHPRwgstLjeA4cyNHY3Moc
+ VQ4A==
+X-Gm-Message-State: AJIora/m5PAZz0UmMbXJQXnziizxJZ+/GtDRj2Ur788+aU+5wXKhbgZU
+ 4AxFBCxqw/hBNjS/ULFO34Qi9pRsNNcGdS08e1M1Jg==
+X-Google-Smtp-Source: AGRyM1sVXwHHEXiq9JU8drJjJXhmtaHTwKyQRpFDFmb0p4IJ5E/FhY+hg0obpnhGtgttoiqjNvoZjNsLVQSTtgKQMxs=
+X-Received: by 2002:a25:7ec2:0:b0:669:b7ad:8806 with SMTP id
+ z185-20020a257ec2000000b00669b7ad8806mr19030153ybc.85.1656414340752; Tue, 28
+ Jun 2022 04:05:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v8 03/12] s390x/cpu_topology: implementating Store
- Topology System Information
-Content-Language: en-US
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com
-References: <20220620140352.39398-1-pmorel@linux.ibm.com>
- <20220620140352.39398-4-pmorel@linux.ibm.com>
- <17ed3c2d-b2ef-0716-039e-527db996da73@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <17ed3c2d-b2ef-0716-039e-527db996da73@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: w88itZMiDBDso8OVTtNKtuiqYf5gEO6S
-X-Proofpoint-ORIG-GUID: uo9ESHSMINWSfwyvIWwReJW1TfQr8tJx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-28_05,2022-06-24_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=924 phishscore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 bulkscore=0 priorityscore=1501 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206280044
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220606231450.448443-1-richard.henderson@linaro.org>
+ <20220606231450.448443-39-richard.henderson@linaro.org>
+In-Reply-To: <20220606231450.448443-39-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Jun 2022 12:05:02 +0100
+Message-ID: <CAFEAcA91qww2x1iO7L+CsMnJA3txA_cmTzAQ=RLd6ftO0HOkuQ@mail.gmail.com>
+Subject: Re: [PULL 38/43] hw/loongarch: Add LoongArch ls7a rtc device support
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, =gaosong@loongson.cn, yangxiaojuan@loongson.cn, 
+ Song Gao <gaosong@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -124,69 +83,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 7 Jun 2022 at 00:34, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>
+> This patch add ls7a rtc device support.
+>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20220606124333.2060567-39-yangxiaojuan@loongson.cn>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Hi; Coverity points out some issues with this code, and I
+noticed a few more reading through it.
+
+> +static inline void toymatch_val_to_time(uint64_t val, struct tm *tm)
+> +{
+> +    tm->tm_sec = FIELD_EX32(val, TOY_MATCH, SEC);
+> +    tm->tm_min = FIELD_EX32(val, TOY_MATCH, MIN);
+> +    tm->tm_hour = FIELD_EX32(val, TOY_MATCH, HOUR);
+> +    tm->tm_mday = FIELD_EX32(val, TOY_MATCH, DAY);
+> +    tm->tm_mon = FIELD_EX32(val, TOY_MATCH, MON) - 1;
+> +    tm->tm_year += (FIELD_EX32(val, TOY_MATCH, YEAR) - (tm->tm_year & 0x3f));
+> +}
+> +
+> +static void toymatch_write(LS7ARtcState *s, struct tm *tm, uint64_t val, int num)
+> +{
+
+Why does this function take a pointer to a struct tm? The callsites
+all pass in an entirely uninitialized struct tm and don't try to
+read from it after the call. It would be clearer to just define
+the struct tm as a local in this function.
+
+> +    int64_t now, expire_time;
+> +
+> +    /* it do not support write when toy disabled */
+> +    if (toy_enabled(s)) {
+> +        s->toymatch[num] = val;
+> +        /* caculate expire time */
+> +        now = qemu_clock_get_ms(rtc_clock);
+> +        toymatch_val_to_time(val, tm);
+> +        expire_time = now + (qemu_timedate_diff(tm) - s->offset_toy) * 1000;
+
+Coverity complains (CID 1489766) that we end up using uninitialized
+fields in the struct tm here. There's two reasons for that:
+(1) toymatch_val_to_time() doesn't set all the fields in the struct,
+and we never zero-initialized the struct. This accounts for
+tm_gmtoff, tm_isdst, tm_wday, tm_yday, tm_zone. You need to look
+at whether any of those ought to be initialized, and set them.
+Zero-init the struct to make Coverity happy about the rest of them.
+
+(2) toymatch_val_to_time() sets tm_year based on the previous value
+of tm_year. This doesn't make sense if the struct isn't initialized.
+What was the intention here ?
 
 
-On 6/27/22 16:26, Janosch Frank wrote:
-> On 6/20/22 16:03, Pierre Morel wrote:
-> 
-> s390x/cpu_topology: Add STSI function code 15 handling
+> +        timer_mod(s->toy_timer[num], expire_time);
+> +    }
+> +}
 
-OK
+> +static void ls7a_toy_start(LS7ARtcState *s)
+> +{
+> +    int i;
+> +    uint64_t expire_time, now;
+> +    struct tm tm;
 
-> 
->> The handling of STSI is enhanced with the interception of the
->> function code 15 for storing CPU topology.
-> 
-> s/interception/handling/
+Coverity issue CID 1489763: we don't zero initialize the struct tm here,
+but we don't individually initialize all its fields. In particular
+the tm_wday field is never set up and Coverity complains it might
+be used uninitialized.
 
-OK
+The easy fix is to zero-init everything:
+   struct tm tm = {};
 
-> 
->>
->> Using the objects built during the plugging of CPU, we build the
->> SYSIB 15_1_x structures.
->>
->> With this patch the maximum MNEST level is 2, this is also
->> the only level allowed and only SYSIB 15_1_2 will be built.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> 
->> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
->> +{
->> +    const MachineState *machine = MACHINE(qdev_get_machine());
->> +    void *p;
->> +    int ret;
->> +
->> +    /*
->> +     * Until the SCLP STSI Facility reporting the MNEST value is used,
->> +     * a sel2 value of 2 is the only value allowed in STSI 15.1.x.
->> +     */
->> +    if (sel2 != 2) {
->> +        setcc(cpu, 3);
->> +        return;
->> +    }
->> +
->> +    p = g_malloc0(TARGET_PAGE_SIZE);
->> +
->> +    setup_stsi(machine, p, 2);
->> +
->> +    if (s390_is_pv()) {
->> +        ret = s390_cpu_pv_mem_write(cpu, 0, p, TARGET_PAGE_SIZE);
->> +    } else {
->> +        ret = s390_cpu_virt_mem_write(cpu, addr, ar, p, 
->> TARGET_PAGE_SIZE);
->> +    }
-> 
-> For later reference:
-> FCs over 3 are rejected by SIE for PV guests via cc 3.
-> 
-> I currently don't know if and when that will be changed but I'll ask 
-> around.
+> +    /*
+> +     * need to recaculate toy offset
 
-Yes, thanks, I forgot to change that, will do.
+typo: "recalculate" (here and in other comments above and below)
 
+> +     * and expire time when enable it.
+> +     */
+> +    toy_val_to_time_mon(s->save_toy_mon, &tm);
+> +    toy_val_to_time_year(s->save_toy_year, &tm);
+> +
+> +    s->offset_toy = qemu_timedate_diff(&tm);
+> +    now = qemu_clock_get_ms(rtc_clock);
+> +
+> +    /* recaculate expire time and enable timer */
+> +    for (i = 0; i < TIMER_NUMS; i++) {
+> +        toymatch_val_to_time(s->toymatch[i], &tm);
+> +        expire_time = now + (qemu_timedate_diff(&tm) - s->offset_toy) * 1000;
+> +        timer_mod(s->toy_timer[i], expire_time);
+> +    }
+> +}
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+> +static void toy_timer_cb(void *opaque)
+> +{
+> +    LS7ARtcState *s = opaque;
+> +
+> +    if (toy_enabled(s)) {
+> +        qemu_irq_pulse(s->irq);
+> +    }
+> +}
+> +
+> +static void rtc_timer_cb(void *opaque)
+> +{
+> +    LS7ARtcState *s = opaque;
+> +
+> +    if (rtc_enabled(s)) {
+> +        qemu_irq_pulse(s->irq);
+> +    }
+
+Does the real hardware really pulse the IRQ line?
+
+> +}
+> +
+> +static void ls7a_rtc_realize(DeviceState *dev, Error **errp)
+> +{
+> +    int i;
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +    LS7ARtcState *d = LS7A_RTC(sbd);
+> +    memory_region_init_io(&d->iomem, NULL, &ls7a_rtc_ops,
+> +                         (void *)d, "ls7a_rtc", 0x100);
+> +
+> +    sysbus_init_irq(sbd, &d->irq);
+> +
+> +    sysbus_init_mmio(sbd, &d->iomem);
+> +    for (i = 0; i < TIMER_NUMS; i++) {
+> +        d->toymatch[i] = 0;
+> +        d->rtcmatch[i] = 0;
+> +        d->toy_timer[i] = timer_new_ms(rtc_clock, toy_timer_cb, d);
+> +        d->rtc_timer[i] = timer_new_ms(rtc_clock, rtc_timer_cb, d);
+> +    }
+> +    d->offset_toy = 0;
+> +    d->offset_rtc = 0;
+> +    d->save_toy_mon = 0;
+> +    d->save_toy_year = 0;
+> +    d->save_rtc = 0;
+
+This device is missing an implementation of the reset method,
+and a lot of this looks like it is code that ought to be in reset.
+
+> +
+> +    create_unimplemented_device("mmio fallback 1", 0x10013ffc, 0x4);
+
+This call to create_unimplemented_device() is wrong -- device realize
+code must not map anything into the system memory map. That is up to
+board or SoC level code to do. I'm not sure what it's trying to do,
+but it should be done some other way.
+
+> +}
+
+thanks
+-- PMM
 
