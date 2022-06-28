@@ -2,95 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A99E55BFEC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:56:13 +0200 (CEST)
-Received: from localhost ([::1]:34710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC33155BFEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:57:27 +0200 (CEST)
+Received: from localhost ([::1]:37350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o67x6-0000t4-7Y
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
+	id 1o67yG-0002mr-LG
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:57:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o67us-0007oT-Hn
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 05:53:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51055)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o67wD-00019L-Re
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 05:55:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o67uq-0003Qj-RM
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 05:53:54 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o67wB-0003ei-8w
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 05:55:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656410032;
+ s=mimecast20190719; t=1656410114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DYgUzBXjYIZj0ki8qqdrsoqCs0Iym1BACGz2MyVpe68=;
- b=ivG5ivqdsqjk1byuG3wkpoJVZZjKtpul8oAObWfBhmA3q3Lxwh7PzYFBf2XZRGx2pmavnG
- cyIDTl7LBxVJYS3+ivJTzxojXuhpiidgeALsKe9/SrRpg1o+1UPPYdbbzgQLeWmBPKQezX
- 06YKsW2aJcZ1tmiLK/on5FuUbtXOEco=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6A3uFy7yFjqIhMrvMESfWArCWb4U85pdLHoPX3DE7ro=;
+ b=P5T2mEXUhjTWQOKLEvygzGFHGo/59nHmWfGzXCsvuoEZqJN1gyphWP83YsyR7MlNIjp4k5
+ Fb69Q5SGLlHw4VKphSXPDsiavIbWLYbjH2a4bafpbTBALH6+1pUm5zjVuULoVf4zSipf5I
+ wkJnArEJ1Ysj74rOVzEyKr/xLaQewwQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-j_nSaI9MNK6aTOriwSaXAA-1; Tue, 28 Jun 2022 05:53:50 -0400
-X-MC-Unique: j_nSaI9MNK6aTOriwSaXAA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- be12-20020a05600c1e8c00b0039c506b52a4so5552081wmb.1
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 02:53:50 -0700 (PDT)
+ us-mta-526-JCtMTHGDOrK1PL30lA5rPg-1; Tue, 28 Jun 2022 05:55:11 -0400
+X-MC-Unique: JCtMTHGDOrK1PL30lA5rPg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m20-20020a05600c4f5400b003a03aad6bdfso4790833wmq.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 02:55:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=DYgUzBXjYIZj0ki8qqdrsoqCs0Iym1BACGz2MyVpe68=;
- b=v7U1Zacca50D2NUjRQPFoM6kYs8CLeU++Dq+B1qu1yb1UaWDOusPtVgl3AGuOCBWVo
- 10+jQ4q9m+l47xSBtp0K2l5r9PxwKGsk+iKHG+r8c7XQFG+0GvojEfLcXPfXhw5z8eUg
- znwufTHz4CgCDsb2ivvg2Z0wIYXQw9cPuru/rmmjBjtmzb3bP7WzLh0CiAD8XDMBNszs
- 6gDOgQggFrbtN/fpt09Pm5h4IaOgbgwM3duMWk+OgIFPzp0kBw7YCOb38HGaeyVdxiLm
- 7Y5MYd9gq+wKmzdxDFnEh6l7UAJvgUfJd66ovQSNrNUBxVNvVNSfldbDHMDwQXnON1hw
- DK2w==
-X-Gm-Message-State: AJIora+28P9fOBxxqu0dNYfoph8jo8MwO9RKLI3yNj+iYcleowrRROsu
- 3gt8vSjyff44whWHkbHzU7O/mtOWjCcblTIvPRbcTLlmsc41d/GdOQYRHFiPfXOzkqKtoSxNMRl
- +p0Jvd7nuqWBFmYE=
-X-Received: by 2002:a5d:6dae:0:b0:21b:bb44:3027 with SMTP id
- u14-20020a5d6dae000000b0021bbb443027mr17571216wrs.276.1656410029295; 
- Tue, 28 Jun 2022 02:53:49 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uj4csHaBmd9H+Q8aC519+ibU25UYa1DwzVecqLXH5t+6cvKpXIUIVK1IzqWMQQv+YM7TBLKw==
-X-Received: by 2002:a5d:6dae:0:b0:21b:bb44:3027 with SMTP id
- u14-20020a5d6dae000000b0021bbb443027mr17571190wrs.276.1656410029011; 
- Tue, 28 Jun 2022 02:53:49 -0700 (PDT)
+ bh=6A3uFy7yFjqIhMrvMESfWArCWb4U85pdLHoPX3DE7ro=;
+ b=Xt2VcSDp/xxFBelkjwjr9zMY6BFmITY5DMmv/rmdPALqr2Uh6/lLAcwotx9G+q8jLR
+ YPVRihER7GiqmZ7dS4Gidtrj5hrLPbTmfYcu84JL2KCXps9S5+LtZ6YK6z1OO4hLwFhO
+ X/8BaBqeHSh5opjbbojKMKk6k3bO9MN4y8Vlkb5ccvWdQRFK2gIs9vej/MgSWjJ6J1Cj
+ 4qlA2NLXr5AfWnUJh9sCbB1mo5sP4HntZszPMj727ckWyVHvqRnJL7DUV75NUmqTQzD+
+ n/mABsg6DtZLuMyCCp7i12nXo3BY0pnAQOrKMMlQH5xR/s5Y80NIvrcXonYC9vN6QNnT
+ bxbQ==
+X-Gm-Message-State: AJIora9i+l6YHHRmDnVYdBpIlibEl0Owq+MMlOyCC6g0ufumFKkYT1o2
+ /awkwMTPL/8ZcYzu7MYZytk31YPrmNP4WaWWWbqFy9WMI9kOd7cQ8XN9BfccjWf3qp1B7RgyXb9
+ DcsKVFcMav2JunF0=
+X-Received: by 2002:a5d:43c7:0:b0:21d:1e01:e9ac with SMTP id
+ v7-20020a5d43c7000000b0021d1e01e9acmr2394763wrr.187.1656410110405; 
+ Tue, 28 Jun 2022 02:55:10 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vQ5sDDgaAWbRDFTxeb98hEmumhmN2WCqk1liKnKzGZyHEfPI4LO+7SGi8PgttBjt8bAS7NOg==
+X-Received: by 2002:a5d:43c7:0:b0:21d:1e01:e9ac with SMTP id
+ v7-20020a5d43c7000000b0021d1e01e9acmr2394738wrr.187.1656410110099; 
+ Tue, 28 Jun 2022 02:55:10 -0700 (PDT)
 Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- l16-20020adffe90000000b0021b9a4a75e2sm13160328wrr.30.2022.06.28.02.53.46
+ z9-20020adfec89000000b0021b89f8662esm12968921wrn.13.2022.06.28.02.55.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 02:53:48 -0700 (PDT)
-Date: Tue, 28 Jun 2022 05:53:44 -0400
+ Tue, 28 Jun 2022 02:55:09 -0700 (PDT)
+Date: Tue, 28 Jun 2022 05:55:06 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
- "Daniel P. Berrange" <berrange@redhat.com>
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-Message-ID: <20220628055258-mutt-send-email-mst@kernel.org>
-References: <CAARzgwznJUrO-7kjZ+58qj=UG6V9wojP=ZfW7FePyvb6GxdNtA@mail.gmail.com>
- <20220628020017-mutt-send-email-mst@kernel.org>
- <CAARzgwwf_WRWzbwPorpa-4XN7T6f6D7CRo70+07Z8LgZO+5Spg@mail.gmail.com>
- <20220628021757-mutt-send-email-mst@kernel.org>
- <CAARzgwyWK2HNbz=9=uoA+DDTpnn2q3CRmYVyjLwfMs1wi24-LA@mail.gmail.com>
- <20220628024810-mutt-send-email-mst@kernel.org>
- <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
- <4e1c2a45-eb53-e210-1ce1-05837bf1e7c3@redhat.com>
- <20220628030749-mutt-send-email-mst@kernel.org>
- <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
+ John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 09/12] acpi/tests/bits: add acpi and smbios python tests
+ that uses biosbits
+Message-ID: <20220628055416-mutt-send-email-mst@kernel.org>
+References: <20220627072856.1529357-1-ani@anisinha.ca>
+ <20220627072856.1529357-10-ani@anisinha.ca>
+ <a9614691-5f79-fb77-1514-876deb487e98@redhat.com>
+ <CAARzgwz2oNiR56j7UYstEVweianLUwy8AqC5yRccyR2f4iWipA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <CAARzgwz2oNiR56j7UYstEVweianLUwy8AqC5yRccyR2f4iWipA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,63 +101,228 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 09:25:35AM +0200, Thomas Huth wrote:
-> On 28/06/2022 09.10, Michael S. Tsirkin wrote:
-> > On Tue, Jun 28, 2022 at 09:03:33AM +0200, Thomas Huth wrote:
-> > > > > > > > > No problem with that. So that's venv. But do we need pip and pulling
-> > > > > > > > > packages from the net during testing?
-> > > > > > > > 
-> > > > > > > > We do that too. See requirements.txt in tests/
-> > > > > > > > Following two are downloaded:
-> > > > > > > > avocado-framework==88.1
-> > > > > > > > pycdlib==1.11.0
-> > > > > > > > 
-> > > > > > > > Also see this line in Makefie.include:
-> > > > > > > > 
-> > > > > > > > $(call quiet-venv-pip,install -r $(TESTS_VENV_REQ))
-> > > > > > > 
-> > > > > > > Right but that's avocado since it pulls lots of stuff from
-> > > > > > > the net anyway.
-> > > > > > > Are the libraries in question not packaged on major distros?
-> > > > > > 
-> > > > > > Currently I only need this:
-> > > > > > https://github.com/python-tap/tappy
-> > > > > > which is the basic TAP processing library for python.
-> > > > > > 
-> > > > > > It seems its only installed through pip:
-> > > > > > https://tappy.readthedocs.io/en/latest/
-> > > > > > 
-> > > > > > I do not think this is packaged by default. It's such a basic library
-> > > > > > for parsing test output that maybe we can keep this somewhere within
-> > > > > > the python src tree? Not sure ...
-> > > > > 
-> > > > > It's pretty small for sure. Another submodule?
-> > > > 
-> > > > Unlike BITS, this one is likely going to be maintained for a while and
-> > > > will receive new releases through
-> > > > https://pypi.org/project/tap.py/
-> > > > so forking is OK but someone has to keep this updated.
-> > > > 
-> > > > I am open to anything. Whatever feels right is fine to me.
-> > > 
-> > > John Snow is currently working on the "Pythonification" of various QEMU
-> > > bits, I think you should loop him into this discussion, too.
-> > > 
-> > >   Thomas
-> > 
-> > submodule does not mean we fork necessarily. We could have
-> > all options: check for the module and use it if there, if not
-> > use one from system if not there install with pip ..
-> > But yea, I'm not sure what's best either.
+On Tue, Jun 28, 2022 at 12:56:52PM +0530, Ani Sinha wrote:
+> On Tue, Jun 28, 2022 at 12:50 PM Thomas Huth <thuth@redhat.com> wrote:
+> >
+> > On 27/06/2022 09.28, Ani Sinha wrote:
+> > > This change adds python based qtest framework that can be used to run
+> > > qtests from within a virtual environment. A bash script creates the virtual
+> > > environment and then runs the python based tests from within that environment.
+> > > All dependent python packages are installed in the virtual environment using
+> > > pip module. QEMU python test modules are also available in the environment for
+> > > spawning the QEMU based VMs.
+> > >
+> > > It also introduces QEMU acpi/smbios biosbits python test script which is run
+> > > from within the python virtual environment.
+> > >
+> > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > ---
+> > >   tests/qtest/acpi-bits/acpi-bits-test-venv.sh |  59 ++++
+> > >   tests/qtest/acpi-bits/acpi-bits-test.py      | 327 +++++++++++++++++++
+> > >   tests/qtest/acpi-bits/meson.build            |  39 +++
+> > >   tests/qtest/acpi-bits/requirements.txt       |   1 +
+> > >   4 files changed, 426 insertions(+)
+> > >   create mode 100644 tests/qtest/acpi-bits/acpi-bits-test-venv.sh
+> > >   create mode 100644 tests/qtest/acpi-bits/acpi-bits-test.py
+> > >   create mode 100644 tests/qtest/acpi-bits/meson.build
+> > >   create mode 100644 tests/qtest/acpi-bits/requirements.txt
+> > >
+> > > diff --git a/tests/qtest/acpi-bits/acpi-bits-test-venv.sh b/tests/qtest/acpi-bits/acpi-bits-test-venv.sh
+> > > new file mode 100644
+> > > index 0000000000..124e03ce18
+> > > --- /dev/null
+> > > +++ b/tests/qtest/acpi-bits/acpi-bits-test-venv.sh
+> > > @@ -0,0 +1,59 @@
+> > > +#!/usr/bin/env bash
+> > > +# Generates a python virtual environment for the test to run.
+> > > +# Then runs python test scripts from within that virtual environment.
+> > > +#
+> > > +# This program is free software; you can redistribute it and/or modify
+> > > +# it under the terms of the GNU General Public License as published by
+> > > +# the Free Software Foundation; either version 2 of the License, or
+> > > +# (at your option) any later version.
+> > > +#
+> > > +# This program is distributed in the hope that it will be useful,
+> > > +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > > +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > > +# GNU General Public License for more details.
+> > > +#
+> > > +# You should have received a copy of the GNU General Public License
+> > > +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> > > +#
+> > > +# Author: Ani Sinha <ani@anisinha.ca>
+> > > +
+> > > +set -e
+> > > +
+> > > +MYPATH=$(realpath ${BASH_SOURCE:-$0})
+> > > +MYDIR=$(dirname $MYPATH)
+> > > +
+> > > +if [ -z "$QTEST_SOURCE_ROOT" ]; then
+> > > +    echo -n "Please set QTEST_SOURCE_ROOT env pointing"
+> > > +    echo " to the root of the qemu source tree."
+> > > +    echo -n "This is required so that the test can find the "
+> > > +    echo "python modules that it needs for execution."
+> > > +    exit 1
+> > > +fi
+> > > +SRCDIR=$QTEST_SOURCE_ROOT
+> > > +TESTSCRIPTS=("acpi-bits-test.py")
+> > > +PIPCMD="-m pip -q --disable-pip-version-check"
+> > > +# we need to save the old value of PWD before we do a change-dir later
+> > > +QTEST_PWD=$PWD
+> > > +
+> > > +TESTS_PYTHON=/usr/bin/python3
+> > > +TESTS_VENV_REQ=requirements.txt
+> > > +
+> > > +# sadly for pip -e and -t options do not work together.
+> > > +# please see https://github.com/pypa/pip/issues/562
+> > > +cd $MYDIR
+> > > +
+> > > +$TESTS_PYTHON -m venv .
+> > > +$TESTS_PYTHON $PIPCMD install -e $SRCDIR/python/
+> > > +[ -f $TESTS_VENV_REQ ] && \
+> > > +    $TESTS_PYTHON $PIPCMD install -r $TESTS_VENV_REQ
+> > > +
+> > > +# venv is activated at this point.
+> > > +
+> > > +# run the test
+> > > +for testscript in ${TESTSCRIPTS[@]} ; do
+> > > +    export QTEST_PWD; python3 $testscript
+> > > +done
+> > > +
+> > > +cd $QTEST_PWD
+> > > +
+> > > +exit 0
+> > > diff --git a/tests/qtest/acpi-bits/acpi-bits-test.py b/tests/qtest/acpi-bits/acpi-bits-test.py
+> > > new file mode 100644
+> > > index 0000000000..673567bf8e
+> > > --- /dev/null
+> > > +++ b/tests/qtest/acpi-bits/acpi-bits-test.py
+> > > @@ -0,0 +1,327 @@
+> > > +#!/usr/bin/env python3
+> > > +# group: rw quick
+> > > +# Exercize QEMU generated ACPI/SMBIOS tables using biosbits,
+> > > +# https://biosbits.org/
+> > > +#
+> > > +# This program is free software; you can redistribute it and/or modify
+> > > +# it under the terms of the GNU General Public License as published by
+> > > +# the Free Software Foundation; either version 2 of the License, or
+> > > +# (at your option) any later version.
+> > > +#
+> > > +# This program is distributed in the hope that it will be useful,
+> > > +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > > +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > > +# GNU General Public License for more details.
+> > > +#
+> > > +# You should have received a copy of the GNU General Public License
+> > > +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> > > +#
+> > > +# Some parts are slightly taken from qtest.py and iotests.py
+> > > +#
+> > > +# Authors:
+> > > +#  Ani Sinha <ani@anisinha.ca>
+> > > +
+> > > +# pylint: disable=invalid-name
+> > > +
+> > > +"""
+> > > +QEMU bios tests using biosbits available at
+> > > +https://biosbits.org/.
+> > > +"""
+> > > +
+> > > +import logging
+> > > +import os
+> > > +import re
+> > > +import shutil
+> > > +import subprocess
+> > > +import sys
+> > > +import tarfile
+> > > +import tempfile
+> > > +import time
+> > > +import unittest
+> > > +import zipfile
+> > > +from typing import (
+> > > +    List,
+> > > +    Optional,
+> > > +    Sequence,
+> > > +)
+> > > +from tap import TAPTestRunner
+> > > +from qemu.machine import QEMUMachine
+> > > +
+> > > +QTESTQEMUPROG = os.getenv('QTEST_QEMU_BINARY')
+> > > +QTEST_PWD = os.getenv('QTEST_PWD')
+> > > +
+> > > +def get_arch():
+> > > +    """finds the arch from the qemu binary name"""
+> > > +    match = re.search('.*qemu-system-(.*)', QTESTQEMUPROG)
+> > > +    if match:
+> > > +        return match.group(1)
+> > > +    return 'x86_64'
+> > > +
+> > > +ARCH = get_arch()
+> > > +
+> > > +class QEMUBitsMachine(QEMUMachine):
+> > > +    """
+> > > +    A QEMU VM, with isa-debugcon enabled and bits iso passed
+> > > +    using -cdrom to QEMU commandline.
+> > > +    """
+> > > +    def __init__(self,
+> > > +                 binary: str,
+> > > +                 args: Sequence[str] = (),
+> > > +                 wrapper: Sequence[str] = (),
+> > > +                 name: Optional[str] = None,
+> > > +                 base_temp_dir: str = "/var/tmp",
+> > > +                 debugcon_log: str = "debugcon-log.txt",
+> > > +                 debugcon_addr: str = "0x403",
+> > > +                 sock_dir: Optional[str] = None,
+> > > +                 qmp_timer: Optional[float] = None):
+> > > +        # pylint: disable=too-many-arguments
+> > > +
+> > > +        if name is None:
+> > > +            name = "qemu-bits-%d" % os.getpid()
+> > > +        if sock_dir is None:
+> > > +            sock_dir = base_temp_dir
+> > > +        super().__init__(binary, args, wrapper=wrapper, name=name,
+> > > +                         base_temp_dir=base_temp_dir,
+> > > +                         sock_dir=sock_dir, qmp_timer=qmp_timer)
+> > > +        self.debugcon_log = debugcon_log
+> > > +        self.debugcon_addr = debugcon_addr
+> > > +        self.base_temp_dir = base_temp_dir
+> > > +
+> > > +    @property
+> > > +    def _base_args(self) -> List[str]:
+> > > +        args = super()._base_args
+> > > +        args.extend([
+> > > +            '-chardev',
+> > > +            'file,path=%s,id=debugcon' %os.path.join(self.base_temp_dir,
+> > > +                                                     self.debugcon_log),
+> > > +            '-device',
+> > > +            'isa-debugcon,iobase=%s,chardev=debugcon' %self.debugcon_addr,
+> > > +        ])
+> > > +        return args
+> >
+> > So is this patch series *really* related to qtests? qtests are using a
+> > special "accelerator" mode of QEMU where it gets launched with the "-qtest"
+> > parameter. I can't see that you're using "-qtest" here or anywhere else, so
+> > this rather looks like another framework to me to run python-based QEMU
+> > tests (similar to the avocado tests).
 > 
-> submodules create a dependency on an internet connection, too.
+> yes you are right. This does not use or need the qtest accelerator
+> because we are not inspecting the guest memory for anything.
 
-Yes but this dependency is explicit.
+Same is true for e.g. ./tests/qtest/bios-tables-test.c ...
 
-> So before you
-> add yet another submodule (which have a couple of other disadvantages), I
-> think you could also directly use the venv here.
+
+> >
+> > Thus if this is really not related to qtests, may I suggest to move this
+> > into another folder instead? Maybe tests/pytests/acpi-bits or something similar?
 > 
->  Thomas
+> The problem I faced with this test is that it does not quite fall into
+> the qtest category. Nor does it fall into the integration test
+> category. I asked Igor and he suggested I use the qtest framework.
+> Should we invent a new class of tests then? How many such tests are we
+> going to have in the future?  Lets see what others think.
+> 
+> >
+> >   Thomas
+> >
 
 
