@@ -2,107 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9913955D01F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 15:07:30 +0200 (CEST)
-Received: from localhost ([::1]:51958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A0455D231
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 15:10:32 +0200 (CEST)
+Received: from localhost ([::1]:54994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6AwD-00080v-N6
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 09:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42858)
+	id 1o6Az8-0001nu-Mh
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 09:10:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o6AtY-0006Bm-Rn
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:04:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43199)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o6AxC-0000d3-Cr; Tue, 28 Jun 2022 09:08:30 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o6AtQ-0006jo-Tx
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:04:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656421473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1EKOWAIYJ75DGV1RgSWyS/VaT0R38kYEfb6ia9DqU+s=;
- b=iDM1ym/PKo0ul13oUlY1wIPAuaaa+UGM+sQIQaciqyBiyeYo7kFH+I7UdQTcb26o6KkkO5
- MZMwCpAaBYt2xB3S9YxhTd0CaWlo/655jIUbLp9p9oGFeNnb9t9AAT9DneUPuCop9+WenG
- SLDe6H/cP7CUSDJL9EnQBpXinzLAXWA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-454-M-QUShB-Mz-vzIn39xRHcQ-1; Tue, 28 Jun 2022 09:04:16 -0400
-X-MC-Unique: M-QUShB-Mz-vzIn39xRHcQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- t20-20020a1c7714000000b003a032360873so8217284wmi.0
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 06:04:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1EKOWAIYJ75DGV1RgSWyS/VaT0R38kYEfb6ia9DqU+s=;
- b=68PDYmNG8dD3RoD392KhF5n9o0VmzeOOgPDcm4WqrNoz6wo+RC2V1gU7nftwFwY9S0
- 61V3Aq7kOIn8mzZOBLyswuth+7JA7+e3nuxfACbUJ6I+eBxOGqYFz36mUMk2RMlsjWJy
- pSdZC0BGeqmzoAhjON5yjJmzhMXbsYGtyDgiQVMyvNv+rridH0hMmhkBJPN3A34qxre8
- 3RTBgBa4KKOJLbvjEJNQWeJktjv72ehjScASOaPUAhK1ugO341XIqHpW0JgXrCNrqxcc
- 73aT4Sm346hRHigkuAcS+k6mQgE0p1kcd2iCPNWCR75tvndqh2k2WyoAa92/kGvR4Aqf
- Rytg==
-X-Gm-Message-State: AJIora8XwjfsUqchl3CQIZkC6OZ8OVt6phEnVky2t92VZA/7OzuufS9l
- VLSWwRmsjn8GsmqEzJjmHezY8C+7wyKFzvPzSfL0TSkWjP4fldFgb+4C4Q2l6P4TggualqXGAd6
- 0uJWh9BSgMdRVHq4=
-X-Received: by 2002:a05:6000:10b:b0:21b:88ca:9abf with SMTP id
- o11-20020a056000010b00b0021b88ca9abfmr17781495wrx.694.1656421451072; 
- Tue, 28 Jun 2022 06:04:11 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1viv0Vtt4tS85k0wqIiaiOuQj05KsVddCm7JSAbmF3ZNvbNxllUIuJso/WP0tq45DjT91DMMQ==
-X-Received: by 2002:a05:6000:10b:b0:21b:88ca:9abf with SMTP id
- o11-20020a056000010b00b0021b88ca9abfmr17781440wrx.694.1656421450578; 
- Tue, 28 Jun 2022 06:04:10 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- d11-20020a5d4f8b000000b0020c7ec0fdf4sm15973570wru.117.2022.06.28.06.04.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jun 2022 06:04:09 -0700 (PDT)
-Message-ID: <458dfa2c-4161-394c-95a0-d9e06757add5@redhat.com>
-Date: Tue, 28 Jun 2022 15:04:08 +0200
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1o6AxA-0007d4-5r; Tue, 28 Jun 2022 09:08:30 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25SCuQvH001414;
+ Tue, 28 Jun 2022 13:08:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=5pDJHWyhMdeUVYau/S5/6nfxheu7u9/QyRIUDA8igGA=;
+ b=HsWQMVMVXxZwvjOD6BZjyjuXEaXmUKHG5TD50z3YLeX22GM4dL7r3cNsmPuqGMvTLMYO
+ T35XSy7VVerr2miyl//4n4HXUnh9B73RohD2BeP1ABttzpnfpFniBeckOBCViBBiHnTl
+ q7jQdBJnRJcNCdwtinbiusGINM55SCRwF2aU7rXWSHNaVC2wM8VcmLHHSxaEvPot6Q1M
+ ZJb/4e7zMFCNX3j/mkzEaSP8LToeebRXPyQmEYbffHQdbOE+4lHb4icq6D3qLoDuloCb
+ 21LR5x5GOtx//d0VMdVH48CfmLsILA/I3FXemOYr2Zr5xuGDoHyhWjDVLK8Lw9Ec+IoQ uQ== 
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h023d0h5a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Jun 2022 13:08:25 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25SD7BIL005803;
+ Tue, 28 Jun 2022 13:08:23 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3gwsmj4wg8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Jun 2022 13:08:23 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 25SD8Sxx23527854
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Jun 2022 13:08:28 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0F02DA405C;
+ Tue, 28 Jun 2022 13:08:21 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C3B83A405B;
+ Tue, 28 Jun 2022 13:08:20 +0000 (GMT)
+Received: from [9.145.173.90] (unknown [9.145.173.90])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 28 Jun 2022 13:08:20 +0000 (GMT)
+Message-ID: <cf38218a-6e13-8024-8e08-fcdd74faa5a8@linux.ibm.com>
+Date: Tue, 28 Jun 2022 15:08:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v7 10/18] jobs: rename static functions called with
- job_mutex held
+ Thunderbird/91.10.0
+Subject: Re: Slowness with multi-thread TCG?
 Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220616131835.2004262-1-eesposit@redhat.com>
- <20220616131835.2004262-11-eesposit@redhat.com>
- <c0401616-f246-ce1d-2a0f-b7e23dd55ab8@yandex-team.ru>
- <0aaa344b-aecb-13de-f82f-cad27a768ba9@redhat.com>
- <c234668d-0156-548b-e1e8-d1fda1b85ad7@yandex-team.ru>
- <8248df6b-3b48-6e09-5a5e-021cf65041dd@redhat.com>
- <98558a3e-3bd6-40b0-07da-1d022dfb0c0c@yandex-team.ru>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <98558a3e-3bd6-40b0-07da-1d022dfb0c0c@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org
+References: <111e5b6c-41a7-89a4-b4d2-2eda1a295ffa@linux.ibm.com>
+ <dd5f1753-ff56-f248-9863-b39739fb6093@eldorado.org.br>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <dd5f1753-ff56-f248-9863-b39739fb6093@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: jJOtC9EMZ8jcZ6cdmiTxfsiMTbdTAhhv
+X-Proofpoint-GUID: jJOtC9EMZ8jcZ6cdmiTxfsiMTbdTAhhv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-28_07,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ impostorscore=0 phishscore=0 spamscore=0 priorityscore=1501 malwarescore=0
+ adultscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206280055
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,203 +111,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-Am 28/06/2022 um 12:47 schrieb Vladimir Sementsov-Ogievskiy:
-> On 6/28/22 10:40, Emanuele Giuseppe Esposito wrote:
+On 28/06/2022 13:25, Matheus K. Ferst wrote:
+> On 27/06/2022 15:25, Frederic Barrat wrote:
+>> [ Resending as it was meant for the qemu-ppc list ]
+>>
+>> Hello,
+>>
+>> I've been looking at why our qemu powernv model is so slow when booting
+>> a compressed linux kernel, using multiple vcpus and multi-thread tcg.
+>> With only one vcpu, the decompression time of the kernel is what it is,
+>> but when using multiple vcpus, the decompression is actually slower. And
+>> worse: it degrades very fast with the number of vcpus!
+>>
+>> Rough measurement of the decompression time on a x86 laptop with
+>> multi-thread tcg and using the qemu powernv10 machine:
+>> 1 vcpu => 15 seconds
+>> 2 vcpus => 45 seconds
+>> 4 vcpus => 1 min 30 seconds
+>>
+>> Looking in details, when the firmware (skiboot) hands over execution to
+>> the linux kernel, there's one main thread entering some bootstrap code
+>> and running the kernel decompression algorithm. All the other secondary
+>> threads are left spinning in skiboot (1 thread per vpcu). So on paper,
+>> with multi-thread tcg and assuming the system has enough available
+>> physical cpus, I would expect the decompression to hog one physical cpu
+>> and the time needed to be constant, no matter the number of vpcus.
+>>
+>> All the secondary threads are left spinning in code like this:
+>>
+>>         for (;;) {
+>>                 if (cpu_check_jobs(cpu))  // reading cpu-local data
+>>                         break;
+>>                 if (reconfigure_idle)     // global variable
+>>                         break;
+>>                 barrier();
+>>         }
+>>
+>> The barrier is to force reading the memory with each iteration. It's
+>> defined as:
+>>
+>>    asm volatile("" : : : "memory");
 >>
 >>
->> Am 22/06/2022 um 20:38 schrieb Vladimir Sementsov-Ogievskiy:
->>> On 6/22/22 17:26, Emanuele Giuseppe Esposito wrote:
->>>>
->>>>
->>>> Am 21/06/2022 um 19:26 schrieb Vladimir Sementsov-Ogievskiy:
->>>>> On 6/16/22 16:18, Emanuele Giuseppe Esposito wrote:
->>>>>> With the*nop*  job_lock/unlock placed, rename the static
->>>>>> functions that are always under job_mutex, adding "_locked" suffix.
->>>>>>
->>>>>> List of functions that get this suffix:
->>>>>> job_txn_ref           job_txn_del_job
->>>>>> job_txn_apply           job_state_transition
->>>>>> job_should_pause       job_event_cancelled
->>>>>> job_event_completed       job_event_pending
->>>>>> job_event_ready           job_event_idle
->>>>>> job_do_yield           job_timer_not_pending
->>>>>> job_do_dismiss           job_conclude
->>>>>> job_update_rc           job_commit
->>>>>> job_abort           job_clean
->>>>>> job_finalize_single       job_cancel_async
->>>>>> job_completed_txn_abort       job_prepare
->>>>>> job_needs_finalize       job_do_finalize
->>>>>> job_transition_to_pending  job_completed_txn_success
->>>>>> job_completed           job_cancel_err
->>>>>> job_force_cancel_err
->>>>>>
->>>>>> Note that "locked" refers to the*nop*  job_lock/unlock, and not
->>>>>> real_job_lock/unlock.
->>>>>>
->>>>>> No functional change intended.
->>>>>>
->>>>>> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
->>>>>
->>>>>
->>>>> Hmm. Maybe it was already discussed.. But for me it seems, that it
->>>>> would
->>>>> be simpler to review previous patches, that fix job_ API users to use
->>>>> locking properly, if this renaming go earlier.
->>>>>
->>>>> Anyway, in this series, we can't update everything at once. So
->>>>> patch to
->>>>> patch, we make the code more and more correct. (yes I remember that
->>>>> lock() is a noop, but I should review thinking that it real,
->>>>> otherwise,
->>>>> how to review?)
->>>>>
->>>>> So, I'm saying about formal correctness of using lock() unlock()
->>>>> function in connection with introduced _locked prifixes and in
->>>>> connection with how it should finally work.
->>>>>
->>>>> You do:
->>>>>
->>>>> 05. introduce some _locked functions, that just duplicates, and
->>>>> job_pause_point_locked() is formally inconsistent, as I said.
->>>>>
->>>>> 06. Update a lot of places, to give them their final form (but not
->>>>> final, as some functions will be renamed to _locked, some not, hard to
->>>>> imagine)
->>>>>
->>>>> 07,08,09. Update some more, and even more places. very hard to track
->>>>> formal correctness of using locks
->>>>>
->>>>> 10-...: rename APIs.
->>>>>
->>>>>
->>>>> What do you think about the following:
->>>>>
->>>>> 1. Introduce noop lock, and some internal _locked() versions, and keep
->>>>> formal consistency inside job.c, considering all public interfaces as
->>>>> unlocked:
->>>>>
->>>>>    at this point:
->>>>>     - everything correct inside job.c
->>>>>     - no public interfaces with _locked prefix
->>>>>     - all public interfaces take mutex internally
->>>>>     - no external user take mutex by hand
->>>>>
->>>>> We can rename all internal static functions at this step too.
->>>>>
->>>>> 2. Introduce some public _locked APIs, that we'll use in next patches
->>>>>
->>>>> 3. Now start fixing external users in several patches:
->>>>>       - protect by mutex direct use of job fields
->>>>>     - make wider locks and move to _locked APIs inside them where
->>>>> needed
->>>>>
->>>>>
->>>>> In this scenario, every updated unit becomes formally correct after
->>>>> update, and after all steps everything is formally correct, and we can
->>>>> move to turning-on the mutex.
->>>>>
->>>>
->>>> I don't understand your logic also here, sorry :(
->>>>
->>>> I assume you want to keep patch 1-4, then the problem is assing
->>>> job_lock
->>>> and renaming functions in _locked.
->>>> So I would say the problem is in patch 5-6-10-11-12-13. All the others
->>>> should be self contained.
->>>>
->>>> I understand patch 5 is a little hard to follow.
->>>>
->>>> Now, I am not sure what you propose here but it seems that the end goal
->>>> is to just have the same result, but with additional intermediate steps
->>>> that are just "do this just because in the next patch will be useful".
->>>> I think the problem is that we are going to miss the "why we need the
->>>> lock" logic in the patches if we do so.
->>>>
->>>> The logic I tried to convey in this order is the following:
->>>> - job.h: add _locked duplicates for job API functions called with and
->>>> without job_mutex
->>>>      Just create duplicates of functions
->>>>
->>>> - jobs: protect jobs with job_lock/unlock
->>>>      QMP and monitor functions call APIs that assume lock is taken,
->>>>      drivers must take explicitly the lock
->>>>
->>>> - jobs: rename static functions called with job_mutex held
->>>> - job.h: rename job API functions called with job_mutex held
->>>> - block_job: rename block_job functions called with job_mutex held
->>>>      *given* that some functions are always under lock, transform
->>>>      them in _locked. Requires the job_lock/unlock patch
->>>>
->>>> - job.h: define unlocked functions
->>>>      Comments on the public functions that are not _locked
->>>>
->>>>
->>>> @Kevin, since you also had some feedbacks on the patch ordering, do you
->>>> agree with this ordering or you have some other ideas?
->>>>
->>>> Following your suggestion, we could move patches 10-11-12-13 before
->>>> patch 6 "jobs: protect jobs with job_lock/unlock".
->>>>
->>>> (Apologies for changing my mind, but being the second complain I am
->>>> starting to reconsider reordering the patches).
->>>>
->>>
->>> In two words, what I mean: let's keep the following invariant from patch
->>> to patch:
->>>
->>> 1. Function that has _locked() prefix is always called with lock held
->>> 2. Function that has _locked() prefix never calls functions that take
->>> lock by themselves so that would dead-lock
->>> 3. Function that is documented as "called with lock not held" is never
->>> called with lock held
->>>
->>> That what I mean by "formal correctness": yes, we know that lock is
->>> noop, but still let's keep code logic to correspond function naming and
->>> comments that we add.
->>>
->>>
+>> Some time later, the main thread in the linux kernel will get the
+>> secondary threads out of that loop by posting a job.
 >>
->> Ok so far I did the following:
+>> My first thought was that the translation of that code through tcg was
+>> somehow causing some abnormally slow behavior, maybe due to some
+>> non-obvious contention between the threads. However, if I send the
+>> threads spinning forever with simply:
 >>
->> - duplicated each public function as static {function}_locked()
+>>      for (;;) ;
+>>
+>> supposedly removing any contention, then the decompression time is the 
+>> same.
+>>
+>> Ironically, the behavior seen with single thread tcg is what I would
+>> expect: 1 thread decompressing in 15 seconds, all the other threads
+>> spinning for that same amount of time, all sharing the same physical
+>> cpu, so it all adds up nicely: I see 60 seconds decompression time with
+>> 4 vcpus (4x15). Which means multi-thread tcg is slower by quite a bit.
+>> And single thread tcg hogs one physical cpu of the laptop vs. 4 physical
+>> cpus for the slower multi-thread tcg.
+>>
+>> Does anybody have an idea of what might happen or have suggestion to
+>> keep investigating?
+>> Thanks for your help!
+>>
+>>    Fred
+>>
+>>
 > 
-> They shouldn't be duplicates: function without _locked suffix should
-> take the mutex.
+> Hi Frederic,
+> 
+> I did some boot time tests recently and didn't notice this behavior. 
+> Could you share your QEMU command line with us? Did you build QEMU with 
+> any debug option or sanitizer enabled?
 
-By "duplicate" I mean same function name, with just _locked suffix.
-Maybe a better definition?
 
-Almost done preparing the patches!
+You should be able to see it with:
 
-Emanuele
+qemu-system-ppc64 -machine powernv10 -smp 4 -m 4G -nographic -bios <path 
+to skiboot.lid> -kernel <path to compresses kernel>   -initrd <path to 
+initd>  -serial mon:stdio
 
-> 
->> - made sure all functions in job.c call only _locked() functions, since
->> the lock is always taken internally
->>
->> Now, we need to do the same also for blockjob API in blockjob.h
->> The only problem is that in order to use and create functions like
->> block_job_get_locked(), we need:
->> - job_get_locked() to be public, and can't be just replacing job_get()
->> because it is still used everywhere
->> - block_job_get_locked() to be public too, since it is used in other
->> files like blockdev.c
->>
->> so we will have:
->> Job *job_get()
->> Job *job_get_locked()
->>
->> BlockJob *block_job_get(const char *id)
->> BlockJob *block_job_get_locked(const char *id)
->>
->>
->> Therefore with this approach I need to make all _locked() functions
->> public, duplicating the API. Is that what you want?
->>
-> 
-> I don't see any problem in it. After the whole update we can drop public
-> APIs that are unused.
-> 
-> 
+
+-smp is what matters.
+
+When simplifying the command line above, I noticed something 
+interesting: the problem doesn't show using the skiboot.lid shipped with 
+qemu! I'm using something closer to the current upstream head and the 
+idle code (the for loop in my initial mail) had been reworked in 
+between. So, clearly, the way the guest code is written matters. But 
+that doesn't explain it.
+
+I'm using a kernel in debug mode, so it's pretty big and that's why I 
+was using a compressed image. The compressed image is about 8 MB.
+
+The initrd shouldn't matter, the issue is seen during kernel 
+decompression, before the init ram is used.
+
+I can share my binaries if you'd like. Especially a recent version of 
+skiboot showing the problem.
+
+   Fred
+
+
+
 
 
