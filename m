@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAD855BEDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 08:49:40 +0200 (CEST)
-Received: from localhost ([::1]:50718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B73A55BE6F
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:24:25 +0200 (CEST)
+Received: from localhost ([::1]:55784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o652Z-00066b-Km
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 02:49:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41542)
+	id 1o63i4-0002E6-H2
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633s-00080d-B3
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53347)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633v-00081y-04
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633q-0006sX-Qw
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:52 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633t-0006sg-Eb
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656391370;
+ s=mimecast20190719; t=1656391372;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=WNc6s5hGnqp3J7IBUoI5eL8DC+L+SCRZwVqehYETRFc=;
- b=M8/DHHRAfbK+0rLrwM9SsushR7ZticP3oeKeK4BPJS+8sORzFvtR3skfjba6T2WDVKPdjj
- y3AvFChubgGsvMf6d1KOkBSYgqmTzvMkbWfCXXv3957Ifo0cbqWZaiUCEZ2uk0gsrPfnBn
- nYJHNFP8eRE95YwcCxwjMObbFbEX1sk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jIPXKtPDOIaKtveN4KYmlBLs9WGMDzIvtvcv0OAZQ6o=;
+ b=ZOFb8FolBq2EjSmY2PlU53ov0APi9fVuE04Ho1yqBCXpFkdhySs3F0mIIj625Y7iabRAlV
+ EE8j25IEjMLZnDC17q+Et/w5w2VJzroXnshJlGbGrE5LlQdRHZXlHpkn2/FTLrI5vQ/oX0
+ Xsu8NQxk6uMEGZ2BatjXWnthlI/tQlo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-8kBQuNccPKGH2FwlH34eiA-1; Tue, 28 Jun 2022 00:42:48 -0400
-X-MC-Unique: 8kBQuNccPKGH2FwlH34eiA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h125-20020a1c2183000000b003a0374f1eb8so7225708wmh.8
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:42:47 -0700 (PDT)
+ us-mta-641-wR21qW39OKuzMFR7IT33zQ-1; Tue, 28 Jun 2022 00:42:51 -0400
+X-MC-Unique: wR21qW39OKuzMFR7IT33zQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 6-20020a1c0206000000b003a02cd754d1so4549997wmc.9
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:42:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=WNc6s5hGnqp3J7IBUoI5eL8DC+L+SCRZwVqehYETRFc=;
- b=vLD1aS1k0mD7Mo7AwwML1lv/Bg/28iTVa3qDk4FA0qUrI1AAudP2fJoZ5d+4kTtR00
- 4btCCkSVbG1HBAclf1la6ZJc3OYSsuufmBf9iAxfy/RpbVlWjlVjcOSj0UXyIXh57Lvc
- SXiNs1xEjZvx34JmcLnsNzsdizXDXoUdTOI/UmWgmmuJ0o7oiqFt6bhySwVJWCUhsQdc
- BKSMJLrEKKg4+n2sE406fbToo1BtouTe9K9g/zlIhxEHoOOioZWsGhl3g4YmlFvdunMV
- DdE0iY/M5EbGCJJpY1Q60HcY7pjFRc5P1YKuJAhXQFsW81zu9vNgLiq8uqIJ+yW8FEDp
- +CRA==
-X-Gm-Message-State: AJIora8roK5ILiOJzmiWOcUzVzGLREFARodyr3pZXXK2w3Y5aaVnoRdp
- 3DmGmX1J1+Bh7tolzIvT8DnIOGZ6ypPL85t4hdtNrYnGbMNtb6iBA5CwvqXbnvw7yTLC3I4qh7h
- uqPlgbUM5nOS9RN4zSm4C4YtCLrGL4HXFv6h2Cw38f89c5n7OHKxvx96jHHwC
-X-Received: by 2002:a5d:6a0b:0:b0:21a:3a8e:d5ae with SMTP id
- m11-20020a5d6a0b000000b0021a3a8ed5aemr16237534wru.79.1656391366547; 
- Mon, 27 Jun 2022 21:42:46 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sWo0GgTpTDfLhzbw6FzQCibqIBPjJbo6VPPnU515fBC+E4KUrTQDARiVO3SSnketoE51o8Nw==
-X-Received: by 2002:a5d:6a0b:0:b0:21a:3a8e:d5ae with SMTP id
- m11-20020a5d6a0b000000b0021a3a8ed5aemr16237517wru.79.1656391366230; 
- Mon, 27 Jun 2022 21:42:46 -0700 (PDT)
+ bh=jIPXKtPDOIaKtveN4KYmlBLs9WGMDzIvtvcv0OAZQ6o=;
+ b=Dj2GfU2gx0exSOGhDYO282IJvwwHgkj8CW3yCbpI7ajc7aBoaTGB4ReLtunXzMssbW
+ 1wpKLPC4ucVvYDZz/bAS6cfL1K8v5do9R9oBPUt2uOhvMLlUvWmWIiFmLkJf83F5HAk1
+ cmy7ULoKkHL0goCHUgUjFisjQ5OiyAgOq74YejLTCV4THUsx7MR6rHRLMzASr7X2jx1w
+ fRvzyN2L8+0eo8opntwD4cL0/xG1/+A2qbQiL8bzhaUQNkr4pUc/pb/e88gfimHdniUu
+ Jft48+65I/gXc6holzl6FE9SH+jxGB2kylgUIGC5G7LlMmMSuyJnykHQphuEMA2yTLnm
+ fU+Q==
+X-Gm-Message-State: AJIora+jRZ34JlqUgFYfUe9R9MYNlx4wpAWZ/ujkmEXAH775AXMDctIe
+ NVXnmoKPtVNMVJMYg44+ZsMohbnW2sVPpP3NL2Yvatsm2w5IDhTfrCYiBR6oLPw8CPTtOK3Wwpr
+ xrGQ278+5oLhh4Xl2ApEXLlsV5xOT0JKkU0S46E953lZi5++bxpuBrECGuyYV
+X-Received: by 2002:a05:600c:1c27:b0:3a0:5098:c8b6 with SMTP id
+ j39-20020a05600c1c2700b003a05098c8b6mr2886294wms.69.1656391369942; 
+ Mon, 27 Jun 2022 21:42:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1usNK1Zoq/Xl5vxBmD7SNQJjRVmlBjOR7hjBEBT56or67xmOst7eDQ01YgvjENxw7m0bOA8JA==
+X-Received: by 2002:a05:600c:1c27:b0:3a0:5098:c8b6 with SMTP id
+ j39-20020a05600c1c2700b003a05098c8b6mr2886270wms.69.1656391369647; 
+ Mon, 27 Jun 2022 21:42:49 -0700 (PDT)
 Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- l15-20020a05600c1d0f00b003a04962ad3esm8828303wms.31.2022.06.27.21.42.44
+ e3-20020adfef03000000b0021bbd525b8esm10779320wro.45.2022.06.27.21.42.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:42:45 -0700 (PDT)
-Date: Tue, 28 Jun 2022 00:42:43 -0400
+ Mon, 27 Jun 2022 21:42:49 -0700 (PDT)
+Date: Tue, 28 Jun 2022 00:42:46 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>
-Subject: [PULL 06/12] docs/vhost-user: Fix mismerge
-Message-ID: <20220628044201.217173-7-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ David Hildenbrand <david@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PULL 07/12] libvhost-user: Fix VHOST_USER_GET_MAX_MEM_SLOTS reply
+Message-ID: <20220628044201.217173-8-mst@redhat.com>
 References: <20220628044201.217173-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -72,14 +74,14 @@ Content-Disposition: inline
 In-Reply-To: <20220628044201.217173-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,54 +100,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kevin Wolf <kwolf@redhat.com>
 
-This reverts commit 76b1b64370007234279ea4cc8b09c98cbd2523de.
+With REPLY_NEEDED, libvhost-user sends both the acutal result and an
+additional ACK reply for VHOST_USER_GET_MAX_MEM_SLOTS. This is
+incorrect, the spec mandates that it behave the same with and without
+REPLY_NEEDED because it always sends a reply.
 
-The commit only duplicated some text that had already been merged in
-commit 31009d13cc5.
-
+Fixes: 6fb2e173d20c9bbb5466183d33a3ad7dcd0375fa
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20220627134500.94842-2-kwolf@redhat.com>
+Message-Id: <20220627134500.94842-3-kwolf@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/interop/vhost-user.rst | 16 ----------------
- 1 file changed, 16 deletions(-)
+ subprojects/libvhost-user/libvhost-user.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index d7cf904f7f..3f18ab424e 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -1376,14 +1376,6 @@ Front-end message types
-   For further details on postcopy, see ``VHOST_USER_SET_MEM_TABLE``.
-   They apply to ``VHOST_USER_ADD_MEM_REG`` accordingly.
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+index b4cc3c2d68..cfa1bcc334 100644
+--- a/subprojects/libvhost-user/libvhost-user.c
++++ b/subprojects/libvhost-user/libvhost-user.c
+@@ -1827,18 +1827,11 @@ vu_handle_vring_kick(VuDev *dev, VhostUserMsg *vmsg)
  
--  Exactly one file descriptor from which the memory is mapped is
--  passed in the ancillary data.
+ static bool vu_handle_get_max_memslots(VuDev *dev, VhostUserMsg *vmsg)
+ {
+-    vmsg->flags = VHOST_USER_REPLY_MASK | VHOST_USER_VERSION;
+-    vmsg->size  = sizeof(vmsg->payload.u64);
+-    vmsg->payload.u64 = VHOST_USER_MAX_RAM_SLOTS;
+-    vmsg->fd_num = 0;
 -
--  In postcopy mode (see ``VHOST_USER_POSTCOPY_LISTEN``), the back-end
--  replies with the bases of the memory mapped region to the front-end.
--  For further details on postcopy, see ``VHOST_USER_SET_MEM_TABLE``.
--  They apply to ``VHOST_USER_ADD_MEM_REG`` accordingly.
--
- ``VHOST_USER_REM_MEM_REG``
-   :id: 38
-   :equivalent ioctl: N/A
-@@ -1408,14 +1400,6 @@ Front-end message types
-   accept messages with one file descriptor. If a file descriptor is
-   passed, the back-end MUST close it without using it otherwise.
+-    if (!vu_message_write(dev, dev->sock, vmsg)) {
+-        vu_panic(dev, "Failed to send max ram slots: %s\n", strerror(errno));
+-    }
++    vmsg_set_reply_u64(vmsg, VHOST_USER_MAX_RAM_SLOTS);
  
--  The memory region to be removed is identified by its guest address,
--  user address and size. The mmap offset is ignored.
--
--  No file descriptors SHOULD be passed in the ancillary data. For
--  compatibility with existing incorrect implementations, the back-end MAY
--  accept messages with one file descriptor. If a file descriptor is
--  passed, the back-end MUST close it without using it otherwise.
--
- ``VHOST_USER_SET_STATUS``
-   :id: 39
-   :equivalent ioctl: VHOST_VDPA_SET_STATUS
+     DPRINT("u64: 0x%016"PRIx64"\n", (uint64_t) VHOST_USER_MAX_RAM_SLOTS);
+ 
+-    return false;
++    return true;
+ }
+ 
+ static bool
 -- 
 MST
 
