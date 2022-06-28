@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CAA055BE73
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:29:15 +0200 (CEST)
-Received: from localhost ([::1]:36352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD18455BE74
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:31:35 +0200 (CEST)
+Received: from localhost ([::1]:38672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o63mk-0008TL-4U
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41628)
+	id 1o63p0-0001fA-Oc
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:31:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o634E-0000PN-6W
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:43:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44523)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o6348-0000GB-JJ
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:43:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o634C-0006td-Ec
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:43:13 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o6347-0006tL-3C
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:43:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656391391;
+ s=mimecast20190719; t=1656391386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PephaWAYB4wWrCOWcp9B8RIb1PHmOnQGuhXQJ5K1XL0=;
- b=ScNsksgfAPCvTSN4UVSyBaiIAUDfhMr9m6KdkS2+K6RF/YoyKU3BWh7sqQHuy/vorQFmSp
- FsQprPXAe8MINfo8rIKevepGfLzs3ttZ9fcJ1lmhEnVg3iptpsN8ctoY9Ch/lqD0wkj5bd
- utD0cqiFti41T3e1WivGvUHjdwIhdz4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0F75Xkg7ztQgcowiItypu8oAqV/zHE5jhJdNwWc/ppM=;
+ b=I+23pb1/J8Xp/Zl59+7LUKyFuIfxTt6faj+qiz9OkqDI+VYzeaXeOj0jQeix7Wd6BIktbL
+ VB1WGLhv2O/o5GZpGNVgzmASvLk2Jdy32qcPfoM187bTQYKu7T866NZLHpVkhp2EP6vxzd
+ OCLiZvGNOYdeH3U2/2wKkFAwzf1X3Ls=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-524-8BfHnBxZMECElNPyUegGFg-1; Tue, 28 Jun 2022 00:43:02 -0400
-X-MC-Unique: 8BfHnBxZMECElNPyUegGFg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- az40-20020a05600c602800b003a048edf007so2174085wmb.5
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:43:01 -0700 (PDT)
+ us-mta-671-xyduXKGIP9KdeBm5qPU2tw-1; Tue, 28 Jun 2022 00:43:05 -0400
+X-MC-Unique: xyduXKGIP9KdeBm5qPU2tw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m17-20020a05600c3b1100b003a04a2f4936so2607222wms.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:43:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=PephaWAYB4wWrCOWcp9B8RIb1PHmOnQGuhXQJ5K1XL0=;
- b=L+Fv01Rv+MVEHOi47s5vUr6Fnpsfp+gYiApmfYF8DM4xY27ILNHydPExqPdxfBR1OT
- PGpkErFoGaD2e6HpBMcltZNErohAO3tzRFyHGJfON0N5X2vLhOT4gjkj0xL5l8jdmw2n
- WGwSwi570gYQC6onA7+8CjujBTCPi8ihrGjJH7K2deyZOUjGD9z8nntl0u/47bUCez8T
- j9jh90EmB6eZRlBXDnwxK2qNW5T9XhEpy1TBksHw/tnWkMpkcORuDX/4OEPepaAGFoFt
- sh9UQmpgHbIgCrVQFMW8wk8XAv2Tdy7wpfe3aujDNO7VWLEc2revqK+E5xzhpQYDRtLI
- OFNQ==
-X-Gm-Message-State: AJIora+KEvh/Nti2cnrBWM/CHU5neiSTyze8GrrTOxQN2Ib9XuNclW48
- VEZJzwtFdnsFZzoqWBfGxr5aYu2rkf3XZLW9bhmGzsAGNqydTmgGFL04TEc+yQLbSwlip2O+jvo
- 96yBKk8yAzQCGUyPew8CfLO0WKiZWgZqjUpPPdM6jC0je+z3YvbLbJjDQADdB
-X-Received: by 2002:a05:6000:1f87:b0:21b:970b:e88c with SMTP id
- bw7-20020a0560001f8700b0021b970be88cmr15772685wrb.320.1656391380595; 
- Mon, 27 Jun 2022 21:43:00 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vzOJdQ43H7Q5hAEdMAHuROCe4UJS36sYSBGnJ6MtcxP0Ha/glT3yethjbrQDi57um2vtlqTQ==
-X-Received: by 2002:a05:6000:1f87:b0:21b:970b:e88c with SMTP id
- bw7-20020a0560001f8700b0021b970be88cmr15772664wrb.320.1656391380283; 
- Mon, 27 Jun 2022 21:43:00 -0700 (PDT)
+ bh=0F75Xkg7ztQgcowiItypu8oAqV/zHE5jhJdNwWc/ppM=;
+ b=t74tFIi8vJTytdCHiPRVshqVeJYwKvZm3wDGNf87vv54jYsaepfphCiF/Y+Afnr4sb
+ O7mJD+HGs+ZmF1btBz/ctq+BR3UzoVCB9Bb1hFmRsI5Jybij6u9zitwNFO5q75IdSOH8
+ lbsfqMPATrf+c+bVidMcSlGNmDkxNAN88z+Yiav2ukXDMwiNx39Y6EBi5f9qDkTZhLzh
+ VWIa2EqL4rrZ3E51Eyubjn3wpnL3fTIWyoeZghM7XY/2my9/c1wGtwq43rQGBR7Wr5Fc
+ cd+RHieQVlCUoC2TWSa2oyd/vNwqniDmkwZMTvUOH/HsaBZ6zR0ENmChEjTHN8QC9ycC
+ e4BQ==
+X-Gm-Message-State: AJIora8Mp9nyqbzaXUTbenD2OHcpQe2nB5LuyX+L9V7qxbqMRi8hvdg5
+ cM7OrWZnwhb32jHPJlQ05b/xD/tpFcYy8QSvQC60oAY0hPCS5ihITuJTBjGNk1OHrz3oErAyJ2C
+ 4p1ORk2cIfJbKcqqYOtxPeBz/uYRcLJtrV2FJufqDr7hHv4Z7omu7eQm2plUn
+X-Received: by 2002:a1c:7414:0:b0:3a0:201c:5b7f with SMTP id
+ p20-20020a1c7414000000b003a0201c5b7fmr24007167wmc.170.1656391383667; 
+ Mon, 27 Jun 2022 21:43:03 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1srcrLEVaiyObgcmdm4XbmtUr4ngnjxYt7JtwuhrlXLXUw5GjwM6d4EG5rd+4h69owrDYru6Q==
+X-Received: by 2002:a1c:7414:0:b0:3a0:201c:5b7f with SMTP id
+ p20-20020a1c7414000000b003a0201c5b7fmr24007146wmc.170.1656391383453; 
+ Mon, 27 Jun 2022 21:43:03 -0700 (PDT)
 Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- r11-20020a05600c35cb00b0039c4ba160absm2364281wmq.2.2022.06.27.21.42.58
+ t11-20020adff60b000000b0021b962f4256sm12109445wrp.80.2022.06.27.21.43.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:42:59 -0700 (PDT)
-Date: Tue, 28 Jun 2022 00:42:57 -0400
+ Mon, 27 Jun 2022 21:43:02 -0700 (PDT)
+Date: Tue, 28 Jun 2022 00:43:00 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: [PULL 10/12] contrib/vhost-user-blk: fix 32 bit build and enable
-Message-ID: <20220628044201.217173-11-mst@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PULL 11/12] include/hw/virtio: document vhost_get_features
+Message-ID: <20220628044201.217173-12-mst@redhat.com>
 References: <20220628044201.217173-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -78,14 +77,14 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20220628044201.217173-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,79 +103,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-We were not building the vhost-user-blk server due to 32 bit
-compilation problems. The problem was due to format string types so
-fix that and then enable the build. Tweak the rule to follow the same
-rules as other vhost-user daemons.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220321153037.3622127-12-alex.bennee@linaro.org>
-Message-Id: <20220524154056.2896913-2-alex.bennee@linaro.org>
+Message-Id: <20220524154056.2896913-4-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- contrib/vhost-user-blk/vhost-user-blk.c | 6 +++---
- contrib/vhost-user-blk/meson.build      | 3 +--
- meson.build                             | 2 +-
- 3 files changed, 5 insertions(+), 6 deletions(-)
+ include/hw/virtio/vhost.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-index cd4a5d7335..9cb78ca1d0 100644
---- a/contrib/vhost-user-blk/vhost-user-blk.c
-+++ b/contrib/vhost-user-blk/vhost-user-blk.c
-@@ -146,7 +146,7 @@ vub_readv(VubReq *req, struct iovec *iov, uint32_t iovcnt)
-     req->size = vub_iov_size(iov, iovcnt);
-     rc = preadv(vdev_blk->blk_fd, iov, iovcnt, req->sector_num * 512);
-     if (rc < 0) {
--        fprintf(stderr, "%s, Sector %"PRIu64", Size %lu failed with %s\n",
-+        fprintf(stderr, "%s, Sector %"PRIu64", Size %zu failed with %s\n",
-                 vdev_blk->blk_name, req->sector_num, req->size,
-                 strerror(errno));
-         return -1;
-@@ -169,7 +169,7 @@ vub_writev(VubReq *req, struct iovec *iov, uint32_t iovcnt)
-     req->size = vub_iov_size(iov, iovcnt);
-     rc = pwritev(vdev_blk->blk_fd, iov, iovcnt, req->sector_num * 512);
-     if (rc < 0) {
--        fprintf(stderr, "%s, Sector %"PRIu64", Size %lu failed with %s\n",
-+        fprintf(stderr, "%s, Sector %"PRIu64", Size %zu failed with %s\n",
-                 vdev_blk->blk_name, req->sector_num, req->size,
-                 strerror(errno));
-         return -1;
-@@ -188,7 +188,7 @@ vub_discard_write_zeroes(VubReq *req, struct iovec *iov, uint32_t iovcnt,
- 
-     size = vub_iov_size(iov, iovcnt);
-     if (size != sizeof(*desc)) {
--        fprintf(stderr, "Invalid size %ld, expect %ld\n", size, sizeof(*desc));
-+        fprintf(stderr, "Invalid size %zd, expect %zd\n", size, sizeof(*desc));
-         return -1;
-     }
-     buf = g_new0(char, size);
-diff --git a/contrib/vhost-user-blk/meson.build b/contrib/vhost-user-blk/meson.build
-index 601ea15ef5..dcb9e2ffcd 100644
---- a/contrib/vhost-user-blk/meson.build
-+++ b/contrib/vhost-user-blk/meson.build
-@@ -1,5 +1,4 @@
--# FIXME: broken on 32-bit architectures
- executable('vhost-user-blk', files('vhost-user-blk.c'),
-            dependencies: [qemuutil, vhost_user],
--           build_by_default: false,
-+           build_by_default: targetos == 'linux',
-            install: false)
-diff --git a/meson.build b/meson.build
-index a113078f1a..65a885ea69 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1516,7 +1516,7 @@ have_vhost_user_blk_server = get_option('vhost_user_blk_server') \
-            error_message: 'vhost_user_blk_server requires linux') \
-   .require(have_vhost_user,
-            error_message: 'vhost_user_blk_server requires vhost-user support') \
--  .disable_auto_if(not have_system) \
-+  .disable_auto_if(not have_tools and not have_system) \
-   .allowed()
- 
- if get_option('fuse').disabled() and get_option('fuse_lseek').enabled()
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 1e7cbd9a10..bfc71b7c50 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -247,6 +247,17 @@ bool vhost_virtqueue_pending(struct vhost_dev *hdev, int n);
+  */
+ void vhost_virtqueue_mask(struct vhost_dev *hdev, VirtIODevice *vdev, int n,
+                           bool mask);
++
++/**
++ * vhost_get_features() - return a sanitised set of feature bits
++ * @hdev: common vhost_dev structure
++ * @feature_bits: pointer to terminated table of feature bits
++ * @features: original feature set
++ *
++ * This returns a set of features bits that is an intersection of what
++ * is supported by the vhost backend (hdev->features), the supported
++ * feature_bits and the requested feature set.
++ */
+ uint64_t vhost_get_features(struct vhost_dev *hdev, const int *feature_bits,
+                             uint64_t features);
+ void vhost_ack_features(struct vhost_dev *hdev, const int *feature_bits,
 -- 
 MST
 
