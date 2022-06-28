@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B2455BE6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:18:45 +0200 (CEST)
-Received: from localhost ([::1]:46406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD3955BE72
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:27:21 +0200 (CEST)
+Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o63cZ-0003kc-E6
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:18:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40864)
+	id 1o63kt-0004lc-Rq
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:27:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1o6324-0005pp-FR
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:41:00 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:52953)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1o6322-0006WM-G9
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:41:00 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id g7so6355049pjj.2
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:40:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jXsfoRJoFy8eowC34vbywLaVEMgoFF/TBBpgUmrTXTM=;
- b=NndlNJGxL25IBiHANsSU4qVXqfAlWUderYjtioEiSYe2Y9OlG5px4bUVACZ9Gq7MGt
- TSYDNzW/4OaY9JWARkkBxrDKrN1aPJXxtMV1SD6/K1JmFPfmJeTon/gYQB9dX1BkanG3
- GNYLvhdYzB+gjpcBa6RZD3XrlkWv47b9MQ6IUKchi/V+cjcWKJqU4yXzws/3Y1O6xeRG
- 87ijFSbIKJXJ+ah1uHKobzehtW9ridjHCToBzBTSEtO4mYPDUIiif4yvw9jw9RFVli1+
- a2qZMBk7RTWZGpzEIo5FNBf+O7nO+o6Y89M2lCKJVzuIDa60LWS0l+KYE/Ab1OfAenur
- vXMg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633k-0007fh-RJ
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42886)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633b-0006nV-Oy
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656391353;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LPl7lI2j0cg+C6vTvDkYsE8soFRBDS+9GDlQP4/scWM=;
+ b=TrwfKQTjHkafs8+YMKnqS+Jod6m/cjt6/HrhJFPCgioXKVqA7nhEv3XalI2eWakPp2dzUe
+ 5MmrZTrtDOYNBKr/Fx8hqQEO3JBnY8RdINeVpO1VwlZdjhscXkVblREA1uq0ZKOHNyByCY
+ 1tiSIpWCWsc1ErV51e2VCpZMLjxHYvE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-441-gBvhax9VPim8e6ILxfTZQA-1; Tue, 28 Jun 2022 00:42:28 -0400
+X-MC-Unique: gBvhax9VPim8e6ILxfTZQA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ n5-20020adf8b05000000b00219ece7272bso1436684wra.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:42:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jXsfoRJoFy8eowC34vbywLaVEMgoFF/TBBpgUmrTXTM=;
- b=m55joj9OE/c4QxBUQdVyjfBcs5BOyMEftLT7EcUmAy1PV5OEj1EntXPYkl60E4ti1S
- r+cQ9avAH+a/gYDL2Sc5hFzedRm42icf7JfkT88Rzk1lK0fBDq+xdeGPbMe4tqcE2cKJ
- oGQX6D3o32IwtkZopvBwArzwSprAak7S4Y4JQul5xKaFpZFNx+0fthX5m2hyqsEiWEyJ
- RagNlrR3MIiDRHW2RIY5oeX7429JRIUVAYtmEXg23pRq3/wiqh4oFtsPoIsuTWk2WiAJ
- I9it8201CJ/GWfzmp/Hs2JsRgMyFo+EKc7n5dGJj2Jy3qBLM12XysaZcWXInFZAcsdjq
- ceZA==
-X-Gm-Message-State: AJIora+IDIT+bvihCzAyot1vevvts7x4MYIHvBfuJpmJrXfpZQY1U6vt
- rC8zUGLQDOYZDFYhHFnsiCnZPQ==
-X-Google-Smtp-Source: AGRyM1t5x5nP9mEfob4+gm3azQlbLpBqio7bbjomgPSFXqIyuqZOvN3Mv/r9eDgQcIFD/uH/mxpN5w==
-X-Received: by 2002:a17:90a:6396:b0:1ec:f52d:90db with SMTP id
- f22-20020a17090a639600b001ecf52d90dbmr20167872pjj.52.1656391257164; 
- Mon, 27 Jun 2022 21:40:57 -0700 (PDT)
-Received: from anup-ubuntu64-vm.. ([117.96.230.192])
- by smtp.gmail.com with ESMTPSA id
- q62-20020a17090a17c400b001ece6f492easm10284001pja.44.2022.06.27.21.40.52
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=LPl7lI2j0cg+C6vTvDkYsE8soFRBDS+9GDlQP4/scWM=;
+ b=VtZkDRXesKfXmVYCUUv9/W6AcfJPwbmANxmbXU8snfCX32EwGpLhHfd6xyWqDnm5ZH
+ JCNpEFzm+Kdda+WJ70Dzuw86qq7nOhmlLcIwJ0+fEcuKlT0Ti+2I+eAr2lQChsq5Rpud
+ K6fMOlMMl0zweoa2K7kuXkuivNbgUz7iTi/P/xT1n5rZsf84cdIrXeQA8GWsW0NZLWI3
+ +2nnOWgA82tew/BU8wckboP+QZDGLFKWiOez4HT9JtKfIarq4OjGrEAsWYRV5ZrQ/Oq0
+ ZqihW7nCHduWxdo85f57bnnBq9e41C78iu3iuUQwCPvqEr89vXKB7G1ZlUy/qr0FYEak
+ fhkA==
+X-Gm-Message-State: AJIora9VtY194SQfADmB3kdDGoHnSX1g7HZ9fES7Md9qzpyVPN1JqPfX
+ fmua0ZnvTWNda84sadv6q2APLGkExQJhi5UGd0eb7yDQWq8tP14vTtQ+tomBs3YoVMT4y9Q1lMM
+ nl+TQoiW6ez4sfLMRXOXy2dLb0E6f/vtOtvvaB6UY+rSv6w3EynhyfxDmmXy5
+X-Received: by 2002:a05:6000:2a4:b0:21d:1896:763e with SMTP id
+ l4-20020a05600002a400b0021d1896763emr3469717wry.248.1656391347345; 
+ Mon, 27 Jun 2022 21:42:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uaprtVmDTw/seneY0EDrLa1UEt8bdpfZOHwox/5+UF4xNhdJEjoZxjW3aL5DmVSamgcwI4rQ==
+X-Received: by 2002:a05:6000:2a4:b0:21d:1896:763e with SMTP id
+ l4-20020a05600002a400b0021d1896763emr3469703wry.248.1656391347074; 
+ Mon, 27 Jun 2022 21:42:27 -0700 (PDT)
+Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
+ d11-20020a5d6dcb000000b0020e6ce4dabdsm11956206wrz.103.2022.06.27.21.42.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:40:56 -0700 (PDT)
-From: Anup Patel <apatel@ventanamicro.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Anup Patel <apatel@ventanamicro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Rahul Pathak <rpathak@ventanamicro.com>
-Subject: [PATCH v7 4/4] target/riscv: Force disable extensions if priv spec
- version does not match
-Date: Tue, 28 Jun 2022 10:10:28 +0530
-Message-Id: <20220628044028.659704-5-apatel@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220628044028.659704-1-apatel@ventanamicro.com>
-References: <20220628044028.659704-1-apatel@ventanamicro.com>
+ Mon, 27 Jun 2022 21:42:26 -0700 (PDT)
+Date: Tue, 28 Jun 2022 00:42:23 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/12] virtio: fixes
+Message-ID: <20220628044201.217173-1-mst@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=apatel@ventanamicro.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,211 +95,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should disable extensions in riscv_cpu_realize() if minimum required
-priv spec version is not satisfied. This also ensures that machines with
-priv spec v1.11 (or lower) cannot enable H, V, and various multi-letter
-extensions.
+The following changes since commit 097ccbbbaf2681df1e65542e5b7d2b2d0c66e2bc:
 
-Fixes: a775398be2e9 ("target/riscv: Add isa extenstion strings to the device tree")
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
----
- target/riscv/cpu.c | 150 ++++++++++++++++++++++++++++-----------------
- 1 file changed, 94 insertions(+), 56 deletions(-)
+  Merge tag 'qemu-sparc-20220626' of https://github.com/mcayland/qemu into staging (2022-06-27 05:21:05 +0530)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 4e7ca6cd4a..9bc4ef0685 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -43,9 +43,82 @@ static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
- 
- struct isa_ext_data {
-     const char *name;
--    bool enabled;
-+    bool multi_letter;
-+    int min_version;
-+    int ext_enable_offset;
- };
- 
-+#define ISA_EXT_DATA_ENTRY(_name, _m_letter, _min_ver, _prop) \
-+{#_name, _m_letter, _min_ver, offsetof(struct RISCVCPUConfig, _prop)}
-+
-+/**
-+ * Here are the ordering rules of extension naming defined by RISC-V
-+ * specification :
-+ * 1. All extensions should be separated from other multi-letter extensions
-+ *    by an underscore.
-+ * 2. The first letter following the 'Z' conventionally indicates the most
-+ *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
-+ *    If multiple 'Z' extensions are named, they should be ordered first
-+ *    by category, then alphabetically within a category.
-+ * 3. Standard supervisor-level extensions (starts with 'S') should be
-+ *    listed after standard unprivileged extensions.  If multiple
-+ *    supervisor-level extensions are listed, they should be ordered
-+ *    alphabetically.
-+ * 4. Non-standard extensions (starts with 'X') must be listed after all
-+ *    standard extensions. They must be separated from other multi-letter
-+ *    extensions by an underscore.
-+ */
-+static const struct isa_ext_data isa_edata_arr[] = {
-+    ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
-+    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
-+    ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
-+    ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
-+    ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_12_0, ext_zfh),
-+    ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
-+    ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
-+    ISA_EXT_DATA_ENTRY(zdinx, true, PRIV_VERSION_1_12_0, ext_zdinx),
-+    ISA_EXT_DATA_ENTRY(zba, true, PRIV_VERSION_1_12_0, ext_zba),
-+    ISA_EXT_DATA_ENTRY(zbb, true, PRIV_VERSION_1_12_0, ext_zbb),
-+    ISA_EXT_DATA_ENTRY(zbc, true, PRIV_VERSION_1_12_0, ext_zbc),
-+    ISA_EXT_DATA_ENTRY(zbkb, true, PRIV_VERSION_1_12_0, ext_zbkb),
-+    ISA_EXT_DATA_ENTRY(zbkc, true, PRIV_VERSION_1_12_0, ext_zbkc),
-+    ISA_EXT_DATA_ENTRY(zbkx, true, PRIV_VERSION_1_12_0, ext_zbkx),
-+    ISA_EXT_DATA_ENTRY(zbs, true, PRIV_VERSION_1_12_0, ext_zbs),
-+    ISA_EXT_DATA_ENTRY(zk, true, PRIV_VERSION_1_12_0, ext_zk),
-+    ISA_EXT_DATA_ENTRY(zkn, true, PRIV_VERSION_1_12_0, ext_zkn),
-+    ISA_EXT_DATA_ENTRY(zknd, true, PRIV_VERSION_1_12_0, ext_zknd),
-+    ISA_EXT_DATA_ENTRY(zkne, true, PRIV_VERSION_1_12_0, ext_zkne),
-+    ISA_EXT_DATA_ENTRY(zknh, true, PRIV_VERSION_1_12_0, ext_zknh),
-+    ISA_EXT_DATA_ENTRY(zkr, true, PRIV_VERSION_1_12_0, ext_zkr),
-+    ISA_EXT_DATA_ENTRY(zks, true, PRIV_VERSION_1_12_0, ext_zks),
-+    ISA_EXT_DATA_ENTRY(zksed, true, PRIV_VERSION_1_12_0, ext_zksed),
-+    ISA_EXT_DATA_ENTRY(zksh, true, PRIV_VERSION_1_12_0, ext_zksh),
-+    ISA_EXT_DATA_ENTRY(zkt, true, PRIV_VERSION_1_12_0, ext_zkt),
-+    ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_12_0, ext_zve32f),
-+    ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
-+    ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-+    ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
-+    ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
-+    ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
-+    ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
-+};
-+
-+static bool isa_ext_is_enabled(RISCVCPU *cpu,
-+                               const struct isa_ext_data *edata)
-+{
-+    bool *ext_enabled = (void *)&cpu->cfg + edata->ext_enable_offset;
-+
-+    return *ext_enabled;
-+}
-+
-+static void isa_ext_update_enabled(RISCVCPU *cpu,
-+                                   const struct isa_ext_data *edata, bool en)
-+{
-+    bool *ext_enabled = (void *)&cpu->cfg + edata->ext_enable_offset;
-+
-+    *ext_enabled = en;
-+}
-+
- const char * const riscv_int_regnames[] = {
-   "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
-   "x7/t2",   "x8/s0",  "x9/s1",  "x10/a0", "x11/a1", "x12/a2",  "x13/a3",
-@@ -530,7 +603,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     CPURISCVState *env = &cpu->env;
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-     CPUClass *cc = CPU_CLASS(mcc);
--    int priv_version = -1;
-+    int i, priv_version = -1;
-     Error *local_err = NULL;
- 
-     cpu_exec_realizefn(cs, &local_err);
-@@ -558,6 +631,23 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         set_priv_version(env, priv_version);
-     }
- 
-+    /* Force disable extensions if priv spec version does not match */
-+    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-+        if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
-+            (env->priv_ver < isa_edata_arr[i].min_version)) {
-+            isa_ext_update_enabled(cpu, &isa_edata_arr[i], false);
-+#ifndef CONFIG_USER_ONLY
-+            warn_report("disabling %s extension for hart 0x%lx because "
-+                        "privilege spec version does not match",
-+                        isa_edata_arr[i].name, (unsigned long)env->mhartid);
-+#else
-+            warn_report("disabling %s extension because "
-+                        "privilege spec version does not match",
-+                        isa_edata_arr[i].name);
-+#endif
-+        }
-+    }
-+
-     if (cpu->cfg.mmu) {
-         riscv_set_feature(env, RISCV_FEATURE_MMU);
-     }
-@@ -1049,67 +1139,15 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_props(dc, riscv_cpu_properties);
- }
- 
--#define ISA_EDATA_ENTRY(name, prop) {#name, cpu->cfg.prop}
--
- static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
- {
-     char *old = *isa_str;
-     char *new = *isa_str;
-     int i;
- 
--    /**
--     * Here are the ordering rules of extension naming defined by RISC-V
--     * specification :
--     * 1. All extensions should be separated from other multi-letter extensions
--     *    by an underscore.
--     * 2. The first letter following the 'Z' conventionally indicates the most
--     *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
--     *    If multiple 'Z' extensions are named, they should be ordered first
--     *    by category, then alphabetically within a category.
--     * 3. Standard supervisor-level extensions (starts with 'S') should be
--     *    listed after standard unprivileged extensions.  If multiple
--     *    supervisor-level extensions are listed, they should be ordered
--     *    alphabetically.
--     * 4. Non-standard extensions (starts with 'X') must be listed after all
--     *    standard extensions. They must be separated from other multi-letter
--     *    extensions by an underscore.
--     */
--    struct isa_ext_data isa_edata_arr[] = {
--        ISA_EDATA_ENTRY(zicsr, ext_icsr),
--        ISA_EDATA_ENTRY(zifencei, ext_ifencei),
--        ISA_EDATA_ENTRY(zmmul, ext_zmmul),
--        ISA_EDATA_ENTRY(zfh, ext_zfh),
--        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
--        ISA_EDATA_ENTRY(zfinx, ext_zfinx),
--        ISA_EDATA_ENTRY(zdinx, ext_zdinx),
--        ISA_EDATA_ENTRY(zba, ext_zba),
--        ISA_EDATA_ENTRY(zbb, ext_zbb),
--        ISA_EDATA_ENTRY(zbc, ext_zbc),
--        ISA_EDATA_ENTRY(zbkb, ext_zbkb),
--        ISA_EDATA_ENTRY(zbkc, ext_zbkc),
--        ISA_EDATA_ENTRY(zbkx, ext_zbkx),
--        ISA_EDATA_ENTRY(zbs, ext_zbs),
--        ISA_EDATA_ENTRY(zk, ext_zk),
--        ISA_EDATA_ENTRY(zkn, ext_zkn),
--        ISA_EDATA_ENTRY(zknd, ext_zknd),
--        ISA_EDATA_ENTRY(zkne, ext_zkne),
--        ISA_EDATA_ENTRY(zknh, ext_zknh),
--        ISA_EDATA_ENTRY(zkr, ext_zkr),
--        ISA_EDATA_ENTRY(zks, ext_zks),
--        ISA_EDATA_ENTRY(zksed, ext_zksed),
--        ISA_EDATA_ENTRY(zksh, ext_zksh),
--        ISA_EDATA_ENTRY(zkt, ext_zkt),
--        ISA_EDATA_ENTRY(zve32f, ext_zve32f),
--        ISA_EDATA_ENTRY(zve64f, ext_zve64f),
--        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
--        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
--        ISA_EDATA_ENTRY(svinval, ext_svinval),
--        ISA_EDATA_ENTRY(svnapot, ext_svnapot),
--        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
--    };
--
-     for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
--        if (isa_edata_arr[i].enabled) {
-+        if (isa_edata_arr[i].multi_letter &&
-+            isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
-             new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
-             g_free(old);
-             old = new;
--- 
-2.34.1
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to 81cf38f3ff3c7db8fcd2f46df9a294fdf6f4a910:
+
+  include/hw/virtio: document vhost_ack_features (2022-06-27 18:53:18 -0400)
+
+----------------------------------------------------------------
+virtio: fixes
+
+fixes all over the place
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Alex Bennée (3):
+      contrib/vhost-user-blk: fix 32 bit build and enable
+      include/hw/virtio: document vhost_get_features
+      include/hw/virtio: document vhost_ack_features
+
+David Hildenbrand (1):
+      MAINTAINERS: Collect memory device files in "Memory devices"
+
+Jagannathan Raman (1):
+      msi: fix MSI vector limit check in msi_set_mask()
+
+Kevin Wolf (3):
+      docs/vhost-user: Fix mismerge
+      libvhost-user: Fix VHOST_USER_GET_MAX_MEM_SLOTS reply
+      libvhost-user: Fix VHOST_USER_ADD_MEM_REG reply
+
+Konstantin Khlebnikov (2):
+      vhost: add method vhost_set_vring_err
+      vhost: setup error eventfd and dump errors
+
+Zhenzhong Duan (2):
+      virtio-iommu: Fix the partial copy of probe request
+      virtio-iommu: Fix migration regression
+
+ include/hw/virtio/vhost-backend.h         |  3 +++
+ include/hw/virtio/vhost.h                 | 22 ++++++++++++++++++
+ contrib/vhost-user-blk/vhost-user-blk.c   |  6 ++---
+ hw/pci/msi.c                              |  4 ++--
+ hw/virtio/vhost-backend.c                 |  7 ++++++
+ hw/virtio/vhost-user.c                    |  6 +++++
+ hw/virtio/vhost.c                         | 37 +++++++++++++++++++++++++++++++
+ hw/virtio/virtio-iommu.c                  | 16 +++++++++----
+ subprojects/libvhost-user/libvhost-user.c | 19 +++-------------
+ MAINTAINERS                               | 25 ++++++++++++---------
+ contrib/vhost-user-blk/meson.build        |  3 +--
+ docs/interop/vhost-user.rst               | 16 -------------
+ meson.build                               |  2 +-
+ 13 files changed, 112 insertions(+), 54 deletions(-)
 
 
