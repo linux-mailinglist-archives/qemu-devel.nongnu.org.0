@@ -2,95 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFB955C094
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:11:21 +0200 (CEST)
-Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4780555C082
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:02:33 +0200 (CEST)
+Received: from localhost ([::1]:42316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o697n-00080c-Dt
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:11:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36948)
+	id 1o68zI-0003IN-Db
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:02:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o68y0-0002oj-Jb
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:01:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47615)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1o68wI-00011J-Gs; Tue, 28 Jun 2022 06:59:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2126
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o68xv-0007lX-Bj
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:01:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656414066;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uuClk7+YfMOE80H837bo/H/mUNUW647IlRb7YjkkjIA=;
- b=ir9LSVoXCcDBUnHapDgf+/0kW7ZXwpgWX18TlGebuFcI8Br/beFSaElC87KDxnoWNlf5KI
- bQyb5AKs03AuitoUz6kj9UAbdfbAci8nuGmhcKhSVVUbbxgFu4x+m+54TgDBMvcff5LhFP
- h1D0lUWliKvDhKp6W6ub6qd1iIeJWqU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-ujI1Kcq3Nfe0Ow97BF8LkQ-1; Tue, 28 Jun 2022 07:01:04 -0400
-X-MC-Unique: ujI1Kcq3Nfe0Ow97BF8LkQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r132-20020a1c448a000000b003a02a3f0beeso586704wma.3
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 04:01:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uuClk7+YfMOE80H837bo/H/mUNUW647IlRb7YjkkjIA=;
- b=aN5CkkWgKgazXAEzcr0I9Zm4jGFmo41TgmsAtQPmI5mMJm+InCYJZ0gNXiQhHIQjaa
- +7WTH1gY1LnviikVBIQjXv4IqM9LrbgaCYm0V1C7PByIt/KejFCGlwD2CdtNzcWqKZQr
- apvsi8t4xTnpmdrq8xCl0XjP9d6+Wvo1FzS6yvean0uHOVx68Tc7Q8lmejRsJnmInznX
- kW7XjoTxRY15NkPr++ADaUkQTre3IHkRri0DZyT6Pb740iZgDnZ5S3w3iOpUwNHEBPeE
- SLxzz79rawI6rA4Py5pCgIjfa1Ti69TywkvBn0cbaKJ7BeWIvzoNZwjHu+I5bEX9xosI
- u1PA==
-X-Gm-Message-State: AJIora/z791COGbR3QhmhC+QXycL/wUj4U49WTBd8TaE/6K0vNN8vhrH
- 83kZKlc9opWq2lRgT/71zxom2cuqwTcfe5cEaoi2SqLaIfNrsNQCD+V3qyiplqUNJZVnj0E1reX
- GYxYyBaSRPBT580k=
-X-Received: by 2002:a05:6000:1e0f:b0:21b:b032:6b3d with SMTP id
- bj15-20020a0560001e0f00b0021bb0326b3dmr17844493wrb.337.1656414063701; 
- Tue, 28 Jun 2022 04:01:03 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uoRjQm8qTJAY5a5bWgNlaW8xWdouexy2Ap96PO7Dixc6nLdxSiI2WyraGrb1SRvhh/ujeCAA==
-X-Received: by 2002:a05:6000:1e0f:b0:21b:b032:6b3d with SMTP id
- bj15-20020a0560001e0f00b0021bb0326b3dmr17844450wrb.337.1656414063338; 
- Tue, 28 Jun 2022 04:01:03 -0700 (PDT)
-Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- r68-20020a1c2b47000000b0039c4b518df4sm20628453wmr.5.2022.06.28.04.01.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 04:01:02 -0700 (PDT)
-Date: Tue, 28 Jun 2022 07:00:59 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: Why we should avoid new submodules if possible
-Message-ID: <20220628064831-mutt-send-email-mst@kernel.org>
-References: <YrqyWhu8ThAcUGI4@redhat.com>
- <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
- <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
- <20220628060210-mutt-send-email-mst@kernel.org>
- <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
- <20220628062551-mutt-send-email-mst@kernel.org>
- <CAFEAcA985ardY5zWkrZYgWjj+tdVNUnRcaBUChGFX0-o99cjQA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1o68wG-0007Fo-Ay; Tue, 28 Jun 2022 06:59:26 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25SAhrnq007602;
+ Tue, 28 Jun 2022 10:59:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=mQQRMRN7haOEkE3iOHqBBfmUNmw/CG99nkzUiDKe8dM=;
+ b=IkwsXfnJSJpOdN/S6A8t3AZbN5KHfTZD/Via3LBp8QN+PudR2vRz9wuxMOoAYaO8+hxK
+ UvP41nu2kA/UPmpKDjdcpIYHvFTGlWAGcRvl/kX41BcgEfLAGcPmM1IeE9W9qBJD18Mp
+ paFbADR20wjSFEzptUrZr6IcwHXufNgvJ48gcPo019zkNmWzi4vpT18t1yohxjcZOb6s
+ oqPWzrnk0ZnMbR+aphq0ZvfIj4tAMGX0OXD540w6fdHet88BobZmpY7Z7w32cD8AF6DW
+ 0t3qOdSvgwGJ2aUGPmqH5Oia+c3HcDP8Lc13JidnJJUdl07aYdVEPzg+OnDw1Tb9UVL5 +w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0055089j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Jun 2022 10:59:20 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25SAsZ4p010388;
+ Tue, 28 Jun 2022 10:59:20 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0055088p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Jun 2022 10:59:20 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25SAqtQk027675;
+ Tue, 28 Jun 2022 10:59:17 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3gwt08vpr4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Jun 2022 10:59:17 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25SAxDYu22217042
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Jun 2022 10:59:13 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B2BBFAE051;
+ Tue, 28 Jun 2022 10:59:13 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CD6C4AE04D;
+ Tue, 28 Jun 2022 10:59:12 +0000 (GMT)
+Received: from [9.171.41.104] (unknown [9.171.41.104])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 28 Jun 2022 10:59:12 +0000 (GMT)
+Message-ID: <5a6a8daf-6bac-9c97-4faa-488aa4a27b26@linux.ibm.com>
+Date: Tue, 28 Jun 2022 13:03:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA985ardY5zWkrZYgWjj+tdVNUnRcaBUChGFX0-o99cjQA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v8 03/12] s390x/cpu_topology: implementating Store
+ Topology System Information
+Content-Language: en-US
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com
+References: <20220620140352.39398-1-pmorel@linux.ibm.com>
+ <20220620140352.39398-4-pmorel@linux.ibm.com>
+ <17ed3c2d-b2ef-0716-039e-527db996da73@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <17ed3c2d-b2ef-0716-039e-527db996da73@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: w88itZMiDBDso8OVTtNKtuiqYf5gEO6S
+X-Proofpoint-ORIG-GUID: uo9ESHSMINWSfwyvIWwReJW1TfQr8tJx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-28_05,2022-06-24_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=924 phishscore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 bulkscore=0 priorityscore=1501 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206280044
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,64 +124,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 11:43:58AM +0100, Peter Maydell wrote:
-> On Tue, 28 Jun 2022 at 11:38, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > On Tue, Jun 28, 2022 at 12:21:39PM +0200, Thomas Huth wrote:
-> > > - we include the submodule content in our release tarballs, so people get
-> > > the impression that hte submodule content is part of the QEMU sources. This
-> > > has two disadvantages:
-> > >  * We already got bug reports for the code in the submodule,
-> > >    where people did not understand that they should report that
-> > >    rather to the original project instead (i.e. you ship it - you
-> > >    own it)
-> > >  * People get the impression that QEMU is a huge monster
-> > >    application if they count the number of code lines, run
-> > >    their code scanner tools on the tarball contents, etc.
-> > >    Remember "nemu", for example, where one of the main complaints
-> > >    was that QEMU has too many lines of code?
-> >
-> > I think we can skip the checkout in the tarball if we like.
-> > If people want to run the test they can checkout then.
-> 
-> For tarballs and submodules, we want to provide the code in the
-> cases where we're providing binary blobs, and for where it's
-> required to build QEMU proper.
-> 
-> Overall I think that the approach we use today for providing
-> guest binaries (submodules with the code, pre-built blobs checked
-> into git) is creaking at the seams and often awkward for downstream
-> distros (who want to rebuild the binaries anyway).
-> 
-> Plus submodules in general in git work really badly and awkwardly,
-> and I'd rather we didn't add them unless we really must.
-> 
-> We already have an approach for "tests that use binaries" --
-> the avocado test suites. Is that something we could use in this
-> case ?
-> 
-> thanks
-> -- PMM
 
-From experience avocado is basically rolling its own reimplementation of
-git fetch. Result is weird failures when some corner case or another
-isn't handled perfectly. Kind of unavoidable since you can't have
-ISOs for a ton of guest OSes reasonably in a git repo. Well maybe
-with sparse checkouts you can. Haven't really looked at it.
 
-These specific tests are weird, kind of special in that they are developer
-oriented.  I *would* like anyone making changes to ACPI to run them, and
-for CI to run them on patches, but I do not believe e.g. distros
-necessarily need them.
+On 6/27/22 16:26, Janosch Frank wrote:
+> On 6/20/22 16:03, Pierre Morel wrote:
+> 
+> s390x/cpu_topology: Add STSI function code 15 handling
 
-git submodules are awkward basically because they are an automated wget.
-I don't think an explicit wget is much better ... but
-looks like I'm alone in this. Oh well.
-So it will be a weird dance of wget a tarball, unpack, generate
-ISO and run. God help you if you need to patch the test - it's
-wget all the way down.
+OK
+
+> 
+>> The handling of STSI is enhanced with the interception of the
+>> function code 15 for storing CPU topology.
+> 
+> s/interception/handling/
+
+OK
+
+> 
+>>
+>> Using the objects built during the plugging of CPU, we build the
+>> SYSIB 15_1_x structures.
+>>
+>> With this patch the maximum MNEST level is 2, this is also
+>> the only level allowed and only SYSIB 15_1_2 will be built.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> 
+>> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+>> +{
+>> +    const MachineState *machine = MACHINE(qdev_get_machine());
+>> +    void *p;
+>> +    int ret;
+>> +
+>> +    /*
+>> +     * Until the SCLP STSI Facility reporting the MNEST value is used,
+>> +     * a sel2 value of 2 is the only value allowed in STSI 15.1.x.
+>> +     */
+>> +    if (sel2 != 2) {
+>> +        setcc(cpu, 3);
+>> +        return;
+>> +    }
+>> +
+>> +    p = g_malloc0(TARGET_PAGE_SIZE);
+>> +
+>> +    setup_stsi(machine, p, 2);
+>> +
+>> +    if (s390_is_pv()) {
+>> +        ret = s390_cpu_pv_mem_write(cpu, 0, p, TARGET_PAGE_SIZE);
+>> +    } else {
+>> +        ret = s390_cpu_virt_mem_write(cpu, addr, ar, p, 
+>> TARGET_PAGE_SIZE);
+>> +    }
+> 
+> For later reference:
+> FCs over 3 are rejected by SIE for PV guests via cc 3.
+> 
+> I currently don't know if and when that will be changed but I'll ask 
+> around.
+
+Yes, thanks, I forgot to change that, will do.
 
 
 -- 
-MST
-
+Pierre Morel
+IBM Lab Boeblingen
 
