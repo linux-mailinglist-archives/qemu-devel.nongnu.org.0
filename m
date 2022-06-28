@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836B155C01E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:17:54 +0200 (CEST)
-Received: from localhost ([::1]:39586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1089655C01C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:16:52 +0200 (CEST)
+Received: from localhost ([::1]:38034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68I5-0007dI-Ba
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:17:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47896)
+	id 1o68H5-0006W6-4G
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:16:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o6880-0003ed-UO
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:07:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54437)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o68DO-0001kn-TN
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:13:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o687v-0005z6-AM
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:07:24 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o68DJ-00076Q-Lv
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:13:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656410841;
+ s=mimecast20190719; t=1656411175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6cQfWuHqX0TL3axxpAYMJZu1xvqH7GkcdvBUE6HiAYs=;
- b=IdXJIzQlRSAZPnPRilWyWFBkM/3lRR4QYcKl+OFl4eOzK97GB8PVIKIGqv7sqp/vd8DtSu
- panpOVvcur9BRmcn6jbgKQq9jsCkWAF42MBH2kW9Wc6Uo4Ova3XtEqcxsIHkxynKX+pylR
- eTafQsHsSUxQwFjhs+2g5a7lNqDkLHE=
+ bh=AwgMd1G9YElCPbJqt1ZEqaTaaipXCODemBbkAUBZ3/g=;
+ b=QW/p+Gk8CM/7CRcu2oU0HT+90mdJ+aluzV9RKqRdP00lkv1dgWsbhC0wZCLR0voIGAZtdw
+ a/i4XkcOy/Sft4K2q87XjnN5h3fTjCoweyCNEJHiNJHJ8NG6XMaTGTpeiRzVLg5sijnEp4
+ 8ihVuy/oo7jgROGdBtg6yKWFQSsBgNw=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-218-oJUAA0wRMJuj9jUG86sWig-1; Tue, 28 Jun 2022 06:07:19 -0400
-X-MC-Unique: oJUAA0wRMJuj9jUG86sWig-1
+ us-mta-325-Ylnn2qf2MzOZGzUewk5niw-1; Tue, 28 Jun 2022 06:12:54 -0400
+X-MC-Unique: Ylnn2qf2MzOZGzUewk5niw-1
 Received: by mail-wm1-f69.google.com with SMTP id
- 6-20020a1c0206000000b003a02cd754d1so4876093wmc.9
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:07:19 -0700 (PDT)
+ j19-20020a05600c191300b003a048196712so3556684wmq.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:12:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=6cQfWuHqX0TL3axxpAYMJZu1xvqH7GkcdvBUE6HiAYs=;
- b=MhlI9bnocvBKxQKvzQ5pROddQxdyaXQUZp9CGSsFftkil0SZrOwIvZNX4qEXJlvfo+
- kpb5vIL2Vb0n+ytjKseKG0MxTpdWRH/x4B/Y+9RxmYJG0J8iea+97EkaspOKgymqrIhf
- zfv4NVXvHGMV9Pzr2Z8fTAzMbT+pUxqImtc8nL+S53bVQlypvTqOunSj6t3vOt2zWvi0
- 3iCouU/JKxKxsQS7yqVQMLIxe+N1wRDJbvGqC+7QEXYkZ5J+A2NBLPhivOHs1NgsIOd0
- A4KMvGS96f/mVg8fmjiXarLel66jRNHqjjS9JNjlR9vkVCBrJAerlhOqtwIqhA8BTkIt
- wHAg==
-X-Gm-Message-State: AJIora9katMtDiz2zMmmjkBahlSzzjdiDF5v7psCBhRCfZpC8AJfnjth
- DvD4lgj9J+S76pucizZTTN8tEU9Ne5vCFS5IVGA6wX3/QQP8kE4r0bVvC13wJDcqFsNZI1voOSu
- 3yGfnpJUVi2rIMuU=
-X-Received: by 2002:adf:fb49:0:b0:21a:3ccc:fb77 with SMTP id
- c9-20020adffb49000000b0021a3cccfb77mr16488915wrs.280.1656410838544; 
- Tue, 28 Jun 2022 03:07:18 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uoQqJoRhY1MxjPZffKwY2wkWAUr4FO1tkeyyiM+ZyDXTYbmrPT9u3jK4hDiw8gOze2OGGScA==
-X-Received: by 2002:adf:fb49:0:b0:21a:3ccc:fb77 with SMTP id
- c9-20020adffb49000000b0021a3cccfb77mr16488897wrs.280.1656410838322; 
- Tue, 28 Jun 2022 03:07:18 -0700 (PDT)
+ bh=AwgMd1G9YElCPbJqt1ZEqaTaaipXCODemBbkAUBZ3/g=;
+ b=m9n+EZqjTfjOx+n50idAqr3by68U0yWm5aQjGWo06jokmvufs/YTJuDqlZ/lZw+Ji0
+ thwrQP8ENxZzFGYR371ZAAOeeR1OWT1JRkZBtu1mFmQHxaexje7ixzTpntGEv6I1YR0d
+ JpU1JB4TH40o17q0VFpiWBQfMNeVQGYLDxbx9g2UEE0b1K+n0SbSO/+ERF9y+t3Qe5/3
+ auKuc8YMnFD1OO+/NAV9GTCTF8alxkJErkrh3fHFkHrPVOYDHSetW0OWga2w3dOmhvWB
+ LVgdEIGUNRUpsgf0moRmUMpS9h8np3qg7sTR0c4sHt+I1B4A82SA8qhLib/LGlwj8kez
+ Whcw==
+X-Gm-Message-State: AJIora/duvIU/kDh7uXJxHutBK9GdzaQptvmt0sHBGPbBeO/aFpWPuor
+ EmZlDTATBAsZGc4HFV13UTCH89u3Kx1V6tV86NfwN9yDsr/upU2B5REp5urBlHjgR/7fJ+vF1ub
+ Z7VNl8EHy9nLuRqI=
+X-Received: by 2002:a05:600c:583:b0:39c:3637:b9f with SMTP id
+ o3-20020a05600c058300b0039c36370b9fmr26241857wmd.79.1656411173267; 
+ Tue, 28 Jun 2022 03:12:53 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s7KOfyzI67CUqFERZeW242fNJD/1EqADBdzYzkob910Zo2yK7YO6LJoP5I7i8wj6Ie6hEN/w==
+X-Received: by 2002:a05:600c:583:b0:39c:3637:b9f with SMTP id
+ o3-20020a05600c058300b0039c36370b9fmr26241821wmd.79.1656411173002; 
+ Tue, 28 Jun 2022 03:12:53 -0700 (PDT)
 Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- d9-20020a05600c3ac900b003a03be22f9fsm17739737wms.18.2022.06.28.03.07.15
+ j8-20020a05600c404800b003a050a391e8sm2765995wmm.38.2022.06.28.03.12.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 03:07:17 -0700 (PDT)
-Date: Tue, 28 Jun 2022 06:07:13 -0400
+ Tue, 28 Jun 2022 03:12:52 -0700 (PDT)
+Date: Tue, 28 Jun 2022 06:12:48 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
 Cc: Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
@@ -70,30 +70,30 @@ Cc: Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
 Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
  acpi/tests/bits: add README file for bits qtests)
-Message-ID: <20220628060510-mutt-send-email-mst@kernel.org>
-References: <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
+Message-ID: <20220628060727-mutt-send-email-mst@kernel.org>
+References: <20220628021757-mutt-send-email-mst@kernel.org>
+ <CAARzgwyWK2HNbz=9=uoA+DDTpnn2q3CRmYVyjLwfMs1wi24-LA@mail.gmail.com>
+ <20220628024810-mutt-send-email-mst@kernel.org>
+ <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
  <4e1c2a45-eb53-e210-1ce1-05837bf1e7c3@redhat.com>
  <20220628030749-mutt-send-email-mst@kernel.org>
  <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
  <YrqyWhu8ThAcUGI4@redhat.com>
  <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
  <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <YrrSFig7Qo/PKqNx@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YrrSFig7Qo/PKqNx@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <Yrq6anPW60FkjmK6@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,19 +110,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 11:04:30AM +0100, Daniel P. Berrangé wrote:
-> If it is actually booting a real guest image (from biosbits) and interacting
-> with it, then it does feel like the scope of this testing is more appropriate
-> to QEMU's avocado framework than qtest, especially given the desire to use
-> python for it all.
-> 
-> With regards,
-> Daniel
+On Tue, Jun 28, 2022 at 09:23:06AM +0100, Daniel P. Berrangé wrote:
+> So bundling a pre-built biosbits in QEMU appears to mean that we're in
+> turn going to unexpectedly bundle a bunch of other 3rd party projects
+> too, all with dubious license compliance.
 
-I feel avocado is directed towards booting full fledged guest OS.
-It makes it much easier to figure out guest issues but it also
-prone to false positives and is harder to debug as a result.
-Booting a minimal image like this shouldn't require that.
+Well looks like classical mere aggregation to me ... license issues
+need to be figured out if we are to distribute things but I think
+this is basically what distros do anyway.
+
+And I doubt we want to support arbitrary versions of grub etc,
+they are very distro specific tools.
+I don't see why we can't have the resulting ISOs in some submodule -
+nothing requires us to distribute it in qemu tarballs.
 
 -- 
 MST
