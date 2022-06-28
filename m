@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA09155BE6C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:19:47 +0200 (CEST)
-Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A86E55BE4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 06:57:19 +0200 (CEST)
+Received: from localhost ([::1]:40906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o63da-0004ii-Ta
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37830)
+	id 1o63Hq-0004y4-IA
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 00:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o62kO-0002nJ-Hz
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:22:45 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:35426)
+ id 1o62kR-0002om-C2
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:22:47 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:46612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o62kK-0003vZ-Th
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:22:42 -0400
-Received: by mail-pf1-x433.google.com with SMTP id x4so10915804pfq.2
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:22:40 -0700 (PDT)
+ id 1o62kO-0003vl-Fs
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:22:46 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id q18so9948866pld.13
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=asVIVIoowKUhkyzxDq1stWKniA6O4cXXCtHWZbtFt2Q=;
- b=Ao/eB+e5FFFqh27hPkQrx/LIlq2Ca6tVIwX7ae33mY84ib+/BsB1Xqe4wcLVr6DjE2
- fSJwZBkjhjr29nzvBbhGKerDEOkRX8QO3QEOviE+kIsLn2X3pORH6L2COpe9PRn60KNf
- Ivqc1ZTSj9pGnpNNiqOHWckSddaKyvAVSI4lGxlRpY2Arg/I/AkEtOYFlYLWB7NxmUHZ
- frucMkKKqpHodFrQ9ePW57H3x8wGEOr8EGpbF7NSkNbvUtFLXL+JDBis4Zl3d5Mjgh0o
- puyeOFOTvqY7iq+5iMKe3PHMLXY6GxFPGtTNpP6ne1+U3eCzThTxvI1OaztodgumU0vM
- M9/Q==
+ bh=h8NNZqBa/oaHcQdJifd9wVEds8arqW1sbQgko9Vs+gQ=;
+ b=Y2x5BqQuJUT7L7s9ZfBDTQkmSgsAXZkm0wo8r3elruj8sASAQSfwJlOyyOTvuyHWGG
+ mHpnenItkofw/LO/xc6LvPlI9DZGkuh6I4os/uQQIRWgjlCN68C283qlf1O1e1Ov1z/B
+ nLR+d/uL5FX8hnHcfqn4NH4FwcFqjdGH8dbFmsKIuJkcQDxtHHsNB2ay7dVHjqfamQg2
+ Xc5u5J960qp4HOg5F+YD6vvjzidBW1KoUG1203tDSXQgMBj5+zsncu1YXIvGTXO/6ZJ6
+ tUYav39LszqtUc0NAVNO0M9Pb1b3Z23It7cyMn6yvGR2z6ic2Cn10iFW0ILTGNO+Dr0q
+ M2dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=asVIVIoowKUhkyzxDq1stWKniA6O4cXXCtHWZbtFt2Q=;
- b=NvWBdaUh3I0Lk2KIfbrsnVWspOtb6fMO6n6j9jrWo311Sa58Umiy099X+ulWu/6Nxl
- 8cLzaG61//g49VJx6oIC2cEFXasOowXwoe9O07RPeWmoFWgRKW23yBvi6A4iC1X4ZtbQ
- npJ4btcn47pNyds4KQx3ZRjIAcS20u3zXR+W8n6k2nxu1akpRql25dXpxgJdp5trhBS0
- cdwBKXnB2XT6oWHK0UKltqAF7u/zRJjlGMLnKcsL4vl3hRVDnqCJh2/uEiXsyD70jH1e
- 4iFBb2q0IwggwiRU2MoeLOJVC3Ww04IPwWgM1hHoFGE5rK1FZpOA0HN6JRyGC0vAwRl8
- Qlbw==
-X-Gm-Message-State: AJIora+YkJPWJTCzGhfrLDwctYhBpGY0Bf/HIqAM7u41KGB3u2VtSxpc
- vTI8iM1NnS2+YNxUavUPDytuLvJZFHpgEQ==
-X-Google-Smtp-Source: AGRyM1tafMU8PaLVUf8kM2QudlO1Y6YK9Ti+lQtut2tr9Khc2d1XFnKexofIvPp14bBMpHoR2f9Wlg==
-X-Received: by 2002:aa7:90c4:0:b0:521:2cd6:bd3e with SMTP id
- k4-20020aa790c4000000b005212cd6bd3emr2659317pfk.19.1656390159201; 
- Mon, 27 Jun 2022 21:22:39 -0700 (PDT)
+ bh=h8NNZqBa/oaHcQdJifd9wVEds8arqW1sbQgko9Vs+gQ=;
+ b=iWucglytDtaH6Q3gsfuwip/QqT3h97Zm73AS1q182uFA3FK5YCbDwXX/QWNRKDnI3m
+ r+rmULyMI3WxK0b8FpSWO1z4WLGB58uiMyFN0LRvmdBFFfoGrrohhXZBiT2pgV0jDAW2
+ fVXqrou0MMrm7hqcVblSf/hiAomZpe3cwU1bOsGqdS3FXqXMTPiQ39d95/uCuAwE89ez
+ RHZaW47dIcqX2r8CH7gTadvtACR32MWqRxfCALsRIGlIcmETOLqwZwpAoWT5QObFNoeH
+ /nF7lOjdygwG+2UzRCDtpRJGbMziHMv8vok7ouZaP8e6RY077Q07oz0QUfydnptttoHX
+ h70A==
+X-Gm-Message-State: AJIora/O3R3EpRVP00tXa3Kbi5d+gQGm+39zbbXojDcmEqkvv1OFvutp
+ f8z4dSsPZ38NTRc9AQP1go+e8ptt1Fkumw==
+X-Google-Smtp-Source: AGRyM1vZZvdaIZeY3u8hhmCa4pwAaC+jWNUrxS+YMCPX8/A4vQZiFUSIwh03VMctNsqga3fie6ZA7Q==
+X-Received: by 2002:a17:90b:4b42:b0:1ed:f6f:ff2 with SMTP id
+ mi2-20020a17090b4b4200b001ed0f6f0ff2mr25916066pjb.131.1656390161288; 
+ Mon, 27 Jun 2022 21:22:41 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- jg6-20020a17090326c600b0016a087cfad8sm7994929plb.264.2022.06.27.21.22.36
+ jg6-20020a17090326c600b0016a087cfad8sm7994929plb.264.2022.06.27.21.22.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:22:38 -0700 (PDT)
+ Mon, 27 Jun 2022 21:22:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v4 32/45] target/arm: Enable SME for -cpu max
-Date: Tue, 28 Jun 2022 09:51:04 +0530
-Message-Id: <20220628042117.368549-33-richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v4 33/45] linux-user/aarch64: Clear tpidr2_el0 if CLONE_SETTLS
+Date: Tue, 28 Jun 2022 09:51:05 +0530
+Message-Id: <20220628042117.368549-34-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220628042117.368549-1-richard.henderson@linaro.org>
 References: <20220628042117.368549-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,61 +87,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that SME remains effectively disabled for user-only,
-because we do not yet set CPACR_EL1.SMEN.  This needs to
-wait until the kernel ABI is implemented.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- docs/system/arm/emulation.rst |  4 ++++
- target/arm/cpu64.c            | 11 +++++++++++
- 2 files changed, 15 insertions(+)
+ linux-user/aarch64/target_cpu.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index 83b4410065..8e494c8bea 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -65,6 +65,10 @@ the following architecture extensions:
- - FEAT_SHA512 (Advanced SIMD SHA512 instructions)
- - FEAT_SM3 (Advanced SIMD SM3 instructions)
- - FEAT_SM4 (Advanced SIMD SM4 instructions)
-+- FEAT_SME (Scalable Matrix Extension)
-+- FEAT_SME_FA64 (Full A64 instruction set in Streaming SVE mode)
-+- FEAT_SME_F64F64 (Double-precision floating-point outer product instructions)
-+- FEAT_SME_I16I64 (16-bit to 64-bit integer widening outer product instructions)
- - FEAT_SPECRES (Speculation restriction instructions)
- - FEAT_SSBS (Speculative Store Bypass Safe)
- - FEAT_TLBIOS (TLB invalidate instructions in Outer Shareable domain)
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 19188d6cc2..40a0f043d0 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -1018,6 +1018,7 @@ static void aarch64_max_initfn(Object *obj)
+diff --git a/linux-user/aarch64/target_cpu.h b/linux-user/aarch64/target_cpu.h
+index 97a477bd3e..f90359faf2 100644
+--- a/linux-user/aarch64/target_cpu.h
++++ b/linux-user/aarch64/target_cpu.h
+@@ -34,10 +34,13 @@ static inline void cpu_clone_regs_parent(CPUARMState *env, unsigned flags)
+ 
+ static inline void cpu_set_tls(CPUARMState *env, target_ulong newtls)
+ {
+-    /* Note that AArch64 Linux keeps the TLS pointer in TPIDR; this is
++    /*
++     * Note that AArch64 Linux keeps the TLS pointer in TPIDR; this is
+      * different from AArch32 Linux, which uses TPIDRRO.
       */
-     t = FIELD_DP64(t, ID_AA64PFR1, MTE, 3);       /* FEAT_MTE3 */
-     t = FIELD_DP64(t, ID_AA64PFR1, RAS_FRAC, 0);  /* FEAT_RASv1p1 + FEAT_DoubleFault */
-+    t = FIELD_DP64(t, ID_AA64PFR1, SME, 1);       /* FEAT_SME */
-     t = FIELD_DP64(t, ID_AA64PFR1, CSV2_FRAC, 0); /* FEAT_CSV2_2 */
-     cpu->isar.id_aa64pfr1 = t;
+     env->cp15.tpidr_el[0] = newtls;
++    /* TPIDR2_EL0 is cleared with CLONE_SETTLS. */
++    env->cp15.tpidr2_el0 = 0;
+ }
  
-@@ -1068,6 +1069,16 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 5);    /* FEAT_PMUv3p4 */
-     cpu->isar.id_aa64dfr0 = t;
- 
-+    t = cpu->isar.id_aa64smfr0;
-+    t = FIELD_DP64(t, ID_AA64SMFR0, F32F32, 1);   /* FEAT_SME */
-+    t = FIELD_DP64(t, ID_AA64SMFR0, B16F32, 1);   /* FEAT_SME */
-+    t = FIELD_DP64(t, ID_AA64SMFR0, F16F32, 1);   /* FEAT_SME */
-+    t = FIELD_DP64(t, ID_AA64SMFR0, I8I32, 0xf);  /* FEAT_SME */
-+    t = FIELD_DP64(t, ID_AA64SMFR0, F64F64, 1);   /* FEAT_SME_F64F64 */
-+    t = FIELD_DP64(t, ID_AA64SMFR0, I16I64, 0xf); /* FEAT_SME_I16I64 */
-+    t = FIELD_DP64(t, ID_AA64SMFR0, FA64, 1);     /* FEAT_SME_FA64 */
-+    cpu->isar.id_aa64smfr0 = t;
-+
-     /* Replicate the same data to the 32-bit id registers.  */
-     aa32_max_features(cpu);
- 
+ static inline abi_ulong get_sp_from_cpustate(CPUARMState *state)
 -- 
 2.34.1
 
