@@ -2,67 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022BA55BF98
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 10:50:00 +0200 (CEST)
-Received: from localhost ([::1]:42878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 853ED55BFC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:28:51 +0200 (CEST)
+Received: from localhost ([::1]:55956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o66v0-0000Ce-1M
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 04:49:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43736)
+	id 1o67Wc-0008Ec-CK
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:28:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o66He-0003XS-T1
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:09:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35543)
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1o66NH-00050x-MB
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:15:08 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o66HX-0001LR-E1
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:09:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656403749;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=oArZdWdT93n4IMvCgrpOlADPuJJEz1M0CLKoSx/jcww=;
- b=J9L8Npz3Zku/Z6T+mDhmC3nVD47qqhosCi/bkLsCEGLbN+AikM7mPjx7u4ZZoW0Tb7LVT2
- KoqGbGCzgsbRN+kh67hgEOQiuk8F4eJQ8P5DWR1RExvpCXHzmspxdQgaDEYybsLMp2TisT
- NhpXRIjsXVcn6VQP9g/hd3ZRFrpYirw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-418-a4DkHlaAPyyRFuC2oQaOCg-1; Tue, 28 Jun 2022 04:09:05 -0400
-X-MC-Unique: a4DkHlaAPyyRFuC2oQaOCg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E9B3981B910;
- Tue, 28 Jun 2022 08:09:04 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED31C4011A3E;
- Tue, 28 Jun 2022 08:09:03 +0000 (UTC)
-Date: Tue, 28 Jun 2022 09:09:01 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com
-Subject: Re: [PATCH 00/12] Introduce new acpi/smbios qtests using biosbits
-Message-ID: <Yrq3HUEghZ7IFh//@redhat.com>
-References: <20220627072856.1529357-1-ani@anisinha.ca>
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1o66ND-0002G0-5z
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:15:07 -0400
+Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LXHQC67Flz6H7jC;
+ Tue, 28 Jun 2022 16:12:35 +0800 (CST)
+Received: from lhreml716-chm.china.huawei.com (10.201.108.67) by
+ fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 28 Jun 2022 10:14:52 +0200
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ lhreml716-chm.china.huawei.com (10.201.108.67) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 28 Jun 2022 09:14:51 +0100
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.2375.024; Tue, 28 Jun 2022 09:14:51 +0100
+To: Yi Liu <yi.l.liu@intel.com>, "zhangfei.gao@foxmail.com"
+ <zhangfei.gao@foxmail.com>, Jason Gunthorpe <jgg@nvidia.com>, Zhangfei Gao
+ <zhangfei.gao@linaro.org>
+CC: "eric.auger@redhat.com" <eric.auger@redhat.com>, Alex Williamson
+ <alex.williamson@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "thuth@redhat.com" <thuth@redhat.com>, "farman@linux.ibm.com"
+ <farman@linux.ibm.com>, "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
+ "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>, "pasic@linux.ibm.com"
+ <pasic@linux.ibm.com>, "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>, "kvm@vger.kernel.org"
+ <kvm@vger.kernel.org>, "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
+ "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>, "kevin.tian@intel.com"
+ <kevin.tian@intel.com>, "chao.p.peng@intel.com" <chao.p.peng@intel.com>,
+ "yi.y.sun@intel.com" <yi.y.sun@intel.com>, "peterx@redhat.com"
+ <peterx@redhat.com>
+Subject: RE: [RFC 00/18] vfio: Adopt iommufd
+Thread-Topic: [RFC 00/18] vfio: Adopt iommufd
+Thread-Index: AQHYT+0OTGNprklv2E6ANQZpjBJsW60CAlLggAATGICAABalMIAAOoCAgBRJ8gCAANfIgIAAO+qAgABf6QCAAAMMAIAAFykAgAGUvYCAAToMAIAH2gMAgAF4VACAAG9AgIBAHOOA
+Date: Tue, 28 Jun 2022 08:14:51 +0000
+Message-ID: <c1ee978d787b4e43af4619fb4ef0bfc1@huawei.com>
+References: <20220414104710.28534-1-yi.l.liu@intel.com>
+ <4f920d463ebf414caa96419b625632d5@huawei.com>
+ <be8aa86a-25d1-d034-5e3b-6406aa7ff897@redhat.com>
+ <4ac4956cfe344326a805966535c1dc43@huawei.com>
+ <20220426103507.5693a0ca.alex.williamson@redhat.com>
+ <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
+ <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
+ <720d56c8-da84-5e4d-f1f8-0e1878473b93@redhat.com>
+ <29475423-33ad-bdd2-2d6a-dcd484d257a7@linaro.org>
+ <20220510124554.GY49344@nvidia.com>
+ <637b3992-45d9-f472-b160-208849d3d27a@intel.com>
+ <tencent_5823CCB7CFD4C49A90D3CC1A183AB406EB09@qq.com>
+ <tencent_B5689033C2703B476DA909302DA141A0A305@qq.com>
+ <faff3515-896c-a445-ebbe-f7077cb52dd4@intel.com>
+ <tencent_C3C342C7F0605284FB368A1A63534B5A4806@qq.com>
+ <24cb7ff5-dec8-3c84-b23e-4170d331a4d2@intel.com>
+In-Reply-To: <24cb7ff5-dec8-3c84-b23e-4170d331a4d2@intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.202.227.178]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220627072856.1529357-1-ani@anisinha.ca>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=shameerali.kolothum.thodi@huawei.com;
+ helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,58 +102,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+From:  Shameerali Kolothum Thodi via <qemu-devel@nongnu.org>
 
-On Mon, Jun 27, 2022 at 12:58:44PM +0530, Ani Sinha wrote:
-> Biosbits is a software written by Josh Triplett that can be downloaded by
-> visiting https://biosbits.org/. The github codebase can be found here:
-> https://github.com/biosbits/bits/tree/master. It is a software that exercizes
-> the bios components such as acpi and smbios tables directly through acpica
-> bios interpreter (a freely available C based library written by Intel,
-> downloadable from https://acpica.org/ and is included with biosbits) without an
-> operating system getting involved in between.
-> There are several advantages to directly testing the bios in a real physical
-> machine or VM as opposed to indirectly discovering bios issues through the
-> operating system. For one thing, the OSes tend to hide bios problems from the
-> end user. The other is that we have more control of what we wanted to test
-> and how by directly using acpica interpreter on top of the bios on a running
-> system. More details on the inspiration for developing biosbits and its real
-> life uses can be found in (a) and (b).
-> This patchset contains QEMU qtests written in python that exercizes the QEMU
-> bios components using biosbits and reports test failures.
-> 
-> Details of each of the files added by this patchset are provided in the README
-> file which is part of Patch 11. Every effort to contact Josh, through various
-> means including email, twitter, linkedIn etc has failed. Hence, the changes to
-> build biosbits with the newer compiler, upgrade acpica and other changes are
-> currently maintained in a forked project in my personal github. We may want to
-> maintain bits in a separate fork in a stable repository that is accessible by
-> QEMU developers.
-> 
-> The newly introduced qtest currently only run for x86_64 platform. They pass
-> both when running make check on a baremetal box as well as from inside a vm.
-> 
-> Thanks to Igor M for pointing me to this work.
-> 
-> (a) https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/867/original/bits.pdf
-> (b) https://www.youtube.com/watch?v=36QIepyUuhg
-> 
-> Ani Sinha (12):
->   qtest: meson.build changes required to integrate python based qtests
->   acpi/tests/bits: add prebuilt bios bits zip archive
->   acpi/tests/bits: add prebuilt bits generated grub modules and scripts
-
-These two files didn't arrive on the mailing list, presumaby because
-pre-built binaries made the patches way too large.
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogWWkgTGl1IFttYWlsdG86
+eWkubC5saXVAaW50ZWwuY29tXQ0KPiBTZW50OiAxOCBNYXkgMjAyMiAxNTowMQ0KPiBUbzogemhh
+bmdmZWkuZ2FvQGZveG1haWwuY29tOyBKYXNvbiBHdW50aG9ycGUgPGpnZ0BudmlkaWEuY29tPjsN
+Cj4gWmhhbmdmZWkgR2FvIDx6aGFuZ2ZlaS5nYW9AbGluYXJvLm9yZz4NCj4gQ2M6IGVyaWMuYXVn
+ZXJAcmVkaGF0LmNvbTsgQWxleCBXaWxsaWFtc29uIDxhbGV4LndpbGxpYW1zb25AcmVkaGF0LmNv
+bT47DQo+IFNoYW1lZXJhbGkgS29sb3RodW0gVGhvZGkgPHNoYW1lZXJhbGkua29sb3RodW0udGhv
+ZGlAaHVhd2VpLmNvbT47DQo+IGNvaHVja0ByZWRoYXQuY29tOyBxZW11LWRldmVsQG5vbmdudS5v
+cmc7DQo+IGRhdmlkQGdpYnNvbi5kcm9wYmVhci5pZC5hdTsgdGh1dGhAcmVkaGF0LmNvbTsgZmFy
+bWFuQGxpbnV4LmlibS5jb207DQo+IG1qcm9zYXRvQGxpbnV4LmlibS5jb207IGFrcm93aWFrQGxp
+bnV4LmlibS5jb207IHBhc2ljQGxpbnV4LmlibS5jb207DQo+IGpqaGVybmVAbGludXguaWJtLmNv
+bTsgamFzb3dhbmdAcmVkaGF0LmNvbTsga3ZtQHZnZXIua2VybmVsLm9yZzsNCj4gbmljb2xpbmNA
+bnZpZGlhLmNvbTsgZXJpYy5hdWdlci5wcm9AZ21haWwuY29tOyBrZXZpbi50aWFuQGludGVsLmNv
+bTsNCj4gY2hhby5wLnBlbmdAaW50ZWwuY29tOyB5aS55LnN1bkBpbnRlbC5jb207IHBldGVyeEBy
+ZWRoYXQuY29tDQo+IFN1YmplY3Q6IFJlOiBbUkZDIDAwLzE4XSB2ZmlvOiBBZG9wdCBpb21tdWZk
+DQo+IA0KPiBPbiAyMDIyLzUvMTggMTU6MjIsIHpoYW5nZmVpLmdhb0Bmb3htYWlsLmNvbSB3cm90
+ZToNCj4gPg0KPiA+DQo+ID4gT24gMjAyMi81LzE3IOS4i+WNiDQ6NTUsIFlpIExpdSB3cm90ZToN
+Cj4gPj4gSGkgWmhhbmdmZWksDQo+ID4+DQo+ID4+IE9uIDIwMjIvNS8xMiAxNzowMSwgemhhbmdm
+ZWkuZ2FvQGZveG1haWwuY29tIHdyb3RlOg0KPiA+Pj4NCj4gPj4+IEhpLCBZaQ0KPiA+Pj4NCj4g
+Pj4+IE9uIDIwMjIvNS8xMSDkuIvljYgxMDoxNywgemhhbmdmZWkuZ2FvQGZveG1haWwuY29tIHdy
+b3RlOg0KPiA+Pj4+DQo+ID4+Pj4NCj4gPj4+PiBPbiAyMDIyLzUvMTAg5LiL5Y2IMTA6MDgsIFlp
+IExpdSB3cm90ZToNCj4gPj4+Pj4gT24gMjAyMi81LzEwIDIwOjQ1LCBKYXNvbiBHdW50aG9ycGUg
+d3JvdGU6DQo+ID4+Pj4+PiBPbiBUdWUsIE1heSAxMCwgMjAyMiBhdCAwODozNTowMFBNICswODAw
+LCBaaGFuZ2ZlaSBHYW8gd3JvdGU6DQo+ID4+Pj4+Pj4gVGhhbmtzIFlpIGFuZCBFcmljLA0KPiA+
+Pj4+Pj4+IFRoZW4gd2lsbCB3YWl0IGZvciB0aGUgdXBkYXRlZCBpb21tdWZkIGtlcm5lbCBmb3Ig
+dGhlIFBDSSBNTUlPDQo+IHJlZ2lvbi4NCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+IEFub3RoZXIgcXVl
+c3Rpb24sDQo+ID4+Pj4+Pj4gSG93IHRvIGdldCB0aGUgaW9tbXVfZG9tYWluIGluIHRoZSBpb2N0
+bC4NCj4gPj4+Pj4+DQo+ID4+Pj4+PiBUaGUgSUQgb2YgdGhlIGlvbW11X2RvbWFpbiAoY2FsbGVk
+IHRoZSBod3B0KSBpdCBzaG91bGQgYmUgcmV0dXJuZWQNCj4gYnkNCj4gPj4+Pj4+IHRoZSB2Zmlv
+IGF0dGFjaCBpb2N0bC4NCj4gPj4+Pj4NCj4gPj4+Pj4geWVzLCBod3B0X2lkIGlzIHJldHVybmVk
+IGJ5IHRoZSB2ZmlvIGF0dGFjaCBpb2N0bCBhbmQgcmVjb3JkZWQgaW4NCj4gPj4+Pj4gcWVtdS4g
+WW91IGNhbiBxdWVyeSBwYWdlIHRhYmxlIHJlbGF0ZWQgY2FwYWJpbGl0aWVzIHdpdGggdGhpcyBp
+ZC4NCj4gPj4+Pj4NCj4gPj4+Pj4NCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcva3ZtLzIwMjIw
+NDE0MTA0NzEwLjI4NTM0LTE2LXlpLmwubGl1QGludGVsLmNvbS8NCj4gPj4+Pj4NCj4gPj4+PiBU
+aGFua3MgWWksDQo+ID4+Pj4NCj4gPj4+PiBEbyB3ZSB1c2UgaW9tbXVmZF9od19wYWdldGFibGVf
+ZnJvbV9pZCBpbiBrZXJuZWw/DQo+ID4+Pj4NCj4gPj4+PiBUaGUgcWVtdSBzZW5kIGh3cHRfaWQg
+dmlhIGlvY3RsLg0KPiA+Pj4+IEN1cnJlbnRseSBWRklPSU9NTVVGRENvbnRhaW5lciBoYXMgaHdw
+dF9saXN0LA0KPiA+Pj4+IFdoaWNoIG1lbWJlciBpcyBnb29kIHRvIHNhdmUgaHdwdF9pZCwgSU9N
+TVVUTEJFbnRyeT8NCj4gPj4+DQo+ID4+PiBDYW4gVkZJT0lPTU1VRkRDb250YWluZXLCoCBoYXZl
+IG11bHRpIGh3cHQ/DQo+ID4+DQo+ID4+IHllcywgaXQgaXMgcG9zc2libGUNCj4gPiBUaGVuIGhv
+dyB0byBnZXQgaHdwdF9pZCBpbiBtYXAvdW5tYXBfbm90aWZ5KElPTU1VTm90aWZpZXIgKm4sDQo+
+IElPTU1VVExCRW50cnkNCj4gPiAqaW90bGIpDQo+IA0KPiBpbiBtYXAvdW5tYXAsIHNob3VsZCB1
+c2UgaW9hc19pZCBpbnN0ZWFkIG9mIGh3cHRfaWQNCj4gDQo+ID4NCj4gPj4NCj4gPj4+IFNpbmNl
+IFZGSU9JT01NVUZEQ29udGFpbmVyIGhhcyBod3B0X2xpc3Qgbm93Lg0KPiA+Pj4gSWYgc28sIGhv
+dyB0byBnZXQgc3BlY2lmaWMgaHdwdCBmcm9tIG1hcC91bm1hcF9ub3RpZnkgaW4gaHcvdmZpby9h
+cy5jLA0KPiA+Pj4gd2hlcmUgbm8gdmJhc2VkZXYgY2FuIGJlIHVzZWQgZm9yIGNvbXBhcmUuDQo+
+ID4+Pg0KPiA+Pj4gSSBhbSB0ZXN0aW5nIHdpdGggYSB3b3JrYXJvdW5kLCBhZGRpbmcgVkZJT0lP
+QVNId3B0ICpod3B0IGluDQo+ID4+PiBWRklPSU9NTVVGRENvbnRhaW5lci4NCj4gPj4+IEFuZCBz
+YXZlIGh3cHQgd2hlbiB2ZmlvX2RldmljZV9hdHRhY2hfY29udGFpbmVyLg0KPiA+Pj4NCj4gPj4+
+Pg0KPiA+Pj4+IEluIGtlcm5lbCBpb2N0bDogaW9tbXVmZF92ZmlvX2lvY3RsDQo+ID4+Pj4gQGRl
+djogRGV2aWNlIHRvIGdldCBhbiBpb21tdV9kb21haW4gZm9yDQo+ID4+Pj4gaW9tbXVmZF9od19w
+YWdldGFibGVfZnJvbV9pZChzdHJ1Y3QgaW9tbXVmZF9jdHggKmljdHgsIHUzMiBwdF9pZCwNCj4g
+Pj4+PiBzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ID4+Pj4gQnV0IGlvbW11ZmRfdmZpb19pb2N0bCBz
+ZWVtcyBubyBwYXJhIGRldj8NCj4gPj4+DQo+ID4+PiBXZSBjYW4gc2V0IGRldj1OdWxsIHNpbmNl
+IElPTU1VRkRfT0JKX0hXX1BBR0VUQUJMRSBkb2VzIG5vdA0KPiBuZWVkIGRldi4NCj4gPj4+IGlv
+bW11ZmRfaHdfcGFnZXRhYmxlX2Zyb21faWQoaWN0eCwgaHdwdF9pZCwgTlVMTCkNCj4gPj4NCj4g
+Pj4gdGhpcyBpcyBub3QgZ29vZC4gZGV2IGlzIHBhc3NlZCBpbiB0byB0aGlzIGZ1bmN0aW9uIHRv
+IGFsbG9jYXRlIGRvbWFpbg0KPiA+PiBhbmQgYWxzbyBjaGVjayBzd19tc2kgdGhpbmdzLiBJZiB5
+b3UgcGFzcyBpbiBhIE5VTEwsIGl0IG1heSBldmVuIHVuYWJsZQ0KPiA+PiB0byBnZXQgYSBkb21h
+aW4gZm9yIHRoZSBod3B0LiBJdCB3b24ndCB3b3JrIEkgZ3Vlc3MuDQo+ID4NCj4gPiBUaGUgaW9t
+bXVmZF9od19wYWdldGFibGVfZnJvbV9pZCBjYW4gYmUgdXNlZCBmb3INCj4gPiAxLCBhbGxvY2F0
+ZSBkb21haW4sIHdoaWNoIG5lZWQgcGFyYSBkZXYNCj4gPiBjYXNlIElPTU1VRkRfT0JKX0lPQVMN
+Cj4gPiBod3B0ID0gaW9tbXVmZF9od19wYWdldGFibGVfYXV0b19nZXQoaWN0eCwgaW9hcywgZGV2
+KTsNCj4gDQo+IHRoaXMgaXMgdXNlZCB3aGVuIGF0dGFjaGluZyBpb2FzLg0KPiANCj4gPiAyLiBK
+dXN0IHJldHVybiBhbGxvY2F0ZWQgZG9tYWluIHZpYSBod3B0X2lkLCB3aGljaCBkb2VzIG5vdCBu
+ZWVkIGRldi4NCj4gPiBjYXNlIElPTU1VRkRfT0JKX0hXX1BBR0VUQUJMRToNCj4gPiByZXR1cm4g
+Y29udGFpbmVyX29mKG9iaiwgc3RydWN0IGlvbW11ZmRfaHdfcGFnZXRhYmxlLCBvYmopOw0KPiAN
+Cj4geWVzLCB0aGlzIHdvdWxkIGJlIHRoZSB1c2FnZSBpbiBuZXN0aW5nLiB5b3UgbWF5IGNoZWNr
+IG15IGJlbG93DQo+IGJyYW5jaC4gSXQncyBmb3IgbmVzdGluZyBpbnRlZ3JhdGlvbi4NCj4gDQo+
+IGh0dHBzOi8vZ2l0aHViLmNvbS9sdXhpczE5OTkvaW9tbXVmZC90cmVlL2lvbW11ZmQtdjUuMTgt
+cmM0LW5lc3RpbmcNCj4gDQo+ID4gQnkgdGhlIHdheSwgYW55IHBsYW4gb2YgdGhlIG5lc3RlZCBt
+b2RlPw0KPiBJJ20gd29ya2luZyB3aXRoIEVyaWMsIE5pYyBvbiBpdC4gQ3VycmVudGx5LCBJJ3Zl
+IGdvdCB0aGUgYWJvdmUga2VybmVsDQo+IGJyYW5jaCwgUUVNVSBzaWRlIGlzIGFsc28gV0lQLg0K
+DQpIaSBZaS9FcmljLA0KDQpJIGhhZCBhIGxvb2sgYXQgdGhlIGFib3ZlIG5lc3Rpbmcga2VybmVs
+IGFuZCBRZW11IGJyYW5jaGVzIGFuZCBhcyBtZW50aW9uZWQNCmluIHRoZSBjb3ZlciBsZXR0ZXIg
+aXQgaXMgbm90IHdvcmtpbmcgb24gQVJNIHlldC4NCg0KSUlVQywgdG8gZ2V0IGl0IHdvcmtpbmcg
+dmlhIHRoZSBpb21tdWZkIHRoZSBtYWluIHRoaW5nIGlzIHdlIG5lZWQgYSB3YXkgdG8gY29uZmln
+dXJlDQp0aGUgcGh5cyBTTU1VIGluIG5lc3RlZCBtb2RlIGFuZCBzZXR1cCB0aGUgbWFwcGluZ3Mg
+Zm9yIHRoZSBzdGFnZSAyLiBUaGUNCkNhY2hlL1BBU0lEIHJlbGF0ZWQgY2hhbmdlcyBsb29rcyBt
+b3JlIHN0cmFpZ2h0IGZvcndhcmQuIA0KDQpJIGhhZCBxdWl0ZSBhIGZldyBoYWNrcyB0byBnZXQg
+aXQgd29ya2luZyBvbiBBUk0sIGJ1dCBzdGlsbCBhIFdJUC4gU28ganVzdCB3b25kZXJpbmcNCmRv
+IHlvdSBndXlzIGhhdmUgc29tZXRoaW5nIHRoYXQgY2FuIGJlIHNoYXJlZCB5ZXQ/DQoNClBsZWFz
+ZSBsZXQgbWUga25vdy4NCg0KVGhhbmtzLA0KU2hhbWVlcg0K
 
