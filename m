@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193CE55C066
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:50:56 +0200 (CEST)
-Received: from localhost ([::1]:46818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7313455C068
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:52:18 +0200 (CEST)
+Received: from localhost ([::1]:49572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68o3-00033Y-3z
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60380)
+	id 1o68pN-00050k-EE
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o68kg-00026D-Ti; Tue, 28 Jun 2022 06:47:28 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:60436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o68ka-0005FM-Sv; Tue, 28 Jun 2022 06:47:25 -0400
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id EEBEB2E2077;
- Tue, 28 Jun 2022 13:47:09 +0300 (MSK)
-Received: from vla5-d6d5ce7a4718.qloud-c.yandex.net
- (vla5-d6d5ce7a4718.qloud-c.yandex.net [2a02:6b8:c18:341e:0:640:d6d5:ce7a])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- LP48UMs2pc-l8JuXJMH; Tue, 28 Jun 2022 13:47:09 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1656413229; bh=CtGx/GoClcUC/MvOpsOQyO2MsAIZYW8eYr7EHclhgdk=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=RwXc/+wwa/tDhgfamAF/kvTsgPYu/n8MoPhH7naovyC3WpY40ks8tdsujMInMnE8t
- E4wR17gM4El72FKAtw1rGPzXr5z+E21wvMpR9cpNoDJjRW1H3ONvCt5pnqr7ouYDNV
- xZ6JbfvLcczqcUEgYvg0/EN/H6JBBYRAOi26OBvk=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPV6:2a02:6b8:b081:b686::1:1f] (unknown
- [2a02:6b8:b081:b686::1:1f])
- by vla5-d6d5ce7a4718.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- vTnXDz6t0t-l7MSfQ0I; Tue, 28 Jun 2022 13:47:08 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <98558a3e-3bd6-40b0-07da-1d022dfb0c0c@yandex-team.ru>
-Date: Tue, 28 Jun 2022 13:47:07 +0300
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o68n7-0003Fa-9N
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:50:01 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:36367)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o68n5-0005du-8w
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:49:57 -0400
+Received: by mail-ed1-x529.google.com with SMTP id e2so16993153edv.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZF5hQu/X3iRMvhkwKgavCiWqvurAsXzzA/k6sdF4YwY=;
+ b=stAY/Tgb8lwGgiheCuPjKkohLV46Ufz1KPIAfXfaEFiG0LvreggQrcUfaKmSPypHt8
+ ps7Op1hQR0+6PYmSuvPC05y/uEyWD9kWhzajkFMIPv4Sah+R3RKWrtvQB451J9onzuJM
+ X63sQ5/IOjXNdLVP8vXSAnX57ZkbsvH7bQEFrD0KwaE4eNrzIf683VxwUAuXZTwvqfJ1
+ MnGI+L8S49P3v1hjYHma938iogqX92tgfjmJbipz9H+qlSztrWBwJOQFPjCf6XEBEFdh
+ DC422mMIN/geWeyF5whZBBrm5FaEuK51iywcgFHN6bC1Zo4/N7/YT1rKh3bgSGEBy/nF
+ weug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZF5hQu/X3iRMvhkwKgavCiWqvurAsXzzA/k6sdF4YwY=;
+ b=q6JLq6t0Bx9XfMTdvELwjBqURzC4JV/3RPtb+06oklxQcDIzOrkWk03HY4sK+Nxeeu
+ +tulhXPAi1uqbBshSG4bCuFT3HfL1pQMsPvLz0IDJHPyNnIOk3lszrsgSbGt+OfyVfDb
+ TvY9CI6PWYSCKSlDry1fy6BLdYxO94OIoFvvigPthoti+8Qs7NWKPn7ca1rMAZKmqTCh
+ NOtwkdWFo0aIW3YORRDSuwb50JzRmSdmz6Uh8gWnRRE2tTMM84BmPxwE8Qt3keLm9BqL
+ qcGluYQqghaSJQzVb01PGeib8MkUFaYopQUhvAyHEZichGOL0RP2aeCZ/jpX3Opmc13z
+ 4opA==
+X-Gm-Message-State: AJIora++mivKG17YBMMqa9IE16MKeXRKv9QqfoBL2zYQUFNepnNR+TO0
+ FYsgjvNmdtbhXusfSYUDu75z6Qt0Izk4rI70fIUwWg==
+X-Google-Smtp-Source: AGRyM1vSchmJWJd3oQsSB1S5xRtmY/g0dzWlsYFv09dRsvbNUnNt7X5Q1r89gFM9nK6ZB6fA3U5FBZQzN19SMuoYicY=
+X-Received: by 2002:a05:6402:4302:b0:437:7990:992e with SMTP id
+ m2-20020a056402430200b004377990992emr18050138edc.194.1656413393641; Tue, 28
+ Jun 2022 03:49:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v7 10/18] jobs: rename static functions called with
- job_mutex held
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220616131835.2004262-1-eesposit@redhat.com>
- <20220616131835.2004262-11-eesposit@redhat.com>
- <c0401616-f246-ce1d-2a0f-b7e23dd55ab8@yandex-team.ru>
- <0aaa344b-aecb-13de-f82f-cad27a768ba9@redhat.com>
- <c234668d-0156-548b-e1e8-d1fda1b85ad7@yandex-team.ru>
- <8248df6b-3b48-6e09-5a5e-021cf65041dd@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <8248df6b-3b48-6e09-5a5e-021cf65041dd@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <CAARzgwyWK2HNbz=9=uoA+DDTpnn2q3CRmYVyjLwfMs1wi24-LA@mail.gmail.com>
+ <20220628024810-mutt-send-email-mst@kernel.org>
+ <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
+ <4e1c2a45-eb53-e210-1ce1-05837bf1e7c3@redhat.com>
+ <20220628030749-mutt-send-email-mst@kernel.org>
+ <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
+ <YrqyWhu8ThAcUGI4@redhat.com>
+ <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
+ <Yrq6anPW60FkjmK6@redhat.com>
+ <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
+ <YrrUnfHwmu50JrJD@redhat.com>
+ <CAARzgwz5jKne-qqThoWij78ZjGiUfb0q1wPnc=Ch2agvJJn_Dg@mail.gmail.com>
+In-Reply-To: <CAARzgwz5jKne-qqThoWij78ZjGiUfb0q1wPnc=Ch2agvJJn_Dg@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 28 Jun 2022 16:19:42 +0530
+Message-ID: <CAARzgwz3p5NwyWCyidFsoE0FT8Q84Sz2+OUVtDP0Fb7nrqDmug@mail.gmail.com>
+Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
+ acpi/tests/bits: add README file for bits qtests)
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ John Snow <jsnow@redhat.com>, 
+ qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2a00:1450:4864:20::529;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,189 +96,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/28/22 10:40, Emanuele Giuseppe Esposito wrote:
-> 
-> 
-> Am 22/06/2022 um 20:38 schrieb Vladimir Sementsov-Ogievskiy:
->> On 6/22/22 17:26, Emanuele Giuseppe Esposito wrote:
->>>
->>>
->>> Am 21/06/2022 um 19:26 schrieb Vladimir Sementsov-Ogievskiy:
->>>> On 6/16/22 16:18, Emanuele Giuseppe Esposito wrote:
->>>>> With the*nop*  job_lock/unlock placed, rename the static
->>>>> functions that are always under job_mutex, adding "_locked" suffix.
->>>>>
->>>>> List of functions that get this suffix:
->>>>> job_txn_ref           job_txn_del_job
->>>>> job_txn_apply           job_state_transition
->>>>> job_should_pause       job_event_cancelled
->>>>> job_event_completed       job_event_pending
->>>>> job_event_ready           job_event_idle
->>>>> job_do_yield           job_timer_not_pending
->>>>> job_do_dismiss           job_conclude
->>>>> job_update_rc           job_commit
->>>>> job_abort           job_clean
->>>>> job_finalize_single       job_cancel_async
->>>>> job_completed_txn_abort       job_prepare
->>>>> job_needs_finalize       job_do_finalize
->>>>> job_transition_to_pending  job_completed_txn_success
->>>>> job_completed           job_cancel_err
->>>>> job_force_cancel_err
->>>>>
->>>>> Note that "locked" refers to the*nop*  job_lock/unlock, and not
->>>>> real_job_lock/unlock.
->>>>>
->>>>> No functional change intended.
->>>>>
->>>>> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
->>>>
->>>>
->>>> Hmm. Maybe it was already discussed.. But for me it seems, that it would
->>>> be simpler to review previous patches, that fix job_ API users to use
->>>> locking properly, if this renaming go earlier.
->>>>
->>>> Anyway, in this series, we can't update everything at once. So patch to
->>>> patch, we make the code more and more correct. (yes I remember that
->>>> lock() is a noop, but I should review thinking that it real, otherwise,
->>>> how to review?)
->>>>
->>>> So, I'm saying about formal correctness of using lock() unlock()
->>>> function in connection with introduced _locked prifixes and in
->>>> connection with how it should finally work.
->>>>
->>>> You do:
->>>>
->>>> 05. introduce some _locked functions, that just duplicates, and
->>>> job_pause_point_locked() is formally inconsistent, as I said.
->>>>
->>>> 06. Update a lot of places, to give them their final form (but not
->>>> final, as some functions will be renamed to _locked, some not, hard to
->>>> imagine)
->>>>
->>>> 07,08,09. Update some more, and even more places. very hard to track
->>>> formal correctness of using locks
->>>>
->>>> 10-...: rename APIs.
->>>>
->>>>
->>>> What do you think about the following:
->>>>
->>>> 1. Introduce noop lock, and some internal _locked() versions, and keep
->>>> formal consistency inside job.c, considering all public interfaces as
->>>> unlocked:
->>>>
->>>>    at this point:
->>>>     - everything correct inside job.c
->>>>     - no public interfaces with _locked prefix
->>>>     - all public interfaces take mutex internally
->>>>     - no external user take mutex by hand
->>>>
->>>> We can rename all internal static functions at this step too.
->>>>
->>>> 2. Introduce some public _locked APIs, that we'll use in next patches
->>>>
->>>> 3. Now start fixing external users in several patches:
->>>>       - protect by mutex direct use of job fields
->>>>     - make wider locks and move to _locked APIs inside them where needed
->>>>
->>>>
->>>> In this scenario, every updated unit becomes formally correct after
->>>> update, and after all steps everything is formally correct, and we can
->>>> move to turning-on the mutex.
->>>>
->>>
->>> I don't understand your logic also here, sorry :(
->>>
->>> I assume you want to keep patch 1-4, then the problem is assing job_lock
->>> and renaming functions in _locked.
->>> So I would say the problem is in patch 5-6-10-11-12-13. All the others
->>> should be self contained.
->>>
->>> I understand patch 5 is a little hard to follow.
->>>
->>> Now, I am not sure what you propose here but it seems that the end goal
->>> is to just have the same result, but with additional intermediate steps
->>> that are just "do this just because in the next patch will be useful".
->>> I think the problem is that we are going to miss the "why we need the
->>> lock" logic in the patches if we do so.
->>>
->>> The logic I tried to convey in this order is the following:
->>> - job.h: add _locked duplicates for job API functions called with and
->>> without job_mutex
->>>      Just create duplicates of functions
->>>
->>> - jobs: protect jobs with job_lock/unlock
->>>      QMP and monitor functions call APIs that assume lock is taken,
->>>      drivers must take explicitly the lock
->>>
->>> - jobs: rename static functions called with job_mutex held
->>> - job.h: rename job API functions called with job_mutex held
->>> - block_job: rename block_job functions called with job_mutex held
->>>      *given* that some functions are always under lock, transform
->>>      them in _locked. Requires the job_lock/unlock patch
->>>
->>> - job.h: define unlocked functions
->>>      Comments on the public functions that are not _locked
->>>
->>>
->>> @Kevin, since you also had some feedbacks on the patch ordering, do you
->>> agree with this ordering or you have some other ideas?
->>>
->>> Following your suggestion, we could move patches 10-11-12-13 before
->>> patch 6 "jobs: protect jobs with job_lock/unlock".
->>>
->>> (Apologies for changing my mind, but being the second complain I am
->>> starting to reconsider reordering the patches).
->>>
->>
->> In two words, what I mean: let's keep the following invariant from patch
->> to patch:
->>
->> 1. Function that has _locked() prefix is always called with lock held
->> 2. Function that has _locked() prefix never calls functions that take
->> lock by themselves so that would dead-lock
->> 3. Function that is documented as "called with lock not held" is never
->> called with lock held
->>
->> That what I mean by "formal correctness": yes, we know that lock is
->> noop, but still let's keep code logic to correspond function naming and
->> comments that we add.
->>
->>
-> 
-> Ok so far I did the following:
-> 
-> - duplicated each public function as static {function}_locked()
+On Tue, Jun 28, 2022 at 4:00 PM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> On Tue, Jun 28, 2022 at 3:45 PM Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com> wrote:
+> >
+> > On Tue, Jun 28, 2022 at 10:28:04AM +0200, Thomas Huth wrote:
+> > > On 28/06/2022 10.23, Daniel P. Berrang=C3=A9 wrote:
+> > > > On Tue, Jun 28, 2022 at 01:21:35PM +0530, Ani Sinha wrote:
+> > > > > On Tue, Jun 28, 2022 at 1:19 PM Daniel P. Berrang=C3=A9 <berrange=
+@redhat.com> wrote:
+> > > > > >
+> > > > > > On Tue, Jun 28, 2022 at 09:25:35AM +0200, Thomas Huth wrote:
+> > > > > > > On 28/06/2022 09.10, Michael S. Tsirkin wrote:
+> > > > > > > > On Tue, Jun 28, 2022 at 09:03:33AM +0200, Thomas Huth wrote=
+:
+> > > > > > > > > > > > > > > No problem with that. So that's venv. But do =
+we need pip and pulling
+> > > > > > > > > > > > > > > packages from the net during testing?
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > We do that too. See requirements.txt in tests/
+> > > > > > > > > > > > > > Following two are downloaded:
+> > > > > > > > > > > > > > avocado-framework=3D=3D88.1
+> > > > > > > > > > > > > > pycdlib=3D=3D1.11.0
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > Also see this line in Makefie.include:
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > $(call quiet-venv-pip,install -r $(TESTS_VENV_R=
+EQ))
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Right but that's avocado since it pulls lots of s=
+tuff from
+> > > > > > > > > > > > > the net anyway.
+> > > > > > > > > > > > > Are the libraries in question not packaged on maj=
+or distros?
+> > > > > > > > > > > >
+> > > > > > > > > > > > Currently I only need this:
+> > > > > > > > > > > > https://github.com/python-tap/tappy
+> > > > > > > > > > > > which is the basic TAP processing library for pytho=
+n.
+> > > > > > > > > > > >
+> > > > > > > > > > > > It seems its only installed through pip:
+> > > > > > > > > > > > https://tappy.readthedocs.io/en/latest/
+> > > > > > > > > > > >
+> > > > > > > > > > > > I do not think this is packaged by default. It's su=
+ch a basic library
+> > > > > > > > > > > > for parsing test output that maybe we can keep this=
+ somewhere within
+> > > > > > > > > > > > the python src tree? Not sure ...
+> > > > > > > > > > >
+> > > > > > > > > > > It's pretty small for sure. Another submodule?
+> > > > > > > > > >
+> > > > > > > > > > Unlike BITS, this one is likely going to be maintained =
+for a while and
+> > > > > > > > > > will receive new releases through
+> > > > > > > > > > https://pypi.org/project/tap.py/
+> > > > > > > > > > so forking is OK but someone has to keep this updated.
+> > > > > > > > > >
+> > > > > > > > > > I am open to anything. Whatever feels right is fine to =
+me.
+> > > > > > > > >
+> > > > > > > > > John Snow is currently working on the "Pythonification" o=
+f various QEMU
+> > > > > > > > > bits, I think you should loop him into this discussion, t=
+oo.
+> > > > > > > > >
+> > > > > > > > >    Thomas
+> > > > > > > >
+> > > > > > > > submodule does not mean we fork necessarily. We could have
+> > > > > > > > all options: check for the module and use it if there, if n=
+ot
+> > > > > > > > use one from system if not there install with pip ..
+> > > > > > > > But yea, I'm not sure what's best either.
+> > > > > > >
+> > > > > > > submodules create a dependency on an internet connection, too=
+. So before you
+> > > > > > > add yet another submodule (which have a couple of other disad=
+vantages), I
+> > > > > > > think you could also directly use the venv here.
+> > > > > >
+> > > > > > Definitely not submodules.
+> > > > > >
+> > > > > > We need to get out of the mindset that submodules are needed fo=
+r every new
+> > > > > > dependancy we add. Submodules are only appropriate if the exter=
+nal project
+> > > > > > is designed to be used as a copylib (eg the keycodemapdb tool),=
+ or if we
+> > > > > > need to bundle in order to prevent a regression for previously =
+deployed
+> > > > > > QEMU installs where the dependancy is known not to exist on all=
+ our
+> > > > > > supported platforms.
+> > > > > >
+> > > > > > This does not apply in this case, because the proposed use of t=
+appy is
+> > > > > > merely for a test case. Meson just needs to check if tappy exis=
+ts and if
+> > > > > > it does, then use it, otherwise skip the tests that need it. Th=
+e user can
+> > > > > > arrange to install tappy, as they do with the majority of other=
+ deps.
+> > > > > >
+> > > > > > If John's venv stuff is relevant, then we don't even need the m=
+eson checks,
+> > > > > > just delegate to the venv setup.
+> > > > > >
+> > > > > > Regardless, no submodules are needed or desirable.
+> > > > >
+> > > > > What about keeping biosbits stuff? Source or pre-built.
+> > > >
+> > > > Shipping them as pre-built binaries in QEMU is not a viable option
+> > > > IMHO, especially for grub as a GPL'd project we need to be extremel=
+y
+> > > > clear about the exact corresponding source and build process for an=
+y
+> > > > binary.
+> > > >
+> > > > For this kind of thing I would generally expect the distro to provi=
+de
+> > > > packages that we consume. Looking at biosbits I see it is itself
+> > > > bundling a bunch more 3rd party projects, libffi, grub2, and includ=
+ing
+> > > > even an ancient version of python as a submodule.
+> > > >
+> > > > So bundling a pre-built biosbits in QEMU appears to mean that we're=
+ in
+> > > > turn going to unexpectedly bundle a bunch of other 3rd party projec=
+ts
+> > > > too, all with dubious license compliance. I don't think this looks =
+like
+> > > > something we should have in qemu.git or qemu tarballs. It will also
+> > > > make it challenging for the distro to take biosbits at all, unless
+> > > > those 3rd party bundles can be eliminated in favour of using existi=
+ng
+> > > > builds their have packaged for grub, python, libffi, etc.
+> > >
+> > > So if this depends on some third party binary bits, I think this is p=
+retty
+> > > similar to the tests in the avocado directory ... there we download t=
+hird
+> > > party binaries, too... Wouldn't it make sense to adapt your tests to =
+that
+> > > framework?
+> >
+> > Now that you mention it, avocado does feel like a more appropriate fit.
+> > IIUC the biosbits project appears to be effectively providing a custom
+> > guest OS ISO image. IOW this testing is quite biased towards being
+> > integration testing which is the target of avocado, while qtest is much
+> > more to the unit testing end of the spectrum.
+>
+> This is more like unit testing than integration testing, now that you
+> mention it. It tests only the bios, very narrowly and does not involve
+> any OS at all.
 
-They shouldn't be duplicates: function without _locked suffix should take the mutex.
+Another thing to consider is that integration testing is further down
+the line? Not for once when submitting patches on acpi have I run
+them. However, every time I have run make check to make sure
+bios-tables-test passes and I am not breaking anything. It's much more
+useful to have this kind of thing part of make check before patch
+submitters can quickly check for failures either in bios-tables-test
+or in bits. Also its lot easier to add new acpi/smbios tests as a part
+of this when bios-tables-test and this one are closer together.
 
-> - made sure all functions in job.c call only _locked() functions, since
-> the lock is always taken internally
-> 
-> Now, we need to do the same also for blockjob API in blockjob.h
-> The only problem is that in order to use and create functions like
-> block_job_get_locked(), we need:
-> - job_get_locked() to be public, and can't be just replacing job_get()
-> because it is still used everywhere
-> - block_job_get_locked() to be public too, since it is used in other
-> files like blockdev.c
-> 
-> so we will have:
-> Job *job_get()
-> Job *job_get_locked()
-> 
-> BlockJob *block_job_get(const char *id)
-> BlockJob *block_job_get_locked(const char *id)
-> 
-> 
-> Therefore with this approach I need to make all _locked() functions
-> public, duplicating the API. Is that what you want?
-> 
-
-I don't see any problem in it. After the whole update we can drop public APIs that are unused.
-
-
--- 
-Best regards,
-Vladimir
+>
+> This would avoid all the
+> > discussion and patches around introducing python to qtest
+> >
+> > With regards,
+> > Daniel
+> > --
+> > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberr=
+ange :|
+> > |: https://libvirt.org         -o-            https://fstop138.berrange=
+.com :|
+> > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberr=
+ange :|
+> >
 
