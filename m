@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AC155BFCE
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:37:06 +0200 (CEST)
-Received: from localhost ([::1]:40172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC9955BFCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:39:11 +0200 (CEST)
+Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o67ea-0001Tp-Ui
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:37:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
+	id 1o67gc-0004Vq-2g
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:39:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o67cY-0008GL-Bw; Tue, 28 Jun 2022 05:34:58 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:42555)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o67dR-0000aD-Mb
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 05:35:53 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:38871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o67cW-0007Ur-QO; Tue, 28 Jun 2022 05:34:58 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-2ef5380669cso110519397b3.9; 
- Tue, 28 Jun 2022 02:34:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EzxpaQz7bxIUmNeE87P52neE+w9xvYN22Zxnp8GO8I0=;
- b=SH8el+TNEhy2nRDnfF9F7Nx4Ax5WKt0laITHjkdqfUQao79wxUmw21vMS795itDfCq
- x6nQngnftKpS39EQMGxcgTBeJW4UkqN+W9WhFP/K+/PqWX9FrhuhO+rAPkmatjEvQ4T/
- tZI9E0e+t+JCc4SCD2okv0UQUA1g7g2LA2JTrIKfbQc0ebDs2itaOvRuVHONAiaryiya
- WBKXm3tiI+pzmUnjxWlqmBv1nYclV8XXF/R3mIm1zDZFsF2DLqRa8IPShSv3FL+srqPj
- uRMJGFlIkap2cSd2Iq2JjyfRvrb9bazPClknJjIQxukGe3DfIg2hDWdA/AqNOHOTU49k
- 1xfQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o67dP-0007ue-Ut
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 05:35:53 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ g39-20020a05600c4ca700b003a03ac7d540so6364835wmp.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 02:35:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=fsbTZ4A+B2PXhDP3sNDOQgQqoUp7jw73U/vNBsyo9qQ=;
+ b=o3rdgkVOrML/2jyfUiNtCOhirtZZmuh2TiWDK7l8AVdeZsUd5VffR9JfklwFpPEkhe
+ GVZaZgprHHW8msNzI21T8ieVi4GB8DaN/arbiXXopShqpXaanr+WtuaeDPaBVzVfap/r
+ 8Er5c7/Hv/Y/5v7Z6c/KYfaimTrrux8dGZLRGhWnI0PE/knxocFgJzNIhS5OZ0mOKw6p
+ xKnJLEaqU5IgK7qUauM0BI6S/d9/Ut0+4vILiF2fNWuyHo+vOBJBzlnvArI1OFmuNZ4h
+ x8z+gVI9tAhJp6+a7mMYV1Zd15LEbnc2F5AbB8KAs9/7+8cVlhif0D+AAu19Rh20Ehap
+ /Hhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EzxpaQz7bxIUmNeE87P52neE+w9xvYN22Zxnp8GO8I0=;
- b=dzJloYMd3Og5RpdmZGFXvyYoCt/Su50Xb9x0aQPbnPfKCtxGaFWCtyUKy3hu7cq3XJ
- E911Zjyl1b6Dq4+Qny9A4EI9/HsWNkj4Gz/jCqsG3I8jIvMnb/5+xJpw/OtPKt39WVGG
- FDKsVk/LFR8+NHQzBvtg/66WZNZTvi4mZr8F4MMngdbxGhN/VgKdSQlchBrc/vLT/uC0
- h6D7mUYt4wSOEnbKr0I+AcsrZ39VAI9BYcS/uOlc3bYrKM1TTysEaUgzya4yU/JWWZlE
- LicDkNlhTaF7lDigQKfpQKUnT1mCQ20PFlSiwD6U3QExYktvpELa9KkUMGFBItoNxfGr
- xknQ==
-X-Gm-Message-State: AJIora+rbbDhIPGNpoGtx+N7CbgCaOuwN/bW4MvfsgEozztMCHkpka4A
- B3z8Ucod+Jat+VJXVTpA6DTzWep+SAO/fLO2Q2k=
-X-Google-Smtp-Source: AGRyM1vEYm9qfHZOUk7oSvXSVeTWZcWK+na1zGDlDQzxYsXDxoC2FV4onvXyuHHW1iFUb/zpM5O4NRfMgnN9sKUVbcw=
-X-Received: by 2002:a81:c4c:0:b0:317:cba2:a610 with SMTP id
- 73-20020a810c4c000000b00317cba2a610mr21025570ywm.147.1656408894350; Tue, 28
- Jun 2022 02:34:54 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=fsbTZ4A+B2PXhDP3sNDOQgQqoUp7jw73U/vNBsyo9qQ=;
+ b=sMnwC97Ye5drpeONgQZajSQHWMlpoNBwQ7WguG9JdFNIA7Iwz+X7qnsSiEm5rR62/d
+ xuNQM7QOuswIQzHWSQbJ7SJi756kBrwRdUZGWloB++swg3D/FZivis8sHY6s9sRsCTJi
+ JzkCEcwj+NTzA02NdGP4cnpVJ0lAfZjujZyL78XLEjdkDLMP+qlL1jUvwlp+kNY+NWGH
+ ke1CtZrI10vPIxCXJRl0yMVTZ1yTydpJfNARB4SAncHPOLiMBc1Lz4drlU2tZDuTtjMI
+ dy+haYCRv6wU7KBj4ekNwEPuv5Afn0oPAWXAPMHc95QUr+RVhr94KA2zoo6sII3vZjO8
+ BGxw==
+X-Gm-Message-State: AJIora81bRt1GyV150ITKmwpvzwBDlXlvW/jbvk3jXZOBKPuUt4Pua5C
+ Iu9fM4flAdiNGcPjigl/N5q32w==
+X-Google-Smtp-Source: AGRyM1v9QsaD+hYtqFi7VLcB0Z5Q0ALa1jHm7ST1/n/cNaVVpiIVhY8KILoymHSS8pWq3SNZ6bYSVQ==
+X-Received: by 2002:a05:600c:4f13:b0:39d:b6c5:ce4e with SMTP id
+ l19-20020a05600c4f1300b0039db6c5ce4emr25928157wmq.34.1656408949892; 
+ Tue, 28 Jun 2022 02:35:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ k1-20020adff5c1000000b0020d07d90b71sm12856887wrp.66.2022.06.28.02.35.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 02:35:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 46BEE1FFB7;
+ Tue, 28 Jun 2022 10:35:48 +0100 (BST)
+References: <20220607204557.658541-1-richard.henderson@linaro.org>
+ <20220607204557.658541-49-richard.henderson@linaro.org>
+ <87bkuelbil.fsf@linaro.org>
+ <b99c86d9-2a64-54df-cfdf-96c9ef6e9db9@linaro.org>
+User-agent: mu4e 1.7.27; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 48/53] semihosting: Use console_in_gf for SYS_READC
+Date: Tue, 28 Jun 2022 10:35:43 +0100
+In-reply-to: <b99c86d9-2a64-54df-cfdf-96c9ef6e9db9@linaro.org>
+Message-ID: <87tu85jfkb.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220627001917.9417-1-faithilikerun@gmail.com>
- <20220627001917.9417-6-faithilikerun@gmail.com>
- <Yrq5j3TQs8crLRVn@stefanha-x1.localdomain>
-In-Reply-To: <Yrq5j3TQs8crLRVn@stefanha-x1.localdomain>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Tue, 28 Jun 2022 17:34:43 +0800
-Message-ID: <CAAAx-8JTDjSUw+AAnp5mc2TUoX8GS85sE--BqyBMEsgbG0fGQw@mail.gmail.com>
-Subject: Re: [RFC v3 5/5] qemu-iotests: add zone operation tests.
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
- Hanna Reitz <hreitz@redhat.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, 
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- qemu block <qemu-block@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x1130.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,43 +96,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B46=E6=9C=8828=E6=
-=97=A5=E5=91=A8=E4=BA=8C 16:20=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Jun 27, 2022 at 08:19:17AM +0800, Sam Li wrote:
-> > diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-iotests/tes=
-ts/zoned.sh
-> > new file mode 100755
-> > index 0000000000..262c0b5427
-> > --- /dev/null
-> > +++ b/tests/qemu-iotests/tests/zoned.sh
-> > @@ -0,0 +1,49 @@
-> > +#!/usr/bin/env bash
-> > +#
-> > +# Test zone management operations.
-> > +#
-> > +
-> > +QEMU_IO=3D"build/qemu-io"
-> > +IMG=3D"--image-opts driver=3Dzoned_host_device,filename=3D/dev/nullb0"
-> > +QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
-> > +
-> > +echo "Testing a null_blk device"
-> > +echo "Simple cases: if the operations work"
-> > +sudo modprobe null_blk nr_devices=3D1 zoned=3D1
->
-> Please use bash's "trap" command to remove null_blk on exit. That way
-> cleanup happens whether the script exits successfully or not. See
-> tests/qemu-iotests/108 for an example.
 
-Noted. Should I just include "rmmod null_blk" in _cleanup()? I'm a
-little confused about the normal way to write qemu-iotests.
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> On 6/27/22 14:37, Alex Benn=C3=A9e wrote:
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>=20
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   semihosting/arm-compat-semi.c | 27 ++++++++++++++++++---------
+>>>   1 file changed, 18 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-sem=
+i.c
+>>> index 20e99cdcc0..4c8932ad54 100644
+>>> --- a/semihosting/arm-compat-semi.c
+>>> +++ b/semihosting/arm-compat-semi.c
+>>> @@ -302,6 +302,22 @@ common_semi_flen_fstat_cb(CPUState *cs, uint64_t r=
+et, int err)
+>>>       common_semi_cb(cs, ret, err);
+>>>   }
+>>>   +static void
+>>> +common_semi_readc_cb(CPUState *cs, uint64_t ret, int err)
+>>> +{
+>>> +    if (!err) {
+>>> +        CPUArchState *env G_GNUC_UNUSED =3D cs->env_ptr;
+>> Why do you even both extracting env here if it's not being used?
+>>=20
+>>> +        uint8_t ch;
+>>> +
+>>> +        if (get_user_u8(ch, common_semi_stack_bottom(cs) - 1)) {
+>
+> It is used in here, for system-mode, but not user-mode.
+> It's ugly, I know, but that's the interface we inherited.
+> The simplest non-ifdef solution is to mark the variable unused.
+
+Fair enough.
 
 >
-> > +# success, all done
-> > +sudo rmmod null_blk
-> > +echo "*** done"
-> > +#rm -f $seq.full
 >
-> Why is this commented out?
-I should just remove it. seq is not used.
+> r~
+
+
+--=20
+Alex Benn=C3=A9e
 
