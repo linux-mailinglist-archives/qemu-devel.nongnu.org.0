@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA1A55C0C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:42:55 +0200 (CEST)
-Received: from localhost ([::1]:45412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 396B055C0C7
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:47:19 +0200 (CEST)
+Received: from localhost ([::1]:51818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o69cM-0006B5-7X
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44718)
+	id 1o69gc-0002Dv-4M
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:47:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o69SY-0007vp-2y
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:32:48 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:58351)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o69SW-0005nz-J1
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:32:45 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mna0x-1nPLzz2OHt-00jXKL; Tue, 28 Jun 2022 13:32:42 +0200
-Message-ID: <58f568e1-567a-6ba1-2e3e-93639c7d66b4@vivier.eu>
-Date: Tue, 28 Jun 2022 13:32:41 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o69ch-000802-9X
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:43:15 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:46748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o69cf-0007jL-Qv
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:43:14 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id x8so7338766pgj.13
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 04:43:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OVz8AzN99Ih793EPSTlR4hgKZhNAt2YLFaU0v4k1+fI=;
+ b=e34vB1Xh+O7t0YEcewwl9HMDMTAwjhaWZiSQehFgx29H935gS7Vaeg1y6QAObxwpKj
+ phG1lXb/1I5nbhs3pZmGHn92Pl7I53yvqbmp2tr/v2XUCZ5myQQAqTAJ6Oo2rU2bPUgI
+ j57luHAxThcrqJIxam46ntjrSJIZCF0+f/yQmrV1WNsgFivf6iNZC7ocPEHoy0E/OX4Y
+ /WGei3pksfMg8bDZLCe+2VZxQLdvtm9bqbTJOmdMopXAvwM5tXfiRbrYxRy+RWe/92GO
+ UUiSID1l05QVf7SXGLm4OAMYYjK7twN5VZRI4yosRzLA3+r7ON+0XJiizi1q0nOLC2R2
+ 5rTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OVz8AzN99Ih793EPSTlR4hgKZhNAt2YLFaU0v4k1+fI=;
+ b=zhtkq7Yt75UmzXeEsXKmArb4/EjWNueMSV9uMN/t9Wb2eMjAfnbLKD7T8dlIuz4Rl4
+ bE2NQ+1gobB7E3zudbqA+imk4w423xAP/5Kcisc6+dbi0N/0mS0nMJKOeO7v0MWEGqYa
+ m966JBoox+jvI1Lv47Qb5UC23s0Wm5+vBIWgWd/jFSs9Wio3bjGH/fA/36whp/Lbr+8D
+ 88NRjamh4YdFFaEjuH83KXIuh94svyigd8bg2EO8A1Sk9Bzdoj17APtI2pZfvHzny/EO
+ FbzVw42bjr/zuZdIrBqUQRdJ/0p5R37rtRyiq8OLvB7sBJXAm+46JQek1X9Gk9zpg4Du
+ wNTQ==
+X-Gm-Message-State: AJIora/Bt9UkiRJHaZLpK98vAOcKmbdLLaZrTEeIjEyIaTofY0wrczGs
+ OJUJy3+bLssgcpjzEHu5mHJ1I+cp7kxxYg==
+X-Google-Smtp-Source: AGRyM1twUTscC/0lCN/ATACk1H2gPW4OTavzHzVyQ7mRwKcB0lcNHbF57+8UoG8vhDQoiz584WD41g==
+X-Received: by 2002:a63:f14a:0:b0:3fd:d2aa:6b30 with SMTP id
+ o10-20020a63f14a000000b003fdd2aa6b30mr16821252pgk.348.1656416592389; 
+ Tue, 28 Jun 2022 04:43:12 -0700 (PDT)
+Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
+ bf3-20020a170902b90300b0015f2b3bc97asm9106026plb.13.2022.06.28.04.43.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 04:43:11 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: jcmvbkbc@gmail.com
+Subject: [PATCH v5 0/2] target/xtensa: semihosting cleanup
+Date: Tue, 28 Jun 2022 17:13:05 +0530
+Message-Id: <20220628114307.697943-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v5 2/2] target/m68k: Convert semihosting errno to gdb
- remote errno
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220628110047.666612-1-richard.henderson@linaro.org>
- <20220628110047.666612-3-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220628110047.666612-3-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qqVW+7UC8FXeT+UkaQW8U8kdJeZVpCycnPyHEQMZUERN2pKySpe
- zW7Ul4/2tVxIZyZ7jwUjrnaG5EcgAY03ce1KdbVJj9PV/GT/QUT2CT1a3MYlDqM2EPN7gST
- YwabUWa/DOVm592KhHzpF9qfv+JnVaLAtw5CDm8/kjr7pmoBMpBHYOYncUkzY1Ca1ry/FDm
- rBwFbTL3dZZppsDi4kfvQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Z1+VGCYBBvc=:a69tKU7H1f8FkRtpRMkosi
- EQRDLS29HfnEI7GuTNBVFUdR60EP04ZwQUIEhQAeeeVnfv369Ao2MxDPeHi+JofOvzXyZgrge
- 9S77a4PjZvhtkh/r36J/Mjv+4CXNCu76hvg3Zen3P35N+LJQ9EpER+knaPi1MkMlaAMzk2SlD
- +dhTy2V3bI+O8Cq07G8PeVNW5TcZ8hKAtamubTAJnsEteow+dH9jUm0sDKDDH878yNrunAUHe
- e/H2ZlUZB0TcAd8NXjdxSdwLt97lZefd0tEvzmgFUXCAs//kY7CkhB8EmGJF4oC0PK2zuqDdV
- SfYq0bfKk/YYJ4q7z4YZvJBpltE4QKGmWZvkzhfYrOAsdSs186yh/bOamqPWjB6iwG1NHCwn4
- e/bo+AvJAsnvCz2Ohz/2f5vt5D/im9Fc12PfPO8p/ZosFopCS3F6gLt4UCUjB8u//8SAnAx6A
- Q1kIGvvFUZQ1pyLQ4ie9yGUih3ITOq0tyicw2tJ49HWAq0AV1A6/5O+QFotgXC7IeT7Du5Ct9
- fFNKni674AjZcRjlRhyE5ZCNWTfE3bPixMjIBRfewp1wjlmXHKZcN8+VnGuwN3NKR10/pVRra
- al8Fba8ILtxIKjDsyqoFlR/S3m47ctpIG8UuYU6NX+XJjPSG4q94tOepufWIYk4s8KwmchUwT
- f56TEAUEk8iwez3g6xF6pYXAW8M1KTHgwbAeZqe1JBMWXGCWOtDZus2KKsJgTChAG0BVhGiis
- NRJERd69fzaV2nqdEK6zVsfccDjnF/ZB323JZA==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,15 +85,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 28/06/2022 à 13:00, Richard Henderson a écrit :
-> The semihosting abi used by m68k uses the gdb remote
-> protocol filesys errnos.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/m68k/m68k-semi.c | 33 +++++++++++++++++++++++++++++++--
->   1 file changed, 31 insertions(+), 2 deletions(-)
+Changes for v5:
+  * Rebase on master.
 
-Acked-by: Laurent Vivier <laurent@vivier.eu>
+r~
+
+
+Richard Henderson (2):
+  target/xtensa: Use an exception for semihosting
+  target/xtensa: Use semihosting/syscalls.h
+
+ target/xtensa/cpu.h         |   3 +-
+ target/xtensa/helper.h      |   3 -
+ hw/xtensa/sim.c             |   3 -
+ target/xtensa/exc_helper.c  |   4 +
+ target/xtensa/translate.c   |   3 +-
+ target/xtensa/xtensa-semi.c | 229 ++++++++----------------------------
+ 6 files changed, 59 insertions(+), 186 deletions(-)
+
+-- 
+2.34.1
 
 
