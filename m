@@ -2,129 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BCCE55BFB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:12:19 +0200 (CEST)
-Received: from localhost ([::1]:52834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F61355BFBE
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:18:55 +0200 (CEST)
+Received: from localhost ([::1]:36404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o67Gc-0002Ma-Ld
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:12:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54000)
+	id 1o67N0-00026F-6Z
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:18:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1o673d-0004Z0-Qj
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:58:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55573)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1o673Y-0000sZ-W2
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:58:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656406727;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VpeCbsArzQqWwSTbVAKR1IJL1iNT7iTbnKRmPlVeCE4=;
- b=LPro0bI/ZV/2HXp4oe/sah0beOAvbJ1voLa3sbueWdx8+pXR6J3c97Jptv3fbyNaz729N8
- Evfv9eZQPR1WeLx4nwN+MIqWm+tFzxXqWGJJWcNc+RraBbACkmNcxBeVL26Q+E6ywZhgcg
- mIfYTDBqghXht4P9IM2LkmC0AQ63HCA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-hGJNDKDoPDa0pvt3H4M4oQ-1; Tue, 28 Jun 2022 04:58:45 -0400
-X-MC-Unique: hGJNDKDoPDa0pvt3H4M4oQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- h125-20020a1c2183000000b003a03a8475c6so4323035wmh.8
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 01:58:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1o677b-0007rZ-Hy; Tue, 28 Jun 2022 05:03:00 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:44789)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1o677Y-0001bw-Vg; Tue, 28 Jun 2022 05:02:58 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-3176b6ed923so109603517b3.11; 
+ Tue, 28 Jun 2022 02:02:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=QZKRP8fRM5H1mA8CCL/ZxJHIed3fGBeVqEZz8uWIwgw=;
+ b=lFgdc+wdfn6PM+k5gQeNK5379zuuxttrYT1P1FasuSVKeg35u/TLbAnNRdH4jq0lIx
+ 5hxnO/5zrnxriO5/52+OWI8EutCKI8L4N7jmmENTP+i9gm2hkur7E/6LN9c6nnncVZAG
+ K0T44XkEvORAsYHXz3ahtEk6HqAu10J+JII+ZLvDgSI0CsgDDY0NP7UX7NgrnKSIGLCZ
+ SAHj2a3w3ZYpkEfta8gsOFYByCjpMBhy1d3ZJ1BL7U6zq0z6WNsOaNQ+JCXbN3F85v3a
+ 4amKhso4yb1PhAgG2PoCvCKKpEV+ksgvyYSLxBa861/0NxuiCwZKC3Vn+eY28XYZ6sRp
+ 0fsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=VpeCbsArzQqWwSTbVAKR1IJL1iNT7iTbnKRmPlVeCE4=;
- b=pYp7gInALs9ds0l2TjbtnoJuICsPDh0euNcd8vMXw8CEkXSArt84RaeApT52fbUQPa
- fmYf2y9DxNYDhhKk0ZXrcqm2Psrq6pUsOj38CwRLRI0UgFUOMbpLXCsUUtiTVGx8oMkT
- NkJxVDrgyGpNZz/YhJigxH+UYIKMkQ8syfmO1NGdUPP7K9v6cuvS46A11nynJN/OZAHj
- mVmuN8gnS2Y/FfQN/wyyXjLuRF5DYa4okArPXJA9j2gGEDc7puc7S06WSZ+whwxNuaXO
- EEFnNyNfRq3DnDH/cxJ+FjagNs0+PuemZsmf3DvmLmoQaJz+/Iy3HQbjPm/RTEIglGL0
- x5MA==
-X-Gm-Message-State: AJIora87L5eoIx+EG6ml4kAfAj3vAW2kiccOpCQi4VzUc84ImGBsuH/h
- OzD/0CiEhfJDRDXxqjf+JEj9vnJlajzfylYNCodJuuM2x8pgM27W+Bg/eytjw8sBkt6TPtLk6YX
- wwwc78Cmj3N63TF4=
-X-Received: by 2002:adf:e752:0:b0:21b:80ae:9d7a with SMTP id
- c18-20020adfe752000000b0021b80ae9d7amr16459123wrn.362.1656406724495; 
- Tue, 28 Jun 2022 01:58:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vnMWyLgVmpPdfheZLiOHjzA0U6ngGkTJ7I4E70o3qbHTCxvd7F8znytYzeFWU+ClBMuhaawQ==
-X-Received: by 2002:adf:e752:0:b0:21b:80ae:9d7a with SMTP id
- c18-20020adfe752000000b0021b80ae9d7amr16459081wrn.362.1656406724204; 
- Tue, 28 Jun 2022 01:58:44 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- 5-20020a05600c230500b0039c8a22554bsm16152199wmo.27.2022.06.28.01.58.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jun 2022 01:58:43 -0700 (PDT)
-Message-ID: <25ba2a75-9db6-9160-9ed4-2563c8f27d46@redhat.com>
-Date: Tue, 28 Jun 2022 10:58:40 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=QZKRP8fRM5H1mA8CCL/ZxJHIed3fGBeVqEZz8uWIwgw=;
+ b=gJ/bG3rpqMlP/0ycmcHlNH8Ba0nV9OBD+u0xtOqQprNLtUwLh2X7V8ZJKF9eSUrHKx
+ ZT+IdZ8ORE+GpEHqBBZ4LFn1tVmYTjm6JVA77Cx2RaZOKthVvIU6w8mB+c+v8donEPKU
+ JcA1wEb64gzczAmQLTUIyL2MV8yF6VGc0qYEYk/mFj6PbIsI9DySoXoSndQ/VAZpdsdZ
+ hrhUi2EQ8XMHd+RRdWiVyzUCO/66SMDr+5QqKpA5ABf8Uy/vCxCgvXX8S4QNI2JYMY8l
+ eMDFKz9hrJvIrsVmwGFTYzgDF/CG7GF+qSqePhEVV0eEuuZa9hTSlmNYNTVHmwHQJE5T
+ F5ew==
+X-Gm-Message-State: AJIora9/mjyroPoaqv1Z1Zzbkq6Kkqs6p/TesZz0i9qee5LoTAMzrL1A
+ OkCFeeyS6F6cG7yvv7lHglOQE+qEXvCfWlEH2m0=
+X-Google-Smtp-Source: AGRyM1stzNaOWrRViPKNyEARTINrrvydUtXDsy9I2tXIzvkjXWy7r3HDFP2egx6Xzm8ZoiDO2wsJIANbTaJj2HerLYQ=
+X-Received: by 2002:a0d:c787:0:b0:31b:a963:e1de with SMTP id
+ j129-20020a0dc787000000b0031ba963e1demr12786605ywd.283.1656406975374; Tue, 28
+ Jun 2022 02:02:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-Content-Language: en-US
-To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Yi Liu <yi.l.liu@intel.com>,
- "zhangfei.gao@foxmail.com" <zhangfei.gao@foxmail.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Zhangfei Gao <zhangfei.gao@linaro.org>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
- "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
- "kevin.tian@intel.com" <kevin.tian@intel.com>,
- "chao.p.peng@intel.com" <chao.p.peng@intel.com>,
- "yi.y.sun@intel.com" <yi.y.sun@intel.com>,
- "peterx@redhat.com" <peterx@redhat.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <4f920d463ebf414caa96419b625632d5@huawei.com>
- <be8aa86a-25d1-d034-5e3b-6406aa7ff897@redhat.com>
- <4ac4956cfe344326a805966535c1dc43@huawei.com>
- <20220426103507.5693a0ca.alex.williamson@redhat.com>
- <66f4af24-b76e-9f9a-a86d-565c0453053d@linaro.org>
- <0d9bd05e-d82b-e390-5763-52995bfb0b16@intel.com>
- <720d56c8-da84-5e4d-f1f8-0e1878473b93@redhat.com>
- <29475423-33ad-bdd2-2d6a-dcd484d257a7@linaro.org>
- <20220510124554.GY49344@nvidia.com>
- <637b3992-45d9-f472-b160-208849d3d27a@intel.com>
- <tencent_5823CCB7CFD4C49A90D3CC1A183AB406EB09@qq.com>
- <tencent_B5689033C2703B476DA909302DA141A0A305@qq.com>
- <faff3515-896c-a445-ebbe-f7077cb52dd4@intel.com>
- <tencent_C3C342C7F0605284FB368A1A63534B5A4806@qq.com>
- <24cb7ff5-dec8-3c84-b23e-4170d331a4d2@intel.com>
- <c1ee978d787b4e43af4619fb4ef0bfc1@huawei.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <c1ee978d787b4e43af4619fb4ef0bfc1@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220627001917.9417-1-faithilikerun@gmail.com>
+ <20220627001917.9417-3-faithilikerun@gmail.com>
+ <Yrq0QwRahF9wJh1S@stefanha-x1.localdomain>
+In-Reply-To: <Yrq0QwRahF9wJh1S@stefanha-x1.localdomain>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Tue, 28 Jun 2022 17:02:44 +0800
+Message-ID: <CAAAx-8J6huKwTMmfQskZq5GG3ekyGk1Pj=0KHbiWSWOHWxGPeg@mail.gmail.com>
+Subject: Re: [RFC v3 2/5] qemu-io: add zoned block device operations.
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, 
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ qemu block <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -137,127 +86,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Shameer,
+Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B46=E6=9C=8828=E6=
+=97=A5=E5=91=A8=E4=BA=8C 16:20=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, Jun 27, 2022 at 08:19:14AM +0800, Sam Li wrote:
+> > diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+> > index 2f0d8ac25a..3f2592b9f5 100644
+> > --- a/qemu-io-cmds.c
+> > +++ b/qemu-io-cmds.c
+> > @@ -1706,6 +1706,122 @@ static const cmdinfo_t flush_cmd =3D {
+> >      .oneline    =3D "flush all in-core file state to disk",
+> >  };
+> >
+> > +static int zone_report_f(BlockBackend *blk, int argc, char **argv)
+> > +{
+> > +    int ret;
+> > +    int64_t offset, len, nr_zones;
+> > +    int i =3D 0;
+> > +
+> > +    ++optind;
+> > +    offset =3D cvtnum(argv[optind]);
+> > +    ++optind;
+> > +    len =3D cvtnum(argv[optind]);
+> > +    ++optind;
+> > +    nr_zones =3D cvtnum(argv[optind]);
+> > +
+> > +    g_autofree BlockZoneDescriptor *zones =3D g_new(BlockZoneDescripto=
+r, nr_zones);
+> > +    ret =3D blk_zone_report(blk, offset, len, &nr_zones, zones);
+> > +    while (i < nr_zones) {
+>
+> Does blk_zone_report() set nr_zones to 0 on failure or do we need to
+> check if (ret < 0) here?
 
-On 6/28/22 10:14, Shameerali Kolothum Thodi wrote:
->
->> -----Original Message-----
->> From: Yi Liu [mailto:yi.l.liu@intel.com]
->> Sent: 18 May 2022 15:01
->> To: zhangfei.gao@foxmail.com; Jason Gunthorpe <jgg@nvidia.com>;
->> Zhangfei Gao <zhangfei.gao@linaro.org>
->> Cc: eric.auger@redhat.com; Alex Williamson <alex.williamson@redhat.com>;
->> Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>;
->> cohuck@redhat.com; qemu-devel@nongnu.org;
->> david@gibson.dropbear.id.au; thuth@redhat.com; farman@linux.ibm.com;
->> mjrosato@linux.ibm.com; akrowiak@linux.ibm.com; pasic@linux.ibm.com;
->> jjherne@linux.ibm.com; jasowang@redhat.com; kvm@vger.kernel.org;
->> nicolinc@nvidia.com; eric.auger.pro@gmail.com; kevin.tian@intel.com;
->> chao.p.peng@intel.com; yi.y.sun@intel.com; peterx@redhat.com
->> Subject: Re: [RFC 00/18] vfio: Adopt iommufd
->>
->> On 2022/5/18 15:22, zhangfei.gao@foxmail.com wrote:
->>>
->>> On 2022/5/17 下午4:55, Yi Liu wrote:
->>>> Hi Zhangfei,
->>>>
->>>> On 2022/5/12 17:01, zhangfei.gao@foxmail.com wrote:
->>>>> Hi, Yi
->>>>>
->>>>> On 2022/5/11 下午10:17, zhangfei.gao@foxmail.com wrote:
->>>>>>
->>>>>> On 2022/5/10 下午10:08, Yi Liu wrote:
->>>>>>> On 2022/5/10 20:45, Jason Gunthorpe wrote:
->>>>>>>> On Tue, May 10, 2022 at 08:35:00PM +0800, Zhangfei Gao wrote:
->>>>>>>>> Thanks Yi and Eric,
->>>>>>>>> Then will wait for the updated iommufd kernel for the PCI MMIO
->> region.
->>>>>>>>> Another question,
->>>>>>>>> How to get the iommu_domain in the ioctl.
->>>>>>>> The ID of the iommu_domain (called the hwpt) it should be returned
->> by
->>>>>>>> the vfio attach ioctl.
->>>>>>> yes, hwpt_id is returned by the vfio attach ioctl and recorded in
->>>>>>> qemu. You can query page table related capabilities with this id.
->>>>>>>
->>>>>>>
->> https://lore.kernel.org/kvm/20220414104710.28534-16-yi.l.liu@intel.com/
->>>>>> Thanks Yi,
->>>>>>
->>>>>> Do we use iommufd_hw_pagetable_from_id in kernel?
->>>>>>
->>>>>> The qemu send hwpt_id via ioctl.
->>>>>> Currently VFIOIOMMUFDContainer has hwpt_list,
->>>>>> Which member is good to save hwpt_id, IOMMUTLBEntry?
->>>>> Can VFIOIOMMUFDContainer  have multi hwpt?
->>>> yes, it is possible
->>> Then how to get hwpt_id in map/unmap_notify(IOMMUNotifier *n,
->> IOMMUTLBEntry
->>> *iotlb)
->> in map/unmap, should use ioas_id instead of hwpt_id
->>
->>>>> Since VFIOIOMMUFDContainer has hwpt_list now.
->>>>> If so, how to get specific hwpt from map/unmap_notify in hw/vfio/as.c,
->>>>> where no vbasedev can be used for compare.
->>>>>
->>>>> I am testing with a workaround, adding VFIOIOASHwpt *hwpt in
->>>>> VFIOIOMMUFDContainer.
->>>>> And save hwpt when vfio_device_attach_container.
->>>>>
->>>>>> In kernel ioctl: iommufd_vfio_ioctl
->>>>>> @dev: Device to get an iommu_domain for
->>>>>> iommufd_hw_pagetable_from_id(struct iommufd_ctx *ictx, u32 pt_id,
->>>>>> struct device *dev)
->>>>>> But iommufd_vfio_ioctl seems no para dev?
->>>>> We can set dev=Null since IOMMUFD_OBJ_HW_PAGETABLE does not
->> need dev.
->>>>> iommufd_hw_pagetable_from_id(ictx, hwpt_id, NULL)
->>>> this is not good. dev is passed in to this function to allocate domain
->>>> and also check sw_msi things. If you pass in a NULL, it may even unable
->>>> to get a domain for the hwpt. It won't work I guess.
->>> The iommufd_hw_pagetable_from_id can be used for
->>> 1, allocate domain, which need para dev
->>> case IOMMUFD_OBJ_IOAS
->>> hwpt = iommufd_hw_pagetable_auto_get(ictx, ioas, dev);
->> this is used when attaching ioas.
->>
->>> 2. Just return allocated domain via hwpt_id, which does not need dev.
->>> case IOMMUFD_OBJ_HW_PAGETABLE:
->>> return container_of(obj, struct iommufd_hw_pagetable, obj);
->> yes, this would be the usage in nesting. you may check my below
->> branch. It's for nesting integration.
->>
->> https://github.com/luxis1999/iommufd/tree/iommufd-v5.18-rc4-nesting
->>
->>> By the way, any plan of the nested mode?
->> I'm working with Eric, Nic on it. Currently, I've got the above kernel
->> branch, QEMU side is also WIP.
-> Hi Yi/Eric,
->
-> I had a look at the above nesting kernel and Qemu branches and as mentioned
-> in the cover letter it is not working on ARM yet.
->
-> IIUC, to get it working via the iommufd the main thing is we need a way to configure
-> the phys SMMU in nested mode and setup the mappings for the stage 2. The
-> Cache/PASID related changes looks more straight forward. 
->
-> I had quite a few hacks to get it working on ARM, but still a WIP. So just wondering
-> do you guys have something that can be shared yet?
+I'll check if (ret<0) in zone_report and other commands in this patch as we=
+ll.
 
-I am working on the respin based on latest iommufd kernel branches and
-qemu RFC v2 but it is still WIP.
-
-I will share as soon as possible.
-
-Eric
 >
-> Please let me know.
+> > +        fprintf(stdout, "start: 0x%lx, len 0x%lx, cap 0x%lx, wptr 0x%l=
+x, "
 >
-> Thanks,
-> Shameer
+> The rest of the source file uses printf() instead of fprintf(stdout,
+> ...). That's usually preferred because it's shorter.
+>
+> > +                        "zcond:%u, [type: %u]\n",
+>
+> Please use PRIx64 instead of lx format specifiers for portability. On
+> 32-bit hosts lx is 32-bit, not 64-bit. You can grep QEMU's code for
+> examples of PRIx64.
 
+Noted. It is necessary.
+
+>
+> > +                zones[i].start, zones[i].length, zones[i].cap, zones[i=
+].wp,
+> > +                zones[i].cond, zones[i].type);
+> > +        ++i;
+> > +    }
+>
+> A for loop is more idiomatic:
+>
+>   for (int i =3D 0; i < nr_zones; i++) {
+>       ...
+>   }
+>
+> > +    return ret;
+> > +}
+> > +
+> > +static const cmdinfo_t zone_report_cmd =3D {
+> > +        .name =3D "zone_report",
+> > +        .altname =3D "f",
+> > +        .cfunc =3D zone_report_f,
+> > +        .argmin =3D 3,
+> > +        .argmax =3D 3,
+> > +        .args =3D "offset [offset..] len [len..] number [num..]",
+>
+> The arguments are "offset len number". This command does not accept
+> optional offset/len/num arguments.
+>
+> > +        .oneline =3D "report a number of zones",
+>
+> Maybe "report zone information".
+>
+> > +};
+> > +
+> > +static int zone_open_f(BlockBackend *blk, int argc, char **argv)
+> > +{
+> > +    int64_t offset, len;
+> > +    ++optind;
+> > +    offset =3D cvtnum(argv[optind]);
+> > +    ++optind;
+> > +    len =3D cvtnum(argv[optind]);
+> > +    return blk_zone_mgmt(blk, zone_open, offset, len);
+>
+> Where is the error reported? When I look at read_f() I see:
+>
+>     if (ret < 0) {
+>         printf("read failed: %s\n", strerror(-ret));
+>
+> I think something similar is needed because qemu-io.c does not print an
+> error message for us. The same is true for the other commands defined in
+> this patch.
+>
+> > +}
+> > +
+> > +static const cmdinfo_t zone_open_cmd =3D {
+> > +        .name =3D "zone_open",
+> > +        .altname =3D "f",
+> > +        .cfunc =3D zone_open_f,
+> > +        .argmin =3D 2,
+> > +        .argmax =3D 2,
+> > +        .args =3D "offset [offset..] len [len..]",
+>
+> There are no optional offset/len args. The same is true for the other
+> commands below.
+
+Thanks for reviewing!
+
+Sam
 
