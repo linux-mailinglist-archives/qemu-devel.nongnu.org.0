@@ -2,94 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FBC55C02D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:28:40 +0200 (CEST)
-Received: from localhost ([::1]:41964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B573B55C030
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:29:53 +0200 (CEST)
+Received: from localhost ([::1]:43456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68SV-0003Nc-5F
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:28:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52044)
+	id 1o68Tg-0004Ru-Rl
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o68Lp-0008Sa-Qu
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:21:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46992)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o68Lw-0000Ms-CQ
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:21:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o68Ln-0000Kc-2A
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:21:44 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o68Lu-0000MW-Km
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:21:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656411702;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1656411710;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8xFIq2hV2ZXs0aMPJ4CXHs7IHNQedeW1p+i4yAZOZc8=;
- b=g3QuwBr8vlT1C4GcBoUKLOKddH52g8fPkjG1ZaRryf69vb6kbEilb2vGWH5cjNsh4Lbl+C
- uuOtXK+02k1JFIGlvJboOMDwiIOEPHGabj3OJTj91xp4s7Hu9goJLxgE1c6Qh8ojjNBK0D
- dUmXzcswPjIB8JFugXbS2H11fHKKhsk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hYR1HbSlcRb/ZBk6fVMzewFqp3fN04s3ilzk6XCdtQA=;
+ b=OFtXcKtSeQeBntXpM/xuPSmTnZ8+vc3b0HtywHBcrtnFy+CoAZlA/uR4W5C5eNNtOk1q22
+ u8HZlCd2sShdwqPrMpkjTiyHTRjUjStU2jo+vQnS9sq2ydtDAlU8VCYBpiUPCpittSJzPr
+ FIGg18wDYjXqFcO9tPJVDlBo/ZEpj6g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-RhDWH-jxOa-pOBUuF20YYQ-1; Tue, 28 Jun 2022 06:21:41 -0400
-X-MC-Unique: RhDWH-jxOa-pOBUuF20YYQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c187-20020a1c35c4000000b003970013833aso4911290wma.1
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:21:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=8xFIq2hV2ZXs0aMPJ4CXHs7IHNQedeW1p+i4yAZOZc8=;
- b=pNZXYvREfi4OZ+8szn66W5zRNmc0IAFDAaFvnjcgM6XDPSQSi8eB3OxhRVnvrsrmU3
- ENraNTU8xQiG2jqFP9ObYYpFExR+N5iI0OuZSvqwlbrN0oVM2Bss8pYaPUxLB2YlJ4sz
- WeJYSUnU+BX8vF570k9unk1kLn+Yk4LdtAGq1PUubPc78OFbTQ3sGAJPn+r61pCAQ6LE
- yNqq0Xh2WZ+pdaFJIDIvcoLCZBRtNxeIt/Yc7Za97cJx9NhNO6rEnpghN4eXqg0rUpm7
- rRG1IPPtyn1ad7tOw7K4rU0rRZk/HXm84EuuUvZh+e2xjXA2kt0T/PmW+ImWAy2KOD3U
- D68w==
-X-Gm-Message-State: AJIora/cXfWSYmzJnS5UxzmIPwumkt69tI6BQOjSilVB6OR4Ar7vEYAR
- i95wh1Eg9PnUOixyXgJqoxkNKQhQ4+stddOtM7TJ8gfCSCvxrAW7WB//YXPSQPqwnW/yJpex+gK
- hGiAVVcC8WGdpT5E=
-X-Received: by 2002:a1c:6a06:0:b0:3a0:5099:f849 with SMTP id
- f6-20020a1c6a06000000b003a05099f849mr4019635wmc.14.1656411700128; 
- Tue, 28 Jun 2022 03:21:40 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vONX4VjSr40rxObaxWpaRR7JqMyAnDM0zI6S7mUNqCgo51GF7InOJ9ZcCfdDjc6D5kFTE+RQ==
-X-Received: by 2002:a1c:6a06:0:b0:3a0:5099:f849 with SMTP id
- f6-20020a1c6a06000000b003a05099f849mr4019616wmc.14.1656411699894; 
- Tue, 28 Jun 2022 03:21:39 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- d18-20020adfe852000000b0021ba3d1f2a0sm13150850wrn.48.2022.06.28.03.21.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jun 2022 03:21:39 -0700 (PDT)
-Message-ID: <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
-Date: Tue, 28 Jun 2022 12:21:39 +0200
+ us-mta-10-QjuFFDdVNoi82AJ78khB1w-1; Tue, 28 Jun 2022 06:21:48 -0400
+X-MC-Unique: QjuFFDdVNoi82AJ78khB1w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 852CD85A582;
+ Tue, 28 Jun 2022 10:21:48 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 929182166B26;
+ Tue, 28 Jun 2022 10:21:47 +0000 (UTC)
+Date: Tue, 28 Jun 2022 11:21:44 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org, imammedo@redhat.com
+Subject: Re: [PATCH 00/12] Introduce new acpi/smbios qtests using biosbits
+Message-ID: <YrrWOAqLCvtoeu1v@redhat.com>
+References: <20220627072856.1529357-1-ani@anisinha.ca>
+ <Yrq3HUEghZ7IFh//@redhat.com>
+ <CAARzgwzDdQGQ81bNAOg6t=4rhfdkQjunscT+x=sUOEp92R=cmg@mail.gmail.com>
+ <YrrSk+HPXqCc/Jz3@redhat.com>
+ <20220628061307-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
- qemu-devel@nongnu.org
-References: <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
- <4e1c2a45-eb53-e210-1ce1-05837bf1e7c3@redhat.com>
- <20220628030749-mutt-send-email-mst@kernel.org>
- <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
- <YrqyWhu8ThAcUGI4@redhat.com>
- <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
- <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
- <20220628060210-mutt-send-email-mst@kernel.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Why we should avoid new submodules if possible
-In-Reply-To: <20220628060210-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220628061307-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -110,50 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/06/2022 12.03, Michael S. Tsirkin wrote:
-[...]
-> For biosbits if we are going this route then I feel a submodule is much
-> better.  It records which version exactly each qemu version wants.
+On Tue, Jun 28, 2022 at 06:16:06AM -0400, Michael S. Tsirkin wrote:
+> On Tue, Jun 28, 2022 at 11:06:11AM +0100, Daniel P. Berrangé wrote:
+> > Ok, with that kind of size, it is definitely not something we want to
+> > be committing to git either,
+> 
+> Not to qemu git I think.
+> 
+> > nor consuming via a submodule since the
+> > latter would bloat the release tarballs too.
+> 
+> Hmm - why? We don't have to put the submodule in the tarball if we don't
+> want to. People consuming tarballs probably do not need these tests
+> anyway - just a basic smoketest is all that is needed.
 
-As far as I know, you can also specify the version when using pip, can't 
-you? So that's not really an advantage here.
+That feels very dubious. Upstream doesnt test every scenario that users
+build & run in. Especially with Fedora rawhide we've often found problems
+which upstream QEMU missed, particularly where new GCC releases have bugs
+causing subtle mis-compilation of code.
 
-On the contrary, submodules have a couple of disadvantages that I really 
-dislike:
-
-- submodules do not get updated automatically when doing a "git checkout", 
-we have to update them via a script instead. This causes e.g. trouble if you 
-rsync your source tree to a machine that has no access to the internet and 
-you forgot to update the submodule before the sync
-
-- the content of submodules is not added to the tarballs that get created on 
-the git forges automatically. There were lots of requests from users in the 
-past that tried to download a tarball from github and then wondered why they 
-couldn't compile QEMU.
-
-- we include the submodule content in our release tarballs, so people get 
-the impression that hte submodule content is part of the QEMU sources. This 
-has two disadvantages:
-  * We already got bug reports for the code in the submodule,
-    where people did not understand that they should report that
-    rather to the original project instead (i.e. you ship it - you
-    own it)
-  * People get the impression that QEMU is a huge monster
-    application if they count the number of code lines, run
-    their code scanner tools on the tarball contents, etc.
-    Remember "nemu", for example, where one of the main complaints
-    was that QEMU has too many lines of code?
-
-- If programs includes code via submodules, this gets a higher
-   burder for distro maintainers, since they have to patch each
-   and every package when there is a bug, instead of being able to
-   fix it in one central place.
-
-So in my opinion we should avoid new submodules if there is an alternative.
-
-  Thomas
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
