@@ -2,78 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C108355C0A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:25:03 +0200 (CEST)
-Received: from localhost ([::1]:49326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B9E55C0BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:34:12 +0200 (CEST)
+Received: from localhost ([::1]:35666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o69L4-0004lz-RW
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:25:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42424)
+	id 1o69Tv-0007hL-00
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o69Hx-0001mr-T6
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:21:51 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:33435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o69Hw-0003oM-9C
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:21:49 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id n10so10833625plp.0
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 04:21:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KfQlb4Kf/qCPlICOyHg/LYLEi3mUvRQuhI0h+42sfkk=;
- b=LzmloAUAiYxjKXdf2JqUqvP9onq9whuCi9ADdxk7ahIjjKlFXoMgm0mpMGdSJDj0rK
- Az4J52T3Y0yWxRQx2tRvUOLfExqVpLGdoVXdOyFoMWv/RIM+A1A28eAc5zE5Eg07FK7J
- 3sfk7HNQZ+5kwzVk+ta+GPMJrn60gw1y/6YLqXshsCpUMnxBQRIK2j5yKLNNA0QJRATx
- 32I54q8tINRzxc0WmQMMCmv+EtmxZcdbrVdBk8gi33p8xhovPQ+Ct/25zEZAWFhC+I+E
- PgNJkFxgfMrWKk9BpSpQXemDU3vyU+ssVRPD3q2bpQ4GDQfm2sJ/5+Jrl2MAM97XOYg2
- EzLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KfQlb4Kf/qCPlICOyHg/LYLEi3mUvRQuhI0h+42sfkk=;
- b=yUh0l266rCDX/cSFkJl7sQtynoubxSHeyrrsjsyaYGzq58GGa1qyH2MMVDGEuoe/ZN
- j/4gCpkvURwc9SYgio/x955qsRFlOmcvVUcNcuExJp9Ec+xnXATtom7JKbqFhn8fgVaI
- LozrNZnT4pwqC9w9dYCVEwo7WlRGkZmgVg0fsQnLMkD2qrRN8wNTAiUQ6T5EGXx/0mlz
- ncNXV2oeeFuSGhO+3ddyLJwCOPGOl43eONCZfM6ysvwiY2YjSr5x7KOcSGyQxq/ACXCk
- p7rK5MC+j5mzuEpQ2xBAd0uMSVXuaBVaxLdMBdAb9rRhRn5+g/wn8SmhWoAc2OdPtVkR
- 7ETQ==
-X-Gm-Message-State: AJIora+nXy8Hduueu5ynJUhwT1TqX6wMjneQwAPz/xGI8tVc7Zdg8if1
- Wa8qRZ51pt1OUOrrZOEkc0N7/YXk7wN1SA==
-X-Google-Smtp-Source: AGRyM1vvsAahrxNKXNZ+Qchzcs89PQMAuWYBdWnB0iMWQD2MhJc4DPG97To40tKVEbbDVsOiErogrA==
-X-Received: by 2002:a17:90b:2c47:b0:1ec:f52d:90dd with SMTP id
- rw7-20020a17090b2c4700b001ecf52d90ddmr26124023pjb.221.1656415306727; 
- Tue, 28 Jun 2022 04:21:46 -0700 (PDT)
-Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- g19-20020a62e313000000b0051ba8b742e4sm9192177pfh.69.2022.06.28.04.21.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 04:21:46 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: f4bug@amsat.org,
-	peter.maydell@linaro.org
-Subject: [PATCH v5 2/2] target/nios2: Convert semihosting errno to gdb remote
- errno
-Date: Tue, 28 Jun 2022 16:51:35 +0530
-Message-Id: <20220628112135.685617-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220628112135.685617-1-richard.henderson@linaro.org>
-References: <20220628112135.685617-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1o69Lh-0007ib-82; Tue, 28 Jun 2022 07:25:42 -0400
+Received: from [200.168.210.66] (port=15211 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1o69Ld-0004WE-QD; Tue, 28 Jun 2022 07:25:41 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Tue, 28 Jun 2022 08:25:32 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 5719680009B;
+ Tue, 28 Jun 2022 08:25:32 -0300 (-03)
+Message-ID: <dd5f1753-ff56-f248-9863-b39739fb6093@eldorado.org.br>
+Date: Tue, 28 Jun 2022 08:25:32 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: Slowness with multi-thread TCG?
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <111e5b6c-41a7-89a4-b4d2-2eda1a295ffa@linux.ibm.com>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <111e5b6c-41a7-89a4-b4d2-2eda1a295ffa@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 28 Jun 2022 11:25:32.0652 (UTC)
+ FILETIME=[C77C5AC0:01D88AE1]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,73 +63,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The semihosting abi used by nios2 uses the gdb remote
-protocol filesys errnos.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/nios2/nios2-semi.c | 33 +++++++++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
-
-diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
-index 614fd76695..f76e8588c5 100644
---- a/target/nios2/nios2-semi.c
-+++ b/target/nios2/nios2-semi.c
-@@ -43,6 +43,35 @@
- #define HOSTED_ISATTY 12
- #define HOSTED_SYSTEM 13
- 
-+static int host_to_gdb_errno(int err)
-+{
-+#define E(X)  case E##X: return GDB_E##X
-+    switch (err) {
-+    E(PERM);
-+    E(NOENT);
-+    E(INTR);
-+    E(BADF);
-+    E(ACCES);
-+    E(FAULT);
-+    E(BUSY);
-+    E(EXIST);
-+    E(NODEV);
-+    E(NOTDIR);
-+    E(ISDIR);
-+    E(INVAL);
-+    E(NFILE);
-+    E(MFILE);
-+    E(FBIG);
-+    E(NOSPC);
-+    E(SPIPE);
-+    E(ROFS);
-+    E(NAMETOOLONG);
-+    default:
-+        return GDB_EUNKNOWN;
-+    }
-+#undef E
-+}
-+
- static void nios2_semi_u32_cb(CPUState *cs, uint64_t ret, int err)
- {
-     Nios2CPU *cpu = NIOS2_CPU(cs);
-@@ -50,7 +79,7 @@ static void nios2_semi_u32_cb(CPUState *cs, uint64_t ret, int err)
-     target_ulong args = env->regs[R_ARG1];
- 
-     if (put_user_u32(ret, args) ||
--        put_user_u32(err, args + 4)) {
-+        put_user_u32(host_to_gdb_errno(err), args + 4)) {
-         /*
-          * The nios2 semihosting ABI does not provide any way to report this
-          * error to the guest, so the best we can do is log it in qemu.
-@@ -69,7 +98,7 @@ static void nios2_semi_u64_cb(CPUState *cs, uint64_t ret, int err)
- 
-     if (put_user_u32(ret >> 32, args) ||
-         put_user_u32(ret, args + 4) ||
--        put_user_u32(err, args + 8)) {
-+        put_user_u32(host_to_gdb_errno(err), args + 8)) {
-         /* No way to report this via nios2 semihosting ABI; just log it */
-         qemu_log_mask(LOG_GUEST_ERROR, "nios2-semihosting: return value "
-                       "discarded because argument block not writable\n");
--- 
-2.34.1
-
+T24gMjcvMDYvMjAyMiAxNToyNSwgRnJlZGVyaWMgQmFycmF0IHdyb3RlOg0KPiBbIFJlc2Vu
+ZGluZyBhcyBpdCB3YXMgbWVhbnQgZm9yIHRoZSBxZW11LXBwYyBsaXN0IF0NCj4gDQo+IEhl
+bGxvLA0KPiANCj4gSSd2ZSBiZWVuIGxvb2tpbmcgYXQgd2h5IG91ciBxZW11IHBvd2VybnYg
+bW9kZWwgaXMgc28gc2xvdyB3aGVuIGJvb3RpbmcNCj4gYSBjb21wcmVzc2VkIGxpbnV4IGtl
+cm5lbCwgdXNpbmcgbXVsdGlwbGUgdmNwdXMgYW5kIG11bHRpLXRocmVhZCB0Y2cuDQo+IFdp
+dGggb25seSBvbmUgdmNwdSwgdGhlIGRlY29tcHJlc3Npb24gdGltZSBvZiB0aGUga2VybmVs
+IGlzIHdoYXQgaXQgaXMsDQo+IGJ1dCB3aGVuIHVzaW5nIG11bHRpcGxlIHZjcHVzLCB0aGUg
+ZGVjb21wcmVzc2lvbiBpcyBhY3R1YWxseSBzbG93ZXIuIEFuZA0KPiB3b3JzZTogaXQgZGVn
+cmFkZXMgdmVyeSBmYXN0IHdpdGggdGhlIG51bWJlciBvZiB2Y3B1cyENCj4gDQo+IFJvdWdo
+IG1lYXN1cmVtZW50IG9mIHRoZSBkZWNvbXByZXNzaW9uIHRpbWUgb24gYSB4ODYgbGFwdG9w
+IHdpdGgNCj4gbXVsdGktdGhyZWFkIHRjZyBhbmQgdXNpbmcgdGhlIHFlbXUgcG93ZXJudjEw
+IG1hY2hpbmU6DQo+IDEgdmNwdSA9PiAxNSBzZWNvbmRzDQo+IDIgdmNwdXMgPT4gNDUgc2Vj
+b25kcw0KPiA0IHZjcHVzID0+IDEgbWluIDMwIHNlY29uZHMNCj4gDQo+IExvb2tpbmcgaW4g
+ZGV0YWlscywgd2hlbiB0aGUgZmlybXdhcmUgKHNraWJvb3QpIGhhbmRzIG92ZXIgZXhlY3V0
+aW9uIHRvDQo+IHRoZSBsaW51eCBrZXJuZWwsIHRoZXJlJ3Mgb25lIG1haW4gdGhyZWFkIGVu
+dGVyaW5nIHNvbWUgYm9vdHN0cmFwIGNvZGUNCj4gYW5kIHJ1bm5pbmcgdGhlIGtlcm5lbCBk
+ZWNvbXByZXNzaW9uIGFsZ29yaXRobS4gQWxsIHRoZSBvdGhlciBzZWNvbmRhcnkNCj4gdGhy
+ZWFkcyBhcmUgbGVmdCBzcGlubmluZyBpbiBza2lib290ICgxIHRocmVhZCBwZXIgdnBjdSku
+IFNvIG9uIHBhcGVyLA0KPiB3aXRoIG11bHRpLXRocmVhZCB0Y2cgYW5kIGFzc3VtaW5nIHRo
+ZSBzeXN0ZW0gaGFzIGVub3VnaCBhdmFpbGFibGUNCj4gcGh5c2ljYWwgY3B1cywgSSB3b3Vs
+ZCBleHBlY3QgdGhlIGRlY29tcHJlc3Npb24gdG8gaG9nIG9uZSBwaHlzaWNhbCBjcHUNCj4g
+YW5kIHRoZSB0aW1lIG5lZWRlZCB0byBiZSBjb25zdGFudCwgbm8gbWF0dGVyIHRoZSBudW1i
+ZXIgb2YgdnBjdXMuDQo+IA0KPiBBbGwgdGhlIHNlY29uZGFyeSB0aHJlYWRzIGFyZSBsZWZ0
+IHNwaW5uaW5nIGluIGNvZGUgbGlrZSB0aGlzOg0KPiANCj4gIMKgwqDCoMKgwqDCoCBmb3Ig
+KDs7KSB7DQo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChjcHVfY2hlY2tf
+am9icyhjcHUpKcKgIC8vIHJlYWRpbmcgY3B1LWxvY2FsIGRhdGENCj4gIMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJyZWFrOw0KPiAgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAocmVjb25maWd1cmVfaWRsZSnCoMKgwqDCoCAvLyBn
+bG9iYWwgdmFyaWFibGUNCj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGJyZWFrOw0KPiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiYXJy
+aWVyKCk7DQo+ICDCoMKgwqDCoMKgwqAgfQ0KPiANCj4gVGhlIGJhcnJpZXIgaXMgdG8gZm9y
+Y2UgcmVhZGluZyB0aGUgbWVtb3J5IHdpdGggZWFjaCBpdGVyYXRpb24uIEl0J3MNCj4gZGVm
+aW5lZCBhczoNCj4gDQo+ICDCoCBhc20gdm9sYXRpbGUoIiIgOiA6IDogIm1lbW9yeSIpOw0K
+PiANCj4gDQo+IFNvbWUgdGltZSBsYXRlciwgdGhlIG1haW4gdGhyZWFkIGluIHRoZSBsaW51
+eCBrZXJuZWwgd2lsbCBnZXQgdGhlDQo+IHNlY29uZGFyeSB0aHJlYWRzIG91dCBvZiB0aGF0
+IGxvb3AgYnkgcG9zdGluZyBhIGpvYi4NCj4gDQo+IE15IGZpcnN0IHRob3VnaHQgd2FzIHRo
+YXQgdGhlIHRyYW5zbGF0aW9uIG9mIHRoYXQgY29kZSB0aHJvdWdoIHRjZyB3YXMNCj4gc29t
+ZWhvdyBjYXVzaW5nIHNvbWUgYWJub3JtYWxseSBzbG93IGJlaGF2aW9yLCBtYXliZSBkdWUg
+dG8gc29tZQ0KPiBub24tb2J2aW91cyBjb250ZW50aW9uIGJldHdlZW4gdGhlIHRocmVhZHMu
+IEhvd2V2ZXIsIGlmIEkgc2VuZCB0aGUNCj4gdGhyZWFkcyBzcGlubmluZyBmb3JldmVyIHdp
+dGggc2ltcGx5Og0KPiANCj4gIMKgwqDCoCBmb3IgKDs7KSA7DQo+IA0KPiBzdXBwb3NlZGx5
+IHJlbW92aW5nIGFueSBjb250ZW50aW9uLCB0aGVuIHRoZSBkZWNvbXByZXNzaW9uIHRpbWUg
+aXMgdGhlIA0KPiBzYW1lLg0KPiANCj4gSXJvbmljYWxseSwgdGhlIGJlaGF2aW9yIHNlZW4g
+d2l0aCBzaW5nbGUgdGhyZWFkIHRjZyBpcyB3aGF0IEkgd291bGQNCj4gZXhwZWN0OiAxIHRo
+cmVhZCBkZWNvbXByZXNzaW5nIGluIDE1IHNlY29uZHMsIGFsbCB0aGUgb3RoZXIgdGhyZWFk
+cw0KPiBzcGlubmluZyBmb3IgdGhhdCBzYW1lIGFtb3VudCBvZiB0aW1lLCBhbGwgc2hhcmlu
+ZyB0aGUgc2FtZSBwaHlzaWNhbA0KPiBjcHUsIHNvIGl0IGFsbCBhZGRzIHVwIG5pY2VseTog
+SSBzZWUgNjAgc2Vjb25kcyBkZWNvbXByZXNzaW9uIHRpbWUgd2l0aA0KPiA0IHZjcHVzICg0
+eDE1KS4gV2hpY2ggbWVhbnMgbXVsdGktdGhyZWFkIHRjZyBpcyBzbG93ZXIgYnkgcXVpdGUg
+YSBiaXQuDQo+IEFuZCBzaW5nbGUgdGhyZWFkIHRjZyBob2dzIG9uZSBwaHlzaWNhbCBjcHUg
+b2YgdGhlIGxhcHRvcCB2cy4gNCBwaHlzaWNhbA0KPiBjcHVzIGZvciB0aGUgc2xvd2VyIG11
+bHRpLXRocmVhZCB0Y2cuDQo+IA0KPiBEb2VzIGFueWJvZHkgaGF2ZSBhbiBpZGVhIG9mIHdo
+YXQgbWlnaHQgaGFwcGVuIG9yIGhhdmUgc3VnZ2VzdGlvbiB0bw0KPiBrZWVwIGludmVzdGln
+YXRpbmc/DQo+IFRoYW5rcyBmb3IgeW91ciBoZWxwIQ0KPiANCj4gIMKgIEZyZWQNCj4gDQo+
+IA0KDQpIaSBGcmVkZXJpYywNCg0KSSBkaWQgc29tZSBib290IHRpbWUgdGVzdHMgcmVjZW50
+bHkgYW5kIGRpZG4ndCBub3RpY2UgdGhpcyBiZWhhdmlvci4gDQpDb3VsZCB5b3Ugc2hhcmUg
+eW91ciBRRU1VIGNvbW1hbmQgbGluZSB3aXRoIHVzPyBEaWQgeW91IGJ1aWxkIFFFTVUgd2l0
+aCANCmFueSBkZWJ1ZyBvcHRpb24gb3Igc2FuaXRpemVyIGVuYWJsZWQ/DQoNCi0tIA0KTWF0
+aGV1cyBLLiBGZXJzdA0KSW5zdGl0dXRvIGRlIFBlc3F1aXNhcyBFTERPUkFETyA8aHR0cDov
+L3d3dy5lbGRvcmFkby5vcmcuYnIvPg0KQW5hbGlzdGEgZGUgU29mdHdhcmUNCkF2aXNvIExl
+Z2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWlt
+ZXIuaHRtbD4NCg==
 
