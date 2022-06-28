@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F2955BEF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 09:06:17 +0200 (CEST)
-Received: from localhost ([::1]:42294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5116A55BEDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 08:49:31 +0200 (CEST)
+Received: from localhost ([::1]:50458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o65Ie-0004Xb-M7
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 03:06:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44310)
+	id 1o652P-0005vq-W5
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 02:49:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o63Jo-00026L-K0
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:59:21 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:43974)
+ id 1o63Jr-0002Ac-3Q
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:59:23 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:40844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o63Jn-0000YT-4r
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:59:20 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- dw10-20020a17090b094a00b001ed00a16eb4so11495395pjb.2
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:59:18 -0700 (PDT)
+ id 1o63Jp-0000Zg-C5
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:59:22 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id b2so3033998plx.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VcbXRuc9p7xnMmio/gUl33BwOOt/KNGf1EdU6Sq8hhs=;
- b=tu2q1HkuuHDYgTQOZcvytJU41cHMM57GoxsK69uZnVRqC0gSeUqkFa7QyWOvgSahjW
- aF0sgBoY/fzOnspifTdR4JrcJ3BF0hISXVk4qlg3Vr1E51iviWVBc6IGRmOBDqdQhXC0
- wNc7FSDWgn324lDlazRqF+2/r67hrE6rp3y5+l1WJ6j25EeXykLmQRmPmKuCo3ttYNDK
- 3BuPw3hWsuaVmTdt1MYNXyLJ51IVfqf6xLZSJkFuEPCqDsvzdCOhU32KrYdo7CrhbfpO
- 2sxSlvsXUqTXj5IxFLnZVw2d6Wvb2BUJc3s6JwV0wq9qjwvxzuObYcd4u3YosjDp9nxM
- FYvw==
+ bh=7STZk4xzNs8UP6IZ1WVHwgF6+pwm+siOFOx+ShINrpY=;
+ b=fRy/CuQaHoVykurF9UlrI81YDlzfjJLyDIAP0NpqUTujTOPbl5ThJywsAqT6+OoTWQ
+ RpNjIGVZ2bVkr2pZ5rWJKrTl+VdVA3qQyvHmB6Ws1dn46caaYjR3bjVfKFFlcoedakKM
+ UBkO6GQIP6YpznfCdTN8sybJCSAvJMozrcharRNXOynEJac3mQhxYC2CUh9UquVO2OfX
+ nYz63udT9ZX1LQtcEQBkmQCoLeiZIY/LWk71vls4jpMRBfwJJ0PSGUJV1LlaJ+B80lnY
+ X+pGE60lSqIuc6Lp3dQfwJbOuRnp0FAQs4LPg91m2BiGPe5/q+TsQabtGlwiTTCW+8Ty
+ T7jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VcbXRuc9p7xnMmio/gUl33BwOOt/KNGf1EdU6Sq8hhs=;
- b=hVw9gMBewVMcfVWmbTm7EqqoQyQTA2plqlN3y0WkzWf7LdhrmisyIDrR+kiUjbUQcy
- 26oUSg7cDUGpQlRggpi5UTAjOGa4ILn1shCpr3v4cWJo8eLlaAqWMu1VANNrS6Yw13Q2
- iU5QGkkgug5PvlosAaemPQ9FOLxYj1iKubrR54TXQAHSSVFs5sIZGfdWokY8KBstzd2k
- ku1wlcbaRpkcy+HsBT8klAckHvFKWcrV6ZsYidpZ7nPnqMeZ+ooR3XkxfiiOpl44ldhE
- zv3cIt539SC5v8Cnt8xkJUDKVE82EZ7dw8LbU16cd/YOji++SZNn5dnJtStnR54bGicA
- APrg==
-X-Gm-Message-State: AJIora8mw38naDFw3nUWArRBRgWkZn6O4E7+khLbm+8OTxsefEeuBHoy
- J+XZKTyknlhS3PGGK45Mnd6kQrsPKH9xFw==
-X-Google-Smtp-Source: AGRyM1vk8Bjmkv13qCMjwatM5gyufrk1LURS5vAmRlxiML55SyDcNuDCSrTNrVVGAUN0zWqNoBxPUw==
-X-Received: by 2002:a17:90a:5b0d:b0:1ea:d1ed:186e with SMTP id
- o13-20020a17090a5b0d00b001ead1ed186emr19525459pji.240.1656392357910; 
- Mon, 27 Jun 2022 21:59:17 -0700 (PDT)
+ bh=7STZk4xzNs8UP6IZ1WVHwgF6+pwm+siOFOx+ShINrpY=;
+ b=yix4p+TDWqFVVUNmvXXp1xFbJM2uQBevKeRx3sOccRkDTuO03VWc50m4nETmmibObp
+ 0vFSxYcadlzVDbN3bo7ZfTuJGaonOI8MTvWnds+kH128w1njaBf6JlP7P+DWnNKl38y2
+ iD0XZDtLmdSoU87zsnCDAlGY5Gr6228z2aPniGAcnBpmHecwx9ECSNQtiOSqSwbjqLGY
+ vDOXfODq0Dtmn7/FN0xAPACXTJBd6EupqX9rD5jtlZAzKAeeWKRV0af3gbsG7nBJJP7o
+ uhHSLzDT82WGXZjo+uqlOn79e83CuJc/6N+HPL1PQSwHgWjS1n4zrKDTAP7l66UJZ2Kj
+ p0Jg==
+X-Gm-Message-State: AJIora/KMwXg2++aBXx8AkpCcjw2QK4tH2XH1rVKW+x/x+nAR+Sd6Isc
+ gdYfJtjOKOTpbJrFFsQrN9NFzfj+l1ezcA==
+X-Google-Smtp-Source: AGRyM1t1Dz3AqoERZ8M2F+eyeYQoHlmccv72IKGdmjUYWM8ElGIkmzquW6QIO8faLFIWvu8Wzz0EgQ==
+X-Received: by 2002:a17:90a:f314:b0:1ec:91a9:3256 with SMTP id
+ ca20-20020a17090af31400b001ec91a93256mr20025348pjb.155.1656392360018; 
+ Mon, 27 Jun 2022 21:59:20 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- y7-20020aa78f27000000b00522c0a75c39sm8259686pfr.196.2022.06.27.21.59.15
+ y7-20020aa78f27000000b00522c0a75c39sm8259686pfr.196.2022.06.27.21.59.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:59:17 -0700 (PDT)
+ Mon, 27 Jun 2022 21:59:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Luc Michel <lmichel@kalray.eu>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 52/60] semihosting: Remove qemu_semihosting_console_outs
-Date: Tue, 28 Jun 2022 10:23:55 +0530
-Message-Id: <20220628045403.508716-53-richard.henderson@linaro.org>
+Cc: Luc Michel <lmichel@kalray.eu>
+Subject: [PULL 53/60] semihosting: Create semihost_sys_poll_one
+Date: Tue, 28 Jun 2022 10:23:56 +0530
+Message-Id: <20220628045403.508716-54-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220628045403.508716-1-richard.henderson@linaro.org>
 References: <20220628045403.508716-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,129 +87,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function has been replaced by *_write.
+This will be used for implementing the xtensa select_one
+system call.  Choose "poll" over "select" so that we can
+reuse Glib's g_poll constants and to avoid struct timeval.
 
 Reviewed-by: Luc Michel <lmichel@kalray.eu>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/console.h | 13 ----------
- linux-user/semihost.c         | 17 ------------
- semihosting/console.c         | 49 -----------------------------------
- 3 files changed, 79 deletions(-)
+ include/semihosting/console.h  | 16 ++++++++
+ include/semihosting/syscalls.h |  3 ++
+ semihosting/console.c          | 19 ++++++++-
+ semihosting/syscalls.c         | 70 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 106 insertions(+), 2 deletions(-)
 
 diff --git a/include/semihosting/console.h b/include/semihosting/console.h
-index d6c1cc58ab..20c31d89d4 100644
+index 20c31d89d4..61b0cb3a94 100644
 --- a/include/semihosting/console.h
 +++ b/include/semihosting/console.h
-@@ -11,19 +11,6 @@
+@@ -53,4 +53,20 @@ int qemu_semihosting_console_write(void *buf, int len);
+  */
+ int qemu_semihosting_log_out(const char *s, int len);
  
- #include "cpu.h"
++/*
++ * qemu_semihosting_console_block_until_ready:
++ * @cs: CPUState
++ *
++ * If no data is available we suspend the CPU and will re-execute the
++ * instruction when data is available.
++ */
++void qemu_semihosting_console_block_until_ready(CPUState *cs);
++
++/**
++ * qemu_semihosting_console_ready:
++ *
++ * Return true if characters are available for read; does not block.
++ */
++bool qemu_semihosting_console_ready(void);
++
+ #endif /* SEMIHOST_CONSOLE_H */
+diff --git a/include/semihosting/syscalls.h b/include/semihosting/syscalls.h
+index 347200cb9f..3a5ec229eb 100644
+--- a/include/semihosting/syscalls.h
++++ b/include/semihosting/syscalls.h
+@@ -69,4 +69,7 @@ void semihost_sys_system(CPUState *cs, gdb_syscall_complete_cb complete,
+ void semihost_sys_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
+                                target_ulong tv_addr, target_ulong tz_addr);
  
--/**
-- * qemu_semihosting_console_outs:
-- * @env: CPUArchState
-- * @s: host address of null terminated guest string
-- *
-- * Send a null terminated guest string to the debug console. This may
-- * be the remote gdb session if a softmmu guest is currently being
-- * debugged.
-- *
-- * Returns: number of bytes written.
-- */
--int qemu_semihosting_console_outs(CPUArchState *env, target_ulong s);
--
- /**
-  * qemu_semihosting_console_read:
-  * @cs: CPUState
-diff --git a/linux-user/semihost.c b/linux-user/semihost.c
-index f8bc8889f3..cee62a365c 100644
---- a/linux-user/semihost.c
-+++ b/linux-user/semihost.c
-@@ -16,23 +16,6 @@
- #include "user-internals.h"
- #include <termios.h>
- 
--int qemu_semihosting_console_outs(CPUArchState *env, target_ulong addr)
--{
--    int len = target_strlen(addr);
--    void *s;
--    if (len < 0){
--       qemu_log_mask(LOG_GUEST_ERROR,
--                     "%s: passed inaccessible address " TARGET_FMT_lx,
--                     __func__, addr);
--       return 0;
--    }
--    s = lock_user(VERIFY_READ, addr, (long)(len + 1), 1);
--    g_assert(s);  /* target_strlen has already verified this will work */
--    len = write(STDERR_FILENO, s, len);
--    unlock_user(s, addr, 0);
--    return len;
--}
--
- /*
-  * For linux-user we can safely block. However as we want to return as
-  * soon as a character is read we need to tweak the termio to disable
++void semihost_sys_poll_one(CPUState *cs, gdb_syscall_complete_cb complete,
++                           int fd, GIOCondition cond, int timeout);
++
+ #endif /* SEMIHOSTING_SYSCALLS_H */
 diff --git a/semihosting/console.c b/semihosting/console.c
-index fe7ee85137..c84ab97ab6 100644
+index c84ab97ab6..cda7cf1905 100644
 --- a/semihosting/console.c
 +++ b/semihosting/console.c
-@@ -47,55 +47,6 @@ int qemu_semihosting_log_out(const char *s, int len)
-     }
+@@ -77,10 +77,17 @@ static void console_read(void *opaque, const uint8_t *buf, int size)
+     c->sleeping_cpus = NULL;
  }
  
--/*
-- * A re-implementation of lock_user_string that we can use locally
-- * instead of relying on softmmu-semi. Hopefully we can deprecate that
-- * in time. Copy string until we find a 0 or address error.
-- */
--static GString *copy_user_string(CPUArchState *env, target_ulong addr)
--{
--    CPUState *cpu = env_cpu(env);
--    GString *s = g_string_sized_new(128);
--    uint8_t c;
--
--    do {
--        if (cpu_memory_rw_debug(cpu, addr++, &c, 1, 0) == 0) {
--            if (c) {
--                s = g_string_append_c(s, c);
--            }
--        } else {
--            qemu_log_mask(LOG_GUEST_ERROR,
--                          "%s: passed inaccessible address " TARGET_FMT_lx,
--                          __func__, addr);
--            break;
--        }
--    } while (c!=0);
--
--    return s;
--}
--
--static void semihosting_cb(CPUState *cs, uint64_t ret, int err)
--{
--    if (err) {
--        qemu_log("%s: gdb console output failed (%d)\n", __func__, err);
--    }
--}
--
--int qemu_semihosting_console_outs(CPUArchState *env, target_ulong addr)
--{
--    GString *s = copy_user_string(env, addr);
--    int out = s->len;
--
--    if (use_gdb_syscalls()) {
--        gdb_do_syscall(semihosting_cb, "write,2,%x,%x", addr, s->len);
--    } else {
--        out = qemu_semihosting_log_out(s->str, s->len);
--    }
--
--    g_string_free(s, true);
--    return out;
--}
--
- #define FIFO_SIZE   1024
+-int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
++bool qemu_semihosting_console_ready(void)
++{
++    SemihostingConsole *c = &console;
++
++    g_assert(qemu_mutex_iothread_locked());
++    return !fifo8_is_empty(&c->fifo);
++}
++
++void qemu_semihosting_console_block_until_ready(CPUState *cs)
+ {
+     SemihostingConsole *c = &console;
+-    int ret = 0;
  
- static int console_can_read(void *opaque)
+     g_assert(qemu_mutex_iothread_locked());
+ 
+@@ -92,6 +99,14 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
+         cpu_loop_exit(cs);
+         /* never returns */
+     }
++}
++
++int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
++{
++    SemihostingConsole *c = &console;
++    int ret = 0;
++
++    qemu_semihosting_console_block_until_ready(cs);
+ 
+     /* Read until buffer full or fifo exhausted. */
+     do {
+diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+index 9e499b1751..4847f66c02 100644
+--- a/semihosting/syscalls.c
++++ b/semihosting/syscalls.c
+@@ -520,6 +520,21 @@ static void host_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
+     unlock_user(p, tv_addr, sizeof(struct gdb_timeval));
+ }
+ 
++#ifndef CONFIG_USER_ONLY
++static void host_poll_one(CPUState *cs, gdb_syscall_complete_cb complete,
++                          GuestFD *gf, GIOCondition cond, int timeout)
++{
++    /*
++     * Since this is only used by xtensa in system mode, and stdio is
++     * handled through GuestFDConsole, and there are no semihosting
++     * system calls for sockets and the like, that means this descriptor
++     * must be a normal file.  Normal files never block and are thus
++     * always ready.
++     */
++    complete(cs, cond & (G_IO_IN | G_IO_OUT), 0);
++}
++#endif
++
+ /*
+  * Static file semihosting syscall implementations.
+  */
+@@ -628,6 +643,34 @@ static void console_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
+     complete(cs, ret ? -1 : 0, ret ? -ret : 0);
+ }
+ 
++#ifndef CONFIG_USER_ONLY
++static void console_poll_one(CPUState *cs, gdb_syscall_complete_cb complete,
++                             GuestFD *gf, GIOCondition cond, int timeout)
++{
++    /* The semihosting console does not support urgent data or errors. */
++    cond &= G_IO_IN | G_IO_OUT;
++
++    /*
++     * Since qemu_semihosting_console_write never blocks, we can
++     * consider output always ready -- leave G_IO_OUT alone.
++     * All that remains is to conditionally signal input ready.
++     * Since output ready causes an immediate return, only block
++     * for G_IO_IN alone.
++     *
++     * TODO: Implement proper timeout.  For now, only support
++     * indefinite wait or immediate poll.
++     */
++    if (cond == G_IO_IN && timeout < 0) {
++        qemu_semihosting_console_block_until_ready(cs);
++        /* We returned -- input must be ready. */
++    } else if ((cond & G_IO_IN) && !qemu_semihosting_console_ready()) {
++        cond &= ~G_IO_IN;
++    }
++
++    complete(cs, cond, 0);
++}
++#endif
++
+ /*
+  * Syscall entry points.
+  */
+@@ -906,3 +949,30 @@ void semihost_sys_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
+         host_gettimeofday(cs, complete, tv_addr, tz_addr);
+     }
+ }
++
++#ifndef CONFIG_USER_ONLY
++void semihost_sys_poll_one(CPUState *cs, gdb_syscall_complete_cb complete,
++                           int fd, GIOCondition cond, int timeout)
++{
++    GuestFD *gf = get_guestfd(fd);
++
++    if (!gf) {
++        complete(cs, G_IO_NVAL, 1);
++        return;
++    }
++    switch (gf->type) {
++    case GuestFDGDB:
++        complete(cs, G_IO_NVAL, 1);
++        break;
++    case GuestFDHost:
++        host_poll_one(cs, complete, gf, cond, timeout);
++        break;
++    case GuestFDConsole:
++        console_poll_one(cs, complete, gf, cond, timeout);
++        break;
++    case GuestFDStatic:
++    default:
++        g_assert_not_reached();
++    }
++}
++#endif
 -- 
 2.34.1
 
