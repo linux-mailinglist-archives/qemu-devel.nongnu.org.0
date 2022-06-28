@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D8D55BF64
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 10:21:27 +0200 (CEST)
-Received: from localhost ([::1]:42292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18D955BF09
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 09:23:21 +0200 (CEST)
+Received: from localhost ([::1]:36226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o66TO-0003Hd-Sk
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 04:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44214)
+	id 1o65ZA-0003Ul-NX
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 03:23:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o63Je-000225-4Z
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:59:11 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38562)
+ id 1o63Jf-00022v-Te
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:59:14 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:35588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o63Jc-0000Wu-AF
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:59:09 -0400
-Received: by mail-pl1-x633.google.com with SMTP id m14so10041998plg.5
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:59:07 -0700 (PDT)
+ id 1o63Je-0000XJ-Cd
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:59:11 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id x4so10975509pfq.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lB5ybBGRmrAOm3Wx4wV/l5RlYf9l1nrqsAeZO2RipkU=;
- b=y+8Dn+aa7QQPwv08UEhLc2w3gkwzn1ur98cRK5MdLtldEaEEcNjZoVcC66T6moET+/
- aavLWDihOjqHv1CfnvHwrmBNvY5ARq8mXVE/wjiBuxHAeskJ4mQipFxRWfQHiC8YIJRp
- 01v0HbM1VuDmaOoFVS2nv648CgEqan+YoAJzbcp0spi8JO9Eq25mBWWnZ6nWup07LzDf
- FLbSZtgk6agW3B7mcl6gS9kYCo9vPWyaWtnthhRtLomJ3c3HXakvs5YAzEg6Gon6KP/0
- xMShIa/iu53RBYTGNRumacp4tsjf2vcTxgHOYk4AhtXwpwLGm0QDJHIK105QapgxJw7c
- Q1Mg==
+ bh=4guIB9WBX/ay757xxYogFh0D5rQcKO1Qw1OmBzJA6xE=;
+ b=yfKjKX/S2DdUpfHmMrARtImCXV/D7LCsXznW7ul5S6y1Gt4eO1MKURfhw4Gi7O/lu7
+ t/4Tv6qDMameV3Yc5mc8kUkaGHfMlalR0SnmFAirq9oz/kC2bCZxwa2WDSihyy/uCNDL
+ U/pisHTm62ckyTM11VdRwocXUa7xYbGhOiKj+UPLeWm1cTteSoV4He+DmlUKbJumP6jw
+ ydEMwYfY9u45LjYqv8ZwiX0ZbhiApbJKatVwevv+0e1luvKAKXKEwRluLeTh4/6pQtEy
+ oOaB9ZJ866ZsCsDpJN7L75v3HOwE6KQhzq4FuP5NKkThrpdqiiNdydTRFGdRTV9LbSLn
+ VOxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lB5ybBGRmrAOm3Wx4wV/l5RlYf9l1nrqsAeZO2RipkU=;
- b=n1NoqHvNGbOAy0USXDUS6W2rCwM4P/w6fTNsLub7wXJyf0/KwkQj0EWcn9McM3V7BI
- +4kY/WhWy1NNfj0IAq8Xc8Qh/UP+qj5XgvI0AyUbyLWeANcxSaYf4QoWDlmNEIIj6Euh
- enpYuiqjRThfBsXJYmWpKSifJAW/KRamD4Sz0cxixthHHtPy4kJpRqHjgmLxfiLrkmOZ
- Xh7JQ5JUuZeD94MVJozWDry2zgym5hc8y7htucV4iSon4tAA0aO8c/UuwsV7zTndqDBe
- PvrFL5XNgZF444cgaZSniqNV0/aVp0Q1GZCP2ULJlASjtVjSYUZzDjrakL6x1iC232Jt
- pEgg==
-X-Gm-Message-State: AJIora8PzefVjzU36SrdFOlVsAJOoPzQy93rnOQF5g2cQ1elb37JAKuo
- ++HwrIiHGg7G1F+fLMcGaUuyUH7FXSe1kA==
-X-Google-Smtp-Source: AGRyM1vzUO7zWXlc2vaZZuMJNs4h4YtrbFcfUa1UD9TtWkJMs1UKGjl4Z1cR8iUqrDIdAbPz2dsw6g==
-X-Received: by 2002:a17:903:1cc:b0:16a:73fd:3c87 with SMTP id
- e12-20020a17090301cc00b0016a73fd3c87mr1783853plh.41.1656392346832; 
- Mon, 27 Jun 2022 21:59:06 -0700 (PDT)
+ bh=4guIB9WBX/ay757xxYogFh0D5rQcKO1Qw1OmBzJA6xE=;
+ b=Pt0yPb95pOq/cp/xq1kwe3illHrxRyXClASfVkSbD/l1nlg20O/446mtKHHEPq3Agc
+ V40lVrRNZ773pevR68peS4YQhOEBH5sYujKeMZFptzXFqUab+KXClNcdolsAgAWQhe8N
+ 3CsMgOv7SYLLHUdeBBpCHcDNeAsYCVAl0xPoH4S+5aH4zmg8FLLh4WZDDjHxPQkyFoGU
+ AyXwn6MSGdMi/5usQfST+FKMo2frGPS9V2FgDbCzZb26o7CHrAtnxz/rk+cZchUh1vKa
+ xCJyvmlZmDudNphPr2iGehxmiILJWfWCIdHBCwuF/4PM9twXdQP/ecVUa1CpUcSuCPA5
+ o3aA==
+X-Gm-Message-State: AJIora8x0rgRLpw4cOVyxZe4cyMtHiL4ff+afPykVxDbUmfqxnyf2jFE
+ v7XCB2ZR7dYTJfZNvCoSAiAQYdzEGzPQaQ==
+X-Google-Smtp-Source: AGRyM1v4F6Kw07muvPP97fvgQug9hVNfyvVgpE1bRG+dsz87lFcJdosVhqH5xGmShmeXwBXIxCpI2w==
+X-Received: by 2002:a05:6a00:2402:b0:4e1:46ca:68bd with SMTP id
+ z2-20020a056a00240200b004e146ca68bdmr2767516pfh.70.1656392349181; 
+ Mon, 27 Jun 2022 21:59:09 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- y7-20020aa78f27000000b00522c0a75c39sm8259686pfr.196.2022.06.27.21.59.04
+ y7-20020aa78f27000000b00522c0a75c39sm8259686pfr.196.2022.06.27.21.59.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:59:06 -0700 (PDT)
+ Mon, 27 Jun 2022 21:59:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Luc Michel <lmichel@kalray.eu>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 47/60] semihosting: Create qemu_semihosting_guestfd_init
-Date: Tue, 28 Jun 2022 10:23:50 +0530
-Message-Id: <20220628045403.508716-48-richard.henderson@linaro.org>
+Cc: Luc Michel <lmichel@kalray.eu>
+Subject: [PULL 48/60] semihosting: Use console_in_gf for SYS_READC
+Date: Tue, 28 Jun 2022 10:23:51 +0530
+Message-Id: <20220628045403.508716-49-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220628045403.508716-1-richard.henderson@linaro.org>
 References: <20220628045403.508716-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,176 +87,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For arm-compat, initialize console_{in,out}_gf;
-otherwise, initialize stdio file descriptors.
-
-This will go some way to cleaning up arm-compat, and
-will allow other semihosting to use normal stdio.
-
 Reviewed-by: Luc Michel <lmichel@kalray.eu>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/semihosting/guestfd.h  |  7 +++++
- include/semihosting/semihost.h |  1 +
- linux-user/main.c              |  9 ++++++
- semihosting/console.c          |  2 ++
- semihosting/guestfd.c          | 52 +++++++++++++++++++++++++++-------
- 5 files changed, 61 insertions(+), 10 deletions(-)
+ semihosting/arm-compat-semi.c | 27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
-diff --git a/include/semihosting/guestfd.h b/include/semihosting/guestfd.h
-index a7ea1041ea..3d426fedab 100644
---- a/include/semihosting/guestfd.h
-+++ b/include/semihosting/guestfd.h
-@@ -35,6 +35,13 @@ typedef struct GuestFD {
-     };
- } GuestFD;
- 
-+/*
-+ * For ARM semihosting, we have a separate structure for routing
-+ * data for the console which is outside the guest fd address space.
-+ */
-+extern GuestFD console_in_gf;
-+extern GuestFD console_out_gf;
-+
- /**
-  * alloc_guestfd:
-  *
-diff --git a/include/semihosting/semihost.h b/include/semihosting/semihost.h
-index 5b36a76f08..93a3c21b44 100644
---- a/include/semihosting/semihost.h
-+++ b/include/semihosting/semihost.h
-@@ -64,5 +64,6 @@ int qemu_semihosting_config_options(const char *opt);
- void qemu_semihosting_chardev_init(void);
- void qemu_semihosting_console_init(Chardev *);
- #endif /* CONFIG_USER_ONLY */
-+void qemu_semihosting_guestfd_init(void);
- 
- #endif /* SEMIHOST_H */
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 651e32f5f2..e44bdb17b8 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -54,6 +54,10 @@
- #include "loader.h"
- #include "user-mmap.h"
- 
-+#ifdef CONFIG_SEMIHOSTING
-+#include "semihosting/semihost.h"
-+#endif
-+
- #ifndef AT_FLAGS_PRESERVE_ARGV0
- #define AT_FLAGS_PRESERVE_ARGV0_BIT 0
- #define AT_FLAGS_PRESERVE_ARGV0 (1 << AT_FLAGS_PRESERVE_ARGV0_BIT)
-@@ -906,6 +910,11 @@ int main(int argc, char **argv, char **envp)
-         }
-         gdb_handlesig(cpu, 0);
-     }
-+
-+#ifdef CONFIG_SEMIHOSTING
-+    qemu_semihosting_guestfd_init();
-+#endif
-+
-     cpu_loop(env);
-     /* never exits */
-     return 0;
-diff --git a/semihosting/console.c b/semihosting/console.c
-index 540aa0cd4b..955880514e 100644
---- a/semihosting/console.c
-+++ b/semihosting/console.c
-@@ -190,4 +190,6 @@ void qemu_semihosting_console_init(Chardev *chr)
-                                  NULL, NULL, &console,
-                                  NULL, true);
-     }
-+
-+    qemu_semihosting_guestfd_init();
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index fdb143ace8..9d4d6d2812 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -302,6 +302,22 @@ common_semi_flen_fstat_cb(CPUState *cs, uint64_t ret, int err)
+     common_semi_cb(cs, ret, err);
  }
-diff --git a/semihosting/guestfd.c b/semihosting/guestfd.c
-index e3122ebba9..b05c52f26f 100644
---- a/semihosting/guestfd.c
-+++ b/semihosting/guestfd.c
-@@ -10,15 +10,56 @@
  
- #include "qemu/osdep.h"
- #include "exec/gdbstub.h"
-+#include "semihosting/semihost.h"
- #include "semihosting/guestfd.h"
- #ifdef CONFIG_USER_ONLY
- #include "qemu.h"
- #else
- #include "semihosting/softmmu-uaccess.h"
-+#include CONFIG_DEVICES
- #endif
- 
- static GArray *guestfd_array;
- 
-+#ifdef CONFIG_ARM_COMPATIBLE_SEMIHOSTING
-+GuestFD console_in_gf;
-+GuestFD console_out_gf;
-+#endif
-+
-+void qemu_semihosting_guestfd_init(void)
++static void
++common_semi_readc_cb(CPUState *cs, uint64_t ret, int err)
 +{
-+    /* New entries zero-initialized, i.e. type GuestFDUnused */
-+    guestfd_array = g_array_new(FALSE, TRUE, sizeof(GuestFD));
++    if (!err) {
++        CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
++        uint8_t ch;
 +
-+#ifdef CONFIG_ARM_COMPATIBLE_SEMIHOSTING
-+    /* For ARM-compat, the console is in a separate namespace. */
-+    if (use_gdb_syscalls()) {
-+        console_in_gf.type = GuestFDGDB;
-+        console_in_gf.hostfd = 0;
-+        console_out_gf.type = GuestFDGDB;
-+        console_out_gf.hostfd = 2;
-+    } else {
-+        console_in_gf.type = GuestFDConsole;
-+        console_out_gf.type = GuestFDConsole;
++        if (get_user_u8(ch, common_semi_stack_bottom(cs) - 1)) {
++            ret = -1, err = EFAULT;
++        } else {
++            ret = ch;
++        }
 +    }
-+#else
-+    /* Otherwise, the stdio file descriptors apply. */
-+    guestfd_array = g_array_set_size(guestfd_array, 3);
-+#ifndef CONFIG_USER_ONLY
-+    if (!use_gdb_syscalls()) {
-+        GuestFD *gf = &g_array_index(guestfd_array, GuestFD, 0);
-+        gf[0].type = GuestFDConsole;
-+        gf[1].type = GuestFDConsole;
-+        gf[2].type = GuestFDConsole;
-+        return;
-+    }
-+#endif
-+    associate_guestfd(0, 0);
-+    associate_guestfd(1, 1);
-+    associate_guestfd(2, 2);
-+#endif
++    common_semi_cb(cs, ret, err);
 +}
 +
- /*
-  * Allocate a new guest file descriptor and return it; if we
-  * couldn't allocate a new fd then return -1.
-@@ -30,11 +71,6 @@ int alloc_guestfd(void)
- {
-     guint i;
+ #define SHFB_MAGIC_0 0x53
+ #define SHFB_MAGIC_1 0x48
+ #define SHFB_MAGIC_2 0x46
+@@ -428,15 +444,8 @@ void do_common_semihosting(CPUState *cs)
+         break;
  
--    if (!guestfd_array) {
--        /* New entries zero-initialized, i.e. type GuestFDUnused */
--        guestfd_array = g_array_new(FALSE, TRUE, sizeof(GuestFD));
--    }
--
-     /* SYS_OPEN should return nonzero handle on success. Start guestfd from 1 */
-     for (i = 1; i < guestfd_array->len; i++) {
-         GuestFD *gf = &g_array_index(guestfd_array, GuestFD, i);
-@@ -61,11 +97,7 @@ static void do_dealloc_guestfd(GuestFD *gf)
-  */
- static GuestFD *do_get_guestfd(int guestfd)
- {
--    if (!guestfd_array) {
--        return NULL;
--    }
--
--    if (guestfd <= 0 || guestfd >= guestfd_array->len) {
-+    if (guestfd < 0 || guestfd >= guestfd_array->len) {
-         return NULL;
-     }
+     case TARGET_SYS_READC:
+-        {
+-            uint8_t ch;
+-            int ret = qemu_semihosting_console_read(cs, &ch, 1);
+-            if (ret == 1) {
+-                common_semi_cb(cs, ch, 0);
+-            } else {
+-                common_semi_cb(cs, -1, EIO);
+-            }
+-        }
++        semihost_sys_read_gf(cs, common_semi_readc_cb, &console_in_gf,
++                             common_semi_stack_bottom(cs) - 1, 1);
+         break;
  
+     case TARGET_SYS_ISERROR:
 -- 
 2.34.1
 
