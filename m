@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8B555C077
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:57:38 +0200 (CEST)
-Received: from localhost ([::1]:59364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE5B55C07B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:59:24 +0200 (CEST)
+Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68uX-0003KK-Dj
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34834)
+	id 1o68wF-00087v-OS
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o68rk-0000DD-LP
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:54:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39138)
+ id 1o68rl-0000H2-Ud
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:54:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o68rj-0006TT-6n
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:54:44 -0400
+ id 1o68rk-0006Tc-HD
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:54:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656413682;
+ s=mimecast20190719; t=1656413683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WP0KrJnO47HaUcIR8S1wU3tfrrwzaaOzYfCUepH0nWE=;
- b=bzx1mRuvrgWlkvstNe2iVsEqg2d9bBkXS5B6ZFuDiBxuS8PASNKwHay083tklnqLFJ9YvK
- 48qwmW7u/fdo/bSL8ygo1vBPMwQU/C/jv53nQ1NTiv6Ls25psE7eHwYofNBsngNsg5wyyP
- /NczX69Z/pfMx/ZRnwhaXIdcr7SGjbg=
+ bh=IvQs1BTzvWIjCmhXB6wjFQJ4T4ocSbMzevflX82R/04=;
+ b=LTy5G9EIXIHFaDM/0qpQwLHVWdGmE3aphJSjYZuSXnrot7dyeiG2PimNuioiF/ViGPOUAI
+ lqy9ugJBFPgAiARHlgLPKAA5kZ7Q6e9hGFK1hCvEufZysCZ+6RNtx0blUNu8idq4nuC/sG
+ YPxdqzb5J+XH3PBj6cf9oepafNzCPfg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-131-6vhywzBpPhS3FPBxfLIJkw-1; Tue, 28 Jun 2022 06:54:39 -0400
-X-MC-Unique: 6vhywzBpPhS3FPBxfLIJkw-1
+ us-mta-201-ZK5DJT35OCKiwPO2hIKVwA-1; Tue, 28 Jun 2022 06:54:41 -0400
+X-MC-Unique: ZK5DJT35OCKiwPO2hIKVwA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC1D91C01B38;
- Tue, 28 Jun 2022 10:54:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38A6729ABA09;
+ Tue, 28 Jun 2022 10:54:41 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6339D112131B;
- Tue, 28 Jun 2022 10:54:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DF31112131B;
+ Tue, 28 Jun 2022 10:54:39 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
@@ -50,10 +50,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 1/5] tests: wait max 120 seconds for migration test status
- changes
-Date: Tue, 28 Jun 2022 11:54:30 +0100
-Message-Id: <20220628105434.295905-2-berrange@redhat.com>
+Subject: [PATCH 2/5] tests: wait for migration completion before looking for
+ STOP event
+Date: Tue, 28 Jun 2022 11:54:31 +0100
+Message-Id: <20220628105434.295905-3-berrange@redhat.com>
 In-Reply-To: <20220628105434.295905-1-berrange@redhat.com>
 References: <20220628105434.295905-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -68,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,73 +84,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the wait_for_migration_fail and wait_for_migration_complete
-functions will spin in an infinite loop checking query-migrate status
-to detect a specific change/goal. This is fine when everything goes
-to plan, but when the unusual happens, these will hang the test suite
-forever.
-
-Any normally executing migration test case normally takes < 1 second
-for a state change, with exception of the autoconverge test which
-takes about 5 seconds. Taking into account possibility of people
-running tests inside TCG, allowing a factor of x20 slowdown gives
-a reasonable worst case of 120 seconds. Anything taking longer than
-this is a strong sign that the test has hung, or the test should be
-rewritten to be faster.
+When moving into the convergance phase, the precopy tests will first
+look for a STOP event and once found will look for migration completion
+status. If the test VM is not converging, the test suite will be waiting
+for the STOP event forever. If we wait for the migration completion
+status first, then we will trigger the previously added timeout and
+prevent the test hanging forever.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qtest/migration-helpers.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ tests/qtest/migration-test.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-index a6aa59e4e6..e81e831c85 100644
---- a/tests/qtest/migration-helpers.c
-+++ b/tests/qtest/migration-helpers.c
-@@ -15,6 +15,14 @@
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index d33e8060f9..ac9e303b1f 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1232,6 +1232,10 @@ static void test_precopy_common(MigrateCommon *args)
  
- #include "migration-helpers.h"
+         migrate_set_parameter_int(from, "downtime-limit", CONVERGE_DOWNTIME);
  
-+/*
-+ * Number of seconds we wait when looking for migration
-+ * status changes, to avoid test suite hanging forever
-+ * when things go wrong. Needs to be higher enough to
-+ * avoid false positives on loaded hosts.
-+ */
-+#define MIGRATION_STATUS_WAIT_TIMEOUT 120
++        /* We do this first, as it has a timeout to stop us
++         * hanging forever if migration didn't converge */
++        wait_for_migration_complete(from);
 +
- bool got_stop;
+         if (!got_stop) {
+             qtest_qmp_eventwait(from, "STOP");
+         }
+@@ -1239,7 +1243,6 @@ static void test_precopy_common(MigrateCommon *args)
+         qtest_qmp_eventwait(to, "RESUME");
  
- static void check_stop_event(QTestState *who)
-@@ -166,8 +174,11 @@ static bool check_migration_status(QTestState *who, const char *goal,
- void wait_for_migration_status(QTestState *who,
-                                const char *goal, const char **ungoals)
- {
-+    g_test_timer_start();
-     while (!check_migration_status(who, goal, ungoals)) {
-         usleep(1000);
-+
-+        g_assert(g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT);
+         wait_for_serial("dest_serial");
+-        wait_for_migration_complete(from);
      }
- }
  
-@@ -178,6 +189,7 @@ void wait_for_migration_complete(QTestState *who)
- 
- void wait_for_migration_fail(QTestState *from, bool allow_active)
- {
-+    g_test_timer_start();
-     QDict *rsp_return;
-     char *status;
-     bool failed;
-@@ -193,6 +205,8 @@ void wait_for_migration_fail(QTestState *from, bool allow_active)
-         g_assert(result);
-         failed = !strcmp(status, "failed");
-         g_free(status);
-+
-+        g_assert(g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT);
-     } while (!failed);
- 
-     /* Is the machine currently running? */
+     if (args->finish_hook) {
 -- 
 2.36.1
 
