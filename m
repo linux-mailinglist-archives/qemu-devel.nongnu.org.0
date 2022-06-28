@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E015455C025
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:23:15 +0200 (CEST)
-Received: from localhost ([::1]:55440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0159255C02B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:27:02 +0200 (CEST)
+Received: from localhost ([::1]:36118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68NH-0001WZ-0A
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:23:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51198)
+	id 1o68Qv-0007Qi-1b
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:27:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1o68IO-00020M-5k
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:18:14 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:40915)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1o68IL-00082H-W7
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:18:11 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id b2so3652840plx.7
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jXsfoRJoFy8eowC34vbywLaVEMgoFF/TBBpgUmrTXTM=;
- b=dy3A5Xd6MgLARtuAl8I86OUHFrO+roSYAX6p7dbWx+d9febmv/2H0a/DZrpNdW7rJE
- dz06DvQDC4616fc/rGLqikV50j9/LFODCaxb2HYOeCJzj25XlJY9B1rlgs8YBV+zq1xQ
- 9tyLZYOeEajOgHo8C47fDEQf60i6mvoPrPNo/yx7PefCMJzVgJnyLZkPHBk5XeK6LnGr
- LZRSHxUhparqqQvqxegpFlh26HLWbyBVIDAaRil7Q3eOcaFTy/jPzxcCTr32LrxF0Kzy
- Y9L/AQekZ+7EMykAYZ3XPWnQjx4k7jW7hvVlyI7lpEOjDls5WjecPp9tMeaG+f4ONbsZ
- SsaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jXsfoRJoFy8eowC34vbywLaVEMgoFF/TBBpgUmrTXTM=;
- b=AhFL6qr//dUIikyfgEWeKjuaU6soesEwfHJWy+z07Q1q5wtBgIrTAKTQGC8Y7AK6dr
- xz3qmEw9snqok7s71cnuRrkr2LwzpZk3hmC6H1jEXK64jK1nSp13icykYgxMZY3XwDQ2
- du8acrtxsO+5+w+FVkawuQjbouDWZTugSWFwfY4L0JKLX19bAq02uznpBAuv2KG82iRI
- 0oOjIx7OrZ6ZlXD5qZ1IK9rwI9L/AvT/39cA5vNwvyDYJm+bETpJh1dFTXH7I792xteJ
- A8RZzQe0zb7n7PJvm7cYK4V5GWf1oWWWJMgDniYxTDLJLIyrAonn3sium3KjMhYURhBt
- qQ3g==
-X-Gm-Message-State: AJIora+T11kflg/GbeLV9etKXzaAXBXhTu93nUFdAGVCox/a2HlnyfKc
- 0zQ+iZ+yBzZPZoocMCQXs4CMew==
-X-Google-Smtp-Source: AGRyM1vY4jPRiB/LSDdvo42lZ1ixzpNngk5KPiiYgVS86zI5w9QbKEgZM+9oYHPVam2d7VEM4MokCQ==
-X-Received: by 2002:a17:902:c94f:b0:16a:7337:6c82 with SMTP id
- i15-20020a170902c94f00b0016a73376c82mr2957450pla.55.1656411488352; 
- Tue, 28 Jun 2022 03:18:08 -0700 (PDT)
-Received: from anup-ubuntu64-vm.. ([117.96.230.192])
- by smtp.gmail.com with ESMTPSA id
- bj28-20020a056a00319c00b0051bc36b7995sm8909621pfb.62.2022.06.28.03.18.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 03:18:07 -0700 (PDT)
-From: Anup Patel <apatel@ventanamicro.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Anup Patel <apatel@ventanamicro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Rahul Pathak <rpathak@ventanamicro.com>
-Subject: [PATCH v8 4/4] target/riscv: Force disable extensions if priv spec
- version does not match
-Date: Tue, 28 Jun 2022 15:47:37 +0530
-Message-Id: <20220628101737.786681-5-apatel@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220628101737.786681-1-apatel@ventanamicro.com>
-References: <20220628101737.786681-1-apatel@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o68Ia-0002CM-DS
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:18:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24087)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o68IY-00083g-IU
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:18:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656411502;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rtHwnxOU8AmO3twewB07+fmbEiHV0yviD3yCEj+OaVI=;
+ b=MiHnetn8IkOpINbZmTnMqxfW51QyJNfe0RTM9vAcv6pGENOzhan/XZowTJeByRnu+EBK6i
+ d8DykeEss/m9CRmx5Bpc9wNIDbNrVUiod6EpgGVwKwfoxnwO7Qglg4G24p1UFnZdPAGd8b
+ mPaSpapgsK2LjJqui2Nh0jN8eTnVFLk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-175-zRHJjfNZO42WeY2VcwINjg-1; Tue, 28 Jun 2022 06:18:18 -0400
+X-MC-Unique: zRHJjfNZO42WeY2VcwINjg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 952382999B4F;
+ Tue, 28 Jun 2022 10:18:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F5F79D54;
+ Tue, 28 Jun 2022 10:18:16 +0000 (UTC)
+Date: Tue, 28 Jun 2022 11:18:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
+Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
+ acpi/tests/bits: add README file for bits qtests)
+Message-ID: <YrrVZkjZMEivmrKP@redhat.com>
+References: <4e1c2a45-eb53-e210-1ce1-05837bf1e7c3@redhat.com>
+ <20220628030749-mutt-send-email-mst@kernel.org>
+ <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
+ <YrqyWhu8ThAcUGI4@redhat.com>
+ <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
+ <Yrq6anPW60FkjmK6@redhat.com>
+ <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
+ <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
+ <YrrSFig7Qo/PKqNx@redhat.com>
+ <20220628060510-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=apatel@ventanamicro.com; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220628060510-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,214 +92,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should disable extensions in riscv_cpu_realize() if minimum required
-priv spec version is not satisfied. This also ensures that machines with
-priv spec v1.11 (or lower) cannot enable H, V, and various multi-letter
-extensions.
+On Tue, Jun 28, 2022 at 06:07:13AM -0400, Michael S. Tsirkin wrote:
+> On Tue, Jun 28, 2022 at 11:04:30AM +0100, Daniel P. Berrangé wrote:
+> > If it is actually booting a real guest image (from biosbits) and interacting
+> > with it, then it does feel like the scope of this testing is more appropriate
+> > to QEMU's avocado framework than qtest, especially given the desire to use
+> > python for it all.
+> > 
+> > With regards,
+> > Daniel
+> 
+> I feel avocado is directed towards booting full fledged guest OS.
 
-Fixes: a775398be2e9 ("target/riscv: Add isa extenstion strings to the device tree")
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
----
- target/riscv/cpu.c | 150 ++++++++++++++++++++++++++++-----------------
- 1 file changed, 94 insertions(+), 56 deletions(-)
+That's essentially what this is doing - its a custom guest OS rather
+than a common distro IIUC
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 4e7ca6cd4a..9bc4ef0685 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -43,9 +43,82 @@ static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
- 
- struct isa_ext_data {
-     const char *name;
--    bool enabled;
-+    bool multi_letter;
-+    int min_version;
-+    int ext_enable_offset;
- };
- 
-+#define ISA_EXT_DATA_ENTRY(_name, _m_letter, _min_ver, _prop) \
-+{#_name, _m_letter, _min_ver, offsetof(struct RISCVCPUConfig, _prop)}
-+
-+/**
-+ * Here are the ordering rules of extension naming defined by RISC-V
-+ * specification :
-+ * 1. All extensions should be separated from other multi-letter extensions
-+ *    by an underscore.
-+ * 2. The first letter following the 'Z' conventionally indicates the most
-+ *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
-+ *    If multiple 'Z' extensions are named, they should be ordered first
-+ *    by category, then alphabetically within a category.
-+ * 3. Standard supervisor-level extensions (starts with 'S') should be
-+ *    listed after standard unprivileged extensions.  If multiple
-+ *    supervisor-level extensions are listed, they should be ordered
-+ *    alphabetically.
-+ * 4. Non-standard extensions (starts with 'X') must be listed after all
-+ *    standard extensions. They must be separated from other multi-letter
-+ *    extensions by an underscore.
-+ */
-+static const struct isa_ext_data isa_edata_arr[] = {
-+    ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
-+    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
-+    ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
-+    ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
-+    ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_12_0, ext_zfh),
-+    ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
-+    ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
-+    ISA_EXT_DATA_ENTRY(zdinx, true, PRIV_VERSION_1_12_0, ext_zdinx),
-+    ISA_EXT_DATA_ENTRY(zba, true, PRIV_VERSION_1_12_0, ext_zba),
-+    ISA_EXT_DATA_ENTRY(zbb, true, PRIV_VERSION_1_12_0, ext_zbb),
-+    ISA_EXT_DATA_ENTRY(zbc, true, PRIV_VERSION_1_12_0, ext_zbc),
-+    ISA_EXT_DATA_ENTRY(zbkb, true, PRIV_VERSION_1_12_0, ext_zbkb),
-+    ISA_EXT_DATA_ENTRY(zbkc, true, PRIV_VERSION_1_12_0, ext_zbkc),
-+    ISA_EXT_DATA_ENTRY(zbkx, true, PRIV_VERSION_1_12_0, ext_zbkx),
-+    ISA_EXT_DATA_ENTRY(zbs, true, PRIV_VERSION_1_12_0, ext_zbs),
-+    ISA_EXT_DATA_ENTRY(zk, true, PRIV_VERSION_1_12_0, ext_zk),
-+    ISA_EXT_DATA_ENTRY(zkn, true, PRIV_VERSION_1_12_0, ext_zkn),
-+    ISA_EXT_DATA_ENTRY(zknd, true, PRIV_VERSION_1_12_0, ext_zknd),
-+    ISA_EXT_DATA_ENTRY(zkne, true, PRIV_VERSION_1_12_0, ext_zkne),
-+    ISA_EXT_DATA_ENTRY(zknh, true, PRIV_VERSION_1_12_0, ext_zknh),
-+    ISA_EXT_DATA_ENTRY(zkr, true, PRIV_VERSION_1_12_0, ext_zkr),
-+    ISA_EXT_DATA_ENTRY(zks, true, PRIV_VERSION_1_12_0, ext_zks),
-+    ISA_EXT_DATA_ENTRY(zksed, true, PRIV_VERSION_1_12_0, ext_zksed),
-+    ISA_EXT_DATA_ENTRY(zksh, true, PRIV_VERSION_1_12_0, ext_zksh),
-+    ISA_EXT_DATA_ENTRY(zkt, true, PRIV_VERSION_1_12_0, ext_zkt),
-+    ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_12_0, ext_zve32f),
-+    ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
-+    ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-+    ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
-+    ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
-+    ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
-+    ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
-+};
-+
-+static bool isa_ext_is_enabled(RISCVCPU *cpu,
-+                               const struct isa_ext_data *edata)
-+{
-+    bool *ext_enabled = (void *)&cpu->cfg + edata->ext_enable_offset;
-+
-+    return *ext_enabled;
-+}
-+
-+static void isa_ext_update_enabled(RISCVCPU *cpu,
-+                                   const struct isa_ext_data *edata, bool en)
-+{
-+    bool *ext_enabled = (void *)&cpu->cfg + edata->ext_enable_offset;
-+
-+    *ext_enabled = en;
-+}
-+
- const char * const riscv_int_regnames[] = {
-   "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
-   "x7/t2",   "x8/s0",  "x9/s1",  "x10/a0", "x11/a1", "x12/a2",  "x13/a3",
-@@ -530,7 +603,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     CPURISCVState *env = &cpu->env;
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-     CPUClass *cc = CPU_CLASS(mcc);
--    int priv_version = -1;
-+    int i, priv_version = -1;
-     Error *local_err = NULL;
- 
-     cpu_exec_realizefn(cs, &local_err);
-@@ -558,6 +631,23 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         set_priv_version(env, priv_version);
-     }
- 
-+    /* Force disable extensions if priv spec version does not match */
-+    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-+        if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
-+            (env->priv_ver < isa_edata_arr[i].min_version)) {
-+            isa_ext_update_enabled(cpu, &isa_edata_arr[i], false);
-+#ifndef CONFIG_USER_ONLY
-+            warn_report("disabling %s extension for hart 0x%lx because "
-+                        "privilege spec version does not match",
-+                        isa_edata_arr[i].name, (unsigned long)env->mhartid);
-+#else
-+            warn_report("disabling %s extension because "
-+                        "privilege spec version does not match",
-+                        isa_edata_arr[i].name);
-+#endif
-+        }
-+    }
-+
-     if (cpu->cfg.mmu) {
-         riscv_set_feature(env, RISCV_FEATURE_MMU);
-     }
-@@ -1049,67 +1139,15 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_props(dc, riscv_cpu_properties);
- }
- 
--#define ISA_EDATA_ENTRY(name, prop) {#name, cpu->cfg.prop}
--
- static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
- {
-     char *old = *isa_str;
-     char *new = *isa_str;
-     int i;
- 
--    /**
--     * Here are the ordering rules of extension naming defined by RISC-V
--     * specification :
--     * 1. All extensions should be separated from other multi-letter extensions
--     *    by an underscore.
--     * 2. The first letter following the 'Z' conventionally indicates the most
--     *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
--     *    If multiple 'Z' extensions are named, they should be ordered first
--     *    by category, then alphabetically within a category.
--     * 3. Standard supervisor-level extensions (starts with 'S') should be
--     *    listed after standard unprivileged extensions.  If multiple
--     *    supervisor-level extensions are listed, they should be ordered
--     *    alphabetically.
--     * 4. Non-standard extensions (starts with 'X') must be listed after all
--     *    standard extensions. They must be separated from other multi-letter
--     *    extensions by an underscore.
--     */
--    struct isa_ext_data isa_edata_arr[] = {
--        ISA_EDATA_ENTRY(zicsr, ext_icsr),
--        ISA_EDATA_ENTRY(zifencei, ext_ifencei),
--        ISA_EDATA_ENTRY(zmmul, ext_zmmul),
--        ISA_EDATA_ENTRY(zfh, ext_zfh),
--        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
--        ISA_EDATA_ENTRY(zfinx, ext_zfinx),
--        ISA_EDATA_ENTRY(zdinx, ext_zdinx),
--        ISA_EDATA_ENTRY(zba, ext_zba),
--        ISA_EDATA_ENTRY(zbb, ext_zbb),
--        ISA_EDATA_ENTRY(zbc, ext_zbc),
--        ISA_EDATA_ENTRY(zbkb, ext_zbkb),
--        ISA_EDATA_ENTRY(zbkc, ext_zbkc),
--        ISA_EDATA_ENTRY(zbkx, ext_zbkx),
--        ISA_EDATA_ENTRY(zbs, ext_zbs),
--        ISA_EDATA_ENTRY(zk, ext_zk),
--        ISA_EDATA_ENTRY(zkn, ext_zkn),
--        ISA_EDATA_ENTRY(zknd, ext_zknd),
--        ISA_EDATA_ENTRY(zkne, ext_zkne),
--        ISA_EDATA_ENTRY(zknh, ext_zknh),
--        ISA_EDATA_ENTRY(zkr, ext_zkr),
--        ISA_EDATA_ENTRY(zks, ext_zks),
--        ISA_EDATA_ENTRY(zksed, ext_zksed),
--        ISA_EDATA_ENTRY(zksh, ext_zksh),
--        ISA_EDATA_ENTRY(zkt, ext_zkt),
--        ISA_EDATA_ENTRY(zve32f, ext_zve32f),
--        ISA_EDATA_ENTRY(zve64f, ext_zve64f),
--        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
--        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
--        ISA_EDATA_ENTRY(svinval, ext_svinval),
--        ISA_EDATA_ENTRY(svnapot, ext_svnapot),
--        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
--    };
--
-     for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
--        if (isa_edata_arr[i].enabled) {
-+        if (isa_edata_arr[i].multi_letter &&
-+            isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
-             new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
-             g_free(old);
-             old = new;
+> It makes it much easier to figure out guest issues but it also
+> prone to false positives and is harder to debug as a result.
+> Booting a minimal image like this shouldn't require that.
+
+Well avocado is as reliable as the tests you write for it. The problems
+are largely around the images being used in avocado. If the biosbits
+testing system is reliable, then avocado will be too, and if they not
+reliable, then it will affect qtest too.
+
+With regards,
+Daniel
 -- 
-2.34.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
