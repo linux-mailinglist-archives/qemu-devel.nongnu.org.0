@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6D655BE75
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:32:08 +0200 (CEST)
-Received: from localhost ([::1]:39858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAD855BEDF
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 08:49:40 +0200 (CEST)
+Received: from localhost ([::1]:50718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o63pX-0002SW-Kd
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:32:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41528)
+	id 1o652Z-00066b-Km
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 02:49:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633o-0007t9-GH
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35042)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633s-00080d-B3
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633m-0006sA-UV
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633q-0006sX-Qw
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656391366;
+ s=mimecast20190719; t=1656391370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NHP12tfV7UxG8H2z/KoGcDapZ2Sz7muWVetmqH96y00=;
- b=G866nxnFdqWuOponSwZnFU7RFB2tWYSLYcKtY48jaCHVm4gEKowhI2SYSYQuGh0+kZTn9N
- mIuQFS3tyK0/6TyvVr9a74fP2NEnzwlnZHpSuFnY1Aw/52WSi52DBfFsWjT6NWzqNqEemH
- gIrrxudRZwQqlGBXKbvnDFwI8SIU8TU=
+ bh=WNc6s5hGnqp3J7IBUoI5eL8DC+L+SCRZwVqehYETRFc=;
+ b=M8/DHHRAfbK+0rLrwM9SsushR7ZticP3oeKeK4BPJS+8sORzFvtR3skfjba6T2WDVKPdjj
+ y3AvFChubgGsvMf6d1KOkBSYgqmTzvMkbWfCXXv3957Ifo0cbqWZaiUCEZ2uk0gsrPfnBn
+ nYJHNFP8eRE95YwcCxwjMObbFbEX1sk=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-504-BIxnsr47OQm2Q59WjAkLRQ-1; Tue, 28 Jun 2022 00:42:44 -0400
-X-MC-Unique: BIxnsr47OQm2Q59WjAkLRQ-1
+ us-mta-324-8kBQuNccPKGH2FwlH34eiA-1; Tue, 28 Jun 2022 00:42:48 -0400
+X-MC-Unique: 8kBQuNccPKGH2FwlH34eiA-1
 Received: by mail-wm1-f70.google.com with SMTP id
- n15-20020a05600c4f8f00b0039c3e76d646so6628494wmq.7
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:42:44 -0700 (PDT)
+ h125-20020a1c2183000000b003a0374f1eb8so7225708wmh.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:42:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=NHP12tfV7UxG8H2z/KoGcDapZ2Sz7muWVetmqH96y00=;
- b=DPm173njT1Z3WnAtm6rL5+I5+6JBd9FW9qxsO+G9LJgeCxrKEe0df8O8aBQBdiRbsv
- qKrkixYM+JCYDkdvhdfRzXUwEeSBGHOaxsxURKDLP66uft0GoAKXZumaEeh5Z82CRZMK
- 63WvmxG9JW2YGhlM8byxWjNI8j6DWVSzUo8cMJWHmP1TeK2a6m7aeUzrb/kRhguOI4GP
- /U+xjoJ5er32tSBNXhz85fkx+CwL36KflIpi/in21wryUtDfxUjudLWKRSzNdYKwn4zN
- 4jVgJBrspbXCFZPdQUUQ6CE6YP3lyc/nHglh6erYPkIzOOhzQubJk8EBZf8hhWGh4Tvc
- 9Dvw==
-X-Gm-Message-State: AJIora+XvO6TE0ZPM5qOS6ZVEDTjD9mIv1KxU6IY9z4smHvjonbSk9ky
- leFmwLi07DjPB0nuaOrOaZt1+5iTiFJA98hmzvyTKFsHIMjTs+itIu9nqUiMKyRE4paj8qMgMj1
- aF/r1WGOVdKoP7wTfylXHYiTHHVq7qO8pFkI9xCjejnPOmyjATTSXa5BWY2Lw
-X-Received: by 2002:adf:d1c6:0:b0:21b:ca9b:23d8 with SMTP id
- b6-20020adfd1c6000000b0021bca9b23d8mr9960039wrd.692.1656391362982; 
- Mon, 27 Jun 2022 21:42:42 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ti+RNDpi4zcodfTL7s1KpGnwthzjqu2WCejBT7k2C6fk5vUBplAXQgyFHARhJyMPFE6GHSpA==
-X-Received: by 2002:adf:d1c6:0:b0:21b:ca9b:23d8 with SMTP id
- b6-20020adfd1c6000000b0021bca9b23d8mr9960028wrd.692.1656391362773; 
- Mon, 27 Jun 2022 21:42:42 -0700 (PDT)
+ bh=WNc6s5hGnqp3J7IBUoI5eL8DC+L+SCRZwVqehYETRFc=;
+ b=vLD1aS1k0mD7Mo7AwwML1lv/Bg/28iTVa3qDk4FA0qUrI1AAudP2fJoZ5d+4kTtR00
+ 4btCCkSVbG1HBAclf1la6ZJc3OYSsuufmBf9iAxfy/RpbVlWjlVjcOSj0UXyIXh57Lvc
+ SXiNs1xEjZvx34JmcLnsNzsdizXDXoUdTOI/UmWgmmuJ0o7oiqFt6bhySwVJWCUhsQdc
+ BKSMJLrEKKg4+n2sE406fbToo1BtouTe9K9g/zlIhxEHoOOioZWsGhl3g4YmlFvdunMV
+ DdE0iY/M5EbGCJJpY1Q60HcY7pjFRc5P1YKuJAhXQFsW81zu9vNgLiq8uqIJ+yW8FEDp
+ +CRA==
+X-Gm-Message-State: AJIora8roK5ILiOJzmiWOcUzVzGLREFARodyr3pZXXK2w3Y5aaVnoRdp
+ 3DmGmX1J1+Bh7tolzIvT8DnIOGZ6ypPL85t4hdtNrYnGbMNtb6iBA5CwvqXbnvw7yTLC3I4qh7h
+ uqPlgbUM5nOS9RN4zSm4C4YtCLrGL4HXFv6h2Cw38f89c5n7OHKxvx96jHHwC
+X-Received: by 2002:a5d:6a0b:0:b0:21a:3a8e:d5ae with SMTP id
+ m11-20020a5d6a0b000000b0021a3a8ed5aemr16237534wru.79.1656391366547; 
+ Mon, 27 Jun 2022 21:42:46 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sWo0GgTpTDfLhzbw6FzQCibqIBPjJbo6VPPnU515fBC+E4KUrTQDARiVO3SSnketoE51o8Nw==
+X-Received: by 2002:a5d:6a0b:0:b0:21a:3a8e:d5ae with SMTP id
+ m11-20020a5d6a0b000000b0021a3a8ed5aemr16237517wru.79.1656391366230; 
+ Mon, 27 Jun 2022 21:42:46 -0700 (PDT)
 Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- v24-20020a5d5918000000b0021b9870049dsm12126567wrd.82.2022.06.27.21.42.41
+ l15-20020a05600c1d0f00b003a04962ad3esm8828303wms.31.2022.06.27.21.42.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:42:42 -0700 (PDT)
-Date: Tue, 28 Jun 2022 00:42:40 -0400
+ Mon, 27 Jun 2022 21:42:45 -0700 (PDT)
+Date: Tue, 28 Jun 2022 00:42:43 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Zhenzhong Duan <zhenzhong.duan@intel.com>,
- Eric Auger <eric.auger@redhat.com>
-Subject: [PULL 05/12] virtio-iommu: Fix migration regression
-Message-ID: <20220628044201.217173-6-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>
+Subject: [PULL 06/12] docs/vhost-user: Fix mismerge
+Message-ID: <20220628044201.217173-7-mst@redhat.com>
 References: <20220628044201.217173-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -98,42 +96,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+From: Kevin Wolf <kwolf@redhat.com>
 
-We also need to switch to the right address space on dest side
-after loading the device status. DMA to wrong address space is
-destructive.
+This reverts commit 76b1b64370007234279ea4cc8b09c98cbd2523de.
 
-Fixes: 3facd774962fd ("virtio-iommu: Add bypass mode support to assigned device")
-Suggested-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Message-Id: <20220624093740.3525267-1-zhenzhong.duan@intel.com>
+The commit only duplicated some text that had already been merged in
+commit 31009d13cc5.
+
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20220627134500.94842-2-kwolf@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/virtio/virtio-iommu.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ docs/interop/vhost-user.rst | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 08b227e828..281152d338 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -1322,6 +1322,14 @@ static int iommu_post_load(void *opaque, int version_id)
-     VirtIOIOMMU *s = opaque;
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index d7cf904f7f..3f18ab424e 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -1376,14 +1376,6 @@ Front-end message types
+   For further details on postcopy, see ``VHOST_USER_SET_MEM_TABLE``.
+   They apply to ``VHOST_USER_ADD_MEM_REG`` accordingly.
  
-     g_tree_foreach(s->domains, reconstruct_endpoints, s);
-+
-+    /*
-+     * Memory regions are dynamically turned on/off depending on
-+     * 'config.bypass' and attached domain type if there is. After
-+     * migration, we need to make sure the memory regions are
-+     * still correct.
-+     */
-+    virtio_iommu_switch_address_space_all(s);
-     return 0;
- }
+-  Exactly one file descriptor from which the memory is mapped is
+-  passed in the ancillary data.
+-
+-  In postcopy mode (see ``VHOST_USER_POSTCOPY_LISTEN``), the back-end
+-  replies with the bases of the memory mapped region to the front-end.
+-  For further details on postcopy, see ``VHOST_USER_SET_MEM_TABLE``.
+-  They apply to ``VHOST_USER_ADD_MEM_REG`` accordingly.
+-
+ ``VHOST_USER_REM_MEM_REG``
+   :id: 38
+   :equivalent ioctl: N/A
+@@ -1408,14 +1400,6 @@ Front-end message types
+   accept messages with one file descriptor. If a file descriptor is
+   passed, the back-end MUST close it without using it otherwise.
  
+-  The memory region to be removed is identified by its guest address,
+-  user address and size. The mmap offset is ignored.
+-
+-  No file descriptors SHOULD be passed in the ancillary data. For
+-  compatibility with existing incorrect implementations, the back-end MAY
+-  accept messages with one file descriptor. If a file descriptor is
+-  passed, the back-end MUST close it without using it otherwise.
+-
+ ``VHOST_USER_SET_STATUS``
+   :id: 39
+   :equivalent ioctl: VHOST_VDPA_SET_STATUS
 -- 
 MST
 
