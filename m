@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E7A55DABE
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 15:23:44 +0200 (CEST)
-Received: from localhost ([::1]:57400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7056155E1C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 15:34:27 +0200 (CEST)
+Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6BBu-0008SS-8l
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 09:23:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47224)
+	id 1o6BMH-0005Py-W0
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 09:34:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o6B8H-0002Qz-UE
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:19:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29066)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1o6BA0-0007Nt-7F
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:21:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o6B8E-0001L2-Le
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:19:56 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1o6B9y-0001nm-Ms
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:21:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656422394;
+ s=mimecast20190719; t=1656422502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xoXm0yruUF3abWYy5pjKC/++omBmufTIhjfj255/hTg=;
- b=WI2BSXghXSlQBzHroWw55MiXw1F5Eyn7xQnLe2C2TDK6gvFz+XZRbB8M3tt7vr8uTPC+Yf
- aZJWlkM1T+ZtnEr25LudvmIoL1ysFEvAbaJ8cT00XZnrl2BQDxTnB9DziIX4K5NsZmRxiv
- CM58JdnfJ1M7MXms62LBEJPURFX3JT8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zC9+0sb/q98yo5YEHfDzQcbT2JgCVY6SF0jdjucpuEA=;
+ b=YeV4SIYEZjvIwGpxp38xJzsJQ/EqMjM0OCRizn5uNgnm0JRJKC+kEwvDB0rL/rmm7qUEb2
+ ikLV+66duEvw2j7sUW81VE5gILG84nYQWz62fX7Ic+VQxQoy+OPrtmC4Sb0uS4HlHvpy/F
+ ISnOaBlDuzo5DIOaW/xQ/Tnh97CUmeg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-E6hILOpWN_GROKVYKgiaMA-1; Tue, 28 Jun 2022 09:19:52 -0400
-X-MC-Unique: E6hILOpWN_GROKVYKgiaMA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c185-20020a1c35c2000000b0039db3e56c39so8870491wma.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 06:19:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=xoXm0yruUF3abWYy5pjKC/++omBmufTIhjfj255/hTg=;
- b=GjV/sEJSpdLAdh/aFi9mYVq6XQe9tWhedm8BTi0irRnh8tywgA3hVxyuCF28E1mdxe
- QQjJVm7h+mbagBU/AoCHq3Up3aWpm+X82dxClv32XavriENkvwgqW+lnLwDvvDnV/Y6O
- zZSg/BTITqmFgnFyDX5K3gERMvvICPmY3k9yb32Vj2rHzbaFGrwf97l8+2FEq/IBypnE
- l6JipUkQV1NLg3/bg5S8wHLbES/1jaoScdFzmXbvF3fc12FFkfPnNMTxQsCrBcw2w7kc
- OvMxYqWhVA9erPMXSXkb6PQPxfST52qieM59Ld7V4L4P4N+dXLx+R+7E12UqL3RHqxeQ
- E34g==
-X-Gm-Message-State: AJIora9iSlWKf34Rqx4+X27sPPz1Sh7SOpNUf7W041pys+07NsLdXHry
- sHATtmurViPfAcBke2g+7XPBBUt+fImrC4Mlfh4DEo1qN1lfESTpMg5iuYhMB9mpEdWKE9ufiVG
- bStiUr/67Z7nHpZc=
-X-Received: by 2002:a05:600c:1d25:b0:3a0:4cc8:f644 with SMTP id
- l37-20020a05600c1d2500b003a04cc8f644mr9355309wms.121.1656422391119; 
- Tue, 28 Jun 2022 06:19:51 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v4HJA8G42WEq39b+0qH7hWxOenpIZLloZJk1DGhFj2WJfgs1aQQqSe123+fWJ18u/THm0afw==
-X-Received: by 2002:a05:600c:1d25:b0:3a0:4cc8:f644 with SMTP id
- l37-20020a05600c1d2500b003a04cc8f644mr9355272wms.121.1656422390788; 
- Tue, 28 Jun 2022 06:19:50 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- t18-20020a1c7712000000b0039749b01ea7sm20628653wmi.32.2022.06.28.06.19.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jun 2022 06:19:50 -0700 (PDT)
-Message-ID: <0042456a-693c-ad14-794c-acda81870616@redhat.com>
-Date: Tue, 28 Jun 2022 15:19:49 +0200
+ us-mta-111-nK9W6GJ6NIaAdXX1IDcSmQ-1; Tue, 28 Jun 2022 09:21:38 -0400
+X-MC-Unique: nK9W6GJ6NIaAdXX1IDcSmQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58C22801E6B;
+ Tue, 28 Jun 2022 13:21:38 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14438492CA3;
+ Tue, 28 Jun 2022 13:21:37 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH 02/12] pc-bios/s390-ccw/virtio: Introduce a macro for
+ the DASD block size
+In-Reply-To: <20220628131032.213986-3-thuth@redhat.com>
+Organization: Red Hat GmbH
+References: <20220628131032.213986-1-thuth@redhat.com>
+ <20220628131032.213986-3-thuth@redhat.com>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date: Tue, 28 Jun 2022 15:21:36 +0200
+Message-ID: <87wnd0c49r.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 0/5] tests: improve reliability of migration test
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Juan Quintela <quintela@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-s390x@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220628105434.295905-1-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220628105434.295905-1-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,41 +80,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/06/2022 12.54, Daniel P. Berrangé wrote:
-> Since the TLS tests were added a few people have reported seeing
-> hangs in some of the TLS test cases for migration. Debugging
-> has revealed that in all cases the test was waiting for a STOP
-> event that never arrived.
-> 
-> The problem is that TLS performance is highly dependant on the
-> crypto impl. Some people have been running tests on machines
-> which are highly efficient at running the guest dirtying workload
-> but relatively slow at TLS. This has prevented convergance from
-> being reliably achieved in the configured max downtime.
-> 
-> Since this test design has been long standing I suspect the
-> lack of convergance is a likely cause of previous hangs we've
-> seen in various scenarios that resulted in us disabling the test
-> on s390 TCG, ppc TCG and ppc KVM-PR.
-> 
-> Thus I have suggested we drop this skip conditions, though I would
-> note that I've not had the ability to actually test the effect that
-> this has.
-> 
-> Daniel P. Berrangé (5):
->    tests: wait max 120 seconds for migration test status changes
->    tests: wait for migration completion before looking for STOP event
->    tests: increase migration test converge downtime to 30 seconds
->    tests: use consistent bandwidth/downtime limits in migration tests
->    tests: stop skipping migration test on s390x/ppc64
-> 
->   tests/qtest/migration-helpers.c | 14 ++++++
->   tests/qtest/migration-test.c    | 80 ++++++++++-----------------------
->   2 files changed, 38 insertions(+), 56 deletions(-)
+On Tue, Jun 28 2022, Thomas Huth <thuth@redhat.com> wrote:
 
-FYI, this is fixing the issue with the hang that I saw with the 
-precopy/unix/tls/x509/override-host test on my RHEL8 s390x host.
+> Use VIRTIO_DASD_BLOCK_SIZE instead of the magic value 4096.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  pc-bios/s390-ccw/virtio.h        | 1 +
+>  pc-bios/s390-ccw/virtio-blkdev.c | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/pc-bios/s390-ccw/virtio.h b/pc-bios/s390-ccw/virtio.h
+> index 19fceb6495..c2c17c29ca 100644
+> --- a/pc-bios/s390-ccw/virtio.h
+> +++ b/pc-bios/s390-ccw/virtio.h
+> @@ -198,6 +198,7 @@ extern int virtio_read_many(ulong sector, void *load_addr, int sec_num);
+>  #define VIRTIO_SECTOR_SIZE 512
+>  #define VIRTIO_ISO_BLOCK_SIZE 2048
+>  #define VIRTIO_SCSI_BLOCK_SIZE 512
+> +#define VIRTIO_DASD_BLOCK_SIZE 4096
+>  
+>  static inline ulong virtio_sector_adjust(ulong sector)
+>  {
+> diff --git a/pc-bios/s390-ccw/virtio-blkdev.c b/pc-bios/s390-ccw/virtio-blkdev.c
+> index 7d35050292..49ed2b4bee 100644
+> --- a/pc-bios/s390-ccw/virtio-blkdev.c
+> +++ b/pc-bios/s390-ccw/virtio-blkdev.c
+> @@ -155,7 +155,7 @@ void virtio_assume_eckd(void)
+>      vdev->config.blk.physical_block_exp = 0;
+>      switch (vdev->senseid.cu_model) {
+>      case VIRTIO_ID_BLOCK:
+> -        vdev->config.blk.blk_size = 4096;
+> +        vdev->config.blk.blk_size = VIRTIO_DASD_BLOCK_SIZE;
+>          break;
+>      case VIRTIO_ID_SCSI:
+>          vdev->config.blk.blk_size = vdev->scsi_block_size;
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+Unrelated to this change, but can't dasd be formatted with other block
+sizes as well?
 
 
