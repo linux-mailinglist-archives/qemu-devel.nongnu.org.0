@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD3955BE72
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:27:21 +0200 (CEST)
-Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D36F55BE6D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 07:21:20 +0200 (CEST)
+Received: from localhost ([::1]:49674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o63kt-0004lc-Rq
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:27:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41478)
+	id 1o63f5-0006Ep-4A
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 01:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633k-0007fh-RJ
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42886)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633o-0007my-9h
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633b-0006nV-Oy
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:43 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o633b-0006nQ-KQ
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:42:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1656391353;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LPl7lI2j0cg+C6vTvDkYsE8soFRBDS+9GDlQP4/scWM=;
- b=TrwfKQTjHkafs8+YMKnqS+Jod6m/cjt6/HrhJFPCgioXKVqA7nhEv3XalI2eWakPp2dzUe
- 5MmrZTrtDOYNBKr/Fx8hqQEO3JBnY8RdINeVpO1VwlZdjhscXkVblREA1uq0ZKOHNyByCY
- 1tiSIpWCWsc1ErV51e2VCpZMLjxHYvE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ in-reply-to:in-reply-to:references:references;
+ bh=YLp/mOxNxnF8DObHBmdL/z0ALK0H7bOTQmMQTKlLt8Q=;
+ b=eWBmjzvq0nBSRScWho9Jq0JdF1OKIxf71MVlwlBSetnRjn8RoKY8G4uKk9yJIh3Sx+cREJ
+ ydWH4yO52nib2OUMqY1qJQnq7otCNzul/Totlz8EeDAPtWmV09InstXohgG8I7hXH+fKs2
+ gxjpHd3w7ITNabhuFwYaeJVajsRgDfo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-gBvhax9VPim8e6ILxfTZQA-1; Tue, 28 Jun 2022 00:42:28 -0400
-X-MC-Unique: gBvhax9VPim8e6ILxfTZQA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- n5-20020adf8b05000000b00219ece7272bso1436684wra.8
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:42:28 -0700 (PDT)
+ us-mta-249-nr2UytLEPf-FbeDS67OXKQ-1; Tue, 28 Jun 2022 00:42:31 -0400
+X-MC-Unique: nr2UytLEPf-FbeDS67OXKQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k32-20020a05600c1ca000b0039c4cf75023so8316215wms.9
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:42:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=LPl7lI2j0cg+C6vTvDkYsE8soFRBDS+9GDlQP4/scWM=;
- b=VtZkDRXesKfXmVYCUUv9/W6AcfJPwbmANxmbXU8snfCX32EwGpLhHfd6xyWqDnm5ZH
- JCNpEFzm+Kdda+WJ70Dzuw86qq7nOhmlLcIwJ0+fEcuKlT0Ti+2I+eAr2lQChsq5Rpud
- K6fMOlMMl0zweoa2K7kuXkuivNbgUz7iTi/P/xT1n5rZsf84cdIrXeQA8GWsW0NZLWI3
- +2nnOWgA82tew/BU8wckboP+QZDGLFKWiOez4HT9JtKfIarq4OjGrEAsWYRV5ZrQ/Oq0
- ZqihW7nCHduWxdo85f57bnnBq9e41C78iu3iuUQwCPvqEr89vXKB7G1ZlUy/qr0FYEak
- fhkA==
-X-Gm-Message-State: AJIora9VtY194SQfADmB3kdDGoHnSX1g7HZ9fES7Md9qzpyVPN1JqPfX
- fmua0ZnvTWNda84sadv6q2APLGkExQJhi5UGd0eb7yDQWq8tP14vTtQ+tomBs3YoVMT4y9Q1lMM
- nl+TQoiW6ez4sfLMRXOXy2dLb0E6f/vtOtvvaB6UY+rSv6w3EynhyfxDmmXy5
-X-Received: by 2002:a05:6000:2a4:b0:21d:1896:763e with SMTP id
- l4-20020a05600002a400b0021d1896763emr3469717wry.248.1656391347345; 
- Mon, 27 Jun 2022 21:42:27 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uaprtVmDTw/seneY0EDrLa1UEt8bdpfZOHwox/5+UF4xNhdJEjoZxjW3aL5DmVSamgcwI4rQ==
-X-Received: by 2002:a05:6000:2a4:b0:21d:1896:763e with SMTP id
- l4-20020a05600002a400b0021d1896763emr3469703wry.248.1656391347074; 
- Mon, 27 Jun 2022 21:42:27 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YLp/mOxNxnF8DObHBmdL/z0ALK0H7bOTQmMQTKlLt8Q=;
+ b=RBw6JyQK0JA8bI4rQRIAzHjC/W15Rs1SLFkVkIrB4Y3/Ia28VyNhS+b9Gl1hpe2pc5
+ vGQrj0jKf6JKzFyA3nsagExEuazV5EAikVHM05UQlm1KRWkqbkqeNjKQGIlnPlDWgRwW
+ i8eDFm3f0F7Yw+0guC5ovS4QVygykuuMICfK6JC0gC5CVnTbMgsoBs+30oWejZhLhZZ4
+ Zcmn6zNQQlx0OIBiUJRZvJLL+C+0LIkYqccXwIGa1BY5fNS5Yn442PPX70F16a7IRNLf
+ ypI09Kpm9qW6tV+LbtXmK1mF5xr5uVJWesKA/Nl9Ijurkf2tnMvrGLuVme7LpPM/T0LH
+ 9FqQ==
+X-Gm-Message-State: AJIora+lCIB9N08jK3HxJiTzsNx8vyNh7uE25/jreSw+Tru6Y4CP2Zsr
+ 9LBDdSrsTdbyrIdo6oHS0mX2QlisIqSV4DxxkOU4NBjM8lIz95xvSR1yXpNEhIvSGI2pPSfc8Pq
+ SJKJLC73jTu/1dNcuqgi7d3ycu7LvHoh3x6NLWa1DbITzEtwvxvd0/djx8nHC
+X-Received: by 2002:a5d:59a4:0:b0:218:4a29:f12b with SMTP id
+ p4-20020a5d59a4000000b002184a29f12bmr14812326wrr.145.1656391350415; 
+ Mon, 27 Jun 2022 21:42:30 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tBnMmDxviq/tnboUWtDs7Pw8mOVebCD+6EONITBiEpSCNZGjEX3AYdnfiCHHmVObM97mdz2A==
+X-Received: by 2002:a5d:59a4:0:b0:218:4a29:f12b with SMTP id
+ p4-20020a5d59a4000000b002184a29f12bmr14812303wrr.145.1656391350097; 
+ Mon, 27 Jun 2022 21:42:30 -0700 (PDT)
 Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- d11-20020a5d6dcb000000b0020e6ce4dabdsm11956206wrz.103.2022.06.27.21.42.25
+ w9-20020a5d6089000000b0020e5b4ebaecsm12341291wrt.4.2022.06.27.21.42.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 21:42:26 -0700 (PDT)
-Date: Tue, 28 Jun 2022 00:42:23 -0400
+ Mon, 27 Jun 2022 21:42:29 -0700 (PDT)
+Date: Tue, 28 Jun 2022 00:42:27 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/12] virtio: fixes
-Message-ID: <20220628044201.217173-1-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Zhenzhong Duan <zhenzhong.duan@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Eric Auger <eric.auger@redhat.com>
+Subject: [PULL 01/12] virtio-iommu: Fix the partial copy of probe request
+Message-ID: <20220628044201.217173-2-mst@redhat.com>
+References: <20220628044201.217173-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220628044201.217173-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
@@ -95,63 +99,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 097ccbbbaf2681df1e65542e5b7d2b2d0c66e2bc:
+From: Zhenzhong Duan <zhenzhong.duan@intel.com>
 
-  Merge tag 'qemu-sparc-20220626' of https://github.com/mcayland/qemu into staging (2022-06-27 05:21:05 +0530)
+The structure of probe request doesn't include the tail, this leads
+to a few field missed to be copied. Currently this isn't an issue as
+those missed field belong to reserved field, just in case reserved
+field will be used in the future.
 
-are available in the Git repository at:
+Changed 4th parameter of virtio_iommu_iov_to_req() to receive size
+of device-readable part.
 
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 81cf38f3ff3c7db8fcd2f46df9a294fdf6f4a910:
-
-  include/hw/virtio: document vhost_ack_features (2022-06-27 18:53:18 -0400)
-
-----------------------------------------------------------------
-virtio: fixes
-
-fixes all over the place
-
+Fixes: 1733eebb9e75b ("virtio-iommu: Implement RESV_MEM probe request")
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+Message-Id: <20220623023152.3473231-1-zhenzhong.duan@intel.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+---
+ hw/virtio/virtio-iommu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-----------------------------------------------------------------
-Alex Bennée (3):
-      contrib/vhost-user-blk: fix 32 bit build and enable
-      include/hw/virtio: document vhost_get_features
-      include/hw/virtio: document vhost_ack_features
-
-David Hildenbrand (1):
-      MAINTAINERS: Collect memory device files in "Memory devices"
-
-Jagannathan Raman (1):
-      msi: fix MSI vector limit check in msi_set_mask()
-
-Kevin Wolf (3):
-      docs/vhost-user: Fix mismerge
-      libvhost-user: Fix VHOST_USER_GET_MAX_MEM_SLOTS reply
-      libvhost-user: Fix VHOST_USER_ADD_MEM_REG reply
-
-Konstantin Khlebnikov (2):
-      vhost: add method vhost_set_vring_err
-      vhost: setup error eventfd and dump errors
-
-Zhenzhong Duan (2):
-      virtio-iommu: Fix the partial copy of probe request
-      virtio-iommu: Fix migration regression
-
- include/hw/virtio/vhost-backend.h         |  3 +++
- include/hw/virtio/vhost.h                 | 22 ++++++++++++++++++
- contrib/vhost-user-blk/vhost-user-blk.c   |  6 ++---
- hw/pci/msi.c                              |  4 ++--
- hw/virtio/vhost-backend.c                 |  7 ++++++
- hw/virtio/vhost-user.c                    |  6 +++++
- hw/virtio/vhost.c                         | 37 +++++++++++++++++++++++++++++++
- hw/virtio/virtio-iommu.c                  | 16 +++++++++----
- subprojects/libvhost-user/libvhost-user.c | 19 +++-------------
- MAINTAINERS                               | 25 ++++++++++++---------
- contrib/vhost-user-blk/meson.build        |  3 +--
- docs/interop/vhost-user.rst               | 16 -------------
- meson.build                               |  2 +-
- 13 files changed, 112 insertions(+), 54 deletions(-)
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index 7c122ab957..08b227e828 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -675,11 +675,10 @@ static int virtio_iommu_probe(VirtIOIOMMU *s,
+ 
+ static int virtio_iommu_iov_to_req(struct iovec *iov,
+                                    unsigned int iov_cnt,
+-                                   void *req, size_t req_sz)
++                                   void *req, size_t payload_sz)
+ {
+-    size_t sz, payload_sz = req_sz - sizeof(struct virtio_iommu_req_tail);
++    size_t sz = iov_to_buf(iov, iov_cnt, 0, req, payload_sz);
+ 
+-    sz = iov_to_buf(iov, iov_cnt, 0, req, payload_sz);
+     if (unlikely(sz != payload_sz)) {
+         return VIRTIO_IOMMU_S_INVAL;
+     }
+@@ -692,7 +691,8 @@ static int virtio_iommu_handle_ ## __req(VirtIOIOMMU *s,                \
+                                          unsigned int iov_cnt)          \
+ {                                                                       \
+     struct virtio_iommu_req_ ## __req req;                              \
+-    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req)); \
++    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req,               \
++                    sizeof(req) - sizeof(struct virtio_iommu_req_tail));\
+                                                                         \
+     return ret ? ret : virtio_iommu_ ## __req(s, &req);                 \
+ }
+-- 
+MST
 
 
