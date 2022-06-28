@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E3055E523
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 15:58:38 +0200 (CEST)
-Received: from localhost ([::1]:33072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642EB55E531
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 16:06:40 +0200 (CEST)
+Received: from localhost ([::1]:46802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Bjh-0002jh-KC
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 09:58:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56020)
+	id 1o6BrT-0004Yh-HW
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 10:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o6Bh6-0000vY-3z
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:55:57 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:41864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o6Bh3-00088x-Fi
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:55:55 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-31780ad7535so117762317b3.8
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 06:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9shwlynRSwa/Wyn/bxn4CoQxZk+30joJouS2O1JHN3E=;
- b=sIusoYs19qGrz9LQ165hNiag14dvb6n8EHaHv8HKdjxmLmMD/BdJUK1gbCT+DMowmS
- vZIQnwiCZo86SW4eL3PBiavThkxef09S7SPAtB6AjsQG7LNVes7Dic0TybziLqOAx8em
- rQ0BJKEB0kquaXvzyvrhjZU7RtZZ2yQKA2Ol0NWzjMV2dszdqb4EuU52Ms2TIOSO+vzG
- SHMBeuqm2L8xVhv6Cwm3WcVbzzZOAjhtb+C6Wu56cbkp1HmnwSpqH2gELQr6+HdLaic4
- n3F6CS8vS0TbVuCN02lgAmbRmQ6JN2n8cH5hJiVDWfETpXXBhbfsADmb4RzqAkks7iRy
- EC+A==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o6Bpr-0002id-G8
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 10:04:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60425)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o6Bpm-00015V-OW
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 10:04:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656425093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1PfdeaqqNTOGyXQkjM9mQW0/juRCQshh4ExYHRswdsc=;
+ b=TA7wRzXgxW7GoRowT/MbiQhfvA5bZ3dXv2bmlMC+u2802PCsfw1qp3bbSFyMN+9Fo8aR/j
+ 9Of1gq0eG1S2iNBZLCfe8owqC14Tet+WRCbMG4AH0BSnJ8ERzjIMDPfWC6gtX93t3wcKJo
+ 6bZ91Hx0C/vSafphJ6QoPL35KIrHqGE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-MPGqS-pJNF6ewOiMU3auTw-1; Tue, 28 Jun 2022 10:04:52 -0400
+X-MC-Unique: MPGqS-pJNF6ewOiMU3auTw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ y18-20020adfdf12000000b0021b94ba4c37so1851315wrl.11
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 07:04:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9shwlynRSwa/Wyn/bxn4CoQxZk+30joJouS2O1JHN3E=;
- b=i4qAe/PkFCJplQAtqKp4DOFLdDtMRmZvBYzwyzddgYKAAzX61COfVtEQy4OT6OTi3x
- YcKpRTLIN4on5JM5XyrWUHEQ58MuSFonZFSD8OGfWrlDZ8TgBArrP36bi2n/YEseDcWV
- fve03sKT2l2N22/cFV60YFPrPqz8h6156IyZKrD4RG9YV6XQiDC1aQxbbYOz10iKS0uA
- 33hR+Jqi/E5mnIMY56FW+Y3uHzgPMZ0slMPGtbCfZdO8S/XQRNAuCeRfKtMI4cTuoa6z
- T0MD0LEwNEE+Lt2hx1yHHLRbYBhvXB4HF3ItFGj/f6rvBirBztLlv7FKu0XQkAfA3LNE
- qJKw==
-X-Gm-Message-State: AJIora9nAvWmeMZ+/V1t2xYIfs0x5vLpB9qHDEVxMWu1owzko/UVtFBU
- 2nk8lvlVOYgJ5SIxeR3qFDWyA6KKPQalXVGuHXAWtg==
-X-Google-Smtp-Source: AGRyM1vkrvMjngfPySCiWZTc3GxQrY56u55tHSxXP3huBGJ/244dqpqcb2lWgK0YgL4A+yuSTwQhO722LJ8vKEUoghE=
-X-Received: by 2002:a0d:d712:0:b0:317:a108:9778 with SMTP id
- z18-20020a0dd712000000b00317a1089778mr21840175ywd.64.1656424552258; Tue, 28
- Jun 2022 06:55:52 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=1PfdeaqqNTOGyXQkjM9mQW0/juRCQshh4ExYHRswdsc=;
+ b=wHe70v5liXeztU/vHtWpaYfhDT1zZpJgJB1cN6u4wE1HPXnAqznw32jlR3WcAX9go8
+ QwF9va/k4LhWfl4++PvgWcnvJH7r5UB13QBnowLEvkDJzb27wXsLFgIi6aZ9nJHZqoPC
+ Wuy0Iw9Iwv0OnBeMNeU81Wg0zj8wmgOzwIHB7TnA7KkLt0eHIHiNn1liErS8mMs9Oku3
+ EGbJ3yKQYB2Gsb2SinHy3em23KvJk5I/MR+pBZMWfbod407rIPD07rUYng+ojC5yoZw6
+ xFdbEfBOQ6cT76BWEqrk/EeBwXm/so/lDVykV8wYT79MkEKCecDScSwwN9vLR9ljJrKb
+ yLxg==
+X-Gm-Message-State: AJIora81BCptmXuhftNJNgF4qZr4IWRmPdmhQ33L8M+Zrjb4llRqEBfm
+ 1OJRkNh8zTXMBLjh4+sMmsBkebCD0bSk75uaqWGy7x/83EPcB6woGWxdIOSbvsjYJXQs7rCehbS
+ MO7BvLX4U7jZUa10=
+X-Received: by 2002:a5d:518a:0:b0:21a:39f4:b352 with SMTP id
+ k10-20020a5d518a000000b0021a39f4b352mr17894550wrv.92.1656425091040; 
+ Tue, 28 Jun 2022 07:04:51 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sB1OHdyM6EuGZ2NMn8PTQSaENyObpiQT/K7d5bt8qow281EHbMHQvJq6V5/E0xftZEptCkEg==
+X-Received: by 2002:a5d:518a:0:b0:21a:39f4:b352 with SMTP id
+ k10-20020a5d518a000000b0021a39f4b352mr17894529wrv.92.1656425090854; 
+ Tue, 28 Jun 2022 07:04:50 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ e6-20020a05600c218600b003a04b0bcb43sm7145482wme.40.2022.06.28.07.04.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 07:04:50 -0700 (PDT)
+Date: Tue, 28 Jun 2022 15:04:48 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v8 01/15] fixup! migration: remove the QEMUFileOps
+ 'get_buffer' callback
+Message-ID: <YrsKgH8B65XrBCFe@work-vm>
+References: <20220622204920.79061-1-peterx@redhat.com>
+ <20220622204920.79061-2-peterx@redhat.com>
 MIME-Version: 1.0
-References: <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <YrrSFig7Qo/PKqNx@redhat.com> <20220628060510-mutt-send-email-mst@kernel.org>
- <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
- <YrrbHYJn5soL/V6n@redhat.com> <20220628072610-mutt-send-email-mst@kernel.org>
- <CAFEAcA8Z9uasRtyf5=oFx7ScFO_+T01ooH-zWLdkjECMaZpuQw@mail.gmail.com>
- <CAARzgwyLbVFCKJZXwdwwweVxgmG8VX1wc1bBYEaNpvKiPcU+TQ@mail.gmail.com>
- <Yrr6VDCuKpp8SqW9@redhat.com>
- <CAARzgww4LP7xjDPjWuCCERO1fRp9JwuTtPTG6Lix0KDWPC9FUA@mail.gmail.com>
- <CAFEAcA-Rsqze4zKR7NZKRGSJLqQ77Lcc7Grh=tTSCQCZSNHozA@mail.gmail.com>
- <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
-In-Reply-To: <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 Jun 2022 14:55:13 +0100
-Message-ID: <CAFEAcA94eQ9-fKA_4PAeLTu-x4HG7RU8ZnffVGGGua2jek6srw@mail.gmail.com>
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-To: Ani Sinha <ani@anisinha.ca>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, imammedo@redhat.com, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220622204920.79061-2-peterx@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,33 +103,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jun 2022 at 14:53, Ani Sinha <ani@anisinha.ca> wrote:
->
->
->
-> On Tue, Jun 28, 2022 at 19:15 Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
->>
->> On Tue, 28 Jun 2022 at 14:23, Ani Sinha <ani@anisinha.ca> wrote:
->> > On Tue, Jun 28, 2022 at 6:25 PM Daniel P. Berrang=C3=A9 <berrange@redh=
-at.com> wrote:
->> > > This proposed biosbits test also involves a considerable download.
->> >
->> > I do not think 50 MB is "considerable" . Last time I tried to run
->> > avocado tests, my laptop ran out of disk space!
->>
->> I think 50MB is pretty big. It might be smaller than some other
->> avocado tests, but it's not exactly the "no binary involved"
->> that most qtests are.
->
->
-> Well bios-tables-test uses the binary blobs of the acpi tables. Only diff=
-erence is that in this case, we could maintain them within  the qemu tree. =
-In this case the blob in slightly larger and comes from a third party. That=
- is the difference.
+* Peter Xu (peterx@redhat.com) wrote:
+> This fixes a bug with the cleanup patch.  Should be squashed into the patch
+> in subject.
 
-Yes. That is exactly the difference that means it should go in
-the avocado tests.
+Yep, that one is already in; thanks.
 
--- PMM
+Dave
+
+> Cc: Daniel P. Berrange <berrange@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/qemu-file.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> index 3a380a6072..1e80d496b7 100644
+> --- a/migration/qemu-file.c
+> +++ b/migration/qemu-file.c
+> @@ -375,7 +375,7 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+>                  qio_channel_wait(f->ioc, G_IO_IN);
+>              }
+>          } else if (len < 0) {
+> -            len = EIO;
+> +            len = -EIO;
+>          }
+>      } while (len == QIO_CHANNEL_ERR_BLOCK);
+>  
+> -- 
+> 2.32.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
