@@ -2,99 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBAC55C0CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:50:13 +0200 (CEST)
-Received: from localhost ([::1]:57846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC6955C0C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:37:51 +0200 (CEST)
+Received: from localhost ([::1]:41044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o69jQ-0006Rt-0p
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:50:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43642)
+	id 1o69XS-0003AM-Pa
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:37:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o69Og-0003bC-Ni
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:28:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40313)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o69Rd-0006vF-HE
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:31:49 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:52611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o69Od-0004x6-Md
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:28:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656415722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=79atf44R/aZxr6z2cYMvM6aWG90rbelJ69CufYUHdh4=;
- b=fjEKMfBTc9mR17TwNDSUApEkN1u1LivdDhyIBcXHnaZCJZsvy3o0htAHJLzOfVjY+1Wpjt
- Yh5+orPf71DpkM+Vk/PfhXl/xK8wL5gBhMU39224QQu0PaQ5slGHsHsYmFqSccBGEG3sFr
- JoR8ysWLlBdDckPuSrfsoQV9+UCJN/g=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-221-aY-LntH5M-Ou-vry-Q03YA-1; Tue, 28 Jun 2022 07:28:35 -0400
-X-MC-Unique: aY-LntH5M-Ou-vry-Q03YA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u9-20020adfa189000000b0021b8b3c8f74so1736067wru.12
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 04:28:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=79atf44R/aZxr6z2cYMvM6aWG90rbelJ69CufYUHdh4=;
- b=CkDHpHJbHUOP844tRel77VWyy+c0wIlV38bxyixkG8K01luDOFXOkfBiMP3FxxH0a+
- STbwiEKqwVL7ytL8PXEXnSmJcspXCrBWuyS8vqQfQWh8eCba26Frn261Hq/08omsj6rt
- XphG9Oojh6I2XX/2xCoFoi/KWlsG9BOWZD6usMeJlYOP/VPW3rR6N9m2l6CYbKOfYyFv
- hvZ7rwg5fiPcMKfWL2BO8pP5W1E4iH+ywzjCh7bBkyJ+5fOdFou1F8LT+DYtSuNgD9mk
- /MjmDgn7/P0Xnayhn2/hf8NQn0siACJHdS519yQvuOaaf9sVGS3SAKosD+vwV5JvVNNT
- cCRA==
-X-Gm-Message-State: AJIora8XJAWj2G1EYeBJNQmneWhbIWS4O3q3afqY6YhEbLkeV5ltgizl
- XzG+8BXeb1lMtpi0gkMz4jVKAkqnc2lkXB2LOS+SPGv8hVjH4rfIc9DABQSg3sZZ5gHstgWSsGH
- 7mNsEV5tMKOua0g0=
-X-Received: by 2002:adf:ea09:0:b0:21d:2245:ab84 with SMTP id
- q9-20020adfea09000000b0021d2245ab84mr359073wrm.542.1656415714479; 
- Tue, 28 Jun 2022 04:28:34 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vxt95Tt1ATv7YQ/xmfKR9oR6YDu3ZKYEnhKiH2+ruayVVTqQus/8RFPnsStIWz9332yigivA==
-X-Received: by 2002:adf:ea09:0:b0:21d:2245:ab84 with SMTP id
- q9-20020adfea09000000b0021d2245ab84mr359050wrm.542.1656415714199; 
- Tue, 28 Jun 2022 04:28:34 -0700 (PDT)
-Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- u16-20020a05600c441000b0039c4d022a44sm17420280wmn.1.2022.06.28.04.28.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 04:28:33 -0700 (PDT)
-Date: Tue, 28 Jun 2022 07:28:29 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-Message-ID: <20220628072610-mutt-send-email-mst@kernel.org>
-References: <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
- <YrqyWhu8ThAcUGI4@redhat.com>
- <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
- <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <YrrSFig7Qo/PKqNx@redhat.com>
- <20220628060510-mutt-send-email-mst@kernel.org>
- <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
- <YrrbHYJn5soL/V6n@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1o69RY-0005fL-H4
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:31:49 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MjSwu-1nLEqV1Ay2-00kwxe; Tue, 28 Jun 2022 13:31:41 +0200
+Message-ID: <571af860-cf2b-4af7-9158-aaabfd577d82@vivier.eu>
+Date: Tue, 28 Jun 2022 13:31:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v5 1/2] target/m68k: Use semihosting/syscalls.h
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220628110047.666612-1-richard.henderson@linaro.org>
+ <20220628110047.666612-2-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220628110047.666612-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YrrbHYJn5soL/V6n@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:eAr//QOP5gBaFUMDSEEPXOLBrF9KjVxko4LEUkShoJ7b9xeSHfB
+ b+KY8WEzvyH9eM/l71tb2FlXc87tSb9/D5uiL9doqpR6OIn2DOjN6RCigdDGvgukU+sXcNJ
+ iQ3KIwt1i7OFUjXvYhKriYwtBFO0I15vGTNNA3hJMbaVHDh/CpGSJIbzSPHw7VmM3CqlkQ2
+ cQdcaAiqy48j3m/90cP3g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GNKXxn6tl/I=:5HInwncAhZ4fQuJ4Yq4POT
+ QhtOdlDHHhFpZtJRuZOQiWRqMKBNmbTy5z5y3sly76cKnxSpSvL7VfJuPikg/diNCSOF6+0lx
+ XNG1P/9xgJt5B9jwo6+pDxVna/UGObUoo481+2NaG8NIcuECJOGaHzcw4Sb+1MnaBBsD8XJkL
+ 87+PmDtCR/q84rsTigHQ1P0FI++5FRqY8+6HXfmmKO41Kmh6e0TR6VrLZYDFPID2WeYQWw9NR
+ o4toPmIL4wZRyO88/yfgRlUcGMBkGgvWrlrtapzESk8QhnKbyyep93VtQR9jxP2rxxeACuNGI
+ T4+5i/13pjOGAM1bsqBkBpAJvUCxRhh9ZCSrxXuN6pwbJ/TEgrSeuzj8vxnUbcrOVQspyB2OA
+ APWG1mIEOko2zo0Cdq/BN77PJBbxM20YD9CgIJ0+KSIj/8KKDUHMi3UU7z+tV/sWTtzuhnxNU
+ vIAFX8fG7heaKFU/ySkawig0SL2O/kRPpBRWs+uw/nQB464+rZr2LwXvo0TpEQWufiLOIVzOo
+ 4aDhyWWJhcFiino320tJEvtMwfW91iuzCKG+E9paeCese+YvgYI2Wz6R0agQ5ENpe8toIkSQ9
+ E8eces1uo5mQnu7Txlg59X2aR3goh6ZY482GUPDgOSEa5uC4/MR4RrViHqlLOjPqM6QnHo6lZ
+ bdyQ+/SM2JyTI/sCV8tVgtggMia5iLryxscgafFkDfsIQ8TWrIMmkC7uZTkk2d9r1asB8owZt
+ yx8ZuFAf9aI4oEaqXpuaTta6PrwWMyHLUjTAbg==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,45 +73,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 11:42:37AM +0100, Daniel P. Berrangé wrote:
-> On Tue, Jun 28, 2022 at 03:58:21PM +0530, Ani Sinha wrote:
-> > On Tue, Jun 28, 2022 at 3:37 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > On Tue, Jun 28, 2022 at 11:04:30AM +0100, Daniel P. Berrangé wrote:
-> > > > If it is actually booting a real guest image (from biosbits) and interacting
-> > > > with it, then it does feel like the scope of this testing is more appropriate
-> > > > to QEMU's avocado framework than qtest, especially given the desire to use
-> > > > python for it all.
-> > > >
-> > > > With regards,
-> > > > Daniel
-> > >
-> > > I feel avocado is directed towards booting full fledged guest OS.
-> > > It makes it much easier to figure out guest issues but it also
-> > > prone to false positives and is harder to debug as a result.
-> > > Booting a minimal image like this shouldn't require that.
-> > 
-> > Yes 100% agree with Michael on this. Biobits is *not* booting any OS
-> > image. It runs off grub, that is, directly from bootloader stage. The
-> > interraction with the VM is minimal.
+Le 28/06/2022 Ã  13:00, Richard Henderson a Ã©critÂ :
+> This separates guest file descriptors from host file descriptors,
+> and utilizes shared infrastructure for integration with gdbstub.
 > 
-> Just because it doesn't run a whole Linux kernel, doesn't make it
-> not a guest OS image. It is merely unsual in that it can do everything
-> it needs from grub stage, because it is just poking low level BIOS
-> stuff and doesn't need a full OS like Linux on top. This is still
-> functional integration testing IMHO and relevant to avocado in QEMU.
-> 
-> With regards,
-> Daniel
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/m68k/m68k-semi.c | 281 +++++++---------------------------------
+>   1 file changed, 49 insertions(+), 232 deletions(-)
 
-I think the main difference is not even in how it works, it's
-in what it does. Which is check that ACPI tables are sane.
-Who cares about that? Well developers do when they change the
-tables. Users really don't because for users we have the expected
-tables in tree and we check against these.
-
-
--- 
-MST
+Acked-by: Laurent Vivier <laurent@vivier.eu>
 
 
