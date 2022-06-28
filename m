@@ -2,102 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 838C355C108
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 14:42:33 +0200 (CEST)
-Received: from localhost ([::1]:41302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B80B55C109
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 14:43:08 +0200 (CEST)
+Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6AY4-0003iR-6K
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 08:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34986)
+	id 1o6AYd-0004q6-2m
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 08:43:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o6ATv-0001YD-PK
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:38:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45558)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o6AW0-0002iO-Lo
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:40:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o6ATr-0000tL-AV
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:38:13 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o6AVT-00018i-1O
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 08:40:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656419888;
+ s=mimecast20190719; t=1656419975;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ys+y5fhchnMH7Gs1GnJ8TLHY+yUQwztbS/Ly0XnzsCg=;
- b=UyGT96VpvDNJCOtXktHV7ulLhyf6Jy3+Q6gFfdPZ4NjlWl3kh6lI/mta8ie9JohpWhCVSS
- 7Wrh6kqtehSD5LmjZXB7EvjSra9NSzOWmpiTMqYDeS2uEUC2GD879F33LuRjNI+CQYnlCM
- 7tXerXsQLfLsO8c/px14DZdA+oc9Xe4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=grVl6Ac35MUpg+tMzRSYueGRW0+9qZuDiiMAOIX3yws=;
+ b=DiJVncsxT5OC8JLkkD+sAg41k2nCdjppeqGUlItZdEuYoMZx1/vJRHMQrsf/am290jb4yY
+ 80bAgvKMHRhZvlq7moJoHwTc2LnVewHO2k/VSPsIVbo/fu7Rq4CqKX6otg+wm4wicROwgN
+ Yw2AwD4Ntkqff3d/4WWx7ZZxIA9AZy0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-9w4tXYIEPCOWETU9Bdhsag-1; Tue, 28 Jun 2022 08:38:06 -0400
-X-MC-Unique: 9w4tXYIEPCOWETU9Bdhsag-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p22-20020a05600c359600b0039c7b23a1c7so8834538wmq.2
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 05:38:06 -0700 (PDT)
+ us-mta-468-9I5IFQpaMp2ZXCjm3NUNKA-1; Tue, 28 Jun 2022 08:39:34 -0400
+X-MC-Unique: 9I5IFQpaMp2ZXCjm3NUNKA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t13-20020adfe10d000000b0021bae3def1eso1761248wrz.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 05:39:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ys+y5fhchnMH7Gs1GnJ8TLHY+yUQwztbS/Ly0XnzsCg=;
- b=6QEI3CF3cx1hl7M43C07iaZ+9FX+8b0OhqQ6yjY9L01s35/7WaOp606C/sPk2N57h3
- gAGmbU3RbLKHWUZ7VnR9TBeA6bT6n9mub5bMlpNQb2NJeM32DRPejkxOGi/oL1S7R2It
- O3WCv5fkA6WI7KWMlQGzymWnRy+/Ry6xI0/+gpB9O1cVaTaogd4l+hM66C+mM97Idie/
- y+AW6z7pkmggOI8AJHWE5JN0sQDUIxu79K68qphnoxDhwqwzvYmRmDAyKJ0UejZLEcqX
- cppWvLvhjHyzmKto69YEHrmIFv6s4ZSTxHtJadwqLUyP+GD7S1ZT3rMBgIOAjP0v1tOs
- IdcA==
-X-Gm-Message-State: AJIora8tSeMNBAP/MsST1koFvaBjdecs4xssU3OWX9o9nJTnaE0ajYI0
- kAWH4pmzBQ77bQKAYJw92I6hbnsSqtwrJD/1dQi/lENcMyFCt+LAIfcvqFlQTGzSL6QAd+7Leev
- v3+OT4FD1c9KciFU=
-X-Received: by 2002:a05:600c:3b9b:b0:3a0:487c:8b5a with SMTP id
- n27-20020a05600c3b9b00b003a0487c8b5amr13798763wms.64.1656419885579; 
- Tue, 28 Jun 2022 05:38:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1unYiRYM5+2+cD9eEnc2IBMWMFsGHLjnuGVh+Yh46GopE7VA/857NPCfzNYC0eGUeF0WJOdcg==
-X-Received: by 2002:a05:600c:3b9b:b0:3a0:487c:8b5a with SMTP id
- n27-20020a05600c3b9b00b003a0487c8b5amr13798724wms.64.1656419885243; 
- Tue, 28 Jun 2022 05:38:05 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=grVl6Ac35MUpg+tMzRSYueGRW0+9qZuDiiMAOIX3yws=;
+ b=Ro5M/y/l5itT4GaXsUwlm7XhReXbr54yVdNkUDB1bQX/XJGy/m9QBf2cL26ImD+Pa4
+ m5+fU+zEMSXsAInD0+mX2uyRZ3IRQ67rmof21z0Zmfs8jpru3JJop3MH2qKZpSh2DZPb
+ cvO4+9BXsbkh7Vwl/jG7x1J561gZqvfIndM8uu8g6AHw3WeEoZsJ3bX11bqq7b9ebStw
+ TwYkERAjzGJ/4Kt/exPHt1xhQ1wlqRqK3SAi6FxKqqbYFErgc4mezbkxCkYk7ynxE3pX
+ NkbIIntHrlFyVOfNfkbTFaZRNnvO+WhUSk1RI/enALvqZzJtELZZPOg1Eh5AY4KKwCJb
+ tZ4g==
+X-Gm-Message-State: AJIora+H4RBHhAz9WAmm9B9059noXRt+iw+DKPM658u4ErlJvUiF3J8X
+ XJuUIXqtYDUGQSftv+h3ar60eQoCzl0dJrl3P5jRi7C8Ziznfb3+qBG1oHWM3il9RdOBdWJvOQW
+ LPo68h8QG9YLOCZA=
+X-Received: by 2002:a05:6000:18aa:b0:21b:946f:94d8 with SMTP id
+ b10-20020a05600018aa00b0021b946f94d8mr18051532wri.259.1656419973305; 
+ Tue, 28 Jun 2022 05:39:33 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sxzd2cxIm3eU5v7pGCAp1VCKiDSSk+pkoEAL+/E4m6Lyx9BVXI7hhTxXYE+M7T9a+t3wc+3A==
+X-Received: by 2002:a05:6000:18aa:b0:21b:946f:94d8 with SMTP id
+ b10-20020a05600018aa00b0021b946f94d8mr18051512wri.259.1656419973125; 
+ Tue, 28 Jun 2022 05:39:33 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- n26-20020a7bc5da000000b003a018e43df2sm8739951wmk.34.2022.06.28.05.38.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 05:38:04 -0700 (PDT)
-Date: Tue, 28 Jun 2022 14:38:03 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Daniel Jordan <daniel.m.jordan@oracle.com>,
- David Edmondson <david.edmondson@oracle.com>, Alex Williamson
- <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v5 4/5] i386/pc: relocate 4g start to 1T where applicable
-Message-ID: <20220628143803.538bfe74@redhat.com>
-In-Reply-To: <5a094bd6-ebc1-c512-e97e-c1edba94f41a@oracle.com>
-References: <20220520104532.9816-1-joao.m.martins@oracle.com>
- <20220520104532.9816-5-joao.m.martins@oracle.com>
- <20220616162328.64138d4f@redhat.com>
- <bc50bb88-5330-a839-bd50-ca49b0edec9d@oracle.com>
- <20220617143251.5f064694@redhat.com>
- <4f3e051e-fb13-5860-b39f-5ace782cdea0@oracle.com>
- <20220620162720.2ea44444@redhat.com>
- <07368ec5-98bf-20e2-71e6-c258370970fc@oracle.com>
- <5a094bd6-ebc1-c512-e97e-c1edba94f41a@oracle.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ r4-20020a05600c158400b0039c457cea21sm16039060wmf.34.2022.06.28.05.39.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jun 2022 05:39:32 -0700 (PDT)
+Message-ID: <2c3bb7f4-45cb-9c13-4ecd-22de75eaa7d3@redhat.com>
+Date: Tue, 28 Jun 2022 14:39:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ imammedo@redhat.com, qemu-devel@nongnu.org
+References: <YrqyWhu8ThAcUGI4@redhat.com>
+ <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
+ <Yrq6anPW60FkjmK6@redhat.com>
+ <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
+ <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
+ <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
+ <20220628060210-mutt-send-email-mst@kernel.org>
+ <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
+ <20220628062551-mutt-send-email-mst@kernel.org>
+ <1182d647-bef1-0a8a-a379-86f029af7ac6@redhat.com>
+ <20220628070151-mutt-send-email-mst@kernel.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: Why we should avoid new submodules if possible
+In-Reply-To: <20220628070151-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,241 +113,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Jun 2022 19:13:46 +0100
-Joao Martins <joao.m.martins@oracle.com> wrote:
+On 28/06/2022 13.14, Michael S. Tsirkin wrote:
+> On Tue, Jun 28, 2022 at 12:50:06PM +0200, Thomas Huth wrote:
+[...]
+>>> Come on, this is just a test. We *really* don't care if an ISO
+>>> we use to test ACPI is using an exploitable version of grub.
+>>
+>> Wait, I thought we were only talking about tappy here? The ISO binaries
+>> should certainly *not* be bundled in the QEMU tarballs (they are too big
+>> already anyway, we should rather think of moving the firmware binaries out
+>> of the tarball instead).
+>>
+>>   Thomas
+> 
+> IIUC there are three things we are discussing
+> - biosbits source
+> - biosbits image
+> - tappy
 
-> On 6/20/22 17:36, Joao Martins wrote:
-> > On 6/20/22 15:27, Igor Mammedov wrote:  
-> >> On Fri, 17 Jun 2022 14:33:02 +0100
-> >> Joao Martins <joao.m.martins@oracle.com> wrote:  
-> >>> On 6/17/22 13:32, Igor Mammedov wrote:  
-> >>>> On Fri, 17 Jun 2022 13:18:38 +0100
-> >>>> Joao Martins <joao.m.martins@oracle.com> wrote:    
-> >>>>> On 6/16/22 15:23, Igor Mammedov wrote:    
-> >>>>>> On Fri, 20 May 2022 11:45:31 +0100
-> >>>>>> Joao Martins <joao.m.martins@oracle.com> wrote:    
-> >>>>>>> +                                hwaddr above_4g_mem_start,
-> >>>>>>> +                                uint64_t pci_hole64_size)
-> >>>>>>> +{
-> >>>>>>> +    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-> >>>>>>> +    X86MachineState *x86ms = X86_MACHINE(pcms);
-> >>>>>>> +    MachineState *machine = MACHINE(pcms);
-> >>>>>>> +    ram_addr_t device_mem_size = 0;
-> >>>>>>> +    hwaddr base;
-> >>>>>>> +
-> >>>>>>> +    if (!x86ms->above_4g_mem_size) {
-> >>>>>>> +       /*
-> >>>>>>> +        * 32-bit pci hole goes from
-> >>>>>>> +        * end-of-low-ram (@below_4g_mem_size) to IOAPIC.
-> >>>>>>> +        */
-> >>>>>>> +        return IO_APIC_DEFAULT_ADDRESS - 1;      
-> >>>>>>
-> >>>>>> lack of above_4g_mem, doesn't mean absence of device_mem_size or anything else
-> >>>>>> that's located above it.
-> >>>>>>       
-> >>>>>
-> >>>>> True. But the intent is to fix 32-bit boundaries as one of the qtests was failing
-> >>>>> otherwise. We won't hit the 1T hole, hence a nop.    
-> >>>>
-> >>>> I don't get the reasoning, can you clarify it pls?
-> >>>>     
-> >>>
-> >>> I was trying to say that what lead me here was a couple of qtests failures (from v3->v4).
-> >>>
-> >>> I was doing this before based on pci_hole64. phys-bits=32 was for example one
-> >>> of the test failures, and pci-hole64 sits above what 32-bit can reference.  
-> >>
-> >> if user sets phys-bits=32, then nothing above 4Gb should work (be usable)
-> >> (including above-4g-ram, hotplug region or pci64 hole or sgx or cxl)
-> >>
-> >> and this doesn't look to me as AMD specific issue
-> >>
-> >> perhaps do a phys-bits check as a separate patch
-> >> that will error out if max_used_gpa is above phys-bits limit
-> >> (maybe at machine_done time)
-> >> (i.e. defining max_gpa and checking if compatible with configured cpu
-> >> are 2 different things)
-> >>
-> >> (it might be possible that tests need to be fixed too to account for it)
-> >>  
-> > 
-> > My old notes (from v3) tell me with such a check these tests were exiting early thanks to
-> > that error:
-> > 
-> >  1/56 qemu:qtest+qtest-x86_64 / qtest-x86_64/qom-test               ERROR           0.07s
-> >   killed by signal 6 SIGABRT
-> >  4/56 qemu:qtest+qtest-x86_64 / qtest-x86_64/test-hmp               ERROR           0.07s
-> >   killed by signal 6 SIGABRT
-> >  7/56 qemu:qtest+qtest-x86_64 / qtest-x86_64/boot-serial-test       ERROR           0.07s
-> >   killed by signal 6 SIGABRT
-> > 44/56 qemu:qtest+qtest-x86_64 / qtest-x86_64/test-x86-cpuid-compat  ERROR           0.09s
-> >   killed by signal 6 SIGABRT
-> > 45/56 qemu:qtest+qtest-x86_64 / qtest-x86_64/numa-test              ERROR           0.17s
-> >   killed by signal 6 SIGABRT
-> > 
-> > But the real reason these fail is not at all related to CPU phys bits,
-> > but because we just don't handle the case where no pci_hole64 is supposed to exist (which
-> > is what that other check is trying to do) e.g. A VM with -m 1G would
-> > observe the same thing i.e. the computations after that conditional are all for the pci
-> > hole64, which acounts for SGX/CXL/hotplug or etc which consequently means it's *errousnly*
-> > bigger than phys-bits=32 (by definition). So the error_report is just telling me that
-> > pc_max_used_gpa() is just incorrect without the !x86ms->above_4g_mem_size check.
-> > 
-> > If you're not fond of:
-> > 
-> > +    if (!x86ms->above_4g_mem_size) {
-> > +       /*
-> > +        * 32-bit pci hole goes from
-> > +        * end-of-low-ram (@below_4g_mem_size) to IOAPIC.
-> > +         */
-> > +        return IO_APIC_DEFAULT_ADDRESS - 1;
-> > +    }
-> > 
-> > Then what should I use instead of the above?
-> > 
-> > 'IO_APIC_DEFAULT_ADDRESS - 1' is the size of the 32-bit PCI hole, which is
-> > also what is used for i440fx/q35 code. I could move it to a macro (e.g.
-> > PCI_HOST_HOLE32_SIZE) to make it a bit readable and less hardcoded. Or
-> > perhaps your problem is on !x86ms->above_4g_mem_size and maybe I should check
-> > in addition for hotplug/CXL/etc existence?
-> >   
-> >>>>>  Unless we plan on using
-> >>>>> pc_max_used_gpa() for something else other than this.    
-> >>>>
-> >>>> Even if '!above_4g_mem_sizem', we can still have hotpluggable memory region
-> >>>> present and that can  hit 1Tb. The same goes for pci64_hole if it's configured
-> >>>> large enough on CLI.
-> >>>>     
-> >>> So hotpluggable memory seems to assume it sits above 4g mem.
-> >>>
-> >>> pci_hole64 likewise as it uses similar computations as hotplug.
-> >>>
-> >>> Unless I am misunderstanding something here.
-> >>>  
-> >>>> Looks like guesstimate we could use is taking pci64_hole_end as max used GPA
-> >>>>     
-> >>> I think this was what I had before (v3[0]) and did not work.  
-> >>
-> >> that had been tied to host's phys-bits directly, all in one patch
-> >> and duplicating existing pc_pci_hole64_start().
-> >>    
-> > 
-> > Duplicating was sort of my bad attempt in this patch for pc_max_used_gpa()
-> > 
-> > I was sort of thinking to something like extracting calls to start + size "tuple" into
-> > functions -- e.g. for hotplug it is pc_get_device_memory_range() and for CXL it would be
-> > maybe pc_get_cxl_range()) -- rather than assuming those values are already initialized on
-> > the memory-region @base and its size.
-> > 
-> > See snippet below. Note I am missing CXL handling, but gives you the idea.
-> > 
-> > But it is slightly more complex than what I had in this version :( and would require
-> > anyone doing changes in pc_memory_init() and pc_pci_hole64_start() to make sure it follows
-> > the similar logic.
-> >   
-> 
-> Ignore previous snippet, here's a slightly cleaner version:
+Oh well, I missed that part of the discussion so far since the corresponding 
+patches did not make it to the mailing list ¯\_(ツ)_/¯
 
-lets go with this version
+Anyway, that's just another indication that it might not be the right fit 
+for inclusion into the QEMU source tree. So either download it similar to 
+(or included in) the avocado tests, or maybe another solution would be to 
+have a separate "qemu-ci" or "qemu-testing" repository for stuff like this ... ?
 
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 8eaa32ee2106..1d97c77a5eac 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -803,6 +803,43 @@ void xen_load_linux(PCMachineState *pcms)
->  #define PC_ROM_ALIGN       0x800
->  #define PC_ROM_SIZE        (PC_ROM_MAX - PC_ROM_MIN_VGA)
-> 
-> +static void pc_get_device_memory_range(PCMachineState *pcms,
-> +                                       hwaddr *base,
-> +                                       hwaddr *device_mem_size)
-> +{
-> +    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-> +    X86MachineState *x86ms = X86_MACHINE(pcms);
-> +    MachineState *machine = MACHINE(pcms);
-> +    hwaddr addr, size;
-> +
-> +    if (pcmc->has_reserved_memory &&
-> +        machine->device_memory && machine->device_memory->base) {
-> +        addr = machine->device_memory->base;
-> +        size = memory_region_size(&machine->device_memory->mr);
-> +        goto out;
-> +    }
-> +
-> +    /* uninitialized memory region */
-> +    size = machine->maxram_size - machine->ram_size;
-> +
-> +    if (pcms->sgx_epc.size != 0) {
-> +        addr = sgx_epc_above_4g_end(&pcms->sgx_epc);
-> +    } else {
-> +        addr = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
-> +    }
-> +
-> +    if (pcmc->enforce_aligned_dimm) {
-> +        /* size device region assuming 1G page max alignment per slot */
-> +        size += (1 * GiB) * machine->ram_slots;
-> +    }
-> +
-> +out:
-> +    if (base)
-> +        *base = addr;
-> +    if (device_mem_size)
-> +        *device_mem_size = size;
-> +}
-> +
->  void pc_memory_init(PCMachineState *pcms,
->                      MemoryRegion *system_memory,
->                      MemoryRegion *rom_memory,
-> @@ -864,7 +901,7 @@ void pc_memory_init(PCMachineState *pcms,
->      /* initialize device memory address space */
->      if (pcmc->has_reserved_memory &&
->          (machine->ram_size < machine->maxram_size)) {
-> -        ram_addr_t device_mem_size = machine->maxram_size - machine->ram_size;
-> +        ram_addr_t device_mem_size;
-> 
->          if (machine->ram_slots > ACPI_MAX_RAM_SLOTS) {
->              error_report("unsupported amount of memory slots: %"PRIu64,
-> @@ -879,20 +916,7 @@ void pc_memory_init(PCMachineState *pcms,
->              exit(EXIT_FAILURE);
->          }
-> 
-> -        if (pcms->sgx_epc.size != 0) {
-> -            machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
-> -        } else {
-> -            machine->device_memory->base =
-> -                x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
-> -        }
-> -
-> -        machine->device_memory->base =
-> -            ROUND_UP(machine->device_memory->base, 1 * GiB);
-> -
-> -        if (pcmc->enforce_aligned_dimm) {
-> -            /* size device region assuming 1G page max alignment per slot */
-> -            device_mem_size += (1 * GiB) * machine->ram_slots;
-> -        }
-> +        pc_get_device_memory_range(pcms, &machine->device_memory->base, &device_mem_size);
-> 
->          if ((machine->device_memory->base + device_mem_size) <
->              device_mem_size) {
-> @@ -965,12 +989,13 @@ uint64_t pc_pci_hole64_start(void)
->      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
->      MachineState *ms = MACHINE(pcms);
->      X86MachineState *x86ms = X86_MACHINE(pcms);
-> -    uint64_t hole64_start = 0;
-> +    uint64_t hole64_start = 0, size = 0;
-> 
-> -    if (pcmc->has_reserved_memory && ms->device_memory->base) {
-> -        hole64_start = ms->device_memory->base;
-> +    if (pcmc->has_reserved_memory &&
-> +        (ms->ram_size < ms->maxram_size)) {
-> +        pc_get_device_memory_range(pcms, &hole64_start, &size);
->          if (!pcmc->broken_reserved_end) {
-> -            hole64_start += memory_region_size(&ms->device_memory->mr);
-> +            hole64_start += size;
->          }
->      } else if (pcms->sgx_epc.size != 0) {
->              hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
-> 
+  Thomas
 
 
