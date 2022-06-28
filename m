@@ -2,66 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713EE55BCC3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 02:56:41 +0200 (CEST)
-Received: from localhost ([::1]:57656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4975255BCE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 03:11:43 +0200 (CEST)
+Received: from localhost ([::1]:38830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o5z8l-0002Rk-Tb
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 20:31:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33168)
+	id 1o5zlV-0003L7-Rc
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 21:11:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1o5z6T-0000N8-CJ
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 20:29:17 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:41460 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o5z6P-0005aW-QQ
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 20:29:17 -0400
-Received: from smtpclient.apple (unknown [111.199.64.159])
- by APP-01 (Coremail) with SMTP id qwCowAAnLARPS7pi5J8xCQ--.8847S2;
- Tue, 28 Jun 2022 08:29:04 +0800 (CST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v3 1/2] hw/nvme: Implement shadow doorbell buffer support
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <YroF+BS96Bd8b1Xq@apples>
-Date: Tue, 28 Jun 2022 08:29:02 +0800
-Cc: Keith Busch <kbusch@kernel.org>,
- qemu-devel@nongnu.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B48FED4F-6C38-4966-9DD2-DE4E9598BA4C@ict.ac.cn>
-References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
- <20220616123408.3306055-2-fanjinhao21s@ict.ac.cn>
- <YroCVQvTq+z/mgc9@kbusch-mbp.dhcp.thefacebook.com> <YroF+BS96Bd8b1Xq@apples>
-To: Klaus Jensen <its@irrelevant.dk>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: qwCowAAnLARPS7pi5J8xCQ--.8847S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1UWw4kGw4ktr13Kw48WFg_yoW8GFW8pw
- 4ktasakF4vyF1Utry8Xa1Sqw1UCr4IqryUWr4rWay2kr93Xr9IyaykW3y5CF90vrs7tFW0
- yr1qyFsxXFW3t3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyab7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I
- 3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
- WUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
- wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcI
- k0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
- Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8v_M3UUUUU==
-X-Originating-IP: [111.199.64.159]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1o5zjc-0001zB-L9
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 21:09:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30727)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1o5zjZ-0002To-No
+ for qemu-devel@nongnu.org; Mon, 27 Jun 2022 21:09:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656378580;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bV4SeA30yjzx1fAqgVTn6osda0ycRuUReVggJ5rkqig=;
+ b=GbRE69yp6zU3cL9ZZKCG/39R46UCaiBvoMbcIJe7SBFfIewgPhHzPI32Bhubafn3CsuIQi
+ evSZCmKMcze2GX/cxwX5WRLowftGWypquEXiUJdoWv9L+PYfBEHYDXbrtIM49hO9nquAJ+
+ Gt95DfQ5RkRu9AvNDCmvArB3VMOlXwc=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-380-weZuREiiO1yavr2jnKPrxg-1; Mon, 27 Jun 2022 21:09:38 -0400
+X-MC-Unique: weZuREiiO1yavr2jnKPrxg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ bs17-20020a05620a471100b006a734d3910dso11926100qkb.22
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 18:09:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bV4SeA30yjzx1fAqgVTn6osda0ycRuUReVggJ5rkqig=;
+ b=Jx2hpDBYsP9XqgIDsRhtJuFAegzo/uoJOLUnrgfkz3poP2GfKKNcx1VXHE7TaKp0s8
+ FtWLm6vmTLRKx3C1tOZ3bkxJQGJBS7e5h7J0VbEesVY4qKCipEhWm7J8jjy0co64GphP
+ h+55vBYOkwibXBTUReRRP42vxmgy4nqtfbpKKUZ/M1u27EIGa8MUbciGmhyOEc3CxyI6
+ sqKS/p8N04NnTqljkVk+NNRQkhHiG65zuyQ06BBaS9Rov8rxbnmSQ4CEohX52L+NLv3x
+ 0PCej/7ZCybYNOE6yYls5gwOTTSoy6IpRF2Cl/7FLx9bUDkJmNljMIc6ACf7f6ibmKvA
+ 0aEg==
+X-Gm-Message-State: AJIora8pj6+EYM0JX+oZbNEkV8oVwBferucvjYyLkWtbF9hcgPvZ+r2+
+ 1bxHcAhih/lGK+91/MUbfGX7biynsl4+elcpcfYCWU2ZoH4jl9bqzR8nnaNoqqYxTR2oyqDywZB
+ RQeX9lyB/hFy/y/8=
+X-Received: by 2002:a05:622a:1053:b0:31b:8c84:b1a0 with SMTP id
+ f19-20020a05622a105300b0031b8c84b1a0mr3447162qte.284.1656378578470; 
+ Mon, 27 Jun 2022 18:09:38 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vV/VJGhxgyhACDlF6omgFOpcxFaW8AEq19oAX7hgE1IekbK8f8vGcyA+pyOOqtpV/Fl/zOUg==
+X-Received: by 2002:a05:622a:1053:b0:31b:8c84:b1a0 with SMTP id
+ f19-20020a05622a105300b0031b8c84b1a0mr3447144qte.284.1656378578217; 
+ Mon, 27 Jun 2022 18:09:38 -0700 (PDT)
+Received: from LeoBras.redhat.com ([2804:431:c7f1:57bb:78f:fc5a:be9c:9417])
+ by smtp.gmail.com with ESMTPSA id
+ cc18-20020a05622a411200b0031b7441b02asm1742047qtb.89.2022.06.27.18.09.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 18:09:37 -0700 (PDT)
+From: Leonardo Bras <leobras@redhat.com>
+To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>
+Cc: Leonardo Bras <leobras@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v1 0/2] Zero copy improvements (QIOChannel + multifd)
+Date: Mon, 27 Jun 2022 22:09:07 -0300
+Message-Id: <20220628010908.390564-1-leobras@redhat.com>
+X-Mailer: git-send-email 2.36.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,51 +99,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The first patch avoid spuriously returning 1 [*] when zero-copy flush is
+attempted before any buffer was sent using MSG_ZEROCOPY.
 
+[*] zero-copy not being used, even though it's enabled and supported
+by kernel
 
-> On Jun 28, 2022, at 3:33 AM, Klaus Jensen <its@irrelevant.dk> wrote:
->=20
-> On Jun 27 13:17, Keith Busch wrote:
->> On Thu, Jun 16, 2022 at 08:34:07PM +0800, Jinhao Fan wrote:
->>>     }
->>>     sq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_process_sq, =
-sq);
->>>=20
->>> +    if (n->dbbuf_enabled) {
->>> +        sq->db_addr =3D n->dbbuf_dbs + (sqid << 3);
->>> +        sq->ei_addr =3D n->dbbuf_eis + (sqid << 3);
->>> +    }
->>> +
->>>     assert(n->cq[cqid]);
->>>     cq =3D n->cq[cqid];
->>>     QTAILQ_INSERT_TAIL(&(cq->sq_list), sq, entry);
->>> @@ -4615,6 +4631,10 @@ static void nvme_init_cq(NvmeCQueue *cq, =
-NvmeCtrl *n, uint64_t dma_addr,
->>>     cq->head =3D cq->tail =3D 0;
->>>     QTAILQ_INIT(&cq->req_list);
->>>     QTAILQ_INIT(&cq->sq_list);
->>> +    if (n->dbbuf_enabled) {
->>> +        cq->db_addr =3D n->dbbuf_dbs + (cqid << 3) + (1 << 2);
->>> +        cq->ei_addr =3D n->dbbuf_eis + (cqid << 3) + (1 << 2);
->>> +    }
->>>     n->cq[cqid] =3D cq;
->>>     cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, =
-cq);
->>> }
->>=20
->> I just notice these address calculations changed from previous =
-versions. What
->> happened to taking the doorbell stride into account? Spec says the =
-shadows and
->> events follow the same stride spacing as the registers.
->=20
-> The stride is fixed at zero.
+The second patch should be applied on top of Juan Quintela's patchset that
+reduces the frequency of multifd syncs, or else it could potentially send 
+20 warnings per second.
+									...
+Leonardo Bras (2):
+  QIOChannelSocket: Fix zero-copy flush returning code 1 when nothing
+    sent
+  migration/multifd: Warn user when zerocopy not working
 
-Yes. I noticed that nvme_process_db() uses a similar hard-coded approach =
-to get
-qid from doorbell register offset. So I hard coded here as well. I can =
-submit a tiny
-patch later to wrap this calculation.
+ io/channel-socket.c | 8 +++++++-
+ migration/multifd.c | 3 +++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
+-- 
+2.36.1
 
 
