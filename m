@@ -2,88 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC7855C020
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:19:29 +0200 (CEST)
-Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9436355C021
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:19:57 +0200 (CEST)
+Received: from localhost ([::1]:43072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68Jc-0001MY-6Y
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:19:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50486)
+	id 1o68K4-0001a3-Cn
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o68GY-000710-1V
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:16:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47441)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o68Gf-000767-V4
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:16:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o68GU-0007hL-MB
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:16:15 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o68Ge-0007lq-76
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:16:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656411374;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1656411382;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GV87i9afZwTGKtaS5DtGyOyhm/9gt/StmJrM3duHQHw=;
- b=gArqTPVXOizRr8RJo65FNFurDElg/mj1avV/o3f/Y0vRNqshEZNe60uR/L1k0xYFsYE7W+
- +lkbmUiQux1zSAvFD5oFWaf1NiO09UXrekvIijgNqL3KAx3lT2VdN0JNjsFi1kh4cZFr7G
- Ool4467C3phOazRCeGrx6gp8FtadTfw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Wm5azrndT/ixzHpj3wS76Ed3YMbFPy05oyTml/Kg9/E=;
+ b=N3kma9ad+EFMQGZFlbb0dlB0rbOWfQJEH5UEjYuoASB+aSfy3VN1napgJjTpo+iRMRh04z
+ H3tpSJ0kjaZdOwVh8LyFauDoGUsDiaPXVZ3K2rTkXwHeiDhA6WMVv1lbfxOxhFNnwT/edc
+ Ap+yC5JIsOQH19dMepxtT4w9Y2xIlbY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-435-oIXvD59wP06nJ71-G-TXrg-1; Tue, 28 Jun 2022 06:16:12 -0400
-X-MC-Unique: oIXvD59wP06nJ71-G-TXrg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 10-20020a1c020a000000b003a03f8cc1acso5352380wmc.6
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:16:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=GV87i9afZwTGKtaS5DtGyOyhm/9gt/StmJrM3duHQHw=;
- b=ayhpkU8w3KzuGhmT5Ctb/Cgup6IDyTjSQRFrXJMzrUZQRfKnHCSpskkkI7M3HnVksR
- HXEgZuvzdssjAjL+7TQFqk3DGiAIdUXImLWJs3SYy1m5M1qjaA90wGHr+C0SF1ZvXUbH
- LvndXxcuXfyU7w3PC/J3s7bYMw2N1BwTr6qOEKVig4yVYbZE63bJqNayodoF8tC9r/N8
- CfFecp5ygYqUDROW6Ve5w7IBLkHeluW9CN0sR3EUPXeMjbMnnG04s0amosBvZ4R6Ndzs
- gs5rdeZd6LHPQMbOHgbq2cMThR1k0iDWQuwS1PKHf5taUQ8DLEJW+HaLRLutQ4lVBDhM
- CisQ==
-X-Gm-Message-State: AJIora9D0tRT2EQcYqoOjAmyiR+Hz4AfElb9UgVt7bmu1PJ/3Dz2UpQq
- zaCN+4qjBSLyhab3YMWhGKBLozLkqTmxwIws+KwStuqCnxJ450Cf55xnrlzRCGyUalU/SGTxTRm
- K3Ns4oqS2ILcJJ2Q=
-X-Received: by 2002:adf:ec82:0:b0:21d:20a1:3f6b with SMTP id
- z2-20020adfec82000000b0021d20a13f6bmr1778532wrn.394.1656411371177; 
- Tue, 28 Jun 2022 03:16:11 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1txcQvcDp0RWcdvbISe1oYSJB1Hnx15l32gpGJxaiYLUc1UywlQCPsW0sge4xvQ7SlBESsAKA==
-X-Received: by 2002:adf:ec82:0:b0:21d:20a1:3f6b with SMTP id
- z2-20020adfec82000000b0021d20a13f6bmr1778512wrn.394.1656411370981; 
- Tue, 28 Jun 2022 03:16:10 -0700 (PDT)
-Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
- h13-20020adff4cd000000b002103aebe8absm13141592wrp.93.2022.06.28.03.16.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 03:16:10 -0700 (PDT)
-Date: Tue, 28 Jun 2022 06:16:06 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org, imammedo@redhat.com
-Subject: Re: [PATCH 00/12] Introduce new acpi/smbios qtests using biosbits
-Message-ID: <20220628061307-mutt-send-email-mst@kernel.org>
-References: <20220627072856.1529357-1-ani@anisinha.ca>
- <Yrq3HUEghZ7IFh//@redhat.com>
- <CAARzgwzDdQGQ81bNAOg6t=4rhfdkQjunscT+x=sUOEp92R=cmg@mail.gmail.com>
- <YrrSk+HPXqCc/Jz3@redhat.com>
+ us-mta-74-fyN_NE3hNqq_XDIoI4BRnQ-1; Tue, 28 Jun 2022 06:16:19 -0400
+X-MC-Unique: fyN_NE3hNqq_XDIoI4BRnQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31CFA3C0F375;
+ Tue, 28 Jun 2022 10:16:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 479D2404E4DC;
+ Tue, 28 Jun 2022 10:16:17 +0000 (UTC)
+Date: Tue, 28 Jun 2022 11:16:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
+Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
+ acpi/tests/bits: add README file for bits qtests)
+Message-ID: <YrrU7knId5XGIgWh@redhat.com>
+References: <CAARzgwyWK2HNbz=9=uoA+DDTpnn2q3CRmYVyjLwfMs1wi24-LA@mail.gmail.com>
+ <20220628024810-mutt-send-email-mst@kernel.org>
+ <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
+ <4e1c2a45-eb53-e210-1ce1-05837bf1e7c3@redhat.com>
+ <20220628030749-mutt-send-email-mst@kernel.org>
+ <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
+ <YrqyWhu8ThAcUGI4@redhat.com>
+ <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
+ <Yrq6anPW60FkjmK6@redhat.com>
+ <20220628060727-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YrrSk+HPXqCc/Jz3@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20220628060727-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,23 +92,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 11:06:11AM +0100, Daniel P. Berrangé wrote:
-> Ok, with that kind of size, it is definitely not something we want to
-> be committing to git either,
+On Tue, Jun 28, 2022 at 06:12:48AM -0400, Michael S. Tsirkin wrote:
+> On Tue, Jun 28, 2022 at 09:23:06AM +0100, Daniel P. BerrangÃ© wrote:
+> > So bundling a pre-built biosbits in QEMU appears to mean that we're in
+> > turn going to unexpectedly bundle a bunch of other 3rd party projects
+> > too, all with dubious license compliance.
+> 
+> Well looks like classical mere aggregation to me ... license issues
+> need to be figured out if we are to distribute things but I think
+> this is basically what distros do anyway.
+> 
+> And I doubt we want to support arbitrary versions of grub etc,
+> they are very distro specific tools.
+> I don't see why we can't have the resulting ISOs in some submodule -
+> nothing requires us to distribute it in qemu tarballs.
 
-Not to qemu git I think.
+If we don't distribute it in the tarballs then these tests won't be
+usable for testing release builds of QEMU which feels wrong to me.
 
-> nor consuming via a submodule since the
-> latter would bloat the release tarballs too.
-
-Hmm - why? We don't have to put the submodule in the tarball if we don't
-want to. People consuming tarballs probably do not need these tests
-anyway - just a basic smoketest is all that is needed.
-
+With regards,
+Daniel
 -- 
-MST
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
