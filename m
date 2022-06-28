@@ -2,65 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40EFE55C019
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:12:05 +0200 (CEST)
-Received: from localhost ([::1]:54796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 836B155C01E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:17:54 +0200 (CEST)
+Received: from localhost ([::1]:39586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68CS-00071c-Am
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47458)
+	id 1o68I5-0007dI-Ba
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:17:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o686y-0002wM-BE
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:06:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56267)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o6880-0003ed-UO
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:07:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o686u-0005s2-Fu
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:06:22 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o687v-0005z6-AM
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:07:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656410778;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1656410841;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X6BbkySCfARKVCcHNnCRw9/SWyiUK2lPllc4llt4TLg=;
- b=cOyEqNaBlgHiCc5ipWKUdPut/fcJOHAm15HUS1ycXFHzdfMDEK9qpAYwYRuKs9lwhAU7g3
- sWQbLsVUUzT/RUBlyYKEkIPrA9lM+lDjWnF7TY6HQLUIYvOerdlUIblPUP1IROUru+kxMP
- mVwbe55AEObm0EnHyeAsXrkUX49wnGA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6cQfWuHqX0TL3axxpAYMJZu1xvqH7GkcdvBUE6HiAYs=;
+ b=IdXJIzQlRSAZPnPRilWyWFBkM/3lRR4QYcKl+OFl4eOzK97GB8PVIKIGqv7sqp/vd8DtSu
+ panpOVvcur9BRmcn6jbgKQq9jsCkWAF42MBH2kW9Wc6Uo4Ova3XtEqcxsIHkxynKX+pylR
+ eTafQsHsSUxQwFjhs+2g5a7lNqDkLHE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-150-e-pESkBCMtWMLeaRmrQURg-1; Tue, 28 Jun 2022 06:06:15 -0400
-X-MC-Unique: e-pESkBCMtWMLeaRmrQURg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 709AC18A6523;
- Tue, 28 Jun 2022 10:06:15 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E43F492C3B;
- Tue, 28 Jun 2022 10:06:14 +0000 (UTC)
-Date: Tue, 28 Jun 2022 11:06:11 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com
-Subject: Re: [PATCH 00/12] Introduce new acpi/smbios qtests using biosbits
-Message-ID: <YrrSk+HPXqCc/Jz3@redhat.com>
-References: <20220627072856.1529357-1-ani@anisinha.ca>
- <Yrq3HUEghZ7IFh//@redhat.com>
- <CAARzgwzDdQGQ81bNAOg6t=4rhfdkQjunscT+x=sUOEp92R=cmg@mail.gmail.com>
+ us-mta-218-oJUAA0wRMJuj9jUG86sWig-1; Tue, 28 Jun 2022 06:07:19 -0400
+X-MC-Unique: oJUAA0wRMJuj9jUG86sWig-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 6-20020a1c0206000000b003a02cd754d1so4876093wmc.9
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:07:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=6cQfWuHqX0TL3axxpAYMJZu1xvqH7GkcdvBUE6HiAYs=;
+ b=MhlI9bnocvBKxQKvzQ5pROddQxdyaXQUZp9CGSsFftkil0SZrOwIvZNX4qEXJlvfo+
+ kpb5vIL2Vb0n+ytjKseKG0MxTpdWRH/x4B/Y+9RxmYJG0J8iea+97EkaspOKgymqrIhf
+ zfv4NVXvHGMV9Pzr2Z8fTAzMbT+pUxqImtc8nL+S53bVQlypvTqOunSj6t3vOt2zWvi0
+ 3iCouU/JKxKxsQS7yqVQMLIxe+N1wRDJbvGqC+7QEXYkZ5J+A2NBLPhivOHs1NgsIOd0
+ A4KMvGS96f/mVg8fmjiXarLel66jRNHqjjS9JNjlR9vkVCBrJAerlhOqtwIqhA8BTkIt
+ wHAg==
+X-Gm-Message-State: AJIora9katMtDiz2zMmmjkBahlSzzjdiDF5v7psCBhRCfZpC8AJfnjth
+ DvD4lgj9J+S76pucizZTTN8tEU9Ne5vCFS5IVGA6wX3/QQP8kE4r0bVvC13wJDcqFsNZI1voOSu
+ 3yGfnpJUVi2rIMuU=
+X-Received: by 2002:adf:fb49:0:b0:21a:3ccc:fb77 with SMTP id
+ c9-20020adffb49000000b0021a3cccfb77mr16488915wrs.280.1656410838544; 
+ Tue, 28 Jun 2022 03:07:18 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uoQqJoRhY1MxjPZffKwY2wkWAUr4FO1tkeyyiM+ZyDXTYbmrPT9u3jK4hDiw8gOze2OGGScA==
+X-Received: by 2002:adf:fb49:0:b0:21a:3ccc:fb77 with SMTP id
+ c9-20020adffb49000000b0021a3cccfb77mr16488897wrs.280.1656410838322; 
+ Tue, 28 Jun 2022 03:07:18 -0700 (PDT)
+Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
+ d9-20020a05600c3ac900b003a03be22f9fsm17739737wms.18.2022.06.28.03.07.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 03:07:17 -0700 (PDT)
+Date: Tue, 28 Jun 2022 06:07:13 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
+Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
+ acpi/tests/bits: add README file for bits qtests)
+Message-ID: <20220628060510-mutt-send-email-mst@kernel.org>
+References: <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
+ <4e1c2a45-eb53-e210-1ce1-05837bf1e7c3@redhat.com>
+ <20220628030749-mutt-send-email-mst@kernel.org>
+ <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
+ <YrqyWhu8ThAcUGI4@redhat.com>
+ <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
+ <Yrq6anPW60FkjmK6@redhat.com>
+ <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
+ <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
+ <YrrSFig7Qo/PKqNx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAARzgwzDdQGQ81bNAOg6t=4rhfdkQjunscT+x=sUOEp92R=cmg@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <YrrSFig7Qo/PKqNx@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -81,67 +107,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 02:03:15PM +0530, Ani Sinha wrote:
-> On Tue, Jun 28, 2022 at 1:39 PM Daniel P. Berrang√© <berrange@redhat.com> wrote:
-> >
-> > On Mon, Jun 27, 2022 at 12:58:44PM +0530, Ani Sinha wrote:
-> > > Biosbits is a software written by Josh Triplett that can be downloaded by
-> > > visiting https://biosbits.org/. The github codebase can be found here:
-> > > https://github.com/biosbits/bits/tree/master. It is a software that exercizes
-> > > the bios components such as acpi and smbios tables directly through acpica
-> > > bios interpreter (a freely available C based library written by Intel,
-> > > downloadable from https://acpica.org/ and is included with biosbits) without an
-> > > operating system getting involved in between.
-> > > There are several advantages to directly testing the bios in a real physical
-> > > machine or VM as opposed to indirectly discovering bios issues through the
-> > > operating system. For one thing, the OSes tend to hide bios problems from the
-> > > end user. The other is that we have more control of what we wanted to test
-> > > and how by directly using acpica interpreter on top of the bios on a running
-> > > system. More details on the inspiration for developing biosbits and its real
-> > > life uses can be found in (a) and (b).
-> > > This patchset contains QEMU qtests written in python that exercizes the QEMU
-> > > bios components using biosbits and reports test failures.
-> > >
-> > > Details of each of the files added by this patchset are provided in the README
-> > > file which is part of Patch 11. Every effort to contact Josh, through various
-> > > means including email, twitter, linkedIn etc has failed. Hence, the changes to
-> > > build biosbits with the newer compiler, upgrade acpica and other changes are
-> > > currently maintained in a forked project in my personal github. We may want to
-> > > maintain bits in a separate fork in a stable repository that is accessible by
-> > > QEMU developers.
-> > >
-> > > The newly introduced qtest currently only run for x86_64 platform. They pass
-> > > both when running make check on a baremetal box as well as from inside a vm.
-> > >
-> > > Thanks to Igor M for pointing me to this work.
-> > >
-> > > (a) https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/867/original/bits.pdf
-> > > (b) https://www.youtube.com/watch?v=36QIepyUuhg
-> > >
-> > > Ani Sinha (12):
-> > >   qtest: meson.build changes required to integrate python based qtests
-> > >   acpi/tests/bits: add prebuilt bios bits zip archive
-> > >   acpi/tests/bits: add prebuilt bits generated grub modules and scripts
-> >
-> > These two files didn't arrive on the mailing list, presumaby because
-> > pre-built binaries made the patches way too large.
+On Tue, Jun 28, 2022 at 11:04:30AM +0100, Daniel P. BerrangÈ wrote:
+> If it is actually booting a real guest image (from biosbits) and interacting
+> with it, then it does feel like the scope of this testing is more appropriate
+> to QEMU's avocado framework than qtest, especially given the desire to use
+> python for it all.
 > 
-> Yes they are over 25 MB and my gmail account does not support
-> attachments more than that size.
+> With regards,
+> Daniel
 
-Ok, with that kind of size, it is definitely not something we want to
-be committing to git either, nor consuming via a submodule since the
-latter would bloat the release tarballs too.
+I feel avocado is directed towards booting full fledged guest OS.
+It makes it much easier to figure out guest issues but it also
+prone to false positives and is harder to debug as a result.
+Booting a minimal image like this shouldn't require that.
 
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+MST
 
 
