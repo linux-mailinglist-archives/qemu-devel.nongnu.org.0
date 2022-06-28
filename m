@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05E955E529
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 16:03:01 +0200 (CEST)
-Received: from localhost ([::1]:39972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 842A455E532
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 16:06:53 +0200 (CEST)
+Received: from localhost ([::1]:46674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Bnw-0007Wu-Fe
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 10:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56288)
+	id 1o6Brg-0004TZ-Iz
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 10:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1o6BiY-0003Bj-JC; Tue, 28 Jun 2022 09:57:26 -0400
+ id 1o6Bic-0003LZ-62; Tue, 28 Jun 2022 09:57:30 -0400
 Received: from [200.168.210.66] (port=7716 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1o6BiW-0008KX-Fv; Tue, 28 Jun 2022 09:57:26 -0400
+ id 1o6Bia-0008KX-JB; Tue, 28 Jun 2022 09:57:29 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 28 Jun 2022 10:40:13 -0300
+ Tue, 28 Jun 2022 10:40:16 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 5E43B80009B;
- Tue, 28 Jun 2022 10:40:13 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 132D380009B;
+ Tue, 28 Jun 2022 10:40:16 -0300 (-03)
 From: Leandro Lupori <leandro.lupori@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
- Leandro Lupori <leandro.lupori@eldorado.org.br>,
- Fabiano Rosas <farosas@linux.ibm.com>
-Subject: [PATCH v3 1/3] ppc: Check partition and process table alignment
-Date: Tue, 28 Jun 2022 10:39:57 -0300
-Message-Id: <20220628133959.15131-2-leandro.lupori@eldorado.org.br>
+ Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: [PATCH v3 2/3] target/ppc: Improve Radix xlate level validation
+Date: Tue, 28 Jun 2022 10:39:58 -0300
+Message-Id: <20220628133959.15131-3-leandro.lupori@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220628133959.15131-1-leandro.lupori@eldorado.org.br>
 References: <20220628133959.15131-1-leandro.lupori@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 28 Jun 2022 13:40:13.0790 (UTC)
- FILETIME=[983827E0:01D88AF4]
+X-OriginalArrivalTime: 28 Jun 2022 13:40:16.0469 (UTC)
+ FILETIME=[99D0F050:01D88AF4]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,129 +63,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check if partition and process tables are properly aligned, in
-their size, according to PowerISA 3.1B, Book III 6.7.6 programming
-note. Hardware and KVM also raise an exception in these cases.
+Check if the number and size of Radix levels are valid on
+POWER9/POWER10 CPUs, according to the supported Radix Tree
+Configurations described in their User Manuals.
 
 Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 ---
- hw/ppc/spapr.c             |  5 +++++
- hw/ppc/spapr_hcall.c       |  9 +++++++++
- target/ppc/mmu-book3s-v3.c |  5 +++++
- target/ppc/mmu-radix64.c   | 17 +++++++++++++----
- 4 files changed, 32 insertions(+), 4 deletions(-)
+ target/ppc/mmu-radix64.c | 49 +++++++++++++++++++++++++++++++---------
+ 1 file changed, 38 insertions(+), 11 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index fd4942e881..4b1f346087 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1329,6 +1329,11 @@ static bool spapr_get_pate(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
-         patb = spapr->nested_ptcr & PTCR_PATB;
-         pats = spapr->nested_ptcr & PTCR_PATS;
- 
-+        /* Check if partition table is properly aligned */
-+        if (patb & MAKE_64BIT_MASK(0, pats + 12)) {
-+            return false;
-+        }
-+
-         /* Calculate number of entries */
-         pats = 1ull << (pats + 12 - 4);
-         if (pats <= lpid) {
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index d761a7d0c3..a8d4a6bcf0 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -920,6 +920,7 @@ static target_ulong h_register_process_table(PowerPCCPU *cpu,
-     target_ulong page_size = args[2];
-     target_ulong table_size = args[3];
-     target_ulong update_lpcr = 0;
-+    target_ulong table_byte_size;
-     uint64_t cproc;
- 
-     if (flags & ~FLAGS_MASK) { /* Check no reserved bits are set */
-@@ -927,6 +928,14 @@ static target_ulong h_register_process_table(PowerPCCPU *cpu,
-     }
-     if (flags & FLAG_MODIFY) {
-         if (flags & FLAG_REGISTER) {
-+            /* Check process table alignment */
-+            table_byte_size = 1ULL << (table_size + 12);
-+            if (proc_tbl & (table_byte_size - 1)) {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                    "%s: process table not properly aligned: proc_tbl 0x"
-+                    TARGET_FMT_lx" proc_tbl_size 0x"TARGET_FMT_lx"\n",
-+                    __func__, proc_tbl, table_byte_size);
-+            }
-             if (flags & FLAG_RADIX) { /* Register new RADIX process table */
-                 if (proc_tbl & 0xfff || proc_tbl >> 60) {
-                     return H_P2;
-diff --git a/target/ppc/mmu-book3s-v3.c b/target/ppc/mmu-book3s-v3.c
-index f4985bae78..c8f69b3df9 100644
---- a/target/ppc/mmu-book3s-v3.c
-+++ b/target/ppc/mmu-book3s-v3.c
-@@ -28,6 +28,11 @@ bool ppc64_v3_get_pate(PowerPCCPU *cpu, target_ulong lpid, ppc_v3_pate_t *entry)
-     uint64_t patb = cpu->env.spr[SPR_PTCR] & PTCR_PATB;
-     uint64_t pats = cpu->env.spr[SPR_PTCR] & PTCR_PATS;
- 
-+    /* Check if partition table is properly aligned */
-+    if (patb & MAKE_64BIT_MASK(0, pats + 12)) {
-+        return false;
-+    }
-+
-     /* Calculate number of entries */
-     pats = 1ull << (pats + 12 - 4);
-     if (pats <= lpid) {
 diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index 21ac958e48..9a8a2e2875 100644
+index 9a8a2e2875..705bff76be 100644
 --- a/target/ppc/mmu-radix64.c
 +++ b/target/ppc/mmu-radix64.c
-@@ -383,7 +383,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
--    uint64_t offset, size, prtbe_addr, prtbe0, base_addr, nls, index, pte;
-+    uint64_t offset, size, prtb, prtbe_addr, prtbe0, base_addr, nls, index, pte;
-     int fault_cause = 0, h_page_size, h_prot;
-     hwaddr h_raddr, pte_addr;
-     int ret;
-@@ -393,9 +393,18 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-                   __func__, access_str(access_type),
-                   eaddr, mmu_idx, pid);
+@@ -236,17 +236,37 @@ static void ppc_radix64_set_rc(PowerPCCPU *cpu, MMUAccessType access_type,
+     }
+ }
  
-+    prtb = (pate.dw1 & PATE1_R_PRTB);
-+    size = 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
-+    if (prtb & (size - 1)) {
-+        /* Process Table not properly aligned */
-+        if (guest_visible) {
-+            ppc_radix64_raise_si(cpu, access_type, eaddr, DSISR_R_BADCONFIG);
-+        }
-+        return 1;
++static bool ppc_radix64_is_valid_level(int level, int psize, uint64_t nls)
++{
++    /*
++     * Check if this is a valid level, according to POWER9 and POWER10
++     * Processor User's Manuals, sections 4.10.4.1 and 5.10.6.1, respectively:
++     * Supported Radix Tree Configurations and Resulting Page Sizes.
++     *
++     * Note: these checks are specific to POWER9 and POWER10 CPUs. Any future
++     * CPUs that supports a different Radix MMU configuration will need their
++     * own implementation.
++     */
++    switch (level) {
++    case 0:     /* Root Page Dir */
++        return psize == 52 && nls == 13;
++    case 1:
++    case 2:
++        return nls == 9;
++    case 3:
++        return nls == 9 || nls == 5;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "invalid radix level: %d\n", level);
++        return false;
 +    }
++}
 +
-     /* Index Process Table by PID to Find Corresponding Process Table Entry */
-     offset = pid * sizeof(struct prtb_entry);
--    size = 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
-     if (offset >= size) {
-         /* offset exceeds size of the process table */
-         if (guest_visible) {
-@@ -403,7 +412,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+ static int ppc_radix64_next_level(AddressSpace *as, vaddr eaddr,
+                                   uint64_t *pte_addr, uint64_t *nls,
+                                   int *psize, uint64_t *pte, int *fault_cause)
+ {
+     uint64_t index, pde;
+ 
+-    if (*nls < 5) { /* Directory maps less than 2**5 entries */
+-        *fault_cause |= DSISR_R_BADCONFIG;
+-        return 1;
+-    }
+-
+     /* Read page <directory/table> entry from guest address space */
+     pde = ldq_phys(as, *pte_addr);
+     if (!(pde & R_PTE_VALID)) {         /* Invalid Entry */
+@@ -270,12 +290,8 @@ static int ppc_radix64_walk_tree(AddressSpace *as, vaddr eaddr,
+                                  hwaddr *raddr, int *psize, uint64_t *pte,
+                                  int *fault_cause, hwaddr *pte_addr)
+ {
+-    uint64_t index, pde, rpn , mask;
+-
+-    if (nls < 5) { /* Directory maps less than 2**5 entries */
+-        *fault_cause |= DSISR_R_BADCONFIG;
+-        return 1;
+-    }
++    uint64_t index, pde, rpn, mask;
++    int level = 0;
+ 
+     index = eaddr >> (*psize - nls);    /* Shift */
+     index &= ((1UL << nls) - 1);       /* Mask */
+@@ -283,6 +299,11 @@ static int ppc_radix64_walk_tree(AddressSpace *as, vaddr eaddr,
+     do {
+         int ret;
+ 
++        if (!ppc_radix64_is_valid_level(level++, *psize, nls)) {
++            *fault_cause |= DSISR_R_BADCONFIG;
++            return 1;
++        }
++
+         ret = ppc_radix64_next_level(as, eaddr, pte_addr, &nls, psize, &pde,
+                                      fault_cause);
+         if (ret) {
+@@ -456,6 +477,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
          }
-         return 1;
-     }
--    prtbe_addr = (pate.dw1 & PATE1_R_PRTB) + offset;
-+    prtbe_addr = prtb + offset;
+     } else {
+         uint64_t rpn, mask;
++        int level = 0;
  
-     if (vhyp_flat_addressing(cpu)) {
-         prtbe0 = ldq_phys(cs->as, prtbe_addr);
-@@ -568,7 +577,7 @@ static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
-         return false;
-     }
+         index = (eaddr & R_EADDR_MASK) >> (*g_page_size - nls); /* Shift */
+         index &= ((1UL << nls) - 1);                            /* Mask */
+@@ -475,6 +497,11 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+                 return ret;
+             }
  
--    /* Get Process Table */
-+    /* Get Partition Table */
-     if (cpu->vhyp) {
-         PPCVirtualHypervisorClass *vhc;
-         vhc = PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
++            if (!ppc_radix64_is_valid_level(level++, *g_page_size, nls)) {
++                fault_cause |= DSISR_R_BADCONFIG;
++                return 1;
++            }
++
+             ret = ppc_radix64_next_level(cs->as, eaddr & R_EADDR_MASK, &h_raddr,
+                                          &nls, g_page_size, &pte, &fault_cause);
+             if (ret) {
 -- 
 2.25.1
 
