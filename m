@@ -2,97 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C346A55BDFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 06:17:06 +0200 (CEST)
-Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E6B55BE0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 06:25:18 +0200 (CEST)
+Received: from localhost ([::1]:51572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o62ev-0008IU-Ea
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 00:17:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35960)
+	id 1o62mr-00042N-DH
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 00:25:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o62dr-0007Zb-Ri
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:15:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57813)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o62do-00033o-8l
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:15:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656389754;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LeqbfFO/5dooSYhB9AjszRvmhq2igkbReJZJQeDWbDw=;
- b=KaP/avh2sdP48WJxO119n+ooyIz0bqLaZiUW8WlAOuXZwFaAAbIyVgckLgEATnZHX9sq7R
- eAN7T4i6NMDaEUF4p4ZCL2JK0ljOzDMB7/AMoKI2OUm+QPxpWiyJ3uC5dMPJoLeRQzdVnm
- 9+WRXAerO4ilC/2G0XBvGywhlPFnP2k=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-159-3sr_wjPaNeC5h-ZPNui0og-1; Tue, 28 Jun 2022 00:15:52 -0400
-X-MC-Unique: 3sr_wjPaNeC5h-ZPNui0og-1
-Received: by mail-pf1-f198.google.com with SMTP id
- n21-20020a056a000d5500b005251893308cso4696410pfv.6
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:15:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o62j8-00014G-Oy
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:21:26 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:45835)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o62j6-0003cs-TF
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:21:26 -0400
+Received: by mail-pf1-x431.google.com with SMTP id 128so10859853pfv.12
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:21:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ILJ4Kz68ASRNzR6UBmLHINCe4zgwapAsaTAlt+05Ed8=;
+ b=nLPbe7q5Wql7A/8XQ+XnINuS8M59VAhkVNRnhQRJwMOakD+FwPDZUUd0xe1j+T6ac9
+ RT+EH57wyqoBcAV+nct0M38Hx0BuAp5y3iJybu3mLtGEZuoQEoCrsve/RFUP6v/yY2uq
+ qkpr2LlZTKmQ5kUPTLq98ExQkZj9g4Xt2+/DfN7AzYD9KQ4a3W3EW6H3XBCU5rq+a+bb
+ nPJvUbMH5Ne3AfAp+kac+ItASGcvNHHwaSoNpsMcQcOwVIgdN1BJpa0mmzD8CcDx6aR4
+ cnO8Ok+MoxK9SeOYXkUgf9HKSzgavKqw1TtH21t1RI4Va6z3Q7Yx1/ja5LyNEaEseCEM
+ veGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=LeqbfFO/5dooSYhB9AjszRvmhq2igkbReJZJQeDWbDw=;
- b=G3nzcQixpT1FSXHLd4Ix/LhrO/cmyx1D7nN1FEBf68qP92Gl3+OnqgqqOShaOLBA5n
- oQrp+xeXnDEcPizfv3u9w9v0KfdGx42DWZGaU6GMrY55TsnNn5PNj6UjnBVrCCxYoXx7
- mYSkLenLPKEl8YCO+WDxjR6+i4AE4MdXM5KjS36cWsjZ/AF9I+lH9XSyNU4f1Ya8TJUl
- ICyoH6ueOJIlwABQSX90EYmhGXnUDLgm189cvrQYmrlo+6bNPJ9+EsgRuNwPukXsZSwB
- 3aAGUCZD8j7VhpkuFGg8E6SZCUG3JeHSEMt/oi0NOKodAePgXcJHLNQz4+7Dm918FaHN
- vXug==
-X-Gm-Message-State: AJIora8v7aTzADAPQoBeTh68qO7CwHjYQPey5cqz4gcocWtnrIFa+OZz
- yp6VuMOMCIcQ2IX9iUezcpP8QiqXUdnGti9R5nFd1vY5xqqnrFsVL7pTUzDFPIMXS49RFQFiSET
- PHXwtjzpqwcoj6yU=
-X-Received: by 2002:a05:6a00:16c7:b0:520:6ede:2539 with SMTP id
- l7-20020a056a0016c700b005206ede2539mr2608144pfc.46.1656389751540; 
- Mon, 27 Jun 2022 21:15:51 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vE/SAajPsXY0Q7+k5wBoi0H0YN6mxW5vCxY8/chCK80bKq9uUxiq7rUyJd5yWA54+Jy+sxcw==
-X-Received: by 2002:a05:6a00:16c7:b0:520:6ede:2539 with SMTP id
- l7-20020a056a0016c700b005206ede2539mr2608127pfc.46.1656389751252; 
- Mon, 27 Jun 2022 21:15:51 -0700 (PDT)
-Received: from [10.72.14.30] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- m20-20020aa78a14000000b00518950bfc82sm8435276pfa.10.2022.06.27.21.15.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 21:15:50 -0700 (PDT)
-Message-ID: <a607ebc5-e518-7b0d-722c-1bebcb18bb41@redhat.com>
-Date: Tue, 28 Jun 2022 12:15:41 +0800
+ bh=ILJ4Kz68ASRNzR6UBmLHINCe4zgwapAsaTAlt+05Ed8=;
+ b=pBzP4jnvO0k7EeZSCDEx99XPAzH0DeZjlk/RQaxSx/s/YS7fQFya6eqBm+64PkFqfG
+ 2bZ4HMiB8B7gytrJ4LMxKOknRrW5FBa+NYJ2IfhKfQsj2E7W8wgkYxUMCoJcLKLWurkt
+ 147l0rVZ7lo91QeL/YMZQzq6PTq8m4cmZMBP46qCcEzqGDX8HwOWLR6Y+9YFtn4H4vDJ
+ 1YwlQc5v3TIQ8OzC9klQTOoM8k4Q+ZVG4nxdju5ULz2aAzIzjdAgy6L/rWrBmi34uU4s
+ k5e9Duz/ev0PC+2GmVNNch/c+MxPCMGC90B60txqt8axMy/YPuCFmxfPY8s2CQ/gLqVe
+ 0Ypw==
+X-Gm-Message-State: AJIora9dYhzC9PzXAe9/FcTPcIgsB5lhV2dbiJGNFfq9Ah8v0lEvQebh
+ GrTnrnhH0eu5DTJSKIz9rSEQDnqDjixExg==
+X-Google-Smtp-Source: AGRyM1sSqwUBLHAgxLD+VCDy+QWHEsh6833PoYw2rXMzEPD5qODe8kPl6UiIk7C8TFp98yfdH0M+Lg==
+X-Received: by 2002:a65:6e9b:0:b0:3fc:587a:6dcd with SMTP id
+ bm27-20020a656e9b000000b003fc587a6dcdmr15549810pgb.200.1656390083008; 
+ Mon, 27 Jun 2022 21:21:23 -0700 (PDT)
+Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
+ jg6-20020a17090326c600b0016a087cfad8sm7994929plb.264.2022.06.27.21.21.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 21:21:22 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v4 00/45] target/arm: Scalable Matrix Extension
+Date: Tue, 28 Jun 2022 09:50:32 +0530
+Message-Id: <20220628042117.368549-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH 2/2] tap: initialize TAPState->enabled according to the
- actual state of queue
-Content-Language: en-US
-To: Andrey Ryabinin <arbn@yandex-team.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, yc-core@yandex-team.ru
-References: <20220614111843.24960-1-arbn@yandex-team.com>
- <20220614112144.25324-1-arbn@yandex-team.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220614112144.25324-1-arbn@yandex-team.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,120 +85,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/6/14 19:21, Andrey Ryabinin 写道:
-> Currently TAPState->enabled initialized as true. If fd was passed to qemu
-> in a disabled state it will cause an assert at the attempt to detach queue
-> in virtio_net_set_queues():
->
-> virtio_net_set_queues() :
->              r = peer_detach() -> tap_disable():
->                                      if (s->enabled == 0) {
->                                         return 0;
-> 				    } else {
-> 				       //Will return an error.
->                                         ret = tap_fd_disable(s->fd);
->                                         ...
-> 				       return ret;
->              assert(!r);
->
-> Initialize ->enabled according to the actual state of fd to fix this.
->
-> Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
-> ---
->   net/tap-bsd.c     |  5 +++++
->   net/tap-linux.c   | 12 ++++++++++++
->   net/tap-solaris.c |  5 +++++
->   net/tap.c         |  2 +-
->   net/tap_int.h     |  1 +
->   5 files changed, 24 insertions(+), 1 deletion(-)
->
-> diff --git a/net/tap-bsd.c b/net/tap-bsd.c
-> index 005ce05c6e0..8c21f058c8c 100644
-> --- a/net/tap-bsd.c
-> +++ b/net/tap-bsd.c
-> @@ -217,6 +217,11 @@ int tap_probe_vnet_hdr_len(int fd, int len)
->       return 0;
->   }
->   
-> +bool tap_probe_enabled(int fd)
-> +{
-> +    return true;
-> +}
-> +
->   void tap_fd_set_vnet_hdr_len(int fd, int len)
->   {
->   }
-> diff --git a/net/tap-linux.c b/net/tap-linux.c
-> index 304ff45071d..6078ba03af6 100644
-> --- a/net/tap-linux.c
-> +++ b/net/tap-linux.c
-> @@ -193,6 +193,18 @@ int tap_probe_vnet_hdr_len(int fd, int len)
->       return 1;
->   }
->   
-> +bool tap_probe_enabled(int fd)
-> +{
-> +    struct ifreq ifr;
-> +
-> +    if (ioctl(fd, TUNGETIFF, &ifr) != 0) {
-> +        error_report("TUNGETIFF ioctl() failed: %s",
-> +                     strerror(errno));
-> +        return false;
-> +    }
-> +    return !(ifr.ifr_flags & IFF_DETACH_QUEUE);
+Changes for v4:
+  * Rebase on mainline (20 patches upstreamed).
+  * Adjust sve_access_check when PSTATE.SM set.
+  * Adjust sve insns to indicate not valid while streaming.
+  * Other misc adjustments per review.
 
 
-Is it better to check IFF_MULT_QUEUE before this to unbreak the old host?
-
-Thanks
+r~
 
 
-> +}
-> +
->   void tap_fd_set_vnet_hdr_len(int fd, int len)
->   {
->       if (ioctl(fd, TUNSETVNETHDRSZ, &len) == -1) {
-> diff --git a/net/tap-solaris.c b/net/tap-solaris.c
-> index a44f8805c23..ccaa3334882 100644
-> --- a/net/tap-solaris.c
-> +++ b/net/tap-solaris.c
-> @@ -221,6 +221,11 @@ int tap_probe_vnet_hdr_len(int fd, int len)
->       return 0;
->   }
->   
-> +bool tap_probe_enabled(int fd)
-> +{
-> +    return true;
-> +}
-> +
->   void tap_fd_set_vnet_hdr_len(int fd, int len)
->   {
->   }
-> diff --git a/net/tap.c b/net/tap.c
-> index b3ddfd4a74b..799f8ec7c76 100644
-> --- a/net/tap.c
-> +++ b/net/tap.c
-> @@ -399,7 +399,7 @@ static TAPState *net_tap_fd_init(NetClientState *peer,
->       s->host_vnet_hdr_len = vnet_hdr ? sizeof(struct virtio_net_hdr) : 0;
->       s->using_vnet_hdr = false;
->       s->has_ufo = tap_probe_has_ufo(s->fd);
-> -    s->enabled = true;
-> +    s->enabled = tap_probe_enabled(s->fd);
->       tap_set_offload(&s->nc, 0, 0, 0, 0, 0);
->       /*
->        * Make sure host header length is set correctly in tap:
-> diff --git a/net/tap_int.h b/net/tap_int.h
-> index 547f8a5a28f..b8fc3dfbfa7 100644
-> --- a/net/tap_int.h
-> +++ b/net/tap_int.h
-> @@ -37,6 +37,7 @@ void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp);
->   int tap_probe_vnet_hdr(int fd, Error **errp);
->   int tap_probe_vnet_hdr_len(int fd, int len);
->   int tap_probe_has_ufo(int fd);
-> +bool tap_probe_enabled(int fd);
->   void tap_fd_set_offload(int fd, int csum, int tso4, int tso6, int ecn, int ufo);
->   void tap_fd_set_vnet_hdr_len(int fd, int len);
->   int tap_fd_set_vnet_le(int fd, int vnet_is_le);
+Richard Henderson (45):
+  target/arm: Handle SME in aarch64_cpu_dump_state
+  target/arm: Add infrastructure for disas_sme
+  target/arm: Trap non-streaming usage when Streaming SVE is active
+  target/arm: Mark ADR as non-streaming
+  target/arm: Mark RDFFR, WRFFR, SETFFR as non-streaming
+  target/arm: Mark BDEP, BEXT, BGRP, COMPACT, FEXPA, FTSSEL as
+    non-streaming
+  target/arm: Mark PMULL, FMMLA as non-streaming
+  target/arm: Mark FTSMUL, FTMAD, FADDA as non-streaming
+  target/arm: Mark SMMLA, UMMLA, USMMLA as non-streaming
+  target/arm: Mark string/histo/crypto as non-streaming
+  target/arm: Mark gather/scatter load/store as non-streaming
+  target/arm: Mark gather prefetch as non-streaming
+  target/arm: Mark LDFF1 and LDNF1 as non-streaming
+  target/arm: Mark LD1RO as non-streaming
+  target/arm: Add SME enablement checks
+  target/arm: Handle SME in sve_access_check
+  target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
+  target/arm: Implement SME ZERO
+  target/arm: Implement SME MOVA
+  target/arm: Implement SME LD1, ST1
+  target/arm: Export unpredicated ld/st from translate-sve.c
+  target/arm: Implement SME LDR, STR
+  target/arm: Implement SME ADDHA, ADDVA
+  target/arm: Implement FMOPA, FMOPS (non-widening)
+  target/arm: Implement BFMOPA, BFMOPS
+  target/arm: Implement FMOPA, FMOPS (widening)
+  target/arm: Implement SME integer outer product
+  target/arm: Implement PSEL
+  target/arm: Implement REVD
+  target/arm: Implement SCLAMP, UCLAMP
+  target/arm: Reset streaming sve state on exception boundaries
+  target/arm: Enable SME for -cpu max
+  linux-user/aarch64: Clear tpidr2_el0 if CLONE_SETTLS
+  linux-user/aarch64: Reset PSTATE.SM on syscalls
+  linux-user/aarch64: Add SM bit to SVE signal context
+  linux-user/aarch64: Tidy target_restore_sigframe error return
+  linux-user/aarch64: Do not allow duplicate or short sve records
+  linux-user/aarch64: Verify extra record lock succeeded
+  linux-user/aarch64: Move sve record checks into restore
+  linux-user/aarch64: Implement SME signal handling
+  linux-user: Rename sve prctls
+  linux-user/aarch64: Implement PR_SME_GET_VL, PR_SME_SET_VL
+  target/arm: Only set ZEN in reset if SVE present
+  target/arm: Enable SME for user-only
+  linux-user/aarch64: Add SME related hwcap entries
+
+ docs/system/arm/emulation.rst     |    4 +
+ linux-user/aarch64/target_cpu.h   |    5 +-
+ linux-user/aarch64/target_prctl.h |   56 +-
+ target/arm/cpu.h                  |    7 +
+ target/arm/helper-sme.h           |  126 ++++
+ target/arm/helper-sve.h           |    4 +
+ target/arm/helper.h               |   18 +
+ target/arm/translate-a64.h        |   45 ++
+ target/arm/translate.h            |   16 +
+ target/arm/sme-fa64.decode        |   59 ++
+ target/arm/sme.decode             |   88 +++
+ target/arm/sve.decode             |   41 +-
+ linux-user/aarch64/cpu_loop.c     |    9 +
+ linux-user/aarch64/signal.c       |  242 ++++++-
+ linux-user/elfload.c              |   20 +
+ linux-user/syscall.c              |   28 +-
+ target/arm/cpu.c                  |   35 +-
+ target/arm/cpu64.c                |   11 +
+ target/arm/helper.c               |   57 +-
+ target/arm/sme_helper.c           | 1104 +++++++++++++++++++++++++++++
+ target/arm/sve_helper.c           |   28 +
+ target/arm/translate-a64.c        |  103 ++-
+ target/arm/translate-sme.c        |  376 ++++++++++
+ target/arm/translate-sve.c        |  387 ++++++++--
+ target/arm/translate-vfp.c        |   12 +
+ target/arm/translate.c            |    2 +
+ target/arm/vec_helper.c           |   24 +
+ target/arm/meson.build            |    3 +
+ 28 files changed, 2776 insertions(+), 134 deletions(-)
+ create mode 100644 target/arm/sme-fa64.decode
+ create mode 100644 target/arm/sme.decode
+ create mode 100644 target/arm/translate-sme.c
+
+-- 
+2.34.1
 
 
