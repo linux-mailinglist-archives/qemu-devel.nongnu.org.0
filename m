@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E971B55BF7F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 10:39:41 +0200 (CEST)
-Received: from localhost ([::1]:48128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C720955BF6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 10:27:59 +0200 (CEST)
+Received: from localhost ([::1]:56996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o66l3-0002FD-1U
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 04:39:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
+	id 1o66Zi-00052Q-LS
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 04:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o66SQ-0003eG-Lm
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:20:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o66SO-0003H0-7h
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:20:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656404423;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4DGNsNIZlYMXCB2OJ7QJM2NBXolbb6tNbJUrHVXtzWI=;
- b=BLg5QX1Nht+mo7JEfpI35zncV8/JWtYLATa0meuMSGmSTj8uyGSjcxbJwhmox+WMbwXaAn
- VvUHyBP+Jq/dhgGvzoPHXo/q+iIIQA7PsUCn5U/JWxkWtDiGczuDmq4/PM+M4t7QwvUXAL
- UfvkMk++QVNB21C6xhpmtT1vHHF06XA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-340-e-N3DaZ6PPSocf1BAJGh4A-1; Tue, 28 Jun 2022 04:20:17 -0400
-X-MC-Unique: e-N3DaZ6PPSocf1BAJGh4A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3E311C006AC;
- Tue, 28 Jun 2022 08:20:16 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36905492C3B;
- Tue, 28 Jun 2022 08:20:16 +0000 (UTC)
-Date: Tue, 28 Jun 2022 08:56:51 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, hare@suse.de, Hanna Reitz <hreitz@redhat.com>,
- dmitry.fomichev@wdc.com, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, damien.lemoal@opensource.wdc.com,
- qemu-block@nongnu.org
-Subject: Re: [RFC v3 2/5] qemu-io: add zoned block device operations.
-Message-ID: <Yrq0QwRahF9wJh1S@stefanha-x1.localdomain>
-References: <20220627001917.9417-1-faithilikerun@gmail.com>
- <20220627001917.9417-3-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1o66ED-00010R-3i; Tue, 28 Jun 2022 04:05:45 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:37735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1o66E9-0000qn-Ls; Tue, 28 Jun 2022 04:05:43 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id p136so14684854ybg.4;
+ Tue, 28 Jun 2022 01:05:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Br8hIFVieBmk5JLA35AqTj0zdcSEGxxrXX1InQKfHak=;
+ b=V9fr/sb5rv0LgY3TDcDMXJwX890RTCFerAMxk7IV2dNfHfamnME6lkuR3Da2QTlosQ
+ ZF0pAZvz/dKltJTxLK6Ov4w6zHIH0T8Q2O0dJcjjKVBGz3Qu1oKnAvDn7T2ffHU4o61u
+ pKcmgwlI7+JA2+skBuFD4+aYRlDFX1EfhcRE2VPrHIKfU3ZoVBA1HvbuBJFREBK4DZ3q
+ c9Y7p6Fig7Lt3ImWe0VCbZf/IVwerbqrOXI51nBhzfgwFxG+u6xO1yLPfdb45z3s946a
+ 2iyLCUkL/vJ9+GjZSGw15v1XQksJKpzA6HaPwQ3b4L3kR9IpU54fd+GS3toSpq7l15K1
+ pUIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Br8hIFVieBmk5JLA35AqTj0zdcSEGxxrXX1InQKfHak=;
+ b=HEWjqrPNv7jIBvPJYL93rvDGCEL6He+Xc9fY88iCDcZG4uwbrjqp2D7jxXTBXgoNcU
+ RQJKe7bQGT6TgpsHLI5OvQ5tZK9fKsWUqlc6t00w8lT+iDGXBf+Ceog3ond+CakslnQN
+ 40v58SgAMQHiy7YjnM5G1/NjrnD0FggiWB4CwqBTFjbBPUpCyqYcsvvBdYEX+DpU/dw9
+ RnqgUCH3t6CK9iF0vhoOu9yRlWRBJ4Zv66OeHiH4Ph8BL9rVd65zw3ZqPXz0eFVfX8df
+ Ul2cNe7rUQ7H/jkjz7cKFDLtGvhgI29fGOXMncOE3TxKZNaWI++Pry9f7PfPimTaUWRl
+ zWGw==
+X-Gm-Message-State: AJIora+9NRPAKRJ5Zz2m19wRrBm54WV8ilNuWwJ9NN44T3DolHL1SNry
+ 8stBgqmpBe0RxMFZU41lnUaIDHReuWgb+kqKxeg=
+X-Google-Smtp-Source: AGRyM1u8A1kvTEQ6deOI52cMkUd7OvGkfnt0PrffGkz8E0vopZssvQVBVNpcB5mOIKV3ULXARuUFM+Jg4nADnZylD6w=
+X-Received: by 2002:a25:bf82:0:b0:669:b394:33c with SMTP id
+ l2-20020a25bf82000000b00669b394033cmr17556525ybk.102.1656403535524; Tue, 28
+ Jun 2022 01:05:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jaWc2mMRgEsL0+2r"
-Content-Disposition: inline
-In-Reply-To: <20220627001917.9417-3-faithilikerun@gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220627001917.9417-1-faithilikerun@gmail.com>
+ <20220627001917.9417-2-faithilikerun@gmail.com>
+ <Yrm7iNLdIJjOjQmR@stefanha-x1.localdomain>
+In-Reply-To: <Yrm7iNLdIJjOjQmR@stefanha-x1.localdomain>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Tue, 28 Jun 2022 16:05:24 +0800
+Message-ID: <CAAAx-8LcxzKYsq1isvqaWEtF1JdUBp0wL8axLCm_eLR79jS_Dw@mail.gmail.com>
+Subject: Re: [RFC v3 1/5] block: add block layer APIs resembling Linux
+ ZonedBlockDevice ioctls.
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, 
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ qemu block <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=faithilikerun@gmail.com; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,132 +89,220 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B46=E6=9C=8828=E6=
+=97=A5=E5=91=A8=E4=BA=8C 14:52=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, Jun 27, 2022 at 08:19:13AM +0800, Sam Li wrote:
+> > diff --git a/block/block-backend.c b/block/block-backend.c
+> > index e0e1aff4b1..786f964d02 100644
+> > --- a/block/block-backend.c
+> > +++ b/block/block-backend.c
+> > @@ -1810,6 +1810,62 @@ int blk_flush(BlockBackend *blk)
+> >      return ret;
+> >  }
+> >
+> > +/*
+> > + * Return zone_report from BlockDriver. Offset can be any number withi=
+n
+> > + * the zone size. No alignment for offset and len.
+>
+> What is the purpose of len? Is it the maximum number of zones to return
+> in nr_zones[]?
 
---jaWc2mMRgEsL0+2r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+len is actually not used in bdrv_co_zone_report. It is needed by
+blk_check_byte_request.
 
-On Mon, Jun 27, 2022 at 08:19:14AM +0800, Sam Li wrote:
-> diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-> index 2f0d8ac25a..3f2592b9f5 100644
-> --- a/qemu-io-cmds.c
-> +++ b/qemu-io-cmds.c
-> @@ -1706,6 +1706,122 @@ static const cmdinfo_t flush_cmd =3D {
->      .oneline    =3D "flush all in-core file state to disk",
->  };
-> =20
-> +static int zone_report_f(BlockBackend *blk, int argc, char **argv)
-> +{
-> +    int ret;
-> +    int64_t offset, len, nr_zones;
-> +    int i =3D 0;
-> +
-> +    ++optind;
-> +    offset =3D cvtnum(argv[optind]);
-> +    ++optind;
-> +    len =3D cvtnum(argv[optind]);
-> +    ++optind;
-> +    nr_zones =3D cvtnum(argv[optind]);
-> +
-> +    g_autofree BlockZoneDescriptor *zones =3D g_new(BlockZoneDescriptor,=
- nr_zones);
-> +    ret =3D blk_zone_report(blk, offset, len, &nr_zones, zones);
-> +    while (i < nr_zones) {
+> How does the caller know how many zones were returned?
 
-Does blk_zone_report() set nr_zones to 0 on failure or do we need to
-check if (ret < 0) here?
+nr_zones represents IN maximum and OUT actual. The caller will know by
+nr_zones which is changed in bdrv_co_zone_report. I'll add it in the
+comments.
 
-> +        fprintf(stdout, "start: 0x%lx, len 0x%lx, cap 0x%lx, wptr 0x%lx,=
- "
+>
+> > + */
+> > +int coroutine_fn blk_co_zone_report(BlockBackend *blk, int64_t offset,
+> > +                       int64_t len, int64_t *nr_zones,
+> > +                       BlockZoneDescriptor *zones)
+> > +{
+> > +    int ret;
+> > +    BlockDriverState *bs;
+> > +    IO_CODE();
+> > +
+> > +    blk_inc_in_flight(blk); /* increase before waiting */
+> > +    blk_wait_while_drained(blk);
+> > +    bs =3D blk_bs(blk);
+> > +
+> > +    ret =3D blk_check_byte_request(blk, offset, len);
+> > +    if (ret < 0) {
+> > +        return ret;
+> > +    }
+> > +
+> > +    bdrv_inc_in_flight(bs);
+>
+> The bdrv_inc/dec_in_flight() call should be inside
+> bdrv_co_zone_report(). See bdrv_co_ioctl() for an example.
+>
+> > +    ret =3D bdrv_co_zone_report(blk->root->bs, offset, len,
+> > +                              nr_zones, zones);
+> > +    bdrv_dec_in_flight(bs);
+> > +    blk_dec_in_flight(blk);
+> > +    return ret;
+> > +}
+> > +
+> > +/*
+> > + * Return zone_mgmt from BlockDriver.
+>
+> Maybe this should be:
+>
+>   Send a zone management command.
 
-The rest of the source file uses printf() instead of fprintf(stdout,
-=2E..). That's usually preferred because it's shorter.
+Yes, it's more accurate.
 
-> +                        "zcond:%u, [type: %u]\n",
+>
+> > @@ -216,6 +217,11 @@ typedef struct RawPosixAIOData {
+> >              PreallocMode prealloc;
+> >              Error **errp;
+> >          } truncate;
+> > +        struct {
+> > +            int64_t *nr_zones;
+> > +            BlockZoneDescriptor *zones;
+> > +        } zone_report;
+> > +        zone_op op;
+>
+> It's cleaner to put op inside a struct zone_mgmt so its purpose is
+> self-explanatory:
+>
+>   struct {
+>       zone_op op;
+>   } zone_mgmt;
+>
+> > +static int handle_aiocb_zone_report(void *opaque) {
+> > +    RawPosixAIOData *aiocb =3D opaque;
+> > +    int fd =3D aiocb->aio_fildes;
+> > +    int64_t *nr_zones =3D aiocb->zone_report.nr_zones;
+> > +    BlockZoneDescriptor *zones =3D aiocb->zone_report.zones;
+> > +    int64_t offset =3D aiocb->aio_offset;
+> > +    int64_t len =3D aiocb->aio_nbytes;
+> > +
+> > +    struct blk_zone *blkz;
+> > +    int64_t rep_size, nrz;
+> > +    int ret, n =3D 0, i =3D 0;
+> > +
+> > +    nrz =3D *nr_zones;
+> > +    if (len =3D=3D -1) {
+> > +        return -errno;
+>
+> Where is errno set? Should this be an errno constant instead like
+> -EINVAL?
 
-Please use PRIx64 instead of lx format specifiers for portability. On
-32-bit hosts lx is 32-bit, not 64-bit. You can grep QEMU's code for
-examples of PRIx64.
+That's right! Noted.
 
-> +                zones[i].start, zones[i].length, zones[i].cap, zones[i].=
-wp,
-> +                zones[i].cond, zones[i].type);
-> +        ++i;
-> +    }
+>
+> > +    }
+> > +    rep_size =3D sizeof(struct blk_zone_report) + nrz * sizeof(struct =
+blk_zone);
+> > +    g_autofree struct blk_zone_report *rep =3D g_new(struct blk_zone_r=
+eport, nrz);
+>
+> g_new() looks incorrect. There should be 1 struct blk_zone_report
+> followed by nrz struct blk_zone structs. Please use g_malloc(rep_size)
+> instead.
 
-A for loop is more idiomatic:
+Yes! However, it still has a memory leak error when using g_autofree
+&& g_malloc.
 
-  for (int i =3D 0; i < nr_zones; i++) {
-      ...
-  }
+>
+> > +    offset =3D offset / 512; /* get the unit of the start sector: sect=
+or size is 512 bytes. */
+> > +    printf("start to report zone with offset: 0x%lx\n", offset);
+> > +
+> > +    blkz =3D (struct blk_zone *)(rep + 1);
+> > +    while (n < nrz) {
+> > +        memset(rep, 0, rep_size);
+> > +        rep->sector =3D offset;
+> > +        rep->nr_zones =3D nrz;
+>
+> What prevents zones[] overflowing? nrz isn't being reduced in the loop,
+> so maybe the rep->nr_zones return value will eventually exceed the
+> number of elements still available in zones[n..]?
 
-> +    return ret;
-> +}
-> +
-> +static const cmdinfo_t zone_report_cmd =3D {
-> +        .name =3D "zone_report",
-> +        .altname =3D "f",
-> +        .cfunc =3D zone_report_f,
-> +        .argmin =3D 3,
-> +        .argmax =3D 3,
-> +        .args =3D "offset [offset..] len [len..] number [num..]",
+I suppose the number of zones[] is restricted in the subsequent for
+loop where zones[] copy one zone at a time as n increases. Even if
+rep->zones exceeds the available room in zones[], the extra zone will
+not be copied.
 
-The arguments are "offset len number". This command does not accept
-optional offset/len/num arguments.
+>
+> > +static int handle_aiocb_zone_mgmt(void *opaque) {
+> > +    RawPosixAIOData *aiocb =3D opaque;
+> > +    int fd =3D aiocb->aio_fildes;
+> > +    int64_t offset =3D aiocb->aio_offset;
+> > +    int64_t len =3D aiocb->aio_nbytes;
+> > +    zone_op op =3D aiocb->op;
+> > +
+> > +    struct blk_zone_range range;
+> > +    const char *ioctl_name;
+> > +    unsigned long ioctl_op;
+> > +    int64_t zone_size;
+> > +    int64_t zone_size_mask;
+> > +    int ret;
+> > +
+> > +    ret =3D ioctl(fd, BLKGETZONESZ, &zone_size);
+>
+> Can this value be stored in bs (maybe in BlockLimits) to avoid calling
+> ioctl(BLKGETZONESZ) each time?
 
-> +        .oneline =3D "report a number of zones",
+Yes, zone_size is in the zbd_dev field. I'll update BlockLimits after
+I think through the configurations. In addition, it's a temporary
+approach. It is substituted by get_sysfs_long_val now.
 
-Maybe "report zone information".
+>
+> > +    if (ret) {
+> > +        return -1;
+>
+> The return value should be a negative errno. -1 is -EPERM but it's
+> probably not that error code you wanted. This should be:
+>
+>   return -errno;
+>
+> > +    }
+> > +
+> > +    zone_size_mask =3D zone_size - 1;
+> > +    if (offset & zone_size_mask) {
+> > +        error_report("offset is not the start of a zone");
+> > +        return -1;
+>
+> return -EINVAL;
+>
+> > +    }
+> > +
+> > +    if (len & zone_size_mask) {
+> > +        error_report("len is not aligned to zones");
+> > +        return -1;
+>
+> return -EINVAL;
+>
+> > +static int coroutine_fn raw_co_zone_report(BlockDriverState *bs, int64=
+_t offset,
+> > +        int64_t len, int64_t *nr_zones,
+> > +        BlockZoneDescriptor *zones) {
+> > +    BDRVRawState *s =3D bs->opaque;
+> > +    RawPosixAIOData acb;
+> > +
+> > +    acb =3D (RawPosixAIOData) {
+> > +        .bs         =3D bs,
+> > +        .aio_fildes =3D s->fd,
+> > +        .aio_type   =3D QEMU_AIO_IOCTL,
+> > +        .aio_offset =3D offset,
+> > +        .aio_nbytes =3D len,
+> > +        .zone_report    =3D {
+> > +                .nr_zones       =3D nr_zones,
+> > +                .zones          =3D zones,
+> > +                },
+>
+> Indentation is off here. Please use 4-space indentation.
+Noted!
 
-> +};
-> +
-> +static int zone_open_f(BlockBackend *blk, int argc, char **argv)
-> +{
-> +    int64_t offset, len;
-> +    ++optind;
-> +    offset =3D cvtnum(argv[optind]);
-> +    ++optind;
-> +    len =3D cvtnum(argv[optind]);
-> +    return blk_zone_mgmt(blk, zone_open, offset, len);
+Thanks for reviewing!
 
-Where is the error reported? When I look at read_f() I see:
-
-    if (ret < 0) {
-        printf("read failed: %s\n", strerror(-ret));
-
-I think something similar is needed because qemu-io.c does not print an
-error message for us. The same is true for the other commands defined in
-this patch.
-
-> +}
-> +
-> +static const cmdinfo_t zone_open_cmd =3D {
-> +        .name =3D "zone_open",
-> +        .altname =3D "f",
-> +        .cfunc =3D zone_open_f,
-> +        .argmin =3D 2,
-> +        .argmax =3D 2,
-> +        .args =3D "offset [offset..] len [len..]",
-
-There are no optional offset/len args. The same is true for the other
-commands below.
-
---jaWc2mMRgEsL0+2r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmK6tEMACgkQnKSrs4Gr
-c8jjvAgAiC44gH7JOjD7Rm+22Q/zggEjpHstG+YWFNZXCuHM2hhUY9RlDyzfWbeq
-IbWYbKCQMGEqmY5piUJav8NS5jHRzrc2sIuecgNRYovMM5djpe69kJnHa+W8WvMx
-PUxC0fVTXUFHNYU+vSGrv3oxcFmud3PKuMkqKP7tzljfYnGR/SfWM1cEpCMamftq
-m1jNdAQem0U/DNEOUwjrwug4A/++1tEpk4Qt48ywU6cF6vj35WItmqQ9VLnQcv8F
-xxdAlkaQM1stcSKK6kobRCGYOEkuSCrrohfH8vnPdsV4eMFjyqI9sVtyJMzW61aR
-BJ1SXtgUSmYSKc0Ml7wJHSjdOkPXwA==
-=91Al
------END PGP SIGNATURE-----
-
---jaWc2mMRgEsL0+2r--
-
+Sam
 
