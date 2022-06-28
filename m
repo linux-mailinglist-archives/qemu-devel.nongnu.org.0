@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E3E55C092
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:09:16 +0200 (CEST)
-Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFB955C094
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:11:21 +0200 (CEST)
+Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o695n-0005jx-Tv
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:09:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36890)
+	id 1o697n-00080c-Dt
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:11:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o68xv-0002mY-U6
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:01:10 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o68xp-0007kf-Q4
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:01:03 -0400
-Received: by mail-pl1-x630.google.com with SMTP id m14so10748996plg.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 04:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xcxh7ubUhJGco7vRyAEMpV91NTEHoXb+MMYx1sQcaR0=;
- b=MRu/k47ZEKJvpXEdUMOfIu91OEloqcp01Iq8v6Go0z4H0o+qgblYjliQlm/kP6KZI+
- XEluw1nBMt/ib6oOQGIwe2HKuLq5uGLP79djq532WPyUFyyUhk5iDpeBhY4Rz7udUdJm
- myq9C1XxY8P0bsI+AESQvzQZ4HgN0ThwUlU5G7oo6o7sRRvBgpteBRD8ahhXyb2p5BYk
- 8gJQwV17s3mLwFHPgPGGr7ZhBzCIatVMli3D48Z5HYqTcT/V4ark27rLw0yKemMGMwPD
- 7f8nTUwyqzADNXQWjXJds0DIakesDELN0CZejHPpF75O+6Ga/JAa4rqAL9avjMRRB1vg
- VHYw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o68y0-0002oj-Jb
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:01:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o68xv-0007lX-Bj
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:01:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656414066;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uuClk7+YfMOE80H837bo/H/mUNUW647IlRb7YjkkjIA=;
+ b=ir9LSVoXCcDBUnHapDgf+/0kW7ZXwpgWX18TlGebuFcI8Br/beFSaElC87KDxnoWNlf5KI
+ bQyb5AKs03AuitoUz6kj9UAbdfbAci8nuGmhcKhSVVUbbxgFu4x+m+54TgDBMvcff5LhFP
+ h1D0lUWliKvDhKp6W6ub6qd1iIeJWqU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-591-ujI1Kcq3Nfe0Ow97BF8LkQ-1; Tue, 28 Jun 2022 07:01:04 -0400
+X-MC-Unique: ujI1Kcq3Nfe0Ow97BF8LkQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r132-20020a1c448a000000b003a02a3f0beeso586704wma.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 04:01:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xcxh7ubUhJGco7vRyAEMpV91NTEHoXb+MMYx1sQcaR0=;
- b=7NnhooUulO58qvaUrxr1zy61Gj9GGHhYzspDWe+ttiRw5X39B/aNYxz8sisVaqjd9e
- HptF9IQSK9bacYNm0KsHlzx8845jpkQd7cMrJpvBfVAYE0KlkxAkKCfGFxmmT/MFdS6a
- zHQY7Sd6twLTnae90OgMgLM+EsMmOPP0OA0y7djk/9P5YXBSSW9GIR1TBW8Amuk2f2SL
- L7OwLQDbfNIne35O6Lkd5uVdPQ219Pm71H9V8Vsza/6lwe1IGXV2Gl9wmlom64NBjbEn
- U1Wj9tKaQKkt7wCm0RXwEP+I6PBrlZSSzuDo7LCbFoC0VeMhQy4k7l4lT4RBwzJ9RL+l
- CGXQ==
-X-Gm-Message-State: AJIora83q0WB3PnY9Eg5ebA/WFzNu4Fmh7/D3o4pK+TIxZlz6r0GrGOY
- Rtkj5i9xfeyhX0wy4DW5dJp9Jqc3sbFTCg==
-X-Google-Smtp-Source: AGRyM1us0FlIzCq9gJn1QvWp6RHHv/gNqe3qKK33ZdkF4+COn90Q3pRHXhnLHQqvgsBjKGZKmiz0mA==
-X-Received: by 2002:a17:902:ea02:b0:16a:57bb:d344 with SMTP id
- s2-20020a170902ea0200b0016a57bbd344mr3064626plg.150.1656414059967; 
- Tue, 28 Jun 2022 04:00:59 -0700 (PDT)
-Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- p22-20020a1709027ed600b0016a0fe1a1fbsm9044501plb.220.2022.06.28.04.00.57
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=uuClk7+YfMOE80H837bo/H/mUNUW647IlRb7YjkkjIA=;
+ b=aN5CkkWgKgazXAEzcr0I9Zm4jGFmo41TgmsAtQPmI5mMJm+InCYJZ0gNXiQhHIQjaa
+ +7WTH1gY1LnviikVBIQjXv4IqM9LrbgaCYm0V1C7PByIt/KejFCGlwD2CdtNzcWqKZQr
+ apvsi8t4xTnpmdrq8xCl0XjP9d6+Wvo1FzS6yvean0uHOVx68Tc7Q8lmejRsJnmInznX
+ kW7XjoTxRY15NkPr++ADaUkQTre3IHkRri0DZyT6Pb740iZgDnZ5S3w3iOpUwNHEBPeE
+ SLxzz79rawI6rA4Py5pCgIjfa1Ti69TywkvBn0cbaKJ7BeWIvzoNZwjHu+I5bEX9xosI
+ u1PA==
+X-Gm-Message-State: AJIora/z791COGbR3QhmhC+QXycL/wUj4U49WTBd8TaE/6K0vNN8vhrH
+ 83kZKlc9opWq2lRgT/71zxom2cuqwTcfe5cEaoi2SqLaIfNrsNQCD+V3qyiplqUNJZVnj0E1reX
+ GYxYyBaSRPBT580k=
+X-Received: by 2002:a05:6000:1e0f:b0:21b:b032:6b3d with SMTP id
+ bj15-20020a0560001e0f00b0021bb0326b3dmr17844493wrb.337.1656414063701; 
+ Tue, 28 Jun 2022 04:01:03 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uoRjQm8qTJAY5a5bWgNlaW8xWdouexy2Ap96PO7Dixc6nLdxSiI2WyraGrb1SRvhh/ujeCAA==
+X-Received: by 2002:a05:6000:1e0f:b0:21b:b032:6b3d with SMTP id
+ bj15-20020a0560001e0f00b0021bb0326b3dmr17844450wrb.337.1656414063338; 
+ Tue, 28 Jun 2022 04:01:03 -0700 (PDT)
+Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
+ r68-20020a1c2b47000000b0039c4b518df4sm20628453wmr.5.2022.06.28.04.01.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 04:00:59 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-Subject: [PATCH v5 2/2] target/m68k: Convert semihosting errno to gdb remote
- errno
-Date: Tue, 28 Jun 2022 16:30:47 +0530
-Message-Id: <20220628110047.666612-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220628110047.666612-1-richard.henderson@linaro.org>
-References: <20220628110047.666612-1-richard.henderson@linaro.org>
+ Tue, 28 Jun 2022 04:01:02 -0700 (PDT)
+Date: Tue, 28 Jun 2022 07:00:59 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: Why we should avoid new submodules if possible
+Message-ID: <20220628064831-mutt-send-email-mst@kernel.org>
+References: <YrqyWhu8ThAcUGI4@redhat.com>
+ <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
+ <Yrq6anPW60FkjmK6@redhat.com>
+ <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
+ <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
+ <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
+ <20220628060210-mutt-send-email-mst@kernel.org>
+ <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
+ <20220628062551-mutt-send-email-mst@kernel.org>
+ <CAFEAcA985ardY5zWkrZYgWjj+tdVNUnRcaBUChGFX0-o99cjQA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA985ardY5zWkrZYgWjj+tdVNUnRcaBUChGFX0-o99cjQA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,73 +107,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The semihosting abi used by m68k uses the gdb remote
-protocol filesys errnos.
+On Tue, Jun 28, 2022 at 11:43:58AM +0100, Peter Maydell wrote:
+> On Tue, 28 Jun 2022 at 11:38, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > On Tue, Jun 28, 2022 at 12:21:39PM +0200, Thomas Huth wrote:
+> > > - we include the submodule content in our release tarballs, so people get
+> > > the impression that hte submodule content is part of the QEMU sources. This
+> > > has two disadvantages:
+> > >  * We already got bug reports for the code in the submodule,
+> > >    where people did not understand that they should report that
+> > >    rather to the original project instead (i.e. you ship it - you
+> > >    own it)
+> > >  * People get the impression that QEMU is a huge monster
+> > >    application if they count the number of code lines, run
+> > >    their code scanner tools on the tarball contents, etc.
+> > >    Remember "nemu", for example, where one of the main complaints
+> > >    was that QEMU has too many lines of code?
+> >
+> > I think we can skip the checkout in the tarball if we like.
+> > If people want to run the test they can checkout then.
+> 
+> For tarballs and submodules, we want to provide the code in the
+> cases where we're providing binary blobs, and for where it's
+> required to build QEMU proper.
+> 
+> Overall I think that the approach we use today for providing
+> guest binaries (submodules with the code, pre-built blobs checked
+> into git) is creaking at the seams and often awkward for downstream
+> distros (who want to rebuild the binaries anyway).
+> 
+> Plus submodules in general in git work really badly and awkwardly,
+> and I'd rather we didn't add them unless we really must.
+> 
+> We already have an approach for "tests that use binaries" --
+> the avocado test suites. Is that something we could use in this
+> case ?
+> 
+> thanks
+> -- PMM
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/m68k/m68k-semi.c | 33 +++++++++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
+From experience avocado is basically rolling its own reimplementation of
+git fetch. Result is weird failures when some corner case or another
+isn't handled perfectly. Kind of unavoidable since you can't have
+ISOs for a ton of guest OSes reasonably in a git repo. Well maybe
+with sparse checkouts you can. Haven't really looked at it.
 
-diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index 586a801034..87b1314925 100644
---- a/target/m68k/m68k-semi.c
-+++ b/target/m68k/m68k-semi.c
-@@ -41,6 +41,35 @@
- #define HOSTED_ISATTY 12
- #define HOSTED_SYSTEM 13
- 
-+static int host_to_gdb_errno(int err)
-+{
-+#define E(X)  case E##X: return GDB_E##X
-+    switch (err) {
-+    E(PERM);
-+    E(NOENT);
-+    E(INTR);
-+    E(BADF);
-+    E(ACCES);
-+    E(FAULT);
-+    E(BUSY);
-+    E(EXIST);
-+    E(NODEV);
-+    E(NOTDIR);
-+    E(ISDIR);
-+    E(INVAL);
-+    E(NFILE);
-+    E(MFILE);
-+    E(FBIG);
-+    E(NOSPC);
-+    E(SPIPE);
-+    E(ROFS);
-+    E(NAMETOOLONG);
-+    default:
-+        return GDB_EUNKNOWN;
-+    }
-+#undef E
-+}
-+
- static void m68k_semi_u32_cb(CPUState *cs, uint64_t ret, int err)
- {
-     M68kCPU *cpu = M68K_CPU(cs);
-@@ -48,7 +77,7 @@ static void m68k_semi_u32_cb(CPUState *cs, uint64_t ret, int err)
- 
-     target_ulong args = env->dregs[1];
-     if (put_user_u32(ret, args) ||
--        put_user_u32(err, args + 4)) {
-+        put_user_u32(host_to_gdb_errno(err), args + 4)) {
-         /*
-          * The m68k semihosting ABI does not provide any way to report this
-          * error to the guest, so the best we can do is log it in qemu.
-@@ -67,7 +96,7 @@ static void m68k_semi_u64_cb(CPUState *cs, uint64_t ret, int err)
-     target_ulong args = env->dregs[1];
-     if (put_user_u32(ret >> 32, args) ||
-         put_user_u32(ret, args + 4) ||
--        put_user_u32(err, args + 8)) {
-+        put_user_u32(host_to_gdb_errno(err), args + 8)) {
-         /* No way to report this via m68k semihosting ABI; just log it */
-         qemu_log_mask(LOG_GUEST_ERROR, "m68k-semihosting: return value "
-                       "discarded because argument block not writable\n");
+These specific tests are weird, kind of special in that they are developer
+oriented.  I *would* like anyone making changes to ACPI to run them, and
+for CI to run them on patches, but I do not believe e.g. distros
+necessarily need them.
+
+git submodules are awkward basically because they are an automated wget.
+I don't think an explicit wget is much better ... but
+looks like I'm alone in this. Oh well.
+So it will be a weird dance of wget a tarball, unpack, generate
+ISO and run. God help you if you need to patch the test - it's
+wget all the way down.
+
+
 -- 
-2.34.1
+MST
 
 
