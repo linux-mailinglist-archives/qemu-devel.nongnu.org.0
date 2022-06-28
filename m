@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9211955CDCB
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 15:04:12 +0200 (CEST)
-Received: from localhost ([::1]:46466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7D555CF56
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 15:06:22 +0200 (CEST)
+Received: from localhost ([::1]:48366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6At0-0004DH-U7
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 09:04:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41466)
+	id 1o6Av7-0005WN-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 09:06:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o6Ap7-0002L3-0Q
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:00:16 -0400
-Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:35347)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o6Ap3-0005hQ-LM
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:00:08 -0400
-Received: by mail-lj1-x22c.google.com with SMTP id u14so1438764ljh.2
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 06:00:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=io2GIRmR+kd4ruI3UAhjitImtDmkFi87el59usEUR+8=;
- b=YjHHj8z2C7M/rZxupNQMm9+Dtpu9VX9EaZbwxoj5YgncTv/sOdIm3HZhVTkR/rBB9s
- v8x4sUfa4Um9lFVZ+2EcpJkb0RqVwIMybKH5dU6EcgcJwI+YC+7/s6JQEizgfw1am3SL
- mX7MY3K0CV+EiGkBI6UWof0FQiBuwTDaMRSxEjjmET/aRuZml5zMxf9nFuaH2tavr56m
- hKdQw+C76015AzeWSP7n5REDHoV7yt+4dfYgjQM13t5pvJUXqCZyWRp51dWIR3WaBf1D
- +7xuEady7HHWNWdV+nMiSHm+aCU2mec8ekNYiPnd6nrngvy+6aADvczrCUs9pEKjoY1t
- ricA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=io2GIRmR+kd4ruI3UAhjitImtDmkFi87el59usEUR+8=;
- b=Fg6JGNWKu1OaJY41kUhGVKvykRhsQYdZgTrSjCJjOEhDbHdngFNkrewisZRpdamhqu
- 0hmXvIvnIP2rA+xmMA4taM+QTU4nXYcC83IQ+bbpU0eh1LfR3SpRldttOZC72heJjLoh
- Z1EGMeuWBZad7DYFub/VjSa7USi3pvpaKqbNzAreAw1/TgiBH6w/QLFg0WSC+DmiT1Nz
- UhehJPT68A9KUgAufMBbp3BgigTIv/ZoDPC40DQKohTocRotJG7dPVQJODG5yBHM88lo
- 6C08ornX2n7QnIoxBjMycftSh28F4ClL7pX39ooZu3H8sAjrHz5pLtyzQ4wx3PHp1B1E
- vseQ==
-X-Gm-Message-State: AJIora9f7nIyynrcDCPnWIeQLLKri2fNuxspiqfGiak8pj7/l3GSxHph
- FrHnyNwj7RjrYZC+5UmzsfOwDigcFuGo9TCj9uc=
-X-Google-Smtp-Source: AGRyM1vEWRfrI9wUoUoS9+RVTVNjkANDXT65lvSgWvBXv+WLK3NGtgUyB3mpp0NjQ/Wu3WT2hLGVyjpAgLNVHNqN8fE=
-X-Received: by 2002:a2e:a801:0:b0:24a:ff0b:ae7a with SMTP id
- l1-20020a2ea801000000b0024aff0bae7amr9551317ljq.287.1656421202940; Tue, 28
- Jun 2022 06:00:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o6Arg-0003wE-1E
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:02:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33245)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o6Arc-0006SS-Q5
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 09:02:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656421363;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xT8ba9mfzS6ObjqrACPXdd1Pm/GLY/pCDlxBFDRFBo0=;
+ b=XyXIkC3/6UU9d7qxhrlTAU1BGjmBq2jVpLk9Iev1wJ8blheTl0mAHMXtvfdXWkFnShucYM
+ JhSN/QHvzzX3xZ2X/qliagLVvv14k3KSPPW6PRfQG0ihsvcEmWoDPraCIRh3ld1q6/69/E
+ Hn27SQjwRcJ0p0/4crtaNJxkdxKTFpY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-516-kwssVDOzPQuO_cKaK_QbSQ-1; Tue, 28 Jun 2022 09:02:41 -0400
+X-MC-Unique: kwssVDOzPQuO_cKaK_QbSQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0EC293C0D842
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 13:02:41 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B6B13492C3B;
+ Tue, 28 Jun 2022 13:02:39 +0000 (UTC)
+Date: Tue, 28 Jun 2022 14:02:36 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Leonardo Bras Soares Passos <leobras@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v1 2/2] migration/multifd: Warn user when zerocopy not
+ working
+Message-ID: <Yrr77NfKtKcXTVCr@redhat.com>
+References: <20220628010908.390564-1-leobras@redhat.com>
+ <20220628010908.390564-3-leobras@redhat.com>
+ <YrqzhFAePnnEl8A8@redhat.com>
+ <CAJ6HWG5UGpgBqK-7OTA6Gxu0LKMfGq5gVvYffOaSMWO1bfyjVw@mail.gmail.com>
 MIME-Version: 1.0
-References: <7ad664fc-ca40-e446-028f-47ea1fd1c21d@linaro.org>
- <CAJ+F1CKJycsXw=o4=tr+GNFBWkK41WAM_0h428_joW+cF0-V2g@mail.gmail.com>
- <6bcec8e5-4fb6-db96-20ee-853f159c8a9a@linaro.org>
-In-Reply-To: <6bcec8e5-4fb6-db96-20ee-853f159c8a9a@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 28 Jun 2022 16:59:50 +0400
-Message-ID: <CAJ+F1CLhwDV7g7PMJnnwo493wiuFc8S9uq1N-owLj3bnjV6gYQ@mail.gmail.com>
-Subject: Re: virgl avocado hang
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000066585805e2819df9"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ6HWG5UGpgBqK-7OTA6Gxu0LKMfGq5gVvYffOaSMWO1bfyjVw@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,165 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000066585805e2819df9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Mon, Jun 27, 2022 at 4:08 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 6/27/22 16:10, Marc-Andr=C3=A9 Lureau wrote:
-> > Could you describe how to reproduce? I naively --disable-virglrenderer
-> and I get:
+On Tue, Jun 28, 2022 at 09:32:04AM -0300, Leonardo Bras Soares Passos wrote:
+> On Tue, Jun 28, 2022 at 4:53 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
 > >
-> > $ tests/venv/bin/avocado run tests/avocado/virtio-gpu.py
-> > Fetching asset from
-> tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl
-> > Fetching asset from
-> tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl
-> > Fetching asset from
-> tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl
-> > Fetching asset from
-> tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl
-> > JOB ID     : d9c5b65777777564d1d926fdfb58deaf0e967d15
-> > JOB LOG    :
-> /home/elmarco/avocado/job-results/job-2022-06-27T12.56-d9c5b65/job.log
-> >   (1/2) tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl:
-> CANCEL: VirGL not
-> > enabled? (0.08 s)
-> >   (2/2)
-> tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl: CANCE=
-L:
-> Could
-> > not find vhost-user-gpu (0.02 s)
-> > RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
-|
-> CANCEL 2
-> > JOB TIME   : 0.56 s
->
-> Ah, I beg your pardon -- virglrenderer is *not* disabled, I merely assume=
-d
-> it was.  But
-> the effect is still there -- dead qemu not reaped, indefinite hang on the
-> driver.
->
-> The end of the log is:
->
-> > 2022-06-27 17:32:19,746 stacktrace       L0045 ERROR|   Command:
-> ./qemu-system-x86_64 -display none -vga none -chardev
-> socket,id=3Dmon,path=3D/var/tmp/avo_qemu_sock_4j1r4bdf/qemu-245052-7f2a8c=
-8a3bb0-monitor.sock
-> -mon chardev=3Dmon,mode=3Dcontrol -chardev
-> socket,id=3Dconsole,path=3D/var/tmp/avo_qemu_sock_4j1r4bdf/qemu-245052-7f=
-2a8c8a3bb0-console.sock,server=3Don,wait=3Doff
-> -serial chardev:console -cpu host -m 2G -machine pc,accel=3Dkvm -device
-> virtio-vga-gl -display egl-headless -kernel
-> /home/rth/avocado/data/cache/by_location/892ae21f3ae7d04994d81e1c0bf204ec=
-ebe555bb/vmlinuz
-> -initrd
-> /home/rth/avocado/data/cache/by_location/892ae21f3ae7d04994d81e1c0bf204ec=
-ebe555bb/initrd.img
-> -append printk.time=3D0 console=3DttyS0 rdinit=3D/bin/bash
->
-> > 2022-06-27 17:32:19,746 stacktrace       L0045 ERROR|   Output:
-> qemu-system-x86_64: -display egl-headless: Parameter 'type' does not acce=
-pt
-> value 'egl-headless'
->
->
-> if that helps.
->
->
-Ok I managed to reproduce, it's enough to give invalid arguments to make it
-hang for a long while.
+> > On Mon, Jun 27, 2022 at 10:09:09PM -0300, Leonardo Bras wrote:
+> > > Some errors, like the lack of Scatter-Gather support by the network
+> > > interface(NETIF_F_SG) may cause sendmsg(...,MSG_ZEROCOPY) to fail on using
+> > > zero-copy, which causes it to fall back to the default copying mechanism.
+> >
+> > How common is this lack of SG support ? What NICs did you have that
+> > were affected ?
+> 
+> I am not aware of any NIC without SG available for testing, nor have
+> any idea on how common they are.
+> But since we can detect sendmsg() falling back to copying we should
+> warn the user if this ever happens.
+> 
+> There is also a case in IPv6 related to fragmentation that may cause
+> MSG_ZEROCOPY to fall back to the copying mechanism, so it's also
+> covered.
+> 
+> >
+> > > After each full dirty-bitmap scan there should be a zero-copy flush
+> > > happening, which checks for errors each of the previous calls to
+> > > sendmsg(...,MSG_ZEROCOPY). If all of them failed to use zero-copy, then
+> > > warn the user about it.
+> > >
+> > > Since it happens once each full dirty-bitmap scan, even in worst case
+> > > scenario it should not print a lot of warnings, and will allow tracking
+> > > how many dirty-bitmap iterations were not able to use zero-copy send.
+> >
+> > For long running migrations which are not converging, or converging
+> > very slowly there could be 100's of passes.
+> >
+> 
+> I could change it so it only warns once, if that is too much output.
 
-This a flaw in machine.py, which waits for the qemu QMP connection,
-forever. We could first teach it to wait for the default 15s max.
+Well I'm mostly wondering what we're expecting the user todo with this
+information. Generally a log file containing warnings ends up turning
+into a bug report. If we think it is important for users and/or mgmt
+apps to be aware of this info, then it might be better to actually
+put a field in the query-migrate stats to report if zero-copy is
+being honoured or not, and just have a trace point in this location
+instead.
 
-But machine.py probably needs to be ported to the async QMPClient
-(python/qemu/qmp/legacy.py).
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-For now, I'll send a simpler fix and leave TODOs for later ;)
-
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000066585805e2819df9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 27, 2022 at 4:08 PM Ric=
-hard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org" target=
-=3D"_blank">richard.henderson@linaro.org</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On 6/27/22 16:10, Marc-Andr=C3=A9 L=
-ureau wrote:<br>
-&gt; Could you describe how to reproduce? I naively --disable-virglrenderer=
- and I get:<br>
-&gt; <br>
-&gt; $ tests/venv/bin/avocado run tests/avocado/virtio-gpu.py<br>
-&gt; Fetching asset from tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virt=
-io_vga_virgl<br>
-&gt; Fetching asset from tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virt=
-io_vga_virgl<br>
-&gt; Fetching asset from tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhos=
-t_user_vga_virgl<br>
-&gt; Fetching asset from tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhos=
-t_user_vga_virgl<br>
-&gt; JOB ID =C2=A0 =C2=A0 : d9c5b65777777564d1d926fdfb58deaf0e967d15<br>
-&gt; JOB LOG =C2=A0 =C2=A0: /home/elmarco/avocado/job-results/job-2022-06-2=
-7T12.56-d9c5b65/job.log<br>
-&gt;=C2=A0 =C2=A0(1/2) tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio=
-_vga_virgl: CANCEL: VirGL not <br>
-&gt; enabled? (0.08 s)<br>
-&gt;=C2=A0 =C2=A0(2/2) tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_=
-user_vga_virgl: CANCEL: Could <br>
-&gt; not find vhost-user-gpu (0.02 s)<br>
-&gt; RESULTS =C2=A0 =C2=A0: PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | I=
-NTERRUPT 0 | CANCEL 2<br>
-&gt; JOB TIME =C2=A0 : 0.56 s<br>
-<br>
-Ah, I beg your pardon -- virglrenderer is *not* disabled, I merely assumed =
-it was.=C2=A0 But <br>
-the effect is still there -- dead qemu not reaped, indefinite hang on the d=
-river.<br>
-<br>
-The end of the log is:<br>
-<br>
-&gt; 2022-06-27 17:32:19,746 stacktrace=C2=A0 =C2=A0 =C2=A0 =C2=A0L0045 ERR=
-OR|=C2=A0 =C2=A0Command: ./qemu-system-x86_64 -display none -vga none -char=
-dev socket,id=3Dmon,path=3D/var/tmp/avo_qemu_sock_4j1r4bdf/qemu-245052-7f2a=
-8c8a3bb0-monitor.sock -mon chardev=3Dmon,mode=3Dcontrol -chardev socket,id=
-=3Dconsole,path=3D/var/tmp/avo_qemu_sock_4j1r4bdf/qemu-245052-7f2a8c8a3bb0-=
-console.sock,server=3Don,wait=3Doff -serial chardev:console -cpu host -m 2G=
- -machine pc,accel=3Dkvm -device virtio-vga-gl -display egl-headless -kerne=
-l /home/rth/avocado/data/cache/by_location/892ae21f3ae7d04994d81e1c0bf204ec=
-ebe555bb/vmlinuz -initrd /home/rth/avocado/data/cache/by_location/892ae21f3=
-ae7d04994d81e1c0bf204ecebe555bb/initrd.img -append printk.time=3D0 console=
-=3DttyS0 rdinit=3D/bin/bash<br>
-<br>
-&gt; 2022-06-27 17:32:19,746 stacktrace=C2=A0 =C2=A0 =C2=A0 =C2=A0L0045 ERR=
-OR|=C2=A0 =C2=A0Output: qemu-system-x86_64: -display egl-headless: Paramete=
-r &#39;type&#39; does not accept value &#39;egl-headless&#39;<br>
-<br>
-<br>
-if that helps.<br>
-<br></blockquote><div><br></div><div>Ok I managed to reproduce, it&#39;s en=
-ough to give invalid arguments to make it hang for a long while.</div><div>=
-<br></div><div>This a flaw in machine.py, which waits for the qemu QMP conn=
-ection, forever. We could first teach it to wait for the default 15s max.</=
-div><div><br></div><div>But machine.py probably needs to be ported to the a=
-sync QMPClient (python/qemu/qmp/legacy.py).</div><div><br></div><div>For no=
-w, I&#39;ll send a simpler fix and leave TODOs for later ;)<br></div><br cl=
-ear=3D"all"></div><br>-- <br><div dir=3D"ltr">Marc-Andr=C3=A9 Lureau<br></d=
-iv></div>
-
---00000000000066585805e2819df9--
 
