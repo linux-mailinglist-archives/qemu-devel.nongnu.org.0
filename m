@@ -2,43 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B90C55BF9A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 10:50:36 +0200 (CEST)
-Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A04CF55BFAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 11:02:12 +0200 (CEST)
+Received: from localhost ([::1]:33014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o66va-0000hs-6u
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 04:50:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43176)
+	id 1o676p-0004uL-LS
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 05:02:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>)
- id 1o66Ef-0001IR-Lg; Tue, 28 Jun 2022 04:06:16 -0400
-Received: from ozlabs.ru ([107.174.27.60]:52678)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aik@ozlabs.ru>)
- id 1o66EL-0000tl-7N; Tue, 28 Jun 2022 04:05:55 -0400
-Received: from fstn1-p1.ozlabs.ibm.com. (localhost [IPv6:::1])
- by ozlabs.ru (Postfix) with ESMTP id 648DF80191;
- Tue, 28 Jun 2022 04:05:45 -0400 (EDT)
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-To: qemu-ppc@nongnu.org
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH qemu v3] ppc: Define SETFIELD for the ppc target
-Date: Tue, 28 Jun 2022 18:05:44 +1000
-Message-Id: <20220628080544.1509428-1-aik@ozlabs.ru>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o66SU-0003nF-5b
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:20:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o66SS-0003Jb-4E
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 04:20:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656404427;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XaKRqaQu/KublIfgALl438zzsNBNqCkjr7q4QWTJFlQ=;
+ b=TS/Hg7zhsXrILygaLytb6u8wMNvAwyeirsYi1wR6bD7sSbc8/w89gxHTTBU68x0fbjtO6L
+ x/+aPp9z5aK8QdP87wOrAU2CynT/s3/O6LjIyR1s8bGp2obAw5X1Ypn29ZDiRAp6vX/dfy
+ gGpn6Z5MOhhCnZQ0kMX7aPJZE4w7pnI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-379-uA5Gf0glOvCsboen9s7L0w-1; Tue, 28 Jun 2022 04:20:21 -0400
+X-MC-Unique: uA5Gf0glOvCsboen9s7L0w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5807C8001EA;
+ Tue, 28 Jun 2022 08:20:21 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C774F492CA3;
+ Tue, 28 Jun 2022 08:20:19 +0000 (UTC)
+Date: Tue, 28 Jun 2022 09:09:01 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org, hare@suse.de, Hanna Reitz <hreitz@redhat.com>,
+ dmitry.fomichev@wdc.com, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, damien.lemoal@opensource.wdc.com,
+ qemu-block@nongnu.org
+Subject: Re: [RFC v3 3/5] file-posix: introduce get_sysfs_long_val for zoned
+ device information.
+Message-ID: <Yrq3HUPe3QBjS2kq@stefanha-x1.localdomain>
+References: <20220627001917.9417-1-faithilikerun@gmail.com>
+ <20220627001917.9417-4-faithilikerun@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=107.174.27.60; envelope-from=aik@ozlabs.ru;
- helo=ozlabs.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pdu7Rq6IUoZEPp6P"
+Content-Disposition: inline
+In-Reply-To: <20220627001917.9417-4-faithilikerun@gmail.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,170 +84,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It keeps repeating, move it to the header. This uses __builtin_ffsll() to
-allow using the macros in #define.
 
-This is not using the QEMU's FIELD macros as this would require changing
-all such macros found in skiboot (the PPC PowerNV firmware).
+--pdu7Rq6IUoZEPp6P
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
----
-Changes:
-v3:
-* __builtin_ffsl -> __builtin_ffsll
+On Mon, Jun 27, 2022 at 08:19:15AM +0800, Sam Li wrote:
+> Use sysfs attribute files to get the zoned device information in case
+> that ioctl() commands of zone management interface won't work. It can
+> return long type of value like chunk_sectors, zoned_append_max_bytes,
+> max_open_zones, max_active_zones.
+> ---
+>  block/file-posix.c | 37 +++++++++++++++++++++++++------------
+>  1 file changed, 25 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 1b8b0d351f..73c2cdfbca 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1216,15 +1216,19 @@ static int hdev_get_max_hw_transfer(int fd, struc=
+t stat *st)
+>  #endif
+>  }
+> =20
+> -static int hdev_get_max_segments(int fd, struct stat *st)
+> -{
+> +/*
+> + * Get zoned device information (chunk_sectors, zoned_append_max_bytes,
+> + * max_open_zones, max_active_zones) through sysfs attribute files.
 
-v2:
-* preserved the comment about skiboot
-* copied the actual macros from skiboot:
-https://github.com/open-power/skiboot/blob/master/include/bitutils.h#L31
----
- include/hw/pci-host/pnv_phb3_regs.h | 16 ----------------
- target/ppc/cpu.h                    | 12 ++++++++++++
- hw/intc/pnv_xive.c                  | 20 --------------------
- hw/intc/pnv_xive2.c                 | 20 --------------------
- hw/pci-host/pnv_phb4.c              | 16 ----------------
- 5 files changed, 12 insertions(+), 72 deletions(-)
+This function is also used to get max_segments, which is not related to
+zoned devices. How about:
 
-diff --git a/include/hw/pci-host/pnv_phb3_regs.h b/include/hw/pci-host/pnv_phb3_regs.h
-index a174ef1f7045..38f8ce9d7406 100644
---- a/include/hw/pci-host/pnv_phb3_regs.h
-+++ b/include/hw/pci-host/pnv_phb3_regs.h
-@@ -12,22 +12,6 @@
- 
- #include "qemu/host-utils.h"
- 
--/*
-- * QEMU version of the GETFIELD/SETFIELD macros
-- *
-- * These are common with the PnvXive model.
-- */
--static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
--{
--    return (word & mask) >> ctz64(mask);
--}
--
--static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
--                                uint64_t value)
--{
--    return (word & ~mask) | ((value << ctz64(mask)) & mask);
--}
--
- /*
-  * PBCQ XSCOM registers
-  */
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 6d78078f379d..50cea032c853 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -47,6 +47,18 @@
-                                  PPC_BIT32(bs))
- #define PPC_BITMASK8(bs, be)    ((PPC_BIT8(bs) - PPC_BIT8(be)) | PPC_BIT8(bs))
- 
-+/*
-+ * QEMU version of the GETFIELD/SETFIELD macros from skiboot
-+ *
-+ * It might be better to use the existing extract64() and
-+ * deposit64() but this means that all the register definitions will
-+ * change and become incompatible with the ones found in skiboot.
-+ */
-+#define MASK_TO_LSH(m)          (__builtin_ffsll(m) - 1)
-+#define GETFIELD(m, v)          (((v) & (m)) >> MASK_TO_LSH(m))
-+#define SETFIELD(m, v, val) \
-+        (((v) & ~(m)) | ((((typeof(v))(val)) << MASK_TO_LSH(m)) & (m)))
-+
- /*****************************************************************************/
- /* Exception vectors definitions                                             */
- enum {
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 1ce1d7b07d63..c7b75ed12ee0 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -66,26 +66,6 @@ static const XiveVstInfo vst_infos[] = {
-     qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
-                   (xive)->chip->chip_id, ## __VA_ARGS__);
- 
--/*
-- * QEMU version of the GETFIELD/SETFIELD macros
-- *
-- * TODO: It might be better to use the existing extract64() and
-- * deposit64() but this means that all the register definitions will
-- * change and become incompatible with the ones found in skiboot.
-- *
-- * Keep it as it is for now until we find a common ground.
-- */
--static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
--{
--    return (word & mask) >> ctz64(mask);
--}
--
--static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
--                                uint64_t value)
--{
--    return (word & ~mask) | ((value << ctz64(mask)) & mask);
--}
--
- /*
-  * When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID
-  * field overrides the hardwired chip ID in the Powerbus operations
-diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
-index f31c53c28dd2..f22ce5ca59ae 100644
---- a/hw/intc/pnv_xive2.c
-+++ b/hw/intc/pnv_xive2.c
-@@ -75,26 +75,6 @@ static const XiveVstInfo vst_infos[] = {
-     qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
-                   (xive)->chip->chip_id, ## __VA_ARGS__);
- 
--/*
-- * QEMU version of the GETFIELD/SETFIELD macros
-- *
-- * TODO: It might be better to use the existing extract64() and
-- * deposit64() but this means that all the register definitions will
-- * change and become incompatible with the ones found in skiboot.
-- *
-- * Keep it as it is for now until we find a common ground.
-- */
--static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
--{
--    return (word & mask) >> ctz64(mask);
--}
--
--static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
--                                uint64_t value)
--{
--    return (word & ~mask) | ((value << ctz64(mask)) & mask);
--}
--
- /*
-  * TODO: Document block id override
-  */
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 6594016121a3..5d72c0c432b2 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -31,22 +31,6 @@
-     qemu_log_mask(LOG_GUEST_ERROR, "phb4_pec[%d:%d]: " fmt "\n",        \
-                   (pec)->chip_id, (pec)->index, ## __VA_ARGS__)
- 
--/*
-- * QEMU version of the GETFIELD/SETFIELD macros
-- *
-- * These are common with the PnvXive model.
-- */
--static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
--{
--    return (word & mask) >> ctz64(mask);
--}
--
--static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
--                                uint64_t value)
--{
--    return (word & ~mask) | ((value << ctz64(mask)) & mask);
--}
--
- static PCIDevice *pnv_phb4_find_cfg_dev(PnvPHB4 *phb)
- {
-     PCIHostState *pci = PCI_HOST_BRIDGE(phb);
--- 
-2.30.2
+  Get a block queue sysfs attribute value.
+
+> + */
+> +static long get_sysfs_long_val(int fd, struct stat *st,
+> +                               const char *attribute) {
+>  #ifdef CONFIG_LINUX
+>      char buf[32];
+>      const char *end;
+>      char *sysfspath =3D NULL;
+>      int ret;
+>      int sysfd =3D -1;
+> -    long max_segments;
+> +    long val;
+> =20
+>      if (S_ISCHR(st->st_mode)) {
+>          if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) =3D=3D 0) {
+> @@ -1237,8 +1241,9 @@ static int hdev_get_max_segments(int fd, struct sta=
+t *st)
+>          return -ENOTSUP;
+>      }
+> =20
+> -    sysfspath =3D g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segmen=
+ts",
+> -                                major(st->st_rdev), minor(st->st_rdev));
+> +    sysfspath =3D g_strdup_printf("/sys/dev/block/%u:%u/queue/%s",
+> +                                major(st->st_rdev), minor(st->st_rdev),
+> +                                attribute);
+>      sysfd =3D open(sysfspath, O_RDONLY);
+>      if (sysfd =3D=3D -1) {
+>          ret =3D -errno;
+> @@ -1256,9 +1261,9 @@ static int hdev_get_max_segments(int fd, struct sta=
+t *st)
+>      }
+>      buf[ret] =3D 0;
+>      /* The file is ended with '\n', pass 'end' to accept that. */
+> -    ret =3D qemu_strtol(buf, &end, 10, &max_segments);
+> +    ret =3D qemu_strtol(buf, &end, 10, &val);
+>      if (ret =3D=3D 0 && end && *end =3D=3D '\n') {
+> -        ret =3D max_segments;
+> +        ret =3D val;
+>      }
+> =20
+>  out:
+> @@ -1272,6 +1277,15 @@ out:
+>  #endif
+>  }
+> =20
+> +static int hdev_get_max_segments(int fd, struct stat *st) {
+> +    int ret;
+> +    ret =3D get_sysfs_long_val(fd, st, "max_segments");
+> +    if (ret < 0) {
+> +        return -1;
+
+This hides the actual error number. The if statement can be dropped and
+the function can be simplified to:
+
+  static int hdev_get_max_segments(int fd, struct stat *st) {
+      return get_sysfs_long_val(fd, st, "max_segments");
+  }
+
+Whether you want to keep the tiny helper function or inline
+get_sysfs_long_val(fd, st, "max_segments") into the caller is up to you.
+
+> +    }
+> +    return ret;
+> +}
+> +
+>  static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>  {
+>      BDRVRawState *s =3D bs->opaque;
+> @@ -1872,6 +1886,7 @@ static int handle_aiocb_zone_report(void *opaque) {
+> =20
+>  static int handle_aiocb_zone_mgmt(void *opaque) {
+>      RawPosixAIOData *aiocb =3D opaque;
+> +    BlockDriverState *s =3D aiocb->bs;
+>      int fd =3D aiocb->aio_fildes;
+>      int64_t offset =3D aiocb->aio_offset;
+>      int64_t len =3D aiocb->aio_nbytes;
+> @@ -1884,11 +1899,9 @@ static int handle_aiocb_zone_mgmt(void *opaque) {
+>      int64_t zone_size_mask;
+>      int ret;
+> =20
+> -    ret =3D ioctl(fd, BLKGETZONESZ, &zone_size);
+> -    if (ret) {
+> -        return -1;
+> -    }
+> -
+> +    g_autofree struct stat *file =3D g_new(struct stat, 1);
+> +    stat(s->filename, file);
+
+There is no need to allocate struct stat using g_new(). It's a small
+struct that can be on the stack.
+
+Also, fstat(fd, &st) is preferred when the file descriptor is already
+open because it avoids race conditions due to file renaming/path
+traversal.
+
+Here is how this could be written:
+
+  struct stat st;
+  if (fstat(fd, &st) < 0) {
+      return -errno;
+  }
+
+> +    zone_size =3D get_sysfs_long_val(fd, file, "chunk_sectors");
+>      zone_size_mask =3D zone_size - 1;
+>      if (offset & zone_size_mask) {
+>          error_report("offset is not the start of a zone");
+> --=20
+> 2.35.3
+>=20
+
+--pdu7Rq6IUoZEPp6P
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmK6tx0ACgkQnKSrs4Gr
+c8h2NAgAhk1HL2ic3DZrIncY0d10ofobj7207MtbVNuAYKl0GKX0gjWikeA3wwh4
+VnMb1vN6VVe9Lr60g/3DX7XyrJSigUH0NLkpCowoYEkmbpDjWwyOLaTNwh/+6Lbc
+CAxoaRXLLlob22nPhKM+4iJq0mYr+3sf94wmugb8APOMbRUYwxrFRVpaIJOjr8YG
+Wq4PCSJoQrOYmuJcvj/YhXzpZoER0PtZSG4jWgQAnRrsJ8PeNrUsdei59leJJarA
+bQo5F+eKrGu3/swy7tfXkDu5lwGOuidH9Rl3RobTIDUPnr8HD/oFoNgPTXUCP+vs
+GFYdJA1o+LMEWlJLGOrYalk5c4n3gQ==
+=LRol
+-----END PGP SIGNATURE-----
+
+--pdu7Rq6IUoZEPp6P--
 
 
