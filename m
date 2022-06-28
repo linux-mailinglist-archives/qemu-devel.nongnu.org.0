@@ -2,81 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166C155BDE9
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 05:47:41 +0200 (CEST)
-Received: from localhost ([::1]:59882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C346A55BDFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 06:17:06 +0200 (CEST)
+Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o62CS-00064r-6t
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jun 2022 23:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60128)
+	id 1o62ev-0008IU-Ea
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 00:17:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1o62A9-0004ia-62
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 23:45:17 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1o62A5-00078u-Qg
- for qemu-devel@nongnu.org; Mon, 27 Jun 2022 23:45:16 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id k22so15719776wrd.6
- for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 20:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=URZs6NY80NrWfNPA2nrC2qYSR5f+Jh3gdmu/f9Ti4sg=;
- b=ckP0l7Iq5wSMOD5Fu75IqncDiN/3dVSHa1IKcWUQj+P7UXXKdvUZM9DHwXCNJWjxZd
- hSP01Y4GTw+ddkx7g9yOf5lNxiVyoDeOPV2+7uMEa4NZ94VqqpKuI5eOEP1EcREHwZ2J
- QQN0ifIUa0hm5UDzSPnlW1Pr4HGvUY9Sz3xa0KlpU53R9UmMJCSfReZ9Wq4GjWfwKzgs
- O9LGGsrCq/LPuPPKBruwtd4qBPTZDo/5pesRcB9tgLmpeHOQVc9QBY00FqHLp2Kra8jw
- pgg3G4RydU4FG5LcKwewxNuP6OYV4gyw99aCRFApzzRU0QzDOGYchjex8e8FdD1r/UDr
- izmA==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o62dr-0007Zb-Ri
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:15:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o62do-00033o-8l
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 00:15:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656389754;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LeqbfFO/5dooSYhB9AjszRvmhq2igkbReJZJQeDWbDw=;
+ b=KaP/avh2sdP48WJxO119n+ooyIz0bqLaZiUW8WlAOuXZwFaAAbIyVgckLgEATnZHX9sq7R
+ eAN7T4i6NMDaEUF4p4ZCL2JK0ljOzDMB7/AMoKI2OUm+QPxpWiyJ3uC5dMPJoLeRQzdVnm
+ 9+WRXAerO4ilC/2G0XBvGywhlPFnP2k=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-159-3sr_wjPaNeC5h-ZPNui0og-1; Tue, 28 Jun 2022 00:15:52 -0400
+X-MC-Unique: 3sr_wjPaNeC5h-ZPNui0og-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ n21-20020a056a000d5500b005251893308cso4696410pfv.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Jun 2022 21:15:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=URZs6NY80NrWfNPA2nrC2qYSR5f+Jh3gdmu/f9Ti4sg=;
- b=Ny/9HOPPFAmwVzGj4GmeHUndPjEIvUDClOzUet1xGcFeevvEnenyNJDS2HpBFZ8BCz
- WZ4ArLEpCCJzUqhViKlOScOk5GU1t9zGoVH+E5CQGixcH+hDRGWqPTHeUQleWyuFuOys
- Vy3PI852hJi5jC4e0i9+sc1Lkl36ze9MmmceLbivOUQkpShcZKktaJzhGYa8J0PoiBsZ
- t2xtWgVwcwnK7XID9pHkXiLfqsODmdsg168hjzD6iNUqimIO1l/zQk+gCAfEPWEeOzvy
- X2axboqqfhJPphbDVHwB7qTH5vXNUevu3q6iAbSMEzsEcdHZvpEMB09oAiopCwY9sYvA
- KXgQ==
-X-Gm-Message-State: AJIora9Vi6b0fi5h8pEYLokVsOPXQr9iyFDHwEVowM/NN2ypW4Y2a9DB
- gEqW8ct4ObKLUGH6FVw3qpODWQ2UmsZbpN2dWV1n4A==
-X-Google-Smtp-Source: AGRyM1sFmkZBcECL1L/edjGOw7Jt3Xq8XLrFduMyEA6iYWvrmnQmCEJMTFdITBs8zmG3sihcGsYSD8bWjPpA0D6wvu4=
-X-Received: by 2002:a5d:6b06:0:b0:21b:902e:5727 with SMTP id
- v6-20020a5d6b06000000b0021b902e5727mr15516936wrw.86.1656387912147; Mon, 27
- Jun 2022 20:45:12 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LeqbfFO/5dooSYhB9AjszRvmhq2igkbReJZJQeDWbDw=;
+ b=G3nzcQixpT1FSXHLd4Ix/LhrO/cmyx1D7nN1FEBf68qP92Gl3+OnqgqqOShaOLBA5n
+ oQrp+xeXnDEcPizfv3u9w9v0KfdGx42DWZGaU6GMrY55TsnNn5PNj6UjnBVrCCxYoXx7
+ mYSkLenLPKEl8YCO+WDxjR6+i4AE4MdXM5KjS36cWsjZ/AF9I+lH9XSyNU4f1Ya8TJUl
+ ICyoH6ueOJIlwABQSX90EYmhGXnUDLgm189cvrQYmrlo+6bNPJ9+EsgRuNwPukXsZSwB
+ 3aAGUCZD8j7VhpkuFGg8E6SZCUG3JeHSEMt/oi0NOKodAePgXcJHLNQz4+7Dm918FaHN
+ vXug==
+X-Gm-Message-State: AJIora8v7aTzADAPQoBeTh68qO7CwHjYQPey5cqz4gcocWtnrIFa+OZz
+ yp6VuMOMCIcQ2IX9iUezcpP8QiqXUdnGti9R5nFd1vY5xqqnrFsVL7pTUzDFPIMXS49RFQFiSET
+ PHXwtjzpqwcoj6yU=
+X-Received: by 2002:a05:6a00:16c7:b0:520:6ede:2539 with SMTP id
+ l7-20020a056a0016c700b005206ede2539mr2608144pfc.46.1656389751540; 
+ Mon, 27 Jun 2022 21:15:51 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vE/SAajPsXY0Q7+k5wBoi0H0YN6mxW5vCxY8/chCK80bKq9uUxiq7rUyJd5yWA54+Jy+sxcw==
+X-Received: by 2002:a05:6a00:16c7:b0:520:6ede:2539 with SMTP id
+ l7-20020a056a0016c700b005206ede2539mr2608127pfc.46.1656389751252; 
+ Mon, 27 Jun 2022 21:15:51 -0700 (PDT)
+Received: from [10.72.14.30] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ m20-20020aa78a14000000b00518950bfc82sm8435276pfa.10.2022.06.27.21.15.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jun 2022 21:15:50 -0700 (PDT)
+Message-ID: <a607ebc5-e518-7b0d-722c-1bebcb18bb41@redhat.com>
+Date: Tue, 28 Jun 2022 12:15:41 +0800
 MIME-Version: 1.0
-References: <20220611080107.391981-1-apatel@ventanamicro.com>
- <20220611080107.391981-5-apatel@ventanamicro.com>
- <CAKmqyKMRCQYcMdwK315_0w81tt9TOhDLM+9==BX+6SussnohLg@mail.gmail.com>
-In-Reply-To: <CAKmqyKMRCQYcMdwK315_0w81tt9TOhDLM+9==BX+6SussnohLg@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Tue, 28 Jun 2022 09:15:01 +0530
-Message-ID: <CAAhSdy23MbOrPqj0riCi-qwk2UFnpchLVnXPm0S8ci5DbhBetw@mail.gmail.com>
-Subject: Re: [PATCH v6 4/4] target/riscv: Force disable extensions if priv
- spec version does not match
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Atish Patra <atishp@atishpatra.org>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::42c;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.10.0
+Subject: Re: [PATCH 2/2] tap: initialize TAPState->enabled according to the
+ actual state of queue
+Content-Language: en-US
+To: Andrey Ryabinin <arbn@yandex-team.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, yc-core@yandex-team.ru
+References: <20220614111843.24960-1-arbn@yandex-team.com>
+ <20220614112144.25324-1-arbn@yandex-team.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220614112144.25324-1-arbn@yandex-team.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,228 +108,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 4:47 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Sat, Jun 11, 2022 at 6:07 PM Anup Patel <apatel@ventanamicro.com> wrote:
-> >
-> > We should disable extensions in riscv_cpu_realize() if minimum required
-> > priv spec version is not satisfied. This also ensures that machines with
-> > priv spec v1.11 (or lower) cannot enable H, V, and various multi-letter
-> > extensions.
-> >
-> > Fixes: a775398be2e9 ("target/riscv: Add isa extenstion strings to the device tree")
-> > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
->
-> This fails to build
->
-> ../target/riscv/cpu.c: In function 'riscv_cpu_realize':
-> ../target/riscv/cpu.c:641:66: error: 'CPURISCVState' {aka 'struct
-> CPUArchState'} has no member named 'mhartid'
->   641 |                         isa_edata_arr[i].name, (unsigned
-> long)env->mhartid);
->       |                                                                  ^~
 
-I missed testing riscv64-linux-user build.
-
-I will fix and quickly send v7.
-
-Regards,
-Anup
-
+在 2022/6/14 19:21, Andrey Ryabinin 写道:
+> Currently TAPState->enabled initialized as true. If fd was passed to qemu
+> in a disabled state it will cause an assert at the attempt to detach queue
+> in virtio_net_set_queues():
 >
-> Alistair
+> virtio_net_set_queues() :
+>              r = peer_detach() -> tap_disable():
+>                                      if (s->enabled == 0) {
+>                                         return 0;
+> 				    } else {
+> 				       //Will return an error.
+>                                         ret = tap_fd_disable(s->fd);
+>                                         ...
+> 				       return ret;
+>              assert(!r);
 >
-> > ---
-> >  target/riscv/cpu.c | 144 +++++++++++++++++++++++++++------------------
-> >  1 file changed, 88 insertions(+), 56 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 8db0f0bd49..a17bc98662 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -43,9 +43,82 @@ static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
-> >
-> >  struct isa_ext_data {
-> >      const char *name;
-> > -    bool enabled;
-> > +    bool multi_letter;
-> > +    int min_version;
-> > +    int ext_enable_offset;
-> >  };
-> >
-> > +#define ISA_EXT_DATA_ENTRY(_name, _m_letter, _min_ver, _prop) \
-> > +{#_name, _m_letter, _min_ver, offsetof(struct RISCVCPUConfig, _prop)}
-> > +
-> > +/**
-> > + * Here are the ordering rules of extension naming defined by RISC-V
-> > + * specification :
-> > + * 1. All extensions should be separated from other multi-letter extensions
-> > + *    by an underscore.
-> > + * 2. The first letter following the 'Z' conventionally indicates the most
-> > + *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
-> > + *    If multiple 'Z' extensions are named, they should be ordered first
-> > + *    by category, then alphabetically within a category.
-> > + * 3. Standard supervisor-level extensions (starts with 'S') should be
-> > + *    listed after standard unprivileged extensions.  If multiple
-> > + *    supervisor-level extensions are listed, they should be ordered
-> > + *    alphabetically.
-> > + * 4. Non-standard extensions (starts with 'X') must be listed after all
-> > + *    standard extensions. They must be separated from other multi-letter
-> > + *    extensions by an underscore.
-> > + */
-> > +static const struct isa_ext_data isa_edata_arr[] = {
-> > +    ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
-> > +    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
-> > +    ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
-> > +    ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
-> > +    ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_12_0, ext_zfh),
-> > +    ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
-> > +    ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
-> > +    ISA_EXT_DATA_ENTRY(zdinx, true, PRIV_VERSION_1_12_0, ext_zdinx),
-> > +    ISA_EXT_DATA_ENTRY(zba, true, PRIV_VERSION_1_12_0, ext_zba),
-> > +    ISA_EXT_DATA_ENTRY(zbb, true, PRIV_VERSION_1_12_0, ext_zbb),
-> > +    ISA_EXT_DATA_ENTRY(zbc, true, PRIV_VERSION_1_12_0, ext_zbc),
-> > +    ISA_EXT_DATA_ENTRY(zbkb, true, PRIV_VERSION_1_12_0, ext_zbkb),
-> > +    ISA_EXT_DATA_ENTRY(zbkc, true, PRIV_VERSION_1_12_0, ext_zbkc),
-> > +    ISA_EXT_DATA_ENTRY(zbkx, true, PRIV_VERSION_1_12_0, ext_zbkx),
-> > +    ISA_EXT_DATA_ENTRY(zbs, true, PRIV_VERSION_1_12_0, ext_zbs),
-> > +    ISA_EXT_DATA_ENTRY(zk, true, PRIV_VERSION_1_12_0, ext_zk),
-> > +    ISA_EXT_DATA_ENTRY(zkn, true, PRIV_VERSION_1_12_0, ext_zkn),
-> > +    ISA_EXT_DATA_ENTRY(zknd, true, PRIV_VERSION_1_12_0, ext_zknd),
-> > +    ISA_EXT_DATA_ENTRY(zkne, true, PRIV_VERSION_1_12_0, ext_zkne),
-> > +    ISA_EXT_DATA_ENTRY(zknh, true, PRIV_VERSION_1_12_0, ext_zknh),
-> > +    ISA_EXT_DATA_ENTRY(zkr, true, PRIV_VERSION_1_12_0, ext_zkr),
-> > +    ISA_EXT_DATA_ENTRY(zks, true, PRIV_VERSION_1_12_0, ext_zks),
-> > +    ISA_EXT_DATA_ENTRY(zksed, true, PRIV_VERSION_1_12_0, ext_zksed),
-> > +    ISA_EXT_DATA_ENTRY(zksh, true, PRIV_VERSION_1_12_0, ext_zksh),
-> > +    ISA_EXT_DATA_ENTRY(zkt, true, PRIV_VERSION_1_12_0, ext_zkt),
-> > +    ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_12_0, ext_zve32f),
-> > +    ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
-> > +    ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-> > +    ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
-> > +    ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
-> > +    ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
-> > +    ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
-> > +};
-> > +
-> > +static bool isa_ext_is_enabled(RISCVCPU *cpu,
-> > +                               const struct isa_ext_data *edata)
-> > +{
-> > +    bool *ext_enabled = (void *)&cpu->cfg + edata->ext_enable_offset;
-> > +
-> > +    return *ext_enabled;
-> > +}
-> > +
-> > +static void isa_ext_update_enabled(RISCVCPU *cpu,
-> > +                                   const struct isa_ext_data *edata, bool en)
-> > +{
-> > +    bool *ext_enabled = (void *)&cpu->cfg + edata->ext_enable_offset;
-> > +
-> > +    *ext_enabled = en;
-> > +}
-> > +
-> >  const char * const riscv_int_regnames[] = {
-> >    "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
-> >    "x7/t2",   "x8/s0",  "x9/s1",  "x10/a0", "x11/a1", "x12/a2",  "x13/a3",
-> > @@ -530,7 +603,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-> >      CPURISCVState *env = &cpu->env;
-> >      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-> >      CPUClass *cc = CPU_CLASS(mcc);
-> > -    int priv_version = -1;
-> > +    int i, priv_version = -1;
-> >      Error *local_err = NULL;
-> >
-> >      cpu_exec_realizefn(cs, &local_err);
-> > @@ -558,6 +631,17 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-> >          set_priv_version(env, priv_version);
-> >      }
-> >
-> > +    /* Force disable extensions if priv spec version does not match */
-> > +    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-> > +        if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
-> > +            (env->priv_ver < isa_edata_arr[i].min_version)) {
-> > +            isa_ext_update_enabled(cpu, &isa_edata_arr[i], false);
-> > +            warn_report("disabling %s extension for hart 0x%lx because "
-> > +                        "privilege spec version does not match",
-> > +                        isa_edata_arr[i].name, (unsigned long)env->mhartid);
-> > +        }
-> > +    }
-> > +
-> >      if (cpu->cfg.mmu) {
-> >          riscv_set_feature(env, RISCV_FEATURE_MMU);
-> >      }
-> > @@ -1050,67 +1134,15 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-> >      device_class_set_props(dc, riscv_cpu_properties);
-> >  }
-> >
-> > -#define ISA_EDATA_ENTRY(name, prop) {#name, cpu->cfg.prop}
-> > -
-> >  static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
-> >  {
-> >      char *old = *isa_str;
-> >      char *new = *isa_str;
-> >      int i;
-> >
-> > -    /**
-> > -     * Here are the ordering rules of extension naming defined by RISC-V
-> > -     * specification :
-> > -     * 1. All extensions should be separated from other multi-letter extensions
-> > -     *    by an underscore.
-> > -     * 2. The first letter following the 'Z' conventionally indicates the most
-> > -     *    closely related alphabetical extension category, IMAFDQLCBKJTPVH.
-> > -     *    If multiple 'Z' extensions are named, they should be ordered first
-> > -     *    by category, then alphabetically within a category.
-> > -     * 3. Standard supervisor-level extensions (starts with 'S') should be
-> > -     *    listed after standard unprivileged extensions.  If multiple
-> > -     *    supervisor-level extensions are listed, they should be ordered
-> > -     *    alphabetically.
-> > -     * 4. Non-standard extensions (starts with 'X') must be listed after all
-> > -     *    standard extensions. They must be separated from other multi-letter
-> > -     *    extensions by an underscore.
-> > -     */
-> > -    struct isa_ext_data isa_edata_arr[] = {
-> > -        ISA_EDATA_ENTRY(zicsr, ext_icsr),
-> > -        ISA_EDATA_ENTRY(zifencei, ext_ifencei),
-> > -        ISA_EDATA_ENTRY(zmmul, ext_zmmul),
-> > -        ISA_EDATA_ENTRY(zfh, ext_zfh),
-> > -        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
-> > -        ISA_EDATA_ENTRY(zfinx, ext_zfinx),
-> > -        ISA_EDATA_ENTRY(zdinx, ext_zdinx),
-> > -        ISA_EDATA_ENTRY(zba, ext_zba),
-> > -        ISA_EDATA_ENTRY(zbb, ext_zbb),
-> > -        ISA_EDATA_ENTRY(zbc, ext_zbc),
-> > -        ISA_EDATA_ENTRY(zbkb, ext_zbkb),
-> > -        ISA_EDATA_ENTRY(zbkc, ext_zbkc),
-> > -        ISA_EDATA_ENTRY(zbkx, ext_zbkx),
-> > -        ISA_EDATA_ENTRY(zbs, ext_zbs),
-> > -        ISA_EDATA_ENTRY(zk, ext_zk),
-> > -        ISA_EDATA_ENTRY(zkn, ext_zkn),
-> > -        ISA_EDATA_ENTRY(zknd, ext_zknd),
-> > -        ISA_EDATA_ENTRY(zkne, ext_zkne),
-> > -        ISA_EDATA_ENTRY(zknh, ext_zknh),
-> > -        ISA_EDATA_ENTRY(zkr, ext_zkr),
-> > -        ISA_EDATA_ENTRY(zks, ext_zks),
-> > -        ISA_EDATA_ENTRY(zksed, ext_zksed),
-> > -        ISA_EDATA_ENTRY(zksh, ext_zksh),
-> > -        ISA_EDATA_ENTRY(zkt, ext_zkt),
-> > -        ISA_EDATA_ENTRY(zve32f, ext_zve32f),
-> > -        ISA_EDATA_ENTRY(zve64f, ext_zve64f),
-> > -        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
-> > -        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
-> > -        ISA_EDATA_ENTRY(svinval, ext_svinval),
-> > -        ISA_EDATA_ENTRY(svnapot, ext_svnapot),
-> > -        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
-> > -    };
-> > -
-> >      for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-> > -        if (isa_edata_arr[i].enabled) {
-> > +        if (isa_edata_arr[i].multi_letter &&
-> > +            isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
-> >              new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
-> >              g_free(old);
-> >              old = new;
-> > --
-> > 2.34.1
-> >
-> >
+> Initialize ->enabled according to the actual state of fd to fix this.
+>
+> Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
+> ---
+>   net/tap-bsd.c     |  5 +++++
+>   net/tap-linux.c   | 12 ++++++++++++
+>   net/tap-solaris.c |  5 +++++
+>   net/tap.c         |  2 +-
+>   net/tap_int.h     |  1 +
+>   5 files changed, 24 insertions(+), 1 deletion(-)
+>
+> diff --git a/net/tap-bsd.c b/net/tap-bsd.c
+> index 005ce05c6e0..8c21f058c8c 100644
+> --- a/net/tap-bsd.c
+> +++ b/net/tap-bsd.c
+> @@ -217,6 +217,11 @@ int tap_probe_vnet_hdr_len(int fd, int len)
+>       return 0;
+>   }
+>   
+> +bool tap_probe_enabled(int fd)
+> +{
+> +    return true;
+> +}
+> +
+>   void tap_fd_set_vnet_hdr_len(int fd, int len)
+>   {
+>   }
+> diff --git a/net/tap-linux.c b/net/tap-linux.c
+> index 304ff45071d..6078ba03af6 100644
+> --- a/net/tap-linux.c
+> +++ b/net/tap-linux.c
+> @@ -193,6 +193,18 @@ int tap_probe_vnet_hdr_len(int fd, int len)
+>       return 1;
+>   }
+>   
+> +bool tap_probe_enabled(int fd)
+> +{
+> +    struct ifreq ifr;
+> +
+> +    if (ioctl(fd, TUNGETIFF, &ifr) != 0) {
+> +        error_report("TUNGETIFF ioctl() failed: %s",
+> +                     strerror(errno));
+> +        return false;
+> +    }
+> +    return !(ifr.ifr_flags & IFF_DETACH_QUEUE);
+
+
+Is it better to check IFF_MULT_QUEUE before this to unbreak the old host?
+
+Thanks
+
+
+> +}
+> +
+>   void tap_fd_set_vnet_hdr_len(int fd, int len)
+>   {
+>       if (ioctl(fd, TUNSETVNETHDRSZ, &len) == -1) {
+> diff --git a/net/tap-solaris.c b/net/tap-solaris.c
+> index a44f8805c23..ccaa3334882 100644
+> --- a/net/tap-solaris.c
+> +++ b/net/tap-solaris.c
+> @@ -221,6 +221,11 @@ int tap_probe_vnet_hdr_len(int fd, int len)
+>       return 0;
+>   }
+>   
+> +bool tap_probe_enabled(int fd)
+> +{
+> +    return true;
+> +}
+> +
+>   void tap_fd_set_vnet_hdr_len(int fd, int len)
+>   {
+>   }
+> diff --git a/net/tap.c b/net/tap.c
+> index b3ddfd4a74b..799f8ec7c76 100644
+> --- a/net/tap.c
+> +++ b/net/tap.c
+> @@ -399,7 +399,7 @@ static TAPState *net_tap_fd_init(NetClientState *peer,
+>       s->host_vnet_hdr_len = vnet_hdr ? sizeof(struct virtio_net_hdr) : 0;
+>       s->using_vnet_hdr = false;
+>       s->has_ufo = tap_probe_has_ufo(s->fd);
+> -    s->enabled = true;
+> +    s->enabled = tap_probe_enabled(s->fd);
+>       tap_set_offload(&s->nc, 0, 0, 0, 0, 0);
+>       /*
+>        * Make sure host header length is set correctly in tap:
+> diff --git a/net/tap_int.h b/net/tap_int.h
+> index 547f8a5a28f..b8fc3dfbfa7 100644
+> --- a/net/tap_int.h
+> +++ b/net/tap_int.h
+> @@ -37,6 +37,7 @@ void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp);
+>   int tap_probe_vnet_hdr(int fd, Error **errp);
+>   int tap_probe_vnet_hdr_len(int fd, int len);
+>   int tap_probe_has_ufo(int fd);
+> +bool tap_probe_enabled(int fd);
+>   void tap_fd_set_offload(int fd, int csum, int tso4, int tso6, int ecn, int ufo);
+>   void tap_fd_set_vnet_hdr_len(int fd, int len);
+>   int tap_fd_set_vnet_le(int fd, int vnet_is_le);
+
 
