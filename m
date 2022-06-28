@@ -2,83 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7713E55C022
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:20:55 +0200 (CEST)
-Received: from localhost ([::1]:46032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC7855C020
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:19:29 +0200 (CEST)
+Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68L0-0003aY-Io
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:20:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50090)
+	id 1o68Jc-0001MY-6Y
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:19:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o68FL-0005b7-FX
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:15:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39363)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o68GY-000710-1V
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:16:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o68FH-0007Mh-50
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:15:00 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o68GU-0007hL-MB
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:16:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656411298;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1656411374;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pZok7elDq+wH3iETuLfzwsxk1joS6hYzpJTQ7n3leL8=;
- b=Y5XXuaUy5nhEO8xH3IDRHV946d7u8S4LMwYLHxTcO3eReOj5JSKkawdwzcD9LzNk9SParb
- ZTk6aDb5Rw1bMDw/DL8ZGgDhZvD80JYbmnO4YSJzT5hBWHDqihqYaq9zVf3FTKtFqmTJr+
- Hkp02ZJwz64w3WX1zpRdy53d+4w9Ac4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GV87i9afZwTGKtaS5DtGyOyhm/9gt/StmJrM3duHQHw=;
+ b=gArqTPVXOizRr8RJo65FNFurDElg/mj1avV/o3f/Y0vRNqshEZNe60uR/L1k0xYFsYE7W+
+ +lkbmUiQux1zSAvFD5oFWaf1NiO09UXrekvIijgNqL3KAx3lT2VdN0JNjsFi1kh4cZFr7G
+ Ool4467C3phOazRCeGrx6gp8FtadTfw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-30-8dNl9wneOZOrQIIR7nUXXA-1; Tue, 28 Jun 2022 06:14:57 -0400
-X-MC-Unique: 8dNl9wneOZOrQIIR7nUXXA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1340481D9DA;
- Tue, 28 Jun 2022 10:14:57 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A80A92026D64;
- Tue, 28 Jun 2022 10:14:55 +0000 (UTC)
-Date: Tue, 28 Jun 2022 11:14:53 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-Message-ID: <YrrUnfHwmu50JrJD@redhat.com>
-References: <CAARzgwyWK2HNbz=9=uoA+DDTpnn2q3CRmYVyjLwfMs1wi24-LA@mail.gmail.com>
- <20220628024810-mutt-send-email-mst@kernel.org>
- <CAARzgww9KKx7fTw7WMMTb3PCQgdwJwS34X0jHhQ+41OrMWZazg@mail.gmail.com>
- <4e1c2a45-eb53-e210-1ce1-05837bf1e7c3@redhat.com>
- <20220628030749-mutt-send-email-mst@kernel.org>
- <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
- <YrqyWhu8ThAcUGI4@redhat.com>
- <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
- <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
+ us-mta-435-oIXvD59wP06nJ71-G-TXrg-1; Tue, 28 Jun 2022 06:16:12 -0400
+X-MC-Unique: oIXvD59wP06nJ71-G-TXrg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 10-20020a1c020a000000b003a03f8cc1acso5352380wmc.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 03:16:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=GV87i9afZwTGKtaS5DtGyOyhm/9gt/StmJrM3duHQHw=;
+ b=ayhpkU8w3KzuGhmT5Ctb/Cgup6IDyTjSQRFrXJMzrUZQRfKnHCSpskkkI7M3HnVksR
+ HXEgZuvzdssjAjL+7TQFqk3DGiAIdUXImLWJs3SYy1m5M1qjaA90wGHr+C0SF1ZvXUbH
+ LvndXxcuXfyU7w3PC/J3s7bYMw2N1BwTr6qOEKVig4yVYbZE63bJqNayodoF8tC9r/N8
+ CfFecp5ygYqUDROW6Ve5w7IBLkHeluW9CN0sR3EUPXeMjbMnnG04s0amosBvZ4R6Ndzs
+ gs5rdeZd6LHPQMbOHgbq2cMThR1k0iDWQuwS1PKHf5taUQ8DLEJW+HaLRLutQ4lVBDhM
+ CisQ==
+X-Gm-Message-State: AJIora9D0tRT2EQcYqoOjAmyiR+Hz4AfElb9UgVt7bmu1PJ/3Dz2UpQq
+ zaCN+4qjBSLyhab3YMWhGKBLozLkqTmxwIws+KwStuqCnxJ450Cf55xnrlzRCGyUalU/SGTxTRm
+ K3Ns4oqS2ILcJJ2Q=
+X-Received: by 2002:adf:ec82:0:b0:21d:20a1:3f6b with SMTP id
+ z2-20020adfec82000000b0021d20a13f6bmr1778532wrn.394.1656411371177; 
+ Tue, 28 Jun 2022 03:16:11 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1txcQvcDp0RWcdvbISe1oYSJB1Hnx15l32gpGJxaiYLUc1UywlQCPsW0sge4xvQ7SlBESsAKA==
+X-Received: by 2002:adf:ec82:0:b0:21d:20a1:3f6b with SMTP id
+ z2-20020adfec82000000b0021d20a13f6bmr1778512wrn.394.1656411370981; 
+ Tue, 28 Jun 2022 03:16:10 -0700 (PDT)
+Received: from redhat.com ([2.52.23.204]) by smtp.gmail.com with ESMTPSA id
+ h13-20020adff4cd000000b002103aebe8absm13141592wrp.93.2022.06.28.03.16.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 03:16:10 -0700 (PDT)
+Date: Tue, 28 Jun 2022 06:16:06 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org, imammedo@redhat.com
+Subject: Re: [PATCH 00/12] Introduce new acpi/smbios qtests using biosbits
+Message-ID: <20220628061307-mutt-send-email-mst@kernel.org>
+References: <20220627072856.1529357-1-ani@anisinha.ca>
+ <Yrq3HUEghZ7IFh//@redhat.com>
+ <CAARzgwzDdQGQ81bNAOg6t=4rhfdkQjunscT+x=sUOEp92R=cmg@mail.gmail.com>
+ <YrrSk+HPXqCc/Jz3@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <YrrSk+HPXqCc/Jz3@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,124 +97,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 10:28:04AM +0200, Thomas Huth wrote:
-> On 28/06/2022 10.23, Daniel P. Berrangé wrote:
-> > On Tue, Jun 28, 2022 at 01:21:35PM +0530, Ani Sinha wrote:
-> > > On Tue, Jun 28, 2022 at 1:19 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > > 
-> > > > On Tue, Jun 28, 2022 at 09:25:35AM +0200, Thomas Huth wrote:
-> > > > > On 28/06/2022 09.10, Michael S. Tsirkin wrote:
-> > > > > > On Tue, Jun 28, 2022 at 09:03:33AM +0200, Thomas Huth wrote:
-> > > > > > > > > > > > > No problem with that. So that's venv. But do we need pip and pulling
-> > > > > > > > > > > > > packages from the net during testing?
-> > > > > > > > > > > > 
-> > > > > > > > > > > > We do that too. See requirements.txt in tests/
-> > > > > > > > > > > > Following two are downloaded:
-> > > > > > > > > > > > avocado-framework==88.1
-> > > > > > > > > > > > pycdlib==1.11.0
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Also see this line in Makefie.include:
-> > > > > > > > > > > > 
-> > > > > > > > > > > > $(call quiet-venv-pip,install -r $(TESTS_VENV_REQ))
-> > > > > > > > > > > 
-> > > > > > > > > > > Right but that's avocado since it pulls lots of stuff from
-> > > > > > > > > > > the net anyway.
-> > > > > > > > > > > Are the libraries in question not packaged on major distros?
-> > > > > > > > > > 
-> > > > > > > > > > Currently I only need this:
-> > > > > > > > > > https://github.com/python-tap/tappy
-> > > > > > > > > > which is the basic TAP processing library for python.
-> > > > > > > > > > 
-> > > > > > > > > > It seems its only installed through pip:
-> > > > > > > > > > https://tappy.readthedocs.io/en/latest/
-> > > > > > > > > > 
-> > > > > > > > > > I do not think this is packaged by default. It's such a basic library
-> > > > > > > > > > for parsing test output that maybe we can keep this somewhere within
-> > > > > > > > > > the python src tree? Not sure ...
-> > > > > > > > > 
-> > > > > > > > > It's pretty small for sure. Another submodule?
-> > > > > > > > 
-> > > > > > > > Unlike BITS, this one is likely going to be maintained for a while and
-> > > > > > > > will receive new releases through
-> > > > > > > > https://pypi.org/project/tap.py/
-> > > > > > > > so forking is OK but someone has to keep this updated.
-> > > > > > > > 
-> > > > > > > > I am open to anything. Whatever feels right is fine to me.
-> > > > > > > 
-> > > > > > > John Snow is currently working on the "Pythonification" of various QEMU
-> > > > > > > bits, I think you should loop him into this discussion, too.
-> > > > > > > 
-> > > > > > >    Thomas
-> > > > > > 
-> > > > > > submodule does not mean we fork necessarily. We could have
-> > > > > > all options: check for the module and use it if there, if not
-> > > > > > use one from system if not there install with pip ..
-> > > > > > But yea, I'm not sure what's best either.
-> > > > > 
-> > > > > submodules create a dependency on an internet connection, too. So before you
-> > > > > add yet another submodule (which have a couple of other disadvantages), I
-> > > > > think you could also directly use the venv here.
-> > > > 
-> > > > Definitely not submodules.
-> > > > 
-> > > > We need to get out of the mindset that submodules are needed for every new
-> > > > dependancy we add. Submodules are only appropriate if the external project
-> > > > is designed to be used as a copylib (eg the keycodemapdb tool), or if we
-> > > > need to bundle in order to prevent a regression for previously deployed
-> > > > QEMU installs where the dependancy is known not to exist on all our
-> > > > supported platforms.
-> > > > 
-> > > > This does not apply in this case, because the proposed use of tappy is
-> > > > merely for a test case. Meson just needs to check if tappy exists and if
-> > > > it does, then use it, otherwise skip the tests that need it. The user can
-> > > > arrange to install tappy, as they do with the majority of other deps.
-> > > > 
-> > > > If John's venv stuff is relevant, then we don't even need the meson checks,
-> > > > just delegate to the venv setup.
-> > > > 
-> > > > Regardless, no submodules are needed or desirable.
-> > > 
-> > > What about keeping biosbits stuff? Source or pre-built.
-> > 
-> > Shipping them as pre-built binaries in QEMU is not a viable option
-> > IMHO, especially for grub as a GPL'd project we need to be extremely
-> > clear about the exact corresponding source and build process for any
-> > binary.
-> > 
-> > For this kind of thing I would generally expect the distro to provide
-> > packages that we consume. Looking at biosbits I see it is itself
-> > bundling a bunch more 3rd party projects, libffi, grub2, and including
-> > even an ancient version of python as a submodule.
-> > 
-> > So bundling a pre-built biosbits in QEMU appears to mean that we're in
-> > turn going to unexpectedly bundle a bunch of other 3rd party projects
-> > too, all with dubious license compliance. I don't think this looks like
-> > something we should have in qemu.git or qemu tarballs. It will also
-> > make it challenging for the distro to take biosbits at all, unless
-> > those 3rd party bundles can be eliminated in favour of using existing
-> > builds their have packaged for grub, python, libffi, etc.
-> 
-> So if this depends on some third party binary bits, I think this is pretty
-> similar to the tests in the avocado directory ... there we download third
-> party binaries, too... Wouldn't it make sense to adapt your tests to that
-> framework?
+On Tue, Jun 28, 2022 at 11:06:11AM +0100, Daniel P. Berrang� wrote:
+> Ok, with that kind of size, it is definitely not something we want to
+> be committing to git either,
 
-Now that you mention it, avocado does feel like a more appropriate fit.
-IIUC the biosbits project appears to be effectively providing a custom
-guest OS ISO image. IOW this testing is quite biased towards being
-integration testing which is the target of avocado, while qtest is much
-more to the unit testing end of the spectrum. This would avoid all the
-discussion and patches around introducing python to qtest
+Not to qemu git I think.
 
-With regards,
-Daniel
+> nor consuming via a submodule since the
+> latter would bloat the release tarballs too.
+
+Hmm - why? We don't have to put the submodule in the tarball if we don't
+want to. People consuming tarballs probably do not need these tests
+anyway - just a basic smoketest is all that is needed.
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+MST
 
 
