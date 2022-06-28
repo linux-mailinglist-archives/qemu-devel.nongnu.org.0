@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A9A55F016
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 23:00:36 +0200 (CEST)
-Received: from localhost ([::1]:32884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD29555F037
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 23:12:00 +0200 (CEST)
+Received: from localhost ([::1]:42408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6IK3-0003K5-Jj
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 17:00:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38022)
+	id 1o6IV5-0002qv-Cz
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 17:11:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o6IIZ-0002RE-Ut; Tue, 28 Jun 2022 16:59:04 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:42979)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1o6IIX-0006GH-Dp; Tue, 28 Jun 2022 16:59:03 -0400
-Received: by mail-ed1-x533.google.com with SMTP id r18so11420002edb.9;
- Tue, 28 Jun 2022 13:59:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:in-reply-to:references:message-id
- :mime-version:content-transfer-encoding;
- bh=VYyYVaguM9AiFz2TacfiRyojZpDmxjlgMkPeylJcdgQ=;
- b=mF8IcLcvwuMm6Be0+eyVflbaFtOrEUkx2oDWudB0rvhcP3nnoJpFFyJzqlgu1ouxTU
- PEt0871jMzuVjrOrpAC5V1HejZYdYGefXtzUK8HVxefBgJ/HQksV1wAnrdGRx7tnroOo
- 0mzGEUhOYLweECH17El+RhxCDSlYQX3PxbrZvsK1Zg+3KLARmzs0yG+FpLjrINLjZVWR
- 1YwxKYRoOmUs5Sy5MvGrziqRJi01v8gji08yCwY222RRt41gP27pA+ii6EjXFABzllXL
- 0coiCUqWPcr92Td8O5ovc8NYErIo/adThn2kECuTfAwb0xqOVwktjcOrmpq13Kumanzp
- uG6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=VYyYVaguM9AiFz2TacfiRyojZpDmxjlgMkPeylJcdgQ=;
- b=TIcJBwecV1adZHZMm/WGPAQ23T6PIxp3vP73iR6xq+1KclMT/ITuTNrf3dmOh4HB7U
- FWlyEY8+s/QYsCKGMhNJ65NPbu7nHLIROYrGyvT+wvY9gfwNsUJQVgVs/CkGxnmVg6NV
- HZJ5J6mGRtm9QQD+a4kN4JmVcbMoSgB/JA4Xcqt44MG4rKb/Kz8cNIo61b/9pWs7DaE6
- 0IkVrqaHpnLMOR7csQyKMnssGzaQjLQ+nsfRzX+bz7LgYDyowhfQMuqH6uSGEaSgdwt4
- REBHt1MacT0JWOyQGCqP9CSNQ81OvIzdPhWOhW9zEvzxTf9143d9hrARcWHTD2yEiKXh
- hn/w==
-X-Gm-Message-State: AJIora8GbmBjPnVfZF0mBx1BXX+SOF83xWOPJxgqzoPtyl1FX9f+16Gs
- oOSGyzVvA3EzJkJ7Ickf+S7nIr3gABY=
-X-Google-Smtp-Source: AGRyM1s3dozt9bvArLV6A7D/jktCc2unZFpP4SoY0M8gCtHnEeirqTD4xhcTN6fkDmV7R6YoFH0EOQ==
-X-Received: by 2002:aa7:d38e:0:b0:435:6785:66d1 with SMTP id
- x14-20020aa7d38e000000b00435678566d1mr25310422edq.393.1656449938552; 
- Tue, 28 Jun 2022 13:58:58 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-077-013-111-114.77.13.pool.telefonica.de.
- [77.13.111.114]) by smtp.gmail.com with ESMTPSA id
- d20-20020aa7ce14000000b00435d4179bbdsm10331687edv.4.2022.06.28.13.58.57
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 28 Jun 2022 13:58:58 -0700 (PDT)
-Date: Tue, 28 Jun 2022 20:58:52 +0000
-From: B <shentey@gmail.com>
-To: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-CC: Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1o6ITK-0001mF-Mp; Tue, 28 Jun 2022 17:10:11 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:45578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1o6ITE-0007uM-0O; Tue, 28 Jun 2022 17:10:10 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7EC7B61865;
+ Tue, 28 Jun 2022 21:09:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CB1C341C8;
+ Tue, 28 Jun 2022 21:09:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1656450595;
+ bh=1QJk4e5j0/pz9uIpQ4JWK8nVogVrZMYPM6m/PAoDjys=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=nsBw1UXuvcxUmPH3tNOnNFdZmPyjltPcid9fynO3ewZauLE/h0Zh18vREFpG4Nqzu
+ OURDTsKPHFaUrB6xAS/uDBdZlT6nup9UQFWqRhV7bVH6dvrG2vyOgconcovvPAiI8T
+ YjNjQtMDgVUJPw8gTKybzJR8uJnlc6pUBGobQBf2CENvKROG01H7xvF7nKGdEiIvNp
+ 05spaUErlHtzYRv6eXBbkgHYR3MmWa6k64+oOwWq4PkEy/1+g6OHMldslx6Cd72eOE
+ kxE6BeyIZl2aTxC9kXzoZny7+GOf5ELCBrK194czS1pUKo3lMpZGRQ7A/j3ZPYBo4U
+ FdTV4tqNYeaEQ==
+Date: Tue, 28 Jun 2022 14:09:39 -0700 (PDT)
+From: Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
+To: B <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org, 
+ Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Stefano Stabellini <sstabellini@kernel.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
  Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
 Subject: Re: [PATCH 0/2] Decouple Xen-HVM from PIIX
-In-Reply-To: <20220626094656.15673-1-shentey@gmail.com>
+In-Reply-To: <D8EF825B-45A2-4DE5-A787-8FE7BE88D2E6@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2206281408490.247593@ubuntu-linux-20-04-desktop>
 References: <20220626094656.15673-1-shentey@gmail.com>
-Message-ID: <D8EF825B-45A2-4DE5-A787-8FE7BE88D2E6@gmail.com>
+ <D8EF825B-45A2-4DE5-A787-8FE7BE88D2E6@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,52 +78,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-Am 26=2E Juni 2022 09:46:54 UTC schrieb Bernhard Beschow <shentey@gmail=2E=
-com>:
->hw/i386/xen/xen-hvm=2Ec contains logic which is PIIX-specific=2E This mak=
-es xen-hvm=2Ec depend on PIIX which can be avoided if PIIX logic was isolat=
-ed in PIIX itself=2E
->
->
->
->Bernhard Beschow (2):
->
->  hw/i386/xen/xen-hvm: Allow for stubbing xen_set_pci_link_route()
->
->  hw/i386/xen/xen-hvm: Inline xen_piix_pci_write_config_client() and
->
->    remove it
->
->
->
-> hw/i386/xen/xen-hvm=2Ec       | 17 ++---------------
->
-> hw/isa/piix3=2Ec              | 15 ++++++++++++++-
->
-> include/hw/xen/xen=2Eh        |  2 +-
->
-> include/hw/xen/xen_common=2Eh |  6 ------
->
-> stubs/xen-hw-stub=2Ec         |  3 ++-
->
-> 5 files changed, 19 insertions(+), 24 deletions(-)
->
->
->
->-- >
->2=2E36=2E1
->
->
->
-
-Hi Laurent,
-
-would you like to queue this as well? Both patches have been reviewed at l=
-east once, piix twice=2E Or would you rather keep the review period open fo=
-r longer?
-
-Best regards,
-Bernhard
+On Tue, 28 Jun 2022, B wrote:
+> Am 26. Juni 2022 09:46:54 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
+> >hw/i386/xen/xen-hvm.c contains logic which is PIIX-specific. This makes xen-hvm.c depend on PIIX which can be avoided if PIIX logic was isolated in PIIX itself.
+> >
+> >
+> >
+> >Bernhard Beschow (2):
+> >
+> >  hw/i386/xen/xen-hvm: Allow for stubbing xen_set_pci_link_route()
+> >
+> >  hw/i386/xen/xen-hvm: Inline xen_piix_pci_write_config_client() and
+> >
+> >    remove it
+> >
+> >
+> >
+> > hw/i386/xen/xen-hvm.c       | 17 ++---------------
+> >
+> > hw/isa/piix3.c              | 15 ++++++++++++++-
+> >
+> > include/hw/xen/xen.h        |  2 +-
+> >
+> > include/hw/xen/xen_common.h |  6 ------
+> >
+> > stubs/xen-hw-stub.c         |  3 ++-
+> >
+> > 5 files changed, 19 insertions(+), 24 deletions(-)
+> >
+> >
+> >
+> >-- >
+> >2.36.1
+> >
+> >
+> >
+> 
+> Hi Laurent,
+> 
+> would you like to queue this as well? Both patches have been reviewed at least once, piix twice. Or would you rather keep the review period open for longer?
+ 
+Paul reviewed them both -- I don't think we need further reviews.
+Laurent could just take them.
 
