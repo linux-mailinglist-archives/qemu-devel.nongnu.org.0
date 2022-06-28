@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59EFD55C079
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 12:57:57 +0200 (CEST)
-Received: from localhost ([::1]:60728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E32D55C08B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jun 2022 13:05:25 +0200 (CEST)
+Received: from localhost ([::1]:44794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o68uq-0004Fv-6s
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 06:57:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35016)
+	id 1o6924-0005wy-MB
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 07:05:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o68rs-0000XB-Ke
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:54:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32885)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o68rr-0006XE-3X
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 06:54:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656413690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TMHKYNA+glh4I0uMHgBY5dUYGmUujwoTHdWDTL53EV0=;
- b=FiawDveUN1ZIH5hvmMDSW0heJ3iuhDg4X98T3syNBEUan93VJvz9tp9eIaphfSpnsc737r
- prNOB19z+ISqtIOz3hhekWAecPY0ODXBW9eFFXilN1ocgcizD4oRW5nFMYBvt9yyBOljWC
- VJ+cWUMT2aXgm1gJfMu6zbfbt/+QzaA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-343-8omwsF04Ofi14cKPaE7QEA-1; Tue, 28 Jun 2022 06:54:47 -0400
-X-MC-Unique: 8omwsF04Ofi14cKPaE7QEA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0823D801233;
- Tue, 28 Jun 2022 10:54:47 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75C18112131B;
- Tue, 28 Jun 2022 10:54:45 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o68xo-0002kO-B5
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:01:01 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:44939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o68xk-0007k4-Al
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 07:00:59 -0400
+Received: by mail-pl1-x629.google.com with SMTP id l6so10715939plg.11
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 04:00:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=joIvObiOirKSLFNI/hnI0b5hmcSYOKECnKpfxO2cd+w=;
+ b=Qoq36cXmh9/oA0ssBS0OUQZZT5VoY9ctxY4eOLsQmRt5CWwMXny+pS+ggMxgHC1gdw
+ 7bzhp0e+s6d+DjiZyrXJ++5nO9+K8KkecTCyRgJJJysK2qhzt9N23eS2JH0fY9NDLNsA
+ eY2MQ8FGM2kLygplXX4Ax1s8vdea3bmg4dQKBneec0E+6+kWqKoRHhxy1kiVKH4dVUW1
+ FIISBoIx1aUqyGbxuJOsUT6K5YEhcukfAi7JTgS1U3L1hwu8lw+th5s8nqROlgeu98uK
+ X3s36SvsSuZazt3ksiQTrCkDBT/jE6BX7V1KmYm7OLBlliyFyVgyGGEm5T8Wwko/h+/e
+ l7vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=joIvObiOirKSLFNI/hnI0b5hmcSYOKECnKpfxO2cd+w=;
+ b=PUht7Ib/WBjraMrzg/TNtkbFzl7kH52FaxkhX0TVvL/ou/C1Gjzl4PMQ1+kFDr9VEZ
+ K6fzDb/tMNIHL90lIu2UKmfyH2FBwni12sTgvG3yKpSgsroItc0KCynPENWHQSQU5P/w
+ 8XXWRfkfL0CJklwQJ3e2znWmETbAsiVymPnv9dUd3/j4zdcYkk6H9rjTjAew5/blyjVf
+ Z5wby+TNs6x+DoBJ3dKmYaerZSFfEBoPuCJAjLgVXuxAyRsvitxNr1RtyuEZItDluu5X
+ xzX3Fmu1cmwpgxgKkkYOw9AOASa7A4/XydPu8P0SbuEtIKdydv990M0ysZW0aQPMkTHi
+ Hv9g==
+X-Gm-Message-State: AJIora8JvMN8OfsuXJpI1CSjhpZ0VWMpemix5ComldZJSuoXgzgk7rPb
+ C9CsGitTd0BlpEVyPW8EHpPBkB3fBaB/RQ==
+X-Google-Smtp-Source: AGRyM1scaqfDSALQCb1iQtSAxEeKyGWqUZUsByuOBhRpuLjurzS/eGe5e42S+Sl+jokp3KgV4zR9CA==
+X-Received: by 2002:a17:902:ebcb:b0:168:e3ba:4b5a with SMTP id
+ p11-20020a170902ebcb00b00168e3ba4b5amr4408626plg.11.1656414053638; 
+ Tue, 28 Jun 2022 04:00:53 -0700 (PDT)
+Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
+ p22-20020a1709027ed600b0016a0fe1a1fbsm9044501plb.220.2022.06.28.04.00.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 04:00:52 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [RFC PATCH 5/5] tests: stop skipping migration test on s390x/ppc64
-Date: Tue, 28 Jun 2022 11:54:34 +0100
-Message-Id: <20220628105434.295905-6-berrange@redhat.com>
-In-Reply-To: <20220628105434.295905-1-berrange@redhat.com>
-References: <20220628105434.295905-1-berrange@redhat.com>
+Cc: laurent@vivier.eu
+Subject: [PATCH v5 0/2] target/m68k: semihosting cleanup
+Date: Tue, 28 Jun 2022 16:30:45 +0530
+Message-Id: <20220628110047.666612-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,67 +85,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There have been checks put into the migration test which skip it in a
-few scenarios
+Changes for v5:
+  * Rebase on master, which includes all prereq and patch 1.
+  * Split out errno remapping to a separate patch.
 
- * ppc64 TCG
- * ppc64 KVM with kvm-pr
- * s390x TCG
+r~
 
-In the original commits there are references to unexplained hangs in
-the test. There is no record of details of where it was hanging, but
-it is suspected that these were all a result of the max downtime limit
-being set at too low a value to guarantee convergance.
+Richard Henderson (2):
+  target/m68k: Use semihosting/syscalls.h
+  target/m68k: Convert semihosting errno to gdb remote errno
 
-Since a previous commit bumped the value from 1 second to 30 seconds,
-it is believed that hangs due to non-convergance should be eliminated
-and thus worth trying to remove the skipped scenarios.
+ target/m68k/m68k-semi.c | 306 ++++++++++------------------------------
+ 1 file changed, 76 insertions(+), 230 deletions(-)
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/qtest/migration-test.c | 21 ---------------------
- 1 file changed, 21 deletions(-)
-
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 9e64125f02..500169f687 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2085,7 +2085,6 @@ static bool kvm_dirty_ring_supported(void)
- int main(int argc, char **argv)
- {
-     char template[] = "/tmp/migration-test-XXXXXX";
--    const bool has_kvm = qtest_has_accel("kvm");
-     int ret;
- 
-     g_test_init(&argc, &argv, NULL);
-@@ -2094,26 +2093,6 @@ int main(int argc, char **argv)
-         return g_test_run();
-     }
- 
--    /*
--     * On ppc64, the test only works with kvm-hv, but not with kvm-pr and TCG
--     * is touchy due to race conditions on dirty bits (especially on PPC for
--     * some reason)
--     */
--    if (g_str_equal(qtest_get_arch(), "ppc64") &&
--        (!has_kvm || access("/sys/module/kvm_hv", F_OK))) {
--        g_test_message("Skipping test: kvm_hv not available");
--        return g_test_run();
--    }
--
--    /*
--     * Similar to ppc64, s390x seems to be touchy with TCG, so disable it
--     * there until the problems are resolved
--     */
--    if (g_str_equal(qtest_get_arch(), "s390x") && !has_kvm) {
--        g_test_message("Skipping test: s390x host with KVM is required");
--        return g_test_run();
--    }
--
-     tmpfs = mkdtemp(template);
-     if (!tmpfs) {
-         g_test_message("mkdtemp on path (%s): %s", template, strerror(errno));
 -- 
-2.36.1
+2.34.1
 
 
