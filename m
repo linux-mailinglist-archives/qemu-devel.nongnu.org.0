@@ -2,78 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A2455FA25
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:12:00 +0200 (CEST)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5B555FA2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:15:30 +0200 (CEST)
+Received: from localhost ([::1]:58504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Snm-0006qs-P7
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:11:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46244)
+	id 1o6SrA-0000Hf-Rg
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:15:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o6SlH-0005e1-Fr
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:09:23 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40957)
+ id 1o6Sos-0007rx-Re
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:13:06 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:46848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o6SlF-0005M4-M2
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:09:23 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- v193-20020a1cacca000000b003a051f41541so2692104wme.5
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 01:09:21 -0700 (PDT)
+ id 1o6Soq-00065M-Qn
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:13:06 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id q6so30868263eji.13
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 01:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=TabGWHIM8c9rkJ4+E0f8FKSCJ/hlIEym8hMxsb5x2uY=;
- b=tXownbuQpLN6nW0OBH4+YepcSMRoMT/qO/Yha69Rc6D9vcCVBNO6LO2t/RNQzwZlSk
- sxvjm/3q/w11AY5MLaQa0nKDmPNl7mqO0G9Mg3J+kG+HHlMB+LESHjsqOc/F8P9Mpupz
- 0otBWp+FgGr6awcbmZt0d86pjdnGjDmDO1ofv09znLjxYA3cwSggaICn/NDns6RaFOKg
- t7tABI6ChZ4F17rctirVNsTeQqDhdNuxxuCYup7YcsfA00ZL24O544YEn0W/teKEmeyl
- jXegbNzYsN6gKiJ0RIuuQhXChgpEIEf9Bs0VGo3HSl4vRHUVo3ZCYxGpno/J+fF1wx1v
- 71BA==
+ bh=PIGbqvRKGSnAd7dUjgLKR8+0fKI979WXL11KEVouBS8=;
+ b=Mst7JHfvhMp7T9HYxlRri+KnTpedoD8p5dv5FzFplRIR5dPwAEDmjeATvc9uzLPlS4
+ Z/VpTWrcHm/eS2dKfDsrBWma7Ka6kRi4oeobJUiWKYu81I8WwsmCwHJMGXwwmSyPtWhc
+ 07l+UZtgnMfZkymgEue3iN8MEi423BFDGx2CZxnbzIB5xLIfRoqdnhM2weNbu8nfow+J
+ MLFqPp4dmVlKUhYO/4oGm466EHk4cuFhrw9MylYIkaxe0z0WVOqXO8awzwPgD8Mkc6BN
+ hqWs/91URLBTtiudfH7e9bZZSUCxz86ex3ZaADs2re8HM8joD+wJNze2uYvUJD/Rji6O
+ 3lxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=TabGWHIM8c9rkJ4+E0f8FKSCJ/hlIEym8hMxsb5x2uY=;
- b=voIeMhHg2cX47amNVxLxJErZ3TSENgGdJDzeCchX0bTuwxruqainIWPE12HV7jqb//
- hjFe3j+8FcqBOuW4khQn55osGMFrQNyIR8cbx5G7i/2Lwp3g5A5H0egw3PqtShnMeEec
- FeZhJ8BaGDV83SVxsMiVlkHBqBlZ3vXICu1YcnzrqXsMis9CN5GQgQbwN0uRZm4lwL60
- tohgu20N5eab+GYxS77hzJ5PuHlukZ+/wvyb29s6TvfnaXN7fdGm2rxTo/ZVAUfmbkoq
- lUxaiEKS5LaTvSosNT9H2YnWDmVmJfBABgE7GWEtumendFA+gVxzAWmJU7TqNdDIieyl
- qS1w==
-X-Gm-Message-State: AJIora92f4cqWLC+J9HXOMlSFhUInkgFDvFo8FA2RQTllvkbvWdeGlRr
- yliBz+qkMLbH+jMZuhP6iqvSJA==
-X-Google-Smtp-Source: AGRyM1u28JbsOJwYKV8cv5/YgqGsqXyuUTx8255gWodsWgMNmzT7Pv01U/c1N+YBXFLWf1kDVnbtbg==
-X-Received: by 2002:a7b:c5da:0:b0:39c:542a:a07b with SMTP id
- n26-20020a7bc5da000000b0039c542aa07bmr2274882wmk.83.1656490159966; 
- Wed, 29 Jun 2022 01:09:19 -0700 (PDT)
+ bh=PIGbqvRKGSnAd7dUjgLKR8+0fKI979WXL11KEVouBS8=;
+ b=SPHYXVu3PF2Dc7WRkfkeeHAIpfWIUGzAFErbHtXFQ8YQF8DvCZPOTtnyT0EZ82LqyY
+ bv0m5bBQL8/emU4IE3sI/BuvJRhmaw4x4XE38RO6zJrzZ3mzFL4BkBRPlqov8idW1qro
+ 3Y2cGcdmFzpEGwq74g109PgfgOW3MgeAF+7iEoOOiEnWGn48lxZ4qNyU071yPRqjFTUQ
+ JyC2Praf0rZ2OsAw7IY14e282CTx9L8rccyIDSetAKPfAD0rODGCxceSwuUOZjPwiemg
+ LTrMvMc1S8/FpVuhM6Chu8MM19eVKtWL2IxWp/6oZYXhQqoQolmHsXBOEGcIV4Kj3kiH
+ qlcQ==
+X-Gm-Message-State: AJIora8FtCd7hwfxuIIzPcZC/b3PvujIbsjp/B8UIP50v7TMLpDl74ki
+ PuiGtwWvefXL45jLt/t1LdtI5w==
+X-Google-Smtp-Source: AGRyM1tPnKTVVZy8C+dwTO0lqvLAH9ElVYJH9bs+Cd32mWZRKrNlBRkmBntb9jaIQOz8Su5fLqXKCw==
+X-Received: by 2002:a17:906:284c:b0:727:3773:1a53 with SMTP id
+ s12-20020a170906284c00b0072737731a53mr1986597ejc.765.1656490383244; 
+ Wed, 29 Jun 2022 01:13:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- q13-20020adfcd8d000000b00219b391c2d2sm18822824wrj.36.2022.06.29.01.09.18
+ f20-20020a17090660d400b00711edab7622sm7411953ejk.40.2022.06.29.01.13.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 01:09:18 -0700 (PDT)
+ Wed, 29 Jun 2022 01:13:01 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 27F961FFB7;
- Wed, 29 Jun 2022 09:09:18 +0100 (BST)
-References: <20220628114307.697943-1-richard.henderson@linaro.org>
- <20220628114307.697943-3-richard.henderson@linaro.org>
- <CAMo8BfJgo184TYxr0O-t5x68Ac1U3t9LWWvPeUEwm-E_qizGWQ@mail.gmail.com>
- <b4f49f9d-769d-e307-b01d-aadc5df70642@linaro.org>
+ by zen.linaroharston (Postfix) with ESMTP id 1EFC51FFB7;
+ Wed, 29 Jun 2022 09:13:01 +0100 (BST)
+References: <20220426150616.3937571-24-Liam.Howlett@oracle.com>
+ <20220428201947.GA1912192@roeck-us.net>
+ <20220429003841.cx7uenepca22qbdl@revolver>
+ <20220428181621.636487e753422ad0faf09bd6@linux-foundation.org>
+ <20220502001358.s2azy37zcc27vgdb@revolver>
+ <20220501172412.50268e7b217d0963293e7314@linux-foundation.org>
+ <Ym+v4lfU5IyxkGc4@osiris> <20220502133050.kuy2kjkzv6msokeb@revolver>
+ <YnAn3FI9aVCi/xKd@osiris> <YnGHJ7oroqF+v1u+@osiris>
+ <20220503215520.qpaukvjq55o7qwu3@revolver>
+ <60a3bc3f-5cd6-79ac-a7a8-4ecc3d7fd3db@linux.ibm.com>
+ <15f5f8d6-dc92-d491-d455-dd6b22b34bc3@redhat.com>
+ <yt9d5ykkhrvv.fsf_-_@linux.ibm.com>
 User-agent: mu4e 1.7.27; emacs 28.1.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v5 2/2] target/xtensa: Use semihosting/syscalls.h
-Date: Wed, 29 Jun 2022 09:06:53 +0100
-In-reply-to: <b4f49f9d-769d-e307-b01d-aadc5df70642@linaro.org>
-Message-ID: <87tu83j3gx.fsf@linaro.org>
+To: Sven Schnelle <svens@linux.ibm.com>
+Cc: David Hildenbrand <david@redhat.com>, Janosch Frank
+ <frankja@linux.ibm.com>, Liam Howlett <liam.howlett@oracle.com>, Heiko
+ Carstens <hca@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck
+ <linux@roeck-us.net>, "maple-tree@lists.infradead.org"
+ <maple-tree@lists.infradead.org>, "linux-mm@kvack.org"
+ <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Yu Zhao <yuzhao@google.com>, Juergen Gross
+ <jgross@suse.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, Andreas Krebbel <krebbel@linux.ibm.com>, Ilya
+ Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Subject: Re: qemu-system-s390x hang in tcg (was: Re: [PATCH v8 23/70]
+ mm/mmap: change do_brk_flags() to expand existing VMA and add
+ do_brk_munmap())
+Date: Wed, 29 Jun 2022 09:10:57 +0100
+In-reply-to: <yt9d5ykkhrvv.fsf_-_@linux.ibm.com>
+Message-ID: <87pmirj3aq.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,118 +118,69 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Sven Schnelle <svens@linux.ibm.com> writes:
 
-> On 6/28/22 19:08, Max Filippov wrote:
->> On Tue, Jun 28, 2022 at 4:43 AM Richard Henderson
->> <richard.henderson@linaro.org> wrote:
->>>
->>> This separates guest file descriptors from host file descriptors,
->>> and utilizes shared infrastructure for integration with gdbstub.
->>> Remove the xtensa custom console handing and rely on the
->>> generic -semihosting-config handling of chardevs.
->>>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>   target/xtensa/cpu.h         |   1 -
->>>   hw/xtensa/sim.c             |   3 -
->>>   target/xtensa/xtensa-semi.c | 226 ++++++++----------------------------
->>>   3 files changed, 50 insertions(+), 180 deletions(-)
->>>
->>> diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
->>> index ea66895e7f..99ac3efd71 100644
->>> --- a/target/xtensa/cpu.h
->>> +++ b/target/xtensa/cpu.h
->>> @@ -612,7 +612,6 @@ void xtensa_translate_init(void);
->>>   void **xtensa_get_regfile_by_name(const char *name, int entries, int =
-bits);
->>>   void xtensa_breakpoint_handler(CPUState *cs);
->>>   void xtensa_register_core(XtensaConfigList *node);
->>> -void xtensa_sim_open_console(Chardev *chr);
->>>   void check_interrupts(CPUXtensaState *s);
->>>   void xtensa_irq_init(CPUXtensaState *env);
->>>   qemu_irq *xtensa_get_extints(CPUXtensaState *env);
->>> diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
->>> index 946c71cb5b..5cca6a170e 100644
->>> --- a/hw/xtensa/sim.c
->>> +++ b/hw/xtensa/sim.c
->>> @@ -87,9 +87,6 @@ XtensaCPU *xtensa_sim_common_init(MachineState *machi=
-ne)
->>>           xtensa_create_memory_regions(&sysram, "xtensa.sysram",
->>>                                        get_system_memory());
->>>       }
->>> -    if (serial_hd(0)) {
->>> -        xtensa_sim_open_console(serial_hd(0));
->>> -    }
->> I've noticed that with this change '-serial stdio' and its variants
->> are still
->> accepted in the command line, but now they do nothing.
+> Hi,
 >
-> Pardon?  They certainly will do something, via writes to the serial hardw=
-are.
+> David Hildenbrand <david@redhat.com> writes:
 >
+>> On 04.05.22 09:37, Janosch Frank wrote:
+>>> I had a short look yesterday and the boot usually hangs in the raid6=20
+>>> code. Disabling vector instructions didn't make a difference but a few=
+=20
+>>> interruptions via GDB solve the problem for some reason.
+>>>=20
+>>> CCing David and Thomas for TCG
+>>>=20
+>>
+>> I somehow recall that KASAN was always disabled under TCG, I might be
+>> wrong (I thought we'd get a message early during boot that the HW
+>> doesn't support KASAN).
+>>
+>> I recall that raid code is a heavy user of vector instructions.
+>>
+>> How can I reproduce? Compile upstream (or -next?) with kasan support and
+>> run it under TCG?
 >
->> This quiet
->> change of behavior is unfortunate. I wonder if it would be acceptable
->> to map the '-serial stdio' option in the presence of '-semihosting' to
->> something like '-chardev stdio,id=3Did1 -semihosting-config chardev=3Did=
-1'?
+> I spent some time looking into this. It's usually hanging in
+> s390vx8_gen_syndrome(). My first thought was that it is a problem with
+> the VX instructions, but turned out that it hangs even if i remove all
+> the code from s390vx8_gen_syndrome().
 >
-> I dunno.  I'm wary of having xtensa be unique here.  Alex, thoughts?
+> Tracing the execution of TB's, i see that the generated code is always
+> jumping between a few TB's, but never exiting the TB's to check for
+> interrupts (i.e. return to cpu_tb_exec(). I only see calls to
+> helper_lookup_tb_ptr to lookup the tb pointer for the next TB.
+>
+> The raid6 code is waiting for some time to expire by reading jiffies,
+> but interrupts are never processed and therefore jiffies doesn't change.
+> So the raid6 code hangs forever.
+>
+> As a test, i made a quick change to test:
+>
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index c997c2e8e0..35819fd5a7 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -319,7 +319,8 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState *env)
+>      cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
+>
+>      cflags =3D curr_cflags(cpu);
+> -    if (check_for_breakpoints(cpu, pc, &cflags)) {
+> +    if (check_for_breakpoints(cpu, pc, &cflags) ||
+> +        unlikely(qatomic_read(&cpu->interrupt_request))) {
+>          cpu_loop_exit(cpu);
+>      }
+>
+> And that makes the problem go away. But i'm not familiar with the TCG
+> internals, so i can't say whether the generated code is incorrect or
+> something else is wrong. I have tcg log files of a failing + working run
+> if someone wants to take a look. They are rather large so i would have to
+> upload them somewhere.
 
-Is semihosting *the* serial hardware for xtensa-sim or is it overriding
-another serial interface? I'm wary of adding more magical behaviour for
--serial as it can be confusing enough already what actually gets routed
-to it if not doing everything explicitly.
-
->
->>> +                if (get_user_u32(tv_sec, regs[5]) ||
->>> +                    get_user_u32(tv_usec, regs[5])) {
->> get_user_u32(tv_usec, regs[5] + 4)?
->
-> Oops, yes.
->
->>> -                regs[2] =3D select(fd + 1,
->>> -                                 rq =3D=3D SELECT_ONE_READ   ? &fdset =
-: NULL,
->>> -                                 rq =3D=3D SELECT_ONE_WRITE  ? &fdset =
-: NULL,
->>> -                                 rq =3D=3D SELECT_ONE_EXCEPT ? &fdset =
-: NULL,
->>> -                                 target_tv ? &tv : NULL);
->>> -                regs[3] =3D errno_h2g(errno);
->>> +                /* Poll timeout is in milliseconds; overflow to infini=
-ty. */
->>> +                msec =3D tv_sec * 1000ull + DIV_ROUND_UP(tv_usec, 1000=
-ull);
->>> +                timeout =3D msec <=3D INT32_MAX ? msec : -1;
->>> +            } else {
->>> +                timeout =3D -1;
->>>               }
->>> +
->>> +            switch (regs[4]) {
->>> +            case SELECT_ONE_READ:
->>> +                events =3D G_IO_IN;
->>> +                break;
->>> +            case SELECT_ONE_WRITE:
->>> +                events =3D G_IO_OUT;
->>> +                break;
->>> +            case SELECT_ONE_EXCEPT:
->>> +                events =3D G_IO_PRI;
->>> +                break;
->>> +            default:
->>> +                xtensa_cb(cs, -1, EINVAL);
->> This doesn't match what there used to be: it was possible to call
->> select_one with rq other than SELECT_ONE_* and that would've
->> passed NULL for all fd sets in the select invocation turning it into
->> a sleep. It would return 0 after the timeout.
->
-> Hmm.  Is there any documentation of what it was *supposed* to do?
-> Passing rq =3D=3D 0xdeadbeef and expecting a specific behaviour seems odd.
->
->
-> r~
-
+Whatever is setting cpu->interrupt_request should be calling
+cpu_exit(cpu) which sets the exit flag which is checked at the start of
+every TB execution (see gen_tb_start).
 
 --=20
 Alex Benn=C3=A9e
