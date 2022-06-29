@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8DE560194
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 15:43:03 +0200 (CEST)
-Received: from localhost ([::1]:39128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63CD756013E
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 15:28:59 +0200 (CEST)
+Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Xy8-0007xp-Q3
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 09:43:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33234)
+	id 1o6XkX-00028Y-9F
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 09:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o6X1T-0001Kd-Ic; Wed, 29 Jun 2022 08:42:23 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51370)
+ id 1o6X1Q-0001CM-DE; Wed, 29 Jun 2022 08:42:20 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o6X1O-0004x7-7L; Wed, 29 Jun 2022 08:42:23 -0400
+ id 1o6X1O-0004zt-R3; Wed, 29 Jun 2022 08:42:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=IVK5K8+qvTOJcmRDJ+1YSTORZYSgnuabYS7m3S1Ddt0=; b=JCxIZWckRxLc7yBJNGXPm9fFVt
- NdYTSiYWXymUAMLztKcgOZxGUmmNou4Kj4Csd1CDs3sPaZ4IVrdso8i1Yst1g2ymNFw1rz7WmHoSH
- Vo32VwHxtiDp+5EyQC6WliSMhmDXN5aI/JlTYqOMKJ9nPiMd2lCc5aMoQ4EbjpPP66+Sxxi72mz7X
- wEBoYelbAAi1718VUit4fgUWfr3ewMXgutAxxI4dag03XqxvkmhMNtrcIz32bQRPKIZpGAuBxvYjf
- IwMNZi/6zRfLHqoeXM4GeZTkKso0yp6zPSd8o5fgRwZwJIMJBcOIdOVlENYBMpL8Uh0jDaVs8t4C1
- TDFwkxUmYNNiW2Jeed4PPQLwlrPE+dyYivoSirjbcesgz6HRxHzxoC89OvEdXqqx37xJJJeWF33Ay
- IyxKqaJpzMIuVVlTeQF8WZp8KgYw8WbZVPzO0C0MsfkSUug/K3KMzyChOcKDiSRIAahQHl9GJhwfI
- +5G14EIi5zsLv7FE+E//T8KzKvUDoelD3JJOwP6R3m6UtZHrmjVU+je4XDyIKv4jhU74clVpa+X/2
- 6SF2epZNjRbi5SDarL1MWUC30///N4KrOamI9dR3alEbLMmVjQIgo5ZSxbsMHYvL/Rz8GWUSOzU3H
- RGRILsRJ5+0zfRh9Jhw0rHu1rCYIX9WNbq/a/mseM=;
+ bh=vm5CODCEw5+uAgwwl3NwGbM1GURCO6yW/Nt+Bt/RNpY=; b=KARgPK8g0c70S1HoF6MRBEcwa9
+ 9KzQJ9H81sZk0UI/tuVNRpW+JBEPelAe/8ZokquIwoaohl5T3w/agzWvmQrNFM4tcmlOwSvLtGrsp
+ 405SvsZffsz9UZHSZfAtOhk2t5bhPzysp37gYVQxcOOn6lbdHODQlKq5xKz5giYVpryaGcdT1mroi
+ 6GdkMjnQkZos7tKTQLqSzvMPZubEqIvkLbvMGJnU2TiNAj0MNtAcbf6zKJ25YQY8CXZlVYMCX6P/W
+ AYDnryQJN9VRQGkcpEQsl1LDtUOPRbWQMQWh8OcBKYw+ZnPQPoVpJ8X0e+lLGLkkVNscmb6D5Ysfi
+ f9wIYu0b0KeeC8rekKaGnLiMi+BD1of87bEYgL4HP1xETWOUXx/n7OfU5mMQvYEjvHFmRa3MnqET0
+ wwR++RLztvC18g6BsakUDVNGbKyE6cxdw2lpqYBbFgyz3W/6IF/rl/bDvekWeK/tXsxdTwzSM619H
+ OTcd6CflOjjon4xA6TUytENTY9Tx7yBp3/8VlzAH853O0ELrGmMn5/5dhS3nOnI+ccWKmhI4ocVV3
+ WZUOS4+zl8sJJ6PfId7EVyWBT6IDkv0LPBFm5GA4moe+ZWo4tbGA164vorsqpy1HVvVHxzgaOTPno
+ JXOrYBSXQ6nBiK64OK9vjKlGB/qRkOE4uSJiJsmqU=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o6Wzn-0002tZ-ER; Wed, 29 Jun 2022 13:40:39 +0100
+ id 1o6Wzo-0002tZ-3G; Wed, 29 Jun 2022 13:40:40 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org, deller@gmx.de, svens@stackframe.org,
  mst@redhat.com, pbonzini@redhat.com, peter.maydell@linaro.org,
  hpoussin@reactos.org, aleksandar.rikalo@syrmia.com, f4bug@amsat.org,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Date: Wed, 29 Jun 2022 13:40:20 +0100
-Message-Id: <20220629124026.1077021-35-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 29 Jun 2022 13:40:21 +0100
+Message-Id: <20220629124026.1077021-36-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
 References: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
@@ -51,7 +51,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 34/40] lasips2: update VMStateDescription for LASIPS2 device
+Subject: [PATCH 35/40] pckbd: introduce new vmstate_kbd_mmio
+ VMStateDescription for the I8042_MMIO device
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -77,57 +78,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since this series has already introduced a migration break for the HPPA B160L
-machine, we can use this opportunity to improve the VMStateDescription for
-the LASIPS2 device.
+This enables us to register the VMStateDescription using the DeviceClass vmsd
+property rather than having to call vmstate_register() from i8042_mmio_realize().
 
-Add the new int_status field to the VMStateDescription and remodel the ports
-as separate VMSTATE_STRUCT instances.
+Note that this is a migration break for the MIPS jazz machine which is the only
+user of the I8042_MMIO device.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/lasips2.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+ hw/input/pckbd.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
-index e602e3c986..ea7c07a2ba 100644
---- a/hw/input/lasips2.c
-+++ b/hw/input/lasips2.c
-@@ -35,15 +35,28 @@
- #include "qapi/error.h"
+diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+index 9184411c3e..195a64f520 100644
+--- a/hw/input/pckbd.c
++++ b/hw/input/pckbd.c
+@@ -699,9 +699,6 @@ static void i8042_mmio_realize(DeviceState *dev, Error **errp)
  
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->region);
  
-+static const VMStateDescription vmstate_lasips2_port = {
-+    .name = "lasips2-port",
+-    /* Note we can't use dc->vmsd without breaking migration compatibility */
+-    vmstate_register(NULL, 0, &vmstate_kbd, ks);
+-
+     ks->kbd = ps2_kbd_init();
+     qdev_connect_gpio_out(DEVICE(ks->kbd), PS2_DEVICE_IRQ,
+                           qdev_get_gpio_in_named(dev, "ps2-kbd-input-irq",
+@@ -732,12 +729,23 @@ static Property i8042_mmio_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static const VMStateDescription vmstate_kbd_mmio = {
++    .name = "pckbd-mmio",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(control, LASIPS2Port),
-+        VMSTATE_UINT8(buf, LASIPS2Port),
-+        VMSTATE_BOOL(loopback_rbne, LASIPS2Port),
++        VMSTATE_STRUCT(kbd, MMIOKBDState, 0, vmstate_kbd, KBDState),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
- static const VMStateDescription vmstate_lasips2 = {
-     .name = "lasips2",
--    .version_id = 0,
--    .minimum_version_id = 0,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-     .fields = (VMStateField[]) {
--        VMSTATE_UINT8(kbd_port.parent_obj.control, LASIPS2State),
--        VMSTATE_UINT8(kbd_port.parent_obj.id, LASIPS2State),
--        VMSTATE_UINT8(mouse_port.parent_obj.control, LASIPS2State),
--        VMSTATE_UINT8(mouse_port.parent_obj.id, LASIPS2State),
-+        VMSTATE_UINT8(int_status, LASIPS2State),
-+        VMSTATE_STRUCT(kbd_port.parent_obj, LASIPS2State, 1,
-+                       vmstate_lasips2_port, LASIPS2Port),
-+        VMSTATE_STRUCT(mouse_port.parent_obj, LASIPS2State, 1,
-+                       vmstate_lasips2_port, LASIPS2Port),
-         VMSTATE_END_OF_LIST()
-     }
- };
+ static void i8042_mmio_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     dc->realize = i8042_mmio_realize;
+     dc->reset = i8042_mmio_reset;
++    dc->vmsd = &vmstate_kbd_mmio;
+     device_class_set_props(dc, i8042_mmio_properties);
+     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+ }
 -- 
 2.30.2
 
