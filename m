@@ -2,88 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA0255F644
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 08:10:15 +0200 (CEST)
-Received: from localhost ([::1]:43878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BCB55F698
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 08:31:49 +0200 (CEST)
+Received: from localhost ([::1]:51068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Qty-0005Mz-6m
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 02:10:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47812)
+	id 1o6REm-0002km-Uj
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 02:31:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o6QpY-0002KY-PU
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 02:05:40 -0400
-Received: from sonic312-25.consmr.mail.gq1.yahoo.com ([98.137.69.206]:41837)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o6RBa-0001hT-5N
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 02:28:26 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:34397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o6QpV-0005EX-HC
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 02:05:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1656482735; bh=sQSX+TX/QbDZPGUjoGyYhLhqwOe1AyUdSWH+3ieV12M=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=svSFRLj1PPLi4urn5ja/BSs7/aB6Feg146nCTegsev1+nhQpkyWtPDGPIGhnoadzv7Cbgsv1Znt1Gn532veFPmEyxZz7wnKRG+Wm0OnsFiGqBBSj15gm2gnZ0hqAFfmQYGwhSmgRsUoJ0Zx5AiT728o3Bmq2sD2/D4PAOPEktWUh+FJ6kEasqfWjq31wOUtohWCnxwpAYrq/t4i+3rv7Le5EQ1EzjLjAjsL8VwHn/pQxZTOMFluVuhpBuXi4tgIsllV4bZhNYI1e3aEzP0Ki0eDuSnxrSSj6CAGC2VPRAfTZZtNmmjLv8EbvmcVYQVZ2PrgGdfqaouxC0oB8tCgWMA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1656482735; bh=238Ph/3RkYD0NY9cn2ZTq4/1RVhcYkzTiR8z9a1/vSX=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=bwu9wVEJNTFXRikFhfyNGp1khYOgNNaQswo9G35Nh/dxDp+qfw7C32gCyKfXKpOTNyUSHzffn1Nz4zummsFDl7JqGsq3OA1gMffuDAmh7magl/9QSNb5hzsTIzjBoEOuV86/lGan95hTzJN7QlSwuzEc14tbZ2aKmKDqmK9prdKosLyozHSiYHBIRYm5FytdpX/8GpmEULR8wIeh8+7XAyIN4SsBQXwy7snZ+z8PaRdoc3UQiiCxEyqmDo2YrROSBSl1sLuVLJSqkifO8GNKyj51BbbstHiODxW/5I/rMFvpfx/5nY9J/WXhbfoVqjejOULpJ+wPfl/txJPzfndgBw==
-X-YMail-OSG: cH5_zLMVM1maR3svwhItRtiDA_O5NPOSlhMZF00jWo9jYdHPab577P5jLabzly.
- DIDRozQKl3JVxow8Thb8bZsIC0ZeETb_JRjrCqboZpLBSOEdYGGlZJDaWHN71.hlPiVw2eXfqtFf
- KcXNslUnHbndZtiOxDH1LF23qhcv_or90x801KIFEissVXkIp1tnCIr2qdMYYvVkxTbWFaeJnYn0
- mE6W4TSh2GdCTLn4FW8nsYJyarav7nfnd4p6Ll5T9cx355Fx3bE4QRFsEhdn0BiMaz3XxUDKaZRs
- JfrUesI5J1sVgddj2xurpSxiIna16ROnNF0nAYtplllY5Zvs9RR.6OKrsPljsB3NiWM7ws0muitO
- NpKePAnskgYwuo1RV4a_a7oPlVB7OE7HSQyzxEhX148blUcHatOFHL7ter8IHAw1pjwx4qcR9i_f
- SLE8YFjGaBR_NrTTvGgfxhksklsG3G3HCXYHsvBfZ6wJdWmxMIu0V4bKoOCZVFQh1hwgKLW14gsh
- 15r5g0o2SZePP4bJMdoNUQZe5USeKGL9hbUzSAMnfaAmAnLJY.9p__Yqi5L6pMWYRKpPrCK1hCwC
- owqVXYLwQG0F_i.R5JRNjb7YDU6eo7LcfxnkEw7D4gTiRY7EFS7pdOxuCN97v1ugYr24ssmP94.J
- wbLvf._CAb1iWwrYHLTTgTgEzrBenZ1Rqo0tk0LGAYPLMgdModRQhqHNqi6MzIe8DKXne.DePmEr
- VnXwN7bZaysRr6a1jBjTNmZ0mqvGB4LIwqC7mChDM4sWm3OIW7.RsLMGepumBRA9eIiaC7d5Wdyv
- jAcwo0Q9dWnKLtpx48IFBlC0B9L559otp9lRB0.8qf6CGcnNWkKCi6Vr2687jrlD4zoi3HSELNlW
- e4XDfk3RrBjo3sKPF7CMbUp1d81JJDte.7ETO4j1zUGjRJTiycCpOW99DYGq6kyuN2O6Ad9T_rKs
- az2DMYczGEuzfRy0ahMz7lC.1LlfhXu5yVMV8rLYa0CIGv558qqzMXrZy_sbeKceh1hrjY6fu.kN
- sp31.I4SKhj5sBIdYms5bvKmapZKf0EH3H4WAPUaXil.FHsdUsrmL8r_o5yAykqk4cX195oOj3IG
- .dNXYoMbCZpbs.RONsQufOOs0oreoSsjP90ukMYVrZw5sj_p2gBWpsuuWAWjDKUqAV1IWCSRrJge
- 6IZaySP95UUERVikk8EFlrH45k70pTedjT1BbngWpHd.YcVIxU5hvrd73jOkfW6EedGpCzalag7G
- U.t7TX.iCznJ41Q4ix8GzxmBts8IzK9rh6o3xrGr6vXHzEft_MRLH2.MRpuybOxxofcrWtzE1PQf
- EJGW44HjKIr8bVr4odqEo9XeZtRjnH3JpKECV9JjXNs0uFFLe6rxxAFP.HEtUrPbC1N814JNLbHP
- qnVPlfOoJeXp7qqiqFAgaepY_02nTRjCQDBQQuVH6E4F29rLXRdywjM9lz2H9qgtX7.frSGGSIwq
- XIs5US4uv92v4N_Sgg7NlonAktJlBgKUX97uEtgv_EJlAI4bZPkfIWVHOaUUEZeOCjFkybvhBjVL
- Ns3gmPSwjNfJArtx4g5hDbbOoh5A7pfAuJ1qD.a.U5i8nloCESfznx9tMVH2qwSZozzvl0q3eUf3
- Va2kutrs..B7mKOJ8fyRnnd0K8hR5knWSXWFv7xRTVngakgL1Yfb5KjkrrwL1B2w6vsis9pxfsTc
- HN1.5yhHX9pWswN74GJ6mOQEd5jLeldIyH2Op61lzx0g2wq7Slv6S8mKlh4K4vA4__sqXxXC5s2E
- EtkjDKMePmEqZOxbItfdp0Nzbm.kz1uInF4rJ5bYLIFH0SNr4N_tZ4Ibm6RKYibaza5.3jEoM6fM
- wc64GeSFQ6A8AnjhAxyO_dSc598mD8tWjBcUl7UzfYn6RlPF4WXHItaen4gKqzCj1Pozpwc_pB4I
- RhdEVTXPGL8rdtWWTiz5..K4UWAvvQdsZGu5efG9cAln5eK9Vc5r0ZHWM0VxWz0j1Ytm2t3KbkSn
- H3YuaAs4H_y9Qpgt37qlsmWsJR._AK4lRi1ZT2mvzkWdJAc.iM44sSa_K3VcKxEG_B9MVLrGsyBU
- IG7PTI54AKU9.lNgls9rFv_OudkObt1schFK0H3RTJj3edS2dCGnttoTjYcwwkJwr3pD5JZjYC8w
- clfsswAvpEyi4huHNoIxQ6mBeXl7I7ME28EV_gk5ZAZZtK8QfI8pWawtsP1kXXkkgctDGA6ERoc8
- -
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic312.consmr.mail.gq1.yahoo.com with HTTP; Wed, 29 Jun 2022 06:05:35 +0000
-Received: by hermes--production-bf1-58957fb66f-svnl5 (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 16e4bc4b8b559d9c3d23f506152de31d; 
- Wed, 29 Jun 2022 06:05:30 +0000 (UTC)
-From: Chuck Zmudzinski <brchuckz@aol.com>
-To: qemu-devel@nongnu.org
-Cc: xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
- qemu-stable@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-Subject: [PATCH v3] xen/pass-through: merge emulated bits correctly
-Date: Wed, 29 Jun 2022 02:05:23 -0400
-Message-Id: <5cd07587898cac43bf4b7a52489c380a44cab652.1656480662.git.brchuckz@aol.com>
-X-Mailer: git-send-email 2.36.1
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o6RBY-0000b7-BB
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 02:28:25 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id d2so18728620ejy.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 23:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WDGgK5nTtlC+Zg3GB0OWCd+/lTTO/WqWUgCR8PCzcJ0=;
+ b=24LEyDHgIVf+38h9oJHOxph3hJftChJsfjlk3gkAhyUf54z4oaWI7RfPzzBXGsydGH
+ 4VBPfJhAgAe8xKUnCc1h4lOdmN7SsPNPZmldSfT46YO/SLEkxwUezG6SNzpqpn+qJg+D
+ Cs0ni3kIoenQ1Cub1s32Z82vDeFE0q90qxOhUAm1bgmHKpfVt7MUxf0Q25MzRRku/+jR
+ OeSeMW5Y8XLHMVWqWw3tDb622iBsTrOM7LldzxjPK06Mfi/huT52OY5q4sjd0iWpBSyM
+ +keLkaWtxcpO6lwa9fvCT8ouIiN9tXcvgwvXpP7bmDXmE2ii5Vnx+JtYtLOUg6jh6DYp
+ sg5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WDGgK5nTtlC+Zg3GB0OWCd+/lTTO/WqWUgCR8PCzcJ0=;
+ b=bnYf1N5ThH4KTzfaheracICDhz8gYEXWGvGiG+l15fa/PyGfFwLpq6uZFIqoU9CG33
+ DpRxaF8HZedmAfiaGggzG7eLg4oG4eBq4oH9etKjpenbseW2qTcSZIgN9BXcMQ77MegJ
+ POb99xAwIWx51YBLZIQuUqppEctTHy6eoqVoqlE3B6xWYH2Y73ijXicIB05d40ZCIlKU
+ fsFHikPHkPLNDWnZmbWpEXHZIK6CnFE11Yl+Euql4VUJNo0dJYG97okBm5I2GrADbNzX
+ JS01xlHc5JHk38tAzcqm507taZCDwBF/PmwomjfhCQcj3aG5M5CRqLT1qjqQab2JzJ5/
+ re/g==
+X-Gm-Message-State: AJIora9Lp0WJli5PfQiCaloC2Ytw9Z/rEWJuFcQTfV5/AAlnTVW9uZTp
+ DrS2Hvd94ikNDjYHVlrlUQ0FQq3xUZTj9Z4H6GbnNA==
+X-Google-Smtp-Source: AGRyM1uQzcVa45ngRpZ7tYvdWYNYMahWcXQ7pXlT+LEQ1tkSIvLBfK+JtWUaq5TOOQJN0dCyV1FVlaFSUJbivsDWW24=
+X-Received: by 2002:a17:906:b795:b0:722:e662:cffe with SMTP id
+ dt21-20020a170906b79500b00722e662cffemr1714004ejb.121.1656484102161; Tue, 28
+ Jun 2022 23:28:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <5cd07587898cac43bf4b7a52489c380a44cab652.1656480662.git.brchuckz.ref@aol.com>
-Received-SPF: pass client-ip=98.137.69.206; envelope-from=brchuckz@aim.com;
- helo=sonic312-25.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+References: <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
+ <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
+ <20220628060210-mutt-send-email-mst@kernel.org>
+ <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
+ <20220628062551-mutt-send-email-mst@kernel.org>
+ <1182d647-bef1-0a8a-a379-86f029af7ac6@redhat.com>
+ <20220628070151-mutt-send-email-mst@kernel.org>
+ <2c3bb7f4-45cb-9c13-4ecd-22de75eaa7d3@redhat.com>
+ <CAARzgwx2x5UBvb9ihbvLRzUFNJ3reqDsU2EqL8aUjkjo8yvZGQ@mail.gmail.com>
+ <YrspCYpLwFDHkaRv@redhat.com> <20220628135133-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220628135133-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 29 Jun 2022 11:58:11 +0530
+Message-ID: <CAARzgwwoNUn2pN9uAn-sqrH42dsOW4WQyc6ZuewRPPovUqykMQ@mail.gmail.com>
+Subject: Re: Why we should avoid new submodules if possible
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2a00:1450:4864:20::62e;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,65 +93,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In xen_pt_config_reg_init(), there is an error in the merging of the
-emulated data with the host value. With the current Qemu, instead of
-merging the emulated bits with the host bits as defined by emu_mask,
-the emulated bits are merged with the host bits as defined by the
-inverse of emu_mask. In some cases, depending on the data in the
-registers on the host, the way the registers are setup, and the
-initial values of the emulated bits, the end result will be that
-the register is initialized with the wrong value.
+On Tue, Jun 28, 2022 at 11:30 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Tue, Jun 28, 2022 at 05:15:05PM +0100, Daniel P. Berrang=C3=A9 wrote:
+> > FYI, the reason much of this is intentionally NOT under the /qemu-proje=
+ct
+> > gitlab namespace is that we did not want to be responsible for distribu=
+ting
+> > arbitrary binary blobs/images. That in turn makes the QEMU project resp=
+onsible
+> > for license compliance, which is non-trivial todo correctly for much of=
+ this
+> > stuff. As such it is highly desirable to delegate both the hosting the
+> > binaries and source to the third party who builds it.
+>
+> This might be understadable for random guest OS images which include tons=
+ of stuff
+> and are thus hard to audit.  But not to biosbits which has its own
+> license (more or less bsd) + gpl for grub:
+> https://github.com/biosbits/bits/blob/master/COPYING
 
-To correct this error, use the XEN_PT_MERGE_VALUE macro to help ensure
-the merge is done correctly.
+These are all the dependencies:
+https://github.com/biosbits/bits/tree/master/deps
 
-This correction is needed to resolve Qemu project issue #1061, which
-describes the failure of Xen HVM Linux guests to boot in certain
-configurations with passed through PCI devices, that is, when this error
-disables instead of enables the PCI_STATUS_CAP_LIST bit of the
-PCI_STATUS register of a passed through PCI device, which in turn
-disables the MSI-X capability of the device in Linux guests with the end
-result being that the Linux guest never completes the boot process.
+We can go through the licenses for each and make a determination. The
+audit would be lost easier because there is a bounded number of
+dependencies for bits.
 
-Fixes: 2e87512eccf3
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1061
-Buglink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=988333
-
-Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
----
-v2: Edit the commit message to more accurately describe the cause
-of the error.
-
-v3: * Add Reviewed-By: Anthony Perard <anthony.perard@citrix.com>
-    * Add qemu-stable@nongnu.org to recipients to indicate the patch
-      may be suitable for backport to Qemu stable
-
-Thank you, Anthony, for taking the time to review this patch.
-
- hw/xen/xen_pt_config_init.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
-index cad4aeba84..21839a3c98 100644
---- a/hw/xen/xen_pt_config_init.c
-+++ b/hw/xen/xen_pt_config_init.c
-@@ -1966,10 +1966,10 @@ static void xen_pt_config_reg_init(XenPCIPassthroughState *s,
-         if ((data & host_mask) != (val & host_mask)) {
-             uint32_t new_val;
- 
--            /* Mask out host (including past size). */
--            new_val = val & host_mask;
--            /* Merge emulated ones (excluding the non-emulated ones). */
--            new_val |= data & host_mask;
-+            /* Merge the emulated bits (data) with the host bits (val)
-+             * and mask out the bits past size to enable restoration
-+             * of the proper value for logging below. */
-+            new_val = XEN_PT_MERGE_VALUE(val, data, host_mask) & size_mask;
-             /* Leave intact host and emulated values past the size - even though
-              * we do not care as we write per reg->size granularity, but for the
-              * logging below lets have the proper value. */
--- 
-2.36.1
-
+>
+> > I agree the use of personal github accounts is not nice, but it was the
+> > least worst solution identified.
+>
+>
+> --
+> MST
+>
 
