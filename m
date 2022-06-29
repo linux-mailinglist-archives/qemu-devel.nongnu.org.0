@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA6555F457
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 05:53:05 +0200 (CEST)
-Received: from localhost ([::1]:37254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C7B55F456
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 05:51:50 +0200 (CEST)
+Received: from localhost ([::1]:34768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6OlE-0004pI-CW
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 23:53:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45894)
+	id 1o6Ok0-00031F-TL
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 23:51:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peterdelevoryas@gmail.com>)
- id 1o6OVU-0007oE-Qq; Tue, 28 Jun 2022 23:36:48 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:41560)
+ id 1o6OVV-0007t5-Kh; Tue, 28 Jun 2022 23:36:49 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:44930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peterdelevoryas@gmail.com>)
- id 1o6OVS-0006qe-4z; Tue, 28 Jun 2022 23:36:48 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id i64so13829532pfc.8;
- Tue, 28 Jun 2022 20:36:45 -0700 (PDT)
+ id 1o6OVT-0006sb-Ju; Tue, 28 Jun 2022 23:36:49 -0400
+Received: by mail-pf1-x434.google.com with SMTP id 65so13803578pfw.11;
+ Tue, 28 Jun 2022 20:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8Ze+hlbYJ35OCG5NEYf07MrKqfhpAc9F4NzS2kxZipw=;
- b=mYAxaS69ggdHx/5VKPCTSlNUASMNPUd7Hzrpt17c2aI8O8OqwWNQFblCPO7S5Ya5Xk
- 1EqCDK5uy7aZ3kd2Gge+EsPv0TQypXSWgPIEianLBpSA3RwGmG5kHdyQMTV616QN5ijF
- r0thi5sMW0WxaAtzdvmswZW6/L3cXzd61aEV2GIq3+DoepNHV3A/iv/Oi3ZbdLBGfEIy
- 607OofoDADdOqlo22hqbNgtQ0GP4gJ6LDNfSh+55wP8Z6kY1Lwt/wBeKhKziIRtAXdLj
- VPSKWUSKCLqs/2nfHz0uSnbIGRiwZ6wKp+tvrfDBYMoReShRTrZiC+OzgPCP0iPhSMQl
- ZJmQ==
+ bh=ORuh6V682i3Tt38y6TVhgXBFwXWiboHy9vQ1EQI2xMg=;
+ b=b0HP8aE16JLDd4d6imHEstX3rs+X4ICC0Vlm9io91SEzmoUVLsXddiSDGNvyzsVuFX
+ bfb7eZfjqWLgledvA8WvMMSbJdAyXa3qEQqzYbJBePPyztqs9yIccUfBUSJBRuZEftWw
+ 9/KdFgsQSRlQNKDe+PRBX8JyKTu/w1Glbj8b/v4CYY910BVge0GPZvUoYofycXxX+3gU
+ BDwbQoITesUrEJe8CAPqo8I5YkFxv7SBbPNNhvyYHUmfOXqOVWyu3k848JMEfYe7M3y/
+ p+coZBV6IoQXY1P9lUBPwEtSIHReSKSUVXn1pfFkfyUKW6pi37XI5hjhDAwNKrscuiru
+ Txhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8Ze+hlbYJ35OCG5NEYf07MrKqfhpAc9F4NzS2kxZipw=;
- b=jTZSN8xtFsYj//EsPxeCiYACZcUN2G45QuUyCb6OvdNO0CVM+/Gbu0jqohiN+mnym2
- oZ5Ezhs+BnmExKAb9MN1UR1zZQXIgX0RVvfp7pDmjhMez+cPLsJErDjniT8vWQWs2U6C
- i/+erSQpNu67RxMrWINAEfrQopd3nI3NoX8paumfw3sL1GXraCZy59BVi1sdfJflpo51
- altEnqZA3k0fYKCHpZ8Ho3KPvaucmn8i24vOAREhQrfgRefmHa6g1phx9XXVvU0monzy
- JLIbKkJ0JwoY88f/2vzmGn974WnpMqhzkycCzCutwqK7pHFL53IFCy2dgwfoatF3Qykq
- v8mg==
-X-Gm-Message-State: AJIora8V9rlTruCe3M7a3Jbf5yonnChaLCiIIzv8H1dJDbjBQdW/TTzj
- DkN44GkWuyREHdhR5aGuyh0=
-X-Google-Smtp-Source: AGRyM1vUFiHMtnXpq0x9Q/ys4v7dZK08XJ743+iQ6vaznl86fpLdCL+3Kh9eRdEa5C0bbtwkxdal0A==
-X-Received: by 2002:a63:89c6:0:b0:40d:316b:6626 with SMTP id
- v189-20020a6389c6000000b0040d316b6626mr1117080pgd.569.1656473804405; 
- Tue, 28 Jun 2022 20:36:44 -0700 (PDT)
-Received: from localhost (fwdproxy-prn-117.fbsv.net.
- [2a03:2880:ff:75::face:b00c]) by smtp.gmail.com with ESMTPSA id
- v10-20020a63f84a000000b003fd9b8b865dsm10127580pgj.0.2022.06.28.20.36.43
+ bh=ORuh6V682i3Tt38y6TVhgXBFwXWiboHy9vQ1EQI2xMg=;
+ b=PPiqRGf9wElwu3MxhduDRNjr4svSoiw8bTCu1yI7aJz08aFuxJlJ4BtSr2C/0Alj0/
+ tRQ+NT0Z7xZDHllkIsKExahWEeFEkgZ3WMgi/+e8X9XL7WFApkDn0FmO3469s3tM1LSa
+ y9eM/Wcgp+TBSfZ6XZagRLTiLIej/ZoojBguYW48SzeisHzK8/5J8gULs31lx8gUwdvZ
+ IVm0FCjPSlnOqo1nMtfo/kH3IkZlef/4M3ULQuam/7TrcILQonl+IajO4u4i39kavdhg
+ Rty4R58n0RLdcWyCUps3kgjiZjJBUKTaXlZ1BdKqcw1b7x34XqA5TQ9O1p16OPEkYdOd
+ bZHg==
+X-Gm-Message-State: AJIora/cwWpWXy88zDVhH7t3M3dN7IwK5tNHeY/xUvce4nRdZjN9wtgA
+ elFFoGRTZqlGzCKPiqcC0/8=
+X-Google-Smtp-Source: AGRyM1tovU2A1neyrphv1XHKhOvbpeZ0tMSY4HDzGWyFQDAtUGBnS44du60bD8E5Xrtl5hHVEuiRMA==
+X-Received: by 2002:a63:cf18:0:b0:40d:5506:df97 with SMTP id
+ j24-20020a63cf18000000b0040d5506df97mr1142894pgg.43.1656473805412; 
+ Tue, 28 Jun 2022 20:36:45 -0700 (PDT)
+Received: from localhost (fwdproxy-prn-019.fbsv.net.
+ [2a03:2880:ff:13::face:b00c]) by smtp.gmail.com with ESMTPSA id
+ t16-20020aa79390000000b0052521fd273fsm10217347pfe.218.2022.06.28.20.36.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 20:36:44 -0700 (PDT)
+ Tue, 28 Jun 2022 20:36:45 -0700 (PDT)
 From: Peter Delevoryas <peterdelevoryas@gmail.com>
 X-Google-Original-From: Peter Delevoryas <pdel@fb.com>
 To: 
 Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
  cminyard@mvista.com, titusr@google.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, zhdaniel@fb.com, pdel@fb.com
-Subject: [PATCH v2 10/13] hw/misc/aspeed: Add PECI controller
-Date: Tue, 28 Jun 2022 20:36:31 -0700
-Message-Id: <20220629033634.3850922-11-pdel@fb.com>
+Subject: [PATCH v2 11/13] hw/misc/aspeed: Add fby35-sb-cpld
+Date: Tue, 28 Jun 2022 20:36:32 -0700
+Message-Id: <20220629033634.3850922-12-pdel@fb.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220629033634.3850922-1-pdel@fb.com>
 References: <20220629033634.3850922-1-pdel@fb.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=peterdelevoryas@gmail.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=peterdelevoryas@gmail.com; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,193 +89,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This introduces a really basic PECI controller that responses to
-commands by always setting the response code to success and then raising
-an interrupt to indicate the command is done. This helps avoid getting
-hit with constant errors if the driver continuously attempts to send a
-command and keeps timing out.
+fby35 machines have 1 BMC on a baseboard and 2-4 server boards with BIC's.
+There are also CPLD's on each of the boards, one type of CPLD on the
+baseboard and another type on each of the server boards. This commit adds an
+implementation of some of the logic performed by the server board CPLD,
+which is connected to the server board BIC.
 
-The AST2400 and AST2500 only included registers up to 0x5C, not 0xFC.
-They supported PECI 1.1, 2.0, and 3.0. The AST2600 and AST1030 support
-PECI 4.0, which includes more read/write buffer registers from 0x80 to
-0xFC to support 64-byte mode.
+fby35 machines have 1 baseboard with a BMC (AST2600) and 4 server boards
+with bridge interconnects (BIC's, AST1030's). Each server board has a CPLD
+on it which provides FRU information and some synchronization functionality
+with the BMC. The baseboard also has one CPLD, but it does other stuff.
 
-This patch doesn't attempt to handle that, or to create a different
-version of the controller for the different generations, since it's only
-implementing functionality that is common to all generations.
-
-The basic sequence of events is that the firmware will read and write to
-various registers and then trigger a command by setting the FIRE bit in
-the command register (similar to the I2C controller).
-
-Then the firmware waits for an interrupt from the PECI controller,
-expecting the interrupt status register to be filled in with info on
-what happened. If the command was transmitted and received successfully,
-then response codes from the host CPU will be found in the data buffer
-registers.
+This commit just adds some of the FRU functionality to allow the BIC to
+startup without any errors.
 
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
 ---
- hw/arm/aspeed_ast10x0.c       |  12 +++
- hw/arm/aspeed_ast2600.c       |  12 +++
- hw/arm/aspeed_soc.c           |  13 ++++
- hw/misc/aspeed_peci.c         | 136 ++++++++++++++++++++++++++++++++++
- hw/misc/meson.build           |   3 +-
- hw/misc/trace-events          |   4 +
- include/hw/arm/aspeed_soc.h   |   3 +
- include/hw/misc/aspeed_peci.h |  47 ++++++++++++
- 8 files changed, 229 insertions(+), 1 deletion(-)
- create mode 100644 hw/misc/aspeed_peci.c
- create mode 100644 include/hw/misc/aspeed_peci.h
+ MAINTAINERS             |   1 +
+ hw/misc/fby35_sb_cpld.c | 128 ++++++++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build     |   3 +-
+ 3 files changed, 131 insertions(+), 1 deletion(-)
+ create mode 100644 hw/misc/fby35_sb_cpld.c
 
-diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index 5df480a21f..56e8de3d89 100644
---- a/hw/arm/aspeed_ast10x0.c
-+++ b/hw/arm/aspeed_ast10x0.c
-@@ -47,6 +47,7 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
-     [ASPEED_DEV_UART13]    = 0x7E790700,
-     [ASPEED_DEV_WDT]       = 0x7E785000,
-     [ASPEED_DEV_LPC]       = 0x7E789000,
-+    [ASPEED_DEV_PECI]      = 0x7E78B000,
-     [ASPEED_DEV_I2C]       = 0x7E7B0000,
- };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 05cf84b58c..3ffd473db1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1067,6 +1067,7 @@ F: hw/net/ftgmac100.c
+ F: include/hw/net/ftgmac100.h
+ F: docs/system/arm/aspeed.rst
+ F: tests/qtest/*aspeed*
++F: hw/misc/fby35_sb_cpld.c
  
-@@ -75,6 +76,7 @@ static const int aspeed_soc_ast1030_irqmap[] = {
-     [ASPEED_DEV_TIMER8]    = 23,
-     [ASPEED_DEV_WDT]       = 24,
-     [ASPEED_DEV_LPC]       = 35,
-+    [ASPEED_DEV_PECI]      = 38,
-     [ASPEED_DEV_FMC]       = 39,
-     [ASPEED_DEV_PWM]       = 44,
-     [ASPEED_DEV_ADC]       = 46,
-@@ -133,6 +135,8 @@ static void aspeed_soc_ast1030_init(Object *obj)
- 
-     object_initialize_child(obj, "lpc", &s->lpc, TYPE_ASPEED_LPC);
- 
-+    object_initialize_child(obj, "peci", &s->peci, TYPE_ASPEED_PECI);
-+
-     object_initialize_child(obj, "sbc", &s->sbc, TYPE_ASPEED_SBC);
- 
-     for (i = 0; i < sc->wdts_num; i++) {
-@@ -206,6 +210,14 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
-     }
- 
-+    /* PECI */
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->peci), errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->peci), 0, sc->memmap[ASPEED_DEV_PECI]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peci), 0,
-+                       aspeed_soc_get_irq(s, ASPEED_DEV_PECI));
-+
-     /* LPC */
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->lpc), errp)) {
-         return;
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index b0a4199b69..85178fabea 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -59,6 +59,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_DEV_LPC]       = 0x1E789000,
-     [ASPEED_DEV_IBT]       = 0x1E789140,
-     [ASPEED_DEV_I2C]       = 0x1E78A000,
-+    [ASPEED_DEV_PECI]      = 0x1E78B000,
-     [ASPEED_DEV_UART1]     = 0x1E783000,
-     [ASPEED_DEV_UART2]     = 0x1E78D000,
-     [ASPEED_DEV_UART3]     = 0x1E78E000,
-@@ -122,6 +123,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
-     [ASPEED_DEV_LPC]       = 35,
-     [ASPEED_DEV_IBT]       = 143,
-     [ASPEED_DEV_I2C]       = 110,   /* 110 -> 125 */
-+    [ASPEED_DEV_PECI]      = 38,
-     [ASPEED_DEV_ETH1]      = 2,
-     [ASPEED_DEV_ETH2]      = 3,
-     [ASPEED_DEV_HACE]      = 4,
-@@ -180,6 +182,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
-     snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
-     object_initialize_child(obj, "i2c", &s->i2c, typename);
- 
-+    object_initialize_child(obj, "peci", &s->peci, TYPE_ASPEED_PECI);
-+
-     snprintf(typename, sizeof(typename), "aspeed.fmc-%s", socname);
-     object_initialize_child(obj, "fmc", &s->fmc, typename);
- 
-@@ -388,6 +392,14 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
-     }
- 
-+    /* PECI */
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->peci), errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->peci), 0, sc->memmap[ASPEED_DEV_PECI]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peci), 0,
-+                       aspeed_soc_get_irq(s, ASPEED_DEV_PECI));
-+
-     /* FMC, The number of CS is set at the board level */
-     object_property_set_link(OBJECT(&s->fmc), "dram", OBJECT(s->dram_mr),
-                              &error_abort);
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 30574d4276..cb78d9945c 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -45,6 +45,7 @@ static const hwaddr aspeed_soc_ast2400_memmap[] = {
-     [ASPEED_DEV_LPC]    = 0x1E789000,
-     [ASPEED_DEV_IBT]    = 0x1E789140,
-     [ASPEED_DEV_I2C]    = 0x1E78A000,
-+    [ASPEED_DEV_PECI]   = 0x1E78B000,
-     [ASPEED_DEV_ETH1]   = 0x1E660000,
-     [ASPEED_DEV_ETH2]   = 0x1E680000,
-     [ASPEED_DEV_UART1]  = 0x1E783000,
-@@ -80,6 +81,7 @@ static const hwaddr aspeed_soc_ast2500_memmap[] = {
-     [ASPEED_DEV_LPC]    = 0x1E789000,
-     [ASPEED_DEV_IBT]    = 0x1E789140,
-     [ASPEED_DEV_I2C]    = 0x1E78A000,
-+    [ASPEED_DEV_PECI]   = 0x1E78B000,
-     [ASPEED_DEV_ETH1]   = 0x1E660000,
-     [ASPEED_DEV_ETH2]   = 0x1E680000,
-     [ASPEED_DEV_UART1]  = 0x1E783000,
-@@ -118,6 +120,7 @@ static const int aspeed_soc_ast2400_irqmap[] = {
-     [ASPEED_DEV_PWM]    = 28,
-     [ASPEED_DEV_LPC]    = 8,
-     [ASPEED_DEV_I2C]    = 12,
-+    [ASPEED_DEV_PECI]   = 15,
-     [ASPEED_DEV_ETH1]   = 2,
-     [ASPEED_DEV_ETH2]   = 3,
-     [ASPEED_DEV_XDMA]   = 6,
-@@ -174,6 +177,8 @@ static void aspeed_soc_init(Object *obj)
-     snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
-     object_initialize_child(obj, "i2c", &s->i2c, typename);
- 
-+    object_initialize_child(obj, "peci", &s->peci, TYPE_ASPEED_PECI);
-+
-     snprintf(typename, sizeof(typename), "aspeed.fmc-%s", socname);
-     object_initialize_child(obj, "fmc", &s->fmc, typename);
- 
-@@ -316,6 +321,14 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), 0,
-                        aspeed_soc_get_irq(s, ASPEED_DEV_I2C));
- 
-+    /* PECI */
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->peci), errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->peci), 0, sc->memmap[ASPEED_DEV_PECI]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peci), 0,
-+                       aspeed_soc_get_irq(s, ASPEED_DEV_PECI));
-+
-     /* FMC, The number of CS is set at the board level */
-     object_property_set_link(OBJECT(&s->fmc), "dram", OBJECT(s->dram_mr),
-                              &error_abort);
-diff --git a/hw/misc/aspeed_peci.c b/hw/misc/aspeed_peci.c
+ NRF51
+ M: Joel Stanley <joel@jms.id.au>
+diff --git a/hw/misc/fby35_sb_cpld.c b/hw/misc/fby35_sb_cpld.c
 new file mode 100644
-index 0000000000..91637e29b2
+index 0000000000..f170a6c781
 --- /dev/null
-+++ b/hw/misc/aspeed_peci.c
-@@ -0,0 +1,136 @@
++++ b/hw/misc/fby35_sb_cpld.c
+@@ -0,0 +1,128 @@
 +/*
-+ * Aspeed PECI Controller
++ * fby35 Server Board CPLD
 + *
 + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
 + *
@@ -285,241 +140,137 @@ index 0000000000..91637e29b2
 +
 +#include "qemu/osdep.h"
 +#include "qemu/log.h"
-+#include "hw/irq.h"
-+#include "hw/misc/aspeed_peci.h"
-+#include "trace.h"
++#include "hw/i2c/i2c.h"
++#include "hw/registerfields.h"
 +
-+static void aspeed_peci_raise_interrupt(AspeedPECIState *s, uint32_t status)
-+{
-+    s->regs[R_PECI_INT_STS] = s->regs[R_PECI_INT_CTRL] & status;
-+    if (!s->regs[R_PECI_INT_STS]) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Interrupts disabled: ctrl 0x%08x sts 0x%08x\n",
-+                      __func__, s->regs[R_PECI_INT_CTRL], status);
-+        return;
-+    }
-+    qemu_irq_raise(s->irq);
-+}
++#define BOARD_ID_CLASS1 0b0000
++#define BOARD_ID_CLASS2 0b0001
 +
-+static uint64_t aspeed_peci_read(void *opaque, hwaddr offset, unsigned size)
-+{
-+    AspeedPECIState *s = ASPEED_PECI(opaque);
-+    uint64_t data;
++#define TYPE_FBY35_SB_CPLD "fby35-sb-cpld"
++OBJECT_DECLARE_SIMPLE_TYPE(Fby35SbCpldState, FBY35_SB_CPLD);
 +
-+    if (offset >= ASPEED_PECI_NR_REGS << 2) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx "\n",
-+                      __func__, offset);
-+        return 0;
-+    }
-+    data = s->regs[offset / sizeof(s->regs[0])];
++REG8(CLASS_TYPE, 0x5);
++    FIELD(CLASS_TYPE, RESERVED, 0, 2);
++    FIELD(CLASS_TYPE, 1OU_EXPANSION_NOT_PRESENT, 2, 1);
++    FIELD(CLASS_TYPE, 2OU_EXPANSION_NOT_PRESENT, 3, 1);
++    FIELD(CLASS_TYPE, BOARD_ID, 4, 4);
++REG8(BOARD_REVISION, 0x8);
++    FIELD(BOARD_REVISION, VALUE, 0, 4);
++    FIELD(BOARD_REVISION, RESERVED, 4, 4);
 +
-+    trace_aspeed_peci_read(offset, data);
-+    return data;
-+}
++struct Fby35SbCpldState {
++    I2CSlave parent_obj;
 +
-+static void aspeed_peci_write(void *opaque, hwaddr offset, uint64_t data,
-+                              unsigned size)
-+{
-+    AspeedPECIState *s = ASPEED_PECI(opaque);
-+
-+    trace_aspeed_peci_write(offset, data);
-+
-+    if (offset >= ASPEED_PECI_NR_REGS << 2) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Out-of-bounds write at offset 0x%" HWADDR_PRIx "\n",
-+                      __func__, offset);
-+        return;
-+    }
-+
-+    switch (offset) {
-+    case A_PECI_INT_STS:
-+        s->regs[R_PECI_INT_STS] &= ~data;
-+        if (!s->regs[R_PECI_INT_STS]) {
-+            qemu_irq_lower(s->irq);
-+        }
-+        break;
-+    case A_PECI_CMD:
-+        /*
-+         * Only the FIRE bit is writable. Once the command is complete, it
-+         * should be cleared. Since we complete the command immediately, the
-+         * value is not stored in the register array.
-+         */
-+        if (!FIELD_EX32(data, PECI_CMD, FIRE)) {
-+            break;
-+        }
-+        if (s->regs[R_PECI_INT_STS]) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: Interrupt status must be "
-+                          "cleared before firing another command: 0x%08x\n",
-+                          __func__, s->regs[R_PECI_INT_STS]);
-+            break;
-+        }
-+        s->regs[R_PECI_RD_DATA0] = ASPEED_PECI_CC_RSP_SUCCESS;
-+        s->regs[R_PECI_WR_DATA0] = ASPEED_PECI_CC_RSP_SUCCESS;
-+        aspeed_peci_raise_interrupt(s,
-+                                    FIELD_DP32(0, PECI_INT_STS, CMD_DONE, 1));
-+        qemu_irq_raise(s->irq);
-+        break;
-+    default:
-+        s->regs[offset / sizeof(s->regs[0])] = data;
-+        break;
-+    }
-+}
-+
-+static const MemoryRegionOps aspeed_peci_ops = {
-+    .read = aspeed_peci_read,
-+    .write = aspeed_peci_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
++    uint8_t target_reg;
++    uint32_t regs[10];
 +};
 +
-+static void aspeed_peci_realize(DeviceState *dev, Error **errp)
++static void fby35_sb_cpld_realize(DeviceState *dev, Error **errp)
 +{
-+    AspeedPECIState *s = ASPEED_PECI(dev);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+
-+    memory_region_init_io(&s->mmio, OBJECT(s), &aspeed_peci_ops, s,
-+                          TYPE_ASPEED_PECI, 0x1000);
-+    sysbus_init_mmio(sbd, &s->mmio);
-+    sysbus_init_irq(sbd, &s->irq);
-+}
-+
-+static void aspeed_peci_reset(DeviceState *dev)
-+{
-+    AspeedPECIState *s = ASPEED_PECI(dev);
++    Fby35SbCpldState *s = FBY35_SB_CPLD(dev);
 +
 +    memset(s->regs, 0, sizeof(s->regs));
++    s->target_reg = 0;
++
++    ARRAY_FIELD_DP32(s->regs, CLASS_TYPE, BOARD_ID, 0b0000);
++    ARRAY_FIELD_DP32(s->regs, CLASS_TYPE, 1OU_EXPANSION_NOT_PRESENT, 1);
++    ARRAY_FIELD_DP32(s->regs, CLASS_TYPE, 2OU_EXPANSION_NOT_PRESENT, 1);
++    ARRAY_FIELD_DP32(s->regs, BOARD_REVISION, VALUE, 0x1);
 +}
 +
-+static void aspeed_peci_class_init(ObjectClass *klass, void *data)
++static int fby35_sb_cpld_i2c_event(I2CSlave *i2c, enum i2c_event event)
 +{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
++    Fby35SbCpldState *s = FBY35_SB_CPLD(i2c);
 +
-+    dc->realize = aspeed_peci_realize;
-+    dc->reset = aspeed_peci_reset;
-+    dc->desc = "Aspeed PECI Controller";
++    switch (event) {
++    case I2C_START_RECV:
++        break;
++    case I2C_START_SEND:
++        s->target_reg = 0;
++        break;
++    case I2C_START_SEND_ASYNC:
++    case I2C_FINISH:
++    case I2C_NACK:
++        break;
++    }
++
++    return 0;
 +}
 +
-+static const TypeInfo aspeed_peci_types[] = {
++static uint8_t fby35_sb_cpld_i2c_recv(I2CSlave *i2c)
++{
++    Fby35SbCpldState *s = FBY35_SB_CPLD(i2c);
++
++    switch (s->target_reg) {
++    case R_CLASS_TYPE:
++    case R_BOARD_REVISION:
++        return s->regs[s->target_reg];
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: Register read unimplemented: 0x%02x\n",
++                      __func__, s->target_reg);
++        return 0xff;
++    }
++}
++
++static int fby35_sb_cpld_i2c_send(I2CSlave *i2c, uint8_t data)
++{
++    Fby35SbCpldState *s = FBY35_SB_CPLD(i2c);
++
++    if (s->target_reg == 0) {
++        s->target_reg = data;
++        return 0;
++    }
++
++    switch (s->target_reg) {
++    case R_CLASS_TYPE:
++    case R_BOARD_REVISION:
++        s->regs[s->target_reg] = data;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: Register write unimplemented: 0x%02x 0x%02x\n",
++                      __func__, s->target_reg, data);
++        break;
++    }
++
++    return 0;
++}
++
++static void fby35_sb_cpld_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    I2CSlaveClass *i2c = I2C_SLAVE_CLASS(oc);
++
++    dc->realize = fby35_sb_cpld_realize;
++    i2c->event = fby35_sb_cpld_i2c_event;
++    i2c->recv = fby35_sb_cpld_i2c_recv;
++    i2c->send = fby35_sb_cpld_i2c_send;
++}
++
++static const TypeInfo types[] = {
 +    {
-+        .name = TYPE_ASPEED_PECI,
-+        .parent = TYPE_SYS_BUS_DEVICE,
-+        .instance_size = sizeof(AspeedPECIState),
-+        .class_init = aspeed_peci_class_init,
-+        .abstract = false,
++        .name = TYPE_FBY35_SB_CPLD,
++        .parent = TYPE_I2C_SLAVE,
++        .instance_size = sizeof(Fby35SbCpldState),
++        .class_init = fby35_sb_cpld_class_init,
 +    },
 +};
 +
-+DEFINE_TYPES(aspeed_peci_types);
++DEFINE_TYPES(types);
 diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 132b7b7344..95268eddc0 100644
+index 95268eddc0..948e25c440 100644
 --- a/hw/misc/meson.build
 +++ b/hw/misc/meson.build
-@@ -116,7 +116,8 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
-   'aspeed_scu.c',
+@@ -117,7 +117,8 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
    'aspeed_sbc.c',
    'aspeed_sdmc.c',
--  'aspeed_xdma.c'))
-+  'aspeed_xdma.c',
-+  'aspeed_peci.c'))
+   'aspeed_xdma.c',
+-  'aspeed_peci.c'))
++  'aspeed_peci.c',
++  'fby35_sb_cpld.c'))
  
  softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
  softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index c5e37b0154..af0b9c5dbf 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -209,6 +209,10 @@ aspeed_i3c_device_write(uint32_t deviceid, uint64_t offset, uint64_t data) "I3C
- aspeed_sdmc_write(uint64_t reg, uint64_t data) "reg @0x%" PRIx64 " data: 0x%" PRIx64
- aspeed_sdmc_read(uint64_t reg, uint64_t data) "reg @0x%" PRIx64 " data: 0x%" PRIx64
- 
-+# aspeed_peci.c
-+aspeed_peci_read(uint64_t offset, uint64_t data) "offset 0x%" PRIx64 " data 0x%" PRIx64
-+aspeed_peci_write(uint64_t offset, uint64_t data) "offset 0x%" PRIx64 " data 0x%" PRIx64
-+
- # bcm2835_property.c
- bcm2835_mbox_property(uint32_t tag, uint32_t bufsize, size_t resplen) "mbox property tag:0x%08x in_sz:%u out_sz:%zu"
- 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 02a5a9ffcb..f72a8db50b 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -34,6 +34,7 @@
- #include "hw/usb/hcd-ehci.h"
- #include "qom/object.h"
- #include "hw/misc/aspeed_lpc.h"
-+#include "hw/misc/aspeed_peci.h"
- 
- #define ASPEED_SPIS_NUM  2
- #define ASPEED_EHCIS_NUM 2
-@@ -73,6 +74,7 @@ struct AspeedSoCState {
-     AspeedSDHCIState sdhci;
-     AspeedSDHCIState emmc;
-     AspeedLPCState lpc;
-+    AspeedPECIState peci;
-     uint32_t uart_default;
-     Clock *sysclk;
- };
-@@ -145,6 +147,7 @@ enum {
-     ASPEED_DEV_LPC,
-     ASPEED_DEV_IBT,
-     ASPEED_DEV_I2C,
-+    ASPEED_DEV_PECI,
-     ASPEED_DEV_ETH1,
-     ASPEED_DEV_ETH2,
-     ASPEED_DEV_ETH3,
-diff --git a/include/hw/misc/aspeed_peci.h b/include/hw/misc/aspeed_peci.h
-new file mode 100644
-index 0000000000..8746f93ad7
---- /dev/null
-+++ b/include/hw/misc/aspeed_peci.h
-@@ -0,0 +1,47 @@
-+/*
-+ * Aspeed PECI Controller
-+ *
-+ * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
-+ *
-+ * This code is licensed under the GPL version 2 or later. See the COPYING
-+ * file in the top-level directory.
-+ */
-+
-+#ifndef ASPEED_PECI_H
-+#define ASPEED_PECI_H
-+
-+#include "hw/sysbus.h"
-+#include "hw/registerfields.h"
-+
-+#define ASPEED_PECI_NR_REGS ((0xFC + 4) >> 2)
-+#define ASPEED_PECI_CC_RSP_SUCCESS (0x40U)
-+
-+#define TYPE_ASPEED_PECI "aspeed.peci"
-+OBJECT_DECLARE_SIMPLE_TYPE(AspeedPECIState, ASPEED_PECI);
-+
-+/* Command Register */
-+REG32(PECI_CMD, 0x08)
-+    FIELD(PECI_CMD, FIRE, 0, 1)
-+
-+/* Interrupt Control Register */
-+REG32(PECI_INT_CTRL, 0x18)
-+
-+/* Interrupt Status Register */
-+REG32(PECI_INT_STS, 0x1C)
-+    FIELD(PECI_INT_STS, CMD_DONE, 0, 1)
-+
-+/* Rx/Tx Data Buffer Registers */
-+REG32(PECI_WR_DATA0, 0x20)
-+REG32(PECI_RD_DATA0, 0x30)
-+
-+struct AspeedPECIState {
-+    /* <private> */
-+    SysBusDevice parent;
-+
-+    MemoryRegion mmio;
-+    qemu_irq irq;
-+
-+    uint32_t regs[ASPEED_PECI_NR_REGS];
-+};
-+
-+#endif
 -- 
 2.30.2
 
