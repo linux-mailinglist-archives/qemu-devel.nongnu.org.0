@@ -2,81 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B47560D1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 01:20:37 +0200 (CEST)
-Received: from localhost ([::1]:56860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD751560D76
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 01:33:09 +0200 (CEST)
+Received: from localhost ([::1]:60750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6gz6-0001Mr-Ig
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 19:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51772)
+	id 1o6hBD-0004ui-P5
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 19:33:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o6gxG-0000WK-2J
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 19:18:42 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:40706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o6gxE-0002YR-9j
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 19:18:41 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id 9so16747683pgd.7
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 16:18:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=DYS3nKmOv5GYeFugMgsH3EnP6HeIRHMVj5MkVJ8qeeA=;
- b=W3Dl5qQd8tN7Al+fUFT+ZNQZaLA2C3m9HMXgwwT9JBWRU0ri2GyFh5NvvQ2DYfcDdH
- 3MkSfB7TJt91bILGI89jwQXqTiALPDEu5hWD7k+jsInyD7VhQ6YJzWpF0dbP+337ZdDS
- iuhwTsu7xL+wdVNbml0zQFjB3AaxPywzcwtDRY+kYMd+mHeAGKMiqCKuk5TFI2ZXWJJM
- H8F/DHagb/72ktVl/XyJJi0Gg4hxGcv1/LaX+o05ITQT13L7zrYZqqlQO+wPIsRZ5cKL
- 62ggYBotb+kdGZ5vsKsOXJe8Ftjypiv72d6RGuL0OweJOxUhdOil5d+uMLqTagtMdEYZ
- ecdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DYS3nKmOv5GYeFugMgsH3EnP6HeIRHMVj5MkVJ8qeeA=;
- b=7gNXtQ2f3a1pq1iZInNn5L56upoL9A7xwM35KmvdA63LxwR17GcSBY0IY4wv2TVCwY
- GVnW4ip5HPEE6RMqeLyDepzpdQYkNu7CPVu8xspDLUuoqTDQvISJQ16zhKLz3B15/s9K
- MqnYVjWmzBSnI6xP+H8kVXuNAXp75sC5+nFNTma33lYKaBNjQfj24j653BMfP51JZ7zN
- XoV15LtcURnjDdvUuzpDot6wGW85c6Phbo6OVfnfpzUR2IuCYEXeyH89MF24u2v9uEoj
- 1WffvrpkLzf0Uq5ICoBHldq1bXNdT06iSLRVwan61ZtyiSCQdRg/kdAFTB4SS3BKvQM6
- CM4A==
-X-Gm-Message-State: AJIora/RG3yPC7B6UPFtPJnD8nPqfwvDqx3sc1BNE9N82mlo/fwOO6o6
- C9jJcdNW3jo1ODma9I/XfuxTjg==
-X-Google-Smtp-Source: AGRyM1tPLPz+jDAGC/iNIsE3D32rCKZ2ef6HRTqeUYmg6GqJQMg22VjeOPMyMQfwpMMyXVj63y2omA==
-X-Received: by 2002:a63:6806:0:b0:3fc:3b43:52d5 with SMTP id
- d6-20020a636806000000b003fc3b4352d5mr4945917pgc.319.1656544718195; 
- Wed, 29 Jun 2022 16:18:38 -0700 (PDT)
-Received: from [192.168.123.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- j2-20020a170902758200b0016a058b7547sm11743554pll.294.2022.06.29.16.18.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Jun 2022 16:18:37 -0700 (PDT)
-Message-ID: <230922ea-a0ae-06f3-af17-0964dabd13fa@linaro.org>
-Date: Thu, 30 Jun 2022 04:48:30 +0530
+ (Exim 4.90_1)
+ (envelope-from <prvs=1723d02fc=alistair.francis@opensource.wdc.com>)
+ id 1o6h9V-0003Oj-Ju
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 19:31:23 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:5334)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=1723d02fc=alistair.francis@opensource.wdc.com>)
+ id 1o6h9S-0004OD-SU
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 19:31:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1656545478; x=1688081478;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Be68EkZQO9ktIYjlhKsfGrMZq6JAr7Rlr8a7xiTOo6w=;
+ b=qyBDibmep+r5jpaz4O3Ngd2lHqnHzFcY5MsM5T1m499e2WXdzOe4Cp5S
+ 4xNA5nAkixkcJx0WhYvHH8stX7C1Ubw2fVseB/x/ZK9Fe12K9msxO3IKD
+ +zRSUyOUzC2ZkD/z6VKhch1gtguyLy9cPcL6rtyANi0yQhOnhWlCIGt1T
+ CpRa7E0xAs4rFfnKcxN4pvpPvVOHX0FGTRBucZmgvPmttrp/e1twQO0fp
+ z78hjvRhyYRx1wFtlQVmZsxKV77EZwzfl0ZEk4KjLnkLsBkuvOdcxkbGj
+ +XHMQ617faUwDDsp4zkSBMx63mw02sv1sCIQfTSBg02Hzyw8VOUPVhwur Q==;
+X-IronPort-AV: E=Sophos;i="5.92,232,1650902400"; d="scan'208";a="205161711"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 30 Jun 2022 07:31:13 +0800
+IronPort-SDR: CbPQVF4/IiBxc/1NtqKSqucxFa2QIVu0ug10mpqxHvgnIsqoqcnoE1MMXOBSAdvT0Vze13tWNe
+ /OLH9LlDVf4v8/RlJD5zMIB+dvDWnzgkjMlKAsq0AO43LM+Rrdb37crvPfWnBN+4vIKPB5or8q
+ z+xHI89cRQ/FvgAxdF5vTW3AuLzJFFPch8fV/5+vkHn4eK4zGlG045XivlLDC3XgTnL0RmAsJw
+ Dce/tyEPkGJuVk1cNFZPdk3uRk3k6fRvlLzjEj7mfeaEqSgLPxbfa1DAcEiJTRpFZcizZxgOLo
+ Kl7uPbIP9EtMXkfxhRYoqfyb
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 29 Jun 2022 15:53:33 -0700
+IronPort-SDR: rMAa5QjE9KnQ6ACLKG1ZKZXweeZkG3rCp+q0m+3q/p4VDgnaIxO3oK76xlvJcgwiY3/HU1k3Qo
+ 51SA5Kv+PXbll8fZmPQvTwVr5z4UQTJ5k6c/Ce2nxom/CHlAR9aHAhdq4RZJyGnSbfOvirQHYX
+ EzCEu25Wm+nPt4zwf5lu2Mz8PpHZRdKTFMmk6rCZF2NuIunvMkEVMGznCPu814J/EEMPi5RV7v
+ m2AB7YdukfdmF3zOOFCASWa59QSkIshsKdGucW8ozc7IWC18SaS9+6oBAHVJ38DgKdITZ9vsEe
+ 7gI=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 29 Jun 2022 16:31:14 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LYHlh6R2Tz1Rws0
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 16:31:12 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :content-type:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1656545467; x=1659137468; bh=Be68EkZQO9ktIYjlhKsfGrMZq6JAr7Rl
+ r8a7xiTOo6w=; b=nAmfSrfavCWsFEQnLWllPkyPjHRSilYzHKR9I3p1nCR9lGjk
+ Tc/Kv4V7TppNHX8DGZTQ64ero94TJ+T7yPiDwnB1g70zfKopvvrvKkL1Ez4EM844
+ xrtCQRh+LsWgpIjPK6duRIt7PdUndY/JZqkR03nwn4/YMvrdDKp0bQJN3kKqIU1G
+ X8KnH5+k0OnYh7tGhjVVr3DPh87+wrCO8B46y5swp86ZkUD78GuRCW1F4dA79HGH
+ lsTGhr7eTxd3+nv+qo9Ktz9cWI5HPDmXIn/xlq6V4BdRZkrIGT9oXDj680MPeZw3
+ s5h5Y/Jn/kyjgruKo6UYL4vyfvk0KeuTGEXHgw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id iY0hbR43IKZD for <qemu-devel@nongnu.org>;
+ Wed, 29 Jun 2022 16:31:07 -0700 (PDT)
+Received: from toolbox.wdc.com (unknown [10.225.167.111])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LYHlY50lFz1RtVk;
+ Wed, 29 Jun 2022 16:31:05 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ alistair23@gmail.com, bmeng.cn@gmail.com
+Subject: [PATCH 0/2] target/riscv: Fixes for Ibex and OpenTitan
+Date: Thu, 30 Jun 2022 09:31:00 +1000
+Message-Id: <20220629233102.275181-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.36.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL v2 0/9] Block jobs & NBD patches
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, hreitz@redhat.com, peter.maydell@linaro.org
-References: <20220629081517.446432-1-vsementsov@yandex-team.ru>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220629081517.446432-1-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=1723d02fc=alistair.francis@opensource.wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,70 +116,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/22 13:45, Vladimir Sementsov-Ogievskiy wrote:
-> The following changes since commit ad4c7f529a279685da84297773b4ec8080153c2d:
-> 
->    Merge tag 'pull-semi-20220628' of https://gitlab.com/rth7680/qemu into staging (2022-06-28 10:24:31 +0530)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/vsementsov/qemu.git tags/pull-block-2022-06-14-v2
-> 
-> for you to fetch changes up to 1b8f777673985af366de099ad4e41d334b36fb12:
-> 
->    block: use 'unsigned' for in_flight field on driver state (2022-06-29 10:57:02 +0300)
-> 
-> ----------------------------------------------------------------
-> Block jobs & NBD patches
-> 
-> v2: - add arguments to QEMUMachine constructor in test, to make it work
->        on arm in gitlab pipeline
->      - use bdrv_inc_in_flight() / bdrv_dec_in_flight() instead of direct
->        manipulation with bs->in_flight
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+This fixes some issues discovered on the Ibex SoC when running OpenTitan =
+tests.
 
+Alistair Francis (2):
+  target/riscv: Fixup MSECCFG minimum priv check
+  target/riscv: Ibex: Support priv version 1.11
 
-r~
+ target/riscv/cpu.c | 2 +-
+ target/riscv/csr.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-
-> 
-> - add new options for copy-before-write filter
-> - new trace points for NBD
-> - prefer unsigned type for some 'in_flight' fields
-> 
-> Denis V. Lunev (2):
->    nbd: trace long NBD operations
->    block: use 'unsigned' for in_flight field on driver state
-> 
-> Vladimir Sementsov-Ogievskiy (7):
->    block/copy-before-write: refactor option parsing
->    block/copy-before-write: add on-cbw-error open parameter
->    iotests: add copy-before-write: on-cbw-error tests
->    util: add qemu-co-timeout
->    block/block-copy: block_copy(): add timeout_ns parameter
->    block/copy-before-write: implement cbw-timeout option
->    iotests: copy-before-write: add cases for cbw-timeout option
-> 
->   block/block-copy.c                            |  33 ++-
->   block/copy-before-write.c                     | 110 ++++++---
->   block/mirror.c                                |   2 +-
->   block/nbd.c                                   |   8 +-
->   block/trace-events                            |   2 +
->   include/block/block-copy.h                    |   4 +-
->   include/qemu/coroutine.h                      |  13 ++
->   nbd/client-connection.c                       |   2 +
->   nbd/trace-events                              |   3 +
->   qapi/block-core.json                          |  31 ++-
->   tests/qemu-iotests/pylintrc                   |   5 +
->   tests/qemu-iotests/tests/copy-before-write    | 216 ++++++++++++++++++
->   .../qemu-iotests/tests/copy-before-write.out  |   5 +
->   util/meson.build                              |   1 +
->   util/qemu-co-timeout.c                        |  89 ++++++++
->   15 files changed, 482 insertions(+), 42 deletions(-)
->   create mode 100755 tests/qemu-iotests/tests/copy-before-write
->   create mode 100644 tests/qemu-iotests/tests/copy-before-write.out
->   create mode 100644 util/qemu-co-timeout.c
-> 
+--=20
+2.36.1
 
 
