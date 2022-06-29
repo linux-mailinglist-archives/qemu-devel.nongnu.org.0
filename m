@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BDE56018E
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 15:41:57 +0200 (CEST)
-Received: from localhost ([::1]:38084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED365601C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 15:57:34 +0200 (CEST)
+Received: from localhost ([::1]:39608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Xx3-0007EH-7D
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 09:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33320)
+	id 1o6YCC-00039N-2N
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 09:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o6X1e-0001o3-OJ; Wed, 29 Jun 2022 08:42:34 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51450)
+ id 1o6X1i-0001vY-Ul; Wed, 29 Jun 2022 08:42:40 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o6X1d-0005Uv-4Z; Wed, 29 Jun 2022 08:42:34 -0400
+ id 1o6X1h-0005lP-Cd; Wed, 29 Jun 2022 08:42:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=zLObqLwS/7sla7asfLaB79nnQfQa8AjCHf2Xw3jAXWQ=; b=Nh7tqmhkb2uoj8UnogkTAkGfZn
- QzG+rha1SjDfm31gH8K8MsoBGtQh1m7Vlw30JdQd/PUbTEV+T93vwqhpdVVLvEXfOF0jSDncRiYIQ
- kA/r3Zdg9ahgZRZJmbRwCCHH/5KMffWBBCx+x6Tmv2p8xmsztxXJlqRtsIFiAk2BLt1eHQhXlzvb0
- Qiq7g9K4B4SJkfK7xhpOXujtNuPZaA/cp3dI0hnvBWDElpAkFB7jh/YKmae9HylW0QQWNSv404jc1
- 1TB0vbyd7jYTmCUv+vd0rW1VBYBs6mM59X90TVZD73HfsNPGrSXk2DqOSolug72wgvUHjats4tb1/
- 7eLBFPXtxmlR5yzYusZGq97xcioz/LQEPXHI0d/ZWdaKaT/mFsZkRoQ2MnQkRPzBWHbhjCydbgALH
- 6z+BZydYwORu9O1pnP3QqV3GDbx5OHwBBu2CukZ2d+3CqmxY0PjAHtGz2aEJ9aRqKXhGWUgFgXRaJ
- AthFXGEuj8cPMMG9H/7mwZDcuX39dK9wd+YCupO1sfVeKWjSlLHiZR8wiAn/eZC6dYbGk3ss5s9xA
- u5XVK/j52XBWgdNojo3H2tvDc95yYHZZP7N3tpKubqowQ2PAjk9kI5yDkX67h4ysUpTcVGd4iBjOE
- R9oLLFB4Oc0/Ay2Kcrg6wwMy6+6MJk0Pjkc5wJHAQ=;
+ bh=Clx57WYUXUjNNQfrKpTM8wNwVS7PvSdLNJ1LxgN4uw0=; b=zwfdKV5BhnKQM/FzFcKBFeIgXe
+ odpOj9guSorEim2wUPHt/G7tbLPrFxI8XB3LCB5dcbS8+4v9pe3M2Dsc85eZailOqUhSQi+CWIq1l
+ dgmHO9J2Vujgav7CxaniFyRpf5No1bhRQ7omAq+cIFuKaMO4POzIo1jsATkus0ZXuPLBpzv9FYEFe
+ JUKvhxSFHjmRjheN2ky6KDsem/V2HyH01OIGN3u3P1w+BNc4uhkbFBJ2/wJTXwPho5+9sO4mSeUp0
+ Qn46QDWEVnJAWg9MQsoXycbmWgCJaHQko2VFqz+9pCAi/e1EHs+HCSV2y+06vjWJynLUeaOeJmH5Y
+ 87RmpYqwJEDGvZx/cBv4BKPDfvk5XXv3P/jEK59/JZ2ydC6/z8exSvne/fTSpD1BvSUA48OhRvPAf
+ ScgzUu5ZcQ7UpK1GzE0fMZU4r5NtsHIqbdZkLutuyy9F+jZQt5WANg/o0bX8O62BKfuCsTBnXVNej
+ tFtOjZagdib5lPEA7LoiTbp8UWCS5bGzwr73+OEKjlHpBfbywbmAHAo2mZtE5QqLzTDyaiWyCvEok
+ LHz3GXX04W2DXSA1ynk9rv1dRhdidcNCZinoP7VOqkr2gxJ5Eiz3M9Mhv11DcTds61n06+e+kExCM
+ WuBx6x99dRI5j3B09seFOn9aBWAJKSmzkXEfwdDzg=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o6Wzx-0002tZ-Th; Wed, 29 Jun 2022 13:40:54 +0100
+ id 1o6X02-0002tZ-8s; Wed, 29 Jun 2022 13:40:58 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org, deller@gmx.de, svens@stackframe.org,
  mst@redhat.com, pbonzini@redhat.com, peter.maydell@linaro.org,
  hpoussin@reactos.org, aleksandar.rikalo@syrmia.com, f4bug@amsat.org,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Date: Wed, 29 Jun 2022 13:40:25 +0100
-Message-Id: <20220629124026.1077021-40-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 29 Jun 2022 13:40:26 +0100
+Message-Id: <20220629124026.1077021-41-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
 References: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
@@ -51,7 +51,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 39/40] ps2: remove unused legacy ps2_mouse_init() function
+Subject: [PATCH 40/40] pckbd: remove legacy i8042_mm_init() function
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -77,64 +77,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the legacy ps2_mouse_init() function is no longer used, it can be completely
-removed along with its associated trace-event.
+This legacy function is only used during the initialisation of the MIPS magnum
+machine, so inline its functionality directly into mips_jazz_init() and then
+remove it.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/input/ps2.c         | 13 -------------
- hw/input/trace-events  |  1 -
- include/hw/input/ps2.h |  1 -
- 3 files changed, 15 deletions(-)
+ hw/input/pckbd.c         | 16 ----------------
+ hw/mips/jazz.c           | 13 ++++++++++---
+ include/hw/input/i8042.h |  2 --
+ 3 files changed, 10 insertions(+), 21 deletions(-)
 
-diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 5b1728ef02..05cf7111e3 100644
---- a/hw/input/ps2.c
-+++ b/hw/input/ps2.c
-@@ -1236,19 +1236,6 @@ static void ps2_mouse_realize(DeviceState *dev, Error **errp)
-     qemu_input_handler_register(dev, &ps2_mouse_handler);
+diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+index 0fc1af403e..b92b63bedc 100644
+--- a/hw/input/pckbd.c
++++ b/hw/input/pckbd.c
+@@ -762,22 +762,6 @@ static void i8042_mmio_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
  }
  
--void *ps2_mouse_init(void)
+-MMIOKBDState *i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+-                            ram_addr_t size, hwaddr mask)
 -{
 -    DeviceState *dev;
--    PS2MouseState *s;
 -
--    dev = qdev_new(TYPE_PS2_MOUSE_DEVICE);
+-    dev = qdev_new(TYPE_I8042_MMIO);
+-    qdev_prop_set_uint64(dev, "mask", mask);
+-    qdev_prop_set_uint32(dev, "size", size);
 -    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
--    s = PS2_MOUSE_DEVICE(dev);
 -
--    trace_ps2_mouse_init(s);
--    return s;
+-    qdev_connect_gpio_out(dev, I8042_KBD_IRQ, kbd_irq);
+-    qdev_connect_gpio_out(dev, I8042_MOUSE_IRQ, mouse_irq);
+-
+-    return I8042_MMIO(dev);
 -}
 -
- static void ps2_kbd_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-diff --git a/hw/input/trace-events b/hw/input/trace-events
-index df998d13eb..29001a827d 100644
---- a/hw/input/trace-events
-+++ b/hw/input/trace-events
-@@ -41,7 +41,6 @@ ps2_mouse_fake_event(void *opaque) "%p"
- ps2_write_mouse(void *opaque, int val) "%p val %d"
- ps2_kbd_reset(void *opaque) "%p"
- ps2_mouse_reset(void *opaque) "%p"
--ps2_mouse_init(void *s) "%p"
+ static const TypeInfo i8042_mmio_info = {
+     .name          = TYPE_I8042_MMIO,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 1eb8bd5018..6aefe9a61b 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -361,9 +361,16 @@ static void mips_jazz_init(MachineState *machine,
+     memory_region_add_subregion(address_space, 0x80004000, rtc);
  
- # hid.c
- hid_kbd_queue_full(void) "queue full"
-diff --git a/include/hw/input/ps2.h b/include/hw/input/ps2.h
-index 18fd10cc75..ff777582cd 100644
---- a/include/hw/input/ps2.h
-+++ b/include/hw/input/ps2.h
-@@ -98,7 +98,6 @@ struct PS2MouseState {
- OBJECT_DECLARE_SIMPLE_TYPE(PS2MouseState, PS2_MOUSE_DEVICE)
+     /* Keyboard (i8042) */
+-    i8042 = i8042_mm_init(qdev_get_gpio_in(rc4030, 6),
+-                          qdev_get_gpio_in(rc4030, 7),
+-                          0x1000, 0x1);
++    i8042 = I8042_MMIO(qdev_new(TYPE_I8042_MMIO));
++    qdev_prop_set_uint64(DEVICE(i8042), "mask", 1);
++    qdev_prop_set_uint32(DEVICE(i8042), "size", 0x1000);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(i8042), &error_fatal);
++
++    qdev_connect_gpio_out(DEVICE(i8042), I8042_KBD_IRQ,
++                          qdev_get_gpio_in(rc4030, 6));
++    qdev_connect_gpio_out(DEVICE(i8042), I8042_MOUSE_IRQ,
++                          qdev_get_gpio_in(rc4030, 7));
++
+     memory_region_add_subregion(address_space, 0x80005000,
+                                 sysbus_mmio_get_region(SYS_BUS_DEVICE(i8042),
+                                                        0));
+diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
+index e199f1ece8..9fb3f8d787 100644
+--- a/include/hw/input/i8042.h
++++ b/include/hw/input/i8042.h
+@@ -88,8 +88,6 @@ struct MMIOKBDState {
+ #define I8042_A20_LINE "a20"
  
- /* ps2.c */
--void *ps2_mouse_init(void);
- void ps2_write_mouse(PS2MouseState *s, int val);
- void ps2_write_keyboard(PS2KbdState *s, int val);
- uint32_t ps2_read_data(PS2State *s);
+ 
+-MMIOKBDState *i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+-                            ram_addr_t size, hwaddr mask);
+ void i8042_isa_mouse_fake_event(ISAKBDState *isa);
+ void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out);
+ 
 -- 
 2.30.2
 
