@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03709560635
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 18:46:25 +0200 (CEST)
-Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9334B5606C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 18:54:26 +0200 (CEST)
+Received: from localhost ([::1]:37846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6apc-0002fC-0p
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 12:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52122)
+	id 1o6axN-0000oZ-B0
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 12:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o6aex-0001Oe-QS; Wed, 29 Jun 2022 12:35:28 -0400
-Received: from mout-u-107.mailbox.org ([80.241.59.207]:35776)
+ id 1o6af3-0001PM-9N; Wed, 29 Jun 2022 12:35:29 -0400
+Received: from mout-u-204.mailbox.org ([2001:67c:2050:101:465::204]:49108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
  (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o6aew-0001Um-1V; Wed, 29 Jun 2022 12:35:23 -0400
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
+ id 1o6af1-0001Xu-7z; Wed, 29 Jun 2022 12:35:28 -0400
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mout-u-107.mailbox.org (Postfix) with ESMTPS id 4LY6WX0PbRz9sb8;
- Wed, 29 Jun 2022 18:35:04 +0200 (CEST)
+ by mout-u-204.mailbox.org (Postfix) with ESMTPS id 4LY6Wd43b7z9sWv;
+ Wed, 29 Jun 2022 18:35:09 +0200 (CEST)
 From: Lev Kujawski <lkujaw@member.fsf.org>
 To: qemu-devel@nongnu.org
 Cc: Lev Kujawski <lkujaw@member.fsf.org>, John Snow <jsnow@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org (open list:IDE)
-Subject: [PATCH 1/2] qpci_device_enable: Allow for command bits hardwired to 0
-Date: Wed, 29 Jun 2022 16:34:49 +0000
-Message-Id: <20220629163450.210111-1-lkujaw@member.fsf.org>
+ qemu-block@nongnu.org (open list:IDE)
+Subject: [PATCH 2/2] hw/ide/core.c: Implement ATA INITIALIZE_DEVICE_PARAMETERS
+ command
+Date: Wed, 29 Jun 2022 16:34:50 +0000
+Message-Id: <20220629163450.210111-2-lkujaw@member.fsf.org>
+In-Reply-To: <20220629163450.210111-1-lkujaw@member.fsf.org>
+References: <20220629163450.210111-1-lkujaw@member.fsf.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=80.241.59.207; envelope-from=lkujaw@member.fsf.org;
- helo=mout-u-107.mailbox.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:67c:2050:101:465::204;
+ envelope-from=lkujaw@member.fsf.org; helo=mout-u-204.mailbox.org
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,80 +58,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Devices like the PIIX3/4 IDE controller do not support certain modes
-of operation, such as memory space accesses, and indicate this lack of
-support by hardwiring the applicable bits to zero. The QEMU PCI device
-testing framework is hereby extended to accommodate such devices.
+CHS-based disk utilities and operating systems may adjust the logical
+geometry of a hard drive to cope with the expectations or limitations
+of software using the ATA INITIALIZE_DEVICE_PARAMETERS command.
 
-* tests/qtest/libqos/pci.h: Add the command_disabled word to indicate
-  bits hardwired to 0.
-* tests/qtest/libqos/pci.c: Verify that hardwired bits are actually
-  hardwired.
-* tests/qtest/ide-test.c: Use the new command_disabled member to
-  indicate that PCI_COMMAND_MEMORY is hardwired in the PIIX3/4
-  IDE controller.
+Prior to this patch, INITIALIZE_DEVICE_PARAMETERS was a nop that
+always returned success, raising the possibility of data loss or
+corruption if the CHS<->LBA translation redirected a write to the
+wrong sector.
 
-Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
+* hw/ide/core.c
+ide_reset():
+- Reset the logical CHS geometry of the hard disk when the power-on
+  defaults feature is enabled.
+cmd_specify():
+- New function implementing INITIALIZE_DEVICE_PARAMETERS.
+- Ignore calls for empty or ATAPI devices.
+cmd_set_features():
+- Implement the power-on defaults enable and disable features.
+struct ide_cmd_table:
+- Switch WIN_SPECIFY from cmd_nop() to cmd_specify().
+ide_init_drive():
+- Set new fields 'drive_heads' and 'drive_sectors' based upon the
+  actual disk geometry.
+
+* include/hw/ide/internal.h
+struct IDEState:
+- Store the actual drive CHS values within the new fields
+  'drive_heads' and 'drive_sectors.'
+- Track whether a soft IDE reset should also reset the logical CHS
+  geometry of the hard disk within the new field 'reset_reverts'.
 ---
- tests/qtest/ide-test.c   |  1 +
- tests/qtest/libqos/pci.c | 13 +++++++------
- tests/qtest/libqos/pci.h |  1 +
- 3 files changed, 9 insertions(+), 6 deletions(-)
+ hw/ide/core.c             | 29 ++++++++++++++++++++++++++---
+ include/hw/ide/internal.h |  3 +++
+ 2 files changed, 29 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-index 5bcb75a7e5..85a3967063 100644
---- a/tests/qtest/ide-test.c
-+++ b/tests/qtest/ide-test.c
-@@ -173,6 +173,7 @@ static QPCIDevice *get_pci_device(QTestState *qts, QPCIBar *bmdma_bar,
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index b747191ebf..39afdc0006 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -1340,6 +1340,11 @@ static void ide_reset(IDEState *s)
+         s->pio_aiocb = NULL;
+     }
  
-     *ide_bar = qpci_legacy_iomap(dev, IDE_BASE);
- 
-+    dev->command_disabled = PCI_COMMAND_MEMORY;
-     qpci_device_enable(dev);
- 
-     return dev;
-diff --git a/tests/qtest/libqos/pci.c b/tests/qtest/libqos/pci.c
-index b23d72346b..4f3d28d8d9 100644
---- a/tests/qtest/libqos/pci.c
-+++ b/tests/qtest/libqos/pci.c
-@@ -220,18 +220,19 @@ int qpci_secondary_buses_init(QPCIBus *bus)
- 
- void qpci_device_enable(QPCIDevice *dev)
- {
--    uint16_t cmd;
-+    const uint16_t enable_bits =
-+        PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
-+    uint16_t cmd, new_cmd;
- 
-     /* FIXME -- does this need to be a bus callout? */
-     cmd = qpci_config_readw(dev, PCI_COMMAND);
--    cmd |= PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
-+    cmd |= enable_bits;
-     qpci_config_writew(dev, PCI_COMMAND, cmd);
- 
-     /* Verify the bits are now set. */
--    cmd = qpci_config_readw(dev, PCI_COMMAND);
--    g_assert_cmphex(cmd & PCI_COMMAND_IO, ==, PCI_COMMAND_IO);
--    g_assert_cmphex(cmd & PCI_COMMAND_MEMORY, ==, PCI_COMMAND_MEMORY);
--    g_assert_cmphex(cmd & PCI_COMMAND_MASTER, ==, PCI_COMMAND_MASTER);
-+    new_cmd = qpci_config_readw(dev, PCI_COMMAND);
-+    new_cmd &= enable_bits;
-+    g_assert_cmphex(new_cmd, ==, enable_bits & ~dev->command_disabled);
++    if (s->reset_reverts) {
++        s->reset_reverts = false;
++        s->heads         = s->drive_heads;
++        s->sectors       = s->drive_sectors;
++    }
+     if (s->drive_kind == IDE_CFATA)
+         s->mult_sectors = 0;
+     else
+@@ -1618,6 +1623,20 @@ static bool cmd_check_power_mode(IDEState *s, uint8_t cmd)
+     return true;
  }
  
- /**
-diff --git a/tests/qtest/libqos/pci.h b/tests/qtest/libqos/pci.h
-index 8389614523..eaedb98588 100644
---- a/tests/qtest/libqos/pci.h
-+++ b/tests/qtest/libqos/pci.h
-@@ -68,6 +68,7 @@ struct QPCIDevice
-     bool msix_enabled;
-     QPCIBar msix_table_bar, msix_pba_bar;
-     uint64_t msix_table_off, msix_pba_off;
-+    uint16_t command_disabled;
- };
++/* INITIALIZE DEVICE PARAMETERS */
++static bool cmd_specify(IDEState *s, uint8_t cmd)
++{
++    if (s->blk && s->drive_kind != IDE_CD) {
++        s->heads = (s->select & (ATA_DEV_HS)) + 1;
++        s->sectors = s->nsector;
++        ide_set_irq(s->bus);
++    } else {
++        ide_abort_command(s);
++    }
++
++    return true;
++}
++
+ static bool cmd_set_features(IDEState *s, uint8_t cmd)
+ {
+     uint16_t *identify_data;
+@@ -1641,7 +1660,11 @@ static bool cmd_set_features(IDEState *s, uint8_t cmd)
+         ide_flush_cache(s);
+         return false;
+     case 0xcc: /* reverting to power-on defaults enable */
++        s->reset_reverts = true;
++        return true;
+     case 0x66: /* reverting to power-on defaults disable */
++        s->reset_reverts = false;
++        return true;
+     case 0xaa: /* read look-ahead enable */
+     case 0x55: /* read look-ahead disable */
+     case 0x05: /* set advanced power management mode */
+@@ -2051,7 +2074,7 @@ static const struct {
+     [WIN_SEEK]                    = { cmd_seek, HD_CFA_OK | SET_DSC },
+     [CFA_TRANSLATE_SECTOR]        = { cmd_cfa_translate_sector, CFA_OK },
+     [WIN_DIAGNOSE]                = { cmd_exec_dev_diagnostic, ALL_OK },
+-    [WIN_SPECIFY]                 = { cmd_nop, HD_CFA_OK | SET_DSC },
++    [WIN_SPECIFY]                 = { cmd_specify, HD_CFA_OK | SET_DSC },
+     [WIN_STANDBYNOW2]             = { cmd_nop, HD_CFA_OK },
+     [WIN_IDLEIMMEDIATE2]          = { cmd_nop, HD_CFA_OK },
+     [WIN_STANDBY2]                = { cmd_nop, HD_CFA_OK },
+@@ -2541,8 +2564,8 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
  
- struct QPCIAddress {
+     blk_get_geometry(blk, &nb_sectors);
+     s->cylinders = cylinders;
+-    s->heads = heads;
+-    s->sectors = secs;
++    s->heads = s->drive_heads = heads;
++    s->sectors = s->drive_sectors = secs;
+     s->chs_trans = chs_trans;
+     s->nb_sectors = nb_sectors;
+     s->wwn = wwn;
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index 97e7e59dc5..b17f36df95 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -375,6 +375,7 @@ struct IDEState {
+     uint8_t unit;
+     /* ide config */
+     IDEDriveKind drive_kind;
++    int drive_heads, drive_sectors;
+     int cylinders, heads, sectors, chs_trans;
+     int64_t nb_sectors;
+     int mult_sectors;
+@@ -401,6 +402,8 @@ struct IDEState {
+     uint8_t select;
+     uint8_t status;
+ 
++    bool reset_reverts;
++
+     /* set for lba48 access */
+     uint8_t lba48;
+     BlockBackend *blk;
 -- 
 2.34.1
 
