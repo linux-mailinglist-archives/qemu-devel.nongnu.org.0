@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFEF560581
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 18:12:30 +0200 (CEST)
-Received: from localhost ([::1]:47614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48255605D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 18:28:38 +0200 (CEST)
+Received: from localhost ([::1]:58678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6aIn-0000Z2-2j
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 12:12:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42438)
+	id 1o6aYP-0000WV-EU
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 12:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o6aFd-0005kp-Qg
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 12:09:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o6aFU-0000kX-8v
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 12:09:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656518941;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=hNT1ABywLC2MYuSs8awID0RdEFG5HKVPJo69Dkdd2nY=;
- b=GlQiugaT+cSfWV0hydbVKm3iL7SAqqw2LtBoqZdEhDGvjHk9jQvdOy+bGolV5MHsgu8KMp
- yn5AofnpFbGY3ftthldXrbKKJElYt/bO7l18yZ1ogPkiemp+qeLpWv7UJtDdhqnWuwKWTf
- G+XQT19/U2NmDJPkqF9txnlx9FssZI8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-uLtuj2ixPDy-gWL9ZD2Cww-1; Wed, 29 Jun 2022 12:08:59 -0400
-X-MC-Unique: uLtuj2ixPDy-gWL9ZD2Cww-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A91D1019CA3
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 16:08:59 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E41161121314;
- Wed, 29 Jun 2022 16:08:58 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH] scripts: check if .git exists before checking submodule status
-Date: Wed, 29 Jun 2022 17:08:57 +0100
-Message-Id: <20220629160857.425400-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1o6aWJ-00083u-3o; Wed, 29 Jun 2022 12:26:27 -0400
+Received: from [200.168.210.66] (port=23713 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1o6aWE-00080G-WE; Wed, 29 Jun 2022 12:26:26 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 29 Jun 2022 13:25:15 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id D3C90800502;
+ Wed, 29 Jun 2022 13:25:14 -0300 (-03)
+Message-ID: <9c97ae8f-f733-21fc-97d1-99af971e38fd@eldorado.org.br>
+Date: Wed, 29 Jun 2022 13:25:14 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: Slowness with multi-thread TCG?
+Content-Language: en-US
+To: Frederic Barrat <fbarrat@linux.ibm.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <111e5b6c-41a7-89a4-b4d2-2eda1a295ffa@linux.ibm.com>
+ <dd5f1753-ff56-f248-9863-b39739fb6093@eldorado.org.br>
+ <cf38218a-6e13-8024-8e08-fcdd74faa5a8@linux.ibm.com>
+ <87h744keg7.fsf@linaro.org>
+ <348a8b91-6d91-7429-615b-c0e3d23e4fce@linux.ibm.com>
+ <8735fojukm.fsf@linaro.org>
+ <44596e63-1631-ee12-231c-15be9c914a74@linux.ibm.com>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <44596e63-1631-ee12-231c-15be9c914a74@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 29 Jun 2022 16:25:15.0194 (UTC)
+ FILETIME=[D05441A0:01D88BD4]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,46 +70,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we check status of each submodule, before actually checking
-if we're in a git repo. These status commands will all fail, but we
-are hiding their output so we don't see it currently.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- scripts/git-submodule.sh | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/scripts/git-submodule.sh b/scripts/git-submodule.sh
-index e225d3a963..7be41f5948 100755
---- a/scripts/git-submodule.sh
-+++ b/scripts/git-submodule.sh
-@@ -51,6 +51,12 @@ validate_error() {
-     exit 1
- }
- 
-+if test -n "$maybe_modules" && ! test -e ".git"
-+then
-+    echo "$0: unexpectedly called with submodules but no git checkout exists"
-+    exit 1
-+fi
-+
- modules=""
- for m in $maybe_modules
- do
-@@ -63,12 +69,6 @@ do
-     fi
- done
- 
--if test -n "$maybe_modules" && ! test -e ".git"
--then
--    echo "$0: unexpectedly called with submodules but no git checkout exists"
--    exit 1
--fi
--
- case "$command" in
- status|validate)
-     if test -z "$maybe_modules"
--- 
-2.36.1
-
+T24gMjkvMDYvMjAyMiAxMjozNiwgRnJlZGVyaWMgQmFycmF0IHdyb3RlOg0KPiBbRS1NQUlM
+IEVYVEVSTk9dIE7Do28gY2xpcXVlIGVtIGxpbmtzIG91IGFicmEgYW5leG9zLCBhIG1lbm9z
+IHF1ZSB2b2PDqiANCj4gcG9zc2EgY29uZmlybWFyIG8gcmVtZXRlbnRlIGUgc2FiZXIgcXVl
+IG8gY29udGXDumRvIMOpIHNlZ3Vyby4gRW0gY2FzbyBkZSANCj4gZS1tYWlsIHN1c3BlaXRv
+IGVudHJlIGltZWRpYXRhbWVudGUgZW0gY29udGF0byBjb20gbyBEVEkuDQo+IA0KPiBPbiAy
+OS8wNi8yMDIyIDAwOjE3LCBBbGV4IEJlbm7DqWUgd3JvdGU6DQo+PiBJZiB5b3UgcnVuIHRo
+ZSBzeW5jLXByb2ZpbGVyICh2aWEgdGhlIEhNUCAic3luYy1wcm9maWxlIG9uIikgeW91IGNh
+bg0KPj4gdGhlbiBnZXQgYSBicmVha2Rvd24gb2Ygd2hpY2ggbXV0ZXgncyBhcmUgYmVpbmcg
+aGVsZCBhbmQgZm9yIGhvdyBsb25nDQo+PiAoImluZm8gc3luYy1wcm9maWxlIikuDQo+IA0K
+PiANCj4gQWxleCwgYSBodWdlIHRoYW5rIHlvdSENCj4gDQo+IEZvciB0aGUgcmVjb3JkLCB0
+aGUgImluZm8gc3luYy1wcm9maWxlIiBzaG93ZWQ6DQo+IFR5cGXCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIE9iamVjdMKgIENhbGwgc2l0ZcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgV2FpdCBUaW1lIChzKQ0KPiAgwqDCoMKgwqDCoMKgIENvdW50
+wqAgQXZlcmFnZSAodXMpDQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tIA0KPiANCj4gQlFMIG11dGV4wqAgMHg1NWViODk0MjU1NDDCoCBhY2NlbC90
+Y2cvY3B1LWV4ZWMuYzo3NDTCoMKgwqDCoMKgwqDCoMKgwqDCoCA5Ni4zMTU3OA0KPiAgwqDC
+oMKgIDczNTg5OTM3wqDCoMKgwqDCoMKgwqDCoMKgIDEuMzENCj4gQlFMIG11dGV4wqAgMHg1
+NWViODk0MjU1NDDCoCB0YXJnZXQvcHBjL2hlbHBlcl9yZWdzLmM6MjA3wqDCoMKgwqDCoMKg
+wqAgMC4wMDE1MA0KPiAgwqDCoMKgwqDCoMKgwqAgMTE3OMKgwqDCoMKgwqDCoMKgwqDCoCAx
+LjI3DQo+IA0KPiANCj4gQW5kIGl0IHBvaW50cyB0byBhIGxvY2sgaW4gdGhlIGludGVycnVw
+dCBkZWxpdmVyeSBwYXRoLCBpbg0KPiBjcHVfaGFuZGxlX2ludGVycnVwdCgpLg0KPiANCj4g
+SSBub3cgdW5kZXJzdGFuZCB0aGUgcm9vdCBjYXVzZS4gVGhlIGludGVycnVwdCBzaWduYWwg
+Zm9yIHRoZQ0KPiBkZWNyZW1lbnRlciBpbnRlcnJ1cHQgcmVtYWlucyBzZXQgYmVjYXVzZSB0
+aGUgaW50ZXJydXB0IGlzIG5vdCBiZWluZw0KPiBkZWxpdmVyZWQsIHBlciB0aGUgY29uZmln
+LiBJJ20gbm90IHF1aXRlIHN1cmUgd2hhdCB0aGUgcHJvcGVyIGZpeCBpcyB5ZXQNCj4gKHRo
+ZXJlIHNlZW1zIHRvIGJlIHNldmVyYWwgaW1wbGVtZW50YXRpb25zIG9mIHRoZSBkZWNyZW1l
+bnRlciBvbiBwcGMpLA0KPiBidXQgYXQgbGVhc3QgSSB1bmRlcnN0YW5kIHdoeSB3ZSBhcmUg
+c28gc2xvdy4NCj4gDQoNClRvIHN1bW1hcml6ZSB3aGF0IHdlIHRhbGtlZCBlbHNld2hlcmU6
+DQoxIC0gVGhlIHRocmVhZHMgdGhhdCBhcmUgbm90IGRlY29tcHJlc3NpbmcgdGhlIGtlcm5l
+bCBoYXZlIGEgcGVuZGluZyANClBQQ19JTlRFUlJVUFRfREVDUiwgYW5kIGNzLT5pbnRlcnJ1
+cHRfcmVxdWVzdCBpcyBDUFVfSU5URVJSVVBUX0hBUkQ7DQoyIC0gY3B1X2hhbmRsZV9pbnRl
+cnJ1cHQgY2FsbHMgcHBjX2NwdV9leGVjX2ludGVycnVwdCwgdGhhdCBjYWxscyANCnBwY19o
+d19pbnRlcnJ1cHQgdG8gaGFuZGxlIHRoZSBpbnRlcnJ1cHQ7DQozIC0gcHBjX2NwdV9leGVj
+X2ludGVycnVwdCBkZWNpZGVzIHRoYXQgdGhlIGludGVycnVwdCBjYW5ub3QgYmUgDQpkZWxp
+dmVyZWQgaW1tZWRpYXRlbHksIHNvIHRoZSBjb3JyZXNwb25kaW5nIGJpdCBpbiANCmVudi0+
+cGVuZGluZ19pbnRlcnJ1cHRzIGlzIG5vdCByZXNldDsNCjQgLSBwcGNfY3B1X2V4ZWNfaW50
+ZXJydXB0IGRvZXMgbm90IGNoYW5nZSBjcy0+aW50ZXJydXB0X3JlcXVlc3QgYmVjYXVzZSAN
+CnBlbmRpbmdfaW50ZXJydXB0cyAhPSAwLCBzbyBjcHVfaGFuZGxlX2ludGVycnVwdCB3aWxs
+IGJlIGNhbGxlZCBhZ2Fpbi4NCg0KVGhpcyBsb29wIHdpbGwgYWNxdWlyZSBhbmQgcmVsZWFz
+ZSBxZW11X211dGV4X2xvY2tfaW90aHJlYWQsIHNsb3dpbmcgDQpkb3duIG90aGVyIHRocmVh
+ZHMgdGhhdCBuZWVkIHRoaXMgbG9jay4NCg0KPiBXaXRoIGEgcXVpY2sgaGFjaywgSSBjb3Vs
+ZCB2ZXJpZnkgdGhhdCBieSBtb3ZpbmcgdGhhdCBzaWduYWwgb3V0IG9mIHRoZQ0KPiB3YXks
+IHRoZSBkZWNvbXByZXNzaW9uIHRpbWUgb2YgdGhlIGtlcm5lbCBpcyBub3cgcGVhbnV0cywg
+bm8gbWF0dGVyIHRoZQ0KPiBudW1iZXIgb2YgY3B1cy4gRXZlbiB3aXRoIG9uZSBjcHUsIHRo
+ZSAxNSBzZWNvbmRzIG1lYXN1cmVkIGJlZm9yZSB3YXMNCj4gYWxyZWFkeSBhIGh1Z2Ugd2Fz
+dGUsIHNvIGl0IHdhcyBub3QgcmVhbGx5IGEgbXVsdGlwbGUtY3B1cyBwcm9ibGVtLg0KPiBN
+dWx0aXBsZSBjcHVzIHdlcmUganVzdCBoaWdobGlnaHRpbmcgaXQuDQo+IA0KPiBUaGFua3Mg
+YWdhaW4hDQo+IA0KPiAgwqAgRnJlZA0KLS0gDQpNYXRoZXVzIEsuIEZlcnN0DQpJbnN0aXR1
+dG8gZGUgUGVzcXVpc2FzIEVMRE9SQURPIDxodHRwOi8vd3d3LmVsZG9yYWRvLm9yZy5ici8+
+DQpBbmFsaXN0YSBkZSBTb2Z0d2FyZQ0KQXZpc28gTGVnYWwgLSBEaXNjbGFpbWVyIDxodHRw
+czovL3d3dy5lbGRvcmFkby5vcmcuYnIvZGlzY2xhaW1lci5odG1sPg0K
 
