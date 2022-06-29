@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95DC55FAD8
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:43:23 +0200 (CEST)
-Received: from localhost ([::1]:59892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2D755FAD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:41:37 +0200 (CEST)
+Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6TIA-0005te-Ow
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51032)
+	id 1o6TGS-0002Ho-2d
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:41:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6TAJ-0006UY-82
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:35:16 -0400
-Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:50143)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6TC4-0007rd-V8
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:37:05 -0400
+Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:46793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6TAH-0007FA-9k
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:35:15 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.54])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 97284214F3;
- Wed, 29 Jun 2022 08:35:10 +0000 (UTC)
-Received: from kaod.org (37.59.142.110) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6TC1-0007aA-5j
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:37:03 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.10])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 483F027132;
+ Wed, 29 Jun 2022 08:36:58 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 29 Jun
- 2022 10:35:09 +0200
+ 2022 10:36:56 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-110S004542524e1-6b52-49d4-a479-6b6c829acba8,
+ (GARM-106R006b88761a7-3ad0-45f5-b9f7-70fcbcc403c3,
  74A1F81DE4F8936248B5873BB0AED4007818FEC6) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <193a9752-91dc-89fe-4507-056590b91b85@kaod.org>
-Date: Wed, 29 Jun 2022 10:35:03 +0200
+Message-ID: <16eb386e-a1c7-071b-12b0-b47e9081c4a3@kaod.org>
+Date: Wed, 29 Jun 2022 10:36:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v2 04/13] hw/i2c: support multiple masters
+Subject: Re: [PATCH v2 08/13] hw/i2c/pmbus: Reset out buf after switching pages
 Content-Language: en-US
 To: Peter Delevoryas <peterdelevoryas@gmail.com>
 CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
  <cminyard@mvista.com>, <titusr@google.com>, <qemu-devel@nongnu.org>,
- <qemu-arm@nongnu.org>, <zhdaniel@fb.com>, <pdel@fb.com>, Corey Minyard
- <cminyard@mvista.com>
+ <qemu-arm@nongnu.org>, <zhdaniel@fb.com>, <pdel@fb.com>
 References: <20220629033634.3850922-1-pdel@fb.com>
- <20220629033634.3850922-5-pdel@fb.com>
+ <20220629033634.3850922-9-pdel@fb.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220629033634.3850922-5-pdel@fb.com>
+In-Reply-To: <20220629033634.3850922-9-pdel@fb.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.110]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: d90787fd-39f8-4776-8160-777e7628729f
-X-Ovh-Tracer-Id: 1062286562410269618
+X-Ovh-Tracer-GUID: 7b48de1e-5d51-4211-ab1d-4c28d0582fa5
+X-Ovh-Tracer-Id: 1092685862009670578
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgtdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpuggvlhesfhgsrdgtohhmpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
- helo=6.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgtdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpuggvlhesfhgsrdgtohhmpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
+ helo=2.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -77,143 +76,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Corey,
-
 On 6/29/22 05:36, Peter Delevoryas wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+> When a pmbus device switches pages, it should clears its output buffer so
+> that the next transaction doesn't emit data from the previous page.
 > 
-> Allow slaves to master the bus by registering a bottom halve. If the bus
-> is busy, the bottom half is queued up. When a slave has succesfully
-> mastered the bus, the bottom half is scheduled.
-> 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> [ clg : - fixed typos in commit log ]
-> Message-Id: <20220601210831.67259-4-its@irrelevant.dk>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> Fixes: 3746d5c15e70570b ("hw/i2c: add support for PMBus”)
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
 > ---
 
-If it is OK with you, I plan to include this I2C extension in the
-next Aspeed PR.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
 
 C.
 
->   hw/i2c/core.c        | 34 +++++++++++++++++++++++++++++++++-
->   include/hw/i2c/i2c.h | 14 ++++++++++++++
->   2 files changed, 47 insertions(+), 1 deletion(-)
+>   hw/i2c/pmbus_device.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-> index d0cb2d32fa..145dce6078 100644
-> --- a/hw/i2c/core.c
-> +++ b/hw/i2c/core.c
-> @@ -13,6 +13,7 @@
->   #include "migration/vmstate.h"
->   #include "qapi/error.h"
->   #include "qemu/module.h"
-> +#include "qemu/main-loop.h"
->   #include "trace.h"
+> diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+> index 62885fa6a1..efddc36fd9 100644
+> --- a/hw/i2c/pmbus_device.c
+> +++ b/hw/i2c/pmbus_device.c
+> @@ -1088,6 +1088,7 @@ static int pmbus_write_data(SMBusDevice *smd, uint8_t *buf, uint8_t len)
 >   
->   #define I2C_BROADCAST 0x00
-> @@ -62,6 +63,7 @@ I2CBus *i2c_init_bus(DeviceState *parent, const char *name)
->   
->       bus = I2C_BUS(qbus_new(TYPE_I2C_BUS, parent, name));
->       QLIST_INIT(&bus->current_devs);
-> +    QSIMPLEQ_INIT(&bus->pending_masters);
->       vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_i2c_bus, bus);
->       return bus;
->   }
-> @@ -74,7 +76,7 @@ void i2c_slave_set_address(I2CSlave *dev, uint8_t address)
->   /* Return nonzero if bus is busy.  */
->   int i2c_bus_busy(I2CBus *bus)
->   {
-> -    return !QLIST_EMPTY(&bus->current_devs);
-> +    return !QLIST_EMPTY(&bus->current_devs) || bus->bh;
->   }
->   
->   bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
-> @@ -180,6 +182,26 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
->                                                  : I2C_START_SEND);
->   }
->   
-> +void i2c_bus_master(I2CBus *bus, QEMUBH *bh)
-> +{
-> +    if (i2c_bus_busy(bus)) {
-> +        I2CPendingMaster *node = g_new(struct I2CPendingMaster, 1);
-> +        node->bh = bh;
-> +
-> +        QSIMPLEQ_INSERT_TAIL(&bus->pending_masters, node, entry);
-> +
-> +        return;
-> +    }
-> +
-> +    bus->bh = bh;
-> +    qemu_bh_schedule(bus->bh);
-> +}
-> +
-> +void i2c_bus_release(I2CBus *bus)
-> +{
-> +    bus->bh = NULL;
-> +}
-> +
->   int i2c_start_recv(I2CBus *bus, uint8_t address)
->   {
->       return i2c_do_start_transfer(bus, address, I2C_START_RECV);
-> @@ -206,6 +228,16 @@ void i2c_end_transfer(I2CBus *bus)
->           g_free(node);
+>       if (pmdev->code == PMBUS_PAGE) {
+>           pmdev->page = pmbus_receive8(pmdev);
+> +        pmdev->out_buf_len = 0;
+>           return 0;
 >       }
->       bus->broadcast = false;
-> +
-> +    if (!QSIMPLEQ_EMPTY(&bus->pending_masters)) {
-> +        I2CPendingMaster *node = QSIMPLEQ_FIRST(&bus->pending_masters);
-> +        bus->bh = node->bh;
-> +
-> +        QSIMPLEQ_REMOVE_HEAD(&bus->pending_masters, entry);
-> +        g_free(node);
-> +
-> +        qemu_bh_schedule(bus->bh);
-> +    }
->   }
 >   
->   int i2c_send(I2CBus *bus, uint8_t data)
-> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-> index 5ca3b708c0..be8bb8b78a 100644
-> --- a/include/hw/i2c/i2c.h
-> +++ b/include/hw/i2c/i2c.h
-> @@ -69,13 +69,25 @@ struct I2CNode {
->       QLIST_ENTRY(I2CNode) next;
->   };
->   
-> +typedef struct I2CPendingMaster I2CPendingMaster;
-> +
-> +struct I2CPendingMaster {
-> +    QEMUBH *bh;
-> +    QSIMPLEQ_ENTRY(I2CPendingMaster) entry;
-> +};
-> +
->   typedef QLIST_HEAD(I2CNodeList, I2CNode) I2CNodeList;
-> +typedef QSIMPLEQ_HEAD(I2CPendingMasters, I2CPendingMaster) I2CPendingMasters;
->   
->   struct I2CBus {
->       BusState qbus;
->       I2CNodeList current_devs;
-> +    I2CPendingMasters pending_masters;
->       uint8_t saved_address;
->       bool broadcast;
-> +
-> +    /* Set from slave currently mastering the bus. */
-> +    QEMUBH *bh;
->   };
->   
->   I2CBus *i2c_init_bus(DeviceState *parent, const char *name);
-> @@ -117,6 +129,8 @@ int i2c_start_send(I2CBus *bus, uint8_t address);
->   
->   void i2c_end_transfer(I2CBus *bus);
->   void i2c_nack(I2CBus *bus);
-> +void i2c_bus_master(I2CBus *bus, QEMUBH *bh);
-> +void i2c_bus_release(I2CBus *bus);
->   int i2c_send(I2CBus *bus, uint8_t data);
->   uint8_t i2c_recv(I2CBus *bus);
->   bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
 
 
