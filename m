@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFA455FBEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 11:28:30 +0200 (CEST)
-Received: from localhost ([::1]:51182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF76555FBC8
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 11:24:31 +0200 (CEST)
+Received: from localhost ([::1]:45688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Tzq-00087e-1i
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 05:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35498)
+	id 1o6Tvy-0004Dg-Rv
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 05:24:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6Tjv-00048u-BR
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 05:12:03 -0400
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:45209)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o6TsJ-00009t-73; Wed, 29 Jun 2022 05:20:49 -0400
+Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:48405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6Tjl-0004GN-Nm
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 05:11:56 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.19])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 1AE0B2342E;
- Wed, 29 Jun 2022 09:11:49 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o6Ts8-00068x-BO; Wed, 29 Jun 2022 05:20:37 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.7])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5FC7126640;
+ Wed, 29 Jun 2022 09:20:28 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 29 Jun
- 2022 11:11:47 +0200
+ 2022 11:20:27 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001f78a9792-2ec0-47f7-acd0-c1fa29db8345,
+ (GARM-97G0025311b733-cfb2-4cad-9e87-efb37d24ea21,
  74A1F81DE4F8936248B5873BB0AED4007818FEC6) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <07128acf-329a-f372-c48c-0c3cb498d3d0@kaod.org>
-Date: Wed, 29 Jun 2022 11:11:41 +0200
+Message-ID: <caad8a3e-3a15-07d6-5da8-95651d33859a@kaod.org>
+Date: Wed, 29 Jun 2022 11:20:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH 12/14] aspeed: Make aspeed_board_init_flashes public
+Subject: Re: [PATCH v2 10/13] hw/misc/aspeed: Add PECI controller
 Content-Language: en-US
+To: Peter Delevoryas <peterdelevoryas@gmail.com>
+CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <cminyard@mvista.com>, <titusr@google.com>, <qemu-devel@nongnu.org>,
+ <qemu-arm@nongnu.org>, <zhdaniel@fb.com>, <pdel@fb.com>
+References: <20220629033634.3850922-1-pdel@fb.com>
+ <20220629033634.3850922-11-pdel@fb.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: Peter Delevoryas <pdel@fb.com>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
- <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, "pbonzini@redhat.com"
- <pbonzini@redhat.com>, "berrange@redhat.com" <berrange@redhat.com>,
- "eduardo@habkost.net" <eduardo@habkost.net>, "marcel.apfelbaum@gmail.com"
- <marcel.apfelbaum@gmail.com>, "richard.henderson@linaro.org"
- <richard.henderson@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, "ani@anisinha.ca" <ani@anisinha.ca>, Cameron Esfahani via
- <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220623102617.2164175-1-pdel@fb.com>
- <20220623102617.2164175-13-pdel@fb.com>
- <e5f51f14-fe75-0d55-6588-a3ca2565f760@kaod.org>
- <EC44C0BD-7BC0-4BDE-9A41-CB1EAA90EC87@fb.com>
- <e07ec4fe-6968-b19a-e649-298a9aaccba5@kaod.org>
-In-Reply-To: <e07ec4fe-6968-b19a-e649-298a9aaccba5@kaod.org>
+In-Reply-To: <20220629033634.3850922-11-pdel@fb.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 25e948f2-421f-4e4c-973d-d6eb1ac5a2f4
-X-Ovh-Tracer-Id: 1680968560965356350
+X-Ovh-Tracer-GUID: 87b4d739-a59c-4e6d-a5e5-f5e081634f2c
+X-Ovh-Tracer-Id: 1827335550198451122
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffhvfevfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeijeehieevueeltdfhheehleettdfgteekvefggfeuudejgfefjefgteeuleelgeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegrlhgvgidrsggvnhhnvggvsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedvgeelhefgfeefhfduuedtgfefkeetkeejfeevheefkedtieeuvedvhfeukeejkeenucffohhmrghinhepmhgvthgrrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpuggvlhesfhgsrdgtohhmpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
+ helo=4.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,157 +76,461 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/22 18:50, Cédric Le Goater wrote:
-> On 6/23/22 20:43, Peter Delevoryas wrote:
->>
->>
->>> On Jun 23, 2022, at 8:09 AM, Cédric Le Goater <clg@kaod.org> wrote:
->>>
->>> On 6/23/22 12:26, Peter Delevoryas wrote:
->>>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
->>>
->>> Let's start simple without flash support. We should be able to
->>> load FW blobs in each CPU address space using loader devices.
->>
->> Actually, I was unable to do this, perhaps because the fb OpenBMC
->> boot sequence is a little weird. I specifically _needed_ to have
->> a flash device which maps the firmware in at 0x2000_0000, because
->> the fb OpenBMC U-Boot SPL jumps to that address to start executing
->> from flash? I think this is also why fb OpenBMC machines can be so slow.
->>
->> $ ./build/qemu-system-arm -machine fby35 \
->>      -device loader,file=fby35.mtd,addr=0,cpu-num=0 -nographic \
->>      -d int -drive file=fby35.mtd,format=raw,if=mtd
+On 6/29/22 05:36, Peter Delevoryas wrote:
+> This introduces a really basic PECI controller that responses to
+> commands by always setting the response code to success and then raising
+> an interrupt to indicate the command is done. This helps avoid getting
+> hit with constant errors if the driver continuously attempts to send a
+> command and keeps timing out.
 > 
+> The AST2400 and AST2500 only included registers up to 0x5C, not 0xFC.
+> They supported PECI 1.1, 2.0, and 3.0. The AST2600 and AST1030 support
+> PECI 4.0, which includes more read/write buffer registers from 0x80 to
+> 0xFC to support 64-byte mode.
 > 
+> This patch doesn't attempt to handle that, or to create a different
+> version of the controller for the different generations, since it's only
+> implementing functionality that is common to all generations.
 > 
-> Ideally we should be booting from the flash device directly using
-> the machine option '-M ast2600-evb,execute-in-place=true' like HW
-> does. Instructions are fetched using SPI transfers. But the amount
-> of code generated is tremendous. See some profiling below for a
-> run which barely reaches DRAM training in U-Boot.
-
-Some more profiling on both ast2500 and ast2600 machines shows :
-
-
-* ast2600-evb,execute-in-place=true :
-
-Type               Object  Call site                Wait Time (s)         Count  Average (us)
----------------------------------------------------------------------------------------------
-BQL mutex  0x564dc03922e0  accel/tcg/cputlb.c:1365       14.21443      32909927          0.43
-condvar    0x564dc0f02988  util/thread-pool.c:90         10.02312            56     178984.32
-condvar    [           2]  softmmu/cpus.c:423             0.10051             6      16752.04
-BQL mutex  0x564dc03922e0  util/rcu.c:269                 0.04372             4      10930.60
-BQL mutex  0x564dc03922e0  cpus-common.c:341              0.00151             8        189.16
-condvar    0x564dc0390360  cpus-common.c:176              0.00092             8        115.04
-condvar    0x564dc0392280  softmmu/cpus.c:642             0.00013             2         65.04
-condvar    0x564dc0392240  softmmu/cpus.c:571             0.00010             2         49.54
-BQL mutex  0x564dc03922e0  accel/tcg/cputlb.c:1426        0.00006           467          0.14
-condvar    0x564dc03903a0  cpus-common.c:206              0.00004             8          5.28
----------------------------------------------------------------------------------------------
+> The basic sequence of events is that the firmware will read and write to
+> various registers and then trigger a command by setting the FIRE bit in
+> the command register (similar to the I2C controller).
+> 
+> Then the firmware waits for an interrupt from the PECI controller,
+> expecting the interrupt status register to be filled in with info on
+> what happened. If the command was transmitted and received successfully,
+> then response codes from the host CPU will be found in the data buffer
+> registers.
+> 
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
 
 
-* ast2500-evb,execute-in-place=true :
+LGTM. A few small comments below.
 
-Type               Object  Call site                Wait Time (s)         Count  Average (us)
----------------------------------------------------------------------------------------------
-condvar    0x55a581137f88  util/thread-pool.c:90         10.01158            28     357556.50
-BQL mutex  0x55a57f0e02e0  accel/tcg/cputlb.c:1365        0.29886      14394475          0.02
-condvar    0x55a5814cb5a0  softmmu/cpus.c:423             0.02182             2      10912.44
-BQL mutex  0x55a57f0e02e0  util/rcu.c:269                 0.01420             4       3549.56
-mutex      0x55a5813381c0  tcg/region.c:204               0.00007          3052          0.02
-condvar    0x55a57f0e0280  softmmu/cpus.c:642             0.00006             1         59.79
-mutex      [           2]  chardev/char.c:118             0.00003          1492          0.02
-BQL mutex  0x55a57f0e02e0  util/main-loop.c:318           0.00002            34          0.72
-BQL mutex  0x55a57f0e02e0  accel/tcg/cputlb.c:1426        0.00002           973          0.02
-condvar    0x55a57f0e0240  softmmu/cpus.c:571             0.00002             1         15.16
----------------------------------------------------------------------------------------------
+
+> ---
+>   hw/arm/aspeed_ast10x0.c       |  12 +++
+>   hw/arm/aspeed_ast2600.c       |  12 +++
+>   hw/arm/aspeed_soc.c           |  13 ++++
+>   hw/misc/aspeed_peci.c         | 136 ++++++++++++++++++++++++++++++++++
+>   hw/misc/meson.build           |   3 +-
+>   hw/misc/trace-events          |   4 +
+>   include/hw/arm/aspeed_soc.h   |   3 +
+>   include/hw/misc/aspeed_peci.h |  47 ++++++++++++
+>   8 files changed, 229 insertions(+), 1 deletion(-)
+>   create mode 100644 hw/misc/aspeed_peci.c
+>   create mode 100644 include/hw/misc/aspeed_peci.h
+> 
+> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+> index 5df480a21f..56e8de3d89 100644
+> --- a/hw/arm/aspeed_ast10x0.c
+> +++ b/hw/arm/aspeed_ast10x0.c
+> @@ -47,6 +47,7 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
+>       [ASPEED_DEV_UART13]    = 0x7E790700,
+>       [ASPEED_DEV_WDT]       = 0x7E785000,
+>       [ASPEED_DEV_LPC]       = 0x7E789000,
+> +    [ASPEED_DEV_PECI]      = 0x7E78B000,
+>       [ASPEED_DEV_I2C]       = 0x7E7B0000,
+>   };
+>   
+> @@ -75,6 +76,7 @@ static const int aspeed_soc_ast1030_irqmap[] = {
+>       [ASPEED_DEV_TIMER8]    = 23,
+>       [ASPEED_DEV_WDT]       = 24,
+>       [ASPEED_DEV_LPC]       = 35,
+> +    [ASPEED_DEV_PECI]      = 38,
+>       [ASPEED_DEV_FMC]       = 39,
+>       [ASPEED_DEV_PWM]       = 44,
+>       [ASPEED_DEV_ADC]       = 46,
+> @@ -133,6 +135,8 @@ static void aspeed_soc_ast1030_init(Object *obj)
+>   
+>       object_initialize_child(obj, "lpc", &s->lpc, TYPE_ASPEED_LPC);
+>   
+> +    object_initialize_child(obj, "peci", &s->peci, TYPE_ASPEED_PECI);
+> +
+>       object_initialize_child(obj, "sbc", &s->sbc, TYPE_ASPEED_SBC);
+>   
+>       for (i = 0; i < sc->wdts_num; i++) {
+> @@ -206,6 +210,14 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+>           sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
+>       }
+>   
+> +    /* PECI */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->peci), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->peci), 0, sc->memmap[ASPEED_DEV_PECI]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peci), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_PECI));
+> +
+>       /* LPC */
+>       if (!sysbus_realize(SYS_BUS_DEVICE(&s->lpc), errp)) {
+>           return;
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index b0a4199b69..85178fabea 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -59,6 +59,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
+>       [ASPEED_DEV_LPC]       = 0x1E789000,
+>       [ASPEED_DEV_IBT]       = 0x1E789140,
+>       [ASPEED_DEV_I2C]       = 0x1E78A000,
+> +    [ASPEED_DEV_PECI]      = 0x1E78B000,
+>       [ASPEED_DEV_UART1]     = 0x1E783000,
+>       [ASPEED_DEV_UART2]     = 0x1E78D000,
+>       [ASPEED_DEV_UART3]     = 0x1E78E000,
+> @@ -122,6 +123,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+>       [ASPEED_DEV_LPC]       = 35,
+>       [ASPEED_DEV_IBT]       = 143,
+>       [ASPEED_DEV_I2C]       = 110,   /* 110 -> 125 */
+> +    [ASPEED_DEV_PECI]      = 38,
+>       [ASPEED_DEV_ETH1]      = 2,
+>       [ASPEED_DEV_ETH2]      = 3,
+>       [ASPEED_DEV_HACE]      = 4,
+> @@ -180,6 +182,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
+>       snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
+>       object_initialize_child(obj, "i2c", &s->i2c, typename);
+>   
+> +    object_initialize_child(obj, "peci", &s->peci, TYPE_ASPEED_PECI);
+> +
+>       snprintf(typename, sizeof(typename), "aspeed.fmc-%s", socname);
+>       object_initialize_child(obj, "fmc", &s->fmc, typename);
+>   
+> @@ -388,6 +392,14 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>           sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
+>       }
+>   
+> +    /* PECI */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->peci), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->peci), 0, sc->memmap[ASPEED_DEV_PECI]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peci), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_PECI));
+> +
+>       /* FMC, The number of CS is set at the board level */
+>       object_property_set_link(OBJECT(&s->fmc), "dram", OBJECT(s->dram_mr),
+>                                &error_abort);
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index 30574d4276..cb78d9945c 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -45,6 +45,7 @@ static const hwaddr aspeed_soc_ast2400_memmap[] = {
+>       [ASPEED_DEV_LPC]    = 0x1E789000,
+>       [ASPEED_DEV_IBT]    = 0x1E789140,
+>       [ASPEED_DEV_I2C]    = 0x1E78A000,
+> +    [ASPEED_DEV_PECI]   = 0x1E78B000,
+>       [ASPEED_DEV_ETH1]   = 0x1E660000,
+>       [ASPEED_DEV_ETH2]   = 0x1E680000,
+>       [ASPEED_DEV_UART1]  = 0x1E783000,
+> @@ -80,6 +81,7 @@ static const hwaddr aspeed_soc_ast2500_memmap[] = {
+>       [ASPEED_DEV_LPC]    = 0x1E789000,
+>       [ASPEED_DEV_IBT]    = 0x1E789140,
+>       [ASPEED_DEV_I2C]    = 0x1E78A000,
+> +    [ASPEED_DEV_PECI]   = 0x1E78B000,
+>       [ASPEED_DEV_ETH1]   = 0x1E660000,
+>       [ASPEED_DEV_ETH2]   = 0x1E680000,
+>       [ASPEED_DEV_UART1]  = 0x1E783000,
+> @@ -118,6 +120,7 @@ static const int aspeed_soc_ast2400_irqmap[] = {
+>       [ASPEED_DEV_PWM]    = 28,
+>       [ASPEED_DEV_LPC]    = 8,
+>       [ASPEED_DEV_I2C]    = 12,
+> +    [ASPEED_DEV_PECI]   = 15,
+>       [ASPEED_DEV_ETH1]   = 2,
+>       [ASPEED_DEV_ETH2]   = 3,
+>       [ASPEED_DEV_XDMA]   = 6,
+> @@ -174,6 +177,8 @@ static void aspeed_soc_init(Object *obj)
+>       snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
+>       object_initialize_child(obj, "i2c", &s->i2c, typename);
+>   
+> +    object_initialize_child(obj, "peci", &s->peci, TYPE_ASPEED_PECI);
+> +
+>       snprintf(typename, sizeof(typename), "aspeed.fmc-%s", socname);
+>       object_initialize_child(obj, "fmc", &s->fmc, typename);
+>   
+> @@ -316,6 +321,14 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>       sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), 0,
+>                          aspeed_soc_get_irq(s, ASPEED_DEV_I2C));
+>   
+> +    /* PECI */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->peci), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->peci), 0, sc->memmap[ASPEED_DEV_PECI]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peci), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_PECI));
+> +
+>       /* FMC, The number of CS is set at the board level */
+>       object_property_set_link(OBJECT(&s->fmc), "dram", OBJECT(s->dram_mr),
+>                                &error_abort);
+> diff --git a/hw/misc/aspeed_peci.c b/hw/misc/aspeed_peci.c
+> new file mode 100644
+> index 0000000000..91637e29b2
+> --- /dev/null
+> +++ b/hw/misc/aspeed_peci.c
+> @@ -0,0 +1,136 @@
+> +/*
+> + * Aspeed PECI Controller
+> + *
+> + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
+> + *
+> + * This code is licensed under the GPL version 2 or later. See the COPYING
+> + * file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "hw/irq.h"
+> +#include "hw/misc/aspeed_peci.h"
+> +#include "trace.h"
+> +
+> +static void aspeed_peci_raise_interrupt(AspeedPECIState *s, uint32_t status)
+> +{
+> +    s->regs[R_PECI_INT_STS] = s->regs[R_PECI_INT_CTRL] & status;
+> +    if (!s->regs[R_PECI_INT_STS]) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Interrupts disabled: ctrl 0x%08x sts 0x%08x\n",
+> +                      __func__, s->regs[R_PECI_INT_CTRL], status);
+> +        return;
+
+Why is it an error ? May be use a trace event instead.
+
+> +    }
+> +    qemu_irq_raise(s->irq);
+> +}
+> +
+> +static uint64_t aspeed_peci_read(void *opaque, hwaddr offset, unsigned size)
+> +{
+> +    AspeedPECIState *s = ASPEED_PECI(opaque);
+> +    uint64_t data;
+> +
+> +    if (offset >= ASPEED_PECI_NR_REGS << 2) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx "\n",
+> +                      __func__, offset);
+> +        return 0;
+> +    }
+> +    data = s->regs[offset / sizeof(s->regs[0])];
+
+That's a complex way to grab the register value. May be introduce :
+
+    int reg = offset >> 2;
+
+
+> +
+> +    trace_aspeed_peci_read(offset, data);
+> +    return data;
+> +}
+> +
+> +static void aspeed_peci_write(void *opaque, hwaddr offset, uint64_t data,
+> +                              unsigned size)
+> +{
+> +    AspeedPECIState *s = ASPEED_PECI(opaque);
+> +
+> +    trace_aspeed_peci_write(offset, data);
+> +
+> +    if (offset >= ASPEED_PECI_NR_REGS << 2) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Out-of-bounds write at offset 0x%" HWADDR_PRIx "\n",
+> +                      __func__, offset);
+> +        return;
+> +    }
+> +
+> +    switch (offset) {
+> +    case A_PECI_INT_STS:
+> +        s->regs[R_PECI_INT_STS] &= ~data;
+> +        if (!s->regs[R_PECI_INT_STS]) {
+> +            qemu_irq_lower(s->irq);
+> +        }
+> +        break;
+> +    case A_PECI_CMD:
+> +        /*
+> +         * Only the FIRE bit is writable. Once the command is complete, it
+> +         * should be cleared. Since we complete the command immediately, the
+> +         * value is not stored in the register array.
+> +         */
+> +        if (!FIELD_EX32(data, PECI_CMD, FIRE)) {
+> +            break;
+> +        }
+> +        if (s->regs[R_PECI_INT_STS]) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: Interrupt status must be "
+> +                          "cleared before firing another command: 0x%08x\n",
+> +                          __func__, s->regs[R_PECI_INT_STS]);
+> +            break;
+> +        }
+> +        s->regs[R_PECI_RD_DATA0] = ASPEED_PECI_CC_RSP_SUCCESS;
+> +        s->regs[R_PECI_WR_DATA0] = ASPEED_PECI_CC_RSP_SUCCESS;
+> +        aspeed_peci_raise_interrupt(s,
+> +                                    FIELD_DP32(0, PECI_INT_STS, CMD_DONE, 1));
+> +        qemu_irq_raise(s->irq);
+
+That's a lot of raise !
+
+> +        break;
+> +    default:
+> +        s->regs[offset / sizeof(s->regs[0])] = data;
+> +        break;
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps aspeed_peci_ops = {
+> +    .read = aspeed_peci_read,
+> +    .write = aspeed_peci_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+> +static void aspeed_peci_realize(DeviceState *dev, Error **errp)
+> +{
+> +    AspeedPECIState *s = ASPEED_PECI(dev);
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +
+> +    memory_region_init_io(&s->mmio, OBJECT(s), &aspeed_peci_ops, s,
+> +                          TYPE_ASPEED_PECI, 0x1000);
+> +    sysbus_init_mmio(sbd, &s->mmio);
+> +    sysbus_init_irq(sbd, &s->irq);
+> +}
+> +
+> +static void aspeed_peci_reset(DeviceState *dev)
+> +{
+> +    AspeedPECIState *s = ASPEED_PECI(dev);
+> +
+> +    memset(s->regs, 0, sizeof(s->regs));
+> +}
+> +
+> +static void aspeed_peci_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->realize = aspeed_peci_realize;
+> +    dc->reset = aspeed_peci_reset;
+> +    dc->desc = "Aspeed PECI Controller";
+> +}
+> +
+> +static const TypeInfo aspeed_peci_types[] = {
+> +    {
+> +        .name = TYPE_ASPEED_PECI,
+> +        .parent = TYPE_SYS_BUS_DEVICE,
+> +        .instance_size = sizeof(AspeedPECIState),
+> +        .class_init = aspeed_peci_class_init,
+> +        .abstract = false,
+> +    },
+> +};
+> +
+> +DEFINE_TYPES(aspeed_peci_types);
+> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> index 132b7b7344..95268eddc0 100644
+> --- a/hw/misc/meson.build
+> +++ b/hw/misc/meson.build
+> @@ -116,7 +116,8 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
+>     'aspeed_scu.c',
+>     'aspeed_sbc.c',
+>     'aspeed_sdmc.c',
+> -  'aspeed_xdma.c'))
+> +  'aspeed_xdma.c',
+> +  'aspeed_peci.c'))
+>   
+>   softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
+>   softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
+> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+> index c5e37b0154..af0b9c5dbf 100644
+> --- a/hw/misc/trace-events
+> +++ b/hw/misc/trace-events
+> @@ -209,6 +209,10 @@ aspeed_i3c_device_write(uint32_t deviceid, uint64_t offset, uint64_t data) "I3C
+>   aspeed_sdmc_write(uint64_t reg, uint64_t data) "reg @0x%" PRIx64 " data: 0x%" PRIx64
+>   aspeed_sdmc_read(uint64_t reg, uint64_t data) "reg @0x%" PRIx64 " data: 0x%" PRIx64
+>   
+> +# aspeed_peci.c
+> +aspeed_peci_read(uint64_t offset, uint64_t data) "offset 0x%" PRIx64 " data 0x%" PRIx64
+> +aspeed_peci_write(uint64_t offset, uint64_t data) "offset 0x%" PRIx64 " data 0x%" PRIx64
+> +
+>   # bcm2835_property.c
+>   bcm2835_mbox_property(uint32_t tag, uint32_t bufsize, size_t resplen) "mbox property tag:0x%08x in_sz:%u out_sz:%zu"
+>   
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index 02a5a9ffcb..f72a8db50b 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -34,6 +34,7 @@
+>   #include "hw/usb/hcd-ehci.h"
+>   #include "qom/object.h"
+>   #include "hw/misc/aspeed_lpc.h"
+> +#include "hw/misc/aspeed_peci.h"
+>   
+>   #define ASPEED_SPIS_NUM  2
+>   #define ASPEED_EHCIS_NUM 2
+> @@ -73,6 +74,7 @@ struct AspeedSoCState {
+>       AspeedSDHCIState sdhci;
+>       AspeedSDHCIState emmc;
+>       AspeedLPCState lpc;
+> +    AspeedPECIState peci;
+>       uint32_t uart_default;
+>       Clock *sysclk;
+>   };
+> @@ -145,6 +147,7 @@ enum {
+>       ASPEED_DEV_LPC,
+>       ASPEED_DEV_IBT,
+>       ASPEED_DEV_I2C,
+> +    ASPEED_DEV_PECI,
+>       ASPEED_DEV_ETH1,
+>       ASPEED_DEV_ETH2,
+>       ASPEED_DEV_ETH3,
+> diff --git a/include/hw/misc/aspeed_peci.h b/include/hw/misc/aspeed_peci.h
+> new file mode 100644
+> index 0000000000..8746f93ad7
+> --- /dev/null
+> +++ b/include/hw/misc/aspeed_peci.h
+> @@ -0,0 +1,47 @@
+> +/*
+> + * Aspeed PECI Controller
+> + *
+> + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
+> + *
+> + * This code is licensed under the GPL version 2 or later. See the COPYING
+> + * file in the top-level directory.
+> + */
+> +
+> +#ifndef ASPEED_PECI_H
+> +#define ASPEED_PECI_H
+> +
+> +#include "hw/sysbus.h"
+> +#include "hw/registerfields.h"
+> +
+> +#define ASPEED_PECI_NR_REGS ((0xFC + 4) >> 2)
+> +#define ASPEED_PECI_CC_RSP_SUCCESS (0x40U)
+> +
+> +#define TYPE_ASPEED_PECI "aspeed.peci"
+> +OBJECT_DECLARE_SIMPLE_TYPE(AspeedPECIState, ASPEED_PECI);
+> +
+> +/* Command Register */
+> +REG32(PECI_CMD, 0x08)
+> +    FIELD(PECI_CMD, FIRE, 0, 1)
+> +
+> +/* Interrupt Control Register */
+> +REG32(PECI_INT_CTRL, 0x18)
+> +
+> +/* Interrupt Status Register */
+> +REG32(PECI_INT_STS, 0x1C)
+> +    FIELD(PECI_INT_STS, CMD_DONE, 0, 1)
+> +
+> +/* Rx/Tx Data Buffer Registers */
+> +REG32(PECI_WR_DATA0, 0x20)
+> +REG32(PECI_RD_DATA0, 0x30)
+
+I would put the registerfields definitions in the .c file if you don't need
+them elsewhere.
+
+Thanks,
 
 C.
 
-
-
-> 
-> * execute-in-place=true
-> 
-> Each sample counts as 0.01 seconds.
->    %   cumulative   self              self     total
->   time   seconds   seconds    calls  ns/call  ns/call  name
-> 100.00      0.02     0.02   164276   121.75   121.75  memory_region_init_rom_device
->    0.00      0.02     0.00 1610346008     0.00     0.00  tcg_code_capacity
->    0.00      0.02     0.00 567612621     0.00     0.00  type_register_static_array
->    0.00      0.02     0.00 328886191     0.00     0.00  do_common_semihosting
->    0.00      0.02     0.00 297215811     0.00     0.00  container_get
->    0.00      0.02     0.00 292670030     0.00     0.00  arm_cpu_tlb_fill
->    0.00      0.02     0.00 195416119     0.00     0.00  arm_cpu_register_gdb_regs_for_features
->    0.00      0.02     0.00 193326677     0.00     0.00  object_type_get_instance_size
->    0.00      0.02     0.00 182365829     0.00     0.00  tcg_op_insert_after
->    0.00      0.02     0.00 150668458     0.00     0.00  plugin_gen_tb_end
->    0.00      0.02     0.00 142171940     0.00     0.00  gen_new_label
->    0.00      0.02     0.00 133200628     0.00     0.00  smbios_build_type_38_table
->    0.00      0.02     0.00 130540338     0.00     0.00  object_dynamic_cast_assert
->    0.00      0.02     0.00 129223195     0.00     0.00  cpu_loop_exit_atomic
->    0.00      0.02     0.00 121759298     0.00     0.00  tcg_remove_ops_after
->    0.00      0.02     0.00 116887887     0.00     0.00  in_code_gen_buffer
->    0.00      0.02     0.00 111803833     0.00     0.00  tcg_emit_op
->    0.00      0.02     0.00 106052221     0.00     0.00  object_class_dynamic_cast_assert
->    0.00      0.02     0.00 99704054     0.00     0.00  __jit_debug_register_code
->    0.00      0.02     0.00 97812458     0.00     0.00  object_get_class
->    0.00      0.02     0.00 88952594     0.00     0.00  tcg_splitwx_to_rx
->    0.00      0.02     0.00 85790920     0.00     0.00  object_class_dynamic_cast
->    0.00      0.02     0.00 73780673     0.00     0.00  helper_exit_atomic
->    0.00      0.02     0.00 65337482     0.00     0.00  tcg_op_supported
->    0.00      0.02     0.00 61213619     0.00     0.00  tcg_func_start
->    0.00      0.02     0.00 54477684     0.00     0.00  tcg_flush_softmmu_tlb
->    0.00      0.02     0.00 53968980     0.00     0.00  tcg_temp_new_internal
->    0.00      0.02     0.00 51526008     0.00     0.00  qemu_in_vcpu_thread
->    0.00      0.02     0.00 40750952     0.00     0.00  pflash_cfi02_register
->    0.00      0.02     0.00 38039442     0.00     0.00  tcg_gen_op2
->    0.00      0.02     0.00 37068039     0.00     0.00  tcg_gen_op1
->    0.00      0.02     0.00 36473276     0.00     0.00  tcg_gen_op3
->    0.00      0.02     0.00 36310225     0.00     0.00  gen_gvec_uaba
->    0.00      0.02     0.00 30985436     0.00     0.00  tb_set_jmp_target
->    0.00      0.02     0.00 30291796     0.00     0.00  tcg_constant_internal
->    0.00      0.02     0.00 29857950     0.00     0.00  ssi_transfer
-> 
-> * execute-in-place=false
-> 
-> Each sample counts as 0.01 seconds.
->    %   cumulative   self              self     total
->   time   seconds   seconds    calls  ns/call  ns/call  name
->   40.00      0.02     0.02   551149    36.29    36.29  aspeed_board_init_flashes
->   20.00      0.03     0.01  3937238     2.54     2.54  register_cp_regs_for_features
->   20.00      0.04     0.01   674096    14.83    14.83  gen_gvec_uaba
->   20.00      0.05     0.01   457461    21.86    21.86  finalize_target_page_bits
->    0.00      0.05     0.00  5364258     0.00     0.00  arm_gt_hvtimer_cb
->    0.00      0.05     0.00  2467532     0.00     0.00  helper_neon_narrow_sat_s8
->    0.00      0.05     0.00  2431860     0.00     0.00  opb_opb2fsi_address
->    0.00      0.05     0.00  1828453     0.00     0.00  cpsr_read
->    0.00      0.05     0.00  1820659     0.00     0.00  cpu_get_tb_cpu_state
->    0.00      0.05     0.00  1441344     0.00     0.00  arm_cpu_tlb_fill
->    0.00      0.05     0.00  1427177     0.00     0.00  cxl_usp_to_cstate
->    0.00      0.05     0.00  1161059     0.00     5.85  aarch64_sync_64_to_32
->    0.00      0.05     0.00   886523     0.00     0.00  helper_iwmmxt_maxsb
->    0.00      0.05     0.00   831393     0.00     0.00  arm_log_exception
->    0.00      0.05     0.00   746940     0.00     0.00  helper_v7m_preserve_fp_state
->    0.00      0.05     0.00   728354     0.00     0.00  hmp_calc_dirty_rate
->    0.00      0.05     0.00   681634     0.00     0.00  helper_sadd8
->    0.00      0.05     0.00   487743     0.00     7.14  qmp_query_cpu_definitions
->    0.00      0.05     0.00   420528     0.00     0.00  arm_v7m_cpu_do_interrupt
->    0.00      0.05     0.00   382245     0.00     0.00  helper_ssub8
->    0.00      0.05     0.00   374192     0.00     0.00  helper_usub8
->    0.00      0.05     0.00   347199     0.00     0.00  usb_msd_load_request
->    0.00      0.05     0.00   325862     0.00     0.00  target_disas
->    0.00      0.05     0.00   322375     0.00     0.00  arm_hcrx_el2_eff
->    0.00      0.05     0.00   317835     0.00     0.00  virtio_bus_device_iommu_enabled
->    0.00      0.05     0.00   309559     0.00     0.00  mig_throttle_counter_reset
->    0.00      0.05     0.00   301557     0.00     0.00  ram_bytes_remaining
->    0.00      0.05     0.00   292888     0.00     0.00  helper_v7m_blxns
->    0.00      0.05     0.00   289093     0.00     0.00  tpm_util_show_buffer
->    0.00      0.05     0.00   274156     0.00     0.00  helper_sxtb16
->    0.00      0.05     0.00   273588     0.00     0.00  write_v7m_exception
->    0.00      0.05     0.00   271619     0.00     0.00  page_size_init
->    0.00      0.05     0.00   270247     0.00     0.00  qemu_fdt_setprop_sized_cells_from_array
->    0.00      0.05     0.00   229643     0.00    14.69  helper_neon_addl_u32
+> +struct AspeedPECIState {
+> +    /* <private> */
+> +    SysBusDevice parent;
+> +
+> +    MemoryRegion mmio;
+> +    qemu_irq irq;
+> +
+> +    uint32_t regs[ASPEED_PECI_NR_REGS];
+> +};
+> +
+> +#endif
 
 
