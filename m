@@ -2,112 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5790D55F35D
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 04:29:23 +0200 (CEST)
-Received: from localhost ([::1]:35432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E11A655F36C
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 04:36:58 +0200 (CEST)
+Received: from localhost ([::1]:43124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6NSD-0008U7-D7
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 22:29:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60316)
+	id 1o6NZZ-0005ss-BP
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 22:36:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1o6NP5-0006eT-Du
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 22:26:07 -0400
-Received: from mail-dm6nam11on2087.outbound.protection.outlook.com
- ([40.107.223.87]:5664 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1)
+ (envelope-from <prvs=1728850ad=damien.lemoal@opensource.wdc.com>)
+ id 1o6NVg-0003pS-HY
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 22:33:00 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:5866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1o6NP3-0005pE-CJ
- for qemu-devel@nongnu.org; Tue, 28 Jun 2022 22:26:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W+wtipNCHdad18y2Jg7g4EVqJVt1urLli1sk3xLxbN1okdErKtOcqDV/meF5uQZ+xp245oux6CD9umGGtlI6LmBaApiHdkhxPq4MLkOidGbIZCQ2K4yFw0JSHrQvJ4tZss9wwKrlQ27/ALjuBO4L3JFs1T/juDBULruUWne3uF6EyVofDwiMqmxFfD+SCv1rN/uVJnA7E57Ra4+0ofYtU39v5H2w7WMbSPxYdSLMStH05bcXcBPE60xz+6svOweJ6n5PfcvIRDsjszDZUKmyAxc1Kz7wYpB8wSkzUQGKOpIM46IM+BULcfzCMgn3Y2vBi3SktwsPtxJM5h2zGnpwxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ak/Cesvh+xlf2SSUoi8nnmZP9hg2EG0SxLtXc+nNBrQ=;
- b=UV0IRiHEIbeh08iZjpw0hC652bJtcE/Oewe48oUYrwc/gr5uRmGhcxxjVdMosCofTUJm/MluAwdu/2+wRycGbbWf47G+mHHvB8NpzrhRk+oxhDVywXyJoSWJP4tWyyoj4/pVqQfLapaXh+jGZdsv2C8YxEIwaRyMDtPZXyq4bWychQuJOwcFFpTh4+GrlQ6kYyS0Zx/Ur8s9VSzWrM4pQlQTxuY0iMFA7ZlIE5/b2qBYplYQZF8ogLy41r5XCQFS4kzNC3NkXuWJfExe0KYIP8QVbI9+qh1PGOKevwhYA9zvjAprqZETSfq2Obhis5uEY/ldfOplHssApDayVr0r9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.234) smtp.rcpttodomain=linaro.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ak/Cesvh+xlf2SSUoi8nnmZP9hg2EG0SxLtXc+nNBrQ=;
- b=PfcZnptv+mhUA5a6t3V1xh8e4qpf32DHYhtYlwsryEs+khEWB+BPqK5MT4L3ItZm3iWMkp4KsYjTLGopaAy4CCIxG2cMkbDdPaAxYdlgXXh+Jr8AtS/H4OrbfNUdyjVUTx0eSH/nA6DEo3W7sVytqBjZ/SXIpSK42Lp9+yiErUWQ+yeORl9h3pfgb2tp4zKyhXoZI9Mf/8be2k8cURGxsQzN70uQL/0oWRDmfQNL1EIN2m9AGh67tSOgIgIuEZzciQbtxR4uCI7LxCLy6FLLEbuuXuNpxYBEdupTZIo2tBfN6cLb/MRzhJaPVzKGOJA8+exPyWv54Hym6WVnLPKgUg==
-Received: from BN0PR04CA0004.namprd04.prod.outlook.com (2603:10b6:408:ee::9)
- by MW3PR12MB4345.namprd12.prod.outlook.com (2603:10b6:303:59::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Wed, 29 Jun
- 2022 02:26:02 +0000
-Received: from BN8NAM11FT056.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:ee:cafe::82) by BN0PR04CA0004.outlook.office365.com
- (2603:10b6:408:ee::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.16 via Frontend
- Transport; Wed, 29 Jun 2022 02:26:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.234; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.234) by
- BN8NAM11FT056.mail.protection.outlook.com (10.13.177.26) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5373.15 via Frontend Transport; Wed, 29 Jun 2022 02:26:01 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL101.nvidia.com
- (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
- Wed, 29 Jun 2022 02:25:58 +0000
-Received: from nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Tue, 28 Jun
- 2022 19:25:56 -0700
-From: Yajun Wu <yajunw@nvidia.com>
-To: <qemu-devel@nongnu.org>, <mst@redhat.com>, <alex.bennee@linaro.org>,
- <yajunw@nvidia.com>
-CC: Parav Pandit <parav@nvidia.com>
-Subject: [PATCH 2/2] vhost-user: Support vhost_dev_start
-Date: Wed, 29 Jun 2022 05:25:17 +0300
-Message-ID: <20220629022517.2600911-3-yajunw@nvidia.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220629022517.2600911-1-yajunw@nvidia.com>
-References: <20220629022517.2600911-1-yajunw@nvidia.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=1728850ad=damien.lemoal@opensource.wdc.com>)
+ id 1o6NVb-0006vH-CQ
+ for qemu-devel@nongnu.org; Tue, 28 Jun 2022 22:32:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1656469970; x=1688005970;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=JROgqbXtSTBOwPL+h/hzHl9kd3mc5jN+2/tR4/lpsxI=;
+ b=GtLGJSM3hB3dmrSFEV+ukzjH1Ti0TwfdN8FU3s7zXZAkcFuzcR5BjfSP
+ m31g6yQD69aO+KyC5kzWg9TjPJKWPc2Iw6xAtTpH0deXNFHG7xFC6tgaG
+ o3aUsav6CyXky9160XyzTPXYndpUD3v2/b/nKOH2NDtfeoraZp41NwSsj
+ 50M+k3Ba1BsMwwXyS7MgmJzPx8wO7lLDlWX7snv/rPTtfSJR6/5f2IoMC
+ cK+7rRC9L2Qa1jIY1JDOoHHEaCNQyE9IkIbY8l23FGw1jWDWLCb0O5bFb
+ Bjo672A64nZTiocci/D73V08pwitCU37RPBglBNsIrGoCjXpE7lHDN5WJ Q==;
+X-IronPort-AV: E=Sophos;i="5.92,230,1650902400"; d="scan'208";a="209217562"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 29 Jun 2022 10:32:48 +0800
+IronPort-SDR: +1Ce0kNI0BQFXkX1dYRjLV3OlLGdRuQpAX6RhMUg7S0T6BFpHCh3GSRfaktaVN4Yc/UY6GivS+
+ kHq2A/HCFUa1cukLyKP/fkhrO1QbeNUSqaIIwR4lMgLsJEBuW+Jv1vZOKqKN8AOug+J2RgiliG
+ 4CfqrGMFQ0QZhX8mKCx6gZSpZ+wTNThQkO/IP+46ukaTv9s0QuE1TzIBAoBcNtgTMU6JfCioU4
+ VjdCx0yR6WyWRPjGu73dzDPYt2+1nBjkDa+q9FJpvvUnAvAVPnC5hjvp5l9vHJRCGylWwEQuUt
+ TQwhktlLLTjBzngx5axLqhTC
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 28 Jun 2022 18:55:09 -0700
+IronPort-SDR: BvLP5QX5GCobCdLXe5mXmF+BDsnu2cCBGSyKdy5iyXX4q0yREq+LCBGS9HwqlWmGp7xX9drUSc
+ UZCfRXYBpzlFkavdGeTtou4pjuuRUQU5oVj7Z6bd3wY+48zujx8MkK4QkbqWctRfwGTAvvF/Ol
+ 0NNkGIoG9A70Sqmk0r1G9poyWu7ewQpTgKHtoI3oAxUOewdMgXAGBVXfcMwf03LTUbMZeRor06
+ 0P7Unm+ZhgtCWzjtkNsZmJc0ceLdYMZr7yKPkLXe+IgheLj4VGfgw713IiL5KVjHHtqO+Yv1lo
+ OM0=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 28 Jun 2022 19:32:49 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LXlqh6dNtz1Rwnl
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 19:32:48 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:references:to:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1656469968; x=1659061969; bh=JROgqbXtSTBOwPL+h/hzHl9kd3mc5jN+2/t
+ R4/lpsxI=; b=EvFI1Ss01xZ1quROxY9iEpXiF3QkNEP0+0PIm6TSvtblv+gHg9a
+ 8O0yRq7X5EySysWMtgbYknXgNrRpDIGWcGvAc+7n4f6/4my2ksE/g4Bpn+sTkD55
+ eKteb3u7FAX3eVSNAHnzeYzrefbUzUK/or/pdqr+BAmwIOn5YpUASSz1uVn2/aq3
+ wiTXSK2iDMvDs28cpY3yZb8/MrdaYMKdzFjxhY3FbNByQgOsmH6NIGhS42pJklzD
+ 6qt9XjFpLLEejgMMgA2TPfyMhCW3A/4J1JXcqKdNs1TH3dMCOzU2VepTncFlO5mj
+ 7ZxPm6AmK1ty6sI80FecvDbZO/PKi75SuZQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id 2dpzhAZ12VFe for <qemu-devel@nongnu.org>;
+ Tue, 28 Jun 2022 19:32:48 -0700 (PDT)
+Received: from [10.225.163.99] (unknown [10.225.163.99])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LXlqf4s31z1RtVk;
+ Tue, 28 Jun 2022 19:32:46 -0700 (PDT)
+Message-ID: <0b1f5e9a-dabe-b791-ac30-7e2ab4b55f56@opensource.wdc.com>
+Date: Wed, 29 Jun 2022 11:32:45 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.230.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bae8613a-d9b0-4db8-7a96-08da5976b5a8
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4345:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LWQoahNG+lWPGwDh9tX5p2NxKS05jIf27YOn6kOOowUamFwfmoMnx2CbezcDKaaLxotTDhznBWc3rQTGlsXS5WuTlXEmt3pqbCJNahO8YEM2wiUJTREZ2Ewa00/c/bkrMgu9OACon6KBCvfElWG7k/u+cqZbbzTWJLYRAHXNmdM7Zj6ygZ3CG1Jcdbc7FHVZ+OyCMFTRNmGywG1Zpgedkp5GJ5nYu0oOgvsPmlMsY1eR+s3tvI5CugXeqAdwg2Oqkt7iev+B1brY9PWyqWnsUpdBn3rwo6KnMecprmajU+gclbHtok4SQZ71RWbyRh5G1U8jxEhKWcFWft0ibl3prCcMpoGtJ0GStVCG46EK2VDS0UbRowHO8izZNe3Ru/qGairGeofvF+h+KBQZsMX5PQQMeZRP8S0/r1Q5K8qeAXYKxelLZyofO/A/cGNtbGa3INKlFwm6Aa7X2vsQtQQPsS6FuvCxSevtWORQhYbHIZlK8jwX8nCIoUSys1X/JSL3728nOGiEHZnnRfI4YA8EUYwyBF4roA9nY7OCGkmxNB1TNpAp6RNDVppD0nVwgqFK6jKoPSQ/6Yxe67oDE7iwmPQOzN4Gnyu1fmpLPTPClLwSB25DF37DS2UfNdjLFEfzO0I4xAnhWDQanpmVbW9GLG18CShQiNFkJTMjFtKK5aNFakzTivw5owsIi6Wd62e1Poix0FURKjrwJV2Gab+/8eDg6fWoouwwjDhZ1wvSChLY32e0lzz81Lpdor3fKjupCp103oksb5M0j/EBYHLxELqPRUTwTmRf27xR1v/liI5ZYxPS9va/yLlvO1iCCHHoRemwd1WWABvdP/D2DO1s9A==
-X-Forefront-Antispam-Report: CIP:12.22.5.234; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(346002)(136003)(396003)(39860400002)(40470700004)(36840700001)(46966006)(70206006)(2906002)(8676002)(16526019)(26005)(82310400005)(41300700001)(6286002)(47076005)(70586007)(336012)(83380400001)(966005)(5660300002)(8936002)(107886003)(2616005)(6666004)(426003)(478600001)(186003)(7696005)(86362001)(7049001)(40480700001)(1076003)(55016003)(316002)(40460700003)(36756003)(36860700001)(81166007)(110136005)(82740400003)(356005)(4326008)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 02:26:01.3358 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bae8613a-d9b0-4db8-7a96-08da5976b5a8
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.234];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT056.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4345
-Received-SPF: softfail client-ip=40.107.223.87; envelope-from=yajunw@nvidia.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC v3 1/5] block: add block layer APIs resembling Linux
+ ZonedBlockDevice ioctls.
+Content-Language: en-US
+To: Sam Li <faithilikerun@gmail.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel
+ <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
+ Hanna Reitz <hreitz@redhat.com>, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu block <qemu-block@nongnu.org>
+References: <20220627001917.9417-1-faithilikerun@gmail.com>
+ <20220627001917.9417-2-faithilikerun@gmail.com>
+ <Yrm7iNLdIJjOjQmR@stefanha-x1.localdomain>
+ <CAAAx-8LcxzKYsq1isvqaWEtF1JdUBp0wL8axLCm_eLR79jS_Dw@mail.gmail.com>
+ <c74ebf91-1af0-8e29-28e0-9b4ee4580ae8@opensource.wdc.com>
+ <CAAAx-8+6q9zLGO2Xzi9JaNFgkpHn0-eQyB8GijGx53zbFtsDCQ@mail.gmail.com>
+ <20a3234d-eb6b-ee21-95d5-5ce18aa6c822@opensource.wdc.com>
+ <CAAAx-8LmvU9sJycZ7PghGKWWj+RMJs5C3hz2j0Ta45Ks69=6PA@mail.gmail.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <CAAAx-8LmvU9sJycZ7PghGKWWj+RMJs5C3hz2j0Ta45Ks69=6PA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=1728850ad=damien.lemoal@opensource.wdc.com;
+ helo=esa3.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,136 +131,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The motivation of adding vhost-user vhost_dev_start support is to
-improve backend configuration speed and reduce live migration VM
-downtime.
+On 6/29/22 10:50, Sam Li wrote:
+>>>>>>> +    rep_size = sizeof(struct blk_zone_report) + nrz * sizeof(struct blk_zone);
+>>>>>>> +    g_autofree struct blk_zone_report *rep = g_new(struct blk_zone_report, nrz);
+>>>>>>
+>>>>>> g_new() looks incorrect. There should be 1 struct blk_zone_report
+>>>>>> followed by nrz struct blk_zone structs. Please use g_malloc(rep_size)
+>>>>>> instead.
+>>>>>
+>>>>> Yes! However, it still has a memory leak error when using g_autofree
+>>>>> && g_malloc.
+>>>>
+>>>> That may be because you are changing the value of the rep pointer while
+>>>> parsing the report ?
+>>>
+>>> I am not sure it is the case. Can you show me some way to find the problem?
+>>
+>> Not sure. I never used this g_malloc()/g_autofree() before so not sure how
+>> it works. It may be that g_autofree() work only with g_new() ?
+>> Could you try separating the declaration and allocation ? e.g.
+>>
+>> Declare at the beginning of the function:
+>> g_autofree struct blk_zone_report *rep = NULL;
+>>
+>> And then when needed do:
+>>
+>> rep_size = sizeof(struct blk_zone_report) + nrz * sizeof(struct blk_zone);
+>> rep = g_malloc(rep_size);
+> 
+> Actually, the memory leak occurs in that way. When using zone_mgmt,
+> memory leak still occurs. Asan gives the error information not much so
+> I haven't tracked down the problem yet.
 
-Today VQ configuration is issued one by one. For virtio net with
-multi-queue support, backend needs to update RSS (Receive side
-scaling) on every rx queue enable. Updating RSS is time-consuming
-(typical time like 7ms).
+See this:
 
-Implement already defined vhost status and message in the vhost
-specification [1].
-(a) VHOST_USER_PROTOCOL_F_STATUS
-(b) VHOST_USER_SET_STATUS
-(c) VHOST_USER_GET_STATUS
+https://blog.fishsoup.net/2015/11/05/attributecleanup-mixed-declarations-and-code-and-goto/
 
-Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK for
-device start and reset(0) for device stop.
+Maybe you can find some hints.
 
-On reception of the DRIVER_OK message, backend can apply the needed setting
-only once (instead of incremental) and also utilize parallelism on enabling
-queues.
-
-This improves QEMU's live migration downtime with vhost user backend
-implementation by great margin, specially for the large number of VQs of 64
-from 800 msec to 250 msec.
-
-[1] https://qemu-project.gitlab.io/qemu/interop/vhost-user.html
-
-Signed-off-by: Yajun Wu <yajunw@nvidia.com>
-Acked-by: Parav Pandit <parav@nvidia.com>
----
- hw/virtio/vhost-user.c | 58 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
-
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 4b9be26e84..9f75c51dc2 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -81,6 +81,7 @@ enum VhostUserProtocolFeature {
-     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
-     /* Feature 14 reserved for VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS. */
-     VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
-+    VHOST_USER_PROTOCOL_F_STATUS = 16,
-     VHOST_USER_PROTOCOL_F_MAX
- };
- 
-@@ -126,6 +127,8 @@ typedef enum VhostUserRequest {
-     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
-     VHOST_USER_ADD_MEM_REG = 37,
-     VHOST_USER_REM_MEM_REG = 38,
-+    VHOST_USER_SET_STATUS = 39,
-+    VHOST_USER_GET_STATUS = 40,
-     VHOST_USER_MAX
- } VhostUserRequest;
- 
-@@ -1446,6 +1449,39 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
-     return 0;
- }
- 
-+static int vhost_user_set_status(struct vhost_dev *dev, uint8_t status)
-+{
-+    return vhost_user_set_u64(dev, VHOST_USER_SET_STATUS, status, false);
-+}
-+
-+static int vhost_user_get_status(struct vhost_dev *dev, uint8_t *status)
-+{
-+    uint64_t value;
-+    int ret;
-+
-+    ret = vhost_user_get_u64(dev, VHOST_USER_GET_STATUS, &value);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+    *status = value;
-+
-+    return 0;
-+}
-+
-+static int vhost_user_add_status(struct vhost_dev *dev, uint8_t status)
-+{
-+    uint8_t s;
-+    int ret;
-+
-+    ret = vhost_user_get_status(dev, &s);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+    s |= status;
-+
-+    return vhost_user_set_status(dev, s);
-+}
-+
- static int vhost_user_set_features(struct vhost_dev *dev,
-                                    uint64_t features)
- {
-@@ -2602,6 +2638,27 @@ void vhost_user_cleanup(VhostUserState *user)
-     user->chr = NULL;
- }
- 
-+static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
-+{
-+    if (!virtio_has_feature(dev->protocol_features,
-+                            VHOST_USER_PROTOCOL_F_STATUS)) {
-+        return 0;
-+    }
-+
-+    /* Set device status only for last queue pair */
-+    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
-+        return 0;
-+    }
-+
-+    if (started) {
-+        return vhost_user_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-+                                          VIRTIO_CONFIG_S_DRIVER |
-+                                          VIRTIO_CONFIG_S_DRIVER_OK);
-+    } else {
-+        return vhost_user_set_status(dev, 0);
-+    }
-+}
-+
- const VhostOps user_ops = {
-         .backend_type = VHOST_BACKEND_TYPE_USER,
-         .vhost_backend_init = vhost_user_backend_init,
-@@ -2635,4 +2692,5 @@ const VhostOps user_ops = {
-         .vhost_backend_mem_section_filter = vhost_user_mem_section_filter,
-         .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
-         .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
-+        .vhost_dev_start = vhost_user_dev_start,
- };
 -- 
-2.27.0
-
+Damien Le Moal
+Western Digital Research
 
