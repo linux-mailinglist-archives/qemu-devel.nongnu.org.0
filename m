@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4743C55F36D
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 04:37:53 +0200 (CEST)
-Received: from localhost ([::1]:45682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6682B55F36E
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 04:44:29 +0200 (CEST)
+Received: from localhost ([::1]:49022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6NaR-0007kv-HV
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 22:37:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33624)
+	id 1o6Ngo-0002q7-R5
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jun 2022 22:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o6NXl-0005Yi-Pm; Tue, 28 Jun 2022 22:35:08 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:35373)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1o6Ne5-0001RT-Vh; Tue, 28 Jun 2022 22:41:37 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1o6NXj-0007Ms-SF; Tue, 28 Jun 2022 22:35:05 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-317741c86fdso135529177b3.2; 
- Tue, 28 Jun 2022 19:35:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1o6Ne3-0001dN-E2; Tue, 28 Jun 2022 22:41:37 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id n1so20229766wrg.12;
+ Tue, 28 Jun 2022 19:41:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=dYl8S+15Gb6TB88KkdrvqVGDpjllpABfJV0j2hdtDec=;
- b=JQ93aS3pN4hfaFwklIgfUifdBStqvGkyfkYCuTGoB7myAD6BoAA5d+4UVd51ie2t6Y
- J8tAa9bqMDhNXN8x+rFfZFJNpFJwCdaE3aU/aAx0ewRiCZi/l9eaiZj+i/yJbe14LogO
- XSUtNFsFPpENm0YVW+xF4bbngVJnftdiAUmOhFzKFeJf4GWtfYK52V7EAEJOrKOIYQYu
- c/cJVrm80OTObXfHUyqA16VkpK3dstrheezVrzsm+br4UYlhmRWhbsvTjPSyRKDEtp/u
- 2uwTbfKuYJ8047k0BosvzzYB+Fra3y/+0pGJl5Mw4LpKTCN3stOsEOQ+ypnXD7aI9B8b
- xmEg==
+ bh=IsTzoEg0ClyrSbaDEK+7H2YPFmfHQJnBKASyXg2h31w=;
+ b=nk9g3PPqSnK/cP/7B9nYtYFb6pxGDzQkOppS+jiLkTKUMX5Y65RwwPMRvq61azEKWS
+ MFR03g2ExNA9JGaGhH2DzGOntNllyjIJAMg4mdfLeSVQuESGPF4/4gc1b+GHIIywQfuT
+ qGl7inz2q2Y5RHHuWpF5oKJd/FvnW6O/eme+E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=dYl8S+15Gb6TB88KkdrvqVGDpjllpABfJV0j2hdtDec=;
- b=2djHd50AMXRSp5JVjL3qaxJRhqZIZWiM50wa0IYxHUlmwjSvr49GIqf7JY3YUuog1o
- Z8CLtUoTlSlanX6mksgPhO5/nPKibr4FlqaMVPs2WL9J2tGS0HsmOAFkw7d+bk81fvYT
- CH5UOEFWeLD811kjR6YlND5u+P+Mk+9sVuDlkjuQYKvPlTu7rpfQ+71jDVfzsNPmgl46
- o/kOyUokUSMo5tQY4LRpqNCExnlTeplQyFJVxX/HcapF1eYF08qrJPG4jQ7Hl3oD7+ai
- 2fMbAOIa+p/cknHAiiEeNRIqNv0gkTSj8DviwMBKWr1TTflZSTKBp6b2HU5bhSpolg/8
- j/IA==
-X-Gm-Message-State: AJIora/mIYnCAkrQfVQhwCtDSR1byaQoByIlDBaEIrhgtcWD2zW0AQ7G
- uKbdKMIUATjKvjd3IgQ1p9WFmcMNIJIXqouT378=
-X-Google-Smtp-Source: AGRyM1tzkbS1925Eb7kQ0H24XdtvPK7LmESBza+CEZHATPTJA/SkOfZkA4M6JZtdedZm6pp4HHueuYLxCCmaEJx1MZI=
-X-Received: by 2002:a81:cd3:0:b0:317:861c:ac07 with SMTP id
- 202-20020a810cd3000000b00317861cac07mr1429377ywm.486.1656470101214; Tue, 28
- Jun 2022 19:35:01 -0700 (PDT)
+ bh=IsTzoEg0ClyrSbaDEK+7H2YPFmfHQJnBKASyXg2h31w=;
+ b=jzn4V23GLJfZnJfNQgNP9xkM7tZDm25Pj1EM+OS8Sq52yoQKlQ+5xadt6TzdyhIZ6m
+ qR39DbJuxa879gHOmZAB7HhCZEHUUK6UdB6DzE8p56geLaq9mXm0KMEtyWOHOX+1IFxH
+ FrVyiMGIr5OcMFfr8QLTTHBhnRJua323FsE9PZpQGLJeQM6mMP/LF5hn2QAufHXgd4Ep
+ Orf06cfVttPMY161eKe5ksV3E6mV2xlm4L3Minrvvsatm42YnsP760zHGXWmKZ22IM5M
+ T7neoDv5zPZYchUr3yRSZixDnOjaTHbvn7noTmiPUmRZ1cwaXyjnrU6sYi9GLHeVL5Df
+ pWYg==
+X-Gm-Message-State: AJIora8YBbDFiB3R5j8g1+vFDRKNnMSVz/FXae0jDPB4uzgzdBgMb3xz
+ bS7huoZXoYsV2Iuz9oGRGA7yDezgtMRCcZj4sh8=
+X-Google-Smtp-Source: AGRyM1saL1+RC/iJP8M13vdXmRiIVeVqPY7tFNAxyCfK2taiJV/eFAHwP0Kv5VtRRFCCTDZ4FgrUFDW5FnSdx6ekLwI=
+X-Received: by 2002:adf:e502:0:b0:21b:8de6:7f14 with SMTP id
+ j2-20020adfe502000000b0021b8de67f14mr736560wrm.3.1656470492733; Tue, 28 Jun
+ 2022 19:41:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220627001917.9417-1-faithilikerun@gmail.com>
- <20220627001917.9417-2-faithilikerun@gmail.com>
- <Yrm7iNLdIJjOjQmR@stefanha-x1.localdomain>
- <CAAAx-8LcxzKYsq1isvqaWEtF1JdUBp0wL8axLCm_eLR79jS_Dw@mail.gmail.com>
- <c74ebf91-1af0-8e29-28e0-9b4ee4580ae8@opensource.wdc.com>
- <CAAAx-8+6q9zLGO2Xzi9JaNFgkpHn0-eQyB8GijGx53zbFtsDCQ@mail.gmail.com>
- <20a3234d-eb6b-ee21-95d5-5ce18aa6c822@opensource.wdc.com>
- <CAAAx-8LmvU9sJycZ7PghGKWWj+RMJs5C3hz2j0Ta45Ks69=6PA@mail.gmail.com>
- <0b1f5e9a-dabe-b791-ac30-7e2ab4b55f56@opensource.wdc.com>
-In-Reply-To: <0b1f5e9a-dabe-b791-ac30-7e2ab4b55f56@opensource.wdc.com>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Wed, 29 Jun 2022 10:35:02 +0800
-Message-ID: <CAAAx-8LOzZnby1XUvd=ksv5LfNPuTZdZ+KBY9jnrNW8o0cWtRw@mail.gmail.com>
-Subject: Re: [RFC v3 1/5] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls.
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Hannes Reinecke <hare@suse.de>, Hanna Reitz <hreitz@redhat.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu block <qemu-block@nongnu.org>
+References: <20220628165512.1133590-1-clg@kaod.org>
+In-Reply-To: <20220628165512.1133590-1-clg@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 29 Jun 2022 02:41:20 +0000
+Message-ID: <CACPK8Xd2Bx1dpJN38MkR_ZJnNJjygkcMCaLXxv+YP03EsF+V8A@mail.gmail.com>
+Subject: Re: [PATCH] aspeed/smc: Fix potential overflow
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=joel.stan@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,60 +80,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Damien Le Moal <damien.lemoal@opensource.wdc.com> =E4=BA=8E2022=E5=B9=B46=
-=E6=9C=8829=E6=97=A5=E5=91=A8=E4=B8=89 10:32=E5=86=99=E9=81=93=EF=BC=9A
+On Tue, 28 Jun 2022 at 16:55, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> On 6/29/22 10:50, Sam Li wrote:
-> >>>>>>> +    rep_size =3D sizeof(struct blk_zone_report) + nrz * sizeof(s=
-truct blk_zone);
-> >>>>>>> +    g_autofree struct blk_zone_report *rep =3D g_new(struct blk_=
-zone_report, nrz);
-> >>>>>>
-> >>>>>> g_new() looks incorrect. There should be 1 struct blk_zone_report
-> >>>>>> followed by nrz struct blk_zone structs. Please use g_malloc(rep_s=
-ize)
-> >>>>>> instead.
-> >>>>>
-> >>>>> Yes! However, it still has a memory leak error when using g_autofre=
-e
-> >>>>> && g_malloc.
-> >>>>
-> >>>> That may be because you are changing the value of the rep pointer wh=
-ile
-> >>>> parsing the report ?
-> >>>
-> >>> I am not sure it is the case. Can you show me some way to find the pr=
-oblem?
-> >>
-> >> Not sure. I never used this g_malloc()/g_autofree() before so not sure=
- how
-> >> it works. It may be that g_autofree() work only with g_new() ?
-> >> Could you try separating the declaration and allocation ? e.g.
-> >>
-> >> Declare at the beginning of the function:
-> >> g_autofree struct blk_zone_report *rep =3D NULL;
-> >>
-> >> And then when needed do:
-> >>
-> >> rep_size =3D sizeof(struct blk_zone_report) + nrz * sizeof(struct blk_=
-zone);
-> >> rep =3D g_malloc(rep_size);
-> >
-> > Actually, the memory leak occurs in that way. When using zone_mgmt,
-> > memory leak still occurs. Asan gives the error information not much so
-> > I haven't tracked down the problem yet.
->
-> See this:
->
-> https://blog.fishsoup.net/2015/11/05/attributecleanup-mixed-declarations-=
-and-code-and-goto/
->
-> Maybe you can find some hints.
+> Coverity warns that "ssi_transfer(s->spi, 0U) << 8 * i" might overflow
+> because the expression is evaluated using 32-bit arithmetic and then
+> used in a context expecting a uint64_t.
 
-Thanks!
+Would it make sense to also place a limit on "size"?
+
+assert(size < something)
 
 >
+> Fixes: Coverity CID 1487244
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  hw/ssi/aspeed_smc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+> index d2b1dde604e3..26640539ae64 100644
+> --- a/hw/ssi/aspeed_smc.c
+> +++ b/hw/ssi/aspeed_smc.c
+> @@ -490,7 +490,7 @@ static uint64_t aspeed_smc_flash_read(void *opaque, h=
+waddr addr, unsigned size)
+>      switch (aspeed_smc_flash_mode(fl)) {
+>      case CTRL_USERMODE:
+>          for (i =3D 0; i < size; i++) {
+> -            ret |=3D ssi_transfer(s->spi, 0x0) << (8 * i);
+> +            ret |=3D (uint64_t) ssi_transfer(s->spi, 0x0) << (8 * i);
+>          }
+>          break;
+>      case CTRL_READMODE:
+> @@ -499,7 +499,7 @@ static uint64_t aspeed_smc_flash_read(void *opaque, h=
+waddr addr, unsigned size)
+>          aspeed_smc_flash_setup(fl, addr);
+>
+>          for (i =3D 0; i < size; i++) {
+> -            ret |=3D ssi_transfer(s->spi, 0x0) << (8 * i);
+> +            ret |=3D (uint64_t) ssi_transfer(s->spi, 0x0) << (8 * i);
+>          }
+>
+>          aspeed_smc_flash_unselect(fl);
 > --
-> Damien Le Moal
-> Western Digital Research
+> 2.35.3
+>
 
