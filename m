@@ -2,78 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BDB55FDA8
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 12:45:02 +0200 (CEST)
-Received: from localhost ([::1]:48872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C09056027D
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 16:23:44 +0200 (CEST)
+Received: from localhost ([::1]:54234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6VBu-0003ao-0M
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 06:45:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46636)
+	id 1o6YbX-0000oq-KJ
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 10:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1o6VAQ-0002qE-NS
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 06:43:30 -0400
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:33517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1o6VAK-0005Uo-8O
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 06:43:30 -0400
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-101d2e81bceso20960786fac.0
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 03:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DsG7tY6Ksy4EeYRn1qqLGHvj39CN1nG0874/IvNEy8I=;
- b=CyFrS8tI0D9PLS+wzOwAGubIHa6ztFCgjTW3exbAUL+StSrQZUs9Ihf5DsZyvDL37a
- Te1eET8bzB1+ibR9dNHB4LzmG3OxRhNrJf4AT1mH6d+bRGgR424VJsBh6YLjxobyC77R
- m/9kfQW/T52vu3p/NTzxfCCdcTuUsNXpMBkgbURoHCGm8/6L5sSSL+ZFu6Wzt0kJRgQP
- m2ST+s1D+HEgTOndNPe/R+ysAIy1khv1XwJaVC7VOFHYmAKp5iPZHUDtCHHqf0rKEgsO
- L5hD95cJydFOAk6g+OD15WKIViZNGj3Kb8gBaWNp92gWRWZpB+VmblsWAw31w91dg+R1
- d3cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DsG7tY6Ksy4EeYRn1qqLGHvj39CN1nG0874/IvNEy8I=;
- b=1tfp4q+Tv4Np+m2ITSiFoStEWKAWP82dbQbH51jx6tqOiR+j0Zl15Qol8ij4+TWh1m
- jBCkUMv/CGCenBtdg8wjaty9/oth0pJ/z9VtAhDiAlMo+rxdaMriWEZu4Qb7dMMNJPIP
- AnAou0IUeNH1yoZ7g1woyr6vr8Vd4lhNNSVeFu5WEm21T4njxD7PHUEVI3zIj4fhlbLY
- EpRJQhJ9iXrP/DlgmHbYZ+BFXbkvyLZ/2+wRKnF0KgIHUopQEtT5geOWtwukOsB92UCf
- DBlEJ4NMxZ3ZwPSek2Pk8BhX4TUOP5SO+8882hkW+P7IFb47Hatv1mSoS6le+L1W21Cc
- wVIg==
-X-Gm-Message-State: AJIora86Uy2RK3FYjn3KXBN5i+GEUtASXyU4Ti6xUD+S0VKH13SIDVTn
- fRlW6eCrkS4+I/0L9K5+rlgWxoYz5K3nMDU7Tyyvaw==
-X-Google-Smtp-Source: AGRyM1trnO2OxhruXM4mdQOAPDrCAJtJiCrXQ93wTSyoDcEJ6+3SD9+a7xiQ0sMaeYP92LFWPGDYI9kSQawiwnhV5pY=
-X-Received: by 2002:a05:6870:c1cd:b0:fe:1295:6e34 with SMTP id
- i13-20020a056870c1cd00b000fe12956e34mr1538522oad.137.1656499401788; Wed, 29
- Jun 2022 03:43:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <svens@linux.ibm.com>)
+ id 1o6VDB-0004z5-HL; Wed, 29 Jun 2022 06:46:21 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28080)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <svens@linux.ibm.com>)
+ id 1o6VD9-0006Is-79; Wed, 29 Jun 2022 06:46:21 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25TABtPs020725;
+ Wed, 29 Jun 2022 10:46:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : references : date : in-reply-to : message-id : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=kGZXggY+tCaT0yZ1hPXjUp9auqS8258zuO5VtLp1H4Y=;
+ b=bKLONT42Yqpz8rn0sOOnVIX4jTV/RLxhqLgbFbbop0YGoNwSsFH/CC9DEj42pPKrFpVs
+ KujXBdvgOhqFaxD3s5iyyT9FMhq1/q2V3VzRloNm6aikA/QNSrHsk+dJgmsr6Im/2bAj
+ UiYcPD/7CAPXzNh3DkfHkXOfPSAiXnhRojckfJCIClDCMT30o86rwjSoEy/28oPaEZy3
+ WK7jYHt41XeVKL5JJeVEBBpWV092VUP9JAoNtntAHFpGRQ9qTrWfxTXvOPGwdGJnPYdY
+ DzT9MfyjTC/5hUNjwgZRqX30yk56zchpS3DPT0tSjqEDrA+VIRMUVVH1Y8BjU3MHysNO uw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0ms6rthy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Jun 2022 10:46:08 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25TAOP87016127;
+ Wed, 29 Jun 2022 10:46:07 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0ms6rthb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Jun 2022 10:46:07 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25TAZFeL008012;
+ Wed, 29 Jun 2022 10:46:05 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3gwsmj6d21-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Jun 2022 10:46:04 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 25TAj0oC17826092
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 29 Jun 2022 10:45:00 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D6C4FA4054;
+ Wed, 29 Jun 2022 10:46:01 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5019BA405C;
+ Wed, 29 Jun 2022 10:46:01 +0000 (GMT)
+Received: from tuxmaker.linux.ibm.com (unknown [9.152.85.9])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Wed, 29 Jun 2022 10:46:01 +0000 (GMT)
+From: Sven Schnelle <svens@linux.ibm.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: David Hildenbrand <david@redhat.com>, Janosch Frank
+ <frankja@linux.ibm.com>, Liam Howlett <liam.howlett@oracle.com>, Heiko
+ Carstens <hca@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck
+ <linux@roeck-us.net>, "maple-tree@lists.infradead.org"
+ <maple-tree@lists.infradead.org>, "linux-mm@kvack.org"
+ <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Yu Zhao <yuzhao@google.com>, Juergen
+ Gross <jgross@suse.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
+ Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, Andreas Krebbel <krebbel@linux.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Subject: Re: qemu-system-s390x hang in tcg
+References: <20220426150616.3937571-24-Liam.Howlett@oracle.com>
+ <20220428201947.GA1912192@roeck-us.net>
+ <20220429003841.cx7uenepca22qbdl@revolver>
+ <20220428181621.636487e753422ad0faf09bd6@linux-foundation.org>
+ <20220502001358.s2azy37zcc27vgdb@revolver>
+ <20220501172412.50268e7b217d0963293e7314@linux-foundation.org>
+ <Ym+v4lfU5IyxkGc4@osiris> <20220502133050.kuy2kjkzv6msokeb@revolver>
+ <YnAn3FI9aVCi/xKd@osiris> <YnGHJ7oroqF+v1u+@osiris>
+ <20220503215520.qpaukvjq55o7qwu3@revolver>
+ <60a3bc3f-5cd6-79ac-a7a8-4ecc3d7fd3db@linux.ibm.com>
+ <15f5f8d6-dc92-d491-d455-dd6b22b34bc3@redhat.com>
+ <yt9d5ykkhrvv.fsf_-_@linux.ibm.com> <87pmirj3aq.fsf@linaro.org>
+Date: Wed, 29 Jun 2022 12:46:01 +0200
+In-Reply-To: <87pmirj3aq.fsf@linaro.org> ("Alex =?utf-8?Q?Benn=C3=A9e=22's?=
+ message of "Wed, 29 Jun 2022 09:10:57 +0100")
+Message-ID: <yt9dbkubhhna.fsf@linux.ibm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-References: <20220617073630.535914-1-chen.zhang@intel.com>
-In-Reply-To: <20220617073630.535914-1-chen.zhang@intel.com>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Wed, 29 Jun 2022 13:43:10 +0300
-Message-ID: <CABcq3pFZ_LZpWgpyLUOf2a=h0X4YunEH601oRN71Ui=YrO=4EQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/12] Introduce QEMU userspace ebpf support
-To: Zhang Chen <chen.zhang@intel.com>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Yuri Benditovich <yuri.benditovich@daynix.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2001:4860:4864:20::32;
- envelope-from=andrew@daynix.com; helo=mail-oa1-x32.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: h0cEczqfoaEJNGG-59v-njgJ9dbThzNy
+X-Proofpoint-GUID: rWQ9ETwU3sh0VDlCLponboGWcicOUCdV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-29_15,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 mlxscore=0 suspectscore=0
+ clxscore=1011 impostorscore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206290036
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=svens@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 29 Jun 2022 09:53:10 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,144 +138,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
-Nice idea.
-It would be great if future patches would add the BPF map support(if
-uBPF allows it).
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-On Fri, Jun 17, 2022 at 10:51 AM Zhang Chen <chen.zhang@intel.com> wrote:
+> Sven Schnelle <svens@linux.ibm.com> writes:
 >
-> Hi All,
+>> Hi,
+>>
+>> David Hildenbrand <david@redhat.com> writes:
+>>
+>>> On 04.05.22 09:37, Janosch Frank wrote:
+>>>> I had a short look yesterday and the boot usually hangs in the raid6=20
+>>>> code. Disabling vector instructions didn't make a difference but a few=
+=20
+>>>> interruptions via GDB solve the problem for some reason.
+>>>>=20
+>>>> CCing David and Thomas for TCG
+>>>>=20
+>>>
+>>> I somehow recall that KASAN was always disabled under TCG, I might be
+>>> wrong (I thought we'd get a message early during boot that the HW
+>>> doesn't support KASAN).
+>>>
+>>> I recall that raid code is a heavy user of vector instructions.
+>>>
+>>> How can I reproduce? Compile upstream (or -next?) with kasan support and
+>>> run it under TCG?
+>>
+>> I spent some time looking into this. It's usually hanging in
+>> s390vx8_gen_syndrome(). My first thought was that it is a problem with
+>> the VX instructions, but turned out that it hangs even if i remove all
+>> the code from s390vx8_gen_syndrome().
+>>
+>> Tracing the execution of TB's, i see that the generated code is always
+>> jumping between a few TB's, but never exiting the TB's to check for
+>> interrupts (i.e. return to cpu_tb_exec(). I only see calls to
+>> helper_lookup_tb_ptr to lookup the tb pointer for the next TB.
+>>
+>> The raid6 code is waiting for some time to expire by reading jiffies,
+>> but interrupts are never processed and therefore jiffies doesn't change.
+>> So the raid6 code hangs forever.
+>>
+>> As a test, i made a quick change to test:
+>>
+>> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+>> index c997c2e8e0..35819fd5a7 100644
+>> --- a/accel/tcg/cpu-exec.c
+>> +++ b/accel/tcg/cpu-exec.c
+>> @@ -319,7 +319,8 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState *env)
+>>      cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
+>>
+>>      cflags =3D curr_cflags(cpu);
+>> -    if (check_for_breakpoints(cpu, pc, &cflags)) {
+>> +    if (check_for_breakpoints(cpu, pc, &cflags) ||
+>> +        unlikely(qatomic_read(&cpu->interrupt_request))) {
+>>          cpu_loop_exit(cpu);
+>>      }
+>>
+>> And that makes the problem go away. But i'm not familiar with the TCG
+>> internals, so i can't say whether the generated code is incorrect or
+>> something else is wrong. I have tcg log files of a failing + working run
+>> if someone wants to take a look. They are rather large so i would have to
+>> upload them somewhere.
 >
->     The goal of this series is to bring the power of ebpf to QEMU.
-> It makes QEMU have the ability to extend the capabilities without
-> requiring changing source code. Just need to load the eBPF binary
-> file even at VM runtime. And already have some userspace ebpf
-> implementation like: Intel DPDK eBPF, windows eBPF, etc..
-> The original idea suggested by Jason Wang.
->
->     eBPF is a revolutionary technology with origins in the Linux kernel
-> that can run sandboxed programs in an operating system kernel. It is
-> used to safely and efficiently extend the capabilities of the kernel
-> without requiring to change kernel source code or load kernel
-> modules.(from https://ebpf.io/)
->
->     KVM already got benefits from it, but QEMU did not. Hence we want
-> to bring the power of eBPF to QEMU. It can load binary eBPF program
-> even when VM running. At the same time, add some hooks in QEMU as
-> the user space eBPF load point. Do the things on different layers.
->
->    That=E2=80=99s the advantages of kernel eBPF. Most of the functions ca=
-n be
-> implemented in QEMU. This series just a start of the Power of Programmabi=
-lity.
->
->     1). Safety:
->
->     Building on the foundation of seeing and understanding all system
->     calls and combining that with a packet and socket-level view of all
->     networking operations allows for revolutionary new approaches to
->     securing systems.
->
->     2). Tracing & Profiling:
->
->     The ability to attach eBPF programs to trace points as well as kernel
->     and user application probe points allows unprecedented visibility int=
-o
->     the runtime behavior of applications and the system itself.
->
->     3). Networking:
->
->     The combination of programmability and efficiency makes eBPF a natura=
-l
->     fit for all packet processing requirements of networking solutions.
->
->     4). Observability & Monitoring:
->
->     Instead of relying on static counters and gauges exposed by the
->     perating system, eBPF enables the collection & in-kernel aggregation
->     of custom metrics and generation of visibility events based on a wide
->     range of possible sources.
->
->     QEMU userspace ebpf design based on ubpf project (https://github.com/=
-iovisor/ubpf).
-> The most mature userspace ebpf implementation. This project officially
-> support by iovisor(Like BCC and bpftrace). This project includes an eBPF
-> assembler, disassembler, interpreter (for all platforms), and JIT compile=
-r
-> (for x86-64 and Arm64 targets). Qemu userspace ebpf make the ubpf project
-> as the git submodule.
->
->     Current implementation support load ebpf program and run it in
-> net/filter-ubpf module, this filter can support any user defined rules
-> to hanle network packet. At the same time, it's easy for other developers
-> to use the ubpf infrastructue in QEMU's other modules from the function
-> in /ebpf/ubpf.c, and it support JIT.
->
->     For the uBPF License is Apache License 2.0, It's OK to compatible
-> with QEMU=E2=80=99s GPLv2 LICENSE same as mason.
->
->     TODO: Need to add more comments and test-case for ubpf, current
-> implementation not include ebpf verifier. But I think maybe it's not
-> a big problem, current ebpf load/unload API exposed by QMP command.
-> Qemu is a userspace program, if someone want to hack QEMU, no need to
-> load a malicious ubpf program, it can hack QEMU code or crash QEMU on
-> host directly(different from kernel ebpf needs strict inspection, but
-> yes, it still need basic check).
->
-> Any comments are welcome.
->
-> Thanks
-> Chen
->
->
-> Zhang Chen (12):
->   configure: Add iovisor/ubpf project as a submodule for QEMU
->   meson: Add ubpf build config and misc
->   ebpf/uBPF: Introduce userspace ebpf data structure
->   ebpf/uBPF: Introduce ubpf initialize functions
->   ebpf/uBPF: Add qemu_prepare_ubpf to load ebpf binary
->   ebpf/uBPF: Add qemu_ubpf_run_once excute real ebpf program
->   net/filter: Introduce filter-ubpf module
->   qapi: Add FilterUbpfProperties and qemu-options
->   softmmu/vl.c: Add filter-ubpf for netdev as other netfilters
->   net/filter-ubpf.c: run the ubpf program to handle network packet
->   docs/devel: Add userspace-ebpf.rst
->   test/qtest: Add ubpf basic test case
->
->  .gitmodules                         |   3 +
->  configure                           |  20 +++
->  docs/devel/userspace-ebpf.rst       | 106 ++++++++++++++
->  ebpf/meson.build                    |   1 +
->  ebpf/ubpf-stub.c                    |  35 +++++
->  ebpf/ubpf.c                         | 217 ++++++++++++++++++++++++++++
->  ebpf/ubpf.h                         |  44 ++++++
->  meson.build                         |  47 ++++++
->  meson_options.txt                   |   3 +
->  net/filter-ubpf.c                   | 185 ++++++++++++++++++++++++
->  net/meson.build                     |   1 +
->  qapi/qom.json                       |  18 +++
->  qemu-options.hx                     |   6 +
->  scripts/coverity-scan/COMPONENTS.md |   3 +
->  scripts/meson-buildoptions.sh       |   5 +
->  softmmu/vl.c                        |   3 +-
->  tests/qtest/demo_ubpf.o             | Bin 0 -> 544 bytes
->  tests/qtest/integer_5.mem           | Bin 0 -> 4 bytes
->  tests/qtest/meson.build             |   3 +-
->  tests/qtest/ubpf-test.c             |  64 ++++++++
->  ubpf                                |   1 +
->  21 files changed, 763 insertions(+), 2 deletions(-)
->  create mode 100644 docs/devel/userspace-ebpf.rst
->  create mode 100644 ebpf/ubpf-stub.c
->  create mode 100644 ebpf/ubpf.c
->  create mode 100644 ebpf/ubpf.h
->  create mode 100644 net/filter-ubpf.c
->  create mode 100644 tests/qtest/demo_ubpf.o
->  create mode 100644 tests/qtest/integer_5.mem
->  create mode 100644 tests/qtest/ubpf-test.c
->  create mode 160000 ubpf
->
-> --
-> 2.25.1
->
+> Whatever is setting cpu->interrupt_request should be calling
+> cpu_exit(cpu) which sets the exit flag which is checked at the start of
+> every TB execution (see gen_tb_start).
+
+Thanks, that was very helpful. I added debugging and it turned out
+that the TB is left because of a pending irq. The code then calls
+s390_cpu_exec_interrupt:
+
+bool s390_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+{
+    if (interrupt_request & CPU_INTERRUPT_HARD) {
+        S390CPU *cpu =3D S390_CPU(cs);
+        CPUS390XState *env =3D &cpu->env;
+
+        if (env->ex_value) {
+            /* Execution of the target insn is indivisible from
+               the parent EXECUTE insn.  */
+            return false;
+        }
+        if (s390_cpu_has_int(cpu)) {
+            s390_cpu_do_interrupt(cs);
+            return true;
+        }
+        if (env->psw.mask & PSW_MASK_WAIT) {
+            /* Woken up because of a floating interrupt but it has already
+             * been delivered. Go back to sleep. */
+            cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HALT);
+        }
+    }
+    return false;
+}
+
+Note the 'if (env->ex_value) { }' check. It looks like this function
+just returns false in case tcg is executing an EX instruction. After
+that the information that the TB should be exited because of an
+interrupt is gone. So the TB's are never exited again, although the
+interrupt wasn't handled. At least that's my assumption now, if i'm
+wrong please tell me.
+
+So the raid6 code is spinning waiting that the jiffies value reaches a
+timeout, but as the timer interrupt was lost it will never change.
+
+So i wonder now how this could be fixed.
 
