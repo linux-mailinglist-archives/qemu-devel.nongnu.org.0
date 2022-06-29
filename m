@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F74056031E
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 16:36:06 +0200 (CEST)
-Received: from localhost ([::1]:56398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A566560341
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 16:39:41 +0200 (CEST)
+Received: from localhost ([::1]:37208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6YnQ-000633-KS
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 10:36:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36392)
+	id 1o6Yqy-0004iA-Bl
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 10:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o6YTy-0007wf-9p
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 10:15:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47561)
+ id 1o6YU4-0007xT-0v
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 10:16:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o6YTt-00022q-O9
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 10:15:53 -0400
+ id 1o6YTv-000249-KQ
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 10:15:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656512148;
+ s=mimecast20190719; t=1656512150;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+B22VuMqef3uTddmFmvYC+qaug2bOt+ysY22FYnYlAU=;
- b=dYWmyKoPRTfmulkTQ84kkPEBUG1epgvyXssCLPVGBhNvRY0FZkvpDRmIt2SvjBmxhj5Ba8
- oga7ZbLl6uawol27W6pQ6PtSISVpCtoD4kkPxO6dSYv56qhnoAO/0MkoeSfR2aca9IGZ3n
- cm4ktwFiM8Aqx93RdPG8euFkpoQWrm4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fZLIi4ztmhGQMSsiZRqJz/mEYK9KxeBAMKyqhVKObsw=;
+ b=a/NyyWckQtfHB1kpYk1IOyaWK+4199g1IniOtNsW0v3fivDvMtQcC0RkwYaMSqlNNBU7MY
+ oUCCuw/6U5n0U/4JycQVD8Koc3Vhm/6SiQUkSMRUsBZYZm+mUJO5w84nHuOY3Rwwxsr/AD
+ FJUTcRrDcnZocvZh8NkiuWMVja6AH7A=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-_rSl2kxEOoiUQklUFk6Ziw-1; Wed, 29 Jun 2022 10:15:46 -0400
-X-MC-Unique: _rSl2kxEOoiUQklUFk6Ziw-1
+ us-mta-249-AoxynU6EPsS_VUZVdCVdzg-1; Wed, 29 Jun 2022 10:15:46 -0400
+X-MC-Unique: AoxynU6EPsS_VUZVdCVdzg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E469480029D;
- Wed, 29 Jun 2022 14:15:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 46E21384F806;
+ Wed, 29 Jun 2022 14:15:46 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 941999D63;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB60C9D63;
  Wed, 29 Jun 2022 14:15:45 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
@@ -54,22 +54,22 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v8 08/20] blockjob.h: introduce block_job  _locked() APIs
-Date: Wed, 29 Jun 2022 10:15:26 -0400
-Message-Id: <20220629141538.3400679-9-eesposit@redhat.com>
+Subject: [PATCH v8 09/20] blockjob: rename notifier callbacks as _locked
+Date: Wed, 29 Jun 2022 10:15:27 -0400
+Message-Id: <20220629141538.3400679-10-eesposit@redhat.com>
 In-Reply-To: <20220629141538.3400679-1-eesposit@redhat.com>
 References: <20220629141538.3400679-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,221 +86,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just as done with job.h, create _locked() functions in blockjob.h
-
-These functions will be later useful when caller has already taken
-the lock. All blockjob _locked functions call job _locked functions.
-
-Note: at this stage, job_{lock/unlock} and job lock guard macros
-are *nop*.
+They all are called with job_lock held, in job_event_*_locked()
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- blockjob.c               | 52 ++++++++++++++++++++++++++++++++--------
- include/block/blockjob.h | 15 ++++++++++++
- 2 files changed, 57 insertions(+), 10 deletions(-)
+ blockjob.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
 diff --git a/blockjob.c b/blockjob.c
-index 7da59a1f1c..0d59aba439 100644
+index 0d59aba439..70952879d8 100644
 --- a/blockjob.c
 +++ b/blockjob.c
-@@ -44,21 +44,27 @@ static bool is_block_job(Job *job)
-            job_type(job) == JOB_TYPE_STREAM;
+@@ -247,7 +247,8 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+     return 0;
  }
  
--BlockJob *block_job_next(BlockJob *bjob)
-+BlockJob *block_job_next_locked(BlockJob *bjob)
+-static void block_job_on_idle(Notifier *n, void *opaque)
++/* Called with job_mutex lock held. */
++static void block_job_on_idle_locked(Notifier *n, void *opaque)
  {
-     Job *job = bjob ? &bjob->job : NULL;
-     GLOBAL_STATE_CODE();
- 
-     do {
--        job = job_next(job);
-+        job = job_next_locked(job);
-     } while (job && !is_block_job(job));
- 
-     return job ? container_of(job, BlockJob, job) : NULL;
+     aio_wait_kick();
  }
- 
--BlockJob *block_job_get(const char *id)
-+BlockJob *block_job_next(BlockJob *bjob)
- {
--    Job *job = job_get(id);
-+    JOB_LOCK_GUARD();
-+    return block_job_next_locked(bjob);
-+}
-+
-+BlockJob *block_job_get_locked(const char *id)
-+{
-+    Job *job = job_get_locked(id);
-     GLOBAL_STATE_CODE();
- 
-     if (job && is_block_job(job)) {
-@@ -68,6 +74,12 @@ BlockJob *block_job_get(const char *id)
+@@ -367,7 +368,8 @@ static void block_job_iostatus_set_err(BlockJob *job, int error)
      }
  }
  
-+BlockJob *block_job_get(const char *id)
-+{
-+    JOB_LOCK_GUARD();
-+    return block_job_get_locked(id);
-+}
-+
- void block_job_free(Job *job)
+-static void block_job_event_cancelled(Notifier *n, void *opaque)
++/* Called with job_mutex lock held. */
++static void block_job_event_cancelled_locked(Notifier *n, void *opaque)
  {
-     BlockJob *bjob = container_of(job, BlockJob, job);
-@@ -256,14 +268,14 @@ static bool job_timer_pending(Job *job)
-     return timer_pending(&job->sleep_timer);
- }
- 
--bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-+bool block_job_set_speed_locked(BlockJob *job, int64_t speed, Error **errp)
- {
-     const BlockJobDriver *drv = block_job_driver(job);
-     int64_t old_speed = job->speed;
- 
-     GLOBAL_STATE_CODE();
- 
--    if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
-+    if (job_apply_verb_locked(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
-         return false;
-     }
-     if (speed < 0) {
-@@ -277,7 +289,9 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-     job->speed = speed;
- 
-     if (drv->set_speed) {
-+        job_unlock();
-         drv->set_speed(job, speed);
-+        job_lock();
-     }
- 
-     if (speed && speed <= old_speed) {
-@@ -285,18 +299,24 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-     }
- 
-     /* kick only if a timer is pending */
--    job_enter_cond(&job->job, job_timer_pending);
-+    job_enter_cond_locked(&job->job, job_timer_pending);
- 
-     return true;
- }
- 
-+bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-+{
-+    JOB_LOCK_GUARD();
-+    return block_job_set_speed_locked(job, speed, errp);
-+}
-+
- int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n)
- {
-     IO_CODE();
-     return ratelimit_calculate_delay(&job->limit, n);
- }
- 
--BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
-+BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp)
- {
-     BlockJobInfo *info;
+     BlockJob *job = opaque;
      uint64_t progress_current, progress_total;
-@@ -320,7 +340,7 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
-     info->len       = progress_total;
-     info->speed     = job->speed;
-     info->io_status = job->iostatus;
--    info->ready     = job_is_ready(&job->job),
-+    info->ready     = job_is_ready_locked(&job->job),
-     info->status    = job->job.status;
-     info->auto_finalize = job->job.auto_finalize;
-     info->auto_dismiss  = job->job.auto_dismiss;
-@@ -333,6 +353,12 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
-     return info;
+@@ -386,7 +388,8 @@ static void block_job_event_cancelled(Notifier *n, void *opaque)
+                                         job->speed);
  }
  
-+BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
-+{
-+    JOB_LOCK_GUARD();
-+    return block_job_query_locked(job, errp);
-+}
-+
- static void block_job_iostatus_set_err(BlockJob *job, int error)
+-static void block_job_event_completed(Notifier *n, void *opaque)
++/* Called with job_mutex lock held. */
++static void block_job_event_completed_locked(Notifier *n, void *opaque)
  {
-     if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
-@@ -478,7 +504,7 @@ fail:
-     return NULL;
+     BlockJob *job = opaque;
+     const char *msg = NULL;
+@@ -412,7 +415,8 @@ static void block_job_event_completed(Notifier *n, void *opaque)
+                                         msg);
  }
  
--void block_job_iostatus_reset(BlockJob *job)
-+void block_job_iostatus_reset_locked(BlockJob *job)
+-static void block_job_event_pending(Notifier *n, void *opaque)
++/* Called with job_mutex lock held. */
++static void block_job_event_pending_locked(Notifier *n, void *opaque)
  {
-     GLOBAL_STATE_CODE();
-     if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
-@@ -488,6 +514,12 @@ void block_job_iostatus_reset(BlockJob *job)
-     job->iostatus = BLOCK_DEVICE_IO_STATUS_OK;
+     BlockJob *job = opaque;
+ 
+@@ -424,7 +428,8 @@ static void block_job_event_pending(Notifier *n, void *opaque)
+                                       job->job.id);
  }
  
-+void block_job_iostatus_reset(BlockJob *job)
-+{
-+    JOB_LOCK_GUARD();
-+    block_job_iostatus_reset_locked(job);
-+}
-+
- void block_job_user_resume(Job *job)
+-static void block_job_event_ready(Notifier *n, void *opaque)
++/* Called with job_mutex lock held. */
++static void block_job_event_ready_locked(Notifier *n, void *opaque)
  {
-     BlockJob *bjob = container_of(job, BlockJob, job);
-diff --git a/include/block/blockjob.h b/include/block/blockjob.h
-index 6525e16fd5..3959a98612 100644
---- a/include/block/blockjob.h
-+++ b/include/block/blockjob.h
-@@ -92,6 +92,9 @@ typedef struct BlockJob {
-  */
- BlockJob *block_job_next(BlockJob *job);
+     BlockJob *job = opaque;
+     uint64_t progress_current, progress_total;
+@@ -469,11 +474,11 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
  
-+/* Same as block_job_next(), but called with job lock held. */
-+BlockJob *block_job_next_locked(BlockJob *job);
-+
- /**
-  * block_job_get:
-  * @id: The id of the block job.
-@@ -102,6 +105,9 @@ BlockJob *block_job_next(BlockJob *job);
-  */
- BlockJob *block_job_get(const char *id);
+     ratelimit_init(&job->limit);
  
-+/* Same as block_job_get(), but called with job lock held. */
-+BlockJob *block_job_get_locked(const char *id);
-+
- /**
-  * block_job_add_bdrv:
-  * @job: A block job
-@@ -145,6 +151,9 @@ bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs);
-  */
- bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
+-    job->finalize_cancelled_notifier.notify = block_job_event_cancelled;
+-    job->finalize_completed_notifier.notify = block_job_event_completed;
+-    job->pending_notifier.notify = block_job_event_pending;
+-    job->ready_notifier.notify = block_job_event_ready;
+-    job->idle_notifier.notify = block_job_on_idle;
++    job->finalize_cancelled_notifier.notify = block_job_event_cancelled_locked;
++    job->finalize_completed_notifier.notify = block_job_event_completed_locked;
++    job->pending_notifier.notify = block_job_event_pending_locked;
++    job->ready_notifier.notify = block_job_event_ready_locked;
++    job->idle_notifier.notify = block_job_on_idle_locked;
  
-+/* Same as block_job_set_speed(), but called with job lock held. */
-+bool block_job_set_speed_locked(BlockJob *job, int64_t speed, Error **errp);
-+
- /**
-  * block_job_query:
-  * @job: The job to get information about.
-@@ -153,6 +162,9 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
-  */
- BlockJobInfo *block_job_query(BlockJob *job, Error **errp);
- 
-+/* Same as block_job_query(), but called with job lock held. */
-+BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp);
-+
- /**
-  * block_job_iostatus_reset:
-  * @job: The job whose I/O status should be reset.
-@@ -162,6 +174,9 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp);
-  */
- void block_job_iostatus_reset(BlockJob *job);
- 
-+/* Same as block_job_iostatus_reset(), but called with job lock held. */
-+void block_job_iostatus_reset_locked(BlockJob *job);
-+
- /*
-  * block_job_get_aio_context:
-  *
+     notifier_list_add(&job->job.on_finalize_cancelled,
+                       &job->finalize_cancelled_notifier);
 -- 
 2.31.1
 
