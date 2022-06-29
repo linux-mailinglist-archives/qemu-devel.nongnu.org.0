@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEFC55FAF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:49:37 +0200 (CEST)
-Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE9455FB54
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 11:07:41 +0200 (CEST)
+Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6TOC-0003Yi-M3
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:49:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53760)
+	id 1o6Tfa-0007ii-P1
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 05:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o6TL1-0001Vr-0q
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:46:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24685)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1o6TKy-0002mI-7p
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:46:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656492374;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZFMYvDzdVngl+CImbZCohMW7QyESDxBIQ3mQ8wZXIyg=;
- b=I+HDe6w2rW/GJ9eiBLQGBtVd+SIMTBrYIgFzHAxPNRxEVjPi6Sm5R9Fazgb3XrLR1IkuM/
- nPI+RTgfRptjBQntsp/bJNeY8CvZSm+cuoqnGCeb5O72vuKjzwgLben9e7NugrfS0GCmXf
- 5TmdMgs78j64B2oh0vAHa+iwMdenze0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-w2PmR0CLNgy17-7ZcgWhnw-1; Wed, 29 Jun 2022 04:46:11 -0400
-X-MC-Unique: w2PmR0CLNgy17-7ZcgWhnw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D22463833288;
- Wed, 29 Jun 2022 08:46:10 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F0509D7F;
- Wed, 29 Jun 2022 08:46:09 +0000 (UTC)
-Date: Wed, 29 Jun 2022 10:46:08 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Dominique Martinet <dominique.martinet@atmark-techno.com>
-Cc: Aarushi Mehta <mehta.aaru20@gmail.com>, Julia Suvorova <jusual@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] io_uring: fix short read slow path corruptions
-Message-ID: <YrwRUEP0FktTmuX0@redhat.com>
-References: <20220629044957.1998430-1-dominique.martinet@atmark-techno.com>
- <20220629052316.2017896-1-dominique.martinet@atmark-techno.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220629052316.2017896-1-dominique.martinet@atmark-techno.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o6Tcs-0006th-PB
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 05:04:46 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:44846 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o6Tcl-00086h-EM
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 05:04:45 -0400
+Received: from smtpclient.apple (unknown [114.245.36.56])
+ by APP-01 (Coremail) with SMTP id qwCowAA3PgaZFbxiyLXMCQ--.55975S2;
+ Wed, 29 Jun 2022 17:04:27 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH] hw/nvme: Use ioeventfd to handle doorbell updates
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <20220627104813.2173852-1-fanjinhao21s@ict.ac.cn>
+Date: Wed, 29 Jun 2022 17:04:25 +0800
+Cc: its@irrelevant.dk,
+ kbusch@kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <8F470FDC-3213-4284-8A85-487ACE690FB7@ict.ac.cn>
+References: <20220627104813.2173852-1-fanjinhao21s@ict.ac.cn>
+To: qemu-devel@nongnu.org
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowAA3PgaZFbxiyLXMCQ--.55975S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrXr18uw4kuF48GryrWrWrGrg_yoWxGFc_u3
+ sYvFs7CF47JFs3Xw4FkF45t3W3Xrn8XF40g3yFyF4kXayfZayjgF409FyUX3saqa15urZx
+ XFZrGr18Ww1v9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbw8YjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+ 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC2
+ 0s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
+ 0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
+ 14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20x
+ vaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+ 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jY6wZUUUUU=
+X-Originating-IP: [114.245.36.56]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,58 +76,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 29.06.2022 um 07:23 hat Dominique Martinet geschrieben:
-> sqeq.off here is the offset to read within the disk image, so obviously
-> not 'nread' (the amount we just read), but as the author meant to write
-> its current value incremented by the amount we just read.
-> 
-> Normally recent versions of linux will not issue short reads,
-> but apparently btrfs with O_DIRECT (cache=none) does.
-> 
-> This lead to weird image corruptions when short read happened
-> 
-> Fixes: 6663a0a33764 ("block/io_uring: implements interfaces for io_uring")
-> Link: https://lkml.kernel.org/r/YrrFGO4A1jS0GI0G@atmark-techno.com
-> Signed-off-by: Dominique Martinet <dominique.martinet@atmark-techno.com>
-> ---
-> Forgive the double mail if it gets to you twice: I missed Ccs on the first
-> try, I should have known better...
-> 
-> I just spent a couple of days on this bug, will follow up with kernel to
-> see if we can also not get rid of the short read but perhaps a warning
-> should be added the first time we get a short read, as it's not supposed
-> to happen?
-> Well, slow path now seems to work (at least my VM now boots fine), but
-> if the code clearly states it should never be used I assume there might
-> be other bugs laying there as it's not tested... That this one was easy
-> enough to spot once I noticed the short reads was its only grace...
-> 
-> Thanks!
-> 
->  block/io_uring.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/block/io_uring.c b/block/io_uring.c
-> index d48e472e74cb..d58aff9615ce 100644
-> --- a/block/io_uring.c
-> +++ b/block/io_uring.c
-> @@ -103,7 +103,7 @@ static void luring_resubmit_short_read(LuringState *s, LuringAIOCB *luringcb,
->                        remaining);
->  
->      /* Update sqe */
-> -    luringcb->sqeq.off = nread;
-> +    luringcb->sqeq.off += nread;
->      luringcb->sqeq.addr = (__u64)(uintptr_t)luringcb->resubmit_qiov.iov;
->      luringcb->sqeq.len = luringcb->resubmit_qiov.niov;
+Ping~
 
-I see this a few lines above:
+> @@ -4271,6 +4343,11 @@ static void nvme_init_sq(NvmeSQueue *sq, =
+NvmeCtrl *n, uint64_t dma_addr,
+>     if (n->dbbuf_enabled) {
+>         sq->db_addr =3D n->dbbuf_dbs + (sqid << 3);
+>         sq->ei_addr =3D n->dbbuf_eis + (sqid << 3);
+> +           =20
+> +        if (n->params.ioeventfd && sq->sqid !=3D 0) {
+> +            ret =3D nvme_init_sq_ioeventfd(sq);
+> +            sq->ioeventfd_enabled =3D ret =3D=3D 0;
+> +        }
+>     }
+>=20
+>     assert(n->cq[cqid]);
 
-    /* Update read position */
-    luringcb->total_read = nread;
+Is this =E2=80=9Cret =3D=3D 0=E2=80=9D a correct way for error handling?
 
-Doesn't it have the same problem? Though maybe getting two short reads
-is more of a theoretical case.
-
-Kevin
+I=E2=80=99ve also been wondering whether using irqfd for sending =
+interrupts can
+bring some benefits. I=E2=80=99m not familiar with how QEMU emulates =
+interrupts.
+What do you think of irqfd=E2=80=99s?=
 
 
