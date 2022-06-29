@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B8455FB9A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 11:17:54 +0200 (CEST)
-Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB53A55FC05
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 11:30:05 +0200 (CEST)
+Received: from localhost ([::1]:54826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6TpZ-0002sH-OD
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 05:17:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34254)
+	id 1o6U1M-0002XM-Kl
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 05:30:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1o6ThA-0000iC-W3; Wed, 29 Jun 2022 05:09:13 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:58471)
+ id 1o6ThD-0000k6-CH; Wed, 29 Jun 2022 05:09:21 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:42617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1o6Th7-0003YJ-Fo; Wed, 29 Jun 2022 05:09:12 -0400
+ id 1o6Th9-0003YK-8O; Wed, 29 Jun 2022 05:09:15 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MMFZQ-1oNabJ3iNS-00JNWb; Wed, 29
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MPXMa-1oKHDm2M4I-00MfJl; Wed, 29
  Jun 2022 11:08:56 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
  Klaus Jensen <k.jensen@samsung.com>, Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 04/11] Trivial: 3 char repeat typos
-Date: Wed, 29 Jun 2022 11:08:42 +0200
-Message-Id: <20220629090849.1350227-5-laurent@vivier.eu>
+Subject: [PULL 05/11] trivial typos: namesapce
+Date: Wed, 29 Jun 2022 11:08:43 +0200
+Message-Id: <20220629090849.1350227-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629090849.1350227-1-laurent@vivier.eu>
 References: <20220629090849.1350227-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Gv0Mt8zBgpMXUNczN7rVgALsdsBgreuq62exH7QyFAfOPPw1BVg
- MzX8y85d7atk9994RCBSZU04lLJfyD7YusenrOSbNcxDvIKWP/eRJvVKaumSHTXVW8bYU+z
- AUZlwfceyI2G/MQ33vNtitRPFSYHlPgDcY7i3+KHx2gWTBN88fm8M8n8RMvm9NoO1Q9CxXH
- JMHMZPylEshbqbdyf4YHg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AZp0CD+6sis=:2JhQMXswH954DQDV1WwZbJ
- 54Ti6E+eDWyJMy2f4C82ymMvfgFBYJ2BaGyp3m0ptOp3hdUpjChqPeqgEY8ERcsbqo7MBOyM1
- u0yQGCbkRid6w5z1svUigHCJEjFMjCxIHMmoD86ugqGpylhAufvpAKorP43qzZPzeqsjuAqYf
- znS4Js8ob4um3CXIPwj+1KfCu8D3Qqiw59EyIMZMuNnG+lqSXu+YBCqutohGIsLRxONEi5D8a
- BgvNQRvNhXxIIiG+2sPpPqYWfSDJMDm2Dz7iBjlMlIKOmNLbbcnevsIAOUfwXbvn53STR/5Pl
- 6bebbruuvZxfUqoB9c6j3ISVbuaID4wkYqnzimuQl1lf0qejY1K0E7p2Mx+K1+wnqrz2cWzOC
- GOEiBP7IA/nLDSTk4KIaI0rmeYLbwF+jjVo3NZsvBRyZtC+IIoZbKxlWekqUYJtSUe70rVCFK
- R+ijfnndCn9fu/ggPFrknp5zgJ2VetoivKmAgLy/m9bxC9l/WhZ8aFCHdhV9Ss4ZdFZuSk/DE
- Jn1tM0HEMgEiExiMeBMZhkXUCj2RLTjnrvQ2McAn8FEOZzkkVZJuAL9SvPgOdO/2zifsqjijL
- 0eoaOxwHwEO2RsBzoyWpUy47ZEw88N8L40jVYnmI3cSX9Sn51LdID3rH37F+Mk0xaqHZ1BWCt
- pLeYcXVbGnTh3mOpUR1ZK4mwvmiANXt5F5L6eHZUfpH0nX/AB//9jjqrlP3Pb1WB74iWct8gC
- 70YaryaV7yj/7HWCTYYOPKfTe8PMOQovN2ezrw==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:qxsvthMUJQXPZdEjDzghaMoaRrYcSc280reHISYYXR8m6VwjOeO
+ c27rRotK7MTu4hzDMhjSj+j4IZOOi7VXMQZQWi6ID27CcpD121uKsFCFKM1hgCMM2rvbLgq
+ LupR7MnX2HCVoXbmsWnX6OP+4U/sT9XS/uOQ9gLg6T+cKEIIb0jUcEPirByDIFNtL6uKDWq
+ D1EyOpaI/QJSBkVQYulQg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tqVxDB8dg8k=:2jz7OiMwCmtJb1w8ClQZw8
+ gOzBcFFLzmgOlYCJKbeVLcgBQB1GwxL0/ShZHSFsYZ6690sTX5dYYM9TPm0Hh4q5dJ75uKOYv
+ YYwNIq466sH7qwBj3MsnTgvFSRFGvBgzYuveb3mRLDZg3LZqXpSMYovxzJ1l7T+os+r0Dgn/l
+ 5WE0YuDkDMTQENZ/CTJxjnR9oODTz5f8caT0P++LL73xjAr8Vn7aCM0thK7+7/7fEsoDPvCWM
+ XzM5OWXm3t+6/V0mboPVLNYUzjrQSW2cOP4uqD6k6bwxqQyarwaG3r2kz4jySu7Yvi3Tji3o9
+ NItdCsGhCXHCWNGgxLw4LDz+OLg4okZGlO59eUmEvdI4V28qw0/zwbX+6pCIXDEAAs1hVPLKa
+ dRpfxRk8RVz9zbnNXRu1qit3OO0gA5gVY2xhabfgyi4g9nWVZoelihZZmmo9GP4hdmfmFLpc0
+ XJQPOJWyQt8Xc10CzjJ8HV/P94nsQl3BlzHO1AnzqMFeNCaZ4trzA+JPgOnamAQ9bx3cxX51d
+ EeWtbrFS1KtyX9WRndq4ZiW2R4a8nQjaSITEaINr0LeaPYXtdyB4xg/mlHXzEPVa3GgsxGBD1
+ xygFU5Qtq1wxm0G5PNec9NE8SVqU/FWhFpqVwxc2WJx/aAwDT47w+dC3ph68byVdUBG883cmT
+ KqRdsmVS8UC3x52FnxioqfqQBSzjuh8CYdPSF0mZvT7BgG7xRj2W4lqDIx0QH+grtK7H4XJ2m
+ Z1NtwY9S/ocY+Ig7+vO2tqTS01m73i/Hvv7aeg==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,144 +73,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Inspired by Julia Lawall's fixing of Linux
-kernel comments, I looked at qemu, although I did it manually.
+'namespace' is misspelled in a bunch of places.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Message-Id: <20220614104045.85728-2-dgilbert@redhat.com>
+Message-Id: <20220614104045.85728-3-dgilbert@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/intc/openpic.c                | 2 +-
- hw/net/imx_fec.c                 | 2 +-
- hw/pci/pcie_aer.c                | 2 +-
- hw/pci/shpc.c                    | 3 ++-
- hw/ppc/spapr_caps.c              | 2 +-
- hw/scsi/spapr_vscsi.c            | 2 +-
- qapi/net.json                    | 2 +-
- tools/virtiofsd/passthrough_ll.c | 2 +-
- ui/input.c                       | 2 +-
- 9 files changed, 10 insertions(+), 9 deletions(-)
+ hw/9pfs/9p-xattr-user.c | 8 ++++----
+ hw/acpi/nvdimm.c        | 2 +-
+ hw/nvme/ctrl.c          | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/intc/openpic.c b/hw/intc/openpic.c
-index 49504e740f33..b0787e8ee78c 100644
---- a/hw/intc/openpic.c
-+++ b/hw/intc/openpic.c
-@@ -729,7 +729,7 @@ static void openpic_tmr_set_tmr(OpenPICTimer *tmr, uint32_t val, bool enabled)
- }
- 
- /*
-- * Returns the currrent tccr value, i.e., timer value (in clocks) with
-+ * Returns the current tccr value, i.e., timer value (in clocks) with
-  * appropriate TOG.
-  */
- static uint64_t openpic_tmr_get_timer(OpenPICTimer *tmr)
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index 0db9aaf76a01..8c11b237de70 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -438,7 +438,7 @@ static void imx_eth_update(IMXFECState *s)
-      *   assignment fail.
-      *
-      * To ensure that all versions of Linux work, generate ENET_INT_MAC
--     * interrrupts on both interrupt lines. This should be changed if and when
-+     * interrupts on both interrupt lines. This should be changed if and when
-      * qemu supports IOMUX.
-      */
-     if (s->regs[ENET_EIR] & s->regs[ENET_EIMR] &
-diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-index 92bd0530dd24..eff62f394557 100644
---- a/hw/pci/pcie_aer.c
-+++ b/hw/pci/pcie_aer.c
-@@ -323,7 +323,7 @@ static void pcie_aer_msg_root_port(PCIDevice *dev, const PCIEAERMsg *msg)
+diff --git a/hw/9pfs/9p-xattr-user.c b/hw/9pfs/9p-xattr-user.c
+index f2ae9582e610..535677ed609b 100644
+--- a/hw/9pfs/9p-xattr-user.c
++++ b/hw/9pfs/9p-xattr-user.c
+@@ -27,7 +27,7 @@ static ssize_t mp_user_getxattr(FsContext *ctx, const char *path,
+ {
+     if (strncmp(name, "user.virtfs.", 12) == 0) {
+         /*
+-         * Don't allow fetch of user.virtfs namesapce
++         * Don't allow fetch of user.virtfs namespace
+          * in case of mapped security
           */
-     }
- 
--    /* Errro Message Received: Root Error Status register */
-+    /* Error Message Received: Root Error Status register */
-     switch (msg->severity) {
-     case PCI_ERR_ROOT_CMD_COR_EN:
-         if (root_status & PCI_ERR_ROOT_COR_RCV) {
-diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-index f822f18b9806..e71f3a748378 100644
---- a/hw/pci/shpc.c
-+++ b/hw/pci/shpc.c
-@@ -480,7 +480,8 @@ static const MemoryRegionOps shpc_mmio_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
-     .valid = {
-         /* SHPC ECN requires dword accesses, but the original 1.0 spec doesn't.
--         * It's easier to suppport all sizes than worry about it. */
-+         * It's easier to support all sizes than worry about it.
-+         */
-         .min_access_size = 1,
-         .max_access_size = 4,
-     },
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 655ab856a01b..b4283055c121 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -553,7 +553,7 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
-              * instruction is a harmless no-op.  It won't correctly
-              * implement the cache count flush *but* if we have
-              * count-cache-disabled in the host, that flush is
--             * unnnecessary.  So, specifically allow this case.  This
-+             * unnecessary.  So, specifically allow this case.  This
-              * allows us to have better performance on POWER9 DD2.3,
-              * while still working on POWER9 DD2.2 and POWER8 host
-              * cpus.
-diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
-index a07a8e1523f6..e320ccaa2385 100644
---- a/hw/scsi/spapr_vscsi.c
-+++ b/hw/scsi/spapr_vscsi.c
-@@ -1013,7 +1013,7 @@ static int vscsi_send_capabilities(VSCSIState *s, vscsi_req *req)
-     }
- 
-     /*
--     * Current implementation does not suppport any migration or
-+     * Current implementation does not support any migration or
-      * reservation capabilities. Construct the response telling the
-      * guest not to use them.
-      */
-diff --git a/qapi/net.json b/qapi/net.json
-index d6f7cfd4d656..9af11e9a3bb2 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -298,7 +298,7 @@
- #
- # @udp: use the udp version of l2tpv3 encapsulation
- #
--# @cookie64: use 64 bit coookies
-+# @cookie64: use 64 bit cookies
- #
- # @counter: have sequence counter
- #
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index b15c631ca512..7a73dfcce901 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2319,7 +2319,7 @@ static int do_lo_create(fuse_req_t req, struct lo_inode *parent_inode,
-          * If security.selinux has not been remapped and selinux is enabled,
-          * use fscreate to set context before file creation. If not, use
-          * tmpfile method for regular files. Otherwise fallback to
--         * non-atomic method of file creation and xattr settting.
-+         * non-atomic method of file creation and xattr setting.
+         errno = ENOATTR;
+@@ -49,7 +49,7 @@ static ssize_t mp_user_listxattr(FsContext *ctx, const char *path,
+             name_size -= 12;
+         } else {
+             /*
+-             * Don't allow fetch of user.virtfs namesapce
++             * Don't allow fetch of user.virtfs namespace
+              * in case of mapped security
+              */
+             return 0;
+@@ -74,7 +74,7 @@ static int mp_user_setxattr(FsContext *ctx, const char *path, const char *name,
+ {
+     if (strncmp(name, "user.virtfs.", 12) == 0) {
+         /*
+-         * Don't allow fetch of user.virtfs namesapce
++         * Don't allow fetch of user.virtfs namespace
+          * in case of mapped security
           */
-         if (!mapped_name && lo->use_fscreate) {
-             err = do_create_secctx_fscreate(req, parent_inode, name, mode, fi,
-diff --git a/ui/input.c b/ui/input.c
-index 8ac407dec485..e2a90af889ee 100644
---- a/ui/input.c
-+++ b/ui/input.c
-@@ -364,7 +364,7 @@ void qemu_input_event_send(QemuConsole *src, InputEvent *evt)
-      * when 'alt+print' was pressed. This flaw is now fixed and the
-      * 'sysrq' key serves no further purpose. We normalize it to
-      * 'print', so that downstream receivers of the event don't
--     * neeed to deal with this mistake
-+     * need to deal with this mistake
-      */
-     if (evt->type == INPUT_EVENT_KIND_KEY &&
-         evt->u.key.data->key->u.qcode.data == Q_KEY_CODE_SYSRQ) {
+         errno = EACCES;
+@@ -88,7 +88,7 @@ static int mp_user_removexattr(FsContext *ctx,
+ {
+     if (strncmp(name, "user.virtfs.", 12) == 0) {
+         /*
+-         * Don't allow fetch of user.virtfs namesapce
++         * Don't allow fetch of user.virtfs namespace
+          * in case of mapped security
+          */
+         errno = EACCES;
+diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+index 0d43da19ea42..5f85b1632706 100644
+--- a/hw/acpi/nvdimm.c
++++ b/hw/acpi/nvdimm.c
+@@ -476,7 +476,7 @@ struct NvdimmFuncGetLabelDataOut {
+     /* the size of buffer filled by QEMU. */
+     uint32_t len;
+     uint32_t func_ret_status; /* return status code. */
+-    uint8_t out_buf[]; /* the data got via Get Namesapce Label function. */
++    uint8_t out_buf[]; /* the data got via Get Namespace Label function. */
+ } QEMU_PACKED;
+ typedef struct NvdimmFuncGetLabelDataOut NvdimmFuncGetLabelDataOut;
+ QEMU_BUILD_BUG_ON(sizeof(NvdimmFuncGetLabelDataOut) > NVDIMM_DSM_MEMORY_SIZE);
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index d349b3e42620..ca335dd7da6d 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -76,7 +76,7 @@
+  *   the SUBNQN field in the controller will report the NQN of the subsystem
+  *   device. This also enables multi controller capability represented in
+  *   Identify Controller data structure in CMIC (Controller Multi-path I/O and
+- *   Namesapce Sharing Capabilities).
++ *   Namespace Sharing Capabilities).
+  *
+  * - `aerl`
+  *   The Asynchronous Event Request Limit (AERL). Indicates the maximum number
 -- 
 2.36.1
 
