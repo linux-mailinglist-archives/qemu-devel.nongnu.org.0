@@ -2,88 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F255F56072B
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 19:15:34 +0200 (CEST)
-Received: from localhost ([::1]:34122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0051C560750
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 19:23:48 +0200 (CEST)
+Received: from localhost ([::1]:41526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6bHq-0001Vr-1K
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 13:15:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59244)
+	id 1o6bPn-000718-Ob
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 13:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o6bA4-000351-Vn
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 13:07:33 -0400
-Received: from sonic312-24.consmr.mail.gq1.yahoo.com ([98.137.69.205]:43676)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o6bLZ-0005YY-FK
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 13:19:25 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:43583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o6bA1-0004p6-Rr
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 13:07:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1656522446; bh=KGleZCrK1ory7vZwxUmrZsedjLqWV8c6qrWiB0U6mow=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=mr80KzqVqatPdlmBEV9f0VtMfWq45miGJA2WQ0/YScGHp0WLX/IsRongAc7X6/4dJiKxYsWXgMVeN84sK+Ok8qx4ORAroEVDYBObI4y7u6QLp8emcy/is0xcnocST6dFC26JbsG1s4OnYL0DnCy4xiuqzkW95rIekWcrrKI1ayaxt/ybV6aEC5Po0y3i7Ostl+hVuKP/WUc04py+PMOP2ddUvmQjGfu3ulMwtXl0T9yFHy4s1FxQgqFYoGj+p010zGJ9/her2PjCQ1+Q0o/qafIU7/kRqggl7dCrQ7zzH3P8tVyco/xeIjnkYZdntLmt74hemEva/nM/QdUsEEuNTA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1656522446; bh=vADSH42mt0SrfQIwqiqm56R6UvOcvPatZYtPdEu/k6D=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=D5V4w92Ebw+iFrzLrQn38NPfeAMwbCaSTip/5373qeg5aSoVrGsQPB2mWWzSoSngAmBKnAGDSPafqUpPGmPap+8ozN7nbSR1orUxuycow+zG/+tEk29BqCAe4hj2MzxXjnD3GPYphwOIEICM22CKEOKhOqBlLpj+IqAj7DM5wWJjcrHbiWRubhUk+8QCJLlI5vnPyjXkZUR2y0bfQ/ylSsAWsLPfiecDsHqTaTrKiTAuvPTCAKcoXmwMUZAbEHpziJ1QDkDUMXCPPSomiCHYYLjrlWm4cSUvI/+VYrY11LuoMpCxgMnPd/QW48aeWl5A+zy8sYy0jPiRRjmDpbfGJQ==
-X-YMail-OSG: GbWx56UVM1kDP1w7PXqGFTZw8a8.Q5vCHL21ZWJMlsWuRDhGaiptXkInk7wrSDt
- WqjPVDDtKHzugx9w4kWGTrZ3L4oo8G_6oVwPvn52QxMqzpsPOSLM1oe5oDGkE9XC91PE0ZVB9A.9
- zuWpvh_MqscHNfethKiY5ud1XdPBi7rzkEbAKpDUR9BXVH0iAtgCYMSOKgTvzBrv3MZgefiUaxYb
- EAbaDk_9VPpqE50LYKI1hNW9ShAlkPfa9UIzcwmhc0JjTSZ7DVMG4iDsfaG1WjSBkHNtwgQLHDAq
- qd0IkT5MhxgbI.V8lDONULHbfamPzFdbrdjABZc9T7XZ29vYkpjh1lngLKYOBSr6i_AwM1eQajHw
- qxcsMRUoQFaSa43gmAsqj.UAdklSHIlSwN91Yj8UFfKW4S83YpMNnJ8pPSnT0hLLkQcvP1nuuz96
- bIt77kd2ahfl92RW5.LV7swi2EE5P1rlgEA66ZO75S3Bdu3IkZAavbqolA2LrnWL1393Xkk6sY0h
- 4VB1GZdWkc9MHEWlIBG9dJGpGdhnPC42XMV5tRf.b5u1EsXGhEf2WteK2o6_1DJcbFygj5KK211C
- 9ml2hfZW3GwzbZhsPocDBlBLnTvM2_vtByT2ICPi9SwntfNqlZoDnS2KxUc8xYYSbFwQz0Kc2yHj
- 8O4BaQWIqm5381VXtTARTBGIykK6zsi9qrGFoExFTmR2FTSJGrS52A.SHXjjnCBsaqcJ.H.F71hO
- dLb9kpPtdq0lUoBFxRYdk7k9op6HHfuQYM1oA3NsEiigzC7lvVxC9lOL8Hw7LkdJduIObxWTq4t8
- UjRNs0imI3Pn_.FkNVIbUItb0gCfu2cqhRQP_PahIxalZWw.trnSjMqF2X9gYfDKtMjx1Gl4.R.s
- ZeZUIvuSLpnaEzQIezThSVsPMGOPgvMSBsTUacYTecP1Amq_aOzkf_Z.PO.TpXh6A6zlyY16uidE
- usL94ull_vzItEZefaS7_vhZXP2vXHWEGR3KZK7RSf2jfxXUs_wK9PTCtdxQh5BNDvBKKicfPqgW
- inXWQbY42JbLnfpGe7wXteNTV05qh13Yw0J3ON4K8h7VqtWsqCrEy0YPX0V.zGdXfqbaKFKQRXOA
- kgg5PX5yiMcA56BhTCzzqVZj2o53brTapquMZp.PgVf2TT5q5coSQ5bWIRtABpOWKzCECRr59Py_
- muhaJ7IBQ3VY4tiy4rqFY3BtL8HF9GSkygBhCplpSFfs_Kq47q39ZBmSIAqQUN3Ys9TU_gjipivm
- EteGqxxiz844dHP7lGR5tIrV1XJgUKfJEPLkwCvPQB_qktOxc7tHwn3eW5jQAexeqJfDOsnF5yzv
- VoW.74X2mxfskf6cWOS.MHgMTMQ7Q5WgX6zhPDXzLDknwZBStTJu4AT50Gn4U4SyNoROmhBiG8Ts
- 4FzKWqUIGBefJkzH4WYRxV2I4KCyyCyuOUm36.17pILXJPXde.7ytSol31oc0LQ.OSU81k.30WW4
- hbh8v8moTaoK_h5Sdo82aiBj2A1J58dUgSfMTTF9Alf97l89tVJiciqwrXEQDMLHMN_pDdoKf1Ox
- e06_aew0t2sA1qijSZxnqZt9rT9A.PBfuwnkdT3V24xQMX0LILO.F5.R0IRtXrGFhjR8y6I.ZHYC
- kz6JXJx6gTFCDWi_zU3aRUawuI9QPWv._E86kq3sMjs4NHdVKwvnRfpuh7G.16UcuTHfe9kQcNle
- TP.LGr5p0yrnB6lNi7gykkWluTZ51o67FCZ8NDTTT.FtS7wvye1V7gpbm6kEcGHVgddsFsxiWWdb
- K03_bbYLpAcj.IPhtd4w7cH3hoL3GsVZcgFYcay2oN6mRO3twBPLyY.CyTPBF4kQrzoriOdHxUhi
- h1L4XN811tvB40ZD6vt9u6RW9eFygNVmfFo4XwYgjyNJIDnDORv3gsOnsIH4X4UpUhUiePeYRZ_i
- FqddYkVykq69N_6m0VWeDzEMHCHgXhFUufc9GU0AP8cGhoia9gMnjJMdAgpCY7ByIz1XdGwFNxEx
- HNOMG6LAVgAD48q0JHgFEn7WSF2rPL6eMkAUtMGA.W_BDH3J2AwRcg44TbtZM5jLk5daTXv1PWEB
- PEDt.MZh_I1WAhwrDOL21ukap9hVMw3YNJOrcMGL_A2QcWmSm2ZX0GCOnfw5RY.efllqYkFxWs1r
- .fAK4y1jBqwR8Me2GJp5tGvXs.V_bBkjmBWsQV_wgn1x6Gja6hJfiDhMUfhVIPS3bCrc7hifOPLq
- sXlY-
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic312.consmr.mail.gq1.yahoo.com with HTTP; Wed, 29 Jun 2022 17:07:26 +0000
-Received: by hermes--production-ne1-7864dcfd54-q4948 (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID b6ab6cb55138359f47e14faeedf2220c; 
- Wed, 29 Jun 2022 17:07:21 +0000 (UTC)
-From: Chuck Zmudzinski <brchuckz@aol.com>
-To: qemu-devel@nongnu.org
-Cc: xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
- qemu-stable@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-Subject: [PATCH v5] xen/pass-through: merge emulated bits correctly
-Date: Wed, 29 Jun 2022 13:07:12 -0400
-Message-Id: <e4392535d8e5266063dc5461d0f1d301e3dd5951.1656522217.git.brchuckz@aol.com>
-X-Mailer: git-send-email 2.36.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o6bLX-0002S7-MA
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 13:19:25 -0400
+Received: by mail-ed1-x529.google.com with SMTP id c13so23120707eds.10
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 10:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=nUFbiFQ8715a4I5FoVErJI9tXQWEcFpaRRRtuUiZXko=;
+ b=edaRQ5Q5jIYvYaeAimqhT5ki+tEwUWCg3QQQjINH4w7V9nIBcatGURjg1V7bblcH6C
+ WR6/tgmnruaIZL+qy5Q/HSa7xnDts9TDHDJBPPXApWRpHw1Pg9RHDWvYowZFyiRo1Qc9
+ gIqjQu9buTe0KYNU+GG4o65AcjSgweo14Kwt6AL3OcwBpieF3YfPfazg/6Qj6S+jfLvH
+ S0wiSlEHHI6NJ6mDtKj4ExpJLIzN2/iQcqDBYTova2k2CwpUqGbnadp62Nnotas5tp6Z
+ 4MNw1V6R5WL20J7OGjNHq5XbQhU2JFU6zmJM226el7O4QxG1JM79rUCnPgds2vwlTs/8
+ uFzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=nUFbiFQ8715a4I5FoVErJI9tXQWEcFpaRRRtuUiZXko=;
+ b=Aj21lkHwqzKLj6IRdlKXZW1LvBOZZZ8zCfgziN2JQxUE+VDdbfU81ZjCdX+pbtwkYY
+ aeIJFQbtJlczNCrW/nE6qKZqx2mx9WcP30YLc61U29RYizRc577IG4janXxNyPAqMkJ6
+ 6vK8c9luGAFOGNTrQYC9ecBcIEUrI6fOj7koHRsWDxWXQcZah9/QcuwVVEbb95n0Fi64
+ zZhzIpLVQWkoRgZuyXW593Jir+axR1gSOMqdmmdo79xtfOeRFrVEFEdG9TikXOpMDCnl
+ r0kwHn9o+hbiuG3aT9F90Ktg0dPwkKrUcLKdb2HEhre+3N23RgFMcgb3MlicG5/+tHUI
+ Bzrg==
+X-Gm-Message-State: AJIora9v9uqATKWuk/+PzXQWB3U3x7qTSrMQjTsUsu5CqbsxMkL8emc+
+ 9b8xu1CbxDYRpLG+nHoIpPjBlA==
+X-Google-Smtp-Source: AGRyM1t1xz0JDR1Nuhjv8LohIrs0dSlQ3xHJUC+zlpsyxYrDXHNDjOksuPP34TPByj9U5tBgvJ5zow==
+X-Received: by 2002:a05:6402:248d:b0:437:dd4c:e70e with SMTP id
+ q13-20020a056402248d00b00437dd4ce70emr4013272eda.75.1656523162087; 
+ Wed, 29 Jun 2022 10:19:22 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ m2-20020a50ef02000000b00435a997303bsm11543619eds.71.2022.06.29.10.19.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jun 2022 10:19:20 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E85831FFB7;
+ Wed, 29 Jun 2022 18:19:19 +0100 (BST)
+References: <111e5b6c-41a7-89a4-b4d2-2eda1a295ffa@linux.ibm.com>
+ <dd5f1753-ff56-f248-9863-b39739fb6093@eldorado.org.br>
+ <cf38218a-6e13-8024-8e08-fcdd74faa5a8@linux.ibm.com>
+ <87h744keg7.fsf@linaro.org>
+ <348a8b91-6d91-7429-615b-c0e3d23e4fce@linux.ibm.com>
+ <8735fojukm.fsf@linaro.org>
+ <44596e63-1631-ee12-231c-15be9c914a74@linux.ibm.com>
+ <9c97ae8f-f733-21fc-97d1-99af971e38fd@eldorado.org.br>
+User-agent: mu4e 1.7.27; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Cc: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: Slowness with multi-thread TCG?
+Date: Wed, 29 Jun 2022 18:13:50 +0100
+In-reply-to: <9c97ae8f-f733-21fc-97d1-99af971e38fd@eldorado.org.br>
+Message-ID: <87ilojgzfs.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <e4392535d8e5266063dc5461d0f1d301e3dd5951.1656522217.git.brchuckz.ref@aol.com>
-Received-SPF: pass client-ip=98.137.69.205; envelope-from=brchuckz@aim.com;
- helo=sonic312-24.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,79 +100,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In xen_pt_config_reg_init(), there is an error in the merging of the
-emulated data with the host value. With the current Qemu, instead of
-merging the emulated bits with the host bits as defined by emu_mask,
-the emulated bits are merged with the host bits as defined by the
-inverse of emu_mask. In some cases, depending on the data in the
-registers on the host, the way the registers are setup, and the
-initial values of the emulated bits, the end result will be that
-the register is initialized with the wrong value.
 
-To correct this error, use the XEN_PT_MERGE_VALUE macro to help ensure
-the merge is done correctly.
+"Matheus K. Ferst" <matheus.ferst@eldorado.org.br> writes:
 
-This correction is needed to resolve Qemu project issue #1061, which
-describes the failure of Xen HVM Linux guests to boot in certain
-configurations with passed through PCI devices, that is, when this error
-disables instead of enables the PCI_STATUS_CAP_LIST bit of the
-PCI_STATUS register of a passed through PCI device, which in turn
-disables the MSI-X capability of the device in Linux guests with the end
-result being that the Linux guest never completes the boot process.
+> On 29/06/2022 12:36, Frederic Barrat wrote:
+>> [E-MAIL EXTERNO] N=C3=A3o clique em links ou abra anexos, a menos que
+>> voc=C3=AA possa confirmar o remetente e saber que o conte=C3=BAdo =C3=A9=
+ seguro. Em
+>> caso de e-mail suspeito entre imediatamente em contato com o DTI.
+>> On 29/06/2022 00:17, Alex Benn=C3=A9e wrote:
+>>> If you run the sync-profiler (via the HMP "sync-profile on") you can
+>>> then get a breakdown of which mutex's are being held and for how long
+>>> ("info sync-profile").
+>> Alex, a huge thank you!
+>> For the record, the "info sync-profile" showed:
+>> Type=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 Object=C2=A0 Call site=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 Wait Time (s)
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Count=C2=A0 Average (us)
+>> ------------------------------------------------------------------------=
+--------------------------
+>> BQL mutex=C2=A0 0x55eb89425540=C2=A0 accel/tcg/cpu-exec.c:744=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+>> 96.31578
+>>  =C2=A0=C2=A0=C2=A0 73589937=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 1.31
+>> BQL mutex=C2=A0 0x55eb89425540=C2=A0 target/ppc/helper_regs.c:207=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0.00150
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1178=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1.27
+>> And it points to a lock in the interrupt delivery path, in
+>> cpu_handle_interrupt().
+>> I now understand the root cause. The interrupt signal for the
+>> decrementer interrupt remains set because the interrupt is not being
+>> delivered, per the config. I'm not quite sure what the proper fix is yet
+>> (there seems to be several implementations of the decrementer on ppc),
+>> but at least I understand why we are so slow.
+>>=20
+>
+> To summarize what we talked elsewhere:
+> 1 - The threads that are not decompressing the kernel have a pending
+> PPC_INTERRUPT_DECR, and cs->interrupt_request is CPU_INTERRUPT_HARD;
 
-Fixes: 2e87512eccf3 ("xen/pt: Sync up the dev.config and data values")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1061
-Buglink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=988333
+I think ppc_set_irq should be doing some gating before calling to set
+cs->interrupt_request.
 
-Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
----
-v2: Edit the commit message to more accurately describe the cause
-of the error.
+> 2 - cpu_handle_interrupt calls ppc_cpu_exec_interrupt, that calls
+> ppc_hw_interrupt to handle the interrupt;
+> 3 - ppc_cpu_exec_interrupt decides that the interrupt cannot be
+> delivered immediately, so the corresponding bit in
+> env->pending_interrupts is not reset;
 
-v3: * Add Reviewed-By: Anthony Perard <anthony.perard@citrix.com>
-    * Add qemu-stable@nongnu.org to recipients to indicate the patch
-      may be suitable for backport to Qemu stable
+Is the logic controlled by ppc_hw_interrupt()? The stuff around
+async_deliver?
 
-v4: * Add Fixed commit subject to Fixes: 2e87512eccf3
+I think maybe some of the logic needs to be factored out and checked
+above. Also anywhere where env->msr is updated would need to check if
+we've just enabled a load of pending interrupts and then call
+ppc_set_irq.
 
-Sorry for the extra noise with v4 (I thought the Fixed commit subject
-would be automatically added).
+However I'm not super familiar with the PPC code so I'll defer to the
+maintainers here ;-)
 
-v5: * Coding style fix: move block comment leading /* and trailing */
-      to separate lines
+> 4 - ppc_cpu_exec_interrupt does not change cs->interrupt_request
+> because pending_interrupts !=3D 0, so cpu_handle_interrupt will be
+> called again.
+>
+> This loop will acquire and release qemu_mutex_lock_iothread, slowing
+> down other threads that need this lock.
+>
+>> With a quick hack, I could verify that by moving that signal out of the
+>> way, the decompression time of the kernel is now peanuts, no matter the
+>> number of cpus. Even with one cpu, the 15 seconds measured before was
+>> already a huge waste, so it was not really a multiple-cpus problem.
+>> Multiple cpus were just highlighting it.
+>> Thanks again!
+>>  =C2=A0 Fred
 
-Again, sorry for the noise, but the style of the comment was wrong
-before v5.
 
-Thank you, Anthony, again, for taking the time to review this patch.
-
- hw/xen/xen_pt_config_init.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
-index cad4aeba84..4758514ddf 100644
---- a/hw/xen/xen_pt_config_init.c
-+++ b/hw/xen/xen_pt_config_init.c
-@@ -1965,11 +1965,12 @@ static void xen_pt_config_reg_init(XenPCIPassthroughState *s,
- 
-         if ((data & host_mask) != (val & host_mask)) {
-             uint32_t new_val;
--
--            /* Mask out host (including past size). */
--            new_val = val & host_mask;
--            /* Merge emulated ones (excluding the non-emulated ones). */
--            new_val |= data & host_mask;
-+            /*
-+             * Merge the emulated bits (data) with the host bits (val)
-+             * and mask out the bits past size to enable restoration
-+             * of the proper value for logging below.
-+             */
-+            new_val = XEN_PT_MERGE_VALUE(val, data, host_mask) & size_mask;
-             /* Leave intact host and emulated values past the size - even though
-              * we do not care as we write per reg->size granularity, but for the
-              * logging below lets have the proper value. */
--- 
-2.36.1
-
+--=20
+Alex Benn=C3=A9e
 
