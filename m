@@ -2,100 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C65560B3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 22:46:41 +0200 (CEST)
-Received: from localhost ([::1]:49950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF41560B4A
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 22:56:57 +0200 (CEST)
+Received: from localhost ([::1]:53176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6ea7-00075l-LG
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 16:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52634)
+	id 1o6ek4-0001O8-Ff
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 16:56:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1o6eX2-0006M4-EE
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 16:43:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42910)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6eis-0000X4-KW
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 16:55:42 -0400
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:34623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1o6eWv-0002de-Ix
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 16:43:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656535400;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zkEGAsh/UkOiFPIWJyWKQFz82lD/8zPK8eENGRjXgFg=;
- b=RipwaYOL/Fj8qZ3LAO8kn1RQdDRC6H7J2CSH6xVdwSJTOtDRws9JMlXrVyceUBH7MBzD4/
- 2Pt57Vf3KxUq61TFH8LKF6/oBezejPsp7ncPIebm5r6SBmf6Fsv94BUNZK+i4tfz+QOlLu
- I7ST3w7UNEhIjRa3PjwGLwo6rCO8JeU=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-rw-2t3fvODitoUwS5Vv5rw-1; Wed, 29 Jun 2022 16:43:19 -0400
-X-MC-Unique: rw-2t3fvODitoUwS5Vv5rw-1
-Received: by mail-il1-f200.google.com with SMTP id
- o17-20020a056e02115100b002d95d6881e4so9483702ill.19
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 13:43:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=zkEGAsh/UkOiFPIWJyWKQFz82lD/8zPK8eENGRjXgFg=;
- b=X+IVfl2pkHa0fg+xJlb0w6hK62t4cz7sKnu4X32sBOYuCBX11o4OhClhDptSIp4GrY
- FPNEgOMWM6uudadHE+mloWYDODBCaAGawJ7ghay00/DyFNBXOttNi0rSKA6U8mTTFo+8
- bOI8Mzj0LxeVG2zksU85nzRBcFV5YKxnXQAmLwW93iSJTmCzmOc/LeLL6pxJQ9AZARj6
- lbPT3paeo3jvyFmEFd6qnK/d38xCR87WzZOaLNPuQRowKzWAaCb/vh3HPqQ/lV4twDnY
- eCStSYQup2FsuptrkiQpTCmWzOrRc+mBcxs4HTubJFv0OeVIrS8OVDT9zYdRWViLb9mt
- /m3Q==
-X-Gm-Message-State: AJIora/RZT/BrQ9+zfWX9QJo9DgTFu01VpSIVRuT5xnV7Eg72wjptcJF
- sECgBGOw3XJ3XuPMUUFLJKc4J1PMmOJwZ6vjrz/+w2lv+FELN939kI60iHWuck9JfGe/IWIDmp5
- X+I9VWsmVbgMm3nU=
-X-Received: by 2002:a05:6638:1383:b0:33c:912d:51c8 with SMTP id
- w3-20020a056638138300b0033c912d51c8mr2922141jad.315.1656535398126; 
- Wed, 29 Jun 2022 13:43:18 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uNg1XhYm7qyi+g7soezeCvz7YJI6GOYktYmNuED4iLVnCspwKib3Frg/iNrUUOSGA3XGmIQg==
-X-Received: by 2002:a05:6638:1383:b0:33c:912d:51c8 with SMTP id
- w3-20020a056638138300b0033c912d51c8mr2922121jad.315.1656535397806; 
- Wed, 29 Jun 2022 13:43:17 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- r3-20020a02aa03000000b0033cd78a3612sm647043jam.18.2022.06.29.13.43.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 13:43:17 -0700 (PDT)
-Date: Wed, 29 Jun 2022 14:43:16 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Stefan
- Hajnoczi <stefanha@redhat.com>, =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau
- <marcandre.lureau@redhat.com>, Alex =?UTF-8?B?QmVubsOpZQ==?=
- <alex.bennee@linaro.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Zheng Chuan <zhengchuan@huawei.com>, Mark Kanda <mark.kanda@oracle.com>,
- Guoyi Tu <tugy@chinatelecom.cn>, Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <philippe.mathieu.daude@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
- David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH V8 29/39] vfio-pci: cpr part 3 (intx)
-Message-ID: <20220629144316.60e6ea6c.alex.williamson@redhat.com>
-In-Reply-To: <1655304746-102776-30-git-send-email-steven.sistare@oracle.com>
-References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
- <1655304746-102776-30-git-send-email-steven.sistare@oracle.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6eip-0007Rs-6I
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 16:55:42 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.186])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6CFC3112B70F8;
+ Wed, 29 Jun 2022 22:55:34 +0200 (CEST)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 29 Jun
+ 2022 22:55:33 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0043e6b207a-363b-4a5e-9702-9d3b9066cc88,
+ 74A1F81DE4F8936248B5873BB0AED4007818FEC6) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <162badcf-fb35-11db-34b2-3957c8a21751@kaod.org>
+Date: Wed, 29 Jun 2022 22:55:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: Slowness with multi-thread TCG?
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, "Matheus K. Ferst"
+ <matheus.ferst@eldorado.org.br>
+CC: Frederic Barrat <fbarrat@linux.ibm.com>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <111e5b6c-41a7-89a4-b4d2-2eda1a295ffa@linux.ibm.com>
+ <dd5f1753-ff56-f248-9863-b39739fb6093@eldorado.org.br>
+ <cf38218a-6e13-8024-8e08-fcdd74faa5a8@linux.ibm.com>
+ <87h744keg7.fsf@linaro.org>
+ <348a8b91-6d91-7429-615b-c0e3d23e4fce@linux.ibm.com>
+ <8735fojukm.fsf@linaro.org>
+ <44596e63-1631-ee12-231c-15be9c914a74@linux.ibm.com>
+ <9c97ae8f-f733-21fc-97d1-99af971e38fd@eldorado.org.br>
+ <87ilojgzfs.fsf@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <87ilojgzfs.fsf@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: ffb953d5-7bd6-4037-8131-369b99b3a02d
+X-Ovh-Tracer-Id: 13566530928807087011
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgudehhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvle
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,213 +83,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jun 2022 07:52:16 -0700
-Steve Sistare <steven.sistare@oracle.com> wrote:
-
-> Preserve vfio INTX state across cpr restart.  Preserve VFIOINTx fields as
-> follows:
->   pin : Recover this from the vfio config in kernel space
->   interrupt : Preserve its eventfd descriptor across exec.
->   unmask : Ditto
->   route.irq : This could perhaps be recovered in vfio_pci_post_load by
->     calling pci_device_route_intx_to_irq(pin), whose implementation reads
->     config space for a bridge device such as ich9.  However, there is no
->     guarantee that the bridge vmstate is read before vfio vmstate.  Rather
->     than fiddling with MigrationPriority for vmstate handlers, explicitly
->     save route.irq in vfio vmstate.
->   pending : save in vfio vmstate.
->   mmap_timeout, mmap_timer : Re-initialize
->   bool kvm_accel : Re-initialize
+On 6/29/22 19:13, Alex Bennée wrote:
 > 
-> In vfio_realize, defer calling vfio_intx_enable until the vmstate
-> is available, in vfio_pci_post_load.  Modify vfio_intx_enable and
-> vfio_intx_kvm_enable to skip vfio initialization, but still perform
-> kvm initialization.
+> "Matheus K. Ferst" <matheus.ferst@eldorado.org.br> writes:
 > 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> ---
->  hw/vfio/pci.c | 92 +++++++++++++++++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 83 insertions(+), 9 deletions(-)
+>> On 29/06/2022 12:36, Frederic Barrat wrote:
+>>> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que
+>>> você possa confirmar o remetente e saber que o conteúdo é seguro. Em
+>>> caso de e-mail suspeito entre imediatamente em contato com o DTI.
+>>> On 29/06/2022 00:17, Alex Bennée wrote:
+>>>> If you run the sync-profiler (via the HMP "sync-profile on") you can
+>>>> then get a breakdown of which mutex's are being held and for how long
+>>>> ("info sync-profile").
+>>> Alex, a huge thank you!
+>>> For the record, the "info sync-profile" showed:
+>>> Type               Object  Call site                     Wait Time (s)
+>>>          Count  Average (us)
+>>> --------------------------------------------------------------------------------------------------
+>>> BQL mutex  0x55eb89425540  accel/tcg/cpu-exec.c:744
+>>> 96.31578
+>>>       73589937          1.31
+>>> BQL mutex  0x55eb89425540  target/ppc/helper_regs.c:207        0.00150
+>>>           1178          1.27
+>>> And it points to a lock in the interrupt delivery path, in
+>>> cpu_handle_interrupt().
+>>> I now understand the root cause. The interrupt signal for the
+>>> decrementer interrupt remains set because the interrupt is not being
+>>> delivered, per the config. I'm not quite sure what the proper fix is yet
+>>> (there seems to be several implementations of the decrementer on ppc),
+>>> but at least I understand why we are so slow.
+>>>
+>>
+>> To summarize what we talked elsewhere:
+>> 1 - The threads that are not decompressing the kernel have a pending
+>> PPC_INTERRUPT_DECR, and cs->interrupt_request is CPU_INTERRUPT_HARD;
 > 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 2fd7121..b8aee91 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -173,14 +173,45 @@ static void vfio_intx_eoi(VFIODevice *vbasedev)
->      vfio_unmask_single_irqindex(vbasedev, VFIO_PCI_INTX_IRQ_INDEX);
->  }
->  
-> +#ifdef CONFIG_KVM
-> +static bool vfio_no_kvm_intx(VFIOPCIDevice *vdev)
-> +{
-> +    return vdev->no_kvm_intx || !kvm_irqfds_enabled() ||
-> +           vdev->intx.route.mode != PCI_INTX_ENABLED ||
-> +           !kvm_resamplefds_enabled();
-> +}
-> +#endif
-> +
-> +static void vfio_intx_reenable_kvm(VFIOPCIDevice *vdev, Error **errp)
-> +{
-> +#ifdef CONFIG_KVM
-> +    if (vfio_no_kvm_intx(vdev)) {
-> +        return;
-> +    }
-> +
-> +    if (vfio_notifier_init(vdev, &vdev->intx.unmask, "intx-unmask", 0)) {
-> +        error_setg(errp, "vfio_notifier_init intx-unmask failed");
-> +        return;
-> +    }
-> +
-> +    if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
-> +                                           &vdev->intx.interrupt,
-> +                                           &vdev->intx.unmask,
-> +                                           vdev->intx.route.irq)) {
-> +        error_setg_errno(errp, errno, "failed to setup resample irqfd");
+> I think ppc_set_irq should be doing some gating before calling to set
+> cs->interrupt_request.
+> 
+>> 2 - cpu_handle_interrupt calls ppc_cpu_exec_interrupt, that calls
+>> ppc_hw_interrupt to handle the interrupt;
+>> 3 - ppc_cpu_exec_interrupt decides that the interrupt cannot be
+>> delivered immediately, so the corresponding bit in
+>> env->pending_interrupts is not reset;
+> 
+> Is the logic controlled by ppc_hw_interrupt()? The stuff around
+> async_deliver?
+> 
+> I think maybe some of the logic needs to be factored out and checked
+> above. Also anywhere where env->msr is updated would need to check if
+> we've just enabled a load of pending interrupts and then call
+> ppc_set_irq.
+> 
+> However I'm not super familiar with the PPC code so I'll defer to the
+> maintainers here ;-)
 
 
-Does not unwind with vfio_notifier_cleanup().  This also exactly
-duplicates code in vfio_intx_enable_kvm(), which suggests it needs
-further refactoring to a common helper.
+That part is a nightmare with a lot of history. It needs a rewrite.
+we have a good testing environment and we should catch regressions.
+Not for 7.1 though.
 
 
 
-> +        return;
-> +    }
-> +
-> +    vdev->intx.kvm_accel = true;
-> +#endif
-> +}
-> +
->  static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
->  {
->  #ifdef CONFIG_KVM
->      int irq_fd = event_notifier_get_fd(&vdev->intx.interrupt);
->  
-> -    if (vdev->no_kvm_intx || !kvm_irqfds_enabled() ||
-> -        vdev->intx.route.mode != PCI_INTX_ENABLED ||
-> -        !kvm_resamplefds_enabled()) {
-> +    if (vfio_no_kvm_intx(vdev)) {
->          return;
->      }
->  
-> @@ -328,7 +359,13 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
->          return 0;
->      }
->  
-> -    vfio_disable_interrupts(vdev);
-> +    /*
-> +     * Do not alter interrupt state during vfio_realize and cpr-load.  The
-> +     * reused flag is cleared thereafter.
-> +     */
-> +    if (!vdev->vbasedev.reused) {
-> +        vfio_disable_interrupts(vdev);
-> +    }
->  
->      vdev->intx.pin = pin - 1; /* Pin A (1) -> irq[0] */
->      pci_config_set_interrupt_pin(vdev->pdev.config, pin);
-> @@ -353,6 +390,11 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
->      fd = event_notifier_get_fd(&vdev->intx.interrupt);
->      qemu_set_fd_handler(fd, vfio_intx_interrupt, NULL, vdev);
->  
-> +    if (vdev->vbasedev.reused) {
-> +        vfio_intx_reenable_kvm(vdev, &err);
-> +        goto finish;
-> +    }
-> +
-
-This only jumps over the vfio_set_irq_signaling() and
-vfio_intx_enable_kvm(), largely replacing the latter with chunks of
-code taken from it.  Doesn't seem like the right factoring.
-
->      if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX, 0,
->                                 VFIO_IRQ_SET_ACTION_TRIGGER, fd, errp)) {
->          qemu_set_fd_handler(fd, NULL, NULL, vdev);
-> @@ -365,6 +407,7 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
->          warn_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
->      }
->  
-> +finish:
->      vdev->interrupt = VFIO_INT_INTx;
->  
->      trace_vfio_intx_enable(vdev->vbasedev.name);
-> @@ -3195,9 +3238,13 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->                                               vfio_intx_routing_notifier);
->          vdev->irqchip_change_notifier.notify = vfio_irqchip_change;
->          kvm_irqchip_add_change_notifier(&vdev->irqchip_change_notifier);
-> -        ret = vfio_intx_enable(vdev, errp);
-> -        if (ret) {
-> -            goto out_deregister;
-> +
-> +        /* Wait until cpr-load reads intx routing data to enable */
-> +        if (!vdev->vbasedev.reused) {
-> +            ret = vfio_intx_enable(vdev, errp);
-> +            if (ret) {
-> +                goto out_deregister;
-> +            }
->          }
->      }
->  
-> @@ -3474,6 +3521,7 @@ static int vfio_pci_post_load(void *opaque, int version_id)
->      VFIOPCIDevice *vdev = opaque;
->      PCIDevice *pdev = &vdev->pdev;
->      int nr_vectors;
-> +    int ret = 0;
->  
->      if (msix_enabled(pdev)) {
->          msix_set_vector_notifiers(pdev, vfio_msix_vector_use,
-> @@ -3486,10 +3534,35 @@ static int vfio_pci_post_load(void *opaque, int version_id)
->          vfio_claim_vectors(vdev, nr_vectors, false);
->  
->      } else if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
-> -        assert(0);      /* completed in a subsequent patch */
-> +        Error *err = 0;
-> +        ret = vfio_intx_enable(vdev, &err);
-> +        if (ret) {
-> +            error_report_err(err);
-> +        }
->      }
->  
-> -    return 0;
-> +    return ret;
-> +}
-> +
-> +static const VMStateDescription vfio_intx_vmstate = {
-> +    .name = "vfio-intx",
-> +    .unmigratable = 1,
-
-
-unmigratable-vmstates-to-interfere-with-migration++
-
-Thanks,
-Alex
-
-
-> +    .version_id = 0,
-> +    .minimum_version_id = 0,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_BOOL(pending, VFIOINTx),
-> +        VMSTATE_UINT32(route.mode, VFIOINTx),
-> +        VMSTATE_INT32(route.irq, VFIOINTx),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +#define VMSTATE_VFIO_INTX(_field, _state) {                         \
-> +    .name       = (stringify(_field)),                              \
-> +    .size       = sizeof(VFIOINTx),                                 \
-> +    .vmsd       = &vfio_intx_vmstate,                               \
-> +    .flags      = VMS_STRUCT,                                       \
-> +    .offset     = vmstate_offset_value(_state, _field, VFIOINTx),   \
->  }
->  
->  static bool vfio_pci_needed(void *opaque)
-> @@ -3509,6 +3582,7 @@ static const VMStateDescription vfio_pci_vmstate = {
->      .fields = (VMStateField[]) {
->          VMSTATE_PCI_DEVICE(pdev, VFIOPCIDevice),
->          VMSTATE_MSIX_TEST(pdev, VFIOPCIDevice, vfio_msix_present),
-> +        VMSTATE_VFIO_INTX(intx, VFIOPCIDevice),
->          VMSTATE_END_OF_LIST()
->      }
->  };
+> 
+>> 4 - ppc_cpu_exec_interrupt does not change cs->interrupt_request
+>> because pending_interrupts != 0, so cpu_handle_interrupt will be
+>> called again.
+>>
+>> This loop will acquire and release qemu_mutex_lock_iothread, slowing
+>> down other threads that need this lock.
+>>
+>>> With a quick hack, I could verify that by moving that signal out of the
+>>> way, the decompression time of the kernel is now peanuts, no matter the
+>>> number of cpus. Even with one cpu, the 15 seconds measured before was
+>>> already a huge waste, so it was not really a multiple-cpus problem.
+>>> Multiple cpus were just highlighting it.
+>>> Thanks again!
+>>>     Fred
+> 
+> 
 
 
