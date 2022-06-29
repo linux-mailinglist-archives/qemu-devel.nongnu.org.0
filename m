@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF0F55FABE
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:38:50 +0200 (CEST)
-Received: from localhost ([::1]:51872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 813D855FAC5
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:39:32 +0200 (CEST)
+Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6TDl-0007cW-6m
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:38:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50604)
+	id 1o6TER-0000ZO-JD
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:39:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ztong0001@gmail.com>)
- id 1o6T6q-0002pR-Dy; Wed, 29 Jun 2022 04:31:40 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:34778)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1o6TA4-0006T8-4x
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:35:02 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:54944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ztong0001@gmail.com>)
- id 1o6T6o-00048l-Fq; Wed, 29 Jun 2022 04:31:40 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id i15so26717453ybp.1;
- Wed, 29 Jun 2022 01:31:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1o6TA1-00073W-HV
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:34:59 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id cv13so15001166pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 01:34:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WRjCsVoCS8Yl2Ph+nNsGtNFuuBJlgWaCpVUwhLN9JT8=;
- b=NTnEu64BpT9npPNJsh22dwHx1uVs/OB6UK/5PUz3e3hK7Mm0BlF/bTxAootHBm2u1e
- cvW4dMsF4/9k+envvjplQMQNK72d2B7OTbNiYP3waWQl79mBh53fv76a+CYCkQEi+kxG
- GBSvfzlbC5ymBbudvMfdL7rAqdfSlgZkkgXUAZxBOCaBU/ocohSdv8WUs+eEzhp3sgJj
- O/IQIivV4qofHOEF7/AXfLogt+MJhjmzYRHwWS0WNf5E7/HK/+FXzuKyFyV+P90Be94/
- Hr52GzOTwZ7MdxvUxlaAfcIlNdfcuzUkx3HkrzDGJa9niIlY4Q9HFYr4Dq4Tkyjh7QTS
- Ppyw==
+ :cc; bh=dBPzQu7IQdkvUJePP+Ep8ZGJkWIpVUwg4/oS4wTWZ30=;
+ b=Y0+iud64MOmkzYS0ncpp3hseyDEKctEOhUIS9L6xgwzkEMqxcCMFrEFi9f+f5fwB0L
+ M3eg/BCtoAa2v7hQ0YEfQQfKeqXwrTZ+1l/j8dVHIuzY+Yn3zla2apTbKihH2KjSXVGx
+ Q/wPxAYOCJOhbiHDRSk9gZapWP5+xcVLgCuNi8gcCDfsCxAvhBmAp1Dkw6YZ4dgiCMsF
+ T/3iHcglDop71j+u52Tvh33/ih+J887hQMMDbHDqwn1pA2eBy9Ugh9xpyS8XvMhuZJ+A
+ MzeeD6iRkrhBEHmkivpxQ8nalhcCQpz2OuZtQ/MmiLX+QlsAwKTbEUaIkXIb/qf+OltT
+ eBbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=WRjCsVoCS8Yl2Ph+nNsGtNFuuBJlgWaCpVUwhLN9JT8=;
- b=0DbHHvnI3W9HAWVF2kF5u5qxMFoo/thnF//mpcI00kOwkGvXDhnT5Mjdz2nV/iiddv
- tqo8linrqElimaPxY0Brdb8dU3AbmBrPBeIv8Sx68BevLG07h7dVHSW/jhFqGgPyEXQf
- VE0ThS7DWDmRjLLDZz1pTRdFkp5OEREqlJWgPsF/LnjqchtulV7pXxe1NBZaz5wyXmxs
- x3Ia3fE4C4nbUHdPIKH5Cgd8bVgWSGBI0EidAKj7svImeetI8S2DIUFWsHmZiEZ1aviS
- TovU2/LOT8vWjHz4mckYZZp7Yo2egBmNwz0Qf0GUnewv4SfNI7BrAHcEBRmhcf9iZZNx
- cU1w==
-X-Gm-Message-State: AJIora8RCxksmrV5mgWOBBok4R6mBCVbGjhkMKDKFWPTjFXen/x/unZ2
- 4L6Jcx1CD/U7rWVoZCvDiYbr0KEG8RT/TYoOdGM=
-X-Google-Smtp-Source: AGRyM1uF/1ME20ncqrcUNdH4ZYZ+jk2eg2H7zojrxhFrOqGKD9Az46l8G4l3M0wwT/shcGTB7kzGgLxTLnCShTKZ5QM=
-X-Received: by 2002:a25:2e50:0:b0:669:9a76:beb with SMTP id
- b16-20020a252e50000000b006699a760bebmr1998186ybn.597.1656491496173; Wed, 29
- Jun 2022 01:31:36 -0700 (PDT)
+ bh=dBPzQu7IQdkvUJePP+Ep8ZGJkWIpVUwg4/oS4wTWZ30=;
+ b=KVB2DSdfS0g2+ZV5dKSYeze8PxlCN7ZBwmiFnG/g9EyY7yiW0f83chbI9B0JcUmRHv
+ 8ZzCJrAhxRvkcL/zoJd0P5x9he1VMKjxprQUEaQnCV8Sy15FQ9Ius+vHLdZh2Ollx4i+
+ 9JcQd2qapORj/k8VAqQXrNyxD4zs3uMO5sQMIjnfndRiOxrZu6IQgj4JIoio5DFSznZF
+ 17SeTb316w+E0FNDr3TpjimTz3uEUJqdD1ptYJVuPmDNOA2Ccutv4vOgxUhgUPfL1xAT
+ mfUjR3iyLoI294wVmMNBLqxBTh2hdnfRmaOnbm4BYwqaxYdShmyIGUHWEiHUJHlFJaoM
+ +3QA==
+X-Gm-Message-State: AJIora/dYsK6iMkdMsy35wf8cKvLNrIWpiGbSPj+mCB1xvuEWfkuQ6Hs
+ 2RaGf/wfPO4YBiCLFzrcWJcoBtZMXKUKBGAb8GU=
+X-Google-Smtp-Source: AGRyM1v5y9vPzJapET10mZKrNuJe71sJzcomcOWDEJfqvkCF5B4PX3JllqjCAtiqUHEB3D9SG59xpeummi2ZZDZjj7Y=
+X-Received: by 2002:a17:90b:3812:b0:1ec:ca8a:f15c with SMTP id
+ mq18-20020a17090b381200b001ecca8af15cmr2566999pjb.187.1656491691679; Wed, 29
+ Jun 2022 01:34:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20220506163106uscas1p20aa8ba0a290a9b50be54df6ec4f9cee0@uscas1p2.samsung.com>
- <20220506163059.2517-1-t.zhang2@samsung.com>
- <b3fd052f-658f-2e39-816b-9e5b9e521ec7@redhat.com>
-In-Reply-To: <b3fd052f-658f-2e39-816b-9e5b9e521ec7@redhat.com>
-From: Tong Zhang <ztong0001@gmail.com>
-Date: Wed, 29 Jun 2022 01:31:25 -0700
-Message-ID: <CAA5qM4C15k3k6TSngp0tbTN50kCFLfmBvrwf_pbHheVmoXpO4g@mail.gmail.com>
-Subject: Re: [RESEND PATCH] hw/dma: fix crash caused by race condition
-To: David Hildenbrand <david@redhat.com>
-Cc: Francisco Londono <f.londono@samsung.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Stefan Hajnoczi <stefanha@gmail.com>, Tong Zhang <t.zhang2@samsung.com>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000033f58605e291fb33"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=ztong0001@gmail.com; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+References: <20220628114307.697943-1-richard.henderson@linaro.org>
+ <20220628114307.697943-3-richard.henderson@linaro.org>
+ <CAMo8BfJgo184TYxr0O-t5x68Ac1U3t9LWWvPeUEwm-E_qizGWQ@mail.gmail.com>
+ <b4f49f9d-769d-e307-b01d-aadc5df70642@linaro.org>
+In-Reply-To: <b4f49f9d-769d-e307-b01d-aadc5df70642@linaro.org>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Wed, 29 Jun 2022 01:34:46 -0700
+Message-ID: <CAMo8BfLZ2cxvQLUvc2C38_sPqHQ4=H8rDbKephrGU2s4-1Vv6w@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] target/xtensa: Use semihosting/syscalls.h
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,136 +86,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000033f58605e291fb33
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Jun 28, 2022 at 5:36 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> On 6/28/22 19:08, Max Filippov wrote:
+> > On Tue, Jun 28, 2022 at 4:43 AM Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
 
-On Wed, Jun 29, 2022 at 12:29 AM David Hildenbrand <david@redhat.com> wrote:
+...
 
-> On 06.05.22 18:31, Tong Zhang wrote:
-> > assert(dbs->acb) is meant to check the return value of io_func per
-> > documented in commit 6bee44ea34 ("dma: the passed io_func does not
-> > return NULL"). However, there is a chance that after calling
-> > aio_context_release(dbs->ctx); the dma_blk_cb function is called before
-> > the assertion and dbs->acb is set to NULL again at line 121. Thus when
-> > we run assert at line 181 it will fail.
+> >> diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
+> >> index 946c71cb5b..5cca6a170e 100644
+> >> --- a/hw/xtensa/sim.c
+> >> +++ b/hw/xtensa/sim.c
+> >> @@ -87,9 +87,6 @@ XtensaCPU *xtensa_sim_common_init(MachineState *machine)
+> >>           xtensa_create_memory_regions(&sysram, "xtensa.sysram",
+> >>                                        get_system_memory());
+> >>       }
+> >> -    if (serial_hd(0)) {
+> >> -        xtensa_sim_open_console(serial_hd(0));
+> >> -    }
 > >
-> >   softmmu/dma-helpers.c:181: dma_blk_cb: Assertion `dbs->acb' failed.
+> > I've noticed that with this change '-serial stdio' and its variants are still
+> > accepted in the command line, but now they do nothing.
+>
+> Pardon?  They certainly will do something, via writes to the serial hardware.
+
+What I meant was that with '-serial' option prior to this change it was
+possible to redirect the standard streams of the sim machine, to stdio,
+or socket or wherever, but after this change the option will be accepted,
+but the machine will always have its first three file descriptors connected
+to the QEMU's first three file descriptors.
+
+I'd print a warning here, saying that the behavior has changed and
+the '-semihosting-config chardev' must be used now.
+
+> > This quiet
+> > change of behavior is unfortunate. I wonder if it would be acceptable
+> > to map the '-serial stdio' option in the presence of '-semihosting' to
+> > something like '-chardev stdio,id=id1 -semihosting-config chardev=id1'?
+>
+> I dunno.  I'm wary of having xtensa be unique here.  Alex, thoughts?
+
+Yeah, I thought about it some more and now it doesn't look like a good
+idea to me either.
+
+> >> +            switch (regs[4]) {
+> >> +            case SELECT_ONE_READ:
+> >> +                events = G_IO_IN;
+> >> +                break;
+> >> +            case SELECT_ONE_WRITE:
+> >> +                events = G_IO_OUT;
+> >> +                break;
+> >> +            case SELECT_ONE_EXCEPT:
+> >> +                events = G_IO_PRI;
+> >> +                break;
+> >> +            default:
+> >> +                xtensa_cb(cs, -1, EINVAL);
 > >
-> > Reported-by: Francisco Londono <f.londono@samsung.com>
-> > Signed-off-by: Tong Zhang <t.zhang2@samsung.com>
-> > ---
-> >  softmmu/dma-helpers.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-> > index 7820fec54c..cb81017928 100644
-> > --- a/softmmu/dma-helpers.c
-> > +++ b/softmmu/dma-helpers.c
-> > @@ -177,8 +177,8 @@ static void dma_blk_cb(void *opaque, int ret)
-> >      aio_context_acquire(dbs->ctx);
-> >      dbs->acb = dbs->io_func(dbs->offset, &dbs->iov,
-> >                              dma_blk_cb, dbs, dbs->io_func_opaque);
-> > -    aio_context_release(dbs->ctx);
-> >      assert(dbs->acb);
-> > +    aio_context_release(dbs->ctx);
-> >  }
-> >
-> >  static void dma_aio_cancel(BlockAIOCB *acb)
+> > This doesn't match what there used to be: it was possible to call
+> > select_one with rq other than SELECT_ONE_* and that would've
+> > passed NULL for all fd sets in the select invocation turning it into
+> > a sleep. It would return 0 after the timeout.
 >
-> Please don't resend patches if the previous submission came to the
-> conclusion that it's unclear how this should help.
->
->
-> https://lkml.kernel.org/r/CAJSP0QW396RY_g8LS1mncDZcOv5GamURy+xv+s8zMcdq03OOMA@mail.gmail.com
->
->
-> I *still* don't understand the interaction between the lock and the
-> assertion and so far nobody was able to clarify.
->
-> --
-> Thanks,
->
-> David / dhildenb
->
-hello
+> Hmm.  Is there any documentation of what it was *supposed* to do?  Passing rq ==
+> 0xdeadbeef and expecting a specific behaviour seems odd.
 
-This message is sent way before the discussion
+I haven't found any documentation for that simcall.
+All I can say is that the logic in the code that used to be here is matching
+exactly the logic in the code of the xtensa ISS from Cadence/Tensilica.
 
-
->
-
---00000000000033f58605e291fb33
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Jun 29, 2022 at 12:29 AM David Hildenbrand &lt;<a h=
-ref=3D"mailto:david@redhat.com">david@redhat.com</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb=
-(204,204,204)">On 06.05.22 18:31, Tong Zhang wrote:<br>
-&gt; assert(dbs-&gt;acb) is meant to check the return value of io_func per<=
-br>
-&gt; documented in commit 6bee44ea34 (&quot;dma: the passed io_func does no=
-t<br>
-&gt; return NULL&quot;). However, there is a chance that after calling<br>
-&gt; aio_context_release(dbs-&gt;ctx); the dma_blk_cb function is called be=
-fore<br>
-&gt; the assertion and dbs-&gt;acb is set to NULL again at line 121. Thus w=
-hen<br>
-&gt; we run assert at line 181 it will fail.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0softmmu/dma-helpers.c:181: dma_blk_cb: Assertion `dbs-&gt;=
-acb&#39; failed.<br>
-&gt; <br>
-&gt; Reported-by: Francisco Londono &lt;<a href=3D"mailto:f.londono@samsung=
-.com" target=3D"_blank">f.londono@samsung.com</a>&gt;<br>
-&gt; Signed-off-by: Tong Zhang &lt;<a href=3D"mailto:t.zhang2@samsung.com" =
-target=3D"_blank">t.zhang2@samsung.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 softmmu/dma-helpers.c | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c<br>
-&gt; index 7820fec54c..cb81017928 100644<br>
-&gt; --- a/softmmu/dma-helpers.c<br>
-&gt; +++ b/softmmu/dma-helpers.c<br>
-&gt; @@ -177,8 +177,8 @@ static void dma_blk_cb(void *opaque, int ret)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 aio_context_acquire(dbs-&gt;ctx);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 dbs-&gt;acb =3D dbs-&gt;io_func(dbs-&gt;offset, &a=
-mp;dbs-&gt;iov,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_blk_cb, dbs, dbs-&gt;io_func_opaque)=
-;<br>
-&gt; -=C2=A0 =C2=A0 aio_context_release(dbs-&gt;ctx);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 assert(dbs-&gt;acb);<br>
-&gt; +=C2=A0 =C2=A0 aio_context_release(dbs-&gt;ctx);<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 static void dma_aio_cancel(BlockAIOCB *acb)<br>
-<br>
-Please don&#39;t resend patches if the previous submission came to the<br>
-conclusion that it&#39;s unclear how this should help.<br>
-<br>
-<a href=3D"https://lkml.kernel.org/r/CAJSP0QW396RY_g8LS1mncDZcOv5GamURy+xv+=
-s8zMcdq03OOMA@mail.gmail.com" rel=3D"noreferrer" target=3D"_blank">https://=
-lkml.kernel.org/r/CAJSP0QW396RY_g8LS1mncDZcOv5GamURy+xv+s8zMcdq03OOMA@mail.=
-gmail.com</a><br>
-<br>
-<br>
-I *still* don&#39;t understand the interaction between the lock and the<br>
-assertion and so far nobody was able to clarify.<br>
-<br>
--- <br>
-Thanks,<br>
-<br>
-David / dhildenb<br>
-</blockquote><div dir=3D"auto">hello</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">This message is sent way before the discussion=C2=A0</div><div=
- dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left=
-:1ex;border-left-color:rgb(204,204,204)"><br>
-</blockquote></div></div>
-
---00000000000033f58605e291fb33--
+-- 
+Thanks.
+-- Max
 
