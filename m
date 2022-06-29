@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FA855F5F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 07:59:43 +0200 (CEST)
-Received: from localhost ([::1]:35898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA3855F600
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 08:07:14 +0200 (CEST)
+Received: from localhost ([::1]:40892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Qjm-00086Y-7W
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 01:59:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44792)
+	id 1o6Qr2-0003Ix-SC
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 02:07:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o6Qgt-0006XB-ES
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 01:56:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47004)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o6Qgq-00005B-8A
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 01:56:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656482198;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=N/v+9oqZL6WilYvlMCahbyFXcdP82Vb1xPe5KfLXVJ8=;
- b=i8V8wVcMQ47jTay7L5eaPsaTHB4VsbOBU/L+XaGyxHA+xWAxG/OfV6C7C6IN/71u+7OM7F
- bATRn9gpJZF3KtCW0Qurp8of5BuOaBEEtR7jgsj+ErUmRZ4PtKqc5w69FR9M4cOy9F/Z5T
- 1/tWZmXCLqF10BqqpADPDM+0POzgrw0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-395-gVf0y3FfMc2pVMuE6QnAqA-1; Wed, 29 Jun 2022 01:56:34 -0400
-X-MC-Unique: gVf0y3FfMc2pVMuE6QnAqA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF8C03C1104C;
- Wed, 29 Jun 2022 05:56:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 919E81121314;
- Wed, 29 Jun 2022 05:56:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 21C5A21E690D; Wed, 29 Jun 2022 07:56:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: jianchunfu <jianchunfu@cmss.chinamobile.com>
-Cc: clg@kaod.org,  danielhb413@gmail.com,  david@gibson.dropbear.id.au,
- groug@kaod.org,  pbonzini@redhat.com,  qemu-ppc@nongnu.org,
- kvm@vger.kernel.org,  qemu-devel@nongnu.org
-Subject: Re: [PATCH] target/ppc: Add error reporting when opening file fails
-References: <20220629031552.5407-1-jianchunfu@cmss.chinamobile.com>
-Date: Wed, 29 Jun 2022 07:56:32 +0200
-In-Reply-To: <20220629031552.5407-1-jianchunfu@cmss.chinamobile.com>
- (jianchunfu@cmss.chinamobile.com's message of "Wed, 29 Jun 2022
- 11:15:52 +0800")
-Message-ID: <87a69wrp0v.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o6QoW-0001YK-EK
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 02:04:36 -0400
+Received: from sonic314-21.consmr.mail.gq1.yahoo.com ([98.137.69.84]:34416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o6QoR-0004rw-Hq
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 02:04:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1656482668; bh=zXI8lOjk5jak20Wr8hBYS9pShh6LSGwvLeCNZDO/jUI=;
+ h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
+ b=VDftd59DYcE9LQ5W+YhKifpwd9op51H4T/Uvvt6NlnIXT46SOIZ9vv6j7NbFcaBDWHWjcXRpPREm+Dn96WZWqs8ZzvbsZaViMvnW60snqFBdQj9T417tXWQheM+7u8I/HXWymBl9n3TP7FAoOsj2MO+rpIEc7IlocQRGLq/RBP4hAENrIHDUY1Eob2aRr8h/GDoILLOK3sFtvKUP5kFR1mZZfXeYQvjBMayccfcyTWR639HaFS6vEFszPV/IHzcVfLsbKAnBnMGf4mwwhvJRE/kHEju3XZBP5wzLhEuGTEVZCTsmiMFh+lnxgzMSvWzIgXRBYPzX6oqYB7Se7ITM3g==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1656482668; bh=LkoGCfHrTahP0imugLWlseCDSzbQlQ262ug1rjpAhv0=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=ZiuGxlcj9Mmr1Su7jtfgyvesfzMIyg/H/UDS19SDoXnwURDVkERYIxCU3XA+DDkd8GwSv6BK4p1rujVWNJBHjhKbLjSjvZK/QghwAuloJuSGRgLJa7tMQuzLzoLITgdlC1kkUV8VwbHzlxRp7mPis5dhUYRXmpPlHM6O9wiExNnUnc137uBO0FhVf/4sWF7fU6TAic780M+bkQeK5KRbRlq8gYUaN2gyWi1nzPpANdP9ecr4QvZcLBS5vA8xNfPmmOqMXmouTY1HCn6FQ5Ry1WzsuBNtiXUHF4a7geckSjZXjw2FdNt9Rk8G3+cp5S5uURyZDaxlw6l7VuiVl6pmEQ==
+X-YMail-OSG: IOMYgPEVM1nbZllUnd57vB752F9AROM_emUXMjv3mvYZOiS4728Z4TylVTWrq8h
+ i.XKC7ut2cRilCwqGAjHk9eoDv.reJ5jySqIHio0O7zBvglQ4f4SKCCX_AOqdgpPDsGvu3D_2iOa
+ VEOCPpIvFKlbfcwKXNdNMRdjWEJYgeJTs_R7iIsfRxWwhxxNyvsrIoG8q8SfGDZEysItTPyCqSLw
+ IqX4mY410irWfToPt5aHDjzwEqmnYH0A_gHvJ22ft7471yrd4snoDrr3j782v8UbktfMlXnNVMQF
+ J9BPKl_DEf_NGd5IIb_ZI_FrgmZCeauA59F_mF1BecFb0gKQWExiU.y_3gNyEMb6SaIVEHBnqv1z
+ w2snb5VJgEoY00.8UwC5R2ZuaUr.ZwNrtumkgSFF9Lh3uaZ6DBmS.kB36ueXVHGwGjAnn65J_y92
+ 0OSzVK18COeNhlv37fgBURcTEHH1TPRKeN96qQ8mlepUxKW0mSBihyC2QXGCraJMwQL12ojkkJ7E
+ VYkVaonSrDbRjtLcLJkoCuwFaA54iLVxogRYRzfZLRbUXQ_IEdXghYQNfHWNiqVX2VWVqqpmKvMx
+ EJiQQdaCYTQ8RNunPPVabP8k9Qb4QQ7NgkK4UsabUZ4YYM9UmJBMhWqcUmyuGnr3symErenMnGth
+ oSefk3QWMS7thC7z58ZzvSMkWRZj_1x2vH7NIOCFZQ7.8khryypzJTcbxyhMq7ZRv5e7lZviVtvl
+ BwTUnMVVT5Xv91Xp_O.uqKrV.jw_kuNtjFOpcQmGyoyco783JVTRltvjOplBWNJXbqi5N8WBbIeZ
+ ccPaOCXFppnxaR6W54wTbhP2Lt65GlDc.7.FFxBKEhqG.7uGaX6D8y606pXcTZlcMA9I4p1YYLFD
+ xTIdBILPzJYqUZkm7zZYK9uYCgoHdVGbW.FfIRBzi1x6CzxG8TJfxMPgVkK024fSZkaCCppXiXTG
+ XpUa4EbQNwEbeITGXuW1FIzJV4eRcsLh5f1owJU0aGah1pz3ssRrOSYR04QKr5_CoZazkbTDjk92
+ DHdV3KCKVsXXo0hvAdfMqO.citeHlVvmDZto9Jvj2PVqBQx8XHzldBGBXd3ZSQ4yG0nFnfzeJUo.
+ ha7d84AqKJ1wvRowgHzDWwGGwWAtmnwcxzUt.8r7YjTYm1keCTVKEJeyClF37QQv6U5OkO6IoR5q
+ 7yDcF83re2LfK35c85A.emg8Ng3qpWKSCIViW2GBqrzP5z6HH_NSwu.vPnyGUcVk6snjRozFkjG5
+ TN43guIvR_RsJOP4wBJtYCUku_cdlYimyH8tVs_e.iHzWM7mrWT6sQwhiu2bSI5RW8G61KEygBue
+ rZQG0J_dVUdrDByhaXkPE6y9fKLD038abIbRKiVTaqM1_CE47CKsmdr3mGGEIUAlWWyp8Oq3tThF
+ nrcejJ62fbmDgWs_DMxaNb.GSD.3UCqFeP72YbERBxhVSWDd5RJ6dFwv4VPlhI.8gdZXPnHAT6VD
+ yGX8QZi1OF3iFm4xBjcQydTi.Ac_rd2ZnKZvSxq6cP09hB6fzKtTXtHzViGJxgLluYR7u9E4Q9QS
+ e9eBmQgO26QBDQxqA8It0ZRYEBSt2a3e2ts9.4ZYpv3i7bnwmVjAhGqBtmpdxjk.171zgWMqCzW4
+ FXK6yITcPuxid9ESk.QV0MV2zQD_tdbGB77VrCB6Sn7exBwJCg7LPAK3NN5h8uAlQjl5LyauAeyT
+ zk1fysr.7Z.eYrHgJ.LI3ZW.Ew2EYyFNJpTbcT.DGBv7p4B3ma7n3pbLYbtUdoLGpBnQ1o0qLMpe
+ Nu.imlxP8Z_X2PImPWKH6bPt6Iwp.nupWkVJ0kYS2Kq73rA3jOjfr0NXRjvfPk7GnYEztUmiZDSo
+ JP22UzKUrDE.qctdwUy.g3S6t81hcatRLPt2x1GZLKK7rAM5jCFpRwi4hDWZQE7tRZGSjiLIt8H2
+ 6MCF8CxZXnpLEgivV4RRw4gRWW_JPNHcp8Bhx7YivwJFbnBYmc2BUuITR1VBWo.1RBDCRma_.zgd
+ 3KIuTKpBZ3sZEwtD0qLGmVZk1eLNVDl_aPitugeI4qat_veRLH1eA4xQai8hNAkLMjqCI.buzHEY
+ SfkTKyG1RRgj9Zw97mnM.gdTAZsFfCRi4gm5XvrE0G6.K7hcWmwKJ9j4VOCn6QoA6R.4EbvisqTz
+ ra_p7oGmZ61PMzMWCWPtjHDwUh7oOjmevTI3DXE2JUKnMQbkL6a8eiLlyw_dagzemYuQuUJ8-
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic314.consmr.mail.gq1.yahoo.com with HTTP; Wed, 29 Jun 2022 06:04:28 +0000
+Received: by hermes--production-ne1-7864dcfd54-q4948 (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 2814da2f277392d570820fdc55e6888d; 
+ Wed, 29 Jun 2022 06:04:25 +0000 (UTC)
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: qemu-devel@nongnu.org
+Cc: xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
+ qemu-stable@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+Subject: [PATCH v3] xen/pass-through: don't create needless register group
+Date: Wed, 29 Jun 2022 02:04:05 -0400
+Message-Id: <c76dff6369ccf2256bd9eed5141da1db767293d2.1656480662.git.brchuckz@aol.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+References: <c76dff6369ccf2256bd9eed5141da1db767293d2.1656480662.git.brchuckz.ref@aol.com>
+Received-SPF: pass client-ip=98.137.69.84; envelope-from=brchuckz@aim.com;
+ helo=sonic314-21.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,112 +98,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-jianchunfu <jianchunfu@cmss.chinamobile.com> writes:
+Currently we are creating a register group for the Intel IGD OpRegion
+for every device we pass through, but the XEN_PCI_INTEL_OPREGION
+register group is only valid for an Intel IGD. Add a check to make
+sure the device is an Intel IGD and a check that the administrator has
+enabled gfx_passthru in the xl domain configuration. Require both checks
+to be true before creating the register group. Use the existing
+is_igd_vga_passthrough() function to check for a graphics device from
+any vendor and that the administrator enabled gfx_passthru in the xl
+domain configuration, but further require that the vendor be Intel,
+because only Intel IGD devices have an Intel OpRegion. These are the
+same checks hvmloader and libxl do to determine if the Intel OpRegion
+needs to be mapped into the guest's memory. Also, move the comment
+about trapping 0xfc for the Intel OpRegion where it belongs after
+applying this patch.
 
-> Add error reporting before return when opening file fails.
->
-> Signed-off-by: jianchunfu <jianchunfu@cmss.chinamobile.com>
-> ---
->  target/ppc/kvm.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index dc93b99189..ef9a871411 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -1798,6 +1798,7 @@ static int read_cpuinfo(const char *field, char *value, int len)
->  
-   static int read_cpuinfo(const char *field, char *value, int len)
-   {
-       FILE *f;
-       int ret = -1;
-       int field_len = strlen(field);
-       char line[512];
+Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+v2: * Move the comment to an appropriate place after applying this patch
+    * Mention that the comment is moved in the commit message
 
->      f = fopen("/proc/cpuinfo", "r");
->      if (!f) {
-> +        fprintf(stderr, "Error opening /proc/cpuinfo: %s\n", strerror(errno));
->          return -1;
->      }
+v2 addresses the comment by Anthony Perard on the original
+version of this patch.
 
-       do {
-           if (!fgets(line, sizeof(line), f)) {
-               break;
-           }
-           if (!strncmp(line, field, field_len)) {
-               pstrcpy(value, len, line);
-               ret = 0;
-               break;
-           }
-       } while (*line);
+v3: * Add Reviewed-By: Anthony Perard <anthony.perard@citrix.com>
+    * Add qemu-stable@nongnu.org to recipients to indicate the patch
+      may be suitable for backport to Qemu stable
 
-       fclose(f);
+Thank you, Anthony, for taking the time to review this patch.
 
-       return ret;
-   }
+ hw/xen/xen_pt_config_init.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-This function now reports an error on one out of two failures.  The
-caller can't tell whether it reported or not.
-
-Please use error_report() for errors, warn_report() for warnings, and
-info_report() for informational messages.
-
-But is it an error?  Here's the only caller:
-
-    static uint32_t kvmppc_get_tbfreq_procfs(void)
-    {
-        char line[512];
-        char *ns;
-        uint32_t tbfreq_fallback = NANOSECONDS_PER_SECOND;
-        uint32_t tbfreq_procfs;
-
-        if (read_cpuinfo("timebase", line, sizeof(line))) {
---->        return tbfreq_fallback;
-        }
-
-        ns = strchr(line, ':');
-        if (!ns) {
---->        return tbfreq_fallback;
-        }
-
-        tbfreq_procfs = atoi(++ns);
-
-        /* 0 is certainly not acceptable by the guest, return fallback value */
---->    return tbfreq_procfs ? tbfreq_procfs : tbfreq_fallback;
-    }
-
-I marked the three spots that handle errors.  All quietly return
-NANOSECONDS_PER_SECOND.  The caller can't tell whether that happened.
-
-Reporting an error when we don't actually fail is confusing.  Better
-would be something like "Can't open /proc/cpuinfo, assuming timebase X",
-where X is the value you assume.
-
-Reporting this only in one out of several cases where we assume feels
-wrong.  If it's worth reporting in one case, why isn't it worth
-reporting in the other cases?  Is it worth reporting?
-
-Aside: the use of atoi() silently maps a timebase of 0 to
-NANOSECONDS_PER_SECOND.  Not fond of this function.  Not your patch's
-problem, of course.
-
->  
-> @@ -1906,6 +1907,7 @@ static uint64_t kvmppc_read_int_dt(const char *filename)
->  
->      f = fopen(filename, "rb");
->      if (!f) {
-> +        fprintf(stderr, "Error opening %s: %s\n", filename, strerror(errno));
->          return -1;
->      }
-
-Preexisting: this function returns -1 when fopen() fails, 0 when fread()
-fails or read less data than expected.  Its caller
-kvmppc_read_int_cpu_dt() passes on the return value.  However, it is
-documented to return "0 if anything goes wrong".  Bug.  Not your patch's
-fault, but it needs fixing.
-
-Similar issue as above: you make the function emit an error message on
-some, but not all failures.  If it's worth reporting in one case, why
-isn't it worth reporting in the other cases?  Is it worth reporting?
+diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
+index c5c4e943a8..cad4aeba84 100644
+--- a/hw/xen/xen_pt_config_init.c
++++ b/hw/xen/xen_pt_config_init.c
+@@ -2031,12 +2031,16 @@ void xen_pt_config_init(XenPCIPassthroughState *s, Error **errp)
+             }
+         }
+ 
+-        /*
+-         * By default we will trap up to 0x40 in the cfg space.
+-         * If an intel device is pass through we need to trap 0xfc,
+-         * therefore the size should be 0xff.
+-         */
+         if (xen_pt_emu_reg_grps[i].grp_id == XEN_PCI_INTEL_OPREGION) {
++            if (!is_igd_vga_passthrough(&s->real_device) ||
++                s->real_device.vendor_id != PCI_VENDOR_ID_INTEL) {
++                continue;
++            }
++            /*
++             * By default we will trap up to 0x40 in the cfg space.
++             * If an intel device is pass through we need to trap 0xfc,
++             * therefore the size should be 0xff.
++             */
+             reg_grp_offset = XEN_PCI_INTEL_OPREGION;
+         }
+ 
+-- 
+2.36.1
 
 
