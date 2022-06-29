@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C980F5605ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 18:34:27 +0200 (CEST)
-Received: from localhost ([::1]:38122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E705605F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 18:38:01 +0200 (CEST)
+Received: from localhost ([::1]:44986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6ae2-00060h-3y
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 12:34:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50328)
+	id 1o6ahU-0002TG-01
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 12:38:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1o6aaD-0002zU-JN; Wed, 29 Jun 2022 12:30:29 -0400
+ id 1o6aaG-000353-Bp; Wed, 29 Jun 2022 12:30:35 -0400
 Received: from [200.168.210.66] (port=46224 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1o6aaC-0000DA-2K; Wed, 29 Jun 2022 12:30:29 -0400
+ id 1o6aaE-0000DA-MX; Wed, 29 Jun 2022 12:30:32 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Wed, 29 Jun 2022 13:29:11 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id CB44C800502;
- Wed, 29 Jun 2022 13:29:10 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 22A3C800603;
+ Wed, 29 Jun 2022 13:29:11 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  victor.colombo@eldorado.org.br, matheus.ferst@eldorado.org.br
-Subject: [PATCH v3 03/11] target/ppc: Move mffsce to decodetree
-Date: Wed, 29 Jun 2022 13:28:56 -0300
-Message-Id: <20220629162904.105060-4-victor.colombo@eldorado.org.br>
+Subject: [PATCH v3 04/11] target/ppc: Move mffsl to decodetree
+Date: Wed, 29 Jun 2022 13:28:57 -0300
+Message-Id: <20220629162904.105060-5-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220629162904.105060-1-victor.colombo@eldorado.org.br>
 References: <20220629162904.105060-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 29 Jun 2022 16:29:11.0201 (UTC)
- FILETIME=[5D001110:01D88BD5]
+X-OriginalArrivalTime: 29 Jun 2022 16:29:11.0544 (UTC)
+ FILETIME=[5D346780:01D88BD5]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,46 +67,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Reviewed-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode           |  4 +++
- target/ppc/translate/fp-impl.c.inc | 46 +++++++++++-------------------
+ target/ppc/insn32.decode           |  1 +
+ target/ppc/translate/fp-impl.c.inc | 38 +++++++++++++-----------------
  target/ppc/translate/fp-ops.c.inc  |  2 --
- 3 files changed, 20 insertions(+), 32 deletions(-)
+ 3 files changed, 17 insertions(+), 24 deletions(-)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 3b61c3a073..b6a7a3a3ff 100644
+index b6a7a3a3ff..6d3b98a127 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -94,6 +94,9 @@
- 
- @X_tp_a_bp_rc   ...... ....0 ra:5 ....0 .......... rc:1         &X_rc rt=%x_frtp rb=%x_frbp
- 
-+&X_t            rt
-+@X_t            ...... rt:5 ..... ..... .......... .            &X_t
-+
- &X_tb           rt rb
- @X_tb           ...... rt:5 ..... rb:5 .......... .             &X_tb
- 
-@@ -339,6 +342,7 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
- 
- ### Move To/From FPSCR
- 
-+MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
+@@ -345,6 +345,7 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
+ MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
  MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
  MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
++MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
+ 
+ ### Decimal Floating-Point Arithmetic Instructions
  
 diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index bcb7ec2689..64e26b9b42 100644
+index 64e26b9b42..4f4d57c611 100644
 --- a/target/ppc/translate/fp-impl.c.inc
 +++ b/target/ppc/translate/fp-impl.c.inc
-@@ -655,36 +655,6 @@ static void gen_mffsl(DisasContext *ctx)
+@@ -633,28 +633,6 @@ static void gen_mffs(DisasContext *ctx)
      tcg_temp_free_i64(t0);
  }
  
--/* mffsce */
--static void gen_mffsce(DisasContext *ctx)
+-/* mffsl */
+-static void gen_mffsl(DisasContext *ctx)
 -{
 -    TCGv_i64 t0;
--    TCGv_i32 mask;
 -
 -    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
 -        return gen_mffs(ctx);
@@ -116,30 +105,23 @@ index bcb7ec2689..64e26b9b42 100644
 -        gen_exception(ctx, POWERPC_EXCP_FPU);
 -        return;
 -    }
--
 -    t0 = tcg_temp_new_i64();
--
 -    gen_reset_fpstatus();
 -    tcg_gen_extu_tl_i64(t0, cpu_fpscr);
+-    /* Mask everything except mode, status, and enables.  */
+-    tcg_gen_andi_i64(t0, t0, FP_DRN | FP_STATUS | FP_ENABLES | FP_RN);
 -    set_fpr(rD(ctx->opcode), t0);
--
--    /* Clear exception enable bits in the FPSCR.  */
--    tcg_gen_andi_i64(t0, t0, ~FP_ENABLES);
--    mask = tcg_const_i32(0x0003);
--    gen_helper_store_fpscr(cpu_env, t0, mask);
--
--    tcg_temp_free_i32(mask);
 -    tcg_temp_free_i64(t0);
 -}
 -
  static TCGv_i64 place_from_fpscr(int rt, uint64_t mask)
  {
      TCGv_i64 fpscr = tcg_temp_new_i64();
-@@ -712,6 +682,22 @@ static void store_fpscr_masked(TCGv_i64 fpscr, uint64_t clear_mask,
-     tcg_temp_free_i64(fpscr_masked);
+@@ -739,6 +717,22 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
+     return true;
  }
  
-+static bool trans_MFFSCE(DisasContext *ctx, arg_X_t *a)
++static bool trans_MFFSL(DisasContext *ctx, arg_X_t *a)
 +{
 +    TCGv_i64 fpscr;
 +
@@ -147,30 +129,30 @@ index bcb7ec2689..64e26b9b42 100644
 +    REQUIRE_FPU(ctx);
 +
 +    gen_reset_fpstatus();
-+    fpscr = place_from_fpscr(a->rt, UINT64_MAX);
-+    store_fpscr_masked(fpscr, FP_ENABLES, tcg_constant_i64(0), 0x0003);
++    fpscr = place_from_fpscr(a->rt,
++        FP_DRN | FP_STATUS | FP_ENABLES | FP_NI | FP_RN);
 +
 +    tcg_temp_free_i64(fpscr);
 +
 +    return true;
 +}
 +
- static bool trans_MFFSCRN(DisasContext *ctx, arg_X_tb *a)
+ /* mtfsb0 */
+ static void gen_mtfsb0(DisasContext *ctx)
  {
-     TCGv_i64 t1, fpscr;
 diff --git a/target/ppc/translate/fp-ops.c.inc b/target/ppc/translate/fp-ops.c.inc
-index a27a1be9f5..a76943b8bf 100644
+index a76943b8bf..f8c35124ae 100644
 --- a/target/ppc/translate/fp-ops.c.inc
 +++ b/target/ppc/translate/fp-ops.c.inc
 @@ -75,8 +75,6 @@ GEN_HANDLER_E(fmrgew, 0x3F, 0x06, 0x1E, 0x00000001, PPC_NONE, PPC2_VSX207),
  GEN_HANDLER_E(fmrgow, 0x3F, 0x06, 0x1A, 0x00000001, PPC_NONE, PPC2_VSX207),
  GEN_HANDLER(mcrfs, 0x3F, 0x00, 0x02, 0x0063F801, PPC_FLOAT),
  GEN_HANDLER_E_2(mffs, 0x3F, 0x07, 0x12, 0x00, 0x00000000, PPC_FLOAT, PPC_NONE),
--GEN_HANDLER_E_2(mffsce, 0x3F, 0x07, 0x12, 0x01, 0x00000000, PPC_FLOAT,
+-GEN_HANDLER_E_2(mffsl, 0x3F, 0x07, 0x12, 0x18, 0x00000000, PPC_FLOAT,
 -    PPC2_ISA300),
- GEN_HANDLER_E_2(mffsl, 0x3F, 0x07, 0x12, 0x18, 0x00000000, PPC_FLOAT,
-     PPC2_ISA300),
  GEN_HANDLER(mtfsb0, 0x3F, 0x06, 0x02, 0x001FF800, PPC_FLOAT),
+ GEN_HANDLER(mtfsb1, 0x3F, 0x06, 0x01, 0x001FF800, PPC_FLOAT),
+ GEN_HANDLER(mtfsf, 0x3F, 0x07, 0x16, 0x00000000, PPC_FLOAT),
 -- 
 2.25.1
 
