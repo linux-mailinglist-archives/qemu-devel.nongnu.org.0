@@ -2,55 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA4B55F941
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 09:38:56 +0200 (CEST)
-Received: from localhost ([::1]:46114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ACD155F9D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:00:05 +0200 (CEST)
+Received: from localhost ([::1]:52636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6SHn-00061I-8X
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 03:38:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39258)
+	id 1o6ScF-0003n9-Sz
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:00:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o6SEO-0003ws-8v
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 03:35:24 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:21945)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o6SEK-0005Vk-DC
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 03:35:23 -0400
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-427-VtbqAoYnNkqhbU9rYx0S-g-1; Wed, 29 Jun 2022 03:35:04 -0400
-X-MC-Unique: VtbqAoYnNkqhbU9rYx0S-g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 93D4C800971;
- Wed, 29 Jun 2022 07:35:04 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F148AC08087;
- Wed, 29 Jun 2022 07:35:03 +0000 (UTC)
-Date: Wed, 29 Jun 2022 09:35:02 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH] tests/9p: introduce declarative function calls
-Message-ID: <20220629093502.38b99945@bahia>
-In-Reply-To: <E1o4nzC-0005fT-RL@lizzy.crudebyte.com>
-References: <E1o4nzC-0005fT-RL@lizzy.crudebyte.com>
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o6SZp-0002OD-Uv
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 03:57:33 -0400
+Received: from sonic316-8.consmr.mail.gq1.yahoo.com ([98.137.69.32]:37958)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o6SZm-0002Mj-Rt
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 03:57:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1656489447; bh=E/3phgmr2on8518X6t5OCFyE0KA8ET1fzccg5b4q+lc=;
+ h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
+ b=JEoGeVX+4RCazZkzR7rbzC90ELap/QvDOSJaDl2MFhbEW19ax8xuZ/H4p1GSSuT3GYdOxmoMsMHGmF0t0Hjh3MjBKjz4zGSYqO3MYMUt75Fz5ET9MHO1QSgGpGESFGZaI9o6DmUmkG2EcU0rb65Q+rHqvEuUdJ8n3g3lV+Bnuphuh86CYSe18fVSdqGcAqdYUq7qkgJbeSwMsyLwm4ZtLVVH26WX27yOL6xsptT92FYslEoi5xzMqA1hjKFRfAi0VtbmTAIBXQHTP5O8FqBCGyA9EA7JeWbojkN2FK7VmwAzixgMbU/8FeCfrwCjPBWz1tI5ZIcHdiMbvzS+0oAHeQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1656489447; bh=9xmbxlEBcekFxb9avc6m12xqUTk4rsQ5ESiPwqvGtL6=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=fV+GZyF/loXcp4VCRrrzyWF9hT4TCpaa2/fqM5xGBCCfS7DFujrJj03v7ycTqIZ13ivycmuYkXu3snjBWK2cXCB7B1q4DNhBSbL8hzR9y4R0rjrMFktkIt5gmwnqdMmd+t/Uwg0mzSXaNrSW1BKq9CpBtZK8UF1A4p7j85ZS+nWXPJh9Kqt9SRrZ1pESNDzfsn23bQjAwUBQMBZWoOmC5XsUCGiZNIo4GGg/FwzFwHacjIf1ASuuL6mbB/DQLSdrJuM+QN8LuB319L7JzCnv6j+SK/5KVaCxmz1dTqM9ViNfOsRltHptuGs80dU7ChEo9Ai0wMrzgE0sBGDxfel++w==
+X-YMail-OSG: P1ITJT8VM1kOD6BJFWPGuO3YiZ36oJ0J50fInCaW3vIscfhBkNSOciRrz7Tk0xn
+ 3jroEq0ouCQAm4aC6_5QA49v8nWBzwmv4f3XrNKBGKHsAFpvlYG8xteXLtaR4nX2s5b9AtZZygI7
+ jZYmLeBnPOy22i7ngQScoqUYnwksqC7x1RfmL4Dt1owOJWMDqqzsYJc.48iO07k_pqmQJHi77ANk
+ GIvnLhem_4BQoMwxiEIwNpjEaP6rKKbvfDsZ5aq0GGFJjzLuU9S5SAPw2L49Oq7fxQGnEu2ELp1Q
+ LUSduyifKJO10_on9u9tsuidVKgWBtsFUymL3RI_c9q55EgwaCFDVAJqkMyHQRzsFhENVB2A3lL_
+ MqUVgYiZGczimyj5YMlQgK_YtKVK1O6I8mKT6RFwjJCXWbYdkgPt7FUPJlYeM.wIUZJcaDaaJy8i
+ w19lnxQVAu3jaUhNWESq8YvSSv.k0Uo5q4eX7FdJ84UBpJmlQ84gMrcsvsahodAtg735sga6.HpN
+ JgWLCf31PZNHFNrlSctxsBNb3qw7hWYl_DTiv0N6jKGVks8iNvk9Lg0UCxytkdraK.sVwchh0qAP
+ IoNE1qxplpvQCRPywPX_V3cOKbkPNe4MRmSq2qmTiIGjIt36c4LoH_FNkhW4rmCrTWEyiTdV8x63
+ D_nuQkHoxq686h1TLaerv0PMex6.7iDEPtl4WSf9iuTs0XlZ5xECQd_BMgW_GLIPbwFQnqFghf9q
+ CfmvA.VuDeTztfBYnBSAiD531Hs67.QV4KqLggUuRBXlh1V6llR0ahvlHWN8biuv_Ts46jfJ_UBO
+ rHHvHhIOpoWI4Q7zeeWHIsHp6pgjuOIRKpch.hXG.w3l8HSUMGF2hVi.0z_8g.bU_oGbgCL6OTc9
+ gSbW3nRwDyIvMl3ihMz_NAKCmGpIRC3.KjsKzcBdjaGz2Qo7rMayQ98GUGudkbGA_KSp6ldCZVa3
+ dj.IwAeN6jyrhuSYIY7WBCZXzYQCsdA56fPUUYTcgOYIzwvmp2bpcb4aD7.8_QWSHG9d4.0FHh9n
+ Vs3aaHfSsDvbqC5129NVdCkLIDfAXmR0xpbW2bU_3GKvmn6NP7PDX_82CzU2KWV6gsEIoxDcLWfX
+ 1ul9ipFQ.7w4HjNGk7icoWywsGhkBHETCjYgvhcN7GK_nM8.bMg.PWCMXIYsam2UaFFDjhfu4n3y
+ uHwJvuMLLY0svWBO2vzGu2Vi6a3l8NLDSGdePThadoqr_EaR3aWF8mdat1Ta5rPn4iN2xY8HW2TV
+ phk9S4MBWHDddb3lv_.TraN5r3esj9nV32BzYoPVe61D27LASBWS4JDHIvNQia9c4dOnpreLlKPF
+ lgW_S90W411cJkVfo4M6kFDfc.PMBrx_FHy4vbwnpkT9_5YNrO_ulajYJi5D2W_6GtON3NRUyqhu
+ vBdA2bqrORb6fFex4x4kuLwj7X.Ae3TLYzf6lp_efT5RLI.LHRLM0YINiG_l7X1o4bMuNUVNGhqv
+ YYZe69dHQULRPoRlbosU.IAamY7m7sBfkMtcpy_LDHZjBa8wEmcG.zdZxrrAsZ_DFSwQByNemc.b
+ M6VquFrZZ2jGUp2nC8QnZhoQKeLt19VH4GsLZjpwddBtB4H8rj8pjJb_i2qyoL0R97vC5fEtb3B1
+ De0iwUdfLom8cOG7geMdxQBVK7cUUJNYhQR6ekHaRFFT7jO1PdWu0mExWzf7WO9AX1vtICrERUXL
+ 2HhKa7RZ.ak4nDPp17fQut8BNY9aQINAwwVamEGuEe1aYTKLFXkN.G0IOhTTUoKIwFRqoYAl8yZt
+ 5F0G1fOZKq9L5Nj1O96aFm5AfoXwxSWpJJ6i67DHF2TTCHfZJF1vfUx1AI8w2gf7rXKwBkIPe9fA
+ pZSluNYFU6s5WX41RdIGM9zpRJ3lfdoEpBtEZvRGMjQhfHDeqPz7bVtOmgXyj5ba.dUQpuHJ0nOO
+ hJp8qnyh4WGrdQS.ZpNiulwtfpdzWfapAJJJByWbejUArCRptwSiYQKnG4PVLkOC2Itic_vdf42C
+ V_am5cD.lGFxCFgYUqFuRK1grhV51uljmr.4k0GsRfRhkvu2jjqG3fNe9gWiq3u3WchvvH2uWTDO
+ UkUKp_iaYegSNv_WbAZjmlmWhA13oI5qUI56CSktIp_QmXy1ywbeNOkjelKYPl_tDukjDBGGOxT6
+ e.eS7ucjefi_pI8E43hfJnDzcKxJzL8CUirVr9eZ4BxUxHzHXMgcAPYepTt4wi4VsyIvS6aBjELV
+ PNdDK
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic316.consmr.mail.gq1.yahoo.com with HTTP; Wed, 29 Jun 2022 07:57:27 +0000
+Received: by hermes--production-bf1-58957fb66f-xc7t4 (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 54da85cd042d010097af8a7b4a3a105a; 
+ Wed, 29 Jun 2022 07:57:22 +0000 (UTC)
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: qemu-devel@nongnu.org
+Cc: xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
+ qemu-stable@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+Subject: [PATCH v4] xen/pass-through: merge emulated bits correctly
+Date: Wed, 29 Jun 2022 03:57:12 -0400
+Message-Id: <5cd07587898cac43bf4b7a52489c380a44cab652.1656480662.git.brchuckz@aol.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+References: <5cd07587898cac43bf4b7a52489c380a44cab652.1656480662.git.brchuckz.ref@aol.com>
+Received-SPF: pass client-ip=98.137.69.32; envelope-from=brchuckz@aim.com;
+ helo=sonic316-8.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,265 +99,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Christian,
+In xen_pt_config_reg_init(), there is an error in the merging of the
+emulated data with the host value. With the current Qemu, instead of
+merging the emulated bits with the host bits as defined by emu_mask,
+the emulated bits are merged with the host bits as defined by the
+inverse of emu_mask. In some cases, depending on the data in the
+registers on the host, the way the registers are setup, and the
+initial values of the emulated bits, the end result will be that
+the register is initialized with the wrong value.
 
-On Fri, 24 Jun 2022 19:46:18 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+To correct this error, use the XEN_PT_MERGE_VALUE macro to help ensure
+the merge is done correctly.
 
-> There are currently 3 different functions for sending a 9p 'Twalk'
-> request. They are all doing the same thing, just in a slightly different
-> way and with slightly different function arguments.
-> 
-> Merge those 3 functions into a single function by using a struct for
-> function call arguments and use designated initializers when calling this
-> function to turn usage into a declarative approach, which is better
-> readable and easier to maintain.
-> 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
->   Before working on actual new stuff, I looked at the current unit test code
->   and thought it's probably a good time to make the overall test code better
->   readable before piling up more test code soon.
-> 
->   In this patch I am suggesting to use named function arguments. For instance
->  
->      do_walk_expect_error(v9p, "non-existent", ENOENT);
-> 
->   is probably a bit hard to tell what it is supposed to be doing without
->   looking up the function prototype, whereas
->   
->     Twalk((TWalkOpt) {
->       .client = v9p, .path = "non-existent", .expectErr = ENOENT
->     });
-> 
->   should make it immediately clear (provided you have some knowledge about the
->   9p network protocol). I'm using this coding style of declarative functions
->   calls a lot nowadays, which makes especially sense in the context of unit
->   test code as those are typically passing literals as function arguments as
->   shown above very often. But also in other contexts it is beneficial as it
->   allows various linear combinations of possible function arguments being
->   used / ommitted on function calls and still being handled with only one
->   function implementation.
->   
->   Caller has a great flexibility of which function arguments to use, and is
->   also completely free of the order of the arguments being specified.
-> 
->   Another benefit is that you can also extend functionality later on, without
->   breaking existing function calls. So this avoids a lot of refactoring work
->   on the long-term.
-> 
->   With C++ you could also define specific default values for ommitted function
->   arguments. In C unfortunately it is just the language default initializer
->   which usually is simply zero.
-> 
+This correction is needed to resolve Qemu project issue #1061, which
+describes the failure of Xen HVM Linux guests to boot in certain
+configurations with passed through PCI devices, that is, when this error
+disables instead of enables the PCI_STATUS_CAP_LIST bit of the
+PCI_STATUS register of a passed through PCI device, which in turn
+disables the MSI-X capability of the device in Linux guests with the end
+result being that the Linux guest never completes the boot process.
 
-AFAIK the "Designated Initializers" feature of C99 guarantees zero is the
-default so we should be good.
+Fixes: 2e87512eccf3 ("xen/pt: Sync up the dev.config and data values")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1061
+Buglink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=988333
 
->   Obviously with a large number of possible function arguments provided, some
->   combinations make sense and some simply don't. In this patch for instance
->   this is handled with assertion faults like:
->   
->     /* you can expect either Rwalk or Rlerror, but obviously not both */
->     g_assert(!opt.expectErr || !(opt.Rwalk.nwqid || opt.Rwalk.wqid));
-> 
->   So this would be a runtime error. In C++ you could turn the function into
->   a constexpr and make that a compile error instead, in C there is
->   
->     _Static_assert(...)
-> 
->   but as there is no constexpr, that would probably be a hard to achieve.
-> 
->   Thoughts?
-> ---
+Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+v2: Edit the commit message to more accurately describe the cause
+of the error.
 
-This change LGTM. Some remarks below.
+v3: * Add Reviewed-By: Anthony Perard <anthony.perard@citrix.com>
+    * Add qemu-stable@nongnu.org to recipients to indicate the patch
+      may be suitable for backport to Qemu stable
 
->  tests/qtest/virtio-9p-test.c | 79 +++++++++++++++++++-----------------
->  1 file changed, 42 insertions(+), 37 deletions(-)
-> 
-> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> index 25305a4cf7..6a7f1f6252 100644
-> --- a/tests/qtest/virtio-9p-test.c
-> +++ b/tests/qtest/virtio-9p-test.c
-> @@ -669,50 +669,51 @@ static void do_version(QVirtio9P *v9p)
->      g_assert_cmpmem(server_version, server_len, version, strlen(version));
->  }
->  
-> +/* options for 'Twalk' 9p request */
-> +typedef struct TWalkOpt {
-> +    /* 9P client being used (mandatory) */
-> +    QVirtio9P *client;
-> +    /* path to walk to (mandatory) */
-> +    const char *path;
-> +    /* data being received from 9p server as 'Rwalk' response (optional) */
-> +    struct {
-> +        uint16_t *nwqid;
-> +        v9fs_qid **wqid;
-> +    } Rwalk;
+v4: * Add Fixed commit subject to Fixes: 2e87512eccf3
 
-Rwalk should be all downcase as a regular struct field name.
+Thank you, Anthony, for taking the time to review this patch.
 
-What about introducing:
+Sorry for the extra noise with v4 (I thought the Fixed commit subject
+would be automatically added).
 
-typedef struct Rwalk {
-    uint16_t nwqid;
-    v9fs_qid *wqid;
-} Rwalk;
+ hw/xen/xen_pt_config_init.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-and having an `Rwalk *rwalk` field in TwalkOpt ?
-
-The rationale is that it might make sense for a caller to only want the
-number of qids, but if it wants the qid array then nwqid is mandatory.
-
-> +    /* do we expect an Rlerror response, if yes which error code? (optional) */
-> +    uint32_t expectErr;
-> +} TWalkOpt;
-> +
->  /*
->   * utility function: walk to requested dir and return fid for that dir and
->   * the QIDs of server response
->   */
-> -static uint32_t do_walk_rqids(QVirtio9P *v9p, const char *path, uint16_t *nwqid,
-> -                              v9fs_qid **wqid)
-> +static uint32_t Twalk(TWalkOpt opt)
->  {
->      char **wnames;
->      P9Req *req;
-> +    uint32_t err;
->      const uint32_t fid = genfid();
->  
-> -    int nwnames = split(path, "/", &wnames);
-> -
-> -    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
-> -    v9fs_req_wait_for_reply(req, NULL);
-> -    v9fs_rwalk(req, nwqid, wqid);
-> -
-> -    split_free(&wnames);
-> -    return fid;
-> -}
-> +    g_assert(opt.client);
-> +    g_assert(opt.path);
-> +    /* you can expect either Rwalk or Rlerror, but obviously not both */
-> +    g_assert(!opt.expectErr || !(opt.Rwalk.nwqid || opt.Rwalk.wqid));
->  
-
-Assert would then just be:
-
-g_assert(!opt.expectErr || !opt.rwalk);
-
-> -/* utility function: walk to requested dir and return fid for that dir */
-> -static uint32_t do_walk(QVirtio9P *v9p, const char *path)
-> -{
-> -    return do_walk_rqids(v9p, path, NULL, NULL);
-> -}
-> +    int nwnames = split(opt.path, "/", &wnames);
->  
-> -/* utility function: walk to requested dir and expect passed error response */
-> -static void do_walk_expect_error(QVirtio9P *v9p, const char *path, uint32_t err)
-> -{
-> -    char **wnames;
-> -    P9Req *req;
-> -    uint32_t _err;
-> -    const uint32_t fid = genfid();
-> -
-> -    int nwnames = split(path, "/", &wnames);
-> -
-> -    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
-> +    req = v9fs_twalk(opt.client, 0, fid, nwnames, wnames, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-> -    v9fs_rlerror(req, &_err);
->  
-> -    g_assert_cmpint(_err, ==, err);
-> +    if (opt.expectErr) {
-> +        v9fs_rlerror(req, &err);
-> +        g_assert_cmpint(err, ==, opt.expectErr);
-> +    } else {
-> +        v9fs_rwalk(req, opt.Rwalk.nwqid, opt.Rwalk.wqid);
-> +    }
->  
->      split_free(&wnames);
-> +    return fid;
->  }
->  
->  static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
-> @@ -1098,7 +1099,9 @@ static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
->       * The 9p2000 protocol spec says: "If the first element cannot be walked
->       * for any reason, Rerror is returned."
->       */
-> -    do_walk_expect_error(v9p, "non-existent", ENOENT);
-> +    Twalk((TWalkOpt) {
-> +        .client = v9p, .path = "non-existent", .expectErr = ENOENT
-> +    });
->  }
->  
->  static void fs_walk_2nd_nonexistent(void *obj, void *data,
-> @@ -1116,7 +1119,9 @@ static void fs_walk_2nd_nonexistent(void *obj, void *data,
->      );
->  
->      do_attach_rqid(v9p, &root_qid);
-> -    fid = do_walk_rqids(v9p, path, &nwqid, &wqid);
-> +    fid = Twalk((TWalkOpt) {
-> +        .client = v9p, .path = path, .Rwalk.nwqid = &nwqid, .Rwalk.wqid = &wqid
-> +    });
->      /*
->       * The 9p2000 protocol spec says: "nwqid is therefore either nwname or the
->       * index of the first elementwise walk that failed."
-> @@ -1311,7 +1316,7 @@ static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
->      uint32_t fid;
->      P9Req *req;
->  
-> -    fid = do_walk(v9p, path);
-> +    fid = Twalk((TWalkOpt) { .client = v9p, .path = path });
->  
->      req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-> @@ -1326,7 +1331,7 @@ static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
->      uint32_t fid;
->      P9Req *req;
->  
-> -    fid = do_walk(v9p, path);
-> +    fid = Twalk((TWalkOpt) { .client = v9p, .path = path });
->  
->      req = v9fs_tlcreate(v9p, fid, name, 0, 0750, 0, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-> @@ -1344,7 +1349,7 @@ static void do_symlink(QVirtio9P *v9p, const char *path, const char *clink,
->      uint32_t fid;
->      P9Req *req;
->  
-> -    fid = do_walk(v9p, path);
-> +    fid = Twalk((TWalkOpt) { .client = v9p, .path = path });
->  
->      req = v9fs_tsymlink(v9p, fid, name, dst, 0, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-> @@ -1358,8 +1363,8 @@ static void do_hardlink(QVirtio9P *v9p, const char *path, const char *clink,
->      uint32_t dfid, fid;
->      P9Req *req;
->  
-> -    dfid = do_walk(v9p, path);
-> -    fid = do_walk(v9p, to);
-> +    dfid = Twalk((TWalkOpt) { .client = v9p, .path = path });
-> +    fid = Twalk((TWalkOpt) { .client = v9p, .path = to });
->  
->      req = v9fs_tlink(v9p, dfid, fid, clink, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-> @@ -1373,7 +1378,7 @@ static void do_unlinkat(QVirtio9P *v9p, const char *atpath, const char *rpath,
->      uint32_t fid;
->      P9Req *req;
->  
-> -    fid = do_walk(v9p, atpath);
-> +    fid = Twalk((TWalkOpt) { .client = v9p, .path = atpath });
->  
->      req = v9fs_tunlinkat(v9p, fid, name, flags, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-
-I understand that the current patch is converting the `do_walk*()` functions.
-Would it make sense to convert the many callers of `v9fs_twalk()` to call
-`Twalk()` as well in a subsequent patch ?
-
-Cheers,
-
---
-Greg
+diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
+index cad4aeba84..21839a3c98 100644
+--- a/hw/xen/xen_pt_config_init.c
++++ b/hw/xen/xen_pt_config_init.c
+@@ -1966,10 +1966,10 @@ static void xen_pt_config_reg_init(XenPCIPassthroughState *s,
+         if ((data & host_mask) != (val & host_mask)) {
+             uint32_t new_val;
+ 
+-            /* Mask out host (including past size). */
+-            new_val = val & host_mask;
+-            /* Merge emulated ones (excluding the non-emulated ones). */
+-            new_val |= data & host_mask;
++            /* Merge the emulated bits (data) with the host bits (val)
++             * and mask out the bits past size to enable restoration
++             * of the proper value for logging below. */
++            new_val = XEN_PT_MERGE_VALUE(val, data, host_mask) & size_mask;
+             /* Leave intact host and emulated values past the size - even though
+              * we do not care as we write per reg->size granularity, but for the
+              * logging below lets have the proper value. */
+-- 
+2.36.1
 
 
