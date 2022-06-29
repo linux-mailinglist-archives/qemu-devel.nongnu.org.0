@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9389D55FD04
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 12:21:21 +0200 (CEST)
-Received: from localhost ([::1]:57258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 082D955FD14
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 12:24:45 +0200 (CEST)
+Received: from localhost ([::1]:34828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Uoy-0004Pm-Gl
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 06:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35732)
+	id 1o6UsF-0000El-Fi
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 06:24:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o6UlO-0002Oh-3i
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 06:17:38 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43850)
+ id 1o6UnY-0004L9-JO
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 06:19:53 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o6UlM-0003Ff-DS
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 06:17:37 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id fw3so3931705ejc.10
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 03:17:35 -0700 (PDT)
+ id 1o6UnW-0003Yu-QQ
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 06:19:52 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id pk21so31645992ejb.2
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 03:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=1DJwB9/LLhCbayq4Pil6erc8zDI1mp2UkkfIVn8tZ7M=;
- b=uLpENFVbpi5VlK1nd+X8/n49KNFNMS3obIZ5+YHpGsICTVGqEisXLco0+ZEREhL/qI
- gVnngu4O3vUi6CixKGXdKr5fcpIFUsmBTMJKeBxKmcGuKYse/OeavTaTDopii/UCvmpQ
- l8JYOlEhOEcrtZIbMOqy0vO7S7MTrbBtsD4Ht3suQSUs/tMlJMLnACsh1VmMEC67rQwA
- UTOSpT2lkmjAieVQ9cluNzlp4H649zuH3Sk2sMjk6xjJ1MNJe9b/tz4n5BC0Ko5N8mZZ
- 9D7oPv8PoJAeRFw6Yu6SVb/TDWY4EOeyOlsMWyBWYJUnMsEyYiw5uH+AuWMTkMftwvMi
- louw==
+ bh=1fA9tqVUsYfS9I6T3ZrGKYJ9ANPAYYk+nSE5LzpFuWA=;
+ b=nQjjst8A9Oo6io2fxIh3h2nzrhoMafPdU+OXljpA/+cf0GRKSqxTQ0qKTczQbCo4lt
+ /gcwQVu4OosSqBMplwBpfrOoM3aGysZWjUSoyIT3Z9RcWY7b+pxa0QtkB7UPthkoPdYy
+ T+KBTiYx+8THrzvwYLs0uZS6k00qozhzqGDM3I4ZviBwyOGRxW0gMj7wHWSZOSwi7bcl
+ G0v6f5bQD0lDRYeTOTV4nafUyHotQwWihojZf+D+18zCotOQURbhjQJ1Wb1DSCjLwD3y
+ WrG7Q5qrEZLEDD3j5IZ9YllTiX8070/h7qgQGdQbgCdby/TJnZ8jrvmcm80b4Zt71xKB
+ F75w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=1DJwB9/LLhCbayq4Pil6erc8zDI1mp2UkkfIVn8tZ7M=;
- b=3PuEbitg/DDMhoynkf0OfoldLuO6Jcof6KVmCzjSm/ONXP52va6JKG8vGkEN/FDRJo
- +4L748o6zr/0eb1SAtIO+SHUdtfNpsRnI00/8Masi24cq+wgnDjGUWcNj4mmsSjx8vw2
- hSidiaFQg8f5mobisLnA9SoN9wUfsxynanFUDDpqkI+vC4eqX7nxqbmbjtTww74LzoAM
- 3gDT1cCGefbP+CxlB6SRHkqn7TYZdfjuxFpkvJlu19fJjB/rYFDFEvDs3MJK30C9XlXU
- fmEzlf4bTNp7vCP3kDFxXmcvcKwGIRxz+MYsgJYsRjZUMPrXP0BoVrTzDwlJRwxSGWVP
- /j5g==
-X-Gm-Message-State: AJIora9hbtqc9BznH1XmI54dXXOglmo+BgobzapB9K0zVR/0jF29QlLn
- kqV/ISP+DXI6vK28wJaGhMtFOw==
-X-Google-Smtp-Source: AGRyM1u1FWjOqaLdhdqJl3JIjEp9faF4BWTPrFlMwlJwg0vr0lrywtMfXOIK3A8ARDUORBhj20UKrg==
-X-Received: by 2002:a17:907:6294:b0:6e1:ea4:74a3 with SMTP id
- nd20-20020a170907629400b006e10ea474a3mr2595193ejc.168.1656497854363; 
- Wed, 29 Jun 2022 03:17:34 -0700 (PDT)
+ bh=1fA9tqVUsYfS9I6T3ZrGKYJ9ANPAYYk+nSE5LzpFuWA=;
+ b=vU7c8JYWKkMaeM/m50QugwDFDMc5P+9Y3OFGkXWAVCwukUqEGoEvS7K3tXe9uqypFS
+ o4uX+OcEuuNiGhkVVTtyYzBGlW620qRk9aTzH5z8BiuR48Jw9i/Zr+0eMKTatroBo4Af
+ eS8OJ7fXHcgbhULK5CLuIWm2IkoZZ4X6C5xy3x2/nFL2ysv7peEAru1XVE3E4QqxQXq6
+ YVxcn9a692ubKV/hehMyeOTBR/xmZmnNGErWGIUIHkThGGTVbFICb5jKSI3gj1zmP9Tm
+ d4cSMr3NW51kRKs58CJuHdx5qzPxdUteNfjCcNFDGRYhLxidSvGVI7EAp7F0eQRzZWFJ
+ gTCA==
+X-Gm-Message-State: AJIora/yFn2WLxqCrWGqXJjRAHhfQyPkw8ASB0X6ZeI70dfnJLm7AA6W
+ Uc79Dbn13ShcQr+dfvpXdJb1Ng==
+X-Google-Smtp-Source: AGRyM1sxwPNv7HgkWJ87da56uGDQerYaLybNHT/B2bGJki+PedyQZAW2Yl0Iccb2HTljiXBTOmFEew==
+X-Received: by 2002:a17:906:9753:b0:722:f1e3:ec27 with SMTP id
+ o19-20020a170906975300b00722f1e3ec27mr2478974ejy.355.1656497988455; 
+ Wed, 29 Jun 2022 03:19:48 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- q18-20020a17090609b200b006feaa22e367sm7494702eje.165.2022.06.29.03.17.31
+ p22-20020a170906839600b00711d5bc20d5sm7433799ejx.221.2022.06.29.03.19.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 03:17:31 -0700 (PDT)
+ Wed, 29 Jun 2022 03:19:47 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B8F2E1FFB7;
- Wed, 29 Jun 2022 11:17:30 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 25F1F1FFB7;
+ Wed, 29 Jun 2022 11:19:46 +0100 (BST)
 References: <20220627160734.749861-1-Jason@zx2c4.com>
  <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
  <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
@@ -66,14 +66,14 @@ From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org
 Subject: Re: [PATCH] hw/arm/virt: dt: add rng-seed property
-Date: Wed, 29 Jun 2022 11:15:15 +0100
+Date: Wed, 29 Jun 2022 11:18:23 +0100
 In-reply-to: <CAFEAcA9jzUk72NZ=BAubjiFwqVaUWqCgjJ-BLLx=J8Aq+ieWSg@mail.gmail.com>
-Message-ID: <87czerixj9.fsf@linaro.org>
+Message-ID: <878rpfixfh.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -125,33 +125,10 @@ ote:
 >> > So I'm not sure what's up, but here we are. Maybe down the line I'll
 >> > look into the details and formulate a plan to remove `kaslr-seed` if
 >> > my supposition is correct.
->> >
->> > Jason
->> >
->>
->> Was wondering if you planned to queue this up?
->
-> It's on my todo list to review...
 
-Erm isn't this replicating kaslr-seed?
-
-  static void create_kaslr_seed(MachineState *ms, const char *node)
-  {
-      uint64_t seed;
-
-      if (qemu_guest_getrandom(&seed, sizeof(seed), NULL)) {
-          return;
-      }
-      qemu_fdt_setprop_u64(ms->fdt, node, "kaslr-seed", seed);
-  }
-
-
-which BTW we provide a knob (dtb-kaslr-seed) to suppress because it can
-get in the way of secure instrumentation/checksums done by secure boot.
-
->
-> -- PMM
-
+Sorry now I've had my coffee and read properly I see you are already
+aware of kaslr-seed. However my point about suppression would still
+stand because for the secure boot flow you need checksum-able DTBs.
 
 --=20
 Alex Benn=C3=A9e
