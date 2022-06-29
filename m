@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C2956011E
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 15:18:57 +0200 (CEST)
-Received: from localhost ([::1]:60064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C9A560098
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 14:58:49 +0200 (CEST)
+Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Xaq-0007qQ-7A
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 09:18:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60954)
+	id 1o6XHM-0002af-43
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 08:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o6X0m-0008MQ-Cy; Wed, 29 Jun 2022 08:41:40 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51046)
+ id 1o6X0r-0008Pr-EY; Wed, 29 Jun 2022 08:41:46 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o6X0j-0004iA-NM; Wed, 29 Jun 2022 08:41:39 -0400
+ id 1o6X0o-0004iO-T7; Wed, 29 Jun 2022 08:41:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=DoNOeL8PBXDleC4tnUHr2YHr4mUwvSyUZJ6zT0cVGLk=; b=hIaLW4RXAkAuu/0biEfih/S6M0
- /4BhjAo0uIJKlqd3o+CuoqzpF87YL1LJPtRo+7c4AzxwFyrZLtsehQAa2hhF8RLJGFjIBBaAuI2PG
- kBFjBG17wfN45VgO7jr2zYP06RDwstoCuIE8ZCOQlpRnlgDC7vZinJOHLpAR/JeKMsi7dVxYSLeOu
- hdB/cQLar+A3Nwj733foWkxRbqPzneFaLUthAallJ7psP532/JLXJ/lTX8REz+BnYoNYhAfo+xYMk
- eS+TOYCqAr9R7rPNLlGp5wyMcDP5cthG+AFx6Ukw1itV906wRgPsjyxBCzujydt9+jFbrr0WYfN0+
- u1NHyIyqgv1u/sPwX9RlJaqlN3EN44mOST5OGA4HAPMJRftGADCwNAxeaS4qdyQMpek7Vx7nipj2n
- HIl5P48su0G/Zx8v0a/5hCpmxZywQSPJ/haL8Tk35+k2JiwqAadThiXhGgg9BO/yQoTqmEUXaD15J
- 1OrCRyqEP24POR+d0xFgo+87US261DYcxdQ3UKA9RCPMh+KhvTbbqt36Y+2wySVunT1cPp+szT2It
- /uUG9n+AHt49RNzsRst0y4y0F8MjYZO87XruU40mL1f7vhgQRWUQB7gppjLzUPC2xdLZmC7cvkm96
- xfd2UIKrd4G5q4ogmDvmzAkDg5utQ96Picx4xMQEE=;
+ bh=nowFY51tVcYxldI0p/96EqP0og+7QjCadnxYo+SBE00=; b=NqayM4UoHcuLtUH8S2+dpuZYe1
+ Vs0XJLAalSTXy2mARly0a6LXc5B+coEDUoNUTOLWE4HgkuwWw3XSmO9rWWW4nrEPMiOA42+3ni/Gp
+ TkqvcfocAhZgCnhpLH/xEzu3NEkoNhkPULXpdYv9OSqlMaDa1Z7qvxfSWomoJ3MxvweiZnF0FoeZ6
+ I8EGTRjVa+vbhbZuIi+S9hFBG/KN/DmcQ4pxR9J7goskgA2ckU0c17YueKzyzOJiVxtInYWXxmrq3
+ O3t8/w6g2toNGQoXnnwfw+ZtePCqq+aZnVniTDj7/5Aeg7dQkduGj9URhGZEt13k2VLoluhXsVIvA
+ O3x2SsdkQmZaSvsdzSsxP5jbGAZ8t7r8c5e6ZkmCaAW95WFxBsOFjfYLIn8P3VdLKTfvE/XMHQI7l
+ XjeHazVumsVhzchQh5vSDP65Kpo06ydrEcCfWpgwkMZ2ISFfkPgii5J1decQNknvBSLOHg6qasgJe
+ XV8IEPveXYl8xd9u1QAKC4YEI9nzFKHtq5KkHcyHhPyKmcympustscA03Ew16Xx+GlhXuEs3shS8V
+ zZxtHwAMtiH8aB9dUjB6++xW77etDnVfxoAODvpUjXSSP9zGX8D4rwjMvjps1ESHtFAsxADQAlN6S
+ aIiw33kP+JfHwufS/se5MdUMUniqFJLfqnapae0mU=;
 Received: from [2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o6Wz9-0002tZ-E3; Wed, 29 Jun 2022 13:39:59 +0100
+ id 1o6Wz9-0002tZ-SO; Wed, 29 Jun 2022 13:40:04 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org, deller@gmx.de, svens@stackframe.org,
  mst@redhat.com, pbonzini@redhat.com, peter.maydell@linaro.org,
  hpoussin@reactos.org, aleksandar.rikalo@syrmia.com, f4bug@amsat.org,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Date: Wed, 29 Jun 2022 13:40:03 +0100
-Message-Id: <20220629124026.1077021-18-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 29 Jun 2022 13:40:04 +0100
+Message-Id: <20220629124026.1077021-19-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
 References: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
@@ -51,7 +51,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba4:e500:b82f:56f9:46d7:80ab
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 17/40] lasips2: introduce new LASIPS2_KBD_PORT QOM type
+Subject: [PATCH 18/40] lasips2: introduce new LASIPS2_MOUSE_PORT QOM type
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -77,7 +77,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be soon be used to hold the underlying PS2_KBD_DEVICE object.
+This will be soon be used to hold the underlying PS2_MOUSE_DEVICE object.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
@@ -86,39 +86,40 @@ Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
  2 files changed, 14 insertions(+)
 
 diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
-index 56bfd759af..b043f2e264 100644
+index b043f2e264..f70cf893f6 100644
 --- a/hw/input/lasips2.c
 +++ b/hw/input/lasips2.c
-@@ -318,10 +318,17 @@ static const TypeInfo lasips2_port_info = {
-     .abstract      = true,
+@@ -324,11 +324,18 @@ static const TypeInfo lasips2_kbd_port_info = {
+     .instance_size = sizeof(LASIPS2KbdPort),
  };
  
-+static const TypeInfo lasips2_kbd_port_info = {
-+    .name          = TYPE_LASIPS2_KBD_PORT,
++static const TypeInfo lasips2_mouse_port_info = {
++    .name          = TYPE_LASIPS2_MOUSE_PORT,
 +    .parent        = TYPE_LASIPS2_PORT,
-+    .instance_size = sizeof(LASIPS2KbdPort),
++    .instance_size = sizeof(LASIPS2MousePort),
 +};
 +
  static void lasips2_register_types(void)
  {
      type_register_static(&lasips2_info);
      type_register_static(&lasips2_port_info);
-+    type_register_static(&lasips2_kbd_port_info);
+     type_register_static(&lasips2_kbd_port_info);
++    type_register_static(&lasips2_mouse_port_info);
  }
  
  type_init(lasips2_register_types)
 diff --git a/include/hw/input/lasips2.h b/include/hw/input/lasips2.h
-index f4514081fe..504e2c06de 100644
+index 504e2c06de..aab6a3500c 100644
 --- a/include/hw/input/lasips2.h
 +++ b/include/hw/input/lasips2.h
-@@ -43,6 +43,13 @@ struct LASIPS2Port {
-     bool irq;
+@@ -50,6 +50,13 @@ struct LASIPS2KbdPort {
+     LASIPS2Port parent_obj;
  };
  
-+#define TYPE_LASIPS2_KBD_PORT "lasips2-kbd-port"
-+OBJECT_DECLARE_SIMPLE_TYPE(LASIPS2KbdPort, LASIPS2_KBD_PORT)
++#define TYPE_LASIPS2_MOUSE_PORT "lasips2-mouse-port"
++OBJECT_DECLARE_SIMPLE_TYPE(LASIPS2MousePort, LASIPS2_MOUSE_PORT)
 +
-+struct LASIPS2KbdPort {
++struct LASIPS2MousePort {
 +    LASIPS2Port parent_obj;
 +};
 +
