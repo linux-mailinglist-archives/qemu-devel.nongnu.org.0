@@ -2,88 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACD155F9D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:00:05 +0200 (CEST)
-Received: from localhost ([::1]:52636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A2455FA25
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:12:00 +0200 (CEST)
+Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6ScF-0003n9-Sz
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:00:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43134)
+	id 1o6Snm-0006qs-P7
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o6SZp-0002OD-Uv
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 03:57:33 -0400
-Received: from sonic316-8.consmr.mail.gq1.yahoo.com ([98.137.69.32]:37958)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o6SlH-0005e1-Fr
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:09:23 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1o6SZm-0002Mj-Rt
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 03:57:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1656489447; bh=E/3phgmr2on8518X6t5OCFyE0KA8ET1fzccg5b4q+lc=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=JEoGeVX+4RCazZkzR7rbzC90ELap/QvDOSJaDl2MFhbEW19ax8xuZ/H4p1GSSuT3GYdOxmoMsMHGmF0t0Hjh3MjBKjz4zGSYqO3MYMUt75Fz5ET9MHO1QSgGpGESFGZaI9o6DmUmkG2EcU0rb65Q+rHqvEuUdJ8n3g3lV+Bnuphuh86CYSe18fVSdqGcAqdYUq7qkgJbeSwMsyLwm4ZtLVVH26WX27yOL6xsptT92FYslEoi5xzMqA1hjKFRfAi0VtbmTAIBXQHTP5O8FqBCGyA9EA7JeWbojkN2FK7VmwAzixgMbU/8FeCfrwCjPBWz1tI5ZIcHdiMbvzS+0oAHeQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1656489447; bh=9xmbxlEBcekFxb9avc6m12xqUTk4rsQ5ESiPwqvGtL6=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=fV+GZyF/loXcp4VCRrrzyWF9hT4TCpaa2/fqM5xGBCCfS7DFujrJj03v7ycTqIZ13ivycmuYkXu3snjBWK2cXCB7B1q4DNhBSbL8hzR9y4R0rjrMFktkIt5gmwnqdMmd+t/Uwg0mzSXaNrSW1BKq9CpBtZK8UF1A4p7j85ZS+nWXPJh9Kqt9SRrZ1pESNDzfsn23bQjAwUBQMBZWoOmC5XsUCGiZNIo4GGg/FwzFwHacjIf1ASuuL6mbB/DQLSdrJuM+QN8LuB319L7JzCnv6j+SK/5KVaCxmz1dTqM9ViNfOsRltHptuGs80dU7ChEo9Ai0wMrzgE0sBGDxfel++w==
-X-YMail-OSG: P1ITJT8VM1kOD6BJFWPGuO3YiZ36oJ0J50fInCaW3vIscfhBkNSOciRrz7Tk0xn
- 3jroEq0ouCQAm4aC6_5QA49v8nWBzwmv4f3XrNKBGKHsAFpvlYG8xteXLtaR4nX2s5b9AtZZygI7
- jZYmLeBnPOy22i7ngQScoqUYnwksqC7x1RfmL4Dt1owOJWMDqqzsYJc.48iO07k_pqmQJHi77ANk
- GIvnLhem_4BQoMwxiEIwNpjEaP6rKKbvfDsZ5aq0GGFJjzLuU9S5SAPw2L49Oq7fxQGnEu2ELp1Q
- LUSduyifKJO10_on9u9tsuidVKgWBtsFUymL3RI_c9q55EgwaCFDVAJqkMyHQRzsFhENVB2A3lL_
- MqUVgYiZGczimyj5YMlQgK_YtKVK1O6I8mKT6RFwjJCXWbYdkgPt7FUPJlYeM.wIUZJcaDaaJy8i
- w19lnxQVAu3jaUhNWESq8YvSSv.k0Uo5q4eX7FdJ84UBpJmlQ84gMrcsvsahodAtg735sga6.HpN
- JgWLCf31PZNHFNrlSctxsBNb3qw7hWYl_DTiv0N6jKGVks8iNvk9Lg0UCxytkdraK.sVwchh0qAP
- IoNE1qxplpvQCRPywPX_V3cOKbkPNe4MRmSq2qmTiIGjIt36c4LoH_FNkhW4rmCrTWEyiTdV8x63
- D_nuQkHoxq686h1TLaerv0PMex6.7iDEPtl4WSf9iuTs0XlZ5xECQd_BMgW_GLIPbwFQnqFghf9q
- CfmvA.VuDeTztfBYnBSAiD531Hs67.QV4KqLggUuRBXlh1V6llR0ahvlHWN8biuv_Ts46jfJ_UBO
- rHHvHhIOpoWI4Q7zeeWHIsHp6pgjuOIRKpch.hXG.w3l8HSUMGF2hVi.0z_8g.bU_oGbgCL6OTc9
- gSbW3nRwDyIvMl3ihMz_NAKCmGpIRC3.KjsKzcBdjaGz2Qo7rMayQ98GUGudkbGA_KSp6ldCZVa3
- dj.IwAeN6jyrhuSYIY7WBCZXzYQCsdA56fPUUYTcgOYIzwvmp2bpcb4aD7.8_QWSHG9d4.0FHh9n
- Vs3aaHfSsDvbqC5129NVdCkLIDfAXmR0xpbW2bU_3GKvmn6NP7PDX_82CzU2KWV6gsEIoxDcLWfX
- 1ul9ipFQ.7w4HjNGk7icoWywsGhkBHETCjYgvhcN7GK_nM8.bMg.PWCMXIYsam2UaFFDjhfu4n3y
- uHwJvuMLLY0svWBO2vzGu2Vi6a3l8NLDSGdePThadoqr_EaR3aWF8mdat1Ta5rPn4iN2xY8HW2TV
- phk9S4MBWHDddb3lv_.TraN5r3esj9nV32BzYoPVe61D27LASBWS4JDHIvNQia9c4dOnpreLlKPF
- lgW_S90W411cJkVfo4M6kFDfc.PMBrx_FHy4vbwnpkT9_5YNrO_ulajYJi5D2W_6GtON3NRUyqhu
- vBdA2bqrORb6fFex4x4kuLwj7X.Ae3TLYzf6lp_efT5RLI.LHRLM0YINiG_l7X1o4bMuNUVNGhqv
- YYZe69dHQULRPoRlbosU.IAamY7m7sBfkMtcpy_LDHZjBa8wEmcG.zdZxrrAsZ_DFSwQByNemc.b
- M6VquFrZZ2jGUp2nC8QnZhoQKeLt19VH4GsLZjpwddBtB4H8rj8pjJb_i2qyoL0R97vC5fEtb3B1
- De0iwUdfLom8cOG7geMdxQBVK7cUUJNYhQR6ekHaRFFT7jO1PdWu0mExWzf7WO9AX1vtICrERUXL
- 2HhKa7RZ.ak4nDPp17fQut8BNY9aQINAwwVamEGuEe1aYTKLFXkN.G0IOhTTUoKIwFRqoYAl8yZt
- 5F0G1fOZKq9L5Nj1O96aFm5AfoXwxSWpJJ6i67DHF2TTCHfZJF1vfUx1AI8w2gf7rXKwBkIPe9fA
- pZSluNYFU6s5WX41RdIGM9zpRJ3lfdoEpBtEZvRGMjQhfHDeqPz7bVtOmgXyj5ba.dUQpuHJ0nOO
- hJp8qnyh4WGrdQS.ZpNiulwtfpdzWfapAJJJByWbejUArCRptwSiYQKnG4PVLkOC2Itic_vdf42C
- V_am5cD.lGFxCFgYUqFuRK1grhV51uljmr.4k0GsRfRhkvu2jjqG3fNe9gWiq3u3WchvvH2uWTDO
- UkUKp_iaYegSNv_WbAZjmlmWhA13oI5qUI56CSktIp_QmXy1ywbeNOkjelKYPl_tDukjDBGGOxT6
- e.eS7ucjefi_pI8E43hfJnDzcKxJzL8CUirVr9eZ4BxUxHzHXMgcAPYepTt4wi4VsyIvS6aBjELV
- PNdDK
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic316.consmr.mail.gq1.yahoo.com with HTTP; Wed, 29 Jun 2022 07:57:27 +0000
-Received: by hermes--production-bf1-58957fb66f-xc7t4 (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 54da85cd042d010097af8a7b4a3a105a; 
- Wed, 29 Jun 2022 07:57:22 +0000 (UTC)
-From: Chuck Zmudzinski <brchuckz@aol.com>
-To: qemu-devel@nongnu.org
-Cc: xen-devel@lists.xenproject.org, qemu-trivial@nongnu.org,
- qemu-stable@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-Subject: [PATCH v4] xen/pass-through: merge emulated bits correctly
-Date: Wed, 29 Jun 2022 03:57:12 -0400
-Message-Id: <5cd07587898cac43bf4b7a52489c380a44cab652.1656480662.git.brchuckz@aol.com>
-X-Mailer: git-send-email 2.36.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o6SlF-0005M4-M2
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:09:23 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ v193-20020a1cacca000000b003a051f41541so2692104wme.5
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 01:09:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=TabGWHIM8c9rkJ4+E0f8FKSCJ/hlIEym8hMxsb5x2uY=;
+ b=tXownbuQpLN6nW0OBH4+YepcSMRoMT/qO/Yha69Rc6D9vcCVBNO6LO2t/RNQzwZlSk
+ sxvjm/3q/w11AY5MLaQa0nKDmPNl7mqO0G9Mg3J+kG+HHlMB+LESHjsqOc/F8P9Mpupz
+ 0otBWp+FgGr6awcbmZt0d86pjdnGjDmDO1ofv09znLjxYA3cwSggaICn/NDns6RaFOKg
+ t7tABI6ChZ4F17rctirVNsTeQqDhdNuxxuCYup7YcsfA00ZL24O544YEn0W/teKEmeyl
+ jXegbNzYsN6gKiJ0RIuuQhXChgpEIEf9Bs0VGo3HSl4vRHUVo3ZCYxGpno/J+fF1wx1v
+ 71BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=TabGWHIM8c9rkJ4+E0f8FKSCJ/hlIEym8hMxsb5x2uY=;
+ b=voIeMhHg2cX47amNVxLxJErZ3TSENgGdJDzeCchX0bTuwxruqainIWPE12HV7jqb//
+ hjFe3j+8FcqBOuW4khQn55osGMFrQNyIR8cbx5G7i/2Lwp3g5A5H0egw3PqtShnMeEec
+ FeZhJ8BaGDV83SVxsMiVlkHBqBlZ3vXICu1YcnzrqXsMis9CN5GQgQbwN0uRZm4lwL60
+ tohgu20N5eab+GYxS77hzJ5PuHlukZ+/wvyb29s6TvfnaXN7fdGm2rxTo/ZVAUfmbkoq
+ lUxaiEKS5LaTvSosNT9H2YnWDmVmJfBABgE7GWEtumendFA+gVxzAWmJU7TqNdDIieyl
+ qS1w==
+X-Gm-Message-State: AJIora92f4cqWLC+J9HXOMlSFhUInkgFDvFo8FA2RQTllvkbvWdeGlRr
+ yliBz+qkMLbH+jMZuhP6iqvSJA==
+X-Google-Smtp-Source: AGRyM1u28JbsOJwYKV8cv5/YgqGsqXyuUTx8255gWodsWgMNmzT7Pv01U/c1N+YBXFLWf1kDVnbtbg==
+X-Received: by 2002:a7b:c5da:0:b0:39c:542a:a07b with SMTP id
+ n26-20020a7bc5da000000b0039c542aa07bmr2274882wmk.83.1656490159966; 
+ Wed, 29 Jun 2022 01:09:19 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ q13-20020adfcd8d000000b00219b391c2d2sm18822824wrj.36.2022.06.29.01.09.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jun 2022 01:09:18 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 27F961FFB7;
+ Wed, 29 Jun 2022 09:09:18 +0100 (BST)
+References: <20220628114307.697943-1-richard.henderson@linaro.org>
+ <20220628114307.697943-3-richard.henderson@linaro.org>
+ <CAMo8BfJgo184TYxr0O-t5x68Ac1U3t9LWWvPeUEwm-E_qizGWQ@mail.gmail.com>
+ <b4f49f9d-769d-e307-b01d-aadc5df70642@linaro.org>
+User-agent: mu4e 1.7.27; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v5 2/2] target/xtensa: Use semihosting/syscalls.h
+Date: Wed, 29 Jun 2022 09:06:53 +0100
+In-reply-to: <b4f49f9d-769d-e307-b01d-aadc5df70642@linaro.org>
+Message-ID: <87tu83j3gx.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <5cd07587898cac43bf4b7a52489c380a44cab652.1656480662.git.brchuckz.ref@aol.com>
-Received-SPF: pass client-ip=98.137.69.32; envelope-from=brchuckz@aim.com;
- helo=sonic316-8.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,70 +96,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In xen_pt_config_reg_init(), there is an error in the merging of the
-emulated data with the host value. With the current Qemu, instead of
-merging the emulated bits with the host bits as defined by emu_mask,
-the emulated bits are merged with the host bits as defined by the
-inverse of emu_mask. In some cases, depending on the data in the
-registers on the host, the way the registers are setup, and the
-initial values of the emulated bits, the end result will be that
-the register is initialized with the wrong value.
 
-To correct this error, use the XEN_PT_MERGE_VALUE macro to help ensure
-the merge is done correctly.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-This correction is needed to resolve Qemu project issue #1061, which
-describes the failure of Xen HVM Linux guests to boot in certain
-configurations with passed through PCI devices, that is, when this error
-disables instead of enables the PCI_STATUS_CAP_LIST bit of the
-PCI_STATUS register of a passed through PCI device, which in turn
-disables the MSI-X capability of the device in Linux guests with the end
-result being that the Linux guest never completes the boot process.
+> On 6/28/22 19:08, Max Filippov wrote:
+>> On Tue, Jun 28, 2022 at 4:43 AM Richard Henderson
+>> <richard.henderson@linaro.org> wrote:
+>>>
+>>> This separates guest file descriptors from host file descriptors,
+>>> and utilizes shared infrastructure for integration with gdbstub.
+>>> Remove the xtensa custom console handing and rely on the
+>>> generic -semihosting-config handling of chardevs.
+>>>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   target/xtensa/cpu.h         |   1 -
+>>>   hw/xtensa/sim.c             |   3 -
+>>>   target/xtensa/xtensa-semi.c | 226 ++++++++----------------------------
+>>>   3 files changed, 50 insertions(+), 180 deletions(-)
+>>>
+>>> diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+>>> index ea66895e7f..99ac3efd71 100644
+>>> --- a/target/xtensa/cpu.h
+>>> +++ b/target/xtensa/cpu.h
+>>> @@ -612,7 +612,6 @@ void xtensa_translate_init(void);
+>>>   void **xtensa_get_regfile_by_name(const char *name, int entries, int =
+bits);
+>>>   void xtensa_breakpoint_handler(CPUState *cs);
+>>>   void xtensa_register_core(XtensaConfigList *node);
+>>> -void xtensa_sim_open_console(Chardev *chr);
+>>>   void check_interrupts(CPUXtensaState *s);
+>>>   void xtensa_irq_init(CPUXtensaState *env);
+>>>   qemu_irq *xtensa_get_extints(CPUXtensaState *env);
+>>> diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
+>>> index 946c71cb5b..5cca6a170e 100644
+>>> --- a/hw/xtensa/sim.c
+>>> +++ b/hw/xtensa/sim.c
+>>> @@ -87,9 +87,6 @@ XtensaCPU *xtensa_sim_common_init(MachineState *machi=
+ne)
+>>>           xtensa_create_memory_regions(&sysram, "xtensa.sysram",
+>>>                                        get_system_memory());
+>>>       }
+>>> -    if (serial_hd(0)) {
+>>> -        xtensa_sim_open_console(serial_hd(0));
+>>> -    }
+>> I've noticed that with this change '-serial stdio' and its variants
+>> are still
+>> accepted in the command line, but now they do nothing.
+>
+> Pardon?  They certainly will do something, via writes to the serial hardw=
+are.
+>
+>
+>> This quiet
+>> change of behavior is unfortunate. I wonder if it would be acceptable
+>> to map the '-serial stdio' option in the presence of '-semihosting' to
+>> something like '-chardev stdio,id=3Did1 -semihosting-config chardev=3Did=
+1'?
+>
+> I dunno.  I'm wary of having xtensa be unique here.  Alex, thoughts?
 
-Fixes: 2e87512eccf3 ("xen/pt: Sync up the dev.config and data values")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1061
-Buglink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=988333
+Is semihosting *the* serial hardware for xtensa-sim or is it overriding
+another serial interface? I'm wary of adding more magical behaviour for
+-serial as it can be confusing enough already what actually gets routed
+to it if not doing everything explicitly.
 
-Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
----
-v2: Edit the commit message to more accurately describe the cause
-of the error.
+>
+>>> +                if (get_user_u32(tv_sec, regs[5]) ||
+>>> +                    get_user_u32(tv_usec, regs[5])) {
+>> get_user_u32(tv_usec, regs[5] + 4)?
+>
+> Oops, yes.
+>
+>>> -                regs[2] =3D select(fd + 1,
+>>> -                                 rq =3D=3D SELECT_ONE_READ   ? &fdset =
+: NULL,
+>>> -                                 rq =3D=3D SELECT_ONE_WRITE  ? &fdset =
+: NULL,
+>>> -                                 rq =3D=3D SELECT_ONE_EXCEPT ? &fdset =
+: NULL,
+>>> -                                 target_tv ? &tv : NULL);
+>>> -                regs[3] =3D errno_h2g(errno);
+>>> +                /* Poll timeout is in milliseconds; overflow to infini=
+ty. */
+>>> +                msec =3D tv_sec * 1000ull + DIV_ROUND_UP(tv_usec, 1000=
+ull);
+>>> +                timeout =3D msec <=3D INT32_MAX ? msec : -1;
+>>> +            } else {
+>>> +                timeout =3D -1;
+>>>               }
+>>> +
+>>> +            switch (regs[4]) {
+>>> +            case SELECT_ONE_READ:
+>>> +                events =3D G_IO_IN;
+>>> +                break;
+>>> +            case SELECT_ONE_WRITE:
+>>> +                events =3D G_IO_OUT;
+>>> +                break;
+>>> +            case SELECT_ONE_EXCEPT:
+>>> +                events =3D G_IO_PRI;
+>>> +                break;
+>>> +            default:
+>>> +                xtensa_cb(cs, -1, EINVAL);
+>> This doesn't match what there used to be: it was possible to call
+>> select_one with rq other than SELECT_ONE_* and that would've
+>> passed NULL for all fd sets in the select invocation turning it into
+>> a sleep. It would return 0 after the timeout.
+>
+> Hmm.  Is there any documentation of what it was *supposed* to do?
+> Passing rq =3D=3D 0xdeadbeef and expecting a specific behaviour seems odd.
+>
+>
+> r~
 
-v3: * Add Reviewed-By: Anthony Perard <anthony.perard@citrix.com>
-    * Add qemu-stable@nongnu.org to recipients to indicate the patch
-      may be suitable for backport to Qemu stable
 
-v4: * Add Fixed commit subject to Fixes: 2e87512eccf3
-
-Thank you, Anthony, for taking the time to review this patch.
-
-Sorry for the extra noise with v4 (I thought the Fixed commit subject
-would be automatically added).
-
- hw/xen/xen_pt_config_init.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
-index cad4aeba84..21839a3c98 100644
---- a/hw/xen/xen_pt_config_init.c
-+++ b/hw/xen/xen_pt_config_init.c
-@@ -1966,10 +1966,10 @@ static void xen_pt_config_reg_init(XenPCIPassthroughState *s,
-         if ((data & host_mask) != (val & host_mask)) {
-             uint32_t new_val;
- 
--            /* Mask out host (including past size). */
--            new_val = val & host_mask;
--            /* Merge emulated ones (excluding the non-emulated ones). */
--            new_val |= data & host_mask;
-+            /* Merge the emulated bits (data) with the host bits (val)
-+             * and mask out the bits past size to enable restoration
-+             * of the proper value for logging below. */
-+            new_val = XEN_PT_MERGE_VALUE(val, data, host_mask) & size_mask;
-             /* Leave intact host and emulated values past the size - even though
-              * we do not care as we write per reg->size granularity, but for the
-              * logging below lets have the proper value. */
--- 
-2.36.1
-
+--=20
+Alex Benn=C3=A9e
 
