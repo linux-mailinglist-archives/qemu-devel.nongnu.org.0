@@ -2,100 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE7355FCA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 11:56:11 +0200 (CEST)
-Received: from localhost ([::1]:39766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C8C55FCF5
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 12:17:39 +0200 (CEST)
+Received: from localhost ([::1]:53726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6UQc-00075r-M9
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 05:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49788)
+	id 1o6UlN-0001hS-Hf
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 06:17:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o6UNk-0005H6-QK
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 05:53:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46340)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o6UNZ-0000Ee-9X
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 05:53:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656496380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uffUdDtxjLcnCaRKeKE6Qmjoo1QA8B9fVXjZ/rsbcec=;
- b=aIjEzy51qbnnIxK+q+W+O9nIujYIdPhctWbj1Z6fbOjA4EqAKXHncIN4afyidetBtxbEe3
- KEdLBPQkqygllnqiaRp+KotWCKqrsluH44hC7Jpo77jCbbXvfP9uTnSfRkmcYiarjkyb0I
- dhL8qD9o0ftCvhpuOlEyh5sYIn1V1ws=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-435-K5Vdri95OD2rBkY-f_wivQ-1; Wed, 29 Jun 2022 05:52:58 -0400
-X-MC-Unique: K5Vdri95OD2rBkY-f_wivQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- j14-20020adfa54e000000b0021b8c8204easo2249259wrb.0
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 02:52:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o6UiR-00082Z-EA
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 06:14:35 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:40797)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o6UiP-0002My-DN
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 06:14:35 -0400
+Received: by mail-ej1-x633.google.com with SMTP id ge10so31568218ejb.7
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 03:14:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=xg0nTnukAQHurqWB9MmujFvl/efYU9L9skID+yBxSJQ=;
+ b=NFR6TW9WBYj5QhzVn+id+weya0pyrm6f7Eq99HQOfv5ABiLeDWdb1S5LurEe8ZoRzg
+ fdrkFZrujMOK++cpAVdDV8N13XL3WUvPsSci59VSEQLmPt0VASbMjMQFs8iHwZSp+GED
+ 0wt2ngCVzUo739qvmjA81U2IooX/OBTxLsBJ00Rm5ciBjva1IfdWt2QXUizUjrl9DDQ7
+ /UsiJlsBf/CWwDL2gcOsN+mfie5HJZ5MbsMnc3b5gZf5CDpvMu2F0y2nmlSRBliyFfZZ
+ kAXya0L5N7gX9V/mG07Of7VTPhD/CoSFgm/c+rD7JKHvlEDSLY4edAxEZUsXi4P/zCbF
+ IF0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=uffUdDtxjLcnCaRKeKE6Qmjoo1QA8B9fVXjZ/rsbcec=;
- b=b05Ace8BknQFUKjCuQeVin8RAxTNDzWYA7qVYRkBf0V5ZVR9EIfZM+PfpGKt6zlwj+
- pfJRYKNYLos143lh16Q2ySv+nsnLLJqf7rX0NSnj9Nq94p34HIWkMIYLHcZnKsnmn6yk
- jqS2105N6X0103PeBDTRNRkto5snrVyQTtJRgQWqioevGlviGe+8FzaFDF6BwenncaPe
- 4mCIcUjpz5WbtDm3hxPJ217KScUmUXenJJhgkVO+16yBX7ugpP3s1Gigci7Mf05VkQbz
- NYLc4/e6G5Rnb33bJfAcs/U1LFMht9V97JYW0OefHlsKulcQWHqZFiJn6ue4l9gX4Hvf
- PJ0Q==
-X-Gm-Message-State: AJIora9jopIZlbESur26sFYHmcs8AF0pBQd3yQNmoAm5tUr68Z4X0m/l
- woMXZqifIEUydZ+Wg22FzrKuZUkiB4toUsjtTCUkpE1BIYjaA6sZ91A2/VVSn616RYnfJqr8vjK
- 1CP0K7sSIb1JmeNY=
-X-Received: by 2002:a5d:4892:0:b0:20c:d4eb:1886 with SMTP id
- g18-20020a5d4892000000b0020cd4eb1886mr2281588wrq.96.1656496377717; 
- Wed, 29 Jun 2022 02:52:57 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v09QE82AjggsBPO0J8mzQyfWHuLyd+lxv8mgNnKCeVwNSzbUc5L9pqYIIACiF1JH4NQ6U/Xg==
-X-Received: by 2002:a5d:4892:0:b0:20c:d4eb:1886 with SMTP id
- g18-20020a5d4892000000b0020cd4eb1886mr2281563wrq.96.1656496377486; 
- Wed, 29 Jun 2022 02:52:57 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c708:e600:d4fa:af4b:d7b6:20df?
- (p200300cbc708e600d4faaf4bd7b620df.dip0.t-ipconnect.de.
- [2003:cb:c708:e600:d4fa:af4b:d7b6:20df])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=xg0nTnukAQHurqWB9MmujFvl/efYU9L9skID+yBxSJQ=;
+ b=j2xMqPtZHuZ7ycHlZ2vB/cH79FcnwyetzM+5Q+kW6nEhdbu2XfiUWCMGzYZvEg9lol
+ fSUtb9dgqMDLwZWmLicAiVT6WyjGkaEP4obQoTi9bliIi+Lwk8sMbBvdlsq9G06t6yWS
+ 2xglpnE5exsWy7HkYS+30MtNUzXlbKZZXDMsBph9pa2YHEpn7DZMipXrfSOHz05FCtGe
+ Urjh0X8xMIsE4H9cJKle4R0JVXeazpJwO+oKZI3xL4KQy5I/sk7+owbMFaRrQ8dFXBJh
+ 5ohd6vUvYl9EZR49QZg2Z7MIKl9j5vwBPrdXF468OcTTyjJ/YVWVPzQv+zcNSyY/tK7Z
+ Lhjw==
+X-Gm-Message-State: AJIora/qHJIGQ3hMV8+yrgFqC5kmBxbGGplwzI08LIMcL8qKIDOExLUJ
+ UwTIIGl0t2Rbuk/DS03pm7sFyA==
+X-Google-Smtp-Source: AGRyM1uk/8DzL39Xq9Q80kGt1Kp5BvvQl4f5H2iA57jX+ej902ulNxYni3Ef6Jlr/0wWj9MRj1sK3A==
+X-Received: by 2002:a17:906:b1cb:b0:716:89ce:a708 with SMTP id
+ bv11-20020a170906b1cb00b0071689cea708mr2614189ejb.667.1656497670599; 
+ Wed, 29 Jun 2022 03:14:30 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- d2-20020a05600c34c200b0039c4e2ff7cfsm2540532wmq.43.2022.06.29.02.52.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Jun 2022 02:52:56 -0700 (PDT)
-Message-ID: <6725eac6-0ea1-b9e9-8fac-acf8a3c7a21b@redhat.com>
-Date: Wed, 29 Jun 2022 11:52:56 +0200
+ dt16-20020a170906b79000b00704fa2748ffsm7671393ejb.99.2022.06.29.03.14.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jun 2022 03:14:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7F4D41FFB7;
+ Wed, 29 Jun 2022 11:14:28 +0100 (BST)
+References: <20220628114307.697943-1-richard.henderson@linaro.org>
+ <20220628114307.697943-3-richard.henderson@linaro.org>
+ <CAMo8BfJgo184TYxr0O-t5x68Ac1U3t9LWWvPeUEwm-E_qizGWQ@mail.gmail.com>
+ <b4f49f9d-769d-e307-b01d-aadc5df70642@linaro.org>
+ <87tu83j3gx.fsf@linaro.org>
+ <CAMo8BfLmQFKh-BuFXWqU2w+T_nVmBjXZ24THHneyJmdgcYPZ5Q@mail.gmail.com>
+User-agent: mu4e 1.7.27; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v5 2/2] target/xtensa: Use semihosting/syscalls.h
+Date: Wed, 29 Jun 2022 11:02:27 +0100
+In-reply-to: <CAMo8BfLmQFKh-BuFXWqU2w+T_nVmBjXZ24THHneyJmdgcYPZ5Q@mail.gmail.com>
+Message-ID: <87h743ixob.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [RESEND PATCH] hw/dma: fix crash caused by race condition
-Content-Language: en-US
-To: Tong Zhang <ztong0001@gmail.com>
-Cc: Francisco Londono <f.londono@samsung.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, Tong Zhang <t.zhang2@samsung.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-References: <CGME20220506163106uscas1p20aa8ba0a290a9b50be54df6ec4f9cee0@uscas1p2.samsung.com>
- <20220506163059.2517-1-t.zhang2@samsung.com>
- <b3fd052f-658f-2e39-816b-9e5b9e521ec7@redhat.com>
- <CAA5qM4C15k3k6TSngp0tbTN50kCFLfmBvrwf_pbHheVmoXpO4g@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CAA5qM4C15k3k6TSngp0tbTN50kCFLfmBvrwf_pbHheVmoXpO4g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,73 +98,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.06.22 10:31, Tong Zhang wrote:
-> 
-> 
-> On Wed, Jun 29, 2022 at 12:29 AM David Hildenbrand <david@redhat.com
-> <mailto:david@redhat.com>> wrote:
-> 
->     On 06.05.22 18:31, Tong Zhang wrote:
->     > assert(dbs->acb) is meant to check the return value of io_func per
->     > documented in commit 6bee44ea34 ("dma: the passed io_func does not
->     > return NULL"). However, there is a chance that after calling
->     > aio_context_release(dbs->ctx); the dma_blk_cb function is called
->     before
->     > the assertion and dbs->acb is set to NULL again at line 121. Thus when
->     > we run assert at line 181 it will fail.
->     >
->     >   softmmu/dma-helpers.c:181: dma_blk_cb: Assertion `dbs->acb' failed.
->     >
->     > Reported-by: Francisco Londono <f.londono@samsung.com
->     <mailto:f.londono@samsung.com>>
->     > Signed-off-by: Tong Zhang <t.zhang2@samsung.com
->     <mailto:t.zhang2@samsung.com>>
->     > ---
->     >  softmmu/dma-helpers.c | 2 +-
->     >  1 file changed, 1 insertion(+), 1 deletion(-)
->     >
->     > diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
->     > index 7820fec54c..cb81017928 100644
->     > --- a/softmmu/dma-helpers.c
->     > +++ b/softmmu/dma-helpers.c
->     > @@ -177,8 +177,8 @@ static void dma_blk_cb(void *opaque, int ret)
->     >      aio_context_acquire(dbs->ctx);
->     >      dbs->acb = dbs->io_func(dbs->offset, &dbs->iov,
->     >                              dma_blk_cb, dbs, dbs->io_func_opaque);
->     > -    aio_context_release(dbs->ctx);
->     >      assert(dbs->acb);
->     > +    aio_context_release(dbs->ctx);
->     >  }
->     > 
->     >  static void dma_aio_cancel(BlockAIOCB *acb)
-> 
->     Please don't resend patches if the previous submission came to the
->     conclusion that it's unclear how this should help.
-> 
->     https://lkml.kernel.org/r/CAJSP0QW396RY_g8LS1mncDZcOv5GamURy+xv+s8zMcdq03OOMA@mail.gmail.com
->     <https://lkml.kernel.org/r/CAJSP0QW396RY_g8LS1mncDZcOv5GamURy+xv+s8zMcdq03OOMA@mail.gmail.com>
-> 
-> 
->     I *still* don't understand the interaction between the lock and the
->     assertion and so far nobody was able to clarify.
-> 
->     -- 
->     Thanks,
-> 
->     David / dhildenb
-> 
-> hello
-> 
-> This message is sent way before the discussion 
 
-Oh, I'm sorry. I was mislead by the reply from Laurent :)
+Max Filippov <jcmvbkbc@gmail.com> writes:
 
-BTW, do we now have an understanding why that patch helps and if it
-applies to upstream?
+> On Wed, Jun 29, 2022 at 1:09 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>> > On 6/28/22 19:08, Max Filippov wrote:
+>> >> On Tue, Jun 28, 2022 at 4:43 AM Richard Henderson
+>> >> <richard.henderson@linaro.org> wrote:
+>
+>> >>>       }
+>> >>> -    if (serial_hd(0)) {
+>> >>> -        xtensa_sim_open_console(serial_hd(0));
+>> >>> -    }
+>> >> I've noticed that with this change '-serial stdio' and its variants
+>> >> are still
+>> >> accepted in the command line, but now they do nothing.
+>> >
+>> > Pardon?  They certainly will do something, via writes to the serial ha=
+rdware.
+>> >
+>> >
+>> >> This quiet
+>> >> change of behavior is unfortunate. I wonder if it would be acceptable
+>> >> to map the '-serial stdio' option in the presence of '-semihosting' to
+>> >> something like '-chardev stdio,id=3Did1 -semihosting-config chardev=
+=3Did1'?
+>> >
+>> > I dunno.  I'm wary of having xtensa be unique here.  Alex, thoughts?
+>>
+>> Is semihosting *the* serial hardware for xtensa-sim or is it overriding
+>> another serial interface? I'm wary of adding more magical behaviour for
+>> -serial as it can be confusing enough already what actually gets routed
+>> to it if not doing everything explicitly.
+>
+> There's no notion of 'serial hardware' for the xtensa-sim, all it has is
+> the three standard stdio file descriptors.
 
--- 
-Thanks,
+Which are accessed via semihosting calls? Are they implicitly mapped to
+3 chardev devices for stdin, stdout and stderr?
 
-David / dhildenb
+> But it was convenient thinking
+> of them as a serial port. I agree that no magic is needed here, but
+> the change shouldn't be quiet eiter, so xtensa-sim should warn (or
+> maybe even quit with an error code) when it sees the -serial option.
 
+If the default chardevs already map to the 3 FDs then perhaps -serial
+should be invalid because it is more explicit to use -chardev to
+redirect the stream you want somewhere else. However I don't see them at
+the moment:
+
+  =E2=9E=9C  ./qemu-system-xtensa -M sim -semihosting -S -display none -mon=
+itor stdio
+  QEMU 7.0.50 monitor - type 'help' for more information
+  (qemu) info chardev=20
+  compat_monitor0: filename=3Dstdio
+  parallel0: filename=3Dvc
+
+--=20
+Alex Benn=C3=A9e
 
