@@ -2,142 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E97560AAE
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 21:52:51 +0200 (CEST)
-Received: from localhost ([::1]:34082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2874E560AF2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 22:14:59 +0200 (CEST)
+Received: from localhost ([::1]:43286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6dk2-0001SG-5b
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 15:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42086)
+	id 1o6e5R-0007ob-NP
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 16:14:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
- id 1o6dgj-0000kY-85
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 15:49:25 -0400
-Received: from mail-co1nam11on20623.outbound.protection.outlook.com
- ([2a01:111:f400:7eab::623]:17575
- helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o6e4A-00073m-HL
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 16:13:38 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:35931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
- id 1o6dgg-0003UX-5o
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 15:49:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F0KF5BGLr9ZmkHZu4HMjtlLNFW+cpu6tlK3/vrUNtjazqgUS3C51LmGfvokayyFwmiHyzV9KucIKpvxJGqKOAUNwPIXiV+qhGfmSsfTpt2NVt4L0Mr7NSbRo1y2xVBsYA18fejnO+vPlHAvXSd2Dn2XT1LbvFLbE698aowSpSGManfbKjfgTw/fhSnuYhbtReXAgmQfwIubYkvvW9C5HGc9X2rvNBo7UXRgm9JPcTmdMUGTdpe4KrS2djPT5UW5XMVPe1K3AgLVIALaWRJgH5wtMhqE/YdNctGn6kdAJWrzTCbXAC4YyCzfgJL3FXZy9cno6arVuRQtLx9Zm3a3CKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sHr6kMtvIbq8g+mEImb+WNMEF4pNuhFX4M+P3zf2+9M=;
- b=U7VYIxrPCtn3AkYAio+DkZLlUcjfWOskbyYbCf0c9Lk309NHxSjGFwcD6piTZsmxKR29pZch699/hvQfI4xfm+kf7oi3DLn0lep6moixqEke9eSA1KU4jfPMda775GcmKQ5vMqfw735vV2PFwvG52GepIKB197yWapR5mwgMzvSQ9UbFQmPpStzW1dtaF+XEnWGzkc2Y88HIIQ78ey75IjR1dihFlQj3m4LUdKR1r3cbX2vm4EAeZiwoWoiCwfaCkLwb1d862MDN/8JVSClVKyiFIw2eoh2xEFyfhj3zGm7mItj8J8E6QrIx6X+dX8Nu4n7NnzFmm06hWBpuFiRe2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sHr6kMtvIbq8g+mEImb+WNMEF4pNuhFX4M+P3zf2+9M=;
- b=cEitfvPgBXTjMP2kCa1x3L6SmJKWDDNNtaBQ48L2c42KUVqp+nER1IfpAaFdb4O9Wsb9ErUnb0v6e720OMxmG2/h8rNB5PHew38iZCeNsRM47zNRDECses37zYg81gZ2WrDqTiJ/fiv9pHG/7ZjEjRCZjuYrMB5gDszo6jNBhc0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11) by BYAPR12MB3015.namprd12.prod.outlook.com
- (2603:10b6:a03:df::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Wed, 29 Jun
- 2022 19:44:17 +0000
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5373.018; Wed, 29 Jun
- 2022 19:44:16 +0000
-Message-ID: <a9a83068-326d-d9d3-32db-fbb276931d10@amd.com>
-Date: Wed, 29 Jun 2022 21:44:09 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] target/i386: Add unaccepted memory configuration
-Content-Language: en-US
-To: Dionna Glaze <dionnaglaze@google.com>, qemu-devel@nongnu.org
-Cc: Xu@google.com, Min M <min.m.xu@intel.com>,
- Xiaoyao Li <xiaoyao.li@intel.com>, Thomas Lendacky
- <Thomas.Lendacky@amd.com>, Gerd Hoffman <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Marcelo Tosatti
- <mtosatti@redhat.com>, "open list:X86 KVM CPUs" <kvm@vger.kernel.org>
-References: <20220629193701.734154-1-dionnaglaze@google.com>
-From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-In-Reply-To: <20220629193701.734154-1-dionnaglaze@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0006.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::11) To CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o6e45-0001bh-Bc
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 16:13:38 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id CE5FE320030E;
+ Wed, 29 Jun 2022 16:13:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 29 Jun 2022 16:13:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1656533609; x=1656620009; bh=ZN
+ KKxDakV89HZYXoaDvph5O1hChBwG0r5m/gH8NgLM8=; b=PXlxjkoEcJoKJjO91s
+ wpkG4zSDshTXOw9Np1Gmqf7wP3BbeWEXx/nvzDVJiTIKdBrwVrJvWX8n6a3y5yKe
+ vZfnkT1QQCKPSxrxM2g+Yff9vty1pDZxFEXatspSwVv/5F7q06T5BZxvAsrm6kPh
+ nyY7QD10XTO5e6ke3nB+ucj2AFSAfISNksig37Ca0/KpGH9GO6jkKIqPtQdmZxwO
+ S00OA9WWHYum/dKC7wmiJNpZUXTBcCLFr36QzKNIh/eDmpq+taxN6Lc3gt0VwQym
+ eKobgNnHhOz+arkeHnw9n7Nbs6hE5ZfUgnXNkRZNfSQD74r0w+GgQbO1JentC/fw
+ VR0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1656533609; x=1656620009; bh=ZNKKxDakV89HZYXoaDvph5O1hChB
+ wG0r5m/gH8NgLM8=; b=K1YFOsw6Sib+Vqbdj/pgZ7cC3Hsln2V4IZHCf6ktE57w
+ i+QPs7RZU65OAEWsK4tx/LysgrMo9NvXa1vkHwj60dWggBm58OjRrqE0zpjql6SB
+ 3aMnVw9KUVveJqJ5h5OlTwzzDyQZa2VVmoYs2vYawKTCEpxPTqTSbKd9EfiGHwfD
+ KsavGczzDBJib/8cNCV/2dS61zrR5pydK6+l6rP0qjRhnYfB7JfqlMeLbymtzuHj
+ 4m91RSHHl9OalvKoXJXkI8XIEgmFkHvwzpOYyyTVXR7SukNc4Onl+oFrVm+qpgL2
+ ngCtjhkB23u+tzK/frxE28tsIPgq+n7dil5B4rI2wA==
+X-ME-Sender: <xms:aLK8YpLe6yDIJE-8D-TZTaUmimfSP1UWcLvV3sFVSJBw0azAiZCilQ>
+ <xme:aLK8YlIM8wCRcjB33AbOeMDQl1_w_F8bHGRk9S24N0YM6rkujNprcGYajW5RapQLE
+ R444Uw-K7iX8pZEzWQ>
+X-ME-Received: <xmr:aLK8YhtDhjMTgdfxvTuDQpJGsxgis6_tUwxKIt2SHYFeMXcvLzLjpxF8MHfu3xWnTtN2wJCyzWJIVSl5UlE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgudegiecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesgh
+ dtreertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgv
+ lhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjefgjeefffdvuefhieefhffggf
+ euleehudekveejvedtuddugeeigeetffffjeevnecuvehluhhsthgvrhfuihiivgeptden
+ ucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:aLK8YqZAPBw5rO_VB2qkuut0zRQxvzWhpj2K4RQqL-VvA_SvAxmflQ>
+ <xmx:aLK8YgZvCPEUgb4C-5plLe0bHogqIV5GID1Q4NF2-IWd8i5ysgr0Mw>
+ <xmx:aLK8YuBFxUJPvDdH6CbStQYTz_d3QQ1jN30kkv5YZBLz2klEYz8urQ>
+ <xmx:abK8YvkWtNFVzSgvF3ZUfSehLiQPci-CEX6Ly9FrpXxeTFp1RjAimg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Jun 2022 16:13:27 -0400 (EDT)
+Date: Wed, 29 Jun 2022 22:13:25 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org
+Subject: Re: [PATCH] hw/nvme: Use ioeventfd to handle doorbell updates
+Message-ID: <YryyZUmJbo3eY/pa@apples>
+References: <20220627104813.2173852-1-fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dd1bb49f-0158-46ec-bfaa-08da5a07c05f
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3015:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BCYEvdLX6SOxxFQrH8pAlcr7VWNxCOhBB9PrrzdiIUXo0MAJ2VGoV6AfrrDefQhFRR/4viq+ewY1r+yKomwzJFaeHKNCNL6GxKXhoUkIOdKSytSOsBUqZWZYpBPYtic1evUBxfvOXxEbnIcaElhuNpNvlUT0obeAAi5iYukP+K92aXQvlMgG62jfiJNmdasQEaFun2lB/p5MVPydgXYpSjM2ou8/i3z6yZddoeGV6HX3tESZu6GDmHEg79Tu2dGO5V+Z/5ccTPNe7BnDqHVViZXg67x4JIoaJjzIoG62vxVNiIlqKzoRcPfgAHI6HG3RkXsbnUmOSMnEdWDRII8YNgUepsjwzT/p1Pd5pzWMj/wNqgtUL4i5nyKWSn3DpJNmYOeJj8pea3AUQK1JuYI6E5DOojj5o3ROYmON66eoi5kV8VYwzSsnwJoEKmJ7Mo6jc+5yB2bsBC3OP5ZQIxldzg8xrT/7EmH5eCwnWI1Am2uhsIOiJfLCQBKR8IMN1qYBAK1x0zC0vV6fjWPhmacyVMXOgMhNOifpXtQqyn6cFBk5trthOzAT1jbp5Vjj/oZUQOBTsM4KgF2YcgmAHVSAxQ+ypDH7NpEbdeTbAFK4Q281LYpafvEqgyM9vc25IwPJS659rTEzWB9c+QlQ4DAf+i+1XerMNlKzEiZ/anSig3KbBBGac3ATm9fetyTuZXAKs7hTycFaMmCnieXH27k4SHOJw15p6JC5+TtKYSIXPq6mJwBHLltZ9Uhn9Zg956z6R4drMzQhmScQkXd7vIgfHziTsNsYcIrIidWZIEc8xiyGox3oH4MhcyzlYbV6Q9pI
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR1201MB0181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(136003)(396003)(346002)(376002)(39860400002)(66946007)(4326008)(66476007)(8676002)(86362001)(38100700002)(6486002)(66556008)(316002)(31686004)(26005)(36756003)(6506007)(2616005)(54906003)(186003)(2906002)(6512007)(83380400001)(478600001)(8936002)(31696002)(41300700001)(6666004)(7416002)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGg2NzdRaldIbFR5ekFtRTl6RkRDL04xa1NVTDBVbk5UNnlHRkZQVnpWekJC?=
- =?utf-8?B?K0llNkhRcmJCS0xIN25OYTdoaVhCT2QySXI3RFRhOWhpSkdpVzZBZEttOElY?=
- =?utf-8?B?UzA1RDVQN0wrampKcm1NdjhOc3hITlJpMjBTcUxidGw1OXZHQVp0U3prSzlQ?=
- =?utf-8?B?VDVNSTdBTm1JeHd4TkRDcVVMdmEwZE5SaHlvNG1sVzZjOHpwb0RIeFhsYTZw?=
- =?utf-8?B?Z2diL1hFcDN0RnR0Zi9COUlHYm02a0MrYkJ0V2d6SXhNQk1ocGNZSmZFKzhJ?=
- =?utf-8?B?d2VPTkZlYU11eThoNGt4aFZjSHMzcFM1Rko4WEh3YmNWVTBOeUlId1R6SHcv?=
- =?utf-8?B?VHh4SWtoaUNoMEYvdm5SV2NrRXJlcjZMazF3eDFHdEIxUmlTY2RBcDFOa3RE?=
- =?utf-8?B?L3orTndsV200KzJ4eWQzUDU4M1hINFFxSmxBdmxQVTJHaVh2N21zZzVyVy9V?=
- =?utf-8?B?UGIrV2hmeHZFUFhyZUo2T0cySVc4WXk4R2FyVkh3cjhXSWVPbWtWbUVFanpV?=
- =?utf-8?B?ZEpzUTZhTDZYcXZwM0tvNGlQYU1zYy9uTVNGRXV4cEhIczVBOXYvWmxqK0Q1?=
- =?utf-8?B?WVJ6ZUVrMUJ0ZXZNd2JsVVVXT2UwNTE4ajdTMHpXdlhwVTdpNkt2SEM5UEE3?=
- =?utf-8?B?NXdQazhRckx6SnVaWlhXREhXMWNPcXJkSmhRMGtFYVRxT3VUcmRGTGpkSmxj?=
- =?utf-8?B?QTNZZUJwRS9LZmM5R1JoK0JxMm42cE9kVDhrQUlqczFjSVNYV2l3cGd6b01H?=
- =?utf-8?B?WC8wcnBWaEtnbkZWem93ZVdCalhqNjk0Z1lqZm9KaWs0ZWFXRDgzMG5rNnRC?=
- =?utf-8?B?RkxGU24vL0FCWC9pTXpDdy9Dc3JPc1pEaHJqU0ZFV3dtaXBPNko2ajdzYWxD?=
- =?utf-8?B?RGs4N2tDWC82alQzdmlWc3UyNDlaZmVySC9sbmJubDRiVCt5OWZBYmhPZUwv?=
- =?utf-8?B?L09XT1MwVFppZk8rVFVtTjdjUVl1bWRNclFNRmVic1lndXRCRDc3QS9ON3VP?=
- =?utf-8?B?YnZhTU13YmhsU0l6K1FDVU84V3VVanh3TzdGdUUzSUtYNUs0SThPNUlYV1dj?=
- =?utf-8?B?RWtnd0o4dWtRY2FOSHlKa05qV3dpcjE4NHdualA0RVl4VnNtMGt2Q1VJRHA3?=
- =?utf-8?B?bTYwZnFKZEI2TUhpVFpnUGkwWWtaVFFySmkweVRiWmRGT1poc3J0ckVJeFBK?=
- =?utf-8?B?RGpwWEYxK0ZKUmNnVlYwZnA3eXZSVjdWOHk4TUhVQnZtZFEyN3BIdXR2OEJE?=
- =?utf-8?B?ZXFlckVqanVDZi91cjluQW1MQ3g0RnJneks0Tlg1ZVNrZHhyY0ZOZkpMUlNS?=
- =?utf-8?B?STA5Q2t5ckE4NU43aUxiSll1TVFvSHQvcytaRDFzdFRsMmpiVEg0c0dvbnVl?=
- =?utf-8?B?aWJKdk1FbFh6dUZnYUdRcFRvaUxBeDc4Wk9BTmxBcE5jcmhudXhVZHNvUzln?=
- =?utf-8?B?V1VQNDJmbktmVHpDV1lBMVlkMUpsZEwrSDdmLzY0UXVRa2Q1N1c3OTRoTTdW?=
- =?utf-8?B?VkVUT3J2emxWM0pmSnptQ01PcVVaRFRTL1hJUW5YVFRXbFNFU3pvMVpLV0hX?=
- =?utf-8?B?UXpEbzIzL0pUVU5qZWhHWEpUdnQ4ZEFBS05kQzJtUjdUKzliT0E0NHRkd1JH?=
- =?utf-8?B?Nyszb0I2Vy9ncGZuTGYxTkwreHROZ0wxbDAyM3dYeHRSUE5mMVZVaXdxdStU?=
- =?utf-8?B?bjhYVE1RYytXQ0x2Ujdac28xRnFFV0tTUlljTnpScnpieG93Z1puQ0dTczk1?=
- =?utf-8?B?M1Q5NHcyUERyNGV3bno5eFhPa2I2UHkrMVFna1JpNDVXRGc1UXhUTk00WDRk?=
- =?utf-8?B?UW1wWmZOVzExeE1uYmgyNU9xMEZDZmc2azlWVWNSb2NKM0dVcUFQaWJCM0xH?=
- =?utf-8?B?eVByTmhGOXVVQWVVUUErUG41QlVHdWQza0xhZE90SUdnSFBCWWpYcFQ4ZDhq?=
- =?utf-8?B?S3lRblNtamREQzRnZ2FqNHlGbituMXo3MUVzaS9wZW52MWZXbC80b0h4aEts?=
- =?utf-8?B?a3BKUU5Oa2dOVkVvbWx1eXdwZndCU3ZRRVlzN3ZESURsaHdwaGYyeHF0WlB2?=
- =?utf-8?B?dUlOKzJ1N1d6N3ZqaXVISXRNazhFVXdqSzl0ZHVJQ2Y4dDBsVVBaWVBzZW9F?=
- =?utf-8?Q?hw/Xtc4q68yZoqNadGInYRsQ/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd1bb49f-0158-46ec-bfaa-08da5a07c05f
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 19:44:16.7774 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LtOL7uc1emE9en+wVfH5PHORP1z+lTiXn2IPSCIEie2fged+n+iZQrCg3dJJPfUiH7Ddu5Q2fVpKU3t7SJmrnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3015
-Received-SPF: softfail client-ip=2a01:111:f400:7eab::623;
- envelope-from=Pankaj.Gupta@amd.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3rOXrNmbPNyq8x/O"
+Content-Disposition: inline
+In-Reply-To: <20220627104813.2173852-1-fanjinhao21s@ict.ac.cn>
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -155,149 +100,298 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-> For SEV-SNP, an OS is "SEV-SNP capable" without supporting this UEFI
-> v2.9 memory type. In order for OVMF to be able to avoid pre-validating
-> potentially hundreds of gibibytes of data before booting, it needs to
-> know if the guest OS can support its use of the new type of memory in
-> the memory map.
-> 
-> Cc: Xu, Min M <min.m.xu@intel.com>
-> Cc: Xiaoyao Li <xiaoyao.li@intel.com>
-> Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>
-> Cc: Gerd Hoffman <kraxel@redhat.com>
-> Signed-off-by: Dionna Glaze <dionnaglaze@google.com>
+--3rOXrNmbPNyq8x/O
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Jun 27 18:48, Jinhao Fan wrote:
+> Add property "ioeventfd" which is enabled by default. When this is
+> enabled, updates on the doorbell registers will cause KVM to signal
+> an event to the QEMU main loop to handle the doorbell updates.
+> Therefore, instead of letting the vcpu thread run both guest VM and
+> IO emulation, we now use the main loop thread to do IO emulation and
+> thus the vcpu thread has more cycles for the guest VM.
+>=20
+> Since ioeventfd does not tell us the exact value that is written, it is
+> only useful when shadow doorbell buffer is enabled, where we check
+> for the value in the shadow doorbell buffer when we get the doorbell
+> update event.
+>=20
+> IOPS comparison on Linux 5.19-rc2: (Unit: KIOPS)
+>=20
+> qd           1   4  16  64
+> qemu        35 121 176 153
+> ioeventfd   41 133 258 313
+>=20
+> Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 > ---
-
-Wondering what changed in v2. Did I miss change log?
-
->   hw/i386/fw_cfg.c  |  6 ++++++
->   target/i386/sev.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++
->   target/i386/sev.h |  2 ++
->   3 files changed, 57 insertions(+)
-> 
-> diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-> index a283785a8d..9c069ddebe 100644
-> --- a/hw/i386/fw_cfg.c
-> +++ b/hw/i386/fw_cfg.c
-> @@ -23,6 +23,7 @@
->   #include "e820_memory_layout.h"
->   #include "kvm/kvm_i386.h"
->   #include "qapi/error.h"
-> +#include "target/i386/sev.h"
->   #include CONFIG_DEVICES
->   
->   struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
-> @@ -131,6 +132,11 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
->                        &e820_reserve, sizeof(e820_reserve));
->       fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
->                       sizeof(struct e820_entry) * e820_get_num_entries());
-> +    if (sev_has_accept_all_memory(ms->cgs)) {
-> +        bool accept_all = sev_accept_all_memory(ms->cgs);
-> +        fw_cfg_add_file(fw_cfg, "opt/ovmf/AcceptAllMemory",
-> +                        &accept_all, sizeof(accept_all));
+>  hw/nvme/ctrl.c | 97 +++++++++++++++++++++++++++++++++++++++++++++++++-
+>  hw/nvme/nvme.h |  5 +++
+>  2 files changed, 101 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index c952c34f94..787b89f7d3 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -1374,7 +1374,14 @@ static void nvme_enqueue_req_completion(NvmeCQueue=
+ *cq, NvmeRequest *req)
+> =20
+>      QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
+>      QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
+> -    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+> +
+> +    if (req->sq->ioeventfd_enabled) {
+> +        /* Post CQE directly since we are in main loop thread */
+> +        nvme_post_cqes(cq);
+> +    } else {
+> +        /* Schedule the timer to post CQE later since we are in vcpu thr=
+ead */
+> +        timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500=
+);
 > +    }
->   
->       fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
->       /* allocate memory for the NUMA channel: one (64bit) word for the number
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 32f7dbac4e..01399a304c 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -64,6 +64,7 @@ struct SevGuestState {
->       uint32_t cbitpos;
->       uint32_t reduced_phys_bits;
->       bool kernel_hashes;
-> +    int accept_all_memory;
->   
->       /* runtime state */
->       uint32_t handle;
-> @@ -155,6 +156,15 @@ static const char *const sev_fw_errlist[] = {
->       [SEV_RET_SECURE_DATA_INVALID]    = "Part-specific integrity check failure",
->   };
->   
-> +static QEnumLookup memory_acceptance_lookup = {
-> +    .array = (const char *const[]) {
-> +        "default",
-> +        "true",
-> +        "false",
-> +    },
-> +    .size = 3,
-> +};
-> +
->   #define SEV_FW_MAX_ERROR      ARRAY_SIZE(sev_fw_errlist)
->   
->   static int
-> @@ -353,6 +363,21 @@ static void sev_guest_set_kernel_hashes(Object *obj, bool value, Error **errp)
->       sev->kernel_hashes = value;
->   }
->   
-> +static int sev_guest_get_accept_all_memory(Object *obj, Error **errp)
+>  }
+> =20
+>  static void nvme_process_aers(void *opaque)
+> @@ -4195,10 +4202,74 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequ=
+est *req)
+>      return NVME_INVALID_OPCODE | NVME_DNR;
+>  }
+> =20
+> +static void nvme_cq_notifier(EventNotifier *e)
 > +{
-> +    SevGuestState *sev = SEV_GUEST(obj);
+> +    NvmeCQueue *cq =3D container_of(e, NvmeCQueue, notifier);
+> +    NvmeCtrl *n =3D cq->ctrl;
 > +
-> +    return sev->accept_all_memory;
+> +    event_notifier_test_and_clear(&cq->notifier);
+> +
+> +    nvme_update_cq_head(cq);
+> +
+> +    if (cq->tail =3D=3D cq->head) {
+> +        if (cq->irq_enabled) {
+> +            n->cq_pending--;
+> +        }
+> +
+> +        nvme_irq_deassert(n, cq);
+> +    }
+> +
+> +    nvme_post_cqes(cq);
 > +}
 > +
-> +static void
-> +sev_guest_set_accept_all_memory(Object *obj, int value, Error **errp)
+> +static int nvme_init_cq_ioeventfd(NvmeCQueue *cq)
 > +{
-> +    SevGuestState *sev = SEV_GUEST(obj);
+> +    NvmeCtrl *n =3D cq->ctrl;
+> +    uint16_t offset =3D (cq->cqid << 3) + (1 << 2);
+> +    int ret;
 > +
-> +    sev->accept_all_memory = value;
-> +}
-> +
->   static void
->   sev_guest_class_init(ObjectClass *oc, void *data)
->   {
-> @@ -376,6 +401,14 @@ sev_guest_class_init(ObjectClass *oc, void *data)
->                                      sev_guest_set_kernel_hashes);
->       object_class_property_set_description(oc, "kernel-hashes",
->               "add kernel hashes to guest firmware for measured Linux boot");
-> +    object_class_property_add_enum(oc, "accept-all-memory",
-> +                                   "MemoryAcceptance",
-> +                                   &memory_acceptance_lookup,
-> +        sev_guest_get_accept_all_memory, sev_guest_set_accept_all_memory);
-> +    object_class_property_set_description(
-> +        oc, "accept-all-memory",
-> +        "false: Accept all memory, true: Accept up to 4G and leave the rest unaccepted (UEFI"
-> +        " v2.9 memory type), default: default firmware behavior.");
->   }
->   
->   static void
-> @@ -906,6 +939,22 @@ sev_vm_state_change(void *opaque, bool running, RunState state)
->       }
->   }
->   
-> +int sev_has_accept_all_memory(ConfidentialGuestSupport *cgs)
-> +{
-> +    SevGuestState *sev
-> +        = (SevGuestState *)object_dynamic_cast(OBJECT(cgs), TYPE_SEV_GUEST);
-> +
-> +    return sev && sev->accept_all_memory != 0;
-> +}
-> +
-> +int sev_accept_all_memory(ConfidentialGuestSupport *cgs)
-> +{
-> +    SevGuestState *sev
-> +        = (SevGuestState *)object_dynamic_cast(OBJECT(cgs), TYPE_SEV_GUEST);
-> +
-> +    return sev && sev->accept_all_memory == 1;
-> +}
-> +
->   int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->   {
->       SevGuestState *sev
-> diff --git a/target/i386/sev.h b/target/i386/sev.h
-> index 7b1528248a..d61b6e9443 100644
-> --- a/target/i386/sev.h
-> +++ b/target/i386/sev.h
-> @@ -58,5 +58,7 @@ int sev_es_save_reset_vector(void *flash_ptr, uint64_t flash_size);
->   void sev_es_set_reset_vector(CPUState *cpu);
->   
->   int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
-> +int sev_has_accept_all_memory(ConfidentialGuestSupport *cgs);
-> +int sev_accept_all_memory(ConfidentialGuestSupport *cgs);
->   
->   #endif
+> +    if ((ret =3D event_notifier_init(&cq->notifier, 0))) {
+> +        return ret;
+> +    }
 
+Dont assign in conditionals and rely on the implicit value. It's too
+error prone. Split into
+
+  ret =3D event_notifier_init(&cq->notifier, 0);
+  if (ret < 0) {
+    return ret;
+  }
+
+> +
+> +    event_notifier_set_handler(&cq->notifier, nvme_cq_notifier);
+> +    memory_region_add_eventfd(&n->iomem,
+> +                              0x1000 + offset, 4, false, 0, &cq->notifie=
+r);
+> +   =20
+> +    return 0;
+> +}
+> +
+> +static void nvme_sq_notifier(EventNotifier *e)
+> +{
+> +    NvmeSQueue *sq =3D container_of(e, NvmeSQueue, notifier);
+> +
+> +    event_notifier_test_and_clear(&sq->notifier);
+> +
+> +    nvme_process_sq(sq);
+> +}
+> +
+> +static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
+> +{
+> +    NvmeCtrl *n =3D sq->ctrl;
+> +    uint16_t offset =3D sq->sqid << 3;
+> +    int ret;
+> +
+> +    if ((ret =3D event_notifier_init(&sq->notifier, 0))) {
+> +        return ret;
+> +    }
+
+Same as above.
+
+> +
+> +    event_notifier_set_handler(&sq->notifier, nvme_sq_notifier);
+> +    memory_region_add_eventfd(&n->iomem,
+> +                              0x1000 + offset, 4, false, 0, &sq->notifie=
+r);
+> +
+> +    return 0;
+> +}
+> +
+>  static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
+>  {
+>      n->sq[sq->sqid] =3D NULL;
+>      timer_free(sq->timer);
+> +    event_notifier_cleanup(&sq->notifier);
+>      g_free(sq->io_req);
+>      if (sq->sqid) {
+>          g_free(sq);
+> @@ -4250,6 +4321,7 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *=
+n, uint64_t dma_addr,
+>                           uint16_t sqid, uint16_t cqid, uint16_t size)
+>  {
+>      int i;
+> +    int ret;
+>      NvmeCQueue *cq;
+> =20
+>      sq->ctrl =3D n;
+> @@ -4271,6 +4343,11 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl =
+*n, uint64_t dma_addr,
+>      if (n->dbbuf_enabled) {
+>          sq->db_addr =3D n->dbbuf_dbs + (sqid << 3);
+>          sq->ei_addr =3D n->dbbuf_eis + (sqid << 3);
+> +           =20
+> +        if (n->params.ioeventfd && sq->sqid !=3D 0) {
+> +            ret =3D nvme_init_sq_ioeventfd(sq);
+> +            sq->ioeventfd_enabled =3D ret =3D=3D 0;
+> +        }
+
+Not using ret for anything really, so
+
+  if (!nvme_init_sq_ioeventfd(sq)) {
+    sq->ioeventfd_enabled =3D true;
+  }
+
+should do.
+
+>      }
+> =20
+>      assert(n->cq[cqid]);
+> @@ -4577,6 +4654,7 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *=
+n)
+>  {
+>      n->cq[cq->cqid] =3D NULL;
+>      timer_free(cq->timer);
+> +    event_notifier_cleanup(&cq->notifier);
+>      if (msix_enabled(&n->parent_obj)) {
+>          msix_vector_unuse(&n->parent_obj, cq->vector);
+>      }
+> @@ -4635,6 +4713,11 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl =
+*n, uint64_t dma_addr,
+>      if (n->dbbuf_enabled) {
+>          cq->db_addr =3D n->dbbuf_dbs + (cqid << 3) + (1 << 2);
+>          cq->ei_addr =3D n->dbbuf_eis + (cqid << 3) + (1 << 2);
+> +
+> +        if (n->params.ioeventfd && cqid !=3D 0) {
+> +            ret =3D nvme_init_cq_ioeventfd(cq);
+> +            cq->ioeventfd_enabled =3D ret =3D=3D 0;
+> +        }
+>      }
+>      n->cq[cqid] =3D cq;
+>      cq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
+> @@ -5793,6 +5876,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, cons=
+t NvmeRequest *req)
+>      uint64_t dbs_addr =3D le64_to_cpu(req->cmd.dptr.prp1);
+>      uint64_t eis_addr =3D le64_to_cpu(req->cmd.dptr.prp2);
+>      int i;
+> +    int ret;
+> =20
+>      /* Address should be page aligned */
+>      if (dbs_addr & (n->page_size - 1) || eis_addr & (n->page_size - 1)) {
+> @@ -5818,6 +5902,11 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, con=
+st NvmeRequest *req)
+>              sq->ei_addr =3D eis_addr + (i << 3);
+>              pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
+>                      sizeof(sq->tail));
+> +           =20
+> +            if (n->params.ioeventfd && sq->sqid !=3D 0) {
+> +                ret =3D nvme_init_sq_ioeventfd(sq);
+> +                sq->ioeventfd_enabled =3D ret =3D=3D 0;
+> +            }
+
+Same as above.
+
+>          }
+> =20
+>          if (cq) {
+> @@ -5826,6 +5915,11 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, con=
+st NvmeRequest *req)
+>              cq->ei_addr =3D eis_addr + (i << 3) + (1 << 2);
+>              pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
+>                      sizeof(cq->head));
+> +           =20
+> +            if (n->params.ioeventfd && cq->cqid !=3D 0) {
+> +                ret =3D nvme_init_cq_ioeventfd(cq);
+> +                cq->ioeventfd_enabled =3D ret =3D=3D 0;
+> +            }
+>          }
+>      }
+> =20
+> @@ -7040,6 +7134,7 @@ static Property nvme_props[] =3D {
+>      DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
+>      DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
+>                       params.auto_transition_zones, true),
+> +    DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, true),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+> =20
+> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+> index 4452e4b1bf..2a9beea0c8 100644
+> --- a/hw/nvme/nvme.h
+> +++ b/hw/nvme/nvme.h
+> @@ -369,6 +369,8 @@ typedef struct NvmeSQueue {
+>      uint64_t    db_addr;
+>      uint64_t    ei_addr;
+>      QEMUTimer   *timer;
+> +    EventNotifier notifier;
+> +    bool        ioeventfd_enabled;
+>      NvmeRequest *io_req;
+>      QTAILQ_HEAD(, NvmeRequest) req_list;
+>      QTAILQ_HEAD(, NvmeRequest) out_req_list;
+> @@ -388,6 +390,8 @@ typedef struct NvmeCQueue {
+>      uint64_t    db_addr;
+>      uint64_t    ei_addr;
+>      QEMUTimer   *timer;
+> +    EventNotifier notifier;
+> +    bool        ioeventfd_enabled;
+>      QTAILQ_HEAD(, NvmeSQueue) sq_list;
+>      QTAILQ_HEAD(, NvmeRequest) req_list;
+>  } NvmeCQueue;
+> @@ -410,6 +414,7 @@ typedef struct NvmeParams {
+>      uint8_t  zasl;
+>      bool     auto_transition_zones;
+>      bool     legacy_cmb;
+> +    bool     ioeventfd;
+>  } NvmeParams;
+> =20
+>  typedef struct NvmeCtrl {
+> --=20
+> 2.25.1
+>=20
+
+Otherwise, looks good!
+
+--3rOXrNmbPNyq8x/O
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmK8slQACgkQTeGvMW1P
+Den9RAf7Bpc4Sz8nFfjicZIZHTOZbIEh0zdwML7poZ6kvoA405S1yK1He1e+Vl0B
+qgR/ZxmXXcGW/163XY9uDylmfS70cANceQmmAlnI8DSzglMBqFKpq779WNSnQ9Es
+fYkzXfUYjGo/NWvbbxdsbJLFoD2QSyGBo7yoTSikGFjvnY8pP3u/sAheE/uYp3DU
+U2kKyQAX6yRxkRtaasQuQ0iwNiQyW3jIPnA78/FQ2oNBsPH9y/H+5scgCi3ApPhL
+xEPpcthNZIL1eopuSqvnpOt2fWK4Dl/p6mU+PVuMKCPt2yTNd8mN+8TDwJ72wZrx
+kc3oAVJ9JA7AS4WHPTy32a8Lh47wCg==
+=QSJI
+-----END PGP SIGNATURE-----
+
+--3rOXrNmbPNyq8x/O--
 
