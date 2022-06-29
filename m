@@ -2,85 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B9E5604B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 17:36:56 +0200 (CEST)
-Received: from localhost ([::1]:38036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77284560469
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 17:22:38 +0200 (CEST)
+Received: from localhost ([::1]:50774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6ZkM-0004NO-JA
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 11:36:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33012)
+	id 1o6ZWW-0001L8-7o
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 11:22:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o6ZiY-0002sX-WB
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 11:35:03 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36655)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o6ZiW-000521-Qy
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 11:35:02 -0400
-Received: by mail-ej1-x630.google.com with SMTP id o25so909915ejm.3
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 08:34:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=81Uho7wSFyl4JiwtdzzWm+qT3Fu3UTXlGXCWdybfKfg=;
- b=Fvx6EqxzbJl+VERcGjoY3YQiWiP0eeSSkhm4qQYlJexajejPJW91PFcer+hmdVw1Dr
- Bf8U7Oj4kUYYKC67cjPunhtLCu3QaL8A/mW5OFHEk9mjyPLa02/H5zWdFUwS9qGe42JH
- PxhgEst1I2QrPT4q4cq6obnQoj2ksFhGUAKBGlYF4HGNHUzby3JzR0g7s7s99Ui5Kw34
- YX1wMbPJ5e20sUEOHVvSH8wHL+t34O7A0gy4bLxiKFdgqeTZteoROV6WHrkH2U62BIh2
- S0spDaWtlhqe3O59UWRbWGEKgYWz0H2KInyVb/wEOrqICUeaP14T6uKjzeh1xndYxHRZ
- KPQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=81Uho7wSFyl4JiwtdzzWm+qT3Fu3UTXlGXCWdybfKfg=;
- b=UJ61OpztW2Y6p7Ss34msdCYViGk+/l2LQf0K1t0uqEqZ+3S8wRsyDnp8tmhX1RpXPm
- Akq3sJW0EZVV/RJhxmPaZHgh48HauhzT86I6y/cCA5V5KjbLJYHIdXiF3QutfspPK8QP
- o2Nb38ZmJElgR5u1hc283l8kcN2qWRShvoV4JaKm9kpEresqgk+WHBqWwPOHZZptPFI8
- 8VwLWQD0Waz5xkDWP7RBwL0UoXVrgQZMw9dUFjUWN7cssTTnRZnBvXiWbwpID0yV4lc/
- QAew9l9MXD5GoZ9/N281/iR/gLpahMCCVfqJ4IQ8unbuxywyXavhVwB5mVZN7ulSzyEp
- wKrg==
-X-Gm-Message-State: AJIora+x1MTZLmYFn0hz9QdWgV1HKQh+qahoMlRvPp8BS/C0uNbfplXv
- JrrUcAs92nMsGKADf56Hsh6KDQ==
-X-Google-Smtp-Source: AGRyM1taO6DgIFt/BlcYusVFQpglt5ZEDY+2/MXApEwEhfIX32fjz5zy9sWBQVKy9EhV8ZkIKCepcg==
-X-Received: by 2002:a17:907:86aa:b0:722:d5b2:fca2 with SMTP id
- qa42-20020a17090786aa00b00722d5b2fca2mr4067399ejc.264.1656516897502; 
- Wed, 29 Jun 2022 08:34:57 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- w3-20020a1709067c8300b00722fc0779e3sm7944642ejo.85.2022.06.29.08.34.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 08:34:56 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A4FB71FFB7;
- Wed, 29 Jun 2022 16:34:55 +0100 (BST)
-References: <20220627160734.749861-1-Jason@zx2c4.com>
- <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
- <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
- <CAHmME9pPxKnJbFUWCmzJw8fYikugSwuRo+AO599-cb56UELqrQ@mail.gmail.com>
- <CAFEAcA9jzUk72NZ=BAubjiFwqVaUWqCgjJ-BLLx=J8Aq+ieWSg@mail.gmail.com>
- <878rpfixfh.fsf@linaro.org> <Yrw2+X6Pi8qlTo2d@zx2c4.com>
-User-agent: mu4e 1.7.27; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/arm/virt: dt: add rng-seed property
-Date: Wed, 29 Jun 2022 16:24:20 +0100
-In-reply-to: <Yrw2+X6Pi8qlTo2d@zx2c4.com>
-Message-ID: <87r137h49s.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1o6ZV6-0008Fk-Ce; Wed, 29 Jun 2022 11:21:08 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1o6ZV1-0000qG-JT; Wed, 29 Jun 2022 11:21:08 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25TF75Rf022167;
+ Wed, 29 Jun 2022 15:20:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=siSid0w+D2HhHGFKVu7TmM1pnBnE7dewK4Af9O9NPwU=;
+ b=F3KTvwyKPhmf1hqtigftxuES5p81gYMfgYnNtn9lzl1yhxvTGXIeVuYNkKCyny+JvXPu
+ ZBeKx7A0Y4Fz/QpnZzZNDhBjtKYWlOH9iSbUufxFFSlafsmPGbDH2rncoVa131YAJFsO
+ r4HFurdYJT2CCYkytG5K6adHDNs8xqq9Y5LwHZenXCsSovGC0JxPxOIE/PiFvpmblYIZ
+ zMCakSeEqW74mBFcdJtqAPj8P9lx/o/XX0lhoPnj0fOUuWKnocLa4PZRkTHpFHim3/zx
+ O0yXqbFK2s6S9OsEIcwHBntTfNh3hGSzgGxxB9MZ4BmcscUvDff7EuClgNHT4rxXg0/Y xA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0r25agn4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Jun 2022 15:20:58 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25TFA8eg012350;
+ Wed, 29 Jun 2022 15:20:58 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0r25agkr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Jun 2022 15:20:58 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25TF5EfT013000;
+ Wed, 29 Jun 2022 15:20:55 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06ams.nl.ibm.com with ESMTP id 3gwsmj6s2k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Jun 2022 15:20:55 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25TFKqkM19399144
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 29 Jun 2022 15:20:52 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EC4134C044;
+ Wed, 29 Jun 2022 15:20:51 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5E1514C040;
+ Wed, 29 Jun 2022 15:20:51 +0000 (GMT)
+Received: from [9.152.222.245] (unknown [9.152.222.245])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 29 Jun 2022 15:20:51 +0000 (GMT)
+Message-ID: <72aba814-2901-7d06-131d-8c1f660e3830@linux.ibm.com>
+Date: Wed, 29 Jun 2022 17:25:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v8 02/12] s390x/cpu_topology: CPU topology objects and
+ structures
+Content-Language: en-US
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com
+References: <20220620140352.39398-1-pmorel@linux.ibm.com>
+ <20220620140352.39398-3-pmorel@linux.ibm.com>
+ <35c562e1-cdcd-41ce-1957-bd35c72a78ca@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <35c562e1-cdcd-41ce-1957-bd35c72a78ca@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: U0693rXTSa57Mu3TYCuvbBekoYNBeEk3
+X-Proofpoint-ORIG-GUID: JxqLcdWWCBpbVvJ6zll-7_zY8LWJaWG3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-29_17,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 mlxlogscore=999 spamscore=0 clxscore=1015 bulkscore=0
+ lowpriorityscore=0 phishscore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206290055
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,67 +124,135 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-"Jason A. Donenfeld" <Jason@zx2c4.com> writes:
 
-> On Wed, Jun 29, 2022 at 11:18:23AM +0100, Alex Benn=C3=A9e wrote:
->>=20
->> Peter Maydell <peter.maydell@linaro.org> writes:
->>=20
->> > On Tue, 28 Jun 2022 at 19:45, Jason A. Donenfeld <Jason@zx2c4.com> wro=
-te:
->> >>
->> >> On 6/27/22, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->> >> > On 6/27/22, Peter Maydell <peter.maydell@linaro.org> wrote:
->> >> >> On Mon, 27 Jun 2022 at 17:07, Jason A. Donenfeld <Jason@zx2c4.com>=
- wrote:
->> >> >>>
->> >> >>> In 60592cfed2 ("hw/arm/virt: dt: add kaslr-seed property"), the
->> >> >>> kaslr-seed property was added, but the equally as important rng-s=
-eed
->> >> >>> property was forgotten about, which has identical semantics for a
->> >> >>> similar purpose. This commit implements it in exactly the same wa=
-y as
->> >> >>> kaslr-seed.
->> >> >>
->> >> >> Not an objection, since if this is what the dtb spec says we need
->> >> >> to provide then I guess we need to provide it, but:
->> >> >> Why do we need to give the kernel two separate random seeds?
->> >> >> Isn't one sufficient for the kernel to seed its RNG and generate
->> >> >> whatever randomness it needs for whatever purposes it wants it?
->> >> >>
->> >> >
->> >> > Seems a bit silly to me too. `rng-seed` alone ought to be sufficien=
-t.
->> >> > After the kernel calls add_bootloader_randomness() on it,
->> >> > get_random_long() can be used for kaslr'ing and everything else too.
->> >> > So I'm not sure what's up, but here we are. Maybe down the line I'll
->> >> > look into the details and formulate a plan to remove `kaslr-seed` if
->> >> > my supposition is correct.
->>=20
->> Sorry now I've had my coffee and read properly I see you are already
->> aware of kaslr-seed. However my point about suppression would still
->> stand because for the secure boot flow you need checksum-able DTBs.
->
-> Please read the patch. Maybe take a sip of coffee first. There's a knob
-> for this too.
+On 6/27/22 15:31, Janosch Frank wrote:
+> On 6/20/22 16:03, Pierre Morel wrote:
+>> We use new objects to have a dynamic administration of the CPU topology.
+>> The highest level object in this implementation is the s390 book and
+>> in this first implementation of CPU topology for S390 we have a single
+>> book.
+>> The book is built as a SYSBUS bridge during the CPU initialization.
+>> Other objects, sockets and core will be built after the parsing
+>> of the QEMU -smp argument.
+>>
+>> Every object under this single book will be build dynamically
+>> immediately after a CPU has be realized if it is needed.
+>> The CPU will fill the sockets once after the other, according to the
+>> number of core per socket defined during the smp parsing.
+>>
+>> Each CPU inside a socket will be represented by a bit in a 64bit
+>> unsigned long. Set on plug and clear on unplug of a CPU.
+>>
+>> For the S390 CPU topology, thread and cores are merged into
+>> topology cores and the number of topology cores is the multiplication
+>> of cores by the numbers of threads.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> 
+> [...]
+> 
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index 7d6d01325b..216adfde26 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+>> @@ -565,6 +565,53 @@ typedef union SysIB {
+>>   } SysIB;
+>>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+>> +/* CPU type Topology List Entry */
+>> +typedef struct SysIBTl_cpu {
+>> +        uint8_t nl;
+>> +        uint8_t reserved0[3];
+>> +        uint8_t reserved1:5;
+>> +        uint8_t dedicated:1;
+>> +        uint8_t polarity:2;
+>> +        uint8_t type;
+>> +        uint16_t origin;
+>> +        uint64_t mask;
+>> +} SysIBTl_cpu;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
+>> +
+>> +/* Container type Topology List Entry */
+>> +typedef struct SysIBTl_container {
+>> +        uint8_t nl;
+>> +        uint8_t reserved[6];
+>> +        uint8_t id;
+>> +} QEMU_PACKED SysIBTl_container;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+>> +
+>> +/* Generic Topology List Entry */
+>> +typedef union SysIBTl_entry {
+>> +        uint8_t nl;
+> 
+> This union member is unused, isn't it?
+> 
+>> +        SysIBTl_container container;
+>> +        SysIBTl_cpu cpu;
+>> +} SysIBTl_entry;
+>> +
+>> +#define TOPOLOGY_NR_MAG  6
+> 
+> TOPOLOGY_TOTAL_NR_MAGS ?
+> 
+>> +#define TOPOLOGY_NR_MAG6 0
+> 
+> TOPOLOGY_NR_TLES_MAG6 ?
+> 
+> I'm open to other suggestions but we need to differentiate between the 
+> number of mag array entries and the number of TLEs in the MAGs.
 
-I was obviously not paying enough attention this morning. Sorry about that.
 
-> The code is exactly the same for kaslr-seed and rng-seed. Everytime
-> there's some kaslr-seed thing, there is now the same rng-seed thing.
+typedef enum {
+         TOPOLOGY_MAG6 = 0,
+         TOPOLOGY_MAG5 = 1,
+         TOPOLOGY_MAG4 = 2,
+         TOPOLOGY_MAG3 = 3,
+         TOPOLOGY_MAG2 = 4,
+         TOPOLOGY_MAG1 = 5,
+         TOPOLOGY_TOTAL_MAGS = 6,
+};
 
-The duplication is annoying but specs are specs - where is this written
-by the way?
 
-Given the use case for the dtb-kaslr-seed knob I wonder if we should
-have a common property and deprecate the kaslr one? As of this patch
-existing workflows will break until command lines are updated to suppress
-the second source of randomness.
+oder enum with TOPOLOGY_NR_TLES_MAGx ?
 
-Maybe it would be better to have a single a new property
-(dtb-rng-seeds?) which suppresses both dtb entries and make
-dtb-kaslr-seed an alias and mark it as deprecated.
+> 
+>> +#define TOPOLOGY_NR_MAG5 1
+>> +#define TOPOLOGY_NR_MAG4 2
+>> +#define TOPOLOGY_NR_MAG3 3
+>> +#define TOPOLOGY_NR_MAG2 4
+>> +#define TOPOLOGY_NR_MAG1 5
+> 
+> I'd appreciate a \n here.
 
---=20
-Alex Benn=C3=A9e
+OK
+
+> 
+>> +/* Configuration topology */
+>> +typedef struct SysIB_151x {
+>> +    uint8_t  res0[2];
+> 
+> You're using "reserved" everywhere but now it's "rev"?
+
+OK I will keep reserved
+
+> 
+>> +    uint16_t length;
+>> +    uint8_t  mag[TOPOLOGY_NR_MAG];
+>> +    uint8_t  res1;
+>> +    uint8_t  mnest;
+>> +    uint32_t res2;
+>> +    SysIBTl_entry tle[0];
+>> +} SysIB_151x;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
+>> +
+>>   /* MMU defines */
+>>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table 
+>> origin             */
+>>   #define ASCE_SUBSPACE         0x200       /* subspace group 
+>> control           */
+> 
+> 
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
