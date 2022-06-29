@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069995601BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 15:53:25 +0200 (CEST)
-Received: from localhost ([::1]:59478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCCE5601BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 15:52:58 +0200 (CEST)
+Received: from localhost ([::1]:59092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6Y8B-0005j1-Vk
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 09:53:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49656)
+	id 1o6Y7l-0005Qh-D1
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 09:52:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1o6XkP-0004E3-Hz
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 09:28:51 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:44701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1o6XkK-0006ER-GX
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 09:28:46 -0400
-Received: by mail-ej1-x636.google.com with SMTP id sb34so32530092ejc.11
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 06:28:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oRXyN33mcCi462a1bew0hyUXkJvvj22jlEiwHfASSos=;
- b=t/cjuwmxutbmKLba/NrihUbc5E4OrOKZXw//DYvZlHGtVSGhJR8oJPnyo65kZbFmcH
- 1nw1R4zhLDZBRVLPMrYpzwdroxECpb2orSlkEtX6MqzXIjSLgwDjhXh7KExoHA2/LZvY
- nYUlx+bloR7WG9wm6qZimTshvYZaJlZNlKA/b3CrQNYeBkspjI6Dzk1d0wBPLqqYgfVk
- bvmGBaBDzOhv5L4cMeE+ZaG318Iwmz4c0xX8KlUP2FLa5dfEliZ8TC6u8TEl8nES8vNW
- OWXXnH4K97K+NxS4Z3Xl/yqOED6mCXEgZitmCS5MwjmjLLoykmJJLIMgjfQa8OnqK6x+
- KWdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oRXyN33mcCi462a1bew0hyUXkJvvj22jlEiwHfASSos=;
- b=H1rLle1pp1RBNrSWETo1Ey8GaIFZSFfMMU42SvJx37BkErsH+VkjFrJZjOB+6DfVIU
- iB7WfBjf8fBAfSh7NBGMpIqCHiCpdrgoi8BNYjUYzWYnMQB9MMJwxWuSNfTPeqIog+Ga
- xmKhWOuqWLmL+eK8iNIMx4xDNtQ0Sp7ooFHvPKnTDRCwET45oBMSOFMs3Ce9rkrI84rH
- 8C9LSGlOdihQE+xB2HfSn15PIXw8lXKWRhXNUFFMq5Va0VKcRpFeccW8w5pXvoFwTfgJ
- l68DdlInLBMsIB0aasamHgrdUvJAC4te4JDtoPWkmvjHV0NvEXsfAllPGju7TIS4202i
- dAEA==
-X-Gm-Message-State: AJIora+hEu4cJI5FxZRNpgzNNWeRBWc6PAYTLJm1/qT61d0RBUFG36HU
- v8TJhUMIu4RkL8PIoMtFPTjkuO8rbgo/Okg5Zjx7
-X-Google-Smtp-Source: AGRyM1t0J5SBc4k1AUvUv7/D3jVfNtR3SVxY7rAM6Cq9476+dAFziS/TkPWL9U7ClVQAsZT0ajgtsHYy7OgSmRcvCtY=
-X-Received: by 2002:a17:907:6e01:b0:726:9a7b:59b7 with SMTP id
- sd1-20020a1709076e0100b007269a7b59b7mr3458032ejc.752.1656509320195; Wed, 29
- Jun 2022 06:28:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o6Y4v-0002UE-On
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 09:50:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51991)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o6Y4s-0007zC-8q
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 09:49:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656510597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qYErzokliGjsoCENAxVuSs57nLKM8jq/7/tAB6XIgj8=;
+ b=ilrpB5j9gD0WVJRa4aBUtKmhOae15ZrvwOp0Hdu0E1zEVzf0+Zd1ffEoxrjU87tYlH6tHj
+ nv2uccmcFnq0g1VTAAZ7IV2inZv55aZ38YCsYP8Cul3cUhrB/QU/80sOx+lShv26bQgH/v
+ 673lFWb2dYsRp7F0IXdHov1a/mam3ns=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-609-8vqlgJeuNwC_EPsZJY0iyQ-1; Wed, 29 Jun 2022 09:49:48 -0400
+X-MC-Unique: 8vqlgJeuNwC_EPsZJY0iyQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5966581D9CA
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 13:49:48 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33DC71415108;
+ Wed, 29 Jun 2022 13:49:48 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0AF1E21E690D; Wed, 29 Jun 2022 15:49:47 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Daniel P.
+ =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH v5 05/12] qapi: net: add stream and dgram netdevs
+References: <20220627154749.871943-1-lvivier@redhat.com>
+ <20220627154749.871943-6-lvivier@redhat.com>
+Date: Wed, 29 Jun 2022 15:49:47 +0200
+In-Reply-To: <20220627154749.871943-6-lvivier@redhat.com> (Laurent Vivier's
+ message of "Mon, 27 Jun 2022 17:47:42 +0200")
+Message-ID: <8735fneg04.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220627090203.87-1-xieyongji@bytedance.com>
- <20220627090203.87-5-xieyongji@bytedance.com>
- <8735fnq00u.fsf@pond.sub.org>
- <CACycT3vzA_v_b91=Z7bsngtjgTmdJDtRs-62UCfgWWYPJWSofw@mail.gmail.com>
- <87k08zg0m1.fsf@pond.sub.org>
- <CACycT3sh_5SU1Cj35EwLs5bfc7vyd4FBZzmTBMwPj-VmCi41FQ@mail.gmail.com>
- <87edz7eh9y.fsf@pond.sub.org>
-In-Reply-To: <87edz7eh9y.fsf@pond.sub.org>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Wed, 29 Jun 2022 21:28:29 +0800
-Message-ID: <CACycT3tXxX4BADkAiiz8gMaxaGXTHWRQtCBWaqmS9++HWAg4iw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] libvduse: Check the return value of some ioctls
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,81 +84,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 29, 2022 at 9:22 PM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Yongji Xie <xieyongji@bytedance.com> writes:
->
-> > On Wed, Jun 29, 2022 at 7:39 PM Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> Yongji Xie <xieyongji@bytedance.com> writes:
-> >>
-> >> > On Wed, Jun 29, 2022 at 5:41 PM Markus Armbruster <armbru@redhat.com> wrote:
-> >> >>
-> >> >> Xie Yongji <xieyongji@bytedance.com> writes:
-> >> >>
-> >> >> > Coverity pointed out (CID 1490222, 1490227) that we called
-> >> >> > ioctl somewhere without checking the return value. This
-> >> >> > patch fixes these issues.
-> >> >> >
-> >> >> > Fixes: Coverity CID 1490222, 1490227
-> >> >> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> >> >> > ---
-> >> >> >  subprojects/libvduse/libvduse.c | 10 ++++++++--
-> >> >> >  1 file changed, 8 insertions(+), 2 deletions(-)
-> >> >> >
-> >> >> > diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
-> >> >> > index 1a5981445c..bf7302c60a 100644
-> >> >> > --- a/subprojects/libvduse/libvduse.c
-> >> >> > +++ b/subprojects/libvduse/libvduse.c
-> >> >> > @@ -947,7 +947,10 @@ static void vduse_queue_disable(VduseVirtq *vq)
-> >> >> >
-> >> >> >      eventfd.index = vq->index;
-> >> >> >      eventfd.fd = VDUSE_EVENTFD_DEASSIGN;
-> >> >> > -    ioctl(dev->fd, VDUSE_VQ_SETUP_KICKFD, &eventfd);
-> >> >> > +    if (ioctl(dev->fd, VDUSE_VQ_SETUP_KICKFD, &eventfd)) {
-> >> >> > +        fprintf(stderr, "Failed to disable eventfd for vq[%d]: %s\n",
-> >> >> > +                vq->index, strerror(errno));
-> >> >> > +    }
-> >> >> >      close(vq->fd);
-> >> >> >
-> >> >> >      assert(vq->inuse == 0);
-> >> >> > @@ -1337,7 +1340,10 @@ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
-> >> >> >
-> >> >> >      return dev;
-> >> >> >  err:
-> >> >> > -    ioctl(ctrl_fd, VDUSE_DESTROY_DEV, name);
-> >> >> > +    if (ioctl(ctrl_fd, VDUSE_DESTROY_DEV, name)) {
-> >> >> > +        fprintf(stderr, "Failed to destroy vduse device %s: %s\n",
-> >> >> > +                name, strerror(errno));
-> >> >> > +    }
-> >> >> >  err_dev:
-> >> >> >      close(ctrl_fd);
-> >> >> >  err_ctrl:
-> >> >>
-> >> >> Both errors are during cleanup that can't fail.  The program continues
-> >> >> as if they didn't happen.  Does the user need to know?
-> >> >>
-> >> >
-> >> > So I printed some error messages. I didn't find any other good way to
-> >> > notify the users.
-> >>
-> >> I can think of another way, either.  But my question wasn't about "how",
-> >> it was about "why".  The answer depends on the impact of these errors.
-> >> Which I can't judge.  Can you?
-> >>
-> >
-> > OK, I get your point. Actually users might have no way to handle those
-> > errors. And there is no real impact on users since those errors mean
-> > the resources have been cleaned up in other places or by other
-> > processes. So I choose to ignore this error, but it triggers a
-> > Coverity warning.
->
-> If we genuinely want to ignore errors from ioctl(), we can mark the
-> Coverity complaint as false positive.
->
+Laurent Vivier <lvivier@redhat.com> writes:
 
-OK, if so, I think I can drop this patch.
+> Copied from socket netdev file and modified to use SocketAddress
+> to be able to introduce new features like unix socket.
+>
+> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
+> according to the IP address type.
+> "listen" and "connect" modes are managed by stream netdev. An optional
+> parameter "server" defines the mode (server by default)
+>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
 
-Thanks,
-Yongji
+Suggest to add a summary of what we learned during review.  Let me try.
+
+  The two new types need to parsed the modern way with -netdev, because
+  <explanation goes here>.
+
+  The previous commit paved the way for parsing the modern way, but
+  omitted one detail: how to pick modern vs. traditional, in
+  netdev_is_modern().
+
+  We want to pick based on the value of parameter "type".  But how to
+  extract it from the option argument?
+
+  Parsing the option argument, either the modern or the traditional way,
+  extracts it for us, but only if parsing succeeds.
+
+  If parsing fails, there is no good option.  No matter which parser we
+  pick, it'll be the wrong one for some arguments, and the error
+  reporting will be confusing.
+
+  Fortunately, the traditional parser accepts *anything* when called in
+  a certain way.  This maximizes our chance to extract the value of
+  "type", and in turn minimizes the risk of confusing error reporting.
+
+How do you like it?
+
 
