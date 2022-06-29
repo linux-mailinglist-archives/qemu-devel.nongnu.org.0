@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813D855FAC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:39:32 +0200 (CEST)
-Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95DC55FAD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 10:43:23 +0200 (CEST)
+Received: from localhost ([::1]:59892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6TER-0000ZO-JD
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:39:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50968)
+	id 1o6TIA-0005te-Ow
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 04:43:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1o6TA4-0006T8-4x
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:35:02 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:54944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1o6TA1-00073W-HV
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:34:59 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id cv13so15001166pjb.4
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 01:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dBPzQu7IQdkvUJePP+Ep8ZGJkWIpVUwg4/oS4wTWZ30=;
- b=Y0+iud64MOmkzYS0ncpp3hseyDEKctEOhUIS9L6xgwzkEMqxcCMFrEFi9f+f5fwB0L
- M3eg/BCtoAa2v7hQ0YEfQQfKeqXwrTZ+1l/j8dVHIuzY+Yn3zla2apTbKihH2KjSXVGx
- Q/wPxAYOCJOhbiHDRSk9gZapWP5+xcVLgCuNi8gcCDfsCxAvhBmAp1Dkw6YZ4dgiCMsF
- T/3iHcglDop71j+u52Tvh33/ih+J887hQMMDbHDqwn1pA2eBy9Ugh9xpyS8XvMhuZJ+A
- MzeeD6iRkrhBEHmkivpxQ8nalhcCQpz2OuZtQ/MmiLX+QlsAwKTbEUaIkXIb/qf+OltT
- eBbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dBPzQu7IQdkvUJePP+Ep8ZGJkWIpVUwg4/oS4wTWZ30=;
- b=KVB2DSdfS0g2+ZV5dKSYeze8PxlCN7ZBwmiFnG/g9EyY7yiW0f83chbI9B0JcUmRHv
- 8ZzCJrAhxRvkcL/zoJd0P5x9he1VMKjxprQUEaQnCV8Sy15FQ9Ius+vHLdZh2Ollx4i+
- 9JcQd2qapORj/k8VAqQXrNyxD4zs3uMO5sQMIjnfndRiOxrZu6IQgj4JIoio5DFSznZF
- 17SeTb316w+E0FNDr3TpjimTz3uEUJqdD1ptYJVuPmDNOA2Ccutv4vOgxUhgUPfL1xAT
- mfUjR3iyLoI294wVmMNBLqxBTh2hdnfRmaOnbm4BYwqaxYdShmyIGUHWEiHUJHlFJaoM
- +3QA==
-X-Gm-Message-State: AJIora/dYsK6iMkdMsy35wf8cKvLNrIWpiGbSPj+mCB1xvuEWfkuQ6Hs
- 2RaGf/wfPO4YBiCLFzrcWJcoBtZMXKUKBGAb8GU=
-X-Google-Smtp-Source: AGRyM1v5y9vPzJapET10mZKrNuJe71sJzcomcOWDEJfqvkCF5B4PX3JllqjCAtiqUHEB3D9SG59xpeummi2ZZDZjj7Y=
-X-Received: by 2002:a17:90b:3812:b0:1ec:ca8a:f15c with SMTP id
- mq18-20020a17090b381200b001ecca8af15cmr2566999pjb.187.1656491691679; Wed, 29
- Jun 2022 01:34:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6TAJ-0006UY-82
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:35:16 -0400
+Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:50143)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6TAH-0007FA-9k
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 04:35:15 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.54])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 97284214F3;
+ Wed, 29 Jun 2022 08:35:10 +0000 (UTC)
+Received: from kaod.org (37.59.142.110) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 29 Jun
+ 2022 10:35:09 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-110S004542524e1-6b52-49d4-a479-6b6c829acba8,
+ 74A1F81DE4F8936248B5873BB0AED4007818FEC6) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <193a9752-91dc-89fe-4507-056590b91b85@kaod.org>
+Date: Wed, 29 Jun 2022 10:35:03 +0200
 MIME-Version: 1.0
-References: <20220628114307.697943-1-richard.henderson@linaro.org>
- <20220628114307.697943-3-richard.henderson@linaro.org>
- <CAMo8BfJgo184TYxr0O-t5x68Ac1U3t9LWWvPeUEwm-E_qizGWQ@mail.gmail.com>
- <b4f49f9d-769d-e307-b01d-aadc5df70642@linaro.org>
-In-Reply-To: <b4f49f9d-769d-e307-b01d-aadc5df70642@linaro.org>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Wed, 29 Jun 2022 01:34:46 -0700
-Message-ID: <CAMo8BfLZ2cxvQLUvc2C38_sPqHQ4=H8rDbKephrGU2s4-1Vv6w@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] target/xtensa: Use semihosting/syscalls.h
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 04/13] hw/i2c: support multiple masters
+Content-Language: en-US
+To: Peter Delevoryas <peterdelevoryas@gmail.com>
+CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <cminyard@mvista.com>, <titusr@google.com>, <qemu-devel@nongnu.org>,
+ <qemu-arm@nongnu.org>, <zhdaniel@fb.com>, <pdel@fb.com>, Corey Minyard
+ <cminyard@mvista.com>
+References: <20220629033634.3850922-1-pdel@fb.com>
+ <20220629033634.3850922-5-pdel@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220629033634.3850922-5-pdel@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.110]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: d90787fd-39f8-4776-8160-777e7628729f
+X-Ovh-Tracer-Id: 1062286562410269618
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgtdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpuggvlhesfhgsrdgtohhmpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
+ helo=6.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,76 +77,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 5:36 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> On 6/28/22 19:08, Max Filippov wrote:
-> > On Tue, Jun 28, 2022 at 4:43 AM Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
+Corey,
 
-...
+On 6/29/22 05:36, Peter Delevoryas wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Allow slaves to master the bus by registering a bottom halve. If the bus
+> is busy, the bottom half is queued up. When a slave has succesfully
+> mastered the bus, the bottom half is scheduled.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> [ clg : - fixed typos in commit log ]
+> Message-Id: <20220601210831.67259-4-its@irrelevant.dk>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
 
-> >> diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
-> >> index 946c71cb5b..5cca6a170e 100644
-> >> --- a/hw/xtensa/sim.c
-> >> +++ b/hw/xtensa/sim.c
-> >> @@ -87,9 +87,6 @@ XtensaCPU *xtensa_sim_common_init(MachineState *machine)
-> >>           xtensa_create_memory_regions(&sysram, "xtensa.sysram",
-> >>                                        get_system_memory());
-> >>       }
-> >> -    if (serial_hd(0)) {
-> >> -        xtensa_sim_open_console(serial_hd(0));
-> >> -    }
-> >
-> > I've noticed that with this change '-serial stdio' and its variants are still
-> > accepted in the command line, but now they do nothing.
->
-> Pardon?  They certainly will do something, via writes to the serial hardware.
+If it is OK with you, I plan to include this I2C extension in the
+next Aspeed PR.
 
-What I meant was that with '-serial' option prior to this change it was
-possible to redirect the standard streams of the sim machine, to stdio,
-or socket or wherever, but after this change the option will be accepted,
-but the machine will always have its first three file descriptors connected
-to the QEMU's first three file descriptors.
+Thanks,
 
-I'd print a warning here, saying that the behavior has changed and
-the '-semihosting-config chardev' must be used now.
+C.
 
-> > This quiet
-> > change of behavior is unfortunate. I wonder if it would be acceptable
-> > to map the '-serial stdio' option in the presence of '-semihosting' to
-> > something like '-chardev stdio,id=id1 -semihosting-config chardev=id1'?
->
-> I dunno.  I'm wary of having xtensa be unique here.  Alex, thoughts?
+>   hw/i2c/core.c        | 34 +++++++++++++++++++++++++++++++++-
+>   include/hw/i2c/i2c.h | 14 ++++++++++++++
+>   2 files changed, 47 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+> index d0cb2d32fa..145dce6078 100644
+> --- a/hw/i2c/core.c
+> +++ b/hw/i2c/core.c
+> @@ -13,6 +13,7 @@
+>   #include "migration/vmstate.h"
+>   #include "qapi/error.h"
+>   #include "qemu/module.h"
+> +#include "qemu/main-loop.h"
+>   #include "trace.h"
+>   
+>   #define I2C_BROADCAST 0x00
+> @@ -62,6 +63,7 @@ I2CBus *i2c_init_bus(DeviceState *parent, const char *name)
+>   
+>       bus = I2C_BUS(qbus_new(TYPE_I2C_BUS, parent, name));
+>       QLIST_INIT(&bus->current_devs);
+> +    QSIMPLEQ_INIT(&bus->pending_masters);
+>       vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_i2c_bus, bus);
+>       return bus;
+>   }
+> @@ -74,7 +76,7 @@ void i2c_slave_set_address(I2CSlave *dev, uint8_t address)
+>   /* Return nonzero if bus is busy.  */
+>   int i2c_bus_busy(I2CBus *bus)
+>   {
+> -    return !QLIST_EMPTY(&bus->current_devs);
+> +    return !QLIST_EMPTY(&bus->current_devs) || bus->bh;
+>   }
+>   
+>   bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
+> @@ -180,6 +182,26 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
+>                                                  : I2C_START_SEND);
+>   }
+>   
+> +void i2c_bus_master(I2CBus *bus, QEMUBH *bh)
+> +{
+> +    if (i2c_bus_busy(bus)) {
+> +        I2CPendingMaster *node = g_new(struct I2CPendingMaster, 1);
+> +        node->bh = bh;
+> +
+> +        QSIMPLEQ_INSERT_TAIL(&bus->pending_masters, node, entry);
+> +
+> +        return;
+> +    }
+> +
+> +    bus->bh = bh;
+> +    qemu_bh_schedule(bus->bh);
+> +}
+> +
+> +void i2c_bus_release(I2CBus *bus)
+> +{
+> +    bus->bh = NULL;
+> +}
+> +
+>   int i2c_start_recv(I2CBus *bus, uint8_t address)
+>   {
+>       return i2c_do_start_transfer(bus, address, I2C_START_RECV);
+> @@ -206,6 +228,16 @@ void i2c_end_transfer(I2CBus *bus)
+>           g_free(node);
+>       }
+>       bus->broadcast = false;
+> +
+> +    if (!QSIMPLEQ_EMPTY(&bus->pending_masters)) {
+> +        I2CPendingMaster *node = QSIMPLEQ_FIRST(&bus->pending_masters);
+> +        bus->bh = node->bh;
+> +
+> +        QSIMPLEQ_REMOVE_HEAD(&bus->pending_masters, entry);
+> +        g_free(node);
+> +
+> +        qemu_bh_schedule(bus->bh);
+> +    }
+>   }
+>   
+>   int i2c_send(I2CBus *bus, uint8_t data)
+> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+> index 5ca3b708c0..be8bb8b78a 100644
+> --- a/include/hw/i2c/i2c.h
+> +++ b/include/hw/i2c/i2c.h
+> @@ -69,13 +69,25 @@ struct I2CNode {
+>       QLIST_ENTRY(I2CNode) next;
+>   };
+>   
+> +typedef struct I2CPendingMaster I2CPendingMaster;
+> +
+> +struct I2CPendingMaster {
+> +    QEMUBH *bh;
+> +    QSIMPLEQ_ENTRY(I2CPendingMaster) entry;
+> +};
+> +
+>   typedef QLIST_HEAD(I2CNodeList, I2CNode) I2CNodeList;
+> +typedef QSIMPLEQ_HEAD(I2CPendingMasters, I2CPendingMaster) I2CPendingMasters;
+>   
+>   struct I2CBus {
+>       BusState qbus;
+>       I2CNodeList current_devs;
+> +    I2CPendingMasters pending_masters;
+>       uint8_t saved_address;
+>       bool broadcast;
+> +
+> +    /* Set from slave currently mastering the bus. */
+> +    QEMUBH *bh;
+>   };
+>   
+>   I2CBus *i2c_init_bus(DeviceState *parent, const char *name);
+> @@ -117,6 +129,8 @@ int i2c_start_send(I2CBus *bus, uint8_t address);
+>   
+>   void i2c_end_transfer(I2CBus *bus);
+>   void i2c_nack(I2CBus *bus);
+> +void i2c_bus_master(I2CBus *bus, QEMUBH *bh);
+> +void i2c_bus_release(I2CBus *bus);
+>   int i2c_send(I2CBus *bus, uint8_t data);
+>   uint8_t i2c_recv(I2CBus *bus);
+>   bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
 
-Yeah, I thought about it some more and now it doesn't look like a good
-idea to me either.
-
-> >> +            switch (regs[4]) {
-> >> +            case SELECT_ONE_READ:
-> >> +                events = G_IO_IN;
-> >> +                break;
-> >> +            case SELECT_ONE_WRITE:
-> >> +                events = G_IO_OUT;
-> >> +                break;
-> >> +            case SELECT_ONE_EXCEPT:
-> >> +                events = G_IO_PRI;
-> >> +                break;
-> >> +            default:
-> >> +                xtensa_cb(cs, -1, EINVAL);
-> >
-> > This doesn't match what there used to be: it was possible to call
-> > select_one with rq other than SELECT_ONE_* and that would've
-> > passed NULL for all fd sets in the select invocation turning it into
-> > a sleep. It would return 0 after the timeout.
->
-> Hmm.  Is there any documentation of what it was *supposed* to do?  Passing rq ==
-> 0xdeadbeef and expecting a specific behaviour seems odd.
-
-I haven't found any documentation for that simcall.
-All I can say is that the logic in the code that used to be here is matching
-exactly the logic in the code of the xtensa ISS from Cadence/Tensilica.
-
--- 
-Thanks.
--- Max
 
