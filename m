@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB53A55FC05
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 11:30:05 +0200 (CEST)
-Received: from localhost ([::1]:54826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A56455FB72
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 11:12:58 +0200 (CEST)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6U1M-0002XM-Kl
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 05:30:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34350)
+	id 1o6Tkk-0003jW-7r
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 05:12:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1o6ThD-0000k6-CH; Wed, 29 Jun 2022 05:09:21 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:42617)
+ id 1o6Th8-0000gn-Ti; Wed, 29 Jun 2022 05:09:11 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:58063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1o6Th9-0003YK-8O; Wed, 29 Jun 2022 05:09:15 -0400
+ id 1o6Th0-0003Xp-7v; Wed, 29 Jun 2022 05:09:03 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MPXMa-1oKHDm2M4I-00MfJl; Wed, 29
- Jun 2022 11:08:56 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N1xdf-1neP8y0i0v-012IeE; Wed, 29
+ Jun 2022 11:08:57 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 05/11] trivial typos: namesapce
-Date: Wed, 29 Jun 2022 11:08:43 +0200
-Message-Id: <20220629090849.1350227-6-laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 06/11] MAINTAINERS: Add softmmu/runstate.c to "Main loop"
+Date: Wed, 29 Jun 2022 11:08:44 +0200
+Message-Id: <20220629090849.1350227-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629090849.1350227-1-laurent@vivier.eu>
 References: <20220629090849.1350227-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qxsvthMUJQXPZdEjDzghaMoaRrYcSc280reHISYYXR8m6VwjOeO
- c27rRotK7MTu4hzDMhjSj+j4IZOOi7VXMQZQWi6ID27CcpD121uKsFCFKM1hgCMM2rvbLgq
- LupR7MnX2HCVoXbmsWnX6OP+4U/sT9XS/uOQ9gLg6T+cKEIIb0jUcEPirByDIFNtL6uKDWq
- D1EyOpaI/QJSBkVQYulQg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tqVxDB8dg8k=:2jz7OiMwCmtJb1w8ClQZw8
- gOzBcFFLzmgOlYCJKbeVLcgBQB1GwxL0/ShZHSFsYZ6690sTX5dYYM9TPm0Hh4q5dJ75uKOYv
- YYwNIq466sH7qwBj3MsnTgvFSRFGvBgzYuveb3mRLDZg3LZqXpSMYovxzJ1l7T+os+r0Dgn/l
- 5WE0YuDkDMTQENZ/CTJxjnR9oODTz5f8caT0P++LL73xjAr8Vn7aCM0thK7+7/7fEsoDPvCWM
- XzM5OWXm3t+6/V0mboPVLNYUzjrQSW2cOP4uqD6k6bwxqQyarwaG3r2kz4jySu7Yvi3Tji3o9
- NItdCsGhCXHCWNGgxLw4LDz+OLg4okZGlO59eUmEvdI4V28qw0/zwbX+6pCIXDEAAs1hVPLKa
- dRpfxRk8RVz9zbnNXRu1qit3OO0gA5gVY2xhabfgyi4g9nWVZoelihZZmmo9GP4hdmfmFLpc0
- XJQPOJWyQt8Xc10CzjJ8HV/P94nsQl3BlzHO1AnzqMFeNCaZ4trzA+JPgOnamAQ9bx3cxX51d
- EeWtbrFS1KtyX9WRndq4ZiW2R4a8nQjaSITEaINr0LeaPYXtdyB4xg/mlHXzEPVa3GgsxGBD1
- xygFU5Qtq1wxm0G5PNec9NE8SVqU/FWhFpqVwxc2WJx/aAwDT47w+dC3ph68byVdUBG883cmT
- KqRdsmVS8UC3x52FnxioqfqQBSzjuh8CYdPSF0mZvT7BgG7xRj2W4lqDIx0QH+grtK7H4XJ2m
- Z1NtwY9S/ocY+Ig7+vO2tqTS01m73i/Hvv7aeg==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:abL5tc+B3yNhbcfKumKVvoYg4XJlvk/tfJ69LZyJTeQKSE0+5JO
+ ynYVuLqA60X70n6rkTBHdqJZs4ySrvv6BbBS4u/eV3IDdGgRtLfNg3lajLeQ0W94M3CmuMU
+ eP3rsDgHE2dqcZJkgo/rOJb1iO9iMF/FJugKnIKyqgLQYPTJJ3mcBG/56CHfmLUFQedOrJg
+ xb5JkqhFT6vpl8c671GlA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SKWzV9gaJFc=:gdbRDEABByMalj7T4R9Yy9
+ RYdSRXhJlQLmuKVJukNfgegqNvL3JBCaPH83scI8z90bmcvcTsNJTasMw3sg3n0SA6tre4HLR
+ 85UnnYZnQDc33OtTa+2QmL7yNFFXjyoHYKOzKMHzgqzaYbSUBPpAwxMhJwaY62k++8MPw6h41
+ eB1cl7yodxMUzNC6jgRn1vuvoKbZus9PNzsoIUCX+uS5gesufwlhJJz+CUBHdDud7SzYedgWd
+ sQJwmYA1nQlAvGyPsZ/Db0nQ4jbu49FM4WQ4HnuLCrwKPPLjpqXkV42fzFS99mqwdltI+ygXj
+ d64BdapKEyeoXXME63dBj+zFnJI5A7Bl1knn2fJnnjxU0LjLk3um48GVjH2ns7sWGjednMlaq
+ lL8kf3WM1z3ZtX6sU12HW276th7T8Zz8plzOLOMU3XSz7YuPhO8T4T4IRrD9G7h2v9eLu+evb
+ wV/Pm5EROwyWYd7DBV031Shojzb+61QLgRF29ZMyLOau6S4t520urzRYy+MusJ99PolG0/Rwi
+ LI46xc/H9MQNGwSGT4xcxGDgqcogt7tdNZ1BAbI9kiwIdhddQGgS2UCqj0ag9E5k73QvY5D/u
+ XxGOA7xGGEI52nz/YVqYff2SDOejLvTbImrYrGa+Sbtvz2m+FGMn2MQsGKRNjdoyc6qUlUlho
+ cfgzz44J9fHRjDNWHSW8Ro+OmlAO+mXc/PsAykSYdHz/4PM6cUeIoqPKW61caxCes+z4q483t
+ 4jOkY9wJBZRAd95UE3b7f3493bUjkCLhi82MZw==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,86 +72,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Markus Armbruster <armbru@redhat.com>
 
-'namespace' is misspelled in a bunch of places.
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Message-Id: <20220614104045.85728-3-dgilbert@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220615122338.340426-1-armbru@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/9pfs/9p-xattr-user.c | 8 ++++----
- hw/acpi/nvdimm.c        | 2 +-
- hw/nvme/ctrl.c          | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/9pfs/9p-xattr-user.c b/hw/9pfs/9p-xattr-user.c
-index f2ae9582e610..535677ed609b 100644
---- a/hw/9pfs/9p-xattr-user.c
-+++ b/hw/9pfs/9p-xattr-user.c
-@@ -27,7 +27,7 @@ static ssize_t mp_user_getxattr(FsContext *ctx, const char *path,
- {
-     if (strncmp(name, "user.virtfs.", 12) == 0) {
-         /*
--         * Don't allow fetch of user.virtfs namesapce
-+         * Don't allow fetch of user.virtfs namespace
-          * in case of mapped security
-          */
-         errno = ENOATTR;
-@@ -49,7 +49,7 @@ static ssize_t mp_user_listxattr(FsContext *ctx, const char *path,
-             name_size -= 12;
-         } else {
-             /*
--             * Don't allow fetch of user.virtfs namesapce
-+             * Don't allow fetch of user.virtfs namespace
-              * in case of mapped security
-              */
-             return 0;
-@@ -74,7 +74,7 @@ static int mp_user_setxattr(FsContext *ctx, const char *path, const char *name,
- {
-     if (strncmp(name, "user.virtfs.", 12) == 0) {
-         /*
--         * Don't allow fetch of user.virtfs namesapce
-+         * Don't allow fetch of user.virtfs namespace
-          * in case of mapped security
-          */
-         errno = EACCES;
-@@ -88,7 +88,7 @@ static int mp_user_removexattr(FsContext *ctx,
- {
-     if (strncmp(name, "user.virtfs.", 12) == 0) {
-         /*
--         * Don't allow fetch of user.virtfs namesapce
-+         * Don't allow fetch of user.virtfs namespace
-          * in case of mapped security
-          */
-         errno = EACCES;
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 0d43da19ea42..5f85b1632706 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -476,7 +476,7 @@ struct NvdimmFuncGetLabelDataOut {
-     /* the size of buffer filled by QEMU. */
-     uint32_t len;
-     uint32_t func_ret_status; /* return status code. */
--    uint8_t out_buf[]; /* the data got via Get Namesapce Label function. */
-+    uint8_t out_buf[]; /* the data got via Get Namespace Label function. */
- } QEMU_PACKED;
- typedef struct NvdimmFuncGetLabelDataOut NvdimmFuncGetLabelDataOut;
- QEMU_BUILD_BUG_ON(sizeof(NvdimmFuncGetLabelDataOut) > NVDIMM_DSM_MEMORY_SIZE);
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index d349b3e42620..ca335dd7da6d 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -76,7 +76,7 @@
-  *   the SUBNQN field in the controller will report the NQN of the subsystem
-  *   device. This also enables multi controller capability represented in
-  *   Identify Controller data structure in CMIC (Controller Multi-path I/O and
-- *   Namesapce Sharing Capabilities).
-+ *   Namespace Sharing Capabilities).
-  *
-  * - `aerl`
-  *   The Asynchronous Event Request Limit (AERL). Indicates the maximum number
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1cbd6b72fa64..b8637c6f5254 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2746,6 +2746,7 @@ F: softmmu/cpu-throttle.c
+ F: softmmu/cpu-timers.c
+ F: softmmu/icount.c
+ F: softmmu/runstate-action.c
++F: softmmu/runstate.c
+ F: qapi/run-state.json
+ 
+ Read, Copy, Update (RCU)
 -- 
 2.36.1
 
