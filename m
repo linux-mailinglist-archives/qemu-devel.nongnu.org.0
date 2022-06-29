@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6758355F548
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 06:32:23 +0200 (CEST)
-Received: from localhost ([::1]:49338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A505601D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 16:06:26 +0200 (CEST)
+Received: from localhost ([::1]:50604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6PNF-0007Sg-TH
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 00:32:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55192)
+	id 1o6YKl-0002tw-4J
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 10:06:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1o6PLu-0006bF-9V
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 00:30:58 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1o6PLs-00020X-DM
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 00:30:58 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id r20so20531899wra.1
- for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 21:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ORn/xm9l621G2gk438Ur7Zcqma3//YNjMnHfREHxlwE=;
- b=lAxCOTx7xIsZBnHmiklZml4ZzIlIX8EkWBWMZ+zWpJY2IdkVSJgE1fsutD7oC/xjhu
- cPRxr/cjqrV+aP6KMmPTjRBYzn36tv7VgywrdYsIp3p7OcKYzHXxotj/eR1Wwwb83CWO
- OhK3Ytwomb9xVekI2qV2VvvEOFTccLIfs/p0NLywBEFKt5Oe9Egka9Jgkh/ZLft6Vm6B
- T5+KoCngBrLtB9pw1GcLbezLDIMVK0gmQta5dQ1l0uR8r/ELIXwjojKh7AQ7IRNQLYRx
- msYI85QW6gZ/ewefvAKxVCagzeCLnpx6J/SMubHxusfEFGViMaqT/sapFldEFA7XfoG+
- Y2+Q==
+ (Exim 4.90_1) (envelope-from <dominique.martinet@atmark-techno.com>)
+ id 1o6Pes-0003aq-Th
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 00:50:36 -0400
+Received: from gw2.atmark-techno.com ([35.74.137.57]:49998)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <dominique.martinet@atmark-techno.com>)
+ id 1o6Peo-0008Qg-4F
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 00:50:32 -0400
+Received: from gw2.atmark-techno.com (localhost [127.0.0.1])
+ by gw2.atmark-techno.com (Postfix) with ESMTP id 9BA2320D6E
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 13:50:25 +0900 (JST)
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69])
+ by gw2.atmark-techno.com (Postfix) with ESMTPS id 5635A20D6E
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 13:50:25 +0900 (JST)
+Received: by mail-pj1-f69.google.com with SMTP id
+ gi2-20020a17090b110200b001ecad6feb7cso9113417pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Jun 2022 21:50:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ORn/xm9l621G2gk438Ur7Zcqma3//YNjMnHfREHxlwE=;
- b=XJ2zdaLW45VklQbOBxBkH5pcihl04OGZMDtHOeMtzc13KbW7gopvckFL1dxS/2uMSS
- XH/wiQCxnvTq1p7WTM7o7ekrsXFCtVzNUmr3GLjV+hS4+fBpQF8grHGB+e0PhexJZqTF
- fHFhdw/bci7KcUzQ8sOhiq+kj19/1g64TsnJJVBppuu2oQwvya0Gy+fkQm88bP1HUvel
- nDaMxYdgbWJiBINYQGAbk5jKZY96nSs+VCPYxN1bLgcStEBeaJ1YTbI3JAMgVmA3IdYK
- WOegaB5yPVu/I5lz38oWYjd/SRbJbNn1352qVXyExjNFtJDTRj3MlpzNKVPtZZnshOls
- 32Kg==
-X-Gm-Message-State: AJIora+f4pLWUX+wTntUOHZQ9Tc/ccF2fKXtNZ0GeytadE2W34CLViIS
- XWu5aT3F9dlipJbLg/e03bksRpyyurVFOEBil6kwBg==
-X-Google-Smtp-Source: AGRyM1t3Cgzt5BFB1AznOtxyJtlypPi4E0cuIEWVZpraSQAwYfIt5aFKWsIWUkiHRVm3Xw9k2vU4t98ME1TGocxSj1w=
-X-Received: by 2002:a5d:4532:0:b0:21b:ab1e:e9fa with SMTP id
- j18-20020a5d4532000000b0021bab1ee9famr1024528wra.214.1656477053826; Tue, 28
- Jun 2022 21:30:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0i1/tj7hoep7JbVDSWi6eqWKpvtn7ufuE0103oPspzo=;
+ b=A3WA6x3i18e6JobgfrOkcvZeqClY6LRR3zjS7RFDM9xmnIopukYxKe5u143IB6HH9u
+ nswl1pDSJEgrkFUQ4XQS+BIfQ/4y+AqQAvA8UnYQV7idYs2ST7dGGPYHpFbE8t1uGHFu
+ nQYonuSTklkSuKbgEQNFS55ESa35rxclKMsdUqt5Va843GDu0zqBm6wl8HAoxnkyXQG3
+ 0VWb7hTLXbW2Rke42pQtqGindJ+1STSl6uQTYBtfcSvz9WEYFyjHOnarjKglU+II74Ta
+ 19fRTNQp5IFH1vBeWQj6pyx1EVBk7Xikufvqp1hmG6pbas/d0CsJ1nXTg3Bc8rgEMwEi
+ Q3uA==
+X-Gm-Message-State: AJIora/EeBiDWCNl0kGvge7e8/1yvL7Bc0AW0a0w7Xp8TqWLsPGz95ci
+ IJg38kHYb9ccS3X2LBMh0abzEFmCiwlSCq71xMNHDKJ4AQofa80ckMD9MP6eqqdb+txlrLHG477
+ jocZsiA/Qu88BRTyz
+X-Received: by 2002:a63:904b:0:b0:40d:1d01:39aa with SMTP id
+ a72-20020a63904b000000b0040d1d0139aamr1374581pge.68.1656478224298; 
+ Tue, 28 Jun 2022 21:50:24 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tsXv/9+hgMYZMlB2F1xlBChwLb+boG3pb0OlYlvN/Ynaw/ec3icURd7dkhDSe3L0ZcopWhhQ==
+X-Received: by 2002:a63:904b:0:b0:40d:1d01:39aa with SMTP id
+ a72-20020a63904b000000b0040d1d0139aamr1374563pge.68.1656478223983; 
+ Tue, 28 Jun 2022 21:50:23 -0700 (PDT)
+Received: from pc-zest.atmarktech (117.209.187.35.bc.googleusercontent.com.
+ [35.187.209.117]) by smtp.gmail.com with ESMTPSA id
+ bt16-20020a056a00439000b00525442ac579sm10272324pfb.212.2022.06.28.21.50.23
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 28 Jun 2022 21:50:23 -0700 (PDT)
+Received: from martinet by pc-zest.atmarktech with local (Exim 4.95)
+ (envelope-from <martinet@pc-zest>) id 1o6Peg-008NvO-Fn;
+ Wed, 29 Jun 2022 13:50:22 +0900
+From: Dominique Martinet <dominique.martinet@atmark-techno.com>
+To: qemu-devel@nongnu.org
+Cc: Dominique Martinet <dominique.martinet@atmark-techno.com>
+Subject: [PATCH] io_uring: fix short read slow path corruptions
+Date: Wed, 29 Jun 2022 13:49:58 +0900
+Message-Id: <20220629044957.1998430-1-dominique.martinet@atmark-techno.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220627164044.1512862-1-rpathak@ventanamicro.com>
- <CAKmqyKPekJ0v6gXJZh=cptRE8TXVqpB_2XtG1X_-oSgcmcf58w@mail.gmail.com>
- <CA+Oz1=Yi42RtJ6CphL0d8KYjeZhDu7H101JY59rL0fO+4oq9zQ@mail.gmail.com>
- <CAEUhbmV45wwZx72y6D2Vcn0VcwtfCRvma574inuCCYw48gCfCg@mail.gmail.com>
-In-Reply-To: <CAEUhbmV45wwZx72y6D2Vcn0VcwtfCRvma574inuCCYw48gCfCg@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Wed, 29 Jun 2022 10:00:43 +0530
-Message-ID: <CAAhSdy2DtLs7T2vevBanXxTXV3=c69DAF7u3-F+U-6Mm3qCheQ@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: fix user-mode build issue because mhartid
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Rahul Pathak <rpathak@ventanamicro.com>,
- Alistair Francis <alistair23@gmail.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <apatel@ventanamicro.com>, 
- Rahul Pathak <rpathakmailbox@gmail.com>, 
- =?UTF-8?Q?V=C3=ADctor_Colombo?= <victor.colombo@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::42a;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x42a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=35.74.137.57;
+ envelope-from=dominique.martinet@atmark-techno.com; helo=gw2.atmark-techno.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 29 Jun 2022 09:53:09 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,37 +90,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 29, 2022 at 9:27 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Rahul,
->
-> On Wed, Jun 29, 2022 at 10:07 AM Rahul Pathak <rpathak@ventanamicro.com> wrote:
-> >
-> > Hi Alistair
-> >
-> > My fix patch needs to be dropped since Anup took care of this issue
-> > in his yesterdays series update in this patch -
-> > [PATCH v8 4/4] target/riscv: Force disable extensions if priv spec
-> > version does not match
->
-> I don't understand. Each patch should keep bisectability.
+sqeq.off here is the offset to read within the disk image, so obviously
+not 'nread' (the amount we just read), but as the author meant to write
+its current value incremented by the amount we just read.
 
-The patches are already bisectable. There was a compile error until
-v6 which was fixed in v7 by squashing this patch into PATCH4.
+Normally recent versions of linux will not issue short reads,
+but apparently btrfs with O_DIRECT (cache=none) does.
 
->
-> This sounds like to me, that
-> [PATCH v8 4/4] target/riscv: Force disable extensions if priv spec
-> version does not match
->
-> has an issue that it does 2 things: one is to fix this bug, and the
-> other one is to force disable extensions.
->
-> Which is not right.
+This lead to weird image corruptions when short read happened
 
-The bug is fixed as a result of force disabling extensions which
-don't match the priv spec version.
+Fixes: 6663a0a33764 ("block/io_uring: implements interfaces for io_uring")
+Link: https://lkml.kernel.org/r/YrrFGO4A1jS0GI0G@atmark-techno.com
+Signed-off-by: Dominique Martinet <dominique.martinet@atmark-techno.com>
+---
 
-Regards,
-Anup
+I just spent a couple of days on this bug, will follow up with kernel to
+see if we can also not get rid of the short read but perhaps a warning
+should be added the first time we get a short read, as it's not supposed
+to happen?
+Well, slow path now seems to work (at least my VM now boots fine), but
+if the code clearly states it should never be used I assume there might
+be other bugs laying there as it's not tested... That this one was easy
+enough to spot once I noticed the short reads was its only grace...
+
+Thanks!
+
+ block/io_uring.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/block/io_uring.c b/block/io_uring.c
+index d48e472e74cb..d58aff9615ce 100644
+--- a/block/io_uring.c
++++ b/block/io_uring.c
+@@ -103,7 +103,7 @@ static void luring_resubmit_short_read(LuringState *s, LuringAIOCB *luringcb,
+                       remaining);
+ 
+     /* Update sqe */
+-    luringcb->sqeq.off = nread;
++    luringcb->sqeq.off += nread;
+     luringcb->sqeq.addr = (__u64)(uintptr_t)luringcb->resubmit_qiov.iov;
+     luringcb->sqeq.len = luringcb->resubmit_qiov.niov;
+ 
+-- 
+2.35.1
+
 
