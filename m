@@ -2,130 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA8556026B
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 16:19:14 +0200 (CEST)
-Received: from localhost ([::1]:41536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC7F55FFBA
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jun 2022 14:23:19 +0200 (CEST)
+Received: from localhost ([::1]:45392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6YXB-0008J4-1a
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 10:19:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54414)
+	id 1o6Wiz-00058e-RA
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 08:23:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <svens@linux.ibm.com>)
- id 1o6WeI-0003GY-GA; Wed, 29 Jun 2022 08:18:26 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10654
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o6Wgt-00048G-6h
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 08:21:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <svens@linux.ibm.com>)
- id 1o6WeG-0006uk-Cq; Wed, 29 Jun 2022 08:18:26 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25TC3XJj032380;
- Wed, 29 Jun 2022 12:18:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : references : date : in-reply-to : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=lwqjL+rTVMTV/YnIkpDWycZp39fG1HJxqZxK4n7g3uQ=;
- b=bFomUyV4QLfopuHJVW5HEv97d/sby4G1R+HBOplFF/OX5F8f5Lfi3qd9n7dnebpKaJzL
- dIndpQwfqI3VBOG+s/rgYbcJ+DL3sXnJ/AxnnX/S62E8q3LCz2DrlRCpPow6zhrG91pT
- 3b733DYBBdl6CbzjZIazYTsKyX/9dFqbhq7xdLqysC6YKp57AlBJOWUEgq0e39Ajk9b8
- mDngcpMu/zA2btw+G9uGbQD5UAYz/HEHK0BSUf8/0wDu6gWsF7rseO0j/2sxcgxE+TxB
- efPMi4NfUSktnXtZlG5P1FkLT28WG8tm4AJa7/rKkhMTk0FlB7gSg5MDB+wk7YE6a93K Pg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0pdkgegv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Jun 2022 12:18:16 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25TC51VG009406;
- Wed, 29 Jun 2022 12:18:15 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h0pdkgefy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Jun 2022 12:18:15 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25TC8FGJ003555;
- Wed, 29 Jun 2022 12:18:13 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04fra.de.ibm.com with ESMTP id 3gwt094u37-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Jun 2022 12:18:13 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25TCIAKp21299524
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Jun 2022 12:18:10 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1AFC811C04C;
- Wed, 29 Jun 2022 12:18:10 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7E1AF11C04A;
- Wed, 29 Jun 2022 12:18:09 +0000 (GMT)
-Received: from tuxmaker.linux.ibm.com (unknown [9.152.85.9])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Wed, 29 Jun 2022 12:18:09 +0000 (GMT)
-From: Sven Schnelle <svens@linux.ibm.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: David Hildenbrand <david@redhat.com>, Janosch Frank
- <frankja@linux.ibm.com>, Liam Howlett <liam.howlett@oracle.com>, Heiko
- Carstens <hca@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck
- <linux@roeck-us.net>, "maple-tree@lists.infradead.org"
- <maple-tree@lists.infradead.org>, "linux-mm@kvack.org"
- <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, Yu Zhao <yuzhao@google.com>, Juergen
- Gross <jgross@suse.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
- Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Andreas Krebbel <krebbel@linux.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: Re: qemu-system-s390x hang in tcg
-References: <20220426150616.3937571-24-Liam.Howlett@oracle.com>
- <20220428201947.GA1912192@roeck-us.net>
- <20220429003841.cx7uenepca22qbdl@revolver>
- <20220428181621.636487e753422ad0faf09bd6@linux-foundation.org>
- <20220502001358.s2azy37zcc27vgdb@revolver>
- <20220501172412.50268e7b217d0963293e7314@linux-foundation.org>
- <Ym+v4lfU5IyxkGc4@osiris> <20220502133050.kuy2kjkzv6msokeb@revolver>
- <YnAn3FI9aVCi/xKd@osiris> <YnGHJ7oroqF+v1u+@osiris>
- <20220503215520.qpaukvjq55o7qwu3@revolver>
- <60a3bc3f-5cd6-79ac-a7a8-4ecc3d7fd3db@linux.ibm.com>
- <15f5f8d6-dc92-d491-d455-dd6b22b34bc3@redhat.com>
- <yt9d5ykkhrvv.fsf_-_@linux.ibm.com> <87pmirj3aq.fsf@linaro.org>
- <yt9dbkubhhna.fsf@linux.ibm.com>
-Date: Wed, 29 Jun 2022 14:18:09 +0200
-In-Reply-To: <yt9dbkubhhna.fsf@linux.ibm.com> (Sven Schnelle's message of
- "Wed, 29 Jun 2022 12:46:01 +0200")
-Message-ID: <yt9d7d4zhddq.fsf@linux.ibm.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o6Wgo-0007ZG-AC
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 08:21:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656505261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JofIrOXkA7mmQsQoAaOnnHoQmDgTilzn60cZ+DgjY/A=;
+ b=eLF/cQl+5rcsDtZbC5c9/o6/YLcS5J5uo5E6DXt8CNbW1xGzRJKJ4r62JpVlIH958ofajt
+ B6TbVNOXF73QufIt2KaW6XQJLE5npUy7JS6HA+KzQ+fglBt10iPcx8SbIwbgHpUzsX92vN
+ 3h3qPT1pL8bUAncC0M41ev1e1/avVm8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-3-nQL5WK6WNcC-o-7EuEBHfg-1; Wed, 29 Jun 2022 08:20:52 -0400
+X-MC-Unique: nQL5WK6WNcC-o-7EuEBHfg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E511811E76;
+ Wed, 29 Jun 2022 12:20:52 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9758CC26E98;
+ Wed, 29 Jun 2022 12:20:51 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 453C218007B7; Wed, 29 Jun 2022 14:20:50 +0200 (CEST)
+Date: Wed, 29 Jun 2022 14:20:50 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Sergio Lopez <slp@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH] microvm: turn off io reservations for pcie root ports
+Message-ID: <20220629122050.yj7zp2xthtwmigzh@sirius.home.kraxel.org>
+References: <20220603085920.604323-1-kraxel@redhat.com>
+ <20220608120505-mutt-send-email-mst@kernel.org>
+ <20220609072838.jcq4cdofpwvlew7j@sirius.home.kraxel.org>
+ <20220627183724-mutt-send-email-mst@kernel.org>
+ <20220629071023.2wfvs7utmx6w3p4o@sirius.home.kraxel.org>
+ <20220629031527-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 8AhSG-fhtXsT03k4RQQHlt278RxqkdfQ
-X-Proofpoint-GUID: cz-P2Qr80a7G7CgtNCMwmrsq8Y0a_bjz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-29_16,2022-06-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 spamscore=0 priorityscore=1501 phishscore=0 clxscore=1015
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206290043
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=svens@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220629031527-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 29 Jun 2022 09:53:10 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,115 +87,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sven Schnelle <svens@linux.ibm.com> writes:
+On Wed, Jun 29, 2022 at 03:16:17AM -0400, Michael S. Tsirkin wrote:
+> On Wed, Jun 29, 2022 at 09:10:23AM +0200, Gerd Hoffmann wrote:
+> > On Mon, Jun 27, 2022 at 06:37:50PM -0400, Michael S. Tsirkin wrote:
+> > > On Thu, Jun 09, 2022 at 09:28:38AM +0200, Gerd Hoffmann wrote:
+> > > > On Wed, Jun 08, 2022 at 12:06:17PM -0400, Michael S. Tsirkin wrote:
+> > > > > On Fri, Jun 03, 2022 at 10:59:20AM +0200, Gerd Hoffmann wrote:
+> > > > > > The pcie host bridge has no io window on microvm,
+> > > > > > so io reservations will not work.
+> > > > > > 
+> > > > > > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > > > > 
+> > > > > I don't much like overriding user like this. We end up users
+> > > > > setting it to silly values and then if we do want to
+> > > > > support this things just break. Thoughts?
+> > > > 
+> > > > Well, it just looked like the simplest way to tell the firmware that
+> > > > io reservations are pointless.  Do you have a better idea?
+> > > > 
+> > > > take care,
+> > > >   Gerd
+> > > 
+> > > Fail if user supplies values we can't support.
+> > 
+> > Well, it is the *default* value which doesn't work on microvm.
+> > 
+> > take care,
+> >   Gerd
+> 
+> Changing defaults is ok of course. Let's just not override the user.
 
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->
->> Sven Schnelle <svens@linux.ibm.com> writes:
->>
->>> Hi,
->>>
->>> David Hildenbrand <david@redhat.com> writes:
->>>
->>>> On 04.05.22 09:37, Janosch Frank wrote:
->>>>> I had a short look yesterday and the boot usually hangs in the raid6=
-=20
->>>>> code. Disabling vector instructions didn't make a difference but a fe=
-w=20
->>>>> interruptions via GDB solve the problem for some reason.
->>>>>=20
->>>>> CCing David and Thomas for TCG
->>>>>=20
->>>>
->>>> I somehow recall that KASAN was always disabled under TCG, I might be
->>>> wrong (I thought we'd get a message early during boot that the HW
->>>> doesn't support KASAN).
->>>>
->>>> I recall that raid code is a heavy user of vector instructions.
->>>>
->>>> How can I reproduce? Compile upstream (or -next?) with kasan support a=
-nd
->>>> run it under TCG?
->>>
->>> I spent some time looking into this. It's usually hanging in
->>> s390vx8_gen_syndrome(). My first thought was that it is a problem with
->>> the VX instructions, but turned out that it hangs even if i remove all
->>> the code from s390vx8_gen_syndrome().
->>>
->>> Tracing the execution of TB's, i see that the generated code is always
->>> jumping between a few TB's, but never exiting the TB's to check for
->>> interrupts (i.e. return to cpu_tb_exec(). I only see calls to
->>> helper_lookup_tb_ptr to lookup the tb pointer for the next TB.
->>>
->>> The raid6 code is waiting for some time to expire by reading jiffies,
->>> but interrupts are never processed and therefore jiffies doesn't change.
->>> So the raid6 code hangs forever.
->>>
->>> As a test, i made a quick change to test:
->>>
->>> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
->>> index c997c2e8e0..35819fd5a7 100644
->>> --- a/accel/tcg/cpu-exec.c
->>> +++ b/accel/tcg/cpu-exec.c
->>> @@ -319,7 +319,8 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState *env)
->>>      cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
->>>
->>>      cflags =3D curr_cflags(cpu);
->>> -    if (check_for_breakpoints(cpu, pc, &cflags)) {
->>> +    if (check_for_breakpoints(cpu, pc, &cflags) ||
->>> +        unlikely(qatomic_read(&cpu->interrupt_request))) {
->>>          cpu_loop_exit(cpu);
->>>      }
->>>
->>> And that makes the problem go away. But i'm not familiar with the TCG
->>> internals, so i can't say whether the generated code is incorrect or
->>> something else is wrong. I have tcg log files of a failing + working run
->>> if someone wants to take a look. They are rather large so i would have =
-to
->>> upload them somewhere.
->>
->> Whatever is setting cpu->interrupt_request should be calling
->> cpu_exit(cpu) which sets the exit flag which is checked at the start of
->> every TB execution (see gen_tb_start).
->
-> Thanks, that was very helpful. I added debugging and it turned out
-> that the TB is left because of a pending irq. The code then calls
-> s390_cpu_exec_interrupt:
->
-> bool s390_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-> {
->     if (interrupt_request & CPU_INTERRUPT_HARD) {
->         S390CPU *cpu =3D S390_CPU(cs);
->         CPUS390XState *env =3D &cpu->env;
->
->         if (env->ex_value) {
->             /* Execution of the target insn is indivisible from
->                the parent EXECUTE insn.  */
->             return false;
->         }
->         if (s390_cpu_has_int(cpu)) {
->             s390_cpu_do_interrupt(cs);
->             return true;
->         }
->         if (env->psw.mask & PSW_MASK_WAIT) {
->             /* Woken up because of a floating interrupt but it has already
->              * been delivered. Go back to sleep. */
->             cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HALT);
->         }
->     }
->     return false;
-> }
->
-> Note the 'if (env->ex_value) { }' check. It looks like this function
-> just returns false in case tcg is executing an EX instruction. After
-> that the information that the TB should be exited because of an
-> interrupt is gone. So the TB's are never exited again, although the
-> interrupt wasn't handled. At least that's my assumption now, if i'm
-> wrong please tell me.
+Ok, so I could use a compat property instead and change the default
+for microvm that way.  That would allow the user set any value it
+wants.
 
-Looking at the code i see CF_NOIRQ to prevent TB's from getting
-interrupted. But i only see that used in the core tcg code. Would
-that be a possibility, or is there something else/better?
+I still don't see the point though.  There is only a single value which
+makes sense on microvm.  Which is zero.  The only effect the user could
+archive is make the firmware throwing errors ...
 
-Sorry for the dumb questions, i'm not often working on qemu ;-)
+take care,
+  Gerd
+
 
