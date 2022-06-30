@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FFE561378
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 09:45:55 +0200 (CEST)
-Received: from localhost ([::1]:56164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C147561370
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 09:43:36 +0200 (CEST)
+Received: from localhost ([::1]:52170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6os6-0003vw-UF
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 03:45:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55480)
+	id 1o6opr-0001CH-D2
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 03:43:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
- id 1o6ono-0006zU-7W
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 03:41:28 -0400
+ id 1o6ont-00079r-MW
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 03:41:33 -0400
 Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:42422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
- id 1o6ona-0001Jq-A9
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 03:41:26 -0400
+ id 1o6ono-0001Jq-VN
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 03:41:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
  h=subject:from:to:cc:references:message-id:date:
  mime-version:in-reply-to;
- bh=4+iMQF1ynx/oWANANE8C/LZQL1GFn9XmfZvTyBWUNNg=;
- b=oR2n/Iy3arT+X3SVQaHURlsN9y7Cq9tVVcS+VMP2uZWnTBD0KXavfsOO
- HhPIQ+TSmGIWyGWm/4ewATNHQam4ExMIJrvC33C1WGoBxFr8X7YkRO3fn
- eUzfLOhhUeO8D7D8J49tkACq3GPYpJzytM76DcgnqLpJL+MzE556eRSbZ M=;
+ bh=h3CEb8vCwmKNmWzDZAOxJfaqeKWCZOLeEw1Y+gkJyJ4=;
+ b=YMOd206ekt1zsO6H8jNAGFS/1gFT5oOk5+0+BhLbvY30mE8Vew9Xyebl
+ ZNQJMNg1d1Wv6nS/qajUwfwtwI5Ou7BN5NXLTE6v4yuTcIwWUkgvx2CIa
+ AGIcQNV9EklVikNNHfMkMa4+7HQttLvalmd2LGrOmckPccbxHLo1qqp8g s=;
 Authentication-Results: mail3-relais-sop.national.inria.fr;
  dkim=none (message not signed) header.i=none;
  spf=SoftFail smtp.mailfrom=Brice.Goglin@inria.fr;
  dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.92,233,1650924000"; d="scan'208";a="18149081"
+X-IronPort-AV: E=Sophos;i="5.92,233,1650924000"; d="scan'208";a="18149100"
 Received: from clt-128-93-179-171.vpn.inria.fr (HELO [128.93.179.171])
  ([128.93.179.171]) by mail3-relais-sop.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 09:41:12 +0200
-Subject: [PATCH v4 3/4] tests: acpi: q35: add test for hmat nodes without
- initiators
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 09:41:28 +0200
+Subject: [PATCH v4 4/4] tests: acpi: q35: update expected blobs
+ *.hmat-noinitiators
 From: Brice Goglin <Brice.Goglin@inria.fr>
 To: QEMU Developers <qemu-devel@nongnu.org>
 Cc: Liu Jingqi <jingqi.liu@intel.com>, Eduardo Habkost <eduardo@habkost.net>, 
@@ -45,23 +45,25 @@ Cc: Liu Jingqi <jingqi.liu@intel.com>, Eduardo Habkost <eduardo@habkost.net>,
  Jonathan Cameron <jonathan.cameron@huawei.com>,
  Igor Mammedov <imammedo@redhat.com>
 References: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
-Message-ID: <3a67c919-6c02-dfde-9292-2d15b45106a5@inria.fr>
-Date: Thu, 30 Jun 2022 09:41:12 +0200
+Message-ID: <f4066898-2a9e-65c0-9bac-273c654ec21f@inria.fr>
+Date: Thu, 30 Jun 2022 09:41:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
 In-Reply-To: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="agEDWFAKqoVw3uEV4vdDqtJxWvhwZLasE"
+ boundary="hZazCrKGheH40EiUIAldJbpJCvBHzZL3H"
 Received-SPF: pass client-ip=192.134.164.104;
  envelope-from=Brice.Goglin@inria.fr; helo=mail3-relais-sop.national.inria.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,8 +80,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---agEDWFAKqoVw3uEV4vdDqtJxWvhwZLasE
-Content-Type: multipart/mixed; boundary="mnZalJHh0PWrGXm0JiFv3zHRzE7RcgI6y";
+--hZazCrKGheH40EiUIAldJbpJCvBHzZL3H
+Content-Type: multipart/mixed; boundary="eoXKodWJLSRncskHSEeeBzVEO4j5erOpw";
  protected-headers="v1"
 From: Brice Goglin <Brice.Goglin@inria.fr>
 To: QEMU Developers <qemu-devel@nongnu.org>
@@ -89,27 +91,18 @@ Cc: Liu Jingqi <jingqi.liu@intel.com>, Eduardo Habkost <eduardo@habkost.net>,
  Yanan Wang <wangyanan55@huawei.com>,
  Jonathan Cameron <jonathan.cameron@huawei.com>,
  Igor Mammedov <imammedo@redhat.com>
-Message-ID: <3a67c919-6c02-dfde-9292-2d15b45106a5@inria.fr>
-Subject: [PATCH v4 3/4] tests: acpi: q35: add test for hmat nodes without
- initiators
+Message-ID: <f4066898-2a9e-65c0-9bac-273c654ec21f@inria.fr>
+Subject: [PATCH v4 4/4] tests: acpi: q35: update expected blobs
+ *.hmat-noinitiators
 References: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
 In-Reply-To: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
 
---mnZalJHh0PWrGXm0JiFv3zHRzE7RcgI6y
+--eoXKodWJLSRncskHSEeeBzVEO4j5erOpw
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
 
-Build a machine with 2 sockets with 2 cores each,
-and 3 NUMA nodes.
-1st NUMA is local to socket #0 (cores #0-1).
-2nd NUMA is local to socket #1 (cores #2-3).
-3rd NUMA has no initiator.
-HMAT SLLB says memory access performance of 3rd NUMA is lower,
-but it's identical for both sockets
-hence all cores are its best initiator.
-
-Expected HMAT:
+expected HMAT:
 
 [000h 0000   4]                    Signature : "HMAT"    [Heterogeneous M=
 emory Attributes Table]
@@ -253,122 +246,177 @@ BOCHS
 Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
-  tests/qtest/bios-tables-test.c | 49 ++++++++++++++++++++++++++++++++++
-  1 file changed, 49 insertions(+)
+  tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
+  tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 0 -> 8553 bytes
+  tests/data/acpi/q35/FACP.acpihmat-noinitiator | Bin 0 -> 244 bytes
+  tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
+  tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
+  tests/qtest/bios-tables-test-allowed-diff.h   |   5 -----
+  6 files changed, 5 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-tes=
-t.c
-index 359916c228..0cea6684dc 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1461,6 +1461,54 @@ static void test_acpi_piix4_tcg_acpi_hmat(void)
-      test_acpi_tcg_acpi_hmat(MACHINE_PC);
-  }
- =20
-+static void test_acpi_q35_tcg_acpi_hmat_noinitiator(void)
-+{
-+    test_data data;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine =3D MACHINE_Q35;
-+    data.variant =3D ".acpihmat-noinitiator";
-+    test_acpi_one(" -machine hmat=3Don"
-+                  " -smp 4,sockets=3D2"
-+                  " -m 128M"
-+                  " -object memory-backend-ram,size=3D32M,id=3Dram0"
-+                  " -object memory-backend-ram,size=3D32M,id=3Dram1"
-+                  " -object memory-backend-ram,size=3D64M,id=3Dram2"
-+                  " -numa node,nodeid=3D0,memdev=3Dram0"
-+                  " -numa node,nodeid=3D1,memdev=3Dram1"
-+                  " -numa node,nodeid=3D2,memdev=3Dram2"
-+                  " -numa cpu,node-id=3D0,socket-id=3D0"
-+                  " -numa cpu,node-id=3D0,socket-id=3D0"
-+                  " -numa cpu,node-id=3D1,socket-id=3D1"
-+                  " -numa cpu,node-id=3D1,socket-id=3D1"
-+                  " -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-latency,latency=3D10"
-+                  " -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-bandwidth,bandwidth=3D10485760"
-+                  " -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-latency,latency=3D20"
-+                  " -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-bandwidth,bandwidth=3D5242880"
-+                  " -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-latency,latency=3D30"
-+                  " -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-bandwidth,bandwidth=3D1048576"
-+                  " -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-latency,latency=3D20"
-+                  " -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-bandwidth,bandwidth=3D5242880"
-+                  " -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-latency,latency=3D10"
-+                  " -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-bandwidth,bandwidth=3D10485760"
-+                  " -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-latency,latency=3D30"
-+                  " -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dm=
-emory,"
-+                  "data-type=3Daccess-bandwidth,bandwidth=3D1048576",
-+                  &data);
-+    free_test_data(&data);
-+}
-+
-  static void test_acpi_erst(const char *machine)
-  {
-      gchar *tmp_path =3D g_dir_make_tmp("qemu-test-erst.XXXXXX", NULL);
-@@ -1803,6 +1851,7 @@ int main(int argc, char *argv[])
-          qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);=
+diff --git a/tests/data/acpi/q35/APIC.acpihmat-noinitiator b/tests/data/a=
+cpi/q35/APIC.acpihmat-noinitiator
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..d904d4a70ddecbb79a83a267a=
+f8e26f925e9f4c6 100644
+GIT binary patch
+literal 144
+zcmZ<^@N}NQz`(%h?d0$55v<@85#X!<1dKp25F11@Fg*ANra6G>KwJ(+MhMNs1fiLk
+tK{O)|Nb<lx5Xr;^#2^NU#mWk#c|j~rP8f>|r~o3y%?)O;u>A)b0RWi;3;_TD
 
-          qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_=
-hmat);
-          qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat=
-);
-+        qtest_add_func("acpi/q35/acpihmat-noinitiator", test_acpi_q35_tc=
-g_acpi_hmat_noinitiator);
-          qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_acpi_erst=
-);
-          qtest_add_func("acpi/q35/acpierst", test_acpi_q35_acpi_erst);
-          qtest_add_func("acpi/q35/applesmc", test_acpi_q35_applesmc);
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/q35/DSDT.acpihmat-noinitiator b/tests/data/a=
+cpi/q35/DSDT.acpihmat-noinitiator
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..c767d11cb1d088f613c49e55a=
+7139cccababf66c 100644
+GIT binary patch
+literal 8553
+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
+E0Xe$wY5)KL
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/q35/FACP.acpihmat-noinitiator b/tests/data/a=
+cpi/q35/FACP.acpihmat-noinitiator
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..a8f6a8961109d01059aceef9f=
+1869cde09a2f10c 100644
+GIT binary patch
+literal 244
+zcmZ>BbPo8!z`($~-O1nCBUr&HBEVSz2pEB4AU24G0Y(N+hD|^Y6El!tgNU*~X%LSC
+z$X0-fGcm9T0LA|E|L2FOWMD92VqjR>!oa}D!NBm72O<iWged~jj0!*k$y^{03>bk1
+YBHITON2VDSAnpK(F*YFF1LDH~0P8Id0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/q35/HMAT.acpihmat-noinitiator b/tests/data/a=
+cpi/q35/HMAT.acpihmat-noinitiator
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..6494d11b9fff54f8c403ec9e4=
+893fdff72bde9c9 100644
+GIT binary patch
+literal 288
+zcmaJ)F%Ezr5IZ0&Og@24pP{g@7)*5VIX>Ms;S4dxCU-4Odz5uKq7kt*)m-+N&Mij(
+zmQa%w6GZ=3D3|IM0X_Ak#IabYaQ2iTvR&x~t&7@Gj;A7o|>w!;|gr;lRa*AB0!)_xEV
+I&r86*0dKzu0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/q35/SRAT.acpihmat-noinitiator b/tests/data/a=
+cpi/q35/SRAT.acpihmat-noinitiator
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..a11d3119ab3538d9cf821a4fe=
+0fccb0f1dc96359 100644
+GIT binary patch
+literal 312
+zcmWFzatyIxWME)?>E!S15v<@85#X!<1VAAM5F12;FdPVA@EK9%8JW=3Dd%*cF34Y)~A
+u1{YiayE>qSVDJGh4QBww88zTMCa6LfjpA-b4Y)81R2_^)QwNnLKmh<Kp$P#1
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bi=
+os-tables-test-allowed-diff.h
+index ae025e3a3e..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,6 +1 @@
+  /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/q35/APIC.acpihmat-noinitiator",
+-"tests/data/acpi/q35/DSDT.acpihmat-noinitiator",
+-"tests/data/acpi/q35/FACP.acpihmat-noinitiator",
+-"tests/data/acpi/q35/HMAT.acpihmat-noinitiator",
+-"tests/data/acpi/q35/SRAT.acpihmat-noinitiator",
 --=20
 2.30.2
 
 
 
 
---mnZalJHh0PWrGXm0JiFv3zHRzE7RcgI6y--
+--eoXKodWJLSRncskHSEeeBzVEO4j5erOpw--
 
---agEDWFAKqoVw3uEV4vdDqtJxWvhwZLasE
+--hZazCrKGheH40EiUIAldJbpJCvBHzZL3H
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEEelpOgOQAl7r26tY4RJGQ8yNavTsFAmK9U5gFAwAAAAAACgkQRJGQ8yNavTsE
-2g//Tc/+rvwI6Hfx4+aVfq1KrYbBcMerG4i/F+nNYqk8MNOS1QaaR/UBnQx0zKoYeCy+zPIB9PNX
-V+8ZCVLdjFN4TU3BLfu9IqjE9hrEMUHietj4WaJ9JBNCaflfAsPZNr04euFQfuwG/1dq6UdrVg3v
-YlHJhwk6rjibnHHX7Twx0GS4GWZWPv+y1xGhd9jHSagvbdDtOw8m4I0upu0yYUvDOxDlQu3wd4U3
-Tgf1RYyA9zmHBbBLOWlklCJRjx9F65mwaqhtI/maSQmVUpM1yMLTUwS5N+9FH5USnGXyGZOVzXJn
-s6VgBJTTv/ERxMewkhbd6nMEWaTbNeqKApty6xoOxL3woIBykrPYKMRwdPdqVeC8pfzaM2a8A63G
-FXBr4F8d8DQSKM9zWE+86qEsPfMwmvIyb32JKoOmwdlNYOzoF3EnxT2w7wqb6gpvBc3Y7/UdxX6m
-P58OfqQ50Zdvav5LhH0U5WNVpM0E9mgvKcCn3uT5m46H5z+pMHvikKoi5IlBBsWQaL/9tfZ6tdjY
-tbn2GvShq1gq8q7dhNJSWSjifujkUiUj2hX8YE/QuPLFcpgQMwO2y8gn3jeTIYk8eVMhS+hsYw/e
-eSW0TWsGPP/w7QDJoCPN/EUa/mbwsJ0SQNRnHJJ1onLGwrS1ESFP4YVpY13wncYWxtkHfhJxJo3J
-KJY=
-=iu9v
+wsF5BAABCAAjFiEEelpOgOQAl7r26tY4RJGQ8yNavTsFAmK9U6cFAwAAAAAACgkQRJGQ8yNavTtR
+Pw/+Ijxz48VxWj2o9GCF9eBOVglrzwC+N06EICN+6YKzApcmSy2pU5An5qP9gYZqhDTTWgFuCMhR
+gB1s8arS5TQFtzjiGQGnQg1+YY2HM03LtLjiweQvQNfXaFcnbDRnie/faRga/YjOWvT3q9ev0+7M
+79WM+b3ELU3PWkYiufSjjaNtrbSZKXLNq7uN9PDG+q5drH5u77yeiWKB7aCINBPHkGadECRrvyxh
+ZLWYEY1zhYyNkBPnbTzzCmHYtQuwjKhQMsVROQhsXrFQrTZdzcVT7eBFR/vY6Z54XbsZXMvRwrRn
+Fk5bIuLsQxihJ9wfavFyZycB6OAH+10bv0rPtZWNowYlbt21seTuLBoFxM6hxMxKwWWd1IY7cNo3
+b5hM/FX6zeQMKMICXTRNUtTwIPz8ogjI8qS+JiPcLxBwOjaIxwIhN41E6hOBxR0SyRY1NLkNf4UC
+KSOMej4jio40mse3AXCHTmXKlmJbaaUweOGFoxJSP9grwz3iNY9EI8H8VM4liaLV+bCHhU7DU36c
+5DK1LrjAQbejfR9wqaAC/9H8fJRyq6HIiaorxJQLFzplNXz7Had+YSiX/9RaRGDJONEYer+OIAaj
+MOywJeS3pgjQ+D9Bgl6k+Y/Sc7pzCbrS17iiwyRh4Hu3YkWiX2NaTux9KOEoij+88M7tOG6K9MS0
+xZk=
+=g2qq
 -----END PGP SIGNATURE-----
 
---agEDWFAKqoVw3uEV4vdDqtJxWvhwZLasE--
+--hZazCrKGheH40EiUIAldJbpJCvBHzZL3H--
 
