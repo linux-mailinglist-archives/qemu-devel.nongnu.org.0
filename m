@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16885615D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 11:15:12 +0200 (CEST)
-Received: from localhost ([::1]:53612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AC4561612
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 11:20:21 +0200 (CEST)
+Received: from localhost ([::1]:58248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6qGV-0004iS-DF
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 05:15:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48036)
+	id 1o6qLU-0008Dh-Vg
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 05:20:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1o6qDs-0003uf-Eg
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 05:12:28 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:44737)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o6qHT-00064v-LC
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 05:16:14 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:42600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1o6qDi-0002m8-4H
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 05:12:22 -0400
-Received: by mail-pg1-x530.google.com with SMTP id v126so13739853pgv.11
- for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 02:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=JBK2ew8w4fb0WH1fZDY1OBafVj78Elk6yGd4b6MvfGA=;
- b=ZM9tFJ46G6zS8y8NHbKH3e30u9Jm1zcNTFZF+xFQ6Hq5lPtL7r5Lq9OFcxVuf+v1+6
- iiVt+Xz37KT8r+KXBjUCjTahVLJasCSlxVrxNyOhQsmOk+rcfWbJOPQ0h9eEgiawbbz4
- 7GKtgg/dFeMNq/rmNwLC4BI+KV8jQxr3qLUxcNAtEPqzup8VbHD5j1ww3MDPKyF54E45
- Q5+smdHVvddWGBlJJ+UfAGpTr+JDT1TQ+DdKDSaWK6oYrCKrn2wgM5KOrZX79NuRtC+s
- c15j/Oin000bOdEmtdLaM6ikTT/5WkPz9QXzSmChg5UIlHb6y2pfGev2yKCSgnNNNy2g
- 1ZKA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o6qHR-0003W3-O8
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 05:16:11 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id g4so21092966ybg.9
+ for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 02:16:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Jq1RV5+whmExWqqjE6UGNSq/jjPdGRlN+nu0t85JQgE=;
+ b=hMd4cJjcGheTk9skYIypKZuD9ri4cfAay/RXXb54uBwHwzkHFSVj7WOTQPidgwrNub
+ 19ws8Qhw/OWwcBkvbCrD1b0qE2WP3cnnepmTaBohgdQgzNqNhGHU1HfUt/MOLsGaYZP7
+ rPBlFS4miMbcVhUquqNRIGOYia/pMAbGM13+pEt534JGVAHtIG260f/VOOMLtNOxV5OR
+ +WzzevZcd+tgPnqbDQA4lTLemX0lXNS1PyB+l5dC71G746a3+ptftUFs00mKV/Hut4i+
+ xH5ExYtZiqUuHiMNgr0LOD4sDpcuGQsO44o90vtEOdom2KLQ2HrIrtFKK7nWUTCJn1fy
+ yfvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=JBK2ew8w4fb0WH1fZDY1OBafVj78Elk6yGd4b6MvfGA=;
- b=WQvv9kXBWEszbb8DvZBYW2+KVAim2UmbFsu+Jy6r4pmnElZHs/E31VoIiSjzIZW1PR
- HMW6boyqYcSecycNsMMMP45z+LiktM5HtYxwYbTP474EaLdJgJD7Sf+C9nU+O1U8a2Aw
- ZZvg/+nh6YXcruveF3eczh94G0OD9tbVognCkmWsJzVgB1gY2IrJAV1rNNl/3iWWtAbp
- s3Abt/d1Zfa3bpNmSlh20MD/VGt6bY1RSOAYU0x6rCXNyVonspNmAEZ+arsdojWT7Yc1
- 8dQvVbz4JlkHe/+NM0Ec8AAU3Ik81rI58vEcF2iHsXuegY0cp/GVYr2hIeY+kcBn+TFl
- hTrg==
-X-Gm-Message-State: AJIora/GYBeNwZXfIVxjlRNaXr3/WK80hug+WM6Jatmr6ALeHWDyFdsX
- J+d+X6nglaTrZtJ2+GEYXmCccPFUsPB08g==
-X-Google-Smtp-Source: AGRyM1vJqeQOwz+T7dTLqC9zULEryZ5pPEbSWXAVLnidjifhbEiKQJWL1P52VXQAWRS095rsldk4Tw==
-X-Received: by 2002:a63:7785:0:b0:40c:c07d:6c21 with SMTP id
- s127-20020a637785000000b0040cc07d6c21mr6882454pgc.7.1656580335404; 
- Thu, 30 Jun 2022 02:12:15 -0700 (PDT)
-Received: from [10.76.43.148] ([61.120.150.78])
- by smtp.gmail.com with ESMTPSA id
- j8-20020a17090a318800b001ed2fae2271sm1306035pjb.31.2022.06.30.02.12.12
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 30 Jun 2022 02:12:15 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: PING: [PATCH v2 0/7] crypto: Introduce ECDSA algorithm
-From: Lei He <helei.sig11@bytedance.com>
-In-Reply-To: <20220622091549.31115-1-helei.sig11@bytedance.com>
-Date: Thu, 30 Jun 2022 17:12:09 +0800
-Cc: Lei He <helei.sig11@bytedance.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- pizhenwei@bytedance.com, jasowang@redhat.com
-Content-Transfer-Encoding: 7bit
-Message-Id: <64637D04-E31E-4C90-9E17-BA598A8FB2A2@bytedance.com>
-References: <20220622091549.31115-1-helei.sig11@bytedance.com>
-To: qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?=22Daniel_P_=2E_Berrang=C3=A9=22?= <berrange@redhat.com>,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=helei.sig11@bytedance.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Jq1RV5+whmExWqqjE6UGNSq/jjPdGRlN+nu0t85JQgE=;
+ b=SjGgtF9e82Hl4uEIkZyRjbPCxOxMl1jWnlGBbkOvf2qc+J0pIVw95H5z2pZ5QyAqqd
+ bCAB6x5yMAxDlcIbZLndICTGcvbNwzYPAJJy19MuqpAfEbT+YOjd6MoYapiyZOOS7pab
+ XJpmXIJuNYe0PGdqxD6+1HWQbQxdTlQoPhBBvOOyHn83e6wY0WZ5PZ8KWir21SNZNkrk
+ x908SN3irLzk365DvVAJ7SbBjlTkIP+7Ic9YP7DlAfAnp8sANzxgOiKf0JuYMhLagOu/
+ 9pDZdkz7+6HKV0fkP/x9yedz/NdcvShsDO+3+g1/IlV01grT5w2T8mO+/vqrWy8B2m/P
+ 2tyw==
+X-Gm-Message-State: AJIora9LRPFQfOW8VJphVpTA4cM1S4A/GOZYT6I1qVKNVO2vIB5NsLIN
+ +XJxxSlqe4rccdjpb6SBeQqqGLHV85O/lZiqwXR+pA==
+X-Google-Smtp-Source: AGRyM1tIXoxKoOfmV4Ae5TtuJp3pljmmsoNw7+oDLGNrvaENZyJ+LEiKxsVkpaCkaBrPLCLRWCxNxwcglpEkV8Be+Tw=
+X-Received: by 2002:a25:d655:0:b0:66c:84b7:df40 with SMTP id
+ n82-20020a25d655000000b0066c84b7df40mr9170191ybg.193.1656580568061; Thu, 30
+ Jun 2022 02:16:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220627160734.749861-1-Jason@zx2c4.com>
+ <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
+ <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
+ <CAHmME9pPxKnJbFUWCmzJw8fYikugSwuRo+AO599-cb56UELqrQ@mail.gmail.com>
+ <CAFEAcA9jzUk72NZ=BAubjiFwqVaUWqCgjJ-BLLx=J8Aq+ieWSg@mail.gmail.com>
+ <878rpfixfh.fsf@linaro.org> <Yrw2+X6Pi8qlTo2d@zx2c4.com>
+ <87r137h49s.fsf@linaro.org> <Yrx2D/uPxM8YPCYK@zx2c4.com>
+In-Reply-To: <Yrx2D/uPxM8YPCYK@zx2c4.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 30 Jun 2022 10:15:29 +0100
+Message-ID: <CAFEAcA8iq+ANzSgwXvLsF3ZQGLcTFGvyXtwh+Kw5XGmCo+-Z-g@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: dt: add rng-seed property
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,30 +90,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> On Jun 22, 2022, at 5:15 PM, Lei He <helei.sig11@bytedance.com> wrote:
-> 
-> This patch introduced ECDSA algorithm for crypto.
-> 
-> V1 -> V2:
-> - The reserved function prefix '_' is no longer used.
-> - When parsing ECDSA key: 1) set errp as early as possible,
-> 2) use g_autoptr to avoid manually freeing memory, 3) simplified the
-> code parsing public key for gcrypt.
-> - When parsing the ECDSA private key, save the public key 
-> info (if any) so that the private key can also be used for
-> verification.
-> - Fixed a bug, gcrypt-ecdsa can truncate digest correctly now,
-> and a related unit-test is added.
-> - Fixed a bug, nettle-ecdsa can correctly add leading-zero (if needed)
-> when encoding the signature now.
-> - Minor tweaks to code style and typo fix.
-> 
-> V1:
-> - make the built-in ASN.1 decoder support more ASN.1 types.
-> - support ECDSA key and signature parsing.
-> - implement the ECDSA algorithm using nettle and gcrypt respectively.
-> 
+On Wed, 29 Jun 2022 at 16:56, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> On Wed, Jun 29, 2022 at 04:24:20PM +0100, Alex Benn=C3=A9e wrote:
+> > Given the use case for the dtb-kaslr-seed knob I wonder if we should
+> > have a common property and deprecate the kaslr one? As of this patch
+> > existing workflows will break until command lines are updated to suppre=
+ss
+> > the second source of randomness.
+> >
+> > Maybe it would be better to have a single a new property
+> > (dtb-rng-seeds?) which suppresses both dtb entries and make
+> > dtb-kaslr-seed an alias and mark it as deprecated.
+>
+> No, I don't think so. If anything, I'll try to get rid of kaslr-seed
+> upstream at some point if that makes sense. But until that happens --
+> that is, until I have the conversations with people who added these and
+> care about their semantics -- assume that there's granularity for some
+> good reason. No need to put the cart before the horse.
+>
+> This is a simple patch doing a simple thing in exactly the way that
+> things are already being done. I really don't want to do much more than
+> that here. If you want to bikeshed it further, send a follow up patch.
 
-Ping for:
-<https://patchew.org/QEMU/20220622091549.31115-1-helei.sig11@bytedance.com/>.
+It's adding a command line option, though. Those we have to get
+right the first time, because for QEMU they're kind of like ABI
+to our users. We *can* clean them up if we find we've made a mistake,
+but we have to go through a multi-release deprecation process to do it,
+so it's much less effort overall to make sure we have the command line
+syntax right to start with.
+
+If there's a good use case for the two seeds to be separately
+controllable, that's fine. But I'd rather we find that out for
+certain before we put a second control knob and make all our
+users with workflows where they want non-random dtb blobs find
+out about it and flip it.
+
+thanks
+-- PMM
 
