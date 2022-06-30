@@ -2,133 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D306C562612
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 00:28:42 +0200 (CEST)
-Received: from localhost ([::1]:45704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A7D56263A
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 00:47:37 +0200 (CEST)
+Received: from localhost ([::1]:34426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o72eP-0006SS-3E
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 18:28:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34748)
+	id 1o72wi-0001s4-9m
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 18:47:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1o72cw-0005lv-Om
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 18:27:10 -0400
-Received: from mail-dm6nam11on20614.outbound.protection.outlook.com
- ([2a01:111:f400:7eaa::614]:39998
- helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o72tB-00017L-8R
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 18:43:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1o72ct-0003Ty-SD
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 18:27:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R1o6k544A11JQIULQrl3DckEqCaQA3hj76EyHnYr4tp9njCrVKf8dHbYrkXFHfM+LRus2qsboHt/6OuXjE+oGJy6vIzFwdvuc+BG00HmU93YzgSaAhA+hVZk3KQFfdVXT1FaCrPIaxWJ0ZWyd++Bd9jgvATmgL17d6sSAwy824r1NbFHedhmiAuf+btmCp4i4wk+Mng/FFzTGoUDhoW9+KbE1tszBMeqghIlxNA0oIV4p9cN2JjQEHx1+3XXzNleN621QGJKUK/rLGo+PPbWtxMxWfxqr7PcPm8iEUzYFFQLAeOpfCS9KsP+Mh+URmd1S2f+8m/snNFN7fJrfBGWNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vDdvE/+qLXuAvKitUqu8CFVheNxtCtHZvfWwUHG1068=;
- b=jHQjWnt3s50X0zoJWkbB04WeIXbUw9iSH6IBaRwJrgGTIAnG1IJYewCMhOIUBdsO1VnTXa0YsMUSIUNFqiggsCwNRCQYxPTA2wJ+fdzsoIs7OI9tv/CMYQW7fSSbztRPzpCF8c+0zZydgm9Sy6BZE64dYZXRXYFA/8RMcyFyRRwxx9rq5J49kRQG+/gZIgwhjIyH6Ep11iEmrSyaff7Hl4j2Rc/OJCu8q4gs+xl+SGAaG3Q1jhh0mTAVtJ2EExxgu40KXLE5njaOkB/fDdZEqwr3cxknN01hFxVWM0USf+/i35uLzunh2m6wZHCS1Z45iDe1uynWnbXSVaURYN6Icw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vDdvE/+qLXuAvKitUqu8CFVheNxtCtHZvfWwUHG1068=;
- b=NPD+cmFuHwFd21SkLbknHj1F39ac/FNDuXtzhmvMBIDcI2yr+KJiLlWvrb29wc3om6Y6Q7N6qIJyRYFD/gTJnANwaic/U5hjhHwIVecVXSiWu36zgWNfdEKzBw7JXIwyCCmdG4+gABilVbl/m0HAst/eFZaK/LzmmzPCtJT4aiE=
-Received: from BN9P220CA0023.NAMP220.PROD.OUTLOOK.COM (2603:10b6:408:13e::28)
- by DM6PR12MB4089.namprd12.prod.outlook.com (2603:10b6:5:213::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Thu, 30 Jun
- 2022 22:22:00 +0000
-Received: from BN8NAM11FT040.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13e:cafe::62) by BN9P220CA0023.outlook.office365.com
- (2603:10b6:408:13e::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15 via Frontend
- Transport; Thu, 30 Jun 2022 22:22:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT040.mail.protection.outlook.com (10.13.177.166) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5395.14 via Frontend Transport; Thu, 30 Jun 2022 22:22:00 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 30 Jun
- 2022 17:21:59 -0500
-Date: Thu, 30 Jun 2022 17:21:40 -0500
-From: Michael Roth <michael.roth@amd.com>
-To: Vishal Annapurve <vannapurve@google.com>
-CC: Chao Peng <chao.p.peng@linux.intel.com>, "Nikunj A. Dadhania"
- <nikunj@amd.com>, kvm list <kvm@vger.kernel.org>, LKML
- <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-api@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <qemu-devel@nongnu.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Sean Christopherson
- <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li
- <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, Joerg Roedel
- <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, x86 <x86@kernel.org>, "H
- . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>, Jeff Layton
- <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>, "Andrew
- Morton" <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>, "Steven
- Price" <steven.price@arm.com>, "Maciej S . Szmigiero"
- <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>, Yu Zhang
- <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
- <kirill.shutemov@linux.intel.com>, Andy Lutomirski <luto@kernel.org>, "Jun
- Nakajima" <jun.nakajima@intel.com>, Dave Hansen <dave.hansen@intel.com>,
- "Andi Kleen" <ak@linux.intel.com>, David Hildenbrand <david@redhat.com>,
- <aarcange@redhat.com>, <ddutile@redhat.com>, <dhildenb@redhat.com>, "Quentin
- Perret" <qperret@google.com>, <mhocko@suse.com>
-Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
-Message-ID: <20220630222140.of4md7bufd5jv5bh@amd.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-7-chao.p.peng@linux.intel.com>
- <b3ce0855-0e4b-782a-599c-26590df948dd@amd.com>
- <20220624090246.GA2181919@chaop.bj.intel.com>
- <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o72t7-0001kX-8w
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 18:43:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656629032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HtR5PnAPv3C28nhIPuZQpS5NUladetlBaX9nC+U6lA0=;
+ b=hcFaT6q8IypAD7CMrvUf+xu1UwH1pTKJ2OccFIbUReETWwqP6Y7pW56tnnidZCTNPS6PRg
+ k3DJj1RO9PwLeR41jwY1yGGrnZSqWtPzbmKTrMiL3qKv7E0JNnbwSMXFgBQBIGuX1xUFis
+ 3cAcZOXGge5fXygQXsSzbO1ChZx2z10=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-488-BK3-4xT-Miqk8HGvYGRPdw-1; Thu, 30 Jun 2022 18:43:50 -0400
+X-MC-Unique: BK3-4xT-Miqk8HGvYGRPdw-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ g1-20020ab00e01000000b00379820aee7cso157058uak.18
+ for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 15:43:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HtR5PnAPv3C28nhIPuZQpS5NUladetlBaX9nC+U6lA0=;
+ b=c7lIxDMTvcOVu4Kjsj8ClZ7WeUljD13AQSwYxXy9nc/w7kcE9T96noHnPo94+8tH3R
+ 65fjn0cTy8HxIxMbWKLfl4nmHsNZ5w5N3LT0rjdD7j9sRM1IA4KRSdOtNJQ76LzqGUgu
+ xUyrZm9ECzR0jR1MKyKe/bNBVAZIBCA10c+A50Q4vqslGIKXyVsLoI1ySKm22qqvqmvU
+ vwitxDOx87sLoXdutvcHji5WqcIHcz9b1auiqRb5wGVvj5mTTzlML/GiSRdk8sPm9Y0p
+ C52KQ4qRNAB2zz5kgIqBkGMaTECH5N/CGhJ4bPJStknv9qHxvO/BC03NIOplEMtR3T1J
+ syRg==
+X-Gm-Message-State: AJIora8fzPD+M3TKyoY9EOWyEk6Jm3zDYkH+zfp+nENCz9gz2wohEHr4
+ g7UzdK6GgGIjaVb8gW/5YbmnCo4zVDtM5+H3mgbi9mJSVjx83xf/2bzTXhYNmQKEHt3GIYlrtQr
+ Rsm//qui7uUSF+pkVt4Iy7+81L8IGtUc=
+X-Received: by 2002:a05:6102:24d:b0:356:6d6b:9e1e with SMTP id
+ a13-20020a056102024d00b003566d6b9e1emr9458228vsq.11.1656629030139; 
+ Thu, 30 Jun 2022 15:43:50 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uxlrKhmOPCi8lzDcuHkmp3RrOTf+r24JiYGMHdbrIyF2pOJ9nSyYd9ZIfHSsti5k2jdIQIj/Nbu1uGyAU9wEA=
+X-Received: by 2002:a05:6102:24d:b0:356:6d6b:9e1e with SMTP id
+ a13-20020a056102024d00b003566d6b9e1emr9458218vsq.11.1656629029804; Thu, 30
+ Jun 2022 15:43:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d5fecce7-6f56-4080-cfa6-08da5ae6f3ae
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4089:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Z2QpwV8hL6dMAI9riXKR5ZLlDlOA+N4IsIvDs2cG6vwUsCuUwB5piVkHhPRMUmxec0BpSIf2dn+9teTt0w9OH7eK6lgym0sa479giZjgGKH9Qrc3UJeyIP1usR6VNKLvi8NS4G1hUUf1rhUuI8t656nXygxYdtPTNNOYTPs2VZxi6ltEeGyCv6FKyM2Vwh9YDkU/o+/fsustHg8MHhRyaEevWYAltL4dMC9iYIqELYfwMS+6QbFI0+aY98978dksFsFwTjCQ+tIlhNmeDKSUM6F/ZKTS74utfp1OEMsgRgBHAn97BGcE2hZ2ehAbMpjdF8Jar/uBUxpVh4hBNU20f2Fqo0alSHGJiKCqT9ceI4xFdaJHFbHi56mrDvWuoJsaR5WVVTvh4GUKNPJ/tS5uHUpI5XGxpMbpIcHSgAcQsiBKIJJxpmNlicGyiiPKQ1w+Kv6X6POJJOGjcCh+yFkwjs4Eos9ZL11Vsqkngkq8LIPoxE3yqpfCgUijxcWUlVRmiMbNc2/W7zj0EQF/ECZAsZkBNMKfrdqaTajRk05O94RZUb76PBS4X6eozgdc8FdZgrdMsCtx5dxUaB4yygv2/tguO40XaFCvv2hZETKfSntGepWrs+EvH95hC1aKWvsTdCq9IRFQpsJkq4FMB5DGslE6WCzjHRYhHFhv1dmFGh+EqmuySyMYLtQ2otbe/PbEGr7W/QwakdQO6peHt+qAkXVTc+SLYc498p9IB7+3+AG6H8xoXkQadJ4csHubsm6A+el1yw6PUdmOsL5KBii2gVrd90NFsn8sdMbn0dTabvjbiKxcbiErd4yKk4jrmTaho4/x7UYDiB5NiUGfnTpjD0MyF0I4xTqSeMNOzEFvCRLRZnT+qVef0Tj278fbgTu5
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(396003)(39860400002)(346002)(376002)(40470700004)(36840700001)(46966006)(40480700001)(356005)(6916009)(81166007)(336012)(1076003)(44832011)(316002)(36860700001)(40460700003)(36756003)(5660300002)(7416002)(82740400003)(41300700001)(70586007)(82310400005)(8676002)(966005)(70206006)(7406005)(4326008)(86362001)(16526019)(426003)(186003)(2616005)(2906002)(83380400001)(6666004)(8936002)(47076005)(478600001)(26005)(54906003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2022 22:22:00.2863 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5fecce7-6f56-4080-cfa6-08da5ae6f3ae
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT040.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4089
-Received-SPF: softfail client-ip=2a01:111:f400:7eaa::614;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220628134939.680174-1-marcandre.lureau@redhat.com>
+ <20220628134939.680174-3-marcandre.lureau@redhat.com>
+ <YrsNZAznZrxUr/zr@redhat.com>
+ <CAFn=p-YCAf7VvCvwjh++KZ3GguG8MKo=ukGR3EqxRYprXgZWDg@mail.gmail.com>
+ <Yr1diN83gU2dx27u@redhat.com>
+In-Reply-To: <Yr1diN83gU2dx27u@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 30 Jun 2022 18:43:39 -0400
+Message-ID: <CAFn=p-ZEFWwasY4-n1VCq+RC_uo5Sme-0jQceq-UYf-oHt9sFA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] python/qemu/machine: accept QMP connection
+ asynchronously
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ qemu-devel <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -144,82 +99,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 12:14:13PM -0700, Vishal Annapurve wrote:
-> With transparent_hugepages=always setting I see issues with the
-> current implementation.
-> 
-> Scenario:
-> 1) Guest accesses a gfn range 0x800-0xa00 as private
-> 2) Guest calls mapgpa to convert the range 0x84d-0x86e as shared
-> 3) Guest tries to access recently converted memory as shared for the first time
-> Guest VM shutdown is observed after step 3 -> Guest is unable to
-> proceed further since somehow code section is not as expected
-> 
-> Corresponding KVM trace logs after step 3:
-> VCPU-0-61883   [078] ..... 72276.115679: kvm_page_fault: address
-> 84d000 error_code 4
-> VCPU-0-61883   [078] ..... 72276.127005: kvm_mmu_spte_requested: gfn
-> 84d pfn 100b4a4d level 2
-> VCPU-0-61883   [078] ..... 72276.127008: kvm_tdp_mmu_spte_changed: as
-> id 0 gfn 800 level 2 old_spte 100b1b16827 new_spte 100b4a00ea7
-> VCPU-0-61883   [078] ..... 72276.127009: kvm_mmu_prepare_zap_page: sp
-> gen 0 gfn 800 l1 8-byte q0 direct wux nxe ad root 0 sync
-> VCPU-0-61883   [078] ..... 72276.127009: kvm_tdp_mmu_spte_changed: as
-> id 0 gfn 800 level 1 old_spte 1003eb27e67 new_spte 5a0
-> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
-> id 0 gfn 801 level 1 old_spte 10056cc8e67 new_spte 5a0
-> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
-> id 0 gfn 802 level 1 old_spte 10056fa2e67 new_spte 5a0
-> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
-> id 0 gfn 803 level 1 old_spte 0 new_spte 5a0
-> ....
->  VCPU-0-61883   [078] ..... 72276.127089: kvm_tdp_mmu_spte_changed: as
-> id 0 gfn 9ff level 1 old_spte 100a43f4e67 new_spte 5a0
->  VCPU-0-61883   [078] ..... 72276.127090: kvm_mmu_set_spte: gfn 800
-> spte 100b4a00ea7 (rwxu) level 2 at 10052fa5020
->  VCPU-0-61883   [078] ..... 72276.127091: kvm_fpu: unload
-> 
-> Looks like with transparent huge pages enabled kvm tried to handle the
-> shared memory fault on 0x84d gfn by coalescing nearby 4K pages
-> to form a contiguous 2MB page mapping at gfn 0x800, since level 2 was
-> requested in kvm_mmu_spte_requested.
-> This caused the private memory contents from regions 0x800-0x84c and
-> 0x86e-0xa00 to get unmapped from the guest leading to guest vm
-> shutdown.
-
-Interesting... seems like that wouldn't be an issue for non-UPM SEV, since
-the private pages would still be mapped as part of that 2M mapping, and
-it's completely up to the guest as to whether it wants to access as
-private or shared. But for UPM it makes sense this would cause issues.
-
-> 
-> Does getting the mapping level as per the fault access type help
-> address the above issue? Any such coalescing should not cross between
-> private to
-> shared or shared to private memory regions.
-
-Doesn't seem like changing the check to fault->is_private would help in
-your particular case, since the subsequent host_pfn_mapping_level() call
-only seems to limit the mapping level to whatever the mapping level is
-for the HVA in the host page table.
-
-Seems like with UPM we need some additional handling here that also
-checks that the entire 2M HVA range is backed by non-private memory.
-
-Non-UPM SNP hypervisor patches already have a similar hook added to
-host_pfn_mapping_level() which implements such a check via RMP table, so
-UPM might need something similar:
-
-  https://github.com/AMDESE/linux/commit/ae4475bc740eb0b9d031a76412b0117339794139
-
--Mike
-
-> 
-> > > >     host_level = host_pfn_mapping_level(kvm, gfn, pfn, slot);
-> > > >     return min(host_level, max_level);
-> > > >  }
+On Thu, Jun 30, 2022 at 4:23 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Wed, Jun 29, 2022 at 07:54:08PM -0400, John Snow wrote:
+> > On Tue, Jun 28, 2022 at 10:17 AM Daniel P. Berrang=C3=A9 <berrange@redh=
+at.com> wrote:
 > > >
-> 
-> Regards,
-> Vishal
+> > > On Tue, Jun 28, 2022 at 05:49:39PM +0400, marcandre.lureau@redhat.com=
+ wrote:
+> > > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > > >
+> > > > QMP accept is currently synchronous. If qemu dies before the connec=
+tion
+> > > > is established, it will wait there. Instead turn the code to do
+> > > > concurrently accept() and wait(). Returns when the first task is
+> > > > completed to determine whether a connection was established.
+> > >
+> > > If the spawned QEMU process was given -daemonize, won't this code
+> > > mistakenly think the subprocess has quit ?
+> >
+> > Do we use daemonize with this code anywhere? Is it important that we
+> > are able to?
+>
+> Well what's the intended breadth of use cases this code wants to
+> target ?
+
+Well, I dunno. I'm going to say that machine.py is something that will
+probably stay in-tree as an ad-hoc testing utility. I have some
+thoughts about growing it into something "just a little bit more than
+that", but I think we can cross that bridge when we get there. I will
+probably do like what I did for QMP: write a replacement, test it with
+our existing test infrastructure, then do a drop-in switcheroo.
+
+>
+> If you don't daemonize QEMU, then QEMU will (likely) get killed off
+> when the parent python process terminates. That can be ok for adhoc
+> testing scenarios where the QEMU process is transient and throwaway,
+> or for using QEMU as an embedded technology (think libguestfs). If
+> you want your QEMU to run full OS workloads, then generally you won't
+> want it to die when the mgmt app is restarted (eg for software upgrade),
+> whereupon you want to daemonize.
+>
+
+Yeah, I think that's a case that I wasn't invested in managing.
+Certainly it's an expansion of scope.
+
+> > Many of the shutdown routines I wrote expect to work directly with a
+> > launched process ... at least, that expectation exists in my head. I
+> > suppose a lot of this code may actually just coincidentally work with
+> > -daemonize and I wouldn't have noticed. I certainly haven't been
+> > testing it explicitly. I definitely make no accommodations for it, so
+> > I would expect some stale processes in various cases at a minimum.
+>
+> Looking at the code it probably works by accident - the shutdown()
+> methods kinda assumes we're talking to a direct child, but it'll
+> happen to work right now as it'll simply cleanup the defunct
+> intermediate child, while QEMU stays running.
+>
+
+That's my conclusion, yes.
+
+> > If we want to expand to accommodate this feature, can we do that
+> > later? Machine needs a bit of a remodel anyway. (I want to write an
+> > 'idiomatic' asyncio version to match the QMP lib. I have some
+> > questions to work out WRT which portions of this appliance can be
+> > upstreamed and which need to remain only in our testing tree. We can
+> > talk about those pieces later, just throwing it out there that it's on
+> > my list.)
+>
+> The machine class is probably the part that looks least ready to be
+> published as an API on pypi. Its code really shows its origins as an
+> adhoc testing framework, rather than a general purpose API for running
+> and managing QEMU from python.
+
+I agree.
+
+It might still be useful in some form, eventually, to use as supported
+example code of showing how you can launch QEMU and interact with it
+via QMP. In the current form, though, it's definitely just ad-hoc nuts
+and bolts for the test suite. I am fine with keeping it like that for
+purposes of review and maintenance, etc.
+
+--js
+
 
