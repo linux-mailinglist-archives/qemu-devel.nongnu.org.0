@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291B2561067
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 06:54:56 +0200 (CEST)
-Received: from localhost ([::1]:39488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6AAD561066
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 06:54:55 +0200 (CEST)
+Received: from localhost ([::1]:39418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6mCd-0005wz-3L
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 00:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45678)
+	id 1o6mCb-0005u8-Nr
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 00:54:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6m9a-0002LB-JY; Thu, 30 Jun 2022 00:51:46 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:53701)
+ id 1o6m9a-0002LA-Ga; Thu, 30 Jun 2022 00:51:46 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:47773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6m9V-0006tS-HG; Thu, 30 Jun 2022 00:51:46 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id BDE6B2B058D4;
- Thu, 30 Jun 2022 00:51:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 30 Jun 2022 00:51:36 -0400
+ id 1o6m9V-0006uH-JC; Thu, 30 Jun 2022 00:51:46 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 0B5F62B058D5;
+ Thu, 30 Jun 2022 00:51:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 30 Jun 2022 00:51:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1656564695; x=1656568295; bh=MomHN+Omh/
- AfHQZ4UVOp8mXiY2fg0ekRAXZuzEOUX+o=; b=hGlW1tEFVpg+eUTElynOeocg/l
- bWAQ8RQjXzYO3BQMM1DID3c80ix1NiHsjuQIPoMMT+Ms1dOQatuWCN1f7Q+SrdHp
- GKqfQLDsrPkW56ksRXYowKv4BEbSlK2/urjeA4K6c8DYNeb0GAT6dIdUBcPIJU10
- rhVwPAH5mihu5YSNmq0GwLdiWMGCQUG0D/oWT6O4RQVw4WRuE8h5fro9iDcUvvHf
- zWQRnaH2LfrTdsEpHod7o5jbTquUk8mZQdbTbeqxJJh8kPvE9wH3MVGHxRX8l7W/
- nAqcpHWZEMGAH3Gzqi/uy/QRjV2IJ7TWkhkaB4PZGWbgKI5Emrv4ikFdk/Bw==
+ :content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1656564698; x=1656568298; bh=Tz
+ drkHjRQ8rWJQWIdjSiwTXhi7OvYfc3YUTxMfRrk6I=; b=UHXdtzEAuqcQ5cgAuY
+ BLNSiJ+AmYZ63T2KJfEGBktMFcg9Rg6IRAHCOXiZxzgNqAEtVO90EkzldxBAvNcE
+ B3vJLJKq1FAlHXqyCiPiWJRuP0988Z1hnQzWJ3InrvBSX8pCpQbdFo2HEtaZAQj1
+ mOKcEo+nrhlOj15Q/G1+TO+ZOVPSdQczLq28wUTsVd8CFV6Fn1HABM5YHcebs1t/
+ FggU5h+d5HgoyI/axkNUiKdNxPfGORs5bYm6u4oI45+CNHEEb4KE6TaVkRf4BpfO
+ QhTDeRvHjMjn0pMn03Fww8ZjU9h22q2dkYOoKrGsFuhGilnqitC9zHfWxjDiTQeI
+ S3xw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=i9e814621.fm2; t=1656564695; x=1656568295; bh=Mom
- HN+Omh/AfHQZ4UVOp8mXiY2fg0ekRAXZuzEOUX+o=; b=bnJFOzYw32yz9fGBbwy
- X3VOCjPay1qhHzatDexfhHiIO0xDKQ/pDBH+NqyqRrsLi8DS7YixG9loK8jSEOgC
- oD2nNHiaKfyt74sI4Q1uMWi6cU0KybKBZX5r2a+aDt+e6OWI+4JYbp9yC+qtHOi6
- WJiJdiQj57lMdC0380q8yMegoxLkoVAjuDWKtbcYqmP+dsbxv/ilRBcxyC4rCmXy
- DwUuBufOfkoclJoQ0DPXVQeBnQmofOlv8YhNKUkRMgdLVfnz0pKk1ZMBOz4JFR/0
- aOX7FfRw2ugCu+EehkYfHbEC2M4ea9c/eECHkejJojowr4WvZkGUzTKhHfdRFoCB
- uDg==
-X-ME-Sender: <xms:1iu9Yqk8YbpTj5cKJGuVDfTHSOxydW3XDwZe8ToEQiyB90DQhAWlWA>
- <xme:1iu9Yh3GqHk-jgn2ZuiHRPSZOlCOsKaUAslv1VTkfX-jSPCxlyYqFkec4pYXEC4g_
- 6ys1rBHGxwuH4tEkqg>
-X-ME-Received: <xmr:1iu9YorA9i7C8DgDuZIXDtKcKCHPYbSjbN3wPYQ4WPTW0V9nobqn0K9ydUyOkP4Jcid_x7WtJg0sZvhARSrPB8PjH0eHeu90>
+ :x-sasl-enc; s=i9e814621.fm2; t=1656564698; x=1656568298; bh=Tzd
+ rkHjRQ8rWJQWIdjSiwTXhi7OvYfc3YUTxMfRrk6I=; b=lmtNxZK0m21xpCOOp24
+ hkwhaL5P2uwsM2hDX/WSM0QhdTG7K3dpQbvV0dc6StWnEi2BQzqi8Mq9FhNSgUaL
+ PzsQGR1/P76P29PuS5YGH+SltEBPyMYKCv39R9mu4sB6ijJf7lsTOEtxBgv1Kc+r
+ DZwKfxS8nMAxYFJahaAIGXe8wsJzo55Kc5x6SfPJnWtnjzGfNDImROUKVsl0an2z
+ 7uayWWY9myF5BxwgMuWuJ5XY7VV1eRPdKT//KS32rmBf4gU61R5fSgirBwTCytJ3
+ oblKFgnJqkxW3s74PDpd2edMOTTn5TNPOOtsxl9edEzBAUMcBov3OaQ3gdg5ujpl
+ Jtw==
+X-ME-Sender: <xms:2iu9YlcSkD_UlCyBFjT8nEvuw-cSX2LI7N0motRY_7bQplo05OazZA>
+ <xme:2iu9YjMV_CLlBlh3k2LYxTr4_ZEGL3H3gIvcANcdRUTy0e_gGZU6M5BW3DaKhHXcA
+ hB7h-eQ9hRBKU5GEso>
+X-ME-Received: <xmr:2iu9YugwxRxdgwaua3qqjvUTTwwOOvinq50oVYeCsnpkJSqvywMm8xjayjng1U6g4__2QPs4YnsejUNtOKZeoW35wbUxcors>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddgkeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
- dmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehmvgesphhjugdruggvvheqnecuggftrfgrthhtvg
- hrnhepkeelvefggedvhfdvudfgtdfgjedtffehgeehvdekheehjedvheefkeehkeehgedt
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgvse
- hpjhgurdguvghv
-X-ME-Proxy: <xmx:1iu9YuliJyB-BZ1vE_kGodPMpX3FeEVkOmlwUgyLobhZLdtCSzQGew>
- <xmx:1iu9Yo03soz30FuFjL-2uH37cHqccwpPNtJSYbcMAslSPOYg4ImBtw>
- <xmx:1iu9YlvxrAJxm4Q1T0-0azcuG-__k0wKXPnKj3AE_pjMOOKPbcLQfQ>
- <xmx:1yu9YpLfXhBaJ61Gr-HYsAUJttlz06NBckHCoj4KkDYV1AynlMGtVPw72Zw>
+ dmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheprfgv
+ thgvrhcuffgvlhgvvhhorhihrghsuceomhgvsehpjhgurdguvghvqeenucggtffrrghtth
+ gvrhhnpeektefhieevgfduvdeiueetteegtdeuueevieelffevueevveehhedukeejtdek
+ teenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmvg
+ esphhjugdruggvvh
+X-ME-Proxy: <xmx:2iu9Yu-uqfT_XrY2ZhMxtB0ad3BHbphPGP0GgYq3lvJbiz7Po9-otw>
+ <xmx:2iu9Yhv6AWLTDrm-9HzP1eQJ4WvaBs828eS8rYoS69yYZXJQXcAJLQ>
+ <xmx:2iu9YtFbVv0GU60vFmJ9eornlL7iu5tMYDwwt7sx4mrr2DviNXCizw>
+ <xmx:2iu9YnAjQjnzsVpH0Pc0fkdZsxJX_A6Our6yGRhlCbc2FMXKdW7xn6KvIT8>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Jun 2022 00:51:34 -0400 (EDT)
+ 30 Jun 2022 00:51:37 -0400 (EDT)
 From: Peter Delevoryas <me@pjd.dev>
 To: 
 Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
  cminyard@mvista.com, titusr@google.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, zhdaniel@fb.com, pdel@fb.com
-Subject: [PATCH v3 00/14] hw/i2c/aspeed: I2C slave mode DMA RX w/ new regs
-Date: Wed, 29 Jun 2022 21:51:19 -0700
-Message-Id: <20220630045133.32251-1-me@pjd.dev>
+Subject: [PATCH v3 01/14] hw/i2c/aspeed: Fix R_I2CD_FUN_CTRL reference
+Date: Wed, 29 Jun 2022 21:51:20 -0700
+Message-Id: <20220630045133.32251-2-me@pjd.dev>
 X-Mailer: git-send-email 2.37.0
+In-Reply-To: <20220630045133.32251-1-me@pjd.dev>
+References: <20220630045133.32251-1-me@pjd.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.26; envelope-from=me@pjd.dev;
  helo=wnew1-smtp.messagingengine.com
@@ -102,75 +104,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-v3:
-- hw/i2c/pmbus_device:
-  - Removed commit that resets the out buf.
-  - Removed IC_DEVICE_ID
-  - Added commit to allow devices to move to an idle state that
-    avoids enqueuing excess data into the out buf.
-- hw/sensor/isl_pmbus_vr:
-  - Added IC_DEVICE_ID commit just for voltage regulators.
-  - Added ISL69259 with an IC_DEVICE_ID.
-- hw/misc/aspeed_peci:
-  - Moved registers from .h to .c
-  - Replaced guest_error on interrupt disable case with trace
-    for all interrupts (not just when they're disabled).
-  - Removed leftover qemu_irq_raise
+Very minor, doesn't effect functionality, but this is supposed to be
+R_I2CC_FUN_CTRL (new-mode, not old-mode).
 
-Thanks,
-Peter
+Fixes: ba2cccd64e9 ("aspeed: i2c: Add new mode support")
+Signed-off-by: Peter Delevoryas <pdel@fb.com>
+---
+ hw/i2c/aspeed_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Klaus Jensen (3):
-  hw/i2c: support multiple masters
-  hw/i2c: add asynchronous send
-  hw/i2c/aspeed: add slave device in old register mode
-
-Peter Delevoryas (11):
-  hw/i2c/aspeed: Fix R_I2CD_FUN_CTRL reference
-  hw/i2c/aspeed: Fix DMA len write-enable bit handling
-  hw/i2c/aspeed: Fix MASTER_EN missing error message
-  hw/i2c/aspeed: Add new-registers DMA slave mode RX support
-  hw/i2c/pmbus: Add idle state to return 0xff's
-  hw/sensor: Add IC_DEVICE_ID to ISL voltage regulators
-  hw/sensor: Add Renesas ISL69259 device model
-  hw/misc/aspeed: Add PECI controller
-  hw/misc/aspeed: Add fby35-sb-cpld
-  hw/misc/aspeed: Add intel-me
-  hw/arm/aspeed: Add oby35-cl machine
-
- MAINTAINERS                      |   2 +
- hw/arm/aspeed.c                  |  48 +++++++
- hw/arm/aspeed_ast10x0.c          |  12 ++
- hw/arm/aspeed_ast2600.c          |  12 ++
- hw/arm/aspeed_soc.c              |  13 ++
- hw/arm/pxa2xx.c                  |   2 +
- hw/display/sii9022.c             |   2 +
- hw/display/ssd0303.c             |   2 +
- hw/i2c/aspeed_i2c.c              | 234 +++++++++++++++++++++++++++----
- hw/i2c/core.c                    |  70 ++++++++-
- hw/i2c/pmbus_device.c            |   9 ++
- hw/i2c/smbus_slave.c             |   4 +
- hw/i2c/trace-events              |   2 +
- hw/misc/aspeed_peci.c            | 152 ++++++++++++++++++++
- hw/misc/fby35_sb_cpld.c          | 128 +++++++++++++++++
- hw/misc/intel_me.c               | 162 +++++++++++++++++++++
- hw/misc/meson.build              |   5 +-
- hw/misc/trace-events             |  13 ++
- hw/nvram/eeprom_at24c.c          |   2 +
- hw/sensor/isl_pmbus_vr.c         |  40 ++++++
- hw/sensor/lsm303dlhc_mag.c       |   2 +
- include/hw/arm/aspeed_soc.h      |   3 +
- include/hw/i2c/aspeed_i2c.h      |  11 ++
- include/hw/i2c/i2c.h             |  30 ++++
- include/hw/i2c/pmbus_device.h    |   7 +
- include/hw/misc/aspeed_peci.h    |  29 ++++
- include/hw/sensor/isl_pmbus_vr.h |   5 +
- 27 files changed, 971 insertions(+), 30 deletions(-)
- create mode 100644 hw/misc/aspeed_peci.c
- create mode 100644 hw/misc/fby35_sb_cpld.c
- create mode 100644 hw/misc/intel_me.c
- create mode 100644 include/hw/misc/aspeed_peci.h
-
+diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+index 37ae1f2e04..ff33571954 100644
+--- a/hw/i2c/aspeed_i2c.c
++++ b/hw/i2c/aspeed_i2c.c
+@@ -552,7 +552,7 @@ static void aspeed_i2c_bus_new_write(AspeedI2CBus *bus, hwaddr offset,
+                           __func__);
+             break;
+         }
+-        bus->regs[R_I2CD_FUN_CTRL] = value & 0x007dc3ff;
++        bus->regs[R_I2CC_FUN_CTRL] = value & 0x007dc3ff;
+         break;
+     case A_I2CC_AC_TIMING:
+         bus->regs[R_I2CC_AC_TIMING] = value & 0x1ffff0ff;
 -- 
 2.37.0
 
