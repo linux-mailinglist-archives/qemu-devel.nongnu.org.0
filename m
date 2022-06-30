@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0310856179A
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 12:22:37 +0200 (CEST)
-Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2E956179C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 12:24:04 +0200 (CEST)
+Received: from localhost ([::1]:41674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6rJk-0005eC-44
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 06:22:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44810)
+	id 1o6rL9-00076v-IR
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 06:24:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o6rHb-0004Tl-Kb
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 06:20:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52976)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org>)
+ id 1o6rJf-00067B-PJ
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 06:22:31 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:37916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o6rHU-0006xM-JY
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 06:20:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656584415;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ (Exim 4.90_1)
+ (envelope-from <SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org>)
+ id 1o6rJZ-0007Lz-2N
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 06:22:31 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E508C621FB;
+ Thu, 30 Jun 2022 10:22:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4299FC341C8;
+ Thu, 30 Jun 2022 10:22:16 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="N8BZA17P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1656584534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6wJfmLMLtJ7djtLfThiqAOv+Izik+FZF65izABoq9vE=;
- b=CqiyTf6gBV2kLCc1c7RnmLxhA4s5aZ+1xamNJ0oClM6GHns7bQfFP6VkrjpuC9tH7k705Y
- qIi0UTdLBr21ksU/jDk8wvpw3Y/2mi8daEAGxDiaIjAHlm6nn5m0ghEvNQ5Kh4PLi1So1y
- rvxeobCocKSTw+xWydjENQeivbK/H1E=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-378--C7wY6fnOG-jLfIwSOiVWw-1; Thu, 30 Jun 2022 06:20:12 -0400
-X-MC-Unique: -C7wY6fnOG-jLfIwSOiVWw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 48EEB101A586;
- Thu, 30 Jun 2022 10:20:12 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E5F18C08F0D;
- Thu, 30 Jun 2022 10:20:09 +0000 (UTC)
-Date: Thu, 30 Jun 2022 11:20:07 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- David Hildenbrand <david@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PULL 15/18] qapi: introduce x-query-ramblock QMP command
-Message-ID: <Yr1415pu4s9moMoB@redhat.com>
-References: <20211102175700.1175996-1-berrange@redhat.com>
- <20211102175700.1175996-16-berrange@redhat.com>
- <073c1687-d30f-8f41-b87e-83372137708a@suse.de>
- <YqHJKgA5OG80dljx@redhat.com> <YqHtDN/+DNUpB/ve@work-vm>
- <2341fe7b-9831-24eb-c78c-39497901eea9@suse.de>
+ bh=82Uem0eIswv9iVUsO+NezGRoKDeo+YXYZCRuwUKqKHY=;
+ b=N8BZA17PL7Aq48mveSGq5bfOpnvxCHT2L4SOEh4L0y/LUYMYZgvzPLpVqEFl4YC0t+stL1
+ 2uwz3N+tU986UkNOQhRgG/VIFTqY/+VJaNqYDs5GnSmHixwm/Pw1gLBWdXBCiL3i8BUuf9
+ 8HEwyQ/JmG9Tv2wkYLh/J/JzFUgGzQ0=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c6251320
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Thu, 30 Jun 2022 10:22:14 +0000 (UTC)
+Date: Thu, 30 Jun 2022 12:22:12 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/arm/virt: dt: add rng-seed property
+Message-ID: <Yr15VHaAVQ11wlw+@zx2c4.com>
+References: <20220627160734.749861-1-Jason@zx2c4.com>
+ <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
+ <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
+ <CAHmME9pPxKnJbFUWCmzJw8fYikugSwuRo+AO599-cb56UELqrQ@mail.gmail.com>
+ <CAFEAcA9jzUk72NZ=BAubjiFwqVaUWqCgjJ-BLLx=J8Aq+ieWSg@mail.gmail.com>
+ <878rpfixfh.fsf@linaro.org> <Yrw2+X6Pi8qlTo2d@zx2c4.com>
+ <87r137h49s.fsf@linaro.org> <Yrx2D/uPxM8YPCYK@zx2c4.com>
+ <CAFEAcA8iq+ANzSgwXvLsF3ZQGLcTFGvyXtwh+Kw5XGmCo+-Z-g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2341fe7b-9831-24eb-c78c-39497901eea9@suse.de>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA8iq+ANzSgwXvLsF3ZQGLcTFGvyXtwh+Kw5XGmCo+-Z-g@mail.gmail.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,83 +86,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 12:14:36PM +0200, Claudio Fontana wrote:
-> On 6/9/22 14:52, Dr. David Alan Gilbert wrote:
-> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> >> On Thu, Jun 09, 2022 at 12:07:31PM +0200, Claudio Fontana wrote:
-> >>> Hello all,
-> >>>
-> >>> it would be really good to be able to rely on this command or something similar,
-> >>> to be able to know the approximate size of a migration before starting it.
-> >>>
-> >>> in QEMU ram_bytes_total() returns what I would like to have,
-> >>> but there is currently no QMP way to get it without starting a migration,
-> >>> which when trying to optimize it/size it is just about too late.
-> >>
-> >> Aside from the main VM RAM, what other RAM blocks are likely to have
-> >> a size large enough to be of consequence to the live migration
-> >> data copy, and whose size is not already known to the mgmt app from
-> >> the guest config choices it made ? VGA RAM could be a few 100MB I
-> >> guess, but the mgmt app knows about that. I've always assumed everything
-> >> else is just noise in comparison to the main RAM region.
-> >>
-> >> Still I wonder how useful this is as its just a static figure, and the
-> >> problems with migration transfer are the bulking up of data when the
-> >> VM is repeatedly dirtying stuff at a high rate.
-> >>
-> >>> Do you think x-query-ramblock could be promoted to non-experimental?
-> >>
-> >> It would have to be re-written, as this current impl is just emitting
-> >> a huge printf formatted string. To be considered supportable, the data
-> >> would have to be formally modelled in QAPI instead.
-> >>
-> >> IOW, it would be a case of introducing a new command that emits formal
-> >> data, convertintg 'info ramblock' to use that, and then deprecating this 
-> >> x-query-ramblock.
-> >>
-> >>> Should another one be made available instead, like :
-> >>> query-ram-bytes-total ?
-> >>
-> >> That would be simpler if you're just wanting it to give a single
-> >> figure.
-> > 
-> > Is this what qmp_query_memory_size_summary does?
+On Thu, Jun 30, 2022 at 10:15:29AM +0100, Peter Maydell wrote:
+> On Wed, 29 Jun 2022 at 16:56, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> > On Wed, Jun 29, 2022 at 04:24:20PM +0100, Alex Bennée wrote:
+> > > Given the use case for the dtb-kaslr-seed knob I wonder if we should
+> > > have a common property and deprecate the kaslr one? As of this patch
+> > > existing workflows will break until command lines are updated to suppress
+> > > the second source of randomness.
+> > >
+> > > Maybe it would be better to have a single a new property
+> > > (dtb-rng-seeds?) which suppresses both dtb entries and make
+> > > dtb-kaslr-seed an alias and mark it as deprecated.
+> >
+> > No, I don't think so. If anything, I'll try to get rid of kaslr-seed
+> > upstream at some point if that makes sense. But until that happens --
+> > that is, until I have the conversations with people who added these and
+> > care about their semantics -- assume that there's granularity for some
+> > good reason. No need to put the cart before the horse.
+> >
+> > This is a simple patch doing a simple thing in exactly the way that
+> > things are already being done. I really don't want to do much more than
+> > that here. If you want to bikeshed it further, send a follow up patch.
 > 
-> No, I am not looking at something returning the machine->ram_size,
-> but rather how many bytes are actually used in each RAMBlock, in order to estimate the transfer size of a guest to disk.
+> It's adding a command line option, though. Those we have to get
+> right the first time, because for QEMU they're kind of like ABI
+> to our users. We *can* clean them up if we find we've made a mistake,
+> but we have to go through a multi-release deprecation process to do it,
+> so it's much less effort overall to make sure we have the command line
+> syntax right to start with.
 > 
-> This would be the return value of something like migration/ram.c::ram_bytes_total().
-> 
-> The main guest RAM total size is in most cases an overestimation of the actual bytes required to be transferred.
-> 
-> If there was such a feature that just returns ram_bytes_total via QMP,
-> by knowing the size in bytes before the transfer, we can prealloc the space on disk, which would improve the performance of this series:
-> 
-> https://patchew.org/Libvirt/20220607091936.7948-1-cfontana@suse.de/
-> 
-> The interleaved format I posted there works just fine to migrate a suspended VM to disk (virsh save) from multifd channels to a single file,
-> but still incurs in a 4-5% performance penalty compared with the multiple files approach,
-> that is apparently due to multiple threads competing on acquiring locks to adjust the file size (on XFS).
-> 
-> Doing a fallocate() would likely remove this performance decrease compared with multifd to multiple files,
-> but requires knowing beforehand the approximate size of the transfer, and as mentioned mnachine->ram_size is just overkill in practice and risks erroring out if not enough space is available.
-> 
-> Feedback on the interleaved format I posted there is welcome as well,
+> If there's a good use case for the two seeds to be separately
+> controllable, that's fine. But I'd rather we find that out for
+> certain before we put a second control knob and make all our
+> users with workflows where they want non-random dtb blobs find
+> out about it and flip it.
 
-I still believe that libvirt is the wrong place to be implementing any
-of this logic. It all belongs in QEMU, because QEMU is the place which
-holds all the information needed to do an optimal job, and libvirt does
-not, as this request for extra QMP features shows.
+Okay. Do you want me to just make this controllable by dtb-kaslr-seed
+for now, then, and we can rename that in a follow-up commit? I'll send a
+patch for that.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Jason
 
