@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29772561A4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 14:27:54 +0200 (CEST)
-Received: from localhost ([::1]:53874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66974561A8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 14:42:10 +0200 (CEST)
+Received: from localhost ([::1]:38182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6tGy-00026r-Er
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 08:27:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32768)
+	id 1o6tUn-0005VB-Gj
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 08:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o6tDC-00009m-F4
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 08:23:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33349)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1o6tNQ-0001Cq-Sw
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 08:34:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o6tD5-00064b-Oc
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 08:23:53 -0400
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1o6tNM-0002DZ-DS
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 08:34:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656591831;
+ s=mimecast20190719; t=1656592466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r3NIRLbX8N2WOBzPUO8ZngROUg4GskgpgnMoyt6FWdU=;
- b=dUyAsbZz0u+rnuMrpt+lfT0WSvOfY+39aC8SKZFjpTBsD0VaUb0nfv3ApZzI5gEcZicH0n
- 5Smb6tPvYk6HZ/y2maqF25T8/RCjItq2/CDIqyLQGarxZVBWPdToyQrCY2a1Vs9II793OZ
- 87jvfn1juCadkBG3ZLS/U66r36o+3o0=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=99iE1SKk18R9NEVbFH9ougEyrlel/I560aXbefRHjOY=;
+ b=TOw93tKzdQSYceuT2wqa6aGsMorRguW4qHBy2eBUq+UTLKV+9VgA9BMD4cMJiQ29rb3ITZ
+ Gqvi9BoHMebJRhpPUtbeF/YKoWDtAPFVBKUQfzmX9lVX0TY7GUF1YEtZ3ieu4bSz1jUhRB
+ mmc1Uk3Bti2gzHmmVLRILO+/IrGa+R8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-350-F6a1z8vfP8yGVDOdbNIBPA-1; Thu, 30 Jun 2022 08:23:50 -0400
-X-MC-Unique: F6a1z8vfP8yGVDOdbNIBPA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- kv9-20020a17090778c900b007262b461ecdso6131329ejc.6
- for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 05:23:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=r3NIRLbX8N2WOBzPUO8ZngROUg4GskgpgnMoyt6FWdU=;
- b=YXxwsPd7Vsnkx+lCdNoBywblihw2IqPKmrSUx+QkeDPPlizPe3cSuJ/RbsCewY6bAi
- xkLQaCd73bHIDlUBZGkBySFquEJceNZ3X7IV+h6cnQviixYBcu3MeiZ28S3DyQx31UuX
- DWuJDSjDb6ln9+eXvEy3r2L542ixXZpTcLd4Mbaf1lxQ44ZTQIlaMUXjaQtL8VXvzfvo
- +kpukgHS8gcMDsSEar1D0i4HHTqbQa76gyxVdC7WcmtqhWAFazxEPS5/BQINKHL3RKwh
- UECWo0qEsQgI9YppEunAt6eWrgYTTbg2MrzCIZyQswHkUQv3G9a0z6pGmJjhv2Qkyrq2
- BbXA==
-X-Gm-Message-State: AJIora/irbwFCyMPx2o1r8SPm2CIO6Nf51bB3YUetvOwRPGwh/NgG/2S
- 6Hc7ffyFnszhX6s2LRj4Zjp7noefmBriziWXEYx0ZciuU6WdcU2FJE0GOB3ZFA0YQqZ3z8Lj3jf
- jUAp4ZWTHyO1uzW0=
-X-Received: by 2002:a05:6402:516b:b0:435:8f7b:b6f7 with SMTP id
- d11-20020a056402516b00b004358f7bb6f7mr11127516ede.291.1656591828916; 
- Thu, 30 Jun 2022 05:23:48 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vbuxpagjpkXSzpWFpXP8i0978M4dSWH0MZb8vcGt1WEYHYL8TNtbgBaHhGzAcR/vk/xnO/Vg==
-X-Received: by 2002:a05:6402:516b:b0:435:8f7b:b6f7 with SMTP id
- d11-20020a056402516b00b004358f7bb6f7mr11127486ede.291.1656591828712; 
- Thu, 30 Jun 2022 05:23:48 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- i25-20020a056402055900b00435681476c7sm13212200edx.10.2022.06.30.05.23.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jun 2022 05:23:48 -0700 (PDT)
-Date: Thu, 30 Jun 2022 14:23:47 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Brice Goglin <Brice.Goglin@inria.fr>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Liu Jingqi
- <jingqi.liu@intel.com>, Eduardo Habkost <eduardo@habkost.net>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Philippe =?UTF-8?B?TWF0aGlldS1E?=
- =?UTF-8?B?YXVkw6k=?= <f4bug@amsat.org>, Yanan Wang
- <wangyanan55@huawei.com>, Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: Re: [PATCH v4 0/4] hmat acpi: Don't require initiator value in -numa
-Message-ID: <20220630142347.22485226@redhat.com>
-In-Reply-To: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
-References: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ us-mta-633-XzmIcThFPdeto6rKFiyFrA-1; Thu, 30 Jun 2022 08:34:25 -0400
+X-MC-Unique: XzmIcThFPdeto6rKFiyFrA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB197185A79C;
+ Thu, 30 Jun 2022 12:34:24 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E81AE1410F3B;
+ Thu, 30 Jun 2022 12:34:23 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ John Snow <jsnow@redhat.com>, berrange@redhat.com,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH v2 0/3] python/qemu/machine: fix potential hang in QMP accept
+Date: Thu, 30 Jun 2022 16:34:16 +0400
+Message-Id: <20220630123419.1019367-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,47 +81,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Jun 2022 09:36:47 +0200
-Brice Goglin <Brice.Goglin@inria.fr> wrote:
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-> Allow -numa without initiator value when hmat=on so that we may
-> build more complex topologies, e.g. NUMA nodes whose best initiators
-> are not just another single node.
->
+Hi,
 
-patches looks fine code-wise,
-however something wrong with them, i.e. 'git am' doesn't like them
-nor ./scripts/checkpatch (which one should use before sending patches).
+As reported earlier by Richard Henderson ("virgl avocado hang" thread), avocado
+tests may hang when QEMU exits before the QMP connection is established.
 
-I've checked it's not my mail server/client issue(or whatever)
-that corrupts them (ones downloaded from patchew are broken as well)
+v2:
+ - use a socketpair() for QMP (instead of async concurrent code from v1) as
+   suggested by Daniel Berrange.
+ - should not regress (hopefully)
 
-> changes v3->v4
-> * use -numa cpu instead of legacy cpus=
-> changes v2->v3:
-> * improve messages for patches 0/4 and 3/4
-> changes v1->v2:
-> * add q35 acpi test
-> 
-> Brice Goglin (4):
->    hmat acpi: Don't require initiator value in -numa
->    tests: acpi: add and whitelist *.hmat-noinitiator expected blobs
->    tests: acpi: q35: add test for hmat nodes without initiators
->    tests: acpi: q35: update expected blobs *.hmat-noinitiators
-> 
->   hw/core/machine.c                             |   4 +-
->   tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
->   tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 0 -> 8553 bytes
->   tests/data/acpi/q35/FACP.acpihmat-noinitiator | Bin 0 -> 244 bytes
->   tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
->   tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
->   tests/qtest/bios-tables-test.c                |  49 ++++++++++++++++++
->   7 files changed, 50 insertions(+), 3 deletions(-)
->   create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
->   create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
->   create mode 100644 tests/data/acpi/q35/FACP.acpihmat-noinitiator
->   create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
->   create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
-> 
+Marc-André Lureau (3):
+  python/qmp/protocol: add open_with_socket()
+  python/qmp/legacy: make QEMUMonitorProtocol accept a socket
+  python/qemu/machine: use socketpair() for QMP by default
+
+ python/qemu/machine/machine.py | 24 ++++++++++++++++--------
+ python/qemu/qmp/legacy.py      | 18 +++++++++++++++---
+ python/qemu/qmp/protocol.py    | 25 ++++++++++++++++++++-----
+ 3 files changed, 51 insertions(+), 16 deletions(-)
+
+-- 
+2.37.0.rc0
 
 
