@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2A3561278
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 08:32:43 +0200 (CEST)
-Received: from localhost ([::1]:47484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC4A56128F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 08:37:22 +0200 (CEST)
+Received: from localhost ([::1]:51732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6njF-0006zK-Gq
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 02:32:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37228)
+	id 1o6nnh-0001uF-3u
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 02:37:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1o6nVK-0000MK-Rz
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 02:18:19 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1o6nVH-00016u-U3
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 02:18:18 -0400
-Received: by mail-wr1-x434.google.com with SMTP id k22so25646253wrd.6
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 23:18:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=E7xM3OhE+t7tN4aI29+ux8cGB8TqHHI1AqNvnM/g4Iw=;
- b=KHh3G03m82tfwHCqyRAatA6FqopG6HeUF27wl5BzwLlBPQN3SmPX3Sm20Zv6deV7ML
- Ig+GZ+GxwSD3+FJ8SizoIL9T2JuwkgTi6QaAQPxVqrDj2wHl8BaXZVingUf3zSGhnC0I
- pxl0ljbPlNNUnMk2ii5PimXaVhk1NROCrIUVrwIK4usY61AnnzWWusZ6SsN4sLuhG0W2
- 39ybYL/xCtmG7J1q4cH6awDz/x3bRopKa+CTt5NVUg9mNER+aCJNSOtV78fpCBPHodf5
- Pz/pMIJZWq/nNdCvf8yrtr1HhJ7kv1nv13YIJ/outWMhoQ1Jx8o1ZXMriCsmy10Bl5Eq
- zhIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=E7xM3OhE+t7tN4aI29+ux8cGB8TqHHI1AqNvnM/g4Iw=;
- b=ja6nrIzkBWXnC+ENyTZ5zxlzYcT/hrAoTxnPKcRwmjn6Lu+3dJLJ/R0fPR3Ivokv2J
- 4mWh+S25I1IkpjURA/DuSYwOIAZ5Csn9rsdMv+SDJ2tcU2obVjXDCOJKXmNJpAIpFmpI
- S6+J4B765pcTUUjCVOi2hpFCXyTOGfbo1GOTL2EBoWV/FitM54oeADewbtEef2w8mQax
- ecoKbBQSevZ3bFmsogxObYbU+G0bxnF3t7hieE8ChMOFMyv7pMKm4Gfv+6znSXflHYId
- xoq2ZR02dOgjdQQAexgluRjVVfozA6q/Ut6JyMSzsgCAddZy4RkCpjXZFKAOcu4GD3z5
- lreQ==
-X-Gm-Message-State: AJIora9CwX7H548WixYFNM5vt8jyyFOZoFP+tof8qa+OCOaUKKABAEAc
- tc0mlQMPi2yGnU58G8el410UxV3p+cjVETm7iKJTiA==
-X-Google-Smtp-Source: AGRyM1tLhu2yWSQo7PtcDy0OCeISMzvfDtF6t4bNTXVAIRWnDhArCthkmEUuP0ZhSSa3GbLE2kDEhYVS9nAC0XEloFY=
-X-Received: by 2002:adf:e402:0:b0:21b:a5ea:593f with SMTP id
- g2-20020adfe402000000b0021ba5ea593fmr6644283wrm.313.1656569893570; Wed, 29
- Jun 2022 23:18:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6nhD-0007SK-VM
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 02:30:40 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:47251)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6nhA-0003Bb-3H
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 02:30:35 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 27E8F112D1564;
+ Thu, 30 Jun 2022 08:30:26 +0200 (CEST)
+Received: from kaod.org (37.59.142.108) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 30 Jun
+ 2022 08:30:26 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-108S002e663bd8b-643d-4c5c-bce4-3ffeff82c086,
+ 40551C6C823FDDA91B74F5D58A080B55BE22893A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <293da11c-dde2-e646-c754-820720c410de@kaod.org>
+Date: Thu, 30 Jun 2022 08:30:25 +0200
 MIME-Version: 1.0
-References: <20220630061150.905174-1-apatel@ventanamicro.com>
-In-Reply-To: <20220630061150.905174-1-apatel@ventanamicro.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Thu, 30 Jun 2022 11:47:21 +0530
-Message-ID: <CAAhSdy2iTPwqzUAhV8s97k1d4sK-bne1z-T6pg__p3xfsUrdHg@mail.gmail.com>
-Subject: Re: [PATCH v9 0/2] QEMU RISC-V nested virtualization fixes
-To: Anup Patel <apatel@ventanamicro.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, 
- Atish Patra <atishp@atishpatra.org>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::434;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x434.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 10/14] hw/sensor: Add Renesas ISL69259 device model
+Content-Language: en-US
+To: Peter Delevoryas <me@pjd.dev>
+CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <cminyard@mvista.com>, <titusr@google.com>, <qemu-devel@nongnu.org>,
+ <qemu-arm@nongnu.org>, <zhdaniel@fb.com>, <pdel@fb.com>
+References: <20220630045133.32251-1-me@pjd.dev>
+ <20220630045133.32251-11-me@pjd.dev>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220630045133.32251-11-me@pjd.dev>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.108]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 302db3fe-05b8-4f67-839c-1dc1529433cd
+X-Ovh-Tracer-Id: 4828421751850830770
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddguddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpuggvlhesfhgsrdgtohhmpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,77 +76,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 11:42 AM Anup Patel <apatel@ventanamicro.com> wrote:
->
-> This series does fixes and improvements to have nested virtualization
-> on QEMU RISC-V.
->
-> These patches can also be found in riscv_nested_fixes_v9 branch at:
-> https://github.com/avpatel/qemu.git
->
-> The RISC-V nested virtualization was tested on QEMU RISC-V using
-> Xvisor RISC-V which has required hypervisor support to run another
-> hypervisor as Guest/VM.
+On 6/30/22 06:51, Peter Delevoryas wrote:
+> From: Peter Delevoryas <pdel@fb.com>
+> 
+> This adds the ISL69259, using all the same functionality as the existing
+> ISL69260 but overriding the IC_DEVICE_ID.
+> 
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> ---
+>   hw/sensor/isl_pmbus_vr.c | 28 ++++++++++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
+> 
+> diff --git a/hw/sensor/isl_pmbus_vr.c b/hw/sensor/isl_pmbus_vr.c
+> index 799ea9d89e..853d70536f 100644
+> --- a/hw/sensor/isl_pmbus_vr.c
+> +++ b/hw/sensor/isl_pmbus_vr.c
+> @@ -119,6 +119,18 @@ static void raa228000_exit_reset(Object *obj)
+>       pmdev->pages[0].read_temperature_3 = 0;
+>   }
+>   
+> +static void isl69259_exit_reset(Object *obj)
+> +{
+> +    ISLState *s = ISL69260(obj);
+> +    static const uint8_t ic_device_id[] = {0x04, 0x00, 0x81, 0xD2, 0x49, 0x3c};
 
-Changes since v8:
- - Drop first two patches because Alistair has already taken care of it.
- - Include instruction immediate offset in "Addr. Offset" for PATCH1
+This looks like an ISLClass attribute to me. In which case, you wouldn't need the
+reset handler nor the 'ic_device_id_len' field.
 
-Regards,
-Anup
+Thanks,
 
->
-> Changes since v7:
->  - Improve tinst "Addr. Offset" in PATCH3
->
-> Changes since v6:
->  - Droppred original PATCH1 and PATCH2 since these are already merged
->  - Added PATCH1 to revert dummy mcountinhibit CSR
->  - Added PATCH2 to fix minimum priv spec version for mcountinhibit CSR
->  - Fixed checkpatch error in PATCH3
->  - Fixed compile error in PATCH4
->
-> Changes since v5:
->  - Correctly set "Addr. Offset" for misaligned load/store traps in PATCH3
->  - Use offsetof() instead of pointer in PATCH4
->
-> Changes since v4:
->  - Updated commit description in PATCH1, PATCH2, and PATCH4
->  - Use "const" for local array in PATCH5
->
-> Changes since v3:
->  - Updated PATCH3 to set special pseudoinstructions in htinst for
->    guest page faults which result due to VS-stage page table walks
->  - Updated warning message in PATCH4
->
-> Changes since v2:
->  - Dropped the patch which are already in Alistair's next branch
->  - Set "Addr. Offset" in the transformed instruction for PATCH3
->  - Print warning in riscv_cpu_realize() if we are disabling an
->    extension due to privilege spec verions mismatch for PATCH4
->
-> Changes since v1:
->  - Set write_gva to env->two_stage_lookup which ensures that for
->    HS-mode to HS-mode trap write_gva is true only for HLV/HSV
->    instructions
->  - Included "[PATCH 0/3] QEMU RISC-V priv spec version fixes"
->    patches in this series for easy review
->  - Re-worked PATCH7 to force disable extensions if required
->    priv spec version is not staisfied
->  - Added new PATCH8 to fix "aia=aplic-imsic" mode of virt machine
->
-> Anup Patel (2):
->   target/riscv: Update [m|h]tinst CSR in riscv_cpu_do_interrupt()
->   target/riscv: Force disable extensions if priv spec version does not
->     match
->
->  target/riscv/cpu.c        | 150 ++++++++++++++---------
->  target/riscv/cpu.h        |   5 +
->  target/riscv/cpu_helper.c | 252 +++++++++++++++++++++++++++++++++++++-
->  target/riscv/instmap.h    |  45 +++++++
->  4 files changed, 390 insertions(+), 62 deletions(-)
->
-> --
-> 2.34.1
->
+C.
+
+> +    g_assert_cmphex(sizeof(ic_device_id), <=, sizeof(s->ic_device_id));
+> +
+> +    isl_pmbus_vr_exit_reset(obj);
+> +
+> +    s->ic_device_id_len = sizeof(ic_device_id);
+> +    memcpy(s->ic_device_id, ic_device_id, sizeof(ic_device_id));
+> +}
+> +
+>   static void isl_pmbus_vr_add_props(Object *obj, uint64_t *flags, uint8_t pages)
+>   {
+>       PMBusDevice *pmdev = PMBUS_DEVICE(obj);
+> @@ -257,6 +269,21 @@ static void raa229004_class_init(ObjectClass *klass, void *data)
+>       isl_pmbus_vr_class_init(klass, data, 2);
+>   }
+>   
+> +static void isl69259_class_init(ObjectClass *klass, void *data)
+> +{
+> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    dc->desc = "Renesas ISL69259 Digital Multiphase Voltage Regulator";
+> +    rc->phases.exit = isl69259_exit_reset;
+> +    isl_pmbus_vr_class_init(klass, data, 2);
+> +}
+> +
+> +static const TypeInfo isl69259_info = {
+> +    .name = TYPE_ISL69259,
+> +    .parent = TYPE_ISL69260,
+> +    .class_init = isl69259_class_init,
+> +};
+> +
+>   static const TypeInfo isl69260_info = {
+>       .name = TYPE_ISL69260,
+>       .parent = TYPE_PMBUS_DEVICE,
+> @@ -283,6 +310,7 @@ static const TypeInfo raa228000_info = {
+>   
+>   static void isl_pmbus_vr_register_types(void)
+>   {
+> +    type_register_static(&isl69259_info);
+>       type_register_static(&isl69260_info);
+>       type_register_static(&raa228000_info);
+>       type_register_static(&raa229004_info);
+
 
