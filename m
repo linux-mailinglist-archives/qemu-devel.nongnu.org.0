@@ -2,78 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFD75623B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 21:59:09 +0200 (CEST)
-Received: from localhost ([::1]:48026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43ED95624BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 23:01:59 +0200 (CEST)
+Received: from localhost ([::1]:54338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o70Jg-0001H8-If
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 15:59:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55900)
+	id 1o71IR-0007Rb-Tk
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 17:01:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o704c-0004X3-GJ; Thu, 30 Jun 2022 15:43:36 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:37398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o704a-0006Ho-1k; Thu, 30 Jun 2022 15:43:34 -0400
-Received: by mail-ot1-x334.google.com with SMTP id
- l9-20020a056830268900b006054381dd35so182439otu.4; 
- Thu, 30 Jun 2022 12:43:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gqG1MrFnf/zoyVWbNAUhll06w1FbMzzB81I8IuFAfUI=;
- b=TBV/DNL7vAXB0aYyY0kB6ZiMRtZzFvHABURsaDhstYKdY7p41G2f4RmQLhCS3epOi2
- p8Jw3fPV36aCdNsmFp9NLuf0ggD4+hy3WYUBipALGSz0jmTTrT+HANRHgHTbWWhrTVRl
- xIA5XSWUzl9fokzTGVYThYthcb0m0E49dwBvspLnliXT4pdB52L21m79hvtWRYEHEzkx
- kTLhdhTgu3tKtHQUWyWhs9CmmCKbesecvyef8xhBQFKhSUOECGDMAVR3zMU48HxPHISX
- MMbdcDcOLXkCEoDuzRIb1RKqz/ujugG+CzJqJhHveVPIsYkQOk6JjvfmNCVEkhVsyD0L
- FeKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gqG1MrFnf/zoyVWbNAUhll06w1FbMzzB81I8IuFAfUI=;
- b=Cvw4Q87XUTRT/tVAgvcijJUn0ULYogcOPKNZ0kxbpJd1ta5d/Ud0uOupxS0LxYT0cC
- H6dRivZ2yojRYs728HuwB2Wr0hPYXNEGeteivZdnH2zBhE1MNBS6sRFC5nKEqdQMQ8Dc
- tQ8aeShQEh85qtq0/9Wf1SE7AKinlz87GP0N/nq2+pk+YGHta+3UOJ+M9FVKrsWOhJsm
- pfUxF6Z4n0FPpS2KDb4hZujp8zKbpZU/INYpp5hUQ9/wCknqwB6429VRVMjSjbgj0T4r
- FpK1auXt2k5ZadwZVOArJDfkId3955noyQSZvKCXruQ83za4KM23bw0ECYaRU9rxx314
- +t1g==
-X-Gm-Message-State: AJIora+nQrJPjtGVuOIicnkCfLE8dzsfmLEZASD1wD/rJnkg6ZzkETyI
- A6TNZW8FjLy6CCQGFikCXNf/pJ9l+G0=
-X-Google-Smtp-Source: AGRyM1txGpHiHpeeeAkLc9KLB5fbBo3zGm2A5kC8+dfn1grm0aIN0g7OQRKCA1sQ2TJtpXBN3Hug3g==
-X-Received: by 2002:a05:6830:128c:b0:616:e0e9:9009 with SMTP id
- z12-20020a056830128c00b00616e0e99009mr4949055otp.225.1656618208718; 
- Thu, 30 Jun 2022 12:43:28 -0700 (PDT)
-Received: from balboa.ibmuc.com ([191.193.1.105])
- by smtp.gmail.com with ESMTPSA id
- t5-20020a4aa3c5000000b0035ef3da8387sm11250519ool.4.2022.06.30.12.43.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jun 2022 12:43:28 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH 9/9] spapr.c: handle clock freq read errors in spapr_dt_cpu()
-Date: Thu, 30 Jun 2022 16:42:49 -0300
-Message-Id: <20220630194249.886747-10-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220630194249.886747-1-danielhb413@gmail.com>
-References: <20220630194249.886747-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1o71Fh-0005fO-B4; Thu, 30 Jun 2022 16:59:05 -0400
+Received: from [200.168.210.66] (port=30885 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1o71Ff-0006QQ-17; Thu, 30 Jun 2022 16:59:05 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 30 Jun 2022 17:58:57 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 578A5800028;
+ Thu, 30 Jun 2022 17:58:57 -0300 (-03)
+Message-ID: <e2bd1433-23a5-9998-0059-30af7dd887bf@eldorado.org.br>
+Date: Thu, 30 Jun 2022 17:58:56 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2] target/ppc: Return default CPU for max CPU
+Content-Language: en-US
+To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
+ mopsfelder@gmail.com, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, "Matheus K . Ferst"
+ <matheus.ferst@eldorado.org.br>, Thomas Huth <thuth@redhat.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>
+References: <20220628205513.81917-1-muriloo@linux.ibm.com>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <20220628205513.81917-1-muriloo@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x334.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 30 Jun 2022 20:58:57.0573 (UTC)
+ FILETIME=[373E2D50:01D88CC4]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,61 +69,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's put the default spapr clock value in a SPAPR_CLOCK_FREQ for better
-readability.
+On 28/06/2022 17:55, Murilo Opsfelder Araujo wrote:
+> All ppc CPUs represent hardware that exists in the real world, i.e.: we
+> do not have a "max" CPU with all possible emulated features enabled.
+> Return the default CPU type for the machine because that has greater
+> chance of being useful as the "max" CPU.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1038
+> Cc: Cédric Le Goater <clg@kaod.org>
+> Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: Greg Kurz <groug@kaod.org>
+> Cc: Matheus K. Ferst <matheus.ferst@eldorado.org.br>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> ---
+> v2:
+> - Return the default CPU of the machine instead of hard-coded alias.
+> 
+> v1: https://lore.kernel.org/qemu-devel/20220531172711.94564-1-muriloo@linux.ibm.com/
+> 
+>   target/ppc/cpu-models.c |  1 -
+>   target/ppc/cpu_init.c   | 19 +++++++++++++++++++
+>   2 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
+> index 976be5e0d1..05589eb21d 100644
+> --- a/target/ppc/cpu-models.c
+> +++ b/target/ppc/cpu-models.c
+> @@ -879,7 +879,6 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
+>       { "755", "755_v2.8" },
+>       { "goldfinger", "755_v2.8" },
+>       { "7400", "7400_v2.9" },
+> -    { "max", "7400_v2.9" },
+>       { "g4",  "7400_v2.9" },
+>       { "7410", "7410_v1.4" },
+>       { "nitro", "7410_v1.4" },
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index c16cb8dbe7..8ee0b7c785 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -47,6 +47,10 @@
+>   #include "spr_common.h"
+>   #include "power8-pmu.h"
+> 
+> +#ifndef CONFIG_USER_ONLY
+> +#include "hw/boards.h"
+> +#endif
+> +
+>   /* #define PPC_DEBUG_SPR */
+>   /* #define USE_APPLE_GDB */
+> 
+> @@ -6963,6 +6967,21 @@ static ObjectClass *ppc_cpu_class_by_name(const char *name)
+>           }
+>       }
+> 
+> +    /*
+> +     * All ppc CPUs represent hardware that exists in the real world, i.e.: we
+> +     * do not have a "max" CPU with all possible emulated features enabled.
+> +     * Return the default CPU type for the machine because that has greater
+> +     * chance of being useful as the "max" CPU.
+> +     */
+> +#if !defined(CONFIG_USER_ONLY)
+> +    if (strcmp(name, "max") == 0) {
+> +        MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
+> +        if (mc) {
+> +            return object_class_by_name(mc->default_cpu_type);
+> +        }
+> +    }
+> +#endif
+> +
+>       cpu_model = g_ascii_strdown(name, -1);
+>       p = ppc_cpu_lookup_alias(cpu_model);
+>       if (p) {
+> --
+> 2.36.1
+> 
+> 
 
-After that, make 'cpufreq' default to SPAPR_CLOCK_FREQ if
-kvmppc_get_clockfreq() fails to read the clock from the DT.
+Reviewed-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr.c         | 12 +++++++++++-
- include/hw/ppc/spapr.h |  1 +
- 2 files changed, 12 insertions(+), 1 deletion(-)
+Best regards,
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index f66e3cbe38..80189c78be 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -654,7 +654,7 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, int offset,
-                        0xffffffff, 0xffffffff};
-     uint32_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq()
-         : SPAPR_TIMEBASE_FREQ;
--    uint32_t cpufreq = kvm_enabled() ? kvmppc_get_clockfreq(NULL) : 1000000000;
-+    uint32_t cpufreq = SPAPR_CLOCK_FREQ;
-     uint32_t page_sizes_prop[64];
-     size_t page_sizes_prop_size;
-     unsigned int smp_threads = ms->smp.threads;
-@@ -699,6 +699,16 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, int offset,
-     }
- 
-     _FDT((fdt_setprop_cell(fdt, offset, "timebase-frequency", tbfreq)));
-+
-+    if (kvm_enabled()) {
-+        Error *local_err = NULL;
-+
-+        cpufreq = kvmppc_get_clockfreq(&local_err);
-+        if (local_err) {
-+            cpufreq = SPAPR_CLOCK_FREQ;
-+        }
-+    }
-+
-     _FDT((fdt_setprop_cell(fdt, offset, "clock-frequency", cpufreq)));
-     _FDT((fdt_setprop_cell(fdt, offset, "slb-size", cpu->hash64_opts->slb_size)));
-     _FDT((fdt_setprop_cell(fdt, offset, "ibm,slb-size", cpu->hash64_opts->slb_size)));
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 072dda2c72..ed579635ca 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -26,6 +26,7 @@ typedef struct SpaprPendingHpt SpaprPendingHpt;
- #define SPAPR_ENTRY_POINT       0x100
- 
- #define SPAPR_TIMEBASE_FREQ     512000000ULL
-+#define SPAPR_CLOCK_FREQ        1000000000ULL
- 
- #define TYPE_SPAPR_RTC "spapr-rtc"
- 
 -- 
-2.36.1
-
+Víctor Cora Colombo
+Instituto de Pesquisas ELDORADO
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
