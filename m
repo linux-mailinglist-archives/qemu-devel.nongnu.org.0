@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CEB562087
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 18:45:05 +0200 (CEST)
-Received: from localhost ([::1]:58726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CD05620B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 19:01:08 +0200 (CEST)
+Received: from localhost ([::1]:42490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6xHr-0002LW-Ko
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 12:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43482)
+	id 1o6xXO-0003na-PM
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 13:01:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6xG0-0001Mu-Jw
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 12:43:08 -0400
-Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:38699)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1o6xVb-0001zp-9G
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 12:59:15 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6xFx-0002Ap-F0
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 12:43:08 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.131])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B955D205D8;
- Thu, 30 Jun 2022 16:42:53 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 30 Jun
- 2022 18:42:52 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G0040ec8f649-0cdc-4ee6-bf63-17def60ecc4e,
- 40551C6C823FDDA91B74F5D58A080B55BE22893A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <a11a443d-a97c-3e62-008d-8faa37b55875@kaod.org>
-Date: Thu, 30 Jun 2022 18:42:52 +0200
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1o6xVY-0006Ql-Mv
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 12:59:15 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25UGx66i017536;
+ Thu, 30 Jun 2022 16:59:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=P8UFrr5gpUmRhjWQEDy6OwZzpQI7/SbyImIQYpU6Eyw=;
+ b=pFmxnKqNMes8/GIE+3DQLWP+4UcI1aeZgfZE4Glyb7NanCkp3UnDvhjb5qyrTePmE/4c
+ dXagHKu/DUybya/bWul14lirk2Be314pp45bbn9f3zDvmhqWl5d72dqylky6NjDLeNPJ
+ lyY9UT0q6p2mJmqH0s+L335uPiAIvcMFRWPUmJHREvDA2jTT/dOclP7I7iEqn5lKAfwF
+ VeIzZBVt0ombDrjBUczvYhFapHL1yozR+xqDQ+kXcMq9XhgzLAGlsp18ciXXNOBxxbho
+ 2XoQ1R39PkFzRmzuBIR4f+fgajopMsc2+B7UJimp0wpaOso3FeyUz1qik5f8Jzxr+uLO Cg== 
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h1fu50017-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 Jun 2022 16:59:08 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25UGoqvv004867;
+ Thu, 30 Jun 2022 16:59:06 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 3gwt090fca-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 Jun 2022 16:59:06 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25UGx3lC17629688
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 30 Jun 2022 16:59:03 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F3E914C044;
+ Thu, 30 Jun 2022 16:59:02 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C3B424C040;
+ Thu, 30 Jun 2022 16:59:02 +0000 (GMT)
+Received: from heavy.ibmmodules.com (unknown [9.155.208.113])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 30 Jun 2022 16:59:02 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] linux-user: Fix stracing in-memory mmap arguments
+Date: Thu, 30 Jun 2022 18:59:01 +0200
+Message-Id: <20220630165901.2459135-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 14/14] hw/arm/aspeed: Add oby35-cl machine
-Content-Language: en-US
-To: Peter Delevoryas <me@pjd.dev>
-CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <cminyard@mvista.com>, <titusr@google.com>, <qemu-devel@nongnu.org>,
- <qemu-arm@nongnu.org>, <zhdaniel@fb.com>
-References: <20220630045133.32251-1-me@pjd.dev>
- <20220630045133.32251-15-me@pjd.dev>
- <24f848a7-3b3e-9125-bedd-dedc1460a8f0@kaod.org>
- <Yr3I8euDuh4PI7O8@pdel-mbp.dhcp.thefacebook.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <Yr3I8euDuh4PI7O8@pdel-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 1a623a8a-bd9b-4520-8448-b1f6d7b6ae12
-X-Ovh-Tracer-Id: 15171782723064662831
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 17
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehuddguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecufghrlhcuvffnffculddujedmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgefggffgheejgfdufeeiueffveehteejgfelueekgfegtefgffejhedtgfejgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepiihhuggrnhhivghlsehfsgdrtghomhdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: UZk7n1cPyswfEc4Q50Mawl_pFQhMj5H3
+X-Proofpoint-GUID: UZk7n1cPyswfEc4Q50Mawl_pFQhMj5H3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-30_12,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ lowpriorityscore=0 malwarescore=0 mlxscore=0 phishscore=0
+ priorityscore=1501 impostorscore=0 mlxlogscore=999 clxscore=1015
+ bulkscore=0 suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2204290000 definitions=main-2206300066
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,230 +103,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/22 18:15, Peter Delevoryas wrote:
-> On Thu, Jun 30, 2022 at 01:02:54PM +0200, Cédric Le Goater wrote:
->> On 6/30/22 06:51, Peter Delevoryas wrote:
->>> From: Peter Delevoryas <pdel@fb.com>
->>>
->>> The fby35 machine includes 4 server boards, each of which has a "bridge
->>> interconnect" (BIC). This chip abstracts the pinout for the server board
->>> into a single endpoint that the baseboard management controller (BMC)
->>> can talk to using IPMB.
->>>
->>> This commit adds a machine for testing the BIC on the server board. It
->>> runs OpenBIC (https://github.com/facebook/openbic) and the server board
->>> is called CraterLake, so the code name is oby35-cl. There's also a
->>> variant of the baseboard that replaces the BMC with a BIC, but that
->>> machine is not included here.
->>>
->>> A test image can be built from https://github.com/facebook/openbic using
->>> the instructions in the README.md to build the meta-facebook/yv35-cl
->>> recipe, or retrieved from my Github:
->>>
->>>       wget https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.17.01/Y35BCL.elf
->>>
->>> And you can run this machine with the following command:
->>>
->>>       qemu-system-arm -machine oby35-cl -nographic -kernel Y35BCL.elf
->>>
->>> It should produce output like the following:
->>>
->>>       [00:00:00.005,000] <inf> usb_dc_aspeed: select ep[0x81] as IN endpoint
->>>       [00:00:00.006,000] <inf> usb_dc_aspeed: select ep[0x82] as IN endpoint
->>>       [00:00:00.006,000] <wrn> usb_dc_aspeed: pre-selected ep[0x1] as IN endpoint
->>>       [00:00:00.006,000] <wrn> usb_dc_aspeed: pre-selected ep[0x2] as IN endpoint
->>>       [00:00:00.006,000] <inf> usb_dc_aspeed: select ep[0x3] as OUT endpoint
->>>       *** Booting Zephyr OS build v00.01.05  ***
->>>       Hello, welcome to yv35 craterlake 2022.25.1
->>>       BIC class type(class-1), 1ou present status(0), 2ou present status(0), board revision(0x1)
->>>       check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
->>>       [init_drive_type] sensor 0x14 post sensor read failed!
->>>
->>>       [init_drive_type] sensor 0x30 post sensor read failed!
->>>       [init_drive_type] sensor 0x39 post sensor read failed!
->>>       ipmi_init
->>>       [set_DC_status] gpio number(15) status(0)
->>>       [set_post_status] gpio number(1) status(1)
->>>       uart:~$ [00:00:01.010,000] <inf> kcs_aspeed: KCS3: addr=0xca2, idr=0x2c, odr=0x38, str=0x44
->>>
->>>       [00:00:01.016,000] <err> spi_nor_multi_dev: [1216][spi1_cs0]SFDP magic 00000000 invalid
->>>       [00:00:01.016,000] <err> spi_nor_multi_dev: [1456]SFDP read failed: -22
->>>       [00:00:01.010,000] <inf> kcs_aspeed: KCS3: addr=0xca2, idr=0x2c, odr=0x38, str=0x44
->>>
->>>       [00:00:01.016,000] <err> spi_nor_multi_dev: [1216][spi1_cs0]SFDP magic 00000000 invalid
->>>       [00:00:01.016,000] <err> spi_nor_multi_dev: [1456]SFDP read failed: -22
->>>       uart:~$ BIC Ready
->>>
->>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
->>
->> LGTM.
->>
->> That said I would prefer to introduce the machine first and then
->> populate with devices.
-> 
-> Ohh ok, I'll submit the machine definition separately all by itself and then
-> submit any extra devices like the CPLD or ME afterwards.
+On some architectures mmap() arguments are passed via an in-memory
+array, and qemu's strace support does not recognize that. Fix by
+sharing the argument fetching logic between mmap() implementation and
+tracing.
 
-I have kept the "full system" in my tree for now :
+An alternative approach would be to fetch arguments only once at the
+beginning of do_syscall(), however, that would change what the
+qemu_plugin_register_vcpu_syscall_cb() users get.
 
-   cb4481ae1812 aspeed: Add AST2600 (BMC) to fby35  (full system)
-   c155bf27d3e7 aspeed: Make aspeed_board_init_flashes public (trivial)
-   3f5485fa88b9 aspeed: Add fby35 skeleton  (trivial)
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ linux-user/mmap.c      | 20 ++++++++++++++++++++
+ linux-user/strace.c    | 24 ++++++++++++++++++++----
+ linux-user/syscall.c   | 25 +++----------------------
+ linux-user/user-mmap.h | 12 ++++++++++++
+ 4 files changed, 55 insertions(+), 26 deletions(-)
 
-because the ROM vs. execute-in-place is being analyzed. Let's see if
-we can make progress and simplify the initial machine.
-
-I have also kept the latest *fby35* emulating the BIC only :
-
-   5cfc4b68fdb8 hw/arm/aspeed: Add oby35-cl machine
-   06f21e024ee7 hw/misc/aspeed: Add intel-me
-   e96a23571599 hw/misc/aspeed: Add fby35-sb-cpld
-
-to discuss a bit more on the names, files, IPMI, etc. Until now, we had
-Aspeed machines modeling EVBs or BMCs. BICs and multi SoC system are new.
-
-Having a review on the common models in 8-10 would be nice.
-
-   2a9be57901a3 hw/sensor: Add Renesas ISL69259 device model
-   85f8352e213a hw/sensor: Add IC_DEVICE_ID to ISL voltage regulators
-   aea568d56db5 hw/i2c/pmbus: Add idle state to return 0xff's
-
-They should not be too problematic to merge. As soon as Titus has time
-to take a look we will know, and I did a comment. So this can be addressed
-in parallel with the fby35 machines.
-
-Thanks,
-
-C.
-
-
-
-> 
->>
->> May be it is time to introduce a new machine file. This one seems
->> like it could go in a f35.c file, also because a larger f35-* is
->> in plan. aspeed.c could contain the basic definitions and helpers.
-> 
-> Yes, patrick@stwcx.xyz was thinking the same thing. An f35.c (well,
-> maybe yv35.c or fby35.c would be more appropriate) would be a good
-> idea. I'll submit another patch up front to move fby35 stuff to
-> a separate file.
-> 
->>
->>> ---
->>>    hw/arm/aspeed.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
->>>    1 file changed, 48 insertions(+)
->>>
->>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
->>> index a06f7c1b62..75971ef2ca 100644
->>> --- a/hw/arm/aspeed.c
->>> +++ b/hw/arm/aspeed.c
->>> @@ -1429,6 +1429,50 @@ static void aspeed_minibmc_machine_ast1030_evb_class_init(ObjectClass *oc,
->>>        amc->macs_mask = 0;
->>>    }
->>> +static void oby35_cl_i2c_init(AspeedMachineState *bmc)
->>> +{
->>> +    AspeedSoCState *soc = &bmc->soc;
->>> +    I2CBus *i2c[14];
->>> +    I2CBus *ssd[8];
->>> +    int i;
->>> +
->>> +    for (i = 0; i < 14; i++) {
->>> +        i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
->>> +    }
->>> +    get_pca9548_channels(i2c[1], 0x71, ssd);
->>
->> We should rename to aspeed_get_pca9548_channels
-> 
-> +1
-> 
->>
->>> +
->>> +    i2c_slave_create_simple(i2c[0], "fby35-sb-cpld", 0x21);
->>> +    i2c_slave_create_simple(i2c[1], "tmp105", 0x48);
->>> +    i2c_slave_create_simple(i2c[1], "tmp105", 0x49);
->>> +    i2c_slave_create_simple(i2c[1], "tmp105", 0x4a);
->>> +    i2c_slave_create_simple(i2c[1], "adm1272", 0x40);
->>> +    i2c_slave_create_simple(i2c[1], "tmp421", 0x4c);
->>> +    i2c_slave_create_simple(i2c[2], "intel-me", 0x16);
->>> +    i2c_slave_create_simple(i2c[4], "isl69259", 0x76);
->>> +    i2c_slave_create_simple(i2c[4], "isl69259", 0x62);
->>> +    i2c_slave_create_simple(i2c[4], "isl69259", 0x60);
->>> +
->>> +    for (int i = 0; i < 8; i++) {
->>> +        i2c_slave_create_simple(ssd[i], "tmp105", 0x6a);
->>> +    }
->>> +
->>> +    /*
->>> +     * FIXME: This should actually be the BMC, but both the ME and the BMC
->>
->> QEMU has an embedded IPMI BMC simulator.
-> 
-> 
-> !!! Didn't realize this, definitely going to try using it.
-> 
->>
->>> +     * are IPMB endpoints, and the current ME implementation is generic
->>> +     * enough to respond normally to some things.
->>> +     */
->>> +    i2c_slave_create_simple(i2c[6], "intel-me", 0x10);
->>> +}
->>> +
->>> +static void aspeed_machine_oby35_cl_class_init(ObjectClass *oc, void *data)
->>> +{
->>> +    MachineClass *mc = MACHINE_CLASS(oc);
->>> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
->>> +
->>> +    mc->desc = "Meta Platforms fby35 CraterLake BIC (Cortex-M4)";
->>> +    amc->i2c_init = oby35_cl_i2c_init;
->>> +}
->>> +
->>>    static const TypeInfo aspeed_machine_types[] = {
->>>        {
->>>            .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
->>> @@ -1494,6 +1538,10 @@ static const TypeInfo aspeed_machine_types[] = {
->>>            .name           = MACHINE_TYPE_NAME("ast1030-evb"),
->>>            .parent         = TYPE_ASPEED_MACHINE,
->>>            .class_init     = aspeed_minibmc_machine_ast1030_evb_class_init,
->>> +    }, {
->>> +        .name          = MACHINE_TYPE_NAME("oby35-cl"),
->>> +        .parent        = MACHINE_TYPE_NAME("ast1030-evb"),
->>
->> hmm, so we are inheriting from the evb ?
-> 
-> Yeah, I remember this was controversial with fby35-bmc too, maybe I'll
-> change this in the follow-up. I just like inheriting from the EVB's because
-> people use the EVB's a lot for testing, most of the time I'm just trying to
-> add some extra i2c devices/etc, so I override the i2c init. But, maybe it's
-> good to decouple them.
-> 
->>
->> C.
->>
->>
->>> +        .class_init    = aspeed_machine_oby35_cl_class_init,
->>>        }, {
->>>            .name          = TYPE_ASPEED_MACHINE,
->>>            .parent        = TYPE_MACHINE,
->>
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 4e7a6be6ee..fbb50e3e98 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -899,3 +899,23 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
+ 
+     return ret;
+ }
++
++abi_long old_mmap_get_args(abi_long *arg1, abi_long *arg2, abi_long *arg3,
++                           abi_long *arg4, abi_long *arg5, abi_long *arg6)
++{
++    abi_long orig_arg1 = *arg1, *v;
++
++    v = lock_user(VERIFY_READ, orig_arg1, 6 * sizeof(abi_ulong), 1);
++    if (!v) {
++        return -TARGET_EFAULT;
++    }
++    *arg1 = tswapal(v[0]);
++    *arg2 = tswapal(v[1]);
++    *arg3 = tswapal(v[2]);
++    *arg4 = tswapal(v[3]);
++    *arg5 = tswapal(v[4]);
++    *arg6 = tswapal(v[5]);
++    unlock_user(v, orig_arg1, 0);
++
++    return 0;
++}
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 7d882526da..f25195ae85 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -16,6 +16,7 @@
+ #include <sched.h>
+ #include "qemu.h"
+ #include "user-internals.h"
++#include "user-mmap.h"
+ #include "strace.h"
+ 
+ struct syscallname {
+@@ -3532,9 +3533,9 @@ print_utimensat(CPUArchState *cpu_env, const struct syscallname *name,
+ 
+ #if defined(TARGET_NR_mmap) || defined(TARGET_NR_mmap2)
+ static void
+-print_mmap(CPUArchState *cpu_env, const struct syscallname *name,
+-           abi_long arg0, abi_long arg1, abi_long arg2,
+-           abi_long arg3, abi_long arg4, abi_long arg5)
++print_mmap2(CPUArchState *cpu_env, const struct syscallname *name,
++            abi_long arg0, abi_long arg1, abi_long arg2,
++            abi_long arg3, abi_long arg4, abi_long arg5)
+ {
+     print_syscall_prologue(name);
+     print_pointer(arg0, 0);
+@@ -3545,7 +3546,22 @@ print_mmap(CPUArchState *cpu_env, const struct syscallname *name,
+     print_raw_param("%#x", arg5, 1);
+     print_syscall_epilogue(name);
+ }
+-#define print_mmap2     print_mmap
++#endif
++
++#if defined(TARGET_NR_mmap)
++static void
++print_mmap(CPUArchState *cpu_env, const struct syscallname *name,
++           abi_long arg0, abi_long arg1, abi_long arg2,
++           abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    if (mmap_get_args(&arg0, &arg1, &arg2, &arg3, &arg4, &arg5)) {
++        print_syscall_prologue(name);
++        print_pointer(arg0, 0);
++        print_syscall_epilogue(name);
++        return;
++    }
++    print_mmap2(cpu_env, name, arg0, arg1, arg2, arg3, arg4, arg5);
++}
+ #endif
+ 
+ #ifdef TARGET_NR_mprotect
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 669add74c1..00d4be9094 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -9917,33 +9917,14 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         return ret;
+ #ifdef TARGET_NR_mmap
+     case TARGET_NR_mmap:
+-#if (defined(TARGET_I386) && defined(TARGET_ABI32)) || \
+-    (defined(TARGET_ARM) && defined(TARGET_ABI32)) || \
+-    defined(TARGET_M68K) || defined(TARGET_CRIS) || defined(TARGET_MICROBLAZE) \
+-    || defined(TARGET_S390X)
+-        {
+-            abi_ulong *v;
+-            abi_ulong v1, v2, v3, v4, v5, v6;
+-            if (!(v = lock_user(VERIFY_READ, arg1, 6 * sizeof(abi_ulong), 1)))
+-                return -TARGET_EFAULT;
+-            v1 = tswapal(v[0]);
+-            v2 = tswapal(v[1]);
+-            v3 = tswapal(v[2]);
+-            v4 = tswapal(v[3]);
+-            v5 = tswapal(v[4]);
+-            v6 = tswapal(v[5]);
+-            unlock_user(v, arg1, 0);
+-            ret = get_errno(target_mmap(v1, v2, v3,
+-                                        target_to_host_bitmask(v4, mmap_flags_tbl),
+-                                        v5, v6));
++        ret = mmap_get_args(&arg1, &arg2, &arg3, &arg4, &arg5, &arg6);
++        if (ret) {
++            return ret;
+         }
+-#else
+-        /* mmap pointers are always untagged */
+         ret = get_errno(target_mmap(arg1, arg2, arg3,
+                                     target_to_host_bitmask(arg4, mmap_flags_tbl),
+                                     arg5,
+                                     arg6));
+-#endif
+         return ret;
+ #endif
+ #ifdef TARGET_NR_mmap2
+diff --git a/linux-user/user-mmap.h b/linux-user/user-mmap.h
+index 480ce1c114..f48474bd1d 100644
+--- a/linux-user/user-mmap.h
++++ b/linux-user/user-mmap.h
+@@ -31,5 +31,17 @@ extern abi_ulong mmap_next_start;
+ abi_ulong mmap_find_vma(abi_ulong, abi_ulong, abi_ulong);
+ void mmap_fork_start(void);
+ void mmap_fork_end(int child);
++abi_long old_mmap_get_args(abi_long *arg1, abi_long *arg2, abi_long *arg3,
++                           abi_long *arg4, abi_long *arg5, abi_long *arg6);
++
++#if (defined(TARGET_I386) && defined(TARGET_ABI32)) || \
++    (defined(TARGET_ARM) && defined(TARGET_ABI32)) || \
++    defined(TARGET_M68K) || defined(TARGET_CRIS) || \
++    defined(TARGET_MICROBLAZE) || defined(TARGET_S390X)
++/* __ARCH_WANT_SYS_OLD_MMAP */
++#define mmap_get_args old_mmap_get_args
++#else
++#define mmap_get_args(arg1, arg2, arg3, arg4, arg5, arg6) 0
++#endif
+ 
+ #endif /* LINUX_USER_USER_MMAP_H */
+-- 
+2.35.3
 
 
