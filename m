@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D91E561576
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 10:53:45 +0200 (CEST)
-Received: from localhost ([::1]:33298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB16561578
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 10:54:46 +0200 (CEST)
+Received: from localhost ([::1]:35166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6pvj-0006ea-59
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 04:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
+	id 1o6pwi-0007ti-BU
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 04:54:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <svens@linux.ibm.com>)
- id 1o6ppg-00042m-H6; Thu, 30 Jun 2022 04:47:28 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15952
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6prS-00055K-E7
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 04:49:19 -0400
+Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:38297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <svens@linux.ibm.com>)
- id 1o6ppe-0001xi-Cp; Thu, 30 Jun 2022 04:47:28 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25U7cTIs018366;
- Thu, 30 Jun 2022 08:47:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : references : date : in-reply-to : message-id : mime-version :
- content-type; s=pp1; bh=O3Ghtke8P8c5jDK5oE79xurpUppNQpfGxqrYg9b5TwE=;
- b=TDBfTyD7GU9/f0d6WRZ+wr37WbHPur3twJFZNlo8DSCdL70iSxPOtWcAWZgUk4FlQMJZ
- oXBm89MZ92pz3yf8HWiGlsRekuAzTSLwmmzm9Tknl/aiDGvCmYSbV9ZcquGr5YsF0um3
- 9r0hgIIPsEM06wwxf0R9wZs0+RzVv2Q0J42PDRb0tpFWqJT2FZ8pf7wkRkpz2M6ol8Bf
- Mhp08dS9qiIk5tqPPjxtYniBMruUTCMBOpc8z7rmQJbfixI4BjeTD0YbmQNEVYVN/9Jj
- gLrr4LE2sjMdKY9rbJx/f12wHjbX7vrKcaytlxizJ+IW678qY3uSXenuhclCH1rrnCss xg== 
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h17ch2ag3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 Jun 2022 08:47:21 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25U8ZCaA005485;
- Thu, 30 Jun 2022 08:47:19 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 3gwt08yrkm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 Jun 2022 08:47:19 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 25U8lHNs25362758
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jun 2022 08:47:17 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2418EAE051;
- Thu, 30 Jun 2022 08:47:17 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F3A6EAE045;
- Thu, 30 Jun 2022 08:47:16 +0000 (GMT)
-Received: from tuxmaker.linux.ibm.com (unknown [9.152.85.9])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu, 30 Jun 2022 08:47:16 +0000 (GMT)
-From: Sven Schnelle <svens@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: Re: [PATCH] target/s390x: Exit tb after executing ex_value
-References: <20220630031635.271353-1-richard.henderson@linaro.org>
-Date: Thu, 30 Jun 2022 10:47:17 +0200
-In-Reply-To: <20220630031635.271353-1-richard.henderson@linaro.org> (Richard
- Henderson's message of "Thu, 30 Jun 2022 08:46:35 +0530")
-Message-ID: <yt9dtu82fsh6.fsf@linux.ibm.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6prO-0002lW-Oe
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 04:49:17 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.118])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id D6EE6255F3;
+ Thu, 30 Jun 2022 08:49:09 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 30 Jun
+ 2022 10:49:09 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R00201e96b4b-433e-4768-a02f-e06350b56c87,
+ 1181EEF4DEA302C6E78A0CFD700452ADBB2E16A0) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <a35ac443-c93e-fb2b-6da9-2a3dc16f7d8c@kaod.org>
+Date: Thu, 30 Jun 2022 10:49:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: PchE54vl9whzIZjXrL6TnDj0UEJTrTxE
-X-Proofpoint-ORIG-GUID: PchE54vl9whzIZjXrL6TnDj0UEJTrTxE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-30_05,2022-06-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=313
- lowpriorityscore=0 malwarescore=0 suspectscore=0 impostorscore=0
- clxscore=1015 mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2204290000 definitions=main-2206300031
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=svens@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 12/14] aspeed: Make aspeed_board_init_flashes public
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+CC: Peter Delevoryas <pdel@fb.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "berrange@redhat.com"
+ <berrange@redhat.com>, "eduardo@habkost.net" <eduardo@habkost.net>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, "ani@anisinha.ca"
+ <ani@anisinha.ca>, Cameron Esfahani via <qemu-devel@nongnu.org>, qemu-arm
+ <qemu-arm@nongnu.org>
+References: <20220623102617.2164175-1-pdel@fb.com>
+ <20220623102617.2164175-13-pdel@fb.com>
+ <e5f51f14-fe75-0d55-6588-a3ca2565f760@kaod.org>
+ <EC44C0BD-7BC0-4BDE-9A41-CB1EAA90EC87@fb.com>
+ <e07ec4fe-6968-b19a-e649-298a9aaccba5@kaod.org>
+ <07128acf-329a-f372-c48c-0c3cb498d3d0@kaod.org> <87zghvh7rt.fsf@linaro.org>
+ <8072cd96-a032-55f2-0417-1989a7bbeca0@kaod.org> <87edz7gwff.fsf@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <87edz7gwff.fsf@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: a349d5dd-cf1b-4f2a-b58d-c49fafcdd175
+X-Ovh-Tracer-Id: 7171137985111690046
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehuddgtdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,45 +87,241 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+On 6/29/22 20:24, Alex Bennée wrote:
+> 
+> Cédric Le Goater <clg@kaod.org> writes:
+> 
+>> On 6/29/22 16:14, Alex Bennée wrote:
+>>> Cédric Le Goater <clg@kaod.org> writes:
+>>>
+>>>> On 6/24/22 18:50, Cédric Le Goater wrote:
+>>>>> On 6/23/22 20:43, Peter Delevoryas wrote:
+>>>>>>
+>>>>>>
+>>>>>>> On Jun 23, 2022, at 8:09 AM, Cédric Le Goater <clg@kaod.org> wrote:
+>>>>>>>
+>>>>>>> On 6/23/22 12:26, Peter Delevoryas wrote:
+>>>>>>>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+>>>>>>>
+>>>>>>> Let's start simple without flash support. We should be able to
+>>>>>>> load FW blobs in each CPU address space using loader devices.
+>>>>>>
+>>>>>> Actually, I was unable to do this, perhaps because the fb OpenBMC
+>>>>>> boot sequence is a little weird. I specifically _needed_ to have
+>>>>>> a flash device which maps the firmware in at 0x2000_0000, because
+>>>>>> the fb OpenBMC U-Boot SPL jumps to that address to start executing
+>>>>>> from flash? I think this is also why fb OpenBMC machines can be so slow.
+>>>>>>
+>>>>>> $ ./build/qemu-system-arm -machine fby35 \
+>>>>>>        -device loader,file=fby35.mtd,addr=0,cpu-num=0 -nographic \
+>>>>>>        -d int -drive file=fby35.mtd,format=raw,if=mtd
+>>>>> Ideally we should be booting from the flash device directly using
+>>>>> the machine option '-M ast2600-evb,execute-in-place=true' like HW
+>>>>> does. Instructions are fetched using SPI transfers. But the amount
+>>>>> of code generated is tremendous.
+>>> Yeah because there is a potential race when reading from HW so we
+>>> throw
+>>> away TB's after executing them because we have no way of knowing if it
+>>> has changed under our feet. See 873d64ac30 (accel/tcg: re-factor non-RAM
+>>> execution code) which cleaned up this handling.
+>>>
+>>>>> See some profiling below for a
+>>>>> run which barely reaches DRAM training in U-Boot.
+>>>>
+>>>> Some more profiling on both ast2500 and ast2600 machines shows :
+>>>>
+>>>>
+>>>> * ast2600-evb,execute-in-place=true :
+>>>>
+>>>> Type               Object  Call site                Wait Time (s)         Count  Average (us)
+>>>> ---------------------------------------------------------------------------------------------
+>>>> BQL mutex  0x564dc03922e0  accel/tcg/cputlb.c:1365       14.21443
+>>>> 32909927          0.43
+>>> This is unavoidable as a HW access needs the BQL held so we will go
+>>> through this cycle every executed instruction.
+>>> Did I miss why the flash contents are not mapped into the physical
+>>> address space? Isn't that how it appear to the processor?
+>>
+>>
+>> There are two modes :
+>>            if (ASPEED_MACHINE(machine)->mmio_exec) {
+>>              memory_region_init_alias(boot_rom, NULL, "aspeed.boot_rom",
+>>                                       &fl->mmio, 0, size);
+>>              memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
+>>                                          boot_rom);
+>>          } else {
+>>              memory_region_init_rom(boot_rom, NULL, "aspeed.boot_rom",
+>>                                     size, &error_abort);
+>>              memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
+>>                                          boot_rom);
+>>              write_boot_rom(drive0, FIRMWARE_ADDR, size, &error_abort);
+>>          }
+>>
+>> The default boot mode uses the ROM. No issue.
+>>
+>> The "execute-in-place=true" option creates an alias on the region of
+>> the flash contents and each instruction is then fetched from the flash
+>> drive with SPI transactions.
+>>
+>> With old FW images, using an older U-boot, the machine boots in a couple
+>> of seconds. See the profiling below for a witherspoon-bmc machine using
+>> U-Boot 2016.07.
+>>
+>>    qemu-system-arm -M witherspoon-bmc,execute-in-place=true  -drive file=./flash-witherspoon-bmc,format=raw,if=mtd -drive file=./flash-witherspoon-bmc2,format=raw,if=mtd -nographic -nodefaults -snapshot -serial mon:stdio -enable-sync-profile
+>>    ...
+>>    U-Boot 2016.07-00040-g8425e96e2e27-dirty (Jun 24 2022 - 23:21:57 +0200)
+>>              Watchdog enabled
+>>    DRAM:  496 MiB
+>>    Flash: 32 MiB
+>>    In:    serial
+>>    Out:   serial
+>>    Err:   serial
+>>    Net:
+>>    (qemu) info sync-profile
+>>    Type               Object  Call site                Wait Time (s)         Count  Average (us)
+>>    ---------------------------------------------------------------------------------------------
+>>    BQL mutex  0x56189610b2e0  accel/tcg/cputlb.c:1365        0.25311      12346237          0.02
+>>    condvar    0x5618970cf220  softmmu/cpus.c:423             0.05506             2      27530.78
+>>    BQL mutex  0x56189610b2e0  util/rcu.c:269                 0.04709             2      23544.26
+>>    condvar    0x561896d0fc78  util/thread-pool.c:90          0.01340            83        161.47
+>>    condvar    0x56189610b240  softmmu/cpus.c:571             0.00005             1         54.93
+>>    condvar    0x56189610b280  softmmu/cpus.c:642             0.00003             1         32.88
+>>    BQL mutex  0x56189610b2e0  util/main-loop.c:318           0.00003            34          0.76
+>>    mutex      0x561896eade00  tcg/region.c:204               0.00002           995          0.02
+>>    rec_mutex  [           2]  util/async.c:682               0.00002           493          0.03
+>>    mutex      [           2]  chardev/char.c:118             0.00001           404          0.03
+>>    ---------------------------------------------------------------------------------------------
+>>
+>>
+>> However, with recent U-boots, it takes quite a while to reach DRAM training.
+>> Close to a minute. See the profiling below for an ast2500-evb machine using
+>> U-Boot 2019.04.
+>>
+>>   qemu-system-arm -M ast2500-evb,execute-in-place=true  -net nic,macaddr=C0:FF:EE:00:00:03,netdev=net0  -drive file=./flash-ast2500-evb,format=raw,if=mtd  -nographic -nodefaults -snapshot -serial mon:stdio  -enable-sync-profile
+>>    qemu-system-arm: warning: Aspeed iBT has no chardev backend
+>>    qemu-system-arm: warning: nic ftgmac100.1 has no peer
+>>    QEMU 7.0.50 monitor - type 'help' for more information
+>>       U-Boot 2019.04-00080-g6ca27db3f97b-dirty (Jun 24 2022 - 23:22:03
+>>      +0200)
+>>       SOC : AST2500-A1
+>>    RST : Power On
+>>    LPC Mode : SIO:Enable : SuperIO-2e
+>>    Eth : MAC0: RGMII, , MAC1: RGMII,
+>>    Model: AST2500 EVB
+>>    DRAM:  448 MiB (capacity:512 MiB, VGA:64 MiB, ECC:off)
+>>    MMC:   sdhci_slot0@100: 0, sdhci_slot1@200: 1
+>>    Loading Environment from SPI Flash... SF: Detected mx25l25635e with page size 256 Bytes, erase size 64 KiB, total 32 MiB
+>>    *** Warning - bad CRC, using default environment
+>>       In:    serial@1e784000
+>>    Out:   serial@1e784000
+>>    Err:   serial@1e784000
+>>    Net:   eth0: ethernet@1e660000
+>>    Warning: ethernet@1e680000 (eth1) using random MAC address - 4a:e5:9a:4a:c7:c5
+>>    , eth1: ethernet@1e680000
+>>    Hit any key to stop autoboot:  2
+>>    (qemu) info sync-profile
+>>    Type               Object  Call site                Wait Time (s)         Count  Average (us)
+>>    ---------------------------------------------------------------------------------------------
+>>    condvar    0x561f10c9ef88  util/thread-pool.c:90         10.01196            28     357570.00
+>>    BQL mutex  0x561f102362e0  accel/tcg/cputlb.c:1365        0.29496      14248621          0.02
+>>    condvar    0x561f110325a0  softmmu/cpus.c:423             0.02231             2      11152.57
+>>    BQL mutex  0x561f102362e0  util/rcu.c:269                 0.01447             4       3618.60
+>>    condvar    0x561f10236240  softmmu/cpus.c:571             0.00010             1        102.19
+>>    mutex      0x561f10e9f1c0  tcg/region.c:204               0.00007          3052          0.02
+>>    mutex      [           2]  chardev/char.c:118             0.00003          1486          0.02
+>>    condvar    0x561f10236280  softmmu/cpus.c:642             0.00003             1         29.38
+>>    BQL mutex  0x561f102362e0  accel/tcg/cputlb.c:1426        0.00002           973          0.02
+>>    BQL mutex  0x561f102362e0  util/main-loop.c:318           0.00001            34          0.41
+>>    ---------------------------------------------------------------------------------------------
+>>    Something in the layout of the FW is making a big difference. One
+>> that could be relevant is that the recent versions are using a device
+>> tree.
+>>
+>> There might be no good solution to this issue but I fail to analyze
+>> it correctly. Is there a way to collect information on the usage of
+>> Translation Blocks ?
+> 
+> You could expand the data we collect in tb_tree_stats and expose it via
+> info jit.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+The "fast" run, U-Boot 2016.07, gives :
 
-> When EXECUTE sets ex_value to interrupt the constructed instruction,
-> we implicitly disable interrupts so that the value is not corrupted.
-> Exit to the main loop after execution, so that we re-evaluate any
-> pending interrupts.
->
-> Reported-by: Sven Schnelle <svens@linux.ibm.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->
-> Hi Sven.  Will you test this vs your testcase?  Thanks,
 
-Of course, i'm happy if someone fixes this so i don't have to. :-)
+   Translation buffer state:
+   gen code size       254880371/1073736704
+   TB count            1089
+   TB avg target size  16 max=356 bytes
+   TB avg host size    278 bytes (expansion ratio: 17.2)
+   cross page TB count 0 (0%)
+   direct jump count   501 (46%) (2 jumps=372 34%)
+   TB hash buckets     1025/8192 (12.51% head buckets used)
+   TB hash occupancy   3.32% avg chain occ. Histogram: [0.0,7.5)%|█  ▁  ▁  ▁|[67.5,75.0]%
+   TB hash avg chain   1.000 buckets. Histogram: 1|█|1
+   
+   Statistics:
+   TB flush count      0
+   TB invalidate count 0
+   TLB full flushes    0
+   TLB partial flushes 2
+   TLB elided flushes  2338
+   JIT cycles          2221788409 (0.926 s at 2.4 GHz)
+   translated TBs      738520 (aborted=0 0.0%)
+   avg ops/TB          15.7 max=459
+   deleted ops/TB      2.72
+   avg temps/TB        32.89 max=88
+   avg host code/TB    113.7
+   avg search data/TB  5.2
+   cycles/op           192.0
+   cycles/in byte      748.7
+   cycles/out byte     26.4
+   cycles/search byte     582.8
+     gen_interm time   57.6%
+     gen_code time     42.4%
+   optim./code time    19.4%
+   liveness/code time  26.1%
+   cpu_restore count   0
+     avg cycles        0.0
+   
 
-Unfortunately it doesn't fix the issue:
+and the "slow", U-Boot 2019.04 :
 
-exec_tb_exit tb:(nil) flags=0x0
-exec_tb tb:0x3ff35c66f00 pc=0x400
-exec_tb tb:0x3ff3410f300 pc=0x1edf7f8
-tcg_handle_interrupt: 2
-exec_tb_exit tb:0x3ff340d2d00 flags=0x3
-ignoring irq during EX
-ignoring irq during EX
-exec_tb tb:0x3ff340d2d00 pc=0x1edf810
+Translation buffer state:
+gen code size       368603795/1073736704
+TB count            3052
+TB avg target size  16 max=360 bytes
+TB avg host size    293 bytes (expansion ratio: 17.6)
+cross page TB count 0 (0%)
+direct jump count   1431 (46%) (2 jumps=1104 36%)
+TB hash buckets     2559/8192 (31.24% head buckets used)
+TB hash occupancy   9.31% avg chain occ. Histogram: [0,10)%|█ ▃  ▁ ▁ ▁|[90,100]%
+TB hash avg chain   1.000 buckets. Histogram: 1|█|1
 
-writing dc->base.is_jmp to the qemu log shows:
+Statistics:
+TB flush count      3
+TB invalidate count 0
+TLB full flushes    0
+TLB partial flushes 3
+TLB elided flushes  2367
+JIT cycles          26479044772 (11.033 s at 2.4 GHz)
+translated TBs      10552169 (aborted=0 0.0%)
+avg ops/TB          15.0 max=464
+deleted ops/TB      2.44
+avg temps/TB        32.43 max=89
+avg host code/TB    99.0
+avg search data/TB  5.0
+cycles/op           167.7
+cycles/in byte      626.8
+cycles/out byte     25.4
+cycles/search byte     499.4
+   gen_interm time   50.4%
+   gen_code time     49.6%
+optim./code time    19.5%
+liveness/code time  27.7%
+cpu_restore count   0
+   avg cycles        0.0
 
-s390x_tr_translate_insn: is_jmp: 3
-s390x_tr_translate_insn: is_jmp: 3
-s390x_tr_translate_insn: is_jmp: 3
-s390x_tr_translate_insn: is_jmp: 3
-s390x_tr_translate_insn: is_jmp: 3
-s390x_tr_translate_insn: is_jmp: 3
-[..]
 
-So is_jump is always 3, which is DISAS_TARGET_0. I think the
-if (dc->base.is_jmp == DISAS_NEXT) condition therefore never matches.
-
+A lot more TBs.
+   
+C.
 
