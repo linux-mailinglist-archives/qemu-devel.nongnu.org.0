@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E3456139F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 09:52:10 +0200 (CEST)
-Received: from localhost ([::1]:59150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93997561487
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 10:17:35 +0200 (CEST)
+Received: from localhost ([::1]:41232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6oy9-0006J9-PD
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 03:52:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57222)
+	id 1o6pMj-0006zM-AK
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 04:17:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6owl-0005YL-4v
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 03:50:43 -0400
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:49617)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o6pK0-0005gj-E8
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 04:14:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6owi-0002sH-PO
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 03:50:42 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.188])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id DC71F205FA;
- Thu, 30 Jun 2022 07:50:35 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 30 Jun
- 2022 09:50:34 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0058170a9a4-da44-4340-b2a8-5a8177b834d5,
- 40551C6C823FDDA91B74F5D58A080B55BE22893A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <8b0529db-d968-3aff-576a-d8dbf85b9319@kaod.org>
-Date: Thu, 30 Jun 2022 09:50:28 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o6pJs-0001Dc-Mk
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 04:14:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656576875;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=sHOROkkDPVycREOjaX84DcrqMqdz1IXTlosFpoNNS6s=;
+ b=gVbW3vg6S54Zl0R6379xEnL4E9KfELuVmpjr0OaIM3QKoNY5i4xHd7gTMe32mDUx/B3CXn
+ wJeBnFxJE6+cef7OAKyzCl7+lU7RTjiJaGoyNVMwK5nHxbWHqfwOVC6698V3UFC0AZSHXm
+ wzifd/485dVPaW8my08v22IPPDiugtc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-641-fylKwONuN0SX24-oFzDzeQ-1; Thu, 30 Jun 2022 04:14:31 -0400
+X-MC-Unique: fylKwONuN0SX24-oFzDzeQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2A06F1C00131;
+ Thu, 30 Jun 2022 08:14:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9FDB2026D64;
+ Thu, 30 Jun 2022 08:14:28 +0000 (UTC)
+Date: Thu, 30 Jun 2022 09:14:26 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dionna Glaze <dionnaglaze@google.com>
+Cc: qemu-devel@nongnu.org, Xu@google.com, Min M <min.m.xu@intel.com>,
+ Xiaoyao Li <xiaoyao.li@intel.com>,
+ Thomas Lendacky <Thomas.Lendacky@amd.com>,
+ Gerd Hoffman <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ "open list:X86 KVM CPUs" <kvm@vger.kernel.org>
+Subject: Re: [PATCH v2] target/i386: Add unaccepted memory configuration
+Message-ID: <Yr1bYiA1w/lMX76k@redhat.com>
+References: <20220629193701.734154-1-dionnaglaze@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 00/14] hw/i2c/aspeed: I2C slave mode DMA RX w/ new regs
-Content-Language: en-US
-To: Peter Delevoryas <me@pjd.dev>
-CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <cminyard@mvista.com>, <titusr@google.com>, <qemu-devel@nongnu.org>,
- <qemu-arm@nongnu.org>, <zhdaniel@fb.com>, <pdel@fb.com>
-References: <20220630045133.32251-1-me@pjd.dev>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220630045133.32251-1-me@pjd.dev>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 436e88a7-6184-414f-b02a-5d267e6bc3a7
-X-Ovh-Tracer-Id: 6181753439770545074
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddguddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpuggvlhesfhgsrdgtohhmpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220629193701.734154-1-dionnaglaze@google.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,87 +85,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/22 06:51, Peter Delevoryas wrote:
-> From: Peter Delevoryas <pdel@fb.com>
-> 
-> v3:
-> - hw/i2c/pmbus_device:
->    - Removed commit that resets the out buf.
->    - Removed IC_DEVICE_ID
->    - Added commit to allow devices to move to an idle state that
->      avoids enqueuing excess data into the out buf.
-> - hw/sensor/isl_pmbus_vr:
->    - Added IC_DEVICE_ID commit just for voltage regulators.
->    - Added ISL69259 with an IC_DEVICE_ID.
-> - hw/misc/aspeed_peci:
->    - Moved registers from .h to .c
->    - Replaced guest_error on interrupt disable case with trace
->      for all interrupts (not just when they're disabled).
->    - Removed leftover qemu_irq_raise
+On Wed, Jun 29, 2022 at 07:37:01PM +0000, Dionna Glaze wrote:
+> For SEV-SNP, an OS is "SEV-SNP capable" without supporting this UEFI
+> v2.9 memory type. In order for OVMF to be able to avoid pre-validating
+> potentially hundreds of gibibytes of data before booting, it needs to
+> know if the guest OS can support its use of the new type of memory in
+> the memory map.
 
-I have taken patches 1-7,11 for the next Aspeed PR.
+This talks about something supported for SEV-SNP, but....
 
-Thanks,
+>  static void
+>  sev_guest_class_init(ObjectClass *oc, void *data)
+>  {
+> @@ -376,6 +401,14 @@ sev_guest_class_init(ObjectClass *oc, void *data)
+>                                     sev_guest_set_kernel_hashes);
+>      object_class_property_set_description(oc, "kernel-hashes",
+>              "add kernel hashes to guest firmware for measured Linux boot");
+> +    object_class_property_add_enum(oc, "accept-all-memory",
+> +                                   "MemoryAcceptance",
+> +                                   &memory_acceptance_lookup,
+> +        sev_guest_get_accept_all_memory, sev_guest_set_accept_all_memory);
+> +    object_class_property_set_description(
+> +        oc, "accept-all-memory",
+> +        "false: Accept all memory, true: Accept up to 4G and leave the rest unaccepted (UEFI"
+> +        " v2.9 memory type), default: default firmware behavior.");
+>  }
 
-C.
+..this is adding a property to the 'sev-guest' object, which only
+targets SEV/SEV-ES currently AFAIK.
+
+The most recent patches I recall for SEV-SNP introduced a new
+'sev-snp-guest' object instead of overloading the existing
+'sev-guest' object:
+
+  https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg04757.html
 
 
-> Thanks,
-> Peter
-> 
-> Klaus Jensen (3):
->    hw/i2c: support multiple masters
->    hw/i2c: add asynchronous send
->    hw/i2c/aspeed: add slave device in old register mode
-> 
-> Peter Delevoryas (11):
->    hw/i2c/aspeed: Fix R_I2CD_FUN_CTRL reference
->    hw/i2c/aspeed: Fix DMA len write-enable bit handling
->    hw/i2c/aspeed: Fix MASTER_EN missing error message
->    hw/i2c/aspeed: Add new-registers DMA slave mode RX support
->    hw/i2c/pmbus: Add idle state to return 0xff's
->    hw/sensor: Add IC_DEVICE_ID to ISL voltage regulators
->    hw/sensor: Add Renesas ISL69259 device model
->    hw/misc/aspeed: Add PECI controller
->    hw/misc/aspeed: Add fby35-sb-cpld
->    hw/misc/aspeed: Add intel-me
->    hw/arm/aspeed: Add oby35-cl machine
-> 
->   MAINTAINERS                      |   2 +
->   hw/arm/aspeed.c                  |  48 +++++++
->   hw/arm/aspeed_ast10x0.c          |  12 ++
->   hw/arm/aspeed_ast2600.c          |  12 ++
->   hw/arm/aspeed_soc.c              |  13 ++
->   hw/arm/pxa2xx.c                  |   2 +
->   hw/display/sii9022.c             |   2 +
->   hw/display/ssd0303.c             |   2 +
->   hw/i2c/aspeed_i2c.c              | 234 +++++++++++++++++++++++++++----
->   hw/i2c/core.c                    |  70 ++++++++-
->   hw/i2c/pmbus_device.c            |   9 ++
->   hw/i2c/smbus_slave.c             |   4 +
->   hw/i2c/trace-events              |   2 +
->   hw/misc/aspeed_peci.c            | 152 ++++++++++++++++++++
->   hw/misc/fby35_sb_cpld.c          | 128 +++++++++++++++++
->   hw/misc/intel_me.c               | 162 +++++++++++++++++++++
->   hw/misc/meson.build              |   5 +-
->   hw/misc/trace-events             |  13 ++
->   hw/nvram/eeprom_at24c.c          |   2 +
->   hw/sensor/isl_pmbus_vr.c         |  40 ++++++
->   hw/sensor/lsm303dlhc_mag.c       |   2 +
->   include/hw/arm/aspeed_soc.h      |   3 +
->   include/hw/i2c/aspeed_i2c.h      |  11 ++
->   include/hw/i2c/i2c.h             |  30 ++++
->   include/hw/i2c/pmbus_device.h    |   7 +
->   include/hw/misc/aspeed_peci.h    |  29 ++++
->   include/hw/sensor/isl_pmbus_vr.h |   5 +
->   27 files changed, 971 insertions(+), 30 deletions(-)
->   create mode 100644 hw/misc/aspeed_peci.c
->   create mode 100644 hw/misc/fby35_sb_cpld.c
->   create mode 100644 hw/misc/intel_me.c
->   create mode 100644 include/hw/misc/aspeed_peci.h
-> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
