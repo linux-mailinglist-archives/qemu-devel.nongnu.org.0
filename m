@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E75356106D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 06:58:47 +0200 (CEST)
-Received: from localhost ([::1]:49082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6BAE561073
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 07:05:11 +0200 (CEST)
+Received: from localhost ([::1]:56956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6mGM-0004IJ-1K
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 00:58:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45834)
+	id 1o6mMY-0002Wf-VH
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 01:05:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6mA0-0003Gx-LB; Thu, 30 Jun 2022 00:52:14 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:51741)
+ id 1o6mA3-0003JS-T9; Thu, 30 Jun 2022 00:52:16 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:47987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6m9w-00072F-0I; Thu, 30 Jun 2022 00:52:12 -0400
+ id 1o6m9z-00072V-7X; Thu, 30 Jun 2022 00:52:15 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id A1A552B058FC;
- Thu, 30 Jun 2022 00:52:05 -0400 (EDT)
+ by mailnew.west.internal (Postfix) with ESMTP id DD7C62B058DA;
+ Thu, 30 Jun 2022 00:52:08 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 30 Jun 2022 00:52:06 -0400
+ by compute2.internal (MEProxy); Thu, 30 Jun 2022 00:52:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656564725; x=1656568325; bh=sP
- GNqzHM/PBx47tIMAtMTtw90hj1XLyDltpQ/Oc4c3M=; b=Y0HWfz12W4p2k7vWrn
- sRbtxUUF43QAAvzEN2tchR6kL1RF3dbwajYtGqXMldE1/ZVF9Ljqvotpd7yTBvvG
- O71eZb5fPId7AbCFWSPza84hFMp21TZG6lx8+mzU3427l5QVINHxHMjxY2WPthdW
- GBaPZHa49J3+QcNB/L/LP7cXu1TATdpWDdZLP32Bz34zgmqqNN3IgoYTZULsmu6X
- z/+ZgLa16MRLjoZz5DMIEWWbEM3L7nY+LGrg0DO9LEVrXVVlEM/WijPu9AfuioSw
- Du3j5ui3dy8J3oGz8O38LRIgiSSk3otrbPTKe6OWSAc7u/lNvnu7HyHdHeHnbwgL
- PaIg==
+ :subject:subject:to:to; s=fm1; t=1656564728; x=1656568328; bh=dT
+ m7rZ8rzNQ7a1Zn1KFha3bDGRQnWQsIe5tXVAida7Q=; b=D4eDpQT2otRL+szcLe
+ FmbLNGIIpy7BRL1q/7nWaJay7xkxm2Y+Cll2vDa1adz9CxGVpAOE3N+N76hBSgo7
+ qhwEWLz2uTcndbAAQDRRty5RmHl3O9PQ00lOnHNMxydHYzHsC9iDaBC9BzmtWSwo
+ HwBC0iR0Vh/VZ5Z1fbbUaXD9iXmD0Kzq6JXmlYXt9sqKTRa1saCSc6bwvE9z3T6x
+ A50lq8jzWl93VOMIdIRJcY2sUVEA1c9hkbIbIJSnUpB2q4iLjKS83WbhbF9vE9nN
+ 6sOUVWWsWvp0JwDrJ/+j1SnnHFXazWqSudWSnGSao9ZFgYNeNQWY4EixRAAZdQ4G
+ b0PA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=i9e814621.fm2; t=1656564725; x=1656568325; bh=sPG
- NqzHM/PBx47tIMAtMTtw90hj1XLyDltpQ/Oc4c3M=; b=jCVlgAl4/r+9oF/AFLR
- 8hA1vAEqYNFw7wSeTJtK9+9yryX/qSgd3KEBXnfoNy8w5mMVgcr+tWyGm3GUDU/g
- 07F38TNvNXQOG2mEOi4G3mv+eG1YlGBG630FhfmLqvext/0aslUBmYtrv/rUO+Xj
- m+U1xNC9fZQ3r9kcWWt6xZ3enNBjP+kFKw5wkWmtcYft7TiqOI6Jshlh+LwZrCtz
- PVn3DU4OOgO60mZkfGiXWKQgPBk+d1V6EjY0ef6jGHWEx+jhYx6SecdsoUWulPHc
- GmCvBHuB3g6bKqsDhmK5kXpLxdH8fUGvpQ+ZQWqgnifpbrWU9Z4Qlkr8UNU7nkPL
- i0w==
-X-ME-Sender: <xms:9Cu9YtQ-m6eYjFcHHrXQFiKxVHWRdXtVgwqS22cp8r_WmVQNVDfIZg>
- <xme:9Cu9YmxU8uKMQc_1O-xKF-d4ExfZ2YifhOTpGVLSYmCVhXoD-kE-xSkjHXiP3IdcJ
- c8hOsP9rl8toiI5FM0>
-X-ME-Received: <xmr:9Cu9Yi1S98s11_l2nqkRe5fA7BxB6Tci1mvT2ATGsxw2dLViJAkvnN_Zqs98hT_mA658TzxKOjy4VgUUttQlWCIuojurzFq1>
+ :x-sasl-enc; s=i9e814621.fm2; t=1656564728; x=1656568328; bh=dTm
+ 7rZ8rzNQ7a1Zn1KFha3bDGRQnWQsIe5tXVAida7Q=; b=e3Xx/pAZYE3L9LvweNJ
+ uilSWVAV345kGdP2NjbEEmbsazMj02TQ05UjG23EWp4SE+8wW6fWv+6ajC99I6+2
+ qsqAjXnNoxGqQXBpl22/lRC2rZZWiJPuHHqBOBZAlXcG1D5i53fJehdqTwhE9rdo
+ CfA48ZZ+dYJX/WGp1jahUlzJf/YAnmhlKaAcBQIRROUxjr+2cRw1ZFAfhu19mhRr
+ crGkdPg1CpYKiYV+OCsfmo6YwRY3/6xAN82cMJmqWRfjBmFM3uj5geLUpO+1ctWT
+ mUv15jEmK31dLgNy97aI8Ec3zuKdsvc5keks7tdtpt+ayqDIrn7EhkM7iqRefa5I
+ o+g==
+X-ME-Sender: <xms:-Cu9YsCC83lRZyGha4wozHCatqsf8_e-RjdCH1AbWCqAmjbcSV6D4g>
+ <xme:-Cu9YuhHHQXTzHkjJ7Mrc5ohJ45jBK_JdenF2VrC0K2cOe92Na3mqQ73rkJtjwXp-
+ WvO_9SFnrFoeiVNKy0>
+X-ME-Received: <xmr:-Cu9YvllUu3Yr2QZ-u88th4T8O0H9Ap7G5KkTuXVAZFc93yJr_HvQsIIn0L1kTyTlWX8q34trf8C38377iZZa-hy0XNlPHS5>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddgkeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
  dmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheprfgv
  thgvrhcuffgvlhgvvhhorhihrghsuceomhgvsehpjhgurdguvghvqeenucggtffrrghtth
  gvrhhnpeektefhieevgfduvdeiueetteegtdeuueevieelffevueevveehhedukeejtdek
- teenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmvg
+ teenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmvg
  esphhjugdruggvvh
-X-ME-Proxy: <xmx:9Cu9YlDXgRhOrkulo1Dj6RphVNOYamCOmL0iQSdK_41Y-4dhmo8_Kw>
- <xmx:9Cu9YmhRvjBVy1EDVgZ0T9vkdyM8np5LVxRPzyIeVfftsHPezsyTZw>
- <xmx:9Cu9Ypq18nr4W_WriBMb5pqabyb-5993xBdWRIOzEQS3wIIS9Z3QZA>
- <xmx:9Su9YvUfgwx0pD02IfTKqIguEzaPPhd2WYTNzEOgTZeftf5ve0g-WWGPcBI>
+X-ME-Proxy: <xmx:-Cu9YiyNIkjSA2tGKTaiXgplfeRH4z9YX-M1XFQbjFNoxBzSb8_3pg>
+ <xmx:-Cu9YhRoX0p80koPBcu4-B44K_j3QekZyATqoXQuX3Ah69iODKj30Q>
+ <xmx:-Cu9Ytbkdy2buP9XxTlJcU9f8oRaS9N3vwv4dvxK2i0rhs9XTWlbVg>
+ <xmx:-Cu9YsG-OrNe5d4z9ABuDWu6OyraJZZtdJx5QCbLMABnoOyucZgfODB4asQ>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Jun 2022 00:52:04 -0400 (EDT)
+ 30 Jun 2022 00:52:07 -0400 (EDT)
 From: Peter Delevoryas <me@pjd.dev>
 To: 
 Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
  cminyard@mvista.com, titusr@google.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, zhdaniel@fb.com, pdel@fb.com
-Subject: [PATCH v3 09/14] hw/sensor: Add IC_DEVICE_ID to ISL voltage regulators
-Date: Wed, 29 Jun 2022 21:51:28 -0700
-Message-Id: <20220630045133.32251-10-me@pjd.dev>
+Subject: [PATCH v3 10/14] hw/sensor: Add Renesas ISL69259 device model
+Date: Wed, 29 Jun 2022 21:51:29 -0700
+Message-Id: <20220630045133.32251-11-me@pjd.dev>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220630045133.32251-1-me@pjd.dev>
 References: <20220630045133.32251-1-me@pjd.dev>
@@ -104,67 +104,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-This commit adds a passthrough for PMBUS_IC_DEVICE_ID to allow Renesas
-voltage regulators to return the integrated circuit device ID if they
-would like to.
-
-The behavior is very device specific, so it hasn't been added to the
-general PMBUS model. Additionally, if the device ID hasn't been set,
-then the voltage regulator will respond with the error byte value.  The
-guest error message will change slightly for IC_DEVICE_ID with this
-commit.
+This adds the ISL69259, using all the same functionality as the existing
+ISL69260 but overriding the IC_DEVICE_ID.
 
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
 ---
- hw/sensor/isl_pmbus_vr.c         | 12 ++++++++++++
- include/hw/sensor/isl_pmbus_vr.h |  5 +++++
- 2 files changed, 17 insertions(+)
+ hw/sensor/isl_pmbus_vr.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/hw/sensor/isl_pmbus_vr.c b/hw/sensor/isl_pmbus_vr.c
-index e11e028884..799ea9d89e 100644
+index 799ea9d89e..853d70536f 100644
 --- a/hw/sensor/isl_pmbus_vr.c
 +++ b/hw/sensor/isl_pmbus_vr.c
-@@ -15,6 +15,18 @@
+@@ -119,6 +119,18 @@ static void raa228000_exit_reset(Object *obj)
+     pmdev->pages[0].read_temperature_3 = 0;
+ }
  
- static uint8_t isl_pmbus_vr_read_byte(PMBusDevice *pmdev)
++static void isl69259_exit_reset(Object *obj)
++{
++    ISLState *s = ISL69260(obj);
++    static const uint8_t ic_device_id[] = {0x04, 0x00, 0x81, 0xD2, 0x49, 0x3c};
++    g_assert_cmphex(sizeof(ic_device_id), <=, sizeof(s->ic_device_id));
++
++    isl_pmbus_vr_exit_reset(obj);
++
++    s->ic_device_id_len = sizeof(ic_device_id);
++    memcpy(s->ic_device_id, ic_device_id, sizeof(ic_device_id));
++}
++
+ static void isl_pmbus_vr_add_props(Object *obj, uint64_t *flags, uint8_t pages)
  {
-+    ISLState *s = ISL69260(pmdev);
-+
-+    switch (pmdev->code) {
-+    case PMBUS_IC_DEVICE_ID:
-+        if (!s->ic_device_id_len) {
-+            break;
-+        }
-+        pmbus_send(pmdev, s->ic_device_id, s->ic_device_id_len);
-+        pmbus_idle(pmdev);
-+        return 0;
-+    }
-+
-     qemu_log_mask(LOG_GUEST_ERROR,
-                   "%s: reading from unsupported register: 0x%02x\n",
-                   __func__, pmdev->code);
-diff --git a/include/hw/sensor/isl_pmbus_vr.h b/include/hw/sensor/isl_pmbus_vr.h
-index 3e47ff7e48..aa2c2767df 100644
---- a/include/hw/sensor/isl_pmbus_vr.h
-+++ b/include/hw/sensor/isl_pmbus_vr.h
-@@ -12,12 +12,17 @@
- #include "hw/i2c/pmbus_device.h"
- #include "qom/object.h"
+     PMBusDevice *pmdev = PMBUS_DEVICE(obj);
+@@ -257,6 +269,21 @@ static void raa229004_class_init(ObjectClass *klass, void *data)
+     isl_pmbus_vr_class_init(klass, data, 2);
+ }
  
-+#define TYPE_ISL69259   "isl69259"
- #define TYPE_ISL69260   "isl69260"
- #define TYPE_RAA228000  "raa228000"
- #define TYPE_RAA229004  "raa229004"
-+#define ISL_MAX_IC_DEVICE_ID_LEN 16
- 
- struct ISLState {
-     PMBusDevice parent;
++static void isl69259_class_init(ObjectClass *klass, void *data)
++{
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    dc->desc = "Renesas ISL69259 Digital Multiphase Voltage Regulator";
++    rc->phases.exit = isl69259_exit_reset;
++    isl_pmbus_vr_class_init(klass, data, 2);
++}
 +
-+    uint8_t ic_device_id[ISL_MAX_IC_DEVICE_ID_LEN];
-+    uint8_t ic_device_id_len;
- };
++static const TypeInfo isl69259_info = {
++    .name = TYPE_ISL69259,
++    .parent = TYPE_ISL69260,
++    .class_init = isl69259_class_init,
++};
++
+ static const TypeInfo isl69260_info = {
+     .name = TYPE_ISL69260,
+     .parent = TYPE_PMBUS_DEVICE,
+@@ -283,6 +310,7 @@ static const TypeInfo raa228000_info = {
  
- OBJECT_DECLARE_SIMPLE_TYPE(ISLState, ISL69260)
+ static void isl_pmbus_vr_register_types(void)
+ {
++    type_register_static(&isl69259_info);
+     type_register_static(&isl69260_info);
+     type_register_static(&raa228000_info);
+     type_register_static(&raa229004_info);
 -- 
 2.37.0
 
