@@ -2,91 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117D7562504
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 23:19:21 +0200 (CEST)
-Received: from localhost ([::1]:32874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D306C562612
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 00:28:42 +0200 (CEST)
+Received: from localhost ([::1]:45704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o71ZH-0005L6-HZ
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 17:19:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47286)
+	id 1o72eP-0006SS-3E
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 18:28:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o71Uc-0004BC-Ne; Thu, 30 Jun 2022 17:14:30 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:52981)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1o72cw-0005lv-Om
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 18:27:10 -0400
+Received: from mail-dm6nam11on20614.outbound.protection.outlook.com
+ ([2a01:111:f400:7eaa::614]:39998
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o71UY-0002ib-9K; Thu, 30 Jun 2022 17:14:30 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 65DF0580349;
- Thu, 30 Jun 2022 17:14:24 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 30 Jun 2022 17:14:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1656623664; x=1656627264; bh=kuX5VNGbqR
- OSQD5WrJ+yQeDzR2lY2rYnTSKtaCsXSXU=; b=kpZC5jGSrYSzyAmdukBrIQ3o14
- DC/j5PM1i6dV9NUHoa8sY63xiH9IDz6Z4YQ5gw5HFrfsmLXTIFBY0U4LB29BcSbu
- B54LUPDq+qkHyZOGq5JlEIe+8rD34KrhJTNfiyOJFuX+1uWhj+EottsoolKjX+ia
- UH7kp27D8Dsz0nPwOlXjCZDrzpWaXytOAXo2JA4XU1Z44SbJHKNRFai+UYWtURid
- mDjljuW7iwRZKN0q5r5b4BMS866Cz+K1G7qK0qSqqYt8QtNZVVZT7Q78kY50lJ2d
- AXka6a1P0zh6IUszX46rfJ2lTcx+88IbZ77I1xjr+3d5ES96nAfB6C2hXYJQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- i9e814621.fm2; t=1656623664; x=1656627264; bh=kuX5VNGbqROSQD5WrJ
- +yQeDzR2lY2rYnTSKtaCsXSXU=; b=aM9pjBzQmlE0rv/Qnedi7hxozAXL1AjkSU
- v2k7IAl+wdV5gV6rYQrnveRNLeQUMvDgheWYUz0IYITlYs+PZ1x15ibCbSjoua3L
- jFEXCWA+QYooaAIDXLkp/esp0gWc2gv5qT5zz+At+yjz5oyhaLAC0W3bnc/JolsO
- 9OhAMDGWdD/d4VTy9QRnj1poownWNL6TOY1XkQu91EeUr1MeS8MSdyRB/M4qc6W0
- Dvc4XXqSlUFO2Vp2FUZd9cwLYEHfTNceDXFpFGnre8c2LSjzPXp0pX7c6EA+xBL/
- Y1uxo5LxJ0J4E9I+qcSSOK5ChsDhyLz5ox2rMEYlFk9/TA3v6GOw==
-X-ME-Sender: <xms:LxK-Yg1ncxon9a37NuFP1eeQtGUjQcQN2Jv_KQr641J4vKccaYVPZw>
- <xme:LxK-YrGqqn9XNpJ07hP53M_kla-06qsgrNlYHX7ozKWZYeOm1KaxOuOtlarcAXm1S
- rHfCZYIGdFMc8QCVGs>
-X-ME-Received: <xmr:LxK-Yo4LkoHwD-QM1hYn8tUz8tyQ_zAJ875lSIQeExb1GjS9OiagdnZhVNvvtqLLMdxKr5-B1-n0YmiJtA4ft5kq>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehuddgudehjecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehmvgesphhjugdruggvvheqnecuggftrfgrthhtvg
- hrnhepvdekgfeggeffiedtjefhueegleeiiefhfeduudfhveeufeffleffheevgeevtdeh
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgvse
- hpjhgurdguvghv
-X-ME-Proxy: <xmx:LxK-Yp3rW3HOGFkXzYaVWkfeoyp52EzPfqK2mktrIgIGI4C_rx9KzA>
- <xmx:LxK-YjEk0nAUcSvUMBFtPiz5Mnl_JPY931sojHysQxf--GdAEUvmkg>
- <xmx:LxK-Yi8LEDLex-NWiEHNEDSZcWpMPB_llT2QH-RosvAGNmO2K7MEFA>
- <xmx:MBK-YpbzMr5odLoth1gJKjm_O_eu5XoHzq4hCgHnRq3NPUKe52i8sA>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Jun 2022 17:14:22 -0400 (EDT)
-Date: Thu, 30 Jun 2022 14:14:20 -0700
-From: Peter Delevoryas <me@pjd.dev>
-To: Titus Rwantare <titusr@google.com>
-Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
- cminyard@mvista.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- zhdaniel@fb.com, pdel@fb.com
-Subject: Re: [PATCH v3 10/14] hw/sensor: Add Renesas ISL69259 device model
-Message-ID: <Yr4SLOuKAHBBa0nH@pdel-mbp.dhcp.thefacebook.com>
-References: <20220630045133.32251-1-me@pjd.dev>
- <20220630045133.32251-11-me@pjd.dev>
- <CAMvPwGptKGEkDf2MqED8EatHoY-szncDmmJxQKvKDj3YhrbCig@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1o72ct-0003Ty-SD
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 18:27:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R1o6k544A11JQIULQrl3DckEqCaQA3hj76EyHnYr4tp9njCrVKf8dHbYrkXFHfM+LRus2qsboHt/6OuXjE+oGJy6vIzFwdvuc+BG00HmU93YzgSaAhA+hVZk3KQFfdVXT1FaCrPIaxWJ0ZWyd++Bd9jgvATmgL17d6sSAwy824r1NbFHedhmiAuf+btmCp4i4wk+Mng/FFzTGoUDhoW9+KbE1tszBMeqghIlxNA0oIV4p9cN2JjQEHx1+3XXzNleN621QGJKUK/rLGo+PPbWtxMxWfxqr7PcPm8iEUzYFFQLAeOpfCS9KsP+Mh+URmd1S2f+8m/snNFN7fJrfBGWNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vDdvE/+qLXuAvKitUqu8CFVheNxtCtHZvfWwUHG1068=;
+ b=jHQjWnt3s50X0zoJWkbB04WeIXbUw9iSH6IBaRwJrgGTIAnG1IJYewCMhOIUBdsO1VnTXa0YsMUSIUNFqiggsCwNRCQYxPTA2wJ+fdzsoIs7OI9tv/CMYQW7fSSbztRPzpCF8c+0zZydgm9Sy6BZE64dYZXRXYFA/8RMcyFyRRwxx9rq5J49kRQG+/gZIgwhjIyH6Ep11iEmrSyaff7Hl4j2Rc/OJCu8q4gs+xl+SGAaG3Q1jhh0mTAVtJ2EExxgu40KXLE5njaOkB/fDdZEqwr3cxknN01hFxVWM0USf+/i35uLzunh2m6wZHCS1Z45iDe1uynWnbXSVaURYN6Icw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vDdvE/+qLXuAvKitUqu8CFVheNxtCtHZvfWwUHG1068=;
+ b=NPD+cmFuHwFd21SkLbknHj1F39ac/FNDuXtzhmvMBIDcI2yr+KJiLlWvrb29wc3om6Y6Q7N6qIJyRYFD/gTJnANwaic/U5hjhHwIVecVXSiWu36zgWNfdEKzBw7JXIwyCCmdG4+gABilVbl/m0HAst/eFZaK/LzmmzPCtJT4aiE=
+Received: from BN9P220CA0023.NAMP220.PROD.OUTLOOK.COM (2603:10b6:408:13e::28)
+ by DM6PR12MB4089.namprd12.prod.outlook.com (2603:10b6:5:213::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Thu, 30 Jun
+ 2022 22:22:00 +0000
+Received: from BN8NAM11FT040.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:13e:cafe::62) by BN9P220CA0023.outlook.office365.com
+ (2603:10b6:408:13e::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15 via Frontend
+ Transport; Thu, 30 Jun 2022 22:22:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT040.mail.protection.outlook.com (10.13.177.166) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5395.14 via Frontend Transport; Thu, 30 Jun 2022 22:22:00 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 30 Jun
+ 2022 17:21:59 -0500
+Date: Thu, 30 Jun 2022 17:21:40 -0500
+From: Michael Roth <michael.roth@amd.com>
+To: Vishal Annapurve <vannapurve@google.com>
+CC: Chao Peng <chao.p.peng@linux.intel.com>, "Nikunj A. Dadhania"
+ <nikunj@amd.com>, kvm list <kvm@vger.kernel.org>, LKML
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <qemu-devel@nongnu.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Sean Christopherson
+ <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li
+ <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, Joerg Roedel
+ <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, x86 <x86@kernel.org>, "H
+ . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>, Jeff Layton
+ <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>, "Steven
+ Price" <steven.price@arm.com>, "Maciej S . Szmigiero"
+ <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>, Yu Zhang
+ <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
+ <kirill.shutemov@linux.intel.com>, Andy Lutomirski <luto@kernel.org>, "Jun
+ Nakajima" <jun.nakajima@intel.com>, Dave Hansen <dave.hansen@intel.com>,
+ "Andi Kleen" <ak@linux.intel.com>, David Hildenbrand <david@redhat.com>,
+ <aarcange@redhat.com>, <ddutile@redhat.com>, <dhildenb@redhat.com>, "Quentin
+ Perret" <qperret@google.com>, <mhocko@suse.com>
+Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
+Message-ID: <20220630222140.of4md7bufd5jv5bh@amd.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-7-chao.p.peng@linux.intel.com>
+ <b3ce0855-0e4b-782a-599c-26590df948dd@amd.com>
+ <20220624090246.GA2181919@chaop.bj.intel.com>
+ <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <CAMvPwGptKGEkDf2MqED8EatHoY-szncDmmJxQKvKDj3YhrbCig@mail.gmail.com>
-Received-SPF: pass client-ip=66.111.4.230; envelope-from=me@pjd.dev;
- helo=new4-smtp.messagingengine.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d5fecce7-6f56-4080-cfa6-08da5ae6f3ae
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4089:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Z2QpwV8hL6dMAI9riXKR5ZLlDlOA+N4IsIvDs2cG6vwUsCuUwB5piVkHhPRMUmxec0BpSIf2dn+9teTt0w9OH7eK6lgym0sa479giZjgGKH9Qrc3UJeyIP1usR6VNKLvi8NS4G1hUUf1rhUuI8t656nXygxYdtPTNNOYTPs2VZxi6ltEeGyCv6FKyM2Vwh9YDkU/o+/fsustHg8MHhRyaEevWYAltL4dMC9iYIqELYfwMS+6QbFI0+aY98978dksFsFwTjCQ+tIlhNmeDKSUM6F/ZKTS74utfp1OEMsgRgBHAn97BGcE2hZ2ehAbMpjdF8Jar/uBUxpVh4hBNU20f2Fqo0alSHGJiKCqT9ceI4xFdaJHFbHi56mrDvWuoJsaR5WVVTvh4GUKNPJ/tS5uHUpI5XGxpMbpIcHSgAcQsiBKIJJxpmNlicGyiiPKQ1w+Kv6X6POJJOGjcCh+yFkwjs4Eos9ZL11Vsqkngkq8LIPoxE3yqpfCgUijxcWUlVRmiMbNc2/W7zj0EQF/ECZAsZkBNMKfrdqaTajRk05O94RZUb76PBS4X6eozgdc8FdZgrdMsCtx5dxUaB4yygv2/tguO40XaFCvv2hZETKfSntGepWrs+EvH95hC1aKWvsTdCq9IRFQpsJkq4FMB5DGslE6WCzjHRYhHFhv1dmFGh+EqmuySyMYLtQ2otbe/PbEGr7W/QwakdQO6peHt+qAkXVTc+SLYc498p9IB7+3+AG6H8xoXkQadJ4csHubsm6A+el1yw6PUdmOsL5KBii2gVrd90NFsn8sdMbn0dTabvjbiKxcbiErd4yKk4jrmTaho4/x7UYDiB5NiUGfnTpjD0MyF0I4xTqSeMNOzEFvCRLRZnT+qVef0Tj278fbgTu5
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(396003)(39860400002)(346002)(376002)(40470700004)(36840700001)(46966006)(40480700001)(356005)(6916009)(81166007)(336012)(1076003)(44832011)(316002)(36860700001)(40460700003)(36756003)(5660300002)(7416002)(82740400003)(41300700001)(70586007)(82310400005)(8676002)(966005)(70206006)(7406005)(4326008)(86362001)(16526019)(426003)(186003)(2616005)(2906002)(83380400001)(6666004)(8936002)(47076005)(478600001)(26005)(54906003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2022 22:22:00.2863 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5fecce7-6f56-4080-cfa6-08da5ae6f3ae
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT040.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4089
+Received-SPF: softfail client-ip=2a01:111:f400:7eaa::614;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,55 +144,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 12:16:05PM -0700, Titus Rwantare wrote:
-> On Wed, 29 Jun 2022 at 21:52, Peter Delevoryas <me@pjd.dev> wrote:
-> >
-> > From: Peter Delevoryas <pdel@fb.com>
-> >
-> > This adds the ISL69259, using all the same functionality as the existing
-> > ISL69260 but overriding the IC_DEVICE_ID.
-> >
-> > Signed-off-by: Peter Delevoryas <pdel@fb.com>
-> > ---
-> >  hw/sensor/isl_pmbus_vr.c | 28 ++++++++++++++++++++++++++++
-> >  1 file changed, 28 insertions(+)
-> >
-> > diff --git a/hw/sensor/isl_pmbus_vr.c b/hw/sensor/isl_pmbus_vr.c
-> > index 799ea9d89e..853d70536f 100644
-> > --- a/hw/sensor/isl_pmbus_vr.c
-> > +++ b/hw/sensor/isl_pmbus_vr.c
-> > @@ -119,6 +119,18 @@ static void raa228000_exit_reset(Object *obj)
-> >      pmdev->pages[0].read_temperature_3 = 0;
-> >  }
-> >
-> > +static void isl69259_exit_reset(Object *obj)
-> > +{
-> > +    ISLState *s = ISL69260(obj);
-> > +    static const uint8_t ic_device_id[] = {0x04, 0x00, 0x81, 0xD2, 0x49, 0x3c};
-> > +    g_assert_cmphex(sizeof(ic_device_id), <=, sizeof(s->ic_device_id));
-> > +
+On Thu, Jun 30, 2022 at 12:14:13PM -0700, Vishal Annapurve wrote:
+> With transparent_hugepages=always setting I see issues with the
+> current implementation.
 > 
-> This generates an error from the checkpatch script:
-> Checking 0010-hw-sensor-Add-Renesas-ISL69259-device-model.patch...
-> ERROR: Use g_assert or g_assert_not_reached
-> #27: FILE: hw/sensor/isl_pmbus_vr.c:126:
-> +    g_assert_cmphex(sizeof(ic_device_id), <=, sizeof(s->ic_device_id));
+> Scenario:
+> 1) Guest accesses a gfn range 0x800-0xa00 as private
+> 2) Guest calls mapgpa to convert the range 0x84d-0x86e as shared
+> 3) Guest tries to access recently converted memory as shared for the first time
+> Guest VM shutdown is observed after step 3 -> Guest is unable to
+> proceed further since somehow code section is not as expected
+> 
+> Corresponding KVM trace logs after step 3:
+> VCPU-0-61883   [078] ..... 72276.115679: kvm_page_fault: address
+> 84d000 error_code 4
+> VCPU-0-61883   [078] ..... 72276.127005: kvm_mmu_spte_requested: gfn
+> 84d pfn 100b4a4d level 2
+> VCPU-0-61883   [078] ..... 72276.127008: kvm_tdp_mmu_spte_changed: as
+> id 0 gfn 800 level 2 old_spte 100b1b16827 new_spte 100b4a00ea7
+> VCPU-0-61883   [078] ..... 72276.127009: kvm_mmu_prepare_zap_page: sp
+> gen 0 gfn 800 l1 8-byte q0 direct wux nxe ad root 0 sync
+> VCPU-0-61883   [078] ..... 72276.127009: kvm_tdp_mmu_spte_changed: as
+> id 0 gfn 800 level 1 old_spte 1003eb27e67 new_spte 5a0
+> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
+> id 0 gfn 801 level 1 old_spte 10056cc8e67 new_spte 5a0
+> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
+> id 0 gfn 802 level 1 old_spte 10056fa2e67 new_spte 5a0
+> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
+> id 0 gfn 803 level 1 old_spte 0 new_spte 5a0
+> ....
+>  VCPU-0-61883   [078] ..... 72276.127089: kvm_tdp_mmu_spte_changed: as
+> id 0 gfn 9ff level 1 old_spte 100a43f4e67 new_spte 5a0
+>  VCPU-0-61883   [078] ..... 72276.127090: kvm_mmu_set_spte: gfn 800
+> spte 100b4a00ea7 (rwxu) level 2 at 10052fa5020
+>  VCPU-0-61883   [078] ..... 72276.127091: kvm_fpu: unload
+> 
+> Looks like with transparent huge pages enabled kvm tried to handle the
+> shared memory fault on 0x84d gfn by coalescing nearby 4K pages
+> to form a contiguous 2MB page mapping at gfn 0x800, since level 2 was
+> requested in kvm_mmu_spte_requested.
+> This caused the private memory contents from regions 0x800-0x84c and
+> 0x86e-0xa00 to get unmapped from the guest leading to guest vm
+> shutdown.
 
-Argghhh I should have caught this, thanks. I'll replace it with g_assert. I
-didn't realize there was some kind of portability issue with using
-g_assert_cmphex in non-test code.
+Interesting... seems like that wouldn't be an issue for non-UPM SEV, since
+the private pages would still be mapped as part of that 2M mapping, and
+it's completely up to the guest as to whether it wants to access as
+private or shared. But for UPM it makes sense this would cause issues.
 
 > 
-> otherwise, LGTM.
+> Does getting the mapping level as per the fault access type help
+> address the above issue? Any such coalescing should not cross between
+> private to
+> shared or shared to private memory regions.
 
-That's great! Thanks for the review. I'll let you and Cedric sort
-out if we want to make IC_DEVICE_ID a class property or keep it
-in exit_reset as everything else class-specific is right now.
+Doesn't seem like changing the check to fault->is_private would help in
+your particular case, since the subsequent host_pfn_mapping_level() call
+only seems to limit the mapping level to whatever the mapping level is
+for the HVA in the host page table.
 
-I'll still resubmit the patches as a separate series though with
-the g_assert fix and your reviewed-by tags.
+Seems like with UPM we need some additional handling here that also
+checks that the entire 2M HVA range is backed by non-private memory.
+
+Non-UPM SNP hypervisor patches already have a similar hook added to
+host_pfn_mapping_level() which implements such a check via RMP table, so
+UPM might need something similar:
+
+  https://github.com/AMDESE/linux/commit/ae4475bc740eb0b9d031a76412b0117339794139
+
+-Mike
 
 > 
+> > > >     host_level = host_pfn_mapping_level(kvm, gfn, pfn, slot);
+> > > >     return min(host_level, max_level);
+> > > >  }
+> > >
 > 
-> Titus
+> Regards,
+> Vishal
 
