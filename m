@@ -2,143 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95397561E49
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 16:41:30 +0200 (CEST)
-Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117D9561E14
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 16:37:07 +0200 (CEST)
+Received: from localhost ([::1]:57300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6vMH-0007vR-50
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 10:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39106)
+	id 1o6vI1-0003Dk-MI
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 10:37:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1o6vHy-00044I-Rl
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 10:37:02 -0400
-Received: from mail-bn7nam10on20610.outbound.protection.outlook.com
- ([2a01:111:f400:7e8a::610]:56960
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o6vFs-0001Cl-5h
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 10:34:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1o6vHv-0001p5-E1
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 10:37:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IguPBMgjJd360sM6Pul+mQ3pC1omFXBFoCQEuNwhMbJ2CrvJ/dgYER9K6nS2+diRpLj7On6EHp8RQaR40lAmXnYZ2AjRDSqwdWe1ccMD4lOjX/NBBbN15I0XgBfo32tnslkI0imPzpKLTLRNOFWVFAyav0qRPTg5rUIXetwFOsqeQ3nH29ETSA3d0jSCvF8ryvaj8+zQyZkGnd1dAvWLA4+PaY/KS0gJmGR4ogof1t/eJFQb1nclODUrvR4M2iDEhWqNWDDtz/xpvEfK4aHkT+seYElhaEAfSY0rC2yMKmVOTPU/+F/1eJfmGB2W1lYM5KOvaK5E04fXfpxT5lA1tA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3pDULOZalfRaWqqg+3nQMrghgVGf+zwYiben9y/RIBU=;
- b=lz9TWuACCUM3KZoQGXOjJQPCeufQ1DinDTjm9fcqtm6NtWuA3mlOYKiHCMuwJBSOPA0DaPkyT8VhdikgWb1ZRyoEhME3Ye5fqcVqaG6DZg3dZCT+iTkIMBsxWUTvnCs7TbyevfPhkt4GVfR4KyQsLW08plZgHHxis5mGFQcoWnOFWpnIU6Uun5c5fNFgPRmNuBPZYxWK848iG5xyOfLEXde1fBKBqQqE3eVLcw1+nRsDx7XlBzqTczp46qllYLWDxomHXCSrHkYAAslK0RTr3/kMcEErCJU4NR98hiqnTKhp3Sl7zw2kAfEwLWDK5poT+z4EHSsfol0gmpXtlKvgaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3pDULOZalfRaWqqg+3nQMrghgVGf+zwYiben9y/RIBU=;
- b=hlA1Rx4Omn0RTGrjXwrnuPLZzBnIjr+MnNE8cVNEtrM8bd8C8ndg/wkWJHbQNLWVHjG2/BOpaGi36VE0aoPQmsAUCzXGbOvvpj3Y/jTFdUkQIuaPx1aQDRbinEhqPlcvLXKvsox4qsh3+4ym/OxO3gFgFWG19GMfIozrQdK+SCE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
- by DM6PR12MB4841.namprd12.prod.outlook.com (2603:10b6:5:1ff::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Thu, 30 Jun
- 2022 14:31:54 +0000
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::1dac:1301:78a3:c0d0]) by DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::1dac:1301:78a3:c0d0%4]) with mapi id 15.20.5395.014; Thu, 30 Jun 2022
- 14:31:54 +0000
-Message-ID: <be2ebbbf-1568-1eb5-b2ff-73819d4e872d@amd.com>
-Date: Thu, 30 Jun 2022 09:31:51 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2] target/i386: Add unaccepted memory configuration
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Dionna Glaze <dionnaglaze@google.com>
-Cc: qemu-devel@nongnu.org, Xu@google.com, Min M <min.m.xu@intel.com>,
- Xiaoyao Li <xiaoyao.li@intel.com>, Gerd Hoffman <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o6vFo-0000vL-6d
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 10:34:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656599686;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pfTjKJd0k6EF8WqDAJDIYuTSM3YPH6l0DmSSHY9GNWw=;
+ b=MzHRcPst2+QflqBvKEeL9n+kroVQLR5aNOcxpAdeXzJpUiewVNXIujWTezdLrg5dfv/jNv
+ uRQY8WU4dCwj7GMI6RphmiNA1dQ9N98GbCv5WK9lq0P4TZ1bGLyvBLJBcBI0jEbkAVKyc0
+ ZXxPxHEuGqKSNHn3pGZcPh03fP5yOa4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-140-RffpK2KoMvGnTeNU2M8iuQ-1; Thu, 30 Jun 2022 10:34:45 -0400
+X-MC-Unique: RffpK2KoMvGnTeNU2M8iuQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j35-20020a05600c1c2300b003a167dfa0ecso1577426wms.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 07:34:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=pfTjKJd0k6EF8WqDAJDIYuTSM3YPH6l0DmSSHY9GNWw=;
+ b=kGYrgJpVjpB9gLCADcsDqyaiZCn+H+6p6Tq9G05o+XYfO578btlzb3f6HKlyf5HXeZ
+ cQ8VBU53MOw50TY19C0lYIojpYxnY684FW/j+aKVoTt5AzLkGSPwJJJygnN3D2PXJrvp
+ q2MACUCADypIthYQYJNmLMskKGzm7OuaEhRBdC/n0Jj5QCcV3Lebz2bwesViFdWkKYtI
+ r2W8TccDZ7atgvCSkQ7jDDamXe23+N8o0O0bVe/m3kVOrSu3TztXbzJdsCR8jECA7gzA
+ AqepTN/FfHN2kUrZGTCwSB7jYJYwCXVMqB0X/o6phOkCXG57Xz8uqeClf32TpDND3Kmu
+ lhiQ==
+X-Gm-Message-State: AJIora96mXwGzH4hVz0iXNJ4FW9o/fWhzbibPilMj2ATN4UTIvWmPUkr
+ R+n3JOMXzH74a0PXADBnBFPgwTs1HglChYI/sP/bU9HhRBXRrRAZdkFkdiacSPC6qeUyETbypZr
+ MjyUvTaYrToJUmNY=
+X-Received: by 2002:a05:600c:4ece:b0:3a1:7816:31a9 with SMTP id
+ g14-20020a05600c4ece00b003a1781631a9mr6749481wmq.100.1656599684155; 
+ Thu, 30 Jun 2022 07:34:44 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tqJ0IV0UOfRedg6lIhxVFuPEM18gmX+3sXhq3vk8w43DLHgUu9HO7Zn03CG4J8XOBDA7fZ6w==
+X-Received: by 2002:a05:600c:4ece:b0:3a1:7816:31a9 with SMTP id
+ g14-20020a05600c4ece00b003a1781631a9mr6749449wmq.100.1656599683899; 
+ Thu, 30 Jun 2022 07:34:43 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ l10-20020a5d560a000000b0021b9270de3csm20677223wrv.10.2022.06.30.07.34.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jun 2022 07:34:43 -0700 (PDT)
+Date: Thu, 30 Jun 2022 15:34:41 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Marcelo Tosatti
- <mtosatti@redhat.com>, "open list:X86 KVM CPUs" <kvm@vger.kernel.org>
-References: <20220629193701.734154-1-dionnaglaze@google.com>
- <Yr1bYiA1w/lMX76k@redhat.com>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-In-Reply-To: <Yr1bYiA1w/lMX76k@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA9PR13CA0070.namprd13.prod.outlook.com
- (2603:10b6:806:23::15) To DM4PR12MB5229.namprd12.prod.outlook.com
- (2603:10b6:5:398::12)
+ Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH 1/5] multifd: Create property multifd-sync-each-iteration
+Message-ID: <Yr20gdrEYimAq1Tn@work-vm>
+References: <20220621140507.1246-1-quintela@redhat.com>
+ <20220621140507.1246-2-quintela@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bfca9ad7-940e-4642-2163-08da5aa54770
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4841:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0Ss0RlaoJYkqiR+VIa98WD7tSQTKNcOecI1olT+qRj7ZvDfsUvJDLun3dEXDc9LHcTEiTyC9fo/mtAbR/1Fjlsoulzom2W6R5iRm2+oJDRXC+TMCbrXup2Hfi6XHh64wz1aIYZsq76pvUCG7UQfoMDXSlOxY1mQbOEbAqDuzTq4741kLly0MHhQDXJOQ9W6++qbQ8QcS6Jb0JPjkxsOws1+Y1MbBu7SwLLqSn0+a5LAvlAQxaMsaiTk9rOBlwgZkwct48iwFyZG1g4Mv+MZXS3cYLxstyzwSg0wduxYlAS1+hgm3ZnzKQh2ncoxCl39HjuG+pszgePA+cCevtYC0LM1Oeth/2B/xg3ixbUGwg9Vh9RaFaKr3FMT+PQWUjCUERTuFdDGF70e+YJS+yX8B3zSQ91902IOtJpSDKArUKuNQB9uJ1DUBhaTUB3YdLYfZN9cyLhcO7geURz3FsApD+IarGGGIZ+if1SXLAu1aLzuQl4gnZz2QFiLWu3SHWWxJ5Dks5CmFv9yBAufvzjmhStTNundJPd6g10G0L9zwtHIixcBexnZlVlj73YyNGRhuVF/eWwXS1D5v8H0VCLcyM4HSbrpsUFZx+zSUBWs2dp0fIA8tatu3hsrLWt810noPQYx3LBoce8Vgw8q3vYw44fkQRZ8hXHU2KSEATqJcQIFPXvdwz6FwVQwZBD8W2rPyY2/ouxQYRMF2ffqNDIYiUm8U7OfJpZRowVtCYeatFqUzN2FQ8az2OzZdRWMNr82Jnr5FsxQz89BL6bB7XLYDPR+l7zkZNcM6p6H70INMXI4e3bApTECvPjVq4CsFXxh7qyBSdCmqbVQ9o18DVhM2rO2JJRmHm7k383COzuJ6sAlVVGfFDMH/pVwEExR5h+Hq
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5229.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(366004)(136003)(346002)(376002)(396003)(110136005)(2616005)(54906003)(186003)(316002)(6512007)(26005)(53546011)(86362001)(31696002)(6506007)(38100700002)(31686004)(41300700001)(8936002)(966005)(2906002)(6486002)(6666004)(66476007)(8676002)(66946007)(66556008)(478600001)(4326008)(36756003)(7416002)(5660300002)(83380400001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d0FoNEQrdzlsaG5yYlRUV0ZoYk90d0IyclFsYTZValhua0tTMSttNUkwZXcx?=
- =?utf-8?B?eG1qZzhYbmdCUU9CMVI3QmlCOGpSVCt6L004YnVLQkZINXBlMDdUWkpMbmZC?=
- =?utf-8?B?VWFnWXQ1THg0L2k3UHBHdUV2VDcvVERhNUZhRDd1b3h2eFVvZlpDcXAyaXMv?=
- =?utf-8?B?bVMrYzJoOW5SeXNtRmNxYlMxOEIyRVVPUmZIc2FlNGpmY1J0UzZaK2lHZTdT?=
- =?utf-8?B?eGlyckRFM0hJV3pEbEpjQlRjUTF6QkVwK0lSaFpQaFo5ME5wdGM1YXMycDVl?=
- =?utf-8?B?RTNLVHdCNXE2UFg5MndPNDlaZFY4TmJrenp2Q0tmWjBHc1owWEFpL01nQWRu?=
- =?utf-8?B?cnB4eFd0VlMzeUIvRlBseHhLWC9oQVlJZ3E3QnJReXhnV1ZJQmJJUVE1WG13?=
- =?utf-8?B?bE5yQ3Fvc2RvOUNnb3lLQWt4ZkZXLzlWdGZxOWZwK09pTDBtVEtoZi9BWjhE?=
- =?utf-8?B?aGxvRjlIR0ltOXF5dHJoRUR6UmZudSszZ3BKaEJKV1pJdTdETDlsakdHMXh0?=
- =?utf-8?B?SG4vY2NVcUY4VEhkd0JrSkNJcGVxVHNEZG9HWGxJNEZmdzI5a2FxamExL1Yy?=
- =?utf-8?B?eGx1bEMxWHd2Yk9mbkkwd0hwWlRZUDZ3VFl1TnZEd01kTUtqNEtGcUZTNDJC?=
- =?utf-8?B?OXZiK1FUMHRtUXE4RmxjR09IVjQzUXZRMkhhSThBa1ZXUVBEOFFnSGNrSXZN?=
- =?utf-8?B?ZHV5SUhpM1I1WnNsU0FaejlqZGlYakZXRm5mbS8xSUpIY0tWU3p6djUyZTgr?=
- =?utf-8?B?WkpiM1E3TmZmT0ZvZGUxR3BDK0hCb0ZRK3hvd3FJYU4zT3hBdVZHYkRuVjEw?=
- =?utf-8?B?eThKY0VQUStUMmZwbExxZWlTbVpFMWlhUElxa1d2QkxiQVY0bzRBVnFNUW1y?=
- =?utf-8?B?Y3RIMG1aR01jakdqK2dZRHV2bGlPWnpQVkR0aWFPQlpVNmx2SHpIZ2JCeFBH?=
- =?utf-8?B?bkJ3Yjd2WUttRUdpOTJvTGgwcy90SkcxVVhJaUpHRG1BdXJZL003RTE4djlC?=
- =?utf-8?B?VGJER0UvNHUxUDdnVnk2clhZZ0FXRlhyWkdYMHlSSDZGd3VMdzRoa0hRczJQ?=
- =?utf-8?B?dWw0cVY2cnowSmp1R1ZWbWFpOUlBK1NuRHFrMmVKSGJNYnQ4UWJodFdXdFVp?=
- =?utf-8?B?MDM5U2UwUC9NdzBwOFdWd0h4ckhyTVIrRThhOUNLTWN4M0c0WC8wbnhqRi9z?=
- =?utf-8?B?WU5nRUdBQVU2czRVYVQ2ZWczaUJaMDVYVm5IaVJtVG5PZEdBOXhwNGVZNHNv?=
- =?utf-8?B?aGNCbnhFSjNEYzFWcDNTRFBCKzlzTzV0Mkk4WFRtS29zVjBnWWgwd2JlNVl5?=
- =?utf-8?B?MTExZnB1OXJvWHJHejhDOVdVTldWRDRLNStmS3JBdk54QXRIOHo4NnVTcG9K?=
- =?utf-8?B?eGZPaWFvQ3ZLaGRtYXBDOVpwVEU0ak96cGE2UlI3U3RXSzdzOTBLRGs2bWk1?=
- =?utf-8?B?REo0bHA1SUtZMjFyYmxMYlc0dDY2WWQvQkpSeFUyTS9kYm9Uc1U2YnVmVk54?=
- =?utf-8?B?RGdiNDRWUnFFOFMwNTh6d0RpVnZDOXU4a1JFcFdRY0RzdHNlL1pBS2ZDdmpU?=
- =?utf-8?B?eE82SHJRa09SQzJLdUhJaGp2L0NvVkgvbk9UYy9vTDNqQlF5Qml0RG9ZU1o0?=
- =?utf-8?B?RkxtVmM3RGNGQXZnalRUSVV2NzRUc2xjTnBjdUUrM1lVZVdSWG9aZFU5QWNY?=
- =?utf-8?B?RW01SHBVSEhRSDFFRWw4NTNZRXQ2V1BLQU9xNllTNmh5UklLWXZSMlFhdG5T?=
- =?utf-8?B?ZTZ5QS9xSEFHOUdlSUNXQytlUWdlMjNBZHRlc1I2RmoxT2NwVmU0UWpQRVhu?=
- =?utf-8?B?cFdMaHR3blRmYVlvMW1ITWJOamFJSGZpSUhMaGVMR1I5N1RjSVpNbEZBSDVE?=
- =?utf-8?B?ZFBTb0dSTndJNi9hclRoVnJXQlFCdmMxSUZzQUZHZ09zR2hWREQ0M3pIcExv?=
- =?utf-8?B?dG1BYWlDbXFTUnYyMlhqTEtvUnd4Q1U2aktKSExYVExjZkFLZlNYbFpic0lS?=
- =?utf-8?B?REpsSmhLNHdJcU1Uc3Q5andYcjZrOTZVekJzUm9yYU1nZ29teUtEK1FZUlZT?=
- =?utf-8?B?NkF4dytvMDNJd0dvN3FkdTU5aG1KcjhJZlNqQUFYTDhxb2h6amFZMlhSMmov?=
- =?utf-8?Q?sbQsSkVb1PZNhuZGdKSrbLYp2?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfca9ad7-940e-4642-2163-08da5aa54770
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2022 14:31:54.3492 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hcUf+QKxJPhCJXbL9/RUFewxuB/m0BR6Vn9BHzXAFHucV1f6xDFxw2k0DjzbnHna9WHGrsi1N3inHf559dXK0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4841
-Received-SPF: softfail client-ip=2a01:111:f400:7e8a::610;
- envelope-from=Thomas.Lendacky@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220621140507.1246-2-quintela@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -155,51 +102,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/22 03:14, Daniel P. Berrangé wrote:
-> On Wed, Jun 29, 2022 at 07:37:01PM +0000, Dionna Glaze wrote:
->> For SEV-SNP, an OS is "SEV-SNP capable" without supporting this UEFI
->> v2.9 memory type. In order for OVMF to be able to avoid pre-validating
->> potentially hundreds of gibibytes of data before booting, it needs to
->> know if the guest OS can support its use of the new type of memory in
->> the memory map.
+* Juan Quintela (quintela@redhat.com) wrote:
+> We used to synchronize all channels at the end of each RAM section
+> sent.  That is not needed, so preparing to only synchronize once every
+> full round in latests patches.
 > 
-> This talks about something supported for SEV-SNP, but....
-> 
->>   static void
->>   sev_guest_class_init(ObjectClass *oc, void *data)
->>   {
->> @@ -376,6 +401,14 @@ sev_guest_class_init(ObjectClass *oc, void *data)
->>                                      sev_guest_set_kernel_hashes);
->>       object_class_property_set_description(oc, "kernel-hashes",
->>               "add kernel hashes to guest firmware for measured Linux boot");
->> +    object_class_property_add_enum(oc, "accept-all-memory",
->> +                                   "MemoryAcceptance",
->> +                                   &memory_acceptance_lookup,
->> +        sev_guest_get_accept_all_memory, sev_guest_set_accept_all_memory);
->> +    object_class_property_set_description(
->> +        oc, "accept-all-memory",
->> +        "false: Accept all memory, true: Accept up to 4G and leave the rest unaccepted (UEFI"
->> +        " v2.9 memory type), default: default firmware behavior.");
->>   }
-> 
-> ..this is adding a property to the 'sev-guest' object, which only
-> targets SEV/SEV-ES currently AFAIK.
-> 
-> The most recent patches I recall for SEV-SNP introduced a new
-> 'sev-snp-guest' object instead of overloading the existing
-> 'sev-guest' object:
-> 
->    https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg04757.html
-> 
+> Notice that we initialize the property as true.  We will change the
+> default when we introduce the new mechanism.
 
-Correct, the SNP support for Qemu is only RFC at this point until the KVM 
-support for SNP is (near) finalized.
+I don't understand why this is a property - does it break the actual
+stream format?
 
-Thanks,
-Tom
+Dave
 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  migration/migration.h |  6 ++++++
+>  hw/core/machine.c     |  1 +
+>  migration/migration.c | 10 ++++++++++
+>  3 files changed, 17 insertions(+)
 > 
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 485d58b95f..70dae24516 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -332,6 +332,11 @@ struct MigrationState {
+>       * This save hostname when out-going migration starts
+>       */
+>      char *hostname;
+> +    /*
+> +     * Synchronize channels after each iteration.
+> +     * We used to do that on the past, but it is suboptimal.
+> +     */
+> +    bool multifd_sync_each_iteration;
+>  };
+>  
+>  void migrate_set_state(int *state, int old_state, int new_state);
+> @@ -374,6 +379,7 @@ int migrate_multifd_channels(void);
+>  MultiFDCompression migrate_multifd_compression(void);
+>  int migrate_multifd_zlib_level(void);
+>  int migrate_multifd_zstd_level(void);
+> +bool migrate_multifd_sync_each_iteration(void);
+>  
+>  #ifdef CONFIG_LINUX
+>  bool migrate_use_zero_copy_send(void);
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index a673302cce..c8a60917e0 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -43,6 +43,7 @@
+>  GlobalProperty hw_compat_7_0[] = {
+>      { "arm-gicv3-common", "force-8-bit-prio", "on" },
+>      { "nvme-ns", "eui64-default", "on"},
+> +    { "migration", "multifd-sync-each-iteration", "on"},
+>  };
+>  const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
+>  
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 31739b2af9..3f79df0b70 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2540,6 +2540,13 @@ bool migrate_use_multifd(void)
+>      return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD];
+>  }
+>  
+> +bool migrate_multifd_sync_each_iteration(void)
+> +{
+> +    MigrationState *s = migrate_get_current();
+> +
+> +    return s->multifd_sync_each_iteration;
+> +}
+> +
+>  bool migrate_pause_before_switchover(void)
+>  {
+>      MigrationState *s;
+> @@ -4274,6 +4281,9 @@ static Property migration_properties[] = {
+>      DEFINE_PROP_SIZE("announce-step", MigrationState,
+>                        parameters.announce_step,
+>                        DEFAULT_MIGRATE_ANNOUNCE_STEP),
+> +    /* We will change to false when we introduce the new mechanism */
+> +    DEFINE_PROP_BOOL("multifd-sync-each-iteration", MigrationState,
+> +                      multifd_sync_each_iteration, true),
+>  
+>      /* Migration capabilities */
+>      DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
+> -- 
+> 2.34.1
 > 
-> With regards,
-> Daniel
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
