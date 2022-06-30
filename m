@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2E956179C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 12:24:04 +0200 (CEST)
-Received: from localhost ([::1]:41674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123D556186F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 12:41:28 +0200 (CEST)
+Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6rL9-00076v-IR
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 06:24:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45448)
+	id 1o6rbx-0003Lw-N9
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 06:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org>)
- id 1o6rJf-00067B-PJ
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 06:22:31 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:37916)
+ id 1o6ra8-0002T9-Hf
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 06:39:33 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:48168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org>)
- id 1o6rJZ-0007Lz-2N
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 06:22:31 -0400
+ id 1o6ra6-0004RD-9f
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 06:39:32 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E508C621FB;
- Thu, 30 Jun 2022 10:22:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4299FC341C8;
- Thu, 30 Jun 2022 10:22:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 591FC6224A;
+ Thu, 30 Jun 2022 10:39:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 569CCC34115;
+ Thu, 30 Jun 2022 10:39:27 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="N8BZA17P"
+ header.b="gRFor25L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1656584534;
+ t=1656585565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=82Uem0eIswv9iVUsO+NezGRoKDeo+YXYZCRuwUKqKHY=;
- b=N8BZA17PL7Aq48mveSGq5bfOpnvxCHT2L4SOEh4L0y/LUYMYZgvzPLpVqEFl4YC0t+stL1
- 2uwz3N+tU986UkNOQhRgG/VIFTqY/+VJaNqYDs5GnSmHixwm/Pw1gLBWdXBCiL3i8BUuf9
- 8HEwyQ/JmG9Tv2wkYLh/J/JzFUgGzQ0=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c6251320
+ bh=I/ufmWZXz39vcuBww5VjiB4lAt2QPm9liRwFbzntMoA=;
+ b=gRFor25LuNIIbbQO0vVN6vMAlRyY/Ujv2HaqQIYdWfuh6CxR3tjly4S7AAGmyWPgMZOxqJ
+ +Pg1dN8lyxxtnSSUKqWuiV7YhaJmKU7zHvOBIt71tvK5K4IgFf9rUdxAcb2MbtYWAUOY6d
+ m0R8ua5VN+miMxJ9IvCwGtx6C8muf+4=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 3293938d
  (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Thu, 30 Jun 2022 10:22:14 +0000 (UTC)
-Date: Thu, 30 Jun 2022 12:22:12 +0200
+ Thu, 30 Jun 2022 10:39:25 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/arm/virt: dt: add rng-seed property
-Message-ID: <Yr15VHaAVQ11wlw+@zx2c4.com>
-References: <20220627160734.749861-1-Jason@zx2c4.com>
- <CAFEAcA_SVtMF=TpUoPRZGVEvHRe1zH2RaypxNW-Nz8uXvGZJjA@mail.gmail.com>
- <CAHmME9q1ChhVcsP9skQFnY=P_f+1NvUqt3G67P3y33eoQoVWmw@mail.gmail.com>
- <CAHmME9pPxKnJbFUWCmzJw8fYikugSwuRo+AO599-cb56UELqrQ@mail.gmail.com>
- <CAFEAcA9jzUk72NZ=BAubjiFwqVaUWqCgjJ-BLLx=J8Aq+ieWSg@mail.gmail.com>
- <878rpfixfh.fsf@linaro.org> <Yrw2+X6Pi8qlTo2d@zx2c4.com>
- <87r137h49s.fsf@linaro.org> <Yrx2D/uPxM8YPCYK@zx2c4.com>
- <CAFEAcA8iq+ANzSgwXvLsF3ZQGLcTFGvyXtwh+Kw5XGmCo+-Z-g@mail.gmail.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: [PATCH v2] hw/arm/virt: dt: add rng-seed property
+Date: Thu, 30 Jun 2022 12:37:39 +0200
+Message-Id: <20220630103739.1727346-1-Jason@zx2c4.com>
+In-Reply-To: <Yr15VHaAVQ11wlw+@zx2c4.com>
+References: <Yr15VHaAVQ11wlw+@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA8iq+ANzSgwXvLsF3ZQGLcTFGvyXtwh+Kw5XGmCo+-Z-g@mail.gmail.com>
 Received-SPF: pass client-ip=2604:1380:4641:c500::1;
  envelope-from=SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org;
  helo=dfw.source.kernel.org
@@ -72,8 +64,9 @@ X-Spam_score: -6.8
 X-Spam_bar: ------
 X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,44 +82,167 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 10:15:29AM +0100, Peter Maydell wrote:
-> On Wed, 29 Jun 2022 at 16:56, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> > On Wed, Jun 29, 2022 at 04:24:20PM +0100, Alex Bennée wrote:
-> > > Given the use case for the dtb-kaslr-seed knob I wonder if we should
-> > > have a common property and deprecate the kaslr one? As of this patch
-> > > existing workflows will break until command lines are updated to suppress
-> > > the second source of randomness.
-> > >
-> > > Maybe it would be better to have a single a new property
-> > > (dtb-rng-seeds?) which suppresses both dtb entries and make
-> > > dtb-kaslr-seed an alias and mark it as deprecated.
-> >
-> > No, I don't think so. If anything, I'll try to get rid of kaslr-seed
-> > upstream at some point if that makes sense. But until that happens --
-> > that is, until I have the conversations with people who added these and
-> > care about their semantics -- assume that there's granularity for some
-> > good reason. No need to put the cart before the horse.
-> >
-> > This is a simple patch doing a simple thing in exactly the way that
-> > things are already being done. I really don't want to do much more than
-> > that here. If you want to bikeshed it further, send a follow up patch.
-> 
-> It's adding a command line option, though. Those we have to get
-> right the first time, because for QEMU they're kind of like ABI
-> to our users. We *can* clean them up if we find we've made a mistake,
-> but we have to go through a multi-release deprecation process to do it,
-> so it's much less effort overall to make sure we have the command line
-> syntax right to start with.
-> 
-> If there's a good use case for the two seeds to be separately
-> controllable, that's fine. But I'd rather we find that out for
-> certain before we put a second control knob and make all our
-> users with workflows where they want non-random dtb blobs find
-> out about it and flip it.
+In 60592cfed2 ("hw/arm/virt: dt: add kaslr-seed property"), the
+kaslr-seed property was added, but the equally as important rng-seed
+property was forgotten about, which has identical semantics for a
+similar purpose. This commit implements it in exactly the same way as
+kaslr-seed. It then changes the name of the disabling option to reflect
+that this has more to do with randomness vs determinism, rather than
+something particular about kaslr.
 
-Okay. Do you want me to just make this controllable by dtb-kaslr-seed
-for now, then, and we can rename that in a follow-up commit? I'll send a
-patch for that.
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ docs/system/arm/virt.rst | 17 ++++++++++------
+ hw/arm/virt.c            | 44 ++++++++++++++++++++++++----------------
+ include/hw/arm/virt.h    |  2 +-
+ 3 files changed, 39 insertions(+), 24 deletions(-)
 
-Jason
+diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+index 3d1058a80c..3b6ba69a9a 100644
+--- a/docs/system/arm/virt.rst
++++ b/docs/system/arm/virt.rst
+@@ -126,13 +126,18 @@ ras
+   Set ``on``/``off`` to enable/disable reporting host memory errors to a guest
+   using ACPI and guest external abort exceptions. The default is off.
+ 
++dtb-randomness
++  Set ``on``/``off`` to pass random seeds via the guest DTB
++  rng-seed and kaslr-seed nodes (in both "/chosen" and
++  "/secure-chosen") to use for features like the random number
++  generator and address space randomisation. The default is
++  ``on``. You will want to disable it if your trusted boot chain
++  will verify the DTB it is passed, since this option causes the
++  DTB to be non-deterministic. It would be the responsibility of
++  the firmware to come up with a seed and pass it on if it wants to.
++
+ dtb-kaslr-seed
+-  Set ``on``/``off`` to pass a random seed via the guest dtb
+-  kaslr-seed node (in both "/chosen" and /secure-chosen) to use
+-  for features like address space randomisation. The default is
+-  ``on``. You will want to disable it if your trusted boot chain will
+-  verify the DTB it is passed. It would be the responsibility of the
+-  firmware to come up with a seed and pass it on if it wants to.
++  A deprecated synonym for dtb-randomness.
+ 
+ Linux guest kernel configuration
+ """"""""""""""""""""""""""""""""
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 097238faa7..924ded7f85 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -221,14 +221,18 @@ static bool cpu_type_valid(const char *cpu)
+     return false;
+ }
+ 
+-static void create_kaslr_seed(MachineState *ms, const char *node)
++static void create_randomness(MachineState *ms, const char *node)
+ {
+-    uint64_t seed;
++    struct {
++        uint64_t kaslr;
++        uint8_t rng[32];
++    } seed;
+ 
+     if (qemu_guest_getrandom(&seed, sizeof(seed), NULL)) {
+         return;
+     }
+-    qemu_fdt_setprop_u64(ms->fdt, node, "kaslr-seed", seed);
++    qemu_fdt_setprop_u64(ms->fdt, node, "kaslr-seed", seed.kaslr);
++    qemu_fdt_setprop(ms->fdt, node, "rng-seed", seed.rng, sizeof(seed.rng));
+ }
+ 
+ static void create_fdt(VirtMachineState *vms)
+@@ -251,14 +255,14 @@ static void create_fdt(VirtMachineState *vms)
+ 
+     /* /chosen must exist for load_dtb to fill in necessary properties later */
+     qemu_fdt_add_subnode(fdt, "/chosen");
+-    if (vms->dtb_kaslr_seed) {
+-        create_kaslr_seed(ms, "/chosen");
++    if (vms->dtb_randomness) {
++        create_randomness(ms, "/chosen");
+     }
+ 
+     if (vms->secure) {
+         qemu_fdt_add_subnode(fdt, "/secure-chosen");
+-        if (vms->dtb_kaslr_seed) {
+-            create_kaslr_seed(ms, "/secure-chosen");
++        if (vms->dtb_randomness) {
++            create_randomness(ms, "/secure-chosen");
+         }
+     }
+ 
+@@ -2348,18 +2352,18 @@ static void virt_set_its(Object *obj, bool value, Error **errp)
+     vms->its = value;
+ }
+ 
+-static bool virt_get_dtb_kaslr_seed(Object *obj, Error **errp)
++static bool virt_get_dtb_randomness(Object *obj, Error **errp)
+ {
+     VirtMachineState *vms = VIRT_MACHINE(obj);
+ 
+-    return vms->dtb_kaslr_seed;
++    return vms->dtb_randomness;
+ }
+ 
+-static void virt_set_dtb_kaslr_seed(Object *obj, bool value, Error **errp)
++static void virt_set_dtb_randomness(Object *obj, bool value, Error **errp)
+ {
+     VirtMachineState *vms = VIRT_MACHINE(obj);
+ 
+-    vms->dtb_kaslr_seed = value;
++    vms->dtb_randomness = value;
+ }
+ 
+ static char *virt_get_oem_id(Object *obj, Error **errp)
+@@ -2988,12 +2992,18 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+                                           "Set on/off to enable/disable "
+                                           "ITS instantiation");
+ 
++    object_class_property_add_bool(oc, "dtb-randomness",
++                                   virt_get_dtb_randomness,
++                                   virt_set_dtb_randomness);
++    object_class_property_set_description(oc, "dtb-randomness",
++                                          "Set off to disable passing random or "
++                                          "non-deterministic dtb nodes to guest");
++
+     object_class_property_add_bool(oc, "dtb-kaslr-seed",
+-                                   virt_get_dtb_kaslr_seed,
+-                                   virt_set_dtb_kaslr_seed);
++                                   virt_get_dtb_randomness,
++                                   virt_set_dtb_randomness);
+     object_class_property_set_description(oc, "dtb-kaslr-seed",
+-                                          "Set off to disable passing of kaslr-seed "
+-                                          "dtb node to guest");
++                                          "Deprecated synonym of dtb-randomness");
+ 
+     object_class_property_add_str(oc, "x-oem-id",
+                                   virt_get_oem_id,
+@@ -3061,8 +3071,8 @@ static void virt_instance_init(Object *obj)
+     /* MTE is disabled by default.  */
+     vms->mte = false;
+ 
+-    /* Supply a kaslr-seed by default */
+-    vms->dtb_kaslr_seed = true;
++    /* Supply kaslr-seed and rng-seed by default */
++    vms->dtb_randomness = true;
+ 
+     vms->irqmap = a15irqmap;
+ 
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 15feabac63..6ec479ca2b 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -152,7 +152,7 @@ struct VirtMachineState {
+     bool virt;
+     bool ras;
+     bool mte;
+-    bool dtb_kaslr_seed;
++    bool dtb_randomness;
+     OnOffAuto acpi;
+     VirtGICType gic_version;
+     VirtIOMMUType iommu;
+-- 
+2.35.1
+
 
