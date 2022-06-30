@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CB556107D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 07:13:17 +0200 (CEST)
-Received: from localhost ([::1]:38928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4F6561082
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 07:16:00 +0200 (CEST)
+Received: from localhost ([::1]:43482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6mUN-0001do-Tn
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 01:13:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45878)
+	id 1o6mX2-00056p-0e
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 01:16:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6mAB-0003Qk-6U; Thu, 30 Jun 2022 00:52:23 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:60167)
+ id 1o6mAF-0003Zk-NE; Thu, 30 Jun 2022 00:52:27 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:49213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6mA6-000737-Ag; Thu, 30 Jun 2022 00:52:22 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 0AACF2B058FA;
- Thu, 30 Jun 2022 00:52:15 -0400 (EDT)
+ id 1o6mA9-00073O-Ov; Thu, 30 Jun 2022 00:52:27 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 5D59E2B058FC;
+ Thu, 30 Jun 2022 00:52:19 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 30 Jun 2022 00:52:16 -0400
+ by compute3.internal (MEProxy); Thu, 30 Jun 2022 00:52:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656564735; x=1656568335; bh=gy
- g2RNC50wimjfzibmXXr3OYmVTc/sRE8Mv6uRfLhMk=; b=0bSGFMw4ZzuqcQnXKW
- WkF+kqeVUsfldq5Ac0CXX0wEmzgvatHP9gXImTRBPE/XoFPVebINmb9yXfbtB3fi
- nHUnb6zK+sV7tsHn6Wd3QsIHrQoiD+6CNdf/BUdX0gIQn+7Nk4AJfscQSUC/c16e
- MaL9IOucWOHJTw4DTau3R3iXbiy/96q7c8lU75fhQ64upbioF6LviUUe1vQyBaIs
- gU3LoaqukkVOky+foRxBQ+OLyVbZXjbFYj5bzoHU2wxRL65THW6+iia9t9GHsEBt
- 5i3q9G2sAVG5YeAKFuTMn4cWnBYFhyfnCjOkdruE6ClM5xpwKU0LOFxhYK7MCGe6
- DsAg==
+ :subject:subject:to:to; s=fm1; t=1656564738; x=1656568338; bh=Zg
+ XC7nI9x+hlJrthfs0GdYoIqYuE9xKR+qshCuVM6hg=; b=YKv3YLOwk4O1StS44X
+ KFJcYLhrpCbuwSV7flEB/A7/lqFgJXxIti8LMh5JsahBXbeWJX68IXtk2V4ywK/p
+ 0PETfyODB1cmViMW+CpDbv1B8d/aMBsshO/DVWofMZBJ3YPVmmFCa3+YHf44/vgA
+ 26fLmDqYHno2Mym8YbVt0BZJX5YhU2IF/R4rt7hqIU4/xCQ+IUJNZR4xgXeJJWHx
+ Mi16Y9IxPwZYDFZ00ZCbTzBO8boC68pnXhh0frw7xS4+h0wF7uvl6T/8+5KIcWgf
+ h8xO84b9ao1Tl00w32SJQFhIidGvBnTEgAP7X/NBvYC4Zwh5S7mZ6l6hdfeu8Fh+
+ L3Yw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=i9e814621.fm2; t=1656564735; x=1656568335; bh=gyg
- 2RNC50wimjfzibmXXr3OYmVTc/sRE8Mv6uRfLhMk=; b=dPQgGv17xQCuApn/v7Y
- kqkrVenG7cNr4hQL0snutkNvShMPXicxbOo8Q8S3hEN1fUticQkBzDgnEAB4Fpov
- lHCLOJ5X+FhPuwGgl+3oYV0yK5sMaBKvKKMOSOKt/lR3b5oQWlgAXYapL3MQ34Q9
- wAuwYlP8ispFL/Xf5oPy+a88f8Y5AqtcDqZt11akF0sQCjr6eSvMYolRKKI2zIda
- gkIAqwOTby1kVtm9dq8G6AopoOQNTE7O1g2ahED2Gy8ZY4exCcg1e8lRUFxHgimp
- D9ky8qFTZ03kxNcprpxksbFtTFnab1LYmoOkjnQK8ykwR0WeNSIjyi3jhD1RRA3f
- IkQ==
-X-ME-Sender: <xms:_yu9Ys2pgkAq9yhbO86BNLTAdS4gzoIAzldG7i5lNuYFn9I02cN5mg>
- <xme:_yu9YnGWInN5VQrJWGPMpOnNl06var7od9SVI4m0jBWdw5RnNQmOPfvrBl_RjCG85
- -DqFIA3T0L75outylY>
-X-ME-Received: <xmr:_yu9Yk7sb75-xcRcQ9CrHLoSCSlm0uj_V9DypUHoz_edbXJ2tGupVME2T0BaM4vrtjpMt84NEGvng5WFL5hZw4N_JI_uqudZ>
+ :x-sasl-enc; s=i9e814621.fm2; t=1656564738; x=1656568338; bh=ZgX
+ C7nI9x+hlJrthfs0GdYoIqYuE9xKR+qshCuVM6hg=; b=sE6NZNoP3cS94oWtL2L
+ 2zwBDuIwq3XOnVnXTF9MAvjSLco64Dymq0KVIdnOqk/TF/gdpqsRCgO+W22xei56
+ HtIGWkcUCMm+cOOT8X5Uzd7zrJCHiY554PYulg1XA7npvfPb6L30gNPP4EPLxzOA
+ F7KYYY9bj2Z5hbd3cMJr+O8scuSuWw/JQh/oZGYDLmi8vlTVRcBoKz+gIZADiSPy
+ AP1lYBnRcHuNNDasFQIZXWB6m9rM1RK8mRYn8vaLzowgSfevErN+Dc1RiGdE53lz
+ W+1rPpz4oW0L+tG83hZOkqXzG2sTNSXnN4gQxaB5AVln77Byo0IsYJnbCEEhytWy
+ TkA==
+X-ME-Sender: <xms:Aiy9YsJ_NYpMsH4tGZZORHJrD1g8XbDPyhpw-XK3Y_T0VVlkZR0mAQ>
+ <xme:Aiy9YsLNXTRUUvPg9XuRT-yS5EEgERdSlclcSPBZZPyUNxm_qHJeHDv-vvYJQKLHw
+ RRofzu7oF42HP99o9U>
+X-ME-Received: <xmr:Aiy9Yss_BXXYV9JUOV1Q3HFozScFxjPG3k5AVeU_GCvzeAEi6O9Cm1fYXkaLOnI_ka7wDQpBPGBQA7YhO7MQPtiAnwpdtj0S>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddgkeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
@@ -58,21 +58,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddgkeelucetufdoteggod
  gvrhhnpedvvddvvdeikeetuddtteejleeuudehuddvtedtheetvefhtdeifeeguefgtdeg
  udenucffohhmrghinhepmhgvthgrrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgvsehpjhgurdguvghv
-X-ME-Proxy: <xmx:_yu9Yl0dwWT3qXF4Pb7wBaQAAOb1wX-gS8SGvoA5gWjgGKsS-hxqSg>
- <xmx:_yu9YvHSmlqFeXc0e5O_gGK4mMb-pfqpqPgg5wppYC2ZHEZ_5bIjCA>
- <xmx:_yu9Yu_ygqKDZe-4xHnYNRYNBnQi3KtHPhsaEQKOlOeDZqutzHw0yQ>
- <xmx:_yu9YlaESsUTlMSImfmD6x5D2u15py41BlnKasH1Y-Gc9CnUN4uUOtO1Ftw>
+X-ME-Proxy: <xmx:Aiy9Ypb3k6h9BDJq7DeB1BHq5qkEEGRhfGUFLURdW-qe_8Ygnta3kQ>
+ <xmx:Aiy9Yjbz_EX0cqL3yEO-wtX5VIHIkd1ATlkiME4WpVCYQe-WBJP49Q>
+ <xmx:Aiy9YlCu5JnOvmouo3PcZBIYFogweOAfwN83jU5ies7OJuMB00sYjw>
+ <xmx:Aiy9YhOxfwAdw20cV0FihbVcUpRYow9iISpjwlxCk2wnl1Oi23KuwLAagXg>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Jun 2022 00:52:14 -0400 (EDT)
+ 30 Jun 2022 00:52:18 -0400 (EDT)
 From: Peter Delevoryas <me@pjd.dev>
 To: 
 Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
  cminyard@mvista.com, titusr@google.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, zhdaniel@fb.com, pdel@fb.com
-Subject: [PATCH v3 12/14] hw/misc/aspeed: Add fby35-sb-cpld
-Date: Wed, 29 Jun 2022 21:51:31 -0700
-Message-Id: <20220630045133.32251-13-me@pjd.dev>
+Subject: [PATCH v3 13/14] hw/misc/aspeed: Add intel-me
+Date: Wed, 29 Jun 2022 21:51:32 -0700
+Message-Id: <20220630045133.32251-14-me@pjd.dev>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220630045133.32251-1-me@pjd.dev>
 References: <20220630045133.32251-1-me@pjd.dev>
@@ -104,49 +104,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-fby35 machines have 1 BMC on a baseboard and 2-4 server boards with BIC's.
-There are also CPLD's on each of the boards, one type of CPLD on the
-baseboard and another type on each of the server boards. This commit adds an
-implementation of some of the logic performed by the server board CPLD,
-which is connected to the server board BIC.
-
-fby35 machines have 1 baseboard with a BMC (AST2600) and 4 server boards
-with bridge interconnects (BIC's, AST1030's). Each server board has a CPLD
-on it which provides FRU information and some synchronization functionality
-with the BMC. The baseboard also has one CPLD, but it does other stuff.
-
-This commit just adds some of the FRU functionality to allow the BIC to
-startup without any errors.
+The Intel Management Engine is an IPMI endpoint that responds to various
+IPMI commands. In this commit, I've added some very basic functionality that
+will respond back with a respond code of zero (success), while also setting
+an appropriate response NetFN (request NetFN + 1), a matching command ID and
+sequence number, and the 2 standard checksums. Other data is not provided,
+but the model here could be extended to respond to more kinds of requests.
 
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
 ---
- MAINTAINERS             |   1 +
- hw/misc/fby35_sb_cpld.c | 128 ++++++++++++++++++++++++++++++++++++++++
- hw/misc/meson.build     |   3 +-
- 3 files changed, 131 insertions(+), 1 deletion(-)
- create mode 100644 hw/misc/fby35_sb_cpld.c
+ MAINTAINERS          |   1 +
+ hw/misc/intel_me.c   | 162 +++++++++++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build  |   3 +-
+ hw/misc/trace-events |   8 +++
+ 4 files changed, 173 insertions(+), 1 deletion(-)
+ create mode 100644 hw/misc/intel_me.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 05cf84b58c..3ffd473db1 100644
+index 3ffd473db1..3220644bb5 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1067,6 +1067,7 @@ F: hw/net/ftgmac100.c
- F: include/hw/net/ftgmac100.h
+@@ -1068,6 +1068,7 @@ F: include/hw/net/ftgmac100.h
  F: docs/system/arm/aspeed.rst
  F: tests/qtest/*aspeed*
-+F: hw/misc/fby35_sb_cpld.c
+ F: hw/misc/fby35_sb_cpld.c
++F: hw/misc/intel_me.c
  
  NRF51
  M: Joel Stanley <joel@jms.id.au>
-diff --git a/hw/misc/fby35_sb_cpld.c b/hw/misc/fby35_sb_cpld.c
+diff --git a/hw/misc/intel_me.c b/hw/misc/intel_me.c
 new file mode 100644
-index 0000000000..f170a6c781
+index 0000000000..933ae45101
 --- /dev/null
-+++ b/hw/misc/fby35_sb_cpld.c
-@@ -0,0 +1,128 @@
++++ b/hw/misc/intel_me.c
+@@ -0,0 +1,162 @@
 +/*
-+ * fby35 Server Board CPLD
-+ *
 + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
 + *
 + * This code is licensed under the GPL version 2 or later. See the COPYING
@@ -154,57 +146,115 @@ index 0000000000..f170a6c781
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/log.h"
++#include "qemu/main-loop.h"
 +#include "hw/i2c/i2c.h"
-+#include "hw/registerfields.h"
++#include "trace.h"
 +
-+#define BOARD_ID_CLASS1 0b0000
-+#define BOARD_ID_CLASS2 0b0001
++#define TYPE_INTEL_ME "intel-me"
++OBJECT_DECLARE_SIMPLE_TYPE(IntelMEState, INTEL_ME);
 +
-+#define TYPE_FBY35_SB_CPLD "fby35-sb-cpld"
-+OBJECT_DECLARE_SIMPLE_TYPE(Fby35SbCpldState, FBY35_SB_CPLD);
-+
-+REG8(CLASS_TYPE, 0x5);
-+    FIELD(CLASS_TYPE, RESERVED, 0, 2);
-+    FIELD(CLASS_TYPE, 1OU_EXPANSION_NOT_PRESENT, 2, 1);
-+    FIELD(CLASS_TYPE, 2OU_EXPANSION_NOT_PRESENT, 3, 1);
-+    FIELD(CLASS_TYPE, BOARD_ID, 4, 4);
-+REG8(BOARD_REVISION, 0x8);
-+    FIELD(BOARD_REVISION, VALUE, 0, 4);
-+    FIELD(BOARD_REVISION, RESERVED, 4, 4);
-+
-+struct Fby35SbCpldState {
++struct IntelMEState {
 +    I2CSlave parent_obj;
 +
-+    uint8_t target_reg;
-+    uint32_t regs[10];
++    I2CBus *bus;
++    QEMUBH *bh;
++    int rx_len;
++    int tx_len;
++    int tx_pos;
++    uint8_t rx_buf[512];
++    uint8_t tx_buf[512];
 +};
 +
-+static void fby35_sb_cpld_realize(DeviceState *dev, Error **errp)
++static void intel_me_bh(void *opaque)
 +{
-+    Fby35SbCpldState *s = FBY35_SB_CPLD(dev);
++    IntelMEState *s = opaque;
++    I2CSlave *i2c = I2C_SLAVE(s);
++    uint8_t target_addr;
 +
-+    memset(s->regs, 0, sizeof(s->regs));
-+    s->target_reg = 0;
++    assert(s->bus->bh == s->bh);
 +
-+    ARRAY_FIELD_DP32(s->regs, CLASS_TYPE, BOARD_ID, 0b0000);
-+    ARRAY_FIELD_DP32(s->regs, CLASS_TYPE, 1OU_EXPANSION_NOT_PRESENT, 1);
-+    ARRAY_FIELD_DP32(s->regs, CLASS_TYPE, 2OU_EXPANSION_NOT_PRESENT, 1);
-+    ARRAY_FIELD_DP32(s->regs, BOARD_REVISION, VALUE, 0x1);
++    switch (s->tx_pos) {
++    case 0:
++        target_addr = s->tx_buf[s->tx_pos++];
++        trace_intel_me_tx_start(i2c->address, target_addr);
++        if (i2c_start_send_async(s->bus, target_addr) != 0) {
++            break;
++        }
++        return;
++    default:
++        if (s->tx_pos >= s->tx_len) {
++            break;
++        }
++        trace_intel_me_tx_data(i2c->address, s->tx_buf[s->tx_pos]);
++        if (i2c_send_async(s->bus, s->tx_buf[s->tx_pos++]) != 0) {
++            break;
++        }
++        return;
++    }
++
++    trace_intel_me_tx_end(i2c->address);
++    i2c_end_transfer(s->bus);
++    i2c_bus_release(s->bus);
++    s->tx_len = 0;
++    s->tx_pos = 0;
++    memset(s->tx_buf, 0, sizeof(s->tx_buf));
 +}
 +
-+static int fby35_sb_cpld_i2c_event(I2CSlave *i2c, enum i2c_event event)
++static void intel_me_realize(DeviceState *dev, Error **errp)
 +{
-+    Fby35SbCpldState *s = FBY35_SB_CPLD(i2c);
++    IntelMEState *s = INTEL_ME(dev);
++
++    s->bus = I2C_BUS(qdev_get_parent_bus(dev));
++    s->bh = qemu_bh_new(intel_me_bh, s);
++    s->rx_len = 0;
++    s->tx_len = 0;
++    s->tx_pos = 0;
++    memset(s->rx_buf, 0, sizeof(s->rx_buf));
++    memset(s->tx_buf, 0, sizeof(s->tx_buf));
++}
++
++static uint8_t checksum(const uint8_t *ptr, int len)
++{
++    int sum = 0;
++
++    for (int i = 0; i < len; i++) {
++        sum += ptr[i];
++    }
++
++    return 256 - sum;
++}
++
++static int intel_me_i2c_event(I2CSlave *i2c, enum i2c_event event)
++{
++    IntelMEState *s = INTEL_ME(i2c);
 +
 +    switch (event) {
 +    case I2C_START_RECV:
 +        break;
 +    case I2C_START_SEND:
-+        s->target_reg = 0;
++        trace_intel_me_rx_start(i2c->address);
++        s->rx_len = 0;
++        memset(s->rx_buf, 0, sizeof(s->rx_buf));
 +        break;
 +    case I2C_START_SEND_ASYNC:
++        break;
 +    case I2C_FINISH:
++        trace_intel_me_rx_end(i2c->address);
++        s->tx_len = 10;
++        s->tx_pos = 0;
++        s->tx_buf[0] = s->rx_buf[2];
++        s->tx_buf[1] = ((s->rx_buf[0] >> 2) + 1) << 2;
++        s->tx_buf[2] = checksum(s->tx_buf, 2);
++        s->tx_buf[3] = i2c->address;
++        s->tx_buf[4] = (s->rx_buf[3] >> 2) << 2;
++        s->tx_buf[5] = s->rx_buf[4];
++        s->tx_buf[6] = 0x00;
++        s->tx_buf[7] = 0x55;
++        s->tx_buf[8] = 0x00;
++        s->tx_buf[9] = checksum(s->tx_buf, s->tx_len - 1);
++        s->tx_buf[0] >>= 1;
++        i2c_bus_master(s->bus, s->bh);
++        break;
 +    case I2C_NACK:
 +        break;
 +    }
@@ -212,80 +262,74 @@ index 0000000000..f170a6c781
 +    return 0;
 +}
 +
-+static uint8_t fby35_sb_cpld_i2c_recv(I2CSlave *i2c)
++static uint8_t intel_me_i2c_recv(I2CSlave *i2c)
 +{
-+    Fby35SbCpldState *s = FBY35_SB_CPLD(i2c);
-+
-+    switch (s->target_reg) {
-+    case R_CLASS_TYPE:
-+    case R_BOARD_REVISION:
-+        return s->regs[s->target_reg];
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "%s: Register read unimplemented: 0x%02x\n",
-+                      __func__, s->target_reg);
-+        return 0xff;
-+    }
++    return 0xff;
 +}
 +
-+static int fby35_sb_cpld_i2c_send(I2CSlave *i2c, uint8_t data)
++static int intel_me_i2c_send(I2CSlave *i2c, uint8_t data)
 +{
-+    Fby35SbCpldState *s = FBY35_SB_CPLD(i2c);
++    IntelMEState *s = INTEL_ME(i2c);
 +
-+    if (s->target_reg == 0) {
-+        s->target_reg = data;
-+        return 0;
-+    }
++    trace_intel_me_rx_data(i2c->address, data);
 +
-+    switch (s->target_reg) {
-+    case R_CLASS_TYPE:
-+    case R_BOARD_REVISION:
-+        s->regs[s->target_reg] = data;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "%s: Register write unimplemented: 0x%02x 0x%02x\n",
-+                      __func__, s->target_reg, data);
-+        break;
-+    }
++    assert(s->rx_len < sizeof(s->rx_buf));
++    s->rx_buf[s->rx_len++] = data;
 +
 +    return 0;
 +}
 +
-+static void fby35_sb_cpld_class_init(ObjectClass *oc, void *data)
++static void intel_me_class_init(ObjectClass *oc, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(oc);
 +    I2CSlaveClass *i2c = I2C_SLAVE_CLASS(oc);
 +
-+    dc->realize = fby35_sb_cpld_realize;
-+    i2c->event = fby35_sb_cpld_i2c_event;
-+    i2c->recv = fby35_sb_cpld_i2c_recv;
-+    i2c->send = fby35_sb_cpld_i2c_send;
++    dc->realize = intel_me_realize;
++    i2c->event = intel_me_i2c_event;
++    i2c->recv = intel_me_i2c_recv;
++    i2c->send = intel_me_i2c_send;
 +}
 +
 +static const TypeInfo types[] = {
 +    {
-+        .name = TYPE_FBY35_SB_CPLD,
++        .name = TYPE_INTEL_ME,
 +        .parent = TYPE_I2C_SLAVE,
-+        .instance_size = sizeof(Fby35SbCpldState),
-+        .class_init = fby35_sb_cpld_class_init,
++        .instance_size = sizeof(IntelMEState),
++        .class_init = intel_me_class_init,
 +    },
 +};
 +
 +DEFINE_TYPES(types);
 diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 95268eddc0..948e25c440 100644
+index 948e25c440..165b9dce6d 100644
 --- a/hw/misc/meson.build
 +++ b/hw/misc/meson.build
-@@ -117,7 +117,8 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
-   'aspeed_sbc.c',
+@@ -118,7 +118,8 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
    'aspeed_sdmc.c',
    'aspeed_xdma.c',
--  'aspeed_peci.c'))
-+  'aspeed_peci.c',
-+  'fby35_sb_cpld.c'))
+   'aspeed_peci.c',
+-  'fby35_sb_cpld.c'))
++  'fby35_sb_cpld.c',
++  'intel_me.c'))
  
  softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
  softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index 90a0473b06..7ca23bcf27 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -273,3 +273,11 @@ virt_ctrl_instance_init(void *dev) "ctrl: %p"
+ lasi_chip_mem_valid(uint64_t addr, uint32_t val) "access to addr 0x%"PRIx64" is %d"
+ lasi_chip_read(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
+ lasi_chip_write(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
++
++# intel_me.c
++intel_me_rx_start(uint8_t addr) "addr 0x%02x"
++intel_me_rx_data(uint8_t addr, uint8_t data) "addr 0x%02x data 0x%02x"
++intel_me_rx_end(uint8_t addr) "addr 0x%02x"
++intel_me_tx_start(uint8_t addr, uint8_t target_addr) "addr 0x%02x target_addr 0x%02x"
++intel_me_tx_data(uint8_t addr, uint8_t data) "addr 0x%02x data 0x%02x"
++intel_me_tx_end(uint8_t addr) "addr 0x%02x"
 -- 
 2.37.0
 
