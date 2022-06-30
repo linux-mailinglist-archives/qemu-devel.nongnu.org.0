@@ -2,67 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78444561A9C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 14:46:47 +0200 (CEST)
-Received: from localhost ([::1]:47476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAFC561AE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 15:03:15 +0200 (CEST)
+Received: from localhost ([::1]:43862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6tZG-0004lo-Hp
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 08:46:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48538)
+	id 1o6tpC-0005RR-2Y
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 09:03:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
- id 1o6tT3-00071Z-8M
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 08:40:28 -0400
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:26998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
- id 1o6tSz-00077o-UB
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 08:40:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
- h=subject:to:cc:references:from:message-id:date:
- mime-version:in-reply-to;
- bh=71b0sue9/LXcNLjuFtfp15xyG+jkVnvxyZhrLP0FqAA=;
- b=W7j28FYGPEKbIdxDIQq/F5sgHTTKqyQJGcDkU9K1Y89fWgXPEhl89wk5
- DShcsxj/Wkweyqg+nyImINY2Kk3IZ0nxGED0jJbdbiwpLNZ9Az//6nsiW
- GNnEl5wkEOOdiJwsd/YFGeeXHdhfhFegrg4JyCs5lj5ywBRSgOl/4pYUf o=;
-Authentication-Results: mail3-relais-sop.national.inria.fr;
- dkim=none (message not signed) header.i=none;
- spf=SoftFail smtp.mailfrom=Brice.Goglin@inria.fr;
- dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.92,234,1650924000"; d="scan'208";a="18188139"
-Received: from clt-128-93-178-41.vpn.inria.fr (HELO [128.93.178.41])
- ([128.93.178.41]) by mail3-relais-sop.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 14:40:14 +0200
-Subject: Re: [PATCH v4 0/4] hmat acpi: Don't require initiator value in -numa
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Liu Jingqi
- <jingqi.liu@intel.com>, Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>
-References: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
- <20220630142347.22485226@redhat.com>
-From: Brice Goglin <Brice.Goglin@inria.fr>
-Message-ID: <17551978-4608-f9e4-8aab-d5d7512dc5a7@inria.fr>
-Date: Thu, 30 Jun 2022 14:40:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1o6tiG-0000lP-6Z
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 08:56:04 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:36120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1o6tiD-0004wg-En
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 08:56:03 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BDC701FD0D;
+ Thu, 30 Jun 2022 12:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1656593759; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IORZLbzdqKGVG46uvR4pUlstQ4Sbl4NKq6nY/wm+5Eo=;
+ b=mmoCQVOzL7AKHFoxY/oCl2h4gBhIQGY5LXYqOM+UjspTgsNKx0XyYbyVTogJyusmfoSswV
+ SxlpCrGR/8wiI0w4BN1178Afsqguem/sfYYWdk4cwYHhp8iW+cN+ZNltC5mYwFtEZTheWM
+ f3LXSYT+8Ax3LfIvJvUZZahTOXf0Eu4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1656593759;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IORZLbzdqKGVG46uvR4pUlstQ4Sbl4NKq6nY/wm+5Eo=;
+ b=c4ubMzI+JwMJGirgd+CXWPLz+m2twJfX2KLuifD9yw0Ydwii40bxKe9kqrINAAcmXXhfau
+ n7u/zx4MMsIsgSBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 02BAB139E9;
+ Thu, 30 Jun 2022 12:55:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id JkiQOV6dvWKwQAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 30 Jun 2022 12:55:58 +0000
+Message-ID: <d5166344-54d5-4f51-6334-5e632195e53e@suse.de>
+Date: Thu, 30 Jun 2022 14:55:58 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220630142347.22485226@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Wi5CvxucgJ4pi967HDeiGvCjfyB7ZPbEr"
-Received-SPF: pass client-ip=192.134.164.104;
- envelope-from=Brice.Goglin@inria.fr; helo=mail3-relais-sop.national.inria.fr
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PULL 15/18] qapi: introduce x-query-ramblock QMP command
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20211102175700.1175996-1-berrange@redhat.com>
+ <20211102175700.1175996-16-berrange@redhat.com>
+ <073c1687-d30f-8f41-b87e-83372137708a@suse.de> <YqHJKgA5OG80dljx@redhat.com>
+ <YqHtDN/+DNUpB/ve@work-vm> <2341fe7b-9831-24eb-c78c-39497901eea9@suse.de>
+ <Yr1415pu4s9moMoB@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <Yr1415pu4s9moMoB@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,81 +100,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Wi5CvxucgJ4pi967HDeiGvCjfyB7ZPbEr
-Content-Type: multipart/mixed; boundary="fq5XD9yVf8NHsbJVfOMqgQheR4WaYz8S7";
- protected-headers="v1"
-From: Brice Goglin <Brice.Goglin@inria.fr>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Liu Jingqi
- <jingqi.liu@intel.com>, Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>
-Message-ID: <17551978-4608-f9e4-8aab-d5d7512dc5a7@inria.fr>
-Subject: Re: [PATCH v4 0/4] hmat acpi: Don't require initiator value in -numa
-References: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
- <20220630142347.22485226@redhat.com>
-In-Reply-To: <20220630142347.22485226@redhat.com>
-
---fq5XD9yVf8NHsbJVfOMqgQheR4WaYz8S7
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-
-
-Le 30/06/2022 =C3=A0 14:23, Igor Mammedov a =C3=A9crit=C2=A0:
-> On Thu, 30 Jun 2022 09:36:47 +0200
-> Brice Goglin <Brice.Goglin@inria.fr> wrote:
->
->> Allow -numa without initiator value when hmat=3Don so that we may
->> build more complex topologies, e.g. NUMA nodes whose best initiators
->> are not just another single node.
+On 6/30/22 12:20, Daniel P. Berrangé wrote:
+> On Thu, Jun 30, 2022 at 12:14:36PM +0200, Claudio Fontana wrote:
+>> On 6/9/22 14:52, Dr. David Alan Gilbert wrote:
+>>> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+>>>> On Thu, Jun 09, 2022 at 12:07:31PM +0200, Claudio Fontana wrote:
+>>>>> Hello all,
+>>>>>
+>>>>> it would be really good to be able to rely on this command or something similar,
+>>>>> to be able to know the approximate size of a migration before starting it.
+>>>>>
+>>>>> in QEMU ram_bytes_total() returns what I would like to have,
+>>>>> but there is currently no QMP way to get it without starting a migration,
+>>>>> which when trying to optimize it/size it is just about too late.
+>>>>
+>>>> Aside from the main VM RAM, what other RAM blocks are likely to have
+>>>> a size large enough to be of consequence to the live migration
+>>>> data copy, and whose size is not already known to the mgmt app from
+>>>> the guest config choices it made ? VGA RAM could be a few 100MB I
+>>>> guess, but the mgmt app knows about that. I've always assumed everything
+>>>> else is just noise in comparison to the main RAM region.
+>>>>
+>>>> Still I wonder how useful this is as its just a static figure, and the
+>>>> problems with migration transfer are the bulking up of data when the
+>>>> VM is repeatedly dirtying stuff at a high rate.
+>>>>
+>>>>> Do you think x-query-ramblock could be promoted to non-experimental?
+>>>>
+>>>> It would have to be re-written, as this current impl is just emitting
+>>>> a huge printf formatted string. To be considered supportable, the data
+>>>> would have to be formally modelled in QAPI instead.
+>>>>
+>>>> IOW, it would be a case of introducing a new command that emits formal
+>>>> data, convertintg 'info ramblock' to use that, and then deprecating this 
+>>>> x-query-ramblock.
+>>>>
+>>>>> Should another one be made available instead, like :
+>>>>> query-ram-bytes-total ?
+>>>>
+>>>> That would be simpler if you're just wanting it to give a single
+>>>> figure.
+>>>
+>>> Is this what qmp_query_memory_size_summary does?
 >>
-> patches looks fine code-wise,
-> however something wrong with them, i.e. 'git am' doesn't like them
-> nor ./scripts/checkpatch (which one should use before sending patches).=
+>> No, I am not looking at something returning the machine->ram_size,
+>> but rather how many bytes are actually used in each RAMBlock, in order to estimate the transfer size of a guest to disk.
+>>
+>> This would be the return value of something like migration/ram.c::ram_bytes_total().
+>>
+>> The main guest RAM total size is in most cases an overestimation of the actual bytes required to be transferred.
+>>
+>> If there was such a feature that just returns ram_bytes_total via QMP,
+>> by knowing the size in bytes before the transfer, we can prealloc the space on disk, which would improve the performance of this series:
+>>
+>> https://patchew.org/Libvirt/20220607091936.7948-1-cfontana@suse.de/
+>>
+>> The interleaved format I posted there works just fine to migrate a suspended VM to disk (virsh save) from multifd channels to a single file,
+>> but still incurs in a 4-5% performance penalty compared with the multiple files approach,
+>> that is apparently due to multiple threads competing on acquiring locks to adjust the file size (on XFS).
+>>
+>> Doing a fallocate() would likely remove this performance decrease compared with multifd to multiple files,
+>> but requires knowing beforehand the approximate size of the transfer, and as mentioned mnachine->ram_size is just overkill in practice and risks erroring out if not enough space is available.
+>>
+>> Feedback on the interleaved format I posted there is welcome as well,
+> 
+> I still believe that libvirt is the wrong place to be implementing any
+> of this logic. It all belongs in QEMU, because QEMU is the place which
+> holds all the information needed to do an optimal job, and libvirt does
+> not, as this request for extra QMP features shows.
+> 
+> With regards,
+> Daniel
 
->
-> I've checked it's not my mail server/client issue(or whatever)
-> that corrupts them (ones downloaded from patchew are broken as well)
+Hi Daniel,
 
+I know your position about the implementation in libvirt vs a potential (non-existing for now) QEMU implementation.
 
-I don't know what's going on. These 4 patches are in=20
-https://github.com/bgoglin/qemu/commits/hmat-noinitiator (rebased on=20
-master 10mn ago).
+The implementation in QEMU seems to me to require more investment due to the need of a new migration target protocol to be defined carefully (possibly "disk://")
+and the need to alter and test all migrated devices participating in the creating the migration stream.
 
-Do whatever you want with them. I am not allowed to spend more time on th=
-is.
+I don't think this request for an QMP feature shows anything really.
 
-Brice
+Knowing the _actual_ size of a migration stream before deciding to migrate is I think a pretty useful feature in itself I would think,
+including for libvirt and higher level components in the stack. The lack of the feature just shows, well, the lack of this feature.
 
+Regarding my prototype I pointed at that happens to use libvirt, I wonder if you or anyone have any feedback on the actual format of the VM saved in parallel to disk,
+regardless of which component writes it, libvirt or QEMU, and I wonder also if there is any feedback on the O_DIRECT -friendly I/O API, which are both things we can make progress on also regardless of the libvirt vs QEMU implementation of the parallel migration to disk.
 
+Thanks,
 
-
---fq5XD9yVf8NHsbJVfOMqgQheR4WaYz8S7--
-
---Wi5CvxucgJ4pi967HDeiGvCjfyB7ZPbEr
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEEelpOgOQAl7r26tY4RJGQ8yNavTsFAmK9ma0FAwAAAAAACgkQRJGQ8yNavTtK
-WhAAm+/H916jyaAM5rYyxMMGTgCL4EiIx9EGgwGGzkpS8H6rP72/zaitN5EnQFUczYNRZPiautJ4
-CDPRKSc92Wpmz8CmVrWHo0hExEjg0fWqY7n0lgNq7+dawkhwLzvFBKuAn/VEwV8lkrYh1zvEveVt
-EEeudlTdf+gCd/TX4yrWKKMLTlcwp/aaSPrqMvlWNXS9N+IWhcCDxhjrGx5vRI4UV8FpqJAeMP5y
-OOgmdOJhnN7ekpeaGKfUmmVaxy2If74UdJxdiwRWC93IHxdAk/w9EvVlzazCmi3h3BGNao1j4nKy
-O3J01XcsYEl2Vv+kI55BUmA15LTzR8miqAYcOvVnZK30LlBT2+/uMdOrZXsJJgNPaIv59ln0LO4O
-07NA+vr7he6N05MrAQF6Y78WE7ZCSPRqqmFT/JnZQZWfAnYHbkaJmhTvkKCeHJ1OVtkrv0c7mcz4
-v5mu/fdc7/Otmsi/yFyVIuAkIs3M4pjl7TBYGE8gUJGmRdEkYT2PeUHEjRzd9YGsFzAsxPOWcZBy
-32OrpKjGUAlCdkCxw9h0E6l8n0j6X2Rdygnj5g3cognL2j3EugTR32oCNBSKcHqNWX8GZo6YwLk0
-/L/UOstnIdMinzTvMsf8oLJdraVDv8ge/ZGJMkpX/jRWjHYOt3BSWm05W4gJg5KzqB6YIyZxqyuG
-8x8=
-=zx/J
------END PGP SIGNATURE-----
-
---Wi5CvxucgJ4pi967HDeiGvCjfyB7ZPbEr--
+Claudio
 
