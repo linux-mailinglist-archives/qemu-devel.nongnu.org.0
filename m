@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D334056106C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 06:58:37 +0200 (CEST)
-Received: from localhost ([::1]:47966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29DD561064
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 06:54:38 +0200 (CEST)
+Received: from localhost ([::1]:38784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6mGC-0003Ve-R2
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 00:58:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45708)
+	id 1o6mCL-0005UD-GE
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 00:54:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6m9e-0002T7-Tw; Thu, 30 Jun 2022 00:51:50 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:53073)
+ id 1o6m9g-0002VR-Ia; Thu, 30 Jun 2022 00:51:52 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:34231)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6m9Y-0006vw-NV; Thu, 30 Jun 2022 00:51:50 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 5F64E2B058D6;
- Thu, 30 Jun 2022 00:51:42 -0400 (EDT)
+ id 1o6m9b-0006y9-TH; Thu, 30 Jun 2022 00:51:52 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 8EBF42B058DA;
+ Thu, 30 Jun 2022 00:51:45 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 30 Jun 2022 00:51:43 -0400
+ by compute5.internal (MEProxy); Thu, 30 Jun 2022 00:51:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656564701; x=1656568301; bh=Lw
- +1g+XzIO5FqGC0pP7rAAEex6IHNU163XV6+BxRlio=; b=kbKYQka7lt8EbPtcsU
- R+mffm23RExXJpaKuxeunlwo9zMVcHcCIORaxLhEAli6+92OHIO5uM97Dv5Q1JQj
- Q+Wbff59ZLmIyEPy5CcgYSU7pJAeFnnqjienjq/KoAGqoYxJrfEaQ8cD9Dg6Z5/j
- aKO7Vv6gsLCzgye+QiK7ImpbWWr5TRc3/Nro3norY1aQyZ06J4mAZIcJj82e3gMi
- CK+g2GTBFgbtWrEOOzfVNUbVJQAwipx79ioArde/xw5IZ67IoGmde1doCUqqdAHG
- G6FdiYNJIrsqgLuZmFu4HTkAsBx8C/AVvFmH0brN3v9A34k4c6ACWVk2qqZkpJl2
- 8abQ==
+ :subject:subject:to:to; s=fm1; t=1656564705; x=1656568305; bh=Af
+ GWXA+snDeGMV7gfmpXaFv0cU8DECQw1HIHV0zfRgU=; b=5K9SToyrtycNrB9LZ4
+ PcLAq/m7JPfDlyIr7C2VCNRSms7HVCHLOmaYr1MCA2I2LDZ4rLkimEuFj61y5CIz
+ eHO+40Fnz/Ocs9BfY3aFyKnu3HrWrg7omjzFv1isr+WZ7b1XA40EpPgn4BoVjPxn
+ 5k4X7K1qBVEtFZ81cbNQixB+gmYXaOhPP9PMj6LVxhg+3NKNGFjWyUotuztSU44A
+ 6FFxguEPteU6iPifMeqW6DmCjtswboGC2sbhrKhcGy9lIV9Akzy2O1L6gtrrCEG1
+ Typ8MgXOd1GrfNlDXWHllvKcLj5oBJ5/D4hh2wmoHaU6Bym64Inq+65GpH1s429U
+ fzxg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=i9e814621.fm2; t=1656564701; x=1656568301; bh=Lw+
- 1g+XzIO5FqGC0pP7rAAEex6IHNU163XV6+BxRlio=; b=XTEoiOv1M+qtXJqFK/L
- zlb75zaPmuAsOH8Dt+TO9YvHfIyaqQs4uZgRbWTxn0d79s/kJwRyhaD8GuaTtBVw
- I7BWKDJ8820c83RiY6DA+fh7IKtlDLh1Wz0uCfI2vHkD8ujKimjgtbqMO9sx4CfI
- KLfuM7B4b300zS98jDoAbULDNduRyPktZ53LO9VYyg63+2kKAklfM7Z/7JK4B3bv
- BOfBrL2cI/bFH+n8hnUclUCD+0wk/U/U4nxRNkqjVwuSxzWYmrJWTF4wr4noW2QZ
- AIUV/+siyta8eqggHkOtnWoqOVGeLi3Pva7hk2mZUYaV4kipLUjbKLx/7Y72ETIm
- 1Mg==
-X-ME-Sender: <xms:3Su9Yvp0iL1xiupbHky8vQ2-QviXNpco4n6_gipKQMEhzxSlf2OT2g>
- <xme:3Su9YpqGoDatSEB-EaLKAhaLzeoIc2if6CPsdZbumw_8tcW7j2BHQnzwQjX45wqC7
- mTbFS-V2nPR3EXLMj8>
-X-ME-Received: <xmr:3Su9YsMDoBS7eninwz8EoOzXX34Bjr3dsUkjtWJMIzmDdw_yqiYf4pyzNvYB3CYyUmgIeOmKmZO91hxdyYbs-Mp5BHXOjOOJ>
+ :x-sasl-enc; s=i9e814621.fm2; t=1656564705; x=1656568305; bh=AfG
+ WXA+snDeGMV7gfmpXaFv0cU8DECQw1HIHV0zfRgU=; b=XRPLwx71TA6FXx6taxL
+ 9WZlhUmJjc5SPMq/RA66iIxMe0nmkMmZm/en2NRRU8NPSj13e98KLgA3C2gBT8Z2
+ 8MeY/ZsRFPpaTf6TWHJeiF6ZVb1jmtIofmKyR2lFyubV7mQNQ1Pn1KB32ZW9zjon
+ wYKbP7Nt/ZxfpisT25wnDGL/e/Dcg54BPHkFOtWHssab8Wgzes+jyyOf3hfWl0k9
+ o5L+P1dWiTVUjJ4xajh6kG4cfwh3RRJfhukHYkLNA6z6cZ9twDMT6NQbLe5GQm8t
+ DFobtwwxKBnq+MupMmTIssPrZW+Ttm7QJcilqg8NSBAuLvmpFrHWT96hHO6tCR0p
+ 7BQ==
+X-ME-Sender: <xms:4Cu9YvLNldwAiMwLhEmG9jf0OchxvBeW7V8crFqV6xT5jftzxGghvg>
+ <xme:4Cu9YjI43oHiuUDJyEzTHmisgzm_vil1yb_CDuWINHpHN9C3lRU81SWalHZL4Rfos
+ vGakU9izNaJTZyKG9A>
+X-ME-Received: <xmr:4Cu9YnsxkxOgGX0LXn0TzrMn6KU3HktNJEMUtk2o9oehxZu5k-xmhLJfuPDsYcwjnWfqSclhE4upkmQGBbALar-4Rhrol1p4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddgkeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
  dmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheprfgv
  thgvrhcuffgvlhgvvhhorhihrghsuceomhgvsehpjhgurdguvghvqeenucggtffrrghtth
- gvrhhnpeetleevtefgleevleelteekffffvdekheekkeejveegheelveehgeeufffgtdei
- leenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepmhgvsehpjhgurdguvghv
-X-ME-Proxy: <xmx:3Su9Yi44KmL7W0iGvJSnTQoKQUE59ZKKSANI3_sLq2PgBdyw0tPw-g>
- <xmx:3Su9Yu4DH6VchiBXMYRCVbmr_kzNvnD1J99ASjyh1SaPM2hLuTkGsQ>
- <xmx:3Su9YqgcC7CKiL3s8pFf2EaHGqMhI2IgX543bkEXHu75ORSuEpDHDA>
- <xmx:3Su9Ygtjs4j-ExWdPw1w4IjrEEcySVbRt9deien5WlluRT_8G-VbqPbmtuo>
+ gvrhhnpeektefhieevgfduvdeiueetteegtdeuueevieelffevueevveehhedukeejtdek
+ teenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmvg
+ esphhjugdruggvvh
+X-ME-Proxy: <xmx:4Cu9Yob_ZyDfvbPZDIDzQl3_1IFXRnXyw6QePtQY7djyD9qz29LYsQ>
+ <xmx:4Cu9Ymb0pTuXp_yXgu-zESweZoXlQpDAV20pk4K84U7mXQX5ZpKV1A>
+ <xmx:4Cu9YsBPK8Lh206tKaWv8KddPnFbtCjlx37kMvLwpa5Q2c7aYRhaqw>
+ <xmx:4Su9YsNuLeL3M51Pl_q8jXw4-lj9l4Ni7Nr_9gflxciEUdJT24EDEucLP8w>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Jun 2022 00:51:41 -0400 (EDT)
+ 30 Jun 2022 00:51:44 -0400 (EDT)
 From: Peter Delevoryas <me@pjd.dev>
 To: 
 Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
  cminyard@mvista.com, titusr@google.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, zhdaniel@fb.com, pdel@fb.com
-Subject: [PATCH v3 02/14] hw/i2c/aspeed: Fix DMA len write-enable bit handling
-Date: Wed, 29 Jun 2022 21:51:21 -0700
-Message-Id: <20220630045133.32251-3-me@pjd.dev>
+Subject: [PATCH v3 03/14] hw/i2c/aspeed: Fix MASTER_EN missing error message
+Date: Wed, 29 Jun 2022 21:51:22 -0700
+Message-Id: <20220630045133.32251-4-me@pjd.dev>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220630045133.32251-1-me@pjd.dev>
 References: <20220630045133.32251-1-me@pjd.dev>
@@ -104,50 +104,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-I noticed i2c rx transfers were getting shortened to "1" on Zephyr. It
-seems to be because the Zephyr i2c driver sets the RX DMA len with the
-RX field write-enable bit set (bit 31) to avoid a read-modify-write. [1]
+aspeed_i2c_bus_is_master is checking if master mode is enabled in the I2C
+bus controller's function-control register, not that slave mode is enabled
+or something.  The error here is that the guest is trying to trigger an I2C
+master mode command while master mode is not enabled.
 
-/* 0x1C : I2CM Master DMA Transfer Length Register   */
-
-I think we should be checking the write-enable bits on the incoming
-value, not checking the register array. I'm not sure we're even writing
-the write-enable bits to the register array, actually.
-
-[1] https://github.com/AspeedTech-BMC/zephyr/blob/db3dbcc9c52e67a47180890ac938ed380b33f91c/drivers/i2c/i2c_aspeed.c#L145-L148
-
-Fixes: ba2cccd64e90f34 ("aspeed: i2c: Add new mode support")
+Fixes: ba2cccd64e90f342 ("aspeed: i2c: Add new mode support")
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
 ---
- hw/i2c/aspeed_i2c.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/i2c/aspeed_i2c.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index ff33571954..cbaa7c96fc 100644
+index cbaa7c96fc..c153a1a942 100644
 --- a/hw/i2c/aspeed_i2c.c
 +++ b/hw/i2c/aspeed_i2c.c
-@@ -644,18 +644,18 @@ static void aspeed_i2c_bus_new_write(AspeedI2CBus *bus, hwaddr offset,
-                                                      RX_BUF_LEN) + 1;
-         break;
-     case A_I2CM_DMA_LEN:
--        w1t = ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, RX_BUF_LEN_W1T) ||
--                   ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, TX_BUF_LEN_W1T);
-+        w1t = FIELD_EX32(value, I2CM_DMA_LEN, RX_BUF_LEN_W1T) ||
-+              FIELD_EX32(value, I2CM_DMA_LEN, TX_BUF_LEN_W1T);
-         /* If none of the w1t bits are set, just write to the reg as normal. */
-         if (!w1t) {
-             bus->regs[R_I2CM_DMA_LEN] = value;
+@@ -601,7 +601,7 @@ static void aspeed_i2c_bus_new_write(AspeedI2CBus *bus, hwaddr offset,
+         }
+ 
+         if (!aspeed_i2c_bus_is_master(bus)) {
+-            qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: Master mode is not enabled\n",
+                           __func__);
              break;
          }
--        if (ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, RX_BUF_LEN_W1T)) {
-+        if (FIELD_EX32(value, I2CM_DMA_LEN, RX_BUF_LEN_W1T)) {
-             ARRAY_FIELD_DP32(bus->regs, I2CM_DMA_LEN, RX_BUF_LEN,
-                              FIELD_EX32(value, I2CM_DMA_LEN, RX_BUF_LEN));
+@@ -744,7 +744,7 @@ static void aspeed_i2c_bus_old_write(AspeedI2CBus *bus, hwaddr offset,
          }
--        if (ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, TX_BUF_LEN_W1T)) {
-+        if (FIELD_EX32(value, I2CM_DMA_LEN, TX_BUF_LEN_W1T)) {
-             ARRAY_FIELD_DP32(bus->regs, I2CM_DMA_LEN, TX_BUF_LEN,
-                              FIELD_EX32(value, I2CM_DMA_LEN, TX_BUF_LEN));
+ 
+         if (!aspeed_i2c_bus_is_master(bus)) {
+-            qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: Master mode is not enabled\n",
+                           __func__);
+             break;
          }
 -- 
 2.37.0
