@@ -2,64 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4001D5619B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 13:57:56 +0200 (CEST)
-Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29772561A4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 14:27:54 +0200 (CEST)
+Received: from localhost ([::1]:53874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6snz-0005XE-9X
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 07:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37978)
+	id 1o6tGy-00026r-Er
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 08:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org>)
- id 1o6sUH-0002Rr-79
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 07:37:34 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:42910)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o6tDC-00009m-F4
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 08:23:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org>)
- id 1o6sUD-0006hi-QM
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 07:37:32 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 19FD660FC1
- for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 11:37:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AFC9C34115
- for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 11:37:27 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="F6NvzDVi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1656589045;
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o6tD5-00064b-Oc
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 08:23:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656591831;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=TSeGsw3ZXwe2MxjvM8bS6Z46KMSavUx2HDViLp6iLBQ=;
- b=F6NvzDViAJaK9hRSbiDXNi4AEQ3ChqJWFVuH/BWcgR8ellBt84VPUseSAGWRuLWPc/z88I
- bfLhN7YNoDOiZbSiuvU7qzkw1HuBfR7P8lpLSSxgyhmxu0YwknsfX3OmmWkspHXUYCCS0k
- 30dvunqqxWaQIXXZH2pVM4f36MCS4J4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 749ac7b8
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Thu, 30 Jun 2022 11:37:25 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH] hw/i386: pass RNG seed to e820 setup table
-Date: Thu, 30 Jun 2022 13:37:17 +0200
-Message-Id: <20220630113717.1893529-1-Jason@zx2c4.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r3NIRLbX8N2WOBzPUO8ZngROUg4GskgpgnMoyt6FWdU=;
+ b=dUyAsbZz0u+rnuMrpt+lfT0WSvOfY+39aC8SKZFjpTBsD0VaUb0nfv3ApZzI5gEcZicH0n
+ 5Smb6tPvYk6HZ/y2maqF25T8/RCjItq2/CDIqyLQGarxZVBWPdToyQrCY2a1Vs9II793OZ
+ 87jvfn1juCadkBG3ZLS/U66r36o+3o0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-350-F6a1z8vfP8yGVDOdbNIBPA-1; Thu, 30 Jun 2022 08:23:50 -0400
+X-MC-Unique: F6a1z8vfP8yGVDOdbNIBPA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ kv9-20020a17090778c900b007262b461ecdso6131329ejc.6
+ for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 05:23:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=r3NIRLbX8N2WOBzPUO8ZngROUg4GskgpgnMoyt6FWdU=;
+ b=YXxwsPd7Vsnkx+lCdNoBywblihw2IqPKmrSUx+QkeDPPlizPe3cSuJ/RbsCewY6bAi
+ xkLQaCd73bHIDlUBZGkBySFquEJceNZ3X7IV+h6cnQviixYBcu3MeiZ28S3DyQx31UuX
+ DWuJDSjDb6ln9+eXvEy3r2L542ixXZpTcLd4Mbaf1lxQ44ZTQIlaMUXjaQtL8VXvzfvo
+ +kpukgHS8gcMDsSEar1D0i4HHTqbQa76gyxVdC7WcmtqhWAFazxEPS5/BQINKHL3RKwh
+ UECWo0qEsQgI9YppEunAt6eWrgYTTbg2MrzCIZyQswHkUQv3G9a0z6pGmJjhv2Qkyrq2
+ BbXA==
+X-Gm-Message-State: AJIora/irbwFCyMPx2o1r8SPm2CIO6Nf51bB3YUetvOwRPGwh/NgG/2S
+ 6Hc7ffyFnszhX6s2LRj4Zjp7noefmBriziWXEYx0ZciuU6WdcU2FJE0GOB3ZFA0YQqZ3z8Lj3jf
+ jUAp4ZWTHyO1uzW0=
+X-Received: by 2002:a05:6402:516b:b0:435:8f7b:b6f7 with SMTP id
+ d11-20020a056402516b00b004358f7bb6f7mr11127516ede.291.1656591828916; 
+ Thu, 30 Jun 2022 05:23:48 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vbuxpagjpkXSzpWFpXP8i0978M4dSWH0MZb8vcGt1WEYHYL8TNtbgBaHhGzAcR/vk/xnO/Vg==
+X-Received: by 2002:a05:6402:516b:b0:435:8f7b:b6f7 with SMTP id
+ d11-20020a056402516b00b004358f7bb6f7mr11127486ede.291.1656591828712; 
+ Thu, 30 Jun 2022 05:23:48 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ i25-20020a056402055900b00435681476c7sm13212200edx.10.2022.06.30.05.23.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jun 2022 05:23:48 -0700 (PDT)
+Date: Thu, 30 Jun 2022 14:23:47 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Brice Goglin <Brice.Goglin@inria.fr>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Liu Jingqi
+ <jingqi.liu@intel.com>, Eduardo Habkost <eduardo@habkost.net>, Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>, Philippe =?UTF-8?B?TWF0aGlldS1E?=
+ =?UTF-8?B?YXVkw6k=?= <f4bug@amsat.org>, Yanan Wang
+ <wangyanan55@huawei.com>, Jonathan Cameron <jonathan.cameron@huawei.com>
+Subject: Re: [PATCH v4 0/4] hmat acpi: Don't require initiator value in -numa
+Message-ID: <20220630142347.22485226@redhat.com>
+In-Reply-To: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
+References: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,78 +103,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tiny machines optimized for fast boot time generally don't use EFI,
-which means a random seed has to be supplied some other way, in this
-case by the e820 setup table, which supplies a place for one. This
-commit adds passing this random seed via the table. It is confirmed to
-be working with the Linux patch in the link.
+On Thu, 30 Jun 2022 09:36:47 +0200
+Brice Goglin <Brice.Goglin@inria.fr> wrote:
 
-Link: https://lore.kernel.org/lkml/20220630113300.1892799-1-Jason@zx2c4.com/
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/i386/x86.c                                | 19 ++++++++++++++-----
- include/standard-headers/asm-x86/bootparam.h |  1 +
- 2 files changed, 15 insertions(+), 5 deletions(-)
+> Allow -numa without initiator value when hmat=on so that we may
+> build more complex topologies, e.g. NUMA nodes whose best initiators
+> are not just another single node.
+>
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 6003b4b2df..0724759eec 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -26,6 +26,7 @@
- #include "qemu/cutils.h"
- #include "qemu/units.h"
- #include "qemu/datadir.h"
-+#include "qemu/guest-random.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/qapi-visit-common.h"
-@@ -1045,6 +1046,16 @@ void x86_load_linux(X86MachineState *x86ms,
-     }
-     fclose(f);
- 
-+    setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
-+    kernel_size = setup_data_offset + sizeof(struct setup_data) + 32;
-+    kernel = g_realloc(kernel, kernel_size);
-+    stq_p(header + 0x250, prot_addr + setup_data_offset);
-+    setup_data = (struct setup_data *)(kernel + setup_data_offset);
-+    setup_data->next = 0;
-+    setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-+    setup_data->len = cpu_to_le32(32);
-+    qemu_guest_getrandom_nofail(setup_data->data, 32);
-+
-     /* append dtb to kernel */
-     if (dtb_filename) {
-         if (protocol < 0x209) {
-@@ -1059,13 +1070,11 @@ void x86_load_linux(X86MachineState *x86ms,
-             exit(1);
-         }
- 
--        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
--        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
-+        kernel_size += sizeof(struct setup_data) + dtb_size;
-         kernel = g_realloc(kernel, kernel_size);
- 
--        stq_p(header + 0x250, prot_addr + setup_data_offset);
--
--        setup_data = (struct setup_data *)(kernel + setup_data_offset);
-+        setup_data->next = prot_addr + setup_data_offset + sizeof(*setup_data) + setup_data->len;
-+        ++setup_data;
-         setup_data->next = 0;
-         setup_data->type = cpu_to_le32(SETUP_DTB);
-         setup_data->len = cpu_to_le32(dtb_size);
-diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/standard-headers/asm-x86/bootparam.h
-index 072e2ed546..b8cb1fa313 100644
---- a/include/standard-headers/asm-x86/bootparam.h
-+++ b/include/standard-headers/asm-x86/bootparam.h
-@@ -10,6 +10,7 @@
- #define SETUP_EFI			4
- #define SETUP_APPLE_PROPERTIES		5
- #define SETUP_JAILHOUSE			6
-+#define SETUP_RNG_SEED			8
- 
- #define SETUP_INDIRECT			(1<<31)
- 
--- 
-2.35.1
+patches looks fine code-wise,
+however something wrong with them, i.e. 'git am' doesn't like them
+nor ./scripts/checkpatch (which one should use before sending patches).
+
+I've checked it's not my mail server/client issue(or whatever)
+that corrupts them (ones downloaded from patchew are broken as well)
+
+> changes v3->v4
+> * use -numa cpu instead of legacy cpus=
+> changes v2->v3:
+> * improve messages for patches 0/4 and 3/4
+> changes v1->v2:
+> * add q35 acpi test
+> 
+> Brice Goglin (4):
+>    hmat acpi: Don't require initiator value in -numa
+>    tests: acpi: add and whitelist *.hmat-noinitiator expected blobs
+>    tests: acpi: q35: add test for hmat nodes without initiators
+>    tests: acpi: q35: update expected blobs *.hmat-noinitiators
+> 
+>   hw/core/machine.c                             |   4 +-
+>   tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
+>   tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 0 -> 8553 bytes
+>   tests/data/acpi/q35/FACP.acpihmat-noinitiator | Bin 0 -> 244 bytes
+>   tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
+>   tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
+>   tests/qtest/bios-tables-test.c                |  49 ++++++++++++++++++
+>   7 files changed, 50 insertions(+), 3 deletions(-)
+>   create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
+>   create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
+>   create mode 100644 tests/data/acpi/q35/FACP.acpihmat-noinitiator
+>   create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
+>   create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
+> 
 
 
