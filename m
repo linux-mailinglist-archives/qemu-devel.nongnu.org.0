@@ -2,56 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8731C560E62
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 02:57:14 +0200 (CEST)
-Received: from localhost ([::1]:38442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08F1560E67
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 02:58:43 +0200 (CEST)
+Received: from localhost ([::1]:42822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6iUb-00086b-IV
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 20:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36212)
+	id 1o6iW2-0002mS-TC
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 20:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o6iOu-0001jG-15
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 20:51:21 -0400
-Received: from mout-u-204.mailbox.org ([2001:67c:2050:101:465::204]:49114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o6iOq-0004nw-OY
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 20:51:19 -0400
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-u-204.mailbox.org (Postfix) with ESMTPS id 4LYKX16y0Xz9sWb;
- Thu, 30 Jun 2022 02:51:13 +0200 (CEST)
-From: Lev Kujawski <lkujaw@member.fsf.org>
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1o6iUd-0000ol-F7
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 20:57:15 -0400
+Received: from mga14.intel.com ([192.55.52.115]:59228)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1o6iUZ-0005eG-GZ
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 20:57:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656550631; x=1688086631;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=6OuV45/vD1BD7HrfCIoVcP/atOmqEestKoa4AROmxAs=;
+ b=hrtR52vBgiYXhEondpaR7v4r2Grw1KTx+Zx4Oqsflaz7COSdulLvrdUM
+ k/APlHMgXHhoQaEwPGvArR9E5tlSKEbiE+ZeicWUmaS1FJFOUyC3LTgc0
+ 29ubZWXKLf/tjUJdMn2espyizZ1kH4/QVtOa5AfgaEaVhC0JgDl+UmjNs
+ ac4zB4+UY3UJ4ostIa+4X3WbKkUvw5cLtmK9jVzMfdREBGBKIDmF7CJaU
+ bJYtEmPYIv3sf5Jo216Q1swUcxHwzAo906uaU82SFH7YRTBp/uAojSka0
+ q+ivu/77Ex/Pp5ku7XwLM1CtkC691hAZAsjy++J4WFiH+jEv1qGDJAMAF w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="282240602"
+X-IronPort-AV: E=Sophos;i="5.92,232,1650956400"; d="scan'208";a="282240602"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2022 17:57:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,232,1650956400"; d="scan'208";a="693828071"
+Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
+ ([10.105.129.122])
+ by fmsmga002.fm.intel.com with ESMTP; 29 Jun 2022 17:57:07 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Xu <peterx@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Lev Kujawski <lkujaw@member.fsf.org>
-Subject: [PATCH v4 3/3] tests/qtest/i440fx-test.c: Enable full test of i440FX
- PAM operation
-Date: Thu, 30 Jun 2022 00:50:58 +0000
-Message-Id: <20220630005058.500449-4-lkujaw@member.fsf.org>
-In-Reply-To: <20220630005058.500449-1-lkujaw@member.fsf.org>
-References: <20220630005058.500449-1-lkujaw@member.fsf.org>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
+Subject: [PATCH v3 0/2] handling guest multiple displays
+Date: Wed, 29 Jun 2022 17:51:39 -0700
+Message-Id: <20220630005141.16680-1-dongwon.kim@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4LYKX16y0Xz9sWb
-Received-SPF: pass client-ip=2001:67c:2050:101:465::204;
- envelope-from=lkujaw@member.fsf.org; helo=mout-u-204.mailbox.org
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=dongwon.kim@intel.com;
+ helo=mga14.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,96 +75,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the prior patch in this series adding support for RE^WE PAM
-semantics, the '#ifndef BROKEN' segments of test_i440fx_pam can now be
-enabled.
+This patch seires is for adding some useful features for the guest os with
+multi-displays. First patch is to make all of guest displays visible
+when guest os is launched using "detach". Second patch is for providing
+a method to assign each guest display to specific physical monitor,
+which would be useful if someone wants to directly full-screen individual
+guest scanouts to host's physical displays.
 
-* tests/qtest/i440fx-test.c
-test_i440fx_pam:
-- Verify that changing attributes does not affect the initial contents
-  of the PAM region;
-- Verify that that the first new mask is written before switching
-  attributes;
-- Verify that just PAM_WE works by writing a new mask;
-- Switch back to PAM_RE after PAM_WE to read the new mask;
-- Tighten logic of the !WE write test because we know what the
-  original contents were; and
-- Write the last mask before testing for it.
+Changes in v3:
 
-Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
----
-(v4) Minor tweaks:
-- Use spacing to delineate the functionality being tested.
-- Ensure that PAM_WE is working by writing a mask within
-  that portion.
-(v2-v3) No changes
+* ui/gtk: a new array param monitor to specify the target
 
- tests/qtest/i440fx-test.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+  - Revised commit message
+  - Rewrote desription of the new parameter (Markus Armbruster)
+  - Replaced unnecessary 'for' loop with 'if' condition
+    (Markus Armbruster)
 
-diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
-index 6d7d4d8d8f..b761ae53cb 100644
---- a/tests/qtest/i440fx-test.c
-+++ b/tests/qtest/i440fx-test.c
-@@ -229,6 +229,7 @@ static void test_i440fx_pam(gconstpointer opaque)
- 
-         g_test_message("Checking area 0x%05x..0x%05x",
-                        pam_area[i].start, pam_area[i].end);
-+
-         /* Switch to RE for the area */
-         pam_set(dev, i, PAM_RE);
-         /* Verify the RAM is all zeros */
-@@ -236,33 +237,35 @@ static void test_i440fx_pam(gconstpointer opaque)
- 
-         /* Switch to WE for the area */
-         pam_set(dev, i, PAM_RE | PAM_WE);
-+        /* Verify the RAM is still all zeros */
-+        g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0));
-         /* Write out a non-zero mask to the full area */
-         write_area(pam_area[i].start, pam_area[i].end, 0x42);
--
--#ifndef BROKEN
--        /* QEMU only supports a limited form of PAM */
-+        /* Verify the area contains the new mask */
-+        g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0x42));
- 
-         /* Switch to !RE for the area */
-         pam_set(dev, i, PAM_WE);
-         /* Verify the area is not our mask */
-         g_assert(!verify_area(pam_area[i].start, pam_area[i].end, 0x42));
--#endif
--
--        /* Verify the area is our new mask */
--        g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0x42));
-+        /* Write out a new mask */
-+        write_area(pam_area[i].start, pam_area[i].end, 0xaa);
-+        /* Verify the area is not our new mask */
-+        g_assert(!verify_area(pam_area[i].start, pam_area[i].end, 0xaa));
- 
-+        /* Switch to !WE for the area */
-+        pam_set(dev, i, PAM_RE);
-+        /* Verify the area is the new mask */
-+        g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0xaa));
-         /* Write out a new mask */
-         write_area(pam_area[i].start, pam_area[i].end, 0x82);
--
--#ifndef BROKEN
--        /* QEMU only supports a limited form of PAM */
--
--        /* Verify the area is not our mask */
--        g_assert(!verify_area(pam_area[i].start, pam_area[i].end, 0x82));
-+        /* Verify the area is not the new mask */
-+        g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0xaa));
- 
-         /* Switch to RE for the area */
-         pam_set(dev, i, PAM_RE | PAM_WE);
--#endif
-+        /* Write out a new mask again */
-+        write_area(pam_area[i].start, pam_area[i].end, 0x82);
-         /* Verify the area is our new mask */
-         g_assert(verify_area(pam_area[i].start, pam_area[i].end, 0x82));
- 
+Changes in v2:
+
+* ui/gtk: detach VCS for additional guest displays
+
+  - check if the type of VC is GD_VC_GFX before qemu_console_is_graphic
+    (Gerd Hoffman)
+  - vc[0] is always primary guest display so we won't need n_gfx_vcs
+    (Gerd Hoffmann)
+  - making sure detached window's size same as original surface size
+    (Daniel P. Berrangé)
+
+Dongwon Kim (2):
+  ui/gtk: detach VCS for additional guest displays (v3)
+  ui/gtk: a new array param monitor to specify the target displays (v3)
+
+ qapi/ui.json    |  7 ++++++-
+ qemu-options.hx |  2 +-
+ ui/gtk.c        | 43 +++++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 48 insertions(+), 4 deletions(-)
+
 -- 
-2.34.1
+2.30.2
 
 
