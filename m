@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57262560DC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 01:55:33 +0200 (CEST)
-Received: from localhost ([::1]:47878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE84A560E41
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 02:49:11 +0200 (CEST)
+Received: from localhost ([::1]:55820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6hWu-0008A7-Cf
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 19:55:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56748)
+	id 1o6iMn-0000Ys-WD
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 20:49:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o6hVr-0007TI-9N
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 19:54:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36006)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o6hVo-0003xH-35
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 19:54:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656546862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fgGr6C+rRmKaOoMWslGXtHUaFr61hMZ2eqUVPPUt6MI=;
- b=Xcb4hyimHbiuXml/8lzgVatrkfbiAHkTDo79ldhJ4+WFRD/PbCNPa/YpgjkFsKusUc3xQD
- MNeN0NsnS0V3T8hEzoqKhCp8qjitngyz1UWcW02MSIa1I2dw+/WfMWKQcuo+74jXBqo9dA
- X+If9J0j7aDZV0D0W7if9XXWy4aDc0M=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-214-AjddaN2IOhSH_Mi6WaWFoQ-1; Wed, 29 Jun 2022 19:54:20 -0400
-X-MC-Unique: AjddaN2IOhSH_Mi6WaWFoQ-1
-Received: by mail-ua1-f72.google.com with SMTP id
- q74-20020a9f37d0000000b00381f3cac330so3113112uaq.16
- for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 16:54:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o6iL3-00085H-4z; Wed, 29 Jun 2022 20:47:21 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:34634)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o6iKy-0004AR-Mz; Wed, 29 Jun 2022 20:47:20 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ a11-20020a17090acb8b00b001eca0041455so1971493pju.1; 
+ Wed, 29 Jun 2022 17:47:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bCleCyHObJuxmutDeeY/CC1ri8k8KdRSXU8l6oFTftY=;
+ b=pZBvUR7EEdujzfaN369eEZq3TbFPFh8IcqGvBU8MPYcm74j3v9XCRQsnFUkxqVDs2l
+ igkY42cffWmx9b7HNF4yUT8JghXkIlMrn3+91qXhcIggmQk9CEqTwf83T/3VGKEnXuqR
+ Pc/0kHAHyLJJG6DVgJJml98548w/9Va/o11LsJSNaBW+fKgQ1CZHRxNzcuZ+Y06kyMfd
+ sqVawxJzZRrUb8ae4Z0gG0DJGTPtOnv1IPrj68ep12Q5TJQL+BF9Js48pkxSrOvlnxKj
+ OjlxsB3mTL6wRSDr3qosSw3FPki+ibVcritzItvRPavh0eg8HyEw+MHx0oOz0sP55lIh
+ sZ5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fgGr6C+rRmKaOoMWslGXtHUaFr61hMZ2eqUVPPUt6MI=;
- b=6QD8u+GG+PFSWmi+5fx2PC0B/AQticSIO271xulVqKI5/9EwnCxWL/U6Dx2Q4aDheT
- aN7zRjnz73rZR0/sVJc4GijuzG6ykpXCzqwKN4oeKlesZxik51vj/f6fBfuXK0otGsjI
- a2Ciy2xWpmk7hIgxRg0HtY2ymvz9ztkzpUrVDrtTBj9uqdO962+jKxZ0/eiYErMJUV6u
- Gi+E1MCa810U3a8cIRpgpBMgimDXhbZ6o0zCYRa7Z48Fr9iX5gzl2AWk/bJb4BDDcw2B
- IpvOWODsj8lb+HUxA6p8rTwkAiczSl99RAGtfBiSXU6rOVrm6/9wmIFwpBOYlyOtoI65
- eTqw==
-X-Gm-Message-State: AJIora9dRJWLYT3imzwo/ImExD/jD1nh8lH3TPaCOyQ0BmUxaUkQJ9Or
- b26zpyVOHEs0Izz/lovb7PVJglUUQDrTqp+YyzksUZHUJEI3+K4tHmJTXGLwuZ8VfvE+ET8nUPc
- T1LcxXNOlvAR443Q0SWpppLqUpe5yNNk=
-X-Received: by 2002:a05:6102:3578:b0:354:3f02:c707 with SMTP id
- bh24-20020a056102357800b003543f02c707mr5828189vsb.35.1656546859951; 
- Wed, 29 Jun 2022 16:54:19 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tZzsvW3jfT6+hqs1LrQ2IGuvF1WBpFO5rRsDKdPVsD2bS2YnnBsWZPK2WM/wQef8gvf31gSfEUvko3tAqRzMI=
-X-Received: by 2002:a05:6102:3578:b0:354:3f02:c707 with SMTP id
- bh24-20020a056102357800b003543f02c707mr5828182vsb.35.1656546859714; Wed, 29
- Jun 2022 16:54:19 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=bCleCyHObJuxmutDeeY/CC1ri8k8KdRSXU8l6oFTftY=;
+ b=og024cM1o/rzQWytYpQEp+xhfFY1kVLFWloj5WX08xnjSLaRM+v7b8/ht9+KlFSgsD
+ gd8Pmpz4UuCOYuOROJCcL/59Y91oQhyxQ6DgfwkKxUMZ4kQUkANmWcfU6iRMv8o9txmE
+ d714iPEcmg/uT56R/8uqbMMaL/z9fUWTy9+ib8/9gNrgNKg3gYpJ/bASgLA9UkEpT5nq
+ wD6Vw6HqVPzqcDsqQyiVPcJyxxg5viPxwfoGswPuLGkGpGsVsIvkbNOiCL/vISxLWU6B
+ NnngFqNEHskrDJ1PDfXYJQjLjStiwpiTddYRI9Rg2pnZKjLHyhUqpm9Xeb9OtNK3P2qx
+ qO5w==
+X-Gm-Message-State: AJIora/Hgge6OajZl1TrM96wXmkRSWHeGVCTIR13vctC+0riESU21j6d
+ tnE8/RokPkMabYPIIoNF+wa7VTPSiJyVqyRMtxc=
+X-Google-Smtp-Source: AGRyM1sjAIpjIEDtEJJSveC0Ecm0ow2AeY7v7N3E/RTZykadi1k4S6p2XvcPfPIGOIIyO+5wDPPwuG8XqVTLcc9onvc=
+X-Received: by 2002:a17:90a:590e:b0:1ed:59f0:bc2f with SMTP id
+ k14-20020a17090a590e00b001ed59f0bc2fmr6837017pji.120.1656550034961; Wed, 29
+ Jun 2022 17:47:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220628134939.680174-1-marcandre.lureau@redhat.com>
- <20220628134939.680174-3-marcandre.lureau@redhat.com>
- <YrsNZAznZrxUr/zr@redhat.com>
-In-Reply-To: <YrsNZAznZrxUr/zr@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 29 Jun 2022 19:54:08 -0400
-Message-ID: <CAFn=p-YCAf7VvCvwjh++KZ3GguG8MKo=ukGR3EqxRYprXgZWDg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] python/qemu/machine: accept QMP connection
- asynchronously
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
+References: <20220616031543.953776-1-apatel@ventanamicro.com>
+In-Reply-To: <20220616031543.953776-1-apatel@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 30 Jun 2022 10:46:48 +1000
+Message-ID: <CAKmqyKNd67cB-YkKvh=nibv0DzjYpJUgtQjbH7HCR_T63S8x+w@mail.gmail.com>
+Subject: Re: [PATCH 0/2] AIA draft v0.3.0 support for QEMU RISC-V
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,39 +87,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 10:17 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
+On Thu, Jun 16, 2022 at 1:17 PM Anup Patel <apatel@ventanamicro.com> wrote:
 >
-> On Tue, Jun 28, 2022 at 05:49:39PM +0400, marcandre.lureau@redhat.com wro=
-te:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > QMP accept is currently synchronous. If qemu dies before the connection
-> > is established, it will wait there. Instead turn the code to do
-> > concurrently accept() and wait(). Returns when the first task is
-> > completed to determine whether a connection was established.
+> The latest AIA draft v0.3.0 addresses comments from the architecture
+> review committee.
+> (Refer, https://github.com/riscv/riscv-aia/releases/tag/0.3.0-draft.31)
 >
-> If the spawned QEMU process was given -daemonize, won't this code
-> mistakenly think the subprocess has quit ?
+> There are primarily two changes:
+> 1) Removing various [m|s|vs]seteienum, [m|s|vs]clreienum, [m|s|vs]seteipnum,
+>    and [m|s|vs]clrei;num CSRs because these CSRs were mostly for software
+>    convienence.
+> 2) Simplifying the default priority assignment for local interrupts
+>
+> These patches can also be found in riscv_aia_update_v1 branch at:
+> https://github.com/avpatel/qemu.git
+>
+> Corresponding changes in OpenSBI and Linux were small and these can be
+> found at:
+>  riscv_aia_update_v1 branch of https://github.com/avpatel/opensbi.git
+>  riscv_aia_v1 branch of https://github.com/avpatel/linux.git
+>
+> Anup Patel (2):
+>   target/riscv: Remove CSRs that set/clear an IMSIC interrupt file bits
+>   target/riscv: Update default priority table for local interrupts
 
-Do we use daemonize with this code anywhere? Is it important that we
-are able to?
+Thanks!
 
-Many of the shutdown routines I wrote expect to work directly with a
-launched process ... at least, that expectation exists in my head. I
-suppose a lot of this code may actually just coincidentally work with
--daemonize and I wouldn't have noticed. I certainly haven't been
-testing it explicitly. I definitely make no accommodations for it, so
-I would expect some stale processes in various cases at a minimum.
+Applied to riscv-to-apply.next
 
-If we want to expand to accommodate this feature, can we do that
-later? Machine needs a bit of a remodel anyway. (I want to write an
-'idiomatic' asyncio version to match the QMP lib. I have some
-questions to work out WRT which portions of this appliance can be
-upstreamed and which need to remain only in our testing tree. We can
-talk about those pieces later, just throwing it out there that it's on
-my list.)
+Alistair
 
---js
-
+>
+>  target/riscv/cpu_bits.h   |  26 +------
+>  target/riscv/cpu_helper.c | 134 +++++++++++++++++-----------------
+>  target/riscv/csr.c        | 150 +-------------------------------------
+>  3 files changed, 72 insertions(+), 238 deletions(-)
+>
+> --
+> 2.34.1
+>
+>
 
