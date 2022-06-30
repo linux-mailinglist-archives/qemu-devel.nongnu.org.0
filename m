@@ -2,57 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43ED95624BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 23:01:59 +0200 (CEST)
-Received: from localhost ([::1]:54338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117D7562504
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 23:19:21 +0200 (CEST)
+Received: from localhost ([::1]:32874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o71IR-0007Rb-Tk
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 17:01:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43590)
+	id 1o71ZH-0005L6-HZ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 17:19:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1o71Fh-0005fO-B4; Thu, 30 Jun 2022 16:59:05 -0400
-Received: from [200.168.210.66] (port=30885 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1o71Ff-0006QQ-17; Thu, 30 Jun 2022 16:59:05 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 30 Jun 2022 17:58:57 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 578A5800028;
- Thu, 30 Jun 2022 17:58:57 -0300 (-03)
-Message-ID: <e2bd1433-23a5-9998-0059-30af7dd887bf@eldorado.org.br>
-Date: Thu, 30 Jun 2022 17:58:56 -0300
+ (Exim 4.90_1) (envelope-from <me@pjd.dev>)
+ id 1o71Uc-0004BC-Ne; Thu, 30 Jun 2022 17:14:30 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:52981)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <me@pjd.dev>)
+ id 1o71UY-0002ib-9K; Thu, 30 Jun 2022 17:14:30 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 65DF0580349;
+ Thu, 30 Jun 2022 17:14:24 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 30 Jun 2022 17:14:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1656623664; x=1656627264; bh=kuX5VNGbqR
+ OSQD5WrJ+yQeDzR2lY2rYnTSKtaCsXSXU=; b=kpZC5jGSrYSzyAmdukBrIQ3o14
+ DC/j5PM1i6dV9NUHoa8sY63xiH9IDz6Z4YQ5gw5HFrfsmLXTIFBY0U4LB29BcSbu
+ B54LUPDq+qkHyZOGq5JlEIe+8rD34KrhJTNfiyOJFuX+1uWhj+EottsoolKjX+ia
+ UH7kp27D8Dsz0nPwOlXjCZDrzpWaXytOAXo2JA4XU1Z44SbJHKNRFai+UYWtURid
+ mDjljuW7iwRZKN0q5r5b4BMS866Cz+K1G7qK0qSqqYt8QtNZVVZT7Q78kY50lJ2d
+ AXka6a1P0zh6IUszX46rfJ2lTcx+88IbZ77I1xjr+3d5ES96nAfB6C2hXYJQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ i9e814621.fm2; t=1656623664; x=1656627264; bh=kuX5VNGbqROSQD5WrJ
+ +yQeDzR2lY2rYnTSKtaCsXSXU=; b=aM9pjBzQmlE0rv/Qnedi7hxozAXL1AjkSU
+ v2k7IAl+wdV5gV6rYQrnveRNLeQUMvDgheWYUz0IYITlYs+PZ1x15ibCbSjoua3L
+ jFEXCWA+QYooaAIDXLkp/esp0gWc2gv5qT5zz+At+yjz5oyhaLAC0W3bnc/JolsO
+ 9OhAMDGWdD/d4VTy9QRnj1poownWNL6TOY1XkQu91EeUr1MeS8MSdyRB/M4qc6W0
+ Dvc4XXqSlUFO2Vp2FUZd9cwLYEHfTNceDXFpFGnre8c2LSjzPXp0pX7c6EA+xBL/
+ Y1uxo5LxJ0J4E9I+qcSSOK5ChsDhyLz5ox2rMEYlFk9/TA3v6GOw==
+X-ME-Sender: <xms:LxK-Yg1ncxon9a37NuFP1eeQtGUjQcQN2Jv_KQr641J4vKccaYVPZw>
+ <xme:LxK-YrGqqn9XNpJ07hP53M_kla-06qsgrNlYHX7ozKWZYeOm1KaxOuOtlarcAXm1S
+ rHfCZYIGdFMc8QCVGs>
+X-ME-Received: <xmr:LxK-Yo4LkoHwD-QM1hYn8tUz8tyQ_zAJ875lSIQeExb1GjS9OiagdnZhVNvvtqLLMdxKr5-B1-n0YmiJtA4ft5kq>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehuddgudehjecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehmvgesphhjugdruggvvheqnecuggftrfgrthhtvg
+ hrnhepvdekgfeggeffiedtjefhueegleeiiefhfeduudfhveeufeffleffheevgeevtdeh
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgvse
+ hpjhgurdguvghv
+X-ME-Proxy: <xmx:LxK-Yp3rW3HOGFkXzYaVWkfeoyp52EzPfqK2mktrIgIGI4C_rx9KzA>
+ <xmx:LxK-YjEk0nAUcSvUMBFtPiz5Mnl_JPY931sojHysQxf--GdAEUvmkg>
+ <xmx:LxK-Yi8LEDLex-NWiEHNEDSZcWpMPB_llT2QH-RosvAGNmO2K7MEFA>
+ <xmx:MBK-YpbzMr5odLoth1gJKjm_O_eu5XoHzq4hCgHnRq3NPUKe52i8sA>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Jun 2022 17:14:22 -0400 (EDT)
+Date: Thu, 30 Jun 2022 14:14:20 -0700
+From: Peter Delevoryas <me@pjd.dev>
+To: Titus Rwantare <titusr@google.com>
+Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
+ cminyard@mvista.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ zhdaniel@fb.com, pdel@fb.com
+Subject: Re: [PATCH v3 10/14] hw/sensor: Add Renesas ISL69259 device model
+Message-ID: <Yr4SLOuKAHBBa0nH@pdel-mbp.dhcp.thefacebook.com>
+References: <20220630045133.32251-1-me@pjd.dev>
+ <20220630045133.32251-11-me@pjd.dev>
+ <CAMvPwGptKGEkDf2MqED8EatHoY-szncDmmJxQKvKDj3YhrbCig@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2] target/ppc: Return default CPU for max CPU
-Content-Language: en-US
-To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- mopsfelder@gmail.com, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, "Matheus K . Ferst"
- <matheus.ferst@eldorado.org.br>, Thomas Huth <thuth@redhat.com>,
- Fabiano Rosas <farosas@linux.ibm.com>
-References: <20220628205513.81917-1-muriloo@linux.ibm.com>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <20220628205513.81917-1-muriloo@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 30 Jun 2022 20:58:57.0573 (UTC)
- FILETIME=[373E2D50:01D88CC4]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMvPwGptKGEkDf2MqED8EatHoY-szncDmmJxQKvKDj3YhrbCig@mail.gmail.com>
+Received-SPF: pass client-ip=66.111.4.230; envelope-from=me@pjd.dev;
+ helo=new4-smtp.messagingengine.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,91 +102,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/06/2022 17:55, Murilo Opsfelder Araujo wrote:
-> All ppc CPUs represent hardware that exists in the real world, i.e.: we
-> do not have a "max" CPU with all possible emulated features enabled.
-> Return the default CPU type for the machine because that has greater
-> chance of being useful as the "max" CPU.
+On Thu, Jun 30, 2022 at 12:16:05PM -0700, Titus Rwantare wrote:
+> On Wed, 29 Jun 2022 at 21:52, Peter Delevoryas <me@pjd.dev> wrote:
+> >
+> > From: Peter Delevoryas <pdel@fb.com>
+> >
+> > This adds the ISL69259, using all the same functionality as the existing
+> > ISL69260 but overriding the IC_DEVICE_ID.
+> >
+> > Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> > ---
+> >  hw/sensor/isl_pmbus_vr.c | 28 ++++++++++++++++++++++++++++
+> >  1 file changed, 28 insertions(+)
+> >
+> > diff --git a/hw/sensor/isl_pmbus_vr.c b/hw/sensor/isl_pmbus_vr.c
+> > index 799ea9d89e..853d70536f 100644
+> > --- a/hw/sensor/isl_pmbus_vr.c
+> > +++ b/hw/sensor/isl_pmbus_vr.c
+> > @@ -119,6 +119,18 @@ static void raa228000_exit_reset(Object *obj)
+> >      pmdev->pages[0].read_temperature_3 = 0;
+> >  }
+> >
+> > +static void isl69259_exit_reset(Object *obj)
+> > +{
+> > +    ISLState *s = ISL69260(obj);
+> > +    static const uint8_t ic_device_id[] = {0x04, 0x00, 0x81, 0xD2, 0x49, 0x3c};
+> > +    g_assert_cmphex(sizeof(ic_device_id), <=, sizeof(s->ic_device_id));
+> > +
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1038
-> Cc: Cédric Le Goater <clg@kaod.org>
-> Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Greg Kurz <groug@kaod.org>
-> Cc: Matheus K. Ferst <matheus.ferst@eldorado.org.br>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> ---
-> v2:
-> - Return the default CPU of the machine instead of hard-coded alias.
-> 
-> v1: https://lore.kernel.org/qemu-devel/20220531172711.94564-1-muriloo@linux.ibm.com/
-> 
->   target/ppc/cpu-models.c |  1 -
->   target/ppc/cpu_init.c   | 19 +++++++++++++++++++
->   2 files changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
-> index 976be5e0d1..05589eb21d 100644
-> --- a/target/ppc/cpu-models.c
-> +++ b/target/ppc/cpu-models.c
-> @@ -879,7 +879,6 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
->       { "755", "755_v2.8" },
->       { "goldfinger", "755_v2.8" },
->       { "7400", "7400_v2.9" },
-> -    { "max", "7400_v2.9" },
->       { "g4",  "7400_v2.9" },
->       { "7410", "7410_v1.4" },
->       { "nitro", "7410_v1.4" },
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index c16cb8dbe7..8ee0b7c785 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -47,6 +47,10 @@
->   #include "spr_common.h"
->   #include "power8-pmu.h"
-> 
-> +#ifndef CONFIG_USER_ONLY
-> +#include "hw/boards.h"
-> +#endif
-> +
->   /* #define PPC_DEBUG_SPR */
->   /* #define USE_APPLE_GDB */
-> 
-> @@ -6963,6 +6967,21 @@ static ObjectClass *ppc_cpu_class_by_name(const char *name)
->           }
->       }
-> 
-> +    /*
-> +     * All ppc CPUs represent hardware that exists in the real world, i.e.: we
-> +     * do not have a "max" CPU with all possible emulated features enabled.
-> +     * Return the default CPU type for the machine because that has greater
-> +     * chance of being useful as the "max" CPU.
-> +     */
-> +#if !defined(CONFIG_USER_ONLY)
-> +    if (strcmp(name, "max") == 0) {
-> +        MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
-> +        if (mc) {
-> +            return object_class_by_name(mc->default_cpu_type);
-> +        }
-> +    }
-> +#endif
-> +
->       cpu_model = g_ascii_strdown(name, -1);
->       p = ppc_cpu_lookup_alias(cpu_model);
->       if (p) {
-> --
-> 2.36.1
-> 
-> 
+> This generates an error from the checkpatch script:
+> Checking 0010-hw-sensor-Add-Renesas-ISL69259-device-model.patch...
+> ERROR: Use g_assert or g_assert_not_reached
+> #27: FILE: hw/sensor/isl_pmbus_vr.c:126:
+> +    g_assert_cmphex(sizeof(ic_device_id), <=, sizeof(s->ic_device_id));
 
-Reviewed-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Argghhh I should have caught this, thanks. I'll replace it with g_assert. I
+didn't realize there was some kind of portability issue with using
+g_assert_cmphex in non-test code.
 
-Best regards,
+> 
+> otherwise, LGTM.
 
--- 
-Víctor Cora Colombo
-Instituto de Pesquisas ELDORADO
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+That's great! Thanks for the review. I'll let you and Cedric sort
+out if we want to make IC_DEVICE_ID a class property or keep it
+in exit_reset as everything else class-specific is right now.
+
+I'll still resubmit the patches as a separate series though with
+the g_assert fix and your reviewed-by tags.
+
+> 
+> 
+> Titus
 
