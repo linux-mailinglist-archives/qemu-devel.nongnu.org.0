@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE84A560E41
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 02:49:11 +0200 (CEST)
-Received: from localhost ([::1]:55820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA82560E5D
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 02:53:53 +0200 (CEST)
+Received: from localhost ([::1]:60886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6iMn-0000Ys-WD
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 20:49:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35602)
+	id 1o6iRN-0004AI-01
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 20:53:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o6iL3-00085H-4z; Wed, 29 Jun 2022 20:47:21 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:34634)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o6iKy-0004AR-Mz; Wed, 29 Jun 2022 20:47:20 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- a11-20020a17090acb8b00b001eca0041455so1971493pju.1; 
- Wed, 29 Jun 2022 17:47:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bCleCyHObJuxmutDeeY/CC1ri8k8KdRSXU8l6oFTftY=;
- b=pZBvUR7EEdujzfaN369eEZq3TbFPFh8IcqGvBU8MPYcm74j3v9XCRQsnFUkxqVDs2l
- igkY42cffWmx9b7HNF4yUT8JghXkIlMrn3+91qXhcIggmQk9CEqTwf83T/3VGKEnXuqR
- Pc/0kHAHyLJJG6DVgJJml98548w/9Va/o11LsJSNaBW+fKgQ1CZHRxNzcuZ+Y06kyMfd
- sqVawxJzZRrUb8ae4Z0gG0DJGTPtOnv1IPrj68ep12Q5TJQL+BF9Js48pkxSrOvlnxKj
- OjlxsB3mTL6wRSDr3qosSw3FPki+ibVcritzItvRPavh0eg8HyEw+MHx0oOz0sP55lIh
- sZ5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bCleCyHObJuxmutDeeY/CC1ri8k8KdRSXU8l6oFTftY=;
- b=og024cM1o/rzQWytYpQEp+xhfFY1kVLFWloj5WX08xnjSLaRM+v7b8/ht9+KlFSgsD
- gd8Pmpz4UuCOYuOROJCcL/59Y91oQhyxQ6DgfwkKxUMZ4kQUkANmWcfU6iRMv8o9txmE
- d714iPEcmg/uT56R/8uqbMMaL/z9fUWTy9+ib8/9gNrgNKg3gYpJ/bASgLA9UkEpT5nq
- wD6Vw6HqVPzqcDsqQyiVPcJyxxg5viPxwfoGswPuLGkGpGsVsIvkbNOiCL/vISxLWU6B
- NnngFqNEHskrDJ1PDfXYJQjLjStiwpiTddYRI9Rg2pnZKjLHyhUqpm9Xeb9OtNK3P2qx
- qO5w==
-X-Gm-Message-State: AJIora/Hgge6OajZl1TrM96wXmkRSWHeGVCTIR13vctC+0riESU21j6d
- tnE8/RokPkMabYPIIoNF+wa7VTPSiJyVqyRMtxc=
-X-Google-Smtp-Source: AGRyM1sjAIpjIEDtEJJSveC0Ecm0ow2AeY7v7N3E/RTZykadi1k4S6p2XvcPfPIGOIIyO+5wDPPwuG8XqVTLcc9onvc=
-X-Received: by 2002:a17:90a:590e:b0:1ed:59f0:bc2f with SMTP id
- k14-20020a17090a590e00b001ed59f0bc2fmr6837017pji.120.1656550034961; Wed, 29
- Jun 2022 17:47:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
+ id 1o6iOj-0001dp-55
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 20:51:10 -0400
+Received: from mout-u-204.mailbox.org ([80.241.59.204]:44524)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
+ id 1o6iOh-0004ky-2B
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 20:51:08 -0400
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-u-204.mailbox.org (Postfix) with ESMTPS id 4LYKWq13bYz9sWX;
+ Thu, 30 Jun 2022 02:51:03 +0200 (CEST)
+From: Lev Kujawski <lkujaw@member.fsf.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Peter Xu <peterx@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Lev Kujawski <lkujaw@member.fsf.org>
+Subject: [PATCH v4 0/3] Full PAM emulation (RE^WE) for i440FX and Q35
+Date: Thu, 30 Jun 2022 00:50:55 +0000
+Message-Id: <20220630005058.500449-1-lkujaw@member.fsf.org>
 MIME-Version: 1.0
-References: <20220616031543.953776-1-apatel@ventanamicro.com>
-In-Reply-To: <20220616031543.953776-1-apatel@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 30 Jun 2022 10:46:48 +1000
-Message-ID: <CAKmqyKNd67cB-YkKvh=nibv0DzjYpJUgtQjbH7HCR_T63S8x+w@mail.gmail.com>
-Subject: Re: [PATCH 0/2] AIA draft v0.3.0 support for QEMU RISC-V
-To: Anup Patel <apatel@ventanamicro.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, 
- Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x102c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=80.241.59.204; envelope-from=lkujaw@member.fsf.org;
+ helo=mout-u-204.mailbox.org
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,44 +62,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 16, 2022 at 1:17 PM Anup Patel <apatel@ventanamicro.com> wrote:
->
-> The latest AIA draft v0.3.0 addresses comments from the architecture
-> review committee.
-> (Refer, https://github.com/riscv/riscv-aia/releases/tag/0.3.0-draft.31)
->
-> There are primarily two changes:
-> 1) Removing various [m|s|vs]seteienum, [m|s|vs]clreienum, [m|s|vs]seteipnum,
->    and [m|s|vs]clrei;num CSRs because these CSRs were mostly for software
->    convienence.
-> 2) Simplifying the default priority assignment for local interrupts
->
-> These patches can also be found in riscv_aia_update_v1 branch at:
-> https://github.com/avpatel/qemu.git
->
-> Corresponding changes in OpenSBI and Linux were small and these can be
-> found at:
->  riscv_aia_update_v1 branch of https://github.com/avpatel/opensbi.git
->  riscv_aia_v1 branch of https://github.com/avpatel/linux.git
->
-> Anup Patel (2):
->   target/riscv: Remove CSRs that set/clear an IMSIC interrupt file bits
->   target/riscv: Update default priority table for local interrupts
+Hello,
 
-Thanks!
+This patch series (v4) implements full PAM emulation for the i440FX
+and Q35 x86 platforms (see commit log for details.)  Prior versions
+did not support executing code from ROMs within the ISA MMIO range
+when mode 2 was active (PAM_WE), but this series adds the requisite
+support for new romd_mode memory sections to the QEMU MMU.  It appears
+to be working well on TCG and KVM, but I would appreciate any feedback
+or testing on other accelerators.  For testing purposes, I have
+attached a patch to SeaBIOS that removes its special handling for
+QEMU, but unaltered versions run fine as well.
 
-Applied to riscv-to-apply.next
+Kind regards,
+Lev Kujawski
 
-Alistair
+--- a/src/fw/shadow.c
++++ b/src/fw/shadow.c
+@@ -28,7 +28,7 @@ union pamdata_u {
 
->
->  target/riscv/cpu_bits.h   |  26 +------
->  target/riscv/cpu_helper.c | 134 +++++++++++++++++-----------------
->  target/riscv/csr.c        | 150 +-------------------------------------
->  3 files changed, 72 insertions(+), 238 deletions(-)
->
-> --
-> 2.34.1
->
->
+ // Enable shadowing and copy bios.
+ static void
+-__make_bios_writable_intel(u16 bdf, u32 pam0)
++make_bios_writable_intel(u16 bdf, u32 pam0)
+ {
+     // Read in current PAM settings from pci config space
+     union pamdata_u pamdata;
+@@ -39,11 +39,11 @@ __make_bios_writable_intel(u16 bdf, u32 pam0)
+     // Make ram from 0xc0000-0xf0000 writable
+     int i;
+     for (i=0; i<6; i++)
+-        pam[i + 1] = 0x33;
++        pam[i + 1] = 0x22;
+
+     // Make ram from 0xf0000-0x100000 writable
+     int ram_present = pam[0] & 0x10;
+-    pam[0] = 0x30;
++    pam[0] = 0x20;
+
+     // Write PAM settings back to pci config space
+     pci_ioconfig_writel(bdf, ALIGN_DOWN(pam0, 4), pamdata.data32[0]);
+@@ -54,24 +54,17 @@ __make_bios_writable_intel(u16 bdf, u32 pam0)
+         memcpy(VSYMBOL(code32flat_start)
+                , VSYMBOL(code32flat_start) + BIOS_SRC_OFFSET
+                , SYMBOL(code32flat_end) - SYMBOL(code32flat_start));
+-}
+
+-static void
+-make_bios_writable_intel(u16 bdf, u32 pam0)
+-{
+-    int reg = pci_ioconfig_readb(bdf, pam0);
+-    if (!(reg & 0x10)) {
+-        // QEMU doesn't fully implement the piix shadow capabilities -
+-        // if ram isn't backing the bios segment when shadowing is
+-        // disabled, the code itself won't be in memory.  So, run the
+-        // code from the high-memory flash location.
+-        u32 pos = (u32)__make_bios_writable_intel + BIOS_SRC_OFFSET;
+-        void (*func)(u16 bdf, u32 pam0) = (void*)pos;
+-        func(bdf, pam0);
+-        return;
+-    }
+-    // Ram already present - just enable writes
+-    __make_bios_writable_intel(bdf, pam0);
++    // Make ram from 0xc0000-0xf0000 writable
++    for (i=0; i<6; i++)
++        pam[i + 1] = 0x33;
++
++    // Make ram from 0xf0000-0x100000 writable
++    pam[0] = 0x30;
++
++    // Write PAM settings back to pci config space
++    pci_ioconfig_writel(bdf, ALIGN_DOWN(pam0, 4), pamdata.data32[0]);
++    pci_ioconfig_writel(bdf, ALIGN_DOWN(pam0, 4) + 4, pamdata.data32[1]);
+ }
+
+Lev Kujawski (3):
+  hw/pci-host/pam.c: Fully support RE^WE semantics of i440FX PAM
+  tests/data/acpi/q35/SSDT.dimmpxm: Account for new E820 entry
+  tests/qtest/i440fx-test.c: Enable full test of i440FX PAM operation
+
+ accel/kvm/kvm-all.c              |   2 +-
+ accel/tcg/cputlb.c               |  14 ++-
+ hw/i386/pc.c                     |  19 ++-
+ hw/pci-host/i440fx.c             |  34 +++---
+ hw/pci-host/pam.c                | 193 ++++++++++++++++++++++++++-----
+ hw/pci-host/q35.c                |  50 ++++----
+ include/exec/memory.h            |  19 +++
+ include/hw/pci-host/i440fx.h     |   2 +
+ include/hw/pci-host/pam.h        |  19 ++-
+ include/hw/pci-host/q35.h        |   2 +
+ softmmu/memory.c                 |  58 +++++++++-
+ softmmu/physmem.c                |   5 +
+ tests/data/acpi/q35/SSDT.dimmpxm | Bin 734 -> 734 bytes
+ tests/qtest/i440fx-test.c        |  31 ++---
+ 14 files changed, 353 insertions(+), 95 deletions(-)
+
+-- 
+2.34.1
+
 
