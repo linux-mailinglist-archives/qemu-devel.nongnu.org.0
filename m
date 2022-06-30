@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31C25619DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 14:07:54 +0200 (CEST)
-Received: from localhost ([::1]:58384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBB55619F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 14:11:14 +0200 (CEST)
+Received: from localhost ([::1]:36634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6sxd-0001JK-2K
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 08:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33886)
+	id 1o6t0q-00064A-St
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 08:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=N4Bw=XF=kaod.org=clg@ozlabs.org>)
- id 1o6sI3-00082r-BC; Thu, 30 Jun 2022 07:24:55 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:40499)
+ id 1o6sI7-0008Ct-Cf; Thu, 30 Jun 2022 07:24:59 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:39119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=N4Bw=XF=kaod.org=clg@ozlabs.org>)
- id 1o6sI0-00027m-LN; Thu, 30 Jun 2022 07:24:54 -0400
+ id 1o6sI2-00025Y-3L; Thu, 30 Jun 2022 07:24:59 -0400
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LYbb61JS6z4xYN;
- Thu, 30 Jun 2022 21:24:50 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LYbb859Kpz4xYS;
+ Thu, 30 Jun 2022 21:24:52 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LYbb413TDz4xD5;
- Thu, 30 Jun 2022 21:24:47 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LYbb64vG6z4xD5;
+ Thu, 30 Jun 2022 21:24:50 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Peter Delevoryas <pdel@fb.com>,
+ Jae Hyun Yoo <quic_jaehyoo@quicinc.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 12/27] aspeed: Remove use of qemu_get_cpu
-Date: Thu, 30 Jun 2022 13:23:56 +0200
-Message-Id: <20220630112411.1474431-13-clg@kaod.org>
+Subject: [PULL 13/27] hw/arm/aspeed: add support for the Qualcomm DC-SCM v1
+ board
+Date: Thu, 30 Jun 2022 13:23:57 +0200
+Message-Id: <20220630112411.1474431-14-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220630112411.1474431-1-clg@kaod.org>
 References: <20220630112411.1474431-1-clg@kaod.org>
@@ -65,29 +66,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Delevoryas <pdel@fb.com>
+From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
 
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
+Add qcom-dc-scm-v1 board support.
+
+Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220624003701.1363500-6-pdel@fb.com>
+Message-Id: <20220627154703.148943-2-quic_jaehyoo@quicinc.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed_ast2600.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/aspeed.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index dbb4a2e838f9..29d2e2ece220 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -318,7 +318,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index b43dc0fda853..6e4b287fd31b 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -174,6 +174,10 @@ struct AspeedMachineState {
+ #define BLETCHLEY_BMC_HW_STRAP1 AST2600_EVB_HW_STRAP1
+ #define BLETCHLEY_BMC_HW_STRAP2 AST2600_EVB_HW_STRAP2
  
-     for (i = 0; i < sc->num_cpus; i++) {
-         SysBusDevice *sbd = SYS_BUS_DEVICE(&s->a7mpcore);
--        DeviceState  *d   = DEVICE(qemu_get_cpu(i));
-+        DeviceState  *d   = DEVICE(&s->cpu[i]);
++/* Qualcomm DC-SCM hardware value */
++#define QCOM_DC_SCM_V1_BMC_HW_STRAP1  0x00000000
++#define QCOM_DC_SCM_V1_BMC_HW_STRAP2  0x00000041
++
+ #define AST_SMP_MAILBOX_BASE            0x1e6e2180
+ #define AST_SMP_MBOX_FIELD_ENTRY        (AST_SMP_MAILBOX_BASE + 0x0)
+ #define AST_SMP_MBOX_FIELD_GOSIGN       (AST_SMP_MAILBOX_BASE + 0x4)
+@@ -951,6 +955,13 @@ static void fby35_i2c_init(AspeedMachineState *bmc)
+      */
+ }
  
-         irq = qdev_get_gpio_in(d, ARM_CPU_IRQ);
-         sysbus_connect_irq(sbd, i, irq);
++static void qcom_dc_scm_bmc_i2c_init(AspeedMachineState *bmc)
++{
++    AspeedSoCState *soc = &bmc->soc;
++
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 15), "tmp105", 0x4d);
++}
++
+ static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
+ {
+     return ASPEED_MACHINE(obj)->mmio_exec;
+@@ -1398,6 +1409,26 @@ static void aspeed_minibmc_machine_ast1030_evb_class_init(ObjectClass *oc,
+     amc->macs_mask = 0;
+ }
+ 
++static void aspeed_machine_qcom_dc_scm_v1_class_init(ObjectClass *oc,
++                                                     void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
++
++    mc->desc       = "Qualcomm DC-SCM V1 BMC (Cortex A7)";
++    amc->soc_name  = "ast2600-a3";
++    amc->hw_strap1 = QCOM_DC_SCM_V1_BMC_HW_STRAP1;
++    amc->hw_strap2 = QCOM_DC_SCM_V1_BMC_HW_STRAP2;
++    amc->fmc_model = "n25q512a";
++    amc->spi_model = "n25q512a";
++    amc->num_cs    = 2;
++    amc->macs_mask = ASPEED_MAC2_ON | ASPEED_MAC3_ON;
++    amc->i2c_init  = qcom_dc_scm_bmc_i2c_init;
++    mc->default_ram_size = 1 * GiB;
++    mc->default_cpus = mc->min_cpus = mc->max_cpus =
++        aspeed_soc_num_cpus(amc->soc_name);
++};
++
+ static const TypeInfo aspeed_machine_types[] = {
+     {
+         .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
+@@ -1435,6 +1466,10 @@ static const TypeInfo aspeed_machine_types[] = {
+         .name          = MACHINE_TYPE_NAME("g220a-bmc"),
+         .parent        = TYPE_ASPEED_MACHINE,
+         .class_init    = aspeed_machine_g220a_class_init,
++    }, {
++        .name          = MACHINE_TYPE_NAME("qcom-dc-scm-v1-bmc"),
++        .parent        = TYPE_ASPEED_MACHINE,
++        .class_init    = aspeed_machine_qcom_dc_scm_v1_class_init,
+     }, {
+         .name          = MACHINE_TYPE_NAME("fp5280g2-bmc"),
+         .parent        = TYPE_ASPEED_MACHINE,
 -- 
 2.35.3
 
