@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A656F5623D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 22:06:24 +0200 (CEST)
-Received: from localhost ([::1]:58332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A0C5623A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 21:56:57 +0200 (CEST)
+Received: from localhost ([::1]:40610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o70Qh-0000Ye-HL
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 16:06:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55790)
+	id 1o70HY-000424-O8
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 15:56:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o704U-0004TY-2o; Thu, 30 Jun 2022 15:43:26 -0400
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:39807)
+ id 1o704V-0004UP-RD; Thu, 30 Jun 2022 15:43:28 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:41543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o704P-0006G5-SW; Thu, 30 Jun 2022 15:43:25 -0400
-Received: by mail-oi1-x22b.google.com with SMTP id s188so411031oib.6;
- Thu, 30 Jun 2022 12:43:20 -0700 (PDT)
+ id 1o704R-0006GX-Pb; Thu, 30 Jun 2022 15:43:26 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id t189so627500oie.8;
+ Thu, 30 Jun 2022 12:43:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=giqG0/DFOihR9xiSWhOPyFhGLGt0UUaPt2LvF/Pzfe4=;
- b=egK500E0i8437ho7eWdEdgh8b4o3ku5szQCqGcwETIvH7lPQCHHD3FaoxhvVbSGjYT
- smGXc7qO9Q/GoWSrwQuArwOpaFvY01i38kGS5BxQnc3O7cezZFT9VCTevIp8kI2g35VM
- n9mP6hM8VUKM/fMD6ZJlCkPd4kotGRl6z1Jb+i3f6XX9TAXbtDC9AZmH7Eu2pqaCbYx8
- gAI9HQRNgNn0cetZM4nWueBmrfdGEzpGpz0St2nuUW4/Fs4B/c5Jo4tU6TlmLuHRt+XD
- SoHEVseseMiQU2v2fqzTDrW2Jn9nX6JNMbCgPgfQW+OJsl6GQyQekPFM9CuRNrOVjVj5
- 1ang==
+ bh=/7Bxj0kRL1aPo5XjMZnEp4tQX4tFyytPjX1uTG/UcKA=;
+ b=HUx+6baZEWHdJ0U9PDq7p++f1W6IJ7oD/5EdR4HK+7YbJKarWCCoquKFtqAwMDVHOA
+ G9+dCfB6q1vOS24MZEZ0t+2hv+l4+B6yNIOGiktigMmoHoCzHxgBLIcE67uYrPCz4fjr
+ xi6cZ8b0qmUuW10mS6FmZYnQfneGi067aamxi9B+ia5YLAcksrk1xNFS91/dkkeaD/oS
+ UggKYkE7RosQMTFE9fQAIqeUOcegv8CE0BvQgqg+SchcL6jE15fwynSQxjyzKfZtgmO7
+ U5w5DJihj7P7TNrHSJxuSp84rqMhzg/OcPwwVMhacb+y5NqKgFlhTy4jI8GLCltD0OYY
+ IMcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=giqG0/DFOihR9xiSWhOPyFhGLGt0UUaPt2LvF/Pzfe4=;
- b=7bb9SPg3+PafAYZVzI2fkkpyCVi0kFmTED0G6Tv6y55kzIYxZ2J6jzXpNMzHXorrMd
- q2CNM78nk7iku7R/ldjNU966qtjXIESZ1+cNytjisuQh+I+0agHHYGilw55TnoYKOz9e
- 1uAmo626js7IH/s0Rk9NshTXFOa84l1HDeN1pSFif9CDrJMqcmjVweD9awUBRo7ApMbI
- cso+YbYEKSJMR7HbGR8DFHenG1DyyGBWGQyLHYlQrU+WXM3BmAOzNiEjwu2iOljep5q2
- 8deNdwPHqwIFmb9NYEJmCZZp/XR7mdZJsi48I5asK+zZo9iujZaCA6E1zYED+Tp6kWbZ
- bYoA==
-X-Gm-Message-State: AJIora8xVUDS9Hynmu/+QyROSWPOde+p6eM5T1nwbGbD+dmBYa9enGud
- FnWAylW2VctGVOQw+PEEol5s0iQbudg=
-X-Google-Smtp-Source: AGRyM1vBtxYv/0OsJToIELj4nM5sD4sCeDKJp+jHIb3uF1mylEWhlfJ9ShQg8mQSuTWbz5VSjlZarg==
-X-Received: by 2002:a05:6808:d53:b0:335:a8e2:6cbc with SMTP id
- w19-20020a0568080d5300b00335a8e26cbcmr6058444oik.9.1656618199589; 
- Thu, 30 Jun 2022 12:43:19 -0700 (PDT)
+ bh=/7Bxj0kRL1aPo5XjMZnEp4tQX4tFyytPjX1uTG/UcKA=;
+ b=ZkGE6hBIt01c9exJ0MEt7y3CtXJujLSDL0GNZGWCPBTDBt8eTauY3rbkGC40AJ91g0
+ be1qZUL+7yuh3AKxaLipnAMG4Zp4DGy0/5S/w3fogdYuk1e4+p+Kha0+94OTuJB4l1px
+ j6zUGSGPOFsHDgQnYU/RZeb25jx4wwEaoJ9NmW1MZQctIRKNev1ARzxHoHc/hrEeBmWf
+ 0fJNLblGjsDd7qOeeiG9FGurLPTP5crqMstzFRSxSF7piq0g1HHVRw9sYq6ekJiRkb4G
+ HAm7Kv+WWfO9IY8ohdIJIIEcfq0h92r9L0aEXb8RDXhVQFDXdpN23V+CLff+qLLHCCxG
+ YxMA==
+X-Gm-Message-State: AJIora/4TiN2A5eZiWsUXuDIGQqol2mMAtubzi2maOOC4SXBt8QIl0Eu
+ 7wP3kvxWTavJEEFQ7KNpueLPfYJi1KI=
+X-Google-Smtp-Source: AGRyM1v/O8bvC6buDJ+vOaFMshghyu5g8T5D+i5s1Gp0fFLD9YbzvmxlCMlksvx3oYw3kcwB7NNJZA==
+X-Received: by 2002:aca:4b90:0:b0:335:b574:6108 with SMTP id
+ y138-20020aca4b90000000b00335b5746108mr5324721oia.19.1656618201568; 
+ Thu, 30 Jun 2022 12:43:21 -0700 (PDT)
 Received: from balboa.ibmuc.com ([191.193.1.105])
  by smtp.gmail.com with ESMTPSA id
- t5-20020a4aa3c5000000b0035ef3da8387sm11250519ool.4.2022.06.30.12.43.17
+ t5-20020a4aa3c5000000b0035ef3da8387sm11250519ool.4.2022.06.30.12.43.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jun 2022 12:43:19 -0700 (PDT)
+ Thu, 30 Jun 2022 12:43:21 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH 5/9] target/ppc: use Error pointer in kvmppc_get_clockfreq()
-Date: Thu, 30 Jun 2022 16:42:45 -0300
-Message-Id: <20220630194249.886747-6-danielhb413@gmail.com>
+Subject: [PATCH 6/9] ppc440_bamboo.c: handle clock freq read error in
+ load_device_tree
+Date: Thu, 30 Jun 2022 16:42:46 -0300
+Message-Id: <20220630194249.886747-7-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220630194249.886747-1-danielhb413@gmail.com>
 References: <20220630194249.886747-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,100 +89,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Callers will then be able to handle any errors that might happen when
-reading the clock frequency.
+Let's put the default clock and timebase freq value in macros for better
+readability.  Use PPC440EP_CLOCK_FREQ as the default value of
+'clock_freq' if kvmppc_get_clockfreq() throws an error.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/e500.c          | 2 +-
- hw/ppc/ppc440_bamboo.c | 2 +-
- hw/ppc/sam460ex.c      | 2 +-
- hw/ppc/spapr.c         | 2 +-
- target/ppc/kvm.c       | 4 ++--
- target/ppc/kvm_ppc.h   | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
+ hw/ppc/ppc440_bamboo.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 7f7f5b3452..4b4e99ef3c 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -405,7 +405,7 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
- 
-     if (kvm_enabled()) {
-         /* Read out host's frequencies */
--        clock_freq = kvmppc_get_clockfreq();
-+        clock_freq = kvmppc_get_clockfreq(NULL);
-         tb_freq = kvmppc_get_tbfreq();
- 
-         /* indicate KVM hypercall interface */
 diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index d5973f2484..d23f881d9d 100644
+index d23f881d9d..6318112393 100644
 --- a/hw/ppc/ppc440_bamboo.c
 +++ b/hw/ppc/ppc440_bamboo.c
-@@ -107,7 +107,7 @@ static int bamboo_load_device_tree(hwaddr addr,
+@@ -50,6 +50,10 @@
+ 
+ #define PPC440EP_SDRAM_NR_BANKS 4
+ 
++#define PPC440EP_TB_FREQ        400000000
++#define PPC440EP_CLOCK_FREQ     400000000
++
++
+ static const ram_addr_t ppc440ep_sdram_bank_sizes[] = {
+     256 * MiB, 128 * MiB, 64 * MiB, 32 * MiB, 16 * MiB, 8 * MiB, 0
+ };
+@@ -67,8 +71,8 @@ static int bamboo_load_device_tree(hwaddr addr,
+     char *filename;
+     int fdt_size;
+     void *fdt;
+-    uint32_t tb_freq = 400000000;
+-    uint32_t clock_freq = 400000000;
++    uint32_t tb_freq = PPC440EP_TB_FREQ;
++    uint32_t clock_freq = PPC440EP_CLOCK_FREQ;
+ 
+     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, BINARY_DEVICE_TREE_FILE);
+     if (!filename) {
+@@ -106,8 +110,15 @@ static int bamboo_load_device_tree(hwaddr addr,
+      * directly access the timebase without host involvement, we must expose
       * the correct frequencies. */
      if (kvm_enabled()) {
++        Error *local_err = NULL;
++
          tb_freq = kvmppc_get_tbfreq();
--        clock_freq = kvmppc_get_clockfreq();
-+        clock_freq = kvmppc_get_clockfreq(NULL);
+-        clock_freq = kvmppc_get_clockfreq(NULL);
++        clock_freq = kvmppc_get_clockfreq(&local_err);
++
++        /* Use default clock if we're unable to read it from the DT */
++        if (local_err) {
++            clock_freq = PPC440EP_CLOCK_FREQ;
++        }
      }
  
      qemu_fdt_setprop_cell(fdt, "/cpus/cpu@0", "clock-frequency",
-diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index 2f24598f55..4d25cb2c2e 100644
---- a/hw/ppc/sam460ex.c
-+++ b/hw/ppc/sam460ex.c
-@@ -179,7 +179,7 @@ static int sam460ex_load_device_tree(hwaddr addr,
-      * the correct frequencies. */
-     if (kvm_enabled()) {
-         tb_freq = kvmppc_get_tbfreq();
--        clock_freq = kvmppc_get_clockfreq();
-+        clock_freq = kvmppc_get_clockfreq(NULL);
-     }
- 
-     qemu_fdt_setprop_cell(fdt, "/cpus/cpu@0", "clock-frequency",
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index fd4942e881..f66e3cbe38 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -654,7 +654,7 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, int offset,
-                        0xffffffff, 0xffffffff};
-     uint32_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq()
-         : SPAPR_TIMEBASE_FREQ;
--    uint32_t cpufreq = kvm_enabled() ? kvmppc_get_clockfreq() : 1000000000;
-+    uint32_t cpufreq = kvm_enabled() ? kvmppc_get_clockfreq(NULL) : 1000000000;
-     uint32_t page_sizes_prop[64];
-     size_t page_sizes_prop_size;
-     unsigned int smp_threads = ms->smp.threads;
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index c218380eb7..2accd1f946 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -1945,9 +1945,9 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
-     return kvmppc_read_int_dt(tmp, errp);
- }
- 
--uint64_t kvmppc_get_clockfreq(void)
-+uint64_t kvmppc_get_clockfreq(Error **errp)
- {
--    return kvmppc_read_int_cpu_dt("clock-frequency", NULL);
-+    return kvmppc_read_int_cpu_dt("clock-frequency", errp);
- }
- 
- static int kvmppc_get_dec_bits(void)
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index ee9325bf9a..b05aedb9f8 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -14,7 +14,7 @@
- #ifdef CONFIG_KVM
- 
- uint32_t kvmppc_get_tbfreq(void);
--uint64_t kvmppc_get_clockfreq(void);
-+uint64_t kvmppc_get_clockfreq(Error **errp);
- bool kvmppc_get_host_model(char **buf);
- bool kvmppc_get_host_serial(char **buf);
- int kvmppc_get_hasidle(CPUPPCState *env);
 -- 
 2.36.1
 
