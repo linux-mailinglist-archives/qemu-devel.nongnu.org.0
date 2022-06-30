@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6AAD561066
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 06:54:55 +0200 (CEST)
-Received: from localhost ([::1]:39418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D334056106C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 06:58:37 +0200 (CEST)
+Received: from localhost ([::1]:47966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6mCb-0005u8-Nr
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 00:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45676)
+	id 1o6mGC-0003Ve-R2
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 00:58:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6m9a-0002LA-Ga; Thu, 30 Jun 2022 00:51:46 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:47773)
+ id 1o6m9e-0002T7-Tw; Thu, 30 Jun 2022 00:51:50 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:53073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6m9V-0006uH-JC; Thu, 30 Jun 2022 00:51:46 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 0B5F62B058D5;
- Thu, 30 Jun 2022 00:51:38 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 30 Jun 2022 00:51:39 -0400
+ id 1o6m9Y-0006vw-NV; Thu, 30 Jun 2022 00:51:50 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 5F64E2B058D6;
+ Thu, 30 Jun 2022 00:51:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 30 Jun 2022 00:51:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656564698; x=1656568298; bh=Tz
- drkHjRQ8rWJQWIdjSiwTXhi7OvYfc3YUTxMfRrk6I=; b=UHXdtzEAuqcQ5cgAuY
- BLNSiJ+AmYZ63T2KJfEGBktMFcg9Rg6IRAHCOXiZxzgNqAEtVO90EkzldxBAvNcE
- B3vJLJKq1FAlHXqyCiPiWJRuP0988Z1hnQzWJ3InrvBSX8pCpQbdFo2HEtaZAQj1
- mOKcEo+nrhlOj15Q/G1+TO+ZOVPSdQczLq28wUTsVd8CFV6Fn1HABM5YHcebs1t/
- FggU5h+d5HgoyI/axkNUiKdNxPfGORs5bYm6u4oI45+CNHEEb4KE6TaVkRf4BpfO
- QhTDeRvHjMjn0pMn03Fww8ZjU9h22q2dkYOoKrGsFuhGilnqitC9zHfWxjDiTQeI
- S3xw==
+ :subject:subject:to:to; s=fm1; t=1656564701; x=1656568301; bh=Lw
+ +1g+XzIO5FqGC0pP7rAAEex6IHNU163XV6+BxRlio=; b=kbKYQka7lt8EbPtcsU
+ R+mffm23RExXJpaKuxeunlwo9zMVcHcCIORaxLhEAli6+92OHIO5uM97Dv5Q1JQj
+ Q+Wbff59ZLmIyEPy5CcgYSU7pJAeFnnqjienjq/KoAGqoYxJrfEaQ8cD9Dg6Z5/j
+ aKO7Vv6gsLCzgye+QiK7ImpbWWr5TRc3/Nro3norY1aQyZ06J4mAZIcJj82e3gMi
+ CK+g2GTBFgbtWrEOOzfVNUbVJQAwipx79ioArde/xw5IZ67IoGmde1doCUqqdAHG
+ G6FdiYNJIrsqgLuZmFu4HTkAsBx8C/AVvFmH0brN3v9A34k4c6ACWVk2qqZkpJl2
+ 8abQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=i9e814621.fm2; t=1656564698; x=1656568298; bh=Tzd
- rkHjRQ8rWJQWIdjSiwTXhi7OvYfc3YUTxMfRrk6I=; b=lmtNxZK0m21xpCOOp24
- hkwhaL5P2uwsM2hDX/WSM0QhdTG7K3dpQbvV0dc6StWnEi2BQzqi8Mq9FhNSgUaL
- PzsQGR1/P76P29PuS5YGH+SltEBPyMYKCv39R9mu4sB6ijJf7lsTOEtxBgv1Kc+r
- DZwKfxS8nMAxYFJahaAIGXe8wsJzo55Kc5x6SfPJnWtnjzGfNDImROUKVsl0an2z
- 7uayWWY9myF5BxwgMuWuJ5XY7VV1eRPdKT//KS32rmBf4gU61R5fSgirBwTCytJ3
- oblKFgnJqkxW3s74PDpd2edMOTTn5TNPOOtsxl9edEzBAUMcBov3OaQ3gdg5ujpl
- Jtw==
-X-ME-Sender: <xms:2iu9YlcSkD_UlCyBFjT8nEvuw-cSX2LI7N0motRY_7bQplo05OazZA>
- <xme:2iu9YjMV_CLlBlh3k2LYxTr4_ZEGL3H3gIvcANcdRUTy0e_gGZU6M5BW3DaKhHXcA
- hB7h-eQ9hRBKU5GEso>
-X-ME-Received: <xmr:2iu9YugwxRxdgwaua3qqjvUTTwwOOvinq50oVYeCsnpkJSqvywMm8xjayjng1U6g4__2QPs4YnsejUNtOKZeoW35wbUxcors>
+ :x-sasl-enc; s=i9e814621.fm2; t=1656564701; x=1656568301; bh=Lw+
+ 1g+XzIO5FqGC0pP7rAAEex6IHNU163XV6+BxRlio=; b=XTEoiOv1M+qtXJqFK/L
+ zlb75zaPmuAsOH8Dt+TO9YvHfIyaqQs4uZgRbWTxn0d79s/kJwRyhaD8GuaTtBVw
+ I7BWKDJ8820c83RiY6DA+fh7IKtlDLh1Wz0uCfI2vHkD8ujKimjgtbqMO9sx4CfI
+ KLfuM7B4b300zS98jDoAbULDNduRyPktZ53LO9VYyg63+2kKAklfM7Z/7JK4B3bv
+ BOfBrL2cI/bFH+n8hnUclUCD+0wk/U/U4nxRNkqjVwuSxzWYmrJWTF4wr4noW2QZ
+ AIUV/+siyta8eqggHkOtnWoqOVGeLi3Pva7hk2mZUYaV4kipLUjbKLx/7Y72ETIm
+ 1Mg==
+X-ME-Sender: <xms:3Su9Yvp0iL1xiupbHky8vQ2-QviXNpco4n6_gipKQMEhzxSlf2OT2g>
+ <xme:3Su9YpqGoDatSEB-EaLKAhaLzeoIc2if6CPsdZbumw_8tcW7j2BHQnzwQjX45wqC7
+ mTbFS-V2nPR3EXLMj8>
+X-ME-Received: <xmr:3Su9YsMDoBS7eninwz8EoOzXX34Bjr3dsUkjtWJMIzmDdw_yqiYf4pyzNvYB3CYyUmgIeOmKmZO91hxdyYbs-Mp5BHXOjOOJ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddgkeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
  dmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheprfgv
  thgvrhcuffgvlhgvvhhorhihrghsuceomhgvsehpjhgurdguvghvqeenucggtffrrghtth
- gvrhhnpeektefhieevgfduvdeiueetteegtdeuueevieelffevueevveehhedukeejtdek
- teenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmvg
- esphhjugdruggvvh
-X-ME-Proxy: <xmx:2iu9Yu-uqfT_XrY2ZhMxtB0ad3BHbphPGP0GgYq3lvJbiz7Po9-otw>
- <xmx:2iu9Yhv6AWLTDrm-9HzP1eQJ4WvaBs828eS8rYoS69yYZXJQXcAJLQ>
- <xmx:2iu9YtFbVv0GU60vFmJ9eornlL7iu5tMYDwwt7sx4mrr2DviNXCizw>
- <xmx:2iu9YnAjQjnzsVpH0Pc0fkdZsxJX_A6Our6yGRhlCbc2FMXKdW7xn6KvIT8>
+ gvrhhnpeetleevtefgleevleelteekffffvdekheekkeejveegheelveehgeeufffgtdei
+ leenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepmhgvsehpjhgurdguvghv
+X-ME-Proxy: <xmx:3Su9Yi44KmL7W0iGvJSnTQoKQUE59ZKKSANI3_sLq2PgBdyw0tPw-g>
+ <xmx:3Su9Yu4DH6VchiBXMYRCVbmr_kzNvnD1J99ASjyh1SaPM2hLuTkGsQ>
+ <xmx:3Su9YqgcC7CKiL3s8pFf2EaHGqMhI2IgX543bkEXHu75ORSuEpDHDA>
+ <xmx:3Su9Ygtjs4j-ExWdPw1w4IjrEEcySVbRt9deien5WlluRT_8G-VbqPbmtuo>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Jun 2022 00:51:37 -0400 (EDT)
+ 30 Jun 2022 00:51:41 -0400 (EDT)
 From: Peter Delevoryas <me@pjd.dev>
 To: 
 Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
  cminyard@mvista.com, titusr@google.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, zhdaniel@fb.com, pdel@fb.com
-Subject: [PATCH v3 01/14] hw/i2c/aspeed: Fix R_I2CD_FUN_CTRL reference
-Date: Wed, 29 Jun 2022 21:51:20 -0700
-Message-Id: <20220630045133.32251-2-me@pjd.dev>
+Subject: [PATCH v3 02/14] hw/i2c/aspeed: Fix DMA len write-enable bit handling
+Date: Wed, 29 Jun 2022 21:51:21 -0700
+Message-Id: <20220630045133.32251-3-me@pjd.dev>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220630045133.32251-1-me@pjd.dev>
 References: <20220630045133.32251-1-me@pjd.dev>
@@ -104,28 +104,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-Very minor, doesn't effect functionality, but this is supposed to be
-R_I2CC_FUN_CTRL (new-mode, not old-mode).
+I noticed i2c rx transfers were getting shortened to "1" on Zephyr. It
+seems to be because the Zephyr i2c driver sets the RX DMA len with the
+RX field write-enable bit set (bit 31) to avoid a read-modify-write. [1]
 
-Fixes: ba2cccd64e9 ("aspeed: i2c: Add new mode support")
+/* 0x1C : I2CM Master DMA Transfer Length Register   */
+
+I think we should be checking the write-enable bits on the incoming
+value, not checking the register array. I'm not sure we're even writing
+the write-enable bits to the register array, actually.
+
+[1] https://github.com/AspeedTech-BMC/zephyr/blob/db3dbcc9c52e67a47180890ac938ed380b33f91c/drivers/i2c/i2c_aspeed.c#L145-L148
+
+Fixes: ba2cccd64e90f34 ("aspeed: i2c: Add new mode support")
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
 ---
- hw/i2c/aspeed_i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i2c/aspeed_i2c.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 37ae1f2e04..ff33571954 100644
+index ff33571954..cbaa7c96fc 100644
 --- a/hw/i2c/aspeed_i2c.c
 +++ b/hw/i2c/aspeed_i2c.c
-@@ -552,7 +552,7 @@ static void aspeed_i2c_bus_new_write(AspeedI2CBus *bus, hwaddr offset,
-                           __func__);
+@@ -644,18 +644,18 @@ static void aspeed_i2c_bus_new_write(AspeedI2CBus *bus, hwaddr offset,
+                                                      RX_BUF_LEN) + 1;
+         break;
+     case A_I2CM_DMA_LEN:
+-        w1t = ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, RX_BUF_LEN_W1T) ||
+-                   ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, TX_BUF_LEN_W1T);
++        w1t = FIELD_EX32(value, I2CM_DMA_LEN, RX_BUF_LEN_W1T) ||
++              FIELD_EX32(value, I2CM_DMA_LEN, TX_BUF_LEN_W1T);
+         /* If none of the w1t bits are set, just write to the reg as normal. */
+         if (!w1t) {
+             bus->regs[R_I2CM_DMA_LEN] = value;
              break;
          }
--        bus->regs[R_I2CD_FUN_CTRL] = value & 0x007dc3ff;
-+        bus->regs[R_I2CC_FUN_CTRL] = value & 0x007dc3ff;
-         break;
-     case A_I2CC_AC_TIMING:
-         bus->regs[R_I2CC_AC_TIMING] = value & 0x1ffff0ff;
+-        if (ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, RX_BUF_LEN_W1T)) {
++        if (FIELD_EX32(value, I2CM_DMA_LEN, RX_BUF_LEN_W1T)) {
+             ARRAY_FIELD_DP32(bus->regs, I2CM_DMA_LEN, RX_BUF_LEN,
+                              FIELD_EX32(value, I2CM_DMA_LEN, RX_BUF_LEN));
+         }
+-        if (ARRAY_FIELD_EX32(bus->regs, I2CM_DMA_LEN, TX_BUF_LEN_W1T)) {
++        if (FIELD_EX32(value, I2CM_DMA_LEN, TX_BUF_LEN_W1T)) {
+             ARRAY_FIELD_DP32(bus->regs, I2CM_DMA_LEN, TX_BUF_LEN,
+                              FIELD_EX32(value, I2CM_DMA_LEN, TX_BUF_LEN));
+         }
 -- 
 2.37.0
 
