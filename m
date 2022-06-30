@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123D556186F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 12:41:28 +0200 (CEST)
-Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 948C85618B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 13:07:11 +0200 (CEST)
+Received: from localhost ([::1]:59080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6rbx-0003Lw-N9
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 06:41:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49536)
+	id 1o6s0r-00068V-6v
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 07:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org>)
- id 1o6ra8-0002T9-Hf
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 06:39:33 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:48168)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6rwu-0003Tc-Ih
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 07:03:07 -0400
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:47103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org>)
- id 1o6ra6-0004RD-9f
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 06:39:32 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 591FC6224A;
- Thu, 30 Jun 2022 10:39:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 569CCC34115;
- Thu, 30 Jun 2022 10:39:27 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="gRFor25L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1656585565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I/ufmWZXz39vcuBww5VjiB4lAt2QPm9liRwFbzntMoA=;
- b=gRFor25LuNIIbbQO0vVN6vMAlRyY/Ujv2HaqQIYdWfuh6CxR3tjly4S7AAGmyWPgMZOxqJ
- +Pg1dN8lyxxtnSSUKqWuiV7YhaJmKU7zHvOBIt71tvK5K4IgFf9rUdxAcb2MbtYWAUOY6d
- m0R8ua5VN+miMxJ9IvCwGtx6C8muf+4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 3293938d
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Thu, 30 Jun 2022 10:39:25 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH v2] hw/arm/virt: dt: add rng-seed property
-Date: Thu, 30 Jun 2022 12:37:39 +0200
-Message-Id: <20220630103739.1727346-1-Jason@zx2c4.com>
-In-Reply-To: <Yr15VHaAVQ11wlw+@zx2c4.com>
-References: <Yr15VHaAVQ11wlw+@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6rwr-0001jc-4H
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 07:03:03 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.76])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id C86D3112EBFD9;
+ Thu, 30 Jun 2022 13:02:56 +0200 (CEST)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 30 Jun
+ 2022 13:02:55 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R0046cab118d-25df-4772-8008-f2639a72bd1d,
+ 40551C6C823FDDA91B74F5D58A080B55BE22893A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <24f848a7-3b3e-9125-bedd-dedc1460a8f0@kaod.org>
+Date: Thu, 30 Jun 2022 13:02:54 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=bCe9=XF=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 14/14] hw/arm/aspeed: Add oby35-cl machine
+Content-Language: en-US
+To: Peter Delevoryas <me@pjd.dev>
+CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <cminyard@mvista.com>, <titusr@google.com>, <qemu-devel@nongnu.org>,
+ <qemu-arm@nongnu.org>, <zhdaniel@fb.com>, <pdel@fb.com>
+References: <20220630045133.32251-1-me@pjd.dev>
+ <20220630045133.32251-15-me@pjd.dev>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220630045133.32251-15-me@pjd.dev>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 99650269-d544-4906-8a5a-5dc64d8eeea8
+X-Ovh-Tracer-Id: 9430537619722505138
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehuddgfeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffeggfekveevvddvffelfeehleffhffhteegkeduueevffffkeejieevffeltdfhnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpuggvlhesfhgsrdgtohhmpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,167 +76,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In 60592cfed2 ("hw/arm/virt: dt: add kaslr-seed property"), the
-kaslr-seed property was added, but the equally as important rng-seed
-property was forgotten about, which has identical semantics for a
-similar purpose. This commit implements it in exactly the same way as
-kaslr-seed. It then changes the name of the disabling option to reflect
-that this has more to do with randomness vs determinism, rather than
-something particular about kaslr.
+On 6/30/22 06:51, Peter Delevoryas wrote:
+> From: Peter Delevoryas <pdel@fb.com>
+> 
+> The fby35 machine includes 4 server boards, each of which has a "bridge
+> interconnect" (BIC). This chip abstracts the pinout for the server board
+> into a single endpoint that the baseboard management controller (BMC)
+> can talk to using IPMB.
+> 
+> This commit adds a machine for testing the BIC on the server board. It
+> runs OpenBIC (https://github.com/facebook/openbic) and the server board
+> is called CraterLake, so the code name is oby35-cl. There's also a
+> variant of the baseboard that replaces the BMC with a BIC, but that
+> machine is not included here.
+> 
+> A test image can be built from https://github.com/facebook/openbic using
+> the instructions in the README.md to build the meta-facebook/yv35-cl
+> recipe, or retrieved from my Github:
+> 
+>      wget https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.17.01/Y35BCL.elf
+> 
+> And you can run this machine with the following command:
+> 
+>      qemu-system-arm -machine oby35-cl -nographic -kernel Y35BCL.elf
+> 
+> It should produce output like the following:
+> 
+>      [00:00:00.005,000] <inf> usb_dc_aspeed: select ep[0x81] as IN endpoint
+>      [00:00:00.006,000] <inf> usb_dc_aspeed: select ep[0x82] as IN endpoint
+>      [00:00:00.006,000] <wrn> usb_dc_aspeed: pre-selected ep[0x1] as IN endpoint
+>      [00:00:00.006,000] <wrn> usb_dc_aspeed: pre-selected ep[0x2] as IN endpoint
+>      [00:00:00.006,000] <inf> usb_dc_aspeed: select ep[0x3] as OUT endpoint
+>      *** Booting Zephyr OS build v00.01.05  ***
+>      Hello, welcome to yv35 craterlake 2022.25.1
+>      BIC class type(class-1), 1ou present status(0), 2ou present status(0), board revision(0x1)
+>      check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>      [init_drive_type] sensor 0x14 post sensor read failed!
+> 
+>      [init_drive_type] sensor 0x30 post sensor read failed!
+>      [init_drive_type] sensor 0x39 post sensor read failed!
+>      ipmi_init
+>      [set_DC_status] gpio number(15) status(0)
+>      [set_post_status] gpio number(1) status(1)
+>      uart:~$ [00:00:01.010,000] <inf> kcs_aspeed: KCS3: addr=0xca2, idr=0x2c, odr=0x38, str=0x44
+> 
+>      [00:00:01.016,000] <err> spi_nor_multi_dev: [1216][spi1_cs0]SFDP magic 00000000 invalid
+>      [00:00:01.016,000] <err> spi_nor_multi_dev: [1456]SFDP read failed: -22
+>      [00:00:01.010,000] <inf> kcs_aspeed: KCS3: addr=0xca2, idr=0x2c, odr=0x38, str=0x44
+> 
+>      [00:00:01.016,000] <err> spi_nor_multi_dev: [1216][spi1_cs0]SFDP magic 00000000 invalid
+>      [00:00:01.016,000] <err> spi_nor_multi_dev: [1456]SFDP read failed: -22
+>      uart:~$ BIC Ready
+> 
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- docs/system/arm/virt.rst | 17 ++++++++++------
- hw/arm/virt.c            | 44 ++++++++++++++++++++++++----------------
- include/hw/arm/virt.h    |  2 +-
- 3 files changed, 39 insertions(+), 24 deletions(-)
+LGTM.
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 3d1058a80c..3b6ba69a9a 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -126,13 +126,18 @@ ras
-   Set ``on``/``off`` to enable/disable reporting host memory errors to a guest
-   using ACPI and guest external abort exceptions. The default is off.
- 
-+dtb-randomness
-+  Set ``on``/``off`` to pass random seeds via the guest DTB
-+  rng-seed and kaslr-seed nodes (in both "/chosen" and
-+  "/secure-chosen") to use for features like the random number
-+  generator and address space randomisation. The default is
-+  ``on``. You will want to disable it if your trusted boot chain
-+  will verify the DTB it is passed, since this option causes the
-+  DTB to be non-deterministic. It would be the responsibility of
-+  the firmware to come up with a seed and pass it on if it wants to.
-+
- dtb-kaslr-seed
--  Set ``on``/``off`` to pass a random seed via the guest dtb
--  kaslr-seed node (in both "/chosen" and /secure-chosen) to use
--  for features like address space randomisation. The default is
--  ``on``. You will want to disable it if your trusted boot chain will
--  verify the DTB it is passed. It would be the responsibility of the
--  firmware to come up with a seed and pass it on if it wants to.
-+  A deprecated synonym for dtb-randomness.
- 
- Linux guest kernel configuration
- """"""""""""""""""""""""""""""""
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 097238faa7..924ded7f85 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -221,14 +221,18 @@ static bool cpu_type_valid(const char *cpu)
-     return false;
- }
- 
--static void create_kaslr_seed(MachineState *ms, const char *node)
-+static void create_randomness(MachineState *ms, const char *node)
- {
--    uint64_t seed;
-+    struct {
-+        uint64_t kaslr;
-+        uint8_t rng[32];
-+    } seed;
- 
-     if (qemu_guest_getrandom(&seed, sizeof(seed), NULL)) {
-         return;
-     }
--    qemu_fdt_setprop_u64(ms->fdt, node, "kaslr-seed", seed);
-+    qemu_fdt_setprop_u64(ms->fdt, node, "kaslr-seed", seed.kaslr);
-+    qemu_fdt_setprop(ms->fdt, node, "rng-seed", seed.rng, sizeof(seed.rng));
- }
- 
- static void create_fdt(VirtMachineState *vms)
-@@ -251,14 +255,14 @@ static void create_fdt(VirtMachineState *vms)
- 
-     /* /chosen must exist for load_dtb to fill in necessary properties later */
-     qemu_fdt_add_subnode(fdt, "/chosen");
--    if (vms->dtb_kaslr_seed) {
--        create_kaslr_seed(ms, "/chosen");
-+    if (vms->dtb_randomness) {
-+        create_randomness(ms, "/chosen");
-     }
- 
-     if (vms->secure) {
-         qemu_fdt_add_subnode(fdt, "/secure-chosen");
--        if (vms->dtb_kaslr_seed) {
--            create_kaslr_seed(ms, "/secure-chosen");
-+        if (vms->dtb_randomness) {
-+            create_randomness(ms, "/secure-chosen");
-         }
-     }
- 
-@@ -2348,18 +2352,18 @@ static void virt_set_its(Object *obj, bool value, Error **errp)
-     vms->its = value;
- }
- 
--static bool virt_get_dtb_kaslr_seed(Object *obj, Error **errp)
-+static bool virt_get_dtb_randomness(Object *obj, Error **errp)
- {
-     VirtMachineState *vms = VIRT_MACHINE(obj);
- 
--    return vms->dtb_kaslr_seed;
-+    return vms->dtb_randomness;
- }
- 
--static void virt_set_dtb_kaslr_seed(Object *obj, bool value, Error **errp)
-+static void virt_set_dtb_randomness(Object *obj, bool value, Error **errp)
- {
-     VirtMachineState *vms = VIRT_MACHINE(obj);
- 
--    vms->dtb_kaslr_seed = value;
-+    vms->dtb_randomness = value;
- }
- 
- static char *virt_get_oem_id(Object *obj, Error **errp)
-@@ -2988,12 +2992,18 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "Set on/off to enable/disable "
-                                           "ITS instantiation");
- 
-+    object_class_property_add_bool(oc, "dtb-randomness",
-+                                   virt_get_dtb_randomness,
-+                                   virt_set_dtb_randomness);
-+    object_class_property_set_description(oc, "dtb-randomness",
-+                                          "Set off to disable passing random or "
-+                                          "non-deterministic dtb nodes to guest");
-+
-     object_class_property_add_bool(oc, "dtb-kaslr-seed",
--                                   virt_get_dtb_kaslr_seed,
--                                   virt_set_dtb_kaslr_seed);
-+                                   virt_get_dtb_randomness,
-+                                   virt_set_dtb_randomness);
-     object_class_property_set_description(oc, "dtb-kaslr-seed",
--                                          "Set off to disable passing of kaslr-seed "
--                                          "dtb node to guest");
-+                                          "Deprecated synonym of dtb-randomness");
- 
-     object_class_property_add_str(oc, "x-oem-id",
-                                   virt_get_oem_id,
-@@ -3061,8 +3071,8 @@ static void virt_instance_init(Object *obj)
-     /* MTE is disabled by default.  */
-     vms->mte = false;
- 
--    /* Supply a kaslr-seed by default */
--    vms->dtb_kaslr_seed = true;
-+    /* Supply kaslr-seed and rng-seed by default */
-+    vms->dtb_randomness = true;
- 
-     vms->irqmap = a15irqmap;
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 15feabac63..6ec479ca2b 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -152,7 +152,7 @@ struct VirtMachineState {
-     bool virt;
-     bool ras;
-     bool mte;
--    bool dtb_kaslr_seed;
-+    bool dtb_randomness;
-     OnOffAuto acpi;
-     VirtGICType gic_version;
-     VirtIOMMUType iommu;
--- 
-2.35.1
+That said I would prefer to introduce the machine first and then
+populate with devices.
+
+May be it is time to introduce a new machine file. This one seems
+like it could go in a f35.c file, also because a larger f35-* is
+in plan. aspeed.c could contain the basic definitions and helpers.
+
+
+> ---
+>   hw/arm/aspeed.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 48 insertions(+)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index a06f7c1b62..75971ef2ca 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -1429,6 +1429,50 @@ static void aspeed_minibmc_machine_ast1030_evb_class_init(ObjectClass *oc,
+>       amc->macs_mask = 0;
+>   }
+>   
+> +static void oby35_cl_i2c_init(AspeedMachineState *bmc)
+> +{
+> +    AspeedSoCState *soc = &bmc->soc;
+> +    I2CBus *i2c[14];
+> +    I2CBus *ssd[8];
+> +    int i;
+> +
+> +    for (i = 0; i < 14; i++) {
+> +        i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
+> +    }
+> +    get_pca9548_channels(i2c[1], 0x71, ssd);
+
+We should rename to aspeed_get_pca9548_channels
+
+> +
+> +    i2c_slave_create_simple(i2c[0], "fby35-sb-cpld", 0x21);
+> +    i2c_slave_create_simple(i2c[1], "tmp105", 0x48);
+> +    i2c_slave_create_simple(i2c[1], "tmp105", 0x49);
+> +    i2c_slave_create_simple(i2c[1], "tmp105", 0x4a);
+> +    i2c_slave_create_simple(i2c[1], "adm1272", 0x40);
+> +    i2c_slave_create_simple(i2c[1], "tmp421", 0x4c);
+> +    i2c_slave_create_simple(i2c[2], "intel-me", 0x16);
+> +    i2c_slave_create_simple(i2c[4], "isl69259", 0x76);
+> +    i2c_slave_create_simple(i2c[4], "isl69259", 0x62);
+> +    i2c_slave_create_simple(i2c[4], "isl69259", 0x60);
+> +
+> +    for (int i = 0; i < 8; i++) {
+> +        i2c_slave_create_simple(ssd[i], "tmp105", 0x6a);
+> +    }
+> +
+> +    /*
+> +     * FIXME: This should actually be the BMC, but both the ME and the BMC
+
+QEMU has an embedded IPMI BMC simulator.
+
+> +     * are IPMB endpoints, and the current ME implementation is generic
+> +     * enough to respond normally to some things.
+> +     */
+> +    i2c_slave_create_simple(i2c[6], "intel-me", 0x10);
+> +}
+> +
+> +static void aspeed_machine_oby35_cl_class_init(ObjectClass *oc, void *data)
+> +{
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+> +
+> +    mc->desc = "Meta Platforms fby35 CraterLake BIC (Cortex-M4)";
+> +    amc->i2c_init = oby35_cl_i2c_init;
+> +}
+> +
+>   static const TypeInfo aspeed_machine_types[] = {
+>       {
+>           .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
+> @@ -1494,6 +1538,10 @@ static const TypeInfo aspeed_machine_types[] = {
+>           .name           = MACHINE_TYPE_NAME("ast1030-evb"),
+>           .parent         = TYPE_ASPEED_MACHINE,
+>           .class_init     = aspeed_minibmc_machine_ast1030_evb_class_init,
+> +    }, {
+> +        .name          = MACHINE_TYPE_NAME("oby35-cl"),
+> +        .parent        = MACHINE_TYPE_NAME("ast1030-evb"),
+
+hmm, so we are inheriting from the evb ?
+
+C.
+
+
+> +        .class_init    = aspeed_machine_oby35_cl_class_init,
+>       }, {
+>           .name          = TYPE_ASPEED_MACHINE,
+>           .parent        = TYPE_MACHINE,
 
 
