@@ -2,94 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8095E562030
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 18:23:17 +0200 (CEST)
-Received: from localhost ([::1]:47432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CEB562087
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 18:45:05 +0200 (CEST)
+Received: from localhost ([::1]:58726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6wwl-0008G1-V4
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 12:23:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38104)
+	id 1o6xHr-0002LW-Ko
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 12:45:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6wui-00073o-8F; Thu, 30 Jun 2022 12:21:08 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:37939)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6xG0-0001Mu-Jw
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 12:43:08 -0400
+Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:38699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6wuf-0005Uz-Le; Thu, 30 Jun 2022 12:21:08 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 8D1CC2B01197;
- Thu, 30 Jun 2022 12:21:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 30 Jun 2022 12:21:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656606062; x=
- 1656609662; bh=fBnoIdb7VPWX4t3wc4UmKthlwOXAtNcCrrYogMIwD3A=; b=G
- 97yRcUgRuYV8/x/nW1vuilfuUiE4nikFhVX5ZHJH4gOA86fQT9teQcDVZIDjrBVT
- m2kSOvMATN8Q4NM9Py8ZFhl7GFJ2X3lDm7V04TaXAP6F3PSkQyJIDWcbphNFVXkt
- pQHjnMdmL6LY4FJ5TJ9YMatk4j6iaLPB2HZjboq85+fYOmqJZdBfbRWwDIyFD1LP
- ViEmFnGSzcz/hwEJSEXgb4FJW/cSPRECQDo9g4fzyY2K8lfGoRUHv8/ZBjuQ8Ed+
- TneKmcq1o8b2hp8cAhhPgMCZSK6MJOZgalwxqmVfXUlt6sdtFtRZwhskwcMganPy
- JyaEIGU0xLjgSi1prdGGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2; t=
- 1656606062; x=1656609662; bh=fBnoIdb7VPWX4t3wc4UmKthlwOXAtNcCrrY
- ogMIwD3A=; b=YPtbOTxMTXb+t8hLsE7WU2+bUM1scqnFu7NfyWPiqdV+MECrzTh
- UrE9oAC61qmzKEYU6qN4xrj8tggnnkCUL1wgY7rcIPdhqQHwboczu4FkaBGAJfOm
- gSvnfuD09xRoTFYOiNnP1cTc6Py+6oL+dmcdniEU38rmFRqSuk7OQmapn0peF1vO
- DDuKBulAX0lBLt9GkI9Ps61W/+sw/4R9DRU3tjzRfG1P9B1E8MbWyqVdZbAZHopQ
- uc40jUExwpydST78YYbNfe7GzRRnfEjWEEZCo408Bh99YwK0fVGo8hKf8XIQMjLn
- nWlrVzhk+OTZEETDebu3aJllzFw764srCsQ==
-X-ME-Sender: <xms:bc29YsdC7pnRiNpQ-3qlFJtbnEZP1gkaCMfrJ4YjJLkDhzTfMXdXLg>
- <xme:bc29YuNU2wO2x-gnW6CX1aGke4JaTvPnzik2Z_JQdCSQJVE7fwIF8bYC7fBhOKdfh
- zuu2XcAy9J_EVKpfqA>
-X-ME-Received: <xmr:bc29YthuS8XfJu26UOp1YaUJashGPnJ3RCYLkxm80IksY5a2ePxLPhUfkiGDZ7xhlnZCL2uQlQrBBVWofZr6yjHA1S3XFW4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehuddgleejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtugfgjgesth
- ekredttddtudenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceomhgvsehp
- jhgurdguvghvqeenucggtffrrghtthgvrhhnpeegieelieeltdegudehgfdtieefkefgje
- evfeegvddtgfeijedvffdvgeefgfetgfenucffohhmrghinhepmhgvthgrrdgtohhmnecu
- vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgvsehpjh
- gurdguvghv
-X-ME-Proxy: <xmx:bc29Yh-ut4qv8eJzZog9QnuXOCaiiEiBbTavrmnYk_04GZKZ_4r90Q>
- <xmx:bc29YovBfLnOe9YMjVwnjInbE0JSJLyqDEu_009OovyE7YdeNr5nyg>
- <xmx:bc29YoHmC4fI24Odw1s-JQMCYtShmNCORNF-kbLEQ_nr1dYyDr3_-Q>
- <xmx:bc29YmC9kyBZhJAIrQbEqHTveoonKTn7hYMAf0H4FfiLgtVQrfLiBkuonPc>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Jun 2022 12:21:00 -0400 (EDT)
-Date: Thu, 30 Jun 2022 09:20:58 -0700
-From: Peter Delevoryas <me@pjd.dev>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
- cminyard@mvista.com, titusr@google.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, zhdaniel@fb.com, pdel@fb.com
-Subject: Re: [PATCH v3 13/14] hw/misc/aspeed: Add intel-me
-Message-ID: <Yr3NakTCVlfP0zBh@pdel-mbp>
-References: <20220630045133.32251-1-me@pjd.dev>
- <20220630045133.32251-14-me@pjd.dev>
- <b748ce35-d8bf-1804-bcf0-1024c527380c@kaod.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o6xFx-0002Ap-F0
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 12:43:08 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.131])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B955D205D8;
+ Thu, 30 Jun 2022 16:42:53 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 30 Jun
+ 2022 18:42:52 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0040ec8f649-0cdc-4ee6-bf63-17def60ecc4e,
+ 40551C6C823FDDA91B74F5D58A080B55BE22893A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <a11a443d-a97c-3e62-008d-8faa37b55875@kaod.org>
+Date: Thu, 30 Jun 2022 18:42:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 14/14] hw/arm/aspeed: Add oby35-cl machine
+Content-Language: en-US
+To: Peter Delevoryas <me@pjd.dev>
+CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <cminyard@mvista.com>, <titusr@google.com>, <qemu-devel@nongnu.org>,
+ <qemu-arm@nongnu.org>, <zhdaniel@fb.com>
+References: <20220630045133.32251-1-me@pjd.dev>
+ <20220630045133.32251-15-me@pjd.dev>
+ <24f848a7-3b3e-9125-bedd-dedc1460a8f0@kaod.org>
+ <Yr3I8euDuh4PI7O8@pdel-mbp.dhcp.thefacebook.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <Yr3I8euDuh4PI7O8@pdel-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b748ce35-d8bf-1804-bcf0-1024c527380c@kaod.org>
-Received-SPF: pass client-ip=64.147.123.26; envelope-from=me@pjd.dev;
- helo=wnew1-smtp.messagingengine.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 1a623a8a-bd9b-4520-8448-b1f6d7b6ae12
+X-Ovh-Tracer-Id: 15171782723064662831
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 17
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehuddguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecufghrlhcuvffnffculddujedmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgefggffgheejgfdufeeiueffveehteejgfelueekgfegtefgffejhedtgfejgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepiihhuggrnhhivghlsehfsgdrtghomhdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,242 +78,230 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 01:09:09PM +0200, Cédric Le Goater wrote:
-> On 6/30/22 06:51, Peter Delevoryas wrote:
-> > From: Peter Delevoryas <pdel@fb.com>
-> > 
-> > The Intel Management Engine is an IPMI endpoint that responds to various
-> > IPMI commands.
+On 6/30/22 18:15, Peter Delevoryas wrote:
+> On Thu, Jun 30, 2022 at 01:02:54PM +0200, CÃ©dric Le Goater wrote:
+>> On 6/30/22 06:51, Peter Delevoryas wrote:
+>>> From: Peter Delevoryas <pdel@fb.com>
+>>>
+>>> The fby35 machine includes 4 server boards, each of which has a "bridge
+>>> interconnect" (BIC). This chip abstracts the pinout for the server board
+>>> into a single endpoint that the baseboard management controller (BMC)
+>>> can talk to using IPMB.
+>>>
+>>> This commit adds a machine for testing the BIC on the server board. It
+>>> runs OpenBIC (https://github.com/facebook/openbic) and the server board
+>>> is called CraterLake, so the code name is oby35-cl. There's also a
+>>> variant of the baseboard that replaces the BMC with a BIC, but that
+>>> machine is not included here.
+>>>
+>>> A test image can be built from https://github.com/facebook/openbic using
+>>> the instructions in the README.md to build the meta-facebook/yv35-cl
+>>> recipe, or retrieved from my Github:
+>>>
+>>>       wget https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.17.01/Y35BCL.elf
+>>>
+>>> And you can run this machine with the following command:
+>>>
+>>>       qemu-system-arm -machine oby35-cl -nographic -kernel Y35BCL.elf
+>>>
+>>> It should produce output like the following:
+>>>
+>>>       [00:00:00.005,000] <inf> usb_dc_aspeed: select ep[0x81] as IN endpoint
+>>>       [00:00:00.006,000] <inf> usb_dc_aspeed: select ep[0x82] as IN endpoint
+>>>       [00:00:00.006,000] <wrn> usb_dc_aspeed: pre-selected ep[0x1] as IN endpoint
+>>>       [00:00:00.006,000] <wrn> usb_dc_aspeed: pre-selected ep[0x2] as IN endpoint
+>>>       [00:00:00.006,000] <inf> usb_dc_aspeed: select ep[0x3] as OUT endpoint
+>>>       *** Booting Zephyr OS build v00.01.05  ***
+>>>       Hello, welcome to yv35 craterlake 2022.25.1
+>>>       BIC class type(class-1), 1ou present status(0), 2ou present status(0), board revision(0x1)
+>>>       check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x62 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x76 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x76 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x60 page 0 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       check_vr_type: i2c4 0x60 page 1 [04 00 81 d2 49 3c ff ff ff ff ff ff ff ff ff ff]
+>>>       [init_drive_type] sensor 0x14 post sensor read failed!
+>>>
+>>>       [init_drive_type] sensor 0x30 post sensor read failed!
+>>>       [init_drive_type] sensor 0x39 post sensor read failed!
+>>>       ipmi_init
+>>>       [set_DC_status] gpio number(15) status(0)
+>>>       [set_post_status] gpio number(1) status(1)
+>>>       uart:~$ [00:00:01.010,000] <inf> kcs_aspeed: KCS3: addr=0xca2, idr=0x2c, odr=0x38, str=0x44
+>>>
+>>>       [00:00:01.016,000] <err> spi_nor_multi_dev: [1216][spi1_cs0]SFDP magic 00000000 invalid
+>>>       [00:00:01.016,000] <err> spi_nor_multi_dev: [1456]SFDP read failed: -22
+>>>       [00:00:01.010,000] <inf> kcs_aspeed: KCS3: addr=0xca2, idr=0x2c, odr=0x38, str=0x44
+>>>
+>>>       [00:00:01.016,000] <err> spi_nor_multi_dev: [1216][spi1_cs0]SFDP magic 00000000 invalid
+>>>       [00:00:01.016,000] <err> spi_nor_multi_dev: [1456]SFDP read failed: -22
+>>>       uart:~$ BIC Ready
+>>>
+>>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+>>
+>> LGTM.
+>>
+>> That said I would prefer to introduce the machine first and then
+>> populate with devices.
 > 
-> Have you looked at the ipmi-bmc-sim device ? It is relatively easy
-> to attach to a bus.
+> Ohh ok, I'll submit the machine definition separately all by itself and then
+> submit any extra devices like the CPLD or ME afterwards.
 
-No I haven't! I didn't realize there was already some ipmi simulation code,
-that's great. I'll look into turning this into an ipmi-me-sim or something.
+I have kept the "full system" in my tree for now :
+
+   cb4481ae1812 aspeed: Add AST2600 (BMC) to fby35  (full system)
+   c155bf27d3e7 aspeed: Make aspeed_board_init_flashes public (trivial)
+   3f5485fa88b9 aspeed: Add fby35 skeleton  (trivial)
+
+because the ROM vs. execute-in-place is being analyzed. Let's see if
+we can make progress and simplify the initial machine.
+
+I have also kept the latest *fby35* emulating the BIC only :
+
+   5cfc4b68fdb8 hw/arm/aspeed: Add oby35-cl machine
+   06f21e024ee7 hw/misc/aspeed: Add intel-me
+   e96a23571599 hw/misc/aspeed: Add fby35-sb-cpld
+
+to discuss a bit more on the names, files, IPMI, etc. Until now, we had
+Aspeed machines modeling EVBs or BMCs. BICs and multi SoC system are new.
+
+Having a review on the common models in 8-10 would be nice.
+
+   2a9be57901a3 hw/sensor: Add Renesas ISL69259 device model
+   85f8352e213a hw/sensor: Add IC_DEVICE_ID to ISL voltage regulators
+   aea568d56db5 hw/i2c/pmbus: Add idle state to return 0xff's
+
+They should not be too problematic to merge. As soon as Titus has time
+to take a look we will know, and I did a comment. So this can be addressed
+in parallel with the fby35 machines.
+
+Thanks,
+
+C.
+
+
 
 > 
-> > In this commit, I've added some very basic functionality that
-> > will respond back with a respond code of zero (success), while also setting
-> > an appropriate response NetFN (request NetFN + 1), a matching command ID and
-> > sequence number, and the 2 standard checksums. Other data is not provided,
-> > but the model here could be extended to respond to more kinds of requests.
-> > 
-> > Signed-off-by: Peter Delevoryas <pdel@fb.com>
-> > ---
-> >   MAINTAINERS          |   1 +
-> >   hw/misc/intel_me.c   | 162 +++++++++++++++++++++++++++++++++++++++++++
-> >   hw/misc/meson.build  |   3 +-
-> >   hw/misc/trace-events |   8 +++
-> >   4 files changed, 173 insertions(+), 1 deletion(-)
-> >   create mode 100644 hw/misc/intel_me.c
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 3ffd473db1..3220644bb5 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -1068,6 +1068,7 @@ F: include/hw/net/ftgmac100.h
-> >   F: docs/system/arm/aspeed.rst
-> >   F: tests/qtest/*aspeed*
-> >   F: hw/misc/fby35_sb_cpld.c
-> > +F: hw/misc/intel_me.c
-> >   NRF51
-> >   M: Joel Stanley <joel@jms.id.au>
-> > diff --git a/hw/misc/intel_me.c b/hw/misc/intel_me.c
-> > new file mode 100644
-> > index 0000000000..933ae45101
-> > --- /dev/null
-> > +++ b/hw/misc/intel_me.c
-> > @@ -0,0 +1,162 @@
-> > +/*
-> > + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
-> > + *
-> > + * This code is licensed under the GPL version 2 or later. See the COPYING
-> > + * file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/main-loop.h"
-> > +#include "hw/i2c/i2c.h"
-> > +#include "trace.h"
-> > +
-> > +#define TYPE_INTEL_ME "intel-me"
-> > +OBJECT_DECLARE_SIMPLE_TYPE(IntelMEState, INTEL_ME);
-> > +
-> > +struct IntelMEState {
-> > +    I2CSlave parent_obj;
-> > +
-> > +    I2CBus *bus;
-> > +    QEMUBH *bh;
-> > +    int rx_len;
-> > +    int tx_len;
-> > +    int tx_pos;
-> > +    uint8_t rx_buf[512];
-> > +    uint8_t tx_buf[512];
-> > +};
-> > +
-> > +static void intel_me_bh(void *opaque)
-> > +{
-> > +    IntelMEState *s = opaque;
-> > +    I2CSlave *i2c = I2C_SLAVE(s);
-> > +    uint8_t target_addr;
-> > +
-> > +    assert(s->bus->bh == s->bh);
-> > +
-> > +    switch (s->tx_pos) {
-> > +    case 0:
-> > +        target_addr = s->tx_buf[s->tx_pos++];
-> > +        trace_intel_me_tx_start(i2c->address, target_addr);
-> > +        if (i2c_start_send_async(s->bus, target_addr) != 0) {
-> > +            break;
-> > +        }
-> > +        return;
-> > +    default:
-> > +        if (s->tx_pos >= s->tx_len) {
-> > +            break;
-> > +        }
-> > +        trace_intel_me_tx_data(i2c->address, s->tx_buf[s->tx_pos]);
-> > +        if (i2c_send_async(s->bus, s->tx_buf[s->tx_pos++]) != 0) {
-> > +            break;
-> > +        }
-> > +        return;
-> > +    }
-> > +
-> > +    trace_intel_me_tx_end(i2c->address);
-> > +    i2c_end_transfer(s->bus);
-> > +    i2c_bus_release(s->bus);
-> > +    s->tx_len = 0;
-> > +    s->tx_pos = 0;
-> > +    memset(s->tx_buf, 0, sizeof(s->tx_buf));
-> > +}
-> > +
-> > +static void intel_me_realize(DeviceState *dev, Error **errp)
-> > +{
-> > +    IntelMEState *s = INTEL_ME(dev);
-> > +
-> > +    s->bus = I2C_BUS(qdev_get_parent_bus(dev));
-> > +    s->bh = qemu_bh_new(intel_me_bh, s);
-> > +    s->rx_len = 0;
-> > +    s->tx_len = 0;
-> > +    s->tx_pos = 0;
-> > +    memset(s->rx_buf, 0, sizeof(s->rx_buf));
-> > +    memset(s->tx_buf, 0, sizeof(s->tx_buf));
-> > +}
-> > +
-> > +static uint8_t checksum(const uint8_t *ptr, int len)
-> > +{
-> > +    int sum = 0;
-> > +
-> > +    for (int i = 0; i < len; i++) {
-> > +        sum += ptr[i];
-> > +    }
-> > +
-> > +    return 256 - sum;
-> > +}
-> > +
-> > +static int intel_me_i2c_event(I2CSlave *i2c, enum i2c_event event)
-> > +{
-> > +    IntelMEState *s = INTEL_ME(i2c);
-> > +
-> > +    switch (event) {
-> > +    case I2C_START_RECV:
-> > +        break;
-> > +    case I2C_START_SEND:
-> > +        trace_intel_me_rx_start(i2c->address);
-> > +        s->rx_len = 0;
-> > +        memset(s->rx_buf, 0, sizeof(s->rx_buf));
-> > +        break;
-> > +    case I2C_START_SEND_ASYNC:
-> > +        break;
-> > +    case I2C_FINISH:
-> > +        trace_intel_me_rx_end(i2c->address);
-> > +        s->tx_len = 10;
-> > +        s->tx_pos = 0;
-> > +        s->tx_buf[0] = s->rx_buf[2];
-> > +        s->tx_buf[1] = ((s->rx_buf[0] >> 2) + 1) << 2;
-> > +        s->tx_buf[2] = checksum(s->tx_buf, 2);
-> > +        s->tx_buf[3] = i2c->address;
-> > +        s->tx_buf[4] = (s->rx_buf[3] >> 2) << 2;
-> > +        s->tx_buf[5] = s->rx_buf[4];
-> > +        s->tx_buf[6] = 0x00;
-> > +        s->tx_buf[7] = 0x55;
-> > +        s->tx_buf[8] = 0x00;
-> > +        s->tx_buf[9] = checksum(s->tx_buf, s->tx_len - 1);
-> > +        s->tx_buf[0] >>= 1;
-> > +        i2c_bus_master(s->bus, s->bh);
-> > +        break;
-> > +    case I2C_NACK:
-> > +        break;
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> > +static uint8_t intel_me_i2c_recv(I2CSlave *i2c)
-> > +{
-> > +    return 0xff;
-> > +}
-> > +
-> > +static int intel_me_i2c_send(I2CSlave *i2c, uint8_t data)
-> > +{
-> > +    IntelMEState *s = INTEL_ME(i2c);
-> > +
-> > +    trace_intel_me_rx_data(i2c->address, data);
-> > +
-> > +    assert(s->rx_len < sizeof(s->rx_buf));
-> > +    s->rx_buf[s->rx_len++] = data;
-> > +
-> > +    return 0;
-> > +}
-> > +
-> > +static void intel_me_class_init(ObjectClass *oc, void *data)
-> > +{
-> > +    DeviceClass *dc = DEVICE_CLASS(oc);
-> > +    I2CSlaveClass *i2c = I2C_SLAVE_CLASS(oc);
-> > +
-> > +    dc->realize = intel_me_realize;
-> > +    i2c->event = intel_me_i2c_event;
-> > +    i2c->recv = intel_me_i2c_recv;
-> > +    i2c->send = intel_me_i2c_send;
-> > +}
-> > +
-> > +static const TypeInfo types[] = {
-> > +    {
-> > +        .name = TYPE_INTEL_ME,
-> > +        .parent = TYPE_I2C_SLAVE,
-> > +        .instance_size = sizeof(IntelMEState),
-> > +        .class_init = intel_me_class_init,
-> > +    },
-> > +};
-> > +
-> > +DEFINE_TYPES(types);
-> > diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-> > index 948e25c440..165b9dce6d 100644
-> > --- a/hw/misc/meson.build
-> > +++ b/hw/misc/meson.build
-> > @@ -118,7 +118,8 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
-> >     'aspeed_sdmc.c',
-> >     'aspeed_xdma.c',
-> >     'aspeed_peci.c',
-> > -  'fby35_sb_cpld.c'))
-> > +  'fby35_sb_cpld.c',
-> > +  'intel_me.c'))
-> >   softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
-> >   softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
-> > diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-> > index 90a0473b06..7ca23bcf27 100644
-> > --- a/hw/misc/trace-events
-> > +++ b/hw/misc/trace-events
-> > @@ -273,3 +273,11 @@ virt_ctrl_instance_init(void *dev) "ctrl: %p"
-> >   lasi_chip_mem_valid(uint64_t addr, uint32_t val) "access to addr 0x%"PRIx64" is %d"
-> >   lasi_chip_read(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
-> >   lasi_chip_write(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
-> > +
-> > +# intel_me.c
-> > +intel_me_rx_start(uint8_t addr) "addr 0x%02x"
-> > +intel_me_rx_data(uint8_t addr, uint8_t data) "addr 0x%02x data 0x%02x"
-> > +intel_me_rx_end(uint8_t addr) "addr 0x%02x"
-> > +intel_me_tx_start(uint8_t addr, uint8_t target_addr) "addr 0x%02x target_addr 0x%02x"
-> > +intel_me_tx_data(uint8_t addr, uint8_t data) "addr 0x%02x data 0x%02x"
-> > +intel_me_tx_end(uint8_t addr) "addr 0x%02x"
+>>
+>> May be it is time to introduce a new machine file. This one seems
+>> like it could go in a f35.c file, also because a larger f35-* is
+>> in plan. aspeed.c could contain the basic definitions and helpers.
 > 
+> Yes, patrick@stwcx.xyz was thinking the same thing. An f35.c (well,
+> maybe yv35.c or fby35.c would be more appropriate) would be a good
+> idea. I'll submit another patch up front to move fby35 stuff to
+> a separate file.
+> 
+>>
+>>> ---
+>>>    hw/arm/aspeed.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+>>>    1 file changed, 48 insertions(+)
+>>>
+>>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+>>> index a06f7c1b62..75971ef2ca 100644
+>>> --- a/hw/arm/aspeed.c
+>>> +++ b/hw/arm/aspeed.c
+>>> @@ -1429,6 +1429,50 @@ static void aspeed_minibmc_machine_ast1030_evb_class_init(ObjectClass *oc,
+>>>        amc->macs_mask = 0;
+>>>    }
+>>> +static void oby35_cl_i2c_init(AspeedMachineState *bmc)
+>>> +{
+>>> +    AspeedSoCState *soc = &bmc->soc;
+>>> +    I2CBus *i2c[14];
+>>> +    I2CBus *ssd[8];
+>>> +    int i;
+>>> +
+>>> +    for (i = 0; i < 14; i++) {
+>>> +        i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
+>>> +    }
+>>> +    get_pca9548_channels(i2c[1], 0x71, ssd);
+>>
+>> We should rename to aspeed_get_pca9548_channels
+> 
+> +1
+> 
+>>
+>>> +
+>>> +    i2c_slave_create_simple(i2c[0], "fby35-sb-cpld", 0x21);
+>>> +    i2c_slave_create_simple(i2c[1], "tmp105", 0x48);
+>>> +    i2c_slave_create_simple(i2c[1], "tmp105", 0x49);
+>>> +    i2c_slave_create_simple(i2c[1], "tmp105", 0x4a);
+>>> +    i2c_slave_create_simple(i2c[1], "adm1272", 0x40);
+>>> +    i2c_slave_create_simple(i2c[1], "tmp421", 0x4c);
+>>> +    i2c_slave_create_simple(i2c[2], "intel-me", 0x16);
+>>> +    i2c_slave_create_simple(i2c[4], "isl69259", 0x76);
+>>> +    i2c_slave_create_simple(i2c[4], "isl69259", 0x62);
+>>> +    i2c_slave_create_simple(i2c[4], "isl69259", 0x60);
+>>> +
+>>> +    for (int i = 0; i < 8; i++) {
+>>> +        i2c_slave_create_simple(ssd[i], "tmp105", 0x6a);
+>>> +    }
+>>> +
+>>> +    /*
+>>> +     * FIXME: This should actually be the BMC, but both the ME and the BMC
+>>
+>> QEMU has an embedded IPMI BMC simulator.
+> 
+> 
+> !!! Didn't realize this, definitely going to try using it.
+> 
+>>
+>>> +     * are IPMB endpoints, and the current ME implementation is generic
+>>> +     * enough to respond normally to some things.
+>>> +     */
+>>> +    i2c_slave_create_simple(i2c[6], "intel-me", 0x10);
+>>> +}
+>>> +
+>>> +static void aspeed_machine_oby35_cl_class_init(ObjectClass *oc, void *data)
+>>> +{
+>>> +    MachineClass *mc = MACHINE_CLASS(oc);
+>>> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+>>> +
+>>> +    mc->desc = "Meta Platforms fby35 CraterLake BIC (Cortex-M4)";
+>>> +    amc->i2c_init = oby35_cl_i2c_init;
+>>> +}
+>>> +
+>>>    static const TypeInfo aspeed_machine_types[] = {
+>>>        {
+>>>            .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
+>>> @@ -1494,6 +1538,10 @@ static const TypeInfo aspeed_machine_types[] = {
+>>>            .name           = MACHINE_TYPE_NAME("ast1030-evb"),
+>>>            .parent         = TYPE_ASPEED_MACHINE,
+>>>            .class_init     = aspeed_minibmc_machine_ast1030_evb_class_init,
+>>> +    }, {
+>>> +        .name          = MACHINE_TYPE_NAME("oby35-cl"),
+>>> +        .parent        = MACHINE_TYPE_NAME("ast1030-evb"),
+>>
+>> hmm, so we are inheriting from the evb ?
+> 
+> Yeah, I remember this was controversial with fby35-bmc too, maybe I'll
+> change this in the follow-up. I just like inheriting from the EVB's because
+> people use the EVB's a lot for testing, most of the time I'm just trying to
+> add some extra i2c devices/etc, so I override the i2c init. But, maybe it's
+> good to decouple them.
+> 
+>>
+>> C.
+>>
+>>
+>>> +        .class_init    = aspeed_machine_oby35_cl_class_init,
+>>>        }, {
+>>>            .name          = TYPE_ASPEED_MACHINE,
+>>>            .parent        = TYPE_MACHINE,
+>>
+
 
