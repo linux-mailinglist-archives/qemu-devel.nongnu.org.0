@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2643E562003
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 18:11:55 +0200 (CEST)
-Received: from localhost ([::1]:59190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B35C562008
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 18:14:08 +0200 (CEST)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6wll-0004Kv-LM
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 12:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35568)
+	id 1o6wnv-0008B5-8m
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 12:14:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1o6wjX-00012F-Ei
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 12:09:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43784)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1o6wjV-0002MG-Fc
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 12:09:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656605372;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dONI6L1250ENwLum9Ra5Xa01f9sLBJUmUKlzObKu5nU=;
- b=UitW79P4WKY+7tosdVzyrvVUFM94FPjXxLRc6LZ+5gyUpve0da4OhsM1iKwCJWWIf5ERL7
- 3XcI5Vq4ZYZBJjVTwnLwZEFMEUOZ9Re31e28kg3VAyJgimnq7A3FLqvSua2RyL0lwwXVOx
- dLhqulTxi9ohOziK3QDhviOcMLxmxSE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-224-M93uYDPNNYqkKI8zA5tluw-1; Thu, 30 Jun 2022 12:09:28 -0400
-X-MC-Unique: M93uYDPNNYqkKI8zA5tluw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94BD63C0ED4C;
- Thu, 30 Jun 2022 16:09:24 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 49FA940CF8EF;
- Thu, 30 Jun 2022 16:09:24 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Auger <eauger@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
- <lvivier@redhat.com>
-Cc: Andrew Jones <drjones@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
-Subject: Re: [PATCH RFC 0/2] arm: enable MTE for QEMU + kvm
-In-Reply-To: <b684d1e6-2d8f-5d08-aae0-b085a722575b@redhat.com>
-Organization: Red Hat GmbH
-References: <20220512131146.78457-1-cohuck@redhat.com>
- <4bb7b5e4-ceb4-d2d8-e03a-f7059e5158d6@redhat.com>
- <87a6agsg9t.fsf@redhat.com>
- <b684d1e6-2d8f-5d08-aae0-b085a722575b@redhat.com>
-User-Agent: Notmuch/0.36 (https://notmuchmail.org)
-Date: Thu, 30 Jun 2022 18:09:22 +0200
-Message-ID: <87lete2kwd.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <dionnaglaze@google.com>)
+ id 1o6wlj-0006Hb-HS
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 12:11:51 -0400
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:40577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dionnaglaze@google.com>)
+ id 1o6wlh-0002vo-Ab
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 12:11:51 -0400
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-317a66d62dfso184029187b3.7
+ for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 09:11:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=35ohpAR7cqH9U9RyAn52Y1KeS3AQQHvr9QCi1XZdTpg=;
+ b=eY95lJBmcdlK0EwfQODP9AvJyJ99kW8OGcAWWEwWNSPGJw35l3xlz1W+pqvmj9u7RK
+ f1kUgkjbYzJbpRm7P76ezLacp/vW9dEG4h8sTRXcgjGYwwW4jJeWuc4Ya1XOfRh9waE3
+ RFS38djZZIrfRz0j+WrPk9kSf77f3PNzXWId3Sjxy5lUJb9iUIbm8LJysjLiaCHUzb9d
+ vDS6NeAKNVbWRr2Q4NibE5QK+J4E1Nsec42oOnZu4VtD3tR0NEQIWWgtfM5Fe0C8EYHy
+ FFvUu8DqrUFaCN9p/OQan5xeK0UUhe+ebMLQtPYV3KFr5hQd0I3WNayF9KUoyoNJT5Gt
+ nhSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=35ohpAR7cqH9U9RyAn52Y1KeS3AQQHvr9QCi1XZdTpg=;
+ b=UzZmSZTlcQJxgyKxzURTxxu+BUbv+V8iDfZqAZ+WkeoFM14oiVoZm+sBy5MeTCfL1E
+ Du60ObJ8GiX1bM1j+2TWihROOR4IMIfQfMOJwyOmGZ8JFfF9rs/WgGGtDK7BR01Z1y9p
+ RSYAe/6pNVoL0gK/l4SSKBV6fMiBTVWLHzsJLgufVaFnSu5yEQ1Lqc1XeEjeYnTe4qx6
+ dJf8FR/TbAcKSnVyOJWo0H36+CQ42h9nmWglJdWi52ApYahG7CYw8RVEfaUnRSTY44Bc
+ fkr2ACIKPMA1+b1JAFkUczE/dICXAaVWYGW+U6cclytvTrUTDeVFFdWZNxdrkriqhmSO
+ DK5g==
+X-Gm-Message-State: AJIora/dzxIF9InuLeG3HdUyb3Syfgt1xMGDo21ew7FbduqE8J0SbYjT
+ pi1N8lBCvfRooP4u1U8EQE8mifVaMALLhlRZG3tauA==
+X-Google-Smtp-Source: AGRyM1vCpZl3xnje8qjilvDpbsZrN0PzMVWLXy9VUU8EQRUjnBeOmcQvMf4njaP/oZniXnjDYvJIJNG6poE1xy2BsdM=
+X-Received: by 2002:a0d:d416:0:b0:318:88a8:ca4f with SMTP id
+ w22-20020a0dd416000000b0031888a8ca4fmr11812662ywd.371.1656605505325; Thu, 30
+ Jun 2022 09:11:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+References: <20220629193701.734154-1-dionnaglaze@google.com>
+ <Yr1bYiA1w/lMX76k@redhat.com> <be2ebbbf-1568-1eb5-b2ff-73819d4e872d@amd.com>
+In-Reply-To: <be2ebbbf-1568-1eb5-b2ff-73819d4e872d@amd.com>
+From: Dionna Amalie Glaze <dionnaglaze@google.com>
+Date: Thu, 30 Jun 2022 09:11:34 -0700
+Message-ID: <CAAH4kHaLbOjsqWEB2EehwcHpQwH8vaqgqmRUiNpEnMDtUyT4oA@mail.gmail.com>
+Subject: Re: [PATCH v2] target/i386: Add unaccepted memory configuration
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ qemu-devel@nongnu.org, Xu@google.com, Min M <min.m.xu@intel.com>, 
+ Xiaoyao Li <xiaoyao.li@intel.com>, Gerd Hoffman <kraxel@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, Marcelo Tosatti <mtosatti@redhat.com>, 
+ "open list:X86 KVM CPUs" <kvm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=dionnaglaze@google.com; helo=mail-yw1-x1136.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,56 +92,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 29 2022, Eric Auger <eauger@redhat.com> wrote:
-
-> Hi Connie,
+> > The most recent patches I recall for SEV-SNP introduced a new
+> > 'sev-snp-guest' object instead of overloading the existing
+> > 'sev-guest' object:
+> >
+> >    https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg04757.html
+> >
 >
-> On 6/13/22 18:02, Cornelia Huck wrote:
->> On Fri, Jun 10 2022, Eric Auger <eauger@redhat.com> wrote:
->> 
->>> Hi Connie,
->>>
->>> On 5/12/22 15:11, Cornelia Huck wrote:
->>>> This series enables MTE for kvm guests, if the kernel supports it.
->>>> Lightly tested while running under the simulator (the arm64/mte/
->>>> kselftests pass... if you wait patiently :)
->>>>
->>>> A new cpu property "mte" (defaulting to on if possible) is introduced;
->>>> for tcg, you still need to enable mte at the machine as well.
->>> isn't the property set to off by default when kvm is enabled (because of
->>> the migration blocker).
->> 
->> Oh, I had changed that around several times, and it seems I ended up
->> being confused when I wrote this cover letter... I wonder what the best
->> state would be (assuming that I don't manage to implement it soonish,
->> but it seems we still would need kernel changes as by the discussion in
->> that other patch series.)
-> Having mte=off by default along with KVM, until the migration gets
-> supported, looks OK to me. Does it prevent you from having it set to
-> another value by default with TCG (depending on the virt machine
-> tag_memory option)?
+> Correct, the SNP support for Qemu is only RFC at this point until the KVM
+> support for SNP is (near) finalized.
 >
-> 		tag_memory=on	tag_memory=off
-> KVM CPU mte=off	invalid		mte=off
-> KVM CPU mte=on	invalid		mte=on
-> TCG CPU mte=off	invalid		mte=off
-> TCG CPU mte=on	mte=on		invalid
->
-> default value:
-> KVM mte = off until migration gets supported
-> TCG mte = machine.tag_memory
 
-With OnOffAuto, I currently have:
+Ah okay, should I wait until that RFC patch set is merged to propose
+an extension to it, or should I coordinate with y'all at AMD to
+include this in your patch set?
 
-valid for tcg: cpu.mte=on, tag_memory=on (result: mte on)
-               cpu.mte=off, tag_memory either on or off (result: mte off)
-               cpu.mte unspecified, tag_memory either on or off (result:
-               mte==tag_memory)
-valid for kvm: tag_memory always off
-               cpu.mte=off (result: mte off)
-               cpu.mte=on if mte supported in kvm (result: mte on)
-               cpu.mte unspecified (result: mte on if kvm supports it;
-               this I can flip)
-all other combinations: error
+Apologies Pankaj, I forgot the change log (still new to git
+send-email). The change is that the configuration option is no longer
+in MachineState, but part of SevGuestState, with accessor functions
+for fw_cfg.c to know if it needs to add the fw_cfg file and what its
+value should be. That was the main feedback on v1.
 
+-- 
+-Dionna Glaze, PhD (she/her)
 
