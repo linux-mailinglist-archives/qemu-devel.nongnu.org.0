@@ -2,77 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECC956216C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 19:42:42 +0200 (CEST)
-Received: from localhost ([::1]:40560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D91E561576
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 10:53:45 +0200 (CEST)
+Received: from localhost ([::1]:33298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6yBc-0000fi-7y
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 13:42:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39834)
+	id 1o6pvj-0006ea-59
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 04:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.makarov@auriga.com>)
- id 1o6pmH-0002fo-NJ
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 04:43:57 -0400
-Received: from hq-ms.auriga.com ([82.97.202.32]:23807 helo=hq-ms.auriga.ru)
+ (Exim 4.90_1) (envelope-from <svens@linux.ibm.com>)
+ id 1o6ppg-00042m-H6; Thu, 30 Jun 2022 04:47:28 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15952
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.makarov@auriga.com>)
- id 1o6pmD-0007yo-48
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 04:43:55 -0400
-Received: from HQ-MS1.office.auriga.msk (82.97.202.32) by
- hq-ms1.office.auriga.msk (82.97.202.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.7; Thu, 30 Jun 2022 11:32:37 +0300
-Received: from HQ-MS1.office.auriga.msk ([fe80::e47e:a86e:e738:f45e]) by
- hq-ms1.office.auriga.msk ([fe80::e47e:a86e:e738:f45e%3]) with mapi id
- 15.02.1118.007; Thu, 30 Jun 2022 11:32:37 +0300
-From: "Makarov, Andrey" <andrey.makarov@auriga.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Andrey Makarov
- <ph.makarov@gmail.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] Align Raspberry Pi DMA interrupts with Linux DTS
-Thread-Topic: [PATCH] Align Raspberry Pi DMA interrupts with Linux DTS
-Thread-Index: AQHYiAPxehH+/wbpaEaSvYpjlkJ5UK1hSToAgAZc9k8=
-Date: Thu, 30 Jun 2022 08:32:37 +0000
-Message-ID: <8c35a284e1554778913dbdabc778ddeb@auriga.com>
-References: <20220624195206.671993-1-andrey.makarov@auriga.com>,
- <CAFEAcA_xQd45CGsmU-_C4LcTP6M+5PfkgKOJuk2SSBVDbm7pyg@mail.gmail.com>
-In-Reply-To: <CAFEAcA_xQd45CGsmU-_C4LcTP6M+5PfkgKOJuk2SSBVDbm7pyg@mail.gmail.com>
-Accept-Language: en-US, ru-RU
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.99.99.35]
-x-tm-as-product-ver: SMEX-14.0.0.1158-9.0.1002-26984.002
-x-tm-as-result: No-10--27.764500-8.000000
-x-tmase-matchedrid: Kx0w2sAofbunvGCyBToTI8G0UNgaZpYqGsvgUMYAn4XX1cRD6e4P5Oz9
- H+EUMUMlwvycN7BK7oOSA0EIvbxG69PbvfOdnfkyRynTwl9ZYh6rBTvV3OvRK0/SsvQIy/ty1Bo
- bc6t6akVZxWJAjB5QN0+U1a88xcWQxFvclpniOPNkGI+vgRTxMMaGUx2flwhRLX3qyf3ewG9NI/
- YG2D7IknkKt0+zZSEF+Dq5+AB/HWLEQS2ecfkpF/8xygBCGWz0lDt5PQMgj03Q8Q3V2m2BEGVUa
- 20Jme2iCz3G0AFPm0YCoXQy5etGZsocsHMOi3OljC0YuomXIYeok0CD5UnL6ySb8v8wgv7yUvT+
- tdwmjxumIZKCfuONFu4ATLndji0u7Ma9GYskMp/knMSTG9lH+ABiOiJvgsY/KEB1DAQzrLjZTAE
- szxrPVCyaCzkh9ijGCe9ZIsMf1HiJL0uyuozT/dnpx3VdbxC5pPMmjQJmXyHfrYpxwT811udpDV
- IGQ5u0IvrftAIhWmLK24Lrk00g7ms0SgWtnXgnD31hKrmrVKnxKR2kbb+f15yka59saICoN4J9o
- zUlDtYhEeKMopCw/f++gjOGfzBm5UcZtwNsCrr+xOhjarOnHrJRBnLixjoqpfzLa08EuFBGdOmu
- vU/opKwA38iC7I3I2QMBg0kvvsRKjxl7Kwa2dNS04ty4w53P
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--27.764500-8.000000
-x-tmase-version: SMEX-14.0.0.1158-9.0.1002-26984.002
-x-tm-snts-smtp: 365383182EAAA545E0DA54CA23F0AD3FCAB849FC336FC26D2F08E77B88149E702000:8
-Content-Type: multipart/alternative;
- boundary="_000_8c35a284e1554778913dbdabc778ddebaurigacom_"
+ (Exim 4.90_1) (envelope-from <svens@linux.ibm.com>)
+ id 1o6ppe-0001xi-Cp; Thu, 30 Jun 2022 04:47:28 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25U7cTIs018366;
+ Thu, 30 Jun 2022 08:47:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=pp1; bh=O3Ghtke8P8c5jDK5oE79xurpUppNQpfGxqrYg9b5TwE=;
+ b=TDBfTyD7GU9/f0d6WRZ+wr37WbHPur3twJFZNlo8DSCdL70iSxPOtWcAWZgUk4FlQMJZ
+ oXBm89MZ92pz3yf8HWiGlsRekuAzTSLwmmzm9Tknl/aiDGvCmYSbV9ZcquGr5YsF0um3
+ 9r0hgIIPsEM06wwxf0R9wZs0+RzVv2Q0J42PDRb0tpFWqJT2FZ8pf7wkRkpz2M6ol8Bf
+ Mhp08dS9qiIk5tqPPjxtYniBMruUTCMBOpc8z7rmQJbfixI4BjeTD0YbmQNEVYVN/9Jj
+ gLrr4LE2sjMdKY9rbJx/f12wHjbX7vrKcaytlxizJ+IW678qY3uSXenuhclCH1rrnCss xg== 
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h17ch2ag3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 Jun 2022 08:47:21 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25U8ZCaA005485;
+ Thu, 30 Jun 2022 08:47:19 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03ams.nl.ibm.com with ESMTP id 3gwt08yrkm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 Jun 2022 08:47:19 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 25U8lHNs25362758
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 30 Jun 2022 08:47:17 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2418EAE051;
+ Thu, 30 Jun 2022 08:47:17 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F3A6EAE045;
+ Thu, 30 Jun 2022 08:47:16 +0000 (GMT)
+Received: from tuxmaker.linux.ibm.com (unknown [9.152.85.9])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu, 30 Jun 2022 08:47:16 +0000 (GMT)
+From: Sven Schnelle <svens@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Subject: Re: [PATCH] target/s390x: Exit tb after executing ex_value
+References: <20220630031635.271353-1-richard.henderson@linaro.org>
+Date: Thu, 30 Jun 2022 10:47:17 +0200
+In-Reply-To: <20220630031635.271353-1-richard.henderson@linaro.org> (Richard
+ Henderson's message of "Thu, 30 Jun 2022 08:46:35 +0530")
+Message-ID: <yt9dtu82fsh6.fsf@linux.ibm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=82.97.202.32;
- envelope-from=andrey.makarov@auriga.com; helo=hq-ms.auriga.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: PchE54vl9whzIZjXrL6TnDj0UEJTrTxE
+X-Proofpoint-ORIG-GUID: PchE54vl9whzIZjXrL6TnDj0UEJTrTxE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-30_05,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=313
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 impostorscore=0
+ clxscore=1015 mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2204290000 definitions=main-2206300031
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=svens@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 30 Jun 2022 13:36:38 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,251 +106,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_8c35a284e1554778913dbdabc778ddebaurigacom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Hi Richard,
 
-> Is there any hardware documentation that says whether QEMU or
-> the DTB is correct? The device tree is at best a secondary source...
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-
-No. It should have been in the "BCM2835 ARM Peripherals" datasheet but the =
-appropriate "ARM peripherals interrupt table" there is nearly empty.
-
-
-> You can't connect multiple qemu_irq lines to one like this.
-> If the hardware behaves this way then you need to create
-> an OR gate, wire all the lines from the devices to the
-> OR gate inputs, and wire the OR gate output to the destination.
-
-
-Thank you for this correction, I will send another version of patch.
-
-
-Andrey Makarov,
-
-Team Lead
-
-
-________________________________
-From: Peter Maydell <peter.maydell@linaro.org>
-Sent: Sunday, June 26, 2022 1:16:18 PM
-To: Andrey Makarov
-Cc: qemu-devel@nongnu.org; Makarov, Andrey
-Subject: Re: [PATCH] Align Raspberry Pi DMA interrupts with Linux DTS
-
-On Fri, 24 Jun 2022 at 21:54, Andrey Makarov <ph.makarov@gmail.com> wrote:
+> When EXECUTE sets ex_value to interrupt the constructed instruction,
+> we implicitly disable interrupts so that the value is not corrupted.
+> Exit to the main loop after execution, so that we re-evaluate any
+> pending interrupts.
 >
-> All Raspberry Pi models 1-3 (based on bcm2835) have
-> Linux device tree (arch/arm/boot/dts/bcm2835-common.dtsi +25):
->
->     /* dma channel 11-14 share one irq */
->
-> which mismatched the Qemu model.
-> In this patch channels 0--10 and 11--14 are handled separately.
-
-Is there any hardware documentation that says whether QEMU or
-the DTB is correct? The device tree is at best a secondary source...
-
-> Signed-off-by: Andrey Makarov <andrey.makarov@auriga.com>
+> Reported-by: Sven Schnelle <svens@linux.ibm.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/arm/bcm2835_peripherals.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
 >
-> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-> index 48538c9360..3d808b0e31 100644
-> --- a/hw/arm/bcm2835_peripherals.c
-> +++ b/hw/arm/bcm2835_peripherals.c
-> @@ -322,13 +322,21 @@ static void bcm2835_peripherals_realize(DeviceState=
- *dev, Error **errp)
->      memory_region_add_subregion(&s->peri_mr, DMA15_OFFSET,
->                  sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dma), 1));
->
-> -    for (n =3D 0; n <=3D 12; n++) {
-> +    for (n =3D 0; n <=3D 10; n++) {
->          sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
->                             qdev_get_gpio_in_named(DEVICE(&s->ic),
->                                                    BCM2835_IC_GPU_IRQ,
->                                                    INTERRUPT_DMA0 + n));
->      }
->
-> +    /* According to DTS, dma channels 11-14 share one irq */
-> +    for (n =3D 11; n <=3D 14; n++) {
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
-> +                           qdev_get_gpio_in_named(DEVICE(&s->ic),
-> +                                                  BCM2835_IC_GPU_IRQ,
-> +                                                  INTERRUPT_DMA0 + 11));
+> Hi Sven.  Will you test this vs your testcase?  Thanks,
 
-You can't connect multiple qemu_irq lines to one like this.
-If the hardware behaves this way then you need to create
-an OR gate, wire all the lines from the devices to the
-OR gate inputs, and wire the OR gate output to the destination.
+Of course, i'm happy if someone fixes this so i don't have to. :-)
 
-thanks
--- PMM
+Unfortunately it doesn't fix the issue:
 
---_000_8c35a284e1554778913dbdabc778ddebaurigacom_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+exec_tb_exit tb:(nil) flags=0x0
+exec_tb tb:0x3ff35c66f00 pc=0x400
+exec_tb tb:0x3ff3410f300 pc=0x1edf7f8
+tcg_handle_interrupt: 2
+exec_tb_exit tb:0x3ff340d2d00 flags=0x3
+ignoring irq during EX
+ignoring irq during EX
+exec_tb tb:0x3ff340d2d00 pc=0x1edf810
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
-<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; pad=
-ding-left: 4pt; border-left: #800000 2px solid; } --></style>
-</head>
-<body>
-<meta content=3D"text/html; charset=3DUTF-8">
-<style type=3D"text/css" style=3D"">
-<!--
-p
-	{margin-top:0;
-	margin-bottom:0}
--->
-</style>
-<div dir=3D"ltr">
-<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; col=
-or:#000000; font-family:Calibri,Helvetica,sans-serif">
-<p><font size=3D"2"><span style=3D"font-size:10pt">&gt; Is there any hardwa=
-re documentation that says whether QEMU or<br>
-&gt; the DTB is correct? The device tree is at best a secondary source...</=
-span></font><br>
-</p>
-<p><br>
-</p>
-<p>No. It should have been in the &quot;BCM2835 ARM Peripherals&quot; datas=
-heet but the appropriate &quot;ARM peripherals interrupt table&quot; there =
-is nearly empty.<br>
-</p>
-<p><br>
-</p>
-<p>&gt;<font size=3D"2"><span style=3D"font-size:10pt"> You can't connect m=
-ultiple qemu_irq lines to one like this.<br>
-&gt; If the hardware behaves this way then you need to create<br>
-&gt; an OR gate, wire all the lines from the devices to the<br>
-&gt; OR gate inputs, and wire the OR gate output to the destination.</span>=
-</font></p>
-<p><br>
-</p>
-<p>Thank you for this correction, I will send another version of patch.</p>
-<p><br>
-</p>
-<div id=3D"x_Signature">
-<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; col=
-or:rgb(0,0,0); font-family:Calibri,Helvetica,sans-serif,&quot;EmojiFont&quo=
-t;,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,NotoColorEmoji,=
-&quot;Segoe UI Symbol&quot;,&quot;Android Emoji&quot;,EmojiSymbols">
-<p></p>
-<div>
-<p style=3D"margin:0px"><b style=3D"font-size:12pt"><font size=3D"2" face=
-=3D"Verdana">Andrey Makarov,</font></b><br>
-</p>
-<p style=3D"margin:0px"><b style=3D"font-size:12pt"><font size=3D"2" face=
-=3D"Verdana">Team Lead</font></b></p>
-</div>
-<b></b><font face=3D"Verdana"></font><font size=3D"2"></font><br>
-<p></p>
-</div>
-</div>
-</div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
-color=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Peter Maydell &lt;p=
-eter.maydell@linaro.org&gt;<br>
-<b>Sent:</b> Sunday, June 26, 2022 1:16:18 PM<br>
-<b>To:</b> Andrey Makarov<br>
-<b>Cc:</b> qemu-devel@nongnu.org; Makarov, Andrey<br>
-<b>Subject:</b> Re: [PATCH] Align Raspberry Pi DMA interrupts with Linux DT=
-S</font>
-<div>&nbsp;</div>
-</div>
-</div>
-<font size=3D"2"><span style=3D"font-size:10pt;">
-<div class=3D"PlainText">On Fri, 24 Jun 2022 at 21:54, Andrey Makarov &lt;p=
-h.makarov@gmail.com&gt; wrote:<br>
-&gt;<br>
-&gt; All Raspberry Pi models 1-3 (based on bcm2835) have<br>
-&gt; Linux device tree (arch/arm/boot/dts/bcm2835-common.dtsi &#43;25):<br>
-&gt;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; /* dma channel 11-14 share one irq */<br>
-&gt;<br>
-&gt; which mismatched the Qemu model.<br>
-&gt; In this patch channels 0--10 and 11--14 are handled separately.<br>
-<br>
-Is there any hardware documentation that says whether QEMU or<br>
-the DTB is correct? The device tree is at best a secondary source...<br>
-<br>
-&gt; Signed-off-by: Andrey Makarov &lt;andrey.makarov@auriga.com&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; hw/arm/bcm2835_peripherals.c | 10 &#43;&#43;&#43;&#43;&#43;&#43;=
-&#43;&#43;&#43;-<br>
-&gt;&nbsp; 1 file changed, 9 insertions(&#43;), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals=
-.c<br>
-&gt; index 48538c9360..3d808b0e31 100644<br>
-&gt; --- a/hw/arm/bcm2835_peripherals.c<br>
-&gt; &#43;&#43;&#43; b/hw/arm/bcm2835_peripherals.c<br>
-&gt; @@ -322,13 &#43;322,21 @@ static void bcm2835_peripherals_realize(Devi=
-ceState *dev, Error **errp)<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memory_region_add_subregion(&amp;s-&gt;p=
-eri_mr, DMA15_OFFSET,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sysbus_mmio_get_region(SYS_BUS_DEVICE(&amp;=
-s-&gt;dma), 1));<br>
-&gt;<br>
-&gt; -&nbsp;&nbsp;&nbsp; for (n =3D 0; n &lt;=3D 12; n&#43;&#43;) {<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; for (n =3D 0; n &lt;=3D 10; n&#43;&#43;) {<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sysbus_connect_i=
-rq(SYS_BUS_DEVICE(&amp;s-&gt;dma), n,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; qdev_get_gpio_in_named(DEVICE(&amp;s-&gt;ic),<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; BCM2835_IC_GPU_IRQ,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; INTERRUPT_DMA0 &#43; n));<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; /* According to DTS, dma channels 11-14 share =
-one irq */<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; for (n =3D 11; n &lt;=3D 14; n&#43;&#43;) {<br=
->
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sysbus_connect_irq(SYS=
-_BUS_DEVICE(&amp;s-&gt;dma), n,<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; qdev_get_gpio_in_named(DEVICE(&amp;s-&gt;ic),<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp; BCM2835_IC_GPU_IRQ,<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp; INTERRUPT_DMA0 &#43; 11));<br>
-<br>
-You can't connect multiple qemu_irq lines to one like this.<br>
-If the hardware behaves this way then you need to create<br>
-an OR gate, wire all the lines from the devices to the<br>
-OR gate inputs, and wire the OR gate output to the destination.<br>
-<br>
-thanks<br>
--- PMM<br>
-</div>
-</span></font>
-</body>
-</html>
+writing dc->base.is_jmp to the qemu log shows:
 
---_000_8c35a284e1554778913dbdabc778ddebaurigacom_--
+s390x_tr_translate_insn: is_jmp: 3
+s390x_tr_translate_insn: is_jmp: 3
+s390x_tr_translate_insn: is_jmp: 3
+s390x_tr_translate_insn: is_jmp: 3
+s390x_tr_translate_insn: is_jmp: 3
+s390x_tr_translate_insn: is_jmp: 3
+[..]
+
+So is_jump is always 3, which is DISAS_TARGET_0. I think the
+if (dc->base.is_jmp == DISAS_NEXT) condition therefore never matches.
+
 
