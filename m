@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02110560E70
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 03:00:15 +0200 (CEST)
-Received: from localhost ([::1]:46456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B176560E63
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 02:57:28 +0200 (CEST)
+Received: from localhost ([::1]:38994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6iXW-0005LL-3M
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 21:00:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37960)
+	id 1o6iUp-00006f-HL
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jun 2022 20:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1o6iUv-0001R9-ER
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 20:57:33 -0400
-Received: from mga17.intel.com ([192.55.52.151]:14897)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1o6iUt-0005gp-BS
- for qemu-devel@nongnu.org; Wed, 29 Jun 2022 20:57:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656550651; x=1688086651;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=8ANK1lrdY7RN0iRgbqACrYJbC0OlyXg5Q9O4zPsO0C0=;
- b=M9nRqtlopI/tPE2NCRA3z3gWyvQXamoLCbHIG/cR9VFc0ZC2Fau4aVqi
- jqDz9SJW68Xlua5Mmym+4moitSZh7WPVg+QBg6mcYGGxIvW1w8+kUfR3D
- NFbiL2TYzSs2qyiUakOXFidugRjgXd+Wp5FfqLGZ5WJxINOOYMmLUKg4z
- 4asba5RDFYB1TXzLsXCD5OknHTqvfjIgYTK6Gc0W6IyN2hn7aV9/3Y2Uc
- R/ITFz/i3+5oC+xbQbaA/jN/PKsOdxkiQjwBkdnCNO1mj/B8Tz7MHyesn
- +7B/V7eKGei4/eVW4HFAkYZaNIOUmQKZm76BQ8T/nnr2fPMpeRQgUEtDi g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="262611183"
-X-IronPort-AV: E=Sophos;i="5.92,232,1650956400"; d="scan'208";a="262611183"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2022 17:57:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,232,1650956400"; d="scan'208";a="693828128"
-Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
- ([10.105.129.122])
- by fmsmga002.fm.intel.com with ESMTP; 29 Jun 2022 17:57:30 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: qemu-devel@nongnu.org
-Cc: Dongwon Kim <dongwon.kim@intel.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: [PATCH v3 2/2] ui/gtk: a new array param monitor to specify the
- target displays
-Date: Wed, 29 Jun 2022 17:51:41 -0700
-Message-Id: <20220630005141.16680-3-dongwon.kim@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220630005141.16680-1-dongwon.kim@intel.com>
-References: <20220630005141.16680-1-dongwon.kim@intel.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o6iRX-0005rP-Nd
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 20:54:03 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:39457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o6iRT-0004yR-LH
+ for qemu-devel@nongnu.org; Wed, 29 Jun 2022 20:54:03 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ b12-20020a17090a6acc00b001ec2b181c98so1153130pjm.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Jun 2022 17:53:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=qMOriSTaynWQiblyEPkNE9YvXLAPw+pBFUHpqKBlq0c=;
+ b=iD/9VmWS6+aEyMP8A+tUv5zk+priaiaDSf5k6zyhf0qoAeNfQcvpYbrbKGDD4cTu3+
+ DMnDZDU5Zv3NUtEUQLz61zyejmXnjE11JT6NaChyj2F6MtGj/7EtNj5k+cU70fc77Ohg
+ WJloGwpjreSeIlaJexvnTkpxrTzFd7ILgk2eYgj7T6Qbhm5pDqyFRmguLqtlvr2zSE5P
+ XpeHTTnWF2G/sKNVh/4YBPbOr4Gd97o65Mo2yTtbUJTFFxBvq/eaEWAiaNRuy/fURY0Y
+ eMht3J5N3r99GvZaGGsFkPxZ1bW5eWj7stGv3f57n/W4XcWrGwIBtsNOiJcyl8KewEqL
+ u1aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qMOriSTaynWQiblyEPkNE9YvXLAPw+pBFUHpqKBlq0c=;
+ b=z9nxt7WTcx/UjOxiiTIGEHHDUMHQkDlwkxcFku7xz9hGMGS8AjaKI0k3o/yvUwF5+t
+ Xuw0qX5reiQ9NmTRDqtFmEvY5167s4DQCobLLXMiYssAogvKPc3SSRh62E89LuCoXgKP
+ 9JHSaG8WLYvg1QC7ay5JlN0+LlmMiH+OLw52GWx/vcTcYzkd3LynHbE34bBxjtL56F4Y
+ F9d1bKZ0+uOaZEW2Rv+oKrDjA2TZoJrz8NBPcXSH+vP2haZRLFutBKTw3H8Hux4KfCHL
+ mf7jHuNqQ+ToIYkEYBfP7wSc1eIjExQ0i5SjVESLyf2CcKf8Ui0gpHQBYizqn/dtetUS
+ y7oA==
+X-Gm-Message-State: AJIora81bJOlkQAkR5igACJuG1rB5cr18yGm2LoT9xNFSP4viWG2v0xG
+ v8nGv7GuuHeownP7CsS9zmY3mA==
+X-Google-Smtp-Source: AGRyM1t+lhyikNCH0pMoSbw1YVD7Up2dfPKZUf+GYXZ4ud+hyEcjWX1aN8HeJmAsGcTgbTD5RXVNWw==
+X-Received: by 2002:a17:90a:f684:b0:1ec:b252:4cd2 with SMTP id
+ cl4-20020a17090af68400b001ecb2524cd2mr6825720pjb.196.1656550433030; 
+ Wed, 29 Jun 2022 17:53:53 -0700 (PDT)
+Received: from [192.168.123.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ a134-20020a621a8c000000b00527f2e72437sm2218772pfa.132.2022.06.29.17.53.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jun 2022 17:53:52 -0700 (PDT)
+Message-ID: <de05199e-6168-375e-ca83-692daae58bb2@linaro.org>
+Date: Thu, 30 Jun 2022 06:23:47 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 00/11] Trivial branch for 7.1 patches
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
+References: <20220629090849.1350227-1-laurent@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220629090849.1350227-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=dongwon.kim@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,127 +93,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New integer array parameter, 'monitor' is for specifying the target
-monitors where individual GTK windows are placed upon launching.
+On 6/29/22 14:38, Laurent Vivier wrote:
+> The following changes since commit ad4c7f529a279685da84297773b4ec8080153c2d:
+> 
+>    Merge tag 'pull-semi-20220628' of https://gitlab.com/rth7680/qemu into staging (2022-06-28 10:24:31 +0530)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.1-pull-request
+> 
+> for you to fetch changes up to c379bd7551f34e42c4c935783c0c08bab41d70c1:
+> 
+>    hw/i386/xen/xen-hvm: Inline xen_piix_pci_write_config_client() and remove it (2022-06-29 00:24:59 +0200)
+> 
+> ----------------------------------------------------------------
+> trivial patches pull request 20220629
 
-Monitor numbers in the array are associated with virtual consoles
-in the order of [VC0, VC1, VC2 ... VCn].
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Every GTK window containing each VC will be placed in the region
-of corresponding monitors.
 
-Usage: -display gtk,monitor.<id of VC>=<target monitor>,..
-       ex)-display gtk,monitor.0=1,monitor.1=0
+r~
 
-v3: - Revised commit message
-    - Rewrote desription of the new parameter (Markus Armbruster)
-    - Replaced unnecessary 'for' loop with 'if' condition
-      (Markus Armbruster)
 
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
----
- qapi/ui.json    |  9 ++++++++-
- qemu-options.hx |  3 ++-
- ui/gtk.c        | 31 +++++++++++++++++++++++++++++--
- 3 files changed, 39 insertions(+), 4 deletions(-)
-
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 413371d5e8..7b4c098bb4 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1195,12 +1195,19 @@
- #               assuming the guest will resize the display to match
- #               the window size then.  Otherwise it defaults to "off".
- #               Since 3.1
-+# @monitor:     Array of numbers, each of which represents physical
-+#               monitor where GTK window containing a given VC will be
-+#               placed. Each monitor number in the array will be
-+#               associated with a virtual-console starting from VC0.
-+#
-+#               since 7.1
- #
- # Since: 2.12
- ##
- { 'struct'  : 'DisplayGTK',
-   'data'    : { '*grab-on-hover' : 'bool',
--                '*zoom-to-fit'   : 'bool'  } }
-+                '*zoom-to-fit'   : 'bool',
-+                '*monitor'       : ['uint16']  } }
- 
- ##
- # @DisplayEGLHeadless:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 377d22fbd8..aabdfb0636 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1938,7 +1938,8 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
- #endif
- #if defined(CONFIG_GTK)
-     "-display gtk[,full-screen=on|off][,gl=on|off][,grab-on-hover=on|off]\n"
--    "            [,show-cursor=on|off][,window-close=on|off]\n"
-+    "            [,monitor.<id of VC>=<monitor number>][,show-cursor=on|off]"
-+    "            [,window-close=on|off]\n"
- #endif
- #if defined(CONFIG_VNC)
-     "-display vnc=<display>[,<optargs>]\n"
-diff --git a/ui/gtk.c b/ui/gtk.c
-index e6878c3209..935176e614 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2316,6 +2316,10 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-     GtkDisplayState *s = g_malloc0(sizeof(*s));
-     GdkDisplay *window_display;
-     GtkIconTheme *theme;
-+    GtkWidget *win;
-+    GdkRectangle dest;
-+    uint16List *mon;
-+    int n_mon;
-     int i;
-     char *dir;
- 
-@@ -2393,10 +2397,33 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-             gtk_menu_item_activate(GTK_MENU_ITEM(s->untabify_item));
-         }
-     }
--    if (opts->has_full_screen &&
--        opts->full_screen) {
-+
-+    if (opts->u.gtk.has_monitor) {
-+        i = 0;
-+        n_mon = gdk_display_get_n_monitors(window_display);
-+        for (mon = opts->u.gtk.monitor; mon; mon = mon->next) {
-+            if (mon->value < n_mon && i < s->nb_vcs) {
-+                win = s->vc[i].window ? s->vc[i].window : s->window;
-+                if (opts->has_full_screen && opts->full_screen) {
-+                    gtk_window_fullscreen_on_monitor(
-+                        GTK_WINDOW(win),
-+                        gdk_display_get_default_screen(window_display),
-+                        mon->value);
-+                } else {
-+                    gdk_monitor_get_geometry(
-+                        gdk_display_get_monitor(window_display, mon->value),
-+                        &dest);
-+                    gtk_window_move(GTK_WINDOW(win),
-+                                    dest.x, dest.y);
-+                }
-+                i++;
-+            }
-+        }
-+    } else if (opts->has_full_screen &&
-+               opts->full_screen) {
-         gtk_menu_item_activate(GTK_MENU_ITEM(s->full_screen_item));
-     }
-+
-     if (opts->u.gtk.has_grab_on_hover &&
-         opts->u.gtk.grab_on_hover) {
-         gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
--- 
-2.20.1
+> 
+> ----------------------------------------------------------------
+> 
+> Bernhard Beschow (3):
+>    hw/pci-host/i440fx: Remove unused parameter from i440fx_init()
+>    hw/i386/xen/xen-hvm: Allow for stubbing xen_set_pci_link_route()
+>    hw/i386/xen/xen-hvm: Inline xen_piix_pci_write_config_client() and
+>      remove it
+> 
+> Dr. David Alan Gilbert (2):
+>    Trivial: 3 char repeat typos
+>    trivial typos: namesapce
+> 
+> Eugenio Pérez (1):
+>    util: Return void on iova_tree_remove
+> 
+> Guo Zhi (1):
+>    vga: avoid crash if no default vga card
+> 
+> Lev Kujawski (1):
+>    hw/ide/atapi.c: Correct typos (CD-CDROM -> CD-ROM)
+> 
+> Markus Armbruster (1):
+>    MAINTAINERS: Add softmmu/runstate.c to "Main loop"
+> 
+> Philippe Mathieu-Daudé (1):
+>    qom/object: Remove circular include dependency
+> 
+> Thomas Huth (1):
+>    common-user: Only compile the common user code if have_user is set
+> 
+>   MAINTAINERS                      |  1 +
+>   common-user/meson.build          |  4 ++++
+>   hw/9pfs/9p-xattr-user.c          |  8 ++++----
+>   hw/acpi/nvdimm.c                 |  2 +-
+>   hw/i386/pc_piix.c                |  3 ---
+>   hw/i386/xen/xen-hvm.c            | 17 ++---------------
+>   hw/ide/atapi.c                   |  4 ++--
+>   hw/intc/openpic.c                |  2 +-
+>   hw/isa/piix3.c                   | 15 ++++++++++++++-
+>   hw/net/imx_fec.c                 |  2 +-
+>   hw/nvme/ctrl.c                   |  2 +-
+>   hw/pci-host/i440fx.c             |  4 +---
+>   hw/pci/pcie_aer.c                |  2 +-
+>   hw/pci/shpc.c                    |  3 ++-
+>   hw/ppc/spapr_caps.c              |  2 +-
+>   hw/scsi/spapr_vscsi.c            |  2 +-
+>   include/hw/pci-host/i440fx.h     |  1 -
+>   include/hw/xen/xen.h             |  2 +-
+>   include/hw/xen/xen_common.h      |  6 ------
+>   include/qemu/iova-tree.h         |  4 +---
+>   include/qom/object.h             |  1 -
+>   qapi/net.json                    |  2 +-
+>   softmmu/vl.c                     |  3 ++-
+>   stubs/xen-hw-stub.c              |  3 ++-
+>   tools/virtiofsd/passthrough_ll.c |  2 +-
+>   ui/input.c                       |  2 +-
+>   util/iova-tree.c                 |  4 +---
+>   27 files changed, 47 insertions(+), 56 deletions(-)
+> 
 
 
