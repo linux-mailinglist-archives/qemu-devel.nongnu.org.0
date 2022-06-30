@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29DD561064
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 06:54:38 +0200 (CEST)
-Received: from localhost ([::1]:38784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C943561074
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 07:06:44 +0200 (CEST)
+Received: from localhost ([::1]:59350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6mCL-0005UD-GE
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 00:54:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45716)
+	id 1o6mO2-0004HY-J3
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 01:06:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6m9g-0002VR-Ia; Thu, 30 Jun 2022 00:51:52 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:34231)
+ id 1o6m9k-0002ed-P5; Thu, 30 Jun 2022 00:51:56 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:46123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o6m9b-0006y9-TH; Thu, 30 Jun 2022 00:51:52 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 8EBF42B058DA;
- Thu, 30 Jun 2022 00:51:45 -0400 (EDT)
+ id 1o6m9g-0006yY-2s; Thu, 30 Jun 2022 00:51:56 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 19DC62B058FA;
+ Thu, 30 Jun 2022 00:51:49 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 30 Jun 2022 00:51:46 -0400
+ by compute4.internal (MEProxy); Thu, 30 Jun 2022 00:51:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656564705; x=1656568305; bh=Af
- GWXA+snDeGMV7gfmpXaFv0cU8DECQw1HIHV0zfRgU=; b=5K9SToyrtycNrB9LZ4
- PcLAq/m7JPfDlyIr7C2VCNRSms7HVCHLOmaYr1MCA2I2LDZ4rLkimEuFj61y5CIz
- eHO+40Fnz/Ocs9BfY3aFyKnu3HrWrg7omjzFv1isr+WZ7b1XA40EpPgn4BoVjPxn
- 5k4X7K1qBVEtFZ81cbNQixB+gmYXaOhPP9PMj6LVxhg+3NKNGFjWyUotuztSU44A
- 6FFxguEPteU6iPifMeqW6DmCjtswboGC2sbhrKhcGy9lIV9Akzy2O1L6gtrrCEG1
- Typ8MgXOd1GrfNlDXWHllvKcLj5oBJ5/D4hh2wmoHaU6Bym64Inq+65GpH1s429U
- fzxg==
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656564708; x=
+ 1656568308; bh=N0eFFVgHAmXBFVzsAD9U6zt1yfvoYHWtLZBTvp5im+4=; b=N
+ 5EiVPKwiEgVxcdmo1PPn5lyJCAatFZ3zKRDdlXb+s+e/MkAlV8rn+dZwVzG/jaJG
+ VFtCpPQfDIvhg1MNeoVI5t4+8cv8MuFcUyrozjGBK/+f6it1/unZsmlhEKr1790/
+ Ywr5tohbQNRB32K9GbHegNSAyQtIbs8R7ZiWfZKMB456dF9nUcmaXzeDHPbLX1J/
+ gqoRcUN8IM4Kr16UXTrXSpVi6SlZiCj+oTz0BvOCxi3yw7v9qSOX06w7PRRv3R/H
+ BtScvEW+U/z6tjEZmsfjExR/PN378+1xecfisUZEO8XGeBhypFXi08qfQSLSufaF
+ tQQfExtVlYm81AiQGhYHg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=i9e814621.fm2; t=1656564705; x=1656568305; bh=AfG
- WXA+snDeGMV7gfmpXaFv0cU8DECQw1HIHV0zfRgU=; b=XRPLwx71TA6FXx6taxL
- 9WZlhUmJjc5SPMq/RA66iIxMe0nmkMmZm/en2NRRU8NPSj13e98KLgA3C2gBT8Z2
- 8MeY/ZsRFPpaTf6TWHJeiF6ZVb1jmtIofmKyR2lFyubV7mQNQ1Pn1KB32ZW9zjon
- wYKbP7Nt/ZxfpisT25wnDGL/e/Dcg54BPHkFOtWHssab8Wgzes+jyyOf3hfWl0k9
- o5L+P1dWiTVUjJ4xajh6kG4cfwh3RRJfhukHYkLNA6z6cZ9twDMT6NQbLe5GQm8t
- DFobtwwxKBnq+MupMmTIssPrZW+Ttm7QJcilqg8NSBAuLvmpFrHWT96hHO6tCR0p
- 7BQ==
-X-ME-Sender: <xms:4Cu9YvLNldwAiMwLhEmG9jf0OchxvBeW7V8crFqV6xT5jftzxGghvg>
- <xme:4Cu9YjI43oHiuUDJyEzTHmisgzm_vil1yb_CDuWINHpHN9C3lRU81SWalHZL4Rfos
- vGakU9izNaJTZyKG9A>
-X-ME-Received: <xmr:4Cu9YnsxkxOgGX0LXn0TzrMn6KU3HktNJEMUtk2o9oehxZu5k-xmhLJfuPDsYcwjnWfqSclhE4upkmQGBbALar-4Rhrol1p4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddgkeelucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2; t=
+ 1656564708; x=1656568308; bh=N0eFFVgHAmXBFVzsAD9U6zt1yfvoYHWtLZB
+ Tvp5im+4=; b=UWSSEWLCdt2tMvd/mGy5nKzGTE9o0zz64oueH42eFrzjig3Xlyr
+ WBsGtx37NQfR6PIQGln0jLnM65rmwjwZmqBYmzdB4uP5NqZpZt3OsMTqUzBE22K7
+ qKRl1Bx6zMs94lechadcj2jD9IFrcKNTwyOShiYyr9ae+FgFKAKdcMc9SU8yIu35
+ UtB+kVu2/2O7gj897qY1yYdhIZcItQQFitUf6mPc2FyKeQl+BDIGRCnv4wjAnmxf
+ DOMt4wducskb78d3tCnC1uWbCbhCaRHTNJ/BBa95eexB5Au80P/n34z9Lkb2LMrB
+ hXNl1Dgti55aCE/cq3hX5mwYu01a7zL5NIw==
+X-ME-Sender: <xms:5Cu9YseOAsKjsj-7D08iRMPQUoEdaN-4xaXWAfJ6tmy_uixpf83mJw>
+ <xme:5Cu9YuOwx2BIzYZU2vVGlmw0Pnb1cAvuU9T6JDY9ME_8RXN0dL1yowEw1VirV_Ocf
+ fl1zenjUF85AyYgFHk>
+X-ME-Received: <xmr:5Cu9YtialoCx9_N3cwPJFy1WhdPeFKhn12F3KSAU39mxRwyClb6v83qeIxcwulBJ56LXKf8TLWFfVdrtMKGZnB1iHZTwCwE1>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddgkeekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
- dmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheprfgv
- thgvrhcuffgvlhgvvhhorhihrghsuceomhgvsehpjhgurdguvghvqeenucggtffrrghtth
- gvrhhnpeektefhieevgfduvdeiueetteegtdeuueevieelffevueevveehhedukeejtdek
- teenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmvg
- esphhjugdruggvvh
-X-ME-Proxy: <xmx:4Cu9Yob_ZyDfvbPZDIDzQl3_1IFXRnXyw6QePtQY7djyD9qz29LYsQ>
- <xmx:4Cu9Ymb0pTuXp_yXgu-zESweZoXlQpDAV20pk4K84U7mXQX5ZpKV1A>
- <xmx:4Cu9YsBPK8Lh206tKaWv8KddPnFbtCjlx37kMvLwpa5Q2c7aYRhaqw>
- <xmx:4Su9YsNuLeL3M51Pl_q8jXw4-lj9l4Ni7Nr_9gflxciEUdJT24EDEucLP8w>
+ dmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefr
+ vghtvghrucffvghlvghvohhrhigrshcuoehmvgesphhjugdruggvvheqnecuggftrfgrth
+ htvghrnhepffevudejfeehteegkedtieelhfffvefgleelveejledvvdehfeduudefteek
+ vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ gvsehpjhgurdguvghv
+X-ME-Proxy: <xmx:5Cu9Yh9qQWNi3RUYj3eWjWbNn5QBQd5Cg-MfZWkvQgEvUb5T1wgYVA>
+ <xmx:5Cu9YovNCft6iCsYDMV5Kr9lAbEMzkeuQ_pW3lwEnjYY1jtAZVseoQ>
+ <xmx:5Cu9YoEC4jj6Qv2x7FPJ8MyBZf4gsJMxpMIguZLYQ3hACwkwth7Z9w>
+ <xmx:5Cu9YmDpATU3uA-IsUgvhm-xF4z3ruFMhJq7tpcG8SuqzGtBbaM8qQnia5Y>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Jun 2022 00:51:44 -0400 (EDT)
+ 30 Jun 2022 00:51:47 -0400 (EDT)
 From: Peter Delevoryas <me@pjd.dev>
 To: 
 Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
  cminyard@mvista.com, titusr@google.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, zhdaniel@fb.com, pdel@fb.com
-Subject: [PATCH v3 03/14] hw/i2c/aspeed: Fix MASTER_EN missing error message
-Date: Wed, 29 Jun 2022 21:51:22 -0700
-Message-Id: <20220630045133.32251-4-me@pjd.dev>
+Subject: [PATCH v3 04/14] hw/i2c: support multiple masters
+Date: Wed, 29 Jun 2022 21:51:23 -0700
+Message-Id: <20220630045133.32251-5-me@pjd.dev>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220630045133.32251-1-me@pjd.dev>
 References: <20220630045133.32251-1-me@pjd.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.26; envelope-from=me@pjd.dev;
  helo=wnew1-smtp.messagingengine.com
@@ -102,41 +103,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Delevoryas <pdel@fb.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-aspeed_i2c_bus_is_master is checking if master mode is enabled in the I2C
-bus controller's function-control register, not that slave mode is enabled
-or something.  The error here is that the guest is trying to trigger an I2C
-master mode command while master mode is not enabled.
+Allow slaves to master the bus by registering a bottom halve. If the bus
+is busy, the bottom half is queued up. When a slave has succesfully
+mastered the bus, the bottom half is scheduled.
 
-Fixes: ba2cccd64e90f342 ("aspeed: i2c: Add new mode support")
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+[ clg : - fixed typos in commit log ]
+Message-Id: <20220601210831.67259-4-its@irrelevant.dk>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/i2c/aspeed_i2c.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/i2c/core.c        | 34 +++++++++++++++++++++++++++++++++-
+ include/hw/i2c/i2c.h | 14 ++++++++++++++
+ 2 files changed, 47 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index cbaa7c96fc..c153a1a942 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -601,7 +601,7 @@ static void aspeed_i2c_bus_new_write(AspeedI2CBus *bus, hwaddr offset,
-         }
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index d0cb2d32fa..145dce6078 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -13,6 +13,7 @@
+ #include "migration/vmstate.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
++#include "qemu/main-loop.h"
+ #include "trace.h"
  
-         if (!aspeed_i2c_bus_is_master(bus)) {
--            qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: Master mode is not enabled\n",
-                           __func__);
-             break;
-         }
-@@ -744,7 +744,7 @@ static void aspeed_i2c_bus_old_write(AspeedI2CBus *bus, hwaddr offset,
-         }
+ #define I2C_BROADCAST 0x00
+@@ -62,6 +63,7 @@ I2CBus *i2c_init_bus(DeviceState *parent, const char *name)
  
-         if (!aspeed_i2c_bus_is_master(bus)) {
--            qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: Master mode is not enabled\n",
-                           __func__);
-             break;
-         }
+     bus = I2C_BUS(qbus_new(TYPE_I2C_BUS, parent, name));
+     QLIST_INIT(&bus->current_devs);
++    QSIMPLEQ_INIT(&bus->pending_masters);
+     vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_i2c_bus, bus);
+     return bus;
+ }
+@@ -74,7 +76,7 @@ void i2c_slave_set_address(I2CSlave *dev, uint8_t address)
+ /* Return nonzero if bus is busy.  */
+ int i2c_bus_busy(I2CBus *bus)
+ {
+-    return !QLIST_EMPTY(&bus->current_devs);
++    return !QLIST_EMPTY(&bus->current_devs) || bus->bh;
+ }
+ 
+ bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
+@@ -180,6 +182,26 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
+                                                : I2C_START_SEND);
+ }
+ 
++void i2c_bus_master(I2CBus *bus, QEMUBH *bh)
++{
++    if (i2c_bus_busy(bus)) {
++        I2CPendingMaster *node = g_new(struct I2CPendingMaster, 1);
++        node->bh = bh;
++
++        QSIMPLEQ_INSERT_TAIL(&bus->pending_masters, node, entry);
++
++        return;
++    }
++
++    bus->bh = bh;
++    qemu_bh_schedule(bus->bh);
++}
++
++void i2c_bus_release(I2CBus *bus)
++{
++    bus->bh = NULL;
++}
++
+ int i2c_start_recv(I2CBus *bus, uint8_t address)
+ {
+     return i2c_do_start_transfer(bus, address, I2C_START_RECV);
+@@ -206,6 +228,16 @@ void i2c_end_transfer(I2CBus *bus)
+         g_free(node);
+     }
+     bus->broadcast = false;
++
++    if (!QSIMPLEQ_EMPTY(&bus->pending_masters)) {
++        I2CPendingMaster *node = QSIMPLEQ_FIRST(&bus->pending_masters);
++        bus->bh = node->bh;
++
++        QSIMPLEQ_REMOVE_HEAD(&bus->pending_masters, entry);
++        g_free(node);
++
++        qemu_bh_schedule(bus->bh);
++    }
+ }
+ 
+ int i2c_send(I2CBus *bus, uint8_t data)
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index 5ca3b708c0..be8bb8b78a 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -69,13 +69,25 @@ struct I2CNode {
+     QLIST_ENTRY(I2CNode) next;
+ };
+ 
++typedef struct I2CPendingMaster I2CPendingMaster;
++
++struct I2CPendingMaster {
++    QEMUBH *bh;
++    QSIMPLEQ_ENTRY(I2CPendingMaster) entry;
++};
++
+ typedef QLIST_HEAD(I2CNodeList, I2CNode) I2CNodeList;
++typedef QSIMPLEQ_HEAD(I2CPendingMasters, I2CPendingMaster) I2CPendingMasters;
+ 
+ struct I2CBus {
+     BusState qbus;
+     I2CNodeList current_devs;
++    I2CPendingMasters pending_masters;
+     uint8_t saved_address;
+     bool broadcast;
++
++    /* Set from slave currently mastering the bus. */
++    QEMUBH *bh;
+ };
+ 
+ I2CBus *i2c_init_bus(DeviceState *parent, const char *name);
+@@ -117,6 +129,8 @@ int i2c_start_send(I2CBus *bus, uint8_t address);
+ 
+ void i2c_end_transfer(I2CBus *bus);
+ void i2c_nack(I2CBus *bus);
++void i2c_bus_master(I2CBus *bus, QEMUBH *bh);
++void i2c_bus_release(I2CBus *bus);
+ int i2c_send(I2CBus *bus, uint8_t data);
+ uint8_t i2c_recv(I2CBus *bus);
+ bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
 -- 
 2.37.0
 
