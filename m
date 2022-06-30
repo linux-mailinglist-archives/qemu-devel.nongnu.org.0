@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE20561FB6
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 17:52:34 +0200 (CEST)
-Received: from localhost ([::1]:33522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82BB561FCC
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 17:58:16 +0200 (CEST)
+Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6wT3-0001AA-IH
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 11:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58922)
+	id 1o6wYY-0000LH-Hk
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 11:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1o6wQF-0007Pm-7J
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 11:49:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54097)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1o6wWA-0007CE-5Y
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 11:55:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1o6wQB-0004N3-KU
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 11:49:38 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1o6wW8-0006sr-JV
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 11:55:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656604172;
+ s=mimecast20190719; t=1656604544;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2yK+Jhs4tO5sBXiYUFDvd5dhQbCr1Mt36k4c5FyPQ20=;
- b=Z6OwxOoDTPQId529UGoc697gP//LBfg65MHCzkbBTBtuN/WHTv1k91NzAiql8uWwI2BTiX
- B4Bg3f+/Alj1ZxAQhsX8Hpg8aNbBkh/AxpIem0dVGFnNVDueqRdYGnaOutWI7oRUZYzcy9
- co2bR01L5e27rFslXRnWk+lZVZNa6Lg=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nRvPip85gUSbUJnsZ8cTFSvmkrYw0M7WomwTPU0jwws=;
+ b=WR65fXWdsUBX4ka7r1QChpSVvvI2xGdYHxPeeE4pQ+08GYSpJDlyXG8mRcGRdWUYjnPX4Z
+ AQ0KUV9K97JDncGzp0HjWZZkag37R6UYNTXoPhfUlCRe/EOzgS0YnwV7D4uAm0PyEz9edW
+ jxf1khTEiyvlKkK27ry5BipcTkoRF9g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-0NRby8GbO3qlcfNH42e_tA-1; Thu, 30 Jun 2022 11:49:31 -0400
-X-MC-Unique: 0NRby8GbO3qlcfNH42e_tA-1
-Received: by mail-qk1-f198.google.com with SMTP id
- o70-20020a37a549000000b006af05e7eca3so18699578qke.10
- for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 08:49:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2yK+Jhs4tO5sBXiYUFDvd5dhQbCr1Mt36k4c5FyPQ20=;
- b=GoOmOtt9aKP2CkuA7T0UHsyuunAMeaev6kFqSU4ka8R2B9WRQbOzo+osrknLizpSLp
- R3rgmw1052GfvyOaFygpSuxoF23qG3CFyr2rtVrh87eOQ5M9aI7xAWatabbwo2/+IF/r
- vwRgXMjz9jTYKbdS9odhq+Gr9uWmW0QwkwCdQMsCJSNiCHbpgmDjI2HsOmV1OIQne2OF
- +0qIZeuMrl1R1oQIqMDNgmlfdZbsCor20lwFk0VZMuFxQZriiTJwQWDa7FesI0Xg0YLd
- woH2q3jxCHnxKIRsrSBOPe6GyVVkzUnsvMELiF4De8AHzkFBReOt1AeXouK2D658Bar8
- m/Fg==
-X-Gm-Message-State: AJIora+6z2modxDRbffEp9HkZ1UlfYh33S2ykVCU07FlHNhG1iNyl41N
- sJriqnqCNMTYzKwdaExVXKZWJbpMvftSjZmKk5l8v7NiBdDgd0WjPXJWEjcla+cWfZ+wc+NKEh3
- MCx53eT2WJN98HNE=
-X-Received: by 2002:ac8:5c47:0:b0:31d:347d:d621 with SMTP id
- j7-20020ac85c47000000b0031d347dd621mr883083qtj.524.1656604171134; 
- Thu, 30 Jun 2022 08:49:31 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tHMr9D+xTju0vGqnH7ZCP6Yqnjnis6X+xnGA0JV0pCn0jKgLNqsLey5OspWZpOYKgUY+E9Nw==
-X-Received: by 2002:ac8:5c47:0:b0:31d:347d:d621 with SMTP id
- j7-20020ac85c47000000b0031d347dd621mr883052qtj.524.1656604170836; 
- Thu, 30 Jun 2022 08:49:30 -0700 (PDT)
-Received: from sgarzare-redhat (host-87-11-6-149.retail.telecomitalia.it.
- [87.11.6.149]) by smtp.gmail.com with ESMTPSA id
- g16-20020ae9e110000000b006aefa015c05sm14795294qkm.25.2022.06.30.08.49.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jun 2022 08:49:30 -0700 (PDT)
-Date: Thu, 30 Jun 2022 17:49:21 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Dominique Martinet <dominique.martinet@atmark-techno.com>
-Cc: Aarushi Mehta <mehta.aaru20@gmail.com>, Julia Suvorova <jusual@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Filipe Manana <fdmanana@kernel.org>
-Subject: Re: [PATCH v2] io_uring: fix short read slow path
-Message-ID: <20220630154921.ekl45dzer6x4mkvi@sgarzare-redhat>
-References: <20220629044957.1998430-1-dominique.martinet@atmark-techno.com>
- <20220630010137.2518851-1-dominique.martinet@atmark-techno.com>
+ us-mta-357-zHtl7fHHORa_8sUJbxyC8g-1; Thu, 30 Jun 2022 11:55:40 -0400
+X-MC-Unique: zHtl7fHHORa_8sUJbxyC8g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F03D42919ECB;
+ Thu, 30 Jun 2022 15:55:39 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A2F702166B26;
+ Thu, 30 Jun 2022 15:55:39 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Auger <eauger@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
+ <lvivier@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+Subject: Re: [PATCH RFC 1/2] arm/kvm: enable MTE if available
+In-Reply-To: <9dfbfd42-6a40-80d2-8d9d-f5849de0b726@redhat.com>
+Organization: Red Hat GmbH
+References: <20220512131146.78457-1-cohuck@redhat.com>
+ <20220512131146.78457-2-cohuck@redhat.com>
+ <a3d0a093-3d59-5882-c9c8-6619e5aeb3ab@redhat.com>
+ <877d5jskmw.fsf@redhat.com>
+ <9dfbfd42-6a40-80d2-8d9d-f5849de0b726@redhat.com>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date: Thu, 30 Jun 2022 17:55:38 +0200
+Message-ID: <87o7ya2lj9.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220630010137.2518851-1-dominique.martinet@atmark-techno.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -102,43 +84,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 10:01:37AM +0900, Dominique Martinet wrote:
->sqeq.off here is the offset to read within the disk image, so obviously
->not 'nread' (the amount we just read), but as the author meant to write
->its current value incremented by the amount we just read.
->
->Normally recent versions of linux will not issue short reads,
->but it can happen so we should fix this.
->
->This lead to weird image corruptions when short read happened
->
->Fixes: 6663a0a33764 ("block/io_uring: implements interfaces for io_uring")
->Link: https://lkml.kernel.org/r/YrrFGO4A1jS0GI0G@atmark-techno.com
->Signed-off-by: Dominique Martinet <dominique.martinet@atmark-techno.com>
+On Wed, Jun 29 2022, Eric Auger <eauger@redhat.com> wrote:
 
-Thanks for fixing this issue!
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-
->---
->v1 -> v2: also updated total_read to use += as suggested by Kevin,
->thank you!
+> Hi Connie,
 >
->I've tested this quickly by making short reads "recursives", e.g. added
->the following to luring_resubmit_short_read() after setting 'remaining':
->    if (remaining > 4096) remaining -= 4096;
+> On 6/14/22 10:40, Cornelia Huck wrote:
+>> On Fri, Jun 10 2022, Eric Auger <eauger@redhat.com> wrote:
+>> 
+>>> Hi Connie,
+>>> On 5/12/22 15:11, Cornelia Huck wrote:
+>>>> We need to disable migration, as we do not yet have a way to migrate
+>>>> the tags as well.
+>>>
+>>> This patch does much more than adding a migration blocker ;-) you may
+>>> describe the new cpu option and how it works.
+>> 
+>> I admit this is a bit terse ;) The idea is to control mte at the cpu
+>> level directly (and not indirectly via tag memory at the machine
+>> level). I.e. the user gets whatever is available given the constraints
+>> (host support etc.) if they don't specify anything, and they can
+>> explicitly turn it off/on.
 >
->so when we ask for more we issue an extra short reads, making sure we go
->through the two short reads path.
->(Unfortunately I wasn't quite sure what to fiddle with to issue short
->reads in the first place, I tried cutting one of the iovs short in
->luring_do_submit() but I must not have been doing it properly as I ended
->up with 0 return values which are handled by filling in with 0 (reads
->after eof) and that didn't work well)
+> Could the OnOffAuto property value be helpful?
 
-Do you remember the kernel version where you first saw these problems?
+I completely forgot that this exists; I hacked up something (still
+untested), and it seems to be able to do what I want.
 
-Thanks,
-Stefano
+I'll post it after I've verified that it actually works :)
+
+>> The big elefant in the room is how migration will end up
+>> working... after reading the disscussions in
+>> https://lore.kernel.org/all/CAJc+Z1FZxSYB_zJit4+0uTR-88VqQL+-01XNMSEfua-dXDy6Wg@mail.gmail.com/
+>> I don't think it will be as "easy" as I thought, and we probably require
+>> some further fiddling on the kernel side.
+> Yes maybe the MTE migration process shall be documented and discussed
+> separately on the ML? Is Haibu Xu's address bouncing?
+
+Yes, that address is bouncing...
+
+I've piggybacked onto a recent kvm discussion in
+https://lore.kernel.org/all/875ykmcd8q.fsf@redhat.com/ -- I guess there
+had not been any change for migration in the meantime, we need to find a
+way to tie page data + metadata together.
 
 
