@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB35F5619F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 14:13:40 +0200 (CEST)
-Received: from localhost ([::1]:40430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26408561A16
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jun 2022 14:15:08 +0200 (CEST)
+Received: from localhost ([::1]:43446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o6t3D-0000LG-PY
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 08:13:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33978)
+	id 1o6t4d-0002RS-7Q
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 08:15:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=N4Bw=XF=kaod.org=clg@ozlabs.org>)
- id 1o6sI7-0008Ej-Sh; Thu, 30 Jun 2022 07:25:00 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:40499)
+ id 1o6sID-0008UL-OK; Thu, 30 Jun 2022 07:25:05 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:42991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=N4Bw=XF=kaod.org=clg@ozlabs.org>)
- id 1o6sI4-00027m-Gw; Thu, 30 Jun 2022 07:24:59 -0400
+ id 1o6sI7-00024n-Nv; Thu, 30 Jun 2022 07:25:04 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LYbbC3m0Zz4xXF;
- Thu, 30 Jun 2022 21:24:55 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LYbbG4m2bz4xXD;
+ Thu, 30 Jun 2022 21:24:58 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LYbb91fDzz4xD5;
- Thu, 30 Jun 2022 21:24:52 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LYbbD0FM9z4xD5;
+ Thu, 30 Jun 2022 21:24:55 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Graeme Gregory <quic_ggregory@quicinc.com>,
+ Maheswara Kurapati <quic_mkurapat@quicinc.com>,
  Jae Hyun Yoo <quic_jaehyoo@quicinc.com>,
+ Titus Rwantare <titusr@google.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 14/27] hw/arm/aspeed: add Qualcomm Firework BMC machine
-Date: Thu, 30 Jun 2022 13:23:58 +0200
-Message-Id: <20220630112411.1474431-15-clg@kaod.org>
+Subject: [PULL 15/27] hw/i2c: pmbus: Page #255 is valid page for read requests.
+Date: Thu, 30 Jun 2022 13:23:59 +0200
+Message-Id: <20220630112411.1474431-16-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220630112411.1474431-1-clg@kaod.org>
 References: <20220630112411.1474431-1-clg@kaod.org>
@@ -67,78 +68,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Graeme Gregory <quic_ggregory@quicinc.com>
+From: Maheswara Kurapati <quic_mkurapat@quicinc.com>
 
-Add base for Qualcomm Firework BMC machine.
+Current implementation of the pmbus core driver treats the read request
+for page 255 as invalid request and sets the invalid command bit (bit 7)
+in the STATUS_CML register. As per the PMBus specification it is a valid
+request.
 
-Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
+Refer to the PMBus specification, revision 1.3.1, section 11.10 PAGE,
+on the page 58:
+  "Setting the PAGE to FFh means that all subsequent comands are to be
+   applied to all outputs.
+
+   Some commands, such as READ_TEMPERATURE, may use a common sensor but
+   be available on all pages of a device. Such implementations are the
+   decision of each device manufacturer or are specified in a PMBus
+   Application Profile. Consult the manufacturer's documents or the
+   Application Profile Specification as needed."
+
+For e.g.,
+The VOUT_MODE is a valid command for page 255 for maxim 31785 device.
+refer to Table 1. PMBus Command Codes on page 14 in the datasheet.
+https://datasheets.maximintegrated.com/en/ds/MAX31785.pdf
+
+Fixes: 38870253f1d1 ("hw/i2c: pmbus: fix error returns and guard against out of range accesses")
+
+Signed-off-by: Maheswara Kurapati <quic_mkurapat@quicinc.com>
 Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+Reviewed-by: Titus Rwantare <titusr@google.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220627154703.148943-3-quic_jaehyoo@quicinc.com>
+Message-Id: <20220627154703.148943-4-quic_jaehyoo@quicinc.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ hw/i2c/pmbus_device.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 6e4b287fd31b..74cb297dd38c 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -962,6 +962,16 @@ static void qcom_dc_scm_bmc_i2c_init(AspeedMachineState *bmc)
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 15), "tmp105", 0x4d);
- }
+diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+index 62885fa6a15e..749a33af827b 100644
+--- a/hw/i2c/pmbus_device.c
++++ b/hw/i2c/pmbus_device.c
+@@ -284,14 +284,10 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
  
-+static void qcom_dc_scm_firework_i2c_init(AspeedMachineState *bmc)
-+{
-+    AspeedSoCState *soc = &bmc->soc;
-+
-+    /* Create the generic DC-SCM hardware */
-+    qcom_dc_scm_bmc_i2c_init(bmc);
-+
-+    /* Now create the Firework specific hardware */
-+}
-+
- static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
- {
-     return ASPEED_MACHINE(obj)->mmio_exec;
-@@ -1429,6 +1439,26 @@ static void aspeed_machine_qcom_dc_scm_v1_class_init(ObjectClass *oc,
-         aspeed_soc_num_cpus(amc->soc_name);
- };
- 
-+static void aspeed_machine_qcom_firework_class_init(ObjectClass *oc,
-+                                                    void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "Qualcomm DC-SCM V1/Firework BMC (Cortex A7)";
-+    amc->soc_name  = "ast2600-a3";
-+    amc->hw_strap1 = QCOM_DC_SCM_V1_BMC_HW_STRAP1;
-+    amc->hw_strap2 = QCOM_DC_SCM_V1_BMC_HW_STRAP2;
-+    amc->fmc_model = "n25q512a";
-+    amc->spi_model = "n25q512a";
-+    amc->num_cs    = 2;
-+    amc->macs_mask = ASPEED_MAC2_ON | ASPEED_MAC3_ON;
-+    amc->i2c_init  = qcom_dc_scm_firework_i2c_init;
-+    mc->default_ram_size = 1 * GiB;
-+    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-+        aspeed_soc_num_cpus(amc->soc_name);
-+};
-+
- static const TypeInfo aspeed_machine_types[] = {
-     {
-         .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
-@@ -1470,6 +1500,10 @@ static const TypeInfo aspeed_machine_types[] = {
-         .name          = MACHINE_TYPE_NAME("qcom-dc-scm-v1-bmc"),
-         .parent        = TYPE_ASPEED_MACHINE,
-         .class_init    = aspeed_machine_qcom_dc_scm_v1_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("qcom-firework-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_qcom_firework_class_init,
-     }, {
-         .name          = MACHINE_TYPE_NAME("fp5280g2-bmc"),
-         .parent        = TYPE_ASPEED_MACHINE,
+     /*
+      * Reading from all pages will return the value from page 0,
+-     * this is unspecified behaviour in general.
++     * means that all subsequent commands are to be applied to all output.
+      */
+     if (pmdev->page == PB_ALL_PAGES) {
+         index = 0;
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: tried to read from all pages\n",
+-                      __func__);
+-        pmbus_cml_error(pmdev);
+     } else if (pmdev->page > pmdev->num_pages - 1) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: page %d is out of range\n",
 -- 
 2.35.3
 
