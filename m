@@ -2,61 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98FCA563458
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:27:30 +0200 (CEST)
-Received: from localhost ([::1]:42202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07FDA5634B0
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:50:48 +0200 (CEST)
+Received: from localhost ([::1]:49670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7GgD-00055f-GM
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56686)
+	id 1o7H2k-0005J2-Vs
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:50:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1o7GdG-0001NV-Ts
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:24:26 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1o7GdC-0005Fn-BF
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:24:25 -0400
-Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LZG9Y0nnXz67rWf;
- Fri,  1 Jul 2022 21:23:29 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 1 Jul 2022 15:24:20 +0200
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 1 Jul 2022 14:24:19 +0100
-To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, "Michael S . Tsirkin"
- <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>
-CC: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>, "Ben
- Widawsky" <bwidawsk@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 3/3] hw/cxl: Fix size of constant in interleave granularity
- function.
-Date: Fri, 1 Jul 2022 14:23:00 +0100
-Message-ID: <20220701132300.2264-4-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220701132300.2264-1-Jonathan.Cameron@huawei.com>
-References: <20220701132300.2264-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <lucas.coutinho@eldorado.org.br>)
+ id 1o7Gou-00034S-CL; Fri, 01 Jul 2022 09:36:29 -0400
+Received: from [200.168.210.66] (port=50439 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.coutinho@eldorado.org.br>)
+ id 1o7Gos-0006Vs-4n; Fri, 01 Jul 2022 09:36:27 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 1 Jul 2022 10:35:12 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 09D1080023A;
+ Fri,  1 Jul 2022 10:35:12 -0300 (-03)
+From: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org,
+ Lucas Coutinho <lucas.coutinho@eldorado.org.br>
+Subject: [PATCH RESEND 00/11] target/ppc: Implement slbiag move slb* to
+ decodetree
+Date: Fri,  1 Jul 2022 10:34:56 -0300
+Message-Id: <20220701133507.740619-1-lucas.coutinho@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml738-chm.china.huawei.com (10.201.108.188) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 01 Jul 2022 13:35:12.0440 (UTC)
+ FILETIME=[63D70B80:01D88D4F]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=lucas.coutinho@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,35 +61,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-Whilst the interleave granularity is always small enough that this isn't
-a real problem (much less than 4GiB) let's change the constant
-to ULL to fix the coverity warning.
+Resent after rebasing and fixing conflicts with master.
+Add Leandro Lupori as reviewer.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Fixes: 829de299d1 ("hw/cxl/component: Add utils for interleave parameter encoding/decoding")
-Fixes: Coverity CID 1488868
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- include/hw/cxl/cxl_component.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Based-on: <20220624191424.190471-1-leandro.lupori@eldorado.org.br>
 
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-index 70b5018156..94ec2f07d7 100644
---- a/include/hw/cxl/cxl_component.h
-+++ b/include/hw/cxl/cxl_component.h
-@@ -215,7 +215,7 @@ uint8_t cxl_interleave_granularity_enc(uint64_t gran, Error **errp);
- 
- static inline hwaddr cxl_decode_ig(int ig)
- {
--    return 1 << (ig + 8);
-+    return 1ULL << (ig + 8);
- }
- 
- CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb);
+Implement the following PowerISA v3.0 instuction:
+slbiag: SLB Invalidate All Global X-form
+
+Move the following PowerISA v3.0 instuction to decodetree:
+slbie: SLB Invalidate Entry X-form
+slbieg: SLB Invalidate Entry Global X-form
+slbia: SLB Invalidate All X-form
+slbmte: SLB Move To Entry X-form
+slbmfev: SLB Move From Entry VSID X-form
+slbmfee: SLB Move From Entry ESID X-form
+slbfee: SLB Find Entry ESID
+slbsync: SLB Synchronize
+
+Lucas Coutinho (9):
+  target/ppc: Move slbie to decodetree
+  target/ppc: Move slbieg to decodetree
+  target/ppc: Move slbia to decodetree
+  target/ppc: Move slbmte to decodetree
+  target/ppc: Move slbmfev to decodetree
+  target/ppc: Move slbmfee to decodetree
+  target/ppc: Move slbfee to decodetree
+  target/ppc: Move slbsync to decodetree
+  target/ppc: Implement slbiag
+
+Matheus Ferst (2):
+  target/ppc: receive DisasContext explicitly in GEN_PRIV
+  target/ppc: add macros to check privilege level
+
+ target/ppc/helper.h                          |  15 +-
+ target/ppc/insn32.decode                     |  26 ++
+ target/ppc/mmu-hash64.c                      |  41 +-
+ target/ppc/translate.c                       | 417 +++++++------------
+ target/ppc/translate/fixedpoint-impl.c.inc   |   7 +-
+ target/ppc/translate/fp-impl.c.inc           |   4 +-
+ target/ppc/translate/storage-ctrl-impl.c.inc | 146 +++++++
+ 7 files changed, 377 insertions(+), 279 deletions(-)
+
 -- 
-2.32.0
+2.25.1
 
 
