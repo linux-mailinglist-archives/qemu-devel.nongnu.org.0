@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6AF563423
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:11:44 +0200 (CEST)
-Received: from localhost ([::1]:50666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82C5563421
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:11:02 +0200 (CEST)
+Received: from localhost ([::1]:49692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7GQx-0000KN-2l
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:11:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52602)
+	id 1o7GQH-00086D-PN
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:11:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7GLi-0002K4-CE
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:06:18 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:38804)
+ id 1o7GNK-0004NQ-IB
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:07:59 -0400
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:36815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7GLg-0006V5-UD
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:06:18 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id d5so3967869yba.5
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 06:06:16 -0700 (PDT)
+ id 1o7GNH-0007uP-0I
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:07:58 -0400
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-31c1d580e4bso23267317b3.3
+ for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 06:07:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t97n0lowSdRzsZn+ij8zuykceC8ztt3y1D1DUgYzz58=;
- b=jWrzGJz7fMIISqXyf2HmIfI5mT3uZRnYCMcReTRwlraWGKETzvWjtzp0XjGhDc2s2s
- 5bOypCKsKC2jKsWtgj5INcKMkS2Hxg/Doe1O3HuInkJ3Je43V8xMGaPB8Vq9JD9Cmrlc
- u4OD0+NfxwLXph2V7imEnkgnaH+jOnYCEj7vikDjmvckA5j/erdwPUvIlbkgW4rTrIUD
- tFPREl6zLSTQH0yzun+oBFg1cfoWvegNj1hEf2/2KK32YWSToyHBromKxEYZa1WK+SVq
- Ot8I+vE6iTZfdw5cQyNIrNYfjJLwV9AwaGHKAsbg4RXXRHeYi8BehcRKHEGDYRY7aH72
- lFjg==
+ :cc; bh=PkzF54IB/3iibPcE5a4H88V+0dRJ8X/tvMNJ4w7r4zQ=;
+ b=LP7zzuVP5+EKmfiwAhe+MmdOlachpkCqGdiO8GriJZNr2l9VDLyoOJO6RZRkAtgjif
+ cvwO+93wGBiZelPXq4kbf7Ysz5uDDtBPmiEJzLlVnAnNmNRbx7rji+G3Hxy+dj3qfXen
+ UeK8VLndK5Mxtgq5oJmv2CKEs3O9MNr2FNm8drDy75pLtDmJbUcdfMkeDMn7dTWi8BDL
+ HuWFIi6XmIMu39qcCgLJYfj7uRUkXhBwx3IMrbZD72Y7vyjnrUX2TbeVTzvpaR97W0dp
+ d9OjFsywJRhiNDzfokR8CQpedjD+BUjArQ9cPNK5+AT+bIPTiONuKs/JcRajTMXVe/x8
+ Q4ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=t97n0lowSdRzsZn+ij8zuykceC8ztt3y1D1DUgYzz58=;
- b=X92VAj6XX5xbPgkx8OyqBlO8LsjXODY/C/NrUp4sfkSBPMerjfR0SIqwwAaMSQv4mb
- hPLKvzb8QyjR6zDg1wyjbtMct1hli+ZFZZWVudz4kQBdpDZ4rbk20BLQuqa1hYpLadL8
- llSI7p0j2HzPuwfp9BjDP7TlYQUSOTAawLAwz1gc+s+EOssKljSo/dnsszVoeUiMG/fT
- KssCJ4nAAwM4S3TV1V9wI14WyNuEQ3bQk+jLdAPRGhjVqqs5vPuMTXenqFRuC7KNN56N
- iKXtIqBWgbDgtoRRj6k1K1/lnekRModwTBGvZaGPUeYkHxGAJK9JCjMXtg283gi1VBJE
- p7Ng==
-X-Gm-Message-State: AJIora+V/+i/aa3kPT3rJsQBFX6KeeoLkDgoa+ZWnG2g7cA8UG/z3rCJ
- oaeQFRgVP3/EvoTlcocOxzMkqlJV3lnkowVZCQdomnMGtv0=
-X-Google-Smtp-Source: AGRyM1sWbUeAxXX/4zb1c5dA6G2J7K1j6dXIdSS9HVCc5BF5tzURD9aiKkjPTdgUYDSB9gtLPHfwa3UG+1z6DPBWQWg=
-X-Received: by 2002:a25:d655:0:b0:66c:84b7:df40 with SMTP id
- n82-20020a25d655000000b0066c84b7df40mr16846732ybg.193.1656680775580; Fri, 01
- Jul 2022 06:06:15 -0700 (PDT)
+ bh=PkzF54IB/3iibPcE5a4H88V+0dRJ8X/tvMNJ4w7r4zQ=;
+ b=6ngc4izVDXX9J++HP7oNfQiywC838TXlVXQ+b5JyztGJO0jGW9iJtFt9NcC6QMa0Je
+ Ma3QdiI2X8lp1/3zShCB8XfvrUacaZhRzSpjv/UR5lJR1BA4VqOVk2G9Ddy0vDRVG81l
+ imn/ri423re519jhFtlLnytMlyyPGk6qby3LoM8JhT+FLxPkPqz5ixnVllS/QspvGKYO
+ srot9BW0C2uoY1E5mXQdLOo603tlJh5MU+xBp/ry1R+etgDPkHa4o4dBChAjYmZ7owjr
+ 0ihDLwdbiiELRMLkG5q6UrB6iwCDr+qo9HAObDoUkKXtCyKPcoOr8rB1S8Day07GgvrO
+ A/zA==
+X-Gm-Message-State: AJIora9GBPo1ncQ831vit+1GdQHX0a41ujxaEvb9i1poeOOs1VnDncyS
+ /DGj/ekXZB6Sh6Yn8ms7j8Pg2RRNbKCHAlFBMOg9KQ==
+X-Google-Smtp-Source: AGRyM1sfMvbt7pDbGWtnyLhhbmI70frUf9nlb3UHpQ8+ERRc6ac9UNR7rXYOdcbKdHmQdPW6lGgSrF2GHgF392GtusE=
+X-Received: by 2002:a0d:d712:0:b0:317:a108:9778 with SMTP id
+ z18-20020a0dd712000000b00317a1089778mr16881404ywd.64.1656680873840; Fri, 01
+ Jul 2022 06:07:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220628042117.368549-1-richard.henderson@linaro.org>
- <20220628042117.368549-16-richard.henderson@linaro.org>
-In-Reply-To: <20220628042117.368549-16-richard.henderson@linaro.org>
+ <20220628042117.368549-17-richard.henderson@linaro.org>
+In-Reply-To: <20220628042117.368549-17-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Jul 2022 14:05:37 +0100
-Message-ID: <CAFEAcA8d3hJVoiU9VS8_DtG5THpJxH4SQ=-DyjEqgvTnCTVHpQ@mail.gmail.com>
-Subject: Re: [PATCH v4 15/45] target/arm: Add SME enablement checks
+Date: Fri, 1 Jul 2022 14:07:15 +0100
+Message-ID: <CAFEAcA8qAf2Y7uRT_+j2QGCXpX0m+OGaNP09XFWp9OGQ-4Q7PA@mail.gmail.com>
+Subject: Re: [PATCH v4 16/45] target/arm: Handle SME in sve_access_check
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,15 +83,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jun 2022 at 05:32, Richard Henderson
+On Tue, 28 Jun 2022 at 05:39, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> These functions will be used to verify that the cpu
-> is in the correct state for a given instruction.
+> The pseudocode for CheckSVEEnabled gains a check for Streaming
+> SVE mode, and for SME present but SVE absent.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-
+>  target/arm/translate-a64.c | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
