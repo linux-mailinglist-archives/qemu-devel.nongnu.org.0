@@ -2,58 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A6356295D
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 05:09:23 +0200 (CEST)
-Received: from localhost ([::1]:45242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E7E562996
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 05:37:29 +0200 (CEST)
+Received: from localhost ([::1]:58798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7721-0003gS-Ub
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 23:09:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38834)
+	id 1o77TE-0007xH-GU
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 23:37:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
- id 1o770Z-0002mT-Qc
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 23:07:51 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:59182 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maobibo@loongson.cn>) id 1o770X-0007li-5K
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 23:07:51 -0400
-Received: from localhost.localdomain (unknown [10.2.9.158])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx7+P8ZL5iPjIAAA--.699S2;
- Fri, 01 Jul 2022 11:07:40 +0800 (CST)
-From: Mao Bibo <maobibo@loongson.cn>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- qemu-devel@nongnu.org
-Subject: [PATCH] hw/intc: loongarch_pch_msi: Fix msi vector convertion
-Date: Fri,  1 Jul 2022 11:07:40 +0800
-Message-Id: <20220701030740.2469162-1-maobibo@loongson.cn>
-X-Mailer: git-send-email 2.27.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o77Qj-0006YR-Ed
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 23:34:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o77Qg-00084L-9y
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 23:34:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656646488;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nvqrglYmWMpHTlxdBfbogI6IwA1S2CaRROfuj/Dcr1U=;
+ b=cxPiZDPq21fv0DghwMXbsM8oT7zCjATLbrXqcdnvR5t9VG3Ns00/9HqEfE9l69wdOqU/kM
+ eITeZZz9U22kxuN7BRnPyfDLYzJ3+w9H4kvz/aZTGvGS4sGyVQJ13fnVUH2hdEQma6O4ii
+ nelg0jQR7oSnSyJFhu9jMuVZ+UdEHZc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-636-_L8LyEvDPoiqSs60zdWS3A-1; Thu, 30 Jun 2022 23:34:46 -0400
+X-MC-Unique: _L8LyEvDPoiqSs60zdWS3A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o28-20020a05600c511c00b003a04f97f27aso706048wms.9
+ for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 20:34:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=nvqrglYmWMpHTlxdBfbogI6IwA1S2CaRROfuj/Dcr1U=;
+ b=YK/zQBgbHDwr8jB38HTVflstKG4EPwptePvFiSBhbOLpxT0YKxMJTQefARmfBiUSjx
+ G8qhXZnXlJFu1N7f/VK5HqhiXF7tOmMEgyerS/niQIS+Wz3dgqBljC50xjs2j1WQjm5L
+ 9l6lyw+Xz270m+kU0D2M2oXp1mvRsX+JT7cxcq7ydsOYNWVLMPFV/3bRP6A1Is3XE9k+
+ UQ+niOAnQCos8udpOCTt7+k3zL4aJafzySX6SiLaOoGPjkRy0NmSjdQnrwA5Stfe5/Gv
+ g9MEgo6hD8Cxp329jWntrfdPOTr1M3cpwiLW1CKCZKn+MNCg91NacgqjgC30ZtphHtXW
+ ymrg==
+X-Gm-Message-State: AJIora9Gbxm3qrO4+D/e8TqfxccaeXjNHicLn28f/VtYEwhVrHV6gamo
+ PlRcOBwZJ6wXOinQvwkzR5BjSd0D3kSAMdcUWto6n9tY0BI4vMKVmpD4z52I5GVlf0nvLEO9pGI
+ c6zwts4/p8hBbbbg=
+X-Received: by 2002:a1c:f318:0:b0:3a0:3015:3604 with SMTP id
+ q24-20020a1cf318000000b003a030153604mr15324613wmq.180.1656646485351; 
+ Thu, 30 Jun 2022 20:34:45 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sEuo3U+v4gSmFu7pwchDYdX3EKRScdlXi+PSlcyyKERH6dfE1uGRO75oW1VgRJDRYuZ4alZQ==
+X-Received: by 2002:a1c:f318:0:b0:3a0:3015:3604 with SMTP id
+ q24-20020a1cf318000000b003a030153604mr15324594wmq.180.1656646485120; 
+ Thu, 30 Jun 2022 20:34:45 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-179-162.web.vodafone.de.
+ [109.43.179.162]) by smtp.gmail.com with ESMTPSA id
+ x3-20020a5d4443000000b0021b8bb97a47sm19954469wrr.50.2022.06.30.20.34.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jun 2022 20:34:44 -0700 (PDT)
+Message-ID: <e30713c5-eece-f54d-201e-6f99ae52e11e@redhat.com>
+Date: Fri, 1 Jul 2022 05:34:42 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: Why we should avoid new submodules if possible
+Content-Language: en-US
+To: Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
+ qemu-devel@nongnu.org
+References: <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
+ <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
+ <20220628060210-mutt-send-email-mst@kernel.org>
+ <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
+ <20220628062551-mutt-send-email-mst@kernel.org>
+ <1182d647-bef1-0a8a-a379-86f029af7ac6@redhat.com>
+ <20220628070151-mutt-send-email-mst@kernel.org>
+ <2c3bb7f4-45cb-9c13-4ecd-22de75eaa7d3@redhat.com>
+ <CAARzgwx2x5UBvb9ihbvLRzUFNJ3reqDsU2EqL8aUjkjo8yvZGQ@mail.gmail.com>
+ <YrspCYpLwFDHkaRv@redhat.com> <20220628135133-mutt-send-email-mst@kernel.org>
+ <CAARzgwwoNUn2pN9uAn-sqrH42dsOW4WQyc6ZuewRPPovUqykMQ@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAARzgwwoNUn2pN9uAn-sqrH42dsOW4WQyc6ZuewRPPovUqykMQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx7+P8ZL5iPjIAAA--.699S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw4DtrWrJFyUJw4rur18Grg_yoW5ZrWkpF
- ZrurW5tr48Ja1DXFZ7K34UZr95GFn7CFyIvF4akryxCr4UAr1UX3WkJrW7WFyUKw4kGFyq
- v348Ga17ua1UGaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
- WxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
- Yx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK6svP
- MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
- 0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0E
- wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
- W8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
- IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUozVbDUUUU
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,88 +113,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Loongarch pch msi intc connects to extioi controller, the range of irq number
-is 64-255. Here adds irqbase property for loongarch pch msi controller, we can
-get irq offset from view of pch_msi controller with the method:
-  msi vector (from view of upper extioi intc) - irqbase
+On 29/06/2022 08.28, Ani Sinha wrote:
+> On Tue, Jun 28, 2022 at 11:30 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>>
+>> On Tue, Jun 28, 2022 at 05:15:05PM +0100, Daniel P. Berrangé wrote:
+>>> FYI, the reason much of this is intentionally NOT under the /qemu-project
+>>> gitlab namespace is that we did not want to be responsible for distributing
+>>> arbitrary binary blobs/images. That in turn makes the QEMU project responsible
+>>> for license compliance, which is non-trivial todo correctly for much of this
+>>> stuff. As such it is highly desirable to delegate both the hosting the
+>>> binaries and source to the third party who builds it.
+>>
+>> This might be understadable for random guest OS images which include tons of stuff
+>> and are thus hard to audit.  But not to biosbits which has its own
+>> license (more or less bsd) + gpl for grub:
+>> https://github.com/biosbits/bits/blob/master/COPYING
+> 
+> These are all the dependencies:
+> https://github.com/biosbits/bits/tree/master/deps
+> 
+> We can go through the licenses for each and make a determination. The
+> audit would be lost easier because there is a bounded number of
+> dependencies for bits.
 
-Signed-off-by: Mao Bibo <maobibo@loongson.cn>
----
- hw/intc/loongarch_pch_msi.c         | 22 ++++++++++++++++++++--
- hw/loongarch/loongson3.c            |  1 +
- include/hw/intc/loongarch_pch_msi.h |  2 ++
- 3 files changed, 23 insertions(+), 2 deletions(-)
+That's quite a bit of dependencies already ... I don't think that we should 
+put the burden of keeping up with the licenses of those projects to the QEMU 
+project. So just make sure that the binaries are available somewhere and 
+then include your test into the avocado framework or download via curl/wget 
+as suggested in other mails.
 
-diff --git a/hw/intc/loongarch_pch_msi.c b/hw/intc/loongarch_pch_msi.c
-index 74bcdbdb48..b36d6d76e4 100644
---- a/hw/intc/loongarch_pch_msi.c
-+++ b/hw/intc/loongarch_pch_msi.c
-@@ -23,9 +23,14 @@ static uint64_t loongarch_msi_mem_read(void *opaque, hwaddr addr, unsigned size)
- static void loongarch_msi_mem_write(void *opaque, hwaddr addr,
-                                     uint64_t val, unsigned size)
- {
--    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
--    int irq_num = val & 0xff;
-+    LoongArchPCHMSI *s = (LoongArchPCHMSI *)opaque;
-+    int irq_num;
- 
-+    /*
-+     * vector number is irq number from upper extioi intc
-+     * need subtract irq base to get msi vector offset
-+     */
-+    irq_num = (val & 0xff) - s->irq_base;
-     trace_loongarch_msi_set_irq(irq_num);
-     assert(irq_num < PCH_MSI_IRQ_NUM);
-     qemu_set_irq(s->pch_msi_irq[irq_num], 1);
-@@ -58,11 +63,24 @@ static void loongarch_pch_msi_init(Object *obj)
-     qdev_init_gpio_in(DEVICE(obj), pch_msi_irq_handler, PCH_MSI_IRQ_NUM);
- }
- 
-+static Property loongarch_msi_properties[] = {
-+    DEFINE_PROP_UINT32("msi_irq_base", LoongArchPCHMSI, irq_base, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void loongarch_pch_msi_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, loongarch_msi_properties);
-+}
-+
- static const TypeInfo loongarch_pch_msi_info = {
-     .name          = TYPE_LOONGARCH_PCH_MSI,
-     .parent        = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(LoongArchPCHMSI),
-     .instance_init = loongarch_pch_msi_init,
-+    .class_init    = loongarch_pch_msi_class_init,
- };
- 
- static void loongarch_pch_msi_register_types(void)
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index bd20ebbb78..403dd91e11 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -267,6 +267,7 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
-     }
- 
-     pch_msi = qdev_new(TYPE_LOONGARCH_PCH_MSI);
-+    qdev_prop_set_uint32(pch_msi, "msi_irq_base", PCH_MSI_IRQ_START);
-     d = SYS_BUS_DEVICE(pch_msi);
-     sysbus_realize_and_unref(d, &error_fatal);
-     sysbus_mmio_map(d, 0, LS7A_PCH_MSI_ADDR_LOW);
-diff --git a/include/hw/intc/loongarch_pch_msi.h b/include/hw/intc/loongarch_pch_msi.h
-index f668bfca7a..6d67560dea 100644
---- a/include/hw/intc/loongarch_pch_msi.h
-+++ b/include/hw/intc/loongarch_pch_msi.h
-@@ -17,4 +17,6 @@ struct LoongArchPCHMSI {
-     SysBusDevice parent_obj;
-     qemu_irq pch_msi_irq[PCH_MSI_IRQ_NUM];
-     MemoryRegion msi_mmio;
-+    /* irq base passed to upper extioi intc */
-+    unsigned int irq_base;
- };
--- 
-2.27.0
+  Thomas
 
 
