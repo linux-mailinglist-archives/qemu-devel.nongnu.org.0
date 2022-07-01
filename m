@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341B75630E2
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 12:02:36 +0200 (CEST)
-Received: from localhost ([::1]:42398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9DC5630F6
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 12:05:48 +0200 (CEST)
+Received: from localhost ([::1]:48462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7DTs-0008V4-IM
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 06:02:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35488)
+	id 1o7DX1-0004Ka-48
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 06:05:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7DQH-0006hT-RR
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:58:50 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:37424)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7DQF-0005he-LP
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:58:49 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id p136so3166142ybg.4
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 02:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GO0JIO1yjmmS9l98olJgRUIaAVK6DuAbvlta72061ck=;
- b=tJHScf8uQ27eB38JxgAsSg1ZBpBxwPvygxNkBvzs5SWE+lFUL0rT/V+7U7KdStT7XO
- 0AtoOO99XaNR2fa325XtM2zYQ4MQ8z9f66KupGWo24iM1jytEjLJke0rPAgJsT03/kGF
- iOvFlpq1IF71jb2XkY2AtukwMkLWRIfGoCGJUFFlgFnIVGq18tVTZbq1GP8ZfUzB2iJc
- DlNOG08lsn3scZhExPSBc7q3tEpyRFKcOoiJg8i2q0/37cOZ4+PdZKyRJBOzAVRcrAkO
- TjIbL+jrpnTzm1M17vo5CZNWeyjV6X1eHuhJ/LQjVrVl9sAkwVAVqw43S1PvOEcQTONO
- Airw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GO0JIO1yjmmS9l98olJgRUIaAVK6DuAbvlta72061ck=;
- b=wyxGljrf7GTtNlWp9Mwf17sTfIqV+xzYrewMfRbhiZC3Je2tMRVZNTIRAcEGkbf1n9
- g1jSmArcA54gVn8cDW9yl36heFegZaD/lD2yafgAZZNm/zXkFYTfJy6y+d91efwknX8t
- c2UfMmvFsONs2uM8jDKfAGJ6SBIHGSdwaKJX3RudfRFuwTboUX7DMvUd6QpHNMwEWBdF
- iICA8LtLlN/IxPk+J6AGJ13YYgZwSlMG3/tX0j9gYzOhD0CCFi8vki/qRDCzaO8fpAao
- 2nhhi2hulUSPOran7XX6RJTAQlNcNYVYccuYpD1tkZyl0/vQ+2lqHAEblXTnNkuihPog
- o5XA==
-X-Gm-Message-State: AJIora8WKcARpFolJbMR+8uA0vS5/7oNrhuUZh0atF36CT0/KHx6GbkB
- FsT2Hdja1W2cJV5b9sb0FV8Gn3ff+TxbUjgW5Ug3ow==
-X-Google-Smtp-Source: AGRyM1u1nOaqAZKCxBhrmq9CtwzzS3fJXLBtvSQq89XjKTPFWBvfSs3CPK+qXBawl3oWucoN2yArFdCflOtnJwatAl0=
-X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
- t18-20020a5b0dd2000000b00668fc4a9403mr13902229ybr.39.1656669526115; Fri, 01
- Jul 2022 02:58:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o7DQQ-0006nU-17
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:58:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48468)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o7DQM-0005jE-QZ
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:58:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656669533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jcraa2YE9KAwnOFdUdWaPIkFvsws0J1qu9qXC+7WqfI=;
+ b=jTbiQf1aMBZXpeXJ800E2VTirkRSmxhTtIjpEpI/V7hSt588/73O/yrLYuEUBsVLhCxqzd
+ k0YZIyf4QewAY2EQ4YmLgqa/ec9e+tGaoVgrYsoMnmPd+BFJwPlnAktBrEs8zBYBtiDxEl
+ 1ljcUSgIPVdcwSMiE3E2euNW7LQ3MiI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-393-gDHGNJRROjGdU4xa5Kb0oA-1; Fri, 01 Jul 2022 05:58:50 -0400
+X-MC-Unique: gDHGNJRROjGdU4xa5Kb0oA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E43B21019C88;
+ Fri,  1 Jul 2022 09:58:49 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B10CF112131B;
+ Fri,  1 Jul 2022 09:58:49 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 3F24C180091D; Fri,  1 Jul 2022 11:58:48 +0200 (CEST)
+Date: Fri, 1 Jul 2022 11:58:48 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>, qemu-devel@nongnu.org,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v3 2/2] ui/gtk: a new array param monitor to specify the
+ target displays
+Message-ID: <20220701095848.sqoxzeplraft7hzc@sirius.home.kraxel.org>
+References: <20220630005141.16680-1-dongwon.kim@intel.com>
+ <20220630005141.16680-3-dongwon.kim@intel.com>
+ <87wncy41s1.fsf@pond.sub.org>
 MIME-Version: 1.0
-References: <20220625223458.1273408-1-simon.sapin@exyr.org>
-In-Reply-To: <20220625223458.1273408-1-simon.sapin@exyr.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Jul 2022 10:58:08 +0100
-Message-ID: <CAFEAcA9BzxW8ke_s5c0G2Zt--rHk82TZP6x1diWXe4XKBL84HA@mail.gmail.com>
-Subject: Re: [PATCH] Add some documentation for "dtb" devices tree blobs
-To: Simon Sapin <simon.sapin@exyr.org>
-Cc: qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87wncy41s1.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,111 +85,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 25 Jun 2022 at 23:39, Simon Sapin <simon.sapin@exyr.org> wrote:
->
-> Signed-off-by: Simon Sapin <simon.sapin@exyr.org>
-> ---
->  docs/specs/device-trees.rst                | 57 ++++++++++++++++++++++
->  docs/specs/index.rst                       |  1 +
->  docs/system/arm/virt.rst                   |  5 +-
->  docs/system/arm/xlnx-versal-virt.rst       |  3 +-
->  docs/system/ppc/ppce500.rst                |  3 +-
->  docs/system/riscv/microchip-icicle-kit.rst |  3 +-
->  docs/system/riscv/sifive_u.rst             |  3 +-
->  docs/system/riscv/virt.rst                 |  3 +-
->  qemu-options.hx                            |  5 ++
->  9 files changed, 77 insertions(+), 6 deletions(-)
->  create mode 100644 docs/specs/device-trees.rst
+  Hi,
 
-Hi; thanks for writing this documentation.
+> > +# @monitor:     Array of numbers, each of which represents physical
+> > +#               monitor where GTK window containing a given VC will be
+> > +#               placed. Each monitor number in the array will be
+> > +#               associated with a virtual-console starting from VC0.
+> 
+> Drop the hyphen in "virtual-console".
+> 
+> Is the term "virtual console" obvious?  Gerd?
 
-> diff --git docs/specs/device-trees.rst docs/specs/device-trees.rst
-> new file mode 100644
-> index 0000000000..8160342124
-> --- /dev/null
-> +++ docs/specs/device-trees.rst
-> @@ -0,0 +1,57 @@
-> +============
-> +Device Trees
-> +============
-> +
-> +On some targets, guests can find out what devices are emulated and how to access them
-> +through a *Device Tree Blob* (dtb), also called *Flattened Device Tree* (fdt).
-> +The dtb can be passed by the user through the ``-dtb file`` command-line options,
-> +or automatically generated by QEMU.
-> +
-> +Host: dumping the dtb
-> +=====================
-> +
-> +The (possibly generated) dtb can be written to a file with
-> +the ``dumpdtb`` property of the ``machine`` command-line option.
-> +Then `dtc <Device Tree Compiler_>`_ can convert it to Device Tree Source text "dts" format
-> +For example::
-> +
-> +    qemu-system-riscv32 -machine virt,dumpdtb=rv32-virt.dtb
-> +    dtc -q rv32-virt.dtb -o rv32-virt.dts
-> +    head -n 7 rv32-virt.dts
-> +
-> +::
-> +
-> +    qemu-system-riscv32: info: dtb dumped to rv32-virt.dtb. Exiting.
-> +    /dts-v1/;
-> +
-> +    / {
-> +        #address-cells = <0x02>;
-> +        #size-cells = <0x02>;
-> +        compatible = "riscv-virtio";
-> +        model = "riscv-virtio,qemu";
-> +
-> +Guest: finding the dtb
-> +======================
-> +
-> +On startup, the dtb is memory-mapped and its address is passed to the guest
-> +in a target-specific way:
-> +
-> +* Arm: :ref:`arm-baremetal`
-> +* **TODO**: document other targets
+I think so, same term is used elsewhere too for the same concept.
 
-Don't leave TODO notes in the docs, please.
+take care,
+  Gerd
 
-Also, the DTB is not necessarily memory-mapped. For instance on
-Arm platforms if the user requests a bios/firmware image to be
-run, then we put the dtb (like the kernel and initrd) in the
-fw_cfg device for the firmware to extract.
-
-> diff --git qemu-options.hx qemu-options.hx
-> index 377d22fbd8..eea75ddb37 100644
-> --- qemu-options.hx
-> +++ qemu-options.hx
-> @@ -38,6 +38,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
->      "                hmat=on|off controls ACPI HMAT support (default=off)\n"
->      "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
->      "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
-> +    "                dumpdtb=file dump current device tree blob to a file and quit\n"
->      QEMU_ARCH_ALL)
->  SRST
->  ``-machine [type=]name[,prop=value[,...]]``
-> @@ -157,6 +158,10 @@ SRST
->          ::
->
->              -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
-> +
-> +    ``dumpdtb=file``
-> +        Dump the current :doc:`Device Tree Blob </specs/device-trees>`
-> +        to the give file name, then exit.
-
- to the given file name, then exit QEMU without running the guest.
- This is primarily useful for debugging, as it allows you to see the
- contents of the DTB including all additions and modifications that
- QEMU makes before handing it to the guest.
-
- This option is ignored on machine types which do not use a DTB.
-
->  ERST
->
->  DEF("M", HAS_ARG, QEMU_OPTION_M,
-
-
-thanks
--- PMM
 
