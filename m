@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFC95634E7
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 16:12:11 +0200 (CEST)
-Received: from localhost ([::1]:35968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E35D5634DD
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 16:08:43 +0200 (CEST)
+Received: from localhost ([::1]:56100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7HNS-0002mu-Ro
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 10:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59708)
+	id 1o7HK6-0005Fn-F2
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 10:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7GqN-00050T-In
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:37:59 -0400
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:35744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7GqK-0006ko-30
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:37:58 -0400
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-317741c86fdso24129087b3.2
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 06:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rgGEi+GxZd3aZab8CSbw/JVttZfRhyX8ESjeus14v80=;
- b=nVHxstfJDT7bzDDvD61oZzYkHIdoOxhnOhe4FPB9qoiKTFa9FHHfqltR0DnllLtn0D
- oQibcDn4xokxD02D5psi8Tq8TKIZDbbT/aefBH1OFITIWxnWiRO63GrMiDQI4raXnTQX
- iCzy/Q8c5/RXGc5NWFxV2xXo+ccuZY/xj/1KWHBkHHy+o2YY8EGkFCMiN5gpbmkXZseT
- b59r0mocoawpQrE+rmhRC8Y6FHAehbm9fSBkDyU8VLzjtzJZ6GSJmW/FdrmiTzDz1IjD
- uyt2CmW99UHq+juOKWMJYGynYTtP1eD7/B7aQjvUfvfzcGYxkTwQ3Y8ZohEQN5tOIYfl
- Tw7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rgGEi+GxZd3aZab8CSbw/JVttZfRhyX8ESjeus14v80=;
- b=7Tjsd9kY2NTWv54rA/4wQ8rHrXYEGqS3gy4cN25dRjVLL2Wfdpbf7jWBc8GITFRj3s
- 2VUJBXaDPO/tlyVs+Lej8SX6Q8G93JLmtJ9GWWD+aLFvAN3EUDY2aRGSBtF9lL2NLVJp
- b7SpmzmESN0uwHXmrQOOvi+kXhxwBnuj8zWKdrK0xVipMdeBFbsK4FbuvnYQ1QI4xfQF
- P37bEPfHWA+rshwcQgPr56FQaA+X5XYT+FXok9Jz4CG6LIjz1CSoXjWWDO2+05fdkTOt
- 0L0YfV6qQ4VqLrHjK2JW9i9zRYgS/Bc0XIlQDxYpV5LngXaZrkWhNtrh/UKahZJLoJQh
- HeuQ==
-X-Gm-Message-State: AJIora8WVtgwxVC4DZeHwPcemehsHeTNKxi/cJbj+Tkuudc3a0PiwvcR
- mvhMuCqXQmg1qJxjsT95rwDTAOFt1ai9w5+FstSadA==
-X-Google-Smtp-Source: AGRyM1vUw0rNhl+VTJ7Z2Q3qk/8xpkh8JJv3vF/cv4gYxkIyRG2r9yzgv/vK01zK8LF84naKlVHNIiCwUVAEAtruEDI=
-X-Received: by 2002:a81:1cc:0:b0:317:a0fa:7a61 with SMTP id
- 195-20020a8101cc000000b00317a0fa7a61mr16540279ywb.10.1656682674855; Fri, 01
- Jul 2022 06:37:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1o7H4W-0000Ae-0n
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:52:37 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11594
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1o7H4T-0000vR-OW
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:52:35 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 261CofJf027820;
+ Fri, 1 Jul 2022 13:52:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=jL7ANkOv+f9DpttLwyvYWU1Bikt4CJEAicfcP1KQgc0=;
+ b=PxmYSiikJwLhdYcMo645l9L8iaGShaEt5qyfDnUxXeQjllGI8de6r1Lxhz1ZuSVzwBAz
+ lYhqcf1vz0/FmxegcHiIXgFOynqGvtDzd4JAaV63ZgjfnpYODSLrgObizbwWgmu5V0Wc
+ 7qI4oHyaHVn0+RlblgGVfS6LCvF0id79mbNxFz3dj5YSQfudxig6LOGleo/DPP60O1fM
+ iSucDvncep+92sy427mjJzxViVOEoTQuN8viBMtTLGW9WRgkcdlI0wbZPm06qSqfcOkH
+ ZcTciT1rr2L7LaovMVprSTztVCkU0jvpO6Exi84vgW5kT39JN3plNMx6y2Z0dFaq01to /w== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h219r2dc2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Jul 2022 13:52:14 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 261Do8dW012726;
+ Fri, 1 Jul 2022 13:52:12 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma05fra.de.ibm.com with ESMTP id 3gwt097ayx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Jul 2022 13:52:12 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 261Dq92r11731316
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 1 Jul 2022 13:52:09 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 20D54AE051;
+ Fri,  1 Jul 2022 13:52:09 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CD867AE04D;
+ Fri,  1 Jul 2022 13:52:08 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.0.230])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  1 Jul 2022 13:52:08 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] linux-user: Passthrough MADV_DONTNEED for certain file
+ mappings
+Date: Fri,  1 Jul 2022 15:52:07 +0200
+Message-Id: <20220701135207.2710488-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20211015144640.198044-1-kwolf@redhat.com>
- <20211015144640.198044-15-kwolf@redhat.com>
-In-Reply-To: <20211015144640.198044-15-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Jul 2022 14:37:16 +0100
-Message-ID: <CAFEAcA9jnySMWRD56FF9D7rXhwARiyvqJx+4Ys+smYa2ghdLBg@mail.gmail.com>
-Subject: Re: [PULL 14/15] qdev: Base object creation on QDict rather than
- QemuOpts
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>, 
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Michael Tokarev <mjt@tls.msk.ru>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Uv8_hcNq2JcuGXluYpsasHBzp5vbol7Z
+X-Proofpoint-GUID: Uv8_hcNq2JcuGXluYpsasHBzp5vbol7Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-01_07,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ mlxlogscore=999 malwarescore=0 spamscore=0 priorityscore=1501 adultscore=0
+ phishscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2207010052
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,41 +105,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Oct 2021 at 16:01, Kevin Wolf <kwolf@redhat.com> wrote:
-> QDicts are both what QMP natively uses and what the keyval parser
-> produces. Going through QemuOpts isn't useful for either one, so switch
-> the main device creation function to QDicts. By sharing more code with
-> the -object/object-add code path, we can even reduce the code size a
-> bit.
->
-> This commit doesn't remove the detour through QemuOpts from any code
-> path yet, but it allows the following commits to do so.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> Message-Id: <20211008133442.141332-15-kwolf@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Tested-by: Peter Krempa <pkrempa@redhat.com>
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+This is a follow-up for commit 892a4f6a750a ("linux-user: Add partial
+support for MADV_DONTNEED"), which added passthrough for anonymous
+mappings. File mappings can be handled in a similar manner.
 
-Hi; we discovered via a report on IRC this this commit broke
-handling of "array properties", of which one example is:
-qemu-system-x86_64 -netdev user,id=a -device rocker,len-ports=1,ports[0]=a
+In order to do that, mark pages, for which mmap() was passed through,
+with PAGE_PASSTHROUGH, and then allow madvise() passthrough for these
+pages as well.
 
-This used to work, and now fails with
- qemu-system-x86_64: -device rocker,len-ports=1,ports[0]=a: Property
-'rocker.ports[0]' not found
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ include/exec/cpu-all.h |  6 ++++++
+ linux-user/mmap.c      | 25 +++++++++++++++++++++----
+ 2 files changed, 27 insertions(+), 4 deletions(-)
 
-I think this happens because array properties have the
-requirement that the len-foo property is set first before
-any of the foo[n] properties can be set. In the old code
-I guess we used to set properties from the command line
-in the order they were specified, whereas in the new code
-we end up in object_set_properties_from_qdict() which
-tries to set them in whatever order the qdict hash table
-provides them, which turns out to be the wrong one :-(
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index f5bda2c3ca..fbdbc0fdec 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -262,6 +262,12 @@ extern const TargetPageBits target_page;
+ #define PAGE_TARGET_1  0x0200
+ #define PAGE_TARGET_2  0x0400
+ 
++/*
++ * For linux-user, indicates that the page is mapped with the same semantics
++ * in both guest and host.
++ */
++#define PAGE_PASSTHROUGH 0x0080
++
+ #if defined(CONFIG_USER_ONLY)
+ void page_dump(FILE *f);
+ 
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 4e7a6be6ee..58622a0c15 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -424,7 +424,8 @@ abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size, abi_ulong align)
+ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
+                      int flags, int fd, abi_ulong offset)
+ {
+-    abi_ulong ret, end, real_start, real_end, retaddr, host_offset, host_len;
++    abi_ulong ret, end, real_start, real_end, retaddr, host_offset, host_len,
++              passthrough_start = -1, passthrough_end = -1;
+     int page_flags, host_prot;
+ 
+     mmap_lock();
+@@ -537,6 +538,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
+             host_start += offset - host_offset;
+         }
+         start = h2g(host_start);
++        passthrough_start = start;
++        passthrough_end = start + len;
+     } else {
+         if (start & ~TARGET_PAGE_MASK) {
+             errno = EINVAL;
+@@ -619,6 +622,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
+                      host_prot, flags, fd, offset1);
+             if (p == MAP_FAILED)
+                 goto fail;
++            passthrough_start = real_start;
++            passthrough_end = real_end;
+         }
+     }
+  the_end1:
+@@ -626,7 +631,18 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
+         page_flags |= PAGE_ANON;
+     }
+     page_flags |= PAGE_RESET;
+-    page_set_flags(start, start + len, page_flags);
++    if (passthrough_start == passthrough_end) {
++        page_set_flags(start, start + len, page_flags);
++    } else {
++        if (start != passthrough_start) {
++            page_set_flags(start, passthrough_start, page_flags);
++        }
++        page_set_flags(passthrough_start, passthrough_end,
++                       page_flags | PAGE_PASSTHROUGH);
++        if (passthrough_end != start + len) {
++            page_set_flags(passthrough_end, start + len, page_flags);
++        }
++    }
+  the_end:
+     trace_target_mmap_complete(start);
+     if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
+@@ -845,7 +861,7 @@ static bool can_passthrough_madv_dontneed(abi_ulong start, abi_ulong end)
+     }
+ 
+     for (addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
+-        if (!(page_get_flags(addr) & PAGE_ANON)) {
++        if (!(page_get_flags(addr) & (PAGE_ANON | PAGE_PASSTHROUGH))) {
+             return false;
+         }
+     }
+@@ -888,7 +904,8 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
+      *
+      * This breaks MADV_DONTNEED, completely implementing which is quite
+      * complicated. However, there is one low-hanging fruit: host-page-aligned
+-     * anonymous mappings. In this case passthrough is safe, so do it.
++     * anonymous mappings or mappings that are known to have the same semantics
++     * in the host and the guest. In this case passthrough is safe, so do it.
+      */
+     mmap_lock();
+     if ((advice & MADV_DONTNEED) &&
+-- 
+2.35.3
 
-Any suggestions for how to address this ?
-
-thanks
--- PMM
 
