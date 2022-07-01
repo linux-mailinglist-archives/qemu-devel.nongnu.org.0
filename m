@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43E85637CB
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 18:24:20 +0200 (CEST)
-Received: from localhost ([::1]:42460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707095637A5
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 18:19:41 +0200 (CEST)
+Received: from localhost ([::1]:56906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7JRL-0004hk-NH
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 12:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46066)
+	id 1o7JMq-0003c2-Hg
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 12:19:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1o7JCT-0004m9-Jk
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:08:57 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2649)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1o7JET-0008TM-SA
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:11:01 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:27736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1o7JCQ-0005Qo-MQ
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:08:57 -0400
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LZKlc4ZHzz67wTn;
- Sat,  2 Jul 2022 00:04:44 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 1 Jul 2022 18:08:50 +0200
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 1 Jul
- 2022 17:08:49 +0100
-Date: Fri, 1 Jul 2022 17:08:48 +0100
-To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Brice Goglin <Brice.Goglin@inria.fr>, Igor Mammedov <imammedo@redhat.com>, 
- QEMU Developers <qemu-devel@nongnu.org>, Liu Jingqi <jingqi.liu@intel.com>,
- Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
- =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Yanan Wang
- <wangyanan55@huawei.com>, <hesham.almatary@huawei.com>
-Subject: Re: [PATCH v4 0/4] hmat acpi: Don't require initiator value in -numa
-Message-ID: <20220701170848.000043b7@huawei.com>
-In-Reply-To: <20220630092934-mutt-send-email-mst@kernel.org>
-References: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
- <20220630142347.22485226@redhat.com>
- <17551978-4608-f9e4-8aab-d5d7512dc5a7@inria.fr>
- <20220630092934-mutt-send-email-mst@kernel.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml738-chm.china.huawei.com (10.201.108.188) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1o7JEO-000247-TL
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:11:01 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 261G3QFX031903;
+ Fri, 1 Jul 2022 16:10:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2021-07-09;
+ bh=NYMDZ3rsbGlwkJRDpowMVjnuvzoJwtdcl7enlJFUdgY=;
+ b=1EVMSnEkCZTc/cwjJHbXxKpUyl9CXN/BOmncVojYwShkSbVxjQdTJnqXQWIZThXFo53j
+ WLfarKIpI8tEV7harx0H+sGoU4uKmb7S1x5znMP7YYjawadVT9+mEs6SdK1azy7KLYAv
+ mvUrL1Lvfov6e3WXfUjlJxX3QBx5z3DoR7l4q/QyYeUV1zJf1icfvqlDf2NFOjht3obt
+ ONXrCqqQq4qfyr63yOHwPALgm55yZvvOfq+y6K4MMIU+pQUxvVqeZmdpf2/IoGEfTOq+
+ TSAeSF0DWpNQOV1m2WUjPj0zObpS4NqvSAB7fK5/PLBoyZNYG36I+3SozX7ZM3jfJ9Fu ag== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gwry0qqak-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 01 Jul 2022 16:10:42 +0000
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 261G5h5f016079; Fri, 1 Jul 2022 16:10:42 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3gwrt4svvq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 01 Jul 2022 16:10:42 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 261GAftC029065;
+ Fri, 1 Jul 2022 16:10:41 GMT
+Received: from paddy.uk.oracle.com (dhcp-10-175-184-247.vpn.oracle.com
+ [10.175.184.247])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3gwrt4svtm-1; Fri, 01 Jul 2022 16:10:41 +0000
+From: Joao Martins <joao.m.martins@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>
+Subject: [PATCH v6 00/10] i386/pc: Fix creation of >= 1010G guests on AMD
+ systems with IOMMU
+Date: Fri,  1 Jul 2022 17:10:04 +0100
+Message-Id: <20220701161014.3850-1-joao.m.martins@oracle.com>
+X-Mailer: git-send-email 2.11.0
+X-Proofpoint-GUID: lfU42TJ8khTNHNNxqFt-XPz2Q7s1f8-P
+X-Proofpoint-ORIG-GUID: lfU42TJ8khTNHNNxqFt-XPz2Q7s1f8-P
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,52 +95,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu, 30 Jun 2022 09:30:58 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+v5[6] -> v6:
+* Rebased to latest staging
+* Consider @cxl_base setting to also use above_4g_mem_start (Igor Mammedov)
+* Use 4 * GiB instead of raw hex (Igor Mammedov)
+* Delete @host_type (Igor Mammedov)
+* Rename to i440fx_dev to i440fx_host (Igor Mammedov)
+* Rebase on top of patch that removes i440fx_state (Mark Cave-Ayland)
+* Add Reviewed-by from Igor in patches 1-3 (Igor Mammedov)
+* Fix commit messages typos (Igor Mammedov)
+* Move IS_AMD_CPU() call into caller i.e. pc_memory_init() (Igor Mammedov)
+* Rename x86_max_phys_addr into pc_max_used_gpa (Igor Mammedov)
+* Rename x86_update_above_4g_mem_start into pc_set_amd_above_4g_mem_start (Igor Mammedov)
+* Rework how we calculate the pc_max_used_gpa() to use pc_pci_hole64_start() instead,
+  This lead to refactor a bunch into separate helpers that handle the case
+  where Memory regions aren't yet initialized while streamlining how calculations
+  are done at pc_memory_init() and pc_pci_hole64_start().
+  This lead to new patches 4-8 in v5 (Igor Mammedov)
+  CC'ing Jonathan Cameron on the CXL-related memory init refactoring patches (5-8).
+* Always add the HyperTransport range into e820 even when the relocation isn't
+  done *and* there's >= 40 phys bit that would put max phyusical boundary to 1T
+  (Alex Williamson)
+  This should allow virtual firmware to avoid the reserved range at the
+  1T boundary on VFs with big bars.
 
-> On Thu, Jun 30, 2022 at 02:40:13PM +0200, Brice Goglin wrote:
-> >=20
-> > Le 30/06/2022 =E0 14:23, Igor Mammedov a =E9crit=A0: =20
-> > > On Thu, 30 Jun 2022 09:36:47 +0200
-> > > Brice Goglin <Brice.Goglin@inria.fr> wrote:
-> > >  =20
-> > > > Allow -numa without initiator value when hmat=3Don so that we may
-> > > > build more complex topologies, e.g. NUMA nodes whose best initiators
-> > > > are not just another single node.
-> > > >  =20
-> > > patches looks fine code-wise,
-> > > however something wrong with them, i.e. 'git am' doesn't like them
-> > > nor ./scripts/checkpatch (which one should use before sending patches=
-).
-> > >=20
-> > > I've checked it's not my mail server/client issue(or whatever)
-> > > that corrupts them (ones downloaded from patchew are broken as well) =
-=20
-> >=20
-> >=20
-> > I don't know what's going on. These 4 patches are in
-> > https://github.com/bgoglin/qemu/commits/hmat-noinitiator (rebased on ma=
-ster
-> > 10mn ago). =20
->=20
-> It's the commit log that's corrupted.
->=20
-> > Do whatever you want with them. I am not allowed to spend more time on =
-this.
-> >=20
-> > Brice =20
->=20
-> Maybe someone will fix up the log and repost. One can hope ..
->=20
+---
 
-We are planning to send out arm/virt support shortly including a similar te=
-st
-that uses this series.  So if no one else gets to it before hand we'll incl=
-ude
-fixed up version of Brice's series with that.
+This series lets Qemu spawn i386 guests with >= 1010G with VFIO,
+particularly when running on AMD systems with an IOMMU.
 
-Jonathan
+Since Linux v5.4, VFIO validates whether the IOVA in DMA_MAP ioctl is valid and it
+will return -EINVAL on those cases. On x86, Intel hosts aren't particularly
+affected by this extra validation. But AMD systems with IOMMU have a hole in
+the 1TB boundary which is *reserved* for HyperTransport I/O addresses located
+here: FD_0000_0000h - FF_FFFF_FFFFh. See IOMMU manual [1], specifically
+section '2.1.2 IOMMU Logical Topology', Table 3 on what those addresses mean.
+
+VFIO DMA_MAP calls in this IOVA address range fall through this check and hence return
+ -EINVAL, consequently failing the creation the guests bigger than 1010G. Example
+of the failure:
+
+qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: VFIO_MAP_DMA: -22
+qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: vfio 0000:41:10.1: 
+	failed to setup container for group 258: memory listener initialization failed:
+		Region pc.ram: vfio_dma_map(0x55ba53e7a9d0, 0x100000000, 0xff30000000, 0x7ed243e00000) = -22 (Invalid argument)
+
+Prior to v5.4, we could map to these IOVAs *but* that's still not the right thing
+to do and could trigger certain IOMMU events (e.g. INVALID_DEVICE_REQUEST), or
+spurious guest VF failures from the resultant IOMMU target abort (see Errata 1155[2])
+as documented on the links down below.
+
+This small series tries to address that by dealing with this AMD-specific 1Tb hole,
+but rather than dealing like the 4G hole, it instead relocates RAM above 4G
+to be above the 1T if the maximum RAM range crosses the HT reserved range.
+It is organized as following:
+
+patch 1: Introduce a @above_4g_mem_start which defaults to 4 GiB as starting
+         address of the 4G boundary
+
+patches 2-3: Move pci-host qdev creation to be before pc_memory_init(),
+	     to get accessing to pci_hole64_size. The actual pci-host
+	     initialization is kept as is, only the qdev_new.
+
+patch 4: Small deduplication cleanup that was spread around pc
+
+patches 5-8: Make pc_pci_hole64_start() be callable before pc_memory_init()
+             initializes any memory regions. This way, the returned value
+	     is consistent and we don't need to duplicate same said
+	     calculations when detecting the relocation is needed.
+
+patch 9: Change @above_4g_mem_start to 1TiB /if we are on AMD and the max
+possible address acrosses the HT region. Errors out if the phys-bits is too
+low, which is only the case for >=1010G configurations or something that
+crosses the HT region.
+
+patch 10: Ensure valid IOVAs only on new machine types, but not older
+ones (<= v7.0.0)
+
+The 'consequence' of this approach is that we may need more than the default
+phys-bits e.g. a guest with >1010G, will have most of its RAM after the 1TB
+address, consequently needing 41 phys-bits as opposed to the default of 40
+(TCG_PHYS_ADDR_BITS). Today there's already a precedent to depend on the user to
+pick the right value of phys-bits (regardless of this series), so we warn in
+case phys-bits aren't enough. Finally, CMOS loosing its meaning of the above 4G
+ram blocks, but it was mentioned over RFC that CMOS is only useful for very
+old seabios. 
+
+Additionally, the reserved region is added to E820 if the relocation is done.
+
+Alternative options considered (in RFC[0]):
+
+a) Dealing with the 1T hole like the 4G hole -- which also represents what
+hardware closely does.
+
+Thanks,
+	Joao
+
+Older Changelog,
+
+v4[5] -> v5:
+* Fixed the 32-bit build(s) (patch 1, Michael Tsirkin)
+* Fix wrong reference (patch 4) to TCG_PHYS_BITS in code comment and
+commit message;
+
+v3[4] -> v4[5]:
+(changes in patch 4 and 5 only)
+* Rebased to 7.1.0, hence move compat machine attribute to <= 7.0.0 versions
+* Check guest vCPU vendor rather than host CPU vendor (Michael Tsirkin)
+* Squash previous patch 5 into patch 4 to tie in the phys-bits check
+  into the relocate-4g-start logic: We now error out if the phys-bits
+  aren't enough on configurations that require above-4g ram relocation. (Michael Tsirkin)
+* Make the error message more explicit when phys-bits isn't enough to also
+  mention: "cannot avoid AMD HT range"
+* Add comments inside x86_update_above_4g_mem_start() explaining the
+  logic behind it. (Michael Tsirkin)
+* Tested on old guests old guests with Linux 2.6.32/3.10/4.14.35/4.1 based kernels
+  alongside Win2008/2K12/2K16/2K19 on configs spanning 1T and 2T (Michael Tsirkin)
+  Validated -numa topologies too as well as making sure qtests observe no regressions;
+
+ Notes from v4:
+
+* the machine attribute that enables this new logic (see last patch)
+is called ::enforce_valid_iova since the RFC. Let me know if folks think it
+is poorly named, and whether something a bit more obvious is preferred
+(e.g. ::amd_relocate_1t).
+
+* @mst one of the comments you said was to add "host checks" in vdpa/vfio devices.
+In discussion with Alex and you over the last version of the patches it seems
+that we weren't keen on making this device-specific or behind any machine
+property flags (besides machine-compat). Just to reiterate there, making sure we do
+the above-4g relocation requiring properly sized phys-bits and AMD as vCPU
+vendor (as this series) already ensures thtat this is going to be right for
+offending configuration with VDPA/VFIO device that might be
+configured/hotplugged. Unless you were thinking that somehow vfio/vdpa devices
+start poking into machine-specific details when we fail to relocate due to the
+lack of phys-bits? Otherwise Qemu, just doesn't have enough information to tell
+what's a valid IOVA or not, in which case kernel vhost-iotlb/vhost-vdpa is the one
+that needs fixing (as VFIO did in v5.4).
+
+RFCv2[3] -> v3[4]:
+
+* Add missing brackets in single line statement, in patch 5 (David)
+* Change ranges printf to use PRIx64, in patch 5 (David)
+* Move the check to after changing above_4g_mem_start, in patch 5 (David)
+* Make the check generic and move it to pc_memory_init rather being specific
+to AMD, as the check is useful to capture invalid phys-bits
+configs (patch 5, Igor).
+* Fix comment as 'Start address of the initial RAM above 4G' in patch 1 (Igor)
+* Consider pci_hole64_size in patch 4 (Igor)
+* To consider pci_hole64_size in max used addr we need to get it from pci-host,
+so introduce two new patches (2 and 3) which move only the qdev_new("i440fx") or
+qdev_new("q35") to be before pc_memory_init().
+* Consider sgx_epc.size in max used address, in patch 4 (Igor)
+* Rename relocate_4g() to x86_update_above_4g_mem_start() (Igor)
+* Keep warn_report() in patch 5, as erroring out will break a few x86_64 qtests
+due to pci_hole64 accounting surprass phys-bits possible maxphysaddr.
+
+RFC[0] -> RFCv2[3]:
+
+* At Igor's suggestion in one of the patches I reworked the series enterily,
+and more or less as he was thinking it is far simpler to relocate the
+ram-above-4g to be at 1TiB where applicable. The changeset is 3x simpler,
+and less intrusive. (patch 1 & 2)
+* Check phys-bits is big enough prior to relocating (new patch 3)
+* Remove the machine property, and it's only internal and set by new machine
+version (Igor, patch 4).
+* Clarify whether it's GPA or HPA as a more clear meaning (Igor, patch 2)
+* Add IOMMU SDM in the commit message (Igor, patch 2)
+
+[0] https://lore.kernel.org/qemu-devel/20210622154905.30858-1-joao.m.martins@oracle.com/
+[1] https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
+[2] https://developer.amd.com/wp-content/resources/56323-PUB_0.78.pdf
+[3] https://lore.kernel.org/qemu-devel/20220207202422.31582-1-joao.m.martins@oracle.com/T/#u
+[4] https://lore.kernel.org/all/20220223184455.9057-1-joao.m.martins@oracle.com/
+[5] https://lore.kernel.org/qemu-devel/20220420201138.23854-1-joao.m.martins@oracle.com/
+[6] https://lore.kernel.org/qemu-devel/20220520104532.9816-1-joao.m.martins@oracle.com/
+
+Joao Martins (10):
+  hw/i386: add 4g boundary start to X86MachineState
+  i386/pc: create pci-host qdev prior to pc_memory_init()
+  i386/pc: pass pci_hole64_size to pc_memory_init()
+  i386/pc: factor out above-4g end to an helper
+  i386/pc: factor out cxl range end to helper
+  i386/pc: factor out cxl range start to helper
+  i386/pc: handle unitialized mr in pc_get_cxl_range_end()
+  i386/pc: factor out device_memory base/size to helper
+  i386/pc: relocate 4g start to 1T where applicable
+  i386/pc: restrict AMD only enforcing of valid IOVAs to new machine
+    type
+
+ hw/i386/acpi-build.c         |   2 +-
+ hw/i386/pc.c                 | 257 ++++++++++++++++++++++++++++-------
+ hw/i386/pc_piix.c            |  14 +-
+ hw/i386/pc_q35.c             |  14 +-
+ hw/i386/sgx.c                |   2 +-
+ hw/i386/x86.c                |   1 +
+ hw/pci-host/i440fx.c         |  12 +-
+ include/hw/i386/pc.h         |   4 +-
+ include/hw/i386/x86.h        |   3 +
+ include/hw/pci-host/i440fx.h |   4 +-
+ 10 files changed, 254 insertions(+), 59 deletions(-)
+
+-- 
+2.17.2
+
 
