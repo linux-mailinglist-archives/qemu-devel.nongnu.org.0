@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69EE56347D
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:43:00 +0200 (CEST)
-Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A794E5634E2
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 16:10:18 +0200 (CEST)
+Received: from localhost ([::1]:59924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7GvD-00026r-T1
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58858)
+	id 1o7HLd-00086a-OD
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 10:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o7Go1-000129-8M
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o7Gnw-0004KL-6m
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656682521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hZgEWxg0k86t6uvZGa0AhJ8O70Fe+G2efO+sByeaYQ4=;
- b=eLX0di0FqG7+76SAnizjV34vo4CvrdyzC0opxHs5QXL6C5qVaJc7uuhhrBkZn5BxN8gyvn
- 37xPxoBkxlAEQrPmrT4dPz8xhzMNJuOITWYYcDqpxg6/akGT2v1JZMtVZCsy7ANG4d8m7b
- v0m+XeOqxx4unlJNHbOoXkH6BTd8Mgc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-340-QpSatY5tNMaLJ8mzKF8ZNg-1; Fri, 01 Jul 2022 09:35:20 -0400
-X-MC-Unique: QpSatY5tNMaLJ8mzKF8ZNg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 570593C10143;
- Fri,  1 Jul 2022 13:35:20 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BC69400DEFC;
- Fri,  1 Jul 2022 13:35:19 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com,
-	ani@anisinha.ca
-Subject: [PATCH 03/17] tests: acpi: update expected blobs after HPET move
-Date: Fri,  1 Jul 2022 09:35:01 -0400
-Message-Id: <20220701133515.137890-4-imammedo@redhat.com>
-In-Reply-To: <20220701133515.137890-1-imammedo@redhat.com>
-References: <20220701133515.137890-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <lucas.coutinho@eldorado.org.br>)
+ id 1o7GpE-0003E4-93; Fri, 01 Jul 2022 09:36:48 -0400
+Received: from [200.168.210.66] (port=50439 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.coutinho@eldorado.org.br>)
+ id 1o7GpC-0006Vs-Nf; Fri, 01 Jul 2022 09:36:48 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 1 Jul 2022 10:35:17 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 1257380023A;
+ Fri,  1 Jul 2022 10:35:17 -0300 (-03)
+From: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org,
+ Lucas Coutinho <lucas.coutinho@eldorado.org.br>,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: [PATCH RESEND 05/11] target/ppc: Move slbia to decodetree
+Date: Fri,  1 Jul 2022 10:35:01 -0300
+Message-Id: <20220701133507.740619-6-lucas.coutinho@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220701133507.740619-1-lucas.coutinho@eldorado.org.br>
+References: <20220701133507.740619-1-lucas.coutinho@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 01 Jul 2022 13:35:17.0462 (UTC)
+ FILETIME=[66D55760:01D88D4F]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=lucas.coutinho@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,471 +64,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-HPET AML moved after PCI host bridge description (no functional change)
-
-diff example for PC machine:
-
-@@ -54,47 +54,6 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
-         }
-     }
-
--    Scope (_SB)
--    {
--        Device (HPET)
--        {
--            Name (_HID, EisaId ("PNP0103") /* HPET System Timer */)  // _HID: Hardware ID
--            Name (_UID, Zero)  // _UID: Unique ID
--            OperationRegion (HPTM, SystemMemory, 0xFED00000, 0x0400)
--            Field (HPTM, DWordAcc, Lock, Preserve)
--            {
--                VEND,   32,
--                PRD,    32
--            }
--
--            Method (_STA, 0, NotSerialized)  // _STA: Status
--            {
--                Local0 = VEND /* \_SB_.HPET.VEND */
--                Local1 = PRD /* \_SB_.HPET.PRD_ */
--                Local0 >>= 0x10
--                If (((Local0 == Zero) || (Local0 == 0xFFFF)))
--                {
--                    Return (Zero)
--                }
--
--                If (((Local1 == Zero) || (Local1 > 0x05F5E100)))
--                {
--                    Return (Zero)
--                }
--
--                Return (0x0F)
--            }
--
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                Memory32Fixed (ReadOnly,
--                    0xFED00000,         // Address Base
--                    0x00000400,         // Address Length
--                    )
--            })
--        }
--    }
--
-     Scope (_SB.PCI0)
-     {
-         Device (ISA)
-@@ -529,6 +488,47 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
-         }
-     }
-
-+    Scope (_SB)
-+    {
-+        Device (HPET)
-+        {
-+            Name (_HID, EisaId ("PNP0103") /* HPET System Timer */)  // _HID: Hardware ID
-+            Name (_UID, Zero)  // _UID: Unique ID
-+            OperationRegion (HPTM, SystemMemory, 0xFED00000, 0x0400)
-+            Field (HPTM, DWordAcc, Lock, Preserve)
-+            {
-+                VEND,   32,
-+                PRD,    32
-+            }
-+
-+            Method (_STA, 0, NotSerialized)  // _STA: Status
-+            {
-+                Local0 = VEND /* \_SB_.HPET.VEND */
-+                Local1 = PRD /* \_SB_.HPET.PRD_ */
-+                Local0 >>= 0x10
-+                If (((Local0 == Zero) || (Local0 == 0xFFFF)))
-+                {
-+                    Return (Zero)
-+                }
-+
-+                If (((Local1 == Zero) || (Local1 > 0x05F5E100)))
-+                {
-+                    Return (Zero)
-+                }
-+
-+                Return (0x0F)
-+            }
-+
-+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-+            {
-+                Memory32Fixed (ReadOnly,
-+                    0xFED00000,         // Address Base
-+                    0x00000400,         // Address Length
-+                    )
-+            })
-+        }
-+    }
-+
-     Scope (_SB)
-     {
-         Device (\_SB.PCI0.PRES)
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Signed-off-by: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |  32 --------------------
- tests/data/acpi/pc/DSDT                     | Bin 5987 -> 5987 bytes
- tests/data/acpi/pc/DSDT.acpierst            | Bin 5954 -> 5954 bytes
- tests/data/acpi/pc/DSDT.acpihmat            | Bin 7312 -> 7312 bytes
- tests/data/acpi/pc/DSDT.bridge              | Bin 8653 -> 8653 bytes
- tests/data/acpi/pc/DSDT.cphp                | Bin 6451 -> 6451 bytes
- tests/data/acpi/pc/DSDT.dimmpxm             | Bin 7641 -> 7641 bytes
- tests/data/acpi/pc/DSDT.hpbridge            | Bin 5954 -> 5954 bytes
- tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3069 -> 3069 bytes
- tests/data/acpi/pc/DSDT.ipmikcs             | Bin 6059 -> 6059 bytes
- tests/data/acpi/pc/DSDT.memhp               | Bin 7346 -> 7346 bytes
- tests/data/acpi/pc/DSDT.numamem             | Bin 5993 -> 5993 bytes
- tests/data/acpi/pc/DSDT.roothp              | Bin 6195 -> 6195 bytes
- tests/data/acpi/q35/DSDT                    | Bin 8274 -> 8274 bytes
- tests/data/acpi/q35/DSDT.acpierst           | Bin 8291 -> 8291 bytes
- tests/data/acpi/q35/DSDT.acpihmat           | Bin 9599 -> 9599 bytes
- tests/data/acpi/q35/DSDT.applesmc           | Bin 8320 -> 8320 bytes
- tests/data/acpi/q35/DSDT.bridge             | Bin 10988 -> 10988 bytes
- tests/data/acpi/q35/DSDT.cphp               | Bin 8738 -> 8738 bytes
- tests/data/acpi/q35/DSDT.cxl                | Bin 9600 -> 9600 bytes
- tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9928 -> 9928 bytes
- tests/data/acpi/q35/DSDT.ipmibt             | Bin 8349 -> 8349 bytes
- tests/data/acpi/q35/DSDT.ipmismbus          | Bin 8363 -> 8363 bytes
- tests/data/acpi/q35/DSDT.ivrs               | Bin 8291 -> 8291 bytes
- tests/data/acpi/q35/DSDT.memhp              | Bin 9633 -> 9633 bytes
- tests/data/acpi/q35/DSDT.mmio64             | Bin 9404 -> 9404 bytes
- tests/data/acpi/q35/DSDT.multi-bridge       | Bin 8568 -> 8568 bytes
- tests/data/acpi/q35/DSDT.numamem            | Bin 8280 -> 8280 bytes
- tests/data/acpi/q35/DSDT.pvpanic-isa        | Bin 8375 -> 8375 bytes
- tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 8880 -> 8880 bytes
- tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 8906 -> 8906 bytes
- tests/data/acpi/q35/DSDT.viot               | Bin 9383 -> 9383 bytes
- tests/data/acpi/q35/DSDT.xapic              | Bin 35637 -> 35637 bytes
- 33 files changed, 32 deletions(-)
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index a7aa428fab..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,33 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/pc/DSDT",
--"tests/data/acpi/pc/DSDT.acpierst",
--"tests/data/acpi/pc/DSDT.acpihmat",
--"tests/data/acpi/pc/DSDT.bridge",
--"tests/data/acpi/pc/DSDT.cphp",
--"tests/data/acpi/pc/DSDT.dimmpxm",
--"tests/data/acpi/pc/DSDT.hpbridge",
--"tests/data/acpi/pc/DSDT.hpbrroot",
--"tests/data/acpi/pc/DSDT.ipmikcs",
--"tests/data/acpi/pc/DSDT.memhp",
--"tests/data/acpi/pc/DSDT.numamem",
--"tests/data/acpi/pc/DSDT.roothp",
--"tests/data/acpi/q35/DSDT",
--"tests/data/acpi/q35/DSDT.acpierst",
--"tests/data/acpi/q35/DSDT.acpihmat",
--"tests/data/acpi/q35/DSDT.applesmc",
--"tests/data/acpi/q35/DSDT.bridge",
--"tests/data/acpi/q35/DSDT.cphp",
--"tests/data/acpi/q35/DSDT.cxl",
--"tests/data/acpi/q35/DSDT.dimmpxm",
--"tests/data/acpi/q35/DSDT.ipmibt",
--"tests/data/acpi/q35/DSDT.ipmismbus",
--"tests/data/acpi/q35/DSDT.ivrs",
--"tests/data/acpi/q35/DSDT.memhp",
--"tests/data/acpi/q35/DSDT.mmio64",
--"tests/data/acpi/q35/DSDT.multi-bridge",
--"tests/data/acpi/q35/DSDT.numamem",
--"tests/data/acpi/q35/DSDT.pvpanic-isa",
--"tests/data/acpi/q35/DSDT.tis.tpm12",
--"tests/data/acpi/q35/DSDT.tis.tpm2",
--"tests/data/acpi/q35/DSDT.viot",
--"tests/data/acpi/q35/DSDT.xapic",
-diff --git a/tests/data/acpi/pc/DSDT b/tests/data/acpi/pc/DSDT
-index e80bef30317b5ef3bf0d2fb7aaabd6def109adb6..2d543fbf94e42f03814019c146b49f94e76bf15d 100644
-GIT binary patch
-delta 19
-bcmaE?_gHVjq|FM9s%#S{^=)=#mlFU0Q=bPS
-
-delta 19
-bcmaE?_gHVjq{-Xa`Zi8dW!vn^E++s0T|@`I
-
-diff --git a/tests/data/acpi/pc/DSDT.acpierst b/tests/data/acpi/pc/DSDT.acpierst
-index d5a2ca51652dfc3637a817bac4a02d6ff6dc8ac2..798349aa3f85e0803396471237e94604d00a1f90 100644
-GIT binary patch
-delta 19
-bcmX@4cSvu-q|FM9s%#S{^=)=#|H}^mP`C%a
-
-delta 19
-bcmX@4cSvu-q{-Xa`Zi8dW!vn^{+AyBT3rZQ
-
-diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
-index f86c743c4d64041c7fbd9999cc700e88416770b7..2b0fd3433b586fd7665b9a0b5b2f8bb3fcc09b44 100644
-GIT binary patch
-delta 19
-bcmbPWIl*$mq|FM9s%#S{^=)=#_Z9^JNyrAo
-
-delta 19
-bcmbPWIl*$mq{-Xa`Zi8dW!vn^?kx%cQ*8%e
-
-diff --git a/tests/data/acpi/pc/DSDT.bridge b/tests/data/acpi/pc/DSDT.bridge
-index 14ed0d995a9f6540deae5a25a7853ed4493a6e06..56398fc0147c9ab9d59947e24cddb08380b6a13e 100644
-GIT binary patch
-delta 19
-bcmX@>eAaowq|FM9s%#S{^=)=#?~nojR4)gV
-
-delta 19
-bcmX@>eAaowq{-Xa`Zi8dW!vn^-XR45UDOCL
-
-diff --git a/tests/data/acpi/pc/DSDT.cphp b/tests/data/acpi/pc/DSDT.cphp
-index c653302a84a42d063a74a22c6adf910beeba7c60..38cb47c675edb6d4797b008d2deae656739230ef 100644
-GIT binary patch
-delta 19
-bcmdmNwApCFq|FM9s%#S{^=)=#e<uh4PY4H_
-
-delta 19
-bcmdmNwApCFq{-Xa`Zi8dW!vn^{!S18Sgi;*
-
-diff --git a/tests/data/acpi/pc/DSDT.dimmpxm b/tests/data/acpi/pc/DSDT.dimmpxm
-index 247a1796b1cf31c24b1a981e48937609f84fe2cb..06a7aa59465238bfbf715ae83540f68b1f2f3ea5 100644
-GIT binary patch
-delta 19
-bcmca<ebaivq|FM9s%#S{^=)=#pCSeTRO1Jv
-
-delta 19
-bcmca<ebaivq{-Xa`Zi8dW!vn^K1B=wUWf=l
-
-diff --git a/tests/data/acpi/pc/DSDT.hpbridge b/tests/data/acpi/pc/DSDT.hpbridge
-index d5a2ca51652dfc3637a817bac4a02d6ff6dc8ac2..798349aa3f85e0803396471237e94604d00a1f90 100644
-GIT binary patch
-delta 19
-bcmX@4cSvu-q|FM9s%#S{^=)=#|H}^mP`C%a
-
-delta 19
-bcmX@4cSvu-q{-Xa`Zi8dW!vn^{+AyBT3rZQ
-
-diff --git a/tests/data/acpi/pc/DSDT.hpbrroot b/tests/data/acpi/pc/DSDT.hpbrroot
-index ec99b1622934a0fd8bc316291c33231e4c57dce0..dd2c8c0c8c5bf9895eb524e094d5597515b4803e 100644
-GIT binary patch
-delta 19
-bcmew>{#Sg$q|FM9Y^)O}^=(#TyUq##Q{o4f
-
-delta 19
-bcmew>{#Sg$q{%Z_`!-HuW8JLAcAXUfTxbXq
-
-diff --git a/tests/data/acpi/pc/DSDT.ipmikcs b/tests/data/acpi/pc/DSDT.ipmikcs
-index f0d9e75841ea3d69fed9384e439bc4e94c7a4c4e..be7f22f1c29f25351bcb5620dcfe8f955bd083d7 100644
-GIT binary patch
-delta 19
-bcmZ3jzgmC7q|FM9xoi_B^=<BDmlFU0PtgZN
-
-delta 19
-bcmZ3jzgmC7q{;u;`Zi9=W!v1#E++s0TmA?r
-
-diff --git a/tests/data/acpi/pc/DSDT.memhp b/tests/data/acpi/pc/DSDT.memhp
-index d0a7c462094fea9a457cbf537784735e74f7d7d5..b81e3dd8ecd89f4690d69a90096df095fe218425 100644
-GIT binary patch
-delta 19
-bcmdmFxyf?Eq|FM9s%#S{^=)=#&lLp#PSgh~
-
-delta 19
-bcmdmFxyf?Eq{-Xa`Zi8dW!vn^o+}CfSa}D=
-
-diff --git a/tests/data/acpi/pc/DSDT.numamem b/tests/data/acpi/pc/DSDT.numamem
-index 2f512cfbe158f1739803c0c7009fe5e907bdec54..230aaae37169ec2f78ebeae735ccc905a112d284 100644
-GIT binary patch
-delta 19
-bcmaE<_fl`dq|FM9s%#S{^=)=#R}laJRD%aJ
-
-delta 19
-bcmaE<_fl`dq{-Xa`Zi8dW!vn^t|9;cUML69
-
-diff --git a/tests/data/acpi/pc/DSDT.roothp b/tests/data/acpi/pc/DSDT.roothp
-index 46e03d39e00ea70e55d6a12333ca2b98c5e5bb53..7091ee019191d822869f9a9f35ebd635eea4a9eb 100644
-GIT binary patch
-delta 19
-bcmdmNu-Rb3q|FM9s%#S{^=)=#e<uI{PQwS5
-
-delta 19
-bcmdmNu-Rb3q{-Xa`Zi8dW!vn^{!Rb@SZD|`
-
-diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
-index 2cd8d5fc470fc3159fbc464af97e76c8de2136e3..a85c608022b9e0878bcedc785b9bdf27e50a760b 100644
-GIT binary patch
-delta 21
-dcmccQaLHjqDC6eGjEoYKLmB%vKatF10{~?<2zCGf
-
-delta 21
-dcmccQaLHjqDC6WX$-d2@jEoYSpGfAh0RUn62mt^9
-
-diff --git a/tests/data/acpi/q35/DSDT.acpierst b/tests/data/acpi/q35/DSDT.acpierst
-index 0bc5de80652ae7328fdc07ccda34afff39ade56f..f768380c1c2aa8fcd6ff6bc1048e0ccd2037eb2c 100644
-GIT binary patch
-delta 21
-dcmaFt@YrEPDC6eGjEoYKLmB%vKas3w0|00M2&n)7
-
-delta 21
-dcmaFt@YrEPDC6WX$-d2@jEoYSpGelT0RUve2s8iy
-
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-index af10345e8806c78a0074b3a8819b5cfca4d70c01..51e79b3b0754224aa6cd1e1257b404182506f1d1 100644
-GIT binary patch
-delta 21
-dcmezG_1|klDC6eGjEoYKLmB%vKarfx4FGN#2^IhV
-
-delta 21
-dcmezG_1|klDC6WX$-d2@jEoYSpGeN;1^{Z?2%!J~
-
-diff --git a/tests/data/acpi/q35/DSDT.applesmc b/tests/data/acpi/q35/DSDT.applesmc
-index 00092aacc6ce44dd8792b00a0fa183e5b06d33c6..33ca7ee26fee6718c72dd63374bea98e858066c2 100644
-GIT binary patch
-delta 21
-ccmZp0Y;fEV%DDM4qrSxCP{zK^LQ;8b09Qc=F#rGn
-
-delta 21
-ccmZp0Y;fEV$~d`2vTt)JqrSvuA*nnz09By|>Hq)$
-
-diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
-index d820098355e0b79dc69d714817fe906064852f4d..40457ec74d272f4ce971b66a1b19a397ed9af770 100644
-GIT binary patch
-delta 21
-dcmaD8`X+QkDC6eGjEoYKLmB%vKau1R1ORKJ2zdYi
-
-delta 21
-dcmaD8`X+QkDC6WX$-d2@jEoYSpGa~D0sv@b2m}BC
-
-diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
-index ac8456a43d54209d77917163b282954d7429b331..fe87e060d5cf41b20cf1a37928ed31ca9b15ed66 100644
-GIT binary patch
-delta 21
-dcmZ4FvdCpaDC6eGjEoYKLmB%vKasTK003R^2k-y@
-
-delta 21
-dcmZ4FvdCpaDC6WX$-d2@jEoYSpGewq003ID2YUbj
-
-diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
-index 369ae90196113ec666a4acec7bb7a93be5b60e75..82d7563a73f6b7a4ead15ca0933d0e57ae8be48e 100644
-GIT binary patch
-delta 21
-dcmZqhZt&g^%DDM4BcsIRP{zK^PbBAX0{~iS2pa$Z
-
-delta 21
-ccmZqhZt&g^$~ZYpvTt)JBcsITCz5lx0aq&rrT_o{
-
-diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
-index bb0eadf869fe366fc139f8b0fd2ed811d3b16814..304c8229d81e333ed7564423cf50ad2b963b0a2e 100644
-GIT binary patch
-delta 21
-dcmX@%d%|}^DC6eGjEoYKLmB%vKaqUG0{~`*2>1X1
-
-delta 21
-dcmX@%d%|}^DC6WX$-d2@jEoYSpGZF80RUr22!j9s
-
-diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
-index bb258279506e78b50545f6f9030bd25afe433c29..b9a5ae240c62f29d952d94a280bc97d608b3c2e5 100644
-GIT binary patch
-delta 21
-dcmbR1IM;DQDC6eGj6M>RLmB%v>r3Ua0RUZm2c-Z2
-
-delta 21
-dcmbR1IM;DQDC6XXl6{*)8GR%+>r3Ua0RUX#2YUbj
-
-diff --git a/tests/data/acpi/q35/DSDT.ipmismbus b/tests/data/acpi/q35/DSDT.ipmismbus
-index 15000c357fdabf1bceef6f860bd35e9a33024927..a0eeae95c07fe3708509c3e652c3aeff9c21ac82 100644
-GIT binary patch
-delta 21
-dcmZ4OxY}_;DC6eGj8PJkLmB%v+e+oJ0RUir2i*Vw
-
-delta 21
-dcmZ4OxY}_;DC6Yyl6{*)8KWdN+e+oJ0RUiO2f+XU
-
-diff --git a/tests/data/acpi/q35/DSDT.ivrs b/tests/data/acpi/q35/DSDT.ivrs
-index 0bc5de80652ae7328fdc07ccda34afff39ade56f..f768380c1c2aa8fcd6ff6bc1048e0ccd2037eb2c 100644
-GIT binary patch
-delta 21
-dcmaFt@YrEPDC6eGjEoYKLmB%vKas3w0|00M2&n)7
-
-delta 21
-dcmaFt@YrEPDC6WX$-d2@jEoYSpGelT0RUve2s8iy
-
-diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
-index 663456fc0d3c71a51b541f5ab952e05c9dac01e6..b4a9f5a0fe5cf3b44ebe7659a2bf3687e1073482 100644
-GIT binary patch
-delta 21
-dcmZ4Jz0i9@DC6eGjEoYKLmB%vKat$a4FF%$2z~$n
-
-delta 21
-dcmZ4Jz0i9@DC6WX$-d2@jEoYSpGfZI1^`@@2nhfH
-
-diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
-index 91afd01d598c7c2c733387dfb5140d0fcad54adb..3af5ef2ea473322d8697281d3a20f7282f3238ac 100644
-GIT binary patch
-delta 21
-dcmdnvxyN%uDC6eGjEoYKLmB%vKasq_1ps682+9Be
-
-delta 21
-dcmdnvxyN%uDC6WX$-d2@jEoYSpGe-|0svsP2vq<8
-
-diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
-index afde339a181628ae9153251eee026b437ab685bc..238668b95f33e831d66e2e2fa5e952f00ea7260b 100644
-GIT binary patch
-delta 21
-dcmez2^uuXGDC6eGjEoYKLmB%vKarfm4ghPv2<-p>
-
-delta 21
-dcmez2^uuXGDC6WX$-d2@jEoYSpGZz&2LNb+2zUSh
-
-diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
-index e537669949a07adbaa4255021ea14bb4a9dc672f..37fa4c3a45b0d7db0d3d368df5e027e7e1acf9d2 100644
-GIT binary patch
-delta 21
-dcmccNaKm9kDC6eGjEoYKLmB%vKanh90{~_+2#5dx
-
-delta 21
-dcmccNaKm9kDC6WX$-d2@jEoYSpGcOl0RUq32onGR
-
-diff --git a/tests/data/acpi/q35/DSDT.pvpanic-isa b/tests/data/acpi/q35/DSDT.pvpanic-isa
-index cc545b5d2505246d33f83d2482273968aa1be032..8705309748d1d7352c6623b32c28eab7fbbce2a4 100644
-GIT binary patch
-delta 21
-dcmdn)xZQC>DC6eGjA;^+LmB%vdrIZ80RUqX2n_%L
-
-delta 21
-dcmdn)xZQC>DC6Yal6{*)8Pg;-drIZ80RUrR2mJs5
-
-diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
-index a97d884c50485f848054c6ac95ecfa055ff59e5b..7408f03e4b571c352f9fdf2afc8718aa7b37da06 100644
-GIT binary patch
-delta 21
-dcmdnsy1{irDC6eGjKNZqLmB%vo5@tM0RUmA2k`&^
-
-delta 21
-dcmdnsy1{irDC6W6(tVpl8H1%Zo5@tM0RUlJ2hacj
-
-diff --git a/tests/data/acpi/q35/DSDT.tis.tpm2 b/tests/data/acpi/q35/DSDT.tis.tpm2
-index 1f5392919b5ea69696b49ff13aab5c37d0615919..134c2fbccacd0e9383df094f9b4deb03b4e46abb 100644
-GIT binary patch
-delta 21
-dcmX@*ddhV}DC6eGjJZ;iLmB%w2g+2k0RU%32wDID
-
-delta 21
-dcmX@*ddhV}DC6Wq(*2vm7;~gH2gp>h0RU&{2vYz6
-
-diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
-index e20e4ee5e92e11ccf890a18fbdd78181c43f3b5c..be4a254e93a9cb360f42a25121c5fcefbd47480f 100644
-GIT binary patch
-delta 21
-dcmZ4Px!iL@DC6eGjEoYKLmB%vKao7l1pr`z2#Wv!
-
-delta 21
-dcmZ4Px!iL@DC6WX$-d2@jEoYSpGY3&0svh^2o?YU
-
-diff --git a/tests/data/acpi/q35/DSDT.xapic b/tests/data/acpi/q35/DSDT.xapic
-index 3cab5956eee60363251a6fab0cc981bbbda64443..2327152da1b7d777c1f3da358ae5ae1406384d11 100644
-GIT binary patch
-delta 23
-fcmdlwjcMyNrVXKtn;$bWN=y!A?A!cAGO!Q;anuPq
-
-delta 23
-fcmdlwjcMyNrVXKtlfxwYHit4YN^E{28CVDaZk7ne
-
+ target/ppc/helper.h                          |  2 +-
+ target/ppc/insn32.decode                     |  5 +++++
+ target/ppc/mmu-hash64.c                      |  2 +-
+ target/ppc/translate.c                       | 17 -----------------
+ target/ppc/translate/storage-ctrl-impl.c.inc | 14 ++++++++++++++
+ 5 files changed, 21 insertions(+), 19 deletions(-)
+
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 8f9dde6d3f..c2440a8854 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -694,7 +694,7 @@ DEF_HELPER_FLAGS_3(store_slb, TCG_CALL_NO_RWG, void, env, tl, tl)
+ DEF_HELPER_2(load_slb_esid, tl, env, tl)
+ DEF_HELPER_2(load_slb_vsid, tl, env, tl)
+ DEF_HELPER_2(find_slb_vsid, tl, env, tl)
+-DEF_HELPER_FLAGS_2(slbia, TCG_CALL_NO_RWG, void, env, i32)
++DEF_HELPER_FLAGS_2(SLBIA, TCG_CALL_NO_RWG, void, env, i32)
+ DEF_HELPER_FLAGS_2(SLBIE, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_2(SLBIEG, TCG_CALL_NO_RWG, void, env, tl)
+ #endif
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index d3517d412c..1349c5e8a7 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -131,6 +131,9 @@
+ &X_imm8         xt imm:uint8_t
+ @X_imm8         ...... ..... .. imm:8 .......... .              &X_imm8 xt=%x_xt
+ 
++&X_ih           ih:uint8_t
++@X_ih           ...... .. ih:3 ..... ..... .......... .         &X_ih
++
+ &X_rb           rb
+ @X_rb           ...... ..... ..... rb:5 .......... .            &X_rb
+ 
+@@ -818,6 +821,8 @@ VMODUQ          000100 ..... ..... ..... 11000001011    @VX
+ SLBIE           011111 ----- ----- ..... 0110110010 -   @X_rb
+ SLBIEG          011111 ..... ----- ..... 0111010010 -   @X_tb
+ 
++SLBIA           011111 --... ----- ----- 0111110010 -   @X_ih
++
+ ## TLB Management Instructions
+ 
+ &X_tlbie        rb rs ric prs:bool r:bool
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index a842fbd6f6..dd2c7e588f 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -101,7 +101,7 @@ void dump_slb(PowerPCCPU *cpu)
+ }
+ 
+ #ifdef CONFIG_TCG
+-void helper_slbia(CPUPPCState *env, uint32_t ih)
++void helper_SLBIA(CPUPPCState *env, uint32_t ih)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
+     int starting_entry;
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index ad19a68f5c..5d2416143f 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -5450,22 +5450,6 @@ static void gen_tlbsync(DisasContext *ctx)
+ }
+ 
+ #if defined(TARGET_PPC64)
+-/* slbia */
+-static void gen_slbia(DisasContext *ctx)
+-{
+-#if defined(CONFIG_USER_ONLY)
+-    GEN_PRIV(ctx);
+-#else
+-    uint32_t ih = (ctx->opcode >> 21) & 0x7;
+-    TCGv_i32 t0 = tcg_const_i32(ih);
+-
+-    CHK_SV(ctx);
+-
+-    gen_helper_slbia(cpu_env, t0);
+-    tcg_temp_free_i32(t0);
+-#endif /* defined(CONFIG_USER_ONLY) */
+-}
+-
+ /* slbsync */
+ static void gen_slbsync(DisasContext *ctx)
+ {
+@@ -6885,7 +6869,6 @@ GEN_HANDLER(tlbia, 0x1F, 0x12, 0x0B, 0x03FFFC01, PPC_MEM_TLBIA),
+  */
+ GEN_HANDLER(tlbsync, 0x1F, 0x16, 0x11, 0x03FFF801, PPC_MEM_TLBSYNC),
+ #if defined(TARGET_PPC64)
+-GEN_HANDLER(slbia, 0x1F, 0x12, 0x0F, 0x031FFC01, PPC_SLBI),
+ GEN_HANDLER_E(slbsync, 0x1F, 0x12, 0x0A, 0x03FFF801, PPC_NONE, PPC2_ISA300),
+ #endif
+ GEN_HANDLER(eciwx, 0x1F, 0x16, 0x0D, 0x00000001, PPC_EXTERN),
+diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
+index b9bb950f7d..cbb8b81f13 100644
+--- a/target/ppc/translate/storage-ctrl-impl.c.inc
++++ b/target/ppc/translate/storage-ctrl-impl.c.inc
+@@ -49,6 +49,20 @@ static bool trans_SLBIEG(DisasContext *ctx, arg_SLBIEG *a)
+     return true;
+ }
+ 
++static bool trans_SLBIA(DisasContext *ctx, arg_SLBIA *a)
++{
++    REQUIRE_64BIT(ctx);
++    REQUIRE_INSNS_FLAGS(ctx, SLBI);
++    REQUIRE_SV(ctx);
++
++#if !defined(CONFIG_USER_ONLY) && defined(TARGET_PPC64)
++    gen_helper_SLBIA(cpu_env, tcg_constant_i32(a->ih));
++#else
++    qemu_build_not_reached();
++#endif
++    return true;
++}
++
+ static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
+ {
+ #if defined(CONFIG_USER_ONLY)
 -- 
-2.31.1
+2.25.1
 
 
