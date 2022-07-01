@@ -2,86 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407175638EF
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 20:09:08 +0200 (CEST)
-Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4D356391B
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 20:24:57 +0200 (CEST)
+Received: from localhost ([::1]:36698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7L4k-00066m-Sw
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 14:09:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42462)
+	id 1o7LK3-0001s5-KQ
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 14:24:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o7L20-00053B-EU; Fri, 01 Jul 2022 14:06:16 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:38423)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1o7LIy-000189-Lr; Fri, 01 Jul 2022 14:23:49 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o7L1u-0008KK-Uw; Fri, 01 Jul 2022 14:06:16 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 68FE12B058F6;
- Fri,  1 Jul 2022 14:06:07 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 01 Jul 2022 14:06:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm1; t=1656698766; x=1656702366; bh=W5ZNl4wM2dIehxwaUPeYDoPy0
- jrJNrZAEdcPlIiMOYo=; b=vy4axsYPc8Xb69yYwMRCSnvMtGR5f8wCXgguqZJIS
- FeDlzFHcKO5UveYp9S3AN+kyCPQhhDCMuMlAzBRTA3UFgDLtGJoCC4BqwqrPI+As
- TUxU3p9tEwYiRXztOWHtmDgR0JZs4s1/Ow20isZGpBCjeP3HJoQxeO0TvoxoPjAH
- bWJ4//sNykCnhBv4vdsqpGRPMQN1vo2ykwY6P6S9GfNsc+ThZ3/OVHKLUJH4Gli0
- ryf7vm+OC5GG1zKrAWfVxqT+WptidZtWF24x3G5Pf28s2Z7Wg2UsYpBz7vqwyROs
- HX0nnoPEADhbm+DPF7m23BwgCYAHcau7zeynZlGv9KA5w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2;
- t=1656698766; x=1656702366; bh=W5ZNl4wM2dIehxwaUPeYDoPy0jrJNrZA
- EdcPlIiMOYo=; b=OaJVlzmdW2ERJZuF1ffUvjHqu+4RP2t3NmhEGRgbu7xv0Mbd
- tAgCzEmN9+ampkkpfcsLrg4mjAmxpPCHoez/t8EYlzDO2uNpGcQGPXYQovTceEgP
- 0M+uR8atVxdiY/fZYeMOuhIiflX2J2Cy5H7a3rvKH2Bw66kOj+dTIAZIHSaHrMBJ
- 2iv5qwoYq5NODYgquEDaOuM6Y+eVj9NsOCtgopGPIqKfGh4tKD+EjL/jJBpJNhzH
- GHPxJZ/JZ4m7+gClGHLk25agSiX/qWUtxnayBoe16y3KEm+tyngyCQrX+fbvrI+L
- bSGI+HZdeCugh4OEZXwuZcerWK/MapIdOLOK9g==
-X-ME-Sender: <xms:jje_Yon_y0jKvXiAfNl9XLlYtUVS9PCzcttJ8cb0qzs3_iGk-dLnng>
- <xme:jje_Yn3_su7UzV3lwna_iM9fpLCIdaF-tlvkMpZQQ0tNUOaSH_gefwtaZzxiQsyVU
- s0L798Sb838PU_huIM>
-X-ME-Received: <xmr:jje_YmpuXVjOl92aE8ufkNoGTNa_BWUxAjWrq4VFuV6gp1nVVRT4lSvDBTJp0Y5n83wsQcNVpARDD2PaqG_uHNw6v4w8QENK>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehfedguddvudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecumhhishhsihhnghcuvffquchfihgvlhguucdlfe
- dtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehmvgesphhjugdruggvvheqnecuggftrfgrthhtvg
- hrnhephefgleehveejffefheefhfefveehvedvieetgeefleffveeljedtvdfgfeehleej
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgvse
- hpjhgurdguvghv
-X-ME-Proxy: <xmx:jje_YkmrlotCM_cHOiKnulQQQ2Wlu0PA5mGTgSYWXQqDcIyzH3zl6g>
- <xmx:jje_Ym1Imj5M6XFT9o3LCpIGMwDAiO3xn1jl4mrz-_vcIU3Tz6yThg>
- <xmx:jje_YrtgJRCBctJI-n1DnPp0jjXxZRpe5DlQ16on-LZt_8Vj86ousQ>
- <xmx:jje_YpSxygKqSOmB82fueU009M3F6KlNh4AY96ne1lJ4IV9WgaQ8HhsyXLk>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 Jul 2022 14:06:05 -0400 (EDT)
-From: Peter Delevoryas <me@pjd.dev>
-To: 
-Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH] aspeed: Create SRAM name from first CPU index
-Date: Fri,  1 Jul 2022 11:06:03 -0700
-Message-Id: <20220701180603.38408-1-me@pjd.dev>
-X-Mailer: git-send-email 2.37.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.26; envelope-from=me@pjd.dev;
- helo=wnew1-smtp.messagingengine.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1o7LIv-0000vM-Pu; Fri, 01 Jul 2022 14:23:48 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 261HkCQS003812;
+ Fri, 1 Jul 2022 18:23:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=OyRWojfePCjsE36nZOgtx0oSizWaOKGlWldzxBN3XxQ=;
+ b=aa5FNsiNmThjezw3hDDyfNDzjL8yoohc7jrpo2GgLFxVoGQz/Y+GOLeNh4J2w91zHf5K
+ SwvcxVNQcOLs60k2BE1DMvhCIW6DBU2pCyoXph08SK3SgiDj2///76gvBueMZoUZ1Bps
+ +AL2xuYPWANBWN7hHRiSbSkiQ6ogO9eu50aoS8mAzg8Dnwziug12f2laaSrTbBwkSDd9
+ shMNt6gsQQgF6qPFP3ApZ07agSjxcyhDteB5LFRRDL0r14Ay2jANRMikrknmwp/cx9N/
+ 3EohNd2YrNxzpChsJ2t+4DDka/SaonGFUn/uxgR+qXJDNmUQ/XnlpfW0y/Uk5gIdZ2rV 9g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h25m7rxwj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Jul 2022 18:23:42 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 261I5mdn030489;
+ Fri, 1 Jul 2022 18:23:42 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h25m7rxw3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Jul 2022 18:23:42 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 261ILJRS010797;
+ Fri, 1 Jul 2022 18:23:41 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma04wdc.us.ibm.com with ESMTP id 3gwt0akb6h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Jul 2022 18:23:41 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 261INe6532899500
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 1 Jul 2022 18:23:40 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 82BEC28059;
+ Fri,  1 Jul 2022 18:23:40 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 18BAC28058;
+ Fri,  1 Jul 2022 18:23:39 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.163.2.135])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri,  1 Jul 2022 18:23:38 +0000 (GMT)
+Message-ID: <f77daa0ce58b4e2ca89feea2177bf40cb6adf81c.camel@linux.ibm.com>
+Subject: Re: [PATCH 04/12] pc-bios/s390-ccw/virtio-blkdev: Simplify/fix
+ virtio_ipl_disk_is_valid()
+From: Eric Farman <farman@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org, Christian
+ Borntraeger <borntraeger@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>, Janosch Frank
+ <frankja@linux.ibm.com>
+Date: Fri, 01 Jul 2022 14:22:07 -0400
+In-Reply-To: <20220628131032.213986-5-thuth@redhat.com>
+References: <20220628131032.213986-1-thuth@redhat.com>
+ <20220628131032.213986-5-thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 8Rw0P114yXlF8LDR8_uFAXTyyzG4Ihu-
+X-Proofpoint-GUID: t3WgzzmPS_NdCcbMrmGJZ8HEUeIei4JW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-01_10,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ bulkscore=0 clxscore=1015 phishscore=0 suspectscore=0 spamscore=0
+ mlxscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2207010071
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,94 +116,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To support multiple SoC's running simultaneously, we need a unique name for
-each RAM region. DRAM is created by the machine, but SRAM is created by the
-SoC, since in hardware it is part of the SoC's internals.
+On Tue, 2022-06-28 at 15:10 +0200, Thomas Huth wrote:
+> The s390-ccw bios fails to boot if the boot disk is a virtio-blk
+> disk with a sector size of 4096. For example:
+> 
+>  dasdfmt -b 4096 -d cdl -y -p -M quick /dev/dasdX
+>  fdasd -a /dev/dasdX
+>  install a guest onto /dev/dasdX1 using virtio-blk
+>  qemu-system-s390x -nographic -hda /dev/dasdX1
+> 
+> The bios then bails out with:
+> 
+>  ! Cannot read block 0 !
+> 
+> Looking at virtio_ipl_disk_is_valid() and especially the function
+> virtio_disk_is_scsi(), it does not really make sense that we expect
+> only such a limited disk geometry (like a block size of 512) for
+> our boot disks. Let's relax the check and allow everything that
+> remotely looks like a sane disk.
 
-We need a way to uniquely identify each SRAM region though, for VM
-migration. Since each of the SoC's CPU's has an index which identifies it
-uniquely from other CPU's in the machine, we can use the index of any of the
-CPU's in the SoC to uniquely identify differentiate the SRAM name from other
-SoC SRAM's. In this change, I just elected to use the index of the first CPU
-in each SoC.
+This indeed corrects that problem (thank you!), and I really don't
+understand why we'd want to limit the geometry anyhow. I think this is
+good.
 
-Signed-off-by: Peter Delevoryas <me@pjd.dev>
----
- hw/arm/aspeed_ast10x0.c | 5 ++++-
- hw/arm/aspeed_ast2600.c | 5 +++--
- hw/arm/aspeed_soc.c     | 5 +++--
- 3 files changed, 10 insertions(+), 5 deletions(-)
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
 
-diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index 33ef331771..b6b6f0d053 100644
---- a/hw/arm/aspeed_ast10x0.c
-+++ b/hw/arm/aspeed_ast10x0.c
-@@ -159,6 +159,7 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-     DeviceState *armv7m;
-     Error *err = NULL;
-     int i;
-+    char name[64];
- 
-     if (!clock_has_source(s->sysclk)) {
-         error_setg(errp, "sysclk clock must be wired up by the board code");
-@@ -183,7 +184,9 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&s->armv7m), &error_abort);
- 
-     /* Internal SRAM */
--    memory_region_init_ram(&s->sram, NULL, "aspeed.sram", sc->sram_size, &err);
-+    snprintf(name, sizeof(name), "aspeed.sram.%d",
-+             CPU(s->armv7m.cpu)->cpu_index);
-+    memory_region_init_ram(&s->sram, NULL, name, sc->sram_size, &err);
-     if (err != NULL) {
-         error_propagate(errp, err);
-         return;
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 3f0611ac11..7efb9f888a 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -276,6 +276,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-     Error *err = NULL;
-     qemu_irq irq;
-+    char name[64];
- 
-     /* IO space */
-     aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
-@@ -335,8 +336,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     }
- 
-     /* SRAM */
--    memory_region_init_ram(&s->sram, OBJECT(dev), "aspeed.sram",
--                           sc->sram_size, &err);
-+    snprintf(name, sizeof(name), "aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
-+    memory_region_init_ram(&s->sram, OBJECT(dev), name, sc->sram_size, &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 0f675e7fcd..1ddba33d2a 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -239,6 +239,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     AspeedSoCState *s = ASPEED_SOC(dev);
-     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-     Error *err = NULL;
-+    char name[64];
- 
-     /* IO space */
-     aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
-@@ -259,8 +260,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     }
- 
-     /* SRAM */
--    memory_region_init_ram(&s->sram, OBJECT(dev), "aspeed.sram",
--                           sc->sram_size, &err);
-+    snprintf(name, sizeof(name), "aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
-+    memory_region_init_ram(&s->sram, OBJECT(dev), name, sc->sram_size, &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
--- 
-2.37.0
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  pc-bios/s390-ccw/virtio.h        |  2 --
+>  pc-bios/s390-ccw/virtio-blkdev.c | 41 ++++++----------------------
+> ----
+>  2 files changed, 7 insertions(+), 36 deletions(-)
+> 
+> diff --git a/pc-bios/s390-ccw/virtio.h b/pc-bios/s390-ccw/virtio.h
+> index c2c17c29ca..8f917d47a9 100644
+> --- a/pc-bios/s390-ccw/virtio.h
+> +++ b/pc-bios/s390-ccw/virtio.h
+> @@ -186,8 +186,6 @@ void virtio_assume_scsi(void);
+>  void virtio_assume_eckd(void);
+>  void virtio_assume_iso9660(void);
+>  
+> -extern bool virtio_disk_is_scsi(void);
+> -extern bool virtio_disk_is_eckd(void);
+>  extern bool virtio_ipl_disk_is_valid(void);
+>  extern int virtio_get_block_size(void);
+>  extern uint8_t virtio_get_heads(void);
+> diff --git a/pc-bios/s390-ccw/virtio-blkdev.c b/pc-bios/s390-
+> ccw/virtio-blkdev.c
+> index 49ed2b4bee..b14cbc3d9e 100644
+> --- a/pc-bios/s390-ccw/virtio-blkdev.c
+> +++ b/pc-bios/s390-ccw/virtio-blkdev.c
+> @@ -166,46 +166,19 @@ void virtio_assume_eckd(void)
+>          virtio_eckd_sectors_for_block_size(vdev-
+> >config.blk.blk_size);
+>  }
+>  
+> -bool virtio_disk_is_scsi(void)
+> -{
+> -    VDev *vdev = virtio_get_device();
+> -
+> -    if (vdev->guessed_disk_nature == VIRTIO_GDN_SCSI) {
+> -        return true;
+> -    }
+> -    switch (vdev->senseid.cu_model) {
+> -    case VIRTIO_ID_BLOCK:
+> -        return (vdev->config.blk.geometry.heads == 255)
+> -            && (vdev->config.blk.geometry.sectors == 63)
+> -            && (virtio_get_block_size()  == VIRTIO_SCSI_BLOCK_SIZE);
+> -    case VIRTIO_ID_SCSI:
+> -        return true;
+> -    }
+> -    return false;
+> -}
+> -
+> -bool virtio_disk_is_eckd(void)
+> +bool virtio_ipl_disk_is_valid(void)
+>  {
+> +    int blksize = virtio_get_block_size();
+>      VDev *vdev = virtio_get_device();
+> -    const int block_size = virtio_get_block_size();
+>  
+> -    if (vdev->guessed_disk_nature == VIRTIO_GDN_DASD) {
+> +    if (vdev->guessed_disk_nature == VIRTIO_GDN_SCSI ||
+> +        vdev->guessed_disk_nature == VIRTIO_GDN_DASD) {
+>          return true;
+>      }
+> -    switch (vdev->senseid.cu_model) {
+> -    case VIRTIO_ID_BLOCK:
+> -        return (vdev->config.blk.geometry.heads == 15)
+> -            && (vdev->config.blk.geometry.sectors ==
+> -                virtio_eckd_sectors_for_block_size(block_size));
+> -    case VIRTIO_ID_SCSI:
+> -        return false;
+> -    }
+> -    return false;
+> -}
+>  
+> -bool virtio_ipl_disk_is_valid(void)
+> -{
+> -    return virtio_disk_is_scsi() || virtio_disk_is_eckd();
+> +    return (vdev->senseid.cu_model == VIRTIO_ID_BLOCK ||
+> +            vdev->senseid.cu_model == VIRTIO_ID_SCSI) &&
+> +           blksize >= 512 && blksize <= 4096;
+>  }
+>  
+>  int virtio_get_block_size(void)
 
 
