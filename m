@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC5756349B
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:47:06 +0200 (CEST)
-Received: from localhost ([::1]:40862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFC95634E7
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 16:12:11 +0200 (CEST)
+Received: from localhost ([::1]:35968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7GzB-0007Ks-9i
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59026)
+	id 1o7HNS-0002mu-Ro
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 10:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o7Go5-00014Q-0x
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26943)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o7Go2-000557-0F
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656682533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B1HY2YviDG+7fdNOZcTrS79MXvYdAdOhm0F+WvLxLsg=;
- b=Bfef9NnLZZXAwS9cLZ3jPAUJLuG1/BuDt11QHS1kpi0U4EKPNqmPfKVN9DyUZVPOR1FqEl
- ot60LDMy01M+aD3v7wIBGg+aeX5mSl5fp2MONwxz+ACeADsdrsZZ4zgWENeMzi7j55KRuL
- jcig2nsRnd9ZA9PBYtMMPTxGOdy+FmU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-390-NsKBLZzZOTK5CcZcmn3ARg-1; Fri, 01 Jul 2022 09:35:32 -0400
-X-MC-Unique: NsKBLZzZOTK5CcZcmn3ARg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7A5F801E80;
- Fri,  1 Jul 2022 13:35:31 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B47A40E7F28;
- Fri,  1 Jul 2022 13:35:31 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com,
-	ani@anisinha.ca
-Subject: [PATCH 17/17] x86: pci: acpi: deduplate PCI slots creation
-Date: Fri,  1 Jul 2022 09:35:15 -0400
-Message-Id: <20220701133515.137890-18-imammedo@redhat.com>
-In-Reply-To: <20220701133515.137890-1-imammedo@redhat.com>
-References: <20220701133515.137890-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o7GqN-00050T-In
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:37:59 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:35744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o7GqK-0006ko-30
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:37:58 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-317741c86fdso24129087b3.2
+ for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 06:37:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rgGEi+GxZd3aZab8CSbw/JVttZfRhyX8ESjeus14v80=;
+ b=nVHxstfJDT7bzDDvD61oZzYkHIdoOxhnOhe4FPB9qoiKTFa9FHHfqltR0DnllLtn0D
+ oQibcDn4xokxD02D5psi8Tq8TKIZDbbT/aefBH1OFITIWxnWiRO63GrMiDQI4raXnTQX
+ iCzy/Q8c5/RXGc5NWFxV2xXo+ccuZY/xj/1KWHBkHHy+o2YY8EGkFCMiN5gpbmkXZseT
+ b59r0mocoawpQrE+rmhRC8Y6FHAehbm9fSBkDyU8VLzjtzJZ6GSJmW/FdrmiTzDz1IjD
+ uyt2CmW99UHq+juOKWMJYGynYTtP1eD7/B7aQjvUfvfzcGYxkTwQ3Y8ZohEQN5tOIYfl
+ Tw7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rgGEi+GxZd3aZab8CSbw/JVttZfRhyX8ESjeus14v80=;
+ b=7Tjsd9kY2NTWv54rA/4wQ8rHrXYEGqS3gy4cN25dRjVLL2Wfdpbf7jWBc8GITFRj3s
+ 2VUJBXaDPO/tlyVs+Lej8SX6Q8G93JLmtJ9GWWD+aLFvAN3EUDY2aRGSBtF9lL2NLVJp
+ b7SpmzmESN0uwHXmrQOOvi+kXhxwBnuj8zWKdrK0xVipMdeBFbsK4FbuvnYQ1QI4xfQF
+ P37bEPfHWA+rshwcQgPr56FQaA+X5XYT+FXok9Jz4CG6LIjz1CSoXjWWDO2+05fdkTOt
+ 0L0YfV6qQ4VqLrHjK2JW9i9zRYgS/Bc0XIlQDxYpV5LngXaZrkWhNtrh/UKahZJLoJQh
+ HeuQ==
+X-Gm-Message-State: AJIora8WVtgwxVC4DZeHwPcemehsHeTNKxi/cJbj+Tkuudc3a0PiwvcR
+ mvhMuCqXQmg1qJxjsT95rwDTAOFt1ai9w5+FstSadA==
+X-Google-Smtp-Source: AGRyM1vUw0rNhl+VTJ7Z2Q3qk/8xpkh8JJv3vF/cv4gYxkIyRG2r9yzgv/vK01zK8LF84naKlVHNIiCwUVAEAtruEDI=
+X-Received: by 2002:a81:1cc:0:b0:317:a0fa:7a61 with SMTP id
+ 195-20020a8101cc000000b00317a0fa7a61mr16540279ywb.10.1656682674855; Fri, 01
+ Jul 2022 06:37:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20211015144640.198044-1-kwolf@redhat.com>
+ <20211015144640.198044-15-kwolf@redhat.com>
+In-Reply-To: <20211015144640.198044-15-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 1 Jul 2022 14:37:16 +0100
+Message-ID: <CAFEAcA9jnySMWRD56FF9D7rXhwARiyvqJx+4Ys+smYa2ghdLBg@mail.gmail.com>
+Subject: Re: [PULL 14/15] qdev: Base object creation on QDict rather than
+ QemuOpts
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>, 
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Michael Tokarev <mjt@tls.msk.ru>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,173 +86,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No functional change nor AML bytcode change.
-Consolidate code that generates empty and populated slots
-descriptors. Beside of eliminating duplication,
-it helps to consolidate conditions for generating
-parts of Device{} desriptor in one place, which makes
-code more compact and easier to read.
+On Fri, 15 Oct 2021 at 16:01, Kevin Wolf <kwolf@redhat.com> wrote:
+> QDicts are both what QMP natively uses and what the keyval parser
+> produces. Going through QemuOpts isn't useful for either one, so switch
+> the main device creation function to QDicts. By sharing more code with
+> the -object/object-add code path, we can even reduce the code size a
+> bit.
+>
+> This commit doesn't remove the detour through QemuOpts from any code
+> path yet, but it allows the following commits to do so.
+>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Message-Id: <20211008133442.141332-15-kwolf@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Tested-by: Peter Krempa <pkrempa@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- hw/i386/acpi-build.c | 111 +++++++++++++++++++++----------------------
- 1 file changed, 54 insertions(+), 57 deletions(-)
+Hi; we discovered via a report on IRC this this commit broke
+handling of "array properties", of which one example is:
+qemu-system-x86_64 -netdev user,id=a -device rocker,len-ports=1,ports[0]=a
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 406bbac1c7..9d0512666d 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -427,13 +427,41 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         int func = PCI_FUNC(devfn);
-         /* ACPI spec: 1.0b: Table 6-2 _ADR Object Bus Types, PCI type */
-         int adr = slot << 16 | func;
--        bool hotplug_enabled_dev;
--        bool bridge_in_acpi;
--        bool cold_plugged_bridge;
-+        bool hotpluggbale_slot = false;
-+        bool bridge_in_acpi = false;
-+        bool cold_plugged_bridge = false;
-+        bool is_vga = false;
-+
-+        if (pdev) {
-+            pc = PCI_DEVICE_GET_CLASS(pdev);
-+            dc = DEVICE_GET_CLASS(pdev);
-+
-+            if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
-+                continue;
-+            }
-+
-+            is_vga = pc->class_id == PCI_CLASS_DISPLAY_VGA;
- 
--        if (!pdev) {
-             /*
--             * add hotplug slots for non present devices.
-+             * Cold plugged bridges aren't themselves hot-pluggable.
-+             * Hotplugged bridges *are* hot-pluggable.
-+             */
-+            cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
-+            bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
-+
-+            hotpluggbale_slot = bsel && dc->hotpluggable &&
-+                                !cold_plugged_bridge;
-+
-+            /*
-+             * allow describing coldplugged bridges in ACPI even if they are not
-+             * on function 0, as they are not unpluggable, for all other devices
-+             * generate description only for function 0 per slot
-+             */
-+            if (func && !bridge_in_acpi) {
-+                continue;
-+            }
-+        } else {
-+            /*
-              * hotplug is supported only for non-multifunction device
-              * so generate device description only for function 0
-              */
-@@ -441,46 +469,11 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-                 if (pci_bus_is_express(bus) && slot > 0) {
-                     break;
-                 }
--                dev = aml_device("S%.02X", devfn);
--                aml_append(dev, aml_name_decl("_ADR", aml_int(adr)));
--                aml_append(dev, aml_name_decl("ASUN", aml_int(slot)));
--                aml_append(dev, aml_pci_device_dsm());
--                aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
--                method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
--                aml_append(method,
--                    aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
--                );
--                aml_append(dev, method);
--                aml_append(parent_scope, dev);
--
--                build_append_pcihp_notify_entry(notify_method, slot);
-+                /* mark it as empty hotpluggable slot */
-+                hotpluggbale_slot = true;
-+            } else {
-+                continue;
-             }
--            continue;
--        }
--
--        pc = PCI_DEVICE_GET_CLASS(pdev);
--        dc = DEVICE_GET_CLASS(pdev);
--
--        /*
--         * Cold plugged bridges aren't themselves hot-pluggable.
--         * Hotplugged bridges *are* hot-pluggable.
--         */
--        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
--        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
--
--        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
--
--        if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
--            continue;
--        }
--
--        /*
--         * allow describing coldplugged bridges in ACPI even if they are not
--         * on function 0, as they are not unpluggable, for all other devices
--         * generate description only for function 0 per slot
--         */
--        if (func && !bridge_in_acpi) {
--            continue;
-         }
- 
-         /* start to compose PCI device descriptor */
-@@ -496,7 +489,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-             aml_append(dev, aml_pci_device_dsm());
-         }
- 
--        if (pc->class_id == PCI_CLASS_DISPLAY_VGA) {
-+        if (is_vga) {
-             /* add VGA specific AML methods */
-             int s3d;
- 
-@@ -517,19 +510,10 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-             method = aml_method("_S3D", 0, AML_NOTSERIALIZED);
-             aml_append(method, aml_return(aml_int(s3d)));
-             aml_append(dev, method);
--        } else if (hotplug_enabled_dev) {
--            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
--            /* add _EJ0 to make slot hotpluggable  */
--            method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
--            aml_append(method,
--                aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
--            );
--            aml_append(dev, method);
-+        }
- 
--            if (bsel) {
--                build_append_pcihp_notify_entry(notify_method, slot);
--            }
--        } else if (bridge_in_acpi) {
-+        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
-+        if (bridge_in_acpi) {
-             /*
-              * device is coldplugged bridge,
-              * add child device descriptions into its scope
-@@ -538,6 +522,19 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
- 
-             build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en);
-         }
-+
-+        if (hotpluggbale_slot) {
-+            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-+            /* add _EJ0 to make slot hotpluggable  */
-+            method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
-+            aml_append(method,
-+                aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
-+            );
-+            aml_append(dev, method);
-+
-+            build_append_pcihp_notify_entry(notify_method, slot);
-+        }
-+
-         /* device descriptor has been composed, add it into parent context */
-         aml_append(parent_scope, dev);
-     }
--- 
-2.31.1
+This used to work, and now fails with
+ qemu-system-x86_64: -device rocker,len-ports=1,ports[0]=a: Property
+'rocker.ports[0]' not found
 
+I think this happens because array properties have the
+requirement that the len-foo property is set first before
+any of the foo[n] properties can be set. In the old code
+I guess we used to set properties from the command line
+in the order they were specified, whereas in the new code
+we end up in object_set_properties_from_qdict() which
+tries to set them in whatever order the qdict hash table
+provides them, which turns out to be the wrong one :-(
+
+Any suggestions for how to address this ?
+
+thanks
+-- PMM
 
