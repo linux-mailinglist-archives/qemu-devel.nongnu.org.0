@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E47562C8F
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 09:26:53 +0200 (CEST)
-Received: from localhost ([::1]:35748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43572562C9E
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 09:30:23 +0200 (CEST)
+Received: from localhost ([::1]:37932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7B3E-0007MB-6S
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 03:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56522)
+	id 1o7B6c-0000tC-9g
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 03:30:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7B0n-00060o-LE
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 03:24:21 -0400
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:33561)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7B0j-0003Kf-Vl
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 03:24:21 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0A3D9200B0;
- Fri,  1 Jul 2022 07:24:14 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 1 Jul 2022
- 09:24:13 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005f39df174-f03e-471e-b7ba-ac92f5997db8,
- 4AFA7A5FE9B5479AF1021A557A7101AB3AA64E21) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <bba0b8af-0b12-9cc5-3eb1-e761aeedb391@kaod.org>
-Date: Fri, 1 Jul 2022 09:24:12 +0200
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o7B5A-0000D1-UE
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 03:28:52 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:38467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o7B55-00046r-9B
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 03:28:52 -0400
+Received: by mail-ed1-x530.google.com with SMTP id fd6so1840175edb.5
+ for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 00:28:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OJ3UAJ1DHn+Rl48i8gSZTrJclFX6By6E0cVlbBCYHwo=;
+ b=R9FvUMp4t/cP7qCturYF7RYose+KR7tz98p8XRC9FkAN17mV6Q4gSE8cdtYOoJt0AH
+ aShKnyCgBB4MIqeTx4XCTsaL4kY4Y39BZS+aSZBwPQqQodTaXYvPskntuzEpyXwZ2bI4
+ TDUpOlWxgkGE0wgvXV9dl0UYp5ZdWg7pCIl1SzbqQdjyPy+0ksTXckJwACKw+pF9LCm6
+ jYIjcyR/3Ma92Wl1qTVjKH+g+OIPypTL6XZSJrANm36LesYqktAysz8zTFlTvipqSNww
+ JrU27KWoMTWv9/e/3Y7lAb9yvRzf4VyD2Cq5nLpb6JdGmSQQilYC0LlEhB/vBT0V+Ss2
+ 3Phw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OJ3UAJ1DHn+Rl48i8gSZTrJclFX6By6E0cVlbBCYHwo=;
+ b=Rrzm0ImX2MMGYWNLx8oJ0mbF4EcSSb9OLNMIx5mM5cETcxbNobZwyEI9OPlVlK46lk
+ c2mZThARFGJf3mFGGhQpRwgUV/abUzB7bhRt5SPiHdNeyZGHSewxWzpRXqGvLWHSCqys
+ GxiJn5rZlLc+2ZHk5IenWjr4uFrsji3SZ6xqPn7RTuZtv880VxDDk+YcoFda9SDj1VnN
+ JbpSFoAjnUUC0qZsn9BgzzVlj74mOMdqYHVyY21nN5VYsYtmjmaMTyzbUa5TMEeJ3VfQ
+ VVvuUr47JwUst7BvKVRemhTt/u/h8L8NcaTuMSQSMrhpqLP6wC4p2qQXntm43lP86/sc
+ IeyA==
+X-Gm-Message-State: AJIora8+QOuJH+A1ZYEsC5QODvPiHoDTh6byQTiHct1w/AVjeOmcmr0I
+ I+K2f0gHcAKxwaS4y2AWxr8vpwYgzTsJy/x9e1rHJw==
+X-Google-Smtp-Source: AGRyM1stJ7vkNi6qBAqDn7j1UC636aXXlmqBJv9uyhssEl6I9BYQfId/Xbmm/AvzDQ+slfvkrclKTSJqDWaYw+q+rg0=
+X-Received: by 2002:a05:6402:40f:b0:436:a6ba:360d with SMTP id
+ q15-20020a056402040f00b00436a6ba360dmr16693670edv.371.1656660524273; Fri, 01
+ Jul 2022 00:28:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 2/2] hw: m25p80: add tests for BP and TB bit write protect
-Content-Language: en-US
-To: Iris Chen <irischenlj@fb.com>
-CC: <pdel@fb.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- <patrick@stwcx.xyz>, <alistair@alistair23.me>, <kwolf@redhat.com>,
- <hreitz@redhat.com>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
- <joel@jms.id.au>, <thuth@redhat.com>, <lvivier@redhat.com>,
- <pbonzini@redhat.com>, <qemu-block@nongnu.org>, <dz4list@gmail.com>
-References: <20220627185234.1911337-1-irischenlj@fb.com>
- <20220627185234.1911337-3-irischenlj@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220627185234.1911337-3-irischenlj@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 9149e6b2-17cf-4943-ad48-5b3e0c9d8d0b
-X-Ovh-Tracer-Id: 11609435417859033988
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehvddguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopeguiieglhhishhtsehgmhgrihhlrdgtohhmpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
+References: <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
+ <YrrbHYJn5soL/V6n@redhat.com> <20220628072610-mutt-send-email-mst@kernel.org>
+ <CAFEAcA8Z9uasRtyf5=oFx7ScFO_+T01ooH-zWLdkjECMaZpuQw@mail.gmail.com>
+ <CAARzgwyLbVFCKJZXwdwwweVxgmG8VX1wc1bBYEaNpvKiPcU+TQ@mail.gmail.com>
+ <Yrr6VDCuKpp8SqW9@redhat.com>
+ <CAARzgww4LP7xjDPjWuCCERO1fRp9JwuTtPTG6Lix0KDWPC9FUA@mail.gmail.com>
+ <CAFEAcA-Rsqze4zKR7NZKRGSJLqQ77Lcc7Grh=tTSCQCZSNHozA@mail.gmail.com>
+ <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
+ <9b96f98e-2b7d-47a3-c64d-9cd785432840@redhat.com>
+ <20220701024108-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220701024108-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 1 Jul 2022 12:58:33 +0530
+Message-ID: <CAARzgwxnFRN=y9qz0ERiLOxMBCxEyxsn=xW_-i8mawWPj1Dxqw@mail.gmail.com>
+Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
+ acpi/tests/bits: add README file for bits qtests)
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::530;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,161 +92,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/27/22 20:52, Iris Chen wrote:
-> Signed-off-by: Iris Chen <irischenlj@fb.com>
+On Fri, Jul 1, 2022 at 12:23 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Fri, Jul 01, 2022 at 06:12:14AM +0200, Thomas Huth wrote:
+> > I even wouldn't mind if you put your python stuff in a new directory like
+> > tests/pytests/ for example, as long as it downloads your binaries separately
+> > - as I wrote in another mail, the avocado framework rather looks like an
+> > oddball in our test framework nowadays since it uses a separate test runner
+> > and not the meson test harness, so having a new approach for python-based
+> > tests is maybe even a good idea. I just really want to avoid that this goes
+> > into tests/qtest (since it really does not belong there), and please don't
+> > add more external stuff via git submodules, that's really the wrong approach
+> > for this.
+>
+> I get it, people hate submodules with passion.  I think trying another
+> approach for testing that is neither avocado nor qtest is
+> not too bad. As long as this is not user visible, we can
+> allow ourselves space to experiment.
+>
+> OK so, how about this:
+> - put it in a new directory: tests/roms?
+> - create repo for a fork of biosbits under git.qemu.org
+> - roll our own analog to git submodules: a script
+>   that clones the repo
 
-Palmettos are getting old (2014). We might want to change the machine
-model to an ast2600 one.
+No need to clone the whole repo. We can simply download the binaries
+that the girlab CI job would generate from the bits sources in that
+repo.
+We need to clone if we are always building bits from source for every
+test. That is not necessary IMHO since much of the bits package would
+remain as is without modification.
 
-Anyhow, these are very good tests for both m25p80 and aspeed-smc models.
+> - new target make check-roms,
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+I think make pytest or some such is better and more generic if other
+such tests in other areas follow suit.
 
-Thanks,
+if the clone exists locally -
+>   run the test, if not - skip it
 
-C.
+if download of the bits binaries fail, skip it.
 
-
-
-> ---
->   tests/qtest/aspeed_smc-test.c | 111 ++++++++++++++++++++++++++++++++++
->   1 file changed, 111 insertions(+)
-> 
-> diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
-> index 1258687eac..05ce941566 100644
-> --- a/tests/qtest/aspeed_smc-test.c
-> +++ b/tests/qtest/aspeed_smc-test.c
-> @@ -192,6 +192,24 @@ static void read_page_mem(uint32_t addr, uint32_t *page)
->       }
->   }
->   
-> +static void write_page_mem(uint32_t addr, uint32_t write_value)
-> +{
-> +    spi_ctrl_setmode(CTRL_WRITEMODE, PP);
-> +
-> +    for (int i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-> +        writel(ASPEED_FLASH_BASE + addr + i * 4, write_value);
-> +    }
-> +}
-> +
-> +static void assert_page_mem(uint32_t addr, uint32_t expected_value)
-> +{
-> +    uint32_t page[FLASH_PAGE_SIZE / 4];
-> +    read_page_mem(addr, page);
-> +    for (int i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-> +        g_assert_cmphex(page[i], ==, expected_value);
-> +    }
-> +}
-> +
->   static void test_erase_sector(void)
->   {
->       uint32_t some_page_addr = 0x600 * FLASH_PAGE_SIZE;
-> @@ -501,6 +519,95 @@ static void test_status_reg_write_protection(void)
->       flash_reset();
->   }
->   
-> +static void test_write_block_protect(void)
-> +{
-> +    uint32_t sector_size = 65536;
-> +    uint32_t n_sectors = 512;
-> +
-> +    spi_ce_ctrl(1 << CRTL_EXTENDED0);
-> +    spi_conf(CONF_ENABLE_W0);
-> +
-> +    uint32_t bp_bits = 0b0;
-> +
-> +    for (int i = 0; i < 16; i++) {
-> +        bp_bits = ((i & 0b1000) << 3) | ((i & 0b0111) << 2);
-> +
-> +        spi_ctrl_start_user();
-> +        writeb(ASPEED_FLASH_BASE, WREN);
-> +        writeb(ASPEED_FLASH_BASE, BULK_ERASE);
-> +        writeb(ASPEED_FLASH_BASE, WREN);
-> +        writeb(ASPEED_FLASH_BASE, WRSR);
-> +        writeb(ASPEED_FLASH_BASE, bp_bits);
-> +        writeb(ASPEED_FLASH_BASE, EN_4BYTE_ADDR);
-> +        writeb(ASPEED_FLASH_BASE, WREN);
-> +        spi_ctrl_stop_user();
-> +
-> +        uint32_t num_protected_sectors = i ? MIN(1 << (i - 1), n_sectors) : 0;
-> +        uint32_t protection_start = n_sectors - num_protected_sectors;
-> +        uint32_t protection_end = n_sectors;
-> +
-> +        for (int sector = 0; sector < n_sectors; sector++) {
-> +            uint32_t addr = sector * sector_size;
-> +
-> +            assert_page_mem(addr, 0xffffffff);
-> +            write_page_mem(addr, make_be32(0xabcdef12));
-> +
-> +            uint32_t expected_value = protection_start <= sector
-> +                                      && sector < protection_end
-> +                                      ? 0xffffffff : 0xabcdef12;
-> +
-> +            assert_page_mem(addr, expected_value);
-> +        }
-> +    }
-> +
-> +    flash_reset();
-> +}
-> +
-> +static void test_write_block_protect_bottom_bit(void)
-> +{
-> +    uint32_t sector_size = 65536;
-> +    uint32_t n_sectors = 512;
-> +
-> +    spi_ce_ctrl(1 << CRTL_EXTENDED0);
-> +    spi_conf(CONF_ENABLE_W0);
-> +
-> +    /* top bottom bit is enabled */
-> +    uint32_t bp_bits = 0b00100 << 3;
-> +
-> +    for (int i = 0; i < 16; i++) {
-> +        bp_bits = (((i & 0b1000) | 0b0100) << 3) | ((i & 0b0111) << 2);
-> +
-> +        spi_ctrl_start_user();
-> +        writeb(ASPEED_FLASH_BASE, WREN);
-> +        writeb(ASPEED_FLASH_BASE, BULK_ERASE);
-> +        writeb(ASPEED_FLASH_BASE, WREN);
-> +        writeb(ASPEED_FLASH_BASE, WRSR);
-> +        writeb(ASPEED_FLASH_BASE, bp_bits);
-> +        writeb(ASPEED_FLASH_BASE, EN_4BYTE_ADDR);
-> +        writeb(ASPEED_FLASH_BASE, WREN);
-> +        spi_ctrl_stop_user();
-> +
-> +        uint32_t num_protected_sectors = i ? MIN(1 << (i - 1), n_sectors) : 0;
-> +        uint32_t protection_start = 0;
-> +        uint32_t protection_end = num_protected_sectors;
-> +
-> +        for (int sector = 0; sector < n_sectors; sector++) {
-> +            uint32_t addr = sector * sector_size;
-> +
-> +            assert_page_mem(addr, 0xffffffff);
-> +            write_page_mem(addr, make_be32(0xabcdef12));
-> +
-> +            uint32_t expected_value = protection_start <= sector
-> +                                      && sector < protection_end
-> +                                      ? 0xffffffff : 0xabcdef12;
-> +
-> +            assert_page_mem(addr, expected_value);
-> +        }
-> +    }
-> +
-> +    flash_reset();
-> +}
-> +
->   static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
->   
->   int main(int argc, char **argv)
-> @@ -529,6 +636,10 @@ int main(int argc, char **argv)
->       qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg);
->       qtest_add_func("/ast2400/smc/status_reg_write_protection",
->                      test_status_reg_write_protection);
-> +    qtest_add_func("/ast2400/smc/write_block_protect",
-> +                   test_write_block_protect);
-> +    qtest_add_func("/ast2400/smc/write_block_protect_bottom_bit",
-> +                   test_write_block_protect_bottom_bit);
->   
->       flash_reset();
->       ret = g_test_run();
-
+> - as for using pre-generates ISOs as an optimization,
+>   I'm not sure how important that is, if yes -
+>   we can add another repo and another make target along the
+>   same lines
+>
+>
+>
+> --
+> MST
+>
 
