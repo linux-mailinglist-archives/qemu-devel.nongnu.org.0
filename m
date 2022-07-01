@@ -2,104 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFFA562A36
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 06:14:55 +0200 (CEST)
-Received: from localhost ([::1]:47924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192FE562A8D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 06:33:11 +0200 (CEST)
+Received: from localhost ([::1]:59088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o783S-0004yb-Vb
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 00:14:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49066)
+	id 1o78L7-0006Uz-Ll
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 00:33:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o781J-00030P-Bj
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 00:12:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36583)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1o78It-00057H-Od; Fri, 01 Jul 2022 00:30:51 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:28488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o781G-0000Au-S9
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 00:12:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656648739;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FBB+sXlG1Mm9kGSDa9yqWSy6F/jsZ8sHLYapep/p9jg=;
- b=JcgpaCeF10oF59SC0Fbi7kuSnMfSyrZZ4Q9cH6A3c9BXnbKbL55DniXHqLbbDO/FlZRY71
- UfrIGtnr7WXRJvQEuBUdLJ2cHqjOp7Lt18m352Lhnu8N4FM3rWPgoQ1U9eKbB/BrOp8qU9
- Fze168muf2iyhBaCraXyVnR5ueviDmY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-47-cHXLmiEvPSqcO7gP0yUi9A-1; Fri, 01 Jul 2022 00:12:17 -0400
-X-MC-Unique: cHXLmiEvPSqcO7gP0yUi9A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n35-20020a05600c3ba300b003a02d7bd5caso773835wms.2
- for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 21:12:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=FBB+sXlG1Mm9kGSDa9yqWSy6F/jsZ8sHLYapep/p9jg=;
- b=ZrksD1Ub+PUdQ0LjscmyCQ8eIqLCDCcKi2YoEfQ2fKKmP2Hdf/TxCebJSFhCWkReEw
- HCNCuLvmzOC9s4yMx8mEU4eGnRlSo31IATOOuE/c9rA/NFnSelko6tzG05cmVa9m/nhF
- R4evYuRrEeK2tOysSDvkV1RLkipHPDf8i4v2MWPdNo8TSF+XvBHvpDvh7PINDtm5NG+E
- ujVzVPz4B/pjUJBv3U5tLXgrhYrAMPlqOi3wMtrEzi0symdGNh3UUQIg6IlerGWLOch6
- WBlIQEttvEGmUTwD+Jeaf5NJ7i2NYYmp9vxoKgsEQS4fVZUl/h5PnR11WJtUUZCrtDgx
- mx1w==
-X-Gm-Message-State: AJIora+deY1AWifL09IqE4YmLOpEwHg35oa48qq2L+21rWj6D6DisHYv
- YopMxybm8frNU9M97CYtdn0PwEOB66vKA1ftiXOo/z/YnnJmo4RgJcRWTsmJf65TEmtA9T1II7G
- B20x0Tlv/CkhQyOc=
-X-Received: by 2002:a05:6000:104f:b0:21a:3d3a:4d3d with SMTP id
- c15-20020a056000104f00b0021a3d3a4d3dmr11079728wrx.528.1656648736643; 
- Thu, 30 Jun 2022 21:12:16 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vGIbqtDW4BPxgPwnl+nnit7hyCfByy5WGw1GEaapfBvmnWufWgSl+ofJwt1yZXrVEqwde8pA==
-X-Received: by 2002:a05:6000:104f:b0:21a:3d3a:4d3d with SMTP id
- c15-20020a056000104f00b0021a3d3a4d3dmr11079710wrx.528.1656648736376; 
- Thu, 30 Jun 2022 21:12:16 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-179-162.web.vodafone.de.
- [109.43.179.162]) by smtp.gmail.com with ESMTPSA id
- n12-20020a5d420c000000b0021b8d1b0568sm21553415wrq.52.2022.06.30.21.12.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jun 2022 21:12:15 -0700 (PDT)
-Message-ID: <9b96f98e-2b7d-47a3-c64d-9cd785432840@redhat.com>
-Date: Fri, 1 Jul 2022 06:12:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1o78Iq-0004EP-78; Fri, 01 Jul 2022 00:30:51 -0400
+Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25UKaZLO019223;
+ Thu, 30 Jun 2022 21:30:42 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=KhOWPR9Vv+P3xzVEuF7nOgo8RIyCrfc9QZQNzHbFyBo=;
+ b=Azfu7Q7YlISB+JVMXiiMrPt4boOlkOLEXOIAn/T2K8GRW2VaS8i0t90IvN9AY+2G3xQs
+ YoGX93K1jTf5HaY98sQ0TfAbxSMWOvMCMU2koXaAG0KaMxWXIOtCihtOm3pz12AujMv5
+ 8FzH0TWIrWRbQbLgRty/RfCvD2q4c8yF8aHcj2o5GCiA85BWhlMJy/Zr5nzXeYIP5KVE
+ zIyGlQeWagz4l5/++O0KxCzWHgZE6YU90wukYETj2EW4HAE+AvDiN7yoT1vY8iGVcLcG
+ DcoS8TVnkpYm82cOAg5Gd0hLDJqhCH+6ZZuJRAr7RKDN9pKP77H/p+pv6BPruc2rwFaR tw== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3gwxpun17h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 Jun 2022 21:30:42 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BPPPKM7GE4aMevjBUf8bj4dTk6nsN9kNQPx5SAJvHK4lmnwehCDnclyRj1sIOTCOeHVEGUfE6gkG2d+vCdg/tlIYb6cWUc4SEv2EHE7BIJUM4Ije3zwAm9tjnIV7s4lAIMvdc6j+7M6i+y7j7X2me9AboJ1TRDCv7jgg+s6zfpOslHlS0oJRZkMhKeuwzxunERCxWJguuuZJpDJlbIIdjPfSdTAmmObE03r9wQLBmN/vy+9mmdIkNummgH1lODIAgBiUrGOtO3IQNr4NJUiXL8ae9B3fgG+VNYGvHFTOX2XuTAhHezPq/z3JieftsZ3fZM/nbZRrpbTegxSsj2K9zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KhOWPR9Vv+P3xzVEuF7nOgo8RIyCrfc9QZQNzHbFyBo=;
+ b=S6X2COjFJpzUoAPwL8QqvkBHVHuGwltwKrq94366+hr81i726IxWDyxOqnhvyhni7khMJjr9BHvWcxeekzJgCsFtX1NoARvmerj/vVHSV4Wfcx2nUDabTRC5gu4FPAOYar4KRDa38jGlT5/evG+LP9oCdIu+F/tpGI6dgyoIxs5Dl9ZfiGEGN0Nl1Z0AWktMMA3WrA25rMAbo+V2HI416GYAnoL311epcC/+hpCTk956FQTs+POJibKgHzf5B9rFRqJ6SbKQJ3shdVlYwGSlGuK2KvarmWhizaUUccN7bejqNNNFmhW+ux81SzNreHBqyy2pwlxRvEEreWT4EmXtIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
+ by BYAPR02MB4277.namprd02.prod.outlook.com (2603:10b6:a03:56::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.14; Fri, 1 Jul
+ 2022 04:30:39 +0000
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::241b:39f:95e9:299d]) by BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::241b:39f:95e9:299d%4]) with mapi id 15.20.5395.014; Fri, 1 Jul 2022
+ 04:30:39 +0000
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: Markus Armbruster <armbru@redhat.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Raphael Norwitz
+ <raphael.norwitz@nutanix.com>, "mst@redhat.com" <mst@redhat.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+Subject: Re: [PATCH] contrib/vhost-user-blk: Clean up deallocation of
+ VuVirtqElement
+Thread-Topic: [PATCH] contrib/vhost-user-blk: Clean up deallocation of
+ VuVirtqElement
+Thread-Index: AQHYjF67NA8c9Xl+IEuiwZXjN6LjG61o7dwA
+Date: Fri, 1 Jul 2022 04:30:39 +0000
+Message-ID: <20220701043032.GA28338@raphael-debian-dev>
+References: <20220630085219.1305519-1-armbru@redhat.com>
+In-Reply-To: <20220630085219.1305519-1-armbru@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- imammedo@redhat.com, qemu-devel@nongnu.org
-References: <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <YrrSFig7Qo/PKqNx@redhat.com> <20220628060510-mutt-send-email-mst@kernel.org>
- <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
- <YrrbHYJn5soL/V6n@redhat.com> <20220628072610-mutt-send-email-mst@kernel.org>
- <CAFEAcA8Z9uasRtyf5=oFx7ScFO_+T01ooH-zWLdkjECMaZpuQw@mail.gmail.com>
- <CAARzgwyLbVFCKJZXwdwwweVxgmG8VX1wc1bBYEaNpvKiPcU+TQ@mail.gmail.com>
- <Yrr6VDCuKpp8SqW9@redhat.com>
- <CAARzgww4LP7xjDPjWuCCERO1fRp9JwuTtPTG6Lix0KDWPC9FUA@mail.gmail.com>
- <CAFEAcA-Rsqze4zKR7NZKRGSJLqQ77Lcc7Grh=tTSCQCZSNHozA@mail.gmail.com>
- <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-In-Reply-To: <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mutt/1.10.1 (2018-07-13)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4ed53af8-b235-4b9c-34b3-08da5b1a73be
+x-ms-traffictypediagnostic: BYAPR02MB4277:EE_
+x-proofpoint-crosstenant: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: gBewJbpPMeKo+w+O3UBGgVhXy3mQoZ/SxyzVbTBWgDF4yV0NnDDUDvtAs4sQVsM/r9tRuMCocncZDnziHh16AhFQmYJczzQK1WzeJNvPRaQHtt2144fJo8rs+bJI3TNxpke543pKU72dzQTJfFjbTwin3vJZVRuGgAbAQzzLHtBD9CAQ27/ZupKQajVupMA7Fr2yWzzTXNPOiyHD67UZaBJju9g7npRiIyqvMOIuvU0yqFmV0EpUteWALUCA7mucDzrU5x5cPL4f//dyepCzUy/lpXHhxh5e+uNj7eVpKpPETpxmlOMnQOGVsbretCl1/hG2yoLQZlaSnTdDSSvoyvLrVCbRYajRBCqrgOzlmGZF5gTzYSCYpG18Lk6pOtFGQweeYVPTaog6HTEUiDTnS7sz8H0/ClNdsO/eDjexxHAQkLDO8AZDUJDdpncwli1KGT9UsSTljx8C0OQfi+nrwKvsjpj6p0r+8Rn8iKuHjr/gxwLoYB+3pizxji0lJHYeZVexhjLF5YaxxbnengPfsiAUYVPBct7qOE4buHVGLDfKEO8hXPihCZVKTa31l1KvdWQX+TUZ5GRCApCk9iqbTJYUzdwHG251u3tu8Ee1a+QnoxVsy0W3aHRdo57XgT7jtLSz/g/knyq0ezbNrXXp8z/w/VV5Z4tZKziDhVD4LfW/BYromUhewTB7jqDw07JUJXDcYoZK4Whs7FpqoWinMx7kyv0596bS8VebM77xtk5hejquaF+uwHibV3UTIp/5gvP1T85XWbXmqSqrXCJRuOOhU1ByuXQOgBkXJ8UGO5G2DjpvajmcMrslzQO7vN0F
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(6029001)(7916004)(376002)(136003)(39860400002)(366004)(346002)(396003)(8936002)(1076003)(33656002)(6506007)(54906003)(38100700002)(316002)(6916009)(186003)(6486002)(26005)(122000001)(66946007)(4326008)(6512007)(9686003)(66556008)(8676002)(66476007)(71200400001)(33716001)(83380400001)(38070700005)(76116006)(2906002)(91956017)(66446008)(41300700001)(478600001)(64756008)(44832011)(86362001)(5660300002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8FIAxpVRYr45bM8G2C++t6Um1zzylic6FdBSUPLO61qZ+GugpckO6G1AUjFy?=
+ =?us-ascii?Q?3K5LGBfXjY3f8PhrDJ/KLMRhjrSkLUrldV4xuEyieD48UstBnA5NtujHKm0R?=
+ =?us-ascii?Q?H83jnu8AfI+qkorjJlqGUuoFOtYoJ6xx/BaXEpyovUuYrT/yvORBHHxx/x3E?=
+ =?us-ascii?Q?bsSEhL7XNgV63fpY53ASWpzcG6ITRwvJbbMQzBLcB+OAUZ+sXgYaX6CTXJ36?=
+ =?us-ascii?Q?piZKz1MRF+HTN0TnoVfsuehl68cJR/Z7/nwBjABPm46aQwnPAGiiTctftAKZ?=
+ =?us-ascii?Q?DoahKnGwdq+L3EUxuzQhg3g4KuwYGfd7SMKUPEXTlEN7i1myF6lMqm9w+rLw?=
+ =?us-ascii?Q?bPAZp62lYllr50cXbyiJXMlLQx4ZZWWSCml03njSVePmy1ydAcWjrHHh0nQx?=
+ =?us-ascii?Q?MDdEm5wi/w94T41gUqc/s/AVSHP/ZRBXYeDK02nFg2LFol8Zw4qnBxkkzPdy?=
+ =?us-ascii?Q?EcXA/0qk3Pypk+KaEn19JDBBW1DV9N3iJI/MsechIJIHeZ72mCimkEOaR6NM?=
+ =?us-ascii?Q?xcNjGUP8pXkIeb1ArgNr3Gn0qhFY9kuSl1EFDvtDhDJ2s15d2217OmE8bjiJ?=
+ =?us-ascii?Q?yQeTlyNMgcsFWHQmM2qvbc+6J8z2hRzgxeXQKFhrQdgAESaxHiPyFg0Rkb51?=
+ =?us-ascii?Q?6OybQT4v30tQBrkypn8+PSk36GqqtEi9PTFKx7wu29Ki+oaoKVahbCbsttxg?=
+ =?us-ascii?Q?HnK1acBNPeN91yLJvU4M7dDih93KGpXbieXGvq4OpYVOenDSSAhRQVmuJ7KT?=
+ =?us-ascii?Q?ZxWe/7e6O+J4wSw9G1/sHZMgiuMGt4fApbMf7BLq4gtldiSXa1X+X46uZkNO?=
+ =?us-ascii?Q?jVee0a5XSE0Uw5i+X9G6qKna4eGMbGA3ghv0d4kNRADXMJ6aKYQDUpjCuham?=
+ =?us-ascii?Q?PBRA4PWLAJaqDYXs/fhfgJBqjhVrnvZk9SBOUGKmVy+iqT9zWak+w04aVY9A?=
+ =?us-ascii?Q?aiihjRSggWwzr4NFlL/TlqE2Tr+cxourKt8+kGdGlTwXu061E9NDHJrKg4f1?=
+ =?us-ascii?Q?2BwqEukZPzzDpSVeQmilhj2z6rohxrVb3ddpdHFqy7j8Og6jxspArZp8vzDG?=
+ =?us-ascii?Q?fwtxLx62FE0rNZsm31J7/J7YZ7Y0FnuJqLK7Ueyq+Sxl4MTPfcfuv1IdbQeP?=
+ =?us-ascii?Q?mqrnIfRMHO2Te4ZqjjJBsfqJLbkxTwY0tn9Mhg8/KvvakiOHZ6UOzGf2s/hL?=
+ =?us-ascii?Q?ns0smv9ZHwgJhHqEaz6ic25tsd9ns6k/u3yngru42J4q5ohvZbi9m5j5wogu?=
+ =?us-ascii?Q?IJLKuEHfA0apbb7HDfVg7a4sTKrfLHkXW8ljkJdD/FJZxva7Je1R7VQK4wGg?=
+ =?us-ascii?Q?u8Qqn3VytOSSppz6qf/srVgmsHynaH5gE6spFsCgFREPvzqoswMkLsFDxvy3?=
+ =?us-ascii?Q?99jgSds0GnNR0ldbm/zzDLsMvPiSlK7KDJsvcY6q1dJvRlJfeWjYSVxQDbTH?=
+ =?us-ascii?Q?Cqx8fwYW6Habc5pdRCwK+5ZZZIRF9FnovJhqGJmFfuacTNK5woCL1CcnX3jN?=
+ =?us-ascii?Q?94bhgtngbNCL8RUhpMogZ3dbHyzecrllbxLHqTltMxRCXyUgDfh+HhL0z3xV?=
+ =?us-ascii?Q?cHQ/isP/9MaQeKGoQhBTiQESZSHbelG2p/tWkPDVzAFAr3l4Aomv+Lmg4fLK?=
+ =?us-ascii?Q?KT7iFVtKh6z2AHVMs5yBY2Q=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4CBC3722E6D8024CBBD4A6ED9C7C265F@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ed53af8-b235-4b9c-34b3-08da5b1a73be
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2022 04:30:39.5156 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3ffMYBZNcBZbUFjmOPl/N6ASttnmT/667SHiyMuyw2osBny//LaP3lvzmIZ8o45ZH/eGDhNdHjwlHdb8MpQxtTMcQnvPXC0XQ0dAYkkLN/Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4277
+X-Proofpoint-ORIG-GUID: MMoxNKGF3gCGNjqrzeOBmguAmM1WO1-i
+X-Proofpoint-GUID: MMoxNKGF3gCGNjqrzeOBmguAmM1WO1-i
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-01_02,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,92 +158,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/06/2022 15.53, Ani Sinha wrote:
-> 
-> 
-> On Tue, Jun 28, 2022 at 19:15 Peter Maydell <peter.maydell@linaro.org 
-> <mailto:peter.maydell@linaro.org>> wrote:
-> 
->     On Tue, 28 Jun 2022 at 14:23, Ani Sinha <ani@anisinha.ca
->     <mailto:ani@anisinha.ca>> wrote:
->      > On Tue, Jun 28, 2022 at 6:25 PM Daniel P. Berrangé
->     <berrange@redhat.com <mailto:berrange@redhat.com>> wrote:
->      > > This proposed biosbits test also involves a considerable download.
->      >
->      > I do not think 50 MB is "considerable" . Last time I tried to run
->      > avocado tests, my laptop ran out of disk space!
-> 
->     I think 50MB is pretty big. It might be smaller than some other
->     avocado tests, but it's not exactly the "no binary involved"
->     that most qtests are.
-> 
-> 
-> Well bios-tables-test uses the binary blobs of the acpi tables. Only 
-> difference is that in this case, we could maintain them within  the qemu 
-> tree. In this case the blob in slightly larger and comes from a third party. 
-> That is the difference.
+On Thu, Jun 30, 2022 at 10:52:19AM +0200, Markus Armbruster wrote:
+> We allocate VuVirtqElement with g_malloc() in
+> virtqueue_alloc_element(), but free it with free() in
+> vhost-user-blk.c.  Harmless, but use g_free() anyway.
+>=20
+> One of the calls is guarded by a "not null" condition.  Useless,
+> because it cannot be null (it's dereferenced right before), and even
 
-"slightly larger" ... it apparently contains already a complete grub and 
-python 2.7 interpreter ... I'd consider that as *much* larger than the ~ 2k 
-loc bios-tables-test ;-)
+NIT: if it
 
->     Very few 'make check' tests even run code in the guest.
-> 
-> So bits test is similar here. It runs code in the guest vm.
+> it it could be, free() and g_free() do the right thing.  Drop the
+> conditional.
+>=20
 
-The qtests that run some TCG code only use some few lines of code. The tests 
-that run third party firmware images are the avocado tests.
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
->     There are definitely some awkwardnesses with 'check-avocado',
->     but we should work on fixing those, not use them as a reason
->     to refuse to put tests into the avocado tests if that's where
->     they fit best.
-> 
-> I think this test fits best in the qtrst not with the integration test 
-> framework.
+> Fixes: Coverity CID 1490290
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+> Not even compile-tested, because I can't figure out how this thing is
+> supposed to be built.  Its initial commit message says "make
+> vhost-user-blk", but that doesn't work anymore.
+>=20
 
-I disagree. Third party binary blob tests are certainly nothing for the 
-qtest directory.
+make contrib/vhost-user-blk/vhost-user-blk works for me.
 
-> Very few path developers will ever run it and wrote new tests for 
-> it if we have it there. I would be terribly discouraged if that’s where this 
-> test landed.
-
-I see your point - I'm also hardly ever running whole "make check-avocado" 
-since it's too slow/fat/broken. But using this as a reason to stick your 
-test into the qtest framework also does not work/scale: Being one of the 
-s390x maintainers - What if I now also want my s390x related tests to be 
-executed by everybody? The kernel + initrd images from 
-tests/avocado/machine_s390_ccw_virtio.py are also not that big, ca. 50 MiB 
-each. Should I now move that out of the avocade directory, too, and force 
-everybody to consume it via a submodule? Then who's next? QEMU has 21 target 
-architectures, if every maintainers adds a 50 MiB test to the tree, we're at 
-more than a gigabyte of data already that you'd have to download before you 
-were able to run "make check". This simply does not scale.
-
-So the avocado framework is currently still the best place that we have for 
-such tests. You just have to get used to consume it via "tags" instead of 
-running the whole "make check-avocado" suite. For example, being a s390x 
-maintainer, I'm only running:
-
-  make check-venv
-  ./tests/venv/bin/avocado run -t arch:s390x tests/avocado/
-
-and that finishes within some few minutes and only downloads some few 
-hundreds of megabytes. You could do something similar with acpi. You could 
-even wrap it in a "make check-avocado-acpi" target if you don't like to 
-execute avocado directly.
-
-I even wouldn't mind if you put your python stuff in a new directory like 
-tests/pytests/ for example, as long as it downloads your binaries separately 
-- as I wrote in another mail, the avocado framework rather looks like an 
-oddball in our test framework nowadays since it uses a separate test runner 
-and not the meson test harness, so having a new approach for python-based 
-tests is maybe even a good idea. I just really want to avoid that this goes 
-into tests/qtest (since it really does not belong there), and please don't 
-add more external stuff via git submodules, that's really the wrong approach 
-for this.
-
-  Thomas
-
+>  contrib/vhost-user-blk/vhost-user-blk.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user=
+-blk/vhost-user-blk.c
+> index 9cb78ca1d0..d6932a2645 100644
+> --- a/contrib/vhost-user-blk/vhost-user-blk.c
+> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
+> @@ -106,10 +106,7 @@ static void vub_req_complete(VubReq *req)
+>                    req->size + 1);
+>      vu_queue_notify(vu_dev, req->vq);
+> =20
+> -    if (req->elem) {
+> -        free(req->elem);
+> -    }
+> -
+> +    g_free(req->elem);
+>      g_free(req);
+>  }
+> =20
+> @@ -243,7 +240,7 @@ static int vub_virtio_process_req(VubDev *vdev_blk,
+>      /* refer to hw/block/virtio_blk.c */
+>      if (elem->out_num < 1 || elem->in_num < 1) {
+>          fprintf(stderr, "virtio-blk request missing headers\n");
+> -        free(elem);
+> +        g_free(elem);
+>          return -1;
+>      }
+> =20
+> @@ -325,7 +322,7 @@ static int vub_virtio_process_req(VubDev *vdev_blk,
+>      return 0;
+> =20
+>  err:
+> -    free(elem);
+> +    g_free(elem);
+>      g_free(req);
+>      return -1;
+>  }
+> --=20
+> 2.35.3
+> =
 
