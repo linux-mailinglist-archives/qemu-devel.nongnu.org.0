@@ -2,57 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A5A563790
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 18:16:19 +0200 (CEST)
-Received: from localhost ([::1]:48906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43E85637CB
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 18:24:20 +0200 (CEST)
+Received: from localhost ([::1]:42460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7JJa-0006Dd-1P
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 12:16:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44734)
+	id 1o7JRL-0004hk-NH
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 12:24:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1o7J8c-0001Tc-7L
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:04:58 -0400
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1]:57598)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1o7JCT-0004m9-Jk
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:08:57 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1o7J8W-0004PS-7k
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:04:57 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id F2F1CCE29BC;
- Fri,  1 Jul 2022 16:04:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3081FC3411E;
- Fri,  1 Jul 2022 16:04:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656691485;
- bh=eqaYuGZexvH8nOzLzpUgpRWEHcabZUKI05HdLx+oOeA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WQ55tGeYI+/VVpWZ9vkQ2USmhhSHIB8I8736Z8x2TS3je+5FrA9o8Xjv22LAbSIX0
- msyen9IpolmS8tTt+7ygVKhQwY55/zrKmXi/wg6kL17yBC0p1KT81+W///Yupg2qeY
- I8KNzLxA7YKIKvFeNrz+JT1Yfe5yE3WKgtYwa55Hnc0IqUFLmWF8xGw+Qm8ojgoxkB
- W87XDEdRE4DQ+hrNUpdkNQXri1Sbybuh34tyWDM+PHjwLSkVXgADAHzqOz9AcE0d16
- YhV+P7M53HkgnRkR90sv6JVPXxRn/D1cS5mZ/VBdoL/rm5sjkNT1Tz6hy32/u58Axf
- 5TTxl1Zcx2Tog==
-Date: Fri, 1 Jul 2022 10:04:42 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, its@irrelevant.dk
-Subject: Re: [PATCH v2] hw/nvme: Use ioeventfd to handle doorbell updates
-Message-ID: <Yr8bGnaDRsivoY9b@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220630032231.2881787-1-fanjinhao21s@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1o7JCQ-0005Qo-MQ
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:08:57 -0400
+Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LZKlc4ZHzz67wTn;
+ Sat,  2 Jul 2022 00:04:44 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 1 Jul 2022 18:08:50 +0200
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 1 Jul
+ 2022 17:08:49 +0100
+Date: Fri, 1 Jul 2022 17:08:48 +0100
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Brice Goglin <Brice.Goglin@inria.fr>, Igor Mammedov <imammedo@redhat.com>, 
+ QEMU Developers <qemu-devel@nongnu.org>, Liu Jingqi <jingqi.liu@intel.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
+ =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Yanan Wang
+ <wangyanan55@huawei.com>, <hesham.almatary@huawei.com>
+Subject: Re: [PATCH v4 0/4] hmat acpi: Don't require initiator value in -numa
+Message-ID: <20220701170848.000043b7@huawei.com>
+In-Reply-To: <20220630092934-mutt-send-email-mst@kernel.org>
+References: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
+ <20220630142347.22485226@redhat.com>
+ <17551978-4608-f9e4-8aab-d5d7512dc5a7@inria.fr>
+ <20220630092934-mutt-send-email-mst@kernel.org>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220630032231.2881787-1-fanjinhao21s@ict.ac.cn>
-Received-SPF: pass client-ip=2604:1380:40e1:4800::1;
- envelope-from=kbusch@kernel.org; helo=sin.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml738-chm.china.huawei.com (10.201.108.188) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,36 +76,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu, Jun 30, 2022 at 11:22:31AM +0800, Jinhao Fan wrote:
-> +static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
-> +{
-> +    NvmeCtrl *n = sq->ctrl;
-> +    uint16_t offset = sq->sqid << 3;
-> +    int ret;
-> +
-> +    ret = event_notifier_init(&sq->notifier, 0);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    event_notifier_set_handler(&sq->notifier, nvme_sq_notifier);
-> +    memory_region_add_eventfd(&n->iomem,
-> +                              0x1000 + offset, 4, false, 0, &sq->notifier);
-> +
-> +    return 0;
-> +}
-> +
->  static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
->  {
->      n->sq[sq->sqid] = NULL;
->      timer_free(sq->timer);
-> +    event_notifier_cleanup(&sq->notifier);
->      g_free(sq->io_req);
->      if (sq->sqid) {
->          g_free(sq);
+On Thu, 30 Jun 2022 09:30:58 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-I believe there needs to be a corresponding memory_region_del_eventfd() when
-deleting the queue before event_notifier_cleanup(), otherwise you'll leak
-invalid listeners.
+> On Thu, Jun 30, 2022 at 02:40:13PM +0200, Brice Goglin wrote:
+> >=20
+> > Le 30/06/2022 =E0 14:23, Igor Mammedov a =E9crit=A0: =20
+> > > On Thu, 30 Jun 2022 09:36:47 +0200
+> > > Brice Goglin <Brice.Goglin@inria.fr> wrote:
+> > >  =20
+> > > > Allow -numa without initiator value when hmat=3Don so that we may
+> > > > build more complex topologies, e.g. NUMA nodes whose best initiators
+> > > > are not just another single node.
+> > > >  =20
+> > > patches looks fine code-wise,
+> > > however something wrong with them, i.e. 'git am' doesn't like them
+> > > nor ./scripts/checkpatch (which one should use before sending patches=
+).
+> > >=20
+> > > I've checked it's not my mail server/client issue(or whatever)
+> > > that corrupts them (ones downloaded from patchew are broken as well) =
+=20
+> >=20
+> >=20
+> > I don't know what's going on. These 4 patches are in
+> > https://github.com/bgoglin/qemu/commits/hmat-noinitiator (rebased on ma=
+ster
+> > 10mn ago). =20
+>=20
+> It's the commit log that's corrupted.
+>=20
+> > Do whatever you want with them. I am not allowed to spend more time on =
+this.
+> >=20
+> > Brice =20
+>=20
+> Maybe someone will fix up the log and repost. One can hope ..
+>=20
+
+We are planning to send out arm/virt support shortly including a similar te=
+st
+that uses this series.  So if no one else gets to it before hand we'll incl=
+ude
+fixed up version of Brice's series with that.
+
+Jonathan
 
