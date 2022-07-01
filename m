@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5185634C6
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:57:35 +0200 (CEST)
-Received: from localhost ([::1]:34094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD325634C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:59:59 +0200 (CEST)
+Received: from localhost ([::1]:41060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7H9K-00067G-G8
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:57:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59010)
+	id 1o7HBe-0002Wy-CN
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:59:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o7Go4-00014M-8b
+ id 1o7Go4-00014O-P9
  for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49761)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o7Go1-0004zT-0Y
+ id 1o7Go1-00054t-U8
  for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656682532;
+ s=mimecast20190719; t=1656682533;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b8CbcFljb6Nanuw3LJQXErQPn7YQ0Wmw0F6SR59ao2A=;
- b=A1flajlefP1PxRFQExbyZx4Es0k1pC9ApPaG5PE0qi7E6lAxQT0NoJeDcq1c5aMqvCbySv
- OgGLXm3C0FzNxz16ueQ5q2MWw7VlCDq97JVUD6rLC73lt2BB7SybDmGotWO6c7DanFUC1B
- a5Qgp4lKlOYzijQVL0eN5Ps3XA04GKA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5BWjeKHTfGGBEhWcz7w6Oewz4T3uYbdxlTnu3ZA9xdQ=;
+ b=I7278cI9sGDZdWuKD4a7z1lXAmswjPAcXHVNxpsiQkGmcpsX65cBgtsaKkQORiD/V06Gkx
+ rDFkvXlNmryy3jkyNFm7cHoUE8T1eJX6aTxRfsluVbl6Gw8AwR0Ru08/K8hNl74+QKwuzu
+ +8iw7/1AFEWh18OAeSUrPH0pKvDH2CQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-333-XiGsUXYvOtKgAVHMT59AXQ-1; Fri, 01 Jul 2022 09:35:29 -0400
-X-MC-Unique: XiGsUXYvOtKgAVHMT59AXQ-1
+ us-mta-654-7o90CaOrOtS4SwDrF4Yh8w-1; Fri, 01 Jul 2022 09:35:30 -0400
+X-MC-Unique: 7o90CaOrOtS4SwDrF4Yh8w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 310C0185A794;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1E4829324BD;
  Fri,  1 Jul 2022 13:35:29 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97D9440E7F28;
- Fri,  1 Jul 2022 13:35:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64E39400DFA6;
+ Fri,  1 Jul 2022 13:35:29 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	ani@anisinha.ca
-Subject: [PATCH 14/17] tests: acpi: whitelist pc/q35 DSDT before moving _ADR
- field
-Date: Fri,  1 Jul 2022 09:35:12 -0400
-Message-Id: <20220701133515.137890-15-imammedo@redhat.com>
+Subject: [PATCH 15/17] x86: pci: acpi:  reorder Device's _DSM method
+Date: Fri,  1 Jul 2022 09:35:13 -0400
+Message-Id: <20220701133515.137890-16-imammedo@redhat.com>
 In-Reply-To: <20220701133515.137890-1-imammedo@redhat.com>
 References: <20220701133515.137890-1-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,31 +82,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+align _DSM method in empty slot descriptor with
+a populated slot position.
+Expected change:
+  +            Device (SE8)
+  +            {
+  +                Name (_ADR, 0x001D0000)  // _ADR: Address
+  +                Name (ASUN, 0x1D)
+                   Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+                   {
+                       Local0 = Package (0x02)
+                           {
+                               BSEL,
+                               ASUN
+                           }
+                       Return (PDSM (Arg0, Arg1, Arg2, Arg3, Local0))
+                   }
+  -            }
+
+  -            Device (SE8)
+  -            {
+  -                Name (_ADR, 0x001D0000)  // _ADR: Address
+  -                Name (ASUN, 0x1D)
+                   Name (_SUN, 0x1D)  // _SUN: Slot User Number
+                   Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
+                   {
+                       PCEJ (BSEL, _SUN)
+                   }
+  +            }
+
+i.e. put _DSM right after ASUN, with _SUN/_EJ0 following it.
+
+that will eliminate contextual changes (causing test failures)
+when follow up patches merge code generating populated and empty
+slots descriptors.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ hw/i386/acpi-build.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..1983fa596b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,15 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpierst",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.nohpet",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index fd7f3253e5..406bbac1c7 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -444,15 +444,13 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+                 dev = aml_device("S%.02X", devfn);
+                 aml_append(dev, aml_name_decl("_ADR", aml_int(adr)));
+                 aml_append(dev, aml_name_decl("ASUN", aml_int(slot)));
++                aml_append(dev, aml_pci_device_dsm());
+                 aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+                 method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+                 aml_append(method,
+                     aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
+                 );
+                 aml_append(dev, method);
+-
+-                aml_append(dev, aml_pci_device_dsm());
+-
+                 aml_append(parent_scope, dev);
+ 
+                 build_append_pcihp_notify_entry(notify_method, slot);
 -- 
 2.31.1
 
