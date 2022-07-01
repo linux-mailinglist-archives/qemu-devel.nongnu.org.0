@@ -2,53 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E565634BF
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:55:00 +0200 (CEST)
-Received: from localhost ([::1]:54894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB487563476
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:39:18 +0200 (CEST)
+Received: from localhost ([::1]:52272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7H6p-0000fp-3U
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:54:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59312)
+	id 1o7Grd-0004Hx-Lo
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:39:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.coutinho@eldorado.org.br>)
- id 1o7Gp6-0003AZ-KR; Fri, 01 Jul 2022 09:36:41 -0400
-Received: from [200.168.210.66] (port=50439 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.coutinho@eldorado.org.br>)
- id 1o7Gp4-0006Vs-Ri; Fri, 01 Jul 2022 09:36:40 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 1 Jul 2022 10:35:15 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 3196880023A;
- Fri,  1 Jul 2022 10:35:15 -0300 (-03)
-From: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org,
- Lucas Coutinho <lucas.coutinho@eldorado.org.br>,
- Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: [PATCH RESEND 03/11] target/ppc: Move slbie to decodetree
-Date: Fri,  1 Jul 2022 10:34:59 -0300
-Message-Id: <20220701133507.740619-4-lucas.coutinho@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220701133507.740619-1-lucas.coutinho@eldorado.org.br>
-References: <20220701133507.740619-1-lucas.coutinho@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o7Go1-00012r-Kr
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41946)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o7Gnw-0004My-7h
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656682523;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4q6tsfS8bNOBT7DtTstriGC9zTtmXPd5MMRubIxUTWI=;
+ b=DqlDotgZLaN4SBe8qNa+bzzTggnFp/2AHqYpGLQ08XZHAy3miWyJ+NIaeM5EzV634/yYsm
+ lsKGzaS5RfbZI95nH9OaaybHjQmLb3KzzVem9d3XvYb/rIEvXIsaFe7a7dhe2oCkU3TsrV
+ Ghy61Mx8VJ0ZAUv9tKtVkMco80EzoTg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-260-0RTCY-_ROL2TLZpQ3HE7Aw-1; Fri, 01 Jul 2022 09:35:19 -0400
+X-MC-Unique: 0RTCY-_ROL2TLZpQ3HE7Aw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 574193C1014E;
+ Fri,  1 Jul 2022 13:35:19 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC310400DFCB;
+ Fri,  1 Jul 2022 13:35:18 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com,
+	ani@anisinha.ca
+Subject: [PATCH 02/17] acpi: x86: deduplicate HPET AML building
+Date: Fri,  1 Jul 2022 09:35:00 -0400
+Message-Id: <20220701133515.137890-3-imammedo@redhat.com>
+In-Reply-To: <20220701133515.137890-1-imammedo@redhat.com>
+References: <20220701133515.137890-1-imammedo@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 01 Jul 2022 13:35:15.0602 (UTC)
- FILETIME=[65B98720:01D88D4F]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.coutinho@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,124 +81,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-Signed-off-by: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
----
- target/ppc/helper.h                          |  2 +-
- target/ppc/insn32.decode                     |  7 +++++++
- target/ppc/mmu-hash64.c                      |  2 +-
- target/ppc/translate.c                       | 13 -------------
- target/ppc/translate/storage-ctrl-impl.c.inc | 14 ++++++++++++++
- 5 files changed, 23 insertions(+), 15 deletions(-)
+HPET AML doesn't depend on piix4 nor q35, move code buiding it
+to common scope to avoid duplication.
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 5e663a0a50..b51b3d9f07 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -695,7 +695,7 @@ DEF_HELPER_2(load_slb_esid, tl, env, tl)
- DEF_HELPER_2(load_slb_vsid, tl, env, tl)
- DEF_HELPER_2(find_slb_vsid, tl, env, tl)
- DEF_HELPER_FLAGS_2(slbia, TCG_CALL_NO_RWG, void, env, i32)
--DEF_HELPER_FLAGS_2(slbie, TCG_CALL_NO_RWG, void, env, tl)
-+DEF_HELPER_FLAGS_2(SLBIE, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_FLAGS_2(slbieg, TCG_CALL_NO_RWG, void, env, tl)
- #endif
- DEF_HELPER_FLAGS_2(load_sr, TCG_CALL_NO_RWG, tl, env, tl)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 2b985249b8..d282cf00c1 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -131,6 +131,9 @@
- &X_imm8         xt imm:uint8_t
- @X_imm8         ...... ..... .. imm:8 .......... .              &X_imm8 xt=%x_xt
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ hw/i386/acpi-build.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index cad6f5ac41..69ead4b34a 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1467,9 +1467,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(sb_scope, dev);
+         aml_append(dsdt, sb_scope);
  
-+&X_rb           rb
-+@X_rb           ...... ..... ..... rb:5 .......... .            &X_rb
-+
- &X_uim5         xt uim:uint8_t
- @X_uim5         ...... ..... ..... uim:5 .......... .           &X_uim5 xt=%x_xt
+-        if (misc->has_hpet) {
+-            build_hpet_aml(dsdt);
+-        }
+         build_piix4_isa_bridge(dsdt);
+         if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+@@ -1515,9 +1512,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
  
-@@ -810,6 +813,10 @@ VMODUD          000100 ..... ..... ..... 11011001011    @VX
- VMODSQ          000100 ..... ..... ..... 11100001011    @VX
- VMODUQ          000100 ..... ..... ..... 11000001011    @VX
+         aml_append(dsdt, sb_scope);
  
-+## SLB Management Instructions
-+
-+SLBIE           011111 ----- ----- ..... 0110110010 -   @X_rb
-+
- ## TLB Management Instructions
- 
- &X_tlbie        rb rs ric prs:bool r:bool
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index da9fe99ff8..03f71a82ec 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -197,7 +197,7 @@ static void __helper_slbie(CPUPPCState *env, target_ulong addr,
+-        if (misc->has_hpet) {
+-            build_hpet_aml(dsdt);
+-        }
+         build_q35_isa_bridge(dsdt);
+         if (pm->pcihp_bridge_en) {
+             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+@@ -1528,6 +1522,10 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         }
      }
- }
  
--void helper_slbie(CPUPPCState *env, target_ulong addr)
-+void helper_SLBIE(CPUPPCState *env, target_ulong addr)
- {
-     __helper_slbie(env, addr, false);
- }
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 275cffb2a7..14881e637f 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -5466,18 +5466,6 @@ static void gen_slbia(DisasContext *ctx)
- #endif /* defined(CONFIG_USER_ONLY) */
- }
- 
--/* slbie */
--static void gen_slbie(DisasContext *ctx)
--{
--#if defined(CONFIG_USER_ONLY)
--    GEN_PRIV(ctx);
--#else
--    CHK_SV(ctx);
--
--    gen_helper_slbie(cpu_env, cpu_gpr[rB(ctx->opcode)]);
--#endif /* defined(CONFIG_USER_ONLY) */
--}
--
- /* slbieg */
- static void gen_slbieg(DisasContext *ctx)
- {
-@@ -6910,7 +6898,6 @@ GEN_HANDLER(tlbia, 0x1F, 0x12, 0x0B, 0x03FFFC01, PPC_MEM_TLBIA),
- GEN_HANDLER(tlbsync, 0x1F, 0x16, 0x11, 0x03FFF801, PPC_MEM_TLBSYNC),
- #if defined(TARGET_PPC64)
- GEN_HANDLER(slbia, 0x1F, 0x12, 0x0F, 0x031FFC01, PPC_SLBI),
--GEN_HANDLER(slbie, 0x1F, 0x12, 0x0D, 0x03FF0001, PPC_SLBI),
- GEN_HANDLER_E(slbieg, 0x1F, 0x12, 0x0E, 0x001F0001, PPC_NONE, PPC2_ISA300),
- GEN_HANDLER_E(slbsync, 0x1F, 0x12, 0x0A, 0x03FFF801, PPC_NONE, PPC2_ISA300),
- #endif
-diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
-index f9e4a807f2..41fc5ade8b 100644
---- a/target/ppc/translate/storage-ctrl-impl.c.inc
-+++ b/target/ppc/translate/storage-ctrl-impl.c.inc
-@@ -21,6 +21,20 @@
-  * Store Control Instructions
-  */
- 
-+static bool trans_SLBIE(DisasContext *ctx, arg_SLBIE *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_INSNS_FLAGS(ctx, SLBI);
-+    REQUIRE_SV(ctx);
++    if (misc->has_hpet) {
++        build_hpet_aml(dsdt);
++    }
 +
-+#if !defined(CONFIG_USER_ONLY) && defined(TARGET_PPC64)
-+    gen_helper_SLBIE(cpu_env, cpu_gpr[a->rb]);
-+#else
-+    qemu_build_not_reached();
-+#endif
-+    return true;
-+}
-+
- static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
- {
- #if defined(CONFIG_USER_ONLY)
+     if (vmbus_bridge) {
+         sb_scope = aml_scope("_SB");
+         aml_append(sb_scope, build_vmbus_device_aml(vmbus_bridge));
 -- 
-2.25.1
+2.31.1
 
 
