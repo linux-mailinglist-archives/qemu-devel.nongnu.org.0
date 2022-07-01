@@ -2,96 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895AF5630F1
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 12:05:01 +0200 (CEST)
-Received: from localhost ([::1]:45958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341B75630E2
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 12:02:36 +0200 (CEST)
+Received: from localhost ([::1]:42398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7DWG-0002dN-EF
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 06:05:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60314)
+	id 1o7DTs-0008V4-IM
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 06:02:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o7DAI-0002gb-7x
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:42:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o7DAF-00039V-9X
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:42:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656668534;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QHSnzeO2M2nAQgGZuxqdfWv9n5f1UUOBlLFIF753rHE=;
- b=C1ti4B2mi02PhF7CVjBC7yluGWYVyohTL+xujgYi7fYId0dRtYiXYySjyiFwYZZroCo5KQ
- CmtvVoEdwtN9jPreUurATOAdpvVoj/VHrIP0TvuQCvKY5BKKYBg9apaeMK7u1qdHp1VWRH
- ZPZMMljzc53jjsxxv3qi5fS8v4+kQKg=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-347-uYO54yjNNwujklijfJ2hRw-1; Fri, 01 Jul 2022 05:42:13 -0400
-X-MC-Unique: uYO54yjNNwujklijfJ2hRw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- ne36-20020a1709077ba400b00722d5f547d8so552695ejc.19
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 02:42:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o7DQH-0006hT-RR
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:58:50 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:37424)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o7DQF-0005he-LP
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:58:49 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id p136so3166142ybg.4
+ for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 02:58:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GO0JIO1yjmmS9l98olJgRUIaAVK6DuAbvlta72061ck=;
+ b=tJHScf8uQ27eB38JxgAsSg1ZBpBxwPvygxNkBvzs5SWE+lFUL0rT/V+7U7KdStT7XO
+ 0AtoOO99XaNR2fa325XtM2zYQ4MQ8z9f66KupGWo24iM1jytEjLJke0rPAgJsT03/kGF
+ iOvFlpq1IF71jb2XkY2AtukwMkLWRIfGoCGJUFFlgFnIVGq18tVTZbq1GP8ZfUzB2iJc
+ DlNOG08lsn3scZhExPSBc7q3tEpyRFKcOoiJg8i2q0/37cOZ4+PdZKyRJBOzAVRcrAkO
+ TjIbL+jrpnTzm1M17vo5CZNWeyjV6X1eHuhJ/LQjVrVl9sAkwVAVqw43S1PvOEcQTONO
+ Airw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QHSnzeO2M2nAQgGZuxqdfWv9n5f1UUOBlLFIF753rHE=;
- b=NNOfZpbWHfMyEo7Ffu1I/8I6FlpnKKLe9oYcmPr5dZAdzBi/udq9atSPJhE0YTVq0X
- nca4KVIt0MoH8tXUCbC5pNWkSffKbOCQfdYFGFpdtzi4JWsOsFRZK+xKxcdNaHtHdlWs
- pBJ3Xjrpv0vSE20DGBafyN/PuippPwp2brwt/x200GhB9+vCh6mvz6mVA/3UU4flTbjP
- K1Egqo6J62OaOgLdRu54tdKStVWXo8/W+VsWtP9Q3wgLLxRXEjsypZ6WJ6bxYGeqIv5j
- 45GZvuQpfY8oTw4aWuwNhMr36XQnFBENgc5iMi0ubZWo/2xQmVaixyNBU8VuKCB+N4qW
- fhUg==
-X-Gm-Message-State: AJIora/zEo5vkiIiOkmkm59AZ05iqMgWcFvsn7Afu86Pq4Qt8hbgI9cy
- kiJ8xA2XmwiQLB3+1avifqZZPFNlfJIa6+RLeWdw9++eC4ZhsOMKSi1/o+Idt+pMMzAxnJPeFiB
- mxK5oAwC4b41SG+M=
-X-Received: by 2002:a17:906:b78f:b0:726:9341:5d62 with SMTP id
- dt15-20020a170906b78f00b0072693415d62mr13395740ejb.571.1656668532277; 
- Fri, 01 Jul 2022 02:42:12 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vLypOuP3b3+b9Bjpd4miqfLVV/pi0iu9Xuu6S0zw/n0hBzT8NNgoiz6/yhJRjWmMLj4RCUFw==
-X-Received: by 2002:a17:906:b78f:b0:726:9341:5d62 with SMTP id
- dt15-20020a170906b78f00b0072693415d62mr13395718ejb.571.1656668532025; 
- Fri, 01 Jul 2022 02:42:12 -0700 (PDT)
-Received: from redhat.com ([2.55.35.209]) by smtp.gmail.com with ESMTPSA id
- b3-20020a17090636c300b00726b8e84c1asm5687681ejc.21.2022.07.01.02.42.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Jul 2022 02:42:11 -0700 (PDT)
-Date: Fri, 1 Jul 2022 05:42:06 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-Message-ID: <20220701053949-mutt-send-email-mst@kernel.org>
-References: <CAARzgwyLbVFCKJZXwdwwweVxgmG8VX1wc1bBYEaNpvKiPcU+TQ@mail.gmail.com>
- <Yrr6VDCuKpp8SqW9@redhat.com>
- <CAARzgww4LP7xjDPjWuCCERO1fRp9JwuTtPTG6Lix0KDWPC9FUA@mail.gmail.com>
- <CAFEAcA-Rsqze4zKR7NZKRGSJLqQ77Lcc7Grh=tTSCQCZSNHozA@mail.gmail.com>
- <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
- <9b96f98e-2b7d-47a3-c64d-9cd785432840@redhat.com>
- <20220701024108-mutt-send-email-mst@kernel.org>
- <CAARzgwxnFRN=y9qz0ERiLOxMBCxEyxsn=xW_-i8mawWPj1Dxqw@mail.gmail.com>
- <20220701033006-mutt-send-email-mst@kernel.org>
- <CAARzgwwhrsG1EkA9=kH9Y456_Yz5KEA9tMQoQ6wGufoPGTu69w@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GO0JIO1yjmmS9l98olJgRUIaAVK6DuAbvlta72061ck=;
+ b=wyxGljrf7GTtNlWp9Mwf17sTfIqV+xzYrewMfRbhiZC3Je2tMRVZNTIRAcEGkbf1n9
+ g1jSmArcA54gVn8cDW9yl36heFegZaD/lD2yafgAZZNm/zXkFYTfJy6y+d91efwknX8t
+ c2UfMmvFsONs2uM8jDKfAGJ6SBIHGSdwaKJX3RudfRFuwTboUX7DMvUd6QpHNMwEWBdF
+ iICA8LtLlN/IxPk+J6AGJ13YYgZwSlMG3/tX0j9gYzOhD0CCFi8vki/qRDCzaO8fpAao
+ 2nhhi2hulUSPOran7XX6RJTAQlNcNYVYccuYpD1tkZyl0/vQ+2lqHAEblXTnNkuihPog
+ o5XA==
+X-Gm-Message-State: AJIora8WKcARpFolJbMR+8uA0vS5/7oNrhuUZh0atF36CT0/KHx6GbkB
+ FsT2Hdja1W2cJV5b9sb0FV8Gn3ff+TxbUjgW5Ug3ow==
+X-Google-Smtp-Source: AGRyM1u1nOaqAZKCxBhrmq9CtwzzS3fJXLBtvSQq89XjKTPFWBvfSs3CPK+qXBawl3oWucoN2yArFdCflOtnJwatAl0=
+X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
+ t18-20020a5b0dd2000000b00668fc4a9403mr13902229ybr.39.1656669526115; Fri, 01
+ Jul 2022 02:58:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAARzgwwhrsG1EkA9=kH9Y456_Yz5KEA9tMQoQ6wGufoPGTu69w@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220625223458.1273408-1-simon.sapin@exyr.org>
+In-Reply-To: <20220625223458.1273408-1-simon.sapin@exyr.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 1 Jul 2022 10:58:08 +0100
+Message-ID: <CAFEAcA9BzxW8ke_s5c0G2Zt--rHk82TZP6x1diWXe4XKBL84HA@mail.gmail.com>
+Subject: Re: [PATCH] Add some documentation for "dtb" devices tree blobs
+To: Simon Sapin <simon.sapin@exyr.org>
+Cc: qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,99 +82,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 01, 2022 at 01:20:30PM +0530, Ani Sinha wrote:
-> On Fri, Jul 1, 2022 at 1:08 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Fri, Jul 01, 2022 at 12:58:33PM +0530, Ani Sinha wrote:
-> > > On Fri, Jul 1, 2022 at 12:23 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > >
-> > > > On Fri, Jul 01, 2022 at 06:12:14AM +0200, Thomas Huth wrote:
-> > > > > I even wouldn't mind if you put your python stuff in a new directory like
-> > > > > tests/pytests/ for example, as long as it downloads your binaries separately
-> > > > > - as I wrote in another mail, the avocado framework rather looks like an
-> > > > > oddball in our test framework nowadays since it uses a separate test runner
-> > > > > and not the meson test harness, so having a new approach for python-based
-> > > > > tests is maybe even a good idea. I just really want to avoid that this goes
-> > > > > into tests/qtest (since it really does not belong there), and please don't
-> > > > > add more external stuff via git submodules, that's really the wrong approach
-> > > > > for this.
-> > > >
-> > > > I get it, people hate submodules with passion.  I think trying another
-> > > > approach for testing that is neither avocado nor qtest is
-> > > > not too bad. As long as this is not user visible, we can
-> > > > allow ourselves space to experiment.
-> > > >
-> > > > OK so, how about this:
-> > > > - put it in a new directory: tests/roms?
-> > > > - create repo for a fork of biosbits under git.qemu.org
-> > > > - roll our own analog to git submodules: a script
-> > > >   that clones the repo
-> > >
-> > > No need to clone the whole repo. We can simply download the binaries
-> > > that the girlab CI job would generate from the bits sources in that
-> > > repo.
-> > > We need to clone if we are always building bits from source for every
-> > > test. That is not necessary IMHO since much of the bits package would
-> > > remain as is without modification.
-> >
-> > IMHO CI job idea isn't great since isn't versioned at all, is it?
-> 
-> bits is versioned yes, in a crude way. every time you make a commit in
-> the top level repo, the version would increment by one.
+On Sat, 25 Jun 2022 at 23:39, Simon Sapin <simon.sapin@exyr.org> wrote:
+>
+> Signed-off-by: Simon Sapin <simon.sapin@exyr.org>
+> ---
+>  docs/specs/device-trees.rst                | 57 ++++++++++++++++++++++
+>  docs/specs/index.rst                       |  1 +
+>  docs/system/arm/virt.rst                   |  5 +-
+>  docs/system/arm/xlnx-versal-virt.rst       |  3 +-
+>  docs/system/ppc/ppce500.rst                |  3 +-
+>  docs/system/riscv/microchip-icicle-kit.rst |  3 +-
+>  docs/system/riscv/sifive_u.rst             |  3 +-
+>  docs/system/riscv/virt.rst                 |  3 +-
+>  qemu-options.hx                            |  5 ++
+>  9 files changed, 77 insertions(+), 6 deletions(-)
+>  create mode 100644 docs/specs/device-trees.rst
 
-Is it easy to find out which source was this generated from?
-And is there a promise to keep these around indefinitely?
+Hi; thanks for writing this documentation.
 
-> > Also as long as test passes, sure. But if it fails one will
-> > need the sources to investigate.
-> 
-> sources might also be needed to write the tests.
-> 
-> >
-> > Let's start with building things from source.
-> 
-> hmm. bitys uses old autotools, not ninja and takes about 10/15 mins to
-> build depending on parallelity and build host.
+> diff --git docs/specs/device-trees.rst docs/specs/device-trees.rst
+> new file mode 100644
+> index 0000000000..8160342124
+> --- /dev/null
+> +++ docs/specs/device-trees.rst
+> @@ -0,0 +1,57 @@
+> +============
+> +Device Trees
+> +============
+> +
+> +On some targets, guests can find out what devices are emulated and how to access them
+> +through a *Device Tree Blob* (dtb), also called *Flattened Device Tree* (fdt).
+> +The dtb can be passed by the user through the ``-dtb file`` command-line options,
+> +or automatically generated by QEMU.
+> +
+> +Host: dumping the dtb
+> +=====================
+> +
+> +The (possibly generated) dtb can be written to a file with
+> +the ``dumpdtb`` property of the ``machine`` command-line option.
+> +Then `dtc <Device Tree Compiler_>`_ can convert it to Device Tree Source text "dts" format
+> +For example::
+> +
+> +    qemu-system-riscv32 -machine virt,dumpdtb=rv32-virt.dtb
+> +    dtc -q rv32-virt.dtb -o rv32-virt.dts
+> +    head -n 7 rv32-virt.dts
+> +
+> +::
+> +
+> +    qemu-system-riscv32: info: dtb dumped to rv32-virt.dtb. Exiting.
+> +    /dts-v1/;
+> +
+> +    / {
+> +        #address-cells = <0x02>;
+> +        #size-cells = <0x02>;
+> +        compatible = "riscv-virtio";
+> +        model = "riscv-virtio,qemu";
+> +
+> +Guest: finding the dtb
+> +======================
+> +
+> +On startup, the dtb is memory-mapped and its address is passed to the guest
+> +in a target-specific way:
+> +
+> +* Arm: :ref:`arm-baremetal`
+> +* **TODO**: document other targets
 
-Right. But whoever wants to use these just needs to do it once.
+Don't leave TODO notes in the docs, please.
+
+Also, the DTB is not necessarily memory-mapped. For instance on
+Arm platforms if the user requests a bios/firmware image to be
+run, then we put the dtb (like the kernel and initrd) in the
+fw_cfg device for the firmware to extract.
+
+> diff --git qemu-options.hx qemu-options.hx
+> index 377d22fbd8..eea75ddb37 100644
+> --- qemu-options.hx
+> +++ qemu-options.hx
+> @@ -38,6 +38,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+>      "                hmat=on|off controls ACPI HMAT support (default=off)\n"
+>      "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
+>      "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
+> +    "                dumpdtb=file dump current device tree blob to a file and quit\n"
+>      QEMU_ARCH_ALL)
+>  SRST
+>  ``-machine [type=]name[,prop=value[,...]]``
+> @@ -157,6 +158,10 @@ SRST
+>          ::
+>
+>              -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
+> +
+> +    ``dumpdtb=file``
+> +        Dump the current :doc:`Device Tree Blob </specs/device-trees>`
+> +        to the give file name, then exit.
+
+ to the given file name, then exit QEMU without running the guest.
+ This is primarily useful for debugging, as it allows you to see the
+ contents of the DTB including all additions and modifications that
+ QEMU makes before handing it to the guest.
+
+ This option is ignored on machine types which do not use a DTB.
+
+>  ERST
+>
+>  DEF("M", HAS_ARG, QEMU_OPTION_M,
 
 
-> Add an option
-> > of prebuilt binaries as an optimization once things
-> > stabilize.
-> >
-> >
-> > > > - new target make check-roms,
-> > >
-> > > I think make pytest or some such is better and more generic if other
-> > > such tests in other areas follow suit.
-> >
-> > The name is not critical in my mind, but I think we need to decide
-> > what exactly differentiates it from other tests.
-> >
-> >
-> > >
-> > > if the clone exists locally -
-> > > >   run the test, if not - skip it
-> > >
-> > > if download of the bits binaries fail, skip it.
-> >
-> > You seem to be recreating either git or avocado or both here.
-> >
-> > Personally I want something that works offline.
-> >
-> >
-> >
-> > > > - as for using pre-generates ISOs as an optimization,
-> > > >   I'm not sure how important that is, if yes -
-> > > >   we can add another repo and another make target along the
-> > > >   same lines
-> > > >
-> > > >
-> > > >
-> > > > --
-> > > > MST
-> > > >
-> >
-
+thanks
+-- PMM
 
