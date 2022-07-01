@@ -2,97 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BB9562C11
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 08:56:07 +0200 (CEST)
-Received: from localhost ([::1]:50348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67AD562C63
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 09:14:10 +0200 (CEST)
+Received: from localhost ([::1]:58204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7AZS-0002ib-I6
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 02:56:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46960)
+	id 1o7Aqv-0001cG-E4
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 03:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o7AWi-0001ok-8B
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 02:53:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49056)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7Ap4-0000UR-38
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 03:12:14 -0400
+Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:41645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o7AWf-0008Kd-56
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 02:53:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656658391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RTB03zwxaOuLUrvbQ3e82GQnxvJijgcM5tbEolIhuMY=;
- b=IwanDAD36XXGxDJOQh3Y422Rncp+4QVDzjuc416UIIzmparzeBtViSQ3Tji/2ij/W8ftUF
- bDX4YoD6KXRbl0F7RyTHazp0GTO7sGkmiFOrvccYNEuPvY/Wzny4hjn2hUgQl/C8xiQxxJ
- FTNw+lZVY5CnH/1p/BsLRqAPqSp2mwE=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-470-MeTNbwAyPbKw264oYtU-IQ-1; Fri, 01 Jul 2022 02:53:10 -0400
-X-MC-Unique: MeTNbwAyPbKw264oYtU-IQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- hs18-20020a1709073e9200b0072a3e7eb0beso376156ejc.10
- for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 23:53:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=RTB03zwxaOuLUrvbQ3e82GQnxvJijgcM5tbEolIhuMY=;
- b=Croec0BCdFY8d56zrb54+IEkZN0KeUKSwGTnG9PCgyRDhQg35T+2ddnO9HKjzrVuam
- kg383/0XJmZi+mC0jSyt2q0RdjKWYb3LRkBxA+HDxpfEcMxQXoi3Zq7lR18ytLlxiTHw
- e+7akAayTveDQMIXmG2a3mNlbR6DjaGTV/fAnWH3ihPY5Luyw0yq1gHk+RZ74/d/Ck6N
- IitKRsy2ecP6DWaE43MXb97krFhj0Oz9SMm9FE8VolkhaX9cSOvfAzJGKLLPo4mRpOUT
- NjDhIaOLGbd4NgaKs+lVf737z26zTslyVZkBQtQx2Tw1lq1ZJ7C9mm4MLmXtRtG0iKVT
- 8jEg==
-X-Gm-Message-State: AJIora8fr7+N9MAdGawFXafPp6PqcTvYVQWC5ysmD0TqtMicVWDHzDsC
- ZYPipWPmg8GBfmTswsTK8GqvkzfSjQjBfNMEDh9dd4JNUlwKIuPzFjELevFuaQObQ+apiNj85hT
- 7M0/2GsDWDf3uLwg=
-X-Received: by 2002:a17:907:75c1:b0:72a:430d:b512 with SMTP id
- jl1-20020a17090775c100b0072a430db512mr10865480ejc.146.1656658389431; 
- Thu, 30 Jun 2022 23:53:09 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uBDeVV9o73aChj1nuSnzN9VIUVLiTvM2QBxtTexaGSS2eaMgXX3en2AZkqAiRWN53VQXjnaA==
-X-Received: by 2002:a17:907:75c1:b0:72a:430d:b512 with SMTP id
- jl1-20020a17090775c100b0072a430db512mr10865461ejc.146.1656658389235; 
- Thu, 30 Jun 2022 23:53:09 -0700 (PDT)
-Received: from redhat.com ([2.55.3.188]) by smtp.gmail.com with ESMTPSA id
- m2-20020a50ef02000000b00435a997303bsm14392243eds.71.2022.06.30.23.53.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jun 2022 23:53:08 -0700 (PDT)
-Date: Fri, 1 Jul 2022 02:53:04 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-Message-ID: <20220701024108-mutt-send-email-mst@kernel.org>
-References: <CAARzgwwdWkqXnP=QHqme-GACa5LvfN5cO1PZpFhZ-G6NR73sEw@mail.gmail.com>
- <YrrbHYJn5soL/V6n@redhat.com>
- <20220628072610-mutt-send-email-mst@kernel.org>
- <CAFEAcA8Z9uasRtyf5=oFx7ScFO_+T01ooH-zWLdkjECMaZpuQw@mail.gmail.com>
- <CAARzgwyLbVFCKJZXwdwwweVxgmG8VX1wc1bBYEaNpvKiPcU+TQ@mail.gmail.com>
- <Yrr6VDCuKpp8SqW9@redhat.com>
- <CAARzgww4LP7xjDPjWuCCERO1fRp9JwuTtPTG6Lix0KDWPC9FUA@mail.gmail.com>
- <CAFEAcA-Rsqze4zKR7NZKRGSJLqQ77Lcc7Grh=tTSCQCZSNHozA@mail.gmail.com>
- <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
- <9b96f98e-2b7d-47a3-c64d-9cd785432840@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7Aon-0001XS-UH
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 03:12:13 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.25])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id A7E9D24E65;
+ Fri,  1 Jul 2022 07:11:53 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 1 Jul 2022
+ 09:11:52 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R0017bf0d554-44ee-4314-b7d6-a5b04acb4fad,
+ D594F7ECFE8920C5FAE37748FDFD57525B476B5E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <23008cae-c14f-281d-39af-17d4cef6d208@kaod.org>
+Date: Fri, 1 Jul 2022 09:11:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9b96f98e-2b7d-47a3-c64d-9cd785432840@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 1/2] hw: m25p80: Add Block Protect and Top Bottom bits for
+ write protect
+Content-Language: en-US
+To: Iris Chen <irischenlj@fb.com>
+CC: <pdel@fb.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
+ <patrick@stwcx.xyz>, <alistair@alistair23.me>, <kwolf@redhat.com>,
+ <hreitz@redhat.com>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
+ <joel@jms.id.au>, <thuth@redhat.com>, <lvivier@redhat.com>,
+ <pbonzini@redhat.com>, <qemu-block@nongnu.org>, <dz4list@gmail.com>
+References: <20220627185234.1911337-1-irischenlj@fb.com>
+ <20220627185234.1911337-2-irischenlj@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220627185234.1911337-2-irischenlj@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 35a00944-817c-415c-94f4-45aa1cff30bb
+X-Ovh-Tracer-Id: 11401143933627632516
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehvddguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepugiigehlihhsthesghhmrghilhdrtghomhdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
+ helo=2.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,37 +79,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 01, 2022 at 06:12:14AM +0200, Thomas Huth wrote:
-> I even wouldn't mind if you put your python stuff in a new directory like
-> tests/pytests/ for example, as long as it downloads your binaries separately
-> - as I wrote in another mail, the avocado framework rather looks like an
-> oddball in our test framework nowadays since it uses a separate test runner
-> and not the meson test harness, so having a new approach for python-based
-> tests is maybe even a good idea. I just really want to avoid that this goes
-> into tests/qtest (since it really does not belong there), and please don't
-> add more external stuff via git submodules, that's really the wrong approach
-> for this.
+Even for a simple addition a quick intro is always nice to have.
 
-I get it, people hate submodules with passion.  I think trying another
-approach for testing that is neither avocado nor qtest is
-not too bad. As long as this is not user visible, we can
-allow ourselves space to experiment.
+On 6/27/22 20:52, Iris Chen wrote:
+> Signed-off-by: Iris Chen <irischenlj@fb.com>
 
-OK so, how about this:
-- put it in a new directory: tests/roms?
-- create repo for a fork of biosbits under git.qemu.org
-- roll our own analog to git submodules: a script
-  that clones the repo
-- new target make check-roms, if the clone exists locally -
-  run the test, if not - skip it
-- as for using pre-generates ISOs as an optimization,
-  I'm not sure how important that is, if yes -
-  we can add another repo and another make target along the
-  same lines
+Too bad that we are modeling 5 bits with 5 bools but given the layout
+it makes the code easier to read. LGTM.
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
 
 
 
--- 
-MST
+> ---
+>   hw/block/m25p80.c | 74 +++++++++++++++++++++++++++++++++++++++--------
+>   1 file changed, 62 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 50b523e5b1..0156a70f5e 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -38,21 +38,19 @@
+>   #include "trace.h"
+>   #include "qom/object.h"
+>   
+> -/* Fields for FlashPartInfo->flags */
+> -
+> -/* erase capabilities */
+> -#define ER_4K 1
+> -#define ER_32K 2
+> -/* set to allow the page program command to write 0s back to 1. Useful for
+> - * modelling EEPROM with SPI flash command set
+> - */
+> -#define EEPROM 0x100
+> -
+>   /* 16 MiB max in 3 byte address mode */
+>   #define MAX_3BYTES_SIZE 0x1000000
+> -
+>   #define SPI_NOR_MAX_ID_LEN 6
+>   
+> +/* Fields for FlashPartInfo->flags */
+> +enum spi_nor_option_flags {
+> +    ER_4K                  = BIT(0),
+> +    ER_32K                 = BIT(1),
+> +    EEPROM                 = BIT(2),
+> +    SNOR_F_HAS_SR_TB       = BIT(3),
+> +    SNOR_F_HAS_SR_BP3_BIT6 = BIT(4),
+> +};
+> +
+>   typedef struct FlashPartInfo {
+>       const char *part_name;
+>       /*
+> @@ -253,7 +251,8 @@ static const FlashPartInfo known_devices[] = {
+>       { INFO("n25q512a11",  0x20bb20,      0,  64 << 10, 1024, ER_4K) },
+>       { INFO("n25q512a13",  0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+>       { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
+> -    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
+> +    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512,
+> +           ER_4K | SNOR_F_HAS_SR_BP3_BIT6 | SNOR_F_HAS_SR_TB) },
+>       { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+>       { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
+>       { INFO("mt25ql512ab", 0x20ba20, 0x1044, 64 << 10, 1024, ER_4K | ER_32K) },
+> @@ -480,6 +479,11 @@ struct Flash {
+>       bool reset_enable;
+>       bool quad_enable;
+>       bool aai_enable;
+> +    bool block_protect0;
+> +    bool block_protect1;
+> +    bool block_protect2;
+> +    bool block_protect3;
+> +    bool top_bottom_bit;
+>       bool status_register_write_disabled;
+>       uint8_t ear;
+>   
+> @@ -630,6 +634,29 @@ void flash_write8(Flash *s, uint32_t addr, uint8_t data)
+>           qemu_log_mask(LOG_GUEST_ERROR, "M25P80: write with write protect!\n");
+>           return;
+>       }
+> +    uint32_t block_protect_value = (s->block_protect3 << 3) |
+> +                                   (s->block_protect2 << 2) |
+> +                                   (s->block_protect1 << 1) |
+> +                                   (s->block_protect0 << 0);
+> +
+> +     uint32_t num_protected_sectors = 1 << (block_protect_value - 1);
+> +     uint32_t sector = addr / s->pi->sector_size;
+> +
+> +     /* top_bottom_bit == 0 means TOP */
+> +    if (!s->top_bottom_bit) {
+> +        if (block_protect_value > 0 &&
+> +            s->pi->n_sectors <= sector + num_protected_sectors) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "M25P80: write with write protect!\n");
+> +            return;
+> +        }
+> +    } else {
+> +        if (block_protect_value > 0 && sector < num_protected_sectors) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "M25P80: write with write protect!\n");
+> +            return;
+> +        }
+> +    }
+>   
+>       if ((prev ^ data) & data) {
+>           trace_m25p80_programming_zero_to_one(s, addr, prev, data);
+> @@ -728,6 +755,15 @@ static void complete_collecting_data(Flash *s)
+>           break;
+>       case WRSR:
+>           s->status_register_write_disabled = extract32(s->data[0], 7, 1);
+> +        s->block_protect0 = extract32(s->data[0], 2, 1);
+> +        s->block_protect1 = extract32(s->data[0], 3, 1);
+> +        s->block_protect2 = extract32(s->data[0], 4, 1);
+> +        if (s->pi->flags & SNOR_F_HAS_SR_TB) {
+> +            s->top_bottom_bit = extract32(s->data[0], 5, 1);
+> +        }
+> +        if (s->pi->flags & SNOR_F_HAS_SR_BP3_BIT6) {
+> +            s->block_protect3 = extract32(s->data[0], 6, 1);
+> +        }
+>   
+>           switch (get_man(s)) {
+>           case MAN_SPANSION:
+> @@ -1213,6 +1249,15 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>       case RDSR:
+>           s->data[0] = (!!s->write_enable) << 1;
+>           s->data[0] |= (!!s->status_register_write_disabled) << 7;
+> +        s->data[0] |= (!!s->block_protect0) << 2;
+> +        s->data[0] |= (!!s->block_protect1) << 3;
+> +        s->data[0] |= (!!s->block_protect2) << 4;
+> +        if (s->pi->flags & SNOR_F_HAS_SR_TB) {
+> +            s->data[0] |= (!!s->top_bottom_bit) << 5;
+> +        }
+> +        if (s->pi->flags & SNOR_F_HAS_SR_BP3_BIT6) {
+> +            s->data[0] |= (!!s->block_protect3) << 6;
+> +        }
+>   
+>           if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
+>               s->data[0] |= (!!s->quad_enable) << 6;
+> @@ -1553,6 +1598,11 @@ static void m25p80_reset(DeviceState *d)
+>   
+>       s->wp_level = true;
+>       s->status_register_write_disabled = false;
+> +    s->block_protect0 = false;
+> +    s->block_protect1 = false;
+> +    s->block_protect2 = false;
+> +    s->block_protect3 = false;
+> +    s->top_bottom_bit = false;
+>   
+>       reset_memory(s);
+>   }
 
 
