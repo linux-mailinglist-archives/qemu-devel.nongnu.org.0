@@ -2,41 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43580563072
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 11:41:55 +0200 (CEST)
-Received: from localhost ([::1]:34238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F9D56309A
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 11:48:17 +0200 (CEST)
+Received: from localhost ([::1]:45490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7D9u-000064-9r
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 05:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58802)
+	id 1o7DG5-0007u9-1b
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 05:48:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1o7D2e-0001j3-5f
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:34:24 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:39354 helo=loongson.cn)
+ id 1o7D8Z-00009O-Ab
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:40:31 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:41870 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1o7D2a-0003Eh-Sk
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:34:23 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1o7D8V-0002rH-Ii
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 05:40:31 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxKeGPv75iutYAAA--.2820S2;
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxKeGPv75iutYAAA--.2820S3;
  Fri, 01 Jul 2022 17:34:07 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: [PATCH v2 00/11] Fix bugs for LoongArch virt machine
-Date: Fri,  1 Jul 2022 17:33:56 +0800
-Message-Id: <20220701093407.2150607-1-yangxiaojuan@loongson.cn>
+Subject: [PATCH 01/11] hw/rtc/ls7a_rtc: Fix uninitialied bugs and toymatch
+ writing function
+Date: Fri,  1 Jul 2022 17:33:57 +0800
+Message-Id: <20220701093407.2150607-2-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220701093407.2150607-1-yangxiaojuan@loongson.cn>
+References: <20220701093407.2150607-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxKeGPv75iutYAAA--.2820S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtrW5JF48uF1DWFW8Zw48Crg_yoWkZFc_CF
- WftFWkGw1UWa45ZayUtrW8Cr98Cw48uFy3AFn2qrWfKrW7Jws8Cws8KwsI9F10gr1aqFZ8
- tr48trZ5Aw13KjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
+X-CM-TRANSID: AQAAf9AxKeGPv75iutYAAA--.2820S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxGw1fWry8Gr1kAw1ftF13Arb_yoW5Ar1kpF
+ W5Cwn5ta42yFsFgrZrCr4kAF15J3yqyryfXr98Cwsa934kXrs0gFykXrW7JFyUXFZ3uF4r
+ ua1rZrn0qF43trJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -60,32 +63,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series fix some bugs for LoongArch virt machine. Including
-RTC device emulation, ECFG reg emulation, timer clear function,
-and IPI device function, etc.
+1. Initialize the tm struct in toymatch_write() and ls7a_toy_start() to
+   fix uninitialized bugs.
+2. Fix toymatch_val_to_time function. By the document, when we calculate
+   the expiration year, we should first get current year, and replace the
+   0-5 bits with toymatch's 26-31 bits.
 
-Xiaojuan Yang (11):
-  hw/rtc/ls7a_rtc: Fix uninitialied bugs and toymatch writing function
-  hw/rtc/ls7a_rtc: Fix timer call back function
-  hw/rtc/ls7a_rtc: Remove unimplemented device in realized function
-  hw/rtc/ls7a_rtc: Add reset function
-  hw/rtc/ls7a_rtc: Fix rtc enable and disable function
-  hw/rtc/ls7a_rtc: Use tm struct pointer as arguments in
-    toy_time_to_val()
-  hw/rtc/ls7a_rtc: Fix 'calculate' spelling errors
-  target/loongarch: Fix the meaning of ECFG reg's VS field
-  target/loongarch: Add lock when writing timer clear reg
-  hw/intc/loongarch_ipi: Fix ipi device access of 64bits
-  hw/intc/loongarch_ipi: Fix mail send and any send function
+Fixes: Coverity CID 1489766, 1489763
 
- hw/intc/loongarch_ipi.c         |  83 +++++++++++++-------
- hw/loongarch/loongson3.c        |   5 +-
- hw/rtc/ls7a_rtc.c               | 131 +++++++++++++-------------------
- include/hw/intc/loongarch_ipi.h |   7 +-
- target/loongarch/cpu.c          |   4 +
- target/loongarch/csr_helper.c   |   2 +
- 6 files changed, 122 insertions(+), 110 deletions(-)
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+---
+ hw/rtc/ls7a_rtc.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
+diff --git a/hw/rtc/ls7a_rtc.c b/hw/rtc/ls7a_rtc.c
+index fe6710310f..b88a90de8b 100644
+--- a/hw/rtc/ls7a_rtc.c
++++ b/hw/rtc/ls7a_rtc.c
+@@ -148,8 +148,9 @@ static inline uint64_t toy_time_to_val_year(struct tm tm)
+     return year;
+ }
+ 
+-static inline void toymatch_val_to_time(uint64_t val, struct tm *tm)
++static inline void toymatch_val_to_time(LS7ARtcState *s, uint64_t val, struct tm *tm)
+ {
++    qemu_get_timedate(tm, s->offset_toy);
+     tm->tm_sec = FIELD_EX32(val, TOY_MATCH, SEC);
+     tm->tm_min = FIELD_EX32(val, TOY_MATCH, MIN);
+     tm->tm_hour = FIELD_EX32(val, TOY_MATCH, HOUR);
+@@ -158,17 +159,18 @@ static inline void toymatch_val_to_time(uint64_t val, struct tm *tm)
+     tm->tm_year += (FIELD_EX32(val, TOY_MATCH, YEAR) - (tm->tm_year & 0x3f));
+ }
+ 
+-static void toymatch_write(LS7ARtcState *s, struct tm *tm, uint64_t val, int num)
++static void toymatch_write(LS7ARtcState *s, uint64_t val, int num)
+ {
+     int64_t now, expire_time;
++    struct tm tm = {};
+ 
+     /* it do not support write when toy disabled */
+     if (toy_enabled(s)) {
+         s->toymatch[num] = val;
+         /* caculate expire time */
+         now = qemu_clock_get_ms(rtc_clock);
+-        toymatch_val_to_time(val, tm);
+-        expire_time = now + (qemu_timedate_diff(tm) - s->offset_toy) * 1000;
++        toymatch_val_to_time(s, val, &tm);
++        expire_time = now + (qemu_timedate_diff(&tm) - s->offset_toy) * 1000;
+         timer_mod(s->toy_timer[num], expire_time);
+     }
+ }
+@@ -223,7 +225,7 @@ static void ls7a_toy_start(LS7ARtcState *s)
+ {
+     int i;
+     uint64_t expire_time, now;
+-    struct tm tm;
++    struct tm tm = {};
+     /*
+      * need to recaculate toy offset
+      * and expire time when enable it.
+@@ -236,7 +238,7 @@ static void ls7a_toy_start(LS7ARtcState *s)
+ 
+     /* recaculate expire time and enable timer */
+     for (i = 0; i < TIMER_NUMS; i++) {
+-        toymatch_val_to_time(s->toymatch[i], &tm);
++        toymatch_val_to_time(s, s->toymatch[i], &tm);
+         expire_time = now + (qemu_timedate_diff(&tm) - s->offset_toy) * 1000;
+         timer_mod(s->toy_timer[i], expire_time);
+     }
+@@ -352,13 +354,13 @@ static void ls7a_rtc_write(void *opaque, hwaddr addr,
+         }
+         break;
+     case SYS_TOYMATCH0:
+-        toymatch_write(s, &tm, val, 0);
++        toymatch_write(s, val, 0);
+         break;
+     case SYS_TOYMATCH1:
+-        toymatch_write(s, &tm, val, 1);
++        toymatch_write(s, val, 1);
+         break;
+     case SYS_TOYMATCH2:
+-        toymatch_write(s, &tm, val, 2);
++        toymatch_write(s, val, 2);
+         break;
+     case SYS_RTCCTRL:
+         /* get old ctrl */
 -- 
 2.31.1
 
