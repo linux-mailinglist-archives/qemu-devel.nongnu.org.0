@@ -2,73 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F338B562D2F
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 09:56:07 +0200 (CEST)
-Received: from localhost ([::1]:48304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DFE562D83
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 10:11:42 +0200 (CEST)
+Received: from localhost ([::1]:55760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7BVW-0002Ne-OR
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 03:56:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34388)
+	id 1o7Bkb-0000xr-5i
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 04:11:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7BSG-0007jm-8R
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 03:52:45 -0400
-Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:51921)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o7Bcm-0005fg-QR
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 04:03:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7BSC-0006Ot-G2
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 03:52:42 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 96C6B20D88;
- Fri,  1 Jul 2022 07:52:36 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 1 Jul 2022
- 09:52:35 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0059b682b08-ef58-4540-9696-c75fbeff950f,
- 4AFA7A5FE9B5479AF1021A557A7101AB3AA64E21) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <07646786-e1d0-8b2c-0c25-b64d41eb2a27@kaod.org>
-Date: Fri, 1 Jul 2022 09:52:34 +0200
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o7Bcj-00008y-Q9
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 04:03:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656662612;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f8GV/psWE7C8PMP0YvCypC3Cung7iMKr8k/7BjBETg8=;
+ b=QXGXiPeqXPNbU8bQS3ZQAlfeDVbokka6Y4hU/J0O2OaJqZdj9G+0e1yeqFmsYG89tO0E7z
+ aMVWPYwmD9gFUpTYgrI90c8natojlaF/Sw5YFfhd/nkyskjTdnvdmLvhvCez01hkpZ5gi/
+ AnvRQG2GBoysgRjfbseDgrLiSUPeZl0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-duKE1oLqPsaT4Gpl51k6kQ-1; Fri, 01 Jul 2022 04:03:31 -0400
+X-MC-Unique: duKE1oLqPsaT4Gpl51k6kQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ n8-20020a05640205c800b00434fb0c150cso1222885edx.19
+ for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 01:03:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=f8GV/psWE7C8PMP0YvCypC3Cung7iMKr8k/7BjBETg8=;
+ b=NBUHkatYNB2MLtUDxCIRt5BQ+56Q9/ZsAkzsz1iZZ+FPmdPywpTgZ0edl3AvVZZoBY
+ +zIGPpVWq3zq8MCBM8y0J8/pVjVccFA+TEdoZbjvmx0E1kH8QjTV9o7K3n3wLI1veT57
+ uP+tcqRw40fsOXWqL8K5yKfkMT9RS+jSjCbTRhouJWj/CPJDCmJYuRBO7A74t0XofEfZ
+ IYQdXNvcW5+P15/y8brxMmKy1ChEg6GEMf7La9ba3lxDcUyF8JqVAoi1vM3HmI0N2TPv
+ /AB1TWi5uE1wKKaESSO0m8X6xw/HTiJFP+rFvccjTf8f7oeOUX+9NRWtPRsPq+A17XeS
+ H5vg==
+X-Gm-Message-State: AJIora/tI6PJuZ7ISswJBtDtxhL/pFUyuTD5LFvXJGuzh0vCkEeS9BOv
+ g9le/33I8drjRy7XYylcfWqLv6YNlu1exJAUmwhsJiV+0noBFkiOKWZ/lWY/TstPuGUGjLoUnxA
+ SMHPZW+hvNDAPhJM=
+X-Received: by 2002:a17:907:9687:b0:726:3afa:fc7b with SMTP id
+ hd7-20020a170907968700b007263afafc7bmr13147209ejc.82.1656662610423; 
+ Fri, 01 Jul 2022 01:03:30 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vekS9pJQCBOMTqSTXFHjG6brVhtmRnPZjWlLDNl+ZFPMFnrSmGdtZJpraRGEh/eCYrXCWtuw==
+X-Received: by 2002:a17:907:9687:b0:726:3afa:fc7b with SMTP id
+ hd7-20020a170907968700b007263afafc7bmr13147187ejc.82.1656662610228; 
+ Fri, 01 Jul 2022 01:03:30 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
+ ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
+ by smtp.gmail.com with ESMTPSA id
+ u17-20020a056402111100b0042deea0e961sm14706075edv.67.2022.07.01.01.03.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Jul 2022 01:03:29 -0700 (PDT)
+Message-ID: <f7bfad22-4066-f057-cc15-6982d7117944@redhat.com>
+Date: Fri, 1 Jul 2022 10:03:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 3/9] hw/arm/aspeed: qcom-dc-scm-v1: add block backed FRU
- device
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 01/10] tests/qemu-iotests: hotfix for 307, 223 output
 Content-Language: en-US
-To: Patrick Venture <venture@google.com>
-CC: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, Hao Wu <wuhaotsh@google.com>,
- Peter Maydell <peter.maydell@linaro.org>, Titus Rwantare <titusr@google.com>, 
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Graeme
- Gregory <quic_ggregory@quicinc.com>, Maheswara Kurapati
- <quic_mkurapat@quicinc.com>, qemu-arm <qemu-arm@nongnu.org>, QEMU Developers
- <qemu-devel@nongnu.org>, Peter Delevoryas <pdel@fb.com>, Markus Armbruster
- <armbru@redhat.com>
-References: <20220622172830.101210-1-quic_jaehyoo@quicinc.com>
- <20220622172830.101210-4-quic_jaehyoo@quicinc.com>
- <CAO=notzsLW=F6QDu5mAhBCXNMocV1_qF3EazHYLoP_mu8e8QFg@mail.gmail.com>
- <f4d49ce6-f4b6-66fa-e980-43c185652981@kaod.org>
- <CAO=notyrQ3697_79_HtGCO6MryA72LHhaAvf75QLpdR5LH+O4w@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAO=notyrQ3697_79_HtGCO6MryA72LHhaAvf75QLpdR5LH+O4w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>, qemu-block@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20220616142659.3184115-1-jsnow@redhat.com>
+ <20220616142659.3184115-2-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220616142659.3184115-2-jsnow@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3e8cdb24-518a-4bc6-81f9-877a47b217a5
-X-Ovh-Tracer-Id: 12088787299949185979
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehvddguddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeeggffggfehjefgudefieeuffevheetjefgleeukefggeetgfffjeehtdfgjefgnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegrrhhmsghruhesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
- helo=6.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,121 +107,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding Markus,
+On 16.06.22 16:26, John Snow wrote:
+> Fixes: 58a6fdcc
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Tested-by: Daniel P. Berrangé <berrange@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   tests/qemu-iotests/223.out | 4 ++--
+>   tests/qemu-iotests/307.out | 4 ++--
+>   2 files changed, 4 insertions(+), 4 deletions(-)
 
-On 6/23/22 19:37, Patrick Venture wrote:
-> 
-> 
-> On Thu, Jun 23, 2022 at 10:16 AM Cédric Le Goater <clg@kaod.org <mailto:clg@kaod.org>> wrote:
-> 
->     On 6/23/22 17:28, Patrick Venture wrote:
->      >
->      >
->      > On Wed, Jun 22, 2022 at 10:48 AM Jae Hyun Yoo <quic_jaehyoo@quicinc.com <mailto:quic_jaehyoo@quicinc.com> <mailto:quic_jaehyoo@quicinc.com <mailto:quic_jaehyoo@quicinc.com>>> wrote:
->      >
->      >     From: Graeme Gregory <quic_ggregory@quicinc.com <mailto:quic_ggregory@quicinc.com> <mailto:quic_ggregory@quicinc.com <mailto:quic_ggregory@quicinc.com>>>
->      >
->      >     The FRU device uses the index 0 device on bus IF_NONE.
->      >
->      >     -drive file=$FRU,format=raw,if=none
->      >
->      >     file must match FRU size of 128k
->      >
->      >     Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com <mailto:quic_ggregory@quicinc.com> <mailto:quic_ggregory@quicinc.com <mailto:quic_ggregory@quicinc.com>>>
->      >     ---
->      >       hw/arm/aspeed.c | 22 +++++++++++++++++-----
->      >       1 file changed, 17 insertions(+), 5 deletions(-)
->      >
->      >     diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
->      >     index 785cc543d046..36d6b2c33e48 100644
->      >     --- a/hw/arm/aspeed.c
->      >     +++ b/hw/arm/aspeed.c
->      >     @@ -992,17 +992,29 @@ static void fby35_i2c_init(AspeedMachineState *bmc)
->      >            */
->      >       }
->      >
->      >     +static void qcom_dc_scm_fru_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
->      >     +{
->      >     +    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
->      >     +    DeviceState *dev = DEVICE(i2c_dev);
->      >     +    /* Use First Index for DC-SCM FRU */
->      >     +    DriveInfo *dinfo = drive_get(IF_NONE, 0, 0);
->      >     +
->      >     +    qdev_prop_set_uint32(dev, "rom-size", rsize);
->      >     +
->      >     +    if (dinfo) {
->      >     +        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
->      >     +    }
->      >     +
->      >     +    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
->      >     +}
->      >
->      >
->      > We've sent a similar patch up for the at24c but in its own file -- but looking at this, we could likely expand it to suite our cases as well - is there a reason it's named qcom_dc_scm_fru_init?  Presumably that's to handle the drive_get parameters.  If you make it use `drive_get(IF_NONE, bus, unit);` You'll be able to associate a drive via parameters like you aim to.
-> 
-> 
->     I have seen various attempts to populate the Aspeed eeproms with
->     data. The simplest is the g220a_bmc_i2c_init() approach. Some are
->     generating C code from the .bin files and compiling the result in
->     QEMU. Some were generating elf sections, linking them in QEMU and
->     passing the pointer as an eeprom buf.
-> 
->     The drive approach is the best I think, but the device/drive
->     association depends on the drive order on the command line when
->     devices are created by the platform.
-> 
->     We could may be extend the GenericLoaderState for eeproms ?
->     or introduce a routine which would look for a file under a (pc-bios)
->     per-machine directory and fill the eeprom buf with its contents ?
-> 
->     Any idea ?
-> 
-> 
-> So we have this in our eeprom_at24c module because we use it with Aspeed and Nuvoton:
-> 
-> void at24c_eeprom_init_one(I2CBus *i2c_bus, int bus, uint8_t addr,
->                             uint32_t rsize, int unit_number)
-> {
->      I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
->      DeviceState *dev = DEVICE(i2c_dev);
->      BlockInterfaceType type = IF_NONE;
->      DriveInfo *dinfo;
-> 
->      dinfo = drive_get(type, bus, unit_number);
->      if (dinfo) {
->          qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
->      }
->      qdev_prop_set_uint32(dev, "rom-size", rsize);
->      i2c_slave_realize_and_unref(i2c_dev, i2c_bus, &error_abort);
-> }
-> 
-> With this style call in the board:
-> 
-> snippet from downstream version of https://github.com/qemu/qemu/blob/master/hw/arm/npcm7xx_boards.c#L305 <https://github.com/qemu/qemu/blob/master/hw/arm/npcm7xx_boards.c#L305> that we still need to finish upstreaming:
-> 
-> <snip>
->       /* mb_fru */
->      at24c_eeprom_init_one(npcm7xx_i2c_get_bus(soc, 5), 5, 0x50, 8192, 0);
-> <snip>
->      /* fan_fru */
->      at24c_eeprom_init_one(pca954x_i2c_get_bus(i2c_mux, 2), 5, 0x51, 8192, 1);
->      /* hsbp_fru */
->      at24c_eeprom_init_one(pca954x_i2c_get_bus(i2c_mux, 3), 5, 0x52, 8192, 2);
-> <snip>
-> 
-> And then we call it with the bus and unit, the pair of those has to be unique for the drive parameter to work:
-> 
-> -drive file=/export/hda3/tmp/mb_fru@50,if=none,bus=5,unit=0,snapshot=off,format=raw
-> -drive file=/export/hda3/tmp/fan_fru@51,if=none,bus=5,unit=1,snapshot=off,format=raw
-> -drive file=/export/hda3/tmp/hsbp_fru@52,if=none,bus=5,unit=2,snapshot=off,format=raw
-> 
-> The above code snippet is what, I'm fairly certain we had sent up for review before, and we can send it again if you want.
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
-You could. I am not sure this is the good direction but it would restart
-the -drive topic.
-
-
-Thanks,
-
-C.
 
