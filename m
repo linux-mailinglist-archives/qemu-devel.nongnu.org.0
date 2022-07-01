@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9E9562F35
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 10:56:19 +0200 (CEST)
-Received: from localhost ([::1]:43474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9BB562F46
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 10:58:54 +0200 (CEST)
+Received: from localhost ([::1]:45924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7CRm-0000Cg-88
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 04:56:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48352)
+	id 1o7CUH-0002o5-WA
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 04:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1o7CPH-0006l0-BW
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 04:53:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54742)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o7CS3-0001u0-CS
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 04:56:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1o7CPE-0005Wy-DB
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 04:53:42 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o7CS0-00064l-CX
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 04:56:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656665619;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1656665790;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/ODqxJullWlu2NxA6HrQGVVl5UoiGdsUGNYE5NSwTuo=;
- b=Mch3ePAUc1bzUHPH6AvwYDekx0NLpMyoqVI7tjdxXj+irhOMNz5nlwfIst/BLx4fOpYSs1
- FTkjq1brxnbuIcRBOtVb3hsjQ93ZK3D6BXFd/86iU6l3IMGARJ58S7xTvwQodrtyCXA3Z8
- /cVOljCrBtkqh9a/4VKxaB7wzRXtV5I=
+ bh=kC79CPRPEE73XgXN8mwoafgt5AHwXSJt6MoDN3oQnvo=;
+ b=G6+9/aF16kIuZbBcq8BG/3rQnqykOFNz4GTw1X/sqvW7giI3qp238xGxzlfAV+1ZaLS+cB
+ kiLtkroprRbP25SybGL17wxJD/Pm7K6fV9aoVZidgmCwqj6RFFvh+L/z+AAcMJGWvCF+tI
+ utpEJuUyW8SZlVnZj9kzm3RooaTFG5E=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-LrRscGvROr6qu2RRUcvOjg-1; Fri, 01 Jul 2022 04:53:38 -0400
-X-MC-Unique: LrRscGvROr6qu2RRUcvOjg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-393-mC7k0gs_NF2W-Ubij9AGEQ-1; Fri, 01 Jul 2022 04:56:27 -0400
+X-MC-Unique: mC7k0gs_NF2W-Ubij9AGEQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C199B85A580;
- Fri,  1 Jul 2022 08:53:37 +0000 (UTC)
-Received: from pinwheel (unknown [10.39.192.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C414D40CF8E8;
- Fri,  1 Jul 2022 08:53:35 +0000 (UTC)
-Date: Fri, 1 Jul 2022 14:23:31 +0530
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, thuth@redhat.com, peter.maydell@linaro.org,
- eblake@redhat.com
-Subject: Re: [PATCH v3 0/4] rSTify a few more docs; move them to QEMU Git
-Message-ID: <Yr62C1611gbJZshc@pinwheel>
-References: <20220606164336.245740-1-kchamart@redhat.com>
- <Yp4wKGhyMtAj/Jx2@pinwheel> <Yp4xk2+JeNkZ5eTv@pinwheel>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DA0991B733;
+ Fri,  1 Jul 2022 08:56:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14741C28115;
+ Fri,  1 Jul 2022 08:56:21 +0000 (UTC)
+Date: Fri, 1 Jul 2022 09:56:19 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Bin Meng <bmeng.cn@gmail.com>, Beraldo Leal <bleal@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 3/3] gitlab: honour QEMU_CI variable in edk2/opensbi jobs
+Message-ID: <Yr62sx9rFMmlWHxU@redhat.com>
+References: <20220629170638.520630-1-berrange@redhat.com>
+ <20220629170638.520630-4-berrange@redhat.com>
+ <a01795c0-f033-618e-2470-4b6b04eca68c@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Yp4xk2+JeNkZ5eTv@pinwheel>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a01795c0-f033-618e-2470-4b6b04eca68c@linaro.org>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,81 +87,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+On Fri, Jul 01, 2022 at 07:13:44AM +0530, Richard Henderson wrote:
+> On 6/29/22 22:36, Daniel P. Berrangé wrote:
+> > +    # In forks, if QEMU_CI=1 is set, then create manual job
+> > +    # if the branch/tag starts with 'edk2'
+> > +    - if: '$QEMU_CI == "1" && $CI_PROJECT_NAMESPACE != "qemu-project" && $CI_COMMIT_REF_NAME =~ /^edk2/'
+> > +      when: manual
+> > +
+> > +    # In forks, if QEMU_CI=1 is set, then create manual job
+> > +    # if last commit msg contains 'EDK2' (case insensitive)
+> > +    - if: '$QEMU_CI == "1" && $CI_PROJECT_NAMESPACE != "qemu-project" && $CI_COMMIT_MESSAGE =~ /edk2/i'
+> > +      when: on_success
+> 
+> manual on last line?
 
-Thomas/Peter: when you get some time, please have a look at this.
+/facepalm    Yes, of course.
 
-On Mon, Jun 06, 2022 at 06:55:47PM +0200, Kashyap Chamarthy wrote:
-> On Mon, Jun 06, 2022 at 06:49:49PM +0200, Kashyap Chamarthy wrote:
-> > Oops, messed up v3's cover-letter subject; now fixed.  Sorry.
-> 
-> Sigh, instead of "v3", I accidentally wrote "v4" in the cover-letter
-> subject.  Now fix that too; sorry for the noise.
-> 
-> > On Mon, Jun 06, 2022 at 06:43:32PM +0200, Kashyap Chamarthy wrote:
-> > > - Add back the "<commit hash/link>" fragment in security-process.rst
-> > >   [Thomas]
-> > > - Add a docs/about/contacting-the-project.rst as per Peter's feedback
-> > >   here:
-> > >   https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg05178.html
-> > >   [pm215]
-> > > - Keep Thomas' R-by for "docs: rSTify MailingLists wiki; move it to QEMU
-> > >   Git"
-> > > 
-> > > v2 cover letter:
-> > > -----------------------------------------------------------------------
-> > > rSTify a few more docs; move them to QEMU Git
-> > > 
-> > > This series rST-ifies:
-> > > 
-> > >   - security-process[1]
-> > >   - MailingLists[2]
-> > >   - GettingStartedDevelopers[3]
-> > > 
-> > > The 'security-process' page is from the QEMU web and is moved to
-> > > docs/devel/ in QEMU Git.  This is based on Paolo's feedback here[4].
-> > > The next two docs are converted from the Wiki.
-> > > 
-> > > [1] https://www.qemu.org/contribute/security-process
-> > > [2] https://wiki.qemu.org/Contribute/MailingLists
-> > > [3] https://wiki.qemu.org/Documentation/GettingStartedDevelopers
-> > > [4] https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg04002.html
-> > > -----------------------------------------------------------------------
-> > > 
-> > > Kashyap Chamarthy (4):
-> > >   docs: rSTify "security-process" page; move it to QEMU Git
-> > >   docs: rSTify MailingLists wiki; move it to QEMU Git
-> > >   docs: rSTify GettingStartedDevelopers wiki; move it to QEMU Git
-> > >   Add a new doc "contacting-the-project.rst"
-> > > 
-> > >  docs/about/contacting-the-project.rst     |  16 ++
-> > >  docs/about/index.rst                      |   1 +
-> > >  docs/devel/getting-started-developers.rst | 200 ++++++++++++++++++++++
-> > >  docs/devel/index.rst                      |   3 +
-> > >  docs/devel/mailing-lists.rst              |  51 ++++++
-> > >  docs/devel/security-process.rst           | 190 ++++++++++++++++++++
-> > >  6 files changed, 461 insertions(+)
-> > >  create mode 100644 docs/about/contacting-the-project.rst
-> > >  create mode 100644 docs/devel/getting-started-developers.rst
-> > >  create mode 100644 docs/devel/mailing-lists.rst
-> > >  create mode 100644 docs/devel/security-process.rst
-> > > 
-> > > -- 
-> > > 2.36.1
-> > > 
-> > 
-> > -- 
-> > /kashyap
-> 
-> -- 
-> /kashyap
-> 
-> 
 
+With regards,
+Daniel
 -- 
-/kashyap
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
