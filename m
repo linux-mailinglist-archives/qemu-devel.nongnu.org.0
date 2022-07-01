@@ -2,145 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192FE562A8D
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 06:33:11 +0200 (CEST)
-Received: from localhost ([::1]:59088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB180562ADA
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 07:25:46 +0200 (CEST)
+Received: from localhost ([::1]:38838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o78L7-0006Uz-Ll
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 00:33:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51608)
+	id 1o79A1-0000IQ-8K
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 01:25:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1o78It-00057H-Od; Fri, 01 Jul 2022 00:30:51 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:28488)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o798T-0007bc-M1; Fri, 01 Jul 2022 01:24:09 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:58465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1o78Iq-0004EP-78; Fri, 01 Jul 2022 00:30:51 -0400
-Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25UKaZLO019223;
- Thu, 30 Jun 2022 21:30:42 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=KhOWPR9Vv+P3xzVEuF7nOgo8RIyCrfc9QZQNzHbFyBo=;
- b=Azfu7Q7YlISB+JVMXiiMrPt4boOlkOLEXOIAn/T2K8GRW2VaS8i0t90IvN9AY+2G3xQs
- YoGX93K1jTf5HaY98sQ0TfAbxSMWOvMCMU2koXaAG0KaMxWXIOtCihtOm3pz12AujMv5
- 8FzH0TWIrWRbQbLgRty/RfCvD2q4c8yF8aHcj2o5GCiA85BWhlMJy/Zr5nzXeYIP5KVE
- zIyGlQeWagz4l5/++O0KxCzWHgZE6YU90wukYETj2EW4HAE+AvDiN7yoT1vY8iGVcLcG
- DcoS8TVnkpYm82cOAg5Gd0hLDJqhCH+6ZZuJRAr7RKDN9pKP77H/p+pv6BPruc2rwFaR tw== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3gwxpun17h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 Jun 2022 21:30:42 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BPPPKM7GE4aMevjBUf8bj4dTk6nsN9kNQPx5SAJvHK4lmnwehCDnclyRj1sIOTCOeHVEGUfE6gkG2d+vCdg/tlIYb6cWUc4SEv2EHE7BIJUM4Ije3zwAm9tjnIV7s4lAIMvdc6j+7M6i+y7j7X2me9AboJ1TRDCv7jgg+s6zfpOslHlS0oJRZkMhKeuwzxunERCxWJguuuZJpDJlbIIdjPfSdTAmmObE03r9wQLBmN/vy+9mmdIkNummgH1lODIAgBiUrGOtO3IQNr4NJUiXL8ae9B3fgG+VNYGvHFTOX2XuTAhHezPq/z3JieftsZ3fZM/nbZRrpbTegxSsj2K9zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KhOWPR9Vv+P3xzVEuF7nOgo8RIyCrfc9QZQNzHbFyBo=;
- b=S6X2COjFJpzUoAPwL8QqvkBHVHuGwltwKrq94366+hr81i726IxWDyxOqnhvyhni7khMJjr9BHvWcxeekzJgCsFtX1NoARvmerj/vVHSV4Wfcx2nUDabTRC5gu4FPAOYar4KRDa38jGlT5/evG+LP9oCdIu+F/tpGI6dgyoIxs5Dl9ZfiGEGN0Nl1Z0AWktMMA3WrA25rMAbo+V2HI416GYAnoL311epcC/+hpCTk956FQTs+POJibKgHzf5B9rFRqJ6SbKQJ3shdVlYwGSlGuK2KvarmWhizaUUccN7bejqNNNFmhW+ux81SzNreHBqyy2pwlxRvEEreWT4EmXtIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
- by BYAPR02MB4277.namprd02.prod.outlook.com (2603:10b6:a03:56::12)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o798Q-0008Mz-Pz; Fri, 01 Jul 2022 01:24:08 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.15])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 50CEC1132F672;
+ Fri,  1 Jul 2022 07:24:00 +0200 (CEST)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.14; Fri, 1 Jul
- 2022 04:30:39 +0000
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::241b:39f:95e9:299d]) by BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::241b:39f:95e9:299d%4]) with mapi id 15.20.5395.014; Fri, 1 Jul 2022
- 04:30:39 +0000
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: Markus Armbruster <armbru@redhat.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Raphael Norwitz
- <raphael.norwitz@nutanix.com>, "mst@redhat.com" <mst@redhat.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-Subject: Re: [PATCH] contrib/vhost-user-blk: Clean up deallocation of
- VuVirtqElement
-Thread-Topic: [PATCH] contrib/vhost-user-blk: Clean up deallocation of
- VuVirtqElement
-Thread-Index: AQHYjF67NA8c9Xl+IEuiwZXjN6LjG61o7dwA
-Date: Fri, 1 Jul 2022 04:30:39 +0000
-Message-ID: <20220701043032.GA28338@raphael-debian-dev>
-References: <20220630085219.1305519-1-armbru@redhat.com>
-In-Reply-To: <20220630085219.1305519-1-armbru@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.10.1 (2018-07-13)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4ed53af8-b235-4b9c-34b3-08da5b1a73be
-x-ms-traffictypediagnostic: BYAPR02MB4277:EE_
-x-proofpoint-crosstenant: true
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gBewJbpPMeKo+w+O3UBGgVhXy3mQoZ/SxyzVbTBWgDF4yV0NnDDUDvtAs4sQVsM/r9tRuMCocncZDnziHh16AhFQmYJczzQK1WzeJNvPRaQHtt2144fJo8rs+bJI3TNxpke543pKU72dzQTJfFjbTwin3vJZVRuGgAbAQzzLHtBD9CAQ27/ZupKQajVupMA7Fr2yWzzTXNPOiyHD67UZaBJju9g7npRiIyqvMOIuvU0yqFmV0EpUteWALUCA7mucDzrU5x5cPL4f//dyepCzUy/lpXHhxh5e+uNj7eVpKpPETpxmlOMnQOGVsbretCl1/hG2yoLQZlaSnTdDSSvoyvLrVCbRYajRBCqrgOzlmGZF5gTzYSCYpG18Lk6pOtFGQweeYVPTaog6HTEUiDTnS7sz8H0/ClNdsO/eDjexxHAQkLDO8AZDUJDdpncwli1KGT9UsSTljx8C0OQfi+nrwKvsjpj6p0r+8Rn8iKuHjr/gxwLoYB+3pizxji0lJHYeZVexhjLF5YaxxbnengPfsiAUYVPBct7qOE4buHVGLDfKEO8hXPihCZVKTa31l1KvdWQX+TUZ5GRCApCk9iqbTJYUzdwHG251u3tu8Ee1a+QnoxVsy0W3aHRdo57XgT7jtLSz/g/knyq0ezbNrXXp8z/w/VV5Z4tZKziDhVD4LfW/BYromUhewTB7jqDw07JUJXDcYoZK4Whs7FpqoWinMx7kyv0596bS8VebM77xtk5hejquaF+uwHibV3UTIp/5gvP1T85XWbXmqSqrXCJRuOOhU1ByuXQOgBkXJ8UGO5G2DjpvajmcMrslzQO7vN0F
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(6029001)(7916004)(376002)(136003)(39860400002)(366004)(346002)(396003)(8936002)(1076003)(33656002)(6506007)(54906003)(38100700002)(316002)(6916009)(186003)(6486002)(26005)(122000001)(66946007)(4326008)(6512007)(9686003)(66556008)(8676002)(66476007)(71200400001)(33716001)(83380400001)(38070700005)(76116006)(2906002)(91956017)(66446008)(41300700001)(478600001)(64756008)(44832011)(86362001)(5660300002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8FIAxpVRYr45bM8G2C++t6Um1zzylic6FdBSUPLO61qZ+GugpckO6G1AUjFy?=
- =?us-ascii?Q?3K5LGBfXjY3f8PhrDJ/KLMRhjrSkLUrldV4xuEyieD48UstBnA5NtujHKm0R?=
- =?us-ascii?Q?H83jnu8AfI+qkorjJlqGUuoFOtYoJ6xx/BaXEpyovUuYrT/yvORBHHxx/x3E?=
- =?us-ascii?Q?bsSEhL7XNgV63fpY53ASWpzcG6ITRwvJbbMQzBLcB+OAUZ+sXgYaX6CTXJ36?=
- =?us-ascii?Q?piZKz1MRF+HTN0TnoVfsuehl68cJR/Z7/nwBjABPm46aQwnPAGiiTctftAKZ?=
- =?us-ascii?Q?DoahKnGwdq+L3EUxuzQhg3g4KuwYGfd7SMKUPEXTlEN7i1myF6lMqm9w+rLw?=
- =?us-ascii?Q?bPAZp62lYllr50cXbyiJXMlLQx4ZZWWSCml03njSVePmy1ydAcWjrHHh0nQx?=
- =?us-ascii?Q?MDdEm5wi/w94T41gUqc/s/AVSHP/ZRBXYeDK02nFg2LFol8Zw4qnBxkkzPdy?=
- =?us-ascii?Q?EcXA/0qk3Pypk+KaEn19JDBBW1DV9N3iJI/MsechIJIHeZ72mCimkEOaR6NM?=
- =?us-ascii?Q?xcNjGUP8pXkIeb1ArgNr3Gn0qhFY9kuSl1EFDvtDhDJ2s15d2217OmE8bjiJ?=
- =?us-ascii?Q?yQeTlyNMgcsFWHQmM2qvbc+6J8z2hRzgxeXQKFhrQdgAESaxHiPyFg0Rkb51?=
- =?us-ascii?Q?6OybQT4v30tQBrkypn8+PSk36GqqtEi9PTFKx7wu29Ki+oaoKVahbCbsttxg?=
- =?us-ascii?Q?HnK1acBNPeN91yLJvU4M7dDih93KGpXbieXGvq4OpYVOenDSSAhRQVmuJ7KT?=
- =?us-ascii?Q?ZxWe/7e6O+J4wSw9G1/sHZMgiuMGt4fApbMf7BLq4gtldiSXa1X+X46uZkNO?=
- =?us-ascii?Q?jVee0a5XSE0Uw5i+X9G6qKna4eGMbGA3ghv0d4kNRADXMJ6aKYQDUpjCuham?=
- =?us-ascii?Q?PBRA4PWLAJaqDYXs/fhfgJBqjhVrnvZk9SBOUGKmVy+iqT9zWak+w04aVY9A?=
- =?us-ascii?Q?aiihjRSggWwzr4NFlL/TlqE2Tr+cxourKt8+kGdGlTwXu061E9NDHJrKg4f1?=
- =?us-ascii?Q?2BwqEukZPzzDpSVeQmilhj2z6rohxrVb3ddpdHFqy7j8Og6jxspArZp8vzDG?=
- =?us-ascii?Q?fwtxLx62FE0rNZsm31J7/J7YZ7Y0FnuJqLK7Ueyq+Sxl4MTPfcfuv1IdbQeP?=
- =?us-ascii?Q?mqrnIfRMHO2Te4ZqjjJBsfqJLbkxTwY0tn9Mhg8/KvvakiOHZ6UOzGf2s/hL?=
- =?us-ascii?Q?ns0smv9ZHwgJhHqEaz6ic25tsd9ns6k/u3yngru42J4q5ohvZbi9m5j5wogu?=
- =?us-ascii?Q?IJLKuEHfA0apbb7HDfVg7a4sTKrfLHkXW8ljkJdD/FJZxva7Je1R7VQK4wGg?=
- =?us-ascii?Q?u8Qqn3VytOSSppz6qf/srVgmsHynaH5gE6spFsCgFREPvzqoswMkLsFDxvy3?=
- =?us-ascii?Q?99jgSds0GnNR0ldbm/zzDLsMvPiSlK7KDJsvcY6q1dJvRlJfeWjYSVxQDbTH?=
- =?us-ascii?Q?Cqx8fwYW6Habc5pdRCwK+5ZZZIRF9FnovJhqGJmFfuacTNK5woCL1CcnX3jN?=
- =?us-ascii?Q?94bhgtngbNCL8RUhpMogZ3dbHyzecrllbxLHqTltMxRCXyUgDfh+HhL0z3xV?=
- =?us-ascii?Q?cHQ/isP/9MaQeKGoQhBTiQESZSHbelG2p/tWkPDVzAFAr3l4Aomv+Lmg4fLK?=
- =?us-ascii?Q?KT7iFVtKh6z2AHVMs5yBY2Q=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4CBC3722E6D8024CBBD4A6ED9C7C265F@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 1 Jul 2022
+ 07:24:00 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G0055987a475-6dda-403a-bbc7-f22ba67e84cd,
+ 4AFA7A5FE9B5479AF1021A557A7101AB3AA64E21) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <015aab44-ba72-1f47-b499-ea5fb06d76e6@kaod.org>
+Date: Fri, 1 Jul 2022 07:23:58 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ed53af8-b235-4b9c-34b3-08da5b1a73be
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2022 04:30:39.5156 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3ffMYBZNcBZbUFjmOPl/N6ASttnmT/667SHiyMuyw2osBny//LaP3lvzmIZ8o45ZH/eGDhNdHjwlHdb8MpQxtTMcQnvPXC0XQ0dAYkkLN/Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4277
-X-Proofpoint-ORIG-GUID: MMoxNKGF3gCGNjqrzeOBmguAmM1WO1-i
-X-Proofpoint-GUID: MMoxNKGF3gCGNjqrzeOBmguAmM1WO1-i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-01_02,2022-06-28_01,2022-06-22_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 3/3] aspeed: sbc: Allow per-machine settings
+Content-Language: en-US
+To: Peter Delevoryas <me@pjd.dev>
+CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, Peter Maydell
+ <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
+ <joel@jms.id.au>
+References: <20220628154740.1117349-1-clg@kaod.org>
+ <20220628154740.1117349-4-clg@kaod.org>
+ <Yr5Pnbh3Fbtxdpsk@pdel-mbp.dhcp.thefacebook.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <Yr5Pnbh3Fbtxdpsk@pdel-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 776cfb4a-1e9e-422e-8dcf-c02934bc14bb
+X-Ovh-Tracer-Id: 9579156407462628134
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehvddgleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruhdpoffvtefjohhsthepmhhohedvle
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -158,71 +77,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 10:52:19AM +0200, Markus Armbruster wrote:
-> We allocate VuVirtqElement with g_malloc() in
-> virtqueue_alloc_element(), but free it with free() in
-> vhost-user-blk.c.  Harmless, but use g_free() anyway.
->=20
-> One of the calls is guarded by a "not null" condition.  Useless,
-> because it cannot be null (it's dereferenced right before), and even
+On 7/1/22 03:36, Peter Delevoryas wrote:
+> On Tue, Jun 28, 2022 at 05:47:40PM +0200, Cédric Le Goater wrote:
+>> From: Joel Stanley <joel@jms.id.au>
+>>
+>> In order to correctly report secure boot running firmware the values
+>> of certain registers must be set.
+>>
+>> We don't yet have documentation from ASPEED on what they mean. The
+>> meaning is inferred from u-boot's use of them.
+>>
+>> Introduce properties so the settings can be configured per-machine.
+>>
+>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   include/hw/misc/aspeed_sbc.h | 13 ++++++++++++
+>>   hw/misc/aspeed_sbc.c         | 41 ++++++++++++++++++++++++++++++++++--
+>>   2 files changed, 52 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/include/hw/misc/aspeed_sbc.h b/include/hw/misc/aspeed_sbc.h
+>> index 67e43b53ecc3..405e6782b97a 100644
+>> --- a/include/hw/misc/aspeed_sbc.h
+>> +++ b/include/hw/misc/aspeed_sbc.h
+>> @@ -17,9 +17,22 @@ OBJECT_DECLARE_TYPE(AspeedSBCState, AspeedSBCClass, ASPEED_SBC)
+>>   
+>>   #define ASPEED_SBC_NR_REGS (0x93c >> 2)
+>>   
+>> +#define QSR_AES                     BIT(27)
+>> +#define QSR_RSA1024                 (0x0 << 12)
+>> +#define QSR_RSA2048                 (0x1 << 12)
+>> +#define QSR_RSA3072                 (0x2 << 12)
+>> +#define QSR_RSA4096                 (0x3 << 12)
+>> +#define QSR_SHA224                  (0x0 << 10)
+>> +#define QSR_SHA256                  (0x1 << 10)
+>> +#define QSR_SHA384                  (0x2 << 10)
+>> +#define QSR_SHA512                  (0x3 << 10)
+>> +
+>>   struct AspeedSBCState {
+>>       SysBusDevice parent;
+>>   
+>> +    bool emmc_abr;
+>> +    uint32_t signing_settings;
+>> +
+>>       MemoryRegion iomem;
+>>   
+>>       uint32_t regs[ASPEED_SBC_NR_REGS];
+>> diff --git a/hw/misc/aspeed_sbc.c b/hw/misc/aspeed_sbc.c
+>> index bfa8b81d01c7..3946e6179bdd 100644
+>> --- a/hw/misc/aspeed_sbc.c
+>> +++ b/hw/misc/aspeed_sbc.c
+>> @@ -11,6 +11,7 @@
+>>   #include "qemu/osdep.h"
+>>   #include "qemu/log.h"
+>>   #include "qemu/error-report.h"
+>> +#include "hw/qdev-properties.h"
+>>   #include "hw/misc/aspeed_sbc.h"
+>>   #include "qapi/error.h"
+>>   #include "migration/vmstate.h"
+>> @@ -19,6 +20,27 @@
+>>   #define R_STATUS        (0x014 / 4)
+>>   #define R_QSR           (0x040 / 4)
+>>   
+>> +/* R_STATUS */
+>> +#define ABR_EN                  BIT(14) /* Mirrors SCU510[11] */
+>> +#define ABR_IMAGE_SOURCE        BIT(13)
+>> +#define SPI_ABR_IMAGE_SOURCE    BIT(12)
+>> +#define SB_CRYPTO_KEY_EXP_DONE  BIT(11)
+>> +#define SB_CRYPTO_BUSY          BIT(10)
+>> +#define OTP_WP_EN               BIT(9)
+>> +#define OTP_ADDR_WP_EN          BIT(8)
+>> +#define LOW_SEC_KEY_EN          BIT(7)
+>> +#define SECURE_BOOT_EN          BIT(6)
+>> +#define UART_BOOT_EN            BIT(5)
+>> +/* bit 4 reserved*/
+>> +#define OTP_CHARGE_PUMP_READY   BIT(3)
+>> +#define OTP_IDLE                BIT(2)
+>> +#define OTP_MEM_IDLE            BIT(1)
+>> +#define OTP_COMPARE_STATUS      BIT(0)
+>> +
+>> +/* QSR */
+>> +#define QSR_RSA_MASK           (0x3 << 12)
+>> +#define QSR_HASH_MASK          (0x3 << 10)
+>> +
+>>   static uint64_t aspeed_sbc_read(void *opaque, hwaddr addr, unsigned int size)
+>>   {
+>>       AspeedSBCState *s = ASPEED_SBC(opaque);
+>> @@ -80,8 +102,17 @@ static void aspeed_sbc_reset(DeviceState *dev)
+>>       memset(s->regs, 0, sizeof(s->regs));
+>>   
+>>       /* Set secure boot enabled with RSA4096_SHA256 and enable eMMC ABR */
+>> -    s->regs[R_STATUS] = 0x000044C6;
+>> -    s->regs[R_QSR] = 0x07C07C89;
+>> +    s->regs[R_STATUS] = OTP_IDLE | OTP_MEM_IDLE;
+>> +
+>> +    if (s->emmc_abr) {
+>> +        s->regs[R_STATUS] &= ABR_EN;
+>> +    }
+>> +
+>> +    if (s->signing_settings) {
+>> +        s->regs[R_STATUS] &= SECURE_BOOT_EN;
+>> +    }
+>> +
+>> +    s->regs[R_QSR] = s->signing_settings;
+>>   }
+>>   
+>>   static void aspeed_sbc_realize(DeviceState *dev, Error **errp)
+>> @@ -105,6 +136,11 @@ static const VMStateDescription vmstate_aspeed_sbc = {
+>>       }
+>>   };
+>>   
+>> +static Property aspeed_sbc_properties[] = {
+>> +    DEFINE_PROP_BOOL("emmc-abr", AspeedSBCState, emmc_abr, 0),
+>> +    DEFINE_PROP_UINT32("signing-settings", AspeedSBCState, signing_settings, 0),
+>> +};
+> 
+> This needs a DEFINE_PROP_END_OF_LIST(), I bisected to this commit in Cedric's
+> aspeed-7.1 branch.
 
-NIT: if it
+Ah you did also ! Sorry I should have told. The problem only showed
+on f35 using clang, and I didn't notice until I pushed the branch
+on gitlab yersterday.
 
-> it it could be, free() and g_free() do the right thing.  Drop the
-> conditional.
->=20
+> Reviewed-by: Peter Delevoryas <pdel@fb.com>
+> Tested-by: Peter Delevoryas <pdel@fb.com>
 
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+I will include the patch in the next PR.
 
-> Fixes: Coverity CID 1490290
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
-> Not even compile-tested, because I can't figure out how this thing is
-> supposed to be built.  Its initial commit message says "make
-> vhost-user-blk", but that doesn't work anymore.
->=20
+Thanks,
 
-make contrib/vhost-user-blk/vhost-user-blk works for me.
+C.
 
->  contrib/vhost-user-blk/vhost-user-blk.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->=20
-> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user=
--blk/vhost-user-blk.c
-> index 9cb78ca1d0..d6932a2645 100644
-> --- a/contrib/vhost-user-blk/vhost-user-blk.c
-> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
-> @@ -106,10 +106,7 @@ static void vub_req_complete(VubReq *req)
->                    req->size + 1);
->      vu_queue_notify(vu_dev, req->vq);
-> =20
-> -    if (req->elem) {
-> -        free(req->elem);
-> -    }
-> -
-> +    g_free(req->elem);
->      g_free(req);
->  }
-> =20
-> @@ -243,7 +240,7 @@ static int vub_virtio_process_req(VubDev *vdev_blk,
->      /* refer to hw/block/virtio_blk.c */
->      if (elem->out_num < 1 || elem->in_num < 1) {
->          fprintf(stderr, "virtio-blk request missing headers\n");
-> -        free(elem);
-> +        g_free(elem);
->          return -1;
->      }
-> =20
-> @@ -325,7 +322,7 @@ static int vub_virtio_process_req(VubDev *vdev_blk,
->      return 0;
-> =20
->  err:
-> -    free(elem);
-> +    g_free(elem);
->      g_free(req);
->      return -1;
->  }
-> --=20
-> 2.35.3
-> =
+
+>> +
+>>   static void aspeed_sbc_class_init(ObjectClass *klass, void *data)
+>>   {
+>>       DeviceClass *dc = DEVICE_CLASS(klass);
+>> @@ -112,6 +148,7 @@ static void aspeed_sbc_class_init(ObjectClass *klass, void *data)
+>>       dc->realize = aspeed_sbc_realize;
+>>       dc->reset = aspeed_sbc_reset;
+>>       dc->vmsd = &vmstate_aspeed_sbc;
+>> +    device_class_set_props(dc, aspeed_sbc_properties);
+>>   }
+>>   
+>>   static const TypeInfo aspeed_sbc_info = {
+>> -- 
+>> 2.35.3
+>>
+>>
+
 
