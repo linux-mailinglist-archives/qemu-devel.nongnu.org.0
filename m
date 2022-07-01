@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74C1563156
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 12:27:01 +0200 (CEST)
-Received: from localhost ([::1]:53078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADB15631ED
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 12:52:56 +0200 (CEST)
+Received: from localhost ([::1]:48712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7DrY-00016V-A6
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 06:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39038)
+	id 1o7EGa-00016x-1n
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 06:52:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o7Dfk-0000FX-F6
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:14:49 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:46863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o7Dfi-0004pm-02
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:14:47 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id k20so2291305edj.13
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 03:14:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mkZxFEeQhukher6X/Hx/SytRA0PyTHLxI/Mb6VymEA8=;
- b=4HpjHrfkvgGxdwxbw15brsAqth+1IEdF+J9WbAFa4XQjt/n3kk7/FNnjPQhSIropQE
- 6H+Hr8pLh4YT+qouZ7tztI4trFWueJX0+rvpzpbv674+m6zGdpLtCK4QjBq5fXLzBhbJ
- 2Q7EflkWuYZavQ1ob8Mlnc5Ko1QBhDNgrQdE3ywhsxWquYZlEZVeCQ3ve37fsr3/ay+k
- JBzddPnNiuyw0VZc8RFk57fWbcTmxrVxy0gI9ZOAoI5yiQulpPhiLGcCH16TkJwULWC5
- GdnKIDLWdhiSUGuWS79wW1Skw6Xk31h28KoSk8LBDGraJHV2hh+gnltlDaOrfVnIQ4ni
- vZ4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mkZxFEeQhukher6X/Hx/SytRA0PyTHLxI/Mb6VymEA8=;
- b=cSNjj6pLR0FDwICXhm0JRWzkse5bn+a45wvA9esJOcEapLa3f/MbyOqH2knP/eCM8Q
- bFhLD2/psvPeBHmgXovQ8r8PRcfFQJ+2PO0ZM50C0saq8mFgLa8/Ez10kPyvOcSmG9vP
- lCkzd4a7TNPFJ2mHiqHf+hA8TAXY06vUl/XfzpEsaourX9H/0hjbyJeJPOZSd63r1bge
- v9ctpwHAcMl4dgJB2+ZLX/2Oq4JqqkN28fWzBdfbmG+ZL4l9GwTlGngLbM2wtg8GTY2A
- Z1JlBkxuG9RUoEBpurEAxnJUGYf7SjQlSSQsgMB1FN4NRp+I7/MFPqQBv4Lz1X5+C0gK
- M/YQ==
-X-Gm-Message-State: AJIora9KLBbMPPa1qQ9yDjzyEzVEQUT8zv8nmy2caVCsHOx66XB2DFtb
- jdyXBrfNM3itqMTzn9bAwlK5lJnKbKAYEtaWBkNB5Q==
-X-Google-Smtp-Source: AGRyM1tW2DMNDvGC82EsByeK4YV1Rmtg7zziJao2B9lreZ3XqbrcKM4Zimvfbywl+lMH1CmtC+h06W0g2O91xQRKxkU=
-X-Received: by 2002:a05:6402:4302:b0:437:7990:992e with SMTP id
- m2-20020a056402430200b004377990992emr17894985edc.194.1656670484349; Fri, 01
- Jul 2022 03:14:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o7EF3-00081v-TK
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:51:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39923)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o7EEz-0004FQ-BY
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:51:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656672669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RTdlRJEIqeZR/gMDnImgXK2t7SXAFjxFFSvCwwCTvlw=;
+ b=ha3hpyYM0zCBLiMovqet2C00PD/NgyS3PkOdXJOrbWsukM5LclfCtyK/27dyYW0Y+wtI13
+ vzNwyRKyEmpQ2JNmPRlplXsQEXPi4HfD314aRRqYm+mOJIIh4gWOcSrtVNBpGgnFuHL9VK
+ qdJ3Q6YRXELeiOu9n94Wn03gUvy9yI8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611-mGxJO0tbONWvIOTf-x64Kw-1; Fri, 01 Jul 2022 06:51:08 -0400
+X-MC-Unique: mGxJO0tbONWvIOTf-x64Kw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 037C429324BD;
+ Fri,  1 Jul 2022 10:51:08 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C839D40D1B97;
+ Fri,  1 Jul 2022 10:51:07 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 37B25180091D; Fri,  1 Jul 2022 12:51:06 +0200 (CEST)
+Date: Fri, 1 Jul 2022 12:51:06 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Hongren (Zenithal) Zheng" <i@zenithal.me>
+Cc: qemu-devel@nongnu.org, contact@canokeys.org,
+ MkfsSion <myychina28759@gmail.com>
+Subject: Re: [PATCH v2 0/3] CanoKey: Fix xHCI compatibility and CCID ZLP
+Message-ID: <20220701105106.fzlu44cgvfmb5z4g@sirius.home.kraxel.org>
+References: <YqcptnhfCtUn2+T6@Sun>
+ <YrSD1xGYsWWk996E@Sun>
 MIME-Version: 1.0
-References: <CAARzgwyLbVFCKJZXwdwwweVxgmG8VX1wc1bBYEaNpvKiPcU+TQ@mail.gmail.com>
- <Yrr6VDCuKpp8SqW9@redhat.com>
- <CAARzgww4LP7xjDPjWuCCERO1fRp9JwuTtPTG6Lix0KDWPC9FUA@mail.gmail.com>
- <CAFEAcA-Rsqze4zKR7NZKRGSJLqQ77Lcc7Grh=tTSCQCZSNHozA@mail.gmail.com>
- <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
- <9b96f98e-2b7d-47a3-c64d-9cd785432840@redhat.com>
- <20220701024108-mutt-send-email-mst@kernel.org>
- <CAARzgwxnFRN=y9qz0ERiLOxMBCxEyxsn=xW_-i8mawWPj1Dxqw@mail.gmail.com>
- <20220701033006-mutt-send-email-mst@kernel.org>
- <CAARzgwwhrsG1EkA9=kH9Y456_Yz5KEA9tMQoQ6wGufoPGTu69w@mail.gmail.com>
- <20220701053949-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220701053949-mutt-send-email-mst@kernel.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 1 Jul 2022 15:44:32 +0530
-Message-ID: <CAARzgwx4GKLvATe+X+jZQminm1xAM7sgxXeeDQn_KHDozyde+A@mail.gmail.com>
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::52c;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YrSD1xGYsWWk996E@Sun>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,120 +80,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 1, 2022 at 3:12 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Fri, Jul 01, 2022 at 01:20:30PM +0530, Ani Sinha wrote:
-> > On Fri, Jul 1, 2022 at 1:08 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > On Fri, Jul 01, 2022 at 12:58:33PM +0530, Ani Sinha wrote:
-> > > > On Fri, Jul 1, 2022 at 12:23 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > >
-> > > > > On Fri, Jul 01, 2022 at 06:12:14AM +0200, Thomas Huth wrote:
-> > > > > > I even wouldn't mind if you put your python stuff in a new directory like
-> > > > > > tests/pytests/ for example, as long as it downloads your binaries separately
-> > > > > > - as I wrote in another mail, the avocado framework rather looks like an
-> > > > > > oddball in our test framework nowadays since it uses a separate test runner
-> > > > > > and not the meson test harness, so having a new approach for python-based
-> > > > > > tests is maybe even a good idea. I just really want to avoid that this goes
-> > > > > > into tests/qtest (since it really does not belong there), and please don't
-> > > > > > add more external stuff via git submodules, that's really the wrong approach
-> > > > > > for this.
-> > > > >
-> > > > > I get it, people hate submodules with passion.  I think trying another
-> > > > > approach for testing that is neither avocado nor qtest is
-> > > > > not too bad. As long as this is not user visible, we can
-> > > > > allow ourselves space to experiment.
-> > > > >
-> > > > > OK so, how about this:
-> > > > > - put it in a new directory: tests/roms?
-> > > > > - create repo for a fork of biosbits under git.qemu.org
-> > > > > - roll our own analog to git submodules: a script
-> > > > >   that clones the repo
-> > > >
-> > > > No need to clone the whole repo. We can simply download the binaries
-> > > > that the girlab CI job would generate from the bits sources in that
-> > > > repo.
-> > > > We need to clone if we are always building bits from source for every
-> > > > test. That is not necessary IMHO since much of the bits package would
-> > > > remain as is without modification.
-> > >
-> > > IMHO CI job idea isn't great since isn't versioned at all, is it?
-> >
-> > bits is versioned yes, in a crude way. every time you make a commit in
-> > the top level repo, the version would increment by one.
->
-> Is it easy to find out which source was this generated from?
+On Thu, Jun 23, 2022 at 11:16:39PM +0800, Hongren (Zenithal) Zheng wrote:
+> On Mon, Jun 13, 2022 at 08:12:38PM +0800, Hongren (Zenithal) Zheng wrote:
+>  
+> > ---
+> > v2: 
+> >   * use usb_ep_get instead of recording ep_in_pointer
+> >       as suggested by kraxel
+> >   * CI result for v2 is at
+> > https://gitlab.com/ZenithalHourlyRate/qemu/-/pipelines/562306905
+> 
+> Hi kraxel, is there any further feedback on this?
+> 
+> BTW, as the commit "add myself as CanoKey maintainer" has been
+> merged, how should I submit patches on CanoKey to you and QEMU?
 
-yes because this is how the version number is generated:
+Sending to the list with /me Cc'ed is fine.
 
-expr 2000 + `git rev-list HEAD 2>/dev/null | wc -l`
+> For other contributors, before I can send PULL (my key is not signed yet)
+> I think I should first give Reviewed-by tags then request you
+> to pass them.
 
-That means we simply count the number of commits in the top level
-directory. If we overwrote history by force pushing, then well yes all
-bets are off.
+Yes.
 
-> And is there a promise to keep these around indefinitely?
+Series queued up now.
 
-We do not need to maintain multiple versions of bits or increment the
-version number every time we wrote a test. Typically new
-commits/changes will be made if we wanted to fix a bug or upgrade
-acpica or whatever. Test scripts are python based and can be pushed
-into bits while generating a new iso for testing purposes.
+thanks,
+  Gerd
 
->
-> > > Also as long as test passes, sure. But if it fails one will
-> > > need the sources to investigate.
-> >
-> > sources might also be needed to write the tests.
-> >
-> > >
-> > > Let's start with building things from source.
-> >
-> > hmm. bitys uses old autotools, not ninja and takes about 10/15 mins to
-> > build depending on parallelity and build host.
->
-> Right. But whoever wants to use these just needs to do it once.
-
-but I thought you were suggesting we built bits every time the test is run?
-
->
->
-> > Add an option
-> > > of prebuilt binaries as an optimization once things
-> > > stabilize.
-> > >
-> > >
-> > > > > - new target make check-roms,
-> > > >
-> > > > I think make pytest or some such is better and more generic if other
-> > > > such tests in other areas follow suit.
-> > >
-> > > The name is not critical in my mind, but I think we need to decide
-> > > what exactly differentiates it from other tests.
-> > >
-> > >
-> > > >
-> > > > if the clone exists locally -
-> > > > >   run the test, if not - skip it
-> > > >
-> > > > if download of the bits binaries fail, skip it.
-> > >
-> > > You seem to be recreating either git or avocado or both here.
-> > >
-> > > Personally I want something that works offline.
-> > >
-> > >
-> > >
-> > > > > - as for using pre-generates ISOs as an optimization,
-> > > > >   I'm not sure how important that is, if yes -
-> > > > >   we can add another repo and another make target along the
-> > > > >   same lines
-> > > > >
-> > > > >
-> > > > >
-> > > > > --
-> > > > > MST
-> > > > >
-> > >
->
 
