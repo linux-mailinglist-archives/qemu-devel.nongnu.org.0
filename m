@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D74A56311B
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 12:14:24 +0200 (CEST)
-Received: from localhost ([::1]:36680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38492563112
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 12:11:56 +0200 (CEST)
+Received: from localhost ([::1]:59646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7DfL-0007Eg-6r
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 06:14:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37408)
+	id 1o7Dcx-0003f4-3b
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 06:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7DYa-00081x-Tl
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:07:25 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:46650)
+ id 1o7DZT-0000oV-54
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:08:19 -0400
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:33500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7DYY-0001Lr-V2
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:07:24 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id l11so3128760ybu.13
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 03:07:22 -0700 (PDT)
+ id 1o7DZR-0001Q1-Jg
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:08:18 -0400
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-317710edb9dso19229287b3.0
+ for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 03:08:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DE/gai7qmpMLI57Wp/YxIVkfikqNC7MM+owY3hRZHmI=;
- b=o9dOhXD65f+X3AfmL5Cv3raAzYAGvFE58+RS4ROgyKZqeg9F8pBazJAmhsh5sXPrUG
- OKKAgArw27x4Zu8Gxz24or6ePk+wLVzUY4SRmph57HaXyQmWPQkdAholh3EpeD9sUGNS
- XPj28qIpRb6HnmSW7sGAtLueueDi5D73RtCKVBYSDLibLOoZwXz5yZN80+OOLDuAQCHU
- 03AbeBEGEiq/JtXU/fQerWJxTNCeOMdW/aeq+RvCgwJNnHvl+rEsie0ljbhm7h5ZqZVt
- SjXlwZtEjYpI+D7p5W1kHdzrx/v10Wkm0ZNaHFbJICZq0JGRsLhhhldfb5AGpnZEQaJR
- kwCA==
+ :cc; bh=AsZfsYKzLV6omL4Roq+uJiwVvcXFLYAjvjJ1lh33/Bw=;
+ b=tghTcmkX1TCZjxW+68DK6FvZKT9KFqYdoYu8EcyKSDwEnoGbevI3OF0i1YK8sbLgr4
+ BbIDmneHhWYjlBn3urkSpp7CmkChg4QXdlB/tKs5HhoR3YU0UrnUmhXycv8QD+RG/RIv
+ LcC3CzAy31zxfX1UHHcO7i56qwMq9QNaRbgPe99OCJs23fwzmjTGs1Ki13E1nm/QKjpG
+ MA9Kf8iIUIBfsueDW/RPfl3q27PuzBmUy3R8dqnK5MKBuCCbSAGzoEzSj9XsCazuXLPU
+ KQtKzhHEYCOu1fkHlMbQ3fPh9eI37Zk6was5jK7zqudYUOYGqvLem+HpG+y+LX8Mimqx
+ nh6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DE/gai7qmpMLI57Wp/YxIVkfikqNC7MM+owY3hRZHmI=;
- b=CJv5YWJSPy504c6mujycXNDQLsy9q9XEhlsQievaMOtDooJGfNoiRrKM7idpN4vWRz
- FOMatXGdbc/fyPuwqCMNsg4QSqonwD+2ERGJUp4goUDXxTh5JYXC1WNHbBTTkrsbmbVQ
- FX2bC8b0NDV/LJfysDPt+B1eJ5YcgCe1AxmyN3R2ir6sIiztSTtxEqx4Z+McmKknP1/y
- R2p0u3H0TTd/tRPi6ut2+7LJIcuFj5oMiV5XC3mbd6lSFze/YGqyjBH0DY0Apx6y+XEU
- 7XHxNxNOwlxUzB+Rl8P6GZomPB2SSeqIWlMJ+9vmCm+JnpuEyByQIrwJCFR5FYl+IHGO
- /0ig==
-X-Gm-Message-State: AJIora87hwnjxz7WSK3oFZxTeznhvu4Cg7RdUppLIzWRFvfLteAFQU0S
- 2OD/I8qqj2O6FeA26VRFzuKm0HrT18u1gXsAAmKxfQ==
-X-Google-Smtp-Source: AGRyM1tzkdO6adL+f1ipsba8oKqpyrZ5IC0kAfEqzvbocadASNhESx3VzO9/BYMZCELoA+vuW4sDdACrBqfRCFYHQzo=
-X-Received: by 2002:a5b:e87:0:b0:66d:4669:9871 with SMTP id
- z7-20020a5b0e87000000b0066d46699871mr14400319ybr.288.1656670040699; Fri, 01
- Jul 2022 03:07:20 -0700 (PDT)
+ bh=AsZfsYKzLV6omL4Roq+uJiwVvcXFLYAjvjJ1lh33/Bw=;
+ b=p44wZZrjmW4geXw65z7Ddug20YaB69fs9IHKtoLGMzbTVJgNodDxMHBIU+MOgMk1op
+ mq8l7L/RTzL9FcsQoboWKKHT1Y0zLTL9r74KWb6P/z8WvjeHasL33JB0d+7llqyQWlh+
+ ORE04gpQym0kVRQhMluPV6OrVulZkWOWMqg10jQw9DkGPp5x9R4li4pOAVO3rB+tTVg/
+ K+d6VDKadMs/4milugH9/1wFl71AZ22RifHe/XtbVj7jUxuDv3nzga9xh/ChgxlM61PX
+ RQWmq0HZpCUBTSHSu9tiBePezfU6kpEqkz5I2N0HJ7NFhquBjmKQkvj6xnlw1glsoDiI
+ h9Iw==
+X-Gm-Message-State: AJIora8wj5WiXt/9Jj6N9gL5RJaBanqMftYUM8xZXMd0zrL3amYc1oqG
+ 7hIKnkvdVMoXb8zNxfSsY4uCvOBkvJoXU0ayU810ww==
+X-Google-Smtp-Source: AGRyM1sil7pLvAqyN6XaoQbiLA/OBplKtJjzrSnekDlxdDLkHLTgiw5JkZlKe6aIW3SG1rCFPI37OrlJr0XsoRHq3RY=
+X-Received: by 2002:a0d:db55:0:b0:31b:71d8:21af with SMTP id
+ d82-20020a0ddb55000000b0031b71d821afmr16553772ywe.469.1656670096503; Fri, 01
+ Jul 2022 03:08:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220606164336.245740-1-kchamart@redhat.com>
- <20220606164336.245740-4-kchamart@redhat.com>
-In-Reply-To: <20220606164336.245740-4-kchamart@redhat.com>
+ <Yp4wKGhyMtAj/Jx2@pinwheel>
+ <Yp4xk2+JeNkZ5eTv@pinwheel> <Yr62C1611gbJZshc@pinwheel>
+In-Reply-To: <Yr62C1611gbJZshc@pinwheel>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Jul 2022 11:06:42 +0100
-Message-ID: <CAFEAcA_KACXGWttdEuAYjQTSDJfZ+dwGddKA+33EENGw+8Gpew@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] docs: rSTify GettingStartedDevelopers wiki; move
- it to QEMU Git
+Date: Fri, 1 Jul 2022 11:07:38 +0100
+Message-ID: <CAFEAcA9Qqs+zVVvjtuWstfndfU-=xQN_enbWgm2U7Rw4WvuSmg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] rSTify a few more docs; move them to QEMU Git
 To: Kashyap Chamarthy <kchamart@redhat.com>
 Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, thuth@redhat.com, 
  eblake@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,26 +85,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jun 2022 at 17:43, Kashyap Chamarthy <kchamart@redhat.com> wrote:
+On Fri, 1 Jul 2022 at 09:53, Kashyap Chamarthy <kchamart@redhat.com> wrote:
 >
-> Converted the wiki[1] from Markdown to rST using:
+> Ping.
 >
->     $> pandoc -f Mediawiki -t rst getting-started-developers.wiki
->         -o getting-started-developers.rst
->
-> It's a 1-1 conversion (I double-checked to the best I could).  I've also
-> checked that the hyperlinks work correctly post-conversion.
->
-> [1] https://wiki.qemu.org/Documentation/GettingStartedDevelopers
->
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> Thomas/Peter: when you get some time, please have a look at this.
 
-> +-  Its OK if your new implementation doesn't do everything (or has some
-
-I noticed a typo here (should be "It's"), but we should fix
-that separately from this automated conversion.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I reviewed the one patch that had neither already got an R-by
+or some review comments.
 
 thanks
 -- PMM
