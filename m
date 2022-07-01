@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B5F56294A
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 04:53:54 +0200 (CEST)
-Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE1456296D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 05:11:37 +0200 (CEST)
+Received: from localhost ([::1]:47382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o76n2-0006pK-Cf
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 22:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36298)
+	id 1o774C-0005Et-5m
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 23:11:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o76kw-00067J-K3
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 22:51:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o76kt-0000hN-B8
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 22:51:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656643897;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=emJIzaXU33jokcSSZk15QMiAvLvTJVyhadkqR2/7Mwg=;
- b=bHGs2L4Uaxk9NLCtnSeZ0M8llr+8L/ElKAWlJTY66H125a/Rxe8uxtcZhnD2M0IZyLvvar
- N0bn9APjZugQWRB0MtkBlAkr73obsZfSujry/yz51xvp1VexDbb8BQPGmucLzpLf1WSD/K
- QNSXEcacRixonstF/We5VmutghVtDoU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-8F8RYlKgMEi8JD_3gF284A-1; Thu, 30 Jun 2022 22:51:36 -0400
-X-MC-Unique: 8F8RYlKgMEi8JD_3gF284A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B9DC811E75;
- Fri,  1 Jul 2022 02:51:35 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C8052026D64;
- Fri,  1 Jul 2022 02:51:34 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] include/qemu/host-utils: Remove unused code in the *_overflow
- wrappers
-Date: Fri,  1 Jul 2022 04:51:32 +0200
-Message-Id: <20220701025132.303469-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1o773C-0004Ud-Gy
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 23:10:34 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:34677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1o7737-00088V-Kz
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 23:10:31 -0400
+Received: by mail-pf1-x434.google.com with SMTP id t21so1229497pfq.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 20:10:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L55KpgNyltmEymN2pCyo6kZ6wYw1udyYPDXqBCih7sY=;
+ b=RtNuLUmAgfjVZAgp2b95Lqdf30/obgkzxnmqXt+H+x00tzu0Fo2e3MFbpbOlbGHvcN
+ nAAoS2kFt/PygUpQ0J3Xqh9xqCm4aZna7+XkATY63q7eDzm2qI6eEkkkoODweSukbtQk
+ a8z31pmeRG+xj2RBgNJ4miPo610JrRBcxu1MvnRzQaHRMCNdb2tcTKFIf250fTMd/Gt9
+ yFSgM9wad/z2cVroQ9QbT3du0yIiG5GcpvrlmrTgQygUm24sd5gBBojqflUjhtvwl0PW
+ BwMfI4vw4ohsiv1inAq+9zw6bjGdw4jaXERbN+VbGGEbxTg2Lvl0PAEaFQCMTuzU/hzd
+ PR4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L55KpgNyltmEymN2pCyo6kZ6wYw1udyYPDXqBCih7sY=;
+ b=zvdnAF92sDmfTgH5/ioy0Msjg8zfUhFke0wg5b2UhtN9zoSh3PNN6626V2wZPlm98C
+ SJIAeZTEx7BC5Le2Q3xVWZ2Kb75fwQgRVRZKiPcIW3WcivnEKav+ojzEmhslK2Ssxcut
+ YfHo/QQmlaM6v7xvruKH9foEx39WuZSzdh+I8hGwU3icX4aaVpyukEvqkTMJMnRr0OS9
+ iMdJWg+XMPojl7kIZ9REtU9Vx3UIuYTxwnFTh/fkjin7CoRImhrgIew8fu7qKnjFadH6
+ +o8up/NsnWPNhHVQpUzUg4KFyCeqqis8RH1v3dFRQ/31yvLr9lnrZvz6p4/q46bJKGIX
+ LZtg==
+X-Gm-Message-State: AJIora+q7LYaOK3te+tQI6dPDbaQjFFfjCi+eIMfVzNfEP5++BpDlzWa
+ hrzPjGrqU4e0TD3q7OAFG2BV7A==
+X-Google-Smtp-Source: AGRyM1uG0n/v8Q6hrVnA+e1zdO41UEktz1riVKXfzPblu9A9xMTZIYGMa3lzkiCnzLQcNItWHypk3w==
+X-Received: by 2002:a63:cd4e:0:b0:411:acda:d3d2 with SMTP id
+ a14-20020a63cd4e000000b00411acdad3d2mr4592002pgj.487.1656645027093; 
+ Thu, 30 Jun 2022 20:10:27 -0700 (PDT)
+Received: from always-x1.bytedance.net ([61.120.150.70])
+ by smtp.gmail.com with ESMTPSA id
+ j8-20020a17090a318800b001ed2fae2271sm2736659pjb.31.2022.06.30.20.10.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jun 2022 20:10:26 -0700 (PDT)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: michael.roth@amd.com,
+	kkostiuk@redhat.com
+Cc: qemu-devel@nongnu.org, marcandre.lureau@redhat.com,
+ zhenwei pi <pizhenwei@bytedance.com>
+Subject: [PATCH] qga: add command 'guest-get-cpustats'
+Date: Fri,  1 Jul 2022 11:05:33 +0800
+Message-Id: <20220701030533.575255-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,183 +88,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to commit cec07c0b612975 the code in the #else paths was required
-for GCC < 5.0 and Clang < 3.8. We don't support such old compilers
-at all anymore, so we can remove these lines now. We keep the wrapper
-function, though, since they are easier to read and help to make sure that
-the parameters have the right types.
+A vCPU thread always reaches 100% utilization when:
+- guest uses idle=poll
+- disable HLT vm-exit
+- enable MWAIT
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Add new guest agent command 'guest-get-cpustats' to get guest CPU
+statistics, we can know the guest workload and how busy the CPU is.
+
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- include/qemu/host-utils.h | 65 ---------------------------------------
- 1 file changed, 65 deletions(-)
+ qga/commands-posix.c | 72 ++++++++++++++++++++++++++++++++++++++++++++
+ qga/commands-win32.c |  6 ++++
+ qga/qapi-schema.json | 49 ++++++++++++++++++++++++++++++
+ 3 files changed, 127 insertions(+)
 
-diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index bc743f5e32..29f3a99878 100644
---- a/include/qemu/host-utils.h
-+++ b/include/qemu/host-utils.h
-@@ -376,12 +376,7 @@ static inline uint64_t uabs64(int64_t v)
-  */
- static inline bool sadd32_overflow(int32_t x, int32_t y, int32_t *ret)
- {
--#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
-     return __builtin_add_overflow(x, y, ret);
--#else
--    *ret = x + y;
--    return ((*ret ^ x) & ~(x ^ y)) < 0;
--#endif
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 0469dc409d..2847023876 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -2893,6 +2893,73 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
+     return guest_get_diskstats(errp);
  }
  
- /**
-@@ -394,12 +389,7 @@ static inline bool sadd32_overflow(int32_t x, int32_t y, int32_t *ret)
-  */
- static inline bool sadd64_overflow(int64_t x, int64_t y, int64_t *ret)
- {
--#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
-     return __builtin_add_overflow(x, y, ret);
--#else
--    *ret = x + y;
--    return ((*ret ^ x) & ~(x ^ y)) < 0;
--#endif
++GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
++{
++    GuestCpuStatsList *head = NULL, **tail = &head;
++    const char *cpustats = "/proc/stat";
++    FILE *fp;
++    size_t n;
++    char *line = NULL;
++
++    fp = fopen(cpustats, "r");
++    if (fp  == NULL) {
++        error_setg_errno(errp, errno, "open(\"%s\")", cpustats);
++        return NULL;
++    }
++
++    while (getline(&line, &n, fp) != -1) {
++        GuestCpuStats *cpustat = NULL;
++        int i;
++        unsigned long user, system, idle, iowait, irq, softirq, steal, guest;
++        unsigned long nice, guest_nice;
++        char name[64];
++
++        i = sscanf(line, "%s %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu",
++                   name, &user, &nice, &system, &idle, &iowait, &irq, &softirq,
++                   &steal, &guest, &guest_nice);
++
++        /* drop "cpu 1 2 3 ...", get "cpuX 1 2 3 ..." only */
++        if (strncmp(name, "cpu", 3) || (name[3] == '\0')) {
++            continue;
++        }
++
++        cpustat = g_new0(GuestCpuStats, 1);
++        cpustat->cpu = atoi(&name[3]);
++        cpustat->has_user = true;
++        cpustat->user = user * 10;
++        cpustat->has_system = true;
++        cpustat->system = system * 10;
++        cpustat->has_idle = true;
++        cpustat->idle = idle * 10;
++
++        /* Linux version >= 2.6 */
++        if (i > 5) {
++            cpustat->has_iowait = true;
++            cpustat->iowait = iowait * 10;
++            cpustat->has_irq = true;
++            cpustat->irq = irq * 10;
++            cpustat->has_softirq = true;
++            cpustat->softirq = softirq * 10;
++        }
++
++        if (i > 8) {
++            cpustat->has_steal = true;
++            cpustat->steal = steal * 10;
++        }
++
++        if (i > 9) {
++            cpustat->has_guest = true;
++            cpustat->guest = guest * 10;
++        }
++
++        QAPI_LIST_APPEND(tail, cpustat);
++    }
++
++    free(line);
++    fclose(fp);
++    return head;
++}
++
+ #else /* defined(__linux__) */
+ 
+ void qmp_guest_suspend_disk(Error **errp)
+@@ -3247,6 +3314,11 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
+     return NULL;
  }
  
- /**
-@@ -412,12 +402,7 @@ static inline bool sadd64_overflow(int64_t x, int64_t y, int64_t *ret)
-  */
- static inline bool uadd32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
- {
--#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
-     return __builtin_add_overflow(x, y, ret);
--#else
--    *ret = x + y;
--    return *ret < x;
--#endif
- }
++GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
  
- /**
-@@ -430,12 +415,7 @@ static inline bool uadd32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
-  */
- static inline bool uadd64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
- {
--#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
-     return __builtin_add_overflow(x, y, ret);
--#else
--    *ret = x + y;
--    return *ret < x;
--#endif
- }
+ #endif /* CONFIG_FSFREEZE */
  
- /**
-@@ -449,12 +429,7 @@ static inline bool uadd64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
-  */
- static inline bool ssub32_overflow(int32_t x, int32_t y, int32_t *ret)
- {
--#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
-     return __builtin_sub_overflow(x, y, ret);
--#else
--    *ret = x - y;
--    return ((*ret ^ x) & (x ^ y)) < 0;
--#endif
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 36f94c0f9c..7ed7664715 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -2543,3 +2543,9 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
+     error_setg(errp, QERR_UNSUPPORTED);
+     return NULL;
  }
- 
- /**
-@@ -468,12 +443,7 @@ static inline bool ssub32_overflow(int32_t x, int32_t y, int32_t *ret)
-  */
- static inline bool ssub64_overflow(int64_t x, int64_t y, int64_t *ret)
- {
--#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
-     return __builtin_sub_overflow(x, y, ret);
--#else
--    *ret = x - y;
--    return ((*ret ^ x) & (x ^ y)) < 0;
--#endif
++
++GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 9fa20e791b..4859c887b2 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -1576,3 +1576,52 @@
+ { 'command': 'guest-get-diskstats',
+   'returns': ['GuestDiskStatsInfo']
  }
- 
- /**
-@@ -487,12 +457,7 @@ static inline bool ssub64_overflow(int64_t x, int64_t y, int64_t *ret)
-  */
- static inline bool usub32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
- {
--#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
-     return __builtin_sub_overflow(x, y, ret);
--#else
--    *ret = x - y;
--    return x < y;
--#endif
- }
- 
- /**
-@@ -506,12 +471,7 @@ static inline bool usub32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
-  */
- static inline bool usub64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
- {
--#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
-     return __builtin_sub_overflow(x, y, ret);
--#else
--    *ret = x - y;
--    return x < y;
--#endif
- }
- 
- /**
-@@ -524,13 +484,7 @@ static inline bool usub64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
-  */
- static inline bool smul32_overflow(int32_t x, int32_t y, int32_t *ret)
- {
--#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
-     return __builtin_mul_overflow(x, y, ret);
--#else
--    int64_t z = (int64_t)x * y;
--    *ret = z;
--    return *ret != z;
--#endif
- }
- 
- /**
-@@ -543,14 +497,7 @@ static inline bool smul32_overflow(int32_t x, int32_t y, int32_t *ret)
-  */
- static inline bool smul64_overflow(int64_t x, int64_t y, int64_t *ret)
- {
--#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
-     return __builtin_mul_overflow(x, y, ret);
--#else
--    uint64_t hi, lo;
--    muls64(&lo, &hi, x, y);
--    *ret = lo;
--    return hi != ((int64_t)lo >> 63);
--#endif
- }
- 
- /**
-@@ -563,13 +510,7 @@ static inline bool smul64_overflow(int64_t x, int64_t y, int64_t *ret)
-  */
- static inline bool umul32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
- {
--#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
-     return __builtin_mul_overflow(x, y, ret);
--#else
--    uint64_t z = (uint64_t)x * y;
--    *ret = z;
--    return z > UINT32_MAX;
--#endif
- }
- 
- /**
-@@ -582,13 +523,7 @@ static inline bool umul32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
-  */
- static inline bool umul64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
- {
--#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
-     return __builtin_mul_overflow(x, y, ret);
--#else
--    uint64_t hi;
--    mulu64(ret, &hi, x, y);
--    return hi != 0;
--#endif
- }
- 
- /*
++
++##
++# @GuestCpuStats:
++#
++# Get statistics of each CPU in millisecond.
++#
++# @cpu: CPU index in guest OS
++#
++# @user: CPU time of user mode
++#
++# @system: CPU time of system mode
++#
++# @idle: CPU time of idle state
++#
++# @iowait: CPU time waiting IO
++#
++# @irq: CPU time of hardware interrupt
++#
++# @softirq: CPU time of soft interrupt
++#
++# @steal: CPU time stolen by host
++#
++# @guest: CPU time of running guest mode
++#
++# Since: 7.1
++##
++{ 'struct': 'GuestCpuStats',
++  'data': {'cpu': 'int',
++           '*user': 'uint64',
++           '*system': 'uint64',
++           '*idle': 'uint64',
++           '*iowait': 'uint64',
++           '*irq': 'uint64',
++           '*softirq': 'uint64',
++           '*steal': 'uint64',
++           '*guest': 'uint64'
++           } }
++
++##
++# @guest-get-cpustats:
++#
++# Retrieve information about CPU stats.
++# Returns: List of CPU stats of guest.
++#
++# Since: 7.1
++##
++{ 'command': 'guest-get-cpustats',
++  'returns': ['GuestCpuStats']
++}
 -- 
-2.31.1
+2.20.1
 
 
