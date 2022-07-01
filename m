@@ -2,95 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC76562ADD
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 07:33:39 +0200 (CEST)
-Received: from localhost ([::1]:42242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421C1562AEA
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 07:40:30 +0200 (CEST)
+Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o79He-0003JV-3A
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 01:33:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32958)
+	id 1o79OG-0006z0-2x
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 01:40:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o79Eo-0002CB-0N; Fri, 01 Jul 2022 01:30:42 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:54529)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o79Jd-0005P4-Gh
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 01:35:41 -0400
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:58361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <me@pjd.dev>)
- id 1o79El-0000wv-Ql; Fri, 01 Jul 2022 01:30:41 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id B13FB2B05A12;
- Fri,  1 Jul 2022 01:30:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 01 Jul 2022 01:30:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656653430; x=
- 1656657030; bh=TzrZedKca9gyiMwiGhpXhJVlnCIBmuSa8BF+/EliAm0=; b=1
- 08SOUBFBFVb5ybyu5vh2nuoRalVzQYoOr8rmj+63ZjuyN8Y3wtvfZ24fTmmUSlDY
- 34OvSqr574xPzjcjNnjkePkamCyS7suMyIkr+sztxsZp2/drUVY/Z0dck9AbO0ot
- s0shs28BPss09s7mcBdiBlv85hCjl2M5gu5aOgPyRmuoHTbvsCkdT8EPtmYVvyuH
- CGRgvZyQgDCmu2XpMlxdCkIaofKWG3PQPRBuXrOOGYSj25dd2fyy5cw4AepXt1+9
- 9tyM4LH0E+koVLULz9U+NEqMDy0gCCJJHTPDCNcvmgkSvxt0gJ+ViiCYSjlWS4no
- pFgrgLY+IAdpPvzEmLM8A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2; t=
- 1656653430; x=1656657030; bh=TzrZedKca9gyiMwiGhpXhJVlnCIBmuSa8BF
- +/EliAm0=; b=cdcsAGrgd/VPAQuSw079mGtLBNuFrWxMoZoEos3CVgs1Yt1b5Ym
- el3HrqxNvGeTBAHKnueOMtWkGJE+447iefDL3EaS9M3J9ZOHPS7xSMP4SAlbqsmg
- oH88a3YzoFa9FQBvTfsdTk3gGXmgqarjSgiVPfHWvfe7P/1jzigV4lCDp9N1UeX7
- rgKy4ldQHxU7u8ncwNOcNtAO5uEB4Ghan2SLYokD/4tvdSo4++V0MDY4eJJ5uS+j
- hTJIWTquSj6x8QxmD/2T5rW1Erjay/PUbS0HVxS9NYiVUDLPLeAyxn5UHCt5dqJ8
- Mp8lVtKugJKAsJa5ZhU4kttbcCoNoj7mYLw==
-X-ME-Sender: <xms:dYa-Yq2F9QoLm6MWSxyARZmY5ykJdRCr5k11v2ExEcdw9XDDpuoqwA>
- <xme:dYa-YtF0Fco51obfQhjDs79JxgWaSwjPx--zpIvig5c7RjroZg7WooCN5LL8I51rH
- W9ogVQzskk4Y1HUJKU>
-X-ME-Received: <xmr:dYa-Yi7bIjhpRZR9dReRVxs2JNodtBnGFgH1xWtKqIh36n8XI4EGpGocd3ClBOZxGE_-CEQoTqy7LrjHz4Byb6dmHd7KSnw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehvddgleekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehmvgesphhjugdruggvvheqnecuggftrfgrthhtvg
- hrnhepfefhhfekvdekgfdtffeuudejvdffkeefvddtfeduuefhjedviefhkefgjeefuddu
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgvse
- hpjhgurdguvghv
-X-ME-Proxy: <xmx:dYa-Yr0SDm85jn9ahnpIH_luNYT3R38fw6fSgK-FTKs2sXWLiHWlEA>
- <xmx:dYa-YtGMU1bgQua7wxcZisTPQGma9hPK9gNSOylKOVJtVA2EvYZHSw>
- <xmx:dYa-Yk9XqWEcsSvWeyAqZnukRis-vwW0zVQcvKKt3aQdS050-LA1hQ>
- <xmx:doa-YhjD0-qZ5DVi1Z8zQ89oB7M8d_HJBxEFLZzKuNz-BzcU4IQLAnQD-3g>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 Jul 2022 01:30:28 -0400 (EDT)
-Date: Thu, 30 Jun 2022 22:30:26 -0700
-From: Peter Delevoryas <me@pjd.dev>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH 3/3] aspeed: sbc: Allow per-machine settings
-Message-ID: <Yr6GcoK6QZPgXgcz@pdel-mbp>
-References: <20220628154740.1117349-1-clg@kaod.org>
- <20220628154740.1117349-4-clg@kaod.org>
- <Yr5Pnbh3Fbtxdpsk@pdel-mbp.dhcp.thefacebook.com>
- <015aab44-ba72-1f47-b499-ea5fb06d76e6@kaod.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o79Ja-0005wx-Sk
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 01:35:41 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.201])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 40ABC248FE;
+ Fri,  1 Jul 2022 05:35:34 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 1 Jul 2022
+ 07:35:33 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R0065802b08f-bfa4-4c0b-9568-dcbcb27c4f45,
+ 4AFA7A5FE9B5479AF1021A557A7101AB3AA64E21) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <86c577b1-7b6d-6556-12ab-1fe2f43b8924@kaod.org>
+Date: Fri, 1 Jul 2022 07:35:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 10/14] hw/sensor: Add Renesas ISL69259 device model
+Content-Language: en-US
+To: Titus Rwantare <titusr@google.com>
+CC: Peter Delevoryas <me@pjd.dev>, <peter.maydell@linaro.org>,
+ <andrew@aj.id.au>, <joel@jms.id.au>, <cminyard@mvista.com>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <zhdaniel@fb.com>,
+ <pdel@fb.com>
+References: <20220630045133.32251-1-me@pjd.dev>
+ <20220630045133.32251-11-me@pjd.dev>
+ <293da11c-dde2-e646-c754-820720c410de@kaod.org>
+ <CAMvPwGpZZgAd2RHXmvmxfgyTyVGd6Rx+avj=E24NWc0masdc=A@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CAMvPwGpZZgAd2RHXmvmxfgyTyVGd6Rx+avj=E24NWc0masdc=A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <015aab44-ba72-1f47-b499-ea5fb06d76e6@kaod.org>
-Received-SPF: pass client-ip=64.147.123.26; envelope-from=me@pjd.dev;
- helo=wnew1-smtp.messagingengine.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: a1abf7ee-ef95-4d25-b2bf-555f31fe3a65
+X-Ovh-Tracer-Id: 9774500041832565682
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehvddguddttdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphguvghlsehfsgdrtghomhdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,151 +79,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 01, 2022 at 07:23:58AM +0200, Cédric Le Goater wrote:
-> On 7/1/22 03:36, Peter Delevoryas wrote:
-> > On Tue, Jun 28, 2022 at 05:47:40PM +0200, Cédric Le Goater wrote:
-> > > From: Joel Stanley <joel@jms.id.au>
-> > > 
-> > > In order to correctly report secure boot running firmware the values
-> > > of certain registers must be set.
-> > > 
-> > > We don't yet have documentation from ASPEED on what they mean. The
-> > > meaning is inferred from u-boot's use of them.
-> > > 
-> > > Introduce properties so the settings can be configured per-machine.
-> > > 
-> > > Signed-off-by: Joel Stanley <joel@jms.id.au>
-> > > Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> > > ---
-> > >   include/hw/misc/aspeed_sbc.h | 13 ++++++++++++
-> > >   hw/misc/aspeed_sbc.c         | 41 ++++++++++++++++++++++++++++++++++--
-> > >   2 files changed, 52 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/include/hw/misc/aspeed_sbc.h b/include/hw/misc/aspeed_sbc.h
-> > > index 67e43b53ecc3..405e6782b97a 100644
-> > > --- a/include/hw/misc/aspeed_sbc.h
-> > > +++ b/include/hw/misc/aspeed_sbc.h
-> > > @@ -17,9 +17,22 @@ OBJECT_DECLARE_TYPE(AspeedSBCState, AspeedSBCClass, ASPEED_SBC)
-> > >   #define ASPEED_SBC_NR_REGS (0x93c >> 2)
-> > > +#define QSR_AES                     BIT(27)
-> > > +#define QSR_RSA1024                 (0x0 << 12)
-> > > +#define QSR_RSA2048                 (0x1 << 12)
-> > > +#define QSR_RSA3072                 (0x2 << 12)
-> > > +#define QSR_RSA4096                 (0x3 << 12)
-> > > +#define QSR_SHA224                  (0x0 << 10)
-> > > +#define QSR_SHA256                  (0x1 << 10)
-> > > +#define QSR_SHA384                  (0x2 << 10)
-> > > +#define QSR_SHA512                  (0x3 << 10)
-> > > +
-> > >   struct AspeedSBCState {
-> > >       SysBusDevice parent;
-> > > +    bool emmc_abr;
-> > > +    uint32_t signing_settings;
-> > > +
-> > >       MemoryRegion iomem;
-> > >       uint32_t regs[ASPEED_SBC_NR_REGS];
-> > > diff --git a/hw/misc/aspeed_sbc.c b/hw/misc/aspeed_sbc.c
-> > > index bfa8b81d01c7..3946e6179bdd 100644
-> > > --- a/hw/misc/aspeed_sbc.c
-> > > +++ b/hw/misc/aspeed_sbc.c
-> > > @@ -11,6 +11,7 @@
-> > >   #include "qemu/osdep.h"
-> > >   #include "qemu/log.h"
-> > >   #include "qemu/error-report.h"
-> > > +#include "hw/qdev-properties.h"
-> > >   #include "hw/misc/aspeed_sbc.h"
-> > >   #include "qapi/error.h"
-> > >   #include "migration/vmstate.h"
-> > > @@ -19,6 +20,27 @@
-> > >   #define R_STATUS        (0x014 / 4)
-> > >   #define R_QSR           (0x040 / 4)
-> > > +/* R_STATUS */
-> > > +#define ABR_EN                  BIT(14) /* Mirrors SCU510[11] */
-> > > +#define ABR_IMAGE_SOURCE        BIT(13)
-> > > +#define SPI_ABR_IMAGE_SOURCE    BIT(12)
-> > > +#define SB_CRYPTO_KEY_EXP_DONE  BIT(11)
-> > > +#define SB_CRYPTO_BUSY          BIT(10)
-> > > +#define OTP_WP_EN               BIT(9)
-> > > +#define OTP_ADDR_WP_EN          BIT(8)
-> > > +#define LOW_SEC_KEY_EN          BIT(7)
-> > > +#define SECURE_BOOT_EN          BIT(6)
-> > > +#define UART_BOOT_EN            BIT(5)
-> > > +/* bit 4 reserved*/
-> > > +#define OTP_CHARGE_PUMP_READY   BIT(3)
-> > > +#define OTP_IDLE                BIT(2)
-> > > +#define OTP_MEM_IDLE            BIT(1)
-> > > +#define OTP_COMPARE_STATUS      BIT(0)
-> > > +
-> > > +/* QSR */
-> > > +#define QSR_RSA_MASK           (0x3 << 12)
-> > > +#define QSR_HASH_MASK          (0x3 << 10)
-> > > +
-> > >   static uint64_t aspeed_sbc_read(void *opaque, hwaddr addr, unsigned int size)
-> > >   {
-> > >       AspeedSBCState *s = ASPEED_SBC(opaque);
-> > > @@ -80,8 +102,17 @@ static void aspeed_sbc_reset(DeviceState *dev)
-> > >       memset(s->regs, 0, sizeof(s->regs));
-> > >       /* Set secure boot enabled with RSA4096_SHA256 and enable eMMC ABR */
-> > > -    s->regs[R_STATUS] = 0x000044C6;
-> > > -    s->regs[R_QSR] = 0x07C07C89;
-> > > +    s->regs[R_STATUS] = OTP_IDLE | OTP_MEM_IDLE;
-> > > +
-> > > +    if (s->emmc_abr) {
-> > > +        s->regs[R_STATUS] &= ABR_EN;
-> > > +    }
-> > > +
-> > > +    if (s->signing_settings) {
-> > > +        s->regs[R_STATUS] &= SECURE_BOOT_EN;
-> > > +    }
-> > > +
-> > > +    s->regs[R_QSR] = s->signing_settings;
-> > >   }
-> > >   static void aspeed_sbc_realize(DeviceState *dev, Error **errp)
-> > > @@ -105,6 +136,11 @@ static const VMStateDescription vmstate_aspeed_sbc = {
-> > >       }
-> > >   };
-> > > +static Property aspeed_sbc_properties[] = {
-> > > +    DEFINE_PROP_BOOL("emmc-abr", AspeedSBCState, emmc_abr, 0),
-> > > +    DEFINE_PROP_UINT32("signing-settings", AspeedSBCState, signing_settings, 0),
-> > > +};
-> > 
-> > This needs a DEFINE_PROP_END_OF_LIST(), I bisected to this commit in Cedric's
-> > aspeed-7.1 branch.
+On 6/30/22 21:16, Titus Rwantare wrote:
+> On Wed, 29 Jun 2022 at 23:30, CÃ©dric Le Goater <clg@kaod.org> wrote:
+>>
+>> On 6/30/22 06:51, Peter Delevoryas wrote:
+>>> From: Peter Delevoryas <pdel@fb.com>
+>>>
+>>> This adds the ISL69259, using all the same functionality as the existing
+>>> ISL69260 but overriding the IC_DEVICE_ID.
+>>>
+>>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+>>> ---
+>>>    hw/sensor/isl_pmbus_vr.c | 28 ++++++++++++++++++++++++++++
+>>>    1 file changed, 28 insertions(+)
+>>>
+>>> diff --git a/hw/sensor/isl_pmbus_vr.c b/hw/sensor/isl_pmbus_vr.c
+>>> index 799ea9d89e..853d70536f 100644
+>>> --- a/hw/sensor/isl_pmbus_vr.c
+>>> +++ b/hw/sensor/isl_pmbus_vr.c
+>>> @@ -119,6 +119,18 @@ static void raa228000_exit_reset(Object *obj)
+>>>        pmdev->pages[0].read_temperature_3 = 0;
+>>>    }
+>>>
+>>> +static void isl69259_exit_reset(Object *obj)
+>>> +{
+>>> +    ISLState *s = ISL69260(obj);
+>>> +    static const uint8_t ic_device_id[] = {0x04, 0x00, 0x81, 0xD2, 0x49, 0x3c};
+>>
+>> This looks like an ISLClass attribute to me. In which case, you wouldn't need the
+>> reset handler nor the 'ic_device_id_len' field.
+>>
+>> Thanks,
+>>
+>> C.
 > 
-> Ah you did also ! Sorry I should have told. The problem only showed
-> on f35 using clang, and I didn't notice until I pushed the branch
-> on gitlab yersterday.
+> I asked for this because, so far, I've been doing all the register
+> defaults in reset handlers, including read-only registers.
+> I don't mind either way, but it seemed preferable to have the devices
+> consistent.
 
-Oh glad you noticed too, it's no problem.
+Sure. Fine for me.
 
-> 
-> > Reviewed-by: Peter Delevoryas <pdel@fb.com>
-> > Tested-by: Peter Delevoryas <pdel@fb.com>
-> 
-> I will include the patch in the next PR.
+Thanks,
 
-That's great, thanks!
+C.
 
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
-> > > +
-> > >   static void aspeed_sbc_class_init(ObjectClass *klass, void *data)
-> > >   {
-> > >       DeviceClass *dc = DEVICE_CLASS(klass);
-> > > @@ -112,6 +148,7 @@ static void aspeed_sbc_class_init(ObjectClass *klass, void *data)
-> > >       dc->realize = aspeed_sbc_realize;
-> > >       dc->reset = aspeed_sbc_reset;
-> > >       dc->vmsd = &vmstate_aspeed_sbc;
-> > > +    device_class_set_props(dc, aspeed_sbc_properties);
-> > >   }
-> > >   static const TypeInfo aspeed_sbc_info = {
-> > > -- 
-> > > 2.35.3
-> > > 
-> > > 
-> 
 
