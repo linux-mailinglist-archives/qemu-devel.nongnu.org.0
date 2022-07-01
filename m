@@ -2,95 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A889562B7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 08:24:16 +0200 (CEST)
-Received: from localhost ([::1]:42382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C48562B8D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 08:27:19 +0200 (CEST)
+Received: from localhost ([::1]:44896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7A4c-0002Bk-HB
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 02:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41380)
+	id 1o7A7a-00043A-LK
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 02:27:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1o79zc-0000Ue-5O
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 02:19:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49152)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7A1N-0001pl-2A
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 02:20:53 -0400
+Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:35335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1o79zV-0004l4-Ll
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 02:19:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656656336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=H+3EWAxBA/8KAJ5bfdWegRn/7VEPtFebvDWmzRITW4Q=;
- b=ZvOrc+HwmmJQZzRFtynACl85vmggrepjndlO1KmpnEx8dmdCddnZ6EYc0UsUGKmuh85jIA
- rIHw89s39Coevp2R/fEBDwPAKRt/SXJqBarwOpIvCxZIO//k0EM/jA6RzoIrs4nig0Rcyh
- E4UXDxHf4rIdIVz3ll7Hi0RVF95FY0E=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-yli982pGPFGqfq_YC-q-uw-1; Fri, 01 Jul 2022 02:18:52 -0400
-X-MC-Unique: yli982pGPFGqfq_YC-q-uw-1
-Received: by mail-qv1-f71.google.com with SMTP id
- s11-20020a0562140cab00b0046e7d2b24b3so1832504qvs.16
- for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 23:18:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:content-transfer-encoding:user-agent:mime-version;
- bh=H+3EWAxBA/8KAJ5bfdWegRn/7VEPtFebvDWmzRITW4Q=;
- b=KgFGNa+7npwrHqcr4lqCg9Y0VoDj94vyv6JfTr2tW/0S+xRuVEh28sVpv/lkidU2Dt
- kliharqJCmN0UJ+l6M/DM/gFJl2XkT89dvaL3Z7St4RaDL2ynxiaYSNn7QW4rxU4tE3q
- aIJ9GuDY9bhUYntR4lHsLEVeaoJj08ADbgKwckNSsKwprbXveq7dlUtStFgnM9gsH4no
- Z1TLftt+XFqvmfjkUlzWvSbTOqfk28wC5T/aNiqoMV0QjdJiqPkRGUA+tb9bDFS2Exck
- sIzwaj+JpWYE41Wml5K0nAsIkZl7t1DbOQUP8iHpIjEcbmuy20cUieK0W/vS8SUkQtHy
- uIbA==
-X-Gm-Message-State: AJIora9+oCU3Gg9VaL9hpVXis+2QWwE16dQIhf/frLGInZu50DYtAI0W
- pVfwuDFGKcBh4ZYQKgGFqnwgejM5qSs5XrrVWroBdncngz9Y5rcKuqpAAZit1pcYUDQnrl2/4CD
- kBM11IMFqmI+vKhM=
-X-Received: by 2002:a05:622a:1b9f:b0:317:6815:a902 with SMTP id
- bp31-20020a05622a1b9f00b003176815a902mr10961340qtb.35.1656656331402; 
- Thu, 30 Jun 2022 23:18:51 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sRF/CT/6Rj8DhoWpoMLdaleN3kfjO8G5AKQ4+vrtDivON5mos9UfebVgcsLZ+lfuISiixySA==
-X-Received: by 2002:a05:622a:1b9f:b0:317:6815:a902 with SMTP id
- bp31-20020a05622a1b9f00b003176815a902mr10961326qtb.35.1656656331142; 
- Thu, 30 Jun 2022 23:18:51 -0700 (PDT)
-Received: from ?IPv6:2804:431:c7f1:da6a:610c:873d:4fe2:e6ce?
- ([2804:431:c7f1:da6a:610c:873d:4fe2:e6ce])
- by smtp.gmail.com with ESMTPSA id
- c4-20020a05620a268400b006aee03a95dfsm16835373qkp.124.2022.06.30.23.18.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jun 2022 23:18:50 -0700 (PDT)
-Message-ID: <66da1d2d1617c61012a515fc3104866ee5d49f69.camel@redhat.com>
-Subject: Re: [PATCH v1 2/2] migration/multifd: Warn user when zerocopy not
- working
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Juan
- Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>, qemu-devel
- <qemu-devel@nongnu.org>
-Date: Fri, 01 Jul 2022 03:18:47 -0300
-In-Reply-To: <Yrsy2MzluKDvc5xK@work-vm>
-References: <20220628010908.390564-1-leobras@redhat.com>
- <20220628010908.390564-3-leobras@redhat.com> <YrqzhFAePnnEl8A8@redhat.com>
- <CAJ6HWG5UGpgBqK-7OTA6Gxu0LKMfGq5gVvYffOaSMWO1bfyjVw@mail.gmail.com>
- <Yrr77NfKtKcXTVCr@redhat.com> <YrsHgWbhifokl6yL@work-vm>
- <CAJ6HWG7hXNzuJ8rKc0NzLC_GguEOtVxGGUz8gDqizyZUy=Yieg@mail.gmail.com>
- <Yrsy2MzluKDvc5xK@work-vm>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7A1K-0005G6-F2
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 02:20:52 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.206])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 7CB5524AFD;
+ Fri,  1 Jul 2022 06:20:46 +0000 (UTC)
+Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 1 Jul 2022
+ 08:20:45 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S00151574818-6aaa-4ad9-985f-184099077d1f,
+ 4AFA7A5FE9B5479AF1021A557A7101AB3AA64E21) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <3f11c32a-407f-8a1a-0411-a8fe325514f0@kaod.org>
+Date: Fri, 1 Jul 2022 08:20:44 +0200
 MIME-Version: 1.0
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 09/13] hw/i2c/pmbus: Add read-only IC_DEVICE_ID support
+Content-Language: en-US
+To: Patrick Venture <venture@google.com>, Peter Delevoryas <pdel@fb.com>
+CC: Titus Rwantare <titusr@google.com>, Peter Delevoryas
+ <peterdelevoryas@gmail.com>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>, "andrew@aj.id.au" <andrew@aj.id.au>,
+ "joel@jms.id.au" <joel@jms.id.au>, "cminyard@mvista.com"
+ <cminyard@mvista.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Dan Zhang <zhdaniel@fb.com>
+References: <20220629033634.3850922-1-pdel@fb.com>
+ <20220629033634.3850922-10-pdel@fb.com>
+ <CAMvPwGqmU+bsDb1fHraiTzdg14An5QiKUazSweyzVvbwHeCM=g@mail.gmail.com>
+ <59308513-C87E-4DF9-8191-5F2664E90B85@fb.com>
+ <CAO=notxbi2wroXK281X0Q4QUF2ONas2xHq=ZYDPsnKRaP4u2wg@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CAO=notxbi2wroXK281X0Q4QUF2ONas2xHq=ZYDPsnKRaP4u2wg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: eb87ffd8-241f-4758-b39d-b933657b7af0
+X-Ovh-Tracer-Id: 10537860179791678453
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehvddguddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepiihhuggrnhhivghlsehfsgdrtghomhdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
+ helo=2.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -108,166 +82,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2022-06-28 at 17:56 +0100, Dr. David Alan Gilbert wrote:
-> * Leonardo Bras Soares Passos (leobras@redhat.com) wrote:
-> > On Tue, Jun 28, 2022 at 10:52 AM Dr. David Alan Gilbert
-> > <dgilbert@redhat.com> wrote:
-> > >=20
-> > > * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
-> > > > On Tue, Jun 28, 2022 at 09:32:04AM -0300, Leonardo Bras Soares Pass=
-os
-> > > > wrote:
-> > > > > On Tue, Jun 28, 2022 at 4:53 AM Daniel P. Berrang=C3=A9
-> > > > > <berrange@redhat.com> wrote:
-> > > > > >=20
-> > > > > > On Mon, Jun 27, 2022 at 10:09:09PM -0300, Leonardo Bras wrote:
-> > > > > > > Some errors, like the lack of Scatter-Gather support by the
-> > > > > > > network
-> > > > > > > interface(NETIF_F_SG) may cause sendmsg(...,MSG_ZEROCOPY) to =
-fail
-> > > > > > > on using
-> > > > > > > zero-copy, which causes it to fall back to the default copyin=
-g
-> > > > > > > mechanism.
-> > > > > >=20
-> > > > > > How common is this lack of SG support ? What NICs did you have =
-that
-> > > > > > were affected ?
-> > > > >=20
-> > > > > I am not aware of any NIC without SG available for testing, nor h=
-ave
-> > > > > any idea on how common they are.
-> > > > > But since we can detect sendmsg() falling back to copying we shou=
-ld
-> > > > > warn the user if this ever happens.
-> > > > >=20
-> > > > > There is also a case in IPv6 related to fragmentation that may ca=
-use
-> > > > > MSG_ZEROCOPY to fall back to the copying mechanism, so it's also
-> > > > > covered.
-> > > > >=20
-> > > > > >=20
-> > > > > > > After each full dirty-bitmap scan there should be a zero-copy
-> > > > > > > flush
-> > > > > > > happening, which checks for errors each of the previous calls=
- to
-> > > > > > > sendmsg(...,MSG_ZEROCOPY). If all of them failed to use zero-=
-copy,
-> > > > > > > then
-> > > > > > > warn the user about it.
-> > > > > > >=20
-> > > > > > > Since it happens once each full dirty-bitmap scan, even in wo=
-rst
-> > > > > > > case
-> > > > > > > scenario it should not print a lot of warnings, and will allo=
-w
-> > > > > > > tracking
-> > > > > > > how many dirty-bitmap iterations were not able to use zero-co=
-py
-> > > > > > > send.
-> > > > > >=20
-> > > > > > For long running migrations which are not converging, or conver=
-ging
-> > > > > > very slowly there could be 100's of passes.
-> > > > > >=20
-> > > > >=20
-> > > > > I could change it so it only warns once, if that is too much outp=
-ut.
-> > > >=20
-> > > > Well I'm mostly wondering what we're expecting the user todo with t=
-his
-> > > > information.
-> >=20
-> >=20
-> > My rationale on that:
-> > - zero-copy-send is a feature that is supposed to improve send
-> > throughput by reducing cpu usage.
-> > - there is a chance the sendmsg(MSG_ZEROCOPY) fails to use zero-copy
-> > - if this happens, there will be a potential throughput decrease on
-> > sendmsg()
-> > - the user (or management app) need to know when zero-copy-send is
-> > degrading throughput, so it can be disabled
-> > - this is also important for performance testing, given it can be
-> > confusing having zero-copy-send improving throughput in some cases,
-> > and degrading in others, without any apparent reason why.
-> >=20
-> > > > Generally a log file containing warnings ends up turning
-> > > > into a bug report. If we think it is important for users and/or mgm=
-t
-> > > > apps to be aware of this info, then it might be better to actually
-> > > > put a field in the query-migrate stats to report if zero-copy is
-> > > > being honoured or not,
-> > >=20
-> > > Yeh just a counter would work there I think.
-> >=20
-> > The warning idea was totally due to my inexperience on this mgmt app
-> > interface, since I had no other idea on how to deal with that.
->=20
-> Yeh it's not too silly an idea!
-> The way some of these warning or stats get to us can be a bit random,
-> but sometimes can confuse things.
->=20
-> > I think having it in query-migrate is a much better idea than a
-> > warning, since it should be much easier to parse and disable
-> > zero-copy-send if desired.
-> > Even in my current qemu test script, it's much better having it in
-> > query-migrate.
-> >=20
-> > >=20
-> > > > and just have a trace point in this location
-> > > > instead.
-> > >=20
-> > > Yeh.
-> > >=20
-> >=20
-> > Yeap, the counter idea seems great!
-> > Will it be always printed there, or only when zero-copy-send is enabled=
-?
->=20
-> You could make it either if it's enabled or if it's none zero.
-> (I guess you want it to reset to 0 at the start of a new migration).
->=20
-> Dave
+>      > Thanks for the new device. It helps me see where to expand on PMBus.
+> 
+>     Thanks for adding the whole pmbus infrastructure! It’s really useful.
+>     And thanks for the review.
+> 
+>     Off-topic, but I’ve been meaning to reach out to you guys (Google
+>     engineers working on QEMU for OpenBMC) about your Nuvoton NPCM845R
+>     series, my team is interested in using it. I was just curious about
+>     the status of it and if there’s any features missing and what plans
+>     you have for the future, maybe we can collaborate.
+> 
+> 
+> Peter, feel free to reach out to me, or Titus, and we can sync up.  I used to work with Patrick who's now at Fb on OpenBMC stuff.  We sent a bunch of the Nuvoton patches up for review recently, and we're actively adding more devices, etc.
+> 
+> We also have quite a few patches downstream we're looking to upstream, including PECI, and sensors, etc, etc that we've seen on BMC servers.
 
-Thanks for this feedback!
+So a simple PECI model is now merged. Sensors are always welcome,
+it's nice to have properties to change values. On my wish-list
+are PCIe and a working USB gadget network device.
 
-I have everything already working, but I am struggling with a good property
-name.=C2=A0
+Thanks,
 
-I am currently using zero_copy_copied (or zero-copy-copied in json), but it=
- does
-not look like a good Migration stat name.=20
-
-Do you have any suggestion?
-
-Best regards,
-Leo
-
-
->=20
-> >=20
-> > Best regards,
-> > Leo
-> >=20
-> > > Dave
-> > >=20
-> > > > With regards,
-> > > > Daniel
-> > > > --
-> > > > > : https://berrange.com=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -o-=C2=A0=C2=
-=A0=C2=A0
-> > > > > https://www.flickr.com/photos/dberrange=C2=A0:|
-> > > > > : https://libvirt.org=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 -o-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0
-> > > > > https://fstop138.berrange.com=C2=A0:|
-> > > > > : https://entangle-photo.org=C2=A0=C2=A0=C2=A0 -o-=C2=A0=C2=A0=C2=
-=A0
-> > > > > https://www.instagram.com/dberrange=C2=A0:|
-> > > >=20
-> > > --
-> > > Dr. David Alan Gilbert / dgilbert@redhat.com=C2=A0/ Manchester, UK
-> > >=20
-> >=20
-
+C.
 
