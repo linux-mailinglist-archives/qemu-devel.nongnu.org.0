@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE35563477
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:39:39 +0200 (CEST)
-Received: from localhost ([::1]:52544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5358C5634CB
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 16:02:36 +0200 (CEST)
+Received: from localhost ([::1]:43728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7Gry-0004TL-51
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58864)
+	id 1o7HEB-0004Wu-7s
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 10:02:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o7Go1-00012B-0T
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35338)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o7Gnw-0004L4-7g
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656682522;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tlW9/p0nm0g81AhzOfF8T88qwqgC16zIqchQTT3aECc=;
- b=eco/sUi4Ntoe4arVY5ofZxclPUrQREGwvfXxoQ+LLGUmzi2gq0ziitMRzM4k/xwRqMnBfm
- vYHWshrSX8eF/Cv4Wbaa2GNNjwDTqLK+Y1qrwIceGm2dMhm4yh11SfgUEwQcF4eZYApWbm
- N3i5hUMGK9yInwXpSLMc+lpImq+sjIg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-321-10-I80eeM4Oqyt4-qrq_Rg-1; Fri, 01 Jul 2022 09:35:21 -0400
-X-MC-Unique: 10-I80eeM4Oqyt4-qrq_Rg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 24D961C0CE6E;
- Fri,  1 Jul 2022 13:35:21 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BAB5400DEFC;
- Fri,  1 Jul 2022 13:35:20 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com,
-	ani@anisinha.ca
-Subject: [PATCH 04/17] tests: acpi: whitelist pc/q35 DSDT due to HPET AML move
-Date: Fri,  1 Jul 2022 09:35:02 -0400
-Message-Id: <20220701133515.137890-5-imammedo@redhat.com>
-In-Reply-To: <20220701133515.137890-1-imammedo@redhat.com>
-References: <20220701133515.137890-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <lucas.coutinho@eldorado.org.br>)
+ id 1o7GpH-0003GH-2R; Fri, 01 Jul 2022 09:36:52 -0400
+Received: from [200.168.210.66] (port=50439 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.coutinho@eldorado.org.br>)
+ id 1o7GpF-0006Vs-Fc; Fri, 01 Jul 2022 09:36:50 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 1 Jul 2022 10:35:18 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id EA52C80023A;
+ Fri,  1 Jul 2022 10:35:17 -0300 (-03)
+From: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org,
+ Lucas Coutinho <lucas.coutinho@eldorado.org.br>,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: [PATCH RESEND 06/11] target/ppc: Move slbmte to decodetree
+Date: Fri,  1 Jul 2022 10:35:02 -0300
+Message-Id: <20220701133507.740619-7-lucas.coutinho@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220701133507.740619-1-lucas.coutinho@eldorado.org.br>
+References: <20220701133507.740619-1-lucas.coutinho@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 01 Jul 2022 13:35:18.0368 (UTC)
+ FILETIME=[675F9600:01D88D4F]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=lucas.coutinho@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,52 +64,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Signed-off-by: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 34 +++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ target/ppc/helper.h                          |  2 +-
+ target/ppc/insn32.decode                     |  2 ++
+ target/ppc/mmu-hash64.c                      |  2 +-
+ target/ppc/translate.c                       | 14 --------------
+ target/ppc/translate/storage-ctrl-impl.c.inc | 14 ++++++++++++++
+ 5 files changed, 18 insertions(+), 16 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..452145badd 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,35 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpierst",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.hpbrroot",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpierst",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.applesmc",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.cxl",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.ipmismbus",
-+"tests/data/acpi/q35/DSDT.ivrs",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.pvpanic-isa",
-+"tests/data/acpi/q35/DSDT.tis.tpm12",
-+"tests/data/acpi/q35/DSDT.tis.tpm2",
-+"tests/data/acpi/q35/DSDT.viot",
-+"tests/data/acpi/q35/DSDT.xapic",
-+"tests/data/acpi/q35/DSDT.nohpet",
-+"tests/data/acpi/pc/DSDT.nohpet",
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index c2440a8854..ad88073ae0 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -690,7 +690,7 @@ DEF_HELPER_FLAGS_2(tlbiva, TCG_CALL_NO_RWG, void, env, tl)
+ 
+ DEF_HELPER_FLAGS_4(tlbie_isa300, TCG_CALL_NO_WG, void, \
+         env, tl, tl, i32)
+-DEF_HELPER_FLAGS_3(store_slb, TCG_CALL_NO_RWG, void, env, tl, tl)
++DEF_HELPER_FLAGS_3(SLBMTE, TCG_CALL_NO_RWG, void, env, tl, tl)
+ DEF_HELPER_2(load_slb_esid, tl, env, tl)
+ DEF_HELPER_2(load_slb_vsid, tl, env, tl)
+ DEF_HELPER_2(find_slb_vsid, tl, env, tl)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 1349c5e8a7..e255f9241b 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -823,6 +823,8 @@ SLBIEG          011111 ..... ----- ..... 0111010010 -   @X_tb
+ 
+ SLBIA           011111 --... ----- ----- 0111110010 -   @X_ih
+ 
++SLBMTE          011111 ..... ----- ..... 0110010010 -   @X_tb
++
+ ## TLB Management Instructions
+ 
+ &X_tlbie        rb rs ric prs:bool r:bool
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index dd2c7e588f..1922960608 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -309,7 +309,7 @@ static int ppc_find_slb_vsid(PowerPCCPU *cpu, target_ulong rb,
+     return 0;
+ }
+ 
+-void helper_store_slb(CPUPPCState *env, target_ulong rb, target_ulong rs)
++void helper_SLBMTE(CPUPPCState *env, target_ulong rb, target_ulong rs)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
+ 
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 5d2416143f..d421fe267c 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -5351,19 +5351,6 @@ static void gen_mtsrin_64b(DisasContext *ctx)
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
+ 
+-/* slbmte */
+-static void gen_slbmte(DisasContext *ctx)
+-{
+-#if defined(CONFIG_USER_ONLY)
+-    GEN_PRIV(ctx);
+-#else
+-    CHK_SV(ctx);
+-
+-    gen_helper_store_slb(cpu_env, cpu_gpr[rB(ctx->opcode)],
+-                         cpu_gpr[rS(ctx->opcode)]);
+-#endif /* defined(CONFIG_USER_ONLY) */
+-}
+-
+ static void gen_slbmfee(DisasContext *ctx)
+ {
+ #if defined(CONFIG_USER_ONLY)
+@@ -6857,7 +6844,6 @@ GEN_HANDLER2(mfsrin_64b, "mfsrin", 0x1F, 0x13, 0x14, 0x001F0001,
+ GEN_HANDLER2(mtsr_64b, "mtsr", 0x1F, 0x12, 0x06, 0x0010F801, PPC_SEGMENT_64B),
+ GEN_HANDLER2(mtsrin_64b, "mtsrin", 0x1F, 0x12, 0x07, 0x001F0001,
+              PPC_SEGMENT_64B),
+-GEN_HANDLER2(slbmte, "slbmte", 0x1F, 0x12, 0x0C, 0x001F0001, PPC_SEGMENT_64B),
+ GEN_HANDLER2(slbmfee, "slbmfee", 0x1F, 0x13, 0x1C, 0x001F0001, PPC_SEGMENT_64B),
+ GEN_HANDLER2(slbmfev, "slbmfev", 0x1F, 0x13, 0x1A, 0x001F0001, PPC_SEGMENT_64B),
+ GEN_HANDLER2(slbfee_, "slbfee.", 0x1F, 0x13, 0x1E, 0x001F0000, PPC_SEGMENT_64B),
+diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
+index cbb8b81f13..4c2dd758b5 100644
+--- a/target/ppc/translate/storage-ctrl-impl.c.inc
++++ b/target/ppc/translate/storage-ctrl-impl.c.inc
+@@ -63,6 +63,20 @@ static bool trans_SLBIA(DisasContext *ctx, arg_SLBIA *a)
+     return true;
+ }
+ 
++static bool trans_SLBMTE(DisasContext *ctx, arg_SLBMTE *a)
++{
++    REQUIRE_64BIT(ctx);
++    REQUIRE_INSNS_FLAGS(ctx, SEGMENT_64B);
++    REQUIRE_SV(ctx);
++
++#if !defined(CONFIG_USER_ONLY) && defined(TARGET_PPC64)
++    gen_helper_SLBMTE(cpu_env, cpu_gpr[a->rb], cpu_gpr[a->rt]);
++#else
++    qemu_build_not_reached();
++#endif
++    return true;
++}
++
+ static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
+ {
+ #if defined(CONFIG_USER_ONLY)
 -- 
-2.31.1
+2.25.1
 
 
