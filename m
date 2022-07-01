@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A2D5634DB
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 16:07:41 +0200 (CEST)
-Received: from localhost ([::1]:53894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC5756349B
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:47:06 +0200 (CEST)
+Received: from localhost ([::1]:40862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7HJ4-0003Jy-U3
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 10:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
+	id 1o7GzB-0007Ks-9i
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:47:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o7Go6-00015n-2I
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47872)
+ id 1o7Go5-00014Q-0x
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o7Go2-00055s-6G
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:37 -0400
+ id 1o7Go2-000557-0F
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:35:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1656682533;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zpVY3dRQpk/263JBKZD3Uk7mxf78A7qMvOz7VBD8wHU=;
- b=hfSIYCQBUlq2HNv6G9cPrP23n4rd6Wb7hNAkrR6cGM6ALyiFj+Q7p5eokhbxPKGnfxlLS1
- rEO3jxAB7nOb6XiSL0ZmMBOsEMLKWjAY6MGiea6hvF70YCBxOFSFXhfJ0pA/PlNe4FDS9k
- SiNOOjCXJOiTsn3CprXZZg5chY5OcOo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=B1HY2YviDG+7fdNOZcTrS79MXvYdAdOhm0F+WvLxLsg=;
+ b=Bfef9NnLZZXAwS9cLZ3jPAUJLuG1/BuDt11QHS1kpi0U4EKPNqmPfKVN9DyUZVPOR1FqEl
+ ot60LDMy01M+aD3v7wIBGg+aeX5mSl5fp2MONwxz+ACeADsdrsZZ4zgWENeMzi7j55KRuL
+ jcig2nsRnd9ZA9PBYtMMPTxGOdy+FmU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-8honEoAmMd2J6XV26cGGWA-1; Fri, 01 Jul 2022 09:35:32 -0400
-X-MC-Unique: 8honEoAmMd2J6XV26cGGWA-1
+ us-mta-390-NsKBLZzZOTK5CcZcmn3ARg-1; Fri, 01 Jul 2022 09:35:32 -0400
+X-MC-Unique: NsKBLZzZOTK5CcZcmn3ARg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB18C1C0CE89;
- Fri,  1 Jul 2022 13:35:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7A5F801E80;
+ Fri,  1 Jul 2022 13:35:31 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32787400DEFC;
- Fri,  1 Jul 2022 13:35:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B47A40E7F28;
+ Fri,  1 Jul 2022 13:35:31 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	ani@anisinha.ca
-Subject: [PATCH 16/17] tests: acpi: update expected blobs
-Date: Fri,  1 Jul 2022 09:35:14 -0400
-Message-Id: <20220701133515.137890-17-imammedo@redhat.com>
+Subject: [PATCH 17/17] x86: pci: acpi: deduplate PCI slots creation
+Date: Fri,  1 Jul 2022 09:35:15 -0400
+Message-Id: <20220701133515.137890-18-imammedo@redhat.com>
 In-Reply-To: <20220701133515.137890-1-imammedo@redhat.com>
 References: <20220701133515.137890-1-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,347 +81,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-    Expected change:
-      +            Device (SE8)
-      +            {
-      +                Name (_ADR, 0x001D0000)  // _ADR: Address
-      +                Name (ASUN, 0x1D)
-                       Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-                       {
-                           Local0 = Package (0x02)
-                               {
-                                   BSEL,
-                                   ASUN
-                               }
-                           Return (PDSM (Arg0, Arg1, Arg2, Arg3, Local0))
-                       }
-      -            }
-
-      -            Device (SE8)
-      -            {
-      -                Name (_ADR, 0x001D0000)  // _ADR: Address
-      -                Name (ASUN, 0x1D)
-                       Name (_SUN, 0x1D)  // _SUN: Slot User Number
-                       Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device
-                       {
-                           PCEJ (BSEL, _SUN)
-                       }
-      +            }
+No functional change nor AML bytcode change.
+Consolidate code that generates empty and populated slots
+descriptors. Beside of eliminating duplication,
+it helps to consolidate conditions for generating
+parts of Device{} desriptor in one place, which makes
+code more compact and easier to read.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |  14 --------------
- tests/data/acpi/pc/DSDT                     | Bin 6422 -> 6422 bytes
- tests/data/acpi/pc/DSDT.acpierst            | Bin 6382 -> 6382 bytes
- tests/data/acpi/pc/DSDT.acpihmat            | Bin 7747 -> 7747 bytes
- tests/data/acpi/pc/DSDT.bridge              | Bin 9496 -> 9496 bytes
- tests/data/acpi/pc/DSDT.cphp                | Bin 6886 -> 6886 bytes
- tests/data/acpi/pc/DSDT.dimmpxm             | Bin 8076 -> 8076 bytes
- tests/data/acpi/pc/DSDT.hpbridge            | Bin 6382 -> 6382 bytes
- tests/data/acpi/pc/DSDT.ipmikcs             | Bin 6494 -> 6494 bytes
- tests/data/acpi/pc/DSDT.memhp               | Bin 7781 -> 7781 bytes
- tests/data/acpi/pc/DSDT.nohpet              | Bin 6280 -> 6280 bytes
- tests/data/acpi/pc/DSDT.numamem             | Bin 6428 -> 6428 bytes
- tests/data/acpi/pc/DSDT.roothp              | Bin 6656 -> 6656 bytes
- tests/data/acpi/q35/DSDT.bridge             | Bin 11449 -> 11449 bytes
- tests/data/acpi/q35/DSDT.multi-bridge       | Bin 8640 -> 8640 bytes
- 15 files changed, 14 deletions(-)
+ hw/i386/acpi-build.c | 111 +++++++++++++++++++++----------------------
+ 1 file changed, 54 insertions(+), 57 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 1983fa596b..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,15 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/pc/DSDT",
--"tests/data/acpi/pc/DSDT.acpierst",
--"tests/data/acpi/pc/DSDT.acpihmat",
--"tests/data/acpi/pc/DSDT.bridge",
--"tests/data/acpi/pc/DSDT.cphp",
--"tests/data/acpi/pc/DSDT.dimmpxm",
--"tests/data/acpi/pc/DSDT.hpbridge",
--"tests/data/acpi/pc/DSDT.ipmikcs",
--"tests/data/acpi/pc/DSDT.memhp",
--"tests/data/acpi/pc/DSDT.nohpet",
--"tests/data/acpi/pc/DSDT.numamem",
--"tests/data/acpi/pc/DSDT.roothp",
--"tests/data/acpi/q35/DSDT.bridge",
--"tests/data/acpi/q35/DSDT.multi-bridge",
-diff --git a/tests/data/acpi/pc/DSDT b/tests/data/acpi/pc/DSDT
-index fd79a602a2aaac0f7d91d2ee2b1af8f2e6cdd4b3..da2a3e5c0551ac2d1d8a0a40b92d3235d5757475 100644
-GIT binary patch
-delta 864
-zcmY+?y-LGS90l-*wn@``wE1k(q;(Y(B-P?1MB7!t;^Yv006|wlL088>7hl5SE;tLi
-z3i=2>gx-Ho@=w;o@1A=($vl}S&l^U*um-Y{%}$Th)%@PD^9v&oS$<=L!P&#{+AP`2
-zlq{W`Xp+>BlvKzDiT6T`woB23Xp)Fbbd0z|hLA~I7Gj4x6bOaHYbm&+1<@j5c5urs
-zcc>65iStr$M;oF|Vo``OcW4lr5ZFi)8!dMkbC(XOSENpBK6YtMoHi)?sbwZ*TUOO|
-zD7&j=UCKUdnMK*UT|H}4c3sOHku6`H@~d6E+NA})ZLD~}3wRJ7iA|>v+~Gs`ByJ0F
-z$Q?b19*K`qa7O^K{O^V?ZkcdL2oX}pRVlcm578&_R){HgL=ce>_#P4OGUcuqGOoy&
-XR(<lSOAjdft!2ai%z4@OzgGSL?0V1k
-
-delta 861
-zcmY+>%}&BV5C`xYDJ`Y+gVL6k4}0}MLaGvD!l4LPO(dQ?G(G|^K%!R?FOzWLB{V(=
-zXA=@%fQK-+GdtVsKfnF&?#wpd=AW02VV2A12kRUPH-Im12(M0pS&g#n<^8d?%x_Dx
-zEap$Prs<kloKETDuud@fhgV|>>j>*`=ccE66kKJXFkqvKYwj>nm~f~F?r5NBz{pc>
-zx#12Ag$3)1;EpDWChS!);SL*x4VkapGU1LEiWaPdfQ?VXbZAC!keMs9QJb76v$f28
-zneAoPmRT0i*+6D1nRO@=ODy=cA-*;gOAM=U#vhLmMgm3z#V%*u7$b~f*HI>P&sAL%
-zT{u<*cO)nhn1)KnoI6q!DST7}cl1#7;8zt3?&zcF!#GlIS#ZYy#Q@%ffL%m$9?}Hh
-ND6<R7zNhie*&o-A%ys|(
-
-diff --git a/tests/data/acpi/pc/DSDT.acpierst b/tests/data/acpi/pc/DSDT.acpierst
-index bcaebed6837b0ffafe1128e1f8c2e55d4c66679c..abcd6d9d309a8f9a9080edc64df7a6c195b5885f 100644
-GIT binary patch
-delta 766
-zcmY+>y-LGS7{>7gY;&wN&B=GFrh}t`);d&hNp)7RI634J^a2#b-Ray&!5h$76kHVq
-zXQ9`idGaRjIqRQao|Bv`$IJ1ebd@c0Rl39M>fwB4elRUXS)5+<EvsXRVt#qn>p(0T
-zG1+fLmqZuB9?-^wHyjd9B^*&!dye{%L4DdGZwZn@lcJL9YmjMe6>ZnkTMzBdXlrQi
-zM(d-Er2gzW+Ktg%w3oW6Pf6c3<+t_dZ9RPXj^7CWa!Eo$+&1EfH+&L4#9J$PBOnn#
-z<N=*h@J2`?gt%@6Z$u;_i04Mkcq1keL&%U$nej$KBB=!Z#iY8U`Y)dFR!TC}WQyDT
-r4fR{k(2gU$4bdKrwt@C-v`w_VSbug4?cQiP+K16b|1EslPG0RlrVOx+
-
-delta 749
-zcmY+Ay-osA5Js0o*cEaAe^^x3SeqbXu_iQ&)|yDHEcO+60TN<Q^>uc>0SQk)Z%C+3
-zcmWcg!QjrFxwI$eo|!xQ{=UB`ZA|SBYEC!(_<TJX-{+-O7SC@j!>AipF@Aq(*0I)&
-z!5te7G8)Jntuc^>Nrs7uZahfCBE!O}GVtr9rd1v$pW@pO4!hyjRjkQu%Iu8Unpulk
-z=Bc;m%qGliW-DfnV%PsS$z@xYwsoroT_sk>%jM%9i5|Xu?KF>)^2zYAJ2IpZkP%=Q
-zXpKS|AsHd&M}{;aG9qksV<e53j2OL8n=+C{LPmm_Zahh&O-37=%D^sEM^Dv_FpL!I
-gFq<>GV76s;$*dQvw^z(&%(~1r%reE6H_1=!59yMsfB*mh
-
-diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
-index 973320cb25120818a45ddb3d8e3b3211f0c00adc..884d4871a2a0b87db2c0dd7e6f32486ba9b7e424 100644
-GIT binary patch
-delta 842
-zcmY+>ze>YU7zOZ(Rns(WqDkBQYw`$o(ApuOrLB{Hz@m#o9>AAScSX6Ipy2Ex_yp1?
-zaC1_e1$_V=^qzdlce5UTIp5`EmdujJBU?P%(UO)<5BKzWaqrmT()N_BitN3VEg<VT
-zs#`>MmSy6`@x9~o{pxhBmul&7d|*^6T16YmE1GN<pM@9{qDG<yk+i5|ojY_AI>bdG
-zxT8*@4)K<YK6e--42ab>UFma2gG2-3G#4A((InA?cqs&Tm?TUoXkSxql<hL$E{mk4
-zNDFH|bkv2Hk^Ppk6=b`v>TG0prOZM0UCLU>wmkLQHnQtd){$BE>Jh)%rB}OH;K!pC
-zN4$VX0{vpgCo$#@pM;N&+d^<hKq7$n%Eg2`LJ}dwW<Xaa+|eb`g}BPaHg`lMB8ZPd
-Va7RocmV*9f{J)FybP~SK{Q>oY)Cm9p
-
-delta 847
-zcmZ9}KTZNc6vy#3q72LON0<FG`wx#mp-4diakWE@L<^1C*m?^+fC+g$7a%bvmX@4A
-zJ1dXC1xPex-n=(!`^|^nEHlgDa`<-RRz)$rKDW2w!E@o$&)~(C*ecY1sO?beb+p^1
-z_C&3!+ri!QMP+)}D?~BQuN=z~mKbkN6zX81p;T}{u!gV(w_ddQG$oFB%0^+sq9k~u
-zj-n20Q}lVmLE*r}H%{sEMgv6y=B7C2jV6jFtV)76S}0mD3XD?*ywOI{hM5wu2=oQ-
-z={tfowS8)nP&=2}oLYz4ike4lB=v87YBOqqZt4+F_-jM_+E6`W_z&_Qmk6bTQbYBY
-zIWI;CBlw7n8_IbqMiGM(8{(8V5)=vCmjrL5C{lPe#Tjp8C^Gmh3Et?U=)z?Z!<V1F
-IKPKN>e+E?3EC2ui
-
-diff --git a/tests/data/acpi/pc/DSDT.bridge b/tests/data/acpi/pc/DSDT.bridge
-index 9583da4e4f558cb0bf6912733fbe8db7c1ad255f..31a79aa47673c14f7e564475c39bd38c872f8165 100644
-GIT binary patch
-delta 1069
-zcmbQ?HN$H|GT-DyymD+D@xh^f43j4c3QI&c`LYBXSj2P0JGun%FfcGOa5w@b87FTP
-zfU08zsbh(5@@JWRgx8oIte1-kAt=UY!Ui&riy0&~xtm`Sq<3<?l+@%qQ1%5NTUP)g
-zt|%=vxemgHn#B&*cOFHI11zQ>2-X8t#|aiIgosV<5|o-eR|aC{Z6Ny{l&vEqHQ8Pk
-zB3=t*Pk^$|0of0sY<XcRNsxzvEezlu7l3%2O91Tp0=No9&<H|R2!d4{gsHGZm>~pJ
-zAp}<ORt{>5CBh70s0v}Q3OjkJ$+JZuZtVxM-$2<9fNWb)h`6DG)Z{)08yXJc;BdH)
-zA|?SAGY|vofvS@Pi#4K%NrA=IDniVDEhaVjACzq)E;ZR-2_oJLWG{fS?*Z8#p=^B#
-W>CG7u;!I%2k4EtDj9_QwtBe5r@-&P9
-
-delta 1082
-zcmeH^u}Z^G6o!+uV2sixxm9zMRBN4uxV1wm6{kQA8k{<0aB%Jm2<a-6!dVKX&|M0G
-zPoOWLlao-omqK?b-g-}N;wy;T$Ir)q?m2hp5B;ax0>lLhFXYhb^xFB*t3_(my13qz
-zBw12h;mxHC?_8jrUXTyZJRvAt&=jZ??M($5X+;i=9CWz>4@C-N`^Sb)#!KW=okG*$
-z`90$S@*Cqha>bxqYQ&zTZNrsGHWQ&MGEHP-H}Q5vwsa}@Chu>SDU6T@j2Fmr#to9$
-zq?Ycg<0d-ve;Mhn1{wy;vPM1aFwro<D`lqC(++|LftVXGDp8mo@pms6uaO&j6oLxR
-z`-~^ZGsY`qZ$G&M6?ce5W{YfkoOq7N)*^F77E~!b9`KnH#$U)Q#%;@iS5khyvn=KR
-Mga7acpPzil-&s66RR910
-
-diff --git a/tests/data/acpi/pc/DSDT.cphp b/tests/data/acpi/pc/DSDT.cphp
-index 27d1fc90f5f51c48a44bace866a19a42d7170129..8b0cae4dbfbd083a43751a7c94dc5c76f89084a7 100644
-GIT binary patch
-delta 864
-zcmY+?y-LGS90l-*woTKdO`GpDsjpB!Qd|V1=^|Ls;?yAz;8WBG5G12eA3z7e)dz8N
-z>m=wZDCqs?B>!YR{O-AzldPk4^!(k+mgcA>r}L|svYB1zMz*7SBFj#7-&@?AZ_RfP
-zQaO#2OI4B@k{k=!AaP%ay>Tg;5KR&vrQnVhM2o~>AGhpthYTT;xGe>Dv?1Cg-U|_N
-zhXSFH7!Pnu#2p=o4vA$UCfuPys6t>PRcw^+GT|-_QmaUf)?660CQf%Ld#YtU%6@B^
-zPT9<?p6yfiP|F6Cebq99ve>GgHAR-cI_6hfc(p|fJX+Z3m=~}iY!W}E;0_1EA#rA-
-z<Agh02$#gF6x`uK<p14gArkKJA$;mMa&Sw+9YcsAiMv8fxg&rGguwR*c$X=6g^*!I
-YhP3LnTU~WT*=sG^{?E*puJ^X_2TT;p0RR91
-
-delta 860
-zcmY+>O-{l<6bJAcDJ`WH+R{%x^ay^{xE+LTjS^Q)>;X819>I42E<mCQTQ1@SShICO
-zVqo5zH{Jg8d;ghvvnzJR&tK27>&08?oP+O&@DWVlrk`QfqU@^rd~PjnA8Wf7vsc$J
-zOv4t(DN_!c1hW&oyH>D`unmr%AL~(Ym4(8BN*DLsVWY5N-4NW-LD7MOE(-2&P&iNq
-z+C2*H=%VPtN*52@;i7P1-w@p4q3}S2r&FK`X_*(aBUr1fr?P{}`YJ02H0!HurLsU}
-zdzFPM6A{f0D3hNk__h(=Hj<whHQ|&W9wUq;j0wuWoN{A=Fo9*PZTX3-QWPm{8-hDB
-z6d8Dl)-mIb97PWA4Z$5l6hrvd#hg1vC`MnYcF3G7#t6pnA_Xi{TIqxq09%z^QnvB3
-G-?M)mx5a`0
-
-diff --git a/tests/data/acpi/pc/DSDT.dimmpxm b/tests/data/acpi/pc/DSDT.dimmpxm
-index efa46bc7860f0b026f23175ccf3ef1e1eba59c15..38865fb66747a6ee1cf2066b925be6eba064625a 100644
-GIT binary patch
-delta 799
-zcmY+BJ5Iw;5Jeryu}w%w9RKau5j71W1)+*wgeXA}Q6b?4fW!izqE3YukR=c)lpwJI
-zdX~Ww(7PUc-fNG}-1)5+>&15CS0XB^jh`lWuUF>k<hXQ7aemV`4AXGL>h`i{!uV^A
-zd24jZ=)w>IWz0CkBEyn~?UXXlst#kX?l$8rn@n3VZE03nm?+Evd(_w-*q6q7U<Z*}
-zyAM`stPi%;*Z`~(qqa(8+Uu039n!QzZ2r&~bKZPJ#t6n|YjB23h6`hmP?s~#7?UxE
-zao-x8;gR9NcyA2B89o{K^IJ+y1V;oU1c<n9j3q~eWQ5Y7Cx-Gw^%Iwz6_FV!W`tuN
-zW$GhhuosObU_Tm5!HS7mn}I!PYy$SJu^i0J)!IU`dg=?FdP-AIae?PN+kND}oqut6
-Bv2y?b
-
-delta 790
-zcmY+BJx;?w5JqjuiA@N09RJ&~O`irO1*VFO5G6=NR1|vwq+B2sb-FnKSFn^iQZA4K
-zK*vo`va>Vm_UX;H-_Gn-yH)oc!XeC|jjHV9>(yE>?t~-Sr?;_TSccQC-(N-+xRGu&
-zWDL+4fY6O4XAIF8Lf11m!$!jfGrqh6MV#4=IKS+`UmBdd!6&gRVh3U)Vs4^luZam_
-zV`3e#8)9avW?jW@FFU#CwjQ?iWI<1fa(NAZe1hTxep79E4M+KC_%P2j<AF1#XiQ<-
-zGdLqaBY=}`w44#55ki$~ue6*Ip%KAGHy$}7Mk9t}&)|#%jRgEc9&ui%Wu|IJuqBoe
-rI}yu?RWmhP5Ze%&5jzqqiTS0PtrU|-eCD<_wyot6YbEaY<&XIflB&Ev
-
-diff --git a/tests/data/acpi/pc/DSDT.hpbridge b/tests/data/acpi/pc/DSDT.hpbridge
-index bcaebed6837b0ffafe1128e1f8c2e55d4c66679c..abcd6d9d309a8f9a9080edc64df7a6c195b5885f 100644
-GIT binary patch
-delta 766
-zcmY+>y-LGS7{>7gY;&wN&B=GFrh}t`);d&hNp)7RI634J^a2#b-Ray&!5h$76kHVq
-zXQ9`idGaRjIqRQao|Bv`$IJ1ebd@c0Rl39M>fwB4elRUXS)5+<EvsXRVt#qn>p(0T
-zG1+fLmqZuB9?-^wHyjd9B^*&!dye{%L4DdGZwZn@lcJL9YmjMe6>ZnkTMzBdXlrQi
-zM(d-Er2gzW+Ktg%w3oW6Pf6c3<+t_dZ9RPXj^7CWa!Eo$+&1EfH+&L4#9J$PBOnn#
-z<N=*h@J2`?gt%@6Z$u;_i04Mkcq1keL&%U$nej$KBB=!Z#iY8U`Y)dFR!TC}WQyDT
-r4fR{k(2gU$4bdKrwt@C-v`w_VSbug4?cQiP+K16b|1EslPG0RlrVOx+
-
-delta 749
-zcmY+Ay-osA5Js0o*cEaAe^^x3SeqbXu_iQ&)|yDHEcO+60TN<Q^>uc>0SQk)Z%C+3
-zcmWcg!QjrFxwI$eo|!xQ{=UB`ZA|SBYEC!(_<TJX-{+-O7SC@j!>AipF@Aq(*0I)&
-z!5te7G8)Jntuc^>Nrs7uZahfCBE!O}GVtr9rd1v$pW@pO4!hyjRjkQu%Iu8Unpulk
-z=Bc;m%qGliW-DfnV%PsS$z@xYwsoroT_sk>%jM%9i5|Xu?KF>)^2zYAJ2IpZkP%=Q
-zXpKS|AsHd&M}{;aG9qksV<e53j2OL8n=+C{LPmm_Zahh&O-37=%D^sEM^Dv_FpL!I
-gFq<>GV76s;$*dQvw^z(&%(~1r%reE6H_1=!59yMsfB*mh
-
-diff --git a/tests/data/acpi/pc/DSDT.ipmikcs b/tests/data/acpi/pc/DSDT.ipmikcs
-index 67b60cc44a6ebff029524abc27ef48f90868f948..e819ce69461a36b6fab5e2ffeba90dfe558724a7 100644
-GIT binary patch
-delta 800
-zcmY+CJ5Iwu5QdFp6BCHv51f$X3c*E43Xm)T1&APss8aY0J^~b!P`Css2Y>>J%TOg8
-z03;3o687)0XSZ8@`sUx6*<Hn}_$@Q?%o^mG(Tx^&m+CworFxniU+*Z2s_4o5X4Y0q
-zqot?S`O0?5oHV9JrY4wLUYPm083}9?>{((huy2X!U`Li%y9M?ru{PMJ#J0iqZPeyx
-zHqABWZadU%2a`Y5#sN=mkWuaCt1&pkB*R3;p+mP!IKv{tg7MH8oMDq;!&ukGlrtPM
-z92g^)Zkck1ONI;Mwl)&Z@W}8=gI>`qcT~M%!dX6<zF_*;=E4(SA^>}pSP1qfv0bp4
-zFV;q2ONn*Cek9fdO9HWWuVhu%C){<Py6$5GF9Gf7ls7OSqxj{;PycNU&KQz0gmDq}
-J-tWVYjemqBysrQN
-
-delta 797
-zcmY+BPfEj35QihAHpb@Ve`8vcdIXz=Z8t(dyAdK-TxF31xT;4GTz4^Bp%>^v@HB2p
-zFCg>+1!>>BnV0RyH$Q$evn{s8_fo)03}7kpwElQD7sYL3HRZ!g&oE5GDi^PnZNjc)
-zOv&h=(Sfmh%77;~?OM%o>KyzaJm$g|u`aPcVivJ`Pt9HsTM@H~?TB3x8~bXur`XMD
-zpF3{rU|UBPbd)F;pYY-WMFDo8oo2#OE*dV>x-sPp4-F4CErT<BG<-Pd#*8xpGy<qX
-zt;dWrLNr2H>qf~L5gHNfTLx#uXv9!P@`-h%j@ef?f(@~R*n!v;u_{)xDX}%N0kJ)?
-zA+fTrX0H{KPkiLI8Me*j6SKBB=f!grb1CLZl;56n;t0hNyd^_;7unBe@_Y6VYPGlp
-
-diff --git a/tests/data/acpi/pc/DSDT.memhp b/tests/data/acpi/pc/DSDT.memhp
-index 084957e53fb51e313dc824e5a8733f02ff77542c..03a9decdc1563f5e759e34dffdab4bb34645d9b3 100644
-GIT binary patch
-delta 863
-zcmY+?y-LGS90l+eOOvKaY)zW)M4Vj&>j&7SA37?vI0*)4L03Vi?k?s*EVv5#0J{4E
-zeGk3=oZSD-didRQFDF@#)}z&<Q_O=*)APmExv^2~xK6QhLM3Za)^sT=A~y=Jmlv(Y
-z{$8%<<JqOzXtW#pSe$N)Q^lPW$5Lnz8i|ie47o#x&`DSW+%n{j4n&8<O(hPv!+<bI
-zyh*_wU5Ks_uO2Qr<O&nOq>8x|Twy_2LSQyaOjOQt#9cO|tw@{3-1XIgHz|9rWj)G%
-zYFVGMEKtvGQT9;F9Lm0GnM+weRL>4XR=#?|ulDe2j}~|evC)JV@F9E>-<6nhM*tC!
-zNF#Jixg&%qf2#XR%(x?hh^XUJ3hsy@ViLU=x14fE0+Eoom4Z7`h*SuC&6IaJ<E{)c
-VQ)EV~o+Rq3+y9yS{*wGQ{{Yt$zl#6>
-
-delta 861
-zcmZ9}y-vbl6b9fDu`Q*bwWa@5oJov{zX>b|I%<?SIrI`(9Y{=^+0KoScmv!3iK`|K
-z4%~;q@BDmqee?7^U(eYLH^b$NZ`tMa>CV}KpTLKQuz;nXU{>d>7ErcJS?~GnzCJxY
-zDeZDJd2|iKH0;r~$y9|V!9>9;h898#zJhc+Qi(IEvQgO3@90808Ymht*TuPXI4B%g
-zSA=vlQ8b|lwJ8_U;i7P1RuR(CLeYYiE-s~`jiL=+^fv|i5iN6%b_8?I_BmT~=5bcU
-z^z8v>GtPX@R-6T#c?o^np-dg|T3#FCYeRL!@E?>Pj}S%*Mg-L@$I=)hjA4*!TOLbQ
-zf+B&1E+*2EqDbMpBBUcjk->4MO}UYd97PVV6(Jp66kYhx#jSJ{C<-{r)h!1(?evf~
-J@V>}DYrlC)%KZQU
-
-diff --git a/tests/data/acpi/pc/DSDT.nohpet b/tests/data/acpi/pc/DSDT.nohpet
-index 46827e285421d4fb38160f6c15dc9134d7da5446..b413d9f31d483eca02f45ad09af2f556581ec381 100644
-GIT binary patch
-delta 842
-zcmY+>PfEi;6bA4JX_F>R+cbaLBwDY~Y74p$jLp^x7B?0Qu02IvbtOoag?a#86x@0c
-zcV0ly11M;|yyVSnKYsJgym_n9YP4Nj+0q_lYby*E_ZRB?V3_J@oLn{)MOE~8el;^x
-zh|fwKRiZ|s2657&jzjLKlc+;HRDwG+5*oxuDaPEPlh7fCZMtR59Ssr<h-E1z++mO~
-za-r#IK9`Z*cAaAC33r(!O+lKu%od$M$ePGrq|8G0D`hQYGg~~{M)o9S9c159W+RKc
-zIGbH}Y4T%!twXPMF!^&SVxHV3;X?dWf;&7C9>lprx14c@Pr`@TRDwHtBzh2ErI>O@
-zpF|(x)TLXd+!2r{rhP0$!W|)rFz=u(hWQ^ATTHksA{hxX!f)Pr;wE;Hy-C>~GRqg;
-R0NIU{?f+-)>(+nY`2!^e#-IQI
-
-delta 839
-zcmY+>Pfo%>6bA4b3oV8IW7<NCqDK(LM3<vo*C=t-gdTuX=!&&(>4FQ8K;o8*cndB-
-zLZENnn{L1S=9`)KmXqaV`|DbEHTx`_O9(vyU;a2Pzu(N+{as~OGXLlqhH2RHBusF;
-zOcPHeS}0mj>f(Vr+9=wvZV2wMP*`x##gsd26gCvT_KqocbWn6)rHe=Ia8Nj~ZwT(_
-zqUeGQ&bL4rq&TCVnh~rib16Ge=22FJ>a0)Min4&RJ!K(fvaineRd##c%`?AN;A=&_
-zMA3wjKOP~BY8WY4Z(DL>j4+0U(5C#tRSAj&b`8ND0~7;rBdz0=JBBERFmDL%NKvG)
-x(M8T38H(&D)-K7pVuWA>@3nwMtVVjJ1^_$Ct|@a9<;IlFDZ5eG-zNFLI09ThzxDtC
-
-diff --git a/tests/data/acpi/pc/DSDT.numamem b/tests/data/acpi/pc/DSDT.numamem
-index ebdccc880def932fcba0cef8a7cf47ff7cc67f53..9e701b2983f9ec45af9c26d801545c2b5d112a10 100644
-GIT binary patch
-delta 800
-zcmY+>O-_SA7{>9MP{0<;H%P1P5o+i{Tq#ZC%CFeCGKQ-dPoQC2P2ASRXk2=V?%a9-
-zJ%A>fd3fQS+5Yq6VHg(aB7GV6%9S%L$Gv`Xd2_1G)1AUB^4Yo7YH2MqpI@AGG>Gd)
-zWQ}N(XhW=OG2soJgf4_(7Gh5?UtPa?+l03al7=J=A<HK_k(!D2tF(2rV@Gx!v<Ibi
-z(Y}>tp&hvLvm0o4RV$Y+-OVna)~3_i`0}4xWc=k02?yfHqm7I=ToNwCeJ%EQ!z1BA
-zd^LhMd=fsyzE5w-c_SbZK-@NhH$oC2#Ahw0yb+OzgrL6|i94$P;*_^ylCdOX+~#{A
-z-|!}y70N9^yHZ*o?OAC9v_GY7p`AtY-Zt8!(uSf{r#|FUkLc7R+(0)Tyv^c|wSNky
-B%^&~(
-
-delta 790
-zcmY+B&rZTX5Ql40Xu;a;|5{Y)8)(YGa-(Rxp+w@zklwxd3cdlED<R=*LP$LF6drvF
-zUcdx`J3F&nzkK_f-_Fd7d9l86VdQq;$L(fspU>u`xUKEFdU$aR!!+z_^7_;^VR2-X
-zWHiudz*aYUoY6$12?L=`>2ZdIh6OWez?aA@yFN^|;UfqS-QbT{i`d9hUYpp0*eS6s
-zF^AZ|S8vaV&4{^*UH|Xoj@t@sD`Y{TM7g|@KklLE!F!;6yyPe!4IehT(dUc+jR2fb
-z%jk1Ph(-ug-KaPtLL-9Jk--@;8Zqp2W5^i^8VQUet;divQZ!OnN&_~LTJX8r5je48
-t8L=s`4zU%n3t~HBm&C@2%DW=AB-T|-9`TXe=GZouN6eM@eV_iG>;Xco#{2*P
-
-diff --git a/tests/data/acpi/pc/DSDT.roothp b/tests/data/acpi/pc/DSDT.roothp
-index f9aacee095bbb62251fc8231532f0d6e9f555a58..8c3956c9ecc63133cc800f1d2d07a1392a35d548 100644
-GIT binary patch
-delta 937
-zcmY+>O-{l<7{+lv3X}>h^pjRaFJJ<QiNt79WoN`h;)(@l-~tBOlIWsKO}u~$6A$7A
-zO!NSC;Q>sfPv7>P+5YpJr^B!uE{AV%Gg_G4C~o?l+3HG}_KxT3JRILN3WZ`p4X3x0
-zBEX66`?J-xGVS+rP)dPTf>`ST37#mEC_{W^V!#^;2?gT7pp5}<R7g}H?lN)68&wij
-zh>u+GMvX)bV!uUS8S;ioLWNl5f;Z|U>WQeS^Uc#}^(fS>^j9D8mPS$&q?X9&vh53P
-z3+-8I4YVJrHPOyY@vM&aC^ZA^TWT$|z9pV*CoR48h;MDutxdeZlSOYd;uo+;SP*e0
-zLf)`R*bt{SZG^nxkZ>R#GI7ouE(sUnD;K=sk?<gT4t?c<H##Ib5cj#@4WESgE<V4@
-tn70CwL9#{vdw^G+x#H<<v{$L^p#4d07j5E+XS--GQrp`!`~BB5O8+xX*Gd2Y
-
-delta 939
-zcmZ9}Pfo%>6bA6N6k00Kf6&sZ=n<%5q8pMbJ0d0$S6%cB-hglc7H><!1z4DPAr2r3
-zYZDTcdGp@X?U&ztZ|2Qnv>1JSwHtOhf17EbyCJ-LgF&%;Hs{0p(k}DKYfIB~&CY*;
-zeqy?0*TwS1oM%H~hG33ya*iQkA|UtG5Z2(klm1N<;)bhC6edhvRd7cgMIF|vxaE!p
-ziU#Z}f;%h}7K}Y*%7{B`6gI3Xf;*Zhny^#F9d|e=9LW6B6qx#nC3bWscLZz7T9oZ6
-zYg0B3<k=2oE6QBTc9eOPWuZLl%S?RY1K&2l+Xmu-!9U0k4-tj}h7yXu%(=0PunR?3
-z*>cWRJrq6Is^XD5A`}rED}p;>6fw+t%9JPW=%eVvrXsi_L6N{g6%+1AQKXPZ;xCIx
-g?(|%40JfA}P<Ev3lCoJW&kiWtP<AD=&qM4PKZ5Agt^fc4
-
-diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
-index 37ef245f673bcbd5385cb332cc0ccf06d5355485..a42eb674fa3469a815b1c91ba99b2d4cf85c9380 100644
-GIT binary patch
-delta 878
-zcmY+>y-vbV7{>962&EKg#Sds{`KTXQqtQgAi4zeSHA)<a1Mvnl&KgZzb?Y^_IGH#x
-z=>=%?0`Ok6Pv7?KS^xQ+rzfZ5;duD^-0)9Yc19iz&W<F1+bR2#MupQ9(t5KRq%4$@
-zLc0~(G}@QY(r9)od3FZvN@y9h520nzbO&dB*D<Q+569`jjyIA=-QKAxNjXXG{@+>2
-z1vm3=BC)#_3x$LN@fi!=$dkxJSWEPkJ>F1Bs1TR2;Ee)_0>pbHI=oRNQH0Qz=_?)H
-zD3K^ZTtvd-4UL2r2>K6N@J8Xgc)X>P)Du$2YwoWk|HLfXlhDd&ze1Zs+gweaokzPD
-z+5*~-&=%2}?c~`?(860E@U5$K>+pX+w&{&}`~n6E18+2m1#g%nOo)v&+BoEm8i^Xj
-lT`YLRB4I&%N21RgHVGS|;nG+7yiq4nhq!jlw->jR`UCcd%hdn?
-
-delta 891
-zcmY+By-LGS6o6x`ZIY%xvHmnkleX4Wtxz1)779W!b`caT9g0KI7w`pyf^)&)tga4j
-zf>SqNK<ES57Z4nL12sAKoSXIIJKsI`-q~n2dVQ{@)bU_=p}<eQ2sge5pVd-?mI&?F
-ztaNDU31auemWh23OA_<8#Ow;OJ7Otf@5Iu?%(|FW1*={^TqXyHov}LZ1y_cmXo}kV
-z+h5nB1vMdBp?GvaqK={tUv>Ncrf6^~gGL6r+mdn24Fe4WrZIyXSv0b+kc~Dsa%kkB
-z<x8iuxsgXB4-?twaHD`m0p>A-8zvei)EeO_&~1pvTorEwQ({G83u0@;T03HPo!Erf
-z2C+G@O=7iOF<TNW`ovS-*1~PA=o78D81Thy6zxc~g&6&1z(of|2hR7TS3cuZ8I3YL
-n#SCt^Xt?k#8+~qgXn1haluqe$qk={S9-9u_`tI9Hvyk`&Hv`}D
-
-diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
-index e9b67e9ebe1e3b4de513b68129f719018ebeeb2f..88bf47ab1805e4ef1dd8039933c5aa8144da37ac 100644
-GIT binary patch
-delta 35
-icmX@$e873bQiaL;6yzpbD@skis}P68mYUqFXbb=f{tdVQ
-
-delta 79
-zcmX@$e873bQUytl_~1}K1`(lnS1$v`0B2V(r(jnfkl18vMY+j$6ygc0ke=MDXbb?Y
-Cnio<4
-
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 406bbac1c7..9d0512666d 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -427,13 +427,41 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         int func = PCI_FUNC(devfn);
+         /* ACPI spec: 1.0b: Table 6-2 _ADR Object Bus Types, PCI type */
+         int adr = slot << 16 | func;
+-        bool hotplug_enabled_dev;
+-        bool bridge_in_acpi;
+-        bool cold_plugged_bridge;
++        bool hotpluggbale_slot = false;
++        bool bridge_in_acpi = false;
++        bool cold_plugged_bridge = false;
++        bool is_vga = false;
++
++        if (pdev) {
++            pc = PCI_DEVICE_GET_CLASS(pdev);
++            dc = DEVICE_GET_CLASS(pdev);
++
++            if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
++                continue;
++            }
++
++            is_vga = pc->class_id == PCI_CLASS_DISPLAY_VGA;
+ 
+-        if (!pdev) {
+             /*
+-             * add hotplug slots for non present devices.
++             * Cold plugged bridges aren't themselves hot-pluggable.
++             * Hotplugged bridges *are* hot-pluggable.
++             */
++            cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
++            bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
++
++            hotpluggbale_slot = bsel && dc->hotpluggable &&
++                                !cold_plugged_bridge;
++
++            /*
++             * allow describing coldplugged bridges in ACPI even if they are not
++             * on function 0, as they are not unpluggable, for all other devices
++             * generate description only for function 0 per slot
++             */
++            if (func && !bridge_in_acpi) {
++                continue;
++            }
++        } else {
++            /*
+              * hotplug is supported only for non-multifunction device
+              * so generate device description only for function 0
+              */
+@@ -441,46 +469,11 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+                 if (pci_bus_is_express(bus) && slot > 0) {
+                     break;
+                 }
+-                dev = aml_device("S%.02X", devfn);
+-                aml_append(dev, aml_name_decl("_ADR", aml_int(adr)));
+-                aml_append(dev, aml_name_decl("ASUN", aml_int(slot)));
+-                aml_append(dev, aml_pci_device_dsm());
+-                aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+-                method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+-                aml_append(method,
+-                    aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
+-                );
+-                aml_append(dev, method);
+-                aml_append(parent_scope, dev);
+-
+-                build_append_pcihp_notify_entry(notify_method, slot);
++                /* mark it as empty hotpluggable slot */
++                hotpluggbale_slot = true;
++            } else {
++                continue;
+             }
+-            continue;
+-        }
+-
+-        pc = PCI_DEVICE_GET_CLASS(pdev);
+-        dc = DEVICE_GET_CLASS(pdev);
+-
+-        /*
+-         * Cold plugged bridges aren't themselves hot-pluggable.
+-         * Hotplugged bridges *are* hot-pluggable.
+-         */
+-        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
+-        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
+-
+-        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
+-
+-        if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
+-            continue;
+-        }
+-
+-        /*
+-         * allow describing coldplugged bridges in ACPI even if they are not
+-         * on function 0, as they are not unpluggable, for all other devices
+-         * generate description only for function 0 per slot
+-         */
+-        if (func && !bridge_in_acpi) {
+-            continue;
+         }
+ 
+         /* start to compose PCI device descriptor */
+@@ -496,7 +489,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+             aml_append(dev, aml_pci_device_dsm());
+         }
+ 
+-        if (pc->class_id == PCI_CLASS_DISPLAY_VGA) {
++        if (is_vga) {
+             /* add VGA specific AML methods */
+             int s3d;
+ 
+@@ -517,19 +510,10 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+             method = aml_method("_S3D", 0, AML_NOTSERIALIZED);
+             aml_append(method, aml_return(aml_int(s3d)));
+             aml_append(dev, method);
+-        } else if (hotplug_enabled_dev) {
+-            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+-            /* add _EJ0 to make slot hotpluggable  */
+-            method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
+-            aml_append(method,
+-                aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
+-            );
+-            aml_append(dev, method);
++        }
+ 
+-            if (bsel) {
+-                build_append_pcihp_notify_entry(notify_method, slot);
+-            }
+-        } else if (bridge_in_acpi) {
++        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
++        if (bridge_in_acpi) {
+             /*
+              * device is coldplugged bridge,
+              * add child device descriptions into its scope
+@@ -538,6 +522,19 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+ 
+             build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en);
+         }
++
++        if (hotpluggbale_slot) {
++            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
++            /* add _EJ0 to make slot hotpluggable  */
++            method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
++            aml_append(method,
++                aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
++            );
++            aml_append(dev, method);
++
++            build_append_pcihp_notify_entry(notify_method, slot);
++        }
++
+         /* device descriptor has been composed, add it into parent context */
+         aml_append(parent_scope, dev);
+     }
 -- 
 2.31.1
 
