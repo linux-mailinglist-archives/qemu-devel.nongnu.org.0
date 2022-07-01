@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8394956337B
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 14:28:26 +0200 (CEST)
-Received: from localhost ([::1]:57776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C35056337F
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 14:31:08 +0200 (CEST)
+Received: from localhost ([::1]:34874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7Fl3-0004h3-BX
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 08:28:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42118)
+	id 1o7Fnf-0008Q7-BY
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 08:31:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7Ffm-0001Tg-8D
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 08:22:58 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:40738)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7Ffk-0003wq-SQ
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 08:22:57 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-317a66d62dfso21885447b3.7
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 05:22:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1HAE9tbimNVrGwXWOXZ+AOUgTZ1SN+6rxBaj40/mJkA=;
- b=louvrRcERJDjpqO3Nk0D3kLBJuPmK9rkfrNS0qrpnI1c+A6/wSbV7dj4JNWb6Ko+nu
- ouTOehSExGWkSLQh9wB5QAuem67YbcfzvC9VDUb6Q4ftthuvSG9wgpDNpN1sBzauf1s2
- RdFy7wdH8u3JDTH6jOk0sAG7cAm/zzbvm91Bg2PJYBb/IvQpRzLlwJpAKQbDWDccw9Bl
- oy/hpEL8KdAnShY5j1jpDTJqwbtv2Hmg5WyJbGU1pq/kTxaEtjRYUZ9GZwI8h5FmOXRu
- ZWsUmiAbL4WJ9s0EpjTNej1y5wJq/5mq8mqI5DXyJXZy7hRLsH5icNbprvCjGYKvbhud
- 8gSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1HAE9tbimNVrGwXWOXZ+AOUgTZ1SN+6rxBaj40/mJkA=;
- b=th3JqgwCZVdp6JCu1Irb576uXngwqhit0YZr/k8bfmJE+VeWvo50pay0eVGWKYplmG
- C2eSz1LtaVh1bJ4vdnALR4I+KHlxc07JAEC5CzrBJAjuIqfoFmqEICmXlNWcP3byEmx3
- w/QT9jdYYfWn9LsW7VQtVz1yqNcuqwT+1AJQ3wwcJG2aR4cPaKHzbXilqN5VWkJxaUrD
- PgKCSKzsmXjB14aAP552mQUmK7AzN7+gjQGy+31UNC+Myn8klvty0z6KRFpMUykmOVZn
- O7GGw03pLYij4OMmMnx51bWZZbcKnkYmTP3e8GY31FDD1LxAH/M01W37jXjn2QkI1Udl
- 9/fg==
-X-Gm-Message-State: AJIora/V/T0BIS1UEqspJimfVwcSRXi4tSayyAklFrgIR5zhaCzFgYC/
- NnVDY6MHafUnp5V+EVxCbDOkTvXbPCoctbziGz/+1tkDzmI=
-X-Google-Smtp-Source: AGRyM1vC0qKsZGlc/5lGIobL2/4tfEofJBWf/KT1lSt/HJjchClJ/WuHTZCaM0ntTh1H5QdhwJdUVtdbgYWUZCMr0MQ=
-X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
- d8-20020a818d08000000b00317a4cdd65dmr16007805ywg.329.1656678174017; Fri, 01
- Jul 2022 05:22:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o7FgN-0001sD-OM; Fri, 01 Jul 2022 08:23:39 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:56743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o7FgJ-00041d-UA; Fri, 01 Jul 2022 08:23:34 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.13])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 065A6113542BF;
+ Fri,  1 Jul 2022 14:23:24 +0200 (CEST)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 1 Jul 2022
+ 14:23:23 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004d04b04e3-5c3d-46ef-8395-07781734b95a,
+ 4AFA7A5FE9B5479AF1021A557A7101AB3AA64E21) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <b3366184-2989-b1a2-7ff5-c8f850582bec@kaod.org>
+Date: Fri, 1 Jul 2022 14:23:17 +0200
 MIME-Version: 1.0
-References: <20220628042117.368549-1-richard.henderson@linaro.org>
- <20220628042117.368549-10-richard.henderson@linaro.org>
-In-Reply-To: <20220628042117.368549-10-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Jul 2022 13:22:16 +0100
-Message-ID: <CAFEAcA9B=2dHJ7m927scmnLuW2V2_r5_Bi=w46QX4=hzVWf-nA@mail.gmail.com>
-Subject: Re: [PATCH v4 09/45] target/arm: Mark SMMLA, UMMLA,
- USMMLA as non-streaming
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 1/2] hw: m25p80: Add Block Protect and Top Bottom bits for
+ write protect
+Content-Language: en-US
+To: Francisco Iglesias <frasse.iglesias@gmail.com>, Iris Chen
+ <irischenlj@fb.com>
+CC: <pdel@fb.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
+ <patrick@stwcx.xyz>, <alistair@alistair23.me>, <kwolf@redhat.com>,
+ <hreitz@redhat.com>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
+ <joel@jms.id.au>, <thuth@redhat.com>, <lvivier@redhat.com>,
+ <pbonzini@redhat.com>, <qemu-block@nongnu.org>, <dz4list@gmail.com>
+References: <20220627185234.1911337-1-irischenlj@fb.com>
+ <20220627185234.1911337-2-irischenlj@fb.com>
+ <20220701114004.GF10629@fralle-msi>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220701114004.GF10629@fralle-msi>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9dc52406-7657-4ece-8ed1-168c2eb3034c
+X-Ovh-Tracer-Id: 16661911249756851015
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehfedgheduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopeguiieglhhishhtsehgmhgrihhlrdgtohhmpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,16 +81,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jun 2022 at 05:25, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Mark these as a non-streaming instructions, which should trap
-> if full a64 support is not enabled in streaming mode.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 7/1/22 13:40, Francisco Iglesias wrote:
+> Hi Iris,
+> 
+> Looks good, a couple of minor comments below!
+> 
+> On [2022 Jun 27] Mon 11:52:33, Iris Chen wrote:
+>> Signed-off-by: Iris Chen <irischenlj@fb.com>
+>> ---
+>>   hw/block/m25p80.c | 74 +++++++++++++++++++++++++++++++++++++++--------
+>>   1 file changed, 62 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+>> index 50b523e5b1..0156a70f5e 100644
+>> --- a/hw/block/m25p80.c
+>> +++ b/hw/block/m25p80.c
+>> @@ -38,21 +38,19 @@
+>>   #include "trace.h"
+>>   #include "qom/object.h"
+>>   
+>> -/* Fields for FlashPartInfo->flags */
+>> -
+>> -/* erase capabilities */
+>> -#define ER_4K 1
+>> -#define ER_32K 2
+>> -/* set to allow the page program command to write 0s back to 1. Useful for
+>> - * modelling EEPROM with SPI flash command set
+>> - */
+>> -#define EEPROM 0x100
+>> -
+>>   /* 16 MiB max in 3 byte address mode */
+>>   #define MAX_3BYTES_SIZE 0x1000000
+>> -
+>>   #define SPI_NOR_MAX_ID_LEN 6
+>>   
+>> +/* Fields for FlashPartInfo->flags */
+>> +enum spi_nor_option_flags {
+> 
+> (A suggestion is to s/nor/flash/ above (and s/SNOR_F_//  below) since there
+> looks to be nand flashes as W25N01GV using the protocol to).
+> 
+>> +    ER_4K                  = BIT(0),
+>> +    ER_32K                 = BIT(1),
+>> +    EEPROM                 = BIT(2),
+>> +    SNOR_F_HAS_SR_TB       = BIT(3),
+>> +    SNOR_F_HAS_SR_BP3_BIT6 = BIT(4),
+>> +};
+>> +
+>>   typedef struct FlashPartInfo {
+>>       const char *part_name;
+>>       /*
+>> @@ -253,7 +251,8 @@ static const FlashPartInfo known_devices[] = {
+>>       { INFO("n25q512a11",  0x20bb20,      0,  64 << 10, 1024, ER_4K) },
+>>       { INFO("n25q512a13",  0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+>>       { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
+>> -    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
+>> +    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512,
+>> +           ER_4K | SNOR_F_HAS_SR_BP3_BIT6 | SNOR_F_HAS_SR_TB) },
+>>       { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+>>       { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
+>>       { INFO("mt25ql512ab", 0x20ba20, 0x1044, 64 << 10, 1024, ER_4K | ER_32K) },
+>> @@ -480,6 +479,11 @@ struct Flash {
+>>       bool reset_enable;
+>>       bool quad_enable;
+>>       bool aai_enable;
+>> +    bool block_protect0;
+>> +    bool block_protect1;
+>> +    bool block_protect2;
+>> +    bool block_protect3;
+>> +    bool top_bottom_bit;
+>>       bool status_register_write_disabled;
+>>       uint8_t ear;
+>>   
+>> @@ -630,6 +634,29 @@ void flash_write8(Flash *s, uint32_t addr, uint8_t data)
+>>           qemu_log_mask(LOG_GUEST_ERROR, "M25P80: write with write protect!\n");
+>>           return;
+>>       }
+>> +    uint32_t block_protect_value = (s->block_protect3 << 3) |
+>> +                                   (s->block_protect2 << 2) |
+>> +                                   (s->block_protect1 << 1) |
+>> +                                   (s->block_protect0 << 0);
+>> +
+>> +     uint32_t num_protected_sectors = 1 << (block_protect_value - 1);
+>> +     uint32_t sector = addr / s->pi->sector_size;
+>> +
+>> +     /* top_bottom_bit == 0 means TOP */
+> 
+> Indentation needs minor fixing on above lines, also the declarations should
+> be at the top of the function.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I agree in that case it would be better to have at the top
+but checkpatch does not complain. What's the rule ?
 
-thanks
--- PMM
+For loop indexes, I do prefer to declare in the block
+statement.
+
+> 
+>> +    if (!s->top_bottom_bit) {
+>> +        if (block_protect_value > 0 &&
+>> +            s->pi->n_sectors <= sector + num_protected_sectors) {
+>> +            qemu_log_mask(LOG_GUEST_ERROR,
+>> +                          "M25P80: write with write protect!\n");
+>> +            return;
+>> +        }
+>> +    } else {
+>> +        if (block_protect_value > 0 && sector < num_protected_sectors) {
+>> +            qemu_log_mask(LOG_GUEST_ERROR,
+>> +                          "M25P80: write with write protect!\n");
+>> +            return;
+>> +        }
+>> +    }
+>>   
+>>       if ((prev ^ data) & data) {
+>>           trace_m25p80_programming_zero_to_one(s, addr, prev, data);
+>> @@ -728,6 +755,15 @@ static void complete_collecting_data(Flash *s)
+>>           break;
+>>       case WRSR:
+>>           s->status_register_write_disabled = extract32(s->data[0], 7, 1);
+>> +        s->block_protect0 = extract32(s->data[0], 2, 1);
+>> +        s->block_protect1 = extract32(s->data[0], 3, 1);
+>> +        s->block_protect2 = extract32(s->data[0], 4, 1);
+>> +        if (s->pi->flags & SNOR_F_HAS_SR_TB) {
+>> +            s->top_bottom_bit = extract32(s->data[0], 5, 1);
+>> +        }
+>> +        if (s->pi->flags & SNOR_F_HAS_SR_BP3_BIT6) {
+>> +            s->block_protect3 = extract32(s->data[0], 6, 1);
+>> +        }
+>>   
+>>           switch (get_man(s)) {
+>>           case MAN_SPANSION:
+>> @@ -1213,6 +1249,15 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>>       case RDSR:
+>>           s->data[0] = (!!s->write_enable) << 1;
+>>           s->data[0] |= (!!s->status_register_write_disabled) << 7;
+>> +        s->data[0] |= (!!s->block_protect0) << 2;
+>> +        s->data[0] |= (!!s->block_protect1) << 3;
+>> +        s->data[0] |= (!!s->block_protect2) << 4;
+>> +        if (s->pi->flags & SNOR_F_HAS_SR_TB) {
+>> +            s->data[0] |= (!!s->top_bottom_bit) << 5;
+>> +        }
+>> +        if (s->pi->flags & SNOR_F_HAS_SR_BP3_BIT6) {
+>> +            s->data[0] |= (!!s->block_protect3) << 6;
+>> +        }
+>>   
+>>           if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
+>>               s->data[0] |= (!!s->quad_enable) << 6;
+>> @@ -1553,6 +1598,11 @@ static void m25p80_reset(DeviceState *d)
+>>   
+>>       s->wp_level = true;
+>>       s->status_register_write_disabled = false;
+>> +    s->block_protect0 = false;
+>> +    s->block_protect1 = false;
+>> +    s->block_protect2 = false;
+>> +    s->block_protect3 = false;
+>> +    s->top_bottom_bit = false;
+> 
+> We need to place above ones in a subsection in the vmstate (similar to the your
+> previous patch).
+
+Ah yes. I keep forgetting these ...
+
+Thanks for the second look Francisco.
+
+C.
+
+
+> 
+> Looks good to me otherwise!
+> 
+> Thanks!
+> Best regards,
+> Francisco Iglesias
+> 
+>>   
+>>       reset_memory(s);
+>>   }
+>> -- 
+>> 2.30.2
+>>
+>>
+
 
