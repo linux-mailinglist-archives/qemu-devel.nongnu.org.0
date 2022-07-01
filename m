@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6010563762
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 18:06:38 +0200 (CEST)
-Received: from localhost ([::1]:56728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E886B563788
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 18:14:28 +0200 (CEST)
+Received: from localhost ([::1]:44898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7JAD-0000YR-Sw
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 12:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42682)
+	id 1o7JHn-0003Uc-HS
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 12:14:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1o7J3r-0005qu-G2
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:00:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36687)
+ id 1o7J3v-0005uJ-NU
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:00:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1o7J3n-0001wk-FV
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:00:01 -0400
+ id 1o7J3t-00029p-Pj
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 12:00:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656691198;
+ s=mimecast20190719; t=1656691203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ox4Xsr5IIBa2MFVKUDBG2RSJB9QVYlygPUGinGBDL2A=;
- b=b929bKepUEoO4VfEK/vfFeNAQVDLB1+kgqL2V5+RrM2GzRdBJYyRF/lYQJnsFUDKjL3blY
- p+Jcf0ezUZ7TN3XLfhL2YHoIFc1CKeX78AE603DFdxDEBzQqdniOaVQJRYY9z9A/iiSsgF
- ooYgNXctXfrvVg4XMD8B542I/FUFlqk=
+ bh=weEDhLP+HkUUeHkBQT4/dm1FL8tAWysBJWcUYF2yEL0=;
+ b=aebmPbap0q1jYVFh7hgHll/6yfDZdC6mXvwKU4TF1jTnCjgxeKGv/HCsLh5kTNliGhp1yJ
+ 5Ecyj/FjvZW2dqMHXSXW9xNh/kKShBDMbv7UU9Bj6XxDDF6wvBn1huawctC0T7hU0/bFfm
+ 6fRWTv6XVLf2a6H6bg1oOxfwKfYZYAU=
 Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
  [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-61-cloRC1OSNG2Yp0uY-h_1ZA-1; Fri, 01 Jul 2022 11:59:57 -0400
-X-MC-Unique: cloRC1OSNG2Yp0uY-h_1ZA-1
+ us-mta-663-Yxxvy4UVMX2E-KCQZAwx_Q-1; Fri, 01 Jul 2022 12:00:00 -0400
+X-MC-Unique: Yxxvy4UVMX2E-KCQZAwx_Q-1
 Received: by mail-oi1-f198.google.com with SMTP id
- j6-20020aca3c06000000b00335214e5fbfso1555756oia.3
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 08:59:57 -0700 (PDT)
+ bd1-20020a056808220100b0032ed33d656cso1557998oib.21
+ for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 09:00:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ox4Xsr5IIBa2MFVKUDBG2RSJB9QVYlygPUGinGBDL2A=;
- b=Y7vSL4szth1Fn6yjnPh2NWorcd6Htqzi2jdogznA6cemiDa3G2F+cCqSdPiv6Zkohh
- nOhaCN3tzGJJEtD83rA/3vm3RL0ICACPBcYVHjA4Bntv8PXrMK2PbfF/ovNQI6wLhuXV
- qDxej3BRZwU1jt3KxZLhav9yWnIeVy555yLVA8JId+aXIxgB4gNG7xLNyS9HpvwM68e/
- FGVr/II7NMxEqrtgMclZT2boH6/E7Nvib4f81Cf7YVr2qF0P0mBICpDk+c/mwzkywfKZ
- I26eq4XQr/JweY7TqqlNdJqCw7+61IMBsHjWpFTX/GSgJmgANclNed1qOfnSGh/Jjnms
- xq+Q==
-X-Gm-Message-State: AJIora84g4ruA9/gJ/rsByLeRjr2bF2ns4hhK0t0BZIleF75fHdwuOtN
- ff1sVDWHIREVP668Tad4r0AHin0N8sVs4wd6ch1jFHYMSScHMLSH4vEsYYZzVdTqg5AZ9wbKrac
- 001fD6hewit7IArs=
-X-Received: by 2002:a05:6808:30a5:b0:335:34dd:ef41 with SMTP id
- bl37-20020a05680830a500b0033534ddef41mr10082353oib.50.1656691196825; 
- Fri, 01 Jul 2022 08:59:56 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ulGU2rApjCVHTxbzUV5aJDYBLJrY7PdrIC1NHS0tWcHicyZzBRs65HXAWWwUSUFdV2MbuhBw==
-X-Received: by 2002:a05:6808:30a5:b0:335:34dd:ef41 with SMTP id
- bl37-20020a05680830a500b0033534ddef41mr10082333oib.50.1656691196647; 
- Fri, 01 Jul 2022 08:59:56 -0700 (PDT)
+ bh=weEDhLP+HkUUeHkBQT4/dm1FL8tAWysBJWcUYF2yEL0=;
+ b=lM6J45Ab38Du8jkq57Y4YeyUKq9lX7AY7CHu/SYBnMRgrorcttnRHVeW4q8mHk7Gx4
+ j9iYS3DG/+Hgi/+htYoABDZsJuWz4JFcIq/ecWPQcoO4w8fAUkIMoZ7he9hF+fba3878
+ 5SSBZ1iqbGQC1N5ySeovPI/W8/So3Tx50q0q9SCZrDiSyJw/Y2eg7eJbkU8KpmS1xr3B
+ IwDy3+PF9MEWif5f8EFOHUo1Pk2wP6dpZotSFsYQ5O9D0j7wRYXh9QlApaULLjn4ozk/
+ YbvbZq9xoixxUmQ98F6HfDS3o1DyUjpyjt5IGqNyNa5moTj6tnYCa/4CGZR6bNYyNJWX
+ Odag==
+X-Gm-Message-State: AJIora9yVKh7qBMQ/JMVPoWPLPBwfuvMaRuxrg3mDSdNMA9BAdJ2KSb4
+ SUnAj+62//3wiWxqVrUiffTCpLhih26+L8WptnT5qqObM+I5QucGeEsN83FRHuUCiH5+1z3rvdk
+ o1goIBo8qb8CWMnU=
+X-Received: by 2002:a05:6870:f719:b0:d6:e0c0:af42 with SMTP id
+ ej25-20020a056870f71900b000d6e0c0af42mr8779595oab.165.1656691199638; 
+ Fri, 01 Jul 2022 08:59:59 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sSFZPRSHW60RG8x4MeJby40AwE36tYdd67RWijH1dsC8YJ/l3YSZ7OxKb9SkBC20D4CV8avw==
+X-Received: by 2002:a05:6870:f719:b0:d6:e0c0:af42 with SMTP id
+ ej25-20020a056870f71900b000d6e0c0af42mr8779576oab.165.1656691199422; 
+ Fri, 01 Jul 2022 08:59:59 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7f1:da6a:610c:873d:4fe2:e6ce])
  by smtp.gmail.com with ESMTPSA id
- n39-20020a056870972700b000f333ac991fsm14884274oaq.27.2022.07.01.08.59.53
+ n39-20020a056870972700b000f333ac991fsm14884274oaq.27.2022.07.01.08.59.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Jul 2022 08:59:55 -0700 (PDT)
+ Fri, 01 Jul 2022 08:59:58 -0700 (PDT)
 From: Leonardo Bras <leobras@redhat.com>
 To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
@@ -71,10 +71,9 @@ To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Peter Xu <peterx@redhat.com>
 Cc: Leonardo Bras <leobras@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] QIOChannelSocket: Fix zero-copy flush returning code 1
- when nothing sent
-Date: Fri,  1 Jul 2022 12:59:34 -0300
-Message-Id: <20220701155935.482503-2-leobras@redhat.com>
+Subject: [PATCH v2 2/3] Add zero-copy-copied migration stat
+Date: Fri,  1 Jul 2022 12:59:35 -0300
+Message-Id: <20220701155935.482503-3-leobras@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220701155935.482503-1-leobras@redhat.com>
 References: <20220701155935.482503-1-leobras@redhat.com>
@@ -104,43 +103,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If flush is called when no buffer was sent with MSG_ZEROCOPY, it currently
-returns 1. This return code should be used only when Linux fails to use
-MSG_ZEROCOPY on a lot of sendmsg().
-
-Fix this by returning early from flush if no sendmsg(...,MSG_ZEROCOPY)
-was attempted.
-
-Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX")
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
 ---
- io/channel-socket.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ qapi/migration.json   | 5 ++++-
+ migration/migration.c | 1 +
+ monitor/hmp-cmds.c    | 4 ++++
+ 3 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index 4466bb1cd4..698c086b70 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -716,12 +716,18 @@ static int qio_channel_socket_flush(QIOChannel *ioc,
-     struct cmsghdr *cm;
-     char control[CMSG_SPACE(sizeof(*serr))];
-     int received;
--    int ret = 1;
-+    int ret;
-+
-+    if (!sioc->zero_copy_queued) {
-+        return 0;
-+    }
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 7102e474a6..925f009868 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -55,6 +55,9 @@
+ # @postcopy-bytes: The number of bytes sent during the post-copy phase
+ #                  (since 7.0).
+ #
++# @zero-copy-copied: The number of zero-copy flushes that reported data sent
++#                    using zero-copy that ended up being copied. (since 7.2)
++#
+ # Since: 0.14
+ ##
+ { 'struct': 'MigrationStats',
+@@ -65,7 +68,7 @@
+            'postcopy-requests' : 'int', 'page-size' : 'int',
+            'multifd-bytes' : 'uint64', 'pages-per-second' : 'uint64',
+            'precopy-bytes' : 'uint64', 'downtime-bytes' : 'uint64',
+-           'postcopy-bytes' : 'uint64' } }
++           'postcopy-bytes' : 'uint64', 'zero-copy-copied' : 'uint64' } }
  
-     msg.msg_control = control;
-     msg.msg_controllen = sizeof(control);
-     memset(control, 0, sizeof(control));
+ ##
+ # @XBZRLECacheStats:
+diff --git a/migration/migration.c b/migration/migration.c
+index 78f5057373..68fc3894ba 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1034,6 +1034,7 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
+     info->ram->precopy_bytes = ram_counters.precopy_bytes;
+     info->ram->downtime_bytes = ram_counters.downtime_bytes;
+     info->ram->postcopy_bytes = ram_counters.postcopy_bytes;
++    info->ram->zero_copy_copied = ram_counters.zero_copy_copied;
  
-+    ret = 1;
-+
-     while (sioc->zero_copy_sent < sioc->zero_copy_queued) {
-         received = recvmsg(sioc->fd, &msg, MSG_ERRQUEUE);
-         if (received < 0) {
+     if (migrate_use_xbzrle()) {
+         info->has_xbzrle_cache = true;
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index ca98df0495..bcb1799543 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -307,6 +307,10 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+             monitor_printf(mon, "postcopy ram: %" PRIu64 " kbytes\n",
+                            info->ram->postcopy_bytes >> 10);
+         }
++        if (info->ram->zero_copy_copied) {
++            monitor_printf(mon, "zero-copy copied: %" PRIu64 " iterations\n",
++                           info->ram->zero_copy_copied);
++        }
+     }
+ 
+     if (info->has_disk) {
 -- 
 2.36.1
 
