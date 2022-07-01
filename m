@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F330D5633F4
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:04:24 +0200 (CEST)
-Received: from localhost ([::1]:36072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE7B563403
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 15:06:36 +0200 (CEST)
+Received: from localhost ([::1]:38946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7GJr-0006mW-IP
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:04:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51098)
+	id 1o7GLy-0000Wx-SB
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 09:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7GH0-0005gL-4n
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:01:26 -0400
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:44994)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7GGu-00028v-LM
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:01:25 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-3176b6ed923so22605897b3.11
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 06:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7WEKrK3Ve94fVsMiu4QZqG4VcezjiZgfiDKVAFq/62U=;
- b=IEkpk1Gac/6s1yzy5e5xQHVPZOnV7+c8YfwhBXkTM279V6RwbdXFudluSuiejA0txr
- mlo5DVNOQf8PaX3HD/dINQATYB6Vxx4aSA4Az5lWikUhQWhXYZdP1fMLtxejEVr9yeuq
- 41reaK7S42rtg/bpQGPbji0u+UjbOztHBGCmjPYNgXyMIkQGzrSWeja6NSuCHYEVML8c
- Z/StL5tQjFMOi4aCbOno2VZ9bZFiALzUAfLR5MvWYvUgJIC9PcjAXNw4Z0sGNqYqn2CL
- js4uiGlERYMK4/ImBLtOu9iVSAgDDAgK5lyw2whfoTyXVtRCVSzCf6BNkP26OFDAIhCo
- 1gdg==
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1o7GIC-0006rQ-Ie
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:02:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49784)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1o7GI6-0002RS-Qp
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 09:02:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656680553;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WReoC88Oe6CgEBZB+mJ7eWH3no6TOUudufQSCMYDB4s=;
+ b=fhaJkBYMBpzWATV7IZbOmdOZDTWts9KxuwmYgUKsMza9qGMXO2LHJ887MRr3gXEDXJmEAx
+ 6lBOwxPmi7wLLrEV6sEVZ1IIa39F8VJecjDOjp66A5gc+K3+k/4nPVpadpAkdX21orf9ET
+ 5eIXR9CkSPJ6sW4yJb7iIeng9U95EeM=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-203-j_cecKgFOSqkbSNOZXuT9Q-1; Fri, 01 Jul 2022 09:01:23 -0400
+X-MC-Unique: j_cecKgFOSqkbSNOZXuT9Q-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ w22-20020a05640234d600b00435ba41dbaaso1736969edc.12
+ for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 06:01:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7WEKrK3Ve94fVsMiu4QZqG4VcezjiZgfiDKVAFq/62U=;
- b=RTIBuvKiS64J8qgGew3WGMab+qYYMO1j1oVmjB2qDGQD62ne5EKLYDbPtvmJuHjbIB
- y7UhvnNNUae5mK7lcqxrAwluNQ0/kH5P6Hi/8ym7xPDzCwW4mkkWQdqUCPsqAqYNtUAT
- K6X0ai1AF46yMdwjU52ZmnnjmrsNp4hTL/gwmyYaE1Ly30vrYF3GVZ4pRCsouhDI2ElN
- 2VR+8UivK2xVrDEc+fdlSRHUIi7t6t0kK8xIAjeJX7PSJuJb08+QpupD60+bnmDTWnf8
- MCXC1buJqRPZYOgjoPsjwRQBms4/PUDFeKNO7LZGedpspnm7hbRvSU55urDGd30cQTvL
- 4ShA==
-X-Gm-Message-State: AJIora91KZQXH+hsX3CmN/+LiE0/MTZHefIrMD00/zrnwptTJ3EexL9p
- L3lx+0tm9veSrVfddSUL83Xn2Ul81H8NMUkSJMVH6g==
-X-Google-Smtp-Source: AGRyM1t543lsdu4xaAf2Y5N//JuOImQV7Ky/GztMj250nh8pJlC32vCaSgnSVvYegTlRgPr2Iaet9o4HxoT5udh7FeQ=
-X-Received: by 2002:a0d:ca4b:0:b0:31b:7e6a:b77a with SMTP id
- m72-20020a0dca4b000000b0031b7e6ab77amr17146411ywd.347.1656680478212; Fri, 01
- Jul 2022 06:01:18 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WReoC88Oe6CgEBZB+mJ7eWH3no6TOUudufQSCMYDB4s=;
+ b=zXF6KGWLmZMezyOHlaFoOsUXHmmNhVM3Uen4I1pG12RDEzwScREYeJDmyzYBVuxWTX
+ p+xBiDf9/D3WUCzX/Hzyos3y9E/4u8wSVvqyaiE+XnSDOexUX4ef0BuJGjp72ULBn/I8
+ HJIxCfz5Nwjv0t2SHQERW8BQVpntlUXR7Z6ncelCcwTxAy01o6UT/M8ooYTqQen7CsZW
+ f2w0ACfMHum1/w/HYn87xQE+6T0zij59RqIYbBpyoPA3/zmVYErzVFRV26xjLKklTU3Y
+ kPQCg5YtmvKiY9pV5/hI0anA3EI2J+wfQNlN8K0jgeXpZjFSZ9BikTOdaRRl6DiQfSBf
+ HnpQ==
+X-Gm-Message-State: AJIora/KpBgiiFz88bDKPqcquggNCb+dNVbozjU1KM4ExzVAI5EDu1xs
+ xdqzBYCjW58dNWaWnHqSQKkc7ogEfDgDrAoYeXodjOOsuUuNnnbzEQS+UaWPGj9fHkwxFE3Td3S
+ 9bSBud6PBx3OfCps=
+X-Received: by 2002:a17:907:7e8b:b0:726:2c51:b06e with SMTP id
+ qb11-20020a1709077e8b00b007262c51b06emr13970192ejc.129.1656680482215; 
+ Fri, 01 Jul 2022 06:01:22 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vyHxHgLmsBxizOJ5TeTduW4fWKtXriqr+3ncjwrfbGYosznewQI1GtOfuuQLsBAjmGeT10Zw==
+X-Received: by 2002:a17:907:7e8b:b0:726:2c51:b06e with SMTP id
+ qb11-20020a1709077e8b00b007262c51b06emr13970163ejc.129.1656680481945; 
+ Fri, 01 Jul 2022 06:01:21 -0700 (PDT)
+Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ x2-20020a05640225c200b00435651c4a01sm15200658edb.56.2022.07.01.06.01.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Jul 2022 06:01:21 -0700 (PDT)
+Message-ID: <9cd7eb31-cb62-c06d-edcf-04ed81d7c33b@redhat.com>
+Date: Fri, 1 Jul 2022 15:01:19 +0200
 MIME-Version: 1.0
-References: <20220628042117.368549-1-richard.henderson@linaro.org>
- <20220628042117.368549-15-richard.henderson@linaro.org>
-In-Reply-To: <20220628042117.368549-15-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Jul 2022 14:00:39 +0100
-Message-ID: <CAFEAcA931o2eATDzkU1cDFuRmHPfvhVgF+b8wq=f_ZCwDj5UTw@mail.gmail.com>
-Subject: Re: [PATCH v4 14/45] target/arm: Mark LD1RO as non-streaming
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [libvirt PATCH v2] tools: add virt-qmp-proxy for proxying QMP
+ clients to libvirt QEMU guests
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ libvir-list@redhat.com
+Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+References: <20220620171950.1416742-1-berrange@redhat.com>
+From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
+In-Reply-To: <20220620171950.1416742-1-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,76 +105,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jun 2022 at 05:49, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Mark these as a non-streaming instructions, which should trap
-> if full a64 support is not enabled in streaming mode.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 6/20/22 19:19, Daniel P. Berrangé wrote:
+> Libvirt provides QMP passthrough APIs for the QEMU driver and these are
+> exposed in virsh. It is not especially pleasant, however, using the raw
+> QMP JSON syntax. QEMU has a tool 'qmp-shell' which can speak QMP and
+> exposes a human friendly interactive shell. It is not possible to use
+> this with libvirt managed guest, however, since only one client can
+> attach to he QMP socket at any point in time.
+> 
+> The virt-qmp-proxy tool aims to solve this problem. It opens a UNIX
+> socket and listens for incoming client connections, speaking QMP on
+> the connected socket. It will forward any QMP commands received onto
+> the running libvirt QEMU guest, and forward any replies back to the
+> QMP client.
+> 
+>   $ virsh start demo
+>   $ virt-qmp-proxy demo demo.qmp &
+>   $ qmp-shell demo.qmp
+>   Welcome to the QMP low-level shell!
+>   Connected to QEMU 6.2.0
+> 
+>   (QEMU) query-kvm
+>   {
+>       "return": {
+>           "enabled": true,
+>           "present": true
+>       }
+>   }
+> 
+> Note this tool of course has the same risks as the raw libvirt
+> QMP passthrough. It is safe to run query commands to fetch information
+> but commands which change the QEMU state risk disrupting libvirt's
+> management of QEMU, potentially resulting in data loss/corruption in
+> the worst case.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  target/arm/sme-fa64.decode | 3 ---
->  target/arm/translate-sve.c | 2 ++
->  2 files changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/target/arm/sme-fa64.decode b/target/arm/sme-fa64.decode
-> index 7a0b05cf2c..33bbd13bcb 100644
-> --- a/target/arm/sme-fa64.decode
-> +++ b/target/arm/sme-fa64.decode
-> @@ -57,6 +57,3 @@ FAIL    1100 1110 ---- ---- ---- ---- ---- ----   # Advanced SIMD cryptography e
->  #       --11 1100 --0- ---- ---- ---- ---- ----   # Load/store FP register (unscaled imm)
->  #       --11 1100 --1- ---- ---- ---- ---- --10   # Load/store FP register (register offset)
->  #       --11 1101 ---- ---- ---- ---- ---- ----   # Load/store FP register (scaled imm)
-> -
-> -FAIL    1010 010- -10- ---- 000- ---- ---- ----   # SVE load & replicate 32 bytes (scalar+scalar)
-> -FAIL    1010 010- -100 ---- 001- ---- ---- ----   # SVE load & replicate 32 bytes (scalar+imm)
-> diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-> index 11874a8e77..e5e9e1e0ca 100644
-> --- a/target/arm/translate-sve.c
-> +++ b/target/arm/translate-sve.c
-> @@ -5062,6 +5062,7 @@ static bool trans_LD1RO_zprr(DisasContext *s, arg_rprr_load *a)
->      if (a->rm == 31) {
->          return false;
->      }
-> +    s->is_nonstreaming = true;
->      if (sve_access_check(s)) {
->          TCGv_i64 addr = new_tmp_a64(s);
->          tcg_gen_shli_i64(addr, cpu_reg(s, a->rm), dtype_msz(a->dtype));
-> @@ -5076,6 +5077,7 @@ static bool trans_LD1RO_zpri(DisasContext *s, arg_rpri_load *a)
->      if (!dc_isar_feature(aa64_sve_f64mm, s)) {
->          return false;
->      }
-> +    s->is_nonstreaming = true;
->      if (sve_access_check(s)) {
->          TCGv_i64 addr = new_tmp_a64(s);
->          tcg_gen_addi_i64(addr, cpu_reg_sp(s, a->rn), a->imm * 32);
+> 
+> Changed in v2:
+> 
+>  - Rewrote to not be such a gross hack, specifically
+>       - Wired up usage of libvirt event loop for sock I/O
+>       - Register with libvirt for QMP events
+>       - Incrementally read from socket & try json parsing
+>         until we get a full command, instead of assuming
+>         a full command in one read
+>       - Forwarding of passed FDs in both directions
+>         (libvirt -> client untested, since AFAIK, no
+>         QMP cmd returns FDs currently)
+> 
+> 
+> Other thought....
+> 
+> This patch is against libvirt.git but has a dependancy on the
+> libvirt-python.git APIs. If we put this in libvirt-client RPM
+> then we get a new dep on python.
+> 
+> Perhaps better to have this live in libvirt-python.git/examples,
+> though I would like it present as a standard tool ? Another
+> option is to bundle with virt-install which is a python app
+> commonly present on virt hosts ?
 
-The sve.decode lines for these two trans functions:
-LD1RO_zprr      1010010 .. 01 ..... 000 ... ..... ..... \
-                @rprr_load_msz nreg=0
-LD1RO_zpri      1010010 .. 01 0.... 001 ... ..... ..... \
-                @rpri_load_msz nreg=0
+Or, we could have it in a separate RPM which would require
+libvirt-client and libvirt-python.
 
-don't match up with the FAIL line.
+> 
+>  docs/manpages/meson.build        |   1 +
+>  docs/manpages/virt-qmp-proxy.rst | 120 +++++++++++
+>  tools/meson.build                |   5 +
+>  tools/virt-qmp-proxy             | 360 +++++++++++++++++++++++++++++++
+>  4 files changed, 486 insertions(+)
+>  create mode 100644 docs/manpages/virt-qmp-proxy.rst
+>  create mode 100755 tools/virt-qmp-proxy
 
-The FAIL lines correspond to unallocated encodings in the decode
-tables in the main Arm ARM so we can assume this is an error in the SME
-supplement.
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 
-We should use the right encoding lines in the original commit of
-sme-fa64.decode and mention that in its commit message. They should
-I believe be:
+Michal
 
- FAIL    1010 010- -01- ---- 000- ---- ---- ----   # SVE load &
-replicate 32 bytes (scalar+scalar)
- FAIL    1010 010- -010 ---- 001- ---- ---- ----   # SVE load &
-replicate 32 bytes (scalar+imm)
-
-(differences only in bits [22:21]).
-
-For this patch,
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
