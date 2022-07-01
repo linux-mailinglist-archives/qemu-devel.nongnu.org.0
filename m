@@ -2,97 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F31B562818
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 03:23:34 +0200 (CEST)
-Received: from localhost ([::1]:59850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310E9562845
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 03:31:26 +0200 (CEST)
+Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o75Nd-0004jH-6i
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 21:23:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51152)
+	id 1o75VC-0007l8-Ui
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jun 2022 21:31:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1o75MC-0003zM-R4
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 21:22:04 -0400
-Received: from mga18.intel.com ([134.134.136.126]:13442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1o75M7-0007Xf-R8
- for qemu-devel@nongnu.org; Thu, 30 Jun 2022 21:22:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656638519; x=1688174519;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=G2fAQsutHSI8kLKVVakNXwxot1Yyc0ooUkqIi8b15IA=;
- b=OxREnW1UkZQlB3aUN7pO3KHisfs1N3aFK+AKtgag2rMa06WRFamjPM+U
- Ix10sRFXTc0y61/9yB2/m27P9Vhde3o2A2H6+l6iqRDb983/9HfGiQf2x
- 9JiPosSgcmy8RjGwwXd1NEWSOlR2x7KvDUpB3B8Bkmave3lH7APZHQXH1
- lYPhzP2FKlY5vNwUVdBdvA6jAGB+ZdqkFp9QxsrtfHAqvXodZH3tj+SiB
- +tSj8bhh18MRbIK1WRTZFwSHtGg0hJvSf9rQy6xMzELtBxFFFxGum+7ea
- yFD5F05DNeOpyGSIkPgguziH+2RdkRJoH8/gQILS9HNvc6ln9nMAicJnZ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10394"; a="265547493"
-X-IronPort-AV: E=Sophos;i="5.92,236,1650956400"; d="scan'208";a="265547493"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2022 18:21:52 -0700
-X-IronPort-AV: E=Sophos;i="5.92,236,1650956400"; d="scan'208";a="596042946"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.169.250])
- ([10.249.169.250])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2022 18:21:42 -0700
-Message-ID: <4fe3b47d-e94a-890a-5b87-6dfb7763bc7e@intel.com>
-Date: Fri, 1 Jul 2022 09:21:39 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o75Sw-0006oV-As
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 21:29:02 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:35612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o75Sg-000075-4u
+ for qemu-devel@nongnu.org; Thu, 30 Jun 2022 21:29:01 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-101d96fe0a5so1680484fac.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Jun 2022 18:28:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=fBxhaKEyiDMxysz71LBRg3W39Bm9lcrfPmTo0dJabwk=;
+ b=Pgo8BiHQhjXqShe/DwQsDSS5Mf8nKyytt86/b5dTEIMViJ4USZtcuPC8uuSrI6q5F4
+ l2axXdoTvMQLUBKBrvFHITIoRB0iVjCTIGlK12CA1Plewvr0Hy9R9M1Nh+GZv4hJF4p3
+ ko7xafCZc1bMsPnbzdaCP75gGGn6IhhhcPCpnW4qEo2F04i+uihz/3FeRY3HH4Lf/qXO
+ OqJds56ABNTAedPV52787dVxPdOWI49Xe8QGKphWuYzxZ17/Rzy8pR0YHnqq1DEk+Orr
+ N9HK1RtuNSHil9t+IDfNE2uMQcmrZ/eywL6PgJ0WhKuGwIbx6b0ZcG1Eh5xOidIFXTaC
+ sURw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fBxhaKEyiDMxysz71LBRg3W39Bm9lcrfPmTo0dJabwk=;
+ b=G0r0ALdrpmU++X25gkWTfhoLWBQX3luRueVtdu9us8H4k57aP3qzqHfTgAUrasO7tP
+ DKxrnkaQOQVLIXZ1zMcSSH3Xo49gRnEsTpMMXqff1ZfSVFD68Flv0PSOfL2aFvmw+FaX
+ rhZl9Azq/zehWnzWJWqJWTxfZL1j7dnr/yziIk1IHvyFDWXrA9EY9/EOi3v6Bp/t6FYf
+ ctHr3oFNSSHgPlubq89+P1Y4Fwf+JWjmEYLAq/v8SVd7odALM9hbmwtOE2BHtkBIMA1J
+ wce7WvBl6goOpYiHBH3xDqiv7fobSfP+3TfECcXXJ9rEOzRbkhc3onSvay48hfxFtbfu
+ qXSA==
+X-Gm-Message-State: AJIora+Zn2tNbzpYUHb70wtfEduVhGPYqXJfPt/iAO0ME2lQTWAqARgo
+ 1+l8nQHqXeiIT/0mM0KB12l2rQ==
+X-Google-Smtp-Source: AGRyM1vQQxylhWLWsXsQ6gRXi6W0+hCdE0vmY5z+Wu8QdPDbc3DGI9rcB3uL0xssmV0QspLpNdnyCw==
+X-Received: by 2002:a05:6870:c154:b0:101:d3a2:60d3 with SMTP id
+ g20-20020a056870c15400b00101d3a260d3mr7009862oad.71.1656638922621; 
+ Thu, 30 Jun 2022 18:28:42 -0700 (PDT)
+Received: from ?IPV6:2605:ef80:80e8:1685:38ec:3484:7cff:725b?
+ ([2605:ef80:80e8:1685:38ec:3484:7cff:725b])
+ by smtp.gmail.com with ESMTPSA id
+ i8-20020a9d6108000000b00616c5ce1d83sm8263401otj.68.2022.06.30.18.28.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jun 2022 18:28:41 -0700 (PDT)
+Message-ID: <3c296a0a-13f6-9fff-33fe-d087b0da27e4@linaro.org>
+Date: Fri, 1 Jul 2022 06:58:31 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.10.0
-Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 00/27] aspeed queue
 Content-Language: en-US
-To: Michael Roth <michael.roth@amd.com>,
- Vishal Annapurve <vannapurve@google.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>,
- "Nikunj A. Dadhania" <nikunj@amd.com>, kvm list <kvm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86 <x86@kernel.org>,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Jun Nakajima <jun.nakajima@intel.com>,
- Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
- David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com, Quentin Perret
- <qperret@google.com>, mhocko@suse.com
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-7-chao.p.peng@linux.intel.com>
- <b3ce0855-0e4b-782a-599c-26590df948dd@amd.com>
- <20220624090246.GA2181919@chaop.bj.intel.com>
- <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
- <20220630222140.of4md7bufd5jv5bh@amd.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220630222140.of4md7bufd5jv5bh@amd.com>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+References: <20220630112411.1474431-1-clg@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220630112411.1474431-1-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=xiaoyao.li@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,84 +95,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/2022 6:21 AM, Michael Roth wrote:
-> On Thu, Jun 30, 2022 at 12:14:13PM -0700, Vishal Annapurve wrote:
->> With transparent_hugepages=always setting I see issues with the
->> current implementation.
->>
->> Scenario:
->> 1) Guest accesses a gfn range 0x800-0xa00 as private
->> 2) Guest calls mapgpa to convert the range 0x84d-0x86e as shared
->> 3) Guest tries to access recently converted memory as shared for the first time
->> Guest VM shutdown is observed after step 3 -> Guest is unable to
->> proceed further since somehow code section is not as expected
->>
->> Corresponding KVM trace logs after step 3:
->> VCPU-0-61883   [078] ..... 72276.115679: kvm_page_fault: address
->> 84d000 error_code 4
->> VCPU-0-61883   [078] ..... 72276.127005: kvm_mmu_spte_requested: gfn
->> 84d pfn 100b4a4d level 2
->> VCPU-0-61883   [078] ..... 72276.127008: kvm_tdp_mmu_spte_changed: as
->> id 0 gfn 800 level 2 old_spte 100b1b16827 new_spte 100b4a00ea7
->> VCPU-0-61883   [078] ..... 72276.127009: kvm_mmu_prepare_zap_page: sp
->> gen 0 gfn 800 l1 8-byte q0 direct wux nxe ad root 0 sync
->> VCPU-0-61883   [078] ..... 72276.127009: kvm_tdp_mmu_spte_changed: as
->> id 0 gfn 800 level 1 old_spte 1003eb27e67 new_spte 5a0
->> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
->> id 0 gfn 801 level 1 old_spte 10056cc8e67 new_spte 5a0
->> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
->> id 0 gfn 802 level 1 old_spte 10056fa2e67 new_spte 5a0
->> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
->> id 0 gfn 803 level 1 old_spte 0 new_spte 5a0
->> ....
->>   VCPU-0-61883   [078] ..... 72276.127089: kvm_tdp_mmu_spte_changed: as
->> id 0 gfn 9ff level 1 old_spte 100a43f4e67 new_spte 5a0
->>   VCPU-0-61883   [078] ..... 72276.127090: kvm_mmu_set_spte: gfn 800
->> spte 100b4a00ea7 (rwxu) level 2 at 10052fa5020
->>   VCPU-0-61883   [078] ..... 72276.127091: kvm_fpu: unload
->>
->> Looks like with transparent huge pages enabled kvm tried to handle the
->> shared memory fault on 0x84d gfn by coalescing nearby 4K pages
->> to form a contiguous 2MB page mapping at gfn 0x800, since level 2 was
->> requested in kvm_mmu_spte_requested.
->> This caused the private memory contents from regions 0x800-0x84c and
->> 0x86e-0xa00 to get unmapped from the guest leading to guest vm
->> shutdown.
+On 6/30/22 16:53, Cédric Le Goater wrote:
+> The following changes since commit 621745c4f349ac09b72706c46febee983abca916:
 > 
-> Interesting... seems like that wouldn't be an issue for non-UPM SEV, since
-> the private pages would still be mapped as part of that 2M mapping, and
-> it's completely up to the guest as to whether it wants to access as
-> private or shared. But for UPM it makes sense this would cause issues.
+>    Merge tag 'trivial-branch-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-06-30 04:49:40 +0530)
 > 
->>
->> Does getting the mapping level as per the fault access type help
->> address the above issue? Any such coalescing should not cross between
->> private to
->> shared or shared to private memory regions.
+> are available in the Git repository at:
 > 
-> Doesn't seem like changing the check to fault->is_private would help in
-> your particular case, since the subsequent host_pfn_mapping_level() call
-> only seems to limit the mapping level to whatever the mapping level is
-> for the HVA in the host page table.
+>    https://github.com/legoater/qemu/ tags/pull-aspeed-20220630
 > 
-> Seems like with UPM we need some additional handling here that also
-> checks that the entire 2M HVA range is backed by non-private memory.
+> for you to fetch changes up to 55c57023b740c29151d42600af9ac43ba00e56cc:
 > 
-> Non-UPM SNP hypervisor patches already have a similar hook added to
-> host_pfn_mapping_level() which implements such a check via RMP table, so
-> UPM might need something similar:
+>    hw/misc/aspeed: Add PECI controller (2022-06-30 09:21:14 +0200)
 > 
->    https://github.com/AMDESE/linux/commit/ae4475bc740eb0b9d031a76412b0117339794139
+> ----------------------------------------------------------------
+> aspeed queue:
 > 
-> -Mike
-> 
+> * m25p80 improvements (Iris)
+> * Code cleanup in preparation of multi SoC machine (Peter)
+> * New MAX31785 model (Mahesh)
+> * New Qualcomm machines (Jae and Graeme)
+> * Core I2C slave mode (Klaus)
+> * Aspeed I2C slave mode for old and new register interface (Peter and Klaus)
+> * New Aspeed PECI model (Peter)
+> * Various small fixes
 
-For TDX, we try to track the page type (shared, private, mixed) of each 
-gfn at given level. Only when the type is shared/private, can it be 
-mapped at that level. When it's mixed, i.e., it contains both shared 
-pages and private pages at given level, it has to go to next smaller level.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-https://github.com/intel/tdx/commit/ed97f4042eb69a210d9e972ccca6a84234028cad
 
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> Cédric Le Goater (4):
+>        aspeed: Set the dram container at the SoC level
+>        aspeed/scu: Add trace events for read ops
+>        aspeed/i2c: Change trace event for NORMAL_STOP states
+>        aspeed/smc: Fix potential overflow
+> 
+> Graeme Gregory (1):
+>        hw/arm/aspeed: add Qualcomm Firework BMC machine
+> 
+> Iris Chen (2):
+>        hw: m25p80: add WP# pin and SRWD bit for write protection
+>        hw: m25p80: add tests for write protect (WP# and SRWD bit)
+> 
+> Jae Hyun Yoo (2):
+>        hw/arm/aspeed: add support for the Qualcomm DC-SCM v1 board
+>        hw/arm/aspeed: firework: add I2C MUXes for VR channels
+> 
+> Joel Stanley (1):
+>        aspeed/hace: Accumulative mode supported
+> 
+> Klaus Jensen (3):
+>        hw/i2c: support multiple masters
+>        hw/i2c: add asynchronous send
+>        hw/i2c/aspeed: add slave device in old register mode
+> 
+> Maheswara Kurapati (4):
+>        hw/i2c: pmbus: Page #255 is valid page for read requests.
+>        hw/sensor: add Maxim MAX31785 device
+>        hw/arm/aspeed: Add MAX31785 Fan controllers
+>        hw/arm/aspeed: firework: Add Thermal Diodes
+> 
+> Peter Delevoryas (10):
+>        aspeed: Set CPU memory property explicitly
+>        aspeed: Add memory property to Aspeed SoC
+>        aspeed: Remove usage of sysbus_mmio_map
+>        aspeed: Map unimplemented devices in SoC memory
+>        aspeed: Remove use of qemu_get_cpu
+>        hw/i2c/aspeed: Fix R_I2CD_FUN_CTRL reference
+>        hw/i2c/aspeed: Fix DMA len write-enable bit handling
+>        hw/i2c/aspeed: Fix MASTER_EN missing error message
+>        hw/i2c/aspeed: Add new-registers DMA slave mode RX support
+>        hw/misc/aspeed: Add PECI controller
+> 
+>   include/hw/arm/aspeed_soc.h   |  16 ++
+>   include/hw/i2c/aspeed_i2c.h   |  11 +
+>   include/hw/i2c/i2c.h          |  30 +++
+>   include/hw/misc/aspeed_peci.h |  29 +++
+>   hw/arm/aspeed.c               | 136 +++++++---
+>   hw/arm/aspeed_ast10x0.c       |  59 +++--
+>   hw/arm/aspeed_ast2600.c       | 104 +++++---
+>   hw/arm/aspeed_soc.c           | 143 ++++++++---
+>   hw/arm/pxa2xx.c               |   2 +
+>   hw/block/m25p80.c             |  82 ++++--
+>   hw/display/sii9022.c          |   2 +
+>   hw/display/ssd0303.c          |   2 +
+>   hw/i2c/aspeed_i2c.c           | 236 ++++++++++++++---
+>   hw/i2c/core.c                 |  70 +++++-
+>   hw/i2c/pmbus_device.c         |   6 +-
+>   hw/i2c/smbus_slave.c          |   4 +
+>   hw/misc/aspeed_hace.c         |   6 +-
+>   hw/misc/aspeed_peci.c         | 152 +++++++++++
+>   hw/misc/aspeed_scu.c          |   2 +
+>   hw/nvram/eeprom_at24c.c       |   2 +
+>   hw/sensor/lsm303dlhc_mag.c    |   2 +
+>   hw/sensor/max31785.c          | 573 ++++++++++++++++++++++++++++++++++++++++++
+>   hw/ssi/aspeed_smc.c           |   4 +-
+>   tests/qtest/aspeed_smc-test.c |  62 +++++
+>   hw/arm/Kconfig                |   2 +
+>   hw/i2c/trace-events           |   2 +
+>   hw/misc/meson.build           |   3 +-
+>   hw/misc/trace-events          |   6 +
+>   hw/sensor/Kconfig             |   4 +
+>   hw/sensor/meson.build         |   1 +
+>   30 files changed, 1573 insertions(+), 180 deletions(-)
+>   create mode 100644 include/hw/misc/aspeed_peci.h
+>   create mode 100644 hw/misc/aspeed_peci.c
+>   create mode 100644 hw/sensor/max31785.c
 
 
