@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69622563A12
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 21:38:56 +0200 (CEST)
-Received: from localhost ([::1]:60572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CACB563A19
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 21:57:37 +0200 (CEST)
+Received: from localhost ([::1]:36354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7MTf-0008Eq-32
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 15:38:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58632)
+	id 1o7Mlk-0003vI-89
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 15:57:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1o7MSa-0007LX-RL; Fri, 01 Jul 2022 15:37:48 -0400
-Received: from mout.gmx.net ([212.227.15.19]:46327)
+ (Exim 4.90_1) (envelope-from <me@pjd.dev>)
+ id 1o7Mkf-0002yG-BP; Fri, 01 Jul 2022 15:56:29 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:45691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1o7MSY-0005d8-S1; Fri, 01 Jul 2022 15:37:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656704257;
- bh=mTRYlqPld9bnDVJe8uwGh2sy9qi/4PKywxxyJZIRnl0=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=jhUH4Lu9Dxcnwu4idKToEdwVVP8N88Pm6pJpx0OjuY4wA2Uc8fAZqNEgRH+0UF4KH
- mUHi8zuxcDRswhX2MbCjT1XzHO1XaVo6Qu9Iu00GOujdHPghqPhJXSTGWCUBQ8R8aq
- GTuaJj7Qza93TpVylFOvpp76fILnW7w71PutY0js=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.182.192]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MtwZ4-1nmWFw3cgW-00uHaT; Fri, 01
- Jul 2022 21:37:36 +0200
-Message-ID: <df36fc56-cb08-5570-5f66-5f0a12c55396@gmx.de>
-Date: Fri, 1 Jul 2022 21:37:06 +0200
+ (Exim 4.90_1) (envelope-from <me@pjd.dev>)
+ id 1o7Mkc-000186-TH; Fri, 01 Jul 2022 15:56:29 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 05683580188;
+ Fri,  1 Jul 2022 15:56:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 01 Jul 2022 15:56:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1656705384; x=1656708984; bh=6Jq8HFmyrJEtySvB/oUqyiWc1
+ wiQmTTBdo3y3ta9mTs=; b=TPjovl0nV3qaPPeDLv+oiA2eNgZG+sN1lXtyl/z6R
+ CCZhd0Jqb8y/bJS2+zPNvqdiQkcUPgA5dD1VpuKa2+STBjTw3oeIQns/jdPIN75z
+ Sx1xdb3svZqgLBVUMXBIWWZlBkVnvlGyJtu3HYf89/+LOVkFhzcfFJVibkwe+2FA
+ rD6G6fvLEGMZW6TyTKb4xELLuhB3uomGcZNO7r6msi27u1iwBxCdlkv5iyldBuDn
+ bNhfFlql/ipg//ui+GOHLaQ+PbARZtfaJEelw7KLbeTAJ4sBlli+WHaGCG9jLTF+
+ w64H5HnVsIo4lebvacrlDiJ/l6uokszQuiNw0WTGQomtQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2;
+ t=1656705384; x=1656708984; bh=6Jq8HFmyrJEtySvB/oUqyiWc1wiQmTTB
+ do3y3ta9mTs=; b=jxexkL28uNNPyoZqC7oRKl82HzP7/aBgzxb/A5pxHZG6NXhA
+ U79zdtVfHpjJpsGnYzRN/ASkXw9PR5BrxIwVIjSs+bI4ja7emIvlfUSTBz1HZ2yA
+ Y1RwGP3CcRMBT3YmP9RoTbzFrDTgp748zS4zLJNywQHbbQMjcHjP6zlpVCoWTfYe
+ pu1/iEgO8C0+tlVxscwJeaPvInHCHG+POuMj/t4Es780ViuIvm6Czl3O/ra+hcjo
+ j2VDGljucfgC+e15UtzoNNOh15ywb3IF3UOIFfdOsdIi91DxWEHscbJ1wyFMEzK9
+ qCBQVAsaE9F2D78iBY6UzOjk37Jh7vz8zOoXRg==
+X-ME-Sender: <xms:ZlG_YuUyDyJcwJ7-yGR2Vm-dSIh6fvDhubk0CuoOOLvECPGg_J_bUA>
+ <xme:ZlG_YqmFRPFBYC2XiIwd74Nll4gUjGr_NPUrDgvrlYlmRHlQS1vtYeh3S_xD-wNsa
+ TXGp2HxjHGZLaPtjTg>
+X-ME-Received: <xmr:ZlG_YiYXbwcxWo7lK_kCDOWDUvFQo33lOkwo_d38BTZuVkxEQgu-PrOHl41Z41KPc780V1awJfhHNKf1r79T5J5pcC7ClYjI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehfedgudegfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecumhhishhsihhnghcuvffquchfihgvlhguucdlfe
+ dtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehmvgesphhjugdruggvvheqnecuggftrfgrthhtvg
+ hrnhepieeuteejhfffheevteelleegjefhtdevgeevfedulefhieekfedtuddujeegfedv
+ necuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmvgesphhjugdruggvvh
+X-ME-Proxy: <xmx:ZlG_YlVrBIke-LKHvF9ZwgYip048wE2piAD8bq8gPTvXLqMDCd_AEw>
+ <xmx:ZlG_YonV7zPeLtzVodOnhZ26TsjPYEPqlfdLb6b07phDxkkDqNNCnQ>
+ <xmx:ZlG_YqedKcD6Jjx7GLs1rGYRBenb2fD1fbIel6T0ZuDWxjyvGOfHwg>
+ <xmx:Z1G_YpC9ZOcqGNLrJHr6dMDBbwyq7kOvdRejVD_4kwy3yBTfBS6vOA>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 1 Jul 2022 15:56:21 -0400 (EDT)
+From: Peter Delevoryas <me@pjd.dev>
+To: 
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, joel@jms.id.au,
+ andrew@aj.id.au, peter.maydell@linaro.org, clg@kaod.org
+Subject: [PATCH] aspeed: Refactor UART init for multi-SoC machines
+Date: Fri,  1 Jul 2022 12:56:19 -0700
+Message-Id: <20220701195619.66698-1-me@pjd.dev>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 00/40] PS2 device QOMification - part 2
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- richard.henderson@linaro.org, svens@stackframe.org, mst@redhat.com,
- pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
- aleksandar.rikalo@syrmia.com, f4bug@amsat.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:u2RDyGRVIt5yhEPAcgBiC4LatFj2eB4JewSuvjI98Dm47M2m9bZ
- +CaQTgEClrgfJQfluaVBLajbg+6ken528cjJ4T0weIUzZm+lvWOF38AV7xpKMzUun6VpX6t
- /7+LQIuy3Kfdn6ES/FlQuHw9u81V6V8nhqxwf7fHuoKzwYAu9bKPjrAWOEdY3opqecwCFRi
- TUfczJQKVeQ8K5GCbd/Og==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wevI0BucazY=:iC05JplkNRfmtFqg2o5qLf
- wTsvxjpNTRD/GsGkhqYkzdmp3CMh8w7+hUIQ1ruiAJdy5/rIB/hoGfVgaarDSYscxpri2WzSr
- Ns70e0J19pMVGsURNpgBr1B6NLYDT+vF/cqVRHQqqLfu1NNNgaMzGpZIn0fwld8Ks1+JfysGp
- AeQs5EOfD0YO2zI7l6tlFViDonUbjMEV9nq7cmVba1MALmYx3upTw0JG6g7xF58iYeyRV9WhZ
- xvfJ5kMjAe7SK+tNq72gb1kDuyd9jlTJ/8MVQY8er22X4WZi/+PrGAgzQW126C3Vh/FNgnFDr
- KnNasDnIvwX7Ix5hsBNC0VCGysEBLhIBvHqazB2YaDRlJYHbBhltr89ImdwWq3h+W0bIR/T2L
- 5aGMXZ+Zad3A6y9GCc53Oa7ONd0s2m8AFng5D6q40OgPcdGMHDFQw29eY0uysqH51FtnmtcH2
- b2PDW99atqty0I0MbBYsvvS6zWVi+ZlegWASsy1Jy158YBdQzCQ7QHr3RcYXJU6ziEqv10IWA
- L2jEBZLXdrDbf5msZT2y/BqZ0hqp7DEhhGwqz/+Y4+4JSIyQA0w9HMknWYwuFFszm+KxOaGMp
- CFeUS5VPu1N7V/wMFJbG1vAQNnvxcQzI2CKiT7ChLIo3cWP0CeLkli2pamzeVL4Xmx2YIexbk
- aYStHZY+cwjhXBjBst1Kkdg/trbgs3wIMT+b/9AlVTbYIDjSgTWMNC4PrRkqOPOAQ1rwtStT2
- VrQ/TIt0A9IG/cazFatudwcs0S8A/PSfaxI5pEEhFGcPEcG2O2Pccr1L9wbzHUL9R6AZp8h2z
- u0EaB5iov23fPTchzUYmpqgeO8UEMLly4znvt9yIbd5H/iB0eKIbT9rZCP9xYH30byZYq0P0y
- RGnCqwGnVpHRJNxEC8B6pBDhbe5lMpeMu0oglofgSdfnxGHf1uxsFtLSTUueWoYjq7h2as1JY
- v9s2yPIorbtikBq+2EFBxykBDj1A8x+1XIQN7SKihqarF6QpTiMnGqF1aNIryxZJzu8O+Cn3E
- hWaStQ1SYIl1rg3jGj/1sv2YlNRk40IfLiC5AWqhL/FQmJBtpGjfi358DLTCJR8WCeJJSbAcp
- B937b7nnBDZfTOwmO00xhqjZicALx7qzCbJXkm2oSqbAh2k0U9QyuDucw==
-Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=me@pjd.dev;
+ helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,115 +97,254 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Mark,
+This change moves the code that connects the SoC UART's to serial_hd's
+to the machine.
 
-On 6/29/22 14:39, Mark Cave-Ayland wrote:
-> Here is the follow-on series from part 1 which completes the work to rem=
-ove
-> the legacy global device init functions for PS2 devices. Now that part 1=
- has
-> been applied, the hard part to remove the PS2 function callback and argu=
-ment
-> has been completed and all that remains is to improve the PS2 device
-> QOMification to allow the legacy PS2 functions to be removed.
->
-> Patches 1-11 update the pl050 device to remove the use of ps2_kbd_init()=
- and
-> ps2_mouse_init(), whilst patches 12-34 make some more involved changes t=
-o
-> the lasips2 device (in particular completing the LASIPS2Port abstraction=
-)
-> before doing the same.
->
-> Finally patches 35-40 complete the process for the pckbd (I8042 and I804=
-2_MMIO
-> devices) before removing the now unused ps2_kbd_init(), ps2_mouse_init()=
- and
-> i8042_mm_init() functions.
->
-> Note that this series is a migration break for the HPPA B160L and MIPS m=
-agnum
-> machines: I've had agreement from both Helge and Herv=C3=A9 that this is=
- worth
-> doing to allow the use of the DeviceClass vmsd property to set the
-> VMStateDescription rather than manually calling vmstate_register().
->
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+It makes each UART a proper child member of the SoC, and then allows the
+machine to selectively initialize the chardev for each UART with a
+serial_hd.
 
-I did tested this patch series successfully with hppa Linux and HP-UX gues=
-ts.
-PS/2 mouse and keyboard works as expected.
-Thanks for this nice cleanup work!
+This should preserve backwards compatibility, but also allow multi-SoC
+boards to completely change the wiring of serial devices from the
+command line to specific SoC UART's.
 
-You may add either or both of:
-Tested-by: Helge Deller <deller@gmx.de>
-Acked-by: Helge Deller <deller@gmx.de>
+This also removes the uart-default property from the SoC, since the SoC
+doesn't need to know what UART is the "default" on the machine anymore.
 
-Helge
+I tested this using the images and commands from the previous
+refactoring, and another test image for the ast1030:
 
+    wget https://github.com/facebook/openbmc/releases/download/v2021.49.0/fuji.mtd
+    wget https://github.com/facebook/openbmc/releases/download/v2021.49.0/wedge100.mtd
+    wget https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.13.01/Y35BCL.elf
 
->
-> Mark Cave-Ayland (40):
->   pl050: move PL050State from pl050.c to new pl050.h header file
->   pl050: rename pl050_keyboard_init() to pl050_kbd_init()
->   pl050: change PL050State dev pointer from void to PS2State
->   pl050: introduce new PL050_KBD_DEVICE QOM type
->   pl050: introduce new PL050_MOUSE_DEVICE QOM type
->   pl050: move logic from pl050_realize() to pl050_init()
->   pl050: introduce PL050DeviceClass for the PL050 device
->   pl050: introduce pl050_kbd_class_init() and pl050_kbd_realize()
->   pl050: introduce pl050_mouse_class_init() and pl050_mouse_realize()
->   pl050: don't use legacy ps2_kbd_init() function
->   pl050: don't use legacy ps2_mouse_init() function
->   lasips2: don't use vmstate_register() in lasips2_realize()
->   lasips2: remove the qdev base property and the lasips2_properties
->     array
->   lasips2: remove legacy lasips2_initfn() function
->   lasips2: change LASIPS2State dev pointer from void to PS2State
->   lasips2: QOMify LASIPS2Port
->   lasips2: introduce new LASIPS2_KBD_PORT QOM type
->   lasips2: introduce new LASIPS2_MOUSE_PORT QOM type
->   lasips2: move keyboard port initialisation to new
->     lasips2_kbd_port_init() function
->   lasips2: move mouse port initialisation to new
->     lasips2_mouse_port_init() function
->   lasips2: introduce lasips2_kbd_port_class_init() and
->     lasips2_kbd_port_realize()
->   lasips2: introduce lasips2_mouse_port_class_init() and
->     lasips2_mouse_port_realize()
->   lasips2: rename LASIPS2Port irq field to birq
->   lasips2: introduce port IRQ and new lasips2_port_init() function
->   lasips2: introduce LASIPS2PortDeviceClass for the LASIPS2_PORT device
->   lasips2: add named input gpio to port for downstream PS2 device IRQ
->   lasips2: add named input gpio to handle incoming port IRQs
->   lasips2: switch to using port-based IRQs
->   lasips2: rename LASIPS2Port parent pointer to lasips2
->   lasips2: standardise on lp name for LASIPS2Port variables
->   lasips2: switch register memory region to DEVICE_BIG_ENDIAN
->   lasips2: don't use legacy ps2_kbd_init() function
->   lasips2: don't use legacy ps2_mouse_init() function
->   lasips2: update VMStateDescription for LASIPS2 device
->   pckbd: introduce new vmstate_kbd_mmio VMStateDescription for the
->     I8042_MMIO device
->   pckbd: don't use legacy ps2_kbd_init() function
->   ps2: remove unused legacy ps2_kbd_init() function
->   pckbd: don't use legacy ps2_mouse_init() function
->   ps2: remove unused legacy ps2_mouse_init() function
->   pckbd: remove legacy i8042_mm_init() function
->
->  hw/hppa/machine.c          |   7 +-
->  hw/input/lasips2.c         | 320 ++++++++++++++++++++++++++-----------
->  hw/input/pckbd.c           |  82 ++++++----
->  hw/input/pl050.c           | 112 ++++++++-----
->  hw/input/ps2.c             |  26 ---
->  hw/input/trace-events      |   2 -
->  hw/mips/jazz.c             |  13 +-
->  include/hw/input/i8042.h   |   7 +-
->  include/hw/input/lasips2.h |  57 +++++--
->  include/hw/input/pl050.h   |  59 +++++++
->  include/hw/input/ps2.h     |   2 -
->  11 files changed, 466 insertions(+), 221 deletions(-)
->  create mode 100644 include/hw/input/pl050.h
->
+Fuji uses UART1:
+
+    qemu-system-arm -machine fuji-bmc \
+        -drive file=fuji.mtd,format=raw,if=mtd \
+        -nographic
+
+ast2600-evb uses uart-default=UART5:
+
+    qemu-system-arm -machine ast2600-evb \
+        -drive file=fuji.mtd,format=raw,if=mtd \
+        -serial null -serial mon:stdio -display none
+
+Wedge100 uses UART3:
+
+    qemu-system-arm -machine palmetto-bmc \
+        -drive file=wedge100.mtd,format=raw,if=mtd \
+        -serial null -serial null -serial null \
+        -serial mon:stdio -display none
+
+AST1030 EVB uses UART5:
+
+    qemu-system-arm -machine ast1030-evb \
+        -kernel Y35BCL.elf -nographic
+
+Fixes: 6827ff20b2975 ("hw: aspeed: Init all UART's with serial devices")
+Signed-off-by: Peter Delevoryas <me@pjd.dev>
+---
+ hw/arm/aspeed.c             | 23 +++++++++++++++----
+ hw/arm/aspeed_ast10x0.c     |  4 ++++
+ hw/arm/aspeed_ast2600.c     |  4 ++++
+ hw/arm/aspeed_soc.c         | 44 ++++++++++++++++++++++++-------------
+ include/hw/arm/aspeed_soc.h |  4 ++++
+ 5 files changed, 60 insertions(+), 19 deletions(-)
+
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 6fe9b13548..fdca0abd95 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -26,6 +26,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/units.h"
+ #include "hw/qdev-clock.h"
++#include "sysemu/sysemu.h"
+ 
+ static struct arm_boot_info aspeed_board_binfo = {
+     .board_id = -1, /* device-tree-only board */
+@@ -301,6 +302,22 @@ static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
+                                &error_fatal);
+ }
+ 
++static void connect_serial_hds_to_uarts(AspeedMachineState *bmc)
++{
++    AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(bmc);
++    AspeedSoCState *s = &bmc->soc;
++
++    aspeed_soc_uart_set_chr(s, amc->uart_default, serial_hd(0));
++    for (int i = 1, uart = ASPEED_DEV_UART1;
++         serial_hd(i) && uart <= ASPEED_DEV_UART13; i++, uart++) {
++
++        if (uart == amc->uart_default) {
++            continue;
++        }
++        aspeed_soc_uart_set_chr(s, uart, serial_hd(i));
++    }
++}
++
+ static void aspeed_machine_init(MachineState *machine)
+ {
+     AspeedMachineState *bmc = ASPEED_MACHINE(machine);
+@@ -346,8 +363,7 @@ static void aspeed_machine_init(MachineState *machine)
+         object_property_set_int(OBJECT(&bmc->soc), "hw-prot-key",
+                                 ASPEED_SCU_PROT_KEY, &error_abort);
+     }
+-    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
+-                         amc->uart_default);
++    connect_serial_hds_to_uarts(bmc);
+     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+ 
+     aspeed_board_init_flashes(&bmc->soc.fmc,
+@@ -1383,8 +1399,7 @@ static void aspeed_minibmc_machine_init(MachineState *machine)
+ 
+     object_property_set_link(OBJECT(&bmc->soc), "memory",
+                              OBJECT(get_system_memory()), &error_abort);
+-    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
+-                         amc->uart_default);
++    connect_serial_hds_to_uarts(bmc);
+     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+ 
+     aspeed_board_init_flashes(&bmc->soc.fmc,
+diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+index 33ef331771..a221f5d6fe 100644
+--- a/hw/arm/aspeed_ast10x0.c
++++ b/hw/arm/aspeed_ast10x0.c
+@@ -144,6 +144,10 @@ static void aspeed_soc_ast1030_init(Object *obj)
+         object_initialize_child(obj, "wdt[*]", &s->wdt[i], typename);
+     }
+ 
++    for (i = 0; i < sc->uarts_num; i++) {
++        object_initialize_child(obj, "uart[*]", &s->uart[i], TYPE_SERIAL_MM);
++    }
++
+     snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
+     object_initialize_child(obj, "gpio", &s->gpio, typename);
+ 
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 3f0611ac11..c4ad26a046 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -214,6 +214,10 @@ static void aspeed_soc_ast2600_init(Object *obj)
+         object_initialize_child(obj, "mii[*]", &s->mii[i], TYPE_ASPEED_MII);
+     }
+ 
++    for (i = 0; i < sc->uarts_num; i++) {
++        object_initialize_child(obj, "uart[*]", &s->uart[i], TYPE_SERIAL_MM);
++    }
++
+     snprintf(typename, sizeof(typename), TYPE_ASPEED_XDMA "-%s", socname);
+     object_initialize_child(obj, "xdma", &s->xdma, typename);
+ 
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 0f675e7fcd..2ac18cbf27 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -208,6 +208,10 @@ static void aspeed_soc_init(Object *obj)
+                                 TYPE_FTGMAC100);
+     }
+ 
++    for (i = 0; i < sc->uarts_num; i++) {
++        object_initialize_child(obj, "uart[*]", &s->uart[i], TYPE_SERIAL_MM);
++    }
++
+     snprintf(typename, sizeof(typename), TYPE_ASPEED_XDMA "-%s", socname);
+     object_initialize_child(obj, "xdma", &s->xdma, typename);
+ 
+@@ -481,8 +485,6 @@ static Property aspeed_soc_properties[] = {
+                      MemoryRegion *),
+     DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
+-    DEFINE_PROP_UINT32("uart-default", AspeedSoCState, uart_default,
+-                       ASPEED_DEV_UART5),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -575,22 +577,34 @@ qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev)
+ void aspeed_soc_uart_init(AspeedSoCState *s)
+ {
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+-    int i, uart;
+-
+-    /* Attach an 8250 to the IO space as our UART */
+-    serial_mm_init(s->memory, sc->memmap[s->uart_default], 2,
+-                   aspeed_soc_get_irq(s, s->uart_default), 38400,
+-                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
+-    for (i = 1, uart = ASPEED_DEV_UART1; i < sc->uarts_num; i++, uart++) {
+-        if (uart == s->uart_default) {
+-            uart++;
+-        }
+-        serial_mm_init(s->memory, sc->memmap[uart], 2,
+-                       aspeed_soc_get_irq(s, uart), 38400,
+-                       serial_hd(i), DEVICE_LITTLE_ENDIAN);
++    SerialMM *smm;
++    MemoryRegion *mr;
++
++    for (int i = 0, uart = ASPEED_DEV_UART1; i < sc->uarts_num; i++, uart++) {
++        smm = &s->uart[i];
++
++        /* Chardev property is set by the machine. */
++        qdev_prop_set_uint8(DEVICE(smm), "regshift", 2);
++        qdev_prop_set_uint32(DEVICE(smm), "baudbase", 38400);
++        qdev_set_legacy_instance_id(DEVICE(smm), sc->memmap[uart], 2);
++        qdev_prop_set_uint8(DEVICE(smm), "endianness", DEVICE_LITTLE_ENDIAN);
++        sysbus_realize(SYS_BUS_DEVICE(smm), &error_fatal);
++
++        sysbus_connect_irq(SYS_BUS_DEVICE(smm), 0, aspeed_soc_get_irq(s, uart));
++        mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(smm), 0);
++        memory_region_add_subregion(s->memory, sc->memmap[uart], mr);
+     }
+ }
+ 
++void aspeed_soc_uart_set_chr(AspeedSoCState *s, int dev, Chardev *chr)
++{
++    AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
++    int i = dev - ASPEED_DEV_UART1;
++
++    g_assert(0 <= i && i < ARRAY_SIZE(s->uart) && i < sc->uarts_num);
++    qdev_prop_set_chr(DEVICE(&s->uart[i]), "chardev", chr);
++}
++
+ /*
+  * SDMC should be realized first to get correct RAM size and max size
+  * values
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index e65926a667..06c9ab20f8 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -36,12 +36,14 @@
+ #include "hw/misc/aspeed_lpc.h"
+ #include "hw/misc/unimp.h"
+ #include "hw/misc/aspeed_peci.h"
++#include "hw/char/serial.h"
+ 
+ #define ASPEED_SPIS_NUM  2
+ #define ASPEED_EHCIS_NUM 2
+ #define ASPEED_WDTS_NUM  4
+ #define ASPEED_CPUS_NUM  2
+ #define ASPEED_MACS_NUM  4
++#define ASPEED_UARTS_NUM 13
+ 
+ struct AspeedSoCState {
+     /*< private >*/
+@@ -79,6 +81,7 @@ struct AspeedSoCState {
+     AspeedSDHCIState emmc;
+     AspeedLPCState lpc;
+     AspeedPECIState peci;
++    SerialMM uart[ASPEED_UARTS_NUM];
+     uint32_t uart_default;
+     Clock *sysclk;
+     UnimplementedDeviceState iomem;
+@@ -176,6 +179,7 @@ enum {
+ 
+ qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
+ void aspeed_soc_uart_init(AspeedSoCState *s);
++void aspeed_soc_uart_set_chr(AspeedSoCState *s, int dev, Chardev *chr);
+ bool aspeed_soc_dram_init(AspeedSoCState *s, Error **errp);
+ void aspeed_mmio_map(AspeedSoCState *s, SysBusDevice *dev, int n, hwaddr addr);
+ void aspeed_mmio_map_unimplemented(AspeedSoCState *s, SysBusDevice *dev,
+-- 
+2.37.0
 
 
