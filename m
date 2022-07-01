@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FE756313A
+	by mail.lfdr.de (Postfix) with ESMTPS id D411C563139
 	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jul 2022 12:18:47 +0200 (CEST)
-Received: from localhost ([::1]:41888 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:41868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7Dja-0002Qy-K7
+	id 1o7Dja-0002Pw-ES
 	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 06:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38516)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7DdZ-0005b0-Di
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:12:33 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:33437)
+ id 1o7Dfk-0000FY-Fy
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:14:49 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:42555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o7DdW-0004Kl-UM
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:12:33 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id h187so3298287ybg.0
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 03:12:30 -0700 (PDT)
+ id 1o7DfW-0004ma-VO
+ for qemu-devel@nongnu.org; Fri, 01 Jul 2022 06:14:48 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2ef5380669cso18633637b3.9
+ for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 03:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R4v3+wIxGgP77avhGSBxN9v2ijWrN1zMXuWnTPc8El8=;
- b=ahbLAFgwxOuy9aFYjnUVOPTc3URB6T7ShdLqUjs6ST3YbcnTWWPHQMfMCmJRdS0TNc
- XCnRb6Q5lqHwCokDA8u2AVV4bZi72wSoKdqd7no725teDPwFdFolKStGeOOr9e2SQBz+
- vEwy1gGmZFMxSCjTFTep1XwMKRjEHM8dEu9ASPGT5F6KRiHWlfKi+DMMYjK+iLcP5ZDI
- akUQ4+E2yg5v3tc4X7Et3skkz+BKOZuIcfV2a0bdAiETA/cfuYe28mbLCVm9B5Q4tbUJ
- lPSYw214k80eB2pN33lG+Ize1OESuwSswQO8YsDL1vgMG5ITYi7qFIG2Uq7gyZMKshTK
- DR+A==
+ :cc; bh=39rIdNazgW1JDjtzaijGrK5v11EsrSQuEozZpECwrCY=;
+ b=BGgkGN58lOeCC5q3nfpPWRHeITVzx3jLKNhAr7xhNmSMLfVutG+PM9M8TKkxNb03GE
+ emRT45j1iyTfvRICZbW6t1heqi81I/tC6xWSHBQu4/sdsf6xQIk6SvK8AOpXxdceiNYu
+ l5d6dd4xHlXViHRWY0XEmlQ5JjiQuD/l+rQREVlTW74+7vBNN8s1rB+c5F/iKqT+Ef2I
+ XkUyv0NQdF8c76120wSjK4hFIZwYl1XnFqTth2t3DXLkiKs+AhNhIpFFHouhiXzl6Lze
+ rx4XxfBaYYaEKG1OMg8S0qn+++fzhg09KODyffopqoTpOdcIEWPkZAZHdtXKbvAFe8VH
+ X6VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=R4v3+wIxGgP77avhGSBxN9v2ijWrN1zMXuWnTPc8El8=;
- b=sKSFfJ+JnBMMLe6lfr8fiqon/V+ayrJ5Iv2BmprNl2EVWov+23F5CryRq1iGs65/aH
- dm2X5qVsYZ3fRoMPUIYYQ0WZidwoJFFDFD0iQWeCXhBQ+d8gVjOjj1cwDDxTuCXTRG5c
- 8PLnO3ejCXqtaQ01jK+bPrvLOIhXJGjLdmfeS623PWffWFyLTRa22NapMPJKKCDojYpq
- fPVmykqk4fxEfOMHRl8INgn5LNA3w16O6s52wuseZi6V+E/vMri10ImoSLYYh7evaPqA
- 5XSREq64v1BQuYGOD3xeyb++5rZpuj28M0u4VGfNUJ+vruBzohTDASZgbBwWFZJLlmMP
- 8E1w==
-X-Gm-Message-State: AJIora9hCzdmTVLb2BxJ36dqcoJdH7O0/bmyt1Xm0Vw4/lbokCVKgbF5
- x1sPCLVXRP5WOy+vOB2A0Bwae9DdmOrXqvSOFhL81uZyLrw=
-X-Google-Smtp-Source: AGRyM1s/Aq+ewsce3Tawa2JmRdrA5AaNgdxfnit5erQ3IdfX9VASTxw5pTbE1cCAv96CvHxaeTo2Fa9Lj16G3CRn1eY=
-X-Received: by 2002:a25:5c5:0:b0:66c:b809:ddde with SMTP id
- 188-20020a2505c5000000b0066cb809dddemr14239524ybf.67.1656670349690; Fri, 01
- Jul 2022 03:12:29 -0700 (PDT)
+ bh=39rIdNazgW1JDjtzaijGrK5v11EsrSQuEozZpECwrCY=;
+ b=dMg0L1gnCyuwJntAcL6B/HNSRNPuvPhwlKg0GBFErVYU5CwLm/h+ib/g55jjJl4hwB
+ R3xCWhJJmbYHfzQcp+B6brewfDiJlRotrV835lFdfcbbjCbUrd8yGWIY1S5v6FP4st//
+ OtNjcV8qS5AYo1BJgBI3xSlGgVc4HI6wDdiKGA02OHQv8SMzhKx0hRPmf8OpaAh7PlVi
+ ClX02oRJeDjjuMVDhNlk2+BOQMZ58IKhiOxPg7HKevhYSYWpfSxXWg4DOjqKbADTHf7e
+ YTYBlijLgbdo9dVzeOb6zwaw76At2UW2ckYsxFKF9Dr2zWahXmLCxIe3xkz9H6mGOsS6
+ dBxQ==
+X-Gm-Message-State: AJIora+QItcbHCUT4AaXpGpN5BZslO+qAv+h2u3yO0knkcPQJHuPvVWn
+ BqpUOFi3DKzR7G8fz1jgDf4TkZlohUlYdzFjYWFLng==
+X-Google-Smtp-Source: AGRyM1uNE0GAr2FcfCl8iB6wu4zoCbKSyX2BRT/ysouNmvPOY7zdB3Funxh6IWgprKZeH5cjkOXx7/iEjmKn+/VPThw=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr15969144ywb.257.1656670473978; Fri, 01
+ Jul 2022 03:14:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220628042117.368549-1-richard.henderson@linaro.org>
- <20220628042117.368549-2-richard.henderson@linaro.org>
-In-Reply-To: <20220628042117.368549-2-richard.henderson@linaro.org>
+References: <20220620202921.21062-1-akihiko.odaki@gmail.com>
+ <CAFEAcA-xUnoM9NSuqdgx6i3n==fk+Uxr3_5dk3hqdWvucwZ6oQ@mail.gmail.com>
+ <20220701101055.ru3j4b2r5nuvwfgx@sirius.home.kraxel.org>
+In-Reply-To: <20220701101055.ru3j4b2r5nuvwfgx@sirius.home.kraxel.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Jul 2022 11:11:51 +0100
-Message-ID: <CAFEAcA_vso+2SFgzr6h2-TxrA0XJ8i7BkANX9Cu2j0oBjR-0Sg@mail.gmail.com>
-Subject: Re: [PATCH v4 01/45] target/arm: Handle SME in aarch64_cpu_dump_state
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Date: Fri, 1 Jul 2022 11:13:56 +0100
+Message-ID: <CAFEAcA_4d8dUk+JuKD-+658p5t4LPdBt_K3aC+UKF+oKwPXQEg@mail.gmail.com>
+Subject: Re: [PATCH v3] ui/cocoa: Take refresh rate into account
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,19 +85,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jun 2022 at 05:25, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Fri, 1 Jul 2022 at 11:11, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> Dump SVCR, plus use the correct access check for Streaming Mode.
+> On Tue, Jun 21, 2022 at 09:51:38AM +0100, Peter Maydell wrote:
+> > On Mon, 20 Jun 2022 at 21:29, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+> > >
+> > > Retreieve the refresh rate of the display and reflect it with
+> > > dpy_set_ui_info() and update_displaychangelistener(), allowing the
+> > > guest and DisplayChangeListener to consume the information.
+> >
+> > But why? What goes wrong if we don't bother to do this?
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+> Nothing goes wrong.  This provides a hint to the guest how often the
+> display is updated, so the guest has the chance to adapt to that.
+> When we run 30 Hz display updates on the host side it is pointless for
+> the guest to update the screen at 60Hz frequency, the guest can spare
+> some cpu cycles instead.
+>
+> [ this should be better explained in the commit message ]
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Thanks for the explanation.
 
-Dumping the actual ZA storage seems like it would be more
-annoying than useful :-)
-
-thanks
 -- PMM
 
