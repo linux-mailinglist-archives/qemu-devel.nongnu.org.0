@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5235640BB
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 16:32:25 +0200 (CEST)
-Received: from localhost ([::1]:50520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD8956410D
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 17:33:02 +0200 (CEST)
+Received: from localhost ([::1]:42548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7eAa-0004m3-6B
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 10:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50884)
+	id 1o7f7E-0006Nj-PY
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 11:33:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o7e8g-0003fz-Dh
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 10:30:26 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:39554)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o7e8e-0002F0-5S
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 10:30:25 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id r6so715034pfq.6
- for <qemu-devel@nongnu.org>; Sat, 02 Jul 2022 07:30:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=J5znrgzRnYoVOojsgSudSLl8rzNEfebchgG3b7J5xzc=;
- b=IWd2X+jrCNHV7+w89rCEmh1fq0ylvBrIaYE/DgJ1huPPF8nHGkC1LKTat2svHULawf
- B6WUAiLLMbnMYjon0vceViPeYL5+IFV4e93kC03/C3jB1PnzNJz2pB3YYzCaAdCj/iIJ
- RKJe6gXE/5whps8+taIuxPycQBlMEtkTwnSetDUfv/+IXYzODgm7o+faX1bi24TdBpKp
- 3vJ+D6zHy0Bs019LyzF/9sIKdWGVgHWp+zuJQR7mq4uX1vuBmOrgYL8yoK6zIPKs7Kew
- gbqkcPo5IrVmqRgxfoF01GeywSlrkAmAs3HwD2bl+yO2U7IJanIDClyxf6L6J98WM5o/
- nPFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=J5znrgzRnYoVOojsgSudSLl8rzNEfebchgG3b7J5xzc=;
- b=ueIohhVlwRaAsAh8T6GZuya3uPhWRU1+ustH5hFAKeztNtNkIj0S9EaBRbhHHruHAM
- YdbMej2/kvfr9UYUAno5Tpl6f8BaxgF5TIr29zWr0xjj2uLij5/HtLEIcnznIvHXEyrk
- HW07KBPov5FRJSIduvz99Vafvx+Nn70IpdFPTf9phrkIxA6els1PwFqfeN07MQRbjUNd
- B7Olb1L5jU0uLfG8WgtsLrt9tOiW26YJbAeSGpWiC33NiRX7kcSLzBPT7f8DUS2TGvHz
- Tr+7iLpslJdaza9Hx+cx+dzAmFKL5njWMbRG5z2pj0JpisIt5t8rkEzcM8OdQeOWELSP
- 0VGA==
-X-Gm-Message-State: AJIora8x3xjUIeNiIVvUkEPmDsCrRZGrNX63BrUPoWqyodH1gD56de+o
- Z62MMVc5hHYTsCtqqOwqWto=
-X-Google-Smtp-Source: AGRyM1up5hU0ze56S2XJLUucY6wloyyLvvf9GCjZC1sov1Ps/BVcmLmOKXGJ6H2LVC8sXel6F6Cw3A==
-X-Received: by 2002:a05:6a00:d9b:b0:525:6b81:4f14 with SMTP id
- bf27-20020a056a000d9b00b005256b814f14mr25763253pfb.38.1656772222825; 
- Sat, 02 Jul 2022 07:30:22 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- j19-20020aa78013000000b00525203c2847sm17760374pfi.128.2022.07.02.07.30.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Jul 2022 07:30:21 -0700 (PDT)
-Message-ID: <8e54f374-d4bc-36f1-6d1c-470853174aaa@gmail.com>
-Date: Sat, 2 Jul 2022 23:30:16 +0900
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1o7f40-0005NF-O9; Sat, 02 Jul 2022 11:29:40 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:50127)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1o7f3x-0002ye-P0; Sat, 02 Jul 2022 11:29:40 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 2ABBB2B04FE0;
+ Sat,  2 Jul 2022 11:29:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Sat, 02 Jul 2022 11:29:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656775773; x=
+ 1656779373; bh=3lDSBZe4poQh9KI0Eg9ZCmYIvOyzCGhlO1EMCxDLx1A=; b=U
+ 1Kzen11Qh9lQLybD6s1BBBUmPv2L8FxIA0+CgGmFrjPAvQo5hsqb5AFWf56YiLsY
+ vCAxjlWajVVXxrQ+aH+fAtVpVKj43aKUrP89nW95icM4abx9GQwQyMgRoKuRBwLd
+ hiNvTSw68YO8C/5xiXSosvMx5ohXMWHeh9q+EysZont38UBMVdyBQ2F6vzpMZgu0
+ 2jaKxV8GnypqybGuQeKzhgUKMPLnaSTAyRBNMPJoLFWUHKZsmUn6v0sUecvwOffh
+ A7LY4dghvhM5aMpnKHtbqunSpkToTV/2Q5Z3wzSS8n3k0eg86DTizce6t3uyzH3G
+ xNtt40OK4vcqMCX+9WmxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2; t=
+ 1656775773; x=1656779373; bh=3lDSBZe4poQh9KI0Eg9ZCmYIvOyzCGhlO1E
+ MCxDLx1A=; b=xmteyvkbs+GsaWqDL24Xd/VOk0lqGKpVPXglNJ5Sv6t+tKG4Ew1
+ L+aVlp0Bfr53IOWnvcfMzwtidTUOqcDSwqDDsmG7lib806f8NXXHuhjliz3lhaVG
+ M+UBigpbJEsYzimrKojmoAbLcJBf/rNDGWB6akKD/Zwu3xnKmpSjW2Mh3D0h4dzn
+ 8I9xRCL4S5UMfkFQEGduSCqTcuxxllUWXFXgWQ2b5YSfotj9+Qc4BcnU5vCXYRi2
+ Ko1+QpChD3TNxyBbuPDZMO2zH19IUHwakGQAqauOg1VEgJ4AvU7bzqPyLBCA9PwS
+ mY0IO0CnMU94hE49eZuRmA30pNOHRJTd3fA==
+X-ME-Sender: <xms:XWTAYhLuQQIVEr1qKhEBVtyojcjKXdiOSI0kI6XIq9RWnH_RcjUqZQ>
+ <xme:XWTAYtKlhI4FXk7nA0TCwCWY-yqTOOGpWV4WtlDFtOvB6Fmoos6veHF03El6MzI5I
+ LEoCSyGygTEvQDA8vQ>
+X-ME-Received: <xmr:XWTAYpuebcwgom6QRbeoAVn3jRZ9E7UJrY9HzmC0dII-LJjLJkLuc11E5WkStdDwMr0yJbDeUYjqh3OTiIgYXQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedgkeekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtugfgjgesth
+ ekredttddtudenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceophgvthgv
+ rhesphhjugdruggvvheqnecuggftrfgrthhtvghrnhephfegffevudefveetgeekteeije
+ fhhfduueejvdegvdehffehjeevtefhhffffeeunecuvehluhhsthgvrhfuihiivgeptden
+ ucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:XWTAYiY282w9FGY_YNFDP3d1roO1OtIsBcHnxm0yaSuP965enXx0yQ>
+ <xmx:XWTAYob2fwGeM_iF-aJ6o4C74iZtakAPAbRzwe3brVsjlV_kws2p1w>
+ <xmx:XWTAYmD3ZpO4UlP_OTx8hyBXIJBjwj90bJps_is_QSlMeOMo6lb1cQ>
+ <xmx:XWTAYnyuc5iC5J9tFKIj0yCIqa27Sf_aHO97UQlOetYcoIs2NPRhBD6QPRk>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 2 Jul 2022 11:29:32 -0400 (EDT)
+Date: Sat, 2 Jul 2022 08:29:30 -0700
+From: Peter Delevoryas <peter@pjd.dev>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: Peter Delevoryas <me@pjd.dev>, peter.maydell@linaro.org,
+ andrew@aj.id.au, joel@jms.id.au, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH] aspeed: Create SRAM name from first CPU index
+Message-ID: <YsBkWoTO1rW4UXjw@pdel-mbp.dhcp.thefacebook.com>
+References: <20220701180603.38408-1-me@pjd.dev>
+ <3b367b09-075e-a21b-8d24-3b2be091f816@kaod.org>
+ <Yr/tXIpUhFAU4NDM@pdel-mbp> <Yr/1jrZIwXSc+acd@pdel-mbp>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] ui/cocoa: Fix switched_to_fullscreen warning
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, f4bug@amsat.org,
- kraxel@redhat.com
-References: <20220702044304.90553-1-peter@pjd.dev>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20220702044304.90553-1-peter@pjd.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yr/1jrZIwXSc+acd@pdel-mbp>
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=peter@pjd.dev;
+ helo=wnew2-smtp.messagingengine.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,61 +103,204 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+On Sat, Jul 02, 2022 at 12:36:46AM -0700, Peter Delevoryas wrote:
+> On Sat, Jul 02, 2022 at 12:01:48AM -0700, Peter Delevoryas wrote:
+> > On Sat, Jul 02, 2022 at 08:01:14AM +0200, Cédric Le Goater wrote:
+> > > On 7/1/22 20:06, Peter Delevoryas wrote:
+> > > > To support multiple SoC's running simultaneously, we need a unique name for
+> > > > each RAM region. DRAM is created by the machine, but SRAM is created by the
+> > > > SoC, since in hardware it is part of the SoC's internals.
+> > > > 
+> > > > We need a way to uniquely identify each SRAM region though, for VM
+> > > > migration. Since each of the SoC's CPU's has an index which identifies it
+> > > > uniquely from other CPU's in the machine, we can use the index of any of the
+> > > > CPU's in the SoC to uniquely identify differentiate the SRAM name from other
+> > > > SoC SRAM's. In this change, I just elected to use the index of the first CPU
+> > > > in each SoC.
+> > > 
+> > > hopefully the index is allocated. Did you check ?
+> > 
+> > You mean the CpuState.cpu_index? I think it's allocated at this point, I
+> > actually had to do some debugging just to get it working cause I typo'd the
+> > CPU(...) cast at first. I also tried it with the multi-SoC board in your
+> > aspeed-7.1 branch:
+> > 
+> > (qemu) qom-get /machine/bmc aspeed.sram.0[0]
+> > "/machine/bmc/aspeed.sram.0[0]"
+> > (qemu) qom-get /machine/unattached aspeed.sram.2[0]
+> > "/machine/unattached/aspeed.sram.2[0]"
+> > 
+> > I think the SRAM in the ast1030 is initialized without a parent object
+> > (memory_region_init_ram(..., NULL, ...)) so that's why it's in the unattached
+> > area. But we could fix that, maybe I should send a v2 with that too?
+> > 
+> > > 
+> > > 
+> > > > Signed-off-by: Peter Delevoryas <me@pjd.dev>
+> > > > ---
+> > > >   hw/arm/aspeed_ast10x0.c | 5 ++++-
+> > > >   hw/arm/aspeed_ast2600.c | 5 +++--
+> > > >   hw/arm/aspeed_soc.c     | 5 +++--
+> > > >   3 files changed, 10 insertions(+), 5 deletions(-)
+> > > > 
+> > > > diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+> > > > index 33ef331771..b6b6f0d053 100644
+> > > > --- a/hw/arm/aspeed_ast10x0.c
+> > > > +++ b/hw/arm/aspeed_ast10x0.c
+> > > > @@ -159,6 +159,7 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+> > > >       DeviceState *armv7m;
+> > > >       Error *err = NULL;
+> > > >       int i;
+> > > > +    char name[64];
+> > > >       if (!clock_has_source(s->sysclk)) {
+> > > >           error_setg(errp, "sysclk clock must be wired up by the board code");
+> > > > @@ -183,7 +184,9 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+> > > >       sysbus_realize(SYS_BUS_DEVICE(&s->armv7m), &error_abort);
+> > > >       /* Internal SRAM */
+> > > > -    memory_region_init_ram(&s->sram, NULL, "aspeed.sram", sc->sram_size, &err);
+> > > > +    snprintf(name, sizeof(name), "aspeed.sram.%d",
+> > > > +             CPU(s->armv7m.cpu)->cpu_index);
+> > > > +    memory_region_init_ram(&s->sram, NULL, name, sc->sram_size, &err);
+> > > >       if (err != NULL) {
+> > > >           error_propagate(errp, err);
+> > > >           return;
+> > > > diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> > > > index 3f0611ac11..7efb9f888a 100644
+> > > > --- a/hw/arm/aspeed_ast2600.c
+> > > > +++ b/hw/arm/aspeed_ast2600.c
+> > > > @@ -276,6 +276,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+> > > >       AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+> > > >       Error *err = NULL;
+> > > >       qemu_irq irq;
+> > > > +    char name[64];
+> > > 
+> > > May be ?
+> > > 
+> > >      g_autofree char *sram_name =
+> > >             g_strdup_printf("aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
+> > 
+> > Hmmm yeah sure why not, I can fix the unattached AST1030 SRAM too. I always
+> > wanted to use g_autofree some day hehe.
+> 
+> Actually, can't do this: cpu_index is _not_ initialized at this point (the start
+> of the function). armv7m needs to be realized first in the ast1030, cpu[]'s need
+> to be realized in other SoC's. I don't think it would be preferable to move the
+> autofree statement lower because the convention is to put declarations at the
+> start of the enclosing block, let me know if you have another idea though.
 
-On 2022/07/02 13:43, Peter Delevoryas wrote:
-> I noticed this error while building QEMU on Mac OS X:
+Disregard this comment I made, we can use autofree here, we should just
+initialize the pointer later in the function. I was curious if
+__attribute__((cleanup)) handles this properly, and it does, based on the macOS
+"leaks" leak detector:
+
+Without g_autofree:
+
+    $ leaks --atExit --  ./build/qemu-system-arm -machine fby35 -drive file=fby35.mtd,format=raw,if=mtd -device loader,file=Y35B
+    CL.elf,addr=0,cpu-num=2 -serial pty -serial pty -serial mon:stdio -display none -S
+    char device redirected to /dev/ttys007 (label serial0)
+    char device redirected to /dev/ttys009 (label serial1)
+    qemu-system-arm: warning: Aspeed iBT has no chardev backend
+    QEMU 7.0.50 monitor - type 'help' for more information
+    (qemu) q
+    Process:         qemu-system-arm [64263]
+    Path:            /Users/USER/*/qemu-system-arm
+    Load Address:    0x10f181000
+    Identifier:      qemu-system-arm
+    Version:         ???
+    Code Type:       X86-64
+    Platform:        macOS
+    Parent Process:  leaks [64262]
+
+    Date/Time:       2022-07-02 08:22:43.852 -0700
+    Launch Time:     2022-07-02 08:22:42.125 -0700
+    OS Version:      macOS 12.4 (21F79)
+    Report Version:  7
+    Analysis Tool:   /usr/bin/leaks
+
+    Physical footprint:         443.5M
+    Physical footprint (peak):  546.2M
+    ----
+
+    leaks Report Version: 4.0
+    Process 64263: 62375 nodes malloced for 300124 KB
+    Process 64263: 1 leak for 128 total leaked bytes.
+
+        1 (128 bytes) ROOT LEAK: 0x600003b8ea00 [128]  length: 13  "aspeed.sram.2"
+
+With g_autofree:
+
+    $ leaks --atExit --  ./build/qemu-system-arm -machine fby35 -drive file=fby35.mtd,format=raw,if=mtd -device loader,file=Y35BCL.elf,addr=0,cpu-num=2 -serial pty -serial pty -serial mon:stdio -display none -S
+    char device redirected to /dev/ttys007 (label serial0)
+    char device redirected to /dev/ttys009 (label serial1)
+    qemu-system-arm: warning: Aspeed iBT has no chardev backend
+    QEMU 7.0.50 monitor - type 'help' for more information
+    (qemu) q
+    Process:         qemu-system-arm [65015]
+    Path:            /Users/USER/*/qemu-system-arm
+    Load Address:    0x10edf7000
+    Identifier:      qemu-system-arm
+    Version:         ???
+    Code Type:       X86-64
+    Platform:        macOS
+    Parent Process:  leaks [65014]
+
+    Date/Time:       2022-07-02 08:23:13.748 -0700
+    Launch Time:     2022-07-02 08:23:12.285 -0700
+    OS Version:      macOS 12.4 (21F79)
+    Report Version:  7
+    Analysis Tool:   /usr/bin/leaks
+
+    Physical footprint:         438.6M
+    Physical footprint (peak):  547.0M
+    ----
+
+    leaks Report Version: 4.0
+    Process 65015: 62154 nodes malloced for 299904 KB
+    Process 65015: 0 leaks for 0 total leaked bytes.
+
+So I'll send a v2 using g_autofree and g_strdup_printf.
+
 > 
->      [1040/1660] Compiling Objective-C object libcommon.fa.p/ui_cocoa.m.o
->      ../ui/cocoa.m:803:17: warning: variable 'switched_to_fullscreen' set but not used [-Wunused-but-set-variable]
->          static bool switched_to_fullscreen = false;
->                      ^
->      1 warning generated.
-> 
-> I think the behavior is fine if you remove "switched_to_fullscreen", I can
-> still switch in and out of mouse grabbed mode and fullscreen mode with this
-> change, and Command keycodes will only be passed to the guest if the mouse
-> is grabbed, which I think is the right behavior. I'm not sure why a static
-> piece of state was needed to handle that in the first place. Perhaps the
-> refactoring of the flags-state-change fixed that by toggling the Command
-> keycode on.
-> 
-> I tested this with an Ubuntu core image on macOS 12.4
-> 
->      wget https://cdimage.ubuntu.com/ubuntu-core/18/stable/current/ubuntu-core-18-i386.img.xz
->      xz -d ubuntu-core-18-i386.img.xz
->      qemu-system-x86_64 -drive file=ubuntu-core-18.i386.img,format=raw
-> 
-> Fixes: 6d73bb643aa7 ("ui/cocoa: Clear modifiers whenever possible")
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> ---
->   ui/cocoa.m | 8 --------
->   1 file changed, 8 deletions(-)
-> 
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index 84c84e98fc..13e208b037 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -800,7 +800,6 @@ - (bool) handleEventLocked:(NSEvent *)event
->       int buttons = 0;
->       int keycode = 0;
->       bool mouse_event = false;
-> -    static bool switched_to_fullscreen = false;
->       // Location of event in virtual screen coordinates
->       NSPoint p = [self screenLocationOfEvent:event];
->       NSUInteger modifiers = [event modifierFlags];
-> @@ -952,13 +951,6 @@ - (bool) handleEventLocked:(NSEvent *)event
->   
->               // forward command key combos to the host UI unless the mouse is grabbed
->               if (!isMouseGrabbed && ([event modifierFlags] & NSEventModifierFlagCommand)) {
-> -                /*
-> -                 * Prevent the command key from being stuck down in the guest
-> -                 * when using Command-F to switch to full screen mode.
-> -                 */
-> -                if (keycode == Q_KEY_CODE_F) {
-> -                    switched_to_fullscreen = true;
-> -                }
->                   return false;
->               }
->  
+> > 
+> > > 
+> > > 
+> > > Thanks,
+> > > 
+> > > C.
+> > > 
+> > > 
+> > > >       /* IO space */
+> > > >       aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
+> > > > @@ -335,8 +336,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+> > > >       }
+> > > >       /* SRAM */
+> > > > -    memory_region_init_ram(&s->sram, OBJECT(dev), "aspeed.sram",
+> > > > -                           sc->sram_size, &err);
+> > > > +    snprintf(name, sizeof(name), "aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
+> > > > +    memory_region_init_ram(&s->sram, OBJECT(dev), name, sc->sram_size, &err);
+> > > >       if (err) {
+> > > >           error_propagate(errp, err);
+> > > >           return;
+> > > > diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> > > > index 0f675e7fcd..1ddba33d2a 100644
+> > > > --- a/hw/arm/aspeed_soc.c
+> > > > +++ b/hw/arm/aspeed_soc.c
+> > > > @@ -239,6 +239,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+> > > >       AspeedSoCState *s = ASPEED_SOC(dev);
+> > > >       AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+> > > >       Error *err = NULL;
+> > > > +    char name[64];
+> > > >       /* IO space */
+> > > >       aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
+> > > > @@ -259,8 +260,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+> > > >       }
+> > > >       /* SRAM */
+> > > > -    memory_region_init_ram(&s->sram, OBJECT(dev), "aspeed.sram",
+> > > > -                           sc->sram_size, &err);
+> > > > +    snprintf(name, sizeof(name), "aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
+> > > > +    memory_region_init_ram(&s->sram, OBJECT(dev), name, sc->sram_size, &err);
+> > > >       if (err) {
+> > > >           error_propagate(errp, err);
+> > > >           return;
+> > > 
 
