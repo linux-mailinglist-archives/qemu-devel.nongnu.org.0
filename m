@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25467563FF3
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 13:56:28 +0200 (CEST)
-Received: from localhost ([::1]:34346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFDE563DC6
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 04:34:44 +0200 (CEST)
+Received: from localhost ([::1]:53160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7bje-0000iD-MJ
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 07:56:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33770)
+	id 1o7Sy2-0007BG-Rc
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 22:34:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o7SRI-000367-Pd; Fri, 01 Jul 2022 22:00:52 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:37997)
+ id 1o7Swi-0006DN-Ti; Fri, 01 Jul 2022 22:33:20 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:58905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o7SRD-00027P-Ic; Fri, 01 Jul 2022 22:00:52 -0400
+ id 1o7Swg-00041M-Oh; Fri, 01 Jul 2022 22:33:20 -0400
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id E8903580B96;
- Fri,  1 Jul 2022 22:00:42 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id E7B3E580BAD;
+ Fri,  1 Jul 2022 22:33:16 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 01 Jul 2022 22:00:42 -0400
+ by compute1.internal (MEProxy); Fri, 01 Jul 2022 22:33:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm1; t=1656727242; x=1656730842; bh=XVh3xclWtEtqU3hNp2ljoRATZ
- LY/YjsvzV22BVS2zG0=; b=37I/r6H+WAQ/0Kht/oSIb/SYEOJ/AnZ/6QrIWck4C
- sLxPFcpBiPwq8LBj5fbZOaoVUYWz8SAp0GgjgvB/AAeXTBh/QqlJA2q2Uq9Y9p0k
- vEXw9BsqEQ9i34UAf7HEh1idasmNew5u4fqm8m6Gm/yGG6+UGSRGR2j+NsEFUkrb
- OJt36/MiAUblqgCWXPHP9Q41v+kRWgFdz0xiqaGQSzq5u6yZFM1ko+osr6VMwyy4
- LDVESgtMt15Q6Xy2G/ay1rWlF+wDKZgYj3YXzOHeRskGxWDdG9pvQjBtwpgGM2iI
- Z/Dp+vDCpvcPm59U1/uuqD2cl0l6kagbDW+hz0l5UPU2g==
+ s=fm1; t=1656729196; x=1656732796; bh=4jntDv6EJmmeMAXB9duP6bLit
+ no9LepiBzIdU82xNTc=; b=qK25WMWrlCkO+AVqBmc8Y+578gMLy2zI0Lu3eoeEH
+ JDqos7TdMOV3mQbrSrdBE7IttjOcqm110pc2rvCUneP9dPfkbkW1Hvg7wZDmOzaA
+ SZFda7kni04pfSO1hKCWL4KEvHdzu3O4zDcwjxa1mS7QjXbbWZs+Uq3jkH8ZUu8R
+ 32EisqpFlXZ32SOlb8L7O5on9NKCsLvBKXcaqIFbRx6zdtelUNfpo1ULV4b1Z/Lq
+ IkECu/izqIW10NuZkNuSem6khQNSrWOsVRkaI9TmBmab/O0gy8p2/bmQRdFhtslz
+ 67C5a6xzlyV5mxEDss/QsTtMP5eX74ltxCMIEGPfvpCJg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:message-id
  :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2;
- t=1656727242; x=1656730842; bh=XVh3xclWtEtqU3hNp2ljoRATZLY/Yjsv
- zV22BVS2zG0=; b=IBWO7h+d/H+yzIscaah2bsiPf6tCQ1w6x4iVDizZmfvdZO0L
- 7ypJ81fhaPQP0kGxPAtWWBo6f5R6ZpdXIYfFs/uaIcrvQeCak6zeBJ7Y5AIxFl8h
- jKxGUz54rHvWjldKSLc/O/6P9/mCEI4JEJ0xG3nBcKUO2ZnxhYOjbErZMZrhSMjm
- jQ6N/oSF8eaPV5rBKLxb5S3RNvUD9fXC2lvRb88zmsICcE/PIe0RMoId+cfZCAih
- 99j5KZ+fRmcPdl59fA6kn2yR1t5EZRvKYnH8RrfKtPovp7KNHoKsj0W6x4GYPm/7
- XQelIm7fQ0VGLP817rob6gMVvI9kNc13fJ4wKA==
-X-ME-Sender: <xms:yqa_YtDB3tXRMfRnljmfiG4aX0tZYn0CtkJdlLYDcYy6Rf0It1eLIw>
- <xme:yqa_YriBr4UWIfcLIuqJ3WGdW3LgE4h8BoPJuxOlGPxmMucyDbaNJ0rU2lg_ab1gZ
- jbfxKNxeenZRMNT65A>
-X-ME-Received: <xmr:yqa_YonjRbdXXfNZvKW3r8cX2jIwSGBXmIuqISlZ5VbFyJuKMpM6B3mOPLhPcA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgheefucetufdoteggodetrfdotf
+ t=1656729196; x=1656732796; bh=4jntDv6EJmmeMAXB9duP6bLitno9Lepi
+ BzIdU82xNTc=; b=sczlaCkvgmCnwvWncdVrw43gBKSVsK/3DO+V8KfRSuUDqhZn
+ kbas2bS6mq9xp9rhfePjZ0cSe6gIz2F03DP8Yy5vJGYSY8OxlVaYa+fEvBm1DFmI
+ Hxf5wASYSjQZlY4tDGcRklsk1Z1jQTcvN+pD23bLjMGJHe0fIuZCNuHIJCZuHgVE
+ f/2WFdbQh6DFQqH3APpsPADxHtF+yEb3OpH5mYIoDaghjUBaolJ4HbyBMF1c6Z71
+ 4RP69J3AffX6vDnVWbSbFYw+bth4eDpd6ifDpOB/UFo8Zq5GWV31+BmiWLioGAy3
+ HAVqvYbKMq+XQNjPpoDXGnFRW+szGm+F7gygNQ==
+X-ME-Sender: <xms:a66_YpLbLWWbTkBmeX5BX0OsyXYZQyA_d05pg6sjhRMrSH9rwY45XQ>
+ <xme:a66_YlLFWZb0XshKTIkk9twaWHnO_wK85aw9-rqMZfSjy_O44sVjHaw-j_jmMRXyW
+ MaC4jmKOxg-NHpMbIY>
+X-ME-Received: <xmr:a66_YhsIeaYHoYbBFA5kAfqQJ2xA97tzeE5u3uie595r1mJxkJF_Xvr9klk21A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgiedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
- dmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomheprfgvthgv
- rhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrfgrth
- htvghrnhepieegledthedvleehuedtheeufeegtdfgfefgveetleelteeiiedvfeduudej
- ieeknecuffhomhgrihhnpehgihhthhhusgdrtghomhdpmhgvthgrrdgtohhmnecuvehluh
- hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhj
- ugdruggvvh
-X-ME-Proxy: <xmx:yqa_YnxjXqgxjVEPRCB3ws-7gxKKq5q-pz43dMdikPeZjaetNiksYQ>
- <xmx:yqa_YiSIJfgBwaNwIRu4EOEYC2GSyiBcPsuTnO42Q-mQhuv9_bmtXw>
- <xmx:yqa_YqbrYZoqZ6pCoybWEcHjXwmnxHbGJcbq6UOqE1d3ub0VRuR3Bw>
- <xmx:yqa_YgfgocYHoWrL3t8HsHAKdntBN2GhddXQgjD5cSrS4ftdITtmIg>
+ dmnegoteeftdduqddtudculdduhedmnecujfgurhephffvvefufffkofgggfestdekredt
+ redttdenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesph
+ hjugdruggvvheqnecuggftrfgrthhtvghrnhepieegledthedvleehuedtheeufeegtdfg
+ fefgveetleelteeiiedvfeduudejieeknecuffhomhgrihhnpehgihhthhhusgdrtghomh
+ dpmhgvthgrrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+ lhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:a66_YqYhmMabXOA7e-b_e5QrpeDq1BvCR8jRrsTrWcLMYFiJPVNc8A>
+ <xmx:a66_YgY8TXJNxmxfRO7RMM7ao6HpnC9CkfrKtcUnb7CAA2B-a8izug>
+ <xmx:a66_YuCOPhlAJ71kEuawjXd18DrXgamovSYDWQwNGE-faQW0-y_vYw>
+ <xmx:bK6_YnXsqrkMgj74G_1gTPSzgc590U5uPuhyFyG_QUMgpbkmLrPpiw>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 Jul 2022 22:00:41 -0400 (EDT)
+ 1 Jul 2022 22:33:15 -0400 (EDT)
 From: Peter Delevoryas <peter@pjd.dev>
 To: 
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, clg@kaod.org,
- venture@google.com, titusr@google.com
-Subject: [PATCH] hw/i2c/pca954x: Add method to get channels
-Date: Fri,  1 Jul 2022 19:00:40 -0700
-Message-Id: <20220702020040.33858-1-peter@pjd.dev>
+Cc: peter@pjd.dev, titusr@google.com, venture@google.com, clg@kaod.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Subject: [PATCH v2] hw/i2c/pca954x: Add method to get channels
+Date: Fri,  1 Jul 2022 19:33:13 -0700
+Message-Id: <20220702023313.41402-1-peter@pjd.dev>
 X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -85,7 +85,6 @@ X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 02 Jul 2022 07:53:45 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,12 +119,34 @@ https://github.com/torvalds/linux/blob/40cb6373b46/arch/arm/boot/dts/aspeed-bmc-
 
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 ---
+
+Accidentally included fby35.h in v1 while I was working on some other stuff.
+
+Interdiff against v1:
+  diff --git a/include/hw/arm/fby35.h b/include/hw/arm/fby35.h
+  deleted file mode 100644
+  index 1be3ae9a38..0000000000
+  --- a/include/hw/arm/fby35.h
+  +++ /dev/null
+  @@ -1,13 +0,0 @@
+  -/*
+  - * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
+  - *
+  - * This code is licensed under the GPL version 2 or later. See the COPYING
+  - * file in the top-level directory.
+  - */
+  -
+  -#ifndef FBY35_H
+  -#define FBY35_H
+  -
+  -void oby35_cl_soc_i2c_init(AspeedSoCState *s);
+  -
+  -#endif
+
  hw/arm/aspeed.c                  | 29 +++++++++--------------------
  hw/i2c/i2c_mux_pca954x.c         | 10 ++++++++++
- include/hw/arm/fby35.h           | 13 +++++++++++++
  include/hw/i2c/i2c_mux_pca954x.h | 13 +++++++++++++
- 4 files changed, 45 insertions(+), 20 deletions(-)
- create mode 100644 include/hw/arm/fby35.h
+ 3 files changed, 32 insertions(+), 20 deletions(-)
 
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
 index 6fe9b13548..bee8a748ec 100644
@@ -198,25 +219,6 @@ index 3945de795c..6b07804546 100644
  static void pca9546_class_init(ObjectClass *klass, void *data)
  {
      Pca954xClass *s = PCA954X_CLASS(klass);
-diff --git a/include/hw/arm/fby35.h b/include/hw/arm/fby35.h
-new file mode 100644
-index 0000000000..1be3ae9a38
---- /dev/null
-+++ b/include/hw/arm/fby35.h
-@@ -0,0 +1,13 @@
-+/*
-+ * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
-+ *
-+ * This code is licensed under the GPL version 2 or later. See the COPYING
-+ * file in the top-level directory.
-+ */
-+
-+#ifndef FBY35_H
-+#define FBY35_H
-+
-+void oby35_cl_soc_i2c_init(AspeedSoCState *s);
-+
-+#endif
 diff --git a/include/hw/i2c/i2c_mux_pca954x.h b/include/hw/i2c/i2c_mux_pca954x.h
 index 3dd25ec983..3a676a30a9 100644
 --- a/include/hw/i2c/i2c_mux_pca954x.h
