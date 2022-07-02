@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B16563FC6
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 13:38:43 +0200 (CEST)
-Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4910563FD1
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 13:44:36 +0200 (CEST)
+Received: from localhost ([::1]:46074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7bST-0007mB-R7
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 07:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51862)
+	id 1o7bYB-0005NE-Ty
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 07:44:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o7bNm-000338-Mf
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 07:33:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36955)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o7bNp-0003BG-UE
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 07:33:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o7bNk-0007jR-Hu
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 07:33:50 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o7bNn-0007wo-Ut
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 07:33:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656761627;
+ s=mimecast20190719; t=1656761631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BxfLSdJeaqScMeruvLuh/qoohWtLPXnBogvQe9zNGcM=;
- b=Z2NZel2KfcMlE5nBudPMToTU8tClVwmRNrjx+ymE7MAOrPG72i6rnn8AmaZeOtRPkWRHyU
- vnCGbWpBYnPohnXPrEKrqqXgtmMViOnymKJeCxZi0sD8Ob28fm1GxNZAOMKt6dz2nFxTOr
- 1Bz3pdKng2yfMpiHfZTDOSjFovBDaos=
+ bh=4RJMvRmvaUErr26isQn4HMpApGBcAGf31Hfvrw0Nv1E=;
+ b=TdN4w6bmtjOVbG2hFhzcd2Js0+9E4NHw9sX8pIBs3wQmm/NPWmlt5TDYZ6LdN89SWN+Aim
+ zwBGd8kLuRSMDsfQzsJW9OTHR0WvvoIfHx/6WulEpsu5tsw3AdWXrOqHO0fVWszifOdHzL
+ qtV1dYT9EKtPndn6OcNVrlxIvLVmkkU=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-VilpdHhqNECdBKGEMPyw3Q-1; Sat, 02 Jul 2022 07:33:44 -0400
-X-MC-Unique: VilpdHhqNECdBKGEMPyw3Q-1
+ us-mta-97-Irk5VbeEMAeXnJXriob9vg-1; Sat, 02 Jul 2022 07:33:48 -0400
+X-MC-Unique: Irk5VbeEMAeXnJXriob9vg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B0ED1C068E2;
- Sat,  2 Jul 2022 11:33:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A4797380407C;
+ Sat,  2 Jul 2022 11:33:47 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.39.194.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C2D9492C3B;
- Sat,  2 Jul 2022 11:33:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84583492C3B;
+ Sat,  2 Jul 2022 11:33:44 +0000 (UTC)
 From: Alberto Faria <afaria@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
@@ -55,23 +55,24 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
  Markus Armbruster <armbru@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Peter Lieven <pl@kamp.de>, Alberto Faria <afaria@redhat.com>
-Subject: [RFC 2/8] Drop some unused static function return values
-Date: Sat,  2 Jul 2022 12:33:25 +0100
-Message-Id: <20220702113331.2003820-3-afaria@redhat.com>
+Subject: [RFC 3/8] static-analyzer: Enforce coroutine_fn restrictions for
+ direct calls
+Date: Sat,  2 Jul 2022 12:33:26 +0100
+Message-Id: <20220702113331.2003820-4-afaria@redhat.com>
 In-Reply-To: <20220702113331.2003820-1-afaria@redhat.com>
 References: <20220702113331.2003820-1-afaria@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,239 +88,269 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make some non-void static functions whose return values are ignored by
-all callers return void instead.
+Add a static-analyzer.py check ensuring that non-coroutine_fn functions
+don't perform direct calls to coroutine_fn functions.
 
-These functions were found by the shiny new static-analyzer.py. Only a
-few of the reported cases were fixed.
+For the few cases where this must happen, introduce an
+__allow_coroutine_fn_call() macro that wraps offending calls and
+overrides the static analyzer.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
 ---
- block/file-posix.c   |  6 +-----
- block/io.c           | 24 +++++++++++-------------
- block/qcow2-bitmap.c |  6 ++----
- block/quorum.c       |  5 +----
- block/vpc.c          |  9 +++------
- block/vvfat.c        | 11 +++++------
- 6 files changed, 23 insertions(+), 38 deletions(-)
+ include/qemu/coroutine.h |  13 +++
+ static-analyzer.py       | 207 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 220 insertions(+)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 48cd096624..a4641da7f9 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1895,7 +1895,7 @@ static int handle_aiocb_discard(void *opaque)
-  * Returns: 0 on success, -errno on failure. Since this is an optimization,
-  * caller may ignore failures.
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index 08c5bb3c76..40a4037525 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -42,7 +42,20 @@
+  *       ....
+  *   }
   */
--static int allocate_first_block(int fd, size_t max_size)
-+static void allocate_first_block(int fd, size_t max_size)
- {
-     size_t write_size = (max_size < MAX_BLOCKSIZE)
-         ? BDRV_SECTOR_SIZE
-@@ -1903,7 +1903,6 @@ static int allocate_first_block(int fd, size_t max_size)
-     size_t max_align = MAX(MAX_BLOCKSIZE, qemu_real_host_page_size());
-     void *buf;
-     ssize_t n;
--    int ret;
++#ifdef __clang__
++#define coroutine_fn __attribute__((__annotate__("coroutine_fn")))
++#else
+ #define coroutine_fn
++#endif
++
++/**
++ * This can wrap a call to a coroutine_fn from a non-coroutine_fn function and
++ * suppress the static analyzer's complaints.
++ *
++ * You don't want to use this.
++ */
++#define __allow_coroutine_fn_call(call) \
++    ((void)"__allow_coroutine_fn_call", call)
  
-     buf = qemu_memalign(max_align, write_size);
-     memset(buf, 0, write_size);
-@@ -1912,10 +1911,7 @@ static int allocate_first_block(int fd, size_t max_size)
-         n = pwrite(fd, buf, write_size, 0);
-     } while (n == -1 && errno == EINTR);
+ typedef struct Coroutine Coroutine;
  
--    ret = (n == -1) ? -errno : 0;
--
-     qemu_vfree(buf);
--    return ret;
- }
+diff --git a/static-analyzer.py b/static-analyzer.py
+index 010cc92212..8abc552b82 100755
+--- a/static-analyzer.py
++++ b/static-analyzer.py
+@@ -440,6 +440,81 @@ def function_occurrence_might_use_return_value(
+             log(cursor, f"{cursor.spelling}() return value is never used")
  
- static int handle_aiocb_truncate(void *opaque)
-diff --git a/block/io.c b/block/io.c
-index 1e9bf09a49..bbfe94503b 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -934,20 +934,18 @@ void bdrv_dec_in_flight(BlockDriverState *bs)
-     bdrv_wakeup(bs);
- }
  
--static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
-+static void coroutine_fn
-+bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
- {
-     BlockDriverState *bs = self->bs;
--    bool waited = false;
++@check("coroutine-annotation-validity")
++def check_coroutine_annotation_validity(
++    translation_unit: TranslationUnit,
++    translation_unit_path: str,
++    log: Callable[[Cursor, str], None],
++) -> None:
++
++    for [*ancestors, node] in all_paths(translation_unit.cursor):
++
++        # validate annotation usage
++
++        if is_annotation(node, "coroutine_fn") and (
++            ancestors[-1] is None
++            or not is_valid_coroutine_fn_usage(ancestors[-1])
++        ):
++            log(node, "invalid coroutine_fn usage")
++
++        if is_comma_wrapper(
++            node, "__allow_coroutine_fn_call"
++        ) and not is_valid_allow_coroutine_fn_call_usage(node):
++            log(node, "invalid __allow_coroutine_fn_call usage")
++
++        # reject re-declarations with inconsistent annotations
++
++        if node.kind == CursorKind.FUNCTION_DECL:
++
++            def log_annotation_disagreement(annotation: str) -> None:
++                log(
++                    node,
++                    f"{annotation} annotation disagreement with"
++                    f" {format_location(node.canonical)}",
++                )
++
++            if is_coroutine_fn(node) != is_coroutine_fn(node.canonical):
++                log_annotation_disagreement("coroutine_fn")
++
++
++@check("coroutine-calls")
++def check_coroutine_calls(
++    translation_unit: TranslationUnit,
++    translation_unit_path: str,
++    log: Callable[[Cursor, str], None],
++) -> None:
++
++    for caller in subtrees_matching(
++        translation_unit.cursor,
++        lambda n: n.kind == CursorKind.FUNCTION_DECL and n.is_definition(),
++    ):
++
++        caller_is_coroutine = is_coroutine_fn(caller)
++
++        for [*_, call_parent, call] in filter(
++            lambda path: path[-1].kind == CursorKind.CALL_EXPR,
++            all_paths(caller),
++        ):
++
++            # We can get some "calls" that are actually things like top-level
++            # macro invocations.
++            if call.referenced is None:
++                continue
++
++            callee = call.referenced.canonical
++
++            # reject calls from non-coroutine_fn to coroutine_fn
++
++            if (
++                not caller_is_coroutine
++                and is_coroutine_fn(callee)
++                and not is_comma_wrapper(
++                    call_parent, "__allow_coroutine_fn_call"
++                )
++            ):
++                log(call, "non-coroutine_fn function calls coroutine_fn")
++
++
+ # ---------------------------------------------------------------------------- #
+ # Traversal
  
-     if (!qatomic_read(&bs->serialising_in_flight)) {
--        return false;
-+        return;
-     }
+@@ -464,6 +539,138 @@ def aux(node: Cursor) -> Iterable[Sequence[Cursor]]:
+     return aux(root)
  
-     qemu_co_mutex_lock(&bs->reqs_lock);
--    waited = bdrv_wait_serialising_requests_locked(self);
-+    bdrv_wait_serialising_requests_locked(self);
-     qemu_co_mutex_unlock(&bs->reqs_lock);
--
--    return waited;
- }
  
- bool coroutine_fn bdrv_make_request_serialising(BdrvTrackedRequest *req,
-@@ -1689,10 +1687,10 @@ static bool bdrv_init_padding(BlockDriverState *bs,
-     return true;
- }
++# Doesn't traverse yielded subtrees.
++def subtrees_matching(
++    root: Cursor, predicate: Callable[[Cursor], bool]
++) -> Iterable[Cursor]:
++
++    if predicate(root):
++        yield root
++    else:
++        for child in root.get_children():
++            yield from subtrees_matching(child, predicate)
++
++
++# ---------------------------------------------------------------------------- #
++# Node predicates
++
++
++def is_valid_coroutine_fn_usage(parent: Cursor) -> bool:
++    """
++    Check if an occurrence of `coroutine_fn` represented by a node with parent
++    `parent` appears at a valid point in the AST. This is the case if `parent`
++    is:
++
++      - A function declaration/definition, OR
++      - A field/variable/parameter declaration with a function pointer type, OR
++      - A typedef of a function type or function pointer type.
++    """
++
++    if parent.kind == CursorKind.FUNCTION_DECL:
++        return True
++
++    canonical_type = parent.type.get_canonical()
++
++    def parent_type_is_function() -> bool:
++        return canonical_type.kind == TypeKind.FUNCTIONPROTO
++
++    def parent_type_is_function_pointer() -> bool:
++        return (
++            canonical_type.kind == TypeKind.POINTER
++            and canonical_type.get_pointee().kind == TypeKind.FUNCTIONPROTO
++        )
++
++    if parent.kind in [
++        CursorKind.FIELD_DECL,
++        CursorKind.VAR_DECL,
++        CursorKind.PARM_DECL,
++    ]:
++        return parent_type_is_function_pointer()
++
++    if parent.kind == CursorKind.TYPEDEF_DECL:
++        return parent_type_is_function() or parent_type_is_function_pointer()
++
++    return False
++
++
++def is_valid_allow_coroutine_fn_call_usage(node: Cursor) -> bool:
++    """
++    Check if an occurrence of `__allow_coroutine_fn_call()` represented by node
++    `node` appears at a valid point in the AST. This is the case if its right
++    operand is a call to:
++
++      - A function declared with the `coroutine_fn` annotation.
++
++    TODO: Ensure that `__allow_coroutine_fn_call()` is in the body of a
++    non-`coroutine_fn` function.
++    """
++
++    [_, call] = node.get_children()
++
++    if call.kind != CursorKind.CALL_EXPR:
++        return False
++
++    return is_coroutine_fn(call.referenced)
++
++
++def is_coroutine_fn(node: Cursor) -> bool:
++    """
++    Check whether the given `node` should be considered to be `coroutine_fn`.
++
++    This assumes valid usage of `coroutine_fn`.
++    """
++
++    while node.kind in [CursorKind.PAREN_EXPR, CursorKind.UNEXPOSED_EXPR]:
++        children = list(node.get_children())
++        if len(children) == 1:
++            node = children[0]
++        else:
++            break
++
++    return node.kind == CursorKind.FUNCTION_DECL and is_annotated_with(
++        node, "coroutine_fn"
++    )
++
++
++def is_annotated_with(node: Cursor, annotation: str) -> bool:
++    return any(is_annotation(c, annotation) for c in node.get_children())
++
++
++def is_annotation(node: Cursor, annotation: str) -> bool:
++    return node.kind == CursorKind.ANNOTATE_ATTR and node.spelling == annotation
++
++
++# A "comma wrapper" is the pattern `((void)string_literal, expr)`. The `expr` is
++# said to be "comma wrapped".
++def is_comma_wrapper(node: Cursor, literal: str) -> bool:
++
++    # TODO: Do we need to check that the operator is `,`? Is there another
++    # operator that can combine void and an expr?
++
++    if node.kind != CursorKind.BINARY_OPERATOR:
++        return False
++
++    [left, _right] = node.get_children()
++
++    if (
++        left.kind != CursorKind.CSTYLE_CAST_EXPR
++        or left.type.kind != TypeKind.VOID
++    ):
++        return False
++
++    [unexposed_expr] = left.get_children()
++
++    if unexposed_expr.kind != CursorKind.UNEXPOSED_EXPR:
++        return False
++
++    [string_literal] = unexposed_expr.get_children()
++
++    return (
++        string_literal.kind == CursorKind.STRING_LITERAL
++        and string_literal.spelling == f'"{literal}"'
++    )
++
++
+ # ---------------------------------------------------------------------------- #
+ # Utilities handy for development
  
--static int bdrv_padding_rmw_read(BdrvChild *child,
--                                 BdrvTrackedRequest *req,
--                                 BdrvRequestPadding *pad,
--                                 bool zero_middle)
-+static void bdrv_padding_rmw_read(BdrvChild *child,
-+                                  BdrvTrackedRequest *req,
-+                                  BdrvRequestPadding *pad,
-+                                  bool zero_middle)
- {
-     QEMUIOVector local_qiov;
-     BlockDriverState *bs = child->bs;
-@@ -1715,7 +1713,7 @@ static int bdrv_padding_rmw_read(BdrvChild *child,
-         ret = bdrv_aligned_preadv(child, req, req->overlap_offset, bytes,
-                                   align, &local_qiov, 0, 0);
-         if (ret < 0) {
--            return ret;
-+            return;
-         }
-         if (pad->head) {
-             bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_AFTER_HEAD);
-@@ -1738,7 +1736,7 @@ static int bdrv_padding_rmw_read(BdrvChild *child,
-                 req->overlap_offset + req->overlap_bytes - align,
-                 align, align, &local_qiov, 0, 0);
-         if (ret < 0) {
--            return ret;
-+            return;
-         }
-         bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_AFTER_TAIL);
-     }
-@@ -1748,7 +1746,7 @@ zero_mem:
-         memset(pad->buf + pad->head, 0, pad->buf_len - pad->head - pad->tail);
-     }
- 
--    return 0;
-+    return;
- }
- 
- static void bdrv_padding_destroy(BdrvRequestPadding *pad)
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index 8fb4731551..a4e9fe73d4 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -257,14 +257,14 @@ fail:
-     return ret;
- }
- 
--static int free_bitmap_clusters(BlockDriverState *bs, Qcow2BitmapTable *tb)
-+static void free_bitmap_clusters(BlockDriverState *bs, Qcow2BitmapTable *tb)
- {
-     int ret;
-     uint64_t *bitmap_table;
- 
-     ret = bitmap_table_load(bs, tb, &bitmap_table);
-     if (ret < 0) {
--        return ret;
-+        return;
-     }
- 
-     clear_bitmap_table(bs, bitmap_table, tb->size);
-@@ -274,8 +274,6 @@ static int free_bitmap_clusters(BlockDriverState *bs, Qcow2BitmapTable *tb)
- 
-     tb->offset = 0;
-     tb->size = 0;
--
--    return 0;
- }
- 
- /* load_bitmap_data
-diff --git a/block/quorum.c b/block/quorum.c
-index f33f30d36b..9c0fbd79be 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -293,7 +293,7 @@ static void quorum_rewrite_entry(void *opaque)
-     }
- }
- 
--static bool quorum_rewrite_bad_versions(QuorumAIOCB *acb,
-+static void quorum_rewrite_bad_versions(QuorumAIOCB *acb,
-                                         QuorumVoteValue *value)
- {
-     QuorumVoteVersion *version;
-@@ -331,9 +331,6 @@ static bool quorum_rewrite_bad_versions(QuorumAIOCB *acb,
-             qemu_coroutine_enter(co);
-         }
-     }
--
--    /* return true if any rewrite is done else false */
--    return count;
- }
- 
- static void quorum_count_vote(QuorumVotes *votes,
-diff --git a/block/vpc.c b/block/vpc.c
-index 4d8f16e199..bd705cffb0 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -777,11 +777,10 @@ static int coroutine_fn vpc_co_block_status(BlockDriverState *bs,
-  * Note that the geometry doesn't always exactly match total_sectors but
-  * may round it down.
-  *
-- * Returns 0 on success, -EFBIG if the size is larger than 2040 GiB. Override
-- * the hardware EIDE and ATA-2 limit of 16 heads (max disk size of 127 GB)
-- * and instead allow up to 255 heads.
-+ * Override the hardware EIDE and ATA-2 limit of 16 heads (max disk size of 127
-+ * GB) and instead allow up to 255 heads.
-  */
--static int calculate_geometry(int64_t total_sectors, uint16_t *cyls,
-+static void calculate_geometry(int64_t total_sectors, uint16_t *cyls,
-     uint8_t *heads, uint8_t *secs_per_cyl)
- {
-     uint32_t cyls_times_heads;
-@@ -815,8 +814,6 @@ static int calculate_geometry(int64_t total_sectors, uint16_t *cyls,
-     }
- 
-     *cyls = cyls_times_heads / *heads;
--
--    return 0;
- }
- 
- static int create_dynamic_disk(BlockBackend *blk, VHDFooter *footer,
-diff --git a/block/vvfat.c b/block/vvfat.c
-index b2b58d93b8..fba7581427 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -154,9 +154,9 @@ static inline int array_remove_slice(array_t* array,int index, int count)
-     return 0;
- }
- 
--static int array_remove(array_t* array,int index)
-+static void array_remove(array_t* array,int index)
- {
--    return array_remove_slice(array, index, 1);
-+    array_remove_slice(array, index, 1);
- }
- 
- /* return the index for a given member */
-@@ -2967,13 +2967,12 @@ DLOG(checkpoint());
-     return 0;
- }
- 
--static int try_commit(BDRVVVFATState* s)
-+static void try_commit(BDRVVVFATState* s)
- {
-     vvfat_close_current_file(s);
- DLOG(checkpoint());
--    if(!is_consistent(s))
--        return -1;
--    return do_commit(s);
-+    if (is_consistent(s))
-+        do_commit(s);
- }
- 
- static int vvfat_write(BlockDriverState *bs, int64_t sector_num,
 -- 
 2.36.1
 
