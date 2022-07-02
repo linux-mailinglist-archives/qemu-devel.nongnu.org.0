@@ -2,95 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D77563EEA
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 09:43:10 +0200 (CEST)
-Received: from localhost ([::1]:54538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61EFD563F45
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 11:39:51 +0200 (CEST)
+Received: from localhost ([::1]:54264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7XmW-0003jZ-LA
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 03:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47200)
+	id 1o7ZbR-0005Tu-1W
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 05:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <svens@linux.ibm.com>)
- id 1o7XlH-0002zf-1j; Sat, 02 Jul 2022 03:41:51 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31506
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <svens@linux.ibm.com>)
- id 1o7XlE-0005rN-UW; Sat, 02 Jul 2022 03:41:50 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2626hg0O013464;
- Sat, 2 Jul 2022 07:41:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : references : date : in-reply-to : message-id : mime-version :
- content-type; s=pp1; bh=rwbmv12lEZNLdekJIPgnbivYhRP+wu9D5MrrDo8pbNU=;
- b=RO2w67AfAL2bJ34nyV1WFX87DBwwsuyG/qKndB43X5xrk1AXFazLQHHBcTA7aaa5ZEJa
- 9npsukTAlIdBLKbXIoPkoDXkgm12ncaBS4muw07w3MhCEU7DXiCmbXEOkm+cjIOIlxLz
- A0d5GSGcEkmW+H11WwJpUwgvcx2zz/xwy8dk6/oIlyn0ENH1tL01VpbBU32gZ5bYFE8Z
- pT/Bl1kwMLiJ0tn3sodr9vG9QchzCgEVpDTRGfRlBEuToBsZkcFv3a5UY9N0B1muNcyJ
- ZAs64A5qmJXgGXFO+qxEZI06exK0fj+Nxa2DWqtCjHEGGdXfOC1BaWJPH2Hgy0SwRJjo 6w== 
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h2eu8umna-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 02 Jul 2022 07:41:43 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2627ZSVh015315;
- Sat, 2 Jul 2022 07:41:42 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma06ams.nl.ibm.com with ESMTP id 3h2d9j88y1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 02 Jul 2022 07:41:41 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2627fdnB15139078
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 2 Jul 2022 07:41:39 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6C07B4C044;
- Sat,  2 Jul 2022 07:41:39 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 41C154C040;
- Sat,  2 Jul 2022 07:41:39 +0000 (GMT)
-Received: from tuxmaker.linux.ibm.com (unknown [9.152.85.9])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Sat,  2 Jul 2022 07:41:39 +0000 (GMT)
-From: Sven Schnelle <svens@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: Re: [PATCH v2 0/4] target/s390x: Exit tb after executing ex_value
-References: <20220702060228.420454-1-richard.henderson@linaro.org>
-Date: Sat, 02 Jul 2022 09:41:38 +0200
-In-Reply-To: <20220702060228.420454-1-richard.henderson@linaro.org> (Richard
- Henderson's message of "Sat, 2 Jul 2022 11:32:24 +0530")
-Message-ID: <yt9dwncwezbh.fsf@linux.ibm.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1o7ZaL-0004iN-7h
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 05:38:41 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:40884 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1o7ZaG-0006ib-2r
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 05:38:40 -0400
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxSeESEsBiuk0DAA--.10714S2; 
+ Sat, 02 Jul 2022 17:38:26 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, peter.maydell@linaro.org, gaosong@loongson.cn
+Subject: [PATCH] tcg/tci: Fix enable-debug got an error
+Date: Sat,  2 Jul 2022 17:38:26 +0800
+Message-Id: <20220702093826.2207168-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 5JWwxKXawH_0wiWsM3a0fe5IviF0qjTi
-X-Proofpoint-GUID: 5JWwxKXawH_0wiWsM3a0fe5IviF0qjTi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-02_05,2022-06-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- phishscore=0 spamscore=0 clxscore=1015 mlxscore=0 malwarescore=0
- suspectscore=0 mlxlogscore=611 lowpriorityscore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2207020033
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=svens@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9AxSeESEsBiuk0DAA--.10714S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uF1kur4ftw1xuF4rKFy3Jwb_yoW8XFyUpa
+ y8J3WqkFyrJ3yUAwsxZFW8K34UJrnYk3WUC3Z7Gw10vwnFqFWFvw4Yyw43Wr1xXFWUta1F
+ vF929F1YgFWDJaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,15 +58,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+When building tcg configure with --enable-tcg-interpreter and --enable-debug,
+We may got an error:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+In file included from ../tcg/tcg.c:432:
+/root/code/github/soft-qemu/qemu/tcg/tci/tcg-target.c.inc: In function 'tcg_target_init':
+/root/code/github/soft-qemu/qemu/tcg/tci/tcg-target.c.inc:829:9: error: too few arguments to function 'qemu_set_log'
+  829 |         qemu_set_log(strtol(envval, NULL, 0));
+      |         ^~~~~~~~~~~~
+In file included from /root/code/github/soft-qemu/qemu/include/exec/log.h:4,
+                 from ../tcg/tcg.c:61:
+/root/code/github/soft-qemu/qemu/include/qemu/log.h:84:6: note: declared here
+   84 | bool qemu_set_log(int log_flags, Error **errp);
+      |      ^~~~~~~~~~~~
 
-> Ok, version 1 didn't work, so once more with feeling.
-> Can you give it a try, Sven?
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+---
+ tcg/tci/tcg-target.c.inc | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-This seems to work. Thanks a lot!
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 98337c567a..b7c41fe6c3 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -824,9 +824,15 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+ static void tcg_target_init(TCGContext *s)
+ {
+ #if defined(CONFIG_DEBUG_TCG_INTERPRETER)
++    Error *err = NULL;
+     const char *envval = getenv("DEBUG_TCG");
+     if (envval) {
+-        qemu_set_log(strtol(envval, NULL, 0));
++        if (qemu_set_log(strtol(envval, NULL, 0), &err)) {
++            error_report("DEBUG_TCG got an errr, envval %s", envval);
++        }
++        if (err) {
++            g_error_free(err);
++        }
+     }
+ #endif
+ 
+-- 
+2.31.1
 
-Regards
-Sven
 
