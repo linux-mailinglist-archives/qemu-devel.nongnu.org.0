@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B5F563EC4
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 08:10:21 +0200 (CEST)
-Received: from localhost ([::1]:40856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2B1563ECE
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 08:22:04 +0200 (CEST)
+Received: from localhost ([::1]:44564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7WKi-0002wd-KR
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 02:10:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34718)
+	id 1o7WW3-00067I-Fm
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 02:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7WDR-0003Cw-V7
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 02:02:49 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:46843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7WDQ-0004sp-Ga
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 02:02:49 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id q18so4160037pld.13
- for <qemu-devel@nongnu.org>; Fri, 01 Jul 2022 23:02:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Xm7U7AL4nOnjycULzYDw79xiqJVDueo/kCsQJyWcsKU=;
- b=CRCBep4YA3KLJs2P6ugE+pCtNc8XR9Qbbqqp9wpjnIwdl83pbl5GewLVBEkwkxmunQ
- 4I10zr7Ud8e2cZOeUcU2E0UCLsknTdoWFLYYscKRnUe6QP1kUAbynEv5xxB+LtbkpIYo
- C0bTLo5V1Qx/JxSinlXRphvFL+g5AlICgRUWBSFTcQUsFc0vD0M08f4Ef+WjP6WsLHYN
- JoUtNC7tMhevKFv0pxkdtM9tgQmOX4GpDhbNWCKgiOqVO28A4EI0f1uFQDkkYYxAH3Jl
- dF4WSHY6qhQ8K1nq5aDFrh4KeVdSXnmcjj52nnY8ia8LgkgArfzMczCe/UPHEMoWL/Rd
- p48A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Xm7U7AL4nOnjycULzYDw79xiqJVDueo/kCsQJyWcsKU=;
- b=J8qR9gA1P/o8gtz8EiBGO/3sTH8DtzQr8sUIKASCrtWgaJ/vbxGTu1TZLxHX7uIj80
- zOdTOoE+pp5MJT9vY/01gj53R7nARFE0Y1Qbqwfsd0gqmdM0LiYD/jlYWwamIkBv48AO
- +U8XZ4tDjZUwEiedpBT0jNHcCDIowbc7qdYXPjNBzBTDMPwsQN+LeA8chbRauTFLj1S5
- g5Ves4lkzE4a4dMu4CqziT5dEJdz9WqaWZOB796Qenmh1rYI4DNWm2ygF/bkzERAKWa/
- y/Odjjx1pFmrTgIxErh2VUuHj0G77HPA/8o7i7jkA6fvToDPTJDwM9pmLcnlRX5Yi3YQ
- MOtA==
-X-Gm-Message-State: AJIora/gc7mwN93KyM6M3UNNxmqvU88P3+7tfIETHl36f41/Dm1kVsyd
- bFVPzwgP5ri1TDYEsDDUmcz/2BLwwKzGrxaI
-X-Google-Smtp-Source: AGRyM1tXQsE4D8TgBSawG7gDe8vvP9FBiZJlSgqT6gIXG4a7MIC75SdWENP7TFN4rE6mssBpjvqn/A==
-X-Received: by 2002:a17:902:8216:b0:16a:6376:ef81 with SMTP id
- x22-20020a170902821600b0016a6376ef81mr25273603pln.2.1656741767190; 
- Fri, 01 Jul 2022 23:02:47 -0700 (PDT)
-Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- z2-20020a17090a66c200b001ece55b938asm5232178pjl.32.2022.07.01.23.02.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Jul 2022 23:02:46 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: svens@linux.ibm.com,
-	qemu-s390x@nongnu.org
-Subject: [PATCH v2 4/4] target/s390x: Exit tb after executing ex_value
-Date: Sat,  2 Jul 2022 11:32:28 +0530
-Message-Id: <20220702060228.420454-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220702060228.420454-1-richard.henderson@linaro.org>
-References: <20220702060228.420454-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o7WUK-0005Bb-U0; Sat, 02 Jul 2022 02:20:16 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:43953)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o7WUI-0004Jt-4L; Sat, 02 Jul 2022 02:20:16 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.132])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 9E937113919AF;
+ Sat,  2 Jul 2022 08:20:10 +0200 (CEST)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Sat, 2 Jul 2022
+ 08:20:10 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G00483d10783-d699-4259-b7dc-1cea3fb70cf6,
+ FB2626423410402F5F47B43F186DFD06AD25B17E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <dd2710cb-cdbf-da9b-9557-07c5234ed5fe@kaod.org>
+Date: Sat, 2 Jul 2022 08:20:09 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 4/9] target/ppc: use g_autofree in kvmppc_read_int_cpu_dt()
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+CC: <qemu-ppc@nongnu.org>
+References: <20220630194249.886747-1-danielhb413@gmail.com>
+ <20220630194249.886747-5-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220630194249.886747-5-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: e750488c-431b-4fd8-9097-6449ae9c1498
+X-Ovh-Tracer-Id: 16400420995681192925
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleelieeigfekfeeitddvieegteeuteekffekleehuefgteetgedvkefghefggfeknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvle
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,31 +74,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When EXECUTE sets ex_value to interrupt the constructed instruction,
-we implicitly disable interrupts so that the value is not corrupted.
-Exit to the main loop after execution, so that we re-evaluate any
-pending interrupts.
+On 6/30/22 21:42, Daniel Henrique Barboza wrote:
+> This spares us a g_free() call. Let's also not use 'val' and return the
+> value of kvmppc_read_int_dt() directly.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   target/ppc/kvm.c | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 7611e9ccf6..c218380eb7 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -1932,8 +1932,8 @@ static uint64_t kvmppc_read_int_dt(const char *filename, Error **errp)
+>    */
+>   static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
+>   {
+> -    char buf[PATH_MAX], *tmp;
+> -    uint64_t val;
+> +    g_autofree char *tmp = NULL;
 
-Reported-by: Sven Schnelle <svens@linux.ibm.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/s390x/tcg/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think you need to assign g_autofree variables where they are declared.
 
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index eac59c3dd1..e2ee005671 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -6593,7 +6593,7 @@ static void s390x_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- 
-     dc->cc_op = CC_OP_DYNAMIC;
-     dc->ex_value = dc->base.tb->cs_base;
--    dc->exit_to_mainloop = (dc->base.tb->flags & FLAG_MASK_PER);
-+    dc->exit_to_mainloop = (dc->base.tb->flags & FLAG_MASK_PER) || dc->ex_value;
- }
- 
- static void s390x_tr_tb_start(DisasContextBase *db, CPUState *cs)
--- 
-2.34.1
+C.
+
+> +    char buf[PATH_MAX];
+>   
+>       if (kvmppc_find_cpu_dt(buf, sizeof(buf))) {
+>           error_setg(errp, "Failed to read CPU property %s", propname);
+> @@ -1941,10 +1941,8 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
+>       }
+>   
+>       tmp = g_strdup_printf("%s/%s", buf, propname);
+> -    val = kvmppc_read_int_dt(tmp, errp);
+> -    g_free(tmp);
+>   
+> -    return val;
+> +    return kvmppc_read_int_dt(tmp, errp);
+>   }
+>   
+>   uint64_t kvmppc_get_clockfreq(void)
 
 
