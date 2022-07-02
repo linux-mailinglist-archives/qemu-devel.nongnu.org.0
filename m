@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697C2564061
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 15:31:50 +0200 (CEST)
-Received: from localhost ([::1]:39456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2B1564060
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 15:31:11 +0200 (CEST)
+Received: from localhost ([::1]:37508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7dDx-0004Y4-Gd
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 09:31:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41244)
+	id 1o7dDK-0003Er-SF
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 09:31:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o7dAb-0000Qf-EC; Sat, 02 Jul 2022 09:28:21 -0400
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:35462)
+ id 1o7dB7-0001ES-CX; Sat, 02 Jul 2022 09:28:53 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:44699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o7dAZ-00006m-Oq; Sat, 02 Jul 2022 09:28:21 -0400
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-10be0d7476aso236148fac.2; 
- Sat, 02 Jul 2022 06:28:19 -0700 (PDT)
+ id 1o7dB5-00009f-R0; Sat, 02 Jul 2022 09:28:53 -0400
+Received: by mail-oi1-x230.google.com with SMTP id h65so7117599oia.11;
+ Sat, 02 Jul 2022 06:28:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=JFeQwgfCxPWKFYMMVp+A+9YMXdD5H8W7+WZg0KaCAYI=;
- b=fMywRxaSoNjfEasyAERnJBV9DLRdY6+WMHkoTSYkNGRGnBuHZfMWINZU/Qrowp2OaB
- yrDMfu0IsCvjcQ4DTg+Zcw6mHjtJm0aBC+qZbWqldjFayoA2Bmxk2otfXLgQblGREcBU
- cz1UpNO5QLuz4/S/rLDqDlON86ABNLOECpmzjXDAuK1+u5XWaHDDZvIeoX6eiofHM7L+
- 6oInOA6596CvvJmjzcA6vrkL1bO56q2tA4M/A9PNDAkOxRZRCj62fU0MKaSk4k7ny3Sx
- AK83IFh5BZ44YMdf6XP+dnEwNa9TXCCeHfNsjnk5GRB0x5XgfVZ8UY4bFUPlXlRbRr93
- XlTg==
+ bh=q+HFFCz+qq/vCwZHOc3oYdQjmCyNUleQKZgBgaEY2T8=;
+ b=KfN07DzczliNOWRtCDdWyLl7Lf30ucc0ed42HrnPXhQE7v7mirTOOgkrc9It1/BGOO
+ 2sTiWuynozDNM9VQAZtmZ8VcdN+1tlfzHvIbZYrLEod4RehY//enytorBBbY0d478fGy
+ 33z+ogu4gpLaue1oJ6IcRtjMwcUWFAQ95kfNl25aJ8c42Mrf9YWLv/UVaT/51Zvz7hFK
+ psgfKBqP6z+4hdFd8vHKihmsbxZds/XoKKd5KTl5o7qE7WF3b2ClS5GpFTaq13Pc6cxF
+ v7boDb3yV2d4Fc/2KgugfcyJiwvbysUiblImXEONLAU7PBjxl6aCkzvqkXlNZajpzFds
+ Zr7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JFeQwgfCxPWKFYMMVp+A+9YMXdD5H8W7+WZg0KaCAYI=;
- b=r36GWXOvJmB2rBh3EeodDdhbbl2hcxDE1u7pyNBm+wQCErlOgCo8WmfTFrBroq4LG0
- Ep+4KbuK3QekgGlWI6yunybcKXPoUPocTdDnuTfhAjCYgMVgnBds/FQXaYs+BAzg5d73
- x81ngC4CtlqPYe27HCVKQq0qDClVc9XPCBxqvu0nkMtP0dqpj1n+5xSIP0RMOTKlIa6H
- 6EqrX8f5a1YVb27vY8nPaESoshlIjNBXwl/XmslYAR5IWUHqxkxrvUCv7U2XcwGvdFj6
- 0vzt9nzqqPWoxFKSh5EUyTHXs9SXZs065uUeaMWngYsvDBsdquqOcxBkk7jJRjfyAlIv
- f67w==
-X-Gm-Message-State: AJIora+7J3AUpx0kHJKjw4SwyH78g4Ipu3oXus+szh5YAUoR9L4mtbdt
- 9VLjyZIcC4iwM5uL8suAa/4=
-X-Google-Smtp-Source: AGRyM1s1340ce/+pZEVmP+E6nls1YNkDWcCTKNzq/a1VTblZJKxeu3uzi/SU0esAO2k4RNZ4pzNzUg==
-X-Received: by 2002:a05:6870:e60e:b0:101:344:1c36 with SMTP id
- q14-20020a056870e60e00b0010103441c36mr11015693oag.34.1656768498482; 
- Sat, 02 Jul 2022 06:28:18 -0700 (PDT)
+ bh=q+HFFCz+qq/vCwZHOc3oYdQjmCyNUleQKZgBgaEY2T8=;
+ b=A1qPaEuKH+LF0Cb/AYuV/2CiPNqjjn01ajQTSSNc7QVXtbcfUyjR0+3JoDL1l05cOV
+ uyi+YihRUI+AKX2xvdSJ2erWJMzAa2mOZ4xEnhAojbjcthYkRgXgsdXLZOSPB/jwMFfq
+ JXIC51X0TxciQgTFdGanUiygRwSbvEyuVjbj+0TbVQmLRuChZbiuSzk5usXw+Zad29wn
+ YuBvabRwYGsjYfdLSt75qORZFOEPUk4S8XbnfSLDzfQyW9iPcP3JpCFl1BNF7rr0ESEO
+ 78OP4jYqKFchqrBxfmkkBFdKkkNuO+F0LnZrM/rbP+EPK0cH9hVI+pn8UHeHJoqxxQgQ
+ 6IzA==
+X-Gm-Message-State: AJIora8NFc740FlKQWVSmdjSOpHRxCCM9pugfDOJG7a3rVRLbpEFL8S7
+ gdDEugf0BEaVQOploCyYaw4=
+X-Google-Smtp-Source: AGRyM1tbaGzqJHA3W2M+YtSAcP2Q9h/K6Tn4U6sb5riOxmxx2rf8o7fsO2/Up1nJEpNgdYTHD687pA==
+X-Received: by 2002:aca:b744:0:b0:32f:4c19:cec1 with SMTP id
+ h65-20020acab744000000b0032f4c19cec1mr11676748oif.43.1656768530271; 
+ Sat, 02 Jul 2022 06:28:50 -0700 (PDT)
 Received: from [192.168.10.102] ([191.193.1.105])
  by smtp.gmail.com with ESMTPSA id
- d8-20020a056870e24800b000e686d13883sm16852594oac.29.2022.07.02.06.28.15
+ l6-20020a544106000000b0033353cfd4acsm12225007oic.52.2022.07.02.06.28.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Jul 2022 06:28:18 -0700 (PDT)
-Message-ID: <4a7ea10b-9479-1ba7-5caa-f62493163913@gmail.com>
-Date: Sat, 2 Jul 2022 10:28:14 -0300
+ Sat, 02 Jul 2022 06:28:49 -0700 (PDT)
+Message-ID: <d6292a36-2636-f089-035d-f9a88ba3c5f3@gmail.com>
+Date: Sat, 2 Jul 2022 10:28:46 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v2] target/ppc: Return default CPU for max CPU
+Subject: Re: [PATCH v3 00/11] target/ppc: BCDA and mffscdrn implementations
 Content-Language: en-US
-To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- mopsfelder@gmail.com, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, "Matheus K . Ferst"
- <matheus.ferst@eldorado.org.br>, Thomas Huth <thuth@redhat.com>,
- Fabiano Rosas <farosas@linux.ibm.com>
-References: <20220628205513.81917-1-muriloo@linux.ibm.com>
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ richard.henderson@linaro.org, matheus.ferst@eldorado.org.br
+References: <20220629162904.105060-1-victor.colombo@eldorado.org.br>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220628205513.81917-1-muriloo@linux.ibm.com>
+In-Reply-To: <20220629162904.105060-1-victor.colombo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -99,84 +95,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 6/28/22 17:55, Murilo Opsfelder Araujo wrote:
-> All ppc CPUs represent hardware that exists in the real world, i.e.: we
-> do not have a "max" CPU with all possible emulated features enabled.
-> Return the default CPU type for the machine because that has greater
-> chance of being useful as the "max" CPU.
+On 6/29/22 13:28, Víctor Colombo wrote:
+> Hello everyone,
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1038
-> Cc: Cédric Le Goater <clg@kaod.org>
-> Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Greg Kurz <groug@kaod.org>
-> Cc: Matheus K. Ferst <matheus.ferst@eldorado.org.br>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> ---
+> Set of patches containing implementations for some instructions that
+> were missing before. Also, moves some related instructions to
+> decodetree. Add mffsce test.
 
 Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 
 Daniel
 
+> 
+> v3:
+> - Rebase on master
+> - Add r-b
+> 
 > v2:
-> - Return the default CPU of the machine instead of hard-coded alias.
+> - Added R-b on patches 1, 8, 10, and 11. Dropped the R-b on some
+>    of the patches as there were big changes on them.
+> - Fixed addg6s issues
+> - Separated do_mffsc in two different, more specialized functions
+> - Changed mffs* patches order to make it more readable, as suggested
+>    by Richard
+> - Added a new patch with a test for the mffsce instruction
 > 
-> v1: https://lore.kernel.org/qemu-devel/20220531172711.94564-1-muriloo@linux.ibm.com/
+> Matheus Ferst (4):
+>    target/ppc: Add flag for ISA v2.06 BCDA instructions
+>    target/ppc: implement addg6s
+>    target/ppc: implement cbcdtd
+>    target/ppc: implement cdtbcd
 > 
->   target/ppc/cpu-models.c |  1 -
->   target/ppc/cpu_init.c   | 19 +++++++++++++++++++
->   2 files changed, 19 insertions(+), 1 deletion(-)
+> Víctor Colombo (7):
+>    target/ppc: Fix insn32.decode style issues
+>    target/ppc: Move mffscrn[i] to decodetree
+>    target/ppc: Move mffsce to decodetree
+>    target/ppc: Move mffsl to decodetree
+>    target/ppc: Move mffs[.] to decodetree
+>    target/ppc: Implement mffscdrn[i] instructions
+>    tests/tcg/ppc64: Add mffsce test
 > 
-> diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
-> index 976be5e0d1..05589eb21d 100644
-> --- a/target/ppc/cpu-models.c
-> +++ b/target/ppc/cpu-models.c
-> @@ -879,7 +879,6 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
->       { "755", "755_v2.8" },
->       { "goldfinger", "755_v2.8" },
->       { "7400", "7400_v2.9" },
-> -    { "max", "7400_v2.9" },
->       { "g4",  "7400_v2.9" },
->       { "7410", "7410_v1.4" },
->       { "nitro", "7410_v1.4" },
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index c16cb8dbe7..8ee0b7c785 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -47,6 +47,10 @@
->   #include "spr_common.h"
->   #include "power8-pmu.h"
->   
-> +#ifndef CONFIG_USER_ONLY
-> +#include "hw/boards.h"
-> +#endif
-> +
->   /* #define PPC_DEBUG_SPR */
->   /* #define USE_APPLE_GDB */
->   
-> @@ -6963,6 +6967,21 @@ static ObjectClass *ppc_cpu_class_by_name(const char *name)
->           }
->       }
->   
-> +    /*
-> +     * All ppc CPUs represent hardware that exists in the real world, i.e.: we
-> +     * do not have a "max" CPU with all possible emulated features enabled.
-> +     * Return the default CPU type for the machine because that has greater
-> +     * chance of being useful as the "max" CPU.
-> +     */
-> +#if !defined(CONFIG_USER_ONLY)
-> +    if (strcmp(name, "max") == 0) {
-> +        MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
-> +        if (mc) {
-> +            return object_class_by_name(mc->default_cpu_type);
-> +        }
-> +    }
-> +#endif
-> +
->       cpu_model = g_ascii_strdown(name, -1);
->       p = ppc_cpu_lookup_alias(cpu_model);
->       if (p) {
+>   target/ppc/cpu.h                           |   5 +-
+>   target/ppc/cpu_init.c                      |  10 +-
+>   target/ppc/dfp_helper.c                    |  65 +++++++
+>   target/ppc/helper.h                        |   2 +
+>   target/ppc/insn32.decode                   |  55 ++++--
+>   target/ppc/internal.h                      |   3 -
+>   target/ppc/translate/fixedpoint-impl.c.inc |  51 ++++++
+>   target/ppc/translate/fp-impl.c.inc         | 203 ++++++++++++---------
+>   target/ppc/translate/fp-ops.c.inc          |   9 -
+>   tests/tcg/ppc64/Makefile.target            |   1 +
+>   tests/tcg/ppc64le/Makefile.target          |   1 +
+>   tests/tcg/ppc64le/mffsce.c                 |  37 ++++
+>   12 files changed, 322 insertions(+), 120 deletions(-)
+>   create mode 100644 tests/tcg/ppc64le/mffsce.c
+> 
 
