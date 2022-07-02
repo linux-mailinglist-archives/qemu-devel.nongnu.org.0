@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A3656406B
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 15:43:25 +0200 (CEST)
-Received: from localhost ([::1]:46926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 014FE56406F
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 15:49:14 +0200 (CEST)
+Received: from localhost ([::1]:49722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7dP9-0001lv-M4
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 09:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43322)
+	id 1o7dUn-000477-4A
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 09:49:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1o7dOH-0000yU-3J; Sat, 02 Jul 2022 09:42:29 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:37248 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1o7dOE-0006UE-Am; Sat, 02 Jul 2022 09:42:28 -0400
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowAB3fw8zS8Bi19w0Cw--.61050S2;
- Sat, 02 Jul 2022 21:42:13 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH] target/riscv: fix csr check for cycle{h}, instret{h}, time{h},
- hpmcounter3~31{h}
-Date: Sat,  2 Jul 2022 21:41:49 +0800
-Message-Id: <20220702134149.14384-1-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: qwCowAB3fw8zS8Bi19w0Cw--.61050S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxWryUWFW3XFyfXw1rJF4kXrb_yoW5uw1kp3
- W3tay3KrWkZr9rCa9rJ3WUGr18Zr97Way5G3yrG3W0kw45XFs8Wa4Dur4Utas5tr98twsF
- gr1UWa93ZF4UWa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUym14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
- 6r4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
- 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48J
- MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
- AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
- 0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
- v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
- 14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o7dTk-0003M7-PZ
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 09:48:08 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:36715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o7dTi-0007N4-Dw
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 09:48:07 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ c6-20020a17090abf0600b001eee794a478so9132851pjs.1
+ for <qemu-devel@nongnu.org>; Sat, 02 Jul 2022 06:48:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=CgtQxaAtmlz0QkUhDyN89ZKUe1cS4IJlhrnD7X28Q/E=;
+ b=MjlIxvWRjZQjXqQJrHBGzAgLJ/IGHcwbaR7RkT4eSHEEcqXrReV2Kp/Ioix1Otm+xL
+ B0Z/a3c3cHBAANGq2/dZMjNflVBNA2lIxESuMjs3K0ciS21vg/2rzn2iV1GKieug7AVS
+ X/cPE/sAVC/1f0xZp46DOPflOqJ3fjd7qZicZyuRKqE/fxpffrYPNL5Ceu8krxo7sIkC
+ jKWT0PcrQulr8BlQBzakMMS27I2o+DPUg2tKhSSdO9cWDT2wCbHZJN38jyW5+t+2EfIC
+ D3N4upJUIX5F27u04J9vLqf1KEtR8wtqELd52iCwpMMdJo83T5Cxo5btI1OBBG8imoUz
+ mWzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=CgtQxaAtmlz0QkUhDyN89ZKUe1cS4IJlhrnD7X28Q/E=;
+ b=PHX+L5GbBIiVPKYANBKyCmTKNAKH/sgY/csm2BiU60zVsZn6JarcKM+yCd0JofIbyY
+ Ruz7eUYx2o57+qLyasJWogk6bhmBmqFIHefqFg/8WhK1fbPiGJMkyXWacP/OTUOD1g4o
+ Ivmd7WgRGgyRWB1Hi767V1CpefEYQMiXJqdrszFeVV/rFwiNtEX9JmrvQW9OG+KQzUbf
+ gc3HXWVb5n2H9m7KMtkijwcO1pKrrSYujA3Ugppkq1vT08na+z3xTgAd1pn8ZA/pMYAu
+ R1bP7cCvHGMerjudbfNdbw2fK5rKmS3KKux6rlyL+9ZKvzdGx/mgreVOoNAeXZMNZjTc
+ ogrw==
+X-Gm-Message-State: AJIora+RPDqg10AZDpyFO89mIWDGfVwOGN8E1ZD14iq/QAKhpWX/3iM6
+ vNDkWO0glDBUJiY35fXL3VF8NQ==
+X-Google-Smtp-Source: AGRyM1vZdkGp9EHAWx+8BwYr0Qskh1gT5GlHZdlZpiLrtfpFxau/hgchlW6Nkd7v2TZ8wpLzq/L7Zw==
+X-Received: by 2002:a17:90b:1b41:b0:1ec:747c:5d1 with SMTP id
+ nv1-20020a17090b1b4100b001ec747c05d1mr25011857pjb.213.1656769684739; 
+ Sat, 02 Jul 2022 06:48:04 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ y67-20020a626446000000b0051bd9981cacsm17724284pfb.123.2022.07.02.06.48.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 02 Jul 2022 06:48:03 -0700 (PDT)
+Message-ID: <6af2c2e1-904d-5379-e051-e9a5f8fd1350@linaro.org>
+Date: Sat, 2 Jul 2022 19:17:57 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/5] target/arm: Fix code style issues in debug helper
+ functions
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220630194116.3438513-1-peter.maydell@linaro.org>
+ <20220630194116.3438513-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220630194116.3438513-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,110 +95,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- improve the field extract progress
-- add stand-alone check for mcuonteren when in less-privileged mode
-- add check for scounteren when 'S' is enabled and current priv is PRV_U
+On 7/1/22 01:11, Peter Maydell wrote:
+> Before moving debug system register helper functions to a
+> different file, fix the code style issues (mostly block
+> comment syntax) so checkpatch doesn't complain about the
+> code-motion patch.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/helper.c | 58 +++++++++++++++++++++++++++++----------------
+>   1 file changed, 38 insertions(+), 20 deletions(-)
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- target/riscv/csr.c | 76 ++++++++++++++--------------------------------
- 1 file changed, 22 insertions(+), 54 deletions(-)
-
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 6dbe9b541f..a4719cbf35 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -72,66 +72,34 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
- #if !defined(CONFIG_USER_ONLY)
-     CPUState *cs = env_cpu(env);
-     RISCVCPU *cpu = RISCV_CPU(cs);
-+    uint32_t field = 0;
- 
-     if (!cpu->cfg.ext_counters) {
-         /* The Counters extensions is not enabled */
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    if (riscv_cpu_virt_enabled(env)) {
--        switch (csrno) {
--        case CSR_CYCLE:
--            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
--                get_field(env->mcounteren, COUNTEREN_CY)) {
--                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--            }
--            break;
--        case CSR_TIME:
--            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
--                get_field(env->mcounteren, COUNTEREN_TM)) {
--                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--            }
--            break;
--        case CSR_INSTRET:
--            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
--                get_field(env->mcounteren, COUNTEREN_IR)) {
--                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--            }
--            break;
--        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
--            if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER3)) &&
--                get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3))) {
--                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--            }
--            break;
--        }
--        if (riscv_cpu_mxl(env) == MXL_RV32) {
--            switch (csrno) {
--            case CSR_CYCLEH:
--                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
--                    get_field(env->mcounteren, COUNTEREN_CY)) {
--                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--                }
--                break;
--            case CSR_TIMEH:
--                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
--                    get_field(env->mcounteren, COUNTEREN_TM)) {
--                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--                }
--                break;
--            case CSR_INSTRETH:
--                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
--                    get_field(env->mcounteren, COUNTEREN_IR)) {
--                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--                }
--                break;
--            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
--                if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER3H)) &&
--                    get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3H))) {
--                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--                }
--                break;
--            }
-+    if (csrno <= CSR_HPMCOUNTER31 && csrno >= CSR_CYCLE) {
-+        field = 1 << (csrno - CSR_CYCLE);
-+    } else if (riscv_cpu_mxl(env) == MXL_RV32 && csrno <= CSR_HPMCOUNTER31H &&
-+               csrno >= CSR_CYCLEH) {
-+        field = 1 << (csrno - CSR_CYCLEH);
-+    }
-+
-+    if (env->priv < PRV_M && !get_field(env->mcounteren, field)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    if (riscv_cpu_virt_enabled(env) && !get_field(env->hcounteren, field)) {
-+        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+    }
-+
-+    if (riscv_has_ext(env, RVS) && env->priv == PRV_U &&
-+        !get_field(env->scounteren, field)) {
-+        if (riscv_cpu_virt_enabled(env)) {
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        } else {
-+            return RISCV_EXCP_ILLEGAL_INST;
-         }
-     }
- #endif
--- 
-2.17.1
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
