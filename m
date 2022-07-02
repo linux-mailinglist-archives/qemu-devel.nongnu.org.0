@@ -2,68 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95332563D9A
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 03:50:31 +0200 (CEST)
-Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25467563FF3
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 13:56:28 +0200 (CEST)
+Received: from localhost ([::1]:34346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7SHF-0001Od-RK
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jul 2022 21:50:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60504)
+	id 1o7bje-0000iD-MJ
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 07:56:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
- id 1o7SFv-0000EL-8g
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 21:49:07 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:41924 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maobibo@loongson.cn>) id 1o7SFs-0000Sv-NO
- for qemu-devel@nongnu.org; Fri, 01 Jul 2022 21:49:07 -0400
-Received: from [10.20.42.170] (unknown [10.20.42.170])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv+Pno79ii4sCAA--.8113S3;
- Sat, 02 Jul 2022 09:48:24 +0800 (CST)
-Message-ID: <9db0a8ae-8412-339d-f5ff-0c4264678897@loongson.cn>
-Date: Sat, 2 Jul 2022 09:48:23 +0800
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1o7SRI-000367-Pd; Fri, 01 Jul 2022 22:00:52 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:37997)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1o7SRD-00027P-Ic; Fri, 01 Jul 2022 22:00:52 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E8903580B96;
+ Fri,  1 Jul 2022 22:00:42 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Fri, 01 Jul 2022 22:00:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1656727242; x=1656730842; bh=XVh3xclWtEtqU3hNp2ljoRATZ
+ LY/YjsvzV22BVS2zG0=; b=37I/r6H+WAQ/0Kht/oSIb/SYEOJ/AnZ/6QrIWck4C
+ sLxPFcpBiPwq8LBj5fbZOaoVUYWz8SAp0GgjgvB/AAeXTBh/QqlJA2q2Uq9Y9p0k
+ vEXw9BsqEQ9i34UAf7HEh1idasmNew5u4fqm8m6Gm/yGG6+UGSRGR2j+NsEFUkrb
+ OJt36/MiAUblqgCWXPHP9Q41v+kRWgFdz0xiqaGQSzq5u6yZFM1ko+osr6VMwyy4
+ LDVESgtMt15Q6Xy2G/ay1rWlF+wDKZgYj3YXzOHeRskGxWDdG9pvQjBtwpgGM2iI
+ Z/Dp+vDCpvcPm59U1/uuqD2cl0l6kagbDW+hz0l5UPU2g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2;
+ t=1656727242; x=1656730842; bh=XVh3xclWtEtqU3hNp2ljoRATZLY/Yjsv
+ zV22BVS2zG0=; b=IBWO7h+d/H+yzIscaah2bsiPf6tCQ1w6x4iVDizZmfvdZO0L
+ 7ypJ81fhaPQP0kGxPAtWWBo6f5R6ZpdXIYfFs/uaIcrvQeCak6zeBJ7Y5AIxFl8h
+ jKxGUz54rHvWjldKSLc/O/6P9/mCEI4JEJ0xG3nBcKUO2ZnxhYOjbErZMZrhSMjm
+ jQ6N/oSF8eaPV5rBKLxb5S3RNvUD9fXC2lvRb88zmsICcE/PIe0RMoId+cfZCAih
+ 99j5KZ+fRmcPdl59fA6kn2yR1t5EZRvKYnH8RrfKtPovp7KNHoKsj0W6x4GYPm/7
+ XQelIm7fQ0VGLP817rob6gMVvI9kNc13fJ4wKA==
+X-ME-Sender: <xms:yqa_YtDB3tXRMfRnljmfiG4aX0tZYn0CtkJdlLYDcYy6Rf0It1eLIw>
+ <xme:yqa_YriBr4UWIfcLIuqJ3WGdW3LgE4h8BoPJuxOlGPxmMucyDbaNJ0rU2lg_ab1gZ
+ jbfxKNxeenZRMNT65A>
+X-ME-Received: <xmr:yqa_YonjRbdXXfNZvKW3r8cX2jIwSGBXmIuqISlZ5VbFyJuKMpM6B3mOPLhPcA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgheefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
+ dmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomheprfgvthgv
+ rhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrfgrth
+ htvghrnhepieegledthedvleehuedtheeufeegtdfgfefgveetleelteeiiedvfeduudej
+ ieeknecuffhomhgrihhnpehgihhthhhusgdrtghomhdpmhgvthgrrdgtohhmnecuvehluh
+ hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhj
+ ugdruggvvh
+X-ME-Proxy: <xmx:yqa_YnxjXqgxjVEPRCB3ws-7gxKKq5q-pz43dMdikPeZjaetNiksYQ>
+ <xmx:yqa_YiSIJfgBwaNwIRu4EOEYC2GSyiBcPsuTnO42Q-mQhuv9_bmtXw>
+ <xmx:yqa_YqbrYZoqZ6pCoybWEcHjXwmnxHbGJcbq6UOqE1d3ub0VRuR3Bw>
+ <xmx:yqa_YgfgocYHoWrL3t8HsHAKdntBN2GhddXQgjD5cSrS4ftdITtmIg>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 1 Jul 2022 22:00:41 -0400 (EDT)
+From: Peter Delevoryas <peter@pjd.dev>
+To: 
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, clg@kaod.org,
+ venture@google.com, titusr@google.com
+Subject: [PATCH] hw/i2c/pca954x: Add method to get channels
+Date: Fri,  1 Jul 2022 19:00:40 -0700
+Message-Id: <20220702020040.33858-1-peter@pjd.dev>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] hw/intc: loongarch_pch_msi: Fix msi vector convertion
-Content-Language: en-US
-From: maobibo <maobibo@loongson.cn>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>, 
- qemu-devel@nongnu.org
-References: <20220701030740.2469162-1-maobibo@loongson.cn>
-In-Reply-To: <20220701030740.2469162-1-maobibo@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxv+Pno79ii4sCAA--.8113S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxWFW5try7GF4rAF4DGrWxJFb_yoW5uFW5pF
- Zrur45tr48Jw4DXFZ7K34UZr95GFn7GFyIvF4akryxCrW3Arn8W3WkJrZrWF4UKw4kGryq
- vw18G3Zrua1UGaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUva14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
- 6r4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
- 4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
- 026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
- JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
- vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280
- aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyT
- uYvjfU5WlkUUUUU
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=peter@pjd.dev;
+ helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 02 Jul 2022 07:53:45 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,89 +100,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add to peter.maydell@linaro.org
+I added this helper in the Aspeed machine file a while ago to help
+initialize fuji-bmc i2c devices. This moves it to the official pca954x
+file so that other files can use it.
 
-在 2022/7/1 11:07, Mao Bibo 写道:
-> Loongarch pch msi intc connects to extioi controller, the range of irq number
-> is 64-255. Here adds irqbase property for loongarch pch msi controller, we can
-> get irq offset from view of pch_msi controller with the method:
->   msi vector (from view of upper extioi intc) - irqbase
-> 
-> Signed-off-by: Mao Bibo <maobibo@loongson.cn>
-> ---
->  hw/intc/loongarch_pch_msi.c         | 22 ++++++++++++++++++++--
->  hw/loongarch/loongson3.c            |  1 +
->  include/hw/intc/loongarch_pch_msi.h |  2 ++
->  3 files changed, 23 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/intc/loongarch_pch_msi.c b/hw/intc/loongarch_pch_msi.c
-> index 74bcdbdb48..b36d6d76e4 100644
-> --- a/hw/intc/loongarch_pch_msi.c
-> +++ b/hw/intc/loongarch_pch_msi.c
-> @@ -23,9 +23,14 @@ static uint64_t loongarch_msi_mem_read(void *opaque, hwaddr addr, unsigned size)
->  static void loongarch_msi_mem_write(void *opaque, hwaddr addr,
->                                      uint64_t val, unsigned size)
->  {
-> -    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
-> -    int irq_num = val & 0xff;
-> +    LoongArchPCHMSI *s = (LoongArchPCHMSI *)opaque;
-> +    int irq_num;
->  
-> +    /*
-> +     * vector number is irq number from upper extioi intc
-> +     * need subtract irq base to get msi vector offset
-> +     */
-> +    irq_num = (val & 0xff) - s->irq_base;
->      trace_loongarch_msi_set_irq(irq_num);
->      assert(irq_num < PCH_MSI_IRQ_NUM);
->      qemu_set_irq(s->pch_msi_irq[irq_num], 1);
-> @@ -58,11 +63,24 @@ static void loongarch_pch_msi_init(Object *obj)
->      qdev_init_gpio_in(DEVICE(obj), pch_msi_irq_handler, PCH_MSI_IRQ_NUM);
->  }
->  
-> +static Property loongarch_msi_properties[] = {
-> +    DEFINE_PROP_UINT32("msi_irq_base", LoongArchPCHMSI, irq_base, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void loongarch_pch_msi_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    device_class_set_props(dc, loongarch_msi_properties);
-> +}
-> +
->  static const TypeInfo loongarch_pch_msi_info = {
->      .name          = TYPE_LOONGARCH_PCH_MSI,
->      .parent        = TYPE_SYS_BUS_DEVICE,
->      .instance_size = sizeof(LoongArchPCHMSI),
->      .instance_init = loongarch_pch_msi_init,
-> +    .class_init    = loongarch_pch_msi_class_init,
->  };
->  
->  static void loongarch_pch_msi_register_types(void)
-> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-> index bd20ebbb78..403dd91e11 100644
-> --- a/hw/loongarch/loongson3.c
-> +++ b/hw/loongarch/loongson3.c
-> @@ -267,6 +267,7 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
->      }
->  
->      pch_msi = qdev_new(TYPE_LOONGARCH_PCH_MSI);
-> +    qdev_prop_set_uint32(pch_msi, "msi_irq_base", PCH_MSI_IRQ_START);
->      d = SYS_BUS_DEVICE(pch_msi);
->      sysbus_realize_and_unref(d, &error_fatal);
->      sysbus_mmio_map(d, 0, LS7A_PCH_MSI_ADDR_LOW);
-> diff --git a/include/hw/intc/loongarch_pch_msi.h b/include/hw/intc/loongarch_pch_msi.h
-> index f668bfca7a..6d67560dea 100644
-> --- a/include/hw/intc/loongarch_pch_msi.h
-> +++ b/include/hw/intc/loongarch_pch_msi.h
-> @@ -17,4 +17,6 @@ struct LoongArchPCHMSI {
->      SysBusDevice parent_obj;
->      qemu_irq pch_msi_irq[PCH_MSI_IRQ_NUM];
->      MemoryRegion msi_mmio;
-> +    /* irq base passed to upper extioi intc */
-> +    unsigned int irq_base;
->  };
+This does something very similar to pca954x_i2c_get_bus, but I think
+this is useful when you have a very complicated dts with a lot of
+switches, like the fuji dts.
+
+This convenience method lets you write code that produces a flat array
+of I2C buses that matches the naming in the dts. After that you can just
+add individual sensors using the flat array of I2C buses.
+
+See fuji_bmc_i2c_init to understand this point further.
+
+The fuji dts is here for reference:
+
+https://github.com/torvalds/linux/blob/40cb6373b46/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
+
+Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+---
+ hw/arm/aspeed.c                  | 29 +++++++++--------------------
+ hw/i2c/i2c_mux_pca954x.c         | 10 ++++++++++
+ include/hw/arm/fby35.h           | 13 +++++++++++++
+ include/hw/i2c/i2c_mux_pca954x.h | 13 +++++++++++++
+ 4 files changed, 45 insertions(+), 20 deletions(-)
+ create mode 100644 include/hw/arm/fby35.h
+
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 6fe9b13548..bee8a748ec 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -793,15 +793,6 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+     create_pca9552(soc, 15, 0x60);
+ }
+ 
+-static void get_pca9548_channels(I2CBus *bus, uint8_t mux_addr,
+-                                 I2CBus **channels)
+-{
+-    I2CSlave *mux = i2c_slave_create_simple(bus, "pca9548", mux_addr);
+-    for (int i = 0; i < 8; i++) {
+-        channels[i] = pca954x_i2c_get_bus(mux, i);
+-    }
+-}
+-
+ #define TYPE_LM75 TYPE_TMP105
+ #define TYPE_TMP75 TYPE_TMP105
+ #define TYPE_TMP422 "tmp422"
+@@ -814,20 +805,18 @@ static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
+     for (int i = 0; i < 16; i++) {
+         i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
+     }
+-    I2CBus *i2c180 = i2c[2];
+-    I2CBus *i2c480 = i2c[8];
+-    I2CBus *i2c600 = i2c[11];
+ 
+-    get_pca9548_channels(i2c180, 0x70, &i2c[16]);
+-    get_pca9548_channels(i2c480, 0x70, &i2c[24]);
++    pca954x_i2c_get_channels(i2c[2], 0x70, "pca9548", &i2c[16]);
++    pca954x_i2c_get_channels(i2c[8], 0x70, "pca9548", &i2c[24]);
+     /* NOTE: The device tree skips [32, 40) in the alias numbering */
+-    get_pca9548_channels(i2c600, 0x77, &i2c[40]);
+-    get_pca9548_channels(i2c[24], 0x71, &i2c[48]);
+-    get_pca9548_channels(i2c[25], 0x72, &i2c[56]);
+-    get_pca9548_channels(i2c[26], 0x76, &i2c[64]);
+-    get_pca9548_channels(i2c[27], 0x76, &i2c[72]);
++    pca954x_i2c_get_channels(i2c[11], 0x77, "pca9548", &i2c[40]);
++    pca954x_i2c_get_channels(i2c[24], 0x71, "pca9548", &i2c[48]);
++    pca954x_i2c_get_channels(i2c[25], 0x72, "pca9548", &i2c[56]);
++    pca954x_i2c_get_channels(i2c[26], 0x76, "pca9548", &i2c[64]);
++    pca954x_i2c_get_channels(i2c[27], 0x76, "pca9548", &i2c[72]);
+     for (int i = 0; i < 8; i++) {
+-        get_pca9548_channels(i2c[40 + i], 0x76, &i2c[80 + i * 8]);
++        pca954x_i2c_get_channels(i2c[40 + i], 0x76, "pca9548",
++                                 &i2c[80 + i * 8]);
+     }
+ 
+     i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
+diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
+index 3945de795c..6b07804546 100644
+--- a/hw/i2c/i2c_mux_pca954x.c
++++ b/hw/i2c/i2c_mux_pca954x.c
+@@ -169,6 +169,16 @@ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel)
+     return pca954x->bus[channel];
+ }
+ 
++void pca954x_i2c_get_channels(I2CBus *bus, uint8_t address,
++                              const char *type_name, I2CBus **channels)
++{
++    I2CSlave *mux = i2c_slave_create_simple(bus, type_name, address);
++    Pca954xClass *pc = PCA954X_GET_CLASS(mux);
++    Pca954xState *pca954x = PCA954X(mux);
++
++    memcpy(channels, pca954x->bus, pc->nchans * sizeof(channels[0]));
++}
++
+ static void pca9546_class_init(ObjectClass *klass, void *data)
+ {
+     Pca954xClass *s = PCA954X_CLASS(klass);
+diff --git a/include/hw/arm/fby35.h b/include/hw/arm/fby35.h
+new file mode 100644
+index 0000000000..1be3ae9a38
+--- /dev/null
++++ b/include/hw/arm/fby35.h
+@@ -0,0 +1,13 @@
++/*
++ * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
++ *
++ * This code is licensed under the GPL version 2 or later. See the COPYING
++ * file in the top-level directory.
++ */
++
++#ifndef FBY35_H
++#define FBY35_H
++
++void oby35_cl_soc_i2c_init(AspeedSoCState *s);
++
++#endif
+diff --git a/include/hw/i2c/i2c_mux_pca954x.h b/include/hw/i2c/i2c_mux_pca954x.h
+index 3dd25ec983..3a676a30a9 100644
+--- a/include/hw/i2c/i2c_mux_pca954x.h
++++ b/include/hw/i2c/i2c_mux_pca954x.h
+@@ -16,4 +16,17 @@
+  */
+ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel);
+ 
++/**
++ * Creates an i2c mux and retrieves all of the channels associated with it.
++ *
++ * @bus: the i2c bus where the i2c mux resides.
++ * @address: the address of the i2c mux on the aforementioned i2c bus.
++ * @type_name: name of the i2c mux type to create.
++ * @channels: an output parameter specifying where to return the channels.
++ *
++ * Returns: None
++ */
++void pca954x_i2c_get_channels(I2CBus *bus, uint8_t address,
++                              const char *type_name, I2CBus **channels);
++
+ #endif
+-- 
+2.37.0
 
 
