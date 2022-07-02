@@ -2,90 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3E25640B2
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 16:18:46 +0200 (CEST)
-Received: from localhost ([::1]:42684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F765640B3
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 16:22:21 +0200 (CEST)
+Received: from localhost ([::1]:45734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7dxN-0005qm-Sn
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 10:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49360)
+	id 1o7e0r-0008Ks-0i
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 10:22:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1o7dwB-0004Fk-B4; Sat, 02 Jul 2022 10:17:31 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:39832)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o7dxx-00073N-F9
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 10:19:21 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:42983)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1o7dw9-0007wd-Fo; Sat, 02 Jul 2022 10:17:31 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id ay16so8807770ejb.6;
- Sat, 02 Jul 2022 07:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/YknBcmYeFUWQBwMEkwvPCfKkGI1cxEVNkwGNORgwug=;
- b=C4KYTjDdStYpdAtTfkZa1yA4p1DzNSafQk1r0rFaALeC44MYgfdO5LXvM8ktUD7lF6
- X6yYZoeM298GyleJiAoyE4lRfJRuqL3UpvzQoqVPZm1IkKuiPx7MgwBb0v3PcZsKzRP6
- nTsSer3u/7+0e9pdPgqscsEUKI7axs4xeOgAIXy9CNiFcSwViHXY2x4qRBuf5n+rQnsS
- 19LXs8Jh0ZovBmNxFj9dYdTJb1axfHamlpeXV7zJDIJvZ7hlwT7+TOSiud2K8sQpUv9r
- 9sy5GUT/uygvjTnZqGaRJxsKhYVKhc7Q31S43rdJQkCsfgGxnOJG+43NnrkKDcxB/1q6
- /Xnw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o7dxv-00083f-SP
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 10:19:21 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ 73-20020a17090a0fcf00b001eaee69f600so5383133pjz.1
+ for <qemu-devel@nongnu.org>; Sat, 02 Jul 2022 07:19:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=GT5IfMzGhhomlVr0z971ZqCoxbu+8r+y6wjvqyCj4mI=;
+ b=WV3f2BgAgECAhgQmbNR0vbTnKMlH7yi9jM8RHdPJJ1HETYC+V6/gS5eaXGsCGy5Nom
+ /FnkVkj9ZDXKOeb2xC1TAxy6uT1ShbG5Y2INUxgbEXXdETpKfSpwAvmVs+LuvpyzttoL
+ 4u4Beyz+QOAcb4nzLPDNXwDLE+BQwM9f2Rxnlg9RKrd6afQd/jOG2j3F5wDIq0jcQ3Sp
+ z6yTF4qjT0iPv36Gi5NauBwv554XF3IK0w9ernkR1YAYZzfYDFSaWtLgx/OhUgo/2Yoq
+ vLaXMvHqB24XifrQB4GklHZIh+lkOGcil6dloUms+AxOrjReycF0tRu5K5J8rHYJET2j
+ L1SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/YknBcmYeFUWQBwMEkwvPCfKkGI1cxEVNkwGNORgwug=;
- b=QZi0vro3XGo5KTTDo2p1rwYhuDV2mqgV20mVi7TI4EUznME3nljSJNVS85jliZVWpl
- QjnoRJmkKkNp7clfOEfoYrFOgUN+WZZ79dTtL8RA/fodqK3CZ1Rj7zlj/T+Jeivu6kCi
- xx6MyACf3jqSC//i333dAcVa9DDZAau7YOogp15P/BCjEvKb97iX4P2Bn5LsciY2pWJA
- NYowzApxi+cAA2UAaDjSkkSz9qtmvrkI59efcuXhBZaxiO2V7hZecxcJw/zaHvVA2B6v
- VRe+2oeOADuS3ub9j7AYAWjqvJ+4aSGgo4bWn9zNemFW8Jy562lFV0q/QkB690Te2MZe
- HIuQ==
-X-Gm-Message-State: AJIora9WrJ51toO7nAW1MX76f49MYafJEtenQ3AYWDnBYu8t6wBuENP/
- 30iwrOsA7PNHpJtfxLygEEM=
-X-Google-Smtp-Source: AGRyM1vYp48Iu7xVHJ68q9pJTiSDrNlCcq90ekC3CJOOfdhkMhzOnX8J0iGDaHernPlfmi3BdRtmsg==
-X-Received: by 2002:a17:906:9755:b0:722:f1e3:ec1a with SMTP id
- o21-20020a170906975500b00722f1e3ec1amr19612749ejy.709.1656771447554; 
- Sat, 02 Jul 2022 07:17:27 -0700 (PDT)
-Received: from [192.168.242.248] (93-43-142-212.ip92.fastwebnet.it.
- [93.43.142.212]) by smtp.googlemail.com with ESMTPSA id
- f9-20020a17090660c900b007262a5e2204sm11794330ejk.153.2022.07.02.07.17.24
+ bh=GT5IfMzGhhomlVr0z971ZqCoxbu+8r+y6wjvqyCj4mI=;
+ b=o3O5JGW8Ipx4m7V9JPFVEez/OkZvxaOhN8ctgwSrB1HZRb3hV7oNzutl7ihzr/UYQV
+ vZ78OSDvy14rC7BdNj1peESU0ZGD83xPCMuF9VtFsZoHBM0upkpp/AMWZHcF8gqHSYwU
+ LFzT08DiNtR61KnAxFswxjW8fAySWxonEXsqU2CjgnPcsui8sAyMK3gxmA56QmfSwGW/
+ ahGN6OLS78Z7ay/4ABfCcGtuZAOr+lptLGKfXuFYxqb50kfSTxUtRki5Z3cEcGHN2tNo
+ t6M0n8mAoJTd7us4bhZ4yuHUlztun1irdwKp05p0/BfLTcd20LDb0eAx7RjygWqFpdVD
+ 4Gcg==
+X-Gm-Message-State: AJIora/D8TgpjseeQ13I4ZaN3OpSwm1FZsupFqVPbOPgCdNZ9cxkwVcu
+ 11oy8wvF7sINlSpg7xWat7l8tw==
+X-Google-Smtp-Source: AGRyM1sWCoHY4bsP/wQEmTLnbg15dBoQITWoAvmY6TlzY1lXnA7a1ZkgHCjzFsVtvK/nBXmbP9x+pA==
+X-Received: by 2002:a17:902:cf03:b0:16b:a91d:aff4 with SMTP id
+ i3-20020a170902cf0300b0016ba91daff4mr15979952plg.66.1656771558242; 
+ Sat, 02 Jul 2022 07:19:18 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ g189-20020a6252c6000000b0052833322760sm3428523pfb.187.2022.07.02.07.19.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Jul 2022 07:17:26 -0700 (PDT)
-Message-ID: <7fc6758d-048c-6e5d-4730-a138bc317205@redhat.com>
-Date: Sat, 2 Jul 2022 16:17:22 +0200
+ Sat, 02 Jul 2022 07:19:17 -0700 (PDT)
+Message-ID: <d717bccb-09d1-99e5-f15b-fdecb2b224f6@linaro.org>
+Date: Sat, 2 Jul 2022 19:49:11 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC 0/8] Introduce an extensible static analyzer
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 5/5] target/arm: Correctly implement Feat_DoubleLock
 Content-Language: en-US
-To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, "Denis V. Lunev" <den@openvz.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Peter Xu <peterx@redhat.com>, Alberto Garcia <berto@igalia.com>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Peter Lieven <pl@kamp.de>
-References: <20220702113331.2003820-1-afaria@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220702113331.2003820-1-afaria@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220630194116.3438513-1-peter.maydell@linaro.org>
+ <20220630194116.3438513-6-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220630194116.3438513-6-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,34 +94,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/2/22 13:33, Alberto Faria wrote:
-> The current primary motivation for this work is enforcing rules around
-> block layer coroutines, which is why most of the series focuses on that.
-> However, the static analyzer is intended to be sufficiently generic to
-> satisfy other present and future QEMU static analysis needs.
-> 
-> This is very early work-in-progress, and a lot is missing. One notable
-> omission is build system integration, including keeping track of which
-> translation units have been modified and need re-analyzing.
-> 
-> Performance is bad, but there is a lot of potential for optimization,
-> such as avoiding redundant AST traversals. Switching to C libclang is
-> also a possibility, although Python makes it easy to quickly prototype
-> new checks, which should encourage adoption and contributions.
-> 
-> The script takes a path to the build directory, and any number of paths
-> to directories or files to analyze. Example run on a 12-thread laptop:
+On 7/1/22 01:11, Peter Maydell wrote:
+> +static inline bool isar_feature_any_doublelock(const ARMISARegisters *id)
+> +{
+> +    /*
+> +     * We can't just OR together the aa32 and aa64 checks, because
+> +     * if there is no AArch64 support the aa64 function will default
+> +     * to returning true for a zero id_aa64dfr0.
+> +     * We use "is id_aa64pfr0 non-zero" as a proxy for "do we have
+> +     * the AArch64 ID register values in id", because it's always the
+> +     * case that ID_AA64PFR0_EL1.EL0 at least will be non-zero.
+> +     */
+> +    if (id->id_aa64pfr0) {
+> +        return isar_feature_aa64_doublelock(id);
+> +    }
+> +    return isar_feature_aa32_doublelock(id);
+> +}
 
-Thanks, this is very useful!  Unfortunately there's quite a lot of fixes 
-to go in (including your generated_co_wrapper cleanup series and 
-mine[1]) before this can be enabled, but I think this is the way to go 
-to 1) ease maintainability of coroutine code 2) move towards a model 
-where there are no mixed coroutine/non-coroutine functions.
+If you're going to rely on this, you need to clear this register for -cpu aarch64=off. 
+It's probably easier to drop this function...
 
-I'll review it when I'm back, since a phone screen is not the best 
-environment to do that. :)
+> +static void osdlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+> +                        uint64_t value)
+> +{
+> +    /*
+> +     * Only defined bit is bit 0 (DLK); if Feat_DoubleLock is not
+> +     * implemented this is RAZ/WI.
+> +     */
+> +    if (cpu_isar_feature(any_doublelock, env_archcpu(env))) {
 
-Paolo
+... and use
 
-[1] https://patchew.org/QEMU/20220509103019.215041-1-pbonzini@redhat.com/
+     if (arm_feature(env, ARM_FEATURE_AARCH64)
+         ? cpu_isar_feature(aa64_doublelock, cpu)
+         : cpu_isar_feature(aa32_doublelock, cpu)) {
+
+since it's just used once.
+
+
+r~
 
