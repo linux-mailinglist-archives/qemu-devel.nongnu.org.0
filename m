@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014FE56406F
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 15:49:14 +0200 (CEST)
-Received: from localhost ([::1]:49722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C132156408E
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 16:02:24 +0200 (CEST)
+Received: from localhost ([::1]:35332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7dUn-000477-4A
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 09:49:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44022)
+	id 1o7dhX-00063d-T5
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 10:02:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7dTk-0003M7-PZ
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 09:48:08 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:36715)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o7dc4-0006cF-CB
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 09:56:44 -0400
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:38868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7dTi-0007N4-Dw
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 09:48:07 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- c6-20020a17090abf0600b001eee794a478so9132851pjs.1
- for <qemu-devel@nongnu.org>; Sat, 02 Jul 2022 06:48:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=CgtQxaAtmlz0QkUhDyN89ZKUe1cS4IJlhrnD7X28Q/E=;
- b=MjlIxvWRjZQjXqQJrHBGzAgLJ/IGHcwbaR7RkT4eSHEEcqXrReV2Kp/Ioix1Otm+xL
- B0Z/a3c3cHBAANGq2/dZMjNflVBNA2lIxESuMjs3K0ciS21vg/2rzn2iV1GKieug7AVS
- X/cPE/sAVC/1f0xZp46DOPflOqJ3fjd7qZicZyuRKqE/fxpffrYPNL5Ceu8krxo7sIkC
- jKWT0PcrQulr8BlQBzakMMS27I2o+DPUg2tKhSSdO9cWDT2wCbHZJN38jyW5+t+2EfIC
- D3N4upJUIX5F27u04J9vLqf1KEtR8wtqELd52iCwpMMdJo83T5Cxo5btI1OBBG8imoUz
- mWzw==
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1o7dc2-0000ZY-9d
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 09:56:44 -0400
+Received: by mail-io1-xd31.google.com with SMTP id k15so4728211iok.5
+ for <qemu-devel@nongnu.org>; Sat, 02 Jul 2022 06:56:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pvizTUS+nVLsdlLd87OmaAsrzVbd98aIfnpuOMz1ReY=;
+ b=3Wc32NO4r0Chl0NelD2EL8KYhagE1X98juY5ZBNp6QaV8SLodBxn0CmdcIHzLDew9D
+ yjaWpJTBGgtLNPwLDbcJHZtIcAnvclniVWJ8sj8xzkT4ooCWhymlTjok4HBk2yYy8Qkf
+ PsNIaKJvDeaWi1ijF6CWk4iBjbbsc3EyUhIEHjG9tc2H/xpB0hu/4FVedq2wyr6Z2J2p
+ 1K52QQ5Vga0eUWYRDcXTlf6YunhFe6UWIl7cgCVUVlZkth9nN9XX8/vDkWkY4VIGu/+A
+ xmLPv9xyhkTg1TEjZwvqPcFapKDMyGsZ6mDgjZRBhddNayQiE4GzbRDq4RWFFoO8KATG
+ BkNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=CgtQxaAtmlz0QkUhDyN89ZKUe1cS4IJlhrnD7X28Q/E=;
- b=PHX+L5GbBIiVPKYANBKyCmTKNAKH/sgY/csm2BiU60zVsZn6JarcKM+yCd0JofIbyY
- Ruz7eUYx2o57+qLyasJWogk6bhmBmqFIHefqFg/8WhK1fbPiGJMkyXWacP/OTUOD1g4o
- Ivmd7WgRGgyRWB1Hi767V1CpefEYQMiXJqdrszFeVV/rFwiNtEX9JmrvQW9OG+KQzUbf
- gc3HXWVb5n2H9m7KMtkijwcO1pKrrSYujA3Ugppkq1vT08na+z3xTgAd1pn8ZA/pMYAu
- R1bP7cCvHGMerjudbfNdbw2fK5rKmS3KKux6rlyL+9ZKvzdGx/mgreVOoNAeXZMNZjTc
- ogrw==
-X-Gm-Message-State: AJIora+RPDqg10AZDpyFO89mIWDGfVwOGN8E1ZD14iq/QAKhpWX/3iM6
- vNDkWO0glDBUJiY35fXL3VF8NQ==
-X-Google-Smtp-Source: AGRyM1vZdkGp9EHAWx+8BwYr0Qskh1gT5GlHZdlZpiLrtfpFxau/hgchlW6Nkd7v2TZ8wpLzq/L7Zw==
-X-Received: by 2002:a17:90b:1b41:b0:1ec:747c:5d1 with SMTP id
- nv1-20020a17090b1b4100b001ec747c05d1mr25011857pjb.213.1656769684739; 
- Sat, 02 Jul 2022 06:48:04 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- y67-20020a626446000000b0051bd9981cacsm17724284pfb.123.2022.07.02.06.48.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Jul 2022 06:48:03 -0700 (PDT)
-Message-ID: <6af2c2e1-904d-5379-e051-e9a5f8fd1350@linaro.org>
-Date: Sat, 2 Jul 2022 19:17:57 +0530
+ bh=pvizTUS+nVLsdlLd87OmaAsrzVbd98aIfnpuOMz1ReY=;
+ b=S4IM40KXyz3RP/BdGeSd3U46RoSYrr1Z05DzK/fwOPU2J94Cl+GtgSEkvYLe1ptE0K
+ rW2KZD7pS1wZwZN36t1pyZJCkgcbrUjMZhxqqBZ8oAquUiaoK0EvHPLYwO7I0rnt39zg
+ jsl45TlKILWda+BvnuQURR2SCoSNfi6sMt5tv9+VkdSaF8zYVikzKnohMy0unBdWlaNl
+ 6t6oaQAxvhD6YWyea6UEXX0ksffsbCgNlQL7CIEW9LzqwNNJAIGj5wV7BjwevJaevKVx
+ VwdGr8cC0MFVTRt5O4t2eVoJj3aXScvzvJseLJ/UQwC5imcao8XiwA5O99Vfh+GIB6WW
+ PPSw==
+X-Gm-Message-State: AJIora8X0REE9TY5QesfqO/GkvvXl/614YV9UlITyhMHyvyLufhgT58X
+ vUZ367agHIbKIOw5IexfyG+lJN4s5ShwzA==
+X-Google-Smtp-Source: AGRyM1sVeKu58mp3u4ialGkdLPpauf1iFPGEKHMftYWWBKirBCvmSTk+PqezoD1DsZahV3fNEZjzTw==
+X-Received: by 2002:a02:9442:0:b0:339:c34a:eb7e with SMTP id
+ a60-20020a029442000000b00339c34aeb7emr12171622jai.249.1656770199931; 
+ Sat, 02 Jul 2022 06:56:39 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
+ q189-20020a6b8ec6000000b0065a47e16f4esm11584278iod.32.2022.07.02.06.56.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 02 Jul 2022 06:56:39 -0700 (PDT)
+From: Warner Losh <imp@bsdimp.com>
+To: qemu-devel@nongnu.org
+Cc: Kyle Evans <kevans@freebsd.org>,
+	Warner Losh <imp@bsdimp.com>
+Subject: [PULL 00/11] Bsd user syscall 2022q2b patches
+Date: Sat,  2 Jul 2022 07:56:55 -0600
+Message-Id: <20220702135706.73622-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.33.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/5] target/arm: Fix code style issues in debug helper
- functions
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220630194116.3438513-1-peter.maydell@linaro.org>
- <20220630194116.3438513-2-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220630194116.3438513-2-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,16 +86,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/22 01:11, Peter Maydell wrote:
-> Before moving debug system register helper functions to a
-> different file, fix the code style issues (mostly block
-> comment syntax) so checkpatch doesn't complain about the
-> code-motion patch.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/helper.c | 58 +++++++++++++++++++++++++++++----------------
->   1 file changed, 38 insertions(+), 20 deletions(-)
+The following changes since commit d495e432c04a6394126c35cf96517749708b410f:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge tag 'pull-aspeed-20220630' of https://github.com/legoater/qemu into staging (2022-06-30 22:04:12 +0530)
+
+are available in the Git repository at:
+
+  ssh://git@github.com/qemu-bsd-user/qemu-bsd-user.git tags/bsd-user-syscall-2022q2b-pull-request
+
+for you to fetch changes up to 3f1b0235f68ff74ebfd98b17626e4254c4345fa8:
+
+  bsd-user: Remove stray 'inline' from do_bsd_close (2022-07-02 07:52:48 -0600)
+
+----------------------------------------------------------------
+bsd-user: More file-related system calls
+
+A second round of mostly BSD-independent filesystem calls: mount, unmount,
+nmount, symlink, symlinkat, readlink, readlinkat, chmod, fchmod, lchmod,
+fchmodat, freebsd11_mknod, freebsd11_monodat, mknodat, chown, fchown, lchown,
+fchownat, chflags, lchflags, fchflags, chroot, flock, mkfifo, mkfifoat,
+pathconf, lpathconf, fpathconf, undelete.
+
+These are all non-reentrant system calls, so these wrappers are pretty simple
+and no safe_* versions need to be created.
+
+----------------------------------------------------------------
+
+Warner Losh (11):
+  bsd-user: Implement mount, umount and nmount
+  bsd-user: Implement symlink, symlinkat, readlink and readlinkat
+  bsd-user: implement chmod, fchmod, lchmod and fchmodat
+  bsd-user: Implement freebsd11_mknod, freebsd11_mknodat and mknodat
+  bsd-user: Implement chown, fchown, lchown and fchownat
+  bsd-user: Implement chflags, lchflags and fchflags
+  bsd-user: Implement chroot and flock
+  bsd-user: Implement mkfifo and mkfifoat
+  bsd-user: Implement pathconf, lpathconf and fpathconf
+  bsd-user: Implement undelete
+  bsd-user: Remove stray 'inline' from do_bsd_close
+
+ bsd-user/bsd-file.h           | 392 +++++++++++++++++++++++++++++++++-
+ bsd-user/freebsd/os-syscall.c | 118 ++++++++++
+ 2 files changed, 509 insertions(+), 1 deletion(-)
+
+-- 
+2.33.1
+
 
