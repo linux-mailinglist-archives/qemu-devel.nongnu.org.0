@@ -2,125 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAB7563F88
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 13:05:20 +0200 (CEST)
-Received: from localhost ([::1]:51244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471EB563FC3
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 13:36:44 +0200 (CEST)
+Received: from localhost ([::1]:34378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7awB-0003ey-FJ
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 07:05:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47202)
+	id 1o7bQX-0005YA-AS
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 07:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1o7auN-0002v1-UY
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 07:03:29 -0400
-Received: from mail-os0jpn01on2071a.outbound.protection.outlook.com
- ([2a01:111:f403:700c::71a]:13732
- helo=JPN01-OS0-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o7bNg-0002lC-2U
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 07:33:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1o7auG-0005gA-Mv
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 07:03:26 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CX+TUtgiUFUjygI4r8ylq+jaWVjngPt66GuLN8hMwy5/gFp/oCqruakrJNPqvia3ogdRmXrHPPyOrTOBwUGXdui1TCcSvfKewGn/U0dixy3RxvxwPDDn8T9qVYMF/GeoYZpFv602SSHrCMK7tMCtYq4S1ltHXBgRby4WjAPLivNLR0j0gVbuMRuajhL2hCHgmOuCmSyH8Ot7MoXtk3A/AlSeFerWMVaYBZvFXqBWOP8V7SZTm2MvscPcZEFJC1cjiuk+lvM5czOZx6J92m5tb+NhPZlq385Gvh9T85PkwCDBc9piCW60nDIJWfG31Ov3oqQ7UHoepk/eZ1WgqdAM7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vC5jRlSVziu4bBlvc3brm65m6p5l9BL1NuUTBNZfvHk=;
- b=DkgTPyGWcA9tC/vaAqXUQCtj2xAk8r0TPO6EoV9lHbc0jN5u6p0bTSSDSVVPt09DzVe1O7QDPQZCfGIL3q8Oqt+7gdPy1o33lCCNGWUBpJAWYrleIGF0lalROMRYOaWMMRA1GtjiUYeluQQyGRhiZ5X0i/Cv9PYFw131XwzZKsp7KgkMw9IM0gLCu7X2Uw/d6ra/zYHPPjSIucWwnJ3qroNAxiNATwGeVH1OW17oMZHgcXrfQjtTqTdnPkhg3xIfOrzq3VjMsiygpsHALv60+qnwKH9Je1ZsYEqCAkHDnw7bjkfDRuX0LcjNhC9a5SpPrXJjmVNPO1ka+sAkgdq2og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
- dkim=pass header.d=zenithal.me; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vC5jRlSVziu4bBlvc3brm65m6p5l9BL1NuUTBNZfvHk=;
- b=j83TcyKNSkm95epibY7kX5TauLJLQaE3Yaz5NTDYJaR47UhXOJk2SEoJX+3fRf3dMOIbLhD2v9OPcc+n+17/YzVmFJWvMR5V+UjY3WYIVMQMlIKa/ZvL3CezDNArsXCZERulnoXX5ZN4VV/w0j5B34SdvyZh6OcCEsOxtQr7JhQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=zenithal.me;
-Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
- OS3P286MB2727.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:1fe::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5395.14; Sat, 2 Jul 2022 10:58:10 +0000
-Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- ([fe80::a162:2f17:bb41:c95]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- ([fe80::a162:2f17:bb41:c95%9]) with mapi id 15.20.5395.018; Sat, 2 Jul 2022
- 10:58:10 +0000
-Date: Sat, 2 Jul 2022 18:58:02 +0800
-From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, contact@canokeys.org,
- MkfsSion <myychina28759@gmail.com>
-Subject: Re: [PATCH v2 0/3] CanoKey: Fix xHCI compatibility and CCID ZLP
-Message-ID: <YsAkulsWj5bH7wrT@Sun>
-References: <YqcptnhfCtUn2+T6@Sun> <YrSD1xGYsWWk996E@Sun>
- <20220701105106.fzlu44cgvfmb5z4g@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220701105106.fzlu44cgvfmb5z4g@sirius.home.kraxel.org>
-X-Operating-System: Linux Sun 5.15.26
-X-Mailer: Mutt 2.2.1 (2022-02-19)
-X-ClientProxiedBy: BY5PR16CA0021.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::34) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:c0::6)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o7bNc-0007L9-3g
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 07:33:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656761618;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hLIsv8YXWSPNmuFuxOSDw1RgICEIM3EL0Jsivzvy8FE=;
+ b=LI1AKHd/APhfbMGK+26LiipqE5AdHdOeRCpK5Qus8LjP5plvGH6pKW/suqq2c9evYxKIH6
+ Qn+BoGGJhciNEYDhzXoO+NUuJUfNsRjp7ATdQzNwqUnp7OCYBcskOL/EUct/SsZ3K0eRdo
+ kWFKoX7Jf68CttGCZCT7Q+54wKz71c0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-450-VdCQA_HbOrC79CCgJ82ZjQ-1; Sat, 02 Jul 2022 07:33:37 -0400
+X-MC-Unique: VdCQA_HbOrC79CCgJ82ZjQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03936801231;
+ Sat,  2 Jul 2022 11:33:37 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.194.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B70C0492C3B;
+ Sat,  2 Jul 2022 11:33:32 +0000 (UTC)
+From: Alberto Faria <afaria@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ "Denis V. Lunev" <den@openvz.org>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Alberto Garcia <berto@igalia.com>, John Snow <jsnow@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Markus Armbruster <armbru@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Peter Lieven <pl@kamp.de>, Alberto Faria <afaria@redhat.com>
+Subject: [RFC 0/8] Introduce an extensible static analyzer
+Date: Sat,  2 Jul 2022 12:33:23 +0100
+Message-Id: <20220702113331.2003820-1-afaria@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 50586ab7-8d02-42e9-7f8c-08da5c19c084
-X-MS-TrafficTypeDiagnostic: OS3P286MB2727:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4PV7i7CMqr/ZRFRgwHgvTcesd77Z2g/CbtQtp4aLfXCdvKQgh9quPLoZGDS+yherS65t7sGtMWGO8FiEg7fHEPA4VfmrMQ7SRqQZRO8Ipr1+SPbuzykwgbRIaTHSglWPFs+vbv312t4jywkGiOjCjXJu9wjbmNZrT1iOiSlccBrzZGwN6IAVA41+z76z31jJoN5jCXk1+O2HPkFa6oneOxblrtmvePxYVw6PYyJUm7mZ10xIZUwtNoMFlFp5sMCwPy6+VirdYqQUto5qKbJv7UrKt1v/CDe70sIUr0RAmlMvNeWOzbmbmUm/VtSlTHpOls3ho3NOrf5qlc450vIdSaioGkGSnyJoJqWjD15OUia/8OKfxGBa7G5/cOMaBf/bEZfVCoIVbilP4PWoIqGkaDUPWzgYWQ52di62yMFa9BdUSk+P4HGNECw26REuVlabAgYIMdb0MHC38kIyGnQDWQ4fimoLN6DMkdImuh5SosDDpO65YfCNZ1Sy4qBX950HhRtFrSJOIO1M6aXSpF+fjevr2yPqHZRMGqYXUYEA41jkf8Chlzc1x6pTc1VJ5VV/yp/w1pBgtzYit/c8Qn8aHhZCZJFvnxbNnKJDpuRWtczY7pPDKivdhd9e4Falir4Cb8Ef1/Ty6hwuA7yeCkhJwBjhteqebmWhk9TBXOThRipmwsweZ4rggJaJgnydXejF67ACfkPyVQ1TkR7mZy9yacXITR4pK6CFXiqSoH+EonfC8N/fzkLkFLmNFk0DmCbZmnX4GVdMfmht5fQOz81D0Q5sbD3Uwj8VTJ2WcmrIOCuDGL4QTmLQ23jLcjy9AGmX9Z7uw/Q7dCVJX3ScyNkQyw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230016)(7916004)(376002)(346002)(39830400003)(136003)(366004)(396003)(8936002)(5660300002)(83380400001)(966005)(478600001)(41320700001)(6512007)(6486002)(4326008)(8676002)(52116002)(186003)(9686003)(6506007)(86362001)(2906002)(41300700001)(6666004)(38100700002)(786003)(6916009)(33716001)(316002)(66476007)(66556008)(66946007)(49092004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dtOGUJKW1ogeh4cMK8Z99ZtoATVm+VPTSUMH1zt0AAbpA7Zgtve5fhTFWf5p?=
- =?us-ascii?Q?2ySO1mhzrwIQJs/9YOarbyZeCvll7Zg0IBUC4rxLMFXhduhyWCGcCFso8bx8?=
- =?us-ascii?Q?ffKrZ5V6zzw/vT6D0ngm2zLEqXdMzGq+fCeYYgMIXtLqKB1ooUf9h7erQftY?=
- =?us-ascii?Q?gJfoXrKbFqAWG0tEgK+htUQ+eUCaT7cqyE6FnqFNNcapA4fHEjCqdtuEiZNa?=
- =?us-ascii?Q?wUFGCRbjH6/uXVihE27tdWKqm0FZl2g5qQc0+CrTLCEUkYZfbQEhn1Tvtfxo?=
- =?us-ascii?Q?OtJUozopN9kgdnBqqZEKYvXEbqkrJmLIX4VTdNmBcIRGcMTjv+wCx/WbyK2u?=
- =?us-ascii?Q?3oKEDj28UJ5+/rYRJx1tYf+xT0eKjx0fg0eN1msAhxzCaNgGUB3hyL9exADZ?=
- =?us-ascii?Q?KkfFdaqtjiA7oBvSj4Or7k4PqpH0hYfpxSQCjrHlag8svTvS0jjRzLNMSdnS?=
- =?us-ascii?Q?KRzCJC34VOXPT7tv7DYTY+fsqhS8hAk3l0hHVY2AnkWQAAB+B8SushODXV/h?=
- =?us-ascii?Q?1SC2WWGmS2t6efhLHED3buc4qbhDJVCOlXlsWI0dOzu+Q94bglAi5wxzGrfB?=
- =?us-ascii?Q?dGqZ7Oj3wdk5WwvQqNqAOb1clp1vqRK1OfN+HMqnArrIsInZGcqYbdFYHoIn?=
- =?us-ascii?Q?lkkni3w11ak8LjOcfuHwAuVA+9+RTNcgRlOexvTEXtKgDuQ5HqGfJjgXK0oh?=
- =?us-ascii?Q?VVztSAa0vYL/VsnhN5kMpAEfIRunuPSLLRXmtxZ/z2rP0ssSj7AtvM+fyRm4?=
- =?us-ascii?Q?H7jfQuMFAd4KmLxhoA2c4XxC5wKQ4yO3RLhQNSEqAwjKqKmB44GHmxPrr2LO?=
- =?us-ascii?Q?iqyXSshwNOq4wAUekGMPwCznnomFJeWofIY1XQAIxYw+RSc6DQZACShhIasI?=
- =?us-ascii?Q?bo3jES19wRLcx4en6RpxhiGxbU3yH6IaIskjlib+6HNNdri9/b5tDVT89r5t?=
- =?us-ascii?Q?gTgLtYIsrF/8kpDAvNToTSozIiG8SpyLZ0Y0HTI1eaHy+xCJa1W1xTpr8sVf?=
- =?us-ascii?Q?XYrYol8czPEUI2Fc1Q3ZBakNUP9aDu5DCXr7dah2JGT5q3bQkdYSFU0NorY0?=
- =?us-ascii?Q?4cxr3qTS02AiSX0beGe4nivwba9guJsxsiGjiVe6+L/c+iOqqdOpo7GaGus/?=
- =?us-ascii?Q?kG7NyLzRC/84Xzs4VjIqsu0aO5n2H6VCk5+GBWC02cPV0NPeTFnf6PFZyrwM?=
- =?us-ascii?Q?GP4h5HiUihebFnQRZ3u5w+LcCPz9gWZ6rX7usSsi9BH3QC5QjsuEYJL9/x8/?=
- =?us-ascii?Q?dtQEu7B8n+etrJNZ1f5c1AyxMiQ6NiGZnLOSNZJoUd6fy1/Yz43mfK03Qit8?=
- =?us-ascii?Q?WhqGJbAvgECNCy4qrU/CpcpuCz2CfeNXCflH2EHANh9mkDauCHyXPEydQD9I?=
- =?us-ascii?Q?cntDHIx2nom9hnIdBSVoiClJfvc11l8A9AGOG96TOMqq6s5Mi/qMkWWRMkn0?=
- =?us-ascii?Q?xe4alMnwcP8SYb+mN+SRxn9EbYbqMC97AFBe/i4aqI7DRLoP46eAS78YxUn+?=
- =?us-ascii?Q?TuEUhtuCuTeWnwwYQX9KvRvLCba48Ym4SqDOCH3Xqirmy0wGRifkqx+n9kQ3?=
- =?us-ascii?Q?Wk+J63ROqv4Spv5QNjbSK6KFkWx6bB/LkRpxJyk6?=
-X-OriginatorOrg: zenithal.me
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50586ab7-8d02-42e9-7f8c-08da5c19c084
-X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2022 10:58:10.3942 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IdkJEowgkvewZiCJ+E/+00jcTPttNW6gYbKw2keFe4FrvMa9DGOqQcI232pxIlsH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3P286MB2727
-Received-SPF: pass client-ip=2a01:111:f403:700c::71a;
- envelope-from=i@zenithal.me;
- helo=JPN01-OS0-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -136,51 +85,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 01, 2022 at 12:51:06PM +0200, Gerd Hoffmann wrote:
-> On Thu, Jun 23, 2022 at 11:16:39PM +0800, Hongren (Zenithal) Zheng wrote:
-> > On Mon, Jun 13, 2022 at 08:12:38PM +0800, Hongren (Zenithal) Zheng wrote:
-> >  
-> > > ---
-> > > v2: 
-> > >   * use usb_ep_get instead of recording ep_in_pointer
-> > >       as suggested by kraxel
-> > >   * CI result for v2 is at
-> > > https://gitlab.com/ZenithalHourlyRate/qemu/-/pipelines/562306905
-> > 
-> > Hi kraxel, is there any further feedback on this?
-> > 
-> > BTW, as the commit "add myself as CanoKey maintainer" has been
-> > merged, how should I submit patches on CanoKey to you and QEMU?
-> 
-> Sending to the list with /me Cc'ed is fine.
-> 
-> > For other contributors, before I can send PULL (my key is not signed yet)
-> > I think I should first give Reviewed-by tags then request you
-> > to pass them.
-> 
-> Yes.
-> 
-> Series queued up now.
+This series introduces a static analyzer for QEMU. It consists of a
+single static-analyzer.py script that relies on libclang's Python
+bindings, and provides a common framework on which arbitrary static
+analysis checks can be developed and run against QEMU's code base.
 
-Thanks!
+Summary of the series:
 
-> Also I want to add CanoKey in ChangeLog/7.1 in QEMU wiki.
-> But the account for wiki should be created by some other
-> people with existing accounts. I wonder if you or anyone
-> on the list could kindly do me a favor? Thanks!
-> 
-> My preferred username is Zenithal.
+  - Patch 1 adds the base static analyzer, along with a simple check
+    that finds static functions whose return value is never used, and
+    patch 2 fixes some occurrences of this.
 
-Could you please also add a wiki account for me?
+  - Patch 3 adds a check to ensure that non-coroutine_fn functions don't
+    perform direct calls to coroutine_fn functions, and patch 4 fixes
+    some violations of this rule.
 
-There are two additional patches reviewed by me, and you have been Cc'ed.
-I wonder if you could queue them up.
+  - Patch 5 adds a check to enforce coroutine_fn restrictions on
+    function pointers, namely around assignment and indirect calls, and
+    patch 6 fixes some problems it detects. (Implementing this check
+    properly is complicated, since AFAICT annotation attributes cannot
+    be applied directly to types. This part still needs a lot of work.)
 
-[PATCH v4 1/2] hw: canokey: Remove HS support as not compliant to the spec
-[PATCH v4] docs/system/devices/canokey: Document limitations on usb-ehci
+  - Patch 7 introduces a no_coroutine_fn marker for functions that
+    should not be called from coroutines, makes generated_co_wrapper
+    evaluate to no_coroutine_fn, and adds a check enforcing this rule.
+    Patch 8 fixes some violations that it finds.
 
-> 
-> thanks,
->   Gerd
-> 
+The current primary motivation for this work is enforcing rules around
+block layer coroutines, which is why most of the series focuses on that.
+However, the static analyzer is intended to be sufficiently generic to
+satisfy other present and future QEMU static analysis needs.
+
+This is very early work-in-progress, and a lot is missing. One notable
+omission is build system integration, including keeping track of which
+translation units have been modified and need re-analyzing.
+
+Performance is bad, but there is a lot of potential for optimization,
+such as avoiding redundant AST traversals. Switching to C libclang is
+also a possibility, although Python makes it easy to quickly prototype
+new checks, which should encourage adoption and contributions.
+
+The script takes a path to the build directory, and any number of paths
+to directories or files to analyze. Example run on a 12-thread laptop:
+
+    $ time ./static-analyzer.py build block
+    block/commit.c:525:15: non-coroutine_fn function calls coroutine_fn
+    block/nbd.c:206:5: non-coroutine_fn function calls coroutine_fn
+    [...]
+    block/ssh.c:1167:13: non-coroutine_fn function calls coroutine_fn
+    block/nfs.c:229:27: non-coroutine_fn function calls coroutine_fn
+    Analyzed 79 translation units.
+
+    real    0m45.277s
+    user    7m55.496s
+    sys     0m1.445s
+
+You will need libclang's Python bindings to run this. On Fedora, `dnf
+install python3-clang` should suffice.
+
+Alberto Faria (8):
+  Add an extensible static analyzer
+  Drop some unused static function return values
+  static-analyzer: Enforce coroutine_fn restrictions for direct calls
+  Fix some direct calls from non-coroutine_fn to coroutine_fn
+  static-analyzer: Enforce coroutine_fn restrictions on function
+    pointers
+  Fix some coroutine_fn indirect calls and pointer assignments
+  block: Add no_coroutine_fn marker
+  Avoid calls from coroutine_fn to no_coroutine_fn
+
+ block/block-backend.c            |  15 +-
+ block/copy-before-write.c        |   3 +-
+ block/dirty-bitmap.c             |   6 +-
+ block/file-posix.c               |   6 +-
+ block/io.c                       |  34 +-
+ block/iscsi.c                    |   3 +-
+ block/parallels.c                |   4 +-
+ block/qcow2-bitmap.c             |   6 +-
+ block/qcow2-refcount.c           |   2 +-
+ block/qcow2.h                    |  14 +-
+ block/qed-table.c                |   2 +-
+ block/qed.c                      |   8 +-
+ block/quorum.c                   |   5 +-
+ block/vmdk.c                     |   4 +-
+ block/vpc.c                      |   9 +-
+ block/vvfat.c                    |  11 +-
+ include/block/block-common.h     |   2 +-
+ include/block/block-io.h         |   7 +-
+ include/block/block_int-common.h |  12 +-
+ include/qemu/coroutine.h         |  25 +
+ static-analyzer.py               | 890 +++++++++++++++++++++++++++++++
+ 21 files changed, 987 insertions(+), 81 deletions(-)
+ create mode 100755 static-analyzer.py
+
+-- 
+2.36.1
+
 
