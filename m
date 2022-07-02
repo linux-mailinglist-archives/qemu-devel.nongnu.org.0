@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09110563FE0
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 13:49:12 +0200 (CEST)
-Received: from localhost ([::1]:53934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C6656405D
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 15:29:45 +0200 (CEST)
+Received: from localhost ([::1]:33892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7bcd-0002Xy-4S
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 07:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52124)
+	id 1o7dBv-0000pN-Qy
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 09:29:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o7bO7-0003W4-KY
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 07:34:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60601)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o7bO5-00080i-LP
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 07:34:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656761649;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6ucg/IwUXXbiD7o0QoLNGNJZ5xaPheNGQ2/axa9ThQo=;
- b=hC0qKsbsL+bG+PT0cmCyi8sja0NlUtXmZdVJo83wlQkhOfzW+Ymwy09hLPKF/hM3WCtHjr
- UCm8b27OW9CPB3wRjCZS8w/xTcdhra6Sl6zEApGpeAoCmtZIjKQ35YBZdpbdyocjUuoacR
- B05B2x2o/bIXCRAFG3V/cQUFUYHdRVs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-529-XcNUMVLgPGiEUg1gD9Fgiw-1; Sat, 02 Jul 2022 07:34:05 -0400
-X-MC-Unique: XcNUMVLgPGiEUg1gD9Fgiw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 584FC1C068E2;
- Sat,  2 Jul 2022 11:34:05 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.194.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3161F492C3B;
- Sat,  2 Jul 2022 11:34:02 +0000 (UTC)
-From: Alberto Faria <afaria@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Xu <peterx@redhat.com>,
- Alberto Garcia <berto@igalia.com>, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- Markus Armbruster <armbru@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Peter Lieven <pl@kamp.de>, Alberto Faria <afaria@redhat.com>
-Subject: [RFC 8/8] Avoid calls from coroutine_fn to no_coroutine_fn
-Date: Sat,  2 Jul 2022 12:33:31 +0100
-Message-Id: <20220702113331.2003820-9-afaria@redhat.com>
-In-Reply-To: <20220702113331.2003820-1-afaria@redhat.com>
-References: <20220702113331.2003820-1-afaria@redhat.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o7d9c-0007eW-6g; Sat, 02 Jul 2022 09:27:20 -0400
+Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:35453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o7d9a-0008TK-6X; Sat, 02 Jul 2022 09:27:19 -0400
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-10be0d7476aso233877fac.2; 
+ Sat, 02 Jul 2022 06:27:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=z1RY9P4vW/lnJBZCL90y/ZdWODz8BWyJxeuYSp8IzDs=;
+ b=mjdsqydbBUQandDu0EU1IQsjDBu97it9qZeJBYoc30RtXlTOx7HA+3pEtRKOfOE4IC
+ iWDt/iE9QNFJ0dRUL0+Knkx56lFFFqNH+2aYxqKmlOHE/pazer6D5TOpXYTglMddZ0Zg
+ 9HYICPtkWY/BcVBd77cfaIVt36bjK/lEMp/rpXe4iNaBzUQ9VLXRg0hrTEjyx59EpRWl
+ tbPqKo6JH3X2m2muR91zw51tHHCFtioAtugin+kypf77IJ56LdsdvCTdEBnsaW+E1WfO
+ AvoWyfZK/abVGiins2HQtbkx2G/x4fvRbRzOmue/O8PyR9yU/m05XXKX7KliAJOL5U+m
+ gTdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=z1RY9P4vW/lnJBZCL90y/ZdWODz8BWyJxeuYSp8IzDs=;
+ b=GQDDqNrAQvj4NMy0mZG1TzCFsmdizm0sUpnfqbXltZsgNlU24dabObSf/WfBIjThMZ
+ O3r2DL+MTlST3PWjI2zpeI5lt3kxjIXGl/XMKNgLYAaqp/yRbytPj5hq8XwRPWR8GSOi
+ RByLenQwqj1UkRl3ywjMor3gzVE2VY5b/IR5ApDbRNp0LX0zI7ZrotPx0t8nyi8NKPRy
+ zaPoVZI4dYU77lhX1avWsFko3EInJG3AoQo436Bg2QMGWGn0fugEQY651UycDNYGN1e0
+ ILQH1h/guetQLGpdCcvFCkjXBc1yDc+YBTGWIP4dBineAi/URyigPM+qqwMrsImmqJ7h
+ 4OIQ==
+X-Gm-Message-State: AJIora8pNcQ7HLnJ5dR4rRA3s9s99S/3g7BJW9d26C0fUIN25ABGOy6O
+ WXjXieTh14o06gwsvTQnQtQ=
+X-Google-Smtp-Source: AGRyM1vjBESjx4QnnUff48QBx3jTkxSZVijYIbOva/FJAJY32c61jCHnKC5EgmzAsFGQf6s3GAYWMA==
+X-Received: by 2002:a05:6870:470d:b0:101:c49b:7e0d with SMTP id
+ b13-20020a056870470d00b00101c49b7e0dmr11172935oaq.273.1656768435607; 
+ Sat, 02 Jul 2022 06:27:15 -0700 (PDT)
+Received: from [192.168.10.102] ([191.193.1.105])
+ by smtp.gmail.com with ESMTPSA id
+ 65-20020a4a1844000000b0042300765d39sm13532251ooo.46.2022.07.02.06.27.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 02 Jul 2022 06:27:15 -0700 (PDT)
+Message-ID: <06b481b5-8ced-a2e7-a860-5036c25b8efe@gmail.com>
+Date: Sat, 2 Jul 2022 10:27:11 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH qemu v3] ppc: Define SETFIELD for the ppc target
+Content-Language: en-US
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20220628080544.1509428-1-aik@ozlabs.ru>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220628080544.1509428-1-aik@ozlabs.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::30;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,130 +93,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These calls were found by static-analyzer.py.
 
-Signed-off-by: Alberto Faria <afaria@redhat.com>
----
- block/block-backend.c  |  2 +-
- block/io.c             | 10 +++++-----
- block/parallels.c      |  4 ++--
- block/qcow2-refcount.c |  2 +-
- block/qed-table.c      |  2 +-
- block/qed.c            |  2 +-
- block/vmdk.c           |  4 ++--
- 7 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 5f2a912a59..8fa48576cd 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1395,7 +1395,7 @@ static int coroutine_fn blk_pwritev_part(BlockBackend *blk, int64_t offset,
-     int ret;
- 
-     blk_inc_in_flight(blk);
--    ret = blk_do_pwritev_part(blk, offset, bytes, qiov, qiov_offset, flags);
-+    ret = blk_co_do_pwritev_part(blk, offset, bytes, qiov, qiov_offset, flags);
-     blk_dec_in_flight(blk);
- 
-     return ret;
-diff --git a/block/io.c b/block/io.c
-index bbfe94503b..832bccd31e 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2781,8 +2781,8 @@ int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
-         return 1;
-     }
- 
--    ret = bdrv_common_block_status_above(bs, NULL, false, false, offset,
--                                         bytes, &pnum, NULL, NULL, NULL);
-+    ret = bdrv_co_common_block_status_above(bs, NULL, false, false, offset,
-+                                            bytes, &pnum, NULL, NULL, NULL);
- 
-     if (ret < 0) {
-         return ret;
-@@ -2798,9 +2798,9 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
-     int64_t dummy;
-     IO_CODE();
- 
--    ret = bdrv_common_block_status_above(bs, bs, true, false, offset,
--                                         bytes, pnum ? pnum : &dummy, NULL,
--                                         NULL, NULL);
-+    ret = bdrv_co_common_block_status_above(bs, bs, true, false, offset,
-+                                            bytes, pnum ? pnum : &dummy, NULL,
-+                                            NULL, NULL);
-     if (ret < 0) {
-         return ret;
-     }
-diff --git a/block/parallels.c b/block/parallels.c
-index 8879b7027a..22c59a1ee2 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -503,8 +503,8 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
-              * In order to really repair the image, we must shrink it.
-              * That means we have to pass exact=true.
-              */
--            ret = bdrv_truncate(bs->file, res->image_end_offset, true,
--                                PREALLOC_MODE_OFF, 0, &local_err);
-+            ret = bdrv_co_truncate(bs->file, res->image_end_offset, true,
-+                                   PREALLOC_MODE_OFF, 0, &local_err);
-             if (ret < 0) {
-                 error_report_err(local_err);
-                 res->check_errors++;
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index ed0ecfaa89..e30fd38e14 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -1233,7 +1233,7 @@ int coroutine_fn qcow2_flush_caches(BlockDriverState *bs)
-         return ret;
-     }
- 
--    return bdrv_flush(bs->file->bs);
-+    return bdrv_co_flush(bs->file->bs);
- }
- 
- /*********************************************************/
-diff --git a/block/qed-table.c b/block/qed-table.c
-index 1cc844b1a5..aa203f2627 100644
---- a/block/qed-table.c
-+++ b/block/qed-table.c
-@@ -100,7 +100,7 @@ static int coroutine_fn qed_write_table(BDRVQEDState *s, uint64_t offset,
-     }
- 
-     if (flush) {
--        ret = bdrv_flush(s->bs);
-+        ret = bdrv_co_flush(s->bs);
-         if (ret < 0) {
-             goto out;
-         }
-diff --git a/block/qed.c b/block/qed.c
-index 96f4cda83f..dc9f065c02 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -490,7 +490,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
-         }
- 
-         /* From here on only known autoclear feature bits are valid */
--        bdrv_flush(bs->file->bs);
-+        bdrv_co_flush(bs->file->bs);
-     }
- 
-     s->l1_table = qed_alloc_table(s);
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 38e5ab3806..5c94a2f27c 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2150,8 +2150,8 @@ vmdk_co_pwritev_compressed(BlockDriverState *bs, int64_t offset, int64_t bytes,
-                 return length;
-             }
-             length = QEMU_ALIGN_UP(length, BDRV_SECTOR_SIZE);
--            ret = bdrv_truncate(s->extents[i].file, length, false,
--                                PREALLOC_MODE_OFF, 0, NULL);
-+            ret = bdrv_co_truncate(s->extents[i].file, length, false,
-+                                   PREALLOC_MODE_OFF, 0, NULL);
-             if (ret < 0) {
-                 return ret;
-             }
--- 
-2.36.1
+On 6/28/22 05:05, Alexey Kardashevskiy wrote:
+> It keeps repeating, move it to the header. This uses __builtin_ffsll() to
+> allow using the macros in #define.
+> 
+> This is not using the QEMU's FIELD macros as this would require changing
+> all such macros found in skiboot (the PPC PowerNV firmware).
+> 
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
 
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+And queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
+
+
+Daniel
+
+
+
+
+
+
+> Changes:
+> v3:
+> * __builtin_ffsl -> __builtin_ffsll
+> 
+> v2:
+> * preserved the comment about skiboot
+> * copied the actual macros from skiboot:
+> https://github.com/open-power/skiboot/blob/master/include/bitutils.h#L31
+> ---
+>   include/hw/pci-host/pnv_phb3_regs.h | 16 ----------------
+>   target/ppc/cpu.h                    | 12 ++++++++++++
+>   hw/intc/pnv_xive.c                  | 20 --------------------
+>   hw/intc/pnv_xive2.c                 | 20 --------------------
+>   hw/pci-host/pnv_phb4.c              | 16 ----------------
+>   5 files changed, 12 insertions(+), 72 deletions(-)
+> 
+> diff --git a/include/hw/pci-host/pnv_phb3_regs.h b/include/hw/pci-host/pnv_phb3_regs.h
+> index a174ef1f7045..38f8ce9d7406 100644
+> --- a/include/hw/pci-host/pnv_phb3_regs.h
+> +++ b/include/hw/pci-host/pnv_phb3_regs.h
+> @@ -12,22 +12,6 @@
+>   
+>   #include "qemu/host-utils.h"
+>   
+> -/*
+> - * QEMU version of the GETFIELD/SETFIELD macros
+> - *
+> - * These are common with the PnvXive model.
+> - */
+> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+> -{
+> -    return (word & mask) >> ctz64(mask);
+> -}
+> -
+> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+> -                                uint64_t value)
+> -{
+> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+> -}
+> -
+>   /*
+>    * PBCQ XSCOM registers
+>    */
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 6d78078f379d..50cea032c853 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -47,6 +47,18 @@
+>                                    PPC_BIT32(bs))
+>   #define PPC_BITMASK8(bs, be)    ((PPC_BIT8(bs) - PPC_BIT8(be)) | PPC_BIT8(bs))
+>   
+> +/*
+> + * QEMU version of the GETFIELD/SETFIELD macros from skiboot
+> + *
+> + * It might be better to use the existing extract64() and
+> + * deposit64() but this means that all the register definitions will
+> + * change and become incompatible with the ones found in skiboot.
+> + */
+> +#define MASK_TO_LSH(m)          (__builtin_ffsll(m) - 1)
+> +#define GETFIELD(m, v)          (((v) & (m)) >> MASK_TO_LSH(m))
+> +#define SETFIELD(m, v, val) \
+> +        (((v) & ~(m)) | ((((typeof(v))(val)) << MASK_TO_LSH(m)) & (m)))
+> +
+>   /*****************************************************************************/
+>   /* Exception vectors definitions                                             */
+>   enum {
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index 1ce1d7b07d63..c7b75ed12ee0 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -66,26 +66,6 @@ static const XiveVstInfo vst_infos[] = {
+>       qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
+>                     (xive)->chip->chip_id, ## __VA_ARGS__);
+>   
+> -/*
+> - * QEMU version of the GETFIELD/SETFIELD macros
+> - *
+> - * TODO: It might be better to use the existing extract64() and
+> - * deposit64() but this means that all the register definitions will
+> - * change and become incompatible with the ones found in skiboot.
+> - *
+> - * Keep it as it is for now until we find a common ground.
+> - */
+> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+> -{
+> -    return (word & mask) >> ctz64(mask);
+> -}
+> -
+> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+> -                                uint64_t value)
+> -{
+> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+> -}
+> -
+>   /*
+>    * When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID
+>    * field overrides the hardwired chip ID in the Powerbus operations
+> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+> index f31c53c28dd2..f22ce5ca59ae 100644
+> --- a/hw/intc/pnv_xive2.c
+> +++ b/hw/intc/pnv_xive2.c
+> @@ -75,26 +75,6 @@ static const XiveVstInfo vst_infos[] = {
+>       qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
+>                     (xive)->chip->chip_id, ## __VA_ARGS__);
+>   
+> -/*
+> - * QEMU version of the GETFIELD/SETFIELD macros
+> - *
+> - * TODO: It might be better to use the existing extract64() and
+> - * deposit64() but this means that all the register definitions will
+> - * change and become incompatible with the ones found in skiboot.
+> - *
+> - * Keep it as it is for now until we find a common ground.
+> - */
+> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+> -{
+> -    return (word & mask) >> ctz64(mask);
+> -}
+> -
+> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+> -                                uint64_t value)
+> -{
+> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+> -}
+> -
+>   /*
+>    * TODO: Document block id override
+>    */
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index 6594016121a3..5d72c0c432b2 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -31,22 +31,6 @@
+>       qemu_log_mask(LOG_GUEST_ERROR, "phb4_pec[%d:%d]: " fmt "\n",        \
+>                     (pec)->chip_id, (pec)->index, ## __VA_ARGS__)
+>   
+> -/*
+> - * QEMU version of the GETFIELD/SETFIELD macros
+> - *
+> - * These are common with the PnvXive model.
+> - */
+> -static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+> -{
+> -    return (word & mask) >> ctz64(mask);
+> -}
+> -
+> -static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+> -                                uint64_t value)
+> -{
+> -    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+> -}
+> -
+>   static PCIDevice *pnv_phb4_find_cfg_dev(PnvPHB4 *phb)
+>   {
+>       PCIHostState *pci = PCI_HOST_BRIDGE(phb);
 
