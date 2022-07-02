@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675F456415C
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 18:16:02 +0200 (CEST)
-Received: from localhost ([::1]:37228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B162564237
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 20:58:13 +0200 (CEST)
+Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7fmq-00084L-MU
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 12:16:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37256)
+	id 1o7iJo-0005mX-3f
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 14:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o7fke-0007CI-Cj; Sat, 02 Jul 2022 12:13:44 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:58101)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1o7iI0-00054G-9a
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 14:56:20 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:35159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o7fkc-0000a0-Bf; Sat, 02 Jul 2022 12:13:44 -0400
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1o7iHu-0000TY-Bt
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 14:56:20 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 2DCCE2B05635;
- Sat,  2 Jul 2022 12:13:38 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id B904158081A;
+ Sat,  2 Jul 2022 14:56:12 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Sat, 02 Jul 2022 12:13:38 -0400
+ by compute2.internal (MEProxy); Sat, 02 Jul 2022 14:56:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm1; t=1656778417; x=1656782017; bh=6pcsCTAT6UOobcVoPJNWHIdGc
- 2h/ZielQl7uytO4ylc=; b=Ydlf7OBiS/mGRYlppsKX5aLUX+hp6FHhUBoVnLv4X
- gXrlXdQk0GCyZRSpwvCuJciSpe6O0HrIenThNvOM4Cs96XUWjWX2TtytuvfMjlyI
- DBA9drrWJ58PSVluhmcMO+ZTLG6Wcrz3TY4f/LqwM2PqjL4mbemwYj9tvvMKGHPg
- lvvFuC6st72m/Xfy85jrseJNNcydRJF8BKBA6+7ERMSHS8io3EaHcS4i+RpZmvM9
- sXbx5BiqY+bttlk/MZ7Ihxx0Knvsb41PWSQq7zCsUjfNrCiRNnEh7/IhCFhR6/OI
- aT1quXzw6GpW5jZUcd0gYJkauEM1a3AYSKrZtGayzvwuQ==
+ s=fm1; t=1656788172; x=1656791772; bh=1pApJnHCPaJnn6GHyPOLUnh8M
+ 3Feb2nyTHos/jxSO9g=; b=LwUhAD29AM2whGwRt/8Dn0HxnCWtPyXtYymakw7BI
+ Apln5vRQ4IaqAAQHKJl5y1IWAZ8++H8yhCVDnAIIN7fnr7MbWhsuu2hUMxV+qEG2
+ DMPrX5cFMEI9dxrzm2hSb5sb9qUm89IwvLIaBH6srnnTkIRhOFpstfAaSbxkwsJ/
+ eSrVO0BqKac9VGWTbOkmM0YCGvbOY/Gi3iTALMzeFOdLjnWSHzh/75egtYecXPoQ
+ haFpgVyI85eSNiuTk0m3sdT26mDBPs/dB0DT4Ip7A/oOLok+RISW1EqCBUVblqRJ
+ uOkYLihQJ272pyYpEqOUpyCPXbmaqUODQYz8TW6fgSQ7g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:message-id
  :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2;
- t=1656778417; x=1656782017; bh=6pcsCTAT6UOobcVoPJNWHIdGc2h/Ziel
- Ql7uytO4ylc=; b=c6HbA2Qqm96V+l03Bm6mCUamn52f/75smpweNBB/iYjkJ2yv
- hUnWewCWgmnLn8xNxtCz0A0dTsr8VKWi9AMNIxVluDM7FPs9Mp+cUEAN29b0yTFQ
- HkicWBVQj5GmO3JF+JnPKmSKVKgsrUnIVMCelF9Fmv3b7uMp7AQX+rz9f766TCN3
- xm+qZZZZz1Y9Ni4dvJJw/26GUxfwmVvE74meULYRlXgdSSb2Y0NY7QyaH8Hf7Qll
- Ozr1sDD0+gL88GFVhlAt+QoBw2/qk5rBURsYAXDQnc5J0/Xs+JnucSk+fokEBQRm
- Fgh1no64DMqvbefHFfhnLhPqPx3Va/F+4uMbiQ==
-X-ME-Sender: <xms:sW7AYuMrEQERZxj7fxjFs5BGTpX4Z0yUSDwsansEp3AuFke6mvyZiA>
- <xme:sW7AYs-993hEV35KV83nKkn0gxMiysQsHgfRDAsu39MZvYTzNAcYSnheiThj9AkyC
- -hrjLHeHJAyBk8tIuI>
-X-ME-Received: <xmr:sW7AYlQjOIos3s6pbG9vtrOenGugowHWSljzv_B3wh3pLVyplNmH10CpHG8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedgleejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnecujfgurhephffvvefufffkofgg
- gfestdekredtredttdenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceoph
- gvthgvrhesphhjugdruggvvheqnecuggftrfgrthhtvghrnhepvdejgefhkeejjeeitddu
- tddvueegheehfeelteffueegjedutdetgfdvgeevieegnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:sW7AYuvu9_fJ_6KhJUmw7YqVG1jSNaR8ScIfPTTvKy8NwZwHd_R-vg>
- <xmx:sW7AYmegH5wI1dXf2tkeN2-Wsjv-PpyjTgemFF_A-RYou68qLfkJjA>
- <xmx:sW7AYi1ybpXs0QrVTvmAg6RW_BXDJ2FWAevB0DnmKRRscJwopoqrJg>
- <xmx:sW7AYjEck43x2jZBfdRn3D4cs2gDNN9LlkZtGMgz13SvumZUQBtmKW1h8EE>
+ t=1656788172; x=1656791772; bh=1pApJnHCPaJnn6GHyPOLUnh8M3Feb2ny
+ THos/jxSO9g=; b=tldyY6hMzSnFUu6o6BwNkM+2ygt3bj8UZXgQApezNEzCxfQd
+ 3CER8Sp615O5O/VLGiOfb7WOv3cfw6Xc8NuiSnSg5KMAqoWMpoywSI12zpZyYsl4
+ vJi2IRLWqcnw2plkrIfe6hRM6CI3/DYkw/fBiBvlEAq/ZGSgI4958cAvzoAv4bQ4
+ dpRRWDcM2+Yl0i5l5F+UI41NCIeRvzQcND/EbI+aLEggsicKqkfhG9MpaEPLz2hG
+ e4wHUJT1n4W75hJ0FhOGSWVwgQrt8wakQOisLUnH0b1eZquHC4Vg6xbzMiAaK066
+ AqR0qp9jFUL8MtdPrHJrb5TWv9lePGhZUulkiQ==
+X-ME-Sender: <xms:zJTAYhBCbL85F8HgLWUudyPp5o_fBcCTXOLFsmpfoJ5WqcYQJfVjFA>
+ <xme:zJTAYvicKNPuLwi6d0kVwZnRQQlxChvb7ZfrnBPwuZQ3E5Xw4GiyZzHMccbzKVLkt
+ u9eVSzoNC6EvWoxdZU>
+X-ME-Received: <xmr:zJTAYsn9USF07U_vanFS6KwylDioecPMyNKHZ77fnj9sEkevS-guKYAxjaDyCyL_r0J6PzgPEtyWA3xs9eBWnTUmKZMmhhtj>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedgudefudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enmhhishhsihhnghcuvffquchfihgvlhguucdlfedtmdenogetfedtuddqtdduucdludeh
+ mdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefrvghtvg
+ hrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrght
+ thgvrhhnpedvjeeghfekjeejiedtuddtvdeugeehheefleetffeugeejuddttefgvdegve
+ eigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehp
+ vghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:zJTAYrwQG2KHSQ35GW0dPU-HozOjuI5dlvZLs_smW4xw4XwjIKWdYA>
+ <xmx:zJTAYmTMIsj9_mQ-rT73dQQvZDUxyVqv9zF4B9HB0aMv6i1m3GNIbw>
+ <xmx:zJTAYuZ6iR9mCoWqlBf4p8kocObIpn3BxYCm-h0JDND_gpOHYXZr4w>
+ <xmx:zJTAYsNS31If8mz-JoMRPbF40SweH4dX2oR12AoGWob4Y-KvTjsG0A>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Jul 2022 12:13:36 -0400 (EDT)
+ 2 Jul 2022 14:56:12 -0400 (EDT)
 From: Peter Delevoryas <peter@pjd.dev>
 To: 
-Cc: Peter Delevoryas <me@pjd.dev>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2] aspeed: Create SRAM name from first CPU index
-Date: Sat,  2 Jul 2022 09:13:27 -0700
-Message-Id: <20220702161327.80501-1-peter@pjd.dev>
+Cc: Peter Delevoryas <peter@pjd.dev>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
+Subject: [PATCH] avocado: Fix BUILD_DIR if it's equal to SOURCE_DIR
+Date: Sat,  2 Jul 2022 11:56:04 -0700
+Message-Id: <20220702185604.46643-1-peter@pjd.dev>
 X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.27; envelope-from=peter@pjd.dev;
- helo=wnew2-smtp.messagingengine.com
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=peter@pjd.dev;
+ helo=new2-smtp.messagingengine.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -99,171 +100,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Delevoryas <me@pjd.dev>
+I like to build QEMU from the root source directory, rather than cd'ing
+into the build directory. This code may as well include a search path
+for that, so that you can run avocado tests individually without
+specifying "-p qemu_bin=build/qemu-system-arm" manually.
 
-To support multiple SoC's running simultaneously, we need a unique name for
-each RAM region. DRAM is created by the machine, but SRAM is created by the
-SoC, since in hardware it is part of the SoC's internals.
-
-We need a way to uniquely identify each SRAM region though, for VM
-migration. Since each of the SoC's CPU's has an index which identifies it
-uniquely from other CPU's in the machine, we can use the index of any of the
-CPU's in the SoC to uniquely identify differentiate the SRAM name from other
-SoC SRAM's. In this change, I just elected to use the index of the first CPU
-in each SoC.
-
-Signed-off-by: Peter Delevoryas <me@pjd.dev>
+Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 ---
-Interdiff against v1:
-  diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-  index b6b6f0d053..677699e54c 100644
-  --- a/hw/arm/aspeed_ast10x0.c
-  +++ b/hw/arm/aspeed_ast10x0.c
-  @@ -159,7 +159,7 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-       DeviceState *armv7m;
-       Error *err = NULL;
-       int i;
-  -    char name[64];
-  +    g_autofree char *sram_name = NULL;
-   
-       if (!clock_has_source(s->sysclk)) {
-           error_setg(errp, "sysclk clock must be wired up by the board code");
-  @@ -184,9 +184,9 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-       sysbus_realize(SYS_BUS_DEVICE(&s->armv7m), &error_abort);
-   
-       /* Internal SRAM */
-  -    snprintf(name, sizeof(name), "aspeed.sram.%d",
-  -             CPU(s->armv7m.cpu)->cpu_index);
-  -    memory_region_init_ram(&s->sram, NULL, name, sc->sram_size, &err);
-  +    sram_name = g_strdup_printf("aspeed.sram.%d",
-  +                                CPU(s->armv7m.cpu)->cpu_index);
-  +    memory_region_init_ram(&s->sram, OBJECT(s), sram_name, sc->sram_size, &err);
-       if (err != NULL) {
-           error_propagate(errp, err);
-           return;
-  diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-  index 7efb9f888a..64eb5a7b26 100644
-  --- a/hw/arm/aspeed_ast2600.c
-  +++ b/hw/arm/aspeed_ast2600.c
-  @@ -276,7 +276,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-       AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-       Error *err = NULL;
-       qemu_irq irq;
-  -    char name[64];
-  +    g_autofree char *sram_name = NULL;
-   
-       /* IO space */
-       aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
-  @@ -336,8 +336,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-       }
-   
-       /* SRAM */
-  -    snprintf(name, sizeof(name), "aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
-  -    memory_region_init_ram(&s->sram, OBJECT(dev), name, sc->sram_size, &err);
-  +    sram_name = g_strdup_printf("aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
-  +    memory_region_init_ram(&s->sram, OBJECT(s), sram_name, sc->sram_size, &err);
-       if (err) {
-           error_propagate(errp, err);
-           return;
-  diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-  index 1ddba33d2a..0bb6a2f092 100644
-  --- a/hw/arm/aspeed_soc.c
-  +++ b/hw/arm/aspeed_soc.c
-  @@ -239,7 +239,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-       AspeedSoCState *s = ASPEED_SOC(dev);
-       AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-       Error *err = NULL;
-  -    char name[64];
-  +    g_autofree char *sram_name = NULL;
-   
-       /* IO space */
-       aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
-  @@ -260,8 +260,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-       }
-   
-       /* SRAM */
-  -    snprintf(name, sizeof(name), "aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
-  -    memory_region_init_ram(&s->sram, OBJECT(dev), name, sc->sram_size, &err);
-  +    sram_name = g_strdup_printf("aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
-  +    memory_region_init_ram(&s->sram, OBJECT(s), sram_name, sc->sram_size, &err);
-       if (err) {
-           error_propagate(errp, err);
-           return;
+ tests/avocado/avocado_qemu/__init__.py | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
- hw/arm/aspeed_ast10x0.c | 5 ++++-
- hw/arm/aspeed_ast2600.c | 5 +++--
- hw/arm/aspeed_soc.c     | 5 +++--
- 3 files changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index 33ef331771..677699e54c 100644
---- a/hw/arm/aspeed_ast10x0.c
-+++ b/hw/arm/aspeed_ast10x0.c
-@@ -159,6 +159,7 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-     DeviceState *armv7m;
-     Error *err = NULL;
-     int i;
-+    g_autofree char *sram_name = NULL;
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index b656a70c55..ed4853c805 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -120,14 +120,15 @@ def pick_default_qemu_bin(bin_prefix='qemu-system-', arch=None):
+     # qemu binary path does not match arch for powerpc, handle it
+     if 'ppc64le' in arch:
+         arch = 'ppc64'
+-    qemu_bin_relative_path = os.path.join(".", bin_prefix + arch)
+-    if is_readable_executable_file(qemu_bin_relative_path):
+-        return qemu_bin_relative_path
+-
+-    qemu_bin_from_bld_dir_path = os.path.join(BUILD_DIR,
+-                                              qemu_bin_relative_path)
+-    if is_readable_executable_file(qemu_bin_from_bld_dir_path):
+-        return qemu_bin_from_bld_dir_path
++    qemu_bin_name = bin_prefix + arch
++    qemu_bin_paths = [
++        os.path.join(".", qemu_bin_name),
++        os.path.join(BUILD_DIR, qemu_bin_name),
++        os.path.join(BUILD_DIR, "build", qemu_bin_name),
++    ]
++    for path in qemu_bin_paths:
++        if is_readable_executable_file(path):
++            return path
+     return None
  
-     if (!clock_has_source(s->sysclk)) {
-         error_setg(errp, "sysclk clock must be wired up by the board code");
-@@ -183,7 +184,9 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&s->armv7m), &error_abort);
  
-     /* Internal SRAM */
--    memory_region_init_ram(&s->sram, NULL, "aspeed.sram", sc->sram_size, &err);
-+    sram_name = g_strdup_printf("aspeed.sram.%d",
-+                                CPU(s->armv7m.cpu)->cpu_index);
-+    memory_region_init_ram(&s->sram, OBJECT(s), sram_name, sc->sram_size, &err);
-     if (err != NULL) {
-         error_propagate(errp, err);
-         return;
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 3f0611ac11..64eb5a7b26 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -276,6 +276,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-     Error *err = NULL;
-     qemu_irq irq;
-+    g_autofree char *sram_name = NULL;
- 
-     /* IO space */
-     aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
-@@ -335,8 +336,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     }
- 
-     /* SRAM */
--    memory_region_init_ram(&s->sram, OBJECT(dev), "aspeed.sram",
--                           sc->sram_size, &err);
-+    sram_name = g_strdup_printf("aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
-+    memory_region_init_ram(&s->sram, OBJECT(s), sram_name, sc->sram_size, &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 0f675e7fcd..0bb6a2f092 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -239,6 +239,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     AspeedSoCState *s = ASPEED_SOC(dev);
-     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-     Error *err = NULL;
-+    g_autofree char *sram_name = NULL;
- 
-     /* IO space */
-     aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
-@@ -259,8 +260,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     }
- 
-     /* SRAM */
--    memory_region_init_ram(&s->sram, OBJECT(dev), "aspeed.sram",
--                           sc->sram_size, &err);
-+    sram_name = g_strdup_printf("aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
-+    memory_region_init_ram(&s->sram, OBJECT(s), sram_name, sc->sram_size, &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
 -- 
 2.37.0
 
