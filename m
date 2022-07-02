@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C692C563EB3
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 07:58:59 +0200 (CEST)
-Received: from localhost ([::1]:54506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE67563EB8
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 08:04:24 +0200 (CEST)
+Received: from localhost ([::1]:57548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7W9i-00019Y-Dh
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 01:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33758)
+	id 1o7WEw-0003LU-Nu
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 02:04:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7W8D-0000Fw-T1
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 01:57:25 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:55007)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7WC3-00024f-AU
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 02:01:23 -0400
+Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:48323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7W8A-0003zL-EQ
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 01:57:25 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.210])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B10EA1139054A;
- Sat,  2 Jul 2022 07:57:10 +0200 (CEST)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o7WC0-0004ga-8b
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 02:01:23 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 6C66624856;
+ Sat,  2 Jul 2022 06:01:16 +0000 (UTC)
+Received: from kaod.org (37.59.142.110) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Sat, 2 Jul 2022
- 07:57:09 +0200
+ 08:01:15 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001efc17533-35b1-47c6-9249-192afbf025e7,
- 32283016ABE7C641B3A1D9886F1F20E1EE1CEFF1) smtp.auth=clg@kaod.org
+ (GARM-110S0041635b4ef-0324-4f2f-90f9-e91b11c1f8c2,
+ FB2626423410402F5F47B43F186DFD06AD25B17E) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <8b3f31c7-3326-2542-03cd-120702cae4bb@kaod.org>
-Date: Sat, 2 Jul 2022 07:57:09 +0200
+Message-ID: <3b367b09-075e-a21b-8d24-3b2be091f816@kaod.org>
+Date: Sat, 2 Jul 2022 08:01:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH v2] aspeed: Refactor UART init for multi-SoC machines
+Subject: Re: [PATCH] aspeed: Create SRAM name from first CPU index
 Content-Language: en-US
 To: Peter Delevoryas <me@pjd.dev>
-CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>, <peter.maydell@linaro.org>
-References: <20220701200234.68289-1-me@pjd.dev>
+CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220701180603.38408-1-me@pjd.dev>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220701200234.68289-1-me@pjd.dev>
+In-Reply-To: <20220701180603.38408-1-me@pjd.dev>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.110]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 47ae7180-82d5-4308-beb3-2b6a59a8dd1b
-X-Ovh-Tracer-Id: 16011985526307588902
+X-Ovh-Tracer-GUID: 271d87e8-5d0a-4bb2-99f6-de98edbafc89
+X-Ovh-Tracer-Id: 16081228370541251366
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffgefgkeevvedvvdffleefheelfffhhfetgeekudeuveffffekjeeiveffledthfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedguddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
+ helo=7.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,291 +74,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/22 22:02, Peter Delevoryas wrote:
-> This change moves the code that connects the SoC UART's to serial_hd's
-> to the machine.
+On 7/1/22 20:06, Peter Delevoryas wrote:
+> To support multiple SoC's running simultaneously, we need a unique name for
+> each RAM region. DRAM is created by the machine, but SRAM is created by the
+> SoC, since in hardware it is part of the SoC's internals.
 > 
-> It makes each UART a proper child member of the SoC, and then allows the
-> machine to selectively initialize the chardev for each UART with a
-> serial_hd.
-> 
-> This should preserve backwards compatibility, but also allow multi-SoC
-> boards to completely change the wiring of serial devices from the
-> command line to specific SoC UART's.
-> 
-> This also removes the uart-default property from the SoC, since the SoC
-> doesn't need to know what UART is the "default" on the machine anymore.
-> 
-> I tested this using the images and commands from the previous
-> refactoring, and another test image for the ast1030:
-> 
->      wget https://github.com/facebook/openbmc/releases/download/v2021.49.0/fuji.mtd
->      wget https://github.com/facebook/openbmc/releases/download/v2021.49.0/wedge100.mtd
->      wget https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.13.01/Y35BCL.elf
-> 
-> Fuji uses UART1:
-> 
->      qemu-system-arm -machine fuji-bmc \
->          -drive file=fuji.mtd,format=raw,if=mtd \
->          -nographic
-> 
-> ast2600-evb uses uart-default=UART5:
-> 
->      qemu-system-arm -machine ast2600-evb \
->          -drive file=fuji.mtd,format=raw,if=mtd \
->          -serial null -serial mon:stdio -display none
-> 
-> Wedge100 uses UART3:
-> 
->      qemu-system-arm -machine palmetto-bmc \
->          -drive file=wedge100.mtd,format=raw,if=mtd \
->          -serial null -serial null -serial null \
->          -serial mon:stdio -display none
-> 
-> AST1030 EVB uses UART5:
-> 
->      qemu-system-arm -machine ast1030-evb \
->          -kernel Y35BCL.elf -nographic
+> We need a way to uniquely identify each SRAM region though, for VM
+> migration. Since each of the SoC's CPU's has an index which identifies it
+> uniquely from other CPU's in the machine, we can use the index of any of the
+> CPU's in the SoC to uniquely identify differentiate the SRAM name from other
+> SoC SRAM's. In this change, I just elected to use the index of the first CPU
+> in each SoC.
 
-Looks good. A few comments on the APIs.
+hopefully the index is allocated. Did you check ?
 
-> 
-> Fixes: 6827ff20b2975 ("hw: aspeed: Init all UART's with serial devices")
+
 > Signed-off-by: Peter Delevoryas <me@pjd.dev>
 > ---
->   hw/arm/aspeed.c             | 23 +++++++++++++++----
->   hw/arm/aspeed_ast10x0.c     |  4 ++++
->   hw/arm/aspeed_ast2600.c     |  4 ++++
->   hw/arm/aspeed_soc.c         | 44 ++++++++++++++++++++++++-------------
->   include/hw/arm/aspeed_soc.h |  5 ++++-
->   5 files changed, 60 insertions(+), 20 deletions(-)
+>   hw/arm/aspeed_ast10x0.c | 5 ++++-
+>   hw/arm/aspeed_ast2600.c | 5 +++--
+>   hw/arm/aspeed_soc.c     | 5 +++--
+>   3 files changed, 10 insertions(+), 5 deletions(-)
 > 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 6fe9b13548..fdca0abd95 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -26,6 +26,7 @@
->   #include "qemu/error-report.h"
->   #include "qemu/units.h"
->   #include "hw/qdev-clock.h"
-> +#include "sysemu/sysemu.h"
->   
->   static struct arm_boot_info aspeed_board_binfo = {
->       .board_id = -1, /* device-tree-only board */
-> @@ -301,6 +302,22 @@ static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
->                                  &error_fatal);
->   }
->   
-> +static void connect_serial_hds_to_uarts(AspeedMachineState *bmc)
-
-something like :
-
-   void aspeed_soc_uart_connect(AspeedSoCState *s, int uart_default)
-
-which could be exported from aspeed_soc.c
-
-> +{
-> +    AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(bmc);
-
-and you wouldn't need the machine.
-
-> +    AspeedSoCState *s = &bmc->soc;
-> +
-> +    aspeed_soc_uart_set_chr(s, amc->uart_default, serial_hd(0));
-> +    for (int i = 1, uart = ASPEED_DEV_UART1;
-> +         serial_hd(i) && uart <= ASPEED_DEV_UART13; i++, uart++) {
-
-We should test for :
-
-   ASPEED_SOC_GET_CLASS(s)->uarts_num
-
-I am not sure we want to stop the loop if serial_hd(i) is NULL ?
-
-> +
-> +        if (uart == amc->uart_default) {
-> +            continue;
-> +        }
-> +        aspeed_soc_uart_set_chr(s, uart, serial_hd(i));
-> +    }
-> +}>   static void aspeed_machine_init(MachineState *machine)
->   {
->       AspeedMachineState *bmc = ASPEED_MACHINE(machine);
-> @@ -346,8 +363,7 @@ static void aspeed_machine_init(MachineState *machine)
->           object_property_set_int(OBJECT(&bmc->soc), "hw-prot-key",
->                                   ASPEED_SCU_PROT_KEY, &error_abort);
->       }
-> -    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
-> -                         amc->uart_default);
-> +    connect_serial_hds_to_uarts(bmc);
->       qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
->   
->       aspeed_board_init_flashes(&bmc->soc.fmc,
-> @@ -1383,8 +1399,7 @@ static void aspeed_minibmc_machine_init(MachineState *machine)
->   
->       object_property_set_link(OBJECT(&bmc->soc), "memory",
->                                OBJECT(get_system_memory()), &error_abort);
-> -    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
-> -                         amc->uart_default);
-> +    connect_serial_hds_to_uarts(bmc);
->       qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
->   
->       aspeed_board_init_flashes(&bmc->soc.fmc,
 > diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-> index 33ef331771..a221f5d6fe 100644
+> index 33ef331771..b6b6f0d053 100644
 > --- a/hw/arm/aspeed_ast10x0.c
 > +++ b/hw/arm/aspeed_ast10x0.c
-> @@ -144,6 +144,10 @@ static void aspeed_soc_ast1030_init(Object *obj)
->           object_initialize_child(obj, "wdt[*]", &s->wdt[i], typename);
->       }
+> @@ -159,6 +159,7 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+>       DeviceState *armv7m;
+>       Error *err = NULL;
+>       int i;
+> +    char name[64];
 >   
-> +    for (i = 0; i < sc->uarts_num; i++) {
-> +        object_initialize_child(obj, "uart[*]", &s->uart[i], TYPE_SERIAL_MM);
-> +    }
-> +
->       snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
->       object_initialize_child(obj, "gpio", &s->gpio, typename);
+>       if (!clock_has_source(s->sysclk)) {
+>           error_setg(errp, "sysclk clock must be wired up by the board code");
+> @@ -183,7 +184,9 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+>       sysbus_realize(SYS_BUS_DEVICE(&s->armv7m), &error_abort);
 >   
+>       /* Internal SRAM */
+> -    memory_region_init_ram(&s->sram, NULL, "aspeed.sram", sc->sram_size, &err);
+> +    snprintf(name, sizeof(name), "aspeed.sram.%d",
+> +             CPU(s->armv7m.cpu)->cpu_index);
+> +    memory_region_init_ram(&s->sram, NULL, name, sc->sram_size, &err);
+>       if (err != NULL) {
+>           error_propagate(errp, err);
+>           return;
 > diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index 3f0611ac11..c4ad26a046 100644
+> index 3f0611ac11..7efb9f888a 100644
 > --- a/hw/arm/aspeed_ast2600.c
 > +++ b/hw/arm/aspeed_ast2600.c
-> @@ -214,6 +214,10 @@ static void aspeed_soc_ast2600_init(Object *obj)
->           object_initialize_child(obj, "mii[*]", &s->mii[i], TYPE_ASPEED_MII);
->       }
->   
-> +    for (i = 0; i < sc->uarts_num; i++) {
-> +        object_initialize_child(obj, "uart[*]", &s->uart[i], TYPE_SERIAL_MM);
-> +    }
-> +
->       snprintf(typename, sizeof(typename), TYPE_ASPEED_XDMA "-%s", socname);
->       object_initialize_child(obj, "xdma", &s->xdma, typename);
->   
-> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-> index 0f675e7fcd..2ac18cbf27 100644
-> --- a/hw/arm/aspeed_soc.c
-> +++ b/hw/arm/aspeed_soc.c
-> @@ -208,6 +208,10 @@ static void aspeed_soc_init(Object *obj)
->                                   TYPE_FTGMAC100);
->       }
->   
-> +    for (i = 0; i < sc->uarts_num; i++) {
-> +        object_initialize_child(obj, "uart[*]", &s->uart[i], TYPE_SERIAL_MM);
-> +    }
-> +
->       snprintf(typename, sizeof(typename), TYPE_ASPEED_XDMA "-%s", socname);
->       object_initialize_child(obj, "xdma", &s->xdma, typename);
->   
-> @@ -481,8 +485,6 @@ static Property aspeed_soc_properties[] = {
->                        MemoryRegion *),
->       DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION,
->                        MemoryRegion *),
-> -    DEFINE_PROP_UINT32("uart-default", AspeedSoCState, uart_default,
-> -                       ASPEED_DEV_UART5),
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
-> @@ -575,22 +577,34 @@ qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev)
->   void aspeed_soc_uart_init(AspeedSoCState *s)
-
-We can handle errors now. So :
-
-   bool aspeed_soc_uart_realize(AspeedSoCState *s, Error **errp)
-
->   {
+> @@ -276,6 +276,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
 >       AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-> -    int i, uart;
-> -
-> -    /* Attach an 8250 to the IO space as our UART */
-> -    serial_mm_init(s->memory, sc->memmap[s->uart_default], 2,
-> -                   aspeed_soc_get_irq(s, s->uart_default), 38400,
-> -                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
-> -    for (i = 1, uart = ASPEED_DEV_UART1; i < sc->uarts_num; i++, uart++) {
-> -        if (uart == s->uart_default) {
-> -            uart++;
-> -        }
-> -        serial_mm_init(s->memory, sc->memmap[uart], 2,
-> -                       aspeed_soc_get_irq(s, uart), 38400,
-> -                       serial_hd(i), DEVICE_LITTLE_ENDIAN);
-> +    SerialMM *smm;
-> +    MemoryRegion *mr;
-> +
-> +    for (int i = 0, uart = ASPEED_DEV_UART1; i < sc->uarts_num; i++, uart++) {
-> +        smm = &s->uart[i];
-> +
-> +        /* Chardev property is set by the machine. */
-> +        qdev_prop_set_uint8(DEVICE(smm), "regshift", 2);
-> +        qdev_prop_set_uint32(DEVICE(smm), "baudbase", 38400);
-> +        qdev_set_legacy_instance_id(DEVICE(smm), sc->memmap[uart], 2);
-> +        qdev_prop_set_uint8(DEVICE(smm), "endianness", DEVICE_LITTLE_ENDIAN);
-> +        sysbus_realize(SYS_BUS_DEVICE(smm), &error_fatal);
+>       Error *err = NULL;
+>       qemu_irq irq;
+> +    char name[64];
 
-use errp instead and return false in case of failure.
+May be ?
 
-> +
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(smm), 0, aspeed_soc_get_irq(s, uart));
-> +        mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(smm), 0);
-> +        memory_region_add_subregion(s->memory, sc->memmap[uart], mr);
+      g_autofree char *sram_name =
+             g_strdup_printf("aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
 
-You introduced aspeed_mmio_map() :)
-
->       }
->   }
->   
-> +void aspeed_soc_uart_set_chr(AspeedSoCState *s, int dev, Chardev *chr)
-
-you could merge this routine in aspeed_soc_uart_connect() I think.
 
 Thanks,
 
 C.
 
 
-> +{
-> +    AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-> +    int i = dev - ASPEED_DEV_UART1;
-> +
-> +    g_assert(0 <= i && i < ARRAY_SIZE(s->uart) && i < sc->uarts_num);
-> +    qdev_prop_set_chr(DEVICE(&s->uart[i]), "chardev", chr);
-> +}
-> +
->   /*
->    * SDMC should be realized first to get correct RAM size and max size
->    * values
-> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-> index e65926a667..60ee0a84db 100644
-> --- a/include/hw/arm/aspeed_soc.h
-> +++ b/include/hw/arm/aspeed_soc.h
-> @@ -36,12 +36,14 @@
->   #include "hw/misc/aspeed_lpc.h"
->   #include "hw/misc/unimp.h"
->   #include "hw/misc/aspeed_peci.h"
-> +#include "hw/char/serial.h"
 >   
->   #define ASPEED_SPIS_NUM  2
->   #define ASPEED_EHCIS_NUM 2
->   #define ASPEED_WDTS_NUM  4
->   #define ASPEED_CPUS_NUM  2
->   #define ASPEED_MACS_NUM  4
-> +#define ASPEED_UARTS_NUM 13
+>       /* IO space */
+>       aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
+> @@ -335,8 +336,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>       }
 >   
->   struct AspeedSoCState {
->       /*< private >*/
-> @@ -79,7 +81,7 @@ struct AspeedSoCState {
->       AspeedSDHCIState emmc;
->       AspeedLPCState lpc;
->       AspeedPECIState peci;
-> -    uint32_t uart_default;
-> +    SerialMM uart[ASPEED_UARTS_NUM];
->       Clock *sysclk;
->       UnimplementedDeviceState iomem;
->       UnimplementedDeviceState video;
-> @@ -176,6 +178,7 @@ enum {
+>       /* SRAM */
+> -    memory_region_init_ram(&s->sram, OBJECT(dev), "aspeed.sram",
+> -                           sc->sram_size, &err);
+> +    snprintf(name, sizeof(name), "aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
+> +    memory_region_init_ram(&s->sram, OBJECT(dev), name, sc->sram_size, &err);
+>       if (err) {
+>           error_propagate(errp, err);
+>           return;
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index 0f675e7fcd..1ddba33d2a 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -239,6 +239,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>       AspeedSoCState *s = ASPEED_SOC(dev);
+>       AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+>       Error *err = NULL;
+> +    char name[64];
 >   
->   qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
->   void aspeed_soc_uart_init(AspeedSoCState *s);
-> +void aspeed_soc_uart_set_chr(AspeedSoCState *s, int dev, Chardev *chr);
->   bool aspeed_soc_dram_init(AspeedSoCState *s, Error **errp);
->   void aspeed_mmio_map(AspeedSoCState *s, SysBusDevice *dev, int n, hwaddr addr);
->   void aspeed_mmio_map_unimplemented(AspeedSoCState *s, SysBusDevice *dev,
+>       /* IO space */
+>       aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->iomem), "aspeed.io",
+> @@ -259,8 +260,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>       }
+>   
+>       /* SRAM */
+> -    memory_region_init_ram(&s->sram, OBJECT(dev), "aspeed.sram",
+> -                           sc->sram_size, &err);
+> +    snprintf(name, sizeof(name), "aspeed.sram.%d", CPU(&s->cpu[0])->cpu_index);
+> +    memory_region_init_ram(&s->sram, OBJECT(dev), name, sc->sram_size, &err);
+>       if (err) {
+>           error_propagate(errp, err);
+>           return;
 
 
