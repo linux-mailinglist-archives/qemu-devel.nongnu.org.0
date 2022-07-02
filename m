@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFE6563ED8
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 08:47:49 +0200 (CEST)
-Received: from localhost ([::1]:38040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B45E563EDA
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 08:56:36 +0200 (CEST)
+Received: from localhost ([::1]:41426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7Wuy-0005vF-Cm
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 02:47:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40260)
+	id 1o7X3T-00004q-2i
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 02:56:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o7Wrs-0004Io-Rz; Sat, 02 Jul 2022 02:44:36 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:53581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o7Wrq-0003WO-8I; Sat, 02 Jul 2022 02:44:36 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id E97F0580B4E;
- Sat,  2 Jul 2022 02:44:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Sat, 02 Jul 2022 02:44:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656744271; x=
- 1656747871; bh=E4rgJaOB2WrOAKBtp73ZAWx40ZKlrMpikkNuMVImZfA=; b=o
- JOZeLPHTYOZyz/slq+EmoCzz/aLrvSg9QnECufPsvrSIk+C/jO+lhBZO0zNnmEuI
- CZQRwWIakJVUzArDqO4lj/xMcHGDgAWgaqW5sW7j5Rv2GYv0kMQqGQ6JgvWfRyvM
- YjHk+ROG8g6I+HQJHTpbjXQru7JDuqubHiE+fU2R16UxoiL41vS/e3jB5yXQb3V5
- +UiYIgvocSjqTOGdKgRNQMp4+dUZVJ2tRoD6P8/53qpNq1nvGzQqf6To4l9Eta78
- eMd+QdzBeMVl7vGRzXMFZF+mA8xuAuE/DB5tV+G2odmcwHZ6vesSVkQygA/6bHA5
- wsNXZGLO93K3Tsw/eqkEg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2; t=
- 1656744271; x=1656747871; bh=E4rgJaOB2WrOAKBtp73ZAWx40ZKlrMpikkN
- uMVImZfA=; b=g798pfnmwx5ULii1e10y/zPB9vplmVGXdmEtDC1XjQ3Y/KOS8UU
- PrC7Q0Tr4DhGo2kNu7Xg6OjUOPgnAiGypvauaJhkzjASpgwSP9nOsQHZgQtPBO6A
- vtQlQlSstctjB4SBXTNsaQnqiutUg7IKYlhc0wP8ccaCzHqrD6WC4luqZl/eLUj1
- CIljvZVzwoV79UWrGywd1cYj2nBhePAgh5beWuktWRRVtbnuV3EOlJyuAr7bs4V0
- WoHESwLfYQFOCZagpCx1PKIXm+djWP7EHDHNTq72mTHC4UJCWnUGdfHgCbyxBBqo
- ZH1yQbIDMh0CCcITzjRtsfBP+20DQmcDDHA==
-X-ME-Sender: <xms:T-m_YjY5KMK2YHeLbzze4tsnzBhCzPDw_Vlrqr3tz5m4Ip6xrTeo8A>
- <xme:T-m_Yib8RKh7RlYZrCTjK9a2LocrHOecKt37iPvmLC3Fd6jGv9EWeoOiopCrFtZ_R
- ImaeBilG7Bg1jO7b-k>
-X-ME-Received: <xmr:T-m_Yl_YUf7w3Sv-hK-_MaGq0dXpB8DZPokpm6yYisRXNv4mI10vc_50DDgt_K59p7xNodSEtCA-BZfpICzto0TtoI6xuOE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgudduvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggugfgjse
- htkeertddttddunecuhfhrohhmpefrvghtvghrucffvghlvghvohhrhigrshcuoehpvght
- vghrsehpjhgurdguvghvqeenucggtffrrghtthgvrhhnpefgueekffdtueetgfehteffle
- dtueehgfehgeelfedujeefhfffteekvddtfeetteenucffohhmrghinhepghhithhhuhgs
- rdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:T-m_Yprmte8QGomyWGaRJTC7sInYfhfwcBLvk5eDxFXxUTCKNEyQ3w>
- <xmx:T-m_YupP3dv_mUSls0acD8QPA7N9AXuA8iGfag1jU6wED2KZmMTFJA>
- <xmx:T-m_YvTepYtamS45PngMdTwz2wJNVLq9Wl9DDYjryS3dldB7kX9x0Q>
- <xmx:T-m_YrC0dcgDE9o6lKZ_S9hL7MfH8HyzKYEMRVvW2BbjXvoZIWdmFA>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Jul 2022 02:44:30 -0400 (EDT)
-Date: Fri, 1 Jul 2022 23:44:28 -0700
-From: Peter Delevoryas <peter@pjd.dev>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: Peter Delevoryas <me@pjd.dev>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, joel@jms.id.au, andrew@aj.id.au,
- peter.maydell@linaro.org
-Subject: Re: [PATCH v2] aspeed: Refactor UART init for multi-SoC machines
-Message-ID: <Yr/pTGzMBJczrUiZ@pdel-mbp>
-References: <20220701200234.68289-1-me@pjd.dev>
- <8b3f31c7-3326-2542-03cd-120702cae4bb@kaod.org>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o7X13-0007gH-CT; Sat, 02 Jul 2022 02:54:05 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:38545)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o7X11-0005mO-HA; Sat, 02 Jul 2022 02:54:05 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ 89-20020a17090a09e200b001ef7638e536so224211pjo.3; 
+ Fri, 01 Jul 2022 23:54:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6zxFYznBYJg035FIi/KaFMQDD3HfuRZesSTkP6SrKeE=;
+ b=E3aKDX0rVCaj+NCf6dlE5BqpRvowV1ul2Kx20PbDEVQ5kQvaE/T3lRXQuIsQ3r3XS/
+ 23ts+110wN9AtU6gQL+r3na4NEZsCEfmo2V1a1GkOZpSCaA5/XFPcJ1yXzYbbQzeXccK
+ zeprWt0Ml9DwZXU5KgwmZ5dtFhDMNWdgAHxOS2WEzN7/TZC0RRFA0v0RRWyIn9bNd1xi
+ oh7ZE9lyxdqBRrAUZJs+EPTWQYAf9qv85EfrYU4/AfskYG+bP4BW7MF8XMP0np9q16Km
+ urk74+xT8YOZFPWKva2oQ6oSEem1MCI6+N/pVYmiqQKIxJG5/T2j9l31eQVuCZtnn90V
+ TITw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6zxFYznBYJg035FIi/KaFMQDD3HfuRZesSTkP6SrKeE=;
+ b=66FkDDuyPIravDe1x4yNACNun4/wJCnd4H6Xh4dXMin9E53tanNEqXkRpTMI9wK7zC
+ L9Jg7gaIrIS+az1nGecXKg/XUmSJC++Q9HkUXuRndLjOz7NO8yZZ3YMWtEP44Dh93Mnw
+ fjyP3a91S3+2z47127LEUYjbv6RckoVfaim3cWQa6M+qKrJdWz107/hxMIF9ldM+n2Yb
+ QfjV8Y4EYepJ96iHepaXaC2l+a8nMsbgxMlV+RcEv/mRKWV6H6Jj2yK79qZnH97sX4k+
+ 4GNAE8EGRZwO5G8BdsMkE0oZzA6Xi+lJsXipwyINEj/JRJVdt34RSgsPBHWnd701CtAp
+ 7uOA==
+X-Gm-Message-State: AJIora8I/gNlL7AKs+p8x5Whxxpe3OIa8D8N/HxtH61F6aBgeSqG45o6
+ Qndnp1wNBgybhj8fQfxpZEcecAV5lB+8sArKVws=
+X-Google-Smtp-Source: AGRyM1tW2io0A3GOtNQfT0RY9KC0CI/gUIVhBNj2pRLplQ050E3sYCVIrXrtllBEQ3FTCbKnwZF43/oReMCndaumm1A=
+X-Received: by 2002:a17:902:b289:b0:16b:940d:18bb with SMTP id
+ u9-20020a170902b28900b0016b940d18bbmr21956227plr.83.1656744841351; Fri, 01
+ Jul 2022 23:54:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8b3f31c7-3326-2542-03cd-120702cae4bb@kaod.org>
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=peter@pjd.dev;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+References: <20220629233102.275181-1-alistair.francis@opensource.wdc.com>
+ <20220629233102.275181-2-alistair.francis@opensource.wdc.com>
+ <CAEUhbmV=j3jxUh+UiTGKtSZeXwBdhu+xeO3J_NFZT593TUPVHg@mail.gmail.com>
+In-Reply-To: <CAEUhbmV=j3jxUh+UiTGKtSZeXwBdhu+xeO3J_NFZT593TUPVHg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Sat, 2 Jul 2022 16:53:35 +1000
+Message-ID: <CAKmqyKNg70sAUf6QrFmb=t2_bV3WodJbnSeju6UPzR0dBpLUag@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/riscv: Fixup MSECCFG minimum priv check
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: Alistair Francis <alistair.francis@opensource.wdc.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,351 +87,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 02, 2022 at 07:57:09AM +0200, Cédric Le Goater wrote:
-> On 7/1/22 22:02, Peter Delevoryas wrote:
-> > This change moves the code that connects the SoC UART's to serial_hd's
-> > to the machine.
-> > 
-> > It makes each UART a proper child member of the SoC, and then allows the
-> > machine to selectively initialize the chardev for each UART with a
-> > serial_hd.
-> > 
-> > This should preserve backwards compatibility, but also allow multi-SoC
-> > boards to completely change the wiring of serial devices from the
-> > command line to specific SoC UART's.
-> > 
-> > This also removes the uart-default property from the SoC, since the SoC
-> > doesn't need to know what UART is the "default" on the machine anymore.
-> > 
-> > I tested this using the images and commands from the previous
-> > refactoring, and another test image for the ast1030:
-> > 
-> >      wget https://github.com/facebook/openbmc/releases/download/v2021.49.0/fuji.mtd
-> >      wget https://github.com/facebook/openbmc/releases/download/v2021.49.0/wedge100.mtd
-> >      wget https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.13.01/Y35BCL.elf
-> > 
-> > Fuji uses UART1:
-> > 
-> >      qemu-system-arm -machine fuji-bmc \
-> >          -drive file=fuji.mtd,format=raw,if=mtd \
-> >          -nographic
-> > 
-> > ast2600-evb uses uart-default=UART5:
-> > 
-> >      qemu-system-arm -machine ast2600-evb \
-> >          -drive file=fuji.mtd,format=raw,if=mtd \
-> >          -serial null -serial mon:stdio -display none
-> > 
-> > Wedge100 uses UART3:
-> > 
-> >      qemu-system-arm -machine palmetto-bmc \
-> >          -drive file=wedge100.mtd,format=raw,if=mtd \
-> >          -serial null -serial null -serial null \
-> >          -serial mon:stdio -display none
-> > 
-> > AST1030 EVB uses UART5:
-> > 
-> >      qemu-system-arm -machine ast1030-evb \
-> >          -kernel Y35BCL.elf -nographic
-> 
-> Looks good. A few comments on the APIs.
-> 
-> > 
-> > Fixes: 6827ff20b2975 ("hw: aspeed: Init all UART's with serial devices")
-> > Signed-off-by: Peter Delevoryas <me@pjd.dev>
+On Fri, Jul 1, 2022 at 10:32 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Thu, Jun 30, 2022 at 7:31 AM Alistair Francis
+> <alistair.francis@opensource.wdc.com> wrote:
+> >
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > There is nothing in the RISC-V spec that mandates version 1.12 is
+> > required for ePMP and there is currently hardware [1] that implements
+> > ePMP (a draft version though) with the 1.11 priv spec.
+> >
+> > 1: https://ibex-core.readthedocs.io/en/latest/01_overview/compliance.html
+> >
+> > Fixes: a4b2fa433125af0305b0695d7f8dda61db3364b0 target/riscv: Introduce privilege version field in the CSR ops.
+>
+> The format is
+>
+> Fixes: 12 digits commit id ("commit title")
+
+Thanks! I meant to come back and fix this up but then forgot
+
+Applied to riscv-to-apply.next
+
+Alistair
+
+>
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > > ---
-> >   hw/arm/aspeed.c             | 23 +++++++++++++++----
-> >   hw/arm/aspeed_ast10x0.c     |  4 ++++
-> >   hw/arm/aspeed_ast2600.c     |  4 ++++
-> >   hw/arm/aspeed_soc.c         | 44 ++++++++++++++++++++++++-------------
-> >   include/hw/arm/aspeed_soc.h |  5 ++++-
-> >   5 files changed, 60 insertions(+), 20 deletions(-)
-> > 
-> > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> > index 6fe9b13548..fdca0abd95 100644
-> > --- a/hw/arm/aspeed.c
-> > +++ b/hw/arm/aspeed.c
-> > @@ -26,6 +26,7 @@
-> >   #include "qemu/error-report.h"
-> >   #include "qemu/units.h"
-> >   #include "hw/qdev-clock.h"
-> > +#include "sysemu/sysemu.h"
-> >   static struct arm_boot_info aspeed_board_binfo = {
-> >       .board_id = -1, /* device-tree-only board */
-> > @@ -301,6 +302,22 @@ static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
-> >                                  &error_fatal);
-> >   }
-> > +static void connect_serial_hds_to_uarts(AspeedMachineState *bmc)
-> 
-> something like :
-> 
->   void aspeed_soc_uart_connect(AspeedSoCState *s, int uart_default)
-> 
-> which could be exported from aspeed_soc.c
-
-Actually I kinda disagree on this.
-
-In aspeed_soc.h, I added
-
-    aspeed_soc_uart_set_chr(AspeedSoCState *s, int dev, Chardev *chr)
-
-This is to allow Aspeed SoC users to set the Chardev for each UART.
-
-Then, in aspeed.c, I added connect_serial_hds_to_uarts to perform the wiring
-functionality that we've expected up to this point, which is to connect all the
-serial devices to one SoC.
-
-I'm imagining that we would use aspeed_soc_uart_set_chr in the fby35
-machine like this:
-
-diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
-index 0755e3f04f..85abf67b23 100644
---- a/hw/arm/fby35.c
-+++ b/hw/arm/fby35.c
-@@ -26,6 +26,7 @@
- #include "hw/boards.h"
- #include "hw/qdev-clock.h"
- #include "sysemu/block-backend.h"
-+#include "sysemu/sysemu.h"
- #include "hw/arm/aspeed_soc.h"
- #include "hw/arm/boot.h"
-
-@@ -99,7 +100,7 @@ static void fby35_bmc_init(Fby35State *s)
-     object_property_set_link(OBJECT(&s->bmc), "dram", OBJECT(&s->bmc_dram), &error_abort);
-     object_property_set_int(OBJECT(&s->bmc), "hw-strap1", 0x000000C0, &error_abort);
-     object_property_set_int(OBJECT(&s->bmc), "hw-strap2", 0x00000003, &error_abort);
--    object_property_set_int(OBJECT(&s->bmc), "uart-default", ASPEED_DEV_UART5, &error_abort);
-+    aspeed_soc_uart_set_chr(&s->bmc, ASPEED_DEV_UART5, serial_hd(0));
-     qdev_realize(DEVICE(&s->bmc), NULL, &error_abort);
-
-     aspeed_board_init_flashes(&s->bmc.fmc, "n25q00", 2, 0);
-@@ -136,7 +137,7 @@ static void fby35_bic_init(Fby35State *s)
-     object_initialize_child(OBJECT(s), "bic", &s->bic, "ast1030-a1");
-     qdev_connect_clock_in(DEVICE(&s->bic), "sysclk", s->bic_sysclk);
-     object_property_set_link(OBJECT(&s->bic), "memory", OBJECT(&s->bic_memory), &error_abort);
--    qdev_prop_set_uint32(DEVICE(&s->bic), "uart-default", ASPEED_DEV_UART5);
-+    aspeed_soc_uart_set_chr(&s->bic, ASPEED_DEV_UART5, serial_hd(1));
-     qdev_realize(DEVICE(&s->bic), NULL, &error_abort);
-
-     aspeed_board_init_flashes(&s->bic.fmc, "sst25vf032b", 2, 2);
-
-We could add aspeed_soc_uart_connect, but I'm struggling to see how it could
-cover both single-SoC and multi-SoC boards while still preserving the feature
-in single-SoC that lets us experiment with UART1/UART3 on EVB's.
-
-> 
-> > +{
-> > +    AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(bmc);
-> 
-> and you wouldn't need the machine.
-> 
-> > +    AspeedSoCState *s = &bmc->soc;
-> > +
-> > +    aspeed_soc_uart_set_chr(s, amc->uart_default, serial_hd(0));
-> > +    for (int i = 1, uart = ASPEED_DEV_UART1;
-> > +         serial_hd(i) && uart <= ASPEED_DEV_UART13; i++, uart++) {
-> 
-> We should test for :
-> 
->   ASPEED_SOC_GET_CLASS(s)->uarts_num
-
-Oh good call, yeah I'll add that.
-
-> 
-> I am not sure we want to stop the loop if serial_hd(i) is NULL ?
-
-Yikes! Yeah I was not thinking clearly when I wrote this. Nice catch!
-
-> 
-> > +
-> > +        if (uart == amc->uart_default) {
-> > +            continue;
-> > +        }
-> > +        aspeed_soc_uart_set_chr(s, uart, serial_hd(i));
-> > +    }
-> > +}>   static void aspeed_machine_init(MachineState *machine)
-> >   {
-> >       AspeedMachineState *bmc = ASPEED_MACHINE(machine);
-> > @@ -346,8 +363,7 @@ static void aspeed_machine_init(MachineState *machine)
-> >           object_property_set_int(OBJECT(&bmc->soc), "hw-prot-key",
-> >                                   ASPEED_SCU_PROT_KEY, &error_abort);
-> >       }
-> > -    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
-> > -                         amc->uart_default);
-> > +    connect_serial_hds_to_uarts(bmc);
-> >       qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
-> >       aspeed_board_init_flashes(&bmc->soc.fmc,
-> > @@ -1383,8 +1399,7 @@ static void aspeed_minibmc_machine_init(MachineState *machine)
-> >       object_property_set_link(OBJECT(&bmc->soc), "memory",
-> >                                OBJECT(get_system_memory()), &error_abort);
-> > -    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
-> > -                         amc->uart_default);
-> > +    connect_serial_hds_to_uarts(bmc);
-> >       qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
-> >       aspeed_board_init_flashes(&bmc->soc.fmc,
-> > diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-> > index 33ef331771..a221f5d6fe 100644
-> > --- a/hw/arm/aspeed_ast10x0.c
-> > +++ b/hw/arm/aspeed_ast10x0.c
-> > @@ -144,6 +144,10 @@ static void aspeed_soc_ast1030_init(Object *obj)
-> >           object_initialize_child(obj, "wdt[*]", &s->wdt[i], typename);
-> >       }
-> > +    for (i = 0; i < sc->uarts_num; i++) {
-> > +        object_initialize_child(obj, "uart[*]", &s->uart[i], TYPE_SERIAL_MM);
-> > +    }
-> > +
-> >       snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
-> >       object_initialize_child(obj, "gpio", &s->gpio, typename);
-> > diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> > index 3f0611ac11..c4ad26a046 100644
-> > --- a/hw/arm/aspeed_ast2600.c
-> > +++ b/hw/arm/aspeed_ast2600.c
-> > @@ -214,6 +214,10 @@ static void aspeed_soc_ast2600_init(Object *obj)
-> >           object_initialize_child(obj, "mii[*]", &s->mii[i], TYPE_ASPEED_MII);
-> >       }
-> > +    for (i = 0; i < sc->uarts_num; i++) {
-> > +        object_initialize_child(obj, "uart[*]", &s->uart[i], TYPE_SERIAL_MM);
-> > +    }
-> > +
-> >       snprintf(typename, sizeof(typename), TYPE_ASPEED_XDMA "-%s", socname);
-> >       object_initialize_child(obj, "xdma", &s->xdma, typename);
-> > diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-> > index 0f675e7fcd..2ac18cbf27 100644
-> > --- a/hw/arm/aspeed_soc.c
-> > +++ b/hw/arm/aspeed_soc.c
-> > @@ -208,6 +208,10 @@ static void aspeed_soc_init(Object *obj)
-> >                                   TYPE_FTGMAC100);
-> >       }
-> > +    for (i = 0; i < sc->uarts_num; i++) {
-> > +        object_initialize_child(obj, "uart[*]", &s->uart[i], TYPE_SERIAL_MM);
-> > +    }
-> > +
-> >       snprintf(typename, sizeof(typename), TYPE_ASPEED_XDMA "-%s", socname);
-> >       object_initialize_child(obj, "xdma", &s->xdma, typename);
-> > @@ -481,8 +485,6 @@ static Property aspeed_soc_properties[] = {
-> >                        MemoryRegion *),
-> >       DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION,
-> >                        MemoryRegion *),
-> > -    DEFINE_PROP_UINT32("uart-default", AspeedSoCState, uart_default,
-> > -                       ASPEED_DEV_UART5),
-> >       DEFINE_PROP_END_OF_LIST(),
-> >   };
-> > @@ -575,22 +577,34 @@ qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev)
-> >   void aspeed_soc_uart_init(AspeedSoCState *s)
-> 
-> We can handle errors now. So :
-> 
->   bool aspeed_soc_uart_realize(AspeedSoCState *s, Error **errp)
-
-Good idea, +1
-
-> 
-> >   {
-> >       AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-> > -    int i, uart;
-> > -
-> > -    /* Attach an 8250 to the IO space as our UART */
-> > -    serial_mm_init(s->memory, sc->memmap[s->uart_default], 2,
-> > -                   aspeed_soc_get_irq(s, s->uart_default), 38400,
-> > -                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
-> > -    for (i = 1, uart = ASPEED_DEV_UART1; i < sc->uarts_num; i++, uart++) {
-> > -        if (uart == s->uart_default) {
-> > -            uart++;
-> > -        }
-> > -        serial_mm_init(s->memory, sc->memmap[uart], 2,
-> > -                       aspeed_soc_get_irq(s, uart), 38400,
-> > -                       serial_hd(i), DEVICE_LITTLE_ENDIAN);
-> > +    SerialMM *smm;
-> > +    MemoryRegion *mr;
-> > +
-> > +    for (int i = 0, uart = ASPEED_DEV_UART1; i < sc->uarts_num; i++, uart++) {
-> > +        smm = &s->uart[i];
-> > +
-> > +        /* Chardev property is set by the machine. */
-> > +        qdev_prop_set_uint8(DEVICE(smm), "regshift", 2);
-> > +        qdev_prop_set_uint32(DEVICE(smm), "baudbase", 38400);
-> > +        qdev_set_legacy_instance_id(DEVICE(smm), sc->memmap[uart], 2);
-> > +        qdev_prop_set_uint8(DEVICE(smm), "endianness", DEVICE_LITTLE_ENDIAN);
-> > +        sysbus_realize(SYS_BUS_DEVICE(smm), &error_fatal);
-> 
-> use errp instead and return false in case of failure.
-
-+1
-
-> 
-> > +
-> > +        sysbus_connect_irq(SYS_BUS_DEVICE(smm), 0, aspeed_soc_get_irq(s, uart));
-> > +        mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(smm), 0);
-> > +        memory_region_add_subregion(s->memory, sc->memmap[uart], mr);
-> 
-> You introduced aspeed_mmio_map() :)
-
-Hahahaha you're totally right, I was _really_ not thinking very clearly this
-morning.
-
-> 
-> >       }
-> >   }
-> > +void aspeed_soc_uart_set_chr(AspeedSoCState *s, int dev, Chardev *chr)
-> 
-> you could merge this routine in aspeed_soc_uart_connect() I think.
-
-See my comment at the start about this, I'm not sure how we could
-use aspeed_soc_uart_connect with the multi-SoC board, but maybe
-I'm missing something.
-
-Thanks,
-Peter
-
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
-> > +{
-> > +    AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-> > +    int i = dev - ASPEED_DEV_UART1;
-> > +
-> > +    g_assert(0 <= i && i < ARRAY_SIZE(s->uart) && i < sc->uarts_num);
-> > +    qdev_prop_set_chr(DEVICE(&s->uart[i]), "chardev", chr);
-> > +}
-> > +
-> >   /*
-> >    * SDMC should be realized first to get correct RAM size and max size
-> >    * values
-> > diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-> > index e65926a667..60ee0a84db 100644
-> > --- a/include/hw/arm/aspeed_soc.h
-> > +++ b/include/hw/arm/aspeed_soc.h
-> > @@ -36,12 +36,14 @@
-> >   #include "hw/misc/aspeed_lpc.h"
-> >   #include "hw/misc/unimp.h"
-> >   #include "hw/misc/aspeed_peci.h"
-> > +#include "hw/char/serial.h"
-> >   #define ASPEED_SPIS_NUM  2
-> >   #define ASPEED_EHCIS_NUM 2
-> >   #define ASPEED_WDTS_NUM  4
-> >   #define ASPEED_CPUS_NUM  2
-> >   #define ASPEED_MACS_NUM  4
-> > +#define ASPEED_UARTS_NUM 13
-> >   struct AspeedSoCState {
-> >       /*< private >*/
-> > @@ -79,7 +81,7 @@ struct AspeedSoCState {
-> >       AspeedSDHCIState emmc;
-> >       AspeedLPCState lpc;
-> >       AspeedPECIState peci;
-> > -    uint32_t uart_default;
-> > +    SerialMM uart[ASPEED_UARTS_NUM];
-> >       Clock *sysclk;
-> >       UnimplementedDeviceState iomem;
-> >       UnimplementedDeviceState video;
-> > @@ -176,6 +178,7 @@ enum {
-> >   qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
-> >   void aspeed_soc_uart_init(AspeedSoCState *s);
-> > +void aspeed_soc_uart_set_chr(AspeedSoCState *s, int dev, Chardev *chr);
-> >   bool aspeed_soc_dram_init(AspeedSoCState *s, Error **errp);
-> >   void aspeed_mmio_map(AspeedSoCState *s, SysBusDevice *dev, int n, hwaddr addr);
-> >   void aspeed_mmio_map_unimplemented(AspeedSoCState *s, SysBusDevice *dev,
-> 
+> >  target/riscv/csr.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index 6dbe9b541f..6379bef5a5 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -3561,7 +3561,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+> >
+> >      /* Physical Memory Protection */
+> >      [CSR_MSECCFG]    = { "mseccfg",  epmp, read_mseccfg, write_mseccfg,
+> > -                                     .min_priv_ver = PRIV_VERSION_1_12_0 },
+> > +                                     .min_priv_ver = PRIV_VERSION_1_11_0 },
+> >      [CSR_PMPCFG0]    = { "pmpcfg0",   pmp, read_pmpcfg,  write_pmpcfg  },
+> >      [CSR_PMPCFG1]    = { "pmpcfg1",   pmp, read_pmpcfg,  write_pmpcfg  },
+> >      [CSR_PMPCFG2]    = { "pmpcfg2",   pmp, read_pmpcfg,  write_pmpcfg  },
+> > --
+> >
+>
+> Other than that,
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
