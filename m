@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845D8564672
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:36:15 +0200 (CEST)
-Received: from localhost ([::1]:59840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8903C564675
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:38:13 +0200 (CEST)
+Received: from localhost ([::1]:38550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7w1U-0006kd-Rs
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:36:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58622)
+	id 1o7w3Q-00032Y-LM
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:38:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7vRz-0004DD-NA
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:31 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:53213)
+ id 1o7vS4-0004Uq-2f
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:36 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:34596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7vRy-00049V-2e
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:31 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id fz10so475223pjb.2
- for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:59:29 -0700 (PDT)
+ id 1o7vS1-00049p-RJ
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:35 -0400
+Received: by mail-pg1-x536.google.com with SMTP id g4so6307226pgc.1
+ for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:59:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wdR2AdXYQcU9MB9eRdNwupFKlHHJUO4XdfGfsX7z9ZA=;
- b=r5s3lkQ/KH/owNvwkx8GX3ARK+tLsS7L8Y3iDkvhKZOpNdAPHnpVGHD8XVqjad6oaD
- 91dlITPT86XOWg4XNwFBoRprFn+mkHqjf61iLU7ssdVxT7e7HqkbYlY5xT8wp7zSRxfe
- 7kGohEzRh6XqnTCYeROhh9kc7du36btbJhupgc+2hYtpN3i62lXgddAb/mxbRMV0By6F
- JaEyOnnfsvYYvuGJK1qfOawM+qnVyjVq8LdgMBOJSA4qcgHMiXiAfRbpnE6/+GMyJmvZ
- r/uvdgVJ0hzn1LxZtOZjeEfOZ7sc74D7/B+I1P6M8WRyWPeVZCTjv+TkcgWxL3xKjw46
- hnZw==
+ bh=xN+6s06civR9FB/frcDV6ntpWJlUKq0c4WMTdJ5r+ac=;
+ b=HtLe4RhtGrijzVIgMLO5NNR76msNDDFxEcSilA6T7tJhlsx0i+Y1w93aaDpcttRnNJ
+ +JY29GMsEDWOVqlIaX9kO71fKSDh2VVTiNMQExErOJJTJYtVqO+gYuEp3FGvJH5f2GIq
+ /SWMycdeBworGxzOROpU4Tv7OQDbB8DcMGA7/xsp4LGQ19B3xyl/A9tY3MAHl1uzff/E
+ 8cwyUXKk7N236Y6v65xYOsYgqycze5mNV+jNjsImj0UsU6sxghxfxol1Sj7RfgAglnQL
+ TCxrh2QQp8YLCjxqoNamtAGgbNFkx9VXcMDbMHMeBdfXuDgyATx6U5PexPR/tuRldXCw
+ NWNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wdR2AdXYQcU9MB9eRdNwupFKlHHJUO4XdfGfsX7z9ZA=;
- b=ayg9OOOQODTiaIlufDRZaPsWaWUgAZnksPibz3MrkJKAubRXbm9rbU5eyQzCdZB4CZ
- pbzaGLGMm/2/vQpGWfysPCDnSrvG/JrudT64XqjUqpeAdv5u6twhIO7P+5qXV0Ty3582
- ZERoebOhK+9ZXtUazdTpCtwMsxG+kToej71feeUfzHKZulaopV4evIoK8nwuC1GKnrpf
- m+j15Uoc6DngI8ATo9hKVH1K/+X9zLan/uy83YbbGYXNRvqTTttrG8SkAHTbbFhIVp0B
- /77NNP6tUnFrcUZWeQRHPcHKXnI55u/Xh4k1vfvkuXTfru1p/6K7Eo1QxQkp30xKXF/j
- jJVw==
-X-Gm-Message-State: AJIora+68pseEi0+at84dEaVBKfmrbulVxHbDGT4j2FWlGsS4QVWrDAc
- q/a5CbIul3cdg/8AzRabdWP/w+8p7th9O3Gw
-X-Google-Smtp-Source: AGRyM1u9+ezK7fHIvZrUnnQ7C4aCPMBPYakcs7g9/3qTSPqSZKvXOC0RN8U7TvLtpuUoogdhvTNTfw==
-X-Received: by 2002:a17:90b:388c:b0:1ec:d129:704 with SMTP id
- mu12-20020a17090b388c00b001ecd1290704mr29205904pjb.98.1656838768784; 
- Sun, 03 Jul 2022 01:59:28 -0700 (PDT)
+ bh=xN+6s06civR9FB/frcDV6ntpWJlUKq0c4WMTdJ5r+ac=;
+ b=I2/R+m0gz1zEVqOyT1aDFmqFuDNYzWJx10nLQ7HnhV0sz0UBGMMKz8+Vd2RdgLDoJa
+ oZMTx4E1PwJzbLEFJ/KU3jYP2bzuUmlQIZbeLIFWVadL8JBE9DYkEUo/BmS2/YbJm45G
+ p20Un+IC3LCK/7wTsVLA2Rb9XbZ/8voGboJOn8ftzyKqJn3HxKW3s0ShzcDWRTs4M0G+
+ mC8mhX+DLGfi+/lzXcHrMi5dHtLLBRjH6+3A9mqlfdjUDbMn4ryLRP3k4/OMrgRSaFzi
+ BRLRkqKDoY/OhhqwdOrc9Evg0II7rCnljR9EFYL3JUGrFGJepCpmJNMx5qYRPxtlu8Nb
+ sPWQ==
+X-Gm-Message-State: AJIora/qbBiUUiKbtvs2X7FdFlDYvj5LBrWwSRXCmj7iIg7grb2aE5r9
+ cHD+YxTsHvPHywSSKkA9bHO+eE4GE0vn+r7i
+X-Google-Smtp-Source: AGRyM1ucp4Wr9g1uzB5KV2zDbHJmi/LeE9/OpsbYZU9IJYEeExkINmvtdHILf3crLuQqMuUKWEwpQg==
+X-Received: by 2002:a63:6886:0:b0:40d:c2f9:2dfa with SMTP id
+ d128-20020a636886000000b0040dc2f92dfamr20493949pgc.352.1656838772468; 
+ Sun, 03 Jul 2022 01:59:32 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- cq16-20020a056a00331000b00518764d09cdsm18777593pfb.164.2022.07.03.01.59.25
+ cq16-20020a056a00331000b00518764d09cdsm18777593pfb.164.2022.07.03.01.59.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 01:59:28 -0700 (PDT)
+ Sun, 03 Jul 2022 01:59:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, Song Gao <gaosong@loongson.cn>,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v21 03/13] linux-user: Add LoongArch elf support
-Date: Sun,  3 Jul 2022 14:29:03 +0530
-Message-Id: <20220703085913.772936-4-richard.henderson@linaro.org>
+Subject: [PATCH v21 04/13] linux-user: Add LoongArch syscall support
+Date: Sun,  3 Jul 2022 14:29:04 +0530
+Message-Id: <20220703085913.772936-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220703085913.772936-1-richard.henderson@linaro.org>
 References: <20220703085913.772936-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,134 +96,431 @@ Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220624031049.1716097-4-gaosong@loongson.cn>
+Message-Id: <20220624031049.1716097-5-gaosong@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/loongarch64/target_elf.h | 12 ++++
- linux-user/elfload.c                | 91 +++++++++++++++++++++++++++++
- 2 files changed, 103 insertions(+)
- create mode 100644 linux-user/loongarch64/target_elf.h
+ linux-user/loongarch64/syscall_nr.h     | 312 ++++++++++++++++++++++++
+ linux-user/loongarch64/target_syscall.h |  48 ++++
+ linux-user/syscall_defs.h               |   6 +-
+ scripts/gensyscalls.sh                  |   2 +
+ 4 files changed, 367 insertions(+), 1 deletion(-)
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
 
-diff --git a/linux-user/loongarch64/target_elf.h b/linux-user/loongarch64/target_elf.h
+diff --git a/linux-user/loongarch64/syscall_nr.h b/linux-user/loongarch64/syscall_nr.h
 new file mode 100644
-index 0000000000..95c3f05a46
+index 0000000000..be00915adf
 --- /dev/null
-+++ b/linux-user/loongarch64/target_elf.h
-@@ -0,0 +1,12 @@
++++ b/linux-user/loongarch64/syscall_nr.h
+@@ -0,0 +1,312 @@
++/*
++ * This file contains the system call numbers.
++ * Do not modify.
++ * This file is generated by scripts/gensyscalls.sh
++ */
++#ifndef LINUX_USER_LOONGARCH_SYSCALL_NR_H
++#define LINUX_USER_LOONGARCH_SYSCALL_NR_H
++
++#define TARGET_NR_io_setup 0
++#define TARGET_NR_io_destroy 1
++#define TARGET_NR_io_submit 2
++#define TARGET_NR_io_cancel 3
++#define TARGET_NR_io_getevents 4
++#define TARGET_NR_setxattr 5
++#define TARGET_NR_lsetxattr 6
++#define TARGET_NR_fsetxattr 7
++#define TARGET_NR_getxattr 8
++#define TARGET_NR_lgetxattr 9
++#define TARGET_NR_fgetxattr 10
++#define TARGET_NR_listxattr 11
++#define TARGET_NR_llistxattr 12
++#define TARGET_NR_flistxattr 13
++#define TARGET_NR_removexattr 14
++#define TARGET_NR_lremovexattr 15
++#define TARGET_NR_fremovexattr 16
++#define TARGET_NR_getcwd 17
++#define TARGET_NR_lookup_dcookie 18
++#define TARGET_NR_eventfd2 19
++#define TARGET_NR_epoll_create1 20
++#define TARGET_NR_epoll_ctl 21
++#define TARGET_NR_epoll_pwait 22
++#define TARGET_NR_dup 23
++#define TARGET_NR_dup3 24
++#define TARGET_NR_fcntl 25
++#define TARGET_NR_inotify_init1 26
++#define TARGET_NR_inotify_add_watch 27
++#define TARGET_NR_inotify_rm_watch 28
++#define TARGET_NR_ioctl 29
++#define TARGET_NR_ioprio_set 30
++#define TARGET_NR_ioprio_get 31
++#define TARGET_NR_flock 32
++#define TARGET_NR_mknodat 33
++#define TARGET_NR_mkdirat 34
++#define TARGET_NR_unlinkat 35
++#define TARGET_NR_symlinkat 36
++#define TARGET_NR_linkat 37
++#define TARGET_NR_umount2 39
++#define TARGET_NR_mount 40
++#define TARGET_NR_pivot_root 41
++#define TARGET_NR_nfsservctl 42
++#define TARGET_NR_statfs 43
++#define TARGET_NR_fstatfs 44
++#define TARGET_NR_truncate 45
++#define TARGET_NR_ftruncate 46
++#define TARGET_NR_fallocate 47
++#define TARGET_NR_faccessat 48
++#define TARGET_NR_chdir 49
++#define TARGET_NR_fchdir 50
++#define TARGET_NR_chroot 51
++#define TARGET_NR_fchmod 52
++#define TARGET_NR_fchmodat 53
++#define TARGET_NR_fchownat 54
++#define TARGET_NR_fchown 55
++#define TARGET_NR_openat 56
++#define TARGET_NR_close 57
++#define TARGET_NR_vhangup 58
++#define TARGET_NR_pipe2 59
++#define TARGET_NR_quotactl 60
++#define TARGET_NR_getdents64 61
++#define TARGET_NR_lseek 62
++#define TARGET_NR_read 63
++#define TARGET_NR_write 64
++#define TARGET_NR_readv 65
++#define TARGET_NR_writev 66
++#define TARGET_NR_pread64 67
++#define TARGET_NR_pwrite64 68
++#define TARGET_NR_preadv 69
++#define TARGET_NR_pwritev 70
++#define TARGET_NR_sendfile 71
++#define TARGET_NR_pselect6 72
++#define TARGET_NR_ppoll 73
++#define TARGET_NR_signalfd4 74
++#define TARGET_NR_vmsplice 75
++#define TARGET_NR_splice 76
++#define TARGET_NR_tee 77
++#define TARGET_NR_readlinkat 78
++#define TARGET_NR_sync 81
++#define TARGET_NR_fsync 82
++#define TARGET_NR_fdatasync 83
++#define TARGET_NR_sync_file_range 84
++#define TARGET_NR_timerfd_create 85
++#define TARGET_NR_timerfd_settime 86
++#define TARGET_NR_timerfd_gettime 87
++#define TARGET_NR_utimensat 88
++#define TARGET_NR_acct 89
++#define TARGET_NR_capget 90
++#define TARGET_NR_capset 91
++#define TARGET_NR_personality 92
++#define TARGET_NR_exit 93
++#define TARGET_NR_exit_group 94
++#define TARGET_NR_waitid 95
++#define TARGET_NR_set_tid_address 96
++#define TARGET_NR_unshare 97
++#define TARGET_NR_futex 98
++#define TARGET_NR_set_robust_list 99
++#define TARGET_NR_get_robust_list 100
++#define TARGET_NR_nanosleep 101
++#define TARGET_NR_getitimer 102
++#define TARGET_NR_setitimer 103
++#define TARGET_NR_kexec_load 104
++#define TARGET_NR_init_module 105
++#define TARGET_NR_delete_module 106
++#define TARGET_NR_timer_create 107
++#define TARGET_NR_timer_gettime 108
++#define TARGET_NR_timer_getoverrun 109
++#define TARGET_NR_timer_settime 110
++#define TARGET_NR_timer_delete 111
++#define TARGET_NR_clock_settime 112
++#define TARGET_NR_clock_gettime 113
++#define TARGET_NR_clock_getres 114
++#define TARGET_NR_clock_nanosleep 115
++#define TARGET_NR_syslog 116
++#define TARGET_NR_ptrace 117
++#define TARGET_NR_sched_setparam 118
++#define TARGET_NR_sched_setscheduler 119
++#define TARGET_NR_sched_getscheduler 120
++#define TARGET_NR_sched_getparam 121
++#define TARGET_NR_sched_setaffinity 122
++#define TARGET_NR_sched_getaffinity 123
++#define TARGET_NR_sched_yield 124
++#define TARGET_NR_sched_get_priority_max 125
++#define TARGET_NR_sched_get_priority_min 126
++#define TARGET_NR_sched_rr_get_interval 127
++#define TARGET_NR_restart_syscall 128
++#define TARGET_NR_kill 129
++#define TARGET_NR_tkill 130
++#define TARGET_NR_tgkill 131
++#define TARGET_NR_sigaltstack 132
++#define TARGET_NR_rt_sigsuspend 133
++#define TARGET_NR_rt_sigaction 134
++#define TARGET_NR_rt_sigprocmask 135
++#define TARGET_NR_rt_sigpending 136
++#define TARGET_NR_rt_sigtimedwait 137
++#define TARGET_NR_rt_sigqueueinfo 138
++#define TARGET_NR_rt_sigreturn 139
++#define TARGET_NR_setpriority 140
++#define TARGET_NR_getpriority 141
++#define TARGET_NR_reboot 142
++#define TARGET_NR_setregid 143
++#define TARGET_NR_setgid 144
++#define TARGET_NR_setreuid 145
++#define TARGET_NR_setuid 146
++#define TARGET_NR_setresuid 147
++#define TARGET_NR_getresuid 148
++#define TARGET_NR_setresgid 149
++#define TARGET_NR_getresgid 150
++#define TARGET_NR_setfsuid 151
++#define TARGET_NR_setfsgid 152
++#define TARGET_NR_times 153
++#define TARGET_NR_setpgid 154
++#define TARGET_NR_getpgid 155
++#define TARGET_NR_getsid 156
++#define TARGET_NR_setsid 157
++#define TARGET_NR_getgroups 158
++#define TARGET_NR_setgroups 159
++#define TARGET_NR_uname 160
++#define TARGET_NR_sethostname 161
++#define TARGET_NR_setdomainname 162
++#define TARGET_NR_getrusage 165
++#define TARGET_NR_umask 166
++#define TARGET_NR_prctl 167
++#define TARGET_NR_getcpu 168
++#define TARGET_NR_gettimeofday 169
++#define TARGET_NR_settimeofday 170
++#define TARGET_NR_adjtimex 171
++#define TARGET_NR_getpid 172
++#define TARGET_NR_getppid 173
++#define TARGET_NR_getuid 174
++#define TARGET_NR_geteuid 175
++#define TARGET_NR_getgid 176
++#define TARGET_NR_getegid 177
++#define TARGET_NR_gettid 178
++#define TARGET_NR_sysinfo 179
++#define TARGET_NR_mq_open 180
++#define TARGET_NR_mq_unlink 181
++#define TARGET_NR_mq_timedsend 182
++#define TARGET_NR_mq_timedreceive 183
++#define TARGET_NR_mq_notify 184
++#define TARGET_NR_mq_getsetattr 185
++#define TARGET_NR_msgget 186
++#define TARGET_NR_msgctl 187
++#define TARGET_NR_msgrcv 188
++#define TARGET_NR_msgsnd 189
++#define TARGET_NR_semget 190
++#define TARGET_NR_semctl 191
++#define TARGET_NR_semtimedop 192
++#define TARGET_NR_semop 193
++#define TARGET_NR_shmget 194
++#define TARGET_NR_shmctl 195
++#define TARGET_NR_shmat 196
++#define TARGET_NR_shmdt 197
++#define TARGET_NR_socket 198
++#define TARGET_NR_socketpair 199
++#define TARGET_NR_bind 200
++#define TARGET_NR_listen 201
++#define TARGET_NR_accept 202
++#define TARGET_NR_connect 203
++#define TARGET_NR_getsockname 204
++#define TARGET_NR_getpeername 205
++#define TARGET_NR_sendto 206
++#define TARGET_NR_recvfrom 207
++#define TARGET_NR_setsockopt 208
++#define TARGET_NR_getsockopt 209
++#define TARGET_NR_shutdown 210
++#define TARGET_NR_sendmsg 211
++#define TARGET_NR_recvmsg 212
++#define TARGET_NR_readahead 213
++#define TARGET_NR_brk 214
++#define TARGET_NR_munmap 215
++#define TARGET_NR_mremap 216
++#define TARGET_NR_add_key 217
++#define TARGET_NR_request_key 218
++#define TARGET_NR_keyctl 219
++#define TARGET_NR_clone 220
++#define TARGET_NR_execve 221
++#define TARGET_NR_mmap 222
++#define TARGET_NR_fadvise64 223
++#define TARGET_NR_swapon 224
++#define TARGET_NR_swapoff 225
++#define TARGET_NR_mprotect 226
++#define TARGET_NR_msync 227
++#define TARGET_NR_mlock 228
++#define TARGET_NR_munlock 229
++#define TARGET_NR_mlockall 230
++#define TARGET_NR_munlockall 231
++#define TARGET_NR_mincore 232
++#define TARGET_NR_madvise 233
++#define TARGET_NR_remap_file_pages 234
++#define TARGET_NR_mbind 235
++#define TARGET_NR_get_mempolicy 236
++#define TARGET_NR_set_mempolicy 237
++#define TARGET_NR_migrate_pages 238
++#define TARGET_NR_move_pages 239
++#define TARGET_NR_rt_tgsigqueueinfo 240
++#define TARGET_NR_perf_event_open 241
++#define TARGET_NR_accept4 242
++#define TARGET_NR_recvmmsg 243
++#define TARGET_NR_arch_specific_syscall 244
++#define TARGET_NR_wait4 260
++#define TARGET_NR_prlimit64 261
++#define TARGET_NR_fanotify_init 262
++#define TARGET_NR_fanotify_mark 263
++#define TARGET_NR_name_to_handle_at 264
++#define TARGET_NR_open_by_handle_at 265
++#define TARGET_NR_clock_adjtime 266
++#define TARGET_NR_syncfs 267
++#define TARGET_NR_setns 268
++#define TARGET_NR_sendmmsg 269
++#define TARGET_NR_process_vm_readv 270
++#define TARGET_NR_process_vm_writev 271
++#define TARGET_NR_kcmp 272
++#define TARGET_NR_finit_module 273
++#define TARGET_NR_sched_setattr 274
++#define TARGET_NR_sched_getattr 275
++#define TARGET_NR_renameat2 276
++#define TARGET_NR_seccomp 277
++#define TARGET_NR_getrandom 278
++#define TARGET_NR_memfd_create 279
++#define TARGET_NR_bpf 280
++#define TARGET_NR_execveat 281
++#define TARGET_NR_userfaultfd 282
++#define TARGET_NR_membarrier 283
++#define TARGET_NR_mlock2 284
++#define TARGET_NR_copy_file_range 285
++#define TARGET_NR_preadv2 286
++#define TARGET_NR_pwritev2 287
++#define TARGET_NR_pkey_mprotect 288
++#define TARGET_NR_pkey_alloc 289
++#define TARGET_NR_pkey_free 290
++#define TARGET_NR_statx 291
++#define TARGET_NR_io_pgetevents 292
++#define TARGET_NR_rseq 293
++#define TARGET_NR_kexec_file_load 294
++#define TARGET_NR_pidfd_send_signal 424
++#define TARGET_NR_io_uring_setup 425
++#define TARGET_NR_io_uring_enter 426
++#define TARGET_NR_io_uring_register 427
++#define TARGET_NR_open_tree 428
++#define TARGET_NR_move_mount 429
++#define TARGET_NR_fsopen 430
++#define TARGET_NR_fsconfig 431
++#define TARGET_NR_fsmount 432
++#define TARGET_NR_fspick 433
++#define TARGET_NR_pidfd_open 434
++#define TARGET_NR_clone3 435
++#define TARGET_NR_close_range 436
++#define TARGET_NR_openat2 437
++#define TARGET_NR_pidfd_getfd 438
++#define TARGET_NR_faccessat2 439
++#define TARGET_NR_process_madvise 440
++#define TARGET_NR_epoll_pwait2 441
++#define TARGET_NR_mount_setattr 442
++#define TARGET_NR_quotactl_fd 443
++#define TARGET_NR_landlock_create_ruleset 444
++#define TARGET_NR_landlock_add_rule 445
++#define TARGET_NR_landlock_restrict_self 446
++#define TARGET_NR_process_mrelease 448
++#define TARGET_NR_futex_waitv 449
++#define TARGET_NR_set_mempolicy_home_node 450
++#define TARGET_NR_syscalls 451
++
++#endif /* LINUX_USER_LOONGARCH_SYSCALL_NR_H */
+diff --git a/linux-user/loongarch64/target_syscall.h b/linux-user/loongarch64/target_syscall.h
+new file mode 100644
+index 0000000000..8b5de52124
+--- /dev/null
++++ b/linux-user/loongarch64/target_syscall.h
+@@ -0,0 +1,48 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+#ifndef LOONGARCH_TARGET_ELF_H
-+#define LOONGARCH_TARGET_ELF_H
-+static inline const char *cpu_get_model(uint32_t eflags)
++#ifndef LOONGARCH_TARGET_SYSCALL_H
++#define LOONGARCH_TARGET_SYSCALL_H
++
++#include "qemu/units.h"
++
++/*
++ * this struct defines the way the registers are stored on the
++ * stack during a system call.
++ */
++
++struct target_pt_regs {
++    /* Saved main processor registers. */
++    target_ulong regs[32];
++
++    /* Saved special registers. */
++    struct {
++        target_ulong era;
++        target_ulong badv;
++        target_ulong crmd;
++        target_ulong prmd;
++        target_ulong euen;
++        target_ulong ecfg;
++        target_ulong estat;
++    } csr;
++    target_ulong orig_a0;
++    target_ulong __last[0];
++};
++
++#define UNAME_MACHINE "loongarch64"
++#define UNAME_MINIMUM_RELEASE "5.19.0"
++
++#define TARGET_MCL_CURRENT 1
++#define TARGET_MCL_FUTURE  2
++#define TARGET_MCL_ONFAULT 4
++
++#define TARGET_FORCE_SHMLBA
++
++static inline abi_ulong target_shmlba(CPULoongArchState *env)
 +{
-+    return "la464";
++    return 64 * KiB;
 +}
++
 +#endif
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 163fc8a1ee..1de77c7959 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -922,6 +922,97 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUPPCState *en
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 4587b62ac9..85b0f33e91 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -74,7 +74,7 @@
+     || defined(TARGET_M68K) || defined(TARGET_CRIS) \
+     || defined(TARGET_S390X) || defined(TARGET_OPENRISC) \
+     || defined(TARGET_NIOS2) || defined(TARGET_RISCV) \
+-    || defined(TARGET_XTENSA)
++    || defined(TARGET_XTENSA) || defined(TARGET_LOONGARCH64)
  
+ #define TARGET_IOC_SIZEBITS	14
+ #define TARGET_IOC_DIRBITS	2
+@@ -2196,6 +2196,10 @@ struct target_stat64 {
+     uint64_t   st_ino;
+ };
+ 
++#elif defined(TARGET_LOONGARCH64)
++
++/* LoongArch no newfstatat/fstat syscall. */
++
+ #else
+ #error unsupported CPU
  #endif
+diff --git a/scripts/gensyscalls.sh b/scripts/gensyscalls.sh
+index 8fb450e3c9..a2f7664b7b 100755
+--- a/scripts/gensyscalls.sh
++++ b/scripts/gensyscalls.sh
+@@ -44,6 +44,7 @@ read_includes()
  
-+#ifdef TARGET_LOONGARCH64
-+
-+#define ELF_START_MMAP 0x80000000
-+
-+#define ELF_CLASS   ELFCLASS64
-+#define ELF_ARCH    EM_LOONGARCH
-+
-+#define elf_check_arch(x) ((x) == EM_LOONGARCH)
-+
-+static inline void init_thread(struct target_pt_regs *regs,
-+                               struct image_info *infop)
-+{
-+    /*Set crmd PG,DA = 1,0 */
-+    regs->csr.crmd = 2 << 3;
-+    regs->csr.era = infop->entry;
-+    regs->regs[3] = infop->start_stack;
-+}
-+
-+/* See linux kernel: arch/loongarch/include/asm/elf.h */
-+#define ELF_NREG 45
-+typedef target_elf_greg_t target_elf_gregset_t[ELF_NREG];
-+
-+enum {
-+    TARGET_EF_R0 = 0,
-+    TARGET_EF_CSR_ERA = TARGET_EF_R0 + 33,
-+    TARGET_EF_CSR_BADV = TARGET_EF_R0 + 34,
-+};
-+
-+static void elf_core_copy_regs(target_elf_gregset_t *regs,
-+                               const CPULoongArchState *env)
-+{
-+    int i;
-+
-+    (*regs)[TARGET_EF_R0] = 0;
-+
-+    for (i = 1; i < ARRAY_SIZE(env->gpr); i++) {
-+        (*regs)[TARGET_EF_R0 + i] = tswapreg(env->gpr[i]);
-+    }
-+
-+    (*regs)[TARGET_EF_CSR_ERA] = tswapreg(env->pc);
-+    (*regs)[TARGET_EF_CSR_BADV] = tswapreg(env->CSR_BADV);
-+}
-+
-+#define USE_ELF_CORE_DUMP
-+#define ELF_EXEC_PAGESIZE        4096
-+
-+#define ELF_HWCAP get_elf_hwcap()
-+
-+/* See arch/loongarch/include/uapi/asm/hwcap.h */
-+enum {
-+    HWCAP_LOONGARCH_CPUCFG   = (1 << 0),
-+    HWCAP_LOONGARCH_LAM      = (1 << 1),
-+    HWCAP_LOONGARCH_UAL      = (1 << 2),
-+    HWCAP_LOONGARCH_FPU      = (1 << 3),
-+    HWCAP_LOONGARCH_LSX      = (1 << 4),
-+    HWCAP_LOONGARCH_LASX     = (1 << 5),
-+    HWCAP_LOONGARCH_CRC32    = (1 << 6),
-+    HWCAP_LOONGARCH_COMPLEX  = (1 << 7),
-+    HWCAP_LOONGARCH_CRYPTO   = (1 << 8),
-+    HWCAP_LOONGARCH_LVZ      = (1 << 9),
-+    HWCAP_LOONGARCH_LBT_X86  = (1 << 10),
-+    HWCAP_LOONGARCH_LBT_ARM  = (1 << 11),
-+    HWCAP_LOONGARCH_LBT_MIPS = (1 << 12),
-+};
-+
-+static uint32_t get_elf_hwcap(void)
-+{
-+    LoongArchCPU *cpu = LOONGARCH_CPU(thread_cpu);
-+    uint32_t hwcaps = 0;
-+
-+    hwcaps |= HWCAP_LOONGARCH_CRC32;
-+
-+    if (FIELD_EX32(cpu->env.cpucfg[1], CPUCFG1, UAL)) {
-+        hwcaps |= HWCAP_LOONGARCH_UAL;
-+    }
-+
-+    if (FIELD_EX32(cpu->env.cpucfg[2], CPUCFG2, FP)) {
-+        hwcaps |= HWCAP_LOONGARCH_FPU;
-+    }
-+
-+    if (FIELD_EX32(cpu->env.cpucfg[2], CPUCFG2, LAM)) {
-+        hwcaps |= HWCAP_LOONGARCH_LAM;
-+    }
-+
-+    return hwcaps;
-+}
-+
-+#define ELF_PLATFORM "loongarch"
-+
-+#endif /* TARGET_LOONGARCH64 */
-+
- #ifdef TARGET_MIPS
- 
- #define ELF_START_MMAP 0x80000000
+      cpp -P -nostdinc -fdirectives-only \
+         -D_UAPI_ASM_$(upper ${arch})_BITSPERLONG_H \
++        -D__ASM_$(upper ${arch})_BITSPERLONG_H \
+         -D__BITS_PER_LONG=${bits} \
+         -I${linux}/arch/${arch}/include/uapi/ \
+         -I${linux}/include/uapi \
+@@ -99,4 +100,5 @@ generate_syscall_nr openrisc 32 "$output/linux-user/openrisc/syscall_nr.h"
+ generate_syscall_nr riscv 32 "$output/linux-user/riscv/syscall32_nr.h"
+ generate_syscall_nr riscv 64 "$output/linux-user/riscv/syscall64_nr.h"
+ generate_syscall_nr hexagon 32 "$output/linux-user/hexagon/syscall_nr.h"
++generate_syscall_nr loongarch 64 "$output/linux-user/loongarch64/syscall_nr.h"
+ rm -fr "$TMP"
 -- 
 2.34.1
 
