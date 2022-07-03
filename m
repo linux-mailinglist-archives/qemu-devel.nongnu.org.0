@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A33C564606
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 10:51:35 +0200 (CEST)
-Received: from localhost ([::1]:43550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B96B456462A
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:11:25 +0200 (CEST)
+Received: from localhost ([::1]:54946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7vKI-0004Lg-4O
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 04:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53812)
+	id 1o7vdU-0006V8-PY
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7uvo-0001R5-Gt
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:16 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:43680)
+ id 1o7uvr-0001cW-D7
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:19 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7uvm-0006GD-Ta
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:16 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- o5-20020a17090a3d4500b001ef76490983so2183299pjf.2
- for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:26:14 -0700 (PDT)
+ id 1o7uvp-0006B6-RB
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:19 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id ju17so1428042pjb.3
+ for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:26:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0mD6vxNSf+I50Th5Elr1blnSVn6mQpha4WrhIJX+W14=;
- b=dG50zlkicATMWfoLUCzIcNqFbb3hbpJPYI3VJs3a9UaSn41+2PXIxFpAK+ENWUhGy/
- 52A3wQap/T84l/lln+i3O/sLTzv9uhmwG+mw8XnwhRKb9XHYdW1raMfgX8rcbLF6c4vV
- G8h7hpR3IZM1dJGI6JUnbGGWRagUckwckZlVqTBmUa91heaYnd0Bv1HCPHBKDN3k8Ohl
- s8t3YjHk2BH19NqtroktrM8+wkO0F0/5VxhgnkJdblh4ZnPeTFYPdezcNOjvij/pzRhq
- NGBdIINZfGT84gzuIIsp34e9Dn5znXukPTAaXon86hKsVOIw5cJunjbppNx2pZPR04gL
- 08lw==
+ bh=GvXUGU1iRA1atVwXCiqqvbPFvrWHZ4nIvxHqNJBxHmA=;
+ b=jCv21o8u9ZXAXS4v1JkKykW4Pizq6aQb08a7B7UmKzECJgRinTvI97AYrEgzqLkUDy
+ 5Kblir2IRsi6+mZr5O/vMYnLZQ1/FylqbOpIb+ISOg+k7d0f3CNhMaVsQ4pGjtcSHCOL
+ 8vhuYix47F7peUArdxjszDkv8G97F4Wh6kfERMWR84ys2CSVFcw/qZ6HMLXRc3DD+XVU
+ BqZ4zJOxugc2Zp2zvkmGhstgKZLsWwOHOVuvcGbe5eOovLS5WBnSzLXNtMBIWYmWH5H7
+ iNclkEHcbljNDLr2sfcPrTFXNoNtOAaISMboB9uieI9/ZBk9t8KSrJWhRpka2G/7eL1z
+ KtMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0mD6vxNSf+I50Th5Elr1blnSVn6mQpha4WrhIJX+W14=;
- b=3MKL5qExEFqIb9KWiO/Lz3O8xJK0jrbBRSdvoF261c4BNdY2Tb+foAguT3j6WAlZp2
- JfMBMXC/mTq+C0JI6/e/HJoJH5uOEPemXlu+1oyyikz0u0qNaQsEZB+FjX6Q8AInw/Yt
- KSV2Yz0Zs5GsuBCwezw19oVLbUeBmcwVJXLCy8IJMip19s6gFNxSUcGdhclHLU2PgNnd
- +sZbvDNEWm//gZTGOHHNmSofhrSYYTcFjfmdTt0jklPOqRiuWaYDc2MogbOxD9BQQNUs
- IHBPSlelERJ188Wh1T+HKqzEJBBp7XYMT8jIeL0swiuetWOu+gLJucXQIgywOQBzJTAl
- AbRQ==
-X-Gm-Message-State: AJIora8H7vvR37QdBGNuHR7x1rvF0rsNeTvDC8ollxqzrtlKce0o3TSl
- oflriD8zZn7EVqbceJ+Bkw7lYMhn70Tiy8vt
-X-Google-Smtp-Source: AGRyM1s52YbXJtHiObv/Q5MJth0yQh3WOKvSIacE/4iQErVgavU6jtthZVALQvOHTcdqa7bwVinZzw==
-X-Received: by 2002:a17:903:204c:b0:169:9e3:6840 with SMTP id
- q12-20020a170903204c00b0016909e36840mr28823902pla.77.1656836774170; 
- Sun, 03 Jul 2022 01:26:14 -0700 (PDT)
+ bh=GvXUGU1iRA1atVwXCiqqvbPFvrWHZ4nIvxHqNJBxHmA=;
+ b=YXx+pKZaTvyjPFaDl/4AIBn+eCU3RpjziGiPN66oxLY+BYnMaqEISVO0iPJpqBwtzt
+ W/KeOOBKV2A6qJ48Pa1KR7lhV+GSO8+jiofPEqYGMRqa1dTICSPfASMc4cRF3NGimG+i
+ D0Y5APMkudkjmqDfwRf0nA8/WS4vwy6QCCRAbMveTLnUQTY25nZoNLGauMyFF2dxPBzs
+ aGPE5NvshHIJB8dDFjIYcfp1ukGHcdsOlATmSVh1DCWeuwK19UB1GwNnDyY3aspbvyTY
+ PiWVFyFHJCImNce2rFVpSMavSOptR4tS7eTNuvbV18CrSG2+0VVRgJxM8UBehSb8I/ak
+ 6H0A==
+X-Gm-Message-State: AJIora8hEO3ul2Io8TvF505+VJfrmSox3qDXYueQz9S4fE0n72kXUA7F
+ VxW7BkSmb/OfofByyj1QDcrURXnyV4NjArzU
+X-Google-Smtp-Source: AGRyM1tU9uzshgc5s2nETwvV1JAK/EXcPlG1jgNYFWueSXVyIGzkWkm1g2J/+ZoEEAd2kQbO+gj1mw==
+X-Received: by 2002:a17:903:283:b0:16a:6db9:3f02 with SMTP id
+ j3-20020a170903028300b0016a6db93f02mr29271865plr.173.1656836777060; 
+ Sun, 03 Jul 2022 01:26:17 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- im22-20020a170902bb1600b0016a3f9e528asm13569112plb.57.2022.07.03.01.26.11
+ im22-20020a170902bb1600b0016a3f9e528asm13569112plb.57.2022.07.03.01.26.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 01:26:13 -0700 (PDT)
+ Sun, 03 Jul 2022 01:26:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 36/62] target/arm: Introduce arm_hcr_el2_eff_secstate
-Date: Sun,  3 Jul 2022 13:53:53 +0530
-Message-Id: <20220703082419.770989-37-richard.henderson@linaro.org>
+Subject: [PATCH 37/62] target/arm: Hoist read of *is_secure in S1_ptw_translate
+Date: Sun,  3 Jul 2022 13:53:54 +0530
+Message-Id: <20220703082419.770989-38-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220703082419.770989-1-richard.henderson@linaro.org>
 References: <20220703082419.770989-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,97 +87,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For page walking, we may require HCR for a security state
-that is not "current".
+Rename the argument to is_secure_ptr, and introduce a
+local variable is_secure with the value.  We only write
+back to the pointer toward the end of the function.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h    | 20 +++++++++++++-------
- target/arm/helper.c | 11 ++++++++---
- 2 files changed, 21 insertions(+), 10 deletions(-)
+ target/arm/ptw.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 04423f8d6c..dd577a08bc 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2376,15 +2376,15 @@ static inline bool arm_is_secure(CPUARMState *env)
-  * Return true if the current security state has AArch64 EL2 or AArch32 Hyp.
-  * This corresponds to the pseudocode EL2Enabled()
-  */
-+static inline bool arm_is_el2_enabled_secstate(CPUARMState *env, bool secure)
-+{
-+    return (arm_feature(env, ARM_FEATURE_EL2)
-+            && (!secure || (env->cp15.scr_el3 & SCR_EEL2)));
-+}
-+
- static inline bool arm_is_el2_enabled(CPUARMState *env)
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index f76a8e931a..12288ac365 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -207,24 +207,26 @@ static bool ptw_attrs_are_device(CPUARMState *env, ARMCacheAttrs cacheattrs)
+ 
+ /* Translate a S1 pagetable walk through S2 if needed.  */
+ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+-                               hwaddr addr, bool *is_secure,
++                               hwaddr addr, bool *is_secure_ptr,
+                                ARMMMUFaultInfo *fi)
  {
--    if (arm_feature(env, ARM_FEATURE_EL2)) {
--        if (arm_is_secure_below_el3(env)) {
--            return (env->cp15.scr_el3 & SCR_EEL2) != 0;
--        }
--        return true;
--    }
--    return false;
-+    return arm_is_el2_enabled_secstate(env, arm_is_secure_below_el3(env));
- }
- 
- #else
-@@ -2398,6 +2398,11 @@ static inline bool arm_is_secure(CPUARMState *env)
-     return false;
- }
- 
-+static inline bool arm_is_el2_enabled_secstate(CPUARMState *env, bool secure)
-+{
-+    return false;
-+}
++    bool is_secure = *is_secure_ptr;
 +
- static inline bool arm_is_el2_enabled(CPUARMState *env)
- {
-     return false;
-@@ -2410,6 +2415,7 @@ static inline bool arm_is_el2_enabled(CPUARMState *env)
-  * "for all purposes other than a direct read or write access of HCR_EL2."
-  * Not included here is HCR_RW.
-  */
-+uint64_t arm_hcr_el2_eff_secstate(CPUARMState *env, bool secure);
- uint64_t arm_hcr_el2_eff(CPUARMState *env);
- uint64_t arm_hcrx_el2_eff(CPUARMState *env);
+     if (arm_mmu_idx_is_stage1_of_2(mmu_idx) &&
+-        !regime_translation_disabled(env, ARMMMUIdx_Stage2, *is_secure)) {
+-        ARMMMUIdx s2_mmu_idx = *is_secure ? ARMMMUIdx_Stage2_S
+-                                          : ARMMMUIdx_Stage2;
++        !regime_translation_disabled(env, ARMMMUIdx_Stage2, is_secure)) {
++        ARMMMUIdx s2_mmu_idx = is_secure ? ARMMMUIdx_Stage2_S
++                                         : ARMMMUIdx_Stage2;
+         GetPhysAddrResult s2 = {};
+         int ret;
  
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 7d9d4a9ad9..176be48c46 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5197,15 +5197,15 @@ static void hcr_writelow(CPUARMState *env, const ARMCPRegInfo *ri,
- }
+         ret = get_phys_addr_lpae(env, addr, MMU_DATA_LOAD, s2_mmu_idx,
+-                                 *is_secure, false, &s2, fi);
++                                 is_secure, false, &s2, fi);
+         if (ret) {
+             assert(fi->type != ARMFault_None);
+             fi->s2addr = addr;
+             fi->stage2 = true;
+             fi->s1ptw = true;
+-            fi->s1ns = !*is_secure;
++            fi->s1ns = !is_secure;
+             return ~0;
+         }
+         if ((arm_hcr_el2_eff(env) & HCR_PTW) &&
+@@ -237,19 +239,20 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+             fi->s2addr = addr;
+             fi->stage2 = true;
+             fi->s1ptw = true;
+-            fi->s1ns = !*is_secure;
++            fi->s1ns = !is_secure;
+             return ~0;
+         }
  
- /*
-- * Return the effective value of HCR_EL2.
-+ * Return the effective value of HCR_EL2, at the given security state.
-  * Bits that are not included here:
-  * RW       (read from SCR_EL3.RW as needed)
-  */
--uint64_t arm_hcr_el2_eff(CPUARMState *env)
-+uint64_t arm_hcr_el2_eff_secstate(CPUARMState *env, bool secure)
- {
-     uint64_t ret = env->cp15.hcr_el2;
+         if (arm_is_secure_below_el3(env)) {
+             /* Check if page table walk is to secure or non-secure PA space. */
+-            if (*is_secure) {
+-                *is_secure = !(env->cp15.vstcr_el2.raw_tcr & VSTCR_SW);
++            if (is_secure) {
++                is_secure = !(env->cp15.vstcr_el2.raw_tcr & VSTCR_SW);
+             } else {
+-                *is_secure = !(env->cp15.vtcr_el2.raw_tcr & VTCR_NSW);
++                is_secure = !(env->cp15.vtcr_el2.raw_tcr & VTCR_NSW);
+             }
++            *is_secure_ptr = is_secure;
+         } else {
+-            assert(!*is_secure);
++            assert(!is_secure);
+         }
  
--    if (!arm_is_el2_enabled(env)) {
-+    if (!arm_is_el2_enabled_secstate(env, secure)) {
-         /*
-          * "This register has no effect if EL2 is not enabled in the
-          * current Security state".  This is ARMv8.4-SecEL2 speak for
-@@ -5264,6 +5264,11 @@ uint64_t arm_hcr_el2_eff(CPUARMState *env)
-     return ret;
- }
- 
-+uint64_t arm_hcr_el2_eff(CPUARMState *env)
-+{
-+    return arm_hcr_el2_eff_secstate(env, arm_is_secure_below_el3(env));
-+}
-+
- /*
-  * Corresponds to ARM pseudocode function ELIsInHost().
-  */
+         addr = s2.phys;
 -- 
 2.34.1
 
