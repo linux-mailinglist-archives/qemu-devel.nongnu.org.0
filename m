@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76405564671
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:35:32 +0200 (CEST)
-Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 029C6564685
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:49:29 +0200 (CEST)
+Received: from localhost ([::1]:33344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7w0p-0005S2-B8
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:35:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58676)
+	id 1o7wEK-0001lI-5T
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:49:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7vS9-0004p8-St
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:41 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:39741)
+ id 1o7vSE-0004uV-Ug
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:48 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:34648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7vS8-0004AN-Ap
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:41 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id c13so2313105pla.6
- for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:59:39 -0700 (PDT)
+ id 1o7vSB-0004Ag-EM
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:45 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id z1so267465plb.1
+ for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:59:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pR1kqzu7xwtxnUko8pBi5w8sHK9mw7vU5UGn6K+yNzI=;
- b=HrjsaLr2QC4GpVt/OAmW1OU3PzhNj5PAkOQryGbxF3dHzuPS+QCpdvC1GRSU5Xh8zS
- bMDBuPynQtGGy+oCkm4gfZ3z7pDjijpk7i8LlrY9MqyLG0qR5MzfBxymcdDmVAAhyjRI
- QexAb1tZOpWkvHt7ADu2XwSc4tlGMWREYYRQntCINZ4A2x5NOHzfZfJ4J/1RxCRbVbzW
- wHqJW/1nKdo7VWP0tHoBJ3Qa9SFrIrdIHS+gSxALWlNQl+5FV76m1Q3MSY0oIp+6CQXg
- UnwWb/ntunuBHcjOCQcUijDVKQ0hCeBhzW64LOvvDPQUcoyKaCtdw0lPaCIcvFTKBBg+
- pN4g==
+ bh=21yVEfcVUBo097kH9wR354mUzWjfCDzfOMaCfmjHzQU=;
+ b=ralihiRoAOAmdtv4kxXS1x6YAjyz8s+MBaAaRAJ9rXULMSKP9FFx5/jms3mCNnj49h
+ twm+ftTlq5aUv4YQHd5efZgQ8/RqPII3Wo8T0TcMKRdqUzdlefd0uE6PY37abIjIZpZJ
+ hG7UrEkh+KX9ykOxgx8XZEKAK3JRU1Jw/DK5Gn0MnEMSJmaWqygbfUn+XQyIvZOjJtB6
+ f3Ag0sQErhEuOzYzqzYfZZeDFWGW8FvQCyECESHLJb2WtyXLUlHL6hXUu/cc0QniwcEe
+ RF2WEqtRX1Uv+TAUJG1ah5mtvPxfeKPnxSJthKXBsXayjScgWV6UGWlvBmR0oD5bawjT
+ DpbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pR1kqzu7xwtxnUko8pBi5w8sHK9mw7vU5UGn6K+yNzI=;
- b=wxNzK1wxlk95eV/UICstHrNN0ziPlrMAsWQCXq9KYz1JJxk6p39YIjShiWG9Si7TSo
- vRYW0BXorvhO66reiz6FiRUICgm+yj9N7pLaqUjn4sS7hNdLw2DPl6yw/KFI8X8IUvc3
- +X6lYl8dWsH5aw48H3qcs3EZgD+69+44j4JzIXw4KRAjz9gU7qdq2C1GBpdphwOD+Vj6
- +8lR0ki+3v3PLa+6aJp2W6ITAGN9eLZInFIzCatSc9DP7pFWFlXOl+utnN4MU428egRm
- dyy2PvBu8+8ZBkvU/vhUVQu6+b7YCFOUiJYi18oNqsF6jLHNfVBVzkBa+fgGs+p8xydj
- 5M3g==
-X-Gm-Message-State: AJIora+K6nFes7aP7/8DT96ojxisPqVzWmBwJHf+2gJmqrvQ8O9yylRh
- GWIjSKH68usol/ZpkVCefKRd71ov1FXFZdJ5
-X-Google-Smtp-Source: AGRyM1tx+ypKI183fH1xKqN5DTuGPIMHH0LVGiboBapcWv+JZS9jae0rnJczJiaZw6jKKtIGHGT6bQ==
-X-Received: by 2002:a17:903:2345:b0:16a:28ac:1c1b with SMTP id
- c5-20020a170903234500b0016a28ac1c1bmr31421493plh.106.1656838779045; 
- Sun, 03 Jul 2022 01:59:39 -0700 (PDT)
+ bh=21yVEfcVUBo097kH9wR354mUzWjfCDzfOMaCfmjHzQU=;
+ b=BOLO+Gsbs2HPqNHDlb+dkea/ax4HAyGsxideuJORbPzXDknk1SeUGLHTfLmvHHCG/O
+ Ie4g+HKi2+n9jwTg1S6N0HehYhym9S+Io/OPKxgA7g/rA+29jH+pamAFk+tTtbkbztqE
+ SDxErGfYv0znBhpvOjCJwsGyivfLGI8R8t7C+JxfePVDkdkzQrnhOlLdjVKtQv2L+rJj
+ SXr2Ep/jgSxaqhDbC4robBX0ZykS7bZhPtUm+u1JEJ8Qwe2yT2YF9BtrcxSYxnjdxFyY
+ 0CwtOC+1Fm2uOtgkGFegfF08V2cnOyV5KlZs7Wfqjewqo2n1nc9hR3uqF3hYMASmxPSt
+ 1zBQ==
+X-Gm-Message-State: AJIora/PHAYN0YWZ5GbVib06wDtSPGavJ1aa1UO2wlPyBi0hSJG8QsLt
+ HiGRqjfl7Z7xQohJ4c5o8oilbn3xJjGrw9+9
+X-Google-Smtp-Source: AGRyM1tDS/o6soM8tzWk7l9P1h5H4rt7YPONQ6wZHNUYVxkndpXlFuLRGHUt/+TiYxg58DS2Hm1JtA==
+X-Received: by 2002:a17:90b:3148:b0:1ed:75:47b with SMTP id
+ ip8-20020a17090b314800b001ed0075047bmr27783520pjb.9.1656838782161; 
+ Sun, 03 Jul 2022 01:59:42 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- cq16-20020a056a00331000b00518764d09cdsm18777593pfb.164.2022.07.03.01.59.36
+ cq16-20020a056a00331000b00518764d09cdsm18777593pfb.164.2022.07.03.01.59.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 01:59:38 -0700 (PDT)
+ Sun, 03 Jul 2022 01:59:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, Song Gao <gaosong@loongson.cn>,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PATCH v21 06/13] scripts: add loongarch64 binfmt config
-Date: Sun,  3 Jul 2022 14:29:06 +0530
-Message-Id: <20220703085913.772936-7-richard.henderson@linaro.org>
+Subject: [PATCH v21 07/13] target/loongarch: remove badaddr from CPULoongArch
+Date: Sun,  3 Jul 2022 14:29:07 +0530
+Message-Id: <20220703085913.772936-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220703085913.772936-1-richard.henderson@linaro.org>
 References: <20220703085913.772936-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,39 +90,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Song Gao <gaosong@loongson.cn>
 
+We can use CSR_BADV to replace badaddr.
+
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220624031049.1716097-7-gaosong@loongson.cn>
+Message-Id: <20220624031049.1716097-8-gaosong@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- scripts/qemu-binfmt-conf.sh | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ target/loongarch/cpu.h     | 2 --
+ target/loongarch/gdbstub.c | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index 9cb723f443..1f4e2cd19d 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -4,7 +4,7 @@
- qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
- ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
- sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
--microblaze microblazeel or1k x86_64 hexagon"
-+microblaze microblazeel or1k x86_64 hexagon loongarch64"
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index 71a5036c3c..4b4fbcdc71 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -246,8 +246,6 @@ typedef struct CPUArchState {
+     uint64_t lladdr; /* LL virtual address compared against SC */
+     uint64_t llval;
  
- i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
- i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-@@ -140,6 +140,10 @@ hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x
- hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
- hexagon_family=hexagon
- 
-+loongarch64_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01'
-+loongarch64_mask='\xff\xff\xff\xff\xff\xff\xff\xfc\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-+loongarch64_family=loongarch
-+
- qemu_get_family() {
-     cpu=${HOST_ARCH:-$(uname -m)}
-     case "$cpu" in
+-    uint64_t badaddr;
+-
+     /* LoongArch CSRs */
+     uint64_t CSR_CRMD;
+     uint64_t CSR_PRMD;
+diff --git a/target/loongarch/gdbstub.c b/target/loongarch/gdbstub.c
+index 0c48834201..24e126fb2d 100644
+--- a/target/loongarch/gdbstub.c
++++ b/target/loongarch/gdbstub.c
+@@ -21,7 +21,7 @@ int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+     } else if (n == 32) {
+         return gdb_get_regl(mem_buf, env->pc);
+     } else if (n == 33) {
+-        return gdb_get_regl(mem_buf, env->badaddr);
++        return gdb_get_regl(mem_buf, env->CSR_BADV);
+     }
+     return 0;
+ }
 -- 
 2.34.1
 
