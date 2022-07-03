@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19286564610
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 10:59:38 +0200 (CEST)
-Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BF456460F
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 10:59:30 +0200 (CEST)
+Received: from localhost ([::1]:36150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7vS5-0002aO-5X
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 04:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53620)
+	id 1o7vRx-0001xr-Lo
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 04:59:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7uva-0000bN-K8
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:02 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:33724)
+ id 1o7uvc-0000kA-Qg
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:04 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:34557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7uvY-0006ER-VU
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:02 -0400
-Received: by mail-pl1-x629.google.com with SMTP id n10so6067375plp.0
- for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:26:00 -0700 (PDT)
+ id 1o7uvb-0006AU-5Q
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:04 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id z1so234262plb.1
+ for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:26:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UJliRv7SE0glwKqdJ6L5blCFVHOfbsAKHLHPwEgHUps=;
- b=U+j9d/XoNpX5IrAE4k0QnuMu9bEypcuS09wIlA1dnUU8ow8Ri7bwG3WuhU1bzcBQEY
- tjlgsYq+r9uqvY0VOqMUbeQw4ukl/+AxMYJct+2MncLKrZ/fWP1LPiY42oN1xLKP3WP3
- Sxh8JQcy4SvCu/BGlgG7T9PUBgXgKrg4h3QtM0y9kFn4+5H3euDRSwDuNQdDHA41pjLz
- 9buNLkGUm7dqFbLYxdmEZJK9as4lagEul1vDaFdIrY/ta5s/JTPabCa+Pr042BKDbGjp
- j2H4jY1ngYZR7i0SWlxzwL9BxJTReOO6nu5029sXPKBeKqtgErzP+jDIUHZ4y2KH7+kB
- zgSQ==
+ bh=GsT5Xk5dtAY2Icbs3BWGWOCPzyUxhkaonhY2kebrD0o=;
+ b=UHE7ehj+0dTIwM/tuj9+HlutBMnrpRHOqU3xH5alJU1PMKoKm4XI5mZEzt9jVf8sNs
+ o9V1PsqjdbZw2WZpAJXtWwERapPYqxASXn9tqhapwxLJSMuYdTvfLLlr2o9/1WCXI1DP
+ NEL7EG+W9u2b6WE7pav0FRwTxzKhUU52Ut9vnBuARxOV4k2fO13rvQlBRA0NuLrr2BGU
+ g8xCTiAhe3s+BMSF6qrxhEeikLsLNKNLft/Y2i28bqNhkQkSPBkeVDMLF/hCByMu7lUJ
+ fvbczoaF4+/XunwMPPh8vd1OIuJlL5Un3kIocdM2RXQKZAJ40hq+yxfPR6CAdFE/JYhZ
+ 6IOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UJliRv7SE0glwKqdJ6L5blCFVHOfbsAKHLHPwEgHUps=;
- b=XBmyYrTUz9J2etEU88dEfajTlG9thxGj1ZNIlF0pUAY23lzj1BSl+WpgIoRHEGST+t
- 2RRWmOySJIjeMKlIwbjGjVVNPTuFzNQ3I9/dXQObmoVKZ7j0kOp33yAQOUJIyTFfVuBw
- mZGthYsDggSciUIWLStlsXS4s0twY7cUfqwjXc0KiWwkZmryq7evsirx8cIIAPpRBpB8
- cGbLVZe2LicIew877tod7f874jJuowp1dMpgZCY1G+7O9aPBVJJaPaE4UGbwN4pYU+vV
- wAh3pAfUFL5XYoEpB11xFZGNyFaFHnHiA76oJDE5nQDXMkNr4rWiZBmN96HVUDhqua01
- uSnA==
-X-Gm-Message-State: AJIora9avPxc54WweXfHVAcr17w7B4WgcFYp7RVIDsC3Uf9D1k7BSQQO
- lrD3TmhGkRPumCFr/+kyX3CNSWYxBJZr8UJ6
-X-Google-Smtp-Source: AGRyM1tHFDFA2Jy4CIpeOGly83YC6S5AlYkoa2edQosXfBlBlnVkbZtNSdO8bWOOq1MvdkPHBrwsag==
-X-Received: by 2002:a17:90a:5101:b0:1ef:7fbb:7a22 with SMTP id
- t1-20020a17090a510100b001ef7fbb7a22mr2806355pjh.24.1656836759719; 
- Sun, 03 Jul 2022 01:25:59 -0700 (PDT)
+ bh=GsT5Xk5dtAY2Icbs3BWGWOCPzyUxhkaonhY2kebrD0o=;
+ b=WOvQ2KqIHY1pGFDTq8JErNdsXUbwXIRysSAjZd6T7M0JHl3tB2sa08H7ZHDh5QaIzi
+ QgDRghf9ZzmGNGDjkQakWmhLtqQ9pKhJ9wu8LwH8DKQ/VOrySZ/xy+7saUGGk9lA7vut
+ vUn09KGkZzcgjAY4AIyOKGeHD4RPIbJHZ16qh8I5T74WedRHCJ+ugTCf/fWY5HEKtN9l
+ 9bnEwWEuoYo+9nF6yKNp8WUL7cSU7DiWcBtHTGwfzvzEU3cHm6tbRFtLq6UWJNEwkt64
+ Ee7y3CyHQu4/fXlguuIy7IX5kJhv3xOjmfvGMCjfX5EEmaQXV7sIelm/AT/DiGXqX8Zc
+ b9Sw==
+X-Gm-Message-State: AJIora8cPtzMFWeFX3WY7ElUPM+mhT0KP1Q3ALpBx1Ou+x/aDQOVWpIC
+ pwpMH+LuPDmdtNvsjIrUwUvsiLNPlk0sIGfF
+X-Google-Smtp-Source: AGRyM1t4uT6ea3XIZh7Q1lbHF/P90D9O5y6qhzOuZcxY4DOxWu9U8ZbabQdqrXlJwQO5tLJsuzZMHQ==
+X-Received: by 2002:a17:90a:e98d:b0:1ef:7863:b7d2 with SMTP id
+ v13-20020a17090ae98d00b001ef7863b7d2mr6128930pjy.101.1656836762387; 
+ Sun, 03 Jul 2022 01:26:02 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- im22-20020a170902bb1600b0016a3f9e528asm13569112plb.57.2022.07.03.01.25.57
+ im22-20020a170902bb1600b0016a3f9e528asm13569112plb.57.2022.07.03.01.26.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 01:25:58 -0700 (PDT)
+ Sun, 03 Jul 2022 01:26:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 31/62] target/arm: Merge regime_is_secure into get_phys_addr
-Date: Sun,  3 Jul 2022 13:53:48 +0530
-Message-Id: <20220703082419.770989-32-richard.henderson@linaro.org>
+Subject: [PATCH 32/62] target/arm: Add is_secure parameter to do_ats_write
+Date: Sun,  3 Jul 2022 13:53:49 +0530
+Message-Id: <20220703082419.770989-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220703082419.770989-1-richard.henderson@linaro.org>
 References: <20220703082419.770989-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,124 +87,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the last use of regime_is_secure; remove it
-entirely before changing the layout of ARMMMUIdx.
+Use get_phys_addr_with_secure directly.  This is the one place
+where the value of is_secure may not equal arm_is_secure(env).
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h | 42 ----------------------------------------
- target/arm/ptw.c       | 44 ++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 42 insertions(+), 44 deletions(-)
+ target/arm/helper.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 81c386ee15..d7062c6503 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -676,48 +676,6 @@ static inline bool regime_has_2_ranges(ARMMMUIdx mmu_idx)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 0908c20215..e98fc75646 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -3171,7 +3171,8 @@ static CPAccessResult ats_access(CPUARMState *env, const ARMCPRegInfo *ri,
+ 
+ #ifdef CONFIG_TCG
+ static uint64_t do_ats_write(CPUARMState *env, uint64_t value,
+-                             MMUAccessType access_type, ARMMMUIdx mmu_idx)
++                             MMUAccessType access_type, ARMMMUIdx mmu_idx,
++                             bool is_secure)
+ {
+     bool ret;
+     uint64_t par64;
+@@ -3179,7 +3180,8 @@ static uint64_t do_ats_write(CPUARMState *env, uint64_t value,
+     ARMMMUFaultInfo fi = {};
+     GetPhysAddrResult res = {};
+ 
+-    ret = get_phys_addr(env, value, access_type, mmu_idx, &res, &fi);
++    ret = get_phys_addr_with_secure(env, value, access_type, mmu_idx,
++                                    is_secure, &res, &fi);
+ 
+     /*
+      * ATS operations only do S1 or S1+S2 translations, so we never
+@@ -3351,6 +3353,7 @@ static void ats_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+         switch (el) {
+         case 3:
+             mmu_idx = ARMMMUIdx_SE3;
++            secure = true;
+             break;
+         case 2:
+             g_assert(!secure);  /* ARMv8.4-SecEL2 is 64-bit only */
+@@ -3372,6 +3375,7 @@ static void ats_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+         switch (el) {
+         case 3:
+             mmu_idx = ARMMMUIdx_SE10_0;
++            secure = true;
+             break;
+         case 2:
+             g_assert(!secure);  /* ARMv8.4-SecEL2 is 64-bit only */
+@@ -3387,16 +3391,18 @@ static void ats_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+     case 4:
+         /* stage 1+2 NonSecure PL1: ATS12NSOPR, ATS12NSOPW */
+         mmu_idx = ARMMMUIdx_E10_1;
++        secure = false;
+         break;
+     case 6:
+         /* stage 1+2 NonSecure PL0: ATS12NSOUR, ATS12NSOUW */
+         mmu_idx = ARMMMUIdx_E10_0;
++        secure = false;
+         break;
+     default:
+         g_assert_not_reached();
      }
- }
  
--/* Return true if this address translation regime is secure */
--static inline bool regime_is_secure(CPUARMState *env, ARMMMUIdx mmu_idx)
--{
--    switch (mmu_idx) {
--    case ARMMMUIdx_E10_0:
--    case ARMMMUIdx_E10_1:
--    case ARMMMUIdx_E10_1_PAN:
--    case ARMMMUIdx_E20_0:
--    case ARMMMUIdx_E20_2:
--    case ARMMMUIdx_E20_2_PAN:
--    case ARMMMUIdx_Stage1_E0:
--    case ARMMMUIdx_Stage1_E1:
--    case ARMMMUIdx_Stage1_E1_PAN:
--    case ARMMMUIdx_E2:
--    case ARMMMUIdx_Stage2:
--    case ARMMMUIdx_MPrivNegPri:
--    case ARMMMUIdx_MUserNegPri:
--    case ARMMMUIdx_MPriv:
--    case ARMMMUIdx_MUser:
--        return false;
--    case ARMMMUIdx_SE3:
--    case ARMMMUIdx_SE10_0:
--    case ARMMMUIdx_SE10_1:
--    case ARMMMUIdx_SE10_1_PAN:
--    case ARMMMUIdx_SE20_0:
--    case ARMMMUIdx_SE20_2:
--    case ARMMMUIdx_SE20_2_PAN:
--    case ARMMMUIdx_Stage1_SE0:
--    case ARMMMUIdx_Stage1_SE1:
--    case ARMMMUIdx_Stage1_SE1_PAN:
--    case ARMMMUIdx_SE2:
--    case ARMMMUIdx_Stage2_S:
--    case ARMMMUIdx_MSPrivNegPri:
--    case ARMMMUIdx_MSUserNegPri:
--    case ARMMMUIdx_MSPriv:
--    case ARMMMUIdx_MSUser:
--        return true;
--    default:
--        g_assert_not_reached();
--    }
--}
--
- static inline bool regime_is_pan(CPUARMState *env, ARMMMUIdx mmu_idx)
- {
-     switch (mmu_idx) {
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index b25e3a8c87..a7c0d616a0 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -2515,9 +2515,49 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-                    MMUAccessType access_type, ARMMMUIdx mmu_idx,
-                    GetPhysAddrResult *result, ARMMMUFaultInfo *fi)
- {
-+    bool is_secure;
-+
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_E10_0:
-+    case ARMMMUIdx_E10_1:
-+    case ARMMMUIdx_E10_1_PAN:
-+    case ARMMMUIdx_E20_0:
-+    case ARMMMUIdx_E20_2:
-+    case ARMMMUIdx_E20_2_PAN:
-+    case ARMMMUIdx_Stage1_E0:
-+    case ARMMMUIdx_Stage1_E1:
-+    case ARMMMUIdx_Stage1_E1_PAN:
-+    case ARMMMUIdx_E2:
-+    case ARMMMUIdx_Stage2:
-+    case ARMMMUIdx_MPrivNegPri:
-+    case ARMMMUIdx_MUserNegPri:
-+    case ARMMMUIdx_MPriv:
-+    case ARMMMUIdx_MUser:
-+        is_secure = false;
-+        break;
-+    case ARMMMUIdx_SE3:
-+    case ARMMMUIdx_SE10_0:
-+    case ARMMMUIdx_SE10_1:
-+    case ARMMMUIdx_SE10_1_PAN:
-+    case ARMMMUIdx_SE20_0:
-+    case ARMMMUIdx_SE20_2:
-+    case ARMMMUIdx_SE20_2_PAN:
-+    case ARMMMUIdx_Stage1_SE0:
-+    case ARMMMUIdx_Stage1_SE1:
-+    case ARMMMUIdx_Stage1_SE1_PAN:
-+    case ARMMMUIdx_SE2:
-+    case ARMMMUIdx_Stage2_S:
-+    case ARMMMUIdx_MSPrivNegPri:
-+    case ARMMMUIdx_MSUserNegPri:
-+    case ARMMMUIdx_MSPriv:
-+    case ARMMMUIdx_MSUser:
-+        is_secure = true;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-     return get_phys_addr_with_secure(env, address, access_type, mmu_idx,
--                                     regime_is_secure(env, mmu_idx),
--                                     result, fi);
-+                                     is_secure, result, fi);
- }
+-    par64 = do_ats_write(env, value, access_type, mmu_idx);
++    par64 = do_ats_write(env, value, access_type, mmu_idx, secure);
  
- hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
+     A32_BANKED_CURRENT_REG_SET(env, par, par64);
+ #else
+@@ -3412,7 +3418,8 @@ static void ats1h_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     MMUAccessType access_type = ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA_LOAD;
+     uint64_t par64;
+ 
+-    par64 = do_ats_write(env, value, access_type, ARMMMUIdx_E2);
++    /* There is no SecureEL2 for AArch32. */
++    par64 = do_ats_write(env, value, access_type, ARMMMUIdx_E2, false);
+ 
+     A32_BANKED_CURRENT_REG_SET(env, par, par64);
+ #else
+@@ -3455,6 +3462,7 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
+             break;
+         case 6: /* AT S1E3R, AT S1E3W */
+             mmu_idx = ARMMMUIdx_SE3;
++            secure = true;
+             break;
+         default:
+             g_assert_not_reached();
+@@ -3473,7 +3481,8 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
+         g_assert_not_reached();
+     }
+ 
+-    env->cp15.par_el[1] = do_ats_write(env, value, access_type, mmu_idx);
++    env->cp15.par_el[1] = do_ats_write(env, value, access_type,
++                                       mmu_idx, secure);
+ #else
+     /* Handled by hardware accelerator. */
+     g_assert_not_reached();
 -- 
 2.34.1
 
