@@ -2,89 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B162564237
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jul 2022 20:58:13 +0200 (CEST)
-Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA4856435F
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:11:56 +0200 (CEST)
+Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7iJo-0005mX-3f
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 14:58:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60718)
+	id 1o7nDP-0004ey-Hr
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1o7iI0-00054G-9a
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 14:56:20 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:35159)
+ (Exim 4.90_1)
+ (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
+ id 1o7nBT-0001s7-71
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:55 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:56105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1o7iHu-0000TY-Bt
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 14:56:20 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id B904158081A;
- Sat,  2 Jul 2022 14:56:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Sat, 02 Jul 2022 14:56:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm1; t=1656788172; x=1656791772; bh=1pApJnHCPaJnn6GHyPOLUnh8M
- 3Feb2nyTHos/jxSO9g=; b=LwUhAD29AM2whGwRt/8Dn0HxnCWtPyXtYymakw7BI
- Apln5vRQ4IaqAAQHKJl5y1IWAZ8++H8yhCVDnAIIN7fnr7MbWhsuu2hUMxV+qEG2
- DMPrX5cFMEI9dxrzm2hSb5sb9qUm89IwvLIaBH6srnnTkIRhOFpstfAaSbxkwsJ/
- eSrVO0BqKac9VGWTbOkmM0YCGvbOY/Gi3iTALMzeFOdLjnWSHzh/75egtYecXPoQ
- haFpgVyI85eSNiuTk0m3sdT26mDBPs/dB0DT4Ip7A/oOLok+RISW1EqCBUVblqRJ
- uOkYLihQJ272pyYpEqOUpyCPXbmaqUODQYz8TW6fgSQ7g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2;
- t=1656788172; x=1656791772; bh=1pApJnHCPaJnn6GHyPOLUnh8M3Feb2ny
- THos/jxSO9g=; b=tldyY6hMzSnFUu6o6BwNkM+2ygt3bj8UZXgQApezNEzCxfQd
- 3CER8Sp615O5O/VLGiOfb7WOv3cfw6Xc8NuiSnSg5KMAqoWMpoywSI12zpZyYsl4
- vJi2IRLWqcnw2plkrIfe6hRM6CI3/DYkw/fBiBvlEAq/ZGSgI4958cAvzoAv4bQ4
- dpRRWDcM2+Yl0i5l5F+UI41NCIeRvzQcND/EbI+aLEggsicKqkfhG9MpaEPLz2hG
- e4wHUJT1n4W75hJ0FhOGSWVwgQrt8wakQOisLUnH0b1eZquHC4Vg6xbzMiAaK066
- AqR0qp9jFUL8MtdPrHJrb5TWv9lePGhZUulkiQ==
-X-ME-Sender: <xms:zJTAYhBCbL85F8HgLWUudyPp5o_fBcCTXOLFsmpfoJ5WqcYQJfVjFA>
- <xme:zJTAYvicKNPuLwi6d0kVwZnRQQlxChvb7ZfrnBPwuZQ3E5Xw4GiyZzHMccbzKVLkt
- u9eVSzoNC6EvWoxdZU>
-X-ME-Received: <xmr:zJTAYsn9USF07U_vanFS6KwylDioecPMyNKHZ77fnj9sEkevS-guKYAxjaDyCyL_r0J6PzgPEtyWA3xs9eBWnTUmKZMmhhtj>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedgudefudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enmhhishhsihhnghcuvffquchfihgvlhguucdlfedtmdenogetfedtuddqtdduucdludeh
- mdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefrvghtvg
- hrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrght
- thgvrhhnpedvjeeghfekjeejiedtuddtvdeugeehheefleetffeugeejuddttefgvdegve
- eigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehp
- vghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:zJTAYrwQG2KHSQ35GW0dPU-HozOjuI5dlvZLs_smW4xw4XwjIKWdYA>
- <xmx:zJTAYmTMIsj9_mQ-rT73dQQvZDUxyVqv9zF4B9HB0aMv6i1m3GNIbw>
- <xmx:zJTAYuZ6iR9mCoWqlBf4p8kocObIpn3BxYCm-h0JDND_gpOHYXZr4w>
- <xmx:zJTAYsNS31If8mz-JoMRPbF40SweH4dX2oR12AoGWob4Y-KvTjsG0A>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Jul 2022 14:56:12 -0400 (EDT)
-From: Peter Delevoryas <peter@pjd.dev>
-To: 
-Cc: Peter Delevoryas <peter@pjd.dev>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH] avocado: Fix BUILD_DIR if it's equal to SOURCE_DIR
-Date: Sat,  2 Jul 2022 11:56:04 -0700
-Message-Id: <20220702185604.46643-1-peter@pjd.dev>
-X-Mailer: git-send-email 2.37.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
+ id 1o7nBP-0000vI-SU
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1656806991; x=1688342991;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=lIeSSiema5gfoaJ3lZvHJakvXIBT9LL6uMZWRBZIfM8=;
+ b=aOD7MSmc2UBMciT7QZdXQePPBAjfjj84JMlUiprqjmJ5+A78N0AaKI0K
+ 38D761ob2DqMouagNTE+8OIGAP//i4BLRhCJIPX5qjiNCAR84P1jxMS/Q
+ lKto/aj8/HEpFt/+lhqHTWDTYtj0iC8OqqCHZ7f2rYbSW0nXCNldWCKHt
+ APZYa4D5GE6Nh3GqU6IlcPmUJvi90NxYIAHI/iDUzXYGTPHVObW4c1cgO
+ USf6dAzNzNE3W7p5TYLizGKT3FtLQVhDUZKJsrIl55X1DsuREjh4PGLWn
+ Zj0j6Lnnh8SQNhrXNquw3ouRff4GACchQ0hYaJ495ao8QyW/uX1G/h76X w==;
+X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="308989602"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:09:45 +0800
+IronPort-SDR: SC+1f/QLjG6LWta9hDzmgMBVR8OEVflcVphy25m8yemqnvOnabXcz3mCMKks7Mpkttpoehbaro
+ AJsamrOIMXViKYm/J2PpkNiDcsxsj2CRUtGo5Zk0AqKCv+jLFu3T1TjqdFe9kH+IymxD2vx3NJ
+ 7J+4vMa0mY7wAWixnGJVC6vE0WpV8MRTmEPrQ84cMQ9ItCST7JV5DK82IXsp6JCt7JglikWJaN
+ 9YlqE/O89nBJndIisJ23P/zXEbcoo+LaNVDGATcwBw7bILMD7y7kOxGHbZ0Bdj88DCjsBrKt+V
+ ZU0PtIbRq2MJyr+VJ/hbj1A9
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 02 Jul 2022 16:27:07 -0700
+IronPort-SDR: yHmqY931Sjo6wd6alk2Bs+losmCZGxvgNW6/g44xf7ouHHn4EDB4QQzSfjAyr67Vr6sztQW7zt
+ 8i07zLaFAd5DEdG03Nz+npMDf0UYa4LMJR3I8CEJ8MLmp63W57L9q0ccV+NtxvzthBZU1rBRcO
+ koE+EyFJqwXdAqO6hYOs5IHmPHm4DbwWp0IUcW9RucvqLv6sm+sSE0leA61iFnpR6qxmd/C9cT
+ tFpAfafkLB/CbDS5aaJ6hcQK6OBKIZzmJwLt7teilnXNDJxb9wpYh7UVS/zIFIfG0ZJF5cQ8Es
+ hIs=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 02 Jul 2022 17:09:45 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8Sn0X0Sz1Rw4L
+ for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:09:45 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1656806984; x=1659398985; bh=lIeSSiema5gfoaJ3lZvHJakvXIBT9LL6
+ uMZWRBZIfM8=; b=DTqmshY2GQXGsrhaTjJ+8WkNk21Itgp6jwshAWgZ6MEWF30C
+ RuDQ72NbnvAdQp9uyBOG15e8RWy/IPuegn0VfuYkjbOwmoJvLVQje3AaJ58DeufV
+ 3W61kM6igP6aGy6fgM9wwjaj9mT8d0lK0/G3KIUmjGHcsLorR/ZzG5cun32gyVcs
+ naKU3i3uv17kB9tXUi3Cx2N/Tendaxt4pdffsq2lDjcmicwiM0OkTK4NCf+CgXqi
+ M0rmJL2wMTo5T76l3MS0yGboz0Ma7ucng1r+gkb1Jj2WFjLJfrq0CF8SixJHAqxZ
+ 1+gQzQi5w/OfI/hnALAUK4D8jFKlWYcliLVTHw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id 7f2k6mIgWJEu for <qemu-devel@nongnu.org>;
+ Sat,  2 Jul 2022 17:09:44 -0700 (PDT)
+Received: from toolbox.alistair23.me (unknown [10.225.167.123])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8Sl0YSRz1RtVk;
+ Sat,  2 Jul 2022 17:09:42 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair@alistair23.me>
+Subject: [PULL 00/19] riscv-to-apply queue
+Date: Sun,  3 Jul 2022 10:09:19 +1000
+Message-Id: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=peter@pjd.dev;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=68.232.143.124;
+ envelope-from=prvs=176813b30=alistair.francis@opensource.wdc.com;
+ helo=esa2.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,45 +114,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I like to build QEMU from the root source directory, rather than cd'ing
-into the build directory. This code may as well include a search path
-for that, so that you can run avocado tests individually without
-specifying "-p qemu_bin=build/qemu-system-arm" manually.
+From: Alistair Francis <alistair@alistair23.me>
 
-Signed-off-by: Peter Delevoryas <peter@pjd.dev>
----
- tests/avocado/avocado_qemu/__init__.py | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+The following changes since commit d495e432c04a6394126c35cf96517749708b41=
+0f:
 
-diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-index b656a70c55..ed4853c805 100644
---- a/tests/avocado/avocado_qemu/__init__.py
-+++ b/tests/avocado/avocado_qemu/__init__.py
-@@ -120,14 +120,15 @@ def pick_default_qemu_bin(bin_prefix='qemu-system-', arch=None):
-     # qemu binary path does not match arch for powerpc, handle it
-     if 'ppc64le' in arch:
-         arch = 'ppc64'
--    qemu_bin_relative_path = os.path.join(".", bin_prefix + arch)
--    if is_readable_executable_file(qemu_bin_relative_path):
--        return qemu_bin_relative_path
--
--    qemu_bin_from_bld_dir_path = os.path.join(BUILD_DIR,
--                                              qemu_bin_relative_path)
--    if is_readable_executable_file(qemu_bin_from_bld_dir_path):
--        return qemu_bin_from_bld_dir_path
-+    qemu_bin_name = bin_prefix + arch
-+    qemu_bin_paths = [
-+        os.path.join(".", qemu_bin_name),
-+        os.path.join(BUILD_DIR, qemu_bin_name),
-+        os.path.join(BUILD_DIR, "build", qemu_bin_name),
-+    ]
-+    for path in qemu_bin_paths:
-+        if is_readable_executable_file(path):
-+            return path
-     return None
- 
- 
--- 
-2.37.0
+  Merge tag 'pull-aspeed-20220630' of https://github.com/legoater/qemu in=
+to staging (2022-06-30 22:04:12 +0530)
 
+are available in the Git repository at:
+
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220703
+
+for you to fetch changes up to 435774992e82d2d16f025afbb20b4f7be9b242b0:
+
+  target/riscv: Update default priority table for local interrupts (2022-=
+07-03 10:03:20 +1000)
+
+----------------------------------------------------------------
+Fifth RISC-V PR for QEMU 7.1
+
+* Fix register zero guarding for auipc and lui
+* Ensure bins (mtval) is set correctly
+* Minimize the calls to decode_save_opc
+* Guard against PMP ranges with a negative size
+* Implement mcountinhibit CSR
+* Add support for hpmcounters/hpmevents
+* Improve PMU implenentation
+* Support mcycle/minstret write operation
+* Fixup MSECCFG minimum priv check
+* Ibex (OpenTitan) fixup priv version
+* Fix bug resulting in always using latest priv spec
+* Reduce FDT address alignment constraints
+* Set minumum priv spec version for mcountinhibit
+* AIA update to v0.3 of the spec
+
+----------------------------------------------------------------
+Alistair Francis (3):
+      target/riscv: Fixup MSECCFG minimum priv check
+      target/riscv: Ibex: Support priv version 1.11
+      hw/riscv: boot: Reduce FDT address alignment constraints
+
+Anup Patel (4):
+      target/riscv: Don't force update priv spec version to latest
+      target/riscv: Set minumum priv spec version for mcountinhibit
+      target/riscv: Remove CSRs that set/clear an IMSIC interrupt file bi=
+ts
+      target/riscv: Update default priority table for local interrupts
+
+Atish Patra (7):
+      target/riscv: Fix PMU CSR predicate function
+      target/riscv: Implement PMU CSR predicate function for S-mode
+      target/riscv: pmu: Rename the counters extension to pmu
+      target/riscv: pmu: Make number of counters configurable
+      target/riscv: Implement mcountinhibit CSR
+      target/riscv: Add support for hpmcounters/hpmevents
+      target/riscv: Support mcycle/minstret write operation
+
+Nicolas Pitre (1):
+      target/riscv/pmp: guard against PMP ranges with a negative size
+
+Richard Henderson (3):
+      target/riscv: Set env->bins in gen_exception_illegal
+      target/riscv: Remove generate_exception_mtval
+      target/riscv: Minimize the calls to decode_save_opc
+
+V=C3=ADctor Colombo (1):
+      target/riscv: Remove condition guarding register zero for auipc and=
+ lui
+
+ target/riscv/cpu.h                             |  24 +-
+ target/riscv/cpu_bits.h                        |  30 +-
+ target/riscv/pmu.h                             |  28 +
+ hw/riscv/boot.c                                |   4 +-
+ target/riscv/cpu.c                             |  17 +-
+ target/riscv/cpu_helper.c                      | 134 ++--
+ target/riscv/csr.c                             | 857 +++++++++++++++----=
+------
+ target/riscv/machine.c                         |  25 +
+ target/riscv/pmp.c                             |   3 +
+ target/riscv/pmu.c                             |  32 +
+ target/riscv/translate.c                       |  31 +-
+ target/riscv/insn_trans/trans_privileged.c.inc |   4 +
+ target/riscv/insn_trans/trans_rvh.c.inc        |   2 +
+ target/riscv/insn_trans/trans_rvi.c.inc        |  10 +-
+ target/riscv/meson.build                       |   3 +-
+ tests/tcg/riscv64/Makefile.softmmu-target      |  21 +
+ tests/tcg/riscv64/issue1060.S                  |  53 ++
+ tests/tcg/riscv64/semihost.ld                  |  21 +
+ 18 files changed, 843 insertions(+), 456 deletions(-)
+ create mode 100644 target/riscv/pmu.h
+ create mode 100644 target/riscv/pmu.c
+ create mode 100644 tests/tcg/riscv64/Makefile.softmmu-target
+ create mode 100644 tests/tcg/riscv64/issue1060.S
+ create mode 100644 tests/tcg/riscv64/semihost.ld
 
