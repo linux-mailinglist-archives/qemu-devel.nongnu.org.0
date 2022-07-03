@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6B9564373
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:23:50 +0200 (CEST)
-Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0DA8564371
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:23:04 +0200 (CEST)
+Received: from localhost ([::1]:43570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7nOv-0002zy-F4
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:23:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46644)
+	id 1o7nOB-0001XP-Uc
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nEU-0008NF-3z
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:13:03 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:46152)
+ id 1o7nEX-0008Pv-En
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:13:06 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:46146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nEP-0001pZ-TQ
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:13:01 -0400
+ id 1o7nET-0001p4-6w
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:13:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1656807177; x=1688343177;
+ t=1656807180; x=1688343180;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=F7to0UWjjt5Pk0ojr+uQDLDz+6a/Avq+GVpGx/8qt7U=;
- b=PPnRF4vmPgulHmROOzwNGk64RgW4JaU8bs6DT0VRGSbqfeAu+RfXaYej
- hnF40QBSsTsY9qGWgniIcWmkewoYNpx7zeqrCNAen06qxU5xUpWnSqal/
- HGrwQ3V7iKbnuPy+YlxKUn5Z9blGcMGcJbRegbct4NQbe+ytTPJds8exP
- 3SSIiOvmUTQQHKyzG+M7U2IFTy7jZdkvtd53+s1BhCf4dUHQQUJRq2yyB
- LRRjlzLvstnPys1RN+nmOLTMwHjg4XewHi/wS5cckZeNLwtBCsCaFUQiR
- 0yRfhuhwmCd74sqkktwuIMBKr3s9ICciXJVm9fuc9EGXOLcb5NsnAoUZJ w==;
-X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="204667239"
+ bh=APFVxoA4w+pXZxR4aPhchR0JJ0se4W7/l8p6DPel2nw=;
+ b=OTURtUHjB5W9FOAw1bBHb+FcAqITPpphVCTAjPvIzVrp1qabP7dUjqQh
+ IxWeC49PJQmkmiea/+RdzNC4rhnO9fRAX5pkn2DCJCeiH/ASBi/2gSEYy
+ oi/8tUMU/Op6Qe9Tek1r521DPVHsZJg7NmXKosZjqZg9jzYpGDrcDHKge
+ 4iJnJtl1sVKTdcZyAS5fTTSnILwYBLQl81WvDYR9B+QuBrDB2AlhyScgl
+ QmdKMzUT1yHS77TrCq3CSsgEgqkY5H5bg0qtpKKUDAmjmkxIOvi4c+0bi
+ XWEbJccq0+0gS/n3drcStsAgowMpOT3P88mHdeH3aDj2GI1eI/mlgwGWH g==;
+X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="204667240"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:12:56 +0800
-IronPort-SDR: hH8HNqzfFmL9bb+XeK5k+4/czOljbBtk/H2d8u/SOsOYYXpkp0iGyHFwAzSAxi99tZDrNH6u68
- HrtJNFGg37PHVO5pTPqLeop8eov0qEmo5x869swDudp2Jp/CaAlf5YgZrYa3RLMkAYI76R5r7y
- rSEVACvScDR7uXhuNHG5a1EoKCrPBAGFKPCbON27iLXd+Le5LRbQdNi+uTg+zJ1agb3LHATl1W
- 6dsaK0BMSnjoNvPhNNO0sjAVqOioRhl77WuIz5eshvfMYtRKUlZkJ8dvAs6MkJX5Ed0YTOsps7
- jt65zoz+Myy3IdBWIkBQH0G2
+ by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:12:58 +0800
+IronPort-SDR: ReCIgM24OxwujA/3o+pnrBO4IXyBvpwU3F+vZ6+hwmDP9iypwMa6mUsSTrapqCeboNbxXtNB08
+ GNILPNHrCLEBnekm3ghhPKzEDKRbAHAJhIY4Ow5cy2qYfSzeSyh4aJj+GpE/k8PWVfA7eVqEs7
+ lh0L1eJA64RM5uPoaDo+QxAkaas7hAB0w6sUkfXj4oKifudKh+Vvi/OAaMz/vrGSzLHTngLFyl
+ rKycvnlZrb3Peb2m2OLXam9Xww5pLSlLUicmXCaCKSIXLrcc0L2oC71Xij1IKFIEuzSar7fejy
+ it896EAc0JC3KW3oYB1FKGsK
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 16:30:18 -0700
-IronPort-SDR: D+7MOoKiHprATPiOBJK8xoDVzbx9AUPJaQ+g2j4kQrZyBs2SBqdeegB1BjnGeYiJWs98qLfsvL
- lJk04+T+QlZD5+uQjc13nDu9+MOHOFvZRFO2ddwaSbX/P6TcEoLhRftQHQ8ER+9E5y/0Iq9niF
- U4Q8/Y/QIFMdwzMppIz4Ep7A8KWyPoLaG5J8gYZ8KphObe/VzJJGsv3oY4uCvIgO+QbyyhiCJb
- 8634pdmaaqrk1ogzzIeie4m6NexTMLmUuPayj4dcJc9cHgKRcE9bHbUN/1FAHtEbVFXBxTOlFs
- Yq0=
+ 02 Jul 2022 16:30:21 -0700
+IronPort-SDR: sUpUEl7ECVa5uGgOI4DoZBiniqTc5yRqPlIrNZKJ9Z/o6aq+nsmt3ztiU1naFreZrtbRMM8Eox
+ 7nnycoCfpTGJzvu5WmIbLnYNjvwD5uZEsO2igTXjHQJC3JfGMU4f+W8HIDBmiDwuDkGEBUkzXf
+ ktBfC67YKXkb8AQr/Jg7zIr1bjtND82Sl8Bt2b1IoZkPqoW184ZEwyfU08ZILDDtgfwhW9WruS
+ Z3iW9Bp4SHWrcozKtBmPmIwFiZ0l4oDDXzEOFkLRiYgBAvHZi3VAOI8EDzhGuB+f6sC9MauB71
+ PB8=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 17:12:57 -0700
+ 02 Jul 2022 17:12:59 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8XS3sLpz1Rwnl
- for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:12:56 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8XW1VxGz1Rwnm
+ for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:12:59 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1656807175; x=1659399176; bh=F7to0UWjjt5Pk0ojr+
- uQDLDz+6a/Avq+GVpGx/8qt7U=; b=Epl91g8KF2T4D8DzDUOvCVVAEnsoW0hbgp
- pw5YN1PrT8ZMmSsmnC5gPHcK81Lw19QpkLKY06BqKml5YrBueC3xLIKyDPunaaHH
- Pw7jvfcYK66gVzbBA9H5lqHLp9C7aSRLAcfQQfOLcPbBdOuxbmG0VEmeNOx+ViRD
- SduKhP5zQEyR4Yyk272buV1fft4ygXOoaNUOLj69S5mAFIh9wr6uWhZPFEfBQ7RH
- GTP5Sq1Q/f+fAtkqloZ6Cmrk8dmuv3DPXN+YZ91pKFo0IajjtsUaS6a7Jd71fs+X
- M19by4ZmY7O7uHg0EkC1bTlw9DbwTt0OwQ45PaLvdXfvd9CNGiGA==
+ :from; s=dkim; t=1656807178; x=1659399179; bh=APFVxoA4w+pXZxR4aP
+ hchR0JJ0se4W7/l8p6DPel2nw=; b=V11V1tos0++7ITowmek21aZhQnwJiQ+szd
+ 6g8AfF7zoRCh5vWiE3nbz1+6hYRkTfW+nm2pKLTJY39+4RGQeS1uE+pkj6agk+2N
+ j8NAQhTSoOfqdIr3amA3cornJMA/f+GeNvTIAVVv5w48u1RRXUEDmiZ97abgwNgt
+ nIpm7RvDUYvpCEsicJorLJ8ZB12HighmrAXU6amquUXM40ZYsBSDrlxQYgRKiBJO
+ Q3fCXNzszPq0bJFmyOxgKICadc/4ESR9FiK/Eq4Af8xM5z/qQqFyQCnGUETnImZy
+ 1vnd8Pbo9+swFzYe5ViL8P9ff+kjaxLNb+d48rlkmMpw0oLBnkeA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 8-YRti9nUvSb for <qemu-devel@nongnu.org>;
- Sat,  2 Jul 2022 17:12:55 -0700 (PDT)
+ port 10026) with ESMTP id AzV0ictUfvTl for <qemu-devel@nongnu.org>;
+ Sat,  2 Jul 2022 17:12:58 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.167.123])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8XP6XNYz1Rwnx;
- Sat,  2 Jul 2022 17:12:53 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8XS3GrKz1RtVk;
+ Sat,  2 Jul 2022 17:12:56 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Atish Patra <atish.patra@wdc.com>,
+Cc: alistair23@gmail.com, Atish Patra <atishp@rivosinc.com>,
  Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
- Atish Patra <atishp@rivosinc.com>
-Subject: [PULL v2 08/19] target/riscv: pmu: Rename the counters extension to
- pmu
-Date: Sun,  3 Jul 2022 10:12:23 +1000
-Message-Id: <20220703001234.439716-9-alistair.francis@opensource.wdc.com>
+ Atish Patra <atish.patra@wdc.com>
+Subject: [PULL v2 09/19] target/riscv: pmu: Make number of counters
+ configurable
+Date: Sun,  3 Jul 2022 10:12:24 +1000
+Message-Id: <20220703001234.439716-10-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220703001234.439716-1-alistair.francis@opensource.wdc.com>
 References: <20220703001234.439716-1-alistair.francis@opensource.wdc.com>
@@ -117,78 +117,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Atish Patra <atish.patra@wdc.com>
+From: Atish Patra <atishp@rivosinc.com>
 
-The PMU counters are supported via cpu config "Counters" which doesn't
-indicate the correct purpose of those counters.
+The RISC-V privilege specification provides flexibility to implement
+any number of counters from 29 programmable counters. However, the QEMU
+implements all the counters.
 
-Rename the config property to pmu to indicate that these counters
-are performance monitoring counters. This aligns with cpu options for
-ARM architecture as well.
+Make it configurable through pmu config parameter which now will indicate
+how many programmable counters should be implemented by the cpu.
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Atish Patra <atish.patra@wdc.com>
 Signed-off-by: Atish Patra <atishp@rivosinc.com>
-Message-Id: <20220620231603.2547260-4-atishp@rivosinc.com>
+Message-Id: <20220620231603.2547260-5-atishp@rivosinc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h | 2 +-
- target/riscv/cpu.c | 4 ++--
- target/riscv/csr.c | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ target/riscv/cpu.h |  2 +-
+ target/riscv/cpu.c |  3 +-
+ target/riscv/csr.c | 94 ++++++++++++++++++++++++++++++----------------
+ 3 files changed, 63 insertions(+), 36 deletions(-)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 7d6397acdf..252c30a55d 100644
+index 252c30a55d..ffee54ea5c 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -397,7 +397,7 @@ struct RISCVCPUConfig {
+@@ -397,7 +397,6 @@ struct RISCVCPUConfig {
      bool ext_zksed;
      bool ext_zksh;
      bool ext_zkt;
--    bool ext_counters;
-+    bool ext_pmu;
+-    bool ext_pmu;
      bool ext_ifencei;
      bool ext_icsr;
      bool ext_svinval;
+@@ -421,6 +420,7 @@ struct RISCVCPUConfig {
+     /* Vendor-specific custom extensions */
+     bool ext_XVentanaCondOps;
+=20
++    uint8_t pmu_num;
+     char *priv_spec;
+     char *user_spec;
+     char *bext_spec;
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 05e6521351..1b57b3c439 100644
+index 1b57b3c439..d12c6dc630 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -851,7 +851,7 @@ static void riscv_cpu_init(Object *obj)
+@@ -851,7 +851,6 @@ static void riscv_cpu_init(Object *obj)
  {
      RISCVCPU *cpu =3D RISCV_CPU(obj);
 =20
--    cpu->cfg.ext_counters =3D true;
-+    cpu->cfg.ext_pmu =3D true;
+-    cpu->cfg.ext_pmu =3D true;
      cpu->cfg.ext_ifencei =3D true;
      cpu->cfg.ext_icsr =3D true;
      cpu->cfg.mmu =3D true;
-@@ -879,7 +879,7 @@ static Property riscv_cpu_extensions[] =3D {
+@@ -879,7 +878,7 @@ static Property riscv_cpu_extensions[] =3D {
      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
      DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
      DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
--    DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-+    DEFINE_PROP_BOOL("pmu", RISCVCPU, cfg.ext_pmu, true),
+-    DEFINE_PROP_BOOL("pmu", RISCVCPU, cfg.ext_pmu, true),
++    DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 58d07c511f..0ca05c7788 100644
+index 0ca05c7788..b4a8e15f49 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -74,8 +74,8 @@ static RISCVException ctr(CPURISCVState *env, int csrno=
-)
+@@ -73,9 +73,17 @@ static RISCVException ctr(CPURISCVState *env, int csrn=
+o)
+     CPUState *cs =3D env_cpu(env);
      RISCVCPU *cpu =3D RISCV_CPU(cs);
      int ctr_index;
++    int base_csrno =3D CSR_HPMCOUNTER3;
++    bool rv32 =3D riscv_cpu_mxl(env) =3D=3D MXL_RV32 ? true : false;
 =20
--    if (!cpu->cfg.ext_counters) {
--        /* The Counters extensions is not enabled */
-+    if (!cpu->cfg.ext_pmu) {
-+        /* The PMU extension is not enabled */
+-    if (!cpu->cfg.ext_pmu) {
+-        /* The PMU extension is not enabled */
++    if (rv32 && csrno >=3D CSR_CYCLEH) {
++        /* Offset for RV32 hpmcounternh counters */
++        base_csrno +=3D 0x80;
++    }
++    ctr_index =3D csrno - base_csrno;
++
++    if (!cpu->cfg.pmu_num || ctr_index >=3D (cpu->cfg.pmu_num)) {
++        /* No counter is enabled in PMU or the counter is out of range *=
+/
          return RISCV_EXCP_ILLEGAL_INST;
      }
 =20
+@@ -103,7 +111,7 @@ static RISCVException ctr(CPURISCVState *env, int csr=
+no)
+             }
+             break;
+         }
+-        if (riscv_cpu_mxl(env) =3D=3D MXL_RV32) {
++        if (rv32) {
+             switch (csrno) {
+             case CSR_CYCLEH:
+                 if (!get_field(env->mcounteren, COUNTEREN_CY)) {
+@@ -158,7 +166,7 @@ static RISCVException ctr(CPURISCVState *env, int csr=
+no)
+             }
+             break;
+         }
+-        if (riscv_cpu_mxl(env) =3D=3D MXL_RV32) {
++        if (rv32) {
+             switch (csrno) {
+             case CSR_CYCLEH:
+                 if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+@@ -202,6 +210,26 @@ static RISCVException ctr32(CPURISCVState *env, int =
+csrno)
+ }
+=20
+ #if !defined(CONFIG_USER_ONLY)
++static RISCVException mctr(CPURISCVState *env, int csrno)
++{
++    CPUState *cs =3D env_cpu(env);
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++    int ctr_index;
++    int base_csrno =3D CSR_MHPMCOUNTER3;
++
++    if ((riscv_cpu_mxl(env) =3D=3D MXL_RV32) && csrno >=3D CSR_MCYCLEH) =
+{
++        /* Offset for RV32 mhpmcounternh counters */
++        base_csrno +=3D 0x80;
++    }
++    ctr_index =3D csrno - base_csrno;
++    if (!cpu->cfg.pmu_num || ctr_index >=3D cpu->cfg.pmu_num) {
++        /* The PMU is not enabled or counter is out of range*/
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++
++    return RISCV_EXCP_NONE;
++}
++
+ static RISCVException any(CPURISCVState *env, int csrno)
+ {
+     return RISCV_EXCP_NONE;
+@@ -3687,35 +3715,35 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D =
+{
+     [CSR_HPMCOUNTER30]   =3D { "hpmcounter30",   ctr,    read_zero },
+     [CSR_HPMCOUNTER31]   =3D { "hpmcounter31",   ctr,    read_zero },
+=20
+-    [CSR_MHPMCOUNTER3]   =3D { "mhpmcounter3",   any,    read_zero },
+-    [CSR_MHPMCOUNTER4]   =3D { "mhpmcounter4",   any,    read_zero },
+-    [CSR_MHPMCOUNTER5]   =3D { "mhpmcounter5",   any,    read_zero },
+-    [CSR_MHPMCOUNTER6]   =3D { "mhpmcounter6",   any,    read_zero },
+-    [CSR_MHPMCOUNTER7]   =3D { "mhpmcounter7",   any,    read_zero },
+-    [CSR_MHPMCOUNTER8]   =3D { "mhpmcounter8",   any,    read_zero },
+-    [CSR_MHPMCOUNTER9]   =3D { "mhpmcounter9",   any,    read_zero },
+-    [CSR_MHPMCOUNTER10]  =3D { "mhpmcounter10",  any,    read_zero },
+-    [CSR_MHPMCOUNTER11]  =3D { "mhpmcounter11",  any,    read_zero },
+-    [CSR_MHPMCOUNTER12]  =3D { "mhpmcounter12",  any,    read_zero },
+-    [CSR_MHPMCOUNTER13]  =3D { "mhpmcounter13",  any,    read_zero },
+-    [CSR_MHPMCOUNTER14]  =3D { "mhpmcounter14",  any,    read_zero },
+-    [CSR_MHPMCOUNTER15]  =3D { "mhpmcounter15",  any,    read_zero },
+-    [CSR_MHPMCOUNTER16]  =3D { "mhpmcounter16",  any,    read_zero },
+-    [CSR_MHPMCOUNTER17]  =3D { "mhpmcounter17",  any,    read_zero },
+-    [CSR_MHPMCOUNTER18]  =3D { "mhpmcounter18",  any,    read_zero },
+-    [CSR_MHPMCOUNTER19]  =3D { "mhpmcounter19",  any,    read_zero },
+-    [CSR_MHPMCOUNTER20]  =3D { "mhpmcounter20",  any,    read_zero },
+-    [CSR_MHPMCOUNTER21]  =3D { "mhpmcounter21",  any,    read_zero },
+-    [CSR_MHPMCOUNTER22]  =3D { "mhpmcounter22",  any,    read_zero },
+-    [CSR_MHPMCOUNTER23]  =3D { "mhpmcounter23",  any,    read_zero },
+-    [CSR_MHPMCOUNTER24]  =3D { "mhpmcounter24",  any,    read_zero },
+-    [CSR_MHPMCOUNTER25]  =3D { "mhpmcounter25",  any,    read_zero },
+-    [CSR_MHPMCOUNTER26]  =3D { "mhpmcounter26",  any,    read_zero },
+-    [CSR_MHPMCOUNTER27]  =3D { "mhpmcounter27",  any,    read_zero },
+-    [CSR_MHPMCOUNTER28]  =3D { "mhpmcounter28",  any,    read_zero },
+-    [CSR_MHPMCOUNTER29]  =3D { "mhpmcounter29",  any,    read_zero },
+-    [CSR_MHPMCOUNTER30]  =3D { "mhpmcounter30",  any,    read_zero },
+-    [CSR_MHPMCOUNTER31]  =3D { "mhpmcounter31",  any,    read_zero },
++    [CSR_MHPMCOUNTER3]   =3D { "mhpmcounter3",   mctr,   read_zero },
++    [CSR_MHPMCOUNTER4]   =3D { "mhpmcounter4",   mctr,   read_zero },
++    [CSR_MHPMCOUNTER5]   =3D { "mhpmcounter5",   mctr,   read_zero },
++    [CSR_MHPMCOUNTER6]   =3D { "mhpmcounter6",   mctr,   read_zero },
++    [CSR_MHPMCOUNTER7]   =3D { "mhpmcounter7",   mctr,   read_zero },
++    [CSR_MHPMCOUNTER8]   =3D { "mhpmcounter8",   mctr,   read_zero },
++    [CSR_MHPMCOUNTER9]   =3D { "mhpmcounter9",   mctr,   read_zero },
++    [CSR_MHPMCOUNTER10]  =3D { "mhpmcounter10",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER11]  =3D { "mhpmcounter11",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER12]  =3D { "mhpmcounter12",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER13]  =3D { "mhpmcounter13",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER14]  =3D { "mhpmcounter14",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER15]  =3D { "mhpmcounter15",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER16]  =3D { "mhpmcounter16",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER17]  =3D { "mhpmcounter17",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER18]  =3D { "mhpmcounter18",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER19]  =3D { "mhpmcounter19",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER20]  =3D { "mhpmcounter20",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER21]  =3D { "mhpmcounter21",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER22]  =3D { "mhpmcounter22",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER23]  =3D { "mhpmcounter23",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER24]  =3D { "mhpmcounter24",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER25]  =3D { "mhpmcounter25",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER26]  =3D { "mhpmcounter26",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER27]  =3D { "mhpmcounter27",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER28]  =3D { "mhpmcounter28",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER29]  =3D { "mhpmcounter29",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER30]  =3D { "mhpmcounter30",  mctr,   read_zero },
++    [CSR_MHPMCOUNTER31]  =3D { "mhpmcounter31",  mctr,   read_zero },
+=20
+     [CSR_MHPMEVENT3]     =3D { "mhpmevent3",     any,    read_zero },
+     [CSR_MHPMEVENT4]     =3D { "mhpmevent4",     any,    read_zero },
 --=20
 2.36.1
 
