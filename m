@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FF4564360
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:11:57 +0200 (CEST)
-Received: from localhost ([::1]:38844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F18564362
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:14:42 +0200 (CEST)
+Received: from localhost ([::1]:46896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7nDP-0004gM-Jk
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:11:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46048)
+	id 1o7nG5-0001cp-Tz
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:14:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nBV-0001t1-29
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:57 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:56108)
+ id 1o7nBX-0001vj-0j
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:59 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:56105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nBT-0000vh-4S
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:56 -0400
+ id 1o7nBU-0000vI-3Z
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1656806994; x=1688342994;
+ t=1656806995; x=1688342995;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=/hrKk5p20kxaD0zCjNEk9cveWwf20tx/Gzwy08mr1wY=;
- b=gstQbC0Pd8ONR/r2l1ThPHEftqyXqSxH59LUGkzoaYcMR4ZeULnxcaI0
- zhk92KSV34PCQ+JaLZds0/6fhlDfOnnYsiTjBslyfZaY4qQA3cDOFTjas
- JxkhEfMJcxGvheQmQJHHuLi/siHy8fYxq6BnGcFceaW8AtbN/aEWLLRVI
- o4+VzyDxtruTnADYDbrKusxP5ikS7DxB41KkLSZM4yXjxzXvhql+t2vrB
- f0XPkxKUb9IJcA0m5tPIXhUipGvgzYTkIF7BVN9I5S6zazTh3zFJxFDFM
- hB8KSp6mIKaQWvcpdqRx5+9JANmwUoebAYkrpRh1qnVORTb9gLXKg0Edb w==;
-X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="308989617"
+ bh=Keur84s81dftzm7jD69JDIbb8De9fx2cMQzJdkPZ2LE=;
+ b=CvuPTpgI+ctz0dNO3pohCtN+qu5EDtFP/Bgvedga3U0CbIUhzQ3jn8GQ
+ 4Sv36miTQ2PwclOqZ8usBvay1giE6fqvWitYTLZd7sZpDtHJMq6VnZxO7
+ yBbFSXS/Va5dn1Qu86s6Ts7zF1e1Sz+BT5wnkEShk2gwIHhS1IFaXmWMi
+ NcAA4RFhdiyNKQtUlLh9a0NJAq9d4seBZRuudSXxOdK8i+jBYdBuXmS4M
+ SRoqMhVaL1Ks1JHzqR+w0TmaejAwcMvr0NDpkCEymngiqDKZMRmHGj2k9
+ GlkgBi6C+5R6iTV92AaZjT9XkhBz3HoSmbX0qO7TjNSm4TJClQ6bgf8MI Q==;
+X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="308989620"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:09:53 +0800
-IronPort-SDR: 2X5vgCX/ZRxLl2N+zyOsYSOAvDTBRL4gzDlOLJVdpfyqopT2iXxJh0VBf//OK8/JSMy39gZpV/
- V5qGDFLnzUyOJq6i8ReRjI5Ziq4Oxud1upFOTpoLjAZFfLN55+y4hLxYpiHm/rgB9FOJEDjXcR
- vf4135rniKWDEXxHWr6greCbdcdcl1vn+fGyjTPQhOobiv7r95P6Wu7ljbwoe+V5oDFEfST3TR
- W1YYisE0jCQhJjihFsrc3UUcjijRPr+F7Lp4FO5TA5odvsN6WJ60nMfISJcSab5d4gu6T/y6jn
- ANDL9VzXjEIcTSysMnCTuF7a
+ by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:09:55 +0800
+IronPort-SDR: CYGJnKB3RCGOCaAjDxOax6JIncMyvWts6mGqOx3Fl237ROB4+b8v1/G4u6lcVgwM1ISZRzfTwf
+ CzfFvj07+LVjzg3vT04D/hc/6luCHzT6lNgeOk4k2M/ibWToYOhBbiwcoODQhzyPtb2ZLEhXkq
+ ZNX/apMZtiZfpkMz4nq61TKv2QE61EML0GF1xVAVpKuM5+jLuXh5RFM7ScZOC5AIF68+80xbgo
+ YsjCZv54B6Z6sykJ0Kz1kmMWQaabHdigNNuadCGOX8fYv65H54QGy/sthova/c5kYS6Tgj4oav
+ aQEjPy0ZRVE2CbhHSDJVdq6Z
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 16:27:15 -0700
-IronPort-SDR: 4GUWQa0Y3nsbmhxChaNr0Cy/ql9K+ucPu/UvO+UTHvWIdsleWk3DzIBOpEe2TJenltmi9y+8sE
- 0RpPQLhMx5/y6ek8Mk3enkWfehcrSB2RKCoK753MQFX6Pz1Aimq6lXYbHd67GE9ONf7tgcplr1
- VTFRaSFvxbmd15x0wiWYx3ZNalBPyCF3MWO7z7lMEtLKa0DPCvzpLn3Dbm0Fu9xY6wckYdvMMx
- gAw9/dxH3NYBsYN0xUgQyBXg1ZKkRXdocnu5NuACF97/FxaKiZ/zfGL91Ua2KoaooU/CUnLeTc
- de0=
+ 02 Jul 2022 16:27:17 -0700
+IronPort-SDR: xv3Kpjipw9zX8y936oBrSltpRIP26z2V/8ymoQpP5t4gLXWhhVTN0kVUlUkEELEtHOAYprLkR+
+ uMe/c/7YvhA5MvebiHT2xZ/LkxR2wf68NCHTFAwsJ2caY+NwuN82l5ibYbpoKGG4TbSDs5x8RD
+ LzZOpNnXjfRV6fpqoFQ3FOkCqOirRLNHpFLuyv67n1dYIIQChaFI1EQnVKUQTUnvgldaq5rGCW
+ SgZGn5gIvbYjuxTFIFeIwJjvd0A9pWR8NW4u5vSqsCHLqpkPYZ/tvGuOkjWsP4ezb8slhiUjzB
+ 508=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 17:09:54 -0700
+ 02 Jul 2022 17:09:55 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8Sx4GmKz1Rwnx
- for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:09:53 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8Sz1fZrz1Rwnx
+ for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:09:55 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1656806992; x=1659398993; bh=/hrKk5p20kxaD0zCjN
- Ek9cveWwf20tx/Gzwy08mr1wY=; b=gB7Mniebf4zKmlt2AM2S8QIHRe5ND996Ti
- VX6WcxDn5G+PPURqrajQPWUBonGwDwZ4qXICtLCSotSnwqKyu0GGCt4jV63IP2h9
- jYurUVKqa3SfKbRsWenr/4SZ6PTVFF3LAMhF0my7h9gzpA1mKCUyZz1YEWPaGMuG
- Vic9IQffoF60C+BqldLeo3IdkfOtrNmCot7ht3j6sFk2kfCtB4qXZQFpbuVbpkvW
- ACnu51onL8C0tM4lpUGWHVaBMGvzE1DhiACnEGof8dixq3jgNUyuW2IBQ/qApBI2
- mF04hZEihX/C07Wiq7UPTNjxa8ow8BIaBV2QqUNLygLRZkN8HiZA==
+ :from; s=dkim; t=1656806994; x=1659398995; bh=Keur84s81dftzm7jD6
+ 9JDIbb8De9fx2cMQzJdkPZ2LE=; b=RPkxY7LoEFvNvRNwTZNIASCZm/Ocj9pTDv
+ t5igZyW/pkKFt/W+vLOO0kUz9uvo1iC75e+Krb+kFdIhwBjHohUl3vJlAZx36HgZ
+ nxTvg2i34K6pKN7HJzLzv5CiPxbcOQQu6D+wflzAplajhsimsdk9sllZYRquHy2t
+ IeJq+Pttr7rEjw/Pvv7UKNgJctM8nrpyqNwuWvdj23BCcQWMAhqcuXAAKtolHIxA
+ Fe+3YLVqpj/EAwau/CEK0GfvYS8wSEultyHW3QT6CIY+/VSt49V4+l2hUP9nsP0z
+ JINhCBTR6d0EIxi7LWlbWlHF7e+71A+ryO0xaFHuUpiFGACUM53A==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id c2dLf0HaOGxl for <qemu-devel@nongnu.org>;
- Sat,  2 Jul 2022 17:09:52 -0700 (PDT)
+ port 10026) with ESMTP id he758oaMXQwb for <qemu-devel@nongnu.org>;
+ Sat,  2 Jul 2022 17:09:54 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.167.123])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8Sv5TP8z1Rwnm;
- Sat,  2 Jul 2022 17:09:51 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8Sx3GDjz1RtVk;
+ Sat,  2 Jul 2022 17:09:53 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+Cc: alistair23@gmail.com, Nicolas Pitre <nico@fluxnic.net>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 04/19] target/riscv: Minimize the calls to decode_save_opc
-Date: Sun,  3 Jul 2022 10:09:23 +1000
-Message-Id: <20220703000938.437765-5-alistair.francis@opensource.wdc.com>
+Subject: [PULL 05/19] target/riscv/pmp: guard against PMP ranges with a
+ negative size
+Date: Sun,  3 Jul 2022 10:09:24 +1000
+Message-Id: <20220703000938.437765-6-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
 References: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
@@ -115,173 +116,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Nicolas Pitre <nico@fluxnic.net>
 
-The set of instructions that require decode_save_opc for
-unwinding is really fairly small -- only insns that can
-raise ILLEGAL_INSN at runtime.  This includes CSR, anything
-that uses a *new* fp rounding mode, and many privileged insns.
+For a TOR entry to match, the stard address must be lower than the end
+address. Normally this is always the case, but correct code might still
+run into the following scenario:
 
-Since unwind info is stored as the difference from the
-previous insn, storing a 0 for most insns minimizes the
-size of the unwind info.
+Initial state:
 
-Booting a debian kernel image to the missing rootfs panic yields
+	pmpaddr3 =3D 0x2000	pmp3cfg =3D OFF
+	pmpaddr4 =3D 0x3000	pmp4cfg =3D TOR
 
-- gen code size       22226819/1026886656
-+ gen code size       21601907/1026886656
+Execution:
 
-on 41k TranslationBlocks, a savings of 610kB or a bit less than 3%.
+	1. write 0x40ff to pmpaddr3
+	2. write 0x32ff to pmpaddr4
+	3. set pmp3cfg to NAPOT with a read-modify-write on pmpcfg0
+	4. set pmp4cfg to NAPOT with a read-modify-write on pmpcfg1
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+When (2) is emulated, a call to pmp_update_rule() creates a negative
+range for pmp4 as pmp4cfg is still set to TOR. And when (3) is emulated,
+a call to tlb_flush() is performed, causing pmp_get_tlb_size() to return
+a very creatively large TLB size for pmp4. This, in turn, may result in
+accesses to non-existent/unitialized memory regions and a fault, so that
+(4) ends up never being executed.
+
+This is in m-mode with MPRV unset, meaning that unlocked PMP entries
+should have no effect. Therefore such a behavior based on PMP content
+is very unexpected.
+
+Make sure no negative PMP range can be created, whether explicitly by
+the emulated code or implicitly like the above.
+
+Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220604231004.49990-4-richard.henderson@linaro.org>
+Message-Id: <3oq0sqs1-67o0-145-5n1s-453o118804q@syhkavp.arg>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/translate.c                       | 18 +++++++++---------
- target/riscv/insn_trans/trans_privileged.c.inc |  4 ++++
- target/riscv/insn_trans/trans_rvh.c.inc        |  2 ++
- target/riscv/insn_trans/trans_rvi.c.inc        |  2 ++
- 4 files changed, 17 insertions(+), 9 deletions(-)
+ target/riscv/pmp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 7205a29603..63b04e8a94 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -206,6 +206,13 @@ static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i6=
-4 in)
-     tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
- }
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 151da3fa08..ea2b67d947 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -167,6 +167,9 @@ void pmp_update_rule_addr(CPURISCVState *env, uint32_=
+t pmp_index)
+     case PMP_AMATCH_TOR:
+         sa =3D prev_addr << 2; /* shift up from [xx:0] to [xx+2:2] */
+         ea =3D (this_addr << 2) - 1u;
++        if (sa > ea) {
++            sa =3D ea =3D 0u;
++        }
+         break;
 =20
-+static void decode_save_opc(DisasContext *ctx)
-+{
-+    assert(ctx->insn_start !=3D NULL);
-+    tcg_set_insn_start_param(ctx->insn_start, 1, ctx->opcode);
-+    ctx->insn_start =3D NULL;
-+}
-+
- static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
- {
-     if (get_xl(ctx) =3D=3D MXL_RV32) {
-@@ -635,6 +642,8 @@ static void gen_set_rm(DisasContext *ctx, int rm)
-         return;
-     }
-=20
-+    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
-+    decode_save_opc(ctx);
-     gen_helper_set_rounding_mode(cpu_env, tcg_constant_i32(rm));
- }
-=20
-@@ -1013,13 +1022,6 @@ static uint32_t opcode_at(DisasContextBase *dcbase=
-, target_ulong pc)
- /* Include decoders for factored-out extensions */
- #include "decode-XVentanaCondOps.c.inc"
-=20
--static inline void decode_save_opc(DisasContext *ctx, target_ulong opc)
--{
--    assert(ctx->insn_start !=3D NULL);
--    tcg_set_insn_start_param(ctx->insn_start, 1, opc);
--    ctx->insn_start =3D NULL;
--}
--
- static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t o=
-pcode)
- {
-     /*
-@@ -1036,7 +1038,6 @@ static void decode_opc(CPURISCVState *env, DisasCon=
-text *ctx, uint16_t opcode)
-=20
-     /* Check for compressed insn */
-     if (extract16(opcode, 0, 2) !=3D 3) {
--        decode_save_opc(ctx, opcode);
-         if (!has_ext(ctx, RVC)) {
-             gen_exception_illegal(ctx);
-         } else {
-@@ -1051,7 +1052,6 @@ static void decode_opc(CPURISCVState *env, DisasCon=
-text *ctx, uint16_t opcode)
-         opcode32 =3D deposit32(opcode32, 16, 16,
-                              translator_lduw(env, &ctx->base,
-                                              ctx->base.pc_next + 2));
--        decode_save_opc(ctx, opcode32);
-         ctx->opcode =3D opcode32;
-         ctx->pc_succ_insn =3D ctx->base.pc_next + 4;
-=20
-diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/risc=
-v/insn_trans/trans_privileged.c.inc
-index 53613682e8..46f96ad74d 100644
---- a/target/riscv/insn_trans/trans_privileged.c.inc
-+++ b/target/riscv/insn_trans/trans_privileged.c.inc
-@@ -75,6 +75,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
- {
- #ifndef CONFIG_USER_ONLY
-     if (has_ext(ctx, RVS)) {
-+        decode_save_opc(ctx);
-         gen_helper_sret(cpu_pc, cpu_env);
-         tcg_gen_exit_tb(NULL, 0); /* no chaining */
-         ctx->base.is_jmp =3D DISAS_NORETURN;
-@@ -90,6 +91,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
- static bool trans_mret(DisasContext *ctx, arg_mret *a)
- {
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_helper_mret(cpu_pc, cpu_env);
-     tcg_gen_exit_tb(NULL, 0); /* no chaining */
-     ctx->base.is_jmp =3D DISAS_NORETURN;
-@@ -102,6 +104,7 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a=
-)
- static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
- {
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-     gen_helper_wfi(cpu_env);
-     return true;
-@@ -113,6 +116,7 @@ static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
- static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
- {
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_helper_tlb_flush(cpu_env);
-     return true;
- #endif
-diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_=
-trans/trans_rvh.c.inc
-index cebcb3f8f6..4f8aecddc7 100644
---- a/target/riscv/insn_trans/trans_rvh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvh.c.inc
-@@ -169,6 +169,7 @@ static bool trans_hfence_gvma(DisasContext *ctx, arg_=
-sfence_vma *a)
- {
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_helper_hyp_gvma_tlb_flush(cpu_env);
-     return true;
- #endif
-@@ -179,6 +180,7 @@ static bool trans_hfence_vvma(DisasContext *ctx, arg_=
-sfence_vma *a)
- {
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_helper_hyp_tlb_flush(cpu_env);
-     return true;
- #endif
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_=
-trans/trans_rvi.c.inc
-index c190a59f22..ca8e3d1ea1 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -818,6 +818,8 @@ static bool trans_fence_i(DisasContext *ctx, arg_fenc=
-e_i *a)
-=20
- static bool do_csr_post(DisasContext *ctx)
- {
-+    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
-+    decode_save_opc(ctx);
-     /* We may have changed important cpu state -- exit to main loop. */
-     gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-     tcg_gen_exit_tb(NULL, 0);
+     case PMP_AMATCH_NA4:
 --=20
 2.36.1
 
