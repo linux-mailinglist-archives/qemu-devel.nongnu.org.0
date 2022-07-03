@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF2E5645DB
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 10:40:10 +0200 (CEST)
-Received: from localhost ([::1]:39972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B021A5645E3
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 10:43:48 +0200 (CEST)
+Received: from localhost ([::1]:48484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7v9F-0007oX-Ed
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 04:40:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53202)
+	id 1o7vCl-0005Fx-OS
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 04:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7uv1-0007f8-Nh
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:25:27 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:38790)
+ id 1o7uv4-0007qS-Nk
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:25:30 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:43926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7uv0-000699-1q
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:25:27 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id m14so6030066plg.5
- for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:25:25 -0700 (PDT)
+ id 1o7uv3-00069b-6k
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:25:30 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id 68so6236812pgb.10
+ for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LaYP+2o95zy27QHmyX20UD82IAVILTEsp61gOqT10lM=;
- b=KChJYuAuc0J/uOVFYtz/nSDmIC7VkWWBibHIFC5ktYc1ODj4fRn0SpWq2kqXrwYChA
- aKNZZLu4uZ4a4bht1JtalhhaBC7XWu+Dp9Qf+n9Yq4mHmhdtlLULNKUZgv1jbr6C3m8B
- nse3RfprDQUKa7ZCd7zUnNO31YaMpzMsM/X1Ya6+qfajmxiU2oZBDi48PtILIFAYKUxv
- Us8VW5lqlz1d3lzptSrF5rI0txDLAKicDA22UkHLrS/nuxDOhKG8pKEWH7HJYA1+Gx+M
- MeuKumCMYwS4OKxaG13JXv2kjYNnWHLlspxPxpBAiarCCrzVd3mLsG6kjSM1XnD7WtSK
- 0x0w==
+ bh=UvRs/fI4qqQtxbNs3Ld/tro7HQYE0RTJrbm3VX6tYyA=;
+ b=CrkcueicowGvnycbN9HBujuF3rLvBObgq0Fyq6BpWFI3/iOlVmaPjYfLFpOvt06byS
+ 3BemZ1rbA7sGuzgjal8arJQIYCqL+5c7euINsTH5pE8az5h6boBQE43o870E68JYG91/
+ MBSe8UA/PwImEbTziMjUI75LvVHbiy1ByC863vvK5ezgo5WnF7EwmYtJ1+YSucT8HjMw
+ +LbxPZ9Qi7MFFKNt7M1H0yblKNTu++iuRG0DZMTUj8X0GxJEz7kfkVDTf9EUrQ2Q2Man
+ n7ixJw+w0XrfFQaCdnN39urzvhpahXwILrkB9Ryciu1sdNVeOuPgkuD+PjhaARIV2wHL
+ qfBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LaYP+2o95zy27QHmyX20UD82IAVILTEsp61gOqT10lM=;
- b=x40AB/r6atD2fIj6jKQ9uOhvBDMPSzzOnHnUuGToiEaclnsLOVF8u91IjHlByGOoi4
- 5/jimG9vSR14pEXLZI7SHCQbpD9y7iaDkY9fvUl+1zXDzpOcZ/S3m/BsrMKwA4s2F9W3
- 1KrnyDw2BGC16MY1qR3aI558/QYP011fKaLP1ge+VOIkbGqdo1e03jbBSc5m/rhnsEEm
- TiXahZQUfQeKvQQODv9H9TsnQTuClwj3DPA6ihbsyzawmZ2YvLAaYiu7fok76PrDBsIJ
- uHmB8t/MP/y4rzAvHIUYATJyuU59B+VtGYT/yvjusROjd2R1Gic7d0qQYollwk0/kGFp
- OpOA==
-X-Gm-Message-State: AJIora96ABBQzEeSwE8YfyV2cAHdlxC8ew5nppflODPh+B90ATXAbBmv
- ItSSgWx/PXrunG0KhadsOI6BlYJAhLlGcwTD
-X-Google-Smtp-Source: AGRyM1uH+fTsbT+38DwmK10vIECQUqqIWvFfP8jjbf+3D/jWhJSEnmGRDqpHMFGwhm22e2D8tf8Nyw==
-X-Received: by 2002:a17:903:120c:b0:167:8847:21f2 with SMTP id
- l12-20020a170903120c00b00167884721f2mr28391645plh.11.1656836724769; 
- Sun, 03 Jul 2022 01:25:24 -0700 (PDT)
+ bh=UvRs/fI4qqQtxbNs3Ld/tro7HQYE0RTJrbm3VX6tYyA=;
+ b=yeCUusAyMRZUCSrR/QmKdG8bdT3MPxCQPV55HVapBqg4lwOkQeCad4APOdhx3rfEQW
+ IeCj/fnAOdBbGr9PXyr9sX8GgKVma6/oJUHEV1tGNWvViNwOkVkLqaMyPxjaIzvq00Fg
+ f4sTe720TJzojr2S0s1akVYrWCZabz2xY8YvvnJQuRNUtBgkDTfh58gmjHsFD0S3q2eb
+ 3lsmP+QPb9J8IZ8JVZZ1ODcAEuLHlAt0c0vTdxZ9rYXM+8K5t8nYqfAIGLeE58sqC5z4
+ diKVK71TH3ZYpyR11un5cPUQhiHzmGj52o6prl+l3DdUO15KXpy+/w29oSAFjCVEqfuS
+ Ltcg==
+X-Gm-Message-State: AJIora8nPr/hqWTBTRh1hWyHID6yOHdYwYGeiqE06lNOyJDccMJnfr2C
+ +bx6L25I+mcagKhwaPxNgG443yXUoGT4j05s
+X-Google-Smtp-Source: AGRyM1uSB2hCX+rUM7e/kySn2L+ypQvOaKW82UUCwqm0Z3jJRF0jRVgTqzMpXjR5xc1bxxgsg1f12Q==
+X-Received: by 2002:a65:6a50:0:b0:3f6:4566:581d with SMTP id
+ o16-20020a656a50000000b003f64566581dmr19415866pgu.122.1656836727784; 
+ Sun, 03 Jul 2022 01:25:27 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- im22-20020a170902bb1600b0016a3f9e528asm13569112plb.57.2022.07.03.01.25.22
+ im22-20020a170902bb1600b0016a3f9e528asm13569112plb.57.2022.07.03.01.25.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 01:25:24 -0700 (PDT)
+ Sun, 03 Jul 2022 01:25:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 19/62] target/arm: Add is_secure parameter to pmsav8_mpu_lookup
-Date: Sun,  3 Jul 2022 13:53:36 +0530
-Message-Id: <20220703082419.770989-20-richard.henderson@linaro.org>
+Subject: [PATCH 20/62] target/arm: Add is_secure parameter to get_phys_addr_v5
+Date: Sun,  3 Jul 2022 13:53:37 +0530
+Message-Id: <20220703082419.770989-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220703082419.770989-1-richard.henderson@linaro.org>
 References: <20220703082419.770989-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,75 +87,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the use of regime_is_secure from pmsav8_mpu_lookup.
+Remove the use of regime_is_secure from get_phys_addr_v5.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h | 4 ++--
- target/arm/m_helper.c  | 2 +-
- target/arm/ptw.c       | 7 +++----
- 3 files changed, 6 insertions(+), 7 deletions(-)
+ target/arm/ptw.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 30bda00a09..f75ac2e1b7 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1143,8 +1143,8 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
- 
- bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-                        MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                       GetPhysAddrResult *result, ARMMMUFaultInfo *fi,
--                       uint32_t *mregion);
-+                       bool is_secure, GetPhysAddrResult *result,
-+                       ARMMMUFaultInfo *fi, uint32_t *mregion);
- 
- void arm_log_exception(CPUState *cs);
- 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 45fbf19559..5ee4ee15b3 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -2810,7 +2810,7 @@ uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
-         ARMMMUFaultInfo fi = {};
- 
-         /* We can ignore the return value as prot is always set */
--        pmsav8_mpu_lookup(env, addr, MMU_DATA_LOAD, mmu_idx,
-+        pmsav8_mpu_lookup(env, addr, MMU_DATA_LOAD, mmu_idx, targetsec,
-                           &res, &fi, &mregion);
-         if (mregion == -1) {
-             mrvalid = false;
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 3b70c423a8..1a0e708d11 100644
+index 1a0e708d11..1bef9c6c60 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -1697,8 +1697,8 @@ static bool get_phys_addr_pmsav7(CPUARMState *env, uint32_t address,
+@@ -410,7 +410,8 @@ static int simple_ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx, int ap)
  
- bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-                        MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                       GetPhysAddrResult *result, ARMMMUFaultInfo *fi,
--                       uint32_t *mregion)
-+                       bool secure, GetPhysAddrResult *result,
-+                       ARMMMUFaultInfo *fi, uint32_t *mregion)
+ static bool get_phys_addr_v5(CPUARMState *env, uint32_t address,
+                              MMUAccessType access_type, ARMMMUIdx mmu_idx,
+-                             GetPhysAddrResult *result, ARMMMUFaultInfo *fi)
++                             bool is_secure, GetPhysAddrResult *result,
++                             ARMMMUFaultInfo *fi)
  {
-     /*
-      * Perform a PMSAv8 MPU lookup (without also doing the SAU check
-@@ -1711,7 +1711,6 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-      */
-     ARMCPU *cpu = env_archcpu(env);
-     bool is_user = regime_is_user(env, mmu_idx);
--    uint32_t secure = regime_is_secure(env, mmu_idx);
-     int n;
-     int matchregion = -1;
-     bool hit = false;
-@@ -2031,7 +2030,7 @@ static bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
-         }
+     int level = 1;
+     uint32_t table;
+@@ -429,8 +430,7 @@ static bool get_phys_addr_v5(CPUARMState *env, uint32_t address,
+         fi->type = ARMFault_Translation;
+         goto do_fault;
      }
+-    desc = arm_ldl_ptw(env, table, regime_is_secure(env, mmu_idx),
+-                       mmu_idx, fi);
++    desc = arm_ldl_ptw(env, table, is_secure, mmu_idx, fi);
+     if (fi->type != ARMFault_None) {
+         goto do_fault;
+     }
+@@ -468,8 +468,7 @@ static bool get_phys_addr_v5(CPUARMState *env, uint32_t address,
+             /* Fine pagetable.  */
+             table = (desc & 0xfffff000) | ((address >> 8) & 0xffc);
+         }
+-        desc = arm_ldl_ptw(env, table, regime_is_secure(env, mmu_idx),
+-                           mmu_idx, fi);
++        desc = arm_ldl_ptw(env, table, is_secure, mmu_idx, fi);
+         if (fi->type != ARMFault_None) {
+             goto do_fault;
+         }
+@@ -2509,7 +2508,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+                                 result, fi);
+     } else {
+         return get_phys_addr_v5(env, address, access_type, mmu_idx,
+-                                result, fi);
++                                is_secure, result, fi);
+     }
+ }
  
--    ret = pmsav8_mpu_lookup(env, address, access_type, mmu_idx,
-+    ret = pmsav8_mpu_lookup(env, address, access_type, mmu_idx, secure,
-                             result, fi, NULL);
-     if (sattrs.subpage) {
-         result->page_size = 1;
 -- 
 2.34.1
 
