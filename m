@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38AF5645B7
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 10:16:58 +0200 (CEST)
-Received: from localhost ([::1]:54206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29725645B9
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 10:21:23 +0200 (CEST)
+Received: from localhost ([::1]:56886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7umn-0002ml-BR
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 04:16:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51342)
+	id 1o7ur4-0004gi-Lv
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 04:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcx4c70@gmail.com>) id 1o7ulV-00020Z-HY
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:15:37 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:40670)
+ (Exim 4.90_1) (envelope-from <tcx4c70@gmail.com>) id 1o7upd-00040e-At
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:19:53 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:53768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcx4c70@gmail.com>) id 1o7ulR-00044w-S1
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:15:35 -0400
-Received: by mail-pf1-x436.google.com with SMTP id y141so6328432pfb.7
- for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:15:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tcx4c70@gmail.com>) id 1o7upb-0004g0-GP
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:19:53 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id ju17so1422005pjb.3
+ for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Dki9ppJy+aygFPHvLmekDHPVF4UyjZXY227QFgdvUoA=;
- b=BHD7vdrLrTI/Q5xfLzIzqmskDAEc4zwiPvzxonQ4gcG5Libpz32IM699p8/QxICiiv
- voZJK3ElD/zJBSjepkGjx92c2Widr0ICNzZeiFmUdgWRnmvAlKjjEqNrReERYOsEPZNh
- UlXw5UD6ixHGTKt6qvBiIhOjDjSPkAt80o0v8b9FSKzFmCR4FojGCRZvUI/0QbxxaJsr
- D+EN+1EgOC1SWtXHRTO2joaamEnGbwHQ5LJn8Py5JPQDgp2qeu56um63teFrEv0VvmI+
- yk221c1Z+RX/9v5kC3BY+wU4bh6ZlaWqmeFq4Atd1ldH+6vdu15SM9sjaqcjdlaUOue/
- txfg==
+ bh=egkUuOVLOe7InrjoICLBn4eZVAcizvKX5Nb1Mu72SZE=;
+ b=OjExoEEG3Hy1EpUdrPFb9h5wveZ8fsh+CM9R4bhRzmmVmIhXoWGxWRUbIJ9+fxeBnM
+ A3K5uWUVLNM/XIKlOFy7KVje9es4AE/UEQ5iMogtG9W7UsZjavwlPAY+8bqrfxNYDUdB
+ y6BqPf27+drSAmE143ITDmAKYZOG+HUDOjjAcEOCGnEKQ1Piqth4vIpZ72zBNP7jKLou
+ xG5t/2cNBh6mRO3Y83FDL6G9Ki2xaDCZAqJtp3+lJPAn2veofFXzoENRdtZkO9aYWbe/
+ hDVFCEM6NaUi2UxY0SefxKXZ1lZTMYPDENjTxjKPj4QChRwcYIlkVkGvDeB9nBYhO7uQ
+ ZGVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Dki9ppJy+aygFPHvLmekDHPVF4UyjZXY227QFgdvUoA=;
- b=fOnQDpN4MP+0g5qTMFP0uw3njwnyZVJHULFMapTtY5Hhb5NcaOUcDU3GA7z0p0MpaH
- rrqwJasyBsZnACaKTyVcPeqzJVB3QRjpSXQVaS4BL0UeXfjkeYCj1QK03gXTc6QDzBwn
- BFDlLMsYcadls05rFvB8dQkxYuhXu2Ptvkx6csPbDcTK+H5jYkpJ3t9318P5HtUU2Sh6
- tHv37/N+HMPtS0HX/xi/H6BY8fa+6YH0lQyqUOh9XGmm6EB7kPSQxuFq15H5nxIaasEw
- mn0C74hIu8jb/BztZ6B2gTieoIiqf3hfeq/rCJQM4oMQmI/7anZ9Z5uF9GtclrBvQl/T
- ffKw==
-X-Gm-Message-State: AJIora/Qv1MDt+AhQ2WFCCuzNWGxyVJuJWmquMhOgP0FZWWVloL4aKSj
- GIF99XjlKN84TXR4C5pwUqA=
-X-Google-Smtp-Source: AGRyM1uqs19tCXkL3gNP0GMJv7yW+2rvixzSPNgoRMm46bzvqIPtOmEh9dhp00ZJfCeUdL8JQHS+gA==
-X-Received: by 2002:a63:3ec6:0:b0:40d:27a:7847 with SMTP id
- l189-20020a633ec6000000b0040d027a7847mr19681011pga.606.1656836131901; 
- Sun, 03 Jul 2022 01:15:31 -0700 (PDT)
-Received: from ?IPV6:2404:f801:0:5::ce? ([2404:f801:9000:1a:6fea::ce])
+ bh=egkUuOVLOe7InrjoICLBn4eZVAcizvKX5Nb1Mu72SZE=;
+ b=lJIUkQn9XKFsdPPDOODPD5bXtEeOzjbQc6bpsqvWM8q/zHfS7Q3/eZ2uEV0hEUwXNE
+ w1pyfQMcm7/kBvzKcoGD78tBmDetMhX4TduoJqo9e8no6Ef8R+LOipWe/joDW6bQG2nO
+ dnLdkulsAqP7P42tNp5kk9RtoXYw6oaVrnhlp5Sqg1E3MsAMXtBraFh0bMk04Gm+QjH4
+ tz9tf1xTn9ASuvZtnCiC0xD0J4L8junSmvNb/yPzPvhV6+W9PXyanLdYWAs9W2DYBYPL
+ BfTGgiTgP43DiARq5PhQKk7rAe6wTNC3cJSBaQcBO1tt9/OOdLoYZBvrrLpeDYg8CSp/
+ qarA==
+X-Gm-Message-State: AJIora+nnKz0Zb2/xKruH+5ogzrr/8UnEOygxsgSFpoYpKtiXbCJJfxA
+ KejaCbnOvc/k6Yf2EPXPQj8=
+X-Google-Smtp-Source: AGRyM1s/AsL6yeYH3+MCxed51ktcJgfeYAybJcpxrWT1tJw0+ot/ngliv9+EvZKPLLMZ8JvM3BOuhg==
+X-Received: by 2002:a17:90b:1a81:b0:1ed:3c0:3abb with SMTP id
+ ng1-20020a17090b1a8100b001ed03c03abbmr28034393pjb.5.1656836390072; 
+ Sun, 03 Jul 2022 01:19:50 -0700 (PDT)
+Received: from ?IPV6:2404:f801:0:5::ce? ([2404:f801:9000:18:6fec::ce])
  by smtp.gmail.com with ESMTPSA id
- n18-20020a63f812000000b0040c33cb0ccasm18368914pgh.42.2022.07.03.01.15.25
+ n16-20020a170903111000b0016bdd124d46sm596533plh.288.2022.07.03.01.19.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Jul 2022 01:15:31 -0700 (PDT)
-Message-ID: <2533a4a5-e117-5ea2-c62f-db7fed3d64b1@gmail.com>
-Date: Sun, 3 Jul 2022 16:15:23 +0800
+ Sun, 03 Jul 2022 01:19:49 -0700 (PDT)
+Message-ID: <1c909c0d-6d99-cbb9-0f2a-8186e716fd5d@gmail.com>
+Date: Sun, 3 Jul 2022 16:19:42 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.0
-Subject: Re: [PATCH V8 20/39] cpr: restart mode
+Subject: Re: [PATCH V8 36/39] chardev: cpr for sockets
 Content-Language: en-US
 To: Steve Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
@@ -76,13 +76,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
  Igor Mammedov <imammedo@redhat.com>, David Hildenbrand <david@redhat.com>,
  John Snow <jsnow@redhat.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
- <1655304746-102776-21-git-send-email-steven.sistare@oracle.com>
+ <1655304746-102776-37-git-send-email-steven.sistare@oracle.com>
 From: Peng Liang <tcx4c70@gmail.com>
-In-Reply-To: <1655304746-102776-21-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1655304746-102776-37-git-send-email-steven.sistare@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=tcx4c70@gmail.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=tcx4c70@gmail.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -109,265 +109,155 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 6/15/2022 10:52 PM, Steve Sistare wrote:
-> Provide the cpr-save restart mode, which preserves the guest VM across a
-> restart of the qemu process.  After cpr-save, the caller passes qemu
-> command-line arguments to cpr-exec, which directly exec's the new qemu
-> binary.  The arguments must include -S so new qemu starts in a paused state.
-> The caller resumes the guest by calling cpr-load.
+> Save accepted socket fds before cpr-save, and look for them after cpr-load.
+> Block cpr-exec if a socket enables the TLS or websocket option.  Allow a
+> monitor socket by closing it on exec.
 > 
-> To use the restart mode, guest RAM must be backed by a memory-backend-file
-> with share=on.  The '-cpr-enable restart' option causes secondary guest
-> ram blocks (those not specified on the command line) to be allocated by
-> mmap'ing a memfd.  The memfd values are saved in special cpr state which
-> is retrieved after exec, and are kept open across exec, after which they
-> are retrieved and re-mmap'd.  Hence guest RAM is preserved in place, albeit
-> with new virtual addresses in the qemu process.
-> 
-> The restart mode supports vfio devices and memory-backend-memfd in
-> subsequent patches.
-> 
-> cpr-exec syntax:
->   { 'command': 'cpr-exec', 'data': { 'argv': [ 'str' ] } }
-> 
-> Add the restart mode:
->   { 'enum': 'CprMode', 'data': [ 'reboot', 'restart' ] }
-> 
+> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 > Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 > ---
->  migration/cpr.c   | 35 +++++++++++++++++++++++++++++++++++
->  qapi/cpr.json     | 26 +++++++++++++++++++++++++-
->  qemu-options.hx   |  2 +-
->  softmmu/physmem.c | 46 +++++++++++++++++++++++++++++++++++++++++++++-
->  trace-events      |  1 +
->  5 files changed, 107 insertions(+), 3 deletions(-)
+>  chardev/char-socket.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
+>  include/chardev/char-socket.h |  1 +
+>  monitor/hmp.c                 |  3 +++
+>  monitor/qmp.c                 |  3 +++
+>  4 files changed, 52 insertions(+)
 > 
-> diff --git a/migration/cpr.c b/migration/cpr.c
-> index 1cc8738..8b3fffd 100644
-> --- a/migration/cpr.c
-> +++ b/migration/cpr.c
-> @@ -22,6 +22,7 @@ static int cpr_enabled_modes;
->  void cpr_init(int modes)
->  {
->      cpr_enabled_modes = modes;
-> +    cpr_state_load(&error_fatal);
->  }
+> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+> index dc4e218..3a1e36b 100644
+> --- a/chardev/char-socket.c
+> +++ b/chardev/char-socket.c
+> @@ -26,6 +26,7 @@
+>  #include "chardev/char.h"
+>  #include "io/channel-socket.h"
+>  #include "io/channel-websock.h"
+> +#include "migration/cpr.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/module.h"
+>  #include "qemu/option.h"
+> @@ -33,6 +34,7 @@
+>  #include "qapi/clone-visitor.h"
+>  #include "qapi/qapi-visit-sockets.h"
+>  #include "qemu/yank.h"
+> +#include "sysemu/sysemu.h"
 >  
->  bool cpr_enabled(CprMode mode)
-> @@ -153,6 +154,37 @@ err:
->      cpr_set_mode(CPR_MODE_NONE);
->  }
+>  #include "chardev/char-io.h"
+>  #include "chardev/char-socket.h"
+> @@ -358,6 +360,11 @@ static void tcp_chr_free_connection(Chardev *chr)
+>      SocketChardev *s = SOCKET_CHARDEV(chr);
+>      int i;
 >  
-> +static int preserve_fd(const char *name, int id, int fd, void *opaque)
-> +{
-> +    qemu_clear_cloexec(fd);
-> +    return 0;
-> +}
-> +
-> +static int unpreserve_fd(const char *name, int id, int fd, void *opaque)
-> +{
-> +    qemu_set_cloexec(fd);
-> +    return 0;
-> +}
-> +
-> +void qmp_cpr_exec(strList *args, Error **errp)
-> +{
-> +    if (!runstate_check(RUN_STATE_SAVE_VM)) {
-> +        error_setg(errp, "runstate is not save-vm");
-> +        return;
+> +    if (chr->cpr_enabled) {
+> +        cpr_delete_fd(chr->label, 0);
 > +    }
-> +    if (cpr_get_mode() != CPR_MODE_RESTART) {
-> +        error_setg(errp, "cpr-exec requires cpr-save with restart mode");
-> +        return;
-> +    }
+> +    cpr_del_blocker(&s->cpr_blocker);
 > +
-> +    cpr_walk_fd(preserve_fd, 0);
-> +    if (cpr_state_save(errp)) {
-> +        return;
-> +    }
-> +
-> +    assert(qemu_system_exec_request(args, errp) == 0);
-> +}
-> +
->  void qmp_cpr_load(const char *filename, CprMode mode, Error **errp)
->  {
->      QEMUFile *f;
-> @@ -189,6 +221,9 @@ void qmp_cpr_load(const char *filename, CprMode mode, Error **errp)
->          goto out;
+>      if (s->read_msgfds_num) {
+>          for (i = 0; i < s->read_msgfds_num; i++) {
+>              close(s->read_msgfds[i]);
+> @@ -923,6 +930,10 @@ static void tcp_chr_accept(QIONetListener *listener,
+>                                 QIO_CHANNEL(cioc));
 >      }
->  
-> +    /* Clear cloexec to prevent fd leaks until the next cpr-save */
-> +    cpr_walk_fd(unpreserve_fd, 0);
+>      tcp_chr_new_client(chr, cioc);
 > +
->      state = global_state_get_runstate();
->      if (state == RUN_STATE_RUNNING) {
->          vm_start();
-> diff --git a/qapi/cpr.json b/qapi/cpr.json
-> index 11c6f88..47ee4ff 100644
-> --- a/qapi/cpr.json
-> +++ b/qapi/cpr.json
-> @@ -15,11 +15,12 @@
->  # @CprMode:
->  #
->  # @reboot: checkpoint can be cpr-load'ed after a host reboot.
-> +# @restart: checkpoint can be cpr-load'ed after restarting qemu.
->  #
->  # Since: 7.1
->  ##
->  { 'enum': 'CprMode',
-> -  'data': [ 'none', 'reboot' ] }
-> +  'data': [ 'none', 'reboot', 'restart' ] }
->  
->  ##
->  # @cpr-save:
-> @@ -38,6 +39,11 @@
->  # issue the quit command, reboot the system, start qemu using the same
->  # arguments plus -S, and issue the cpr-load command.
->  #
-> +# If @mode is 'restart', the checkpoint remains valid after restarting
-> +# qemu using a subsequent cpr-exec.  Guest RAM must be backed by a
-> +# memory-backend-file with share=on.
-> +# To resume from the checkpoint, issue the cpr-load command.
-> +#
->  # @filename: name of checkpoint file
->  # @mode: @CprMode mode
->  #
-> @@ -48,6 +54,24 @@
->              'mode': 'CprMode' } }
->  
->  ##
-> +# @cpr-exec:
-> +#
-> +# Restart qemu by directly exec'ing @argv[0], replacing the qemu process.
-> +# The PID remains the same.  Must be called after cpr-save restart.
-> +#
-> +# @argv[0] should be the path of a new qemu binary, or a prefix command that
-> +# in turn exec's the new qemu binary.  The arguments must match those used
-> +# to initially start qemu, plus the -S option so new qemu starts in a paused
-> +# state.
-> +#
-> +# @argv: arguments to be passed to exec().
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'command': 'cpr-exec',
-> +  'data': { 'argv': [ 'str' ] } }
-> +
-> +##
->  # @cpr-load:
->  #
->  # Load a virtual machine from the checkpoint file @filename that was created
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 6e51c33..1b49360 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -4484,7 +4484,7 @@ SRST
->  ERST
->  
->  DEF("cpr-enable", HAS_ARG, QEMU_OPTION_cpr_enable, \
-> -    "-cpr-enable reboot    enable the cpr mode\n",
-> +    "-cpr-enable reboot|restart    enable the cpr mode\n",
->      QEMU_ARCH_ALL)
->  SRST
->  ``-cpr-enable reboot``
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 822c424..412cc80 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -44,6 +44,7 @@
->  #include "qemu/qemu-print.h"
->  #include "qemu/log.h"
->  #include "qemu/memalign.h"
-> +#include "qemu/memfd.h"
->  #include "exec/memory.h"
->  #include "exec/ioport.h"
->  #include "sysemu/dma.h"
-> @@ -1962,6 +1963,40 @@ static void dirty_memory_extend(ram_addr_t old_ram_size,
->      }
+> +    if (s->sioc && chr->cpr_enabled) {
+> +        cpr_resave_fd(chr->label, 0, s->sioc->fd, NULL);
+> +    }
 >  }
 >  
-> +static bool memory_region_is_backend(MemoryRegion *mr)
+>  
+> @@ -1178,6 +1189,26 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
+>      return false;
+>  }
+>  
+> +static int load_char_socket_fd(Chardev *chr, Error **errp)
 > +{
-> +    return !!object_dynamic_cast(mr->parent_obj.parent, TYPE_MEMORY_BACKEND);
-> +}
-
-Maybe OBJECT(mr)->parent or mr->owner is more readable?
-
+> +    SocketChardev *sockchar = SOCKET_CHARDEV(chr);
+> +    QIOChannelSocket *sioc;
+> +    const char *label = chr->label;
+> +    int fd = cpr_find_fd(label, 0);
 > +
-> +static void *qemu_anon_memfd_alloc(RAMBlock *rb, size_t maxlen, Error **errp)
-> +{
-> +    size_t len, align;
-> +    void *addr;
-> +    struct MemoryRegion *mr = rb->mr;
-> +    const char *name = memory_region_name(mr);
-> +    int mfd = cpr_find_memfd(name, &len, &maxlen, &align);
-> +
-> +    if (mfd >= 0) {
-> +        rb->used_length = len;
-> +        rb->max_length = maxlen;
-> +        mr->align = align;
-> +    } else {
-> +        len = rb->used_length;
-> +        maxlen = rb->max_length;
-> +        mr->align = QEMU_VMALLOC_ALIGN;
-> +        mfd = qemu_memfd_create(name, maxlen + mr->align, 0, 0, 0, errp);
-> +        if (mfd < 0) {
-> +            return NULL;
+> +    if (fd != -1) {
+> +        sockchar = SOCKET_CHARDEV(chr);
+> +        sioc = qio_channel_socket_new_fd(fd, errp);
+> +        if (sioc) {
+> +            tcp_chr_accept(sockchar->listener, sioc, chr);
+> +            object_unref(OBJECT(sioc));
+> +        } else {
+> +            error_setg(errp, "could not restore socket for %s", label);
+
+If we go here, then qio_channel_socket_new_fd fails and errp should be set. So I think
+error_prepend is more appropriate here.
+
+> +            return -1;
 > +        }
-> +        cpr_save_memfd(name, mfd, len, maxlen, mr->align);
 > +    }
-> +    rb->flags |= RAM_SHARED;
-> +    qemu_set_cloexec(mfd);
-> +    addr = file_ram_alloc(rb, maxlen, mfd, false, false, 0, errp);
-> +    trace_anon_memfd_alloc(name, maxlen, addr, mfd);
-> +    return addr;
+> +    return 0;
 > +}
+>  
+>  static int qmp_chardev_open_socket_server(Chardev *chr,
+>                                            bool is_telnet,
+> @@ -1388,6 +1419,18 @@ static void qmp_chardev_open_socket(Chardev *chr,
+>      }
+>      s->registered_yank = true;
+>  
+> +    if (!s->tls_creds && !s->is_websock) {
+> +        qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
+> +    } else if (!chr->reopen_on_cpr) {
+> +        s->cpr_blocker = NULL;
+> +        error_setg(&s->cpr_blocker,
+> +                   "error: socket %s is not cpr capable due to %s option",
+> +                   chr->label, (s->tls_creds ? "TLS" : "websocket"));
+> +        if (cpr_add_blocker(&s->cpr_blocker, errp, CPR_MODE_RESTART, 0)) {
+> +            return;
+> +        }
+> +    }
 > +
->  static void ram_block_add(RAMBlock *new_block, Error **errp)
->  {
->      const bool noreserve = qemu_ram_is_noreserve(new_block);
-> @@ -1986,6 +2021,14 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
->                  qemu_mutex_unlock_ramlist();
->                  return;
->              }
-> +        } else if (cpr_enabled(CPR_MODE_RESTART) &&
-> +                   !memory_region_is_backend(new_block->mr)) {
-> +            new_block->host = qemu_anon_memfd_alloc(new_block,
-> +                                                    new_block->max_length,
-> +                                                    errp);
-> +            if (!new_block->host) {
-> +                return;
-> +            }
->          } else {
->              new_block->host = qemu_anon_ram_alloc(new_block->max_length,
->                                                    &new_block->mr->align,
-> @@ -1997,8 +2040,8 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
->                  qemu_mutex_unlock_ramlist();
->                  return;
->              }
-> -            memory_try_enable_merging(new_block->host, new_block->max_length);
+>      /* be isn't opened until we get a connection */
+>      *be_opened = false;
+>  
+> @@ -1403,6 +1446,8 @@ static void qmp_chardev_open_socket(Chardev *chr,
+>              return;
 >          }
-> +        memory_try_enable_merging(new_block->host, new_block->max_length);
 >      }
+> +
+> +    load_char_socket_fd(chr, errp);
+>  }
 >  
->      new_ram_size = MAX(old_ram_size,
-> @@ -2231,6 +2274,7 @@ void qemu_ram_free(RAMBlock *block)
+>  static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
+> diff --git a/include/chardev/char-socket.h b/include/chardev/char-socket.h
+> index 0708ca6..1c3abf7 100644
+> --- a/include/chardev/char-socket.h
+> +++ b/include/chardev/char-socket.h
+> @@ -78,6 +78,7 @@ struct SocketChardev {
+>      bool connect_err_reported;
+>  
+>      QIOTask *connect_task;
+> +    Error *cpr_blocker;
+>  };
+>  typedef struct SocketChardev SocketChardev;
+>  
+> diff --git a/monitor/hmp.c b/monitor/hmp.c
+> index 15ca047..75e6739 100644
+> --- a/monitor/hmp.c
+> +++ b/monitor/hmp.c
+> @@ -1501,4 +1501,7 @@ void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp)
+>      qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read, monitor_read,
+>                               monitor_event, NULL, &mon->common, NULL, true);
+>      monitor_list_append(&mon->common);
+> +
+> +    /* monitor cannot yet be preserved across cpr */
+> +    chr->reopen_on_cpr = true;
+>  }
+> diff --git a/monitor/qmp.c b/monitor/qmp.c
+> index 092c527..0043459 100644
+> --- a/monitor/qmp.c
+> +++ b/monitor/qmp.c
+> @@ -535,4 +535,7 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+>                                   NULL, &mon->common, NULL, true);
+>          monitor_list_append(&mon->common);
 >      }
->  
->      qemu_mutex_lock_ramlist();
-> +    cpr_delete_memfd(memory_region_name(block->mr));
->      QLIST_REMOVE_RCU(block, next);
->      ram_list.mru_block = NULL;
->      /* Write list before version */
-> diff --git a/trace-events b/trace-events
-> index bc71006..07369bb 100644
-> --- a/trace-events
-> +++ b/trace-events
-> @@ -45,6 +45,7 @@ ram_block_discard_range(const char *rbname, void *hva, size_t length, bool need_
->  # accel/tcg/cputlb.c
->  memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
->  memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
-> +anon_memfd_alloc(const char *name, size_t size, void *ptr, int fd) "%s size %zu ptr %p fd %d"
->  
->  # gdbstub.c
->  gdbstub_op_start(const char *device) "Starting gdbstub using device %s"
+> +
+> +    /* Monitor cannot yet be preserved across cpr */
+> +    chr->reopen_on_cpr = true;
+>  }
 
