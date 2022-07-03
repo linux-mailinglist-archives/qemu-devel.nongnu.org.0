@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583EA56435E
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:11:53 +0200 (CEST)
-Received: from localhost ([::1]:38648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311BB564363
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:14:50 +0200 (CEST)
+Received: from localhost ([::1]:47304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7nDL-0004ZC-V1
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45994)
+	id 1o7nGD-0001tV-6x
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nBT-0001s5-2Z
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:55 -0400
+ id 1o7nBU-0001sk-Nc
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:56 -0400
 Received: from esa2.hgst.iphmx.com ([68.232.143.124]:56111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nBP-0000wE-Vg
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:54 -0400
+ id 1o7nBT-0000wE-4Z
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1656806991; x=1688342991;
+ t=1656806994; x=1688342994;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=iFrMNgZb795PtkupPWdOdfi4pfpHCJ8j6NfcibHYPh4=;
- b=PxH+i20imehQjwAGnFKD1jP00wStjSUJyUNyX0oNXdKFOSpwUQncruRJ
- 2MYeujXzmaxhql7/0eqLNXqKXs/+K6EjLUh+eGOnnn+43YeOf4Wubbekn
- OzvjGgSFwfiDhxxswduLrddsMWqRTH5cax5k0kBYNeXOjPrrbVgd7dapg
- 43ODswAIDzX15xMGGL1SO1HzLs2+EtdzbfLxpX0JOKwdP5UM29jzldnQ0
- xEzXID0wSMc1xeEq3gtrzkfIyKt1MhU6DmpWfPwai8BASZOVmak6b5ehx
- fiMokPSyJBNXBTtIJCIqUVha24Fn0I+VMfx0p8OJbhsohMTUOEyJV13U9 w==;
-X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="308989614"
+ bh=XOGoS+LaSNx9ztfN+554+3MJdJHKkwrfOy2g668jrT8=;
+ b=exOOWSFVG54abgVW+LnB2X9xcnvdpVcoljGnZJePkJuVwGsf/KfWV+RP
+ u+VWk5twfEqLY75US7mvdhbmkPmlrT3SYHAARrD8ebj65/1r37uMRFXLo
+ gAKD9pIvo0Zahsv1TER2ZP+fcT8iTbiQq3cx6UTD0fU808Jx1C/YHZUde
+ H0asBqldLwYErGOsk+E1QsG9yj8MNC/7Jym3HZunqdE4GW2cFj8r28Jh7
+ oUSH8jMv+GlX2JWH7dTMvHv2PWuk8rSkLVsrTJsMcqvQGtlSkLUnehjxA
+ y5byNoKktpBYK+KTy3MFWdhn9c48dsPIBgvWnSb0vZ7jQc6oVCXVnSWdS Q==;
+X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="308989616"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:09:50 +0800
-IronPort-SDR: o7CxOGtjuveIrf1lzF9AixbPljRAMEIpKlcdok3xpcbMJI7aNaIAuGZMB3kWo64VbBif6cNhig
- 7wIfvJym30l/9an8sYq8A9Z/0l7jtgerbu7hB5gVnYcDOev/ACedS32ye2qN+MZ0DQfWoYQ5aR
- daoZucLPUnFmzB7asA5lkSX0mkCGzVO+/0VtIjJ75U+38q/iXxglpRJMfIVhPD2fk29SohLOpr
- SCghsnZcNscqyOF+QZz2qv8e9mZ9u6a1LkIu1b3JFPAN5lTrAAl3alKxohjdQDBEgs8k6olRx8
- oZK78c7ECLmzyyfWyvIEjurw
+ by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:09:51 +0800
+IronPort-SDR: Nb4TuMjuPh8U9RVwoGlN/L9+6QPR0H0FN6XqT9ZCkwUEdXrgfeBKx0lbpFSpOPuNdNQbG7i0Uf
+ O1CBMwQzizIdTNHgIt0dfTHxLWXO0IpSyDxLO7paSigd2BuaVPy5lDjNL5kSHY4JhxF1FlFbpa
+ cjddFiFsA3lLKgSdUkpPNrscDyLyCTY6AvzKOTMV2DFKK9uY0xiR8rRkvxUX9Eai9F5sv1CF3Q
+ igxbDYjZb4RAZkSJd9XH/8tSc6csBvmAJX84BFw9TQ/WgcHVqcMPbWzUike70eLOBFijIqyZC6
+ medBBqTmH2Z9gHGP+LuGZUUs
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 16:27:12 -0700
-IronPort-SDR: 0W/0PQNTvugA8fEOIpHxcgvwRJxG4szJgM/Kn7g7kHEGe/YWU9mPcPS/Oq59rRoTr5Lij7LQE7
- rPazdijxLBWexVs5fNwqWBiBZd7nIVCRrOe6yOve5TxV1KaAIdFSiV4Ig18lVU9xz1aBsrCwdY
- tsPz3rt46fSn4VzpI6k9jsRmZCgME8ddicuNP21AAGGqLniFWzHXFFqb5iWUxmCd1YKyfG5Rjq
- zqRJvrRhyCHCOO0cyF1fi0YJB67qLOj5v3m1KAiKflChyeAupkHc8cSpLrLdTKfvXBYc/Z07tl
- 8ug=
+ 02 Jul 2022 16:27:14 -0700
+IronPort-SDR: xAOOH56R4hCcK+6m/r0yDBSA6Kz/80DnbnySOMGy+loGY22bEbcZlDxr6eW9e2duYa1L+ISPhn
+ g32lSENbJljWxC49sGJZk8Fyu1oTukPO8qkxZJeYyIzcLDYfMtKa3RjYA7YrtEs2rLIfYyRCx8
+ Zixh8/SlooTlQKckECjVr9afI3Fze+i1+viuV+e5VGISiI6FT1eG2RVXprFS0i1HFd5AdPwep3
+ v1Akeou/GRT3AXRVEXRCaDfBJLdnzH9u8vEAaEQ4E49IvEkRlw0NDq1CROjLBSV9sIrRYuJIZJ
+ 8XM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 17:09:50 -0700
+ 02 Jul 2022 17:09:52 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8St49Jdz1Rwnx
- for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:09:50 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8Sv5SDxz1Rwnl
+ for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:09:51 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1656806989; x=1659398990; bh=iFrMNgZb795PtkupPW
- dOdfi4pfpHCJ8j6NfcibHYPh4=; b=j+TYVwn9MFmg8z0NZADXS0hgXXJp6X7IUM
- Cu8/o8HFiP4605k0VMyLpN19q7lNZqyHwcDiGMVzuqt+hobA8raFBkOvLJZU6JLX
- GLR+FziDSj+T8VuriT/CVAWpk63Xu47GgA4PbnfqzQfsCAbO2CH0h8xVPvi/6Umk
- vSTP/Prjt2Ahx9Jed2qFpApErB+A+SwV6b8iz7fhvElq0E4Z5dZ/6KfsCt9FHtd0
- xxRRTmtp3sDY8gg02zmU1rTrzKBj49CEUemutepK0dfAMASDO/W/fGS07GFkT0OL
- USyLutrXg+1ev+J3AJrKawg6D9eMRa4OHjeNV8i96DO9assbK3Fg==
+ :from; s=dkim; t=1656806991; x=1659398992; bh=XOGoS+LaSNx9ztfN+5
+ 54+3MJdJHKkwrfOy2g668jrT8=; b=nnI3qnQ697vJNOpMtWXx/8bRCfC/NC3sYD
+ pLb29ubCkVNSUTBu+2dRQb0pM0TMUU9k4L4bMnYjfXRcaNOX4TGhyGZxr39sUaCc
+ Qv8q/yzGn+ZFUBjruEC8CHQYBZotibXZE1WTJ06reCfulibkxNo6R/WgIet/Acp0
+ vTaR+frLy7YIvRkEkLCjASkjpNkW7LS21nquflbG3RbOQKK/yxg6y7NKSnl3fa9N
+ fntyP0QlXfNnGnXOoRR2OCZgre4v+slswiqSsLKzmmOOf2TcRdqFhWztHiGvMSTk
+ /tCsEILUo1nO6OBO69AEUeCdD9NGi0GYQWkpd7tMHkrm02pPiptQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id csbFcRCuSYUV for <qemu-devel@nongnu.org>;
- Sat,  2 Jul 2022 17:09:49 -0700 (PDT)
+ port 10026) with ESMTP id aRpVCw5szKDe for <qemu-devel@nongnu.org>;
+ Sat,  2 Jul 2022 17:09:51 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.167.123])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8Sr3p8lz1Rwnm;
- Sat,  2 Jul 2022 17:09:48 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8St23vHz1RtVk;
+ Sat,  2 Jul 2022 17:09:50 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 02/19] target/riscv: Set env->bins in gen_exception_illegal
-Date: Sun,  3 Jul 2022 10:09:21 +1000
-Message-Id: <20220703000938.437765-3-alistair.francis@opensource.wdc.com>
+Subject: [PULL 03/19] target/riscv: Remove generate_exception_mtval
+Date: Sun,  3 Jul 2022 10:09:22 +1000
+Message-Id: <20220703000938.437765-4-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
 References: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
@@ -117,157 +117,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-While we set env->bins when unwinding for ILLEGAL_INST,
-from e.g. csrrw, we weren't setting it for immediately
-illegal instructions.
+The function doesn't set mtval, it sets badaddr. Move the set
+of badaddr directly into gen_exception_inst_addr_mis and use
+generate_exception.
 
-Add a testcase for mtval via both exception paths.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1060
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220604231004.49990-2-richard.henderson@linaro.org>
+Message-Id: <20220604231004.49990-3-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/translate.c                  |  2 +
- tests/tcg/riscv64/Makefile.softmmu-target | 21 +++++++++
- tests/tcg/riscv64/issue1060.S             | 53 +++++++++++++++++++++++
- tests/tcg/riscv64/semihost.ld             | 21 +++++++++
- 4 files changed, 97 insertions(+)
- create mode 100644 tests/tcg/riscv64/Makefile.softmmu-target
- create mode 100644 tests/tcg/riscv64/issue1060.S
- create mode 100644 tests/tcg/riscv64/semihost.ld
+ target/riscv/translate.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index b151c20674..a10f3f939c 100644
+index a10f3f939c..7205a29603 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -240,6 +240,8 @@ static void generate_exception_mtval(DisasContext *ct=
-x, int excp)
-=20
- static void gen_exception_illegal(DisasContext *ctx)
- {
-+    tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
-+                   offsetof(CPURISCVState, bins));
-     generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
+@@ -230,14 +230,6 @@ static void generate_exception(DisasContext *ctx, in=
+t excp)
+     ctx->base.is_jmp =3D DISAS_NORETURN;
  }
 =20
-diff --git a/tests/tcg/riscv64/Makefile.softmmu-target b/tests/tcg/riscv6=
-4/Makefile.softmmu-target
-new file mode 100644
-index 0000000000..e22cdb34c5
---- /dev/null
-+++ b/tests/tcg/riscv64/Makefile.softmmu-target
-@@ -0,0 +1,21 @@
-+#
-+# RISC-V system tests
-+#
-+
-+TEST_SRC =3D $(SRC_PATH)/tests/tcg/riscv64
-+VPATH +=3D $(TEST_SRC)
-+
-+LINK_SCRIPT =3D $(TEST_SRC)/semihost.ld
-+LDFLAGS =3D -T $(LINK_SCRIPT)
-+CFLAGS +=3D -g -Og
-+
-+%.o: %.S
-+	$(CC) $(CFLAGS) $< -c -o $@
-+%: %.o $(LINK_SCRIPT)
-+	$(LD) $(LDFLAGS) $< -o $@
-+
-+QEMU_OPTS +=3D -M virt -display none -semihosting -device loader,file=3D
-+
-+EXTRA_RUNS +=3D run-issue1060
-+run-issue1060: issue1060
-+	$(call run-test, $<, $(QEMU) $(QEMU_OPTS)$<)
-diff --git a/tests/tcg/riscv64/issue1060.S b/tests/tcg/riscv64/issue1060.=
-S
-new file mode 100644
-index 0000000000..17b7fe1be2
---- /dev/null
-+++ b/tests/tcg/riscv64/issue1060.S
-@@ -0,0 +1,53 @@
-+	.option	norvc
-+
-+	.text
-+	.global _start
-+_start:
-+	lla	t0, trap
-+	csrw	mtvec, t0
-+
-+	# These are all illegal instructions
-+	csrw	time, x0
-+	.insn	i CUSTOM_0, 0, x0, x0, 0x321
-+	csrw	time, x0
-+	.insn	i CUSTOM_0, 0, x0, x0, 0x123
-+	csrw	cycle, x0
-+
-+	# Success!
-+	li	a0, 0
-+	j	_exit
-+
-+trap:
-+	# When an instruction traps, compare it to the insn in memory.
-+	csrr	t0, mepc
-+	csrr	t1, mtval
-+	lwu	t2, 0(t0)
-+	bne	t1, t2, fail
-+
-+	# Skip the insn and continue.
-+	addi	t0, t0, 4
-+	csrw	mepc, t0
-+	mret
-+
-+fail:
-+	li	a0, 1
-+
-+# Exit code in a0
-+_exit:
-+	lla	a1, semiargs
-+	li	t0, 0x20026	# ADP_Stopped_ApplicationExit
-+	sd	t0, 0(a1)
-+	sd	a0, 8(a1)
-+	li	a0, 0x20	# TARGET_SYS_EXIT_EXTENDED
-+
-+	# Semihosting call sequence
-+	.balign	16
-+	slli	zero, zero, 0x1f
-+	ebreak
-+	srai	zero, zero, 0x7
-+	j	.
-+
-+	.data
-+	.balign	16
-+semiargs:
-+	.space	16
-diff --git a/tests/tcg/riscv64/semihost.ld b/tests/tcg/riscv64/semihost.l=
-d
-new file mode 100644
-index 0000000000..a59cc56b28
---- /dev/null
-+++ b/tests/tcg/riscv64/semihost.ld
-@@ -0,0 +1,21 @@
-+ENTRY(_start)
-+
-+SECTIONS
-+{
-+    /* virt machine, RAM starts at 2gb */
-+    . =3D 0x80000000;
-+    .text : {
-+        *(.text)
-+    }
-+    .rodata : {
-+        *(.rodata)
-+    }
-+    /* align r/w section to next 2mb */
-+    . =3D ALIGN(1 << 21);
-+    .data : {
-+        *(.data)
-+    }
-+    .bss : {
-+        *(.bss)
-+    }
-+}
+-static void generate_exception_mtval(DisasContext *ctx, int excp)
+-{
+-    gen_set_pc_imm(ctx, ctx->base.pc_next);
+-    tcg_gen_st_tl(cpu_pc, cpu_env, offsetof(CPURISCVState, badaddr));
+-    gen_helper_raise_exception(cpu_env, tcg_constant_i32(excp));
+-    ctx->base.is_jmp =3D DISAS_NORETURN;
+-}
+-
+ static void gen_exception_illegal(DisasContext *ctx)
+ {
+     tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
+@@ -247,7 +239,8 @@ static void gen_exception_illegal(DisasContext *ctx)
+=20
+ static void gen_exception_inst_addr_mis(DisasContext *ctx)
+ {
+-    generate_exception_mtval(ctx, RISCV_EXCP_INST_ADDR_MIS);
++    tcg_gen_st_tl(cpu_pc, cpu_env, offsetof(CPURISCVState, badaddr));
++    generate_exception(ctx, RISCV_EXCP_INST_ADDR_MIS);
+ }
+=20
+ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
 --=20
 2.36.1
 
