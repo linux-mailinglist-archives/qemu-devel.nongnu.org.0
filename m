@@ -2,98 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8141564361
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:11:58 +0200 (CEST)
-Received: from localhost ([::1]:38828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583EA56435E
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:11:53 +0200 (CEST)
+Received: from localhost ([::1]:38648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7nDR-0004fX-R1
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:11:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45996)
+	id 1o7nDL-0004ZC-V1
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nBT-0001s6-71
+ id 1o7nBT-0001s5-2Z
  for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:55 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:56108)
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:56111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nBP-0000vh-Vg
+ id 1o7nBP-0000wE-Vg
  for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1656806991; x=1688342991;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=313dBeAD/+njONzvGGqB/x71wYKkT7Nvi+L1/eUJaqk=;
- b=kclx/OboGcOfV9Mxen3tONGnrwA3VGyNk4aLoPfkO7mW75OYaI60kU3c
- ZFStgyv6M6GLfJBdtlqFxA/drGKGWUQObEl2X4/ZygzM3hJH03q3kDV8v
- e/vNMr/9noPzXZjb5nGgCMpQsAafQr2c0EBwerC1YbRRX1ZG7amKwWUPE
- Q/9KfXOzZmwAC/ryrhmENBnSmCYq95mF3JC4RB2eoTVAifnsHr8ia5kPU
- SL1uN7z9ZddGb55tc3W4BCE3cRP2UOmLOotqbxTPEdZ+z9TMVfFRMMZj7
- 2huasWZ3eZGhIv67kxwmIUg6OhmLaalsMB+GE6tDYqKFa7cRFYJgtUYI2 w==;
-X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="308989610"
+ bh=iFrMNgZb795PtkupPWdOdfi4pfpHCJ8j6NfcibHYPh4=;
+ b=PxH+i20imehQjwAGnFKD1jP00wStjSUJyUNyX0oNXdKFOSpwUQncruRJ
+ 2MYeujXzmaxhql7/0eqLNXqKXs/+K6EjLUh+eGOnnn+43YeOf4Wubbekn
+ OzvjGgSFwfiDhxxswduLrddsMWqRTH5cax5k0kBYNeXOjPrrbVgd7dapg
+ 43ODswAIDzX15xMGGL1SO1HzLs2+EtdzbfLxpX0JOKwdP5UM29jzldnQ0
+ xEzXID0wSMc1xeEq3gtrzkfIyKt1MhU6DmpWfPwai8BASZOVmak6b5ehx
+ fiMokPSyJBNXBTtIJCIqUVha24Fn0I+VMfx0p8OJbhsohMTUOEyJV13U9 w==;
+X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="308989614"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:09:48 +0800
-IronPort-SDR: TbzCC9X9FKOZaigXbihcI+JvcEjbkyXgLN6J86YOhTsz+vTHuhyf2tBa6fNT8wyCdtgGCePHlh
- 9K4/wSE/ThvOHd6Nc0QsLlgfwNwgtFvv3VQm7rQIFF2OfP0s8vv1YkUHtF7T0c9KjOb7JlInIp
- FLgXTN2aEzkz2MWYSpNipfBbQepZnsiVwSNyhPa+jeLPu5lM1Yhf1ZSfYCYb3GQDpKtDvqrah5
- rtDvdeCDuP08TMDaMOxm62s7JntwfsAo7TnHwB+3O50u8IK/h7tliEWnH6jWRMGZZ200Hp1Ubi
- nLj+gC/Vz8yIBeNyObPCPu0Q
+ by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:09:50 +0800
+IronPort-SDR: o7CxOGtjuveIrf1lzF9AixbPljRAMEIpKlcdok3xpcbMJI7aNaIAuGZMB3kWo64VbBif6cNhig
+ 7wIfvJym30l/9an8sYq8A9Z/0l7jtgerbu7hB5gVnYcDOev/ACedS32ye2qN+MZ0DQfWoYQ5aR
+ daoZucLPUnFmzB7asA5lkSX0mkCGzVO+/0VtIjJ75U+38q/iXxglpRJMfIVhPD2fk29SohLOpr
+ SCghsnZcNscqyOF+QZz2qv8e9mZ9u6a1LkIu1b3JFPAN5lTrAAl3alKxohjdQDBEgs8k6olRx8
+ oZK78c7ECLmzyyfWyvIEjurw
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 16:27:10 -0700
-IronPort-SDR: MBFXnXoFAqUczSDfLFyHadVpKc7RnzHoGmBcUhH/0674Q/E8JyOjWqxFLB4bK1FkL+90odaFS5
- ccJuX635m3IfOSSm5uV19p1495dVZU7YulDf34A9gFCNxZn1INZyB2KoXEt1XPCg+kRBQ/rLPB
- fw79wMxivQFQmsdNNLrltuttBcmUq4eY9Nq3ThUGB4ebQTwdi/hlFtmpsgvAc1j9mEbweeAmc0
- cmCWJVQSztzg4Fjcof9vd2kqtKU/mdEtw5rMt9DtJuehPsY0B8GHwbcFPE+a/FNvP2IJJrZfjj
- XzY=
+ 02 Jul 2022 16:27:12 -0700
+IronPort-SDR: 0W/0PQNTvugA8fEOIpHxcgvwRJxG4szJgM/Kn7g7kHEGe/YWU9mPcPS/Oq59rRoTr5Lij7LQE7
+ rPazdijxLBWexVs5fNwqWBiBZd7nIVCRrOe6yOve5TxV1KaAIdFSiV4Ig18lVU9xz1aBsrCwdY
+ tsPz3rt46fSn4VzpI6k9jsRmZCgME8ddicuNP21AAGGqLniFWzHXFFqb5iWUxmCd1YKyfG5Rjq
+ zqRJvrRhyCHCOO0cyF1fi0YJB67qLOj5v3m1KAiKflChyeAupkHc8cSpLrLdTKfvXBYc/Z07tl
+ 8ug=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 17:09:48 -0700
+ 02 Jul 2022 17:09:50 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8Sr3xr8z1Rwnx
- for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:09:48 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8St49Jdz1Rwnx
+ for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:09:50 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1656806988; x=1659398989; bh=313dBeA
- D/+njONzvGGqB/x71wYKkT7Nvi+L1/eUJaqk=; b=PPhBEyVykHG2q5N9s0n9jia
- 9Xw0ayrMpW6qQ65GVAVbgwex+y37lDcpUU1xRD/wx1iKyUE/Q3tCWg+gcp3lcHSQ
- c9YHBS00I6owrGmDs72V+vnS39Ucq6d5C9lVvdjqCXX6Z8Jir+uoxbx4IbpyM9U4
- jCOxPePbr4JCruEcn6/YAiMBx8BKTFS8sVmoNZgc/+7GPpOVD9sghCDqQjWNn1Y4
- 77fXJMoeeOkESKydJFb+Bi3ZXEPIaSsjO3VUAGWlLlsY5sSLnoiw9C15tWep73w2
- RSGUTeXU/lPhzsMKq84lxSYhoaIJiqtQ869quqmJhZXrZBx1lJ7qMRwFb7Nga5w=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1656806989; x=1659398990; bh=iFrMNgZb795PtkupPW
+ dOdfi4pfpHCJ8j6NfcibHYPh4=; b=j+TYVwn9MFmg8z0NZADXS0hgXXJp6X7IUM
+ Cu8/o8HFiP4605k0VMyLpN19q7lNZqyHwcDiGMVzuqt+hobA8raFBkOvLJZU6JLX
+ GLR+FziDSj+T8VuriT/CVAWpk63Xu47GgA4PbnfqzQfsCAbO2CH0h8xVPvi/6Umk
+ vSTP/Prjt2Ahx9Jed2qFpApErB+A+SwV6b8iz7fhvElq0E4Z5dZ/6KfsCt9FHtd0
+ xxRRTmtp3sDY8gg02zmU1rTrzKBj49CEUemutepK0dfAMASDO/W/fGS07GFkT0OL
+ USyLutrXg+1ev+J3AJrKawg6D9eMRa4OHjeNV8i96DO9assbK3Fg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id jbAvXURIP0mi for <qemu-devel@nongnu.org>;
- Sat,  2 Jul 2022 17:09:48 -0700 (PDT)
+ port 10026) with ESMTP id csbFcRCuSYUV for <qemu-devel@nongnu.org>;
+ Sat,  2 Jul 2022 17:09:49 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.167.123])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8Sn3Qdsz1Rwnl;
- Sat,  2 Jul 2022 17:09:44 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8Sr3p8lz1Rwnm;
+ Sat,  2 Jul 2022 17:09:48 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com,
- =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 01/19] target/riscv: Remove condition guarding register zero
- for auipc and lui
-Date: Sun,  3 Jul 2022 10:09:20 +1000
-Message-Id: <20220703000938.437765-2-alistair.francis@opensource.wdc.com>
+Subject: [PULL 02/19] target/riscv: Set env->bins in gen_exception_illegal
+Date: Sun,  3 Jul 2022 10:09:21 +1000
+Message-Id: <20220703000938.437765-3-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
 References: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=176813b30=alistair.francis@opensource.wdc.com;
@@ -120,47 +115,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Commit 57c108b8646 introduced gen_set_gpri(), which already contains
-a check for if the destination register is 'zero'. The check in auipc
-and lui are then redundant. This patch removes those checks.
+While we set env->bins when unwinding for ILLEGAL_INST,
+from e.g. csrrw, we weren't setting it for immediately
+illegal instructions.
 
-Signed-off-by: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Add a testcase for mtval via both exception paths.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1060
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220610165517.47517-1-victor.colombo@eldorado.org.br>
+Message-Id: <20220604231004.49990-2-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvi.c.inc | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ target/riscv/translate.c                  |  2 +
+ tests/tcg/riscv64/Makefile.softmmu-target | 21 +++++++++
+ tests/tcg/riscv64/issue1060.S             | 53 +++++++++++++++++++++++
+ tests/tcg/riscv64/semihost.ld             | 21 +++++++++
+ 4 files changed, 97 insertions(+)
+ create mode 100644 tests/tcg/riscv64/Makefile.softmmu-target
+ create mode 100644 tests/tcg/riscv64/issue1060.S
+ create mode 100644 tests/tcg/riscv64/semihost.ld
 
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_=
-trans/trans_rvi.c.inc
-index f1342f30f8..c190a59f22 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -32,17 +32,13 @@ static bool trans_c64_illegal(DisasContext *ctx, arg_=
-empty *a)
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index b151c20674..a10f3f939c 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -240,6 +240,8 @@ static void generate_exception_mtval(DisasContext *ct=
+x, int excp)
 =20
- static bool trans_lui(DisasContext *ctx, arg_lui *a)
+ static void gen_exception_illegal(DisasContext *ctx)
  {
--    if (a->rd !=3D 0) {
--        gen_set_gpri(ctx, a->rd, a->imm);
--    }
-+    gen_set_gpri(ctx, a->rd, a->imm);
-     return true;
++    tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
++                   offsetof(CPURISCVState, bins));
+     generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
  }
 =20
- static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
- {
--    if (a->rd !=3D 0) {
--        gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
--    }
-+    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
-     return true;
- }
-=20
+diff --git a/tests/tcg/riscv64/Makefile.softmmu-target b/tests/tcg/riscv6=
+4/Makefile.softmmu-target
+new file mode 100644
+index 0000000000..e22cdb34c5
+--- /dev/null
++++ b/tests/tcg/riscv64/Makefile.softmmu-target
+@@ -0,0 +1,21 @@
++#
++# RISC-V system tests
++#
++
++TEST_SRC =3D $(SRC_PATH)/tests/tcg/riscv64
++VPATH +=3D $(TEST_SRC)
++
++LINK_SCRIPT =3D $(TEST_SRC)/semihost.ld
++LDFLAGS =3D -T $(LINK_SCRIPT)
++CFLAGS +=3D -g -Og
++
++%.o: %.S
++	$(CC) $(CFLAGS) $< -c -o $@
++%: %.o $(LINK_SCRIPT)
++	$(LD) $(LDFLAGS) $< -o $@
++
++QEMU_OPTS +=3D -M virt -display none -semihosting -device loader,file=3D
++
++EXTRA_RUNS +=3D run-issue1060
++run-issue1060: issue1060
++	$(call run-test, $<, $(QEMU) $(QEMU_OPTS)$<)
+diff --git a/tests/tcg/riscv64/issue1060.S b/tests/tcg/riscv64/issue1060.=
+S
+new file mode 100644
+index 0000000000..17b7fe1be2
+--- /dev/null
++++ b/tests/tcg/riscv64/issue1060.S
+@@ -0,0 +1,53 @@
++	.option	norvc
++
++	.text
++	.global _start
++_start:
++	lla	t0, trap
++	csrw	mtvec, t0
++
++	# These are all illegal instructions
++	csrw	time, x0
++	.insn	i CUSTOM_0, 0, x0, x0, 0x321
++	csrw	time, x0
++	.insn	i CUSTOM_0, 0, x0, x0, 0x123
++	csrw	cycle, x0
++
++	# Success!
++	li	a0, 0
++	j	_exit
++
++trap:
++	# When an instruction traps, compare it to the insn in memory.
++	csrr	t0, mepc
++	csrr	t1, mtval
++	lwu	t2, 0(t0)
++	bne	t1, t2, fail
++
++	# Skip the insn and continue.
++	addi	t0, t0, 4
++	csrw	mepc, t0
++	mret
++
++fail:
++	li	a0, 1
++
++# Exit code in a0
++_exit:
++	lla	a1, semiargs
++	li	t0, 0x20026	# ADP_Stopped_ApplicationExit
++	sd	t0, 0(a1)
++	sd	a0, 8(a1)
++	li	a0, 0x20	# TARGET_SYS_EXIT_EXTENDED
++
++	# Semihosting call sequence
++	.balign	16
++	slli	zero, zero, 0x1f
++	ebreak
++	srai	zero, zero, 0x7
++	j	.
++
++	.data
++	.balign	16
++semiargs:
++	.space	16
+diff --git a/tests/tcg/riscv64/semihost.ld b/tests/tcg/riscv64/semihost.l=
+d
+new file mode 100644
+index 0000000000..a59cc56b28
+--- /dev/null
++++ b/tests/tcg/riscv64/semihost.ld
+@@ -0,0 +1,21 @@
++ENTRY(_start)
++
++SECTIONS
++{
++    /* virt machine, RAM starts at 2gb */
++    . =3D 0x80000000;
++    .text : {
++        *(.text)
++    }
++    .rodata : {
++        *(.rodata)
++    }
++    /* align r/w section to next 2mb */
++    . =3D ALIGN(1 << 21);
++    .data : {
++        *(.data)
++    }
++    .bss : {
++        *(.bss)
++    }
++}
 --=20
 2.36.1
 
