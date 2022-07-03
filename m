@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96B456462A
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:11:25 +0200 (CEST)
-Received: from localhost ([::1]:54946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C1E564615
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:06:52 +0200 (CEST)
+Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7vdU-0006V8-PY
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:11:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53844)
+	id 1o7vZ5-0001Cr-Sw
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:06:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7uvr-0001cW-D7
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:19 -0400
+ id 1o7uvu-0001oR-H8
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:22 -0400
 Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7uvp-0006B6-RB
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:19 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id ju17so1428042pjb.3
- for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:26:17 -0700 (PDT)
+ id 1o7uvt-0006B6-1X
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:26:22 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id ju17so1428110pjb.3
+ for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GvXUGU1iRA1atVwXCiqqvbPFvrWHZ4nIvxHqNJBxHmA=;
- b=jCv21o8u9ZXAXS4v1JkKykW4Pizq6aQb08a7B7UmKzECJgRinTvI97AYrEgzqLkUDy
- 5Kblir2IRsi6+mZr5O/vMYnLZQ1/FylqbOpIb+ISOg+k7d0f3CNhMaVsQ4pGjtcSHCOL
- 8vhuYix47F7peUArdxjszDkv8G97F4Wh6kfERMWR84ys2CSVFcw/qZ6HMLXRc3DD+XVU
- BqZ4zJOxugc2Zp2zvkmGhstgKZLsWwOHOVuvcGbe5eOovLS5WBnSzLXNtMBIWYmWH5H7
- iNclkEHcbljNDLr2sfcPrTFXNoNtOAaISMboB9uieI9/ZBk9t8KSrJWhRpka2G/7eL1z
- KtMQ==
+ bh=XqyFuY6xtQUWsP/jQ4A5BA4dQ9EI8+6RDOKP4j5I7T8=;
+ b=SX/PtmQoX3SyAefqW0WshbEGF+GdNUEa6OM2aUFIwXqU3U6FOz808rcD50Go3qmtqQ
+ W+t44DrLvDv636LS20+UlfPKga5YbPSWNu+geHk5yfh31EzMD/QcaFWnAlwf/BAr5BMb
+ 6ZQeAWFxFA8idcHDC5J1Y2Oz3xGzENrv+DBeY6NDzxPoXqGmTSHDX0bRUT4553hme5H4
+ vg28/5DeG5LOb0ChjpIb74jqUKJ6bVFa1drDqX5WPJ2sq2haO66d//azbpF1f3bX+Mna
+ kuhq/I8P8DH6tYUXvpW2f+JXpkhBPP6/GRZvOMOGsVw5LKfTGH9O2qAAh4DDRQy8hNvN
+ dO0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GvXUGU1iRA1atVwXCiqqvbPFvrWHZ4nIvxHqNJBxHmA=;
- b=YXx+pKZaTvyjPFaDl/4AIBn+eCU3RpjziGiPN66oxLY+BYnMaqEISVO0iPJpqBwtzt
- W/KeOOBKV2A6qJ48Pa1KR7lhV+GSO8+jiofPEqYGMRqa1dTICSPfASMc4cRF3NGimG+i
- D0Y5APMkudkjmqDfwRf0nA8/WS4vwy6QCCRAbMveTLnUQTY25nZoNLGauMyFF2dxPBzs
- aGPE5NvshHIJB8dDFjIYcfp1ukGHcdsOlATmSVh1DCWeuwK19UB1GwNnDyY3aspbvyTY
- PiWVFyFHJCImNce2rFVpSMavSOptR4tS7eTNuvbV18CrSG2+0VVRgJxM8UBehSb8I/ak
- 6H0A==
-X-Gm-Message-State: AJIora8hEO3ul2Io8TvF505+VJfrmSox3qDXYueQz9S4fE0n72kXUA7F
- VxW7BkSmb/OfofByyj1QDcrURXnyV4NjArzU
-X-Google-Smtp-Source: AGRyM1tU9uzshgc5s2nETwvV1JAK/EXcPlG1jgNYFWueSXVyIGzkWkm1g2J/+ZoEEAd2kQbO+gj1mw==
-X-Received: by 2002:a17:903:283:b0:16a:6db9:3f02 with SMTP id
- j3-20020a170903028300b0016a6db93f02mr29271865plr.173.1656836777060; 
- Sun, 03 Jul 2022 01:26:17 -0700 (PDT)
+ bh=XqyFuY6xtQUWsP/jQ4A5BA4dQ9EI8+6RDOKP4j5I7T8=;
+ b=UzdlaUo2P5cAKzry07c0cikJnYkwRvSHD3THqEF8/LPrdQ08rnw5wQ4ol6aitzaEWh
+ OrWt6t+K1Di87MnMaeb5cXxkc5AaKhBPaa4+pX+yEk7pxdc2Cr8iqNpzJjSWBd8BZ/E5
+ jFUGfmY4ydP0jN6jZ04rgF6G5X9BkMih9oBiN6fxVVe47yMxaKMmsz27E2wyq4TU2J9B
+ JSb+j07Hzha3GOWIHL1/mW7zj5mv4ZiHTF/A2OBFg4iWMgrdFRVfNWDWuYy8Vfw2Lp4Y
+ fzIfo3vbHNSd6yeB44Wdygxw/x1iRYjBKdDPEd9q8ztUkNcJkGkAKuqI9hIyfA4vPoSb
+ Sxaw==
+X-Gm-Message-State: AJIora9iNOuEEz1mrO1PZTVay+Gb2Ixd0njbP8OtJsylKAYsJTpxXQxc
+ dWPE6sKWm8FQr8Pjpx3+atODnF9+6DIYGeMA
+X-Google-Smtp-Source: AGRyM1vmTElSKDAzSDBYf1aHu7vSwj2Rj2ABWA0Mjce6ArL7BjQQbev/WCeMdIYcL6gCvpggFTyYKA==
+X-Received: by 2002:a17:90a:a605:b0:1ea:6b4f:915e with SMTP id
+ c5-20020a17090aa60500b001ea6b4f915emr29139094pjq.60.1656836780182; 
+ Sun, 03 Jul 2022 01:26:20 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- im22-20020a170902bb1600b0016a3f9e528asm13569112plb.57.2022.07.03.01.26.14
+ im22-20020a170902bb1600b0016a3f9e528asm13569112plb.57.2022.07.03.01.26.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 01:26:16 -0700 (PDT)
+ Sun, 03 Jul 2022 01:26:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 37/62] target/arm: Hoist read of *is_secure in S1_ptw_translate
-Date: Sun,  3 Jul 2022 13:53:54 +0530
-Message-Id: <20220703082419.770989-38-richard.henderson@linaro.org>
+Subject: [PATCH 38/62] target/arm: Fix S2 disabled check in S1_ptw_translate
+Date: Sun,  3 Jul 2022 13:53:55 +0530
+Message-Id: <20220703082419.770989-39-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220703082419.770989-1-richard.henderson@linaro.org>
 References: <20220703082419.770989-1-richard.henderson@linaro.org>
@@ -87,78 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename the argument to is_secure_ptr, and introduce a
-local variable is_secure with the value.  We only write
-back to the pointer toward the end of the function.
+Pass the correct stage2 mmu_idx to regime_translation_disabled,
+which we computed afterward.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/ptw.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ target/arm/ptw.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index f76a8e931a..12288ac365 100644
+index 12288ac365..12b6c2c98b 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -207,24 +207,26 @@ static bool ptw_attrs_are_device(CPUARMState *env, ARMCacheAttrs cacheattrs)
- 
- /* Translate a S1 pagetable walk through S2 if needed.  */
- static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
--                               hwaddr addr, bool *is_secure,
-+                               hwaddr addr, bool *is_secure_ptr,
+@@ -211,11 +211,10 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
                                 ARMMMUFaultInfo *fi)
  {
-+    bool is_secure = *is_secure_ptr;
-+
+     bool is_secure = *is_secure_ptr;
++    ARMMMUIdx s2_mmu_idx = is_secure ? ARMMMUIdx_Stage2_S : ARMMMUIdx_Stage2;
+ 
      if (arm_mmu_idx_is_stage1_of_2(mmu_idx) &&
--        !regime_translation_disabled(env, ARMMMUIdx_Stage2, *is_secure)) {
--        ARMMMUIdx s2_mmu_idx = *is_secure ? ARMMMUIdx_Stage2_S
--                                          : ARMMMUIdx_Stage2;
-+        !regime_translation_disabled(env, ARMMMUIdx_Stage2, is_secure)) {
-+        ARMMMUIdx s2_mmu_idx = is_secure ? ARMMMUIdx_Stage2_S
-+                                         : ARMMMUIdx_Stage2;
+-        !regime_translation_disabled(env, ARMMMUIdx_Stage2, is_secure)) {
+-        ARMMMUIdx s2_mmu_idx = is_secure ? ARMMMUIdx_Stage2_S
+-                                         : ARMMMUIdx_Stage2;
++        !regime_translation_disabled(env, s2_mmu_idx, is_secure)) {
          GetPhysAddrResult s2 = {};
          int ret;
  
-         ret = get_phys_addr_lpae(env, addr, MMU_DATA_LOAD, s2_mmu_idx,
--                                 *is_secure, false, &s2, fi);
-+                                 is_secure, false, &s2, fi);
-         if (ret) {
-             assert(fi->type != ARMFault_None);
-             fi->s2addr = addr;
-             fi->stage2 = true;
-             fi->s1ptw = true;
--            fi->s1ns = !*is_secure;
-+            fi->s1ns = !is_secure;
-             return ~0;
-         }
-         if ((arm_hcr_el2_eff(env) & HCR_PTW) &&
-@@ -237,19 +239,20 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-             fi->s2addr = addr;
-             fi->stage2 = true;
-             fi->s1ptw = true;
--            fi->s1ns = !*is_secure;
-+            fi->s1ns = !is_secure;
-             return ~0;
-         }
- 
-         if (arm_is_secure_below_el3(env)) {
-             /* Check if page table walk is to secure or non-secure PA space. */
--            if (*is_secure) {
--                *is_secure = !(env->cp15.vstcr_el2.raw_tcr & VSTCR_SW);
-+            if (is_secure) {
-+                is_secure = !(env->cp15.vstcr_el2.raw_tcr & VSTCR_SW);
-             } else {
--                *is_secure = !(env->cp15.vtcr_el2.raw_tcr & VTCR_NSW);
-+                is_secure = !(env->cp15.vtcr_el2.raw_tcr & VTCR_NSW);
-             }
-+            *is_secure_ptr = is_secure;
-         } else {
--            assert(!*is_secure);
-+            assert(!is_secure);
-         }
- 
-         addr = s2.phys;
 -- 
 2.34.1
 
