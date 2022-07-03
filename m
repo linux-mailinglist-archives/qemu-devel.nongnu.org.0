@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146C556465E
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:18:55 +0200 (CEST)
-Received: from localhost ([::1]:47566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76405564671
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:35:32 +0200 (CEST)
+Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7vkk-0003vf-4k
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:18:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58660)
+	id 1o7w0p-0005S2-B8
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7vS6-0004fv-RE
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:38 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:43525)
+ id 1o7vS9-0004p8-St
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:41 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:39741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7vS5-00049z-6o
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:38 -0400
-Received: by mail-pg1-x531.google.com with SMTP id 68so6271452pgb.10
- for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:59:36 -0700 (PDT)
+ id 1o7vS8-0004AN-Ap
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:41 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id c13so2313105pla.6
+ for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:59:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gyVKsSKTcz352Hx+z69WvjGNpCZ8RyuObOwnIrxXdDc=;
- b=j8L9pm/ipgXEuhr5np1WSKHtkDsB/RQ8h2eW1nEFNA5+iJTfOXxe7muKzJqlQaFukF
- lavf2sP4Xw5fsqSHVcAWy1dQJeGYb3nk0LvqPlbprKy9eru5loRKRLkfUK71p9CoAJF/
- R3LLaZ/G3UisIzigshPQ54Qdwlr+jwOXlqfJ+ZY5saayvnO5cChrs08HqrTdvuplA128
- E1bStZ2HXwc/pfSSqjiqilJgJOCJ8Ve2HXi66q9YMcXutjBBE0IFSFizC6ABfKyb06i2
- AMNjA5/3y0KWqD33xzQQHE+A+TQL5Q1tdYEJkKhl/Mjrpzq+31SiMttYHaIb6WliXqq2
- MFrQ==
+ bh=pR1kqzu7xwtxnUko8pBi5w8sHK9mw7vU5UGn6K+yNzI=;
+ b=HrjsaLr2QC4GpVt/OAmW1OU3PzhNj5PAkOQryGbxF3dHzuPS+QCpdvC1GRSU5Xh8zS
+ bMDBuPynQtGGy+oCkm4gfZ3z7pDjijpk7i8LlrY9MqyLG0qR5MzfBxymcdDmVAAhyjRI
+ QexAb1tZOpWkvHt7ADu2XwSc4tlGMWREYYRQntCINZ4A2x5NOHzfZfJ4J/1RxCRbVbzW
+ wHqJW/1nKdo7VWP0tHoBJ3Qa9SFrIrdIHS+gSxALWlNQl+5FV76m1Q3MSY0oIp+6CQXg
+ UnwWb/ntunuBHcjOCQcUijDVKQ0hCeBhzW64LOvvDPQUcoyKaCtdw0lPaCIcvFTKBBg+
+ pN4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gyVKsSKTcz352Hx+z69WvjGNpCZ8RyuObOwnIrxXdDc=;
- b=Dk1Z1louV+XRXAH4F6QTxFoEM52PxERtgUrTVxhF1FpJm457ilQ5s0WV/Vg7yIJE7T
- UEWQwzNmvQAzfiks2RWJVH/9Tv4dBW6SRewL5QyiXUp7dPubD6MV3+tfY0o+ri89J7vl
- UFZkiq/6IxJcITdxhYAUjRDO4FQLlykC3H//+lCdXvpCmhyN+aGtfmcEGgEe+UUU6Z27
- jMwMW/L4nRT8RNaFgrhcgZXoQJ37nyWqQPWkoO7d24ZNC+ofZJNB/vE6qDyz6jLDH8cL
- 3lG6TUNb7Y+XkRQjSMtFUIdagE6htcTP+BuVWNCdXmlzOZavAXCp7yPlk3w1RpogNmBK
- CJgw==
-X-Gm-Message-State: AJIora9AGWuc8T482bAjwljF3olK2plO8jBrvzTrFex9eROke1SduRID
- IofIeyO0Y1Go+K4mNEpM/iwKesb+1lRNszaq
-X-Google-Smtp-Source: AGRyM1tJgjeIUmO3ZmoLl+BCMM59dm07rXrXvYkr4VAw4y0xQmom3ORpejhjq92vclMUqaqJus1ZdQ==
-X-Received: by 2002:a63:2319:0:b0:411:8cff:9a98 with SMTP id
- j25-20020a632319000000b004118cff9a98mr18077319pgj.422.1656838775872; 
- Sun, 03 Jul 2022 01:59:35 -0700 (PDT)
+ bh=pR1kqzu7xwtxnUko8pBi5w8sHK9mw7vU5UGn6K+yNzI=;
+ b=wxNzK1wxlk95eV/UICstHrNN0ziPlrMAsWQCXq9KYz1JJxk6p39YIjShiWG9Si7TSo
+ vRYW0BXorvhO66reiz6FiRUICgm+yj9N7pLaqUjn4sS7hNdLw2DPl6yw/KFI8X8IUvc3
+ +X6lYl8dWsH5aw48H3qcs3EZgD+69+44j4JzIXw4KRAjz9gU7qdq2C1GBpdphwOD+Vj6
+ +8lR0ki+3v3PLa+6aJp2W6ITAGN9eLZInFIzCatSc9DP7pFWFlXOl+utnN4MU428egRm
+ dyy2PvBu8+8ZBkvU/vhUVQu6+b7YCFOUiJYi18oNqsF6jLHNfVBVzkBa+fgGs+p8xydj
+ 5M3g==
+X-Gm-Message-State: AJIora+K6nFes7aP7/8DT96ojxisPqVzWmBwJHf+2gJmqrvQ8O9yylRh
+ GWIjSKH68usol/ZpkVCefKRd71ov1FXFZdJ5
+X-Google-Smtp-Source: AGRyM1tx+ypKI183fH1xKqN5DTuGPIMHH0LVGiboBapcWv+JZS9jae0rnJczJiaZw6jKKtIGHGT6bQ==
+X-Received: by 2002:a17:903:2345:b0:16a:28ac:1c1b with SMTP id
+ c5-20020a170903234500b0016a28ac1c1bmr31421493plh.106.1656838779045; 
+ Sun, 03 Jul 2022 01:59:39 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- cq16-20020a056a00331000b00518764d09cdsm18777593pfb.164.2022.07.03.01.59.32
+ cq16-20020a056a00331000b00518764d09cdsm18777593pfb.164.2022.07.03.01.59.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 01:59:35 -0700 (PDT)
+ Sun, 03 Jul 2022 01:59:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu, Song Gao <gaosong@loongson.cn>,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PATCH v21 05/13] linux-user: Add LoongArch cpu_loop support
-Date: Sun,  3 Jul 2022 14:29:05 +0530
-Message-Id: <20220703085913.772936-6-richard.henderson@linaro.org>
+Subject: [PATCH v21 06/13] scripts: add loongarch64 binfmt config
+Date: Sun,  3 Jul 2022 14:29:06 +0530
+Message-Id: <20220703085913.772936-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220703085913.772936-1-richard.henderson@linaro.org>
 References: <20220703085913.772936-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,157 +93,36 @@ From: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220624031049.1716097-6-gaosong@loongson.cn>
+Message-Id: <20220624031049.1716097-7-gaosong@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/loongarch64/target_cpu.h | 34 ++++++++++
- linux-user/loongarch64/cpu_loop.c   | 96 +++++++++++++++++++++++++++++
- 2 files changed, 130 insertions(+)
- create mode 100644 linux-user/loongarch64/target_cpu.h
- create mode 100644 linux-user/loongarch64/cpu_loop.c
+ scripts/qemu-binfmt-conf.sh | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/loongarch64/target_cpu.h b/linux-user/loongarch64/target_cpu.h
-new file mode 100644
-index 0000000000..a29af66156
---- /dev/null
-+++ b/linux-user/loongarch64/target_cpu.h
-@@ -0,0 +1,34 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * LoongArch specific CPU ABI and functions for linux-user
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index 9cb723f443..1f4e2cd19d 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -4,7 +4,7 @@
+ qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
+ ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
+ sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
+-microblaze microblazeel or1k x86_64 hexagon"
++microblaze microblazeel or1k x86_64 hexagon loongarch64"
+ 
+ i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
+ i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+@@ -140,6 +140,10 @@ hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x
+ hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+ hexagon_family=hexagon
+ 
++loongarch64_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01'
++loongarch64_mask='\xff\xff\xff\xff\xff\xff\xff\xfc\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
++loongarch64_family=loongarch
 +
-+#ifndef LOONGARCH_TARGET_CPU_H
-+#define LOONGARCH_TARGET_CPU_H
-+
-+static inline void cpu_clone_regs_child(CPULoongArchState *env,
-+                                        target_ulong newsp, unsigned flags)
-+{
-+    if (newsp) {
-+        env->gpr[3] = newsp;
-+    }
-+    env->gpr[4] = 0;
-+}
-+
-+static inline void cpu_clone_regs_parent(CPULoongArchState *env,
-+                                         unsigned flags)
-+{
-+}
-+
-+static inline void cpu_set_tls(CPULoongArchState *env, target_ulong newtls)
-+{
-+    env->gpr[2] = newtls;
-+}
-+
-+static inline abi_ulong get_sp_from_cpustate(CPULoongArchState *state)
-+{
-+    return state->gpr[3];
-+}
-+#endif
-diff --git a/linux-user/loongarch64/cpu_loop.c b/linux-user/loongarch64/cpu_loop.c
-new file mode 100644
-index 0000000000..894fdd111a
---- /dev/null
-+++ b/linux-user/loongarch64/cpu_loop.c
-@@ -0,0 +1,96 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QEMU LoongArch user cpu_loop.
-+ *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu.h"
-+#include "user-internals.h"
-+#include "cpu_loop-common.h"
-+#include "signal-common.h"
-+
-+void cpu_loop(CPULoongArchState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+    int trapnr, si_code;
-+    abi_long ret;
-+
-+    for (;;) {
-+        cpu_exec_start(cs);
-+        trapnr = cpu_exec(cs);
-+        cpu_exec_end(cs);
-+        process_queued_cpu_work(cs);
-+
-+        switch (trapnr) {
-+        case EXCP_INTERRUPT:
-+            /* just indicate that signals should be handled asap */
-+            break;
-+        case EXCCODE_SYS:
-+            env->pc += 4;
-+            ret = do_syscall(env, env->gpr[11],
-+                             env->gpr[4], env->gpr[5],
-+                             env->gpr[6], env->gpr[7],
-+                             env->gpr[8], env->gpr[9],
-+                             -1, -1);
-+            if (ret == -QEMU_ERESTARTSYS) {
-+                env->pc -= 4;
-+                break;
-+            }
-+            if (ret == -QEMU_ESIGRETURN) {
-+                /*
-+                 * Returning from a successful sigreturn syscall.
-+                 * Avoid clobbering register state.
-+                 */
-+                break;
-+            }
-+            env->gpr[4] = ret;
-+            break;
-+        case EXCCODE_INE:
-+            force_sig_fault(TARGET_SIGILL, 0, env->pc);
-+            break;
-+        case EXCCODE_FPE:
-+            si_code = TARGET_FPE_FLTUNK;
-+            if (GET_FP_CAUSE(env->fcsr0) & FP_INVALID) {
-+                si_code = TARGET_FPE_FLTINV;
-+            } else if (GET_FP_CAUSE(env->fcsr0) & FP_DIV0) {
-+                si_code = TARGET_FPE_FLTDIV;
-+            } else if (GET_FP_CAUSE(env->fcsr0) & FP_OVERFLOW) {
-+                si_code = TARGET_FPE_FLTOVF;
-+            } else if (GET_FP_CAUSE(env->fcsr0) & FP_UNDERFLOW) {
-+                si_code = TARGET_FPE_FLTUND;
-+            } else if (GET_FP_CAUSE(env->fcsr0) & FP_INEXACT) {
-+                si_code = TARGET_FPE_FLTRES;
-+            }
-+            force_sig_fault(TARGET_SIGFPE, si_code, env->pc);
-+            break;
-+        case EXCP_DEBUG:
-+        case EXCCODE_BRK:
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
-+            break;
-+        case EXCCODE_BCE:
-+            force_sig_fault(TARGET_SIGSYS, TARGET_SI_KERNEL, env->pc);
-+            break;
-+        case EXCP_ATOMIC:
-+            cpu_exec_step_atomic(cs);
-+            break;
-+        default:
-+            EXCP_DUMP(env, "qemu: unhandled CPU exception 0x%x - aborting\n",
-+                      trapnr);
-+            exit(EXIT_FAILURE);
-+        }
-+        process_pending_signals(env);
-+    }
-+}
-+
-+void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
-+{
-+    int i;
-+
-+    for (i = 0; i < 32; i++) {
-+        env->gpr[i] = regs->regs[i];
-+    }
-+    env->pc = regs->csr.era;
-+
-+}
+ qemu_get_family() {
+     cpu=${HOST_ARCH:-$(uname -m)}
+     case "$cpu" in
 -- 
 2.34.1
 
