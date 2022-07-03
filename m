@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240C756467C
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:44:07 +0200 (CEST)
-Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E00256467F
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 11:47:11 +0200 (CEST)
+Received: from localhost ([::1]:57168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7w98-0004Di-9E
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:44:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58550)
+	id 1o7wC6-00077C-JH
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 05:47:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7vRq-0003eU-Gc
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:22 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:38435)
+ id 1o7vRt-0003pj-TG
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:25 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:44906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o7vRo-00048N-Nt
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:22 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- 89-20020a17090a09e200b001ef7638e536so2344962pjo.3
- for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:59:20 -0700 (PDT)
+ id 1o7vRs-00048q-7H
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 04:59:25 -0400
+Received: by mail-pl1-x632.google.com with SMTP id l6so6034787plg.11
+ for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 01:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oTKGpo4k1nelxM20A4Ut5wSWoWhFNq272y6n98pFD9w=;
- b=AAQz8GRBPbsaCbzTOXlPhm+XscXROeMZOOHQBOHfEGGoS8LDPq52fbePLxXassJnxA
- k4+0ScBUkelIEpg8IsIcajaN9Gv0D3slVrFifRszKl6640wxth9Bj+loyVHml/WFVeAl
- lVwpwWX65waqdauz+MLCwcfHnBkYidi9VyXvDfIs3YrlkDoaSMd8ECQpNnAzoM8BFa5k
- +Ah2ZLuhH7rqXdoQrd6ohzDTnEnjuceAMKFUEAlqqTDUA4i8bkRvbGC5QlGMxMGyzJu8
- tNbfP2DcdyuAQKaEhE3M1H7kqx5zqaoaj6wdhcmXKOPaizCUtOvz66zzCAqbAfUwBpdC
- CU3w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=jfQQ/MNFWhWhCmZ0fDK6Z3yWGSF3sEm5B4lXRoyup6I=;
+ b=jhTJ6QHzlJbOgiRnm8tq9x5iOzXSRk1XpXMX5J4+n6Tq74iE22xB4QK1VSfOYetk1n
+ FsfEs9wBVY29378mjIJ1fnzEmD+fqOmWq+kA4RHtjPLgif5bLO7erg6TD1ht7ui2KUz+
+ taDNdo478zUGVnf4skM0EJBNsO0qVNw4Qq0tx8IdIXkKkLYDZo+8oxq5WbzJquqKQd3N
+ v4U8mGOY159i6o8H3mlYk0bnIxn1nJDTDyPmyOwjnutqCPehHiFZ+3K161T6deXszk9y
+ wgK/xJLn1hOPek3t1/5TTG+ooF2cDiOg7i0h2hc0e+fIpftyIbQVjTdr8gzi3xmV+Trs
+ q3tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oTKGpo4k1nelxM20A4Ut5wSWoWhFNq272y6n98pFD9w=;
- b=3Aa3QSmXKd+5VvAm1Jn61KeFNbPd3IBxYpNLjn5Woek2Bl/fsmHTEbbC3DtNg4iNjy
- czuNq6Ptxh+WVn2C6Bf/d0MMJ89F+9JFUZMxQ5WfKOOcVae8N1rH5TbgI5liOyPAmLoq
- JoxOvW6rrsc0C1w0VVsk1SC06//1kaHh/UGiLZw6L0CSTy4dHOMGQZqplQE/C1/eDoLI
- SCWzB0dol8ztaXMsJtKEOwAtyWro/SVp9gdnVXXmWapBdyjBtRjjpTIWZg272C1JDbVR
- c72jUtwJLsJe/DayVI7owb1CAZZ63HoIRF8WmuWymlB2JsEbaTpCdOCTNHwit4k2hY3I
- zExg==
-X-Gm-Message-State: AJIora/Lj7OFTZAvcUt+aVC0zaV80H92MSfXknG582xTpFJ784rLBl02
- 4GspbwdK136kB/s/X9GZtzwMWZkAFiXbEdBc
-X-Google-Smtp-Source: AGRyM1snFVDs6roo3IsB48hYr9Rm5s7jsBVUDB7rsYxmwYpwJLwGRhC+bfTMUdD6RQayWXLi9FlVxw==
-X-Received: by 2002:a17:90b:344f:b0:1ed:9f:a2de with SMTP id
- lj15-20020a17090b344f00b001ed009fa2demr29143470pjb.174.1656838759256; 
- Sun, 03 Jul 2022 01:59:19 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jfQQ/MNFWhWhCmZ0fDK6Z3yWGSF3sEm5B4lXRoyup6I=;
+ b=PPzBys1K40ZgtFcwVjk9QRyNQKiqERorgjx83iYe//9/UzfjP02nFzjww0BwKPB8pJ
+ lYFqppAwuEgmH79dr9KsgMs1RX4nrhaWYYdMgySYqyjsQxNreYb3EmRSJQ57vm5Ap6bT
+ CdvVQIm7RuW32g7/Yw5sQEWvQnCObIHz/hflF2A1CoUPFCZTjC9YhRARAAlgyndTVL/U
+ ifdpc6MUfyfG/agJou9/+FUdH4NlMJ6ADGwiUB3FQ9hbI4akdedlQ4TZl9Fh8g1q5Lo5
+ DEtUh1NN6gw52XhgNjRXxnUtPiLeD46Ogks8f62o/UbqocxMszRm0Qzsv0WJPKZsCTGi
+ NRPg==
+X-Gm-Message-State: AJIora/8bzIKXdHjJWFxnPI7LUd+j+O/fz6KKD0l7qQRRZloYs1qQ2VD
+ gAdey2Q2qpiJgeZl4ohGvQAOsKTELe5VekK7
+X-Google-Smtp-Source: AGRyM1uibHvL3HChN5uSzeIt8f4I1K+W4JCup8P7iv2d7MCf5AjUr2bqI1z0VjK1fJQCL/gDKcg02w==
+X-Received: by 2002:a17:902:f149:b0:16a:389:1292 with SMTP id
+ d9-20020a170902f14900b0016a03891292mr30492250plb.120.1656838762722; 
+ Sun, 03 Jul 2022 01:59:22 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- cq16-20020a056a00331000b00518764d09cdsm18777593pfb.164.2022.07.03.01.59.17
+ cq16-20020a056a00331000b00518764d09cdsm18777593pfb.164.2022.07.03.01.59.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 01:59:18 -0700 (PDT)
+ Sun, 03 Jul 2022 01:59:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-Subject: [PATCH v21 00/13] Add LoongArch linux-user emulation support
-Date: Sun,  3 Jul 2022 14:29:00 +0530
-Message-Id: <20220703085913.772936-1-richard.henderson@linaro.org>
+Cc: laurent@vivier.eu, Song Gao <gaosong@loongson.cn>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ WANG Xuerui <git@xen0n.name>
+Subject: [PATCH v21 01/13] linux-user: Add LoongArch generic header files
+Date: Sun,  3 Jul 2022 14:29:01 +0530
+Message-Id: <20220703085913.772936-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220703085913.772936-1-richard.henderson@linaro.org>
+References: <20220703085913.772936-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,77 +91,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi.  This is Song Gao's v20 [1], with patch 2 extensively rewritten
-so that it handles lock_user properly.  It compiles, but I need
-to update the docker image we produced last year so that I can
-properly test this.
+From: Song Gao <gaosong@loongson.cn>
 
-In the meantime, Song, can you please test this?
+This includes:
+- sockbits.h
+- target_errno_defs.h
+- target_fcntl.h
+- termbits.h
+- target_resource.h
+- target_structs.h
 
-
-r~
-
-[1] https://lore.kernel.org/qemu-devel/20220624031049.1716097-1-gaosong@loongson.cn/
-
-Song Gao (13):
-  linux-user: Add LoongArch generic header files
-  linux-user: Add LoongArch signal support
-  linux-user: Add LoongArch elf support
-  linux-user: Add LoongArch syscall support
-  linux-user: Add LoongArch cpu_loop support
-  scripts: add loongarch64 binfmt config
-  target/loongarch: remove badaddr from CPULoongArch
-  target/loongarch: Fix missing update CSR_BADV
-  target/loongarch: Fix helper_asrtle_d/asrtgt_d raise wrong exception
-  target/loongarch: remove unused include hw/loader.h
-  target/loongarch: Adjust functions and structure to support user-mode
-  default-configs: Add loongarch linux-user support
-  target/loongarch: Update README
-
- configs/targets/loongarch64-linux-user.mak    |   3 +
- linux-user/loongarch64/sockbits.h             |  11 +
- linux-user/loongarch64/syscall_nr.h           | 312 ++++++++++++++++
- linux-user/loongarch64/target_cpu.h           |  34 ++
- linux-user/loongarch64/target_elf.h           |  12 +
- linux-user/loongarch64/target_errno_defs.h    |  12 +
- linux-user/loongarch64/target_fcntl.h         |  11 +
- linux-user/loongarch64/target_prctl.h         |   1 +
- linux-user/loongarch64/target_resource.h      |  11 +
- linux-user/loongarch64/target_signal.h        |  13 +
- linux-user/loongarch64/target_structs.h       |  11 +
- linux-user/loongarch64/target_syscall.h       |  48 +++
- linux-user/loongarch64/termbits.h             |  11 +
- linux-user/syscall_defs.h                     |   6 +-
- target/loongarch/cpu.h                        |   8 +-
- target/loongarch/helper.h                     |   2 +
- target/loongarch/internals.h                  |   2 +
- linux-user/elfload.c                          |  91 +++++
- linux-user/loongarch64/cpu_loop.c             |  96 +++++
- linux-user/loongarch64/signal.c               | 335 ++++++++++++++++++
- target/loongarch/cpu.c                        |  34 +-
- target/loongarch/gdbstub.c                    |   2 +-
- target/loongarch/op_helper.c                  |  10 +-
- .../insn_trans/trans_privileged.c.inc         |  36 ++
- scripts/gensyscalls.sh                        |   2 +
- scripts/qemu-binfmt-conf.sh                   |   6 +-
- target/loongarch/README                       |  39 +-
- 27 files changed, 1144 insertions(+), 15 deletions(-)
- create mode 100644 configs/targets/loongarch64-linux-user.mak
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: WANG Xuerui <git@xen0n.name>
+Message-Id: <20220624031049.1716097-2-gaosong@loongson.cn>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/loongarch64/sockbits.h          | 11 +++++++++++
+ linux-user/loongarch64/target_errno_defs.h | 12 ++++++++++++
+ linux-user/loongarch64/target_fcntl.h      | 11 +++++++++++
+ linux-user/loongarch64/target_prctl.h      |  1 +
+ linux-user/loongarch64/target_resource.h   | 11 +++++++++++
+ linux-user/loongarch64/target_structs.h    | 11 +++++++++++
+ linux-user/loongarch64/termbits.h          | 11 +++++++++++
+ 7 files changed, 68 insertions(+)
  create mode 100644 linux-user/loongarch64/sockbits.h
- create mode 100644 linux-user/loongarch64/syscall_nr.h
- create mode 100644 linux-user/loongarch64/target_cpu.h
- create mode 100644 linux-user/loongarch64/target_elf.h
  create mode 100644 linux-user/loongarch64/target_errno_defs.h
  create mode 100644 linux-user/loongarch64/target_fcntl.h
  create mode 100644 linux-user/loongarch64/target_prctl.h
  create mode 100644 linux-user/loongarch64/target_resource.h
- create mode 100644 linux-user/loongarch64/target_signal.h
  create mode 100644 linux-user/loongarch64/target_structs.h
- create mode 100644 linux-user/loongarch64/target_syscall.h
  create mode 100644 linux-user/loongarch64/termbits.h
- create mode 100644 linux-user/loongarch64/cpu_loop.c
- create mode 100644 linux-user/loongarch64/signal.c
 
+diff --git a/linux-user/loongarch64/sockbits.h b/linux-user/loongarch64/sockbits.h
+new file mode 100644
+index 0000000000..1cffcae120
+--- /dev/null
++++ b/linux-user/loongarch64/sockbits.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef LOONGARCH_TARGET_SOCKBITS_H
++#define LOONGARCH_TARGET_SOCKBITS_H
++
++#include "../generic/sockbits.h"
++
++#endif
+diff --git a/linux-user/loongarch64/target_errno_defs.h b/linux-user/loongarch64/target_errno_defs.h
+new file mode 100644
+index 0000000000..c198b8aca9
+--- /dev/null
++++ b/linux-user/loongarch64/target_errno_defs.h
+@@ -0,0 +1,12 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef LOONGARCH_TARGET_ERRNO_DEFS_H
++#define LOONGARCH_TARGET_ERRNO_DEFS_H
++
++/* Target uses generic errno */
++#include "../generic/target_errno_defs.h"
++
++#endif
+diff --git a/linux-user/loongarch64/target_fcntl.h b/linux-user/loongarch64/target_fcntl.h
+new file mode 100644
+index 0000000000..99bf586854
+--- /dev/null
++++ b/linux-user/loongarch64/target_fcntl.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef LOONGARCH_TARGET_FCNTL_H
++#define LOONGARCH_TARGET_FCNTL_H
++
++#include "../generic/fcntl.h"
++
++#endif
+diff --git a/linux-user/loongarch64/target_prctl.h b/linux-user/loongarch64/target_prctl.h
+new file mode 100644
+index 0000000000..eb53b31ad5
+--- /dev/null
++++ b/linux-user/loongarch64/target_prctl.h
+@@ -0,0 +1 @@
++/* No special prctl support required. */
+diff --git a/linux-user/loongarch64/target_resource.h b/linux-user/loongarch64/target_resource.h
+new file mode 100644
+index 0000000000..0f86bf24ee
+--- /dev/null
++++ b/linux-user/loongarch64/target_resource.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef LOONGARCH_TARGET_RESOURCE_H
++#define LOONGARCH_TARGET_RESOURCE_H
++
++#include "../generic/target_resource.h"
++
++#endif
+diff --git a/linux-user/loongarch64/target_structs.h b/linux-user/loongarch64/target_structs.h
+new file mode 100644
+index 0000000000..6041441e15
+--- /dev/null
++++ b/linux-user/loongarch64/target_structs.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef LOONGARCH_TARGET_STRUCTS_H
++#define LOONGARCH_TARGET_STRUCTS_H
++
++#include "../generic/target_structs.h"
++
++#endif
+diff --git a/linux-user/loongarch64/termbits.h b/linux-user/loongarch64/termbits.h
+new file mode 100644
+index 0000000000..d425db8748
+--- /dev/null
++++ b/linux-user/loongarch64/termbits.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef LOONGARCH_TARGET_TERMBITS_H
++#define LOONGARCH_TARGET_TERMBITS_H
++
++#include "../generic/termbits.h"
++
++#endif
 -- 
 2.34.1
 
