@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F18564362
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:14:42 +0200 (CEST)
-Received: from localhost ([::1]:46896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E6C564369
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:17:58 +0200 (CEST)
+Received: from localhost ([::1]:55964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7nG5-0001cp-Tz
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:14:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46064)
+	id 1o7nJF-0007gf-Dx
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nBX-0001vj-0j
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:59 -0400
+ id 1o7nBZ-00020D-88
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:10:01 -0400
 Received: from esa2.hgst.iphmx.com ([68.232.143.124]:56105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nBU-0000vI-3Z
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:57 -0400
+ id 1o7nBW-0000vI-Fz
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1656806995; x=1688342995;
+ t=1656806998; x=1688342998;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Keur84s81dftzm7jD69JDIbb8De9fx2cMQzJdkPZ2LE=;
- b=CvuPTpgI+ctz0dNO3pohCtN+qu5EDtFP/Bgvedga3U0CbIUhzQ3jn8GQ
- 4Sv36miTQ2PwclOqZ8usBvay1giE6fqvWitYTLZd7sZpDtHJMq6VnZxO7
- yBbFSXS/Va5dn1Qu86s6Ts7zF1e1Sz+BT5wnkEShk2gwIHhS1IFaXmWMi
- NcAA4RFhdiyNKQtUlLh9a0NJAq9d4seBZRuudSXxOdK8i+jBYdBuXmS4M
- SRoqMhVaL1Ks1JHzqR+w0TmaejAwcMvr0NDpkCEymngiqDKZMRmHGj2k9
- GlkgBi6C+5R6iTV92AaZjT9XkhBz3HoSmbX0qO7TjNSm4TJClQ6bgf8MI Q==;
-X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="308989620"
+ bh=A6OJDw1BgSdFL4HZvjQWwfkC9yvCNCZ5EklbtsfpB4o=;
+ b=Fo0Qy4rJNfrJFSCD9r0Am3wyoIqF3LrWENsEep3RsYFEmGxVgpv8g5Hr
+ p8SOaCJl4GCl5+aVK/PB6HD+Ih5+jOBMXvuXxqXeL4Bx5F4nS8XM9swFW
+ Vc2sDjQmklvqgaEqljAjUTF5MIPtuHtEyGTBsVX+HenbulM4Q0uBAMtlN
+ cYKmu5WgGvotpto7f6nenqIGxBVognzLHx91iWQUlNjH218e3syDRGFVh
+ 5awtC0xS5t/JJ1YK7yrt8iQY9TDRxp9m1HQ+KdL0VF7q+8qTWgMjEMOXz
+ T1+sGuNlj/4jNYuMjnE2zLMXL6BGW5Rc+CZeX+kV4OyZ9Dwd6LX9Prdtu A==;
+X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="308989623"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:09:55 +0800
-IronPort-SDR: CYGJnKB3RCGOCaAjDxOax6JIncMyvWts6mGqOx3Fl237ROB4+b8v1/G4u6lcVgwM1ISZRzfTwf
- CzfFvj07+LVjzg3vT04D/hc/6luCHzT6lNgeOk4k2M/ibWToYOhBbiwcoODQhzyPtb2ZLEhXkq
- ZNX/apMZtiZfpkMz4nq61TKv2QE61EML0GF1xVAVpKuM5+jLuXh5RFM7ScZOC5AIF68+80xbgo
- YsjCZv54B6Z6sykJ0Kz1kmMWQaabHdigNNuadCGOX8fYv65H54QGy/sthova/c5kYS6Tgj4oav
- aQEjPy0ZRVE2CbhHSDJVdq6Z
+ by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:09:57 +0800
+IronPort-SDR: YEghdNCanDXg4d4Y7kIpcYewxLNLA+hDIW0Q47tB4T7hca1w7pkQh2cy/blZJt2zVV8TL0rAs1
+ 3Wsrrl9Pmn0tOlnyiSFILReNTwRlZpKoGBg4hx+8gV9soO557ovQWwy9+Po5KQ9+Kl0YvSSt92
+ qJgEdRO0AR7GmT6eCKRasUdvVzTRiMinp+qjHOL/B0oBMJ2quHEk1I+eHIgrZOc6VEssayIeaJ
+ jIR9jIvlsJuJqEFR55UlRFPmU24WYoI3xyB4eHwvZrERTsmK/bZA5GdY2WwGh3N/YDEk+SHpPx
+ wb2X+d85zRyTbp4W8B7OjAgM
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 16:27:17 -0700
-IronPort-SDR: xv3Kpjipw9zX8y936oBrSltpRIP26z2V/8ymoQpP5t4gLXWhhVTN0kVUlUkEELEtHOAYprLkR+
- uMe/c/7YvhA5MvebiHT2xZ/LkxR2wf68NCHTFAwsJ2caY+NwuN82l5ibYbpoKGG4TbSDs5x8RD
- LzZOpNnXjfRV6fpqoFQ3FOkCqOirRLNHpFLuyv67n1dYIIQChaFI1EQnVKUQTUnvgldaq5rGCW
- SgZGn5gIvbYjuxTFIFeIwJjvd0A9pWR8NW4u5vSqsCHLqpkPYZ/tvGuOkjWsP4ezb8slhiUjzB
- 508=
+ 02 Jul 2022 16:27:19 -0700
+IronPort-SDR: 6F/LKcPOB3CjtqtdzTrQGwVAKNP8soTHV6hrTEdioUnjvv2jHMTtwKNXZzYIDMaXz2xrQhuTzY
+ +EdsUaMOcy52Q6eh6BatqSyhgmcLLKEYfh2VWl0VznpXPwHCyTYHGqtoTvH6GGzsszwuGoGmH5
+ VmiEg4IdmS3JTM+6tTTu54WQcQQj9hQpvpHZLW2YklEMSmKhSwfMlhiPdh2KlHRljCa9BvqkRG
+ 5qnSX9+kgVNPy9jWkignNjV2iOTbK165h1RUlDq81gS9QDAyKJxmRlbHx2x+9Taj3qSvfsCir/
+ IPA=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 17:09:55 -0700
+ 02 Jul 2022 17:09:57 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8Sz1fZrz1Rwnx
- for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:09:55 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8T14Nckz1Rwnx
+ for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:09:57 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1656806994; x=1659398995; bh=Keur84s81dftzm7jD6
- 9JDIbb8De9fx2cMQzJdkPZ2LE=; b=RPkxY7LoEFvNvRNwTZNIASCZm/Ocj9pTDv
- t5igZyW/pkKFt/W+vLOO0kUz9uvo1iC75e+Krb+kFdIhwBjHohUl3vJlAZx36HgZ
- nxTvg2i34K6pKN7HJzLzv5CiPxbcOQQu6D+wflzAplajhsimsdk9sllZYRquHy2t
- IeJq+Pttr7rEjw/Pvv7UKNgJctM8nrpyqNwuWvdj23BCcQWMAhqcuXAAKtolHIxA
- Fe+3YLVqpj/EAwau/CEK0GfvYS8wSEultyHW3QT6CIY+/VSt49V4+l2hUP9nsP0z
- JINhCBTR6d0EIxi7LWlbWlHF7e+71A+ryO0xaFHuUpiFGACUM53A==
+ :from; s=dkim; t=1656806997; x=1659398998; bh=A6OJDw1BgSdFL4HZvj
+ QWwfkC9yvCNCZ5EklbtsfpB4o=; b=Wmw5BBoIP1k5orLdUc9t6xraBc/DqkfMCU
+ Vw8BJs8g6kqJGl/lFLlVoyqwXDgvI7v4oU2KHL20YhCPi0Hl0zbN0QhR/yGxuX8z
+ u/oJeS9sfMAxDBJ5ZjMIIqt04+y57EqsfdDuDwmHvGVzg1tT0+b3Sr+huluH71TD
+ tugD0PmUYcSOTTAx7drz/KT840/uHtHc8TpSrPKl/WKterjFBL6moP1LvxBc+ozS
+ 7wD3nLRjRGuMiI66lQzXXN1/pTo6ikoICFI5kCPHeiRGyPDg9WBIlqyTFbeWtuEQ
+ NwTZnXUxduK02rCkiCo7ApOF4TkjrGmA0yNPGW0BynOH2pis2Lvg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id he758oaMXQwb for <qemu-devel@nongnu.org>;
- Sat,  2 Jul 2022 17:09:54 -0700 (PDT)
+ port 10026) with ESMTP id 541k401WQ15c for <qemu-devel@nongnu.org>;
+ Sat,  2 Jul 2022 17:09:57 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.167.123])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8Sx3GDjz1RtVk;
- Sat,  2 Jul 2022 17:09:53 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8Sz1sjsz1RtVk;
+ Sat,  2 Jul 2022 17:09:54 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Nicolas Pitre <nico@fluxnic.net>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 05/19] target/riscv/pmp: guard against PMP ranges with a
- negative size
-Date: Sun,  3 Jul 2022 10:09:24 +1000
-Message-Id: <20220703000938.437765-6-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Atish Patra <atish.patra@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Atish Patra <atishp@rivosinc.com>
+Subject: [PULL 06/19] target/riscv: Fix PMU CSR predicate function
+Date: Sun,  3 Jul 2022 10:09:25 +1000
+Message-Id: <20220703000938.437765-7-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
 References: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
@@ -116,61 +116,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nicolas Pitre <nico@fluxnic.net>
+From: Atish Patra <atish.patra@wdc.com>
 
-For a TOR entry to match, the stard address must be lower than the end
-address. Normally this is always the case, but correct code might still
-run into the following scenario:
+The predicate function calculates the counter index incorrectly for
+hpmcounterx. Fix the counter index to reflect correct CSR number.
 
-Initial state:
-
-	pmpaddr3 =3D 0x2000	pmp3cfg =3D OFF
-	pmpaddr4 =3D 0x3000	pmp4cfg =3D TOR
-
-Execution:
-
-	1. write 0x40ff to pmpaddr3
-	2. write 0x32ff to pmpaddr4
-	3. set pmp3cfg to NAPOT with a read-modify-write on pmpcfg0
-	4. set pmp4cfg to NAPOT with a read-modify-write on pmpcfg1
-
-When (2) is emulated, a call to pmp_update_rule() creates a negative
-range for pmp4 as pmp4cfg is still set to TOR. And when (3) is emulated,
-a call to tlb_flush() is performed, causing pmp_get_tlb_size() to return
-a very creatively large TLB size for pmp4. This, in turn, may result in
-accesses to non-existent/unitialized memory regions and a fault, so that
-(4) ends up never being executed.
-
-This is in m-mode with MPRV unset, meaning that unlocked PMP entries
-should have no effect. Therefore such a behavior based on PMP content
-is very unexpected.
-
-Make sure no negative PMP range can be created, whether explicitly by
-the emulated code or implicitly like the above.
-
-Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+Fixes: e39a8320b088 ("target/riscv: Support the Virtual Instruction fault=
+")
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <3oq0sqs1-67o0-145-5n1s-453o118804q@syhkavp.arg>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
+Signed-off-by: Atish Patra <atishp@rivosinc.com>
+Message-Id: <20220620231603.2547260-2-atishp@rivosinc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/pmp.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/riscv/csr.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 151da3fa08..ea2b67d947 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -167,6 +167,9 @@ void pmp_update_rule_addr(CPURISCVState *env, uint32_=
-t pmp_index)
-     case PMP_AMATCH_TOR:
-         sa =3D prev_addr << 2; /* shift up from [xx:0] to [xx+2:2] */
-         ea =3D (this_addr << 2) - 1u;
-+        if (sa > ea) {
-+            sa =3D ea =3D 0u;
-+        }
-         break;
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 6dbe9b541f..46bd417cc1 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -72,6 +72,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno=
+)
+ #if !defined(CONFIG_USER_ONLY)
+     CPUState *cs =3D env_cpu(env);
+     RISCVCPU *cpu =3D RISCV_CPU(cs);
++    int ctr_index;
 =20
-     case PMP_AMATCH_NA4:
+     if (!cpu->cfg.ext_counters) {
+         /* The Counters extensions is not enabled */
+@@ -99,8 +100,9 @@ static RISCVException ctr(CPURISCVState *env, int csrn=
+o)
+             }
+             break;
+         case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+-            if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER=
+3)) &&
+-                get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3=
+))) {
++            ctr_index =3D csrno - CSR_CYCLE;
++            if (!get_field(env->hcounteren, 1 << ctr_index) &&
++                 get_field(env->mcounteren, 1 << ctr_index)) {
+                 return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+             }
+             break;
+@@ -126,8 +128,9 @@ static RISCVException ctr(CPURISCVState *env, int csr=
+no)
+                 }
+                 break;
+             case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+-                if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOU=
+NTER3H)) &&
+-                    get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUN=
+TER3H))) {
++                ctr_index =3D csrno - CSR_CYCLEH;
++                if (!get_field(env->hcounteren, 1 << ctr_index) &&
++                     get_field(env->mcounteren, 1 << ctr_index)) {
+                     return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+                 }
+                 break;
 --=20
 2.36.1
 
