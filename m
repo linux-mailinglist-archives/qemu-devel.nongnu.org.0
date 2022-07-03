@@ -2,104 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E6C564369
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:17:58 +0200 (CEST)
-Received: from localhost ([::1]:55964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B64564364
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jul 2022 02:14:50 +0200 (CEST)
+Received: from localhost ([::1]:47588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o7nJF-0007gf-Dx
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:17:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46088)
+	id 1o7nGD-000252-Sk
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jul 2022 20:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nBZ-00020D-88
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:10:01 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:56105)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=176813b30=alistair.francis@opensource.wdc.com>)
- id 1o7nBW-0000vI-Fz
- for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:09:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1656806998; x=1688342998;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=A6OJDw1BgSdFL4HZvjQWwfkC9yvCNCZ5EklbtsfpB4o=;
- b=Fo0Qy4rJNfrJFSCD9r0Am3wyoIqF3LrWENsEep3RsYFEmGxVgpv8g5Hr
- p8SOaCJl4GCl5+aVK/PB6HD+Ih5+jOBMXvuXxqXeL4Bx5F4nS8XM9swFW
- Vc2sDjQmklvqgaEqljAjUTF5MIPtuHtEyGTBsVX+HenbulM4Q0uBAMtlN
- cYKmu5WgGvotpto7f6nenqIGxBVognzLHx91iWQUlNjH218e3syDRGFVh
- 5awtC0xS5t/JJ1YK7yrt8iQY9TDRxp9m1HQ+KdL0VF7q+8qTWgMjEMOXz
- T1+sGuNlj/4jNYuMjnE2zLMXL6BGW5Rc+CZeX+kV4OyZ9Dwd6LX9Prdtu A==;
-X-IronPort-AV: E=Sophos;i="5.92,241,1650902400"; d="scan'208";a="308989623"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Jul 2022 08:09:57 +0800
-IronPort-SDR: YEghdNCanDXg4d4Y7kIpcYewxLNLA+hDIW0Q47tB4T7hca1w7pkQh2cy/blZJt2zVV8TL0rAs1
- 3Wsrrl9Pmn0tOlnyiSFILReNTwRlZpKoGBg4hx+8gV9soO557ovQWwy9+Po5KQ9+Kl0YvSSt92
- qJgEdRO0AR7GmT6eCKRasUdvVzTRiMinp+qjHOL/B0oBMJ2quHEk1I+eHIgrZOc6VEssayIeaJ
- jIR9jIvlsJuJqEFR55UlRFPmU24WYoI3xyB4eHwvZrERTsmK/bZA5GdY2WwGh3N/YDEk+SHpPx
- wb2X+d85zRyTbp4W8B7OjAgM
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 16:27:19 -0700
-IronPort-SDR: 6F/LKcPOB3CjtqtdzTrQGwVAKNP8soTHV6hrTEdioUnjvv2jHMTtwKNXZzYIDMaXz2xrQhuTzY
- +EdsUaMOcy52Q6eh6BatqSyhgmcLLKEYfh2VWl0VznpXPwHCyTYHGqtoTvH6GGzsszwuGoGmH5
- VmiEg4IdmS3JTM+6tTTu54WQcQQj9hQpvpHZLW2YklEMSmKhSwfMlhiPdh2KlHRljCa9BvqkRG
- 5qnSX9+kgVNPy9jWkignNjV2iOTbK165h1RUlDq81gS9QDAyKJxmRlbHx2x+9Taj3qSvfsCir/
- IPA=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 02 Jul 2022 17:09:57 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lb8T14Nckz1Rwnx
- for <qemu-devel@nongnu.org>; Sat,  2 Jul 2022 17:09:57 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1656806997; x=1659398998; bh=A6OJDw1BgSdFL4HZvj
- QWwfkC9yvCNCZ5EklbtsfpB4o=; b=Wmw5BBoIP1k5orLdUc9t6xraBc/DqkfMCU
- Vw8BJs8g6kqJGl/lFLlVoyqwXDgvI7v4oU2KHL20YhCPi0Hl0zbN0QhR/yGxuX8z
- u/oJeS9sfMAxDBJ5ZjMIIqt04+y57EqsfdDuDwmHvGVzg1tT0+b3Sr+huluH71TD
- tugD0PmUYcSOTTAx7drz/KT840/uHtHc8TpSrPKl/WKterjFBL6moP1LvxBc+ozS
- 7wD3nLRjRGuMiI66lQzXXN1/pTo6ikoICFI5kCPHeiRGyPDg9WBIlqyTFbeWtuEQ
- NwTZnXUxduK02rCkiCo7ApOF4TkjrGmA0yNPGW0BynOH2pis2Lvg==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 541k401WQ15c for <qemu-devel@nongnu.org>;
- Sat,  2 Jul 2022 17:09:57 -0700 (PDT)
-Received: from toolbox.alistair23.me (unknown [10.225.167.123])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lb8Sz1sjsz1RtVk;
- Sat,  2 Jul 2022 17:09:54 -0700 (PDT)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Atish Patra <atish.patra@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- Atish Patra <atishp@rivosinc.com>
-Subject: [PULL 06/19] target/riscv: Fix PMU CSR predicate function
-Date: Sun,  3 Jul 2022 10:09:25 +1000
-Message-Id: <20220703000938.437765-7-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
-References: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o7nE1-0007qA-Ru
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:12:33 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:34597)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1o7nDz-0001iD-E0
+ for qemu-devel@nongnu.org; Sat, 02 Jul 2022 20:12:33 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id jh14so5566070plb.1
+ for <qemu-devel@nongnu.org>; Sat, 02 Jul 2022 17:12:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6tMOk1gzfhwDNEPw+XjKywN3fVhhTOrMFLik1IhW3uo=;
+ b=ljdEEqycm7qduQYcxnX79dZRiTUDWRi6ET77IVHDGbeEWT6mNym1xQSmUrqXySG/DK
+ aKA/A1+kX3LkTTOqLzIF4aJpmE/cys6jStjgN7XMfAHnP0RpQAR9U1TN8474TD7sY3em
+ +pDhvMWykiTcS/CnH8Epm5FJIHFxuBp/eHbQcRR1m0fT8NUW7Mx/1m1kmcurA3b8RUNG
+ t79C48odB35+YH6trJZXPfaYXEHa+mncnMZwA8m5wlMr4MLRVxub14QRU2+9i5jMFAbI
+ spp9kmlCsRSYs3oVSthKwwLafsWPkJl7Ybx8G4f/N1WxCUvPScErsFck/P9sPZ+n1dZE
+ BzMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6tMOk1gzfhwDNEPw+XjKywN3fVhhTOrMFLik1IhW3uo=;
+ b=w/s8o+P/dSzbWOG/ntMULgHaGQkLmIIZRypEW0+gYljZRnmaPrF8EtN5TVU0Vz6NRu
+ hZw4Vjf9V5xbjz5HroBIlNhEeGS9LqYCONouh3bEtwn9/VDtPAUObGKtDWNCxbFUlfuW
+ mjoiyj+ovh5K1skNdxT+lj1Eoqw676Ysf7h/AhG64zlCASYBOnw6Xah9cncpbBzEYsk2
+ 44nEUadhUYCeXzVGFHNvh1MGgH9t4dSbxOONjse75x60stLEBoFaEnBz+r66swflV8cO
+ 1UKHeuFITE+iSgDvIZiBMXzscvzVFZmNBioYZN463/Q4nqtpawP46tEVNYxrKyZ+J/3f
+ TuDA==
+X-Gm-Message-State: AJIora9YywnPX+LiaFgKVipgVZJG2eGyH2Q4UtK2yiT1WletBb8Op9U4
+ rQsqht52Q3vqUsTk+2Z6I6otHp9t6tTWsm5+y9M=
+X-Google-Smtp-Source: AGRyM1vor1tWIU1Tb9sIUOXVeU5GWcy7k3bXmKr+NUq2WJUsKbDpzj/BoHmziIeotm9CGA9Mo3zsWsM3BozohaUhZ5E=
+X-Received: by 2002:a17:903:2284:b0:16a:6ffa:c674 with SMTP id
+ b4-20020a170903228400b0016a6ffac674mr28847909plh.121.1656807149919; Sat, 02
+ Jul 2022 17:12:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=176813b30=alistair.francis@opensource.wdc.com;
- helo=esa2.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20220703000938.437765-1-alistair.francis@opensource.wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Sun, 3 Jul 2022 10:12:03 +1000
+Message-ID: <CAKmqyKPp=-WHkiFtxTW7LUMPwJdtNk=_4-1ubA=U=oBP_TL4ZQ@mail.gmail.com>
+Subject: Re: [PULL 00/19] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,67 +83,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Atish Patra <atish.patra@wdc.com>
+On Sun, Jul 3, 2022 at 10:09 AM Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair@alistair23.me>
+>
+> The following changes since commit d495e432c04a6394126c35cf96517749708b410f:
+>
+>   Merge tag 'pull-aspeed-20220630' of https://github.com/legoater/qemu into staging (2022-06-30 22:04:12 +0530)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220703
+>
+> for you to fetch changes up to 435774992e82d2d16f025afbb20b4f7be9b242b0:
+>
+>   target/riscv: Update default priority table for local interrupts (2022-07-03 10:03:20 +1000)
 
-The predicate function calculates the counter index incorrectly for
-hpmcounterx. Fix the counter index to reflect correct CSR number.
+Urgh, this is wrong. Sending a v2
 
-Fixes: e39a8320b088 ("target/riscv: Support the Virtual Instruction fault=
-")
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
-Signed-off-by: Atish Patra <atishp@rivosinc.com>
-Message-Id: <20220620231603.2547260-2-atishp@rivosinc.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/csr.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 6dbe9b541f..46bd417cc1 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -72,6 +72,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno=
-)
- #if !defined(CONFIG_USER_ONLY)
-     CPUState *cs =3D env_cpu(env);
-     RISCVCPU *cpu =3D RISCV_CPU(cs);
-+    int ctr_index;
-=20
-     if (!cpu->cfg.ext_counters) {
-         /* The Counters extensions is not enabled */
-@@ -99,8 +100,9 @@ static RISCVException ctr(CPURISCVState *env, int csrn=
-o)
-             }
-             break;
-         case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
--            if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER=
-3)) &&
--                get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3=
-))) {
-+            ctr_index =3D csrno - CSR_CYCLE;
-+            if (!get_field(env->hcounteren, 1 << ctr_index) &&
-+                 get_field(env->mcounteren, 1 << ctr_index)) {
-                 return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-             }
-             break;
-@@ -126,8 +128,9 @@ static RISCVException ctr(CPURISCVState *env, int csr=
-no)
-                 }
-                 break;
-             case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
--                if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOU=
-NTER3H)) &&
--                    get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUN=
-TER3H))) {
-+                ctr_index =3D csrno - CSR_CYCLEH;
-+                if (!get_field(env->hcounteren, 1 << ctr_index) &&
-+                     get_field(env->mcounteren, 1 << ctr_index)) {
-                     return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-                 }
-                 break;
---=20
-2.36.1
-
+Alistair
 
