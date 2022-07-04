@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB845652B9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 12:48:41 +0200 (CEST)
-Received: from localhost ([::1]:51724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 308A45652C0
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 12:51:58 +0200 (CEST)
+Received: from localhost ([::1]:56346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8JdA-0000sj-KT
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 06:48:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59078)
+	id 1o8JgL-00047E-Aw
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 06:51:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o8JaT-00082H-CO
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:45:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44499)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o8JaP-0008EW-8B
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:45:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656931547;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eyo1thwmR4Td1isJ9cIu6PGKySnWgDx/CgrPK4PZVZI=;
- b=C5RQLdxatGSvfx5zKnWrN7AFkJfXuRQCLSsjeB9bFeBKVHXvc+sTexPtM0Fz76FOF/PV4t
- KXdt9bbEhAuO4REUUV9N70mTkABRLzoTbU73K58Y96O/2g+wJmX1Yo43N+/5UduDaGyQsO
- c+CgevyXLenhu1zLana0RlRaGxgnXu4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-pN1FJLlZN5quwsPB5UqtMw-1; Mon, 04 Jul 2022 06:45:44 -0400
-X-MC-Unique: pN1FJLlZN5quwsPB5UqtMw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 221D6811E7A;
- Mon,  4 Jul 2022 10:45:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E87F2026D64;
- Mon,  4 Jul 2022 10:45:39 +0000 (UTC)
-Date: Mon, 4 Jul 2022 11:45:35 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Brad Smith <brad@comstyle.com>,
- Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- Ryo ONODERA <ryoon@netbsd.org>
-Subject: Re: [PATCH 1/3] scripts/make-release: Do not include the edk2
- sources in the tarball anymore
-Message-ID: <YsLEz8Qj3QmaISxF@redhat.com>
-References: <20220704064254.18187-1-thuth@redhat.com>
- <20220704064254.18187-2-thuth@redhat.com>
- <CAJSP0QUx8456jPp4=MOjRwZMPrBYgU1669HnEpC_+gDobhOiCQ@mail.gmail.com>
- <YsKvalrPIO96wWuP@redhat.com>
- <aacf7432-6f0b-b8f7-bdc4-116e3873543c@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8JfL-0003QJ-MV
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:50:55 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:39453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8JfJ-0000YP-Vc
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:50:55 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id r3so16196560ybr.6
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 03:50:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=teX3JtsWdqWFpLEUvHVypMxznvPUBVE1YueoaKgE9Vk=;
+ b=V8vyyXXkdKvdY3GqLrKfjtYCKmmibWXrPq+SB2UPwmaK8MFSliVMxLoQacnh1wmIX9
+ yS3tndXztz/GqG2XpiDJi+blcgmesKp0aCX8xifigK3BV5PgzkspbPJfG8ujox8XyZq3
+ qbl6NQ6Vr6B0MW2g1aIFX1wM5a5zLEXIvzrdxvR0staUsm/lIwy/khss4qPQSPmtPZxC
+ GNAIVEU4kvKS+d30GPLBu5aA7Gz/xLKAXBS0NqssM4rXkuuUwxgr7nd5thRoIzY5sK2h
+ bOviGZkRMNl5uFkfPmCB/jWzcQFnDzxt3dJBfL/ayZMz5Aw4FKLt6vYbo0T9T+iDvfV5
+ dPqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=teX3JtsWdqWFpLEUvHVypMxznvPUBVE1YueoaKgE9Vk=;
+ b=e+taIdZChOJcJ8NkBS/SwTLebhUJE+MZQpqwBUUCXb4DwTPt2HRWAptZzXeuGWPb2L
+ cdqZysbfPSAkLLTiDM1uj/3cwsaPlBE/mKsgAkxt61jb/eVlBdKhmdY1evR7MurvBZYK
+ Y266xhhXB2LbbsjFcR29XqcXLxIO0Un6zP8iNV3GgSeiaTt0KYJWzm6pckYG1M1UA82E
+ TKLrIQj3tzUJZAemLxm7leOEZHvpxNTiUzhCxmdvN/EEcKO2doZ2JcXVK1WTIiLm7d4I
+ DExoKVmIM6sx6LjiLivCO+3ij1FTrWa3ig5IWiEkJQMecdqsmcAaw44yHtz85eQH/MKV
+ 2NMg==
+X-Gm-Message-State: AJIora+ZLuYTJCqAO9Y6Asp9hIHt5gq11j0stJzNIgEOGO4laqppDfPY
+ z0CBJ0zjVXGFHytVwZEBHi7On8Gt1/1Ivg7AmBPeZQ==
+X-Google-Smtp-Source: AGRyM1vN8XiFuDO030yYUo/P11VXYpMkpZ53DTueHtCyJGQ3qWBlLMECj5b8rom+fvPFoxu24AMX4c/ZKg4sHXMgJqM=
+X-Received: by 2002:a05:6902:1183:b0:66e:4860:575d with SMTP id
+ m3-20020a056902118300b0066e4860575dmr5381167ybu.479.1656931852865; Mon, 04
+ Jul 2022 03:50:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aacf7432-6f0b-b8f7-bdc4-116e3873543c@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220628042117.368549-1-richard.henderson@linaro.org>
+ <20220628042117.368549-24-richard.henderson@linaro.org>
+In-Reply-To: <20220628042117.368549-24-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 Jul 2022 11:50:41 +0100
+Message-ID: <CAFEAcA8=bihNgdeAsNGS-cymu7zjCG9nA5cYTm4TokR3h2XptQ@mail.gmail.com>
+Subject: Re: [PATCH v4 23/45] target/arm: Implement SME ADDHA, ADDVA
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,61 +79,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 04, 2022 at 11:37:11AM +0200, Thomas Huth wrote:
-> On 04/07/2022 11.14, Daniel P. Berrangé wrote:
-> > On Mon, Jul 04, 2022 at 08:26:34AM +0100, Stefan Hajnoczi wrote:
-> > > On Mon, 4 Jul 2022 at 07:45, Thomas Huth <thuth@redhat.com> wrote:
-> ...
-> > > > +cat > sources.txt <<EOF
-> > > > +The edk2 sources can be downloaded from:
-> > > > +
-> > > > +https://github.com/tianocore/edk2/archive/${edk2rev}.tar.gz
-> > > 
-> > > Please use QEMU's edk2 mirror:
-> > > https://gitlab.com/qemu-project/edk2
-> > > 
-> > > QEMU mirrors all dependencies so that even if upstream projects go
-> > > offline we can still rebuild all of QEMU from source.
-> > 
-> > Note that the github/lab generated tarballs are not signed, while
-> > QEMU's release tarballs are gpg signed, so from that POV this would
-> > be a regression no matter which site we point to.
-> 
-> Maybe we should point to the edk2 release page instead? I.e.:
-> 
->  https://github.com/tianocore/edk2/releases
-> 
-> Anyway, it's IMHO certainly not *our* job to provide signed edk2 sources here.
-> 
-> > Also it would need more guidance on what to actually do with the
-> > tarball, as if you merely unpack it into this dir, it won't work
-> > as it will be one level of dirs nesting too deep for QEMU's
-> > build scripts to work.
-> 
-> I could add some wording how to use the edk2-build.sh script with a
-> downloaded edk2 tarball if that helps ... not sure whether it is really
-> required, though, we also don't provide instruction for building any other
-> firmware yet, as far as I know.
+On Tue, 28 Jun 2022 at 05:36, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v4: Drop restrict.
+> ---
+>  target/arm/helper-sme.h    |  5 +++
+>  target/arm/sme.decode      | 11 +++++
+>  target/arm/sme_helper.c    | 90 ++++++++++++++++++++++++++++++++++++++
+>  target/arm/translate-sme.c | 31 +++++++++++++
+>  4 files changed, 137 insertions(+)
 
-Well my thought is that currently you can do  'make -C roms efi' from
-the unpacked release tarball, and with this change, that no longer
-works. So we ought to explain what to do to get that working again.
 
-This doesn't neccessarily means docs. It could just be 'make' prints
-out an error telling people what to do, or figure it out itself.
+>  #undef DO_ST
+> +
+> +void HELPER(sme_addha_s)(void *vzda, void *vzn, void *vpn,
+> +                         void *vpm, uint32_t desc)
+> +{
+> +    intptr_t row, col, oprsz = simd_oprsz(desc) / 4;
+> +    uint64_t *pn = vpn, *pm = vpm;
+> +    uint32_t *zda = vzda, *zn = vzn;
+> +
+> +    for (row = 0; row < oprsz; ) {
+> +        uint64_t pa = pn[row >> 4];
+> +        do {
+> +            if (pa & 1) {
+> +                for (col = 0; col < oprsz; ) {
+> +                    uint64_t pb = pm[col >> 4];
+> +                    do {
+> +                        if (pb & 1) {
+> +                            zda[row * sizeof(ARMVectorReg) + col] += zn[col];
+> +                        }
+> +                        pb >>= 4;
+> +                    } while (++col & 15);
+> +                }
+> +            }
+> +            pa >>= 4;
+> +        } while (++row & 15);
+> +    }
+> +}
+> +
+> +void HELPER(sme_addha_d)(void *vzda, void *vzn, void *vpn,
+> +                         void *vpm, uint32_t desc)
+> +{
+> +    intptr_t row, col, oprsz = simd_oprsz(desc) / 8;
+> +    uint8_t *pn = vpn, *pm = vpm;
+> +    uint64_t *zda = vzda, *zn = vzn;
+> +
+> +    for (row = 0; row < oprsz; ++row) {
+> +        if (pn[H1(row)] & 1) {
+> +            for (col = 0; col < oprsz; ++col) {
+> +                if (pm[H1(col)] & 1) {
+> +                    zda[row * sizeof(ARMVectorReg) + col] += zn[col];
+> +                }
+> +            }
+> +        }
+> +    }
+> +}
 
-If we split off the entire of the 'roms' directory into a self-contained
-firmware-src tarball, the 'roms/Makefile' would still "just work".
+These array index calculations look wrong again?
+Should be 'row * (sizeof(ARMVectorReg) / 8) + col' or equivalent,
+I think.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> +
+> +void HELPER(sme_addva_s)(void *vzda, void *vzn, void *vpn,
+> +                         void *vpm, uint32_t desc)
+> +{
+> +    intptr_t row, col, oprsz = simd_oprsz(desc) / 4;
+> +    uint64_t *pn = vpn, *pm = vpm;
+> +    uint32_t *zda = vzda, *zn = vzn;
+> +
+> +    for (row = 0; row < oprsz; ) {
+> +        uint64_t pa = pn[row >> 4];
+> +        do {
+> +            if (pa & 1) {
+> +                uint32_t zn_row = zn[row];
+> +                for (col = 0; col < oprsz; ) {
+> +                    uint64_t pb = pm[col >> 4];
+> +                    do {
+> +                        if (pb & 1) {
+> +                            zda[row * sizeof(ARMVectorReg) + col] += zn_row;
+> +                        }
+> +                        pb >>= 4;
+> +                    } while (++col & 15);
+> +                }
+> +            }
+> +            pa >>= 4;
+> +        } while (++row & 15);
+> +    }
+> +}
+> +
+> +void HELPER(sme_addva_d)(void *vzda, void *vzn, void *vpn,
+> +                         void *vpm, uint32_t desc)
+> +{
+> +    intptr_t row, col, oprsz = simd_oprsz(desc) / 8;
+> +    uint8_t *pn = vpn, *pm = vpm;
+> +    uint64_t *zda = vzda, *zn = vzn;
+> +
+> +    for (row = 0; row < oprsz; ++row) {
+> +        if (pn[H1(row)] & 1) {
+> +            uint64_t zn_row = zn[row];
+> +            for (col = 0; col < oprsz; ++col) {
+> +                if (pm[H1(col)] & 1) {
+> +                    zda[row * sizeof(ARMVectorReg) + col] += zn_row;
+> +                }
+> +            }
+> +        }
+> +    }
+> +}
 
+-- PMM
 
