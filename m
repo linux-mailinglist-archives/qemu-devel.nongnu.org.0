@@ -2,88 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE365650BB
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:27:57 +0200 (CEST)
-Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048365650EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:33:18 +0200 (CEST)
+Received: from localhost ([::1]:52186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8IN2-0003mA-5s
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41542)
+	id 1o8ISD-00063r-4t
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:33:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ILw-000365-4Z
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:26:48 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ILt-0003w8-Uq
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:26:47 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- x18-20020a17090a8a9200b001ef83b332f5so2761492pjn.0
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:26:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=kVvBmDUDCQj7nztMzMgVh1po80mu+n+qR/T5S4owCzk=;
- b=nVyONBVnCm/PBcblGeHvAJeZnyyLSPV8kNktr89LLQSW7GZfkNoPS2guvDZKKiKRK1
- I1SaKr692IUtLsS1XcoSOqnlwpc3SSsj2KE20wEnXozC3++GT7d6jpBUzB0MNyc5dy4e
- b3QjfzGaDS47Hntqnp0nO3RCh3O8eggu8uj0WDMnQyFnDuY2c/12ZVVdXfC9sAXeCqTS
- 6pyTeh1dEuaGO2kIFNsw/kaOPmVH+svHl/kODnGhJT0ik9zvCqJiosUroZy/YXRRluVF
- EmF0cwwY/53zlzuUQOJGIz/dnX/riEZKeJ98eIjVINKZQ8VRIaLqAWT6W1DbNP+uIdFP
- 03dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kVvBmDUDCQj7nztMzMgVh1po80mu+n+qR/T5S4owCzk=;
- b=n3+Pe4SUnjiYXL8k5P2dA4/kpDPYIlen8FmJ1m24xzr4y4eG6jpVY1vIYsJT0rv/SD
- JF3uOKrI/rHPG0IXB/Ok+t6XGWweXQD/s3yw3QIugGppav8ELGZAOfIoiNDgmlMUykNX
- FBtJ56aKIkg+YzGnxR01PqBvz8qtnb5P8XCfHWX+NK/dugZi0nedcIne2s/RpUgx9ZFO
- f1FsLO+MxaXMYnA1LrkU00WNFE5E88mFU2jsWqFY3cXqPiSxygBhKH3xO5F0ZXoQqdn4
- jfcDb8WJi0pJTVClFMPy6uxHc7p0HEHF3P3jwsp/HCeawjuyrpOb8d+/nUWRPxRO2OXj
- UHpw==
-X-Gm-Message-State: AJIora983Mt1FNlEjryd9psYv0zwatT6r/bu4WnRNtstLBeVd5h0wxB6
- I+Ya4NRbuJAOoA9CLX/qqfsiIw==
-X-Google-Smtp-Source: AGRyM1uS9fCLUtPhqp6hFbumlj5gi06JR00J2ewJbpE2HdIAmXg4l62U4AzhJ0N2cUJs3IbhbGsAgA==
-X-Received: by 2002:a17:90b:3812:b0:1ec:ca8a:f15c with SMTP id
- mq18-20020a17090b381200b001ecca8af15cmr34288215pjb.187.1656926804173; 
- Mon, 04 Jul 2022 02:26:44 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- l6-20020a170903120600b0016a0bf0ce32sm11452842plh.70.2022.07.04.02.26.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 02:26:43 -0700 (PDT)
-Message-ID: <45b326ba-a5d7-d46c-6c34-5daad36f6488@linaro.org>
-Date: Mon, 4 Jul 2022 14:56:36 +0530
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8IPR-0004hj-7V
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:30:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40020)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8IPO-0004MU-7q
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:30:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656927021;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=iqsagBJZGF+4dntZHoMtQa+tIxJQuqumJeqHrTl1sHI=;
+ b=QL+8+dNY0PgZBh9XFboqWgFmfYv95+b2lM/hbwv+wf75glbsWj9dzy/Bcjs7B2Is1xfDRi
+ yt+Ov3eDxy/0ZhJZmViJq5fthjeM1bUTMm0wjv3ezX1cW5JorKivOp4fat/bR1DADjoYmc
+ cXQsWefgJYNTJDrVCAWyaAsLl+K7PZY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-221-hQyOJ6W0NjSzd0NoZMyKDg-1; Mon, 04 Jul 2022 05:30:18 -0400
+X-MC-Unique: hQyOJ6W0NjSzd0NoZMyKDg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C1A81C01B2D;
+ Mon,  4 Jul 2022 09:30:17 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ABD0D40D282E;
+ Mon,  4 Jul 2022 09:30:14 +0000 (UTC)
+Date: Mon, 4 Jul 2022 10:30:12 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-ppc@nongnu.org,
+ qemu-arm@nongnu.org, Brad Smith <brad@comstyle.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Ryo ONODERA <ryoon@netbsd.org>
+Subject: Re: [PATCH 0/3] scripts/make-release: Decrease the size of the
+ release tarballs
+Message-ID: <YsKzJE0haLxpHRxp@redhat.com>
+References: <20220704064254.18187-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 11/11] hw/intc/loongarch_ipi: Fix mail send and any send
- function
-Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- qemu-devel@nongnu.org
-Cc: maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk, mst@redhat.com,
- imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
- peter.maydell@linaro.org
-References: <20220701093407.2150607-1-yangxiaojuan@loongson.cn>
- <20220701093407.2150607-12-yangxiaojuan@loongson.cn>
- <b73e54dc-a224-8413-f4cf-91da6bd346a0@linaro.org>
- <ba0bcdad-4e03-9544-6e76-b3efaa05c747@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <ba0bcdad-4e03-9544-6e76-b3efaa05c747@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220704064254.18187-1-thuth@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,15 +88,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/4/22 14:40, gaosong wrote:
-> After fix these problem, should we only send these two patches?
+On Mon, Jul 04, 2022 at 08:42:51AM +0200, Thomas Huth wrote:
+> Our release tarballs are huge - qemu-7.0.0.tar.xz has a size of 119 MiB.
+> If you look at the contents, more than half of the size is used for the
+> edk2 sources that we ship along to provide the sources for the firmware
+> binaries, too. This feels very wrong, why do we urge users to download
+> such huge tarballs while 99.9% of them never will rebuilt the firmware
+> sources? We were also struggeling a bit in the past already with server
+> load and costs, so we should really try to decrease the size of our
+> release tarballs to a saner level.
+> 
+> Fortunately, edk2 has a permissive BSD license, so we are not forced
+> to distribute the sources for this. Thus instead of packaging the whole
+> edk2 source tree in our tarballs, let's just do the bare minimum and
+> provide the license information and a pointer to where the users can
+> download the edk2 sources instead. This decreases the size of our tarballs
+> already to the half of the original size.
 
-Correct.  I will merge the other loongarch patches today, so you should be able to rebase 
-on master.
+Regardless of license, we are not required to bundle the source code
+and binaries in the same tarball. We've merely done that because it
+was a convenient & easy way to approach the problem historically.
+
+It would be valid to not ship *any* of the source for the pre-built
+roms in the main qemu-x.y.z.tar.xz file /provided/ we ensure that
+we *always* have a qemu-firmware-src-x.y.z.tar.xz file alongside it.
 
 
-r~
+> Some few additional MiBs can be saved by omitting the sources of the
+> skiboot firmware, which has a permissive license, too (see second patch).
+> The final patch is rather cosmetics only - it drops some additional
+> .yml and .git files from the tarball that are of no use for the normal
+> user without the corresponding git repository.
+
+I look at a few more scenarios
+
+  * Current tarball:            119 MB
+  * minus edk/skiboot source:    54 MB
+  * also minus edk2 binaries:    45 MB
+  * also minus pc-bios/ + roms/: 19 MB
+  * minus roms/ only:            31 MB
+
+IOW, cutting the tarball in half is great, but if we split off firmware
+binaries and source into completely separated tarballs we would win big.
+If we fully split off only the firmware source we still win quite alot.
+
+IOW, rather than special casing edk/skiboot, I would prefer to see us
+have make a consistent approach to firmware.
+
+Either
+
+ * qemu-x.y.z.tar.gz              (only qemu maintained src, 19 MB)
+ * qemu-firmware-x.y.z.tar.gz     (pre-built blobs aka pc-bios/, 13 MB)
+ * qemu-firmware-src-x.y.z.tar.gz (source for pre-built blobs aka roms/, 92 MB)
+
+Or 
+
+ * qemu-x.y.z.tar.gz              (qemu maintained src and pre-built blobs, 31 MB)
+ * qemu-firmware-src-x.y.z.tar.gz (source for pre-built blobs aka roms/, 92 MB)
+
+
+The second option is probably the least disruptive option for end users
+building QEMU directly, while still giving distros most of the benefits
+they desire. And probably easiest to put into practice for us.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
