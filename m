@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11701565708
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 15:24:15 +0200 (CEST)
-Received: from localhost ([::1]:44352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131505656EB
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 15:21:14 +0200 (CEST)
+Received: from localhost ([::1]:36912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8M3i-0007W8-3Y
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 09:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
+	id 1o8M0n-00020r-3J
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 09:21:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8Lg5-0004zo-BO
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:59:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58227)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8LgF-0005Kr-Uu
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:59:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8Lg3-0007Z3-RU
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:59:49 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8LgE-0007Zh-Hd
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:59:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656939587;
+ s=mimecast20190719; t=1656939598;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aOyMHOUXAEplobdNBRO2JzV5+npux04BsdB76U/nNmM=;
- b=ULQqjaAIxclwrGAu8QC+Mdj5sLEPPCziQh8OOE+Ks4mhdkz8lBVP+MP2ohSIqEXC1C3N0G
- OnsRElkN70V5b49YEjH39FTeciD3ZZy8f3sLF8wvuj4pnNYsYaF8czW4n9ukzwuRuGBG8+
- KWqVaM/akl4gByENBSDocNVHUY8bAQA=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BIsyLmCg2gAhj/ZVo8SksimJj1kvG6fx/6a8u1Gxfnc=;
+ b=hZ1cBOepANOWi2tghG6BO98MR592R7NZn9gICriDXQqvUwSyULjPGoMAqYtAnMinMDmEEq
+ tMZT7o1K29yEl1CQqvQNZpxgn121HhggFxz/HDd+I5CCPIg8C3Ya4FThfWhdUKKElJUL+N
+ fU0TFw5Feu4JAyeJCd/GUtd5CZCmyTY=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-UWRneqFSN1GQ7Iw6q0Xu9w-1; Mon, 04 Jul 2022 08:59:46 -0400
-X-MC-Unique: UWRneqFSN1GQ7Iw6q0Xu9w-1
-Received: by mail-il1-f200.google.com with SMTP id
- w15-20020a056e021a6f00b002d8eef284f0so4146079ilv.6
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 05:59:45 -0700 (PDT)
+ us-mta-190-ip1lty9SNpW1BS0vs5H37Q-1; Mon, 04 Jul 2022 08:59:57 -0400
+X-MC-Unique: ip1lty9SNpW1BS0vs5H37Q-1
+Received: by mail-il1-f198.google.com with SMTP id
+ f18-20020a056e020c7200b002d949d97ed9so4126627ilj.7
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 05:59:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=aOyMHOUXAEplobdNBRO2JzV5+npux04BsdB76U/nNmM=;
- b=mfpOl0XB5vLvWIlMv5Xk1J3hMQtxXxMr8yPPPOxuz0I8ycTN5Fo/okEBJ97q2bOgWZ
- UC2uzAnB9J1GjtIpSEpT6BsGpGYYV9CWPIzkT98N/Z7JEhQOirYMFN2poTTU7rNS/ITv
- fuEymRyJSg9dmtEBinFyQmZ6XyHBOOOENsrPsaqRqnkkeZdj4WTXd7s4McB7fmmCXOUd
- gtRrATrGjdN29GsheEmaIKK0eiJ+k0Y8ocGXqTagf/tg7dhVBW/m1SslQIyXg63vtlfS
- RPTz3ER0Vko/TlYiczuIi/4Ja88tgf5FRyybvKX8C+ITXnHHrSyN/WprMUei5aRMUZ+W
- 0NnQ==
-X-Gm-Message-State: AJIora9Vpw1x1Cc+XX6SBnTQZcJcBlBTIxlB2Sb/8N0ccXJ3ZRsnifnz
- WdXpvxRIHDEIcxkP/uwsSFLoZlouX+FFjgefN1n1qmRAytHiq+Q1qHxvHEcmbMQsESucG/HoAqz
- GcH1qwCKUUAoDTszPYWDum8nA20rIIXk=
-X-Received: by 2002:a05:6e02:1486:b0:2da:9864:b480 with SMTP id
- n6-20020a056e02148600b002da9864b480mr17682519ilk.70.1656939585009; 
- Mon, 04 Jul 2022 05:59:45 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tSt8xLtXCd4CyQEK9Uw+MHx1vfD6t0XWHef4DwtuyG14RBD8eRqpgdtvri8oQReIQJRm7a4ZPM/Qk33oQlZVg=
-X-Received: by 2002:a05:6e02:1486:b0:2da:9864:b480 with SMTP id
- n6-20020a056e02148600b002da9864b480mr17682512ilk.70.1656939584852; Mon, 04
- Jul 2022 05:59:44 -0700 (PDT)
+ bh=BIsyLmCg2gAhj/ZVo8SksimJj1kvG6fx/6a8u1Gxfnc=;
+ b=qVcn+PDfd7X16A1e924domK+gTI0/grMqQD0ZO0rkcnXPGVzXswbuqsx9BibxyOhs6
+ ZfxydBOroTCTnaAL8XjDs0UKLdzuQksCDRkmS4CpNzEUVTSTlvelzlg3dYxNmWIFGRFf
+ X3xa1STEmXI65/4yf2o3DQPT0ZSRjgHsyIVXWSzZnQh+rbfwIO15rbbM8WPxNZazogpG
+ lUFXx6IqYT9AebtEfpBsAV732wYWcEhRequmAVfoA0waqznKVD8ErLvMCT6c1z1upB1M
+ DEJ3NFjiAVUVZAu3dAZibfEJ9OxzcHemQQ9Cw+xt7UthcEi582+ntewULfK0zzntd0oi
+ g2QA==
+X-Gm-Message-State: AJIora8fk7OUcR/PmJIHuJ4tXc3+Y2FwudNNkkDzz+QgIk4UryknbKcs
+ M9ZN6DP7J8mUYFh+/AM1aaCqY7zRojuFZd9laMlEc0cOLH7YcMbB0CswgLLKzeiJygFCOM5W5Cp
+ cMS9dw6Ou0urUAhGl+nVXSzG1begGBOg=
+X-Received: by 2002:a05:6638:271f:b0:33c:c07e:3034 with SMTP id
+ m31-20020a056638271f00b0033cc07e3034mr18414232jav.263.1656939595912; 
+ Mon, 04 Jul 2022 05:59:55 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v0Y1pN6qyQulj25PGFwNtZCmmU3lb070jWFSVbhB79kVdnnraami81YZPpySlmDy+WT+3tYfe+4er4Ihz6ENw=
+X-Received: by 2002:a05:6638:271f:b0:33c:c07e:3034 with SMTP id
+ m31-20020a056638271f00b0033cc07e3034mr18414221jav.263.1656939595734; Mon, 04
+ Jul 2022 05:59:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220509103019.215041-1-pbonzini@redhat.com>
- <20220509103019.215041-13-pbonzini@redhat.com>
-In-Reply-To: <20220509103019.215041-13-pbonzini@redhat.com>
+ <20220509103019.215041-14-pbonzini@redhat.com>
+In-Reply-To: <20220509103019.215041-14-pbonzini@redhat.com>
 From: Alberto Faria <afaria@redhat.com>
-Date: Mon, 4 Jul 2022 13:59:09 +0100
-Message-ID: <CAELaAXxUr3DuYqpq4x3Ou5nwV8wqxNgBLwY7V=4eSkf-yFdoeQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/26] nvme: add missing coroutine_fn annotations
+Date: Mon, 4 Jul 2022 13:59:20 +0100
+Message-ID: <CAELaAXw6j2F2vrh5hH7_C86uVeRG7YeYCtPitv5eK53g_vg3tw@mail.gmail.com>
+Subject: Re: [PATCH v2 13/26] parallels: add missing coroutine_fn annotations
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
@@ -90,10 +90,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 9, 2022 at 12:02 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Mon, May 9, 2022 at 11:46 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  block/nvme.c | 5 +++--
+>  block/parallels.c | 5 +++--
 >  1 file changed, 3 insertions(+), 2 deletions(-)
 
 Reviewed-by: Alberto Faria <afaria@redhat.com>
