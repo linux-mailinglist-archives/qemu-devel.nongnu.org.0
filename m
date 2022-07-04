@@ -2,90 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C78565E6D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 22:28:23 +0200 (CEST)
-Received: from localhost ([::1]:35054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91888565E76
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 22:30:29 +0200 (CEST)
+Received: from localhost ([::1]:39002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8SgA-0001QH-58
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 16:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50078)
+	id 1o8SiC-0004Fi-E9
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 16:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1o8Sbk-0005Nw-V1
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 16:23:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1o8Sbj-0004WN-CX
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 16:23:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656966226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=euVkicUTpPdXceL+38qNTa68fBMg2NyX6ZJ2vMqZGx0=;
- b=Ep1tiEN31A3xCAUyt/ZmXDGHoviqaeOsxbCMa+uoLaNp4mm5ijW9vtgdBxqPJxuATLHB23
- qbBqu+f9Htd4JNiuLuZGJkAXjgaPhSpHYi3weMzdoRYvaqenrDTXjStKRYKRHb+H6WQlXz
- dgD+VWeO+Id19XUQ/IdJE8sztk7lw2I=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-74-VBIHVMLTN6Ol2yq7_sqrlA-1; Mon, 04 Jul 2022 16:23:45 -0400
-X-MC-Unique: VBIHVMLTN6Ol2yq7_sqrlA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- n18-20020ac81e12000000b00318b16f53e0so7518288qtl.5
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 13:23:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1o8SeQ-00007m-MO
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 16:26:34 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:46872)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1o8SeP-0004uX-4Q
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 16:26:34 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id a15so9746679pfv.13
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 13:26:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=AGwRvWCCXxaNyzavWyqNngeZRBKVx4fqE5pni+I28Y8=;
+ b=oKjCpLuE4IAP4vSAtCd3XH09gijYQ59ZKq0Nga0TAGCN36u8S8nT+3KnodDhAOZV/6
+ mkuu8nThC6F4zUN/OCJIoOHfM7D3fYItMozSRLq4CyLtnthDSOXWyo2vsTxyvPr8j3hb
+ 2tdKJ5nGOOcvY+h03flq7aHT1moe4V3XiATqnqGmtcECuvlpY+WFgW0pVzX8q8xzYNSS
+ N+/wv+IF81e2EEMQS6NRdI7CLNNZsYdgtTxCIXA+EQ83NJuzUNKivMiQDzOfCJqNZmSz
+ Zj+jQq8Q2wIaXM0rpYIFIJey9rPklnmcwZWTwZm/HYcZBdKEAV/A8MO1GYZk76o6uNsc
+ hxYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=euVkicUTpPdXceL+38qNTa68fBMg2NyX6ZJ2vMqZGx0=;
- b=i3APtc64pCkgaA6fjBJ12WHks1QiCVk77gRQzKS/PRR/JxQgukcIqzpLkKP6XRexpy
- i34QW6zQGjfXDE1HvevuRlIw/ImS4ZdOyEHzvNPeszUXZvGtJRJeLFrdSzUX2/OTv8WF
- usYedF1GSi70Q2T+lMOTYv0M9KwupSTFFI/gxWkd6PvZoLmPrf1+xqAKGxhJjWR8U+O2
- wcvlWhLhGRVTqr6l05JEjsIKjukf/de4Dw2mBHQZZh1SYZUu13i5QAF+oa4Om02oQrCo
- I5LefF25aLJNb9t7/uX3R4n9HYEbrZKj0UDGpNvpDtYkBf/fX/ifxCfeEjQszEUIoDx9
- HjZQ==
-X-Gm-Message-State: AJIora/pqNhHgGvmPpFbd8psD76Le/mYyViEvmfHXNT3cHr7iH33/EEm
- jtLfeaYyXbbVCNUHWytIhA5vDegwCCzP3ZDoQW0+6Hx60hxCFHyRm4/kH/Xf8C+4EMaK6k/5SP4
- 6OiV5bZaqYPNN3ao=
-X-Received: by 2002:ac8:4b42:0:b0:31b:efb7:7e9c with SMTP id
- e2-20020ac84b42000000b0031befb77e9cmr25147243qts.566.1656966225299; 
- Mon, 04 Jul 2022 13:23:45 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sA8p8Eiov8KiscSImT+xvwyvH52XO4s2WVAXTP4BevmPC+dZf89XO+HnKAgXfXhQTbIy7wRw==
-X-Received: by 2002:ac8:4b42:0:b0:31b:efb7:7e9c with SMTP id
- e2-20020ac84b42000000b0031befb77e9cmr25147232qts.566.1656966225109; 
- Mon, 04 Jul 2022 13:23:45 -0700 (PDT)
-Received: from LeoBras.redhat.com ([2804:431:c7ed:cb75:d392:178:9101:5763])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=AGwRvWCCXxaNyzavWyqNngeZRBKVx4fqE5pni+I28Y8=;
+ b=a1Nz0IiLUNbxKgRKnMBq6nLKEKbz/jNFwpYiAr6uOjuVRmgJlewGsuo21xZk65cBTg
+ Y4Eq+SX445FFG5tgDsoKp2uPe/IE8hvrYlnIssYdgqZW1KkRIiSBspHf3YfUGhwi0As9
+ WvQi+Oeg2Ri4j+/pWZ61LWOUosAV+hKK8HD+Y20Asd9+mQ7g9uC6vIe2l/veehkBn2J3
+ GvPOj5iEwRqXVIYE9ECld0lBOwWE1jDXCDnkpJUMDKs6B57vXBiOgxTRQh6Otpp8ILwG
+ 3IxWhXWO3wr2NLCLhhSmotrJWkqlB0LOjBz31Hp/u+xy3c7k5/tCO630hSSIRtfwacjb
+ 05BQ==
+X-Gm-Message-State: AJIora8yIcvJPEmuLRFODJwphGB5wI0S8zuyF+kkBHq9ZGmxKeW/eSxF
+ UItXgUokA4ALk13dqeTrDcU=
+X-Google-Smtp-Source: AGRyM1vBuurZ1e8WHBsDB0dHh+TO9PRWklP9Sq9N7LukPN12b/pMhmUuj4uq5Po+DhGXhzyadAurwQ==
+X-Received: by 2002:a05:6a00:2448:b0:528:7acc:363 with SMTP id
+ d8-20020a056a00244800b005287acc0363mr1403311pfj.32.1656966391468; 
+ Mon, 04 Jul 2022 13:26:31 -0700 (PDT)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
  by smtp.gmail.com with ESMTPSA id
- k11-20020a05620a0b8b00b006b25570d1c2sm9180127qkh.12.2022.07.04.13.23.42
+ f80-20020a623853000000b005252380a87bsm21274606pfa.59.2022.07.04.13.26.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 13:23:44 -0700 (PDT)
-From: Leonardo Bras <leobras@redhat.com>
-To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Peter Xu <peterx@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] migration/multifd: Warn user when zerocopy not working
-Date: Mon,  4 Jul 2022 17:23:15 -0300
-Message-Id: <20220704202315.507145-4-leobras@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220704202315.507145-1-leobras@redhat.com>
-References: <20220704202315.507145-1-leobras@redhat.com>
+ Mon, 04 Jul 2022 13:26:31 -0700 (PDT)
+Date: Tue, 5 Jul 2022 05:26:29 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: QEMU Development <qemu-devel@nongnu.org>,
+ Openrisc <openrisc@lists.librecores.org>
+Subject: Re: [PATCH v2 07/11] target/openrisc: Add interrupted CPU to log
+Message-ID: <YsNM9QPAjzll8Olo@antec>
+References: <20220703212823.10067-1-shorne@gmail.com>
+ <20220703212823.10067-8-shorne@gmail.com>
+ <4bfc20ec-962b-2017-f2ba-26cd65bd3d9f@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4bfc20ec-962b-2017-f2ba-26cd65bd3d9f@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=shorne@gmail.com; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,64 +89,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some errors, like the lack of Scatter-Gather support by the network
-interface(NETIF_F_SG) may cause sendmsg(...,MSG_ZEROCOPY) to fail on using
-zero-copy, which causes it to fall back to the default copying mechanism.
+On Mon, Jul 04, 2022 at 03:34:52PM +0530, Richard Henderson wrote:
+> On 7/4/22 02:58, Stafford Horne wrote:
+> > When we are tracing it's helpful to know which CPU's are getting
+> > interrupted, att that detail to the log line.
+> 
+> "at".
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-After each full dirty-bitmap scan there should be a zero-copy flush
-happening, which checks for errors each of the previous calls to
-sendmsg(...,MSG_ZEROCOPY). If all of them failed to use zero-copy, then
-increment dirty_sync_missed_zero_copy migration stat to let the user know
-about it.
+Actually it should be "add", thanks I fixed it.
 
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
- migration/ram.h     | 2 ++
- migration/multifd.c | 2 ++
- migration/ram.c     | 5 +++++
- 3 files changed, 9 insertions(+)
-
-diff --git a/migration/ram.h b/migration/ram.h
-index ded0a3a086..d3c7eb96f5 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -87,4 +87,6 @@ void ram_write_tracking_prepare(void);
- int ram_write_tracking_start(void);
- void ram_write_tracking_stop(void);
- 
-+void dirty_sync_missed_zero_copy(void);
-+
- #endif
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 684c014c86..3909b34967 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -624,6 +624,8 @@ int multifd_send_sync_main(QEMUFile *f)
-             if (ret < 0) {
-                 error_report_err(err);
-                 return -1;
-+            } else if (ret == 1) {
-+                dirty_sync_missed_zero_copy();
-             }
-         }
-     }
-diff --git a/migration/ram.c b/migration/ram.c
-index 01f9cc1d72..db948c4787 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -407,6 +407,11 @@ static void ram_transferred_add(uint64_t bytes)
-     ram_counters.transferred += bytes;
- }
- 
-+void dirty_sync_missed_zero_copy(void)
-+{
-+    ram_counters.dirty_sync_missed_zero_copy++;
-+}
-+
- /* used by the search for pages to send */
- struct PageSearchStatus {
-     /* Current block being searched */
--- 
-2.36.1
-
+-Stafford
 
