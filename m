@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5755564D87
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 08:10:50 +0200 (CEST)
-Received: from localhost ([::1]:40948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF360564DA4
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 08:22:04 +0200 (CEST)
+Received: from localhost ([::1]:43742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8FIG-0008UZ-0I
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 02:10:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36166)
+	id 1o8FT4-0002UL-Sy
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 02:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1o8FCl-0003i2-2K
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 02:05:07 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57624 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1o8FCi-0008N0-RS
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 02:05:06 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxeeAEg8JiJvcHAA--.19590S3; 
- Mon, 04 Jul 2022 14:04:53 +0800 (CST)
-Subject: Re: [PATCH 08/11] target/loongarch: Fix the meaning of ECFG reg's VS
- field
-To: Richard Henderson <richard.henderson@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk, mst@redhat.com,
- imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
- peter.maydell@linaro.org
-References: <20220701093407.2150607-1-yangxiaojuan@loongson.cn>
- <20220701093407.2150607-9-yangxiaojuan@loongson.cn>
- <87c56b26-62cb-a047-2da8-9af047640542@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <acf45223-fc57-0ef2-7e0b-c070b7b8046c@loongson.cn>
-Date: Mon, 4 Jul 2022 14:04:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8FQG-0001mJ-FD
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 02:19:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8FQC-0001tL-Mp
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 02:19:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656915539;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6PrqfuHhQkOANnGNULXJnWeuyNpLjt6sv2cFVZ06CD8=;
+ b=Jw01/wfsJWL/ELb9PCSSJvB/eNCrJlh+c3rEs9cDKmGSS39XB0QGcvuU3AreD2nEJ90UV/
+ SKHM5aHRcUjrfcz0SJntY3796Tm8CJGQX3QjBUnnmQdmzhsf7fYhOZ6YdUgKGF/FuKrW3K
+ qRb4E3ivHAFQahdrMliyy+kALKImnxU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-595-WY5zqmxCMjOG9uMU4GiKGQ-1; Mon, 04 Jul 2022 02:18:56 -0400
+X-MC-Unique: WY5zqmxCMjOG9uMU4GiKGQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC192185A7BA
+ for <qemu-devel@nongnu.org>; Mon,  4 Jul 2022 06:18:55 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B8AA2C15D42;
+ Mon,  4 Jul 2022 06:18:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8035921E690D; Mon,  4 Jul 2022 08:18:54 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Juan Quintela
+ <quintela@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>,  Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 2/3] Add zero-copy-copied migration stat
+References: <20220701155935.482503-1-leobras@redhat.com>
+ <20220701155935.482503-3-leobras@redhat.com>
+Date: Mon, 04 Jul 2022 08:18:54 +0200
+In-Reply-To: <20220701155935.482503-3-leobras@redhat.com> (Leonardo Bras's
+ message of "Fri, 1 Jul 2022 12:59:35 -0300")
+Message-ID: <877d4tz9gx.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <87c56b26-62cb-a047-2da8-9af047640542@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9AxeeAEg8JiJvcHAA--.19590S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Jw43uw1DCryDAF13GryDZFb_yoW8JF45pr
- n7uFW0kFW5JaykA347Ww15X3s5Xr18GwnrXa4fta4Ykr4DXrnYgF1vgw4v9r1UCw4rAr17
- ZF15Zr1rZF45XaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBq1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
- 87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzx
- vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
- JVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
- 8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI
- 62AI1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6c
- x26ryrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
- 3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
- AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
- cVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
- 80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,45 +83,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Leonardo Bras <leobras@redhat.com> writes:
 
-On 2022/7/4 下午1:18, Richard Henderson wrote:
-> On 7/1/22 15:04, Xiaojuan Yang wrote:
->> By the manual of LoongArch CSR, the VS field(18:16 bits) of
->> ECFG reg means that the number of instructions between each
->> exception entry is 2^VS.
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  qapi/migration.json   | 5 ++++-
+>  migration/migration.c | 1 +
+>  monitor/hmp-cmds.c    | 4 ++++
+>  3 files changed, 9 insertions(+), 1 deletion(-)
 >
-> Is it a typo in the manual that says "2VS", i.e. multiplication?
->
-Is '2^VS',  the manual is wrong.
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 7102e474a6..925f009868 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -55,6 +55,9 @@
+>  # @postcopy-bytes: The number of bytes sent during the post-copy phase
+>  #                  (since 7.0).
+>  #
+> +# @zero-copy-copied: The number of zero-copy flushes that reported data sent
+> +#                    using zero-copy that ended up being copied. (since 7.2)
 
-Thanks.
-Song Gao
-> If so,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-> r~
->
->>
->> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->> ---
->>   target/loongarch/cpu.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
->> index 4c8f96bc3a..04e5e47da4 100644
->> --- a/target/loongarch/cpu.c
->> +++ b/target/loongarch/cpu.c
->> @@ -219,6 +219,10 @@ static void loongarch_cpu_do_interrupt(CPUState 
->> *cs)
->>       env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, PLV, 0);
->>       env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, IE, 0);
->>   +    if (vec_size) {
->> +        vec_size = (1 << vec_size) * 4;
->> +    }
->> +
->>       if  (cs->exception_index == EXCCODE_INT) {
->>           /* Interrupt */
->>           uint32_t vector = 0;
->
+The description feels awkward.  What's a "zero-copy flush", and why
+should the user care?  I figure what users care about is the number of
+all-zero pages we had to "copy", i.e. send the bulky way.  Is this what
+@zero-copy-copied reports?
+
+> +#
+>  # Since: 0.14
+>  ##
+>  { 'struct': 'MigrationStats',
+> @@ -65,7 +68,7 @@
+>             'postcopy-requests' : 'int', 'page-size' : 'int',
+>             'multifd-bytes' : 'uint64', 'pages-per-second' : 'uint64',
+>             'precopy-bytes' : 'uint64', 'downtime-bytes' : 'uint64',
+> -           'postcopy-bytes' : 'uint64' } }
+> +           'postcopy-bytes' : 'uint64', 'zero-copy-copied' : 'uint64' } }
+>  
+>  ##
+>  # @XBZRLECacheStats:
 
 
