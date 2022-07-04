@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDC5565149
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:49:52 +0200 (CEST)
-Received: from localhost ([::1]:37098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28276565142
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:48:33 +0200 (CEST)
+Received: from localhost ([::1]:60248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8IiG-0000c4-1d
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:49:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43086)
+	id 1o8Igy-0005bG-77
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ITf-0000rf-V1
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:47 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:39526)
+ id 1o8ITg-0000sV-5R
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:48 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:35534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ITa-0004ys-Fa
+ id 1o8ITb-0004z5-Ri
  for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:47 -0400
-Received: by mail-pg1-x529.google.com with SMTP id q82so1268027pgq.6
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:34:41 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id y18so80327plb.2
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZpM2xT691aOsaTZd6sDap5X966f+8/CDqP5hDIUEL28=;
- b=iWuCx4VpqAeKD5SFKHBUshW6V0ZF2Cfbp2smIhfW/cvO6S+SfPXGOq2EsQQF6t/5yk
- I3rPwBtOKgkcJmiY1pXEYWZIpjL4zEVOByuc+nFG11RP2hs2EqZsvcuooLFvI1dOBKPM
- Fq6r6twd4jyx0+nzc0SJ7f/9FnUxaqLFQwn6/ug0OR6XAfTINCmfaorstsFL85s059FR
- PgkqkOEYC5XdVx4rbgdNI6IJ1IabRh/IASoQdX1pHEXnwr1X59L6HprbG12lfJsh2UOL
- QJv5pRI63c4tWZP/RywvnH7ZJpYGKlsP0M361pIS5Xf53itGLgmZV5v2lzGrsyRynvlW
- YLpA==
+ bh=G3YYIcUnrqd5oHhpbi/6tYWybx050Cnw/0reTDM7VDw=;
+ b=cRI917d9EF7H0tnPAS8QeSKiJEj1Gdl3YxJCXt3auSsTMZkipfmNCLapfX3B3MGezb
+ zMu+0Akah70W47/0sVc7/awfyKe2tqQL1RyiJfTBAV0YtSHTOwHlA9zfO41lcv1fNMLY
+ PGBfQOhpK2acvR9E42aea0y7Ltape8+1PoiA54RyWgAH/wciivrkgz/5gQ8CYjV02sXk
+ nS35RtIk3KrRVz38TN/r796WIwsPygu7Yy/buG9fS0oENkFJvMZMI9YExVwZ2FOBPWg9
+ fCK+iJoxb66SjQmMcEgdjVyPc/YP3d+DhWwNwZOXswmQeskAZLcUbZYGA9RPFwan86BQ
+ 1K/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZpM2xT691aOsaTZd6sDap5X966f+8/CDqP5hDIUEL28=;
- b=hZdA9i5Efd8gpxEC/Z+6brs/20DT5paxKp+gBNhKyFGRxVSiCbkekhTQuckHyzPfuD
- 1XrOMTWEcx5RVlfiz2DhHsMKJU0xPupo//SD+NtpR5/5pvi/bB8D9G/peI+sl23R5oHN
- rcRqgnzxi1odDN9Esg4J4VIfNTxJikMcf9FkqmrYNJQzi9w0c7NnM6gAwnX0GFUwQ0BC
- /5QXuRcdDGBKpjK+5fsmAuLzaOZvyidCrs8k1wMi3ikPq0XZ9M00oOGLbswbBsv8fR/Y
- WcK3EjdqgiHVzT9xtgt15ekPkp5xowNBfoxjhjAF7yWJiifxyxc4TOPh6RKVYLXM1Tfn
- ARgg==
-X-Gm-Message-State: AJIora++uCrihRntgTm+EK/Nj8XAWkp1FZiL+gQ9tKXbPBM3+tup97tr
- afqSa30UmaBDs+UBkap4bAESbm/kpiVhVM/L
-X-Google-Smtp-Source: AGRyM1u6/czdPhxi9mtl0YKYVowz1IHFEgJwWgHHugFnorKR+zjpWvk2FhdI/2ZPRA8iVEsIXJ9LOQ==
-X-Received: by 2002:a63:f70c:0:b0:412:1877:7e1c with SMTP id
- x12-20020a63f70c000000b0041218777e1cmr8859077pgh.621.1656927280233; 
- Mon, 04 Jul 2022 02:34:40 -0700 (PDT)
+ bh=G3YYIcUnrqd5oHhpbi/6tYWybx050Cnw/0reTDM7VDw=;
+ b=EHaWoKUumugeMZTGTQXG4m9pCYGMQiEZNWS+u4MxFcqOlaIuR7fDYaoCowzSbgskUo
+ /K99NDV/T2EZl4OUR2IMT4r3bc+jqHVGJd+S/lw+JenStfzh9tiyCAvmgYqSvAowtQNZ
+ 9Ngef+e4hjEIeWf9eYjM1s3J+JbVt5J45ZjlEZykgCsYpd7Ee0/K50N0KQDErKLijJQm
+ C9FJ8PkLzsphHeuZIhRWXQrthRv2/MUXkU5XBdIHSGC05qTTfDI7bRsmShfYsqivpU0o
+ /y3XMgNxiD+nf34FeWLxRyVNEqy0PBIGsM5Q1ykmks2IP1iMv/6sbPQGIEEvtPQdSoJZ
+ n8oQ==
+X-Gm-Message-State: AJIora/8pEExLLwU12y10/pGzlB17FLjjhTAN4pYNsBCEZCtlKKCamEa
+ tA8hFO1fP4sN6CCIk72nEbPtl39moUgdvkn/
+X-Google-Smtp-Source: AGRyM1vR1crBTuKG6RQ+wbsq5T/ZZIvc+NCRcrUTNBjxihzw0Jz3apiIbvay9FEL/SVfjD/UKylWjg==
+X-Received: by 2002:a17:90b:38c2:b0:1ed:474a:a668 with SMTP id
+ nn2-20020a17090b38c200b001ed474aa668mr33517579pjb.201.1656927282644; 
+ Mon, 04 Jul 2022 02:34:42 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- z5-20020aa79e45000000b00525b7f3e906sm15353355pfq.27.2022.07.04.02.34.37
+ z5-20020aa79e45000000b00525b7f3e906sm15353355pfq.27.2022.07.04.02.34.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 02:34:39 -0700 (PDT)
+ Mon, 04 Jul 2022 02:34:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Song Gao <gaosong@loongson.cn>,
-	Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL 13/23] target/loongarch: Update README
-Date: Mon,  4 Jul 2022 15:03:47 +0530
-Message-Id: <20220704093357.983255-14-richard.henderson@linaro.org>
+Cc: Mao Bibo <maobibo@loongson.cn>
+Subject: [PULL 14/23] hw/intc/loongarch_pch_msi: Fix msi vector convertion
+Date: Mon,  4 Jul 2022 15:03:48 +0530
+Message-Id: <20220704093357.983255-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220704093357.983255-1-richard.henderson@linaro.org>
 References: <20220704093357.983255-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,76 +87,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Song Gao <gaosong@loongson.cn>
+From: Mao Bibo <maobibo@loongson.cn>
 
-Add linux-user emulation introduction
+Loongarch pch msi intc connects to extioi controller, the range of irq
+number is 64-255.  Add a property for irqbase, so that we can compute
+the irq offset from the view of pch_msi controller with the method:
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+  msi vector (from view of upper extioi intc) - irqbase
+
+Signed-off-by: Mao Bibo <maobibo@loongson.cn>
+Message-Id: <20220701030740.2469162-1-maobibo@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220624031049.1716097-14-gaosong@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/README | 39 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
+ include/hw/intc/loongarch_pch_msi.h |  2 ++
+ hw/intc/loongarch_pch_msi.c         | 22 ++++++++++++++++++++--
+ hw/loongarch/loongson3.c            |  1 +
+ 3 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/target/loongarch/README b/target/loongarch/README
-index 4dcd0f1682..9f5edd10c8 100644
---- a/target/loongarch/README
-+++ b/target/loongarch/README
-@@ -24,9 +24,9 @@
+diff --git a/include/hw/intc/loongarch_pch_msi.h b/include/hw/intc/loongarch_pch_msi.h
+index f668bfca7a..6d67560dea 100644
+--- a/include/hw/intc/loongarch_pch_msi.h
++++ b/include/hw/intc/loongarch_pch_msi.h
+@@ -17,4 +17,6 @@ struct LoongArchPCHMSI {
+     SysBusDevice parent_obj;
+     qemu_irq pch_msi_irq[PCH_MSI_IRQ_NUM];
+     MemoryRegion msi_mmio;
++    /* irq base passed to upper extioi intc */
++    unsigned int irq_base;
+ };
+diff --git a/hw/intc/loongarch_pch_msi.c b/hw/intc/loongarch_pch_msi.c
+index 74bcdbdb48..b36d6d76e4 100644
+--- a/hw/intc/loongarch_pch_msi.c
++++ b/hw/intc/loongarch_pch_msi.c
+@@ -23,9 +23,14 @@ static uint64_t loongarch_msi_mem_read(void *opaque, hwaddr addr, unsigned size)
+ static void loongarch_msi_mem_write(void *opaque, hwaddr addr,
+                                     uint64_t val, unsigned size)
+ {
+-    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
+-    int irq_num = val & 0xff;
++    LoongArchPCHMSI *s = (LoongArchPCHMSI *)opaque;
++    int irq_num;
  
-     Download cross-tools.
++    /*
++     * vector number is irq number from upper extioi intc
++     * need subtract irq base to get msi vector offset
++     */
++    irq_num = (val & 0xff) - s->irq_base;
+     trace_loongarch_msi_set_irq(irq_num);
+     assert(irq_num < PCH_MSI_IRQ_NUM);
+     qemu_set_irq(s->pch_msi_irq[irq_num], 1);
+@@ -58,11 +63,24 @@ static void loongarch_pch_msi_init(Object *obj)
+     qdev_init_gpio_in(DEVICE(obj), pch_msi_irq_handler, PCH_MSI_IRQ_NUM);
+ }
  
--      wget https://github.com/loongson/build-tools/releases/latest/download/loongarch64-clfs-20211202-cross-tools.tar.xz
-+      wget https://github.com/loongson/build-tools/releases/download/2022.05.29/loongarch64-clfs-5.0-cross-tools-gcc-full.tar.xz
++static Property loongarch_msi_properties[] = {
++    DEFINE_PROP_UINT32("msi_irq_base", LoongArchPCHMSI, irq_base, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void loongarch_pch_msi_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    device_class_set_props(dc, loongarch_msi_properties);
++}
++
+ static const TypeInfo loongarch_pch_msi_info = {
+     .name          = TYPE_LOONGARCH_PCH_MSI,
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(LoongArchPCHMSI),
+     .instance_init = loongarch_pch_msi_init,
++    .class_init    = loongarch_pch_msi_class_init,
+ };
  
--      tar -vxf loongarch64-clfs-20211202-cross-tools.tar.xz -C /opt
-+      tar -vxf loongarch64-clfs-5.0-cross-tools-gcc-full.tar.xz -C /opt
+ static void loongarch_pch_msi_register_types(void)
+diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+index bd20ebbb78..403dd91e11 100644
+--- a/hw/loongarch/loongson3.c
++++ b/hw/loongarch/loongson3.c
+@@ -267,6 +267,7 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+     }
  
-     Config cross-tools env.
- 
-@@ -60,5 +60,40 @@
- 
-     ./build/qemu-system-loongarch64 -machine virt -m 4G -cpu Loongson-3A5000 -smp 1 -kernel build/tests/tcg/loongarch64-softmmu/hello -monitor none -display none -chardev file,path=hello.out,id=output -serial chardev:output
- 
-+- Linux-user emulation
-+
-+  We already support Linux user emulation. We can use LoongArch cross-tools to build LoongArch executables on X86 machines,
-+  and We can also use qemu-loongarch64 to run LoongArch executables.
-+
-+  1. Config cross-tools env.
-+
-+     see System emulation.
-+
-+  2. Test tests/tcg/multiarch.
-+
-+     ./configure  --static  --prefix=/usr  --disable-werror --target-list="loongarch64-linux-user" --enable-debug
-+
-+     cd build
-+
-+     make && make check-tcg
-+
-+  3. Run LoongArch system basic command with loongarch-clfs-system.
-+
-+     - Config clfs env.
-+
-+       wget https://github.com/loongson/build-tools/releases/download/2022.05.29/loongarch64-clfs-system-5.0.tar.bz2
-+
-+       tar -vxf loongarch64-clfs-system-5.0.tar.bz2 -C /opt/clfs
-+
-+       cp /opt/clfs/lib64/ld-linux-loongarch-lp64d.so.1  /lib64
-+
-+       export LD_LIBRARY_PATH="/opt/clfs/lib64"
-+
-+     - Run LoongArch system basic command.
-+
-+       ./qemu-loongarch64  /opt/clfs/usr/bin/bash
-+       ./qemu-loongarch64  /opt/clfs/usr/bin/ls
-+       ./qemu-loongarch64  /opt/clfs/usr/bin/pwd
-+
- - Note.
-   We can get the latest LoongArch documents or LoongArch tools at https://github.com/loongson/
+     pch_msi = qdev_new(TYPE_LOONGARCH_PCH_MSI);
++    qdev_prop_set_uint32(pch_msi, "msi_irq_base", PCH_MSI_IRQ_START);
+     d = SYS_BUS_DEVICE(pch_msi);
+     sysbus_realize_and_unref(d, &error_fatal);
+     sysbus_mmio_map(d, 0, LS7A_PCH_MSI_ADDR_LOW);
 -- 
 2.34.1
 
