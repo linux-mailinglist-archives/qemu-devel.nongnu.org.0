@@ -2,51 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCD9564C06
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 05:27:52 +0200 (CEST)
-Received: from localhost ([::1]:57494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9650564C0E
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 05:29:34 +0200 (CEST)
+Received: from localhost ([::1]:59636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8CkY-0005oD-Sa
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 23:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41640)
+	id 1o8CmE-0007H5-0R
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 23:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1o8CjU-00058D-FM
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 23:26:44 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:53892 helo=cstnet.cn)
+ id 1o8Cl1-0006b4-QC
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 23:28:19 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:54324 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o8CjR-0002yS-4D
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 23:26:44 -0400
-Received: from localhost.localdomain (unknown [159.226.43.7])
- by APP-01 (Coremail) with SMTP id qwCowADX3w_eXcJiwlruCw--.31048S2;
- Mon, 04 Jul 2022 11:26:28 +0800 (CST)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o8Ckz-0003Dt-CO
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 23:28:19 -0400
+Received: from smtpclient.apple (unknown [114.245.36.56])
+ by APP-01 (Coremail) with SMTP id qwCowAAnLw9IXsJir3_uCw--.27007S2;
+ Mon, 04 Jul 2022 11:28:09 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v2] hw/nvme: Use ioeventfd to handle doorbell updates
 From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-To: qemu-devel@nongnu.org
-Cc: its@irrelevant.dk, kbusch@kernel.org, Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Subject: [PATCH v3] hw/nvme: Use ioeventfd to handle doorbell updates
-Date: Mon,  4 Jul 2022 11:26:20 +0800
-Message-Id: <20220704032620.2710779-1-fanjinhao21s@ict.ac.cn>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowADX3w_eXcJiwlruCw--.31048S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jw1kXw4kAr48WFW5Jw4rAFb_yoWxtw4UpF
- Z5WFZ3Kan7JF17urZYqrsrJwn5C3ykXr1DCrZ3Gr13K3Z3CryxAay8GFWUAFn8ZFZ7XFW5
- Cr4xtF47G3yxJ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyK14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
- 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0E
- wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
- 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
- I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
- k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
- 1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfU5WlkUUUUU
-X-Originating-IP: [159.226.43.7]
+In-Reply-To: <Yr8bGnaDRsivoY9b@kbusch-mbp.dhcp.thefacebook.com>
+Date: Mon, 4 Jul 2022 11:28:07 +0800
+Cc: qemu-devel@nongnu.org,
+ Klaus Jensen <its@irrelevant.dk>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <051A89F3-FED3-401D-8EED-AC83E34EF406@ict.ac.cn>
+References: <20220630032231.2881787-1-fanjinhao21s@ict.ac.cn>
+ <Yr8bGnaDRsivoY9b@kbusch-mbp.dhcp.thefacebook.com>
+To: Keith Busch <kbusch@kernel.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowAAnLw9IXsJir3_uCw--.27007S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gw45CFW8Kr4fWw1rJw48Xrb_yoWDXrb_u3
+ yrurZYkwnrZr4xu398Ga12vw4aqr4xJw17WFW7ZFyDAanFqa17ur4Iyrn5AFW7Xa13XrW2
+ krs8G3Waqw4j9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbw8YjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+ C2z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+ F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+ 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF
+ x2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
+ v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
+ 67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
+ IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+ 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jeXdbUUUUU=
+X-Originating-IP: [114.245.36.56]
 X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
 Received-SPF: pass client-ip=159.226.251.21;
  envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
@@ -71,245 +77,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add property "ioeventfd" which is enabled by default. When this is
-enabled, updates on the doorbell registers will cause KVM to signal
-an event to the QEMU main loop to handle the doorbell updates.
-Therefore, instead of letting the vcpu thread run both guest VM and
-IO emulation, we now use the main loop thread to do IO emulation and
-thus the vcpu thread has more cycles for the guest VM.
+at 12:04 AM, Keith Busch <kbusch@kernel.org> wrote:
 
-Since ioeventfd does not tell us the exact value that is written, it is
-only useful when shadow doorbell buffer is enabled, where we check
-for the value in the shadow doorbell buffer when we get the doorbell
-update event.
+> On Thu, Jun 30, 2022 at 11:22:31AM +0800, Jinhao Fan wrote:
+>> +static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
+>> +{
+>> +    NvmeCtrl *n =3D sq->ctrl;
+>> +    uint16_t offset =3D sq->sqid << 3;
+>> +    int ret;
+>> +
+>> +    ret =3D event_notifier_init(&sq->notifier, 0);
+>> +    if (ret < 0) {
+>> +        return ret;
+>> +    }
+>> +
+>> +    event_notifier_set_handler(&sq->notifier, nvme_sq_notifier);
+>> +    memory_region_add_eventfd(&n->iomem,
+>> +                              0x1000 + offset, 4, false, 0, =
+&sq->notifier);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
+>> {
+>>     n->sq[sq->sqid] =3D NULL;
+>>     timer_free(sq->timer);
+>> +    event_notifier_cleanup(&sq->notifier);
+>>     g_free(sq->io_req);
+>>     if (sq->sqid) {
+>>         g_free(sq);
+>=20
+> I believe there needs to be a corresponding =
+memory_region_del_eventfd() when
+> deleting the queue before event_notifier_cleanup(), otherwise you'll =
+leak
+> invalid listeners.
 
-IOPS comparison on Linux 5.19-rc2: (Unit: KIOPS)
-
-qd           1   4  16  64
-qemu        35 121 176 153
-ioeventfd   41 133 258 313
-
-Changes since v2:
- - Add memory_region_del_eventfd() when freeing queues to avoid leak
-
-Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
----
- hw/nvme/ctrl.c | 108 ++++++++++++++++++++++++++++++++++++++++++++++++-
- hw/nvme/nvme.h |   5 +++
- 2 files changed, 112 insertions(+), 1 deletion(-)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index c952c34f94..9ceedf0c29 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1374,7 +1374,14 @@ static void nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
- 
-     QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
-     QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
--    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
-+
-+    if (req->sq->ioeventfd_enabled) {
-+        /* Post CQE directly since we are in main loop thread */
-+        nvme_post_cqes(cq);
-+    } else {
-+        /* Schedule the timer to post CQE later since we are in vcpu thread */
-+        timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
-+    }
- }
- 
- static void nvme_process_aers(void *opaque)
-@@ -4195,10 +4202,80 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     return NVME_INVALID_OPCODE | NVME_DNR;
- }
- 
-+static void nvme_cq_notifier(EventNotifier *e)
-+{
-+    NvmeCQueue *cq = container_of(e, NvmeCQueue, notifier);
-+    NvmeCtrl *n = cq->ctrl;
-+
-+    event_notifier_test_and_clear(&cq->notifier);
-+
-+    nvme_update_cq_head(cq);
-+
-+    if (cq->tail == cq->head) {
-+        if (cq->irq_enabled) {
-+            n->cq_pending--;
-+        }
-+
-+        nvme_irq_deassert(n, cq);
-+    }
-+
-+    nvme_post_cqes(cq);
-+}
-+
-+static int nvme_init_cq_ioeventfd(NvmeCQueue *cq)
-+{
-+    NvmeCtrl *n = cq->ctrl;
-+    uint16_t offset = (cq->cqid << 3) + (1 << 2);
-+    int ret;
-+
-+    ret = event_notifier_init(&cq->notifier, 0);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    event_notifier_set_handler(&cq->notifier, nvme_cq_notifier);
-+    memory_region_add_eventfd(&n->iomem,
-+                              0x1000 + offset, 4, false, 0, &cq->notifier);
-+    
-+    return 0;
-+}
-+
-+static void nvme_sq_notifier(EventNotifier *e)
-+{
-+    NvmeSQueue *sq = container_of(e, NvmeSQueue, notifier);
-+
-+    event_notifier_test_and_clear(&sq->notifier);
-+
-+    nvme_process_sq(sq);
-+}
-+
-+static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
-+{
-+    NvmeCtrl *n = sq->ctrl;
-+    uint16_t offset = sq->sqid << 3;
-+    int ret;
-+
-+    ret = event_notifier_init(&sq->notifier, 0);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    event_notifier_set_handler(&sq->notifier, nvme_sq_notifier);
-+    memory_region_add_eventfd(&n->iomem,
-+                              0x1000 + offset, 4, false, 0, &sq->notifier);
-+
-+    return 0;
-+}
-+
- static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
- {
-+    uint16_t offset = sq->sqid << 3;
-+
-     n->sq[sq->sqid] = NULL;
-     timer_free(sq->timer);
-+    memory_region_del_eventfd(&n->iomem,
-+                              0x1000 + offset, 4, false, 0, &sq->notifier);
-+    event_notifier_cleanup(&sq->notifier);
-     g_free(sq->io_req);
-     if (sq->sqid) {
-         g_free(sq);
-@@ -4271,6 +4348,12 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
-     if (n->dbbuf_enabled) {
-         sq->db_addr = n->dbbuf_dbs + (sqid << 3);
-         sq->ei_addr = n->dbbuf_eis + (sqid << 3);
-+            
-+        if (n->params.ioeventfd && sq->sqid != 0) {
-+            if (!nvme_init_sq_ioeventfd(sq)) {
-+                sq->ioeventfd_enabled = true;
-+            }
-+        }
-     }
- 
-     assert(n->cq[cqid]);
-@@ -4575,8 +4658,13 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
- 
- static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
- {
-+    uint16_t offset = (cq->cqid << 3) + (1 << 2);
-+
-     n->cq[cq->cqid] = NULL;
-     timer_free(cq->timer);
-+    memory_region_del_eventfd(&n->iomem,
-+                              0x1000 + offset, 4, false, 0, &cq->notifier);
-+    event_notifier_cleanup(&cq->notifier);
-     if (msix_enabled(&n->parent_obj)) {
-         msix_vector_unuse(&n->parent_obj, cq->vector);
-     }
-@@ -4635,6 +4723,12 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
-     if (n->dbbuf_enabled) {
-         cq->db_addr = n->dbbuf_dbs + (cqid << 3) + (1 << 2);
-         cq->ei_addr = n->dbbuf_eis + (cqid << 3) + (1 << 2);
-+
-+        if (n->params.ioeventfd && cqid != 0) {
-+            if (!nvme_init_cq_ioeventfd(cq)) {
-+                cq->ioeventfd_enabled = false;
-+            }
-+        }
-     }
-     n->cq[cqid] = cq;
-     cq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
-@@ -5793,6 +5887,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-     uint64_t dbs_addr = le64_to_cpu(req->cmd.dptr.prp1);
-     uint64_t eis_addr = le64_to_cpu(req->cmd.dptr.prp2);
-     int i;
-+    int ret;
- 
-     /* Address should be page aligned */
-     if (dbs_addr & (n->page_size - 1) || eis_addr & (n->page_size - 1)) {
-@@ -5818,6 +5913,11 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-             sq->ei_addr = eis_addr + (i << 3);
-             pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
-                     sizeof(sq->tail));
-+            
-+            if (n->params.ioeventfd && sq->sqid != 0) {
-+                ret = nvme_init_sq_ioeventfd(sq);
-+                sq->ioeventfd_enabled = ret == 0;
-+            }
-         }
- 
-         if (cq) {
-@@ -5826,6 +5926,11 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-             cq->ei_addr = eis_addr + (i << 3) + (1 << 2);
-             pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
-                     sizeof(cq->head));
-+            
-+            if (n->params.ioeventfd && cq->cqid != 0) {
-+                ret = nvme_init_cq_ioeventfd(cq);
-+                cq->ioeventfd_enabled = ret == 0;
-+            }
-         }
-     }
- 
-@@ -7040,6 +7145,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
-     DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
-                      params.auto_transition_zones, true),
-+    DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 4452e4b1bf..2a9beea0c8 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -369,6 +369,8 @@ typedef struct NvmeSQueue {
-     uint64_t    db_addr;
-     uint64_t    ei_addr;
-     QEMUTimer   *timer;
-+    EventNotifier notifier;
-+    bool        ioeventfd_enabled;
-     NvmeRequest *io_req;
-     QTAILQ_HEAD(, NvmeRequest) req_list;
-     QTAILQ_HEAD(, NvmeRequest) out_req_list;
-@@ -388,6 +390,8 @@ typedef struct NvmeCQueue {
-     uint64_t    db_addr;
-     uint64_t    ei_addr;
-     QEMUTimer   *timer;
-+    EventNotifier notifier;
-+    bool        ioeventfd_enabled;
-     QTAILQ_HEAD(, NvmeSQueue) sq_list;
-     QTAILQ_HEAD(, NvmeRequest) req_list;
- } NvmeCQueue;
-@@ -410,6 +414,7 @@ typedef struct NvmeParams {
-     uint8_t  zasl;
-     bool     auto_transition_zones;
-     bool     legacy_cmb;
-+    bool     ioeventfd;
- } NvmeParams;
- 
- typedef struct NvmeCtrl {
--- 
-2.25.1
+Thanks. Fixed this in v3.
 
 
