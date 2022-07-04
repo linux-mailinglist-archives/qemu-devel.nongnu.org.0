@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB1756515B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:53:07 +0200 (CEST)
-Received: from localhost ([::1]:45180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB5056513C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:47:10 +0200 (CEST)
+Received: from localhost ([::1]:57104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8IlO-0006W8-P3
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:53:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43142)
+	id 1o8Ifd-0003PA-Ey
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:47:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ITk-00014r-UT
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:52 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:39526)
+ id 1o8ITm-0001AX-Tq
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:55 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:44918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ITj-0004ys-CO
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:52 -0400
-Received: by mail-pg1-x529.google.com with SMTP id q82so1268419pgq.6
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:34:50 -0700 (PDT)
+ id 1o8ITl-000504-B0
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:54 -0400
+Received: by mail-pl1-x629.google.com with SMTP id l6so8059279plg.11
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:34:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2U8gGwGi459tJBiJfuXez6/qhKpO3scBOa8Znkp50V4=;
- b=i9rNdrN+8YtGAAVY8MC8WNSeKADfefcc+qHEHAz9IlmKekUI0U7Q4mM3OcdL85FGoc
- AD/SSzl25Fz+E7iiNm9wVRz2mhQo98GBgSMuXX7LmSWJ6QTHpmV3GewpTGJUvziHpczw
- MSfspMsMNX8tvQc1KJvFXqNU7kzs6HwfvoXI/bTTCHJp+oCZJfncAW3qAr+8SIrLskP6
- 1I37P6w9L+7B8oaDxzfMxlFMe+Azpkeg3MZG4/YlM3VD6DiwtZ3SWPwqkj9AhoaITzaH
- x/UVlYY9j3KhAKL5HADKmIt2pj6X096r4EtSbPl0FMZEki+bUjDt+ymCjFx3PwrAyaqQ
- WxfQ==
+ bh=xRn3dlMBTLw7s8LlUcFJIo3Piu/j8Godlc8+nn+z6/k=;
+ b=MxpuontjrktHYdZuYoznkc5z6olhgKsQX0MWYBZY6hn8dg8kHRVOQbai+DXGJwonJw
+ zuYjSLZnSTOc7ySkdr2j/013N4PwhstwfsrrU6GR9/tU8jk2FQk3TVsvpYc3a3p21ms1
+ CZ9h3mwel6vP0RlS0bHh8hM9f5UZYGjfLhZAmtBR1JGqi4exySmFTg+8hFvqU4pEUpDV
+ NM8mA/bnGySY82SV8ARMeM48I6rJ4TJfHjcx9rw/yFIh8ChLR+9zHA1gJZ34QbsI2Ddt
+ 7t/PemsVVo5U5h0P6vBHAIphODEE5LWwucc4OhGgpt1I61eIX4kq9mlnNQ3vZ+XCtK+L
+ UxQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2U8gGwGi459tJBiJfuXez6/qhKpO3scBOa8Znkp50V4=;
- b=Psbr8ywQV4/cAsakvt0v9c6Zwqj4KfDoulhRI432P4Nir6BMyH9CuigZsy6WorjuBF
- y2pomJ4of62zdRxUUuw1R8RzyZ3NlBes62JIDLj7bpXQ6J3/IS2o9Sz6qE4WkLgMF7UW
- XZYuRTe61KZrJ1W8rfXGzmpvEeEepytnlQLuP7Abs+K5TTwrmXADSCtXNfay1VWn0lV7
- 3js/nWxyOUQWrN1BrthJGroBXvzLhm3EyPKjRededKUO+xV39YInjVaZRSSBwjkdZRl5
- UPAAbiQ9ThHOgRwLChZgOIFMrT2ainkdBftPZ7hO1Px74iRrejS6ra5ZHJjo3LD0bREb
- 1Gzg==
-X-Gm-Message-State: AJIora8v0D5UdcDNrJ/gEo9e3N8uDAu1+NBOqHGhkNpsEk9vxt3s1G18
- cYNNedRnvPoXEGz2fq9qhO/51C8NlyFK8dGr
-X-Google-Smtp-Source: AGRyM1u783xJ6YUBxM0MRylBwZAtwtlEEeTX48aXeIGnT1FzC9simF+mS+CnltR3HwqWg0AHBKnqXQ==
-X-Received: by 2002:a63:8c5c:0:b0:40c:95c3:8c02 with SMTP id
- q28-20020a638c5c000000b0040c95c38c02mr25371391pgn.419.1656927289624; 
- Mon, 04 Jul 2022 02:34:49 -0700 (PDT)
+ bh=xRn3dlMBTLw7s8LlUcFJIo3Piu/j8Godlc8+nn+z6/k=;
+ b=mCP7JiUrco2zG1MQw29erTuMRl5+RztJo2/sQ++geGr6Zv/uPKgVegyySHReurLOpe
+ EMSopl9BJIn2b7/MjvLbYoieH8yxqLV/lTh8mc64Rz4UyGtHYzn0ag9vtrPfZ7Do9gv1
+ tYXG4JM/+AWA1svCRLkhdo96Obn5D69UkcxswMtDMFXZqTgIvzetCiMrcrSDPWieBO00
+ 1kH+KsGAUIkXmedVN0UMzPAO1SvbUlLcv1zKRQAauXGh4WUhYdZMejsTpk6ANyK9WJBa
+ nYIaYZKx8jxMixKA5q39dXT4wuvFzqvzt6d9jJsQEfCkRmW8uFbD1t50kR58vXv9aGj9
+ jdww==
+X-Gm-Message-State: AJIora8RCtemUu9F5DwbTKObOiwnqhQmvlfir90dSWUB4shHHe1hLnyo
+ 8fxVsRykWQ0qrP6N9TAww/Ntux5OwB+S8TWd
+X-Google-Smtp-Source: AGRyM1t365CH1xo62H1pY5oLWmF6zhM3RtPd/hBkMuaVOp9iEnI9NgKK3VqJo8/FEVx5eXefzjhp8w==
+X-Received: by 2002:a17:902:cf03:b0:16b:e692:c104 with SMTP id
+ i3-20020a170902cf0300b0016be692c104mr2717340plg.134.1656927292026; 
+ Mon, 04 Jul 2022 02:34:52 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- z5-20020aa79e45000000b00525b7f3e906sm15353355pfq.27.2022.07.04.02.34.47
+ z5-20020aa79e45000000b00525b7f3e906sm15353355pfq.27.2022.07.04.02.34.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 02:34:49 -0700 (PDT)
+ Mon, 04 Jul 2022 02:34:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL 17/23] hw/rtc/ls7a_rtc: Remove unimplemented device in realized
- function
-Date: Mon,  4 Jul 2022 15:03:51 +0530
-Message-Id: <20220704093357.983255-18-richard.henderson@linaro.org>
+Subject: [PULL 18/23] hw/rtc/ls7a_rtc: Add reset function
+Date: Mon,  4 Jul 2022 15:03:52 +0530
+Message-Id: <20220704093357.983255-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220704093357.983255-1-richard.henderson@linaro.org>
 References: <20220704093357.983255-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,28 +89,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-Remove the unimplemented device when realized ls7a RTC, as it is not uesd.
+Add ls7a rtc reset function to delete timers and clear regs when rtc reset.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220701093407.2150607-4-yangxiaojuan@loongson.cn>
+Message-Id: <20220701093407.2150607-5-yangxiaojuan@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/rtc/ls7a_rtc.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/rtc/ls7a_rtc.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/hw/rtc/ls7a_rtc.c b/hw/rtc/ls7a_rtc.c
-index 780144b9da..f1e7a660e9 100644
+index f1e7a660e9..eb10cdb451 100644
 --- a/hw/rtc/ls7a_rtc.c
 +++ b/hw/rtc/ls7a_rtc.c
-@@ -461,7 +461,6 @@ static void ls7a_rtc_realize(DeviceState *dev, Error **errp)
-     d->save_toy_year = 0;
-     d->save_rtc = 0;
+@@ -463,6 +463,25 @@ static void ls7a_rtc_realize(DeviceState *dev, Error **errp)
  
--    create_unimplemented_device("mmio fallback 1", 0x10013ffc, 0x4);
  }
  
++/* delete timer and clear reg when reset */
++static void ls7a_rtc_reset(DeviceState *dev)
++{
++    int i;
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++    LS7ARtcState *d = LS7A_RTC(sbd);
++    for (i = 0; i < TIMER_NUMS; i++) {
++        if (toy_enabled(d)) {
++            timer_del(d->toy_timer[i]);
++        }
++        if (rtc_enabled(d)) {
++            timer_del(d->rtc_timer[i]);
++        }
++        d->toymatch[i] = 0;
++        d->rtcmatch[i] = 0;
++    }
++    d->cntrctl = 0;
++}
++
  static int ls7a_rtc_pre_save(void *opaque)
+ {
+     LS7ARtcState *s = LS7A_RTC(opaque);
+@@ -511,6 +530,7 @@ static void ls7a_rtc_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     dc->vmsd = &vmstate_ls7a_rtc;
+     dc->realize = ls7a_rtc_realize;
++    dc->reset = ls7a_rtc_reset;
+     dc->desc = "ls7a rtc";
+ }
+ 
 -- 
 2.34.1
 
