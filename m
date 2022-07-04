@@ -2,72 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045B9565537
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 14:27:21 +0200 (CEST)
-Received: from localhost ([::1]:33460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB14F56554B
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 14:29:03 +0200 (CEST)
+Received: from localhost ([::1]:37242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8LAe-0005tH-18
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 08:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49986)
+	id 1o8LCI-0008SP-AI
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 08:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8L0q-0003j6-P9
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:17:13 -0400
-Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:35822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8L0o-00085z-Ge
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:17:11 -0400
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-31cac89d8d6so10631507b3.2
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 05:17:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qnCnf7WB9HdxBNinBNVivpV4s5qQRwQaYFJovoGs8dM=;
- b=og/Xc4kkou0Ki1FZFgrQm+NhQ3d5wJfqO/LGS2F0dzB2muAOfqSppR+iNKMZuqvajd
- aurz7MvpTtpdArt5lMirzeTS04Gg4GX/ovJSFyRRugcVpnpIBGfedZCMGb91xAdKktJc
- Y6W45wsAStpFHe7IKFN3uzEbMa8HdG/quOpPM2KkqA5qrkN2cj6SR55x2u7yV6WYbwVR
- 0tw4Iy+CVli4OlMh8cx7Xy8I01EtzMdPLoi1hnal32eChOs2j2hVNInmnHYXwVyf+ydN
- 4YQsKbVv1saralbNdOgaRNaDPaWyT3AvhUjo3WB6hYo/jv1ePdl+p4EkwtGzAUkqPFSa
- Z2TA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8L1j-0004qB-9T
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:18:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8L1h-0008EO-Bi
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:18:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656937084;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a5Ka4w8nB6ZZn1NzADqt3W/pTYrdrssKaFEOXn7spiQ=;
+ b=YF1zRLp9nTNhQqU8V+C4wh0X1J6KdvIMNc28C2fU8R6C+IH80WWZNjKGYhS7+h1SuQiN8z
+ uQ4SXAmkQlNT1HaCSWIrnhixZrGothbNyxHv69GDbSXxjBJ5YuakkhEsIE7DGqiQfS9kW2
+ pG+7Rr1vka1m9HWgrXzP682An1Rp2pM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-92-sqM3_yMUNhS5erq2dmxDMw-1; Mon, 04 Jul 2022 08:18:03 -0400
+X-MC-Unique: sqM3_yMUNhS5erq2dmxDMw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ w22-20020a05640234d600b00435ba41dbaaso7099909edc.12
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 05:18:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qnCnf7WB9HdxBNinBNVivpV4s5qQRwQaYFJovoGs8dM=;
- b=mRow4coukyrhu0IgJWc2fFOS1dOBiJLuQ2HSFwgzNFG69v3kNCuf0mMWF6JjiYqL1L
- 6sYENOF6oxoIwg95LlRw/WgNQJ+t5riS/l82q5UMyySCWhuPSwftKaseJ049g3WyVbEu
- TNRiKTyIZy/JpVBSVlFDb+W0MH93D0rf4NyyGj80Lpyqz6ag0QdM2D9ywdZ/i5Pdywm8
- L3XnTM+G9zbNvy8BCjxH+jUm8tw71Pv1DoHhmFsb7QtUR/4Ygj4vHgF0WXljPxJUvYSC
- TUh+lsqg8pgQYw4NTOdqVGhLj/fUx2PDmOJVT7gkql4AoJOK0KonRzmhx0hVGUq4aa92
- LDCA==
-X-Gm-Message-State: AJIora+pRahfbiBG3HL1B0qb8HLDD29r/BFQHVFqPPVxVYqauHALIQF2
- Vl8nI0qxQVhT9IgVQpaZfYsw1NBvoE0ekDBo6Zxi7g==
-X-Google-Smtp-Source: AGRyM1tLThPu3piL0iHvTz44bhpRKQcucUEGKs2FAFr0xQ2Cf5B8CXfUqe3gvmSu0pg5huFkTFVwcTQs4ZoiGjMCawo=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr33474708ywb.257.1656937029454; Mon, 04
- Jul 2022 05:17:09 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=a5Ka4w8nB6ZZn1NzADqt3W/pTYrdrssKaFEOXn7spiQ=;
+ b=ufLCCsSIux1sNbJeFwo4+p3GzNbl2g1jNAJsT3N9ODxLFaWHryxCA2v62z5C76bKJT
+ aIOvEewe5Fted3FjGlk03VDX5CnichSyfaCR4G4glOA9AqYjQNN8lKQcQ1IAPexV9W+O
+ 6cXdRMatfIG9KHTaIl09N8gfTrDeAiZAeq2LRXbAbl4hMYI87qXRE8ENy6njb2LLMHzE
+ efbx4B/fEDDOwm1RL+R6yMQnZHT1xNXtVTVuqZk1NB6voacIdxUwwsYUcyC47615nQX/
+ MfdgQTnqIYKP2PsRVPk2zXkw6h7vdrEoULsn46H4CmT8/lAKJ7DXDmXZOwOE1kBIC9Oy
+ Xbrw==
+X-Gm-Message-State: AJIora+e1xqiBC5OrjMEZMVQQDdOJLSTQKnAx5Xmgix/Rb/dlgt73Seq
+ Q5HJFf6aU2s3MxByJLaUoA9jT9ZNuLs5H/K11Gjm7lXEeInANQXUX7kEyfh7HrqXHuYePyOaif6
+ k1KXCXP1SIylWCi4=
+X-Received: by 2002:a05:6402:440c:b0:43a:1124:e56a with SMTP id
+ y12-20020a056402440c00b0043a1124e56amr13275718eda.134.1656937082525; 
+ Mon, 04 Jul 2022 05:18:02 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1shEC3TCT65fmxO3GG6DYMvYVohaEW2/uxgWwS7IcszPhg2XS6HE5/nH5qs4T9JlfzYmN/1SA==
+X-Received: by 2002:a05:6402:440c:b0:43a:1124:e56a with SMTP id
+ y12-20020a056402440c00b0043a1124e56amr13275687eda.134.1656937082343; 
+ Mon, 04 Jul 2022 05:18:02 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
+ ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
+ by smtp.gmail.com with ESMTPSA id
+ r21-20020a1709067fd500b007025015599bsm14054312ejs.214.2022.07.04.05.18.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jul 2022 05:18:01 -0700 (PDT)
+Message-ID: <c9c275da-2edd-8996-c6f1-a90629f650a6@redhat.com>
+Date: Mon, 4 Jul 2022 14:18:01 +0200
 MIME-Version: 1.0
-References: <20220628042117.368549-1-richard.henderson@linaro.org>
- <20220628042117.368549-42-richard.henderson@linaro.org>
-In-Reply-To: <20220628042117.368549-42-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 4 Jul 2022 13:16:58 +0100
-Message-ID: <CAFEAcA8T8zPtzC7GYJTfiHbUkcNXeCywCLVkvg3LMgjaaoYnHg@mail.gmail.com>
-Subject: Re: [PATCH v4 41/45] linux-user: Rename sve prctls
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v5 10/10] block/qcow2: Use bdrv_pwrite_sync() in
+ qcow2_mark_dirty()
+Content-Language: en-US
+To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Ari Sundholm <ari@tuxera.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Fam Zheng <fam@euphon.net>, Jeff Cody <codyprime@gmail.com>,
+ qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy
+ <v.sementsov-og@mail.ru>, Stefan Weil <sw@weilnetz.de>
+References: <20220609152744.3891847-1-afaria@redhat.com>
+ <20220609152744.3891847-11-afaria@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220609152744.3891847-11-afaria@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,17 +109,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jun 2022 at 06:57, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On 09.06.22 17:27, Alberto Faria wrote:
+> Use bdrv_pwrite_sync() instead of calling bdrv_pwrite() and bdrv_flush()
+> separately.
 >
-> Add "sve" to the sve prctl functions, to distinguish
-> them from the coming "sme" prctls with similar names.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alberto Faria <afaria@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
+>   block/qcow2.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
-thanks
--- PMM
 
