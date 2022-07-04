@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4D856530F
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 13:08:31 +0200 (CEST)
-Received: from localhost ([::1]:41526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F321956532B
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 13:21:52 +0200 (CEST)
+Received: from localhost ([::1]:54282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8JwL-0005kx-Qw
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 07:08:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34950)
+	id 1o8K9F-0007YS-VK
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 07:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8Jv1-0004tq-Ld
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 07:07:07 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:35372)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8Juz-0003bQ-UG
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 07:07:07 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id r22so1744078pgr.2
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 04:07:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VAx7V1cDfFKHEz+XWTVqO+swOjmRxvROlG7HQ/X3zoQ=;
- b=QEUR0mK+hye+qQhK8HZQA2KDq/4sby4y0UD6Rny8WOl/tOg8jr9h6FX5rqQwgJ9NTU
- iZnU+/maT+KDfJxmkyIbVsaPciEBiE3qn5wXLq1HGWqgrcMnGMZs/JVZ2S3LkmnwGA1+
- 8O1AXvd0rb5zYiebe89QBCFDkzidoC1q03SZb40kFzSv69qTbe3F2cAqrcgrRx+7KrWL
- YnzJOhkeAOB+DbNHcgyBK5uPasPvIsjb1+HL9JWnkEOYp20HNRtaAzLLaBKM9hrpj1sc
- jImLNq50ZV0qUoeHYozSxLi8ANUCB7Otse6DErkoKPI50LMZoNYBB1M2XHmV2O6kVhFC
- fr+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=VAx7V1cDfFKHEz+XWTVqO+swOjmRxvROlG7HQ/X3zoQ=;
- b=D7MKNR1VF1WWwrEMbnj/PmEtBs7OuXdfIXowDkcKNGcKombTnZkAppBS1x1pjUT0vu
- ru6j/KvB1o86yCfksYVYIK35GV7gdVNiRiNpS5zH4qObvigpBnYlbUpbjT3ThUkKIicr
- cXFJO6mZo9sTTl6oLcrFkFvEwBF5ZWs9b8iUNxGZvWF/ekJrk5+CIQUepowCl5fgEX6l
- +fl1e0Bj9e1EwMRUq5SMWyAmhZOlacd6HdarATGrSaMl1843Pd0eLdLwFRYJtt2kP6bk
- NOsDmuHm69zE7vAE4Mz341JLUoerGIjTsI8pwDYcrk94a4JSwj/USVT9qRzaHQgXxCuo
- mrIQ==
-X-Gm-Message-State: AJIora9HuLUfVtR5dhbbl4mqK+GFiQVp/VdBMNF7oPwMg4e0uQf6Gt+m
- MEypL1z911TO/eMt17iKImUksw==
-X-Google-Smtp-Source: AGRyM1vSDNgf6ho4c88ynvWHQyIWJfgFpRqOGQOaZCD/2+8IIAzwa/66zf/+s4lSP9b6HEkKeZFGoA==
-X-Received: by 2002:a65:6a05:0:b0:3db:27cb:9123 with SMTP id
- m5-20020a656a05000000b003db27cb9123mr25119991pgu.497.1656932824201; 
- Mon, 04 Jul 2022 04:07:04 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- a3-20020a1709027e4300b0016bb24f5d19sm8622935pln.209.2022.07.04.04.07.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 04:07:03 -0700 (PDT)
-Message-ID: <222ee898-e49e-fe90-64bc-5d8407398c36@linaro.org>
-Date: Mon, 4 Jul 2022 16:36:56 +0530
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8K6k-0004gT-Ki
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 07:19:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31475)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8K6h-00067J-Gk
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 07:19:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656933550;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3K8Wi4MHx4nTXpKqbCxYBskfcQV3t3hf5BWB/anxB4Q=;
+ b=VmmcXSoRfEaUjMqzQQ/OGQ5FWadVFdTVG0ybzMCDhoejFGhe/4SzB3iz02Yzc7OTpy1Zx6
+ 4w+TOgjhcknojRrTsfhlVDBSkgGE/FZgKhtaDvDQ0ddCAWddnZzOXPwPFCouVrPCRjWxzy
+ IivbOuogdae72dtESnP+8Ig6mbJ6ZZ8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-247-TXEuR4B9Om2Ujj7OUHMxlw-1; Mon, 04 Jul 2022 07:19:07 -0400
+X-MC-Unique: TXEuR4B9Om2Ujj7OUHMxlw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 04450185A7B2;
+ Mon,  4 Jul 2022 11:19:07 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7C0D111F5;
+ Mon,  4 Jul 2022 11:19:05 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-s390x@nongnu.org,
+	Eric Farman <farman@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v2 00/12] s390-ccw bios fixes and clean-ups
+Date: Mon,  4 Jul 2022 13:18:51 +0200
+Message-Id: <20220704111903.62400-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 0/8] Kraxel 20220704 patches
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
- "Canokeys.org" <contact@canokeys.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- "Hongren (Zenithal) Zheng" <i@zenithal.me>
-References: <20220704075946.921883-1-kraxel@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220704075946.921883-1-kraxel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,60 +75,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/4/22 13:29, Gerd Hoffmann wrote:
-> The following changes since commit d495e432c04a6394126c35cf96517749708b410f:
-> 
->    Merge tag 'pull-aspeed-20220630' of https://github.com/legoater/qemu into staging (2022-06-30 22:04:12 +0530)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/kraxel/qemu.git tags/kraxel-20220704-pull-request
-> 
-> for you to fetch changes up to 927b968d1bc7c0a25edad8161608223b1122a253:
-> 
->    hw: canokey: Remove HS support as not compliant to the spec (2022-07-01 12:39:51 +0200)
-> 
-> ----------------------------------------------------------------
-> usb: canokey fixes.
-> ui: better tab labels, cocoa fix,
-> docs: convert fw_cfg to rst.
+The s390-ccw bios currently fails to boot a guest that has been
+installed into a partition on a DASD drive with 4k sectors.
+While trying to fix this, I noticed a couple of other problems
+and possibilites for clean-ups that this series is trying to
+address now.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+The first patch is an old one which I already sent out a year
+ago, but it got never included since there were no other bios-related
+patches pending and this patch alone never justified a bios rebuild.
 
+The main problem (with the bios not getting the geometry right)
+comes from the virtio_disk_is_scsi() [sic] function in the file
+pc-bios/s390-ccw/virtio-blkdev.c - this more or less always
+currently reports that the geometry is wrong for virtio-block
+devices, which causes the code to call virtio_assume_scsi() that
+sets a "guessed" geometry with 512-byte sectors. To get this fixed
+and cleaned up, a couple of other preparing patches were necessary,
+which you can find in patches 2 - 5.
 
-r~
+While working on the above problem, I also noticed that the virtio
+init sequence is not done according to the virtio specification.
+It's currently not a problem since QEMU is very forgiving, but we
+should clean this up anyway to be sure to avoid future problems. This
+is done in patches 6 - 10.
 
+Patch 11 simply beautifies up an oddity in a header, and patch 12
+silences a compiler warning with Clang.
 
-> 
-> ----------------------------------------------------------------
-> 
-> Akihiko Odaki (1):
->    ui/cocoa: Fix clipboard text release
-> 
-> Hongren (Zenithal) Zheng (3):
->    hw/usb/canokey: Fix CCID ZLP
->    hw/usb/canokey: fix compatibility of qemu-xhci
->    docs/system/devices/usb/canokey: remove limitations on qemu-xhci
-> 
-> MkfsSion (1):
->    hw: canokey: Remove HS support as not compliant to the spec
-> 
-> Simon Sapin (2):
->    Rename docs/specs/fw_cfg.txt to .rst
->    Convert fw_cfg.rst to reStructuredText syntax
-> 
-> Wen, Jianxian (1):
->    ui/console: allow display device to be labeled with given id
-> 
->   include/ui/console.h                  |   1 +
->   hw/usb/canokey.c                      |  31 +++-
->   ui/console.c                          |  41 ++++-
->   docs/specs/{fw_cfg.txt => fw_cfg.rst} | 211 ++++++++++++++------------
->   docs/specs/index.rst                  |   1 +
->   docs/system/devices/canokey.rst       |  10 --
->   ui/cocoa.m                            |   4 +-
->   7 files changed, 189 insertions(+), 110 deletions(-)
->   rename docs/specs/{fw_cfg.txt => fw_cfg.rst} (58%)
-> 
+I know, it's more than one topic in this series now, but I wanted to
+send them out as one series since some of the patches depend on each
+other and I've got to rebuild the bios images at the end anyway, so
+it's easier to keep everything together.
+
+v2:
+ - Renamed VIRTIO_DASD_BLOCK_SIZE to VIRTIO_DASD_DEFAULT_BLOCK_SIZE
+   (affects patch 2 and 3)
+ - Check whether block size is 0 in the third patch
+ - Collected Reviewed-bys
+
+Thomas Huth (12):
+  pc-bios/s390-ccw: Add a proper prototype for main()
+  pc-bios/s390-ccw/virtio: Introduce a macro for the DASD block size
+  pc-bios/s390-ccw/bootmap: Improve the guessing logic in
+    zipl_load_vblk()
+  pc-bios/s390-ccw/virtio-blkdev: Simplify/fix
+    virtio_ipl_disk_is_valid()
+  pc-bios/s390-ccw/virtio-blkdev: Remove virtio_assume_scsi()
+  pc-bios/s390-ccw/virtio: Set missing status bits while initializing
+  pc-bios/s390-ccw/virtio: Read device config after feature negotiation
+  pc-bios/s390-ccw/virtio: Beautify the code for reading virtqueue
+    configuration
+  pc-bios/s390-ccw: Split virtio-scsi code from
+    virtio_blk_setup_device()
+  pc-bios/s390-ccw/virtio-blkdev: Request the right feature bits
+  pc-bios/s390-ccw/virtio: Remove "extern" keyword from prototypes
+  pc-bios/s390-ccw/netboot.mak: Ignore Clang's warnings about GNU
+    extensions
+
+ pc-bios/s390-ccw/netboot.mak     |  7 ++-
+ pc-bios/s390-ccw/s390-ccw.h      |  1 +
+ pc-bios/s390-ccw/virtio-scsi.h   |  2 +-
+ pc-bios/s390-ccw/virtio.h        | 16 +++---
+ pc-bios/s390-ccw/bootmap.c       | 27 ++++++++--
+ pc-bios/s390-ccw/main.c          | 27 ++++++----
+ pc-bios/s390-ccw/virtio-blkdev.c | 91 +++++---------------------------
+ pc-bios/s390-ccw/virtio-scsi.c   | 19 ++++++-
+ pc-bios/s390-ccw/virtio.c        | 28 ++++++----
+ 9 files changed, 105 insertions(+), 113 deletions(-)
+
+-- 
+2.31.1
 
 
