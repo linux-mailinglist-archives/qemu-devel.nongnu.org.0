@@ -2,100 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4C456509C
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:21:41 +0200 (CEST)
-Received: from localhost ([::1]:44442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE365650BB
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:27:57 +0200 (CEST)
+Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8IGy-0000JL-T9
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:21:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40350)
+	id 1o8IN2-0003mA-5s
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8IFS-0007VS-N4
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:20:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28088)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8IFC-0002po-Qw
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:20:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656926389;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F4ypiTir8M/1lp88U6IE6FosVdPrWME5Vwb6HtqB+78=;
- b=d+TBp0SwX/MtfMrO3XWJtY/PFCmD+THOI9LDRHwpUoWriJG6zhczGxi5Yuo9vfH11FC5Y9
- SX2Hy6Bp9Dr/B4gKb9/6nKND8Fkg9OKvaRiE3QXqvkfCGzigDuMOsttDRXxJui281V6+PV
- YAvqgonPRKnbbHUGAHRR/ao8a8YYRfk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-67-mqqkaQChOr6Jh_PU0nckBw-1; Mon, 04 Jul 2022 05:19:47 -0400
-X-MC-Unique: mqqkaQChOr6Jh_PU0nckBw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k16-20020a7bc310000000b0038e6cf00439so5074712wmj.0
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:19:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8ILw-000365-4Z
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:26:48 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35385)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8ILt-0003w8-Uq
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:26:47 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ x18-20020a17090a8a9200b001ef83b332f5so2761492pjn.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=kVvBmDUDCQj7nztMzMgVh1po80mu+n+qR/T5S4owCzk=;
+ b=nVyONBVnCm/PBcblGeHvAJeZnyyLSPV8kNktr89LLQSW7GZfkNoPS2guvDZKKiKRK1
+ I1SaKr692IUtLsS1XcoSOqnlwpc3SSsj2KE20wEnXozC3++GT7d6jpBUzB0MNyc5dy4e
+ b3QjfzGaDS47Hntqnp0nO3RCh3O8eggu8uj0WDMnQyFnDuY2c/12ZVVdXfC9sAXeCqTS
+ 6pyTeh1dEuaGO2kIFNsw/kaOPmVH+svHl/kODnGhJT0ik9zvCqJiosUroZy/YXRRluVF
+ EmF0cwwY/53zlzuUQOJGIz/dnX/riEZKeJ98eIjVINKZQ8VRIaLqAWT6W1DbNP+uIdFP
+ 03dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=F4ypiTir8M/1lp88U6IE6FosVdPrWME5Vwb6HtqB+78=;
- b=4ZReyS22b5Y3W6JXFiVOzbyTMCXyJHnJh/3Pe/AN5+EgpPJR5iJpDXFUMPpZJqUVTb
- DQdFbWeqW4JT5omCQcNgYp1hwCaCZsFaw7mpa07/A/GS0X9thsY2X7qWDkWD+WL0uvmc
- eIv/fvrq/0ceixsJP/gh5aoQM8x+IyTe2fcmUKad9T3xikF+faYWyBIwqB+k+ZCVZN6y
- yDQ8RRy/XWQNobKXsmN7ggq4nChBLXHPuZ22JS8CxShuUcPZ6SLxiMSeVAzPKqrSJIiB
- 5ZpSbwbDnxPZeuiX6/owTIKwFW/15DRh2yUuL5Z7XL0STnTaAqZSQ7GxdoOz7Gp0JRPK
- jXIA==
-X-Gm-Message-State: AJIora9a71kQ7lKm3jL0escmUYakWSI13ilkqpEcflsLv4vQignpBpSu
- gm36KQ+y5j4C73IW6WVHjzygOduax2gd5y8opVrjHlpDiHu/zxAX/0PgCwyM+3A4X/MsShhzhVW
- DfVhQKeocsUU17bs=
-X-Received: by 2002:a05:600c:1549:b0:3a1:6f35:c431 with SMTP id
- f9-20020a05600c154900b003a16f35c431mr28415892wmg.74.1656926386653; 
- Mon, 04 Jul 2022 02:19:46 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1szaSo+zOr0spSq8KC4HBD6NfEX1BrVHQNf2V26PjClao1V2BAjkypGEV3cbzW89MjppyA5nQ==
-X-Received: by 2002:a05:600c:1549:b0:3a1:6f35:c431 with SMTP id
- f9-20020a05600c154900b003a16f35c431mr28415863wmg.74.1656926386380; 
- Mon, 04 Jul 2022 02:19:46 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- o4-20020a5d6484000000b0020d02262664sm29403313wri.25.2022.07.04.02.19.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 02:19:45 -0700 (PDT)
-Date: Mon, 4 Jul 2022 10:19:43 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Leonardo =?iso-8859-1?Q?Br=E1s?= <leobras@redhat.com>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v1 2/2] migration/multifd: Warn user when zerocopy not
- working
-Message-ID: <YsKwrz8t6VgKhm4V@work-vm>
-References: <20220628010908.390564-1-leobras@redhat.com>
- <20220628010908.390564-3-leobras@redhat.com>
- <YrqzhFAePnnEl8A8@redhat.com>
- <CAJ6HWG5UGpgBqK-7OTA6Gxu0LKMfGq5gVvYffOaSMWO1bfyjVw@mail.gmail.com>
- <Yrr77NfKtKcXTVCr@redhat.com> <YrsHgWbhifokl6yL@work-vm>
- <CAJ6HWG7hXNzuJ8rKc0NzLC_GguEOtVxGGUz8gDqizyZUy=Yieg@mail.gmail.com>
- <Yrsy2MzluKDvc5xK@work-vm>
- <66da1d2d1617c61012a515fc3104866ee5d49f69.camel@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=kVvBmDUDCQj7nztMzMgVh1po80mu+n+qR/T5S4owCzk=;
+ b=n3+Pe4SUnjiYXL8k5P2dA4/kpDPYIlen8FmJ1m24xzr4y4eG6jpVY1vIYsJT0rv/SD
+ JF3uOKrI/rHPG0IXB/Ok+t6XGWweXQD/s3yw3QIugGppav8ELGZAOfIoiNDgmlMUykNX
+ FBtJ56aKIkg+YzGnxR01PqBvz8qtnb5P8XCfHWX+NK/dugZi0nedcIne2s/RpUgx9ZFO
+ f1FsLO+MxaXMYnA1LrkU00WNFE5E88mFU2jsWqFY3cXqPiSxygBhKH3xO5F0ZXoQqdn4
+ jfcDb8WJi0pJTVClFMPy6uxHc7p0HEHF3P3jwsp/HCeawjuyrpOb8d+/nUWRPxRO2OXj
+ UHpw==
+X-Gm-Message-State: AJIora983Mt1FNlEjryd9psYv0zwatT6r/bu4WnRNtstLBeVd5h0wxB6
+ I+Ya4NRbuJAOoA9CLX/qqfsiIw==
+X-Google-Smtp-Source: AGRyM1uS9fCLUtPhqp6hFbumlj5gi06JR00J2ewJbpE2HdIAmXg4l62U4AzhJ0N2cUJs3IbhbGsAgA==
+X-Received: by 2002:a17:90b:3812:b0:1ec:ca8a:f15c with SMTP id
+ mq18-20020a17090b381200b001ecca8af15cmr34288215pjb.187.1656926804173; 
+ Mon, 04 Jul 2022 02:26:44 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ l6-20020a170903120600b0016a0bf0ce32sm11452842plh.70.2022.07.04.02.26.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jul 2022 02:26:43 -0700 (PDT)
+Message-ID: <45b326ba-a5d7-d46c-6c34-5daad36f6488@linaro.org>
+Date: Mon, 4 Jul 2022 14:56:36 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <66da1d2d1617c61012a515fc3104866ee5d49f69.camel@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 11/11] hw/intc/loongarch_ipi: Fix mail send and any send
+ function
+Content-Language: en-US
+To: gaosong <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ qemu-devel@nongnu.org
+Cc: maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk, mst@redhat.com,
+ imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
+ peter.maydell@linaro.org
+References: <20220701093407.2150607-1-yangxiaojuan@loongson.cn>
+ <20220701093407.2150607-12-yangxiaojuan@loongson.cn>
+ <b73e54dc-a224-8413-f4cf-91da6bd346a0@linaro.org>
+ <ba0bcdad-4e03-9544-6e76-b3efaa05c747@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <ba0bcdad-4e03-9544-6e76-b3efaa05c747@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,153 +100,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Leonardo Brás (leobras@redhat.com) wrote:
-> On Tue, 2022-06-28 at 17:56 +0100, Dr. David Alan Gilbert wrote:
-> > * Leonardo Bras Soares Passos (leobras@redhat.com) wrote:
-> > > On Tue, Jun 28, 2022 at 10:52 AM Dr. David Alan Gilbert
-> > > <dgilbert@redhat.com> wrote:
-> > > > 
-> > > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > > > On Tue, Jun 28, 2022 at 09:32:04AM -0300, Leonardo Bras Soares Passos
-> > > > > wrote:
-> > > > > > On Tue, Jun 28, 2022 at 4:53 AM Daniel P. Berrangé
-> > > > > > <berrange@redhat.com> wrote:
-> > > > > > > 
-> > > > > > > On Mon, Jun 27, 2022 at 10:09:09PM -0300, Leonardo Bras wrote:
-> > > > > > > > Some errors, like the lack of Scatter-Gather support by the
-> > > > > > > > network
-> > > > > > > > interface(NETIF_F_SG) may cause sendmsg(...,MSG_ZEROCOPY) to fail
-> > > > > > > > on using
-> > > > > > > > zero-copy, which causes it to fall back to the default copying
-> > > > > > > > mechanism.
-> > > > > > > 
-> > > > > > > How common is this lack of SG support ? What NICs did you have that
-> > > > > > > were affected ?
-> > > > > > 
-> > > > > > I am not aware of any NIC without SG available for testing, nor have
-> > > > > > any idea on how common they are.
-> > > > > > But since we can detect sendmsg() falling back to copying we should
-> > > > > > warn the user if this ever happens.
-> > > > > > 
-> > > > > > There is also a case in IPv6 related to fragmentation that may cause
-> > > > > > MSG_ZEROCOPY to fall back to the copying mechanism, so it's also
-> > > > > > covered.
-> > > > > > 
-> > > > > > > 
-> > > > > > > > After each full dirty-bitmap scan there should be a zero-copy
-> > > > > > > > flush
-> > > > > > > > happening, which checks for errors each of the previous calls to
-> > > > > > > > sendmsg(...,MSG_ZEROCOPY). If all of them failed to use zero-copy,
-> > > > > > > > then
-> > > > > > > > warn the user about it.
-> > > > > > > > 
-> > > > > > > > Since it happens once each full dirty-bitmap scan, even in worst
-> > > > > > > > case
-> > > > > > > > scenario it should not print a lot of warnings, and will allow
-> > > > > > > > tracking
-> > > > > > > > how many dirty-bitmap iterations were not able to use zero-copy
-> > > > > > > > send.
-> > > > > > > 
-> > > > > > > For long running migrations which are not converging, or converging
-> > > > > > > very slowly there could be 100's of passes.
-> > > > > > > 
-> > > > > > 
-> > > > > > I could change it so it only warns once, if that is too much output.
-> > > > > 
-> > > > > Well I'm mostly wondering what we're expecting the user todo with this
-> > > > > information.
-> > > 
-> > > 
-> > > My rationale on that:
-> > > - zero-copy-send is a feature that is supposed to improve send
-> > > throughput by reducing cpu usage.
-> > > - there is a chance the sendmsg(MSG_ZEROCOPY) fails to use zero-copy
-> > > - if this happens, there will be a potential throughput decrease on
-> > > sendmsg()
-> > > - the user (or management app) need to know when zero-copy-send is
-> > > degrading throughput, so it can be disabled
-> > > - this is also important for performance testing, given it can be
-> > > confusing having zero-copy-send improving throughput in some cases,
-> > > and degrading in others, without any apparent reason why.
-> > > 
-> > > > > Generally a log file containing warnings ends up turning
-> > > > > into a bug report. If we think it is important for users and/or mgmt
-> > > > > apps to be aware of this info, then it might be better to actually
-> > > > > put a field in the query-migrate stats to report if zero-copy is
-> > > > > being honoured or not,
-> > > > 
-> > > > Yeh just a counter would work there I think.
-> > > 
-> > > The warning idea was totally due to my inexperience on this mgmt app
-> > > interface, since I had no other idea on how to deal with that.
-> > 
-> > Yeh it's not too silly an idea!
-> > The way some of these warning or stats get to us can be a bit random,
-> > but sometimes can confuse things.
-> > 
-> > > I think having it in query-migrate is a much better idea than a
-> > > warning, since it should be much easier to parse and disable
-> > > zero-copy-send if desired.
-> > > Even in my current qemu test script, it's much better having it in
-> > > query-migrate.
-> > > 
-> > > > 
-> > > > > and just have a trace point in this location
-> > > > > instead.
-> > > > 
-> > > > Yeh.
-> > > > 
-> > > 
-> > > Yeap, the counter idea seems great!
-> > > Will it be always printed there, or only when zero-copy-send is enabled?
-> > 
-> > You could make it either if it's enabled or if it's none zero.
-> > (I guess you want it to reset to 0 at the start of a new migration).
-> > 
-> > Dave
-> 
-> Thanks for this feedback!
-> 
-> I have everything already working, but I am struggling with a good property
-> name. 
-> 
-> I am currently using zero_copy_copied (or zero-copy-copied in json), but it does
-> not look like a good Migration stat name. 
-> 
-> Do you have any suggestion?
+On 7/4/22 14:40, gaosong wrote:
+> After fix these problem, should we only send these two patches?
 
-Shrug; I'm not going to fuss over the name too much as long as it's
-reasonable. 'zero-copied' might be OK.
+Correct.  I will merge the other loongarch patches today, so you should be able to rebase 
+on master.
 
-Dave
 
-> Best regards,
-> Leo
-> 
-> 
-> > 
-> > > 
-> > > Best regards,
-> > > Leo
-> > > 
-> > > > Dave
-> > > > 
-> > > > > With regards,
-> > > > > Daniel
-> > > > > --
-> > > > > > : https://berrange.com      -o-   
-> > > > > > https://www.flickr.com/photos/dberrange :|
-> > > > > > : https://libvirt.org         -o-           
-> > > > > > https://fstop138.berrange.com :|
-> > > > > > : https://entangle-photo.org    -o-   
-> > > > > > https://www.instagram.com/dberrange :|
-> > > > > 
-> > > > --
-> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > > > 
-> > > 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+r~
 
