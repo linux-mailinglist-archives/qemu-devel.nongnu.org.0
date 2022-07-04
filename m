@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED93A565E96
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 22:41:36 +0200 (CEST)
-Received: from localhost ([::1]:48554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F7D565EA6
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 22:51:44 +0200 (CEST)
+Received: from localhost ([::1]:53932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Ssx-00034U-Qq
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 16:41:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52418)
+	id 1o8T2l-0007FQ-2m
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 16:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>)
- id 1o8Ss0-0002JX-Tn; Mon, 04 Jul 2022 16:40:36 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:39934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>)
- id 1o8Srz-0006lN-Dd; Mon, 04 Jul 2022 16:40:36 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- v4-20020a17090abb8400b001ef966652a3so319222pjr.4; 
- Mon, 04 Jul 2022 13:40:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Be3C99dMG8I/iZmt56ebO++H26LE0Tt/O2nc5E40T3o=;
- b=DJtfHF0iKJK986V6cznPBjeMYjBVlCKEBdW4EqiCpXdr6I0rPkyJbsCtv4TdCvGFbN
- c1lEUBYpdTM7Dr6gCUxxkgYV92tPdFZtLKfwB6wBut6mDHCRiw7AawrClTvTEqSoGDhT
- z6RgkfExu+slpHkBUh95QoiEkqjOTcI8FtaFG6WYmS0KNvfCJWSIoCIBmMuJRYi51jij
- Yz0MvjAn3peIVyuh6v/CDCKjTA0B3x0g0hvu6P6Th0HodnY2mvZMaAvASPhrm5mz86T5
- 58+rXY2HwfBDx7TgtBJEB8q3nVKohbFtknhUNZSlpTY4wLOpFGibLcNCUbSOd6r0I/Xw
- Fqfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Be3C99dMG8I/iZmt56ebO++H26LE0Tt/O2nc5E40T3o=;
- b=fq4OBdR8kszl0AH3bSdtEZiEohkvtOmQPSNs9B/bt1S+PmXsehi1dET4KliW0WZRSm
- eoIqxPEtAo5ve8fCQy0fsC0Oeky9l83+NlCzUo5NYUJTn4JKCx1uxsUscUg3ACh5VLOt
- 3TwYqMaVFSxWgbo0IjFzdW+ZdB0RS4Y5RwvPPnI8lIBM6PK/VUxWqmQAXuNsLdLIHNz/
- 8QqDMp8lrCv+kP3CJpWstUmcSXQZBR1E/O/vUAdfMp+5Z58WxrmrTQSTxOT80GPl8MFZ
- RG1LhuC7h3nWDZzEYnMnpCu3Z8jOs/kgqdjGy0CDWKK8uKPuMUsP3xlBNU/VKiHC+yPF
- TSOQ==
-X-Gm-Message-State: AJIora/0YSCfs3nG/Oy1Ts/AyZ1kPY1FEVypMLELxNquSD++RnG8Tadj
- vNx1MiHEn+nb0qzrs+MPR5k=
-X-Google-Smtp-Source: AGRyM1spEoZ2C94uM38fxaqDejYthsxCoKconaB98Z/hVAvpHq9MkUr4GWQUHm8lZT/gUAygyOvEpQ==
-X-Received: by 2002:a17:90b:1e03:b0:1ef:967b:a9ac with SMTP id
- pg3-20020a17090b1e0300b001ef967ba9acmr587396pjb.97.1656967233502; 
- Mon, 04 Jul 2022 13:40:33 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
- by smtp.gmail.com with ESMTPSA id
- z17-20020a170903019100b00163de9e9342sm22065683plg.17.2022.07.04.13.40.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 13:40:33 -0700 (PDT)
-Date: Tue, 5 Jul 2022 05:40:31 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Development <qemu-devel@nongnu.org>,
- Openrisc <openrisc@lists.librecores.org>, Anup Patel <anup.patel@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:Goldfish RTC" <qemu-riscv@nongnu.org>
-Subject: Re: [PATCH v2 03/11] goldfish_rtc: Add endianness property
-Message-ID: <YsNQP9UJ5faHNguC@antec>
-References: <20220703212823.10067-1-shorne@gmail.com>
- <20220703212823.10067-4-shorne@gmail.com>
- <272f1e82-ff1b-9a7a-931b-91472dd244bf@linaro.org>
- <b8d2595b-c86a-b1b8-8912-13fc9ba782d3@redhat.com>
- <31017a43-3ebb-0aa3-f6ce-d2df1b5dc177@linaro.org>
- <78ac87ee-e40b-8d18-3775-4417edb74fa3@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o8T1S-0006Bj-6V; Mon, 04 Jul 2022 16:50:22 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:56091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1o8T1P-0008Ej-Oh; Mon, 04 Jul 2022 16:50:21 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DEA2711448CA3;
+ Mon,  4 Jul 2022 22:50:14 +0200 (CEST)
+Received: from kaod.org (37.59.142.109) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 4 Jul 2022
+ 22:50:13 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S00324955e44-bb79-43c9-a3c9-0f56b08f63bd,
+ 37F03A08AC6718E95FD3DEE1BCAFFD005826E168) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <edf73253-3cdd-4bf9-9b3b-8f7dc7a4f567@kaod.org>
+Date: Mon, 4 Jul 2022 22:50:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <78ac87ee-e40b-8d18-3775-4417edb74fa3@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=shorne@gmail.com; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] hw: m25p80: Add Block Protect and Top Bottom bits for
+ write protect
+Content-Language: en-US
+To: Iris Chen <irischenlj@fb.com>
+CC: <pdel@fb.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
+ <patrick@stwcx.xyz>, <alistair@alistair23.me>, <kwolf@redhat.com>,
+ <hreitz@redhat.com>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
+ <joel@jms.id.au>, <thuth@redhat.com>, <lvivier@redhat.com>,
+ <pbonzini@redhat.com>, <qemu-block@nongnu.org>, <dz4list@gmail.com>
+References: <20220627185234.1911337-1-irischenlj@fb.com>
+ <20220627185234.1911337-2-irischenlj@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220627185234.1911337-2-irischenlj@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 70ad59a5-073b-4cc9-a4bc-96a96db26ef9
+X-Ovh-Tracer-Id: 5946440358893423492
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudehledgudehhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopeguiieglhhishhtsehgmhgrihhlrdgtohhmpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,85 +79,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 04, 2022 at 12:23:23PM +0200, Laurent Vivier wrote:
-> On 04/07/2022 12:21, Richard Henderson wrote:
-> > On 7/4/22 15:46, Laurent Vivier wrote:
-> > > On 04/07/2022 11:59, Richard Henderson wrote:
-> > > > On 7/4/22 02:58, Stafford Horne wrote:
-> > > > > -static const MemoryRegionOps goldfish_rtc_ops = {
-> > > > > -    .read = goldfish_rtc_read,
-> > > > > -    .write = goldfish_rtc_write,
-> > > > > -    .endianness = DEVICE_NATIVE_ENDIAN,
-> > > > > -    .valid = {
-> > > > > -        .min_access_size = 4,
-> > > > > -        .max_access_size = 4
-> > > > > -    }
-> > > > > +static const MemoryRegionOps goldfish_rtc_ops[3] = {
-> > > > > +    [DEVICE_NATIVE_ENDIAN] = {
-> > > > > +        .read = goldfish_rtc_read,
-> > > > > +        .write = goldfish_rtc_write,
-> > > > > +        .endianness = DEVICE_NATIVE_ENDIAN,
-> > > > > +        .valid = {
-> > > > > +            .min_access_size = 4,
-> > > > > +            .max_access_size = 4
-> > > > > +        }
-> > > > > +    },
-> > > > > +    [DEVICE_LITTLE_ENDIAN] = {
-> > > > > +        .read = goldfish_rtc_read,
-> > > > > +        .write = goldfish_rtc_write,
-> > > > > +        .endianness = DEVICE_LITTLE_ENDIAN,
-> > > > > +        .valid = {
-> > > > > +            .min_access_size = 4,
-> > > > > +            .max_access_size = 4
-> > > > > +        }
-> > > > > +    },
-> > > > > +    [DEVICE_BIG_ENDIAN] = {
-> > > > > +        .read = goldfish_rtc_read,
-> > > > > +        .write = goldfish_rtc_write,
-> > > > > +        .endianness = DEVICE_BIG_ENDIAN,
-> > > > > +        .valid = {
-> > > > > +            .min_access_size = 4,
-> > > > > +            .max_access_size = 4
-> > > > > +        }
-> > > > > +    },
-> > > > >   };
-> > > > 
-> > > > You don't need 3 copies, only big and little.
-> > > > 
-> > > > > +static Property goldfish_rtc_properties[] = {
-> > > > > +    DEFINE_PROP_UINT8("endianness", GoldfishRTCState, endianness,
-> > > > > +                      DEVICE_NATIVE_ENDIAN),
-> > > > > +    DEFINE_PROP_END_OF_LIST(),
-> > > > > +};
-> > > > 
-> > > > ... and I think the clear desire for default is little-endian. 
-> > > > I would make the property be bool, and add a comment that this
-> > > > is only for m68k compatibility, so don't use it in new code.
-> > > 
-> > > m68k doesn't really need this.
-> > > 
-> > > kernel with the m68k virt machine and goldfish device supports
-> > > "native" mode so I think it's not needed to add another layer of
-> > > complexity for it.
-> > 
-> > "Another level"?  I'm talking about removing "native", and only having
-> > "big" and "little", which is less complexity.
+On 6/27/22 20:52, Iris Chen wrote:
+> Signed-off-by: Iris Chen <irischenlj@fb.com>
+> ---
+>   hw/block/m25p80.c | 74 +++++++++++++++++++++++++++++++++++++++--------
+>   1 file changed, 62 insertions(+), 12 deletions(-)
 > 
-> "Less complexity" is to keep only native. I'm not against the change, I'm
-> just saying it's not needed by m68k.
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 50b523e5b1..0156a70f5e 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -38,21 +38,19 @@
+>   #include "trace.h"
+>   #include "qom/object.h"
+>   
+> -/* Fields for FlashPartInfo->flags */
+> -
+> -/* erase capabilities */
+> -#define ER_4K 1
+> -#define ER_32K 2
+> -/* set to allow the page program command to write 0s back to 1. Useful for
+> - * modelling EEPROM with SPI flash command set
+> - */
+> -#define EEPROM 0x100
+> -
+>   /* 16 MiB max in 3 byte address mode */
+>   #define MAX_3BYTES_SIZE 0x1000000
+> -
+>   #define SPI_NOR_MAX_ID_LEN 6
+>   
+> +/* Fields for FlashPartInfo->flags */
+> +enum spi_nor_option_flags {
+> +    ER_4K                  = BIT(0),
+> +    ER_32K                 = BIT(1),
+> +    EEPROM                 = BIT(2),
+> +    SNOR_F_HAS_SR_TB       = BIT(3),
+> +    SNOR_F_HAS_SR_BP3_BIT6 = BIT(4),
+> +};
+> +
+>   typedef struct FlashPartInfo {
+>       const char *part_name;
+>       /*
+> @@ -253,7 +251,8 @@ static const FlashPartInfo known_devices[] = {
+>       { INFO("n25q512a11",  0x20bb20,      0,  64 << 10, 1024, ER_4K) },
+>       { INFO("n25q512a13",  0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+>       { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
+> -    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
+> +    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512,
+> +           ER_4K | SNOR_F_HAS_SR_BP3_BIT6 | SNOR_F_HAS_SR_TB) },
+>       { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+>       { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
+>       { INFO("mt25ql512ab", 0x20ba20, 0x1044, 64 << 10, 1024, ER_4K | ER_32K) },
+> @@ -480,6 +479,11 @@ struct Flash {
+>       bool reset_enable;
+>       bool quad_enable;
+>       bool aai_enable;
+> +    bool block_protect0;
+> +    bool block_protect1;
+> +    bool block_protect2;
+> +    bool block_protect3;
+> +    bool top_bottom_bit;
+>       bool status_register_write_disabled;
+>       uint8_t ear;
+>   
+> @@ -630,6 +634,29 @@ void flash_write8(Flash *s, uint32_t addr, uint8_t data)
+>           qemu_log_mask(LOG_GUEST_ERROR, "M25P80: write with write protect!\n");
+>           return;
+>       }
+> +    uint32_t block_protect_value = (s->block_protect3 << 3) |
+> +                                   (s->block_protect2 << 2) |
+> +                                   (s->block_protect1 << 1) |
+> +                                   (s->block_protect0 << 0);
+> +
+> +     uint32_t num_protected_sectors = 1 << (block_protect_value - 1);
 
-Hi Laurent,
+Something wrong will occur if all block_protect[0123] are zeroes.
 
-I would agree if we only had m68k.  But I am making this change so that OpenRISC
-(another big-endian architecture) could use this.  In the OpenRISC case we want
-to use this as little-endian so no kernel updates would be needed.
+C.
 
-So in the end we will have the following qemu platforms:
+> +     uint32_t sector = addr / s->pi->sector_size;
+> +
+> +     /* top_bottom_bit == 0 means TOP */
+> +    if (!s->top_bottom_bit) {
+> +        if (block_protect_value > 0 &&
+> +            s->pi->n_sectors <= sector + num_protected_sectors) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "M25P80: write with write protect!\n");
+> +            return;
+> +        }
+> +    } else {
+> +        if (block_protect_value > 0 && sector < num_protected_sectors) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "M25P80: write with write protect!\n");
+> +            return;
+> +        }
+> +    }
+>   
+>       if ((prev ^ data) & data) {
+>           trace_m25p80_programming_zero_to_one(s, addr, prev, data);
+> @@ -728,6 +755,15 @@ static void complete_collecting_data(Flash *s)
+>           break;
+>       case WRSR:
+>           s->status_register_write_disabled = extract32(s->data[0], 7, 1);
+> +        s->block_protect0 = extract32(s->data[0], 2, 1);
+> +        s->block_protect1 = extract32(s->data[0], 3, 1);
+> +        s->block_protect2 = extract32(s->data[0], 4, 1);
+> +        if (s->pi->flags & SNOR_F_HAS_SR_TB) {
+> +            s->top_bottom_bit = extract32(s->data[0], 5, 1);
+> +        }
+> +        if (s->pi->flags & SNOR_F_HAS_SR_BP3_BIT6) {
+> +            s->block_protect3 = extract32(s->data[0], 6, 1);
+> +        }
+>   
+>           switch (get_man(s)) {
+>           case MAN_SPANSION:
+> @@ -1213,6 +1249,15 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>       case RDSR:
+>           s->data[0] = (!!s->write_enable) << 1;
+>           s->data[0] |= (!!s->status_register_write_disabled) << 7;
+> +        s->data[0] |= (!!s->block_protect0) << 2;
+> +        s->data[0] |= (!!s->block_protect1) << 3;
+> +        s->data[0] |= (!!s->block_protect2) << 4;
+> +        if (s->pi->flags & SNOR_F_HAS_SR_TB) {
+> +            s->data[0] |= (!!s->top_bottom_bit) << 5;
+> +        }
+> +        if (s->pi->flags & SNOR_F_HAS_SR_BP3_BIT6) {
+> +            s->data[0] |= (!!s->block_protect3) << 6;
+> +        }
+>   
+>           if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
+>               s->data[0] |= (!!s->quad_enable) << 6;
+> @@ -1553,6 +1598,11 @@ static void m25p80_reset(DeviceState *d)
+>   
+>       s->wp_level = true;
+>       s->status_register_write_disabled = false;
+> +    s->block_protect0 = false;
+> +    s->block_protect1 = false;
+> +    s->block_protect2 = false;
+> +    s->block_protect3 = false;
+> +    s->top_bottom_bit = false;
+>   
+>       reset_memory(s);
+>   }
 
-  riscv{LE}--------------->goldfish_rtc{LE}
-  mips-longsoon3{LE}------>goldfish_rtc{LE}
-  openrisc{BE}------------>goldfish_rtc{LE} (LE to BE conversion done in driver)
-  m68k{BE}---------------->goldfish_rtc{BE} (only big-endian user)
-
--Stafford
 
