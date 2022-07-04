@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913D85656A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 15:11:56 +0200 (CEST)
-Received: from localhost ([::1]:53618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0C05656EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 15:22:09 +0200 (CEST)
+Received: from localhost ([::1]:38746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Lrn-0002P3-MP
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 09:11:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59948)
+	id 1o8M1f-0003QH-GZ
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 09:22:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8LiQ-0006Qs-TO
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:02:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32771)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8Lj3-0006vR-Ge
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:02:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8LiO-0008Aw-Bq
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:02:14 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8Lj2-0008Cj-12
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:02:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656939731;
+ s=mimecast20190719; t=1656939771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=AFW8MeiY6pZvOnkaP5WkHh5L9IKTjxRnPEXROmnTR2o=;
- b=f01dQjvmdeVVeomS2NciOy7btVLbnCAFvyLSuqHO3foyAoEIsxaUdu1iNYPGokjJUCeK8y
- Z9rWpbh7EEXQCqfaKysvTUO5TkKsqfatY4J0casbpBpl/KSLVNr0OXK5cOqKdt886eDWpr
- Q/OKkohjL1gBYdAsa0OuFP9GzlzNgDU=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=k0bMQbNWv/lTeYUiQY0ft/9h7pMljWuSrWip66Sdym4=;
+ b=Ry78l4iAL5ghvsAQlIi1M44bhTV3tYtAryableSGsdf35V00UMraGGvCsbYAKmwCOkgFFd
+ BHymiS0Et54x3RlDZPpBiL+S/pAAfExTKKqxVIlMEafvXJcynX/A6MntF+E9WOatO6mFUZ
+ 4n9MPnROu3yEJ3mTDPVPuYf4bjLxW+8=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-319-izXJ3SU6PUqt2WvBD2vsXg-1; Mon, 04 Jul 2022 09:02:10 -0400
-X-MC-Unique: izXJ3SU6PUqt2WvBD2vsXg-1
-Received: by mail-il1-f197.google.com with SMTP id
- x11-20020a056e021cab00b002dada9d2a50so4197318ill.15
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:02:10 -0700 (PDT)
+ us-mta-491-97uEjqO0MyKmaenr93_YeQ-1; Mon, 04 Jul 2022 09:02:49 -0400
+X-MC-Unique: 97uEjqO0MyKmaenr93_YeQ-1
+Received: by mail-il1-f199.google.com with SMTP id
+ e4-20020a92de44000000b002dab11299d9so4181858ilr.9
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:02:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=AFW8MeiY6pZvOnkaP5WkHh5L9IKTjxRnPEXROmnTR2o=;
- b=pvkaVkdV6CnvHOpy+XAMcWgNbEHPEkxCRwJRla9yDJQlcCY+GqINCxIrhi4fs45Yum
- 2FLWwb/KG6eKhLaoDdvTOLi15A4sNS4CitYnlO+pGPD4tAhsrLg1MoJpG3tXyFjNi/go
- TqAdrjBAnyU0XtxUQcQLALE+imCjpAUEUcdGA93IkkucR2+Y1gZZS3FWJjr5pxjw71gu
- Z81CzP/m6BWp1Ew7u8x8xhEftaPPHgCpD0W1nEJoVZLMapjmlrbzevTmvqiZIqYpBkTt
- jotXdhbSVrC43wmahIkt59AaYr3RYIhuonqu7ZFPMUE20x3ojnBmkNxEQ2Eepd+yhiv2
- Z/fQ==
-X-Gm-Message-State: AJIora+/gmQ/EZRfJ4yI9A03ok9giHfpCbZaGqAPL4dTIQgS5Du8Qk9B
- tfhQChRP+6V4vHSvjh1EgfnjyMoX1eSbyymi+QsQV4wACUzCiqYzY8+LzBegcsGZ1Tb/xbPbPkk
- 4M+faL2xPC6keecS9Rup0dG3nwDHG2E4=
-X-Received: by 2002:a05:6e02:1cac:b0:2da:8e5f:a49f with SMTP id
- x12-20020a056e021cac00b002da8e5fa49fmr17244238ill.200.1656939729818; 
- Mon, 04 Jul 2022 06:02:09 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u+4kNz4q4F31Ob2s3cbMuunDUV/SjiEUprlS4ZLPlfzUXzAOWIS5Bw9KuLThGRCNBMzi4IhXYvOKvlt3cHOfI=
-X-Received: by 2002:a05:6e02:1cac:b0:2da:8e5f:a49f with SMTP id
- x12-20020a056e021cac00b002da8e5fa49fmr17244222ill.200.1656939729406; Mon, 04
- Jul 2022 06:02:09 -0700 (PDT)
+ bh=k0bMQbNWv/lTeYUiQY0ft/9h7pMljWuSrWip66Sdym4=;
+ b=3fgXJd85m7SXga5ID/oliD1iR1ftphGrzGDNCohSnCorcu3enka3n7hBNJbXecJJZE
+ 8Ft78sSU+8mQmlniRJcgrnoKgwxlFa7Sg2sqMlG7uCVE/8rN8Vn7a0ZZUyvr6JpJqoPl
+ L6CSBmJkb7skJalkrw6iPfM2xlaKGJmBAOxvSdns3M2V9P/AlnfISCGvq6ev2dUCKEhI
+ lczvHnrnKlkn3gxwXcbU1L5ZGo9Q0ygAsRB42Ja3LnrqOYUtJETViBC4vr4MRkjdG8wk
+ LhtKHa5/2yS9oPGhxAktJnwwdJrQRfm16OkMtTkkNFBB+4OvUM/Lzw/dFw7wca/29USj
+ pwhg==
+X-Gm-Message-State: AJIora8cgp3NTJFxReGcpsZz/4V7qNFRps9NQbVyvVgLLpaCWdLvka8/
+ 5sAmgM1cW3Gmc9M23z9bN1Ea6GmwujrGJJ1VxRBf0sipcut91gxz219ltLnh+HVq6R2o9aSrN8M
+ RGTVLSmx66hNMonJ2Yyv8xKYIr+gEzIk=
+X-Received: by 2002:a05:6638:4088:b0:33c:dbe4:e84 with SMTP id
+ m8-20020a056638408800b0033cdbe40e84mr15715901jam.130.1656939769198; 
+ Mon, 04 Jul 2022 06:02:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sOPknCPp7ffgSIZwXnUSmMLyfCRdQ8Ae9CAULTeHJ+8Qwz8RnSdnQzUuzfc/wSh6BV1HOtGv/wN2jH4dD5Dsc=
+X-Received: by 2002:a05:6638:4088:b0:33c:dbe4:e84 with SMTP id
+ m8-20020a056638408800b0033cdbe40e84mr15715890jam.130.1656939768954; Mon, 04
+ Jul 2022 06:02:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220509103019.215041-1-pbonzini@redhat.com>
- <20220509103019.215041-19-pbonzini@redhat.com>
-In-Reply-To: <20220509103019.215041-19-pbonzini@redhat.com>
+ <20220509103019.215041-20-pbonzini@redhat.com>
+In-Reply-To: <20220509103019.215041-20-pbonzini@redhat.com>
 From: Alberto Faria <afaria@redhat.com>
-Date: Mon, 4 Jul 2022 14:01:33 +0100
-Message-ID: <CAELaAXy4BfJteqjcBeOB7E4Zf=G_=qaif-S=WLLjxmugntab=g@mail.gmail.com>
-Subject: Re: [PATCH v2 18/26] quorum: add missing coroutine_fn annotations
+Date: Mon, 4 Jul 2022 14:02:13 +0100
+Message-ID: <CAELaAXx8wYXj9sJzHOhgXyE8PQad6-xcdzPgzx5VtYjzgz9mnw@mail.gmail.com>
+Subject: Re: [PATCH v2 19/26] throttle: add missing coroutine_fn annotations
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
@@ -90,122 +90,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 9, 2022 at 11:54 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Mon, May 9, 2022 at 12:13 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  block/quorum.c | 35 ++++++++++++++++++-----------------
->  1 file changed, 18 insertions(+), 17 deletions(-)
->
-> diff --git a/block/quorum.c b/block/quorum.c
-> index f33f30d36b..5ff69d7443 100644
-> --- a/block/quorum.c
-> +++ b/block/quorum.c
-> @@ -161,11 +161,10 @@ static bool quorum_64bits_compare(QuorumVoteValue *a, QuorumVoteValue *b)
->      return a->l == b->l;
->  }
->
-> -static QuorumAIOCB *quorum_aio_get(BlockDriverState *bs,
-> -                                   QEMUIOVector *qiov,
-> -                                   uint64_t offset,
-> -                                   uint64_t bytes,
-> -                                   int flags)
-> +static QuorumAIOCB *coroutine_fn quorum_aio_get(BlockDriverState *bs,
-> +                                                QEMUIOVector *qiov,
-> +                                                uint64_t offset, uint64_t bytes,
-> +                                                int flags)
->  {
->      BDRVQuorumState *s = bs->opaque;
->      QuorumAIOCB *acb = g_new(QuorumAIOCB, 1);
-> @@ -273,7 +272,7 @@ static void quorum_report_bad_versions(BDRVQuorumState *s,
->      }
->  }
->
-> -static void quorum_rewrite_entry(void *opaque)
-> +static void coroutine_fn quorum_rewrite_entry(void *opaque)
->  {
->      QuorumCo *co = opaque;
->      QuorumAIOCB *acb = co->acb;
-> @@ -574,7 +573,7 @@ free_exit:
->      quorum_free_vote_list(&acb->votes);
->  }
->
-> -static void read_quorum_children_entry(void *opaque)
-> +static void coroutine_fn read_quorum_children_entry(void *opaque)
->  {
->      QuorumCo *co = opaque;
->      QuorumAIOCB *acb = co->acb;
-> @@ -602,7 +601,7 @@ static void read_quorum_children_entry(void *opaque)
->      }
->  }
->
-> -static int read_quorum_children(QuorumAIOCB *acb)
-> +static int coroutine_fn read_quorum_children(QuorumAIOCB *acb)
->  {
->      BDRVQuorumState *s = acb->bs->opaque;
->      int i;
-> @@ -643,7 +642,7 @@ static int read_quorum_children(QuorumAIOCB *acb)
->      return acb->vote_ret;
->  }
->
-> -static int read_fifo_child(QuorumAIOCB *acb)
-> +static int coroutine_fn read_fifo_child(QuorumAIOCB *acb)
-
-There's a prototype further above that may be worth marking as coroutine_fn too.
-
->  {
->      BDRVQuorumState *s = acb->bs->opaque;
->      int n, ret;
-> @@ -664,8 +663,9 @@ static int read_fifo_child(QuorumAIOCB *acb)
->      return ret;
->  }
->
-> -static int quorum_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
-> -                            QEMUIOVector *qiov, BdrvRequestFlags flags)
-> +static int coroutine_fn quorum_co_preadv(BlockDriverState *bs,
-> +                                         int64_t offset, int64_t bytes,
-> +                                         QEMUIOVector *qiov, BdrvRequestFlags flags)
-
-Overly long line.
-
->  {
->      BDRVQuorumState *s = bs->opaque;
->      QuorumAIOCB *acb = quorum_aio_get(bs, qiov, offset, bytes, flags);
-> @@ -684,7 +684,7 @@ static int quorum_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
->      return ret;
->  }
->
-> -static void write_quorum_entry(void *opaque)
-> +static void coroutine_fn write_quorum_entry(void *opaque)
->  {
->      QuorumCo *co = opaque;
->      QuorumAIOCB *acb = co->acb;
-> @@ -715,9 +715,9 @@ static void write_quorum_entry(void *opaque)
->      }
->  }
->
-> -static int quorum_co_pwritev(BlockDriverState *bs, int64_t offset,
-> -                             int64_t bytes, QEMUIOVector *qiov,
-> -                             BdrvRequestFlags flags)
-> +static int coroutine_fn quorum_co_pwritev(BlockDriverState *bs, int64_t offset,
-> +                                          int64_t bytes, QEMUIOVector *qiov,
-> +                                          BdrvRequestFlags flags)
->  {
->      BDRVQuorumState *s = bs->opaque;
->      QuorumAIOCB *acb = quorum_aio_get(bs, qiov, offset, bytes, flags);
-> @@ -746,8 +746,9 @@ static int quorum_co_pwritev(BlockDriverState *bs, int64_t offset,
->      return ret;
->  }
->
-> -static int quorum_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
-> -                                   int64_t bytes, BdrvRequestFlags flags)
-> +static int coroutine_fn quorum_co_pwrite_zeroes(BlockDriverState *bs,
-> +                                                int64_t offset, int64_t bytes,
-> +                                                BdrvRequestFlags flags)
->
->  {
->      return quorum_co_pwritev(bs, offset, bytes, NULL,
-> --
-> 2.35.1
+>  block/throttle.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Alberto Faria <afaria@redhat.com>
 
