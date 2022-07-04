@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DC9565786
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 15:39:02 +0200 (CEST)
-Received: from localhost ([::1]:47788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622875657C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 15:50:03 +0200 (CEST)
+Received: from localhost ([::1]:46838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8MI1-0005rh-Qx
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 09:39:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35404)
+	id 1o8MSe-0007kn-Iy
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 09:50:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8Lxo-0002Lz-C4
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:18:13 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:37589)
+ id 1o8Ly6-0002Ul-Dn
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:18:26 -0400
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:36534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8Lxi-0002K1-3a
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:18:07 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-31c8340a6f7so41018947b3.4
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:18:01 -0700 (PDT)
+ id 1o8Ly4-0002Ls-Rq
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:18:26 -0400
+Received: by mail-yb1-xb30.google.com with SMTP id c143so8310659ybf.3
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:18:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MpzUtMUX89uySI+KtJ+DC8nc5q6z0iQJ3DtHUJsSC4A=;
- b=qNRWI0dtTMkdhih55lrlvahhavcQPG7EGrUeW9/RnTu07idJTr/rMofFwIinZQ/So8
- GXGIUPDc0qy5EbsPqOyRi/7l9QZs8XUvNkef5lBpzA9pkKEspUr2Deefs92vMACB29x0
- 1nlJb1M9SehQ8joRjQJdKLsLJkJ5shy4YgysvWDL115KI02QWkXQQQOaFL76vBW/RKjD
- GoJ3lPRM5/pcCer4mcUdhWZDwR/Sk1Mh56EWrq4KT6tAffQW+M8Wgz3NcDtWhMozJddm
- PX1NZ+ZSfThTbyXFzKNTZRXAJD3Y2NNaKl4pmYBYKUWjuCkeJe4rB3ALFo4WnYSIPeif
- b0ZQ==
+ :cc; bh=xptBX/D3GnqKCo/Q7ni8rXondMIzZbtwru7Wp5jqL/0=;
+ b=wbkIX19a3PuIDdWZhWQZrqMvuOLfAclkD97AMc8bBCi2RF9838bCOXUmSuHyzyhUyx
+ 1nGfAvMfGlefp9k+KpUzKVId10tPnjYGsV3DYDWbkxh+x0RMyUTkVHSbc0h2t9/eC6kI
+ L9Fd5pcxpQ/4qtqh81lT+H9kCfQUrtG/299c6zJX/BZnpyJT6+t9DWq0epsIx94odb7V
+ rJIq3HlrYlwsMXK7ATh7tKHjLWRoCoOGiinl1lXfAGKJv1QnWwIWOUV0fzPj3nvErIlS
+ KyDh/VyeSkVITQlslCnqAaEIFBPcTwjpZqxOLPGvpJ5noohgTbGgMyBaS4kO5zytIvtb
+ OX3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MpzUtMUX89uySI+KtJ+DC8nc5q6z0iQJ3DtHUJsSC4A=;
- b=s+csR4Fgb4v1FW823Q+Crh5/H9kbcFD2395m4i/gMjo9HSlklIxfjO9P+SBIwqkX89
- DIyFFZvIUZrdM7Py3kABDQEsmvXIN0M0HsRR4L27IB07xJDatLQG2z1PDZZIYqtcNviz
- 18O4XGFr4H8zSp5HIdnX1+1oY/Peid1lhTCPrDlPpNK8TKr8al7dUjHG4QFT1qjCLqYQ
- siM6hHMVjGexxZOive5mDWYlyrfUKOvnHuZBZ897O+jsedezgKqGnji3eFDGt4VBmIMe
- FKS2c8XVH5RQemD/qobXIaDnTx9QXbylWzySrF+IBnuKRrHDWEMUk2KuAdPtjJrmgPGL
- AfMw==
-X-Gm-Message-State: AJIora/Op7LvV2mZQvLbCa9EHqv5VMfc09u03f7XR2idFWFY+fkSlg4w
- JtQRJI4hzdkjhrlY1LSCR7UOZCO01abx3eyAJdYaEQ==
-X-Google-Smtp-Source: AGRyM1vn4czfJykGheVZ8+7UYFxy3sLkeZPym/DTz4xOu+AVayhdltcv2V6d7p3kQHIK8qxSRXCzr+zqhl73IQNDbho=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr33798284ywb.257.1656940681097; Mon, 04
- Jul 2022 06:18:01 -0700 (PDT)
+ bh=xptBX/D3GnqKCo/Q7ni8rXondMIzZbtwru7Wp5jqL/0=;
+ b=a0VcGJjq6NyCtrNGWE6msgTY1I8QiCchJnpdRrV6yUTepA92t3zuEWN5/sUg3zrl5j
+ pWzpN2Myt2DvCc5qj6TgqUpjy82g+XqiGDX/50YgGkA3UdxMoLd8CcKDJ8vxDXFI8U3+
+ ncFZ4iTMNAbvxP3+2qCgSS2ubNlJ/vQyljrJ+i0s5y2Pqg6D3pJCEBvH/vazsNJxhYJI
+ vmETlZ+p7GZjZkEoIIWIwDxTKRdD2LB6LZ/d8cQA8En+0zEqZwpXrE5wz37+nkD8cF7a
+ qqlTKFwyNJCyytOgn8j70bTj+5Tmp9U/9YCFUpkdZI2mur31sdNneKn+S9es+cySCmjz
+ zapg==
+X-Gm-Message-State: AJIora+7FkPdVLgRRzqi2h9TKActG7SMKx9/i2y3PbHnw94zYiyv/rpo
+ g68TfLjuOKJZAnT4vglVpXHRmur6eeER9djSEpa0eg==
+X-Google-Smtp-Source: AGRyM1tNSEdVLapFt53A8WUOr5GOURBucblZKYqxPR7ZGRA9Ffyztit0LLTjwXo2WWVMYeqGk79FeARn8FCc+2Xev7M=
+X-Received: by 2002:a5b:e87:0:b0:66d:4669:9871 with SMTP id
+ z7-20020a5b0e87000000b0066d46699871mr31235218ybr.288.1656940698338; Mon, 04
+ Jul 2022 06:18:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
- <20220629124026.1077021-9-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220629124026.1077021-9-mark.cave-ayland@ilande.co.uk>
+ <20220629124026.1077021-10-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220629124026.1077021-10-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 4 Jul 2022 14:17:50 +0100
-Message-ID: <CAFEAcA8_t670b+-DUL56gATbBgKJOyxKFEahC-2MuZ5dahkKfA@mail.gmail.com>
-Subject: Re: [PATCH 08/40] pl050: introduce pl050_kbd_class_init() and
- pl050_kbd_realize()
+Date: Mon, 4 Jul 2022 14:18:06 +0100
+Message-ID: <CAFEAcA9cgeZRCpTGwUjEhqyvEQghbwR+0PZ8BNJ2w-5WcLwFoA@mail.gmail.com>
+Subject: Re: [PATCH 09/40] pl050: introduce pl050_mouse_class_init() and
+ pl050_mouse_realize()
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: richard.henderson@linaro.org, deller@gmx.de, svens@stackframe.org, 
  mst@redhat.com, pbonzini@redhat.com, hpoussin@reactos.org, 
  aleksandar.rikalo@syrmia.com, f4bug@amsat.org, qemu-devel@nongnu.org, 
  qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,11 +89,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, 29 Jun 2022 at 13:41, Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> Introduce a new pl050_kbd_class_init() function containing a call to
-> device_class_set_parent_realize() which calls a new pl050_kbd_realize()
-> function to initialise the PS2 keyboard device.
+> Introduce a new pl050_mouse_class_init() function containing a call to
+> device_class_set_parent_realize() which calls a new pl050_mouse_realize()
+> function to initialise the PS2 mouse device.
 >
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
