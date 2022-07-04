@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044A956513B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:47:07 +0200 (CEST)
-Received: from localhost ([::1]:56836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3A956510C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:40:07 +0200 (CEST)
+Received: from localhost ([::1]:40262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Ifa-0003Dr-2r
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:47:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42936)
+	id 1o8IYo-0000LS-FI
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ITQ-0000OJ-7w
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:32 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:40854)
+ id 1o8ITX-0000SH-Ob
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:40 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:43801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ITO-0004xx-LE
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:32 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- g16-20020a17090a7d1000b001ea9f820449so13077932pjl.5
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:34:30 -0700 (PDT)
+ id 1o8ITW-0004y9-Bq
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:34:39 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ o5-20020a17090a3d4500b001ef76490983so4478108pjf.2
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AQeBQJaJ2cUJJgh8YFxOAc0hMFwb7DTvcTB5KsIPLmU=;
- b=MZC5xessgLibTj1DyM1GrdqcCdAuIcTfGALeC2gX+5ZYPiVgMzHxvxtR5Xt2Rfga/F
- i8HMYRBBVsrq5lUenyYyEb7XTq2WcwwSM6IIk7wlVNmu9zuM0263FBwWqFSsZJlW/qqD
- ALWJOfclCqL8G2ZoC1E7efADOOfsgYClAHJn7spm3iWkjDzwAVn5JWrpp1MBQs8fpKw0
- 4AtTfPmlK9TqEyEfXaL8VphErhmqQ/Y1XS/hoashCuiJP32JP+zDsKV+zHoouOHG9dXt
- SUVVr5xy6b2L/Jcc44mqyroedxKT5gGTThgBMvExjcQ59QuluSq3C78+WYk458OnGYU4
- vSUg==
+ bh=7miE1J32cGCfgzDoEjdy1xniOQ1sdRcJ/+h0R/nm0Nc=;
+ b=O0HnH+Z+A7vv4LHhPkGZ9md2+ivvCB+YdOmAOrZIdcn3Ir9ZITVAyKQPa7YPmeQs6n
+ GItaWZlq4tOvlShoK3CIPxWbnSXUkD2g0GMMtJlnjTGvd2o1EBxcUl6VSBR2trrO3D5S
+ QdIzFbWVYYPJhn+9NJKuYxBY8b6NreSquJ5XsLy7/AYxtQ9iyL86FCLrYEwCC/f1pxA3
+ 5ISRNBaMYF+ZwyM55OxJU/OnFt/Xpw/lp++EDDoA81/28HskaBQJpZFqSwbXDPgb3OQ6
+ q+Y9v4/vPrzu+Bswz2yCCrUSjhUG4jN97m8v7cuq2s0GVDcwRtrS6Dt9xu0x6BJxPqJz
+ MbEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AQeBQJaJ2cUJJgh8YFxOAc0hMFwb7DTvcTB5KsIPLmU=;
- b=FNjpo+jCKtu7ReNu32gKc2a/oqbJuPeI5YvOISXZUAty73bgSecV+gJ0lI67do3VqL
- wgRXHRNDcl6KURcdepD1Z8rWPH9yGjXglHj8j+lFXX+57fYdR2kEOrz9bJa63aMyhvfz
- M6pJXF2Cr4SLsQpPltwWJvzC9obb9sJ1DGXEYlj71jyoLQ4+XXH6ZE6jW0AwLSrJuoYn
- RlstjvHDm4ofEzyP9UerKNdlIh6HCPQxP7gvPpGagaQECrA4P6qUh+2Ql9gZJQOMll/W
- nR+E+gYrORXFsW4bHxZlH0x3ylGSl7oNTl2qHxxrgGsdDzBwN3XgZBrUWqF0DMC4VNTb
- mjWA==
-X-Gm-Message-State: AJIora8fMdifitkUvgf9Odjc+NDFyZTUfqDOjqpeqAdTJ4s3frD9anv2
- MemOJ2Z4RQ/xHtZ07ip87RdMDbdTfeSUdtn+
-X-Google-Smtp-Source: AGRyM1ssHIImnp5O+I5wfSbOcOUR/5tcErlqpaJP6hDMkI615svg2WPAqx37cCqTGc2eJsriwEr4ow==
-X-Received: by 2002:a17:90b:3648:b0:1ef:7c45:62cb with SMTP id
- nh8-20020a17090b364800b001ef7c4562cbmr11293046pjb.132.1656927269368; 
- Mon, 04 Jul 2022 02:34:29 -0700 (PDT)
+ bh=7miE1J32cGCfgzDoEjdy1xniOQ1sdRcJ/+h0R/nm0Nc=;
+ b=njLFu3Xapi+TpHjoigFss99dSlYnQ8SgYQ0ToDTwxOOoAvHkN11Vo6uy8CZfzpaquv
+ tRCKrqduQp1qnvTE3GznsJchzDEIgEj+4FSIuJtHmCMShHHtWeP8c8Ly9+TBCKE+oA+Z
+ 9SQNDMoUPCPZefMWaXyNFE+CiVvE2fN6ZW+4MVOPSLRSqhLHka4x/TQxtsXBlEgKSCu6
+ mem6qexCpUF+zL10MKGEpe/RF7MHxH/XWlVXhl5cG+rE+J9Tdg2aMBopEOE72eRnRK7j
+ qYJllW4cUw7+skX+aSWQQjc89AGhuIzsP/HiFK/PedCF3i/klFeW0w8nyQZGR3YU2zOY
+ hQrg==
+X-Gm-Message-State: AJIora+eQnBKY1FxQ+NRlcHzVw5hLkEOeABZfhKs0L6+jwUqHNeTch61
+ FpV9CDvwR0FGDJ8jGlUcc36ntSIMlTw4qy+y
+X-Google-Smtp-Source: AGRyM1vHElEQQ7h2P1Fg2e6qC1qEPKdSsIW3du8Y2f2D3mC1ZIpPtE8CTqB7ezN3PS3ehpddSQSt2Q==
+X-Received: by 2002:a17:90b:1bc7:b0:1ee:ffbf:95ad with SMTP id
+ oa7-20020a17090b1bc700b001eeffbf95admr36505824pjb.37.1656927271992; 
+ Mon, 04 Jul 2022 02:34:31 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- z5-20020aa79e45000000b00525b7f3e906sm15353355pfq.27.2022.07.04.02.34.27
+ z5-20020aa79e45000000b00525b7f3e906sm15353355pfq.27.2022.07.04.02.34.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 02:34:28 -0700 (PDT)
+ Mon, 04 Jul 2022 02:34:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Song Gao <gaosong@loongson.cn>,
 	Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL 09/23] target/loongarch: Fix helper_asrtle_d/asrtgt_d raise
- wrong exception
-Date: Mon,  4 Jul 2022 15:03:43 +0530
-Message-Id: <20220704093357.983255-10-richard.henderson@linaro.org>
+Subject: [PULL 10/23] target/loongarch: remove unused include hw/loader.h
+Date: Mon,  4 Jul 2022 15:03:44 +0530
+Message-Id: <20220704093357.983255-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220704093357.983255-1-richard.henderson@linaro.org>
 References: <20220704093357.983255-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,59 +91,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Song Gao <gaosong@loongson.cn>
 
-Raise EXCCODE_BCE instead of EXCCODE_ADEM for helper_asrtle_d/asrtgt_d.
-
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220624031049.1716097-10-gaosong@loongson.cn>
+Message-Id: <20220624031049.1716097-11-gaosong@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/cpu.c       | 2 ++
- target/loongarch/op_helper.c | 4 ++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ target/loongarch/cpu.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index e32d4cc269..0013582a3a 100644
+index 0013582a3a..bf163a8dce 100644
 --- a/target/loongarch/cpu.c
 +++ b/target/loongarch/cpu.c
-@@ -51,6 +51,7 @@ static const char * const excp_names[] = {
-     [EXCCODE_IPE] = "Instruction privilege error",
-     [EXCCODE_FPE] = "Floating Point Exception",
-     [EXCCODE_DBP] = "Debug breakpoint",
-+    [EXCCODE_BCE] = "Bound Check Exception",
- };
+@@ -18,7 +18,6 @@
+ #include "fpu/softfloat-helpers.h"
+ #include "cpu-csr.h"
+ #include "sysemu/reset.h"
+-#include "hw/loader.h"
  
- const char *loongarch_exception_name(int32_t exception)
-@@ -176,6 +177,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
-     case EXCCODE_INE:
-     case EXCCODE_IPE:
-     case EXCCODE_FPE:
-+    case EXCCODE_BCE:
-         env->CSR_BADV = env->pc;
-         QEMU_FALLTHROUGH;
-     case EXCCODE_ADEM:
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
-index d87049851f..df049cec59 100644
---- a/target/loongarch/op_helper.c
-+++ b/target/loongarch/op_helper.c
-@@ -49,14 +49,14 @@ target_ulong helper_bitswap(target_ulong v)
- void helper_asrtle_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
- {
-     if (rj > rk) {
--        do_raise_exception(env, EXCCODE_ADEM, GETPC());
-+        do_raise_exception(env, EXCCODE_BCE, 0);
-     }
- }
- 
- void helper_asrtgt_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
- {
-     if (rj <= rk) {
--        do_raise_exception(env, EXCCODE_ADEM, GETPC());
-+        do_raise_exception(env, EXCCODE_BCE, 0);
-     }
- }
- 
+ const char * const regnames[32] = {
+     "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
 -- 
 2.34.1
 
