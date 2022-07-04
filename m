@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836955651A6
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 12:03:33 +0200 (CEST)
-Received: from localhost ([::1]:36302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BB05651A8
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 12:03:43 +0200 (CEST)
+Received: from localhost ([::1]:37068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8IvU-0003JN-Bq
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 06:03:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48602)
+	id 1o8Ivf-0003nu-1V
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 06:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8IsB-00011d-7O
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:00:07 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:44680)
+ id 1o8ItH-0001fL-CX
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:01:18 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:46696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8Is9-0000OJ-A2
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:00:06 -0400
-Received: by mail-pf1-x436.google.com with SMTP id 65so8493889pfw.11
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 03:00:04 -0700 (PDT)
+ id 1o8ItC-0000jn-6Z
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:01:15 -0400
+Received: by mail-pg1-x534.google.com with SMTP id s27so8469124pga.13
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 03:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jbXG5nHD9Kf5UQFUGz6qcmMIViCVERNKm9wbQIX+s2k=;
- b=KubAEpaZkKbp2BOGZOtfSGPN4e545N0AKaaeIMgHWwDpinxgD3/lA4dp2zfR2bnoY2
- SiNpR8zX0bjnXkXN3Wm573hZUXauXmZhmCKYNPWCry/KviXPrFVbDNSKENpiqX37ggJT
- LcQLtZqiq80y9LIDfPEKc2Lw1QLNP9+AOOiY7W89aadC39+J8KuKGlC1DpYRGielWSMj
- oTvOBnjgbjKdVnlMka/ouIlBx9qMwahmyV1cBcEPFUIShAfbE9iwIcz3Qdhx+C+PjaI0
- N0/AFGk2QPxWtK9dUjy+cBZuHlB3fH1RYEmaIGKNZKUcunNw4q/CbfD9sYOnMBxAPYW3
- r4OQ==
+ bh=zGThNGFgy1kDwX4sF6+5bztcWO3GGECBQ+8sGjw3Bik=;
+ b=qU9yJtmer1Dbt/693PeBQBkx54B7rSXarOBw+i+5KCB5u2xe79k5qGorHjxCTWYvAY
+ HKFTqdLeBarUTnqnWgU8TP11lfyi4je/UO13AFBsfEG9uNxySdDi6/LXDJrFASTOsOaW
+ /xmVAQJBAaV4FCi3ei28vxEAL75M4Gan+y7gmnuySGbZAKPa5RiBFbCvBVhRqB+W5Bc6
+ sZ9mYXGTzNzirh/fmwHPshZC3dhAJBrDokm6/1DMMP1CdlCdJRO0CqWR60zYF15lDfOW
+ m1eQDqhTlN5fLotjGB4ErREBLAAyGisNGxKqyH7nsUY8pQeS9WRixbLqgW02kKOMnZUL
+ Urjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jbXG5nHD9Kf5UQFUGz6qcmMIViCVERNKm9wbQIX+s2k=;
- b=5TzBw9KsERZDFJcIT87mC0V1kcVkW9z3PrNqRctF+8AlQ6JtKQOB/CWv9dw5uRhJPJ
- 46lJL153cdIbEG7IRUYhTo/Anb75dqMQS6nElfktVvsGjCbelt+Kk2NDyQtXjrVE+7Ta
- Jp4McrKGddgyQShdz99OH6p1do9AX5AX5TmpIp01TUstfYVmv/hZRN8pmIjjz7d/g98U
- 8S/pF8UVEKqWpiKl5qgCc72ib5qKXDBKOxl7t8uFpyfomYsRrffLwHSYXE+B8jOZibLG
- 3veyUzLeKWRZ7PPKvN7JG5YU+HvlHqhBGxyjdS1+V+c/UhFAvRgigzgQfc4qFUS0DwZh
- YqiQ==
-X-Gm-Message-State: AJIora8bReueyZuWiVTGN2D2TOQ1D2M4UV9EVcuRGnfkIxSUKwM7ttg8
- uUD3dWYu+KYsjavRkxTBC59e7g==
-X-Google-Smtp-Source: AGRyM1sVfPO5qausPlo/8gyT74P3aAO0AyUWnmKqS/KGuyhhJaiALtR+9fa+UqvHZYJrCnCCyChmlQ==
-X-Received: by 2002:a05:6a00:1a91:b0:525:a57c:25f3 with SMTP id
- e17-20020a056a001a9100b00525a57c25f3mr35742143pfv.75.1656928803879; 
- Mon, 04 Jul 2022 03:00:03 -0700 (PDT)
+ bh=zGThNGFgy1kDwX4sF6+5bztcWO3GGECBQ+8sGjw3Bik=;
+ b=0pBV5wYj7UysICPgXBXXL9/peOcLI+QZCB27FkWk6yhtf4npkNbfFAlLTUL6pjmKnr
+ TXL6wZUveAk4M4gJB7hHZKpQhoCBBfmhFForEag7xVEbXSlSCh86paNQTbyQDMHJGGVz
+ o/+d6MW8jLxPGf0byywXwYipaRxbDFAOImtxfrT2mcBnvhfl5ULl/OuYS13LPLqXqX08
+ qptGdeJ4F1Y18ybYTfQIN7v2fvVZCIbYnzOe67kyHr+x1q2TpKyhgHal0HSREUwkszWD
+ WJRq2VX8VTnTbkNguLE7MMvS2Bf0XA+0PgT5yEF3aTUeYm3VZsNPLydXSU3N2OZif5FR
+ QFJg==
+X-Gm-Message-State: AJIora8H08Cm8F5+5lPDDu40g5l/BO2TKM+OFMmkZZh3gF78mjXUA9NM
+ jaeT81kpFfwOP7P9dZ78vDQagA==
+X-Google-Smtp-Source: AGRyM1uQSqQ94CeMWecLpbEWase1lqnyHqjprU/+9XOaP8pMbTpW1hXEBLTGGuOPsFxSsHT7mYvOfA==
+X-Received: by 2002:aa7:989a:0:b0:525:252f:3c51 with SMTP id
+ r26-20020aa7989a000000b00525252f3c51mr35681703pfl.39.1656928868758; 
+ Mon, 04 Jul 2022 03:01:08 -0700 (PDT)
 Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- w66-20020a627b45000000b005286697ec68sm1803043pfc.133.2022.07.04.03.00.00
+ e14-20020a17090301ce00b0016be82cc7b4sm1139633plh.8.2022.07.04.03.01.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 03:00:03 -0700 (PDT)
-Message-ID: <272f1e82-ff1b-9a7a-931b-91472dd244bf@linaro.org>
-Date: Mon, 4 Jul 2022 15:29:57 +0530
+ Mon, 04 Jul 2022 03:01:08 -0700 (PDT)
+Message-ID: <e47a03fc-745c-5a6e-94d7-c90d4541326a@linaro.org>
+Date: Mon, 4 Jul 2022 15:31:03 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v2 03/11] goldfish_rtc: Add endianness property
+Subject: Re: [PATCH v2 02/11] target/openrisc: Fix memory reading in debugger
 Content-Language: en-US
 To: Stafford Horne <shorne@gmail.com>, QEMU Development <qemu-devel@nongnu.org>
-Cc: Openrisc <openrisc@lists.librecores.org>,
- Laurent Vivier <lvivier@redhat.com>, Anup Patel <anup.patel@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:Goldfish RTC" <qemu-riscv@nongnu.org>
+Cc: Openrisc <openrisc@lists.librecores.org>
 References: <20220703212823.10067-1-shorne@gmail.com>
- <20220703212823.10067-4-shorne@gmail.com>
+ <20220703212823.10067-3-shorne@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220703212823.10067-4-shorne@gmail.com>
+In-Reply-To: <20220703212823.10067-3-shorne@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,56 +94,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/4/22 02:58, Stafford Horne wrote:
-> -static const MemoryRegionOps goldfish_rtc_ops = {
-> -    .read = goldfish_rtc_read,
-> -    .write = goldfish_rtc_write,
-> -    .endianness = DEVICE_NATIVE_ENDIAN,
-> -    .valid = {
-> -        .min_access_size = 4,
-> -        .max_access_size = 4
-> -    }
-> +static const MemoryRegionOps goldfish_rtc_ops[3] = {
-> +    [DEVICE_NATIVE_ENDIAN] = {
-> +        .read = goldfish_rtc_read,
-> +        .write = goldfish_rtc_write,
-> +        .endianness = DEVICE_NATIVE_ENDIAN,
-> +        .valid = {
-> +            .min_access_size = 4,
-> +            .max_access_size = 4
-> +        }
-> +    },
-> +    [DEVICE_LITTLE_ENDIAN] = {
-> +        .read = goldfish_rtc_read,
-> +        .write = goldfish_rtc_write,
-> +        .endianness = DEVICE_LITTLE_ENDIAN,
-> +        .valid = {
-> +            .min_access_size = 4,
-> +            .max_access_size = 4
-> +        }
-> +    },
-> +    [DEVICE_BIG_ENDIAN] = {
-> +        .read = goldfish_rtc_read,
-> +        .write = goldfish_rtc_write,
-> +        .endianness = DEVICE_BIG_ENDIAN,
-> +        .valid = {
-> +            .min_access_size = 4,
-> +            .max_access_size = 4
-> +        }
-> +    },
->   };
+> In commit f0655423ca ("target/openrisc: Reorg tlb lookup") data and
+> instruction TLB reads were combined.  This, broke debugger reads where
+> we first tried to map using the data tlb then fall back to the
+> instruction tlb.
+> 
+> This patch replicates this logic by first requesting a PAGE_READ
+> protection mapping then falling back to PAGE_EXEC.
+> 
+> Signed-off-by: Stafford Horne <shorne@gmail.com>
 
-You don't need 3 copies, only big and little.
-
-> +static Property goldfish_rtc_properties[] = {
-> +    DEFINE_PROP_UINT8("endianness", GoldfishRTCState, endianness,
-> +                      DEVICE_NATIVE_ENDIAN),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-
-... and I think the clear desire for default is little-endian.  I would make the property 
-be bool, and add a comment that this is only for m68k compatibility, so don't use it in 
-new code.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
