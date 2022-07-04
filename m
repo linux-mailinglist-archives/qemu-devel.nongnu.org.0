@@ -2,101 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92EF565A01
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 17:38:23 +0200 (CEST)
-Received: from localhost ([::1]:43708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF1C565A1D
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 17:43:34 +0200 (CEST)
+Received: from localhost ([::1]:49368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8O9W-00073g-TF
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:38:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52016)
+	id 1o8OEX-0002cr-T0
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:43:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8O7p-000512-Vm
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:36:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51237)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8O7m-0004im-Rc
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:36:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656948993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SjIAtRMK2hYF1R1LPjJvBdRxiMDkHqqsVARyrr3dYZI=;
- b=ODDMnP4uqPun8+iHFW0V4fJhkWVC0QCJca/whzneUkcEl6AwOUULiwkcyk6ZpmKV4TlMEH
- 8FM/2u2NJ5xyaatnmkt29UKtUf0cGXWbzN4Bs86DBMTZcDo8ngMvBMoIqRnGWMVMyZAreV
- BjNB3w2UmOiPRfLyh8gZ4ACdLYKxyCo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-513-jzYkssHQN9qHycih78aKkQ-1; Mon, 04 Jul 2022 11:36:33 -0400
-X-MC-Unique: jzYkssHQN9qHycih78aKkQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- t14-20020a056402524e00b0043595a18b91so7361369edd.13
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 08:36:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8O9n-0008QM-IZ
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:38:39 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:41748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8O9l-00050m-G3
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:38:39 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-31c8bb90d09so31709677b3.8
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 08:38:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bOcA4D5/jyCW8p7A9WQLrNSsoyPxxWGW1g4zAOPwwMc=;
+ b=f2XjpNt/Au3kP1znjCL8dJhK2FNgaldyFNCOEjS9EmMUFyGkT2eWAYu7v/NgaXgStM
+ 3+fvmFBnNcRfrpdPQLAJk6PExbqyoi695GO8n+F5g4jaAiuRFd9y9btDYdakhscQAoni
+ 5nzWA4Mi0xg4A3U5p5H7ZhRLOLHIGV3SvFMg9c9RzMVViJBm9qZM418y57feNHkCykAZ
+ huVyaNXEqkSH2uGlNbxHqhZrza1QE68T3ZnPllIreuPcZGNKrEnyA1QUYaEEPP2dGyyd
+ D2AKA3F7ZF/jBJfLLGlNtQArIQyRfdjJwAj+H9CU6HGmUAh4b9F0oChNT156oUpqvfi3
+ iTYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SjIAtRMK2hYF1R1LPjJvBdRxiMDkHqqsVARyrr3dYZI=;
- b=Vq6HArmB4sc2p4LkcmIaD4aehPr83kdGgfs5ml0/atKvxBhMfT62zu1PMSetAckyTj
- +RjgRCyORySBuXhZqPhWqoghsW5OSKHGLJV1I6zCLTE+Iqji7r4D5l0FZXlr27si1BfY
- u8JhVly5e+XNkwKGMDDvp6eXr2VowrrG5qZ6yVKTej6FS44Y+LEM0dDrjxGM83777ehi
- eTTmgUkE6y4EzSQztv0KApQi7JBCllfKDi30ZlBpyR4xHgz83+Ca9mIF6tDl2jzjGEam
- sn5iToY2j4abNQoK9GSZvWCpfP65i/tI6AzrNiUp0f33NyReYliUielHNi1nErjQ+bYp
- rHVw==
-X-Gm-Message-State: AJIora/az9waB7lu4bxP6cD4EfsEzLCkRJxKembdKGQniRiVUooNbpxs
- Vb7ZK44uGbf2c+BGjKN/XQ1VWfNQknAluS/wsFf/Qt44uVZIoPmZgnNW6f5yZM0RPS/bi8Iww1g
- SE1NAaMvy0HClVkE=
-X-Received: by 2002:a17:906:378e:b0:726:38df:6f75 with SMTP id
- n14-20020a170906378e00b0072638df6f75mr27803206ejc.577.1656948991927; 
- Mon, 04 Jul 2022 08:36:31 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vlisjAWlA8N4EFBbP/Nn1e+hdUrUigJP4+YFCmGBdxJJdprxNaVamV2t/F1kWfq1qF5s/nNQ==
-X-Received: by 2002:a17:906:378e:b0:726:38df:6f75 with SMTP id
- n14-20020a170906378e00b0072638df6f75mr27803193ejc.577.1656948991745; 
- Mon, 04 Jul 2022 08:36:31 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
- ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
- by smtp.gmail.com with ESMTPSA id
- a4-20020a170906274400b00726b03f83a0sm10062608ejd.33.2022.07.04.08.36.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 08:36:31 -0700 (PDT)
-Message-ID: <c0b0f2ca-768f-f012-05f5-96b7fe1d6188@redhat.com>
-Date: Mon, 4 Jul 2022 17:36:30 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bOcA4D5/jyCW8p7A9WQLrNSsoyPxxWGW1g4zAOPwwMc=;
+ b=h8bO3lPmDTQlAb18tYQuu24GWbJpYOQjeh4Ecml1KrYHwGjoi3FluufYXTeIzzO1aX
+ m38UBdYolV+Sx6WVl6tR7xP35GpGPQbRQJOBCc/c90Yc+d4+B4bMqG2fqXkT/OmVDibj
+ L73Bqcf2zMTxJP+rKj0+edi5cMnIlp2IUculFGuMkg40Hfd/FyhvLjkPL9a6C4m1i9Qf
+ fyS4b5lz/Z+gY1WrmDmwbfNPt8l4Ce0R43nAC3VfNKzYrhNfm2woXeD6pEzymIyMpHo3
+ uUOjqf5whvuKgRx8uA3umgELsYAI/Z3Fzo+3nsZpjG61ZujsGXtmZyuEt9TUDH/NfLEs
+ 04Wg==
+X-Gm-Message-State: AJIora/g+8MnKO+oHWHaO1tuMxKir+i51acDRrhgf6CeGsFEXEDk0zk4
+ Q7dKOjiGRTL8vA8LxdphlnYRWzuKPRgP7W1QN3BsPA==
+X-Google-Smtp-Source: AGRyM1tqYZJWa+NukVkrHFrs5dPFuUmiX57mHFnxtiZIYSiu14Mpemo0QUkv8bGHWVs+NgU6xOq3tno2AKyh5XrZzMU=
+X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
+ d8-20020a818d08000000b00317a4cdd65dmr33082181ywg.329.1656949116218; Mon, 04
+ Jul 2022 08:38:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 02/10] tests/qemu-iotests: skip 108 when FUSE is not
- loaded
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Beraldo Leal <bleal@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220616142659.3184115-1-jsnow@redhat.com>
- <20220616142659.3184115-3-jsnow@redhat.com>
- <b3e95451-77e3-7e4d-bb2c-664bdbaae9c9@redhat.com>
- <CAFn=p-Zf_RfXgtHp_DMO57ggLWWSVSaRqm62CUte0ODuesDb1w@mail.gmail.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <CAFn=p-Zf_RfXgtHp_DMO57ggLWWSVSaRqm62CUte0ODuesDb1w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220704152303.760983-1-berrange@redhat.com>
+ <20220704152303.760983-3-berrange@redhat.com>
+In-Reply-To: <20220704152303.760983-3-berrange@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 Jul 2022 16:38:25 +0100
+Message-ID: <CAFEAcA9tjFuKxxz-4QU0G-4Nf_RVw-TAmO+3KGMDMqGd27hMUA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] misc: fix mixups of bool constants with int
+ variables
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,26 +89,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.07.22 18:15, John Snow wrote:
-> On Fri, Jul 1, 2022 at 4:05 AM Hanna Reitz <hreitz@redhat.com> wrote:
->> On 16.06.22 16:26, John Snow wrote:
->>> In certain container environments we may not have FUSE at all, so skip
->>> the test in this circumstance too.
->>>
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>>    tests/qemu-iotests/108 | 5 +++++
->>>    1 file changed, 5 insertions(+)
->> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
->>
-> Hanna, if you want to take just the first two, be my guest.
+On Mon, 4 Jul 2022 at 16:23, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+wrote:
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  block/vhdx-log.c       | 2 +-
+>  hw/xtensa/sim.c        | 4 ++--
+>  nbd/client.c           | 4 ++--
+>  target/i386/cpu-dump.c | 3 ++-
+>  ui/spice-display.c     | 4 ++--
+>  5 files changed, 9 insertions(+), 8 deletions(-)
 
-Thanks for the invite, always happy to be your guest!
+> diff --git a/nbd/client.c b/nbd/client.c
+> index 30d5383cb1..fee3959d24 100644
+> --- a/nbd/client.c
+> +++ b/nbd/client.c
+> @@ -832,8 +832,8 @@ static int nbd_list_meta_contexts(QIOChannel *ioc,
+>                                    Error **errp)
+>  {
+>      int ret;
+> -    int seen_any =3D false;
+> -    int seen_qemu =3D false;
+> +    bool seen_any =3D false;
+> +    bool seen_qemu =3D false;
+>
+>      if (nbd_send_meta_query(ioc, NBD_OPT_LIST_META_CONTEXT,
+>                              info->name, NULL, errp) < 0) {
 
-(Applied to my block branch:)
+The code in this function does a bitwise OR into seen_qemu later --
+bitwise OR into a bool also seems like bad style that something
+is probably going to complain about. (I guess currently -Wbool-operation
+doesn't care about it or else we don't enable that, but it might
+in future.)
 
-https://gitlab.com/hreitz/qemu/-/commits/block
+The other changes look OK.
 
-Hanna
-
+-- PMM
 
