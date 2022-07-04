@@ -2,76 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E022D564E59
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 09:10:41 +0200 (CEST)
-Received: from localhost ([::1]:57632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27600564E74
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 09:12:46 +0200 (CEST)
+Received: from localhost ([::1]:60062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8GED-0004t3-1J
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 03:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
+	id 1o8GGC-0006eH-Tn
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 03:12:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8GCE-0003yO-NI
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:08:38 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:40860)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8GCC-0000hz-LC
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:08:38 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-10be1122de0so5179674fac.7
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 00:08:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aOHKkiKEab1dH9I3a9wvMI18AZG2hLJEvFMCjuMX5Jo=;
- b=AKw8feBRlE2Z2QV7TGJQLyFosfO+PNyDVyxTd8mAelSARM6k/XWprupReZl/iJ8NCs
- v5NKHN2dK4eKcMRzobxxNm8/jB/4q7Bn9C2/J82cj3cK0MVDOL/YC0kNiS40pvrUpcT/
- sNrRlKSxAUJyKSempyuIIDyUpPQM3M8Uwr4Llm9wckU35aWVcLmSMHtHdyBKJY99Icyc
- MsfSeo8RGy43c9jqe2D/LK6uZoLDfVzg35tilEL3eBnZHCRAI3mYEOjvSIzghpelf/3P
- kkp4Pjq2GJVjwqjeAWihvSWt7pq8Wg0kTjL/4S2Ydef8d0bsH/MoHs3qm/Ii5ZIPi/qr
- qzAw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o8GEE-0005RC-RF
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:10:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32803)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o8GEB-00016G-J6
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:10:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656918638;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p4A2UadpP7Vpqsa+zDd7Gm0biljatrKHc4p/eQcFvqU=;
+ b=E69QbUhJ677u3CpTD4RJkPPOEZwYnp57KQnTaIXV8sRRatjXvTZFiWTl/eEXvCh4bTm06R
+ f+jkK4u8ckKjETdeTwkDQqRUi6tTc1fzX4oIxZ+b25qXhXHdQlg2ZeH3p9HfX9wgC4wc5x
+ hn9TzMYaaDT0kgp39aqMkiWhdzSAsnU=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-671-CAvJWkYWMvetV7v62PYcjw-1; Mon, 04 Jul 2022 03:10:37 -0400
+X-MC-Unique: CAvJWkYWMvetV7v62PYcjw-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ o13-20020a17090a9f8d00b001ef7c429b91so2698456pjp.6
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 00:10:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=aOHKkiKEab1dH9I3a9wvMI18AZG2hLJEvFMCjuMX5Jo=;
- b=yGYACnwbJQw3ZyU65xR2YSGWnlydynzzs/jLsKYyRzItMJBREZ1ggw5G4Kze7cJWNe
- +fppi6OsMzicHb+TBgdqu0ptMIbzk7+TjG+NEVbMJfvoZAcSJ6XWgMkmLIdslvQBA2tg
- GRDPzYLiGMkqb6ekAr1zK2GgQvbvGY0zu3B2oaK9KqSdO5WfFnTZ8IkZcAq84XUC7XNC
- FMWSd49I0tYxLzubxfLt2GZ0cDXHhuBIkS8H8crcJLzQKNYQNK5jS8i2JOpMl8lYcgFQ
- mfhC0ulcFVsSTF3n90YQPU14ZeLtbnJwcpNvii2JzVEqJ+RX2rWAn/PTlDRMjQc+z88B
- 5Bww==
-X-Gm-Message-State: AJIora/FPi2nak2C9h40H+tdbWeGH202UD0+a8SLXNALm0GaibvObOrf
- YExTa7JdJRS/OzsVLMAfhiuuXCajdLgLbz5Y
-X-Google-Smtp-Source: AGRyM1uL9OQ1R5hVaht+X/2kucMuhXdvYt2fTKyVxEHJIFfiPurFzvkMEW8pfS5JMmeTy9RjILusog==
-X-Received: by 2002:a05:6870:961f:b0:10b:ad08:8909 with SMTP id
- d31-20020a056870961f00b0010bad088909mr11058833oaq.269.1656918515181; 
- Mon, 04 Jul 2022 00:08:35 -0700 (PDT)
-Received: from stoup.. ([2605:ef80:80e8:1685:ca62:b964:afb8:ef2a])
+ bh=p4A2UadpP7Vpqsa+zDd7Gm0biljatrKHc4p/eQcFvqU=;
+ b=I8xF5i3u9eaI1EBayeueFDUP6c4dEpT6DtKL4OexKygmCyoV1DikHXbQQqBWmt9K0D
+ CXQD1goAHRG3fbwTwmwuWB9Knqt5JZt27qQ+ZEbOd7YelAdY6UZP0THLS7HCeKWst0nP
+ 0uUvLWaNz9hyp2FwPaUu5M8mBSDduddc4rEvC7CqK//ZYrSylXY8QB3YeNVXGySCjDv+
+ pmQxoRXBYNe1r2Ng9ynzHh+6hRxlGCaVQd0C54Px9lxvoudqcT6oFXq1V/0B++ZpzBoP
+ OsEV41WzH+eGuy+CGcTnJUUFxE2LlxTTzXEiwLR2deC8xpG3WZ6+430TTxATY+ypG7W3
+ qSQA==
+X-Gm-Message-State: AJIora9s+vBbM/oATMmYe2sC5gKhR5XsAi2LgvKNxFqP30sutCLYaFCo
+ 5IxCemL3tTraxCdcafciZN8oWF9iNWXSQ+/Sj3SXB6MiuL7IJCFvuIYE6yv6b3A+XqVnSip2U6d
+ rAEHOoJrSq+b6NXU=
+X-Received: by 2002:a63:f70c:0:b0:412:1877:7e1c with SMTP id
+ x12-20020a63f70c000000b0041218777e1cmr8415079pgh.621.1656918636606; 
+ Mon, 04 Jul 2022 00:10:36 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uIFNCN60VZWwm6jICla+E5okPUUDyl+cqSYMX4Tv4k22ptfWizrskRCOCjIq0kVsoGY/09gg==
+X-Received: by 2002:a63:f70c:0:b0:412:1877:7e1c with SMTP id
+ x12-20020a63f70c000000b0041218777e1cmr8415057pgh.621.1656918636327; 
+ Mon, 04 Jul 2022 00:10:36 -0700 (PDT)
+Received: from [10.72.13.251] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- z26-20020a9d71da000000b00616c94aebe3sm12177361otj.42.2022.07.04.00.08.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 00:08:34 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org
-Subject: [PATCH] tests/docker/dockerfiles: Add debian-loongarch-cross.docker
-Date: Mon,  4 Jul 2022 12:38:24 +0530
-Message-Id: <20220704070824.965429-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ c16-20020a170902b69000b001678dcb4c5asm20369492pls.100.2022.07.04.00.10.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jul 2022 00:10:35 -0700 (PDT)
+Message-ID: <9f349685-b935-942b-57ac-ff5499cda210@redhat.com>
+Date: Mon, 4 Jul 2022 15:10:27 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH] e1000: set RX descriptor status in a separate operation
+Content-Language: en-US
+To: Ding Hui <dinghui@sangfor.com.cn>, asm@asm.pp.ru
+Cc: qemu-devel@nongnu.org, zhangjing@sangfor.com.cn,
+ lifan38153@sangfor.com.cn, Stefan Hajnoczi <stefanha@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ qemu-stable@nongnu.org
+References: <20220629094026.558-1-dinghui@sangfor.com.cn>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220629094026.558-1-dinghui@sangfor.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,91 +105,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the pre-packaged toolchain provided by Loongson via github.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- configure                                     |  5 ++++
- tests/docker/Makefile.include                 |  2 ++
- .../dockerfiles/debian-loongarch-cross.docker | 25 +++++++++++++++++++
- 3 files changed, 32 insertions(+)
- create mode 100644 tests/docker/dockerfiles/debian-loongarch-cross.docker
+在 2022/6/29 17:40, Ding Hui 写道:
+> The code of setting RX descriptor status field maybe work fine in
+> previously, however with the update of glibc version, it shows two
+> issues when guest using dpdk receive packets:
+>
+>    1. The dpdk has a certain probability getting wrong buffer_addr
+>
+>       this impact may be not obvious, such as lost a packet once in
+>       a while
+>
+>    2. The dpdk may consume a packet twice when scan the RX desc queue
+>       over again
+>
+>       this impact will lead a infinite wait in Qemu, since the RDT
+>       (tail pointer) be inscreased to equal to RDH by unexpected,
+>       which regard as the RX desc queue is full
+>
+> Write a whole of RX desc with DD flag on is not quite correct, because
+> when the underlying implementation of memcpy using XMM registers to
+> copy e1000_rx_desc (when AVX or something else CPU feature is usable),
+> the bytes order of desc writing to memory is indeterminacy
+>
+> We can use full-scale test case to reproduce the issue-2 by
+> https://github.com/BASM/qemu_dpdk_e1000_test (thanks to Leonid Myravjev)
+>
+> I also write a POC test case at https://github.com/cdkey/e1000_poc
+> which can reproduce both of them, and easy to verify the patch effect.
+>
+> The hw watchpoint also shows that, when Qemu using XMM related instructions
+> writing 16 bytes e1000_rx_desc, concurrent with DPDK using movb
+> writing 1 byte status, the final result of writing to memory will be one
+> of them, if it made by Qemu which DD flag is on, DPDK will consume it
+> again.
+>
+> Setting DD status in a separate operation, can prevent the impact of
+> disorder memory writing by memcpy, also avoid unexpected data when
+> concurrent writing status by qemu and guest dpdk.
+>
+> Links: https://lore.kernel.org/qemu-devel/20200102110504.GG121208@stefanha-x1.localdomain/T/
+>
+> Reported-by: Leonid Myravjev <asm@asm.pp.ru>
+> Cc: Stefan Hajnoczi <stefanha@gmail.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: qemu-stable@nongnu.org
+> Tested-by: Jing Zhang <zhangjing@sangfor.com.cn>
+> Reviewed-by: Frank Lee <lifan38153@sangfor.com.cn>
+> Signed-off-by: Ding Hui <dinghui@sangfor.com.cn>
+> ---
+>   hw/net/e1000.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+> index f5bc81296d..e26e0a64c1 100644
+> --- a/hw/net/e1000.c
+> +++ b/hw/net/e1000.c
+> @@ -979,7 +979,7 @@ e1000_receive_iov(NetClientState *nc, const struct iovec *iov, int iovcnt)
+>           base = rx_desc_base(s) + sizeof(desc) * s->mac_reg[RDH];
+>           pci_dma_read(d, base, &desc, sizeof(desc));
+>           desc.special = vlan_special;
+> -        desc.status |= (vlan_status | E1000_RXD_STAT_DD);
+> +        desc.status &= ~E1000_RXD_STAT_DD;
+>           if (desc.buffer_addr) {
+>               if (desc_offset < size) {
+>                   size_t iov_copy;
+> @@ -1013,6 +1013,9 @@ e1000_receive_iov(NetClientState *nc, const struct iovec *iov, int iovcnt)
+>               DBGOUT(RX, "Null RX descriptor!!\n");
+>           }
+>           pci_dma_write(d, base, &desc, sizeof(desc));
+> +        desc.status |= (vlan_status | E1000_RXD_STAT_DD);
+> +        pci_dma_write(d, base + offsetof(struct e1000_rx_desc, status),
+> +                      &desc.status, sizeof(desc.status));
 
-diff --git a/configure b/configure
-index 76728b31f7..fec068468a 100755
---- a/configure
-+++ b/configure
-@@ -1904,6 +1904,7 @@ probe_target_compiler() {
-     hexagon) container_hosts=x86_64 ;;
-     hppa) container_hosts=x86_64 ;;
-     i386) container_hosts=x86_64 ;;
-+    loongarch64) container_hosts=x86_64 ;;
-     m68k) container_hosts=x86_64 ;;
-     microblaze) container_hosts=x86_64 ;;
-     mips64el) container_hosts=x86_64 ;;
-@@ -1958,6 +1959,10 @@ probe_target_compiler() {
-         container_image=fedora-i386-cross
-         container_cross_prefix=
-         ;;
-+      loongarch64)
-+        container_image=debian-loongarch-cross
-+        container_cross_prefix=loongarch64-unknown-linux-gnu-
-+        ;;
-       m68k)
-         container_image=debian-m68k-cross
-         container_cross_prefix=m68k-linux-gnu-
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index ef4518d9eb..9a45e8890b 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -140,6 +140,7 @@ docker-image-debian-nios2-cross: $(DOCKER_FILES_DIR)/debian-toolchain.docker \
- # Specialist build images, sometimes very limited tools
- docker-image-debian-tricore-cross: docker-image-debian10
- docker-image-debian-all-test-cross: docker-image-debian10
-+docker-image-debian-loongarch-cross: docker-image-debian11
- docker-image-debian-microblaze-cross: docker-image-debian10
- docker-image-debian-nios2-cross: docker-image-debian10
- docker-image-debian-powerpc-test-cross: docker-image-debian11
-@@ -149,6 +150,7 @@ docker-image-debian-riscv64-test-cross: docker-image-debian11
- DOCKER_PARTIAL_IMAGES += debian-alpha-cross
- DOCKER_PARTIAL_IMAGES += debian-powerpc-test-cross
- DOCKER_PARTIAL_IMAGES += debian-hppa-cross
-+DOCKER_PARTIAL_IMAGES += debian-loongarch-cross
- DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
- DOCKER_PARTIAL_IMAGES += debian-microblaze-cross
- DOCKER_PARTIAL_IMAGES += debian-nios2-cross
-diff --git a/tests/docker/dockerfiles/debian-loongarch-cross.docker b/tests/docker/dockerfiles/debian-loongarch-cross.docker
-new file mode 100644
-index 0000000000..8ebc112d59
---- /dev/null
-+++ b/tests/docker/dockerfiles/debian-loongarch-cross.docker
-@@ -0,0 +1,25 @@
-+#
-+# Docker cross-compiler target
-+#
-+# This docker target builds on the debian11 base image,
-+# using a prebuilt toolchains for LoongArch64 from:
-+# https://github.com/loongson/build-tools/releases
-+#
-+FROM qemu/debian11
-+
-+RUN apt-get update && \
-+    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt-get install -y --no-install-recommends \
-+        build-essential \
-+        ca-certificates \
-+        curl \
-+        gettext \
-+        git \
-+        python3-minimal
-+
-+RUN curl -#SL https://github.com/loongson/build-tools/releases/download/2022.05.29/loongarch64-clfs-5.0-cross-tools-gcc-full.tar.xz \
-+    | tar -xJC /opt
-+
-+ENV PATH $PATH:/opt/cross-tools/bin
-+ENV LD_LIBRARY_PATH /opt/cross-tools/lib:/opt/cross-tools/loongarch64-unknown-linux-gnu/lib:$LD_LIBRARY_PATH
--- 
-2.34.1
+
+Good catch, but to be more safe, I wonder if we can simply use 
+stx_le_pci_dma() here?
+
+Thanks
+
+
+>   
+>           if (++s->mac_reg[RDH] * sizeof(desc) >= s->mac_reg[RDLEN])
+>               s->mac_reg[RDH] = 0;
 
 
