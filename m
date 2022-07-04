@@ -2,110 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E865659AC
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 17:23:24 +0200 (CEST)
-Received: from localhost ([::1]:32908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722435659B6
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 17:23:59 +0200 (CEST)
+Received: from localhost ([::1]:33780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Nv1-00048y-Mx
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:23:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48126)
+	id 1o8Nva-0004lz-GC
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:23:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8NtK-00024d-1A
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:21:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8NtI-0002As-F8
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:21:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656948095;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oAa20g9OAuQhUxFtb8haoc0C6+H5TmFHdFkWoYZZhpw=;
- b=fvnJMkpEWUkP3XwSBnfcW23mav7fB5bEl9gGxdPHQIQaBBfzaLhQYK70ntxH6MLXzZBiOO
- SAk+BHDWTo3AY67M5CsHvrves3cEUXtNVdiY81BBMd30O7F9kTJM9J2XATI4Yffr0FNiWk
- uI9nwNjTQXFPxo5nsdagIumMsaMnteA=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-P7qUZEVuMEu2fx9sk3WSWg-1; Mon, 04 Jul 2022 11:21:23 -0400
-X-MC-Unique: P7qUZEVuMEu2fx9sk3WSWg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- sa13-20020a1709076d0d00b0072a8791298aso2122911ejc.7
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 08:21:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8NuC-00034P-RF
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:22:33 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:41678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8NuB-0002Jl-5r
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:22:32 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-31c8bb90d09so31315077b3.8
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 08:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2lp9Do7C7JGDT0iqwVCG2YrhON3OohTJB+UJsrPGhcc=;
+ b=fxtYsGyMiqQpKC369BMsSaspow62s5sKnyFF/z/dUwkffokvh0hiH8oQQvb9mxu3be
+ 7UavFJLc9Hls+tpL1vZJACGtGYDJsx+TuxMVrO5dZ3zVxMtHDRgYx7Gv0tFdcahHbhrC
+ f9c1MMJEFuhvglGsiixChIaefJqpPxQaYslNufNuurk6nqGdUPMlvaACvuthcEyzHZ4a
+ nwg7uCZVYcAUJu6iweWU3Tao+I8SdTYjp4ojkGGs35QMJAgw9b1Ox/9hbTMYPDFOFj0q
+ 3rx9Zg6hFnlJQduCKiNUnDioSrM9p6erK1kaZg5KP2Xed0iJOWPBFnxvq557wqlbaEm8
+ aTUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oAa20g9OAuQhUxFtb8haoc0C6+H5TmFHdFkWoYZZhpw=;
- b=T4j/roMjzC93JU6L9GclQ0BPyH82Szg9GY27tE7aRNBRDzhjPNc/Lka5lZKNpDq3Oe
- +sRnOW8hdVxUEmaTniiTntiiReP7UnrVECkXnUbJuBIFJS+XeDcrCMu3RkwXk8jQ0KJk
- QLHxFdiHeU9VLIgaeQZXAtIQ2T9bARfJev3xD6Q71Iy25iJs6bo2A+IhCRjv0E4EglUh
- f9hLPmuSY94u3RNBsgDnhfPZ8gMW53Lbj+3LN2pxvD04kjNw/zl21Yk14DU11wLJOpCi
- uHfmfDhohBfsdu7MgY+gnDXEE9mo6f7FPzrBv+SKyWSYNZhEEqoOprcBWOqrDxF27IOy
- ZeLQ==
-X-Gm-Message-State: AJIora+YOvF08W/1aJd8r55p+JlzLQ3eXueLm/kieJaAp07q+U+FFSVR
- QhWNK8mfJDoVPT78i0WMAJfkLKf87YqFPeZVcgci2034T2HjZbJ+xxBgJT/9ItbquhNN2CXZzHj
- zP97GIUWgr/wKpX4=
-X-Received: by 2002:a05:6402:390b:b0:43a:281e:48fc with SMTP id
- fe11-20020a056402390b00b0043a281e48fcmr10970256edb.214.1656948082135; 
- Mon, 04 Jul 2022 08:21:22 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tvHbDJuCW1Ge2PaCADvMVlSyrlAVX1BH5Z3DlkUfV7QzSM9H3C7NHR7mXiohkG5H7iO5CTFQ==
-X-Received: by 2002:a05:6402:390b:b0:43a:281e:48fc with SMTP id
- fe11-20020a056402390b00b0043a281e48fcmr10970195edb.214.1656948081840; 
- Mon, 04 Jul 2022 08:21:21 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
- ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
- by smtp.gmail.com with ESMTPSA id
- fi9-20020a170906da0900b00722e5b234basm14391221ejb.179.2022.07.04.08.21.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 08:21:21 -0700 (PDT)
-Message-ID: <741358f6-43fd-15d1-86c8-4591cef658bb@redhat.com>
-Date: Mon, 4 Jul 2022 17:21:19 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2lp9Do7C7JGDT0iqwVCG2YrhON3OohTJB+UJsrPGhcc=;
+ b=jbbCzR2IzJZ7v9cLgC0FCSolbP89PvaiPNI72rxSHCTfuONArovtqmarAZWSnKJxta
+ K+j7bUnIxf7TByBLSOhkYdI7yUPI2aJLc4pKWES31ON7O1eXLf+ZrvcDc8Zh1PFHiuZD
+ MjmLlfhs5M4gj4+Mo/aV3A8MBviMWWmVLBtPdjPUfFS9xTcFObshXV4qrZqkikDtXpAH
+ znjg2NxGTWiK4k9E009dqHTCoDw7jETg1Lv6T0uBEL0xS3eKBtRN1ISg4LjJSZbN0xEF
+ f+EpERsio/V3RjZ/9wTuksyIgomaHsU/hpT6clbzFOJ09qOgk9TCBKBtdYQ3xmiNsRuy
+ 71kg==
+X-Gm-Message-State: AJIora9BzylcDnFOqeTNzdik6vlSKffATmMMRlz7CVlPIrUsYQCr9LyK
+ gpLRyJo87mND4+8FUoFIyJMpOU7m72xFAdD0vQGVUA==
+X-Google-Smtp-Source: AGRyM1vVgpNP7paF9MN+3N8qsYRLI4iAr/PPtVhxMEirBm5RZVv9x1vRAJ/MX/lQdkpQt4PJSo1UGbADtPU+7E7ci0o=
+X-Received: by 2002:a81:1cc:0:b0:317:a0fa:7a61 with SMTP id
+ 195-20020a8101cc000000b00317a0fa7a61mr33290479ywb.10.1656948149859; Mon, 04
+ Jul 2022 08:22:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 03/18] block: Change blk_{pread,pwrite}() param order
-Content-Language: en-US
-To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Andrew Jeffery <andrew@aj.id.au>, Beniamino Galvani <b.galvani@gmail.com>,
- qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>,
- Niek Linnenbank <nieklinnenbank@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Kevin Wolf
- <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eric Blake <eblake@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, qemu-riscv@nongnu.org, Jeff Cody <codyprime@gmail.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Juan Quintela <quintela@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Peter Maydell <peter.maydell@linaro.org>, Laurent Vivier
- <laurent@vivier.eu>, Bin Meng <bin.meng@windriver.com>,
- Greg Kurz <groug@kaod.org>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-ppc@nongnu.org,
- Palmer Dabbelt <palmer@dabbelt.com>,
- David Gibson <david@gibson.dropbear.id.au>, "Denis V. Lunev" <den@openvz.org>
-References: <20220517113524.197910-1-afaria@redhat.com>
- <20220517113746.198993-1-afaria@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220517113746.198993-1-afaria@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220703082419.770989-1-richard.henderson@linaro.org>
+ <20220703082419.770989-3-richard.henderson@linaro.org>
+In-Reply-To: <20220703082419.770989-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 Jul 2022 16:22:19 +0100
+Message-ID: <CAFEAcA8YowUZqpyC4k=7w_pFSZ5JrnC=cYpj0JUn8U4JaYOGDA@mail.gmail.com>
+Subject: Re: [PATCH 02/62] target/arm: Enable PageEntryExtra
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,68 +83,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.05.22 13:37, Alberto Faria wrote:
-> Swap 'buf' and 'bytes' around for consistency with
-> blk_co_{pread,pwrite}(), and in preparation to implement these functions
-> using generated_co_wrapper.
+On Sun, 3 Jul 2022 at 09:25, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Callers were updated using this Coccinelle script:
+> Copy attrs, sharability, and the NS bit into the TLB.
 >
->      @@ expression blk, offset, buf, bytes, flags; @@
->      - blk_pread(blk, offset, buf, bytes, flags)
->      + blk_pread(blk, offset, bytes, buf, flags)
->
->      @@ expression blk, offset, buf, bytes, flags; @@
->      - blk_pwrite(blk, offset, buf, bytes, flags)
->      + blk_pwrite(blk, offset, bytes, buf, flags)
->
-> It had no effect on hw/block/nand.c, presumably due to the #if, so that
-> file was updated manually.
->
-> Overly-long lines were then fixed by hand.
->
-> Signed-off-by: Alberto Faria <afaria@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   block.c                           |  2 +-
->   block/block-backend.c             |  4 +--
->   block/commit.c                    |  4 +--
->   block/crypto.c                    |  2 +-
->   block/export/fuse.c               |  4 +--
->   block/parallels.c                 |  2 +-
->   block/qcow.c                      |  8 +++---
->   block/qcow2.c                     |  4 +--
->   block/qed.c                       |  8 +++---
->   block/vdi.c                       |  4 +--
->   block/vhdx.c                      | 20 ++++++-------
->   block/vmdk.c                      | 10 +++----
->   block/vpc.c                       | 12 ++++----
->   hw/arm/allwinner-h3.c             |  2 +-
->   hw/arm/aspeed.c                   |  2 +-
->   hw/block/block.c                  |  2 +-
->   hw/block/fdc.c                    | 20 ++++++-------
->   hw/block/hd-geometry.c            |  2 +-
->   hw/block/m25p80.c                 |  2 +-
->   hw/block/nand.c                   | 47 ++++++++++++++++---------------
->   hw/block/onenand.c                | 32 ++++++++++-----------
->   hw/block/pflash_cfi01.c           |  4 +--
->   hw/block/pflash_cfi02.c           |  4 +--
->   hw/ide/atapi.c                    |  4 +--
->   hw/misc/mac_via.c                 |  4 +--
->   hw/misc/sifive_u_otp.c            | 14 ++++-----
->   hw/nvram/eeprom_at24c.c           |  4 +--
->   hw/nvram/spapr_nvram.c            |  6 ++--
->   hw/nvram/xlnx-bbram.c             |  4 +--
->   hw/nvram/xlnx-efuse.c             |  4 +--
->   hw/ppc/pnv_pnor.c                 |  6 ++--
->   hw/sd/sd.c                        |  4 +--
->   include/sysemu/block-backend-io.h |  4 +--
->   migration/block.c                 |  6 ++--
->   nbd/server.c                      |  8 +++---
->   qemu-img.c                        | 18 ++++++------
->   qemu-io-cmds.c                    |  4 +--
->   tests/unit/test-block-iothread.c  |  8 +++---
->   38 files changed, 150 insertions(+), 149 deletions(-)
+>  target/arm/cpu-param.h  |  8 ++++++++
+>  target/arm/internals.h  |  5 +++++
+>  target/arm/tlb_helper.c | 14 ++++++++++++--
+>  3 files changed, 25 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+> index 68ffb12427..a14f167d11 100644
+> --- a/target/arm/cpu-param.h
+> +++ b/target/arm/cpu-param.h
+> @@ -30,6 +30,14 @@
+>   */
+>  # define TARGET_PAGE_BITS_VARY
+>  # define TARGET_PAGE_BITS_MIN  10
+> +/*
+> + * Extra information stored in softmmu page tables.
+> + */
+> +# define TARGET_PAGE_ENTRY_EXTRA
+> +struct PageEntryExtra {
+> +    /* See PAGEENTRYEXTRA fields in cpu.h */
+> +    uint64_t x;
+> +};
+>  #endif
+>
+>  #define NB_MMU_MODES 15
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index c66f74a0db..2b38a83574 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -74,6 +74,11 @@ FIELD(V7M_EXCRET, DCRS, 5, 1)
+>  FIELD(V7M_EXCRET, S, 6, 1)
+>  FIELD(V7M_EXCRET, RES1, 7, 25) /* including the must-be-1 prefix */
+>
+> +/* Bit definitions for PageEntryExtra */
+> +FIELD(PAGEENTRYEXTRA, ATTRS, 0, 8)
+> +FIELD(PAGEENTRYEXTRA, SHAREABILITY, 8, 2)
+> +FIELD(PAGEENTRYEXTRA, PA, 12, 52)
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+So why do we want these things in particular? It would be
+helpful to describe the intended uses in the commit message
+to save the reader having to read the next 60 patches to
+find out :-)
 
+Is wanting to cache the physaddr an Arm-specific thing, or is it
+something we should consider having in the core softmmu code?
+
+> +
+>  /* Minimum value which is a magic number for exception return */
+>  #define EXC_RETURN_MIN_MAGIC 0xff000000
+>  /* Minimum number which is a magic number for function or exception return
+> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+> index 7d8a86b3c4..9de3099153 100644
+> --- a/target/arm/tlb_helper.c
+> +++ b/target/arm/tlb_helper.c
+> @@ -226,21 +226,31 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                          &phys_addr, &attrs, &prot, &page_size,
+>                          &fi, &cacheattrs);
+>      if (likely(!ret)) {
+> +        PageEntryExtra extra = {};
+> +
+>          /*
+>           * Map a single [sub]page. Regions smaller than our declared
+>           * target page size are handled specially, so for those we
+> -         * pass in the exact addresses.
+> +         * pass in the exact addresses.  This only happens for M-profile,
+> +         * which does not use or require PageEntryExtra.
+>           */
+
+Do we have to exclude M-profile here because the PageEntryExtra
+data is strictly-per-page, or because the way we've formatted
+our extra uint64_t requires the physaddr to be page-aligned, or both?
+
+>          if (page_size >= TARGET_PAGE_SIZE) {
+>              phys_addr &= TARGET_PAGE_MASK;
+>              address &= TARGET_PAGE_MASK;
+> +
+> +            /* Record some particulars for later lookup. */
+> +            extra.x = phys_addr;
+> +            extra.x = FIELD_DP64(extra.x, PAGEENTRYEXTRA, ATTRS,
+> +                                 cacheattrs.attrs);
+> +            extra.x = FIELD_DP64(extra.x, PAGEENTRYEXTRA, SHAREABILITY,
+> +                                 cacheattrs.shareability);
+>          }
+>          /* Notice and record tagged memory. */
+>          if (cpu_isar_feature(aa64_mte, cpu) && cacheattrs.attrs == 0xf0) {
+>              arm_tlb_mte_tagged(&attrs) = true;
+>          }
+>
+> -        tlb_set_page_with_attrs(cs, address, phys_addr, attrs,
+> +        tlb_set_page_with_extra(cs, address, phys_addr, attrs, extra,
+>                                  prot, mmu_idx, page_size);
+>          return true;
+>      } else if (probe) {
+> --
+> 2.34.1
+
+thanks
+-- PMM
 
