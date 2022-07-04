@@ -2,78 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380E4565C1F
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 18:30:29 +0200 (CEST)
-Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9646565C4F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 18:43:22 +0200 (CEST)
+Received: from localhost ([::1]:48576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Oxv-0007eh-RE
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 12:30:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38950)
+	id 1o8PAP-0003Go-Cm
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 12:43:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o8OwA-0006rj-Jj
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:28:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40779)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1o8P8b-0002D0-8x
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:41:29 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o8Ow5-0004Tm-LH
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:28:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656952112;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=6BoeQKEg96zZSlyN0B3FK1hC/jmdaQuWr799bnUXXVM=;
- b=b/g5xutiadzCqnFzYRXFyMVqHkK2EkiYFHDYwGUObummBzpjQvH66c2+xKjmv8pcnSg0LE
- OL5zH5fpBlKE2mKAcmRRGmv/UGnd+2gipKtNsa4HjfxQv5jUINttRePpAcaRcLT/fPVvZG
- w9eBBGn8d0t550J2FGZDcAYI4LDfrBk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-A7gXbrz4MBiCn1M462PGzw-1; Mon, 04 Jul 2022 12:28:29 -0400
-X-MC-Unique: A7gXbrz4MBiCn1M462PGzw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A85AF2999B4A;
- Mon,  4 Jul 2022 16:28:28 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38DBD4010FA6;
- Mon,  4 Jul 2022 16:28:23 +0000 (UTC)
-Date: Mon, 4 Jul 2022 17:28:20 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org, "Denis V. Lunev" <den@openvz.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Xu <peterx@redhat.com>,
- Alberto Garcia <berto@igalia.com>, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- Markus Armbruster <armbru@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Peter Lieven <pl@kamp.de>
-Subject: Re: [RFC 0/8] Introduce an extensible static analyzer
-Message-ID: <YsMVJLqNYmmpqjGc@redhat.com>
-References: <20220702113331.2003820-1-afaria@redhat.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1o8P8Z-0006iz-7b
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:41:29 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 264GFgdo000585
+ for <qemu-devel@nongnu.org>; Mon, 4 Jul 2022 16:41:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=qOJXEAmXpN0Tb7r1ofxkvLCJt1BvMFMJx0LGdUPQ0Xk=;
+ b=nk17i5nujBD1Vrg/kYEzo6xok5bfO/TNxtPB5rHr7ZcprNUyp7bmWlCp6He/RCSWPL/c
+ 9hb81R8PTrkIA5FfnJ7e+OF+ZexPPPcyze6avWd4v5wsRm3Ack6jaljoZf7pFK6U9otw
+ gHimdjcF7jqtsxiXNYeAkzEBWCxjIgcRrQ5rpHT/QUA2HLyaKNZRAbDFpMbyzLg8HkJU
+ tNGGFLdVL8WQu5jSL4Wj5PfIWNDTb+/NPFOkxCwlWj4i7VbFFB5/oCnKYLFmTsubOs6r
+ HH6fq/lI89brZxQMbeR0hRy7zggjU0rPCTCi6wQ4S/PNoXYokKZ66AzDOtaVC6EemcYK ig== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h43jtghnb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 16:41:23 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 264GT24u026724
+ for <qemu-devel@nongnu.org>; Mon, 4 Jul 2022 16:41:22 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h43jtghmu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Jul 2022 16:41:22 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 264GKbC0009738;
+ Mon, 4 Jul 2022 16:41:20 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03fra.de.ibm.com with ESMTP id 3h2dn8t6fw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Jul 2022 16:41:20 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 264GfPoN25166108
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 4 Jul 2022 16:41:25 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 27234A404D;
+ Mon,  4 Jul 2022 16:41:17 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CFE67A4053;
+ Mon,  4 Jul 2022 16:41:16 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.47.233])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  4 Jul 2022 16:41:16 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] multifd: Copy pages before compressing them with zlib
+Date: Mon,  4 Jul 2022 18:41:12 +0200
+Message-Id: <20220704164112.2890137-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IrHZ3DlbKCzF1ER9xuP7q4m01z20J9-Q
+X-Proofpoint-ORIG-GUID: iJlIqIdnYTYvOLmHI2tXhyG1X339Tnt0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220702113331.2003820-1-afaria@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-04_16,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 adultscore=0 clxscore=1015
+ mlxlogscore=999 priorityscore=1501 malwarescore=0 phishscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2207040071
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,93 +109,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 02, 2022 at 12:33:23PM +0100, Alberto Faria wrote:
-> This series introduces a static analyzer for QEMU. It consists of a
-> single static-analyzer.py script that relies on libclang's Python
-> bindings, and provides a common framework on which arbitrary static
-> analysis checks can be developed and run against QEMU's code base.
-> 
-> Summary of the series:
-> 
->   - Patch 1 adds the base static analyzer, along with a simple check
->     that finds static functions whose return value is never used, and
->     patch 2 fixes some occurrences of this.
-> 
->   - Patch 3 adds a check to ensure that non-coroutine_fn functions don't
->     perform direct calls to coroutine_fn functions, and patch 4 fixes
->     some violations of this rule.
-> 
->   - Patch 5 adds a check to enforce coroutine_fn restrictions on
->     function pointers, namely around assignment and indirect calls, and
->     patch 6 fixes some problems it detects. (Implementing this check
->     properly is complicated, since AFAICT annotation attributes cannot
->     be applied directly to types. This part still needs a lot of work.)
-> 
->   - Patch 7 introduces a no_coroutine_fn marker for functions that
->     should not be called from coroutines, makes generated_co_wrapper
->     evaluate to no_coroutine_fn, and adds a check enforcing this rule.
->     Patch 8 fixes some violations that it finds.
-> 
-> The current primary motivation for this work is enforcing rules around
-> block layer coroutines, which is why most of the series focuses on that.
-> However, the static analyzer is intended to be sufficiently generic to
-> satisfy other present and future QEMU static analysis needs.
-> 
-> This is very early work-in-progress, and a lot is missing. One notable
-> omission is build system integration, including keeping track of which
-> translation units have been modified and need re-analyzing.
-> 
-> Performance is bad, but there is a lot of potential for optimization,
-> such as avoiding redundant AST traversals. Switching to C libclang is
-> also a possibility, although Python makes it easy to quickly prototype
-> new checks, which should encourage adoption and contributions.
+zlib_send_prepare() compresses pages of a running VM. zlib does not
+make any thread-safety guarantees with respect to changing deflate()
+input concurrently with deflate() [1].
 
-Have you done any measurement see how much of the overhead is from
-the checks you implemented, vs how much is inherantly forced on us
-by libclang ? ie what does it look like if you just load the libclang
-framework and run it actross all source files, without doing any
-checks in python.
+One can observe problems due to this with the IBM zEnterprise Data
+Compression accelerator capable zlib [2]. When the hardware
+acceleration is enabled, migration/multifd/tcp/plain/zlib test fails
+intermittently [3] due to sliding window corruption. The accelerator's
+architecture explicitly discourages concurrent accesses [4]:
 
-If i run 'clang-tidy' across the entire source tree, it takes 3 minutes
-on my machine, but there's overhead of repeatedly starting the process
-in there.
+    Page 26-57, "Other Conditions":
 
-I think anything that actually fully parses the source files is going
-to have a decent sized unavoidable overhead, when run across the whole
-source tree.
+    As observed by this CPU, other CPUs, and channel
+    programs, references to the parameter block, first,
+    second, and third operands may be multiple-access
+    references, accesses to these storage locations are
+    not necessarily block-concurrent, and the sequence
+    of these accesses or references is undefined.
 
-Still having a properly parsed abstract source tree is an inherantly
-useful thing. for certain types of static analysis check. Some things
-get unreliable real fast if you try to anlyse using regex matches and
-similar approaches that are the common alternative. So libclang is
-understandably appealing in this respect.
+Mark Adler pointed out that vanilla zlib performs double fetches under
+certain circumstances as well [5], therefore we need to copy data
+before passing it to deflate().
 
-> The script takes a path to the build directory, and any number of paths
-> to directories or files to analyze. Example run on a 12-thread laptop:
-> 
->     $ time ./static-analyzer.py build block
->     block/commit.c:525:15: non-coroutine_fn function calls coroutine_fn
->     block/nbd.c:206:5: non-coroutine_fn function calls coroutine_fn
->     [...]
->     block/ssh.c:1167:13: non-coroutine_fn function calls coroutine_fn
->     block/nfs.c:229:27: non-coroutine_fn function calls coroutine_fn
->     Analyzed 79 translation units.
-> 
->     real    0m45.277s
->     user    7m55.496s
->     sys     0m1.445s
+[1] https://zlib.net/manual.html
+[2] https://github.com/madler/zlib/pull/410
+[3] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03988.html
+[4] http://publibfp.dhe.ibm.com/epubs/pdf/a227832c.pdf
+[5] https://gitlab.com/qemu-project/qemu/-/issues/1099
 
-Ouch, that is incredibly slow :-(
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
 
-With regards,
-Daniel
+v1: https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg06841.html
+v1 -> v2: Rebase, mention Mark Adler's reply in the commit message.
+
+ migration/multifd-zlib.c | 35 ++++++++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 13 deletions(-)
+
+diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+index 3a7ae44485..b6b22b7d1f 100644
+--- a/migration/multifd-zlib.c
++++ b/migration/multifd-zlib.c
+@@ -27,6 +27,8 @@ struct zlib_data {
+     uint8_t *zbuff;
+     /* size of compressed buffer */
+     uint32_t zbuff_len;
++    /* uncompressed buffer */
++    uint8_t buf[];
+ };
+ 
+ /* Multifd zlib compression */
+@@ -43,9 +45,18 @@ struct zlib_data {
+  */
+ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
+ {
+-    struct zlib_data *z = g_new0(struct zlib_data, 1);
+-    z_stream *zs = &z->zs;
++    /* This is the maximum size of the compressed buffer */
++    uint32_t zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
++    size_t buf_len = qemu_target_page_size();
++    struct zlib_data *z;
++    z_stream *zs;
+ 
++    z = g_try_malloc0(sizeof(struct zlib_data) + buf_len + zbuff_len);
++    if (!z) {
++        error_setg(errp, "multifd %u: out of memory for zlib_data", p->id);
++        return -1;
++    }
++    zs = &z->zs;
+     zs->zalloc = Z_NULL;
+     zs->zfree = Z_NULL;
+     zs->opaque = Z_NULL;
+@@ -54,15 +65,8 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
+         error_setg(errp, "multifd %u: deflate init failed", p->id);
+         return -1;
+     }
+-    /* This is the maxium size of the compressed buffer */
+-    z->zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
+-    z->zbuff = g_try_malloc(z->zbuff_len);
+-    if (!z->zbuff) {
+-        deflateEnd(&z->zs);
+-        g_free(z);
+-        error_setg(errp, "multifd %u: out of memory for zbuff", p->id);
+-        return -1;
+-    }
++    z->zbuff_len = zbuff_len;
++    z->zbuff = z->buf + buf_len;
+     p->data = z;
+     return 0;
+ }
+@@ -80,7 +84,6 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
+     struct zlib_data *z = p->data;
+ 
+     deflateEnd(&z->zs);
+-    g_free(z->zbuff);
+     z->zbuff = NULL;
+     g_free(p->data);
+     p->data = NULL;
+@@ -114,8 +117,14 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+             flush = Z_SYNC_FLUSH;
+         }
+ 
++        /*
++         * Since the VM might be running, the page may be changing concurrently
++         * with compression. zlib does not guarantee that this is safe,
++         * therefore copy the page before calling deflate().
++         */
++        memcpy(z->buf, p->pages->block->host + p->normal[i], page_size);
+         zs->avail_in = page_size;
+-        zs->next_in = p->pages->block->host + p->normal[i];
++        zs->next_in = z->buf;
+ 
+         zs->avail_out = available;
+         zs->next_out = z->zbuff + out_size;
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.35.3
 
 
