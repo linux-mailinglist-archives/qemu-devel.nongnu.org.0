@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B499564B97
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 04:19:28 +0200 (CEST)
-Received: from localhost ([::1]:58692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3AD564BDB
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 04:42:49 +0200 (CEST)
+Received: from localhost ([::1]:47074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8BgM-0000vC-Ef
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 22:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60952)
+	id 1o8C2y-0004fG-MZ
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 22:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o8Beq-000075-6B; Sun, 03 Jul 2022 22:17:52 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:36644)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1o8C1i-0003F2-4G
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 22:41:30 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o8Beo-0002A2-H8; Sun, 03 Jul 2022 22:17:51 -0400
-Received: by mail-pl1-x636.google.com with SMTP id m2so7360492plx.3;
- Sun, 03 Jul 2022 19:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gwQxmhighNB+mpbnQU3udezpO4z3T3t6vtjTGx48Mx8=;
- b=hDb9xP/83U4O3oeBA3I4t5+Ap/CwMg4dimPZuH6MIwxYUFVxryGWkiFsMN8Mu1mvgC
- /pWqtdpy/co69CvVhwrzldtg6q97xI+Fi1Q3oEx22KznKAYwKrrLPBh/Q7pW8OIXfpBw
- nkZp3av685w1/kkadZawNC95f/oa2cct2PbiMj0aQ8MDUV6ZDpYWlx+sXJHswkVhEm+W
- gXC6YfuWcPXOmwrDp+JQubiKv/fvz4x4T4c8AJFy73dr/7JhTqV+fV0QqLE+rho6ce/q
- +bEePsXdKBUo1p2jPiEXqqnsVv8kOyVJIsa4Awmwt712hrIxHX3TcbJ5bOXDH5W8izos
- 3RMg==
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1o8C1b-0005jb-Jw
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 22:41:25 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ b12-20020a17090a6acc00b001ec2b181c98so12220042pjm.4
+ for <qemu-devel@nongnu.org>; Sun, 03 Jul 2022 19:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bqBwyQ/bLXR/nX5eIe196dy7W3woYx60NpMZR8oxKyg=;
+ b=vZ5dIylrj5k2mKMdVeY0FwuL6Qzg58J2JS1VxCoAu0rm8hZCW1Cp8qmHGWKiDyuQPQ
+ I7MUMUcqxvsyqqLWJXl4GWKWslLg1uHAI3ET61LuSKZQnuIokiIe1+Do8cYw80WETxzf
+ 77ncwEccbCEgKZoxDexfSOZN59V3jg83HuJ9kPyvoFoO6ojerBbWHW632DH8Ggb/ONt5
+ HIov8UuY9gC7OldhK2mTK6ApejVShFXI1jcffvrwmWT1lsGjSw1s5FFyBxEzE1ML+Cfb
+ Qr3IVbbbhcvHAWC3wI/3ho0Mw0prfJFdmnCuBtCDxZr/Vj0eRkexSvqSjX0TIycYHwyy
+ vDSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gwQxmhighNB+mpbnQU3udezpO4z3T3t6vtjTGx48Mx8=;
- b=hKkeIbUUqEHj6NKtPibBA1DSqJ6E+YExkKkLKB/IIcv1ZRwtaBgwDZ6IqYBWVpVUg4
- BS51kbLW6v+ntUYePD/qWJRSqBIekVpo3dte61XKQXaqfjUuA/kOyaH2YWQFkVPr1e1I
- eN8eC98bb7VacboS+V0hLggJVvNU7ZHvXjlSya8NyuHAGB8uLZ2x8sbnexr1X/93aYDs
- o+Be3/WEkvrwHMdSzM4kgkIQrqx0/3iTtuFofORmxAuqE5WSQSjRyvRG3WfprGIFfzoC
- oMfV6EOuz5SLruIuQUJPFtqAgRhrlhU371qnLBOy9gE592MHPmNo6U6s9ICy31ATK4qZ
- +wfw==
-X-Gm-Message-State: AJIora/C+/hCjqv5Lm1QpHIHdg0vZLnKdyOY01b93IwNWTN3nk9AGSCw
- kfyFybVteI+oSTVGBJ9v30/6F9FMih+qhwzS9sw=
-X-Google-Smtp-Source: AGRyM1t6gPm0W9p2nhx19ogh13CpdOXVt5+whnUM8K4X+vSIkhbR5hINiIED5acfgC9ferhG8J+iGtNInAHhSoZNsOA=
-X-Received: by 2002:a17:90a:590e:b0:1ed:59f0:bc2f with SMTP id
- k14-20020a17090a590e00b001ed59f0bc2fmr31841278pji.120.1656901067886; Sun, 03
- Jul 2022 19:17:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bqBwyQ/bLXR/nX5eIe196dy7W3woYx60NpMZR8oxKyg=;
+ b=KlYjO3IsjxNo6mKDHNepSjXyS3ZGfXs13ATslGkW4AtB47+MUT9uHFCwD+Gg2ATgJs
+ WDpc3y1shSPn6Mt4ow7MuyLaIZgjwrs3fcSg4a2ZZlt90n/6XINV4Dtwzb2P6rUeruOA
+ Ywnv1Io5jkUGaCDi7BUb29pX0zSbZ7GzGTnuPfxqneIk7Qjf5DowE/aE38crm63xOgJY
+ y6kkNXstvpI1QgsJqJZJ+etcObDYFafOmmLqWv4JsNLJPeGcW/fxNwQtsxDe5bmKyOaj
+ DkHmX7m970vtgPhguBbdoVDnizD4r/gBoKPf/5ZVyvbJQSvRnRLm6EQ/RxMFEWKpFMhN
+ YrxQ==
+X-Gm-Message-State: AJIora+fu5/0DZnzHGadRBCJdgGJvlsfEVE8mhlBgEC3o+G1GOtXfa6M
+ jGbkIPQT63kBEXkvhM3VS/XWOg==
+X-Google-Smtp-Source: AGRyM1sUiJFPOHqIDXwWWdOtN4MeO+q5kK6EoR7b5PehC1HHUOLiO13ud0gGKwu9tQGWgb2H3S6K8A==
+X-Received: by 2002:a17:902:a70d:b0:15e:da68:b1b1 with SMTP id
+ w13-20020a170902a70d00b0015eda68b1b1mr34202551plq.53.1656902480897; 
+ Sun, 03 Jul 2022 19:41:20 -0700 (PDT)
+Received: from always-x1.bytedance.net ([61.120.150.70])
+ by smtp.gmail.com with ESMTPSA id
+ c126-20020a621c84000000b005252defb016sm19756352pfc.122.2022.07.03.19.41.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 03 Jul 2022 19:41:20 -0700 (PDT)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: michael.roth@amd.com,
+	kkostiuk@redhat.com
+Cc: qemu-devel@nongnu.org, marcandre.lureau@redhat.com,
+ zhenwei pi <pizhenwei@bytedance.com>
+Subject: [PATCH v2 0/1] qga: add command 'guest-get-cpustats'
+Date: Mon,  4 Jul 2022 10:36:17 +0800
+Message-Id: <20220704023618.626849-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220630061150.905174-1-apatel@ventanamicro.com>
- <20220630061150.905174-2-apatel@ventanamicro.com>
-In-Reply-To: <20220630061150.905174-2-apatel@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 4 Jul 2022 12:17:21 +1000
-Message-ID: <CAKmqyKNNg+dMLtzSFrEmtWu_rxZUX_mDb21BVt=pnr+6MMBHyA@mail.gmail.com>
-Subject: Re: [PATCH v9 1/2] target/riscv: Update [m|h]tinst CSR in
- riscv_cpu_do_interrupt()
-To: Anup Patel <apatel@ventanamicro.com>, dramforever@live.com
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, 
- Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x636.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,16 +90,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 4:13 PM Anup Patel <apatel@ventanamicro.com> wrote:
->
-> We should write transformed instruction encoding of the trapped
-> instruction in [m|h]tinst CSR at time of taking trap as defined
-> by the RISC-V privileged specification v1.12.
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+v1 -> v2:
+- Konstantin & Marc-André pointed out that the structure 'GuestCpuStats'
+  is too *linux style*, so re-define it to 'GuestLinuxCpuStats', and use
+  an union type of 'GuestCpuStats'.
 
-@dramforever do you want to give an Ack or Reviewed-by?
+- Modify comment info from 'man proc', also add linux version infomation.
 
-Alistair
+- Test sscanf return value by '(i == EOF)' (To Marc-André: name is declared
+  as 'char name[64];', so we can't test '!name').
+
+- Suggested by Marc-André, use 'int clk_tck = sysconf(_SC_CLK_TCK);'
+  instead of hard code.
+
+v1:
+- Implement guest agent command 'guest-get-cpustats'
+
+Zhenwei Pi (1):
+  qga: add command 'guest-get-cpustats'
+
+ qga/commands-posix.c | 89 ++++++++++++++++++++++++++++++++++++++++++++
+ qga/commands-win32.c |  6 +++
+ qga/qapi-schema.json | 81 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 176 insertions(+)
+
+-- 
+2.20.1
+
 
