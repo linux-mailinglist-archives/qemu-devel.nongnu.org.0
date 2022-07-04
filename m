@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94D656592C
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 17:02:11 +0200 (CEST)
-Received: from localhost ([::1]:59322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1473B56598A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 17:12:31 +0200 (CEST)
+Received: from localhost ([::1]:47492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8NaU-0007EP-UG
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
+	id 1o8NkU-0002K0-6q
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:12:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8NX7-0003PO-1f
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 10:58:41 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:38566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8NX3-0004KD-8B
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 10:58:40 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- 89-20020a17090a09e200b001ef7638e536so5764664pjo.3
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 07:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=AT3uIpCfQBKhJIUnzcoq8PZHFPauEZWMl9qtzo1S/UQ=;
- b=xpIgDNR8aQHqq3vR8PPd0d75cUgFgv6YPf2FXYpkOcnw3PKhuNNsPgVW65q+rmo2J+
- vBq2XFNOxVyu2zzCjliLqD2nw5h+opqSuLfxiZ1+hYAxb0homWPJuwoqW9DsJBYsGmBK
- aYzKbO7p7Hy/P4ZQk7DP3WM1lL2cw/9KvxONJqMxfh37LVtv4mLPh7qQ1BdpD6kcKlqv
- 8AeUifAMxLiqLTv62OYwV+9EZCHlXHLlXQqIYG4tTU6p/7bF8nxVGQ2ODQLAvsIW5IFa
- qjDACqsKBlLL9xWaPY/bypu2zF8gwd3cScdoyW9up+e5ISeYqMVz/RIpGY9+vPx1csH7
- NdCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=AT3uIpCfQBKhJIUnzcoq8PZHFPauEZWMl9qtzo1S/UQ=;
- b=PmTHtmFAh+5Kcdjx8PFwsgeiue/t2+Tqk60IVoCiyPJYP4ggAcE2LtW/RKoz9kTuIv
- xehRUdPC9QMJF5RF771g60PyySxoByMhjUW/hgihIw+0+CiquU+khmQR1+5JaV8Jgen1
- pPJyMbtQKToajvhTzV8Ysn7z22EVAlHgF7bCuaZljI9ybxzlTz822yVA9uD45U3dRRlk
- a7g+gI+bBb/h0Equqb4PO9Gc5hUYF2wcIEmU4Qo0PjSH1UpV8LooS9KXNuWFh6Uh7qVR
- 6FGO/TXGD8HqDk+lNfQZNfJHpIinf29r3p1jkl1CCgKhtOIUUxyes+8b+Sk2yuZZ1Z4o
- SFrw==
-X-Gm-Message-State: AJIora/U7apF4E3TgOX1bA4Dfrcf8Hv+1cbrR8FvyPKO9a6eyn+b0q2A
- uSEdZjPCimx9roDBxYJtokTUWQ==
-X-Google-Smtp-Source: AGRyM1uDc6xmgcfEo/KapCqMCcrS2dH74yNh7zkrOMh07zszkF72IPMSfmoLxid/epfCTiC9fEVTpg==
-X-Received: by 2002:a17:903:248:b0:168:cf03:eefe with SMTP id
- j8-20020a170903024800b00168cf03eefemr35461764plh.124.1656946714697; 
- Mon, 04 Jul 2022 07:58:34 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- e7-20020aa79807000000b0052845174ef6sm3696028pfl.118.2022.07.04.07.58.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 07:58:34 -0700 (PDT)
-Message-ID: <6bad14a8-a6dd-4bbe-7808-d51e6c3f777b@linaro.org>
-Date: Mon, 4 Jul 2022 20:28:28 +0530
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o8NiT-00017X-KF; Mon, 04 Jul 2022 11:10:25 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:34326)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o8NiP-0007kz-JD; Mon, 04 Jul 2022 11:10:24 -0400
+Received: from vla5-d6ec41cad181.qloud-c.yandex.net
+ (vla5-d6ec41cad181.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:348f:0:640:d6ec:41ca])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id D22E32E0A08;
+ Mon,  4 Jul 2022 18:10:07 +0300 (MSK)
+Received: from vla5-d6d5ce7a4718.qloud-c.yandex.net
+ (vla5-d6d5ce7a4718.qloud-c.yandex.net [2a02:6b8:c18:341e:0:640:d6d5:ce7a])
+ by vla5-d6ec41cad181.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ lmsVFbKXp6-A7LeueqF; Mon, 04 Jul 2022 18:10:07 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1656947407; bh=U2dGThoeJOflxKc85WGeat46EpSSbU7L0Dk6kq7Dd3o=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=QHAykLsXErvuj3KG83eORuddW1hu74r1hMFu+3xQBMNt84C+VqfE7RFicO9oPur6c
+ 4S8HOqrgiIddSqt2mP4/eZFMg3cG1aWXknMdNWyDNFwocFp/8CqB8xufESp+9H1yuB
+ HYjqdYqtrWvl3yGQUntLVcvy6rof//Ll6gVEd0CQ=
+Authentication-Results: vla5-d6ec41cad181.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:b533::1:31] (unknown
+ [2a02:6b8:b081:b533::1:31])
+ by vla5-d6d5ce7a4718.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ kcHs307fpC-A7UuttcH; Mon, 04 Jul 2022 18:10:07 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <6af72aae-4664-e3f5-11cc-eca355b929d9@yandex-team.ru>
+Date: Mon, 4 Jul 2022 18:10:07 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 00/62] target/arm: Implement FEAT_HAFDBS
+ Thunderbird/91.8.1
+Subject: Re: [PULL v2 0/9] Block jobs & NBD patches
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20220703082419.770989-1-richard.henderson@linaro.org>
- <CAFEAcA_5s3avpeHNO5cC0HS5Unq9QsCp9mTof4uqLJwE13h+pA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_5s3avpeHNO5cC0HS5Unq9QsCp9mTof4uqLJwE13h+pA@mail.gmail.com>
+To: John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20220629081517.446432-1-vsementsov@yandex-team.ru>
+ <230922ea-a0ae-06f3-af17-0964dabd13fa@linaro.org>
+ <CAFn=p-Y9BVujsBzeoVswWQeA-rfNJPbS3_hT+npjOo_LqKd9rg@mail.gmail.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <CAFn=p-Y9BVujsBzeoVswWQeA-rfNJPbS3_hT+npjOo_LqKd9rg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,22 +84,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/4/22 20:24, Peter Maydell wrote:
->> Previously, we had A-profile allocate separate mmu_idx for secure
->> vs non-secure.  I've done away with that.  Now, I flush all mmu_idx
->> when SCR_EL3.NS is changed.  I did not see how we could reasonably
->> add 8 more mmu_idx for Realm.  Moreover, I had a look through ARM
->> Trusted Firmware, at the code paths used to change between Secure
->> and Nonsecure.  We wind up flushing all of these mmu_idx anyway while
->> swapping the EL1+EL2 cpregs, so there is no gain at all in attempting
->> to keep them live at the same time within qemu.
+On 7/1/22 20:02, John Snow wrote:
+> On Wed, Jun 29, 2022 at 7:18 PM Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 6/29/22 13:45, Vladimir Sementsov-Ogievskiy wrote:
+>>> The following changes since commit ad4c7f529a279685da84297773b4ec8080153c2d:
+>>>
+>>>     Merge tag 'pull-semi-20220628' of https://gitlab.com/rth7680/qemu into staging (2022-06-28 10:24:31 +0530)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>     https://gitlab.com/vsementsov/qemu.git tags/pull-block-2022-06-14-v2
+>>>
+>>> for you to fetch changes up to 1b8f777673985af366de099ad4e41d334b36fb12:
+>>>
+>>>     block: use 'unsigned' for in_flight field on driver state (2022-06-29 10:57:02 +0300)
+>>>
+>>> ----------------------------------------------------------------
+>>> Block jobs & NBD patches
+>>>
+>>> v2: - add arguments to QEMUMachine constructor in test, to make it work
+>>>         on arm in gitlab pipeline
+>>>       - use bdrv_inc_in_flight() / bdrv_dec_in_flight() instead of direct
+>>>         manipulation with bs->in_flight
+>>
+>> Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+>>
+>>
+>> r~
+>>
+>>
+>>>
+>>> - add new options for copy-before-write filter
+>>> - new trace points for NBD
+>>> - prefer unsigned type for some 'in_flight' fields
+>>>
+>>> Denis V. Lunev (2):
+>>>     nbd: trace long NBD operations
+>>>     block: use 'unsigned' for in_flight field on driver state
+>>>
+>>> Vladimir Sementsov-Ogievskiy (7):
+>>>     block/copy-before-write: refactor option parsing
+>>>     block/copy-before-write: add on-cbw-error open parameter
+>>>     iotests: add copy-before-write: on-cbw-error tests
+>>>     util: add qemu-co-timeout
+>>>     block/block-copy: block_copy(): add timeout_ns parameter
+>>>     block/copy-before-write: implement cbw-timeout option
+>>>     iotests: copy-before-write: add cases for cbw-timeout option
+>>>
+>>>    block/block-copy.c                            |  33 ++-
+>>>    block/copy-before-write.c                     | 110 ++++++---
+>>>    block/mirror.c                                |   2 +-
+>>>    block/nbd.c                                   |   8 +-
+>>>    block/trace-events                            |   2 +
+>>>    include/block/block-copy.h                    |   4 +-
+>>>    include/qemu/coroutine.h                      |  13 ++
+>>>    nbd/client-connection.c                       |   2 +
+>>>    nbd/trace-events                              |   3 +
+>>>    qapi/block-core.json                          |  31 ++-
+>>>    tests/qemu-iotests/pylintrc                   |   5 +
+>>>    tests/qemu-iotests/tests/copy-before-write    | 216 ++++++++++++++++++
+>>>    .../qemu-iotests/tests/copy-before-write.out  |   5 +
+>>>    util/meson.build                              |   1 +
+>>>    util/qemu-co-timeout.c                        |  89 ++++++++
+>>>    15 files changed, 482 insertions(+), 42 deletions(-)
+>>>    create mode 100755 tests/qemu-iotests/tests/copy-before-write
+>>>    create mode 100644 tests/qemu-iotests/tests/copy-before-write.out
+>>>    create mode 100644 util/qemu-co-timeout.c
+>>>
+>>
+>>
 > 
-> Is there no SMC/interrupt/etc at all which is handled as a "just do the
-> thing at EL3" without dropping down to secure EL2/EL1 ?
+> iotests: copy-before-write: add cases for cbw-timeout option
+> 
+> - This is causing the FreeBSD VM tests to regress for me, because the
+> new iotest is failing there. Haven't diagnosed further yet, but I will
+> update this thread if I get better info.
+> 
 
-I'm sure there is, but it's only swapping between S EL[012] and NS EL[012] that concerned 
-me.  Is there something that I'm missing?
+Like other problems around this test (I had a hard debugging session for the problem that reproduces only on gitlab pipline :/, it may relate to the fact that I use QEMUMachine class directly and avoid -accel qtest. Also, to fix test on ARM, I've added -machine none.
 
 
-r~
+-- 
+Best regards,
+Vladimir
 
