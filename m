@@ -2,94 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27600564E74
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 09:12:46 +0200 (CEST)
-Received: from localhost ([::1]:60062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D195564EA8
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 09:28:12 +0200 (CEST)
+Received: from localhost ([::1]:38224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8GGC-0006eH-Tn
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 03:12:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46726)
+	id 1o8GV9-0003Nu-7B
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 03:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o8GEE-0005RC-RF
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:10:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o8GEB-00016G-J6
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:10:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656918638;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p4A2UadpP7Vpqsa+zDd7Gm0biljatrKHc4p/eQcFvqU=;
- b=E69QbUhJ677u3CpTD4RJkPPOEZwYnp57KQnTaIXV8sRRatjXvTZFiWTl/eEXvCh4bTm06R
- f+jkK4u8ckKjETdeTwkDQqRUi6tTc1fzX4oIxZ+b25qXhXHdQlg2ZeH3p9HfX9wgC4wc5x
- hn9TzMYaaDT0kgp39aqMkiWhdzSAsnU=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-CAvJWkYWMvetV7v62PYcjw-1; Mon, 04 Jul 2022 03:10:37 -0400
-X-MC-Unique: CAvJWkYWMvetV7v62PYcjw-1
-Received: by mail-pj1-f69.google.com with SMTP id
- o13-20020a17090a9f8d00b001ef7c429b91so2698456pjp.6
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 00:10:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1o8GTp-0002LN-M6; Mon, 04 Jul 2022 03:26:49 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:36693)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1o8GTn-000386-UW; Mon, 04 Jul 2022 03:26:49 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id c143so6820727ybf.3;
+ Mon, 04 Jul 2022 00:26:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9sWdMjXLgwMI4KTWyfAdMYChMD4JPzLtx9XDU2LhjTo=;
+ b=IT0ZQJBDtfrPh791wUzlEYorttjymUtp099qN/buEjdU9z2v1zDXuoKBSvH638OKF+
+ w1gaRyt/MGk5BBIA+ohp0dA20t3hCe+UWC7BC9IP8eNijwWwzC/AG2S/Bij1AQzEPC8t
+ klRtOWmI2ZTYYy4ayq1v9Cc4umnbisUXf+GKv8wB4vaDJnOOIbTilGFMYqoqdUnQPSJL
+ 3byHVfrXLiCRmQYCFNL11zhiQZM/bKBSvz+WtREt2esPXa+7pktsxk1vacygGNr4M8uT
+ j804lYov1X4SAg5bk9HzanuVq62PDcx/79xdnsn2OkKuZu4eIQaWmxDpEdLVlz9VR7pY
+ R3bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=p4A2UadpP7Vpqsa+zDd7Gm0biljatrKHc4p/eQcFvqU=;
- b=I8xF5i3u9eaI1EBayeueFDUP6c4dEpT6DtKL4OexKygmCyoV1DikHXbQQqBWmt9K0D
- CXQD1goAHRG3fbwTwmwuWB9Knqt5JZt27qQ+ZEbOd7YelAdY6UZP0THLS7HCeKWst0nP
- 0uUvLWaNz9hyp2FwPaUu5M8mBSDduddc4rEvC7CqK//ZYrSylXY8QB3YeNVXGySCjDv+
- pmQxoRXBYNe1r2Ng9ynzHh+6hRxlGCaVQd0C54Px9lxvoudqcT6oFXq1V/0B++ZpzBoP
- OsEV41WzH+eGuy+CGcTnJUUFxE2LlxTTzXEiwLR2deC8xpG3WZ6+430TTxATY+ypG7W3
- qSQA==
-X-Gm-Message-State: AJIora9s+vBbM/oATMmYe2sC5gKhR5XsAi2LgvKNxFqP30sutCLYaFCo
- 5IxCemL3tTraxCdcafciZN8oWF9iNWXSQ+/Sj3SXB6MiuL7IJCFvuIYE6yv6b3A+XqVnSip2U6d
- rAEHOoJrSq+b6NXU=
-X-Received: by 2002:a63:f70c:0:b0:412:1877:7e1c with SMTP id
- x12-20020a63f70c000000b0041218777e1cmr8415079pgh.621.1656918636606; 
- Mon, 04 Jul 2022 00:10:36 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uIFNCN60VZWwm6jICla+E5okPUUDyl+cqSYMX4Tv4k22ptfWizrskRCOCjIq0kVsoGY/09gg==
-X-Received: by 2002:a63:f70c:0:b0:412:1877:7e1c with SMTP id
- x12-20020a63f70c000000b0041218777e1cmr8415057pgh.621.1656918636327; 
- Mon, 04 Jul 2022 00:10:36 -0700 (PDT)
-Received: from [10.72.13.251] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- c16-20020a170902b69000b001678dcb4c5asm20369492pls.100.2022.07.04.00.10.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 00:10:35 -0700 (PDT)
-Message-ID: <9f349685-b935-942b-57ac-ff5499cda210@redhat.com>
-Date: Mon, 4 Jul 2022 15:10:27 +0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9sWdMjXLgwMI4KTWyfAdMYChMD4JPzLtx9XDU2LhjTo=;
+ b=dqmvj3mYiSSe6WSrrcv3F3hEsR/rc+4j0PfPYY2xBdSG5w1wetNqbgOBgjq3HTbdL3
+ 2IeL1UcvkYNQ60egEZ2LUdcdVcYajwePjyBAg9DkQnkB9Y8UH20NS5XwdaQKLOlbLiaw
+ u972HOWjRmnAHx2klADslhAUsSs5z2JqBrY+UgTOQzje3ajdG/26y1nNBJy5Xc3Sjmhn
+ GmffevPSERiGnXGXD3No5ePBCvw0AISqXS0EvdmJs5RbPyuHZBNQB5Y9s1dBwCSlRyJ6
+ fgpebxVTNq7OCaPYKpvyqqqiTwlHd3aVzH5Xi4O+NR+KDh0C00Fchux/gFWYlns1PjNP
+ Stug==
+X-Gm-Message-State: AJIora85fXlCwdXlNMDItQvW7XCzs39GjTxl4Uf2lTKNnLC6GY6zmiv4
+ 3fV/xoVB/iNjjj2UNmoKN07i6jreCz2nYEJEpOs=
+X-Google-Smtp-Source: AGRyM1u0hgVr1RXQ42b4dIrG0vGvDsfW1I1J7j/YqK03mhEiNriKru7Sogsl/4KnJ0PslgHy81OfaxXhrEAedW2MzFA=
+X-Received: by 2002:a25:4d4:0:b0:66e:29d0:4d81 with SMTP id
+ 203-20020a2504d4000000b0066e29d04d81mr11712386ybe.118.1656919605948; Mon, 04
+ Jul 2022 00:26:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH] e1000: set RX descriptor status in a separate operation
-Content-Language: en-US
-To: Ding Hui <dinghui@sangfor.com.cn>, asm@asm.pp.ru
-Cc: qemu-devel@nongnu.org, zhangjing@sangfor.com.cn,
- lifan38153@sangfor.com.cn, Stefan Hajnoczi <stefanha@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-stable@nongnu.org
-References: <20220629094026.558-1-dinghui@sangfor.com.cn>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220629094026.558-1-dinghui@sangfor.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220704064254.18187-1-thuth@redhat.com>
+ <20220704064254.18187-2-thuth@redhat.com>
+In-Reply-To: <20220704064254.18187-2-thuth@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 4 Jul 2022 08:26:34 +0100
+Message-ID: <CAJSP0QUx8456jPp4=MOjRwZMPrBYgU1669HnEpC_+gDobhOiCQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] scripts/make-release: Do not include the edk2 sources
+ in the tarball anymore
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, 
+ Michael Tokarev <mjt@tls.msk.ru>,
+ "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, 
+ Brad Smith <brad@comstyle.com>, Kamil Rytarowski <kamil@netbsd.org>, 
+ Reinoud Zandijk <reinoud@netbsd.org>, Ryo ONODERA <ryoon@netbsd.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,89 +94,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/6/29 17:40, Ding Hui 写道:
-> The code of setting RX descriptor status field maybe work fine in
-> previously, however with the update of glibc version, it shows two
-> issues when guest using dpdk receive packets:
+On Mon, 4 Jul 2022 at 07:45, Thomas Huth <thuth@redhat.com> wrote:
 >
->    1. The dpdk has a certain probability getting wrong buffer_addr
+> The edk2 sources are bigger than the sources of QEMU - so they double the
+> size of our release tarballs if we include them. Fortunately, edk2 has a
+> permissive license, so there is no need for us to do this as long as we
+> continue to distribute the edk2 license information in our release tarball.
 >
->       this impact may be not obvious, such as lost a packet once in
->       a while
->
->    2. The dpdk may consume a packet twice when scan the RX desc queue
->       over again
->
->       this impact will lead a infinite wait in Qemu, since the RDT
->       (tail pointer) be inscreased to equal to RDH by unexpected,
->       which regard as the RX desc queue is full
->
-> Write a whole of RX desc with DD flag on is not quite correct, because
-> when the underlying implementation of memcpy using XMM registers to
-> copy e1000_rx_desc (when AVX or something else CPU feature is usable),
-> the bytes order of desc writing to memory is indeterminacy
->
-> We can use full-scale test case to reproduce the issue-2 by
-> https://github.com/BASM/qemu_dpdk_e1000_test (thanks to Leonid Myravjev)
->
-> I also write a POC test case at https://github.com/cdkey/e1000_poc
-> which can reproduce both of them, and easy to verify the patch effect.
->
-> The hw watchpoint also shows that, when Qemu using XMM related instructions
-> writing 16 bytes e1000_rx_desc, concurrent with DPDK using movb
-> writing 1 byte status, the final result of writing to memory will be one
-> of them, if it made by Qemu which DD flag is on, DPDK will consume it
-> again.
->
-> Setting DD status in a separate operation, can prevent the impact of
-> disorder memory writing by memcpy, also avoid unexpected data when
-> concurrent writing status by qemu and guest dpdk.
->
-> Links: https://lore.kernel.org/qemu-devel/20200102110504.GG121208@stefanha-x1.localdomain/T/
->
-> Reported-by: Leonid Myravjev <asm@asm.pp.ru>
-> Cc: Stefan Hajnoczi <stefanha@gmail.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: qemu-stable@nongnu.org
-> Tested-by: Jing Zhang <zhangjing@sangfor.com.cn>
-> Reviewed-by: Frank Lee <lifan38153@sangfor.com.cn>
-> Signed-off-by: Ding Hui <dinghui@sangfor.com.cn>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   hw/net/e1000.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+>  scripts/make-release | 27 +++++++++++++++++++++------
+>  1 file changed, 21 insertions(+), 6 deletions(-)
 >
-> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-> index f5bc81296d..e26e0a64c1 100644
-> --- a/hw/net/e1000.c
-> +++ b/hw/net/e1000.c
-> @@ -979,7 +979,7 @@ e1000_receive_iov(NetClientState *nc, const struct iovec *iov, int iovcnt)
->           base = rx_desc_base(s) + sizeof(desc) * s->mac_reg[RDH];
->           pci_dma_read(d, base, &desc, sizeof(desc));
->           desc.special = vlan_special;
-> -        desc.status |= (vlan_status | E1000_RXD_STAT_DD);
-> +        desc.status &= ~E1000_RXD_STAT_DD;
->           if (desc.buffer_addr) {
->               if (desc_offset < size) {
->                   size_t iov_copy;
-> @@ -1013,6 +1013,9 @@ e1000_receive_iov(NetClientState *nc, const struct iovec *iov, int iovcnt)
->               DBGOUT(RX, "Null RX descriptor!!\n");
->           }
->           pci_dma_write(d, base, &desc, sizeof(desc));
-> +        desc.status |= (vlan_status | E1000_RXD_STAT_DD);
-> +        pci_dma_write(d, base + offsetof(struct e1000_rx_desc, status),
-> +                      &desc.status, sizeof(desc.status));
+> diff --git a/scripts/make-release b/scripts/make-release
+> index 05b14ecc95..f79ed7a2ae 100755
+> --- a/scripts/make-release
+> +++ b/scripts/make-release
+> @@ -20,19 +20,34 @@ git checkout "v${version}"
+>  git submodule update --init
+>  (cd roms/seabios && git describe --tags --long --dirty > .version)
+>  (cd roms/skiboot && ./make_version.sh > .version)
+> -# Fetch edk2 submodule's submodules, since it won't have access to them via
+> -# the tarball later.
+> +
+> +# Fetch edk2 submodule's submodules to get their license information.
+> +# Edk2 is distributed under permissive licenses, so we don't have to
+> +# include the full source tree here (which is bigger than QEMU's sources)
+> +# as long as we provide the license information in the tarball.
+>  #
+>  # A more uniform way to handle this sort of situation would be nice, but we
+>  # don't necessarily have much control over how a submodule handles its
+>  # submodule dependencies, so we continue to handle these on a case-by-case
+>  # basis for now.
+> -(cd roms/edk2 && \
+> -    git submodule update --init -- \
+> +cd roms/edk2
+> +git submodule update --init --depth 1 -- \
+>          ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3 \
+>          BaseTools/Source/C/BrotliCompress/brotli \
+> -        CryptoPkg/Library/OpensslLib/openssl \
+> -        MdeModulePkg/Library/BrotliCustomDecompressLib/brotli)
+> +        CryptoPkg/Library/OpensslLib/openssl
+> +mv ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3/COPYING.txt \
+> +   License-softfloat.txt
+> +mv BaseTools/Source/C/BrotliCompress/brotli/LICENSE License-brotli.txt
+> +mv CryptoPkg/Library/OpensslLib/openssl/LICENSE License-openssl.txt
+> +edk2rev=$(git rev-parse --short=12 HEAD)
+> +rm -r $(ls | grep -v License) .[a-z]*
+> +cat > sources.txt <<EOF
+> +The edk2 sources can be downloaded from:
+> +
+> +https://github.com/tianocore/edk2/archive/${edk2rev}.tar.gz
 
+Please use QEMU's edk2 mirror:
+https://gitlab.com/qemu-project/edk2
 
-Good catch, but to be more safe, I wonder if we can simply use 
-stx_le_pci_dma() here?
+QEMU mirrors all dependencies so that even if upstream projects go
+offline we can still rebuild all of QEMU from source.
 
-Thanks
-
-
->   
->           if (++s->mac_reg[RDH] * sizeof(desc) >= s->mac_reg[RDLEN])
->               s->mac_reg[RDH] = 0;
-
+Thanks,
+Stefan
 
