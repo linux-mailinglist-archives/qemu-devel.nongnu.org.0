@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9650564C0E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 05:29:34 +0200 (CEST)
-Received: from localhost ([::1]:59636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EF7564C3E
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 05:58:56 +0200 (CEST)
+Received: from localhost ([::1]:38448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8CmE-0007H5-0R
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 23:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41740)
+	id 1o8DEc-00058T-Lo
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 23:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1o8Cl1-0006b4-QC
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 23:28:19 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:54324 helo=cstnet.cn)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1o8DDL-0004N8-Bj
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 23:57:35 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:53120 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o8Ckz-0003Dt-CO
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 23:28:19 -0400
-Received: from smtpclient.apple (unknown [114.245.36.56])
- by APP-01 (Coremail) with SMTP id qwCowAAnLw9IXsJir3_uCw--.27007S2;
- Mon, 04 Jul 2022 11:28:09 +0800 (CST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v2] hw/nvme: Use ioeventfd to handle doorbell updates
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <Yr8bGnaDRsivoY9b@kbusch-mbp.dhcp.thefacebook.com>
-Date: Mon, 4 Jul 2022 11:28:07 +0800
-Cc: qemu-devel@nongnu.org,
- Klaus Jensen <its@irrelevant.dk>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <051A89F3-FED3-401D-8EED-AC83E34EF406@ict.ac.cn>
-References: <20220630032231.2881787-1-fanjinhao21s@ict.ac.cn>
- <Yr8bGnaDRsivoY9b@kbusch-mbp.dhcp.thefacebook.com>
-To: Keith Busch <kbusch@kernel.org>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: qwCowAAnLw9IXsJir3_uCw--.27007S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gw45CFW8Kr4fWw1rJw48Xrb_yoWDXrb_u3
- yrurZYkwnrZr4xu398Ga12vw4aqr4xJw17WFW7ZFyDAanFqa17ur4Iyrn5AFW7Xa13XrW2
- krs8G3Waqw4j9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbw8YjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
- C2z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
- 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF
- x2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
- v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
- 67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
- IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
- 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jeXdbUUUUU=
-X-Originating-IP: [114.245.36.56]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ (envelope-from <gaosong@loongson.cn>) id 1o8DDI-0007Yq-Pe
+ for qemu-devel@nongnu.org; Sun, 03 Jul 2022 23:57:35 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxX+MgZcJitcwHAA--.23851S3; 
+ Mon, 04 Jul 2022 11:57:21 +0800 (CST)
+Subject: Re: [PATCH v21 00/13] Add LoongArch linux-user emulation support
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: laurent@vivier.eu
+References: <20220703085913.772936-1-richard.henderson@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <12cd505b-aeb2-d111-bbe8-1cfd1a7a55b5@loongson.cn>
+Date: Mon, 4 Jul 2022 11:57:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20220703085913.772936-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9DxX+MgZcJitcwHAA--.23851S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxJFy3Ww4rZryxXrWkAFWxXrb_yoWrJryDp3
+ yfur1fGw4rJrZ7JFyqqa45Z3Z5XF17Wr4ag3WSqry8CrWIkr18Zwn5Kas3Wa45Z3W0gFWj
+ grykAw1UWF4UXFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvKb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+ cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
+ AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
+ 6F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14
+ v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80
+ ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4
+ AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svPMxAI
+ w28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
+ VjvjDU0xZFpf9x07beAp5UUUUU=
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,43 +76,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-at 12:04 AM, Keith Busch <kbusch@kernel.org> wrote:
+Hi, Richard
 
-> On Thu, Jun 30, 2022 at 11:22:31AM +0800, Jinhao Fan wrote:
->> +static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
->> +{
->> +    NvmeCtrl *n =3D sq->ctrl;
->> +    uint16_t offset =3D sq->sqid << 3;
->> +    int ret;
->> +
->> +    ret =3D event_notifier_init(&sq->notifier, 0);
->> +    if (ret < 0) {
->> +        return ret;
->> +    }
->> +
->> +    event_notifier_set_handler(&sq->notifier, nvme_sq_notifier);
->> +    memory_region_add_eventfd(&n->iomem,
->> +                              0x1000 + offset, 4, false, 0, =
-&sq->notifier);
->> +
->> +    return 0;
->> +}
->> +
->> static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
->> {
->>     n->sq[sq->sqid] =3D NULL;
->>     timer_free(sq->timer);
->> +    event_notifier_cleanup(&sq->notifier);
->>     g_free(sq->io_req);
->>     if (sq->sqid) {
->>         g_free(sq);
->=20
-> I believe there needs to be a corresponding =
-memory_region_del_eventfd() when
-> deleting the queue before event_notifier_cleanup(), otherwise you'll =
-leak
-> invalid listeners.
+On 2022/7/3 下午4:59, Richard Henderson wrote:
+> Hi.  This is Song Gao's v20 [1], with patch 2 extensively rewritten
+> so that it handles lock_user properly.  It compiles, but I need
+> to update the docker image we produced last year so that I can
+> properly test this.
+>
+> In the meantime, Song, can you please test this?
+>
+Yes, I can,   but which test do you mean?
+Test linxu-user with docker image?  like : 
+https://wiki.qemu.org/Testing/DockerBuild#linux-user_Docker_targets
 
-Thanks. Fixed this in v3.
+I had done test case 'make check'  and 'make check-tcg'.
+
+Thanks
+Song Gao
+> r~
+>
+> [1] https://lore.kernel.org/qemu-devel/20220624031049.1716097-1-gaosong@loongson.cn/
+>
+> Song Gao (13):
+>    linux-user: Add LoongArch generic header files
+>    linux-user: Add LoongArch signal support
+>    linux-user: Add LoongArch elf support
+>    linux-user: Add LoongArch syscall support
+>    linux-user: Add LoongArch cpu_loop support
+>    scripts: add loongarch64 binfmt config
+>    target/loongarch: remove badaddr from CPULoongArch
+>    target/loongarch: Fix missing update CSR_BADV
+>    target/loongarch: Fix helper_asrtle_d/asrtgt_d raise wrong exception
+>    target/loongarch: remove unused include hw/loader.h
+>    target/loongarch: Adjust functions and structure to support user-mode
+>    default-configs: Add loongarch linux-user support
+>    target/loongarch: Update README
+>
+>   configs/targets/loongarch64-linux-user.mak    |   3 +
+>   linux-user/loongarch64/sockbits.h             |  11 +
+>   linux-user/loongarch64/syscall_nr.h           | 312 ++++++++++++++++
+>   linux-user/loongarch64/target_cpu.h           |  34 ++
+>   linux-user/loongarch64/target_elf.h           |  12 +
+>   linux-user/loongarch64/target_errno_defs.h    |  12 +
+>   linux-user/loongarch64/target_fcntl.h         |  11 +
+>   linux-user/loongarch64/target_prctl.h         |   1 +
+>   linux-user/loongarch64/target_resource.h      |  11 +
+>   linux-user/loongarch64/target_signal.h        |  13 +
+>   linux-user/loongarch64/target_structs.h       |  11 +
+>   linux-user/loongarch64/target_syscall.h       |  48 +++
+>   linux-user/loongarch64/termbits.h             |  11 +
+>   linux-user/syscall_defs.h                     |   6 +-
+>   target/loongarch/cpu.h                        |   8 +-
+>   target/loongarch/helper.h                     |   2 +
+>   target/loongarch/internals.h                  |   2 +
+>   linux-user/elfload.c                          |  91 +++++
+>   linux-user/loongarch64/cpu_loop.c             |  96 +++++
+>   linux-user/loongarch64/signal.c               | 335 ++++++++++++++++++
+>   target/loongarch/cpu.c                        |  34 +-
+>   target/loongarch/gdbstub.c                    |   2 +-
+>   target/loongarch/op_helper.c                  |  10 +-
+>   .../insn_trans/trans_privileged.c.inc         |  36 ++
+>   scripts/gensyscalls.sh                        |   2 +
+>   scripts/qemu-binfmt-conf.sh                   |   6 +-
+>   target/loongarch/README                       |  39 +-
+>   27 files changed, 1144 insertions(+), 15 deletions(-)
+>   create mode 100644 configs/targets/loongarch64-linux-user.mak
+>   create mode 100644 linux-user/loongarch64/sockbits.h
+>   create mode 100644 linux-user/loongarch64/syscall_nr.h
+>   create mode 100644 linux-user/loongarch64/target_cpu.h
+>   create mode 100644 linux-user/loongarch64/target_elf.h
+>   create mode 100644 linux-user/loongarch64/target_errno_defs.h
+>   create mode 100644 linux-user/loongarch64/target_fcntl.h
+>   create mode 100644 linux-user/loongarch64/target_prctl.h
+>   create mode 100644 linux-user/loongarch64/target_resource.h
+>   create mode 100644 linux-user/loongarch64/target_signal.h
+>   create mode 100644 linux-user/loongarch64/target_structs.h
+>   create mode 100644 linux-user/loongarch64/target_syscall.h
+>   create mode 100644 linux-user/loongarch64/termbits.h
+>   create mode 100644 linux-user/loongarch64/cpu_loop.c
+>   create mode 100644 linux-user/loongarch64/signal.c
+>
 
 
