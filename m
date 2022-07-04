@@ -2,90 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC31A564E48
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 09:08:38 +0200 (CEST)
-Received: from localhost ([::1]:55354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E022D564E59
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 09:10:41 +0200 (CEST)
+Received: from localhost ([::1]:57632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8GCD-0003Jc-Co
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 03:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46214)
+	id 1o8GED-0004t3-1J
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 03:10:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8GAa-0001ui-6p
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:06:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34314)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8GAX-0000Wi-J1
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:06:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656918411;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=80AkkjAp18XTPZFerofY+rPAqZtiJ2Z7Mc3PffF/fiE=;
- b=CxHktNl1wb7zx9uWVsDRmcj5kOeT9anTNbHe7biTYfbikUdAErDoSiDOV0H+9vD4OhuTSE
- YbUgZQo9sIJ2maYaFTzuxoz8LCeXpaMTcTFhAuJ0SVecOt/35rHTSqByGTZgnx7OyA4y7X
- 86wO8CBZYD10lw7Ku+RwH0jYwlsYWoI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-519-i8Vu_sjbPIawUXGlxlIRyg-1; Mon, 04 Jul 2022 03:06:45 -0400
-X-MC-Unique: i8Vu_sjbPIawUXGlxlIRyg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- e7-20020adfa447000000b0021d669c6a76so460491wra.19
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 00:06:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8GCE-0003yO-NI
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:08:38 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:40860)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8GCC-0000hz-LC
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:08:38 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-10be1122de0so5179674fac.7
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 00:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aOHKkiKEab1dH9I3a9wvMI18AZG2hLJEvFMCjuMX5Jo=;
+ b=AKw8feBRlE2Z2QV7TGJQLyFosfO+PNyDVyxTd8mAelSARM6k/XWprupReZl/iJ8NCs
+ v5NKHN2dK4eKcMRzobxxNm8/jB/4q7Bn9C2/J82cj3cK0MVDOL/YC0kNiS40pvrUpcT/
+ sNrRlKSxAUJyKSempyuIIDyUpPQM3M8Uwr4Llm9wckU35aWVcLmSMHtHdyBKJY99Icyc
+ MsfSeo8RGy43c9jqe2D/LK6uZoLDfVzg35tilEL3eBnZHCRAI3mYEOjvSIzghpelf/3P
+ kkp4Pjq2GJVjwqjeAWihvSWt7pq8Wg0kTjL/4S2Ydef8d0bsH/MoHs3qm/Ii5ZIPi/qr
+ qzAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=80AkkjAp18XTPZFerofY+rPAqZtiJ2Z7Mc3PffF/fiE=;
- b=tim5UdWR9oA8uz7xghqLM6lAijtlfpO6rbFWnfMELFOdE7ISLlWUdMQ8irF1n08ioZ
- 6VIU357aM9mCh0K+VO8wpA4CxDAN0CfeYaK4NugDjv4FFrRFEqd9oxGvaRkcVy1lxurZ
- j1E/syQq521l9Om1vEElX5ntcEScRQBySWfjYQxX38siNLF6FzShSmbV4TddAWiLbzrA
- dY2++oFtfaPI0PVqVEdvciPSs22YffjjRPp1bSAlRe5NoxvadiQ1MPi2Ou4jOVfz9Q3e
- 9w9sgR0eu1ZDurpQBxWq3ZvYyj+yNaZ0smjF+LE4GS1KPnV79fhn9TVAFGk2QOaHc4HL
- t6mg==
-X-Gm-Message-State: AJIora8vviT8PKl+Jivrq0r1mu4FaHnFafMczGIie+hIravjlg4e74fh
- k/2zA42RY8L2sqft2oHntGSrI+VPvldAT13nxWmTFBrW5IRYIQ4tev47CwJ7ojrP08DqEXFb2lY
- SFvGScQztssbamUM=
-X-Received: by 2002:a05:600c:4fcc:b0:3a1:987c:82c9 with SMTP id
- o12-20020a05600c4fcc00b003a1987c82c9mr10026645wmq.73.1656918404301; 
- Mon, 04 Jul 2022 00:06:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sDWf9RQxK+O5Of+lDi72nIA82nFHsqZaO9VjmtiBsBQTElmmc9a9kG6cTwJcib4+RLUywPJw==
-X-Received: by 2002:a05:600c:4fcc:b0:3a1:987c:82c9 with SMTP id
- o12-20020a05600c4fcc00b003a1987c82c9mr10026621wmq.73.1656918403903; 
- Mon, 04 Jul 2022 00:06:43 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-178-243.web.vodafone.de.
- [109.43.178.243]) by smtp.gmail.com with ESMTPSA id
- v4-20020a7bcb44000000b0039746638d6esm18168707wmj.33.2022.07.04.00.06.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 00:06:43 -0700 (PDT)
-Message-ID: <cd52abfa-b3ff-02fe-e4e4-f9391a1fdad9@redhat.com>
-Date: Mon, 4 Jul 2022 09:06:42 +0200
+ bh=aOHKkiKEab1dH9I3a9wvMI18AZG2hLJEvFMCjuMX5Jo=;
+ b=yGYACnwbJQw3ZyU65xR2YSGWnlydynzzs/jLsKYyRzItMJBREZ1ggw5G4Kze7cJWNe
+ +fppi6OsMzicHb+TBgdqu0ptMIbzk7+TjG+NEVbMJfvoZAcSJ6XWgMkmLIdslvQBA2tg
+ GRDPzYLiGMkqb6ekAr1zK2GgQvbvGY0zu3B2oaK9KqSdO5WfFnTZ8IkZcAq84XUC7XNC
+ FMWSd49I0tYxLzubxfLt2GZ0cDXHhuBIkS8H8crcJLzQKNYQNK5jS8i2JOpMl8lYcgFQ
+ mfhC0ulcFVsSTF3n90YQPU14ZeLtbnJwcpNvii2JzVEqJ+RX2rWAn/PTlDRMjQc+z88B
+ 5Bww==
+X-Gm-Message-State: AJIora/FPi2nak2C9h40H+tdbWeGH202UD0+a8SLXNALm0GaibvObOrf
+ YExTa7JdJRS/OzsVLMAfhiuuXCajdLgLbz5Y
+X-Google-Smtp-Source: AGRyM1uL9OQ1R5hVaht+X/2kucMuhXdvYt2fTKyVxEHJIFfiPurFzvkMEW8pfS5JMmeTy9RjILusog==
+X-Received: by 2002:a05:6870:961f:b0:10b:ad08:8909 with SMTP id
+ d31-20020a056870961f00b0010bad088909mr11058833oaq.269.1656918515181; 
+ Mon, 04 Jul 2022 00:08:35 -0700 (PDT)
+Received: from stoup.. ([2605:ef80:80e8:1685:ca62:b964:afb8:ef2a])
+ by smtp.gmail.com with ESMTPSA id
+ z26-20020a9d71da000000b00616c94aebe3sm12177361otj.42.2022.07.04.00.08.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Jul 2022 00:08:34 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+Subject: [PATCH] tests/docker/dockerfiles: Add debian-loongarch-cross.docker
+Date: Mon,  4 Jul 2022 12:38:24 +0530
+Message-Id: <20220704070824.965429-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: API to change the vendor of IDE disk
-Content-Language: en-US
-To: Alex <wzf_developer@foxmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- qemu-discuss <qemu-discuss@nongnu.org>
-References: <tencent_B0895AC50F447E50745E86C5772DE63D3805@qq.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <tencent_B0895AC50F447E50745E86C5772DE63D3805@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,29 +87,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi!
+Use the pre-packaged toolchain provided by Loongson via github.
 
-On 01/07/2022 10.18, Alex wrote:
-...
-> Here is my questions:
-> 
-> 
-> Q1: How to change the vendor-name of a IDE disk?
-> 
-> Is there any API(s) to config it?
-> 
-> I can't find the way from libvirt-doc.
-> 
-> ​In Qemu code, I seems that "QEMU HARDDISK" is just by default, and 
-> it's configurable.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ configure                                     |  5 ++++
+ tests/docker/Makefile.include                 |  2 ++
+ .../dockerfiles/debian-loongarch-cross.docker | 25 +++++++++++++++++++
+ 3 files changed, 32 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/debian-loongarch-cross.docker
 
-I think you can specify the model string when you run QEMU directy, e.g.:
-
-  qemu-system-x86_64 -device ide-hd,model=XYZ ...
-
-Whether that's somehow configurable via libvirt, too, you should better ask 
-that question on the libvirt mailing list instead, I think.
-
-  Thomas
+diff --git a/configure b/configure
+index 76728b31f7..fec068468a 100755
+--- a/configure
++++ b/configure
+@@ -1904,6 +1904,7 @@ probe_target_compiler() {
+     hexagon) container_hosts=x86_64 ;;
+     hppa) container_hosts=x86_64 ;;
+     i386) container_hosts=x86_64 ;;
++    loongarch64) container_hosts=x86_64 ;;
+     m68k) container_hosts=x86_64 ;;
+     microblaze) container_hosts=x86_64 ;;
+     mips64el) container_hosts=x86_64 ;;
+@@ -1958,6 +1959,10 @@ probe_target_compiler() {
+         container_image=fedora-i386-cross
+         container_cross_prefix=
+         ;;
++      loongarch64)
++        container_image=debian-loongarch-cross
++        container_cross_prefix=loongarch64-unknown-linux-gnu-
++        ;;
+       m68k)
+         container_image=debian-m68k-cross
+         container_cross_prefix=m68k-linux-gnu-
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index ef4518d9eb..9a45e8890b 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -140,6 +140,7 @@ docker-image-debian-nios2-cross: $(DOCKER_FILES_DIR)/debian-toolchain.docker \
+ # Specialist build images, sometimes very limited tools
+ docker-image-debian-tricore-cross: docker-image-debian10
+ docker-image-debian-all-test-cross: docker-image-debian10
++docker-image-debian-loongarch-cross: docker-image-debian11
+ docker-image-debian-microblaze-cross: docker-image-debian10
+ docker-image-debian-nios2-cross: docker-image-debian10
+ docker-image-debian-powerpc-test-cross: docker-image-debian11
+@@ -149,6 +150,7 @@ docker-image-debian-riscv64-test-cross: docker-image-debian11
+ DOCKER_PARTIAL_IMAGES += debian-alpha-cross
+ DOCKER_PARTIAL_IMAGES += debian-powerpc-test-cross
+ DOCKER_PARTIAL_IMAGES += debian-hppa-cross
++DOCKER_PARTIAL_IMAGES += debian-loongarch-cross
+ DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
+ DOCKER_PARTIAL_IMAGES += debian-microblaze-cross
+ DOCKER_PARTIAL_IMAGES += debian-nios2-cross
+diff --git a/tests/docker/dockerfiles/debian-loongarch-cross.docker b/tests/docker/dockerfiles/debian-loongarch-cross.docker
+new file mode 100644
+index 0000000000..8ebc112d59
+--- /dev/null
++++ b/tests/docker/dockerfiles/debian-loongarch-cross.docker
+@@ -0,0 +1,25 @@
++#
++# Docker cross-compiler target
++#
++# This docker target builds on the debian11 base image,
++# using a prebuilt toolchains for LoongArch64 from:
++# https://github.com/loongson/build-tools/releases
++#
++FROM qemu/debian11
++
++RUN apt-get update && \
++    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
++    DEBIAN_FRONTEND=noninteractive eatmydata \
++    apt-get install -y --no-install-recommends \
++        build-essential \
++        ca-certificates \
++        curl \
++        gettext \
++        git \
++        python3-minimal
++
++RUN curl -#SL https://github.com/loongson/build-tools/releases/download/2022.05.29/loongarch64-clfs-5.0-cross-tools-gcc-full.tar.xz \
++    | tar -xJC /opt
++
++ENV PATH $PATH:/opt/cross-tools/bin
++ENV LD_LIBRARY_PATH /opt/cross-tools/lib:/opt/cross-tools/loongarch64-unknown-linux-gnu/lib:$LD_LIBRARY_PATH
+-- 
+2.34.1
 
 
