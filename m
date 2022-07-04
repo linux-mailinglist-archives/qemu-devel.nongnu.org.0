@@ -2,95 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FECF5658EC
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 16:50:07 +0200 (CEST)
-Received: from localhost ([::1]:36264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCC35658E8
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 16:47:54 +0200 (CEST)
+Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8NOo-000754-BL
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 10:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52030)
+	id 1o8NMe-0003ay-FZ
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 10:47:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8MxM-0008CP-JG
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 10:21:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40573)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o8N3N-0001Se-86
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 10:27:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8MxJ-00059X-GZ
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 10:21:43 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o8N3J-0006Fg-8Q
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 10:27:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656944498;
+ s=mimecast20190719; t=1656944872;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vnTA7O/QS0SGLGUqrBvs/T1SyF2OkuTch8Jxj9rixX0=;
- b=ilcEKhsL1LLfCKc7EPXZUgvUpnKDMQJ7bOzWLrAUbBEkqLQXGC8IYHf8sXvrqM20WvPF4M
- ifjGHpJAlrIVuNC+Tf3a5FaLp1xzeFcr2xoWsALHEMsi7FnP8o0nxC8f7sERRDh/UHSsac
- qFaKRJDWuiL6/B38g31Sr50ymR1Q4U0=
+ bh=+z+DLUq85V0asdpjEHLAxU7vfKzI0LtvTkMf4TJfLeY=;
+ b=VfIk78CimYnIgtzreDRZEEG5gBP91D5vFFPp/rljVLjAKKTpK5FRP5cqrWsXMtIVQmgHLU
+ 6efH+OOwc3lvkzpG7Sta0sbqohfkUeu7E+9IHzTx5rlL9WpQAwDm809U+mLMVm+S2ERWsn
+ 5segD6ob9VKEsbIxOkW05sPd+2LLkOI=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-L4ek3abNMYqczwGjCmQolg-1; Mon, 04 Jul 2022 10:21:36 -0400
-X-MC-Unique: L4ek3abNMYqczwGjCmQolg-1
+ us-mta-621-a80HPauIPKalibf5NUyZUg-1; Mon, 04 Jul 2022 10:27:50 -0400
+X-MC-Unique: a80HPauIPKalibf5NUyZUg-1
 Received: by mail-wm1-f72.google.com with SMTP id
- v8-20020a05600c214800b003a1819451b1so5413796wml.7
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 07:21:36 -0700 (PDT)
+ az35-20020a05600c602300b003a1867d09b5so3224850wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 07:27:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vnTA7O/QS0SGLGUqrBvs/T1SyF2OkuTch8Jxj9rixX0=;
- b=zw83lHTIueTXV42zZvP9a0CyaBLlDwbweZFksSjaoHhkooYBnpfRrUsDYxoEfH2vpN
- VMIxIdI98FFWa9+SODpv5Xg9IFU/6lRK0L0LKfTPu3MXUb3NV7O4wEu1pK+v4uEolbbq
- RbwppZv28exDzwbQcWchhLCgDVI+ImGVViornjUe0DP4z+J4sRG2BMd56IcdqUwOYFge
- Z5rmvKpQHkouQsx3C4uJqmJg7jXIFtOzXyBzUWuuA9sfo4h1Yl81vQockZDZ7d2BHqoP
- o/5fDQXJgDC2eIFshVJ6W5PssqIvMX1ImgQC+K2D3qvSdaCw4BtckuSt/dxbOMuZLiXd
- yJYQ==
-X-Gm-Message-State: AJIora8/EFoYklbDzXaXtn2GfFia1yQG0p4YdS16BvjvEu/esNZhewH3
- QPXEzO1DW8W90+iebACvxnR3DnkM5lGlwfXCdO1cpy3dp2WSI65+bMP5X31g/my8KL/JspxjSTD
- 75wjoDPf1zlZYbcM=
-X-Received: by 2002:a5d:4302:0:b0:21b:a641:9a36 with SMTP id
- h2-20020a5d4302000000b0021ba6419a36mr26195820wrq.87.1656944495587; 
- Mon, 04 Jul 2022 07:21:35 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sDuWiBHDpydjdMOO9C7WWsLFaQ0NXbclLjHZPb97l8m/3OMacO5UXFq8yQ9WJGeNhQCn1wZQ==
-X-Received: by 2002:a5d:4302:0:b0:21b:a641:9a36 with SMTP id
- h2-20020a5d4302000000b0021ba6419a36mr26195799wrq.87.1656944495390; 
- Mon, 04 Jul 2022 07:21:35 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-39.customers.d1-online.com.
- [80.187.98.39]) by smtp.gmail.com with ESMTPSA id
- m12-20020adfe0cc000000b0021d4155cd6fsm11806915wri.53.2022.07.04.07.21.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 07:21:35 -0700 (PDT)
-Message-ID: <b277f225-c1bb-af7b-40d4-387a55b2edbd@redhat.com>
-Date: Mon, 4 Jul 2022 16:21:33 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=+z+DLUq85V0asdpjEHLAxU7vfKzI0LtvTkMf4TJfLeY=;
+ b=LzIn5IWc1i7HmK/4hIZhDi4BIwGk8UA3cjObhKkHUa0V0hGz35vgIi4/EUscSUjJa9
+ YSa0TkbcSex450WWslju3nXHmqpgvvJr63/2O6ip0MqU2U0HJUpYFY//pVbrS4GrUkLS
+ ySW4eKjijOLA9yyPSEFHxE37IadpPb5mst5yhPn+7a9oWP76GlYDpC+3C9e6Lks/3w9o
+ dnz8QYvA5lVzry+tIuI4ClVjPh3gE5VOtauhQYZlD3YCkMwAyIf415CEItf2mTTieYE/
+ KChvPfA26mNxO1ozYITW6gpddKWdHvuHZW+KtLOsSJx7tnYYOcmzBmu/+0TQUAjd3b0T
+ JK4A==
+X-Gm-Message-State: AJIora/7e/tAXZ3mKgaxEGJGv2ji8tXsB7jZmOedKKyTMRT45Q8IUOhk
+ TM9JXma0VJGLVC2fwRFNykmfrr5I8RVMA7qnK1aKhmQReX/SLoR65+TbbBodmsUEbt80l+ro54A
+ O9opHTiDzJ+AQU/E=
+X-Received: by 2002:a05:600c:3d92:b0:3a0:4b71:f2c4 with SMTP id
+ bi18-20020a05600c3d9200b003a04b71f2c4mr33243940wmb.160.1656944869679; 
+ Mon, 04 Jul 2022 07:27:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vIcwmS8PCKdZuGawwx1ljke0InSHxohTP4OHiTFrItxwC+3chg8B4T0Gpmey0iHodo0hFZsw==
+X-Received: by 2002:a05:600c:3d92:b0:3a0:4b71:f2c4 with SMTP id
+ bi18-20020a05600c3d9200b003a04b71f2c4mr33243899wmb.160.1656944869376; 
+ Mon, 04 Jul 2022 07:27:49 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ m12-20020adfe0cc000000b0021d4155cd6fsm11820459wri.53.2022.07.04.07.27.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Jul 2022 07:27:48 -0700 (PDT)
+Date: Mon, 4 Jul 2022 15:27:46 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Subject: Re: [PATCH v6 10/10] i386/pc: restrict AMD only enforcing of valid
+ IOVAs to new machine type
+Message-ID: <YsL44oyg8HVzu1YC@work-vm>
+References: <20220701161014.3850-1-joao.m.martins@oracle.com>
+ <20220701161014.3850-11-joao.m.martins@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 0/3] gitlab: stopp edk2/opensbi jobs running in forks by
- default
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Bin Meng <bmeng.cn@gmail.com>, Beraldo Leal <bleal@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20220629170638.520630-1-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220629170638.520630-1-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220701161014.3850-11-joao.m.martins@oracle.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,27 +107,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/06/2022 19.06, Daniel P. Berrangé wrote:
-> When we introducd the QEMU_CI variable to control running of pipelines
-> in gitlab forks, we didn't include the ekd2/opensbi jobs in the rules.
-> This caused pipelines to be unexpectedly created in some cases. This
-> addresses that oversight.
+* Joao Martins (joao.m.martins@oracle.com) wrote:
+> The added enforcing is only relevant in the case of AMD where the
+> range right before the 1TB is restricted and cannot be DMA mapped
+> by the kernel consequently leading to IOMMU INVALID_DEVICE_REQUEST
+> or possibly other kinds of IOMMU events in the AMD IOMMU.
 > 
-> Daniel P. Berrangé (3):
->    gitlab: normalize indentation in edk2/opensbi rules
->    gitlab: tweak comments in edk2/opensbi jobs
->    gitlab: honour QEMU_CI variable in edk2/opensbi jobs
+> Although, there's a case where it may make sense to disable the
+> IOVA relocation/validation when migrating from a
+> non-valid-IOVA-aware qemu to one that supports it.
 > 
->   .gitlab-ci.d/edk2.yml    | 133 ++++++++++++++++++++++----------------
->   .gitlab-ci.d/opensbi.yml | 134 +++++++++++++++++++++++----------------
->   2 files changed, 158 insertions(+), 109 deletions(-)
+> Relocating RAM regions to after the 1Tb hole has consequences for
+> guest ABI because we are changing the memory mapping, so make
+> sure that only new machine enforce but not older ones.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 
-Thanks, queued to my testing-next branch now:
+Thanks for keeping the migration compatibility, so for migration:
 
-  https://gitlab.com/thuth/qemu/-/commits/testing-next
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-(with the "on_success" changed to "manual" in the last patch)
-
-  Thomas
+> ---
+>  hw/i386/pc.c         | 6 ++++--
+>  hw/i386/pc_piix.c    | 2 ++
+>  hw/i386/pc_q35.c     | 2 ++
+>  include/hw/i386/pc.h | 1 +
+>  4 files changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 07025b510540..f99e16a5db4b 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1013,9 +1013,10 @@ void pc_memory_init(PCMachineState *pcms,
+>      /*
+>       * The HyperTransport range close to the 1T boundary is unique to AMD
+>       * hosts with IOMMUs enabled. Restrict the ram-above-4g relocation
+> -     * to above 1T to AMD vCPUs only.
+> +     * to above 1T to AMD vCPUs only. @enforce_valid_iova is only false in
+> +     * older machine types (<= 7.0) for compatibility purposes.
+>       */
+> -    if (IS_AMD_CPU(&cpu->env)) {
+> +    if (IS_AMD_CPU(&cpu->env) && pcmc->enforce_valid_iova) {
+>          pc_set_amd_above_4g_mem_start(pcms, pci_hole64_size);
+>  
+>          /*
+> @@ -1950,6 +1951,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+>      pcmc->has_reserved_memory = true;
+>      pcmc->kvmclock_enabled = true;
+>      pcmc->enforce_aligned_dimm = true;
+> +    pcmc->enforce_valid_iova = true;
+>      /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K reported
+>       * to be used at the moment, 32K should be enough for a while.  */
+>      pcmc->acpi_data_size = 0x20000 + 0x8000;
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index f3c726e42400..504ddd0deece 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -444,9 +444,11 @@ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
+>  
+>  static void pc_i440fx_7_0_machine_options(MachineClass *m)
+>  {
+> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pc_i440fx_7_1_machine_options(m);
+>      m->alias = NULL;
+>      m->is_default = false;
+> +    pcmc->enforce_valid_iova = false;
+>      compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>      compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+>  }
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 5a4a737fe203..4b747c59c19a 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -381,8 +381,10 @@ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
+>  
+>  static void pc_q35_7_0_machine_options(MachineClass *m)
+>  {
+> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pc_q35_7_1_machine_options(m);
+>      m->alias = NULL;
+> +    pcmc->enforce_valid_iova = false;
+>      compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>      compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+>  }
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 568c226d3034..3a873ff69499 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -118,6 +118,7 @@ struct PCMachineClass {
+>      bool has_reserved_memory;
+>      bool enforce_aligned_dimm;
+>      bool broken_reserved_end;
+> +    bool enforce_valid_iova;
+>  
+>      /* generate legacy CPU hotplug AML */
+>      bool legacy_cpu_hotplug;
+> -- 
+> 2.17.2
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
