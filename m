@@ -2,77 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1A156514B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:49:59 +0200 (CEST)
-Received: from localhost ([::1]:37552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18327565180
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 12:00:10 +0200 (CEST)
+Received: from localhost ([::1]:60658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8IiM-0000vR-5z
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:49:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43308)
+	id 1o8IsD-0000Uq-5H
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 06:00:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ITy-0001pd-F9
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:35:06 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:40854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ITw-0004xx-Sa
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:35:06 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- g16-20020a17090a7d1000b001ea9f820449so13079435pjl.5
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3lzEaDmfWBOIKO+QxHmwCzDxckFSDPKrWYW1q3Ynj7E=;
- b=Eji8bBRYDTWYJYdbImHik9kX9A5g4ldA1bHlcaq/Bey9J4vuTJ6EQUP6WGnCCyfwv0
- hpTw48oP/NSspwJFuyFnKZ4SMbOGMoNEXfxrxBrztyg458zV9qQ/HTjcmsufj4MXLruv
- LxKcsKUUTcZycejD3rB/P06XL0I8pY0WogiT4VuZK6nvpMsBdcI+u6xGGsf09g2jQOPJ
- P3Xfh2em8Dfedt/hecphxIX+wepqeCQucv/ud9t6HlLGEsg6q9ZLjmWx76tfObJc/AzP
- UAG184utEeRzGmQE0EicfUPmrZKbgM28ahIyelyM70LuWvm+/wfy/5qv0h63JQv7JTiT
- 6ixg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8IWL-0005P4-8H
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:37:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35024)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8IW4-0005VM-E3
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:37:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656927435;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ekZPHMg/tXAWjPagKNk966F3hzwjo6JI4NFZ5pJ+Wc4=;
+ b=AMT38nqurKcyljzSZAuMviTHVJcSKQy+zMHTOMPKlYXxFJY0fR9DtxAFM2AGl0C5lRJUrG
+ Mm/FmbKxRGi2fkg9L1xwBgGEorWzrNmuL5XIFkflo3h5omPgwrP+IkKAoCtSaQh6rR4Ana
+ xNZVzHUflHiHHu3ck19MoM2aRPUYmaw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-VaEAQ0x6PkKnWegH4QBVJA-1; Mon, 04 Jul 2022 05:37:14 -0400
+X-MC-Unique: VaEAQ0x6PkKnWegH4QBVJA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k26-20020adfb35a000000b0021d6c3b9363so456852wrd.1
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:37:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3lzEaDmfWBOIKO+QxHmwCzDxckFSDPKrWYW1q3Ynj7E=;
- b=bPBe0nduQpHP5Lbt7uY0n2uykI/wWWSmxLBD4MisvJ3/KgL9Gy9jLvrrIuDeRW041a
- DBxEpOvw04WGGLEXTgoHeFDxxQHk1bwDEy3U670thx14xiii08E8T2lDk4AVMDNHlLGq
- jpfUESFMjxkCM5jvuFmbEjgnrskji0Er11o2ijssorhXh20ng2lq5dtWgaCcgefRWH8J
- 6hlxyXqKt5lZE+kH11U2hR35iuJ07jyAY6cgT1dZcVIKYAcvP5LxZBklNaV9Ro5fb38D
- kXlkVMEdz9kzkvEAJOXr4rco31WHZvcVOEbEUL4s7F20uBys5E5DE+qOOd3ignAVIC7G
- 3KMw==
-X-Gm-Message-State: AJIora8wCSUloTulMyDGevCXG/Aq1L/8vCFy8M/bNxhE/tUALsNOT/H7
- 0qZrfBT3a4cZtzgKvDTNME4JMrVv/QSYdnKs
-X-Google-Smtp-Source: AGRyM1tS+Dp6TBV34FUlS6LL4hPr8eLQ42DC8FLjy0AGyANW+LbJBB+nNMZgKMPcnqfLSck8mTLvrw==
-X-Received: by 2002:a17:90a:8b8f:b0:1ef:9130:f96c with SMTP id
- z15-20020a17090a8b8f00b001ef9130f96cmr113627pjn.20.1656927304149; 
- Mon, 04 Jul 2022 02:35:04 -0700 (PDT)
-Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- z5-20020aa79e45000000b00525b7f3e906sm15353355pfq.27.2022.07.04.02.35.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 02:35:03 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL 23/23] target/loongarch: Add lock when writing timer clear reg
-Date: Mon,  4 Jul 2022 15:03:57 +0530
-Message-Id: <20220704093357.983255-24-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220704093357.983255-1-richard.henderson@linaro.org>
-References: <20220704093357.983255-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=ekZPHMg/tXAWjPagKNk966F3hzwjo6JI4NFZ5pJ+Wc4=;
+ b=KPPBBnJfO8LFgTDDzRT2TjBn/Nh8KoXTvRQsVB3E1g3a59jhYFllUiZZ3C4Wu/iAqs
+ 5gsD3cqVqeAHNJ/kcALti6okGW/hcsEkGUgioVni4R5mNNZuSDUb+5Ye/QY57GszPW9B
+ dwaMu/ukBoNm0maPscxEg2AhhW5uZYn6Pw3e1peW0v+fx/gWHd/bGxxTUN22ral7gmAf
+ sXqfu9LCr8quMRKnlc82RorNGGdvFH4yTZjiQ83gB/kVo3Jf9CYP9gDtW02cZTW09MSh
+ J+8FZY+X92ztA9z94nU0zHtCToWkyy7f6JuyMntiEmJYQtG+BJIHBXnesA6NQHg3qvuN
+ rV7w==
+X-Gm-Message-State: AJIora/2YHD/AyXZvn3hDZgwqDwvuKflUvNtj8oGI5ItuCrQ1uKWUctC
+ 7k/Y2qB2ZY+TCI3Ecp6MMB9e2mwZgEm7REKt5jdUAQlnudj/bOA6PWhk8n/3FHLwEdBIN8sxQp+
+ VMZrzbU4hHR7rwno=
+X-Received: by 2002:a05:600c:1908:b0:3a0:998c:313d with SMTP id
+ j8-20020a05600c190800b003a0998c313dmr30271245wmq.19.1656927433284; 
+ Mon, 04 Jul 2022 02:37:13 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sthTL99RMZkOryZ7vMGQdnOPoGmHrjNqQCav46u4XKP0YgL5zF9aO1VUejpsHj7Te15LxCYg==
+X-Received: by 2002:a05:600c:1908:b0:3a0:998c:313d with SMTP id
+ j8-20020a05600c190800b003a0998c313dmr30271210wmq.19.1656927433085; 
+ Mon, 04 Jul 2022 02:37:13 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-178-243.web.vodafone.de.
+ [109.43.178.243]) by smtp.gmail.com with ESMTPSA id
+ u6-20020a5d5146000000b0020fcc655e4asm30291841wrt.5.2022.07.04.02.37.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jul 2022 02:37:12 -0700 (PDT)
+Message-ID: <aacf7432-6f0b-b8f7-bdc4-116e3873543c@redhat.com>
+Date: Mon, 4 Jul 2022 11:37:11 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Brad Smith <brad@comstyle.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Ryo ONODERA <ryoon@netbsd.org>
+References: <20220704064254.18187-1-thuth@redhat.com>
+ <20220704064254.18187-2-thuth@redhat.com>
+ <CAJSP0QUx8456jPp4=MOjRwZMPrBYgU1669HnEpC_+gDobhOiCQ@mail.gmail.com>
+ <YsKvalrPIO96wWuP@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/3] scripts/make-release: Do not include the edk2 sources
+ in the tarball anymore
+In-Reply-To: <YsKvalrPIO96wWuP@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,50 +115,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+On 04/07/2022 11.14, Daniel P. Berrangé wrote:
+> On Mon, Jul 04, 2022 at 08:26:34AM +0100, Stefan Hajnoczi wrote:
+>> On Mon, 4 Jul 2022 at 07:45, Thomas Huth <thuth@redhat.com> wrote:
+...
+>>> +cat > sources.txt <<EOF
+>>> +The edk2 sources can be downloaded from:
+>>> +
+>>> +https://github.com/tianocore/edk2/archive/${edk2rev}.tar.gz
+>>
+>> Please use QEMU's edk2 mirror:
+>> https://gitlab.com/qemu-project/edk2
+>>
+>> QEMU mirrors all dependencies so that even if upstream projects go
+>> offline we can still rebuild all of QEMU from source.
+> 
+> Note that the github/lab generated tarballs are not signed, while
+> QEMU's release tarballs are gpg signed, so from that POV this would
+> be a regression no matter which site we point to.
 
-There is such error info when running linux kernel:
-    tcg_handle_interrupt: assertion failed: (qemu_mutex_iothread_locked()).
-    calling stack:
-    #0 in raise () at /lib64/libc.so.6
-    #1 in abort () at /lib64/libc.so.6
-    #2 in g_assertion_message_expr.cold () at /lib64/libglib-2.0.so.0
-    #3 in g_assertion_message_expr () at /lib64/libglib-2.0.so.0
-    #4 in tcg_handle_interrupt (cpu=0x632000030800, mask=2) at ../accel/tcg/tcg-accel-ops.c:79
-    #5 in cpu_interrupt (cpu=0x632000030800, mask=2) at ../softmmu/cpus.c:248
-    #6 in loongarch_cpu_set_irq (opaque=0x632000030800, irq=11, level=0)
-       at ../target/loongarch/cpu.c:100
-    #7 in helper_csrwr_ticlr (env=0x632000039440, val=1) at ../target/loongarch/csr_helper.c:85
-    #8 in code_gen_buffer ()
-    #9 in cpu_tb_exec (cpu=0x632000030800, itb=0x7fff946ac280, tb_exit=0x7ffe4fcb6c30)
-       at ../accel/tcg/cpu-exec.c:358
+Maybe we should point to the edk2 release page instead? I.e.:
 
-Add mutex iothread lock around loongarch_cpu_set_irq in csrwr_ticlr() to
-fix the bug.
+  https://github.com/tianocore/edk2/releases
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220701093407.2150607-10-yangxiaojuan@loongson.cn>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/loongarch/csr_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
+Anyway, it's IMHO certainly not *our* job to provide signed edk2 sources here.
 
-diff --git a/target/loongarch/csr_helper.c b/target/loongarch/csr_helper.c
-index 24a9389364..7e02787895 100644
---- a/target/loongarch/csr_helper.c
-+++ b/target/loongarch/csr_helper.c
-@@ -81,7 +81,9 @@ target_ulong helper_csrwr_ticlr(CPULoongArchState *env, target_ulong val)
-     int64_t old_v = 0;
- 
-     if (val & 0x1) {
-+        qemu_mutex_lock_iothread();
-         loongarch_cpu_set_irq(cpu, IRQ_TIMER, 0);
-+        qemu_mutex_unlock_iothread();
-     }
-     return old_v;
- }
--- 
-2.34.1
+> Also it would need more guidance on what to actually do with the
+> tarball, as if you merely unpack it into this dir, it won't work
+> as it will be one level of dirs nesting too deep for QEMU's
+> build scripts to work.
+
+I could add some wording how to use the edk2-build.sh script with a 
+downloaded edk2 tarball if that helps ... not sure whether it is really 
+required, though, we also don't provide instruction for building any other 
+firmware yet, as far as I know.
+
+  Thomas
 
 
