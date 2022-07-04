@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F321956532B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 13:21:52 +0200 (CEST)
-Received: from localhost ([::1]:54282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D112565340
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 13:25:18 +0200 (CEST)
+Received: from localhost ([::1]:33680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8K9F-0007YS-VK
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 07:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37576)
+	id 1o8KCb-0004R1-BU
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 07:25:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8K6k-0004gT-Ki
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8K6k-0004gS-Sp
  for qemu-devel@nongnu.org; Mon, 04 Jul 2022 07:19:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31475)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8K6h-00067J-Gk
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8K6i-00067V-Nq
  for qemu-devel@nongnu.org; Mon, 04 Jul 2022 07:19:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656933550;
+ s=mimecast20190719; t=1656933552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=3K8Wi4MHx4nTXpKqbCxYBskfcQV3t3hf5BWB/anxB4Q=;
- b=VmmcXSoRfEaUjMqzQQ/OGQ5FWadVFdTVG0ybzMCDhoejFGhe/4SzB3iz02Yzc7OTpy1Zx6
- 4w+TOgjhcknojRrTsfhlVDBSkgGE/FZgKhtaDvDQ0ddCAWddnZzOXPwPFCouVrPCRjWxzy
- IivbOuogdae72dtESnP+8Ig6mbJ6ZZ8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4t7VEPa/ojJsQiA2PTgSSCJRhKVCEL5QrklLOgEsmro=;
+ b=eAzMNU9xF15WiRAGmk5InmFWQp/Ez9ngkF2We/tybMsNHMNa7IpS1VeMYTMljZ8vL4uyf0
+ C2Sx78AYayQnvR6OgnGKYAOgFnDBMcsYBBvstSY0YlgMySu1l6DPNMk5w1u+dsxmIOqMM3
+ MMIpc6GsRA1FgwXbPuSt82qbsDiddeA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-247-TXEuR4B9Om2Ujj7OUHMxlw-1; Mon, 04 Jul 2022 07:19:07 -0400
-X-MC-Unique: TXEuR4B9Om2Ujj7OUHMxlw-1
+ us-mta-617-QG37Z-U4MN620lzILNtaTA-1; Mon, 04 Jul 2022 07:19:09 -0400
+X-MC-Unique: QG37Z-U4MN620lzILNtaTA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 04450185A7B2;
- Mon,  4 Jul 2022 11:19:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D0E263800C22;
+ Mon,  4 Jul 2022 11:19:08 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.187])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A7C0D111F5;
- Mon,  4 Jul 2022 11:19:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6903918EB7;
+ Mon,  4 Jul 2022 11:19:07 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-s390x@nongnu.org,
 	Eric Farman <farman@linux.ibm.com>
 Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
  Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v2 00/12] s390-ccw bios fixes and clean-ups
-Date: Mon,  4 Jul 2022 13:18:51 +0200
-Message-Id: <20220704111903.62400-1-thuth@redhat.com>
+Subject: [PATCH v2 01/12] pc-bios/s390-ccw: Add a proper prototype for main()
+Date: Mon,  4 Jul 2022 13:18:52 +0200
+Message-Id: <20220704111903.62400-2-thuth@redhat.com>
+In-Reply-To: <20220704111903.62400-1-thuth@redhat.com>
+References: <20220704111903.62400-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
@@ -75,75 +78,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The s390-ccw bios currently fails to boot a guest that has been
-installed into a partition on a DASD drive with 4k sectors.
-While trying to fix this, I noticed a couple of other problems
-and possibilites for clean-ups that this series is trying to
-address now.
+Older versions of Clang complain if there is no prototype for main().
+Add one, and while we're at it, make sure that we use the same type
+for main.c and netmain.c - since the return value does not matter,
+declare the return type of main() as "void".
 
-The first patch is an old one which I already sent out a year
-ago, but it got never included since there were no other bios-related
-patches pending and this patch alone never justified a bios rebuild.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ pc-bios/s390-ccw/s390-ccw.h | 1 +
+ pc-bios/s390-ccw/main.c     | 3 +--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-The main problem (with the bios not getting the geometry right)
-comes from the virtio_disk_is_scsi() [sic] function in the file
-pc-bios/s390-ccw/virtio-blkdev.c - this more or less always
-currently reports that the geometry is wrong for virtio-block
-devices, which causes the code to call virtio_assume_scsi() that
-sets a "guessed" geometry with 512-byte sectors. To get this fixed
-and cleaned up, a couple of other preparing patches were necessary,
-which you can find in patches 2 - 5.
-
-While working on the above problem, I also noticed that the virtio
-init sequence is not done according to the virtio specification.
-It's currently not a problem since QEMU is very forgiving, but we
-should clean this up anyway to be sure to avoid future problems. This
-is done in patches 6 - 10.
-
-Patch 11 simply beautifies up an oddity in a header, and patch 12
-silences a compiler warning with Clang.
-
-I know, it's more than one topic in this series now, but I wanted to
-send them out as one series since some of the patches depend on each
-other and I've got to rebuild the bios images at the end anyway, so
-it's easier to keep everything together.
-
-v2:
- - Renamed VIRTIO_DASD_BLOCK_SIZE to VIRTIO_DASD_DEFAULT_BLOCK_SIZE
-   (affects patch 2 and 3)
- - Check whether block size is 0 in the third patch
- - Collected Reviewed-bys
-
-Thomas Huth (12):
-  pc-bios/s390-ccw: Add a proper prototype for main()
-  pc-bios/s390-ccw/virtio: Introduce a macro for the DASD block size
-  pc-bios/s390-ccw/bootmap: Improve the guessing logic in
-    zipl_load_vblk()
-  pc-bios/s390-ccw/virtio-blkdev: Simplify/fix
-    virtio_ipl_disk_is_valid()
-  pc-bios/s390-ccw/virtio-blkdev: Remove virtio_assume_scsi()
-  pc-bios/s390-ccw/virtio: Set missing status bits while initializing
-  pc-bios/s390-ccw/virtio: Read device config after feature negotiation
-  pc-bios/s390-ccw/virtio: Beautify the code for reading virtqueue
-    configuration
-  pc-bios/s390-ccw: Split virtio-scsi code from
-    virtio_blk_setup_device()
-  pc-bios/s390-ccw/virtio-blkdev: Request the right feature bits
-  pc-bios/s390-ccw/virtio: Remove "extern" keyword from prototypes
-  pc-bios/s390-ccw/netboot.mak: Ignore Clang's warnings about GNU
-    extensions
-
- pc-bios/s390-ccw/netboot.mak     |  7 ++-
- pc-bios/s390-ccw/s390-ccw.h      |  1 +
- pc-bios/s390-ccw/virtio-scsi.h   |  2 +-
- pc-bios/s390-ccw/virtio.h        | 16 +++---
- pc-bios/s390-ccw/bootmap.c       | 27 ++++++++--
- pc-bios/s390-ccw/main.c          | 27 ++++++----
- pc-bios/s390-ccw/virtio-blkdev.c | 91 +++++---------------------------
- pc-bios/s390-ccw/virtio-scsi.c   | 19 ++++++-
- pc-bios/s390-ccw/virtio.c        | 28 ++++++----
- 9 files changed, 105 insertions(+), 113 deletions(-)
-
+diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
+index 79db69ff54..b88e0550ab 100644
+--- a/pc-bios/s390-ccw/s390-ccw.h
++++ b/pc-bios/s390-ccw/s390-ccw.h
+@@ -57,6 +57,7 @@ void write_subsystem_identification(void);
+ void write_iplb_location(void);
+ extern char stack[PAGE_SIZE * 8] __attribute__((__aligned__(PAGE_SIZE)));
+ unsigned int get_loadparm_index(void);
++void main(void);
+ 
+ /* sclp.c */
+ void sclp_print(const char *string);
+diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+index 5d2b7ba94d..835341457d 100644
+--- a/pc-bios/s390-ccw/main.c
++++ b/pc-bios/s390-ccw/main.c
+@@ -281,7 +281,7 @@ static void probe_boot_device(void)
+     sclp_print("Could not find a suitable boot device (none specified)\n");
+ }
+ 
+-int main(void)
++void main(void)
+ {
+     sclp_setup();
+     css_setup();
+@@ -294,5 +294,4 @@ int main(void)
+     }
+ 
+     panic("Failed to load OS from hard disk\n");
+-    return 0; /* make compiler happy */
+ }
 -- 
 2.31.1
 
