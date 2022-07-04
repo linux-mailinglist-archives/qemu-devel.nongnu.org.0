@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C165656FD
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 15:23:32 +0200 (CEST)
-Received: from localhost ([::1]:42764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9987C56577F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 15:36:49 +0200 (CEST)
+Received: from localhost ([::1]:42432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8M31-0006OK-GY
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 09:23:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60472)
+	id 1o8MFs-0002B7-KA
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 09:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8LkQ-0000ZK-B9
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:04:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56009)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8LkX-0000cd-Rs
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:04:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8LkO-0008Vx-Q3
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:04:17 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8LkV-00007R-Qo
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:04:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656939856;
+ s=mimecast20190719; t=1656939863;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lmycx7bsrVhMXpfcF2e1TxltBdYsiDeRvPuJuucz56g=;
- b=cXl6sGUi3FHsOQroWp0STR4H9ZXwepU6vqyz5CMJgmQ7+17NM+xCZ2GWVQpvEhig7kFoGs
- iYAZNZI+LMQwb3SbOUYmYay3PXL4xDiWJhQOVApdYFJKrPEAZeoNU57J9wULmUGcfs9h8g
- KH8M+st0WqHPXKU2V4cz3WV+zTfVZFc=
+ bh=4T8hVJRT3I/3QlC2HwnAcFZIKiYLH7plI4s6jQo/XdE=;
+ b=ZU2I4gfxVQ4NePM2GHbXUVtSu/K3FZ//JVSedqCkcm69Qiur7qVictMwhI1YVUc+w6cIME
+ SDUqW1elk27kLEY4Zp4vJkfMkIY1PvKSHYnMnrqpX6eVn2lnbA/AGm2Ftr/N5u+etiL2b4
+ emtnr43pJ6Y8x5uJx/Ijf/m24OzYqxo=
 Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
  [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-386-CJEre8p7Oke6_q8WiGtn1Q-1; Mon, 04 Jul 2022 09:04:15 -0400
-X-MC-Unique: CJEre8p7Oke6_q8WiGtn1Q-1
+ us-mta-107-KckAHSMQPX64XaTYXjcSqA-1; Mon, 04 Jul 2022 09:04:22 -0400
+X-MC-Unique: KckAHSMQPX64XaTYXjcSqA-1
 Received: by mail-il1-f198.google.com with SMTP id
- w15-20020a056e021a6f00b002d8eef284f0so4151549ilv.6
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:04:15 -0700 (PDT)
+ x5-20020a923005000000b002d1a91c4d13so4207477ile.4
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:04:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=lmycx7bsrVhMXpfcF2e1TxltBdYsiDeRvPuJuucz56g=;
- b=1xzi8VB61++6nvCGZ4yc2xSZBSi8dLshwb+3espX8hKBgxaRNGA2AYJJk9b5MEFck4
- n2aFXUG6x5Z4YewZYwkKq2Z8sUino3Lvi7tpgfSAFoE7wH2fVndZSh+qp7D5tclFDTPT
- chvQSKLLg7P+YgEEVXZvFq2V01P2c7tf1cm6WSPr71pA34CHXRY5AWv+OYNAw2xlzvF3
- X30/ODQuwrUXFu9HF2QSr3rSoy/196wkQYot2/pEqkWoT0Qv6jPefi1yeRSOnDpECkFX
- laxu0q1S/wSu5eAjxW1NbvK6My8em5WmBJarLMVhG54a9AnDM7fjuK+0j1jZMo/2iXkH
- Su6g==
-X-Gm-Message-State: AJIora9BHnscaku3le4LGssL7FC2zMsdRiZNQ8OIpMEMpHeAdjcODLlE
- 6j5hytRahptbyRVCF4cbnWtHv1UXX+G1J89rmyIzcSlaqvh82tFMAZMcrAGaCyPvPJy+mNvWAY6
- +HRdDn3hDbk6Tosowv9BjZIoCQ1W4Gow=
-X-Received: by 2002:a05:6638:271f:b0:33c:c07e:3034 with SMTP id
- m31-20020a056638271f00b0033cc07e3034mr18426832jav.263.1656939854494; 
- Mon, 04 Jul 2022 06:04:14 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tWf0OBMLEUcApaJFX5W313Oaadyi5mCM6AHCx5xfv5/QYbS2UeqJmzquOencC0LaPgNGqdqFEOrpyy/0cN+2Y=
-X-Received: by 2002:a05:6638:271f:b0:33c:c07e:3034 with SMTP id
- m31-20020a056638271f00b0033cc07e3034mr18426821jav.263.1656939854250; Mon, 04
- Jul 2022 06:04:14 -0700 (PDT)
+ bh=4T8hVJRT3I/3QlC2HwnAcFZIKiYLH7plI4s6jQo/XdE=;
+ b=JEigPmIsLKKI7aZ8qvthlljoTK04u07PHWu3K+hGoQSMsnEGpa//h5lCtVgxsO9SG7
+ Y/VkfpCbWWJ84LFWhz/4mdLZe7kVgSz/B6lbeJM1Ul1OnJA0I00jHvJmiIsi4QoT3UJL
+ 6Ab75R+rzaKkZK0c7JgO+Xpgl2k8z5FF23hBP8GYFSg8IF+DMC/GjiMD6rlkXBDHgIrF
+ SDpOXH3deVuVD+fcR9DHOcU/wWr78R+tZ24ER/HeFkAa1sOG+BQ/XaXGzXP5UuPMhfIX
+ k1XHlJJu3hvM828K6Tlf9x5JNSnQGCAONwbY55SP9uaglXPtHk8LbyOFiAj1hvDcF55H
+ /EYA==
+X-Gm-Message-State: AJIora8HYq1jynhVGuWP/WjLWOju9x8HxIKi1I9L3GdYDBxuYNEInj1/
+ wRdD1CBnBqyonlOCaae091YMAul0qzbsFymboUh3R7SmC9Vxg4/2ECaBAr1vB07v802CSbHpxHT
+ eNedV5KzLYoODbqhu5/T46ST1aG84VWw=
+X-Received: by 2002:a05:6638:339c:b0:33e:b766:1bf1 with SMTP id
+ h28-20020a056638339c00b0033eb7661bf1mr7563434jav.93.1656939861427; 
+ Mon, 04 Jul 2022 06:04:21 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sGVNBZ5DOOjGo9xf2bo77pb9JOpSiB7lN1O4DSRhM1/NXntrhDQaKJRpbYTEqlD1XMPpQBNhegZjik1wOjfn4=
+X-Received: by 2002:a05:6638:339c:b0:33e:b766:1bf1 with SMTP id
+ h28-20020a056638339c00b0033eb7661bf1mr7563423jav.93.1656939861244; Mon, 04
+ Jul 2022 06:04:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220509103019.215041-1-pbonzini@redhat.com>
- <20220509103019.215041-26-pbonzini@redhat.com>
-In-Reply-To: <20220509103019.215041-26-pbonzini@redhat.com>
+ <20220509103019.215041-27-pbonzini@redhat.com>
+In-Reply-To: <20220509103019.215041-27-pbonzini@redhat.com>
 From: Alberto Faria <afaria@redhat.com>
-Date: Mon, 4 Jul 2022 14:03:38 +0100
-Message-ID: <CAELaAXxtwY_yeDBb6czDz7a2jBhFa14OKjPH1FdHE4OTX-SwSA@mail.gmail.com>
-Subject: Re: [PATCH v2 25/26] migration: add missing coroutine_fn annotations
+Date: Mon, 4 Jul 2022 14:03:45 +0100
+Message-ID: <CAELaAXwhdtcgn=MXVLZ6T9ZTF-6usLr7SnFPZp4nnsprf4FDzg@mail.gmail.com>
+Subject: Re: [PATCH v2 26/26] test-coroutine: add missing coroutine_fn
+ annotations
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Juan Quintela <quintela@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,16 +94,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 9, 2022 at 12:13 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Mon, May 9, 2022 at 12:08 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
 > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Message-Id: <20170704220346.29244-4-marcandre.lureau@redhat.com>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  migration/migration.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  tests/unit/test-coroutine.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Alberto Faria <afaria@redhat.com>
 
