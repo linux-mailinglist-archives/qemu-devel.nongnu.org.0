@@ -2,96 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C09F565202
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 12:18:57 +0200 (CEST)
-Received: from localhost ([::1]:48558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC2856520A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 12:21:12 +0200 (CEST)
+Received: from localhost ([::1]:51792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8JAN-0003mW-PM
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 06:18:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52528)
+	id 1o8JCZ-00065M-FN
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 06:21:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1o8J8T-000369-RK
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:16:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31025)
+ (Exim 4.90_1) (envelope-from <pali@kernel.org>)
+ id 1o8JAT-0004hR-9G; Mon, 04 Jul 2022 06:19:01 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:37424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1o8J8Q-0003Ct-B8
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:16:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656929813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y5yELtTdELIv7VIGZgeMH4CiGHZUar6RzmTrSw9j30Y=;
- b=eXVa29/rct1yx/hjf7dGJZeV48oJkvjNXxrBPl4ChgtGtM8ME5D0XbdR3WkWEzF0KwANO4
- INMQjjBbLHEhihk+uVU8WkJLo4h8pIptKCfxfL/ell0U/iZBS5XmcjQhmqn2jPCNAXWZFc
- dZ19/VzZMT060D7QEq0jQn4wcBXR/2Y=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-125-nGPbp_KoMpi_kLQ6hW1OqQ-1; Mon, 04 Jul 2022 06:16:51 -0400
-X-MC-Unique: nGPbp_KoMpi_kLQ6hW1OqQ-1
-Received: by mail-qt1-f198.google.com with SMTP id
- c22-20020ac81116000000b0031d25923ea8so5580538qtj.17
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 03:16:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Y5yELtTdELIv7VIGZgeMH4CiGHZUar6RzmTrSw9j30Y=;
- b=zd0f8/zcAgLgszPoHbRwaVczOc20+QY8ABXMyr9uy8YHlxk8NrGEAunGO/c6LZp2VM
- /h7hmyPObM9AouMT/XSHKITHj5bwtx2z/i83VNPF+YRQc0KsCUXwrHMmnNVPuosgwKKG
- w3KzdykShudHV98mTfTB8LOKtRn7OmATLKUE5wop90JukuzbQGJH5UtpNUrgalrbmRXI
- Ie7yBc3xlEGIzM8iQk8CY/7WY7EOF8et1oCaUezZGTJCSLdVjBrW0O9voaNbFapreZil
- GaRXpRqAFVuIAFLw4WFlJ46Rd0ClfmG7stkns7pFrsrR9aZY7q/63i4+30k9xGRqBab6
- 08Yw==
-X-Gm-Message-State: AJIora+VpbeYSfTUUiQUuxr+hQaMgwW83q7runIjiUC2XlSHsv81vTG5
- j44+LXG/d9uuQiqpgigVEPryBiLBoQi4h0cZaDnYzWA/VQRqVrT2YB88Jz9lKKBlp2qB6PVmf7V
- tgrB0/fpU8WYrLXQ=
-X-Received: by 2002:ad4:5aed:0:b0:472:7778:ff87 with SMTP id
- c13-20020ad45aed000000b004727778ff87mr26430720qvh.28.1656929811124; 
- Mon, 04 Jul 2022 03:16:51 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vjlUq1XlEkFFJxbANJNMJkD14jL7MU+k/cunLgR262M2/UAJwOwaKcp4jQ6IoO80vX//GXBA==
-X-Received: by 2002:ad4:5aed:0:b0:472:7778:ff87 with SMTP id
- c13-20020ad45aed000000b004727778ff87mr26430705qvh.28.1656929810811; 
- Mon, 04 Jul 2022 03:16:50 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- y11-20020a05620a44cb00b006a37eb728cfsm19463960qkp.1.2022.07.04.03.16.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 03:16:50 -0700 (PDT)
-Message-ID: <b8d2595b-c86a-b1b8-8912-13fc9ba782d3@redhat.com>
-Date: Mon, 4 Jul 2022 12:16:47 +0200
+ (Exim 4.90_1) (envelope-from <pali@kernel.org>)
+ id 1o8JAQ-0003VI-W2; Mon, 04 Jul 2022 06:19:00 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 54DB7B80E89;
+ Mon,  4 Jul 2022 10:18:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D72C3411E;
+ Mon,  4 Jul 2022 10:18:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1656929935;
+ bh=74ZTk5iaK8jFc2HkP0PAeluOyOsMFca78Mhxuvtwk1c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FVLLJGbJ5jKQGLHnz1rabYA6PTy5qKhrSy1sazI5yUVVtvTpg1p1uWEjRdHOQMNbE
+ sZEyboxdffl5q0L1tyTJwrg1Twwlm/EgS7+m0/P8XOJjO4K21s/B7/Kj8R/7Wpve58
+ 17vIX4FHt/pj93bXyZNBnlyIx+L35hQVRleF/99iehmf9XizKJQbyo4m5wAbt+RvYv
+ ETGi9RIz751i+vU7BiTUGT/eq9sELPT/1j9b3mF8ywyOUNMvaZkQRVjHiE24B0oR4e
+ vk1dNX+YtI8+F+UcGH3P3UZK5hIPy+bhAaGvqEMMJQzR+fZDAU4RESRm7D5ddl8+X0
+ SrKOp3qcNHI5A==
+Received: by pali.im (Postfix)
+ id 9A1D76E8; Mon,  4 Jul 2022 12:18:51 +0200 (CEST)
+Date: Mon, 4 Jul 2022 12:18:51 +0200
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH] target/ppc: Fix MPC8555 and MPC8560 core type to e500v1
+Message-ID: <20220704101851.lgbeojdntx2bzm4f@pali>
+References: <20220703195029.23793-1-pali@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 03/11] goldfish_rtc: Add endianness property
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Stafford Horne <shorne@gmail.com>, QEMU Development <qemu-devel@nongnu.org>
-Cc: Openrisc <openrisc@lists.librecores.org>, Anup Patel
- <anup.patel@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:Goldfish RTC" <qemu-riscv@nongnu.org>
-References: <20220703212823.10067-1-shorne@gmail.com>
- <20220703212823.10067-4-shorne@gmail.com>
- <272f1e82-ff1b-9a7a-931b-91472dd244bf@linaro.org>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <272f1e82-ff1b-9a7a-931b-91472dd244bf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+In-Reply-To: <20220703195029.23793-1-pali@kernel.org>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=pali@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,64 +75,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/07/2022 11:59, Richard Henderson wrote:
-> On 7/4/22 02:58, Stafford Horne wrote:
->> -static const MemoryRegionOps goldfish_rtc_ops = {
->> -    .read = goldfish_rtc_read,
->> -    .write = goldfish_rtc_write,
->> -    .endianness = DEVICE_NATIVE_ENDIAN,
->> -    .valid = {
->> -        .min_access_size = 4,
->> -        .max_access_size = 4
->> -    }
->> +static const MemoryRegionOps goldfish_rtc_ops[3] = {
->> +    [DEVICE_NATIVE_ENDIAN] = {
->> +        .read = goldfish_rtc_read,
->> +        .write = goldfish_rtc_write,
->> +        .endianness = DEVICE_NATIVE_ENDIAN,
->> +        .valid = {
->> +            .min_access_size = 4,
->> +            .max_access_size = 4
->> +        }
->> +    },
->> +    [DEVICE_LITTLE_ENDIAN] = {
->> +        .read = goldfish_rtc_read,
->> +        .write = goldfish_rtc_write,
->> +        .endianness = DEVICE_LITTLE_ENDIAN,
->> +        .valid = {
->> +            .min_access_size = 4,
->> +            .max_access_size = 4
->> +        }
->> +    },
->> +    [DEVICE_BIG_ENDIAN] = {
->> +        .read = goldfish_rtc_read,
->> +        .write = goldfish_rtc_write,
->> +        .endianness = DEVICE_BIG_ENDIAN,
->> +        .valid = {
->> +            .min_access_size = 4,
->> +            .max_access_size = 4
->> +        }
->> +    },
->>   };
+On Sunday 03 July 2022 21:50:29 Pali Rohár wrote:
+> Commit 80d11f4467c4 ("Add definitions for Freescale PowerPC implementations")
+> changed core type of MPC8555 and MPC8560 from e500v1 to e500v2.
 > 
-> You don't need 3 copies, only big and little.
+> But both MPC8555 and MPC8560 have just e500v1 cores, there are no features
+> of e500v2 cores. It can be verified by reading NXP documentations:
+> https://www.nxp.com/docs/en/data-sheet/MPC8555EEC.pdf
+> https://www.nxp.com/docs/en/data-sheet/MPC8560EC.pdf
+> https://www.nxp.com/docs/en/reference-manual/MPC8555ERM.pdf
+> https://www.nxp.com/docs/en/reference-manual/MPC8560RM.pdf
 > 
->> +static Property goldfish_rtc_properties[] = {
->> +    DEFINE_PROP_UINT8("endianness", GoldfishRTCState, endianness,
->> +                      DEVICE_NATIVE_ENDIAN),
->> +    DEFINE_PROP_END_OF_LIST(),
->> +};
+> Therefore fix core type of MPC8555 and MPC8560 back to e500v1.
 > 
-> ... and I think the clear desire for default is little-endian.  I would make the property 
-> be bool, and add a comment that this is only for m68k compatibility, so don't use it in 
-> new code.
+> Fixes: 80d11f4467c4 ("Add definitions for Freescale PowerPC implementations")
+> Signed-off-by: Pali Rohár <pali@kernel.org>
+> ---
 
-m68k doesn't really need this.
+Just for completeness, here is list of all Motorola/Freescale/NXP
+processors which were released and have e500v1 or e500v2 cores.
 
-kernel with the m68k virt machine and goldfish device supports "native" mode so I think 
-it's not needed to add another layer of complexity for it.
+e500v1:
+MPC8540
+MPC8541
+MPC8555
+MPC8560
 
-Thanks,
-Laurent
+e500v2:
+BSC9131
+BSC9132
+C291
+C292
+C293
+MPC8533
+MPC8535
+MPC8536
+MPC8543
+MPC8544
+MPC8545
+MPC8547
+MPC8548
+MPC8567
+MPC8568
+MPC8569
+MPC8572
+P1010
+P1011
+P1012
+P1013
+P1014
+P1015
+P1016
+P1020
+P1021
+P1022
+P1024
+P1025
+P2010
+P2020
 
+(sorted alphabetically; not by release date / generation / feature set)
+
+All this is from public information available on NXP website.
+
+Seems that qemu has support only for some subset of MPC85?? processors.
+
+Historically processors with e500 cores have mpc85xx family codename and
+lot of software have them in mpc85xx architecture subdirectory.
+
+Note that GCC uses -mcpu=8540 option for specifying e500v1 core and
+-mcpu=8548 option for specifying e500v2 core.
+
+So sometimes (mpc)8540 is alias for e500v1 and (mpc)8548 is alias for
+e500v2.
+
+>  target/ppc/cpu-models.c | 14 +++++++-------
+>  target/ppc/cpu-models.h | 14 +++++++-------
+>  2 files changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
+> index 976be5e0d171..44a2710c5843 100644
+> --- a/target/ppc/cpu-models.c
+> +++ b/target/ppc/cpu-models.c
+> @@ -385,19 +385,19 @@
+>      POWERPC_DEF_SVR("mpc8548e_v21", "MPC8548E v2.1",
+>                      CPU_POWERPC_MPC8548E_v21, POWERPC_SVR_8548E_v21, e500v2)
+>      POWERPC_DEF_SVR("mpc8555_v10", "MPC8555 v1.0",
+> -                    CPU_POWERPC_MPC8555_v10,  POWERPC_SVR_8555_v10,  e500v2)
+> +                    CPU_POWERPC_MPC8555_v10,  POWERPC_SVR_8555_v10,  e500v1)
+>      POWERPC_DEF_SVR("mpc8555_v11", "MPC8555 v1.1",
+> -                    CPU_POWERPC_MPC8555_v11,  POWERPC_SVR_8555_v11,  e500v2)
+> +                    CPU_POWERPC_MPC8555_v11,  POWERPC_SVR_8555_v11,  e500v1)
+>      POWERPC_DEF_SVR("mpc8555e_v10", "MPC8555E v1.0",
+> -                    CPU_POWERPC_MPC8555E_v10, POWERPC_SVR_8555E_v10, e500v2)
+> +                    CPU_POWERPC_MPC8555E_v10, POWERPC_SVR_8555E_v10, e500v1)
+>      POWERPC_DEF_SVR("mpc8555e_v11", "MPC8555E v1.1",
+> -                    CPU_POWERPC_MPC8555E_v11, POWERPC_SVR_8555E_v11, e500v2)
+> +                    CPU_POWERPC_MPC8555E_v11, POWERPC_SVR_8555E_v11, e500v1)
+>      POWERPC_DEF_SVR("mpc8560_v10", "MPC8560 v1.0",
+> -                    CPU_POWERPC_MPC8560_v10,  POWERPC_SVR_8560_v10,  e500v2)
+> +                    CPU_POWERPC_MPC8560_v10,  POWERPC_SVR_8560_v10,  e500v1)
+>      POWERPC_DEF_SVR("mpc8560_v20", "MPC8560 v2.0",
+> -                    CPU_POWERPC_MPC8560_v20,  POWERPC_SVR_8560_v20,  e500v2)
+> +                    CPU_POWERPC_MPC8560_v20,  POWERPC_SVR_8560_v20,  e500v1)
+>      POWERPC_DEF_SVR("mpc8560_v21", "MPC8560 v2.1",
+> -                    CPU_POWERPC_MPC8560_v21,  POWERPC_SVR_8560_v21,  e500v2)
+> +                    CPU_POWERPC_MPC8560_v21,  POWERPC_SVR_8560_v21,  e500v1)
+>      POWERPC_DEF_SVR("mpc8567", "MPC8567",
+>                      CPU_POWERPC_MPC8567,      POWERPC_SVR_8567,      e500v2)
+>      POWERPC_DEF_SVR("mpc8567e", "MPC8567E",
+> diff --git a/target/ppc/cpu-models.h b/target/ppc/cpu-models.h
+> index 76775a74a9b6..1326493a9a05 100644
+> --- a/target/ppc/cpu-models.h
+> +++ b/target/ppc/cpu-models.h
+> @@ -184,13 +184,13 @@ enum {
+>  #define CPU_POWERPC_MPC8548E_v11     CPU_POWERPC_e500v2_v11
+>  #define CPU_POWERPC_MPC8548E_v20     CPU_POWERPC_e500v2_v20
+>  #define CPU_POWERPC_MPC8548E_v21     CPU_POWERPC_e500v2_v21
+> -#define CPU_POWERPC_MPC8555_v10      CPU_POWERPC_e500v2_v10
+> -#define CPU_POWERPC_MPC8555_v11      CPU_POWERPC_e500v2_v11
+> -#define CPU_POWERPC_MPC8555E_v10     CPU_POWERPC_e500v2_v10
+> -#define CPU_POWERPC_MPC8555E_v11     CPU_POWERPC_e500v2_v11
+> -#define CPU_POWERPC_MPC8560_v10      CPU_POWERPC_e500v2_v10
+> -#define CPU_POWERPC_MPC8560_v20      CPU_POWERPC_e500v2_v20
+> -#define CPU_POWERPC_MPC8560_v21      CPU_POWERPC_e500v2_v21
+> +#define CPU_POWERPC_MPC8555_v10      CPU_POWERPC_e500v1_v20
+> +#define CPU_POWERPC_MPC8555_v11      CPU_POWERPC_e500v1_v20
+> +#define CPU_POWERPC_MPC8555E_v10     CPU_POWERPC_e500v1_v20
+> +#define CPU_POWERPC_MPC8555E_v11     CPU_POWERPC_e500v1_v20
+> +#define CPU_POWERPC_MPC8560_v10      CPU_POWERPC_e500v1_v10
+> +#define CPU_POWERPC_MPC8560_v20      CPU_POWERPC_e500v1_v20
+> +#define CPU_POWERPC_MPC8560_v21      CPU_POWERPC_e500v1_v20
+>  #define CPU_POWERPC_MPC8567          CPU_POWERPC_e500v2_v22
+>  #define CPU_POWERPC_MPC8567E         CPU_POWERPC_e500v2_v22
+>  #define CPU_POWERPC_MPC8568          CPU_POWERPC_e500v2_v22
+> -- 
+> 2.20.1
+> 
 
