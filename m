@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A6B565A66
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 17:53:53 +0200 (CEST)
-Received: from localhost ([::1]:33348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE6C565A76
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 17:57:29 +0200 (CEST)
+Received: from localhost ([::1]:36310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8OOW-0003S0-MC
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56506)
+	id 1o8OS1-0005eI-3k
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8ONb-0002hr-NO
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:52:55 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:41818)
+ id 1o8OQZ-0004vw-I0
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:55:59 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:33593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8ONa-0007Ik-5Z
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:52:55 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-31c8bb90d09so32049107b3.8
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 08:52:52 -0700 (PDT)
+ id 1o8OQX-0007u0-Qo
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:55:59 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-31c89111f23so35633147b3.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 08:55:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=qrJEiWWPU/RKCJdb42vzNBINDtCcBLu8oBNm0JW3cVo=;
- b=WOfbl417F2sY/qT0QPFI4SWI2pTEpwPpd4zJ1PLEs9yvRCJv9BEUJTZ4zcllNum0ir
- dZXMU4V3Y2iPxXTeOjK8BysjEtepYz/EcDH4ULNUl0+iDSHqzCmmZGYDFyPrw0RDFhc5
- AmyB+kLVaE6wsdg158FxFHiDc4ljyfaCy8/d9bT/q8nA24nm6OY6eyEiC9bfUpg0HYgL
- j8k5Lng3l2Fbj9tUUUrf3juMoFnIOS0HS5KlivTm7ILPdjr3Y+Bil8sM07vb/B54lSR+
- 9JdRDYNq52lkmzDvvDkp4PQnWV2B5dnbPDEdDqv1sWfLpzp7u1TOgWB8Z2DWsesjLpJE
- /x2A==
+ bh=VCuqu0JLcj7XuoUckIUO0MOad5IfUXpGmi263huERa8=;
+ b=TLaNEls9nDAOlJmWLNOldJZYTXGFOLznQ3KQUD3AMroBxefD4VG2fi0wwBbO3aek/X
+ t4md9ChsM3zu342WWOpIHU6vK3mcc1IU/+N0MK97YIhpkOJFgEzuhM2JcthKNUpAIr3z
+ Mu3Z/OmaxavDL5TJ/6Acn2p4s4/pZOuT9Q38W7kqPcoaIEsLk0GTrZebamMPHidvyxNn
+ H+W1bnPFVZWQaZzu4H47w0BiVp6s05fncW4phid8CFoihspaLsACGXJ5dqOcyB9Jsap2
+ KIek2PKP3quIn6tosfsV8HHfPq56S/IN9Zy+d4t2e95vyv2RQxKgOsTp4awHQ64B0RZJ
+ SDRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=qrJEiWWPU/RKCJdb42vzNBINDtCcBLu8oBNm0JW3cVo=;
- b=uYT2FrJC5K8rbxLVr3gOoqq1pm9N/4hnCxYi8oCvE4aM6Bn+bMWTUXYjs4FIacvWWE
- BsXhihib4BiTgFrPZbMzy2wbhnmDh/8Kzx87OxYOELwRkRIbxu/F9XsThjmhiR1IiZvE
- NW7BOd+Iv92HJfHGBETTzLrBTbdPFvhwZVPVThQw/jTisCZ7dpXIPzPXxM6ayhskl9J5
- bz2RiBntydaLb312uF9ySEm1TnEomq/DMlMD/kxzK8G99QVXSo8Z4ChSMWjFLWqzqovx
- 0ELa6y4Y3t2jpn7Ru/apLnGV9xZDmJrreCywx54nWSoAOh3WLZAGyp0iCs988SZCATes
- mNIw==
-X-Gm-Message-State: AJIora/TGWSCjyfMLnX/AuxYFag/TDFo2MD3oBMv+QrzaUTXwQWeriPw
- uU/lwJO+1Wgct+Mn7AALcTKfPtmCLzFj/Y2XbPTgJA==
-X-Google-Smtp-Source: AGRyM1sPFvjXkMzf59+2s1skb9zRVVA2Z57lTa8o8NwPd8IfPnk85xYgEBbVgliiqGONZp8FZ0fOIury1SLpRoTzdYY=
-X-Received: by 2002:a81:6a85:0:b0:31c:8624:b065 with SMTP id
- f127-20020a816a85000000b0031c8624b065mr12078870ywc.64.1656949971703; Mon, 04
- Jul 2022 08:52:51 -0700 (PDT)
+ bh=VCuqu0JLcj7XuoUckIUO0MOad5IfUXpGmi263huERa8=;
+ b=3mT/b4e65Vl818/w5h2zcXqc3/EyvSUMQctOf+PAG3ohtRM5bZPIDJTrAaegrLbR/8
+ W7tKqHjKFlnhL4xuJn8PjjraUQN5Imkq0A3iKVk74qxR8Z0PcWals4zO0WPAyHrSiASM
+ QaDfr/jmBxGq8GsUT1AohEyDA6Fiaqaw3FmkIEm5HpFjz4XFrf+IzUgRXs637AC7fkIL
+ 4k9sVi/NzPkK+tUZcgZkOVR6bidehAPyNGJPjes4r9A0hsda1dhFzo+avzBXvYoq6kJW
+ XAiGo5eJqpnYc44n1si4/sjLLeWnnP3ejFJWJxd0xdiyc15C1NUfrtXkk35BlymeaKXo
+ VuLQ==
+X-Gm-Message-State: AJIora+IejeFtG+ARnPdM1G8vMa4sCXcQXD8ltvzPrnlt+o9VMu89Lmz
+ kRvoVK9EYyU8Ju8Kmud0VDuOhgLb7To52OeDKGrcRQ==
+X-Google-Smtp-Source: AGRyM1sWbqXrbOfAuqsC4Z3Rbca5QD2kyCJMPKz5vpNe4V46lCbgb3KKjNsCm3xVzWG+8tpHeIIQsFdz+uqanfommYU=
+X-Received: by 2002:a0d:eb83:0:b0:31c:8741:a033 with SMTP id
+ u125-20020a0deb83000000b0031c8741a033mr10775899ywe.455.1656950155671; Mon, 04
+ Jul 2022 08:55:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220704152303.760983-1-berrange@redhat.com>
- <20220704152303.760983-5-berrange@redhat.com>
-In-Reply-To: <20220704152303.760983-5-berrange@redhat.com>
+ <20220704152303.760983-8-berrange@redhat.com>
+ <CAFEAcA-DeKXAq8o_pYt5oyWRnLPvhWMfTbM+vCFpx8MYyC3ZoQ@mail.gmail.com>
+ <YsMMUosglBjbKRgy@redhat.com>
+In-Reply-To: <YsMMUosglBjbKRgy@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 4 Jul 2022 16:52:40 +0100
-Message-ID: <CAFEAcA9=cKaD=LoBheRfU610nOQVjVWmqCT=ONUpD6OhBX9WxA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] misc: fix commonly doubled up words
+Date: Mon, 4 Jul 2022 16:55:45 +0100
+Message-ID: <CAFEAcA-fK4qqJ7zyNYf5hyGDeWF9YDX0oG_gEWvXMZg4+bmnSw@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] tests/style: check qemu/osdep.h is included in all
+ .c files
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
@@ -64,8 +67,8 @@ Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,43 +91,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 Jul 2022 at 16:23, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+On Mon, 4 Jul 2022 at 16:50, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
 wrote:
 >
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
+> On Mon, Jul 04, 2022 at 04:47:16PM +0100, Peter Maydell wrote:
+> > On Mon, 4 Jul 2022 at 16:23, Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
+> > >
+> > > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> >
+> > > +
+> > > +sc_c_file_osdep_h:
+> > > +       @require=3D'#include "qemu/osdep.h"' \
+> > > +       in_vc_files=3D'\.c$$' \
+> > > +       halt=3D'all C files must include qemu/osdep.h' \
+> > > +       $(_sc_search_regexp)
+> >
+> > The rule is not just "included in all C files", but "included
+> > as the *first* include in all C files".
+>
+> Oh right, so we can copy a rule from libvirt to validate that.
+>
+> It would look like this, but s,config.h,qemu/osdep.h,
+>
+>
+> # Print each file name for which the first #include does not match
+> # $(config_h_header).  Like grep -m 1, this only looks at the first match=
+.
+> perl_config_h_first_ =3D \
+>   -e 'BEGIN {$$ret =3D 0}' \
+>   -e 'if (/^\# *include\b/) {' \
+>   -e '  if (not m{^\# *include $(config_h_header)}) {' \
+>   -e '    print "$$ARGV\n";' \
+>   -e '    $$ret =3D 1;' \
+>   -e '  }' \
+>   -e '  \# Move on to next file after first include' \
+>   -e '  close ARGV;' \
+>   -e '}' \
+>   -e 'END {exit $$ret}'
+>
+> # You must include <config.h> before including any other header file.
+> # This can possibly be via a package-specific header, if given by syntax-=
+check.mk.
+> sc_require_config_h_first:
+>         @if $(VC_LIST_EXCEPT) | $(GREP) '\.c$$' > /dev/null; then \
+>           files=3D$$($(VC_LIST_EXCEPT) | $(GREP) '\.c$$') && \
+>           perl -n $(perl_config_h_first_) $$files || \
+>             { echo 'the above files include some other header' \
+>                 'before <config.h>' 1>&2; exit 1; } || :; \
+>         else :; \
+>         fi
 
-> --- a/docs/tools/qemu-pr-helper.rst
-> +++ b/docs/tools/qemu-pr-helper.rst
-> @@ -22,7 +22,7 @@ storage fabric. QEMU's SCSI passthrough devices ``scsi-=
-block``
->  and ``scsi-generic`` support passing guest persistent reservation
->  requests to a privileged external helper program. :program:`qemu-pr-help=
-er`
->  is that external helper; it creates a socket which QEMU can
-> -connect to to communicate with it.
-> +connect to communicate with it.
-
-This text is correct as it stands, and the change is wrong.
-
-> diff --git a/tests/qtest/microbit-test.c b/tests/qtest/microbit-test.c
-> index 04e199ec33..6cc1f5d932 100644
-> --- a/tests/qtest/microbit-test.c
-> +++ b/tests/qtest/microbit-test.c
-> @@ -449,9 +449,9 @@ static void test_nrf51_timer(void)
->      timer_set_prescaler(qts, 0);
->      /* Swept over in first step */
->      timer_set_cc(qts, 0, 2);
-> -    /* Barely miss on first step */
-> +    /* Barely miss in first step */
->      timer_set_cc(qts, 1, 162);
-> -    /* Spot on on third step */
-> +    /* Spot on in third step */
->      timer_set_cc(qts, 2, 480);
-
-These changes also look wrong.
-
-The rest seems OK.
+As an example syntax checking rule I think this makes a pretty
+convincing case for the argument "make is the wrong language/framework
+for this job"...
 
 thanks
 -- PMM
