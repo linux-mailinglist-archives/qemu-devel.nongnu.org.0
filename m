@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D3C565E2C
+	by mail.lfdr.de (Postfix) with ESMTPS id E49FC565E2D
 	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 21:53:26 +0200 (CEST)
-Received: from localhost ([::1]:47752 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:47772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8S8L-0004i4-Ff
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 15:53:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45372)
+	id 1o8S8L-0004iZ-Rc
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 15:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o8S6g-0002sC-Ss; Mon, 04 Jul 2022 15:51:42 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:40647)
+ id 1o8S6g-0002sJ-V8; Mon, 04 Jul 2022 15:51:42 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:36153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o8S6e-0000DE-Lr; Mon, 04 Jul 2022 15:51:42 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 64FA65803AF;
- Mon,  4 Jul 2022 15:51:37 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 04 Jul 2022 15:51:37 -0400
+ id 1o8S6f-0000DR-4W; Mon, 04 Jul 2022 15:51:42 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 112A55803BB;
+ Mon,  4 Jul 2022 15:51:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 04 Jul 2022 15:51:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm1; t=1656964297; x=1656967897; bh=Sw6AnPb2jkpWNlAF4H6i19pM/
- re/Qd9enb6AWeyfsnY=; b=qVPRIbVGUT2IRQoGGUbPESyLe9PpV6nvE6CShBpnf
- J+KyyMInnL9qri7qLlA/0C9+NyYInz2xf0WSsI6d+iLTem7kv7OoC4Tk7pE17966
- tj8CzZlXu7nmp4OU8PGRDZkEaWg3A7ZS7VWCwJSFzDGys77bqSlFQJOsNWA+qzHI
- ejFw7Wsm3bkM7ifZJRI4/n+cKnFK/e89UxswpLXJSxfJh4wAefS6joImkiFwWuqQ
- d8UYc9PI0gfQLWVm7uPCZ4HvT/Zgd81AO0qnmOlwN3iDEiP37Mj3xr06ieUDTbMC
- BPvTnmxTerhyABiAmfmn5WCv6lGilApt4SiC24T6V5rpA==
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1656964299; x=1656967899; bh=e8
+ 04EdS9Fd3UldTp+gjGVNGymUmbe++XaN/xWubAwb8=; b=mYyGlWIjFZp1jGUug4
+ qwHJ8PrfNALjQlC30fiesgjKTs+Ae8CCbz4yJLtm+SVIZnq4stV6t6wXe2BCNQ8m
+ 3mgqLtJWRC5fgbTQ7JjONV1JrvaoSOiZqoKkQu84/II0k6N3Iv3H4o7zra90vmIn
+ yqrnU9x+uYuDqpR9Y3AcP5ygCC2HYpSbTde140hcnU1UeifTaXyr1KGyMpzzaXrx
+ +vLStADRGvcVy+Cc+Yo34lNiP/elo1kI35Q/R76JwUhyW80zxnK94S0MAcCk6uLZ
+ J7AjysEplTZh7zIGyZr6dw5msEAiQYuPi++dEtBljXbOniBBtv+O+9MhmUkrc2LE
+ CHQQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2;
- t=1656964297; x=1656967897; bh=Sw6AnPb2jkpWNlAF4H6i19pM/re/Qd9e
- nb6AWeyfsnY=; b=NwY4BSf/sFr8Nue7JjBTT20/KZZWKCQ4VxlG/bmAZ1tjuGY3
- OQ4ChEfRgBz8rEOBdtLMsXLnId+lSb5v5vOCU9997tmrw/Wb0BxkPEjp2c17932a
- YozK2OCklGqJ+nAC0znwkjtzp6e7VVhdv5EgyRZomPf3YsxTeVjDdHqDVEPbfsng
- OhrGqgPSMH+zjA/bivZeDJnIP8OIAMsmhyfUywUwQZx+FM8/ViXDFHA6+UQFe8h/
- iz9cjZNXmfhBdo/ufFMre1W+R3oGnZ07TA/DWvJD9PUv1zdcMs2gKr/RjtmOfBWT
- bd9HMI2qa6oYSNdXM8tihuvBoiZeTYfK+PDB9g==
-X-ME-Sender: <xms:yETDYvW1XEJ934DHC8PFvxNvKKG39ocQcPFUohdFuyang2PYtJAhpA>
- <xme:yETDYnmzxQgOIHkGXjP9gKdpZEsKevw_7mCzB6ds4eCThzMbf7-0yKUsRhHh2kEn0
- j00vBRWmhel31jfp7k>
-X-ME-Received: <xmr:yETDYrZ4WLSGg5rThH8zqXPGn8-K_6XIHaXsQY2mcxs2ztNt4g8QHXAQL1jFRw>
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=i9e814621.fm2; t=1656964299; x=1656967899; bh=e80
+ 4EdS9Fd3UldTp+gjGVNGymUmbe++XaN/xWubAwb8=; b=OJa0o5/yb4TvRhttLw6
+ BSMQQu4Nr+YwCDtbP3Y+s2n6JBwkOY6mDqTEFIqlfSWNeR2HuWsRfMCN9Y39EtJV
+ JexwI7JAhkBybezhmmaBcokKH0oLq/+1FTlDOPtQz5Hfza889OylqY2q0SmsRzux
+ PfYqQMfAoaAJ3Yy/jrkAUbHS3zkNQ0ysZYqy+UkSEzhcwk8o5jp1ITK4gmNatsk6
+ C18VtFelcYs8RizGdKezFFeREcGLMKIqnUSJxmvTMOKTyVDaPYJayF+zyMTqMMls
+ 2ax3svF87GAGGvaOTaO18cSSdjX8LHFiRX/bYsI6PGMu8ChGoRYOzw/DZ3neRfCl
+ p7g==
+X-ME-Sender: <xms:ykTDYnt6Sm8Wa8qBH28K6_ha4PA6ZjE9irJf-jsunIuVRTBLEwNHAA>
+ <xme:ykTDYofEGihL03mIuD6gGPc6V5CfXKggz1cIELt8gwTyuSYgUQYvpjO4tmkCs6jXj
+ VTSS5b89p9GnUWiWAg>
+X-ME-Received: <xmr:ykTDYqxPy1XYFhB70D2BdSAI7Cm5bDGiMzm1r6NNUR6mezwCUROd7cLOIrgb1w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehledgudegfecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefrvghtvghr
- ucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrghtth
- gvrhhnpedvjeeghfekjeejiedtuddtvdeugeehheefleetffeugeejuddttefgvdegveei
- geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvg
- htvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:yETDYqVVyqZQkDqmeY5mh1bFcuF3Fncn7u__vk05XkUs1KZgjmw3pw>
- <xmx:yETDYpl5eBPfI8NqEPVxAWCraseZoGwSh_gz4pyBQZ-RZyp1o6nDhg>
- <xmx:yETDYnfYfc-h-w3O28yelggLvE4K28mzvhMj9_upCc_8IPupfLF3yg>
- <xmx:yUTDYsvl_x8S0FHBkPcjDDmSAI9NcktOr60sAxF0Z9jCh_WyekmcGw>
+ enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpeetlefgueelfeffffefkeeigffhjeeugfdtgfetieegkedvfeffveeikedv
+ leetveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:ykTDYmPgmBB-BQZnR10ZpNNxakwdZOJJzcy2ZTHhmT4BJMPzkqzwEg>
+ <xmx:ykTDYn9AOFyEiT1fMiK_8Tnb2w0eUQ4knnZ0snbCVRc_K9F2vY9aow>
+ <xmx:ykTDYmUs4OUXu-tkGRsrfVr4kUVdy0cGFMnKOz56qW13FMdjW93C2g>
+ <xmx:ykTDYinU0hpnM6eajNk3QEPL4Z8tRRcpwVsJj-OCdbJ_3UiiPu5Q-A>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 4 Jul 2022 15:51:36 -0400 (EDT)
+ 4 Jul 2022 15:51:38 -0400 (EDT)
 From: Peter Delevoryas <peter@pjd.dev>
 To: clg@kaod.org
 Cc: Peter Delevoryas <peter@pjd.dev>, Peter Maydell <peter.maydell@linaro.org>,
  Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/i2c/aspeed: Allow machines to set I2CBus
-Date: Mon,  4 Jul 2022 12:51:34 -0700
-Message-Id: <20220704195135.10348-1-peter@pjd.dev>
+Subject: [PATCH 2/2] fby35: Connect BMC to slot 0 BIC over I2C
+Date: Mon,  4 Jul 2022 12:51:35 -0700
+Message-Id: <20220704195135.10348-2-peter@pjd.dev>
 X-Mailer: git-send-email 2.37.0
+In-Reply-To: <20220704195135.10348-1-peter@pjd.dev>
+References: <20220704195135.10348-1-peter@pjd.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.229; envelope-from=peter@pjd.dev;
@@ -98,71 +102,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In a multi-SoC board, we want to allow machines to construct shared
-I2CBus's, so that we can have two SoC I2C controllers attached to a single
-I2CBus. We already expose read-only access, this just adds a method for
-setting and using an external I2CBus in the Aspeed I2C bus controller.
-
-One issue is that in order to use these methods, the machine needs to reach
-into the SoC and call these methods on the I2C controller, and we would
-prefer to keep the abstraction at the SoC level. If we create a set of
-"aspeed_soc_i2c_get_bus/set_bus" methods though, they will just be
-one-liners that don't do anything interesting. I would prefer to avoid that
-if possible, because that doesn't seem scalable if we need to do the same
-thing for all of the peripherals later.
-
-In addition, we are already reaching into the Aspeed SoC to access the flash
-controller to determine the boot rom size, so there is a precedent that we
-need to reach into SoC peripherals for data sometimes.
-
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 ---
- hw/i2c/aspeed_i2c.c         | 16 +++++++++++++++-
- include/hw/i2c/aspeed_i2c.h |  1 +
- 2 files changed, 16 insertions(+), 1 deletion(-)
+ hw/arm/fby35.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 42c6d69b82..00bf58c7a3 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -1236,7 +1236,12 @@ static void aspeed_i2c_bus_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
+index 1972948318..88923d88eb 100644
+--- a/hw/arm/fby35.c
++++ b/hw/arm/fby35.c
+@@ -15,6 +15,7 @@
+ #include "hw/arm/aspeed_soc.h"
+ #include "hw/arm/boot.h"
+ #include "hw/arm/fby35.h"
++#include "hw/i2c/i2c.h"
+ #include "hw/i2c/i2c_mux_pca954x.h"
  
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+ #define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
+@@ -83,7 +84,6 @@ static void fby35_bmc_init(Fby35State *s)
+     memory_region_init_ram(&s->bmc_dram, OBJECT(s), "bmc-dram",
+                            FBY35_BMC_RAM_SIZE, &error_abort);
  
--    s->bus = i2c_init_bus(dev, name);
+-    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
+     object_property_set_int(OBJECT(&s->bmc), "ram-size", FBY35_BMC_RAM_SIZE,
+                             &error_abort);
+     object_property_set_link(OBJECT(&s->bmc), "memory", OBJECT(&s->bmc_memory),
+@@ -129,7 +129,6 @@ static void fby35_bic_init(Fby35State *s)
+ 
+     memory_region_init(&s->bic_memory, OBJECT(s), "bic-memory", UINT64_MAX);
+ 
+-    object_initialize_child(OBJECT(s), "bic", &s->bic, "ast1030-a1");
+     qdev_connect_clock_in(DEVICE(&s->bic), "sysclk", s->bic_sysclk);
+     object_property_set_link(OBJECT(&s->bic), "memory", OBJECT(&s->bic_memory),
+                              &error_abort);
+@@ -167,20 +166,27 @@ void fby35_cl_bic_i2c_init(AspeedSoCState *s)
+     for (int i = 0; i < 8; i++) {
+         i2c_slave_create_simple(ssd[i], "tmp105", 0x6a);
+     }
+-
+-    /*
+-     * FIXME: This should actually be the BMC, but both the ME and the BMC
+-     * are IPMB endpoints, and the current ME implementation is generic
+-     * enough to respond normally to some things.
+-     */
+-    i2c_slave_create_simple(i2c[6], "intel-me", 0x10);
+ }
+ 
+ static void fby35_init(MachineState *machine)
+ {
+     Fby35State *s = FBY35(machine);
++    I2CBus *slot_i2c[4];
++
++    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
++    object_initialize_child(OBJECT(s), "bic", &s->bic, "ast1030-a1");
+ 
+     fby35_bmc_init(s);
++
++    for (int i = 0; i < ARRAY_SIZE(slot_i2c); i++) {
++        slot_i2c[i] = aspeed_i2c_get_bus(&s->bmc.i2c, i);
++    }
++
 +    /*
-+     * If a bus hasn't been provided to the controller, create one from scratch.
++     * There are 4 server board slots in fby35, and the first 4 I2C buses of the
++     * BMC are routed to each server board's BIC.
 +     */
-+    if (!s->bus) {
-+        s->bus = i2c_init_bus(dev, name);
-+    }
-     s->slave = i2c_slave_create_simple(s->bus, TYPE_ASPEED_I2C_BUS_SLAVE,
-                                        0xff);
- 
-@@ -1420,3 +1425,12 @@ I2CBus *aspeed_i2c_get_bus(AspeedI2CState *s, int busnr)
- 
-     return bus;
- }
-+
-+void aspeed_i2c_set_bus(AspeedI2CState *s, int busnr, I2CBus *bus)
-+{
-+    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
-+
-+    if (busnr >= 0 && busnr < aic->num_busses) {
-+        s->busses[busnr].bus = bus;
-+    }
-+}
-diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index 300a89b343..c60f8b291d 100644
---- a/include/hw/i2c/aspeed_i2c.h
-+++ b/include/hw/i2c/aspeed_i2c.h
-@@ -376,5 +376,6 @@ static inline bool aspeed_i2c_bus_is_enabled(AspeedI2CBus *bus)
++    aspeed_i2c_set_bus(&s->bic.i2c, 6, slot_i2c[0]);
+     fby35_bic_init(s);
  }
  
- I2CBus *aspeed_i2c_get_bus(AspeedI2CState *s, int busnr);
-+void aspeed_i2c_set_bus(AspeedI2CState *s, int busnr, I2CBus *bus);
- 
- #endif /* ASPEED_I2C_H */
 -- 
 2.37.0
 
