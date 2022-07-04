@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048365650EC
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:33:18 +0200 (CEST)
-Received: from localhost ([::1]:52186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E3F5650ED
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:34:05 +0200 (CEST)
+Received: from localhost ([::1]:53868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8ISD-00063r-4t
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42190)
+	id 1o8ISx-0007CY-SQ
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o8IPR-0004hj-7V
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:30:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40020)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o8IPO-0004MU-7q
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:30:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656927021;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=iqsagBJZGF+4dntZHoMtQa+tIxJQuqumJeqHrTl1sHI=;
- b=QL+8+dNY0PgZBh9XFboqWgFmfYv95+b2lM/hbwv+wf75glbsWj9dzy/Bcjs7B2Is1xfDRi
- yt+Ov3eDxy/0ZhJZmViJq5fthjeM1bUTMm0wjv3ezX1cW5JorKivOp4fat/bR1DADjoYmc
- cXQsWefgJYNTJDrVCAWyaAsLl+K7PZY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-221-hQyOJ6W0NjSzd0NoZMyKDg-1; Mon, 04 Jul 2022 05:30:18 -0400
-X-MC-Unique: hQyOJ6W0NjSzd0NoZMyKDg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C1A81C01B2D;
- Mon,  4 Jul 2022 09:30:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ABD0D40D282E;
- Mon,  4 Jul 2022 09:30:14 +0000 (UTC)
-Date: Mon, 4 Jul 2022 10:30:12 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-ppc@nongnu.org,
- qemu-arm@nongnu.org, Brad Smith <brad@comstyle.com>,
- Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- Ryo ONODERA <ryoon@netbsd.org>
-Subject: Re: [PATCH 0/3] scripts/make-release: Decrease the size of the
- release tarballs
-Message-ID: <YsKzJE0haLxpHRxp@redhat.com>
-References: <20220704064254.18187-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8IR7-0005nj-Qg
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:32:09 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:35577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8IR5-0004go-Ua
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:32:09 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id e69so9277986ybh.2
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pTv4013wmrxkqMYmni9wNw5cxkSU6RJOElObGfwMGes=;
+ b=aAgksAnHNC5PK567/NgP4qG8ZqBH/pz74eiIqMpg1yETG9YrCiP6yMIQO/VFR3i7ll
+ m6m6TFD0HUeB9J5oklGxJgo9l0kMxhlJmwBLjrCMLl/VCuekaTTvTzHIHbTAfkOnxcNy
+ gJ78ZH7/MN+CNXY1qDjT2BNoYJRmwNrhjZFXuL4reihJA5gW3v/llGB+fXlkE03fENgq
+ ulHsqASoosQ58/quYgzRV4Snet8chKISeOkWf7e0+0AvuaHjZmtxxiJ4ONY3VVUtOk/I
+ dcdKwtb2vmstH/LpAkaWLo9B5R8Z5QYFyIUlUbeOxRz5XRtC75Nz+/L7z7XZOl8UTuWh
+ CgQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pTv4013wmrxkqMYmni9wNw5cxkSU6RJOElObGfwMGes=;
+ b=Z7EwCdvTBIT41C+cG18JLI5cM2vge/vXFAi6awxr0u8CyZRNo+Iw3nzhJH3zMYwIKT
+ C3yAjAWV/348zAqpS7ylf4hnnKym/cxfdNQPmayJxEMITMe9E0j9oJUjzf+Noyw2jdG6
+ 3lbuaiUDArYzo12ptQ4H2vFgSz2onbNyNgE+9H3cltqrcX2aPMLb8ri2ucvOT64O9km4
+ EDf1lOMI7jzRb9UyzUwamHWQ9FpH3o/WCUCEZ0bVOyrS9e04LJkDs7MwC7C0wMgveqG6
+ fWxnAjGzmXb1O5AfFHf8ben1OlhWHQ6ztE+VjXkEvqLEF0Y3217B4SO+AiAvAMrfNvuE
+ X2jg==
+X-Gm-Message-State: AJIora8SB8nR5Pocqmg0a9E0L7W0Z7PmcVW5C55YSvrke6DaJnUHbJ0Z
+ iM9o35+PjKpjcfS4jYtL0/rlUvo8LNTniLI+NqmL+Q==
+X-Google-Smtp-Source: AGRyM1tIveRcjM00owsOhSiBNhRitpI9nD4JdalwPzcIMLWp8zEEE/zT+KI9tTw28hjson4tiu9Ist7XGyk+9Wjzl2I=
+X-Received: by 2002:a25:6b48:0:b0:66e:3703:7df2 with SMTP id
+ o8-20020a256b48000000b0066e37037df2mr7898072ybm.193.1656927124144; Mon, 04
+ Jul 2022 02:32:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220704064254.18187-1-thuth@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220628042117.368549-1-richard.henderson@linaro.org>
+ <20220628042117.368549-20-richard.henderson@linaro.org>
+ <CAFEAcA-v6_atdSMggO7mAfW0H96F8s2fZWLD3biHLjsFnbzYgQ@mail.gmail.com>
+ <6176e126-60ae-7de5-1b22-dcfa585f4de6@linaro.org>
+In-Reply-To: <6176e126-60ae-7de5-1b22-dcfa585f4de6@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 Jul 2022 10:31:53 +0100
+Message-ID: <CAFEAcA98kHvZbh0n+sAYSVo8EFkjbL0n9q+-HMsmSyssLLraFA@mail.gmail.com>
+Subject: Re: [PATCH v4 19/45] target/arm: Implement SME MOVA
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,78 +81,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 04, 2022 at 08:42:51AM +0200, Thomas Huth wrote:
-> Our release tarballs are huge - qemu-7.0.0.tar.xz has a size of 119 MiB.
-> If you look at the contents, more than half of the size is used for the
-> edk2 sources that we ship along to provide the sources for the firmware
-> binaries, too. This feels very wrong, why do we urge users to download
-> such huge tarballs while 99.9% of them never will rebuilt the firmware
-> sources? We were also struggeling a bit in the past already with server
-> load and costs, so we should really try to decrease the size of our
-> release tarballs to a saner level.
-> 
-> Fortunately, edk2 has a permissive BSD license, so we are not forced
-> to distribute the sources for this. Thus instead of packaging the whole
-> edk2 source tree in our tarballs, let's just do the bare minimum and
-> provide the license information and a pointer to where the users can
-> download the edk2 sources instead. This decreases the size of our tarballs
-> already to the half of the original size.
-
-Regardless of license, we are not required to bundle the source code
-and binaries in the same tarball. We've merely done that because it
-was a convenient & easy way to approach the problem historically.
-
-It would be valid to not ship *any* of the source for the pre-built
-roms in the main qemu-x.y.z.tar.xz file /provided/ we ensure that
-we *always* have a qemu-firmware-src-x.y.z.tar.xz file alongside it.
+On Mon, 4 Jul 2022 at 10:08, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 7/1/22 21:49, Peter Maydell wrote:
+> > On Tue, 28 Jun 2022 at 05:40, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> We can reuse the SVE functions for implementing moves to/from
+> >> horizontal tile slices, but we need new ones for moves to/from
+> >> vertical tile slices.
+> >>
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-> Some few additional MiBs can be saved by omitting the sources of the
-> skiboot firmware, which has a permissive license, too (see second patch).
-> The final patch is rather cosmetics only - it drops some additional
-> .yml and .git files from the tarball that are of no use for the normal
-> user without the corresponding git repository.
+> >> +void HELPER(sme_mova_cz_q)(void *za, void *vn, void *vg, uint32_t desc)
+> >> +{
+> >> +    int i, oprsz = simd_oprsz(desc) / 16;
+> >> +    uint16_t *pg = vg;
+> >> +    Int128 *n = vn;
+> >> +    Int128 *a = za;
+> >> +
+> >> +    for (i = 0; i < oprsz; i++) {
+> >> +        if (pg[H2(i)] & 1) {
+> >> +            a[i * sizeof(ARMVectorReg)] = n[i];
+> >
+> > Is it really OK to do this with an Int128 store? That is
+> > in host-order, but the two halves of a 128-bit quantity
+> > in the ZA array are in architectural order. I suppose the
+> > source also will have them in the architectural order, but
+> > it does look odd, especially uncommented.
+>
+> Would memcpy be better for you?
 
-I look at a few more scenarios
+I guess that means we end up doing it all as byte-pointer
+arithmetic, which might look worse. I think with a comment
+that the two halves of the Int128 might be swapped but this
+is OK because we are only copying it will be fine.
 
-  * Current tarball:            119 MB
-  * minus edk/skiboot source:    54 MB
-  * also minus edk2 binaries:    45 MB
-  * also minus pc-bios/ + roms/: 19 MB
-  * minus roms/ only:            31 MB
+> >> +    /* Resolve tile.size[index] to an untyped ZA slice index. */
+> >> +    t_index = tcg_temp_new_i32();
+> >> +    tcg_gen_trunc_tl_i32(t_index, cpu_reg(s, rs));
+> >> +    tcg_gen_addi_i32(t_index, t_index, index);
+> >
+> > This code isn't doing what the comment says; it's just calculating
+> > the (not-yet-taken-MOD-dim) slice index, which does depend on the type.
+>
+> I guess the comment applies to a larger section than just these two lines.
+>
+> >
+> >> +
+> >> +    len = ctz32(streaming_vec_reg_size(s)) - esz;
+> >
+> > What is this the length of ?
+>
+> The length of the extract, aka the mod.
+>
+> >> +        /* The tile slice offset within env->zarray is the column offset. */
+> >> +        offset = tile;
+> >
+> > I don't understand why we can just add the tile index
+> > (which is going to be an integer 0, 1, 2..) to a byte offset.
+> > In the horizontal case we add tile * sizeof(ARMVectorReg),
+> > which makes more sense to me.
+>
+> Hmm.  I think you're right this should be tile * column width, or
+>
+>    offset = tile << esz;
+>
+> I wish I could compare vs FVP...
 
-IOW, cutting the tarball in half is great, but if we split off firmware
-binaries and source into completely separated tarballs we would win big.
-If we fully split off only the firmware source we still win quite alot.
+> >> +        /*
+> >> +         * For big-endian, adjust the column slice offset within
+> >> +         * the uint64_t host words that make up env->zarray.
+> >> +         * This must wait until index and offset are combined.
+> >
+> > Why? Neither the byte-offset of the start of the tile nor
+> > the byte offset of zarray in CPUARMState ought to be non-8-aligned.
+>
+> Columns will not be 8-aligned.  On page 38 of 0616A.a, see the illustration of ZA0V.B[22],
+> which is 6 mod 8.
 
-IOW, rather than special casing edk/skiboot, I would prefer to see us
-have make a consistent approach to firmware.
+Yes, but the column slice number isn't part of offset, it's
+in index, so (contra the comment) you could do the xor before
+the "add offset to index" if you wanted (ie it doesn't matter
+which order we do these things).
 
-Either
-
- * qemu-x.y.z.tar.gz              (only qemu maintained src, 19 MB)
- * qemu-firmware-x.y.z.tar.gz     (pre-built blobs aka pc-bios/, 13 MB)
- * qemu-firmware-src-x.y.z.tar.gz (source for pre-built blobs aka roms/, 92 MB)
-
-Or 
-
- * qemu-x.y.z.tar.gz              (qemu maintained src and pre-built blobs, 31 MB)
- * qemu-firmware-src-x.y.z.tar.gz (source for pre-built blobs aka roms/, 92 MB)
-
-
-The second option is probably the least disruptive option for end users
-building QEMU directly, while still giving distros most of the benefits
-they desire. And probably easiest to put into practice for us.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
