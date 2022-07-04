@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98543565B1D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 18:17:35 +0200 (CEST)
-Received: from localhost ([::1]:34116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92077565B90
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 18:19:57 +0200 (CEST)
+Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8OlS-0007tp-9t
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 12:17:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35130)
+	id 1o8Onk-0001Tg-Mu
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 12:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o8OjF-0006ap-Ps
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:15:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50091)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1o8Omr-0000nu-Er
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:19:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o8OjD-0002UU-DW
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:15:16 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1o8Omo-0002xR-AP
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:19:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656951314;
+ s=mimecast20190719; t=1656951537;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/2FRqwMboMt8lc00zCZGZzK2/OSX6qliTp1Zz/f53Eo=;
- b=BkUE7jl2WZZFBSPEd01lwBqcTDHmy1B4DlIOKcbtZ7Nv1KEwfU6XsVswiulqqdf+n3sMEI
- s5bQw+LvlpxP7BlLqdaSCTXBcUl+ituYAgm/ssa99t3P/zGkwcZloyQMiwa0OiZ5EwCgte
- p5zob1jXemwcpRChrIrrFDTOilVTzho=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Sd3daDZ+CnM7nR0YdNOM1skT/Ph4/zx4GDHepKyv1x8=;
+ b=LVxGDME/we4QuEjoJQCCa8SEaZE4k+pyi/ILSGAO+r/F8KcFROBG1/wJIXmnwpA/zB2Pvp
+ gVqu9YjQtFzlvmbR/vKI7Ak/ulVDTKBzd6hT6OrddG7KdTCdR0YeEYptSAFC055Cd368QV
+ Fedb7Moc7h5OB0w1hSGouJuE3MFn0d8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-100-86_BHR2KPTyUgxA5CJ29OQ-1; Mon, 04 Jul 2022 12:15:13 -0400
-X-MC-Unique: 86_BHR2KPTyUgxA5CJ29OQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2E0E299E773;
- Mon,  4 Jul 2022 16:15:12 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A90F74010D2A;
- Mon,  4 Jul 2022 16:15:11 +0000 (UTC)
-Date: Mon, 4 Jul 2022 17:15:09 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 7/7] tests/style: check qemu/osdep.h is included in
- all .c files
-Message-ID: <YsMSDVDoe/7/zIDT@redhat.com>
-References: <20220704152303.760983-1-berrange@redhat.com>
- <20220704152303.760983-8-berrange@redhat.com>
- <CAFEAcA-DeKXAq8o_pYt5oyWRnLPvhWMfTbM+vCFpx8MYyC3ZoQ@mail.gmail.com>
- <YsMMUosglBjbKRgy@redhat.com>
- <CAFEAcA-fK4qqJ7zyNYf5hyGDeWF9YDX0oG_gEWvXMZg4+bmnSw@mail.gmail.com>
+ us-mta-546-raNQbANePcKyTDVm-vQ0lA-1; Mon, 04 Jul 2022 12:18:56 -0400
+X-MC-Unique: raNQbANePcKyTDVm-vQ0lA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ z11-20020a056000110b00b0021b9c009d09so1485728wrw.17
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 09:18:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Sd3daDZ+CnM7nR0YdNOM1skT/Ph4/zx4GDHepKyv1x8=;
+ b=rfg6W1E2lxLCDb4eQPnD9pDyMJZV+m3VOHPtnsrBAWAYmkKC027/EQj2AiUtooCqAA
+ 8Ag8H3GfSdyDQ1/HyFneo+peZmk3lLde7ZtmF4/F0b+hDRbQnwdtfjzZKusu2vvcO3BH
+ TeyQnTSktt8aGxjeWTwonPml4BQdc2yKsDp0w9Fxf3mtKZXpr8yX5huFK2v/uFJNyvGe
+ YJeebehNf5sk+eG+BNWLvNEgUBnH6+PEgKoUIbG34ajsmqdHZOKn3UEL0X6AF/DZunXQ
+ YUEBEuU5b8HfQyTJt//lAGuXQbUlc5RibDqlbML2HYyurrghCvi3SgaHX1zl0yOZu0vc
+ XJXw==
+X-Gm-Message-State: AJIora++XF5zELhCuFPkjU/3my9e+9TZf9gnltfFVA7BU/Y2LelNQ1se
+ hNx9dC1rl/8ZriUCbldyPwf/t/PoP8kYXU4bJowZybciY9JqSGK4keJY25gSPBjCDkMIU91FGQM
+ CkrlftkiQ/+DC0wo=
+X-Received: by 2002:a5d:6d8b:0:b0:21b:9814:793d with SMTP id
+ l11-20020a5d6d8b000000b0021b9814793dmr27181533wrs.344.1656951535183; 
+ Mon, 04 Jul 2022 09:18:55 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t9rHYZ+Pmg5V2S15txGaDfnokGmSANWgsMaZD7NeOpLBH3dTLC6s75Wmb3nQ+F5kOlCJ8ujQ==
+X-Received: by 2002:a5d:6d8b:0:b0:21b:9814:793d with SMTP id
+ l11-20020a5d6d8b000000b0021b9814793dmr27181512wrs.344.1656951534919; 
+ Mon, 04 Jul 2022 09:18:54 -0700 (PDT)
+Received: from localhost (static-110-87-86-188.ipcom.comunitel.net.
+ [188.86.87.110]) by smtp.gmail.com with ESMTPSA id
+ z11-20020a5d654b000000b0021b8c554196sm31371165wrv.29.2022.07.04.09.18.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Jul 2022 09:18:54 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Leonardo =?utf-8?Q?Br=C3=A1s?= <leobras@redhat.com>
+Cc: qemu-devel@nongnu.org,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Eduardo Habkost
+ <eduardo@habkost.net>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH 5/5] multifd: Only sync once each full round of memory
+In-Reply-To: <d8674f5bafab57ff9aac035b99fc86814229754d.camel@redhat.com>
+ ("Leonardo =?utf-8?Q?Br=C3=A1s=22's?= message of "Thu, 30 Jun 2022 23:29:28
+ -0300")
+References: <20220621140507.1246-1-quintela@redhat.com>
+ <20220621140507.1246-6-quintela@redhat.com>
+ <d8674f5bafab57ff9aac035b99fc86814229754d.camel@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Mon, 04 Jul 2022 18:18:53 +0200
+Message-ID: <87czek26mq.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA-fK4qqJ7zyNYf5hyGDeWF9YDX0oG_gEWvXMZg4+bmnSw@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -87,71 +106,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 04, 2022 at 04:55:45PM +0100, Peter Maydell wrote:
-> On Mon, 4 Jul 2022 at 16:50, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Mon, Jul 04, 2022 at 04:47:16PM +0100, Peter Maydell wrote:
-> > > On Mon, 4 Jul 2022 at 16:23, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > >
-> > > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > >
-> > > > +
-> > > > +sc_c_file_osdep_h:
-> > > > +       @require='#include "qemu/osdep.h"' \
-> > > > +       in_vc_files='\.c$$' \
-> > > > +       halt='all C files must include qemu/osdep.h' \
-> > > > +       $(_sc_search_regexp)
-> > >
-> > > The rule is not just "included in all C files", but "included
-> > > as the *first* include in all C files".
-> >
-> > Oh right, so we can copy a rule from libvirt to validate that.
-> >
-> > It would look like this, but s,config.h,qemu/osdep.h,
-> >
-> >
-> > # Print each file name for which the first #include does not match
-> > # $(config_h_header).  Like grep -m 1, this only looks at the first match.
-> > perl_config_h_first_ = \
-> >   -e 'BEGIN {$$ret = 0}' \
-> >   -e 'if (/^\# *include\b/) {' \
-> >   -e '  if (not m{^\# *include $(config_h_header)}) {' \
-> >   -e '    print "$$ARGV\n";' \
-> >   -e '    $$ret = 1;' \
-> >   -e '  }' \
-> >   -e '  \# Move on to next file after first include' \
-> >   -e '  close ARGV;' \
-> >   -e '}' \
-> >   -e 'END {exit $$ret}'
-> >
-> > # You must include <config.h> before including any other header file.
-> > # This can possibly be via a package-specific header, if given by syntax-check.mk.
-> > sc_require_config_h_first:
-> >         @if $(VC_LIST_EXCEPT) | $(GREP) '\.c$$' > /dev/null; then \
-> >           files=$$($(VC_LIST_EXCEPT) | $(GREP) '\.c$$') && \
-> >           perl -n $(perl_config_h_first_) $$files || \
-> >             { echo 'the above files include some other header' \
-> >                 'before <config.h>' 1>&2; exit 1; } || :; \
-> >         else :; \
-> >         fi
-> 
-> As an example syntax checking rule I think this makes a pretty
-> convincing case for the argument "make is the wrong language/framework
-> for this job"...
+Leonardo Br=C3=A1s <leobras@redhat.com> wrote:
+> Hello Juan,
+>
+> On Tue, 2022-06-21 at 16:05 +0200, Juan Quintela wrote:
+>> We need to add a new flag to mean to sync at that point.
+>> Notice that we still synchronize at the end of setup and at the end of
+>> complete stages.
+>>=20
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>> =C2=A0migration/migration.c |=C2=A0 2 +-
+>> =C2=A0migration/ram.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 42 +++++++++=
++++++++++++++++++++++------------
+>> =C2=A02 files changed, 31 insertions(+), 13 deletions(-)
+>>=20
 
-Matching contextually across multiple lines of text is admittedly hard.
-IME most of the usage of this syntax checking facility we had in libvirt
-can be handled using single line matches, which are trivial to provide.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
+
+>> @@ -2943,11 +2953,13 @@ static int ram_save_setup(QEMUFile *f, void *opa=
+que)
+>> =C2=A0=C2=A0=C2=A0=C2=A0 ram_control_before_iterate(f, RAM_CONTROL_SETUP=
+);
+>> =C2=A0=C2=A0=C2=A0=C2=A0 ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+>> =C2=A0
+>> -=C2=A0=C2=A0=C2=A0 if (migrate_multifd_sync_each_iteration()) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D=C2=A0 multifd_send_s=
+ync_main(f);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retu=
+rn ret;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>
+> (1) IIUC, the above lines were changed in 2/5 to be reverted now.
+> Is that correct? was it expected?
+
+Yeap.  The problem here is that (withouth this patchset) we synchrconize
+in three places:
+
+- ram_save_setup()
+- ram_save_iterate()
+- ram_save_complete()
+
+And we want to change it to:
+
+- ram_save_setup()
+- ram_save_complete()
+- And each time that we pass through the end of memory. (much less times
+  than calls to ram_save_iterate).
+
+In the three places we send:
+
+   RAM_SAVE_FLAG_EOS
+
+And that is what cause the synchronization.
+
+As we can't piggyback on RAM_SAVE_FLAG_EOS anymore, I added a new flag
+to synchronize it.
+
+The problem is that now (on setup and complete)  we need to synchronize
+independently if we do the older way or the new one.  On iterate we only
+synchronize on the old code, and on new code only when we reach the end
+of the memory.
+
+I *thought* it was clear this way, but I can do without the change if
+people think it is easier.
+
+
+>> +=C2=A0=C2=A0=C2=A0 ret =3D=C2=A0 multifd_send_sync_main(f);
+>> +=C2=A0=C2=A0=C2=A0 if (ret < 0) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0 if (!migrate_multifd_sync_each_iteration()) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_put_be64(f, RAM_SAVE_FL=
+AG_MULTIFD_SYNC);
+>
+> (2) I have done some testing with this patchset (because of MSG_ZEROCOPY)=
+ and it
+> seems this part here is breaking migration from this build to 'older' bui=
+lds
+> (same commits except for this patchset):
+>
+> qemu-system-x86_64: Unknown combination of migration flags: 0x200
+> qemu-system-x86_64: error while loading state section id 2(ram)
+> qemu-system-x86_64: load of migration failed: Invalid argument
+
+You can't do that O:-) (TM), that is the whole point that I added the
+multifd-sync-each-iteration property.  It is true for old machine types,
+it is false for new machine types.  If you try to play with that
+property, it is better than you know what you are doing (TM).
+
+> Which makes sense, since there is no RAM_SAVE_FLAG_MULTIFD_SYNC in older
+> versions. Is this expected / desired ?
+
+See previous paragraph.
+
+> Strange enough, it seems to be breaking even with this set in the sending=
+ part:=20
+> --global migration.multifd-sync-each-iteration=3Don
+>
+> Was the idea of this config to allow migration to older qemu builds?
+
+If you set it to on, it should work against and old qemu.  By default it
+is set to on for old machine types, and only to on for new machine
+types.  So you should have it right if you use new machine types.  (If
+you use "pc" or "q35" machine types, you should now what you are doing
+for migrating machines.  We do this kind of change all the time).
+
+>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0=C2=A0=C2=A0=C2=A0 qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+>> =C2=A0=C2=A0=C2=A0=C2=A0 qemu_fflush(f);
+>> @@ -3127,13 +3139,14 @@ static int ram_save_complete(QEMUFile *f, void
+>> *opaque)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0
+>> -=C2=A0=C2=A0=C2=A0 if (migrate_multifd_sync_each_iteration()) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D multifd_send_sync_ma=
+in(rs->f);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retu=
+rn ret;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> +=C2=A0=C2=A0=C2=A0 ret =3D multifd_send_sync_main(rs->f);
+>> +=C2=A0=C2=A0=C2=A0 if (ret < 0) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>
+> (3) Same as (1)
+
+Yeap, this is on purpose.  If you feel that it is clearer the other way,
+I can change the patchset.
+
+Later, Juan.
 
 
