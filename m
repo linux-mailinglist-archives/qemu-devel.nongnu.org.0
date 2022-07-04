@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A29565DCF
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 21:08:45 +0200 (CEST)
-Received: from localhost ([::1]:57300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D59565DF8
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 21:28:38 +0200 (CEST)
+Received: from localhost ([::1]:36638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8RR6-0006LN-Cs
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 15:08:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38734)
+	id 1o8RkK-00044S-Ta
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 15:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1o8RPS-0005UT-Gc; Mon, 04 Jul 2022 15:07:02 -0400
-Received: from [200.168.210.66] (port=42230 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1o8RPQ-0002Fl-SV; Mon, 04 Jul 2022 15:07:02 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 4 Jul 2022 16:06:56 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id C5EA88001F4;
- Mon,  4 Jul 2022 16:06:55 -0300 (-03)
-Message-ID: <ed0f5617-f439-9689-ad93-23fcba6e5079@eldorado.org.br>
-Date: Mon, 4 Jul 2022 16:06:55 -0300
+ (Exim 4.90_1)
+ (envelope-from <bounce+55f5a6.0b57-qemu-devel=nongnu.org@quantumachine.net>)
+ id 1o8Rj3-0003OG-5Z
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 15:27:20 -0400
+Received: from m32-12.eu.mailgun.net ([141.193.32.12]:10863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1)
+ (envelope-from <bounce+55f5a6.0b57-qemu-devel=nongnu.org@quantumachine.net>)
+ id 1o8Riz-0004zT-Ji
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 15:27:15 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=quantumachine.net;
+ q=dns/txt; 
+ s=k1; t=1656962830; x=1657171630; h=Content-Transfer-Encoding:
+ Content-Type: Subject: Subject: From: From: To: To: MIME-Version: Date:
+ Message-ID: Sender: Sender;
+ bh=ZUUNYUF0TsjBA+juwNCwl8yqzTcowF+MV3iHG46wFAg=;
+ b=MvR/fZD4N5qtFbAVmsVoupsD1tnAb65/L9HdtcKTAOVUKTSk/vgq0Cor+1SlsWfRc0Bg/RBH
+ 2rX5XRgv3+78b+/QmGbkN7xS0EZUuEzcckMSKw2nBLGIf2bi3Dyk4NCOjnw0rt5hVk06UJJu
+ xYSknZyaylHgLcQpiLf+WjzuMf5ofO32PSOx8gwIPHbKrS5YfrgKO5Hbi5bd9M9QhGVwj0np
+ 8aasVvd9LBxUOJcJR5k/AGT20LTlTKJKm6eg7luBD/A9Y2T3yTUZGYs6jLagUPcxlOLTOawU
+ BnzVIzFBoVnl7Nw8LzakzADb8699U2SpxG5T2wwBfLP4ZHR6Sounsw==
+X-Mailgun-Sending-Ip: 141.193.32.12
+X-Mailgun-Sid: WyIzN2E0YiIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiMGI1NyJd
+Received: from mail-01.sector.int (225.pool90-165-196.dynamic.orange.es
+ [90.165.196.225]) by smtp-out-n02.prod.eu-central-1.postgun.com with SMTP
+ id 62c33f0ddb1e2bb61ec30f3a (version=TLS1.3,
+ cipher=TLS_AES_128_GCM_SHA256); Mon, 04 Jul 2022 19:27:09 GMT
+Received: from [192.168.5.136] (revealer.sector.int [192.168.5.1])
+ by mail-01.sector.int (Postfix) with ESMTPA id 18C627EDDC
+ for <qemu-devel@nongnu.org>; Mon,  4 Jul 2022 19:27:08 +0000 (UTC)
+Message-ID: <d566d35a-6aa7-5fa4-76eb-b21ddd95ec8e@quantumachine.net>
+Date: Mon, 4 Jul 2022 21:27:07 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [RFC 5/8] static-analyzer: Enforce coroutine_fn restrictions on
- function pointers
+User-Agent: Mozilla/5.0 (X11; DragonFly x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
 Content-Language: en-US
-To: Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org, "Denis V. Lunev" <den@openvz.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Peter Xu <peterx@redhat.com>, Alberto Garcia <berto@igalia.com>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Peter Lieven <pl@kamp.de>
-References: <20220702113331.2003820-1-afaria@redhat.com>
- <20220702113331.2003820-6-afaria@redhat.com>
- <ac264c3d-3345-38bf-35e5-ddc1b809c3b4@eldorado.org.br>
- <CAELaAXyAAfXGrO-NUSrqkU-Kd1hSzanUsz_Mk1fVSCfK9vhN8Q@mail.gmail.com>
- <679bb1ff-5bc4-7fc0-75e5-58628f577a27@eldorado.org.br>
- <CAELaAXyFdQ=B7rpWR4mvLGnwXLAGn_GOk-EWYDfNO3mzdmnTog@mail.gmail.com>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <CAELaAXyFdQ=B7rpWR4mvLGnwXLAGn_GOk-EWYDfNO3mzdmnTog@mail.gmail.com>
+To: qemu-devel@nongnu.org
+From: Antonio Huete Jimenez <tuxillo@quantumachine.net>
+Subject: Re: [PATCH v8 00/12] qtests: Check accelerator available at runtime
+ via QMP 'query-accels'
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 04 Jul 2022 19:06:56.0194 (UTC)
- FILETIME=[3AA42220:01D88FD9]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=141.193.32.12;
+ envelope-from=bounce+55f5a6.0b57-qemu-devel=nongnu.org@quantumachine.net;
+ helo=m32-12.eu.mailgun.net
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FAKE_REPLY_A1=0.384,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,22 +78,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMDQvMDcvMjAyMiAxNTowNCwgQWxiZXJ0byBGYXJpYSB3cm90ZToNCj4gT24gTW9uLCBK
-dWwgNCwgMjAyMiBhdCA2OjQ2IFBNIFbDrWN0b3IgQ29sb21ibw0KPiA8dmljdG9yLmNvbG9t
-Ym9AZWxkb3JhZG8ub3JnLmJyPiB3cm90ZToNCj4+IFllcywgdGhpcyBsaW5lIGlzIHByZXNl
-bnQgYXQgdGhlIGJlZ2lubmluZyBvZiB0aGUgb3V0cHV0DQo+PiBJcyB0aGlzIGNhdXNlZCBi
-eSBwcm9ibGVtcyB3aXRoIHRoZSBjb2RlIGJlaW5nIGFuYWx5emVkIG9yIGlzIGl0IGJlY2F1
-c2UNCj4+IGxpYmNsYW5nIGlzIGdldHRpbmcgY29uZnVzZWQgd2l0aCBzb21ldGhpbmcgdGhh
-dCBpcyBvdXRzaWRlIG9mIG91cg0KPj4gY29udHJvbD8NCj4gDQo+IEkgdGhpbmsgSSBmb3Vu
-ZCB0aGUgcHJvYmxlbTogdGhlIGNvbW1hbmRzIGluIHRoZSBjb21waWxhdGlvbiBkYXRhYmFz
-ZQ0KPiB3ZXJlbid0IGJlaW5nIHBhcnNlZCBwcm9wZXJseS4gSSBzd2l0Y2hlZCB0byBzaGxl
-eC5zcGxpdCgpIGFuZCBpdA0KPiBzZWVtcyB0byBiZSB3b3JraW5nIG5vdy4gVGhlIFdJUCB2
-MiBpcyBhdmFpbGFibGUgYXQgWzFdLCBpZiB5b3Ugd2FudA0KPiB0byBnaXZlIGl0IGEgdHJ5
-Lg0KPiANCj4gVGhhbmtzIGZvciByZXBvcnRpbmcgdGhpcyENCj4gDQo+IEFsYmVydG8NCj4g
-DQo+IFsxXSBodHRwczovL2dpdGxhYi5jb20vYWxiZXJ0b2ZhcmlhL3FlbXUvLS90cmVlL3N0
-YXRpYy1hbmFseXNpcw0KPiANCg0KSSB0ZXN0ZWQgdGhlIHZlcnNpb24gZnJvbSB0aGUgV0lQ
-IHYyIGFuZCBzZWVtcyB0byBiZSB3b3JraW5nIG5vdy4NClRoYW5rcyENCg0KLS0gDQpWw61j
-dG9yIENvcmEgQ29sb21ibw0KSW5zdGl0dXRvIGRlIFBlc3F1aXNhcyBFTERPUkFETw0KQXZp
-c28gTGVnYWwgLSBEaXNjbGFpbWVyIDxodHRwczovL3d3dy5lbGRvcmFkby5vcmcuYnIvZGlz
-Y2xhaW1lci5odG1sPg0K
+Are all these changes OK or is there anything else missing? I was 
+thinking in adding a QMP 'query-nvmm' command but I got pointed to this 
+thread as a better alternative to having a per-accelerator query command.
 
