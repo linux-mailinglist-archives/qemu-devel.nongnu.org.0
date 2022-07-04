@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EF7564C3E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 05:58:56 +0200 (CEST)
-Received: from localhost ([::1]:38448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B90564CCE
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 06:51:28 +0200 (CEST)
+Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8DEc-00058T-Lo
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jul 2022 23:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
+	id 1o8E3S-0004zA-Kf
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 00:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1o8DDL-0004N8-Bj
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 23:57:35 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:53120 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1o8DDI-0007Yq-Pe
- for qemu-devel@nongnu.org; Sun, 03 Jul 2022 23:57:35 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxX+MgZcJitcwHAA--.23851S3; 
- Mon, 04 Jul 2022 11:57:21 +0800 (CST)
-Subject: Re: [PATCH v21 00/13] Add LoongArch linux-user emulation support
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-References: <20220703085913.772936-1-richard.henderson@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <12cd505b-aeb2-d111-bbe8-1cfd1a7a55b5@loongson.cn>
-Date: Mon, 4 Jul 2022 11:57:20 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8E2A-0004DJ-TO
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 00:50:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8E27-00062H-8s
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 00:50:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656910201;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0Bmz7j5iCs4H+pDqyp6TwelxYSOjZWky8LPm2OqzeUs=;
+ b=afVCHeBFADaA+N+bot//Mtc9gVFrX4JmeblMcMjIyTAkf4SzC8/rIUv/AMcsiLb1N9Gpzb
+ m4Uh9ZUyEBmRlqT48WG7gC0Y+JWdKVfIjcNpVbmQYi4SmCX9pxE1LfzR99AaSTRf3SG1fz
+ IdgTTW3RyvSC3VOIAUkMnQMD7iRw5Qc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-301-l8iu33nUMVqKMBzw0ZqnYA-1; Mon, 04 Jul 2022 00:49:57 -0400
+X-MC-Unique: l8iu33nUMVqKMBzw0ZqnYA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BF8F3806736;
+ Mon,  4 Jul 2022 04:49:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B6D5140334D;
+ Mon,  4 Jul 2022 04:49:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 825F721E690D; Mon,  4 Jul 2022 06:49:54 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,  qemu-devel@nongnu.org,  Hanna Reitz
+ <hreitz@redhat.com>,  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Michael Tokarev <mjt@tls.msk.ru>
+Subject: Re: [PULL 14/15] qdev: Base object creation on QDict rather than
+ QemuOpts
+References: <20211015144640.198044-1-kwolf@redhat.com>
+ <20211015144640.198044-15-kwolf@redhat.com>
+ <CAFEAcA9jnySMWRD56FF9D7rXhwARiyvqJx+4Ys+smYa2ghdLBg@mail.gmail.com>
+Date: Mon, 04 Jul 2022 06:49:54 +0200
+In-Reply-To: <CAFEAcA9jnySMWRD56FF9D7rXhwARiyvqJx+4Ys+smYa2ghdLBg@mail.gmail.com>
+ (Peter Maydell's message of "Fri, 1 Jul 2022 14:37:16 +0100")
+Message-ID: <87wnctzdl9.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20220703085913.772936-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9DxX+MgZcJitcwHAA--.23851S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxJFy3Ww4rZryxXrWkAFWxXrb_yoWrJryDp3
- yfur1fGw4rJrZ7JFyqqa45Z3Z5XF17Wr4ag3WSqry8CrWIkr18Zwn5Kas3Wa45Z3W0gFWj
- grykAw1UWF4UXFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvKb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
- cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
- AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
- 6F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14
- v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80
- ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4
- AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svPMxAI
- w28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4AY6r
- 1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
- b7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
- vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI
- 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
- VjvjDU0xZFpf9x07beAp5UUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,86 +84,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Richard
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-On 2022/7/3 下午4:59, Richard Henderson wrote:
-> Hi.  This is Song Gao's v20 [1], with patch 2 extensively rewritten
-> so that it handles lock_user properly.  It compiles, but I need
-> to update the docker image we produced last year so that I can
-> properly test this.
+> On Fri, 15 Oct 2021 at 16:01, Kevin Wolf <kwolf@redhat.com> wrote:
+>> QDicts are both what QMP natively uses and what the keyval parser
+>> produces. Going through QemuOpts isn't useful for either one, so switch
+>> the main device creation function to QDicts. By sharing more code with
+>> the -object/object-add code path, we can even reduce the code size a
+>> bit.
+>>
+>> This commit doesn't remove the detour through QemuOpts from any code
+>> path yet, but it allows the following commits to do so.
+>>
+>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>> Message-Id: <20211008133442.141332-15-kwolf@redhat.com>
+>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>> Tested-by: Peter Krempa <pkrempa@redhat.com>
+>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 >
-> In the meantime, Song, can you please test this?
+> Hi; we discovered via a report on IRC this this commit broke
+> handling of "array properties", of which one example is:
+> qemu-system-x86_64 -netdev user,id=a -device rocker,len-ports=1,ports[0]=a
 >
-Yes, I can,   but which test do you mean?
-Test linxu-user with docker image?  like : 
-https://wiki.qemu.org/Testing/DockerBuild#linux-user_Docker_targets
+> This used to work, and now fails with
+>  qemu-system-x86_64: -device rocker,len-ports=1,ports[0]=a: Property
+> 'rocker.ports[0]' not found
+>
+> I think this happens because array properties have the
+> requirement that the len-foo property is set first before
+> any of the foo[n] properties can be set. In the old code
+> I guess we used to set properties from the command line
+> in the order they were specified, whereas in the new code
+> we end up in object_set_properties_from_qdict() which
+> tries to set them in whatever order the qdict hash table
+> provides them, which turns out to be the wrong one :-(
+>
+> Any suggestions for how to address this ?
 
-I had done test case 'make check'  and 'make check-tcg'.
+My initial (knee-jerk) reaction to breaking array properties: Faster,
+Pussycat! Kill! Kill!
 
-Thanks
-Song Gao
-> r~
->
-> [1] https://lore.kernel.org/qemu-devel/20220624031049.1716097-1-gaosong@loongson.cn/
->
-> Song Gao (13):
->    linux-user: Add LoongArch generic header files
->    linux-user: Add LoongArch signal support
->    linux-user: Add LoongArch elf support
->    linux-user: Add LoongArch syscall support
->    linux-user: Add LoongArch cpu_loop support
->    scripts: add loongarch64 binfmt config
->    target/loongarch: remove badaddr from CPULoongArch
->    target/loongarch: Fix missing update CSR_BADV
->    target/loongarch: Fix helper_asrtle_d/asrtgt_d raise wrong exception
->    target/loongarch: remove unused include hw/loader.h
->    target/loongarch: Adjust functions and structure to support user-mode
->    default-configs: Add loongarch linux-user support
->    target/loongarch: Update README
->
->   configs/targets/loongarch64-linux-user.mak    |   3 +
->   linux-user/loongarch64/sockbits.h             |  11 +
->   linux-user/loongarch64/syscall_nr.h           | 312 ++++++++++++++++
->   linux-user/loongarch64/target_cpu.h           |  34 ++
->   linux-user/loongarch64/target_elf.h           |  12 +
->   linux-user/loongarch64/target_errno_defs.h    |  12 +
->   linux-user/loongarch64/target_fcntl.h         |  11 +
->   linux-user/loongarch64/target_prctl.h         |   1 +
->   linux-user/loongarch64/target_resource.h      |  11 +
->   linux-user/loongarch64/target_signal.h        |  13 +
->   linux-user/loongarch64/target_structs.h       |  11 +
->   linux-user/loongarch64/target_syscall.h       |  48 +++
->   linux-user/loongarch64/termbits.h             |  11 +
->   linux-user/syscall_defs.h                     |   6 +-
->   target/loongarch/cpu.h                        |   8 +-
->   target/loongarch/helper.h                     |   2 +
->   target/loongarch/internals.h                  |   2 +
->   linux-user/elfload.c                          |  91 +++++
->   linux-user/loongarch64/cpu_loop.c             |  96 +++++
->   linux-user/loongarch64/signal.c               | 335 ++++++++++++++++++
->   target/loongarch/cpu.c                        |  34 +-
->   target/loongarch/gdbstub.c                    |   2 +-
->   target/loongarch/op_helper.c                  |  10 +-
->   .../insn_trans/trans_privileged.c.inc         |  36 ++
->   scripts/gensyscalls.sh                        |   2 +
->   scripts/qemu-binfmt-conf.sh                   |   6 +-
->   target/loongarch/README                       |  39 +-
->   27 files changed, 1144 insertions(+), 15 deletions(-)
->   create mode 100644 configs/targets/loongarch64-linux-user.mak
->   create mode 100644 linux-user/loongarch64/sockbits.h
->   create mode 100644 linux-user/loongarch64/syscall_nr.h
->   create mode 100644 linux-user/loongarch64/target_cpu.h
->   create mode 100644 linux-user/loongarch64/target_elf.h
->   create mode 100644 linux-user/loongarch64/target_errno_defs.h
->   create mode 100644 linux-user/loongarch64/target_fcntl.h
->   create mode 100644 linux-user/loongarch64/target_prctl.h
->   create mode 100644 linux-user/loongarch64/target_resource.h
->   create mode 100644 linux-user/loongarch64/target_signal.h
->   create mode 100644 linux-user/loongarch64/target_structs.h
->   create mode 100644 linux-user/loongarch64/target_syscall.h
->   create mode 100644 linux-user/loongarch64/termbits.h
->   create mode 100644 linux-user/loongarch64/cpu_loop.c
->   create mode 100644 linux-user/loongarch64/signal.c
->
+Back to serious: replace the implementation of QDict so it iterates in
+order?
 
 
