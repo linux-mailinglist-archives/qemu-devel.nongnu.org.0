@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBAD4565ABA
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 18:14:05 +0200 (CEST)
-Received: from localhost ([::1]:57208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B24565AC0
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 18:15:00 +0200 (CEST)
+Received: from localhost ([::1]:59462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Oi5-00047s-1V
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 12:14:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33072)
+	id 1o8Oix-0005mN-M1
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 12:14:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1o8Od3-0008Nd-An
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:08:54 -0400
-Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:44651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1o8Od1-0001Hu-1q
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:08:53 -0400
-Received: by mail-vs1-xe29.google.com with SMTP id h7so9420921vsr.11
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 09:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wK6Bj2eOl357gc0F3ypwExYErlcQylVaqDUBXl3Iv9Y=;
- b=B2boOE3sL79A8ACaPsK3WuhWnIr09sGdP3ZluqdpaX9MDY4AzL2ijphvHaXsd/0Lr/
- Ke/t0EVpl83A73OH835zqCFNRs/yCFtpnbca2ZIZqkHFs2BXVGKQ2azrhOgTnxb25jHd
- 9my9IMVdba6pKCbXQodYiRYlQkJryj9rHrng6WVQ/6nJvQ5ahJajyHZPNcosN59V9c1C
- lZnDJTTp/Vl6VGyEHAnqvjw56ToiZ8Bnvc2Vhk+lByK5SayNOF0IRanImXSYTZ5dUtJr
- Yy2UmEuGefbqAAzZzVunoxq5kRRrrdWOwRTO+2ALqsL9aFZYZaeAbFNzdun72fZ1nJCb
- gUzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wK6Bj2eOl357gc0F3ypwExYErlcQylVaqDUBXl3Iv9Y=;
- b=RuZeQ489GZGW47MRDOffyCLrkQ7elbPx4OLzezEAKPjFIPTgqEb9ZsO8SFh7Q1V7OG
- RBB52kkNaR4iEIzXK9LxD5b94LpJmRx04SUy3ByzRcGmEwtxj2NVCIA1SeLTsX9e4z3E
- TUgEI0iFDwjvK2UexxUixZhPTjcGPlhNRjvh22FzjBD+EeUYwDNOAyu5RMymzoDXvZi0
- LELfDaT/yjqEh6yu4QduyU03I6PK8s1DAdixpzOwQX5JZcgKijhWyFvWDwu87CEdlNsM
- wMsJrHGY2FK1jtHZOef6aejm3T4ee6eegkjCxGOtp50XxYlPFHUH+1uEeUZ7dcN/Kf+F
- 7S3A==
-X-Gm-Message-State: AJIora8xzpWDM6HnXlh5+Baw4nU8QGK8Cubr0xAnC9OMP3fcD1Z/ub5m
- vwNgewRKZmmxnSbXSszzTm4OzCb3+myOoxPOyH7JGA==
-X-Google-Smtp-Source: AGRyM1tq5A22DAxGHCAPigqTvq6xFFGL1oauEOrpwiggs539pxxJo8ePvP8HfVapE9OBH4qD0yC2A3HqC3731uxyjX4=
-X-Received: by 2002:a67:b207:0:b0:356:51a5:993e with SMTP id
- b7-20020a67b207000000b0035651a5993emr16960412vsf.12.1656950929430; Mon, 04
- Jul 2022 09:08:49 -0700 (PDT)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8Oh5-0004IE-OS
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:13:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8Oh0-00024S-5B
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:13:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656951177;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uyMia1jvmVc/OHPnytQqw5rdwnD8QwgJu8FU152rJ0g=;
+ b=OlwrVG/M/K9FY77JGBKhnlvXz+zbPSBNpqXWHBKyllSGHYThrq2pfFQqQFhJhTwLv+n6Ak
+ yNUGy/Ohk0usyy0O/IHLIV+dYIBJLlhJ9Pyk3wf3VHkpYM3qxyGYngt8zD6KkKEdMR4yMj
+ Od0o3z3Ek9GkeIaTSgA7/5MRUu5srb4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-189-bDHVciZ3NbWNyNlc0iWvgg-1; Mon, 04 Jul 2022 12:12:54 -0400
+X-MC-Unique: bDHVciZ3NbWNyNlc0iWvgg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8FB803802B9C;
+ Mon,  4 Jul 2022 16:12:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6053E1121315;
+ Mon,  4 Jul 2022 16:12:52 +0000 (UTC)
+Date: Mon, 4 Jul 2022 17:12:49 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 1/7] tests: introduce tree-wide code style checking
+Message-ID: <YsMRgUjJthbRS5qT@redhat.com>
 References: <20220704152303.760983-1-berrange@redhat.com>
- <20220704152303.760983-7-berrange@redhat.com>
- <CANCZdfqrdocFr9N3e2dvWq7=HDD=Va9d4dq4miB5Ss6Wvf26ig@mail.gmail.com>
- <YsMLVfllBE8cqIt/@redhat.com>
-In-Reply-To: <YsMLVfllBE8cqIt/@redhat.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 4 Jul 2022 10:08:39 -0600
-Message-ID: <CANCZdfogARXmNRBroK+SFJ4B33JqRmdm-L3TftNVmGoTWBCzeA@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] misc: ensure qemu/osdep.h is included in all .c
- files
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="0000000000008f378405e2fcf3ef"
-Received-SPF: none client-ip=2607:f8b0:4864:20::e29;
- envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe29.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ <20220704152303.760983-2-berrange@redhat.com>
+ <CAFEAcA__aTeaeB8JbMQdUz=4_6W8J5m0wOsYWBgj3RLrm=G_uQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEAcA__aTeaeB8JbMQdUz=4_6W8J5m0wOsYWBgj3RLrm=G_uQ@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,179 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008f378405e2fcf3ef
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jul 4, 2022, 9:46 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
-
-> On Mon, Jul 04, 2022 at 09:38:46AM -0600, Warner Losh wrote:
-> > On Mon, Jul 4, 2022 at 9:28 AM Daniel P. Berrang=C3=A9 <berrange@redhat=
-.com>
-> > wrote:
+On Mon, Jul 04, 2022 at 04:46:53PM +0100, Peter Maydell wrote:
+> On Mon, 4 Jul 2022 at 16:23, Daniel P. Berrangé <berrange@redhat.com> wrote:
 > >
-> > > A few files relied on qemu/osdep.h being included via a common
-> > > header. Another file didn't need it because it was actually an
-> > > included file, so ought to have been named .c.inc
-> > >
-> > > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > > ---
-> > >  bsd-user/arm/signal.c                 | 2 ++
-> > >  bsd-user/arm/target_arch_cpu.c        | 3 +++
-> > >  bsd-user/{elfcore.c =3D> elfcore.c.inc} | 0
-> > >  bsd-user/elfload.c                    | 2 +-
-> > >  bsd-user/freebsd/os-sys.c             | 2 ++
-> > >  bsd-user/i386/signal.c                | 2 ++
-> > >  bsd-user/qemu.h                       | 1 -
-> > >  bsd-user/x86_64/signal.c              | 2 ++
-> > >  crypto/rsakey.c                       | 1 +
-> > >  qga/cutils.c                          | 2 ++
-> > >  10 files changed, 15 insertions(+), 2 deletions(-)
-> > >  rename bsd-user/{elfcore.c =3D> elfcore.c.inc} (100%)
-> > >
-> >
-> > The change to bsd-user is fine, though will cause many ripples in the
-> > upstream
-> > branch when I merge it. The ripples likely are worth it in the long run=
-,
-> > and knowing
-> > they are coming and helps me prepare the tree for the merge.
->
-> If you prefer to delay these changes I don't mind. It just means that
-> it would need a 'bsd-user/.*' exclude rule in the next patch to
-> temporarily skip this chck for bsd-user code.
->
+> > Historically QEMU has used the 'scripts/checkpatch.pl' script to
+> > validate various style rules but there are a number of issues:
+> 
+> >  meson.build              |   3 +
+> >  tests/Makefile.include   |   3 +-
+> >  tests/meson.build        |  19 +++
+> >  tests/style-excludes.mak |   4 +
+> >  tests/style-infra.mak    | 265 +++++++++++++++++++++++++++++++++++++++
+> >  tests/style.mak          |  24 ++++
+> 
+> From my point of view the main issue with checkpatch.pl is
+> that nobody in the QEMU developers particularly understands
+> it or is enthusiastic about trying to add more tests to it
+> or adjust the existing ones where QEMU style diverges from
+> the kernel style (but nor are we tracking and upgrading to
+> newer versions of the kernel's script).
+> 
+> This seems to be aiming to replace a complex and hard to
+> understand perl script with a complex and hard to understand
+> makefile. I can't say I'm terribly enthusiastic :-/
 
-No. Go ahead. I know I need to do something when I do the next merge.
-And it shouldn't be a big deal to do now, otherwise I'll forget...
+I think the downsides comapred here are rather different orders of
+magnitude. The checkpatch.pl script is 3000 lines of code where we
+have years of experiance that no one in QEMU likes touching it.
 
-Warner
+The makefile here is 265 lines of which 50% is comments of license
+text.  In terms of what contributors most care about though, is
+how you add new rules, and most of the time that's involves just
+adding a 3 line make rule based off a regex to match the code
+pattern you want to prohibit. Some of this is a bit crufty to
+look at, but we've got years of experiance in libvirt with many
+contributors frequently adding new tests.
 
+It only gets hairy if the pattern you're trying to forbid needs
+to match across multiple lines of text - hence the difference in
+complexity between matching 'osdep.h' exists in .c, vs 'osdep.h'
+exists as the very first #include.  IME, the single-line matches
+are most typical need that is addressed.
 
-> It also reminds me that once I'm done upstreaming, there's likely benefit
-> > from having
-> > a common elf loader / core generator as much of this code is copied fro=
-m
-> > linux-user
-> > with the qemu style layered on top....
-> >
-> > Reviewed-by: Warner Losh <imp@bsdimp.com>
->
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
+So while I wont claim this proposal is perfect, IMHO this would
+be a significant step fowards over checkpatch.pl.
 
---0000000000008f378405e2fcf3ef
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Jul 4, 2022, 9:46 AM Daniel P. Berrang=C3=A9 &=
-lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">On Mon, Jul 04, 2022 at 09:38:46A=
-M -0600, Warner Losh wrote:<br>
-&gt; On Mon, Jul 4, 2022 at 9:28 AM Daniel P. Berrang=C3=A9 &lt;<a href=3D"=
-mailto:berrange@redhat.com" target=3D"_blank" rel=3D"noreferrer">berrange@r=
-edhat.com</a>&gt;<br>
-&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; A few files relied on qemu/osdep.h being included via a common<br=
->
-&gt; &gt; header. Another file didn&#39;t need it because it was actually a=
-n<br>
-&gt; &gt; included file, so ought to have been named .c.inc<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berr=
-ange@redhat.com" target=3D"_blank" rel=3D"noreferrer">berrange@redhat.com</=
-a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 bsd-user/arm/signal.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 2 ++<br>
-&gt; &gt;=C2=A0 bsd-user/arm/target_arch_cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
- 3 +++<br>
-&gt; &gt;=C2=A0 bsd-user/{elfcore.c =3D&gt; elfcore.c.inc} | 0<br>
-&gt; &gt;=C2=A0 bsd-user/elfload.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt; &gt;=C2=A0 bsd-user/freebsd/os-sys.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| 2 ++<br>
-&gt; &gt;=C2=A0 bsd-user/i386/signal.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | 2 ++<br>
-&gt; &gt;=C2=A0 bsd-user/qemu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 -<br>
-&gt; &gt;=C2=A0 bsd-user/x86_64/signal.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 2 ++<br>
-&gt; &gt;=C2=A0 crypto/rsakey.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 +<br>
-&gt; &gt;=C2=A0 qga/cutils.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 ++<br>
-&gt; &gt;=C2=A0 10 files changed, 15 insertions(+), 2 deletions(-)<br>
-&gt; &gt;=C2=A0 rename bsd-user/{elfcore.c =3D&gt; elfcore.c.inc} (100%)<br=
->
-&gt; &gt;<br>
-&gt; <br>
-&gt; The change to bsd-user is fine, though will cause many ripples in the<=
-br>
-&gt; upstream<br>
-&gt; branch when I merge it. The ripples likely are worth it in the long ru=
-n,<br>
-&gt; and knowing<br>
-&gt; they are coming and helps me prepare the tree for the merge.<br>
-<br>
-If you prefer to delay these changes I don&#39;t mind. It just means that<b=
-r>
-it would need a &#39;bsd-user/.*&#39; exclude rule in the next patch to<br>
-temporarily skip this chck for bsd-user code.<br></blockquote></div></div><=
-div dir=3D"auto"><br></div><div dir=3D"auto">No. Go ahead. I know I need to=
- do something when I do the next merge.</div><div dir=3D"auto">And it shoul=
-dn&#39;t be a big deal to do now, otherwise I&#39;ll forget...=C2=A0</div><=
-div dir=3D"auto"><br></div><div dir=3D"auto">Warner</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail=
-_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">
-&gt; It also reminds me that once I&#39;m done upstreaming, there&#39;s lik=
-ely benefit<br>
-&gt; from having<br>
-&gt; a common elf loader / core generator as much of this code is copied fr=
-om<br>
-&gt; linux-user<br>
-&gt; with the qemu style layered on top....<br>
-&gt; <br>
-&gt; Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=
-=3D"_blank" rel=3D"noreferrer">imp@bsdimp.com</a>&gt;<br>
-<br>
-<br>
-With regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer noreferrer" target=3D=
-"_blank">https://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a h=
-ref=3D"https://www.flickr.com/photos/dberrange" rel=3D"noreferrer noreferre=
-r" target=3D"_blank">https://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer noreferrer" target=3D"=
-_blank">https://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">https://fstop138.berrange=
-.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer noreferrer" tar=
-get=3D"_blank">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0=
- <a href=3D"https://www.instagram.com/dberrange" rel=3D"noreferrer noreferr=
-er" target=3D"_blank">https://www.instagram.com/dberrange</a> :|<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000008f378405e2fcf3ef--
 
