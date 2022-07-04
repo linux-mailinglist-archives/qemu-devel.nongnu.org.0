@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A7656559A
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 14:40:50 +0200 (CEST)
-Received: from localhost ([::1]:57348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 357F65655A4
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 14:43:06 +0200 (CEST)
+Received: from localhost ([::1]:34244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8LNg-0006Ti-Jm
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 08:40:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50810)
+	id 1o8LPt-0001rF-AE
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 08:43:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8L4d-00012R-Uv
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:21:07 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:38685)
+ id 1o8L5Q-0001iL-4P
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:21:56 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:33499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8L4c-0000KW-AH
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:21:07 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id l144so4083521ybl.5
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 05:21:05 -0700 (PDT)
+ id 1o8L5O-0000N9-7Y
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:21:55 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-31c89111f23so30118077b3.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 05:21:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IVuNHrUSuKl/7cZufdtsYtzvfEF2T6tVzAeRkCsOZkE=;
- b=Pu9XLbWEt9IiRXRGs9RgCoVBDr1Vi/cvtPjYkX5oByF+QsK6hmgCTwZZ1aLtWszYVK
- g6ieIA4z676fhtCQ/vwYi50dYAOc4L1kSNNIexLC5SPr/2EamMmKSEYqUDBPw0yQ3VwW
- 06lpVqGNSfRHHY3bo3H27Wlzn2qB6nZgCHcsPprmxJtgF5aGrsRqob/7LxBx5zmJ5Nl2
- UgIZDSOft1PN4S/YMvc1JEZ1snm6DD7ezIAMMfWSR6b+Omc4O2J/wGI7EYLKEjjBpvTx
- krLDSbXwNlHEJU6pqOXwrqWID0N6rpSsIX8l7ygquBXBplmhyyG3PkJw8A95LEMVAczD
- RkTA==
+ :cc; bh=tGb02hN6ii/ivdCUeNvP+CM/gzb82k3rXL/wSXmccvM=;
+ b=k0Rh3CUtmnaLn7f20HPKsIWJ+b2DYkZFe85nPAiIvd7K50it7ODJ3V+hUxIoCCuxOK
+ 8Q2Wms6Cc690GJ7rcFSApVwg/afEWNULaemYGXIJLaEA/DjmQlYon5Ae+Wmt+Fg8zUDo
+ ZaOdwP0WAGwiylybfJISHe8tCLAUjzDVW4AKUccl/rfj9vsF/vZ+yMwlTPeLiX4IojGA
+ jeiHIXYtTsnpUN0zH7ysHy4MD8Lgiw2/TY5gaudf3PNWe6I7ihAgdlz8PJQCfLuLW5Jz
+ XusTnwyOUoGdl3woOebJbGGxN3EbBORiGOod4L14K7urQNsOK7t9C1KpZEy1nbM2JpH1
+ o8Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=IVuNHrUSuKl/7cZufdtsYtzvfEF2T6tVzAeRkCsOZkE=;
- b=at4GvxvnnA1qj56Fa1wWwyE3fXnhEpG3IRRKShSaYx7nEtQ9ndUHyqMZnUT+PmmiOn
- kcXSyJwUgB1AIykQdMOBqFI8Vd00/I2wTy1c6v758RvN4GeguWk1n+MKDi2t5xlHesCX
- HH034RLDyD+IKpzat+VXt6K/hsVPt+2qWgAjJhiUUMyDRC0c4ue3yavZetEp3FiFzdME
- gmipfgK7acdylkY3lm9fZS9lvuu8egbrlIZzTs6YK6Zl4RWkcxPBrlWX9m9LEa+PC+Z1
- h5cMCgLVVPiy1SxGeR8SatAwa02Jn33RSwY5S5p6z5SeDTju6HYEgS/ysTmNTi3Hkw4s
- EzSQ==
-X-Gm-Message-State: AJIora8ZTMijLbtoYv8kBGdoX/JPIEhkFk3nLNlR/pEpd1FsYZs3PGSc
- kNdc3gHUcMV/0fcSe8qz/eMQEPm0bWYV7E4Bil8I0A==
-X-Google-Smtp-Source: AGRyM1urOL6ZlQFpaq1owg/3GceQVoMJF3FlcbZ4tJRJ/DlY4fniX1B5M+whsZQXgyXDTEaLy2/sMeaVuZ792red7WA=
-X-Received: by 2002:a25:d381:0:b0:66e:2943:1c9d with SMTP id
- e123-20020a25d381000000b0066e29431c9dmr11912646ybf.67.1656937265266; Mon, 04
- Jul 2022 05:21:05 -0700 (PDT)
+ bh=tGb02hN6ii/ivdCUeNvP+CM/gzb82k3rXL/wSXmccvM=;
+ b=pUnULtjiwsKYTQnlt6wp1tqeybV7sz1D5uugLSfG51Xh9m/JfupB5mOopWkTcC0Amp
+ VNtqSLnQMv4lwTBla2vJZByXiTFpqMcDf1doyXIFV7E2D86k7h5FBWNAQu937lTZsXx0
+ OgIzE5Z5rWXOyPUV225u1gU0OjosXgRPrjW2LUd+e5+27KIK/CdcMQVfXVSnWJOeHcAF
+ AVunl7p917fyCpRXhmAn+rT3lcsW5qomQ629YCm0BkRmbvgK/1vT2sQhfhULH9C9hAFC
+ mVYWE4pp+VR4Hrp0pkz6+ubE/UQ4HeBkSLKwOu5VMSuio7hRrcYRsprCYR5pCeoUtSIN
+ ZXKQ==
+X-Gm-Message-State: AJIora+r9W4g9WZY2HpyXV1WG9EEyquuHDwVWO9F1wZPFxxzUEqdMxma
+ +eRPfInhh0MGand36D3m3cWuJZsr2sVPdMMfdKevkA==
+X-Google-Smtp-Source: AGRyM1vBNFZOl81BNEC6pGcsw9guqEKUQHVKo4tpP0/H1p4rtU0PczFRR/Aait4jMOiUtzc0DxS5D/ftAKWuFeil+Vk=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr33501471ywb.257.1656937312455; Mon, 04
+ Jul 2022 05:21:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220628042117.368549-1-richard.henderson@linaro.org>
- <20220628042117.368549-43-richard.henderson@linaro.org>
-In-Reply-To: <20220628042117.368549-43-richard.henderson@linaro.org>
+ <20220628042117.368549-44-richard.henderson@linaro.org>
+In-Reply-To: <20220628042117.368549-44-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 4 Jul 2022 13:20:54 +0100
-Message-ID: <CAFEAcA_gw6aH3ziJY4u_GpEhtS7HY_a7zWFB66MYarHBLDFR2Q@mail.gmail.com>
-Subject: Re: [PATCH v4 42/45] linux-user/aarch64: Implement PR_SME_GET_VL,
- PR_SME_SET_VL
+Date: Mon, 4 Jul 2022 13:21:41 +0100
+Message-ID: <CAFEAcA_fxoGGa8w0nOcB4Z1uaDK8xSuVGrwgE-McCBWhF56aww@mail.gmail.com>
+Subject: Re: [PATCH v4 43/45] target/arm: Only set ZEN in reset if SVE present
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,13 +83,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jun 2022 at 05:54, Richard Henderson
+On Tue, 28 Jun 2022 at 06:17, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> These prctl set the Streaming SVE vector length, which may
-> be completely different from the Normal SVE vector length.
+> There's no reason to set CPACR_EL1.ZEN if SVE disabled.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
