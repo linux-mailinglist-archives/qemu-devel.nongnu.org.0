@@ -2,96 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55245565073
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:09:54 +0200 (CEST)
-Received: from localhost ([::1]:57264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D855D565077
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 11:11:24 +0200 (CEST)
+Received: from localhost ([::1]:60566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8I5Z-0006Bt-DR
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:09:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37662)
+	id 1o8I72-0008Qt-0B
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 05:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o8I3G-0004qP-TF
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:07:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35364)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o8I3F-0001Au-94
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:07:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656925648;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Bycl5SIzX5HcQeP5v8z9kef4YGkB/vT84rYMKSJ6Xms=;
- b=ArCva2q9OkHFHNQ/7fLe1xt587EQnsHT3ETkCwWerJ4CEtgfAyWf4ZeITDu4GpkdGXIP5U
- 9O1W3tYaKY1mZJtqAhXpIGYplevjaIJEuSBV2edB4/tCoXdSoBr5aVvMljq238G5Cc4OTn
- 1lMtZj0HN8ypeGZmDaqN+vuBgMwvWkU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-XXaCtjmEPI27Tb0FA0MGAg-1; Mon, 04 Jul 2022 05:07:27 -0400
-X-MC-Unique: XXaCtjmEPI27Tb0FA0MGAg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- v16-20020a056402349000b00435a1c942a9so6851369edc.15
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:07:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8I4O-0006G5-6q
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:08:40 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:42661)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8I4M-0001Ev-9x
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 05:08:39 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ i8-20020a17090a4b8800b001ef8a65bfbdso1389621pjh.1
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 02:08:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=BzSYqUDqIh66HgbhWmV+ZxG3+ESGQuCVc9Av+YEBkFc=;
+ b=q33JID0N3HuGxQNQtODokipRa0WkqEQ2GL+m7IW1U6fxOFn0Ez4M/84OmRbSLivM+9
+ ac3VB9r2UB3j9dX8STmLbbS7gxEgKBFjBVLAxz3a/sHrZQaztnSXbFVKwFGukp8kmqzF
+ Pbj7tB/GHN3kyYQNiEkd3ar95Y3p57VEqhQWYBl9akqUG6Mo+6aHKrlHSXBEKF2k5P8N
+ EdGBrI8Y1XEdriCUY6UaJNL4lAJHF40b7tQEjIp2vGr6K6GtsM8Tqk5wbIeUijS+TVQM
+ mIdrCkpgwmYV0U3fa8n/CC1zJu0PSOz4ODORe8+RMAUPfBNQkVlZhRx3+JVEoxuRiE3M
+ gkDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Bycl5SIzX5HcQeP5v8z9kef4YGkB/vT84rYMKSJ6Xms=;
- b=knGfeGLg9GGbmjQWn0t6zhadFK/Mx2vljDga6DXPIh0+9xV7PA6aPtPlxosxhzIaeT
- 4igrgD7HCTVFK/u4kvXf9h/59eWLXHHKgFPaCFI8un4OhONFRdWQXc7gv3aZC9kFncfj
- xUnP2DLev0ubrNHOT0SjyR3HiQMeexcECMIYOIDE7hTy+STHdG/suwNW+001afh20KSO
- RR4kQKPuKF+GXqjWL4s9+3KtHeTZlhEpzQebeIliw/xfEaN2VXRwu7rsNACp2btmww0B
- z4ndStY47j+wJUe5XHBmmR4CbdCqC953Dpd2TVtVdNQ13xBdav+tI5qT3Llmn2b0739V
- Q4YA==
-X-Gm-Message-State: AJIora8uDQ7fIqQj616FIz2BNoIGlOwUSAlhSWOIeiTNBEg5X4QrNiCo
- SHrGBfJzGVr1OxtKB2nLn32MFQy0TWmUzjggy46r/K3hEhRsFs4ZGSZBFK+qogHq15hPtEvUbKC
- /3KvX2KA7d3ej5hc=
-X-Received: by 2002:a05:6402:2708:b0:435:da6f:3272 with SMTP id
- y8-20020a056402270800b00435da6f3272mr36346669edd.160.1656925645844; 
- Mon, 04 Jul 2022 02:07:25 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vCz5bjUM9sPYQw1Zld7brg9ETH0Rfvc/CCseXyR7AUbKa16ump0XuvGVjCrbdzjh56KpadOA==
-X-Received: by 2002:a05:6402:2708:b0:435:da6f:3272 with SMTP id
- y8-20020a056402270800b00435da6f3272mr36346638edd.160.1656925645583; 
- Mon, 04 Jul 2022 02:07:25 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BzSYqUDqIh66HgbhWmV+ZxG3+ESGQuCVc9Av+YEBkFc=;
+ b=MVNQpcj2oKOqgyQc94NY9EnuquPMJKzCqExhhTgoxiTJ7P4Civ3QwqDG2hThhEFpUB
+ TFAvRtyDDxv4kIknMO+gFshNIGF7k7lT+T0qDCcdm1WGSk+EjbR2lPy+FIIqzQ8FpyK5
+ eRPAazzvxQ8CLkjYGFQRFA8oKZM8vJsAxG4WOZM78QHwRRTvAQA99Ka3VPjgk0sYggnL
+ 1SdZKQ+cthS8d8cOoRCVg5vgZ0rZtYShaJfO86SzdTf1KM3YU0IFcmKV03obDdv9aKNK
+ OSebzsY3+lVhm3/k65agXxITFESNKrM1N07aolOr8sD3r/mn2pOTeUebpXJCiBkQUD+e
+ oXXQ==
+X-Gm-Message-State: AJIora+LQ49qQkAtYa0q8WpafVldhrHd1WfNZrTa2kSv3q7x9G9DiXzA
+ i4XSyKFjWwBX03Q1cwml70z0Pg==
+X-Google-Smtp-Source: AGRyM1tdpnOA4DhGzX02oy6cqegYnfQxEqd0A5BqrmXr06JuDi+Q0ddhNgv3Q0L0DnDcALGqVhkpYQ==
+X-Received: by 2002:a17:90b:4f8c:b0:1ed:243:ba07 with SMTP id
+ qe12-20020a17090b4f8c00b001ed0243ba07mr35077256pjb.89.1656925716631; 
+ Mon, 04 Jul 2022 02:08:36 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- kg27-20020a17090776fb00b00721d8e5beeesm13773473ejc.60.2022.07.04.02.07.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 02:07:24 -0700 (PDT)
-Date: Mon, 4 Jul 2022 11:07:23 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Brice Goglin
- <Brice.Goglin@inria.fr>, QEMU Developers <qemu-devel@nongnu.org>, Liu
- Jingqi <jingqi.liu@intel.com>, Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Philippe =?UTF-8?B?TWF0?=
- =?UTF-8?B?aGlldS1EYXVkw6k=?= <f4bug@amsat.org>, Yanan Wang
- <wangyanan55@huawei.com>, <hesham.almatary@huawei.com>
-Subject: Re: [PATCH v4 0/4] hmat acpi: Don't require initiator value in -numa
-Message-ID: <20220704110723.07125536@redhat.com>
-In-Reply-To: <20220701170848.000043b7@huawei.com>
-References: <ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr>
- <20220630142347.22485226@redhat.com>
- <17551978-4608-f9e4-8aab-d5d7512dc5a7@inria.fr>
- <20220630092934-mutt-send-email-mst@kernel.org>
- <20220701170848.000043b7@huawei.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ d16-20020a170902b71000b0016a7b9558f7sm18026270pls.136.2022.07.04.02.08.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jul 2022 02:08:35 -0700 (PDT)
+Message-ID: <6176e126-60ae-7de5-1b22-dcfa585f4de6@linaro.org>
+Date: Mon, 4 Jul 2022 14:38:30 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4 19/45] target/arm: Implement SME MOVA
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220628042117.368549-1-richard.henderson@linaro.org>
+ <20220628042117.368549-20-richard.henderson@linaro.org>
+ <CAFEAcA-v6_atdSMggO7mAfW0H96F8s2fZWLD3biHLjsFnbzYgQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA-v6_atdSMggO7mAfW0H96F8s2fZWLD3biHLjsFnbzYgQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,61 +95,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 1 Jul 2022 17:08:48 +0100
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+On 7/1/22 21:49, Peter Maydell wrote:
+> On Tue, 28 Jun 2022 at 05:40, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> We can reuse the SVE functions for implementing moves to/from
+>> horizontal tile slices, but we need new ones for moves to/from
+>> vertical tile slices.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+> 
+>> diff --git a/target/arm/sme_helper.c b/target/arm/sme_helper.c
+>> index eef2df73e1..95159862de 100644
+>> --- a/target/arm/sme_helper.c
+>> +++ b/target/arm/sme_helper.c
+>> @@ -19,8 +19,10 @@
+>>
+>>   #include "qemu/osdep.h"
+>>   #include "cpu.h"
+>> -#include "internals.h"
+> 
+> Did you mean to delete this #include line ?
 
-> On Thu, 30 Jun 2022 09:30:58 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->=20
-> > On Thu, Jun 30, 2022 at 02:40:13PM +0200, Brice Goglin wrote: =20
-> > >=20
-> > > Le 30/06/2022 =C3=A0 14:23, Igor Mammedov a =C3=A9crit=C2=A0:   =20
-> > > > On Thu, 30 Jun 2022 09:36:47 +0200
-> > > > Brice Goglin <Brice.Goglin@inria.fr> wrote:
-> > > >    =20
-> > > > > Allow -numa without initiator value when hmat=3Don so that we may
-> > > > > build more complex topologies, e.g. NUMA nodes whose best initiat=
-ors
-> > > > > are not just another single node.
-> > > > >    =20
-> > > > patches looks fine code-wise,
-> > > > however something wrong with them, i.e. 'git am' doesn't like them
-> > > > nor ./scripts/checkpatch (which one should use before sending patch=
-es).
-> > > >=20
-> > > > I've checked it's not my mail server/client issue(or whatever)
-> > > > that corrupts them (ones downloaded from patchew are broken as well=
-)   =20
-> > >=20
-> > >=20
-> > > I don't know what's going on. These 4 patches are in
-> > > https://github.com/bgoglin/qemu/commits/hmat-noinitiator (rebased on =
-master
-> > > 10mn ago).   =20
-> >=20
-> > It's the commit log that's corrupted.
-> >  =20
-> > > Do whatever you want with them. I am not allowed to spend more time o=
-n this.
-> > >=20
-> > > Brice   =20
-> >=20
-> > Maybe someone will fix up the log and repost. One can hope ..
-> >  =20
->=20
-> We are planning to send out arm/virt support shortly including a similar =
-test
-> that uses this series.  So if no one else gets to it before hand we'll in=
-clude
-> fixed up version of Brice's series with that.
+I meant to go back and remove it from whence it came, but kept forgetting.
 
-Looking at headers, it looks like patches where sent with Thunderbird
-which may corrupted patches (unless special care was taken).
-If one would've used 'git send-email', it is likely patches would be fine.
+>> +void HELPER(sme_mova_cz_d)(void *za, void *vn, void *vg, uint32_t desc)
+>> +{
+>> +    int i, oprsz = simd_oprsz(desc) / 8;
+>> +    uint8_t *pg = vg;
+>> +    uint64_t *n = vn;
+>> +    uint64_t *a = za;
+>> +
+>> +    for (i = 0; i < oprsz; i++) {
+>> +        if (pg[H1_2(i)] & 1) {
+> 
+> The documentation of the H macros says
+> "The H1_<N> macros are used when performing byte arithmetic and then
+>   casting the final pointer to a type of size N."
+> but we're not casting anything to a 2-byte type, so what's happening here?
+
+Yep, error.
+
+>> +void HELPER(sme_mova_cz_q)(void *za, void *vn, void *vg, uint32_t desc)
+>> +{
+>> +    int i, oprsz = simd_oprsz(desc) / 16;
+>> +    uint16_t *pg = vg;
+>> +    Int128 *n = vn;
+>> +    Int128 *a = za;
+>> +
+>> +    for (i = 0; i < oprsz; i++) {
+>> +        if (pg[H2(i)] & 1) {
+>> +            a[i * sizeof(ARMVectorReg)] = n[i];
+> 
+> Is it really OK to do this with an Int128 store? That is
+> in host-order, but the two halves of a 128-bit quantity
+> in the ZA array are in architectural order. I suppose the
+> source also will have them in the architectural order, but
+> it does look odd, especially uncommented.
+
+Would memcpy be better for you?
+
+>> +    /* Resolve tile.size[index] to an untyped ZA slice index. */
+>> +    t_index = tcg_temp_new_i32();
+>> +    tcg_gen_trunc_tl_i32(t_index, cpu_reg(s, rs));
+>> +    tcg_gen_addi_i32(t_index, t_index, index);
+> 
+> This code isn't doing what the comment says; it's just calculating
+> the (not-yet-taken-MOD-dim) slice index, which does depend on the type.
+
+I guess the comment applies to a larger section than just these two lines.
+
+> 
+>> +
+>> +    len = ctz32(streaming_vec_reg_size(s)) - esz;
+> 
+> What is this the length of ?
+
+The length of the extract, aka the mod.
+
+>> +        /* The tile slice offset within env->zarray is the column offset. */
+>> +        offset = tile;
+> 
+> I don't understand why we can just add the tile index
+> (which is going to be an integer 0, 1, 2..) to a byte offset.
+> In the horizontal case we add tile * sizeof(ARMVectorReg),
+> which makes more sense to me.
+
+Hmm.  I think you're right this should be tile * column width, or
+
+   offset = tile << esz;
+
+I wish I could compare vs FVP...
+
+>> +        /*
+>> +         * For big-endian, adjust the column slice offset within
+>> +         * the uint64_t host words that make up env->zarray.
+>> +         * This must wait until index and offset are combined.
+> 
+> Why? Neither the byte-offset of the start of the tile nor
+> the byte offset of zarray in CPUARMState ought to be non-8-aligned.
+
+Columns will not be 8-aligned.  On page 38 of 0616A.a, see the illustration of ZA0V.B[22], 
+which is 6 mod 8.
+
+I'll try and improve the commentary.
 
 
->=20
-> Jonathan
->=20
-
+r~
 
