@@ -2,90 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25461565AA9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 18:11:04 +0200 (CEST)
-Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAD4565ABA
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 18:14:05 +0200 (CEST)
+Received: from localhost ([::1]:57208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Of8-00010M-Q5
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 12:11:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60890)
+	id 1o8Oi5-00047s-1V
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 12:14:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o8Obt-0007EB-D6
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:07:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60782)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o8Obq-00019K-2G
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:07:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656950855;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=sT+5ax1ALAO2s1rceBDrmlzlNCTmkNg91W9AiBWFYsw=;
- b=J6TLx/IU8cUXmPWyP6mFS0MSp917r4QgH6snv9mX1p5r5qZvIZb34MB3+SIjoPmY++w7DH
- Wm8m17/kmR3ZSws2/eNRD2QjKrAfKJKtSIu1RzrVYQGW9Aj7S1tzmecChNAyMjkCEp4LWa
- jv9rnQ95CZRRReE3LHxsorZfX12F/qk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-GvHZ3KkGMdOdTIIhQYFTRA-1; Mon, 04 Jul 2022 12:07:34 -0400
-X-MC-Unique: GvHZ3KkGMdOdTIIhQYFTRA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k26-20020adfb35a000000b0021d6c3b9363so624860wrd.1
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 09:07:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1o8Od3-0008Nd-An
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:08:54 -0400
+Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:44651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1o8Od1-0001Hu-1q
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 12:08:53 -0400
+Received: by mail-vs1-xe29.google.com with SMTP id h7so9420921vsr.11
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 09:08:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wK6Bj2eOl357gc0F3ypwExYErlcQylVaqDUBXl3Iv9Y=;
+ b=B2boOE3sL79A8ACaPsK3WuhWnIr09sGdP3ZluqdpaX9MDY4AzL2ijphvHaXsd/0Lr/
+ Ke/t0EVpl83A73OH835zqCFNRs/yCFtpnbca2ZIZqkHFs2BXVGKQ2azrhOgTnxb25jHd
+ 9my9IMVdba6pKCbXQodYiRYlQkJryj9rHrng6WVQ/6nJvQ5ahJajyHZPNcosN59V9c1C
+ lZnDJTTp/Vl6VGyEHAnqvjw56ToiZ8Bnvc2Vhk+lByK5SayNOF0IRanImXSYTZ5dUtJr
+ Yy2UmEuGefbqAAzZzVunoxq5kRRrrdWOwRTO+2ALqsL9aFZYZaeAbFNzdun72fZ1nJCb
+ gUzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=sT+5ax1ALAO2s1rceBDrmlzlNCTmkNg91W9AiBWFYsw=;
- b=7Z87shOoaGa6ZkL8xViF4qzQGXJXmgUocGasVwnnyo8wVqmcuuk0hEmlOOg9m+IcaD
- AdPD9V2WX5K6pvT4Zud+Fb8TX+WYvtS9X1UiqswMiWPtLJ9DSYJwh4MBoYUC/XbL0siV
- VoBcQCGM4We1lJQo2QuwBKNjDvWUoL9GKJcssKlWHwbhFv5oRM+U2HaYrX9YV8U7XuIF
- /zFbA96GV7Z/bhIfYRXcMhyutjDk816q/TGxOrKUyVH0ffMxDVK2S78CgXCYY0LGCTFL
- f0ePZY0gOPSQ+ScQcKU722WH9VWodSRGVAAnB9jiuS/kc7JpcDD6q1Cb2KyxsGUL/2G0
- 3hpA==
-X-Gm-Message-State: AJIora92Qw6Sg/oftZ5gwp3q9kLjBieu2ThLoLjux0hXgs9i0gyuuQHH
- oB66J3pU/u1CDiHMppMcZZI4gnFeKhuFbCLJs8bgca3qt7o/CYLafnyxoza/0gkSTzU1gEku0/g
- YAA4EBQ4NwUwF1Lo=
-X-Received: by 2002:a05:6000:1445:b0:21b:a919:7d3 with SMTP id
- v5-20020a056000144500b0021ba91907d3mr27073125wrx.545.1656950853805; 
- Mon, 04 Jul 2022 09:07:33 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ss5w9KnFF71dGgpcT+EtW6tawbN704I98Ekl5kV/7tf9CAEcV2oPQzeWMbw21BmRbYzl0FNA==
-X-Received: by 2002:a05:6000:1445:b0:21b:a919:7d3 with SMTP id
- v5-20020a056000144500b0021ba91907d3mr27073099wrx.545.1656950853584; 
- Mon, 04 Jul 2022 09:07:33 -0700 (PDT)
-Received: from localhost (static-110-87-86-188.ipcom.comunitel.net.
- [188.86.87.110]) by smtp.gmail.com with ESMTPSA id
- m1-20020a7bcb81000000b003a05621dc53sm19880610wmi.29.2022.07.04.09.07.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 09:07:32 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org,  Leonardo Bras <leobras@redhat.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>,  Eduardo Habkost <eduardo@habkost.net>,
- Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH 1/5] multifd: Create property multifd-sync-each-iteration
-In-Reply-To: <Yr20gdrEYimAq1Tn@work-vm> (David Alan Gilbert's message of "Thu, 
- 30 Jun 2022 15:34:41 +0100")
-References: <20220621140507.1246-1-quintela@redhat.com>
- <20220621140507.1246-2-quintela@redhat.com> <Yr20gdrEYimAq1Tn@work-vm>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 04 Jul 2022 18:07:31 +0200
-Message-ID: <87h73w275o.fsf@secure.mitica>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wK6Bj2eOl357gc0F3ypwExYErlcQylVaqDUBXl3Iv9Y=;
+ b=RuZeQ489GZGW47MRDOffyCLrkQ7elbPx4OLzezEAKPjFIPTgqEb9ZsO8SFh7Q1V7OG
+ RBB52kkNaR4iEIzXK9LxD5b94LpJmRx04SUy3ByzRcGmEwtxj2NVCIA1SeLTsX9e4z3E
+ TUgEI0iFDwjvK2UexxUixZhPTjcGPlhNRjvh22FzjBD+EeUYwDNOAyu5RMymzoDXvZi0
+ LELfDaT/yjqEh6yu4QduyU03I6PK8s1DAdixpzOwQX5JZcgKijhWyFvWDwu87CEdlNsM
+ wMsJrHGY2FK1jtHZOef6aejm3T4ee6eegkjCxGOtp50XxYlPFHUH+1uEeUZ7dcN/Kf+F
+ 7S3A==
+X-Gm-Message-State: AJIora8xzpWDM6HnXlh5+Baw4nU8QGK8Cubr0xAnC9OMP3fcD1Z/ub5m
+ vwNgewRKZmmxnSbXSszzTm4OzCb3+myOoxPOyH7JGA==
+X-Google-Smtp-Source: AGRyM1tq5A22DAxGHCAPigqTvq6xFFGL1oauEOrpwiggs539pxxJo8ePvP8HfVapE9OBH4qD0yC2A3HqC3731uxyjX4=
+X-Received: by 2002:a67:b207:0:b0:356:51a5:993e with SMTP id
+ b7-20020a67b207000000b0035651a5993emr16960412vsf.12.1656950929430; Mon, 04
+ Jul 2022 09:08:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220704152303.760983-1-berrange@redhat.com>
+ <20220704152303.760983-7-berrange@redhat.com>
+ <CANCZdfqrdocFr9N3e2dvWq7=HDD=Va9d4dq4miB5Ss6Wvf26ig@mail.gmail.com>
+ <YsMLVfllBE8cqIt/@redhat.com>
+In-Reply-To: <YsMLVfllBE8cqIt/@redhat.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Mon, 4 Jul 2022 10:08:39 -0600
+Message-ID: <CANCZdfogARXmNRBroK+SFJ4B33JqRmdm-L3TftNVmGoTWBCzeA@mail.gmail.com>
+Subject: Re: [PATCH v2 6/7] misc: ensure qemu/osdep.h is included in all .c
+ files
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="0000000000008f378405e2fcf3ef"
+Received-SPF: none client-ip=2607:f8b0:4864:20::e29;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe29.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,32 +85,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> * Juan Quintela (quintela@redhat.com) wrote:
->> We used to synchronize all channels at the end of each RAM section
->> sent.  That is not needed, so preparing to only synchronize once every
->> full round in latests patches.
->> 
->> Notice that we initialize the property as true.  We will change the
->> default when we introduce the new mechanism.
+--0000000000008f378405e2fcf3ef
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jul 4, 2022, 9:46 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+wrote:
+
+> On Mon, Jul 04, 2022 at 09:38:46AM -0600, Warner Losh wrote:
+> > On Mon, Jul 4, 2022 at 9:28 AM Daniel P. Berrang=C3=A9 <berrange@redhat=
+.com>
+> > wrote:
+> >
+> > > A few files relied on qemu/osdep.h being included via a common
+> > > header. Another file didn't need it because it was actually an
+> > > included file, so ought to have been named .c.inc
+> > >
+> > > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > > ---
+> > >  bsd-user/arm/signal.c                 | 2 ++
+> > >  bsd-user/arm/target_arch_cpu.c        | 3 +++
+> > >  bsd-user/{elfcore.c =3D> elfcore.c.inc} | 0
+> > >  bsd-user/elfload.c                    | 2 +-
+> > >  bsd-user/freebsd/os-sys.c             | 2 ++
+> > >  bsd-user/i386/signal.c                | 2 ++
+> > >  bsd-user/qemu.h                       | 1 -
+> > >  bsd-user/x86_64/signal.c              | 2 ++
+> > >  crypto/rsakey.c                       | 1 +
+> > >  qga/cutils.c                          | 2 ++
+> > >  10 files changed, 15 insertions(+), 2 deletions(-)
+> > >  rename bsd-user/{elfcore.c =3D> elfcore.c.inc} (100%)
+> > >
+> >
+> > The change to bsd-user is fine, though will cause many ripples in the
+> > upstream
+> > branch when I merge it. The ripples likely are worth it in the long run=
+,
+> > and knowing
+> > they are coming and helps me prepare the tree for the merge.
 >
-> I don't understand why this is a property - does it break the actual
-> stream format?
+> If you prefer to delay these changes I don't mind. It just means that
+> it would need a 'bsd-user/.*' exclude rule in the next patch to
+> temporarily skip this chck for bsd-user code.
+>
 
-Yeap.
+No. Go ahead. I know I need to do something when I do the next merge.
+And it shouldn't be a big deal to do now, otherwise I'll forget...
 
-You can see on following patches.  The problem is that we synchronize
-each time that we sent/receive a
+Warner
 
-RAM_SAVE_FLAG_EOS
 
-And that is way too much.  As Leo showed, it can be as much as 20 times
-a second.
+> It also reminds me that once I'm done upstreaming, there's likely benefit
+> > from having
+> > a common elf loader / core generator as much of this code is copied fro=
+m
+> > linux-user
+> > with the qemu style layered on top....
+> >
+> > Reviewed-by: Warner Losh <imp@bsdimp.com>
+>
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
 
-Later, Juan.
+--0000000000008f378405e2fcf3ef
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Mon, Jul 4, 2022, 9:46 AM Daniel P. Berrang=C3=A9 &=
+lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">On Mon, Jul 04, 2022 at 09:38:46A=
+M -0600, Warner Losh wrote:<br>
+&gt; On Mon, Jul 4, 2022 at 9:28 AM Daniel P. Berrang=C3=A9 &lt;<a href=3D"=
+mailto:berrange@redhat.com" target=3D"_blank" rel=3D"noreferrer">berrange@r=
+edhat.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; A few files relied on qemu/osdep.h being included via a common<br=
+>
+&gt; &gt; header. Another file didn&#39;t need it because it was actually a=
+n<br>
+&gt; &gt; included file, so ought to have been named .c.inc<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berr=
+ange@redhat.com" target=3D"_blank" rel=3D"noreferrer">berrange@redhat.com</=
+a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 bsd-user/arm/signal.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| 2 ++<br>
+&gt; &gt;=C2=A0 bsd-user/arm/target_arch_cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+ 3 +++<br>
+&gt; &gt;=C2=A0 bsd-user/{elfcore.c =3D&gt; elfcore.c.inc} | 0<br>
+&gt; &gt;=C2=A0 bsd-user/elfload.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt; &gt;=C2=A0 bsd-user/freebsd/os-sys.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0| 2 ++<br>
+&gt; &gt;=C2=A0 bsd-user/i386/signal.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 2 ++<br>
+&gt; &gt;=C2=A0 bsd-user/qemu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 -<br>
+&gt; &gt;=C2=A0 bsd-user/x86_64/signal.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 2 ++<br>
+&gt; &gt;=C2=A0 crypto/rsakey.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 +<br>
+&gt; &gt;=C2=A0 qga/cutils.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 ++<br>
+&gt; &gt;=C2=A0 10 files changed, 15 insertions(+), 2 deletions(-)<br>
+&gt; &gt;=C2=A0 rename bsd-user/{elfcore.c =3D&gt; elfcore.c.inc} (100%)<br=
+>
+&gt; &gt;<br>
+&gt; <br>
+&gt; The change to bsd-user is fine, though will cause many ripples in the<=
+br>
+&gt; upstream<br>
+&gt; branch when I merge it. The ripples likely are worth it in the long ru=
+n,<br>
+&gt; and knowing<br>
+&gt; they are coming and helps me prepare the tree for the merge.<br>
+<br>
+If you prefer to delay these changes I don&#39;t mind. It just means that<b=
+r>
+it would need a &#39;bsd-user/.*&#39; exclude rule in the next patch to<br>
+temporarily skip this chck for bsd-user code.<br></blockquote></div></div><=
+div dir=3D"auto"><br></div><div dir=3D"auto">No. Go ahead. I know I need to=
+ do something when I do the next merge.</div><div dir=3D"auto">And it shoul=
+dn&#39;t be a big deal to do now, otherwise I&#39;ll forget...=C2=A0</div><=
+div dir=3D"auto"><br></div><div dir=3D"auto">Warner</div><div dir=3D"auto">=
+<br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail=
+_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex">
+&gt; It also reminds me that once I&#39;m done upstreaming, there&#39;s lik=
+ely benefit<br>
+&gt; from having<br>
+&gt; a common elf loader / core generator as much of this code is copied fr=
+om<br>
+&gt; linux-user<br>
+&gt; with the qemu style layered on top....<br>
+&gt; <br>
+&gt; Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=
+=3D"_blank" rel=3D"noreferrer">imp@bsdimp.com</a>&gt;<br>
+<br>
+<br>
+With regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer noreferrer" target=3D=
+"_blank">https://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a h=
+ref=3D"https://www.flickr.com/photos/dberrange" rel=3D"noreferrer noreferre=
+r" target=3D"_blank">https://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer noreferrer" target=3D"=
+_blank">https://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com=
+" rel=3D"noreferrer noreferrer" target=3D"_blank">https://fstop138.berrange=
+.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer noreferrer" tar=
+get=3D"_blank">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0=
+ <a href=3D"https://www.instagram.com/dberrange" rel=3D"noreferrer noreferr=
+er" target=3D"_blank">https://www.instagram.com/dberrange</a> :|<br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000008f378405e2fcf3ef--
 
