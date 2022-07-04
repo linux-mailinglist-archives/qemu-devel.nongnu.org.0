@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C678B565831
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 16:03:27 +0200 (CEST)
-Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8C0565869
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 16:14:54 +0200 (CEST)
+Received: from localhost ([::1]:49930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Mfe-00047f-12
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 10:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36630)
+	id 1o8Mqj-000780-QR
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 10:14:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8M33-00005N-CB
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:23:36 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:44011)
+ id 1o8M3I-0000Fs-PU
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:23:48 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:37623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8M31-0003BF-TO
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:23:33 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id j7so10524613ybj.10
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:23:31 -0700 (PDT)
+ id 1o8M3G-0003Cf-0m
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:23:47 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id e80so9642095ybb.4
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/33YwOsUT12D9MvhREGuiZb5URHw9En/cIwcGhgw/30=;
- b=eZKfT0e1pChVBpbuJL5OqUFbGuPrqNSNZLb7HfmKQ9uwO2EFTuK6RFNihE7jOIEgY+
- vWoKdwWqQcgd8EUL2Ydx+Dth4ANb2hx9X3YQileK5s0QMj4PHoCjsKTS5yKCKQNfNHla
- 9gU6viQHvAb1z0833t3Q1AaDVDi0YenOjruAyIV7MmkPUvoDnaPl1iGjctOu0/Ade0AV
- Hik2JYS5ulrDSBknWl7hHmHOxuVp1p0VtMK6mmiM5jqI3wIJQmdhdmWxCvQT34XU3/0x
- xBZwjglRwm8C0bnn5iU0hNCOzFWzes7O8slkKy2pmRhKH7x6YRbuV+PkkqsY0TYuzPB4
- J5YQ==
+ :cc; bh=X4lHGWh3OHxHcF8ox67D/rNo02GcKVnustW8Jg6Fa8E=;
+ b=hySmIyodHN7QsqmdtyIs5JTrlVRJoEBhlM2ivuxaS7OGMU9bXDvywod4B0+VHF2Je6
+ BzyiaePD60ovY+CsjXCU80FyJdBhy4TOlzns2eBDXGWD5XgENIBQnBKuU2y3ygpQ/zG/
+ 2ygChMf6CjyFOAJmslBbGNS7oSDAJ5uTnD4CnOlwg+TjYoZS570FLK6aNx6iMvJovgyS
+ OtM14a7nLwRst1znsVJD7CwggEM99jTTMLb85QxFXmVHWlxxDh/NYvYNhJoY1fBOUg04
+ BJbwdtcrN6JFBogQl+vUYl2M8qM1jcNHGAdo+pic6OIv4yho6CQKgEHKh/Fq3DTkfhM1
+ DWqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/33YwOsUT12D9MvhREGuiZb5URHw9En/cIwcGhgw/30=;
- b=klFe6JHEE/l6fB/t1G8sCYE/2kBiuHZP44yxlYUI4oYH6hlUxkHUTx2GqS4pKwDKMU
- 55AzEuu1/wo4oBVO6BuEkZyufYcQHXg7gTXcSqx1UlRvYnTIrJzxj54ZSvEZ+UzJu4Nw
- kBS/ItX63TZ4HLkqQ8JgC6gfVQi1i2LgFeDCDgp75B0tlkPsQu34YS5DutY+tgAWQEaV
- 77ta6Ven26118rtDpTupKJTjVq/pS8+AZ4ePcPkJxAKtXGiP3MhfHXdtcLgXcWmC58Po
- k0gaDgnfjkaIHBFKHe7A6cu+xOpjgIOvTQnuQplY+96zQzhdIEQLR5QG0GzJmgSdgKkP
- vNOg==
-X-Gm-Message-State: AJIora9HxIeqSbJionYSPuepay9iPECSpK23L2nJ7wYEY+fr5L8WiOA/
- rhCxE6ajpa/lBDkchQDAtDiZa6PH8sST+Um+Gb5Ebg==
-X-Google-Smtp-Source: AGRyM1sysUc7OLdrfxQ3GrskmZliHcUUfC+0U5q7W/S/7DHF29Mkm1IpcCEr+kmiQS9ml3gnNALpg3zsIeRoC1SCJtc=
-X-Received: by 2002:a25:d381:0:b0:66e:2943:1c9d with SMTP id
- e123-20020a25d381000000b0066e29431c9dmr12228945ybf.67.1656941010901; Mon, 04
- Jul 2022 06:23:30 -0700 (PDT)
+ bh=X4lHGWh3OHxHcF8ox67D/rNo02GcKVnustW8Jg6Fa8E=;
+ b=Scx7nfcE5wAyG3zzTDynhmZWrz9Ck9MP5DjUzNUHfJgPVBSqP07mh8ARL5yLg7+CRp
+ kFrcXBeHLyjfTr/SkibsDbh0x93z3F9B6Jt0wB9w7kQ038vmrT8dTkm3GUJQ8Ryy3Q8p
+ pQmuoOWyrwK1c54PGcg/J01wqgB+rYHWkKYJjPpZFPuziKVk6Zsy5m+2V0XI+I7BK0Rr
+ ZU7OzmHykUBWjfoEtUY2CD91NUpB2yGF5off8mONg9mv/ygugxHmAj8zp2um9qa8Yt7K
+ tel68crftJuezHAoy02V/AwOZUkNkAdNgEbQpihl4lfMpFd7z9p2DwH3Cgg6P0s6V0Cr
+ zEWw==
+X-Gm-Message-State: AJIora82AFwIBX4z2sw7t3LvGw+GcPhcRi2FfXLMQuKZtWvv73VVi6s5
+ bU/w/amfkpKpKA1lwKOS9AcO3rAidwohZHhYPnJb9A==
+X-Google-Smtp-Source: AGRyM1tC8LYSwMrNTmusTUeiN8OMkMxC7Z5AwKgg016TccF2cdT1gM3BKo0zn0+nzQhoXTTSyR04V1m5rlTdrhGtbu8=
+X-Received: by 2002:a25:6b48:0:b0:66e:3703:7df2 with SMTP id
+ o8-20020a256b48000000b0066e37037df2mr9093342ybm.193.1656941024999; Mon, 04
+ Jul 2022 06:23:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
- <20220629124026.1077021-17-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220629124026.1077021-17-mark.cave-ayland@ilande.co.uk>
+ <20220629124026.1077021-19-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220629124026.1077021-19-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 4 Jul 2022 14:23:20 +0100
-Message-ID: <CAFEAcA_jc65Vx+obtTE-JcVn3Ybk1rawnQW7r+NZqMDVGfYO4w@mail.gmail.com>
-Subject: Re: [PATCH 16/40] lasips2: QOMify LASIPS2Port
+Date: Mon, 4 Jul 2022 14:23:34 +0100
+Message-ID: <CAFEAcA8q5K3==Eoo=ZyNL-3-DmyLbWe5TmFJ=bCmgkusiePV4Q@mail.gmail.com>
+Subject: Re: [PATCH 18/40] lasips2: introduce new LASIPS2_MOUSE_PORT QOM type
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: richard.henderson@linaro.org, deller@gmx.de, svens@stackframe.org, 
  mst@redhat.com, pbonzini@redhat.com, hpoussin@reactos.org, 
  aleksandar.rikalo@syrmia.com, f4bug@amsat.org, qemu-devel@nongnu.org, 
  qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,14 +88,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, 29 Jun 2022 at 13:41, Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> This becomes an abstract QOM type which will be a parent type for separate
-> keyboard and mouse port types.
+> This will be soon be used to hold the underlying PS2_MOUSE_DEVICE object.
 >
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/input/lasips2.c         |  8 ++++++++
->  include/hw/input/lasips2.h | 14 ++++++++++----
->  2 files changed, 18 insertions(+), 4 deletions(-)
+
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
