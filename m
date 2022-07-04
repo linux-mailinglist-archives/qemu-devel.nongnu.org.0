@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308A45652C0
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 12:51:58 +0200 (CEST)
-Received: from localhost ([::1]:56346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23ED55652F3
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 13:01:50 +0200 (CEST)
+Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8JgL-00047E-Aw
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 06:51:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60102)
+	id 1o8Jpr-00086x-W9
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 07:01:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8JfL-0003QJ-MV
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:50:55 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:39453)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8JfJ-0000YP-Vc
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:50:55 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id r3so16196560ybr.6
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 03:50:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=teX3JtsWdqWFpLEUvHVypMxznvPUBVE1YueoaKgE9Vk=;
- b=V8vyyXXkdKvdY3GqLrKfjtYCKmmibWXrPq+SB2UPwmaK8MFSliVMxLoQacnh1wmIX9
- yS3tndXztz/GqG2XpiDJi+blcgmesKp0aCX8xifigK3BV5PgzkspbPJfG8ujox8XyZq3
- qbl6NQ6Vr6B0MW2g1aIFX1wM5a5zLEXIvzrdxvR0staUsm/lIwy/khss4qPQSPmtPZxC
- GNAIVEU4kvKS+d30GPLBu5aA7Gz/xLKAXBS0NqssM4rXkuuUwxgr7nd5thRoIzY5sK2h
- bOviGZkRMNl5uFkfPmCB/jWzcQFnDzxt3dJBfL/ayZMz5Aw4FKLt6vYbo0T9T+iDvfV5
- dPqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=teX3JtsWdqWFpLEUvHVypMxznvPUBVE1YueoaKgE9Vk=;
- b=e+taIdZChOJcJ8NkBS/SwTLebhUJE+MZQpqwBUUCXb4DwTPt2HRWAptZzXeuGWPb2L
- cdqZysbfPSAkLLTiDM1uj/3cwsaPlBE/mKsgAkxt61jb/eVlBdKhmdY1evR7MurvBZYK
- Y266xhhXB2LbbsjFcR29XqcXLxIO0Un6zP8iNV3GgSeiaTt0KYJWzm6pckYG1M1UA82E
- TKLrIQj3tzUJZAemLxm7leOEZHvpxNTiUzhCxmdvN/EEcKO2doZ2JcXVK1WTIiLm7d4I
- DExoKVmIM6sx6LjiLivCO+3ij1FTrWa3ig5IWiEkJQMecdqsmcAaw44yHtz85eQH/MKV
- 2NMg==
-X-Gm-Message-State: AJIora+ZLuYTJCqAO9Y6Asp9hIHt5gq11j0stJzNIgEOGO4laqppDfPY
- z0CBJ0zjVXGFHytVwZEBHi7On8Gt1/1Ivg7AmBPeZQ==
-X-Google-Smtp-Source: AGRyM1vN8XiFuDO030yYUo/P11VXYpMkpZ53DTueHtCyJGQ3qWBlLMECj5b8rom+fvPFoxu24AMX4c/ZKg4sHXMgJqM=
-X-Received: by 2002:a05:6902:1183:b0:66e:4860:575d with SMTP id
- m3-20020a056902118300b0066e4860575dmr5381167ybu.479.1656931852865; Mon, 04
- Jul 2022 03:50:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1o8Jnf-0007Mr-US
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:59:31 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:47160)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1o8Jnd-0001ij-OG
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 06:59:31 -0400
+Received: from [10.12.102.111] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 437C140D403D;
+ Mon,  4 Jul 2022 10:59:01 +0000 (UTC)
+Message-ID: <36303c3f-14ee-478b-855f-0dddbfb26f3f@ispras.ru>
+Date: Mon, 4 Jul 2022 13:59:01 +0300
 MIME-Version: 1.0
-References: <20220628042117.368549-1-richard.henderson@linaro.org>
- <20220628042117.368549-24-richard.henderson@linaro.org>
-In-Reply-To: <20220628042117.368549-24-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 4 Jul 2022 11:50:41 +0100
-Message-ID: <CAFEAcA8=bihNgdeAsNGS-cymu7zjCG9nA5cYTm4TokR3h2XptQ@mail.gmail.com>
-Subject: Re: [PATCH v4 23/45] target/arm: Implement SME ADDHA, ADDVA
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 4/4] target/mips: introduce Cavium Octeon CPU model
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, jiaxun.yang@flygoat.com, aurelien@aurel32.net,
+ aleksandar.rikalo@syrmia.com
+References: <165572671617.167724.12940170194930233873.stgit@pasha-ThinkPad-X280>
+ <165572673785.167724.7604881144978983510.stgit@pasha-ThinkPad-X280>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+In-Reply-To: <165572673785.167724.7604881144978983510.stgit@pasha-ThinkPad-X280>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,116 +61,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jun 2022 at 05:36, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+ping
+
+This is the only non-reviewed patch in the series.
+
+On 20.06.2022 15:05, Pavel Dovgalyuk wrote:
+> This patch adds Cavium Octeon 68XX vCPU which provides
+> Octeon-specific instructions.
+> 
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> 
+> --
+> v3 changes:
+>   - split the patch to instruction set introduction and new vCPU
+>     (suggested by Philippe Mathieu-Daudé)
+> v2 changes:
+>   - vCPU name changed to Octeon68XX (suggested by Richard Henderson)
 > ---
-> v4: Drop restrict.
-> ---
->  target/arm/helper-sme.h    |  5 +++
->  target/arm/sme.decode      | 11 +++++
->  target/arm/sme_helper.c    | 90 ++++++++++++++++++++++++++++++++++++++
->  target/arm/translate-sme.c | 31 +++++++++++++
->  4 files changed, 137 insertions(+)
+>   target/mips/cpu-defs.c.inc |   28 ++++++++++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
+> 
+> diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
+> index 582f940070..7f53c94ec8 100644
+> --- a/target/mips/cpu-defs.c.inc
+> +++ b/target/mips/cpu-defs.c.inc
+> @@ -921,6 +921,34 @@ const mips_def_t mips_defs[] =
+>           .insn_flags = CPU_MIPS64R2 | ASE_DSP | ASE_DSP_R2,
+>           .mmu_type = MMU_TYPE_R4000,
+>       },
+> +    {
+> +        /*
+> +         * Octeon 68xx with MIPS64 Cavium Octeon features.
+> +         */
+> +        .name = "Octeon68XX",
+> +        .CP0_PRid = 0x000D9100,
+> +        .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0x2 << CP0C0_AT) |
+> +                       (MMU_TYPE_R4000 << CP0C0_MT),
+> +        .CP0_Config1 = MIPS_CONFIG1 | (0x3F << CP0C1_MMU) |
+> +                       (1 << CP0C1_IS) | (4 << CP0C1_IL) | (1 << CP0C1_IA) |
+> +                       (1 << CP0C1_DS) | (4 << CP0C1_DL) | (1 << CP0C1_DA) |
+> +                       (1 << CP0C1_PC) | (1 << CP0C1_WR) | (1 << CP0C1_EP),
+> +        .CP0_Config2 = MIPS_CONFIG2,
+> +        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_LPA) | (1 << CP0C3_DSPP) ,
+> +        .CP0_Config4 = MIPS_CONFIG4 | (1U << CP0C4_M) |
+> +                       (0x3c << CP0C4_KScrExist) | (1U << CP0C4_MMUExtDef) |
+> +                       (3U << CP0C4_MMUSizeExt),
+> +        .CP0_LLAddr_rw_bitmask = 0,
+> +        .CP0_LLAddr_shift = 4,
+> +        .CP0_PageGrain = (1 << CP0PG_ELPA),
+> +        .SYNCI_Step = 32,
+> +        .CCRes = 2,
+> +        .CP0_Status_rw_bitmask = 0x12F8FFFF,
+> +        .SEGBITS = 42,
+> +        .PABITS = 49,
+> +        .insn_flags = CPU_MIPS64R2 | INSN_OCTEON | ASE_DSP,
+> +        .mmu_type = MMU_TYPE_R4000,
+> +    },
+>   
+>   #endif
+>   };
+> 
 
-
->  #undef DO_ST
-> +
-> +void HELPER(sme_addha_s)(void *vzda, void *vzn, void *vpn,
-> +                         void *vpm, uint32_t desc)
-> +{
-> +    intptr_t row, col, oprsz = simd_oprsz(desc) / 4;
-> +    uint64_t *pn = vpn, *pm = vpm;
-> +    uint32_t *zda = vzda, *zn = vzn;
-> +
-> +    for (row = 0; row < oprsz; ) {
-> +        uint64_t pa = pn[row >> 4];
-> +        do {
-> +            if (pa & 1) {
-> +                for (col = 0; col < oprsz; ) {
-> +                    uint64_t pb = pm[col >> 4];
-> +                    do {
-> +                        if (pb & 1) {
-> +                            zda[row * sizeof(ARMVectorReg) + col] += zn[col];
-> +                        }
-> +                        pb >>= 4;
-> +                    } while (++col & 15);
-> +                }
-> +            }
-> +            pa >>= 4;
-> +        } while (++row & 15);
-> +    }
-> +}
-> +
-> +void HELPER(sme_addha_d)(void *vzda, void *vzn, void *vpn,
-> +                         void *vpm, uint32_t desc)
-> +{
-> +    intptr_t row, col, oprsz = simd_oprsz(desc) / 8;
-> +    uint8_t *pn = vpn, *pm = vpm;
-> +    uint64_t *zda = vzda, *zn = vzn;
-> +
-> +    for (row = 0; row < oprsz; ++row) {
-> +        if (pn[H1(row)] & 1) {
-> +            for (col = 0; col < oprsz; ++col) {
-> +                if (pm[H1(col)] & 1) {
-> +                    zda[row * sizeof(ARMVectorReg) + col] += zn[col];
-> +                }
-> +            }
-> +        }
-> +    }
-> +}
-
-These array index calculations look wrong again?
-Should be 'row * (sizeof(ARMVectorReg) / 8) + col' or equivalent,
-I think.
-
-> +
-> +void HELPER(sme_addva_s)(void *vzda, void *vzn, void *vpn,
-> +                         void *vpm, uint32_t desc)
-> +{
-> +    intptr_t row, col, oprsz = simd_oprsz(desc) / 4;
-> +    uint64_t *pn = vpn, *pm = vpm;
-> +    uint32_t *zda = vzda, *zn = vzn;
-> +
-> +    for (row = 0; row < oprsz; ) {
-> +        uint64_t pa = pn[row >> 4];
-> +        do {
-> +            if (pa & 1) {
-> +                uint32_t zn_row = zn[row];
-> +                for (col = 0; col < oprsz; ) {
-> +                    uint64_t pb = pm[col >> 4];
-> +                    do {
-> +                        if (pb & 1) {
-> +                            zda[row * sizeof(ARMVectorReg) + col] += zn_row;
-> +                        }
-> +                        pb >>= 4;
-> +                    } while (++col & 15);
-> +                }
-> +            }
-> +            pa >>= 4;
-> +        } while (++row & 15);
-> +    }
-> +}
-> +
-> +void HELPER(sme_addva_d)(void *vzda, void *vzn, void *vpn,
-> +                         void *vpm, uint32_t desc)
-> +{
-> +    intptr_t row, col, oprsz = simd_oprsz(desc) / 8;
-> +    uint8_t *pn = vpn, *pm = vpm;
-> +    uint64_t *zda = vzda, *zn = vzn;
-> +
-> +    for (row = 0; row < oprsz; ++row) {
-> +        if (pn[H1(row)] & 1) {
-> +            uint64_t zn_row = zn[row];
-> +            for (col = 0; col < oprsz; ++col) {
-> +                if (pm[H1(col)] & 1) {
-> +                    zda[row * sizeof(ARMVectorReg) + col] += zn_row;
-> +                }
-> +            }
-> +        }
-> +    }
-> +}
-
--- PMM
 
