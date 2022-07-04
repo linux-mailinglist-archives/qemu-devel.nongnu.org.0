@@ -2,98 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40DB95654AD
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 14:14:45 +0200 (CEST)
-Received: from localhost ([::1]:39786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EB21565490
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 14:12:22 +0200 (CEST)
+Received: from localhost ([::1]:60492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8KyS-0007Yt-4r
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 08:14:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47244)
+	id 1o8Kw8-0003Kb-8X
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 08:12:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8Kqb-0006Sa-OQ
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:06:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42282)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8KqZ-00067V-6s
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:06:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656936394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vjHTusqIZqrW1zxl47DZ77aCOlX81iWrEianxWymhf4=;
- b=VqmQ+9BSy3fOjBI55sTKgRA2YGizndnfT8tvLJc/YxxACC8Z3mOtkcQFOEKXIrAOd5V9oh
- ZFXsf3ZU80D60IxPF+pt/a9QeIuaC32yAKNxC0qk2rZ7u+Vs+nuD1777WWIlrInZJ3Rc/D
- G10OiIONTuOzGnKtjM25CUQJwC5/35E=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-yZd1SO0XOb2PRn3UFo68Dg-1; Mon, 04 Jul 2022 08:06:33 -0400
-X-MC-Unique: yZd1SO0XOb2PRn3UFo68Dg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- s1-20020a056402520100b00439658fad14so7208910edd.20
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 05:06:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8Ksh-0001FJ-Q1
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:08:47 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:34680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8Ksg-0006YN-0s
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:08:47 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-31c86fe1dddso32486747b3.1
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 05:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gzIwh2o+dAH+8TWNJkpXMmsyVSE7z3cPGYQGFbtfn3w=;
+ b=QEh7S8J1XCplvZRFAG+VoNLr5Y8A8wGU5/2X72x6jTPXQiqBpUB16Yz3WgXwsS2/t9
+ ijyONRFeKyeGkSCrv1N2gGhoDwBZ3fIIWeZUsTRH6BergL0qqvz47Vg9XjdnQK3Ev1d1
+ uOtJm5yihM2QwM0h2NY8MuvWZrenFDfpwFOfS7DNnTjdlIiZwQNehalEgw1YwrKhPlya
+ Lh3w72jn+u/w4uVzFMktQ34VbV0byS9KFVCulAoXi00CfJiCQysNbD2NH6Web6jFt9gJ
+ WlcvupI54GL89T21WQC/mplkxAkk5JuSbR0lnfgG6PNYBd1CIZS3Q3ie3E3luUX1Ifuu
+ NOTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vjHTusqIZqrW1zxl47DZ77aCOlX81iWrEianxWymhf4=;
- b=C2lZoh4oWCHj/JMydtxtm5ghc7QdHlns6IKF7GPkH80dEwVIpJ0Ya0vWk8kb7JxMxX
- FOTtHi2NflxTqZP5YYMeBGuhtmvW0yxRBOcMC2AQzp6qnM2PGbIkf/0GMwRvysxI9H5l
- 9+71t2++VjVqGvD/ZgNTvaSRCLN75gmZn92bDFJiXjgNqV4XBsxif+vg2DWGrSWaRJNC
- C+gwol6YEhhv6BgzRiQb2ocdQgAxhAn+v7En4G1yTcxeMUhKVIRRJryP3NtWNbvUS6st
- modZ3XVfQgqZlPox4xr1zkgfikgVhGFM9DfkYRsFSc3qutkNj+dkIjm2ilGLx3ITH4wL
- sjrw==
-X-Gm-Message-State: AJIora/bPR3L/6vtWHyk3ub4neIYIEBB2Z7Z0Vgo9m+c0e5n386h6fqk
- 3ljNNNcn/oaokW6kRzeR1Q/LsrkTjEpTdKCXneR1jteOQkfM+3GfsyJF9TrEGXO8bwSRKEPbKlD
- EtgWKJ18x2M2t6/Q=
-X-Received: by 2002:a05:6402:3685:b0:435:8069:e44 with SMTP id
- ej5-20020a056402368500b0043580690e44mr38311745edb.202.1656936392234; 
- Mon, 04 Jul 2022 05:06:32 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tx+93E0G47WQBa3Zh0YaiFm1mDTVsyxnyMHV0vpqWIngu909FZ+rrJiLXDFG4VlPhmfhaiHQ==
-X-Received: by 2002:a05:6402:3685:b0:435:8069:e44 with SMTP id
- ej5-20020a056402368500b0043580690e44mr38311691edb.202.1656936391901; 
- Mon, 04 Jul 2022 05:06:31 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
- ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
- by smtp.gmail.com with ESMTPSA id
- pv1-20020a170907208100b00726abf9cd8esm9744605ejb.125.2022.07.04.05.06.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 05:06:31 -0700 (PDT)
-Message-ID: <02c2be50-9beb-0ebd-a261-b6cf459aa8e7@redhat.com>
-Date: Mon, 4 Jul 2022 14:06:30 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gzIwh2o+dAH+8TWNJkpXMmsyVSE7z3cPGYQGFbtfn3w=;
+ b=IdECIznO1ZCDEkSdX/wFLeQ8Re1BxsYukQcLeQuUBtIMAFCdM7RrY+2fhLH1pLGiSx
+ w0HIuWcAiuhJxgJ24LSNqMUV6OWir+Yc9A6gXZtxRJ3mVMACb4HmpJJ55qyUKtry0DVh
+ NdP9tBKVrwcjKSdPxjzGv9bgnZWYpEO7azFV22LItPwUozvsM9GkC1HyinRXspVJDMPi
+ 7HVuQqgonXq4YFM0T1+K0CNaFXe/00yN/uVGRJJdeCe4vkV6JONIHrYoQOocLFIFzxd1
+ BUDCvnbZJthIYO2DJaTxmnqSu2A8xRiGlIWwP6xAYDVjYjPOFuiUy6E2cggQagvnU+5J
+ PFrg==
+X-Gm-Message-State: AJIora9ixZPKda0xadWSDj79iOygjWZSH6+H74JUQBBmz5bFphYW5CbN
+ BLcLjVRgiA6zx918QkwQ78nPfswGqAEQcJDV3VMgyA==
+X-Google-Smtp-Source: AGRyM1tLYJhs1DbohK7uazIPsuLThWsIcsMxO6wZuYcowJCPYMysNIrodpfgBJfs6L7IlFIkmidaTHS//0TcDJesHt0=
+X-Received: by 2002:a81:6585:0:b0:31c:b55b:dd36 with SMTP id
+ z127-20020a816585000000b0031cb55bdd36mr421817ywb.469.1656936525037; Mon, 04
+ Jul 2022 05:08:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v5 07/10] block: Implement
- bdrv_{pread,pwrite,pwrite_zeroes}() using generated_co_wrapper
-Content-Language: en-US
-To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Ari Sundholm <ari@tuxera.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Fam Zheng <fam@euphon.net>, Jeff Cody <codyprime@gmail.com>,
- qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy
- <v.sementsov-og@mail.ru>, Stefan Weil <sw@weilnetz.de>
-References: <20220609152744.3891847-1-afaria@redhat.com>
- <20220609152744.3891847-8-afaria@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220609152744.3891847-8-afaria@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220628042117.368549-1-richard.henderson@linaro.org>
+ <20220628042117.368549-38-richard.henderson@linaro.org>
+In-Reply-To: <20220628042117.368549-38-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 Jul 2022 13:08:34 +0100
+Message-ID: <CAFEAcA81Xc0kXrYTeq+Ck4b9vwu7jOAMerS0s_L0HaqyvfUcJg@mail.gmail.com>
+Subject: Re: [PATCH v4 37/45] linux-user/aarch64: Do not allow duplicate or
+ short sve records
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,49 +84,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.06.22 17:27, Alberto Faria wrote:
-> bdrv_{pread,pwrite}() now return -EIO instead of -EINVAL when 'bytes' is
-> negative, making them consistent with bdrv_{preadv,pwritev}() and
-> bdrv_co_{pread,pwrite,preadv,pwritev}().
+On Tue, 28 Jun 2022 at 05:50, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> bdrv_pwrite_zeroes() now also calls trace_bdrv_co_pwrite_zeroes() and
-> clears the BDRV_REQ_MAY_UNMAP flag when appropriate, which it didn't
-> previously.
+> In parse_user_sigframe, the kernel rejects duplicate sve records,
+> or records that are smaller than the header.  We were silently
+> allowing these cases to pass, dropping the record.
 >
-> Signed-off-by: Alberto Faria <afaria@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
+>  linux-user/aarch64/signal.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> I audited all bdrv_{pread,pwrite}() callers to make sure that changing
-> the -EINVAL return code to -EIO wont't break things. However, there are
-> about 140 call sites, so the probability of me having missed something
-> isn't negligible. If someone more accustomed to the code base is able to
-> double-check this, that would be very much appreciated.
-
-FWIW I checked all call sits when reviewing patch 3, and I can’t 
-remember any case where the follow-up check was anything but `ret < 0`.  
-The only difference should be a couple of error_setg_errno() calls, 
-which will change from “Invalid argument” to “I/O error”.
-
-I guess the real problem wouldn’t be checking the immediate call sites, 
-but the fact that most call sites just pass the error code to their 
-caller in turn, and that’s really something that’s unreasonable to 
-check, I believe.
-
-Honestly, I don’t think it really matters (how likely is `bytes < 0`?), 
-nor could I imagine a case where EINVAL vs. EIO would cause any 
-difference in behavior.  That’s to say, I’d be disappointed if it did.
-
-(Grepping for 'if.*EINVAL' and 'if.*EIO' in block/ only yields one case 
-in block/nbd.c where I can’t quickly absolutely rule out it won’t make a 
-difference, but I think that check is only for error codes coming from 
-handling network requests.)
-
-> As a precaution, I also dropped Paolo's R-b.
+> diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+> index 8b352abb97..8fbe98d72f 100644
+> --- a/linux-user/aarch64/signal.c
+> +++ b/linux-user/aarch64/signal.c
+> @@ -318,10 +318,13 @@ static int target_restore_sigframe(CPUARMState *env,
+>              break;
 >
->   block/io.c               | 41 ----------------------------------------
->   include/block/block-io.h | 15 +++++++++------
->   2 files changed, 9 insertions(+), 47 deletions(-)
+>          case TARGET_SVE_MAGIC:
+> +            if (sve || size < sizeof(struct target_sve_context)) {
+> +                goto err;
+> +            }
+>              if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
+>                  vq = sve_vq(env);
+>                  sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
+> -                if (!sve && size == sve_size) {
+> +                if (size == sve_size) {
+>                      sve = (struct target_sve_context *)ctx;
+>                      break;
+>                  }
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+On the other hand, the kernel seems to happily allow records
+which are larger than the SVE_SIG_CONTEXT_SIZE, whereas we
+ignore the record unless there's an exact size match.
 
+I notice the kernel has a bunch of signal frame test
+cases in  tools/testing/selftests/arm64/signal/testcases --
+do we pass those ?
+
+thanks
+-- PMM
 
