@@ -2,65 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EA85658D8
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 16:41:24 +0200 (CEST)
-Received: from localhost ([::1]:44558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF03565926
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 17:00:20 +0200 (CEST)
+Received: from localhost ([::1]:55954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8NGN-0001SB-Fm
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 10:41:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50560)
+	id 1o8NYh-0004mM-DQ
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:00:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1o8Msu-00028D-OJ
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 10:17:09 -0400
-Received: from [200.168.210.66] (port=22664 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>) id 1o8Msr-0004N7-Si
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 10:17:08 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 4 Jul 2022 11:16:57 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 74E338001F4;
- Mon,  4 Jul 2022 11:16:57 -0300 (-03)
-Message-ID: <ac264c3d-3345-38bf-35e5-ddc1b809c3b4@eldorado.org.br>
-Date: Mon, 4 Jul 2022 11:16:57 -0300
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8MuD-0004SA-UY
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 10:18:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23591)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8MuA-0004Yg-EM
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 10:18:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656944305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9cMB1jW7lCO4rh3rUyFrkBmXA+QvEBoOKxiOR3rFHZY=;
+ b=ijonJgbBjcTzzThJlMARPK0PwVyPpBWcdWGwQ22Mxw5YteVCbeSn1heyV+wsPzDnDRz7v9
+ KO1DQ7USIyce137/AJzS3SFfzjatVYQXbDEWfgipR/ZWCDpCtP0eU/P3fYfwVrL8frx8H3
+ jhoFZ/TBxfihWeQoIpUelY/ABzhxaeI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-434-qyaQjzJUOYeAjZGUAqT1_Q-1; Mon, 04 Jul 2022 10:18:24 -0400
+X-MC-Unique: qyaQjzJUOYeAjZGUAqT1_Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ be8-20020a05600c1e8800b003a069fe18ffso7437130wmb.9
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 07:18:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9cMB1jW7lCO4rh3rUyFrkBmXA+QvEBoOKxiOR3rFHZY=;
+ b=haMPJtw6p/wtAj7DPuzswrXbHGahuUKyPZH5Fe0GTndoaSIeYNitJR9Woz7xbS171J
+ U7rp2o3KlNrCjioS0aGreOYtGwkAhR+X5t9EiBeNW4Vv9fXm2KuPh2rC45klpNSeJa0/
+ Ew7ykUekPJX+HDn2cg8Qk3yITvfVl31sWY+/NHdZezt660vNGTFwlMFjLI5Q5nOtUrK6
+ T7PBvYXSGZqQX6giq3ydAHRXBEnUrOaZCEMCFR1jEyft3kMxojeKVnG9SZskhs5HMO/X
+ +eOlPAvYxqwtx1qlmyc5VCrGBaAu5txFw5+WmSRqWs/rzCyBrqkKqJAaeX3Ad+s7st83
+ HpEA==
+X-Gm-Message-State: AJIora9SVNvXs1enImvoOxZkL+MZVOuRCODYzFH9csV0tE/KrfeekVjG
+ qTKUMWvrawTKOe1YY94mxJY8NM+137sL1UeYLQeftrnYy6K9lR9QKKq4fjyVcHsGBwPwQoadeH6
+ gR5e6aaVBQYxO0RE=
+X-Received: by 2002:a05:600c:4e04:b0:3a1:8f34:5633 with SMTP id
+ b4-20020a05600c4e0400b003a18f345633mr17462364wmq.169.1656944303043; 
+ Mon, 04 Jul 2022 07:18:23 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vYAOV91FsLhD/zsvbeUumvjDZ5cUOWOWflnS/L1IcVm8wH0ZxUwzZPg2Eq1ApbqBZT9FmICA==
+X-Received: by 2002:a05:600c:4e04:b0:3a1:8f34:5633 with SMTP id
+ b4-20020a05600c4e0400b003a18f345633mr17462347wmq.169.1656944302804; 
+ Mon, 04 Jul 2022 07:18:22 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-39.customers.d1-online.com.
+ [80.187.98.39]) by smtp.gmail.com with ESMTPSA id
+ u3-20020adfdd43000000b0021d650e4df4sm5300534wrm.87.2022.07.04.07.18.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jul 2022 07:18:22 -0700 (PDT)
+Message-ID: <3cd71c14-12ea-f02c-5d02-21803d3c4b9f@redhat.com>
+Date: Mon, 4 Jul 2022 16:18:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [RFC 5/8] static-analyzer: Enforce coroutine_fn restrictions on
- function pointers
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] stubs: update replay-tools to match replay.h types
 Content-Language: en-US
-To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- "Denis V. Lunev" <den@openvz.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Peter Xu <peterx@redhat.com>, Alberto Garcia <berto@igalia.com>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Peter Lieven <pl@kamp.de>
-References: <20220702113331.2003820-1-afaria@redhat.com>
- <20220702113331.2003820-6-afaria@redhat.com>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <20220702113331.2003820-6-afaria@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: qemu-devel@nongnu.org, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20220704075832.31537-1-cfontana@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220704075832.31537-1-cfontana@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 04 Jul 2022 14:16:57.0763 (UTC)
- FILETIME=[B85E3F30:01D88FB0]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,65 +102,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMDIvMDcvMjAyMiAwODozMywgQWxiZXJ0byBGYXJpYSB3cm90ZToNCg0KQWxiZXJ0bywg
-aGVsbG8uIEkgd2FzIHRlc3RpbmcgdGhpcyBwYXRjaCBhcyBmb2xsb3dzOg0KDQouL3N0YXRp
-Yy1hbmFseXplci5weSBidWlsZCB0YXJnZXQvcHBjL21tdS1oYXNoNjQuYw0KDQo8c25pcD4N
-Cg0KPiBAQCAtNjI3LDkgKzc0NCwzMSBAQCBkZWYgaXNfY29yb3V0aW5lX2ZuKG5vZGU6IEN1
-cnNvcikgLT4gYm9vbDoNCj4gICAgICAgICAgIGVsc2U6DQo+ICAgICAgICAgICAgICAgYnJl
-YWsNCj4gDQo+IC0gICAgcmV0dXJuIG5vZGUua2luZCA9PSBDdXJzb3JLaW5kLkZVTkNUSU9O
-X0RFQ0wgYW5kIGlzX2Fubm90YXRlZF93aXRoKA0KPiAtICAgICAgICBub2RlLCAiY29yb3V0
-aW5lX2ZuIg0KPiAtICAgICkNCj4gKyAgICBpZiBub2RlLmtpbmQgaW4gW0N1cnNvcktpbmQu
-REVDTF9SRUZfRVhQUiwgQ3Vyc29yS2luZC5NRU1CRVJfUkVGX0VYUFJdOg0KPiArICAgICAg
-ICBub2RlID0gbm9kZS5yZWZlcmVuY2VkDQo+ICsNCj4gKyAgICAjIC0tLQ0KPiArDQo+ICsg
-ICAgaWYgbm9kZS5raW5kID09IEN1cnNvcktpbmQuRlVOQ1RJT05fREVDTDoNCg0KDQpBbmQg
-SSByZWNlaXZlIGFuIGV4Y2VwdGlvbiBvbiB0aGUgbGluZSBhYm92ZSBzYXlpbmcgdGhhdCBu
-b2RlIGlzIG9mIHR5cGUNCk5vbmVUeXBlLiBTZWVtcyB0aGF0IGBub2RlID0gbm9kZS5yZWZl
-cmVuY2VkYCBpcyBzZXR0aW5nIGBub2RlYCB0byBOb25lDQppbiB0aGlzIGNhc2UuDQoNCkkg
-d2FzIHVuYWJsZSB0byB1bmRlcnN0YW5kIHRoZSByb290IGNhdXNlIG9mIGl0LiBJcyB0aGlz
-IGFuIGluY29ycmVjdA0KdXNhZ2Ugb2YgdGhlIHRvb2wgZnJvbSBteSBwYXJ0PyBGdWxsIGVy
-cm9yIG1lc3NhZ2UgYmVsb3cNCg0KVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3Qp
-Og0KICAgRmlsZSAiLi9zdGF0aWMtYW5hbHl6ZXIucHkiLCBsaW5lIDMyNywgaW4gYW5hbHl6
-ZV90cmFuc2xhdGlvbl91bml0DQogICAgIGNoZWNrZXIodHUsIGNvbnRleHQuYWJzb2x1dGVf
-cGF0aCwgbG9nKQ0KICAgRmlsZSAiLi9zdGF0aWMtYW5hbHl6ZXIucHkiLCBsaW5lIDYxMywg
-aW4gY2hlY2tfY29yb3V0aW5lX3BvaW50ZXJzDQogICAgIGFuZCBpc19jb3JvdXRpbmVfZm4o
-cmlnaHQpDQogICBGaWxlICIuL3N0YXRpYy1hbmFseXplci5weSIsIGxpbmUgNzgxLCBpbiBp
-c19jb3JvdXRpbmVfZm4NCiAgICAgaWYgbm9kZS5raW5kID09IEN1cnNvcktpbmQuRlVOQ1RJ
-T05fREVDTDoNCkF0dHJpYnV0ZUVycm9yOiAnTm9uZVR5cGUnIG9iamVjdCBoYXMgbm8gYXR0
-cmlidXRlICdraW5kJw0KDQpUaGUgYWJvdmUgZXhjZXB0aW9uIHdhcyB0aGUgZGlyZWN0IGNh
-dXNlIG9mIHRoZSBmb2xsb3dpbmcgZXhjZXB0aW9uOg0KDQpUcmFjZWJhY2sgKG1vc3QgcmVj
-ZW50IGNhbGwgbGFzdCk6DQogICBGaWxlICIvdXNyL2xpYi9weXRob24zLjgvbXVsdGlwcm9j
-ZXNzaW5nL3Bvb2wucHkiLCBsaW5lIDEyNSwgaW4gd29ya2VyDQogICAgIHJlc3VsdCA9IChU
-cnVlLCBmdW5jKCphcmdzLCAqKmt3ZHMpKQ0KICAgRmlsZSAiL3Vzci9saWIvcHl0aG9uMy44
-L211bHRpcHJvY2Vzc2luZy9wb29sLnB5IiwgbGluZSA0OCwgaW4gbWFwc3Rhcg0KICAgICBy
-ZXR1cm4gbGlzdChtYXAoKmFyZ3MpKQ0KICAgRmlsZSAiLi9zdGF0aWMtYW5hbHl6ZXIucHki
-LCBsaW5lIDMyOSwgaW4gYW5hbHl6ZV90cmFuc2xhdGlvbl91bml0DQogICAgIHJhaXNlIFJ1
-bnRpbWVFcnJvcihmIkVycm9yIGFuYWx5emluZyB7cmVsYXRpdmVfcGF0aH0iKSBmcm9tIGUN
-ClJ1bnRpbWVFcnJvcjogRXJyb3IgYW5hbHl6aW5nIHRhcmdldC9wcGMvbW11LWhhc2g2NC5j
-DQoiIiINCg0KVGhlIGFib3ZlIGV4Y2VwdGlvbiB3YXMgdGhlIGRpcmVjdCBjYXVzZSBvZiB0
-aGUgZm9sbG93aW5nIGV4Y2VwdGlvbjoNCg0KVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxs
-IGxhc3QpOg0KICAgRmlsZSAiLi9zdGF0aWMtYW5hbHl6ZXIucHkiLCBsaW5lIDg5MywgaW4g
-PG1vZHVsZT4NCiAgICAgbWFpbigpDQogICBGaWxlICIuL3N0YXRpYy1hbmFseXplci5weSIs
-IGxpbmUgMTIzLCBpbiBtYWluDQogICAgIGFuYWx5emVfdHJhbnNsYXRpb25fdW5pdHMoYXJn
-cywgY29udGV4dHMpDQogICBGaWxlICIuL3N0YXRpYy1hbmFseXplci5weSIsIGxpbmUgMjQw
-LCBpbiBhbmFseXplX3RyYW5zbGF0aW9uX3VuaXRzDQogICAgIHJlc3VsdHMgPSBwb29sLm1h
-cChhbmFseXplX3RyYW5zbGF0aW9uX3VuaXQsIGNvbnRleHRzKQ0KICAgRmlsZSAiL3Vzci9s
-aWIvcHl0aG9uMy44L211bHRpcHJvY2Vzc2luZy9wb29sLnB5IiwgbGluZSAzNjQsIGluIG1h
-cA0KICAgICByZXR1cm4gc2VsZi5fbWFwX2FzeW5jKGZ1bmMsIGl0ZXJhYmxlLCBtYXBzdGFy
-LCBjaHVua3NpemUpLmdldCgpDQogICBGaWxlICIvdXNyL2xpYi9weXRob24zLjgvbXVsdGlw
-cm9jZXNzaW5nL3Bvb2wucHkiLCBsaW5lIDc3MSwgaW4gZ2V0DQogICAgIHJhaXNlIHNlbGYu
-X3ZhbHVlDQpSdW50aW1lRXJyb3I6IEVycm9yIGFuYWx5emluZyB0YXJnZXQvcHBjL21tdS1o
-YXNoNjQuYw0KDQogPiArICAgICAgICByZXR1cm4gaXNfYW5ub3RhdGVkX3dpdGgobm9kZSwg
-ImNvcm91dGluZV9mbiIpDQo+ICsNCj4gKyAgICBpZiBub2RlLmtpbmQgaW4gWw0KPiArICAg
-ICAgICBDdXJzb3JLaW5kLkZJRUxEX0RFQ0wsDQo+ICsgICAgICAgIEN1cnNvcktpbmQuVkFS
-X0RFQ0wsDQo+ICsgICAgICAgIEN1cnNvcktpbmQuUEFSTV9ERUNMLA0KPiArICAgIF06DQo+
-ICsNCj4gKyAgICAgICAgaWYgaXNfYW5ub3RhdGVkX3dpdGgobm9kZSwgImNvcm91dGluZV9m
-biIpOg0KPiArICAgICAgICAgICAgcmV0dXJuIFRydWUNCj4gKw0KPiArICAgICAgICAjIFRP
-RE86IElmIHR5cGUgaXMgdHlwZWRlZiBvciBwb2ludGVyIHRvIHR5cGVkZWYsIGZvbGxvdyB0
-eXBlZGVmLg0KPiArDQo+ICsgICAgICAgIHJldHVybiBGYWxzZQ0KPiArDQo+ICsgICAgaWYg
-bm9kZS5raW5kID09IEN1cnNvcktpbmQuVFlQRURFRl9ERUNMOg0KPiArICAgICAgICByZXR1
-cm4gaXNfYW5ub3RhdGVkX3dpdGgobm9kZSwgImNvcm91dGluZV9mbiIpDQo+ICsNCj4gKyAg
-ICByZXR1cm4gRmFsc2UNCkJlc3QgcmVnYXJkcywNCg0KLS0gDQpWw61jdG9yIENvcmEgQ29s
-b21ibw0KSW5zdGl0dXRvIGRlIFBlc3F1aXNhcyBFTERPUkFETw0KQXZpc28gTGVnYWwgLSBE
-aXNjbGFpbWVyIDxodHRwczovL3d3dy5lbGRvcmFkby5vcmcuYnIvZGlzY2xhaW1lci5odG1s
-Pg0K
+On 04/07/2022 09.58, Claudio Fontana wrote:
+> detected with GCC 13 [-Werror=enum-int-mismatch]
+> 
+> Solves Issue #1096.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+> ---
+>   stubs/replay-tools.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/stubs/replay-tools.c b/stubs/replay-tools.c
+> index 43296b3d4e..f2e72bb225 100644
+> --- a/stubs/replay-tools.c
+> +++ b/stubs/replay-tools.c
+> @@ -7,13 +7,14 @@ bool replay_events_enabled(void)
+>       return false;
+>   }
+>   
+> -int64_t replay_save_clock(unsigned int kind, int64_t clock, int64_t raw_icount)
+> +int64_t replay_save_clock(ReplayClockKind kind,
+> +                          int64_t clock, int64_t raw_icount)
+>   {
+>       abort();
+>       return 0;
+>   }
+>   
+> -int64_t replay_read_clock(unsigned int kind, int64_t raw_icount)
+> +int64_t replay_read_clock(ReplayClockKind kind, int64_t raw_icount)
+>   {
+>       abort();
+>       return 0;
+> @@ -48,11 +49,11 @@ void replay_mutex_unlock(void)
+>   {
+>   }
+>   
+> -void replay_register_char_driver(Chardev *chr)
+> +void replay_register_char_driver(struct Chardev *chr)
+>   {
+>   }
+>   
+> -void replay_chr_be_write(Chardev *s, uint8_t *buf, int len)
+> +void replay_chr_be_write(struct Chardev *s, uint8_t *buf, int len)
+>   {
+>       abort();
+>   }
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
