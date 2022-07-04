@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0989C56586D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 16:15:58 +0200 (CEST)
-Received: from localhost ([::1]:51640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D2F5658D7
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 16:41:14 +0200 (CEST)
+Received: from localhost ([::1]:44980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Mrk-0008KX-OT
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 10:15:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38682)
+	id 1o8NGD-0001iz-HD
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 10:41:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o8MBh-0004rZ-FB
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:32:29 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:41714)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8MFJ-000354-7h
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:36:13 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:40726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o8MBS-0004eH-Ra
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:32:29 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id u12so16742403eja.8
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:32:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8MF6-0005bq-HF
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:36:12 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id o2so11675245yba.7
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:36:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O44A4gYGwr7d6gUVbAhqtbCSz0YXMg0Q/sGFX25Brr8=;
- b=m1cas3DqW0x/RFr0Zvdu8Ug1gPUo2nKGEpKP00WPTHSQ4UBnQNuJ1QS/DeTMrRPx1s
- /nMYndAqDULH0gNVZEpQNVvbkHXwVEgjPMYQ03y4XyJXAE8fJRR72TSmgYrigvzaxiYL
- 3MohJvT4ioCYUHFc9UItlRzLf7GvtUaMl7sDLNL+TzS/kY9dAvaWt+1EJnswJuep7+8N
- 6yTuni0jiltk++YxdgkcfmoB9HpsWXCcM3dnZrfhiHJi86eQXRenqU8W5rYZJFjgB8aQ
- qMUVyRRmSJrJC9Fzq6dflpXlmOThqW+dz8K/qGtjww5DrrDBcZa/U6hacdPAbvl/Ks8H
- OQ/A==
+ :cc; bh=uFY0/kdVOjuBkxJkwbIHQ75iU2Ojd0GlIFJ81aJjpJA=;
+ b=Iv2sQin9X4BIJ54nVJBFSGvt9475NDqRla6e80BW/3lwyeJA87aPjtfTYbgUKhB/kW
+ O8dRy2BeI0MwDsJN5pwlKjknWlLz44JZPnq8rx11nwJWzcnFiEBNYyrxVPlA6mrlirpM
+ g3UZhgdf0NZXHeR6IztT1ZuOEkN436l2SCtMSDeQlmFVn2ovTGuPELhRtojnwS+Aodqg
+ dyh8DDn+Sf6v+Jyz0eaBoSm7iPgLnl1V4Rj25H8ygoFbpmZnunmlLoqIeacn+ZsyZNk5
+ WoG69yxOAo6OePEyBzSkVHUCGrud0f8Tt3pevUJiRIIhqG5Rk3ZJ175MbjMNp0ExlQqC
+ TA6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=O44A4gYGwr7d6gUVbAhqtbCSz0YXMg0Q/sGFX25Brr8=;
- b=iqHCJ8z1XzxQaUjIFCIkFi3Yl/TcV7gthLB0aLsD323YDInovL6blNdaNiGYgruHbb
- aG8i+KXvJa2RR1s0tXEDbVmuKSyFbm59qN4rZaJ7gzhOjewpxCeyq+g944cuYuBXqLbN
- /z7e37r6/CUP7GgUSMAPpdu4IyBGzruoKA32D+KNLvKjWCkisdtAX1RFZEaW7RF80R0Y
- vAoITNFx7XDvwmBFt3JmN5wBR99nlfNJPgyPGaoLqeduZ6nYHLZqzcK+oYxP6nvQ9WhC
- Lye2fS7iXqs/yp8FJHuKcQzAQfLhrLsBY12Hs/KlAAXV2rE1U3MKQpJ/KuRIkuFGH/n/
- a04g==
-X-Gm-Message-State: AJIora91QTulLDrT2r3RYlFLmJfYvB+Xc22J26qiKNY5T28rPbdDWgrC
- wP/mj4PyHZYS13Ep/qJHoIJE4CnSl4jsfrm2G3AlrQ==
-X-Google-Smtp-Source: AGRyM1vd3QFz15oLetEj5BGFkinR03zoCTEQzcr7c8FxNwzHWg9gJduXwxYOfYv9yvKk8DzP4DWyKzi5cyF3/m6MI8M=
-X-Received: by 2002:a17:906:9c82:b0:6e1:2c94:1616 with SMTP id
- fj2-20020a1709069c8200b006e12c941616mr28590616ejc.64.1656941531815; Mon, 04
- Jul 2022 06:32:11 -0700 (PDT)
+ bh=uFY0/kdVOjuBkxJkwbIHQ75iU2Ojd0GlIFJ81aJjpJA=;
+ b=oC4Dc5mjcam9Kyha/lhIh/ok45K7t7SJViP9gB2AY2bouEoKMEk5KkqFdUyUHsJTYt
+ qj6TrZs/zKf+ySx6/Tj8lzUfSPRbe9p9iuO+XNs65gXlbgJAsSZF2A0gmg5FddzYWFij
+ Mf2JW6s8zi5ll1FxC4NC43Oeb8mOUgnu2rbYkRSvAWTBYzpR29i562tq0FpWc5wgls3c
+ UQHATWGH5dGoEbNMgaNiU7OkUjpte7LhSCooWH2b8PIg0V14qSTAogPWUXOTNmfJiHzN
+ g2MnzRFot2tDpwLd2nc2uxvpuN6bcopUlThL6Kx7P4rQh93wMfI1X+gYs/0r2Zx/0luM
+ 4lmg==
+X-Gm-Message-State: AJIora9pFBNMsUiCVA231f5QCnr9Iok9JPa/1Pqh68Xl10uNsuORMFjL
+ EiWBwxyWAwGqAynQPOwAzEEtVU6EzFPf/UpZejOckw==
+X-Google-Smtp-Source: AGRyM1uNnSpQBdWWeerkI6nCshFP2R7ERAXMONk4rnk0zKtxUOmT3RTUyRjQ5q//18d9oysbMiKzUSWs3QORaW/DDJw=
+X-Received: by 2002:a25:d7d6:0:b0:66e:47b3:35be with SMTP id
+ o205-20020a25d7d6000000b0066e47b335bemr6096412ybg.140.1656941759409; Mon, 04
+ Jul 2022 06:35:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAARzgww4LP7xjDPjWuCCERO1fRp9JwuTtPTG6Lix0KDWPC9FUA@mail.gmail.com>
- <CAFEAcA-Rsqze4zKR7NZKRGSJLqQ77Lcc7Grh=tTSCQCZSNHozA@mail.gmail.com>
- <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
- <9b96f98e-2b7d-47a3-c64d-9cd785432840@redhat.com>
- <20220701024108-mutt-send-email-mst@kernel.org>
- <CAARzgwxnFRN=y9qz0ERiLOxMBCxEyxsn=xW_-i8mawWPj1Dxqw@mail.gmail.com>
- <20220701033006-mutt-send-email-mst@kernel.org>
- <CAARzgwwhrsG1EkA9=kH9Y456_Yz5KEA9tMQoQ6wGufoPGTu69w@mail.gmail.com>
- <20220701053949-mutt-send-email-mst@kernel.org>
- <CAARzgwx4GKLvATe+X+jZQminm1xAM7sgxXeeDQn_KHDozyde+A@mail.gmail.com>
- <20220701082552-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220701082552-mutt-send-email-mst@kernel.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 4 Jul 2022 19:02:00 +0530
-Message-ID: <CAARzgww0fYFFQkzCK0xwyRZB439KwtCs5gRTrdpyh-A_eXXAQg@mail.gmail.com>
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com, qemu-devel@nongnu.org
+References: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
+ <20220629124026.1077021-36-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220629124026.1077021-36-mark.cave-ayland@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 Jul 2022 14:35:48 +0100
+Message-ID: <CAFEAcA-MCuByDxQzz9G5kV_Yrot4bPyBnvOJYg2Qav9CHVUXdg@mail.gmail.com>
+Subject: Re: [PATCH 35/40] pckbd: introduce new vmstate_kbd_mmio
+ VMStateDescription for the I8042_MMIO device
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: richard.henderson@linaro.org, deller@gmx.de, svens@stackframe.org, 
+ mst@redhat.com, pbonzini@redhat.com, hpoussin@reactos.org, 
+ aleksandar.rikalo@syrmia.com, f4bug@amsat.org, qemu-devel@nongnu.org, 
+ qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::62b;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,51 +86,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 1, 2022 at 6:25 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+On Wed, 29 Jun 2022 at 13:41, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
 >
-> On Fri, Jul 01, 2022 at 03:44:32PM +0530, Ani Sinha wrote:
-> > but I thought you were suggesting we built bits every time the test is run?
+> This enables us to register the VMStateDescription using the DeviceClass vmsd
+> property rather than having to call vmstate_register() from i8042_mmio_realize().
 >
-> In my opinion 3 scenarios are worth supporting:
-> - people not touching ACPI, including users - simply don't run the tests,
->         comparing tables with expected output should be enough
-> - people making changes indirectly affecting ACPI -
->         use tests to validate that tables are still well formed,
->         using a pre built binary should be enough IMO
-> - people working on ACPI - use tests to analyse the tables,
->         building from source might be necessary for debugging,
->         sources change very rarely
-> - people developing the tests
->         building from source is required
+> Note that this is a migration break for the MIPS jazz machine which is the only
+> user of the I8042_MMIO device.
 >
-> So I would suggest basically two github repos, one with binaries one with
-> sources. We'll keep relevant hashes to use in the script.
-> All in all not that different from submodules but I guess
-> people have submodules and that is that.
->
-> And I personally would probably not tie it to CI whoever owns the
-> repository can worry about the builds, and I think keeping
-> things distributed is important.
->
-> So
-> - people not touching ACPI - make check should see directory not found
->         and skip the test
-> - people making changes indirectly affecting ACPI -
->         check out binaries and use
-> - people working on ACPI -
->         see that source directory is present, go there
->         and run make. should not rebuild each time right?
-> - people developing the tests
->         building from source is required
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Ok I have now committed a Dockerfile that has all the build time
-dependencies and builds bits and generates the tarballs/zip file that
-my test requires:
-https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-We just need to fork the repo and generate automated builds with this
-Dockerfile and put the binaries somewhere. This should also help
-developers requiring to rebuild bits when necessary.
-Oh and btw, I also made bits compliant with the latest gcc 11 compiler
-that comes with Ubuntu 22.04 LTS :-)
+thanks
+-- PMM
 
