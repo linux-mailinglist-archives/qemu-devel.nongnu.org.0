@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE6C565A76
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 17:57:29 +0200 (CEST)
-Received: from localhost ([::1]:36310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875F8565A87
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 18:00:00 +0200 (CEST)
+Received: from localhost ([::1]:39500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8OS1-0005eI-3k
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57340)
+	id 1o8OUR-0007yj-DV
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 11:59:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8OQZ-0004vw-I0
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:55:59 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:33593)
+ id 1o8OS9-0006Iv-10
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:57:37 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:37811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8OQX-0007u0-Qo
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:55:59 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-31c89111f23so35633147b3.0
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 08:55:57 -0700 (PDT)
+ id 1o8OS7-00081b-GD
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 11:57:36 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id e80so10336084ybb.4
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 08:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VCuqu0JLcj7XuoUckIUO0MOad5IfUXpGmi263huERa8=;
- b=TLaNEls9nDAOlJmWLNOldJZYTXGFOLznQ3KQUD3AMroBxefD4VG2fi0wwBbO3aek/X
- t4md9ChsM3zu342WWOpIHU6vK3mcc1IU/+N0MK97YIhpkOJFgEzuhM2JcthKNUpAIr3z
- Mu3Z/OmaxavDL5TJ/6Acn2p4s4/pZOuT9Q38W7kqPcoaIEsLk0GTrZebamMPHidvyxNn
- H+W1bnPFVZWQaZzu4H47w0BiVp6s05fncW4phid8CFoihspaLsACGXJ5dqOcyB9Jsap2
- KIek2PKP3quIn6tosfsV8HHfPq56S/IN9Zy+d4t2e95vyv2RQxKgOsTp4awHQ64B0RZJ
- SDRw==
+ :cc; bh=+6F4PCKhzFBdFwQmc+mBMmF3yxissWDsbGajyOXABQU=;
+ b=q+V/DniweCYk/EcytaFlNsbLhTRMPKliBSe98IOZ9eI0hd1tQcdIeLUBZHwLa7M29y
+ pyoKdjpx1YbpTFYqmP/qoDRkote45SUPxEUJfAtNNMn6b8a/Hbp+6lJNT19u1zY0G3Er
+ UnDjSTU8YiqsWF9mCffjjzHWkKmmgwKhUrUbISWBGI6lk5BaW38bxEr77k1S/mdQy5N/
+ C3rF32CdvLeKpjSGFY+kAzX02t/LleaaxgrwGS9/llUy3uISY4dO9HpxtU1DzN3YlzDy
+ SYsnVXKl4B+nnvzCJIRFbENexpN0PaBEAVuTq+VSVUWqq6g2lFtnU7mb4qdqGedndoxW
+ u8uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VCuqu0JLcj7XuoUckIUO0MOad5IfUXpGmi263huERa8=;
- b=3mT/b4e65Vl818/w5h2zcXqc3/EyvSUMQctOf+PAG3ohtRM5bZPIDJTrAaegrLbR/8
- W7tKqHjKFlnhL4xuJn8PjjraUQN5Imkq0A3iKVk74qxR8Z0PcWals4zO0WPAyHrSiASM
- QaDfr/jmBxGq8GsUT1AohEyDA6Fiaqaw3FmkIEm5HpFjz4XFrf+IzUgRXs637AC7fkIL
- 4k9sVi/NzPkK+tUZcgZkOVR6bidehAPyNGJPjes4r9A0hsda1dhFzo+avzBXvYoq6kJW
- XAiGo5eJqpnYc44n1si4/sjLLeWnnP3ejFJWJxd0xdiyc15C1NUfrtXkk35BlymeaKXo
- VuLQ==
-X-Gm-Message-State: AJIora+IejeFtG+ARnPdM1G8vMa4sCXcQXD8ltvzPrnlt+o9VMu89Lmz
- kRvoVK9EYyU8Ju8Kmud0VDuOhgLb7To52OeDKGrcRQ==
-X-Google-Smtp-Source: AGRyM1sWbqXrbOfAuqsC4Z3Rbca5QD2kyCJMPKz5vpNe4V46lCbgb3KKjNsCm3xVzWG+8tpHeIIQsFdz+uqanfommYU=
-X-Received: by 2002:a0d:eb83:0:b0:31c:8741:a033 with SMTP id
- u125-20020a0deb83000000b0031c8741a033mr10775899ywe.455.1656950155671; Mon, 04
- Jul 2022 08:55:55 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=+6F4PCKhzFBdFwQmc+mBMmF3yxissWDsbGajyOXABQU=;
+ b=m2uLLvK1dNbbtP+Ntpmdf19oJBwI7aiDRJ8JGPPRDpnAx6Z/tFrQ9R9boQSd2dn/gR
+ Z1yyHBw/1U2ENf3lpM90RDaLjuHeaVybIZP5OKNUqfJa4KXdc4kwpLPMUZ58Eqs4izVW
+ h163YGqtkAynC+kzdib4l0wT5pda5Tlyn6vVp9cXl+pn4SQYL3GpP5dZB/DMq+cr3cdc
+ X0efh1y06JF5GB+utb2lj5WU5dCiEZn6KAEtDhFxpb1BypNQy/f6TwxiltrcBzOVInxA
+ mMkTb1VZfJuTY9O+a9VTJXQSbSp/NsTQ8un1tSqhbCpLGuUMHT7mE7uB/e3elcs1oS2C
+ RdgA==
+X-Gm-Message-State: AJIora+GeEGBLhH/zn3wTioJywD9vh4Oc2QCadFXvJQaJwTVva5va8Jk
+ IgucVWQPSfXjW473MhvJwJIjBs+G1bJe8wHsmbejCQ==
+X-Google-Smtp-Source: AGRyM1twCWj9tWPMTARHdQAwNIEAmHOAVkv0TByCSqDgqANrHDI8142a4yVbrfmLnofFVKqlKAk72/9Pu5MmjrURlhk=
+X-Received: by 2002:a25:d381:0:b0:66e:2943:1c9d with SMTP id
+ e123-20020a25d381000000b0066e29431c9dmr13005742ybf.67.1656950254482; Mon, 04
+ Jul 2022 08:57:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220704152303.760983-1-berrange@redhat.com>
- <20220704152303.760983-8-berrange@redhat.com>
- <CAFEAcA-DeKXAq8o_pYt5oyWRnLPvhWMfTbM+vCFpx8MYyC3ZoQ@mail.gmail.com>
- <YsMMUosglBjbKRgy@redhat.com>
-In-Reply-To: <YsMMUosglBjbKRgy@redhat.com>
+References: <20220703082419.770989-1-richard.henderson@linaro.org>
+ <CAFEAcA_5s3avpeHNO5cC0HS5Unq9QsCp9mTof4uqLJwE13h+pA@mail.gmail.com>
+ <6bad14a8-a6dd-4bbe-7808-d51e6c3f777b@linaro.org>
+In-Reply-To: <6bad14a8-a6dd-4bbe-7808-d51e6c3f777b@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 4 Jul 2022 16:55:45 +0100
-Message-ID: <CAFEAcA-fK4qqJ7zyNYf5hyGDeWF9YDX0oG_gEWvXMZg4+bmnSw@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] tests/style: check qemu/osdep.h is included in all
- .c files
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 4 Jul 2022 16:57:23 +0100
+Message-ID: <CAFEAcA-aLdqTaGKfF-b9zmjUwdrmHwc2hHwam-oLe9ruHBbApw@mail.gmail.com>
+Subject: Re: [PATCH 00/62] target/arm: Implement FEAT_HAFDBS
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,60 +83,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 Jul 2022 at 16:50, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
+On Mon, 4 Jul 2022 at 15:58, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On Mon, Jul 04, 2022 at 04:47:16PM +0100, Peter Maydell wrote:
-> > On Mon, 4 Jul 2022 at 16:23, Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
-> > >
-> > > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> On 7/4/22 20:24, Peter Maydell wrote:
+> >> Previously, we had A-profile allocate separate mmu_idx for secure
+> >> vs non-secure.  I've done away with that.  Now, I flush all mmu_idx
+> >> when SCR_EL3.NS is changed.  I did not see how we could reasonably
+> >> add 8 more mmu_idx for Realm.  Moreover, I had a look through ARM
+> >> Trusted Firmware, at the code paths used to change between Secure
+> >> and Nonsecure.  We wind up flushing all of these mmu_idx anyway while
+> >> swapping the EL1+EL2 cpregs, so there is no gain at all in attempting
+> >> to keep them live at the same time within qemu.
 > >
-> > > +
-> > > +sc_c_file_osdep_h:
-> > > +       @require=3D'#include "qemu/osdep.h"' \
-> > > +       in_vc_files=3D'\.c$$' \
-> > > +       halt=3D'all C files must include qemu/osdep.h' \
-> > > +       $(_sc_search_regexp)
-> >
-> > The rule is not just "included in all C files", but "included
-> > as the *first* include in all C files".
+> > Is there no SMC/interrupt/etc at all which is handled as a "just do the
+> > thing at EL3" without dropping down to secure EL2/EL1 ?
 >
-> Oh right, so we can copy a rule from libvirt to validate that.
->
-> It would look like this, but s,config.h,qemu/osdep.h,
->
->
-> # Print each file name for which the first #include does not match
-> # $(config_h_header).  Like grep -m 1, this only looks at the first match=
-.
-> perl_config_h_first_ =3D \
->   -e 'BEGIN {$$ret =3D 0}' \
->   -e 'if (/^\# *include\b/) {' \
->   -e '  if (not m{^\# *include $(config_h_header)}) {' \
->   -e '    print "$$ARGV\n";' \
->   -e '    $$ret =3D 1;' \
->   -e '  }' \
->   -e '  \# Move on to next file after first include' \
->   -e '  close ARGV;' \
->   -e '}' \
->   -e 'END {exit $$ret}'
->
-> # You must include <config.h> before including any other header file.
-> # This can possibly be via a package-specific header, if given by syntax-=
-check.mk.
-> sc_require_config_h_first:
->         @if $(VC_LIST_EXCEPT) | $(GREP) '\.c$$' > /dev/null; then \
->           files=3D$$($(VC_LIST_EXCEPT) | $(GREP) '\.c$$') && \
->           perl -n $(perl_config_h_first_) $$files || \
->             { echo 'the above files include some other header' \
->                 'before <config.h>' 1>&2; exit 1; } || :; \
->         else :; \
->         fi
+> I'm sure there is, but it's only swapping between S EL[012] and NS EL[012] that concerned
+> me.  Is there something that I'm missing?
 
-As an example syntax checking rule I think this makes a pretty
-convincing case for the argument "make is the wrong language/framework
-for this job"...
+Oh, right, EL3 remains its own mmu_idx, of course. (And I guess
+also Monitor mode for AArch32 EL3, though the degree to which we
+care about performance of emulation there is decreasing I suspect.)
 
 thanks
 -- PMM
