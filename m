@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB627564F3B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 10:03:46 +0200 (CEST)
-Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E33564F3A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 10:03:44 +0200 (CEST)
+Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8H3a-00056M-09
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 04:03:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54512)
+	id 1o8H3X-00053t-Pt
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 04:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o8Gzs-0002DX-1l
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:59:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33182)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o8Gzt-0002EF-5A
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:59:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o8Gzn-0007eo-Ox
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:59:53 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1o8Gzp-0007ew-0Z
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 03:59:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656921590;
+ s=mimecast20190719; t=1656921592;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=hEAd6nv5nVNCGszQZura2PSpyfTbnxpdnuOLNjiDASc=;
- b=a9Ufj2P+0YKLgTLpqrtpgWPste++5ayaHojpgBut5c1bVIPPN4ymBZBAJk4PG1PPIAnQBR
- uxu1gwOrIIRQcOTj4SfPlbBWkxymtzHDILEKJfgq9BGb+HxVde8PccfhcD80/gYAle2IKd
- 5JB6YmBR6vxRc8c+a2qJOG24sPL2Vkg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=T9X8uCpaGt4LkAajR7SXrttcvlXnN+TKt7zUIfAEtRE=;
+ b=PPXo5b75Glfydlc9dX8+2zQ1XvQ6PKny6gseZoW400d+1Y4SV4y2fSHxPpiQvw7iXeqQnQ
+ NkGqG4tH9aNV+RiQXd/xfn0kQBn/SbkSdlSsbzivMqMnZ9oPvmj9K6qyMLIQbjjPUZmFd4
+ hkLt7ppnynI+DWqCzH6ckOE/TcYkfew=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-577-WN3tNCsxPAOl57MqrCb2Sg-1; Mon, 04 Jul 2022 03:59:48 -0400
-X-MC-Unique: WN3tNCsxPAOl57MqrCb2Sg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-663-aOsF6E6OOuy07MtNxDd9YA-1; Mon, 04 Jul 2022 03:59:48 -0400
+X-MC-Unique: aOsF6E6OOuy07MtNxDd9YA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D63E38173DE;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4AB5B18812C0;
  Mon,  4 Jul 2022 07:59:48 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F0D37492C3B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F07B518EB7;
  Mon,  4 Jul 2022 07:59:47 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8EB3C1800626; Mon,  4 Jul 2022 09:59:46 +0200 (CEST)
+ id 9733D1800627; Mon,  4 Jul 2022 09:59:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  "Canokeys.org" <contact@canokeys.org>, Gerd Hoffmann <kraxel@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Hongren (Zenithal) Zheng" <i@zenithal.me>
-Subject: [PULL 0/8] Kraxel 20220704 patches
-Date: Mon,  4 Jul 2022 09:59:38 +0200
-Message-Id: <20220704075946.921883-1-kraxel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+ "Hongren (Zenithal) Zheng" <i@zenithal.me>,
+ Simon Sapin <simon.sapin@exyr.org>
+Subject: [PULL 1/8] Rename docs/specs/fw_cfg.txt to .rst
+Date: Mon,  4 Jul 2022 09:59:39 +0200
+Message-Id: <20220704075946.921883-2-kraxel@redhat.com>
+In-Reply-To: <20220704075946.921883-1-kraxel@redhat.com>
+References: <20220704075946.921883-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -80,53 +83,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d495e432c04a6394126c35cf96517749708b410f:
+From: Simon Sapin <simon.sapin@exyr.org>
 
-  Merge tag 'pull-aspeed-20220630' of https://github.com/legoater/qemu into staging (2022-06-30 22:04:12 +0530)
+This is a separate commit in order to make reviewing the next one easier.
 
-are available in the Git repository at:
+Signed-off-by: Simon Sapin <simon.sapin@exyr.org>
+Message-Id: <20220625161455.1232954-1-simon.sapin@exyr.org>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ docs/specs/{fw_cfg.txt => fw_cfg.rst} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename docs/specs/{fw_cfg.txt => fw_cfg.rst} (100%)
 
-  https://gitlab.com/kraxel/qemu.git tags/kraxel-20220704-pull-request
-
-for you to fetch changes up to 927b968d1bc7c0a25edad8161608223b1122a253:
-
-  hw: canokey: Remove HS support as not compliant to the spec (2022-07-01 12:39:51 +0200)
-
-----------------------------------------------------------------
-usb: canokey fixes.
-ui: better tab labels, cocoa fix,
-docs: convert fw_cfg to rst.
-
-----------------------------------------------------------------
-
-Akihiko Odaki (1):
-  ui/cocoa: Fix clipboard text release
-
-Hongren (Zenithal) Zheng (3):
-  hw/usb/canokey: Fix CCID ZLP
-  hw/usb/canokey: fix compatibility of qemu-xhci
-  docs/system/devices/usb/canokey: remove limitations on qemu-xhci
-
-MkfsSion (1):
-  hw: canokey: Remove HS support as not compliant to the spec
-
-Simon Sapin (2):
-  Rename docs/specs/fw_cfg.txt to .rst
-  Convert fw_cfg.rst to reStructuredText syntax
-
-Wen, Jianxian (1):
-  ui/console: allow display device to be labeled with given id
-
- include/ui/console.h                  |   1 +
- hw/usb/canokey.c                      |  31 +++-
- ui/console.c                          |  41 ++++-
- docs/specs/{fw_cfg.txt => fw_cfg.rst} | 211 ++++++++++++++------------
- docs/specs/index.rst                  |   1 +
- docs/system/devices/canokey.rst       |  10 --
- ui/cocoa.m                            |   4 +-
- 7 files changed, 189 insertions(+), 110 deletions(-)
- rename docs/specs/{fw_cfg.txt => fw_cfg.rst} (58%)
-
+diff --git a/docs/specs/fw_cfg.txt b/docs/specs/fw_cfg.rst
+similarity index 100%
+rename from docs/specs/fw_cfg.txt
+rename to docs/specs/fw_cfg.rst
 -- 
 2.36.1
 
