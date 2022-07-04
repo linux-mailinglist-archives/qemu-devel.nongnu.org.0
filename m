@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8079E56569E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 15:10:22 +0200 (CEST)
-Received: from localhost ([::1]:49084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01055656AC
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jul 2022 15:13:36 +0200 (CEST)
+Received: from localhost ([::1]:56346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8LqH-0007jr-K6
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 09:10:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59376)
+	id 1o8LtO-0004DR-F1
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 09:13:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8LgU-0005cx-Tq
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:00:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48928)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8LgD-0005Bu-8S
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:59:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8LgT-0007oY-AC
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 09:00:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8Lg9-0007ZQ-T7
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 08:59:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656939612;
+ s=mimecast20190719; t=1656939593;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mH+PVwQi9YOevrHsYOJ3xk+Ac1GYDfe+zmFGGYUswSE=;
- b=jGE6gnhMPChlOO2nt4XKO8B+WSa+CCpMupSyR2KrdFtYoQDT4mTd7Xa+qsbscP5vGFVF7n
- E2MPCxuqKbNLxmEaBHwHuDEcH4FFq1WqhgPAaKquxG5UXnphQXC8qFVL0YR+dmTrH/yzVP
- 8ocyyQvKw1lrfDXdk1c0yC4O4JGJQak=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8PFhL8VUAiJWxuOPgwfJRz26XwmGls6WLMAukUMq7NU=;
+ b=KO85mWIR5Ijwsy73jrI/TDaM2T8OcVbZ2i2C0WynOOI5i0hUZxOG4NnZ/1qqYr5ljyWumL
+ jKeXdD73acei5tM6dXy1t5dIvpRakEQWvPFM8zwvBneRGLWOeJUViIJC3V6UJc1AFiZtnn
+ MEP2Vf9zvFALED3b2J0leKaJk/3vRtg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633--_zdqvz3OPSB1QOZZsIwgA-1; Mon, 04 Jul 2022 09:00:11 -0400
-X-MC-Unique: -_zdqvz3OPSB1QOZZsIwgA-1
-Received: by mail-io1-f71.google.com with SMTP id
- n19-20020a056602341300b0066850b49e09so5535328ioz.12
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 06:00:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mH+PVwQi9YOevrHsYOJ3xk+Ac1GYDfe+zmFGGYUswSE=;
- b=FebhlN56quDKeH5KzPWcbmoBwp5WM4MF4PV3E8FFAo9SpVmj/Ac8XZ53T9yGhHyZfY
- vE0Hz7m/pfUMokahcwprTuwVCM7J22BDrBPK1Bf92q9KiN4LTt5TE4QrwPBULg/Ile/d
- OPX1rs9bmcG39ZkeIdKYkMrN/mW3c0doZS0Cc28h369OZpna3JyEeIaRetwVlStg1BYu
- EdPUpCeqqt072a2f2cWJnlXui4vuHD575SZet+ffCQXrnHD4Km3NkLj4uFE3021vCGqz
- 3q6rcS+hwSlwFGySE6kDj/n2/+xA20K/i7HZ/LQ4yUcISRczh8M22aE/UBhnUwKiRtkF
- itUQ==
-X-Gm-Message-State: AJIora8OzU6nIwxSN8vpQlNTvavskrx/TB8VByLPSxDporqeON8e0C7Y
- ZqDh8zgMCR3FUr9o38T32IYCkx5oAD+NoQE510cF3hm/3yAjA0O7gtC7Ft105D7AmQtKB0HbraR
- zbtyYhSGYU/Q4BQAM4ZczM9XviX1Ic6c=
-X-Received: by 2002:a05:6638:339c:b0:33e:b766:1bf1 with SMTP id
- h28-20020a056638339c00b0033eb7661bf1mr7551665jav.93.1656939610852; 
- Mon, 04 Jul 2022 06:00:10 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t0guSlxng6jmnwo6x47J4EOjEEDIznGY7YD7f5XTaZzVaM+gQ+lyr4DPOiXYELM2K4SwAmP7b3nYK3t71WzEg=
-X-Received: by 2002:a05:6638:339c:b0:33e:b766:1bf1 with SMTP id
- h28-20020a056638339c00b0033eb7661bf1mr7551529jav.93.1656939609298; Mon, 04
- Jul 2022 06:00:09 -0700 (PDT)
+ us-mta-479-Ax8HLH0zOLG7R4QxCSWCnQ-1; Mon, 04 Jul 2022 08:59:52 -0400
+X-MC-Unique: Ax8HLH0zOLG7R4QxCSWCnQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D25943806729
+ for <qemu-devel@nongnu.org>; Mon,  4 Jul 2022 12:59:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 966A1400EA86;
+ Mon,  4 Jul 2022 12:59:51 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2B9FB21E690D; Mon,  4 Jul 2022 14:59:50 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Leonardo Bras
+ <leobras@redhat.com>,  Juan Quintela <quintela@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  Peter Xu <peterx@redhat.com>,  qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 2/3] Add zero-copy-copied migration stat
+References: <20220701155935.482503-1-leobras@redhat.com>
+ <20220701155935.482503-3-leobras@redhat.com>
+ <877d4tz9gx.fsf@pond.sub.org> <YsKtm2O8+d5d0p/N@redhat.com>
+ <YsLRmYjFpdGw0AjK@work-vm> <87k08tw0bq.fsf@pond.sub.org>
+ <YsLaEWcn51z3m52e@redhat.com>
+Date: Mon, 04 Jul 2022 14:59:50 +0200
+In-Reply-To: <YsLaEWcn51z3m52e@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Mon, 4 Jul 2022 13:16:17 +0100")
+Message-ID: <87czelvxrt.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220509103019.215041-1-pbonzini@redhat.com>
- <20220509103019.215041-15-pbonzini@redhat.com>
-In-Reply-To: <20220509103019.215041-15-pbonzini@redhat.com>
-From: Alberto Faria <afaria@redhat.com>
-Date: Mon, 4 Jul 2022 13:59:33 +0100
-Message-ID: <CAELaAXzQMP8aW_5TYOdFyq2Ph_vP9VfsMzCyU1RzxLg39aTAVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 14/26] qcow2: add missing coroutine_fn annotations
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -90,17 +88,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 9, 2022 at 12:01 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  block/qcow2-cluster.c  | 18 +++++++++---------
->  block/qcow2-refcount.c |  2 +-
->  block/qcow2.c          |  4 ++--
->  block/qcow2.h          | 14 +++++++-------
->  4 files changed, 19 insertions(+), 19 deletions(-)
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Some overly long lines.
+> On Mon, Jul 04, 2022 at 02:04:41PM +0200, Markus Armbruster wrote:
 
-Reviewed-by: Alberto Faria <afaria@redhat.com>
+[...]
+
+>> Please rephrase the documentation of @zero-copy-copied in terms of
+>> @dirty-sync-count.  Here's my attempt.
+>>=20
+>> # @zero-copy-copied: Number of times dirty RAM synchronization could not
+>> #                    avoid copying zero pages.  This is between 0 and
+>> #                    @dirty-sync-count.  (since 7.1)
+>
+> Any one have preferences on the name - i get slight put off by the
+> repeated word in the property name here.
+>
+>    @zero-copy-rejects ?
+>    @zero-copy-misses ?
+>    @zero-copy-fails ?
+
+I'd consider any of these an improvement.  Not a native speaker, but
+perhaps "failures" instead of "fails".
+
+We could also express the connection to @dirty-sync-count right in the
+name, like @dirty-sync-rejected-zero-copy, @dirty-sync-missed-zero-copy,
+@dirty-sync-failed-zero-copy.  Or maybe -copies.
 
 
