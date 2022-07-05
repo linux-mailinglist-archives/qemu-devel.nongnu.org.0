@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406A5567242
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:15:37 +0200 (CEST)
-Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB86567254
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:17:59 +0200 (CEST)
+Received: from localhost ([::1]:53278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8kH0-0002Vy-GQ
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:15:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44002)
+	id 1o8kJJ-0005ND-BA
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o8kFL-00016a-QF
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:13:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39753)
+ id 1o8kGi-00037f-J8
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:15:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1o8kFE-0003Yj-NQ
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:13:51 -0400
+ id 1o8kGf-0003sN-If
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:15:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657034021;
+ s=mimecast20190719; t=1657034112;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OJIujAbJ4UM6RsIQ2jqaUTm2Vvp+k7ePUqrf4KSljXE=;
- b=EU1uPyIZyrXOr2qZk4NwXzjYMAA8XtEMcohkgzbAfYb1+eJlS0LACNRMQw6a2kL8GlvPIx
- d0ygEbwB2n/qyjWZ0GsEcIncsAW6n8YrymjubPbAVcVJ76AR+7iXOHW+rZHlOiLRiyoaRw
- q12HKckZILnIDT7fBEPbyRuK4C63nDc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xLgSOm0lLrf1jYOAO6tmJTIa1RJ9jPBYBfuBFJfxERg=;
+ b=daYNC+A1UU9E43Oq1AuoQi76MIzk/II1by7orfa3JX9RU2CzkISNCb53Oco4TOkvRiheE6
+ P7O0CGSHgpXoboJmW6fwfKU12xV4ICrTmjnucNtRsMT8htbtWkJyGN+CIrSgZFXEblS+8k
+ jcrAkQm0mOZuKUFqzLTpk0UALTvmHM0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548-L8wPg-i5PxmGAmQPUoBu0A-1; Tue, 05 Jul 2022 11:13:40 -0400
-X-MC-Unique: L8wPg-i5PxmGAmQPUoBu0A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- n5-20020adf8b05000000b00219ece7272bso2022307wra.8
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 08:13:40 -0700 (PDT)
+ us-mta-646-UaRf09pxOgu21ldVVrNvDA-1; Tue, 05 Jul 2022 11:15:03 -0400
+X-MC-Unique: UaRf09pxOgu21ldVVrNvDA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i5-20020a1c3b05000000b003a02b027e53so8993621wma.7
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 08:15:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=OJIujAbJ4UM6RsIQ2jqaUTm2Vvp+k7ePUqrf4KSljXE=;
- b=oOpG4b4FlljPBSPrkGVnBK8oPdpK0JfZXYVja6sG/3BS8sSlyWdSm+5kUqoL7q25Yb
- aoHWE7Q4oY6OdV4blHgSRtV0Zvdj/6TZufhG8FWD76z4QuOPHZyAd9hQzhDlpUNuNgor
- k8+IUEYPHY9aC1CM0NVDiAtQ84FcXF8rzrLPvEnKFj042ZL6N5ZvmcbvOb1jCSYFKGQX
- w+2edupGLJ9ZNjkSqugO3DUAmqG/lGlHFNnbkVLZkok/gSstD4xcSncNLJCZKxHClcD+
- YKF9z4U43ZijlIM+BN3GY4ZoSC6ombMchAv9ZC2pJDsaaoTJ4uSSepam2rgbJMrpoP+N
- GFtg==
-X-Gm-Message-State: AJIora9tqXB2TFb9V29op6+oRI7ZZ+8JeEXjawGiVcXDZsbpSAyrgpMV
- U3fy8gOct1mqn3bEnHfd1L0pbkB7yoIAZKsICgxzomirgdpGeyMDj9ND0chD7dyFNZ76r5IM3Ra
- N1xas668CFPppSxs=
-X-Received: by 2002:a5d:5c0c:0:b0:21b:c9cb:f973 with SMTP id
- cc12-20020a5d5c0c000000b0021bc9cbf973mr31499975wrb.424.1657034018341; 
- Tue, 05 Jul 2022 08:13:38 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1slHuWAT+AO+YTU43gUvGgLIwjtIN+v7X3SpH2X1os7V32aM8YcTSw2G3QyrJL7rRyJWz2VxA==
-X-Received: by 2002:a5d:5c0c:0:b0:21b:c9cb:f973 with SMTP id
- cc12-20020a5d5c0c000000b0021bc9cbf973mr31499959wrb.424.1657034018159; 
- Tue, 05 Jul 2022 08:13:38 -0700 (PDT)
+ bh=xLgSOm0lLrf1jYOAO6tmJTIa1RJ9jPBYBfuBFJfxERg=;
+ b=VrVRXvR/bxpFjOTbbwEeF4tkyjUOg/TcvmuuUy9/SrqIc37H0/vFGwKolh8hTStKqO
+ l/ICeaWAIYm2HV0ovFYORYhrBBktZw61dT/A5o/DPn6h9KZiBrflepeCdfQHdQyjF1Vt
+ pcT1Pug7odFf/VgInTORJi4spcAdW763fS90fSx1MccnsjXpwqM5O+voTRKO+BThmiQi
+ qJ21yhZqq6tCDswapo5ZYZSuERl9+ekXjScTabRvFi9J4pH0GxeZPBwWn0vVWR6gyQzn
+ /mOdOgKKQbGNpA/gSYUQvsQ71X270xlfvjYTNyuZS7lRBB9Jvmsy7B0TVbLOMyJdTDRY
+ Nwqg==
+X-Gm-Message-State: AJIora+PfLOIxmukPz4pZgLK7ltoNk//GGBT2cGjRNquL4EwT2wWaOGE
+ B3wdQozIQghPwD28qC7w/ytm54DfmQUjyPQMj6EK/TX7+GQ4WkcfnPSToUEzmckqk8tYD2ukB51
+ JDSwLAD2XZWZx8g0=
+X-Received: by 2002:a05:600c:1548:b0:3a1:95fc:aa42 with SMTP id
+ f8-20020a05600c154800b003a195fcaa42mr19149534wmg.189.1657034101647; 
+ Tue, 05 Jul 2022 08:15:01 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vaD2bVE1hyhcceD0ICZ8hGH7zqK+8cGBaTFhtkKlk7ucxUx/e7VIxtoQJedMvelXkVSZQMWw==
+X-Received: by 2002:a05:600c:1548:b0:3a1:95fc:aa42 with SMTP id
+ f8-20020a05600c154800b003a195fcaa42mr19149506wmg.189.1657034101442; 
+ Tue, 05 Jul 2022 08:15:01 -0700 (PDT)
 Received: from localhost (static-110-87-86-188.ipcom.comunitel.net.
  [188.86.87.110]) by smtp.gmail.com with ESMTPSA id
- p2-20020a056000018200b002103cfd2fbasm33331784wrx.65.2022.07.05.08.13.37
+ t8-20020a7bc3c8000000b003a050a391e8sm23004702wmj.38.2022.07.05.08.15.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 08:13:37 -0700 (PDT)
+ Tue, 05 Jul 2022 08:15:01 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  qemu-devel@nongnu.org,
- Leonardo Bras <leobras@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud?=
- =?utf-8?Q?=C3=A9?=
- <f4bug@amsat.org>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>,  Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH 5/5] multifd: Only sync once each full round of memory
-In-Reply-To: <YsRL6Y4/3puuVC3S@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+Cc: Leonardo Bras <leobras@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Eric Blake <eblake@redhat.com>,  Markus Armbruster
+ <armbru@redhat.com>,  Peter Xu <peterx@redhat.com>,  qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 1/3] QIOChannelSocket: Fix zero-copy flush returning
+ code 1 when nothing sent
+In-Reply-To: <YsPwk34cMoontYo8@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
  =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 5 Jul 2022 15:34:17 +0100")
-References: <20220621140507.1246-1-quintela@redhat.com>
- <20220621140507.1246-6-quintela@redhat.com> <YsRDEyA0mjUD4DSB@work-vm>
- <YsRL6Y4/3puuVC3S@redhat.com>
+ "Tue, 5 Jul 2022 09:04:35 +0100")
+References: <20220704202315.507145-1-leobras@redhat.com>
+ <20220704202315.507145-2-leobras@redhat.com>
+ <YsPwk34cMoontYo8@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 05 Jul 2022 17:13:36 +0200
-Message-ID: <87y1x7zj6n.fsf@secure.mitica>
+Date: Tue, 05 Jul 2022 17:15:00 +0200
+Message-ID: <87tu7vzj4b.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -111,58 +110,66 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> On Tue, Jul 05, 2022 at 02:56:35PM +0100, Dr. David Alan Gilbert wrote:
->> * Juan Quintela (quintela@redhat.com) wrote:
->> > We need to add a new flag to mean to sync at that point.
->> > Notice that we still synchronize at the end of setup and at the end of
->> > complete stages.
->> >=20
->> > Signed-off-by: Juan Quintela <quintela@redhat.com>
->> > ---
->> >  migration/migration.c |  2 +-
->> >  migration/ram.c       | 42 ++++++++++++++++++++++++++++++------------
->> >  2 files changed, 31 insertions(+), 13 deletions(-)
->> >=20
->> > diff --git a/migration/migration.c b/migration/migration.c
->> > index 3f79df0b70..6627787fc2 100644
->> > --- a/migration/migration.c
->> > +++ b/migration/migration.c
->> > @@ -4283,7 +4283,7 @@ static Property migration_properties[] =3D {
->> >                        DEFAULT_MIGRATE_ANNOUNCE_STEP),
->> >      /* We will change to false when we introduce the new mechanism */
->> >      DEFINE_PROP_BOOL("multifd-sync-each-iteration", MigrationState,
->> > -                      multifd_sync_each_iteration, true),
->> > +                      multifd_sync_each_iteration, false),
->> >=20=20
->> >      /* Migration capabilities */
->> >      DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
->> > diff --git a/migration/ram.c b/migration/ram.c
->> > index 2c7289edad..6792986565 100644
->> > --- a/migration/ram.c
->> > +++ b/migration/ram.c
->> > @@ -81,6 +81,7 @@
->> >  #define RAM_SAVE_FLAG_XBZRLE   0x40
->> >  /* 0x80 is reserved in migration.h start with 0x100 next */
->> >  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
->> > +#define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
+> On Mon, Jul 04, 2022 at 05:23:13PM -0300, Leonardo Bras wrote:
+>> If flush is called when no buffer was sent with MSG_ZEROCOPY, it current=
+ly
+>> returns 1. This return code should be used only when Linux fails to use
+>> MSG_ZEROCOPY on a lot of sendmsg().
 >>=20
->> Note this is the very last usable flag!
->> We could do with avoiding using them as flags where we dont need to.
+>> Fix this by returning early from flush if no sendmsg(...,MSG_ZEROCOPY)
+>> was attempted.
+>>=20
+>> Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy fl=
+ag & io_flush for CONFIG_LINUX")
+>> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+>> ---
+>>  io/channel-socket.c | 8 +++++++-
+>>  1 file changed, 7 insertions(+), 1 deletion(-)
 >
-> Before it is too late, shouldn't we do
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 >
->    #define RAM_SAVE_FLAG_BIGGER_FLAGS 0x200=20=20
+> And if this merges via migration maintainers' tree
 >
-> to indicate that this will be followed by another uint64 value
-> giving us another 64 flags to play with ?
+> Acked-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Dunno.  We can recover 2 bits already as I told on the previous answer.
-And another two/three once that we move to multifd, so we should be ok
-(famous last words).
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Once told that, putting a comment saying what is the biggest possible
-value looks like a good idea.
+I will add this on the next PULLL request.
 
-Later, Juan.
+Thanks.
+
+
+>>=20
+>> diff --git a/io/channel-socket.c b/io/channel-socket.c
+>> index 4466bb1cd4..698c086b70 100644
+>> --- a/io/channel-socket.c
+>> +++ b/io/channel-socket.c
+>> @@ -716,12 +716,18 @@ static int qio_channel_socket_flush(QIOChannel *io=
+c,
+>>      struct cmsghdr *cm;
+>>      char control[CMSG_SPACE(sizeof(*serr))];
+>>      int received;
+>> -    int ret =3D 1;
+>> +    int ret;
+>> +
+>> +    if (!sioc->zero_copy_queued) {
+>> +        return 0;
+>> +    }
+>>=20=20
+>>      msg.msg_control =3D control;
+>>      msg.msg_controllen =3D sizeof(control);
+>>      memset(control, 0, sizeof(control));
+>>=20=20
+>> +    ret =3D 1;
+>> +
+>>      while (sioc->zero_copy_sent < sioc->zero_copy_queued) {
+>>          received =3D recvmsg(sioc->fd, &msg, MSG_ERRQUEUE);
+>>          if (received < 0) {
+>> --=20
+>> 2.36.1
+>>=20
+>
+> With regards,
+> Daniel
 
 
