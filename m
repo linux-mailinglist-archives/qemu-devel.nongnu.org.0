@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21568566030
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 02:55:59 +0200 (CEST)
-Received: from localhost ([::1]:34480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA09D566031
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 02:56:35 +0200 (CEST)
+Received: from localhost ([::1]:35990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Wr7-0001yW-L0
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 20:55:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54674)
+	id 1o8Wri-000346-L3
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 20:56:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=7kjP=XK=zx2c4.com=Jason@kernel.org>)
- id 1o8Wom-0000py-Bl; Mon, 04 Jul 2022 20:53:32 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:39862)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o8Wpe-0001P2-TB
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 20:54:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=7kjP=XK=zx2c4.com=Jason@kernel.org>)
- id 1o8Wok-0006ub-Dx; Mon, 04 Jul 2022 20:53:31 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8A118617FF;
- Tue,  5 Jul 2022 00:53:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5C2C3411E;
- Tue,  5 Jul 2022 00:53:27 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="eRlWDnT5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1656982405;
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o8Wpb-0006yW-1L
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 20:54:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656982461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GBj62MjJ2VIbiGWs/eNHFVJd5tihvIWhRW+pstEVFFg=;
- b=eRlWDnT5ghp5r2IdRoKNpM5LbEBcUFbexszN8zJCvE+EMHHsE242BXPkbfcFc5ahWdALTL
- ATFiSIYIz1oY+DCgny/y37O2EhSFNK3DfbxfITFvJ0OasqqTSXhROz+U87wEs8ZCSmPt2u
- ikAguaBR/YIF0tbqZCnpK7peeDG4Iiw=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9e151ae2
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Tue, 5 Jul 2022 00:53:25 +0000 (UTC)
-Date: Tue, 5 Jul 2022 02:53:21 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Stafford Horne <shorne@gmail.com>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- "open list:Goldfish RTC" <qemu-riscv@nongnu.org>,
- Anup Patel <anup.patel@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Development <qemu-devel@nongnu.org>,
- Openrisc <openrisc@lists.librecores.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
-Subject: Re: [PATCH v2 03/11] goldfish_rtc: Add endianness property
-Message-ID: <YsOLgWl0N8RFvZyc@zx2c4.com>
-References: <20220703212823.10067-1-shorne@gmail.com>
- <20220703212823.10067-4-shorne@gmail.com>
- <272f1e82-ff1b-9a7a-931b-91472dd244bf@linaro.org>
- <b8d2595b-c86a-b1b8-8912-13fc9ba782d3@redhat.com>
- <31017a43-3ebb-0aa3-f6ce-d2df1b5dc177@linaro.org>
- <78ac87ee-e40b-8d18-3775-4417edb74fa3@redhat.com>
- <YsNQP9UJ5faHNguC@antec>
+ bh=MYSULrZFydu7Vr8rmPKQ5QytDYvbBEw1Lb/O1eJum9k=;
+ b=jNp9DubDhPZUfYvcXHSnpuFkn3UyPtOssjnHzSzdNq3yhONogFEUkMYseOJbwtxSmxbjzC
+ qhvLayw/+0SLYmTXYS+54Y+TMyDGfmn9qBohetxxbuZQwaXa3Q8rhwVaIklSw26m3hW00R
+ ycMuvFzxdcM7g6yX60I0DAcNXqQWOxE=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-321-norYPRjlOVm_9nbWZMRTwQ-1; Mon, 04 Jul 2022 20:54:20 -0400
+X-MC-Unique: norYPRjlOVm_9nbWZMRTwQ-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ b40-20020a2ebc28000000b0025c047ea79dso3134387ljf.23
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 17:54:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MYSULrZFydu7Vr8rmPKQ5QytDYvbBEw1Lb/O1eJum9k=;
+ b=JbzUuyFED1h9Gybe7N0rkbRpSjIaJmeD1txb65HQ057lZgLG/tVhmiV/VQySOU4SWX
+ 5WmJAYKBrJfHNDW1GR2Y//KuSz1oUA3nEQz5fq3WXV/lxL9wxIzRWTvpptvMXlDtfiFD
+ BD0x2cHfdWxtwlJhBc++ndXtVYJEQp9eMUBMV5aRW38hP1DsyLGoqsGWDK0Bp6/R4sCc
+ sVpm39H3MagB/SX1MfL9lClj/1WzjdQw2dFaUgJUambJnzNe4zWNLt/LkYVk782Rud+w
+ RKjF2L6ER8w7QTMF/oCKOLAn6cb2WT9rw24esT6BhWFDP49DnkyM+q7y3UpTya5wU+4Y
+ 02BQ==
+X-Gm-Message-State: AJIora+3O/ryqqLMvbqK4N2qIySDJQzbEj2MBuDkNPSG0JGq02KiwzTb
+ l9Vl5vlKaKc45hLTiWgDAPgZfs4vDSG1ekcZ5gmxBNym3kVMR8BFjeXbuuEZYxmgYjgAm15+u96
+ ssNcHQmwFj0gkTQF89c8OVuJ6fEg7uBk=
+X-Received: by 2002:a2e:aaa5:0:b0:25b:ae57:4ad7 with SMTP id
+ bj37-20020a2eaaa5000000b0025bae574ad7mr18519173ljb.323.1656982458950; 
+ Mon, 04 Jul 2022 17:54:18 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tQFW+Qrns4H/MQmyhtIZNz2I3posIyb2Vx0O9zFhJPrd9wOE6zI5A7tkkdV8adyvgUPgg3pUE8FdNykfazUh8=
+X-Received: by 2002:a2e:aaa5:0:b0:25b:ae57:4ad7 with SMTP id
+ bj37-20020a2eaaa5000000b0025bae574ad7mr18519162ljb.323.1656982458694; Mon, 04
+ Jul 2022 17:54:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YsNQP9UJ5faHNguC@antec>
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=7kjP=XK=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220629094026.558-1-dinghui@sangfor.com.cn>
+ <9f349685-b935-942b-57ac-ff5499cda210@redhat.com>
+ <bf4885f2-9ed5-2c17-0b2e-e3f677a52ed1@sangfor.com.cn>
+In-Reply-To: <bf4885f2-9ed5-2c17-0b2e-e3f677a52ed1@sangfor.com.cn>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 5 Jul 2022 08:54:07 +0800
+Message-ID: <CACGkMEtV+nETesuFv7VyA2V8Ni73phXFueCX9-GN+uts6H0-ug@mail.gmail.com>
+Subject: Re: [PATCH] e1000: set RX descriptor status in a separate operation
+To: Ding Hui <dinghui@sangfor.com.cn>
+Cc: asm@asm.pp.ru, qemu-devel <qemu-devel@nongnu.org>, zhangjing@sangfor.com.cn,
+ lifan38153@sangfor.com.cn, Stefan Hajnoczi <stefanha@gmail.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ qemu-stable@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,16 +98,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 05, 2022 at 05:40:31AM +0900, Stafford Horne wrote:
->   riscv{LE}--------------->goldfish_rtc{LE}
->   mips-longsoon3{LE}------>goldfish_rtc{LE}
->   openrisc{BE}------------>goldfish_rtc{LE} (LE to BE conversion done in driver)
->   m68k{BE}---------------->goldfish_rtc{BE} (only big-endian user)
+On Mon, Jul 4, 2022 at 5:05 PM Ding Hui <dinghui@sangfor.com.cn> wrote:
+>
+> On 2022/7/4 15:10, Jason Wang wrote:
+> >
+> > =E5=9C=A8 2022/6/29 17:40, Ding Hui =E5=86=99=E9=81=93:
+> >> @@ -1013,6 +1013,9 @@ e1000_receive_iov(NetClientState *nc, const
+> >> struct iovec *iov, int iovcnt)
+> >>               DBGOUT(RX, "Null RX descriptor!!\n");
+> >>           }
+> >>           pci_dma_write(d, base, &desc, sizeof(desc));
+> >> +        desc.status |=3D (vlan_status | E1000_RXD_STAT_DD);
+> >> +        pci_dma_write(d, base + offsetof(struct e1000_rx_desc, status=
+),
+> >> +                      &desc.status, sizeof(desc.status));
+> >
+> >
+> > Good catch, but to be more safe, I wonder if we can simply use
+> > stx_le_pci_dma() here?
+> >
+>
+> Do you mean stb_le_pci_dma(d, base + offsetof(struct e1000_rx_desc,
+> status), desc.status, MEMTXATTRS_UNSPECIFIED)?
+>
+> I checked both pci_dma_write() and stb_le_pci_dma(), there is no
+> difference between them,
 
-I wish the powers that be would lighten up a little bit and let us
-change m68k to be LE, and then we could avoid all this...
+I think the difference is that the stx_xxx() can guarantee the atomicy
+when it is allowed by the arch.
 
-Just a last grumble, I guess.
+> but I'm not sure whether it is proper to mixed
+> use address based api and value based api, besides that it's OK to me.
+>
+> Thanks for reply.
 
-Jason
+I apply this patch as is.
+
+Thanks
+
+>
+> --
+> Thanks,
+> - Ding Hui
+>
+>
+
 
