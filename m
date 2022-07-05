@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CDB566910
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 13:23:33 +0200 (CEST)
-Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE305668F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 13:14:13 +0200 (CEST)
+Received: from localhost ([::1]:56896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8geS-0006CT-NR
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 07:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40306)
+	id 1o8gVQ-0004vn-2c
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 07:14:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8gI6-0006wB-TR
+ id 1o8gI0-0006wC-3n
  for qemu-devel@nongnu.org; Tue, 05 Jul 2022 07:00:26 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39682)
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:37728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8gHq-0000gQ-Uf
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 07:00:16 -0400
-Received: by mail-pg1-x533.google.com with SMTP id q82so3900570pgq.6
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 04:00:10 -0700 (PDT)
+ id 1o8gHt-0000hU-B7
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 07:00:17 -0400
+Received: by mail-pl1-x633.google.com with SMTP id k14so10696698plh.4
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 04:00:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=z9HYnLroahrDAazMWts4PSFEzXJdvqtXFJupFoU2vN8=;
- b=dmooeY8oKJC/tJFBYkHpFo2ZVveFReLyXeuP5A2o5EkB7uwFfta93HEVsZzB3GN+5k
- bCA4IAJWKuSntcy4eqi1x+PHNtXhkpvQSSNO+a8mD3lfJFLW0Hk0m7f0w2TjY7a+xb4J
- BKkagPj9MbXxfNeCCV1z90k7/m7B36yrRTj7fbBRReIQAj0JtJepnhXksnwyozFw4FsP
- +AvPxGhCSDaOmGkxfzk1vqsziiuKxbEIMgnGNIUftqeoqHL82D/GnWXcluA8mD67radq
- r0QhEm0Po3ri4KBXp5rGmAxJikxzR/rgKaKc1CQdVQTekMWZPY7f30GA7NG3g2QZK7Pn
- YiIg==
+ bh=Ky07ThqARHiFkhWeIFBW8AVKAgEQoX250iifcE1+G+E=;
+ b=KmtB3jfzz+e1Wg51/pnc8hIK7nGZDNyHlF7SF6Xyjwe3WHxEg0PE1psm6Uca243pLX
+ mrPEyuRnSQ/uEacyX7/0nIhewkth3BQZgoptzfwoFZ/zZL+EMoIRPS/71xVZQUnPQjU9
+ OBOcC8wo2wnk1E+HZS5KALz4mIetaCAXLvtHMCf8heoFvrqtRwkf2tI+ozERf72Qs+dZ
+ WNAVXvuLGGW4Ew/fmozyTlFmVIdL9RO8KgQTYZeGxAqNNpPoBh9jZSbLxkYPM+a3DI5N
+ Ga8bx79bWKbffHSI0v86qrRyv0imKKZBuyrb1+p7iHnsBEU3hHRwmtnjNgOrki/+rkCX
+ M03Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z9HYnLroahrDAazMWts4PSFEzXJdvqtXFJupFoU2vN8=;
- b=NBpDRYNQ3srUD1NcE8tsenzbYo5r2ON8jyzfElLDDd68AirNauaj/xhTBz9hVa/Clw
- trxScUrEe7S/JYNHDwnwQiEn5SL+ONNvoEyQPm8DJ+BP0y1Dk+aAdBiES+29ZAYgmtWE
- 9aHjOwoTPTZ/0tPLPblgZWAOYlHEwsi++PZ1AVk+12X34nvU0WzlnX7MPOpRt21xptYr
- luMU6n0ah+os0xuav2EDfYsXUfWBhp+EovO/bQ3NIeRBMNHJPZJOD15/2VcaNC1uSwp7
- iZQedLJ0hdZui60yaritG/GlbYywOLRotkA0OoCs9U358WPJA0Jeflh0K3h2bgtzXZTj
- tyRg==
-X-Gm-Message-State: AJIora9z6sYm8ev7VO8EpjLUqJ0GNLEjPi7TuECCzfEMozxrEfuM2/bt
- UXNX3XkQvmuxitcMPA1HU+qo6+Xn0fQyMbqw
-X-Google-Smtp-Source: AGRyM1vXJHhXNyaLKWPfSGkJgueKVo8ySdY+uRwyDSpeJt7VU1+Ypr0GnqE7eoATHy62L2KpcStqwQ==
-X-Received: by 2002:a62:542:0:b0:525:a313:fe28 with SMTP id
- 63-20020a620542000000b00525a313fe28mr41719723pff.73.1657018809463; 
- Tue, 05 Jul 2022 04:00:09 -0700 (PDT)
+ bh=Ky07ThqARHiFkhWeIFBW8AVKAgEQoX250iifcE1+G+E=;
+ b=PlqV1qd9xV30rxe6qHhxa4yTy8eQwJKZAfHYLCN2osrz9cftbQ/C2FiNuoqmXYHN9H
+ Ss1ylGTJj6lhW1IKgkC7DzCtZ+DrpMV1QLdxhwCIU0sfC4006Nqav3d43WPnY8tnLyY9
+ SAS5PZfmY2uAaLFSbmwJ/xlDe9tsUwWABjgK48IKLq2qreY9mU4mwcwyss62BFtRk2nG
+ MqknzRc6kyoX74qVIrjaZL0zHvqsVB8cf+yFLcX1AuX84gyzPKJOV/rs7pdRHY6syF/R
+ eRG4kFtlGURMILK6nCocOKWZr7mSvaVzSI7prKar5NueqTU+pBP5kDt6ziPu9Z0O/64g
+ MODQ==
+X-Gm-Message-State: AJIora8WVtJEf5cdKeiNp0Q2g/ETauak7UjCHucchO33wVs5wJGzFiNA
+ lKy9PPp86UmgR8U2kV9IV7AolGHnd/lllzx4
+X-Google-Smtp-Source: AGRyM1vdVrE6wWXJkw7QAoqcSmFDDoO5q1NhrAVCbjaae0l2L40gpCR+DQrJx2V903RPhQ77ozDh5g==
+X-Received: by 2002:a17:902:d2c4:b0:16a:5c48:8312 with SMTP id
+ n4-20020a170902d2c400b0016a5c488312mr41318856plc.45.1657018811905; 
+ Tue, 05 Jul 2022 04:00:11 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- d18-20020a170903231200b0016bf7981d0bsm508454plh.86.2022.07.05.04.00.07
+ d18-20020a170903231200b0016bf7981d0bsm508454plh.86.2022.07.05.04.00.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 04:00:08 -0700 (PDT)
+ Tue, 05 Jul 2022 04:00:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Song Gao <gaosong@loongson.cn>
-Subject: [PULL 2/6] target/loongarch: Clean up tlb when cpu reset
-Date: Tue,  5 Jul 2022 16:29:53 +0530
-Message-Id: <20220705105957.1144514-4-richard.henderson@linaro.org>
+Subject: [PULL 3/6] scripts/qemu-binfmt-conf: Add LoongArch to
+ qemu_get_family()
+Date: Tue,  5 Jul 2022 16:29:54 +0530
+Message-Id: <20220705105957.1144514-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220705105957.1144514-1-richard.henderson@linaro.org>
 References: <20220705105957.1144514-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,28 +90,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Song Gao <gaosong@loongson.cn>
 
-We should make sure that tlb is clean when cpu reset.
+qemu_get_family() needs to add LoongArch support.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20220705070950.2364243-1-gaosong@loongson.cn>
+Message-Id: <20220705065943.2353930-1-gaosong@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/qemu-binfmt-conf.sh | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index d2d4667a34..e21715592a 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -479,6 +479,7 @@ static void loongarch_cpu_reset(DeviceState *dev)
- 
- #ifndef CONFIG_USER_ONLY
-     env->pc = 0x1c000000;
-+    memset(env->tlb, 0, sizeof(env->tlb));
- #endif
- 
-     restore_fp_status(env);
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index 1f4e2cd19d..6ef9f118d9 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -171,6 +171,9 @@ qemu_get_family() {
+     riscv*)
+         echo "riscv"
+         ;;
++    loongarch*)
++        echo "loongarch"
++        ;;
+     *)
+         echo "$cpu"
+         ;;
 -- 
 2.34.1
 
