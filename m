@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236FB567376
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:52:10 +0200 (CEST)
-Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A11FF567341
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:51:16 +0200 (CEST)
+Received: from localhost ([::1]:55638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8kqO-0003iw-M9
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:52:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52748)
+	id 1o8kpX-0002OP-NO
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:51:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1o8kkT-0002uO-Im
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:46:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40520)
+ id 1o8kks-0003Cz-Tm
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:46:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1o8kkQ-0000lA-8O
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:45:59 -0400
+ id 1o8kkr-0000uB-B1
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:46:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657035957;
+ s=mimecast20190719; t=1657035984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=G9adjm0m8uFJoyqiNFJvAGfDf7Uv2uaAMpXb3irjPy0=;
- b=Ejo3Z2lH92XWQvYdjZ38ccrRxuOJYuXRLCea5hEhmyu0vJUhD5KrIyaT3LK1d/4qeFM7mh
- /Sa1HEPFGxpAe8h7YHEFGp1SSADo2kciCZOJxBp85ybTSBVUJOPuLNkp5gDmpnrxbth5pL
- cYigWKGEHG4gqCt9fs1Ff64PpogjnL8=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JwovsujzbZmgmP9oP2fwtYAMASJJDYhFMg7gcn5z/Bc=;
+ b=DVjdcAFA0hfRGSOeozXGEMeGhA/4o0bJ4Uc72fJp6KRs/oV0JJTjDR2J+rmImcTLBmyn3q
+ 19geL/X8NBKlminbOFffOpCgE/1PcAHBgMAUe7OD31ZzjQpfSRyNeaqc7u8RpzFsh+XElA
+ GasfpvppIJVhOLHmogYaFqzltr2K0ic=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-271-DvvV1aXRNKmHP0AVTuTN-Q-1; Tue, 05 Jul 2022 11:45:56 -0400
-X-MC-Unique: DvvV1aXRNKmHP0AVTuTN-Q-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-31c9d560435so36418057b3.21
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 08:45:56 -0700 (PDT)
+ us-mta-643-dxcSc3NtPjSVYzNf6EQupw-1; Tue, 05 Jul 2022 11:46:22 -0400
+X-MC-Unique: dxcSc3NtPjSVYzNf6EQupw-1
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-31c9d560435so36425747b3.21
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 08:46:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:references:mime-version:in-reply-to:date
  :message-id:subject:to:cc;
- bh=G9adjm0m8uFJoyqiNFJvAGfDf7Uv2uaAMpXb3irjPy0=;
- b=N6E5UyHeJAWly/OYWiT04Jh1RGxvZ1FOQCeiF678XGy+Sm9p8zSIDt8rvBlzVLILmT
- 3A/Ca8ZKBUi1a+LmCGC+SJJW1aQ/tzoe4KtmTiHVFO76BIs/u6C/1eASRSORAjLGxww6
- t9vUDp584HrBfUQRrJJrcCjdKmQV4JdCTX7HEnqWx560fW8htf3LEqfyrCSsaydDJPpD
- kQNkwlv843AbXazAmNOS1ZW/2i2P1O5AAULLhKp48Wh2G7LfqZqAvklZ1anMKpljVSGJ
- oDISVOs2nVA6fwZtGGbYWFyO+GToUiYkMBpXchyAMCWfPk/VwnpUKCi5lihhvN23Shti
- Cnrg==
-X-Gm-Message-State: AJIora/D8Gt3E7O9/BKccuL7hBePz30e1TNfUte7vAAXPVnYwkLE862G
- Qj3Vlez1gAOKCYqqWAtwOHhGuaIXlBzArawm5zW+Fv9rj//xvb89Hkjp3paKqh9udUQr6gADQKP
- /o+uqZ/T7Cdh3elJs9Ey34PHlwonDVc8=
-X-Received: by 2002:a81:4904:0:b0:31c:9be2:f0c0 with SMTP id
- w4-20020a814904000000b0031c9be2f0c0mr12066224ywa.72.1657035955461; 
- Tue, 05 Jul 2022 08:45:55 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t2D+a2t1tXqIZJU+d2oKGs5HA9zRNO47y37iibq80PZ5hj+94wjHIMMxO5qfXCLWPoJ5P4ZIqzdFXC5AT6Des=
-X-Received: by 2002:a81:4904:0:b0:31c:9be2:f0c0 with SMTP id
- w4-20020a814904000000b0031c9be2f0c0mr12066203ywa.72.1657035955198; Tue, 05
- Jul 2022 08:45:55 -0700 (PDT)
+ bh=JwovsujzbZmgmP9oP2fwtYAMASJJDYhFMg7gcn5z/Bc=;
+ b=14v81XF6Sn9SP+iNlpFDXD27lvkjtJvP13egApe+gY7Up0b9P3cAVWNxtcfn7LXjfK
+ k43Qqg8sJDEKJmwpdCeCJmphYnbdeuAV0vj62s7LMe4MY98TUiMlQNaSQzczsWe2JXc9
+ THw1Tg9NXtxj/DZTTkOfByyouLoal5amnRXWm0v1GEZU8jIdz5ZHcSEvUbpR7iRp9L2y
+ eLKaO1F9guwfmO0cZLUpI62mMQTt3TRKD4Xucgn5bJ0L9XzF3Bs6EVoi5MAD2QmXWZ0F
+ 861zz9d4iGbxgCreTNcNfR3Hsi6hDEr3ptG40FXYrIqmSiddsEsRN/JlMvD96zdNrCNF
+ G58Q==
+X-Gm-Message-State: AJIora8yPNoDJPjRjgPUdY2Ld50vHsWUcmByNG81mJ2OrftBAuu/3i/P
+ maPVql6oTaS2cgT/3gyb3EwDX+LhNoE5c1xf1DyJNGA2qCKbpqKYyRiqJ5dMolG2JcTSKfSWF2o
+ kNLLK3bRsW/gXrkdRr0szDzwwfr0IegM=
+X-Received: by 2002:a81:1090:0:b0:31c:9be5:6c95 with SMTP id
+ 138-20020a811090000000b0031c9be56c95mr12106540ywq.384.1657035981811; 
+ Tue, 05 Jul 2022 08:46:21 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uqtJBP+23zEnrdiSE9zzRixz/dwVYmL6CrF+iz+xQltRecElhJX48PLv4gVLbQLMROAcslxGjsGUqcpAX8Ckk=
+X-Received: by 2002:a81:1090:0:b0:31c:9be5:6c95 with SMTP id
+ 138-20020a811090000000b0031c9be56c95mr12106519ywq.384.1657035981582; Tue, 05
+ Jul 2022 08:46:21 -0700 (PDT)
 Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 5 Jul 2022 08:45:54 -0700
+ HTTPREST; Tue, 5 Jul 2022 08:46:21 -0700
 From: Andrea Bolognani <abologna@redhat.com>
 References: <20220617121932.249381-1-victortoso@redhat.com>
- <20220617121932.249381-6-victortoso@redhat.com>
+ <20220617121932.249381-8-victortoso@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220617121932.249381-6-victortoso@redhat.com>
-Date: Tue, 5 Jul 2022 08:45:54 -0700
-Message-ID: <CABJz62MhUS4LNOWNwPdf0vwwL2JMUzkmLrPBotezchyomGg58Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 5/8] qapi: golang: Generate qapi's event types in Go
+In-Reply-To: <20220617121932.249381-8-victortoso@redhat.com>
+Date: Tue, 5 Jul 2022 08:46:21 -0700
+Message-ID: <CABJz62P5-Dxy5fcb9wh-xo9_EX4K89F+2Pnydayg+T6eAt3pkw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 7/8] qapi: golang: Add CommandResult type to Go
 To: Victor Toso <victortoso@redhat.com>
 Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
  Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>, 
@@ -80,7 +80,6 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,259 +96,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 17, 2022 at 02:19:29PM +0200, Victor Toso wrote:
-> This patch handles QAPI event types and generates data structures in
-> Go that handles it.
->
-> We also define a Event interface and two helper functions MarshalEvent
-> and UnmarshalEvent.
->
-> At the moment of this writing, this patch generates 51 structures (50
-> events)
->
-> Example:
->
-> qapi:
->   | { 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
->   |   'data': { '*id': 'str', 'size': 'size', 'qom-path' : 'str'} }
->
-> go:
->   | type MemoryDeviceSizeChangeEvent struct {
->   |         EventTimestamp Timestamp `json:"-"`
->   |         Id             *string   `json:"id,omitempty"`
->   |         Size           uint64    `json:"size"`
->   |         QomPath        string    `json:"qom-path"`
->   | }
->
-> usage:
->   | input := `{"event":"MEMORY_DEVICE_SIZE_CHANGE",` +
->   |     `"timestamp":{"seconds":1588168529,"microseconds":201316},` +
->   |     `"data":{"id":"vm0","size":1073741824,"qom-path":"/machine/unattached/device[2]"}}`
->   | e, err := UnmarshalEvent([]byte(input)
->   | if err != nil {
->   |     panic(err)
->   | }
->   | if e.GetName() == `MEMORY_DEVICE_SIZE_CHANGE` {
->   |     m := e.(*MemoryDeviceSizeChangeEvent)
->   |     // m.QomPath == "/machine/unattached/device[2]"
->   | }
+On Fri, Jun 17, 2022 at 02:19:31PM +0200, Victor Toso wrote:
+> +type EmptyCommandReturn struct {
+> +    CommandId string          `json:"id,omitempty"`
+> +    Error     *QapiError      `json:"error,omitempty"`
+> +    Name      string          `json:"-"`
+> +}
 
-Generated code:
+Do we need a specific type for this? Can't we just generate an
+appropriately-named type for each of the commands that don't return
+any data? It's not like we would have to write that code manually :)
 
-> type AcpiDeviceOstEvent struct {
->     EventTimestamp Timestamp   `json:"-"`
+> +func (r *EmptyCommandReturn) GetCommandName() string {
+> +    return r.Name
+> +}
 
-Any reason for naming this EventTimestamp as opposed to just
-Timestamp?
+Just like Event.GetName() and Command.GetName(), I'm not convinced we
+should have this.
 
->     Info           ACPIOSTInfo `json:"info"`
-> }
->
-> func (s *AcpiDeviceOstEvent) GetName() string {
->     return "ACPI_DEVICE_OST"
-> }
 
-Getters in Go don't usually start with "Get", so this could be just
-Name(). And pointer receivers are usually only recommended when the
-underlying object needs to be modified, which is not the case here.
-
-> func (s *AcpiDeviceOstEvent) GetTimestamp() Timestamp {
->     return s.EventTimestamp
-> }
-
-Does this even need a getter? The struct member is public, and Go
-code seems to favor direct member access.
-
-> type Timestamp struct {
->     Seconds      int64 `json:"seconds"`
->     Microseconds int64 `json:"microseconds"`
-> }
->
-> type Event interface {
->     GetName() string
->     GetTimestamp() Timestamp
-> }
->
-> func MarshalEvent(e Event) ([]byte, error) {
->     baseStruct := struct {
->         Name           string    `json:"event"`
->         EventTimestamp Timestamp `json:"timestamp"`
->     }{
->         Name:           e.GetName(),
->         EventTimestamp: e.GetTimestamp(),
->     }
->     base, err := json.Marshal(baseStruct)
->     if err != nil {
->         return []byte{}, err
->     }
->
->     dataStruct := struct {
->         Payload Event `json:"data"`
->     }{
->         Payload: e,
->     }
->     data, err := json.Marshal(dataStruct)
->     if err != nil {
->         return []byte{}, err
->     }
->
->     if len(data) == len(`{"data":{}}`) {
->         return base, nil
->     }
->
->     // Combines Event's base and data in a single JSON object
->     result := fmt.Sprintf("%s,%s", base[:len(base)-1], data[1:])
->     return []byte(result), nil
-> }
-
-I have the same concerns about the string manipulation going on here
-as I had for unions. Here's an alternative implementation, and this
-time I've even tested it :)
-
-  func (s AcpiDeviceOstEvent) MarshalJSON() ([]byte, error) {
-      type eventData struct {
-          Info ACPIOSTInfo `json:"info"`
-      }
-      type event struct {
-          Name      string    `json:"event"`
-          Timestamp Timestamp `json:"timestamp"`
-          Data      eventData `json:"data"`
-      }
-
-      tmp := event{
-          Name:      "ACPI_DEVICE_OST",
-          Timestamp: s.EventTimestamp,
-          Data:      eventData{
-              Info: s.Info,
-          },
-      }
-      return json.Marshal(tmp)
-  }
-
-> func UnmarshalEvent(data []byte) (Event, error) {
->     base := struct {
->         Name           string    `json:"event"`
->         EventTimestamp Timestamp `json:"timestamp"`
->     }{}
->     if err := json.Unmarshal(data, &base); err != nil {
->         return nil, errors.New(fmt.Sprintf("Failed to decode event: %s", string(data)))
->     }
->
->     switch base.Name {
->
->     case "ACPI_DEVICE_OST":
->         event := struct {
->             Data AcpiDeviceOstEvent `json:"data"`
->         }{}
->
->         if err := json.Unmarshal(data, &event); err != nil {
->             return nil, errors.New(fmt.Sprintf("Failed to unmarshal: %s", string(data)))
->         }
->         event.Data.EventTimestamp = base.EventTimestamp
->         return &event.Data, nil
->
->     // more cases here
->     }
->     return nil, errors.New("Failed to recognize event")
-> }
-
-While I understand the need to have some way to figure out exactly
-what type of event we're looking at before being able to unmarshal
-the JSON data, I don't like how we force users to go through a
-non-standard API for it.
-
-Here's how I think we should do it:
-
-  func GetEventType(data []byte) (Event, error) {
-      type event struct {
-          Name string `json:"event"`
-      }
-
-      tmp := event{}
-      if err := json.Unmarshal(data, &tmp); err != nil {
-          return nil, errors.New(fmt.Sprintf("Failed to decode event:
-%s", string(data)))
-      }
-
-      switch tmp.Name {
-      case "ACPI_DEVICE_OST":
-          return &AcpiDeviceOstEvent{}, nil
-
-      // more cases here
-      }
-
-      return nil, errors.New("Failed to recognize event")
-  }
-
-  func (s *AcpiDeviceOstEvent) UnmarshalJSON(data []byte) error {
-      type eventData struct {
-          Info ACPIOSTInfo `json:"info"`
-      }
-      type event struct {
-          Name           string    `json:"event"`
-          EventTimestamp Timestamp `json:"timestamp"`
-          Data           eventData `json:"data"`
-      }
-
-      tmp := event{}
-      err := json.Unmarshal(data, &tmp)
-      if err != nil {
-          return err
-      }
-      if tmp.Name != "ACPI_DEVICE_OST" {
-          return errors.New("name")
-      }
-
-      s.EventTimestamp = tmp.EventTimestamp
-      s.Info = tmp.Data.Info
-      return nil
-  }
-
-This way, client code can look like
-
-  in := `{"event":"ACPI_DEVICE_OST","timestamp":{"seconds":1265044230,"microseconds":450486},"data":{"info":{"device":"d1","slot":"0","slot-type":"DIMM","source":1,"status":0}}}`
-
-  e, err := qapi.GetEventType([]byte(in))
-  if err != nil {
-      panic(err)
-  }
-  // e is of type AcpiDeviceOstEvent
-
-  err = json.Unmarshal([]byte(in), &e)
-  if err != nil {
-      panic(err)
-  }
-
-where only the first part (figuring out the type of the event) needs
-custom APIs, and the remaining code looks just like your average JSON
-handling.
-
-Speaking of client code, in the commit message you have
-
-> input := `{"event":"MEMORY_DEVICE_SIZE_CHANGE",` +
->     `"timestamp":{"seconds":1588168529,"microseconds":201316},` +
->     `"data":{"id":"vm0","size":1073741824,"qom-path":"/machine/unattached/device[2]"}}`
-> e, err := UnmarshalEvent([]byte(input)
-> if err != nil {
->     panic(err)
-> }
-> if e.GetName() == `MEMORY_DEVICE_SIZE_CHANGE` {
->     m := e.(*MemoryDeviceSizeChangeEvent)
->     // m.QomPath == "/machine/unattached/device[2]"
-> }
-
-I don't think we should encourage the use of string comparison for
-the purpose of going from a generic Event instance to a specific one:
-a better way would be to use Go's type switch feature, such as
-
-  switch m := e.(type) {
-      case *MemoryDeviceSizeChangeEvent:
-          // m.QomPath == "/machine/unattached/device[2]"
-  }
-
-In fact, I don't really see a reason to provide the Name() getter
-outside of possibly diagnostics, and given the potential of it being
-misused I would argue that it might be better not to have it.
+Of course, all the comments about how marshalling and unmarshalling
+are handled made for events also apply here.
 
 -- 
 Andrea Bolognani / Red Hat / Virtualization
