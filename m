@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E36566549
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:44:01 +0200 (CEST)
-Received: from localhost ([::1]:37192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 469A756655E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:47:25 +0200 (CEST)
+Received: from localhost ([::1]:40298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8eA4-00062E-D1
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:44:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41028)
+	id 1o8eDM-0008ET-BF
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:47:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1o8e8h-0004UI-If
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:42:35 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:34986 helo=loongson.cn)
+ id 1o8eAC-0006vX-CH
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:44:10 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:35520 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1o8e8f-0005k8-0I
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:42:35 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1o8eAA-0005sE-3M
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:44:08 -0400
 Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxKeFy+cNitSEKAA--.30591S3; 
- Tue, 05 Jul 2022 16:42:27 +0800 (CST)
-Subject: Re: [PATCH] hw/rtc/ls7a_rtc: Drop unused inline functions
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axj+LT+cNiOCIKAA--.31110S3; 
+ Tue, 05 Jul 2022 16:44:03 +0800 (CST)
+Subject: Re: [PATCH] tcg/tci: Remove CONFIG_DEBUG_TCG_INTERPRETER
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: thuth@redhat.com, yangxiaojuan@loongson.cn
-References: <20220705082836.1141160-1-richard.henderson@linaro.org>
+References: <20220705083623.1142250-1-richard.henderson@linaro.org>
 From: gaosong <gaosong@loongson.cn>
-Message-ID: <2fe2a1f0-12e9-b9c6-a16b-461a7ac3338b@loongson.cn>
-Date: Tue, 5 Jul 2022 16:42:26 +0800
+Message-ID: <fbab34ac-9568-35bd-b91e-cf607f5f7636@loongson.cn>
+Date: Tue, 5 Jul 2022 16:44:03 +0800
 User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20220705082836.1141160-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220705083623.1142250-1-richard.henderson@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------92ADAB78EBB612E32E3FD046"
 Content-Language: en-US
-X-CM-TRANSID: AQAAf9AxKeFy+cNitSEKAA--.30591S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxWFW3ZryxKrWDKrW5WryrtFb_yoW5Xr4UpF
- W3Cas7GF4jqasF9FW8trWqyryYywsrAF95tr1DC3yvk3ZrX34kWFykJ3y2yryDuFW0qr45
- CrW3AF4Fga12v37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU901xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
- 87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
- Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
- 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
- 1lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svP
- MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq
- 3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIda
- VFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-TRANSID: AQAAf9Axj+LT+cNiOCIKAA--.31110S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cr4DGw43AFW7Kw1ftF1xGrg_yoW8XFyxp3
+ 93KF1vyr4rt3y8Cr15Aa48tr18JrnY9a4UCa97Gw4jvasIvay8Xw4rKw47JryxXayxGay0
+ vF9avr4YvFWUJaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvqb7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+ cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
+ AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
+ 6F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI
+ 0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAv7VC0I7IYx2IY67AKxVWUGVWUXwAv
+ 7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx8Gjc
+ xK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY
+ 0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
+ C20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
+ wI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
+ v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6Fyj6rWUJwCI42IY6I8E
+ 87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0x
+ ZFpf9x07UAR6wUUUUU=
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,86 +75,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a multi-part message in MIME format.
+--------------92ADAB78EBB612E32E3FD046
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2022/7/5 下午4:28, Richard Henderson wrote:
-> Remove toy_val_to_time_mon and toy_val_to_time_year as unused,
-> and to avoid a build failure with clang.  Remove all of the
-> other inline markers foo so that this does not creep back in.
+
+On 2022/7/5 下午4:36, Richard Henderson wrote:
+> There is nothing in this environment variable that cannot
+> be done better with -d flags.  There is nothing special
+> about TCI that warrants this hack.
 >
+> Moreover, it does not compile -- remove it.
+>
+> Reported-by: Song Gao <gaosong@loongson.cn>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
 
-Sorry for this problem,  We need more CI tests before push code.
-
 Reviewed-by: Song Gao <gaosong@loongson.cn>
 
->   hw/rtc/ls7a_rtc.c | 27 ++++++---------------------
->   1 file changed, 6 insertions(+), 21 deletions(-)
+>   tcg/tci/tcg-target.h     | 5 -----
+>   tcg/tci/tcg-target.c.inc | 7 -------
+>   2 files changed, 12 deletions(-)
 >
-> diff --git a/hw/rtc/ls7a_rtc.c b/hw/rtc/ls7a_rtc.c
-> index e8b75701e4..1f9e38a735 100644
-> --- a/hw/rtc/ls7a_rtc.c
-> +++ b/hw/rtc/ls7a_rtc.c
-> @@ -86,46 +86,31 @@ struct LS7ARtcState {
->   };
+> diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+> index 033e613f24..ceb36c4f7a 100644
+> --- a/tcg/tci/tcg-target.h
+> +++ b/tcg/tci/tcg-target.h
+> @@ -53,11 +53,6 @@
+>   # error Unknown pointer size for tci target
+>   #endif
 >   
->   /* switch nanoseconds time to rtc ticks */
-> -static inline uint64_t ls7a_rtc_ticks(void)
-> +static uint64_t ls7a_rtc_ticks(void)
->   {
->       return qemu_clock_get_ns(rtc_clock) * LS7A_RTC_FREQ / NANOSECONDS_PER_SECOND;
->   }
->   
->   /* switch rtc ticks to nanoseconds */
-> -static inline uint64_t ticks_to_ns(uint64_t ticks)
-> +static uint64_t ticks_to_ns(uint64_t ticks)
->   {
->       return ticks * NANOSECONDS_PER_SECOND / LS7A_RTC_FREQ;
->   }
->   
-> -static inline bool toy_enabled(LS7ARtcState *s)
-> +static bool toy_enabled(LS7ARtcState *s)
->   {
->       return FIELD_EX32(s->cntrctl, RTC_CTRL, TOYEN) &&
->              FIELD_EX32(s->cntrctl, RTC_CTRL, EO);
->   }
->   
-> -static inline bool rtc_enabled(LS7ARtcState *s)
-> +static bool rtc_enabled(LS7ARtcState *s)
->   {
->       return FIELD_EX32(s->cntrctl, RTC_CTRL, RTCEN) &&
->              FIELD_EX32(s->cntrctl, RTC_CTRL, EO);
->   }
->   
-> -/* parse toy value to struct tm */
-> -static inline void toy_val_to_time_mon(uint64_t toy_val, struct tm *tm)
-> -{
-> -    tm->tm_sec = FIELD_EX32(toy_val, TOY, SEC);
-> -    tm->tm_min = FIELD_EX32(toy_val, TOY, MIN);
-> -    tm->tm_hour = FIELD_EX32(toy_val, TOY, HOUR);
-> -    tm->tm_mday = FIELD_EX32(toy_val, TOY, DAY);
-> -    tm->tm_mon = FIELD_EX32(toy_val, TOY, MON) - 1;
-> -}
+> -#ifdef CONFIG_DEBUG_TCG
+> -/* Enable debug output. */
+> -#define CONFIG_DEBUG_TCG_INTERPRETER
+> -#endif
 > -
-> -static inline void toy_val_to_time_year(uint64_t toy_year, struct tm *tm)
-> -{
-> -    tm->tm_year = toy_year;
-> -}
+>   /* Optional instructions. */
+>   
+>   #define TCG_TARGET_HAS_bswap16_i32      1
+> diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+> index 98337c567a..f3d7441e06 100644
+> --- a/tcg/tci/tcg-target.c.inc
+> +++ b/tcg/tci/tcg-target.c.inc
+> @@ -823,13 +823,6 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+>   
+>   static void tcg_target_init(TCGContext *s)
+>   {
+> -#if defined(CONFIG_DEBUG_TCG_INTERPRETER)
+> -    const char *envval = getenv("DEBUG_TCG");
+> -    if (envval) {
+> -        qemu_set_log(strtol(envval, NULL, 0));
+> -    }
+> -#endif
 > -
->   /* parse struct tm to toy value */
-> -static inline uint64_t toy_time_to_val_mon(struct tm *tm)
-> +static uint64_t toy_time_to_val_mon(const struct tm *tm)
->   {
->       uint64_t val = 0;
+>       /* The current code uses uint8_t for tcg operations. */
+>       tcg_debug_assert(tcg_op_defs_max <= UINT8_MAX);
 >   
-> @@ -137,7 +122,7 @@ static inline uint64_t toy_time_to_val_mon(struct tm *tm)
->       return val;
->   }
->   
-> -static inline void toymatch_val_to_time(LS7ARtcState *s, uint64_t val, struct tm *tm)
-> +static void toymatch_val_to_time(LS7ARtcState *s, uint64_t val, struct tm *tm)
->   {
->       qemu_get_timedate(tm, s->offset_toy);
->       tm->tm_sec = FIELD_EX32(val, TOY_MATCH, SEC);
+
+--------------92ADAB78EBB612E32E3FD046
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2022/7/5 下午4:36, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20220705083623.1142250-1-richard.henderson@linaro.org">
+      <pre class="moz-quote-pre" wrap="">There is nothing in this environment variable that cannot
+be done better with -d flags.  There is nothing special
+about TCI that warrants this hack.
+
+Moreover, it does not compile -- remove it.
+
+Reported-by: Song Gao <a class="moz-txt-link-rfc2396E" href="mailto:gaosong@loongson.cn">&lt;gaosong@loongson.cn&gt;</a>
+Signed-off-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
+---</pre>
+    </blockquote>
+    <pre style="color: rgb(0, 0, 0); font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; overflow-wrap: break-word;" wrap="soft">Reviewed-by: Song Gao <a class="moz-txt-link-rfc2396E" href="mailto:gaosong@loongson.cn">&lt;gaosong@loongson.cn&gt;</a></pre>
+    <blockquote type="cite"
+      cite="mid:20220705083623.1142250-1-richard.henderson@linaro.org">
+      <pre class="moz-quote-pre" wrap="">
+ tcg/tci/tcg-target.h     | 5 -----
+ tcg/tci/tcg-target.c.inc | 7 -------
+ 2 files changed, 12 deletions(-)
+
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index 033e613f24..ceb36c4f7a 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -53,11 +53,6 @@
+ # error Unknown pointer size for tci target
+ #endif
+ 
+-#ifdef CONFIG_DEBUG_TCG
+-/* Enable debug output. */
+-#define CONFIG_DEBUG_TCG_INTERPRETER
+-#endif
+-
+ /* Optional instructions. */
+ 
+ #define TCG_TARGET_HAS_bswap16_i32      1
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 98337c567a..f3d7441e06 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -823,13 +823,6 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+ 
+ static void tcg_target_init(TCGContext *s)
+ {
+-#if defined(CONFIG_DEBUG_TCG_INTERPRETER)
+-    const char *envval = getenv("DEBUG_TCG");
+-    if (envval) {
+-        qemu_set_log(strtol(envval, NULL, 0));
+-    }
+-#endif
+-
+     /* The current code uses uint8_t for tcg operations. */
+     tcg_debug_assert(tcg_op_defs_max &lt;= UINT8_MAX);
+ 
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------92ADAB78EBB612E32E3FD046--
 
 
