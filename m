@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34375671CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:03:42 +0200 (CEST)
-Received: from localhost ([::1]:34024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEEB356720D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:06:59 +0200 (CEST)
+Received: from localhost ([::1]:40730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8k5V-0007uJ-VI
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:03:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40416)
+	id 1o8k8h-00045j-0r
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:06:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=52tn=XK=kaod.org=clg@ozlabs.org>)
- id 1o8k0f-0001Qn-Uy; Tue, 05 Jul 2022 10:58:42 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:36193
+ id 1o8k0i-0001Th-0k; Tue, 05 Jul 2022 10:58:45 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:42629
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=52tn=XK=kaod.org=clg@ozlabs.org>)
- id 1o8k0e-00011a-7I; Tue, 05 Jul 2022 10:58:41 -0400
+ id 1o8k0g-00012t-Er; Tue, 05 Jul 2022 10:58:43 -0400
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4Lcm5S5St0z4xj4;
- Wed,  6 Jul 2022 00:58:36 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4Lcm5X0bFvz4xj3;
+ Wed,  6 Jul 2022 00:58:40 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Lcm5P6wXHz4xj3;
- Wed,  6 Jul 2022 00:58:33 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Lcm5T20nxz4xj5;
+ Wed,  6 Jul 2022 00:58:37 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org,
 	qemu-devel@nongnu.org
@@ -36,9 +36,9 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 4/5] ppc/e500: Allocate IRQ lines with qdev_init_gpio_in()
-Date: Tue,  5 Jul 2022 16:58:13 +0200
-Message-Id: <20220705145814.461723-5-clg@kaod.org>
+Subject: [PATCH 5/5] ppc: Remove unused irq_inputs
+Date: Tue,  5 Jul 2022 16:58:14 +0200
+Message-Id: <20220705145814.461723-6-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220705145814.461723-1-clg@kaod.org>
 References: <20220705145814.461723-1-clg@kaod.org>
@@ -71,52 +71,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/e500.c | 8 ++++----
- hw/ppc/ppc.c  | 5 +----
- 2 files changed, 5 insertions(+), 8 deletions(-)
+ target/ppc/cpu.h      | 1 -
+ target/ppc/cpu_init.c | 5 -----
+ 2 files changed, 6 deletions(-)
 
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 7f7f5b345260..757cfaa62f8a 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -861,7 +861,6 @@ void ppce500_init(MachineState *machine)
-     for (i = 0; i < smp_cpus; i++) {
-         PowerPCCPU *cpu;
-         CPUState *cs;
--        qemu_irq *input;
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 6d78078f379d..2166d2c4b692 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1172,7 +1172,6 @@ struct CPUArchState {
+      * by recent Book3s compatible CPUs (POWER7 and newer).
+      */
+     uint32_t irq_input_state;
+-    void **irq_inputs;
  
-         cpu = POWERPC_CPU(object_new(machine->cpu_type));
-         env = &cpu->env;
-@@ -885,9 +884,10 @@ void ppce500_init(MachineState *machine)
-             firstenv = env;
-         }
+     target_ulong excp_vectors[POWERPC_EXCP_NB]; /* Exception vectors */
+     target_ulong excp_prefix;
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index c16cb8dbe7a5..9f9a8e998e7c 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -6672,7 +6672,6 @@ static void init_ppc_proc(PowerPCCPU *cpu)
+ #if !defined(CONFIG_USER_ONLY)
+     int i;
  
--        input = (qemu_irq *)env->irq_inputs;
--        irqs[i].irq[OPENPIC_OUTPUT_INT] = input[PPCE500_INPUT_INT];
--        irqs[i].irq[OPENPIC_OUTPUT_CINT] = input[PPCE500_INPUT_CINT];
-+        irqs[i].irq[OPENPIC_OUTPUT_INT] =
-+            qdev_get_gpio_in(DEVICE(cpu), PPCE500_INPUT_INT);
-+        irqs[i].irq[OPENPIC_OUTPUT_CINT] =
-+            qdev_get_gpio_in(DEVICE(cpu), PPCE500_INPUT_CINT);
-         env->spr_cb[SPR_BOOKE_PIR].default_value = cs->cpu_index = i;
-         env->mpic_iack = pmc->ccsrbar_base + MPC8544_MPIC_REGS_OFFSET + 0xa0;
- 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index 161e5f9087b7..690f448cb941 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -474,10 +474,7 @@ static void ppce500_set_irq(void *opaque, int pin, int level)
- 
- void ppce500_irq_init(PowerPCCPU *cpu)
- {
--    CPUPPCState *env = &cpu->env;
--
--    env->irq_inputs = (void **)qemu_allocate_irqs(&ppce500_set_irq,
--                                                  cpu, PPCE500_INPUT_NB);
-+    qdev_init_gpio_in(DEVICE(cpu), ppce500_set_irq, PPCE500_INPUT_NB);
- }
- 
- /* Enable or Disable the E500 EPR capability */
+-    env->irq_inputs = NULL;
+     /* Set all exception vectors to an invalid address */
+     for (i = 0; i < POWERPC_EXCP_NB; i++) {
+         env->excp_vectors[i] = (target_ulong)(-1ULL);
+@@ -6802,10 +6801,6 @@ static void init_ppc_proc(PowerPCCPU *cpu)
+         /* Pre-compute some useful values */
+         env->tlb_per_way = env->nb_tlb / env->nb_ways;
+     }
+-    if (env->irq_inputs == NULL) {
+-        warn_report("no internal IRQ controller registered."
+-                    " Attempt QEMU to crash very soon !");
+-    }
+ #endif
+     if (env->check_pow == NULL) {
+         warn_report("no power management check handler registered."
 -- 
 2.35.3
 
