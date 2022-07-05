@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002145676C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 20:47:55 +0200 (CEST)
-Received: from localhost ([::1]:41224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E93CE56769D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 20:37:58 +0200 (CEST)
+Received: from localhost ([::1]:54086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8naU-0007Yw-Hu
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 14:47:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37944)
+	id 1o8nQs-0005FY-0p
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 14:37:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o8nFV-0001DU-4Y
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 14:26:14 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:47188)
+ id 1o8nFo-0001fm-Ar
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 14:26:32 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:18632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o8nFT-0002J2-4k
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 14:26:12 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 265HEVkJ009117;
- Tue, 5 Jul 2022 18:25:56 GMT
+ id 1o8nFm-0002Kr-E5
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 14:26:32 -0400
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 265HEEnB002444;
+ Tue, 5 Jul 2022 18:26:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=message-id : date :
- from : subject : to : cc : references : in-reply-to : content-type :
+ subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=SUP32C+rZaJZ7YsimHSLeF1Hyc6eDcoJP7qJfU3ZgQo=;
- b=u3wSgAoT9/nz4RpSLBUgCKKEY48ZqOuQkUfKy119PRteCGHryUlh8OTY/AzboYgRFwTf
- MgxuRSlZyRmtLpuPBwVxfZ/klgpz3+Q7LHrn6AVCepV69K7eEGQI1oM+u+gJhTKjRwwl
- 7R76ASb9Y+d0QO0ucM96RFBdtIArfvnZw5El5XLDvbtUKDgq3OOHUc8EWnVnlbKKc3jG
- 1YE5LZTzGY8WFFk2fQA26pDYQ41IFeQo+CJ+x5f5d9aJ68ux3kzMeiExi4qtN85sNiSq
- ADZxTlsg+z+/JnY/83vpbqJ0aa6hagPAsdCWF0C1+XnG6n+XQ3KatOzMeYG6mEWT/Pxz cA== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h2cm0q2v0-1
+ bh=vVuLXgrpyQCJ0+82osYCAHdHnU0quGwDoJy96tsfiWg=;
+ b=bJrM6FV04zDsObVKFJRLomN9G0kRlpisiHkz7EuY32UB1bSJ2R4Rf/mkMVBje2xYUCHp
+ lZ9W4XzXxstucIy3xgy9Fwm684gJqt+67dzwurDLnddm/neqwYGKSd2uRIjrJWbVbQ/7
+ 8NI+MgZoJXJI134SFoUXwZHuL329f+xL1u9b5sczP2JQilUHYo4JWdSa7uFNCndOnVnf
+ l7dBGQ+ZUkzH1OZSwzuZCuiX3vd+GiXrkqC9xxYp3ejkwInTpWfJzcuLp8ARMVfmb7MI
+ L2AMW+kmEHjbeUhIJ3Hm3XC/DzhdoQuPxbaFIHXJuJ9uonZ/8JcmTnIjaGw+WWi9PHYK aQ== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h2dmsxwyr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Jul 2022 18:25:56 +0000
+ Tue, 05 Jul 2022 18:26:18 +0000
 Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 265IBelH034853; Tue, 5 Jul 2022 18:25:54 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3h2cf8pbmj-1
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 265IBKBh004900; Tue, 5 Jul 2022 18:26:17 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3h2cf2kq40-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Jul 2022 18:25:54 +0000
+ Tue, 05 Jul 2022 18:26:17 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lTUlmpq5R8ByE3u8p+P71Zm+dEK79+0EZ/EUKc90fPKfngTgH+8rv5z1FmX85fItySzZYICKQrJWf3vq+HbirYiApCgJpMEerwI8y57StY/yBU3pDu7cTGoqDdFckxe4ZriQjgTiZSIAVWSaG55dFdhAMGwRpf5zushaovHhF4GFjZUkj9cI6+HoSmQaFYTEB8gcEhxr1pICSyjl+xwt5EYfLtddbi9dfYxMHkBraBqvPaBO30mfgEMx9Sz1XJao8nFE5YRMyQHUat+wlTmwhWHOdkDblpuvHSbn0+HghwV4AiXhY0K4RMJC7TNmXP9yXeEbdr90qf0ZvHEl8ohMRw==
+ b=L8Y8Lekx3yPXZ54bKzGJi9CLSlJ70HyKaY8Tx4Cv0QZSwtfILbeCm2uTjTDZj1idB0z3JQUwfgJzeKoW0cnFfvk0EQ43a42AUZx1EcZpxFsInagvQa2qkgmrQZIer8QTyF+maHYPbOwkz02iNbc/gqHKfE56V6RwYYF6+tP0o+kZKw38o5k6LxgBezqxkGprc2qAIpC+YIcczkdrnRXJyyG1u34Mxhx8nEhpeoim7Dz+KG9VTBegUgMNbxTjnFa0+hLS1ldTI3nWyjUX0uz9+akEWrRkCxG1Y8df6kC0E5DIKDBHxZgOP/t5IszqannSqYw/jdy2P5zzmodvtzsjLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SUP32C+rZaJZ7YsimHSLeF1Hyc6eDcoJP7qJfU3ZgQo=;
- b=QlGRUFeQ8CO8C1kp+qG8+kt7MUL6ds3WAE/GWD5Y2nb45TeZT6ItZdlvd5BBIz4V+PrU4QI1CtyY0Js0Y7HrVndtGGpZ2nwFLIVp7a27DiPH8ula9+1x9g6mWRNRvqyB3vG60rIa5lWOhqvao9+vsap1oxnrljavggLKgMEbzf5QNuHGuyVbqxt7t87K+2SptwvBmbn08j2DVoeOgk8FM3tU6SgtW4RZEVrXRyfbYpIVjqxzcCMn4kjWEAFejbEsIAclSHF6N9PmNOyk4GsCtqJpIVXAgfBknzj+f6QoiwUka11Mdss2S5gSBfCMPkTGne+FFmZmEhXg7oewmHIQFw==
+ bh=vVuLXgrpyQCJ0+82osYCAHdHnU0quGwDoJy96tsfiWg=;
+ b=jnICWMYpfAOAas8ovt3Qfpy0/67+Rh69RgVxGihVKLrLtJwPlTky9v3ox1h6HVrYWaF/8thRmR6Bn7X9fE550m2tyYN95iw/E6fDFil2/r8YZFTN1GoFX6Uu0NOWtfMLYHr5fhJf2fVoH3Oj+eevTo3LmTCTAQs1Iyp33wOF96/3/h29eQYEQ3rfPV6DQPh9fqves0ue93gTq/ZQKprG0qAEHmuONeCRYvmjnPXVCHSD+abPQ1ApEgffXrbGx6yA2bUs5A8A7tXLI1HHj6wA4G7C9UOpR3P5s4FSk4VbbwE4wRKJFZXy+SklbaKoCaALDA/PZFvZFMXfB39eGQPTjQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SUP32C+rZaJZ7YsimHSLeF1Hyc6eDcoJP7qJfU3ZgQo=;
- b=jXB1ZXOj4rp+YSC02mOvs/eIbH0xMOTeR8j59GB2L0TDFmSN14kpb3D+ajwGQaO1Af57d3psajFros+g/EfZDUWkXEkQ3nBaqwBkCeETbuFU+jReuHQkIeNBlgyufvQW3DO3vyzDlTc8ylhoCaMYZxWVLOFkRCFDEewGaWtKrhY=
+ bh=vVuLXgrpyQCJ0+82osYCAHdHnU0quGwDoJy96tsfiWg=;
+ b=XgNqEp6szwdFZoluJ2lFCWnRPHMtbHJkjH+IyxZIARX9d1giBkMpKU3e5KNbSBAg+ZKtIpU5amduxD1cmi/U/hc4j6QQv0GB7w5wBs6dtGryp6ee6dB3QE5TIHYcJi7HEXH61HwIBuqA9DR8SGB8FhLtnnTCfGXV5Ckfyo0vbms=
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
  by MW4PR10MB5809.namprd10.prod.outlook.com (2603:10b6:303:185::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.20; Tue, 5 Jul
- 2022 18:25:50 +0000
+ 2022 18:26:15 +0000
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::dc4d:56f4:a55b:4e9]) by BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::dc4d:56f4:a55b:4e9%6]) with mapi id 15.20.5395.021; Tue, 5 Jul 2022
- 18:25:50 +0000
-Message-ID: <8c46b020-c8df-95df-cd67-1f6d56db886a@oracle.com>
-Date: Tue, 5 Jul 2022 14:25:45 -0400
+ 18:26:15 +0000
+Message-ID: <7973f736-8950-c853-7333-101e69bb40a9@oracle.com>
+Date: Tue, 5 Jul 2022 14:26:09 -0400
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-From: Steven Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V8 02/39] migration: qemu file wrappers
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+Subject: Re: [PATCH V8 05/39] vl: start on wakeup request
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Alex Williamson <alex.williamson@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
  Jason Zeng <jason.zeng@linux.intel.com>,
@@ -96,88 +95,88 @@ Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
- <1655304746-102776-3-git-send-email-steven.sistare@oracle.com>
- <YqtMQFqFR3+b26YO@redhat.com>
-Content-Language: en-US
+ <1655304746-102776-6-git-send-email-steven.sistare@oracle.com>
+ <CAJ+F1CLZrnj=AXb=-C+MOU5xB7h_4YUqrn4W+rV6yoUax2ur7g@mail.gmail.com>
+From: Steven Sistare <steven.sistare@oracle.com>
 Organization: Oracle Corporation
-In-Reply-To: <YqtMQFqFR3+b26YO@redhat.com>
+In-Reply-To: <CAJ+F1CLZrnj=AXb=-C+MOU5xB7h_4YUqrn4W+rV6yoUax2ur7g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BY5PR20CA0002.namprd20.prod.outlook.com
- (2603:10b6:a03:1f4::15) To BYAPR10MB3240.namprd10.prod.outlook.com
+X-ClientProxiedBy: SJ0PR03CA0240.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::35) To BYAPR10MB3240.namprd10.prod.outlook.com
  (2603:10b6:a03:155::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 43198c7a-a61b-45d3-b431-08da5eb3c9c2
+X-MS-Office365-Filtering-Correlation-Id: d1c0d155-5401-4508-e2c8-08da5eb3d83d
 X-MS-TrafficTypeDiagnostic: MW4PR10MB5809:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TzKxzf8PKjgCQ8o89/24VZpDYcapRzbzgOCHKW7AmE1m63WwYs/DQzeW3p41X4XwcDF/xQxFR498zMWSOmubL5IP2IEASvjd5ljlhXeVAp6eEECJ2QZWMgfW97zJ0vWP4GbswK4bGY1BMIEoT+xK8KqdUTIHeIKvLc2waigwf589jkzpOOEu/hMTrQ9fakk7SzR/EhjADbGK8ajJxD2BSynWzX1oXGy8DGy7KfR6R1oudFIcmr6n0PyU8fOtJAYNorzcR2/upBhicBJhbVe46sHU4QEnhvV4eB3MOq234eu2DJJcJJEQB2vJte65jQBhdmPK0Oej75PLR7q1d+HbQgSRFO5GNsuweHcCKd6SATIQC5Hkv3TfkoNHowAeNiCs18lZpvskcSoS3/jiefi39PkTxI63fHrIkxdBOoHM4urKntRDJC7LN/eEKH2nUpthY3DenSIe19nC7skpzqBku1aEpuQA1VHfqg+P0Dnmq4fe76IEQ3AXjC0Q+fgn2X95aJ0vV3cJlqw4t4sUUCj6KmwSBpkj1qERBBeLKf9rSJ9HFPfi2r+HMBwgEMsGVuK1QyO+7nSsPa0wj3Mhk5wlopGksEk3flEWcEK2siGN1hSqSlYqyCB0rtsCuOP+taglh0oOc1aq1HUadIej6YQeaWCzfWaL68F02Ns6iP6gvypYAEsybvSUi6DnscZUi++rIooy58d10moHzykyoA3EFA8TN6U+rMPKtdf3fERXegvtxruW9TE6LTwlkbhrz+qvf7K3cuQjI2Iolm8YG7HDOEU1rAN4/EEkFIBbC6JN4YwQ4Jsp+bMVZKVHZvwY/FqycC367akTunGCKjAwX7b5aQ==
+X-Microsoft-Antispam-Message-Info: zEqjbJ9zenB8K78TLyBGdnosuWVm8MN5HAT2h5lM7gT5ww6HFEh5Ji4PqztnRJbS2CeUHuAs/Eta5XXFd++LTxGFIv7SJe7awoWzsSiP/LZQHD5WXk5a0LNJCgJ7yByIvAGXqGxw3Ve+YNZuoBJ0u/EerhCEjWLpW9cW+G8K3bAk+biFlTg1bJh5VPnq/E7BGC7A4XSfhpslV5w1DlwiqeJYhiMhrri2ybOXtWbtDCOPJBnGMuKi/AZk5Tmy+GIvhe1jkrw28PauavgS/mIcvKSVe/PtaphxviX6zGg1lGFV7jCI1qdFXSLU8DZrybt0G1jPP1Tko62EEEGW007PABe8cU94Cjm2zRvwtdiJSILKqy8PCf2oyEbZ1zfeDBAuqo1Er2z31rC403WEUaGr8P7o2MFuIUvuL/nNwwiIZOW5kvtX/jF5MgAvHD9vUWyTu3NA37goxG6vaDBlo6gYwy5B1+nnVLfDTV8WD1kGbj6Ab1pcyDXYeHPx8kPtaU3wCiDqawy8a9tDa0kV6OG8ppJ0xAQeKskMMHI3mdUD+z5NJyn8caqeKgehYK9bdIGp+TyO0JXaQ+LwWKzJ6spnfRhRFbfZmhR4ffxYJF/oQpnkFFrpyNyMAsR9ThvMgI4jD0Te3bQ2c9MozPtLgdKRkh2zHqRsofj66Geojtb+mO2KRSdXetL2zPTVFcgpE4zJYo9dvZ1BXbednZVt4lK/AHPqWQhepgmE9ABMNVciQ4A8e/E33K76LaDFuC7uojN4EjblW6SRnGnkMP+1ONsr9x6/Z7Nn9Lj6UgAC6iPUMKGiHUwVWTWos3GkVm9B6xzuY8h2/Dckz/4wR2dRgIBfgw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(136003)(346002)(39860400002)(366004)(376002)(396003)(38100700002)(66556008)(8676002)(66476007)(4326008)(54906003)(66946007)(316002)(86362001)(31696002)(2616005)(6916009)(31686004)(6486002)(41300700001)(6666004)(2906002)(478600001)(36916002)(8936002)(6506007)(44832011)(186003)(53546011)(26005)(5660300002)(6512007)(36756003)(7416002)(43740500002)(45980500001);
+ SFS:(13230016)(136003)(346002)(39860400002)(366004)(376002)(396003)(38100700002)(66556008)(8676002)(66476007)(4326008)(54906003)(66946007)(316002)(86362001)(31696002)(2616005)(6916009)(31686004)(6486002)(41300700001)(6666004)(2906002)(478600001)(36916002)(8936002)(6506007)(44832011)(186003)(53546011)(26005)(83380400001)(5660300002)(6512007)(36756003)(7416002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MFV1VmlBeVZTVUhTT3dSY2Yya1pqaEhzbmN2RDNXZnRGYTNZRFJkdEtPS3Fr?=
- =?utf-8?B?NXprZGt6Q3Zzck9ybWtCSVcyTy9vMEhnaDNCTGlPVEQ2UFpUb3EzR2tNQys0?=
- =?utf-8?B?b3BzRUxqaHRjd0E4VlpOSDVNblNjMk9Wb1VxNGNRZUtObmhSMTRUVjlSRlZZ?=
- =?utf-8?B?OGl5NWM1UXp3T1dLY2N0VjN5MjVYazJCU2xPaDd2Tmp0MzZVald6Yy9xRHhH?=
- =?utf-8?B?eVoyOWJkUi9hdmsrTEFsUDhYcEpUWG1KQzM4MElNRVZTVGh2ekFjbTZMaFFx?=
- =?utf-8?B?UGluN1JURzBXeTUzR2ZndWxXbEFkWnhaemttajNBK05uR2VyY0YyQjFOZzMw?=
- =?utf-8?B?Y3JFTzVtbjFQVGoyWk1GeFo2RHl4bk5nSHpmdHpjemlBNUgvWklXMWRkMmIr?=
- =?utf-8?B?WlZDMnphRzhtZDBsMTZQeHNqQ1JPd2NaUUg2T0c1VmgwQW8vWFVRTzVmRGUy?=
- =?utf-8?B?SmpaR2xITmZYVERBNzV3RnJuR0pHMmtlajF2cEp4M3c3UjNsVXJlRG90UXo3?=
- =?utf-8?B?Z0FJaUt5VGFBbzFySmE4M1hySDRCQUJMdVRBY1dyWjBjenVwTHVBcytVWklz?=
- =?utf-8?B?TlFuMW9vS0h2SFk4TDdrbWlrMHBoTkNZSDlrNUtaZG9LSmhRMWVTKzZwa1E3?=
- =?utf-8?B?Mk5CZTJBRGlBcE9BUHZHNFIrMnBVSkY4cFRpRGhGWDRyTFliUkY1TkVlS3BT?=
- =?utf-8?B?YWozTmFrcXNjZytiT0p6MGU1TEh3K2xqd2QrZU5TdjhDQmdlemo2YnF3SVFN?=
- =?utf-8?B?SGo0bXRhVThLZEJwV1EzWFlIaEN1U0VsN25LVVEyL3RsNnFvMS9hSmp5L3pp?=
- =?utf-8?B?azFhL3JpTkE5RjI3K3FYSVk2bENtWHlqMHBCeXNmOFUxUzNrQmdlRlVhZHFE?=
- =?utf-8?B?Mmo4d0ZKMDhweWdwckw5V1VtMkRwd1d2T0JHcklobndHQzBpYXk5TmVYakJn?=
- =?utf-8?B?WWd2bVBjYmdacDQ3dFRFalBBSlRTZkRWOXpubU12TmZla1BDRUpsWDdOVWx3?=
- =?utf-8?B?THFnSDJocEVNcWRtVW1NeXRhRW1xdzBUWnQzdndsM1pheS85WVJNZW1lOWIr?=
- =?utf-8?B?cUQ3WUNsb1RhUkN3a0JLODd5YVF1eDFoQkFGUVFWeEVYU2t5a3A2VkFrL3FY?=
- =?utf-8?B?a3ZHZVRiMUFkMTU5ekVPT3VRRVcxRGJ1S2V2U2cwaDhqekM2MzBTN1F6RE1L?=
- =?utf-8?B?ZkoraDNJa2RlSHJ0aXRmOUpWMlJlQmlyUDZrYjd0TnppSWlrbUVoOVRQVklG?=
- =?utf-8?B?RnhHN1A1Vkprbm05MFU2SUQzNllxcXpUM3VTQk1MRE81eDF3dDhxdGJKUVls?=
- =?utf-8?B?Z09pTElRZnExbisvV1hwWTBjUFc2aHdURTQ4eUkrajNOTlE1TlJheGhla050?=
- =?utf-8?B?QlQrcGZSRGxRaE1sUHVmSzBpZnlhRnFaQmdvR0k2dXBXQWVSV3dwMU9lazZI?=
- =?utf-8?B?a1JHeitPbjZPN2ZMdythTzhnazdzVGtXdlNBUDZnVkgrOXhOZDJudjVVOURR?=
- =?utf-8?B?ME5IeTJYUys0bWtoYjRaT0RHQWZsM0lnQ3EwZDdJL1RyME16c3ZJM0NIS1Js?=
- =?utf-8?B?OHMzcTRNYjA4cGhROEYwUTlINys3SFIxMXliVlZSakdkWStNZllqdGxxTUpL?=
- =?utf-8?B?dG9XUVRkcll0c2VjaW95TGlsTXRVRUdYdTBqTCtpOUhyUGlSQ3V4OWlIUVE0?=
- =?utf-8?B?aVYzYUE3TTlKV0I5UE02VjdJVTFtdTk0WUVHekhtR0k1TCswcGdBNHhVcjI5?=
- =?utf-8?B?eW1ZaFlXbG9SZlg2SmpJQ0NsU2lkNVl5UlZSUERXZUJKZTFxZnRXTVliK1cr?=
- =?utf-8?B?QTRWZmp6QVBKc2RKbzR2czljcFVqYm5FZ0R4V3hFckNUcFVWZ2lSTHJaY09C?=
- =?utf-8?B?MnVnSW9ralh3d3FOU3ZvbjBpTnJHZEpLQkl5NG52Y3lWVFNUdk5VTHRQUXdB?=
- =?utf-8?B?ZSsrVWpyWmppR0o1SUwxZ2hZTGNTVHBkMEZrSnVoWkxaQUZZdTFFMmdrL05H?=
- =?utf-8?B?U3kxR3h1RXJpak1wVGxGeFhoT3E1Z3lETFpaTHcvRGIzbytQTDNUcjdpZEVX?=
- =?utf-8?B?b0Nqc293dVQ1MjhUTU5Cd1ZTSG0rNXRwMDZpZGI4MGRpaEx3TUplQTRhM1Uw?=
- =?utf-8?B?VTN4M0VhM3RlQ2RvUWdUT3g5cHRJNFp3dHNzNk9mbUdNamM3cmdxRG9RdnFK?=
- =?utf-8?B?OFE9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VXZZTTNpc3ZkRFZHWU01b2kxc0g3a1lsckFoK3VCM25NM0RoZlp0S1JOZ25E?=
+ =?utf-8?B?d2ZOUXI0MUpOMnhrbzYxeWxWU1hqc0dxcmFHSStXUTRtYkRmb0ZTamVraVVD?=
+ =?utf-8?B?TEpVS3VCcFVqQkhYVy9HcnFDbndvSXB5YWNsNWNDeGRvTUdPNXBXREN4QTM4?=
+ =?utf-8?B?SnJxNzd2OTJmbGxhZ20vc3hJTytlbWNzbkhDTGlxb3YvVXAzOHlFOUpwOEc2?=
+ =?utf-8?B?NExSK215NjVZZjNYMEsxNS9xT2M1RTN3b3VnWC9DWTNFc1lkU1h5dHI1aFlH?=
+ =?utf-8?B?QzJMQ1NQa28xZmZlSyt2TXBzM2M4OUFTTlFRakN3dFZZVmI1N2FsL0V4NGJv?=
+ =?utf-8?B?TEV3NlZXNG96Sll6WWZtZ1N0QitJTkUxZWtQeTFpL1ZlbnVRelZGYnlJeCsr?=
+ =?utf-8?B?QWxrajlVWkZ1ZU1vZUlVYTZMZzZVR2xsRGIvVXFBRldYVlp6WDlPK3c5T2Vo?=
+ =?utf-8?B?Vm1pckRLTVJCNVh0WkpnQVVhWXQxOUdBeC8rV204QTFpcFJHb253bUJUQVlH?=
+ =?utf-8?B?dFo0UytKKzg1SDBneWlGRS9EMnptT2duUTRiK3E3VVNic1hVQy9Rd3V6UEJU?=
+ =?utf-8?B?KzF5eTNaVjBtUktYMUtLejRRcWZ5YzBRd0syU2t4b09IN3lxR2VzckFwb0po?=
+ =?utf-8?B?UWZCc1dST2FqdldkSkpSRkF6TEhRWFBobEdEWjNyWjMxWkc2c2ViRVBYb0Y3?=
+ =?utf-8?B?NW5oVzBRQTU1dWtXdHF3UXJoYnI3d09KNFRZNENEUTNQcUZpKzdqazQrRkVV?=
+ =?utf-8?B?Y1pTbzd6SUpGR0FEemRFejU4ZEdZVkFRZnRUTTB3LzIrZDQ5Z25SQzdqOHFy?=
+ =?utf-8?B?M1VNcVJObS9sNmNRY1RRUitSSHBxcHVUbEJCejFISDNxOXBZbHFUejB5TWpT?=
+ =?utf-8?B?cWtLL3doVElVWTNaU3puODMxdTVOZitXZ0wwaThETUpQODc5OHp0SjFQTlpy?=
+ =?utf-8?B?WjI4K2ZMWDJpeGN1RWsxL2NKTnFyYVhBajdGeGFsd1pBREIwa2pvYXp3ZnZm?=
+ =?utf-8?B?QURUZlZ1WUFYcS85QVVER3hUSCtYYlFRZ0lmNTQ4SjNCM2R3cUR1T2V6aWpD?=
+ =?utf-8?B?NXFJUEVJb0ZqVkw5djRyMWxhWTV6Z1I4VlBBdkdPb0l2alFyaEVrSEpZZ3Rr?=
+ =?utf-8?B?VytNM01pZTN4dXNxN3BVeEZBWWViczZkWGZpcFJoQzZzRitnb05meHd5bU9y?=
+ =?utf-8?B?RGRhRjJYemtiTDVmNVM2SE8yVVU5b3hlUUgwVjZ1V0J3VkpQRHRVc0daMWY5?=
+ =?utf-8?B?eFpERHNIaTdkMTJYZHd3MmR2dXc1eStCNUk3QXR3OEdlWncxU3BkeGViTHAw?=
+ =?utf-8?B?djB1MlY5bVFWRkNaeHpQUEQ5N1RoMm9MK2ljdE9EN2xleU5qREJ6RGxkYndq?=
+ =?utf-8?B?a21tcitBTFlYdTh4ajRkL0xlZWlDc1BuTGZ3VURnRTVzUFp5blprVUVyMExx?=
+ =?utf-8?B?bENIV1ZuRVIrS055SlNsUkk5d0E0VjJqSGJYeEo3RDE1UUptY2NQM1VoZGZD?=
+ =?utf-8?B?QlpnaEcwaVo3MVFEbjFOUHVVSkppbWdnWkhjMGtnK3Q2UFdwbG5oRE5aQWtv?=
+ =?utf-8?B?d1FNUW1GUXdPNWx4RURwRlBBRTNmZEp1Uyt4NWpNdmZoVTVQMmdML1Y0U1p0?=
+ =?utf-8?B?SlpCUmdWQ0tiekd6LzdGV3pobGNEMGxqL1pxVTdtaWxPaGtLbHpuK2xNK3ow?=
+ =?utf-8?B?dHBma1NBMDdJdzlzb2N0dGZqRERDWG45bkowWkxTZ1FobFJrbWhvRnNQNEhv?=
+ =?utf-8?B?clJuT21KL1FBSkowNkpDVWNHWWh6dld2dXNFVjRZNFB5dUs3WHY5cTVzYXFV?=
+ =?utf-8?B?U2xaTG9rTWZqSFVPKzJSbHJhcUNkbnlBTW9tV1p3QWZjMGpkeU5iNURXSm1p?=
+ =?utf-8?B?S3haL1Q5RHVjeWF1a1dpRStVTzBIOHRaRWpZZmhsL1ZwTEtxRmxGdlBOdnB6?=
+ =?utf-8?B?eVE0QjB4SFZtYUZ6cVpUV3V2VkhXblhaU1dPY3N3b0Q1U2RCUGpmZDZ0OUNm?=
+ =?utf-8?B?bDhrNitGR3hQakE5bkxuZVVzZ0tBWnA5ZEVzeW02eUZYOXIwT0lvQUhhTTNr?=
+ =?utf-8?B?RFZ4SUVOZS9lWVhDS0xtTmtGK29PRTBVNFYzc0tWRGxBMTQ0Z0UvYWM3bmkr?=
+ =?utf-8?B?UkxpVWwvYlJkZnQrWTFBQVFRb1d6QXdSZ3N2SFRpYThncWFNb1EwWHcybzlS?=
+ =?utf-8?B?Snc9PQ==?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43198c7a-a61b-45d3-b431-08da5eb3c9c2
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1c0d155-5401-4508-e2c8-08da5eb3d83d
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2022 18:25:50.5983 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2022 18:26:14.8625 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XfEwU325aQij0Luovu5BSs6K0N04AtTr8Rb1Pk7vOF+5RoD3golowgt2jHKRTxXSe1+K7PQwuk5R56MCdVkWf+rq+IXi1HzQ2P5azZtEiUw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: vbU59nsJX59WMMFukyXIyL+Gbwjn2zLuJcbrlmYSwJk2fcHGcvhnSrmADQnGMk6133iPAyJ3ffuCGCJqYuJgL1Y6p/efoUImwtmlWNLURTo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5809
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
  definitions=2022-07-05_15:2022-06-28,
  2022-07-05 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- adultscore=0 suspectscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0 adultscore=0
+ mlxlogscore=999 bulkscore=0 malwarescore=0 mlxscore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
  definitions=main-2207050079
-X-Proofpoint-GUID: r_ZAc7Ihe84RZ3J8RqM1s2bWHGEDdWhI
-X-Proofpoint-ORIG-GUID: r_ZAc7Ihe84RZ3J8RqM1s2bWHGEDdWhI
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-GUID: TPhiDaa2j13yo2xyGc0rQ9BqYQgB6kNK
+X-Proofpoint-ORIG-GUID: TPhiDaa2j13yo2xyGc0rQ9BqYQgB6kNK
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -200,110 +199,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/2022 11:29 AM, Daniel P. Berrangé wrote:
-> On Wed, Jun 15, 2022 at 07:51:49AM -0700, Steve Sistare wrote:
->> Add qemu_file_open and qemu_fd_open to create QEMUFile objects for unix
->> files and file descriptors.
->>
->> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->> ---
->>  migration/qemu-file-channel.c | 36 ++++++++++++++++++++++++++++++++++++
->>  migration/qemu-file-channel.h |  6 ++++++
->>  2 files changed, 42 insertions(+)
->>
->> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
->> index bb5a575..cc5aebc 100644
->> --- a/migration/qemu-file-channel.c
->> +++ b/migration/qemu-file-channel.c
->> @@ -27,8 +27,10 @@
->>  #include "qemu-file.h"
->>  #include "io/channel-socket.h"
->>  #include "io/channel-tls.h"
->> +#include "io/channel-file.h"
->>  #include "qemu/iov.h"
->>  #include "qemu/yank.h"
->> +#include "qapi/error.h"
->>  #include "yank_functions.h"
->>  
->>  
->> @@ -192,3 +194,37 @@ QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
->>      object_ref(OBJECT(ioc));
->>      return qemu_fopen_ops(ioc, &channel_output_ops, true);
->>  }
->> +
->> +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
->> +                          const char *name, Error **errp)
->> +{
->> +    g_autoptr(QIOChannelFile) fioc = NULL;
->> +    QIOChannel *ioc;
->> +    QEMUFile *f;
->> +
->> +    if (flags & O_RDWR) {
+On 6/16/2022 11:55 AM, Marc-André Lureau wrote:
+> Hi
 > 
-> IIRC, O_RDWR may expand to more than 1 bit, so needs a strict
-> equality test
+> On Wed, Jun 15, 2022 at 7:27 PM Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>> wrote:
 > 
->    if ((flags & O_RDWR) == O_RDWR)
+>     If qemu starts and loads a VM in the suspended state, then a later wakeup
+>     request will set the state to running, which is not sufficient to initialize
+>     the vm, as vm_start was never called during this invocation of qemu.  See
+>     qemu_system_wakeup_request().
+> 
+>     Define the start_on_wakeup_requested() hook to cause vm_start() to be called
+>     when processing the wakeup request.
+> 
+> 
+> Nothing calls qemu_system_start_on_wakeup_request() yet, so it would be useful to say where this is going to be used next.
+> 
+> (otherwise, it seems ok to me)
 
-Hmm, on what OS?  No harm if I just do it, but the next reviewer will tell 
-me to remove the unnecessary equality test :)
+Will do, thanks - Steve
 
->> +        error_setg(errp, "qemu_fopen_file %s: O_RDWR not supported", path);
->> +        return NULL;
->> +    }
->> +
->> +    fioc = qio_channel_file_new_path(path, flags, mode, errp);
->> +    if (!fioc) {
->> +        return NULL;
->> +    }
->> +
->> +    ioc = QIO_CHANNEL(fioc);
->> +    qio_channel_set_name(ioc, name);
->> +    f = (flags & O_WRONLY) ? qemu_fopen_channel_output(ioc) :
->> +                             qemu_fopen_channel_input(ioc);
->> +    return f;
->> +}
->> +
->> +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name)
->> +{
->> +    g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
->> +    QIOChannel *ioc = QIO_CHANNEL(fioc);
->> +    QEMUFile *f = writable ? qemu_fopen_channel_output(ioc) :
->> +                             qemu_fopen_channel_input(ioc);
->> +    qio_channel_set_name(ioc, name);
->> +    return f;
->> +}
->> diff --git a/migration/qemu-file-channel.h b/migration/qemu-file-channel.h
->> index 0028a09..75fd0ad 100644
->> --- a/migration/qemu-file-channel.h
->> +++ b/migration/qemu-file-channel.h
->> @@ -29,4 +29,10 @@
->>  
->>  QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc);
->>  QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc);
->> +
->> +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
->> +                         const char *name, Error **errp);
->> +
->> +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name);
+>     Signed-off-by: Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>>
+>     ---
+>      include/sysemu/runstate.h |  1 +
+>      softmmu/runstate.c        | 16 +++++++++++++++-
+>      2 files changed, 16 insertions(+), 1 deletion(-)
 > 
-> Note we used the explicit names "_input" and "_output" in
-> the existing methods as they're more readable in the calling
-> sides than "true" / "false".
+>     diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+>     index f3ed525..16c1c41 100644
+>     --- a/include/sysemu/runstate.h
+>     +++ b/include/sysemu/runstate.h
+>     @@ -57,6 +57,7 @@ void qemu_system_reset_request(ShutdownCause reason);
+>      void qemu_system_suspend_request(void);
+>      void qemu_register_suspend_notifier(Notifier *notifier);
+>      bool qemu_wakeup_suspend_enabled(void);
+>     +void qemu_system_start_on_wakeup_request(void);
+>      void qemu_system_wakeup_request(WakeupReason reason, Error **errp);
+>      void qemu_system_wakeup_enable(WakeupReason reason, bool enabled);
+>      void qemu_register_wakeup_notifier(Notifier *notifier);
+>     diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+>     index fac7b63..9b27d74 100644
+>     --- a/softmmu/runstate.c
+>     +++ b/softmmu/runstate.c
+>     @@ -115,6 +115,7 @@ static const RunStateTransition runstate_transitions_def[] = {
+>          { RUN_STATE_PRELAUNCH, RUN_STATE_RUNNING },
+>          { RUN_STATE_PRELAUNCH, RUN_STATE_FINISH_MIGRATE },
+>          { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
+>     +    { RUN_STATE_PRELAUNCH, RUN_STATE_SUSPENDED },
 > 
-> Similarly we had qemu_open vs qemu_create, so that we don't
-> have the ambiguity of whuether 'mode' is needed or not. IOW,
-> I'd suggest we have 
+>          { RUN_STATE_FINISH_MIGRATE, RUN_STATE_RUNNING },
+>          { RUN_STATE_FINISH_MIGRATE, RUN_STATE_PAUSED },
+>     @@ -335,6 +336,7 @@ void vm_state_notify(bool running, RunState state)
+>          }
+>      }
 > 
->  QEMUFile *qemu_fopen_file_output(const char *path, int mode,
->                                   const char *name, Error **errp);
->  QEMUFile *qemu_fopen_file_input(const char *path,
->                                   const char *name, Error **errp);
+>     +static bool start_on_wakeup_requested;
+>      static ShutdownCause reset_requested;
+>      static ShutdownCause shutdown_requested;
+>      static int shutdown_signal;
+>     @@ -562,6 +564,11 @@ void qemu_register_suspend_notifier(Notifier *notifier)
+>          notifier_list_add(&suspend_notifiers, notifier);
+>      }
 > 
->  QEMUFile *qemu_fopen_fd_input(int fd, const char *name);
->  QEMUFile *qemu_fopen_fd_output(int fd, const char *name);
-
-Will do.  I do need the flags argument in the fopen_file calls, though.
-
-- Steve
+>     +void qemu_system_start_on_wakeup_request(void)
+>     +{
+>     +    start_on_wakeup_requested = true;
+>     +}
+>     +
+>      void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
+>      {
+>          trace_system_wakeup_request(reason);
+>     @@ -574,7 +581,14 @@ void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
+>          if (!(wakeup_reason_mask & (1 << reason))) {
+>              return;
+>          }
+>     -    runstate_set(RUN_STATE_RUNNING);
+>     +
+>     +    if (start_on_wakeup_requested) {
+>     +        start_on_wakeup_requested = false;
+>     +        vm_start();
+>     +    } else {
+>     +        runstate_set(RUN_STATE_RUNNING);
+>     +    }
+>     +
+>          wakeup_reason = reason;
+>          qemu_notify_event();
+>      }
+>     -- 
+>     1.8.3.1
+> 
+> 
+> 
+> 
+> -- 
+> Marc-André Lureau
 
