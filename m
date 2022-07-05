@@ -2,95 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C53567562
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 19:17:33 +0200 (CEST)
-Received: from localhost ([::1]:32774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4E256756A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 19:19:18 +0200 (CEST)
+Received: from localhost ([::1]:36134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8mB1-0006Hz-Vh
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 13:17:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48512)
+	id 1o8mCj-00009G-RH
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 13:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8m7X-0004mY-MQ
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:13:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21229)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8m7P-0007RT-W9
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:13:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657041226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fxqKM0qEd2lw7cssV1zizX4Z8fAWN22SJWALrY83oQE=;
- b=M6NaLG8xtuGL57709lSrxb3qNUrC3oyzvUHTjLK0HBrNjA6LaNT0TJOKSexmWtwEhtIiQn
- 5sqwd2ecfJduEJnAAIKR0EvP2rGIq9qoaUrPQo8kws7ccmzZ8ggcddh2QjDWAzSasnSsjh
- 79GTet08rX5bcMsZ7pIu1Iki0MD+URw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-4oWoe4r2Ouqn6uoDBJRfQw-1; Tue, 05 Jul 2022 13:13:45 -0400
-X-MC-Unique: 4oWoe4r2Ouqn6uoDBJRfQw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k16-20020a7bc310000000b0038e6cf00439so7063808wmj.0
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 10:13:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8mA2-0006G4-5F
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:16:31 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:40517)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8mA0-00081I-BW
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:16:29 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ g16-20020a17090a7d1000b001ea9f820449so17587085pjl.5
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 10:16:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=RsheyObkH6nPm7s078ieDEVx4gIvhlxXzkit1L9GD0I=;
+ b=wGGFgSYttLTQzYq45eAK66z6UTNPpXb1aFYYWjcOpJMXVJhMyLJfz995dLsuvRR71l
+ Vfpau2bt6NpISGAtYliPdiS7WVuTplyaTOgh8K9pN0MN4Sd2IavreUt2IKKBqPW4SV33
+ jWmjp9B3+Q/Jy8UrSB9lYfwxqpsB1ujlmjeWG3BuonpCINule4Moby0tkxYjwYO81YDW
+ 0we3ETGCSaPuHT+Sup0tzKcolxZH+W8uxUlC9q3WuuSy+h6qGBSMfKZDzAivFg+b1Zf6
+ IcXYnNnc3mDCR9yATfQUF4cyotphhJr7PxqREWGTQZih8PgsZB4SCOR0pt/sd5a3zgcO
+ 0epA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=fxqKM0qEd2lw7cssV1zizX4Z8fAWN22SJWALrY83oQE=;
- b=pOOast2S9t4u8M/7s+eXoQbuKghJE86g9TEzEIHqEiBxN8ic5L9/9/5/0dN06WjmV4
- +7+e//N26lK15VOTbdoUBeq8rXWpCcl4s2Brw5Gb8FMbdf0RjUuA26eY04qNYvIvMe2L
- jw7kjFuedyGMHoaO9VXIsq4Q0hXpzvySYxpA7nRruIVd77eyKgjRzSO/HHjtiBx38YLl
- oy0q0moCnC0BZlpug+cKRUEh50VKb5S3Z+s/ojFXusTrJT7apYzNLSOhgqdcUOptQsxQ
- /xoh8W+GdiRG1774f4G0p5Ow0c87ovlJJ4j51UkGqe2pL9GU70gDDTa+mu9bR/GD5iz0
- eZeA==
-X-Gm-Message-State: AJIora9CU58T63LXqzMIzREv6/Fxp5VRO139tOQoNToIDN2M32yvGRoO
- 0rnVsg/IU2/hTRKjn3bF2i4whkahDGepOwLAyReUwCjpScypkM4wmNRLj8CRoeibqpIhTT3LX5o
- ztxIxndwdZ72ZFd8=
-X-Received: by 2002:a05:6000:1686:b0:21d:6e46:2fa with SMTP id
- y6-20020a056000168600b0021d6e4602famr7512479wrd.691.1657041223540; 
- Tue, 05 Jul 2022 10:13:43 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tY/131HNC+mVlDWOk2iolc3D2VpSYj3cTaD7KWQ7jtcRg3N9w3Fr7N7TtLUpmjLp7o5aKapA==
-X-Received: by 2002:a05:6000:1686:b0:21d:6e46:2fa with SMTP id
- y6-20020a056000168600b0021d6e4602famr7512463wrd.691.1657041223335; 
- Tue, 05 Jul 2022 10:13:43 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- t18-20020a05600c199200b003a1925aa19asm13720272wmq.21.2022.07.05.10.13.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 10:13:42 -0700 (PDT)
-Date: Tue, 5 Jul 2022 18:13:40 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras <leobras@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH 5/5] multifd: Only sync once each full round of memory
-Message-ID: <YsRxRCgSkQx6Ruqv@work-vm>
-References: <20220621140507.1246-1-quintela@redhat.com>
- <20220621140507.1246-6-quintela@redhat.com>
- <YsRDEyA0mjUD4DSB@work-vm> <8735ff1tn1.fsf@secure.mitica>
- <YsRsYiouIb8+GRua@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RsheyObkH6nPm7s078ieDEVx4gIvhlxXzkit1L9GD0I=;
+ b=XyJ/ZKJPyeBbym4rSLnenNXHw+cQ4/Ryt6DG8FmHxN216347qHTD6Ed4Fcr/jR0WmA
+ IKFsqfLms7SWGRaLISFsNIJbbHY43ckI3KwchnoAhV3pSReWXvZ6WFpeEmeqPRc523Fz
+ o4E7LR9HD/bpOVmKjSr8k51N5VqvVS/qMOo0sAWaNburz++wPlZjwIEynnnq3yjOMZkj
+ wlWom/pCrVTE1wpYHyO95ExjKTJHnU5DxrPynQP4p4sJgvaBDWmi3ay2YUF9i0RCdHwh
+ JFCIU2Vrng96QB/syugKpmFP7zle5tj1T2Z426QQaXjRqECDrzKTzQJinHHOo4eYrIGK
+ 1AMQ==
+X-Gm-Message-State: AJIora8FTAggUmQb6Up1zneSywM32rVYqZgT/1FFE9NINss1lr77f7ir
+ hdGW71vh4NWUA+1vbQikPVXCZQ==
+X-Google-Smtp-Source: AGRyM1tGFhK9mCwSV6rxdHIFJAxRS0vP4BulajVGvUytdIoIGteg83JO7wWqMwj1hAELy8jys3iLNw==
+X-Received: by 2002:a17:90b:3b81:b0:1ed:3655:d0c8 with SMTP id
+ pc1-20020a17090b3b8100b001ed3655d0c8mr45454183pjb.56.1657041386857; 
+ Tue, 05 Jul 2022 10:16:26 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ b9-20020a6567c9000000b003fd7e217686sm22741703pgs.57.2022.07.05.10.16.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jul 2022 10:16:25 -0700 (PDT)
+Message-ID: <af9aa8da-d76d-9da9-6f82-bb0341d01acb@linaro.org>
+Date: Tue, 5 Jul 2022 22:46:20 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YsRsYiouIb8+GRua@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 5/5] target/arm: Correctly implement Feat_DoubleLock
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20220630194116.3438513-1-peter.maydell@linaro.org>
+ <20220630194116.3438513-6-peter.maydell@linaro.org>
+ <d717bccb-09d1-99e5-f15b-fdecb2b224f6@linaro.org>
+ <CAFEAcA_5QBpjRH_VGFDG8bYFDduRJ9eew98WpeXXpceuhK6s4Q@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_5QBpjRH_VGFDG8bYFDduRJ9eew98WpeXXpceuhK6s4Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -108,83 +96,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Tue, Jul 05, 2022 at 05:11:46PM +0200, Juan Quintela wrote:
-> > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > > * Juan Quintela (quintela@redhat.com) wrote:
-> > >> We need to add a new flag to mean to sync at that point.
-> > >> Notice that we still synchronize at the end of setup and at the end of
-> > >> complete stages.
-> > >> 
-> > >> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> > >> ---
-> > >>  migration/migration.c |  2 +-
-> > >>  migration/ram.c       | 42 ++++++++++++++++++++++++++++++------------
-> > >>  2 files changed, 31 insertions(+), 13 deletions(-)
-> > >> 
-> > >> diff --git a/migration/migration.c b/migration/migration.c
-> > >> index 3f79df0b70..6627787fc2 100644
-> > >> --- a/migration/migration.c
-> > >> +++ b/migration/migration.c
-> > >> @@ -4283,7 +4283,7 @@ static Property migration_properties[] = {
-> > >>                        DEFAULT_MIGRATE_ANNOUNCE_STEP),
-> > >>      /* We will change to false when we introduce the new mechanism */
-> > >>      DEFINE_PROP_BOOL("multifd-sync-each-iteration", MigrationState,
-> > >> -                      multifd_sync_each_iteration, true),
-> > >> +                      multifd_sync_each_iteration, false),
-> > >>  
-> > >>      /* Migration capabilities */
-> > >>      DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
-> > >> diff --git a/migration/ram.c b/migration/ram.c
-> > >> index 2c7289edad..6792986565 100644
-> > >> --- a/migration/ram.c
-> > >> +++ b/migration/ram.c
-> > >> @@ -81,6 +81,7 @@
-> > >>  #define RAM_SAVE_FLAG_XBZRLE   0x40
-> > >>  /* 0x80 is reserved in migration.h start with 0x100 next */
-> > >>  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
-> > >> +#define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
-> > >
-> > > Note this is the very last usable flag!
-> > 
-> > We can recover two flags right now:
-> > 
-> > RAM_SAVE_FLAG_FULL is not used anymore.
-> > 0x80 is free since years ago.
-> > 
-> > Once multifd is default, there are some other that could go.
-
-I have suggested that a few times in the past.
-
-> Non-multifd migration isn't likely to go away any time soon, given
-> distros desire to support migration between QEMU's with quite
-> significantly different versions. So feels like quite a long time
-> before we might reclaim more flags.
+On 7/5/22 21:06, Peter Maydell wrote:
+> On Sat, 2 Jul 2022 at 15:19, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 7/1/22 01:11, Peter Maydell wrote:
+>>> +static inline bool isar_feature_any_doublelock(const ARMISARegisters *id)
+>>> +{
+>>> +    /*
+>>> +     * We can't just OR together the aa32 and aa64 checks, because
+>>> +     * if there is no AArch64 support the aa64 function will default
+>>> +     * to returning true for a zero id_aa64dfr0.
+>>> +     * We use "is id_aa64pfr0 non-zero" as a proxy for "do we have
+>>> +     * the AArch64 ID register values in id", because it's always the
+>>> +     * case that ID_AA64PFR0_EL1.EL0 at least will be non-zero.
+>>> +     */
+>>> +    if (id->id_aa64pfr0) {
+>>> +        return isar_feature_aa64_doublelock(id);
+>>> +    }
+>>> +    return isar_feature_aa32_doublelock(id);
+>>> +}
+>>
+>> If you're going to rely on this, you need to clear this register for -cpu aarch64=off.
+>> It's probably easier to drop this function...
+>>
+>>> +static void osdlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>>> +                        uint64_t value)
+>>> +{
+>>> +    /*
+>>> +     * Only defined bit is bit 0 (DLK); if Feat_DoubleLock is not
+>>> +     * implemented this is RAZ/WI.
+>>> +     */
+>>> +    if (cpu_isar_feature(any_doublelock, env_archcpu(env))) {
+>>
+>> ... and use
+>>
+>>       if (arm_feature(env, ARM_FEATURE_AARCH64)
+>>           ? cpu_isar_feature(aa64_doublelock, cpu)
+>>           : cpu_isar_feature(aa32_doublelock, cpu)) {
+>>
+>> since it's just used once.
 > 
-> > > We could do with avoiding using them as flags where we dont need to.
-> > 
-> > I can't really think on another way to do it.  The other thing that I
-> > can do is just reuse one of the flags that don't make sense for multifd
-> > (RAM_SAVE_FLAG_ZERO after zero pages patch,
-> > RAM_SAVE_FLAG_XBZRLE/COMPRESS_PAGE).
+> If I squash in this change:
 > 
-> Re-using flags based on use context differences feels like a recipe
-> to confuse people.
-
-Note that most of these things aren't really 'flags'; in the sense that
-only a few of them are actually combinable; so we should start using
-combinations to mean things new.
-
-Dave
-
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 069dfe1d308..1f4f3e0485c 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -4218,22 +4218,6 @@ static inline bool isar_feature_any_ras(const
+> ARMISARegisters *id)
+>       return isar_feature_aa64_ras(id) || isar_feature_aa32_ras(id);
+>   }
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> -static inline bool isar_feature_any_doublelock(const ARMISARegisters *id)
+> -{
+> -    /*
+> -     * We can't just OR together the aa32 and aa64 checks, because
+> -     * if there is no AArch64 support the aa64 function will default
+> -     * to returning true for a zero id_aa64dfr0.
+> -     * We use "is id_aa64pfr0 non-zero" as a proxy for "do we have
+> -     * the AArch64 ID register values in id", because it's always the
+> -     * case that ID_AA64PFR0_EL1.EL0 at least will be non-zero.
+> -     */
+> -    if (id->id_aa64pfr0) {
+> -        return isar_feature_aa64_doublelock(id);
+> -    }
+> -    return isar_feature_aa32_doublelock(id);
+> -}
+> -
+>   /*
+>    * Forward to the above feature tests given an ARMCPU pointer.
+>    */
+> diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+> index 62bd8f85383..d09fccb0a4f 100644
+> --- a/target/arm/debug_helper.c
+> +++ b/target/arm/debug_helper.c
+> @@ -617,11 +617,14 @@ static void oslar_write(CPUARMState *env, const
+> ARMCPRegInfo *ri,
+>   static void osdlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>                           uint64_t value)
+>   {
+> +    ARMCPU *cpu = env_archcpu(env);
+>       /*
+>        * Only defined bit is bit 0 (DLK); if Feat_DoubleLock is not
+>        * implemented this is RAZ/WI.
+>        */
+> -    if (cpu_isar_feature(any_doublelock, env_archcpu(env))) {
+> +    if(arm_feature(env, ARM_FEATURE_AARCH64)
+> +       ? cpu_isar_feature(aa64_doublelock, cpu)
+> +       : cpu_isar_feature(aa32_doublelock, cpu)) {
+>           env->cp15.osdlr_el1 = value & 1;
+>       }
+>   }
+> 
+> 
+> 
+> 
+> can I have a reviewed-by? Would save me doing a respin.
 
+You may.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
