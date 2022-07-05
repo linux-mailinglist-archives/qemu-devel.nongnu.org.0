@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9234A567026
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 16:01:47 +0200 (CEST)
-Received: from localhost ([::1]:47628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2AD5670AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 16:13:55 +0200 (CEST)
+Received: from localhost ([::1]:35034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8j7Y-0007eU-Lb
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 10:01:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52388)
+	id 1o8jJK-0001Zr-4J
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 10:13:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8j3b-0004mH-1d
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 09:57:39 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:43618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8j3Z-0007gV-F3
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 09:57:38 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id j7so15602547ybj.10
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 06:57:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DGSrZNRfyKLjMtcSnWzJNxaLVlJRE4dWYFoq1IaErOU=;
- b=l8zlJh1cjPaB0cxgBf30f2RX4W7IaykTklm03fw21Gzvi7ZF1v+fNVLYUD50vpCfe2
- WXb4HrD4r9BYpPjDcIxhj+H3qm9Kw1UCddIWUb2NAEiVUqcqEhloOXR35xJlxFIzqdrW
- A6ia6TWoGN9VSYi60kJBmuCwYjHLejEXi0oG63ALfaKZWGQoZj1S/z8tywTTwcaVTYdF
- u0UAl71mgbLSE2H0LEAdGwkH+YfqfjqFBqaCu3JNG6hffr5dLT5dGjgbhfPKwAWWUlQV
- BjM11gPfg2Uck4PFOiifVSNaE8COjSSm8rxPd81PsjFMiZ9j7pqlaDkik9lG1Zds6FP7
- 2oVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DGSrZNRfyKLjMtcSnWzJNxaLVlJRE4dWYFoq1IaErOU=;
- b=JI3JM/7AhfvJKWgHI3SJNDCy4uGRSAkL0BI0f+xAML3Eff3nqPzGxnDdt9/ol+vHbZ
- IoqdNF1XnRsyG5xD4bLyqWhfPazfWfJczjrhX99UQkaHkjTlbsLLtrWgWgL5fcLuOF1N
- 3yx3h3naZMcqzMSpnijATByb0f8hPvzbgSW3Rfg1qiDIlB5uhH+X3ctX1UvadTAS8vnT
- M6S8Sjcq2YKkSXUEtAaefXDkHR2UrguTm6+WqrRkzO8Zpz8jLKXZUP3sNQCfAn9STCzm
- JW89l//gE9kMNyhRo3LRyppO/P2Q3um8DmKmZdhKjKgeZMy1hcesEgvoQYMJGtK2oaF2
- X0mA==
-X-Gm-Message-State: AJIora/7xkXpUboDIA44gri/OkYKjykxr9MRxS7ep6V06jvHCsiXfnsp
- c1kxdSauemqOgg4gbN49BhVSSsPHZ/z6Hhtad8FeoA==
-X-Google-Smtp-Source: AGRyM1tFJkK1N1HJTRWLTwOm0SVHcY6lSQAuCIyMPletjNXfCNGLflzJKn6oW1T6qE5cnUtSp1zx4ZNw+9DXERRGJ9I=
-X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
- t18-20020a5b0dd2000000b00668fc4a9403mr36561243ybr.39.1657029456368; Tue, 05
- Jul 2022 06:57:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o8jHS-0008ON-A5
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:11:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o8jHN-0001d3-Ng
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:11:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657030313;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BwJSoPbzbkUJ7TYsfMUhC4ZQs6tW4Pc3qU20nzBl+r0=;
+ b=RMUvZoObPd2Wnpvi4Yw+XR7HF5zM32pCnO1aHOyPFTv99DmW6syDmeCnowLVD5CtiCTVCg
+ 8y7h9awY2eAddPtmj30yFTO3aPgfHR3RJcbUllJDypfJNdW2eT4f11m7qheOfaWz9r4HnK
+ H4p8fKyMn4dm9GIgvB8UhtIC9TVVZAA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-654-pFVhEVLtORWhW2N_m2oneA-1; Tue, 05 Jul 2022 10:11:51 -0400
+X-MC-Unique: pFVhEVLtORWhW2N_m2oneA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 168AE1C00136;
+ Tue,  5 Jul 2022 14:11:51 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B153A417E5B;
+ Tue,  5 Jul 2022 14:11:50 +0000 (UTC)
+Date: Tue, 5 Jul 2022 15:11:49 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/8] virtio_queue_aio_attach_host_notifier: remove
+ AioContext lock
+Message-ID: <YsRGpb02psGIffrw@stefanha-x1.localdomain>
+References: <20220609143727.1151816-1-eesposit@redhat.com>
+ <20220609143727.1151816-2-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20220704224844.2903473-1-iii@linux.ibm.com>
- <YsQ1fuMRPpA+9AzX@redhat.com>
-In-Reply-To: <YsQ1fuMRPpA+9AzX@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 Jul 2022 14:57:25 +0100
-Message-ID: <CAFEAcA-4=A6NWrpCo5=cBO=v2-GVwK+b5RcgFiJcZN6e-Kb=GQ@mail.gmail.com>
-Subject: Re: [RFC] gitlab: introduce s390x wasmtime job
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, 
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Ulrich Weigand <ulrich.weigand@de.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="k3l4a2J2+5PKl6kT"
+Content-Disposition: inline
+In-Reply-To: <20220609143727.1151816-2-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,17 +84,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 Jul 2022 at 14:04, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
-> If we put this job in QEMU CI someone will have to be able to
-> interpret the results when it fails.
 
-In particular since this is qemu-user, the answer is probably
-at least some of the time going to be "oh, well, qemu-user isn't reliable
-if you do complicated things in the guest". I'd be pretty wary of our havin=
-g
-a "pass a big complicated guest code test suite under linux-user mode"
-in the CI path.
+--k3l4a2J2+5PKl6kT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- PMM
+On Thu, Jun 09, 2022 at 10:37:20AM -0400, Emanuele Giuseppe Esposito wrote:
+> @@ -146,7 +147,6 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+> =20
+>      s->dataplane_starting =3D false;
+>      s->dataplane_started =3D true;
+> -    aio_context_release(s->ctx);
+>      return 0;
+
+This looks risky because s->dataplane_started is accessed by IO code and
+there is a race condition here. Maybe you can refactor the code along
+the lines of virtio-blk to avoid the race.
+
+--k3l4a2J2+5PKl6kT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLERqUACgkQnKSrs4Gr
+c8ghQAf/Wyp+kZlPx7hL2cbjY/H6RC+Sj/tBIR6mIgvYOIxOP2zjaiLwQeBJkPUx
+Huzql4t2hxA1J3ZaPE0QM21SnlwHWJ9UpyNqRYBsEpBF6lTucqcdQ2h1T6M38TwN
+y4YbBiE4z/idqVmnpEhBIK9P47/v2lJRjALLMPrGHItQ9vSi/8IUrZ+YwzMRO0Mv
+IroO98VO8uQWMF7bHopoqGefqHkW7YjWgDU8URdOGBph6yH/c2yQ+otTVnoLx5ky
+qXj05pSUpfrN/OnsgWhJIzygUBwuMoDv86mjG4Qp+t8dLEXkTyGf9DDdSClGlIkG
+s6OtnnDykqSpAAYvmfv+rDFfASO7Xg==
+=TIpc
+-----END PGP SIGNATURE-----
+
+--k3l4a2J2+5PKl6kT--
+
 
