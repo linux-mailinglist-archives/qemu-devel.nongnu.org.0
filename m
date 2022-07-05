@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B15566FC1
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 15:47:36 +0200 (CEST)
-Received: from localhost ([::1]:52470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D5B566FC2
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 15:47:48 +0200 (CEST)
+Received: from localhost ([::1]:52672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8itr-0008QV-5s
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 09:47:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49322)
+	id 1o8iu2-00008T-VB
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 09:47:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1787b3430=anthony.perard@citrix.com>)
- id 1o8isJ-00072X-5X
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 09:45:59 -0400
+ id 1o8isO-00076f-Uk
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 09:46:04 -0400
 Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:6591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1787b3430=anthony.perard@citrix.com>)
- id 1o8isG-0005vu-EB
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 09:45:58 -0400
+ id 1o8isJ-0005vu-VZ
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 09:46:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1657028756;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=qcCujpW1laCRx6HG0EE++dHXD/PBYlYk85TV903qXCI=;
- b=bDvl6H7M3DSVKcGzv1T5HbsUFT5KF4FDfGK4czvKD4n/JEprxRp/0Opc
- Q66hg2Tn74cd7cB0UEZzlribxGM2u3T8jIm+wQNT3/XG8a0I7gxZHJdVV
- X5f0tvU2l9rzk2xMrVex60kXZXr9mq2HnF1ViNPGipHOq12VXuIs+ax2r I=;
+ d=citrix.com; s=securemail; t=1657028759;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=WAaH1Hoy9an/j21GpNiS97JhuDSNqD7IvsL6S23dqts=;
+ b=TyVlaNcPk0htvBWgqGKgg85LovTF/UWHXQHlAmnWADb+uHaNHJfwInWb
+ qScylOky8o4AJH5b+qQPP7VGqIZTVLWAapWJjYoJ2enT8yYyXqa5nU84G
+ eLfv7rjvJn/znhtXTmxAm5SY9FgV965gDs/OR1eV0YUUKXYUYvwFzoPI7 A=;
 Authentication-Results: esa5.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
 X-SBRS: 5.1
-X-MesageID: 74420397
+X-MesageID: 74420398
 X-Ironport-Server: esa5.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.156.83
 X-Policy: $RELAYED
-IronPort-Data: A9a23:ThNsCK6ZaNQMmrbS36pzAQxRtJDGchMFZxGqfqrLsTDasY5as4F+v
- mNKXGGOPPaJZGv1ctt3aIvio09SvZSHz99mG1c9/itmHi5G8cbLO4+Ufxz6V8+wwmwvb67FA
- +E2MISowBUcFyeEzvuVGuG96yE6j8lkf5KkYAL+EnkZqTRMFWFw03qPp8Zj2tQy2YfhXlvX0
- T/Pi5a31GGNimYc3l08s8pvmDs31BglkGpF1rCWTakjUG72zxH5PrpGTU2CByKQrr1vNvy7X
- 47+IISRpQs1yfuP5uSNyd4XemVSKlLb0JPnZnB+A8BOiTAazsA+PzpS2FPxpi67hh3Q9+2dx
- umhurToazYwYaT2odgNUhNJLX5fGqMY9vz+dC3XXcy7lyUqclPpyvRqSko3IZcZ6qB8BmQmG
- f4wcW5XKErZ3qTvnez9GrIEascLdaEHOKsWvG1gyjfIS+4rW5nZT43B5MNC3Sd2jcdLdRrbT
- 5VFNWA3N0WfC/FJEgwlEMMjpsCNvUTAUTQFlU6X4pUdx1GGmWSd15CyaYGIK7RmX/59h0udu
- yfK8nr0BjkcM9qQzyfD9Wij7tIjhguiBthUTufhsKc33hvDnQT/FSH6S3Pjg8ig1UeEYu5PK
- kYFxHUPiqZs+g+SG4yVswKDnJKUgvINc4MOTrNks1Dcm/O8DxWxXTZdEGMYADAynIpvHGFxi
- AfU9z/8LWY32IB5X05x4Vt9QdmaHSEOZVEPaiYfJefuy4my+dpj5v4jozsKLUJUsjEWMWupq
- 9xyhHJi74j/dOZSv0lBwXjJgii3ur/CRRMv6wPcUwqNt10kOt/4NtzxuASDtJ6sybp1qXHY5
- RA5dzW2trhSXflhagTXKAnyIF1Zz6nca2CN6bKeN5Ig6y6s6xaeQGyk2xknfB0BGp9dIVfBO
- RaP0SsMtcQ7FCb7MsdKj3eZVp1CIV7IToy1CJg5r7NmP/BMSeNw1HgxOhHKhz6yyhhEfGNWE
- c7zTPtAxE0yUcxPpAdajc9HuVP37kjSHV/ueK0=
-IronPort-HdrOrdr: A9a23:CJ0ly6y9A2kE6qh5WYu8KrPwIL1zdoMgy1knxilNoRw8SKKlfq
- eV7ZAmPH7P+VAssR4b+exoVJPtfZq+z+8R3WByB8bAYOCOggLBR+sO0WKL+UyGJ8SUzI9gPM
- lbHJSWcOeAb2RHsQ==
-X-IronPort-AV: E=Sophos;i="5.92,247,1650945600"; d="scan'208";a="74420397"
+IronPort-Data: A9a23:EGOe7qzNGJJIUVDYnzp6t+eNxyrEfRIJ4+MujC+fZmUNrF6WrkUCz
+ GcYUGHVb/+KZzOhL9hxad+z/R9Q6pfSyIQxG1ds+SAxQypGp/SeCIXCJC8cHc8zwu4v7q5Dx
+ 59DAjUVBJlsFhcwnj/0bv656yMUOZigHtIQMsadUsxKbVIiGX1JZS5LwbZj2NY32YXhWWthh
+ PupyyHhEA79s9JLGjp8B5Kr8HuDa9yr5Vv0FnRnDRx6lAe2e0s9VfrzFonoR5fMeaFGH/bSe
+ gr25OrRElU1XfsaIojNfr7TKiXmS1NJVOSEoiI+t6OK2nCuqsGuu0qS2TV1hUp/0l20c95NJ
+ Npl7b6BUFggBJTwiOUXQicHMgZwY6MFweqSSZS/mZT7I0zudnLtx7NlDV0sPJ1e8eFyaY1M3
+ aVGcnZXNEnF3r/ohuLgIgVvrp1LwM3DNYUDunZm3HfBAOwvW5zrSKTW/95Imjw3g6iiGN6BO
+ 5ZDMWE+PHwsZTVXNA87MaMQrd34uVXkUBxzmHiRhekOtj27IAtZj+G2bYu9lsaxbc9PlUaFr
+ WHU123+BlcRM9n34SOI92/piuLRkCfTXoUUG7ulsPlwjzWuKnc7UUNMEwHh+L/g1xD4C4k3x
+ 1EoFjQG9YoD7ROidODBTxyysUDbnzkSBdQTKrhvgO2S8ZY48zp1F0BdEGMfNod35Z5vLdA5/
+ gTXxo20XFSDpJXQECvArenM8FteLABPdQc/iTk4oRzpCjUJiKU6lVrxQ9lqC8ZZZfWlSGirk
+ 1hmQMXT7oj/bPLnNI3hpDgrexr2+vD0ovcdv207pF6N4AJjf5KCbIe181Xd5vsoBN/HEwfQ4
+ SlUwpnCtLlm4XSxeMulGbxlIV1Uz6zdbG20baBHRfHNCAhBC1b8JNsNsVmS1W9iM9oeeC+BX
+ XI/TTh5vccJVFPzNPcfS9voV6wCkPm7ffy4B6+8Uza7SsUoHONx1Ho2NRD4MqGEuBVErJzTz
+ r/CLpnzVy5EVv43pNd0Ls9EuYIWKukF7Tu7bfjGI96Pi9JyuFb9pW85DWaz
+IronPort-HdrOrdr: A9a23:rl3IzKsr9trKjuh4JVGEuPt+7skDcNV00zEX/kB9WHVpmszxra
+ +TdZMgpHjJYVcqKQgdcL+7WZVoLUmwyXcx2/hyAV7AZniDhILLFuFfBOLZqlWKcREWtNQtsJ
+ uIG5IObuEYZmIVsS+V2mWF+q4bsbq6zJw=
+X-IronPort-AV: E=Sophos;i="5.92,247,1650945600"; d="scan'208";a="74420398"
 To: <qemu-devel@nongnu.org>
-CC: Anthony PERARD <anthony.perard@citrix.com>
-Subject: [PULL 0/2] xen queue
-Date: Tue, 5 Jul 2022 14:45:34 +0100
-Message-ID: <20220705134536.11109-1-anthony.perard@citrix.com>
+CC: Chuck Zmudzinski <brchuckz@aol.com>, Anthony PERARD
+ <anthony.perard@citrix.com>
+Subject: [PULL 1/2] xen/pass-through: merge emulated bits correctly
+Date: Tue, 5 Jul 2022 14:45:35 +0100
+Message-ID: <20220705134536.11109-2-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220705134536.11109-1-anthony.perard@citrix.com>
+References: <20220705134536.11109-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -91,28 +94,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
 From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-The following changes since commit 19361471b59441cd6f2aa22d4fbee7a6e9e76586:
+From: Chuck Zmudzinski <brchuckz@aol.com>
 
-  Merge tag 'pull-la-20220705' of https://gitlab.com/rth7680/qemu into staging (2022-07-05 16:30:52 +0530)
+In xen_pt_config_reg_init(), there is an error in the merging of the
+emulated data with the host value. With the current Qemu, instead of
+merging the emulated bits with the host bits as defined by emu_mask,
+the emulated bits are merged with the host bits as defined by the
+inverse of emu_mask. In some cases, depending on the data in the
+registers on the host, the way the registers are setup, and the
+initial values of the emulated bits, the end result will be that
+the register is initialized with the wrong value.
 
-are available in the Git repository at:
+To correct this error, use the XEN_PT_MERGE_VALUE macro to help ensure
+the merge is done correctly.
 
-  https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20220705
+This correction is needed to resolve Qemu project issue #1061, which
+describes the failure of Xen HVM Linux guests to boot in certain
+configurations with passed through PCI devices, that is, when this error
+disables instead of enables the PCI_STATUS_CAP_LIST bit of the
+PCI_STATUS register of a passed through PCI device, which in turn
+disables the MSI-X capability of the device in Linux guests with the end
+result being that the Linux guest never completes the boot process.
 
-for you to fetch changes up to c0e86b7624cb9d6db03e0d48cf82659e5b89a6a6:
+Fixes: 2e87512eccf3 ("xen/pt: Sync up the dev.config and data values")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1061
+Buglink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=988333
 
-  xen/pass-through: don't create needless register group (2022-07-05 14:19:48 +0100)
+Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+Message-Id: <e4392535d8e5266063dc5461d0f1d301e3dd5951.1656522217.git.brchuckz@aol.com>
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+ hw/xen/xen_pt_config_init.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-----------------------------------------------------------------
-Xen patches
+diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
+index c5c4e943a8..bff0962795 100644
+--- a/hw/xen/xen_pt_config_init.c
++++ b/hw/xen/xen_pt_config_init.c
+@@ -1965,11 +1965,12 @@ static void xen_pt_config_reg_init(XenPCIPassthroughState *s,
+ 
+         if ((data & host_mask) != (val & host_mask)) {
+             uint32_t new_val;
+-
+-            /* Mask out host (including past size). */
+-            new_val = val & host_mask;
+-            /* Merge emulated ones (excluding the non-emulated ones). */
+-            new_val |= data & host_mask;
++            /*
++             * Merge the emulated bits (data) with the host bits (val)
++             * and mask out the bits past size to enable restoration
++             * of the proper value for logging below.
++             */
++            new_val = XEN_PT_MERGE_VALUE(val, data, host_mask) & size_mask;
+             /* Leave intact host and emulated values past the size - even though
+              * we do not care as we write per reg->size granularity, but for the
+              * logging below lets have the proper value. */
+-- 
+Anthony PERARD
 
-- Xen PCI passthrough fixes
-
-----------------------------------------------------------------
-Chuck Zmudzinski (2):
-      xen/pass-through: merge emulated bits correctly
-      xen/pass-through: don't create needless register group
-
- hw/xen/xen_pt_config_init.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
 
