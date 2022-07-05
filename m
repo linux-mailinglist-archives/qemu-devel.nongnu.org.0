@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20C6566EC7
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 14:55:50 +0200 (CEST)
-Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C07566EDA
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 15:04:08 +0200 (CEST)
+Received: from localhost ([::1]:58284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8i5l-0000lM-Qk
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 08:55:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36128)
+	id 1o8iDm-0004We-QT
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 09:04:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8i4V-0008NM-1n
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:54:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42659)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8i8m-0002YT-M6
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:58:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8i4S-0004u9-Ak
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:54:29 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8i8k-0005aR-10
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:58:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657025667;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5lh3CO8My+ZEKusuYh2ghhAUlJi+1Gf7+b/bJ3a33Lo=;
- b=QblpQyPY9fRxFWzPpPQMrbPe3lMQn3miVDSEpFsbxA7HINdA88i39zAmsHsagssaBNMpqv
- WZUTfzcMsMl7bp7WcWDpolQHnjQGO6MPRNgpjRBAa/LTCe/3B8IJa/st/TnVxKfDVx7xzu
- rhUqAjv+q12lfD4j/sjap50bymd+dgU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1657025933;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=tvcTazJVxCoIaLcufM/Bq2tAn36yVR7cFZcgCo9ESlY=;
+ b=QTFGjVooL7QHzb9dxGR977F2PJMZiuB+5ywBmdI4ZN1pOfb78Gbrs8bG+H0lxyKDyGxEMc
+ /GZ68QFO/3Ojmjf31R6hhLX7KmkbltcUSPWDJl83xTXVv6o/hg3IwT4CXVgvKOl49rm1tZ
+ Qp4bdQ7IwfwgqqBt76koj71X8DuqjpM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-443-SJXHNoIzO3qlIw-lE8YYwg-1; Tue, 05 Jul 2022 08:54:26 -0400
-X-MC-Unique: SJXHNoIzO3qlIw-lE8YYwg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i184-20020a1c3bc1000000b003a026f48333so5213910wma.4
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 05:54:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=5lh3CO8My+ZEKusuYh2ghhAUlJi+1Gf7+b/bJ3a33Lo=;
- b=06lLXZK2usrsiTEApW9GA2qpvnqDW6zqiedjJdli1HJaEkVG4LTjIO4lWyfyqM+LFx
- 33Yy6E5vMYq8FW0kWsKEs7dJ2taZcAHavfNq4dbq1gaOeYWmA+qHved86mVxsT6mbTxr
- Hkm0/2t2by0Lt4sF2+M6kTzn8wC0/8Od3eYhUGtd+J6a5MpPde8nKAvwr43N+rL95dLp
- Ea5sxdvMeCa6eDNDYfczkmPVDjyQ5XMHHP8hnYhN2vCQr1ObiXG1b3Oq28MPPleoVVHT
- bWWReMB9Wx17V/EY9shDIvAkrpj0ebXhXUV5MVEjOftPcDCDcRRyfF06w8KPfSIFI/+x
- vpHQ==
-X-Gm-Message-State: AJIora+WhDPaXH+QDsLNlLNqFGuJhXJHeJu0Y9S6R7IEbIEA70yvt77b
- lD8jzCs7e1UvqibydyxB/cGPgyydRCQ3oOE0Gb9l6/P1eNA0zy/SGuLz08XydGlRuhHQUB2BAYz
- SV2xA4YTCtY6GLGA=
-X-Received: by 2002:a05:600c:4fc9:b0:3a0:4d54:b315 with SMTP id
- o9-20020a05600c4fc900b003a04d54b315mr35570886wmq.62.1657025664494; 
- Tue, 05 Jul 2022 05:54:24 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1stF3KwXQhbCwQIPKdG8psgbgh8Kyi/U3uvgyi92MiJ12emqgB+MqFZ7Pmm+Dd7R9uJC245pg==
-X-Received: by 2002:a05:600c:4fc9:b0:3a0:4d54:b315 with SMTP id
- o9-20020a05600c4fc900b003a04d54b315mr35570869wmq.62.1657025664273; 
- Tue, 05 Jul 2022 05:54:24 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- bq25-20020a5d5a19000000b0021d6d74a0ecsm4456167wrb.96.2022.07.05.05.54.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 05:54:23 -0700 (PDT)
-Date: Tue, 5 Jul 2022 13:54:21 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH 4/5] migration: Make find_dirty_block() return a single
- parameter
-Message-ID: <YsQ0fc67PKePt3rS@work-vm>
-References: <20220621140507.1246-1-quintela@redhat.com>
- <20220621140507.1246-5-quintela@redhat.com>
+ us-mta-610-iESwEHRGPWapHX0x_qIw6Q-1; Tue, 05 Jul 2022 08:58:44 -0400
+X-MC-Unique: iESwEHRGPWapHX0x_qIw6Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06ABC83395C;
+ Tue,  5 Jul 2022 12:58:44 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 455BF40C141F;
+ Tue,  5 Jul 2022 12:58:42 +0000 (UTC)
+Date: Tue, 5 Jul 2022 13:58:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Ulrich Weigand <ulrich.weigand@de.ibm.com>
+Subject: Re: [RFC] gitlab: introduce s390x wasmtime job
+Message-ID: <YsQ1fuMRPpA+9AzX@redhat.com>
+References: <20220704224844.2903473-1-iii@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220621140507.1246-5-quintela@redhat.com>
+In-Reply-To: <20220704224844.2903473-1-iii@linux.ibm.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,111 +83,296 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> We used to return two bools, just return a single int with the
-> following meaning:
+On Tue, Jul 05, 2022 at 12:48:44AM +0200, Ilya Leoshkevich wrote:
+> wasmtime is a WebAssembly runtime, which includes a large testsuite.
+> This testsuite uses qemu-user (aarch64 and s390x are supported) in
+> order to exercise foreign architectures.
+
+So you're saying that WebAssembly itself is aware of qemu-user
+in its test suite, as opposed to us simply choosing to run its
+test suite under qemu-user ?
+
+Any idea why its limited to just two arches ?  Can it be made
+to cover all QEMU arches, or are these the only ones that
+wasmtime knows how to generate code for ?
+
+>                                          Over time it found several
+> regressions in qemu itself, and it would be beneficial to catch the
+> similar ones earlier.
+
+If we put this job in QEMU CI someone will have to be able to
+interpret the results when it fails.
+
+How practical is it going to be for QEMU maintainers to understand
+a failure in wasmtime test suite, and correlate that back to a
+problem in QEMU ? The risk with introducing any significant 3rd
+party project to a CI system, is the lack of knowledge around
+that external project creating a signifcant burden for the CI
+system maintainers.
+
+> To this end, this patch introduces a job that runs stable wasmtime
+> testsuite against qemu-s390x. The job is split into the following
+> components:
 > 
-> old return / again / new return
-> false        false   0
-> false        true    1
-> true         true    2  /* We don't care about again at all */
-
-We shouldn't use magic numbers; if you want to return it in a single
-value then it should be an enum so it is clear.
-
-Dave
-
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> - A script for running the tests. Usable on developers' machines:
+> 
+>     qemu$ mkdir build
+>     qemu$ cd build
+>     qemu/build$ ../tests/wasmtime/test s390x
+> 
+> - A script for building the tests (build-toolchain.sh).
+> 
+> - A dockerfile describing an image with the prebuilt testsuite
+>   (debian-s390x-wasmtime-cross.docker).
+> 
+> - gitlab job definition for building the image.
+> 
+> - gitlab job definition for using the image to run the tests.
+> 
+> It's possible to use this with aarch64 as well, but it segfaults at
+> the moment, therefore this patch does not provide job definitions for
+> it. This needs to be investigated separately.
+> 
+> The example of a resulting pipeline can be seen at [1].
+> 
+> The test job runs for about 30 minutes mostly due to unnecessary
+> rebuilds. They will be gone once [2] is integrated and makes it to a
+> stable release.
+> 
+> This patch depends on madvise(MADV_DONTNEED) passthrough support [3].
+> 
+> [1] https://gitlab.com/iii-i/qemu/-/pipelines/579677396
+> [2] https://github.com/bytecodealliance/wasmtime/pull/4377
+> [3] https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg00112.html
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 > ---
->  migration/ram.c | 37 +++++++++++++++++++------------------
->  1 file changed, 19 insertions(+), 18 deletions(-)
+>  .gitlab-ci.d/container-cross.yml              | 10 +++
+>  .gitlab-ci.d/container-template.yml           |  2 +-
+>  .gitlab-ci.d/qemu-project.yml                 |  1 +
+>  .gitlab-ci.d/wasmtime-template.yml            |  6 ++
+>  .gitlab-ci.d/wasmtime.yml                     |  9 ++
+>  tests/docker/Makefile.include                 |  6 ++
+>  .../build-toolchain.sh                        | 83 +++++++++++++++++++
+>  .../debian-s390x-wasmtime-cross.docker        | 16 ++++
+>  tests/wasmtime/test                           | 39 +++++++++
+>  9 files changed, 171 insertions(+), 1 deletion(-)
+>  create mode 100644 .gitlab-ci.d/wasmtime-template.yml
+>  create mode 100644 .gitlab-ci.d/wasmtime.yml
+>  create mode 100755 tests/docker/dockerfiles/debian-s390x-wasmtime-cross.d/build-toolchain.sh
+>  create mode 100644 tests/docker/dockerfiles/debian-s390x-wasmtime-cross.docker
+>  create mode 100755 tests/wasmtime/test
 > 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 1d4ff3185b..2c7289edad 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -1481,13 +1481,16 @@ retry:
->   * find_dirty_block: find the next dirty page and update any state
->   * associated with the search process.
->   *
-> - * Returns true if a page is found
-> + * Returns:
-> + *         0: no page found, give up
-> + *         1: no page found, retry
-> + *         2: page found
->   *
->   * @rs: current RAM state
->   * @pss: data about the state of the current dirty page scan
->   * @again: set to false if the search has scanned the whole of RAM
->   */
-> -static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
-> +static int find_dirty_block(RAMState *rs, PageSearchStatus *pss)
->  {
->      /* This is not a postcopy requested page */
->      pss->postcopy_requested = false;
-> @@ -1499,8 +1502,7 @@ static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
->           * We've been once around the RAM and haven't found anything.
->           * Give up.
->           */
-> -        *again = false;
-> -        return false;
-> +        return 0;
->      }
->      if (!offset_in_ramblock(pss->block,
->                              ((ram_addr_t)pss->page) << TARGET_PAGE_BITS)) {
-> @@ -1529,13 +1531,10 @@ static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
->              }
->          }
->          /* Didn't find anything this time, but try again on the new block */
-> -        *again = true;
-> -        return false;
-> +        return 1;
->      } else {
-> -        /* Can go around again, but... */
-> -        *again = true;
-> -        /* We've found something so probably don't need to */
-> -        return true;
-> +        /* We've found something */
-> +        return 2;
->      }
->  }
+> diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
+> index b7963498a3..b3c4b76a16 100644
+> --- a/.gitlab-ci.d/container-cross.yml
+> +++ b/.gitlab-ci.d/container-cross.yml
+> @@ -138,6 +138,16 @@ s390x-debian-cross-container:
+>    variables:
+>      NAME: debian-s390x-cross
 >  
-> @@ -2270,18 +2269,20 @@ static int ram_find_and_save_block(RAMState *rs)
->          pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
->      }
->  
-> -    do {
-> +    while (true){
->          if (!get_queued_page(rs, &pss)) {
->              /* priority queue empty, so just search for something dirty */
-> -            bool again = true;
-> -            if (!find_dirty_block(rs, &pss, &again)) {
-> -                if (!again) {
-> -                    break;
-> -                }
-> -            }
-> +            int res = find_dirty_block(rs, &pss);
-> +            if (res == 0) {
-> +                break;
-> +            } else if (res == 1)
-> +                continue;
->          }
->          pages = ram_save_host_page(rs, &pss);
-> -    } while (!pages);
-> +        if (pages) {
-> +            break;
-> +        }
-> +    }
->  
->      rs->last_seen_block = pss.block;
->      rs->last_page = pss.page;
+> +s390x-debian-wasmtime-cross-container:
+> +  extends: .container_job_template
+> +  stage: containers
+> +  needs: ['s390x-debian-cross-container']
+
+This job is in 'containers' stage, but it depends on a container
+built in the same stage. Seems gitlab manages to schedule that
+by effectively delaying the the build. Suggests that actually we
+can entirely get rid of 'containers-layer2' and just let gitlab
+figure out the container dependencies.
+
+> +  variables:
+> +    NAME: debian-s390x-wasmtime-cross
+> +    DOCKER_SCRIPT_ARGS: >
+> +      --extra-files
+> +      tests/docker/dockerfiles/debian-s390x-wasmtime-cross.d/build-toolchain.sh
+
+
+> diff --git a/tests/docker/dockerfiles/debian-s390x-wasmtime-cross.d/build-toolchain.sh b/tests/docker/dockerfiles/debian-s390x-wasmtime-cross.d/build-toolchain.sh
+> new file mode 100755
+> index 0000000000..a28d61a353
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/debian-s390x-wasmtime-cross.d/build-toolchain.sh
+> @@ -0,0 +1,83 @@
+> +#!/bin/sh
+> +
+> +# Build the stable wasmtime testsuite and run it with qemu-user from $PATH.
+> +# ".rustup", ".cargo" and "wasmtime" subdirectories will be created or updated
+> +# in the current directory.
+> +#
+> +# Based on https://github.com/bytecodealliance/wasmtime/blob/v0.37.0/.github/workflows/main.yml#L208.
+> +#
+> +# Usage:
+> +#
+> +#     ./test TARGET_ARCH [CARGO_ARGS ...]
+> +#
+> +# where TARGET_ARCH is the architecture to test (aarch64 or s390x) and
+> +# CARGO_ARGS are the extra arguments passed to cargo test.
+> +
+> +set -e -u -x
+> +
+> +# Dependency versions.
+> +export RUSTUP_TOOLCHAIN=1.62.0
+> +
+> +# Bump when https://github.com/bytecodealliance/wasmtime/pull/4377 is
+> +# integrated. Until this moment there will be some unnecessary rebuilds.
+> +wasmtime_version=0.37.0
+> +
+> +# Script arguments.
+> +arch=$1
+> +shift
+> +arch_upper=$(echo "$arch" | tr '[:lower:]' '[:upper:]')
+> +
+> +# Install/update Rust.
+> +export RUSTUP_HOME="$PWD/.rustup"
+> +export CARGO_HOME="$PWD/.cargo"
+> +curl \
+> +    --proto '=https' \
+> +    --tlsv1.2 \
+> +    -sSf \
+> +    https://sh.rustup.rs \
+> +    | sh -s -- -y \
+> +        --default-toolchain="$RUSTUP_TOOLCHAIN" \
+> +        --target=wasm32-wasi \
+> +        --target=wasm32-unknown-unknown \
+> +        --target="$arch"-unknown-linux-gnu
+
+Why can't we just install the distros' rust packages ?
+
+
+> +cat >"$CARGO_HOME/config" <<HERE
+> +[build]
+> +# Save space by not generating data to speed-up delta builds.
+> +incremental = false
+> +
+> +[profile.test]
+> +# Save space by not generating debug information.
+> +debug = 0
+> +
+> +[net]
+> +# Speed up crates.io index update.
+> +git-fetch-with-cli = true
+> +HERE
+> +. "$PWD/.cargo/env"
+> +
+> +# Checkout/update wasmtime.
+> +if [ -d wasmtime ]; then
+> +    cd wasmtime
+> +    git fetch --force --tags
+> +    git checkout v"$wasmtime_version"
+> +    git submodule update --init --recursive
+> +else
+> +    git clone \
+> +        --depth=1 \
+> +        --recurse-submodules \
+> +        --shallow-submodules \
+> +        -b v"$wasmtime_version" \
+> +        https://github.com/bytecodealliance/wasmtime.git
+> +    cd wasmtime
+> +fi
+> +
+> +# Run wasmtime tests.
+> +export CARGO_BUILD_TARGET="$arch-unknown-linux-gnu"
+> +runner_var=CARGO_TARGET_${arch_upper}_UNKNOWN_LINUX_GNU_RUNNER
+> +linker_var=CARGO_TARGET_${arch_upper}_UNKNOWN_LINUX_GNU_LINKER
+> +eval "export $runner_var=\"qemu-$arch -L /usr/$arch-linux-gnu\""
+> +eval "export $linker_var=$arch-linux-gnu-gcc"
+> +export CARGO_PROFILE_DEV_OPT_LEVEL=2
+> +export WASMTIME_TEST_NO_HOG_MEMORY=1
+> +export RUST_BACKTRACE=1
+> +ci/run-tests.sh --locked "$@"
+
+This build-toolchain.sh script is invoked during the dockerfile
+build stage, but it appears you're running the test suite here.
+Shouldn't this be left until the CI build job instead ?
+
+> diff --git a/tests/docker/dockerfiles/debian-s390x-wasmtime-cross.docker b/tests/docker/dockerfiles/debian-s390x-wasmtime-cross.docker
+> new file mode 100644
+> index 0000000000..d08a66dcc2
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/debian-s390x-wasmtime-cross.docker
+> @@ -0,0 +1,16 @@
+> +# Image containing pre-built wasmtime tests for s390x.
+> +
+> +FROM registry.gitlab.com/qemu-project/qemu/qemu/debian-s390x-cross:latest
+> +
+> +RUN export DEBIAN_FRONTEND=noninteractive && \
+> +    eatmydata apt-get update && \
+> +    eatmydata apt-get dist-upgrade -y && \
+> +    eatmydata apt-get install --no-install-recommends -y \
+> +            curl \
+> +            libglib2.0-dev && \
+> +    eatmydata apt-get autoremove -y && \
+> +    eatmydata apt-get autoclean -y
+> +
+> +RUN mkdir /build
+> +ADD build-toolchain.sh /build
+> +RUN cd /build && ./build-toolchain.sh s390x --no-run
+
+
+Is this '--no-run' arg used by  ci/run-tests.sh in some way ?
+
+
+> diff --git a/tests/wasmtime/test b/tests/wasmtime/test
+> new file mode 100755
+> index 0000000000..10e2c3f886
+> --- /dev/null
+> +++ b/tests/wasmtime/test
+> @@ -0,0 +1,39 @@
+> +#!/bin/sh
+> +
+> +# Build qemu-user in the current directory, build the stable wasmtime
+> +# testsuite, and test them together. ".rustup", ".cargo" and "wasmtime"
+> +# subdirectories, as well as qemu build files, will be created or updated in
+> +# the current directory.
+> +#
+> +# Based on https://github.com/bytecodealliance/wasmtime/blob/v0.37.0/.github/workflows/main.yml#L208.
+> +#
+> +# Usage:
+> +#
+> +#     ./test TARGET_ARCH [CARGO_ARGS ...]
+> +#
+> +# where TARGET_ARCH is the architecture to test (aarch64 or s390x) and
+> +# CARGO_ARGS are the extra arguments passed to cargo test.
+> +
+> +set -e -u -x
+> +
+> +# Script arguments.
+> +arch=$1
+> +shift
+> +
+> +# Build QEMU.
+> +srcdir=$(cd "$(dirname "$0")" && pwd)/../..
+> +docker_files_dir="$srcdir"/tests/docker/dockerfiles
+> +"$srcdir"/configure \
+> +    --target-list="$arch"-linux-user \
+> +    --disable-tools \
+> +    --disable-slirp \
+> +    --disable-fdt \
+> +    --disable-capstone \
+> +    --disable-docs
+> +make --output-sync -j"$(nproc)"
+> +export PATH="$PWD:$PATH"
+> +
+> +# Run wasmtime tests.
+> +exec \
+> +    "$docker_files_dir"/debian-s390x-wasmtime-cross.d/build-toolchain.sh \
+> +    "$arch" "$@"
 > -- 
-> 2.34.1
+> 2.35.3
 > 
+> 
+
+With regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
