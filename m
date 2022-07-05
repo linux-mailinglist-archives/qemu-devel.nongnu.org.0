@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE71C566FDE
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 15:51:25 +0200 (CEST)
-Received: from localhost ([::1]:58868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A109D567017
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 15:58:13 +0200 (CEST)
+Received: from localhost ([::1]:43154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8ixY-0004Pp-Qu
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 09:51:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
+	id 1o8j47-0004cR-GQ
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 09:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o8ivK-0002yR-Oo
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 09:49:06 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:43826)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1o8ivI-0006EE-PN
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 09:49:06 -0400
-Received: by mail-ed1-x534.google.com with SMTP id v12so2749359edc.10
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 06:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VXg9GM9kcgZogBb4NVTD+ieKzzFjbx1VgT1hUCWlEBU=;
- b=CLVxNI8Ni8+f1K6Y8iRje1kq2lW/9FzKWFbCxEDVKM7EhaIL7fMe9rZi8ig2idm1jK
- 9crcMjKsfvv34b0TKESgK2w3PgXS9I5jdI44Ewk3YtGsdCIVlaf/n2VSFQpAAkLrWWA9
- vgqoIm5kswYtBm/TaamApDANY/xWWpbaDB1mqvoZfvgIXMBtHPnV1FfM5ACA5ZnxrzXJ
- uSpVU8x5DpKXlEsCeCd1w6163Op53ujEHmzt6jAN8gn78cJN3ExWNCQ0ZL/0SYcjZhGK
- bz3OYAYQk8i/OqT96dAfo3HPSFmFm9324IgMXyV7fv6F2lrIdaX6Jl+6yLmiUoeE/gOw
- fRTA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o8j2m-0003np-QW
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 09:56:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60154)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o8j2i-0007bZ-2n
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 09:56:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657029402;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=B2BrPfntnMpOo7x19dH0rbKC2lzB4tyAxlvKVCTHp1w=;
+ b=KLcQ8AWGT/AsRItlImrvHLwVAG/E8uY3LZrwUaBYkUAXTuHWn8oko3IHiAvng9AxQLH1ya
+ 9RqVoHN0IGFLWncrctjE2GXhaEA1OiO+VnB29pADVTaJTblQ4TcVE7y67NCk2sfgD7wRoZ
+ N6He1tl6ngi+75S0kxn5s51ZxAulsY0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-127-ijMfsXfxNh2ABOVN7PMejQ-1; Tue, 05 Jul 2022 09:56:41 -0400
+X-MC-Unique: ijMfsXfxNh2ABOVN7PMejQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c126-20020a1c3584000000b003a02fa133ceso1068343wma.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 06:56:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VXg9GM9kcgZogBb4NVTD+ieKzzFjbx1VgT1hUCWlEBU=;
- b=Ac7fbm9f7hpkbR+oovKnBm30nFpnzAY+LxGDurVptkWw0/8BJGZLftsAa6BKtjaUvX
- R3CcVLZEDNvLzPCXCdZvL+B4qbu0najC+CspVTGM1aK6VhBuaBxdhGHyisanv+ULTQCX
- XuMN/5Mi9QZGBm1zPnUqVONP6z2grt86IB26ibnumGXFE4cBruCTrbhlymOLh/4aJ/Pu
- jeHRzWHve2tdXy4tT+0Rns4DnwnjJxJ0FbFXf7Ps1r76TYQ+4YIVtos61Hbukh/QzFVE
- Fs9ccaf5e2mN/q43QfeUSpz3iK9msgH7JtBVnm9Nac1h2AUgQBVxOY9SL6jg0vTunOqx
- w2VA==
-X-Gm-Message-State: AJIora/wsLwEgnEj2+Y29HUr2zLH5NX3Bx3e0T5zBGEBGyM0no9TCG2v
- iC96Tb2WZTNdGlYJAKrnASAFBftwmoEkftP/d4Sorg==
-X-Google-Smtp-Source: AGRyM1sgG0dh64yBTsvbu6wNo20vyNbfRbSV1kBFJdZCvMTd2eaZnrLtHESLdpr+O7zM8ZGollOv3JaIcH2wOmVcPCk=
-X-Received: by 2002:a05:6402:5250:b0:43a:6c36:2e57 with SMTP id
- t16-20020a056402525000b0043a6c362e57mr12373296edd.65.1657028942727; Tue, 05
- Jul 2022 06:49:02 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=B2BrPfntnMpOo7x19dH0rbKC2lzB4tyAxlvKVCTHp1w=;
+ b=Dystj7gRO6qtin0RKj4sqhUaXyQWL5m7ltKrBTNh+LYlH2mY0hTITmyWOLq4emWeHJ
+ 7eWx+9stQfn8wK8jzt2Y0htBhWlN6H000Qs0qAR88mInvmrN+7x9f62PwD/VO+7DMlt5
+ /oBNZaQb0e1WOgYR+GyAE6ifO/kok317DClXxRmPJYCrXkcYmBltB46wU1DjfyQ8gFTE
+ LfAR8xWG+YRJNN3cknxRfudxPeCotFmQUBrOxdEhWrd8HZGcJQflBHqkh3NmFvUhQKhB
+ GintEIjpMjdvCPYmzj1h+T41anYET9Igdra9cBYj1th2CqYb5pDALB7mfHsVpeFnlktX
+ LjDg==
+X-Gm-Message-State: AJIora/bzCooVrfw1OR9Ue8lezuSdW44oGZA8jXcmCpdw4a62hmnq0c/
+ HFaFQOcjq7ukn8hZrwiOVcV5b+YcWiyU2oCrKJKV46es91KSQgSL5fMZ+vfMzCdB4KqJpMNaI5f
+ kzkC+wRj83+BfaJ0=
+X-Received: by 2002:adf:f7cd:0:b0:21d:6e8d:ee13 with SMTP id
+ a13-20020adff7cd000000b0021d6e8dee13mr6466511wrq.11.1657029398948; 
+ Tue, 05 Jul 2022 06:56:38 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tgsjfFb7lmM+/uHdaanQeippef2xFzBt/97QfIys50IQiT3pJCNhSH0fAup2zNwflpUuwSHg==
+X-Received: by 2002:adf:f7cd:0:b0:21d:6e8d:ee13 with SMTP id
+ a13-20020adff7cd000000b0021d6e8dee13mr6466485wrq.11.1657029398680; 
+ Tue, 05 Jul 2022 06:56:38 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ l1-20020a5d5601000000b0021d7799cf4csm584566wrv.61.2022.07.05.06.56.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jul 2022 06:56:38 -0700 (PDT)
+Date: Tue, 5 Jul 2022 14:56:35 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH 5/5] multifd: Only sync once each full round of memory
+Message-ID: <YsRDEyA0mjUD4DSB@work-vm>
+References: <20220621140507.1246-1-quintela@redhat.com>
+ <20220621140507.1246-6-quintela@redhat.com>
 MIME-Version: 1.0
-References: <CAARzgww4LP7xjDPjWuCCERO1fRp9JwuTtPTG6Lix0KDWPC9FUA@mail.gmail.com>
- <CAFEAcA-Rsqze4zKR7NZKRGSJLqQ77Lcc7Grh=tTSCQCZSNHozA@mail.gmail.com>
- <CAARzgwxNkgJTjecG6rAz5LgWmtg=OMEh0a0M4kt7QUFeWaNoyg@mail.gmail.com>
- <9b96f98e-2b7d-47a3-c64d-9cd785432840@redhat.com>
- <20220701024108-mutt-send-email-mst@kernel.org>
- <CAARzgwxnFRN=y9qz0ERiLOxMBCxEyxsn=xW_-i8mawWPj1Dxqw@mail.gmail.com>
- <20220701033006-mutt-send-email-mst@kernel.org>
- <CAARzgwwhrsG1EkA9=kH9Y456_Yz5KEA9tMQoQ6wGufoPGTu69w@mail.gmail.com>
- <20220701053949-mutt-send-email-mst@kernel.org>
- <CAARzgwx4GKLvATe+X+jZQminm1xAM7sgxXeeDQn_KHDozyde+A@mail.gmail.com>
- <20220701082552-mutt-send-email-mst@kernel.org>
- <CAARzgww0fYFFQkzCK0xwyRZB439KwtCs5gRTrdpyh-A_eXXAQg@mail.gmail.com>
-In-Reply-To: <CAARzgww0fYFFQkzCK0xwyRZB439KwtCs5gRTrdpyh-A_eXXAQg@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 5 Jul 2022 19:18:51 +0530
-Message-ID: <CAARzgwwJm60vbu25NfoM=uwQMaSfHuoO8_u+sZbR_HDnM5+u7w@mail.gmail.com>
-Subject: Re: venv for python qtest bits? (was: Re: [PATCH 11/12]
- acpi/tests/bits: add README file for bits qtests)
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::534;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220621140507.1246-6-quintela@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,59 +102,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 4, 2022 at 7:02 PM Ani Sinha <ani@anisinha.ca> wrote:
->
-> On Fri, Jul 1, 2022 at 6:25 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Fri, Jul 01, 2022 at 03:44:32PM +0530, Ani Sinha wrote:
-> > > but I thought you were suggesting we built bits every time the test is run?
-> >
-> > In my opinion 3 scenarios are worth supporting:
-> > - people not touching ACPI, including users - simply don't run the tests,
-> >         comparing tables with expected output should be enough
-> > - people making changes indirectly affecting ACPI -
-> >         use tests to validate that tables are still well formed,
-> >         using a pre built binary should be enough IMO
-> > - people working on ACPI - use tests to analyse the tables,
-> >         building from source might be necessary for debugging,
-> >         sources change very rarely
-> > - people developing the tests
-> >         building from source is required
-> >
-> > So I would suggest basically two github repos, one with binaries one with
-> > sources. We'll keep relevant hashes to use in the script.
-> > All in all not that different from submodules but I guess
-> > people have submodules and that is that.
-> >
-> > And I personally would probably not tie it to CI whoever owns the
-> > repository can worry about the builds, and I think keeping
-> > things distributed is important.
-> >
-> > So
-> > - people not touching ACPI - make check should see directory not found
-> >         and skip the test
-> > - people making changes indirectly affecting ACPI -
-> >         check out binaries and use
-> > - people working on ACPI -
-> >         see that source directory is present, go there
-> >         and run make. should not rebuild each time right?
-> > - people developing the tests
-> >         building from source is required
->
-> Ok I have now committed a Dockerfile that has all the build time
-> dependencies and builds bits and generates the tarballs/zip file that
-> my test requires:
-> https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
->
-> We just need to fork the repo and generate automated builds with this
-> Dockerfile and put the binaries somewhere. This should also help
-> developers requiring to rebuild bits when necessary.
-> Oh and btw, I also made bits compliant with the latest gcc 11 compiler
-> that comes with Ubuntu 22.04 LTS :-)
+* Juan Quintela (quintela@redhat.com) wrote:
+> We need to add a new flag to mean to sync at that point.
+> Notice that we still synchronize at the end of setup and at the end of
+> complete stages.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  migration/migration.c |  2 +-
+>  migration/ram.c       | 42 ++++++++++++++++++++++++++++++------------
+>  2 files changed, 31 insertions(+), 13 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 3f79df0b70..6627787fc2 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -4283,7 +4283,7 @@ static Property migration_properties[] = {
+>                        DEFAULT_MIGRATE_ANNOUNCE_STEP),
+>      /* We will change to false when we introduce the new mechanism */
+>      DEFINE_PROP_BOOL("multifd-sync-each-iteration", MigrationState,
+> -                      multifd_sync_each_iteration, true),
+> +                      multifd_sync_each_iteration, false),
+>  
+>      /* Migration capabilities */
+>      DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 2c7289edad..6792986565 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -81,6 +81,7 @@
+>  #define RAM_SAVE_FLAG_XBZRLE   0x40
+>  /* 0x80 is reserved in migration.h start with 0x100 next */
+>  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
+> +#define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
 
-Pushed a build script here:
-https://github.com/ani-sinha/bits/commit/90b99ef05d55ead4b33b2fb19ad07dfb9682ec92
+Note this is the very last usable flag!
+We could do with avoiding using them as flags where we dont need to.
 
-and the bios bits binaries are in this branch:
-https://github.com/ani-sinha/bits/tree/bits-builds
+>  XBZRLECacheStats xbzrle_counters;
+>  
+> @@ -1482,6 +1483,7 @@ retry:
+>   * associated with the search process.
+>   *
+>   * Returns:
+> + *        <0: An error happened
+>   *         0: no page found, give up
+>   *         1: no page found, retry
+>   *         2: page found
+> @@ -1510,6 +1512,13 @@ static int find_dirty_block(RAMState *rs, PageSearchStatus *pss)
+>          pss->page = 0;
+>          pss->block = QLIST_NEXT_RCU(pss->block, next);
+>          if (!pss->block) {
+> +            if (!migrate_multifd_sync_each_iteration()) {
+> +                int ret = multifd_send_sync_main(rs->f);
+> +                if (ret < 0) {
+> +                    return ret;
+> +                }
+> +                qemu_put_be64(rs->f, RAM_SAVE_FLAG_MULTIFD_SYNC);
+> +            }
+>              /*
+>               * If memory migration starts over, we will meet a dirtied page
+>               * which may still exists in compression threads's ring, so we
+> @@ -2273,7 +2282,8 @@ static int ram_find_and_save_block(RAMState *rs)
+>          if (!get_queued_page(rs, &pss)) {
+>              /* priority queue empty, so just search for something dirty */
+>              int res = find_dirty_block(rs, &pss);
+> -            if (res == 0) {
+> +            if (res <= 0) {
+> +                pages = res;
+>                  break;
+>              } else if (res == 1)
+>                  continue;
+> @@ -2943,11 +2953,13 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+>      ram_control_before_iterate(f, RAM_CONTROL_SETUP);
+>      ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+>  
+> -    if (migrate_multifd_sync_each_iteration()) {
+> -        ret =  multifd_send_sync_main(f);
+> -        if (ret < 0) {
+> -            return ret;
+> -        }
+> +    ret =  multifd_send_sync_main(f);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    if (!migrate_multifd_sync_each_iteration()) {
+> +        qemu_put_be64(f, RAM_SAVE_FLAG_MULTIFD_SYNC);
+>      }
+>      qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+>      qemu_fflush(f);
+> @@ -3127,13 +3139,14 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+>          return ret;
+>      }
+>  
+> -    if (migrate_multifd_sync_each_iteration()) {
+> -        ret = multifd_send_sync_main(rs->f);
+> -        if (ret < 0) {
+> -            return ret;
+> -        }
+
+It feels like you could have done that in the previous patch.
+Anyway,
+
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> +    ret = multifd_send_sync_main(rs->f);
+> +    if (ret < 0) {
+> +        return ret;
+>      }
+>  
+> +    if (migrate_multifd_sync_each_iteration()) {
+> +        qemu_put_be64(f, RAM_SAVE_FLAG_MULTIFD_SYNC);
+> +    }
+>      qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+>      qemu_fflush(f);
+>  
+> @@ -3800,7 +3813,9 @@ int ram_load_postcopy(QEMUFile *f)
+>              }
+>              decompress_data_with_multi_threads(f, page_buffer, len);
+>              break;
+> -
+> +        case RAM_SAVE_FLAG_MULTIFD_SYNC:
+> +            multifd_recv_sync_main();
+> +            break;
+>          case RAM_SAVE_FLAG_EOS:
+>              /* normal exit */
+>              if (migrate_multifd_sync_each_iteration()) {
+> @@ -4079,6 +4094,9 @@ static int ram_load_precopy(QEMUFile *f)
+>                  break;
+>              }
+>              break;
+> +        case RAM_SAVE_FLAG_MULTIFD_SYNC:
+> +            multifd_recv_sync_main();
+> +            break;
+>          case RAM_SAVE_FLAG_EOS:
+>              /* normal exit */
+>              if (migrate_multifd_sync_each_iteration()) {
+> -- 
+> 2.34.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
