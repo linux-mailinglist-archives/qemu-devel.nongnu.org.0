@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7F95664BB
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:16:08 +0200 (CEST)
-Received: from localhost ([::1]:39638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC185664FA
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:27:12 +0200 (CEST)
+Received: from localhost ([::1]:33192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8dj5-0001xn-EE
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:16:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32836)
+	id 1o8dto-0000kx-1o
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8dca-0004ZB-F9
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:09:24 -0400
-Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:46731)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8dcX-0004UN-8U
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:09:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8dcX-0000EU-SK
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:09:23 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.128])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 722E8253B1;
- Tue,  5 Jul 2022 08:09:18 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 5 Jul 2022
- 10:09:16 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0012842f7e8-0b5b-40d3-ae08-d662f075cf3a,
- 4FF77D4A254985FC0BE9A952312E42D6E34C6CC4) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <f7e5b92d-48ae-8788-7b69-e75c21305c4c@kaod.org>
-Date: Tue, 5 Jul 2022 10:09:08 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8dcV-0000EE-C3
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:09:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657008558;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UDs0zYMWjDNc76pE+wWskJZ2HkU0f4L0HAiqiumWlm0=;
+ b=XYVKW5Kg6TiZwsADqg2/HQ6qKsO+DXYsuIam4beuZyA9PZBy8MqgRmGS7QXXpPfAHMt4JG
+ ppf6HEo8OclwGwVg3qml/kdAAuqjaivYcv1cURlIypYhbvcCg02R0K4FFHzIX1nANmtwJZ
+ 9On0j2wuZGfK4weWZrno6KbaZrAk9jg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-505-pzpDgfzUMeu0xf-e23oZWA-1; Tue, 05 Jul 2022 04:09:15 -0400
+X-MC-Unique: pzpDgfzUMeu0xf-e23oZWA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D45A1032963;
+ Tue,  5 Jul 2022 08:09:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16A5440D282F;
+ Tue,  5 Jul 2022 08:09:13 +0000 (UTC)
+Date: Tue, 5 Jul 2022 09:09:11 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [RFC PATCH 5/5] tests: stop skipping migration test on s390x/ppc64
+Message-ID: <YsPxp7386xTTWTrv@redhat.com>
+References: <20220628105434.295905-1-berrange@redhat.com>
+ <20220628105434.295905-6-berrange@redhat.com>
+ <f1c2d5b1-ee5c-281b-acd4-71035f6753c9@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 5/8] aspeed: Add fby35 skeleton
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>, Joel Stanley <joel@jms.id.au>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
- <andrew@aj.id.au>, QEMU Developers <qemu-devel@nongnu.org>, qemu-arm
- <qemu-arm@nongnu.org>
-References: <20220704215457.38332-1-peter@pjd.dev>
- <20220704215457.38332-5-peter@pjd.dev>
- <CACPK8XfcZM+9sk4f=fCtW2zVioN0sgoT=o+dF62U=AMZuUsL6g@mail.gmail.com>
- <YsPvMUfG6CzK9LSz@pdel-mbp>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <YsPvMUfG6CzK9LSz@pdel-mbp>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: caf50ff1-a39e-45c1-ba44-2c090c04e89e
-X-Ovh-Tracer-Id: 17414856811731979046
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeiuddgtddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejteeuleelfeeujeeiheffteekffegffekvdevleevtefgvedvfeehheeugeegieenucffohhmrghinhepmhgvthgrrdgtohhmpdhophgvnhgtohhmphhuthgvrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedv
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <f1c2d5b1-ee5c-281b-acd4-71035f6753c9@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,120 +84,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/22 09:58, Peter Delevoryas wrote:
-> On Tue, Jul 05, 2022 at 06:53:43AM +0000, Joel Stanley wrote:
->> On Mon, 4 Jul 2022 at 21:55, Peter Delevoryas <peter@pjd.dev> wrote:
->>>
->>> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
->>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
->>> ---
->>>   MAINTAINERS        |  1 +
->>>   hw/arm/fby35.c     | 39 +++++++++++++++++++++++++++++++++++++++
->>>   hw/arm/meson.build |  3 ++-
->>>   3 files changed, 42 insertions(+), 1 deletion(-)
->>>   create mode 100644 hw/arm/fby35.c
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index d9378511b7..147330ddd7 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -1067,6 +1067,7 @@ F: hw/net/ftgmac100.c
->>>   F: include/hw/net/ftgmac100.h
->>>   F: docs/system/arm/aspeed.rst
->>>   F: tests/qtest/*aspeed*
->>> +F: hw/arm/fby35.c
->>>
->>>   NRF51
->>>   M: Joel Stanley <joel@jms.id.au>
->>> diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
->>> new file mode 100644
->>> index 0000000000..03b458584c
->>> --- /dev/null
->>> +++ b/hw/arm/fby35.c
->>> @@ -0,0 +1,39 @@
->>> +/*
->>> + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
->>
->> Can you mention what fby35 means? I keep reading your patches but can't recall.
+On Tue, Jul 05, 2022 at 10:06:58AM +0200, Thomas Huth wrote:
+> On 28/06/2022 12.54, Daniel P. Berrangé wrote:
+> > There have been checks put into the migration test which skip it in a
+> > few scenarios
+> > 
+> >   * ppc64 TCG
+> >   * ppc64 KVM with kvm-pr
+> >   * s390x TCG
+> > 
+> > In the original commits there are references to unexplained hangs in
+> > the test. There is no record of details of where it was hanging, but
+> > it is suspected that these were all a result of the max downtime limit
+> > being set at too low a value to guarantee convergance.
+> > 
+> > Since a previous commit bumped the value from 1 second to 30 seconds,
+> > it is believed that hangs due to non-convergance should be eliminated
+> > and thus worth trying to remove the skipped scenarios.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >   tests/qtest/migration-test.c | 21 ---------------------
+> >   1 file changed, 21 deletions(-)
 > 
-> Oh yeah sure, it means "Facebook Yosemite version 3.5". Facebook has a series
-> of multi-node compute server designs named Yosemite, the most recent version
-> was Yosemite 3:
+> I just gave this a try, and it's failing on my x86 laptop with the ppc64 target:
 > 
-> https://www.opencompute.org/documents/ocp-yosemite-v3-platform-design-specification-1v16-pdf
+> /ppc64/migration/auto_converge: qemu-system-ppc64: warning: TCG doesn't
+> support requested feature, cap-cfpc=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-sbbc=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-ibs=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-ccf-assist=on
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-cfpc=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-sbbc=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-ibs=workaround
+> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+> cap-ccf-assist=on
+> Memory content inconsistency at df6000 first_byte = 98 last_byte = 98
+> current = 2 hit_edge = 0
+> Memory content inconsistency at 4e51000 first_byte = 98 last_byte = 97
+> current = 96 hit_edge = 1
+> Memory content inconsistency at 4e52000 first_byte = 98 last_byte = 97
+> current = 96 hit_edge = 1
+> Memory content inconsistency at 4e53000 first_byte = 98 last_byte = 97
+> current = 96 hit_edge = 1
+> Memory content inconsistency at 4e54000 first_byte = 98 last_byte = 97
+> current = 96 hit_edge = 1
+> Memory content inconsistency at 4e55000 first_byte = 98 last_byte = 97
+> current = 96 hit_edge = 1
+> Memory content inconsistency at 4e56000 first_byte = 98 last_byte = 97
+> current = 96 hit_edge = 1
+> Memory content inconsistency at 4e57000 first_byte = 98 last_byte = 97
+> current = 96 hit_edge = 1
+> Memory content inconsistency at 4e58000 first_byte = 98 last_byte = 97
+> current = 96 hit_edge = 1
+> Memory content inconsistency at 4e59000 first_byte = 98 last_byte = 97
+> current = 96 hit_edge = 1
+> and in another 5542 pages**
+> ERROR:../../devel/qemu/tests/qtest/migration-test.c:280:check_guests_ram:
+> assertion failed: (bad == 0)
+> Aborted (core dumped)
 > 
-> Yosemite 3.5 is an iteration on this design. It's actually very similar in terms
-> of there being a BMC on the baseboard, and a Bridge IC (BIC) on each server
-> board, with room for expansion boards as well.
+> So I guess this workaround was about a different issue and we should drop
+> this patch.
 
-You just wrote the commit log :)
+Yeah, at the very least needs for investigation.
 
-C.
+It is a little worrying though that we get such failures as it smells
+like a genuine bug that we've been missing from having tests disabled.
 
 
-> I'm still debugging I2C a little bit, but my goal is to be able to test BMC <->
-> BIC IPMB messages with the full OpenBMC firmware running on the BMC and the
-> OpenBIC firmware running on the BIC, and to expand this machine to include the
-> other 3 slot BIC's (in this patch series, I only included the BIC in the first
-> slot).
-> 
->>
->>> + *
->>> + * This code is licensed under the GPL version 2 or later. See the COPYING
->>> + * file in the top-level directory.
->>> + */
->>> +
->>> +#include "qemu/osdep.h"
->>> +#include "hw/boards.h"
->>> +
->>> +#define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
->>> +OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
->>> +
->>> +struct Fby35State {
->>> +    MachineState parent_obj;
->>> +};
->>> +
->>> +static void fby35_init(MachineState *machine)
->>> +{
->>> +}
->>> +
->>> +static void fby35_class_init(ObjectClass *oc, void *data)
->>> +{
->>> +    MachineClass *mc = MACHINE_CLASS(oc);
->>> +
->>> +    mc->desc = "Meta Platforms fby35";
->>> +    mc->init = fby35_init;
->>> +}
->>> +
->>> +static const TypeInfo fby35_types[] = {
->>> +    {
->>> +        .name = MACHINE_TYPE_NAME("fby35"),
->>> +        .parent = TYPE_MACHINE,
->>> +        .class_init = fby35_class_init,
->>> +        .instance_size = sizeof(Fby35State),
->>> +    },
->>> +};
->>> +
->>> +DEFINE_TYPES(fby35_types);
->>> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
->>> index 2d8381339c..92f9f6e000 100644
->>> --- a/hw/arm/meson.build
->>> +++ b/hw/arm/meson.build
->>> @@ -51,7 +51,8 @@ arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
->>>     'aspeed_soc.c',
->>>     'aspeed.c',
->>>     'aspeed_ast2600.c',
->>> -  'aspeed_ast10x0.c'))
->>> +  'aspeed_ast10x0.c',
->>> +  'fby35.c'))
->>>   arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
->>>   arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
->>>   arm_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-soc.c'))
->>> --
->>> 2.37.0
->>>
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
