@@ -2,41 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3A2566386
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 09:07:21 +0200 (CEST)
-Received: from localhost ([::1]:56212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7EF5663C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 09:11:45 +0200 (CEST)
+Received: from localhost ([::1]:58456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8ceW-0000rT-NP
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 03:07:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47670)
+	id 1o8cim-0002j6-C3
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 03:11:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1o8cXJ-0005Pf-Vw
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:59:54 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:60008 helo=loongson.cn)
+ id 1o8ch4-0001wX-22
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 03:09:58 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:34556 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1o8cXI-0006U1-0l
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:59:53 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1o8ch1-000847-M2
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 03:09:57 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxj+Nf4cNiOfsJAA--.30074S3; 
- Tue, 05 Jul 2022 14:59:43 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxOeG+48NiEv4JAA--.30532S2; 
+ Tue, 05 Jul 2022 15:09:51 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, laurent@vivier.eu, yangxiaojuan@loongson.cn
-Subject: [PATCH] tcg/tci: Fix enable-debug got an error
-Date: Tue,  5 Jul 2022 14:59:43 +0800
-Message-Id: <20220705065943.2353930-2-gaosong@loongson.cn>
+Cc: richard.henderson@linaro.org,
+	yangxiaojuan@loongson.cn
+Subject: [PATCH] target/loongarch: Clean up tlb when cpu reset
+Date: Tue,  5 Jul 2022 15:09:50 +0800
+Message-Id: <20220705070950.2364243-1-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220705065943.2353930-1-gaosong@loongson.cn>
-References: <20220705065943.2353930-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxj+Nf4cNiOfsJAA--.30074S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7uF1kur4ftw1xuF4rKFy3Jwb_yoW8XFyUpa
- y8J3WqkFyrJ3yUAwsxZFW8K34UJrnYk3WUC3Z7Gw10vwnFqFWFvw4Yyw43Wr1xXFWUta1F
- vF929F1YgFWDJaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9AxOeG+48NiEv4JAA--.30532S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU
+ =
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -60,46 +58,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building tcg configure with --enable-tcg-interpreter and --enable-debug,
-We may got an error:
-
-In file included from ../tcg/tcg.c:432:
-/root/code/github/soft-qemu/qemu/tcg/tci/tcg-target.c.inc: In function 'tcg_target_init':
-/root/code/github/soft-qemu/qemu/tcg/tci/tcg-target.c.inc:829:9: error: too few arguments to function 'qemu_set_log'
-  829 |         qemu_set_log(strtol(envval, NULL, 0));
-      |         ^~~~~~~~~~~~
-In file included from /root/code/github/soft-qemu/qemu/include/exec/log.h:4,
-                 from ../tcg/tcg.c:61:
-/root/code/github/soft-qemu/qemu/include/qemu/log.h:84:6: note: declared here
-   84 | bool qemu_set_log(int log_flags, Error **errp);
-      |      ^~~~~~~~~~~~
+We should make sure that tlb is clean when cpu reset.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- tcg/tci/tcg-target.c.inc | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ target/loongarch/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 98337c567a..b7c41fe6c3 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -824,9 +824,15 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
- static void tcg_target_init(TCGContext *s)
- {
- #if defined(CONFIG_DEBUG_TCG_INTERPRETER)
-+    Error *err = NULL;
-     const char *envval = getenv("DEBUG_TCG");
-     if (envval) {
--        qemu_set_log(strtol(envval, NULL, 0));
-+        if (qemu_set_log(strtol(envval, NULL, 0), &err)) {
-+            error_report("DEBUG_TCG got an errr, envval %s", envval);
-+        }
-+        if (err) {
-+            g_error_free(err);
-+        }
-     }
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index d2d4667a34..e21715592a 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -479,6 +479,7 @@ static void loongarch_cpu_reset(DeviceState *dev)
+ 
+ #ifndef CONFIG_USER_ONLY
+     env->pc = 0x1c000000;
++    memset(env->tlb, 0, sizeof(env->tlb));
  #endif
  
+     restore_fp_status(env);
 -- 
 2.31.1
 
