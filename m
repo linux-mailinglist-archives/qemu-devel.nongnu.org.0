@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6524256733A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:49:12 +0200 (CEST)
-Received: from localhost ([::1]:46532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2E756733C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:49:19 +0200 (CEST)
+Received: from localhost ([::1]:47042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8knX-0004id-2H
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52478)
+	id 1o8kne-00052v-8l
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1o8kjl-0002hZ-9B
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:45:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56618)
+ id 1o8kk5-0002mG-Hj
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:45:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1o8kjg-0000by-SR
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:45:14 -0400
+ id 1o8kk1-0000iX-DZ
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:45:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657035910;
+ s=mimecast20190719; t=1657035932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wt7TNUlNEutzptCBzGkJOOuEMS4QeW0+0l5zT/DKQ/o=;
- b=U4KMvwOLXkos9KSgmGSAzYxvvsR/6i3Xn0CJQ6UYC0Nsplv1eH2rQw/jupAjFwK+2ZCw2Z
- INroJ1iX55+XJwSzpy6Vu21jsFDt93HGFF1IUAegJQvsWCbPH/nqvj/+xOOZNRJEY0ztxi
- JjX2havFkv3beeQyalbw3+z5a09Kx0c=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DJd0r6c2bUmocAV1OkhtbG5xnHk40PmudndzU3C24Tc=;
+ b=ExvQDtGYUVluhg5tA8AttvLSb+tZgLyLXXb4lYiV+Ry0BnM09bg+g9vzhcSF3XhNAjdOAY
+ yZ6oWtl7ra3wkI3xfEUoKyhJpU7u6QjA4Dx53werh6gN0kBAD9C7hCjqGprEzpEREG8Gov
+ 39L3eSm7I27m+DXZBvNxu2nvQBmv6hw=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-388-20rs3IFSPUyQzsp-0oA_3Q-1; Tue, 05 Jul 2022 11:45:08 -0400
-X-MC-Unique: 20rs3IFSPUyQzsp-0oA_3Q-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-31797057755so89544997b3.16
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 08:45:08 -0700 (PDT)
+ us-mta-21-KJ-Q6EMLORG2Djx6y8wE9w-1; Tue, 05 Jul 2022 11:45:31 -0400
+X-MC-Unique: KJ-Q6EMLORG2Djx6y8wE9w-1
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-31c8c7138ebso43916987b3.17
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 08:45:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:references:mime-version:in-reply-to:date
  :message-id:subject:to:cc;
- bh=wt7TNUlNEutzptCBzGkJOOuEMS4QeW0+0l5zT/DKQ/o=;
- b=jNj+awYm6WogSJMFzJVlB4vYax2vKL8mRTFusCdV4zJ7pyJbLwgkVj5b5X8CzQIoOq
- FPLiVBq0Ok4hFr1yeJ62+oXgdlvo5FzcnJUk5c2PT8VDaMyE3a/G/Rx6R1yQFipOdoAL
- g4aT0pwGGGGX9lHBpVs8mSkm2LtZBF0GLnkfnZmLveMcgCz7NenR0C2n2XlOZ0hZg0K1
- BF43nRsy2WZ3o0B6vu1mcgdrGRuNUeMZZY+yu+ZMDm76X6MOJpimNIdNwQZ/ux4COaHJ
- UfKVmGCGW8eBlAsVQdLPN86Isp0hqQXZ/6zHZ59l8oFrRe9J7ZVhN5vq0eVxNSn3opQj
- xj/Q==
-X-Gm-Message-State: AJIora+6Kxkt2WUxRlPD7Nc9vkT2Bk2dOLa4Qi5XH3IVswRytBu9kmXD
- RaVphUSIKj2I48+fQ0OFY5QB4/tVZMQ8Mfm/Zj9x8iP+YAb8f0cb3Sf27TPhLg+afbcjFp8LJKR
- wARFqJvBAbd6TVdVtwanjxB3h7gB5Fuc=
-X-Received: by 2002:a81:6f56:0:b0:31b:c2d1:3c96 with SMTP id
- k83-20020a816f56000000b0031bc2d13c96mr42230806ywc.87.1657035907689; 
- Tue, 05 Jul 2022 08:45:07 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vooXA7lAFyHUtbS/mXaMVawIbikXgPSIMTXI87wtsy7vRK8nDXtEqxuqKibZ9KexozXv6htp3x3ry2vPQkafk=
-X-Received: by 2002:a81:6f56:0:b0:31b:c2d1:3c96 with SMTP id
- k83-20020a816f56000000b0031bc2d13c96mr42230770ywc.87.1657035907338; Tue, 05
- Jul 2022 08:45:07 -0700 (PDT)
+ bh=DJd0r6c2bUmocAV1OkhtbG5xnHk40PmudndzU3C24Tc=;
+ b=iC0QEvyglisJud2zEfNQUHER7wpKhEELrNyu0WS2qQits2MEzv7kHkZsrVGJew1Ef3
+ /bnc29jCJ6bJdxTae3kNZPBZRiKEDS5IArORBqKfAe/PcJGqE2ZBtRZN8dn1tBV9fcIh
+ QSvcD6jv8E6SK/f15Ny3mTuYOvBTBAJOpwek1BzfLiEF5nrr/46I5EOE0QTkZxNKSHVy
+ z8m6wJz0iflOavbwChb2rRgubl2RjkZuBj8IzQ66LBISQ/8/omvMa5NYllftmBJ/JnJr
+ XtQAOU4z7YY3JlIc0Q8JM8TqadSwFxpGI7ewdzf12Y7b/oeul/H4RFaFygrkwIwwku3q
+ lzWA==
+X-Gm-Message-State: AJIora/wM7wGprq2kFy2bt9MKWl8iLEpif1jTMKjKMU5VBuUMFpCgzSe
+ RLXQmQ7uFUSiU/BWX+wepp9GLqfJhQVuDqPdfjlxfVVL7jTuNzybhyTBz+c3mIFmWdooQ9SN7O1
+ SioZ3wTFH5LXah3KbGMaOcrN8smI12WU=
+X-Received: by 2002:a25:b90c:0:b0:668:b8b8:ba5a with SMTP id
+ x12-20020a25b90c000000b00668b8b8ba5amr38235884ybj.7.1657035930910; 
+ Tue, 05 Jul 2022 08:45:30 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1smzOD1KZPgrWfgc6e6btew9iBOi45lA4mJm2U4hkqTgbjrspzPZUeHN2i3cIX6ExQ3mvvEgJg7TzLulP8wxiE=
+X-Received: by 2002:a25:b90c:0:b0:668:b8b8:ba5a with SMTP id
+ x12-20020a25b90c000000b00668b8b8ba5amr38235866ybj.7.1657035930668; Tue, 05
+ Jul 2022 08:45:30 -0700 (PDT)
 Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 5 Jul 2022 08:45:06 -0700
+ HTTPREST; Tue, 5 Jul 2022 08:45:30 -0700
 From: Andrea Bolognani <abologna@redhat.com>
 References: <20220617121932.249381-1-victortoso@redhat.com>
- <20220617121932.249381-3-victortoso@redhat.com>
+ <20220617121932.249381-5-victortoso@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220617121932.249381-3-victortoso@redhat.com>
-Date: Tue, 5 Jul 2022 08:45:06 -0700
-Message-ID: <CABJz62NXnKFm=n=7eXmb==zSUe0VCy_0jbcFoNc8SwrQ2YKjvg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/8] qapi: golang: Generate qapi's alternate types
- in Go
+In-Reply-To: <20220617121932.249381-5-victortoso@redhat.com>
+Date: Tue, 5 Jul 2022 08:45:30 -0700
+Message-ID: <CABJz62P_Fy=eyn-QjhOBSvTs_YRgMA=2=teeQwN9SsYGNKGLcQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 4/8] qapi: golang: Generate qapi's union types in Go
 To: Victor Toso <victortoso@redhat.com>
 Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
  Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>, 
  =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,152 +96,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry it took me a while to find the time to look into this!
-
-Overall this second iteration is a significant improvement over the
-initial one. There are still a few things that I think should be
-changed, so for the time being I'm going to comment mostly on the
-generated Go code and leave the details of the implementation for
-later.
-
-
-On Fri, Jun 17, 2022 at 02:19:26PM +0200, Victor Toso wrote:
-> This patch handles QAPI alternate types and generates data structures
-> in Go that handles it.
->
-> At this moment, there are 5 alternates in qemu/qapi, they are:
->  * BlockDirtyBitmapMergeSource
->  * Qcow2OverlapChecks
->  * BlockdevRef
->  * BlockdevRefOrNull
->  * StrOrNull
-
-I personally don't think it's very useful to list all the alternate
-types in the commit message, or even mention how many there are. You
-do this for all other types too, and it seems to me that it's just an
-opportunity for incosistent information to make their way to the git
-repository - what if a new type is introduced between the time your
-series is queued and merged? I'd say just drop this part.
-
-> Example:
->
+On Fri, Jun 17, 2022 at 02:19:28PM +0200, Victor Toso wrote:
 > qapi:
->   | { 'alternate': 'BlockdevRef',
->   |   'data': { 'definition': 'BlockdevOptions',
->   |             'reference': 'str' } }
+>   | { 'union': 'SetPasswordOptions',
+>   |   'base': { 'protocol': 'DisplayProtocol',
+>   |             'password': 'str',
+>   |             '*connected': 'SetPasswordAction' },
+>   |   'discriminator': 'protocol',
+>   |   'data': { 'vnc': 'SetPasswordOptionsVnc' } }
 >
 > go:
->   | type BlockdevRef struct {
->   |         Definition *BlockdevOptions
->   |         Reference  *string
+>   | type SetPasswordOptions struct {
+>   | 	// Base fields
+>   | 	Password  string             `json:"password"`
+>   | 	Connected *SetPasswordAction `json:"connected,omitempty"`
+>   |
+>   | 	// Variants fields
+>   | 	Vnc *SetPasswordOptionsVnc `json:"-"`
 >   | }
->
-> usage:
->   | input := `{"driver":"qcow2","data-file":"/some/place/my-image"}`
->   | k := BlockdevRef{}
->   | err := json.Unmarshal([]byte(input), &k)
->   | if err != nil {
->   |     panic(err)
->   | }
->   | // *k.Definition.Qcow2.DataFile.Reference == "/some/place/my-image"
 
-Let me just say that I absolutely *love* how you've added these bits
-comparing the QAPI / Go representations as well as usage. They really
-help a lot understanding what the generator is trying to achieve :)
+Generated code:
 
-> +// Creates a decoder that errors on unknown Fields
-> +// Returns true if successfully decoded @from string @into type
-> +// Returns false without error is failed with "unknown field"
-> +// Returns false with error is a different error was found
-> +func StrictDecode(into interface{}, from []byte) error {
-> +    dec := json.NewDecoder(strings.NewReader(string(from)))
-> +    dec.DisallowUnknownFields()
-> +
-> +    if err := dec.Decode(into); err != nil {
-> +        return err
-> +    }
-> +    return nil
-> +}
-
-The documentation doesn't seem to be consistent with how the function
-actually works: AFAICT it returns false *with an error* for any
-failure, including those caused by unknown fields being present in
-the input JSON.
-
-
-Looking at the generated code:
-
-> type BlockdevRef struct {
->     Definition *BlockdevOptions
->     Reference  *string
+> type GuestPanicInformation struct {
+>     // Variants fields
+>     HyperV *GuestPanicInformationHyperV `json:"-"`
+>     S390   *GuestPanicInformationS390   `json:"-"`
 > }
 >
-> func (s BlockdevRef) MarshalJSON() ([]byte, error) {
->     if s.Definition != nil {
->         return json.Marshal(s.Definition)
->     } else if s.Reference != nil {
->         return json.Marshal(s.Reference)
->     }
->     return nil, errors.New("BlockdevRef has empty fields")
-
-Returning an error if no field is set is good. Can we be more strict
-and returning one if more than one is set as well? That feels better
-than just picking the first one.
-
-> func (s *BlockdevRef) UnmarshalJSON(data []byte) error {
->     // Check for json-null first
->     if string(data) == "null" {
->         return errors.New(`null not supported for BlockdevRef`)
->     }
->     // Check for BlockdevOptions
->     {
->         s.Definition = new(BlockdevOptions)
->         if err := StrictDecode(s.Definition, data); err == nil {
->             return nil
->         }
-
-The use of StrictDecode() here means that we won't be able to parse
-an alternate produced by a version of QEMU where BlockdevOptions has
-gained additional fields, doesn't it?
-
-Considering that we will happily parse such a BlockdevOptions outside
-of the context of BlockdevRef, I think we should be consistent and
-allow the same to happen here.
-
->         s.Definition = nil
->     }
->     // Check for string
->     {
->         s.Reference = new(string)
->         if err := StrictDecode(s.Reference, data); err == nil {
->             return nil
->         }
->         s.Reference = nil
+> func (s GuestPanicInformation) MarshalJSON() ([]byte, error) {
+>     type Alias GuestPanicInformation
+>     alias := Alias(s)
+>     base, err := json.Marshal(alias)
+>     if err != nil {
+>         return nil, err
 >     }
 >
->     return errors.New(fmt.Sprintf("Can't convert to BlockdevRef: %s", string(data)))
+>     driver := ""
+>     payload := []byte{}
+>     if s.HyperV != nil {
+>         driver = "hyper-v"
+>         payload, err = json.Marshal(s.HyperV)
+>     } else if s.S390 != nil {
+>         driver = "s390"
+>         payload, err = json.Marshal(s.S390)
+>     }
+>
+>     if err != nil {
+>         return nil, err
+>     }
+>
+>     if len(base) == len("{}") {
+>         base = []byte("")
+>     } else {
+>         base = append([]byte{','}, base[1:len(base)-1]...)
+>     }
+>
+>     if len(payload) == 0 || len(payload) == len("{}") {
+>         payload = []byte("")
+>     } else {
+>         payload = append([]byte{','}, payload[1:len(payload)-1]...)
+>     }
+>
+>     result := fmt.Sprintf(`{"type":"%s"%s%s}`, driver, base, payload)
+>     return []byte(result), nil
 
-On a similar note to the MarshalJSON comment above, I'm not sure this
-is right.
+All this string manipulation looks sketchy. Is there some reason that
+I'm not seeing preventing you for doing something like the untested
+code below?
 
-If we find that more than one field of the alternate is set, we
-should error out - that's just invalid JSON we're dealing with. But
-if we couldn't find any, that might be valid JSON that's been
-produced by a version of QEMU that introduced additional options to
-the alternate. In the spirit of "be liberal in what you accept", I
-think we should probably not reject that? Of course then the client
-code will have to look like
-
-  if r.Definition != nil {
-      // do something with r.Definition
-  } else if r.Reference != nil {
-      // do something with r.Reference
-  } else {
-      // we don't recognize this - error out
+  func (s GuestPanicInformation) MarshalJSON() ([]byte, error) {
+      if s.HyperV != nil {
+          type union struct {
+              Discriminator string                      `json:"type"`
+              HyperV        GuestPanicInformationHyperV `json:"hyper-v"`
+          }
+          tmp := union {
+              Discriminator: "hyper-v",
+              HyperV:        s.HyperV,
+          }
+          return json.Marshal(tmp)
+      } else if s.S390 != nil {
+          type union struct {
+              Discriminator string                      `json:"type"`
+              S390          GuestPanicInformationHyperV `json:"s390"`
+          }
+          tmp := union {
+              Discriminator: "s390",
+              S390:          s.S390,
+          }
+          return json.Marshal(tmp)
+      }
+      return nil, errors.New("...")
   }
 
-but the same is going to be true for enums, events and everything
-else that can be extended in a backwards-compatible fashion.
+> func (s *GuestPanicInformation) UnmarshalJSON(data []byte) error {
+>     type Alias GuestPanicInformation
+>     peek := struct {
+>         Alias
+>         Driver string `json:"type"`
+>     }{}
+>
+>     if err := json.Unmarshal(data, &peek); err != nil {
+>         return err
+>     }
+>     *s = GuestPanicInformation(peek.Alias)
+>
+>     switch peek.Driver {
+>
+>     case "hyper-v":
+>         s.HyperV = new(GuestPanicInformationHyperV)
+>         if err := json.Unmarshal(data, s.HyperV); err != nil {
+>             s.HyperV = nil
+>             return err
+>         }
+>     case "s390":
+>         s.S390 = new(GuestPanicInformationS390)
+>         if err := json.Unmarshal(data, s.S390); err != nil {
+>             s.S390 = nil
+>             return err
+>         }
+>     }
+>     // Unrecognizer drivers are silently ignored.
+>     return nil
+
+This looks pretty reasonable, but since you're only using "peek" to
+look at the discriminator you should be able to leave out the Alias
+type entirely and perform the initial Unmarshal operation while
+ignoring all other fields.
+
+The comments made elsewhere about potentially being more strict and
+rejecting invalid JSON also apply here.
 
 -- 
 Andrea Bolognani / Red Hat / Virtualization
