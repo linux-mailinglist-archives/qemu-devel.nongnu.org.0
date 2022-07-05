@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723D456743E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 18:29:18 +0200 (CEST)
-Received: from localhost ([::1]:36058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173AC56748D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 18:40:00 +0200 (CEST)
+Received: from localhost ([::1]:57158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8lQL-0007Nc-HG
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 12:29:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33500)
+	id 1o8lae-0005XB-8G
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 12:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8lEN-0004nN-QB
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8lEN-0004r2-Qq
  for qemu-devel@nongnu.org; Tue, 05 Jul 2022 12:16:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48314)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8lEF-0005wg-MY
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o8lEK-0005xN-ST
  for qemu-devel@nongnu.org; Tue, 05 Jul 2022 12:16:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657037807;
+ s=mimecast20190719; t=1657037812;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Yrczt18CIsKinv0djEnp9mUn3Lte5uVnCr+kSFyKa5M=;
- b=gdtkQ7JAqlQHUvbHFa8fvVAOWRVGm55pBPPXjwy+yoGnPtr3pzEmjrrVKJhtp4/Blm5/wG
- GTdkWTJroKSzpJIta1D2fTABPT9m0E5KYIvHSb6TBj87jySxTeix6EjFeooSHjVwFQAAgN
- MUme3yyLlEGTjrvl7YMW3CpiuWNPBTY=
+ bh=MMBX2D3AxzNFZPdHEsTMziSicAD/tBubwQAQs9ceL5Y=;
+ b=YqKkw0Vuz09M3NxjyNUiRmmDgT6OILkcyXStzo2DB8DPDyL6ZPzz0qPJYA7DyOc+rFXA1V
+ M8jgWV5A9vEBtaZD/teHjSEg2913m+dcrQK7s+m9gusiLE4KgztqwGtGWlajHWXxrbXcc7
+ EWsDlZNiqBncYqg/fZApwx+Pe+Vh7tA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-61-O0KD5JypNgmuMg1Sir-xoA-1; Tue, 05 Jul 2022 12:16:42 -0400
-X-MC-Unique: O0KD5JypNgmuMg1Sir-xoA-1
+ us-mta-479-YIX-Sc01NgCjvRywCLwsaA-1; Tue, 05 Jul 2022 12:16:48 -0400
+X-MC-Unique: YIX-Sc01NgCjvRywCLwsaA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49AA480390C;
- Tue,  5 Jul 2022 16:16:41 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22B84805AF5;
+ Tue,  5 Jul 2022 16:16:47 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C67131415116;
- Tue,  5 Jul 2022 16:16:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2147140EBE4;
+ Tue,  5 Jul 2022 16:16:41 +0000 (UTC)
 From: Alberto Faria <afaria@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Beniamino Galvani <b.galvani@gmail.com>,
@@ -67,9 +67,9 @@ Cc: Beniamino Galvani <b.galvani@gmail.com>,
  qemu-block@nongnu.org, "Denis V. Lunev" <den@openvz.org>,
  qemu-arm@nongnu.org, Alberto Faria <afaria@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 10/18] block: Change blk_pwrite_compressed() param order
-Date: Tue,  5 Jul 2022 17:15:18 +0100
-Message-Id: <20220705161527.1054072-11-afaria@redhat.com>
+Subject: [PATCH v2 11/18] block: Add blk_co_pwrite_compressed()
+Date: Tue,  5 Jul 2022 17:15:19 +0100
+Message-Id: <20220705161527.1054072-12-afaria@redhat.com>
 In-Reply-To: <20220705161527.1054072-1-afaria@redhat.com>
 References: <20220705161527.1054072-1-afaria@redhat.com>
 MIME-Version: 1.0
@@ -99,74 +99,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Swap 'buf' and 'bytes' around for consistency with other I/O functions.
+Also convert blk_pwrite_compressed() into a generated_co_wrapper.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/block-backend.c             | 4 ++--
- include/sysemu/block-backend-io.h | 4 ++--
- qemu-img.c                        | 2 +-
- qemu-io-cmds.c                    | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ block/block-backend.c             |  8 ++++----
+ include/sysemu/block-backend-io.h |  7 +++++--
+ tests/unit/test-block-iothread.c  | 18 ++++++++++++++++++
+ 3 files changed, 27 insertions(+), 6 deletions(-)
 
 diff --git a/block/block-backend.c b/block/block-backend.c
-index 35bf35aadd..ddb1d4e179 100644
+index ddb1d4e179..cc85558813 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -2324,8 +2324,8 @@ int coroutine_fn blk_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
+@@ -2324,13 +2324,13 @@ int coroutine_fn blk_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
                            flags | BDRV_REQ_ZERO_WRITE);
  }
  
--int blk_pwrite_compressed(BlockBackend *blk, int64_t offset, const void *buf,
--                          int64_t bytes)
-+int blk_pwrite_compressed(BlockBackend *blk, int64_t offset, int64_t bytes,
-+                          const void *buf)
+-int blk_pwrite_compressed(BlockBackend *blk, int64_t offset, int64_t bytes,
+-                          const void *buf)
++int coroutine_fn blk_co_pwrite_compressed(BlockBackend *blk, int64_t offset,
++                                          int64_t bytes, const void *buf)
  {
      QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
      IO_OR_GS_CODE();
+-    return blk_pwritev_part(blk, offset, bytes, &qiov, 0,
+-                            BDRV_REQ_WRITE_COMPRESSED);
++    return blk_co_pwritev_part(blk, offset, bytes, &qiov, 0,
++                               BDRV_REQ_WRITE_COMPRESSED);
+ }
+ 
+ int blk_truncate(BlockBackend *blk, int64_t offset, bool exact,
 diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
-index 31ebd8b6cf..c64207cdcb 100644
+index c64207cdcb..d129e2bed3 100644
 --- a/include/sysemu/block-backend-io.h
 +++ b/include/sysemu/block-backend-io.h
-@@ -168,8 +168,8 @@ int blk_flush(BlockBackend *blk);
+@@ -168,8 +168,11 @@ int blk_flush(BlockBackend *blk);
  
  int blk_ioctl(BlockBackend *blk, unsigned long int req, void *buf);
  
--int blk_pwrite_compressed(BlockBackend *blk, int64_t offset, const void *buf,
--                          int64_t bytes);
-+int blk_pwrite_compressed(BlockBackend *blk, int64_t offset, int64_t bytes,
-+                          const void *buf);
+-int blk_pwrite_compressed(BlockBackend *blk, int64_t offset, int64_t bytes,
+-                          const void *buf);
++int generated_co_wrapper blk_pwrite_compressed(BlockBackend *blk,
++                                               int64_t offset, int64_t bytes,
++                                               const void *buf);
++int coroutine_fn blk_co_pwrite_compressed(BlockBackend *blk, int64_t offset,
++                                          int64_t bytes, const void *buf);
  int blk_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes);
  int blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
                        int64_t bytes, BdrvRequestFlags flags);
-diff --git a/qemu-img.c b/qemu-img.c
-index df607a2a2e..7d4b33b3da 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2114,7 +2114,7 @@ static int convert_do_copy(ImgConvertState *s)
+diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
+index 274e9e3653..3a46886784 100644
+--- a/tests/unit/test-block-iothread.c
++++ b/tests/unit/test-block-iothread.c
+@@ -198,6 +198,20 @@ static void test_sync_op_blk_pwritev_part(BlockBackend *blk)
+     g_assert_cmpint(ret, ==, -EIO);
+ }
  
-     if (s->compressed && !s->ret) {
-         /* signal EOF to align */
--        ret = blk_pwrite_compressed(s->target, 0, NULL, 0);
-+        ret = blk_pwrite_compressed(s->target, 0, 0, NULL);
-         if (ret < 0) {
-             return ret;
-         }
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index c8cbaed0cd..952dc940f1 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -631,7 +631,7 @@ static int do_write_compressed(BlockBackend *blk, char *buf, int64_t offset,
-         return -ERANGE;
-     }
- 
--    ret = blk_pwrite_compressed(blk, offset, buf, bytes);
-+    ret = blk_pwrite_compressed(blk, offset, bytes, buf);
-     if (ret < 0) {
-         return ret;
-     }
++static void test_sync_op_blk_pwrite_compressed(BlockBackend *blk)
++{
++    uint8_t buf[512] = { 0 };
++    int ret;
++
++    /* Late error: Not supported */
++    ret = blk_pwrite_compressed(blk, 0, sizeof(buf), buf);
++    g_assert_cmpint(ret, ==, -ENOTSUP);
++
++    /* Early error: Negative offset */
++    ret = blk_pwrite_compressed(blk, -2, sizeof(buf), buf);
++    g_assert_cmpint(ret, ==, -EIO);
++}
++
+ static void test_sync_op_load_vmstate(BdrvChild *c)
+ {
+     uint8_t buf[512];
+@@ -377,6 +391,10 @@ const SyncOpTest sync_op_tests[] = {
+         .name   = "/sync-op/pwritev_part",
+         .fn     = NULL,
+         .blkfn  = test_sync_op_blk_pwritev_part,
++    }, {
++        .name   = "/sync-op/pwrite_compressed",
++        .fn     = NULL,
++        .blkfn  = test_sync_op_blk_pwrite_compressed,
+     }, {
+         .name   = "/sync-op/load_vmstate",
+         .fn     = test_sync_op_load_vmstate,
 -- 
 2.36.1
 
