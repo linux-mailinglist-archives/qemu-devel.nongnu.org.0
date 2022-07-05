@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19E75668EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 13:10:10 +0200 (CEST)
-Received: from localhost ([::1]:48830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D055668F7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 13:15:04 +0200 (CEST)
+Received: from localhost ([::1]:58282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8gRW-0007EV-01
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 07:10:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40162)
+	id 1o8gWF-0005rN-G2
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 07:15:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8gHp-0006ox-1v
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 07:00:09 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:36691)
+ id 1o8gHs-0006t6-53
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 07:00:12 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:33755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8gHm-0000fN-Tk
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 07:00:08 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id 3so1053429pfx.3
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 04:00:05 -0700 (PDT)
+ id 1o8gHo-0000fV-KP
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 07:00:11 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id n12so11234743pfq.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 04:00:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CEQI5Tzq0ISDeB3fX3wDve+phtrCx3JrMsFA2JUk8Bg=;
- b=j/W8qN2KdHSPSKGm8jTEQw1hQi/siLuI4jZja+5czS9oCjdLqSvwH0PGtowTpR7coX
- YJZDfcJaSjVfPxS/dxc8nHDlphSg9v7HrsKEH2znPGIZf/xlxvGQRBW7Wq8yxEk2Y+FV
- VG8fDJT1IoMt9yLSMNt+Lka6OEJ71nGyzValy5HeccadNVzij5tbV7gk8mA1Vp7ccpK5
- v0YwX72qoouk0IpQjTLO0y56JyN2tsFohGwBVZcgoErvKhqmYiiKhBpOKX/3GqTpodDY
- bnnWtGpBgqvDGmmzbTcSy7uC3njk7HcDESBOdgwC2iFKhdZPk9vTYVBZp6rSbwE6Cd6z
- YJdw==
+ bh=cb/72d2FcQmj3zj3zP3mY08HLs4aMXys8/KVOUFQofg=;
+ b=mVKMpvJChQOAkaM3IfHVisIBF5KDEj6nXN5i52Iqx5BL7Avk58y6BpkTAqHvaacwEQ
+ YrGV41aVFv+sQTCZg1aQzYHZ7VMNLEK3uzFAe/qO1FSnYlsEG5CLRAUQ/iLwXUW4CE+5
+ zQ+bUAw98S6edzpCU3GY5PrurZnP9RSq9X7aaiWtWObHdUzVLMdSLy7TR2nN54IcK5yV
+ AczwanNBDTI/3OW/X13zkadprMRuf2Ls5xjAP/UVEig4Q5E1iMe0S/SFb2dK/FfcQXxA
+ 8NkWCIwK/W4AT3wAH9ikSf9l6QMRAbXe24px/4zBfmwiJHOvMtHjX5EmGgEywzO+and8
+ qQpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CEQI5Tzq0ISDeB3fX3wDve+phtrCx3JrMsFA2JUk8Bg=;
- b=JsfeYtM43q/Rm1XjUvrtEo4PzAMPsEAZo6LXYcdS2NvzNOiPH4AmAiVcCJl+h7DkKK
- hrqX1d4wjXKA6dj/j/ygUoNHp/nPySCU+YBK8DcYOy8fNGezRMqaJO6glJMksCJqXmcA
- BH2dvIlJiu1JCdoT+Ln/O8VSnIZt8hUR58bvEv/Ebz02au4v2FDCTO0Hpc6n1/NGIIdJ
- D8MOBltbGz+CDcefN0xzEO/aaq87pHIpjO3qZf0TO7KlC/dDLpe7+8pkLDyeQfdudRlZ
- EGEzUfGZ80GjzgXXAshDiYKyaRUxpRynrxYnZvI+JDuy2hofVFu49SgbMmVVHpq3lCyr
- VvMw==
-X-Gm-Message-State: AJIora+uY3SuVQlh0yuHOirgsRYfOicnT4f03PCZPdI8ecmKhe9FmC3M
- Fp1oGQPNioA75TyE8kBchmN8Uy2WS5dQJ97w
-X-Google-Smtp-Source: AGRyM1sOKpCUCaywuoHKbVBFH5imDXzhvb/3pKP12jfzzOSCiMjtslQKcXUmBVDrvKDNm/17wDez+Q==
-X-Received: by 2002:a05:6a00:150a:b0:525:3030:fe41 with SMTP id
- q10-20020a056a00150a00b005253030fe41mr41275481pfu.37.1657018804943; 
- Tue, 05 Jul 2022 04:00:04 -0700 (PDT)
+ bh=cb/72d2FcQmj3zj3zP3mY08HLs4aMXys8/KVOUFQofg=;
+ b=DtBWQ0J3TlgHOJA5vNRg1uzsIGnZ2p1Jzsq9ALXuJhi4gUvVp0EAwCCf3yjbM/vyOB
+ jh0w2iYOM9eh/GK3ny28nycuG81o0nmbs9V5HAZHYTZvZj04bKh9kTDIDBFsFIH/qrod
+ q7e2HYd+xHw3Sk661waWerlG+2Q+qX7LAMcIQBocPd0cc29u0Ck5Of/ctdOsxAH6nphS
+ tu1tZV5DphOwG9of1fUK6muNlc8WdcH5bg3yt8VDn+ptcP+QNMj8uHtEf+0gm1qX3LdP
+ tLVjyLsVyO0PaEirfIvReyYAFltJ21ibc+Y1GxSpXmXj/AfaTOjYk5098OaxU4Dmyvs3
+ FE1w==
+X-Gm-Message-State: AJIora8PBb7HHi4Fo8xBVSqYupgqZEEfA/NxGzPC9QX5fUYknzdRNy9C
+ 0LZ1Jvl/uNjNSzMvFAm/VmSavFhZwEWCJXOx
+X-Google-Smtp-Source: AGRyM1tE2dWvbm5lw030EDAGKwt6L49aVoJlbdb0XC/6IHfDX3kkJDC9IR8diNJ4MPSQCtzgx5ZeiA==
+X-Received: by 2002:a05:6a00:1410:b0:528:5a5a:d846 with SMTP id
+ l16-20020a056a00141000b005285a5ad846mr14619647pfu.9.1657018807217; 
+ Tue, 05 Jul 2022 04:00:07 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- d18-20020a170903231200b0016bf7981d0bsm508454plh.86.2022.07.05.04.00.02
+ d18-20020a170903231200b0016bf7981d0bsm508454plh.86.2022.07.05.04.00.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 04:00:04 -0700 (PDT)
+ Tue, 05 Jul 2022 04:00:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Song Gao <gaosong@loongson.cn>,
-	Thomas Huth <thuth@redhat.com>
-Subject: [PULL 1/6] hw/rtc/ls7a_rtc: Drop unused inline functions
-Date: Tue,  5 Jul 2022 16:29:51 +0530
-Message-Id: <20220705105957.1144514-2-richard.henderson@linaro.org>
+Cc: Song Gao <gaosong@loongson.cn>
+Subject: [PATCH] tcg/tci: Remove CONFIG_DEBUG_TCG_INTERPRETER
+Date: Tue,  5 Jul 2022 16:29:52 +0530
+Message-Id: <20220705105957.1144514-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220705105957.1144514-1-richard.henderson@linaro.org>
 References: <20220705105957.1144514-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,82 +87,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove toy_val_to_time_mon and toy_val_to_time_year as unused,
-to avoid a build failure with clang.  Remove all of the other
-inline markers too so that this does not creep back in.
+There is nothing in this environment variable that cannot
+be done better with -d flags.  There is nothing special
+about TCI that warrants this hack.
 
-Reviewed-by: Song Gao <gaosong@loongson.cn>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Moreover, it does not compile -- remove it.
+
+Reported-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/rtc/ls7a_rtc.c | 27 ++++++---------------------
- 1 file changed, 6 insertions(+), 21 deletions(-)
+ tcg/tci/tcg-target.h     | 5 -----
+ tcg/tci/tcg-target.c.inc | 7 -------
+ 2 files changed, 12 deletions(-)
 
-diff --git a/hw/rtc/ls7a_rtc.c b/hw/rtc/ls7a_rtc.c
-index e8b75701e4..1f9e38a735 100644
---- a/hw/rtc/ls7a_rtc.c
-+++ b/hw/rtc/ls7a_rtc.c
-@@ -86,46 +86,31 @@ struct LS7ARtcState {
- };
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index 033e613f24..ceb36c4f7a 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -53,11 +53,6 @@
+ # error Unknown pointer size for tci target
+ #endif
  
- /* switch nanoseconds time to rtc ticks */
--static inline uint64_t ls7a_rtc_ticks(void)
-+static uint64_t ls7a_rtc_ticks(void)
- {
-     return qemu_clock_get_ns(rtc_clock) * LS7A_RTC_FREQ / NANOSECONDS_PER_SECOND;
- }
- 
- /* switch rtc ticks to nanoseconds */
--static inline uint64_t ticks_to_ns(uint64_t ticks)
-+static uint64_t ticks_to_ns(uint64_t ticks)
- {
-     return ticks * NANOSECONDS_PER_SECOND / LS7A_RTC_FREQ;
- }
- 
--static inline bool toy_enabled(LS7ARtcState *s)
-+static bool toy_enabled(LS7ARtcState *s)
- {
-     return FIELD_EX32(s->cntrctl, RTC_CTRL, TOYEN) &&
-            FIELD_EX32(s->cntrctl, RTC_CTRL, EO);
- }
- 
--static inline bool rtc_enabled(LS7ARtcState *s)
-+static bool rtc_enabled(LS7ARtcState *s)
- {
-     return FIELD_EX32(s->cntrctl, RTC_CTRL, RTCEN) &&
-            FIELD_EX32(s->cntrctl, RTC_CTRL, EO);
- }
- 
--/* parse toy value to struct tm */
--static inline void toy_val_to_time_mon(uint64_t toy_val, struct tm *tm)
--{
--    tm->tm_sec = FIELD_EX32(toy_val, TOY, SEC);
--    tm->tm_min = FIELD_EX32(toy_val, TOY, MIN);
--    tm->tm_hour = FIELD_EX32(toy_val, TOY, HOUR);
--    tm->tm_mday = FIELD_EX32(toy_val, TOY, DAY);
--    tm->tm_mon = FIELD_EX32(toy_val, TOY, MON) - 1;
--}
+-#ifdef CONFIG_DEBUG_TCG
+-/* Enable debug output. */
+-#define CONFIG_DEBUG_TCG_INTERPRETER
+-#endif
 -
--static inline void toy_val_to_time_year(uint64_t toy_year, struct tm *tm)
--{
--    tm->tm_year = toy_year;
--}
+ /* Optional instructions. */
+ 
+ #define TCG_TARGET_HAS_bswap16_i32      1
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 98337c567a..f3d7441e06 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -823,13 +823,6 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+ 
+ static void tcg_target_init(TCGContext *s)
+ {
+-#if defined(CONFIG_DEBUG_TCG_INTERPRETER)
+-    const char *envval = getenv("DEBUG_TCG");
+-    if (envval) {
+-        qemu_set_log(strtol(envval, NULL, 0));
+-    }
+-#endif
 -
- /* parse struct tm to toy value */
--static inline uint64_t toy_time_to_val_mon(struct tm *tm)
-+static uint64_t toy_time_to_val_mon(const struct tm *tm)
- {
-     uint64_t val = 0;
+     /* The current code uses uint8_t for tcg operations. */
+     tcg_debug_assert(tcg_op_defs_max <= UINT8_MAX);
  
-@@ -137,7 +122,7 @@ static inline uint64_t toy_time_to_val_mon(struct tm *tm)
-     return val;
- }
- 
--static inline void toymatch_val_to_time(LS7ARtcState *s, uint64_t val, struct tm *tm)
-+static void toymatch_val_to_time(LS7ARtcState *s, uint64_t val, struct tm *tm)
- {
-     qemu_get_timedate(tm, s->offset_toy);
-     tm->tm_sec = FIELD_EX32(val, TOY_MATCH, SEC);
 -- 
 2.34.1
 
