@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546DD56621B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 06:05:50 +0200 (CEST)
-Received: from localhost ([::1]:48274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B620566226
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 06:16:20 +0200 (CEST)
+Received: from localhost ([::1]:51594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Zoq-0003Zc-T9
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 00:05:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54252)
+	id 1o8Zz0-0006Ru-Sh
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 00:16:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8Zn4-0002qU-Tv
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 00:03:58 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:55977)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8Zn3-0000Sj-Ec
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 00:03:58 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id w24so10972114pjg.5
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 21:03:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=YlBtIHKGgxnUS9oYyI7Uhz0qMzFDZFuCYF/F/reA8aI=;
- b=QeLDIjqAbcUpfyU8SCDFNc5Kg937iSo9Tn1mvd5XH0/sMIEoa2Hrpi6g6q2M3NMdJz
- v8BQmYuw2P/2k21AJarKpLMVz6TJ/VcbNAd47j1HWjg91hjCHaDnDCnA3dsu6bqJ90lk
- SbNmppy59tIGZy5LZX32AJxboP1wnO5D5fobBuojgBfQygiYGs7FI/6em2wyMK8vFhIR
- 7PAJiEHlesDIuRs7GO1xk4DzyNSIPDgHSmBjtjmafa+nzeQ1U9xEL5v+r725ZmRxY1+X
- ROWJxvina1TWkqm8j3ehqP4YBtptjjncv/BmVbPNfP9NU936Q9AbzfhnmSwbuyS/cLu4
- 5Eiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YlBtIHKGgxnUS9oYyI7Uhz0qMzFDZFuCYF/F/reA8aI=;
- b=oM7VYLgnyajXKjxm00MOrYb7iokvs1TfH3AQqVEhUDQ15GGCxPFwSEDLHV+enJC5gD
- 7asbCu6iPww2iphsDUztlZFVu3kV3EVv4dIpm6z4XvOoGGAVwrRZ0TxiYxovQEBqV21a
- a37VCXqqq0UF+oQeN0P0pbuyWHrTPH8QgkfIbjyWvI/F/cAIj/Rqi5e/UbsC3y7oqUaB
- PwW67IZr/yRqoIQuTjw0CYoYZZdE1UL/Hi5s0e3mxxWFDxNqJh2WTADb/VBQ7Jmt7LCb
- JeGvaNi7EiqNBjLag7ixNnbb1k82/7sgmy7/Rs3NAVwME5ZYVM8+fYciC4p4AMFM0sGX
- TVyQ==
-X-Gm-Message-State: AJIora/2mSwNYw/8Zto/rlgqDyM5crd6e54IPlrGEIstX99rZhNCW2vl
- lyvX2pvkvB/mqaO/g+sy/+NqQA==
-X-Google-Smtp-Source: AGRyM1tEyYcMK4teLzsbI7+dCQTXCRHzjxnzmJtqPl8NaDX4CorQrlNDuAVRLjLsmjt4dZh8xP4dlQ==
-X-Received: by 2002:a17:902:ea09:b0:16b:a264:381f with SMTP id
- s9-20020a170902ea0900b0016ba264381fmr31250395plg.150.1656993835768; 
- Mon, 04 Jul 2022 21:03:55 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- p12-20020a170902e74c00b0016be9d498d0sm2403504plf.211.2022.07.04.21.03.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 21:03:55 -0700 (PDT)
-Message-ID: <d2b6b208-0650-6063-7e79-baad9a9dbfa1@linaro.org>
-Date: Tue, 5 Jul 2022 09:33:50 +0530
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8ZxA-0004w7-7x
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 00:14:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27710)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8Zx6-0001uJ-V9
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 00:14:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656994459;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tiiaeLQXQIsHhmZtkqhyKTSgi3R8keRv4xeWaIFoS94=;
+ b=A0V0zOc2yRME0/eWGGliHGgtUzbeQcGKtmaJRu8uZeYTR3os94z0pUjV7/0k/d7Bbx7LPV
+ nFY194SJJoAmiiSaDmZLKRXFTtBLka1zjtBbYKD7RfYwVsXHDjkgPIoed9QbfIEIL4DosK
+ 6u2zE+GB8IqhXBkVEKkkW67mwJKv5H4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-466-YMGmQpcPM5G4zuZ_X1tzfg-1; Tue, 05 Jul 2022 00:14:16 -0400
+X-MC-Unique: YMGmQpcPM5G4zuZ_X1tzfg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE76C3C0CD39
+ for <qemu-devel@nongnu.org>; Tue,  5 Jul 2022 04:14:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 73D0C4010FA6;
+ Tue,  5 Jul 2022 04:14:16 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3C76E21E690D; Tue,  5 Jul 2022 06:14:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Leonardo =?utf-8?Q?Br=C3=A1s?= <leobras@redhat.com>
+Cc: "Daniel P." =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Markus
+ Armbruster
+ <armbru@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,  Eric Blake <eblake@redhat.com>,
+ Peter Xu <peterx@redhat.com>,  qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 2/3] Add zero-copy-copied migration stat
+References: <20220701155935.482503-1-leobras@redhat.com>
+ <20220701155935.482503-3-leobras@redhat.com>
+ <877d4tz9gx.fsf@pond.sub.org> <YsKtm2O8+d5d0p/N@redhat.com>
+ <YsLRmYjFpdGw0AjK@work-vm> <87k08tw0bq.fsf@pond.sub.org>
+ <YsLaEWcn51z3m52e@redhat.com> <87czelvxrt.fsf@pond.sub.org>
+ <YsLnrgIGu5y88ZTu@redhat.com>
+ <97f75348557212d32bb38c20b6800208219e4aa8.camel@redhat.com>
+Date: Tue, 05 Jul 2022 06:14:15 +0200
+In-Reply-To: <97f75348557212d32bb38c20b6800208219e4aa8.camel@redhat.com>
+ ("Leonardo =?utf-8?Q?Br=C3=A1s=22's?= message of "Mon, 04 Jul 2022 15:13:08
+ -0300")
+Message-ID: <87o7y4tcvc.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] include/qemu/host-utils: Remove unused code in the
- *_overflow wrappers
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-References: <20220701025132.303469-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220701025132.303469-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,19 +92,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/22 08:21, Thomas Huth wrote:
-> According to commit cec07c0b612975 the code in the #else paths was required
-> for GCC < 5.0 and Clang < 3.8. We don't support such old compilers
-> at all anymore, so we can remove these lines now. We keep the wrapper
-> function, though, since they are easier to read and help to make sure that
-> the parameters have the right types.
-> 
-> Signed-off-by: Thomas Huth<thuth@redhat.com>
-> ---
->   include/qemu/host-utils.h | 65 ---------------------------------------
->   1 file changed, 65 deletions(-)
+Leonardo Br=C3=A1s <leobras@redhat.com> writes:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Thanks Daniel, Markus and Dave for the feedback!
+>
+> On Mon, 2022-07-04 at 14:14 +0100, Daniel P. Berrang=C3=A9 wrote:
+>> On Mon, Jul 04, 2022 at 02:59:50PM +0200, Markus Armbruster wrote:
+>> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>> >=20
+>> > > On Mon, Jul 04, 2022 at 02:04:41PM +0200, Markus Armbruster wrote:
+>> >=20
+> [...]
+>
+>>=20
+>> since 7.1, unless you're planning for really tortuous review :)
+>>=20
+>
+> Ok, updated :)
+>
+>> > [...]
+>> >=20
+>> > > > Please rephrase the documentation of @zero-copy-copied in terms of
+>> > > > @dirty-sync-count.=C2=A0 Here's my attempt.
+>> > > >=20
+>> > > > # @zero-copy-copied: Number of times dirty RAM synchronization cou=
+ld not
+>> > > > #=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 avoid copying zero page=
+s.=C2=A0 This is between 0 and
+>> > > > #=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 @dirty-sync-count.=C2=
+=A0 (since 7.1)
+>
+> That's a great description! And it's almost 100% correct.
 
-r~
+That's why we do patch review :)
+
+> IIUC dirty-sync-count increments on migration_bitmap_sync() once after ea=
+ch full
+> dirty-bitmap scan, and even with multifd syncing at the same point, it co=
+uld
+> potentially have a increment per multifd channel.
+>
+> The only change would be having:
+> # This is between 0 and @dirty-sync-count * @multifd-channel.
+
+Makes sense to me.
+
+[...]
+
 
