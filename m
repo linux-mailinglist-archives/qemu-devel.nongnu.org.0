@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408385668D9
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 13:04:36 +0200 (CEST)
-Received: from localhost ([::1]:39560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD8656652E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:38:28 +0200 (CEST)
+Received: from localhost ([::1]:54000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8gM6-0000Ij-Su
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 07:04:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39390)
+	id 1o8e4h-0006lk-7q
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:38:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8gCa-0007hk-Rl
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 06:54:44 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:46021)
+ id 1o8e2q-0004hj-Rh
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:36:32 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:34512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8gCZ-0008FI-3y
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 06:54:44 -0400
-Received: by mail-pf1-x429.google.com with SMTP id 128so11139131pfv.12
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 03:54:42 -0700 (PDT)
+ id 1o8e2o-0004eT-CH
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:36:31 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ cp18-20020a17090afb9200b001ef79e8484aso4243339pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=qQmzxvcozvhNYBjlXcMaw9INsW1wQqnjFc6Lurc/WgM=;
- b=dsq/iyk6Jt8sAu7QCu1dtrs+fRiTeTAkOWwlLTNa/Rnyu6EXq8TaIchWDLxL6gfzpG
- PjbCFI0gxlVydOqcoCBdsQus55qt7BcHEyhsLLT72ND8/oNI8joXdpdtbE7mAg6A///K
- +DVOkD0JEpEi5SG+cGOVOnQNagApVEO8iMeB4Dfn6ruWl/HbcoPEEXEeJ6fPgMobMjcr
- Oc85EbQ8hqRNlrPuoq/rgY/p7Af47AdUlkmqcjYLwd9NMh3mmLpPHSHe8mU2FTE0zQSO
- 6sr4gAdPS9dPj9RtutC1XCc6poX8lU7N60/fkHKZvSAHYGlkYoCovSQLgv7PEUon/wQ+
- Ua/w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cb/72d2FcQmj3zj3zP3mY08HLs4aMXys8/KVOUFQofg=;
+ b=FEePoiCLfCyTIstv1Kchcpc/5ASJs2OWZYxbkn/ea2en6SvLp5w0gk9lbQlnRsxIaD
+ Pjan+qASKdjw+ki94wRoNERlQxR4fFPB8w5grjrOV/kYp/5Ixz2nqnNp+9pzkeiU2RXH
+ lnjUbw5sgsc2s1u2KCO4ZCJQgQPmoDl/LlozE6lf+NdccCZtdf5YHAsMXDavKTSKCwyB
+ fAZn4rzC/0j3HaALzc5NbICwUKr16MEVxMAfYnRdxTGdCzAXrVSr0zIEoQxC7eAO7/Ab
+ a9P1FBqrtOlgr6ZZiBRgxvEp2Vhv5sOXxMrai4Hv0+wx0t/MGRRivoDzCB9vsXTmo+B1
+ hjiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qQmzxvcozvhNYBjlXcMaw9INsW1wQqnjFc6Lurc/WgM=;
- b=vEld0uq7cBo0O6Shr5ang0N8NjHmV+mvWBUL5GSWPd2yVhyKGUZGFX4QKssPJplXGL
- DSvF1YEsPE5R25GXN/QT+aOnYdsPDAIQ7d3KjIJ3wLac0hjy0jhgRmz4wwTcOkikiT+n
- Yp3NJgo8IWad2ZufehtmVV+sOz1B+dR3ff7m4dAREWojWRkWV6gX6Muazi81M36mb+f7
- p2Z0bEPcG74M8b2bPqNvjWaysMacNiN4aNLq7I/bPZd/VJwpCFlC/BMR8HhMHdY/6uQS
- uCX7pbnk4+IFJAp6qkLud2YbA5YIgjkOTl43QJsJ0suv6BRr2Ut0e+OBLdCtwHeD+ReQ
- I3Iw==
-X-Gm-Message-State: AJIora/vwzKrmgFVgy6XHbSmwL5QwQapG1GMN+oioaAYWkMXKqmYbRY5
- rBzkqXrpsJdU2MzUPK5dywwsfw==
-X-Google-Smtp-Source: AGRyM1uzvy2/BPm7TFVA0syHURgcH05sj343yVTE3B7eh7HzwYPazcwA3mCUsimU29VsV8mPbxxVMw==
-X-Received: by 2002:a63:7d49:0:b0:408:c70a:9496 with SMTP id
- m9-20020a637d49000000b00408c70a9496mr30577759pgn.616.1657018481651; 
- Tue, 05 Jul 2022 03:54:41 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- s21-20020a056a00179500b0051c4ecb0e3dsm22955001pfg.193.2022.07.05.03.54.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 03:54:41 -0700 (PDT)
-Message-ID: <6d3e4de1-d457-2273-f3c7-f3ffc20acd8b@linaro.org>
-Date: Tue, 5 Jul 2022 14:02:04 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] linux-user: Add LoongArch to qemu_get_family()
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, yangxiaojuan@loongson.cn
-References: <20220705065943.2353930-1-gaosong@loongson.cn>
+ bh=cb/72d2FcQmj3zj3zP3mY08HLs4aMXys8/KVOUFQofg=;
+ b=DaBpBSxIGSmewCzlJ+FZ4F2ijMyKGPUPUFFbCxkF+aHZfNsoxc+his1YasMmD3h0T5
+ WIjwtDe849JIEOFHQyOFrubjjRR1WTjRx9BLUmWEZ/HF4CoRv34kdmxc9iklBNsvXC9j
+ YfcVBR34ykI+HZpgT8FglTftoN4bLsC/gsGZopCU+AyZIqhi+En5RW1GG+HnxA3d0C6e
+ IrJ7Q5E52mREJ44wVrdWQKRRkCgHt0ncrsnWGbrsR0yAxot4St5DYTtxdg+kzxu5bPFx
+ zIYO8/R4ZCqM4GUon402Z0AtQojsSjqPN0wSbglZ9h7RObxJO9TzR3MpT5qN8hdJJDxq
+ iEzQ==
+X-Gm-Message-State: AJIora91/12THGxeVAXaRkBCevQflWrNgUbPRJisXwiCtqFMgurRPBt7
+ Ku67nCXrLeE7vx0B1xH8/GRFnkAELk8mUvpl
+X-Google-Smtp-Source: AGRyM1uVRxfrpO0NXgFcRfuKw2+6lFCO+EImTwQVMs5m3IPSH9rqVmAGwZHcPhh+5/sEl3VjVqHc8g==
+X-Received: by 2002:a17:902:9041:b0:16a:aef:7b84 with SMTP id
+ w1-20020a170902904100b0016a0aef7b84mr41191109plz.124.1657010188899; 
+ Tue, 05 Jul 2022 01:36:28 -0700 (PDT)
+Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
+ 196-20020a6303cd000000b004127ad2407fsm589050pgd.51.2022.07.05.01.36.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jul 2022 01:36:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220705065943.2353930-1-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+To: qemu-devel@nongnu.org
+Cc: Song Gao <gaosong@loongson.cn>
+Subject: [PATCH] tcg/tci: Remove CONFIG_DEBUG_TCG_INTERPRETER
+Date: Tue,  5 Jul 2022 14:06:23 +0530
+Message-Id: <20220705083623.1142250-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,18 +86,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/22 12:29, Song Gao wrote:
-> qemu_get_family() needs to add LoongArch support.
-> 
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   scripts/qemu-binfmt-conf.sh | 3 +++
->   1 file changed, 3 insertions(+)
+There is nothing in this environment variable that cannot
+be done better with -d flags.  There is nothing special
+about TCI that warrants this hack.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Moreover, it does not compile -- remove it.
 
-Applied.
+Reported-by: Song Gao <gaosong@loongson.cn>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/tci/tcg-target.h     | 5 -----
+ tcg/tci/tcg-target.c.inc | 7 -------
+ 2 files changed, 12 deletions(-)
 
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index 033e613f24..ceb36c4f7a 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -53,11 +53,6 @@
+ # error Unknown pointer size for tci target
+ #endif
+ 
+-#ifdef CONFIG_DEBUG_TCG
+-/* Enable debug output. */
+-#define CONFIG_DEBUG_TCG_INTERPRETER
+-#endif
+-
+ /* Optional instructions. */
+ 
+ #define TCG_TARGET_HAS_bswap16_i32      1
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 98337c567a..f3d7441e06 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -823,13 +823,6 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+ 
+ static void tcg_target_init(TCGContext *s)
+ {
+-#if defined(CONFIG_DEBUG_TCG_INTERPRETER)
+-    const char *envval = getenv("DEBUG_TCG");
+-    if (envval) {
+-        qemu_set_log(strtol(envval, NULL, 0));
+-    }
+-#endif
+-
+     /* The current code uses uint8_t for tcg operations. */
+     tcg_debug_assert(tcg_op_defs_max <= UINT8_MAX);
+ 
+-- 
+2.34.1
 
-r~
 
