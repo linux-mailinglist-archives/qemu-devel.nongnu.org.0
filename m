@@ -2,57 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAECD56733E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:49:51 +0200 (CEST)
-Received: from localhost ([::1]:49886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9EF567378
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:52:32 +0200 (CEST)
+Received: from localhost ([::1]:58058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8koB-0006zi-2T
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:49:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53420)
+	id 1o8kql-000480-HD
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o8km2-0004Be-1A
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:47:38 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:24081)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8knF-0005zT-1h
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:48:53 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:56511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1o8km0-00010j-JQ
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:47:37 -0400
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-530-LGmAI1_rOHesgANyIZgdOQ-1; Tue, 05 Jul 2022 11:47:12 -0400
-X-MC-Unique: LGmAI1_rOHesgANyIZgdOQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92545803524;
- Tue,  5 Jul 2022 15:47:11 +0000 (UTC)
-Received: from bahia (unknown [10.39.194.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E2AC9D7F;
- Tue,  5 Jul 2022 15:47:10 +0000 (UTC)
-Date: Tue, 5 Jul 2022 17:47:09 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, Daniel Henrique
- Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org, David Gibson
- <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org
-Subject: Re: [PATCH] target/ppc/cpu-models: Remove the "default" CPU alias
-Message-ID: <20220705174709.0c584bf0@bahia>
-In-Reply-To: <20220705151030.662140-1-thuth@redhat.com>
-References: <20220705151030.662140-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8knA-00018U-Gp
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:48:52 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 257BC1149BF11;
+ Tue,  5 Jul 2022 17:48:45 +0200 (CEST)
+Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 5 Jul 2022
+ 17:48:44 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004a8c5c92e-f548-4c26-bd07-8ced9822f92c,
+ 4FF77D4A254985FC0BE9A952312E42D6E34C6CC4) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <31f9fa84-fa64-e08f-9dc9-68a11cc4c0c9@kaod.org>
+Date: Tue, 5 Jul 2022 17:48:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] target/ppc/cpu-models: Remove the "default" CPU alias
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+CC: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ <qemu-ppc@nongnu.org>
+References: <20220705151030.662140-1-thuth@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220705151030.662140-1-thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: c5a9cac0-dee8-4970-b26b-0c770c8e9373
+X-Ovh-Tracer-Id: 6727533422088391462
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeiuddgleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhohedvle
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,9 +75,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  5 Jul 2022 17:10:30 +0200
-Thomas Huth <thuth@redhat.com> wrote:
-
+On 7/5/22 17:10, Thomas Huth wrote:
 > QEMU emulates a *lot* of PowerPC-based machines - having a CPU
 > that is named "default" and cannot be used with most of those
 > machines sounds just wrong. Thus let's remove this old and confusing
@@ -78,25 +83,27 @@ Thomas Huth <thuth@redhat.com> wrote:
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
-
-Good riddance !
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  target/ppc/cpu-models.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   target/ppc/cpu-models.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
 > index 976be5e0d1..2667440f73 100644
 > --- a/target/ppc/cpu-models.c
 > +++ b/target/ppc/cpu-models.c
 > @@ -918,6 +918,6 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
->  #endif
->      { "ppc32", "604" },
->      { "ppc", "604" },
+>   #endif
+>       { "ppc32", "604" },
+>       { "ppc", "604" },
 > -    { "default", "604" },
 > +
->      { NULL, NULL }
->  };
+>       { NULL, NULL }
+>   };
 
+A default CPU introduced in 1994. Time to change !
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
 
