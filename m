@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE3B5677AF
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 21:21:50 +0200 (CEST)
-Received: from localhost ([::1]:37384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158C55677B0
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 21:22:17 +0200 (CEST)
+Received: from localhost ([::1]:38828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8o7J-0001me-Oh
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 15:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46566)
+	id 1o8o7j-0002l7-SR
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 15:22:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o8o01-0001HZ-07; Tue, 05 Jul 2022 15:14:17 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:58327)
+ id 1o8o03-0001PR-JW; Tue, 05 Jul 2022 15:14:19 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:41967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o8nzy-00016M-5W; Tue, 05 Jul 2022 15:14:15 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 5DB7D58033E;
- Tue,  5 Jul 2022 15:14:13 -0400 (EDT)
+ id 1o8o00-00016f-V4; Tue, 05 Jul 2022 15:14:19 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 31DED5802FB;
+ Tue,  5 Jul 2022 15:14:15 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 05 Jul 2022 15:14:13 -0400
+ by compute4.internal (MEProxy); Tue, 05 Jul 2022 15:14:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1657048453; x=
- 1657052053; bh=yDKJlSkhbsWjdQEFewxhI4RxzhEQ+vZqzNkyMVEwDYE=; b=A
- WEABDTO3jIqjdeJOuU9VvPNdx+4tcKwp//oSrBifmTJhg90bjZJ8wtZxGvcbNLJu
- 0K+GhkDky0OqMEgPcSHzY7T3tzP7IbfejXK0H++c6r9e5JuUvNC8zUguPnemoAMZ
- NDNDmunsX6067rb3/3JzX2Wxay8B9aMhn7+89dHUcON8L97uB4UFkTIXt7qk8csf
- KUZGdJsbxb5ziP56czPdH2UbT5bxlxSUDyUac+MdU68HDFLaXVcDjzKFirHdWqXV
- Kl60lvzOhUGg/2mRetNJ3SHzAqT941XLXGBEPJO6lt3wmRiOczdbnBX6uulbOR1E
- 6tpB/dcVIUarg1zZ80P1w==
+ :content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1657048455; x=1657052055; bh=e9
+ SZDmfo94FT0yn61No+wBgms8HClCR+te1xLFVPLkw=; b=ScIxCAxiK0AmpmzStz
+ YsaIT7TUicvktZ2cgi5NEDiy22VWxvQehNcmiz9Z5igYJ79+QpnoHIZp9o0C2ZXo
+ gJ6/SUbOSN+n7dLtCNpRqo3oiWTfagNvj6kzNOgiE4jU/yeVxJD0bUhrT0sEowDO
+ Rl3wJk0SERLSWtyZe5c6pWQITPwJBB1uNfLd3L5+XrSFVYzu6GUONtcvYWsa1Odi
+ k3iQNEvZWhRaiA1/uI96/+tqmWchgWe/tTweEPZ6I2jAonavb+/pS2vsca9RHLjH
+ udfFbk5gAeE4sLThVbcMdTMJI8BJPThr/6fEJyi5lN2zHbGD+Up+vloUsMF0zZiI
+ 8oTg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=i9e814621.fm2; t=
- 1657048453; x=1657052053; bh=yDKJlSkhbsWjdQEFewxhI4RxzhEQ+vZqzNk
- yMVEwDYE=; b=bzKfvhYdiuDa94dGmykkXrneFiQKeR8v7XrXGF9uxNwTWLKu1N2
- o/O7iep/sqaRYiFDHoCYO8RR/mW/O72ngb6VAyvIQV7pfCmpzAhmpMtWsyhVPx+0
- bvybRcXyn9F0v6P5a4oDHcbbpU1XhFaHRjO4sPMy1nvoL+MvSpndOWKviyNtq6R2
- DGXtnmOgAdOm88pIllea3QjGXSmD++BatzAR6WVHKq8O8dzhaNzfO6uAI0jmbDY0
- cPGQyUFS48+FGkmfgL3sDStlTi3TgbfTTPhm4XmxrvUKkfGEO1+w3uIcXf0VkzL/
- QsyK4VN9JPF6JVaE1XYJ+7LoGbbS8+TyogQ==
-X-ME-Sender: <xms:hY3EYgbqDSuDDm3cahKO6k2QkLskj2UPSVXhKAAypFIidtycV0xsdg>
- <xme:hY3EYrYkrA6tghLnFBsjxZNQ0xWXy_iuBbsP1c-z9C5dZ6D6xPaY1GuPoVyx_8G8D
- 0u-H0HGhLSuIMNRM3w>
-X-ME-Received: <xmr:hY3EYq99b4topQhToTECnrbkJpO8xatCYXd8eWh-OjjH6XDa-GfV_Wc-jClT9g>
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=i9e814621.fm2; t=1657048455; x=1657052055; bh=e9S
+ ZDmfo94FT0yn61No+wBgms8HClCR+te1xLFVPLkw=; b=trbpu1mJwUiOgVhQMG/
+ xfuL3UaeAV6EVeBr6EhhXTUJTQrvZAFzj8mfWEhKzj6+5mjqwKx1OzB2uV+zrvGt
+ 08WGjpmGQsILqobFt5O1t5ikM34U0N2fNH6A+bZ0X4NUmIfV7BPkhM2XWqiI68aB
+ mseale4C09ee51uxRrNJpdOHYPtM9f70lQJ/EQNjQxC6uo4slcDnxMkaLtv9909x
+ oFPFBp2QtZ+R5dUPCvD32/vDYgCqjUXxfEAuBCYE+54t1fkF7xU1P8z9OmxnVx98
+ aUcx19YBjJtfaRViEeFMjPagyUSKXnhLDSyjIvvC7CN9kcfibFwwVz2Vv/eKOXPs
+ rqg==
+X-ME-Sender: <xms:ho3EYoGL0-VeOpEv8D54zONCn0_MaYlRm1NawZn_NSQAEA6o6H6Cmw>
+ <xme:ho3EYhVoSquVgf7_6Ni8foIFt1Cu8o51FyxnyYzzZj2VtucvoKbAMCpRgrCjD2WbA
+ Ah8fJywKEDGJcifXlI>
+X-ME-Received: <xmr:ho3EYiKH7ei9SbpjFuxJS1pgBdq4mf_CdhgSgCCYpUZGgVbN0WtElm2_NSL_dw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeiuddgudeflecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enmhhishhsihhnghcuvffquchfihgvlhguucdlfedtmdenogetfedtuddqtdduucdludeh
- mdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheprf
- gvthgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggft
- rfgrthhtvghrnhepkedtiefhkeffheegveevgeelteffleehhedvgeekkefffeegvdevfe
- evieevjeeinecuffhomhgrihhnpehmvghtrgdrtghomhenucevlhhushhtvghrufhiiigv
- pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:hY3EYqopm21uKHoqJbikeVMwxriwlPYyIzqL09BMnxX8M2CkDkZQfw>
- <xmx:hY3EYro9eyNjiK9zEj0m_n3Jo0jA6T39rq_LOXf3kGH5bf8XygWy2A>
- <xmx:hY3EYoQATYlg5yF4F8wfLmKwjQtQatkyyWCD0ZNyJnhu0oyj9zXkng>
- <xmx:hY3EYsCKVFMDI2M8hUZHfrKJh4dzk__5z7oD6U4UK5sOXbbU9hl2gA>
+ mdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefrvg
+ htvghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffr
+ rghtthgvrhhnpedvgffhgfekheehgeeguedvfeethfeifeelfffgueevudeuiefgffffvd
+ ejveefleenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihii
+ vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:ho3EYqGBxuhnOase5GYvymuFQ4O40nPvSZlM1C1WlxHJvIy7dLPqZQ>
+ <xmx:ho3EYuWbq89AyJSORpmBSvHzm0LYTY0wOVTFsQkxxabLTPhjEy6KGA>
+ <xmx:ho3EYtO6I2ghzwGjkijPPUqqVfaTTNcMBAivQISNAAwf3gAxwRmnbw>
+ <xmx:h43EYgcRIWSApLQJ6ajRCGZPGEYDwu1PUX7W2sBhOx0TL83kIc-7fQ>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 Jul 2022 15:14:12 -0400 (EDT)
+ 5 Jul 2022 15:14:14 -0400 (EDT)
 From: Peter Delevoryas <peter@pjd.dev>
 To: 
 Cc: Peter Delevoryas <peter@pjd.dev>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Subject: [PATCH v2 5/9] aspeed: Add fby35 skeleton
-Date: Tue,  5 Jul 2022 12:13:56 -0700
-Message-Id: <20220705191400.41632-6-peter@pjd.dev>
+ Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v2 6/9] aspeed: Add AST2600 (BMC) to fby35
+Date: Tue,  5 Jul 2022 12:13:57 -0700
+Message-Id: <20220705191400.41632-7-peter@pjd.dev>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220705191400.41632-1-peter@pjd.dev>
 References: <20220705191400.41632-1-peter@pjd.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.229; envelope-from=peter@pjd.dev;
  helo=new3-smtp.messagingengine.com
@@ -105,86 +104,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
----
- MAINTAINERS        |  1 +
- hw/arm/fby35.c     | 39 +++++++++++++++++++++++++++++++++++++++
- hw/arm/meson.build |  3 ++-
- 3 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 hw/arm/fby35.c
+You can test booting the BMC with both '-device loader' and '-drive
+file'. This is necessary because of how the fb-openbmc boot sequence
+works (jump to 0x20000000 after U-Boot SPL).
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 450abd0252..fce6161ce5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1065,6 +1065,7 @@ F: hw/net/ftgmac100.c
- F: include/hw/net/ftgmac100.h
- F: docs/system/arm/aspeed.rst
- F: tests/qtest/*aspeed*
-+F: hw/arm/fby35.c
- 
- NRF51
- M: Joel Stanley <joel@jms.id.au>
+    wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
+    qemu-system-arm -machine fby35 -nographic \
+        -device loader,file=fby35.mtd,addr=0,cpu-num=0 -drive file=fby35.mtd,format=raw,if=mtd
+
+Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+---
+ hw/arm/fby35.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+
 diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
-new file mode 100644
-index 0000000000..03b458584c
---- /dev/null
+index 03b458584c..5c5224d374 100644
+--- a/hw/arm/fby35.c
 +++ b/hw/arm/fby35.c
-@@ -0,0 +1,39 @@
-+/*
-+ * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
-+ *
-+ * This code is licensed under the GPL version 2 or later. See the COPYING
-+ * file in the top-level directory.
-+ */
+@@ -6,17 +6,55 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
++#include "qapi/error.h"
++#include "sysemu/sysemu.h"
+ #include "hw/boards.h"
++#include "hw/arm/aspeed_soc.h"
+ 
+ #define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
+ OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
+ 
+ struct Fby35State {
+     MachineState parent_obj;
 +
-+#include "qemu/osdep.h"
-+#include "hw/boards.h"
++    MemoryRegion bmc_memory;
++    MemoryRegion bmc_dram;
++    MemoryRegion bmc_boot_rom;
 +
-+#define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
-+OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
++    AspeedSoCState bmc;
+ };
+ 
++#define FBY35_BMC_RAM_SIZE (2 * GiB)
 +
-+struct Fby35State {
-+    MachineState parent_obj;
-+};
-+
-+static void fby35_init(MachineState *machine)
++static void fby35_bmc_init(Fby35State *s)
 +{
++    memory_region_init(&s->bmc_memory, OBJECT(s), "bmc-memory", UINT64_MAX);
++    memory_region_init_ram(&s->bmc_dram, OBJECT(s), "bmc-dram",
++                           FBY35_BMC_RAM_SIZE, &error_abort);
++
++    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
++    object_property_set_int(OBJECT(&s->bmc), "ram-size", FBY35_BMC_RAM_SIZE,
++                            &error_abort);
++    object_property_set_link(OBJECT(&s->bmc), "memory", OBJECT(&s->bmc_memory),
++                             &error_abort);
++    object_property_set_link(OBJECT(&s->bmc), "dram", OBJECT(&s->bmc_dram),
++                             &error_abort);
++    object_property_set_int(OBJECT(&s->bmc), "hw-strap1", 0x000000C0,
++                            &error_abort);
++    object_property_set_int(OBJECT(&s->bmc), "hw-strap2", 0x00000003,
++                            &error_abort);
++    aspeed_soc_uart_set_chr(&s->bmc, ASPEED_DEV_UART5, serial_hd(0));
++    qdev_realize(DEVICE(&s->bmc), NULL, &error_abort);
++
++    aspeed_board_init_flashes(&s->bmc.fmc, "n25q00", 2, 0);
 +}
 +
-+static void fby35_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
+ static void fby35_init(MachineState *machine)
+ {
++    Fby35State *s = FBY35(machine);
 +
-+    mc->desc = "Meta Platforms fby35";
-+    mc->init = fby35_init;
-+}
-+
-+static const TypeInfo fby35_types[] = {
-+    {
-+        .name = MACHINE_TYPE_NAME("fby35"),
-+        .parent = TYPE_MACHINE,
-+        .class_init = fby35_class_init,
-+        .instance_size = sizeof(Fby35State),
-+    },
-+};
-+
-+DEFINE_TYPES(fby35_types);
-diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-index 2d8381339c..92f9f6e000 100644
---- a/hw/arm/meson.build
-+++ b/hw/arm/meson.build
-@@ -51,7 +51,8 @@ arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
-   'aspeed_soc.c',
-   'aspeed.c',
-   'aspeed_ast2600.c',
--  'aspeed_ast10x0.c'))
-+  'aspeed_ast10x0.c',
-+  'fby35.c'))
- arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
- arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
- arm_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-soc.c'))
++    fby35_bmc_init(s);
+ }
+ 
+ static void fby35_class_init(ObjectClass *oc, void *data)
+@@ -25,6 +63,9 @@ static void fby35_class_init(ObjectClass *oc, void *data)
+ 
+     mc->desc = "Meta Platforms fby35";
+     mc->init = fby35_init;
++    mc->no_floppy = 1;
++    mc->no_cdrom = 1;
++    mc->min_cpus = mc->max_cpus = mc->default_cpus = 2;
+ }
+ 
+ static const TypeInfo fby35_types[] = {
 -- 
 2.37.0
 
