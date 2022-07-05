@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65085661D2
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 05:25:46 +0200 (CEST)
-Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D541A5661D7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 05:29:28 +0200 (CEST)
+Received: from localhost ([::1]:35326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8ZC5-00079P-A4
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 23:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49630)
+	id 1o8ZFf-0000hS-Po
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 23:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ZAb-0006B3-Ms
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 23:24:13 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:51059)
+ id 1o8ZE5-0008CM-BH
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 23:27:49 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:37701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ZAa-0003iF-3s
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 23:24:13 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id a15so4160497pjs.0
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 20:24:11 -0700 (PDT)
+ id 1o8ZE3-0004Dn-Nl
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 23:27:48 -0400
+Received: by mail-pl1-x630.google.com with SMTP id k14so9938446plh.4
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 20:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=MVvpbrHa6kMv9FamREUllnSG24yUEjpHJ6mfQxq02Og=;
- b=IJnFCYlFhcJlqypgrdEXK1OHetDmllhEbL2GKlxx4T5aOjvJX4V4OsAYizXs/XFpnD
- vdtybz7ErFKG/gEvdehaKSsT0QRhMcDyKb/6V0z1pFk4BlD6VZscPGas0gaXAi80+cs8
- 57XGZUujhevDLzU/Y837Q+d0Gg/0S7LetRFfdEszpjBoquzeDCc5cFwUUTOKMYlfyGJy
- eUUtjkESWnlA/zPh8o6CyZQ2TtegTu9rgBfRQ4ppM1XLcgAHJCLzAQBx79LBOW/0VOTv
- hI05Yu6u/DrX1asRXdm3WP4ZVD2OkWlyoujVpo0Ab1Nxs1NXshhO4a3+yNyK8B3nAGrn
- yeQg==
+ bh=Fo/KzOhVnyoAV4ft9RxSm/XB92EbffsTFcXxsAw9P3A=;
+ b=BfLaygkigeRNFJwAn8C6+6vtpa40EEubQIxPbDx+MdyAxh6wNIpPaolXeIIV74heef
+ z/gvynqh56TNCDR4NCKsefWoAaReff0bgZE+bC05ldu1TeXUiafcTOj0r0lXr9YVpU2N
+ rqc/0UyO5hipPZbCBB10qnVp5foSgEfnV8icqWSaTdCiP/iN2E4IHunyFV9L1UXRQMZe
+ uaY6mM0nmKwuHDr0E8ySvwlxwlLed2tZ5K8fmkjuiByVRUhStLENwrhFYraz0DgJRfwW
+ 60PFW7nAYg11dj9IE8vvDr2n05xiDTNOCVauuiUn3d2FqiaNYb3jDB5tyzndcFL+ZmR0
+ 21Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=MVvpbrHa6kMv9FamREUllnSG24yUEjpHJ6mfQxq02Og=;
- b=YpNxduXHnIvSZqVuVrh0HJjNySpUb1/5TdNXLUBMNL2E+psp3CONyfIbHCGiAh5wT5
- kDFBMJBLatolFFeXE0kDO/BB/VxBt2tuBrbK4iC49L1P2JJ0A2+7EZiptVvkKk8wvCcL
- YSLD16wqCxjMx64UL2JyVgIsifLWYQBBKjiXYA2+i0HER7jTunNXLszhgfqmo3cVHG+K
- upOwmH5dlK/2vaMiLfINgBJk5IdIiQtf/GCP1hodcbOTRumEfMkDYjlG1dKTUwDlL/9X
- OPt1cd9OxzPr/8KP3KCemKeZTUecAdJzxy50qbrfmwkMQkJqpDHJfdp0x/UGLoJ96oN6
- W3Mw==
-X-Gm-Message-State: AJIora8w3Lv774i8JpHsK+IBM46qcB3FO2bZ/O7Ygxed6MlQckxSwVe/
- Oekui1/my3j0EOkBXD8OOpmL9g==
-X-Google-Smtp-Source: AGRyM1t4/eQr9GKUytfatDsoB1hRjHkhqZDD7TCl3gUD399qHbmZhLgcam92UqckBtfxeILfZ1PIpQ==
-X-Received: by 2002:a17:902:8ec9:b0:168:c341:847e with SMTP id
- x9-20020a1709028ec900b00168c341847emr40310173plo.170.1656991450179; 
- Mon, 04 Jul 2022 20:24:10 -0700 (PDT)
+ bh=Fo/KzOhVnyoAV4ft9RxSm/XB92EbffsTFcXxsAw9P3A=;
+ b=YA1q0cSDHILLp88d3Q6rV1lkR/jOnSnNUOPXIKY5mjV7Ri+RG+jAYYHAIv3kLl2Hbp
+ AuQ6K2EqNgCi5NqOZkBZJ9cV6zriMMa0ivwI+VKNWtIuIC5J/7dj3gVFLNkkwyalQimy
+ LG0e4ChuVOmp8mGCSNcWzuARFlDq7gyxxpEqeKTLd45btSqEDbjYpXCtkOYk7qyyroPh
+ WX4iWmkhcjX18Twt7eF+2Bp9bfHmW4QiHS8PjoH2D6qOY+KSg/RwrSBccwjQKlFbznfk
+ Vbedjt+1kIgbmFBH72hITDDCVRzMC+ewGjnFAlCg4Uq5MBshKhp0DDn+vemn5/X2Lvd4
+ eV4Q==
+X-Gm-Message-State: AJIora+Yd5kbd5gASDA71ggRxomV0bLWWMA7QgBhwM7JGGolFYoin3T0
+ ADHC2QZOHOBevCuhJjtUOGpiqQ==
+X-Google-Smtp-Source: AGRyM1vSsnHdt+LzJE+4HetBY/SX7DGvXPo09nk+PoMjrmycT8gUrVshazvOnfwPrGTh40PZP9x7lA==
+X-Received: by 2002:a17:90b:4a82:b0:1ec:bb6b:38ce with SMTP id
+ lp2-20020a17090b4a8200b001ecbb6b38cemr41282469pjb.149.1656991666304; 
+ Mon, 04 Jul 2022 20:27:46 -0700 (PDT)
 Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- y11-20020a170902d64b00b0016782c55790sm21973924plh.232.2022.07.04.20.24.07
+ n8-20020a170902d2c800b0016be593b9e6sm2705671plc.167.2022.07.04.20.27.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 20:24:09 -0700 (PDT)
-Message-ID: <4adabd72-b975-88c7-aac1-11841d31e9f3@linaro.org>
-Date: Tue, 5 Jul 2022 08:54:04 +0530
+ Mon, 04 Jul 2022 20:27:45 -0700 (PDT)
+Message-ID: <35ca949b-2e33-58ab-98f6-4742f757d05e@linaro.org>
+Date: Tue, 5 Jul 2022 08:57:41 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v4 35/45] linux-user/aarch64: Add SM bit to SVE signal
- context
+Subject: Re: [PATCH v4 37/45] linux-user/aarch64: Do not allow duplicate or
+ short sve records
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 References: <20220628042117.368549-1-richard.henderson@linaro.org>
- <20220628042117.368549-36-richard.henderson@linaro.org>
- <CAFEAcA80YR_jKXqW=qfVBFgd_FG9ZiMiqLs29Njsw3jtXdSgxw@mail.gmail.com>
+ <20220628042117.368549-38-richard.henderson@linaro.org>
+ <CAFEAcA81Xc0kXrYTeq+Ck4b9vwu7jOAMerS0s_L0HaqyvfUcJg@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA80YR_jKXqW=qfVBFgd_FG9ZiMiqLs29Njsw3jtXdSgxw@mail.gmail.com>
+In-Reply-To: <CAFEAcA81Xc0kXrYTeq+Ck4b9vwu7jOAMerS0s_L0HaqyvfUcJg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,32 +95,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/4/22 17:32, Peter Maydell wrote:
->> @@ -177,9 +180,13 @@ static void target_setup_sve_record(struct target_sve_context *sve,
->>   {
->>       int i, j;
->>
->> +    memset(sve, 0, sizeof(*sve));
->>       __put_user(TARGET_SVE_MAGIC, &sve->head.magic);
->>       __put_user(size, &sve->head.size);
->>       __put_user(vq * TARGET_SVE_VQ_BYTES, &sve->vl);
->> +    if (FIELD_EX64(env->svcr, SVCR, SM)) {
->> +        __put_user(TARGET_SVE_SIG_FLAG_SM, &sve->flags);
->> +    }
->>
-> 
-> The kernel documentation says that if this is set then the SVE
-> record contains the streaming vector length. Does that happen
-> automatically (ie vq is the right thing for both streaming
-> and non-streaming) or do we need to do something there?
+On 7/4/22 17:38, Peter Maydell wrote:
+> I notice the kernel has a bunch of signal frame test
+> cases in  tools/testing/selftests/arm64/signal/testcases --
+> do we pass those ?
 
-It is automatically correct (modulo the typo you found in patch 40).  The two helpers we 
-have are for VL and SVL, with no direct access to NVL.
-
-> I gather that the other half of handling this bit (allowing
-> it to be changed on signal-return) is in a later patch.
-
-Yes.
+Most but not all of them.  The ones we don't pass are those for which SVE state has been 
+discarded across a syscall and so the signal frame record is expected to be missing.  I 
+thought about fixing those, but decided not to do within this series.
 
 
 r~
