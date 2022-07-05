@@ -2,109 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B742E56714D
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 16:38:58 +0200 (CEST)
-Received: from localhost ([::1]:33326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3432D567158
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 16:41:16 +0200 (CEST)
+Received: from localhost ([::1]:35740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8jhZ-0003XD-QP
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 10:38:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33048)
+	id 1o8jjn-0005Ea-AK
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 10:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1o8jgB-0002p0-K9; Tue, 05 Jul 2022 10:37:31 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6530)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o8jht-0004JS-6P
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:39:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1o8jfy-0005Nn-FI; Tue, 05 Jul 2022 10:37:31 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 265ELRZq011625;
- Tue, 5 Jul 2022 14:37:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=OewpMydOnbu9zzV3hwySuEZf/zaN0snpJiVwLVPj7g0=;
- b=hJEK7DXSAjuDKH/YEKwCjIs0/SCw2roW+78VL6ZP0Ix0aSv0g97vss2bMEQ9Is7jz53P
- Hof+rR63hNiLQhBYPtuKyYUBjQz56hVRrWir7iw7CC4BT/vy8Qq4ZFOQTdh4kZfXsSOo
- qnttokmFtI6mvlUzSmSfL0xmKTnqVTeAx4EMxlTf+uDdNXLeqW5GfP6JV2eBYnevaWgl
- QystFLUh7xyLinXlj66SDhT996GWY1fSQk4GJ+KaId4PQLKktDaU3zZQFwC4op8fiBSF
- ke3btJZMSFdiSfuzgS7j7HhReE0AdiA6nlWpIeK7hLAtZUTOrOgRMxa3c93dinWx/CN4 sg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h4q08rde8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Jul 2022 14:37:09 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 265ELYDJ011767;
- Tue, 5 Jul 2022 14:37:09 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h4q08rddg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Jul 2022 14:37:08 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 265EaaTh001143;
- Tue, 5 Jul 2022 14:37:07 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03fra.de.ibm.com with ESMTP id 3h2dn8u3x2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Jul 2022 14:37:06 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 265Eb3jZ19333424
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Jul 2022 14:37:03 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5711FAE045;
- Tue,  5 Jul 2022 14:37:03 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C00FBAE053;
- Tue,  5 Jul 2022 14:37:02 +0000 (GMT)
-Received: from [9.171.47.233] (unknown [9.171.47.233])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  5 Jul 2022 14:37:02 +0000 (GMT)
-Message-ID: <9dc00e0032b3d753a18f2e9bbec4554402dc6aa4.camel@linux.ibm.com>
-Subject: Re: [RFC] gitlab: introduce s390x wasmtime job
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Peter Maydell <peter.maydell@linaro.org>, "Daniel P."
- =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
-Cc: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Thomas Huth
- <thuth@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org, Christian Borntraeger
- <borntraeger@de.ibm.com>, Ulrich Weigand <ulrich.weigand@de.ibm.com>
-Date: Tue, 05 Jul 2022 16:37:02 +0200
-In-Reply-To: <CAFEAcA-4=A6NWrpCo5=cBO=v2-GVwK+b5RcgFiJcZN6e-Kb=GQ@mail.gmail.com>
-References: <20220704224844.2903473-1-iii@linux.ibm.com>
- <YsQ1fuMRPpA+9AzX@redhat.com>
- <CAFEAcA-4=A6NWrpCo5=cBO=v2-GVwK+b5RcgFiJcZN6e-Kb=GQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o8jhp-0005ed-Ms
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:39:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657031953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TMMSgBT8Vwg/7w81pe09+ohTvJbH40a4VBSiJJsYKnw=;
+ b=X5MzTkQOUIUVC0QTLJ9A9cla7UuVfrLA3wOH0H2ppiDQcFDybIE22O0LGsjoSfQlYZcaKN
+ dNyTc7W4Z56pIpRUwD9ZSIACxymT9jFd0ZInf7R5tKuQGb/H5iC4sk6S1A6SLxJDseoVhW
+ vYheX3oZLulQR68UIDE4wg4bEIvV5gE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-8Ow_kNCuMbO-bPRHcCzrCg-1; Tue, 05 Jul 2022 10:39:09 -0400
+X-MC-Unique: 8Ow_kNCuMbO-bPRHcCzrCg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59C0018A6503;
+ Tue,  5 Jul 2022 14:39:09 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B356041047E1;
+ Tue,  5 Jul 2022 14:39:08 +0000 (UTC)
+Date: Tue, 5 Jul 2022 15:39:07 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 6/8] virtio-blk: mark IO_CODE functions
+Message-ID: <YsRNC0tj6YP2pgMi@stefanha-x1.localdomain>
+References: <20220609143727.1151816-1-eesposit@redhat.com>
+ <20220609143727.1151816-7-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 0fnVP96E5Ubuec8WP7o26LUgNYUuqbjN
-X-Proofpoint-GUID: q8c78kTHecvu6buMJFUjiTTTUGf7LW6V
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-05_10,2022-06-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 bulkscore=0 priorityscore=1501 mlxscore=0 spamscore=0
- suspectscore=0 impostorscore=0 clxscore=1015 adultscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2207050061
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YQkXKnWvsYrb8Mwn"
+Content-Disposition: inline
+In-Reply-To: <20220609143727.1151816-7-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,33 +83,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2022-07-05 at 14:57 +0100, Peter Maydell wrote:
-> On Tue, 5 Jul 2022 at 14:04, Daniel P. Berrangé <berrange@redhat.com>
-> wrote:
-> > If we put this job in QEMU CI someone will have to be able to
-> > interpret the results when it fails.
-> 
-> In particular since this is qemu-user, the answer is probably
-> at least some of the time going to be "oh, well, qemu-user isn't
-> reliable
-> if you do complicated things in the guest". I'd be pretty wary of our
-> having
-> a "pass a big complicated guest code test suite under linux-user
-> mode"
-> in the CI path.
-> 
-> -- PMM
 
-Actually exercising qemu-user is one of the goals here: just as an
-example, one of the things that the test suite found was commit
-9a12adc704f9 ("linux-user/s390x: Fix unwinding from signal handlers"),
-so it's not only about the ISA.
+--YQkXKnWvsYrb8Mwn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-At least for s390x, we've noticed that various projects use
-qemu-user-based setups in their CI (either calling it explicitly, or
-via binfmt-misc), and we would like these workflows to be reliable,
-even if they try complicated (within reason) things there.
+On Thu, Jun 09, 2022 at 10:37:25AM -0400, Emanuele Giuseppe Esposito wrote:
+> Just as done in the block API, mark functions in virtio-blk
+> that are called also from iothread(s).
+>=20
+> We know such functions are IO because many are blk_* callbacks,
+> running always in the device iothread, and remaining are propagated
+> from the leaf IO functions (if a function calls a IO_CODE function,
+> itself is categorized as IO_CODE too).
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  hw/block/dataplane/virtio-blk.c |  4 ++++
+>  hw/block/virtio-blk.c           | 35 +++++++++++++++++++++++++++++++++
+>  2 files changed, 39 insertions(+)
 
-Best regards,
-Ilya
+The definition of IO_CODE() is:
+
+  I/O API functions. These functions are thread-safe, and therefore
+  can run in any thread as long as the thread has called
+  aio_context_acquire/release().
+
+I'm not sure it matches with the exact semantics you have in mind. Are
+they really allowed to be called from any thread and even from multiple
+threads? Or maybe just from the BlockBackend's AioContext thread?
+
+We need to be very careful to define these terms precisely and avoid
+applying them in cases that are similar but different as that will cause
+problems in the future.
+
+Otherwise:
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--YQkXKnWvsYrb8Mwn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLETQsACgkQnKSrs4Gr
+c8gtgQf/UlzhYfcTcr4ozNg3pOHnMlz7SXxlwlny8LHFnrRVXLEro27AYA8qTh7F
+xffWuoHecnOGdI38mk73Xlo2HeNiR7bAEwrMrKibK/TunPQx8vVAUZKxn71+ZY9b
+mYBIE3GNMeNrXgQCR/Fg+oAh19P2mIbMRwQIYLsrlUGmqJV792jvrusgDVOEd1t+
+hKJ+X7JohFqVusykvpqG2ApCr6yPq6B09OF/EtEXNFloYHrx7QKHAb0bkiXzpFq5
+Yq6CdvkfGadtXZRBTStYPyaVhn1mRRYCvx9rqdCOXZ/9hNf/Ja7CI++TRC3DgAfc
+f7gcbo41WmCKcfr1h6Pz9C3VDjDHZg==
+=TqWN
+-----END PGP SIGNATURE-----
+
+--YQkXKnWvsYrb8Mwn--
+
 
