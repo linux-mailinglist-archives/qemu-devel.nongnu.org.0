@@ -2,103 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4322F566508
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:30:36 +0200 (CEST)
-Received: from localhost ([::1]:39766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D5C566516
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:34:19 +0200 (CEST)
+Received: from localhost ([::1]:45462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8dx5-0005Ie-9c
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:30:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34934)
+	id 1o8e0g-0000vS-VC
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o8dkw-0005cP-Tr
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:18:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30026)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o8dks-0001f4-Cy
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:18:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657009073;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=46IIPVm4mesaBB39evD4dNfJjhYmYwXyy6ubIeTceak=;
- b=L0UgX3aqIcRPSu5ohhhyneayWZk4klhvnTxfr9BNYaMhC+jQzH+JMx7MKEHpsGfIAGgVRM
- rw0MrECOfYxpnCGkZDI5SzTqkJZMolRkVfs4EUoaDQLaa/IeLhKBifjDEqHK3PyGnzpcSN
- bsViNAgcL/0HOv58Arx8e4GlsMMeqD0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-suLSSayKPoG9C4y6_PfKnw-1; Tue, 05 Jul 2022 04:17:52 -0400
-X-MC-Unique: suLSSayKPoG9C4y6_PfKnw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h29-20020adfaa9d000000b0021d67fc0b4aso967895wrc.9
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:17:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8dlx-0007P5-2g
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:19:05 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:33658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o8dls-0001me-9S
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:19:04 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id 76so4924287ybd.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:18:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yHUPEM7gJ+wdHtbdsYxoMIaCeLyiGHSP0yAN6tjEB8U=;
+ b=Sl6DLSojWOIU3jwCkr79I3BBkdUGdk6mxm9X1OPytjiYynt6Y85nNKfUiWdDT72o3j
+ zX+MLB3tXpRsOxNk+o3HRWJ3lw83OvVF6Eo7qnqSZL8pHN1ZxLOtXzSzJ+zdihc+GMgM
+ l+cx8LMfUSbXw4+e8ix362LJcg2YDAhbn6ghE7q7Mqk1YIzNTWPq0IwWZFm0HwyorcmW
+ MM0UHGJTusNbvinHf08cL1/71dsv6j6wGPmxd89JvjhtNGuae64EjsU2LSg6ks0WLx7j
+ ArUJNNi0RYe3aMj1HCx9Gl9U6bdpIJhZxpfMJl3YuGo64Ith89KTedHVKXoKcK2udNVW
+ hDNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=46IIPVm4mesaBB39evD4dNfJjhYmYwXyy6ubIeTceak=;
- b=iuOl16aupijkqSJJUxlOcngUAZRXr0FkQMG5Vvi4K4vWq4YYkg+ufgKxBLhQAwx/xi
- kxeJSKESHYbJhyeg0fYXGtfsQjJuYGI3GNn4SpHq/9duTl7plz/qOY3ErG5072mvCixF
- kHGik8miFLHgHTw3O0/h8SivNm39/KyKcxgYK58/fmfYIZH2nOByN8hPwJP7y0C0nGB/
- bg3+zBIyATnSVXrchVVtam1t8tx3jIljX4oTJ9JEFuOilUOZ1i3Mv0Yp7TnGeJXKnW1P
- 7cp7TCZLEC1ygEO37U2ymekFSFiaacXgGN5fByNDPZhT0xUw/Kn88IpWY6V1YoEaKToV
- qeWw==
-X-Gm-Message-State: AJIora/JL9v/chA+idvfpN059BUQUXDKKf4Wi3zYCXJsEatOdmty73F8
- r9a8z6IWSTF4y/rFXf8QiMTmE2WJbj0imHtiw/Mefrz58IKfS9l32yp+O0Zeb+5tIrXp1v1WXSO
- a4IqI55hNWfhnn7w=
-X-Received: by 2002:adf:d0c7:0:b0:21d:764b:12d5 with SMTP id
- z7-20020adfd0c7000000b0021d764b12d5mr845387wrh.516.1657009071395; 
- Tue, 05 Jul 2022 01:17:51 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tHN0lA4QsymtsqNrMOA+lJ+3ZTtHqTfw+Jz1Qjg5q/joN27QeK/Eqoenuzb5r7SUAyO8PcsA==
-X-Received: by 2002:adf:d0c7:0:b0:21d:764b:12d5 with SMTP id
- z7-20020adfd0c7000000b0021d764b12d5mr845367wrh.516.1657009071200; 
- Tue, 05 Jul 2022 01:17:51 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- e22-20020a05600c4e5600b003973435c517sm22531862wmq.0.2022.07.05.01.17.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 01:17:50 -0700 (PDT)
-Message-ID: <85eb06db-15ab-1451-c420-ec4956febe98@redhat.com>
-Date: Tue, 5 Jul 2022 10:17:49 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yHUPEM7gJ+wdHtbdsYxoMIaCeLyiGHSP0yAN6tjEB8U=;
+ b=UjJz2qsEHCe0mTWT+2GzS9e2p0Yhiiw+3oWaAU0qEOmibOY4OsQ76+eg0qTTWabbCE
+ oZhIglcRpXHMNLpMQn8T4V8q8G/rBT9draas/y2Snau4zlFjOZJs5aj6TxDfA26OMd76
+ wdeo02HnMXFkw1Go+Zdv7OY5XxTivGMpwdnPr4EkPFIYxJS738v0CS7bM4+qPkD7Ssym
+ MY6xREEC5S1fhoLsAiwKbRDnax4mXvWAOqmg7POYMiS+IrhUsJXX0xDh8B8XDc+nkeV3
+ /HKFZd5qJzu1EzuuCZKfGUDQeeVddBtGHXbW/Ln/JBIuQolJNHLYQQ/SUPLaMj4LhIam
+ QoEg==
+X-Gm-Message-State: AJIora8bhEZnx3FesWTgICVYAMz1UpgnvgqrceXKOsXTru0sEsJmV62I
+ +JMNYp9Cp880qfAA2kXlfdT3bLHk8WjLCUkunWTZ9w==
+X-Google-Smtp-Source: AGRyM1tsNOqTFt8ps7+Ijn7iubAMG45taM/qwHgR3IcqHAVAUXq+rFdYejQLvePIzNEUMAtWEYTdooI5qe1Xsfz5CEY=
+X-Received: by 2002:a5b:e87:0:b0:66d:4669:9871 with SMTP id
+ z7-20020a5b0e87000000b0066d46699871mr36084343ybr.288.1657009139187; Tue, 05
+ Jul 2022 01:18:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v8 13/20] jobs: group together API calls under the same
- job lock
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20220629141538.3400679-1-eesposit@redhat.com>
- <20220629141538.3400679-14-eesposit@redhat.com>
- <YsPyzyOItXg9Y4c0@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YsPyzyOItXg9Y4c0@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220629124026.1077021-1-mark.cave-ayland@ilande.co.uk>
+ <20220629124026.1077021-35-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA-D6GhmGA=Det6PGvXC-sup7pKa3KoBsUHtBkK5e1K_Eg@mail.gmail.com>
+ <becf7d89-3d40-b40a-aeeb-9d99c79ef7a0@ilande.co.uk>
+In-Reply-To: <becf7d89-3d40-b40a-aeeb-9d99c79ef7a0@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 5 Jul 2022 09:18:21 +0100
+Message-ID: <CAFEAcA-uTpGWoRqDOwW+W8gifbGrywt-ofY31RiiCvwEb0Yo+w@mail.gmail.com>
+Subject: Re: [PATCH 34/40] lasips2: update VMStateDescription for LASIPS2
+ device
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: richard.henderson@linaro.org, deller@gmx.de, svens@stackframe.org, 
+ mst@redhat.com, pbonzini@redhat.com, hpoussin@reactos.org, 
+ aleksandar.rikalo@syrmia.com, f4bug@amsat.org, qemu-devel@nongnu.org, 
+ qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,52 +88,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 5 Jul 2022 at 07:48, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> On 04/07/2022 14:38, Peter Maydell wrote:
+>
+> > On Wed, 29 Jun 2022 at 13:41, Mark Cave-Ayland
+> > <mark.cave-ayland@ilande.co.uk> wrote:
+> >>
+> >> Since this series has already introduced a migration break for the HPPA B160L
+> >> machine, we can use this opportunity to improve the VMStateDescription for
+> >> the LASIPS2 device.
+> >>
+> >> Add the new int_status field to the VMStateDescription and remodel the ports
+> >> as separate VMSTATE_STRUCT instances.
+> >>
+> >> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> >> ---
+> >>   hw/input/lasips2.c | 25 +++++++++++++++++++------
+> >>   1 file changed, 19 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
+> >> index e602e3c986..ea7c07a2ba 100644
+> >> --- a/hw/input/lasips2.c
+> >> +++ b/hw/input/lasips2.c
+> >> @@ -35,15 +35,28 @@
+> >>   #include "qapi/error.h"
+> >>
+> >>
+> >> +static const VMStateDescription vmstate_lasips2_port = {
+> >> +    .name = "lasips2-port",
+> >> +    .version_id = 1,
+> >> +    .minimum_version_id = 1,
+> >> +    .fields = (VMStateField[]) {
+> >> +        VMSTATE_UINT8(control, LASIPS2Port),
+> >> +        VMSTATE_UINT8(buf, LASIPS2Port),
+> >> +        VMSTATE_BOOL(loopback_rbne, LASIPS2Port),
+> >> +        VMSTATE_END_OF_LIST()
+> >> +    }
+> >> +};
+> >> +
+> >>   static const VMStateDescription vmstate_lasips2 = {
+> >>       .name = "lasips2",
+> >> -    .version_id = 0,
+> >> -    .minimum_version_id = 0,
+> >> +    .version_id = 1,
+> >> +    .minimum_version_id = 1,
+> >>       .fields = (VMStateField[]) {
+> >> -        VMSTATE_UINT8(kbd_port.parent_obj.control, LASIPS2State),
+> >> -        VMSTATE_UINT8(kbd_port.parent_obj.id, LASIPS2State),
+> >> -        VMSTATE_UINT8(mouse_port.parent_obj.control, LASIPS2State),
+> >> -        VMSTATE_UINT8(mouse_port.parent_obj.id, LASIPS2State),
+> >> +        VMSTATE_UINT8(int_status, LASIPS2State),
+> >> +        VMSTATE_STRUCT(kbd_port.parent_obj, LASIPS2State, 1,
+> >> +                       vmstate_lasips2_port, LASIPS2Port),
+> >> +        VMSTATE_STRUCT(mouse_port.parent_obj, LASIPS2State, 1,
+> >> +                       vmstate_lasips2_port, LASIPS2Port),
+> >>           VMSTATE_END_OF_LIST()
+> >>       }
+> >>   };
+> >
+> > The set of things we were migrating and the set of
+> > things we now migrate don't seem to line up ?
+>
+> Yeah I should probably have documented this better in the commit message. The
+> existing VMStateDescription isn't correct since it misses both the buf and
+> loopback_rbne fields which are accessed across port reads and writes, and the port id
+> is not required because it is hardcoded to 0 for the keyboard port and 1 for the
+> mouse port.
+>
+> Rather than have the extra code churn throughout the series, I went for doing the
+> minimum to vmstate_lasips2 to make the patch compile and then fix up everything
+> (including add the new int_status bitmap) in this one patch. I think this is fine
+> since as we're introducing a migration break in the series, there are no concerns
+> over backward compatibility.
+>
+> Would an updated description for this commit message be sufficient? A quick skim over
+> the emails indicates that the only queries during review were related to the handling
+> of the VMStateDescription.
 
+Yeah, if you comment this in the relevant commit messages that should be
+good enough.
 
-Am 05/07/2022 um 10:14 schrieb Stefan Hajnoczi:
-> On Wed, Jun 29, 2022 at 10:15:31AM -0400, Emanuele Giuseppe Esposito wrote:
->> diff --git a/blockdev.c b/blockdev.c
->> index 71f793c4ab..5b79093155 100644
->> --- a/blockdev.c
->> +++ b/blockdev.c
->> @@ -150,12 +150,15 @@ void blockdev_mark_auto_del(BlockBackend *blk)
->>          return;
->>      }
->>  
->> -    for (job = block_job_next(NULL); job; job = block_job_next(job)) {
->> +    JOB_LOCK_GUARD();
->> +
->> +    for (job = block_job_next_locked(NULL); job;
->> +         job = block_job_next_locked(job)) {
->>          if (block_job_has_bdrv(job, blk_bs(blk))) {
->>              AioContext *aio_context = job->job.aio_context;
->>              aio_context_acquire(aio_context);
-> 
-> Is there a lock ordering rule for job_mutex and the AioContext lock? I
-> haven't audited the code, but there might be ABBA lock ordering issues.
-
-Doesn't really matter here, as lock is nop. To be honest I forgot which
-one should go first, probably job_lock because the aiocontext lock can
-be taken and released in callbacks.
-
-Should I resend with ordering fixed? Just to have a consistent logic
-
-> 
->> diff --git a/qemu-img.c b/qemu-img.c
->> index 4cf4d2423d..289d88a156 100644
->> --- a/qemu-img.c
->> +++ b/qemu-img.c
->> @@ -912,25 +912,30 @@ static void run_block_job(BlockJob *job, Error **errp)
->>      int ret = 0;
->>  
->>      aio_context_acquire(aio_context);
->> -    job_ref(&job->job);
->> -    do {
->> -        float progress = 0.0f;
->> -        aio_poll(aio_context, true);
->> +    WITH_JOB_LOCK_GUARD() {
-> 
-> Here the lock order is the opposite of above.
-> 
-
+-- PMM
 
