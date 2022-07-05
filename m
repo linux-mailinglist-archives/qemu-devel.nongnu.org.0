@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061B0566370
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 08:55:21 +0200 (CEST)
-Received: from localhost ([::1]:42638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0DA56636B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 08:53:55 +0200 (CEST)
+Received: from localhost ([::1]:40108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8cSu-0007s6-5N
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 02:55:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45822)
+	id 1o8cRW-0005yb-1P
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 02:53:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1o8cN9-0002LJ-Rb
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:49:23 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:56864 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1o8cN2-00056Q-0X
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:49:23 -0400
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Ax+eDd3sNi_PcJAA--.31000S4; 
- Tue, 05 Jul 2022 14:49:02 +0800 (CST)
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
- ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: [PATCH 2/2] hw/intc/loongarch_ipi: Fix mail send and any send function
-Date: Tue,  5 Jul 2022 14:49:01 +0800
-Message-Id: <20220705064901.2353349-3-yangxiaojuan@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220705064901.2353349-1-yangxiaojuan@loongson.cn>
-References: <20220705064901.2353349-1-yangxiaojuan@loongson.cn>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o8cOn-0003o1-Sj; Tue, 05 Jul 2022 02:51:05 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o8cOm-0005TE-4Q; Tue, 05 Jul 2022 02:51:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=qHWqjVEnckg9kqPQ1HOoDPWNjYMpv7tQtYKr67b6Aa8=; b=llpbbs/N1YPmbPZYmbDpCvrOQ5
+ t17+RYuVcV/ko+/n2FiRZKX2MN2tZcsyn68CspfEybtonZTCoeKF0NQlK2uwDH1M4FcXLRkEdIxyE
+ qeP47axhfmZ9jNmC4EG+k3iR88ZPU3pwUSuVS71kvLYrMV6ONoeDjDgzjZ76UE/HdR5yLiY2tHFJH
+ LFe1iRxlPfvtKkOJ2CNPoM4CtJ/4hbT2dO6CRmAViK+2p0LLTBJ6GPiZ/9Jd6TT9aeQGJPGHwhXBz
+ lY1HBCxBS5sA4/MDHA23jjZ8Bh8PICKimcErt4Gdj0ds8TZetlKcaGIsIuhcKaM3E4OpID4TsB/g8
+ 6z30e7u5wBB5cEg7o8zIfghDzdF339D5Bevyb7peOawT1QmAiQ4Np2sgC7ZkTPXjsdzNHJwa58QwG
+ A8c11HeONAI2y2M9aI+eEEDtO4vvFSEyujHwsACNBL4kP1kiTGb7oNBsCZYPTkpe+ElwDuucuaXs7
+ VdgJDF4ymaUuf2Q+OXtBffckcfn6HqG21oK4OrMeerUoiDHeIHDO3v+aNjEijQNBfVzbF8KKbg7Tz
+ Rk+7JTwetXcHtjhXjdx2KiBqoBtleK1ssO4v1IeAMlYIWQD65LdlbPNfH2TSKuKciiIlc2QVMqbcb
+ YyURp0KtYm78Spq2yXC5Dy3Zuq111fnqNmo3ujf4A=;
+Received: from [2a00:23c4:8ba5:df00:fd7d:1c3a:1dd0:c576]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1o8cNX-000Arc-Ln; Tue, 05 Jul 2022 07:49:48 +0100
+Message-ID: <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
+Date: Tue, 5 Jul 2022 07:51:00 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org
+References: <20220630194249.886747-1-danielhb413@gmail.com>
+ <20220630194249.886747-3-danielhb413@gmail.com>
+ <55014e2a-a668-4843-8338-850abeb5ff04@kaod.org>
+ <47277f4f-a6a5-85dc-4806-67df8e2fc153@gmail.com>
+ <6d37b1dc-5dfb-2513-f74e-3f58e84e8117@kaod.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <6d37b1dc-5dfb-2513-f74e-3f58e84e8117@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Ax+eDd3sNi_PcJAA--.31000S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxXryfXw45Kw4rZF17ur4xCrg_yoW5Cw4Upr
- 9xur4ayw48Aay3WayDJ34UZF1DJr97Way5CFsxK34F9w1DZr9I934qg39aqF1qka48WF1Y
- vr4kAw4FvF4UXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba5:df00:fd7d:1c3a:1dd0:c576
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 2/9] target/ppc: add errp to kvmppc_read_int_cpu_dt()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,121 +84,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By the document of ipi mailsend device, byte is written only when the mask bit
-is 0. The original code discards mask bit and overwrite the data always, this
-patch fixes the issue.
+On 04/07/2022 18:34, Cédric Le Goater wrote:
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
----
- hw/intc/loongarch_ipi.c | 54 +++++++++++++++++++++++------------------
- 1 file changed, 31 insertions(+), 23 deletions(-)
+> On 7/2/22 15:34, Daniel Henrique Barboza wrote:
+>>
+>>
+>> On 7/2/22 03:24, Cédric Le Goater wrote:
+>>> On 6/30/22 21:42, Daniel Henrique Barboza wrote:
+>>>> The function can't just return 0 whether an error happened and call it a
+>>>> day. We must provide a way of letting callers know if the zero return is
+>>>> legitimate or due to an error.
+>>>>
+>>>> Add an Error pointer to kvmppc_read_int_cpu_dt() that will be filled
+>>>> with an appropriate error, if one occurs. Callers are then free to pass
+>>>> an Error pointer and handle it.
+>>>>
+>>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>>> ---
+>>>>   target/ppc/kvm.c | 16 +++++++++-------
+>>>>   1 file changed, 9 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>>>> index 109823136d..bc17437097 100644
+>>>> --- a/target/ppc/kvm.c
+>>>> +++ b/target/ppc/kvm.c
+>>>> @@ -1925,15 +1925,17 @@ static uint64_t kvmppc_read_int_dt(const char *filename)
+>>>>   /*
+>>>>    * Read a CPU node property from the host device tree that's a single
+>>>> - * integer (32-bit or 64-bit).  Returns 0 if anything goes wrong
+>>>> - * (can't find or open the property, or doesn't understand the format)
+>>>> + * integer (32-bit or 64-bit).  Returns 0 and set errp if anything goes
+>>>> + * wrong (can't find or open the property, or doesn't understand the
+>>>> + * format)
+>>>>    */
+>>>> -static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
+>>>> +static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
+>>>>   {
+>>>>       char buf[PATH_MAX], *tmp;
+>>>>       uint64_t val;
+>>>>       if (kvmppc_find_cpu_dt(buf, sizeof(buf))) {
+>>>> +        error_setg(errp, "Failed to read CPU property %s", propname);
+>>>>           return 0;
+>>>>       }
+>>>> @@ -1946,12 +1948,12 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
+>>>>   uint64_t kvmppc_get_clockfreq(void)
+>>>>   {
+>>>> -    return kvmppc_read_int_cpu_dt("clock-frequency");
+>>>> +    return kvmppc_read_int_cpu_dt("clock-frequency", NULL);
+>>>
+>>>
+>>> This should be fatal. no ?
+>>
+>>
+>> I'm not sure. I went under the assumption that there might be some weird
+>> condition where 'clock-frequency' might be missing from the DT, and this
+>> is why we're not exiting out immediately.
+>>
+>> That said, the advantage of turning this into fatal is that we won't need
+>> all the other patches that handles error on this function. We're going to
+>> assume that if 'clock-frequency' is missing then we can't boot. I'm okay
+>> with that.
+> 
+> I think so. Some machines behave badly when 'clock-frequency' is bogus,
+> division by zero, no console, etc. We could check easily with pseries
+> which is the only KVM PPC platform.
 
-diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
-index b8b1b9cd53..4f3c58f872 100644
---- a/hw/intc/loongarch_ipi.c
-+++ b/hw/intc/loongarch_ipi.c
-@@ -50,35 +50,45 @@ static uint64_t loongarch_ipi_readl(void *opaque, hwaddr addr, unsigned size)
-     return ret;
- }
- 
--static int get_ipi_data(target_ulong val)
-+static void send_ipi_data(CPULoongArchState *env, target_ulong val, target_ulong addr)
- {
--    int i, mask, data;
-+    int i, mask = 0, data = 0;
- 
--    data = val >> 32;
--    mask = (val >> 27) & 0xf;
--
--    for (i = 0; i < 4; i++) {
--        if ((mask >> i) & 1) {
--            data &= ~(0xff << (i * 8));
-+    /*
-+     * bit 27-30 is mask for byte writing,
-+     * if the mask is 0, we need not to do anything.
-+     */
-+    if ((val >> 27) & 0xf) {
-+        data = address_space_ldl(&env->address_space_iocsr, addr,
-+                                 MEMTXATTRS_UNSPECIFIED, NULL);
-+        for (i = 0; i < 4; i++) {
-+            /* get mask for byte writing */
-+            if (val & (0x1 << (27 + i))) {
-+                mask |= 0xff << (i * 8);
-+            }
-         }
-     }
--    return data;
-+
-+    data &= mask;
-+    data |= (val >> 32) & ~mask;
-+    address_space_stl(&env->address_space_iocsr, addr,
-+                      data, MEMTXATTRS_UNSPECIFIED, NULL);
- }
- 
- static void ipi_send(uint64_t val)
- {
-     int cpuid, data;
-     CPULoongArchState *env;
-+    CPUState *cs;
-+    LoongArchCPU *cpu;
- 
-     cpuid = (val >> 16) & 0x3ff;
-     /* IPI status vector */
-     data = 1 << (val & 0x1f);
--    qemu_mutex_lock_iothread();
--    CPUState *cs = qemu_get_cpu(cpuid);
--    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    cs = qemu_get_cpu(cpuid);
-+    cpu = LOONGARCH_CPU(cs);
-     env = &cpu->env;
-     loongarch_cpu_set_irq(cpu, IRQ_IPI, 1);
--    qemu_mutex_unlock_iothread();
-     address_space_stl(&env->address_space_iocsr, 0x1008,
-                       data, MEMTXATTRS_UNSPECIFIED, NULL);
- 
-@@ -86,23 +96,23 @@ static void ipi_send(uint64_t val)
- 
- static void mail_send(uint64_t val)
- {
--    int cpuid, data;
-+    int cpuid;
-     hwaddr addr;
-     CPULoongArchState *env;
-+    CPUState *cs;
-+    LoongArchCPU *cpu;
- 
-     cpuid = (val >> 16) & 0x3ff;
-     addr = 0x1020 + (val & 0x1c);
--    CPUState *cs = qemu_get_cpu(cpuid);
--    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    cs = qemu_get_cpu(cpuid);
-+    cpu = LOONGARCH_CPU(cs);
-     env = &cpu->env;
--    data = get_ipi_data(val);
--    address_space_stl(&env->address_space_iocsr, addr,
--                      data, MEMTXATTRS_UNSPECIFIED, NULL);
-+    send_ipi_data(env, val, addr);
- }
- 
- static void any_send(uint64_t val)
- {
--    int cpuid, data;
-+    int cpuid;
-     hwaddr addr;
-     CPULoongArchState *env;
- 
-@@ -111,9 +121,7 @@ static void any_send(uint64_t val)
-     CPUState *cs = qemu_get_cpu(cpuid);
-     LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-     env = &cpu->env;
--    data = get_ipi_data(val);
--    address_space_stl(&env->address_space_iocsr, addr,
--                      data, MEMTXATTRS_UNSPECIFIED, NULL);
-+    send_ipi_data(env, val, addr);
- }
- 
- static void loongarch_ipi_writel(void *opaque, hwaddr addr, uint64_t val,
--- 
-2.31.1
+Well not quite true ;)  I haven't tested it during the last release cycle, but the 
+Mac machines were still working fine to boot OS X with KVM-PR on my G4 Mac Mini last 
+time I checked.
 
+
+ATB,
+
+Mark.
 
