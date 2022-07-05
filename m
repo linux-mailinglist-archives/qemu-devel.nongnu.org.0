@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA09D566031
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 02:56:35 +0200 (CEST)
-Received: from localhost ([::1]:35990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E2A956606C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 03:03:33 +0200 (CEST)
+Received: from localhost ([::1]:38904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8Wri-000346-L3
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 20:56:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
+	id 1o8WyS-0005Ow-8x
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 21:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o8Wpe-0001P2-TB
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 20:54:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51470)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o8Wpb-0006yW-1L
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 20:54:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656982461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MYSULrZFydu7Vr8rmPKQ5QytDYvbBEw1Lb/O1eJum9k=;
- b=jNp9DubDhPZUfYvcXHSnpuFkn3UyPtOssjnHzSzdNq3yhONogFEUkMYseOJbwtxSmxbjzC
- qhvLayw/+0SLYmTXYS+54Y+TMyDGfmn9qBohetxxbuZQwaXa3Q8rhwVaIklSw26m3hW00R
- ycMuvFzxdcM7g6yX60I0DAcNXqQWOxE=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-321-norYPRjlOVm_9nbWZMRTwQ-1; Mon, 04 Jul 2022 20:54:20 -0400
-X-MC-Unique: norYPRjlOVm_9nbWZMRTwQ-1
-Received: by mail-lj1-f197.google.com with SMTP id
- b40-20020a2ebc28000000b0025c047ea79dso3134387ljf.23
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 17:54:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8WwZ-0004Ts-3e
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 21:01:35 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:35542)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8WwW-00080k-RP
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 21:01:34 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ x18-20020a17090a8a9200b001ef83b332f5so4898106pjn.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 18:01:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=R7RBnlbUt5BFwqxWwuuiKxs9cnYoeQUZlz9hjSTyulA=;
+ b=FuLCZyHXNzbG9IAJZ4z58zmETr8tQMCAELFckSMxaMxOlVvdYw/zIb7c8DnY2B5chn
+ wgSB5Sm67RzWVZKA9NJ/LmQJv2vOu14E+v5/Bp3BwhPHIJDvEbCxdEdzH3laQbndFdpk
+ otKZN5fn1ES5VfW3bXQ1cd+Mp35dBUw7t72G4e6qSpffu+1kSKg4JuqKoPyNAO/vmspt
+ 0bljE1k6vm3jMkv0qwYfomyNRxcPv8+CRjRDof8MrXE+gjMb2kYoCn6Z30g2Dds+F7Zf
+ t3s/PX4Gc0pIGa1/XMHZtaAYWKEIKKmS9ESstcSXOMPZaODb5zpAY0wJ0SvZrNT6PTD9
+ HlkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MYSULrZFydu7Vr8rmPKQ5QytDYvbBEw1Lb/O1eJum9k=;
- b=JbzUuyFED1h9Gybe7N0rkbRpSjIaJmeD1txb65HQ057lZgLG/tVhmiV/VQySOU4SWX
- 5WmJAYKBrJfHNDW1GR2Y//KuSz1oUA3nEQz5fq3WXV/lxL9wxIzRWTvpptvMXlDtfiFD
- BD0x2cHfdWxtwlJhBc++ndXtVYJEQp9eMUBMV5aRW38hP1DsyLGoqsGWDK0Bp6/R4sCc
- sVpm39H3MagB/SX1MfL9lClj/1WzjdQw2dFaUgJUambJnzNe4zWNLt/LkYVk782Rud+w
- RKjF2L6ER8w7QTMF/oCKOLAn6cb2WT9rw24esT6BhWFDP49DnkyM+q7y3UpTya5wU+4Y
- 02BQ==
-X-Gm-Message-State: AJIora+3O/ryqqLMvbqK4N2qIySDJQzbEj2MBuDkNPSG0JGq02KiwzTb
- l9Vl5vlKaKc45hLTiWgDAPgZfs4vDSG1ekcZ5gmxBNym3kVMR8BFjeXbuuEZYxmgYjgAm15+u96
- ssNcHQmwFj0gkTQF89c8OVuJ6fEg7uBk=
-X-Received: by 2002:a2e:aaa5:0:b0:25b:ae57:4ad7 with SMTP id
- bj37-20020a2eaaa5000000b0025bae574ad7mr18519173ljb.323.1656982458950; 
- Mon, 04 Jul 2022 17:54:18 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tQFW+Qrns4H/MQmyhtIZNz2I3posIyb2Vx0O9zFhJPrd9wOE6zI5A7tkkdV8adyvgUPgg3pUE8FdNykfazUh8=
-X-Received: by 2002:a2e:aaa5:0:b0:25b:ae57:4ad7 with SMTP id
- bj37-20020a2eaaa5000000b0025bae574ad7mr18519162ljb.323.1656982458694; Mon, 04
- Jul 2022 17:54:18 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=R7RBnlbUt5BFwqxWwuuiKxs9cnYoeQUZlz9hjSTyulA=;
+ b=eu/OswDV+X5brwiod1lUNaNbVdJzuZgo+6klGN6V/zmcM66JF1tSahjvSfPeenO/Fm
+ dOV2u81Ol/I+i/iAVTw6HYni/KVUotblYqmt1diTK607LUilRwpeejYmq1AD1f68Q6eu
+ o0di3X8RWX6cOtJ4AL/KXUoQwJpE7grCwykNfzMN6tAITgWlQHPO0Q2LzlrTMzP4JyXT
+ sbzXHljql+JFImXmeSQ4BSbO/tBEdQKqzpKHF+ihib5+JKRbhdSJUFr+uEICAJ+9ZcZk
+ dnWu9M6Kk7PUDAktTlp+npYkMI2gtzOHOPByw2JF1vYGZCX8jivK6HXLPgh0wyKgxCMH
+ LZXA==
+X-Gm-Message-State: AJIora856NCFUN3BTPvTCAEse1nnrpoRK5Scfhwga+boZOatCf5HojEY
+ r/WQcFne69r+tryakeXNYllcoQ==
+X-Google-Smtp-Source: AGRyM1u60/GjAk0X6cG9jgs0wvWkUADu8IrJKhUcS9pzoYATnF9Aov8AfzJelFrltAPlHzm1i+U5hg==
+X-Received: by 2002:a17:903:245:b0:16b:9c49:6b1c with SMTP id
+ j5-20020a170903024500b0016b9c496b1cmr32837674plh.153.1656982890955; 
+ Mon, 04 Jul 2022 18:01:30 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ s91-20020a17090a69e400b001ef831a2015sm4003626pjj.22.2022.07.04.18.01.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jul 2022 18:01:30 -0700 (PDT)
+Message-ID: <6006e1bd-722f-a0dc-0207-5bb36b29cda6@linaro.org>
+Date: Tue, 5 Jul 2022 06:31:25 +0530
 MIME-Version: 1.0
-References: <20220629094026.558-1-dinghui@sangfor.com.cn>
- <9f349685-b935-942b-57ac-ff5499cda210@redhat.com>
- <bf4885f2-9ed5-2c17-0b2e-e3f677a52ed1@sangfor.com.cn>
-In-Reply-To: <bf4885f2-9ed5-2c17-0b2e-e3f677a52ed1@sangfor.com.cn>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 5 Jul 2022 08:54:07 +0800
-Message-ID: <CACGkMEtV+nETesuFv7VyA2V8Ni73phXFueCX9-GN+uts6H0-ug@mail.gmail.com>
-Subject: Re: [PATCH] e1000: set RX descriptor status in a separate operation
-To: Ding Hui <dinghui@sangfor.com.cn>
-Cc: asm@asm.pp.ru, qemu-devel <qemu-devel@nongnu.org>, zhangjing@sangfor.com.cn,
- lifan38153@sangfor.com.cn, Stefan Hajnoczi <stefanha@gmail.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-stable@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 02/62] target/arm: Enable PageEntryExtra
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220703082419.770989-1-richard.henderson@linaro.org>
+ <20220703082419.770989-3-richard.henderson@linaro.org>
+ <CAFEAcA8YowUZqpyC4k=7w_pFSZ5JrnC=cYpj0JUn8U4JaYOGDA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8YowUZqpyC4k=7w_pFSZ5JrnC=cYpj0JUn8U4JaYOGDA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,49 +95,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 4, 2022 at 5:05 PM Ding Hui <dinghui@sangfor.com.cn> wrote:
->
-> On 2022/7/4 15:10, Jason Wang wrote:
-> >
-> > =E5=9C=A8 2022/6/29 17:40, Ding Hui =E5=86=99=E9=81=93:
-> >> @@ -1013,6 +1013,9 @@ e1000_receive_iov(NetClientState *nc, const
-> >> struct iovec *iov, int iovcnt)
-> >>               DBGOUT(RX, "Null RX descriptor!!\n");
-> >>           }
-> >>           pci_dma_write(d, base, &desc, sizeof(desc));
-> >> +        desc.status |=3D (vlan_status | E1000_RXD_STAT_DD);
-> >> +        pci_dma_write(d, base + offsetof(struct e1000_rx_desc, status=
-),
-> >> +                      &desc.status, sizeof(desc.status));
-> >
-> >
-> > Good catch, but to be more safe, I wonder if we can simply use
-> > stx_le_pci_dma() here?
-> >
->
-> Do you mean stb_le_pci_dma(d, base + offsetof(struct e1000_rx_desc,
-> status), desc.status, MEMTXATTRS_UNSPECIFIED)?
->
-> I checked both pci_dma_write() and stb_le_pci_dma(), there is no
-> difference between them,
+On 7/4/22 20:52, Peter Maydell wrote:
+> On Sun, 3 Jul 2022 at 09:25, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Copy attrs, sharability, and the NS bit into the TLB.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/arm/cpu-param.h  |  8 ++++++++
+>>   target/arm/internals.h  |  5 +++++
+>>   target/arm/tlb_helper.c | 14 ++++++++++++--
+>>   3 files changed, 25 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+>> index 68ffb12427..a14f167d11 100644
+>> --- a/target/arm/cpu-param.h
+>> +++ b/target/arm/cpu-param.h
+>> @@ -30,6 +30,14 @@
+>>    */
+>>   # define TARGET_PAGE_BITS_VARY
+>>   # define TARGET_PAGE_BITS_MIN  10
+>> +/*
+>> + * Extra information stored in softmmu page tables.
+>> + */
+>> +# define TARGET_PAGE_ENTRY_EXTRA
+>> +struct PageEntryExtra {
+>> +    /* See PAGEENTRYEXTRA fields in cpu.h */
+>> +    uint64_t x;
+>> +};
+>>   #endif
+>>
+>>   #define NB_MMU_MODES 15
+>> diff --git a/target/arm/internals.h b/target/arm/internals.h
+>> index c66f74a0db..2b38a83574 100644
+>> --- a/target/arm/internals.h
+>> +++ b/target/arm/internals.h
+>> @@ -74,6 +74,11 @@ FIELD(V7M_EXCRET, DCRS, 5, 1)
+>>   FIELD(V7M_EXCRET, S, 6, 1)
+>>   FIELD(V7M_EXCRET, RES1, 7, 25) /* including the must-be-1 prefix */
+>>
+>> +/* Bit definitions for PageEntryExtra */
+>> +FIELD(PAGEENTRYEXTRA, ATTRS, 0, 8)
+>> +FIELD(PAGEENTRYEXTRA, SHAREABILITY, 8, 2)
+>> +FIELD(PAGEENTRYEXTRA, PA, 12, 52)
+> 
+> So why do we want these things in particular? It would be
+> helpful to describe the intended uses in the commit message
+> to save the reader having to read the next 60 patches to
+> find out :-)
 
-I think the difference is that the stx_xxx() can guarantee the atomicy
-when it is allowed by the arch.
+Heh, yes.  Basically, it's what S1_ptw_translate requires (pa, attrs), so that we can 
+report a stage1 ptw failure, and what do_ats_write requires (pa, sh, attrs) for filling in 
+PAR_EL1.  Although within these 62 patches I didn't came back to finish converting 
+do_ats_write to use probe_access_flags_extra instead of using get_phys_addr directly, it 
+was a goal.
 
-> but I'm not sure whether it is proper to mixed
-> use address based api and value based api, besides that it's OK to me.
->
-> Thanks for reply.
+> Is wanting to cache the physaddr an Arm-specific thing, or is it
+> something we should consider having in the core softmmu code?
 
-I apply this patch as is.
+I'm not sure what other targets require for their 2-stage page table walks.  I guess I 
+should have a look (riscv, i386, ?).
 
-Thanks
+It *is* possible to recover the phys addr from the iommutlb, because I was doing that in 
+mte_helper.c (see code removed in patch 5), but it's certainly not simple.
 
->
-> --
-> Thanks,
-> - Ding Hui
->
->
+>>       if (likely(!ret)) {
+>> +        PageEntryExtra extra = {};
+>> +
+>>           /*
+>>            * Map a single [sub]page. Regions smaller than our declared
+>>            * target page size are handled specially, so for those we
+>> -         * pass in the exact addresses.
+>> +         * pass in the exact addresses.  This only happens for M-profile,
+>> +         * which does not use or require PageEntryExtra.
+>>            */
+> 
+> Do we have to exclude M-profile here because the PageEntryExtra
+> data is strictly-per-page, or because the way we've formatted
+> our extra uint64_t requires the physaddr to be page-aligned, or both?
 
+Because our extra uint64_t requires page alignment, and reuses those bits.
+
+
+r~
 
