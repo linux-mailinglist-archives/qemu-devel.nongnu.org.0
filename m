@@ -2,76 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2272A5662E0
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 07:41:40 +0200 (CEST)
-Received: from localhost ([::1]:39688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F615662E1
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 07:51:28 +0200 (CEST)
+Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8bJa-0006bK-PR
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 01:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35364)
+	id 1o8bT4-0001U3-Mz
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 01:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o8bGP-0005ZO-8E; Tue, 05 Jul 2022 01:38:21 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:52791)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1o8bGM-0003yJ-6D; Tue, 05 Jul 2022 01:38:20 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id fz10so5014220pjb.2;
- Mon, 04 Jul 2022 22:38:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sXQtcfuXLTsL52tULxRixvBeWI8TAvK5rlDwwChHdQY=;
- b=Zcq86pRqbVv3dlBeJ51wWsmps+h1u+dX2tnrw5Jxp508EhQwl/zYSEbQ4nVMIxRdup
- KIGrQx7fVV8afh/zHhhnwIBqAdTzV0cMh/S3GLEQTwP0b5Tx5cBaT5UWNUb0sxEwmfdX
- oFW4hnR+LG7j41+agw64xNAGca0gyGcJnY4SYvGAHK6wpsL69wpATnCGDPXTXzufGQhM
- /741RmvIWzctoyy30qXNmMIa1uBL6r1qO5scTk0XMOdy91HPyvtk/tvgeBPTLeJ768+M
- 9IAQSlpBwG+M+TxtJ9Fz2nR6nR7tORoX1dQPP4jYnVlVK1RgQeDW7Dn3T2eGA0CVrYPy
- 5Thg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sXQtcfuXLTsL52tULxRixvBeWI8TAvK5rlDwwChHdQY=;
- b=R23p65xFh1vovs0wHS4YCHy6cIwkYDKXA+kzQIFBEyQaIB9wphZ9jSi803jNWFYq2T
- s8YjoUP5btvmur6hS54EfG0s79urmNnB8SqAsbEGDJXdHfxuPMV+zrua4FxOCWnjmYdR
- 7apg72qBek7aqhsuJLpJStgzEDSNjNjYJ2VkmLuiqI3+Cr1bkYmjX34sYkpN2lUg2HZM
- 3cxnirvlubYQ0Qp0tf+EBtYonqydcLtSUC6fS0ks7GNse5LcOfkjUPJai0VPC4Y4CIf5
- qPa3nv72rqtAc+gujdldFJz0XTVY7tpkZuP8OXLk3daQk+7GgG09GwsdkXinBElP/hIk
- pGyw==
-X-Gm-Message-State: AJIora+ztl79lGECN41rw6ShCdpWCFVM7Ws+qbAUvyNjGS4O1A8M9bi2
- QEtWJ5L0ouRGtd4+psQDImY865pWX5u1DWzdOTk=
-X-Google-Smtp-Source: AGRyM1t/W2mB2T20H2XReLymJNi1D7CtpIpei/kN9PLL6SlPl77ya0R8WILzzf3h1QUoYrXms2Y6lhIkyQ+ZIc1mP/U=
-X-Received: by 2002:a17:902:b412:b0:16b:d846:77ee with SMTP id
- x18-20020a170902b41200b0016bd84677eemr13431338plr.25.1656999494855; Mon, 04
- Jul 2022 22:38:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8bO9-00081f-Ka
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 01:46:25 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:33419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8bO0-00059L-3o
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 01:46:21 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.158])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 7F31111460171;
+ Tue,  5 Jul 2022 07:46:07 +0200 (CEST)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 5 Jul 2022
+ 07:46:06 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005099a3d19-86e8-4f7f-ad03-666118d27cae,
+ 4FF77D4A254985FC0BE9A952312E42D6E34C6CC4) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <9501abaf-c6b5-824c-cba8-fd4c18679b28@kaod.org>
+Date: Tue, 5 Jul 2022 07:46:05 +0200
 MIME-Version: 1.0
-References: <20220630061150.905174-1-apatel@ventanamicro.com>
- <CAAhSdy2iTPwqzUAhV8s97k1d4sK-bne1z-T6pg__p3xfsUrdHg@mail.gmail.com>
-In-Reply-To: <CAAhSdy2iTPwqzUAhV8s97k1d4sK-bne1z-T6pg__p3xfsUrdHg@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 5 Jul 2022 15:37:48 +1000
-Message-ID: <CAKmqyKOwpLaSdNxh9OBPHUSNK54Ggws8FVgBmU4tWKu+s7rx6Q@mail.gmail.com>
-Subject: Re: [PATCH v9 0/2] QEMU RISC-V nested virtualization fixes
-To: Anup Patel <anup@brainfault.org>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Atish Patra <atishp@atishpatra.org>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1033.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/8] hw/i2c/pca954x: Add method to get channels
+Content-Language: en-US
+To: Peter Delevoryas <peter@pjd.dev>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
+ <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Patrick Venture
+ <venture@google.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220704215457.38332-1-peter@pjd.dev>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220704215457.38332-1-peter@pjd.dev>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 409e0528-e789-412c-ae5a-74b150f37d2b
+X-Ovh-Tracer-Id: 14996705287660014441
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeitddgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgefggffgheejgfdufeeiueffveehteejgfelueekgfegtefgffejhedtgfejgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvle
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,87 +75,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 4:27 PM Anup Patel <anup@brainfault.org> wrote:
->
-> On Thu, Jun 30, 2022 at 11:42 AM Anup Patel <apatel@ventanamicro.com> wrote:
-> >
-> > This series does fixes and improvements to have nested virtualization
-> > on QEMU RISC-V.
-> >
-> > These patches can also be found in riscv_nested_fixes_v9 branch at:
-> > https://github.com/avpatel/qemu.git
-> >
-> > The RISC-V nested virtualization was tested on QEMU RISC-V using
-> > Xvisor RISC-V which has required hypervisor support to run another
-> > hypervisor as Guest/VM.
->
-> Changes since v8:
->  - Drop first two patches because Alistair has already taken care of it.
->  - Include instruction immediate offset in "Addr. Offset" for PATCH1
->
-> Regards,
-> Anup
->
-> >
-> > Changes since v7:
-> >  - Improve tinst "Addr. Offset" in PATCH3
-> >
-> > Changes since v6:
-> >  - Droppred original PATCH1 and PATCH2 since these are already merged
-> >  - Added PATCH1 to revert dummy mcountinhibit CSR
-> >  - Added PATCH2 to fix minimum priv spec version for mcountinhibit CSR
-> >  - Fixed checkpatch error in PATCH3
-> >  - Fixed compile error in PATCH4
-> >
-> > Changes since v5:
-> >  - Correctly set "Addr. Offset" for misaligned load/store traps in PATCH3
-> >  - Use offsetof() instead of pointer in PATCH4
-> >
-> > Changes since v4:
-> >  - Updated commit description in PATCH1, PATCH2, and PATCH4
-> >  - Use "const" for local array in PATCH5
-> >
-> > Changes since v3:
-> >  - Updated PATCH3 to set special pseudoinstructions in htinst for
-> >    guest page faults which result due to VS-stage page table walks
-> >  - Updated warning message in PATCH4
-> >
-> > Changes since v2:
-> >  - Dropped the patch which are already in Alistair's next branch
-> >  - Set "Addr. Offset" in the transformed instruction for PATCH3
-> >  - Print warning in riscv_cpu_realize() if we are disabling an
-> >    extension due to privilege spec verions mismatch for PATCH4
-> >
-> > Changes since v1:
-> >  - Set write_gva to env->two_stage_lookup which ensures that for
-> >    HS-mode to HS-mode trap write_gva is true only for HLV/HSV
-> >    instructions
-> >  - Included "[PATCH 0/3] QEMU RISC-V priv spec version fixes"
-> >    patches in this series for easy review
-> >  - Re-worked PATCH7 to force disable extensions if required
-> >    priv spec version is not staisfied
-> >  - Added new PATCH8 to fix "aia=aplic-imsic" mode of virt machine
-> >
-> > Anup Patel (2):
-> >   target/riscv: Update [m|h]tinst CSR in riscv_cpu_do_interrupt()
-> >   target/riscv: Force disable extensions if priv spec version does not
-> >     match
-> >
-> >  target/riscv/cpu.c        | 150 ++++++++++++++---------
-> >  target/riscv/cpu.h        |   5 +
-> >  target/riscv/cpu_helper.c | 252 +++++++++++++++++++++++++++++++++++++-
-> >  target/riscv/instmap.h    |  45 +++++++
-> >  4 files changed, 390 insertions(+), 62 deletions(-)
+On 7/4/22 23:54, Peter Delevoryas wrote:
+> I added this helper in the Aspeed machine file a while ago to help
+> initialize fuji-bmc i2c devices. This moves it to the official pca954x
+> file so that other files can use it.
+> 
+> This does something very similar to pca954x_i2c_get_bus, but I think
+> this is useful when you have a very complicated dts with a lot of
+> switches, like the fuji dts.
+> 
+> This convenience method lets you write code that produces a flat array
+> of I2C buses that matches the naming in the dts. After that you can just
+> add individual sensors using the flat array of I2C buses.
+> 
+> See fuji_bmc_i2c_init to understand this point further.
+> 
+> The fuji dts is here for reference:
+> 
+> https://github.com/torvalds/linux/blob/40cb6373b46/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
+> 
+> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 
-Thanks!
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-Applied to riscv-to-apply.next
+Thanks,
 
-Alistair
+C.
 
-> >
-> > --
-> > 2.34.1
-> >
->
+
+> ---
+>   hw/arm/aspeed.c                  | 29 +++++++++--------------------
+>   hw/i2c/i2c_mux_pca954x.c         | 10 ++++++++++
+>   include/hw/i2c/i2c_mux_pca954x.h | 13 +++++++++++++
+>   3 files changed, 32 insertions(+), 20 deletions(-)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 6fe9b13548..bee8a748ec 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -793,15 +793,6 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+>       create_pca9552(soc, 15, 0x60);
+>   }
+>   
+> -static void get_pca9548_channels(I2CBus *bus, uint8_t mux_addr,
+> -                                 I2CBus **channels)
+> -{
+> -    I2CSlave *mux = i2c_slave_create_simple(bus, "pca9548", mux_addr);
+> -    for (int i = 0; i < 8; i++) {
+> -        channels[i] = pca954x_i2c_get_bus(mux, i);
+> -    }
+> -}
+> -
+>   #define TYPE_LM75 TYPE_TMP105
+>   #define TYPE_TMP75 TYPE_TMP105
+>   #define TYPE_TMP422 "tmp422"
+> @@ -814,20 +805,18 @@ static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
+>       for (int i = 0; i < 16; i++) {
+>           i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
+>       }
+> -    I2CBus *i2c180 = i2c[2];
+> -    I2CBus *i2c480 = i2c[8];
+> -    I2CBus *i2c600 = i2c[11];
+>   
+> -    get_pca9548_channels(i2c180, 0x70, &i2c[16]);
+> -    get_pca9548_channels(i2c480, 0x70, &i2c[24]);
+> +    pca954x_i2c_get_channels(i2c[2], 0x70, "pca9548", &i2c[16]);
+> +    pca954x_i2c_get_channels(i2c[8], 0x70, "pca9548", &i2c[24]);
+>       /* NOTE: The device tree skips [32, 40) in the alias numbering */
+> -    get_pca9548_channels(i2c600, 0x77, &i2c[40]);
+> -    get_pca9548_channels(i2c[24], 0x71, &i2c[48]);
+> -    get_pca9548_channels(i2c[25], 0x72, &i2c[56]);
+> -    get_pca9548_channels(i2c[26], 0x76, &i2c[64]);
+> -    get_pca9548_channels(i2c[27], 0x76, &i2c[72]);
+> +    pca954x_i2c_get_channels(i2c[11], 0x77, "pca9548", &i2c[40]);
+> +    pca954x_i2c_get_channels(i2c[24], 0x71, "pca9548", &i2c[48]);
+> +    pca954x_i2c_get_channels(i2c[25], 0x72, "pca9548", &i2c[56]);
+> +    pca954x_i2c_get_channels(i2c[26], 0x76, "pca9548", &i2c[64]);
+> +    pca954x_i2c_get_channels(i2c[27], 0x76, "pca9548", &i2c[72]);
+>       for (int i = 0; i < 8; i++) {
+> -        get_pca9548_channels(i2c[40 + i], 0x76, &i2c[80 + i * 8]);
+> +        pca954x_i2c_get_channels(i2c[40 + i], 0x76, "pca9548",
+> +                                 &i2c[80 + i * 8]);
+>       }
+>   
+>       i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
+> diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
+> index 3945de795c..6b07804546 100644
+> --- a/hw/i2c/i2c_mux_pca954x.c
+> +++ b/hw/i2c/i2c_mux_pca954x.c
+> @@ -169,6 +169,16 @@ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel)
+>       return pca954x->bus[channel];
+>   }
+>   
+> +void pca954x_i2c_get_channels(I2CBus *bus, uint8_t address,
+> +                              const char *type_name, I2CBus **channels)
+> +{
+> +    I2CSlave *mux = i2c_slave_create_simple(bus, type_name, address);
+> +    Pca954xClass *pc = PCA954X_GET_CLASS(mux);
+> +    Pca954xState *pca954x = PCA954X(mux);
+> +
+> +    memcpy(channels, pca954x->bus, pc->nchans * sizeof(channels[0]));
+> +}
+> +
+>   static void pca9546_class_init(ObjectClass *klass, void *data)
+>   {
+>       Pca954xClass *s = PCA954X_CLASS(klass);
+> diff --git a/include/hw/i2c/i2c_mux_pca954x.h b/include/hw/i2c/i2c_mux_pca954x.h
+> index 3dd25ec983..3a676a30a9 100644
+> --- a/include/hw/i2c/i2c_mux_pca954x.h
+> +++ b/include/hw/i2c/i2c_mux_pca954x.h
+> @@ -16,4 +16,17 @@
+>    */
+>   I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel);
+>   
+> +/**
+> + * Creates an i2c mux and retrieves all of the channels associated with it.
+> + *
+> + * @bus: the i2c bus where the i2c mux resides.
+> + * @address: the address of the i2c mux on the aforementioned i2c bus.
+> + * @type_name: name of the i2c mux type to create.
+> + * @channels: an output parameter specifying where to return the channels.
+> + *
+> + * Returns: None
+> + */
+> +void pca954x_i2c_get_channels(I2CBus *bus, uint8_t address,
+> +                              const char *type_name, I2CBus **channels);
+> +
+>   #endif
+
 
