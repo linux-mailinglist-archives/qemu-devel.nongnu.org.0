@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8AFA5665FB
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 11:20:59 +0200 (CEST)
-Received: from localhost ([::1]:44782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0297E5665FD
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 11:23:06 +0200 (CEST)
+Received: from localhost ([::1]:47184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8ejp-0006CW-Iq
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 05:20:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49812)
+	id 1o8elt-00082k-4G
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 05:23:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8ehx-0005OB-F3
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:19:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50292)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8ekg-0007ER-CC
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:21:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8ehu-0002sa-72
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:19:00 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8eke-0003NL-AX
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:21:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657012737;
+ s=mimecast20190719; t=1657012907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R3lzotfj+kryflPvS8ybcQJJjILWlH08L8GyKgGEQB4=;
- b=LvftVRE6VEV9sDFyAgbm7J+Gi2AgENw6tJ9WhowDjnRKOaQ6OLMHe7REnSN5m8BHvRSdKt
- 16sbThcTaixiBYqbt2DT/VBZ3ALbrhOhZ7JIaJ4XohkcQ5+02nSgLnAOJ9fnX2Ii6y9l3Z
- uIIlU73jR65UfVxvSzMNsIAN6a1nvw0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AsjX85RDFlo+uKMzQ+VRyhrCx44GT5/TzvkEPBCi/mE=;
+ b=eZWB0zcn381rflHlNQC7o+at7l1lGCyc0ChZlpS6w6lLLCgY4ixrKCRHF5TBSwtqNg84Uy
+ CZZ8mkOgaRQovzBB4zZeExUr0tAm4DhIOLjSc8O7hAxZgX+0s9s5BJIAimCxE0+PFwJfaA
+ mCoKdRBNxzhcY6BhMWaM1CDCRiR6K7o=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-LByCWm0vM1iltXKykLBdzQ-1; Tue, 05 Jul 2022 05:18:45 -0400
-X-MC-Unique: LByCWm0vM1iltXKykLBdzQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- i9-20020a05640242c900b004373cd1c4d5so8852330edc.2
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 02:18:45 -0700 (PDT)
+ us-mta-166-fl0fxmSUO3u5oNBQKpin5w-1; Tue, 05 Jul 2022 05:21:45 -0400
+X-MC-Unique: fl0fxmSUO3u5oNBQKpin5w-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c20-20020a05640227d400b004369cf00c6bso9002961ede.22
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 02:21:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=R3lzotfj+kryflPvS8ybcQJJjILWlH08L8GyKgGEQB4=;
- b=LTrLotPCGWZfawm1tDrORhH3j8RBMu5hpB9Q5I0o3XCfn/i2ic5UzVHQbno7NlgW/P
- swcI76ljdQ02tjVYcN/rowrjraIzYPGqR8L6cl+maWnvW5n3HeLeD/F0NsAPeTijqYdN
- cCbBUu5YpKI3CPYoyxI4yOda9PMhMalKEuRuFi0H7lDSFwlYeLLEwRFgIUo26D0FYWEK
- aWeybMaNxnyr5QRHDZiYkBpxhvzGteVKSeE4gstv8bOvO1nydtqOf2M9pqKIQcd3rQ4C
- u/DDHPctjPytXI1RGOXzyfSjCuxU0Z9VgXxRsBTPGYLezyw4YBEIsDIPDnxm7VAbQeme
- 8Mcw==
-X-Gm-Message-State: AJIora8Ae3n0UCJVmbP7mXlx3ieoHRS60zVV6/TcY4ytIbH+I+/zflb6
- PpN/PRAqy1aAmdFYPeiP7neN7Yv+Q0h6+cQnXYukP8dSXOV/SaDyqCV6ik5zLTlqDbYSvWyfklN
- /pgJHwSKHd0soAw0=
-X-Received: by 2002:a50:fd93:0:b0:43a:71e2:781e with SMTP id
- o19-20020a50fd93000000b0043a71e2781emr6270629edt.396.1657012724460; 
- Tue, 05 Jul 2022 02:18:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t8btJgFv0alePCQV1eJKuzuqpaxXKNXIwN/NvCdEa72f/2OLCbAgIqUCcmOR0supJWgKr4mA==
-X-Received: by 2002:a50:fd93:0:b0:43a:71e2:781e with SMTP id
- o19-20020a50fd93000000b0043a71e2781emr6270605edt.396.1657012724266; 
- Tue, 05 Jul 2022 02:18:44 -0700 (PDT)
+ bh=AsjX85RDFlo+uKMzQ+VRyhrCx44GT5/TzvkEPBCi/mE=;
+ b=flNa1hXcGZ3tDLbczkw7rU/0Y1fAldjhdJeYJhfIYRhWERvlP38tn2BYOzBK5JFrYI
+ 2wNzA/4J15Fh6H5dQQJhQXSpCoz6eW37d/jPdYx3rSVPoPJ1Kk2eJmTcoJFz6BbUIPrF
+ NlE8w/5uK2ieDYZE2+Qn682Crr20eI3Lc1QKGpeCzxUq0M/AuL8jJjiJFx5EQWLoej95
+ 19xJPGD/tQl4oRR5knV8Ofsk5g/f7jJYvsf2zpwUJTjXtw0HDIIykZvfcFfKtLaCfHBN
+ MyehB4jCMhBUftNXcXSFepdn/86hsqhM3+/HZfDf33mdeRTVok8ADxqE/+ijbDgu6uGn
+ XgdQ==
+X-Gm-Message-State: AJIora/+5jTW27r0I0Mlm6Ef+Y5JuoDHzmy6FZqWNAxkTEU/PWmhavXN
+ lcF1U2TpNgPszTZe8L/sOUYdwBVwmwAL2dUDDxrDs/qqhFYUnqJX7/R/OVE5SHceT+aUH2UgmWd
+ YwME0nsaiq3lol44=
+X-Received: by 2002:a17:907:6e89:b0:726:e16a:c851 with SMTP id
+ sh9-20020a1709076e8900b00726e16ac851mr31700285ejc.507.1657012904733; 
+ Tue, 05 Jul 2022 02:21:44 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1ttuHGdb3cCZahjMdiIyTiiZ0kc0C26QOiGoop49r3aJjhUIze3UGdJM+1xyWJ2XsmuIUWc0A==
+X-Received: by 2002:a17:907:6e89:b0:726:e16a:c851 with SMTP id
+ sh9-20020a1709076e8900b00726e16ac851mr31700273ejc.507.1657012904523; 
+ Tue, 05 Jul 2022 02:21:44 -0700 (PDT)
 Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
  ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
  by smtp.gmail.com with ESMTPSA id
- qx28-20020a170906fcdc00b00726c0e60940sm10610161ejb.100.2022.07.05.02.18.43
+ o15-20020a056402038f00b0043a67dbbb4csm3584377edv.83.2022.07.05.02.21.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 02:18:43 -0700 (PDT)
-Message-ID: <4f584014-8bcc-6a84-36f8-93ce595a133f@redhat.com>
-Date: Tue, 5 Jul 2022 11:18:43 +0200
+ Tue, 05 Jul 2022 02:21:44 -0700 (PDT)
+Message-ID: <da48bbe2-4146-fdc8-71e1-2c55dbbee7b1@redhat.com>
+Date: Tue, 5 Jul 2022 11:21:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 17/18] block: Reorganize some declarations in
- block-backend-io.h
+Subject: Re: [PATCH 18/18] block: Remove remaining unused symbols in
+ coroutines.h
 Content-Language: en-US
 To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 References: <20220517113524.197910-1-afaria@redhat.com>
- <20220517113907.200001-6-afaria@redhat.com>
+ <20220517113907.200001-7-afaria@redhat.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220517113907.200001-6-afaria@redhat.com>
+In-Reply-To: <20220517113907.200001-7-afaria@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -105,55 +105,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 17.05.22 13:39, Alberto Faria wrote:
-> Keep generated_co_wrapper and coroutine_fn pairs together. This should
-> make it clear that each I/O function has these two versions.
->
-> Also move blk_co_{pread,pwrite}()'s implementations out of the header
-> file for consistency.
+> Some can be made static, others are unused generated_co_wrappers.
 >
 > Signed-off-by: Alberto Faria <afaria@redhat.com>
 > ---
->   block/block-backend.c             | 22 ++++++++
->   include/sysemu/block-backend-io.h | 87 +++++++++++++------------------
->   2 files changed, 59 insertions(+), 50 deletions(-)
+>   block/block-backend.c |  6 +++---
+>   block/coroutines.h    | 19 -------------------
+>   2 files changed, 3 insertions(+), 22 deletions(-)
 
-[...]
-
-> diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
-> index 004493ec36..30ed979fb1 100644
-> --- a/include/sysemu/block-backend-io.h
-> +++ b/include/sysemu/block-backend-io.h
-> @@ -88,11 +88,6 @@ uint32_t blk_get_request_alignment(BlockBackend *blk);
->   uint32_t blk_get_max_transfer(BlockBackend *blk);
->   uint64_t blk_get_max_hw_transfer(BlockBackend *blk);
->   
-> -int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
-> -                                   BlockBackend *blk_out, int64_t off_out,
-> -                                   int64_t bytes, BdrvRequestFlags read_flags,
-> -                                   BdrvRequestFlags write_flags);
-> -
->   
->   /*
->    * "I/O or GS" API functions. These functions can run without
-
-[...]
-
-> @@ -190,4 +172,9 @@ int coroutine_fn blk_co_truncate(BlockBackend *blk, int64_t offset, bool exact,
->                                    PreallocMode prealloc, BdrvRequestFlags flags,
->                                    Error **errp);
->   
-> +int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
-> +                                   BlockBackend *blk_out, int64_t off_out,
-> +                                   int64_t bytes, BdrvRequestFlags read_flags,
-> +                                   BdrvRequestFlags write_flags);
-> +
->   #endif /* BLOCK_BACKEND_IO_H */
-
-This moves blk_co_copy_range() from the “I/O API functions” section of 
-this header into the “"I/O or GS" API functions” section.  Is that intended?
-
-The rest looks good to me, but I wonder about this one function.
-
-Hanna
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
