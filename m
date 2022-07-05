@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3305674E1
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 18:54:58 +0200 (CEST)
-Received: from localhost ([::1]:52662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D060567531
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 19:07:54 +0200 (CEST)
+Received: from localhost ([::1]:47964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8lpB-0005fj-4T
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 12:54:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40306)
+	id 1o8m1g-0005NS-SC
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 13:07:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8leA-0001sv-9u
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 12:43:35 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:46071)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8le8-00025D-6o
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 12:43:33 -0400
-Received: by mail-pl1-x631.google.com with SMTP id d5so11402057plo.12
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 09:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=sffxJBKLofQBWjw99IGs66Mx8XR/7zVJblmZTja8g5Q=;
- b=vJXrtKx/qlvtu94h9aPlVLgdR1wI2yz27s4MWAUBmAMAShRynX7wJjjreKBhcmye6u
- WxKYdpIjmb7vn1QndM0C5cPHw09J1asv1NaQQlPS6KjQAXHXSHvqnkNIo1xJ6H73W3wY
- dZNFO6xdj7yqvEW0OP+KU6i6xclHLt6K+o8fd8H1l8lcXGjb/QLD549ap7k6dgyx855W
- I4qkZ5ZjHYpKlrkjYNFwQLPA0eylmndyGBsAuV/tFG5snsD/Df/GrkENzVqrM9lwYjVF
- JyN7J9FoOU2mtRJ/7e88z7GwnxQXOmmt69f2eEUS/GRy2Y8Aext6XdaioO9h1wQ1RjPj
- DZfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=sffxJBKLofQBWjw99IGs66Mx8XR/7zVJblmZTja8g5Q=;
- b=BK8O+TP4K3r2O+Of70tdWutbj4JviUnXgWCPqpi+PcrfeUpkhS9Qn9OY9k6EHPB5Qt
- nToM0XHtVxX3xytQrjFcis5a1PMW1PRDavBZyh8yTvEcx0xIgrCNsfs/LLkqxpVoBfhi
- oN8eFovS8KHB6pdtIBQFgDi9UJQI8aFfN/xC556Wd789l8ZtVtKHONOwpp6RUH9S8qi+
- EcXiEHJftTqOwK9rV+/73gQY/QHjwocd079MMzJSIIWYWfcewkI1tnasmSCX3FQ6vdKu
- IIyXWHIfFBn+mu/sbtjrL0uGVlPZUdcT9ifvnb49J7IBJ6k1flI6z31YSYn7pO1fMcco
- P+Gg==
-X-Gm-Message-State: AJIora/2WBdrVh2Z+NVVh2MGSsgNZFozMsctvs89s3OWE8oszQH6pl8M
- WISuicYVTtuiRcSnX4+UnfpfGQ==
-X-Google-Smtp-Source: AGRyM1stR3ubBdLxQy0DuaT2m69uAL/E/XIqZkrerZM0mnhgL61brN4Z/AJlwgOge8BNf0YuSaeHbw==
-X-Received: by 2002:a17:90b:3e86:b0:1ec:fc46:9e05 with SMTP id
- rj6-20020a17090b3e8600b001ecfc469e05mr43376090pjb.0.1657039410641; 
- Tue, 05 Jul 2022 09:43:30 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- d4-20020a621d04000000b00528a097aeffsm261547pfd.118.2022.07.05.09.43.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 09:43:29 -0700 (PDT)
-Message-ID: <56adb3d4-6f8f-6231-495d-4e8eed36cc96@linaro.org>
-Date: Tue, 5 Jul 2022 22:13:23 +0530
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8li5-0006qg-JQ
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 12:47:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52852)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8li2-0002oN-53
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 12:47:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657039653;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=kZE4wknFWOJktEcX0SsA2wX7zUbtWmw4xDzV0IKnis4=;
+ b=TDxrzjRMQrnvGg+GWqPoU42iOF6S4i/P9y7VFJngRTHRokB6TkDxCJ6zwtUyY7cyuuYC8M
+ ZGq6jipbn51YdUBtHSXIJaXE6+HKCfPnzI7HkD8QyDbAdqztYR1Li1jRvCskYogr+Nx9tZ
+ 9B+ci+JArRWRRZZk/RmdD2tcM/qir+g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-472-eGBsq78WPkmFLes8dwBYUQ-1; Tue, 05 Jul 2022 12:47:30 -0400
+X-MC-Unique: eGBsq78WPkmFLes8dwBYUQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7F428032E3
+ for <qemu-devel@nongnu.org>; Tue,  5 Jul 2022 16:47:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6218A1415108;
+ Tue,  5 Jul 2022 16:47:28 +0000 (UTC)
+Date: Tue, 5 Jul 2022 17:47:25 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Cc: Victor Toso <victortoso@redhat.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>
+Subject: Re: [RFC PATCH v2 5/8] qapi: golang: Generate qapi's event types in Go
+Message-ID: <YsRrHbNAZCjmQUcL@redhat.com>
+References: <20220617121932.249381-1-victortoso@redhat.com>
+ <20220617121932.249381-6-victortoso@redhat.com>
+ <CABJz62MhUS4LNOWNwPdf0vwwL2JMUzkmLrPBotezchyomGg58Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 00/14] Testing and misc patches
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20220705103816.608166-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220705103816.608166-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CABJz62MhUS4LNOWNwPdf0vwwL2JMUzkmLrPBotezchyomGg58Q@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,130 +80,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/22 16:08, Thomas Huth wrote:
->   Hi Richard!
-> 
-> The following changes since commit dfe2382f0641f537fdd33399d579215077c8f68c:
-> 
->    Merge tag 'kraxel-20220704-pull-request' of https://gitlab.com/kraxel/qemu into staging (2022-07-04 14:57:21 +0530)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/thuth/qemu.git tags/pull-request-2022-07-05
-> 
-> for you to fetch changes up to 7a890b756620223f35f8056baddf0406526ae025:
-> 
->    include/qemu/host-utils: Remove unused code in the *_overflow wrappers (2022-07-05 10:15:49 +0200)
-> 
-> ----------------------------------------------------------------
-> * Fix memory leak in test-cutils
-> * Fix edk2/opensbi jobs to not run automatically by accident
-> * Improve timings in the migration qtest
-> * Remove libvixl disassembler
-> * Add ukrainian translation
-> * Require a recent version of libpng
+On Tue, Jul 05, 2022 at 08:45:54AM -0700, Andrea Bolognani wrote:
+> On Fri, Jun 17, 2022 at 02:19:29PM +0200, Victor Toso wrote:
+> > This patch handles QAPI event types and generates data structures in
+> > Go that handles it.
+> >
+> > We also define a Event interface and two helper functions MarshalEvent
+> > and UnmarshalEvent.
+> >
+> > At the moment of this writing, this patch generates 51 structures (50
+> > events)
+> >
+> > Example:
+> >
+> > qapi:
+> >   | { 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
+> >   |   'data': { '*id': 'str', 'size': 'size', 'qom-path' : 'str'} }
+> >
+> > go:
+> >   | type MemoryDeviceSizeChangeEvent struct {
+> >   |         EventTimestamp Timestamp `json:"-"`
+> >   |         Id             *string   `json:"id,omitempty"`
+> >   |         Size           uint64    `json:"size"`
+> >   |         QomPath        string    `json:"qom-path"`
+> >   | }
+> >
+> > usage:
+> >   | input := `{"event":"MEMORY_DEVICE_SIZE_CHANGE",` +
+> >   |     `"timestamp":{"seconds":1588168529,"microseconds":201316},` +
+> >   |     `"data":{"id":"vm0","size":1073741824,"qom-path":"/machine/unattached/device[2]"}}`
+> >   | e, err := UnmarshalEvent([]byte(input)
+> >   | if err != nil {
+> >   |     panic(err)
+> >   | }
+> >   | if e.GetName() == `MEMORY_DEVICE_SIZE_CHANGE` {
+> >   |     m := e.(*MemoryDeviceSizeChangeEvent)
+> >   |     // m.QomPath == "/machine/unattached/device[2]"
+> >   | }
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+
+> > func (s *AcpiDeviceOstEvent) GetTimestamp() Timestamp {
+> >     return s.EventTimestamp
+> > }
+> 
+> Does this even need a getter? The struct member is public, and Go
+> code seems to favor direct member access.
+
+It satisfies the 'Event' interface, so you can fetch timestamp
+without needing to know the specific event struct you're dealing
+with.
+
+> 
+> > type Timestamp struct {
+> >     Seconds      int64 `json:"seconds"`
+> >     Microseconds int64 `json:"microseconds"`
+> > }
+> >
+> > type Event interface {
+> >     GetName() string
+> >     GetTimestamp() Timestamp
+> > }
+> >
 
 
-r~
+> > func UnmarshalEvent(data []byte) (Event, error) {
+> >     base := struct {
+> >         Name           string    `json:"event"`
+> >         EventTimestamp Timestamp `json:"timestamp"`
+> >     }{}
+> >     if err := json.Unmarshal(data, &base); err != nil {
+> >         return nil, errors.New(fmt.Sprintf("Failed to decode event: %s", string(data)))
+> >     }
+> >
+> >     switch base.Name {
+> >
+> >     case "ACPI_DEVICE_OST":
+> >         event := struct {
+> >             Data AcpiDeviceOstEvent `json:"data"`
+> >         }{}
+> >
+> >         if err := json.Unmarshal(data, &event); err != nil {
+> >             return nil, errors.New(fmt.Sprintf("Failed to unmarshal: %s", string(data)))
+> >         }
+> >         event.Data.EventTimestamp = base.EventTimestamp
+> >         return &event.Data, nil
+> >
+> >     // more cases here
+> >     }
+> >     return nil, errors.New("Failed to recognize event")
+> > }
+> 
+> While I understand the need to have some way to figure out exactly
+> what type of event we're looking at before being able to unmarshal
+> the JSON data, I don't like how we force users to go through a
+> non-standard API for it.
+> 
+> Here's how I think we should do it:
+> 
+>   func GetEventType(data []byte) (Event, error) {
+>       type event struct {
+>           Name string `json:"event"`
+>       }
+> 
+>       tmp := event{}
+>       if err := json.Unmarshal(data, &tmp); err != nil {
+>           return nil, errors.New(fmt.Sprintf("Failed to decode event:
+> %s", string(data)))
+>       }
+> 
+>       switch tmp.Name {
+>       case "ACPI_DEVICE_OST":
+>           return &AcpiDeviceOstEvent{}, nil
+> 
+>       // more cases here
+>       }
+> 
+>       return nil, errors.New("Failed to recognize event")
+>   }
+> 
+>   func (s *AcpiDeviceOstEvent) UnmarshalJSON(data []byte) error {
+>       type eventData struct {
+>           Info ACPIOSTInfo `json:"info"`
+>       }
+>       type event struct {
+>           Name           string    `json:"event"`
+>           EventTimestamp Timestamp `json:"timestamp"`
+>           Data           eventData `json:"data"`
+>       }
+> 
+>       tmp := event{}
+>       err := json.Unmarshal(data, &tmp)
+>       if err != nil {
+>           return err
+>       }
+>       if tmp.Name != "ACPI_DEVICE_OST" {
+>           return errors.New("name")
+>       }
+> 
+>       s.EventTimestamp = tmp.EventTimestamp
+>       s.Info = tmp.Data.Info
+>       return nil
+>   }
+> 
+> This way, client code can look like
+> 
+>   in := `{"event":"ACPI_DEVICE_OST","timestamp":{"seconds":1265044230,"microseconds":450486},"data":{"info":{"device":"d1","slot":"0","slot-type":"DIMM","source":1,"status":0}}}`
+> 
+>   e, err := qapi.GetEventType([]byte(in))
+>   if err != nil {
+>       panic(err)
+>   }
+>   // e is of type AcpiDeviceOstEvent
+> 
+>   err = json.Unmarshal([]byte(in), &e)
+>   if err != nil {
+>       panic(err)
+>   }
+> 
+> where only the first part (figuring out the type of the event) needs
+> custom APIs, and the remaining code looks just like your average JSON
+> handling.
 
+I don't think this kind of detail really needs to be exposed to
+clients. Also parsing the same json doc twice just feels wrong.
 
-> 
-> ----------------------------------------------------------------
-> 
-> Andrij Mizyk (1):
->    po: add ukrainian translation
-> 
-> Daniel P. Berrangé (7):
->    gitlab: normalize indentation in edk2/opensbi rules
->    gitlab: tweak comments in edk2/opensbi jobs
->    gitlab: honour QEMU_CI variable in edk2/opensbi jobs
->    tests: wait max 120 seconds for migration test status changes
->    tests: wait for migration completion before looking for STOP event
->    tests: increase migration test converge downtime to 30 seconds
->    tests: use consistent bandwidth/downtime limits in migration tests
-> 
-> Marc-André Lureau (1):
->    tests: fix test-cutils leaks
-> 
-> Philippe Mathieu-Daudé (1):
->    tests/fp: Do not build softfloat3 tests if TCG is disabled
-> 
-> Richard Henderson (1):
->    gitlab-ci: Extend timeout for ubuntu-20.04-s390x-all to 75m
-> 
-> Thomas Huth (3):
->    disas: Remove libvixl disassembler
->    meson.build: Require a recent version of libpng
->    include/qemu/host-utils: Remove unused code in the *_overflow wrappers
-> 
->   meson.build                                   |    6 +-
->   disas/libvixl/vixl/a64/assembler-a64.h        | 4624 -----------------
->   disas/libvixl/vixl/a64/constants-a64.h        | 2116 --------
->   disas/libvixl/vixl/a64/cpu-a64.h              |   83 -
->   disas/libvixl/vixl/a64/decoder-a64.h          |  275 -
->   disas/libvixl/vixl/a64/disasm-a64.h           |  177 -
->   disas/libvixl/vixl/a64/instructions-a64.h     |  757 ---
->   disas/libvixl/vixl/code-buffer.h              |  113 -
->   disas/libvixl/vixl/compiler-intrinsics.h      |  155 -
->   disas/libvixl/vixl/globals.h                  |  155 -
->   disas/libvixl/vixl/invalset.h                 |  775 ---
->   disas/libvixl/vixl/platform.h                 |   39 -
->   disas/libvixl/vixl/utils.h                    |  286 -
->   include/exec/poison.h                         |    2 -
->   include/qemu/host-utils.h                     |   65 -
->   disas.c                                       |    3 -
->   target/arm/cpu.c                              |    7 -
->   tests/qtest/migration-helpers.c               |   14 +
->   tests/qtest/migration-test.c                  |   59 +-
->   tests/unit/test-cutils.c                      |   42 +-
->   .../custom-runners/ubuntu-20.04-s390x.yml     |    1 +
->   .gitlab-ci.d/edk2.yml                         |  133 +-
->   .gitlab-ci.d/opensbi.yml                      |  134 +-
->   MAINTAINERS                                   |    4 -
->   disas/arm-a64.cc                              |  101 -
->   disas/libvixl/LICENCE                         |   30 -
->   disas/libvixl/README                          |   11 -
->   disas/libvixl/meson.build                     |    7 -
->   disas/libvixl/vixl/a64/decoder-a64.cc         |  877 ----
->   disas/libvixl/vixl/a64/disasm-a64.cc          | 3495 -------------
->   disas/libvixl/vixl/a64/instructions-a64.cc    |  622 ---
->   disas/libvixl/vixl/compiler-intrinsics.cc     |  144 -
->   disas/libvixl/vixl/utils.cc                   |  142 -
->   disas/meson.build                             |    5 -
->   po/LINGUAS                                    |    1 +
->   po/uk.po                                      |   75 +
->   scripts/clean-header-guards.pl                |    4 +-
->   scripts/clean-includes                        |    2 +-
->   scripts/coverity-scan/COMPONENTS.md           |    3 -
->   tests/fp/meson.build                          |    3 +
->   40 files changed, 314 insertions(+), 15233 deletions(-)
->   delete mode 100644 disas/libvixl/vixl/a64/assembler-a64.h
->   delete mode 100644 disas/libvixl/vixl/a64/constants-a64.h
->   delete mode 100644 disas/libvixl/vixl/a64/cpu-a64.h
->   delete mode 100644 disas/libvixl/vixl/a64/decoder-a64.h
->   delete mode 100644 disas/libvixl/vixl/a64/disasm-a64.h
->   delete mode 100644 disas/libvixl/vixl/a64/instructions-a64.h
->   delete mode 100644 disas/libvixl/vixl/code-buffer.h
->   delete mode 100644 disas/libvixl/vixl/compiler-intrinsics.h
->   delete mode 100644 disas/libvixl/vixl/globals.h
->   delete mode 100644 disas/libvixl/vixl/invalset.h
->   delete mode 100644 disas/libvixl/vixl/platform.h
->   delete mode 100644 disas/libvixl/vixl/utils.h
->   delete mode 100644 disas/arm-a64.cc
->   delete mode 100644 disas/libvixl/LICENCE
->   delete mode 100644 disas/libvixl/README
->   delete mode 100644 disas/libvixl/meson.build
->   delete mode 100644 disas/libvixl/vixl/a64/decoder-a64.cc
->   delete mode 100644 disas/libvixl/vixl/a64/disasm-a64.cc
->   delete mode 100644 disas/libvixl/vixl/a64/instructions-a64.cc
->   delete mode 100644 disas/libvixl/vixl/compiler-intrinsics.cc
->   delete mode 100644 disas/libvixl/vixl/utils.cc
->   create mode 100644 po/uk.po
-> 
+I think using the dummy union structs is the right approach, but
+I'd just call it 'EventFromJSON' rather than 'UnmarshalJSON' to
+make it clear this is different from a normal 'UnmarshalJSON'
+method.
+
+ 
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
