@@ -2,102 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9A35664EB
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:22:05 +0200 (CEST)
-Received: from localhost ([::1]:50972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7F95664BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:16:08 +0200 (CEST)
+Received: from localhost ([::1]:39638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8doq-0001ZB-DT
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:22:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60714)
+	id 1o8dj5-0001xn-EE
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:16:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o8db1-0001rx-SI
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:07:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44037)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8dca-0004ZB-F9
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:09:24 -0400
+Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:46731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o8db0-00008F-94
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:07:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657008465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AVVOJu77iTKaQsjh1si8MGhHVaB10APAIJXcXHcK8Yw=;
- b=UMRt+2ap8qqnle64A0IPcUSkG6d1pRrXjrjBonhAigQg93k4DkPJPBnZZdKyaIRRhR+yuF
- 46VvJPQow+USUKitX/ZTEOzr+Gj94iLNtKmsq4LgwJfSOfzq+Ue89TjlyUU7eIsFM15v8v
- RJGi7c1Qg1iVRiukmsTX546nArqKYrY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-03HEuz2MMXiIX38vVwa-Kw-1; Tue, 05 Jul 2022 04:07:43 -0400
-X-MC-Unique: 03HEuz2MMXiIX38vVwa-Kw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- s1-20020a5d69c1000000b0021b9f3abfebso1700470wrw.2
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:07:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=AVVOJu77iTKaQsjh1si8MGhHVaB10APAIJXcXHcK8Yw=;
- b=Ml5/ZS1GrgTrT+6ZCPeMU87X7fJdHdcpWWjiihHlC1pAXNlori050ocKyaUvCVUSNG
- 7iOlJM89NNZQIu98JTSlj1OhEIGWVm8n9bZbwFXPWze5QrZKALEOgKKcZX6KY6I8RmKN
- zL9Ru1sHwydFRaYDQ+xTIqvz5ILDIU9T5SDNw3dgxVuXUMXlF33sbxhnay064fbyU41G
- L4nWBqcBYd34+A7k1xTIVVjMgB650kZVJ4HLczr9zKawH2vzKnN0QV6CoL8xgL5uOm9M
- BOkZZE2Xv16rrVUZUjyi9FSGM1D6CIT3HQognMYJ4DkXLxTp3ZzKRINugeMSMeg1JHiN
- Avqw==
-X-Gm-Message-State: AJIora8GU0TvohavAGPTQksaW49ef1y2vK1EQ6M3Akk83LQ437RaICP+
- CTQM6i/hqmCfXnVCh9cfA//7YpmzkDqrmc+jwteNnZPMPdCJ/D2vWT5WoX5ttblXYzDf1Y/efRT
- iAAao1TOyz7ICgzo=
-X-Received: by 2002:a05:6000:904:b0:21a:3dca:4297 with SMTP id
- bz4-20020a056000090400b0021a3dca4297mr30716009wrb.487.1657008462422; 
- Tue, 05 Jul 2022 01:07:42 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tSHBOWgz3K+VXI44eVFWLOFBT10UCOjAorCVoBrr8xeWpCx3jqR+mlVDZqM3bfQkNAPe2Usw==
-X-Received: by 2002:a05:6000:904:b0:21a:3dca:4297 with SMTP id
- bz4-20020a056000090400b0021a3dca4297mr30715989wrb.487.1657008462224; 
- Tue, 05 Jul 2022 01:07:42 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- d10-20020adff2ca000000b0021a38089e99sm32156827wrp.57.2022.07.05.01.07.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 01:07:41 -0700 (PDT)
-Message-ID: <0c4ff18c-f12f-6955-09b8-8acd3126492e@redhat.com>
-Date: Tue, 5 Jul 2022 10:07:40 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8dcX-0000EU-SK
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:09:23 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.128])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 722E8253B1;
+ Tue,  5 Jul 2022 08:09:18 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 5 Jul 2022
+ 10:09:16 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0012842f7e8-0b5b-40d3-ae08-d662f075cf3a,
+ 4FF77D4A254985FC0BE9A952312E42D6E34C6CC4) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <f7e5b92d-48ae-8788-7b69-e75c21305c4c@kaod.org>
+Date: Tue, 5 Jul 2022 10:09:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v8 05/20] job.c: add job_lock/unlock while keeping job.h
- intact
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 5/8] aspeed: Add fby35 skeleton
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20220629141538.3400679-1-eesposit@redhat.com>
- <20220629141538.3400679-6-eesposit@redhat.com>
- <YsPqxG4//mc5DBn4@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YsPqxG4//mc5DBn4@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Peter Delevoryas <peter@pjd.dev>, Joel Stanley <joel@jms.id.au>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
+ <andrew@aj.id.au>, QEMU Developers <qemu-devel@nongnu.org>, qemu-arm
+ <qemu-arm@nongnu.org>
+References: <20220704215457.38332-1-peter@pjd.dev>
+ <20220704215457.38332-5-peter@pjd.dev>
+ <CACPK8XfcZM+9sk4f=fCtW2zVioN0sgoT=o+dF62U=AMZuUsL6g@mail.gmail.com>
+ <YsPvMUfG6CzK9LSz@pdel-mbp>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <YsPvMUfG6CzK9LSz@pdel-mbp>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: caf50ff1-a39e-45c1-ba44-2c090c04e89e
+X-Ovh-Tracer-Id: 17414856811731979046
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeiuddgtddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejteeuleelfeeujeeiheffteekffegffekvdevleevtefgvedvfeehheeugeegieenucffohhmrghinhepmhgvthgrrdgtohhmpdhophgvnhgtohhmphhuthgvrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
+ helo=2.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,30 +78,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-Am 05/07/2022 um 09:39 schrieb Stefan Hajnoczi:
-> On Wed, Jun 29, 2022 at 10:15:23AM -0400, Emanuele Giuseppe Esposito wrote:
->> +void job_ref(Job *job)
->> +{
->> +    JOB_LOCK_GUARD();
->> +    job_ref_locked(job);
->> +}
+On 7/5/22 09:58, Peter Delevoryas wrote:
+> On Tue, Jul 05, 2022 at 06:53:43AM +0000, Joel Stanley wrote:
+>> On Mon, 4 Jul 2022 at 21:55, Peter Delevoryas <peter@pjd.dev> wrote:
+>>>
+>>> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+>>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>>   MAINTAINERS        |  1 +
+>>>   hw/arm/fby35.c     | 39 +++++++++++++++++++++++++++++++++++++++
+>>>   hw/arm/meson.build |  3 ++-
+>>>   3 files changed, 42 insertions(+), 1 deletion(-)
+>>>   create mode 100644 hw/arm/fby35.c
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index d9378511b7..147330ddd7 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -1067,6 +1067,7 @@ F: hw/net/ftgmac100.c
+>>>   F: include/hw/net/ftgmac100.h
+>>>   F: docs/system/arm/aspeed.rst
+>>>   F: tests/qtest/*aspeed*
+>>> +F: hw/arm/fby35.c
+>>>
+>>>   NRF51
+>>>   M: Joel Stanley <joel@jms.id.au>
+>>> diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
+>>> new file mode 100644
+>>> index 0000000000..03b458584c
+>>> --- /dev/null
+>>> +++ b/hw/arm/fby35.c
+>>> @@ -0,0 +1,39 @@
+>>> +/*
+>>> + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
+>>
+>> Can you mention what fby35 means? I keep reading your patches but can't recall.
 > 
-> You don't need to fix this, but just a note:
+> Oh yeah sure, it means "Facebook Yosemite version 3.5". Facebook has a series
+> of multi-node compute server designs named Yosemite, the most recent version
+> was Yosemite 3:
 > 
-> This API seems dangerous. If we don't hold the lock, how can we be sure
-> job won't be unreferenced before we call job_ref()? We would need to be
-> sure there exists another reference that won't be released until
-> job_ref() returns...
+> https://www.opencompute.org/documents/ocp-yosemite-v3-platform-design-specification-1v16-pdf
 > 
+> Yosemite 3.5 is an iteration on this design. It's actually very similar in terms
+> of there being a BMC on the baseboard, and a Bridge IC (BIC) on each server
+> board, with room for expansion boards as well.
 
-I guess that's a drawback of using this new serie organization :)
+You just wrote the commit log :)
 
-This function is just a temporary placeholder to avoid having _locked
-functions being called without the lock held (see previous serie
-suggestions from Vladimir and Kevin).
+C.
 
-Emanuele
+
+> I'm still debugging I2C a little bit, but my goal is to be able to test BMC <->
+> BIC IPMB messages with the full OpenBMC firmware running on the BMC and the
+> OpenBIC firmware running on the BIC, and to expand this machine to include the
+> other 3 slot BIC's (in this patch series, I only included the BIC in the first
+> slot).
+> 
+>>
+>>> + *
+>>> + * This code is licensed under the GPL version 2 or later. See the COPYING
+>>> + * file in the top-level directory.
+>>> + */
+>>> +
+>>> +#include "qemu/osdep.h"
+>>> +#include "hw/boards.h"
+>>> +
+>>> +#define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
+>>> +OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
+>>> +
+>>> +struct Fby35State {
+>>> +    MachineState parent_obj;
+>>> +};
+>>> +
+>>> +static void fby35_init(MachineState *machine)
+>>> +{
+>>> +}
+>>> +
+>>> +static void fby35_class_init(ObjectClass *oc, void *data)
+>>> +{
+>>> +    MachineClass *mc = MACHINE_CLASS(oc);
+>>> +
+>>> +    mc->desc = "Meta Platforms fby35";
+>>> +    mc->init = fby35_init;
+>>> +}
+>>> +
+>>> +static const TypeInfo fby35_types[] = {
+>>> +    {
+>>> +        .name = MACHINE_TYPE_NAME("fby35"),
+>>> +        .parent = TYPE_MACHINE,
+>>> +        .class_init = fby35_class_init,
+>>> +        .instance_size = sizeof(Fby35State),
+>>> +    },
+>>> +};
+>>> +
+>>> +DEFINE_TYPES(fby35_types);
+>>> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
+>>> index 2d8381339c..92f9f6e000 100644
+>>> --- a/hw/arm/meson.build
+>>> +++ b/hw/arm/meson.build
+>>> @@ -51,7 +51,8 @@ arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
+>>>     'aspeed_soc.c',
+>>>     'aspeed.c',
+>>>     'aspeed_ast2600.c',
+>>> -  'aspeed_ast10x0.c'))
+>>> +  'aspeed_ast10x0.c',
+>>> +  'fby35.c'))
+>>>   arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
+>>>   arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
+>>>   arm_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-soc.c'))
+>>> --
+>>> 2.37.0
+>>>
 
 
