@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4878C5675FC
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 19:50:21 +0200 (CEST)
-Received: from localhost ([::1]:34966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9E3567605
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 19:54:29 +0200 (CEST)
+Received: from localhost ([::1]:40264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8mgl-0003kz-S8
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 13:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58186)
+	id 1o8mkm-0007hK-6P
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 13:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1o8med-000332-Cz
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:48:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37246)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1o8mea-00051E-TO
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:48:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657043283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=SSes/FhWI5qBh7kJUMkZm4Cbowh1bM/8HBDqcohlVJ8=;
- b=QslHNloAXRgAai1QSCoxTCwd2IM8K6lBPTB31bkQ/xqINABT1bWb9xJbwiCGYa22O3WoYu
- X7jm3ZJITW5BRIOZ2Wzt5NGIb3pYQ/aoYkqWZ4FO41wuHXUO6EzOkVsJE+WoN1wooKt+CK
- RhxskHaZB7IuxLsZM33iaYVRaqJXPGA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-P282z4gUP6mlKeDRVxSQKA-1; Tue, 05 Jul 2022 13:48:00 -0400
-X-MC-Unique: P282z4gUP6mlKeDRVxSQKA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A15B802D1C;
- Tue,  5 Jul 2022 17:48:00 +0000 (UTC)
-Received: from f35-work.redhat.com (unknown [10.39.193.243])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA75140336E;
- Tue,  5 Jul 2022 17:47:58 +0000 (UTC)
-From: Mauro Matteo Cascella <mcascell@redhat.com>
+ (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
+ id 1o8mgI-000489-Go
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:49:50 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:33707)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
+ id 1o8mgB-0005AY-2o
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:49:50 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ j1-20020a17090aeb0100b001ef777a7befso5330576pjz.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 10:49:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p4azkuwIy0LyIoitAMeFygcelBPbgpncCgtZ0mgkTiI=;
+ b=336zJp2MWF9yFITe8fha3W7AjClD5yL2G6EQHcp/4pajG7OXlnJ/9ffz3LHRK2vS6p
+ s1QfSsP4hrLgP6Prfdy3NajoWGmq7PqLYJaOHJ4V55+DREYN0cuWWxlHn8wGPwkKtCwG
+ SRnluu7xkiYYRIB9f1rWxmvXtMPtjdwZu8IpcJ4emMoJ33iOZ6ZiYUdVX9IfxVLtpOdv
+ tnpwn7GUgAXZu31uipgSC3WD2ldnwYOUWEbsBH1RP2areleIiQyWYNHDWkEdzFe3WofH
+ Z1GL1lTFgI09WwK9FkzK6bwMF1J9PWRSoqrRVvatWYLU1QIfQyLAXMm9nvKA7ZKZcP4d
+ XYxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p4azkuwIy0LyIoitAMeFygcelBPbgpncCgtZ0mgkTiI=;
+ b=VEitXKT4QSRWzB53Ju1zBRNNTefDuDoRiLMPCX7Mhdjdh442wdX/Oa3F1dk9jKdZql
+ 1m1gooO8pXPuzr1OTwVSCh8Qmei8CmweJcFs6AGI4NlXN44Eg/5tmRsZTDCLCNDXnWc3
+ kElf5dfyISMI+a6Uns11ZmxZegbCN7tmfU9QDQmrL2Dydzdj09dcj23tAIHkTNiw2w0d
+ TP8e+TkkhQc8B02DIyyjTNIsBPYBj9Lli/VOcKgusGBTEvCGI9UrOA+CcZxiJlMcEhyl
+ Yo38WqQ7Fls/+rUNaEc+zJa/k4oKczNVPI/wCPibmv+sKv0Zg3tOsSVP7Av+lfQWLyuJ
+ 6tFg==
+X-Gm-Message-State: AJIora/g/hQ6BLz4zD69Sccj6LQ5m4lZcmuLdKjI0K2kzQ4l+fv4vMsd
+ 6Iiy0UkAaeahKJV+wOxDd9vzvbLdIOb9Ug==
+X-Google-Smtp-Source: AGRyM1tUUKeOkkiCl/T73KFH+NWw3+5wpyiuY64BoRg3joDhe396r+9G8wGIr2nsw2KAn2wJX6ePDQ==
+X-Received: by 2002:a17:903:2310:b0:16b:fbc4:bfb1 with SMTP id
+ d16-20020a170903231000b0016bfbc4bfb1mr1082903plh.100.1657043378437; 
+ Tue, 05 Jul 2022 10:49:38 -0700 (PDT)
+Received: from daolu.ba.rivosinc.com ([66.220.2.162])
+ by smtp.gmail.com with ESMTPSA id
+ b5-20020a170902d50500b0016be372a10esm4952004plg.20.2022.07.05.10.49.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jul 2022 10:49:38 -0700 (PDT)
+From: Dao Lu <daolu@rivosinc.com>
 To: qemu-devel@nongnu.org
-Cc: mcascell@redhat.com,
-	soulchen8650@gmail.com,
-	kraxel@redhat.com
-Subject: [PATCH] usb/hcd-xhci: check slotid in xhci_wakeup_endpoint()
-Date: Tue,  5 Jul 2022 19:47:34 +0200
-Message-Id: <20220705174734.2348829-1-mcascell@redhat.com>
+Cc: Dao Lu <daolu@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
+Subject: [PATCH v4 0/1] target/riscv: Add Zihintpause support
+Date: Tue,  5 Jul 2022 10:49:31 -0700
+Message-Id: <20220705174933.2898412-1-daolu@rivosinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=daolu@rivosinc.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,30 +90,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This prevents an OOB read (followed by an assertion failure in
-xhci_kick_ep) when slotid > xhci->numslots.
+This patch adds RISC-V Zihintpause support. The extension is set to be enabled
+by default and opcode has been added to insn32.decode.
 
-Reported-by: Soul Chen <soulchen8650@gmail.com>
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
----
- hw/usb/hcd-xhci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Added trans_pause to exit the TB and return to main loop.
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 0cd0a5e540..cecf8a0d96 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -3269,7 +3269,8 @@ static void xhci_wakeup_endpoint(USBBus *bus, USBEndpoint *ep,
- 
-     DPRINTF("%s\n", __func__);
-     slotid = ep->dev->addr;
--    if (slotid == 0 || !xhci->slots[slotid-1].enabled) {
-+    if (slotid == 0 || slotid > xhci->numslots ||
-+        !xhci->slots[slotid-1].enabled) {
-         DPRINTF("%s: oops, no slot for dev %d\n", __func__, ep->dev->addr);
-         return;
-     }
+The change can also be found in:
+https://github.com/dlu42/qemu/tree/zihintpause_support_v1
+
+Tested along with pause support added to cpu_relax function for linux, the
+changes I made to linux to test can be found here:
+https://github.com/dlu42/linux/tree/pause_support_v1
+
+--------
+Changelog:
+
+v1 -> v2
+1. Pause now also exit the TB and return to main loop
+2. Move the REQUIRE_ZIHINTPAUSE macro inside the trans_pause function
+
+v2 -> v3
+No changes, v2 was lost from the list
+
+v3 -> v4
+No longer break the reservation in trans_pause
+
+Dao Lu (1):
+  Add Zihintpause support
+
+ target/riscv/cpu.c                      |  2 ++
+ target/riscv/cpu.h                      |  1 +
+ target/riscv/insn32.decode              |  7 ++++++-
+ target/riscv/insn_trans/trans_rvi.c.inc | 16 ++++++++++++++++
+ 4 files changed, 25 insertions(+), 1 deletion(-)
+
 -- 
-2.35.3
+2.25.1
 
 
