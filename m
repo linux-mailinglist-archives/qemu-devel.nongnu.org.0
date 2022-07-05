@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D9256717A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 16:49:37 +0200 (CEST)
-Received: from localhost ([::1]:46136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24375671A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 16:57:31 +0200 (CEST)
+Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8jrs-0004WE-LP
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 10:49:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35988)
+	id 1o8jzW-0008GW-Gj
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 10:57:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o8jr1-0003fO-5J
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:48:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28118)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o8jyF-0007IW-C3; Tue, 05 Jul 2022 10:56:11 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:42790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o8jqz-0007C3-Jv
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:48:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657032521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IWxnHl/QYBKR0h4wlX5eijMe1xGRvnIXA3t/eHg/viY=;
- b=TtG/DZica85rF2+qzhtkZ1IygxWIm+dHQloh1Pu4/vhwD+w8eCvhc13c7lYKr7Tp5qret+
- DwBuDG4DAECAX9miEUt6unQw02SoUW6eCAx1VAGmdmFyC3avEHgt268r+Fo6VcnhUfvTQ2
- y5boExOrAja86OG7R31ZWc7Bsoi6aQ0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-1JBb07NkO7G0--5Uc1BS5g-1; Tue, 05 Jul 2022 10:48:32 -0400
-X-MC-Unique: 1JBb07NkO7G0--5Uc1BS5g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8CD080CC5C;
- Tue,  5 Jul 2022 14:48:31 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 68C7E2166B29;
- Tue,  5 Jul 2022 14:48:31 +0000 (UTC)
-Date: Tue, 5 Jul 2022 15:48:30 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 8/8] virtio-blk: remove unnecessary AioContext lock from
- function already safe
-Message-ID: <YsRPPodoA32eEBeU@stefanha-x1.localdomain>
-References: <20220609143727.1151816-1-eesposit@redhat.com>
- <20220609143727.1151816-9-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o8jy9-0000L2-Ej; Tue, 05 Jul 2022 10:56:10 -0400
+Received: from myt6-79704c0e15e4.qloud-c.yandex.net
+ (myt6-79704c0e15e4.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:239b:0:640:7970:4c0e])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 7D78B2E1278;
+ Tue,  5 Jul 2022 17:55:53 +0300 (MSK)
+Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ (myt6-81d8ab6a9f9d.qloud-c.yandex.net [2a02:6b8:c12:520a:0:640:81d8:ab6a])
+ by myt6-79704c0e15e4.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ uhy7VZJVtM-tpJW0h09; Tue, 05 Jul 2022 17:55:53 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1657032953; bh=S3tD+CNpGoEnVrrxpI3wC+J9OE8msXer/v7t3/vwIOo=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=y055hGm7jUsW2XBP27nLYnrKSkTqF1eZ+C1Z/0hMIMVElS7G73twOSscYwqxBbR9R
+ yA89hNMTnOUGTisr3CxdvEMm1xzwFLFZM4sCKC1f7OONNP7q2mKc1dL1yquGpeRYvu
+ Qla44vQqPNs0HVX8kNjgY9JNBVs0T8aDHwCQZ4aM=
+Authentication-Results: myt6-79704c0e15e4.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:6429::1:1b] (unknown
+ [2a02:6b8:b081:6429::1:1b])
+ by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ dGnIAOLrU1-tpOWcKMI; Tue, 05 Jul 2022 17:55:51 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <aa15b122-6fa9-dbaa-729e-b2961e6b5ac6@yandex-team.ru>
+Date: Tue, 5 Jul 2022 17:55:51 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ipZoRY39Z86Go/We"
-Content-Disposition: inline
-In-Reply-To: <20220609143727.1151816-9-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v8 13/20] jobs: group together API calls under the same
+ job lock
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220629141538.3400679-1-eesposit@redhat.com>
+ <20220629141538.3400679-14-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220629141538.3400679-14-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,44 +88,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/29/22 17:15, Emanuele Giuseppe Esposito wrote:
+> --- a/job.c
+> +++ b/job.c
+> @@ -1045,11 +1045,14 @@ static void job_completed_txn_abort_locked(Job *job)
+>   /* Called with job_mutex held, but releases it temporarily */
+>   static int job_prepare_locked(Job *job)
+>   {
+> +    int ret;
+> +
+>       GLOBAL_STATE_CODE();
+>       if (job->ret == 0 && job->driver->prepare) {
+>           job_unlock();
+> -        job->ret = job->driver->prepare(job);
+> +        ret = job->driver->prepare(job);
+>           job_lock();
+> +        job->ret = ret;
+>           job_update_rc_locked(job);
+>       }
+>       return job->ret;
+> @@ -1235,10 +1238,10 @@ void job_cancel_locked(Job *job, bool force)
+>            * job_cancel_async() ignores soft-cancel requests for jobs
+>            * that are already done (i.e. deferred to the main loop).  We
+>            * have to check again whether the job is really cancelled.
+> -         * (job_cancel_requested() and job_is_cancelled() are equivalent
+> -         * here, because job_cancel_async() will make soft-cancel
+> -         * requests no-ops when deferred_to_main_loop is true.  We
+> -         * choose to call job_is_cancelled() to show that we invoke
+> +         * (job_cancel_requested_locked() and job_is_cancelled_locked()
+> +         * are equivalent here, because job_cancel_async() will
+> +         * make soft-cancel requests no-ops when deferred_to_main_loop is true.
+> +         * We choose to call job_is_cancelled_locked() to show that we invoke
+>            * job_completed_txn_abort() only for force-cancelled jobs.)
+>            */
+>           if (job_is_cancelled_locked(job)) {
 
---ipZoRY39Z86Go/We
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+that's definitely part of commit 05
 
-On Thu, Jun 09, 2022 at 10:37:27AM -0400, Emanuele Giuseppe Esposito wrote:
-> AioContext lock was introduced in b9e413dd375 and in this instance
-> it is used to protect these 3 functions:
-> - virtio_blk_handle_rw_error
-> - virtio_blk_req_complete
-> - block_acct_done
->=20
-> Now that all three of the above functions are protected with
-> their own locks, we can get rid of the AioContext lock.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  hw/block/virtio-blk.c | 18 ++----------------
->  1 file changed, 2 insertions(+), 16 deletions(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---ipZoRY39Z86Go/We
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLETz4ACgkQnKSrs4Gr
-c8hlEwf+KvuIHAUT2JxYYJrzKw5wHF7wpaf537ZQ1vH47Rpa1SK3GKyg3m4XYatk
-HdmrX5Tc4ZasXKUV4D2WRlYIjHeIiycPM2DwdPfpHjJFlI1skr4Yi0GEEP1Ylsps
-aEOWe/U5u8pCxnU19vvXz2Yz5ygOZV8RFle1YuWyZ+nl3Ewc2ZUonRWQn+vxABKd
-U44a8i7SmyXPX88vDtg6szvAaCJSv32GlS/d73m2sUCrEz2lGoKFtXxUY6IIBTfF
-qnZnfGgV+18oys3wtEEJ0mXXovaZPBdRB7b669yrODpSyPfkZS2ySweQFm2stdl1
-MHLUhnzu5CgxZBJwSsA+gv71a2Kfeg==
-=irDF
------END PGP SIGNATURE-----
-
---ipZoRY39Z86Go/We--
-
+-- 
+Best regards,
+Vladimir
 
