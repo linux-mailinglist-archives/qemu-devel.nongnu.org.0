@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9DC56764A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 20:21:27 +0200 (CEST)
-Received: from localhost ([::1]:51432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03DC056765C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 20:25:16 +0200 (CEST)
+Received: from localhost ([::1]:60002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8nAq-0000RH-Ow
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 14:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36220)
+	id 1o8nEZ-0006Me-4K
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 14:25:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o8n7t-0005nP-Ur; Tue, 05 Jul 2022 14:18:22 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:33244)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o8n8q-0007Qi-Az
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 14:19:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o8n7p-0000w7-Ui; Tue, 05 Jul 2022 14:18:20 -0400
-Received: from myt5-23f0be3aa648.qloud-c.yandex.net
- (myt5-23f0be3aa648.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 54A2A2E0A27;
- Tue,  5 Jul 2022 21:18:04 +0300 (MSK)
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- DOy2JkhZY3-I3J4EuHh; Tue, 05 Jul 2022 21:18:04 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1657045084; bh=/MzdAxO5xzMSUlryd9aQYDbnJZYtSCpIl223oeGK88Y=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=atHhx6zEXNywm30f/vAPX0m6Ug2PvAABIvaWF5H+zjrDVnO7kC1EFfCGYWOCzRsgp
- X37wJHBVTVjx1upyHUupSvwUOvSH5oiqxbaz2Gk+hVgUovWiKWjGLdbqshUW3Hd8Rq
- L456zMSKowI0W7F3cUMpE1uYC8uizp9C4JVZgBTg=
-Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPV6:2a02:6b8:b081:6429::1:1b] (unknown
- [2a02:6b8:b081:6429::1:1b])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- iBP9j8uEjC-I3PeAhRp; Tue, 05 Jul 2022 21:18:03 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <556a2ccb-27db-8f74-fbe9-6911aab43f5c@yandex-team.ru>
-Date: Tue, 5 Jul 2022 21:18:03 +0300
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o8n8m-00011V-9r
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 14:19:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657045155;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Zurtn6OlUOIROeIUJXN0QCzFgtAuWr7s2L88yiDjTk8=;
+ b=ESbP0c4blJ2GiS/KhYPeUtIYmLUB7YL4xD+uYcPAHr8jXBddB1qxgVxT5IpoMl75jw0v3C
+ i0u7jxKQw639YyNGKdUDEiwoHDRxc/NzUwktoyT6k2AibkgICw1pPBUtrI2+Z8vClMaF0n
+ BNo43axcYee8UzHGzu9Xr6IULu7K3Eo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-468-dojR6w7NN2Gjz6rJHvXk0w-1; Tue, 05 Jul 2022 14:19:12 -0400
+X-MC-Unique: dojR6w7NN2Gjz6rJHvXk0w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D546B29ABA2F;
+ Tue,  5 Jul 2022 18:19:11 +0000 (UTC)
+Received: from thinkpad.redhat.com (unknown [10.39.192.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F71340CF8E8;
+ Tue,  5 Jul 2022 18:19:09 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Ralph Schmieder <ralph.schmieder@gmail.com>,
+ Stefano Brivio <sbrivio@redhat.com>
+Subject: [PATCH v6 00/13] qapi: net: add unix socket type support to netdev
+ backend
+Date: Tue,  5 Jul 2022 20:18:55 +0200
+Message-Id: <20220705181908.1375601-1-lvivier@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] iotests: fix copy-before-write for macOS and FreeBSD
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
- thuth@redhat.com, jsnow@redhat.com
-References: <20220705153708.186418-1-vsementsov@yandex-team.ru>
- <e5fa4843-31e1-9ce2-fd13-ffa1b6ee6f1e@linaro.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <e5fa4843-31e1-9ce2-fd13-ffa1b6ee6f1e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,44 +84,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/22 20:22, Richard Henderson wrote:
-> On 7/5/22 21:07, Vladimir Sementsov-Ogievskiy wrote:
->> strerror() represents ETIMEDOUT a bit different in Linux and macOS /
->> FreeBSD. Let's support the latter too.
->>
->> Fixes: 9d05a87b77 ("iotests: copy-before-write: add cases for cbw-timeout option")
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> ---
->>
->> As John and Thomas noted, the new iotests fails for FreeBSD and maxOS.
->> Here is a fix. Would be great if someone can test it.
->>
->> I tried to push it by
->>
->>    git push --force  -o ci.variable="QEMU_CI=1"
->>
->> to my block branch, I get a blocked pipeline
->>    https://gitlab.com/vsementsov/qemu/-/pipelines/580573238
->> but it doesn't have neither freebsd nor macos jobs.. How to get them?
-> 
-> You'd have to have an attached cirrus token.
-> Better to just use 'make vm-build-freebsd'.
-> 
->>       def test_timeout_break_guest(self):
->>           log = self.do_cbw_timeout('break-guest-write')
->> +        # macOS and FreeBSD tend to represent ETIMEDOUT as
->> +        # "Operation timed out", when Linux prefer
->> +        # "Connection timed out"
->> +        log = log.replace('Operation timed out',
->> +                          'Connection timed out')
-> 
-> Um, really?  Matching strerror text?  This is ultra-fragile.
-> Dare I say broken already.
-> 
+"-netdev socket" only supports inet sockets.
 
-Unfortunately we lack a good interface to test simple reads and writes in iotests. qemu-io command just print the result to stdout. So, I think, in short-term, this is the best thing to do. And if just `git grep '\(write\|read\) failed:' tests/qemu-iotests/` we'll see that this is the common practice.
+It's not a complex task to add support for unix sockets, but
+the socket netdev parameters are not defined to manage well unix
+socket parameters.
+
+As discussed in:
+
+  "socket.c added support for unix domain socket datagram transport"
+  https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
+
+This series adds support of unix socket type using SocketAddress QAPI structure.
+
+Two new netdev backends, "stream" and "dgram" are added, that are barely a copy of "socket"
+backend but they use the SocketAddress QAPI to provide socket parameters.
+And then they also implement unix sockets (TCP and UDP).
+
+Some examples of CLI syntax:
+
+  for TCP:
+
+  -netdev stream,id=socket0,addr.type=inet,addr.host=localhost,addr.port=1234
+  -netdev stream,id=socket0,server=off,addr.type=inet,addr.host=localhost,addr.port=1234
+
+  -netdev dgram,id=socket0,\
+          local.type=inet,local.host=localhost,local.port=1234,\
+          remote.type=inet,remote.host=localhost,remote.port=1235
+
+  for UNIX:
+
+  -netdev stream,id=socket0,addr.type=unix,addr.path=/tmp/qemu0
+  -netdev stream,id=socket0,server=off,addr.type=unix,addr.path=/tmp/qemu0
+
+  -netdev dgram,id=socket0,\
+          local.type=unix,local.path=/tmp/qemu0,\
+          remote.type=unix,remote.path=/tmp/qemu1
+
+  for FD:
+
+  -netdev stream,id=socket0,addr.type=fd,addr.str=4
+  -netdev stream,id=socket0,server=off,addr.type=fd,addr.str=5
+
+  -netdev dgram,id=socket0,local.type=fd,addr.str=4
+
+v6:
+  - s/netdev option/-netdev option/ PATCH 4
+  - s/ / /
+  - update @NetdevStreamOptions and @NetdevDgramOptions comments
+  - update PATCH 4 description message
+  - add missing return in error case for unix stream socket
+  - split socket_uri() patch: move and rename, then change content
+
+v5:
+  - remove RFC prefix
+  - put the change of net_client_parse() into its own patch (exit() in the
+    function)
+  - update comments regarding netdev_is_modern() and netdev_parse_modern()
+  - update error case in net_stream_server_init()
+  - update qemu-options.hx with unix type
+  - fix HMP "info network" with unix protocol/server side.
+
+v4:
+  - net_client_parse() fails with exit() rather than with return.
+  - keep "{ 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' }" on its
+    own line in qapi/net.json
+  - add a comment in qapi/net.json about parameters usage
+  - move netdev_is_modern() check to qemu_init()
+  - in netdev_is_modern(), check for JSON and use qemu_opts_do_parse()
+    to parse parameters and detect type value.
+  - add a blank line after copyright comment
+
+v3:
+  - remove support of "-net" for dgram and stream. They are only
+    supported with "-netdev" option.
+  - use &error_fatal directly in net_client_inits()
+  - update qemu-options.hx
+  - move to QIO for stream socket
+
+v2:
+  - use "stream" and "dgram" rather than "socket-ng,mode=stream"
+    and ""socket-ng,mode=dgram"
+  - extract code to bypass qemu_opts_parse_noisily() to
+    a new patch
+  - do not ignore EINVAL (Stefano)
+  - fix "-net" option
+
+CC: Ralph Schmieder <ralph.schmieder@gmail.com>
+CC: Stefano Brivio <sbrivio@redhat.com>
+CC: Daniel P. Berrangé <berrange@redhat.com>
+CC: Markus Armbruster <armbru@redhat.com>
+
+Laurent Vivier (12):
+  net: introduce convert_host_port()
+  net: remove the @errp argument of net_client_inits()
+  net: simplify net_client_parse() error management
+  qapi: net: introduce a way to bypass qemu_opts_parse_noisily()
+  qapi: net: add stream and dgram netdevs
+  net: stream: add unix socket
+  net: dgram: make dgram_dst generic
+  net: dgram: move mcast specific code from net_socket_fd_init_dgram()
+  net: dgram: add unix socket
+  qemu-sockets: move and rename SocketAddress_to_str()
+  qemu-sockets: update socket_uri() to be consistent with socket_parse()
+  net: stream: move to QIO
+
+Stefano Brivio (1):
+  net: stream: Don't ignore EINVAL on netdev socket connection
+
+ hmp-commands.hx        |   2 +-
+ include/net/net.h      |   6 +-
+ include/qemu/sockets.h |   4 +-
+ monitor/hmp-cmds.c     |  23 +-
+ net/clients.h          |   6 +
+ net/dgram.c            | 707 +++++++++++++++++++++++++++++++++++++++++
+ net/hub.c              |   2 +
+ net/meson.build        |   2 +
+ net/net.c              | 169 +++++++---
+ net/stream.c           | 376 ++++++++++++++++++++++
+ qapi/net.json          |  59 +++-
+ qemu-options.hx        |  14 +
+ softmmu/vl.c           |  16 +-
+ util/qemu-sockets.c    |  20 ++
+ 14 files changed, 1324 insertions(+), 82 deletions(-)
+ create mode 100644 net/dgram.c
+ create mode 100644 net/stream.c
 
 -- 
-Best regards,
-Vladimir
+2.36.1
+
 
