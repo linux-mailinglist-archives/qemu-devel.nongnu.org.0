@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D541A5661D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 05:29:28 +0200 (CEST)
-Received: from localhost ([::1]:35326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E305661DF
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 05:32:03 +0200 (CEST)
+Received: from localhost ([::1]:37898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8ZFf-0000hS-Po
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 23:29:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49952)
+	id 1o8ZIA-0002aW-Db
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 23:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ZE5-0008CM-BH
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 23:27:49 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:37701)
+ id 1o8ZGc-0001Zq-IA
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 23:30:28 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ZE3-0004Dn-Nl
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 23:27:48 -0400
-Received: by mail-pl1-x630.google.com with SMTP id k14so9938446plh.4
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 20:27:47 -0700 (PDT)
+ id 1o8ZGa-0004ZH-Os
+ for qemu-devel@nongnu.org; Mon, 04 Jul 2022 23:30:25 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id s206so10315207pgs.3
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 20:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Fo/KzOhVnyoAV4ft9RxSm/XB92EbffsTFcXxsAw9P3A=;
- b=BfLaygkigeRNFJwAn8C6+6vtpa40EEubQIxPbDx+MdyAxh6wNIpPaolXeIIV74heef
- z/gvynqh56TNCDR4NCKsefWoAaReff0bgZE+bC05ldu1TeXUiafcTOj0r0lXr9YVpU2N
- rqc/0UyO5hipPZbCBB10qnVp5foSgEfnV8icqWSaTdCiP/iN2E4IHunyFV9L1UXRQMZe
- uaY6mM0nmKwuHDr0E8ySvwlxwlLed2tZ5K8fmkjuiByVRUhStLENwrhFYraz0DgJRfwW
- 60PFW7nAYg11dj9IE8vvDr2n05xiDTNOCVauuiUn3d2FqiaNYb3jDB5tyzndcFL+ZmR0
- 21Vw==
+ bh=Md8LNZoR4D2WEeNV53PRaAMbC7DrT8tsDMf/eYLSS+U=;
+ b=mBI8AePlRgTpIYc+MvVuM5OwG4q3KfDIKlfSWd+VTMr3RdLw5bui9LYq/YJ5BKXZS+
+ /FmRW1NV6Q1n7lIbQtXlXvgN2AFOSJBmGDZsmyB/nU/4GJBx7zQDXcwBaPPiYne+9Pld
+ PArcTCbBfLH2wDgskfT793JM1JWVCka68Q2cBFchRfVTqnS4R0O1lTI19XyaodU2gZZp
+ j7s2Tm1DYZUkv7H+q9ajLqYSg6+Oc3muVIAOTk0fWKf7Zt526GY7abJFcq5T8KktebZR
+ Cjq7ltxoZ0olluVlkkE2VzeX6zfeccBBskhqr/6xy9BR5nUfU8vVZy+qxnAr6Q1mx9M7
+ wBnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Fo/KzOhVnyoAV4ft9RxSm/XB92EbffsTFcXxsAw9P3A=;
- b=YA1q0cSDHILLp88d3Q6rV1lkR/jOnSnNUOPXIKY5mjV7Ri+RG+jAYYHAIv3kLl2Hbp
- AuQ6K2EqNgCi5NqOZkBZJ9cV6zriMMa0ivwI+VKNWtIuIC5J/7dj3gVFLNkkwyalQimy
- LG0e4ChuVOmp8mGCSNcWzuARFlDq7gyxxpEqeKTLd45btSqEDbjYpXCtkOYk7qyyroPh
- WX4iWmkhcjX18Twt7eF+2Bp9bfHmW4QiHS8PjoH2D6qOY+KSg/RwrSBccwjQKlFbznfk
- Vbedjt+1kIgbmFBH72hITDDCVRzMC+ewGjnFAlCg4Uq5MBshKhp0DDn+vemn5/X2Lvd4
- eV4Q==
-X-Gm-Message-State: AJIora+Yd5kbd5gASDA71ggRxomV0bLWWMA7QgBhwM7JGGolFYoin3T0
- ADHC2QZOHOBevCuhJjtUOGpiqQ==
-X-Google-Smtp-Source: AGRyM1vSsnHdt+LzJE+4HetBY/SX7DGvXPo09nk+PoMjrmycT8gUrVshazvOnfwPrGTh40PZP9x7lA==
-X-Received: by 2002:a17:90b:4a82:b0:1ec:bb6b:38ce with SMTP id
- lp2-20020a17090b4a8200b001ecbb6b38cemr41282469pjb.149.1656991666304; 
- Mon, 04 Jul 2022 20:27:46 -0700 (PDT)
+ bh=Md8LNZoR4D2WEeNV53PRaAMbC7DrT8tsDMf/eYLSS+U=;
+ b=1mZDfx9IXs2u+7WpiwL619hvR/oAIy3KH3TVx/W1133fjKPZt158GBVRFRac72AYVI
+ TgyoUbUJv9tNwTN9E8iZ12mnIUi6nWlCuyehUzWNre9pctNZT/SCXH8zMIUNnCt8eDEg
+ b0aOHfyH/niQ3RtqZ6CkUQ406h0FKvpUk8muWyqFsd0K7fe5RVLCQ/GB/I0XpXgdat7q
+ jENGbaK019FsykL3YAoRoHAeORN7itE3/oiwwqN82xDfiy4oB6TAyCG+KDNvpsY/pxaa
+ vvsid4cGkPwdoU/VshTz3qUS14uVj022QgRMbUW6Ce5drfP9WyP15kviAQIO4uOpvzZy
+ jpDQ==
+X-Gm-Message-State: AJIora+NTtOdB8mvf/70R/8JaY4XzkCqxC/xh/BI6xLDV+F9+iV8hNVe
+ 09Iov0xZ8uLEbIJ3m0PCx5piBw==
+X-Google-Smtp-Source: AGRyM1sqnepSfdBfWYNH+PZqUvBPfnzYB8S838qODzRbfpunAOs5Ha6vExCPqVPa1xSWHxIaXaWQog==
+X-Received: by 2002:a63:195d:0:b0:412:50b8:c410 with SMTP id
+ 29-20020a63195d000000b0041250b8c410mr6015056pgz.520.1656991823280; 
+ Mon, 04 Jul 2022 20:30:23 -0700 (PDT)
 Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- n8-20020a170902d2c800b0016be593b9e6sm2705671plc.167.2022.07.04.20.27.44
+ g10-20020a170902934a00b0016a11b9aeaasm21900255plp.225.2022.07.04.20.30.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 20:27:45 -0700 (PDT)
-Message-ID: <35ca949b-2e33-58ab-98f6-4742f757d05e@linaro.org>
-Date: Tue, 5 Jul 2022 08:57:41 +0530
+ Mon, 04 Jul 2022 20:30:22 -0700 (PDT)
+Message-ID: <1dcf1ad6-eb4e-5c20-b8f7-254eca7f58df@linaro.org>
+Date: Tue, 5 Jul 2022 09:00:18 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
@@ -71,15 +71,15 @@ From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <CAFEAcA81Xc0kXrYTeq+Ck4b9vwu7jOAMerS0s_L0HaqyvfUcJg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,13 +96,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/4/22 17:38, Peter Maydell wrote:
-> I notice the kernel has a bunch of signal frame test
-> cases in  tools/testing/selftests/arm64/signal/testcases --
-> do we pass those ?
+>>           case TARGET_SVE_MAGIC:
+>> +            if (sve || size < sizeof(struct target_sve_context)) {
+>> +                goto err;
+>> +            }
+>>               if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
+>>                   vq = sve_vq(env);
+>>                   sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
+>> -                if (!sve && size == sve_size) {
+>> +                if (size == sve_size) {
+>>                       sve = (struct target_sve_context *)ctx;
+>>                       break;
+>>                   }
+> 
+> On the other hand, the kernel seems to happily allow records
+> which are larger than the SVE_SIG_CONTEXT_SIZE, whereas we
+> ignore the record unless there's an exact size match.
 
-Most but not all of them.  The ones we don't pass are those for which SVE state has been 
-discarded across a syscall and so the signal frame record is expected to be missing.  I 
-thought about fixing those, but decided not to do within this series.
+Yeah, this gets fixed properly in patch 39.
+Perhaps I should simply squash this with that?
 
 
 r~
