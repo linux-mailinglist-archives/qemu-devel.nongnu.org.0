@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79BE5676BB
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 20:43:12 +0200 (CEST)
-Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002145676C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 20:47:55 +0200 (CEST)
+Received: from localhost ([::1]:41224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8nVw-0001cP-0Z
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 14:43:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37856)
+	id 1o8naU-0007Yw-Hu
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 14:47:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o8nF2-0000Dv-LS
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 14:25:45 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:51672)
+ id 1o8nFV-0001DU-4Y
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 14:26:14 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:47188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o8nF0-0002Hi-MN
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 14:25:44 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 265HEFjq012834;
- Tue, 5 Jul 2022 18:25:24 GMT
+ id 1o8nFT-0002J2-4k
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 14:26:12 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 265HEVkJ009117;
+ Tue, 5 Jul 2022 18:25:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=message-id : date :
  from : subject : to : cc : references : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=E2o1/4BVpCLm4BN6vau9DD8wqbviV4WuTmMYGmfp/kY=;
- b=ICPm5Q6Q5n08Qpl0J9xa0T8P1mRQBBMW52/rilAw1xcm9UjgT8NgrPJLKhEn3GzSU/uo
- OsCsUs21GVJOmhfbdzdCHVmgD5CxRBst7+a7uVOTqzi/qCzQG5p8vHbTtadVxlyWKS5w
- 5L/avEpCw+8msvoJ9KX/vBvPpfriKgbmKFobt9ZnG8ZdBz0RH3jDgHD7EWiNYOecxx1l
- kcx/VjGuKq9oPeQNyp6Q/6si/sjMjC99moWv8xgdnnaicLRLHjcfh2cChZjT8ZoDaeht
- 5pwsQqUSvH99FAVi53HQRz0+Pe3bVda41tZfbIuTYn9sYUX8IEpPo2oeEMAwka3WxJoa IA== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h2cecew3q-1
+ bh=SUP32C+rZaJZ7YsimHSLeF1Hyc6eDcoJP7qJfU3ZgQo=;
+ b=u3wSgAoT9/nz4RpSLBUgCKKEY48ZqOuQkUfKy119PRteCGHryUlh8OTY/AzboYgRFwTf
+ MgxuRSlZyRmtLpuPBwVxfZ/klgpz3+Q7LHrn6AVCepV69K7eEGQI1oM+u+gJhTKjRwwl
+ 7R76ASb9Y+d0QO0ucM96RFBdtIArfvnZw5El5XLDvbtUKDgq3OOHUc8EWnVnlbKKc3jG
+ 1YE5LZTzGY8WFFk2fQA26pDYQ41IFeQo+CJ+x5f5d9aJ68ux3kzMeiExi4qtN85sNiSq
+ ADZxTlsg+z+/JnY/83vpbqJ0aa6hagPAsdCWF0C1+XnG6n+XQ3KatOzMeYG6mEWT/Pxz cA== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h2cm0q2v0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Jul 2022 18:25:24 +0000
+ Tue, 05 Jul 2022 18:25:56 +0000
 Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 265IBE8X022652; Tue, 5 Jul 2022 18:25:24 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam04lp2045.outbound.protection.outlook.com [104.47.74.45])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3h2cf8n659-1
+ (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 265IBelH034853; Tue, 5 Jul 2022 18:25:54 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3h2cf8pbmj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Jul 2022 18:25:23 +0000
+ Tue, 05 Jul 2022 18:25:54 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UCq1mafQSUQMYIrerOpeieSIxeFYQCeOZNx0mbrKOe8cp6dW1XvUvQObu7T846+4V0K3MCqaDHpZwrcbm475YlPXQ1emT2TnfD6T07cGVYRC3ytWUohJmN1KPwsYDgHulR2jABjJxnUVtNbqyENjsw7mGv7Q+QicN4Tk+4NXMjV0EinIkpYql2DInc69HOZcpLJVp10O/8FJvBxsSvpYBNz0Rb4Xygnq1O2C79Z/YCTuSoQ6KcoJXWz/k0gpybOjp+mIkwz9h9Tcy9yjF+V/vwCVY1AM1Idv+G2/pijRA1G70soQ/q3maw0AlwyAq3B6qWrErYHEFGTawEw6a6sH0A==
+ b=lTUlmpq5R8ByE3u8p+P71Zm+dEK79+0EZ/EUKc90fPKfngTgH+8rv5z1FmX85fItySzZYICKQrJWf3vq+HbirYiApCgJpMEerwI8y57StY/yBU3pDu7cTGoqDdFckxe4ZriQjgTiZSIAVWSaG55dFdhAMGwRpf5zushaovHhF4GFjZUkj9cI6+HoSmQaFYTEB8gcEhxr1pICSyjl+xwt5EYfLtddbi9dfYxMHkBraBqvPaBO30mfgEMx9Sz1XJao8nFE5YRMyQHUat+wlTmwhWHOdkDblpuvHSbn0+HghwV4AiXhY0K4RMJC7TNmXP9yXeEbdr90qf0ZvHEl8ohMRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E2o1/4BVpCLm4BN6vau9DD8wqbviV4WuTmMYGmfp/kY=;
- b=TIRVQeLu1PNtspM6nTkqXjNYfP1fTe9x2fZ3SiOCc6KCubGk+hGEUxMRVUmqAQzJdmQBKJ4hEduunL8p3XnHNLtDuCkGctbBu8EB3B7/hwVwl2Qgwbxx3EL0BctAVsuBIfXUbEJWxf4lsJ/ge5CoQrorQACDWDtCQFZSyZQKLoq/4XwJXi7girdc4ngAbBKF+etd429/fuD8Tp+Sc8OdQ/XDd2rCKHLjpF4JbGx9HbkESgezeJZOJYHlRu6XK5o5UOs7APmFY3ZuOB4tnc2P5OSujuLKZkvBeeyyShSVO30OwSK9Q5S4RZKjtXQeVeS34hxer2KncPGVVZgFb4S0RQ==
+ bh=SUP32C+rZaJZ7YsimHSLeF1Hyc6eDcoJP7qJfU3ZgQo=;
+ b=QlGRUFeQ8CO8C1kp+qG8+kt7MUL6ds3WAE/GWD5Y2nb45TeZT6ItZdlvd5BBIz4V+PrU4QI1CtyY0Js0Y7HrVndtGGpZ2nwFLIVp7a27DiPH8ula9+1x9g6mWRNRvqyB3vG60rIa5lWOhqvao9+vsap1oxnrljavggLKgMEbzf5QNuHGuyVbqxt7t87K+2SptwvBmbn08j2DVoeOgk8FM3tU6SgtW4RZEVrXRyfbYpIVjqxzcCMn4kjWEAFejbEsIAclSHF6N9PmNOyk4GsCtqJpIVXAgfBknzj+f6QoiwUka11Mdss2S5gSBfCMPkTGne+FFmZmEhXg7oewmHIQFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E2o1/4BVpCLm4BN6vau9DD8wqbviV4WuTmMYGmfp/kY=;
- b=WjMJgpkwwxQOShdiVzbU3la37BUvlXX/cbZGtuVYt9fCf2OAMgnJHN+2d+mzfmjT74oDvgiEMLr8lh4YHJgy3MeRi9qj00tzA7nYUgldyh7qLpG3k4hvUibI0PbBMYuwtJttlX6LEcuhCN2gMkvZyAZzW18QdG5JCtYUA2eG3WM=
+ bh=SUP32C+rZaJZ7YsimHSLeF1Hyc6eDcoJP7qJfU3ZgQo=;
+ b=jXB1ZXOj4rp+YSC02mOvs/eIbH0xMOTeR8j59GB2L0TDFmSN14kpb3D+ajwGQaO1Af57d3psajFros+g/EfZDUWkXEkQ3nBaqwBkCeETbuFU+jReuHQkIeNBlgyufvQW3DO3vyzDlTc8ylhoCaMYZxWVLOFkRCFDEewGaWtKrhY=
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
- by BYAPR10MB3558.namprd10.prod.outlook.com (2603:10b6:a03:122::29)
+ by MW4PR10MB5809.namprd10.prod.outlook.com (2603:10b6:303:185::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.19; Tue, 5 Jul
- 2022 18:25:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.20; Tue, 5 Jul
+ 2022 18:25:50 +0000
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::dc4d:56f4:a55b:4e9]) by BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::dc4d:56f4:a55b:4e9%6]) with mapi id 15.20.5395.021; Tue, 5 Jul 2022
- 18:25:22 +0000
-Message-ID: <eecacf09-ad8b-aa3d-48fc-8a96817f7cc2@oracle.com>
-Date: Tue, 5 Jul 2022 14:25:16 -0400
+ 18:25:50 +0000
+Message-ID: <8c46b020-c8df-95df-cd67-1f6d56db886a@oracle.com>
+Date: Tue, 5 Jul 2022 14:25:45 -0400
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
 From: Steven Sistare <steven.sistare@oracle.com>
 Subject: Re: [PATCH V8 02/39] migration: qemu file wrappers
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
  Jason Zeng <jason.zeng@linux.intel.com>,
@@ -96,87 +97,87 @@ Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
  <1655304746-102776-3-git-send-email-steven.sistare@oracle.com>
- <CAJ+F1C+jXCrtggu1myigkmOVaw0DBAcSHNS5KCdP7b=7b7NC8Q@mail.gmail.com>
+ <YqtMQFqFR3+b26YO@redhat.com>
 Content-Language: en-US
 Organization: Oracle Corporation
-In-Reply-To: <CAJ+F1C+jXCrtggu1myigkmOVaw0DBAcSHNS5KCdP7b=7b7NC8Q@mail.gmail.com>
+In-Reply-To: <YqtMQFqFR3+b26YO@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA1PR03CA0009.namprd03.prod.outlook.com
- (2603:10b6:806:2d3::20) To BYAPR10MB3240.namprd10.prod.outlook.com
+X-ClientProxiedBy: BY5PR20CA0002.namprd20.prod.outlook.com
+ (2603:10b6:a03:1f4::15) To BYAPR10MB3240.namprd10.prod.outlook.com
  (2603:10b6:a03:155::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 11e985f2-f79b-46ba-61dd-08da5eb3b88f
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3558:EE_
+X-MS-Office365-Filtering-Correlation-Id: 43198c7a-a61b-45d3-b431-08da5eb3c9c2
+X-MS-TrafficTypeDiagnostic: MW4PR10MB5809:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RnrOk7Z5i5SK1tg7uB4mLklhW2WIDof4Fid0N+bITvB+CQ/dVz2vheNZkhkG3fznplxCpbtrXN1ZP/tD7E/mZtIikqE8DfyjbW9Mz5g51qZil9oWGKm00dQi1N2u0WPwoaktvTzQcHvlDyCfQAevo9qfMFxFMssoHt245H/3mULOoGdxXfLkK3umkMO7wDGmPcJYYWUTJZ6w0szxnEKOfmHs1oUlOLQwNVy+v8eOFdLmKopKclAKVbTu6Qa9PbFj8adPIzDfh+C+mMd/dpCuFTTn6JkcjVEMUhTZTGehzn12EG29JpNbim/TjDGUDLu8y/T7GmL3lligP7KSgOiDBLTHz151JMs4kNf2euVpFHVijwIJAm4Ib2D9spRQmX6izR6GL7y6YpZgMEWoFdTzXkSQmIaQvs9fuun/9U+YpRtyLBEw7x3zYbkQwiVEro87n2FDPsqdNO3WVwb1GhycK73dbPgX1N5eRyYtVs1qBND7UGqgCedrnHce4QwUerEC8IF9S3kNd1RqV8iJoNDMJ4dgKqnVHXClHwhBA+wZ4uO9xjyPHGVh1XaiXqqA69gwe1Y96K7TdCFBA3a3t16R0auvC6dL+UdXzu068jVvO/FuLZlo1FW47ZOGL9vmdSq9ErvbkMBnl7fKrzvsUZQdx5MvTi2bFEZlatp8qBpZLl72KM9K5PPHbX+q0n4LieHQqNGEXqbs4xjGc3Omq/uuy8f8/ZVSaGeerzodbFTe22fXd8DbcH4ejgtYuL0wUMqzXs52Dk/SPSEj0JogYimBgK78wZB9nPqG78+gEh0IVxkifKIRGaJOx8IP5qkHhNpOGebzBxZjadBlGu0EmzHVWw==
+X-Microsoft-Antispam-Message-Info: TzKxzf8PKjgCQ8o89/24VZpDYcapRzbzgOCHKW7AmE1m63WwYs/DQzeW3p41X4XwcDF/xQxFR498zMWSOmubL5IP2IEASvjd5ljlhXeVAp6eEECJ2QZWMgfW97zJ0vWP4GbswK4bGY1BMIEoT+xK8KqdUTIHeIKvLc2waigwf589jkzpOOEu/hMTrQ9fakk7SzR/EhjADbGK8ajJxD2BSynWzX1oXGy8DGy7KfR6R1oudFIcmr6n0PyU8fOtJAYNorzcR2/upBhicBJhbVe46sHU4QEnhvV4eB3MOq234eu2DJJcJJEQB2vJte65jQBhdmPK0Oej75PLR7q1d+HbQgSRFO5GNsuweHcCKd6SATIQC5Hkv3TfkoNHowAeNiCs18lZpvskcSoS3/jiefi39PkTxI63fHrIkxdBOoHM4urKntRDJC7LN/eEKH2nUpthY3DenSIe19nC7skpzqBku1aEpuQA1VHfqg+P0Dnmq4fe76IEQ3AXjC0Q+fgn2X95aJ0vV3cJlqw4t4sUUCj6KmwSBpkj1qERBBeLKf9rSJ9HFPfi2r+HMBwgEMsGVuK1QyO+7nSsPa0wj3Mhk5wlopGksEk3flEWcEK2siGN1hSqSlYqyCB0rtsCuOP+taglh0oOc1aq1HUadIej6YQeaWCzfWaL68F02Ns6iP6gvypYAEsybvSUi6DnscZUi++rIooy58d10moHzykyoA3EFA8TN6U+rMPKtdf3fERXegvtxruW9TE6LTwlkbhrz+qvf7K3cuQjI2Iolm8YG7HDOEU1rAN4/EEkFIBbC6JN4YwQ4Jsp+bMVZKVHZvwY/FqycC367akTunGCKjAwX7b5aQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(346002)(376002)(396003)(136003)(39860400002)(366004)(7416002)(44832011)(478600001)(5660300002)(8936002)(6486002)(53546011)(6506007)(31696002)(86362001)(26005)(6512007)(41300700001)(2906002)(6666004)(36916002)(38100700002)(2616005)(186003)(66946007)(66556008)(66476007)(54906003)(6916009)(31686004)(36756003)(316002)(4326008)(8676002)(45980500001)(43740500002);
+ SFS:(13230016)(136003)(346002)(39860400002)(366004)(376002)(396003)(38100700002)(66556008)(8676002)(66476007)(4326008)(54906003)(66946007)(316002)(86362001)(31696002)(2616005)(6916009)(31686004)(6486002)(41300700001)(6666004)(2906002)(478600001)(36916002)(8936002)(6506007)(44832011)(186003)(53546011)(26005)(5660300002)(6512007)(36756003)(7416002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVZhLzJ5MDFKNERXSnFKdGkvS2lzTlMxWHVHclVhTHBqVWFyZmlBb1paWk45?=
- =?utf-8?B?M0pNVHRQdnNWZDBSNVplNlRMc0V6ZzdCdzlWaTVGMlVDL01YcXNFOGtmZ3J4?=
- =?utf-8?B?Z0JOV3dIOEF5RGV0U21Fd3ZFbzNianpjcyt6NHl3Mi9iZnFaQ0grOStOOWhF?=
- =?utf-8?B?NmpCMDVVakgvU25FL09CL2xCU0VhZzluL2xuWnZaNlNxT1hVczBOajRGeVY2?=
- =?utf-8?B?RDQ4K3VkZGcxR1BhTEp6TnhNczlJakJkSkpvK21VYm1QcnJkSUFpL29BSlZ4?=
- =?utf-8?B?SGxmTzJ6clE5MW1xN2VKSEthd1FIUWdEdGl4bHpNQjg2dmVPWEFnZ0EvYjdo?=
- =?utf-8?B?eXo2ZmZ3eVJqSlYwTVNvRFpNandpQUdaTUlwQzZ2QXFReGpLZm9tYXY1dk1q?=
- =?utf-8?B?L2JPQ2wxTG41cDRTQ2tzYmYyMUpXR1N0QkxhcUFSdXYxK1hENDR1MG1ySjRx?=
- =?utf-8?B?Z0JvdFk5cCsvN1RvTjVRMVhSUDBFeDFVWVJlckhNcXhoUGpIODdzdGVIdEVR?=
- =?utf-8?B?TmNJdDlkS2x3bzlwb2trbUtLSllZRUdjYmNxZU51YUxBWXl0WG4rOUdZWlh0?=
- =?utf-8?B?SEVMTWVad3M3eGlZUnBWVXI1d1lRRENDVHM3VE4vZGxnMW9jU1RrbXZzY2tG?=
- =?utf-8?B?RlhwMUQyWkQ5MWJodEpsUHJIT1BvbjZ3QVZHZUYxZEtQMFR6bDFLanNlK2Vh?=
- =?utf-8?B?aDErcExXZEs4RSszVERYeTdRRGs4eXlHWitBRDNSL21LY1VGNGRYakZ5OEV5?=
- =?utf-8?B?T1FDMm1KSkhRMVZ0TjVLOHordWpuUkhKVzJpY2liWks4OGtJZko0OXJLYlNF?=
- =?utf-8?B?MGI1Rlk0Y3o0cmRjQlk5ZEJMM3o2eGVqU2Rxd0dMQ2lQYzUzQlZhOEpkb3Mx?=
- =?utf-8?B?cThvYW9SNXp5dnlzbnpFQWhrdkRiSnhWdlZBTzBlVVZBVGZWa1BzUkNGZ2RU?=
- =?utf-8?B?MnVQbmJUcVJwSFJYd1VLcVdhOFVFTDl0UTBPcjJQWHVUWGlLQlUxbmF6amZs?=
- =?utf-8?B?TVNZZnI1cXdmNkIzYWhsaVMzR0pCbU9EeVJvQjR2dmFoVTJWVVVVUjUveG5H?=
- =?utf-8?B?MWhlOUZUYW5RdFZ0OERVUVpIN210Y2pCM0F6QjBWVTVkVm1XQ3NIVnQ3Mm1V?=
- =?utf-8?B?c1l0TzZ2K2V3aVdSVDlzRjg5TmJUb2E2dUJrY2E1ckd3Z0IyQ3RUdUhxamY3?=
- =?utf-8?B?SHJiQXFGbmdrQTFEbFVmcjcycnZsaERtWHVWT0tQbUNLQTl4dkFXLy83dkRl?=
- =?utf-8?B?WWIwMmIwT0pFZ3IyNXNRS2VLbWpFOUU0RW12TE00aHJUQS81Z0NLQXVNZmVK?=
- =?utf-8?B?aVZBQTRQYlplQVc1eE84WXhFTmNKSlVvQjVVcTN1amV1ZTNjMjBsd0k5c1lJ?=
- =?utf-8?B?QlNlSy9ZTTBtZXprZDdVMFgzektJTm45K1BDNGI3b0UrMG1xMGNPclAzcWlD?=
- =?utf-8?B?OXJkeVc0WjBIMTJoSEpGMlJBeTNLNm9Oei96bnlvUVZYbUN2TXdobm1uRHpD?=
- =?utf-8?B?RlNrdTZUcTN6Z2l3VHdtN2dnRU5FV0djeTRWc2NpbHhBNCtiMDBUeFpUa3k5?=
- =?utf-8?B?cE1xSnUxRTBwY1JSMWhCT1IxSXNKV3NGVHVFbmFITnFtNEhNTDQ5bmd4K0lV?=
- =?utf-8?B?MTd0eEVLdkwrbmlkZk9uSU1hNFZyM1QvdVB1UURHNXNVRVpWU1k4Mkp2M1FC?=
- =?utf-8?B?Nkgzc24rKzIwNHVhVGZmMW5CWmZnbjY4RWJRRkJqWGFrMzJRdkZIcG0yQjJE?=
- =?utf-8?B?UkFKWkZISmYxcVNWUlV4Z2xOSWczUFIrM3Z0TDBHcHU0czkvM2Z5U0NaMmEw?=
- =?utf-8?B?SkVIaWNaYnJPK2J1Z0xsUzRPK1NjRVpZMzdYY0dLRkVaNVVwMnZoaSs2UFYz?=
- =?utf-8?B?UHRmSytoaWpZTXRvSnoxeEtSV3VHMW44Q3NzOEZmZFlVSkVsWUN2V3M3Sjc4?=
- =?utf-8?B?cG82R05qNU11NVRZSVZSdkM0bkRlemFIdnFDU2NzM2hWTXNFbldDcUNneDBy?=
- =?utf-8?B?QzFmLzZzSzRWVkRHL0FYN0x3dU4xV2I3ZWFZSW50dExwL0ozWkJPTXhIMmdZ?=
- =?utf-8?B?blN2L0NQTXp0UWIxWk1WOEt1VEpFK1ZNV3J2Y0hVbXBGRnFEYjU4Mi9ib21q?=
- =?utf-8?B?eDZHM2gzaFg0dUs1SFV0OWpxa01XYlNmdms5blRnak1FcGtGaktSSDBHQ1lI?=
- =?utf-8?B?NWc9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MFV1VmlBeVZTVUhTT3dSY2Yya1pqaEhzbmN2RDNXZnRGYTNZRFJkdEtPS3Fr?=
+ =?utf-8?B?NXprZGt6Q3Zzck9ybWtCSVcyTy9vMEhnaDNCTGlPVEQ2UFpUb3EzR2tNQys0?=
+ =?utf-8?B?b3BzRUxqaHRjd0E4VlpOSDVNblNjMk9Wb1VxNGNRZUtObmhSMTRUVjlSRlZZ?=
+ =?utf-8?B?OGl5NWM1UXp3T1dLY2N0VjN5MjVYazJCU2xPaDd2Tmp0MzZVald6Yy9xRHhH?=
+ =?utf-8?B?eVoyOWJkUi9hdmsrTEFsUDhYcEpUWG1KQzM4MElNRVZTVGh2ekFjbTZMaFFx?=
+ =?utf-8?B?UGluN1JURzBXeTUzR2ZndWxXbEFkWnhaemttajNBK05uR2VyY0YyQjFOZzMw?=
+ =?utf-8?B?Y3JFTzVtbjFQVGoyWk1GeFo2RHl4bk5nSHpmdHpjemlBNUgvWklXMWRkMmIr?=
+ =?utf-8?B?WlZDMnphRzhtZDBsMTZQeHNqQ1JPd2NaUUg2T0c1VmgwQW8vWFVRTzVmRGUy?=
+ =?utf-8?B?SmpaR2xITmZYVERBNzV3RnJuR0pHMmtlajF2cEp4M3c3UjNsVXJlRG90UXo3?=
+ =?utf-8?B?Z0FJaUt5VGFBbzFySmE4M1hySDRCQUJMdVRBY1dyWjBjenVwTHVBcytVWklz?=
+ =?utf-8?B?TlFuMW9vS0h2SFk4TDdrbWlrMHBoTkNZSDlrNUtaZG9LSmhRMWVTKzZwa1E3?=
+ =?utf-8?B?Mk5CZTJBRGlBcE9BUHZHNFIrMnBVSkY4cFRpRGhGWDRyTFliUkY1TkVlS3BT?=
+ =?utf-8?B?YWozTmFrcXNjZytiT0p6MGU1TEh3K2xqd2QrZU5TdjhDQmdlemo2YnF3SVFN?=
+ =?utf-8?B?SGo0bXRhVThLZEJwV1EzWFlIaEN1U0VsN25LVVEyL3RsNnFvMS9hSmp5L3pp?=
+ =?utf-8?B?azFhL3JpTkE5RjI3K3FYSVk2bENtWHlqMHBCeXNmOFUxUzNrQmdlRlVhZHFE?=
+ =?utf-8?B?Mmo4d0ZKMDhweWdwckw5V1VtMkRwd1d2T0JHcklobndHQzBpYXk5TmVYakJn?=
+ =?utf-8?B?WWd2bVBjYmdacDQ3dFRFalBBSlRTZkRWOXpubU12TmZla1BDRUpsWDdOVWx3?=
+ =?utf-8?B?THFnSDJocEVNcWRtVW1NeXRhRW1xdzBUWnQzdndsM1pheS85WVJNZW1lOWIr?=
+ =?utf-8?B?cUQ3WUNsb1RhUkN3a0JLODd5YVF1eDFoQkFGUVFWeEVYU2t5a3A2VkFrL3FY?=
+ =?utf-8?B?a3ZHZVRiMUFkMTU5ekVPT3VRRVcxRGJ1S2V2U2cwaDhqekM2MzBTN1F6RE1L?=
+ =?utf-8?B?ZkoraDNJa2RlSHJ0aXRmOUpWMlJlQmlyUDZrYjd0TnppSWlrbUVoOVRQVklG?=
+ =?utf-8?B?RnhHN1A1Vkprbm05MFU2SUQzNllxcXpUM3VTQk1MRE81eDF3dDhxdGJKUVls?=
+ =?utf-8?B?Z09pTElRZnExbisvV1hwWTBjUFc2aHdURTQ4eUkrajNOTlE1TlJheGhla050?=
+ =?utf-8?B?QlQrcGZSRGxRaE1sUHVmSzBpZnlhRnFaQmdvR0k2dXBXQWVSV3dwMU9lazZI?=
+ =?utf-8?B?a1JHeitPbjZPN2ZMdythTzhnazdzVGtXdlNBUDZnVkgrOXhOZDJudjVVOURR?=
+ =?utf-8?B?ME5IeTJYUys0bWtoYjRaT0RHQWZsM0lnQ3EwZDdJL1RyME16c3ZJM0NIS1Js?=
+ =?utf-8?B?OHMzcTRNYjA4cGhROEYwUTlINys3SFIxMXliVlZSakdkWStNZllqdGxxTUpL?=
+ =?utf-8?B?dG9XUVRkcll0c2VjaW95TGlsTXRVRUdYdTBqTCtpOUhyUGlSQ3V4OWlIUVE0?=
+ =?utf-8?B?aVYzYUE3TTlKV0I5UE02VjdJVTFtdTk0WUVHekhtR0k1TCswcGdBNHhVcjI5?=
+ =?utf-8?B?eW1ZaFlXbG9SZlg2SmpJQ0NsU2lkNVl5UlZSUERXZUJKZTFxZnRXTVliK1cr?=
+ =?utf-8?B?QTRWZmp6QVBKc2RKbzR2czljcFVqYm5FZ0R4V3hFckNUcFVWZ2lSTHJaY09C?=
+ =?utf-8?B?MnVnSW9ralh3d3FOU3ZvbjBpTnJHZEpLQkl5NG52Y3lWVFNUdk5VTHRQUXdB?=
+ =?utf-8?B?ZSsrVWpyWmppR0o1SUwxZ2hZTGNTVHBkMEZrSnVoWkxaQUZZdTFFMmdrL05H?=
+ =?utf-8?B?U3kxR3h1RXJpak1wVGxGeFhoT3E1Z3lETFpaTHcvRGIzbytQTDNUcjdpZEVX?=
+ =?utf-8?B?b0Nqc293dVQ1MjhUTU5Cd1ZTSG0rNXRwMDZpZGI4MGRpaEx3TUplQTRhM1Uw?=
+ =?utf-8?B?VTN4M0VhM3RlQ2RvUWdUT3g5cHRJNFp3dHNzNk9mbUdNamM3cmdxRG9RdnFK?=
+ =?utf-8?B?OFE9PQ==?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11e985f2-f79b-46ba-61dd-08da5eb3b88f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 43198c7a-a61b-45d3-b431-08da5eb3c9c2
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2022 18:25:21.9751 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2022 18:25:50.5983 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wOrYS5I/2tejT5vOGICG3nrFYEGzsALM+U9rU1jTGxDGQUab3veJCIm8HlqocOnl6xrkVBDc9pXJRFVEb9zQWV5C2HiC6M7y1Lxq7NV4YO4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3558
+X-MS-Exchange-CrossTenant-UserPrincipalName: XfEwU325aQij0Luovu5BSs6K0N04AtTr8Rb1Pk7vOF+5RoD3golowgt2jHKRTxXSe1+K7PQwuk5R56MCdVkWf+rq+IXi1HzQ2P5azZtEiUw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5809
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
  definitions=2022-07-05_15:2022-06-28,
  2022-07-05 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- mlxlogscore=999
- spamscore=0 malwarescore=0 phishscore=0 bulkscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2207050079
-X-Proofpoint-GUID: A5U-4WaFvPxNhCkvPohdDoKjGasWSnPf
-X-Proofpoint-ORIG-GUID: A5U-4WaFvPxNhCkvPohdDoKjGasWSnPf
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0 suspectscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2207050079
+X-Proofpoint-GUID: r_ZAc7Ihe84RZ3J8RqM1s2bWHGEDdWhI
+X-Proofpoint-ORIG-GUID: r_ZAc7Ihe84RZ3J8RqM1s2bWHGEDdWhI
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -199,140 +200,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/2022 10:55 AM, Marc-André Lureau wrote:
-> Hi
+On 6/16/2022 11:29 AM, Daniel P. Berrangé wrote:
+> On Wed, Jun 15, 2022 at 07:51:49AM -0700, Steve Sistare wrote:
+>> Add qemu_file_open and qemu_fd_open to create QEMUFile objects for unix
+>> files and file descriptors.
+>>
+>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>> ---
+>>  migration/qemu-file-channel.c | 36 ++++++++++++++++++++++++++++++++++++
+>>  migration/qemu-file-channel.h |  6 ++++++
+>>  2 files changed, 42 insertions(+)
+>>
+>> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+>> index bb5a575..cc5aebc 100644
+>> --- a/migration/qemu-file-channel.c
+>> +++ b/migration/qemu-file-channel.c
+>> @@ -27,8 +27,10 @@
+>>  #include "qemu-file.h"
+>>  #include "io/channel-socket.h"
+>>  #include "io/channel-tls.h"
+>> +#include "io/channel-file.h"
+>>  #include "qemu/iov.h"
+>>  #include "qemu/yank.h"
+>> +#include "qapi/error.h"
+>>  #include "yank_functions.h"
+>>  
+>>  
+>> @@ -192,3 +194,37 @@ QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
+>>      object_ref(OBJECT(ioc));
+>>      return qemu_fopen_ops(ioc, &channel_output_ops, true);
+>>  }
+>> +
+>> +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
+>> +                          const char *name, Error **errp)
+>> +{
+>> +    g_autoptr(QIOChannelFile) fioc = NULL;
+>> +    QIOChannel *ioc;
+>> +    QEMUFile *f;
+>> +
+>> +    if (flags & O_RDWR) {
 > 
-> On Wed, Jun 15, 2022 at 6:54 PM Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>> wrote:
+> IIRC, O_RDWR may expand to more than 1 bit, so needs a strict
+> equality test
 > 
->     Add qemu_file_open and qemu_fd_open to create QEMUFile objects for unix
->     files and file descriptors.
-> 
-> File descriptors are not really unix specific, but that's a detail.
+>    if ((flags & O_RDWR) == O_RDWR)
 
-OK, I will change the description.
+Hmm, on what OS?  No harm if I just do it, but the next reviewer will tell 
+me to remove the unnecessary equality test :)
 
-> The names of the functions in the summary do not match the code, also details :)
+>> +        error_setg(errp, "qemu_fopen_file %s: O_RDWR not supported", path);
+>> +        return NULL;
+>> +    }
+>> +
+>> +    fioc = qio_channel_file_new_path(path, flags, mode, errp);
+>> +    if (!fioc) {
+>> +        return NULL;
+>> +    }
+>> +
+>> +    ioc = QIO_CHANNEL(fioc);
+>> +    qio_channel_set_name(ioc, name);
+>> +    f = (flags & O_WRONLY) ? qemu_fopen_channel_output(ioc) :
+>> +                             qemu_fopen_channel_input(ioc);
+>> +    return f;
+>> +}
+>> +
+>> +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name)
+>> +{
+>> +    g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
+>> +    QIOChannel *ioc = QIO_CHANNEL(fioc);
+>> +    QEMUFile *f = writable ? qemu_fopen_channel_output(ioc) :
+>> +                             qemu_fopen_channel_input(ioc);
+>> +    qio_channel_set_name(ioc, name);
+>> +    return f;
+>> +}
+>> diff --git a/migration/qemu-file-channel.h b/migration/qemu-file-channel.h
+>> index 0028a09..75fd0ad 100644
+>> --- a/migration/qemu-file-channel.h
+>> +++ b/migration/qemu-file-channel.h
+>> @@ -29,4 +29,10 @@
+>>  
+>>  QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc);
+>>  QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc);
+>> +
+>> +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
+>> +                         const char *name, Error **errp);
+>> +
+>> +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name);
+> 
+> Note we used the explicit names "_input" and "_output" in
+> the existing methods as they're more readable in the calling
+> sides than "true" / "false".
+> 
+> Similarly we had qemu_open vs qemu_create, so that we don't
+> have the ambiguity of whuether 'mode' is needed or not. IOW,
+> I'd suggest we have 
+> 
+>  QEMUFile *qemu_fopen_file_output(const char *path, int mode,
+>                                   const char *name, Error **errp);
+>  QEMUFile *qemu_fopen_file_input(const char *path,
+>                                   const char *name, Error **errp);
+> 
+>  QEMUFile *qemu_fopen_fd_input(int fd, const char *name);
+>  QEMUFile *qemu_fopen_fd_output(int fd, const char *name);
 
-Yup, will fix.
-
-> Eventually, I would suggest to follow the libc fopen/fdopen naming, if that makes sense. (or the QIOChannel naming)
-
-OK. I'll use the names that Daniel suggests.
-
->     Signed-off-by: Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>>
->     ---
->      migration/qemu-file-channel.c | 36 ++++++++++++++++++++++++++++++++++++
->      migration/qemu-file-channel.h |  6 ++++++
->      2 files changed, 42 insertions(+)
-> 
->     diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
->     index bb5a575..cc5aebc 100644
->     --- a/migration/qemu-file-channel.c
->     +++ b/migration/qemu-file-channel.c
->     @@ -27,8 +27,10 @@
->      #include "qemu-file.h"
->      #include "io/channel-socket.h"
->      #include "io/channel-tls.h"
->     +#include "io/channel-file.h"
->      #include "qemu/iov.h"
->      #include "qemu/yank.h"
->     +#include "qapi/error.h"
->      #include "yank_functions.h"
-> 
-> 
->     @@ -192,3 +194,37 @@ QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc)
->          object_ref(OBJECT(ioc));
->          return qemu_fopen_ops(ioc, &channel_output_ops, true);
->      }
->     +
->     +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
->     +                          const char *name, Error **errp)
->     +{
-> 
-> 
-> I would add ERR_GUARD();
-
-error.h advises us not to clutter the code with ERRP_GUARD when it is not needed.
-
->     +    g_autoptr(QIOChannelFile) fioc = NULL;
->     +    QIOChannel *ioc;
->     +    QEMUFile *f;
->     +
->     +    if (flags & O_RDWR) {
->     +        error_setg(errp, "qemu_fopen_file %s: O_RDWR not supported", path);
->     +        return NULL;
->     +    }
-> 
-> 
-> Why not take a "bool writable" instead, like the fdopen below?
-
-I will ditch the bools and expand the function names as Daniel suggests.
-
->     +
->     +    fioc = qio_channel_file_new_path(path, flags, mode, errp);
->     +    if (!fioc) {
->     +        return NULL;
->     +    }
->     +
->     +    ioc = QIO_CHANNEL(fioc);
->     +    qio_channel_set_name(ioc, name);
->     +    f = (flags & O_WRONLY) ? qemu_fopen_channel_output(ioc) :
->     +                             qemu_fopen_channel_input(ioc);
->     +    return f;
-> 
-> 
-> "f" and parentheses are kinda superfluous
-
-OK, will fix.
-
->     +}
->     +
->     +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name)
->     +{
->     +    g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
->     +    QIOChannel *ioc = QIO_CHANNEL(fioc);
->     +    QEMUFile *f = writable ? qemu_fopen_channel_output(ioc) :
->     +                             qemu_fopen_channel_input(ioc);
->     +    qio_channel_set_name(ioc, name);
->     +    return f;
-> 
-> 
-> or:
-> 
-> g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
-> qio_channel_set_name(QIO_CHANNEL(fioc), name);
-> return writable ? qemu_fopen_channel_output(ioc) : qemu_fopen_channel_input(ioc);
-
-OK:
-    g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
-    qio_channel_set_name(QIO_CHANNEL(fioc), name);
-    return writable ? qemu_fopen_channel_output(QIO_CHANNEL(fioc)) :
-                      qemu_fopen_channel_input(QIO_CHANNEL(fioc));
+Will do.  I do need the flags argument in the fopen_file calls, though.
 
 - Steve
-
->     +}
->     diff --git a/migration/qemu-file-channel.h b/migration/qemu-file-channel.h
->     index 0028a09..75fd0ad 100644
->     --- a/migration/qemu-file-channel.h
->     +++ b/migration/qemu-file-channel.h
->     @@ -29,4 +29,10 @@
-> 
->      QEMUFile *qemu_fopen_channel_input(QIOChannel *ioc);
->      QEMUFile *qemu_fopen_channel_output(QIOChannel *ioc);
->     +
->     +QEMUFile *qemu_fopen_file(const char *path, int flags, int mode,
->     +                         const char *name, Error **errp);
->     +
->     +QEMUFile *qemu_fopen_fd(int fd, bool writable, const char *name);
->     +
->      #endif
->     -- 
->     1.8.3.1
-> 
-> 
-> 
-> 
-> -- 
-> Marc-André Lureau
 
