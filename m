@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9333B56755C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 19:14:09 +0200 (CEST)
-Received: from localhost ([::1]:58528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C53567562
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 19:17:33 +0200 (CEST)
+Received: from localhost ([::1]:32774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8m7k-0004OQ-7K
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 13:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47942)
+	id 1o8mB1-0006Hz-Vh
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 13:17:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o8m5V-00031p-6J
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:11:49 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:58871)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o8m7X-0004mY-MQ
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:13:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o8m5T-0007Bo-5I
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:11:48 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 9EE4B32001AB;
- Tue,  5 Jul 2022 13:11:40 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 05 Jul 2022 13:11:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1657041100; x=1657127500; bh=u7
- 7e9bFkinpe1tnh73UVduIwDmgGTnzAx+cc6X8PmVg=; b=aOWMSut4xJSCPMCux+
- jz2ljr5mFXu7LSY+15nCToP+oH6ubNXy8OKScWGLdlYRfvw5V56uIgR/KWgRxmpz
- E5mVrX/YOPdeC+ag9SPBicIIX6eO5ah3cqRGg0AH4Bhp/zXSPBLmhkhOyPugBoZY
- wL0AsX7tZaLOmv1Tf3x4m2SkEt0A8dFQ1NDZW7m6JELvXS+TNlFiwWynoNHDSLzR
- m+4TjeSuCThyaHE/2w5LnMx3fqEHcqmoOHPkIWY5vr4ux/QlOHAGX2qlg1NTxKjd
- nVUB/lsZz6pHuH6UYD642FppOG6u/Eshax3jSn2WK1xK3TLj2cddDf5sKq1wmXmi
- j2wg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1657041100; x=1657127500; bh=u77e9bFkinpe1tnh73UVduIwDmgG
- TnzAx+cc6X8PmVg=; b=nI4kTWniATJIWhjMk1aNjfkU2tzDAWFJqegsHuwve20b
- 2Ua+V/Kov7t0mDjeyPifvtRiiCjVEe2quucbDvWNV73leRd6ehwxUugJ12GSAfBc
- Ta2JDIniRAH5EGxTMQv2LzgKdbZxmCqyxKpGRD5l/inYZnIK+A4oL7w3jg2dEKjf
- 5D1uhssK2OEwO1jTsO0e3bJ663RkRPq7Kxtup4Z2KEIANRoQ/qnhNCwVaw5g+pi/
- tjm5GCBsrSFZNHrqGpd3bjNycSU2v2GZ0Z20v/CfqIKIXJ2GkXoCIIdkWSLm023O
- tJqRkLzNsUsCRMpNeVKBEq0kHhjW5PDcJKgWD3f17w==
-X-ME-Sender: <xms:ynDEYu4nCF6Gup8gLi4puwX4vTYbUGVxvhp-jd2g3qtbucuFnPXRoA>
- <xme:ynDEYn7wtti1HQUWoBa7gNeF8G7SvwFPVCAIPLcr2WYUwaNdF_DplyoM9GtFZwTQm
- KPohbXelDz2EDuY6sI>
-X-ME-Received: <xmr:ynDEYtfxfZFeixfKZyDvO6jM9j5fR-Gc1yQbcJNte49xwr-KiUvW20D9Zd98LU8Bcl4SsSUojtEuPZB4KhU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeiuddguddufecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesgh
- dtreertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgv
- lhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjefgjeefffdvuefhieefhffggf
- euleehudekveejvedtuddugeeigeetffffjeevnecuvehluhhsthgvrhfuihiivgeptden
- ucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:ynDEYrKO_sKec0PJCGXa-u28kIx8oSyyUHRXC4OZdWlAKBBMTyCvSA>
- <xmx:ynDEYiJy8t7MaHKdsAhTZRe5_n1e4xpNXOg7X7OQWbPZhKM1XQ-J8A>
- <xmx:ynDEYszAA_SmII7Gvv5hyEm4zFY4S6GBdDVpm1ML8CSSjmWS2tL4sA>
- <xmx:zHDEYpXh2Kt4-Nb2OhPM3qqptJl264qc4nyofgc6VEqpG7qhc9UH1g>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 Jul 2022 13:11:38 -0400 (EDT)
-Date: Tue, 5 Jul 2022 19:11:36 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org
-Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
-Message-ID: <YsRwyMONg0+mHVsL@apples>
-References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1o8m7P-0007RT-W9
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:13:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657041226;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fxqKM0qEd2lw7cssV1zizX4Z8fAWN22SJWALrY83oQE=;
+ b=M6NaLG8xtuGL57709lSrxb3qNUrC3oyzvUHTjLK0HBrNjA6LaNT0TJOKSexmWtwEhtIiQn
+ 5sqwd2ecfJduEJnAAIKR0EvP2rGIq9qoaUrPQo8kws7ccmzZ8ggcddh2QjDWAzSasnSsjh
+ 79GTet08rX5bcMsZ7pIu1Iki0MD+URw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-272-4oWoe4r2Ouqn6uoDBJRfQw-1; Tue, 05 Jul 2022 13:13:45 -0400
+X-MC-Unique: 4oWoe4r2Ouqn6uoDBJRfQw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k16-20020a7bc310000000b0038e6cf00439so7063808wmj.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 10:13:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=fxqKM0qEd2lw7cssV1zizX4Z8fAWN22SJWALrY83oQE=;
+ b=pOOast2S9t4u8M/7s+eXoQbuKghJE86g9TEzEIHqEiBxN8ic5L9/9/5/0dN06WjmV4
+ +7+e//N26lK15VOTbdoUBeq8rXWpCcl4s2Brw5Gb8FMbdf0RjUuA26eY04qNYvIvMe2L
+ jw7kjFuedyGMHoaO9VXIsq4Q0hXpzvySYxpA7nRruIVd77eyKgjRzSO/HHjtiBx38YLl
+ oy0q0moCnC0BZlpug+cKRUEh50VKb5S3Z+s/ojFXusTrJT7apYzNLSOhgqdcUOptQsxQ
+ /xoh8W+GdiRG1774f4G0p5Ow0c87ovlJJ4j51UkGqe2pL9GU70gDDTa+mu9bR/GD5iz0
+ eZeA==
+X-Gm-Message-State: AJIora9CU58T63LXqzMIzREv6/Fxp5VRO139tOQoNToIDN2M32yvGRoO
+ 0rnVsg/IU2/hTRKjn3bF2i4whkahDGepOwLAyReUwCjpScypkM4wmNRLj8CRoeibqpIhTT3LX5o
+ ztxIxndwdZ72ZFd8=
+X-Received: by 2002:a05:6000:1686:b0:21d:6e46:2fa with SMTP id
+ y6-20020a056000168600b0021d6e4602famr7512479wrd.691.1657041223540; 
+ Tue, 05 Jul 2022 10:13:43 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tY/131HNC+mVlDWOk2iolc3D2VpSYj3cTaD7KWQ7jtcRg3N9w3Fr7N7TtLUpmjLp7o5aKapA==
+X-Received: by 2002:a05:6000:1686:b0:21d:6e46:2fa with SMTP id
+ y6-20020a056000168600b0021d6e4602famr7512463wrd.691.1657041223335; 
+ Tue, 05 Jul 2022 10:13:43 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ t18-20020a05600c199200b003a1925aa19asm13720272wmq.21.2022.07.05.10.13.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jul 2022 10:13:42 -0700 (PDT)
+Date: Tue, 5 Jul 2022 18:13:40 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras <leobras@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH 5/5] multifd: Only sync once each full round of memory
+Message-ID: <YsRxRCgSkQx6Ruqv@work-vm>
+References: <20220621140507.1246-1-quintela@redhat.com>
+ <20220621140507.1246-6-quintela@redhat.com>
+ <YsRDEyA0mjUD4DSB@work-vm> <8735ff1tn1.fsf@secure.mitica>
+ <YsRsYiouIb8+GRua@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TmRYvMmAcN4Y2IbC"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YsRsYiouIb8+GRua@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,85 +108,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Tue, Jul 05, 2022 at 05:11:46PM +0200, Juan Quintela wrote:
+> > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > > * Juan Quintela (quintela@redhat.com) wrote:
+> > >> We need to add a new flag to mean to sync at that point.
+> > >> Notice that we still synchronize at the end of setup and at the end of
+> > >> complete stages.
+> > >> 
+> > >> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> > >> ---
+> > >>  migration/migration.c |  2 +-
+> > >>  migration/ram.c       | 42 ++++++++++++++++++++++++++++++------------
+> > >>  2 files changed, 31 insertions(+), 13 deletions(-)
+> > >> 
+> > >> diff --git a/migration/migration.c b/migration/migration.c
+> > >> index 3f79df0b70..6627787fc2 100644
+> > >> --- a/migration/migration.c
+> > >> +++ b/migration/migration.c
+> > >> @@ -4283,7 +4283,7 @@ static Property migration_properties[] = {
+> > >>                        DEFAULT_MIGRATE_ANNOUNCE_STEP),
+> > >>      /* We will change to false when we introduce the new mechanism */
+> > >>      DEFINE_PROP_BOOL("multifd-sync-each-iteration", MigrationState,
+> > >> -                      multifd_sync_each_iteration, true),
+> > >> +                      multifd_sync_each_iteration, false),
+> > >>  
+> > >>      /* Migration capabilities */
+> > >>      DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
+> > >> diff --git a/migration/ram.c b/migration/ram.c
+> > >> index 2c7289edad..6792986565 100644
+> > >> --- a/migration/ram.c
+> > >> +++ b/migration/ram.c
+> > >> @@ -81,6 +81,7 @@
+> > >>  #define RAM_SAVE_FLAG_XBZRLE   0x40
+> > >>  /* 0x80 is reserved in migration.h start with 0x100 next */
+> > >>  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
+> > >> +#define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
+> > >
+> > > Note this is the very last usable flag!
+> > 
+> > We can recover two flags right now:
+> > 
+> > RAM_SAVE_FLAG_FULL is not used anymore.
+> > 0x80 is free since years ago.
+> > 
+> > Once multifd is default, there are some other that could go.
 
---TmRYvMmAcN4Y2IbC
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I have suggested that a few times in the past.
 
-On Jul  5 22:24, Jinhao Fan wrote:
-> Add property "ioeventfd" which is enabled by default. When this is
-> enabled, updates on the doorbell registers will cause KVM to signal
-> an event to the QEMU main loop to handle the doorbell updates.
-> Therefore, instead of letting the vcpu thread run both guest VM and
-> IO emulation, we now use the main loop thread to do IO emulation and
-> thus the vcpu thread has more cycles for the guest VM.
->=20
+> Non-multifd migration isn't likely to go away any time soon, given
+> distros desire to support migration between QEMU's with quite
+> significantly different versions. So feels like quite a long time
+> before we might reclaim more flags.
+> 
+> > > We could do with avoiding using them as flags where we dont need to.
+> > 
+> > I can't really think on another way to do it.  The other thing that I
+> > can do is just reuse one of the flags that don't make sense for multifd
+> > (RAM_SAVE_FLAG_ZERO after zero pages patch,
+> > RAM_SAVE_FLAG_XBZRLE/COMPRESS_PAGE).
+> 
+> Re-using flags based on use context differences feels like a recipe
+> to confuse people.
 
-This is not entirely accurate.
+Note that most of these things aren't really 'flags'; in the sense that
+only a few of them are actually combinable; so we should start using
+combinations to mean things new.
 
-Yes, the ioeventfd causes the doorbell write to be handled by the main
-iothread, but previously we did not do any substantial device emulation
-in the vcpu thread either. That is the reason why we only handle the
-bare minimum of the doorbell write and then defer any work until the
-timer fires on the main iothread.
+Dave
 
-But with this patch we just go ahead and do the work (nvme_process_sq)
-immediately since we are already in the main iothread.
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index c952c34f94..4b75c5f549 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -1374,7 +1374,14 @@ static void nvme_enqueue_req_completion(NvmeCQueue=
- *cq, NvmeRequest *req)
-> =20
->      QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
->      QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
-> -    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
-> +
-> +    if (req->sq->ioeventfd_enabled) {
-> +        /* Post CQE directly since we are in main loop thread */
-> +        nvme_post_cqes(cq);
-> +    } else {
-> +        /* Schedule the timer to post CQE later since we are in vcpu thr=
-ead */
-> +        timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500=
-);
-> +    }
-
-Actually, we are only in the vcpu thread if we come here from
-nvme_process_db that in very rare circumstances may enqueue the
-completion of an AER due to an invalid doorbell write.
-
-In general, nvme_enqueue_req_completion is only ever called from the
-main iothread. Which actually causes me to wonder why we defer this work
-in the first place. It does have the benefit that we queue up several
-completions before posting them in one go and raising the interrupt.
-But I wonder if that could be handled better.
-
-Anyway, it doesnt affect the correctness of your patch - just an
-observation that we should look into possibly.
-
-
-LGTM,
-
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
---TmRYvMmAcN4Y2IbC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLEcMYACgkQTeGvMW1P
-Delu6gf/erweLf1prgM1hg7IZrBOd6/5OGBYJ9r0UXfGm4E6n1PSlORB5C3wif6U
-0lytVkIJM+0QAqPoLY2oKSz3Rv3q22dfSu5AsfnHQXBzSYihUaLoSqyl2B3gVZbr
-FcI9ARPUM/HcMigkNuasLwW3lV3ytx9SMAJiDWX+14raxos/Q518nr1Paiu52ZgO
-c+JxTfvC5pyYVobeva3o6Msb7gXb5Nes3wBEbUZCc3d5pqaTonCyKqwkhV1pAxVd
-YnnZTpTTcbRk67QKUI9OyAwmg2M1UUkFsArUx0t9/WIKiZdj/z4YoV9qZPhB+LBn
-5KkQIN8B4EoUbF+8MMoJRBlYdeN/BQ==
-=yumZ
------END PGP SIGNATURE-----
-
---TmRYvMmAcN4Y2IbC--
 
