@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A654E5667D3
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 12:24:55 +0200 (CEST)
-Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E61566832
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 12:38:50 +0200 (CEST)
+Received: from localhost ([::1]:42422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8fji-0000jl-M8
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 06:24:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32860)
+	id 1o8fxB-0005qo-5E
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 06:38:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o8fiG-0008LA-Fk; Tue, 05 Jul 2022 06:23:24 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:50200)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o8fiC-0003fz-IT; Tue, 05 Jul 2022 06:23:23 -0400
-Received: from myt5-23f0be3aa648.qloud-c.yandex.net
- (myt5-23f0be3aa648.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 705472E130F;
- Tue,  5 Jul 2022 13:23:10 +0300 (MSK)
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- cF2XQeWYrz-N8J4OvEJ; Tue, 05 Jul 2022 13:23:10 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1657016590; bh=eB8rou8DIlPCOOhwUePvYbgZmIQu038VeLZ8nCFYT/4=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=WfIR+ebaO+ZnJnb6iFBnp2Kz81P5I0hREEaDcIFSPV8uFwArPphIk40mZt0eVoe+6
- Tv0w2BzGnlxaasfKBV5WyhqRmfgy2JskvKJ7cOoKtyzd8soiBO3fYQS3HXzm0sc7D9
- 1ytO84qPLvj1S4eiSgXW0HDLTHbBMeHmHb03xwIw=
-Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [10.211.91.215] (10.211.91.215-vpn.dhcp.yndx.net
- [10.211.91.215])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- gfT2DxtDvS-N7Pqqv8Y; Tue, 05 Jul 2022 13:23:08 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <df24032a-bbf6-72d3-a307-5a4771be843d@yandex-team.ru>
-Date: Tue, 5 Jul 2022 13:23:07 +0300
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o8fw4-0005Aw-CN
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 06:37:40 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43561)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o8fw2-0005vZ-OI
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 06:37:40 -0400
+Received: by mail-wr1-x434.google.com with SMTP id d16so10592209wrv.10
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 03:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=/b+ct1siUx+szHISEgrAJPRDs8X6RMWy2CE3hgTTZDY=;
+ b=Kc5FmvFFOdXIlXv8E9M4w7BC3MzmOVH60fxREwTDTo2UcFWO4fDnBefrp2zMJPsGM5
+ lhXRZTIWQZO6b6fsSRILHBSNyZpX3zTYnAyyC3DNZa0sdkFLMiMVyIEauPXztj3dgsvy
+ i9xD1G0kgqyr4lAQQtceIjgXPGUfDjAR5NXdPU3OrSCR0qZNPlsBO1J1N8vfdZjWkr+v
+ XbPq/IK0N1wVb+TH+PMR4si7O6xffl0yHR4grzRxUioCxoaX73snR+OLp59FNWJzZf37
+ khelnPT13eDF/MSepOmEFOriVJ3FiM1WtJkkjeFXsqqg0op1fWSiPhXBrVUA9dpUQoZV
+ 2rBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=/b+ct1siUx+szHISEgrAJPRDs8X6RMWy2CE3hgTTZDY=;
+ b=mmayie2Lngjl431D49qbzQHOTpdYkc85ftIT1SPTezDLadnB6NH5xphai8eUTyyHVR
+ HnvSNBdFzo1U0bHH9e4z2QgehkV0qGMVfvpOCIZFJoQuJOosRHTyr5Xi+ZgXW/Z/hc5p
+ 1r0WasGtMhFqS2qs3+ijAbm0hoMip2oKRReYLBB30p9QJwoT9nzqSeTYJt0CmpNakl6i
+ A0WZmM4KgnV5T/UzezFyn5rBXCc8WtXob9o5AxdWT4hqALmEKq5j28/fWS70ZtrOvoOO
+ ATNUVZ9I4o21QXEgUS1Zw/aAFxhDWLL1Pr6W2huB/CDzMrmjmOPYGgGON7JCbbwebPwn
+ cXjw==
+X-Gm-Message-State: AJIora/5n+8NQX/o7Uy/PZDAYV94mI0fDD6rLsQi7nNoG00Zt2EGgRJv
+ LngalYNmkzpoRAQWwHhLFbZQgg==
+X-Google-Smtp-Source: AGRyM1un3ljAP/xls3auqhegQd8zmzil/gGBWhTuIsoV/rIWRaan6V6Tyes59frXnGBFL1fIUM+lMg==
+X-Received: by 2002:a05:6000:1a8d:b0:21b:bc45:9c3e with SMTP id
+ f13-20020a0560001a8d00b0021bbc459c3emr31360768wry.390.1657017457127; 
+ Tue, 05 Jul 2022 03:37:37 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ x12-20020a5d650c000000b0021d7050ace4sm2035764wru.77.2022.07.05.03.37.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jul 2022 03:37:35 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1E5391FFB7;
+ Tue,  5 Jul 2022 11:37:35 +0100 (BST)
+References: <20220705083623.1142250-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.27; emacs 28.1.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] tcg/tci: Remove CONFIG_DEBUG_TCG_INTERPRETER
+Date: Tue, 05 Jul 2022 11:37:30 +0100
+In-reply-to: <20220705083623.1142250-1-richard.henderson@linaro.org>
+Message-ID: <878rp7sv4g.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v8 05/20] job.c: add job_lock/unlock while keeping job.h
- intact
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220629141538.3400679-1-eesposit@redhat.com>
- <20220629141538.3400679-6-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220629141538.3400679-6-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,93 +92,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In general looks good to me.
 
-On 6/29/22 17:15, Emanuele Giuseppe Esposito wrote:
-> With "intact" we mean that all job.h functions implicitly
-> take the lock. Therefore API callers are unmodified.
-> 
-> This means that:
-> - all static functions become _locked, and call _locked functions
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Some static functions don't have _locked prefix.. That's, maybe, not wrong. But it contradicts with commit message and looks inconsistent.
+> There is nothing in this environment variable that cannot
+> be done better with -d flags.  There is nothing special
+> about TCI that warrants this hack.
+>
+> Moreover, it does not compile -- remove it.
+>
+> Reported-by: Song Gao <gaosong@loongson.cn>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-For example job_started and job_should_pause are similar simple getters, job_shoud_pause is updated to be _locked, but job_started is not updated..
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-
-
-job_exit, job_co_entry are correct exclusions
-
-> - all public functions take the lock internally, and call _locked
->    functions
-
-may be just, "all public function take the lock internally if needed", as some public funcitons don't need the lock, like job_txn_new or job_progress_* functions
-
-> - all public functions called internally by other functions in job.c will have a
->    _locked counterpart, to avoid deadlocks (job lock already taken)
-
-counterparts sometimes made public and are unused for now. That's OK, just mention.
-
-> - public functions called only from exernal files (not job.c) do not
->    have _locked() counterpart and take the lock inside
-
-Some small public functions still don't take the lock inside and don't have _locked() prefix.
-
-job_is_internal
-job_type
-job_type_str
-
-
-job_sleep_timer_cb is static, but it's called only by external source, so it should take lock inside, like public functions. (and like job_exit)
-
-job_pause_point_locked, job_user_resume_locked, job_complete_locked: need to mention in a comment, that function may temporarily unlock the mutex
-
-Also, the commennt "realeases it temporarily" should be propagated to all _locked callers of the function
-
-> 
-> job_{lock/unlock} is independent from real_job_{lock/unlock}.
-> 
-> Note: at this stage, job_{lock/unlock} and job lock guard macros
-> are *nop*
-> 
-> .Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   include/qemu/job.h |  73 +++++-
->   job.c              | 607 +++++++++++++++++++++++++++++++--------------
-
-[..]
-
->   
-> -    AIO_WAIT_WHILE(job->aio_context,
-> -                   (job_enter(job), !job_is_completed(job)));
-> +    job_unlock();
-> +    AIO_WAIT_WHILE_UNLOCKED(job->aio_context,
-> +                            (job_enter(job), !job_is_completed(job)));
-
-Is it correct here to move to UNLOCKED wait? We don't touch any other aio-context related things in this patch..
-
-Even if it's OK, it should be in another commit I think.
-
-> +    job_lock();
->   
-> -    ret = (job_is_cancelled(job) && job->ret == 0) ? -ECANCELED : job->ret;
-> -    job_unref(job);
-> +    ret = (job_is_cancelled_locked(job) && job->ret == 0)
-> +          ? -ECANCELED : job->ret;
-> +    job_unref_locked(job);
->       return ret;
->   }
-> +
-> +int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp), Error **errp)
-> +{
-> +    JOB_LOCK_GUARD();
-> +    return job_finish_sync_locked(job, finish, errp);
-> +}
-> \ No newline at end of file
-
-No newline at end of file... I think, good to add one)
-
--- 
-Best regards,
-Vladimir
+--=20
+Alex Benn=C3=A9e
 
