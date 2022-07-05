@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE0E566381
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 08:58:55 +0200 (CEST)
-Received: from localhost ([::1]:47520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03200566382
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 08:59:50 +0200 (CEST)
+Received: from localhost ([::1]:49760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8cWM-0002rd-3m
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 02:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
+	id 1o8cXF-0004PS-4h
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 02:59:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o8cRk-0007xf-UF; Tue, 05 Jul 2022 02:54:13 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55197)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o8cRg-0005i2-E2; Tue, 05 Jul 2022 02:54:08 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id n185so6453092wmn.4;
- Mon, 04 Jul 2022 23:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=U9ZQ5DG12/Tl/zalRey05nj4oB371ZvMCtuCYAKlJF8=;
- b=fhiKTYC0IFsksRlL3ioFtsNg/Xt3eEiFhVakLB6ynFADshXyK4gmCbEKOsDn2GIcnG
- FzYaJ9XAhXiLG8hxOKGtwJCG4mI/m1/q1jkPGS/axBs4CtPFtDUn7CJgaOijLccgkZZt
- whEF9yVi74UuEQFfm+ML51Mkt6TgWhxghQN80=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=U9ZQ5DG12/Tl/zalRey05nj4oB371ZvMCtuCYAKlJF8=;
- b=CdxmrYguO7Lbgrq+2kI2m6UGe7+iEV6/evi5DLtlr4x5yB86nUQDcid16/xavmV83J
- PNDwHiFvAQWagv1H5xiMdecWgTeYgRHgBaXc4ur1pNuGdFfkDFZE7AUuchUNJSNC1uCd
- jtXHKSVu2Yx4zG2mh3QTs4wqSdTqlRpXk2A32v/oJQON880IeGFrlirOpbJT9gVN2gNy
- j2FnjiIkZ7tx/pu5u60wGAcAiyN0k6rOGtBtJQIoilaW8xxcOqH67ZYXYjJtiKJ4JUFT
- kMiQ6ue8Iajn/jkY0AdOOsbfZ3enRAAsKQVEcjAuXLHfOUCjyQnDx52pWerQarsTdyUL
- HXFA==
-X-Gm-Message-State: AJIora+PHVjLcD6i8ZoFtMSpsq33hC97PfoHVdVJSNY44HcxbmaDBOzd
- utoDQH5PVgO7dB8nsqUhcW3u76Cho82tNeXiFCM=
-X-Google-Smtp-Source: AGRyM1uZ3OfH3x86jc7TtxtlBmKteHxFXSWBTFhcXffFGrf4Kn18M7ObQ07JNdQoc4EXCDnGPwmVU0WFxb2Ec38kIjU=
-X-Received: by 2002:a7b:cbc6:0:b0:3a0:5716:2034 with SMTP id
- n6-20020a7bcbc6000000b003a057162034mr35521258wmi.147.1657004035778; Mon, 04
- Jul 2022 23:53:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8cVD-0003AF-IY
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:57:43 -0400
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:37697)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8cVB-0006Kg-LM
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:57:43 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.25])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 85B0B20A83;
+ Tue,  5 Jul 2022 06:57:37 +0000 (UTC)
+Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 5 Jul 2022
+ 08:57:36 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S00135c45397-6436-476e-8115-d734b0ea1076,
+ 4FF77D4A254985FC0BE9A952312E42D6E34C6CC4) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <6b5e0e42-973d-19de-4979-7db06941ea19@kaod.org>
+Date: Tue, 5 Jul 2022 08:57:36 +0200
 MIME-Version: 1.0
-References: <20220704215457.38332-1-peter@pjd.dev>
- <20220704215457.38332-5-peter@pjd.dev>
-In-Reply-To: <20220704215457.38332-5-peter@pjd.dev>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 5 Jul 2022 06:53:43 +0000
-Message-ID: <CACPK8XfcZM+9sk4f=fCtW2zVioN0sgoT=o+dF62U=AMZuUsL6g@mail.gmail.com>
-Subject: Re: [PATCH 5/8] aspeed: Add fby35 skeleton
-To: peter@pjd.dev
-Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, 
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=joel.stan@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 2/9] target/ppc: add errp to kvmppc_read_int_cpu_dt()
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+CC: <qemu-ppc@nongnu.org>
+References: <20220630194249.886747-1-danielhb413@gmail.com>
+ <20220630194249.886747-3-danielhb413@gmail.com>
+ <55014e2a-a668-4843-8338-850abeb5ff04@kaod.org>
+ <47277f4f-a6a5-85dc-4806-67df8e2fc153@gmail.com>
+ <6d37b1dc-5dfb-2513-f74e-3f58e84e8117@kaod.org>
+ <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: ca07d9a0-558d-48bb-89c5-453784264d2c
+X-Ovh-Tracer-Id: 16204232937096580064
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeitddgudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgedugfevvdeiheevffffgfelkeehieduveejleehkeffvdevjeejtdettdejheeknecuffhomhgrihhnpehfrghtrghlrdhnohenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,95 +79,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 Jul 2022 at 21:55, Peter Delevoryas <peter@pjd.dev> wrote:
->
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->  MAINTAINERS        |  1 +
->  hw/arm/fby35.c     | 39 +++++++++++++++++++++++++++++++++++++++
->  hw/arm/meson.build |  3 ++-
->  3 files changed, 42 insertions(+), 1 deletion(-)
->  create mode 100644 hw/arm/fby35.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d9378511b7..147330ddd7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1067,6 +1067,7 @@ F: hw/net/ftgmac100.c
->  F: include/hw/net/ftgmac100.h
->  F: docs/system/arm/aspeed.rst
->  F: tests/qtest/*aspeed*
-> +F: hw/arm/fby35.c
->
->  NRF51
->  M: Joel Stanley <joel@jms.id.au>
-> diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
-> new file mode 100644
-> index 0000000000..03b458584c
-> --- /dev/null
-> +++ b/hw/arm/fby35.c
-> @@ -0,0 +1,39 @@
-> +/*
-> + * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.c=
-om)
+On 7/5/22 08:51, Mark Cave-Ayland wrote:
+> On 04/07/2022 18:34, Cédric Le Goater wrote:
+> 
+>> On 7/2/22 15:34, Daniel Henrique Barboza wrote:
+>>>
+>>>
+>>> On 7/2/22 03:24, Cédric Le Goater wrote:
+>>>> On 6/30/22 21:42, Daniel Henrique Barboza wrote:
+>>>>> The function can't just return 0 whether an error happened and call it a
+>>>>> day. We must provide a way of letting callers know if the zero return is
+>>>>> legitimate or due to an error.
+>>>>>
+>>>>> Add an Error pointer to kvmppc_read_int_cpu_dt() that will be filled
+>>>>> with an appropriate error, if one occurs. Callers are then free to pass
+>>>>> an Error pointer and handle it.
+>>>>>
+>>>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>>>> ---
+>>>>>   target/ppc/kvm.c | 16 +++++++++-------
+>>>>>   1 file changed, 9 insertions(+), 7 deletions(-)
+>>>>>
+>>>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>>>>> index 109823136d..bc17437097 100644
+>>>>> --- a/target/ppc/kvm.c
+>>>>> +++ b/target/ppc/kvm.c
+>>>>> @@ -1925,15 +1925,17 @@ static uint64_t kvmppc_read_int_dt(const char *filename)
+>>>>>   /*
+>>>>>    * Read a CPU node property from the host device tree that's a single
+>>>>> - * integer (32-bit or 64-bit).  Returns 0 if anything goes wrong
+>>>>> - * (can't find or open the property, or doesn't understand the format)
+>>>>> + * integer (32-bit or 64-bit).  Returns 0 and set errp if anything goes
+>>>>> + * wrong (can't find or open the property, or doesn't understand the
+>>>>> + * format)
+>>>>>    */
+>>>>> -static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
+>>>>> +static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
+>>>>>   {
+>>>>>       char buf[PATH_MAX], *tmp;
+>>>>>       uint64_t val;
+>>>>>       if (kvmppc_find_cpu_dt(buf, sizeof(buf))) {
+>>>>> +        error_setg(errp, "Failed to read CPU property %s", propname);
+>>>>>           return 0;
+>>>>>       }
+>>>>> @@ -1946,12 +1948,12 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
+>>>>>   uint64_t kvmppc_get_clockfreq(void)
+>>>>>   {
+>>>>> -    return kvmppc_read_int_cpu_dt("clock-frequency");
+>>>>> +    return kvmppc_read_int_cpu_dt("clock-frequency", NULL);
+>>>>
+>>>>
+>>>> This should be fatal. no ?
+>>>
+>>>
+>>> I'm not sure. I went under the assumption that there might be some weird
+>>> condition where 'clock-frequency' might be missing from the DT, and this
+>>> is why we're not exiting out immediately.
+>>>
+>>> That said, the advantage of turning this into fatal is that we won't need
+>>> all the other patches that handles error on this function. We're going to
+>>> assume that if 'clock-frequency' is missing then we can't boot. I'm okay
+>>> with that.
+>>
+>> I think so. Some machines behave badly when 'clock-frequency' is bogus,
+>> division by zero, no console, etc. We could check easily with pseries
+>> which is the only KVM PPC platform.
+> 
+> Well not quite true ;)  I haven't tested it during the last release cycle, 
+> but the Mac machines were still working fine to boot OS X with KVM-PR on 
+> my G4 Mac Mini last time I checked.
 
-Can you mention what fby35 means? I keep reading your patches but can't rec=
-all.
+Oh. Sorry. and I still have access to a real G5 running the latest debian.
+I should give it a try one day.
 
-> + *
-> + * This code is licensed under the GPL version 2 or later. See the COPYI=
-NG
-> + * file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/boards.h"
-> +
-> +#define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
-> +OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
-> +
-> +struct Fby35State {
-> +    MachineState parent_obj;
-> +};
-> +
-> +static void fby35_init(MachineState *machine)
-> +{
-> +}
-> +
-> +static void fby35_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +
-> +    mc->desc =3D "Meta Platforms fby35";
-> +    mc->init =3D fby35_init;
-> +}
-> +
-> +static const TypeInfo fby35_types[] =3D {
-> +    {
-> +        .name =3D MACHINE_TYPE_NAME("fby35"),
-> +        .parent =3D TYPE_MACHINE,
-> +        .class_init =3D fby35_class_init,
-> +        .instance_size =3D sizeof(Fby35State),
-> +    },
-> +};
-> +
-> +DEFINE_TYPES(fby35_types);
-> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-> index 2d8381339c..92f9f6e000 100644
-> --- a/hw/arm/meson.build
-> +++ b/hw/arm/meson.build
-> @@ -51,7 +51,8 @@ arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
->    'aspeed_soc.c',
->    'aspeed.c',
->    'aspeed_ast2600.c',
-> -  'aspeed_ast10x0.c'))
-> +  'aspeed_ast10x0.c',
-> +  'fby35.c'))
->  arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
->  arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
->  arm_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-soc.c'))
-> --
-> 2.37.0
->
+Thanks
+
+C.
 
