@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8569F5670AF
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 16:14:38 +0200 (CEST)
-Received: from localhost ([::1]:37216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C6B5670B0
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 16:15:08 +0200 (CEST)
+Received: from localhost ([::1]:38984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8jK1-00030C-KL
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 10:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56176)
+	id 1o8jKV-0004CE-08
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 10:15:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8jI5-00012k-U3
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:12:37 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:45025)
+ id 1o8jIX-0001h5-Kn
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:13:07 -0400
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:40524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o8jHv-0001il-0h
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:12:37 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-31cb2c649f7so35714827b3.11
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 07:12:26 -0700 (PDT)
+ id 1o8jIW-0001m4-Ak
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:13:05 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-317a66d62dfso110170127b3.7
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 07:13:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UqsobVuHM5F53h11JRDooFYJPVur6KDy5QXdIciqs7I=;
- b=yxv6JOV9rlORgTfxHCQc745Aw2SDyLvgy0ZwEpQRO20/j9Ojxb3NGWJe91/GC3YleN
- yO1Bils3vch93oxVVqCIkikPObLBlhsbFR/rHwY2JI6PoQZRV/kUUr1hDBcFctLO5My1
- +x+cIEd0XQfP8ldTfAuJ9KPR7dMlw4BqmQezHIJJB6F0YF6NJKt4KrXmbLzQPLKR7hHl
- MYYBghi/ioD7T1YVPYCzs2dKqRHNEtSE5lKkDFUx9jZHh0k3dO+cYKWLdCGfXf4t4Ejv
- 7IeWh4YE0uIF5dOTn94Nr3ytAmpznUHIHZv2YqA9meol9uIrBRoVllfbQRDzcbDpPrUa
- QIeQ==
+ :cc; bh=d56NbgntuKaPhsz9w2swmsKP0dXTGKOGOeJn0h23PX0=;
+ b=poZzacN0JdHCa2cYtabOYgBm49mtT5jh9UTW2n/LquJ34uHtf/ZxcZzge9Ikm37Y3k
+ 0J0uu1Uaf7Bb9g+AQSzQWGufubCRYikTj5ARoYwzWXud5cuzAMQkO+qKy9bLRcljejL6
+ 5Jc1AHzbiYTEWvY0QvfOoICSpRgIfe3EGsZIlizz6NxKVGx8AuwtRViRhN/H2d2Fqtgw
+ 1xPqv4LDTWQi27aQQeYlZMCWLD0H/9a48IPqVxLmMXcr4z80Cvh3oRwvXCWEjHKiQ9Jt
+ b2ksTiRmd5RDAUFnt57hkmq88JlTF1EXsFEq+MMcYNFCsNPr6kzIamMMnDU7NB72hb0a
+ 9Iuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UqsobVuHM5F53h11JRDooFYJPVur6KDy5QXdIciqs7I=;
- b=goq34gf4f2CGeWbRj2gEGsqOJwoAOErh8lUa4AYzONgmkh0Ds3cSVYLehL5S4uqRX8
- oW4kTSVU3LL+4rrvqY3mnDp8VXrs8yVfgKtljx70JJCFsoYk3/dSCWfBU2YTlljOc7+M
- bTAo5TvHYd9a7sega2uJYuEpXnitV9dUHMvOkbfb/FYqLw6LRpUpt5SQftct3iUxPvZa
- dmhs/v2+eF714yDG+pnO4J6OFbuPMsaZ/60IoXOy5jXCXfN2Vzgf9XMUFA+xypXgQFwe
- F8UM7NRL/0BjizJlUduMOrG9i2QnTk0OdLvG12lfIyMrFJOWphBSKEF3Riacj80yGWIz
- zV7Q==
-X-Gm-Message-State: AJIora812SUnmfVOnj8qsTT6mcTObT76gYW8HCv3t9XKjRmE0iA2ba+5
- Rx98sqOLz/s433mj2svdwTdhLjHX73Rf6J8okNmSLg==
-X-Google-Smtp-Source: AGRyM1uBqEifq6cf04yFPg/iodR/OTcexcWStB7O/TtZFII8DQeWLL5wu7/82yn6I+XV64TlGe038yKz4MGaees9bZ8=
-X-Received: by 2002:a81:6a85:0:b0:31c:8624:b065 with SMTP id
- f127-20020a816a85000000b0031c8624b065mr17948485ywc.64.1657030345691; Tue, 05
- Jul 2022 07:12:25 -0700 (PDT)
+ bh=d56NbgntuKaPhsz9w2swmsKP0dXTGKOGOeJn0h23PX0=;
+ b=ApZ5BT0xGogiJUy2aymLDc0s+gRtgMaeYgaLhY2QJ2qeEbseYXvmYZpKMqUa2G8gQA
+ ZzNN6Iv8CgoxJAZihxc/KCvl4ZQPchDbYwZ9GvotUvowKfFj2B0zlmsbapARs29IGX8P
+ yJtad13x4aKwlCMcAPdGzWUJpujR6OgFQPunYg3U3WEZhjcY8YJNE4LPV+uBFNhYR0MM
+ oGesYVdlduFeGPV8Vg/SD981kx0RhNUOIV7voziRFucGe50tKjPBx3OWdXF4ljG4Qq6b
+ hi8jgslla3xpL5LzyelFiALs45JAW1Gu60yv/citwWNt0n3im/uoEiLsc/3ytrSTMuHj
+ WZZw==
+X-Gm-Message-State: AJIora9pH5UNrADv75OJhwS46PTzcrQ1Yzt99XZcYQOiAMR40EPyKxaH
+ FeD9QXCT8jKFGK6LIufb7kQl8kIXdJ8+laneuyghm909vwc=
+X-Google-Smtp-Source: AGRyM1s3JJ64LqYweLAFd8JUcNv4Qxb9ig3EJW/3OHqUSB4NPPYGjz1UE7S8c8IkRSvgdfS+zId5GFTXBHkBR42pPxU=
+X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
+ d8-20020a818d08000000b00317a4cdd65dmr38752468ywg.329.1657030383383; Tue, 05
+ Jul 2022 07:13:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220703082419.770989-1-richard.henderson@linaro.org>
- <20220703082419.770989-7-richard.henderson@linaro.org>
-In-Reply-To: <20220703082419.770989-7-richard.henderson@linaro.org>
+ <20220703082419.770989-8-richard.henderson@linaro.org>
+In-Reply-To: <20220703082419.770989-8-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 Jul 2022 15:12:14 +0100
-Message-ID: <CAFEAcA8WN6DkZXFEXZFKQ3gN3GySCTVswhLiTSoeHvSCgjFtpA@mail.gmail.com>
-Subject: Re: [PATCH 06/62] target/arm: Use PageEntryExtra for BTI
+Date: Tue, 5 Jul 2022 15:12:52 +0100
+Message-ID: <CAFEAcA9dipRZVqvHvBrUGL6nxQtmz8C81W5Dog7uoBVye3m5UQ@mail.gmail.com>
+Subject: Re: [PATCH 07/62] include/exec: Remove target_tlb_bitN from MemTxAttrs
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,16 +83,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 3 Jul 2022 at 09:27, Richard Henderson
+On Sun, 3 Jul 2022 at 09:35, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Add a bit to ARMCacheAttrs to hold the guarded bit between
-> get_phys_addr_lpae and arm_cpu_tlb_fill, then put the bit
-> into PageEntryExtra.
->
-> In is_guarded_page, use probe_access_extra instead of just
-> guessing that the tlb entry is still present.  Also handles
-> the FIXME about executing from device memory.
+> We have now moved all uses to PageEntryExtra.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
