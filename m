@@ -2,96 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2A5566536
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:40:38 +0200 (CEST)
-Received: from localhost ([::1]:58982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FF4566545
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:43:10 +0200 (CEST)
+Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8e6n-0001dI-Cd
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:40:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40258)
+	id 1o8e9F-0004dv-GU
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:43:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8e5E-0000NC-68
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:39:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23261)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8e5A-00056j-RY
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:38:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657010335;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mv57wrnqPHpE7QYPgzIJoAGwf+XwLBb2/K4nB0bxI3U=;
- b=fyaayiMRb0nzQQysAa0rRvpcIMChhp+xTrdh1nDzaR7UPqH/iGuzURNe5Y+4Yfb9QItM+U
- ebJZ0yFYvjv6k3RSpWY7AA3IfPHWM1CcgQ3Z7DzWi6YnSF777yRFjCDuo01uelNugkzpL/
- XbiU76ZZahwh0NmetvfkFMsR4LIVG4Q=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-txxCh4DuOOupIcidNQUtkQ-1; Tue, 05 Jul 2022 04:38:50 -0400
-X-MC-Unique: txxCh4DuOOupIcidNQUtkQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- l11-20020adfbd8b000000b0021d754b84c5so188108wrh.17
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:38:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=mv57wrnqPHpE7QYPgzIJoAGwf+XwLBb2/K4nB0bxI3U=;
- b=t8nMz8JGO32Qv4LAc6spYOmiIbuDeh33nyQeUAaviHHMoQIy5ImQ+KKVQ0nNUZopvO
- DMx3103K1P6AZQY6fPEUAbL4yTq4fGnrIpctWqbMmpg7lXtKTPIbFkMrRbV00ShiM3k7
- aMjR+RNJKtOkRmXFQbSU0gpwOUhXWNaXX5rmsJr/z43cZZqiNMSF8vwZxEMWUlL1UhRd
- SD8j53IKOMr1jiGIl1vbXfY7SIWSwBvcSTO9CO/MhjDYrA/qu5G9Fla3/JpPnz9ZKewa
- PTLUzZn3pgZseQxbrEKMdfMluMTNyo74/LZW6v7nI1k7U/VoutoZjZIm/6g1X8+6vkP+
- 6ceQ==
-X-Gm-Message-State: AJIora9XytREKE4rb9j/R20WZR+1QWne0toGsqZOpgXIUlq/Um38IYr9
- eE82B1n2rnSCOjfQ9tV+JA3kZapQNxXh6r/j4TMtAlHgoBJVr0GuZNE46qHWcK/eOtGjxmAVmEv
- crmzlgaIV1wmeaz8=
-X-Received: by 2002:a05:600c:1c9d:b0:3a0:4e04:9475 with SMTP id
- k29-20020a05600c1c9d00b003a04e049475mr36905884wms.87.1657010329613; 
- Tue, 05 Jul 2022 01:38:49 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uBpFOUQAvCdW6LKpmqTxTWV/D47V/Y5drkXKf9alxydPJ61ghkBJbGn+wl/0OUQyiSjBJ0YA==
-X-Received: by 2002:a05:600c:1c9d:b0:3a0:4e04:9475 with SMTP id
- k29-20020a05600c1c9d00b003a04e049475mr36905863wms.87.1657010329304; 
- Tue, 05 Jul 2022 01:38:49 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- q18-20020a5d5752000000b0021d6d18a9f8sm3965196wrw.76.2022.07.05.01.38.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 01:38:48 -0700 (PDT)
-Date: Tue, 5 Jul 2022 09:38:46 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org
-Subject: Re: [RFC PATCH 5/5] tests: stop skipping migration test on s390x/ppc64
-Message-ID: <YsP4lpXU6GpE4Hs4@work-vm>
-References: <20220628105434.295905-1-berrange@redhat.com>
- <20220628105434.295905-6-berrange@redhat.com>
- <f1c2d5b1-ee5c-281b-acd4-71035f6753c9@redhat.com>
- <YsPxp7386xTTWTrv@redhat.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1o8e7f-00036h-BO; Tue, 05 Jul 2022 04:41:31 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:38244 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1o8e7b-0005aQ-Mx; Tue, 05 Jul 2022 04:41:31 -0400
+Received: from [192.168.0.138] (unknown [117.151.235.252])
+ by APP-01 (Coremail) with SMTP id qwCowADX3xcs+cNicPR0DA--.19282S2;
+ Tue, 05 Jul 2022 16:41:18 +0800 (CST)
+Subject: Re: [PATCH v10 09/12] target/riscv: Simplify counter predicate
+ function
+To: Atish Kumar Patra <atishp@rivosinc.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Frank Chang <frank.chang@sifive.com>
+References: <20220620231603.2547260-1-atishp@rivosinc.com>
+ <20220620231603.2547260-10-atishp@rivosinc.com>
+ <88b34ac2-c126-c4de-f238-f882d73365c6@iscas.ac.cn>
+ <CAHBxVyF240FjEwtrEuttXXan1QKAoX1J8LHm3a91xSy=QRPEUQ@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <0245adf3-dc74-15c2-70ec-644f23ab9830@iscas.ac.cn>
+Date: Tue, 5 Jul 2022 16:41:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <CAHBxVyF240FjEwtrEuttXXan1QKAoX1J8LHm3a91xSy=QRPEUQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YsPxp7386xTTWTrv@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: qwCowADX3xcs+cNicPR0DA--.19282S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtr4kWw4DWryDJry5JFyfXrb_yoWfJw4kpa
+ 1ftay3Kr48Zr9rCa9Fq3Z8Kry7uryxJay5G3y5Ga4vkr15tr1rX3WqgF4jqas3Aryrtws2
+ 9F4j93sxua1UXFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+ 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
+ IcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyU
+ JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+ nIWIevJa73UjIFyTuYvjfU8VbyDUUUU
+X-Originating-IP: [117.151.235.252]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,108 +84,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrang� (berrange@redhat.com) wrote:
-> On Tue, Jul 05, 2022 at 10:06:58AM +0200, Thomas Huth wrote:
-> > On 28/06/2022 12.54, Daniel P. Berrang� wrote:
-> > > There have been checks put into the migration test which skip it in a
-> > > few scenarios
-> > > 
-> > >   * ppc64 TCG
-> > >   * ppc64 KVM with kvm-pr
-> > >   * s390x TCG
-> > > 
-> > > In the original commits there are references to unexplained hangs in
-> > > the test. There is no record of details of where it was hanging, but
-> > > it is suspected that these were all a result of the max downtime limit
-> > > being set at too low a value to guarantee convergance.
-> > > 
-> > > Since a previous commit bumped the value from 1 second to 30 seconds,
-> > > it is believed that hangs due to non-convergance should be eliminated
-> > > and thus worth trying to remove the skipped scenarios.
-> > > 
-> > > Signed-off-by: Daniel P. Berrang� <berrange@redhat.com>
-> > > ---
-> > >   tests/qtest/migration-test.c | 21 ---------------------
-> > >   1 file changed, 21 deletions(-)
-> > 
-> > I just gave this a try, and it's failing on my x86 laptop with the ppc64 target:
-> > 
-> > /ppc64/migration/auto_converge: qemu-system-ppc64: warning: TCG doesn't
-> > support requested feature, cap-cfpc=workaround
-> > qemu-system-ppc64: warning: TCG doesn't support requested feature,
-> > cap-sbbc=workaround
-> > qemu-system-ppc64: warning: TCG doesn't support requested feature,
-> > cap-ibs=workaround
-> > qemu-system-ppc64: warning: TCG doesn't support requested feature,
-> > cap-ccf-assist=on
-> > qemu-system-ppc64: warning: TCG doesn't support requested feature,
-> > cap-cfpc=workaround
-> > qemu-system-ppc64: warning: TCG doesn't support requested feature,
-> > cap-sbbc=workaround
-> > qemu-system-ppc64: warning: TCG doesn't support requested feature,
-> > cap-ibs=workaround
-> > qemu-system-ppc64: warning: TCG doesn't support requested feature,
-> > cap-ccf-assist=on
-> > Memory content inconsistency at df6000 first_byte = 98 last_byte = 98
-> > current = 2 hit_edge = 0
 
-98->2 is a strangely large gap, and just one page.
+在 2022/7/5 下午4:00, Atish Kumar Patra 写道:
+> On Mon, Jul 4, 2022 at 8:19 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>>
+>> 在 2022/6/21 上午7:15, Atish Patra 写道:
+>>
+>> All the hpmcounters and the fixed counters (CY, IR, TM) can be represented
+>> as a unified counter. Thus, the predicate function doesn't need handle each
+>> case separately.
+>>
+>> Simplify the predicate function so that we just handle things differently
+>> between RV32/RV64 and S/HS mode.
+>>
+>> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+>> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+>> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+>> ---
+>>   target/riscv/csr.c | 112 +++++----------------------------------------
+>>   1 file changed, 11 insertions(+), 101 deletions(-)
+>>
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index 2664ce265784..9367e2af9b90 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -74,6 +74,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>>       CPUState *cs = env_cpu(env);
+>>       RISCVCPU *cpu = RISCV_CPU(cs);
+>>       int ctr_index;
+>> +    target_ulong ctr_mask;
+>>       int base_csrno = CSR_CYCLE;
+>>       bool rv32 = riscv_cpu_mxl(env) == MXL_RV32 ? true : false;
+>>
+>> @@ -82,122 +83,31 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>>           base_csrno += 0x80;
+>>       }
+>>       ctr_index = csrno - base_csrno;
+>> +    ctr_mask = BIT(ctr_index);
+>>
+>>       if ((csrno >= CSR_CYCLE && csrno <= CSR_INSTRET) ||
+>>           (csrno >= CSR_CYCLEH && csrno <= CSR_INSTRETH)) {
+>>           goto skip_ext_pmu_check;
+>>       }
+>>
+>> -    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & BIT(ctr_index)))) {
+>> +    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & ctr_mask))) {
+>>           /* No counter is enabled in PMU or the counter is out of range */
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>>   skip_ext_pmu_check:
+>>
+>> -    if (env->priv == PRV_S) {
+>> -        switch (csrno) {
+>> -        case CSR_CYCLE:
+>> -            if (!get_field(env->mcounteren, COUNTEREN_CY)) {
+>> -                return RISCV_EXCP_ILLEGAL_INST;
+>> -            }
+>> -            break;
+>> -        case CSR_TIME:
+>> -            if (!get_field(env->mcounteren, COUNTEREN_TM)) {
+>> -                return RISCV_EXCP_ILLEGAL_INST;
+>> -            }
+>> -            break;
+>> -        case CSR_INSTRET:
+>> -            if (!get_field(env->mcounteren, COUNTEREN_IR)) {
+>> -                return RISCV_EXCP_ILLEGAL_INST;
+>> -            }
+>> -            break;
+>> -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+>> -            if (!get_field(env->mcounteren, 1 << ctr_index)) {
+>> -                return RISCV_EXCP_ILLEGAL_INST;
+>> -            }
+>> -            break;
+>> -        }
+>> -        if (rv32) {
+>> -            switch (csrno) {
+>> -            case CSR_CYCLEH:
+>> -                if (!get_field(env->mcounteren, COUNTEREN_CY)) {
+>> -                    return RISCV_EXCP_ILLEGAL_INST;
+>> -                }
+>> -                break;
+>> -            case CSR_TIMEH:
+>> -                if (!get_field(env->mcounteren, COUNTEREN_TM)) {
+>> -                    return RISCV_EXCP_ILLEGAL_INST;
+>> -                }
+>> -                break;
+>> -            case CSR_INSTRETH:
+>> -                if (!get_field(env->mcounteren, COUNTEREN_IR)) {
+>> -                    return RISCV_EXCP_ILLEGAL_INST;
+>> -                }
+>> -                break;
+>> -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+>> -                if (!get_field(env->mcounteren, 1 << ctr_index)) {
+>> -                    return RISCV_EXCP_ILLEGAL_INST;
+>> -                }
+>> -                break;
+>> -            }
+>> -        }
+>> +    if (((env->priv == PRV_S) && (!get_field(env->mcounteren, ctr_mask))) ||
+>> +       ((env->priv == PRV_U) && (!get_field(env->scounteren, ctr_mask)))) {
+>> +        return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> Sorry. I didn't realize this simplification and sent a similar patch to fix the problems in Xcounteren
+>>
+>> related check I found when I tried to learn the patchset for state enable extension two days ago.
+>>
+>> I think there are several difference between our understanding, following is my modifications:
+>>
+>> +    if (csrno <= CSR_HPMCOUNTER31 && csrno >= CSR_CYCLE) {
+>> +        field = 1 << (csrno - CSR_CYCLE);
+>> +    } else if (riscv_cpu_mxl(env) == MXL_RV32 && csrno <= CSR_HPMCOUNTER31H &&
+>> +               csrno >= CSR_CYCLEH) {
+>> +        field = 1 << (csrno - CSR_CYCLEH);
+>> +    }
+>> +
+>> +    if (env->priv < PRV_M && !get_field(env->mcounteren, field)) {
+>> +        return RISCV_EXCP_ILLEGAL_INST;
+>> +    }
+>> +
+>> +    if (riscv_cpu_virt_enabled(env) && !get_field(env->hcounteren, field)) {
+>> +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> +    }
+>> +
+>> +    if (riscv_has_ext(env, RVS) && env->priv == PRV_U &&
+>> +        !get_field(env->scounteren, field)) {
+>> +        if (riscv_cpu_virt_enabled(env)) {
+>> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> +        } else {
+>> +            return RISCV_EXCP_ILLEGAL_INST;
+>>           }
+>>       }
+>>
+>>
+>> 1) For any less-privileged mode under M, illegal exception is raised if matching
+>> bit in mcounteren is zero.
+>>
+> As per the priv spec, in the section 3.1.11
+> "When one of these bits is set, access to the corresponding register
+> is permitted in the next implemented privilege mode (S-mode if
+> implemented, otherwise U-mode)."
+>
+> mcounteren controls the access for U-mode only if the next implemented
+> mode is U (riscv_has_ext(env, RVS) must be false).
+> I did not add the additional check as the ctr is defined only for
+> !CONFIG_USER_ONLY.
 
-> > Memory content inconsistency at 4e51000 first_byte = 98 last_byte = 97
-> > current = 96 hit_edge = 1
+In section 3.1.11, It also have description like this:
 
-Yeh that's broken;   the way I think about this is you've got a loop
-and the guest is following the loop incrementing one page at a time;
-if you stop the world you should see one 'edge' where the incrementer
-has currently incremented the previous page but hasn't done the current
-page yet.   e.g. in this case the 'start' of the memory is 98, and we
-were seeing 97, so we've run past that 'edge' at some point earlier.
-Now we've hit 96, that should be impossible, because all of the 96's
-should have incremented out before there was ever a 98 in the loop.
+"In systems with U-mode, the mcounteren must be implemented, but all 
+fields are WARL and may
+be read-only zero, indicating reads to the corresponding counter will 
+cause an illegal instruction
+exception when executing in a less-privileged mode."
 
-> > Memory content inconsistency at 4e52000 first_byte = 98 last_byte = 97
-> > current = 96 hit_edge = 1
-> > Memory content inconsistency at 4e53000 first_byte = 98 last_byte = 97
-> > current = 96 hit_edge = 1
-> > Memory content inconsistency at 4e54000 first_byte = 98 last_byte = 97
-> > current = 96 hit_edge = 1
-> > Memory content inconsistency at 4e55000 first_byte = 98 last_byte = 97
-> > current = 96 hit_edge = 1
-> > Memory content inconsistency at 4e56000 first_byte = 98 last_byte = 97
-> > current = 96 hit_edge = 1
-> > Memory content inconsistency at 4e57000 first_byte = 98 last_byte = 97
-> > current = 96 hit_edge = 1
-> > Memory content inconsistency at 4e58000 first_byte = 98 last_byte = 97
-> > current = 96 hit_edge = 1
-> > Memory content inconsistency at 4e59000 first_byte = 98 last_byte = 97
-> > current = 96 hit_edge = 1
-> > and in another 5542 pages**
-> > ERROR:../../devel/qemu/tests/qtest/migration-test.c:280:check_guests_ram:
-> > assertion failed: (bad == 0)
-> > Aborted (core dumped)
-> > 
-> > So I guess this workaround was about a different issue and we should drop
-> > this patch.
-> 
-> Yeah, at the very least needs for investigation.
-> 
-> It is a little worrying though that we get such failures as it smells
-> like a genuine bug that we've been missing from having tests disabled.
+And !CONFIG_USER_ONLY is defined for QEMU system emulation,  it doesn't 
+means current priv
 
-Yeh I suspect it's a TCG bug not updating the 'changed' flag on the page
-*after* writing the data.  I believe we've sene a case on ARM.
+cannot be  PRV_U mode.
 
-Dave
+>
+>> 2) For VS/VU mode('H' extension is supported implicitly), virtual instruction
+>> exception is raised if matching bit in hcounteren is zero.
+>>
+>> 3) scounteren csr only works in U/VU mode when 'S' extension is supported:
+> Yes. But we don't need additional check for 'S' extension as it will
+> be done by the predicate function "smode"
 
-> 
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+This is the question, smode can only guard the read/write of scounteren. 
+If 'S' extension is not implemented,
+
+scounteren will be zero. and If check is done as following:
+
++    if (((env->priv == PRV_S) && (!get_field(env->mcounteren, ctr_mask))) ||
++       ((env->priv == PRV_U) && (!get_field(env->scounteren, ctr_mask)))) {
++        return RISCV_EXCP_ILLEGAL_INST;
+      }
+
+any access from PRV_U will trigger illegal instruction exception. From above spec, this kind of
+access will be controlled by mcounteren, and will be legal if matching bit in mcounteren is 1.
+
+Regards,
+Weiwei Li
+
+>
+>>     For U mode, illegal exception is raised if matching bit in scounteren is zero.
+>>     For VU mode, virtual instruction exception exception is raised if matching bit
+>> in scounteren is zero.
+>>
+>> Regards,
+>> Weiwei Li
+>>
+>>
+>>       if (riscv_cpu_virt_enabled(env)) {
+>> -        switch (csrno) {
+>> -        case CSR_CYCLE:
+>> -            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+>> -                get_field(env->mcounteren, COUNTEREN_CY)) {
+>> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> -            }
+>> -            break;
+>> -        case CSR_TIME:
+>> -            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+>> -                get_field(env->mcounteren, COUNTEREN_TM)) {
+>> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> -            }
+>> -            break;
+>> -        case CSR_INSTRET:
+>> -            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+>> -                get_field(env->mcounteren, COUNTEREN_IR)) {
+>> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> -            }
+>> -            break;
+>> -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+>> -            if (!get_field(env->hcounteren, 1 << ctr_index) &&
+>> -                 get_field(env->mcounteren, 1 << ctr_index)) {
+>> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> -            }
+>> -            break;
+>> -        }
+>> -        if (rv32) {
+>> -            switch (csrno) {
+>> -            case CSR_CYCLEH:
+>> -                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+>> -                    get_field(env->mcounteren, COUNTEREN_CY)) {
+>> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> -                }
+>> -                break;
+>> -            case CSR_TIMEH:
+>> -                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+>> -                    get_field(env->mcounteren, COUNTEREN_TM)) {
+>> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> -                }
+>> -                break;
+>> -            case CSR_INSTRETH:
+>> -                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+>> -                    get_field(env->mcounteren, COUNTEREN_IR)) {
+>> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> -                }
+>> -                break;
+>> -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+>> -                if (!get_field(env->hcounteren, 1 << ctr_index) &&
+>> -                     get_field(env->mcounteren, 1 << ctr_index)) {
+>> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> -                }
+>> -                break;
+>> -            }
+>> +        if (!get_field(env->mcounteren, ctr_mask)) {
+>> +            /* The bit must be set in mcountern for HS mode access */
+>> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> +        } else if (!get_field(env->hcounteren, ctr_mask)) {
+>> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>>           }
+>>       }
+>>   #endif
 
 
