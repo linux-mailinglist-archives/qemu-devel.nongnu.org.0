@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9E3567605
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 19:54:29 +0200 (CEST)
-Received: from localhost ([::1]:40264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6B4567600
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 19:52:17 +0200 (CEST)
+Received: from localhost ([::1]:37594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8mkm-0007hK-6P
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 13:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58692)
+	id 1o8mid-0005f8-Lg
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 13:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
- id 1o8mgI-000489-Go
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:49:50 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:33707)
+ id 1o8mgC-0003zn-L0
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:49:44 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:36562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
- id 1o8mgB-0005AY-2o
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:49:50 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- j1-20020a17090aeb0100b001ef777a7befso5330576pjz.0
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 10:49:39 -0700 (PDT)
+ id 1o8mgA-0005Ah-SZ
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:49:44 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id s206so12023251pgs.3
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 10:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p4azkuwIy0LyIoitAMeFygcelBPbgpncCgtZ0mgkTiI=;
- b=336zJp2MWF9yFITe8fha3W7AjClD5yL2G6EQHcp/4pajG7OXlnJ/9ffz3LHRK2vS6p
- s1QfSsP4hrLgP6Prfdy3NajoWGmq7PqLYJaOHJ4V55+DREYN0cuWWxlHn8wGPwkKtCwG
- SRnluu7xkiYYRIB9f1rWxmvXtMPtjdwZu8IpcJ4emMoJ33iOZ6ZiYUdVX9IfxVLtpOdv
- tnpwn7GUgAXZu31uipgSC3WD2ldnwYOUWEbsBH1RP2areleIiQyWYNHDWkEdzFe3WofH
- Z1GL1lTFgI09WwK9FkzK6bwMF1J9PWRSoqrRVvatWYLU1QIfQyLAXMm9nvKA7ZKZcP4d
- XYxg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1y0Yc/JlfHdVvvbhyP93j3FsOC2gXUCOo4GCtzbqfoY=;
+ b=kVsdhn8LNQfcxN/fPZBWQq/zHG+3tFtqY0bclYy3K3R2YQUc2/9sBq0r6Lz/xkUsfM
+ SjZYhNBabKrv89wG/IA3YsxYLNFs/h2LTJnkZrmWuQvSPMwPeiy10zGYVMAQB2vVwAtb
+ rOeFqZcGKYZRT3SCv0dLJbXu3lhrxLRGZ8DKRgvRn+o7UfxcE46+HjKhAtfMIKXy+NfG
+ 4nAWxRHjNyRE8fzaV5XV/kwxUeN5W0LvKkGqgSdE/t/zUz9l+3WKbL13at9Y9n9UjjJu
+ pUprtdM8JvBJv+BNAVVXw6CIZvwATFiDhvdRRbNV1+keb6UaDj9OyVqfgVyxFPO2KI+d
+ 5NgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p4azkuwIy0LyIoitAMeFygcelBPbgpncCgtZ0mgkTiI=;
- b=VEitXKT4QSRWzB53Ju1zBRNNTefDuDoRiLMPCX7Mhdjdh442wdX/Oa3F1dk9jKdZql
- 1m1gooO8pXPuzr1OTwVSCh8Qmei8CmweJcFs6AGI4NlXN44Eg/5tmRsZTDCLCNDXnWc3
- kElf5dfyISMI+a6Uns11ZmxZegbCN7tmfU9QDQmrL2Dydzdj09dcj23tAIHkTNiw2w0d
- TP8e+TkkhQc8B02DIyyjTNIsBPYBj9Lli/VOcKgusGBTEvCGI9UrOA+CcZxiJlMcEhyl
- Yo38WqQ7Fls/+rUNaEc+zJa/k4oKczNVPI/wCPibmv+sKv0Zg3tOsSVP7Av+lfQWLyuJ
- 6tFg==
-X-Gm-Message-State: AJIora/g/hQ6BLz4zD69Sccj6LQ5m4lZcmuLdKjI0K2kzQ4l+fv4vMsd
- 6Iiy0UkAaeahKJV+wOxDd9vzvbLdIOb9Ug==
-X-Google-Smtp-Source: AGRyM1tUUKeOkkiCl/T73KFH+NWw3+5wpyiuY64BoRg3joDhe396r+9G8wGIr2nsw2KAn2wJX6ePDQ==
-X-Received: by 2002:a17:903:2310:b0:16b:fbc4:bfb1 with SMTP id
- d16-20020a170903231000b0016bfbc4bfb1mr1082903plh.100.1657043378437; 
- Tue, 05 Jul 2022 10:49:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1y0Yc/JlfHdVvvbhyP93j3FsOC2gXUCOo4GCtzbqfoY=;
+ b=3cCGvTHIOO+/SxLfKl12J6idUzKKQ2sx+fmbVZEZyRjWhMha2S3/jXaS35tRafeSG4
+ lAvu/GfO3JZkZp5ntP9T/zOSAFkqY/5zXrSvLv8toozugRTBGIdXa3ReHV+xOY014dSM
+ Zuwk7yxbzHYBDsrr4zgSHDCcNg6dWqYLvsuC5BMRUlwCEIHH1Wag2+btMjg0AFsqMh+f
+ QCVo9sBvkgIrNLxSRCaPqhdBZ6xhPKLBo46baC0Vn7mL3hV2LOlIoClsNbmYngesGcEU
+ 2DLei/OtKZxPaHHYk7VXfIbOKdkZ/11Bg+YrJ8Zz1Ts89XRHfNrKxLUpV97rHYk3MYAc
+ 3Qqw==
+X-Gm-Message-State: AJIora9CqDWtq0qZNhryWk6paztxmkGj/Bopkh9Qq9QllHX+JNb8jPJ2
+ P0T/FmYvPRcUg658figHpJnUC8netvJYEw==
+X-Google-Smtp-Source: AGRyM1tbMMX0UWaE8S1i1jVFuXTQ1/M4s5DBJD1+ekAyxmy4M8to/AQfoYA+WwGpd/0Mrn75CPKG8w==
+X-Received: by 2002:a63:8049:0:b0:412:8f0e:2da6 with SMTP id
+ j70-20020a638049000000b004128f0e2da6mr992714pgd.414.1657043379455; 
+ Tue, 05 Jul 2022 10:49:39 -0700 (PDT)
 Received: from daolu.ba.rivosinc.com ([66.220.2.162])
  by smtp.gmail.com with ESMTPSA id
- b5-20020a170902d50500b0016be372a10esm4952004plg.20.2022.07.05.10.49.37
+ b5-20020a170902d50500b0016be372a10esm4952004plg.20.2022.07.05.10.49.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 10:49:38 -0700 (PDT)
+ Tue, 05 Jul 2022 10:49:39 -0700 (PDT)
 From: Dao Lu <daolu@rivosinc.com>
 To: qemu-devel@nongnu.org
 Cc: Dao Lu <daolu@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>,
- qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
-Subject: [PATCH v4 0/1] target/riscv: Add Zihintpause support
-Date: Tue,  5 Jul 2022 10:49:31 -0700
-Message-Id: <20220705174933.2898412-1-daolu@rivosinc.com>
+ qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs),
+ Heiko Stuebner <heiko@sntech.de>
+Subject: [PATCH v4 1/1] target/riscv: Add Zihintpause support
+Date: Tue,  5 Jul 2022 10:49:32 -0700
+Message-Id: <20220705174933.2898412-2-daolu@rivosinc.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220705174933.2898412-1-daolu@rivosinc.com>
+References: <20220705174933.2898412-1-daolu@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=daolu@rivosinc.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=daolu@rivosinc.com; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,40 +92,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds RISC-V Zihintpause support. The extension is set to be enabled
-by default and opcode has been added to insn32.decode.
+Added support for RISC-V PAUSE instruction from Zihintpause extension,
+enabled by default.
 
-Added trans_pause to exit the TB and return to main loop.
-
-The change can also be found in:
-https://github.com/dlu42/qemu/tree/zihintpause_support_v1
-
-Tested along with pause support added to cpu_relax function for linux, the
-changes I made to linux to test can be found here:
-https://github.com/dlu42/linux/tree/pause_support_v1
-
---------
-Changelog:
-
-v1 -> v2
-1. Pause now also exit the TB and return to main loop
-2. Move the REQUIRE_ZIHINTPAUSE macro inside the trans_pause function
-
-v2 -> v3
-No changes, v2 was lost from the list
-
-v3 -> v4
-No longer break the reservation in trans_pause
-
-Dao Lu (1):
-  Add Zihintpause support
-
+Tested-by: Heiko Stuebner <heiko@sntech.de>
+Signed-off-by: Dao Lu <daolu@rivosinc.com>
+---
  target/riscv/cpu.c                      |  2 ++
  target/riscv/cpu.h                      |  1 +
  target/riscv/insn32.decode              |  7 ++++++-
  target/riscv/insn_trans/trans_rvi.c.inc | 16 ++++++++++++++++
  4 files changed, 25 insertions(+), 1 deletion(-)
 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index ccacdee215..183fb37fdf 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -825,6 +825,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
++    DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
+     DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+     DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+@@ -996,6 +997,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+      *    extensions by an underscore.
+      */
+     struct isa_ext_data isa_edata_arr[] = {
++        ISA_EDATA_ENTRY(zihintpause, ext_zihintpause),
+         ISA_EDATA_ENTRY(zfh, ext_zfh),
+         ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+         ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index fe6c9a2c92..e466a04a59 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -394,6 +394,7 @@ struct RISCVCPUConfig {
+     bool ext_counters;
+     bool ext_ifencei;
+     bool ext_icsr;
++    bool ext_zihintpause;
+     bool ext_svinval;
+     bool ext_svnapot;
+     bool ext_svpbmt;
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 4033565393..595fdcdad8 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -149,7 +149,12 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
+ sra      0100000 .....    ..... 101 ..... 0110011 @r
+ or       0000000 .....    ..... 110 ..... 0110011 @r
+ and      0000000 .....    ..... 111 ..... 0110011 @r
+-fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
++
++{
++  pause  0000 0001   0000   00000 000 00000 0001111
++  fence  ---- pred:4 succ:4 ----- 000 ----- 0001111
++}
++
+ fence_i  ---- ----   ----   ----- 001 ----- 0001111
+ csrrw    ............     ..... 001 ..... 1110011 @csr
+ csrrs    ............     ..... 010 ..... 1110011 @csr
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index f1342f30f8..2fd07bc2e4 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -796,6 +796,22 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
+     return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl, NULL);
+ }
+ 
++static bool trans_pause(DisasContext *ctx, arg_pause *a)
++{
++    if (!ctx->cfg_ptr->ext_zihintpause) {
++        return false;
++    }
++
++    /*
++     * PAUSE is a no-op in QEMU,
++     * end the TB and return to main loop
++     */
++    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
++    tcg_gen_exit_tb(NULL, 0);
++    ctx->base.is_jmp = DISAS_NORETURN;
++
++    return true;
++}
+ 
+ static bool trans_fence(DisasContext *ctx, arg_fence *a)
+ {
 -- 
 2.25.1
 
