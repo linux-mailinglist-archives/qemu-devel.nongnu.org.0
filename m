@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25E15664B3
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:07:59 +0200 (CEST)
-Received: from localhost ([::1]:53578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64135664B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:12:02 +0200 (CEST)
+Received: from localhost ([::1]:34194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8dbC-0000Ik-GY
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:07:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60028)
+	id 1o8df8-0006Xu-0Q
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8dXY-0005im-Ax
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:04:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36665)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8dY2-0006a6-3k
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:04:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8dXR-0007qB-Fk
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:04:09 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8dY0-0007zc-Fd
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:04:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657008244;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1657008279;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yib1saaRzo0ns7txxSM+GJJI1jLb7eIFh1Yy1MP0R8s=;
- b=TQ1le8PXgKiw6K/e/fOjZr70zti3zEfW2bHXg8pk7kpkx2pO7IRpoVpqrV7QsxhCXPoUtg
- PVG5PNCIo3uZgQJwSyPQmSWtdPBsEtoM9SbE0ItiO79FdWmSlZTicGX9W3Mk/udlCGhfKK
- AdgX7PNm/I0qsRrhjJP3c/Ahdw4v+p8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dnsrCMjNY9vdf1JmuSHv6n3U/4yHuYFDK/LGrDBKmyc=;
+ b=beelQAkLqrrn0R7QXayJ1zCAFQL5t56U5RugKW51tlYYPV1pl+syVtfdwGsmfgWA0b+wiU
+ miVZEbyAiCPGrLNwNZoHp1Dth7q6iugEPgt3WqcGtaKFcOQuh18SNOWZ0RbHHnk/ueIaGy
+ q9UGtzUeuSfLL59NusBIXATH8DsfYuI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-tHW50QcfOLWAM8gLaTYxKg-1; Tue, 05 Jul 2022 04:04:02 -0400
-X-MC-Unique: tHW50QcfOLWAM8gLaTYxKg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l11-20020adfbd8b000000b0021d754b84c5so153091wrh.17
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:04:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=yib1saaRzo0ns7txxSM+GJJI1jLb7eIFh1Yy1MP0R8s=;
- b=bZrd6y+J85Zh6iFh6Q8wURhXPx69K1TIBg14H0XT9kpvbF6QZdZHY1WhKqzJ1k+e98
- D48uHA03fJvEH1rQDT6wbLMAAT8SZ/KVLREemElGlIYm6i1wTjTa151fc4BD/8mL2TgF
- 6jjOYZ4LhCUIpAVE4rRERVVCBnf0YJb8aYiy4jDmOQ5ZAYI5iP1VEjCRiuHuWvCyS6x7
- QLP5NtdVNpL2Zzkb4LRVr3zwu3jmRD0QnLCK0WY2Btj/V10n2Cok6hQxUQ2FVQt+m9Np
- eMsNsOH6oFd2aGyQJKwnW0BHa9bzOnorfO3rjAPZQ/A8U/3+orELXLD65oswPUywUXEp
- ibnA==
-X-Gm-Message-State: AJIora/lmkCS7JV2Xk1RLjV6yRnfmXycU1ASqEZf8aO+VD7EgbEhScQj
- 5HOUVLsLsJYMLjUdwuBG6A2uebLie+B/I0ZzGUSXSE5lmhNQl8ZdgXTjWuR+zxDIoxA1xrFD51D
- /UAxsqO/7yS5FE8k=
-X-Received: by 2002:a7b:c4cb:0:b0:3a2:b45a:e344 with SMTP id
- g11-20020a7bc4cb000000b003a2b45ae344mr6499666wmk.157.1657008240743; 
- Tue, 05 Jul 2022 01:04:00 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tHC6KnhFbzCfbhaROd9mfPyPZAFG4fNgQj7NgEl5WS7Aasi0fsVG+Wa4jyMJVs85ZQc0VSGg==
-X-Received: by 2002:a7b:c4cb:0:b0:3a2:b45a:e344 with SMTP id
- g11-20020a7bc4cb000000b003a2b45ae344mr6499642wmk.157.1657008240453; 
- Tue, 05 Jul 2022 01:04:00 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- g1-20020adffc81000000b00213ba3384aesm33132757wrr.35.2022.07.05.01.03.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 01:03:59 -0700 (PDT)
-Date: Tue, 5 Jul 2022 09:03:57 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: "Zhao, Shirley" <shirley.zhao@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [Qemu] how to use viriofs in qemu without NUMA
-Message-ID: <YsPwbbiuxtkD6HSp@work-vm>
-References: <BY5PR11MB42911D5BF55D9FAF501F64F68D819@BY5PR11MB4291.namprd11.prod.outlook.com>
- <3b6c8e16-3712-3402-3ab2-17bf53ec64a8@redhat.com>
+ us-mta-77-Gwt2Q0GCM5qP-w_rBj05WQ-1; Tue, 05 Jul 2022 04:04:38 -0400
+X-MC-Unique: Gwt2Q0GCM5qP-w_rBj05WQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 97F8D8032E3
+ for <qemu-devel@nongnu.org>; Tue,  5 Jul 2022 08:04:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C7CF40C1289;
+ Tue,  5 Jul 2022 08:04:37 +0000 (UTC)
+Date: Tue, 5 Jul 2022 09:04:35 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 1/3] QIOChannelSocket: Fix zero-copy flush returning
+ code 1 when nothing sent
+Message-ID: <YsPwk34cMoontYo8@redhat.com>
+References: <20220704202315.507145-1-leobras@redhat.com>
+ <20220704202315.507145-2-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3b6c8e16-3712-3402-3ab2-17bf53ec64a8@redhat.com>
+In-Reply-To: <20220704202315.507145-2-leobras@redhat.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,44 +85,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Thomas Huth (thuth@redhat.com) wrote:
-> On 05/07/2022 03.02, Zhao, Shirley wrote:
-> > Hi, all,
-> > 
-> > I want to use virtiofs to share folder between host and guest.
-> > 
-> >  From the guide, it must set the NUMA node.
-> > https://virtio-fs.gitlab.io/howto-qemu.html
-> > 
-> > But my guest doesn’t support NUMA.
-> > 
-> > Is there any guide to use qemu + virtiofs without NUMA?
-> > 
-> > Or does qemu have any plan to support it?
+On Mon, Jul 04, 2022 at 05:23:13PM -0300, Leonardo Bras wrote:
+> If flush is called when no buffer was sent with MSG_ZEROCOPY, it currently
+> returns 1. This return code should be used only when Linux fails to use
+> MSG_ZEROCOPY on a lot of sendmsg().
 > 
->  Hi!
+> Fix this by returning early from flush if no sendmsg(...,MSG_ZEROCOPY)
+> was attempted.
 > 
-> At least on s390x, you can also specify the memory backend via the -machine
-> option instead of using the -numa option, e.g.:
-> 
->  qemu-system-s390x -machine memory-backend=mem \
->   -object memory-backend-file,id=mem,...
-> 
-> Not sure whether that works on other architectures, too, though. Stefan,
-> David, do you know?
+> Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX")
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  io/channel-socket.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 
-Right, that's the way I do it on x86.
-We wrote virtiofs before the memory-backend option existed, which is why
-the old docs talk about using the NUMA stuff.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Dave
+And if this merges via migration maintainers' tree
 
->  Thomas
+Acked-by: Daniel P. Berrangé <berrange@redhat.com>
+
 > 
+> diff --git a/io/channel-socket.c b/io/channel-socket.c
+> index 4466bb1cd4..698c086b70 100644
+> --- a/io/channel-socket.c
+> +++ b/io/channel-socket.c
+> @@ -716,12 +716,18 @@ static int qio_channel_socket_flush(QIOChannel *ioc,
+>      struct cmsghdr *cm;
+>      char control[CMSG_SPACE(sizeof(*serr))];
+>      int received;
+> -    int ret = 1;
+> +    int ret;
+> +
+> +    if (!sioc->zero_copy_queued) {
+> +        return 0;
+> +    }
+>  
+>      msg.msg_control = control;
+>      msg.msg_controllen = sizeof(control);
+>      memset(control, 0, sizeof(control));
+>  
+> +    ret = 1;
+> +
+>      while (sioc->zero_copy_sent < sioc->zero_copy_queued) {
+>          received = recvmsg(sioc->fd, &msg, MSG_ERRQUEUE);
+>          if (received < 0) {
+> -- 
+> 2.36.1
+> 
+
+With regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
