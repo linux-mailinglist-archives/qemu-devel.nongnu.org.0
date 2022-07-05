@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11FF567341
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:51:16 +0200 (CEST)
-Received: from localhost ([::1]:55638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251B456733D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 17:49:35 +0200 (CEST)
+Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8kpX-0002OP-NO
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:51:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52888)
+	id 1o8knu-0005w7-8S
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 11:49:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1o8kks-0003Cz-Tm
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:46:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22881)
+ id 1o8kl6-0003RX-ML
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:46:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1o8kkr-0000uB-B1
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:46:26 -0400
+ id 1o8kl2-0000vS-T6
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 11:46:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657035984;
+ s=mimecast20190719; t=1657035996;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JwovsujzbZmgmP9oP2fwtYAMASJJDYhFMg7gcn5z/Bc=;
- b=DVjdcAFA0hfRGSOeozXGEMeGhA/4o0bJ4Uc72fJp6KRs/oV0JJTjDR2J+rmImcTLBmyn3q
- 19geL/X8NBKlminbOFffOpCgE/1PcAHBgMAUe7OD31ZzjQpfSRyNeaqc7u8RpzFsh+XElA
- GasfpvppIJVhOLHmogYaFqzltr2K0ic=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6QzyjMXHHXHopxLH7HDw8nPxsrIouY0eW1oJX93jax0=;
+ b=ERl/MV4w2vvd0YDzl1X+DFDAcJfe+kfFaSpyxCLiYF10kphXD3nGCqUMsGYkAHFklpOUw3
+ 5gvpMuXpVs30AmuQxUCwCkwM3eLdE5QIm3cCGaW8/G0flDy/tujVaiZcxdIrvxPbJAggi9
+ veFVSxiNspp6KozrNaoEdrPZu6ZfoYs=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-dxcSc3NtPjSVYzNf6EQupw-1; Tue, 05 Jul 2022 11:46:22 -0400
-X-MC-Unique: dxcSc3NtPjSVYzNf6EQupw-1
-Received: by mail-yw1-f197.google.com with SMTP id
- 00721157ae682-31c9d560435so36425747b3.21
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 08:46:22 -0700 (PDT)
+ us-mta-81-IaroEDkjOL6nBO85bPMkdA-1; Tue, 05 Jul 2022 11:46:35 -0400
+X-MC-Unique: IaroEDkjOL6nBO85bPMkdA-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ c7-20020a258807000000b0066d6839741eso10013881ybl.23
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 08:46:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:references:mime-version:in-reply-to:date
  :message-id:subject:to:cc;
- bh=JwovsujzbZmgmP9oP2fwtYAMASJJDYhFMg7gcn5z/Bc=;
- b=14v81XF6Sn9SP+iNlpFDXD27lvkjtJvP13egApe+gY7Up0b9P3cAVWNxtcfn7LXjfK
- k43Qqg8sJDEKJmwpdCeCJmphYnbdeuAV0vj62s7LMe4MY98TUiMlQNaSQzczsWe2JXc9
- THw1Tg9NXtxj/DZTTkOfByyouLoal5amnRXWm0v1GEZU8jIdz5ZHcSEvUbpR7iRp9L2y
- eLKaO1F9guwfmO0cZLUpI62mMQTt3TRKD4Xucgn5bJ0L9XzF3Bs6EVoi5MAD2QmXWZ0F
- 861zz9d4iGbxgCreTNcNfR3Hsi6hDEr3ptG40FXYrIqmSiddsEsRN/JlMvD96zdNrCNF
- G58Q==
-X-Gm-Message-State: AJIora8yPNoDJPjRjgPUdY2Ld50vHsWUcmByNG81mJ2OrftBAuu/3i/P
- maPVql6oTaS2cgT/3gyb3EwDX+LhNoE5c1xf1DyJNGA2qCKbpqKYyRiqJ5dMolG2JcTSKfSWF2o
- kNLLK3bRsW/gXrkdRr0szDzwwfr0IegM=
-X-Received: by 2002:a81:1090:0:b0:31c:9be5:6c95 with SMTP id
- 138-20020a811090000000b0031c9be56c95mr12106540ywq.384.1657035981811; 
- Tue, 05 Jul 2022 08:46:21 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uqtJBP+23zEnrdiSE9zzRixz/dwVYmL6CrF+iz+xQltRecElhJX48PLv4gVLbQLMROAcslxGjsGUqcpAX8Ckk=
-X-Received: by 2002:a81:1090:0:b0:31c:9be5:6c95 with SMTP id
- 138-20020a811090000000b0031c9be56c95mr12106519ywq.384.1657035981582; Tue, 05
- Jul 2022 08:46:21 -0700 (PDT)
+ bh=6QzyjMXHHXHopxLH7HDw8nPxsrIouY0eW1oJX93jax0=;
+ b=tzPF8LXN/wJw2j+urZCHMeZCU64Vt7UJMe+IzXs4/gt12vssRbP8/9DxDJ86oWy6WK
+ lnFdZSe7vC6i3IDyqsQjLPJtbcN7ywwBS2m0AbaELEHo0G/Y6fmar44kbupHKjOqelp3
+ 7eHBou/foh3c/9kfW/JSLVsE2jQ/ALHsvdFRpvUxVoUrlI+r9/EfMo3YBM6WENr3VdRU
+ mhimfijHw+7w3LXXf7vjByrUgtlX+bRouFPp1IfRAmOwI/vj4Xw98iu0UjkR6gbAguAn
+ jH1qFh12z1Pw4DQjhTNjmrXKwdOpPRRispZ93jQpRRPPOYcQZ5AFoDK31j9fy7vkYK5C
+ Fg9w==
+X-Gm-Message-State: AJIora9m4EOMI3w4akf3xXaBKyfHaKZ/0S235FROdxXbjR3YhXVxfP2f
+ i2k8LZ86JbAmdgo4d5p9Bcv8/ydUPzp+iOyFTkuwinnrXuf75Y3iCsFz3wveSiQaEjT6D46ktzu
+ yO5MubMPItIse5QjyFezQdBPffC6RBcI=
+X-Received: by 2002:a25:3085:0:b0:66e:4440:f42e with SMTP id
+ w127-20020a253085000000b0066e4440f42emr13329748ybw.403.1657035994750; 
+ Tue, 05 Jul 2022 08:46:34 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uWJKiH/QvCHkl4yFXM0CF+1id+OGWT9iIpsvcJlnhNcOpXHVUYra/Gv9j99NJRkflr7fzHHCHIlyz6a54J5A4=
+X-Received: by 2002:a25:3085:0:b0:66e:4440:f42e with SMTP id
+ w127-20020a253085000000b0066e4440f42emr13329722ybw.403.1657035994480; Tue, 05
+ Jul 2022 08:46:34 -0700 (PDT)
 Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 5 Jul 2022 08:46:21 -0700
+ HTTPREST; Tue, 5 Jul 2022 08:46:34 -0700
 From: Andrea Bolognani <abologna@redhat.com>
 References: <20220617121932.249381-1-victortoso@redhat.com>
- <20220617121932.249381-8-victortoso@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220617121932.249381-8-victortoso@redhat.com>
-Date: Tue, 5 Jul 2022 08:46:21 -0700
-Message-ID: <CABJz62P5-Dxy5fcb9wh-xo9_EX4K89F+2Pnydayg+T6eAt3pkw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 7/8] qapi: golang: Add CommandResult type to Go
+In-Reply-To: <20220617121932.249381-1-victortoso@redhat.com>
+Date: Tue, 5 Jul 2022 08:46:34 -0700
+Message-ID: <CABJz62Pay+VzT8gy94bgRJdXHrdGM=GQCWcwVKkj9eso_SzP3w@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/8] qapi: add generator for Golang interface
 To: Victor Toso <victortoso@redhat.com>
 Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
  Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>, 
@@ -96,27 +95,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 17, 2022 at 02:19:31PM +0200, Victor Toso wrote:
-> +type EmptyCommandReturn struct {
-> +    CommandId string          `json:"id,omitempty"`
-> +    Error     *QapiError      `json:"error,omitempty"`
-> +    Name      string          `json:"-"`
-> +}
-
-Do we need a specific type for this? Can't we just generate an
-appropriately-named type for each of the commands that don't return
-any data? It's not like we would have to write that code manually :)
-
-> +func (r *EmptyCommandReturn) GetCommandName() string {
-> +    return r.Name
-> +}
-
-Just like Event.GetName() and Command.GetName(), I'm not convinced we
-should have this.
+I've commented in detail to the single patches, just a couple of
+additional points.
 
 
-Of course, all the comments about how marshalling and unmarshalling
-are handled made for events also apply here.
+On Fri, Jun 17, 2022 at 02:19:24PM +0200, Victor Toso wrote:
+> * 7) Flat structs by removing embed types. Discussion with Andrea
+>      Thread: https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg01590.html
+>
+>      No one required it but I decided to give it a try. Major issue that
+>      I see with this approach is to have generated a few 'Base' structs
+>      that are now useless. Overall, less nested structs seems better to
+>      me. Opnions?
+>
+>      Example:
+>       | /* This is now useless, should be removed? */
+>       | type InetSocketAddressBase struct {
+>       |     Host string `json:"host"`
+>       |     Port string `json:"port"`
+>       | }
+
+Can we somehow keep track, in the generator, of types that are only
+used as building blocks for other types, and prevent them from
+showing up in the generated code?
+
+
+Finally, looking at the repository containing the generated code I
+see that the generated type are sorted by kind, e.g. all unions are
+in a file, all events in another one and so on. I believe the
+structure should match more closely that of the QAPI schema, so e.g.
+block-related types should all go in one file, net-related types in
+another one and so on.
+
+
+Looking forward to the next iteration :)
 
 -- 
 Andrea Bolognani / Red Hat / Virtualization
