@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3795256645C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 09:47:01 +0200 (CEST)
-Received: from localhost ([::1]:56618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E733D56645E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 09:51:12 +0200 (CEST)
+Received: from localhost ([::1]:59466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8dGu-0006Q2-4w
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 03:47:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55470)
+	id 1o8dKx-0000Ct-KM
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 03:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o8dEl-0004Bz-K9
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 03:44:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o8dEj-0004XD-Ug
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 03:44:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657007085;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XReC9IhY46OqDA3jH252Cml26JPvHGVTSrdbYp/fCIM=;
- b=gVrF4QQzZ/QpLPItafDXxsNPprPgf/QxkvK6nltimNpmNgI9hxxzJA2Qda/3DT8bK1AauD
- zJuCGjZ03XWEj0lmMK23gS7CClt8Eagn6T4Hmoi6ZRbEJY3eSeo8xvjbkV4EVSLadrOZ9M
- XoErGq8EnTTalU8AljCVs0YYIFJKoFc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-126-ioc8sSacPVuLYfRoSb3u-A-1; Tue, 05 Jul 2022 03:44:38 -0400
-X-MC-Unique: ioc8sSacPVuLYfRoSb3u-A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B4D3811E81;
- Tue,  5 Jul 2022 07:44:38 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E38842026D64;
- Tue,  5 Jul 2022 07:44:37 +0000 (UTC)
-Date: Tue, 5 Jul 2022 08:44:36 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v8 07/20] job.h: add _locked public functions
-Message-ID: <YsPr5FALHarTZF1s@stefanha-x1.localdomain>
-References: <20220629141538.3400679-1-eesposit@redhat.com>
- <20220629141538.3400679-8-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1o8dHW-0007DG-4O
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 03:47:38 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:35507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1o8dHT-00054X-Py
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 03:47:37 -0400
+Received: by mail-pg1-x534.google.com with SMTP id r22so3805462pgr.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 00:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=JUCMsGHTZBhitSfrTfUhpn+iBcIV3Nv/IoJU+L3bG9E=;
+ b=ys+XPLk7ch5OhNUhKQpmMHspC172kc5R60/e0Z4Os4BXZ4ZA0xv3kNKiAz2jMra9Eg
+ 3BcVO2ha2xXhr4eulpWNO4iK2IfxLbWl076toMwMhnNi/23proeC41AfatpBKbJEqgMV
+ c0eCVEX21aZtXsIRsWJBRn/LEbybDZvRCmDaYrXVMo102U/G++gwlDXfWK5m+4aYkfZ1
+ Wmb+O0mNbSFnqmTKkHm+aBqyXiGexlbxBrrNLlblaAeV4sV2knAG7P0B4GPYY2nkfAqu
+ q4w7K+YsJMkIqdIKRSNMbBpO0XtbTL2/xZTo8RGYBXTRtBzm/RnutkdCh7I5BXo5QkEm
+ cxqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=JUCMsGHTZBhitSfrTfUhpn+iBcIV3Nv/IoJU+L3bG9E=;
+ b=g/7lF7PrIJl4F2qlpehuDgAJNE8yZqDTtwv1BpMt1E6IJrIU3izKDmVwwYm1q1f2Er
+ nA+v3FhVGaX+wmei2h7EwzCU60hKPVqLysIyk4AcqZRHsw60qBuld+aICKtiBcrYkJ1y
+ pvw3ecKGXQ3Xu1kZGTqz2Em8SXbwb9fCDIoU13KFecMnQeVWifq2/QxT81/LfB+3bitc
+ 5m1lzSgLTX7e7F0e2dO2MQEHk+wBlHJ2PJpqbjkgq9UTXWfl1M8z2edrbWzTvwmkZgZv
+ /wVH7Qam35n7M7112VyPRUPTAFeB41dK1lmx31yvreyLOFXOVUxYGDPuq085mYL/zGUR
+ hNVg==
+X-Gm-Message-State: AJIora+toKMdoNi+6eaV+CuaS7eWcx5oKv6FeovBQlw0MEib2qh4E79p
+ 0PoetBGiYCgeB4l4GbHhlSDc/x8To81dST3Ys53/xA==
+X-Google-Smtp-Source: AGRyM1u2QzUUeSq5S4UO6hWVxcNI6dXn/J7oIlh8GvuxA2LYt4qaHqWW4JUpmPyV184Cj8aPiR4fNrE2IIhjBe+KURs=
+X-Received: by 2002:a63:287:0:b0:412:2f6e:7fc with SMTP id
+ 129-20020a630287000000b004122f6e07fcmr9462666pgc.185.1657007254244; 
+ Tue, 05 Jul 2022 00:47:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Tn2q+XanlTGrlPLZ"
-Content-Disposition: inline
-In-Reply-To: <20220629141538.3400679-8-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220620231603.2547260-1-atishp@rivosinc.com>
+ <20220620231603.2547260-6-atishp@rivosinc.com>
+ <51d95cb9-8607-3667-98ff-e60157c56f70@iscas.ac.cn>
+In-Reply-To: <51d95cb9-8607-3667-98ff-e60157c56f70@iscas.ac.cn>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Tue, 5 Jul 2022 00:47:23 -0700
+Message-ID: <CAHBxVyEgTRThnFUzT6xp6yGsBnORp_q0ek1WN8EzPeN0Qg00ZA@mail.gmail.com>
+Subject: Re: [PATCH v10 05/12] target/riscv: Implement mcountinhibit CSR
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bmeng.cn@gmail.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=atishp@rivosinc.com; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,40 +89,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jul 4, 2022 at 8:31 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>
+>
+> =E5=9C=A8 2022/6/21 =E4=B8=8A=E5=8D=887:15, Atish Patra =E5=86=99=E9=81=
+=93:
+> > From: Atish Patra <atish.patra@wdc.com>
+> >
+> > As per the privilege specification v1.11, mcountinhibit allows to start=
+/stop
+> > a pmu counter selectively.
+> >
+> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >   target/riscv/cpu.h      |  2 ++
+> >   target/riscv/cpu_bits.h |  4 ++++
+> >   target/riscv/csr.c      | 25 +++++++++++++++++++++++++
+> >   target/riscv/machine.c  |  1 +
+> >   4 files changed, 32 insertions(+)
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index ffee54ea5c27..0a916db9f614 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -275,6 +275,8 @@ struct CPUArchState {
+> >       target_ulong scounteren;
+> >       target_ulong mcounteren;
+> >
+> > +    target_ulong mcountinhibit;
+> > +
+> >       target_ulong sscratch;
+> >       target_ulong mscratch;
+> >
+> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > index 4d04b20d064e..b3f7fa713000 100644
+> > --- a/target/riscv/cpu_bits.h
+> > +++ b/target/riscv/cpu_bits.h
+> > @@ -367,6 +367,10 @@
+> >   #define CSR_MHPMCOUNTER29   0xb1d
+> >   #define CSR_MHPMCOUNTER30   0xb1e
+> >   #define CSR_MHPMCOUNTER31   0xb1f
+> > +
+> > +/* Machine counter-inhibit register */
+> > +#define CSR_MCOUNTINHIBIT   0x320
+> > +
+> >   #define CSR_MHPMEVENT3      0x323
+> >   #define CSR_MHPMEVENT4      0x324
+> >   #define CSR_MHPMEVENT5      0x325
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index b4a8e15f498f..94d39a4ce1c5 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -1475,6 +1475,28 @@ static RISCVException write_mtvec(CPURISCVState =
+*env, int csrno,
+> >       return RISCV_EXCP_NONE;
+> >   }
+> >
+> > +static RISCVException read_mcountinhibit(CPURISCVState *env, int csrno=
+,
+> > +                                         target_ulong *val)
+> > +{
+> > +    if (env->priv_ver < PRIV_VERSION_1_11_0) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+>
+> This seems can be done by add  .min_priv_ver=3DPRIV_VERSION_1_11_0 in
+> csr_ops table.
+>
 
---Tn2q+XanlTGrlPLZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes. This can be dropped from both read/write_mcountihibit with min_priv_ve=
+r.
+Thanks.
 
-On Wed, Jun 29, 2022 at 10:15:25AM -0400, Emanuele Giuseppe Esposito wrote:
-> These functions will be used later when we use the job lock.
->=20
-> Note: at this stage, job_{lock/unlock} and job lock guard macros
-> are *nop*.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  include/qemu/job.h | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---Tn2q+XanlTGrlPLZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLD6+QACgkQnKSrs4Gr
-c8gqpwgAuKmEk+e+4oGY2CBT+AZxC64Lm6/4ksx00VwFzWXsItuPENvGxkBLPWtv
-KsuKHLt6bIN+K8EllaUIx675Wx9uaGkaqwy4MI2pon3rKekQCxN1ieVWcOmxh9Pg
-9sM8ZamH+8ZJin5xJSOZxuFMHI8xDJ1k4h9RzkoHC5EClFG7BJoIVadRM7ck7mcu
-ZGOE8vO9xaAPrK74zMiijogbKB3PYIUT5rewiB45RUU2KkQsydBedf1NgUfvNQG9
-DiukAQtMqcSvfdyllYK3V/+yQtFsXp0VcgJUGk02VEzkPnt45dqIovmIxsirT/F/
-5lPWYaFXfk5RZ8rqXkC1fhYDo0Vslg==
-=3wSN
------END PGP SIGNATURE-----
-
---Tn2q+XanlTGrlPLZ--
-
+> Regards,
+>
+> Weiwei Li
+>
+> > +    *val =3D env->mcountinhibit;
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException write_mcountinhibit(CPURISCVState *env, int csrn=
+o,
+> > +                                          target_ulong val)
+> > +{
+> > +    if (env->priv_ver < PRIV_VERSION_1_11_0) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    env->mcountinhibit =3D val;
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> >   static RISCVException read_mcounteren(CPURISCVState *env, int csrno,
+> >                                         target_ulong *val)
+> >   {
+> > @@ -3745,6 +3767,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D =
+{
+> >       [CSR_MHPMCOUNTER30]  =3D { "mhpmcounter30",  mctr,   read_zero },
+> >       [CSR_MHPMCOUNTER31]  =3D { "mhpmcounter31",  mctr,   read_zero },
+> >
+> > +    [CSR_MCOUNTINHIBIT]  =3D { "mcountinhibit",   any,    read_mcounti=
+nhibit,
+> > +                                                       write_mcountinh=
+ibit },
+> > +
+> >       [CSR_MHPMEVENT3]     =3D { "mhpmevent3",     any,    read_zero },
+> >       [CSR_MHPMEVENT4]     =3D { "mhpmevent4",     any,    read_zero },
+> >       [CSR_MHPMEVENT5]     =3D { "mhpmevent5",     any,    read_zero },
+> > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> > index 2a437b29a1ce..87cd55bfd3a7 100644
+> > --- a/target/riscv/machine.c
+> > +++ b/target/riscv/machine.c
+> > @@ -330,6 +330,7 @@ const VMStateDescription vmstate_riscv_cpu =3D {
+> >           VMSTATE_UINTTL(env.siselect, RISCVCPU),
+> >           VMSTATE_UINTTL(env.scounteren, RISCVCPU),
+> >           VMSTATE_UINTTL(env.mcounteren, RISCVCPU),
+> > +        VMSTATE_UINTTL(env.mcountinhibit, RISCVCPU),
+> >           VMSTATE_UINTTL(env.sscratch, RISCVCPU),
+> >           VMSTATE_UINTTL(env.mscratch, RISCVCPU),
+> >           VMSTATE_UINT64(env.mfromhost, RISCVCPU),
+>
 
