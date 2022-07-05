@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA74A5661E3
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 05:33:29 +0200 (CEST)
-Received: from localhost ([::1]:40406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 546DD56621B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 06:05:50 +0200 (CEST)
+Received: from localhost ([::1]:48274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8ZJZ-0004Gl-0T
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jul 2022 23:33:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50720)
+	id 1o8Zoq-0003Zc-T9
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 00:05:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ZIg-0003OG-8K
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 23:32:34 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:34753)
+ id 1o8Zn4-0002qU-Tv
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 00:03:58 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:55977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8ZIe-0004sB-Rq
- for qemu-devel@nongnu.org; Mon, 04 Jul 2022 23:32:33 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id z1so4146484plb.1
- for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 20:32:32 -0700 (PDT)
+ id 1o8Zn3-0000Sj-Ec
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 00:03:58 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id w24so10972114pjg.5
+ for <qemu-devel@nongnu.org>; Mon, 04 Jul 2022 21:03:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=n+tqJTvn7soNfiKqhPkChiNYQkgp2XITmS45YDF3Ma8=;
- b=Nys2pHb3hFXi93JvCvilT9ych7WTQWJDdYv9rdmFYOvIHMMSSpiJDRJ6Z2f8NoR14B
- Ma+fnN1ULyiYYxdXaeXvYARafHMkboyKjSiVEK/w6Y36F1BnbWCp+fN7djRL6GZw7dMa
- 2JmuuzfPkeDcWLisPhs8xsFbT17urwzJKJ68kRzwlWLq7WJyLwn2gXGeqpiUxBaP/7c/
- b5uH4o6ia29KXmZ4oP8S4QADmOcA4suLvA5nAvUPUYdRtFpqGBaUThznWU5P/sBw5NXP
- l+vN2nDfp21x+uhhnmCN+M98tjWfkMCV/Yis+4LQig3te8ck9vWlDiZjUM5giHcbvFRx
- zuiA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=YlBtIHKGgxnUS9oYyI7Uhz0qMzFDZFuCYF/F/reA8aI=;
+ b=QeLDIjqAbcUpfyU8SCDFNc5Kg937iSo9Tn1mvd5XH0/sMIEoa2Hrpi6g6q2M3NMdJz
+ v8BQmYuw2P/2k21AJarKpLMVz6TJ/VcbNAd47j1HWjg91hjCHaDnDCnA3dsu6bqJ90lk
+ SbNmppy59tIGZy5LZX32AJxboP1wnO5D5fobBuojgBfQygiYGs7FI/6em2wyMK8vFhIR
+ 7PAJiEHlesDIuRs7GO1xk4DzyNSIPDgHSmBjtjmafa+nzeQ1U9xEL5v+r725ZmRxY1+X
+ ROWJxvina1TWkqm8j3ehqP4YBtptjjncv/BmVbPNfP9NU936Q9AbzfhnmSwbuyS/cLu4
+ 5Eiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=n+tqJTvn7soNfiKqhPkChiNYQkgp2XITmS45YDF3Ma8=;
- b=XvdN+HUwmhhMdwXqWbtqdntjDbeZaoKrjr0R9U+IVIQyGVuhHlq8LdvhdzAVLFZ9R7
- WYYmZs1vymWlsVS/3yNrH/FuSuaBP/GNIsLl4PFvc5lCDO2gJnU1AHpF6vz1SbgXaRoV
- erNTp3OzGX9EDHzRH0XdVZ5IeemT0/LCUkAC3g9YoL84jUIkdnmG43yGovruzxfNzlYf
- Kjz4LPuYicNQRXAmQYpY04xhGZV2DfvS94e+wkmxiowGlmea9mya50Z57gpONg3XyaT7
- 0ji3MSGD1fVVxqiWTAlAg2ijTcTx2tw2LrhhzUr30LZ3j0MefmuLQCO5ELXvTASlszKb
- HLPg==
-X-Gm-Message-State: AJIora+Hew42vGheqXdvViXu0sDtr+hkJd29nEa4UD65pUk1ywYj5KFY
- G5E494BcW/XT1wl26lgbvhr6tg==
-X-Google-Smtp-Source: AGRyM1vNDEazzwdg3N7rl6PTHFSKKvnvPzceuN616RqBp05YLtk88O1S1NxPM6ofGqN7T3076/vzbw==
-X-Received: by 2002:a17:90a:e7c6:b0:1ee:fed1:60a4 with SMTP id
- kb6-20020a17090ae7c600b001eefed160a4mr40500500pjb.100.1656991951443; 
- Mon, 04 Jul 2022 20:32:31 -0700 (PDT)
+ bh=YlBtIHKGgxnUS9oYyI7Uhz0qMzFDZFuCYF/F/reA8aI=;
+ b=oM7VYLgnyajXKjxm00MOrYb7iokvs1TfH3AQqVEhUDQ15GGCxPFwSEDLHV+enJC5gD
+ 7asbCu6iPww2iphsDUztlZFVu3kV3EVv4dIpm6z4XvOoGGAVwrRZ0TxiYxovQEBqV21a
+ a37VCXqqq0UF+oQeN0P0pbuyWHrTPH8QgkfIbjyWvI/F/cAIj/Rqi5e/UbsC3y7oqUaB
+ PwW67IZr/yRqoIQuTjw0CYoYZZdE1UL/Hi5s0e3mxxWFDxNqJh2WTADb/VBQ7Jmt7LCb
+ JeGvaNi7EiqNBjLag7ixNnbb1k82/7sgmy7/Rs3NAVwME5ZYVM8+fYciC4p4AMFM0sGX
+ TVyQ==
+X-Gm-Message-State: AJIora/2mSwNYw/8Zto/rlgqDyM5crd6e54IPlrGEIstX99rZhNCW2vl
+ lyvX2pvkvB/mqaO/g+sy/+NqQA==
+X-Google-Smtp-Source: AGRyM1tEyYcMK4teLzsbI7+dCQTXCRHzjxnzmJtqPl8NaDX4CorQrlNDuAVRLjLsmjt4dZh8xP4dlQ==
+X-Received: by 2002:a17:902:ea09:b0:16b:a264:381f with SMTP id
+ s9-20020a170902ea0900b0016ba264381fmr31250395plg.150.1656993835768; 
+ Mon, 04 Jul 2022 21:03:55 -0700 (PDT)
 Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- d9-20020a170902f14900b0016368840c41sm21855191plb.14.2022.07.04.20.32.29
+ p12-20020a170902e74c00b0016be9d498d0sm2403504plf.211.2022.07.04.21.03.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jul 2022 20:32:31 -0700 (PDT)
-Message-ID: <b09aa13c-d7c1-d80e-fa80-c6720fb0c10a@linaro.org>
-Date: Tue, 5 Jul 2022 09:02:26 +0530
+ Mon, 04 Jul 2022 21:03:55 -0700 (PDT)
+Message-ID: <d2b6b208-0650-6063-7e79-baad9a9dbfa1@linaro.org>
+Date: Tue, 5 Jul 2022 09:33:50 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v4 37/45] linux-user/aarch64: Do not allow duplicate or
- short sve records
+Subject: Re: [PATCH] include/qemu/host-utils: Remove unused code in the
+ *_overflow wrappers
 Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+References: <20220701025132.303469-1-thuth@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20220628042117.368549-1-richard.henderson@linaro.org>
- <20220628042117.368549-38-richard.henderson@linaro.org>
- <CAFEAcA81Xc0kXrYTeq+Ck4b9vwu7jOAMerS0s_L0HaqyvfUcJg@mail.gmail.com>
- <1dcf1ad6-eb4e-5c20-b8f7-254eca7f58df@linaro.org>
-In-Reply-To: <1dcf1ad6-eb4e-5c20-b8f7-254eca7f58df@linaro.org>
+In-Reply-To: <20220701025132.303469-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,34 +93,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/22 09:00, Richard Henderson wrote:
-> On 7/4/22 17:38, Peter Maydell wrote:
->>>           case TARGET_SVE_MAGIC:
->>> +            if (sve || size < sizeof(struct target_sve_context)) {
->>> +                goto err;
->>> +            }
->>>               if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
->>>                   vq = sve_vq(env);
->>>                   sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
->>> -                if (!sve && size == sve_size) {
->>> +                if (size == sve_size) {
->>>                       sve = (struct target_sve_context *)ctx;
->>>                       break;
->>>                   }
->>
->> On the other hand, the kernel seems to happily allow records
->> which are larger than the SVE_SIG_CONTEXT_SIZE, whereas we
->> ignore the record unless there's an exact size match.
+On 7/1/22 08:21, Thomas Huth wrote:
+> According to commit cec07c0b612975 the code in the #else paths was required
+> for GCC < 5.0 and Clang < 3.8. We don't support such old compilers
+> at all anymore, so we can remove these lines now. We keep the wrapper
+> function, though, since they are easier to read and help to make sure that
+> the parameters have the right types.
 > 
-> Yeah, this gets fixed properly in patch 39.
-> Perhaps I should simply squash this with that?
+> Signed-off-by: Thomas Huth<thuth@redhat.com>
+> ---
+>   include/qemu/host-utils.h | 65 ---------------------------------------
+>   1 file changed, 65 deletions(-)
 
-Bah!  No, those are two separate checks: the minimum size to contain vq and flags 
-(target_sve_context) and the minimum size to contain all of the vector data 
-(TARGET_SVE_SIG_CONTEXT_SIZE).
-
-The latter *is* fixed in patch 39, but this one should stay as-is.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
