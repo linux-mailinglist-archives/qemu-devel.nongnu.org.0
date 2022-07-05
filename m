@@ -2,92 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A9A55664E7
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:18:19 +0200 (CEST)
-Received: from localhost ([::1]:42048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9A35664EB
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:22:05 +0200 (CEST)
+Received: from localhost ([::1]:50972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8dlC-0003g0-CJ
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:18:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60584)
+	id 1o8doq-0001ZB-DT
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:22:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8daK-0000qE-SC
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:07:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36292)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1o8db1-0001rx-SI
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:07:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8daI-0008W1-Vl
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:07:04 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1o8db0-00008F-94
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:07:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657008422;
+ s=mimecast20190719; t=1657008465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zqCyMRRu0ICOnRHyHLpKTlay1ixBP9NYye7bGrIhNvE=;
- b=Zp3M2sgVVkhZz9GFG6Off/AWQ4GbZn0Z8rToLgpyv1jeyeYmZqTo7E0VTkgU6s5chLIqVw
- 6S//lrTSYIeMh5zbYSmRF/FDyL/T9t9uKLHBh2RfCh0sD+mYRiwP44cwPQUOk2IAwn3HJu
- JeMgT5yA13kExGTA1NlzB30u/33kLJM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AVVOJu77iTKaQsjh1si8MGhHVaB10APAIJXcXHcK8Yw=;
+ b=UMRt+2ap8qqnle64A0IPcUSkG6d1pRrXjrjBonhAigQg93k4DkPJPBnZZdKyaIRRhR+yuF
+ 46VvJPQow+USUKitX/ZTEOzr+Gj94iLNtKmsq4LgwJfSOfzq+Ue89TjlyUU7eIsFM15v8v
+ RJGi7c1Qg1iVRiukmsTX546nArqKYrY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-62oILPMWMw2ZY45pqQGAhw-1; Tue, 05 Jul 2022 04:07:00 -0400
-X-MC-Unique: 62oILPMWMw2ZY45pqQGAhw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- o28-20020a05600c511c00b003a04f97f27aso6422713wms.9
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:07:00 -0700 (PDT)
+ us-mta-663-03HEuz2MMXiIX38vVwa-Kw-1; Tue, 05 Jul 2022 04:07:43 -0400
+X-MC-Unique: 03HEuz2MMXiIX38vVwa-Kw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s1-20020a5d69c1000000b0021b9f3abfebso1700470wrw.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:07:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zqCyMRRu0ICOnRHyHLpKTlay1ixBP9NYye7bGrIhNvE=;
- b=n/b1da/WBUp4jrdMXMTKpjE0avNUnZfPqNMG5g2Npawip8ZURV57fv1pIF5WRVC53I
- 5SvmQQ3JdXGVLAfeaL3g4FFXkMpPoJMp0DRQZON75xDVMqaBq50RPwqCBw7oZp717jEz
- o5a8xj+5r4k2XLQRzsgJ1W3BeOiMmrhjz3YaAa2otgKXDOP3wKw+488eykMU4KOgDMTq
- LzNRGKZwmAj7V/MsyJmFAhy3J0evCPYwHVy487ZghAnTS703BmQp/c0OMQdLNRUlFHXT
- 9hGkCh7BmKGE+iKH6TuOyF8irn954WHldM9zMY3nDyB0bpUriOrRQ6A/Mx6/3nk17xL0
- EHpw==
-X-Gm-Message-State: AJIora+3OR788lRnLvX8IAnx/JUoMPjZe3LjQxsSroQXeUKJdvulEWsA
- 6Lo32vjjCpYAYB93J9/XBuvtIvHRaYt8oCeQjNDoQHZsPoMc4VdMq22xdRLdM6eBY5oLgI7hrqM
- jVZUbb0gfD2WVExw=
-X-Received: by 2002:a05:6000:2a4:b0:21d:187c:c50 with SMTP id
- l4-20020a05600002a400b0021d187c0c50mr31687722wry.5.1657008419806; 
- Tue, 05 Jul 2022 01:06:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1se9loq3Bl6F2eF7XVN+Y7dgJ3/Ootkho1v1JDQsAyNRZD1j6CgGOjZqksCroGkue88+1RSlQ==
-X-Received: by 2002:a05:6000:2a4:b0:21d:187c:c50 with SMTP id
- l4-20020a05600002a400b0021d187c0c50mr31687701wry.5.1657008419618; 
- Tue, 05 Jul 2022 01:06:59 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-21.web.vodafone.de.
- [109.43.176.21]) by smtp.gmail.com with ESMTPSA id
- q18-20020a5d5752000000b0021d6d18a9f8sm3876457wrw.76.2022.07.05.01.06.58
+ bh=AVVOJu77iTKaQsjh1si8MGhHVaB10APAIJXcXHcK8Yw=;
+ b=Ml5/ZS1GrgTrT+6ZCPeMU87X7fJdHdcpWWjiihHlC1pAXNlori050ocKyaUvCVUSNG
+ 7iOlJM89NNZQIu98JTSlj1OhEIGWVm8n9bZbwFXPWze5QrZKALEOgKKcZX6KY6I8RmKN
+ zL9Ru1sHwydFRaYDQ+xTIqvz5ILDIU9T5SDNw3dgxVuXUMXlF33sbxhnay064fbyU41G
+ L4nWBqcBYd34+A7k1xTIVVjMgB650kZVJ4HLczr9zKawH2vzKnN0QV6CoL8xgL5uOm9M
+ BOkZZE2Xv16rrVUZUjyi9FSGM1D6CIT3HQognMYJ4DkXLxTp3ZzKRINugeMSMeg1JHiN
+ Avqw==
+X-Gm-Message-State: AJIora8GU0TvohavAGPTQksaW49ef1y2vK1EQ6M3Akk83LQ437RaICP+
+ CTQM6i/hqmCfXnVCh9cfA//7YpmzkDqrmc+jwteNnZPMPdCJ/D2vWT5WoX5ttblXYzDf1Y/efRT
+ iAAao1TOyz7ICgzo=
+X-Received: by 2002:a05:6000:904:b0:21a:3dca:4297 with SMTP id
+ bz4-20020a056000090400b0021a3dca4297mr30716009wrb.487.1657008462422; 
+ Tue, 05 Jul 2022 01:07:42 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tSHBOWgz3K+VXI44eVFWLOFBT10UCOjAorCVoBrr8xeWpCx3jqR+mlVDZqM3bfQkNAPe2Usw==
+X-Received: by 2002:a05:6000:904:b0:21a:3dca:4297 with SMTP id
+ bz4-20020a056000090400b0021a3dca4297mr30715989wrb.487.1657008462224; 
+ Tue, 05 Jul 2022 01:07:42 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ d10-20020adff2ca000000b0021a38089e99sm32156827wrp.57.2022.07.05.01.07.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 01:06:59 -0700 (PDT)
-Message-ID: <f1c2d5b1-ee5c-281b-acd4-71035f6753c9@redhat.com>
-Date: Tue, 5 Jul 2022 10:06:58 +0200
+ Tue, 05 Jul 2022 01:07:41 -0700 (PDT)
+Message-ID: <0c4ff18c-f12f-6955-09b8-8acd3126492e@redhat.com>
+Date: Tue, 5 Jul 2022 10:07:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC PATCH 5/5] tests: stop skipping migration test on s390x/ppc64
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v8 05/20] job.c: add job_lock/unlock while keeping job.h
+ intact
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Juan Quintela <quintela@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-s390x@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220628105434.295905-1-berrange@redhat.com>
- <20220628105434.295905-6-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220628105434.295905-6-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+References: <20220629141538.3400679-1-eesposit@redhat.com>
+ <20220629141538.3400679-6-eesposit@redhat.com>
+ <YsPqxG4//mc5DBn4@stefanha-x1.localdomain>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <YsPqxG4//mc5DBn4@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,74 +113,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/06/2022 12.54, Daniel P. Berrangé wrote:
-> There have been checks put into the migration test which skip it in a
-> few scenarios
-> 
->   * ppc64 TCG
->   * ppc64 KVM with kvm-pr
->   * s390x TCG
-> 
-> In the original commits there are references to unexplained hangs in
-> the test. There is no record of details of where it was hanging, but
-> it is suspected that these were all a result of the max downtime limit
-> being set at too low a value to guarantee convergance.
-> 
-> Since a previous commit bumped the value from 1 second to 30 seconds,
-> it is believed that hangs due to non-convergance should be eliminated
-> and thus worth trying to remove the skipped scenarios.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   tests/qtest/migration-test.c | 21 ---------------------
->   1 file changed, 21 deletions(-)
 
-I just gave this a try, and it's failing on my x86 laptop with the ppc64 target:
 
-/ppc64/migration/auto_converge: qemu-system-ppc64: warning: TCG doesn't 
-support requested feature, cap-cfpc=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-sbbc=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-ibs=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-ccf-assist=on
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-cfpc=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-sbbc=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-ibs=workaround
-qemu-system-ppc64: warning: TCG doesn't support requested feature, 
-cap-ccf-assist=on
-Memory content inconsistency at df6000 first_byte = 98 last_byte = 98 
-current = 2 hit_edge = 0
-Memory content inconsistency at 4e51000 first_byte = 98 last_byte = 97 
-current = 96 hit_edge = 1
-Memory content inconsistency at 4e52000 first_byte = 98 last_byte = 97 
-current = 96 hit_edge = 1
-Memory content inconsistency at 4e53000 first_byte = 98 last_byte = 97 
-current = 96 hit_edge = 1
-Memory content inconsistency at 4e54000 first_byte = 98 last_byte = 97 
-current = 96 hit_edge = 1
-Memory content inconsistency at 4e55000 first_byte = 98 last_byte = 97 
-current = 96 hit_edge = 1
-Memory content inconsistency at 4e56000 first_byte = 98 last_byte = 97 
-current = 96 hit_edge = 1
-Memory content inconsistency at 4e57000 first_byte = 98 last_byte = 97 
-current = 96 hit_edge = 1
-Memory content inconsistency at 4e58000 first_byte = 98 last_byte = 97 
-current = 96 hit_edge = 1
-Memory content inconsistency at 4e59000 first_byte = 98 last_byte = 97 
-current = 96 hit_edge = 1
-and in another 5542 pages**
-ERROR:../../devel/qemu/tests/qtest/migration-test.c:280:check_guests_ram: 
-assertion failed: (bad == 0)
-Aborted (core dumped)
+Am 05/07/2022 um 09:39 schrieb Stefan Hajnoczi:
+> On Wed, Jun 29, 2022 at 10:15:23AM -0400, Emanuele Giuseppe Esposito wrote:
+>> +void job_ref(Job *job)
+>> +{
+>> +    JOB_LOCK_GUARD();
+>> +    job_ref_locked(job);
+>> +}
+> 
+> You don't need to fix this, but just a note:
+> 
+> This API seems dangerous. If we don't hold the lock, how can we be sure
+> job won't be unreferenced before we call job_ref()? We would need to be
+> sure there exists another reference that won't be released until
+> job_ref() returns...
+> 
 
-So I guess this workaround was about a different issue and we should drop 
-this patch.
+I guess that's a drawback of using this new serie organization :)
 
-  Thomas
+This function is just a temporary placeholder to avoid having _locked
+functions being called without the lock held (see previous serie
+suggestions from Vladimir and Kevin).
+
+Emanuele
 
 
