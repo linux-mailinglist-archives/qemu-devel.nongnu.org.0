@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53949566895
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 12:51:17 +0200 (CEST)
-Received: from localhost ([::1]:47146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A83566873
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 12:47:08 +0200 (CEST)
+Received: from localhost ([::1]:37738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8g9E-0002lu-Em
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 06:51:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36434)
+	id 1o8g5E-0004kE-1Y
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 06:47:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8fxE-00070s-3g
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 06:38:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54746)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8fxB-0006ry-67
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 06:38:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8fxB-00062X-VQ
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 06:38:51 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8fx9-00060z-9o
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 06:38:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657017529;
+ s=mimecast20190719; t=1657017526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZLwGLwZxnn+6zX9uqpPc5dqIsTCJGhsp/yCnEiJdqGA=;
- b=FPVjek0BFPkzREZIWuYBd4NNk6kMe+gLIuZQSM7KeAVeU1dYOrD6g7Xc9jn651bc8zkpnS
- qmIpLBzN15YVpRDnY9nRVn1Hfm+UHoRI7mbQST08bffoz0zmmU1a2/xwmSTfddPJ/5Iujx
- xl1hh+kLPjItESmU2vzwdysPPWo+4jI=
+ bh=kZUpvwF/94x5M7x5QtGDP75yBTaxZ4FbtD+jMCeqrfA=;
+ b=h4UcvzI7CKf6slor+ACMzvFfmChyxgdNyOkzmvSDRmxTsD2OzxHGueCWcy5MA3D9kQ7r3i
+ r/+ewl2E1xqrOOGBHDuPXTsC/VtUSj6QeFQSstdx8MD0ym0D+eBRWiD7BkvUkrt4HqlrC4
+ MryyeIAtKPINZIIuW5iSkULpE00aaTY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624--zqa3QaYNtOi-BiALELGLw-1; Tue, 05 Jul 2022 06:38:42 -0400
-X-MC-Unique: -zqa3QaYNtOi-BiALELGLw-1
+ us-mta-628-m330jQe1NO6b42ytSwmvYQ-1; Tue, 05 Jul 2022 06:38:43 -0400
+X-MC-Unique: m330jQe1NO6b42ytSwmvYQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2599029ABA16;
- Tue,  5 Jul 2022 10:38:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 60DB83800C2C;
+ Tue,  5 Jul 2022 10:38:43 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65845492C3B;
- Tue,  5 Jul 2022 10:38:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98120492C3B;
+ Tue,  5 Jul 2022 10:38:42 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 13/14] meson.build: Require a recent version of libpng
-Date: Tue,  5 Jul 2022 12:38:15 +0200
-Message-Id: <20220705103816.608166-14-thuth@redhat.com>
+Subject: [PULL 14/14] include/qemu/host-utils: Remove unused code in the
+ *_overflow wrappers
+Date: Tue,  5 Jul 2022 12:38:16 +0200
+Message-Id: <20220705103816.608166-15-thuth@redhat.com>
 In-Reply-To: <20220705103816.608166-1-thuth@redhat.com>
 References: <20220705103816.608166-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -76,46 +77,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to https://gitlab.com/qemu-project/qemu/-/issues/1080#note_998088246
-QEMU does not compile with older versions of libpng, so we should check
-for a good version in meson.build. According to repology.org, our supported
-host target operating systems ship these versions:
+According to commit cec07c0b612975 the code in the #else paths was required
+for GCC < 5.0 and Clang < 3.8. We don't support such old compilers
+at all anymore, so we can remove these lines now. We keep the wrapper
+function, though, since they are easier to read and help to make sure that
+the parameters have the right types.
 
-             Fedora 35: 1.6.37
-     CentOS 8 (RHEL-8): 1.6.34
-             Debian 11: 1.6.37
-    OpenSUSE Leap 15.3: 1.6.34
-      Ubuntu LTS 20.04: 1.6.37
-         FreeBSD Ports: 1.6.37
-         NetBSD pkgsrc: 1.6.37
-         OpenBSD Ports: 1.6.37
-              Homebrew: 1.6.37
-           MSYS2 mingw: 1.6.37
-
-So it seem reasonable to require at least libpng version 1.6.34 for
-our builds.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1080
-Message-Id: <20220623174941.531196-1-thuth@redhat.com>
+Message-Id: <20220701025132.303469-1-thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu/host-utils.h | 65 ---------------------------------------
+ 1 file changed, 65 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index f34ae9a5f8..bc5569ace1 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1209,7 +1209,7 @@ if gtkx11.found()
- endif
- png = not_found
- if get_option('png').allowed() and have_system
--   png = dependency('libpng', required: get_option('png'),
-+   png = dependency('libpng', version: '>=1.6.34', required: get_option('png'),
-                     method: 'pkg-config', kwargs: static_kwargs)
- endif
- vnc = not_found
+diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
+index bc743f5e32..29f3a99878 100644
+--- a/include/qemu/host-utils.h
++++ b/include/qemu/host-utils.h
+@@ -376,12 +376,7 @@ static inline uint64_t uabs64(int64_t v)
+  */
+ static inline bool sadd32_overflow(int32_t x, int32_t y, int32_t *ret)
+ {
+-#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
+     return __builtin_add_overflow(x, y, ret);
+-#else
+-    *ret = x + y;
+-    return ((*ret ^ x) & ~(x ^ y)) < 0;
+-#endif
+ }
+ 
+ /**
+@@ -394,12 +389,7 @@ static inline bool sadd32_overflow(int32_t x, int32_t y, int32_t *ret)
+  */
+ static inline bool sadd64_overflow(int64_t x, int64_t y, int64_t *ret)
+ {
+-#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
+     return __builtin_add_overflow(x, y, ret);
+-#else
+-    *ret = x + y;
+-    return ((*ret ^ x) & ~(x ^ y)) < 0;
+-#endif
+ }
+ 
+ /**
+@@ -412,12 +402,7 @@ static inline bool sadd64_overflow(int64_t x, int64_t y, int64_t *ret)
+  */
+ static inline bool uadd32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
+ {
+-#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
+     return __builtin_add_overflow(x, y, ret);
+-#else
+-    *ret = x + y;
+-    return *ret < x;
+-#endif
+ }
+ 
+ /**
+@@ -430,12 +415,7 @@ static inline bool uadd32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
+  */
+ static inline bool uadd64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
+ {
+-#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
+     return __builtin_add_overflow(x, y, ret);
+-#else
+-    *ret = x + y;
+-    return *ret < x;
+-#endif
+ }
+ 
+ /**
+@@ -449,12 +429,7 @@ static inline bool uadd64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
+  */
+ static inline bool ssub32_overflow(int32_t x, int32_t y, int32_t *ret)
+ {
+-#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
+     return __builtin_sub_overflow(x, y, ret);
+-#else
+-    *ret = x - y;
+-    return ((*ret ^ x) & (x ^ y)) < 0;
+-#endif
+ }
+ 
+ /**
+@@ -468,12 +443,7 @@ static inline bool ssub32_overflow(int32_t x, int32_t y, int32_t *ret)
+  */
+ static inline bool ssub64_overflow(int64_t x, int64_t y, int64_t *ret)
+ {
+-#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
+     return __builtin_sub_overflow(x, y, ret);
+-#else
+-    *ret = x - y;
+-    return ((*ret ^ x) & (x ^ y)) < 0;
+-#endif
+ }
+ 
+ /**
+@@ -487,12 +457,7 @@ static inline bool ssub64_overflow(int64_t x, int64_t y, int64_t *ret)
+  */
+ static inline bool usub32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
+ {
+-#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
+     return __builtin_sub_overflow(x, y, ret);
+-#else
+-    *ret = x - y;
+-    return x < y;
+-#endif
+ }
+ 
+ /**
+@@ -506,12 +471,7 @@ static inline bool usub32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
+  */
+ static inline bool usub64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
+ {
+-#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
+     return __builtin_sub_overflow(x, y, ret);
+-#else
+-    *ret = x - y;
+-    return x < y;
+-#endif
+ }
+ 
+ /**
+@@ -524,13 +484,7 @@ static inline bool usub64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
+  */
+ static inline bool smul32_overflow(int32_t x, int32_t y, int32_t *ret)
+ {
+-#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
+     return __builtin_mul_overflow(x, y, ret);
+-#else
+-    int64_t z = (int64_t)x * y;
+-    *ret = z;
+-    return *ret != z;
+-#endif
+ }
+ 
+ /**
+@@ -543,14 +497,7 @@ static inline bool smul32_overflow(int32_t x, int32_t y, int32_t *ret)
+  */
+ static inline bool smul64_overflow(int64_t x, int64_t y, int64_t *ret)
+ {
+-#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
+     return __builtin_mul_overflow(x, y, ret);
+-#else
+-    uint64_t hi, lo;
+-    muls64(&lo, &hi, x, y);
+-    *ret = lo;
+-    return hi != ((int64_t)lo >> 63);
+-#endif
+ }
+ 
+ /**
+@@ -563,13 +510,7 @@ static inline bool smul64_overflow(int64_t x, int64_t y, int64_t *ret)
+  */
+ static inline bool umul32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
+ {
+-#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
+     return __builtin_mul_overflow(x, y, ret);
+-#else
+-    uint64_t z = (uint64_t)x * y;
+-    *ret = z;
+-    return z > UINT32_MAX;
+-#endif
+ }
+ 
+ /**
+@@ -582,13 +523,7 @@ static inline bool umul32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
+  */
+ static inline bool umul64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
+ {
+-#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
+     return __builtin_mul_overflow(x, y, ret);
+-#else
+-    uint64_t hi;
+-    mulu64(ret, &hi, x, y);
+-    return hi != 0;
+-#endif
+ }
+ 
+ /*
 -- 
 2.31.1
 
