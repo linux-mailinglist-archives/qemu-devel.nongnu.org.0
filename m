@@ -2,50 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCBFF5666C4
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 11:49:43 +0200 (CEST)
-Received: from localhost ([::1]:36292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9452156670F
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 11:52:00 +0200 (CEST)
+Received: from localhost ([::1]:40504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8fBe-0004SQ-Vv
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 05:49:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54108)
+	id 1o8fDq-0007Zy-0C
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 05:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o8f6l-0001s5-Bp; Tue, 05 Jul 2022 05:44:39 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59904)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8f7M-0002K4-Tn
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:45:17 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:38385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o8f6j-0006Gu-Ok; Tue, 05 Jul 2022 05:44:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xMgOnwWeI+9eKS3Uz4gIXVcbpnvZet6LOf8ZxI0XcOs=; b=TEuM8r1HFuGWWhPn284ntY5Aul
- Ldb/+ApYIMJiWYd67xWQPlKWec9aJicONks23anxg5fA3mBRFnb4wETEu1lb72d9QV5aO/FO3NjSJ
- OhooUDHh6Hr7Uiseu2EEs35adZYd2wp5vBPDjVvrLPIWC7yGqgqLQVkT1hPfxSxuHecSQewm21tGF
- txt93nr6uUDDF7Mxc2MWHwOaaOTWwVkg5e8eDWDSKHW+HHR304BFo4so4X78v78xFEUOgKipMq0S1
- hx4NugpEt4+XbPudQP4NljBrnHaXq6erP86Ebdbl3q8ZUG3R2lyza7mi2Sn6Cmv9tdPTy6wrBVkye
- hAPEZBA1475e7I8i5QwPlzRvEHZnfzwgYcRi++Apfu3Ct24eNEJ1Sn3X58O2eIjHD+5cHWzkxu4Ef
- q++kufxPEog3GBg9bZN995TjdVNI9v+vTKhCV1XE7yzKjXLBsR4X5+I5i8BQTMyr8PC4jPvhmzcW6
- Do+GK+hM1XbhbnC4KTPSXQj7Yu3dR0cmLSeQCOHvIi31DZg9+bhIMkVl7Bks/LGmM2HkJq6u2pcAJ
- 81vZJZODuftovTzmmD5jyHzttYDIca5eDX3ioAJCZA4rA4Kuv9a+JqNsWtBR44Tf6wgddMxEvku+9
- eLQPHCnNpPR2whxfimouknbAjOdxH2By5Pj6pHTaw=;
-Received: from [2a00:23c4:8ba5:df00:fd7d:1c3a:1dd0:c576]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1o8f5R-000CWP-Uh; Tue, 05 Jul 2022 10:43:18 +0100
-Message-ID: <14dfc11a-bd4c-5d80-4e18-3153a6dced77@ilande.co.uk>
-Date: Tue, 5 Jul 2022 10:44:29 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8f7F-0006NA-Tg
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:45:16 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.124])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 996EA114784B7;
+ Tue,  5 Jul 2022 11:44:58 +0200 (CEST)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 5 Jul 2022
+ 11:44:58 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003657e85de-1d3a-4a25-8256-874da54274dc,
+ 4FF77D4A254985FC0BE9A952312E42D6E34C6CC4) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <7b897ea9-9afb-e669-3d93-dd33bbd78867@kaod.org>
+Date: Tue, 5 Jul 2022 11:44:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
+Subject: Re: [PATCH 2/9] target/ppc: add errp to kvmppc_read_int_cpu_dt()
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>, <qemu-devel@nongnu.org>
+CC: <qemu-ppc@nongnu.org>
 References: <20220630194249.886747-1-danielhb413@gmail.com>
  <20220630194249.886747-3-danielhb413@gmail.com>
  <55014e2a-a668-4843-8338-850abeb5ff04@kaod.org>
@@ -53,24 +45,26 @@ References: <20220630194249.886747-1-danielhb413@gmail.com>
  <6d37b1dc-5dfb-2513-f74e-3f58e84e8117@kaod.org>
  <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
  <38468531-5eb0-a421-f90f-2a3c67222d40@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 In-Reply-To: <38468531-5eb0-a421-f90f-2a3c67222d40@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba5:df00:fd7d:1c3a:1dd0:c576
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 2/9] target/ppc: add errp to kvmppc_read_int_cpu_dt()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 28ad992d-678e-479c-a4c3-dc380036734a
+X-Ovh-Tracer-Id: 583779104574442464
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeiuddgvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegudfgvedvieehvefffffgleekheeiudevjeelheekffdvveejjedttedtjeehkeenucffohhmrghinhepfhgrthgrlhdrnhhonecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,8 +80,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/07/2022 10:39, Daniel Henrique Barboza wrote:
-
+On 7/5/22 11:39, Daniel Henrique Barboza wrote:
+> 
+> 
 > On 7/5/22 03:51, Mark Cave-Ayland wrote:
 >> On 04/07/2022 18:34, Cédric Le Goater wrote:
 >>
@@ -131,8 +126,7 @@ On 05/07/2022 10:39, Daniel Henrique Barboza wrote:
 >>>>>> +        error_setg(errp, "Failed to read CPU property %s", propname);
 >>>>>>           return 0;
 >>>>>>       }
->>>>>> @@ -1946,12 +1948,12 @@ static uint64_t kvmppc_read_int_cpu_dt(const char 
->>>>>> *propname)
+>>>>>> @@ -1946,12 +1948,12 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
 >>>>>>   uint64_t kvmppc_get_clockfreq(void)
 >>>>>>   {
 >>>>>> -    return kvmppc_read_int_cpu_dt("clock-frequency");
@@ -155,9 +149,7 @@ On 05/07/2022 10:39, Daniel Henrique Barboza wrote:
 >>> division by zero, no console, etc. We could check easily with pseries
 >>> which is the only KVM PPC platform.
 >>
->> Well not quite true ;)  I haven't tested it during the last release cycle, but the 
->> Mac machines were still working fine to boot OS X with KVM-PR on my G4 Mac Mini 
->> last time I checked.
+>> Well not quite true ;)  I haven't tested it during the last release cycle, but the Mac machines were still working fine to boot OS X with KVM-PR on my G4 Mac Mini last time I checked.
 > 
 > 
 > We can't just error_fatal by default then.
@@ -166,12 +158,12 @@ On 05/07/2022 10:39, Daniel Henrique Barboza wrote:
 > element. If I want to error_fatal for pseries then I can do so in patch
 > 9/9, but other than that I'll keep the existing behavior.
 
-This wouldn't be a problem for the Mac machines since they pass the clock frequency 
-from QEMU to OpenBIOS using the fw_cfg interface which builds the tree itself rather 
-than using FDT. So I think using error_fatal should still be fine.
+Or add an errp here :
 
+hw/ppc/e500.c:        clock_freq = kvmppc_get_clockfreq();
+hw/ppc/sam460ex.c:        clock_freq = kvmppc_get_clockfreq();
+hw/ppc/ppc440_bamboo.c:        clock_freq = kvmppc_get_clockfreq();
+hw/ppc/spapr.c:    uint32_t cpufreq = kvm_enabled() ? kvmppc_get_clockfreq() : 1000000000;
 
-ATB,
-
-Mark.
+C.
 
