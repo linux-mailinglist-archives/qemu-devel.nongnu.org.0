@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625DF566527
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:37:31 +0200 (CEST)
-Received: from localhost ([::1]:51728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FBCE566509
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:31:19 +0200 (CEST)
+Received: from localhost ([::1]:40036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8e3m-0005Ag-2b
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:37:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36116)
+	id 1o8dxm-0005Th-9P
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:31:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8dqy-0006jG-Ne
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:24:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60084)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8dqv-0002V4-6y
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:24:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657009452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4hSr5669IkGXRdtgVfs5KfWDPabUKQSBtImGI24f3IU=;
- b=IfLG2WMv3u57sImwRVARsYIVkUWFLlNxy+ZYnLxI+DJuhzCYYh66CtGGSQ+bANoSMrIY5N
- xdHqosWs4hrVvd/4WmUg/uBQUxaJSuNLYuc2ppGtjFpNPT4INpMov2xiOFAPQYOZ+t/sff
- F6RDVlzSH0YwRS/6hRnue7UqRwl0naU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-FxTTp74NPxW5Vu_092u_ig-1; Tue, 05 Jul 2022 04:24:10 -0400
-X-MC-Unique: FxTTp74NPxW5Vu_092u_ig-1
-Received: by mail-ej1-f71.google.com with SMTP id
- qk8-20020a1709077f8800b00722fcbfdcf7so2463359ejc.2
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:24:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8dvK-00042g-AK
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:28:46 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:41705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8dvI-0003IX-ET
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:28:45 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ o31-20020a17090a0a2200b001ef7bd037bbso6523089pjo.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:28:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5KiDd2AUmsN7uSlao/kXNEITv5UGSEXvxglZYz0IYP0=;
+ b=XsLDKIKYkBcQa41MJ8mVaFZpXCNWUwjJqD2EN72TtsmjrzIni5+D7JkapSIOlQqGC4
+ 9klFv5CO+uyWgUI4brrTxPj/AQMo/orMefWkR6JPA8e+2ldk9LunHjX2o9OaRNYlyuBv
+ m5ghRzeKomX5EOI6wDD5qA5LUOike+nzO1HP9Gdloc2ozvloSdzQg8f5T19KqO77xMo+
+ 2RZLLmqXIBkzGJoEHSyDJHv2uISBY3vXapVHzfEnmi+Klrba8JCrc36bQ62+90F6zAsp
+ +oD/a0bR5zWfg/8BCREZCxdH41Vb+ckg2yrSlfWh3peZVi9lGP3aoAxrsf9JbtW9ZgyD
+ pA2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=4hSr5669IkGXRdtgVfs5KfWDPabUKQSBtImGI24f3IU=;
- b=jZsb2iVWAmC49MIfn6eVfa2TDWcz5fviZ7uRIbArEHcvMyN5l320ZB0Ndau1bJPHGN
- o1nrZL9xEGBc7yzXvw9K/JFVCYdxuapz2EOSOSNsEXLrwtrnk8Oxoj/rbUb27XL/cK2o
- kbZ/IL/4Dhz4jPn97zHtTxQTTKt1jp7jiS9WGPecDtcOi7lLv75SIhlnLM0sa1I+KbL1
- 89I81pBLRit6Y0SSsep3wnCyYQC+wLCL5T+FaWRPk/0XPKSBE2nEwubfpcPOjJZvuFca
- ycn1rPqUSvW9Y1CDm+a7UHP5K+Y2Uf378PLNm1mCWih2mw/T5Mj8NWtljTBlQUOEPgBV
- wzWw==
-X-Gm-Message-State: AJIora9n3XD2LXNR7myV36ozrQPQlOjofHDO1A3SI33/M/wV+oiPqPHE
- NVadiryFOiSGJ2Xh9np8d3Ug0u4j6PCezQhm0m8dAhAPAvTtAzfOSPBk5ppU1go7/dMcuPCYrC+
- AGtfN9ZwUUP5Nnvc=
-X-Received: by 2002:a05:6402:2706:b0:437:75f2:402c with SMTP id
- y6-20020a056402270600b0043775f2402cmr44175306edd.245.1657009449790; 
- Tue, 05 Jul 2022 01:24:09 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tpnjHIbxchrZz0xfmk/pOgRFlDgjslUOhhdBNL6Mw7FrAUkPqQ4Uso8ZLTLghc1Gs8P4CSjQ==
-X-Received: by 2002:a05:6402:2706:b0:437:75f2:402c with SMTP id
- y6-20020a056402270600b0043775f2402cmr44175292edd.245.1657009449594; 
- Tue, 05 Jul 2022 01:24:09 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
- ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
- by smtp.gmail.com with ESMTPSA id
- jw14-20020a170906e94e00b007263481a43fsm15121357ejb.81.2022.07.05.01.24.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 01:24:08 -0700 (PDT)
-Message-ID: <7c080258-8ecc-c763-0afc-0d6d9dec49da@redhat.com>
-Date: Tue, 5 Jul 2022 10:24:08 +0200
+ bh=5KiDd2AUmsN7uSlao/kXNEITv5UGSEXvxglZYz0IYP0=;
+ b=0jPBLt0/Ws9jWsKnFq1vF6PcmRLU+Bar1mCeXYQwe+EGC1l2sRiQUVPURIk7P9ykV3
+ ktY4KRu+87rnCLB7FH1sYMVhQ6oFEMTdCDv0UeA2tLooFjfHidwEPcTQXCZOOJMw6aH2
+ souHirVvaZY9k/gAALF033f4SZ/KwGDC3MnpaUbjfqV0xa49PebOVH6WxxWA9ZSQ7bYs
+ SoAnmFe8MJ8H36JslfXshI5AovpfziP94XvHu001pKve068bCxJBudBc/qj8rEYl7i5M
+ EoQzOAJXdtF7RMrPjZksN6J2O1oqIub/4lCONcXsyEz3nXW0j/NB2M+jO6LY+xpwx3/q
+ 2yyQ==
+X-Gm-Message-State: AJIora8+Px+img4ZTrbmqsgolYt8lEgLvCROowLPbn0SMxrj382BYx4E
+ fxabf++LUd/P953wP42zPgQEIX0RQ7AKqwjm
+X-Google-Smtp-Source: AGRyM1uyucb5IDSBzxiLtUzDPPPG2z818DJ0UnvgyuMYp9wHRoQHsv6pghQ4AlZ7ssfGOs99pLnqdw==
+X-Received: by 2002:a17:903:40c9:b0:16a:2d26:5553 with SMTP id
+ t9-20020a17090340c900b0016a2d265553mr40102099pld.31.1657009722475; 
+ Tue, 05 Jul 2022 01:28:42 -0700 (PDT)
+Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
+ x13-20020a056a000bcd00b005206d4fd636sm22205591pfu.2.2022.07.05.01.28.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jul 2022 01:28:42 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: thuth@redhat.com,
+	yangxiaojuan@loongson.cn,
+	gaosong@loongson.cn
+Subject: [PATCH] hw/rtc/ls7a_rtc: Drop unused inline functions
+Date: Tue,  5 Jul 2022 13:58:36 +0530
+Message-Id: <20220705082836.1141160-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 09/18] block: Export blk_pwritev_part() in
- block-backend-io.h
-Content-Language: en-US
-To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20220517113524.197910-1-afaria@redhat.com>
- <20220517113837.199696-5-afaria@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220517113837.199696-5-afaria@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,49 +88,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.05.22 13:38, Alberto Faria wrote:
-> Also convert it into a generated_co_wrapper.
->
-> Signed-off-by: Alberto Faria <afaria@redhat.com>
-> ---
->   block/block-backend.c             | 14 --------------
->   block/coroutines.h                |  5 -----
->   include/sysemu/block-backend-io.h |  4 ++++
->   tests/unit/test-block-iothread.c  | 19 +++++++++++++++++++
->   4 files changed, 23 insertions(+), 19 deletions(-)
+Remove toy_val_to_time_mon and toy_val_to_time_year as unused,
+and to avoid a build failure with clang.  Remove all of the
+other inline markers foo so that this does not creep back in.
 
-[...]
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ hw/rtc/ls7a_rtc.c | 27 ++++++---------------------
+ 1 file changed, 6 insertions(+), 21 deletions(-)
 
-> diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
-> index 2fa1248445..6061762c97 100644
-> --- a/tests/unit/test-block-iothread.c
-> +++ b/tests/unit/test-block-iothread.c
-> @@ -183,6 +183,21 @@ static void test_sync_op_blk_preadv_part(BlockBackend *blk)
->       g_assert_cmpint(ret, ==, -EIO);
->   }
->   
-> +static void test_sync_op_blk_pwritev_part(BlockBackend *blk)
-> +{
-> +    uint8_t buf[512];
-
-Given you’ve initialized this in test_sync_op_blk_pwritev(), I think it 
-should be initialized here, too.
-
-With that done:
-
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-
-> +    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, sizeof(buf));
-> +    int ret;
-> +
-> +    /* Success */
-> +    ret = blk_pwritev_part(blk, 0, sizeof(buf), &qiov, 0, 0);
-> +    g_assert_cmpint(ret, ==, 0);
-> +
-> +    /* Early error: Negative offset */
-> +    ret = blk_pwritev_part(blk, -2, sizeof(buf), &qiov, 0, 0);
-> +    g_assert_cmpint(ret, ==, -EIO);
-> +}
-> +
+diff --git a/hw/rtc/ls7a_rtc.c b/hw/rtc/ls7a_rtc.c
+index e8b75701e4..1f9e38a735 100644
+--- a/hw/rtc/ls7a_rtc.c
++++ b/hw/rtc/ls7a_rtc.c
+@@ -86,46 +86,31 @@ struct LS7ARtcState {
+ };
+ 
+ /* switch nanoseconds time to rtc ticks */
+-static inline uint64_t ls7a_rtc_ticks(void)
++static uint64_t ls7a_rtc_ticks(void)
+ {
+     return qemu_clock_get_ns(rtc_clock) * LS7A_RTC_FREQ / NANOSECONDS_PER_SECOND;
+ }
+ 
+ /* switch rtc ticks to nanoseconds */
+-static inline uint64_t ticks_to_ns(uint64_t ticks)
++static uint64_t ticks_to_ns(uint64_t ticks)
+ {
+     return ticks * NANOSECONDS_PER_SECOND / LS7A_RTC_FREQ;
+ }
+ 
+-static inline bool toy_enabled(LS7ARtcState *s)
++static bool toy_enabled(LS7ARtcState *s)
+ {
+     return FIELD_EX32(s->cntrctl, RTC_CTRL, TOYEN) &&
+            FIELD_EX32(s->cntrctl, RTC_CTRL, EO);
+ }
+ 
+-static inline bool rtc_enabled(LS7ARtcState *s)
++static bool rtc_enabled(LS7ARtcState *s)
+ {
+     return FIELD_EX32(s->cntrctl, RTC_CTRL, RTCEN) &&
+            FIELD_EX32(s->cntrctl, RTC_CTRL, EO);
+ }
+ 
+-/* parse toy value to struct tm */
+-static inline void toy_val_to_time_mon(uint64_t toy_val, struct tm *tm)
+-{
+-    tm->tm_sec = FIELD_EX32(toy_val, TOY, SEC);
+-    tm->tm_min = FIELD_EX32(toy_val, TOY, MIN);
+-    tm->tm_hour = FIELD_EX32(toy_val, TOY, HOUR);
+-    tm->tm_mday = FIELD_EX32(toy_val, TOY, DAY);
+-    tm->tm_mon = FIELD_EX32(toy_val, TOY, MON) - 1;
+-}
+-
+-static inline void toy_val_to_time_year(uint64_t toy_year, struct tm *tm)
+-{
+-    tm->tm_year = toy_year;
+-}
+-
+ /* parse struct tm to toy value */
+-static inline uint64_t toy_time_to_val_mon(struct tm *tm)
++static uint64_t toy_time_to_val_mon(const struct tm *tm)
+ {
+     uint64_t val = 0;
+ 
+@@ -137,7 +122,7 @@ static inline uint64_t toy_time_to_val_mon(struct tm *tm)
+     return val;
+ }
+ 
+-static inline void toymatch_val_to_time(LS7ARtcState *s, uint64_t val, struct tm *tm)
++static void toymatch_val_to_time(LS7ARtcState *s, uint64_t val, struct tm *tm)
+ {
+     qemu_get_timedate(tm, s->offset_toy);
+     tm->tm_sec = FIELD_EX32(val, TOY_MATCH, SEC);
+-- 
+2.34.1
 
 
