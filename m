@@ -2,59 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875F85670FB
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 16:26:18 +0200 (CEST)
-Received: from localhost ([::1]:50584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2055670FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 16:27:04 +0200 (CEST)
+Received: from localhost ([::1]:53608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8jVJ-0003rP-Ix
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 10:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58690)
+	id 1o8jW3-0005yd-Ug
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 10:27:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1o8jTY-0002S1-AJ
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:24:28 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:55258 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o8jTU-0003MN-Td
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:24:28 -0400
-Received: from localhost.localdomain (unknown [159.226.43.7])
- by APP-01 (Coremail) with SMTP id qwCowAA3Pw+GScRiwDGQDA--.11399S2;
- Tue, 05 Jul 2022 22:24:11 +0800 (CST)
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-To: qemu-devel@nongnu.org
-Cc: its@irrelevant.dk, kbusch@kernel.org, Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Subject: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
-Date: Tue,  5 Jul 2022 22:24:03 +0800
-Message-Id: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o8jV2-0004IP-0V
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:26:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59308)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o8jUz-0003dP-Mn
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 10:25:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657031157;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=INuIZmbZNi1OauvtIrttEJ0Qx5DRBHuqof5p0klwRR0=;
+ b=NPmxerhLmqK+CwL6WH0dmK848eDSKKBYnpoRPYLEwLxHGUa6T1FDZNkK07DCGVh6J1c8ou
+ 336u046DaeX00xOkUYIfPvAEbZUrHOlOLt9zU3SKRfCEJetsh1pC+50qDpXDXZh6d0sdU9
+ kpN+kWlpDUd0n9BELShDvwMdxslWa1Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-310-TYoKou4MMlSwQvB-5fEWMQ-1; Tue, 05 Jul 2022 10:25:49 -0400
+X-MC-Unique: TYoKou4MMlSwQvB-5fEWMQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9436885A580;
+ Tue,  5 Jul 2022 14:25:49 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2FED92166B26;
+ Tue,  5 Jul 2022 14:25:48 +0000 (UTC)
+Date: Tue, 5 Jul 2022 15:25:47 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 4/8] virtio: categorize callbacks in GS
+Message-ID: <YsRJ65VKz759Me3y@stefanha-x1.localdomain>
+References: <20220609143727.1151816-1-eesposit@redhat.com>
+ <20220609143727.1151816-5-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAA3Pw+GScRiwDGQDA--.11399S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jw1kXw4kAr48WFW5Jw4rAFb_yoWxKF15pF
- Z5WFZ3KFs7J3W29rZYqrsrJwn5C3y8Xr1DCrZxGr13Kwn3CryxAay8GFWjkFn8ZFZ7XrW5
- Cr4xtF47G3yxJ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
- 6r4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
- rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
- vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
- x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
- xKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
- 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfU5WlkUUUUU
-X-Originating-IP: [159.226.43.7]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bTE8Hafg08r0+4iB"
+Content-Disposition: inline
+In-Reply-To: <20220609143727.1151816-5-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,251 +83,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add property "ioeventfd" which is enabled by default. When this is
-enabled, updates on the doorbell registers will cause KVM to signal
-an event to the QEMU main loop to handle the doorbell updates.
-Therefore, instead of letting the vcpu thread run both guest VM and
-IO emulation, we now use the main loop thread to do IO emulation and
-thus the vcpu thread has more cycles for the guest VM.
 
-Since ioeventfd does not tell us the exact value that is written, it is
-only useful when shadow doorbell buffer is enabled, where we check
-for the value in the shadow doorbell buffer when we get the doorbell
-update event.
+--bTE8Hafg08r0+4iB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-IOPS comparison on Linux 5.19-rc2: (Unit: KIOPS)
+On Thu, Jun 09, 2022 at 10:37:23AM -0400, Emanuele Giuseppe Esposito wrote:
+> All the callbacks below are always running in the main loop.
+>=20
+> The callbacks are the following:
+> - start/stop_ioeventfd: these are the callbacks where
+>   blk_set_aio_context(iothread) is done, so they are called in the main
+>   loop.
+>=20
+> - save and load: called during migration, when VM is stopped from the
+>   main loop.
+>=20
+> - reset: before calling this callback, stop_ioeventfd is invoked, so
+>   it can only run in the main loop.
+>=20
+> - set_status: going through all the callers we can see it is called
+>   from a MemoryRegionOps callback, which always run in the main loop.
+>=20
+> - realize: iothread is not even created yet.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  hw/block/virtio-blk.c  | 2 ++
+>  hw/virtio/virtio-bus.c | 5 +++++
+>  hw/virtio/virtio-pci.c | 2 ++
+>  hw/virtio/virtio.c     | 8 ++++++++
+>  4 files changed, 17 insertions(+)
 
-qd           1   4  16  64
-qemu        35 121 176 153
-ioeventfd   41 133 258 313
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Changes since v3:
- - Do not deregister ioeventfd when it was not enabled on a SQ/CQ
+--bTE8Hafg08r0+4iB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
----
- hw/nvme/ctrl.c | 114 ++++++++++++++++++++++++++++++++++++++++++++++++-
- hw/nvme/nvme.h |   5 +++
- 2 files changed, 118 insertions(+), 1 deletion(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index c952c34f94..4b75c5f549 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1374,7 +1374,14 @@ static void nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
- 
-     QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
-     QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
--    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
-+
-+    if (req->sq->ioeventfd_enabled) {
-+        /* Post CQE directly since we are in main loop thread */
-+        nvme_post_cqes(cq);
-+    } else {
-+        /* Schedule the timer to post CQE later since we are in vcpu thread */
-+        timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
-+    }
- }
- 
- static void nvme_process_aers(void *opaque)
-@@ -4195,10 +4202,82 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     return NVME_INVALID_OPCODE | NVME_DNR;
- }
- 
-+static void nvme_cq_notifier(EventNotifier *e)
-+{
-+    NvmeCQueue *cq = container_of(e, NvmeCQueue, notifier);
-+    NvmeCtrl *n = cq->ctrl;
-+
-+    event_notifier_test_and_clear(&cq->notifier);
-+
-+    nvme_update_cq_head(cq);
-+
-+    if (cq->tail == cq->head) {
-+        if (cq->irq_enabled) {
-+            n->cq_pending--;
-+        }
-+
-+        nvme_irq_deassert(n, cq);
-+    }
-+
-+    nvme_post_cqes(cq);
-+}
-+
-+static int nvme_init_cq_ioeventfd(NvmeCQueue *cq)
-+{
-+    NvmeCtrl *n = cq->ctrl;
-+    uint16_t offset = (cq->cqid << 3) + (1 << 2);
-+    int ret;
-+
-+    ret = event_notifier_init(&cq->notifier, 0);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    event_notifier_set_handler(&cq->notifier, nvme_cq_notifier);
-+    memory_region_add_eventfd(&n->iomem,
-+                              0x1000 + offset, 4, false, 0, &cq->notifier);
-+    
-+    return 0;
-+}
-+
-+static void nvme_sq_notifier(EventNotifier *e)
-+{
-+    NvmeSQueue *sq = container_of(e, NvmeSQueue, notifier);
-+
-+    event_notifier_test_and_clear(&sq->notifier);
-+
-+    nvme_process_sq(sq);
-+}
-+
-+static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
-+{
-+    NvmeCtrl *n = sq->ctrl;
-+    uint16_t offset = sq->sqid << 3;
-+    int ret;
-+
-+    ret = event_notifier_init(&sq->notifier, 0);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    event_notifier_set_handler(&sq->notifier, nvme_sq_notifier);
-+    memory_region_add_eventfd(&n->iomem,
-+                              0x1000 + offset, 4, false, 0, &sq->notifier);
-+
-+    return 0;
-+}
-+
- static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
- {
-+    uint16_t offset = sq->sqid << 3;
-+
-     n->sq[sq->sqid] = NULL;
-     timer_free(sq->timer);
-+    if (sq->ioeventfd_enabled) {
-+        memory_region_del_eventfd(&n->iomem,
-+                                  0x1000 + offset, 4, false, 0, &sq->notifier);
-+        event_notifier_cleanup(&sq->notifier);
-+    }
-     g_free(sq->io_req);
-     if (sq->sqid) {
-         g_free(sq);
-@@ -4271,6 +4350,12 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
-     if (n->dbbuf_enabled) {
-         sq->db_addr = n->dbbuf_dbs + (sqid << 3);
-         sq->ei_addr = n->dbbuf_eis + (sqid << 3);
-+            
-+        if (n->params.ioeventfd && sq->sqid != 0) {
-+            if (!nvme_init_sq_ioeventfd(sq)) {
-+                sq->ioeventfd_enabled = true;
-+            }
-+        }
-     }
- 
-     assert(n->cq[cqid]);
-@@ -4575,8 +4660,15 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
- 
- static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
- {
-+    uint16_t offset = (cq->cqid << 3) + (1 << 2);
-+
-     n->cq[cq->cqid] = NULL;
-     timer_free(cq->timer);
-+    if (cq->ioeventfd_enabled) {
-+        memory_region_del_eventfd(&n->iomem,
-+                                  0x1000 + offset, 4, false, 0, &cq->notifier);
-+        event_notifier_cleanup(&cq->notifier);
-+    }
-     if (msix_enabled(&n->parent_obj)) {
-         msix_vector_unuse(&n->parent_obj, cq->vector);
-     }
-@@ -4635,6 +4727,12 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
-     if (n->dbbuf_enabled) {
-         cq->db_addr = n->dbbuf_dbs + (cqid << 3) + (1 << 2);
-         cq->ei_addr = n->dbbuf_eis + (cqid << 3) + (1 << 2);
-+
-+        if (n->params.ioeventfd && cqid != 0) {
-+            if (!nvme_init_cq_ioeventfd(cq)) {
-+                cq->ioeventfd_enabled = true;
-+            }
-+        }
-     }
-     n->cq[cqid] = cq;
-     cq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_post_cqes, cq);
-@@ -5793,6 +5891,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-     uint64_t dbs_addr = le64_to_cpu(req->cmd.dptr.prp1);
-     uint64_t eis_addr = le64_to_cpu(req->cmd.dptr.prp2);
-     int i;
-+    int ret;
- 
-     /* Address should be page aligned */
-     if (dbs_addr & (n->page_size - 1) || eis_addr & (n->page_size - 1)) {
-@@ -5818,6 +5917,12 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-             sq->ei_addr = eis_addr + (i << 3);
-             pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
-                     sizeof(sq->tail));
-+            
-+            if (n->params.ioeventfd && sq->sqid != 0) {
-+                if (!nvme_init_sq_ioeventfd(sq)) {
-+                    sq->ioeventfd_enabled = true;
-+                }
-+            }
-         }
- 
-         if (cq) {
-@@ -5826,6 +5931,12 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-             cq->ei_addr = eis_addr + (i << 3) + (1 << 2);
-             pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
-                     sizeof(cq->head));
-+            
-+            if (n->params.ioeventfd && cq->cqid != 0) {
-+                if (!nvme_init_cq_ioeventfd(cq)) {
-+                    cq->ioeventfd_enabled = true;
-+                }
-+            }
-         }
-     }
- 
-@@ -7040,6 +7151,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
-     DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
-                      params.auto_transition_zones, true),
-+    DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 4452e4b1bf..2a9beea0c8 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -369,6 +369,8 @@ typedef struct NvmeSQueue {
-     uint64_t    db_addr;
-     uint64_t    ei_addr;
-     QEMUTimer   *timer;
-+    EventNotifier notifier;
-+    bool        ioeventfd_enabled;
-     NvmeRequest *io_req;
-     QTAILQ_HEAD(, NvmeRequest) req_list;
-     QTAILQ_HEAD(, NvmeRequest) out_req_list;
-@@ -388,6 +390,8 @@ typedef struct NvmeCQueue {
-     uint64_t    db_addr;
-     uint64_t    ei_addr;
-     QEMUTimer   *timer;
-+    EventNotifier notifier;
-+    bool        ioeventfd_enabled;
-     QTAILQ_HEAD(, NvmeSQueue) sq_list;
-     QTAILQ_HEAD(, NvmeRequest) req_list;
- } NvmeCQueue;
-@@ -410,6 +414,7 @@ typedef struct NvmeParams {
-     uint8_t  zasl;
-     bool     auto_transition_zones;
-     bool     legacy_cmb;
-+    bool     ioeventfd;
- } NvmeParams;
- 
- typedef struct NvmeCtrl {
--- 
-2.25.1
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLESesACgkQnKSrs4Gr
+c8i3gQgArNNbGs5sl3atTq6i2Y2Ldb+7254u/8Myd02pWzhsK6PO9ag1z7tOcO+B
+o7q5ATwIEdXuAKuieFLbQhK/73wGoTTNCj89Pj41dC7YrM289+CyQHBl54EQVZ5Z
+XMRSIVw2RhCLAiqo0fB57A8WHusbCEBgCopfqR4IyopxTb6G0/tohMAFz0EwG80y
+fkGY7Fsoa//82B2uWX6m2scDlxQsZLywuUM3jyScIe8EDAiSAONZ3ybnF1c91TpT
+fhqqthvV9CKIIRIOdRAUoQ9RwUsVj6pdtOO2eWoyb9D65BdabfHfGrDZH2sMO7rx
+4a7htjw+1Tz6pUzp2BCS3S/xb4aQNg==
+=N8of
+-----END PGP SIGNATURE-----
+
+--bTE8Hafg08r0+4iB--
 
 
