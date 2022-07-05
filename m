@@ -2,68 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03200566382
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 08:59:50 +0200 (CEST)
-Received: from localhost ([::1]:49760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF38566384
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 09:05:00 +0200 (CEST)
+Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8cXF-0004PS-4h
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 02:59:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47174)
+	id 1o8ccF-0007gH-G2
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 03:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8cVD-0003AF-IY
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:57:43 -0400
-Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:37697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8cVB-0006Kg-LM
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:57:43 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.25])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 85B0B20A83;
- Tue,  5 Jul 2022 06:57:37 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 5 Jul 2022
- 08:57:36 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S00135c45397-6436-476e-8115-d734b0ea1076,
- 4FF77D4A254985FC0BE9A952312E42D6E34C6CC4) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <6b5e0e42-973d-19de-4979-7db06941ea19@kaod.org>
-Date: Tue, 5 Jul 2022 08:57:36 +0200
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1o8cXJ-0005Pe-F4
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:59:54 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:60010 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1o8cXG-0006U2-5Y
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:59:53 -0400
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxj+Nf4cNiOfsJAA--.30074S2; 
+ Tue, 05 Jul 2022 14:59:43 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, laurent@vivier.eu, yangxiaojuan@loongson.cn
+Subject: [PATCH] linux-user: Add LoongArch to qemu_get_family()
+Date: Tue,  5 Jul 2022 14:59:42 +0800
+Message-Id: <20220705065943.2353930-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 2/9] target/ppc: add errp to kvmppc_read_int_cpu_dt()
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Daniel Henrique Barboza
- <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-CC: <qemu-ppc@nongnu.org>
-References: <20220630194249.886747-1-danielhb413@gmail.com>
- <20220630194249.886747-3-danielhb413@gmail.com>
- <55014e2a-a668-4843-8338-850abeb5ff04@kaod.org>
- <47277f4f-a6a5-85dc-4806-67df8e2fc153@gmail.com>
- <6d37b1dc-5dfb-2513-f74e-3f58e84e8117@kaod.org>
- <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: ca07d9a0-558d-48bb-89c5-453784264d2c
-X-Ovh-Tracer-Id: 16204232937096580064
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeitddgudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgedugfevvdeiheevffffgfelkeehieduveejleehkeffvdevjeejtdettdejheeknecuffhomhgrihhnpehfrghtrghlrdhnohenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
- helo=7.mo548.mail-out.ovh.net
+X-CM-TRANSID: AQAAf9Dxj+Nf4cNiOfsJAA--.30074S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU
+ =
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,80 +57,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/22 08:51, Mark Cave-Ayland wrote:
-> On 04/07/2022 18:34, Cédric Le Goater wrote:
-> 
->> On 7/2/22 15:34, Daniel Henrique Barboza wrote:
->>>
->>>
->>> On 7/2/22 03:24, Cédric Le Goater wrote:
->>>> On 6/30/22 21:42, Daniel Henrique Barboza wrote:
->>>>> The function can't just return 0 whether an error happened and call it a
->>>>> day. We must provide a way of letting callers know if the zero return is
->>>>> legitimate or due to an error.
->>>>>
->>>>> Add an Error pointer to kvmppc_read_int_cpu_dt() that will be filled
->>>>> with an appropriate error, if one occurs. Callers are then free to pass
->>>>> an Error pointer and handle it.
->>>>>
->>>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>>>> ---
->>>>>   target/ppc/kvm.c | 16 +++++++++-------
->>>>>   1 file changed, 9 insertions(+), 7 deletions(-)
->>>>>
->>>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
->>>>> index 109823136d..bc17437097 100644
->>>>> --- a/target/ppc/kvm.c
->>>>> +++ b/target/ppc/kvm.c
->>>>> @@ -1925,15 +1925,17 @@ static uint64_t kvmppc_read_int_dt(const char *filename)
->>>>>   /*
->>>>>    * Read a CPU node property from the host device tree that's a single
->>>>> - * integer (32-bit or 64-bit).  Returns 0 if anything goes wrong
->>>>> - * (can't find or open the property, or doesn't understand the format)
->>>>> + * integer (32-bit or 64-bit).  Returns 0 and set errp if anything goes
->>>>> + * wrong (can't find or open the property, or doesn't understand the
->>>>> + * format)
->>>>>    */
->>>>> -static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
->>>>> +static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
->>>>>   {
->>>>>       char buf[PATH_MAX], *tmp;
->>>>>       uint64_t val;
->>>>>       if (kvmppc_find_cpu_dt(buf, sizeof(buf))) {
->>>>> +        error_setg(errp, "Failed to read CPU property %s", propname);
->>>>>           return 0;
->>>>>       }
->>>>> @@ -1946,12 +1948,12 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
->>>>>   uint64_t kvmppc_get_clockfreq(void)
->>>>>   {
->>>>> -    return kvmppc_read_int_cpu_dt("clock-frequency");
->>>>> +    return kvmppc_read_int_cpu_dt("clock-frequency", NULL);
->>>>
->>>>
->>>> This should be fatal. no ?
->>>
->>>
->>> I'm not sure. I went under the assumption that there might be some weird
->>> condition where 'clock-frequency' might be missing from the DT, and this
->>> is why we're not exiting out immediately.
->>>
->>> That said, the advantage of turning this into fatal is that we won't need
->>> all the other patches that handles error on this function. We're going to
->>> assume that if 'clock-frequency' is missing then we can't boot. I'm okay
->>> with that.
->>
->> I think so. Some machines behave badly when 'clock-frequency' is bogus,
->> division by zero, no console, etc. We could check easily with pseries
->> which is the only KVM PPC platform.
-> 
-> Well not quite true ;)  I haven't tested it during the last release cycle, 
-> but the Mac machines were still working fine to boot OS X with KVM-PR on 
-> my G4 Mac Mini last time I checked.
+qemu_get_family() needs to add LoongArch support.
 
-Oh. Sorry. and I still have access to a real G5 running the latest debian.
-I should give it a try one day.
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+---
+ scripts/qemu-binfmt-conf.sh | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index 1f4e2cd19d..6ef9f118d9 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -171,6 +171,9 @@ qemu_get_family() {
+     riscv*)
+         echo "riscv"
+         ;;
++    loongarch*)
++        echo "loongarch"
++        ;;
+     *)
+         echo "$cpu"
+         ;;
+-- 
+2.31.1
 
-C.
 
