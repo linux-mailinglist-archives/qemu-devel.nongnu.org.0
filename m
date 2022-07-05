@@ -2,77 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527465664B6
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:10:33 +0200 (CEST)
-Received: from localhost ([::1]:58842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A9A55664E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:18:19 +0200 (CEST)
+Received: from localhost ([::1]:42048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8ddg-0003vl-ET
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:10:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60406)
+	id 1o8dlC-0003g0-CJ
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:18:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o8dZ6-0007jk-CA
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:05:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22513)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8daK-0000qE-SC
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:07:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o8dZ4-0008QW-Ai
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:05:47 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8daI-0008W1-Vl
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:07:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657008345;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1657008422;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D+quiQ6Yfy4DtOgdMyQoOkZrWCr+Wa70UHPy3Vx9m94=;
- b=QUaug0licpUkRXpOfpJvz8dEsApr/s2lJgjpkxpCpXJTa3iqNxJ71yP2J2Sku+ysGQxfQw
- 0J/RPv6IaLqYTav+AnOxCPk7JI6HX2YWXutIqgsK1q2DkxBNYPzRrYQ3dBBea9GQJYu4Fd
- XlpFpbkXENtV/xyRKF3ixDwyL+RZq0k=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zqCyMRRu0ICOnRHyHLpKTlay1ixBP9NYye7bGrIhNvE=;
+ b=Zp3M2sgVVkhZz9GFG6Off/AWQ4GbZn0Z8rToLgpyv1jeyeYmZqTo7E0VTkgU6s5chLIqVw
+ 6S//lrTSYIeMh5zbYSmRF/FDyL/T9t9uKLHBh2RfCh0sD+mYRiwP44cwPQUOk2IAwn3HJu
+ JeMgT5yA13kExGTA1NlzB30u/33kLJM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-07Zo-mhKO425RazzMgmaRg-1; Tue, 05 Jul 2022 04:05:44 -0400
-X-MC-Unique: 07Zo-mhKO425RazzMgmaRg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C6F1801231
- for <qemu-devel@nongnu.org>; Tue,  5 Jul 2022 08:05:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3CF64619F4;
- Tue,  5 Jul 2022 08:05:42 +0000 (UTC)
-Date: Tue, 5 Jul 2022 09:05:40 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 3/3] migration/multifd: Warn user when zerocopy not
- working
-Message-ID: <YsPw1OEKi7y/sZKO@redhat.com>
-References: <20220704202315.507145-1-leobras@redhat.com>
- <20220704202315.507145-4-leobras@redhat.com>
+ us-mta-172-62oILPMWMw2ZY45pqQGAhw-1; Tue, 05 Jul 2022 04:07:00 -0400
+X-MC-Unique: 62oILPMWMw2ZY45pqQGAhw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o28-20020a05600c511c00b003a04f97f27aso6422713wms.9
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:07:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=zqCyMRRu0ICOnRHyHLpKTlay1ixBP9NYye7bGrIhNvE=;
+ b=n/b1da/WBUp4jrdMXMTKpjE0avNUnZfPqNMG5g2Npawip8ZURV57fv1pIF5WRVC53I
+ 5SvmQQ3JdXGVLAfeaL3g4FFXkMpPoJMp0DRQZON75xDVMqaBq50RPwqCBw7oZp717jEz
+ o5a8xj+5r4k2XLQRzsgJ1W3BeOiMmrhjz3YaAa2otgKXDOP3wKw+488eykMU4KOgDMTq
+ LzNRGKZwmAj7V/MsyJmFAhy3J0evCPYwHVy487ZghAnTS703BmQp/c0OMQdLNRUlFHXT
+ 9hGkCh7BmKGE+iKH6TuOyF8irn954WHldM9zMY3nDyB0bpUriOrRQ6A/Mx6/3nk17xL0
+ EHpw==
+X-Gm-Message-State: AJIora+3OR788lRnLvX8IAnx/JUoMPjZe3LjQxsSroQXeUKJdvulEWsA
+ 6Lo32vjjCpYAYB93J9/XBuvtIvHRaYt8oCeQjNDoQHZsPoMc4VdMq22xdRLdM6eBY5oLgI7hrqM
+ jVZUbb0gfD2WVExw=
+X-Received: by 2002:a05:6000:2a4:b0:21d:187c:c50 with SMTP id
+ l4-20020a05600002a400b0021d187c0c50mr31687722wry.5.1657008419806; 
+ Tue, 05 Jul 2022 01:06:59 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1se9loq3Bl6F2eF7XVN+Y7dgJ3/Ootkho1v1JDQsAyNRZD1j6CgGOjZqksCroGkue88+1RSlQ==
+X-Received: by 2002:a05:6000:2a4:b0:21d:187c:c50 with SMTP id
+ l4-20020a05600002a400b0021d187c0c50mr31687701wry.5.1657008419618; 
+ Tue, 05 Jul 2022 01:06:59 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-21.web.vodafone.de.
+ [109.43.176.21]) by smtp.gmail.com with ESMTPSA id
+ q18-20020a5d5752000000b0021d6d18a9f8sm3876457wrw.76.2022.07.05.01.06.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jul 2022 01:06:59 -0700 (PDT)
+Message-ID: <f1c2d5b1-ee5c-281b-acd4-71035f6753c9@redhat.com>
+Date: Tue, 5 Jul 2022 10:06:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC PATCH 5/5] tests: stop skipping migration test on s390x/ppc64
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-s390x@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20220628105434.295905-1-berrange@redhat.com>
+ <20220628105434.295905-6-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220628105434.295905-6-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220704202315.507145-4-leobras@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,36 +101,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 04, 2022 at 05:23:15PM -0300, Leonardo Bras wrote:
-> Some errors, like the lack of Scatter-Gather support by the network
-> interface(NETIF_F_SG) may cause sendmsg(...,MSG_ZEROCOPY) to fail on using
-> zero-copy, which causes it to fall back to the default copying mechanism.
+On 28/06/2022 12.54, Daniel P. Berrangé wrote:
+> There have been checks put into the migration test which skip it in a
+> few scenarios
 > 
-> After each full dirty-bitmap scan there should be a zero-copy flush
-> happening, which checks for errors each of the previous calls to
-> sendmsg(...,MSG_ZEROCOPY). If all of them failed to use zero-copy, then
-> increment dirty_sync_missed_zero_copy migration stat to let the user know
-> about it.
+>   * ppc64 TCG
+>   * ppc64 KVM with kvm-pr
+>   * s390x TCG
 > 
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> In the original commits there are references to unexplained hangs in
+> the test. There is no record of details of where it was hanging, but
+> it is suspected that these were all a result of the max downtime limit
+> being set at too low a value to guarantee convergance.
+> 
+> Since a previous commit bumped the value from 1 second to 30 seconds,
+> it is believed that hangs due to non-convergance should be eliminated
+> and thus worth trying to remove the skipped scenarios.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  migration/ram.h     | 2 ++
->  migration/multifd.c | 2 ++
->  migration/ram.c     | 5 +++++
->  3 files changed, 9 insertions(+)
+>   tests/qtest/migration-test.c | 21 ---------------------
+>   1 file changed, 21 deletions(-)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+I just gave this a try, and it's failing on my x86 laptop with the ppc64 target:
 
+/ppc64/migration/auto_converge: qemu-system-ppc64: warning: TCG doesn't 
+support requested feature, cap-cfpc=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+cap-sbbc=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+cap-ibs=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+cap-ccf-assist=on
+qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+cap-cfpc=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+cap-sbbc=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+cap-ibs=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, 
+cap-ccf-assist=on
+Memory content inconsistency at df6000 first_byte = 98 last_byte = 98 
+current = 2 hit_edge = 0
+Memory content inconsistency at 4e51000 first_byte = 98 last_byte = 97 
+current = 96 hit_edge = 1
+Memory content inconsistency at 4e52000 first_byte = 98 last_byte = 97 
+current = 96 hit_edge = 1
+Memory content inconsistency at 4e53000 first_byte = 98 last_byte = 97 
+current = 96 hit_edge = 1
+Memory content inconsistency at 4e54000 first_byte = 98 last_byte = 97 
+current = 96 hit_edge = 1
+Memory content inconsistency at 4e55000 first_byte = 98 last_byte = 97 
+current = 96 hit_edge = 1
+Memory content inconsistency at 4e56000 first_byte = 98 last_byte = 97 
+current = 96 hit_edge = 1
+Memory content inconsistency at 4e57000 first_byte = 98 last_byte = 97 
+current = 96 hit_edge = 1
+Memory content inconsistency at 4e58000 first_byte = 98 last_byte = 97 
+current = 96 hit_edge = 1
+Memory content inconsistency at 4e59000 first_byte = 98 last_byte = 97 
+current = 96 hit_edge = 1
+and in another 5542 pages**
+ERROR:../../devel/qemu/tests/qtest/migration-test.c:280:check_guests_ram: 
+assertion failed: (bad == 0)
+Aborted (core dumped)
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+So I guess this workaround was about a different issue and we should drop 
+this patch.
+
+  Thomas
 
 
