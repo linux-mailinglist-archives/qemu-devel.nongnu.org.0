@@ -2,74 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB8E5664EA
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:21:55 +0200 (CEST)
-Received: from localhost ([::1]:50628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4322F566508
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 10:30:36 +0200 (CEST)
+Received: from localhost ([::1]:39766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8dog-0001Kq-N8
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34698)
+	id 1o8dx5-0005Ie-9c
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 04:30:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1o8dk4-00052k-8S; Tue, 05 Jul 2022 04:17:13 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:59616 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1o8dk0-0001ZL-Ki; Tue, 05 Jul 2022 04:17:07 -0400
-Received: from [192.168.0.138] (unknown [117.151.235.252])
- by APP-01 (Coremail) with SMTP id qwCowADX3w9188NiwUNzDA--.2552S2;
- Tue, 05 Jul 2022 16:16:54 +0800 (CST)
-Subject: Re: [PATCH v10 04/12] target/riscv: pmu: Make number of counters
- configurable
-To: Atish Kumar Patra <atishp@rivosinc.com>, Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Frank Chang <frank.chang@sifive.com>
-References: <20220620231603.2547260-1-atishp@rivosinc.com>
- <20220620231603.2547260-5-atishp@rivosinc.com>
- <f9b33706-4630-1f9b-a190-29e64d630e0a@iscas.ac.cn>
- <be29c8d6-9099-70cf-6a7c-d1ab0dba066d@iscas.ac.cn>
- <CAHBxVyF7GfA+Mk=nA9Lss76xAQ5YdwLkvN=g+bxKjFe9JyatKw@mail.gmail.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <f4e87280-54bd-34dc-4c94-358146af8f20@iscas.ac.cn>
-Date: Tue, 5 Jul 2022 16:16:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1o8dkw-0005cP-Tr
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:18:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30026)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1o8dks-0001f4-Cy
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 04:18:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657009073;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=46IIPVm4mesaBB39evD4dNfJjhYmYwXyy6ubIeTceak=;
+ b=L0UgX3aqIcRPSu5ohhhyneayWZk4klhvnTxfr9BNYaMhC+jQzH+JMx7MKEHpsGfIAGgVRM
+ rw0MrECOfYxpnCGkZDI5SzTqkJZMolRkVfs4EUoaDQLaa/IeLhKBifjDEqHK3PyGnzpcSN
+ bsViNAgcL/0HOv58Arx8e4GlsMMeqD0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-584-suLSSayKPoG9C4y6_PfKnw-1; Tue, 05 Jul 2022 04:17:52 -0400
+X-MC-Unique: suLSSayKPoG9C4y6_PfKnw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ h29-20020adfaa9d000000b0021d67fc0b4aso967895wrc.9
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 01:17:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=46IIPVm4mesaBB39evD4dNfJjhYmYwXyy6ubIeTceak=;
+ b=iuOl16aupijkqSJJUxlOcngUAZRXr0FkQMG5Vvi4K4vWq4YYkg+ufgKxBLhQAwx/xi
+ kxeJSKESHYbJhyeg0fYXGtfsQjJuYGI3GNn4SpHq/9duTl7plz/qOY3ErG5072mvCixF
+ kHGik8miFLHgHTw3O0/h8SivNm39/KyKcxgYK58/fmfYIZH2nOByN8hPwJP7y0C0nGB/
+ bg3+zBIyATnSVXrchVVtam1t8tx3jIljX4oTJ9JEFuOilUOZ1i3Mv0Yp7TnGeJXKnW1P
+ 7cp7TCZLEC1ygEO37U2ymekFSFiaacXgGN5fByNDPZhT0xUw/Kn88IpWY6V1YoEaKToV
+ qeWw==
+X-Gm-Message-State: AJIora/JL9v/chA+idvfpN059BUQUXDKKf4Wi3zYCXJsEatOdmty73F8
+ r9a8z6IWSTF4y/rFXf8QiMTmE2WJbj0imHtiw/Mefrz58IKfS9l32yp+O0Zeb+5tIrXp1v1WXSO
+ a4IqI55hNWfhnn7w=
+X-Received: by 2002:adf:d0c7:0:b0:21d:764b:12d5 with SMTP id
+ z7-20020adfd0c7000000b0021d764b12d5mr845387wrh.516.1657009071395; 
+ Tue, 05 Jul 2022 01:17:51 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tHN0lA4QsymtsqNrMOA+lJ+3ZTtHqTfw+Jz1Qjg5q/joN27QeK/Eqoenuzb5r7SUAyO8PcsA==
+X-Received: by 2002:adf:d0c7:0:b0:21d:764b:12d5 with SMTP id
+ z7-20020adfd0c7000000b0021d764b12d5mr845367wrh.516.1657009071200; 
+ Tue, 05 Jul 2022 01:17:51 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ e22-20020a05600c4e5600b003973435c517sm22531862wmq.0.2022.07.05.01.17.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jul 2022 01:17:50 -0700 (PDT)
+Message-ID: <85eb06db-15ab-1451-c420-ec4956febe98@redhat.com>
+Date: Tue, 5 Jul 2022 10:17:49 +0200
 MIME-Version: 1.0
-In-Reply-To: <CAHBxVyF7GfA+Mk=nA9Lss76xAQ5YdwLkvN=g+bxKjFe9JyatKw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v8 13/20] jobs: group together API calls under the same
+ job lock
 Content-Language: en-US
-X-CM-TRANSID: qwCowADX3w9188NiwUNzDA--.2552S2
-X-Coremail-Antispam: 1UD129KBjvJXoWfJw13ZrW5GFWDZr1xtF45GFg_yoWDXryfpr
- yDKFy7Gan7Jry0kFsayw1UKr9Ivr1xKaya93yfZ3Z2yr1kWrs5XF1rWF15ArW8Gr4rZ3Za
- qryY93Z3C3W0kFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
- AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
- rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
- v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWU
- JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoO
- J5UUUUU
-X-Originating-IP: [117.151.235.252]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+References: <20220629141538.3400679-1-eesposit@redhat.com>
+ <20220629141538.3400679-14-eesposit@redhat.com>
+ <YsPyzyOItXg9Y4c0@stefanha-x1.localdomain>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <YsPyzyOItXg9Y4c0@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,224 +115,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/7/5 下午3:51, Atish Kumar Patra 写道:
-> On Mon, Jul 4, 2022 at 5:38 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->>
->> 在 2022/7/4 下午11:26, Weiwei Li 写道:
->>> 在 2022/6/21 上午7:15, Atish Patra 写道:
->>>> The RISC-V privilege specification provides flexibility to implement
->>>> any number of counters from 29 programmable counters. However, the QEMU
->>>> implements all the counters.
->>>>
->>>> Make it configurable through pmu config parameter which now will
->>>> indicate
->>>> how many programmable counters should be implemented by the cpu.
->>>>
->>>> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
->>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>>> Signed-off-by: Atish Patra <atish.patra@wdc.com>
->>>> Signed-off-by: Atish Patra <atishp@rivosinc.com>
->>>> ---
->>>>    target/riscv/cpu.c |  3 +-
->>>>    target/riscv/cpu.h |  2 +-
->>>>    target/riscv/csr.c | 94 ++++++++++++++++++++++++++++++----------------
->>>>    3 files changed, 63 insertions(+), 36 deletions(-)
->>>>
->>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->>>> index 1b57b3c43980..d12c6dc630ca 100644
->>>> --- a/target/riscv/cpu.c
->>>> +++ b/target/riscv/cpu.c
->>>> @@ -851,7 +851,6 @@ static void riscv_cpu_init(Object *obj)
->>>>    {
->>>>        RISCVCPU *cpu = RISCV_CPU(obj);
->>>>    -    cpu->cfg.ext_pmu = true;
->>>>        cpu->cfg.ext_ifencei = true;
->>>>        cpu->cfg.ext_icsr = true;
->>>>        cpu->cfg.mmu = true;
->>>> @@ -879,7 +878,7 @@ static Property riscv_cpu_extensions[] = {
->>>>        DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
->>>>        DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
->>>>        DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
->>>> -    DEFINE_PROP_BOOL("pmu", RISCVCPU, cfg.ext_pmu, true),
->>>> +    DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
->>> I think It's better to add  a check on cfg.pmu_num to  <= 29.
->>>
->> OK, I find this check in the following patch.
->>>>        DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->>>>        DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->>>>        DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->>>> index 252c30a55d78..ffee54ea5c27 100644
->>>> --- a/target/riscv/cpu.h
->>>> +++ b/target/riscv/cpu.h
->>>> @@ -397,7 +397,6 @@ struct RISCVCPUConfig {
->>>>        bool ext_zksed;
->>>>        bool ext_zksh;
->>>>        bool ext_zkt;
->>>> -    bool ext_pmu;
->>>>        bool ext_ifencei;
->>>>        bool ext_icsr;
->>>>        bool ext_svinval;
->>>> @@ -421,6 +420,7 @@ struct RISCVCPUConfig {
->>>>        /* Vendor-specific custom extensions */
->>>>        bool ext_XVentanaCondOps;
->>>>    +    uint8_t pmu_num;
->>>>        char *priv_spec;
->>>>        char *user_spec;
->>>>        char *bext_spec;
->>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>> index 0ca05c77883c..b4a8e15f498f 100644
->>>> --- a/target/riscv/csr.c
->>>> +++ b/target/riscv/csr.c
->>>> @@ -73,9 +73,17 @@ static RISCVException ctr(CPURISCVState *env, int
->>>> csrno)
->>>>        CPUState *cs = env_cpu(env);
->>>>        RISCVCPU *cpu = RISCV_CPU(cs);
->>>>        int ctr_index;
->>>> +    int base_csrno = CSR_HPMCOUNTER3;
->>>> +    bool rv32 = riscv_cpu_mxl(env) == MXL_RV32 ? true : false;
->>>>    -    if (!cpu->cfg.ext_pmu) {
->>>> -        /* The PMU extension is not enabled */
->>>> +    if (rv32 && csrno >= CSR_CYCLEH) {
->>>> +        /* Offset for RV32 hpmcounternh counters */
->>>> +        base_csrno += 0x80;
->>>> +    }
->>>> +    ctr_index = csrno - base_csrno;
->>>> +
->>>> +    if (!cpu->cfg.pmu_num || ctr_index >= (cpu->cfg.pmu_num)) {
->>>> +        /* No counter is enabled in PMU or the counter is out of
->>>> range */
->>> I seems unnecessary to add '!cpu->cfg.pmu_num ' here, 'ctr_index >=
->>> (cpu->cfg.pmu_num)' is true
-> The check is improved in the following patches as well.
->
-Do you mean 'if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & 
-ctr_mask)))'  in patch 9 ?
 
-In this condition, '!cpu->cfg.pmu_num' seems unnecessary too.
+Am 05/07/2022 um 10:14 schrieb Stefan Hajnoczi:
+> On Wed, Jun 29, 2022 at 10:15:31AM -0400, Emanuele Giuseppe Esposito wrote:
+>> diff --git a/blockdev.c b/blockdev.c
+>> index 71f793c4ab..5b79093155 100644
+>> --- a/blockdev.c
+>> +++ b/blockdev.c
+>> @@ -150,12 +150,15 @@ void blockdev_mark_auto_del(BlockBackend *blk)
+>>          return;
+>>      }
+>>  
+>> -    for (job = block_job_next(NULL); job; job = block_job_next(job)) {
+>> +    JOB_LOCK_GUARD();
+>> +
+>> +    for (job = block_job_next_locked(NULL); job;
+>> +         job = block_job_next_locked(job)) {
+>>          if (block_job_has_bdrv(job, blk_bs(blk))) {
+>>              AioContext *aio_context = job->job.aio_context;
+>>              aio_context_acquire(aio_context);
+> 
+> Is there a lock ordering rule for job_mutex and the AioContext lock? I
+> haven't audited the code, but there might be ABBA lock ordering issues.
 
-Regards,
+Doesn't really matter here, as lock is nop. To be honest I forgot which
+one should go first, probably job_lock because the aiocontext lock can
+be taken and released in callbacks.
 
-Weiwei Li
+Should I resend with ordering fixed? Just to have a consistent logic
 
->> Typo.  I -> It
->>> when cpu->cfg.pmu_num is zero if the problem for base_csrno is fixed.
->>>
->>> Ragards,
->>>
->>> Weiwei Li
->>>
->>>>            return RISCV_EXCP_ILLEGAL_INST;
->>>>        }
->>>>    @@ -103,7 +111,7 @@ static RISCVException ctr(CPURISCVState *env,
->>>> int csrno)
->>>>                }
->>>>                break;
->>>>            }
->>>> -        if (riscv_cpu_mxl(env) == MXL_RV32) {
->>>> +        if (rv32) {
->>>>                switch (csrno) {
->>>>                case CSR_CYCLEH:
->>>>                    if (!get_field(env->mcounteren, COUNTEREN_CY)) {
->>>> @@ -158,7 +166,7 @@ static RISCVException ctr(CPURISCVState *env, int
->>>> csrno)
->>>>                }
->>>>                break;
->>>>            }
->>>> -        if (riscv_cpu_mxl(env) == MXL_RV32) {
->>>> +        if (rv32) {
->>>>                switch (csrno) {
->>>>                case CSR_CYCLEH:
->>>>                    if (!get_field(env->hcounteren, COUNTEREN_CY) &&
->>>> @@ -202,6 +210,26 @@ static RISCVException ctr32(CPURISCVState *env,
->>>> int csrno)
->>>>    }
->>>>      #if !defined(CONFIG_USER_ONLY)
->>>> +static RISCVException mctr(CPURISCVState *env, int csrno)
->>>> +{
->>>> +    CPUState *cs = env_cpu(env);
->>>> +    RISCVCPU *cpu = RISCV_CPU(cs);
->>>> +    int ctr_index;
->>>> +    int base_csrno = CSR_MHPMCOUNTER3;
->>>> +
->>>> +    if ((riscv_cpu_mxl(env) == MXL_RV32) && csrno >= CSR_MCYCLEH) {
->>>> +        /* Offset for RV32 mhpmcounternh counters */
->>>> +        base_csrno += 0x80;
->>>> +    }
->>>> +    ctr_index = csrno - base_csrno;
->>>> +    if (!cpu->cfg.pmu_num || ctr_index >= cpu->cfg.pmu_num) {
->>>> +        /* The PMU is not enabled or counter is out of range*/
->>>> +        return RISCV_EXCP_ILLEGAL_INST;
->>>> +    }
->>>> +
->>>> +    return RISCV_EXCP_NONE;
->>>> +}
->>>> +
->>>>    static RISCVException any(CPURISCVState *env, int csrno)
->>>>    {
->>>>        return RISCV_EXCP_NONE;
->>>> @@ -3687,35 +3715,35 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->>>>        [CSR_HPMCOUNTER30]   = { "hpmcounter30",   ctr, read_zero },
->>>>        [CSR_HPMCOUNTER31]   = { "hpmcounter31",   ctr, read_zero },
->>>>    -    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   any, read_zero },
->>>> -    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   any, read_zero },
->>>> -    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   any, read_zero },
->>>> -    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   any, read_zero },
->>>> -    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   any, read_zero },
->>>> -    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   any, read_zero },
->>>> -    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   any, read_zero },
->>>> -    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  any, read_zero },
->>>> -    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  any, read_zero },
->>>> +    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  mctr, read_zero },
->>>> +    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  mctr, read_zero },
->>>>          [CSR_MHPMEVENT3]     = { "mhpmevent3",     any, read_zero },
->>>>        [CSR_MHPMEVENT4]     = { "mhpmevent4",     any, read_zero },
+> 
+>> diff --git a/qemu-img.c b/qemu-img.c
+>> index 4cf4d2423d..289d88a156 100644
+>> --- a/qemu-img.c
+>> +++ b/qemu-img.c
+>> @@ -912,25 +912,30 @@ static void run_block_job(BlockJob *job, Error **errp)
+>>      int ret = 0;
+>>  
+>>      aio_context_acquire(aio_context);
+>> -    job_ref(&job->job);
+>> -    do {
+>> -        float progress = 0.0f;
+>> -        aio_poll(aio_context, true);
+>> +    WITH_JOB_LOCK_GUARD() {
+> 
+> Here the lock order is the opposite of above.
+> 
 
 
