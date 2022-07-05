@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B951566727
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 11:58:27 +0200 (CEST)
-Received: from localhost ([::1]:49024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BBA56672A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 11:59:21 +0200 (CEST)
+Received: from localhost ([::1]:51126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8fK6-0005PB-Gy
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 05:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56110)
+	id 1o8fKy-00074a-S2
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 05:59:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8fJ6-0004ak-IZ
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:57:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8fJ2-0008Lv-Jf
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:57:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657015040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=24gIqqA02u9JVT6QJpWhhtID96RNIz+zHAyv/6+UD0c=;
- b=geFYkWzXRYJkkQGKZGn8+SmmhkpIw3Zbx8C3bIQfYihGZjbXbDM2h9RlIb2aaOK6T2bvY/
- oouOseXxKxL4WcjumU+X00knDnJZHSiGU4x8YhXtHlYizdeIiCrqTL3S8/CUjeP5EFPJki
- ehnV0BX8E4rqFlp3w0NmSpUsZ5PZiVg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-J3RFQM0tMKyvKpLPlgNSXA-1; Tue, 05 Jul 2022 05:57:11 -0400
-X-MC-Unique: J3RFQM0tMKyvKpLPlgNSXA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C60ED3826A41;
- Tue,  5 Jul 2022 09:57:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A179A1121315;
- Tue,  5 Jul 2022 09:57:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 92CBF21E690D; Tue,  5 Jul 2022 11:57:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Kevin Wolf <kwolf@redhat.com>,  qemu-devel@nongnu.org,  Hanna Reitz
- <hreitz@redhat.com>,  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: [PULL 14/15] qdev: Base object creation on QDict rather than
- QemuOpts
-References: <20211015144640.198044-1-kwolf@redhat.com>
- <20211015144640.198044-15-kwolf@redhat.com>
- <CAFEAcA9jnySMWRD56FF9D7rXhwARiyvqJx+4Ys+smYa2ghdLBg@mail.gmail.com>
- <87wnctzdl9.fsf@pond.sub.org>
-Date: Tue, 05 Jul 2022 11:57:08 +0200
-In-Reply-To: <87wnctzdl9.fsf@pond.sub.org> (Markus Armbruster's message of
- "Mon, 04 Jul 2022 06:49:54 +0200")
-Message-ID: <87a69nubkb.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
+ id 1o8fJx-0005pv-C6
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:58:17 -0400
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:36692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
+ id 1o8fJv-0008Op-5I
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:58:17 -0400
+Received: by mail-lj1-x233.google.com with SMTP id s14so13874433ljs.3
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 02:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=6SZf1jwD70JEMWul0ibLZwjs1mlkUiiGOr0baTVrrns=;
+ b=QNj7wLGaLKdGhbTwr9qA0+uOEKlqnq9M4Y5nBeyRpGWTIY9nf0D51EdDjg3HR4Ugo+
+ h2PDSYDVfBcbrIzyF196P2i7/O1d59euKY2dcnIcmjQrzLC3LkQez+K0Oyty4wbN6yXh
+ yL8Ie5F8zFaSqPjCOSYu/pzb0/fGrKcy/NIzFTEYu3gae6ik5m7RlmLz31/MwWt3dwMm
+ 87IOqhTY3zXtu7RGfne4V9qC/d6YHKnxlsfjqqJNOVav33TDpPQ0ClNnYICy2ftE1mD2
+ SHt2QsHphhuO6c1wrbXAsOSLGoR4Tbb6/ZFfQ56uN6kzj5padKYWtaPmaIUQpzZmg2I1
+ NPgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=6SZf1jwD70JEMWul0ibLZwjs1mlkUiiGOr0baTVrrns=;
+ b=Jl7aN17z7Bc8F2/4on6xgeO4rb4MGc/HsTsRwr4HSL7JNxLZLKMlJj745QO20SEHS+
+ ELH6YXmaIstpTKCe85GnRelDyUmDp7a6mRTiUhxAdLxDfDpdk0TYi8c6RVQFD083WtC1
+ F25PwG/Wp4avqIvtqmoArlN+9xT1ti3jTN0fAqq6AizbZOcPtZotEpkhMH0lKATiQWyO
+ 3bnDu56LEkY9G9l857uZTaKtNN4h1t0MEtOElDO3BnF3YRpnvYGibKPCWL12fgp0htjr
+ N/mP2JTfFR4tAl2qYleEUzoCwo62bEWuuwYFTviiXnHvOJnBcdJF4d1CFIbzVvgbUsmg
+ Wo8Q==
+X-Gm-Message-State: AJIora+WXYczbybE1pJXvT3BBb+BSzMbtFadnd23uMoaHcC19TuW6KK/
+ DUMXEnTEmZPGsofIeNV5J3E2DgHkv3plm3VFeQV7ASG7QOphpQ==
+X-Google-Smtp-Source: AGRyM1sfGwN0qmNyK8P/L6+luOG5Ita2w4P6PeBVdLopTCWUEfPTSh+cdGSOk0T+/dDSGiiRQr6Ikgk3LAJHbgd8b3c=
+X-Received: by 2002:a05:651c:170e:b0:25a:6e96:c495 with SMTP id
+ be14-20020a05651c170e00b0025a6e96c495mr19388416ljb.2.1657015090158; Tue, 05
+ Jul 2022 02:58:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+From: Yu Zhang <yu.zhang@ionos.com>
+Date: Tue, 5 Jul 2022 11:57:59 +0200
+Message-ID: <CAHEcVy7gC_h4Nei3m6KMvFkjTAFR6XkJcw+AMoxJ3r9CMXp=-Q@mail.gmail.com>
+Subject: questions about QMP commands - "block-export-add" and "nbd-server-add"
+To: qemu-devel <qemu-devel@nongnu.org>, Gioh Kim <gi-oh.kim@ionos.com>, 
+ Alexei Pastuchov <alexei.pastuchov@ionos.com>,
+ Jinpu Wang <jinpu.wang@ionos.com>, 
+ Fuad Faron <fuad.faron@ionos.com>, Elmar Gerdes <elmar.gerdes@ionos.com>
+Content-Type: multipart/alternative; boundary="000000000000d633bc05e30be3d1"
+Received-SPF: permerror client-ip=2a00:1450:4864:20::233;
+ envelope-from=yu.zhang@ionos.com; helo=mail-lj1-x233.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,56 +80,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+--000000000000d633bc05e30be3d1
+Content-Type: text/plain; charset="UTF-8"
 
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
->> On Fri, 15 Oct 2021 at 16:01, Kevin Wolf <kwolf@redhat.com> wrote:
->>> QDicts are both what QMP natively uses and what the keyval parser
->>> produces. Going through QemuOpts isn't useful for either one, so switch
->>> the main device creation function to QDicts. By sharing more code with
->>> the -object/object-add code path, we can even reduce the code size a
->>> bit.
->>>
->>> This commit doesn't remove the detour through QemuOpts from any code
->>> path yet, but it allows the following commits to do so.
->>>
->>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>> Message-Id: <20211008133442.141332-15-kwolf@redhat.com>
->>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->>> Tested-by: Peter Krempa <pkrempa@redhat.com>
->>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>
->> Hi; we discovered via a report on IRC this this commit broke
->> handling of "array properties", of which one example is:
->> qemu-system-x86_64 -netdev user,id=a -device rocker,len-ports=1,ports[0]=a
->>
->> This used to work, and now fails with
->>  qemu-system-x86_64: -device rocker,len-ports=1,ports[0]=a: Property
->> 'rocker.ports[0]' not found
->>
->> I think this happens because array properties have the
->> requirement that the len-foo property is set first before
->> any of the foo[n] properties can be set. In the old code
->> I guess we used to set properties from the command line
->> in the order they were specified, whereas in the new code
->> we end up in object_set_properties_from_qdict() which
->> tries to set them in whatever order the qdict hash table
->> provides them, which turns out to be the wrong one :-(
->>
->> Any suggestions for how to address this ?
->
-> My initial (knee-jerk) reaction to breaking array properties: Faster,
-> Pussycat! Kill! Kill!
->
-> Back to serious: replace the implementation of QDict so it iterates in
-> order?
+Hi All,
 
-I just sent
+since QEMU-5.2, the QMP command "nbd-server-add" was deprecated and
+replaced with "block-export-add" [1].
 
-    [RFC PATCH] qobject: Rewrite implementation of QDict for in-order traversal
-    Message-Id: <20220705095421.2455041-1-armbru@redhat.com>
+Arguments for the two are different. For using "block-export-add", "id" and
+"node-name" are needed, of which "id" is "device" for "nbd-server-add", and
+"node-name" can be obtained from the querying result of "query-block". As
+shown by an example below:
 
-Please test whether this fixes the regressions you observed.
+{ "execute": "query-block" }
+{"return": [..., {..., "device": "drive-virtio-disk5", ...: {...:
+{"virtual-size": 53687091200, "filename": "/dev/md0", "format": "raw", ...}
+, ..., "node-name": "#block349", ...}, "qdev":
+"/machine/peripheral/virtio-disk5/virtio-backend", "type": "unknown"}]}
 
+{ "execute": "nbd-server-add", "arguments": { "device":
+"drive-virtio-disk5", "writable": true }}
+{"error": {"class": "GenericError", "desc": "Permission conflict on node
+'#block349': permissions 'write' are both required by an unnamed block
+device (uses node '#block349' as 'root' child) and unshared by block device
+'drive-virtio-disk5' (uses node '#block349' as 'root' child)."}}
+
+{ "execute": "block-export-add", "arguments": { "type": "nbd", "id":
+"drive-virtio-disk5", "node-name": "#block349", "writable": true }}
+{"error": {"class": "GenericError", "desc": "Permission conflict on node
+'#block349': permissions 'write' are both required by an unnamed block
+device (uses node '#block349' as 'root' child) and unshared by block device
+'drive-virtio-disk5' (uses node '#block349' as 'root' child)."}}
+
+
+An issue we encountered with "block-export-add" for VM live migration:
+
+on the target server
+- exported device name: drive-virtio-disk5
+- node name of the exported device: #node123
+
+on the source server
+- gets the device name from target via network: driver-virtio-disk5
+- gets the node name from the target via network: #node123
+
+However, on the source server, the node name #node123 can't be identified.
+
+Assumption: the same "device" may have different "node-name" on the source
+and target servers. It seems that sending "device" is quite easy, but
+sending "device" and translating it to the correct "node-name" is not quite
+straightforward.
+The "block-export-add" command made it somehow unnecessarily complicated.
+
+For this reason, we would like to know:
+- whether it's possible not to deprecate the use of "nbd-server-add"
+command, or
+- whether there is a simpler QMP command for block device migration
+
+Thank you so much for your reply.
+
+Yu Zhang @Compute Platform Team of IONOS SE
+05.07.2022
+
+[1] https://wiki.qemu.org/ChangeLog/5.2
+
+--000000000000d633bc05e30be3d1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi All,<br><br>since QEMU-5.2, the QMP command &quot;nbd-s=
+erver-add&quot; was deprecated and replaced with &quot;block-export-add&quo=
+t; [1].<br><br>Arguments for the two are different. For using &quot;block-e=
+xport-add&quot;, &quot;id&quot; and &quot;node-name&quot; are needed, of wh=
+ich &quot;id&quot; is &quot;device&quot; for &quot;nbd-server-add&quot;, an=
+d &quot;node-name&quot; can be obtained from the querying result of &quot;q=
+uery-block&quot;. As shown by an example below:<br><br>{ &quot;execute&quot=
+;: &quot;query-block&quot; }<br>{&quot;return&quot;: [..., {..., &quot;devi=
+ce&quot;: &quot;drive-virtio-disk5&quot;, ...: {...:<br>{&quot;virtual-size=
+&quot;: 53687091200, &quot;filename&quot;: &quot;/dev/md0&quot;, &quot;form=
+at&quot;: &quot;raw&quot;, ...}<br>, ..., &quot;node-name&quot;: &quot;#blo=
+ck349&quot;, ...}, &quot;qdev&quot;: &quot;/machine/peripheral/virtio-disk5=
+/virtio-backend&quot;, &quot;type&quot;: &quot;unknown&quot;}]}<br><br>{ &q=
+uot;execute&quot;: &quot;nbd-server-add&quot;, &quot;arguments&quot;: { &qu=
+ot;device&quot;: &quot;drive-virtio-disk5&quot;, &quot;writable&quot;: true=
+ }}<br>{&quot;error&quot;: {&quot;class&quot;: &quot;GenericError&quot;, &q=
+uot;desc&quot;: &quot;Permission conflict on node &#39;#block349&#39;: perm=
+issions &#39;write&#39; are both required by an unnamed block device (uses =
+node &#39;#block349&#39; as &#39;root&#39; child) and unshared by block dev=
+ice &#39;drive-virtio-disk5&#39; (uses node &#39;#block349&#39; as &#39;roo=
+t&#39; child).&quot;}}<br><br>{ &quot;execute&quot;: &quot;block-export-add=
+&quot;, &quot;arguments&quot;: { &quot;type&quot;: &quot;nbd&quot;, &quot;i=
+d&quot;: &quot;drive-virtio-disk5&quot;, &quot;node-name&quot;: &quot;#bloc=
+k349&quot;, &quot;writable&quot;: true }}<br>{&quot;error&quot;: {&quot;cla=
+ss&quot;: &quot;GenericError&quot;, &quot;desc&quot;: &quot;Permission conf=
+lict on node &#39;#block349&#39;: permissions &#39;write&#39; are both requ=
+ired by an unnamed block device (uses node &#39;#block349&#39; as &#39;root=
+&#39; child) and unshared by block device &#39;drive-virtio-disk5&#39; (use=
+s node &#39;#block349&#39; as &#39;root&#39; child).&quot;}}<br><br><br>An =
+issue we encountered with &quot;block-export-add&quot; for VM live migratio=
+n:<br><br>on the target server<br>- exported device name: drive-virtio-disk=
+5<br>- node name of the exported device: #node123<br><br>on the source serv=
+er<br>- gets the device name from target via network: driver-virtio-disk5<b=
+r>- gets the node name from the target via network: #node123<br><br>However=
+, on the source server, the node name #node123 can&#39;t be identified.<br>=
+<br>Assumption: the same &quot;device&quot; may have different &quot;node-n=
+ame&quot; on the source and target servers. It seems that sending &quot;dev=
+ice&quot; is quite easy, but sending &quot;device&quot; and translating it =
+to the correct &quot;node-name&quot; is not quite straightforward.<div>The =
+&quot;block-export-add&quot; command made it somehow unnecessarily complica=
+ted.<div><br>For this reason, we would like to know:<br>- whether it&#39;s =
+possible not to deprecate the use of &quot;nbd-server-add&quot; command, or=
+<br>- whether there is a simpler QMP command for block device migration<br>=
+<br>Thank you so much for your reply.<br><br>Yu Zhang @Compute Platform Tea=
+m of IONOS SE<br>05.07.2022<br><br>[1] <a href=3D"https://wiki.qemu.org/Cha=
+ngeLog/5.2">https://wiki.qemu.org/ChangeLog/5.2</a><br></div></div></div>
+
+--000000000000d633bc05e30be3d1--
 
