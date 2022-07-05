@@ -2,94 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB825677B1
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 21:22:25 +0200 (CEST)
-Received: from localhost ([::1]:39334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84EAC5677C5
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 21:28:21 +0200 (CEST)
+Received: from localhost ([::1]:51692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8o7s-00037g-8e
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 15:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46662)
+	id 1o8oDc-0003v5-KS
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 15:28:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o8o07-0001VN-0c; Tue, 05 Jul 2022 15:14:23 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:48073)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o8o05-00017W-1R; Tue, 05 Jul 2022 15:14:22 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2EAEE58031C;
- Tue,  5 Jul 2022 15:14:20 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 05 Jul 2022 15:14:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1657048460; x=1657052060; bh=Jc
- C176lDo8fSZ8O89E3ByQV5biuotS/QBjwPiwIbzSc=; b=yHPdG7zafBN8Aa4jbb
- Ji/8+L9OHOczK8082IzNkYF2XEsEJc4rTVYWqvrx2MZdvSOvmsLfLmorRryIlSgn
- yiHqP9cbp9TY0pPVh7O6pGfS8tMHnuocdV3pf15v9SClniWLM9t9eQq25KWkst+S
- 5Y/dUJZlok9XXxzwTOMfq6tCjgNUU9aRqamhCeU0L17U7QRjQiBQl9MWYWZA79ty
- utnxIgwQjyQe1KB9TrdiDbdfE8WkLP4Lb2JL8FFZWQoK77uu+JWXKEIGYAKT22Ei
- VkX1FxUWqg53JD+WCxi0Vtutl3w/k1CKce9qf6qa5/xCrbfuV9TdNeUNjJr0Y4pq
- VfNw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=i9e814621.fm2; t=1657048460; x=1657052060; bh=JcC
- 176lDo8fSZ8O89E3ByQV5biuotS/QBjwPiwIbzSc=; b=wUsU1jPmuk76PuVkpuX
- jQzOfgneLhJX2G+H6Ux5I4k3I96T8wKl702bSS/YJktj92d5ncv05VZvB7LdqaDw
- eAPTmjcFMhGzZWGz+XD7VO2O865F/h7jS6u8NSc4WQdB21HsN2xmbceTSv8vkstL
- aYXo3RtzFLZbPC7lgUeRzM3TsHkWUqXD0902FM12mEtfuj8znhUJs4VjmTB1eVoj
- LXLf1R8e1arZRptoBN5OxSMeB4HHocQlV6Rccniva7b2pwGIszqBMjUlX9MpO1wc
- 3talyTE6dVj3r4kX7d1Na03w9HV4s/q6+YNNHQsPB/4VxF4bZlwoul4KVTNshNF9
- HSQ==
-X-ME-Sender: <xms:i43EYhh7EMCsueGV7vAbOu6H64_XMRcXg9SeTyLSGUN4jKvomh1JPw>
- <xme:i43EYmAVsiczfM7i_LGlLGGaYvsQZxb15OH3U2gqMbKkPxg0AsNRox-iOyhvvTFdm
- pp3W2g1N0hXqkO15UM>
-X-ME-Received: <xmr:i43EYhGy59GIq86lRWKv8To54jTBxnUVQjA7Bj97iL6fAH4DwtUTFoYsiglZxA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeiuddgudeflecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enmhhishhsihhnghcuvffquchfihgvlhguucdlfedtmdenogetfedtuddqtdduucdludeh
- mdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefrvg
- htvghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffr
- rghtthgvrhhnpedvgeekveekffehleeghefhuddujeehfeevheeujeffteejtdffteevve
- ekgefhfeenucffohhmrghinhepohhpvghntghomhhpuhhtvgdrohhrghdpghhithhhuhgs
- rdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:i43EYmSDMbS0H1NfLwzTqO3b-TbA1ongCuslzLmL4D6izlOjB1p51Q>
- <xmx:i43EYuyNlEkAuDBb5xEbaEkkp6_w1N9aB-GdchSM1peKxKdqqdPdFw>
- <xmx:i43EYs4ROcoucG4mHOkRQpSrxsB3wRi21-C0GI6Gj5bhaPN7hEwWcQ>
- <xmx:i43EYlrXsk94i-v4lme-45lRJn8uOvpav54U6vfbvrcJ7zz0fEk7Tw>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 Jul 2022 15:14:19 -0400 (EDT)
-From: Peter Delevoryas <peter@pjd.dev>
-To: 
-Cc: Peter Delevoryas <peter@pjd.dev>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 9/9] docs: aspeed: Add fby35 multi-SoC machine section
-Date: Tue,  5 Jul 2022 12:14:00 -0700
-Message-Id: <20220705191400.41632-10-peter@pjd.dev>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220705191400.41632-1-peter@pjd.dev>
-References: <20220705191400.41632-1-peter@pjd.dev>
+ (Exim 4.90_1) (envelope-from <axboe@kernel.dk>) id 1o8o9M-00078k-B5
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 15:23:56 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:43673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <axboe@kernel.dk>) id 1o8o9K-0002UZ-27
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 15:23:56 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ o5-20020a17090a3d4500b001ef76490983so9078577pjf.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 12:23:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=fOvY76u/F+5DB1+4Nt29/GRra8LAvkjZAKoT2ttjc6Y=;
+ b=sM+s2ktrJ3WUEV3843ObCRhgUCELogS8hSIEjdgETcg5eobHN/AcwwF1OSQ2Q/ptrP
+ Rar1S58gOugmlK9AO/VS3b0bRdVrzC2knfn6lScgiaxktMiyWC3tQwxNj3aXrtDjgKZy
+ l1RpM3EnID3RhDOoAyIUNyFqENBsfRcIevJwADlbY2m1loXayONMTOv2Yn/T1RB1wzJm
+ MuO6JeehGo36uCvq6KaUskwc+qPMyksD0bEGQg+wwPiN7oiXUTj99mi7Vh4lXYubV+aj
+ OKKBW1/5rMt4YpsPr/BYgV3JHpVZaJcBXKXgoFFF5qvFuyiaPwIXkpNU5paFldLnUCnK
+ j7Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fOvY76u/F+5DB1+4Nt29/GRra8LAvkjZAKoT2ttjc6Y=;
+ b=vOMvjOYbCZNeQs/jRBRBIe5ydHLjbbtP8fA4Dds9Tk5rP09pYrcv8b33wIfU3G3IC4
+ pSLGMF9wsVzRO51hLukyUH5pwt4Lkvy46LVXX6xgu6rPZRCsNcb8CD02J+Gw0CPCq428
+ 9S7QfPSAhwVuTkJR2kqWhM4q65eJy0sd66vcjSU0+XmhxwghfxRyPmXa9ziUwuMaqJXF
+ viClzE9Egsua5hZ6ISFW1XxunPvVWweUr15EoV5G80iQxBvuF9LHCkPEop/snpfP4+UY
+ UMI02ScTef2v6eCcpPFsyupLC0iQB7P0Uq+HF50K4yYBRubEtIB2MSjk72zvKwG2lk+T
+ z2Gg==
+X-Gm-Message-State: AJIora8o64glSxkg1cjCc+IMBERHB2u1I5MLuzwlZyAvZm3fxbeit0sf
+ +iJqmqhbk0B9fInK8Xg/FdYQmQ==
+X-Google-Smtp-Source: AGRyM1tPZiiCIpiI6LhWolm4hxh52FUeQoVwPQ5Olrhqfc7OZ1QYhOrcRsx9wEZ0dkLPofjmXR9N7w==
+X-Received: by 2002:a17:90a:1485:b0:1ec:788e:a053 with SMTP id
+ k5-20020a17090a148500b001ec788ea053mr42177274pja.16.1657049030032; 
+ Tue, 05 Jul 2022 12:23:50 -0700 (PDT)
+Received: from [192.168.1.100] ([198.8.77.157])
+ by smtp.gmail.com with ESMTPSA id
+ t13-20020a6549cd000000b0040ced958e8fsm22925047pgs.80.2022.07.05.12.23.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jul 2022 12:23:49 -0700 (PDT)
+Message-ID: <e9bbbeb5-c6b9-8d19-9593-b2c9187a5d98@kernel.dk>
+Date: Tue, 5 Jul 2022 13:23:48 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=peter@pjd.dev;
- helo=new3-smtp.messagingengine.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2] io_uring: fix short read slow path
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+ Dominique Martinet <dominique.martinet@atmark-techno.com>
+Cc: Stefano Garzarella <sgarzare@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Julia Suvorova <jusual@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Filipe Manana <fdmanana@kernel.org>, io-uring@vger.kernel.org
+References: <20220629044957.1998430-1-dominique.martinet@atmark-techno.com>
+ <20220630010137.2518851-1-dominique.martinet@atmark-techno.com>
+ <20220630154921.ekl45dzer6x4mkvi@sgarzare-redhat>
+ <Yr4pLwz5vQJhmvki@atmark-techno.com>
+ <YsQ8aM3/ZT+Bs7nC@stefanha-x1.localdomain>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <YsQ8aM3/ZT+Bs7nC@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=axboe@kernel.dk; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,71 +101,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Peter Delevoryas <peter@pjd.dev>
----
- docs/system/arm/aspeed.rst | 48 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+On 7/5/22 7:28 AM, Stefan Hajnoczi wrote:
+> On Fri, Jul 01, 2022 at 07:52:31AM +0900, Dominique Martinet wrote:
+>> Stefano Garzarella wrote on Thu, Jun 30, 2022 at 05:49:21PM +0200:
+>>>> so when we ask for more we issue an extra short reads, making sure we go
+>>>> through the two short reads path.
+>>>> (Unfortunately I wasn't quite sure what to fiddle with to issue short
+>>>> reads in the first place, I tried cutting one of the iovs short in
+>>>> luring_do_submit() but I must not have been doing it properly as I ended
+>>>> up with 0 return values which are handled by filling in with 0 (reads
+>>>> after eof) and that didn't work well)
+>>>
+>>> Do you remember the kernel version where you first saw these problems?
+>>
+>> Since you're quoting my paragraph about testing two short reads, I've
+>> never seen any that I know of; but there's also no reason these couldn't
+>> happen.
+>>
+>> Single short reads have been happening for me with O_DIRECT (cache=none)
+>> on btrfs for a while, but unfortunately I cannot remember which was the
+>> first kernel I've seen this on -- I think rather than a kernel update it
+>> was due to file manipulations that made the file eligible for short
+>> reads in the first place (I started running deduplication on the backing
+>> file)
+>>
+>> The older kernel I have installed right now is 5.16 and that can
+>> reproduce it --  I'll give my laptop some work over the weekend to test
+>> still maintained stable branches if that's useful.
+> 
+> Hi Dominique,
+> Linux 5.16 contains commit 9d93a3f5a0c ("io_uring: punt short reads to
+> async context"). The comment above QEMU's luring_resubmit_short_read()
+> claims that short reads are a bug that was fixed by Linux commit
+> 9d93a3f5a0c.
+> 
+> If the comment is inaccurate it needs to be fixed. Maybe short writes
+> need to be handled too.
+> 
+> I have CCed Jens and the io_uring mailing list to clarify:
+> 1. Are short IORING_OP_READV reads possible on files/block devices?
+> 2. Are short IORING_OP_WRITEV writes possible on files/block devices?
 
-diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index 5d0a7865d3..b233191b67 100644
---- a/docs/system/arm/aspeed.rst
-+++ b/docs/system/arm/aspeed.rst
-@@ -136,6 +136,54 @@ AST1030 SoC based machines :
- 
- - ``ast1030-evb``          Aspeed AST1030 Evaluation board (Cortex-M4F)
- 
-+Facebook Yosemite v3.5 Platform and CraterLake Server (``fby35``)
-+==================================================================
-+
-+Facebook has a series of multi-node compute server designs named
-+Yosemite. The most recent version released was
-+`Yosemite v3 <https://www.opencompute.org/documents/ocp-yosemite-v3-platform-design-specification-1v16-pdf>`.
-+
-+Yosemite v3.5 is an iteration on this design, and is very similar: there's a
-+baseboard with a BMC, and 4 server slots. The new server board design termed
-+"CraterLake" includes a Bridge IC (BIC), with room for expansion boards to
-+include various compute accelerators (video, inferencing, etc). At the moment,
-+only the first server slot's BIC is included.
-+
-+Yosemite v3.5 is itself a sled which fits into a 40U chassis, and 3 sleds
-+can be fit into a chassis. See `here <https://www.opencompute.org/products/423/wiwynn-yosemite-v3-server>`
-+for an example.
-+
-+In this generation, the BMC is an AST2600 and each BIC is an AST1030. The BMC
-+runs `OpenBMC <https://github.com/facebook/openbmc>`, and the BIC runs
-+`OpenBIC <https://github.com/facebook/openbic>`.
-+
-+Firmware images can be retrieved from the Github releases or built from the
-+source code, see the README's for instructions on that. This image uses the
-+"fby35" machine recipe from OpenBMC, and the "yv35-cl" target from OpenBIC.
-+Some reference images can also be found here:
-+
-+.. code-block:: bash
-+
-+    $ wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
-+    $ wget https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.13.01/Y35BCL.elf
-+
-+Since this machine has multiple SoC's, each with their own serial console, the
-+recommended way to run it is to allocate a pseudoterminal for each serial
-+console and let the monitor use stdio. Also, starting in a paused state is
-+useful because it allows you to attach to the pseudoterminals before the boot
-+process starts.
-+
-+.. code-block:: bash
-+
-+    $ qemu-system-arm -machine fby35 \
-+        -drive file=fby35.mtd,format=raw,if=mtd \
-+        -device loader,file=Y35BCL.elf,addr=0,cpu-num=2 \
-+        -serial pty -serial pty -serial mon:stdio \
-+        -display none -S
-+    $ screen /dev/tty0 # In a separate TMUX pane, terminal window, etc.
-+    $ screen /dev/tty1
-+    $ (qemu) c		   # Start the boot process once screen is setup.
-+
- Supported devices
- -----------------
- 
+In general we try very hard to avoid them, but if eg we get a short read
+or write from blocking context (eg io-wq), then io_uring does return
+that. There's really not much we can do here, it seems futile to retry
+IO which was issued just like it would've been from a normal blocking
+syscall yet it is still short.
+
 -- 
-2.37.0
+Jens Axboe
 
 
