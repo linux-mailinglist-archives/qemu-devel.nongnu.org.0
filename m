@@ -2,95 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1798D566641
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 11:38:33 +0200 (CEST)
-Received: from localhost ([::1]:56992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3AF356664D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 11:41:17 +0200 (CEST)
+Received: from localhost ([::1]:59658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8f0q-0007ER-0P
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 05:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53024)
+	id 1o8f3U-0000dW-N6
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 05:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8ezR-0005zS-7k
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:37:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28967)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1o8ezM-0005X5-QD
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:37:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657013820;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KHp/zB1b51CCtznr77GfrvUWosAhjznKb1pU6/QYy2U=;
- b=U7gwYu8zMmWudpiVR+5ADwrQFQMNb7jtPU1yLIP2d/CrjOgmW2rf7ubASwfP2f3CkVUOzZ
- JD9Og5AmS8OpF9UOhHNXOQ421TUVH7s74EOY27JgAGbdcIE4ZbOh+blOGt3Lj4bTonOPKo
- +xpRNOn3uckS0mXaU/3tFg1NxW3wwQE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617--vxiNH76N3GWxy_4fNClIg-1; Tue, 05 Jul 2022 05:36:59 -0400
-X-MC-Unique: -vxiNH76N3GWxy_4fNClIg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bg6-20020a05600c3c8600b003a03d5d19e4so6538860wmb.1
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 02:36:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o8f23-00080h-Tn; Tue, 05 Jul 2022 05:39:47 -0400
+Received: from mail-vk1-xa33.google.com ([2607:f8b0:4864:20::a33]:35750)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o8f22-0005fL-8k; Tue, 05 Jul 2022 05:39:47 -0400
+Received: by mail-vk1-xa33.google.com with SMTP id 18so69316vkz.2;
+ Tue, 05 Jul 2022 02:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=f55/Q0yxAXTwoeHquimUiBIYY1pNggOvt1cs/q+ug6k=;
+ b=pkY5cvisztOQyixu/khV3KMsS+cwQNRbO5dRJB767CSLUmbnqjYDIWxLFfGmnUFblM
+ EtjIM5h9e1baTTrl8milk8inOCDX+CHgFIEIjhnRK7KmfUyu30J9sDXKVIUB4A2gOv/x
+ IbYDNCOtVhyDhTjRj+p1MvuyCwfB3qzGvolTkCCrHdvMRTrls3yDZ3J2R6mzExUL17GH
+ eRPKdhCuBCOFJ0qwHOqMcqRrOsTp6LCoV8gLWKfL0KC+LezuRODUSP8jGJ6KlgfKpQ5m
+ 8Bw4pAHCKAkx6wAWwYXvEsbDr0AbREEUwiMgGx+TAgVqhIuL0GCr6aBvfRAar09OsCBM
+ Ta1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=KHp/zB1b51CCtznr77GfrvUWosAhjznKb1pU6/QYy2U=;
- b=ALQkakrJrx4YfOoMUifXudjmQyelAqKBfjE9OOSp69byYGGrOG5zgQcakCC5A4+v0u
- 6Be7PXXE82SveQfoW6xu54xCmlmIr7l3F4jDUuAq+JrdQj5ynF66T1GDIYif5lZzbqww
- 95blNg/jU8geRKRGqVrycecuxWGreEqLVs4e2hRx/J1gND8RFiRou3O+KExa+kkvlQI9
- PS5yzFE8Y8dIRwtBZnO0Rx9o7cm3wFWFF421WPpDKbzP0/hRR0QYisgvBUapmTaKILsW
- 9PhluGjl8PnaZRpS1pflKTaoEyGYmRiGciyMleilTektjvw+F40E7yWKztOZhZVctEYH
- xr4w==
-X-Gm-Message-State: AJIora9tGMApktR+n4rKSYiYLSrlpV+a2I040HdClG6SjRRjOTvM76fp
- l6a0okEtzwZ9rBWVNglEq12mSe0oDSP+egk7kdPY6COAyqFc5ah6J1zFxHTqZVDoL/TtuDTLvy3
- 3Qzum166cqFT5HHc=
-X-Received: by 2002:a05:6000:1788:b0:21d:2eb7:fc3c with SMTP id
- e8-20020a056000178800b0021d2eb7fc3cmr30575910wrg.212.1657013817512; 
- Tue, 05 Jul 2022 02:36:57 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tpSR7QJc0Uri8/GlpMv+SdAJx7r4lmb9f6GD9JWdwCz9o2+AWHtldXzDJqdmEJyeFjIxDLeA==
-X-Received: by 2002:a05:6000:1788:b0:21d:2eb7:fc3c with SMTP id
- e8-20020a056000178800b0021d2eb7fc3cmr30575896wrg.212.1657013817358; 
- Tue, 05 Jul 2022 02:36:57 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- q3-20020a1c4303000000b003a03185231bsm22181177wma.31.2022.07.05.02.36.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 02:36:56 -0700 (PDT)
-Date: Tue, 5 Jul 2022 10:36:54 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Zhao, Shirley" <shirley.zhao@intel.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [Qemu] how to use viriofs in qemu without NUMA
-Message-ID: <YsQGNk5hLv8b6DJS@work-vm>
-References: <BY5PR11MB42911D5BF55D9FAF501F64F68D819@BY5PR11MB4291.namprd11.prod.outlook.com>
- <3b6c8e16-3712-3402-3ab2-17bf53ec64a8@redhat.com>
- <YsPwbbiuxtkD6HSp@work-vm>
- <BY5PR11MB42912BFEA77F94B5B20D6F258D819@BY5PR11MB4291.namprd11.prod.outlook.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=f55/Q0yxAXTwoeHquimUiBIYY1pNggOvt1cs/q+ug6k=;
+ b=3Vgqu4vRu8XHu9vaiItrLovCMnbE3GyKr+t2cO3iUIUrMfVRcEakqoQvBf+kZfmsgc
+ LkTAFRvJAY5kgjISiPPTQuvoEE1KNJ+GoESzaB0iUeHCJ7w+ACCM/G9MIeZUuJVSdu13
+ dI7HpquUBfhhTKLo2xCJvtLsRtpwxlMUhsqVYNYtlxtN1NceO5k2YRioYZA3RXD31y1N
+ DyWjoos4O+SsdZrGN6ezT/WDNXpP9ekF//as+juzJTxJNcmM/8MpLuTmfCeFhWi5FNEl
+ I3z3OUhsjBMw4YT8MkwiGE19lBebsJ/RgC4JSsMONjr+zdBivWQcr7eWwqB8kJBkM0xs
+ HHGA==
+X-Gm-Message-State: AJIora+3IH3heq2elNifqUXj7lefA3sR5Wm/jkm1OQY5griicHEhcxaD
+ Jyf0UZSeRTbGIqSUX421ugM=
+X-Google-Smtp-Source: AGRyM1uhFRG5pM1PcGurmPHReiLFnGhcXI8MvhClc2LKBACqAIqMfcB9rJTxqSwY4dMVLzMiWi5dAw==
+X-Received: by 2002:a1f:6d04:0:b0:36c:125:2edf with SMTP id
+ i4-20020a1f6d04000000b0036c01252edfmr18989781vkc.38.1657013984647; 
+ Tue, 05 Jul 2022 02:39:44 -0700 (PDT)
+Received: from [192.168.10.102] ([191.193.1.105])
+ by smtp.gmail.com with ESMTPSA id
+ k23-20020a1fa117000000b0035d04bf0a8csm6286977vke.1.2022.07.05.02.39.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jul 2022 02:39:44 -0700 (PDT)
+Message-ID: <38468531-5eb0-a421-f90f-2a3c67222d40@gmail.com>
+Date: Tue, 5 Jul 2022 06:39:39 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 2/9] target/ppc: add errp to kvmppc_read_int_cpu_dt()
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org
+References: <20220630194249.886747-1-danielhb413@gmail.com>
+ <20220630194249.886747-3-danielhb413@gmail.com>
+ <55014e2a-a668-4843-8338-850abeb5ff04@kaod.org>
+ <47277f4f-a6a5-85dc-4806-67df8e2fc153@gmail.com>
+ <6d37b1dc-5dfb-2513-f74e-3f58e84e8117@kaod.org>
+ <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <BY5PR11MB42912BFEA77F94B5B20D6F258D819@BY5PR11MB4291.namprd11.prod.outlook.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a33;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa33.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,78 +97,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Zhao, Shirley (shirley.zhao@intel.com) wrote:
-> Thanks for the information. 
-> Yes, I also found the memory backend options on s390x, and also copy the command to x86, but failed. 
-> 
-> The following is the command used to start qemu + virtiofs + ubuntu 20.04. 
-> One is worked well using NUMA, another one is failed without NUMA. 
-> Is there anything wrong? 
-> 
-> The worked one with NUMA options: 
-> 
-> qemu-system-x86_64 -M pc -cpu host --enable-kvm -smp 2 -m 4G -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on -numa node,memdev=mem -chardev socket,id=char0,path=/tmp/vfsd.sock -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs -chardev stdio,mux=on,id=mon -mon chardev=mon,mode=readline -device virtio-serial-pci -device virtconsole,chardev=mon -vga none -display none -drive if=virtio,file=ubuntu.img
-> 
-> The failed one without NUMA options: 
-> 
-> qemu-system-x86_64 -M pc -cpu host --enable-kvm -smp 2 -m 4G -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on -machine q35,memory-backend=mem -chardev socket,id=char0,path=/tmp/vfsd.sock -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs -chardev stdio,mux=on,id=mon -mon chardev=mon,mode=readline -device virtio-serial-pci -device virtconsole,chardev=mon -vga none -display none -drive if=virtio,file=ubuntu.img
 
-What error did it give?
 
-20.04 is quite old, what qemu version is it?
+On 7/5/22 03:51, Mark Cave-Ayland wrote:
+> On 04/07/2022 18:34, Cédric Le Goater wrote:
+> 
+>> On 7/2/22 15:34, Daniel Henrique Barboza wrote:
+>>>
+>>>
+>>> On 7/2/22 03:24, Cédric Le Goater wrote:
+>>>> On 6/30/22 21:42, Daniel Henrique Barboza wrote:
+>>>>> The function can't just return 0 whether an error happened and call it a
+>>>>> day. We must provide a way of letting callers know if the zero return is
+>>>>> legitimate or due to an error.
+>>>>>
+>>>>> Add an Error pointer to kvmppc_read_int_cpu_dt() that will be filled
+>>>>> with an appropriate error, if one occurs. Callers are then free to pass
+>>>>> an Error pointer and handle it.
+>>>>>
+>>>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>>>> ---
+>>>>>   target/ppc/kvm.c | 16 +++++++++-------
+>>>>>   1 file changed, 9 insertions(+), 7 deletions(-)
+>>>>>
+>>>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>>>>> index 109823136d..bc17437097 100644
+>>>>> --- a/target/ppc/kvm.c
+>>>>> +++ b/target/ppc/kvm.c
+>>>>> @@ -1925,15 +1925,17 @@ static uint64_t kvmppc_read_int_dt(const char *filename)
+>>>>>   /*
+>>>>>    * Read a CPU node property from the host device tree that's a single
+>>>>> - * integer (32-bit or 64-bit).  Returns 0 if anything goes wrong
+>>>>> - * (can't find or open the property, or doesn't understand the format)
+>>>>> + * integer (32-bit or 64-bit).  Returns 0 and set errp if anything goes
+>>>>> + * wrong (can't find or open the property, or doesn't understand the
+>>>>> + * format)
+>>>>>    */
+>>>>> -static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
+>>>>> +static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
+>>>>>   {
+>>>>>       char buf[PATH_MAX], *tmp;
+>>>>>       uint64_t val;
+>>>>>       if (kvmppc_find_cpu_dt(buf, sizeof(buf))) {
+>>>>> +        error_setg(errp, "Failed to read CPU property %s", propname);
+>>>>>           return 0;
+>>>>>       }
+>>>>> @@ -1946,12 +1948,12 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
+>>>>>   uint64_t kvmppc_get_clockfreq(void)
+>>>>>   {
+>>>>> -    return kvmppc_read_int_cpu_dt("clock-frequency");
+>>>>> +    return kvmppc_read_int_cpu_dt("clock-frequency", NULL);
+>>>>
+>>>>
+>>>> This should be fatal. no ?
+>>>
+>>>
+>>> I'm not sure. I went under the assumption that there might be some weird
+>>> condition where 'clock-frequency' might be missing from the DT, and this
+>>> is why we're not exiting out immediately.
+>>>
+>>> That said, the advantage of turning this into fatal is that we won't need
+>>> all the other patches that handles error on this function. We're going to
+>>> assume that if 'clock-frequency' is missing then we can't boot. I'm okay
+>>> with that.
+>>
+>> I think so. Some machines behave badly when 'clock-frequency' is bogus,
+>> division by zero, no console, etc. We could check easily with pseries
+>> which is the only KVM PPC platform.
+> 
+> Well not quite true ;)  I haven't tested it during the last release cycle, but the Mac machines were still working fine to boot OS X with KVM-PR on my G4 Mac Mini last time I checked.
 
-I'd have to check when the memdev= went in.
 
-Dave
+We can't just error_fatal by default then.
+
+Each machine should be able to determine how to handle this missing DT
+element. If I want to error_fatal for pseries then I can do so in patch
+9/9, but other than that I'll keep the existing behavior.
+
+
+Thanks,
+
+
+Daniel
 
 > 
-> Thanks. 
-> - Shirley 
 > 
-> -----Original Message-----
-> From: Dr. David Alan Gilbert <dgilbert@redhat.com> 
-> Sent: Tuesday, July 5, 2022 4:04 PM
-> To: Thomas Huth <thuth@redhat.com>
-> Cc: Zhao, Shirley <shirley.zhao@intel.com>; qemu-devel@nongnu.org; virtio-fs@redhat.com; Stefan Hajnoczi <stefanha@redhat.com>
-> Subject: Re: [Qemu] how to use viriofs in qemu without NUMA
+> ATB,
 > 
-> * Thomas Huth (thuth@redhat.com) wrote:
-> > On 05/07/2022 03.02, Zhao, Shirley wrote:
-> > > Hi, all,
-> > > 
-> > > I want to use virtiofs to share folder between host and guest.
-> > > 
-> > >  From the guide, it must set the NUMA node.
-> > > https://virtio-fs.gitlab.io/howto-qemu.html
-> > > 
-> > > But my guest doesn’t support NUMA.
-> > > 
-> > > Is there any guide to use qemu + virtiofs without NUMA?
-> > > 
-> > > Or does qemu have any plan to support it?
-> > 
-> >  Hi!
-> > 
-> > At least on s390x, you can also specify the memory backend via the 
-> > -machine option instead of using the -numa option, e.g.:
-> > 
-> >  qemu-system-s390x -machine memory-backend=mem \
-> >   -object memory-backend-file,id=mem,...
-> > 
-> > Not sure whether that works on other architectures, too, though. 
-> > Stefan, David, do you know?
-> 
-> Right, that's the way I do it on x86.
-> We wrote virtiofs before the memory-backend option existed, which is why the old docs talk about using the NUMA stuff.
-> 
-> Dave
-> 
-> >  Thomas
-> > 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+> Mark.
 
