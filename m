@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AF99566368
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 08:51:46 +0200 (CEST)
-Received: from localhost ([::1]:36682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD0856636F
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 08:55:09 +0200 (CEST)
+Received: from localhost ([::1]:42108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8cPR-0003hI-Fk
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 02:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45824)
+	id 1o8cSi-0007WU-Oe
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 02:55:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1o8cN9-0002LK-Rj
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:49:23 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:56860 helo=loongson.cn)
+ id 1o8cN6-0002En-Pc
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:49:20 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:56862 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1o8cN2-00056O-3j
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:49:23 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1o8cN1-00056P-Au
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 02:49:20 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Ax+eDd3sNi_PcJAA--.31000S2; 
- Tue, 05 Jul 2022 14:49:01 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Ax+eDd3sNi_PcJAA--.31000S3; 
+ Tue, 05 Jul 2022 14:49:02 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: [PATCH v3 0/2] Fix IPI device emulation for LoongArch machine
-Date: Tue,  5 Jul 2022 14:48:59 +0800
-Message-Id: <20220705064901.2353349-1-yangxiaojuan@loongson.cn>
+Subject: [PATCH 1/2] hw/intc/loongarch_ipi: Fix ipi device access of 64bits
+Date: Tue,  5 Jul 2022 14:49:00 +0800
+Message-Id: <20220705064901.2353349-2-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220705064901.2353349-1-yangxiaojuan@loongson.cn>
+References: <20220705064901.2353349-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Ax+eDd3sNi_PcJAA--.31000S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruw1fJF4ftFy5CF1UXr4Dtwb_yoWxCFg_XF
- WSyF97Gw47WF1UAayUZr1UA34rCa1xAF43AFyDXr43Gr17Xrn8Xrn5t3yYvF1vqa4rX3s8
- Gr4rtr95AryavjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
+X-CM-TRANSID: AQAAf9Ax+eDd3sNi_PcJAA--.31000S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxAw47GFy8tF1Utw4fJw15twb_yoWrWFWDpr
+ y7uFy5Wr48AFnrXr93KasrXFn8Jwn7GFy29anIkay09F47XryjvF1SyryDXFyUA3sxGF90
+ qrykWFW7W3WUZwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -60,20 +62,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix LoongArch IPI device emulation follwing Richard's advice based on v2 version:
-1. Change ipi64_ops' valid.min_access_size to 8, as it only support 8 bytes writing.
-2. Remove 'UL' prefix in send_ipi_data().
-3. Add a condition to skip the method of geting write mask in send_ipi_data(), as the mask is 0 at most time.
+In general loongarch ipi device, 32bit registers is emulated, however for
+anysend/mailsend device only 64bit register access is supported. So separate
+the ipi memory region into two regions, including 32 bits and 64 bits.
 
-Xiaojuan Yang (2):
-  hw/intc/loongarch_ipi: Fix ipi device access of 64bits
-  hw/intc/loongarch_ipi: Fix mail send and any send function
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+---
+ hw/intc/loongarch_ipi.c         | 38 +++++++++++++++++++++++++++------
+ hw/loongarch/loongson3.c        |  5 ++++-
+ include/hw/intc/loongarch_ipi.h |  7 +++---
+ 3 files changed, 39 insertions(+), 11 deletions(-)
 
- hw/intc/loongarch_ipi.c         | 92 ++++++++++++++++++++++-----------
- hw/loongarch/loongson3.c        |  5 +-
- include/hw/intc/loongarch_ipi.h |  7 +--
- 3 files changed, 70 insertions(+), 34 deletions(-)
-
+diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
+index 66bee93675..b8b1b9cd53 100644
+--- a/hw/intc/loongarch_ipi.c
++++ b/hw/intc/loongarch_ipi.c
+@@ -150,12 +150,6 @@ static void loongarch_ipi_writel(void *opaque, hwaddr addr, uint64_t val,
+     case IOCSR_IPI_SEND:
+         ipi_send(val);
+         break;
+-    case IOCSR_MAIL_SEND:
+-        mail_send(val);
+-        break;
+-    case IOCSR_ANY_SEND:
+-        any_send(val);
+-        break;
+     default:
+         qemu_log_mask(LOG_UNIMP, "invalid write: %x", (uint32_t)addr);
+         break;
+@@ -172,6 +166,32 @@ static const MemoryRegionOps loongarch_ipi_ops = {
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
+ 
++/* mail send and any send only support writeq */
++static void loongarch_ipi_writeq(void *opaque, hwaddr addr, uint64_t val,
++                                 unsigned size)
++{
++    addr &= 0xfff;
++    switch (addr) {
++    case MAIL_SEND_OFFSET:
++        mail_send(val);
++        break;
++    case ANY_SEND_OFFSET:
++        any_send(val);
++        break;
++    default:
++       break;
++    }
++}
++
++static const MemoryRegionOps loongarch_ipi64_ops = {
++    .write = loongarch_ipi_writeq,
++    .impl.min_access_size = 8,
++    .impl.max_access_size = 8,
++    .valid.min_access_size = 8,
++    .valid.max_access_size = 8,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
+ static void loongarch_ipi_init(Object *obj)
+ {
+     int cpu;
+@@ -187,8 +207,12 @@ static void loongarch_ipi_init(Object *obj)
+     lams = LOONGARCH_MACHINE(machine);
+     for (cpu = 0; cpu < MAX_IPI_CORE_NUM; cpu++) {
+         memory_region_init_io(&s->ipi_iocsr_mem[cpu], obj, &loongarch_ipi_ops,
+-                            &lams->ipi_core[cpu], "loongarch_ipi_iocsr", 0x100);
++                            &lams->ipi_core[cpu], "loongarch_ipi_iocsr", 0x48);
+         sysbus_init_mmio(sbd, &s->ipi_iocsr_mem[cpu]);
++
++        memory_region_init_io(&s->ipi64_iocsr_mem[cpu], obj, &loongarch_ipi64_ops,
++                              &lams->ipi_core[cpu], "loongarch_ipi64_iocsr", 0x118);
++        sysbus_init_mmio(sbd, &s->ipi64_iocsr_mem[cpu]);
+         qdev_init_gpio_out(DEVICE(obj), &lams->ipi_core[cpu].irq, 1);
+     }
+ }
+diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+index a0cd61cc88..d14ec06d02 100644
+--- a/hw/loongarch/loongson3.c
++++ b/hw/loongarch/loongson3.c
+@@ -453,7 +453,10 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+         /* IPI iocsr memory region */
+         memory_region_add_subregion(&env->system_iocsr, SMP_IPI_MAILBOX,
+                                     sysbus_mmio_get_region(SYS_BUS_DEVICE(ipi),
+-                                    cpu));
++                                    cpu * 2));
++        memory_region_add_subregion(&env->system_iocsr, MAIL_SEND_ADDR,
++                                    sysbus_mmio_get_region(SYS_BUS_DEVICE(ipi),
++                                    cpu * 2 + 1));
+         /* extioi iocsr memory region */
+         memory_region_add_subregion(&env->system_iocsr, APIC_BASE,
+                                 sysbus_mmio_get_region(SYS_BUS_DEVICE(extioi),
+diff --git a/include/hw/intc/loongarch_ipi.h b/include/hw/intc/loongarch_ipi.h
+index 996ed7ea93..0ee48fca55 100644
+--- a/include/hw/intc/loongarch_ipi.h
++++ b/include/hw/intc/loongarch_ipi.h
+@@ -24,8 +24,9 @@
+ #define IOCSR_MAIL_SEND       0x48
+ #define IOCSR_ANY_SEND        0x158
+ 
+-/* IPI system memory address */
+-#define IPI_SYSTEM_MEM        0x1fe01000
++#define MAIL_SEND_ADDR        (SMP_IPI_MAILBOX + IOCSR_MAIL_SEND)
++#define MAIL_SEND_OFFSET      0
++#define ANY_SEND_OFFSET       (IOCSR_ANY_SEND - IOCSR_MAIL_SEND)
+ 
+ #define MAX_IPI_CORE_NUM      4
+ #define MAX_IPI_MBX_NUM       4
+@@ -46,7 +47,7 @@ typedef struct IPICore {
+ struct LoongArchIPI {
+     SysBusDevice parent_obj;
+     MemoryRegion ipi_iocsr_mem[MAX_IPI_CORE_NUM];
+-    MemoryRegion ipi_system_mem[MAX_IPI_CORE_NUM];
++    MemoryRegion ipi64_iocsr_mem[MAX_IPI_CORE_NUM];
+ };
+ 
+ #endif
 -- 
 2.31.1
 
