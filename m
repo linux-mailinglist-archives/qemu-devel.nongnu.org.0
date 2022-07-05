@@ -2,69 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BBA56672A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 11:59:21 +0200 (CEST)
-Received: from localhost ([::1]:51126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40EDA56673C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 12:01:00 +0200 (CEST)
+Received: from localhost ([::1]:53354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8fKy-00074a-S2
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 05:59:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56238)
+	id 1o8fMZ-0000A5-Ba
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 06:00:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
- id 1o8fJx-0005pv-C6
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:58:17 -0400
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:36692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
- id 1o8fJv-0008Op-5I
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:58:17 -0400
-Received: by mail-lj1-x233.google.com with SMTP id s14so13874433ljs.3
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 02:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=6SZf1jwD70JEMWul0ibLZwjs1mlkUiiGOr0baTVrrns=;
- b=QNj7wLGaLKdGhbTwr9qA0+uOEKlqnq9M4Y5nBeyRpGWTIY9nf0D51EdDjg3HR4Ugo+
- h2PDSYDVfBcbrIzyF196P2i7/O1d59euKY2dcnIcmjQrzLC3LkQez+K0Oyty4wbN6yXh
- yL8Ie5F8zFaSqPjCOSYu/pzb0/fGrKcy/NIzFTEYu3gae6ik5m7RlmLz31/MwWt3dwMm
- 87IOqhTY3zXtu7RGfne4V9qC/d6YHKnxlsfjqqJNOVav33TDpPQ0ClNnYICy2ftE1mD2
- SHt2QsHphhuO6c1wrbXAsOSLGoR4Tbb6/ZFfQ56uN6kzj5padKYWtaPmaIUQpzZmg2I1
- NPgw==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8fKb-00077V-0n
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:58:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23114)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o8fKV-0008RU-Fm
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 05:58:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657015131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UuLDgQ+lJxq01yD1VgvrOlniYIpqYS5Dvlw6G4y1eUc=;
+ b=ZmJm8QIHEjqj9JoxQjDYjef/x/Lerv9Ev0IXhWVX+2l9bf6DTLJA47WDzsAP70eiCByD20
+ pIrMKGwNO7cMUyAl1xgCc96EwmDn1gHQCONa0ZXzF4XS50tCJndq3AYpYUl4QadESlCocd
+ 3APz+rQeo1HxaSyo5ahSR1mm5V2GwmU=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-198-MjCkK3-FOy-SGS-CwSJhUA-1; Tue, 05 Jul 2022 05:58:49 -0400
+X-MC-Unique: MjCkK3-FOy-SGS-CwSJhUA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ e20-20020a170906315400b007262bd0111eso2568899eje.9
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 02:58:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=6SZf1jwD70JEMWul0ibLZwjs1mlkUiiGOr0baTVrrns=;
- b=Jl7aN17z7Bc8F2/4on6xgeO4rb4MGc/HsTsRwr4HSL7JNxLZLKMlJj745QO20SEHS+
- ELH6YXmaIstpTKCe85GnRelDyUmDp7a6mRTiUhxAdLxDfDpdk0TYi8c6RVQFD083WtC1
- F25PwG/Wp4avqIvtqmoArlN+9xT1ti3jTN0fAqq6AizbZOcPtZotEpkhMH0lKATiQWyO
- 3bnDu56LEkY9G9l857uZTaKtNN4h1t0MEtOElDO3BnF3YRpnvYGibKPCWL12fgp0htjr
- N/mP2JTfFR4tAl2qYleEUzoCwo62bEWuuwYFTviiXnHvOJnBcdJF4d1CFIbzVvgbUsmg
- Wo8Q==
-X-Gm-Message-State: AJIora+WXYczbybE1pJXvT3BBb+BSzMbtFadnd23uMoaHcC19TuW6KK/
- DUMXEnTEmZPGsofIeNV5J3E2DgHkv3plm3VFeQV7ASG7QOphpQ==
-X-Google-Smtp-Source: AGRyM1sfGwN0qmNyK8P/L6+luOG5Ita2w4P6PeBVdLopTCWUEfPTSh+cdGSOk0T+/dDSGiiRQr6Ikgk3LAJHbgd8b3c=
-X-Received: by 2002:a05:651c:170e:b0:25a:6e96:c495 with SMTP id
- be14-20020a05651c170e00b0025a6e96c495mr19388416ljb.2.1657015090158; Tue, 05
- Jul 2022 02:58:10 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UuLDgQ+lJxq01yD1VgvrOlniYIpqYS5Dvlw6G4y1eUc=;
+ b=8K/xIf6+s2ycR+gALEPXXgYioKe9QO59/r9/MX37l27mwPWCBm5a/1C2prNaFlDjLb
+ 8CMbhVVB3KVYM27XURKgzbIEynZBqgIl1a1BItxj5xMYLrknqBZ7jSgxXiUQL/snNCeA
+ 77anAMRIqoiJcvsGfJ86u0a5KFl9KfOe1fQRkzGdQ5uJAHQH1OD4kOirqlmgXkEphWQd
+ hUNyP35m4YgisMNfqX2wdUfvbEV/YBDdwmjinTagBi2LakF/Qb8A+y4FWRKiepFLXJ5N
+ eQPu09LT27zS6zjwSR3ty6BA5+mzNWgDCw9yxwvCdvJ6uhEGZ4KDYnx21pbIWYrsmo9Z
+ yk7Q==
+X-Gm-Message-State: AJIora9leX+3+qK6QGfEMFOwSDSo6MkDlzQ5SDeQp/PChotXHvYNFCf6
+ 3odSw/Fmdh17x9W0EGei518WnLTL9I0WteGRD2lgqxxYfsxGbNuu3NFWJjstpa5t4f+KLPH8sY3
+ xUUvYcQ2J2Umnpv8=
+X-Received: by 2002:a05:6402:1741:b0:433:4e4d:bfb4 with SMTP id
+ v1-20020a056402174100b004334e4dbfb4mr44292628edx.7.1657015128216; 
+ Tue, 05 Jul 2022 02:58:48 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u6Rk0CJgTZoO4ahvfa9RSO+bzRJotKetYrL8qiIdTV8HRPqny9ZeB4DGVI5XC9WYaViZqGjg==
+X-Received: by 2002:a05:6402:1741:b0:433:4e4d:bfb4 with SMTP id
+ v1-20020a056402174100b004334e4dbfb4mr44292597edx.7.1657015127895; 
+ Tue, 05 Jul 2022 02:58:47 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
+ ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
+ by smtp.gmail.com with ESMTPSA id
+ fj21-20020a0564022b9500b0043a45dc7158sm4652739edb.72.2022.07.05.02.58.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jul 2022 02:58:47 -0700 (PDT)
+Message-ID: <308c543a-5f72-b0f4-15d4-b98d4db6f4f2@redhat.com>
+Date: Tue, 5 Jul 2022 11:58:46 +0200
 MIME-Version: 1.0
-From: Yu Zhang <yu.zhang@ionos.com>
-Date: Tue, 5 Jul 2022 11:57:59 +0200
-Message-ID: <CAHEcVy7gC_h4Nei3m6KMvFkjTAFR6XkJcw+AMoxJ3r9CMXp=-Q@mail.gmail.com>
-Subject: questions about QMP commands - "block-export-add" and "nbd-server-add"
-To: qemu-devel <qemu-devel@nongnu.org>, Gioh Kim <gi-oh.kim@ionos.com>, 
- Alexei Pastuchov <alexei.pastuchov@ionos.com>,
- Jinpu Wang <jinpu.wang@ionos.com>, 
- Fuad Faron <fuad.faron@ionos.com>, Elmar Gerdes <elmar.gerdes@ionos.com>
-Content-Type: multipart/alternative; boundary="000000000000d633bc05e30be3d1"
-Received-SPF: permerror client-ip=2a00:1450:4864:20::233;
- envelope-from=yu.zhang@ionos.com; helo=mail-lj1-x233.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: Failure in iotest 183
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+References: <f629134d-0ce2-46df-13b5-30b735f6bd3d@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <f629134d-0ce2-46df-13b5-30b735f6bd3d@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,120 +103,242 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d633bc05e30be3d1
-Content-Type: text/plain; charset="UTF-8"
+On 05.07.22 11:35, Thomas Huth wrote:
+>
+>  Hi!
+>
+> I've just hit a failure in iotest 183:
+>
+> --- /home/thuth/devel/qemu/tests/qemu-iotests/183.out
+> +++ /home/thuth/tmp/qemu-build/tests/qemu-iotests/scratch/183/183.out.bad
+> @@ -30,7 +30,7 @@
+>         'arguments': { 'uri': 'unix:SOCK_DIR/migrate', 'blk': true } }
+>  {"return": {}}
+>  { 'execute': 'query-status' }
+> -{"return": {"status": "postmigrate", "singlestep": false, "running": 
+> false}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
 
-Hi All,
+Weird because query-status cannot return something with '"status": 
+"completed"' in it.  We can see the '"status": "postmigrate"' object 
+somewhere below, so it seems to me like the silent=yes part for the 
+query-migrate execution didn’t work as intended.
 
-since QEMU-5.2, the QMP command "nbd-server-add" was deprecated and
-replaced with "block-export-add" [1].
+(And it does seem to work below, when waiting for a “100 %” to appear on 
+$dest.)
 
-Arguments for the two are different. For using "block-export-add", "id" and
-"node-name" are needed, of which "id" is "device" for "nbd-server-add", and
-"node-name" can be obtained from the querying result of "query-block". As
-shown by an example below:
+It’s been a while since we’ve touched common.qemu, so nothing comes to 
+my mind immediately that might have broken this.
 
-{ "execute": "query-block" }
-{"return": [..., {..., "device": "drive-virtio-disk5", ...: {...:
-{"virtual-size": 53687091200, "filename": "/dev/md0", "format": "raw", ...}
-, ..., "node-name": "#block349", ...}, "qdev":
-"/machine/peripheral/virtio-disk5/virtio-backend", "type": "unknown"}]}
+>
+>  === Do some I/O on the destination ===
+>
+> @@ -53,8 +53,31 @@
+>  === Shut down and check image ===
+>
+>  {"execute":"quit"}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"execute":"quit"}
+>  {"return": {}}
+> -{"execute":"quit"}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
+> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 
+> 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
+> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, 
+> "postcopy-bytes": 0, "mbps": 188.63209192200557, "transferred": 
+> 496829, "precopy-bytes": 496829, "duplicate": 32849, 
+> "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 200704, "normal": 
+> 49}}}
+> +{"return": {"status": "postmigrate", "singlestep": false, "running": 
+> false}}
+>  {"return": {}}
+>  {"timestamp": {"seconds":  TIMESTAMP, "microseconds": TIMESTAMP}, 
+> "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+>  {"timestamp": {"seconds":  TIMESTAMP, "microseconds": TIMESTAMP}, 
+> "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+>
+> Is that a known problem already? (I haven't seen anything
+> related on the list)
 
-{ "execute": "nbd-server-add", "arguments": { "device":
-"drive-virtio-disk5", "writable": true }}
-{"error": {"class": "GenericError", "desc": "Permission conflict on node
-'#block349': permissions 'write' are both required by an unnamed block
-device (uses node '#block349' as 'root' child) and unshared by block device
-'drive-virtio-disk5' (uses node '#block349' as 'root' child)."}}
+I’ve never hit this so far.
 
-{ "execute": "block-export-add", "arguments": { "type": "nbd", "id":
-"drive-virtio-disk5", "node-name": "#block349", "writable": true }}
-{"error": {"class": "GenericError", "desc": "Permission conflict on node
-'#block349': permissions 'write' are both required by an unnamed block
-device (uses node '#block349' as 'root' child) and unshared by block device
-'drive-virtio-disk5' (uses node '#block349' as 'root' child)."}}
+The only things to try I can come up with would be to bisect, or to try 
+adding `silent=$silent` to the `_timed_wait_for` calls in `send_qemu_cmd`...
 
+Hanna
 
-An issue we encountered with "block-export-add" for VM live migration:
-
-on the target server
-- exported device name: drive-virtio-disk5
-- node name of the exported device: #node123
-
-on the source server
-- gets the device name from target via network: driver-virtio-disk5
-- gets the node name from the target via network: #node123
-
-However, on the source server, the node name #node123 can't be identified.
-
-Assumption: the same "device" may have different "node-name" on the source
-and target servers. It seems that sending "device" is quite easy, but
-sending "device" and translating it to the correct "node-name" is not quite
-straightforward.
-The "block-export-add" command made it somehow unnecessarily complicated.
-
-For this reason, we would like to know:
-- whether it's possible not to deprecate the use of "nbd-server-add"
-command, or
-- whether there is a simpler QMP command for block device migration
-
-Thank you so much for your reply.
-
-Yu Zhang @Compute Platform Team of IONOS SE
-05.07.2022
-
-[1] https://wiki.qemu.org/ChangeLog/5.2
-
---000000000000d633bc05e30be3d1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi All,<br><br>since QEMU-5.2, the QMP command &quot;nbd-s=
-erver-add&quot; was deprecated and replaced with &quot;block-export-add&quo=
-t; [1].<br><br>Arguments for the two are different. For using &quot;block-e=
-xport-add&quot;, &quot;id&quot; and &quot;node-name&quot; are needed, of wh=
-ich &quot;id&quot; is &quot;device&quot; for &quot;nbd-server-add&quot;, an=
-d &quot;node-name&quot; can be obtained from the querying result of &quot;q=
-uery-block&quot;. As shown by an example below:<br><br>{ &quot;execute&quot=
-;: &quot;query-block&quot; }<br>{&quot;return&quot;: [..., {..., &quot;devi=
-ce&quot;: &quot;drive-virtio-disk5&quot;, ...: {...:<br>{&quot;virtual-size=
-&quot;: 53687091200, &quot;filename&quot;: &quot;/dev/md0&quot;, &quot;form=
-at&quot;: &quot;raw&quot;, ...}<br>, ..., &quot;node-name&quot;: &quot;#blo=
-ck349&quot;, ...}, &quot;qdev&quot;: &quot;/machine/peripheral/virtio-disk5=
-/virtio-backend&quot;, &quot;type&quot;: &quot;unknown&quot;}]}<br><br>{ &q=
-uot;execute&quot;: &quot;nbd-server-add&quot;, &quot;arguments&quot;: { &qu=
-ot;device&quot;: &quot;drive-virtio-disk5&quot;, &quot;writable&quot;: true=
- }}<br>{&quot;error&quot;: {&quot;class&quot;: &quot;GenericError&quot;, &q=
-uot;desc&quot;: &quot;Permission conflict on node &#39;#block349&#39;: perm=
-issions &#39;write&#39; are both required by an unnamed block device (uses =
-node &#39;#block349&#39; as &#39;root&#39; child) and unshared by block dev=
-ice &#39;drive-virtio-disk5&#39; (uses node &#39;#block349&#39; as &#39;roo=
-t&#39; child).&quot;}}<br><br>{ &quot;execute&quot;: &quot;block-export-add=
-&quot;, &quot;arguments&quot;: { &quot;type&quot;: &quot;nbd&quot;, &quot;i=
-d&quot;: &quot;drive-virtio-disk5&quot;, &quot;node-name&quot;: &quot;#bloc=
-k349&quot;, &quot;writable&quot;: true }}<br>{&quot;error&quot;: {&quot;cla=
-ss&quot;: &quot;GenericError&quot;, &quot;desc&quot;: &quot;Permission conf=
-lict on node &#39;#block349&#39;: permissions &#39;write&#39; are both requ=
-ired by an unnamed block device (uses node &#39;#block349&#39; as &#39;root=
-&#39; child) and unshared by block device &#39;drive-virtio-disk5&#39; (use=
-s node &#39;#block349&#39; as &#39;root&#39; child).&quot;}}<br><br><br>An =
-issue we encountered with &quot;block-export-add&quot; for VM live migratio=
-n:<br><br>on the target server<br>- exported device name: drive-virtio-disk=
-5<br>- node name of the exported device: #node123<br><br>on the source serv=
-er<br>- gets the device name from target via network: driver-virtio-disk5<b=
-r>- gets the node name from the target via network: #node123<br><br>However=
-, on the source server, the node name #node123 can&#39;t be identified.<br>=
-<br>Assumption: the same &quot;device&quot; may have different &quot;node-n=
-ame&quot; on the source and target servers. It seems that sending &quot;dev=
-ice&quot; is quite easy, but sending &quot;device&quot; and translating it =
-to the correct &quot;node-name&quot; is not quite straightforward.<div>The =
-&quot;block-export-add&quot; command made it somehow unnecessarily complica=
-ted.<div><br>For this reason, we would like to know:<br>- whether it&#39;s =
-possible not to deprecate the use of &quot;nbd-server-add&quot; command, or=
-<br>- whether there is a simpler QMP command for block device migration<br>=
-<br>Thank you so much for your reply.<br><br>Yu Zhang @Compute Platform Tea=
-m of IONOS SE<br>05.07.2022<br><br>[1] <a href=3D"https://wiki.qemu.org/Cha=
-ngeLog/5.2">https://wiki.qemu.org/ChangeLog/5.2</a><br></div></div></div>
-
---000000000000d633bc05e30be3d1--
 
