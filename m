@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6B4567600
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 19:52:17 +0200 (CEST)
-Received: from localhost ([::1]:37594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F9DC56764A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 20:21:27 +0200 (CEST)
+Received: from localhost ([::1]:51432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8mid-0005f8-Lg
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 13:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58628)
+	id 1o8nAq-0000RH-Ow
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 14:21:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
- id 1o8mgC-0003zn-L0
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:49:44 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:36562)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
- id 1o8mgA-0005Ah-SZ
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 13:49:44 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id s206so12023251pgs.3
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 10:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1y0Yc/JlfHdVvvbhyP93j3FsOC2gXUCOo4GCtzbqfoY=;
- b=kVsdhn8LNQfcxN/fPZBWQq/zHG+3tFtqY0bclYy3K3R2YQUc2/9sBq0r6Lz/xkUsfM
- SjZYhNBabKrv89wG/IA3YsxYLNFs/h2LTJnkZrmWuQvSPMwPeiy10zGYVMAQB2vVwAtb
- rOeFqZcGKYZRT3SCv0dLJbXu3lhrxLRGZ8DKRgvRn+o7UfxcE46+HjKhAtfMIKXy+NfG
- 4nAWxRHjNyRE8fzaV5XV/kwxUeN5W0LvKkGqgSdE/t/zUz9l+3WKbL13at9Y9n9UjjJu
- pUprtdM8JvBJv+BNAVVXw6CIZvwATFiDhvdRRbNV1+keb6UaDj9OyVqfgVyxFPO2KI+d
- 5NgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1y0Yc/JlfHdVvvbhyP93j3FsOC2gXUCOo4GCtzbqfoY=;
- b=3cCGvTHIOO+/SxLfKl12J6idUzKKQ2sx+fmbVZEZyRjWhMha2S3/jXaS35tRafeSG4
- lAvu/GfO3JZkZp5ntP9T/zOSAFkqY/5zXrSvLv8toozugRTBGIdXa3ReHV+xOY014dSM
- Zuwk7yxbzHYBDsrr4zgSHDCcNg6dWqYLvsuC5BMRUlwCEIHH1Wag2+btMjg0AFsqMh+f
- QCVo9sBvkgIrNLxSRCaPqhdBZ6xhPKLBo46baC0Vn7mL3hV2LOlIoClsNbmYngesGcEU
- 2DLei/OtKZxPaHHYk7VXfIbOKdkZ/11Bg+YrJ8Zz1Ts89XRHfNrKxLUpV97rHYk3MYAc
- 3Qqw==
-X-Gm-Message-State: AJIora9CqDWtq0qZNhryWk6paztxmkGj/Bopkh9Qq9QllHX+JNb8jPJ2
- P0T/FmYvPRcUg658figHpJnUC8netvJYEw==
-X-Google-Smtp-Source: AGRyM1tbMMX0UWaE8S1i1jVFuXTQ1/M4s5DBJD1+ekAyxmy4M8to/AQfoYA+WwGpd/0Mrn75CPKG8w==
-X-Received: by 2002:a63:8049:0:b0:412:8f0e:2da6 with SMTP id
- j70-20020a638049000000b004128f0e2da6mr992714pgd.414.1657043379455; 
- Tue, 05 Jul 2022 10:49:39 -0700 (PDT)
-Received: from daolu.ba.rivosinc.com ([66.220.2.162])
- by smtp.gmail.com with ESMTPSA id
- b5-20020a170902d50500b0016be372a10esm4952004plg.20.2022.07.05.10.49.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jul 2022 10:49:39 -0700 (PDT)
-From: Dao Lu <daolu@rivosinc.com>
-To: qemu-devel@nongnu.org
-Cc: Dao Lu <daolu@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs),
- Heiko Stuebner <heiko@sntech.de>
-Subject: [PATCH v4 1/1] target/riscv: Add Zihintpause support
-Date: Tue,  5 Jul 2022 10:49:32 -0700
-Message-Id: <20220705174933.2898412-2-daolu@rivosinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220705174933.2898412-1-daolu@rivosinc.com>
-References: <20220705174933.2898412-1-daolu@rivosinc.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o8n7t-0005nP-Ur; Tue, 05 Jul 2022 14:18:22 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:33244)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o8n7p-0000w7-Ui; Tue, 05 Jul 2022 14:18:20 -0400
+Received: from myt5-23f0be3aa648.qloud-c.yandex.net
+ (myt5-23f0be3aa648.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 54A2A2E0A27;
+ Tue,  5 Jul 2022 21:18:04 +0300 (MSK)
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ DOy2JkhZY3-I3J4EuHh; Tue, 05 Jul 2022 21:18:04 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1657045084; bh=/MzdAxO5xzMSUlryd9aQYDbnJZYtSCpIl223oeGK88Y=;
+ h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
+ b=atHhx6zEXNywm30f/vAPX0m6Ug2PvAABIvaWF5H+zjrDVnO7kC1EFfCGYWOCzRsgp
+ X37wJHBVTVjx1upyHUupSvwUOvSH5oiqxbaz2Gk+hVgUovWiKWjGLdbqshUW3Hd8Rq
+ L456zMSKowI0W7F3cUMpE1uYC8uizp9C4JVZgBTg=
+Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPV6:2a02:6b8:b081:6429::1:1b] (unknown
+ [2a02:6b8:b081:6429::1:1b])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ iBP9j8uEjC-I3PeAhRp; Tue, 05 Jul 2022 21:18:03 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <556a2ccb-27db-8f74-fbe9-6911aab43f5c@yandex-team.ru>
+Date: Tue, 5 Jul 2022 21:18:03 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] iotests: fix copy-before-write for macOS and FreeBSD
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
+ thuth@redhat.com, jsnow@redhat.com
+References: <20220705153708.186418-1-vsementsov@yandex-team.ru>
+ <e5fa4843-31e1-9ce2-fd13-ffa1b6ee6f1e@linaro.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <e5fa4843-31e1-9ce2-fd13-ffa1b6ee6f1e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=daolu@rivosinc.com; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,96 +83,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added support for RISC-V PAUSE instruction from Zihintpause extension,
-enabled by default.
+On 7/5/22 20:22, Richard Henderson wrote:
+> On 7/5/22 21:07, Vladimir Sementsov-Ogievskiy wrote:
+>> strerror() represents ETIMEDOUT a bit different in Linux and macOS /
+>> FreeBSD. Let's support the latter too.
+>>
+>> Fixes: 9d05a87b77 ("iotests: copy-before-write: add cases for cbw-timeout option")
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> ---
+>>
+>> As John and Thomas noted, the new iotests fails for FreeBSD and maxOS.
+>> Here is a fix. Would be great if someone can test it.
+>>
+>> I tried to push it by
+>>
+>>    git push --force  -o ci.variable="QEMU_CI=1"
+>>
+>> to my block branch, I get a blocked pipeline
+>>    https://gitlab.com/vsementsov/qemu/-/pipelines/580573238
+>> but it doesn't have neither freebsd nor macos jobs.. How to get them?
+> 
+> You'd have to have an attached cirrus token.
+> Better to just use 'make vm-build-freebsd'.
+> 
+>>       def test_timeout_break_guest(self):
+>>           log = self.do_cbw_timeout('break-guest-write')
+>> +        # macOS and FreeBSD tend to represent ETIMEDOUT as
+>> +        # "Operation timed out", when Linux prefer
+>> +        # "Connection timed out"
+>> +        log = log.replace('Operation timed out',
+>> +                          'Connection timed out')
+> 
+> Um, really?  Matching strerror text?  This is ultra-fragile.
+> Dare I say broken already.
+> 
 
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-Signed-off-by: Dao Lu <daolu@rivosinc.com>
----
- target/riscv/cpu.c                      |  2 ++
- target/riscv/cpu.h                      |  1 +
- target/riscv/insn32.decode              |  7 ++++++-
- target/riscv/insn_trans/trans_rvi.c.inc | 16 ++++++++++++++++
- 4 files changed, 25 insertions(+), 1 deletion(-)
+Unfortunately we lack a good interface to test simple reads and writes in iotests. qemu-io command just print the result to stdout. So, I think, in short-term, this is the best thing to do. And if just `git grep '\(write\|read\) failed:' tests/qemu-iotests/` we'll see that this is the common practice.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ccacdee215..183fb37fdf 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -825,6 +825,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-+    DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
-     DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-     DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-@@ -996,6 +997,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
-      *    extensions by an underscore.
-      */
-     struct isa_ext_data isa_edata_arr[] = {
-+        ISA_EDATA_ENTRY(zihintpause, ext_zihintpause),
-         ISA_EDATA_ENTRY(zfh, ext_zfh),
-         ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
-         ISA_EDATA_ENTRY(zfinx, ext_zfinx),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index fe6c9a2c92..e466a04a59 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -394,6 +394,7 @@ struct RISCVCPUConfig {
-     bool ext_counters;
-     bool ext_ifencei;
-     bool ext_icsr;
-+    bool ext_zihintpause;
-     bool ext_svinval;
-     bool ext_svnapot;
-     bool ext_svpbmt;
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 4033565393..595fdcdad8 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -149,7 +149,12 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
- sra      0100000 .....    ..... 101 ..... 0110011 @r
- or       0000000 .....    ..... 110 ..... 0110011 @r
- and      0000000 .....    ..... 111 ..... 0110011 @r
--fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
-+
-+{
-+  pause  0000 0001   0000   00000 000 00000 0001111
-+  fence  ---- pred:4 succ:4 ----- 000 ----- 0001111
-+}
-+
- fence_i  ---- ----   ----   ----- 001 ----- 0001111
- csrrw    ............     ..... 001 ..... 1110011 @csr
- csrrs    ............     ..... 010 ..... 1110011 @csr
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index f1342f30f8..2fd07bc2e4 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -796,6 +796,22 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
-     return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl, NULL);
- }
- 
-+static bool trans_pause(DisasContext *ctx, arg_pause *a)
-+{
-+    if (!ctx->cfg_ptr->ext_zihintpause) {
-+        return false;
-+    }
-+
-+    /*
-+     * PAUSE is a no-op in QEMU,
-+     * end the TB and return to main loop
-+     */
-+    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-+    tcg_gen_exit_tb(NULL, 0);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+
-+    return true;
-+}
- 
- static bool trans_fence(DisasContext *ctx, arg_fence *a)
- {
 -- 
-2.25.1
-
+Best regards,
+Vladimir
 
