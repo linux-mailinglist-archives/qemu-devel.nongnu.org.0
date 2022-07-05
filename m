@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4976156792E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 23:07:27 +0200 (CEST)
-Received: from localhost ([::1]:40056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1437567973
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 23:42:50 +0200 (CEST)
+Received: from localhost ([::1]:47076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8plV-0006xK-UX
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 17:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37900)
+	id 1o8qJl-0005iJ-Km
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 17:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1o8pkh-0006He-Mc
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 17:06:35 -0400
-Received: from mga07.intel.com ([134.134.136.100]:55472)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1o8qHi-00045z-F3; Tue, 05 Jul 2022 17:40:42 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:54345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1o8pkf-0000Ys-Fr
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 17:06:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657055193; x=1688591193;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=MYz3T35eiQYv2NGHyhV4SC1yOQlqtCrEWgGenJDAfAo=;
- b=ECIFwGlx2MWBI7GY5tC9sIm+X9C+/9nq0E+rb6YlXlM71MZJcNGJLAcw
- rWVsisdPHu8nuJMxnbdnWB5sDKSw7mUBs4agXew9sIvx5aAh7/TKPsQLq
- YH5Y6GLAgAn7WSvCJ5twUatXf0NE5Xd2ZFl0OEFycSnCT/vw7zbvWIJjn
- qECOBqfOW8agmtDDf3sm3JefDFMB4Hk7mjggiYAfWjkLETXPNp2gJjqTv
- 6+tiqSNftdQ0UMAQQzHfmRj7PhWXhf2HmQu5Eyrd+79oMj63iBfq9vJTa
- LhBF+Xa1d74pZW4XCsHF7TGVORmLNojBZxi8Nv2SJRzCPsJXAAmR3Bav/ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="347489492"
-X-IronPort-AV: E=Sophos;i="5.92,247,1650956400"; d="scan'208";a="347489492"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2022 14:06:31 -0700
-X-IronPort-AV: E=Sophos;i="5.92,247,1650956400"; d="scan'208";a="620010678"
-Received: from dongwonk-mobl.amr.corp.intel.com ([10.212.114.205])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jul 2022 14:06:30 -0700
-Date: Tue, 5 Jul 2022 14:06:29 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v3 2/2] ui/gtk: a new array param monitor to specify the
- target displays
-Message-ID: <20220705210628.GB582@dongwonk-MOBL.amr.corp.intel.com>
-References: <20220630005141.16680-1-dongwon.kim@intel.com>
- <20220630005141.16680-3-dongwon.kim@intel.com>
- <87wncy41s1.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1o8qHg-0005ck-Cc; Tue, 05 Jul 2022 17:40:42 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 56DB558026F;
+ Tue,  5 Jul 2022 17:40:35 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Tue, 05 Jul 2022 17:40:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1657057235; x=1657060835; bh=NjR/aen/ig
+ s1bLr9UqKEIizfe1aZB4/04uwLBEmDpfM=; b=g/8dFm2o5Cu6BxZx+hGu8OsdC2
+ fAvqV+cCwfT4sPIBho3zgjoRtmjHjU+loAOD/lMxH1cX89b8h5ShyN3ynkRnetbD
+ 0SQjsh1Tw+barrz6RZoPZPU0FuXA3xHK3jBl07RJbfz5LhVOweVGYwkYmnMlDp2K
+ HA0x8TrWizzVPuRqFV2OGIoSZLSpJrznfLCpxzTEdYwvIt04rYE4C50D4bEo2rbb
+ rytOT/0LdVpxuyi15/ExxcQUGjF4frjasCbIo6mFFuLxtKRZyJg4CSs1Z9bv4XMW
+ Dr+t/kT8H7xyaVPoNLeLRMI16mwq8oFJgU4x22RJzeGxxVqVGoqrHqGQPAUw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ i9e814621.fm2; t=1657057235; x=1657060835; bh=NjR/aen/igs1bLr9Uq
+ KEIizfe1aZB4/04uwLBEmDpfM=; b=Gq62DLPpFLPKlnJEeVvBrtC0YDXd890Bon
+ HeYXibsMZ5WiJOt06857lBJ0N1AfVMrS30RcjvL75N/ZU5WHRYmxKyfmq+J66+/V
+ OExna2Vg70DApEDWkm+hJzlD1wCDnvnESTBlNe4XqMGiRrKCoCZHbKVlrZj3Qk5s
+ yOSM7dJ2h8iNt/N1eSVNxZcV3rp8c9oyBYmlSWAGwTKTEk97UlxbKIzHBG6svVnD
+ lC6LMGemSd3RG/PBtAIC4SB+9YTk89OVtYwvBQzfTR3DY+IWWauaMNSRZD7FBqTH
+ Ut4SxaAAy3D3mEU0YA9Zbiy7N9GvjpbvH1O6ROLibA8q2YyXyP7A==
+X-ME-Sender: <xms:0q_EYu3S74m3MIZ-fDQdN3OpBMnOK9FU_RDdmmDWzQm0pwYnVOiTfw>
+ <xme:0q_EYhHZD3Paimr4FIlxzS1_6FLz5Zeb_vsLd4ViPVeY8zhWhhCboDd4C_RS-PfkG
+ jqiiimYMUfxje61qBY>
+X-ME-Received: <xmr:0q_EYm4K0QthKjn2BP2yZD_A77Uua2PluDdCG5-ysJu4M7ftXeR_3DnHECvLd4JrOm91LPRlRZrU21Y9btg0vEly>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeiuddgudeilecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpeevgfehgedvvdekveeifeekjeduueetieegvdeitedvffdvgffhjeekveek
+ tdehfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:0q_EYv2wqx1RNUQaWOE4uz_8wa8JbZQW8yQZfgyshYIWiBhgHaGxew>
+ <xmx:0q_EYhFuna7wYIOHmuNHpNwci4OhXgTtCKP13zRQrnfKvQ2SiuzdxA>
+ <xmx:0q_EYo-_fYAFzuwuFma89borHJMETIFsLdWgABQ-HIPfbRI-LwMiRw>
+ <xmx:06_EYm7NWwS5BbEFdBD3SRpIfS7FpJ5ULRUIO2-tub2_hoi5HD6ZLg>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 5 Jul 2022 17:40:33 -0400 (EDT)
+Date: Tue, 5 Jul 2022 14:40:32 -0700
+From: Peter Delevoryas <peter@pjd.dev>
+To: Corey Minyard <minyard@acm.org>
+Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ Patrick Venture <venture@google.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 1/9] hw/i2c/pca954x: Add method to get channels
+Message-ID: <YsSv0NU8WfU6APoN@pdel-mbp.dhcp.thefacebook.com>
+References: <20220705191400.41632-1-peter@pjd.dev>
+ <20220705191400.41632-2-peter@pjd.dev>
+ <20220705200624.GK908082@minyard.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87wncy41s1.fsf@pond.sub.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=dongwon.kim@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220705200624.GK908082@minyard.net>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=peter@pjd.dev;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_FMBLA_NEWDOM=1.498, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,162 +104,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 05:19:26PM +0200, Markus Armbruster wrote:
-> Dongwon Kim <dongwon.kim@intel.com> writes:
+On Tue, Jul 05, 2022 at 03:06:24PM -0500, Corey Minyard wrote:
+> On Tue, Jul 05, 2022 at 12:13:52PM -0700, Peter Delevoryas wrote:
+> > I added this helper in the Aspeed machine file a while ago to help
+> > initialize fuji-bmc i2c devices. This moves it to the official pca954x
+> > file so that other files can use it.
+> > 
+> > This does something very similar to pca954x_i2c_get_bus, but I think
+> > this is useful when you have a very complicated dts with a lot of
+> > switches, like the fuji dts.
+> > 
+> > This convenience method lets you write code that produces a flat array
+> > of I2C buses that matches the naming in the dts. After that you can just
+> > add individual sensors using the flat array of I2C buses.
 > 
-> > New integer array parameter, 'monitor' is for specifying the target
-> > monitors where individual GTK windows are placed upon launching.
-> >
-> > Monitor numbers in the array are associated with virtual consoles
-> > in the order of [VC0, VC1, VC2 ... VCn].
-> >
-> > Every GTK window containing each VC will be placed in the region
-> > of corresponding monitors.
-> >
-> > Usage: -display gtk,monitor.<id of VC>=<target monitor>,..
-> >        ex)-display gtk,monitor.0=1,monitor.1=0
-> >
-> > v3: - Revised commit message
-> >     - Rewrote desription of the new parameter (Markus Armbruster)
-> >     - Replaced unnecessary 'for' loop with 'if' condition
-> >       (Markus Armbruster)
+> This is an improvment, I think.  But it really needs to be two patches,
+> one with the I2C portion, and one with the aspeed portion.
 > 
-> Again, patch history ...
-> > Cc: Daniel P. Berrangé <berrange@redhat.com>
-> > Cc: Markus Armbruster <armbru@redhat.com>
-> > Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> Also, the name is a little misleading, you might want to name it 
+> pca954x_i2c_create_get_channels
+
+You're right: Cedric, you can just ignore the pca954x patch then if you'd like,
+I can resubmit it with the future I2C series that uses it. I probably shouldn't
+have submitted it quite yet.
+
+I can also resubmit the series with that patch removed, not sure if that's
+necessary or not.
+
+> 
+> -corey
+> 
+> > 
+> > See fuji_bmc_i2c_init to understand this point further.
+> > 
+> > The fuji dts is here for reference:
+> > 
+> > https://github.com/torvalds/linux/blob/40cb6373b46/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
+> > 
+> > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 > > ---
-> 
-> ... goes here.
-
-No problem moving down the version history but may I ask you if that
-is current rule? We don't want to include the history anymore in the
-git history?
-
-And FYI, the cover letter has the whole history already. I guess I can
-simply remove the history from individual patches then?
-
-Thanks!!
-
-> 
-> >  qapi/ui.json    |  9 ++++++++-
-> >  qemu-options.hx |  3 ++-
-> >  ui/gtk.c        | 31 +++++++++++++++++++++++++++++--
-> >  3 files changed, 39 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/qapi/ui.json b/qapi/ui.json
-> > index 413371d5e8..7b4c098bb4 100644
-> > --- a/qapi/ui.json
-> > +++ b/qapi/ui.json
-> > @@ -1195,12 +1195,19 @@
-> >  #               assuming the guest will resize the display to match
-> >  #               the window size then.  Otherwise it defaults to "off".
-> >  #               Since 3.1
-> > +# @monitor:     Array of numbers, each of which represents physical
-> > +#               monitor where GTK window containing a given VC will be
-> > +#               placed. Each monitor number in the array will be
-> > +#               associated with a virtual-console starting from VC0.
-> 
-> Drop the hyphen in "virtual-console".
-> 
-> Is the term "virtual console" obvious?  Gerd?
-> 
-
-I will do so.
-
-> > +#
-> > +#               since 7.1
-> >  #
-> >  # Since: 2.12
-> >  ##
-> >  { 'struct'  : 'DisplayGTK',
-> >    'data'    : { '*grab-on-hover' : 'bool',
-> > -                '*zoom-to-fit'   : 'bool'  } }
-> > +                '*zoom-to-fit'   : 'bool',
-> > +                '*monitor'       : ['uint16']  } }
+> >  hw/arm/aspeed.c                  | 29 +++++++++--------------------
+> >  hw/i2c/i2c_mux_pca954x.c         | 10 ++++++++++
+> >  include/hw/i2c/i2c_mux_pca954x.h | 13 +++++++++++++
+> >  3 files changed, 32 insertions(+), 20 deletions(-)
+> > 
+> > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> > index 6fe9b13548..bee8a748ec 100644
+> > --- a/hw/arm/aspeed.c
+> > +++ b/hw/arm/aspeed.c
+> > @@ -793,15 +793,6 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+> >      create_pca9552(soc, 15, 0x60);
+> >  }
 > >  
-> >  ##
-> >  # @DisplayEGLHeadless:
-> > diff --git a/qemu-options.hx b/qemu-options.hx
-> > index 377d22fbd8..aabdfb0636 100644
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
-> > @@ -1938,7 +1938,8 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
-> >  #endif
-> >  #if defined(CONFIG_GTK)
-> >      "-display gtk[,full-screen=on|off][,gl=on|off][,grab-on-hover=on|off]\n"
-> > -    "            [,show-cursor=on|off][,window-close=on|off]\n"
-> > +    "            [,monitor.<id of VC>=<monitor number>][,show-cursor=on|off]"
-> > +    "            [,window-close=on|off]\n"
-> >  #endif
-> >  #if defined(CONFIG_VNC)
-> >      "-display vnc=<display>[,<optargs>]\n"
-> > diff --git a/ui/gtk.c b/ui/gtk.c
-> > index e6878c3209..935176e614 100644
-> > --- a/ui/gtk.c
-> > +++ b/ui/gtk.c
-> > @@ -2316,6 +2316,10 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-> >      GtkDisplayState *s = g_malloc0(sizeof(*s));
-> >      GdkDisplay *window_display;
-> >      GtkIconTheme *theme;
-> > +    GtkWidget *win;
-> > +    GdkRectangle dest;
-> > +    uint16List *mon;
-> > +    int n_mon;
-> >      int i;
-> >      char *dir;
+> > -static void get_pca9548_channels(I2CBus *bus, uint8_t mux_addr,
+> > -                                 I2CBus **channels)
+> > -{
+> > -    I2CSlave *mux = i2c_slave_create_simple(bus, "pca9548", mux_addr);
+> > -    for (int i = 0; i < 8; i++) {
+> > -        channels[i] = pca954x_i2c_get_bus(mux, i);
+> > -    }
+> > -}
+> > -
+> >  #define TYPE_LM75 TYPE_TMP105
+> >  #define TYPE_TMP75 TYPE_TMP105
+> >  #define TYPE_TMP422 "tmp422"
+> > @@ -814,20 +805,18 @@ static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
+> >      for (int i = 0; i < 16; i++) {
+> >          i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
+> >      }
+> > -    I2CBus *i2c180 = i2c[2];
+> > -    I2CBus *i2c480 = i2c[8];
+> > -    I2CBus *i2c600 = i2c[11];
 > >  
-> > @@ -2393,10 +2397,33 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-> >              gtk_menu_item_activate(GTK_MENU_ITEM(s->untabify_item));
-> >          }
+> > -    get_pca9548_channels(i2c180, 0x70, &i2c[16]);
+> > -    get_pca9548_channels(i2c480, 0x70, &i2c[24]);
+> > +    pca954x_i2c_get_channels(i2c[2], 0x70, "pca9548", &i2c[16]);
+> > +    pca954x_i2c_get_channels(i2c[8], 0x70, "pca9548", &i2c[24]);
+> >      /* NOTE: The device tree skips [32, 40) in the alias numbering */
+> > -    get_pca9548_channels(i2c600, 0x77, &i2c[40]);
+> > -    get_pca9548_channels(i2c[24], 0x71, &i2c[48]);
+> > -    get_pca9548_channels(i2c[25], 0x72, &i2c[56]);
+> > -    get_pca9548_channels(i2c[26], 0x76, &i2c[64]);
+> > -    get_pca9548_channels(i2c[27], 0x76, &i2c[72]);
+> > +    pca954x_i2c_get_channels(i2c[11], 0x77, "pca9548", &i2c[40]);
+> > +    pca954x_i2c_get_channels(i2c[24], 0x71, "pca9548", &i2c[48]);
+> > +    pca954x_i2c_get_channels(i2c[25], 0x72, "pca9548", &i2c[56]);
+> > +    pca954x_i2c_get_channels(i2c[26], 0x76, "pca9548", &i2c[64]);
+> > +    pca954x_i2c_get_channels(i2c[27], 0x76, "pca9548", &i2c[72]);
+> >      for (int i = 0; i < 8; i++) {
+> > -        get_pca9548_channels(i2c[40 + i], 0x76, &i2c[80 + i * 8]);
+> > +        pca954x_i2c_get_channels(i2c[40 + i], 0x76, "pca9548",
+> > +                                 &i2c[80 + i * 8]);
 > >      }
-> > -    if (opts->has_full_screen &&
-> > -        opts->full_screen) {
+> >  
+> >      i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
+> > diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
+> > index 3945de795c..6b07804546 100644
+> > --- a/hw/i2c/i2c_mux_pca954x.c
+> > +++ b/hw/i2c/i2c_mux_pca954x.c
+> > @@ -169,6 +169,16 @@ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel)
+> >      return pca954x->bus[channel];
+> >  }
+> >  
+> > +void pca954x_i2c_get_channels(I2CBus *bus, uint8_t address,
+> > +                              const char *type_name, I2CBus **channels)
+> > +{
+> > +    I2CSlave *mux = i2c_slave_create_simple(bus, type_name, address);
+> > +    Pca954xClass *pc = PCA954X_GET_CLASS(mux);
+> > +    Pca954xState *pca954x = PCA954X(mux);
 > > +
-> > +    if (opts->u.gtk.has_monitor) {
-> > +        i = 0;
-> > +        n_mon = gdk_display_get_n_monitors(window_display);
-> > +        for (mon = opts->u.gtk.monitor; mon; mon = mon->next) {
-> > +            if (mon->value < n_mon && i < s->nb_vcs) {
-> > +                win = s->vc[i].window ? s->vc[i].window : s->window;
-> > +                if (opts->has_full_screen && opts->full_screen) {
-> > +                    gtk_window_fullscreen_on_monitor(
-> > +                        GTK_WINDOW(win),
-> > +                        gdk_display_get_default_screen(window_display),
-> > +                        mon->value);
-> > +                } else {
-> > +                    gdk_monitor_get_geometry(
-> > +                        gdk_display_get_monitor(window_display, mon->value),
-> > +                        &dest);
-> > +                    gtk_window_move(GTK_WINDOW(win),
-> > +                                    dest.x, dest.y);
-> > +                }
-> > +                i++;
-> > +            }
-> > +        }
-> > +    } else if (opts->has_full_screen &&
-> > +               opts->full_screen) {
-> 
-> I'd join these two lines, like
-> 
->        } else if (opts->has_full_screen && opts->full_screen) {
-> 
-> or even exploit the fact that a opts->full_screen is false when absent
-> 
->        } else if (opts->full_screen) {
-
-This is simpler. I will go with this.
-
-> 
-> >          gtk_menu_item_activate(GTK_MENU_ITEM(s->full_screen_item));
-> >      }
+> > +    memcpy(channels, pca954x->bus, pc->nchans * sizeof(channels[0]));
+> > +}
 > > +
-> >      if (opts->u.gtk.has_grab_on_hover &&
-> >          opts->u.gtk.grab_on_hover) {
-> >          gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
-> 
+> >  static void pca9546_class_init(ObjectClass *klass, void *data)
+> >  {
+> >      Pca954xClass *s = PCA954X_CLASS(klass);
+> > diff --git a/include/hw/i2c/i2c_mux_pca954x.h b/include/hw/i2c/i2c_mux_pca954x.h
+> > index 3dd25ec983..3a676a30a9 100644
+> > --- a/include/hw/i2c/i2c_mux_pca954x.h
+> > +++ b/include/hw/i2c/i2c_mux_pca954x.h
+> > @@ -16,4 +16,17 @@
+> >   */
+> >  I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel);
+> >  
+> > +/**
+> > + * Creates an i2c mux and retrieves all of the channels associated with it.
+> > + *
+> > + * @bus: the i2c bus where the i2c mux resides.
+> > + * @address: the address of the i2c mux on the aforementioned i2c bus.
+> > + * @type_name: name of the i2c mux type to create.
+> > + * @channels: an output parameter specifying where to return the channels.
+> > + *
+> > + * Returns: None
+> > + */
+> > +void pca954x_i2c_get_channels(I2CBus *bus, uint8_t address,
+> > +                              const char *type_name, I2CBus **channels);
+> > +
+> >  #endif
+> > -- 
+> > 2.37.0
+> > 
+> > 
 
