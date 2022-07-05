@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11960566E75
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 14:39:21 +0200 (CEST)
-Received: from localhost ([::1]:39518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2E5566EA2
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 14:48:37 +0200 (CEST)
+Received: from localhost ([::1]:45540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8hpo-0006uO-4o
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 08:39:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32768)
+	id 1o8hyl-000372-Km
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 08:48:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8hmb-0004PB-Gk
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:36:01 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:36554)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o8hmZ-00021L-LZ
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:36:01 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- z12-20020a17090a7b8c00b001ef84000b8bso6304955pjc.1
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 05:35:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:references:in-reply-to:content-transfer-encoding;
- bh=F8ZxVzFDMZepXPjGnF3T3niNQXpIrz5Z6KQf0sIiATA=;
- b=lJejZAMSpa4bauTwVwWSVn781er2a1DngQayfL/wBOhTmIry5IJmYhxAS9CU67MKW2
- 2BryXEGxZ4to6gyge5xJ/hpNFFMyuzXiignmDPBvTouJ1BIk5zuQ35SktJHcNH/9T/b7
- aUHuVE3ydNv0+6i8L5PSst7GpcjcqSp14rIGFwGHxL/w09POCJAA1RsHL+sWwkBq6nyL
- zSLCbkC3mnli/W4w4SzCqX65tVSxfYdLn3Cn8JBItlreV21nv84USVUrSrreFPCIF6zq
- SKMIcneRrguQsPTh/fWJb/m+1qFcwMWftUT9634J8PIMcaka8CB0n0c8RfpBXqK1s+w+
- wOEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:references:in-reply-to
- :content-transfer-encoding;
- bh=F8ZxVzFDMZepXPjGnF3T3niNQXpIrz5Z6KQf0sIiATA=;
- b=CxZZO+l92O+pSKPbE+MJff/5RJmDVp3t7ICzLiAA8WH9i4BIbMbZitk6wh1A23IWw0
- CYFlGn7NKGKOGP3bEkELkvhsf5qeeNE20I8SRXrhHZItOo5vsx1gR84tpILHA/eLRNtu
- kxjaj092xHHvioJrqLDRuY3yv059uE0XCCLMp1w/lZnLUtUFd2N2PK2HFIV2RB2jh8oQ
- h3UlDSDa8pxFuMWMlkvmEvbN1oTETcwM2IjNzKqY/ZKP8ed7kncZtsq0kv2ukBWP86mY
- GH77HJbUEYaVMx5QZEIY7aUDGOJ8/akTrSFyrwzpEM00S1+PyEKO1PG7g0kNlxXHnIzA
- TmoA==
-X-Gm-Message-State: AJIora/aiNIIpbV7B4MXjMIngpsXnL1nspe6KBfSZqtm1ZLNUjZ7madN
- y2VwQ9fZsZ07FDXdJxhh19bRF8vYjhelxKy5
-X-Google-Smtp-Source: AGRyM1uIq2MndZaQDOPhGNIh157bP4+agtTqTQR2Ff729BzVxuH1peouM6eaXX1EXXDWHv+QvtkQ8g==
-X-Received: by 2002:a17:90a:fa05:b0:1ef:89d1:1255 with SMTP id
- cm5-20020a17090afa0500b001ef89d11255mr11557115pjb.73.1657024558070; 
- Tue, 05 Jul 2022 05:35:58 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- x6-20020a1709028ec600b001638a171558sm23255619plo.202.2022.07.05.05.35.56
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 05:35:57 -0700 (PDT)
-Message-ID: <51543b67-bbbf-6bea-6e68-0f0baa1d2bd3@linaro.org>
-Date: Tue, 5 Jul 2022 18:05:53 +0530
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o8huk-00020E-Qb
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:44:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55971)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1o8huh-00033O-CG
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:44:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657025062;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8KMi8s6/nB7LUKgfrhG8KMmlvBSP4Wzs6jSmuUjfoNw=;
+ b=GJlUCTf1trDzbqifQm3+FR5AXBaa0WE/MJf5JBronnSfgqnEDJc7ZMf8HkfV2NWAzAs3HJ
+ 2QKRVlnVm+X8GcWY5izO+OFspb3yyARs1x9lh5WM/oujpvyJXFa+avMZHKhIh4W5EQGj7z
+ YqcOW5lRSvaDcK5FhaeTJPrpxMUVMO8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-250-NhuYNjJRMYuoxrDy-sCWsw-1; Tue, 05 Jul 2022 08:44:13 -0400
+X-MC-Unique: NhuYNjJRMYuoxrDy-sCWsw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB87985A582;
+ Tue,  5 Jul 2022 12:44:12 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD44F9D7F;
+ Tue,  5 Jul 2022 12:44:10 +0000 (UTC)
+Date: Tue, 5 Jul 2022 13:44:09 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v8 16/20] jobs: protect job.aio_context with BQL and
+ job_mutex
+Message-ID: <YsQyGVOEZNGpNXhA@stefanha-x1.localdomain>
+References: <20220629141538.3400679-1-eesposit@redhat.com>
+ <20220629141538.3400679-17-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 0/6] loongarch64 patch queue
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20220705105957.1144514-1-richard.henderson@linaro.org>
-In-Reply-To: <20220705105957.1144514-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="oh3sAxHw4HTnR9bb"
+Content-Disposition: inline
+In-Reply-To: <20220629141538.3400679-17-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,56 +88,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/22 16:29, Richard Henderson wrote:
-> The following changes since commit 1437479e5ee1a49ccd84cad9e7b010fb2ee9d805:
-> 
->    Merge tag 'pull-la-20220704' of https://gitlab.com/rth7680/qemu into staging (2022-07-04 16:37:13 +0530)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-la-20220705
-> 
-> for you to fetch changes up to bf7ce37f8f40149dfa354bdb74810c8e586a11e4:
-> 
->    hw/intc/loongarch_ipi: Fix mail send and any send function (2022-07-05 16:25:17 +0530)
-> 
-> ----------------------------------------------------------------
-> Loongarch patch queue:
-> 
-> Build fix for --enable-debug --enable-tcg-interpreter.
-> Build fix for ls7a_rtc.
-> Clear tlb on reset.
-> Fixes for ipi mailboxes.
-> Minor tweak to scripts/qemu-binfmt-conf.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+--oh3sAxHw4HTnR9bb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jun 29, 2022 at 10:15:34AM -0400, Emanuele Giuseppe Esposito wrote:
+> In order to make it thread safe, implement a "fake rwlock",
+> where we allow reads under BQL *or* job_mutex held, but
+> writes only under BQL *and* job_mutex.
+>=20
+> The only write we have is in child_job_set_aio_ctx, which always
+> happens under drain (so the job is paused).
+> For this reason, introduce job_set_aio_context and make sure that
+> the context is set under BQL, job_mutex and drain.
+> Also make sure all other places where the aiocontext is read
+> are protected.
+>=20
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are *nop*.
+>=20
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  block/replication.c |  6 ++++--
+>  blockjob.c          |  3 ++-
+>  include/qemu/job.h  | 19 ++++++++++++++++++-
+>  job.c               | 12 ++++++++++++
+>  4 files changed, 36 insertions(+), 4 deletions(-)
 
-r~
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
+--oh3sAxHw4HTnR9bb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> ----------------------------------------------------------------
-> Richard Henderson (2):
->        hw/rtc/ls7a_rtc: Drop unused inline functions
->        tcg/tci: Remove CONFIG_DEBUG_TCG_INTERPRETER
-> 
-> Song Gao (2):
->        target/loongarch: Clean up tlb when cpu reset
->        scripts/qemu-binfmt-conf: Add LoongArch to qemu_get_family()
-> 
-> Xiaojuan Yang (2):
->        hw/intc/loongarch_ipi: Fix ipi device access of 64bits
->        hw/intc/loongarch_ipi: Fix mail send and any send function
-> 
->   include/hw/intc/loongarch_ipi.h |  7 ++--
->   tcg/tci/tcg-target.h            |  5 ---
->   hw/intc/loongarch_ipi.c         | 92 +++++++++++++++++++++++++++--------------
->   hw/loongarch/loongson3.c        |  5 ++-
->   hw/rtc/ls7a_rtc.c               | 27 +++---------
->   target/loongarch/cpu.c          |  1 +
->   tcg/tci/tcg-target.c.inc        |  7 ----
->   scripts/qemu-binfmt-conf.sh     |  3 ++
->   8 files changed, 80 insertions(+), 67 deletions(-)
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLEMhkACgkQnKSrs4Gr
+c8hI7gf/UCE3QpDN+KedsHU67NChRrWsrriLroWXaOnkPjNPXHkRuin/MSOePBVI
+jFDI3BaH4ZDz/GfeFyDUFB5kUcbYwHr9AAX5BweS9eMmzh4dCQQ29zv1Xti1vTL/
+teqzfqzCTEppX/iW5enqk6u72/7dVs9dF7aovZ+CN1ASpAYjTQ/wHCPZHmeA5z/d
+pZWaUHvY8FUwS1JST8ZXeuLa40GI7v6IsJzhhMLnCGY9wRQy1YiIrkn10DS/Zcqx
+BatDgpNwhVjmb+fo7hW+IeLXzc0T86D46a1DwG1LRsE5JadwEiTYTAKJunc5iYzx
+x8zgGpXeLPTO0h4lDA7bGqa5hMCyvA==
+=Fx8n
+-----END PGP SIGNATURE-----
+
+--oh3sAxHw4HTnR9bb--
 
 
