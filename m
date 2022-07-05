@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08495668F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 13:12:16 +0200 (CEST)
-Received: from localhost ([::1]:52092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D925668F2
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 13:13:04 +0200 (CEST)
+Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8gTU-0001by-Rf
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 07:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39988)
+	id 1o8gUJ-00034v-H7
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 07:13:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o8gG7-0004kV-7F; Tue, 05 Jul 2022 06:58:23 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:35870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o8gG2-0000NI-0S; Tue, 05 Jul 2022 06:58:22 -0400
-Received: from myt6-79704c0e15e4.qloud-c.yandex.net
- (myt6-79704c0e15e4.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:239b:0:640:7970:4c0e])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id E103F2E124D;
- Tue,  5 Jul 2022 13:58:09 +0300 (MSK)
-Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
- (myt6-81d8ab6a9f9d.qloud-c.yandex.net [2a02:6b8:c12:520a:0:640:81d8:ab6a])
- by myt6-79704c0e15e4.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- tXWrU20OBr-w8Jivo4Q; Tue, 05 Jul 2022 13:58:09 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1657018689; bh=/779AJsCNz/F7UUB2VnxhhmaXJ7NriQVhYMKUOt8iGc=;
- h=In-Reply-To:From:Cc:To:Subject:Message-ID:References:Date;
- b=W2bQAzmBA2WgZPnMo0IFq/mnIaYG3CZUIiMhmSJJscsa4u8S51PKlVueIlyucWbYf
- ZSn/z58Vn5IFXhDYVvHogU+yZQRWKf3FYwLdddQr8MkM5qD89NUKBTujraGOWV5974
- iaLc53lSnfGNmCOeyM1T0wqzHWAv8VdJjFV3YuB0=
-Authentication-Results: myt6-79704c0e15e4.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [10.211.91.215] (10.211.91.215-vpn.dhcp.yndx.net
- [10.211.91.215])
- by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- FOUOme8cTf-w8OCWX4t; Tue, 05 Jul 2022 13:58:08 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Message-ID: <7efa5cdc-27c4-6d9d-5c76-c4d02933b206@yandex-team.ru>
-Date: Tue, 5 Jul 2022 13:58:08 +0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8gHp-0006ps-Nr
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 07:00:09 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36388)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8gHj-0000UF-Vq
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 07:00:09 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id s206so11091328pgs.3
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 04:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ijD/gkmOqDKVWYseqObh9bIQQFs7cUaZpUHPDTiEahU=;
+ b=G0LCJrTn5E3/sPEpGjoBTse5IU9HPWfJIQczoN3K1n4gGMCmrxpGcnxAtLW7Y+csk/
+ P4JAiN9BBUG3lIKUYbyemK6yQ3RU+EEePEptKQyMZ7Vnaq4Z5OcZ+i9G5e0hfd0TTD6l
+ R1rzLI1CHXOiqh+7X24W8QsMmlA608S3tkK3nPr0dczjTxiMfj3ZLOugTa7XnTYPPn22
+ hv959ilOB+hbFra1UPw++Twdt1KEZC+2VMowiR8OIqNvBYCQTJ0f7WAMBd7Lyj3nAdEs
+ Rke836G2XhVGQ6TDDnQFM/zExfSYs/3p/kbPLZ8MP4aw2O/8UGHszeeeSHlENQ7PZI99
+ 3RUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ijD/gkmOqDKVWYseqObh9bIQQFs7cUaZpUHPDTiEahU=;
+ b=xkthU4kfj/ryAlAMGQL4DcVJcuOl423Yq0V+E5Pp2dWrmc4wtvtKv0hmYjgP0chKca
+ Oug8kw3pT1J6FZNXNqToianeDUiHJsgc367rQjtQLVdBJDsw4js88aOhTrYXDn412PbW
+ Xly5uEIC9GJVHOmiM19TmUNzADXUkmsu1qVAbuQ9wwNICwN1SLm4BRAcgF6/l0RCRI5y
+ T3+O3PJhClWTNvGfkOTfdvhp+McN/1enQZmRcuM1auZDKYBTyM/q1F/5q70gRNrZll4j
+ WflFqa9zGzmZo3dmLMandh1jm00cEtBpT9dys0QYM6+vdUDpSdD4iYS896abUSzMtTX+
+ Q/KA==
+X-Gm-Message-State: AJIora8SnnFL15tBNeyzMXqzBFVzh9ygJYe3bd3IDzj62KwBV38BeaG4
+ RB4VeHGkMaxIeZhm2yd579MfCEQ+wSUkirlu
+X-Google-Smtp-Source: AGRyM1uJjtt298Z4SzzBxp5/HM6HMDWgp/1GXxzLYzAKuzVvSp/+qqFYjfeOecDIFo3f7lGktvg4kQ==
+X-Received: by 2002:a63:af56:0:b0:40d:2430:8fa3 with SMTP id
+ s22-20020a63af56000000b0040d24308fa3mr30048719pgo.376.1657018802156; 
+ Tue, 05 Jul 2022 04:00:02 -0700 (PDT)
+Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
+ d18-20020a170903231200b0016bf7981d0bsm508454plh.86.2022.07.05.04.00.00
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jul 2022 04:00:01 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/6] loongarch64 patch queue
+Date: Tue,  5 Jul 2022 16:29:50 +0530
+Message-Id: <20220705105957.1144514-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v8 07/20] job.h: add _locked public functions
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220629141538.3400679-1-eesposit@redhat.com>
- <20220629141538.3400679-8-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220629141538.3400679-8-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,64 +86,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First, to subject: no function is added in this commit
+The following changes since commit 1437479e5ee1a49ccd84cad9e7b010fb2ee9d805:
 
-Second, to my comment on previous patch: so, you decided to add "not held" comment to all functions, even that have public _locked() counterpart.
-Not sure we really need it, but it's OK. Anyway, let's just add all these comments together with the functions themselves in patch 05.
+  Merge tag 'pull-la-20220704' of https://gitlab.com/rth7680/qemu into staging (2022-07-04 16:37:13 +0530)
 
+are available in the Git repository at:
 
-On 6/29/22 17:15, Emanuele Giuseppe Esposito wrote:
-> These functions will be used later when we use the job lock.
-> 
-> Note: at this stage, job_{lock/unlock} and job lock guard macros
-> are *nop*.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   include/qemu/job.h | 15 ++++++++++++---
->   1 file changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/qemu/job.h b/include/qemu/job.h
-> index b714236c1a..e887f88cb2 100644
-> --- a/include/qemu/job.h
-> +++ b/include/qemu/job.h
-> @@ -505,7 +505,10 @@ const char *job_type_str(const Job *job);
->   /** Returns true if the job should not be visible to the management layer. */
->   bool job_is_internal(Job *job);
->   
-> -/** Returns whether the job is being cancelled. */
-> +/**
-> + * Returns whether the job is being cancelled.
-> + * Called with job_mutex *not* held.
-> + */
->   bool job_is_cancelled(Job *job);
->   
->   /* Same as job_is_cancelled(), but called with job lock held. */
-> @@ -518,13 +521,19 @@ bool job_is_cancelled_locked(Job *job);
->    */
->   bool job_cancel_requested(Job *job);
->   
-> -/** Returns whether the job is in a completed state. */
-> +/**
-> + * Returns whether the job is in a completed state.
-> + * Called with job_mutex *not* held.
-> + */
->   bool job_is_completed(Job *job);
->   
->   /* Same as job_is_completed(), but called with job lock held. */
->   bool job_is_completed_locked(Job *job);
->   
-> -/** Returns whether the job is ready to be completed. */
-> +/**
-> + * Returns whether the job is ready to be completed.
-> + * Called with job_mutex *not* held.
-> + */
->   bool job_is_ready(Job *job);
->   
->   /* Same as job_is_ready(), but called with job lock held. */
+  https://gitlab.com/rth7680/qemu.git tags/pull-la-20220705
 
+for you to fetch changes up to bf7ce37f8f40149dfa354bdb74810c8e586a11e4:
 
--- 
-Best regards,
-Vladimir
+  hw/intc/loongarch_ipi: Fix mail send and any send function (2022-07-05 16:25:17 +0530)
+
+----------------------------------------------------------------
+Loongarch patch queue:
+
+Build fix for --enable-debug --enable-tcg-interpreter.
+Build fix for ls7a_rtc.
+Clear tlb on reset.
+Fixes for ipi mailboxes.
+Minor tweak to scripts/qemu-binfmt-conf.
+
+----------------------------------------------------------------
+Richard Henderson (2):
+      hw/rtc/ls7a_rtc: Drop unused inline functions
+      tcg/tci: Remove CONFIG_DEBUG_TCG_INTERPRETER
+
+Song Gao (2):
+      target/loongarch: Clean up tlb when cpu reset
+      scripts/qemu-binfmt-conf: Add LoongArch to qemu_get_family()
+
+Xiaojuan Yang (2):
+      hw/intc/loongarch_ipi: Fix ipi device access of 64bits
+      hw/intc/loongarch_ipi: Fix mail send and any send function
+
+ include/hw/intc/loongarch_ipi.h |  7 ++--
+ tcg/tci/tcg-target.h            |  5 ---
+ hw/intc/loongarch_ipi.c         | 92 +++++++++++++++++++++++++++--------------
+ hw/loongarch/loongson3.c        |  5 ++-
+ hw/rtc/ls7a_rtc.c               | 27 +++---------
+ target/loongarch/cpu.c          |  1 +
+ tcg/tci/tcg-target.c.inc        |  7 ----
+ scripts/qemu-binfmt-conf.sh     |  3 ++
+ 8 files changed, 80 insertions(+), 67 deletions(-)
 
