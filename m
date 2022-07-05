@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EE0566E74
+	by mail.lfdr.de (Postfix) with ESMTPS id 11960566E75
 	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jul 2022 14:39:21 +0200 (CEST)
-Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:39518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8hpn-0006n1-JE
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 08:39:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60984)
+	id 1o8hpo-0006uO-4o
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 08:39:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8hmX-0004M6-7J
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:35:58 -0400
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:55237)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8hmU-00020g-Aq
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:35:56 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.201])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 7946D21A2F;
- Tue,  5 Jul 2022 12:35:47 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 5 Jul 2022
- 14:35:46 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001dcffa189-5bcd-4469-9317-ffe90f815bf2,
- 4FF77D4A254985FC0BE9A952312E42D6E34C6CC4) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <8db2e617-3c82-8e0a-f988-91064befd6c9@kaod.org>
-Date: Tue, 5 Jul 2022 14:35:44 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8hmb-0004PB-Gk
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:36:01 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:36554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8hmZ-00021L-LZ
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 08:36:01 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ z12-20020a17090a7b8c00b001ef84000b8bso6304955pjc.1
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 05:35:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:references:in-reply-to:content-transfer-encoding;
+ bh=F8ZxVzFDMZepXPjGnF3T3niNQXpIrz5Z6KQf0sIiATA=;
+ b=lJejZAMSpa4bauTwVwWSVn781er2a1DngQayfL/wBOhTmIry5IJmYhxAS9CU67MKW2
+ 2BryXEGxZ4to6gyge5xJ/hpNFFMyuzXiignmDPBvTouJ1BIk5zuQ35SktJHcNH/9T/b7
+ aUHuVE3ydNv0+6i8L5PSst7GpcjcqSp14rIGFwGHxL/w09POCJAA1RsHL+sWwkBq6nyL
+ zSLCbkC3mnli/W4w4SzCqX65tVSxfYdLn3Cn8JBItlreV21nv84USVUrSrreFPCIF6zq
+ SKMIcneRrguQsPTh/fWJb/m+1qFcwMWftUT9634J8PIMcaka8CB0n0c8RfpBXqK1s+w+
+ wOEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=F8ZxVzFDMZepXPjGnF3T3niNQXpIrz5Z6KQf0sIiATA=;
+ b=CxZZO+l92O+pSKPbE+MJff/5RJmDVp3t7ICzLiAA8WH9i4BIbMbZitk6wh1A23IWw0
+ CYFlGn7NKGKOGP3bEkELkvhsf5qeeNE20I8SRXrhHZItOo5vsx1gR84tpILHA/eLRNtu
+ kxjaj092xHHvioJrqLDRuY3yv059uE0XCCLMp1w/lZnLUtUFd2N2PK2HFIV2RB2jh8oQ
+ h3UlDSDa8pxFuMWMlkvmEvbN1oTETcwM2IjNzKqY/ZKP8ed7kncZtsq0kv2ukBWP86mY
+ GH77HJbUEYaVMx5QZEIY7aUDGOJ8/akTrSFyrwzpEM00S1+PyEKO1PG7g0kNlxXHnIzA
+ TmoA==
+X-Gm-Message-State: AJIora/aiNIIpbV7B4MXjMIngpsXnL1nspe6KBfSZqtm1ZLNUjZ7madN
+ y2VwQ9fZsZ07FDXdJxhh19bRF8vYjhelxKy5
+X-Google-Smtp-Source: AGRyM1uIq2MndZaQDOPhGNIh157bP4+agtTqTQR2Ff729BzVxuH1peouM6eaXX1EXXDWHv+QvtkQ8g==
+X-Received: by 2002:a17:90a:fa05:b0:1ef:89d1:1255 with SMTP id
+ cm5-20020a17090afa0500b001ef89d11255mr11557115pjb.73.1657024558070; 
+ Tue, 05 Jul 2022 05:35:58 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ x6-20020a1709028ec600b001638a171558sm23255619plo.202.2022.07.05.05.35.56
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jul 2022 05:35:57 -0700 (PDT)
+Message-ID: <51543b67-bbbf-6bea-6e68-0f0baa1d2bd3@linaro.org>
+Date: Tue, 5 Jul 2022 18:05:53 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 12/14] aspeed: Make aspeed_board_init_flashes public
+ Thunderbird/91.9.1
+Subject: Re: [PULL 0/6] loongarch64 patch queue
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-CC: Peter Delevoryas <pdel@fb.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "berrange@redhat.com"
- <berrange@redhat.com>, "eduardo@habkost.net" <eduardo@habkost.net>,
- "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, "ani@anisinha.ca"
- <ani@anisinha.ca>, Cameron Esfahani via <qemu-devel@nongnu.org>, qemu-arm
- <qemu-arm@nongnu.org>
-References: <20220623102617.2164175-1-pdel@fb.com>
- <20220623102617.2164175-13-pdel@fb.com>
- <e5f51f14-fe75-0d55-6588-a3ca2565f760@kaod.org>
- <EC44C0BD-7BC0-4BDE-9A41-CB1EAA90EC87@fb.com>
- <e07ec4fe-6968-b19a-e649-298a9aaccba5@kaod.org>
- <07128acf-329a-f372-c48c-0c3cb498d3d0@kaod.org> <87zghvh7rt.fsf@linaro.org>
- <8072cd96-a032-55f2-0417-1989a7bbeca0@kaod.org> <87edz7gwff.fsf@linaro.org>
- <a35ac443-c93e-fb2b-6da9-2a3dc16f7d8c@kaod.org> <87a69uh45w.fsf@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <87a69uh45w.fsf@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: bdcc7eed-3f27-40f5-b06b-738ace9e3a10
-X-Ovh-Tracer-Id: 3468616141554486078
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeiuddgheeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgefggffgheejgfdufeeiueffveehteejgfelueekgfegtefgffejhedtgfejgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20220705105957.1144514-1-richard.henderson@linaro.org>
+In-Reply-To: <20220705105957.1144514-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,282 +93,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Alex,
-
-On 6/30/22 11:43, Alex Bennée wrote:
+On 7/5/22 16:29, Richard Henderson wrote:
+> The following changes since commit 1437479e5ee1a49ccd84cad9e7b010fb2ee9d805:
 > 
-> Cédric Le Goater <clg@kaod.org> writes:
+>    Merge tag 'pull-la-20220704' of https://gitlab.com/rth7680/qemu into staging (2022-07-04 16:37:13 +0530)
 > 
->> On 6/29/22 20:24, Alex Bennée wrote:
->>> Cédric Le Goater <clg@kaod.org> writes:
->>>
->>>> On 6/29/22 16:14, Alex Bennée wrote:
->>>>> Cédric Le Goater <clg@kaod.org> writes:
->>>>>
->>>>>> On 6/24/22 18:50, Cédric Le Goater wrote:
->>>>>>> On 6/23/22 20:43, Peter Delevoryas wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>>> On Jun 23, 2022, at 8:09 AM, Cédric Le Goater <clg@kaod.org> wrote:
->>>>>>>>>
->>>>>>>>> On 6/23/22 12:26, Peter Delevoryas wrote:
->>>>>>>>>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
->>>>>>>>>
->>>>>>>>> Let's start simple without flash support. We should be able to
->>>>>>>>> load FW blobs in each CPU address space using loader devices.
->>>>>>>>
->>>>>>>> Actually, I was unable to do this, perhaps because the fb OpenBMC
->>>>>>>> boot sequence is a little weird. I specifically _needed_ to have
->>>>>>>> a flash device which maps the firmware in at 0x2000_0000, because
->>>>>>>> the fb OpenBMC U-Boot SPL jumps to that address to start executing
->>>>>>>> from flash? I think this is also why fb OpenBMC machines can be so slow.
->>>>>>>>
->>>>>>>> $ ./build/qemu-system-arm -machine fby35 \
->>>>>>>>         -device loader,file=fby35.mtd,addr=0,cpu-num=0 -nographic \
->>>>>>>>         -d int -drive file=fby35.mtd,format=raw,if=mtd
->>>>>>> Ideally we should be booting from the flash device directly using
->>>>>>> the machine option '-M ast2600-evb,execute-in-place=true' like HW
->>>>>>> does. Instructions are fetched using SPI transfers. But the amount
->>>>>>> of code generated is tremendous.
->>>>> Yeah because there is a potential race when reading from HW so we
->>>>> throw
->>>>> away TB's after executing them because we have no way of knowing if it
->>>>> has changed under our feet. See 873d64ac30 (accel/tcg: re-factor non-RAM
->>>>> execution code) which cleaned up this handling.
->>>>>
->>>>>>> See some profiling below for a
->>>>>>> run which barely reaches DRAM training in U-Boot.
->>>>>>
->>>>>> Some more profiling on both ast2500 and ast2600 machines shows :
->>>>>>
->>>>>>
->>>>>> * ast2600-evb,execute-in-place=true :
->>>>>>
->>>>>> Type               Object  Call site                Wait Time (s)         Count  Average (us)
->>>>>> ---------------------------------------------------------------------------------------------
->>>>>> BQL mutex  0x564dc03922e0  accel/tcg/cputlb.c:1365       14.21443
->>>>>> 32909927          0.43
->>>>> This is unavoidable as a HW access needs the BQL held so we will go
->>>>> through this cycle every executed instruction.
->>>>> Did I miss why the flash contents are not mapped into the physical
->>>>> address space? Isn't that how it appear to the processor?
->>>>
->>>>
->>>> There are two modes :
->>>>             if (ASPEED_MACHINE(machine)->mmio_exec) {
->>>>               memory_region_init_alias(boot_rom, NULL, "aspeed.boot_rom",
->>>>                                        &fl->mmio, 0, size);
->>>>               memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
->>>>                                           boot_rom);
->>>>           } else {
->>>>               memory_region_init_rom(boot_rom, NULL, "aspeed.boot_rom",
->>>>                                      size, &error_abort);
->>>>               memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
->>>>                                           boot_rom);
->>>>               write_boot_rom(drive0, FIRMWARE_ADDR, size, &error_abort);
->>>>           }
->>>>
->>>> The default boot mode uses the ROM. No issue.
->>>>
->>>> The "execute-in-place=true" option creates an alias on the region of
->>>> the flash contents and each instruction is then fetched from the flash
->>>> drive with SPI transactions.
+> are available in the Git repository at:
 > 
-> I wonder if we were keeping the code before?
+>    https://gitlab.com/rth7680/qemu.git tags/pull-la-20220705
 > 
->>>>
->>>> With old FW images, using an older U-boot, the machine boots in a couple
->>>> of seconds. See the profiling below for a witherspoon-bmc machine using
->>>> U-Boot 2016.07.
->>>>
->>>>     qemu-system-arm -M witherspoon-bmc,execute-in-place=true  -drive file=./flash-witherspoon-bmc,format=raw,if=mtd -drive file=./flash-witherspoon-bmc2,format=raw,if=mtd -nographic -nodefaults -snapshot -serial mon:stdio -enable-sync-profile
->>>>     ...
->>>>     U-Boot 2016.07-00040-g8425e96e2e27-dirty (Jun 24 2022 - 23:21:57 +0200)
->>>>               Watchdog enabled
->>>>     DRAM:  496 MiB
->>>>     Flash: 32 MiB
->>>>     In:    serial
->>>>     Out:   serial
->>>>     Err:   serial
->>>>     Net:
->>>>     (qemu) info sync-profile
->>>>     Type               Object  Call site                Wait Time (s)         Count  Average (us)
->>>>     ---------------------------------------------------------------------------------------------
->>>>     BQL mutex  0x56189610b2e0  accel/tcg/cputlb.c:1365        0.25311      12346237          0.02
->>>>     condvar    0x5618970cf220  softmmu/cpus.c:423             0.05506             2      27530.78
->>>>     BQL mutex  0x56189610b2e0  util/rcu.c:269                 0.04709             2      23544.26
->>>>     condvar    0x561896d0fc78  util/thread-pool.c:90          0.01340            83        161.47
->>>>     condvar    0x56189610b240  softmmu/cpus.c:571             0.00005             1         54.93
->>>>     condvar    0x56189610b280  softmmu/cpus.c:642             0.00003             1         32.88
->>>>     BQL mutex  0x56189610b2e0  util/main-loop.c:318           0.00003            34          0.76
->>>>     mutex      0x561896eade00  tcg/region.c:204               0.00002           995          0.02
->>>>     rec_mutex  [           2]  util/async.c:682               0.00002           493          0.03
->>>>     mutex      [           2]  chardev/char.c:118             0.00001           404          0.03
->>>>     ---------------------------------------------------------------------------------------------
->>>>
->>>>
->>>> However, with recent U-boots, it takes quite a while to reach DRAM training.
->>>> Close to a minute. See the profiling below for an ast2500-evb machine using
->>>> U-Boot 2019.04.
->>>>
->>>>    qemu-system-arm -M ast2500-evb,execute-in-place=true  -net nic,macaddr=C0:FF:EE:00:00:03,netdev=net0  -drive file=./flash-ast2500-evb,format=raw,if=mtd  -nographic -nodefaults -snapshot -serial mon:stdio  -enable-sync-profile
->>>>     qemu-system-arm: warning: Aspeed iBT has no chardev backend
->>>>     qemu-system-arm: warning: nic ftgmac100.1 has no peer
->>>>     QEMU 7.0.50 monitor - type 'help' for more information
->>>>        U-Boot 2019.04-00080-g6ca27db3f97b-dirty (Jun 24 2022 - 23:22:03
->>>>       +0200)
->>>>        SOC : AST2500-A1
->>>>     RST : Power On
->>>>     LPC Mode : SIO:Enable : SuperIO-2e
->>>>     Eth : MAC0: RGMII, , MAC1: RGMII,
->>>>     Model: AST2500 EVB
->>>>     DRAM:  448 MiB (capacity:512 MiB, VGA:64 MiB, ECC:off)
->>>>     MMC:   sdhci_slot0@100: 0, sdhci_slot1@200: 1
->>>>     Loading Environment from SPI Flash... SF: Detected mx25l25635e with page size 256 Bytes, erase size 64 KiB, total 32 MiB
->>>>     *** Warning - bad CRC, using default environment
->>>>        In:    serial@1e784000
->>>>     Out:   serial@1e784000
->>>>     Err:   serial@1e784000
->>>>     Net:   eth0: ethernet@1e660000
->>>>     Warning: ethernet@1e680000 (eth1) using random MAC address - 4a:e5:9a:4a:c7:c5
->>>>     , eth1: ethernet@1e680000
->>>>     Hit any key to stop autoboot:  2
->>>>     (qemu) info sync-profile
->>>>     Type               Object  Call site                Wait Time (s)         Count  Average (us)
->>>>     ---------------------------------------------------------------------------------------------
->>>>     condvar    0x561f10c9ef88  util/thread-pool.c:90         10.01196            28     357570.00
->>>>     BQL mutex  0x561f102362e0  accel/tcg/cputlb.c:1365        0.29496      14248621          0.02
->>>>     condvar    0x561f110325a0  softmmu/cpus.c:423             0.02231             2      11152.57
->>>>     BQL mutex  0x561f102362e0  util/rcu.c:269                 0.01447             4       3618.60
->>>>     condvar    0x561f10236240  softmmu/cpus.c:571             0.00010             1        102.19
->>>>     mutex      0x561f10e9f1c0  tcg/region.c:204               0.00007          3052          0.02
->>>>     mutex      [           2]  chardev/char.c:118             0.00003          1486          0.02
->>>>     condvar    0x561f10236280  softmmu/cpus.c:642             0.00003             1         29.38
->>>>     BQL mutex  0x561f102362e0  accel/tcg/cputlb.c:1426        0.00002           973          0.02
->>>>     BQL mutex  0x561f102362e0  util/main-loop.c:318           0.00001            34          0.41
->>>>     ---------------------------------------------------------------------------------------------
->>>>     Something in the layout of the FW is making a big difference. One
->>>> that could be relevant is that the recent versions are using a device
->>>> tree.
->>>>
->>>> There might be no good solution to this issue but I fail to analyze
->>>> it correctly. Is there a way to collect information on the usage of
->>>> Translation Blocks ?
->>> You could expand the data we collect in tb_tree_stats and expose it
->>> via
->>> info jit.
->>
->> The "fast" run, U-Boot 2016.07, gives :
->>
->>
->>    Translation buffer state:
->>    gen code size       254880371/1073736704
->>    TB count            1089
->>    TB avg target size  16 max=356 bytes
->>    TB avg host size    278 bytes (expansion ratio: 17.2)
->>    cross page TB count 0 (0%)
->>    direct jump count   501 (46%) (2 jumps=372 34%)
->>    TB hash buckets     1025/8192 (12.51% head buckets used)
->>    TB hash occupancy   3.32% avg chain occ. Histogram: [0.0,7.5)%|█  ▁  ▁  ▁|[67.5,75.0]%
->>    TB hash avg chain   1.000 buckets. Histogram: 1|█|1
->>       Statistics:
->>    TB flush count      0
->>    TB invalidate count 0
->>    TLB full flushes    0
->>    TLB partial flushes 2
->>    TLB elided flushes  2338
->>    JIT cycles          2221788409 (0.926 s at 2.4 GHz)
->>    translated TBs      738520 (aborted=0 0.0%)
->>    avg ops/TB          15.7 max=459
->>    deleted ops/TB      2.72
->>    avg temps/TB        32.89 max=88
->>    avg host code/TB    113.7
->>    avg search data/TB  5.2
->>    cycles/op           192.0
->>    cycles/in byte      748.7
->>    cycles/out byte     26.4
->>    cycles/search byte     582.8
->>      gen_interm time   57.6%
->>      gen_code time     42.4%
->>    optim./code time    19.4%
->>    liveness/code time  26.1%
->>    cpu_restore count   0
->>      avg cycles        0.0
->>    and the "slow", U-Boot 2019.04 :
->>
->> Translation buffer state:
->> gen code size       368603795/1073736704
->> TB count            3052
->> TB avg target size  16 max=360 bytes
->> TB avg host size    293 bytes (expansion ratio: 17.6)
->> cross page TB count 0 (0%)
->> direct jump count   1431 (46%) (2 jumps=1104 36%)
->> TB hash buckets     2559/8192 (31.24% head buckets used)
->> TB hash occupancy   9.31% avg chain occ. Histogram: [0,10)%|█ ▃  ▁ ▁ ▁|[90,100]%
->> TB hash avg chain   1.000 buckets. Histogram: 1|█|1
->>
->> Statistics:
->> TB flush count      3
+> for you to fetch changes up to bf7ce37f8f40149dfa354bdb74810c8e586a11e4:
 > 
-> Something triggers 3 complete TB flushes in the slow run (3x1000 ~ 3000
-> TBs). This can be the TB overflowing but:
+>    hw/intc/loongarch_ipi: Fix mail send and any send function (2022-07-05 16:25:17 +0530)
 > 
-> fast: gen code size       254880371/1073736704
-> slow: gen code size       368603795/1073736704
+> ----------------------------------------------------------------
+> Loongarch patch queue:
 > 
-> doesn't look like we are getting close to overflowing. Must be something
-> else.
+> Build fix for --enable-debug --enable-tcg-interpreter.
+> Build fix for ls7a_rtc.
+> Clear tlb on reset.
+> Fixes for ipi mailboxes.
+> Minor tweak to scripts/qemu-binfmt-conf.
+
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
 
-Here are images to reproduce. These machines use the same AST2500 SoC.
-
-* U-Boot 2016.07
-
-   wget https://github.com/openbmc/openbmc/releases/download/2.9.0/obmc-phosphor-image-romulus.static.mtd
-
-   qemu-system-arm -M romulus-bmc -drive file=./obmc-phosphor-image-romulus.static.mtd,format=raw,if=mtd -nographic
-   qemu-system-arm -M romulus-bmc,execute-in-place=true -drive file=./obmc-phosphor-image-romulus.static.mtd,format=raw,if=mtd -nographic
-
-* U-Boot 2019.04
-
-   https://github.com/legoater/qemu-aspeed-boot/raw/master/images/ast2500-evb/buildroot-2022.05/flash.img
-
-   qemu-system-arm -M ast2500-evb -drive file=./flash.img,format=raw,if=mtd -nographic
-   qemu-system-arm -M ast2500-evb,execute-in-place=true -drive file=./flash.img,format=raw,if=mtd -nographic
-
-
-Thanks,
-
-C.
+r~
 
 
 > 
->> TB invalidate count 0
->> TLB full flushes    0
->> TLB partial flushes 3
->> TLB elided flushes  2367
->> JIT cycles          26479044772 (11.033 s at 2.4 GHz)
->> translated TBs      10552169 (aborted=0 0.0%)
->> avg ops/TB          15.0 max=464
->> deleted ops/TB      2.44
->> avg temps/TB        32.43 max=89
->> avg host code/TB    99.0
->> avg search data/TB  5.0
->> cycles/op           167.7
->> cycles/in byte      626.8
->> cycles/out byte     25.4
->> cycles/search byte     499.4
->>    gen_interm time   50.4%
->>    gen_code time     49.6%
->> optim./code time    19.5%
->> liveness/code time  27.7%
->> cpu_restore count   0
->>    avg cycles        0.0
->>
->>
->> A lot more TBs.
->>    C.
+> ----------------------------------------------------------------
+> Richard Henderson (2):
+>        hw/rtc/ls7a_rtc: Drop unused inline functions
+>        tcg/tci: Remove CONFIG_DEBUG_TCG_INTERPRETER
 > 
+> Song Gao (2):
+>        target/loongarch: Clean up tlb when cpu reset
+>        scripts/qemu-binfmt-conf: Add LoongArch to qemu_get_family()
 > 
+> Xiaojuan Yang (2):
+>        hw/intc/loongarch_ipi: Fix ipi device access of 64bits
+>        hw/intc/loongarch_ipi: Fix mail send and any send function
+> 
+>   include/hw/intc/loongarch_ipi.h |  7 ++--
+>   tcg/tci/tcg-target.h            |  5 ---
+>   hw/intc/loongarch_ipi.c         | 92 +++++++++++++++++++++++++++--------------
+>   hw/loongarch/loongson3.c        |  5 ++-
+>   hw/rtc/ls7a_rtc.c               | 27 +++---------
+>   target/loongarch/cpu.c          |  1 +
+>   tcg/tci/tcg-target.c.inc        |  7 ----
+>   scripts/qemu-binfmt-conf.sh     |  3 ++
+>   8 files changed, 80 insertions(+), 67 deletions(-)
 
 
