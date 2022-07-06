@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF1E569444
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 23:24:32 +0200 (CEST)
-Received: from localhost ([::1]:50634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BD0569362
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 22:35:37 +0200 (CEST)
+Received: from localhost ([::1]:39548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9CVa-00033p-Q6
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 17:24:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37626)
+	id 1o9BkG-0004Xv-3I
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 16:35:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9BME-0000fL-L4; Wed, 06 Jul 2022 16:10:49 -0400
-Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f]:37818)
+ id 1o9BMF-0000fO-9L; Wed, 06 Jul 2022 16:10:49 -0400
+Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35]:42651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9BMC-0003c5-3F; Wed, 06 Jul 2022 16:10:46 -0400
-Received: by mail-vs1-xe2f.google.com with SMTP id o13so16218738vsn.4;
- Wed, 06 Jul 2022 13:10:42 -0700 (PDT)
+ id 1o9BMD-0003cZ-Pf; Wed, 06 Jul 2022 16:10:47 -0400
+Received: by mail-vs1-xe35.google.com with SMTP id i186so16201044vsc.9;
+ Wed, 06 Jul 2022 13:10:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wk74dRBm65YejOCfioaKaDaYvcy0g5QyLNJ/DLHUEao=;
- b=fqRJCSSvSlwKhasqfd3mr5sIL7/mFHMUfHLJfq/c/1kkVgsvGa/Tu2QzT3DxLtA+AZ
- J3LQl/koyiaJBOwH28UM1qRrqSX/5q9w/2j/1eZk4NibXMUqq94gWfHTHerwOiePqdra
- AT+Dz4dgZNSLKlnWq/iar3oGiRgYj7mXuQ+F5WOKsuUMtmPL22KqAa4pGw6zAThQcnAD
- QIEhS31DknIErk8h9I3LMl7inSeCNHHziWcf6X7IggcaVMfkkHoEUOE3VaaDtyZ6SCVV
- APThVzHHcSFGlR6p+Ad+WWZ2mZQTxJKhrRllaMYniQBymf6SrRiORbhkrM62xpp6RW6r
- C0bw==
+ bh=Ka+GqenWKO9U1GWgR7IlBfSIF7hFMPHj3lpA0rwTxcI=;
+ b=Nf5J5+ypQC1nS7s6316jODSrsyyLnrIUALD+BYu1FeSf/yxIbbkQw49NozInMH4yWX
+ fV0snDtUB1s62AM8bpmd1MfzzeJwYxXVhMyLrxWxQOeRgnr5rxP8fy6JWPqLRvD4YPzM
+ 17928GtQ75UQZ71qPoL9PlZhihdM2rf517XpBxkG83KRg/A/8Qnz3efU9oGileTmpdGw
+ 73/yvvK488g3RSAJIQmZ7xsxi2cqas47WNWtpvM0s8ryJcchW5AjRDhIPrKkN7OC+jIO
+ 0Oxr/eA9X6LQbG8sSN3t0ldp47/M0aYNKB54xVCCM/GhtvTg4YTotHlLI98rQeEDf3gl
+ Fxeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wk74dRBm65YejOCfioaKaDaYvcy0g5QyLNJ/DLHUEao=;
- b=NsEH0qolmc3tGzmmHJuQMhxJxghX8ZvsKbzukZJz37oUjdXz9c1W0DIFGVzK7k1YfG
- ZLJlyZkOSXkH4Uc5U8/Mi6uXi5JUpiFQP2BxoqGsogLToNdX8Ku6CS615L+sP6tnDjSg
- dZJqx1lh4jcBVW8X5qbKrRLHTatlR0/kWTUE5/VZzChtGDB2lNhOJDThmtC615HY5z+7
- BA1Hj7eL8fQT81KTx6F6YTg716km1WAPEVqNt0vnL+GtaLrvbBmoQ9dYkUBs6I6sQFPI
- RlyRNiCg4vivw7sKgO0sSZCkDh8+qGvZr3o35iuLuuwTYPusMQBpihfm9u9IzozoRCVx
- UyEA==
-X-Gm-Message-State: AJIora+96B52oNEJF6YXVuoVbRJdU+4mjmZVhm+mXlDJXurqCrWbtJJH
- KXkBGOCexXeedDiO4ZnbcIUkfSIHGro=
-X-Google-Smtp-Source: AGRyM1s/QPk1BqT12CbA64JT++j2MqTG9JQrWWeIfWy16/YNRljwnRHVPfyjHKmpUrpMResFQ8GHuQ==
-X-Received: by 2002:a67:fbc2:0:b0:356:fd6b:8d09 with SMTP id
- o2-20020a67fbc2000000b00356fd6b8d09mr5772541vsr.45.1657138242220; 
- Wed, 06 Jul 2022 13:10:42 -0700 (PDT)
+ bh=Ka+GqenWKO9U1GWgR7IlBfSIF7hFMPHj3lpA0rwTxcI=;
+ b=51Rmt/ECZrygwrFJAr7cvb8gLXvhenIBVSAMKFPxflhyCwwGnlDI5bQ1GO6aIEQMtu
+ P7IOX/s0r6hPQseLZnNJ8pv/e0HAcXXCOPNX5SVH1+Wa/BbiLUuj38nDsvXSB2ZMl1Ws
+ zQX0j1zoAP9ghx+XR0+x06qZRlvoER3NJYpFJUNp5zVMyZEg7Qyri4qZYZUxdH07xod5
+ nwdTmUr6yX/5ZU5GBQpl8QpV/StzBrdcEyhIf+H/DT5Bybe5g+KHJxxearJ6U/om8Bcw
+ lOheR+X1vA5j8JjODTlBcbUiNxubtLxh3VZ9BLUcHblm5G1CKWaRIG7BnTrjm0ubx+/b
+ TJnQ==
+X-Gm-Message-State: AJIora+tcMWU3OmG5imwZiAiNWFYPq/anjLp+usT0gzSXpbM1xLLKE2S
+ eB2bd8TTjCcyWCtb9owLkUlbNH01G+E=
+X-Google-Smtp-Source: AGRyM1u+cnS1uZWbAtKr1VD01zCPudYzBYNcKII9nRpj82MN9nA5ESeR0byJN59GoRx6FZWfZ/giMQ==
+X-Received: by 2002:a05:6102:c07:b0:356:f9cc:b3b6 with SMTP id
+ x7-20020a0561020c0700b00356f9ccb3b6mr6495345vss.34.1657138244528; 
+ Wed, 06 Jul 2022 13:10:44 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- r22-20020a056122015600b003744975035asm788662vko.19.2022.07.06.13.10.40
+ r22-20020a056122015600b003744975035asm788662vko.19.2022.07.06.13.10.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 13:10:42 -0700 (PDT)
+ Wed, 06 Jul 2022 13:10:44 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PULL 26/34] target/ppc: Implement mffscdrn[i] instructions
-Date: Wed,  6 Jul 2022 17:09:38 -0300
-Message-Id: <20220706200946.471114-27-danielhb413@gmail.com>
+Subject: [PULL 27/34] tests/tcg/ppc64: Add mffsce test
+Date: Wed,  6 Jul 2022 17:09:39 -0300
+Message-Id: <20220706200946.471114-28-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220706200946.471114-1-danielhb413@gmail.com>
 References: <20220706200946.471114-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2f;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe35.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,98 +93,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
+Add mffsce test to check both the return value and the new fpscr
+stored in the cpu.
+
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Reviewed-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20220629162904.105060-7-victor.colombo@eldorado.org.br>
+Message-Id: <20220629162904.105060-8-victor.colombo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/insn32.decode           |  5 ++++
- target/ppc/translate/fp-impl.c.inc | 41 ++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+ tests/tcg/ppc64/Makefile.target   |  1 +
+ tests/tcg/ppc64le/Makefile.target |  1 +
+ tests/tcg/ppc64le/mffsce.c        | 37 +++++++++++++++++++++++++++++++
+ 3 files changed, 39 insertions(+)
+ create mode 100644 tests/tcg/ppc64le/mffsce.c
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 7d219f000f..e5770bcc16 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -133,6 +133,9 @@
- &X_imm2         rt imm
- @X_imm2         ...... rt:5 ..... ... imm:2 .......... .        &X_imm2
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+index babd209573..331fae628e 100644
+--- a/tests/tcg/ppc64/Makefile.target
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -11,6 +11,7 @@ endif
+ $(PPC64_TESTS): CFLAGS += -mpower8-vector
  
-+&X_imm3         rt imm
-+@X_imm3         ...... rt:5 ..... .. imm:3 .......... .         &X_imm3
+ PPC64_TESTS += mtfsf
++PPC64_TESTS += mffsce
+ 
+ ifneq ($(CROSS_CC_HAS_POWER10),)
+ PPC64_TESTS += byte_reverse sha512-vector
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+index 5b0eb5e870..6ca3003f02 100644
+--- a/tests/tcg/ppc64le/Makefile.target
++++ b/tests/tcg/ppc64le/Makefile.target
+@@ -24,6 +24,7 @@ run-sha512-vector: QEMU_OPTS+=-cpu POWER10
+ run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
+ 
+ PPC64LE_TESTS += mtfsf
++PPC64LE_TESTS += mffsce
+ PPC64LE_TESTS += signal_save_restore_xer
+ PPC64LE_TESTS += xxspltw
+ 
+diff --git a/tests/tcg/ppc64le/mffsce.c b/tests/tcg/ppc64le/mffsce.c
+new file mode 100644
+index 0000000000..20d882cb45
+--- /dev/null
++++ b/tests/tcg/ppc64le/mffsce.c
+@@ -0,0 +1,37 @@
++#include <stdlib.h>
++#include <stdint.h>
++#include <assert.h>
 +
- %x_xt           0:1 21:5
- &X_imm5         xt imm:uint8_t vrb
- @X_imm5         ...... ..... imm:5 vrb:5 .......... .           &X_imm5 xt=%x_xt
-@@ -348,7 +351,9 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
- MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
- MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
- MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
-+MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
- MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-+MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
- MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
- 
- ### Decimal Floating-Point Arithmetic Instructions
-diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index d6231358f8..319513d001 100644
---- a/target/ppc/translate/fp-impl.c.inc
-+++ b/target/ppc/translate/fp-impl.c.inc
-@@ -696,6 +696,27 @@ static bool trans_MFFSCRN(DisasContext *ctx, arg_X_tb *a)
-     return true;
- }
- 
-+static bool trans_MFFSCDRN(DisasContext *ctx, arg_X_tb *a)
++#define MTFSF(FLM, FRB) asm volatile ("mtfsf %0, %1" :: "i" (FLM), "f" (FRB))
++#define MFFS(FRT) asm("mffs %0" : "=f" (FRT))
++#define MFFSCE(FRT) asm("mffsce %0" : "=f" (FRT))
++
++#define PPC_BIT_NR(nr) (63 - (nr))
++
++#define FP_VE  (1ull << PPC_BIT_NR(56))
++#define FP_UE  (1ull << PPC_BIT_NR(58))
++#define FP_ZE  (1ull << PPC_BIT_NR(59))
++#define FP_XE  (1ull << PPC_BIT_NR(60))
++#define FP_NI  (1ull << PPC_BIT_NR(61))
++#define FP_RN1 (1ull << PPC_BIT_NR(63))
++
++int main(void)
 +{
-+    TCGv_i64 t1, fpscr;
++    uint64_t frt, fpscr;
++    uint64_t test_value = FP_VE | FP_UE | FP_ZE |
++                          FP_XE | FP_NI | FP_RN1;
++    MTFSF(0b11111111, test_value); /* set test value to cpu fpscr */
++    MFFSCE(frt);
++    MFFS(fpscr); /* read the value that mffsce stored to cpu fpscr */
 +
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_FPU(ctx);
++    /* the returned value should be as the cpu fpscr was before */
++    assert((frt & 0xff) == test_value);
 +
-+    t1 = tcg_temp_new_i64();
-+    get_fpr(t1, a->rb);
-+    tcg_gen_andi_i64(t1, t1, FP_DRN);
++    /*
++     * the cpu fpscr last 3 bits should be unchanged
++     * and enable bits should be unset
++     */
++    assert((fpscr & 0xff) == (test_value & 0x7));
 +
-+    gen_reset_fpstatus();
-+    fpscr = place_from_fpscr(a->rt, FP_DRN | FP_ENABLES | FP_NI | FP_RN);
-+    store_fpscr_masked(fpscr, FP_DRN, t1, 0x0100);
-+
-+    tcg_temp_free_i64(t1);
-+    tcg_temp_free_i64(fpscr);
-+
-+    return true;
++    return 0;
 +}
-+
- static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
- {
-     TCGv_i64 t1, fpscr;
-@@ -716,6 +737,26 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
-     return true;
- }
- 
-+static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
-+{
-+    TCGv_i64 t1, fpscr;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_FPU(ctx);
-+
-+    t1 = tcg_temp_new_i64();
-+    tcg_gen_movi_i64(t1, (uint64_t)a->imm << FPSCR_DRN0);
-+
-+    gen_reset_fpstatus();
-+    fpscr = place_from_fpscr(a->rt, FP_DRN | FP_ENABLES | FP_NI | FP_RN);
-+    store_fpscr_masked(fpscr, FP_DRN, t1, 0x0100);
-+
-+    tcg_temp_free_i64(t1);
-+    tcg_temp_free_i64(fpscr);
-+
-+    return true;
-+}
-+
- static bool trans_MFFSL(DisasContext *ctx, arg_X_t *a)
- {
-     TCGv_i64 fpscr;
 -- 
 2.36.1
 
