@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7600856932A
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 22:17:12 +0200 (CEST)
-Received: from localhost ([::1]:45054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 160D956935B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 22:32:23 +0200 (CEST)
+Received: from localhost ([::1]:35534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9BSR-0004Gn-IC
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 16:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37072)
+	id 1o9Bh7-00018Y-Oi
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 16:32:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9BLZ-0000M7-VT; Wed, 06 Jul 2022 16:10:06 -0400
-Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b]:43669)
+ id 1o9BLb-0000Oh-Du; Wed, 06 Jul 2022 16:10:11 -0400
+Received: from mail-ua1-x933.google.com ([2607:f8b0:4864:20::933]:37565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9BLY-0003I9-CB; Wed, 06 Jul 2022 16:10:05 -0400
-Received: by mail-ua1-x92b.google.com with SMTP id x31so880534uaf.10;
- Wed, 06 Jul 2022 13:10:03 -0700 (PDT)
+ id 1o9BLZ-0003H6-Sl; Wed, 06 Jul 2022 16:10:07 -0400
+Received: by mail-ua1-x933.google.com with SMTP id r18so4021975uan.4;
+ Wed, 06 Jul 2022 13:10:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CQPprON4ruMmhY7Drd2HzoyZ79WDBdIstKIDho3lfE0=;
- b=cnkJCTyyamZSUHuEX75UZZdGiVv2v6UHxpd5jwXjQg38J+eirjk8XVcg/fSzAriBqF
- a0yppBCQNPrAmFaqiOuZQaHLdIa6Iu9OvXNzyX/okCshmLO6ceuOkDGMr0o2n7SprUuT
- D5rrpFClwibJxE8TLJyVUp5ba4kTYiw72GXyXGlNuggKi9XlMW4p8+WcutLeDFF3YAOu
- Iny/twqcqme5CjhvEayz5Xiz4NS7evYKaUdh/Wkh2yzoH5GJQetMxqd5uOeb2JqclIj0
- A7H1/Bc9bsCPQMn+gkyBkRj5VzbdVQVr6tFfURrW+FMRXKWWL09rWBk1wwX98XoRi+Ci
- mbwQ==
+ bh=lWXjSezOa9tow7Nd0fD8V4X9VZ/+Jkh0kxii0qUopag=;
+ b=YDYZV9xfkAhso+9Ey/fGBSB1Qz7OHwrhhph8reZmONkccV9/qc5FcsLvSAA887tsLq
+ LSLsh7VhQqSpRMCiUBjv6oXn0N0uR8z+pa2AzUznfbguOBiZZOtNkq3bfhKXAeTBP2zB
+ souSJt84UpQecM20H5eCc3M4DuEVI+2AxigcHmeO4mVNIpS+EUF7tnkqWxJvSn8gJ6SB
+ rfUSb1Mh057vmvPn/K4/STtc4wGUTiQglfwHlSJEeszaVXVkskh5NuDzbUlFq2/NBhGs
+ 6YGP5hCBLZEysbDHwXyMR0eAnVBAihhvoFZQcRx6FXTkm45NwDDgz7UFCILmjJ57GrMu
+ qIhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CQPprON4ruMmhY7Drd2HzoyZ79WDBdIstKIDho3lfE0=;
- b=bT4lmJSKqByztMgG/Lwq0rdpJTYhg6hmjTdxaj1OeFdBVuR6CIiMEDgRC6iRiLzrwI
- 7UDReg2RGrvll07EDX16DQz11njgFpd+u3bkrURJo1VcuplM2yAym14D+zEnqk1BWZVw
- Odk33pCtV1zU0AP03/dYMowBOEMgnKIFllxDsNkcSknPIOliG9p7MaNzLxarfPEgV7KK
- aDL+urJXDpSD1SJ0/kqNpbuPinXPmE3sdCXhMbMdTUZP7yaeO4wWeAcLm9/bK+RUfdLi
- 1qOj5IdMLsQSwt/iZyy6P0svYhQw+rSizKVUiqzYMPRrpxZgmwLVFjjddf6A7GyyR0+z
- Zg8Q==
-X-Gm-Message-State: AJIora+9AK95jgpij2BRmq+LpH0GXTBtDZtJ8csT69QIfCnahoz9xFK/
- OSBOOumhS9scA0T+9Y3rVMBacyEwueo=
-X-Google-Smtp-Source: AGRyM1vgE4w1foVNY4cxYZf2T75LJHsI3pDxE1sHXuMlf5MVCv2PFTmAtiH/qvIAk3JEGfq/Hk64Jw==
-X-Received: by 2002:ab0:7341:0:b0:382:30b9:be20 with SMTP id
- k1-20020ab07341000000b0038230b9be20mr14095292uap.95.1657138202885; 
- Wed, 06 Jul 2022 13:10:02 -0700 (PDT)
+ bh=lWXjSezOa9tow7Nd0fD8V4X9VZ/+Jkh0kxii0qUopag=;
+ b=5V/NPiBDhuYdadMgzov40ZRuTOmlY/rYeLvdTtMosWTHkGDI/OWNuEL+mc3OJorn/5
+ XrP8UpsqfU/uIYLBFuc3lhr9oxspqOZ/miyfqpzMOFZr1fSQBCewFM19dvr0ASxxD1oE
+ Uj73QaLzLAiYTNDCocrc9D1JBG80CHPXw3iVoxDromOu5clLnHLsNLIcm1ytd9jo3hqB
+ 1WBm+pjEaxwOUTDg2rjfAn2HC7hyLn9pLQbSZxyLEOCPr19qoQvUEHE1jUIHwkpQi4Yw
+ Huwbu5RjukO7SZPLbd+FAorygTp61JKKkGKTcG9tRmgqso87f+hRd9CAe5lEYL1nCU0f
+ JrMQ==
+X-Gm-Message-State: AJIora9vqzTISYbCdu+WGSwRPvPPRQAqPzMH+eOCjJl0x1IOf/qFBe+q
+ uFCUURknOk+GpsDC4YYDzPgtSP6td5I=
+X-Google-Smtp-Source: AGRyM1s2L7GzRrOwNFI7gcj4SAe6+Wy70TBw/VKU7I8CePsORf19GHDu0CQjOrcVmF1owE2pKcQmxw==
+X-Received: by 2002:ab0:7587:0:b0:382:bbb2:afad with SMTP id
+ q7-20020ab07587000000b00382bbb2afadmr6443019uap.79.1657138204707; 
+ Wed, 06 Jul 2022 13:10:04 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- r22-20020a056122015600b003744975035asm788662vko.19.2022.07.06.13.10.01
+ r22-20020a056122015600b003744975035asm788662vko.19.2022.07.06.13.10.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 13:10:02 -0700 (PDT)
+ Wed, 06 Jul 2022 13:10:04 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org, Frederic Barrat <fbarrat@linux.ibm.com>
-Subject: [PULL 06/34] ppc/pnv: make pnv_chip_power8_pic_print_info() use
- chip8->phbs[]
-Date: Wed,  6 Jul 2022 17:09:18 -0300
-Message-Id: <20220706200946.471114-7-danielhb413@gmail.com>
+Subject: [PULL 07/34] ppc/pnv: remove 'INTERFACE_PCIE_DEVICE' from phb3 root
+ bus
+Date: Wed,  6 Jul 2022 17:09:19 -0300
+Message-Id: <20220706200946.471114-8-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220706200946.471114-1-danielhb413@gmail.com>
 References: <20220706200946.471114-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::933;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x933.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,57 +89,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's inneficient to scroll all child objects when we have all PHBs
-available in chip8->phbs[].
-
-pnv_chip_power8_pic_print_info_child() ended up folded into
-pic_print_info() for simplicity.
+It's unneeded. No other PCIE_BUS implements this interface.
 
 Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Fixes: 9ae1329ee2fe ("ppc/pnv: Add models for POWER8 PHB3 PCIe Host bridge")
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220621173436.165912-7-danielhb413@gmail.com>
+Message-Id: <20220621173436.165912-8-danielhb413@gmail.com>
 ---
- hw/ppc/pnv.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+ hw/pci-host/pnv_phb3.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 74a6c88dd2..d3f77c8367 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -652,25 +652,19 @@ static ISABus *pnv_isa_create(PnvChip *chip, Error **errp)
-     return PNV_CHIP_GET_CLASS(chip)->isa_create(chip, errp);
- }
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index afe5698167..d58d3c1701 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -1130,10 +1130,6 @@ static const TypeInfo pnv_phb3_root_bus_info = {
+     .name = TYPE_PNV_PHB3_ROOT_BUS,
+     .parent = TYPE_PCIE_BUS,
+     .class_init = pnv_phb3_root_bus_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { INTERFACE_PCIE_DEVICE },
+-        { }
+-    },
+ };
  
--static int pnv_chip_power8_pic_print_info_child(Object *child, void *opaque)
--{
--    Monitor *mon = opaque;
--    PnvPHB3 *phb3 = (PnvPHB3 *) object_dynamic_cast(child, TYPE_PNV_PHB3);
--
--    if (phb3) {
--        pnv_phb3_msi_pic_print_info(&phb3->msis, mon);
--        ics_pic_print_info(&phb3->lsis, mon);
--    }
--    return 0;
--}
--
- static void pnv_chip_power8_pic_print_info(PnvChip *chip, Monitor *mon)
- {
-     Pnv8Chip *chip8 = PNV8_CHIP(chip);
-+    int i;
- 
-     ics_pic_print_info(&chip8->psi.ics, mon);
--    object_child_foreach(OBJECT(chip),
--                         pnv_chip_power8_pic_print_info_child, mon);
-+
-+    for (i = 0; i < chip8->num_phbs; i++) {
-+        PnvPHB3 *phb3 = &chip8->phbs[i];
-+
-+        pnv_phb3_msi_pic_print_info(&phb3->msis, mon);
-+        ics_pic_print_info(&phb3->lsis, mon);
-+    }
- }
- 
- static int pnv_chip_power9_pic_print_info_child(Object *child, void *opaque)
+ static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
 -- 
 2.36.1
 
