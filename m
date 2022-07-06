@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B38D569220
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 20:48:30 +0200 (CEST)
-Received: from localhost ([::1]:53160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40123569231
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 20:51:25 +0200 (CEST)
+Received: from localhost ([::1]:33316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9A4b-000391-3t
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 14:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44488)
+	id 1o9A7Q-0000Lg-BH
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 14:51:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o99wy-00055o-I7
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:40:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38607)
+ id 1o99x2-00055v-7T
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:40:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o99wq-0000lo-1n
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:40:32 -0400
+ id 1o99wp-0000jf-VT
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:40:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657132824;
+ s=mimecast20190719; t=1657132820;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uJ6lQQL0q6ZPTMPIyDCx2xMhQaa98jnn++F4jbR5p5w=;
- b=XMt6UiDoaqhjb5H6MOHh0uw7ZOwxfSBsJZdrH94JUk80NgOLI2PdF185ZecsR8tFcTPggq
- 6JSQyd5nVJCCQYk9hzzm5PJGiqGC3Fat2P3II9MV1iFZBt3g54SO1slJtVf7qpl4kZL2xn
- GH7pCHwfRgRV5LVbs9/+rcVhbBRN5ow=
+ bh=uSWdFug0bHugEo57qqqEYlOs0IeaPAPFa6rk2TY2Lhc=;
+ b=Kwm0fwA5qISkUrHAooBw7SKqcqq2HFLm9nCLiBE7fxcrm2tNnXRPkJfj3e4H24oRAHSkhW
+ yKQIWXxA8UgEvJQ/d0lMERQDAdLHJvm2a9gNWc9DV9pZEMCr0Vs2EO0DkMbyMLx8/5XDKA
+ lR09iEESdCpyODlUvmUM8nffbWp9IZc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-KAAMUoRuPbCZQrUbJhFP3Q-1; Wed, 06 Jul 2022 14:40:17 -0400
-X-MC-Unique: KAAMUoRuPbCZQrUbJhFP3Q-1
+ us-mta-247-CKG3XU3DPAmTjeE0-DOtJw-1; Wed, 06 Jul 2022 14:40:19 -0400
+X-MC-Unique: CKG3XU3DPAmTjeE0-DOtJw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F006801231;
- Wed,  6 Jul 2022 18:40:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22D3A101A58D;
+ Wed,  6 Jul 2022 18:40:19 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BCAC81415116;
- Wed,  6 Jul 2022 18:40:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 906B41415116;
+ Wed,  6 Jul 2022 18:40:16 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
@@ -55,9 +55,10 @@ Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
  Zhu Lingshan <lingshan.zhu@intel.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [RFC PATCH v9 01/23] vhost: Return earlier if used buffers overrun
-Date: Wed,  6 Jul 2022 20:39:46 +0200
-Message-Id: <20220706184008.1649478-2-eperezma@redhat.com>
+Subject: [RFC PATCH v9 02/23] vhost: move descriptor translation to
+ vhost_svq_vring_write_descs
+Date: Wed,  6 Jul 2022 20:39:47 +0200
+Message-Id: <20220706184008.1649478-3-eperezma@redhat.com>
 In-Reply-To: <20220706184008.1649478-1-eperezma@redhat.com>
 References: <20220706184008.1649478-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -71,8 +72,8 @@ X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,48 +89,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous function misses the just picked avail buffer from the queue.
-This way keeps blocking the used queue forever, but is cleaner to check
-before calling to vhost_svq_get_buf.
+It's done for both in and out descriptors so it's better placed here.
 
-Fixes: 100890f7cad50 ("vhost: Shadow virtqueue buffers forwarding")
+Acked-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 39 +++++++++++++++++++++---------
+ 1 file changed, 28 insertions(+), 11 deletions(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 56c96ebd13..9280285435 100644
+index 9280285435..2939f4a243 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -405,19 +405,21 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
-         vhost_svq_disable_notification(svq);
-         while (true) {
-             uint32_t len;
--            g_autofree VirtQueueElement *elem = vhost_svq_get_buf(svq, &len);
--            if (!elem) {
--                break;
--            }
-+            g_autofree VirtQueueElement *elem = NULL;
+@@ -122,17 +122,35 @@ static bool vhost_svq_translate_addr(const VhostShadowVirtqueue *svq,
+     return true;
+ }
  
-             if (unlikely(i >= svq->vring.num)) {
-                 qemu_log_mask(LOG_GUEST_ERROR,
-                          "More than %u used buffers obtained in a %u size SVQ",
-                          i, svq->vring.num);
--                virtqueue_fill(vq, elem, len, i);
--                virtqueue_flush(vq, i);
-+                virtqueue_flush(vq, svq->vring.num);
-                 return;
-             }
-+
-+            elem = vhost_svq_get_buf(svq, &len);
-+            if (!elem) {
-+                break;
-+            }
-+
-             virtqueue_fill(vq, elem, len, i++);
-         }
+-static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
+-                                    const struct iovec *iovec, size_t num,
+-                                    bool more_descs, bool write)
++/**
++ * Write descriptors to SVQ vring
++ *
++ * @svq: The shadow virtqueue
++ * @sg: Cache for hwaddr
++ * @iovec: The iovec from the guest
++ * @num: iovec length
++ * @more_descs: True if more descriptors come in the chain
++ * @write: True if they are writeable descriptors
++ *
++ * Return true if success, false otherwise and print error.
++ */
++static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
++                                        const struct iovec *iovec, size_t num,
++                                        bool more_descs, bool write)
+ {
+     uint16_t i = svq->free_head, last = svq->free_head;
+     unsigned n;
+     uint16_t flags = write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
+     vring_desc_t *descs = svq->vring.desc;
++    bool ok;
  
+     if (num == 0) {
+-        return;
++        return true;
++    }
++
++    ok = vhost_svq_translate_addr(svq, sg, iovec, num);
++    if (unlikely(!ok)) {
++        return false;
+     }
+ 
+     for (n = 0; n < num; n++) {
+@@ -150,6 +168,7 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
+     }
+ 
+     svq->free_head = le16_to_cpu(svq->desc_next[last]);
++    return true;
+ }
+ 
+ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+@@ -169,21 +188,19 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+         return false;
+     }
+ 
+-    ok = vhost_svq_translate_addr(svq, sgs, elem->out_sg, elem->out_num);
++    ok = vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
++                                     elem->in_num > 0, false);
+     if (unlikely(!ok)) {
+         return false;
+     }
+-    vhost_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
+-                            elem->in_num > 0, false);
+-
+ 
+-    ok = vhost_svq_translate_addr(svq, sgs, elem->in_sg, elem->in_num);
++    ok = vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false,
++                                     true);
+     if (unlikely(!ok)) {
++        /* TODO unwind out_sg */
+         return false;
+     }
+ 
+-    vhost_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false, true);
+-
+     /*
+      * Put the entry in the available array (but don't update avail->idx until
+      * they do sync).
 -- 
 2.31.1
 
