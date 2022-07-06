@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94687568D4F
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 17:39:49 +0200 (CEST)
-Received: from localhost ([::1]:57068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B22D568EDA
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 18:18:12 +0200 (CEST)
+Received: from localhost ([::1]:49166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9780-0006vW-B0
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 11:39:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
+	id 1o97j8-0006Zi-Tt
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 12:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o976k-0006D4-F8
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 11:38:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o976g-0001Gv-Je
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 11:38:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657121905;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=irsgICfGfnBJTBbH3pVxgPFUQCdEbVeAm8lB7OJBJXE=;
- b=VXM5jxIV6umLVqeZksUS8FhSsxlNFsOr0n6+2QNk6yxMctpQ7KvNGHOJAIcUAI3xugwVag
- 3wUENf/eT7XtgeHpp3FaIQvusTfQ4AOW0BPoBT4MaICfBnw41ZFB1g6ZybkLEB2YKAiCPF
- bmK9je/2KTBLRdgjriVOCNDZRiA5ywg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-167--Q0UXZjLNRuLt9o5_ouKcA-1; Wed, 06 Jul 2022 11:38:22 -0400
-X-MC-Unique: -Q0UXZjLNRuLt9o5_ouKcA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94AD22999B20;
- Wed,  6 Jul 2022 15:38:21 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5950A140EBE3;
- Wed,  6 Jul 2022 15:38:19 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH] configure: Restrict TCG to emulation
-Date: Wed,  6 Jul 2022 17:38:16 +0200
-Message-Id: <20220706153816.768143-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o97fa-0004IN-0d
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 12:14:30 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:39474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o97fX-0001Cn-Cz
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 12:14:29 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id r3so28123391ybr.6
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 09:14:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3wfhnUX8YVSYG9VhiF72A0UQXnWXH6sS7zJvyuE5nKw=;
+ b=CDta9/eIqL3uddpLxSZNlaX6CgnXo5V9AQqSubAMU2qLz97NnbnAkvQf5o8kp6eXWI
+ uJF/2uL4VWWaAmWG9qdDzKV5A9U6zI1VVP5LE7XbbujfCywb0UAFlo2s6PoDUgWMIDOY
+ oKUtSKsII4Ya9uAnqIB8oQhQ/h3Qe1MxyxXaiA5OAI1gQoUdaEgwGHnaXMIkPAdsRW96
+ gmRjMxDkKyfO9n6rR6sS4PsQ5ParB40GplM6+Aozxjgz/uToo3IlTF0Aiwzp8b76Wg0R
+ ZSdTE3Xkdf8kf56Ja8aGFMjdkfVK0d9xQxaiKv/AACoIOg9GM34v/8XRYwA9CrNlqtkb
+ +Ufg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3wfhnUX8YVSYG9VhiF72A0UQXnWXH6sS7zJvyuE5nKw=;
+ b=TihPmpypu+apL9H0RFuTySF38ORTfuG1ArJUQSHsPUdKzEFwQ/kvtei7JyoHoTcg7E
+ n82WoL/NnzX1ppeXnX5+sdxiAgweamDorOLVyMk6i+6Hr2bJ/3J/X59D1VAApUYXhwLC
+ iB6XvVzY9RWtGtCWC0JkEcaMf1AQvaxrvtXvh52foAZolLxDmtOgYTXrA1iTlzLxwgM4
+ IfPiCV50frebUsREoxqxhXFIG9NJqYv6NZ2/x63wQStJ2phW9EkMb/b9RNbKbKpSATLI
+ baSHo+QeRfcnUktWB/P5zepzBJ083UxG9pp+0So7PrR0DagLtBYp36sc3I3ziTJ2501K
+ LdXQ==
+X-Gm-Message-State: AJIora8F6dK8lkggiQvA1SEtIEMXvBUyP4ybCqLPxqeUkeUrQdrl1u6v
+ 096+/WSRFMc2e+r96ARmf5yPz9QLXZtN/Auy2f+fog==
+X-Google-Smtp-Source: AGRyM1snIl6Ii2iBKDsTH/2ewMX+srwr74LjSiDCDk8BVoR0CBLlEbZUrkx/ZhOvyDqciXxQLSOLHlDG0jiDQ2QvQUw=
+X-Received: by 2002:a25:d7d6:0:b0:66e:47b3:35be with SMTP id
+ o205-20020a25d7d6000000b0066e47b335bemr19205169ybg.140.1657124064836; Wed, 06
+ Jul 2022 09:14:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220706082411.1664825-1-richard.henderson@linaro.org>
+ <20220706082411.1664825-8-richard.henderson@linaro.org>
+In-Reply-To: <20220706082411.1664825-8-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 6 Jul 2022 17:13:46 +0100
+Message-ID: <CAFEAcA8Hxb1SPLpZSE-jd3HFe+5OtX8OkH8-4tAOxaqmwmQF9g@mail.gmail.com>
+Subject: Re: [PATCH v5 07/45] target/arm: Mark PMULL, FMMLA as non-streaming
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,81 +82,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Wed, 6 Jul 2022 at 09:55, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Mark these as a non-streaming instructions, which should trap
+> if full a64 support is not enabled in streaming mode.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-If we don't need to emulate any target, we certainly don't need TCG.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-This should also help to compile again with
- ".../configure --enable-tools --disable-system --disable-user"
-on systems that do not have a TCG backend.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-[thuth: Re-arranged the code, remove check-softfloat from buildtest.yml]
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- configure                  | 20 ++++++++++++++------
- .gitlab-ci.d/buildtest.yml |  2 +-
- 2 files changed, 15 insertions(+), 7 deletions(-)
-
-diff --git a/configure b/configure
-index 76728b31f7..61bd807a47 100755
---- a/configure
-+++ b/configure
-@@ -329,7 +329,7 @@ fi
- fdt="auto"
- 
- # 2. Automatically enable/disable other options
--tcg="enabled"
-+tcg="auto"
- cfi="false"
- 
- # parse CC options second
-@@ -1409,11 +1409,6 @@ EOF
-   fi
- fi
- 
--if test "$tcg" = "enabled"; then
--    git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
--    git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
--fi
--
- if test -z "${target_list+xxx}" ; then
-     default_targets=yes
-     for target in $default_target_list; do
-@@ -1444,6 +1439,19 @@ case " $target_list " in
-   ;;
- esac
- 
-+if test "$tcg" = "auto"; then
-+  if test -z "$target_list"; then
-+    tcg="disabled"
-+  else
-+    tcg="enabled"
-+  fi
-+fi
-+
-+if test "$tcg" = "enabled"; then
-+    git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
-+    git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
-+fi
-+
- feature_not_found() {
-   feature=$1
-   remedy=$2
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 8a4353ef93..1931b77b49 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -599,7 +599,7 @@ build-tools-and-docs-debian:
-     optional: true
-   variables:
-     IMAGE: debian-amd64
--    MAKE_CHECK_ARGS: check-unit check-softfloat ctags TAGS cscope
-+    MAKE_CHECK_ARGS: check-unit ctags TAGS cscope
-     CONFIGURE_ARGS: --disable-system --disable-user --enable-docs --enable-tools
-     QEMU_JOB_PUBLISH: 1
-   artifacts:
--- 
-2.31.1
-
+thanks
+-- PMM
 
