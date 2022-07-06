@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A2F56946A
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 23:33:37 +0200 (CEST)
-Received: from localhost ([::1]:34962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3FF5694C9
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 23:56:35 +0200 (CEST)
+Received: from localhost ([::1]:36608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9CeN-00047Z-T6
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 17:33:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39630)
+	id 1o9D0c-0000KZ-7B
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 17:56:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9BRL-0005Ho-3l
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:16:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40203)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9BRC-0007HF-2m
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:16:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657138553;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wxoobqONS7epkQahiKlod+GXf1EShaJPQdfUuacq8RE=;
- b=IjdZWeszMqGF1offCzy2c+glJb/8amcCGClqlgjAdLvQDoA0H8KXX30foa1h0xhVaVsdcj
- 0YWFeqvzFdQG2U5QWo0U8b/Xjl2LTcjaMPN7OxEZ5/fHfMofkd2TI5+5kRc2w5EuPGDECo
- kOl9ugxDYq0pXnEI0Ljv4wNF6KasXKM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-333-2_y_RsW-OLqx8A8fukVKng-1; Wed, 06 Jul 2022 16:15:50 -0400
-X-MC-Unique: 2_y_RsW-OLqx8A8fukVKng-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC601811E83;
- Wed,  6 Jul 2022 20:15:49 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 645F51121315;
- Wed,  6 Jul 2022 20:15:49 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v9 21/21] job: remove unused functions
-Date: Wed,  6 Jul 2022 16:15:33 -0400
-Message-Id: <20220706201533.289775-22-eesposit@redhat.com>
-In-Reply-To: <20220706201533.289775-1-eesposit@redhat.com>
-References: <20220706201533.289775-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1o9C1L-0005eS-6c
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:53:15 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:46910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1o9C1J-00020v-QE
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:53:14 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id s27so14894299pga.13
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 13:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9U3AwEw60zDK3qwCGPAxWVpi0BLVvAoRCjJ0YFjt0WY=;
+ b=FZsZSqj9c8xMGdH6YiALoVThccn0FjxhmZ/oXiOvRGDCjZ3xEtLOn9LRCtSv4NoJ6R
+ Lle4lkkSyiQh4h8iN3Y1jCSBHLT9LKYuP7hoiwblzl+cduo+W5luSFoybSCgtW5HK39U
+ VyRm/ln/Po83FlySLdq6B9FDfp/+qymqXMIctdxC/LX5SFEu+53s/xsUfhw/cT7Vdszo
+ 0Bped0INDYpvLUbKrQh4j8+Qf/NOPgypZ9wls7LtGtIQ9GYLvDReVyqup+LaifiCqFuP
+ w7jH8Yk8QQlKcCD5noAnP2h9TBLsEbZ/jZwDPRGEnA83lB1cwuKUi167t4aY2ZIIpK+d
+ WZ1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9U3AwEw60zDK3qwCGPAxWVpi0BLVvAoRCjJ0YFjt0WY=;
+ b=yoIabicd0AlwTLRL2wKpX1fW9H57rWxkWX4DVX9nBEG82qFoY1/BRzjbTZ2Pl8YNz7
+ Tpv6W7t6vReqa2f9k0UvjIETE8aAjZ36i8ivq2PvQk/x5L0paYhZx68mGk7SlowWM7Aq
+ a9/EZx+pDIDgsrbdnDDRr8udPhFN7s3F9dbJy1nH3BgLkpQT/E771016piSd/nUXGWbg
+ RlOVjnmx1CRnSFRCSFG/AXRqLwvVCrAAtGc7jCwe1phqOHhe+NLejtzE1hXrNbqsaLCU
+ L3x/FOvpt8yJEZGiPT/PBK2kmk62MZZGBciC1N5yAMgXusiXWatdtkndjV5wP0MC467g
+ 1Lbg==
+X-Gm-Message-State: AJIora9rpwozbtXM+8T4EVeisSvcYgwBfAhsjiscq5DBXRh3sdey+67n
+ jyaeYbY096q/nhy85SttWzA=
+X-Google-Smtp-Source: AGRyM1sn4xxPSzfXua1OjxSDPh9d1aASkwTHFXMrEwEtvoq5YHEulUwFeCQiLLPhCAGX4M2KrsJO3w==
+X-Received: by 2002:a63:c53:0:b0:412:6f28:7a87 with SMTP id
+ 19-20020a630c53000000b004126f287a87mr10233655pgm.136.1657140791416; 
+ Wed, 06 Jul 2022 13:53:11 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ m22-20020a62a216000000b005289753448fsm3812434pff.123.2022.07.06.13.53.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jul 2022 13:53:10 -0700 (PDT)
+Message-ID: <48ad37ed-4228-6cba-9c9a-a9bc39a66dbe@amsat.org>
+Date: Wed, 6 Jul 2022 22:53:05 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.10.0
+Subject: Re: [PATCH v3 4/4] target/mips: introduce Cavium Octeon CPU model
+Content-Language: en-US
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+Cc: jiaxun.yang@flygoat.com, aurelien@aurel32.net, aleksandar.rikalo@syrmia.com
+References: <165572671617.167724.12940170194930233873.stgit@pasha-ThinkPad-X280>
+ <165572673785.167724.7604881144978983510.stgit@pasha-ThinkPad-X280>
+ <36303c3f-14ee-478b-855f-0dddbfb26f3f@ispras.ru>
+In-Reply-To: <36303c3f-14ee-478b-855f-0dddbfb26f3f@ispras.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,530 +94,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-These public functions are not used anywhere, thus can be dropped.
-Also, since this is the final job API that doesn't use AioContext
-lock and replaces it with job_lock, adjust all remaining function
-documentation to clearly specify if the job lock is taken or not.
+On 4/7/22 12:59, Pavel Dovgalyuk wrote:
+> ping
+> 
+> This is the only non-reviewed patch in the series.
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- include/qemu/job.h | 110 +++++++++++++----------------------------
- job.c              | 119 ++-------------------------------------------
- 2 files changed, 37 insertions(+), 192 deletions(-)
+I've been looking for doc/datasheets but no luck (except the Linux 
+kernel comments).
 
-diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 676f69bb2e..3d82b1eaee 100644
---- a/include/qemu/job.h
-+++ b/include/qemu/job.h
-@@ -361,6 +361,8 @@ JobTxn *job_txn_new(void);
- /**
-  * Release a reference that was previously acquired with job_txn_add_job or
-  * job_txn_new. If it's the last reference to the object, it will be freed.
-+ *
-+ * Called with job lock *not* held.
-  */
- void job_txn_unref(JobTxn *txn);
- 
-@@ -390,19 +392,17 @@ void *job_create(const char *job_id, const JobDriver *driver, JobTxn *txn,
- /**
-  * Add a reference to Job refcnt, it will be decreased with job_unref, and then
-  * be freed if it comes to be the last reference.
-+ *
-+ * Called with job lock held.
-  */
--void job_ref(Job *job);
--
--/* Same as job_ref(), but called with job lock held. */
- void job_ref_locked(Job *job);
- 
- /**
-  * Release a reference that was previously acquired with job_ref() or
-  * job_create(). If it's the last reference to the object, it will be freed.
-+ *
-+ * Called with job lock held.
-  */
--void job_unref(Job *job);
--
--/* Same as job_unref(), but called with job lock held. */
- void job_unref_locked(Job *job);
- 
- /**
-@@ -448,12 +448,8 @@ void job_progress_increase_remaining(Job *job, uint64_t delta);
-  * Conditionally enter the job coroutine if the job is ready to run, not
-  * already busy and fn() returns true. fn() is called while under the job_lock
-  * critical section.
-- */
--void job_enter_cond(Job *job, bool(*fn)(Job *job));
--
--/*
-- * Same as job_enter_cond(), but called with job lock held.
-- * Might release the lock temporarily.
-+ *
-+ * Called with job lock held, but might release it temporarily.
-  */
- void job_enter_cond_locked(Job *job, bool(*fn)(Job *job));
- 
-@@ -532,11 +528,8 @@ bool job_cancel_requested(Job *job);
- 
- /**
-  * Returns whether the job is in a completed state.
-- * Called with job_mutex *not* held.
-+ * Called with job lock held.
-  */
--bool job_is_completed(Job *job);
--
--/* Same as job_is_completed(), but called with job lock held. */
- bool job_is_completed_locked(Job *job);
- 
- /**
-@@ -552,45 +545,34 @@ bool job_is_ready_locked(Job *job);
-  * Request @job to pause at the next pause point. Must be paired with
-  * job_resume(). If the job is supposed to be resumed by user action, call
-  * job_user_pause() instead.
-+ *
-+ * Called with job lock held.
-  */
--void job_pause(Job *job);
--
--/* Same as job_pause(), but called with job lock held. */
- void job_pause_locked(Job *job);
- 
--/** Resumes a @job paused with job_pause. */
--void job_resume(Job *job);
--
--/*
-- * Same as job_resume(), but called with job lock held.
-- * Might release the lock temporarily.
-+/**
-+ * Resumes a @job paused with job_pause.
-+ * Called with job lock held, but might release it temporarily.
-  */
- void job_resume_locked(Job *job);
- 
- /**
-  * Asynchronously pause the specified @job.
-  * Do not allow a resume until a matching call to job_user_resume.
-+ * Called with job lock held.
-  */
--void job_user_pause(Job *job, Error **errp);
--
--/* Same as job_user_pause(), but called with job lock held. */
- void job_user_pause_locked(Job *job, Error **errp);
- 
--/** Returns true if the job is user-paused. */
--bool job_user_paused(Job *job);
--
--/* Same as job_user_paused(), but called with job lock held. */
-+/**
-+ * Returns true if the job is user-paused.
-+ * Called with job lock held.
-+ */
- bool job_user_paused_locked(Job *job);
- 
- /**
-  * Resume the specified @job.
-  * Must be paired with a preceding job_user_pause.
-- */
--void job_user_resume(Job *job, Error **errp);
--
--/*
-- * Same as job_user_resume(), but called with job lock held.
-- * Might release the lock temporarily.
-+ * Called with job lock held, but might release it temporarily.
-  */
- void job_user_resume_locked(Job *job, Error **errp);
- 
-@@ -599,30 +581,25 @@ void job_user_resume_locked(Job *job, Error **errp);
-  * first one if @job is %NULL.
-  *
-  * Returns the requested job, or %NULL if there are no more jobs left.
-+ * Called with job lock held.
-  */
--Job *job_next(Job *job);
--
--/* Same as job_next(), but called with job lock held. */
- Job *job_next_locked(Job *job);
- 
- /**
-  * Get the job identified by @id (which must not be %NULL).
-  *
-  * Returns the requested job, or %NULL if it doesn't exist.
-+ * Called with job lock held.
-  */
--Job *job_get(const char *id);
--
--/* Same as job_get(), but called with job lock held. */
- Job *job_get_locked(const char *id);
- 
- /**
-  * Check whether the verb @verb can be applied to @job in its current state.
-  * Returns 0 if the verb can be applied; otherwise errp is set and -EPERM
-  * returned.
-+ *
-+ * Called with job lock held.
-  */
--int job_apply_verb(Job *job, JobVerb verb, Error **errp);
--
--/* Same as job_apply_verb, but called with job lock held. */
- int job_apply_verb_locked(Job *job, JobVerb verb, Error **errp);
- 
- /**
-@@ -637,31 +614,24 @@ void job_early_fail(Job *job);
-  */
- void job_transition_to_ready(Job *job);
- 
--/** Asynchronously complete the specified @job. */
--void job_complete(Job *job, Error **errp);
--
--/*
-- * Same as job_complete(), but called with job lock held.
-- * Might release the lock temporarily.
-+/**
-+ * Asynchronously complete the specified @job.
-+ * Called with job lock held, but might release it temporarily.
-  */
- void job_complete_locked(Job *job, Error **errp);
- 
- /**
-  * Asynchronously cancel the specified @job. If @force is true, the job should
-  * be cancelled immediately without waiting for a consistent state.
-+ * Called with job lock held.
-  */
--void job_cancel(Job *job, bool force);
--
--/* Same as job_cancel(), but called with job lock held. */
- void job_cancel_locked(Job *job, bool force);
- 
- /**
-  * Cancels the specified job like job_cancel(), but may refuse to do so if the
-  * operation isn't meaningful in the current state of the job.
-+ * Called with job lock held.
-  */
--void job_user_cancel(Job *job, bool force, Error **errp);
--
--/* Same as job_user_cancel(), but called with job lock held. */
- void job_user_cancel_locked(Job *job, bool force, Error **errp);
- 
- /**
-@@ -700,9 +670,6 @@ void job_cancel_sync_all(void);
-  * Returns the return value from the job.
-  * Called with job_lock held.
-  */
--int job_complete_sync(Job *job, Error **errp);
--
--/* Same as job_complete_sync, but called with job lock held. */
- int job_complete_sync_locked(Job *job, Error **errp);
- 
- /**
-@@ -712,19 +679,17 @@ int job_complete_sync_locked(Job *job, Error **errp);
-  * FIXME: Make the below statement universally true:
-  * For jobs that support the manual workflow mode, all graph changes that occur
-  * as a result will occur after this command and before a successful reply.
-+ *
-+ * Called with job lock held.
-  */
--void job_finalize(Job *job, Error **errp);
--
--/* Same as job_finalize(), but called with job lock held. */
- void job_finalize_locked(Job *job, Error **errp);
- 
- /**
-  * Remove the concluded @job from the query list and resets the passed pointer
-  * to %NULL. Returns an error if the job is not actually concluded.
-+ *
-+ * Called with job lock held.
-  */
--void job_dismiss(Job **job, Error **errp);
--
--/* Same as job_dismiss(), but called with job lock held. */
- void job_dismiss_locked(Job **job, Error **errp);
- 
- /**
-@@ -734,14 +699,7 @@ void job_dismiss_locked(Job **job, Error **errp);
-  * Returns 0 if the job is successfully completed, -ECANCELED if the job was
-  * cancelled before completing, and -errno in other error cases.
-  *
-- * Called with job_lock held.
-- */
--int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp),
--                    Error **errp);
--
--/*
-- * Same as job_finish_sync(), but called with job lock held.
-- * Might release the lock temporarily.
-+ * Called with job_lock held, but might release it temporarily.
-  */
- int job_finish_sync_locked(Job *job, void (*finish)(Job *, Error **errp),
-                            Error **errp);
-diff --git a/job.c b/job.c
-index b23481cfcb..2310a8afca 100644
---- a/job.c
-+++ b/job.c
-@@ -233,12 +233,6 @@ int job_apply_verb_locked(Job *job, JobVerb verb, Error **errp)
-     return -EPERM;
- }
- 
--int job_apply_verb(Job *job, JobVerb verb, Error **errp)
--{
--    JOB_LOCK_GUARD();
--    return job_apply_verb_locked(job, verb, errp);
--}
--
- JobType job_type(const Job *job)
- {
-     return job->driver->job_type;
-@@ -324,7 +318,7 @@ bool job_is_completed_locked(Job *job)
-     return false;
- }
- 
--bool job_is_completed(Job *job)
-+static bool job_is_completed(Job *job)
- {
-     JOB_LOCK_GUARD();
-     return job_is_completed_locked(job);
-@@ -349,12 +343,6 @@ Job *job_next_locked(Job *job)
-     return QLIST_NEXT(job, job_list);
- }
- 
--Job *job_next(Job *job)
--{
--    JOB_LOCK_GUARD();
--    return job_next_locked(job);
--}
--
- Job *job_get_locked(const char *id)
- {
-     Job *job;
-@@ -368,12 +356,6 @@ Job *job_get_locked(const char *id)
-     return NULL;
- }
- 
--Job *job_get(const char *id)
--{
--    JOB_LOCK_GUARD();
--    return job_get_locked(id);
--}
--
- void job_set_aio_context(Job *job, AioContext *ctx)
- {
-     /* protect against read in job_finish_sync_locked and job_start */
-@@ -465,12 +447,6 @@ void job_ref_locked(Job *job)
-     ++job->refcnt;
- }
- 
--void job_ref(Job *job)
--{
--    JOB_LOCK_GUARD();
--    job_ref_locked(job);
--}
--
- void job_unref_locked(Job *job)
- {
-     GLOBAL_STATE_CODE();
-@@ -499,12 +475,6 @@ void job_unref_locked(Job *job)
-     }
- }
- 
--void job_unref(Job *job)
--{
--    JOB_LOCK_GUARD();
--    job_unref_locked(job);
--}
--
- void job_progress_update(Job *job, uint64_t done)
- {
-     progress_work_done(&job->progress, done);
-@@ -580,12 +550,6 @@ void job_enter_cond_locked(Job *job, bool(*fn)(Job *job))
-     job_lock();
- }
- 
--void job_enter_cond(Job *job, bool(*fn)(Job *job))
--{
--    JOB_LOCK_GUARD();
--    job_enter_cond_locked(job, fn);
--}
--
- void job_enter(Job *job)
- {
-     JOB_LOCK_GUARD();
-@@ -673,8 +637,9 @@ void coroutine_fn job_pause_point(Job *job)
-     job_pause_point_locked(job);
- }
- 
--void job_yield_locked(Job *job)
-+void job_yield(Job *job)
- {
-+    JOB_LOCK_GUARD();
-     assert(job->busy);
- 
-     /* Check cancellation *before* setting busy = false, too!  */
-@@ -689,12 +654,6 @@ void job_yield_locked(Job *job)
-     job_pause_point_locked(job);
- }
- 
--void job_yield(Job *job)
--{
--    JOB_LOCK_GUARD();
--    job_yield_locked(job);
--}
--
- void coroutine_fn job_sleep_ns(Job *job, int64_t ns)
- {
-     JOB_LOCK_GUARD();
-@@ -726,12 +685,6 @@ void job_pause_locked(Job *job)
-     }
- }
- 
--void job_pause(Job *job)
--{
--    JOB_LOCK_GUARD();
--    job_pause_locked(job);
--}
--
- void job_resume_locked(Job *job)
- {
-     assert(job->pause_count > 0);
-@@ -744,12 +697,6 @@ void job_resume_locked(Job *job)
-     job_enter_cond_locked(job, job_timer_not_pending_locked);
- }
- 
--void job_resume(Job *job)
--{
--    JOB_LOCK_GUARD();
--    job_resume_locked(job);
--}
--
- void job_user_pause_locked(Job *job, Error **errp)
- {
-     if (job_apply_verb_locked(job, JOB_VERB_PAUSE, errp)) {
-@@ -763,23 +710,11 @@ void job_user_pause_locked(Job *job, Error **errp)
-     job_pause_locked(job);
- }
- 
--void job_user_pause(Job *job, Error **errp)
--{
--    JOB_LOCK_GUARD();
--    job_user_pause_locked(job, errp);
--}
--
- bool job_user_paused_locked(Job *job)
- {
-     return job->user_paused;
- }
- 
--bool job_user_paused(Job *job)
--{
--    JOB_LOCK_GUARD();
--    return job_user_paused_locked(job);
--}
--
- void job_user_resume_locked(Job *job, Error **errp)
- {
-     assert(job);
-@@ -800,12 +735,6 @@ void job_user_resume_locked(Job *job, Error **errp)
-     job_resume_locked(job);
- }
- 
--void job_user_resume(Job *job, Error **errp)
--{
--    JOB_LOCK_GUARD();
--    job_user_resume_locked(job, errp);
--}
--
- /* Called with job_mutex held, but releases it temporarily. */
- static void job_do_dismiss_locked(Job *job)
- {
-@@ -833,12 +762,6 @@ void job_dismiss_locked(Job **jobptr, Error **errp)
-     *jobptr = NULL;
- }
- 
--void job_dismiss(Job **jobptr, Error **errp)
--{
--    JOB_LOCK_GUARD();
--    job_dismiss_locked(jobptr, errp);
--}
--
- void job_early_fail(Job *job)
- {
-     JOB_LOCK_GUARD();
-@@ -1080,12 +1003,6 @@ void job_finalize_locked(Job *job, Error **errp)
-     job_do_finalize_locked(job);
- }
- 
--void job_finalize(Job *job, Error **errp)
--{
--    JOB_LOCK_GUARD();
--    job_finalize_locked(job, errp);
--}
--
- /* Called with job_mutex held. */
- static int job_transition_to_pending_locked(Job *job)
- {
-@@ -1232,12 +1149,6 @@ void job_cancel_locked(Job *job, bool force)
-     }
- }
- 
--void job_cancel(Job *job, bool force)
--{
--    JOB_LOCK_GUARD();
--    job_cancel_locked(job, force);
--}
--
- void job_user_cancel_locked(Job *job, bool force, Error **errp)
- {
-     if (job_apply_verb_locked(job, JOB_VERB_CANCEL, errp)) {
-@@ -1246,12 +1157,6 @@ void job_user_cancel_locked(Job *job, bool force, Error **errp)
-     job_cancel_locked(job, force);
- }
- 
--void job_user_cancel(Job *job, bool force, Error **errp)
--{
--    JOB_LOCK_GUARD();
--    job_user_cancel_locked(job, force, errp);
--}
--
- /* A wrapper around job_cancel() taking an Error ** parameter so it may be
-  * used with job_finish_sync() without the need for (rather nasty) function
-  * pointer casts there.
-@@ -1302,12 +1207,6 @@ int job_complete_sync_locked(Job *job, Error **errp)
-     return job_finish_sync_locked(job, job_complete_locked, errp);
- }
- 
--int job_complete_sync(Job *job, Error **errp)
--{
--    JOB_LOCK_GUARD();
--    return job_complete_sync_locked(job, errp);
--}
--
- void job_complete_locked(Job *job, Error **errp)
- {
-     /* Should not be reachable via external interface for internal jobs */
-@@ -1327,12 +1226,6 @@ void job_complete_locked(Job *job, Error **errp)
-     job_lock();
- }
- 
--void job_complete(Job *job, Error **errp)
--{
--    JOB_LOCK_GUARD();
--    job_complete_locked(job, errp);
--}
--
- int job_finish_sync_locked(Job *job,
-                            void (*finish)(Job *, Error **errp),
-                            Error **errp)
-@@ -1362,9 +1255,3 @@ int job_finish_sync_locked(Job *job,
-     job_unref_locked(job);
-     return ret;
- }
--
--int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp), Error **errp)
--{
--    JOB_LOCK_GUARD();
--    return job_finish_sync_locked(job, finish, errp);
--}
--- 
-2.31.1
+What kind of testing are you doing?
 
+> On 20.06.2022 15:05, Pavel Dovgalyuk wrote:
+>> This patch adds Cavium Octeon 68XX vCPU which provides
+>> Octeon-specific instructions.
+>>
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>>
+>> -- 
+>> v3 changes:
+>>   - split the patch to instruction set introduction and new vCPU
+>>     (suggested by Philippe Mathieu-Daudé)
+>> v2 changes:
+>>   - vCPU name changed to Octeon68XX (suggested by Richard Henderson)
+>> ---
+>>   target/mips/cpu-defs.c.inc |   28 ++++++++++++++++++++++++++++
+>>   1 file changed, 28 insertions(+)
 
