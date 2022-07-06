@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1871D5693ED
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 23:11:43 +0200 (CEST)
-Received: from localhost ([::1]:54972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5FD569420
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 23:17:34 +0200 (CEST)
+Received: from localhost ([::1]:36676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9CJB-0003S1-Ho
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 17:11:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37806)
+	id 1o9COr-0001uD-Hy
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 17:17:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9BMV-0000oq-MY; Wed, 06 Jul 2022 16:11:10 -0400
-Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:35507)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9BMS-0003kX-8s; Wed, 06 Jul 2022 16:11:01 -0400
-Received: by mail-ua1-x929.google.com with SMTP id s3so4001942uaq.2;
- Wed, 06 Jul 2022 13:10:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xepP0Kc6zUoeZEcwe2XSFP4MbJh/OxFvDzVUvosynVc=;
- b=c+0HmK5PcbGIqoGQBN5GO2c6dj5Cv1jLVFw12KyRuco/yz+uQLWJCpDT8DpwBc0xY3
- XsgUwCyfkh8rjqzvWVspKJ2iIDaVezuf29vGHipRh7FqMcR4/KBGpt2b1VBfOrC9TFM9
- qi1exm/W8pdMFn9dV7IxgjwcPG978msu6M7CF5MxJD2qP9o+1TkHZyzIyUCC1Vl8rHUn
- hnxQxcaETQuOu46DxZhU9lhpDas0Ty+Kxwauc8MD69imfyuaagBEa7R3iE2YQKCqbIff
- UQdm4/hZGoPaAyVfjSFGtN7rqwgdD21fzJHVx6d0ZGezVRBnFPIEfndJxCd7c3s1R7I5
- pC5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xepP0Kc6zUoeZEcwe2XSFP4MbJh/OxFvDzVUvosynVc=;
- b=ICVvWbfx2H6dIImspDnDQlsb2HTtG7jqimLoLA9WQKEzd4ctdz6kKSib+gf33h7juW
- vsz0u1HjLVV8p2XjMOV36Da6QrO0Jy2zgClafFa9dbJtEX03hcbYhcqbDHv5REWBAPwu
- HGfuSSIIzHQqqtQojseVljRAYxeak2N9gyarj9W6/+/+nQQYIw1ZXCA7B2+1RBq6Az7f
- vyhkyhiZpq0QTyLYYzSwsYDy8Htdv5sF3mK8WPLbeRuqhdJL0VKLUHnzdTzP79j2azrl
- YbxJ9PN4rzx7K6xnXwu1C2L9hJn1/f23KPGl8cshIUaXMtHO/Ze4zkUcZOphcsPgihK4
- BXLQ==
-X-Gm-Message-State: AJIora9MDiOcnm+33xE3ZaKoXXWTwzjRNJx+tP4EXo4n4GUXtkOhJB6O
- 65RHL2z65afHQJyVMJPd1YoNlaROZhk=
-X-Google-Smtp-Source: AGRyM1sddh6oIOYgswXZmeL1wEcGHycbHrmznnpkG2rPLfmrGFmC3Uy9BhuW5QvrsuajsJb1EG8lkQ==
-X-Received: by 2002:ab0:2556:0:b0:382:c380:9a9b with SMTP id
- l22-20020ab02556000000b00382c3809a9bmr5942816uan.120.1657138258736; 
- Wed, 06 Jul 2022 13:10:58 -0700 (PDT)
-Received: from balboa.ibmuc.com (201-27-97-88.dsl.telesp.net.br.
- [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- r22-20020a056122015600b003744975035asm788662vko.19.2022.07.06.13.10.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 13:10:58 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org,
- =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
-Subject: [PULL 34/34] target/ppc: Fix MPC8555 and MPC8560 core type to e500v1
-Date: Wed,  6 Jul 2022 17:09:46 -0300
-Message-Id: <20220706200946.471114-35-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220706200946.471114-1-danielhb413@gmail.com>
-References: <20220706200946.471114-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1o9BR9-0005Cb-Oe
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:15:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1o9BR5-0007Dm-Gi
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:15:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657138546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dQsgku1nOoU87U+bkUfjVBYxF254oLbui14z7Khc8v0=;
+ b=jHIrl1tXsa64brx+GtUk7nVWCjd8Mv9QR6CN2UGxwYsrUf0haLY59CoA2jlzIybK02TYZT
+ eMeMGwJR5RAW6ulaPOOttKSVefEbSqrI3GiXgKqeFN+IS7ROHGbcwMhMtnMX/bGfaiQatK
+ XInDKZLFeot9a6Qa8kxHtqcN8riYLvg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-533-xvsOXVxJPpO653yovae5Ng-1; Wed, 06 Jul 2022 16:15:42 -0400
+X-MC-Unique: xvsOXVxJPpO653yovae5Ng-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CDB62181E066;
+ Wed,  6 Jul 2022 20:15:40 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22C6E1121315;
+ Wed,  6 Jul 2022 20:15:39 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH v9 00/21] job: replace AioContext lock with job_mutex
+Date: Wed,  6 Jul 2022 16:15:12 -0400
+Message-Id: <20220706201533.289775-1-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,113 +83,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pali Rohár <pali@kernel.org>
+In this series, we want to remove the AioContext lock and instead
+use the already existent job_mutex to protect the job structures
+and list. This is part of the work to get rid of AioContext lock
+usage in favour of smaller granularity locks.
 
-Commit 80d11f4467c4 ("Add definitions for Freescale PowerPC implementations")
-changed core type of MPC8555 and MPC8560 from e500v1 to e500v2.
+In order to simplify reviewer's job, job lock/unlock functions and
+macros are added as empty prototypes (nop) in patch 1.
+They are converted to use the actual job mutex only in the last
+patch. In this way we can freely create locking sections
+without worrying about deadlocks with the aiocontext lock.
 
-But both MPC8555 and MPC8560 have just e500v1 cores, there are no features
-of e500v2 cores. It can be verified by reading NXP documentations:
-https://www.nxp.com/docs/en/data-sheet/MPC8555EEC.pdf
-https://www.nxp.com/docs/en/data-sheet/MPC8560EC.pdf
-https://www.nxp.com/docs/en/reference-manual/MPC8555ERM.pdf
-https://www.nxp.com/docs/en/reference-manual/MPC8560RM.pdf
+Patch 2 defines what fields in the job structure need protection.
+Patches 3-6 are in preparation to the job locks, moving functions
+from global to static and introducing helpers.
 
-Therefore fix core type of MPC8555 and MPC8560 back to e500v1.
+Patch 7-9 introduce the (nop) job lock into the job API and
+its users, and patches 10-13 categorize respectively locked and
+unlocked functions in the job API.
 
-Just for completeness, here is list of all Motorola/Freescale/NXP
-processors which were released and have e500v1 or e500v2 cores:
+Patches 14-17 take care of protecting job->aio_context, and
+finally patch 18 makes the prototypes in patch 1 use the
+job_mutex and removes all aiocontext lock at the same time.
 
-e500v1: MPC8540 MPC8541 MPC8555 MPC8560
+Tested this series by running unit tests, qemu-iotests and qtests
+(x86_64).
 
-e500v2: BSC9131 BSC9132
-        C291 C292 C293
-        MPC8533 MPC8535 MPC8536 MPC8543 MPC8544 MPC8545 MPC8547
-        MPC8548 MPC8567 MPC8568 MPC8569 MPC8572
-        P1010 P1011 P1012 P1013 P1014 P1015 P1016 P1020 P1021
-        P1022 P1024 P1025 P2010 P2020
-
-Sorted alphabetically; not by release date / generation / feature set.
-All this is from public information available on NXP website.
-
-Seems that qemu has support only for some subset of MPC85xx processors.
-Historically processors with e500 cores have mpc85xx family codename and
-lot of software have them in mpc85xx architecture subdirectory.
-
-Note that GCC uses -mcpu=8540 option for specifying e500v1 core and
--mcpu=8548 option for specifying e500v2 core.
-
-So sometimes (mpc)8540 is alias for e500v1 and (mpc)8548 is alias for
-e500v2.
-
-Fixes: 80d11f4467c4 ("Add definitions for Freescale PowerPC implementations")
-Signed-off-by: Pali Rohár <pali@kernel.org>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220703195029.23793-1-pali@kernel.org>
-[danielhb: added more context in the commit msg]
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu-models.c | 14 +++++++-------
- target/ppc/cpu-models.h | 14 +++++++-------
- 2 files changed, 14 insertions(+), 14 deletions(-)
+v9:
+* merge patch 6 and 7 to 5.
+* additional "taken with job lock/unlock" added and propagated in callers
+* protect iostatus field of BlockJobs
+* move all blockjob patches torward the end of the serie
 
-diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
-index 8538493061..912b037c63 100644
---- a/target/ppc/cpu-models.c
-+++ b/target/ppc/cpu-models.c
-@@ -385,19 +385,19 @@
-     POWERPC_DEF_SVR("mpc8548e_v21", "MPC8548E v2.1",
-                     CPU_POWERPC_MPC8548E_v21, POWERPC_SVR_8548E_v21, e500v2)
-     POWERPC_DEF_SVR("mpc8555_v10", "MPC8555 v1.0",
--                    CPU_POWERPC_MPC8555_v10,  POWERPC_SVR_8555_v10,  e500v2)
-+                    CPU_POWERPC_MPC8555_v10,  POWERPC_SVR_8555_v10,  e500v1)
-     POWERPC_DEF_SVR("mpc8555_v11", "MPC8555 v1.1",
--                    CPU_POWERPC_MPC8555_v11,  POWERPC_SVR_8555_v11,  e500v2)
-+                    CPU_POWERPC_MPC8555_v11,  POWERPC_SVR_8555_v11,  e500v1)
-     POWERPC_DEF_SVR("mpc8555e_v10", "MPC8555E v1.0",
--                    CPU_POWERPC_MPC8555E_v10, POWERPC_SVR_8555E_v10, e500v2)
-+                    CPU_POWERPC_MPC8555E_v10, POWERPC_SVR_8555E_v10, e500v1)
-     POWERPC_DEF_SVR("mpc8555e_v11", "MPC8555E v1.1",
--                    CPU_POWERPC_MPC8555E_v11, POWERPC_SVR_8555E_v11, e500v2)
-+                    CPU_POWERPC_MPC8555E_v11, POWERPC_SVR_8555E_v11, e500v1)
-     POWERPC_DEF_SVR("mpc8560_v10", "MPC8560 v1.0",
--                    CPU_POWERPC_MPC8560_v10,  POWERPC_SVR_8560_v10,  e500v2)
-+                    CPU_POWERPC_MPC8560_v10,  POWERPC_SVR_8560_v10,  e500v1)
-     POWERPC_DEF_SVR("mpc8560_v20", "MPC8560 v2.0",
--                    CPU_POWERPC_MPC8560_v20,  POWERPC_SVR_8560_v20,  e500v2)
-+                    CPU_POWERPC_MPC8560_v20,  POWERPC_SVR_8560_v20,  e500v1)
-     POWERPC_DEF_SVR("mpc8560_v21", "MPC8560 v2.1",
--                    CPU_POWERPC_MPC8560_v21,  POWERPC_SVR_8560_v21,  e500v2)
-+                    CPU_POWERPC_MPC8560_v21,  POWERPC_SVR_8560_v21,  e500v1)
-     POWERPC_DEF_SVR("mpc8567", "MPC8567",
-                     CPU_POWERPC_MPC8567,      POWERPC_SVR_8567,      e500v2)
-     POWERPC_DEF_SVR("mpc8567e", "MPC8567E",
-diff --git a/target/ppc/cpu-models.h b/target/ppc/cpu-models.h
-index 76775a74a9..1326493a9a 100644
---- a/target/ppc/cpu-models.h
-+++ b/target/ppc/cpu-models.h
-@@ -184,13 +184,13 @@ enum {
- #define CPU_POWERPC_MPC8548E_v11     CPU_POWERPC_e500v2_v11
- #define CPU_POWERPC_MPC8548E_v20     CPU_POWERPC_e500v2_v20
- #define CPU_POWERPC_MPC8548E_v21     CPU_POWERPC_e500v2_v21
--#define CPU_POWERPC_MPC8555_v10      CPU_POWERPC_e500v2_v10
--#define CPU_POWERPC_MPC8555_v11      CPU_POWERPC_e500v2_v11
--#define CPU_POWERPC_MPC8555E_v10     CPU_POWERPC_e500v2_v10
--#define CPU_POWERPC_MPC8555E_v11     CPU_POWERPC_e500v2_v11
--#define CPU_POWERPC_MPC8560_v10      CPU_POWERPC_e500v2_v10
--#define CPU_POWERPC_MPC8560_v20      CPU_POWERPC_e500v2_v20
--#define CPU_POWERPC_MPC8560_v21      CPU_POWERPC_e500v2_v21
-+#define CPU_POWERPC_MPC8555_v10      CPU_POWERPC_e500v1_v20
-+#define CPU_POWERPC_MPC8555_v11      CPU_POWERPC_e500v1_v20
-+#define CPU_POWERPC_MPC8555E_v10     CPU_POWERPC_e500v1_v20
-+#define CPU_POWERPC_MPC8555E_v11     CPU_POWERPC_e500v1_v20
-+#define CPU_POWERPC_MPC8560_v10      CPU_POWERPC_e500v1_v10
-+#define CPU_POWERPC_MPC8560_v20      CPU_POWERPC_e500v1_v20
-+#define CPU_POWERPC_MPC8560_v21      CPU_POWERPC_e500v1_v20
- #define CPU_POWERPC_MPC8567          CPU_POWERPC_e500v2_v22
- #define CPU_POWERPC_MPC8567E         CPU_POWERPC_e500v2_v22
- #define CPU_POWERPC_MPC8568          CPU_POWERPC_e500v2_v22
+v8:
+* reorganize patch ordering according with Vladimir proposal
+* minor nitpicks
+
+v7:
+* s/temporary/temporarly
+* double identical locking comment to the same function
+* patch 2: add "Protected by AioContext lock" to better categorize fields in
+  job.h
+* use same comment style in all function headers ("Just like {funct}, but
+  called between job_lock and job_unlock")
+
+v6:
+* patch 4 and 6 squashed with patch 19 (enable job lock and
+  reduce/remove AioContext lock)
+* patch 19: job_unref_locked read the aiocontext inside the
+  job lock.
+
+v5:
+* just restructured patches a little bit better, as there were
+  functions used before they were defined.
+* rebased on kwolf/block branch and API split serie
+
+v4:
+* move "protected by job_mutex" from patch 2 to 15, where the job_mutex is
+  actually added.
+* s/aio_co_enter/aio_co_schedule in job.c, and adjust tests accordingly.
+* remove job_get_aio_context, add job_set_aio_context. Use "fake rwlock"
+  to protect job->aiocontext.
+* get rid of useless getters method, namely:
+  job_get_status
+  job_get_pause_count
+  job_get_paused
+  job_get_busy
+  They are all used only by tests, and such getter is pretty useless.
+  Replace with job_lock(); assert(); job_unlock();
+* use job lock macros instead of job lock/unlock in unit tests.
+* convert also blockjob functions to have _locked
+* put the job_lock/unlock patches before the _locked ones
+* replace aio_co_enter in job.c and detect change of context
+
+v3:
+* add "_locked" suffix to the functions called under job_mutex lock
+* rename _job_lock in real_job_lock
+* job_mutex is now public, and drivers like monitor use it directly
+* introduce and protect job_get_aio_context
+* remove mirror-specific APIs and just use WITH_JOB_GUARD
+* more extensive use of WITH_JOB_GUARD and JOB_LOCK_GUARD
+
+RFC v2:
+* use JOB_LOCK_GUARD and WITH_JOB_LOCK_GUARD
+* mu(u)ltiple typos in commit messages
+* job API split patches are sent separately in another series
+* use of empty job_{lock/unlock} and JOB_LOCK_GUARD/WITH_JOB_LOCK_GUARD
+  to avoid deadlocks and simplify the reviewer job
+* move patch 11 (block_job_query: remove atomic read) as last
+
+Emanuele Giuseppe Esposito (20):
+  job.c: make job_mutex and job_lock/unlock() public
+  job.h: categorize fields in struct Job
+  job.c: API functions not used outside should be static
+  aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
+  job.c: add job_lock/unlock while keeping job.h intact
+  job: move and update comments from blockjob.c
+  blockjob: introduce block_job  _locked() APIs
+  jobs: add job lock in find_* functions
+  jobs: use job locks also in the unit tests
+  block/mirror.c: use of job helpers in drivers to avoid TOC/TOU
+  jobs: group together API calls under the same job lock
+  commit and mirror: create new nodes using bdrv_get_aio_context, and
+    not the job aiocontext
+  jobs: protect job.aio_context with BQL and job_mutex
+  job.c: enable job lock/unlock and remove Aiocontext locks
+  block_job_query: remove atomic read
+  blockjob.h: categorize fields in struct BlockJob
+  blockjob: rename notifier callbacks as _locked
+  blockjob: protect iostatus field in BlockJob struct
+  blockjob: remove unused functions
+  job: remove unused functions
+
+Paolo Bonzini (1):
+  job: detect change of aiocontext within job coroutine
+
+ block.c                          |  20 +-
+ block/commit.c                   |   4 +-
+ block/mirror.c                   |  21 +-
+ block/replication.c              |   6 +-
+ blockdev.c                       | 129 +++---
+ blockjob.c                       | 131 ++++---
+ include/block/aio-wait.h         |  17 +-
+ include/block/blockjob.h         |  45 ++-
+ include/qemu/job.h               | 264 +++++++++----
+ job-qmp.c                        |  87 ++---
+ job.c                            | 646 +++++++++++++++++++------------
+ monitor/qmp-cmds.c               |   7 +-
+ qemu-img.c                       |  41 +-
+ tests/unit/test-bdrv-drain.c     |  80 ++--
+ tests/unit/test-block-iothread.c |   8 +-
+ tests/unit/test-blockjob-txn.c   |  24 +-
+ tests/unit/test-blockjob.c       | 107 +++--
+ 17 files changed, 1009 insertions(+), 628 deletions(-)
+
 -- 
-2.36.1
+2.31.1
 
 
