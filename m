@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251F9567EE7
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 08:47:59 +0200 (CEST)
-Received: from localhost ([::1]:57796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54987567EF7
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 08:54:28 +0200 (CEST)
+Received: from localhost ([::1]:38522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8ypK-0007Fc-88
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 02:47:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54596)
+	id 1o8yvb-0005LR-Aw
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 02:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8yZt-00020n-Il
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 02:32:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49907)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o8ynq-0007r8-F9
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 02:46:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8yZr-0004H1-CO
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 02:32:00 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o8ynn-0003bV-8K
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 02:46:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657089118;
+ s=mimecast20190719; t=1657089982;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+aWu9JCF2t702BqIlem78PQVrx8xqOynPHVBBAZLtKQ=;
- b=JsBOQ1DWT1989YaPTCtc6HGCotz6e1B9M/VlqVj/eI4xhnZPUgZ/b6zNjHr4zquL8Us9JP
- B3rmTr1hKSfz65sHDL6uI0AKX8Yn/1nDDiYb9eXBlIp6h8NC2+KCMDgjQuh8op3IyhEnMV
- 3AKOY1uhLD/Ax4802rSI8ya3JvHTb94=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bTxWCiS3yUOIDr06hmXb4cLWyKsg716BEZFUTYoL5tM=;
+ b=R0qtWzyxKfn8FA9//sVAPwp0s2ioCfN9oXdlUZ4ckurBY42Img/z3KVkFmxC8JJX/SPikS
+ wcjzt4roeGtSAl4qsI7RHjYcz1miEA9kTk6AzZ7NKijiXPyiDE/u7s5K/kE/jJY+Ir1Qt/
+ o+CB69/5z/PxXAAVK6hashT7PO6hTb0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-IeEb210XONWrKpGqUD5HoQ-1; Wed, 06 Jul 2022 02:31:57 -0400
-X-MC-Unique: IeEb210XONWrKpGqUD5HoQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h125-20020a1c2183000000b003a03a8475c6so6215663wmh.8
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 23:31:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=+aWu9JCF2t702BqIlem78PQVrx8xqOynPHVBBAZLtKQ=;
- b=7YfD9XL3nEFfgXmUkEBoyjo8TIngLAYppW25x/IzNv2u5cfrnN9hCuHGJ2vLnNkTTF
- sk3rxnSOt4wCfAzE01GDWaGXZoX49yAuzyxHw0SRVVddbx1SbUoR8jboLzBq8cbcTNpM
- /r4EWM+Wnca7tlKYo1ThKld+pRcawf5+xVG4DJQNWCejtGQFkjDNI3++B5tLBKjZ4bup
- baM8PgB+kLIil3X5R+KPeS5+fNb571TBGkuicsmHS8VDVMwKiOKVpVlskDCE3R+Lso4L
- xFhfxgB9binVHZcq/cv4mTcX8QezmxIRyAGy5IDxbeFRz3ZHnQZmi/wlq8L2VnHSGTt0
- 3Shw==
-X-Gm-Message-State: AJIora/2UmO0V30kO4SOpmrUzCTwfgDVtG5dAL7guLbGIQp61jkDAbhG
- xYrS4u7xqWDScHQnVCQHsbBI2EOe3sX+IofRx7GsfGXYFQz9/gsWA0+84D+/bg4GfKP+JAPjGkd
- 4HcZ7CwHZaHOO964=
-X-Received: by 2002:a05:600c:154a:b0:3a1:7002:3486 with SMTP id
- f10-20020a05600c154a00b003a170023486mr37161002wmg.104.1657089116752; 
- Tue, 05 Jul 2022 23:31:56 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1shRVi3vXzgRreuXS9xm5wuo4xGW3YprGDALCMwuKmHGwj/cIAIhKc80F7Dv/czzOWg2ZHEMQ==
-X-Received: by 2002:a05:600c:154a:b0:3a1:7002:3486 with SMTP id
- f10-20020a05600c154a00b003a170023486mr37160987wmg.104.1657089116519; 
- Tue, 05 Jul 2022 23:31:56 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-21.web.vodafone.de.
- [109.43.176.21]) by smtp.gmail.com with ESMTPSA id
- p11-20020a5d48cb000000b0021d65e9d449sm9709997wrs.73.2022.07.05.23.31.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 23:31:56 -0700 (PDT)
-Message-ID: <8c343308-2cfe-6e45-2843-f832d607c773@redhat.com>
-Date: Wed, 6 Jul 2022 08:31:55 +0200
+ us-mta-241-HebcUraoNPWJWW3LgYXF6g-1; Wed, 06 Jul 2022 02:46:20 -0400
+X-MC-Unique: HebcUraoNPWJWW3LgYXF6g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AEAD886086
+ for <qemu-devel@nongnu.org>; Wed,  6 Jul 2022 06:46:15 +0000 (UTC)
+Received: from thinkpad.redhat.com (unknown [10.39.192.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2644414152E1;
+ Wed,  6 Jul 2022 06:46:14 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH v6 12/13] qemu-sockets: update socket_uri() to be consistent
+ with socket_parse()
+Date: Wed,  6 Jul 2022 08:46:07 +0200
+Message-Id: <20220706064607.1397659-1-lvivier@redhat.com>
+In-Reply-To: <20220706062847.1396719-1-lvivier@redhat.com>
+References: <20220706062847.1396719-1-lvivier@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org
-References: <20220705151030.662140-1-thuth@redhat.com>
- <CAFEAcA99=bjEzS8=aF7GrHezWwK9BsQACSy73DV_104fvMaV1g@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] target/ppc/cpu-models: Remove the "default" CPU alias
-In-Reply-To: <CAFEAcA99=bjEzS8=aF7GrHezWwK9BsQACSy73DV_104fvMaV1g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,29 +84,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/07/2022 17.53, Peter Maydell wrote:
-> On Tue, 5 Jul 2022 at 16:13, Thomas Huth <thuth@redhat.com> wrote:
->>
->> QEMU emulates a *lot* of PowerPC-based machines - having a CPU
->> that is named "default" and cannot be used with most of those
->> machines sounds just wrong. Thus let's remove this old and confusing
->> alias now.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   target/ppc/cpu-models.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> Do we need to document this in removed-features.rst ?
+Remove 'tcp:' prefix for inet type (because inet can be 'tcp' or 'udp'
+and socket_parse() doesn't recognize it), the format is 'host:port'.
 
-Honestly, I don't think that anybody ever really used this in the past 15 
-years. It was likely used with the "prep" machine, but we removed that one a 
-couple of years already. The only machine that is still using this class of 
-PowerPC CPUs is its successor, the 40p machine, but it has a 604 by default 
-anyway, and I've never seen anybody using "-cpu default" with that machine. 
-So IMHO it's not necessary to document this - but if people here have a 
-different feeling, then I can also respin the patch, just let me know.
+Use 'vsock:' prefix for vsock type rather than 'tcp:' because it makes
+a vsock address look like an inet address with CID misinterpreted as host.
+Goes back to commit 9aca82ba31 "migration: Create socket-address parameter"
 
-  Thomas
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
+ util/qemu-sockets.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 870a36eb0e93..4cd76b3ae3af 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -1102,7 +1102,7 @@ char *socket_uri(SocketAddress *addr)
+ {
+     switch (addr->type) {
+     case SOCKET_ADDRESS_TYPE_INET:
+-        return g_strdup_printf("tcp:%s:%s",
++        return g_strdup_printf("%s:%s",
+                                addr->u.inet.host,
+                                addr->u.inet.port);
+     case SOCKET_ADDRESS_TYPE_UNIX:
+@@ -1111,7 +1111,7 @@ char *socket_uri(SocketAddress *addr)
+     case SOCKET_ADDRESS_TYPE_FD:
+         return g_strdup_printf("fd:%s", addr->u.fd.str);
+     case SOCKET_ADDRESS_TYPE_VSOCK:
+-        return g_strdup_printf("tcp:%s:%s",
++        return g_strdup_printf("vsock:%s:%s",
+                                addr->u.vsock.cid,
+                                addr->u.vsock.port);
+     default:
+-- 
+2.36.1
 
 
