@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB577567F35
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 09:01:38 +0200 (CEST)
-Received: from localhost ([::1]:45824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70337567EFA
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 08:54:49 +0200 (CEST)
+Received: from localhost ([::1]:38748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8z2V-0002Hu-MU
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 03:01:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57628)
+	id 1o8yvw-0005WJ-3m
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 02:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8yrx-0002uz-DQ
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8yry-0002yY-1L
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 02:50:42 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:35487)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o8yrv-0004Gx-8m
  for qemu-devel@nongnu.org; Wed, 06 Jul 2022 02:50:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23980)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8yrr-0004Gg-EF
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 02:50:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657090233;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vKURHNN54r90cyFaxAqAgF5CKrEb9ORGLRIB7ZTQKPU=;
- b=V2mvyiogB3uhgH474tuXyToLkrAfdJpswhxKHO9IisS7H+BEX3L0WloYa+ISNF2THsKYGS
- YysWX1RdyjCMZDBW0BJruPOIC4PMjX/J4JoFtgcrpv5tCNI3qiL3u9A7X1Xxwb+NCRzlFq
- YrSBesux/SZzfdXcRQD75pMVUO8P6CI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-620-LigVEwB9PQi8cLhztdkC5Q-1; Wed, 06 Jul 2022 02:50:30 -0400
-X-MC-Unique: LigVEwB9PQi8cLhztdkC5Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m17-20020a05600c3b1100b003a04a2f4936so7664535wms.6
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 23:50:30 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ x18-20020a17090a8a9200b001ef83b332f5so9057739pjn.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 23:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=J9t/Tc6X/ZaQmv08CLJyrJyOIpKVvozkxBe9TjvpDE8=;
+ b=UY1fKVZS0HC3eWMhyEUygwn2GvapgkPFBTx3/WqlDBGXpM4i6dvMELR0zkEbkxUkN4
+ ctijkMQedqMNgpVFktPVFt13K6Gdfj+LlaxDjVmMNebl6R3fu2LL9JxfiyTYPA1Dplss
+ 0NEgeLuxEdizWr2ZkagR6Zkk4MysY4BJTz4bG5O5RBUmM6umZzNxi4kk/oyH4C9qwtJa
+ I6ZS8tFczVMrkICuneQfrvlYahAdQX+1kbS6TgcKA1w61fHeujJ5pEztfPUJwkqR/VgC
+ vpX6Xys8it1Od+h88DbdEyRkyF++J5TY1Rtk0JLJpihmFs8wsrjwTc/zdFpt1PlMq9gC
+ sk/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vKURHNN54r90cyFaxAqAgF5CKrEb9ORGLRIB7ZTQKPU=;
- b=5lwRVMtClyrM1PikKCOr1DMKnlTukzZ22yyXDw4Qp8Nl3mW3kNfkDP/uYi3EhSYZHE
- E2um2w9yZOJpPb0fF8mgRx8P0hRCZtJjqNW10slZovAsSM+bEHpeJyuSmAzT0dq3P6ZC
- 6XMnyjg0Ar9yJwfrFBKNhu0ca4nGRgnA+KnoPlAYX9JQoEquslS52/VQwvJe2K/A8uXq
- Iz9+9zrfL4JO4apk0oxUc1nFov1e1/4u9yQWyci4ZlP9TpLz862iroNh1r7NB+S2aBRk
- pjlpstv1kRHHVhHMd+wJhXH3eTHhv3dLvYwaa+znoktPPIfUsnnvCvCJe839E+51yT+c
- m0Gw==
-X-Gm-Message-State: AJIora9RnQQi9YNkHqYWdGaEfzbppjQIfRu4mpspfjkokFKbx2oFeHuY
- LOcwoWK0dixarp7CJBEnr7X+mv159MY4o1QKhW5KAZuCfnou5DjiDIVOaHJ0KNk59pF6aL0DdFA
- +MSlgdDOr4MqUfjU=
-X-Received: by 2002:adf:e786:0:b0:21d:6ec1:ee5c with SMTP id
- n6-20020adfe786000000b0021d6ec1ee5cmr9059730wrm.285.1657090229334; 
- Tue, 05 Jul 2022 23:50:29 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u2Ev/iuGG9nohbip+/UkuOjpgrjVH9gKOb59ly5aq60/LpTOg+m6jMc7ohzk1JuTXrwHSuNQ==
-X-Received: by 2002:adf:e786:0:b0:21d:6ec1:ee5c with SMTP id
- n6-20020adfe786000000b0021d6ec1ee5cmr9059706wrm.285.1657090229016; 
- Tue, 05 Jul 2022 23:50:29 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-21.web.vodafone.de.
- [109.43.176.21]) by smtp.gmail.com with ESMTPSA id
- c3-20020adfef43000000b0021bab0ba755sm36127769wrp.106.2022.07.05.23.50.28
+ bh=J9t/Tc6X/ZaQmv08CLJyrJyOIpKVvozkxBe9TjvpDE8=;
+ b=UUM80ot2jnFG7aeMlXw9jONx9PMOnspNisRd6WhXblJI/rfdLLhwM1u6H3XZXgy9HS
+ /NojCXTZWeaqIkvrTEYR10vpOpJOhQkQ+St4AtuwZlVXjPF3tdsYMMHliexU1FWYIw98
+ hBr5jujepYvOQgxPmvWRJFW+p2hEDx8PJE+Qn/0biheAt6Ji0qIM0HVUjiDl69HWTGQL
+ Gla7kCZPuN4Be86Qk9hMVrhkOZSZCcPVxE3e5I0VSetbEn8zxFQxXOHALUErlr/pnEEI
+ tShbYrgtDZAV5qd5Yu2rWxWsLEGNP6kKe+DV6qjqS59DFkiC3wTsRd8IresQsR+VLvv/
+ q0mA==
+X-Gm-Message-State: AJIora9JDU5zjdFYAoplIdEdl0VYiW1Z/NTpCugF0VgoYSVcaIEesNLQ
+ pV7LjwWt6TXEY+3GRLBgQc15GQ==
+X-Google-Smtp-Source: AGRyM1syI3T0ofLZPcWfS6E66gvesf6xh84xLoaC3M61oIM8ESqMvRnGYJ4zOtYScEKz6jecU+co5A==
+X-Received: by 2002:a17:90b:3e86:b0:1ec:f7e8:e4e4 with SMTP id
+ rj6-20020a17090b3e8600b001ecf7e8e4e4mr48901272pjb.218.1657090236829; 
+ Tue, 05 Jul 2022 23:50:36 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ h14-20020a170902f70e00b0016be14a776asm6134070plo.286.2022.07.05.23.50.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 23:50:28 -0700 (PDT)
-Message-ID: <d6c8a2e8-0db1-d541-3f06-bcf2e2938853@redhat.com>
-Date: Wed, 6 Jul 2022 08:50:27 +0200
+ Tue, 05 Jul 2022 23:50:36 -0700 (PDT)
+Message-ID: <5948bf34-f510-728b-b779-04abb0a74899@linaro.org>
+Date: Wed, 6 Jul 2022 12:20:31 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] scsi/lsi53c895a: fix use-after-free in lsi_do_msgout
- (CVE-2022-0216)
+ Thunderbird/91.9.1
+Subject: Re: [PULL 0/2] Net patches
 Content-Language: en-US
-To: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, fam@euphon.net, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20220705200543.2366809-1-mcascell@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220705200543.2366809-1-mcascell@redhat.com>
+To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org
+References: <20220706034706.36620-1-jasowang@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220706034706.36620-1-jasowang@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,35 +93,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/07/2022 22.05, Mauro Matteo Cascella wrote:
-> Set current_req->req to NULL to prevent reusing a free'd buffer in case of
-> repeated SCSI cancel requests. Thanks to Thomas Huth for suggesting the patch.
+On 7/6/22 09:17, Jason Wang wrote:
+> The following changes since commit 39e19f5f67d925c60278a6156fd1776d04495a93:
 > 
-> Fixes: CVE-2022-0216
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> ---
->   hw/scsi/lsi53c895a.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>    Merge tag 'pull-xen-20220705' of https://xenbits.xen.org/git-http/people/aperard/qemu-dm into staging (2022-07-05 22:13:51 +0530)
 > 
-> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-> index c8773f73f7..99ea42d49b 100644
-> --- a/hw/scsi/lsi53c895a.c
-> +++ b/hw/scsi/lsi53c895a.c
-> @@ -1028,8 +1028,9 @@ static void lsi_do_msgout(LSIState *s)
->           case 0x0d:
->               /* The ABORT TAG message clears the current I/O process only. */
->               trace_lsi_do_msgout_abort(current_tag);
-> -            if (current_req) {
-> +            if (current_req && current_req->req) {
->                   scsi_req_cancel(current_req->req);
-> +                current_req->req = NULL;
->               }
->               lsi_disconnect(s);
->               break;
+> are available in the git repository at:
+> 
+>    https://github.com/jasowang/qemu.git tags/net-pull-request
+> 
+> for you to fetch changes up to a495eba03c31c96d6a0817b13598ce2219326691:
+> 
+>    ebpf: replace deprecated bpf_program__set_socket_filter (2022-07-06 11:39:09 +0800)
+> 
+> ----------------------------------------------------------------
+> 
+> ----------------------------------------------------------------
+> Ding Hui (1):
+>        e1000: set RX descriptor status in a separate operation
+> 
+> Haochen Tong (1):
+>        ebpf: replace deprecated bpf_program__set_socket_filter
 
-Let's hope that this will fix the issue for good...
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+r~
+
+
+> 
+>   ebpf/ebpf_rss.c | 2 +-
+>   hw/net/e1000.c  | 5 ++++-
+>   2 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> 
+> 
 
 
