@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B84F567C59
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 05:12:26 +0200 (CEST)
-Received: from localhost ([::1]:50516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052EF567CCD
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 05:49:58 +0200 (CEST)
+Received: from localhost ([::1]:56088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8vSi-0001yT-HJ
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 23:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42354)
+	id 1o8w32-0008OG-LR
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 23:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1o8vQM-00019v-Bu
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 23:10:01 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:45953)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1o8vQH-0004HJ-6X
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 23:09:55 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id d5so12519012plo.12
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 20:09:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=4SQt47P1SxZCim5R4qaBeYpiSmadSwwvhu/0lpoB8Ew=;
- b=1X+0O+ebwagcyGcVbcmjBKwTdioXs3uhbho2yTEehTVXWjwjJ1E7rvKnTiv+CAl1w2
- GRW0khodYzHUI82POadSTsUlMQpRu4D/oZ4cL1ksI2F8mHbYfxrQa9EqCR6WkaNg7W3a
- YCdqe01x0SHO+tBqtbigLpSj6Bi5Qjb3ZIlRE+AKfGWNDd7mMEHf2xfMTzAZFgHjAtdR
- 0Y8RFW8YJzjG3S9inmeNxbcEYXRFVG4/O8dMRxiioqLhsv0d7uzvyEBINybqK1CVhaPv
- vlshHVMXbhUd6ufA3UZJ0PSR5PJ6EwFWR15OVXH70cs6vKTj8m9mOO1vuhCtVIpVmYlL
- 6Chg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=4SQt47P1SxZCim5R4qaBeYpiSmadSwwvhu/0lpoB8Ew=;
- b=y1y0dvdIqQ1bG0m/asq6r/8XOzPsLRVUTF46EynSQnM+0SV6/tmol31FVjBh2SCsWX
- p4m3Z6de7A7HPLMlThWSzm06k++729DSLYq+1HSqu/vNRqKnBO1kG5L/xnxymeyWcy0w
- VZhgPl1UhzHSyVyOyX0irQOjocSUw0vz98w/OAjNe6bLpRxhjrM34EvM3QHeKQ/R6C5o
- dTo36q0X9GZNYIC07UgRbPABGUyLGqhlOHUUoYMy+SLvkHy2hTzBzRuwEucD9lSLpH4h
- 9MboxZsePH46f/Ad6zGyhHEEDg7EX+W/bnywMn82iRzx39nQtWH7mSvFaBWD1lnVdyRj
- RLzA==
-X-Gm-Message-State: AJIora+OFpUTsrf19E8piYF73F/r468v9UmSiaYDDiM86iLZSFwHmUFE
- hQtyEwd+m0l4CmbuawKTYlIoUw==
-X-Google-Smtp-Source: AGRyM1tsrsBCXWBjjoQnv2c7KsAb2DDxXz6S0Pxvi3rTBmCXuEiwzC6OC/MhI6A4MNke81Fea0QHSA==
-X-Received: by 2002:a17:902:cf03:b0:16b:e692:c104 with SMTP id
- i3-20020a170902cf0300b0016be692c104mr12642983plg.134.1657076989832; 
- Tue, 05 Jul 2022 20:09:49 -0700 (PDT)
-Received: from [10.76.15.169] ([61.120.150.70])
- by smtp.gmail.com with ESMTPSA id
- z13-20020a17090a8b8d00b001ec798b0dc4sm15791094pjn.38.2022.07.05.20.09.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jul 2022 20:09:49 -0700 (PDT)
-Message-ID: <d43a478f-e54b-e624-8c67-2392bf3d3dbb@bytedance.com>
-Date: Wed, 6 Jul 2022 11:04:56 +0800
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o8w0V-00078l-Gt
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 23:47:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46483)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o8w0S-0002ca-3G
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 23:47:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657079234;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yNGCa1/5CCrAexalG+Awcyk+LCZ9I/ufSvkVYTvmgF8=;
+ b=VaLej/bJA8sRdZNOsP8kDH7c+LdAi/heNt+qgWb5sR1TwKwGGqQ8MpMfDy3SJw2ikJeJAL
+ yvZQluGvalebwf/MNx4GhO6rirM83dvr9hO5wV/yBHrdkiA+1XHpPMgxLp7U3WDpxzu7Ym
+ AWex/IW2G0MnP7Us4NJaO3u8WjyrOBU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-656-ctQChP_lOPSiPCNYJuUXtg-1; Tue, 05 Jul 2022 23:47:11 -0400
+X-MC-Unique: ctQChP_lOPSiPCNYJuUXtg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B59885A580;
+ Wed,  6 Jul 2022 03:47:11 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-233.pek2.redhat.com
+ [10.72.12.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7DA60140EBE4;
+ Wed,  6 Jul 2022 03:47:09 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Cc: Jason Wang <jasowang@redhat.com>
+Subject: [PULL 0/2] Net patches
+Date: Wed,  6 Jul 2022 11:47:04 +0800
+Message-Id: <20220706034706.36620-1-jasowang@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 1/1] qga: add command 'guest-get-cpustats'
-Content-Language: en-US
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Markus Armbruster <armbru@redhat.com>
-Cc: Michael Roth <michael.roth@amd.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>, QEMU <qemu-devel@nongnu.org>
-References: <20220704023618.626849-1-pizhenwei@bytedance.com>
- <20220704023618.626849-2-pizhenwei@bytedance.com>
- <CAJ+F1CKvsDdJsurivOToZue=HsyrXbuRK2hNxA0UjJsKwhCkZA@mail.gmail.com>
- <1b3f926b-9fe6-a3ec-b697-6fa8471510ad@bytedance.com>
-In-Reply-To: <1b3f926b-9fe6-a3ec-b697-6fa8471510ad@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,56 +78,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/4/22 16:00, zhenwei pi wrote:
-> 
-> 
->>     +##
->>     +# @GuestOsType:
->>     +#
->>     +# An enumeration of OS type
->>     +#
->>     +# Since: 7.1
->>     +##
->>     +{ 'enum': 'GuestOsType',
->>     +  'data': [ 'linuxos', 'windowsos' ] }
->>
->>
->> I would rather keep this enum specific to GuestCpuStats, 
->> "GuestLinuxCpuStatsType"?
->>
-> 
-> Hi,
-> 
-> 'GuestOsType' may be re-used in the future, not only for the CPU 
-> statistics case.
-> 
->> I would also drop the "os" suffix
->>
-> I'm afraid we can not drop "os" suffix, build this without "os" suffix:
-> qga/qga-qapi-types.h:948:28: error: expected member name or ';' after 
-> declaration specifiers
->          GuestLinuxCpuStats linux;
->          ~~~~~~~~~~~~~~~~~~ ^
-> <built-in>:336:15: note: expanded from here
-> #define linux 1
-> 
+The following changes since commit 39e19f5f67d925c60278a6156fd1776d04495a93:
 
-Hi, Marc
+  Merge tag 'pull-xen-20220705' of https://xenbits.xen.org/git-http/people/aperard/qemu-dm into staging (2022-07-05 22:13:51 +0530)
 
-Could you please give any hint about this issue?
+are available in the git repository at:
 
->>     +
->>     +
->>
->>
->>
->> Looks good to me otherwise.
->> thanks
->>
->> -- 
->> Marc-André Lureau
-> 
+  https://github.com/jasowang/qemu.git tags/net-pull-request
 
--- 
-zhenwei pi
+for you to fetch changes up to a495eba03c31c96d6a0817b13598ce2219326691:
+
+  ebpf: replace deprecated bpf_program__set_socket_filter (2022-07-06 11:39:09 +0800)
+
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+Ding Hui (1):
+      e1000: set RX descriptor status in a separate operation
+
+Haochen Tong (1):
+      ebpf: replace deprecated bpf_program__set_socket_filter
+
+ ebpf/ebpf_rss.c | 2 +-
+ hw/net/e1000.c  | 5 ++++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+
 
