@@ -2,93 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EB5568012
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 09:39:11 +0200 (CEST)
-Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 879EE56807B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 09:53:06 +0200 (CEST)
+Received: from localhost ([::1]:58024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8zcs-0000Zg-93
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 03:39:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39176)
+	id 1o8zqL-0006wU-4K
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 03:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8zYl-0005jX-N7
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 03:34:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33761)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o8zYj-0000oR-9h
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 03:34:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657092891;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Me6cEbsDTDm129/ZHeEZnF53VWrZC0u7qlNvPJ2D7x0=;
- b=fwPW9GhH4VhDmK02RiHl8L+wFz0lCJmzThQwDhcssh6ZQ3ftPBbvoiP66uqHSu7eRLG7uP
- QycgFViOjPzIjjZGUPW7P3n9/TZAD1dBoAWppy6Mm2a8B0K1JOKoOcX12JLdlXY6j0223Z
- MFJrliGJzAB5jky6ECgC1LvlNjkrt8E=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-SSzMlYWWN3CSmCGzfCLcTw-1; Wed, 06 Jul 2022 03:34:50 -0400
-X-MC-Unique: SSzMlYWWN3CSmCGzfCLcTw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l11-20020adfbd8b000000b0021d754b84c5so869974wrh.17
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 00:34:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1o8znG-0005Zj-PU
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 03:49:54 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:33764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1o8znB-0008IE-2K
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 03:49:51 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ j1-20020a17090aeb0100b001ef777a7befso6395321pjz.0
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 00:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=aTTMNRB031bD6WF5LRaX+YyHLsjPi59m8iHcK2bvses=;
+ b=tFCAE+jpDxaF5cs0Gx3KeHlXlVQMJsMWXZA4fZAqeagd9Vo31Iwy0jWDmJlDl+dfEd
+ VnHBVYg8yH+KMhsqY4Az+e+yFq+aMMRek0klrhm/T6YsgVwkJmzMUDRDozFUhjxtEJ/e
+ vtdaSc2eqcifupJNHkMCIRIHyg+Oqh9Sd+cg0onbQm82d1WQ0nqKHvnljmlKdpPtT49x
+ vd7LkIMzkOYwZ9SalPqoEKnKoomfogVLvMbtTzw+MGL1qEIFCAElA8vcYbvpOU7ibNL6
+ nCxFMW2sVlYIl2Z/Fhk/4o1lRg43++rW/TuGdirqdbMN4OsyY/C6khkaaFk2TjLez6Vc
+ uDKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Me6cEbsDTDm129/ZHeEZnF53VWrZC0u7qlNvPJ2D7x0=;
- b=TRn44z+8P8dEZWiNcC1CKt+CPnpDrf+zjuRMp/ORHyd9kHp6QJm2qwfg4tug1LVgAM
- e4RngRhM+IP8T6/dP+Tvo1hP3oPuIpY+rj+YcrjFjK9BV57Lg+AZmbca1ww0ebcIw371
- KWCkl4nF0RfZyUMbCZA2nzxYTN5dTlERtUBQWWNAECJh4CDnQ5k/vuWVwxaMm0slWIEt
- Ux68wzr8qCrVy9MbWnyrV1NvzQE/1BTIFc50p0LGJYOQld1fFt8Loy1ktptSJ0whUQS5
- fT33d8HLBhdQbNhnexEMnasXCwFnzphua6jwEFDxZJWdL1Wn3y3YH4pUU0HdDm/gCpVN
- Fabg==
-X-Gm-Message-State: AJIora/Z3ib6fZLFXhMoxmNLEFmFvAJRnlBCE8jOO5Gx4HPis5h4TPXc
- wh3Q6IK0D0VB+V36JfzSfizx1x3Lzh9sFBqIVzJW15JgS5mOKm/r1wl3l6HCYNQlZ59ONIftdua
- oOqC8sszFJRk3sQk=
-X-Received: by 2002:a05:6000:188a:b0:21b:c273:5ebd with SMTP id
- a10-20020a056000188a00b0021bc2735ebdmr37043137wri.72.1657092889238; 
- Wed, 06 Jul 2022 00:34:49 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uH809uPXDO3vxIYuleYyUHCPSl8FjDuEZcG5QiOlYYhzAuWlVfjwBh4qbxtE5vQU8QTC3BAg==
-X-Received: by 2002:a05:6000:188a:b0:21b:c273:5ebd with SMTP id
- a10-20020a056000188a00b0021bc2735ebdmr37043119wri.72.1657092889042; 
- Wed, 06 Jul 2022 00:34:49 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-21.web.vodafone.de.
- [109.43.176.21]) by smtp.gmail.com with ESMTPSA id
- o3-20020a5d4083000000b0021d7ae38ca2sm1518830wrp.55.2022.07.06.00.34.48
+ bh=aTTMNRB031bD6WF5LRaX+YyHLsjPi59m8iHcK2bvses=;
+ b=h4JQ5Jktmf7raUimX6PQW/nu698m7+JNJYnb3ifHQn2ztiLeX2nJ3G6PVThHyahfNL
+ 9mSo8dvtpE159x0XypH3mr3lEfwSZshhZP3SvbDNn6TbDyjihYhHLnt9A/hUlchCJiAL
+ 8vJW2uGi060JkTiKPFtr6bs2PiJVgBkqcbB1AMNwVNiz64tksgxMzI4rzpMpCCHQbLHQ
+ Zgj+ijc8x+OaHFHw0O+zZK3z3Vv5uELeIRef2XP1eJQoHz1Yv6ELP+pbSkR1RwCpV1al
+ 8iI2obrsx93iTRQgpipKeW5H1eI8J9dP3JlaaXDqVrpsprRFWh5SKv6l3BPVK6Dd2Egs
+ qz2w==
+X-Gm-Message-State: AJIora/2ePiysszgAARoC1ksnBnR4WE29Uj/Q8Kgk44Q5vkLosG3NxrC
+ UXmPnMkx1h/lo9RqG2sPDPl2cw==
+X-Google-Smtp-Source: AGRyM1s3ZpmGiThWqzCp0125GFM8jg2Q1EQfCDiCFOEQdzkH0cninFU7VEbFD1hf1TH6XBGT/CZpfA==
+X-Received: by 2002:a17:90b:4d05:b0:1e2:bf91:8af2 with SMTP id
+ mw5-20020a17090b4d0500b001e2bf918af2mr47950014pjb.210.1657093787478; 
+ Wed, 06 Jul 2022 00:49:47 -0700 (PDT)
+Received: from [10.76.15.169] ([61.120.150.70])
+ by smtp.gmail.com with ESMTPSA id
+ n11-20020a17090a2bcb00b001e85f38bc79sm13998922pje.41.2022.07.06.00.49.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jul 2022 00:34:48 -0700 (PDT)
-Message-ID: <a48bfafe-c8a0-4b8d-1a4f-0872e800dd1c@redhat.com>
-Date: Wed, 6 Jul 2022 09:34:47 +0200
+ Wed, 06 Jul 2022 00:49:46 -0700 (PDT)
+Message-ID: <c420494e-52c1-e83f-c959-d4eb69799bd8@bytedance.com>
+Date: Wed, 6 Jul 2022 15:44:53 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+ Thunderbird/91.9.1
+Subject: Re: Re: [PATCH v2 1/1] qga: add command 'guest-get-cpustats'
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
- jsnow@redhat.com
-References: <20220705153708.186418-1-vsementsov@yandex-team.ru>
- <e5fa4843-31e1-9ce2-fd13-ffa1b6ee6f1e@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] iotests: fix copy-before-write for macOS and FreeBSD
-In-Reply-To: <e5fa4843-31e1-9ce2-fd13-ffa1b6ee6f1e@linaro.org>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Michael Roth
+ <michael.roth@amd.com>, Konstantin Kostiuk <kkostiuk@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
+References: <20220704023618.626849-1-pizhenwei@bytedance.com>
+ <20220704023618.626849-2-pizhenwei@bytedance.com>
+ <CAJ+F1CKvsDdJsurivOToZue=HsyrXbuRK2hNxA0UjJsKwhCkZA@mail.gmail.com>
+ <1b3f926b-9fe6-a3ec-b697-6fa8471510ad@bytedance.com>
+ <d43a478f-e54b-e624-8c67-2392bf3d3dbb@bytedance.com>
+ <CAJ+F1CKpTz4pNKX9XdZER70wrgYkNmHTzhhWB69O1SS1kS-zrg@mail.gmail.com>
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <CAJ+F1CKpTz4pNKX9XdZER70wrgYkNmHTzhhWB69O1SS1kS-zrg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,50 +101,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/07/2022 19.22, Richard Henderson wrote:
-> On 7/5/22 21:07, Vladimir Sementsov-Ogievskiy wrote:
->> strerror() represents ETIMEDOUT a bit different in Linux and macOS /
->> FreeBSD. Let's support the latter too.
->>
->> Fixes: 9d05a87b77 ("iotests: copy-before-write: add cases for cbw-timeout 
->> option")
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> ---
->>
->> As John and Thomas noted, the new iotests fails for FreeBSD and maxOS.
->> Here is a fix. Would be great if someone can test it.
->>
->> I tried to push it by
->>
->>    git push --force  -o ci.variable="QEMU_CI=1"
->>
->> to my block branch, I get a blocked pipeline
->>    https://gitlab.com/vsementsov/qemu/-/pipelines/580573238
->> but it doesn't have neither freebsd nor macos jobs.. How to get them?
-> 
-> You'd have to have an attached cirrus token.
-> Better to just use 'make vm-build-freebsd'.
-> 
->>       def test_timeout_break_guest(self):
->>           log = self.do_cbw_timeout('break-guest-write')
->> +        # macOS and FreeBSD tend to represent ETIMEDOUT as
->> +        # "Operation timed out", when Linux prefer
->> +        # "Connection timed out"
->> +        log = log.replace('Operation timed out',
->> +                          'Connection timed out')
-> 
-> Um, really?  Matching strerror text?  This is ultra-fragile.
-> Dare I say broken already.
 
-Many of the iotests rely on output text matching. It's very fragile, always 
-has been and always will be (unless we rewrite the whole test suite to not 
-use output text matching anymore). For example, the iotests also do not work 
-with the libc from Alpine Linux (where one of the error messages is "I/O 
-error" instead of "Input/Output error"), so we only run check-unit and 
-check-qtest in the CI there. It's a pity, but that's the way it is 
-currently. I think it's still better to tweak some of the text strings here 
-instead of not running the tests at all.
 
-  Thomas
+On 7/6/22 15:20, Marc-André Lureau wrote:
+> Hi
+> 
+> On Wed, Jul 6, 2022 at 7:09 AM zhenwei pi <pizhenwei@bytedance.com 
+> <mailto:pizhenwei@bytedance.com>> wrote:
+> 
+>     On 7/4/22 16:00, zhenwei pi wrote:
+>      >
+>      >
+>      >>     +##
+>      >>     +# @GuestOsType:
+>      >>     +#
+>      >>     +# An enumeration of OS type
+>      >>     +#
+>      >>     +# Since: 7.1
+>      >>     +##
+>      >>     +{ 'enum': 'GuestOsType',
+>      >>     +  'data': [ 'linuxos', 'windowsos' ] }
+>      >>
+>      >>
+>      >> I would rather keep this enum specific to GuestCpuStats,
+>      >> "GuestLinuxCpuStatsType"?
+>      >>
+>      >
+>      > Hi,
+>      >
+>      > 'GuestOsType' may be re-used in the future, not only for the CPU
+>      > statistics case.
+>      >
+>      >> I would also drop the "os" suffix
+>      >>
+>      > I'm afraid we can not drop "os" suffix, build this without "os"
+>     suffix:
+>      > qga/qga-qapi-types.h:948:28: error: expected member name or ';'
+>     after
+>      > declaration specifiers
+>      >          GuestLinuxCpuStats linux;
+>      >          ~~~~~~~~~~~~~~~~~~ ^
+>      > <built-in>:336:15: note: expanded from here
+>      > #define linux 1
+>      >
+> 
+>     Hi, Marc
+> 
+>     Could you please give any hint about this issue?
+> 
+> 
+> Yes, it looks like we need to add "linux" to the "polluted_words":
+> 
 
+OK, I'll fix this in the next versoin.
+
+By the way, 'GuestCpuStatsType' seems to be used for CPU statistics 
+only, but 'data': [ 'linux', 'windows' ] } is quite common, it may be 
+used for other OS specified commands in the future. Should I use 
+'GuestCpuStatsType' instead of 'GuestOsType'?
+
+> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+> index 489273574aee..737b059e6291 100644
+> --- a/scripts/qapi/common.py
+> +++ b/scripts/qapi/common.py
+> @@ -114,7 +114,7 @@ def c_name(name: str, protect: bool = True) -> str:
+>                        'and', 'and_eq', 'bitand', 'bitor', 'compl', 'not',
+>                        'not_eq', 'or', 'or_eq', 'xor', 'xor_eq'])
+>       # namespace pollution:
+> -    polluted_words = set(['unix', 'errno', 'mips', 'sparc', 'i386'])
+> +    polluted_words = set(['unix', 'errno', 'mips', 'sparc', 'i386', 
+> 'linux'])
+> 
+> 
+>      >>     +
+>      >>     +
+>      >>
+>      >>
+>      >>
+>      >> Looks good to me otherwise.
+>      >> thanks
+>      >>
+>      >> --
+>      >> Marc-André Lureau
+>      >
+> 
+>     -- 
+>     zhenwei pi
+> 
+> 
+> 
+> -- 
+> Marc-André Lureau
+
+-- 
+zhenwei pi
 
