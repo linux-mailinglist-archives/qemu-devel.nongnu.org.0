@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5FD569420
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 23:17:34 +0200 (CEST)
-Received: from localhost ([::1]:36676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FF556946B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 23:34:01 +0200 (CEST)
+Received: from localhost ([::1]:35630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9COr-0001uD-Hy
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 17:17:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39110)
+	id 1o9Cem-0004cD-DF
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 17:34:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9BR9-0005Cb-Oe
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:15:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23711)
+ id 1o9BRI-0005GC-6U
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:16:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9BR5-0007Dm-Gi
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:15:50 -0400
+ id 1o9BRB-0007Gq-Io
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:15:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657138546;
+ s=mimecast20190719; t=1657138552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=dQsgku1nOoU87U+bkUfjVBYxF254oLbui14z7Khc8v0=;
- b=jHIrl1tXsa64brx+GtUk7nVWCjd8Mv9QR6CN2UGxwYsrUf0haLY59CoA2jlzIybK02TYZT
- eMeMGwJR5RAW6ulaPOOttKSVefEbSqrI3GiXgKqeFN+IS7ROHGbcwMhMtnMX/bGfaiQatK
- XInDKZLFeot9a6Qa8kxHtqcN8riYLvg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i+zk7SrzYoSHnf5yoRasYjwBwTIG+52hR950VPuNieg=;
+ b=I4XMdNDbtdf4jogDfaDy9QveibNlyMbS5BgbjKZD8FPnHWXCQFBRC+ZtFwPeEapgrrEF4F
+ lszBhCblYoHdzqz3gQK77aMudnT1MBpE5ZxJusBr8Lc66HkAFKdh7vaHqP1WkyQRWnM3yX
+ GKqb1ZJXW1sWSJC7z53UYw8VaPkWhX8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-533-xvsOXVxJPpO653yovae5Ng-1; Wed, 06 Jul 2022 16:15:42 -0400
-X-MC-Unique: xvsOXVxJPpO653yovae5Ng-1
+ us-mta-202-XNINESPENuWCP2UV3Dgiqg-1; Wed, 06 Jul 2022 16:15:42 -0400
+X-MC-Unique: XNINESPENuWCP2UV3Dgiqg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CDB62181E066;
- Wed,  6 Jul 2022 20:15:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1329B8032EE;
+ Wed,  6 Jul 2022 20:15:42 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 22C6E1121315;
- Wed,  6 Jul 2022 20:15:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D62C61121320;
+ Wed,  6 Jul 2022 20:15:40 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -52,22 +53,25 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Xie Changlong <xiechanglong.d@gmail.com>,
  Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v9 00/21] job: replace AioContext lock with job_mutex
-Date: Wed,  6 Jul 2022 16:15:12 -0400
-Message-Id: <20220706201533.289775-1-eesposit@redhat.com>
+ qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: [PATCH v9 01/21] job.c: make job_mutex and job_lock/unlock() public
+Date: Wed,  6 Jul 2022 16:15:13 -0400
+Message-Id: <20220706201533.289775-2-eesposit@redhat.com>
+In-Reply-To: <20220706201533.289775-1-eesposit@redhat.com>
+References: <20220706201533.289775-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,141 +87,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In this series, we want to remove the AioContext lock and instead
-use the already existent job_mutex to protect the job structures
-and list. This is part of the work to get rid of AioContext lock
-usage in favour of smaller granularity locks.
+job mutex will be used to protect the job struct elements and list,
+replacing AioContext locks.
 
-In order to simplify reviewer's job, job lock/unlock functions and
-macros are added as empty prototypes (nop) in patch 1.
-They are converted to use the actual job mutex only in the last
-patch. In this way we can freely create locking sections
-without worrying about deadlocks with the aiocontext lock.
+Right now use a shared lock for all jobs, in order to keep things
+simple. Once the AioContext lock is gone, we can introduce per-job
+locks.
 
-Patch 2 defines what fields in the job structure need protection.
-Patches 3-6 are in preparation to the job locks, moving functions
-from global to static and introducing helpers.
+To simplify the switch from aiocontext to job lock, introduce
+*nop* lock/unlock functions and macros.
+We want to always call job_lock/unlock outside the AioContext locks,
+and not vice-versa, otherwise we might get a deadlock. This is not
+straightforward to do, and that's why we start with nop functions.
+Once everything is protected by job_lock/unlock, we can change the nop into
+an actual mutex and remove the aiocontext lock.
 
-Patch 7-9 introduce the (nop) job lock into the job API and
-its users, and patches 10-13 categorize respectively locked and
-unlocked functions in the job API.
+Since job_mutex is already being used, add static
+real_job_{lock/unlock} for the existing usage.
 
-Patches 14-17 take care of protecting job->aio_context, and
-finally patch 18 makes the prototypes in patch 1 use the
-job_mutex and removes all aiocontext lock at the same time.
-
-Tested this series by running unit tests, qemu-iotests and qtests
-(x86_64).
-
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
-v9:
-* merge patch 6 and 7 to 5.
-* additional "taken with job lock/unlock" added and propagated in callers
-* protect iostatus field of BlockJobs
-* move all blockjob patches torward the end of the serie
+ include/qemu/job.h | 24 ++++++++++++++++++++++++
+ job.c              | 35 +++++++++++++++++++++++------------
+ 2 files changed, 47 insertions(+), 12 deletions(-)
 
-v8:
-* reorganize patch ordering according with Vladimir proposal
-* minor nitpicks
-
-v7:
-* s/temporary/temporarly
-* double identical locking comment to the same function
-* patch 2: add "Protected by AioContext lock" to better categorize fields in
-  job.h
-* use same comment style in all function headers ("Just like {funct}, but
-  called between job_lock and job_unlock")
-
-v6:
-* patch 4 and 6 squashed with patch 19 (enable job lock and
-  reduce/remove AioContext lock)
-* patch 19: job_unref_locked read the aiocontext inside the
-  job lock.
-
-v5:
-* just restructured patches a little bit better, as there were
-  functions used before they were defined.
-* rebased on kwolf/block branch and API split serie
-
-v4:
-* move "protected by job_mutex" from patch 2 to 15, where the job_mutex is
-  actually added.
-* s/aio_co_enter/aio_co_schedule in job.c, and adjust tests accordingly.
-* remove job_get_aio_context, add job_set_aio_context. Use "fake rwlock"
-  to protect job->aiocontext.
-* get rid of useless getters method, namely:
-  job_get_status
-  job_get_pause_count
-  job_get_paused
-  job_get_busy
-  They are all used only by tests, and such getter is pretty useless.
-  Replace with job_lock(); assert(); job_unlock();
-* use job lock macros instead of job lock/unlock in unit tests.
-* convert also blockjob functions to have _locked
-* put the job_lock/unlock patches before the _locked ones
-* replace aio_co_enter in job.c and detect change of context
-
-v3:
-* add "_locked" suffix to the functions called under job_mutex lock
-* rename _job_lock in real_job_lock
-* job_mutex is now public, and drivers like monitor use it directly
-* introduce and protect job_get_aio_context
-* remove mirror-specific APIs and just use WITH_JOB_GUARD
-* more extensive use of WITH_JOB_GUARD and JOB_LOCK_GUARD
-
-RFC v2:
-* use JOB_LOCK_GUARD and WITH_JOB_LOCK_GUARD
-* mu(u)ltiple typos in commit messages
-* job API split patches are sent separately in another series
-* use of empty job_{lock/unlock} and JOB_LOCK_GUARD/WITH_JOB_LOCK_GUARD
-  to avoid deadlocks and simplify the reviewer job
-* move patch 11 (block_job_query: remove atomic read) as last
-
-Emanuele Giuseppe Esposito (20):
-  job.c: make job_mutex and job_lock/unlock() public
-  job.h: categorize fields in struct Job
-  job.c: API functions not used outside should be static
-  aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
-  job.c: add job_lock/unlock while keeping job.h intact
-  job: move and update comments from blockjob.c
-  blockjob: introduce block_job  _locked() APIs
-  jobs: add job lock in find_* functions
-  jobs: use job locks also in the unit tests
-  block/mirror.c: use of job helpers in drivers to avoid TOC/TOU
-  jobs: group together API calls under the same job lock
-  commit and mirror: create new nodes using bdrv_get_aio_context, and
-    not the job aiocontext
-  jobs: protect job.aio_context with BQL and job_mutex
-  job.c: enable job lock/unlock and remove Aiocontext locks
-  block_job_query: remove atomic read
-  blockjob.h: categorize fields in struct BlockJob
-  blockjob: rename notifier callbacks as _locked
-  blockjob: protect iostatus field in BlockJob struct
-  blockjob: remove unused functions
-  job: remove unused functions
-
-Paolo Bonzini (1):
-  job: detect change of aiocontext within job coroutine
-
- block.c                          |  20 +-
- block/commit.c                   |   4 +-
- block/mirror.c                   |  21 +-
- block/replication.c              |   6 +-
- blockdev.c                       | 129 +++---
- blockjob.c                       | 131 ++++---
- include/block/aio-wait.h         |  17 +-
- include/block/blockjob.h         |  45 ++-
- include/qemu/job.h               | 264 +++++++++----
- job-qmp.c                        |  87 ++---
- job.c                            | 646 +++++++++++++++++++------------
- monitor/qmp-cmds.c               |   7 +-
- qemu-img.c                       |  41 +-
- tests/unit/test-bdrv-drain.c     |  80 ++--
- tests/unit/test-block-iothread.c |   8 +-
- tests/unit/test-blockjob-txn.c   |  24 +-
- tests/unit/test-blockjob.c       | 107 +++--
- 17 files changed, 1009 insertions(+), 628 deletions(-)
-
+diff --git a/include/qemu/job.h b/include/qemu/job.h
+index c105b31076..d1192ffd61 100644
+--- a/include/qemu/job.h
++++ b/include/qemu/job.h
+@@ -303,6 +303,30 @@ typedef enum JobCreateFlags {
+     JOB_MANUAL_DISMISS = 0x04,
+ } JobCreateFlags;
+ 
++extern QemuMutex job_mutex;
++
++#define JOB_LOCK_GUARD() /* QEMU_LOCK_GUARD(&job_mutex) */
++
++#define WITH_JOB_LOCK_GUARD() /* WITH_QEMU_LOCK_GUARD(&job_mutex) */
++
++/**
++ * job_lock:
++ *
++ * Take the mutex protecting the list of jobs and their status.
++ * Most functions called by the monitor need to call job_lock
++ * and job_unlock manually.  On the other hand, function called
++ * by the block jobs themselves and by the block layer will take the
++ * lock for you.
++ */
++void job_lock(void);
++
++/**
++ * job_unlock:
++ *
++ * Release the mutex protecting the list of jobs and their status.
++ */
++void job_unlock(void);
++
+ /**
+  * Allocate and return a new job transaction. Jobs can be added to the
+  * transaction using job_txn_add_job().
+diff --git a/job.c b/job.c
+index 075c6f3a20..2b4ffca9d4 100644
+--- a/job.c
++++ b/job.c
+@@ -32,6 +32,12 @@
+ #include "trace/trace-root.h"
+ #include "qapi/qapi-events-job.h"
+ 
++/*
++ * job_mutex protects the jobs list, but also makes the
++ * struct job fields thread-safe.
++ */
++QemuMutex job_mutex;
++
+ static QLIST_HEAD(, Job) jobs = QLIST_HEAD_INITIALIZER(jobs);
+ 
+ /* Job State Transition Table */
+@@ -74,17 +80,22 @@ struct JobTxn {
+     int refcnt;
+ };
+ 
+-/* Right now, this mutex is only needed to synchronize accesses to job->busy
+- * and job->sleep_timer, such as concurrent calls to job_do_yield and
+- * job_enter. */
+-static QemuMutex job_mutex;
++void job_lock(void)
++{
++    /* nop */
++}
++
++void job_unlock(void)
++{
++    /* nop */
++}
+ 
+-static void job_lock(void)
++static void real_job_lock(void)
+ {
+     qemu_mutex_lock(&job_mutex);
+ }
+ 
+-static void job_unlock(void)
++static void real_job_unlock(void)
+ {
+     qemu_mutex_unlock(&job_mutex);
+ }
+@@ -450,21 +461,21 @@ void job_enter_cond(Job *job, bool(*fn)(Job *job))
+         return;
+     }
+ 
+-    job_lock();
++    real_job_lock();
+     if (job->busy) {
+-        job_unlock();
++        real_job_unlock();
+         return;
+     }
+ 
+     if (fn && !fn(job)) {
+-        job_unlock();
++        real_job_unlock();
+         return;
+     }
+ 
+     assert(!job->deferred_to_main_loop);
+     timer_del(&job->sleep_timer);
+     job->busy = true;
+-    job_unlock();
++    real_job_unlock();
+     aio_co_enter(job->aio_context, job->co);
+ }
+ 
+@@ -481,13 +492,13 @@ void job_enter(Job *job)
+  * called explicitly. */
+ static void coroutine_fn job_do_yield(Job *job, uint64_t ns)
+ {
+-    job_lock();
++    real_job_lock();
+     if (ns != -1) {
+         timer_mod(&job->sleep_timer, ns);
+     }
+     job->busy = false;
+     job_event_idle(job);
+-    job_unlock();
++    real_job_unlock();
+     qemu_coroutine_yield();
+ 
+     /* Set by job_enter_cond() before re-entering the coroutine.  */
 -- 
 2.31.1
 
