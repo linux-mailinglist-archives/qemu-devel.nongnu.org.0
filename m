@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99518569450
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 23:26:55 +0200 (CEST)
-Received: from localhost ([::1]:54750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20BB656949B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 23:40:54 +0200 (CEST)
+Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9CXu-00068N-Ku
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 17:26:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39500)
+	id 1o9ClQ-0001qy-TH
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 17:40:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9BRH-0005GA-NV
+ id 1o9BRJ-0005HW-1k
  for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:16:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51970)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9BRA-0007GN-H8
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:15:59 -0400
+ id 1o9BRB-0007Gv-Mf
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 16:16:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657138551;
+ s=mimecast20190719; t=1657138552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AICUR11mJP12YcK3yFvDVJ4upsdLDQ4EKYHAZc0vS+M=;
- b=HSSAS0Tn3KeSfAOlqsT5FCZIC5XT6Y+mxfh6G3kWBSuGPFait+o3FTrGnUOba4YRJ0QjHE
- aAF4j9SXWr2KdySCTCpCT+jtipuoEy5P2Kt7T9V/fi6ysiHLaBlpfEsuz53vVslCkNdxU1
- Y+aURQyyZGXOKTvd3XceNlQhYy7rLd4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gLnDoQaa5gE2EUfXH6+VfkBgZx09GXYKH1Ey1PynyOQ=;
+ b=VOHCSA2oNFfl+LczeLvjiTVDPUpuYIdEkBydYly3pYlA+g+GHv9B0JVf0uRzbzfuedaar6
+ 0lmJ9hKFlNcGSHIIPA/rc84C2NHTh5KX1jAChqW704R8xIS2tP8qVhJyKmElkuqJQ26Oj1
+ F1QBqJab0FamadDEeD5DAgJ6aPsqBjI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-0UVMiPhyMmSkk6jdwV-O5A-1; Wed, 06 Jul 2022 16:15:48 -0400
-X-MC-Unique: 0UVMiPhyMmSkk6jdwV-O5A-1
+ us-mta-503-fNgHqoCXMnyXbG42PGUTPQ-1; Wed, 06 Jul 2022 16:15:49 -0400
+X-MC-Unique: fNgHqoCXMnyXbG42PGUTPQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D21D8339CA;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 996A13C0E20C;
  Wed,  6 Jul 2022 20:15:48 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCFB41121315;
- Wed,  6 Jul 2022 20:15:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 44C571121315;
+ Wed,  6 Jul 2022 20:15:48 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -54,9 +54,9 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v9 17/21] blockjob.h: categorize fields in struct BlockJob
-Date: Wed,  6 Jul 2022 16:15:29 -0400
-Message-Id: <20220706201533.289775-18-eesposit@redhat.com>
+Subject: [PATCH v9 18/21] blockjob: rename notifier callbacks as _locked
+Date: Wed,  6 Jul 2022 16:15:30 -0400
+Message-Id: <20220706201533.289775-19-eesposit@redhat.com>
 In-Reply-To: <20220706201533.289775-1-eesposit@redhat.com>
 References: <20220706201533.289775-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -86,58 +86,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The same job lock is being used also to protect some of blockjob fields.
-Categorize them just as done in job.h.
+They all are called with job_lock held, in job_event_*_locked()
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/block/blockjob.h | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ blockjob.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/include/block/blockjob.h b/include/block/blockjob.h
-index 8b65d3949d..912e10b083 100644
---- a/include/block/blockjob.h
-+++ b/include/block/blockjob.h
-@@ -40,10 +40,16 @@ typedef struct BlockJobDriver BlockJobDriver;
-  * Long-running operation on a BlockDriverState.
-  */
- typedef struct BlockJob {
--    /** Data belonging to the generic Job infrastructure */
-+    /**
-+     * Data belonging to the generic Job infrastructure.
-+     * Protected by job mutex.
-+     */
-     Job job;
+diff --git a/blockjob.c b/blockjob.c
+index bbd297b583..a2559b97a7 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -254,7 +254,8 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+     return 0;
+ }
  
--    /** Status that is published by the query-block-jobs QMP API */
-+    /**
-+     * Status that is published by the query-block-jobs QMP API.
-+     * Protected by job mutex.
-+     */
-     BlockDeviceIoStatus iostatus;
+-static void block_job_on_idle(Notifier *n, void *opaque)
++/* Called with job_mutex lock held. */
++static void block_job_on_idle_locked(Notifier *n, void *opaque)
+ {
+     aio_wait_kick();
+ }
+@@ -374,7 +375,8 @@ static void block_job_iostatus_set_err(BlockJob *job, int error)
+     }
+ }
  
-     /** Speed that was set with @block_job_set_speed.  */
-@@ -55,6 +61,8 @@ typedef struct BlockJob {
-     /** Block other operations when block job is running */
-     Error *blocker;
+-static void block_job_event_cancelled(Notifier *n, void *opaque)
++/* Called with job_mutex lock held. */
++static void block_job_event_cancelled_locked(Notifier *n, void *opaque)
+ {
+     BlockJob *job = opaque;
+     uint64_t progress_current, progress_total;
+@@ -393,7 +395,8 @@ static void block_job_event_cancelled(Notifier *n, void *opaque)
+                                         job->speed);
+ }
  
-+    /** All notifiers are set once in block_job_create() and never modified. */
-+
-     /** Called when a cancelled job is finalised. */
-     Notifier finalize_cancelled_notifier;
+-static void block_job_event_completed(Notifier *n, void *opaque)
++/* Called with job_mutex lock held. */
++static void block_job_event_completed_locked(Notifier *n, void *opaque)
+ {
+     BlockJob *job = opaque;
+     const char *msg = NULL;
+@@ -419,7 +422,8 @@ static void block_job_event_completed(Notifier *n, void *opaque)
+                                         msg);
+ }
  
-@@ -70,7 +78,10 @@ typedef struct BlockJob {
-     /** Called when the job coroutine yields or terminates */
-     Notifier idle_notifier;
+-static void block_job_event_pending(Notifier *n, void *opaque)
++/* Called with job_mutex lock held. */
++static void block_job_event_pending_locked(Notifier *n, void *opaque)
+ {
+     BlockJob *job = opaque;
  
--    /** BlockDriverStates that are involved in this block job */
-+    /**
-+     * BlockDriverStates that are involved in this block job.
-+     * Always modified and read under QEMU global mutex (GLOBAL_STATE_CODE)
-+     */
-     GSList *nodes;
- } BlockJob;
+@@ -431,7 +435,8 @@ static void block_job_event_pending(Notifier *n, void *opaque)
+                                       job->job.id);
+ }
  
+-static void block_job_event_ready(Notifier *n, void *opaque)
++/* Called with job_mutex lock held. */
++static void block_job_event_ready_locked(Notifier *n, void *opaque)
+ {
+     BlockJob *job = opaque;
+     uint64_t progress_current, progress_total;
+@@ -476,11 +481,11 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+ 
+     ratelimit_init(&job->limit);
+ 
+-    job->finalize_cancelled_notifier.notify = block_job_event_cancelled;
+-    job->finalize_completed_notifier.notify = block_job_event_completed;
+-    job->pending_notifier.notify = block_job_event_pending;
+-    job->ready_notifier.notify = block_job_event_ready;
+-    job->idle_notifier.notify = block_job_on_idle;
++    job->finalize_cancelled_notifier.notify = block_job_event_cancelled_locked;
++    job->finalize_completed_notifier.notify = block_job_event_completed_locked;
++    job->pending_notifier.notify = block_job_event_pending_locked;
++    job->ready_notifier.notify = block_job_event_ready_locked;
++    job->idle_notifier.notify = block_job_on_idle_locked;
+ 
+     WITH_JOB_LOCK_GUARD() {
+         notifier_list_add(&job->job.on_finalize_cancelled,
 -- 
 2.31.1
 
