@@ -2,99 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B2735680A2
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 09:58:57 +0200 (CEST)
-Received: from localhost ([::1]:37564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 031275680B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 10:04:58 +0200 (CEST)
+Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8zvz-0003zO-QP
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 03:58:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42882)
+	id 1o901o-0006XQ-I7
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 04:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o8ztH-00020O-88; Wed, 06 Jul 2022 03:56:07 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:52785)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8zzQ-0005qK-RE
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:02:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o8ztF-0001CZ-59; Wed, 06 Jul 2022 03:56:06 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 42BCF58015A;
- Wed,  6 Jul 2022 03:56:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 06 Jul 2022 03:56:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1657094164; x=
- 1657097764; bh=2dCLOHRYZ/qidCr+MQhK9oCbXuUvwQrtSIklkri0u5A=; b=1
- 4A7G2S+MPjuKaoi4QYNnWo2G+oQlPKpGCyieDj4CkfxBKBMZfdtSVJZv8dY+IRXn
- gysOSfz0aBc96oEnR6X7pd2cGGgUybP3gf4wNRDl73Fh+hQAtxcfwMDWZWYGytSv
- p2BpX62biCZSk7Y3cZ8Q0S+Qxn9lPjtmRciHtVif8QmY5etg/cTgFFcz9dSvtkDO
- uzznCOfHd8vSYQn2DUJZfP0FVuQ+JuQ6MTRdlFH65aFwcUIRN+9nFNWtoHEjRTz/
- p1E9uKRaheINng4qpuJyteAHUqDaA9QbyqlvfpfoAtYlXj55kB3DfhpAFbdmc6Lq
- vvoIkjJbAGIQXuQbQ+ELQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657094164; x=
- 1657097764; bh=2dCLOHRYZ/qidCr+MQhK9oCbXuUvwQrtSIklkri0u5A=; b=c
- 4lso4lT0+StTuXEPuM2qKvh+HV9SwtvCk21izlMYeR4U8nOOZWinDPyfyL7pPUbc
- NkIXtCAFJVZ1kD2YQkl0JPrZYQUXD1hB9BAO8xU3nscstvAoTUh0jNaW0QJIavVR
- EtvCSCbYJ33EF0fHKqwypuficLpjJRxurSM0nccbBL+Lw2SAgLIfWXD36DCgH2v+
- Uc2xPk6uKfKy0cTsVHIfe16yl91MPm4GqAgxyMsMjKU7FS+ZJQZ20go+n21D2IL9
- SdC7kYTk8hnM1PYTmg9kmPrKzcjk+UPLj6ckDN8qIWRt/hiGhC3OhFCxuj50ylvi
- 7HSrIIzKxk3l8L7PtDyXQ==
-X-ME-Sender: <xms:E0DFYo226D2fck8jU_SIb3u-mgYZ9pl4ORNa0uJ63XHVZA0N7ECTdw>
- <xme:E0DFYjGECkjaygJ-WNFIqG8_5p0uhHP3LhAMmFez-VlezJE6RblWAWsbRi0sPh_cl
- 6ngKXRZOTFIsSZHg7Q>
-X-ME-Received: <xmr:E0DFYg6nynFu4mU6vdydZqZrijez_GAI_cfAQP4qAAikXCF7mtKCtApacxchISW0gWzrygwrgu79rDfF0GB-JDpH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeivddguddvfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtugfgjgesthekrodttddtudenucfhrhhomheprfgv
- thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
- grthhtvghrnhepteehkeelvefhvdeiuefghfefiefffffhieffteejuefghfdvuedufefh
- jeehhfetnecuffhomhgrihhnpehoiihlrggsshdrohhrghdpghhithhhuhgsrdgtohhmne
- cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgv
- rhesphhjugdruggvvh
-X-ME-Proxy: <xmx:E0DFYh0hK-9x2fnhADFUtGiBwkyOa6kGshrjEKs6ALe6r7CzYZHc7g>
- <xmx:E0DFYrHrHH4hyIlLnXUfDV14cjp4JRW94kjbhCdQ15mHgH9F84ogJg>
- <xmx:E0DFYq_8I_QDV6YOblnjewyIpxQDAjgf4nfllVq0mIcCzO2bV9aqHQ>
- <xmx:E0DFYg7Z1MyK5kbtfKMxU8FFy81CEvVhLKKLKSkohrbjeI49CwcVTw>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 6 Jul 2022 03:56:02 -0400 (EDT)
-Date: Wed, 6 Jul 2022 00:56:01 -0700
-From: Peter Delevoryas <peter@pjd.dev>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: Corey Minyard <minyard@acm.org>, Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
- Patrick Venture <venture@google.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 1/9] hw/i2c/pca954x: Add method to get channels
-Message-ID: <YsVAEYaeFAgzdKUs@r37>
-References: <20220705191400.41632-1-peter@pjd.dev>
- <20220705191400.41632-2-peter@pjd.dev>
- <20220705200624.GK908082@minyard.net>
- <YsSv0NU8WfU6APoN@pdel-mbp.dhcp.thefacebook.com>
- <YsSwzVXXS5u3GH3j@pdel-mbp.dhcp.thefacebook.com>
- <3fd5d954-4909-cd45-aa58-789618423ab2@kaod.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o8zzL-0002Gd-9Y
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:02:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657094542;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=sTojb53BQ/0LIb0n4lGZhjPuVQmzb8ZAHO52eVUWpnM=;
+ b=eUv35Iqv2D40byxlB7Vet2aGmFFcYjzmyeTocozjvJ+l/kzYdP792umsVtCUbJ31607LhJ
+ xTFXkyHtaoK/MvKkoyyAjiQO0KedsbQRM5PHdYpJtjgONfFnVXeo15astcniZwIepOdJFF
+ wXSuGkWVR4O8j8eKbpmmLcEj+xb9SGI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-313-ubM0ovmsMISoIA9zzl84WQ-1; Wed, 06 Jul 2022 04:02:19 -0400
+X-MC-Unique: ubM0ovmsMISoIA9zzl84WQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0AF13C02B8D;
+ Wed,  6 Jul 2022 08:02:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE6511121315;
+ Wed,  6 Jul 2022 08:02:17 +0000 (UTC)
+Date: Wed, 6 Jul 2022 09:02:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Delevoryas <peter@pjd.dev>
+Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH RESEND] python/machine: Fix AF_UNIX path too long on macOS
+Message-ID: <YsVBhmvAm2ANDUEt@redhat.com>
+References: <20220705214659.73369-1-peter@pjd.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3fd5d954-4909-cd45-aa58-789618423ab2@kaod.org>
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=peter@pjd.dev;
- helo=new3-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM14=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220705214659.73369-1-peter@pjd.dev>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,180 +77,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 06, 2022 at 08:06:34AM +0200, Cédric Le Goater wrote:
-> On 7/5/22 23:44, Peter Delevoryas wrote:
-> > On Tue, Jul 05, 2022 at 02:40:32PM -0700, Peter Delevoryas wrote:
-> > > On Tue, Jul 05, 2022 at 03:06:24PM -0500, Corey Minyard wrote:
-> > > > On Tue, Jul 05, 2022 at 12:13:52PM -0700, Peter Delevoryas wrote:
-> > > > > I added this helper in the Aspeed machine file a while ago to help
-> > > > > initialize fuji-bmc i2c devices. This moves it to the official pca954x
-> > > > > file so that other files can use it.
-> > > > > 
-> > > > > This does something very similar to pca954x_i2c_get_bus, but I think
-> > > > > this is useful when you have a very complicated dts with a lot of
-> > > > > switches, like the fuji dts.
-> > > > > 
-> > > > > This convenience method lets you write code that produces a flat array
-> > > > > of I2C buses that matches the naming in the dts. After that you can just
-> > > > > add individual sensors using the flat array of I2C buses.
-> > > > 
-> > > > This is an improvment, I think.  But it really needs to be two patches,
-> > > > one with the I2C portion, and one with the aspeed portion.
-> > > > 
-> > > > Also, the name is a little misleading, you might want to name it
-> > > > pca954x_i2c_create_get_channels
-> > > 
-> > > You're right: Cedric, you can just ignore the pca954x patch then if you'd like,
-> > > I can resubmit it with the future I2C series that uses it. I probably shouldn't
-> > > have submitted it quite yet.
-> > > 
-> > > I can also resubmit the series with that patch removed, not sure if that's
-> > > necessary or not.
-> > 
-> > This was hastily written, what I meant to say was:
-> > 
-> > Cedric, feel free to remove this patch from the series. If you'd like, I can
-> > also resubmit this series as v3 with the patch removed.
-> 
-> 
-> I moved it at the end of the series to come just before the other patches
-> needing it, the last three patches of :
-> 
->   http://patchwork.ozlabs.org/project/qemu-devel/list/?series=307305
-> 
-> You can resend all of them when fixed.
+On Tue, Jul 05, 2022 at 02:46:59PM -0700, Peter Delevoryas wrote:
+> I noticed that I can't run any avocado tests on macOS because the QMP
+> unix socket path is too long:
 
-That sounds good, thanks.
+
+> I think the path limit for unix sockets on macOS might be 104 [1]
+
+All platforms have a very limited path limit, so it isn't really
+a macOS specific problem, rather....
 
 > 
+> /*
+>  * [XSI] Definitions for UNIX IPC domain.
+>  */
+> struct  sockaddr_un {
+>     unsigned char   sun_len;        /* sockaddr len including null */
+>     sa_family_t     sun_family;     /* [XSI] AF_UNIX */
+>     char            sun_path[104];  /* [XSI] path name (gag) */
+> };
 > 
-> I think we are done with the initial fby35.
+> The path we're using is exactly 105 characters:
 > 
-> Next time, please add a cover letter and keep the Reviewed-by tags
-> of the previous version. It helps the reviewers. I re-added them
-> manually for this spin.
+> $ python
+> Python 2.7.10 (default, Jan 19 2016, 22:24:01)
+> [GCC 4.2.1 Compatible Apple LLVM 7.0.2 (clang-700.1.81)] on darwin
+> Type "help", "copyright", "credits" or "license" for more information.
+> >>> len('/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/avo_qemu_sock_uh3w_dgc/qemu-37331-10bacf110-monitor.sock')
 
-Yeah that's my bad again, I need to get in a better habit of adding those.
-Thanks for reminding me again.
+It is a problem related to where the test suite is creating the
+paths.
 
-> Thanks,
+/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/avo_qemu_sock_uh3w_dgc/
+
+is way too deep a directory location.
+
+It seems we just create this location using 'tempfile.TemporyDirectory'
+to get a standard tmp dir.
+
+Do you know why python is choosing
+
+  /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
+
+as the temp dir ? Is that a standard location on macOS or is it
+from some env variable you have set ?
+
+> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+> index 37191f433b..93451774e3 100644
+> --- a/python/qemu/machine/machine.py
+> +++ b/python/qemu/machine/machine.py
+> @@ -157,7 +157,7 @@ def __init__(self,
+>          self._wrapper = wrapper
+>          self._qmp_timer = qmp_timer
+>  
+> -        self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
+> +        self._name = name or f"{os.getpid()}{id(self):02x}"
+
+I don't think this is the right fix really, because IMHO the problem
+is the hugely long path, rather than the final socket name.
+
+That said, there is redundancy in the path - avocado is passing in
+a dierctory created using 'tempfile.TemporyDirectory' so there is no
+reason why we need to add more entropy via the POD and the 'id(self)'
+hex string.
+
+IMHO avocado should pass in the 'name' parameter explicitly, using a
+plain name and thus get a shorter string.
+
+>          self._temp_dir: Optional[str] = None
+>          self._base_temp_dir = base_temp_dir
+>          self._sock_dir = sock_dir
+> @@ -167,7 +167,7 @@ def __init__(self,
+>              self._monitor_address = monitor_address
+>          else:
+>              self._monitor_address = os.path.join(
+> -                self.sock_dir, f"{self._name}-monitor.sock"
+> +                self.sock_dir, f"{self._name}.sock"
+>              )
+>  
+>          self._console_log_path = console_log
+> -- 
+> 2.37.0
 > 
-> C.
 > 
-> > 
-> > > 
-> > > > 
-> > > > -corey
-> > > > 
-> > > > > 
-> > > > > See fuji_bmc_i2c_init to understand this point further.
-> > > > > 
-> > > > > The fuji dts is here for reference:
-> > > > > 
-> > > > > https://github.com/torvalds/linux/blob/40cb6373b46/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
-> > > > > 
-> > > > > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> > > > > ---
-> > > > >   hw/arm/aspeed.c                  | 29 +++++++++--------------------
-> > > > >   hw/i2c/i2c_mux_pca954x.c         | 10 ++++++++++
-> > > > >   include/hw/i2c/i2c_mux_pca954x.h | 13 +++++++++++++
-> > > > >   3 files changed, 32 insertions(+), 20 deletions(-)
-> > > > > 
-> > > > > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> > > > > index 6fe9b13548..bee8a748ec 100644
-> > > > > --- a/hw/arm/aspeed.c
-> > > > > +++ b/hw/arm/aspeed.c
-> > > > > @@ -793,15 +793,6 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
-> > > > >       create_pca9552(soc, 15, 0x60);
-> > > > >   }
-> > > > > -static void get_pca9548_channels(I2CBus *bus, uint8_t mux_addr,
-> > > > > -                                 I2CBus **channels)
-> > > > > -{
-> > > > > -    I2CSlave *mux = i2c_slave_create_simple(bus, "pca9548", mux_addr);
-> > > > > -    for (int i = 0; i < 8; i++) {
-> > > > > -        channels[i] = pca954x_i2c_get_bus(mux, i);
-> > > > > -    }
-> > > > > -}
-> > > > > -
-> > > > >   #define TYPE_LM75 TYPE_TMP105
-> > > > >   #define TYPE_TMP75 TYPE_TMP105
-> > > > >   #define TYPE_TMP422 "tmp422"
-> > > > > @@ -814,20 +805,18 @@ static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
-> > > > >       for (int i = 0; i < 16; i++) {
-> > > > >           i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
-> > > > >       }
-> > > > > -    I2CBus *i2c180 = i2c[2];
-> > > > > -    I2CBus *i2c480 = i2c[8];
-> > > > > -    I2CBus *i2c600 = i2c[11];
-> > > > > -    get_pca9548_channels(i2c180, 0x70, &i2c[16]);
-> > > > > -    get_pca9548_channels(i2c480, 0x70, &i2c[24]);
-> > > > > +    pca954x_i2c_get_channels(i2c[2], 0x70, "pca9548", &i2c[16]);
-> > > > > +    pca954x_i2c_get_channels(i2c[8], 0x70, "pca9548", &i2c[24]);
-> > > > >       /* NOTE: The device tree skips [32, 40) in the alias numbering */
-> > > > > -    get_pca9548_channels(i2c600, 0x77, &i2c[40]);
-> > > > > -    get_pca9548_channels(i2c[24], 0x71, &i2c[48]);
-> > > > > -    get_pca9548_channels(i2c[25], 0x72, &i2c[56]);
-> > > > > -    get_pca9548_channels(i2c[26], 0x76, &i2c[64]);
-> > > > > -    get_pca9548_channels(i2c[27], 0x76, &i2c[72]);
-> > > > > +    pca954x_i2c_get_channels(i2c[11], 0x77, "pca9548", &i2c[40]);
-> > > > > +    pca954x_i2c_get_channels(i2c[24], 0x71, "pca9548", &i2c[48]);
-> > > > > +    pca954x_i2c_get_channels(i2c[25], 0x72, "pca9548", &i2c[56]);
-> > > > > +    pca954x_i2c_get_channels(i2c[26], 0x76, "pca9548", &i2c[64]);
-> > > > > +    pca954x_i2c_get_channels(i2c[27], 0x76, "pca9548", &i2c[72]);
-> > > > >       for (int i = 0; i < 8; i++) {
-> > > > > -        get_pca9548_channels(i2c[40 + i], 0x76, &i2c[80 + i * 8]);
-> > > > > +        pca954x_i2c_get_channels(i2c[40 + i], 0x76, "pca9548",
-> > > > > +                                 &i2c[80 + i * 8]);
-> > > > >       }
-> > > > >       i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
-> > > > > diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
-> > > > > index 3945de795c..6b07804546 100644
-> > > > > --- a/hw/i2c/i2c_mux_pca954x.c
-> > > > > +++ b/hw/i2c/i2c_mux_pca954x.c
-> > > > > @@ -169,6 +169,16 @@ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel)
-> > > > >       return pca954x->bus[channel];
-> > > > >   }
-> > > > > +void pca954x_i2c_get_channels(I2CBus *bus, uint8_t address,
-> > > > > +                              const char *type_name, I2CBus **channels)
-> > > > > +{
-> > > > > +    I2CSlave *mux = i2c_slave_create_simple(bus, type_name, address);
-> > > > > +    Pca954xClass *pc = PCA954X_GET_CLASS(mux);
-> > > > > +    Pca954xState *pca954x = PCA954X(mux);
-> > > > > +
-> > > > > +    memcpy(channels, pca954x->bus, pc->nchans * sizeof(channels[0]));
-> > > > > +}
-> > > > > +
-> > > > >   static void pca9546_class_init(ObjectClass *klass, void *data)
-> > > > >   {
-> > > > >       Pca954xClass *s = PCA954X_CLASS(klass);
-> > > > > diff --git a/include/hw/i2c/i2c_mux_pca954x.h b/include/hw/i2c/i2c_mux_pca954x.h
-> > > > > index 3dd25ec983..3a676a30a9 100644
-> > > > > --- a/include/hw/i2c/i2c_mux_pca954x.h
-> > > > > +++ b/include/hw/i2c/i2c_mux_pca954x.h
-> > > > > @@ -16,4 +16,17 @@
-> > > > >    */
-> > > > >   I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel);
-> > > > > +/**
-> > > > > + * Creates an i2c mux and retrieves all of the channels associated with it.
-> > > > > + *
-> > > > > + * @bus: the i2c bus where the i2c mux resides.
-> > > > > + * @address: the address of the i2c mux on the aforementioned i2c bus.
-> > > > > + * @type_name: name of the i2c mux type to create.
-> > > > > + * @channels: an output parameter specifying where to return the channels.
-> > > > > + *
-> > > > > + * Returns: None
-> > > > > + */
-> > > > > +void pca954x_i2c_get_channels(I2CBus *bus, uint8_t address,
-> > > > > +                              const char *type_name, I2CBus **channels);
-> > > > > +
-> > > > >   #endif
-> > > > > -- 
-> > > > > 2.37.0
-> > > > > 
-> > > > > 
-> > > 
-> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
