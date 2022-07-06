@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6204F5689BF
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 15:42:21 +0200 (CEST)
-Received: from localhost ([::1]:51912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B3F5689C1
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 15:42:52 +0200 (CEST)
+Received: from localhost ([::1]:52642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o95II-0005qY-55
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 09:42:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58232)
+	id 1o95In-0006PZ-Tl
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 09:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o95GL-00042e-7R
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 09:40:18 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37840)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o95Gr-0004Kp-TV; Wed, 06 Jul 2022 09:40:49 -0400
+Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:46753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1o95GG-0000mM-OS
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 09:40:16 -0400
-Received: by mail-wr1-x429.google.com with SMTP id cl1so22144824wrb.4
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 06:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=izgGgzmg903vUkunocekQCofq8bmWQZLLcXOvuup1Bc=;
- b=lS4tgC353aWIsi4PRdxhQLTSPvJ9HVa5tysyld/jQ/+cfDd3lY+XkYEobXOw5nvYHE
- SRShAvA+yjxU7ByIpteVuNvr4ybs17dkVLtZ8mKFyRDRYEb21s/hO/itBtBJHD2vTl7U
- kW0WEJ+ofllldHIdjZa74r9eMoy3MYQA36zmV+zgyKQpG8MazaUp/FFJRySynCZzxVjX
- e/l8ROPfS6K9S2dYygAS1IyNYPWWXfqMvqJwCM3fwNWQGOfY56aBgi6vItaHjXOg7KuY
- 0yBGxLhURxdtc+/N5DDNWgHhsIXY/cdx8F9GrD8bhSMc5aUudfRRu2MNiSBXV3jjX9bz
- SpGg==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o95Go-0000vA-DH; Wed, 06 Jul 2022 09:40:48 -0400
+Received: by mail-vs1-xe29.google.com with SMTP id 126so15068353vsq.13;
+ Wed, 06 Jul 2022 06:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=tiD1fzCzmRACmDsRub/mNlL+z536F4vmi4w4s1zJKJ8=;
+ b=Rz0tHULEbukpkAnVHddqZ2hbocUGQCUxo8ADSkotjjkKfHadaQsX01ZbhMUGDD9Ccw
+ MYiyUR5ZW/omJY9P69lR28ddUm4nXIQgy0iTFxD/2kRXAZr+8GSUXiBKDiIyPvNJh0W2
+ PvimhYEYSTyQOeYt6RT+ODbsVjOjJnM4++kHbf6PGWSLLlK/m9ex36NHZqI0mo9gkxHg
+ JHXPgcS/tJAbeG7dallyp/U8wOs6YfnZcHKt80lKN1HFThNWgOW649RLxwjTxpxlbInW
+ 7Gwx5HxzYHTD6FEmFFTgMqd8PLL2oxftfR0zmo6fLYBOi2f3a5x0SP9JdsuTa8/+1fuk
+ ySxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=izgGgzmg903vUkunocekQCofq8bmWQZLLcXOvuup1Bc=;
- b=UZaAobw9ZJReZOkVX97iv+iyU3CrZmYqnGYLZU6pUTe6t52PGw7QxIhr3GQ69cpuZ1
- /p3BYI0FZb+VbxLXH7eClNJEq+9r5g4mbQAR0WmddE3zZG5q7C36ZwWJZ+oPtAoL6Qfo
- eeBknrjcLMb+aJVytk5nEuqk8vuJQ/gUh9oOODZcQXRX/iL7Hu2hsx/YYr2bpCmWuGjy
- aUfkoQJ6FRLqStF0G76/sf1hatvAJNqAf+Z58xvk0snl0Or34Fig3K6K9kF2ISq2Co6x
- scXl5gbgsoTHcGh9gIwctls2TPSFI88SXQk083EByIIeaD0lS1KgK4gn5Xoa6VhIpB47
- 9pVQ==
-X-Gm-Message-State: AJIora+VddRcRWa1bpR0GmaBw2XCSE6p+Kb4Y2rmEbsuBGMWw7xnVmYC
- 2K3+scJINKohjJzYo0a/1+/V2g==
-X-Google-Smtp-Source: AGRyM1vLtI5X21TGS82HpSIxmxwcDcN4PYye80mfOBnho8oz9mD9kPUt2VH73oUKRqeQY+Ya/OMgkw==
-X-Received: by 2002:a05:6000:795:b0:21b:b9a0:6010 with SMTP id
- bu21-20020a056000079500b0021bb9a06010mr36949279wrb.508.1657114806540; 
- Wed, 06 Jul 2022 06:40:06 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- b8-20020a05600c4e0800b003974cb37a94sm23009293wmq.22.2022.07.06.06.40.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 06:40:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D766A1FFB7;
- Wed,  6 Jul 2022 14:40:04 +0100 (BST)
-References: <20220524154056.2896913-1-alex.bennee@linaro.org>
- <20220524154056.2896913-6-alex.bennee@linaro.org>
- <20220610083747.GA29012@axis.com>
-User-agent: mu4e 1.7.27; emacs 28.1.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Vincent Whitchurch <vincent.whitchurch@axis.com>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
- marcandre.lureau@redhat.com, stefanha@redhat.com,
- mathieu.poirier@linaro.org, viresh.kumar@linaro.org
-Subject: Re: [PATCH v2 05/15] hw/virtio: add boilerplate for vhost-user-gpio
- device
-Date: Wed, 06 Jul 2022 14:37:07 +0100
-In-reply-to: <20220610083747.GA29012@axis.com>
-Message-ID: <87sfnejr63.fsf@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tiD1fzCzmRACmDsRub/mNlL+z536F4vmi4w4s1zJKJ8=;
+ b=tORaFZzZcUFwGAk8Hn7JtWNaMrKB/eIwYJ/scq8Z3e6zVL5OEunLC/eyGhudXqy7Bb
+ 2PAzwwkZd+vsd1URmgejGT3eA0jDTsdVT1Z8szC0nurOFFvAswdEH1E73EK8psQqpf/z
+ 3tRSKrLq878GD03ZjfS30BWr+eLYZQ3+jqwFKUfM3FFsGLdl6XG5Y7aie1qbkSl91RSV
+ M5apMuKjvCK+gtKBGls8rrscS9r3CPk/5Ed4AsEu3zcdFxl4oJjdz0bGYBhAqf6OwxZF
+ FpzR7ciH0hzo2mVQFg627Aj+eK8wC0KbFTNkUkdUDF2kTA1J1HuqagyYYHxc2cgxzUR6
+ P93g==
+X-Gm-Message-State: AJIora9iyyAu8G4c/igGpyymfIHQbU4VhU9An230DXGd08bbs+Is1tr9
+ WxEh/cgAsNYNw3MPpMwh2lo=
+X-Google-Smtp-Source: AGRyM1vMBuJsWj7iU7GGN8K3jKKRAfEHN8+8Swh6h8PQY6JQ6TuAdxiTMsTk7JJQnJ6U/8EG22mhAA==
+X-Received: by 2002:a67:e188:0:b0:356:febd:3943 with SMTP id
+ e8-20020a67e188000000b00356febd3943mr4297943vsl.57.1657114838276; 
+ Wed, 06 Jul 2022 06:40:38 -0700 (PDT)
+Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
+ [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
+ g17-20020ab060d1000000b003690c3ce68asm9278475uam.10.2022.07.06.06.40.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jul 2022 06:40:37 -0700 (PDT)
+Message-ID: <4d1a6e4a-bf90-74aa-6591-e53d59de0a43@gmail.com>
+Date: Wed, 6 Jul 2022 10:40:34 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] target/ppc/cpu-models: Remove the "default" CPU alias
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org
+References: <20220705151030.662140-1-thuth@redhat.com>
+ <CAFEAcA99=bjEzS8=aF7GrHezWwK9BsQACSy73DV_104fvMaV1g@mail.gmail.com>
+ <8c343308-2cfe-6e45-2843-f832d607c773@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <8c343308-2cfe-6e45-2843-f832d607c773@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe29.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,106 +96,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Vincent Whitchurch <vincent.whitchurch@axis.com> writes:
 
-> On Tue, May 24, 2022 at 04:40:46PM +0100, Alex Benn=C3=A9e wrote:
->> +static int vu_gpio_start(VirtIODevice *vdev)
->> +{
->> +    BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(vdev)));
->> +    VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(qbus);
->> +    VHostUserGPIO *gpio =3D VHOST_USER_GPIO(vdev);
->> +    int ret, i;
->> +
->> +    if (!k->set_guest_notifiers) {
->> +        error_report("binding does not support guest notifiers");
->> +        return -ENOSYS;
->> +    }
->> +
->> +    ret =3D vhost_dev_enable_notifiers(&gpio->vhost_dev, vdev);
->> +    if (ret < 0) {
->> +        error_report("Error enabling host notifiers: %d", ret);
->> +        return ret;
->> +    }
->> +
->> +    ret =3D k->set_guest_notifiers(qbus->parent, gpio->vhost_dev.nvqs, =
-true);
->> +    if (ret < 0) {
->> +        error_report("Error binding guest notifier: %d", ret);
->> +        goto err_host_notifiers;
->> +    }
->> +
->> +    /*
->> +     * Before we start up we need to ensure we have the final feature
->> +     * set needed for the vhost configuration.
->> +     */
->> +    vhost_ack_features(&gpio->vhost_dev, feature_bits, vdev->backend_fe=
-atures);
->
-> This is doing the feature handling differently from the other
-> vhost-user-* implementations, and it doesn't seem to work for me.
-> Negotiated features (I noticed it with VIRTIO_RING_F_EVENT_IDX) never
-> make it to VHOST_USER_SET_FEATURES.
->
-> If I change this code to match vhost-user-i2c and the other
-> implementations like in the patch below, it works.
+On 7/6/22 03:31, Thomas Huth wrote:
+> On 05/07/2022 17.53, Peter Maydell wrote:
+>> On Tue, 5 Jul 2022 at 16:13, Thomas Huth <thuth@redhat.com> wrote:
+>>>
+>>> QEMU emulates a *lot* of PowerPC-based machines - having a CPU
+>>> that is named "default" and cannot be used with most of those
+>>> machines sounds just wrong. Thus let's remove this old and confusing
+>>> alias now.
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>   target/ppc/cpu-models.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> Do we need to document this in removed-features.rst ?
+> 
+> Honestly, I don't think that anybody ever really used this in the past 15 years. It was likely used with the "prep" machine, but we removed that one a couple of years already. The only machine that is still using this class of PowerPC CPUs is its successor, the 40p machine, but it has a 604 by default anyway, and I've never seen anybody using "-cpu default" with that machine. So IMHO it's not necessary to document this - but if people here have a different feeling, then I can also respin the patch, just let me know.
 
-Unfortunately the virtio-i2c backend doesn't need
-VHOST_USER_F_PROTOCOL_FEATURES which gets squashed with the bellow
-changes which is the cause of the eventual failure in the qos-test:
+I'll queue this up as is, don't worry about it.
 
-  # Start of read-guest-mem tests=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-  vu_net_set_features: 0=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-  **=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20
-  ERROR:../../tests/qtest/vhost-user-test.c:1031:vu_net_set_features: asser=
-tion failed: (msg->payload.u64 & (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES))
-
-which adds to my confusion about the exact route the negotiation of
-vhost-user feature bits is meant to make through the code.
-
->
-> The guest is Linux v5.18.  The backend uses libvhost-user and is the one
-> posted here (with a few fixes):
->
->  https://lore.kernel.org/lkml/20220311162445.346685-3-vincent.whitchurch@=
-axis.com/
->
-> 8<-------
-> diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-> index 87e3976880..1dc7af6b03 100644
-> --- a/hw/virtio/vhost-user-gpio.c
-> +++ b/hw/virtio/vhost-user-gpio.c
-> @@ -73,7 +73,7 @@ static int vu_gpio_start(VirtIODevice *vdev)
->       * Before we start up we need to ensure we have the final feature
->       * set needed for the vhost configuration.
->       */
-> -    vhost_ack_features(&gpio->vhost_dev, feature_bits, vdev->backend_fea=
-tures);
-> +    gpio->vhost_dev.acked_features =3D vdev->guest_features;
->=20=20
->      ret =3D vhost_dev_start(&gpio->vhost_dev, vdev);
->      if (ret < 0) {
-> @@ -156,9 +156,7 @@ static uint64_t vu_gpio_get_features(VirtIODevice *vd=
-ev, uint64_t features,
->      virtio_add_feature(&features, VIRTIO_GPIO_F_IRQ);
->      virtio_add_feature(&features, VIRTIO_F_VERSION_1);
->=20=20
-> -    vdev->backend_features =3D vhost_get_features(&gpio->vhost_dev, feat=
-ure_bits,
-> -                                                features);
-> -    return vdev->backend_features;
-> +    return vhost_get_features(&gpio->vhost_dev, feature_bits, features);
->  }
->=20=20
->  static void vu_gpio_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+You can send an extra patch for removed-features.rst if we really think it's
+needed. I don't mind the extra documentation, but NGL this is the first time
+I've ever heard of '-cpu default'.
 
 
---=20
-Alex Benn=C3=A9e
+Thanks,
+
+
+Daniel
+
+> 
+>   Thomas
+> 
 
