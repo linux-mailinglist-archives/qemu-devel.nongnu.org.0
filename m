@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30245567E38
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 08:09:38 +0200 (CEST)
-Received: from localhost ([::1]:32972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22710567EA5
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 08:34:39 +0200 (CEST)
+Received: from localhost ([::1]:39148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8yEC-0005Ty-LW
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 02:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47624)
+	id 1o8ycP-0002eV-Oh
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 02:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1o8yBV-0004TN-TS; Wed, 06 Jul 2022 02:06:49 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:48027)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o8yWv-0008Ky-4B
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 02:28:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1o8yBS-0004Bv-Eh; Wed, 06 Jul 2022 02:06:48 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.13])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id E2699114CB920;
- Wed,  6 Jul 2022 08:06:40 +0200 (CEST)
-Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 6 Jul 2022
- 08:06:39 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-110S004c221394a-1df9-47aa-92fd-bab45b3ca464,
- 47F7137101B2C04A6823BD3360DFE7E7FE0821A2) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <3fd5d954-4909-cd45-aa58-789618423ab2@kaod.org>
-Date: Wed, 6 Jul 2022 08:06:34 +0200
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1o8yWr-0003aP-0r
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 02:28:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657088931;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Zurtn6OlUOIROeIUJXN0QCzFgtAuWr7s2L88yiDjTk8=;
+ b=aB3iCYPYZW2Jt2iwzFuM12atRiZFS1g2DKraqLA1CBPBFyLxGBiOb9NJEyH6AJbYR6ekcA
+ xDpmT8d+iYGVzRRHWcL6S7+3NyUvOJy2j99g1Cf9KT28tzSRxhWU0eFsipjguvtPInGPkj
+ 39piuFJzzzJXklFE7gAuQ4BFzbEA3ss=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-510-ujwuACXEM72aEDoX1MccCw-1; Wed, 06 Jul 2022 02:28:50 -0400
+X-MC-Unique: ujwuACXEM72aEDoX1MccCw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C7823801152;
+ Wed,  6 Jul 2022 06:28:50 +0000 (UTC)
+Received: from thinkpad.redhat.com (unknown [10.39.192.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF141401E6B;
+ Wed,  6 Jul 2022 06:28:48 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Ralph Schmieder <ralph.schmieder@gmail.com>,
+ Stefano Brivio <sbrivio@redhat.com>
+Subject: [PATCH v6 00/13] qapi: net: add unix socket type support to netdev
+ backend
+Date: Wed,  6 Jul 2022 08:28:34 +0200
+Message-Id: <20220706062847.1396719-1-lvivier@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 1/9] hw/i2c/pca954x: Add method to get channels
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>, Corey Minyard <minyard@acm.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
- <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Patrick Venture
- <venture@google.com>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220705191400.41632-1-peter@pjd.dev>
- <20220705191400.41632-2-peter@pjd.dev> <20220705200624.GK908082@minyard.net>
- <YsSv0NU8WfU6APoN@pdel-mbp.dhcp.thefacebook.com>
- <YsSwzVXXS5u3GH3j@pdel-mbp.dhcp.thefacebook.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <YsSwzVXXS5u3GH3j@pdel-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.110]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 524174ef-3ee4-4c0c-9dd2-70c9e1fc0ca8
-X-Ovh-Tracer-Id: 2769713770933357420
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeivddguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueehveehtefhudevtddvffejkeehgfegtdfhiefhhfefgefhgeehfeehieetleejnecuffhomhgrihhnpehoiihlrggsshdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,175 +83,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/22 23:44, Peter Delevoryas wrote:
-> On Tue, Jul 05, 2022 at 02:40:32PM -0700, Peter Delevoryas wrote:
->> On Tue, Jul 05, 2022 at 03:06:24PM -0500, Corey Minyard wrote:
->>> On Tue, Jul 05, 2022 at 12:13:52PM -0700, Peter Delevoryas wrote:
->>>> I added this helper in the Aspeed machine file a while ago to help
->>>> initialize fuji-bmc i2c devices. This moves it to the official pca954x
->>>> file so that other files can use it.
->>>>
->>>> This does something very similar to pca954x_i2c_get_bus, but I think
->>>> this is useful when you have a very complicated dts with a lot of
->>>> switches, like the fuji dts.
->>>>
->>>> This convenience method lets you write code that produces a flat array
->>>> of I2C buses that matches the naming in the dts. After that you can just
->>>> add individual sensors using the flat array of I2C buses.
->>>
->>> This is an improvment, I think.  But it really needs to be two patches,
->>> one with the I2C portion, and one with the aspeed portion.
->>>
->>> Also, the name is a little misleading, you might want to name it
->>> pca954x_i2c_create_get_channels
->>
->> You're right: Cedric, you can just ignore the pca954x patch then if you'd like,
->> I can resubmit it with the future I2C series that uses it. I probably shouldn't
->> have submitted it quite yet.
->>
->> I can also resubmit the series with that patch removed, not sure if that's
->> necessary or not.
-> 
-> This was hastily written, what I meant to say was:
-> 
-> Cedric, feel free to remove this patch from the series. If you'd like, I can
-> also resubmit this series as v3 with the patch removed.
+"-netdev socket" only supports inet sockets.
 
+It's not a complex task to add support for unix sockets, but
+the socket netdev parameters are not defined to manage well unix
+socket parameters.
 
-I moved it at the end of the series to come just before the other patches
-needing it, the last three patches of :
+As discussed in:
 
-   http://patchwork.ozlabs.org/project/qemu-devel/list/?series=307305
+  "socket.c added support for unix domain socket datagram transport"
+  https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
 
-You can resend all of them when fixed.
+This series adds support of unix socket type using SocketAddress QAPI structure.
 
+Two new netdev backends, "stream" and "dgram" are added, that are barely a copy of "socket"
+backend but they use the SocketAddress QAPI to provide socket parameters.
+And then they also implement unix sockets (TCP and UDP).
 
-I think we are done with the initial fby35.
+Some examples of CLI syntax:
 
-Next time, please add a cover letter and keep the Reviewed-by tags
-of the previous version. It helps the reviewers. I re-added them
-manually for this spin.
+  for TCP:
 
-Thanks,
+  -netdev stream,id=socket0,addr.type=inet,addr.host=localhost,addr.port=1234
+  -netdev stream,id=socket0,server=off,addr.type=inet,addr.host=localhost,addr.port=1234
 
-C.
+  -netdev dgram,id=socket0,\
+          local.type=inet,local.host=localhost,local.port=1234,\
+          remote.type=inet,remote.host=localhost,remote.port=1235
 
-> 
->>
->>>
->>> -corey
->>>
->>>>
->>>> See fuji_bmc_i2c_init to understand this point further.
->>>>
->>>> The fuji dts is here for reference:
->>>>
->>>> https://github.com/torvalds/linux/blob/40cb6373b46/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
->>>>
->>>> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
->>>> ---
->>>>   hw/arm/aspeed.c                  | 29 +++++++++--------------------
->>>>   hw/i2c/i2c_mux_pca954x.c         | 10 ++++++++++
->>>>   include/hw/i2c/i2c_mux_pca954x.h | 13 +++++++++++++
->>>>   3 files changed, 32 insertions(+), 20 deletions(-)
->>>>
->>>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
->>>> index 6fe9b13548..bee8a748ec 100644
->>>> --- a/hw/arm/aspeed.c
->>>> +++ b/hw/arm/aspeed.c
->>>> @@ -793,15 +793,6 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
->>>>       create_pca9552(soc, 15, 0x60);
->>>>   }
->>>>   
->>>> -static void get_pca9548_channels(I2CBus *bus, uint8_t mux_addr,
->>>> -                                 I2CBus **channels)
->>>> -{
->>>> -    I2CSlave *mux = i2c_slave_create_simple(bus, "pca9548", mux_addr);
->>>> -    for (int i = 0; i < 8; i++) {
->>>> -        channels[i] = pca954x_i2c_get_bus(mux, i);
->>>> -    }
->>>> -}
->>>> -
->>>>   #define TYPE_LM75 TYPE_TMP105
->>>>   #define TYPE_TMP75 TYPE_TMP105
->>>>   #define TYPE_TMP422 "tmp422"
->>>> @@ -814,20 +805,18 @@ static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
->>>>       for (int i = 0; i < 16; i++) {
->>>>           i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
->>>>       }
->>>> -    I2CBus *i2c180 = i2c[2];
->>>> -    I2CBus *i2c480 = i2c[8];
->>>> -    I2CBus *i2c600 = i2c[11];
->>>>   
->>>> -    get_pca9548_channels(i2c180, 0x70, &i2c[16]);
->>>> -    get_pca9548_channels(i2c480, 0x70, &i2c[24]);
->>>> +    pca954x_i2c_get_channels(i2c[2], 0x70, "pca9548", &i2c[16]);
->>>> +    pca954x_i2c_get_channels(i2c[8], 0x70, "pca9548", &i2c[24]);
->>>>       /* NOTE: The device tree skips [32, 40) in the alias numbering */
->>>> -    get_pca9548_channels(i2c600, 0x77, &i2c[40]);
->>>> -    get_pca9548_channels(i2c[24], 0x71, &i2c[48]);
->>>> -    get_pca9548_channels(i2c[25], 0x72, &i2c[56]);
->>>> -    get_pca9548_channels(i2c[26], 0x76, &i2c[64]);
->>>> -    get_pca9548_channels(i2c[27], 0x76, &i2c[72]);
->>>> +    pca954x_i2c_get_channels(i2c[11], 0x77, "pca9548", &i2c[40]);
->>>> +    pca954x_i2c_get_channels(i2c[24], 0x71, "pca9548", &i2c[48]);
->>>> +    pca954x_i2c_get_channels(i2c[25], 0x72, "pca9548", &i2c[56]);
->>>> +    pca954x_i2c_get_channels(i2c[26], 0x76, "pca9548", &i2c[64]);
->>>> +    pca954x_i2c_get_channels(i2c[27], 0x76, "pca9548", &i2c[72]);
->>>>       for (int i = 0; i < 8; i++) {
->>>> -        get_pca9548_channels(i2c[40 + i], 0x76, &i2c[80 + i * 8]);
->>>> +        pca954x_i2c_get_channels(i2c[40 + i], 0x76, "pca9548",
->>>> +                                 &i2c[80 + i * 8]);
->>>>       }
->>>>   
->>>>       i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
->>>> diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
->>>> index 3945de795c..6b07804546 100644
->>>> --- a/hw/i2c/i2c_mux_pca954x.c
->>>> +++ b/hw/i2c/i2c_mux_pca954x.c
->>>> @@ -169,6 +169,16 @@ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel)
->>>>       return pca954x->bus[channel];
->>>>   }
->>>>   
->>>> +void pca954x_i2c_get_channels(I2CBus *bus, uint8_t address,
->>>> +                              const char *type_name, I2CBus **channels)
->>>> +{
->>>> +    I2CSlave *mux = i2c_slave_create_simple(bus, type_name, address);
->>>> +    Pca954xClass *pc = PCA954X_GET_CLASS(mux);
->>>> +    Pca954xState *pca954x = PCA954X(mux);
->>>> +
->>>> +    memcpy(channels, pca954x->bus, pc->nchans * sizeof(channels[0]));
->>>> +}
->>>> +
->>>>   static void pca9546_class_init(ObjectClass *klass, void *data)
->>>>   {
->>>>       Pca954xClass *s = PCA954X_CLASS(klass);
->>>> diff --git a/include/hw/i2c/i2c_mux_pca954x.h b/include/hw/i2c/i2c_mux_pca954x.h
->>>> index 3dd25ec983..3a676a30a9 100644
->>>> --- a/include/hw/i2c/i2c_mux_pca954x.h
->>>> +++ b/include/hw/i2c/i2c_mux_pca954x.h
->>>> @@ -16,4 +16,17 @@
->>>>    */
->>>>   I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel);
->>>>   
->>>> +/**
->>>> + * Creates an i2c mux and retrieves all of the channels associated with it.
->>>> + *
->>>> + * @bus: the i2c bus where the i2c mux resides.
->>>> + * @address: the address of the i2c mux on the aforementioned i2c bus.
->>>> + * @type_name: name of the i2c mux type to create.
->>>> + * @channels: an output parameter specifying where to return the channels.
->>>> + *
->>>> + * Returns: None
->>>> + */
->>>> +void pca954x_i2c_get_channels(I2CBus *bus, uint8_t address,
->>>> +                              const char *type_name, I2CBus **channels);
->>>> +
->>>>   #endif
->>>> -- 
->>>> 2.37.0
->>>>
->>>>
->>
+  for UNIX:
+
+  -netdev stream,id=socket0,addr.type=unix,addr.path=/tmp/qemu0
+  -netdev stream,id=socket0,server=off,addr.type=unix,addr.path=/tmp/qemu0
+
+  -netdev dgram,id=socket0,\
+          local.type=unix,local.path=/tmp/qemu0,\
+          remote.type=unix,remote.path=/tmp/qemu1
+
+  for FD:
+
+  -netdev stream,id=socket0,addr.type=fd,addr.str=4
+  -netdev stream,id=socket0,server=off,addr.type=fd,addr.str=5
+
+  -netdev dgram,id=socket0,local.type=fd,addr.str=4
+
+v6:
+  - s/netdev option/-netdev option/ PATCH 4
+  - s/ / /
+  - update @NetdevStreamOptions and @NetdevDgramOptions comments
+  - update PATCH 4 description message
+  - add missing return in error case for unix stream socket
+  - split socket_uri() patch: move and rename, then change content
+
+v5:
+  - remove RFC prefix
+  - put the change of net_client_parse() into its own patch (exit() in the
+    function)
+  - update comments regarding netdev_is_modern() and netdev_parse_modern()
+  - update error case in net_stream_server_init()
+  - update qemu-options.hx with unix type
+  - fix HMP "info network" with unix protocol/server side.
+
+v4:
+  - net_client_parse() fails with exit() rather than with return.
+  - keep "{ 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' }" on its
+    own line in qapi/net.json
+  - add a comment in qapi/net.json about parameters usage
+  - move netdev_is_modern() check to qemu_init()
+  - in netdev_is_modern(), check for JSON and use qemu_opts_do_parse()
+    to parse parameters and detect type value.
+  - add a blank line after copyright comment
+
+v3:
+  - remove support of "-net" for dgram and stream. They are only
+    supported with "-netdev" option.
+  - use &error_fatal directly in net_client_inits()
+  - update qemu-options.hx
+  - move to QIO for stream socket
+
+v2:
+  - use "stream" and "dgram" rather than "socket-ng,mode=stream"
+    and ""socket-ng,mode=dgram"
+  - extract code to bypass qemu_opts_parse_noisily() to
+    a new patch
+  - do not ignore EINVAL (Stefano)
+  - fix "-net" option
+
+CC: Ralph Schmieder <ralph.schmieder@gmail.com>
+CC: Stefano Brivio <sbrivio@redhat.com>
+CC: Daniel P. Berrangé <berrange@redhat.com>
+CC: Markus Armbruster <armbru@redhat.com>
+
+Laurent Vivier (12):
+  net: introduce convert_host_port()
+  net: remove the @errp argument of net_client_inits()
+  net: simplify net_client_parse() error management
+  qapi: net: introduce a way to bypass qemu_opts_parse_noisily()
+  qapi: net: add stream and dgram netdevs
+  net: stream: add unix socket
+  net: dgram: make dgram_dst generic
+  net: dgram: move mcast specific code from net_socket_fd_init_dgram()
+  net: dgram: add unix socket
+  qemu-sockets: move and rename SocketAddress_to_str()
+  qemu-sockets: update socket_uri() to be consistent with socket_parse()
+  net: stream: move to QIO
+
+Stefano Brivio (1):
+  net: stream: Don't ignore EINVAL on netdev socket connection
+
+ hmp-commands.hx        |   2 +-
+ include/net/net.h      |   6 +-
+ include/qemu/sockets.h |   4 +-
+ monitor/hmp-cmds.c     |  23 +-
+ net/clients.h          |   6 +
+ net/dgram.c            | 707 +++++++++++++++++++++++++++++++++++++++++
+ net/hub.c              |   2 +
+ net/meson.build        |   2 +
+ net/net.c              | 169 +++++++---
+ net/stream.c           | 376 ++++++++++++++++++++++
+ qapi/net.json          |  59 +++-
+ qemu-options.hx        |  14 +
+ softmmu/vl.c           |  16 +-
+ util/qemu-sockets.c    |  20 ++
+ 14 files changed, 1324 insertions(+), 82 deletions(-)
+ create mode 100644 net/dgram.c
+ create mode 100644 net/stream.c
+
+-- 
+2.36.1
 
 
