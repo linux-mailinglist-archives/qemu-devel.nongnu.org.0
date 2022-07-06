@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284645683B9
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 11:40:27 +0200 (CEST)
-Received: from localhost ([::1]:33740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C48568359
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 11:22:12 +0200 (CEST)
+Received: from localhost ([::1]:52986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o91WC-0007Ub-Gp
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 05:40:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
+	id 1o91EY-0006rF-QR
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 05:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o90Lu-0006dW-42
+ id 1o90Lv-0006eb-PP
  for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:25:43 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:41737)
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:46596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o90Lq-0000fk-An
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:25:40 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id 23so13442232pgc.8
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 01:25:37 -0700 (PDT)
+ id 1o90Lt-0000lS-Ry
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:25:43 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id s27so13418884pga.13
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 01:25:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bq7X2GhXVvfG6Er6nutJ7UEGp/1xvxDoz5E5KPgsbCU=;
- b=d6Ptz78PcfIvBurU0XfR+GIVv4C/cw8l7/SFo+0sWHX4O2rDI8xHnZK1aLInY0sdC0
- xC/PsU7iF/OPbH/MFgM7vg7hr3ai664oExtF9+S1FR8Prv+vxMZHASLqla6ACSoskdAL
- d4khLB3oivkhk7fVnKnCdby+z2WXi4SBKk/WQ3RSwCbFQ6Lhx2JbwNxpeUeGZckaUjiW
- ijfgDuq3u0yBL7HMk6PpoFKVYPmY/oDzcsc8ClwuErPzlFa52EvaNBGXH3ZkoHuyr4Q/
- 3ib4DP+s5+7lNWfmwUMphMWEBt0szEsIi5kIO2qy6jlgoDSoNAPaSsiQ3pWpZHAcSH9F
- zZcA==
+ bh=xDxZQB7t7jC7e11iBt04ewldeYznmzQBar7IyZiGr2c=;
+ b=mHQ9B5S9w/+Xzi1hEengo43Rb2BSCsX5SiYQ6kmJG/RvtwFGtZf0KwhJ+HaVXip03P
+ nSrQbThHbZFdqh52wII+7Y5cDSpvmuPqDgkdf6IeCqY2izLPAgy3pK2sY2npB35BQS3e
+ MEi7Ix7OXNE7H3GyWaBb5m8ov/6nC//f41rcgcX6zWp1yLQwIWCg6cQufPOiprfL2RG9
+ gUdQZk15Rr3JOW7mausVauS2bxNUvy5foDAQAzbCjr8YjeYzF2I+WKSBCaNLqTlCm+y4
+ JA1xgPtEsj1sKSt4wTd9NfgQHsjrfhBOnyeUUw6y/nDO+rJEt8KM+yoU+/NnNbCBAfRj
+ zesQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bq7X2GhXVvfG6Er6nutJ7UEGp/1xvxDoz5E5KPgsbCU=;
- b=jXjMMbxwy4Q0q+oQgqeBgUrQB42zJzEEoGtdg7MNcEcT0MLjJw7ppE83R3Uullwr8s
- ieVzG5wZjJ957kqdV6z+kxRnXaQRxtAbh2/6QeOUd1CW0bRAnpC+TXH9DXZxX1F0XyCp
- ClDCBMCO3ZFf3Gem9qYjiygUYTmXjq9c8awTr4vULpku19m0e/iJtVzziIaCnT5KS9us
- Rk8RPERFuB5zBMYyxIfz1DWRMWnFQJpU1kcgH0IEj96BcxX20R0T6vC0pOXAXDrvOXte
- zjVlhY8eoLRhqxStYNNrk83SKF5aJ4TY9eJ00cXVxNnn49ZY/oXEctZ8IeCRD/CsSyM6
- KVUg==
-X-Gm-Message-State: AJIora8YV4MmSKUfbkgiundj5Gesj9NtAKMOjQOi41Upw0TSMnG8mkTx
- dCLQCCvt/eQigbX0Q+BCCMLVx821zgCJzuQv
-X-Google-Smtp-Source: AGRyM1tg5eZ8ckGO1MtmphG2o4Cgh2hIy03mI2l6d9Ug3zIpACf1DyVd4T4AseIUjVylMBs5p18qSw==
-X-Received: by 2002:a63:dd4f:0:b0:411:e30d:6a0a with SMTP id
- g15-20020a63dd4f000000b00411e30d6a0amr22561093pgj.22.1657095937540; 
- Wed, 06 Jul 2022 01:25:37 -0700 (PDT)
+ bh=xDxZQB7t7jC7e11iBt04ewldeYznmzQBar7IyZiGr2c=;
+ b=LiYsOMi6gOcOy/LXZ/znvPO79ctVZQFO3NP0EbroHneuPKTHbFSonf9pU/WZGdP9mb
+ crhgS1STc3Zv6vmIKmUfowEbXh9df+BRzCd/VBXUYPDrVnxMLsxrl2Y9cXE5zvh5wXRP
+ tsirHfqIMGxvXci0uGI/WTjEjk2sOajP1ruGaq1DcCNhPMbqIvCoqizulyTr3JcxS/LI
+ Piq8suld2LzDOwSxyyZyyZYm7ueU7uESiewfoCpHcyi3/wp1mlE10/ww0xKk2gcNYCNI
+ 7zrSSaY5zUNSZ5JRzdevGPKtgKPiC0+GQnN3GV9mRLn/iwmlr7EJbnV7WeP+CX9/El0e
+ aSRQ==
+X-Gm-Message-State: AJIora+RUX52JiCgeKqa47tm2i1WY0NISm6eVWn+Y/2OcfHgNqMrIiVL
+ p3BUcwRz6GvciLGOtDh6nOUcydcULWAbMAq0
+X-Google-Smtp-Source: AGRyM1vQwaWID7Qp3Mcoo6wAddY1hxCYfvRD+k/m0q20rPxMVhP3hRjZ7GSaT3J+OU8eqnMCk3idBA==
+X-Received: by 2002:a63:d315:0:b0:411:bbff:efbc with SMTP id
+ b21-20020a63d315000000b00411bbffefbcmr26256340pgg.342.1657095939972; 
+ Wed, 06 Jul 2022 01:25:39 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- t17-20020a170902e85100b00162529828aesm25199256plg.109.2022.07.06.01.25.35
+ t17-20020a170902e85100b00162529828aesm25199256plg.109.2022.07.06.01.25.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 01:25:37 -0700 (PDT)
+ Wed, 06 Jul 2022 01:25:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v5 29/45] target/arm: Implement REVD
-Date: Wed,  6 Jul 2022 13:53:55 +0530
-Message-Id: <20220706082411.1664825-30-richard.henderson@linaro.org>
+Subject: [PATCH v5 30/45] target/arm: Implement SCLAMP, UCLAMP
+Date: Wed,  6 Jul 2022 13:53:56 +0530
+Message-Id: <20220706082411.1664825-31-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220706082411.1664825-1-richard.henderson@linaro.org>
 References: <20220706082411.1664825-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,77 +94,196 @@ length but that it is present only if SME is implemented.
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-sve.h    |  2 ++
- target/arm/sve.decode      |  1 +
- target/arm/sve_helper.c    | 16 ++++++++++++++++
- target/arm/translate-sve.c |  2 ++
- 4 files changed, 21 insertions(+)
+ target/arm/helper.h        |  18 +++++++
+ target/arm/sve.decode      |   5 ++
+ target/arm/translate-sve.c | 102 +++++++++++++++++++++++++++++++++++++
+ target/arm/vec_helper.c    |  24 +++++++++
+ 4 files changed, 149 insertions(+)
 
-diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index ab0333400f..cc4e1d8948 100644
---- a/target/arm/helper-sve.h
-+++ b/target/arm/helper-sve.h
-@@ -719,6 +719,8 @@ DEF_HELPER_FLAGS_4(sve_revh_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index 3a8ce42ab0..92f36d9dbb 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -1019,6 +1019,24 @@ DEF_HELPER_FLAGS_6(gvec_bfmlal, TCG_CALL_NO_RWG,
+ DEF_HELPER_FLAGS_6(gvec_bfmlal_idx, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, ptr, i32)
  
- DEF_HELPER_FLAGS_4(sve_revw_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_4(sme_revd_q, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_sclamp_b, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_sclamp_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_sclamp_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_sclamp_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
 +
- DEF_HELPER_FLAGS_4(sve_rbit_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(sve_rbit_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(sve_rbit_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_uclamp_b, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_uclamp_h, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_uclamp_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_5(gvec_uclamp_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++
+ #ifdef TARGET_AARCH64
+ #include "helper-a64.h"
+ #include "helper-sve.h"
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 966803cbb7..a9e48f07b4 100644
+index a9e48f07b4..14b3a69c36 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -652,6 +652,7 @@ REVB            00000101 .. 1001 00 100 ... ..... .....         @rd_pg_rn
- REVH            00000101 .. 1001 01 100 ... ..... .....         @rd_pg_rn
- REVW            00000101 .. 1001 10 100 ... ..... .....         @rd_pg_rn
- RBIT            00000101 .. 1001 11 100 ... ..... .....         @rd_pg_rn
-+REVD            00000101 00 1011 10 100 ... ..... .....         @rd_pg_rn_e0
- 
- # SVE vector splice (predicated, destructive)
- SPLICE          00000101 .. 101 100 100 ... ..... .....         @rdn_pg_rm
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 9a26f253e0..5de82696b5 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -931,6 +931,22 @@ DO_ZPZ_D(sve_revh_d, uint64_t, hswap64)
- 
- DO_ZPZ_D(sve_revw_d, uint64_t, wswap64)
- 
-+void HELPER(sme_revd_q)(void *vd, void *vn, void *vg, uint32_t desc)
-+{
-+    intptr_t i, opr_sz = simd_oprsz(desc) / 8;
-+    uint64_t *d = vd, *n = vn;
-+    uint8_t *pg = vg;
+@@ -1695,3 +1695,8 @@ PSEL            00100101 .. 1 100 .. 01 .... 0 .... 0 ....  \
+                 @psel esz=2 imm=%psel_imm_s
+ PSEL            00100101 .1 1 000 .. 01 .... 0 .... 0 ....  \
+                 @psel esz=3 imm=%psel_imm_d
 +
-+    for (i = 0; i < opr_sz; i += 2) {
-+        if (pg[H1(i)] & 1) {
-+            uint64_t n0 = n[i + 0];
-+            uint64_t n1 = n[i + 1];
-+            d[i + 0] = n1;
-+            d[i + 1] = n0;
-+        }
-+    }
-+}
++### SVE clamp
 +
- DO_ZPZ(sve_rbit_b, uint8_t, H1, revbit8)
- DO_ZPZ(sve_rbit_h, uint16_t, H1_2, revbit16)
- DO_ZPZ(sve_rbit_s, uint32_t, H1_4, revbit32)
++SCLAMP          01000100 .. 0 ..... 110000 ..... .....          @rda_rn_rm
++UCLAMP          01000100 .. 0 ..... 110001 ..... .....          @rda_rn_rm
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 24ffb69a2a..9ed3b267fd 100644
+index 9ed3b267fd..41f8b12259 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -2901,6 +2901,8 @@ TRANS_FEAT(REVH, aa64_sve, gen_gvec_ool_arg_zpz, revh_fns[a->esz], a, 0)
- TRANS_FEAT(REVW, aa64_sve, gen_gvec_ool_arg_zpz,
-            a->esz == 3 ? gen_helper_sve_revw_d : NULL, a, 0)
- 
-+TRANS_FEAT(REVD, aa64_sme, gen_gvec_ool_arg_zpz, gen_helper_sme_revd_q, a, 0)
+@@ -7478,3 +7478,105 @@ static bool trans_PSEL(DisasContext *s, arg_psel *a)
+     tcg_temp_free_ptr(ptr);
+     return true;
+ }
 +
- TRANS_FEAT(SPLICE, aa64_sve, gen_gvec_ool_arg_zpzz,
-            gen_helper_sve_splice, a, a->esz)
- 
++static void gen_sclamp_i32(TCGv_i32 d, TCGv_i32 n, TCGv_i32 m, TCGv_i32 a)
++{
++    tcg_gen_smax_i32(d, a, n);
++    tcg_gen_smin_i32(d, d, m);
++}
++
++static void gen_sclamp_i64(TCGv_i64 d, TCGv_i64 n, TCGv_i64 m, TCGv_i64 a)
++{
++    tcg_gen_smax_i64(d, a, n);
++    tcg_gen_smin_i64(d, d, m);
++}
++
++static void gen_sclamp_vec(unsigned vece, TCGv_vec d, TCGv_vec n,
++                           TCGv_vec m, TCGv_vec a)
++{
++    tcg_gen_smax_vec(vece, d, a, n);
++    tcg_gen_smin_vec(vece, d, d, m);
++}
++
++static void gen_sclamp(unsigned vece, uint32_t d, uint32_t n, uint32_t m,
++                       uint32_t a, uint32_t oprsz, uint32_t maxsz)
++{
++    static const TCGOpcode vecop[] = {
++        INDEX_op_smin_vec, INDEX_op_smax_vec, 0
++    };
++    static const GVecGen4 ops[4] = {
++        { .fniv = gen_sclamp_vec,
++          .fno  = gen_helper_gvec_sclamp_b,
++          .opt_opc = vecop,
++          .vece = MO_8 },
++        { .fniv = gen_sclamp_vec,
++          .fno  = gen_helper_gvec_sclamp_h,
++          .opt_opc = vecop,
++          .vece = MO_16 },
++        { .fni4 = gen_sclamp_i32,
++          .fniv = gen_sclamp_vec,
++          .fno  = gen_helper_gvec_sclamp_s,
++          .opt_opc = vecop,
++          .vece = MO_32 },
++        { .fni8 = gen_sclamp_i64,
++          .fniv = gen_sclamp_vec,
++          .fno  = gen_helper_gvec_sclamp_d,
++          .opt_opc = vecop,
++          .vece = MO_64,
++          .prefer_i64 = TCG_TARGET_REG_BITS == 64 }
++    };
++    tcg_gen_gvec_4(d, n, m, a, oprsz, maxsz, &ops[vece]);
++}
++
++TRANS_FEAT(SCLAMP, aa64_sme, gen_gvec_fn_arg_zzzz, gen_sclamp, a)
++
++static void gen_uclamp_i32(TCGv_i32 d, TCGv_i32 n, TCGv_i32 m, TCGv_i32 a)
++{
++    tcg_gen_umax_i32(d, a, n);
++    tcg_gen_umin_i32(d, d, m);
++}
++
++static void gen_uclamp_i64(TCGv_i64 d, TCGv_i64 n, TCGv_i64 m, TCGv_i64 a)
++{
++    tcg_gen_umax_i64(d, a, n);
++    tcg_gen_umin_i64(d, d, m);
++}
++
++static void gen_uclamp_vec(unsigned vece, TCGv_vec d, TCGv_vec n,
++                           TCGv_vec m, TCGv_vec a)
++{
++    tcg_gen_umax_vec(vece, d, a, n);
++    tcg_gen_umin_vec(vece, d, d, m);
++}
++
++static void gen_uclamp(unsigned vece, uint32_t d, uint32_t n, uint32_t m,
++                       uint32_t a, uint32_t oprsz, uint32_t maxsz)
++{
++    static const TCGOpcode vecop[] = {
++        INDEX_op_umin_vec, INDEX_op_umax_vec, 0
++    };
++    static const GVecGen4 ops[4] = {
++        { .fniv = gen_uclamp_vec,
++          .fno  = gen_helper_gvec_uclamp_b,
++          .opt_opc = vecop,
++          .vece = MO_8 },
++        { .fniv = gen_uclamp_vec,
++          .fno  = gen_helper_gvec_uclamp_h,
++          .opt_opc = vecop,
++          .vece = MO_16 },
++        { .fni4 = gen_uclamp_i32,
++          .fniv = gen_uclamp_vec,
++          .fno  = gen_helper_gvec_uclamp_s,
++          .opt_opc = vecop,
++          .vece = MO_32 },
++        { .fni8 = gen_uclamp_i64,
++          .fniv = gen_uclamp_vec,
++          .fno  = gen_helper_gvec_uclamp_d,
++          .opt_opc = vecop,
++          .vece = MO_64,
++          .prefer_i64 = TCG_TARGET_REG_BITS == 64 }
++    };
++    tcg_gen_gvec_4(d, n, m, a, oprsz, maxsz, &ops[vece]);
++}
++
++TRANS_FEAT(UCLAMP, aa64_sme, gen_gvec_fn_arg_zzzz, gen_uclamp, a)
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index 9a9c034e36..f59d3b26ea 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -2690,3 +2690,27 @@ void HELPER(gvec_bfmlal_idx)(void *vd, void *vn, void *vm,
+     }
+     clear_tail(d, opr_sz, simd_maxsz(desc));
+ }
++
++#define DO_CLAMP(NAME, TYPE) \
++void HELPER(NAME)(void *d, void *n, void *m, void *a, uint32_t desc)    \
++{                                                                       \
++    intptr_t i, opr_sz = simd_oprsz(desc);                              \
++    for (i = 0; i < opr_sz; i += sizeof(TYPE)) {                        \
++        TYPE aa = *(TYPE *)(a + i);                                     \
++        TYPE nn = *(TYPE *)(n + i);                                     \
++        TYPE mm = *(TYPE *)(m + i);                                     \
++        TYPE dd = MIN(MAX(aa, nn), mm);                                 \
++        *(TYPE *)(d + i) = dd;                                          \
++    }                                                                   \
++    clear_tail(d, opr_sz, simd_maxsz(desc));                            \
++}
++
++DO_CLAMP(gvec_sclamp_b, int8_t)
++DO_CLAMP(gvec_sclamp_h, int16_t)
++DO_CLAMP(gvec_sclamp_s, int32_t)
++DO_CLAMP(gvec_sclamp_d, int64_t)
++
++DO_CLAMP(gvec_uclamp_b, uint8_t)
++DO_CLAMP(gvec_uclamp_h, uint16_t)
++DO_CLAMP(gvec_uclamp_s, uint32_t)
++DO_CLAMP(gvec_uclamp_d, uint64_t)
 -- 
 2.34.1
 
