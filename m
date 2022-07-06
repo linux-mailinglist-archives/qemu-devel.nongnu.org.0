@@ -2,80 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BA1568561
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 12:22:53 +0200 (CEST)
-Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4595684B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 12:08:13 +0200 (CEST)
+Received: from localhost ([::1]:39444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o92BI-00040r-Km
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 06:22:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43886)
+	id 1o91x6-0008Pv-BK
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 06:08:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1o91lY-0002Sp-M7
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 05:56:17 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:39480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1o91lT-0004Fs-HR
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 05:56:13 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id j3so1271818pfb.6
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 02:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pXRNOcUVQt7ynav6EpX9YWouYeszpJTC/kHPlLkpUOk=;
- b=kw/VRyi+IiiK1/cQHqEMHLZgNwX4z0yOGdl+7gHMx34nkMCzNNM/ovu51cuDi054In
- kQVEbRJmOo973gYt+7GoBYBXMZuEbI0nSY3oPQXbhGplXffNdBkgKu2Y6D5mxu+mLmhH
- i3Ei1SQZf0RkkR65RfUalAfKeG2qWADKqqowfMvoHtJFeWbJCueAWgrC3quR7rF8BYzv
- 4RKtjbvLL5fPkU5XHcWGBx+HD+rCjPePWrta5uQUFJ/bGE+s0ojpOBukOqbXPhe4K5xw
- foW8f9XcXfnBmpUC8+xv/7mD0N8T2n4rzYM/24Q0FxfTjcFDaduXkzFyu1rBtTocRv8z
- ljBA==
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o91kr-0000uc-MK
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 05:55:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56982)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1o91ko-00048r-6V
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 05:55:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657101329;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WsMVx0eSLuwqtgBHt6UOAuJZbeeQAffG+xkrZYImL9U=;
+ b=OtpexlYqE64AHgVB7i0MHKD7HIfkF6QkgtJgTNWgs72bVkge/Yl/AJBiSY+ce1VueAJiuO
+ C3IWoYOxAEtfpU8an4/6qx5gPdOVEVA3LWpevImYLwE9DAxhCN0qZHkwh1z8sv2WMWShmx
+ +31vlFJR6sgZEtowwBZ87EXapUSm61I=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-447-8uYsHO-7MlqCi1dnocz9Ew-1; Wed, 06 Jul 2022 05:55:28 -0400
+X-MC-Unique: 8uYsHO-7MlqCi1dnocz9Ew-1
+Received: by mail-il1-f197.google.com with SMTP id
+ h28-20020a056e021d9c00b002dc15a95f9cso3983806ila.2
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 02:55:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pXRNOcUVQt7ynav6EpX9YWouYeszpJTC/kHPlLkpUOk=;
- b=cON6WlgyzpenFtplVkqMJj8kaabkOSOJDaVMER7iKCEgsHHb7CqgOtsBve5RdjIZ71
- tHvH4kpoo2fHP1ST293RVRsfHJAPVdh2QlomEGtGaoB7wEjGKWwoykLl/OAqeN3gPf9Y
- tNJqKLHH93BVlhkD6EoO/ZgCayAM2R+bIhGzXEhipBW88oUQ6nmPrbOavHuGR/TbAel1
- x1W2SWm4VoHEYnimwEXP4CLo90nv9NbFCtalGq6d+mkBb+JlC37MQ6ix0maTSQl7c0p7
- k0cdKj98EbTOvfqYgAbuN4gOv1w7zqhrALK8NRTTtN0YzYdXQgvo/L53036RHWar+oxy
- YPQg==
-X-Gm-Message-State: AJIora+wq7hiSGiyKaqfCxq/JCg5+KtpTaWGNlUQeo2bOubNNoitsxEC
- EZqfdqaG140tqUfPq7p7t7LjUw==
-X-Google-Smtp-Source: AGRyM1s3irYb4/d7vm9AWXpKd4euBH2KEzXfTfWTwSfYfSMJ0kg8fqwAgyZvcFsi/tm/8HopijZN7g==
-X-Received: by 2002:aa7:8018:0:b0:528:9759:30f5 with SMTP id
- j24-20020aa78018000000b00528975930f5mr7753884pfi.33.1657101370049; 
- Wed, 06 Jul 2022 02:56:10 -0700 (PDT)
-Received: from always-x1.bytedance.net ([61.120.150.70])
- by smtp.gmail.com with ESMTPSA id
- n24-20020a056a000d5800b00517c84fd24asm25366818pfv.172.2022.07.06.02.56.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 02:56:09 -0700 (PDT)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: michael.roth@amd.com,
-	kkostiuk@redhat.com,
-	marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,
-	zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PATCH v3 1/1] qga: add command 'guest-get-cpustats'
-Date: Wed,  6 Jul 2022 17:51:11 +0800
-Message-Id: <20220706095111.686295-2-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220706095111.686295-1-pizhenwei@bytedance.com>
-References: <20220706095111.686295-1-pizhenwei@bytedance.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WsMVx0eSLuwqtgBHt6UOAuJZbeeQAffG+xkrZYImL9U=;
+ b=wsD/IzatSEWvbBPcyW+iH1vD/wUD8RBY0CMmQQ1gDXeaEWMqXbVFVHYlkG6b91dSne
+ G2YkPgnxCf0n0eoObLuCXIg8h9+/iwA+ri2ET7W8mApBOE7FLZfEdRkT3kQYPtmLabaq
+ fL7xtZwn6JQuo9j4StvHMvYLj+R6cd/GB65e9h2uCoKahWwTuQUCpYrJYomitAAIklhZ
+ puoNIr1Zc3qWM/3NxpXWbUbZHK/+n3JnbeROO5vwD3aE0XPYkMcB9yYuuVX99pvIuj6G
+ dQikbVjPknrwwMODn+VGys7tUnCCDA3wEwXFCU7Vu0XJ6CpL2TtfBlN+ZDMdisGTWslt
+ DSHw==
+X-Gm-Message-State: AJIora+56d49OEWSUOWfiK6mtwZXfXk8sNqZ9Zguxtes3MiQkJ1COoMM
+ 8dg+I0Ry//PZRmq0a7j+wEjevLgQ7qA2DmiWUMe3DQ77tPE+Jw88Uiss6k1JI5zSM3FwEvRUcp4
+ NnDNNQwGqR2L9Fbfxnria7DMeArbyCiE=
+X-Received: by 2002:a92:c7d3:0:b0:2dc:21e8:e2ff with SMTP id
+ g19-20020a92c7d3000000b002dc21e8e2ffmr5287592ilk.3.1657101327794; 
+ Wed, 06 Jul 2022 02:55:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1ve+H32jxpB//qTYVAFor6X+XpZOY0+NA++F0P0t+AoPFBXlvQVRQDHwmsaJ5SLNfSxyn7HPJo/nJJCT1ZAlWc=
+X-Received: by 2002:a92:c7d3:0:b0:2dc:21e8:e2ff with SMTP id
+ g19-20020a92c7d3000000b002dc21e8e2ffmr5287558ilk.3.1657101327546; Wed, 06 Jul
+ 2022 02:55:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220702113331.2003820-1-afaria@redhat.com>
+ <YsMVJLqNYmmpqjGc@redhat.com>
+ <CAELaAXymGtALk+ZeMqWJX0mvj1_2p4MbaS4A+eY8V51KDNOddg@mail.gmail.com>
+ <YsPlP6t0ALDkF4MU@redhat.com>
+ <CAELaAXxdBvtxf2fXu1OxerBH+dTY_iti8CF-GMgGZpaWxgK_Gg@mail.gmail.com>
+ <YsRi0SfAK3SVwQ2H@redhat.com>
+In-Reply-To: <YsRi0SfAK3SVwQ2H@redhat.com>
+From: Alberto Faria <afaria@redhat.com>
+Date: Wed, 6 Jul 2022 10:54:51 +0100
+Message-ID: <CAELaAXz_xmBDQzCK3SdkryoAnynE0CRUBg4TNv6ZwntuenANkA@mail.gmail.com>
+Subject: Re: [RFC 0/8] Introduce an extensible static analyzer
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, "Denis V. Lunev" <den@openvz.org>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+ Hanna Reitz <hreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ Peter Xu <peterx@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ John Snow <jsnow@redhat.com>, 
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>, 
+ Markus Armbruster <armbru@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Peter Lieven <pl@kamp.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,255 +108,194 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A vCPU thread always reaches 100% utilization when:
-- guest uses idle=poll
-- disable HLT vm-exit
-- enable MWAIT
+On Tue, Jul 5, 2022 at 5:12 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+> On Tue, Jul 05, 2022 at 12:28:55PM +0100, Alberto Faria wrote:
+> > On Tue, Jul 5, 2022 at 8:16 AM Daniel P. Berrang=C3=A9 <berrange@redhat=
+.com> wrote:
+> > >      for i in `git ls-tree --name-only -r HEAD:`
+> > >      do
+> > >         clang-tidy $i 1>/dev/null 2>&1
+> > >      done
+> >
+> > All of those invocations are probably failing quickly due to missing
+> > includes and other problems, since the location of the compilation
+> > database and some other arguments haven't been specified.
+>
+> Opps yes, I was waaaay too minimalist in testing that.
+>
+> >
+> > Accounting for those problems (and enabling just one random C++ check):
+> >
+> >     $ time clang-tidy -p build \
+> >         --extra-arg-before=3D-Wno-unknown-warning-option \
+> >         --extra-arg=3D'-isystem [...]' \
+> >         --checks=3D'-*,clang-analyzer-cplusplus.Move' \
+> >         $( find block -name '*.c' )
+> >     [...]
+> >
+> >     real    3m0.260s
+> >     user    2m58.041s
+> >     sys     0m1.467s
+>
+> Only analysing the block tree, but if we consider a static analysis
+> framework is desirable to use for whole of qemu.git, lets see the
+> numbers for everything.
+>
+> What follows was done on  my P1 Gen2 thinkpad with 6 core / 12 threads,
+> where I use 'make -j 12' normally.
+>
+> First as a benchmark, lets see a full compile of whole of QEMU (with
+> GCC) on Fedora 36 x86_64
+>
+>     =3D> 14 minutes
+>
+>
+> I find this waaaaay too slow though, so I typically configure QEMU with
+> --target-list=3Dx86_64-softmmu since that suffices 90% of the time.
+>
+>    =3D> 2 minutes
+>
+>
+> A 'make check' on this x86_64-only build takes another 2 minutes.
+>
+>
+> Now, a static analysis baseline across the whole tree with default
+> tests enabled
+>
+>  $ clang-tidy --quiet -p build $(git ls-tree -r --name-only HEAD: | grep =
+'\.c$')
+>
+>   =3D> 45 minutes
+>
+> wow, wasn't expecting it to be that slow !
+>
+> Lets restrict to just the block/ dir
+>
+>  $ clang-tidy --quiet -p build $(find block -name '*.c')
+>
+>   =3D> 4 minutes
+>
+> And further restrict to just 1 simple check
+>
+>  $ clang-tidy --quiet   --checks=3D'-*,clang-analyzer-cplusplus.Move'  -p=
+ build $(find block -name '*.c')
+>   =3D> 2 minutes 30
+>
+>
+> So extrapolated just that single check would probably work out
+> at 30 mins for the whole tree.
+>
+> Overall this isn't cheap, and in the same order of magnitude
+> as a full compile. I guess this shouldn't be that surprising
+> really.
+>
+>
+>
+> > Single-threaded static-analyzer.py without any checks:
+> >
+> >     $ time ./static-analyzer.py build block -j 1
+> >     Analyzed 79 translation units in 16.0 seconds.
+> >
+> >     real    0m16.665s
+> >     user    0m15.967s
+> >     sys     0m0.604s
+> >
+> > And with just the 'return-value-never-used' check enabled for a
+> > somewhat fairer comparison:
+> >
+> >     $ time ./static-analyzer.py build block -j 1 \
+> >         -c return-value-never-used
+> >     Analyzed 79 translation units in 61.5 seconds.
+> >
+> >     real    1m2.080s
+> >     user    1m1.372s
+> >     sys     0m0.513s
+> >
+> > Which is good news!
 
-Add new guest agent command 'guest-get-cpustats' to get guest CPU
-statistics, we can know the guest workload and how busy the CPU is.
+(Well, good news for the Python libclang approach vs others like
+clang-tidy plugins; bad news in absolute terms.)
 
-To avoid compiling error like:
-qga/qga-qapi-types.h:948:28: error: expected member name or ';'
- after declaration specifiers
-        GuestLinuxCpuStats linux;
-        ~~~~~~~~~~~~~~~~~~ ^
-<built-in>:336:15: note: expanded from here
+>
+> On my machine, a whole tree analysis allowing parallel execution
+> (iiuc no -j arg means use all cores):
+>
+>   ./static-analyzer.py build  $(git ls-tree -r --name-only HEAD: | grep '=
+\.c$'
+>
+>    =3D> 13 minutes
+>
+> Or just the block layer
+>
+>   ./static-analyzer.py build  $(find block -name '*.c')
+>
+>    =3D> 45 seconds
+>
+>
+> So your script is faster than clang-tidy, which suggests python probably
+> isn't the major dominating factor in speed, at least at this point in
+> time.
+>
+>
+> Still, a full tree analysis time of 13 minutes, compared to  my normal
+> 'make' time of 2 minutes is an order of magnitude.
 
-Also add 'linux' into polluted_words.
+There goes my 10% overhead target...
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- qga/commands-posix.c   | 89 ++++++++++++++++++++++++++++++++++++++++++
- qga/commands-win32.c   |  6 +++
- qga/qapi-schema.json   | 81 ++++++++++++++++++++++++++++++++++++++
- scripts/qapi/common.py |  2 +-
- 4 files changed, 177 insertions(+), 1 deletion(-)
+>
+>
+> One thing that I noticed when doing this is that we can only really
+> do static analysis of files that we can actually compile on the host.
+> IOW, if on a Linux host, we don't get static analysis of code that
+> is targetted at FreeBSD / Windows platforms. Obvious really, since
+> libclang has to do a full parse and this will lack header files
+> for those platforms. That's just the tradeoff you have to accept
+> when using a compiler for static analysis, vs a tool that does
+> "dumb" string based regex matching to detect mistakes. Both kinds
+> of tools likely have their place for different tasks.
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 0469dc409d..f18530d85f 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -2893,6 +2893,90 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-     return guest_get_diskstats(errp);
- }
- 
-+GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
-+{
-+    GuestCpuStatsList *head = NULL, **tail = &head;
-+    const char *cpustats = "/proc/stat";
-+    int clk_tck = sysconf(_SC_CLK_TCK);
-+    FILE *fp;
-+    size_t n;
-+    char *line = NULL;
-+
-+    fp = fopen(cpustats, "r");
-+    if (fp  == NULL) {
-+        error_setg_errno(errp, errno, "open(\"%s\")", cpustats);
-+        return NULL;
-+    }
-+
-+    while (getline(&line, &n, fp) != -1) {
-+        GuestCpuStats *cpustat = NULL;
-+        GuestLinuxCpuStats *linuxcpustat;
-+        int i;
-+        unsigned long user, system, idle, iowait, irq, softirq, steal, guest;
-+        unsigned long nice, guest_nice;
-+        char name[64];
-+
-+        i = sscanf(line, "%s %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu",
-+                   name, &user, &nice, &system, &idle, &iowait, &irq, &softirq,
-+                   &steal, &guest, &guest_nice);
-+
-+        /* drop "cpu 1 2 3 ...", get "cpuX 1 2 3 ..." only */
-+        if ((i == EOF) || strncmp(name, "cpu", 3) || (name[3] == '\0')) {
-+            continue;
-+        }
-+
-+        if (i < 5) {
-+            slog("Parsing cpu stat from %s failed, see \"man proc\"", cpustats);
-+            break;
-+        }
-+
-+        cpustat = g_new0(GuestCpuStats, 1);
-+        cpustat->type = GUEST_CPU_STATS_TYPE_LINUX;
-+
-+        linuxcpustat = &cpustat->u.q_linux;
-+        linuxcpustat->cpu = atoi(&name[3]);
-+        linuxcpustat->user = user * 1000 / clk_tck;
-+        linuxcpustat->nice = nice * 1000 / clk_tck;
-+        linuxcpustat->system = system * 1000 / clk_tck;
-+        linuxcpustat->idle = idle * 1000 / clk_tck;
-+
-+        if (i > 5) {
-+            linuxcpustat->has_iowait = true;
-+            linuxcpustat->iowait = iowait * 1000 / clk_tck;
-+        }
-+
-+        if (i > 6) {
-+            linuxcpustat->has_irq = true;
-+            linuxcpustat->irq = irq * 1000 / clk_tck;
-+            linuxcpustat->has_softirq = true;
-+            linuxcpustat->softirq = softirq * 1000 / clk_tck;
-+        }
-+
-+        if (i > 8) {
-+            linuxcpustat->has_steal = true;
-+            linuxcpustat->steal = steal * 1000 / clk_tck;
-+        }
-+
-+        if (i > 9) {
-+            linuxcpustat->has_guest = true;
-+            linuxcpustat->guest = guest * 1000 / clk_tck;
-+        }
-+
-+        if (i > 10) {
-+            linuxcpustat->has_guest = true;
-+            linuxcpustat->guest = guest * 1000 / clk_tck;
-+            linuxcpustat->has_guestnice = true;
-+            linuxcpustat->guestnice = guest_nice * 1000 / clk_tck;
-+        }
-+
-+        QAPI_LIST_APPEND(tail, cpustat);
-+    }
-+
-+    free(line);
-+    fclose(fp);
-+    return head;
-+}
-+
- #else /* defined(__linux__) */
- 
- void qmp_guest_suspend_disk(Error **errp)
-@@ -3247,6 +3331,11 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-     return NULL;
- }
- 
-+GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
- 
- #endif /* CONFIG_FSFREEZE */
- 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 36f94c0f9c..7ed7664715 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -2543,3 +2543,9 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-     error_setg(errp, QERR_UNSUPPORTED);
-     return NULL;
- }
-+
-+GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index 9fa20e791b..869399ea1a 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -1576,3 +1576,84 @@
- { 'command': 'guest-get-diskstats',
-   'returns': ['GuestDiskStatsInfo']
- }
-+
-+##
-+# @GuestCpuStatsType:
-+#
-+# An enumeration of OS type
-+#
-+# Since: 7.1
-+##
-+{ 'enum': 'GuestCpuStatsType',
-+  'data': [ 'linux' ] }
-+
-+
-+##
-+# @GuestLinuxCpuStats:
-+#
-+# CPU statistics of Linux
-+#
-+# @cpu: CPU index in guest OS
-+#
-+# @user: Time spent in user mode
-+#
-+# @nice: Time spent in user mode with low priority (nice)
-+#
-+# @system: Time spent in system mode
-+#
-+# @idle: Time spent in the idle task
-+#
-+# @iowait: Time waiting for I/O to complete (since Linux 2.5.41)
-+#
-+# @irq: Time servicing interrupts (since Linux 2.6.0-test4)
-+#
-+# @softirq: Time servicing softirqs (since Linux 2.6.0-test4)
-+#
-+# @steal: Stolen time by host (since Linux 2.6.11)
-+#
-+# @guest: ime spent running a virtual CPU for guest operating systems under
-+#         the  control of the Linux kernel (since Linux 2.6.24)
-+#
-+# @guestnice: Time spent running a niced guest (since Linux 2.6.33)
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'GuestLinuxCpuStats',
-+  'data': {'cpu': 'int',
-+           'user': 'uint64',
-+           'nice': 'uint64',
-+           'system': 'uint64',
-+           'idle': 'uint64',
-+           '*iowait': 'uint64',
-+           '*irq': 'uint64',
-+           '*softirq': 'uint64',
-+           '*steal': 'uint64',
-+           '*guest': 'uint64',
-+           '*guestnice': 'uint64'
-+           } }
-+
-+##
-+# @GuestCpuStats:
-+#
-+# Get statistics of each CPU in millisecond.
-+#
-+# - @linux: Linux style CPU statistics
-+#
-+# Since: 7.1
-+##
-+{ 'union': 'GuestCpuStats',
-+  'base': { 'type': 'GuestCpuStatsType' },
-+  'discriminator': 'type',
-+  'data': { 'linux': 'GuestLinuxCpuStats' } }
-+
-+##
-+# @guest-get-cpustats:
-+#
-+# Retrieve information about CPU stats.
-+# Returns: List of CPU stats of guest.
-+#
-+# Since: 7.1
-+##
-+{ 'command': 'guest-get-cpustats',
-+  'returns': ['GuestCpuStats']
-+}
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 489273574a..737b059e62 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -114,7 +114,7 @@ def c_name(name: str, protect: bool = True) -> str:
-                      'and', 'and_eq', 'bitand', 'bitor', 'compl', 'not',
-                      'not_eq', 'or', 'or_eq', 'xor', 'xor_eq'])
-     # namespace pollution:
--    polluted_words = set(['unix', 'errno', 'mips', 'sparc', 'i386'])
-+    polluted_words = set(['unix', 'errno', 'mips', 'sparc', 'i386', 'linux'])
-     name = re.sub(r'[^A-Za-z0-9_]', '_', name)
-     if protect and (name in (c89_words | c99_words | c11_words | gcc_words
-                              | cpp_words | polluted_words)
--- 
-2.20.1
+Right, I don't think there's anything reasonable we can do about this
+limitation.
+
+>
+>
+> Overall I think a libclang based analysis tool will be useful, but
+> I can't see us enabling it as a standard part of 'make check'
+> given the time penalty.
+>
+>
+> Feels like something that'll have to be opt-in to a large degree
+> for regular contributors. In terms of gating CI though, it is less
+> of an issue, since we massively parallelize jobs. As long as we
+> have a dedicated build job just for running this static analysis
+> check in isolation, and NOT as 'make check' in all existing jobs,
+> it can happen in parallel with all the other build jobs, and we
+> won't notice the speed.
+>
+> In summary, I think this approach is viable despite the speed
+> penalty provided we dont wire it into 'make check' by default.
+
+Agreed. Thanks for gathering these numbers.
+
+Making the script use build dependency information, to avoid
+re-analyzing translation units that weren't modified since the last
+analysis, should make it fast enough to be usable iteratively during
+development. Header precompilation could also be worth looking into.
+Doing that + running a full analysis in CI should be good enough.
+
+Alberto
+
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
 
