@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79EB56911B
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 19:52:25 +0200 (CEST)
-Received: from localhost ([::1]:39186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4AA56912A
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 19:54:37 +0200 (CEST)
+Received: from localhost ([::1]:43446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o99CK-0004kb-RH
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 13:52:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60920)
+	id 1o99ES-0007iS-E2
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 13:54:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o9979-00086z-WA
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 13:47:04 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:23400)
+ id 1o997I-0008GM-Gj
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 13:47:12 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:21524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1o9977-00064r-7n
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 13:47:03 -0400
+ id 1o9975-00064m-MK
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 13:47:12 -0400
 Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 266GOedh010495;
- Wed, 6 Jul 2022 17:46:50 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 266GOedf010495;
+ Wed, 6 Jul 2022 17:46:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=MXda2dozGS5qddbaFGoe5uU2GHmYy0yYDD+r1AaqhOo=;
- b=chRkfPCOC4poVKbwb2toG4657jZJ3KNdsmAZ2WziYoLif/raIqQrocb9Ng/lHOQu/VBw
- fZBojvRrgmBfLftvzQQbfDOLV4nVtiU13OdNPugNmbrg7LPI7iTNvjrUfr0UvPIgUrrv
- jbFADphN6JITKuakBlajRFKQdkrr3eR9u0DRz5bL7gdEKyCLX9Mqop23nbnSQ1xE6YQr
- qkMpC5mFrzewTpbEVfr1J5yQlUVWvIGCJ2BdqFX4viFFK858rYXCLvhf99QNSdwgFI7f
- JL/TfVAbF3t2WMy9rdmlZBq3gLNpamFBGbhjsobPibJNViqX0NkDTSQ+lf4+a2IM4YjL +A== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h4ubyaqt6-1
+ bh=nlFsOoAA9Z0WpUQn9oRtSnI8F0538l91m3aftfa1DSM=;
+ b=OhcqKTdKFNskdjaZGfpscvF1hPafyLl54wEkCkyzPVDk+4smn15JTH7OvET1KA4E1KfC
+ klEnM5V5PiCupGh3IgN9t6C/tUSyIM6LZo0IWMCDPyakbOuLfmSrdSwxTYYgN36WUq9Z
+ 0f1vY0kSANrbtDPTs/YbxyDUw/7CFrGBjjxSG7qYbjPybteYPq2KGteAdn48SR6lQbbQ
+ WOdKIqPcWnki9frOPkcLjzp0V5xYHnJo/3DzXj9t/HmaKVg4Eh6Ogkwlws1EpNi9NMmr
+ Xq23RZC57VjcwPouaHZUq7BeYmuKy/YhWJPdh3r+CjL70g+1i3WPaRqQGDGQ/jHr6MRs sw== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h4ubyaqtr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 06 Jul 2022 17:46:48 +0000
 Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 266HfdS0006180; Wed, 6 Jul 2022 17:46:25 GMT
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 266HfHx0006964; Wed, 6 Jul 2022 17:46:34 GMT
 Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3h4ud88wdk-1
+ (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3h4ud52sjt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 06 Jul 2022 17:46:25 +0000
+ Wed, 06 Jul 2022 17:46:34 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=InuMQI43EdQXp4YoAQ/numgqzjVp1x0GA21eui67QfL1cpyx1e9AWfq6knSC5AVNHNxDxbj+HXN/wMBb28P/Dw7f+99OQGaBrJ3RgvciIcGSbYfp4Pgtu7FFTelnpfyUTnf5OZQcnkUsSesI+JTSe5HNsBQ5a7BVKg6e1EfJ3/IXUQ0A8ThVKl1amRRe2mZqSfQFZ6Sf34vM5yUCCmT1IKqEV4by7XPdJed87Gcl2dMC0+6zo7nSIG+QWJ231MOQNcOGoyhGnBjqE7FxQgur6/kOvHcZsCihfPqjyZRlk0bAkAh4dPf21Q+VAaNcIXg3bzoby5ZhzlLWilQoRQLD6Q==
+ b=IxYCfiSyqFrG+aKSKy20O2mIxthajdSivll89PzLjuvcgMk0oEk4a7RMP5hZmPB/9hcp9IiEajwrOTrbT83UUTIfOKDWahOOf4FJQJEdTN7BpgOiJcLk2ug/MhvoDHNjPzy6B6QQURxMqjKrdlrFx4ZX2opko4itiO2BntZ4k5MPSAw9D9Er4IBqrXtG3v4WO7a/P+4oLXqbd0GH69OncLSbdkUlxht3qaPMagUyqQ77Qx8WB5Je55bfZIcmaUBJ1iTbbAOKI3Gr21Hd4XC2u+FL/Gq+LdgUzCQ+LyVulNDMWzM+MMaO3wknviETGLb/S60NKxK2NsKpJ4yTMmQyGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MXda2dozGS5qddbaFGoe5uU2GHmYy0yYDD+r1AaqhOo=;
- b=fanvEPknBMxGXHAToSaXKza0b3RuVbiBVrV8Q04Ue5ahI3cAXyL2mOaZfix+wJvV2CLwoKG1ty2aHag0u69UUhYyHMhieLN8mRhmct9BC7/1q4b11NMsP/Qofuhxu04C6E03lQXxODdALslbNUtCE2o33N3Ua/+cHN6MvhR3c95ZIfJSursznWDt7Vdg7fl1vTrODPxqUY745z3H4foj+ktJTYTKnxOBfRqMoebH7o8/qn/XlVfammBUJguxRVwGC0O/fadWGK+k7hJjVmy3h7rniSo/XECY7aT6tDN6b34ivHu8QbWOjPjphE4iwLsDyQmLNUStlYuAwzPkerVg2A==
+ bh=nlFsOoAA9Z0WpUQn9oRtSnI8F0538l91m3aftfa1DSM=;
+ b=S3hMvU+6/wHgGuHFtQ9RkPRqDYkcqFJUv4u+gU9GMZ9c6736rVd79ovYnWmEJjJsq/s1ueEI11xl+Mia6DZA7QFYlMphRvi/kADzm2C+lRMuSXFI8rZ72JTeI+l15ruBC0QNJQU2Aj5GwEQjMsGQ/T1q9mODJzC8jBPdXzOkGyxFRaZX7ljxCMcLZ287GGvFohfv0a2VedrVYOqjA0BW0DR+dS4mSz++h7L8xI2r8vhVMPdw1wCTbBjjB2xl3rd4bEHiI9JvP4AgFvP/geMxtjxWkD9qB6/Os/1bx0K9g3RYZ2lZwuyI+jramVQlEFYAtQJ3ZXNimroY3BZ46Pv+gg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MXda2dozGS5qddbaFGoe5uU2GHmYy0yYDD+r1AaqhOo=;
- b=IlAAGm1170koiK/JprauGtAWqeqbPrpxhBnsUEzVKHdBSUSEnaP+yfux13lUQiygbssPXwqHgtmUQP/AV0vxYnfgHDP0MsfvTnvdD2AeupvhWf7K/n5c+2w59s/y9MCdXxJNfLs57oa+sHiY3xfPSVwjRtuwl6FvqJyRYs0WNXw=
+ bh=nlFsOoAA9Z0WpUQn9oRtSnI8F0538l91m3aftfa1DSM=;
+ b=myQ8wDn+hp7CKaLO6LBW13Ui9moFGDF3QEYoyP8OnfgaKACOJkBo0f92nxjETLSWQzwARZc0/KA97IJ2UPYjSBSJaXax4coQ60UwJJEnEzFOMfqesiDRXUSf3Z5f721AvMQ9+cmywTf4JI3aTaXkevdO3wz7eNhWk0RUhRKqyPg=
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
  by BN6PR10MB1476.namprd10.prod.outlook.com (2603:10b6:404:42::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Wed, 6 Jul
- 2022 17:46:23 +0000
+ 2022 17:46:32 +0000
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::dc4d:56f4:a55b:4e9]) by BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::dc4d:56f4:a55b:4e9%6]) with mapi id 15.20.5417.016; Wed, 6 Jul 2022
- 17:46:23 +0000
-Message-ID: <3a355c21-6c40-ca06-f858-aecc58746a45@oracle.com>
-Date: Wed, 6 Jul 2022 13:46:17 -0400
+ 17:46:32 +0000
+Message-ID: <1e13cc88-74b2-debd-4589-0df4af24e31f@oracle.com>
+Date: Wed, 6 Jul 2022 13:46:25 -0400
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH V8 29/39] vfio-pci: cpr part 3 (intx)
+Subject: Re: [PATCH V8 30/39] vfio-pci: recover from unmap-all-vaddr failure
 Content-Language: en-US
 To: Alex Williamson <alex.williamson@redhat.com>
 Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
@@ -96,95 +96,95 @@ Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>
 References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
- <1655304746-102776-30-git-send-email-steven.sistare@oracle.com>
- <20220629144316.60e6ea6c.alex.williamson@redhat.com>
+ <1655304746-102776-31-git-send-email-steven.sistare@oracle.com>
+ <20220629165809.1456cb5d.alex.williamson@redhat.com>
 From: Steven Sistare <steven.sistare@oracle.com>
 Organization: Oracle Corporation
-In-Reply-To: <20220629144316.60e6ea6c.alex.williamson@redhat.com>
+In-Reply-To: <20220629165809.1456cb5d.alex.williamson@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR16CA0054.namprd16.prod.outlook.com
- (2603:10b6:208:234::23) To BYAPR10MB3240.namprd10.prod.outlook.com
+X-ClientProxiedBy: BYAPR02CA0044.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::21) To BYAPR10MB3240.namprd10.prod.outlook.com
  (2603:10b6:a03:155::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d0a9d71a-9c9a-4745-dcea-08da5f7770f6
+X-MS-Office365-Filtering-Correlation-Id: b6429ed9-916d-44b3-1a88-08da5f7775f7
 X-MS-TrafficTypeDiagnostic: BN6PR10MB1476:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DqqcPQ0nyGS+CHkhMWrJFE0Z574wPgP01B6f1Woq/aZqSbS+8IDzk64SOCSWmwhdYfHa/ftuDT+2WK83pmzPnMGJiAIn6tXLZDPQ004O/nGsN7IHix/hyE9B5K4GI4aw6PezurW60JcfykGtKXMQE7Vi896rcEGp5eFjPbSgcn7ob2BRJwBAeOyVkCO+BBpDXj/XLACaJRn3BgoL7+TTAjHip55XxybE6eFGDDK48tjrWdgTHpGMoo/OTsbyuGvi+88XNFQHKGJ2LiiDCf5zwm+QFewTD69ldbIr5b7weH/sMI5kofgoBZ77J5rRWoSgEv/7g5ke/1Ym7vayS5b4QAwNXL81oANjyEsVWKgdMSgsP2mhCAcuPLe8kv/V4VPIK804vsSTeKBHQlCzKkpD2WB7TYYo39WUYosbdwqXuiV8TI8AYyqHAW/CHq6bz9v3kWFz4caj6/Up9EOTAYMGu7n41wVuV8c1hXy1e2sZIgM0XWys/PhlJoCN9USfBMQku5wtaTWGbP08F2xX/jw2Sh/DNRZwqdW22x54BrXqAm/dDXuOIxk81HOs/GK0ftonPibF7gTLuKEuLsInAHoEmeA2f1XxOzU+rvFmuHpYHT2jF3hcx1UPWzNfWUBPM6gZtUVDZ100H7CDNCldydNu9Zg9pA66rVfrRMdVbWmotkl0bsjGlzFB5pR1AYGF4AG27xgdxy4K5Te83aU/6E57wJORplp+/4rtPbTwjT2Sivjy7dnkanpnHUZA4xXu22dkK7iUAr28DHXGYmitst97hL4wA24QrgmOpEbm3bniodiyoYJXqIxVyer01L0N22WV2vj3xYqIPhCRKhl++wPNNg==
+X-Microsoft-Antispam-Message-Info: 6vcNNok7jm2FIdpwUZPIfJJIVzSGCsyuwoHFZR8Ef75u0jL2e3cICFhbkLz+LFPZWAmjzbChqnFo9g+6CYu5U2uKPbkKfUKAgchnOb1eGralqm2njSl9ec9OcnFEo7snmfpjLy03O/6soop0XqB175OUPBYJZtoKLIfivEx3TacnkYkgDxvI+a3dg/VM48bQOYvNOdTUw0fGj/Lz6O0X3P/8SzvOj/IsrQYodbKg1C86ERBhGlA7Szvh43yYhnAuFBB9nKW1p9IR0lwEriCfD1i0WhP+klY1EsjBwFY1xMryT5TzKTr6lf8LvI/5CBxuP41Am9JQswyPdsOPZIiU2WobDvrCrPXbcWLxujeVKyuejqBP0I9fAeiwLEC8dBqmHp6dEE/qqL45qOl3ibbdF8RCB+hj/Nyk7gFNqGhJcYKUKI1gEUOqo3NFdwd5D8z7aaTc8bxX9yoLnIz01KHz9PhJCrYBTuo4t8bvqk9xGjGZq3XryQFFeME5jPz+/racoiROk2NOupjJB0a5vwCoL706N54tIzjkda6dPKrWBo/PPcwVYzKVqi6Ru3ytMQMpbSmzmGgByibwHzuq/TMlKX44H8klCeN6Uxx1s2jCAzVYlNopAMoURrWJlJdnIHPl58G8hhzjy3PfC4rQn+zZM8XCDaAmIjczMUe0oIB50cPD7zFIu8iQIUfdFh3se2coPNPSWZUi7CA1LacPbTNzSaBHXb4Ra7bK8g/pKmGZrcHn3uYlnCyHNr3CnvF8XyvXBMt4h9p3Bg9Oilq8c4HdTifhniWcknKmf5CVzhvfNERdSxTjgVA9bIbDXbZpEATs9JNPCYP4j8X1njHJ3krZow==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230016)(396003)(346002)(366004)(39860400002)(376002)(136003)(83380400001)(26005)(8676002)(4326008)(186003)(66556008)(66476007)(86362001)(478600001)(31696002)(6486002)(44832011)(66946007)(5660300002)(8936002)(7416002)(38100700002)(41300700001)(2906002)(2616005)(6666004)(36916002)(53546011)(54906003)(6506007)(6916009)(316002)(6512007)(31686004)(36756003)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c1pQR0pxVXRrZ3F6RlI4K0JJVUUySDhqc3lxeGdVUU1pUytBUGJSakRpMnRx?=
- =?utf-8?B?MTF4MzlINXorVlNPUUVubXhrUC9OeG9PNWQxRDBMWFNobThLSmtiN2Z4OGFI?=
- =?utf-8?B?b3V5V0UwajBFL3I0VzFIZ0IrOGFFSlNDK3ZrNEY5MXoyaEJiUDUyc1pQNzZE?=
- =?utf-8?B?TlBsZEQ2S3V6WElHblFWQWNzKzQzbFI2Z01ZSUM2RXphOHg5N3hkUU9GWG84?=
- =?utf-8?B?R01Ya3dEd0ZkNExyaVk5bkx4eFRHMVdXdENrcnVqL3VtcWloV1J5blp1OUk0?=
- =?utf-8?B?ZDIvYVkxcVI3dTh1U1NvL1UvVFVOVkR3NzZ3cVpTMGtUbVlsY0kxbEFPdXpR?=
- =?utf-8?B?bHhiZVcvWkNOOGFOVk5RTEs4VFRZZjJleUtsWjRTbVBaOWpQSS9NZW5rOUd3?=
- =?utf-8?B?VlFqa1g5SGZxb0VUdzczWXdwbFFMK2ZMOTBLTVluaWx0a0pLNHlud21GR1p6?=
- =?utf-8?B?U1AyLzdCVC9CcnFYY1dUUWt6RW5mT2JQRWZNTklDS1NCV0cyeVdtUDNiM043?=
- =?utf-8?B?OXVsUjNDeDA0Nk5JVytFQzgrRG1IT2k1S2FRVllvdEdTcGFDV2dsTWgwUWJQ?=
- =?utf-8?B?eThUaXNsbVF0Z1ZOZGFkenArQTJkQTlEUE5lcWZ0Q054dUlNNHNmZTlFbktC?=
- =?utf-8?B?VXBSaEhWWm1GYkVBTmZxRit4SXVvZ1I3dXBJbk44cXZIQnhJZGFmZ3I0K0R4?=
- =?utf-8?B?cFdFZ2o2TnFJb0FOUENnLzVHaDRoN2R0aFlZOGx2VVBhcDU0WkRFSS9ZNjlk?=
- =?utf-8?B?clBXTlpYa2wvT09PWm9qMWMvL1RHNVJLeWpBdUhONm9XWWlOVlZNT2pDbkZW?=
- =?utf-8?B?d0hIN1RsQmlPRCtab3FuSlFmc2FVWXZiSkxCaHlOd2dOeFpzQjUyTlNPaVpk?=
- =?utf-8?B?U3N3clc2WWRlYXFiTWNrdmN6QitkR25ZVWdPQ0MxRWorUTJlTWhyU0FGUXVR?=
- =?utf-8?B?V2llM1hHdTVjT1VCY0xyMlpJWU1XdDZZeStYdFB1M29oaUdKN1JsalFNdGt3?=
- =?utf-8?B?STdiWjR1K2FZdEdUSlNFUDlTeUxtcUVXU3B4WEtrdHpqQzk1Ykl0UVZ0cGpX?=
- =?utf-8?B?UjhUT0xaSFFYV1o4UjZqMS9XL3ZrMUlGYTB1NGQ2eG5YUkpNNnk5d2tUejAw?=
- =?utf-8?B?TUg3WXdvUW5PSGpBMm9IMUFySEdBRDNxOWJpSmVYRWlFcWl5WlV1dTdPcGJO?=
- =?utf-8?B?dkNRU3BCTzI2S0I4bzV6WU1iSmZId3p3KzBYZDVUODNmdk9xMEIxSG9UUWNQ?=
- =?utf-8?B?RDJtSExOYjdWV3VOYzRMS2tVSEpzNGZIK05uUytKT2NhUlBjZXBCK2EyOHRq?=
- =?utf-8?B?ZXA3ZUVBRXM3SnVXVENsVkF5QkIycFJ2eGxrSmZIM3JVZ3BubjQvNjloVzVq?=
- =?utf-8?B?ZnFJR2xaVFp3LzFHdlFPWnByWHlkUTFIcFFSR2lyNldPVXFIS2lVT3M3ZEY0?=
- =?utf-8?B?SDYrdlN2VmdVcmhKMWV2OGlxMHR6czVaZXZ6S1JzMnNZYU1laUYzUUJobktp?=
- =?utf-8?B?SVhBNjNYUUl5TEtEd3ZLOVF4emRFRzhtc2lQcmgzV1dNcXE1WjBPZllnWEEx?=
- =?utf-8?B?UlNlcVdZTjM3dHBjc0dCV2Q2UVkzdTNlcjRsbnpHWXNKdFNmWXowRVBha0pY?=
- =?utf-8?B?ZVp3ZE1VMkJTUkNwM0pFUVlpNlRTOWJCSng5U0hPNXFuUnUvV0RIZzNNZjFi?=
- =?utf-8?B?TzdUQ2J5Q3VheWwydlJ6aThMZ0llempLSEx6cVVuaVcxclorbU0xV09qZXVR?=
- =?utf-8?B?cmNidnNmd1pWazkyWm5Wb1NPbTc0WW1OTDNBODV5a2NWQkdKWnlWb0c2RDc2?=
- =?utf-8?B?M1oxZ081Z0xsV24vTWREODMxVU5aS3p2Y0ZmTDRva0d2MTdQM3d3THJueFZ1?=
- =?utf-8?B?OFBpREx0TmVTVjBadmRROGVFTTJXd0REOFk1b2R4dktTQ2FBeUxGbGNNNXYx?=
- =?utf-8?B?eUpHd01xNFRVV1hWc3R5MmJadFJKemVGeWZpYU5XZnJvVGZhWW8wYXlmZUpU?=
- =?utf-8?B?TUMwd29ac1NKODlWSVZ1YkRoOTlBTlVIc1VNcHJSbjdUZVZDVXZvNzJrckRZ?=
- =?utf-8?B?djk5L1d6VTEzVXZEVUxoWGc0a3U5bGpuU0c2b1FJNFJaV3hCWnE0UHRvNVBV?=
- =?utf-8?B?WWFNUnlLNW9ua2RtSk1XNTE0a21ndkNVVWd0ZGFua21Oa0xHdW9wWnVXR3hL?=
- =?utf-8?B?VEE9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cjN4a3crUnp6ajB0aW51aEkwMjF0ZjgzM2pPRXlEMGtaRVVPd2lSL09pUlZC?=
+ =?utf-8?B?bVhzYzBiUXE0UmM0ZGVONjNsblNtZjkvZXo3bS9VTkV3RWlrRis5eEkyTnVM?=
+ =?utf-8?B?TkQzNnhRL1NxcWMrNldsbEtNN0MvZVRkN01hVDZDZWNTRjRRc1BzTXdFWFhm?=
+ =?utf-8?B?RVZpL2hZcFYxVk5DNDdaZ1ZyMGVsWmRZaFpBb25pUXpFVldocFZYUHBOWjVJ?=
+ =?utf-8?B?Qzh5cjN6T003ODF1MzBzR3NHWEVVVTlqa29uRDY1d3I3TGZTbEVMckVKaG9R?=
+ =?utf-8?B?TGkxV1gvQllreXFVdy9qTUtIZ3ZLYTI2TnZTR0tydUtuN0oyNU5hc0x6Ny9m?=
+ =?utf-8?B?YXpxVjBCYmNRUWZuWXRSTDhiOXRkcVhWWjJYZWJuSlVLQTZRQmc3VUE1ODJS?=
+ =?utf-8?B?UUprcEtHanMvM1B1SDUvYkhrblVVNXVGWElYRi9lYUNiQVNnMURsNEhzT3Ey?=
+ =?utf-8?B?ZjNRUFRFRjlvOEgzM2Q5c0hpZkQ0Uk54ZjlLQS9wRjVURVRnU0taSlhUdXY0?=
+ =?utf-8?B?TFNieXViaFluSE9WRVo5aVBPWW1iOU1LSGx3VXEyMi9yQkpVbVl4elJIcnNw?=
+ =?utf-8?B?MzRpZmFDcWhyN3QvblNSeGhwNFh5eWsrWURyV1JwRGNaRDhaUmxNRkpmZzVm?=
+ =?utf-8?B?d0QzMFVCWWFKaUExQWE1bGlUZUIzcHZWUEJ1SnJ2OTNkaGhvVGxaRmJTdEF2?=
+ =?utf-8?B?aUp1TElZQUxLZ0tMK0Z6NTJHamx1WE51dzVlZFpiZEI4NlFyamdZTEVseXNG?=
+ =?utf-8?B?dlRHV2lpdWpTbEVtQzRHRmtYMTdMZERCK29VMTl5aFZySWR0UkpKRVoyUnVN?=
+ =?utf-8?B?WE9YMk42NG10VW4wNWZadHltL2M4QUNqb0d1OHpOc1cwVjVkOXpZR1p1bUtC?=
+ =?utf-8?B?S0hSVzFkdnBKZVBLS3NqRmg2dWJ0cjB4R1NZbzA0dG1yRTlsYzR3RmQ3M0dl?=
+ =?utf-8?B?QThpdVRlL1hNRkl6V0p0N1BTZjUyU0tOajJkSnlBcUx4cHZ3VEVubjd4NTRM?=
+ =?utf-8?B?NlQrWEROS1Y1MDAwOHFscklTdkJXczZxbUw4VEZwTkluODFZcVpJRUY1RWwz?=
+ =?utf-8?B?cW9CQUlEbE9RVUVqWWRwd0p1dXVFMlNpdy9oRGdlSVpPOUoxOS8xTno1YnZk?=
+ =?utf-8?B?bUphSHlMSW9RQ1pJSTRHNDFnK1NjQ1R4bjdTV3V5RTZQWGRnWm8xUXNoeUp2?=
+ =?utf-8?B?Ull5WFFQMnBKZVREcUYvVkEzdWpYMFhEc1hLWStoaGRreHFEUWxGOEw3M2Zn?=
+ =?utf-8?B?b0tNQnk1OUhlTzQ1MGZZYTVZYnFRRFFROFdhWlZRRzQyYS9ncjFqTHlXT214?=
+ =?utf-8?B?eVFrNGZ1bmNwYk9FQmJoL1d5a1V2Zis1NkJWMHR2UnR4OW01dElSTGxTZVNS?=
+ =?utf-8?B?cER2OUdRZ1MvblhycXAwVnJmYW9ucW16Sk1qU21tZ2lYaThqSURDUzUvZkl0?=
+ =?utf-8?B?ekVHSkczMGMwbGVkZXA0RzlrQitKS0t5ZmJURWVKZUdsb1ArRXBSYld0Z0VC?=
+ =?utf-8?B?cjNGcWRnUU5PMlZLMERmYzBXeUZqWEN5eUpPblhDMDM0anJmRHk3eit5UjBP?=
+ =?utf-8?B?OWlUQzBzbXJ6Q2lkbmZVdXpRRkx3K3hBK1ZZMWVFVFZVZldMODgwZzdIaE9K?=
+ =?utf-8?B?NjR1bUFUNXIzUGhlaE1YS0xHY3V6ckxyU3c0K3c5d041V00vQXczOHNTQWV6?=
+ =?utf-8?B?ejcxOE11S1lTUGhrOE9yUUkvd1RzUjZLbTVzQWhuemlJcXBCMXJvMFhhU214?=
+ =?utf-8?B?Vjg4clpwSmgvTXlBYTNkd3ZXemZmTHQwSTh4eE1FaFpEWG9pZzlKZ3NxK09U?=
+ =?utf-8?B?MzFWMnYxYzhWSENoWkkybzZBK3ZyQkowUTdvK2JuaXl3ZzkveG1FMktqUnc0?=
+ =?utf-8?B?K2lId3lhdlhBTWUyOXY5aXlaaUZNeVc3VXJ0aHpjbTJ1SjBMOEY1N3QyY2pG?=
+ =?utf-8?B?aVZyb04zUGQydjNESUtGR0Fjd2JwVCtLUGxSQjRWdWYxdmlUMFd3RExZOHdi?=
+ =?utf-8?B?a0tvUjJ2MStNTnI3NlBnTkpaTWt6SE1OWGhlMUJIWGhwakpHN0R6Zk9tVEpt?=
+ =?utf-8?B?T2wxZW5PVzRMeE04elEwTkp2U0Uwb1FCQWtWLytvd1QwejNydUovRjQ1M3Y3?=
+ =?utf-8?B?NytUWVdGa2NlRWo1c2hLZkpVYnNkWmh1M0k0MUtzZ1h1Vk1MTHRPaE5wNEdy?=
+ =?utf-8?B?QUE9PQ==?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0a9d71a-9c9a-4745-dcea-08da5f7770f6
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6429ed9-916d-44b3-1a88-08da5f7775f7
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2022 17:46:23.0288 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2022 17:46:32.0283 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iy6WMsCyt4H5pT+Ci7FQy3D0WYE4mgTceFnLtcHpDLkRXn0UAwhgWFlkb3OP1oI1FM/Qf7ILIIi54ZLhq7xYwVGIfwqzuieMocgz//zl7/M=
+X-MS-Exchange-CrossTenant-UserPrincipalName: S8s34ZftNFwA5Yn2cI7cS9RS0bDxzbNcKEufyixPqzShwnrIIYthUVwLzv4zwBBi9Zw95tKVVGyPmKAx1OWT6Ks3/Z1DW5x5SVcGWssC4RU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR10MB1476
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
  definitions=2022-07-06_09:2022-06-28,
  2022-07-06 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 malwarescore=0
- mlxscore=0 spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ suspectscore=0 spamscore=0
+ mlxlogscore=999 phishscore=0 malwarescore=0 mlxscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207060071
-X-Proofpoint-GUID: jfqwvwC_YGy43hOzzcgExcilwi7X5juo
-X-Proofpoint-ORIG-GUID: jfqwvwC_YGy43hOzzcgExcilwi7X5juo
+X-Proofpoint-GUID: xH4LMEbOarXMjrlYCETPBGLZC6kFUYDl
+X-Proofpoint-ORIG-GUID: xH4LMEbOarXMjrlYCETPBGLZC6kFUYDl
 Received-SPF: permerror client-ip=205.220.165.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -200,215 +200,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/29/2022 4:43 PM, Alex Williamson wrote:
-> On Wed, 15 Jun 2022 07:52:16 -0700
+On 6/29/2022 6:58 PM, Alex Williamson wrote:
+> On Wed, 15 Jun 2022 07:52:17 -0700
 > Steve Sistare <steven.sistare@oracle.com> wrote:
 > 
->> Preserve vfio INTX state across cpr restart.  Preserve VFIOINTx fields as
->> follows:
->>   pin : Recover this from the vfio config in kernel space
->>   interrupt : Preserve its eventfd descriptor across exec.
->>   unmask : Ditto
->>   route.irq : This could perhaps be recovered in vfio_pci_post_load by
->>     calling pci_device_route_intx_to_irq(pin), whose implementation reads
->>     config space for a bridge device such as ich9.  However, there is no
->>     guarantee that the bridge vmstate is read before vfio vmstate.  Rather
->>     than fiddling with MigrationPriority for vmstate handlers, explicitly
->>     save route.irq in vfio vmstate.
->>   pending : save in vfio vmstate.
->>   mmap_timeout, mmap_timer : Re-initialize
->>   bool kvm_accel : Re-initialize
->>
->> In vfio_realize, defer calling vfio_intx_enable until the vmstate
->> is available, in vfio_pci_post_load.  Modify vfio_intx_enable and
->> vfio_intx_kvm_enable to skip vfio initialization, but still perform
->> kvm initialization.
->>
+>> If vfio_cpr_save fails to unmap all vaddr's, then recover by walking all
+>> flat sections to restore the vaddr for each.  Do so by invoking the
+>> vfio listener callback, and passing a new "replay" flag that tells it
+>> to replay a mapping without re-allocating new userland data structures.
+> 
+> Is this comment accurate?  I thought we had unwind in the kernel for
+> vaddr invalidation, and the notifier here is hooked up to any fault, so
+> it's at least misleading regarding vaddr.  
+
+The comment is misleading, I'll fix it.  If there are multiple containers and 
+unmap-all fails for some container, we need to remap vaddr for the other
+containers for which unmap-all succeeded.
+
+> The replay option really
+> needs some documentation in comments.
+
+Will do.
+
 >> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 >> ---
->>  hw/vfio/pci.c | 92 +++++++++++++++++++++++++++++++++++++++++++++++++++++------
->>  1 file changed, 83 insertions(+), 9 deletions(-)
+>>  hw/vfio/common.c              | 66 ++++++++++++++++++++++++++++++++-----------
+>>  hw/vfio/cpr.c                 | 29 +++++++++++++++++++
+>>  include/hw/vfio/vfio-common.h |  2 +-
+>>  3 files changed, 80 insertions(+), 17 deletions(-)
 >>
->> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->> index 2fd7121..b8aee91 100644
->> --- a/hw/vfio/pci.c
->> +++ b/hw/vfio/pci.c
->> @@ -173,14 +173,45 @@ static void vfio_intx_eoi(VFIODevice *vbasedev)
->>      vfio_unmask_single_irqindex(vbasedev, VFIO_PCI_INTX_IRQ_INDEX);
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index c7d73b6..5f2bd50 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -895,15 +895,35 @@ static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+>>      return true;
 >>  }
 >>  
->> +#ifdef CONFIG_KVM
->> +static bool vfio_no_kvm_intx(VFIOPCIDevice *vdev)
+>> +static VFIORamDiscardListener *vfio_find_ram_discard_listener(
+>> +    VFIOContainer *container, MemoryRegionSection *section)
 >> +{
->> +    return vdev->no_kvm_intx || !kvm_irqfds_enabled() ||
->> +           vdev->intx.route.mode != PCI_INTX_ENABLED ||
->> +           !kvm_resamplefds_enabled();
->> +}
->> +#endif
->> +
->> +static void vfio_intx_reenable_kvm(VFIOPCIDevice *vdev, Error **errp)
->> +{
->> +#ifdef CONFIG_KVM
->> +    if (vfio_no_kvm_intx(vdev)) {
->> +        return;
->> +    }
->> +
->> +    if (vfio_notifier_init(vdev, &vdev->intx.unmask, "intx-unmask", 0)) {
->> +        error_setg(errp, "vfio_notifier_init intx-unmask failed");
->> +        return;
->> +    }
->> +
->> +    if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
->> +                                           &vdev->intx.interrupt,
->> +                                           &vdev->intx.unmask,
->> +                                           vdev->intx.route.irq)) {
->> +        error_setg_errno(errp, errno, "failed to setup resample irqfd");
+>> +    VFIORamDiscardListener *vrdl = NULL;
 > 
+> This initialization was copied from current code, but...
 > 
-> Does not unwind with vfio_notifier_cleanup().  This also exactly
-> duplicates code in vfio_intx_enable_kvm(), which suggests it needs
-> further refactoring to a common helper.
+> #define QLIST_FOREACH(var, head, field)                                 \
+>         for ((var) = ((head)->lh_first);                                \
+>                ...
+> 
+> it doesn't look necessary.  Thanks,
 
-I will delete vfio_intx_reenable_kvm and add conditionals to vfio_intx_enable_kvm.
-That looks better.
-
->> +        return;
->> +    }
->> +
->> +    vdev->intx.kvm_accel = true;
->> +#endif
->> +}
->> +
->>  static void vfio_intx_enable_kvm(VFIOPCIDevice *vdev, Error **errp)
->>  {
->>  #ifdef CONFIG_KVM
->>      int irq_fd = event_notifier_get_fd(&vdev->intx.interrupt);
->>  
->> -    if (vdev->no_kvm_intx || !kvm_irqfds_enabled() ||
->> -        vdev->intx.route.mode != PCI_INTX_ENABLED ||
->> -        !kvm_resamplefds_enabled()) {
->> +    if (vfio_no_kvm_intx(vdev)) {
->>          return;
->>      }
->>  
->> @@ -328,7 +359,13 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
->>          return 0;
->>      }
->>  
->> -    vfio_disable_interrupts(vdev);
->> +    /*
->> +     * Do not alter interrupt state during vfio_realize and cpr-load.  The
->> +     * reused flag is cleared thereafter.
->> +     */
->> +    if (!vdev->vbasedev.reused) {
->> +        vfio_disable_interrupts(vdev);
->> +    }
->>  
->>      vdev->intx.pin = pin - 1; /* Pin A (1) -> irq[0] */
->>      pci_config_set_interrupt_pin(vdev->pdev.config, pin);
->> @@ -353,6 +390,11 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
->>      fd = event_notifier_get_fd(&vdev->intx.interrupt);
->>      qemu_set_fd_handler(fd, vfio_intx_interrupt, NULL, vdev);
->>  
->> +    if (vdev->vbasedev.reused) {
->> +        vfio_intx_reenable_kvm(vdev, &err);
->> +        goto finish;
->> +    }
->> +
-> 
-> This only jumps over the vfio_set_irq_signaling() and
-> vfio_intx_enable_kvm(), largely replacing the latter with chunks of
-> code taken from it.  Doesn't seem like the right factoring.
-Cleaned up in the next version.
-
->>      if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_INTX_IRQ_INDEX, 0,
->>                                 VFIO_IRQ_SET_ACTION_TRIGGER, fd, errp)) {
->>          qemu_set_fd_handler(fd, NULL, NULL, vdev);
->> @@ -365,6 +407,7 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
->>          warn_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
->>      }
->>  
->> +finish:
->>      vdev->interrupt = VFIO_INT_INTx;
->>  
->>      trace_vfio_intx_enable(vdev->vbasedev.name);
->> @@ -3195,9 +3238,13 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->>                                               vfio_intx_routing_notifier);
->>          vdev->irqchip_change_notifier.notify = vfio_irqchip_change;
->>          kvm_irqchip_add_change_notifier(&vdev->irqchip_change_notifier);
->> -        ret = vfio_intx_enable(vdev, errp);
->> -        if (ret) {
->> -            goto out_deregister;
->> +
->> +        /* Wait until cpr-load reads intx routing data to enable */
->> +        if (!vdev->vbasedev.reused) {
->> +            ret = vfio_intx_enable(vdev, errp);
->> +            if (ret) {
->> +                goto out_deregister;
->> +            }
->>          }
->>      }
->>  
->> @@ -3474,6 +3521,7 @@ static int vfio_pci_post_load(void *opaque, int version_id)
->>      VFIOPCIDevice *vdev = opaque;
->>      PCIDevice *pdev = &vdev->pdev;
->>      int nr_vectors;
->> +    int ret = 0;
->>  
->>      if (msix_enabled(pdev)) {
->>          msix_set_vector_notifiers(pdev, vfio_msix_vector_use,
->> @@ -3486,10 +3534,35 @@ static int vfio_pci_post_load(void *opaque, int version_id)
->>          vfio_claim_vectors(vdev, nr_vectors, false);
->>  
->>      } else if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
->> -        assert(0);      /* completed in a subsequent patch */
->> +        Error *err = 0;
->> +        ret = vfio_intx_enable(vdev, &err);
->> +        if (ret) {
->> +            error_report_err(err);
->> +        }
->>      }
->>  
->> -    return 0;
->> +    return ret;
->> +}
->> +
->> +static const VMStateDescription vfio_intx_vmstate = {
->> +    .name = "vfio-intx",
->> +    .unmigratable = 1,
-> 
-> 
-> unmigratable-vmstates-to-interfere-with-migration+
-A bug, will delete.
+Sure, will remove it.
 
 - Steve
  
->> +    .version_id = 0,
->> +    .minimum_version_id = 0,
->> +    .fields = (VMStateField[]) {
->> +        VMSTATE_BOOL(pending, VFIOINTx),
->> +        VMSTATE_UINT32(route.mode, VFIOINTx),
->> +        VMSTATE_INT32(route.irq, VFIOINTx),
->> +        VMSTATE_END_OF_LIST()
->> +    }
->> +};
 >> +
->> +#define VMSTATE_VFIO_INTX(_field, _state) {                         \
->> +    .name       = (stringify(_field)),                              \
->> +    .size       = sizeof(VFIOINTx),                                 \
->> +    .vmsd       = &vfio_intx_vmstate,                               \
->> +    .flags      = VMS_STRUCT,                                       \
->> +    .offset     = vmstate_offset_value(_state, _field, VFIOINTx),   \
->>  }
->>  
->>  static bool vfio_pci_needed(void *opaque)
->> @@ -3509,6 +3582,7 @@ static const VMStateDescription vfio_pci_vmstate = {
->>      .fields = (VMStateField[]) {
->>          VMSTATE_PCI_DEVICE(pdev, VFIOPCIDevice),
->>          VMSTATE_MSIX_TEST(pdev, VFIOPCIDevice, vfio_msix_present),
->> +        VMSTATE_VFIO_INTX(intx, VFIOPCIDevice),
->>          VMSTATE_END_OF_LIST()
->>      }
->>  };
-> 
+>> +    QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
+>> +        if (vrdl->mr == section->mr &&
+>> +            vrdl->offset_within_address_space ==
+>> +            section->offset_within_address_space) {
+>> +            break;
+>> +        }
+>> +    }
+>> +
+>> +    if (!vrdl) {
+>> +        hw_error("vfio: Trying to sync missing RAM discard listener");
+>> +        /* does not return */
+>> +    }
+>> +    return vrdl;
+>> +}
+>> +
+[...]
 
