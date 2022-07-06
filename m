@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B16E568514
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 12:18:59 +0200 (CEST)
-Received: from localhost ([::1]:32838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41C8568555
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 12:22:09 +0200 (CEST)
+Received: from localhost ([::1]:38100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o927W-0006Qr-Eu
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 06:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51554)
+	id 1o92Aa-0001fR-Qd
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 06:22:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o924P-0003bf-7V
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:15:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42212)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o925t-00055X-V9
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:17:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o924M-0006Lf-9r
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:15:43 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o925o-0006YG-3S
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:17:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657102541;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1657102630;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=enIdt+XAWt6FU4WEmdNaHI7eQDjqzYqizLAFUYCt6qc=;
- b=Brt+Ono7/90bZd3iGANxUQiiJW9i65a2Uf9IoVR7UREQFrnoEpMrkNvaf3jI7f3Nj+82uz
- HmJ9/AWb9GO0Boo8Q2ywEEecJQxWfQu7Cn3Wz4r39yX1wsxOiRAQW2syfZP60NkC6MGGWp
- iDncXiEnsl8m/Iq7K79/QgeZaHfXdVE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iIO3WsvoPc3xNMGPlE8bcNqQRPrhl2HgqMFbaRCOaXY=;
+ b=Inu3jnen9Ls21zSH3d7JZBmk3lkR5kHF1ACqon2z1w9qQasKmRdq2lAps3pa8DXgIioELw
+ SLZISoipHgtR6e8iF5NW0k8K9Ky+4Kf9K69Nzizi+jOrMGwgPK3BWtCUiE893FVIxDIQCz
+ LmkGA44tgj4HQzVOWfp3kceqQNi74Ro=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-226-0XlwXybONumKBiBU-lXHEg-1; Wed, 06 Jul 2022 06:15:32 -0400
-X-MC-Unique: 0XlwXybONumKBiBU-lXHEg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34A5D811E76;
- Wed,  6 Jul 2022 10:15:32 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DD4740CF8E7;
- Wed,  6 Jul 2022 10:15:28 +0000 (UTC)
-Date: Wed, 6 Jul 2022 11:15:25 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org, "Denis V. Lunev" <den@openvz.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Xu <peterx@redhat.com>,
- Alberto Garcia <berto@igalia.com>, John Snow <jsnow@redhat.com>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- Markus Armbruster <armbru@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Peter Lieven <pl@kamp.de>
-Subject: Re: [RFC 0/8] Introduce an extensible static analyzer
-Message-ID: <YsVgvYXt967wscOA@redhat.com>
-References: <20220702113331.2003820-1-afaria@redhat.com>
- <YsMVJLqNYmmpqjGc@redhat.com>
- <CAELaAXymGtALk+ZeMqWJX0mvj1_2p4MbaS4A+eY8V51KDNOddg@mail.gmail.com>
- <YsPlP6t0ALDkF4MU@redhat.com>
- <CAELaAXxdBvtxf2fXu1OxerBH+dTY_iti8CF-GMgGZpaWxgK_Gg@mail.gmail.com>
- <YsRi0SfAK3SVwQ2H@redhat.com>
- <CAELaAXz_xmBDQzCK3SdkryoAnynE0CRUBg4TNv6ZwntuenANkA@mail.gmail.com>
+ us-mta-336-LJJkHCMOM8yKhT3BGeF3FA-1; Wed, 06 Jul 2022 06:17:09 -0400
+X-MC-Unique: LJJkHCMOM8yKhT3BGeF3FA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ i184-20020a1c3bc1000000b003a026f48333so6443643wma.4
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 03:17:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iIO3WsvoPc3xNMGPlE8bcNqQRPrhl2HgqMFbaRCOaXY=;
+ b=LEKm1yuf6vR9JOpLtjiKzBdF1BweFd1/lQfE3yDtedgxrZbI2eHCpBYbhwm8CIR9kG
+ 0IbOr7gnxTX5TPuPi8l2qyFUIwFrzrWVfrRRVtVd0D9kt49ZPeUpDiKMRUD/4wjdJ3R9
+ bx7KE5OVS+bCDbbd32jk/ZfbmyXfEOo87GcfqE/bxChWIbU1mxED21Cz4/YzeZB6VOdl
+ RWfQ3TAZMuWNgdBzSnWskjPkFJVd7IdmJMCjbWAu56DAGfcZ8oN+avcH3OPtmsv/XqhS
+ pNXXkBqZCDrBxlllfaKpuAyJxEmFU0Mi9meK4Os+IHrCpw561/okOZ0m1QdjnDU2YkTr
+ cinw==
+X-Gm-Message-State: AJIora/O4zpQjPSNUvMa3iydvh2USPqj61fRGi3LR+WFvXGqoYSkE9dC
+ VqSDbL/qwT9c3RhPr3xqp9BSd98/B7xrQ8W5UoXeJwIyU8DmiUWLmYnderTH/+SWe0scx7PwaZV
+ FfL9CqUxEN+xXryk=
+X-Received: by 2002:a5d:6048:0:b0:21d:68e5:7cf0 with SMTP id
+ j8-20020a5d6048000000b0021d68e57cf0mr16166872wrt.678.1657102627944; 
+ Wed, 06 Jul 2022 03:17:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v9AoM6bnDUbL6c1E0G7d+VH7PXzhTrGdwD/Jydn5ToqA8ZAbrhCDQSuzAoJl26B5geWkMt6A==
+X-Received: by 2002:a5d:6048:0:b0:21d:68e5:7cf0 with SMTP id
+ j8-20020a5d6048000000b0021d68e57cf0mr16166840wrt.678.1657102627704; 
+ Wed, 06 Jul 2022 03:17:07 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-21.web.vodafone.de.
+ [109.43.176.21]) by smtp.gmail.com with ESMTPSA id
+ t8-20020a7bc3c8000000b003a050a391e8sm25339237wmj.38.2022.07.06.03.17.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jul 2022 03:17:07 -0700 (PDT)
+Message-ID: <09c2108b-87bb-06a7-3877-7ad15106b32e@redhat.com>
+Date: Wed, 6 Jul 2022 12:17:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAELaAXz_xmBDQzCK3SdkryoAnynE0CRUBg4TNv6ZwntuenANkA@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2] target/s390x/tcg: SPX: check validity of new prefix
+Content-Language: en-US
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+References: <20220630094340.3646279-1-scgl@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220630094340.3646279-1-scgl@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,53 +100,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 06, 2022 at 10:54:51AM +0100, Alberto Faria wrote:
-> On Tue, Jul 5, 2022 at 5:12 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > On Tue, Jul 05, 2022 at 12:28:55PM +0100, Alberto Faria wrote:
-> > > On Tue, Jul 5, 2022 at 8:16 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > Overall I think a libclang based analysis tool will be useful, but
-> > I can't see us enabling it as a standard part of 'make check'
-> > given the time penalty.
-> >
-> >
-> > Feels like something that'll have to be opt-in to a large degree
-> > for regular contributors. In terms of gating CI though, it is less
-> > of an issue, since we massively parallelize jobs. As long as we
-> > have a dedicated build job just for running this static analysis
-> > check in isolation, and NOT as 'make check' in all existing jobs,
-> > it can happen in parallel with all the other build jobs, and we
-> > won't notice the speed.
-> >
-> > In summary, I think this approach is viable despite the speed
-> > penalty provided we dont wire it into 'make check' by default.
+On 30/06/2022 11.43, Janis Schoetterl-Glausch wrote:
+> According to the architecture, SET PREFIX must try to access the new
+> prefix area and recognize an addressing exception if the area is not
+> accessible.
+> For qemu this check prevents a crash in cpu_map_lowcore after an
+> inaccessible prefix area has been set.
 > 
-> Agreed. Thanks for gathering these numbers.
+> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> ---
+>   target/s390x/tcg/misc_helper.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
 > 
-> Making the script use build dependency information, to avoid
-> re-analyzing translation units that weren't modified since the last
-> analysis, should make it fast enough to be usable iteratively during
-> development. Header precompilation could also be worth looking into.
-> Doing that + running a full analysis in CI should be good enough.
+> diff --git a/target/s390x/tcg/misc_helper.c b/target/s390x/tcg/misc_helper.c
+> index aab9c47747..10dadb002a 100644
+> --- a/target/s390x/tcg/misc_helper.c
+> +++ b/target/s390x/tcg/misc_helper.c
+> @@ -158,6 +158,13 @@ void HELPER(spx)(CPUS390XState *env, uint64_t a1)
+>       if (prefix == old_prefix) {
+>           return;
+>       }
+> +    /*
+> +     * Since prefix got aligned to 8k and memory increments are a multiple of
+> +     * 8k checking the first page is sufficient
+> +     */
+> +    if (!mmu_absolute_addr_valid(prefix, true)) {
+> +        tcg_s390_program_interrupt(env, PGM_ADDRESSING, GETPC());
+> +    }
+>   
+>       env->psa = prefix;
+>       HELPER_LOG("prefix: %#x\n", prefix);
 
-For clang-tidy, I've been trying it out integrated into emacs
-via eglot and clangd. This means I get clang-tidy errors reported
-interactively as I write code, so wouldn't need to run a full
-tree analysis. Unfortunately, unless I'm missing something, there's
-no way to extend clangd to plugin extra checks.  So it would need
-to re-implement something equivalent to clangd for our custom checks,
-and then integrate that into eglot (or equiv for other editors).
+Thanks, queued to my s390x-next branch now:
 
+  https://gitlab.com/thuth/qemu/-/commits/s390x-next
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  Thomas
 
 
