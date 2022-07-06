@@ -2,51 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AD9569090
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 19:23:07 +0200 (CEST)
-Received: from localhost ([::1]:49958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4613C5690A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 19:26:42 +0200 (CEST)
+Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o98jy-0007ds-FQ
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 13:23:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56318)
+	id 1o98nR-0001Rt-59
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 13:26:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=dv4w=XL=kaod.org=clg@ozlabs.org>)
- id 1o98ik-0006m7-Bn; Wed, 06 Jul 2022 13:21:50 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:49991)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o98l1-00008t-9n; Wed, 06 Jul 2022 13:24:11 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:56508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=dv4w=XL=kaod.org=clg@ozlabs.org>)
- id 1o98ii-0005nT-5s; Wed, 06 Jul 2022 13:21:50 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LdRD32NSvz4xZB;
- Thu,  7 Jul 2022 03:21:39 +1000 (AEST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LdRD03zn3z4xTq;
- Thu,  7 Jul 2022 03:21:36 +1000 (AEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH] docs: aspeed: Minor updates
-Date: Wed,  6 Jul 2022 19:21:31 +0200
-Message-Id: <20220706172131.809255-1-clg@kaod.org>
-X-Mailer: git-send-email 2.35.3
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o98ku-00063H-0S; Wed, 06 Jul 2022 13:24:10 -0400
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id ADBC12E1382;
+ Wed,  6 Jul 2022 20:23:47 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:6422::1:33] (unknown
+ [2a02:6b8:b081:6422::1:33])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ uJbNyLZ2Tx-NkO8eb8J; Wed, 06 Jul 2022 20:23:47 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1657128227; bh=HBbMXx5id+V23L0iJdML/OIfkOuc10Zw+El6OqEiA8U=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=y8TaJGwMmXhS1mxYInbWvxCiJXTBe6k2LEUFfpLLaME5/VPKrWJK1eG1YOSl/CpUp
+ 8mlWVZGTWpdq/H4f619DCaHsaOAbfSqWTYMth0lW8uT1P9UMbZNnTTL9i1F90mTDsj
+ r/zDb+3JRMdhGwA/3R4FtXKDHaO4qYgtymI0QmUc=
+Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <96204dd1-ee66-86f8-9dda-8219f79f4f1c@yandex-team.ru>
+Date: Wed, 6 Jul 2022 20:23:45 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=SRS0=dv4w=XL=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v8 08/20] blockjob.h: introduce block_job _locked() APIs
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220629141538.3400679-1-eesposit@redhat.com>
+ <20220629141538.3400679-9-eesposit@redhat.com>
+ <6c02430a-a8d8-0be3-18b4-1709e601cbf9@yandex-team.ru>
+ <95c3dae0-a8dd-1ec6-0ba1-5a4b1e92c1a3@redhat.com>
+ <a48ea347-3a44-28c7-b154-ce3dadbae23c@yandex-team.ru>
+ <233bbc9e-1eb2-4ab5-674d-83f234915a64@redhat.com>
+ <1837e1d3-b22b-69e1-5315-504ac35d1f06@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <1837e1d3-b22b-69e1-5315-504ac35d1f06@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,80 +89,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some more controllers have been modeled recently. Reflect that in the
-list of supported devices. New machines were also added.
+On 7/6/22 15:59, Emanuele Giuseppe Esposito wrote:
+> 
+> 
+> Am 06/07/2022 um 14:36 schrieb Emanuele Giuseppe Esposito:
+>>
+>>
+>> Am 06/07/2022 um 14:23 schrieb Vladimir Sementsov-Ogievskiy:
+>>> On 7/6/22 15:05, Emanuele Giuseppe Esposito wrote:
+>>>>
+>>>>
+>>>> Am 05/07/2022 um 17:01 schrieb Vladimir Sementsov-Ogievskiy:
+>>>>> On 6/29/22 17:15, Emanuele Giuseppe Esposito wrote:
+>>>>>> Just as done with job.h, create _locked() functions in blockjob.h
+>>>>>
+>>>>> We modify not only blockjob.h, I'd s/blockjob.h/blockjob/ in subject.
+>>>>>
+>>>>> Also, we start to introduce _locked block_job_* APIs.
+>>>>>
+>>>>> Does it mean that BlockJob and Job share the global mutex to protect
+>>>>> themselves? Than I think we should document in BlockJob struct what is
+>>>>> protected by job_mutex.
+>>>>
+>>>> There is nothing in the struct (apart from Job) that is protected by the
+>>>> job lock. I can add a comment "Protected by job mutex" on top of Job job
+>>>> field?
+>>>
+>>> Yes, I think that's worth doing.
+>>>
+>>> Other fields doesn't need the lock?
+>>>
+>> Well I didn't plan to actually look at it but now that you ask:
+>>
+>> /** needs protection, so it can go under job lock */
+>> BlockDeviceIoStatus iostatus;
+>>
+>> /** mostly under lock, not sure when it is called as notifier callback
+>> though. I think they are GLOBAL_STATE, what do you think?  */
+>> int64_t speed;
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- docs/system/arm/aspeed.rst | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+Hmm I doubt that notifier callbacks are always called from GS code.. But reading .speed to send an event doesn't seem to worth any locking.
 
-diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index 445095690c04..6c5b05128ea8 100644
---- a/docs/system/arm/aspeed.rst
-+++ b/docs/system/arm/aspeed.rst
-@@ -31,7 +31,10 @@ AST2600 SoC based machines :
- - ``tacoma-bmc``           OpenPOWER Witherspoon POWER9 AST2600 BMC
- - ``rainier-bmc``          IBM Rainier POWER10 BMC
- - ``fuji-bmc``             Facebook Fuji BMC
-+- ``bletchley-bmc``        Facebook Bletchley BMC
- - ``fby35-bmc``            Facebook fby35 BMC
-+- ``qcom-dc-scm-v1-bmc``   Qualcomm DC-SCM V1 BMC
-+- ``qcom-firework-bmc``    Qualcomm Firework BMC
- 
- Supported devices
- -----------------
-@@ -40,7 +43,7 @@ Supported devices
-  * Interrupt Controller (VIC)
-  * Timer Controller
-  * RTC Controller
-- * I2C Controller
-+ * I2C Controller, including the new register interface of the AST2600
-  * System Control Unit (SCU)
-  * SRAM mapping
-  * X-DMA Controller (basic interface)
-@@ -57,6 +60,10 @@ Supported devices
-  * LPC Peripheral Controller (a subset of subdevices are supported)
-  * Hash/Crypto Engine (HACE) - Hash support only. TODO: HMAC and RSA
-  * ADC
-+ * Secure Boot Controller (AST2600)
-+ * eMMC Boot Controller (dummy)
-+ * PECI Controller (minimal)
-+ * I3C Controller
- 
- 
- Missing devices
-@@ -68,12 +75,10 @@ Missing devices
-  * Super I/O Controller
-  * PCI-Express 1 Controller
-  * Graphic Display Controller
-- * PECI Controller
-  * MCTP Controller
-  * Mailbox Controller
-  * Virtual UART
-  * eSPI Controller
-- * I3C Controller
- 
- Boot options
- ------------
-@@ -154,6 +159,8 @@ Supported devices
-  * LPC Peripheral Controller (a subset of subdevices are supported)
-  * Hash/Crypto Engine (HACE) - Hash support only. TODO: HMAC and RSA
-  * ADC
-+ * Secure Boot Controller
-+ * PECI Controller (minimal)
- 
- 
- Missing devices
-@@ -161,7 +168,6 @@ Missing devices
- 
-  * PWM and Fan Controller
-  * Slave GPIO Controller
-- * PECI Controller
-  * Mailbox Controller
-  * Virtual UART
-  * eSPI Controller
+>>
+>> /** thread safe API */
+>> RateLimit limit;
+>>
+>> /** I think it's also thread safe */
+>> Error *blocker;
+>>
+>> /* always under job lock */
+> Actually that's wrong, they are just set once and never modified.
+> 
+> And GSList *nodes; is also always called under GS.
+> 
+> So there's only iostatus to protect and maybe speed.
+> 
+
+
+
+
 -- 
-2.35.3
-
+Best regards,
+Vladimir
 
