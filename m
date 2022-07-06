@@ -2,90 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A52E567DF8
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 07:45:34 +0200 (CEST)
-Received: from localhost ([::1]:53586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C58567E23
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 08:02:07 +0200 (CEST)
+Received: from localhost ([::1]:58034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8xqu-0007NL-L6
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 01:45:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38446)
+	id 1o8y6w-000315-70
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 02:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o8xlg-0006Tw-Mk
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 01:40:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38780)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8y45-0001v3-Kg
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 01:59:09 -0400
+Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:36983)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o8xlc-000718-SU
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 01:40:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657086003;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uDR06GgtcRIQFIgBY4jGsV++VyJZbjHgPN/Nu+TN0/M=;
- b=V/HZjWXtZvPWM/9QQOxBTJSGXnChZj7+7IRCpzun9EOQjaGzKMT3h8cgNSleIZwjl9s7v5
- 7as1A9egNantebGO8umxqyG4x6gczIc4i1fHzZFfUWjbg2tgj/rEOa2/GiVhiwIRc6U/Uj
- Vg686C11tbXOwMM9hVIW6/2DMPGVgeQ=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-1Wgi9XX1MWiV5u1RJAOzaQ-1; Wed, 06 Jul 2022 01:39:54 -0400
-X-MC-Unique: 1Wgi9XX1MWiV5u1RJAOzaQ-1
-Received: by mail-lj1-f200.google.com with SMTP id
- d24-20020a2eb058000000b0025a7f5ccae6so4235341ljl.14
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 22:39:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uDR06GgtcRIQFIgBY4jGsV++VyJZbjHgPN/Nu+TN0/M=;
- b=xma8Nw6wC2tWJH3A5u5bePo13V70gd4xGDEA1/+pNMi/WbhG+vw79UwFO6Hw+CWGbT
- ht30+jheWKyUn5PXY4YXhBsXcC+F6lMYq36eubKHSjy7EdZ77c7v8XzvMAJrLdaYuHZ1
- 1Qz2k2K5qoJv/Jx3jKLusEEg3EfDzrFi0s4aijFNuV7a0ycrGG6E4CaVyQCiDdAiLBn4
- WCUUgSgOBaskNnCUnJsuTl2SheDUzZVKFdpX/OyQjBA2uEqti+YV9Yb6wZ5ststiXa86
- Ky8PXQk0fsL84uD3wQaLuXFL7opZT6JTtefyrUeB+L4Hr1F+azPq3AoVT7SsvNTkZXS8
- 2rbA==
-X-Gm-Message-State: AJIora99XnaTLVewiVUWmg58HVKqSGBpVxvjp7eHETG+a2sBN/ASpTXg
- Da8kVCd00bUaypY4Uf1xR35RwDW69gnh/BkNFjDDkpxrvj2Z9J/F+xTfDCQQHkMSBTUkyJHiwbF
- tDmQGDbDkvgYCJNQukQ/PcaJphr4HYXM=
-X-Received: by 2002:a05:6512:b0d:b0:481:5cb4:cf1e with SMTP id
- w13-20020a0565120b0d00b004815cb4cf1emr17074930lfu.442.1657085992551; 
- Tue, 05 Jul 2022 22:39:52 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s1c5Y7+u8P2weXw9fGgpzRPws0yjI0hMfWfEhBwTeNJxJFjBNW8WUy4jLUpdmr+5O27SJPv8s0Y9h0z2TAHEs=
-X-Received: by 2002:a05:6512:b0d:b0:481:5cb4:cf1e with SMTP id
- w13-20020a0565120b0d00b004815cb4cf1emr17074916lfu.442.1657085992322; Tue, 05
- Jul 2022 22:39:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o8y3m-0001gj-1K
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 01:59:08 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.162])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0506B234A8;
+ Wed,  6 Jul 2022 05:58:45 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 6 Jul 2022
+ 07:58:45 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002da33ccb0-7408-4333-aa06-7135485256bd,
+ 6D332DB375924522570C93BFC406BEE3A96BD498) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <6dc63502-11ae-633a-a9a0-90f0fe32e808@kaod.org>
+Date: Wed, 6 Jul 2022 07:58:44 +0200
 MIME-Version: 1.0
-References: <20220401034702.687057-1-chen.zhang@intel.com>
- <20220401034702.687057-2-chen.zhang@intel.com>
- <CACGkMEs7FeRCr4E9E68gS+GBTgdebeD=f0dYnPivyZ2G1mWmvw@mail.gmail.com>
- <MWHPR11MB0031EE757A9C70E8F506BC899BFA9@MWHPR11MB0031.namprd11.prod.outlook.com>
- <MWHPR11MB00318C5C371743AD30AB9CE69BC49@MWHPR11MB0031.namprd11.prod.outlook.com>
- <CACGkMEtdaP6x0xdwVWfHmBLWOJQ=ffepbmz-6quWq3g8FC5GCg@mail.gmail.com>
- <YoTv6hUkdggrfd4l@work-vm>
- <CACGkMEu6nxmZiyi=w_+hwemETfRJfhvwMypeSiLY1QZ_g9tJ4A@mail.gmail.com>
- <MWHPR11MB00317BE49AE00B7CDC066A3D9B809@MWHPR11MB0031.namprd11.prod.outlook.com>
-In-Reply-To: <MWHPR11MB00317BE49AE00B7CDC066A3D9B809@MWHPR11MB0031.namprd11.prod.outlook.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 6 Jul 2022 13:39:41 +0800
-Message-ID: <CACGkMEtoH7L3Jk7+OOigiXN6wH4EQ0XmMUkzFgj+T5vapAgaNw@mail.gmail.com>
-Subject: Re: [PATCH V2 1/4] softmmu/runstate.c: add RunStateTransition support
- form COLO to PRELAUNCH
-To: "Zhang, Chen" <chen.zhang@intel.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>, 
- Like Xu <like.xu@linux.intel.com>, Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 9/9] docs: aspeed: Add fby35 multi-SoC machine section
+Content-Language: en-US
+To: Peter Delevoryas <peter@pjd.dev>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
+ <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20220705191400.41632-1-peter@pjd.dev>
+ <20220705191400.41632-10-peter@pjd.dev>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220705191400.41632-10-peter@pjd.dev>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: b1747a8c-8f45-4bbe-a6ea-5a4b87794e66
+X-Ovh-Tracer-Id: 2636013157695392550
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeivddgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedvleetheeivddtveduleekhedvhfdvffeiuefgudffjefhuedttdfgleeugeelgfenucffohhmrghinhepohhpvghntghomhhpuhhtvgdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
+ helo=1.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,73 +76,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 6, 2022 at 1:02 PM Zhang, Chen <chen.zhang@intel.com> wrote:
->
-> > > > > > > On Fri, Apr 1, 2022 at 11:59 AM Zhang Chen <chen.zhang@intel.com>
-> > wrote:
-> > > > > > > >
-> > > > > > > > If the checkpoint occurs when the guest finishes restarting
-> > > > > > > > but has not started running, the runstate_set() may reject
-> > > > > > > > the transition from COLO to PRELAUNCH with the crash log:
-> > > > > > > >
-> > > > > > > > {"timestamp": {"seconds": 1593484591, "microseconds":
-> > > > > > > > 26605},\
-> > > > > > > > "event": "RESET", "data": {"guest": true, "reason":
-> > > > > > > > "guest-reset"}}
-> > > > > > > > qemu-system-x86_64: invalid runstate transition: 'colo' ->
-> > 'prelaunch'
-> > > > > > > >
-> > > > > > > > Long-term testing says that it's pretty safe.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Like Xu <like.xu@linux.intel.com>
-> > > > > > > > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> > > > > > >
-> > > > > > > I'd expect this to get ack from the relevant maintainers.
-> > > > > > >
-> > > > > >
-> > > > > > The scripts/get_maintainer.pl can't find relevant maintainers for this
-> > patch.
-> > > > > > Maybe Paolo have time to cover this simple patch related to runstate?
-> > > > >
-> > > > > No news for a while, any comments for unmaintained files changes ?
-> > > > > Ping...
-> > > >
-> > > > Adding David and Juan.
-> > >
-> > > This looks OK to me;
-> > >
-> > > Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >
-> > Great.
-> >
-> > >
-> > > it should be fine to merge it along with the pull that takes the other
-> > > patches.
-> >
-> > Yes, I've queued this series.
->
-> Hi Jason,  did this series get lost in the net queue branch?
+On 7/5/22 21:14, Peter Delevoryas wrote:
+> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 
-Unfortunately, yes.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-It will be included in the net pull request.
+I fixed inline the URL links and moved the section at the end of the file.
 
-Sorry.
+Thanks,
 
->
-> Thanks
-> Chen
->
-> >
-> > Thanks
-> >
-> > >
-> > > Dave
-> > >
-> > > > Thanks
-> > > >
-> > > > >
-> > >
->
+C.
+
+
+> ---
+>   docs/system/arm/aspeed.rst | 48 ++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 48 insertions(+)
+> 
+> diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+> index 5d0a7865d3..b233191b67 100644
+> --- a/docs/system/arm/aspeed.rst
+> +++ b/docs/system/arm/aspeed.rst
+> @@ -136,6 +136,54 @@ AST1030 SoC based machines :
+>   
+>   - ``ast1030-evb``          Aspeed AST1030 Evaluation board (Cortex-M4F)
+>   
+> +Facebook Yosemite v3.5 Platform and CraterLake Server (``fby35``)
+> +==================================================================
+> +
+> +Facebook has a series of multi-node compute server designs named
+> +Yosemite. The most recent version released was
+> +`Yosemite v3 <https://www.opencompute.org/documents/ocp-yosemite-v3-platform-design-specification-1v16-pdf>`.
+> +
+> +Yosemite v3.5 is an iteration on this design, and is very similar: there's a
+> +baseboard with a BMC, and 4 server slots. The new server board design termed
+> +"CraterLake" includes a Bridge IC (BIC), with room for expansion boards to
+> +include various compute accelerators (video, inferencing, etc). At the moment,
+> +only the first server slot's BIC is included.
+> +
+> +Yosemite v3.5 is itself a sled which fits into a 40U chassis, and 3 sleds
+> +can be fit into a chassis. See `here <https://www.opencompute.org/products/423/wiwynn-yosemite-v3-server>`
+> +for an example.
+> +
+> +In this generation, the BMC is an AST2600 and each BIC is an AST1030. The BMC
+> +runs `OpenBMC <https://github.com/facebook/openbmc>`, and the BIC runs
+> +`OpenBIC <https://github.com/facebook/openbic>`.
+> +
+> +Firmware images can be retrieved from the Github releases or built from the
+> +source code, see the README's for instructions on that. This image uses the
+> +"fby35" machine recipe from OpenBMC, and the "yv35-cl" target from OpenBIC.
+> +Some reference images can also be found here:
+> +
+> +.. code-block:: bash
+> +
+> +    $ wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
+> +    $ wget https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.13.01/Y35BCL.elf
+> +
+> +Since this machine has multiple SoC's, each with their own serial console, the
+> +recommended way to run it is to allocate a pseudoterminal for each serial
+> +console and let the monitor use stdio. Also, starting in a paused state is
+> +useful because it allows you to attach to the pseudoterminals before the boot
+> +process starts.
+> +
+> +.. code-block:: bash
+> +
+> +    $ qemu-system-arm -machine fby35 \
+> +        -drive file=fby35.mtd,format=raw,if=mtd \
+> +        -device loader,file=Y35BCL.elf,addr=0,cpu-num=2 \
+> +        -serial pty -serial pty -serial mon:stdio \
+> +        -display none -S
+> +    $ screen /dev/tty0 # In a separate TMUX pane, terminal window, etc.
+> +    $ screen /dev/tty1
+> +    $ (qemu) c		   # Start the boot process once screen is setup.
+> +
+>   Supported devices
+>   -----------------
+>   
 
 
