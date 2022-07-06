@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4A8567BCF
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 04:17:43 +0200 (CEST)
-Received: from localhost ([::1]:59706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B51567BD1
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 04:20:29 +0200 (CEST)
+Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8ubm-0002Ia-3t
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 22:17:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33446)
+	id 1o8ueR-0005NF-RG
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 22:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o8uXp-0008Ve-Jk
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 22:13:37 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:36562)
+ id 1o8uXr-000074-SM
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 22:13:39 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:37642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1o8uXn-0007iw-SB
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 22:13:37 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- z12-20020a17090a7b8c00b001ef84000b8bso8493310pjc.1
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 19:13:35 -0700 (PDT)
+ id 1o8uXq-0007jR-CO
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 22:13:39 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ y14-20020a17090a644e00b001ef775f7118so10467637pjm.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 19:13:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=klW5l721zkRtbV2/1qgZifBW4d5CZpXzNC6YAnMqrO0=;
- b=WXq9tCMTrkQl9EyJV6A2+JCdHc4WNDDer409V7FaBudpdGw9in5VGGkdWu0JeVf4kL
- o4eZfDy06PWfqYNYa6+KFYWCDlf6pF4mYo5xmdOMv+Dbqc/MLvAu5Wx1gJaCo4fPHaZi
- UMiDKvIEe1zF1AgK8ic384QOgfJJroEfHuKMOA9YvCdEjGWTpjsyucFevUoxGx4gknmA
- v2fsP2zqQWB5tzt8AxuXVgGyhoUJqsxDYobBzWP+xRs4XIy43rnWfhASCbUuPrKFvLLN
- TDC7yIx/kUIE59v7mo0a6XVfe+h+vw5qs2Wg920hTXVst5AaLEHRkWecrID3iXGo7n86
- +2Ng==
+ bh=/xcB4yyz0VJorUBTxjUWCNnY98x9UBxEtC0Pp+MlP1I=;
+ b=AZxlGUOmCDif+/hPvCJaqJaRyb7xe4FmPWWOa+Mj6QqA/K7EOBmE+MoXjGcNr3dF1u
+ amKq/BRvi6/HXF5xyuL6pywwFJcqIVCvTvdKWVnuOpbjRFnfiJGteUhWsU0mOAT1h04O
+ uGLNi4frE2KzVp20FhnChCjHs+BSVuHjmbF2Hz0UYGSwcfKrAe6okWdSP1pZQ3YbiYdI
+ +irynJKYA/6Xw5bEF5CenNEZlDoR9n3iEJA99CwblXRwnggdR4CAmhXY7H+ViRoivVlo
+ gh/7v6+c21Flt+slMkPo43L5Zn7Fg+7993tsVERlfvwgWjHc9sOPcKGJpcyYHDVqqBJJ
+ BXHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=klW5l721zkRtbV2/1qgZifBW4d5CZpXzNC6YAnMqrO0=;
- b=VxrET0M167X/97/C0PEJ3XEJwku87hqFYel9uRERlijxDRZjpZ/+r3UwPq2JvF+KEw
- 655C7/0ESK12dgk+UnTKjcPhwDtLPhe/hsbO2Nk2rAn1Ls0wgTlxacdSemosWj19tmnu
- BBZ2lZBz+ymD6oLbHjHopdpxS1xBFbDs/tJcO0zddaynC4qcjfFlbEn1yNfQlWL4X/Ao
- HQtwE2YcSUFrADdjR7U5muanB8etAblw5p0psO96rVlZYoJ9mpiz/tRxlbTNzDorlrAm
- 6152NIWwQlDi5YGUxekeyZgxZ/kEYnJj9bDpzMgvBAZFHEg9F/y6+sEPgYYwui0lRmdN
- JF4w==
-X-Gm-Message-State: AJIora/e+X4LSyyMkh78SNgu7aNaGb0tj3K0m1yl4/yre73rk25S45/d
- F8AvqJw2xzt/N/zc0QShEO46HhFEeds=
-X-Google-Smtp-Source: AGRyM1v+KYjsixBEJ/YU8718/fOt0z5bwbJQIU/VkRYpUbEVBT/DZMv+/9VLTDrQxp4Hx5ouxqXXBg==
-X-Received: by 2002:a17:902:b598:b0:168:b0b2:f05a with SMTP id
- a24-20020a170902b59800b00168b0b2f05amr44684636pls.0.1657073614121; 
- Tue, 05 Jul 2022 19:13:34 -0700 (PDT)
+ bh=/xcB4yyz0VJorUBTxjUWCNnY98x9UBxEtC0Pp+MlP1I=;
+ b=Sdb1+r/ZAIkv3++kYO5nd5pXOtrNLSdeaP/cfPwqnDIV3GcwVcFWgtACcVMjSG67Tr
+ /LzY11HKRqt/yNsrAJnSKeNzql5rvX35/OxQ4ESEZCILERfENoG7y6lXqctvOVlHg74a
+ trE5KKxywLyE2uKv5KgBM3xmcMeP+SY07HASRbTzF9antm0QjCHbLHsB0rny8oSNYPss
+ ogn85J8Ks+XOzinkFs73IsF6eVp9lOKzAxTjhRRL7+mifzWGrq16lubk/X0L/ECSljFX
+ 3W1Wc+xI0OFzzXgB8sZVhHoL4bQDE0nqj37ZYODhdID1R+Qb3cZLmRlzesuObjk0NwWJ
+ 0fgg==
+X-Gm-Message-State: AJIora8BY2Wd1lUxc48kauV+c/jxBx7JJ5A3q4ergZ4JU5tvDVOjbRyl
+ 8CfpBWDx7XdpRpJ6wK5skYwbSXFrV/s=
+X-Google-Smtp-Source: AGRyM1s99vitAhLqUbemh3TWXXQUueSvqZQouh+lM0ggBg9pXVcnimF3TD/5R4rVt3P7HhvUbbPDcA==
+X-Received: by 2002:a17:90b:388e:b0:1ec:f6b6:f31f with SMTP id
+ mu14-20020a17090b388e00b001ecf6b6f31fmr46432195pjb.181.1657073616690; 
+ Tue, 05 Jul 2022 19:13:36 -0700 (PDT)
 Received: from localhost.localdomain ([157.82.194.15])
  by smtp.gmail.com with ESMTPSA id
- ij21-20020a170902ab5500b0016bedcced2fsm3334071plb.35.2022.07.05.19.13.31
+ ij21-20020a170902ab5500b0016bedcced2fsm3334071plb.35.2022.07.05.19.13.34
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 05 Jul 2022 19:13:33 -0700 (PDT)
+ Tue, 05 Jul 2022 19:13:36 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
 Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -62,17 +62,16 @@ Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH 2/3] Revert "main-loop: Disable block backend global state
- assertion on Cocoa"
-Date: Wed,  6 Jul 2022 11:13:21 +0900
-Message-Id: <20220706021322.22570-3-akihiko.odaki@gmail.com>
+Subject: [PATCH 3/3] meson: Allow to enable gtk and sdl while cocoa is enabled
+Date: Wed,  6 Jul 2022 11:13:22 +0900
+Message-Id: <20220706021322.22570-4-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 In-Reply-To: <20220706021322.22570-1-akihiko.odaki@gmail.com>
 References: <20220706021322.22570-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -95,41 +94,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 47281859f66bdab1974fb122cab2cbb4a1c9af7f.
+As ui/cocoa does no longer override main(), ui/gtk and ui/sdl
+can be enabled even ui/cocoa is enabled.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- include/qemu/main-loop.h | 13 -------------
- 1 file changed, 13 deletions(-)
+ meson.build | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index 5518845299d..0aa36a4f17e 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -280,23 +280,10 @@ bool qemu_mutex_iothread_locked(void);
- bool qemu_in_main_thread(void);
+diff --git a/meson.build b/meson.build
+index 6e1c3eb2bc5..4714a0d5cf8 100644
+--- a/meson.build
++++ b/meson.build
+@@ -587,12 +587,6 @@ if get_option('attr').allowed()
+ endif
  
- /* Mark and check that the function is part of the global state API. */
--#ifdef CONFIG_COCOA
--/*
-- * When using the Cocoa UI, addRemovableDevicesMenuItems() is called from
-- * a thread different from the QEMU main thread and can not take the BQL,
-- * triggering this assertions in the block layer (commit 0439c5a462).
-- * As the Cocoa fix is not trivial, disable this assertion for the v7.0.0
-- * release (when using Cocoa); we will restore it immediately after the
-- * release.
-- * This issue is tracked as https://gitlab.com/qemu-project/qemu/-/issues/926
-- */
--#define GLOBAL_STATE_CODE()
--#else
- #define GLOBAL_STATE_CODE()                                         \
-     do {                                                            \
-         assert(qemu_in_main_thread());                              \
-     } while (0)
--#endif /* CONFIG_COCOA */
+ cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
+-if cocoa.found() and get_option('sdl').enabled()
+-  error('Cocoa and SDL cannot be enabled at the same time')
+-endif
+-if cocoa.found() and get_option('gtk').enabled()
+-  error('Cocoa and GTK+ cannot be enabled at the same time')
+-endif
  
- /* Mark and check that the function is part of the I/O API. */
- #define IO_CODE()                                                   \
+ vmnet = dependency('appleframeworks', modules: 'vmnet', required: get_option('vmnet'))
+ if vmnet.found() and not cc.has_header_symbol('vmnet/vmnet.h',
+@@ -919,7 +913,7 @@ if not get_option('brlapi').auto() or have_system
+ endif
+ 
+ sdl = not_found
+-if not get_option('sdl').auto() or (have_system and not cocoa.found())
++if not get_option('sdl').auto() or have_system
+   sdl = dependency('sdl2', required: get_option('sdl'), kwargs: static_kwargs)
+   sdl_image = not_found
+ endif
+@@ -1185,7 +1179,7 @@ endif
+ gtk = not_found
+ gtkx11 = not_found
+ vte = not_found
+-if not get_option('gtk').auto() or (have_system and not cocoa.found())
++if not get_option('gtk').auto() or have_system
+   gtk = dependency('gtk+-3.0', version: '>=3.22.0',
+                    method: 'pkg-config',
+                    required: get_option('gtk'),
 -- 
 2.32.1 (Apple Git-133)
 
