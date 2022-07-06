@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306C0568467
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 11:59:42 +0200 (CEST)
-Received: from localhost ([::1]:52306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAF45683B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 11:38:58 +0200 (CEST)
+Received: from localhost ([::1]:58546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o91oq-0006Bp-6R
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 05:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50102)
+	id 1o91Un-0005Dl-K8
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 05:38:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o90MB-0006zd-54
+ id 1o90MD-00070R-Al
  for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:26:01 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:40668)
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:43875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o90M9-0000oS-Lm
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:25:58 -0400
-Received: by mail-pg1-x531.google.com with SMTP id i190so849458pge.7
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 01:25:57 -0700 (PDT)
+ id 1o90MB-0000oT-OB
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:26:00 -0400
+Received: by mail-pf1-x433.google.com with SMTP id t3so573515pfq.10
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 01:25:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Khgw4zesO+K18d95Nf0OQk5x631DSo+q5LDKVsiqTz0=;
- b=klMKO6mvB3KdNJ0CCt4yxZTPLq0lPCN2Mn+ZuwEecFjZv+4BrrjeQx98hWownEMZl0
- TI17Nco3UKMsf673XD9TapV91k00+foSpg5nuCeZ0n/c7O0BI+Ba92NLH2+bQfU4n/GH
- uipRtBKN1xyBAYCSTwKmjdbbZDtAWjeFL7qF2MXt1IGNcdGeLhzPT3s6zv1/vlpiszOH
- SZB+0nFSc/moyUHPKDo2M2z+i6KVFXLhBBma8+g4rvIAAek16ZAJalIDGoVyfRlv0NH0
- aTIkO9XnrSdanPjRqf89LwI+/3QGMrTAGrH8QGcDBY/WKbmfS6jXCE7LVdNEgk6nNz6l
- YSFw==
+ bh=7xmxavNGvmm3BzQ45g11tA0Bzd0iytuo9+dpLfOmZxs=;
+ b=jWghiZ+7o0TEwoTD0fSZC+qbOSj9nnXc9a0+3OAcCM0mlJDz5y61jheSJrrH0kJzkk
+ k999XcrqxYzjb+08RjJdp4Qef8bKM6jpFvzJXoGqgJi4utjMvIejprfH1JJ4GLgkOctf
+ meBDm7p61QXSSvdpM/UMCrZEX3KD7RWLUW5N/byzoy9g9E5jZFxP0mm2snB4t6z3JSI4
+ J93PrmQcoJFxukBRotyI8FebM7fTRAuN776fzqbYDnnh3FdjAyn9ts1tXA6H8iQ+sWqo
+ KtAguUgs7Q0I4RSwUpouHs7L+3eJJHOI5NmxrfdmyH/mCul1CSaBVj4N4easaog1HOmQ
+ xQ5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Khgw4zesO+K18d95Nf0OQk5x631DSo+q5LDKVsiqTz0=;
- b=bX8aLjO19H9EtBnfeo8RNyHnG8ndmpE8OnBLrf6ntd8t4Wg+q5rF8tt4cnlsisb7ns
- EtDkmUsH39BU59imM4XASiQrMZsw0qfixjUYT1ZpsKr75/pmfT3h06fb6q9UCKxUyzS/
- nBRVRy+fVtJ31kFDtQlaFJSx43p4sRrcM8vkbqdgjn1NpOykfLqd9Io+y3Oxv7WMY8d9
- RIv/zGqavyg3kqGd345kGaWRWL9mIk8PARw8mSwiFerRBucc52lj8YHbJAR8E8MkgYzq
- Ic7h5HH+lWa6ct+LaP+ktUIQIJbQzsMnudlalubCiY6chuUIIfF6IvhJsviPArWAT+s1
- kSNw==
-X-Gm-Message-State: AJIora9uCUay9+hfJWXltOCX3XSdbSZBlp5YTkxmVx5EuwKaYYRsR0zr
- R/T7wMk2zx1+WHpSOGKdvPmuNihPJRcI4Waw
-X-Google-Smtp-Source: AGRyM1vJPYC+UI/m9jh5mXqO0sycAPxu94ZPWVRAvU2OPw98393TA4NUMcr7aGFUAwd0xN6JKKm9Kw==
-X-Received: by 2002:a05:6a00:179c:b0:525:6823:2972 with SMTP id
- s28-20020a056a00179c00b0052568232972mr46256451pfg.60.1657095956404; 
- Wed, 06 Jul 2022 01:25:56 -0700 (PDT)
+ bh=7xmxavNGvmm3BzQ45g11tA0Bzd0iytuo9+dpLfOmZxs=;
+ b=UTceY9b3LyoEn2KFCqY7O/xw1gHskzrJmdSt/A0SwZdK+6Udl07oEpp7EGBhtaR8LI
+ NgQZWMrSyXkzDpPydTnWG3GJLBrnNcfe/fKlzw0aIYzfALGwLMEw0CQWhHxiOi15DY/E
+ tAnn9Uq7pUzr2nIwZGzTgvAX/Q8AKXxRKSvBOEZOiFe+SB69bysuNBiQ9E6K/GypKrpK
+ GrVIVmvqjczqwlgfXmSwUr9jq4OPqsdRk/5Ec9xB3gL6gT8bFFjKoihnOjmyrSY+u6ux
+ i0EZF8XlxiDkkuNsjoPK6SaPzzqr985o7YR/MxK1gAg3NtEf+V+nYCu94OoJpglH4KJG
+ 3JMg==
+X-Gm-Message-State: AJIora+Jit3fA3V0wFGa49Y2aehb6R3vyVndOFHlIoYYSMOtsz4JW+/L
+ sHbJ+r3QibbADe4M5xyTLf2Mm/ixW8wQzmNr
+X-Google-Smtp-Source: AGRyM1uACqiHcooMD0BApPxWbP5AQK/SHDBzxlUs+FoSvehZdwhLG/mJtvMDeMsuqueMUJO3xF+rZA==
+X-Received: by 2002:a05:6a00:1c88:b0:528:9fc9:533b with SMTP id
+ y8-20020a056a001c8800b005289fc9533bmr4805742pfw.45.1657095958985; 
+ Wed, 06 Jul 2022 01:25:58 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- t17-20020a170902e85100b00162529828aesm25199256plg.109.2022.07.06.01.25.54
+ t17-20020a170902e85100b00162529828aesm25199256plg.109.2022.07.06.01.25.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 01:25:56 -0700 (PDT)
+ Wed, 06 Jul 2022 01:25:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-Subject: [PATCH v5 37/45] linux-user/aarch64: Do not allow duplicate or short
- sve records
-Date: Wed,  6 Jul 2022 13:54:03 +0530
-Message-Id: <20220706082411.1664825-38-richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v5 38/45] linux-user/aarch64: Verify extra record lock
+ succeeded
+Date: Wed,  6 Jul 2022 13:54:04 +0530
+Message-Id: <20220706082411.1664825-39-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220706082411.1664825-1-richard.henderson@linaro.org>
 References: <20220706082411.1664825-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,34 +89,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In parse_user_sigframe, the kernel rejects duplicate sve records,
-or records that are smaller than the header.  We were silently
-allowing these cases to pass, dropping the record.
-
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/signal.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ linux-user/aarch64/signal.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-index 8b352abb97..8fbe98d72f 100644
+index 8fbe98d72f..9ff79da4be 100644
 --- a/linux-user/aarch64/signal.c
 +++ b/linux-user/aarch64/signal.c
-@@ -318,10 +318,13 @@ static int target_restore_sigframe(CPUARMState *env,
+@@ -340,6 +340,9 @@ static int target_restore_sigframe(CPUARMState *env,
+             __get_user(extra_size,
+                        &((struct target_extra_context *)ctx)->size);
+             extra = lock_user(VERIFY_READ, extra_datap, extra_size, 0);
++            if (!extra) {
++                return 1;
++            }
              break;
  
-         case TARGET_SVE_MAGIC:
-+            if (sve || size < sizeof(struct target_sve_context)) {
-+                goto err;
-+            }
-             if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
-                 vq = sve_vq(env);
-                 sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
--                if (!sve && size == sve_size) {
-+                if (size == sve_size) {
-                     sve = (struct target_sve_context *)ctx;
-                     break;
-                 }
+         default:
 -- 
 2.34.1
 
