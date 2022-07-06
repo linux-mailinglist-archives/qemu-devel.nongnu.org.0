@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE13E568512
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 12:18:38 +0200 (CEST)
-Received: from localhost ([::1]:59766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389375684E3
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 12:12:52 +0200 (CEST)
+Received: from localhost ([::1]:48456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o927B-0005ZR-SX
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 06:18:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42704)
+	id 1o921Z-0006Bs-L2
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 06:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o91gk-0001EV-Iy; Wed, 06 Jul 2022 05:51:20 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:48250)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o91ge-0003Sg-F6; Wed, 06 Jul 2022 05:51:13 -0400
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 0A54F2E12A7;
- Wed,  6 Jul 2022 12:51:04 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:6422::1:33] (unknown
- [2a02:6b8:b081:6422::1:33])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- pVbOO3MMs8-p2OeOt1e; Wed, 06 Jul 2022 12:51:03 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1657101063; bh=4oblJjlSgxcGSYihqplPg5F/kGLMxClCf4LZADdyTNw=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=YU2s/sPajRbv+22IuRWQ0cDlerwVXaVla0S02rztRzSEmVJVQ3bl7zZ99fb00mS/E
- ObTsMgVYhvwt30obgH+h3JdnWiPsetsdODnj3Tl8kAXFbeeDqPamygM4tV5M/45x+5
- 3KlRWolh7nhQfw7XJucaF0lQaN1r7KorlyMJBBss=
-Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <d1787261-c23c-a6b2-23cb-2406f19ddbd7@yandex-team.ru>
-Date: Wed, 6 Jul 2022 12:51:01 +0300
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1o91lX-0002Rt-5h
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 05:56:15 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:40690)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1o91lR-0004Fo-HY
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 05:56:11 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ g16-20020a17090a7d1000b001ea9f820449so19810252pjl.5
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 02:56:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3Rg4ttDTIIO1EhUqQAUHBA2gMV8BMq3VG3P2FTwZ/Is=;
+ b=YKVZImydnSg3duNJ3xEEK7r21qcHbqxo9cFQGyq6/jLgZNDE0VvFGgY1eEXkCLaWoT
+ C29aYjsXAiWdQzPKYCKtA0UhySgYAA67qlP+93FKjMucJjSPbidCdizh3LiKYb0WXXkE
+ /FBkPay+lWtYhiMCQ/YleXy7phDrRV83OQ8J5MuEASya0RTRjg1sTPD7rCVJmC6EOAG3
+ tzkdlZiuf8CFMcu9IrlaLJwKUAYShuQA9/ivudpgatG5er3u/sBj3T0Hg7pSZJbFm/PK
+ ffSN+kX876iOiqACwU8FE714Kie0+rpK4u7k2/LqNtXxsueck/IMFVrybNgIRlJrYxIZ
+ M6nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3Rg4ttDTIIO1EhUqQAUHBA2gMV8BMq3VG3P2FTwZ/Is=;
+ b=cUfhpMcRMoNU6AagYB8Fq8tEskegV2BtvmZO/ZX1vG7fD2YxsVP0mmo2BA6Vn1hWkJ
+ ljKVWNqOlS4kpGcuG7RLT7Neh8m3wUUbWef/4YuxMAcH6etJ9osAtcASZA+tH51kAJE0
+ bpiNlBHDSz/iT21k2em20YjNBt39p5stkl0ebbYQFz5XS7MM5/ScHINnh47BzcmJ/Klj
+ R0eUSNIfK5Bur5jsSDY4XVa/G5NS+JUgmkT6wAumSRnC46NUqM2bgdfyZQkOPoIUQHVN
+ uwzeJZHKeZuFCXrqj8QwIk1vvNqVceDC56qVrAuqlbbToebcYFbco7DCqc/9bXz6VjKB
+ +r6Q==
+X-Gm-Message-State: AJIora/d4R2/ybsWhSEuk+Z5hh8S6QKzhS/bwJTiyJJLWMQUcsyAxSkZ
+ 9v1XIiuGMHSB/KzHKnSsFKYCaQ==
+X-Google-Smtp-Source: AGRyM1syyGryGNVVVEGRvb5dSgdEChYYYI1v9ZwR+V9rjr0pDlnU8FCSL6ONnvyj27DtrYMaWs1xQQ==
+X-Received: by 2002:a17:90b:3146:b0:1ed:4485:1168 with SMTP id
+ ip6-20020a17090b314600b001ed44851168mr49370461pjb.245.1657101366831; 
+ Wed, 06 Jul 2022 02:56:06 -0700 (PDT)
+Received: from always-x1.bytedance.net ([61.120.150.70])
+ by smtp.gmail.com with ESMTPSA id
+ n24-20020a056a000d5800b00517c84fd24asm25366818pfv.172.2022.07.06.02.56.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Jul 2022 02:56:06 -0700 (PDT)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: michael.roth@amd.com,
+	kkostiuk@redhat.com,
+	marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,
+	zhenwei pi <pizhenwei@bytedance.com>
+Subject: [PATCH v3 0/1] qga: add command 'guest-get-cpustats'
+Date: Wed,  6 Jul 2022 17:51:10 +0800
+Message-Id: <20220706095111.686295-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v8 06/20] job.h: define functions called without job lock
- held
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220629141538.3400679-1-eesposit@redhat.com>
- <20220629141538.3400679-7-eesposit@redhat.com>
- <7e988c67-a15f-cc2a-0370-c665971f19a3@yandex-team.ru>
- <bc1e575d-08ae-6ea3-e51f-e075812d00f0@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <bc1e575d-08ae-6ea3-e51f-e075812d00f0@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,18 +91,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/6/22 11:23, Emanuele Giuseppe Esposito wrote:
-> 
-> 
-> Am 05/07/2022 um 12:54 schrieb Vladimir Sementsov-Ogievskiy:
->> To subject: hmm, the commit don't define any function..
->>
-> mark functions called without job lock held?
-> 
+v2 -> v3:
+- Rename 'GuestOsType' to 'GuestCpuStatsType'.
+- Add 'linux' into polluted_words, rename 'linuxos' to 'linux'. Remove
+  'windows' from 'GuestCpuStatsType', because currently we don't use it.
 
-Yes, that's better)
+v1 -> v2:
+- Konstantin & Marc-André pointed out that the structure 'GuestCpuStats'
+  is too *linux style*, so re-define it to 'GuestLinuxCpuStats', and use
+  an union type of 'GuestCpuStats'.
+
+- Modify comment info from 'man proc', also add linux version infomation.
+
+- Test sscanf return value by '(i == EOF)' (To Marc-André: name is declared
+  as 'char name[64];', so we can't test '!name').
+
+- Suggested by Marc-André, use 'int clk_tck = sysconf(_SC_CLK_TCK);'
+  instead of hard code.
+
+v1:
+- Implement guest agent command 'guest-get-cpustats'
+
+Zhenwei Pi (1):
+  qga: add command 'guest-get-cpustats'
+
+ qga/commands-posix.c   | 89 ++++++++++++++++++++++++++++++++++++++++++
+ qga/commands-win32.c   |  6 +++
+ qga/qapi-schema.json   | 81 ++++++++++++++++++++++++++++++++++++++
+ scripts/qapi/common.py |  2 +-
+ 4 files changed, 177 insertions(+), 1 deletion(-)
 
 -- 
-Best regards,
-Vladimir
+2.20.1
+
 
