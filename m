@@ -2,86 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71A2567A6D
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 00:54:59 +0200 (CEST)
-Received: from localhost ([::1]:38170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21071567B14
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 02:17:46 +0200 (CEST)
+Received: from localhost ([::1]:33896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8rRa-00088m-7J
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 18:54:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54804)
+	id 1o8sjg-0003sb-Ld
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 20:17:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dominique.martinet@atmark-techno.com>)
- id 1o8rPt-00076n-FW
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 18:53:13 -0400
-Received: from gw2.atmark-techno.com ([35.74.137.57]:52926)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dominique.martinet@atmark-techno.com>)
- id 1o8rPr-0008DO-4d
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 18:53:13 -0400
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69])
- by gw2.atmark-techno.com (Postfix) with ESMTPS id 4E1A920D08
- for <qemu-devel@nongnu.org>; Wed,  6 Jul 2022 07:53:08 +0900 (JST)
-Received: by mail-pj1-f69.google.com with SMTP id
- q4-20020a17090aa00400b001ef76cb4749so6161275pjp.3
- for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 15:53:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tcx4c70@gmail.com>) id 1o8shR-000338-Ev
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 20:15:25 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:53867)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tcx4c70@gmail.com>) id 1o8shO-00023K-Pg
+ for qemu-devel@nongnu.org; Tue, 05 Jul 2022 20:15:25 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id ju17so8590428pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 05 Jul 2022 17:15:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=6+6XSmU8sjudJyrG0avY/k6YyeZbJUzbEuHZ1Xe3dNw=;
+ b=jnrnyPKrI89H9KbrjZDcuEbZXMcBTXaxIWii9gX48IGcKunXe/eE6Cgk9AEUKPOrxl
+ 3smhC+2Ai3BCMOLBpGSDpi45HhPNX15d+yjjl3DcCCTaSRE6Us9xU9mSk6zQ5NnxxFEX
+ Cm+z+IJk4/MBZxscc2vpdTDQY09R/Zz4VQ1AgBaiCWUE3UG3fEOBjRbopeyqz1vlFtod
+ LM8DkVD/H3Bys9RtPbHSC4UHFwgQ6CbhqyMJYagNaKy4deS9NNLm1llGAfV9qLRbXITE
+ MpQun+Nd91n4oH71p+8jK8dBf4Gq4QOOSAB7XsFs2vF5uG8/Z6zJjv6nzcDlZsBRF19V
+ nAyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=tFRngjx0G+BZ60t1jmhrF4wtc8rPFWnQu2MVKcY0EpQ=;
- b=LuWwQCb9Kcyn4HI11kLyu4vPQlU07Aj50ky8C6aJ+3x3Zi6pV8L8OopEBazKK1e+FC
- C0hpkjhDFYbDqFnNom4kNG+X5JxwzHvZZxBkk+OnySxIz3WpigcrpsH49UJYtNkiajjo
- dV6gL97szxacxgGKM4ZbKimK8ztHYpE+98zPM1mgNdYHUWCCPUoti8as9hW0RafvEpe5
- X21oSfR2VxlkrPuUm2noPnV9+6MyOxUwctSZ9nOoMdV131S51c2RjzkCQqdQiLS5nZUg
- XdI+ZSNMWKyKV7m5ADiTFxJDY8kUNz6TAIrQzyRj5YbXjk7rPc7UEjAmjM/M3gczQoet
- VzlQ==
-X-Gm-Message-State: AJIora/ZDgnAmwOL1CWCOv7xUhjmh3OZJB8cxQaMxYXlcxpSQm6pG4qG
- idbEcmtd1mmwfS1RtIpD4oBdREDzcjqkLPBi7zoSSO5BUd0ZeCSxG6pmtrFC2qDukv3j20hnHJ+
- Em/Xv6+yrsZAWXNkr
-X-Received: by 2002:a17:902:d48a:b0:16b:f0be:4e15 with SMTP id
- c10-20020a170902d48a00b0016bf0be4e15mr6319009plg.155.1657061587216; 
- Tue, 05 Jul 2022 15:53:07 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v2HoMVKLOO/ikgjMgiFEEWpkCT3RdVr6ejaBU1aeirFrwWCEHisk1J+5k1+ZgwhoPkseEeKA==
-X-Received: by 2002:a17:902:d48a:b0:16b:f0be:4e15 with SMTP id
- c10-20020a170902d48a00b0016bf0be4e15mr6318970plg.155.1657061586839; 
- Tue, 05 Jul 2022 15:53:06 -0700 (PDT)
-Received: from pc-zest.atmarktech (145.82.198.104.bc.googleusercontent.com.
- [104.198.82.145]) by smtp.gmail.com with ESMTPSA id
- x2-20020a170902b40200b001675d843332sm23797882plr.63.2022.07.05.15.53.06
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 05 Jul 2022 15:53:06 -0700 (PDT)
-Received: from martinet by pc-zest.atmarktech with local (Exim 4.95)
- (envelope-from <martinet@pc-zest>) id 1o8rPk-004lid-U7;
- Wed, 06 Jul 2022 07:53:04 +0900
-Date: Wed, 6 Jul 2022 07:52:54 +0900
-From: Dominique Martinet <dominique.martinet@atmark-techno.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Stefano Garzarella <sgarzare@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Julia Suvorova <jusual@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Filipe Manana <fdmanana@kernel.org>,
- io-uring@vger.kernel.org
-Subject: Re: [PATCH v2] io_uring: fix short read slow path
-Message-ID: <YsTAxtvpvIIi8q7M@atmark-techno.com>
-References: <20220629044957.1998430-1-dominique.martinet@atmark-techno.com>
- <20220630010137.2518851-1-dominique.martinet@atmark-techno.com>
- <20220630154921.ekl45dzer6x4mkvi@sgarzare-redhat>
- <Yr4pLwz5vQJhmvki@atmark-techno.com>
- <YsQ8aM3/ZT+Bs7nC@stefanha-x1.localdomain>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6+6XSmU8sjudJyrG0avY/k6YyeZbJUzbEuHZ1Xe3dNw=;
+ b=IqYaP6mcten+HnNzQ3ThQq9Lw0qysTlHrn9ffm4ls/FtAHnDDh4kJzp0lmkxP8UvqB
+ Lu8IRpnXP/TSEcHOczYfkui0Lszv33HV86vIsekxaF7IkgLUZtI+H9Q/NK5zAG+xTMqq
+ vU8DkkvZYg77eSu5ifrExToEbTs9Il2T6ObI2GtY0KUGpQt24zDan+vhGBCdrx2yiP91
+ MSIBFCSA0pasviwSKFTksc8VZJFz6fzlKR814rE6apLuhQkenSch6Ynj8AdGS0g66lLq
+ hEIi9gtI8ePF4NPG+Z/JnN65cb6I0timhZThbFRuKp28oTWgoCXrDMiD6/wpM6Bdqw/1
+ Uz+A==
+X-Gm-Message-State: AJIora8v0z1hsjCZdVeglCAliwlIGg5xePaplyC0eA1EkYfXLHiPsPwT
+ MYgjNJ0wbMNwH46gADv1MHs=
+X-Google-Smtp-Source: AGRyM1vMC9Q3zCvEr3K/AavgvACIa4R3ivU9HvRkGMcPCF/NvBK66M6ilIj+ouv2d1vXbyi0dOovcA==
+X-Received: by 2002:a17:902:ea0e:b0:16b:f92b:a3c3 with SMTP id
+ s14-20020a170902ea0e00b0016bf92ba3c3mr3624959plg.10.1657066519709; 
+ Tue, 05 Jul 2022 17:15:19 -0700 (PDT)
+Received: from ?IPV6:2404:f801:0:5::ce? ([2404:f801:9000:1a:6fea::ce])
+ by smtp.gmail.com with ESMTPSA id
+ m11-20020a170902768b00b001637997d0d4sm23928338pll.206.2022.07.05.17.15.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jul 2022 17:15:19 -0700 (PDT)
+Message-ID: <20a9104e-f91c-78f9-b55d-2197c6ab3364@gmail.com>
+Date: Wed, 6 Jul 2022 08:15:11 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YsQ8aM3/ZT+Bs7nC@stefanha-x1.localdomain>
-Received-SPF: pass client-ip=35.74.137.57;
- envelope-from=dominique.martinet@atmark-techno.com; helo=gw2.atmark-techno.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.0
+Subject: Re: [PATCH V8 20/39] cpr: restart mode
+Content-Language: en-US
+To: Steven Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ Zheng Chuan <zhengchuan@huawei.com>, Mark Kanda <mark.kanda@oracle.com>,
+ Guoyi Tu <tugy@chinatelecom.cn>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, David Hildenbrand <david@redhat.com>,
+ John Snow <jsnow@redhat.com>
+References: <1655304746-102776-1-git-send-email-steven.sistare@oracle.com>
+ <1655304746-102776-21-git-send-email-steven.sistare@oracle.com>
+ <2533a4a5-e117-5ea2-c62f-db7fed3d64b1@gmail.com>
+ <24166b92-f96b-7eda-f480-c654d5e93e63@oracle.com>
+From: Peng Liang <tcx4c70@gmail.com>
+In-Reply-To: <24166b92-f96b-7eda-f480-c654d5e93e63@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=tcx4c70@gmail.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,51 +108,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi wrote on Tue, Jul 05, 2022 at 02:28:08PM +0100:
-> > The older kernel I have installed right now is 5.16 and that can
-> > reproduce it --  I'll give my laptop some work over the weekend to test
-> > still maintained stable branches if that's useful.
+
+
+On 7/6/2022 2:29 AM, Steven Sistare wrote:
+> On 7/3/2022 4:15 AM, Peng Liang wrote:
+>> On 6/15/2022 10:52 PM, Steve Sistare wrote:
+>>> Provide the cpr-save restart mode, which preserves the guest VM across a
+>>> restart of the qemu process.  After cpr-save, the caller passes qemu
+>>> command-line arguments to cpr-exec, which directly exec's the new qemu
+>>> binary.  The arguments must include -S so new qemu starts in a paused state.
+>>> The caller resumes the guest by calling cpr-load.
+>>>
+>>> To use the restart mode, guest RAM must be backed by a memory-backend-file
+>>> with share=on.  The '-cpr-enable restart' option causes secondary guest
+>>> ram blocks (those not specified on the command line) to be allocated by
+>>> mmap'ing a memfd.  The memfd values are saved in special cpr state which
+>>> is retrieved after exec, and are kept open across exec, after which they
+>>> are retrieved and re-mmap'd.  Hence guest RAM is preserved in place, albeit
+>>> with new virtual addresses in the qemu process.
+>>>
+>>> The restart mode supports vfio devices and memory-backend-memfd in
+>>> subsequent patches.
+>>>
+>>> cpr-exec syntax:
+>>>   { 'command': 'cpr-exec', 'data': { 'argv': [ 'str' ] } }
+>>>
+>>> Add the restart mode:
+>>>   { 'enum': 'CprMode', 'data': [ 'reboot', 'restart' ] }
+>>>
+>>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>>> ---
+>>>  migration/cpr.c   | 35 +++++++++++++++++++++++++++++++++++
+>>>  qapi/cpr.json     | 26 +++++++++++++++++++++++++-
+>>>  qemu-options.hx   |  2 +-
+>>>  softmmu/physmem.c | 46 +++++++++++++++++++++++++++++++++++++++++++++-
+>>>  trace-events      |  1 +
+>>>  5 files changed, 107 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/migration/cpr.c b/migration/cpr.c
+>>> index 1cc8738..8b3fffd 100644
+>>> --- a/migration/cpr.c
+>>> +++ b/migration/cpr.c
+>>> @@ -22,6 +22,7 @@ static int cpr_enabled_modes;
+>>>  void cpr_init(int modes)
+>>>  {
+>>>      cpr_enabled_modes = modes;
+>>> +    cpr_state_load(&error_fatal);
+>>>  }
+>>>  
+>>>  bool cpr_enabled(CprMode mode)
+>>> @@ -153,6 +154,37 @@ err:
+>>>      cpr_set_mode(CPR_MODE_NONE);
+>>>  }
+>>>  
+>>> +static int preserve_fd(const char *name, int id, int fd, void *opaque)
+>>> +{
+>>> +    qemu_clear_cloexec(fd);
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static int unpreserve_fd(const char *name, int id, int fd, void *opaque)
+>>> +{
+>>> +    qemu_set_cloexec(fd);
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +void qmp_cpr_exec(strList *args, Error **errp)
+>>> +{
+>>> +    if (!runstate_check(RUN_STATE_SAVE_VM)) {
+>>> +        error_setg(errp, "runstate is not save-vm");
+>>> +        return;
+>>> +    }
+>>> +    if (cpr_get_mode() != CPR_MODE_RESTART) {
+>>> +        error_setg(errp, "cpr-exec requires cpr-save with restart mode");
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    cpr_walk_fd(preserve_fd, 0);
+>>> +    if (cpr_state_save(errp)) {
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    assert(qemu_system_exec_request(args, errp) == 0);
+>>> +}
+>>> +
+>>>  void qmp_cpr_load(const char *filename, CprMode mode, Error **errp)
+>>>  {
+>>>      QEMUFile *f;
+>>> @@ -189,6 +221,9 @@ void qmp_cpr_load(const char *filename, CprMode mode, Error **errp)
+>>>          goto out;
+>>>      }
+>>>  
+>>> +    /* Clear cloexec to prevent fd leaks until the next cpr-save */
+>>> +    cpr_walk_fd(unpreserve_fd, 0);
+>>> +
+>>>      state = global_state_get_runstate();
+>>>      if (state == RUN_STATE_RUNNING) {
+>>>          vm_start();
+>>> diff --git a/qapi/cpr.json b/qapi/cpr.json
+>>> index 11c6f88..47ee4ff 100644
+>>> --- a/qapi/cpr.json
+>>> +++ b/qapi/cpr.json
+>>> @@ -15,11 +15,12 @@
+>>>  # @CprMode:
+>>>  #
+>>>  # @reboot: checkpoint can be cpr-load'ed after a host reboot.
+>>> +# @restart: checkpoint can be cpr-load'ed after restarting qemu.
+>>>  #
+>>>  # Since: 7.1
+>>>  ##
+>>>  { 'enum': 'CprMode',
+>>> -  'data': [ 'none', 'reboot' ] }
+>>> +  'data': [ 'none', 'reboot', 'restart' ] }
+>>>  
+>>>  ##
+>>>  # @cpr-save:
+>>> @@ -38,6 +39,11 @@
+>>>  # issue the quit command, reboot the system, start qemu using the same
+>>>  # arguments plus -S, and issue the cpr-load command.
+>>>  #
+>>> +# If @mode is 'restart', the checkpoint remains valid after restarting
+>>> +# qemu using a subsequent cpr-exec.  Guest RAM must be backed by a
+>>> +# memory-backend-file with share=on.
+>>> +# To resume from the checkpoint, issue the cpr-load command.
+>>> +#
+>>>  # @filename: name of checkpoint file
+>>>  # @mode: @CprMode mode
+>>>  #
+>>> @@ -48,6 +54,24 @@
+>>>              'mode': 'CprMode' } }
+>>>  
+>>>  ##
+>>> +# @cpr-exec:
+>>> +#
+>>> +# Restart qemu by directly exec'ing @argv[0], replacing the qemu process.
+>>> +# The PID remains the same.  Must be called after cpr-save restart.
+>>> +#
+>>> +# @argv[0] should be the path of a new qemu binary, or a prefix command that
+>>> +# in turn exec's the new qemu binary.  The arguments must match those used
+>>> +# to initially start qemu, plus the -S option so new qemu starts in a paused
+>>> +# state.
+>>> +#
+>>> +# @argv: arguments to be passed to exec().
+>>> +#
+>>> +# Since: 7.1
+>>> +##
+>>> +{ 'command': 'cpr-exec',
+>>> +  'data': { 'argv': [ 'str' ] } }
+>>> +
+>>> +##
+>>>  # @cpr-load:
+>>>  #
+>>>  # Load a virtual machine from the checkpoint file @filename that was created
+>>> diff --git a/qemu-options.hx b/qemu-options.hx
+>>> index 6e51c33..1b49360 100644
+>>> --- a/qemu-options.hx
+>>> +++ b/qemu-options.hx
+>>> @@ -4484,7 +4484,7 @@ SRST
+>>>  ERST
+>>>  
+>>>  DEF("cpr-enable", HAS_ARG, QEMU_OPTION_cpr_enable, \
+>>> -    "-cpr-enable reboot    enable the cpr mode\n",
+>>> +    "-cpr-enable reboot|restart    enable the cpr mode\n",
+>>>      QEMU_ARCH_ALL)
+>>>  SRST
+>>>  ``-cpr-enable reboot``
+>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+>>> index 822c424..412cc80 100644
+>>> --- a/softmmu/physmem.c
+>>> +++ b/softmmu/physmem.c
+>>> @@ -44,6 +44,7 @@
+>>>  #include "qemu/qemu-print.h"
+>>>  #include "qemu/log.h"
+>>>  #include "qemu/memalign.h"
+>>> +#include "qemu/memfd.h"
+>>>  #include "exec/memory.h"
+>>>  #include "exec/ioport.h"
+>>>  #include "sysemu/dma.h"
+>>> @@ -1962,6 +1963,40 @@ static void dirty_memory_extend(ram_addr_t old_ram_size,
+>>>      }
+>>>  }
+>>>  
+>>> +static bool memory_region_is_backend(MemoryRegion *mr)
+>>> +{
+>>> +    return !!object_dynamic_cast(mr->parent_obj.parent, TYPE_MEMORY_BACKEND);
+>>> +}
+>>
+>> Maybe or mr->owner is more readable?
 > 
-> Linux 5.16 contains commit 9d93a3f5a0c ("io_uring: punt short reads to
-> async context"). The comment above QEMU's luring_resubmit_short_read()
-> claims that short reads are a bug that was fixed by Linux commit
-> 9d93a3f5a0c.
-> 
-> If the comment is inaccurate it needs to be fixed. Maybe short writes
-> need to be handled too.
-> 
-> I have CCed Jens and the io_uring mailing list to clarify:
-> 1. Are short IORING_OP_READV reads possible on files/block devices?
-> 2. Are short IORING_OP_WRITEV writes possible on files/block devices?
+> Maybe OBJECT(mr)->parent.
 
-Jens replied before me, so I won't be adding much (I agree with his
-reply -- linux tries hard to avoid short reads but we should assume they
-can happen)
+Yes. I meaned "OBJECT(mr)->parent or mr->owner" originally, but "OBJECT(mr)" was missing
+(maybe I deleted it mistakely).
 
-In this particular case it was another btrfs bug with O_DIRECT and mixed
-compression in a file, that's been fixed by this patch:
-https://lore.kernel.org/all/20220630151038.GA459423@falcondesktop/
-
-queued here:
-https://git.kernel.org/pub/scm/linux/kernel/git/fdmanana/linux.git/commit/?h=dio_fixes&id=b3864441547e49a69d45c7771aa8cc5e595d18fc
-
-It should be backported to 5.10, but the problem will likely persist in
-5.4 kernels if anyone runs on that as the code changed enough to make
-backporting non-trivial.
-
-
-So, WRT that comment, we probably should remove the reference to that
-commit and leave in that they should be very rare but we need to handle
-them anyway.
-
-
-For writes in particular, I haven't seen any and looking at the code
-qemu would blow up that storage (IO treated as ENOSPC would likely mark
-disk read-only?)
-It might make sense to add some warning message that it's what happened
-so it'll be obvious what needs doing in case anyone falls on that but I
-think the status-quo is good enough here.
-
--- 
-Dominique
+[...]
 
