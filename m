@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983715686BE
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 13:34:16 +0200 (CEST)
-Received: from localhost ([::1]:60188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE185686C0
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 13:36:10 +0200 (CEST)
+Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o93IN-0003c0-7k
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 07:34:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46172)
+	id 1o93KD-0005ZG-Ec
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 07:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o93Eh-0001OI-QF; Wed, 06 Jul 2022 07:30:30 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:45720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o93EN-0000FC-Uv; Wed, 06 Jul 2022 07:30:12 -0400
-Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
- (myt6-81d8ab6a9f9d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 1A45E2E12AA;
- Wed,  6 Jul 2022 14:29:54 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:6422::1:33] (unknown
- [2a02:6b8:b081:6422::1:33])
- by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- G3O2HarhR6-TqPCvw4H; Wed, 06 Jul 2022 14:29:53 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1657106993; bh=XeQXZuw9bQ3W2jufuACakxR2PQqsBho3kFUyi7ta71Q=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=deeDLeRoLG+hfQ096VYDqdhJ3ItSLqCr9bvJfgzbp4LkRQC/K1yEDF8de5bAofxdX
- ZqB7gOwq8eRr9rfn9AhotRAYEhHo7ObVmp8S/vqkufFl0rHUZBTnu6XJcCFeXwfhCZ
- impuGl/uwtC9GHm8/1HSBQcaCqn4lm4w4R1Bg2tI=
-Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <97ae617c-ab70-7ed0-7a96-17b2ee76951b@yandex-team.ru>
-Date: Wed, 6 Jul 2022 14:29:52 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] iotests: fix copy-before-write for macOS and FreeBSD
-Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, thuth@redhat.com,
- jsnow@redhat.com, richard.henderson@linaro.org
-References: <20220705153708.186418-1-vsementsov@yandex-team.ru>
- <a5b27e74-a6a3-01b0-35bf-b8c58802d99a@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <a5b27e74-a6a3-01b0-35bf-b8c58802d99a@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o93IQ-0004MO-5t
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 07:34:18 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:42758 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o93IN-0001kA-F8
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 07:34:17 -0400
+Received: from smtpclient.apple (unknown [111.199.64.159])
+ by APP-01 (Coremail) with SMTP id qwCowAA3PgYsc8Vi2zP5DA--.25829S2;
+ Wed, 06 Jul 2022 19:34:04 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <YsSGbhJQXp9fiCZK@kbusch-mbp.dhcp.thefacebook.com>
+Date: Wed, 6 Jul 2022 19:34:04 +0800
+Cc: Klaus Jensen <its@irrelevant.dk>,
+ qemu-devel@nongnu.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <69E2ADBE-5064-4E04-B236-8815D82263AB@ict.ac.cn>
+References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
+ <YsRwyMONg0+mHVsL@apples> <YsSGbhJQXp9fiCZK@kbusch-mbp.dhcp.thefacebook.com>
+To: Keith Busch <kbusch@kernel.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowAA3PgYsc8Vi2zP5DA--.25829S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Aw15KFyDXFWUAr43Cw43Awb_yoW8ZrWDpr
+ WYqayDJF97Z3y0yrZrXa1rZw18Cr40qFWUCryfJw18Cwn29r42qayYyFy5XF45ZrZ2qw42
+ vF4UGwsxZFy3A37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUySb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+ 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
+ Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I
+ 3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
+ WUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
+ wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcI
+ k0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+ 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jOb18UUUUU=
+X-Originating-IP: [111.199.64.159]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,48 +77,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/6/22 13:26, Hanna Reitz wrote:
-> On 05.07.22 17:37, Vladimir Sementsov-Ogievskiy wrote:
->> strerror() represents ETIMEDOUT a bit different in Linux and macOS /
->> FreeBSD. Let's support the latter too.
->>
->> Fixes: 9d05a87b77 ("iotests: copy-before-write: add cases for cbw-timeout option")
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> ---
->>
->> As John and Thomas noted, the new iotests fails for FreeBSD and maxOS.
->> Here is a fix. Would be great if someone can test it.
->>
->> I tried to push it by
->>
->>    git push --force  -o ci.variable="QEMU_CI=1"
->>
->> to my block branch, I get a blocked pipeline
->>    https://gitlab.com/vsementsov/qemu/-/pipelines/580573238
->> but it doesn't have neither freebsd nor macos jobs.. How to get them?
->>
->>   tests/qemu-iotests/tests/copy-before-write | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/tests/qemu-iotests/tests/copy-before-write b/tests/qemu-iotests/tests/copy-before-write
->> index 16efebbf8f..56937b9dff 100755
->> --- a/tests/qemu-iotests/tests/copy-before-write
->> +++ b/tests/qemu-iotests/tests/copy-before-write
->> @@ -192,6 +192,11 @@ read 1048576/1048576 bytes at offset 0
->>       def test_timeout_break_guest(self):
->>           log = self.do_cbw_timeout('break-guest-write')
->> +        # macOS and FreeBSD tend to represent ETIMEDOUT as
->> +        # "Operation timed out", when Linux prefer
->> +        # "Connection timed out"
->> +        log = log.replace('Operation timed out',
->> +                          'Connection timed out')
-> 
-> If we know for sure that it’s ETIMEDOUT, how about os.strerror(errno.ETIMEDOUT)?
-> 
+at 2:43 AM, Keith Busch <kbusch@kernel.org> wrote:
 
-Good idea, will try.
+> On Tue, Jul 05, 2022 at 07:11:36PM +0200, Klaus Jensen wrote:
+>> On Jul  5 22:24, Jinhao Fan wrote:
+>>> @@ -1374,7 +1374,14 @@ static void =
+nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
+>>>=20
+>>>     QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
+>>>     QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
+>>> -    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + =
+500);
+>>> +
+>>> +    if (req->sq->ioeventfd_enabled) {
+>>> +        /* Post CQE directly since we are in main loop thread */
+>>> +        nvme_post_cqes(cq);
+>>> +    } else {
+>>> +        /* Schedule the timer to post CQE later since we are in =
+vcpu thread */
+>>> +        timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) =
++ 500);
+>>> +    }
+>>=20
+>> Actually, we are only in the vcpu thread if we come here from
+>> nvme_process_db that in very rare circumstances may enqueue the
+>> completion of an AER due to an invalid doorbell write.
+>>=20
+>> In general, nvme_enqueue_req_completion is only ever called from the
+>> main iothread. Which actually causes me to wonder why we defer this =
+work
+>> in the first place. It does have the benefit that we queue up several
+>> completions before posting them in one go and raising the interrupt.
+>> But I wonder if that could be handled better.
+>=20
+> I think the timer is used because of the cq_full condition. We need to =
+restart
+> completions when it becomes not full, which requires a doorbell write. =
+Having
+> everyone from the main iothread use the same timer as the doorbell =
+handler just
+> ensures single threaded list access.
 
--- 
-Best regards,
-Vladimir
+Could we let nvme_process_aers register another timer/BH to trigger
+nvme_enqueue_req_completion in the iothread? In this way we won=E2=80=99t =
+need the
+timer_mod in nvme_enqueue_req_completion. We can also avoid some =
+potential
+currency problems because CQ is only modified in the iothread.
+
+BTW, are there any reason that we must use timers (not BH) here? Also =
+why do
+we choose to delay for 500ns?=
+
 
