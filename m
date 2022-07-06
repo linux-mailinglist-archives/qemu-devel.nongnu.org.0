@@ -2,101 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2CD5687C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 14:07:41 +0200 (CEST)
-Received: from localhost ([::1]:33224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCDC568833
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 14:22:03 +0200 (CEST)
+Received: from localhost ([::1]:40852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o93oi-0000aO-F9
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 08:07:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56112)
+	id 1o942b-0006dE-IZ
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 08:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o93mS-00076y-Mq
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 08:05:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26929)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1o9417-0005o5-G0
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 08:20:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o93mN-0005An-Ue
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 08:05:18 -0400
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1o9413-0005zj-MJ
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 08:20:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657109110;
+ s=mimecast20190719; t=1657110024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qDOXgdJ4jxegHcJl5h5y4cWXuSfRBcfvjP6y1YsFyJw=;
- b=BWFHlKWNWz91oA2OnBT0HPW9+2opMDB8/CUwAUM5H6tp0tnlzwdUMTIDqv6Ti7+YiuLVMh
- 21jWaBwKl9EYmbsMDexH/dONXbgFLptlgq968jQumMZusmO4T9yWdFlpyZhs6y0K+bgLwl
- S34phhY8OmX+WhlimLkkqO1xZmO3Pk4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=h8XI7bd+oHtb8J1kSXECcdHZKSjKNKW8iCwH2oVs9EE=;
+ b=DN4YNNJqEatHIvJMq9AnuA/LZoNqL8sfsrG5KmovVHddOqJZecpIDkuR5oe4UNNuB0w0NO
+ L+FsDOM+VrZGEUasntFvS+8TcIIJMxdn0BuvknVKkSM1UMMPZtC3n88/Q8AaMOKF0dbPuc
+ aQcJUm4wwjN7Y4kWFZWFGpxsr2tc6OA=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-lB8wjecfOYqcjMsn873u-g-1; Wed, 06 Jul 2022 08:05:09 -0400
-X-MC-Unique: lB8wjecfOYqcjMsn873u-g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r17-20020adfa151000000b0021d6c4743b0so1785440wrr.10
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 05:05:08 -0700 (PDT)
+ us-mta-470-7_bt_KgEN8i4xu1d0EIcUQ-1; Wed, 06 Jul 2022 08:20:23 -0400
+X-MC-Unique: 7_bt_KgEN8i4xu1d0EIcUQ-1
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-31cb2fea145so43019797b3.8
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 05:20:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qDOXgdJ4jxegHcJl5h5y4cWXuSfRBcfvjP6y1YsFyJw=;
- b=XSVk16Rgxp+OslxGbZv6voe86+zRY1sRTa/iPHK0oj0ZEN8M3VmQkqYyXQdalOCfSE
- b+QT3JjncNWiyGSCRLxeBEesTdMief+AhpC0vH2XXx1aQdCst0A2qo8FU+AnYAebXvP7
- e+6t3DwUm/TZTiNR5wlzpIT5aGg3XU1FnQgShIsjY3AI5ai+qb2+JcAg7JogNA/atQH+
- swgiJyiXDycuP761h1Sh/hVRev6CVAVtzg47+whyZ9dV56RbFuaEivAH+DfYHPwD8QGh
- gayc8Ce6A6/cRdoKcx30FH9YZ+GpyPD4ekPSgDSIW4iOVUhUCsFiYZAAFWXYsLxdnMgS
- 73Cw==
-X-Gm-Message-State: AJIora/Nl1Jp2EWYf37Lfp7iHfRAZnAQxec5AV9jkJVGjJUKcqWK9TWI
- 2JdBkd+X7+McEM/91YbRyBMQvhXTuYxjMLKj2w1BDwAOLd4uWYWSvTRpufAV2xouG4+NVrmuqri
- yuPFLH4+6QXTqtQg=
-X-Received: by 2002:a05:600c:1c27:b0:3a0:5098:c8b6 with SMTP id
- j39-20020a05600c1c2700b003a05098c8b6mr43190527wms.69.1657109108015; 
- Wed, 06 Jul 2022 05:05:08 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s5Yp1AbjYJ9mfPele5cJS8a7+YzzQ5ae0LGhI8cnh/Bfpo7Mit/x/kY8pmDvezez0iO8eQQQ==
-X-Received: by 2002:a05:600c:1c27:b0:3a0:5098:c8b6 with SMTP id
- j39-20020a05600c1c2700b003a05098c8b6mr43190446wms.69.1657109107612; 
- Wed, 06 Jul 2022 05:05:07 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- o4-20020a05600c378400b003a2b708c26dsm5014988wmr.40.2022.07.06.05.05.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jul 2022 05:05:07 -0700 (PDT)
-Message-ID: <95c3dae0-a8dd-1ec6-0ba1-5a4b1e92c1a3@redhat.com>
-Date: Wed, 6 Jul 2022 14:05:06 +0200
+ h=x-gm-message-state:from:references:mime-version:in-reply-to:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=h8XI7bd+oHtb8J1kSXECcdHZKSjKNKW8iCwH2oVs9EE=;
+ b=xH8FufMBbQPzFSrH7kf9v50UPOV4gEf0bSueO/vNoIx4mBVAWGm03YicHhMm1oCwH5
+ AQ9O6elFMUBP0JBe3VfrZhrsP2nGnbRQjvjpUkl4ov7WmfEHg39YPMi4qwd9BMjfsgj8
+ W2wslBpyslYnNo2x08/oe1xBa2ngJI+oN1+FL6tw+sikBvWdcJx++1TC0cy5XnvCHB+z
+ XVuHg63sPXUsqnwGgJcQbpAQMlSSV4bQZr7ulnPzAzjf3qubyQIqe73K1yBtKfkDurK1
+ Tsu/2wJaliH5R/ZWUYkOlh9oWxwezDJiMu/6FD3ZDh1EklvamRhLQa43huVFzbE/L664
+ dbqQ==
+X-Gm-Message-State: AJIora9YQdYEAGqpZDAS6BJNrqW1HtR4jC3cp/dqnTo/f4NbcnR81KVs
+ 0Q+E4ecxpJPVNZru0ngy3MrKRjVPkicnpJoJTBozSntzOLvTx0gCHRRHejjTQgTbUWU++XMCPG1
+ NnSYAnpsmdVZD0Cfj3hp+LuOUklzcCHM=
+X-Received: by 2002:a25:a164:0:b0:66c:d20e:f37c with SMTP id
+ z91-20020a25a164000000b0066cd20ef37cmr41731480ybh.547.1657110022571; 
+ Wed, 06 Jul 2022 05:20:22 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t1RENB8oAIdHmDx9C0xVbz9TujkFOehA8IWSeSO/Eq1nmZ6b+P5D0GpdSkrfFeujllgYt/U9iwl0euO/cGMGU=
+X-Received: by 2002:a25:a164:0:b0:66c:d20e:f37c with SMTP id
+ z91-20020a25a164000000b0066cd20ef37cmr41731456ybh.547.1657110022316; Wed, 06
+ Jul 2022 05:20:22 -0700 (PDT)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 6 Jul 2022 07:20:21 -0500
+From: Andrea Bolognani <abologna@redhat.com>
+References: <20220617121932.249381-1-victortoso@redhat.com>
+ <20220617121932.249381-5-victortoso@redhat.com>
+ <CABJz62P_Fy=eyn-QjhOBSvTs_YRgMA=2=teeQwN9SsYGNKGLcQ@mail.gmail.com>
+ <YsRoTs/Ev+MPiIoN@redhat.com>
+ <CABJz62NwXK7SErZt4520iKpgEaeVH86L7am4GcMyr8PbG29RCA@mail.gmail.com>
+ <YsVX7ir+41NPA6Xy@redhat.com> <YsVaVpXPE4YVjmVt@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v8 08/20] blockjob.h: introduce block_job _locked() APIs
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220629141538.3400679-1-eesposit@redhat.com>
- <20220629141538.3400679-9-eesposit@redhat.com>
- <6c02430a-a8d8-0be3-18b4-1709e601cbf9@yandex-team.ru>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <6c02430a-a8d8-0be3-18b4-1709e601cbf9@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+In-Reply-To: <YsVaVpXPE4YVjmVt@redhat.com>
+Date: Wed, 6 Jul 2022 07:20:21 -0500
+Message-ID: <CABJz62NwCNPTYbdf01CnFw2m6ZJyyn3VtQ0P54gd=WU+veTJAw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 4/8] qapi: golang: Generate qapi's union types in Go
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Victor Toso <victortoso@redhat.com>, qemu-devel@nongnu.org, 
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,238 +102,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jul 06, 2022 at 10:48:06AM +0100, Daniel P. Berrang=C3=A9 wrote:
+> On Wed, Jul 06, 2022 at 10:37:54AM +0100, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, Jul 06, 2022 at 04:28:16AM -0500, Andrea Bolognani wrote:
+> > >   func (s *GuestPanicInformation) UnmarshalJSON(data []byte) error {
+> > >       tmp :=3D jsonGuestPanicInformation{}
+> > >
+> > >       err :=3D json.Unmarshal(data, &tmp)
+> > >       if err !=3D nil {
+> > >           return err
+> > >       }
+> > >
+> > >       switch tmp.Discriminator {
+> > >       case "hyper-v":
+> > >           if tmp.HyperV =3D=3D nil {
+> > >               return errors.New("...")
+> > >           }
+> > >           s.HyperV =3D tmp.HyperV
+> > >       case "s390":
+> > >           if tmp.S390 =3D=3D nil {
+> > >               return errors.New("...")
+> > >           }
+> > >           s.S390 =3D tmp.S390
+> > >       }
+> >
+> > I'm not actually sure this works, because the first json.Unmarshal
+> > call won't know which branch to try unmarhsalling. So it might be
+> > unavoidable to parse twice.  With the XML parser this wouldn't be
+> > a problem as it has separated the parse phase and then fills the
+> > struct after.
 
+It does, because the struct it's filling with data
+(jsonGuestPanicInformation) covers all possible cases. We then pick
+only the part we care about and transfer it to the user-provided
+return location.
 
-Am 05/07/2022 um 17:01 schrieb Vladimir Sementsov-Ogievskiy:
-> On 6/29/22 17:15, Emanuele Giuseppe Esposito wrote:
->> Just as done with job.h, create _locked() functions in blockjob.h
-> 
-> We modify not only blockjob.h, I'd s/blockjob.h/blockjob/ in subject.
-> 
-> Also, we start to introduce _locked block_job_* APIs.
-> 
-> Does it mean that BlockJob and Job share the global mutex to protect
-> themselves? Than I think we should document in BlockJob struct what is
-> protected by job_mutex.
+> Right afer sending, I remember how this is supposed to be done. It
+> involves use of 'json.RawMessage' eg examples at:
+>
+>   https://pkg.go.dev/encoding/json#example-RawMessage-Unmarshal
+>
+> So it would look like:
+>
+>    type GuestPanicInformation struct {
+>        HyperV *GuestPanicInformationHyperV
+>        S390   *GuestPanicInformationS390
+>    }
+>
+>    type jsonGuestPanicInformation struct {
+>        Discriminator string   `json:"type"`
+>        Payload *json.RawMessage
+>    }
+>
+>     func (s GuestPanicInformation) MarshalJSON() ([]byte, error) {
+>         var p *json.RawMesage
+>         var err error
+>         if s.HyperV !=3D nil {
+>             d =3D "hyper-v"
+>             p, err =3D json.Marshal(s.HyperV)
+>         } else if s.S390 !=3D nil {
+>             d =3D "s390"
+>             p, err =3D json.Marshal(s.S390)
+>         } else {
+> 	    err =3D fmt.Errorf("No payload defined")
+> 	}
+>         if err !=3D nil {
+>             return []byte{}, err
+>         }
+>
+>         return json.Marshal(jsonGuestPanicInformation{d, p}), nil
+>     }
+>
+>    func (s *GuestPanicInformation) UnmarshalJSON(data []byte) error {
+>        tmp :=3D jsonGuestPanicInformation{}
+>
+>        err :=3D json.Unmarshal(data, &tmp)
+>        if err !=3D nil {
+>            return err
+>        }
+>
+>        switch tmp.Discriminator {
+>        case "hyper-v":
+>            s.HyperV :=3D GuestPanicInformationHyperV{}
+>            err :=3D json.Unmarshal(tmp.Payload, s.HyperV)
+>            if err !=3D nil {
+>               return err
+>            }
+>        case "s390":
+>            s.S390 :=3D GuestPanicInformationS390{}
+>            err :=3D json.Unmarshal(tmp.Payload, s.S390)
+>            if err !=3D nil {
+>               return err
+>            }
+>        }
+>
+>        return fmt.Errorf("Unknown type '%s'", tmp.Discriminator)
+>   }
 
-There is nothing in the struct (apart from Job) that is protected by the
-job lock. I can add a comment "Protected by job mutex" on top of Job job
-field?
+I guess this version would work too, but I think it might still
+perform more computation than the one I suggested?
 
-> 
-> And please, let's be consistent on whether we add or not add "with mutex
-> held" / "with mutex not held" comments. For job API you mostly add it
-> for each function.. Let's do same here? Same for "temporary unlock"
-> comments.
+json.RawMessage is a type alias for []byte, so I think the first call
+to json.Unmarshal will have to go through the message to figure out
+its structure and the contents of the discriminator field, then
+tweak the original input so that only the part that hasn't been
+consumed yet is returned. The second call to json.Marshal will then
+parse that part, which means that the "inner" chunk of JSON ends up
+being processed twice. In the approach I suggested, you go over the
+entire JSON in one go.
 
-Where did I miss the mutex lock/unlock comments? Yes I forgot the
-"temporary unlock" thing but apart from that all functions have a
-comment saying if they take the lock or not.
+Things might even out when you take into account allocating and
+copying data around though. I'm not particularly interested in
+splitting hair when it comes to the most efficient approach at this
+point in time :) Knowing that we're not going through the entire JSON
+twice is good enough.
 
-> 
->>
->> These functions will be later useful when caller has already taken
->> the lock. All blockjob _locked functions call job _locked functions.
->>
->> Note: at this stage, job_{lock/unlock} and job lock guard macros
->> are *nop*.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>   blockjob.c               | 52 ++++++++++++++++++++++++++++++++--------
->>   include/block/blockjob.h | 15 ++++++++++++
->>   2 files changed, 57 insertions(+), 10 deletions(-)
->>
->> diff --git a/blockjob.c b/blockjob.c
->> index 7da59a1f1c..0d59aba439 100644
->> --- a/blockjob.c
->> +++ b/blockjob.c
->> @@ -44,21 +44,27 @@ static bool is_block_job(Job *job)
->>              job_type(job) == JOB_TYPE_STREAM;
->>   }
->>   -BlockJob *block_job_next(BlockJob *bjob)
->> +BlockJob *block_job_next_locked(BlockJob *bjob)
->>   {
->>       Job *job = bjob ? &bjob->job : NULL;
->>       GLOBAL_STATE_CODE();
->>         do {
->> -        job = job_next(job);
->> +        job = job_next_locked(job);
->>       } while (job && !is_block_job(job));
->>         return job ? container_of(job, BlockJob, job) : NULL;
->>   }
->>   -BlockJob *block_job_get(const char *id)
->> +BlockJob *block_job_next(BlockJob *bjob)
->>   {
->> -    Job *job = job_get(id);
->> +    JOB_LOCK_GUARD();
->> +    return block_job_next_locked(bjob);
->> +}
->> +
->> +BlockJob *block_job_get_locked(const char *id)
->> +{
->> +    Job *job = job_get_locked(id);
->>       GLOBAL_STATE_CODE();
->>         if (job && is_block_job(job)) {
->> @@ -68,6 +74,12 @@ BlockJob *block_job_get(const char *id)
->>       }
->>   }
->>   +BlockJob *block_job_get(const char *id)
->> +{
->> +    JOB_LOCK_GUARD();
->> +    return block_job_get_locked(id);
->> +}
->> +
->>   void block_job_free(Job *job)
->>   {
->>       BlockJob *bjob = container_of(job, BlockJob, job);
->> @@ -256,14 +268,14 @@ static bool job_timer_pending(Job *job)
->>       return timer_pending(&job->sleep_timer);
->>   }
->>   -bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
->> +bool block_job_set_speed_locked(BlockJob *job, int64_t speed, Error
->> **errp)
->>   {
->>       const BlockJobDriver *drv = block_job_driver(job);
->>       int64_t old_speed = job->speed;
->>         GLOBAL_STATE_CODE();
->>   -    if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
->> +    if (job_apply_verb_locked(&job->job, JOB_VERB_SET_SPEED, errp) <
->> 0) {
->>           return false;
->>       }
->>       if (speed < 0) {
->> @@ -277,7 +289,9 @@ bool block_job_set_speed(BlockJob *job, int64_t
->> speed, Error **errp)
->>       job->speed = speed;
->>         if (drv->set_speed) {
->> +        job_unlock();
->>           drv->set_speed(job, speed);
->> +        job_lock();
->>       }
->>         if (speed && speed <= old_speed) {
->> @@ -285,18 +299,24 @@ bool block_job_set_speed(BlockJob *job, int64_t
->> speed, Error **errp)
->>       }
->>         /* kick only if a timer is pending */
->> -    job_enter_cond(&job->job, job_timer_pending);
->> +    job_enter_cond_locked(&job->job, job_timer_pending);
->>         return true;
->>   }
->>   +bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
->> +{
->> +    JOB_LOCK_GUARD();
->> +    return block_job_set_speed_locked(job, speed, errp);
->> +}
->> +
->>   int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n)
->>   {
->>       IO_CODE();
->>       return ratelimit_calculate_delay(&job->limit, n);
->>   }
->>   -BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
->> +BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp)
->>   {
->>       BlockJobInfo *info;
->>       uint64_t progress_current, progress_total;
->> @@ -320,7 +340,7 @@ BlockJobInfo *block_job_query(BlockJob *job, Error
->> **errp)
->>       info->len       = progress_total;
->>       info->speed     = job->speed;
->>       info->io_status = job->iostatus;
->> -    info->ready     = job_is_ready(&job->job),
->> +    info->ready     = job_is_ready_locked(&job->job),
->>       info->status    = job->job.status;
->>       info->auto_finalize = job->job.auto_finalize;
->>       info->auto_dismiss  = job->job.auto_dismiss;
->> @@ -333,6 +353,12 @@ BlockJobInfo *block_job_query(BlockJob *job,
->> Error **errp)
->>       return info;
->>   }
->>   +BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
->> +{
->> +    JOB_LOCK_GUARD();
->> +    return block_job_query_locked(job, errp);
->> +}
->> +
->>   static void block_job_iostatus_set_err(BlockJob *job, int error)
->>   {
->>       if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
->> @@ -478,7 +504,7 @@ fail:
->>       return NULL;
->>   }
->>   -void block_job_iostatus_reset(BlockJob *job)
->> +void block_job_iostatus_reset_locked(BlockJob *job)
->>   {
->>       GLOBAL_STATE_CODE();
->>       if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
->> @@ -488,6 +514,12 @@ void block_job_iostatus_reset(BlockJob *job)
->>       job->iostatus = BLOCK_DEVICE_IO_STATUS_OK;
->>   }
->>   +void block_job_iostatus_reset(BlockJob *job)
->> +{
->> +    JOB_LOCK_GUARD();
->> +    block_job_iostatus_reset_locked(job);
->> +}
->> +
->>   void block_job_user_resume(Job *job)
->>   {
->>       BlockJob *bjob = container_of(job, BlockJob, job);
->> diff --git a/include/block/blockjob.h b/include/block/blockjob.h
->> index 6525e16fd5..3959a98612 100644
->> --- a/include/block/blockjob.h
->> +++ b/include/block/blockjob.h
->> @@ -92,6 +92,9 @@ typedef struct BlockJob {
->>    */
->>   BlockJob *block_job_next(BlockJob *job);
->>   +/* Same as block_job_next(), but called with job lock held. */
->> +BlockJob *block_job_next_locked(BlockJob *job);
->> +
->>   /**
->>    * block_job_get:
->>    * @id: The id of the block job.
->> @@ -102,6 +105,9 @@ BlockJob *block_job_next(BlockJob *job);
->>    */
->>   BlockJob *block_job_get(const char *id);
->>   +/* Same as block_job_get(), but called with job lock held. */
->> +BlockJob *block_job_get_locked(const char *id);
->> +
->>   /**
->>    * block_job_add_bdrv:
->>    * @job: A block job
->> @@ -145,6 +151,9 @@ bool block_job_has_bdrv(BlockJob *job,
->> BlockDriverState *bs);
->>    */
->>   bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
->>   +/* Same as block_job_set_speed(), but called with job lock held. */
->> +bool block_job_set_speed_locked(BlockJob *job, int64_t speed, Error
->> **errp);
->> +
->>   /**
->>    * block_job_query:
->>    * @job: The job to get information about.
->> @@ -153,6 +162,9 @@ bool block_job_set_speed(BlockJob *job, int64_t
->> speed, Error **errp);
->>    */
->>   BlockJobInfo *block_job_query(BlockJob *job, Error **errp);
->>   +/* Same as block_job_query(), but called with job lock held. */
->> +BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp);
->> +
->>   /**
->>    * block_job_iostatus_reset:
->>    * @job: The job whose I/O status should be reset.
->> @@ -162,6 +174,9 @@ BlockJobInfo *block_job_query(BlockJob *job, Error
->> **errp);
->>    */
->>   void block_job_iostatus_reset(BlockJob *job);
->>   +/* Same as block_job_iostatus_reset(), but called with job lock
->> held. */
->> +void block_job_iostatus_reset_locked(BlockJob *job);
->> +
->>   /*
->>    * block_job_get_aio_context:
->>    *
-> 
-> 
+--=20
+Andrea Bolognani / Red Hat / Virtualization
 
 
