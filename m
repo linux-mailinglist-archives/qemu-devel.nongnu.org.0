@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D05568233
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 10:57:27 +0200 (CEST)
-Received: from localhost ([::1]:33416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2BC656834B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 11:17:27 +0200 (CEST)
+Received: from localhost ([::1]:42122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o90qc-0007z5-Lm
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 04:57:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48900)
+	id 1o919y-0007rN-SF
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 05:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1o90L1-0005up-BW
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:24:52 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:47367 helo=mga06.intel.com)
+ id 1o90LM-0006HR-7p
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:25:08 -0400
+Received: from mga03.intel.com ([134.134.136.65]:26694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1o90Kx-0000Nv-CJ
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:24:46 -0400
+ id 1o90LJ-0000Ss-19
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:25:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657095883; x=1688631883;
+ t=1657095905; x=1688631905;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Po9DZUbErgtxR1/AAtJ9I8hzg80rqfcA4AORQCSRJWU=;
- b=Yr5YAw0i37iTr5z+1O4AeRgF4Ai0yNJKCi8JG87DyGXi64JSiuUNq7/e
- raIaMjZ1XllYSwh8p9w5KJsv4H8f0TqCQAxIX49mfmCofEOgE+Jde+o/0
- 6Y14IqtjIgGHhUWzJ0DVCrMw+H7GQ6tIfy6VloqhZOCdhnYmwSJXW/h+f
- PJGTcVh7eMWYMEsx+G2GfIphRAyV74MLsJq4aoILTvhV/Q2ZZu/6tJ6+R
- rPONbB+16Ap7xLJj5JYM2/xjZ9i1Qv0guA0TFD5RWu49NlcMm3qMrzSQq
- +gpeBPtiOl22Pjylfs0piic6G6zqFeNWxFwdQzv+Vn3QZtwHivqopYVW9 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="345365486"
-X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; d="scan'208";a="345365486"
+ bh=HzvDsZFYJFjfwBhl27KbOiRZ4k+htychclP9Iyjwp74=;
+ b=nnteEQAy/nJrpiyQhjY/TDcz8TGJnyZMCZ64hqt/RNbBFamAMNyob0qX
+ SxdtSb62+m+WSbeQM5ODq9bR3jHvSm/GShe3s6XVZavqRidEQyScXiwk2
+ mgKfgdCORW8UUxt93lZ3hvn52PDS72TFAgqp+10+cQdYzt1kibytlEnec
+ WSWUB10hbU83w7TGvF2f+AYFCql0Ltsj6qifah4uf646yIDFEVVsmFxsx
+ 7wFgwAO5rHCc+PtcOOS9pc43bwe54KkRas1uOYTNNJO2DmnpWEHc6Yk/T
+ j4vUY2LvHV3iVqwJOslP/YYt56JiDpOqANb1h0t7rU8BDOP1YRE4/xY9C g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="284800837"
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; d="scan'208";a="284800837"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2022 01:24:41 -0700
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2022 01:24:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; d="scan'208";a="567967920"
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; d="scan'208";a="567967955"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga006.jf.intel.com with ESMTP; 06 Jul 2022 01:24:30 -0700
+ by orsmga006.jf.intel.com with ESMTP; 06 Jul 2022 01:24:41 -0700
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
@@ -66,16 +66,17 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
  dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
  Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
  Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Date: Wed,  6 Jul 2022 16:20:07 +0800
-Message-Id: <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
+Subject: [PATCH v7 06/14] KVM: Rename KVM_PRIVATE_MEM_SLOTS to
+ KVM_INTERNAL_MEM_SLOTS
+Date: Wed,  6 Jul 2022 16:20:08 +0800
+Message-Id: <20220706082016.2603916-7-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
 References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=134.134.136.31;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga06.intel.com
+Received-SPF: none client-ip=134.134.136.65;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -98,90 +99,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a new memfd_create() flag indicating the content of the
-created memfd is inaccessible from userspace through ordinary MMU
-access (e.g., read/write/mmap). However, the file content can be
-accessed via a different mechanism (e.g. KVM MMU) indirectly.
-
-It provides semantics required for KVM guest private memory support
-that a file descriptor with this flag set is going to be used as the
-source of guest memory in confidential computing environments such
-as Intel TDX/AMD SEV but may not be accessible from host userspace.
-
-The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
-also impossible for a memfd created with this flag.
+KVM_INTERNAL_MEM_SLOTS better reflects the fact those slots are not
+exposed to userspace and avoids confusion to real private slots that
+is going to be added.
 
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- include/uapi/linux/memfd.h |  1 +
- mm/memfd.c                 | 15 ++++++++++++++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ arch/mips/include/asm/kvm_host.h | 2 +-
+ arch/x86/include/asm/kvm_host.h  | 2 +-
+ include/linux/kvm_host.h         | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
-index 7a8a26751c23..48750474b904 100644
---- a/include/uapi/linux/memfd.h
-+++ b/include/uapi/linux/memfd.h
-@@ -8,6 +8,7 @@
- #define MFD_CLOEXEC		0x0001U
- #define MFD_ALLOW_SEALING	0x0002U
- #define MFD_HUGETLB		0x0004U
-+#define MFD_INACCESSIBLE	0x0008U
+diff --git a/arch/mips/include/asm/kvm_host.h b/arch/mips/include/asm/kvm_host.h
+index 717716cc51c5..45a978c805bc 100644
+--- a/arch/mips/include/asm/kvm_host.h
++++ b/arch/mips/include/asm/kvm_host.h
+@@ -85,7 +85,7 @@
  
- /*
-  * Huge page size encoding when MFD_HUGETLB is specified, and a huge page
-diff --git a/mm/memfd.c b/mm/memfd.c
-index 2afd898798e4..72d7139ccced 100644
---- a/mm/memfd.c
-+++ b/mm/memfd.c
-@@ -18,6 +18,7 @@
- #include <linux/hugetlb.h>
- #include <linux/shmem_fs.h>
- #include <linux/memfd.h>
-+#include <linux/memfile_notifier.h>
- #include <uapi/linux/memfd.h>
+ #define KVM_MAX_VCPUS		16
+ /* memory slots that does not exposed to userspace */
+-#define KVM_PRIVATE_MEM_SLOTS	0
++#define KVM_INTERNAL_MEM_SLOTS	0
  
- /*
-@@ -262,7 +263,8 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
- #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
- #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
+ #define KVM_HALT_POLL_NS_DEFAULT 500000
  
--#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
-+#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
-+		       MFD_INACCESSIBLE)
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index de5a149d0971..dae190e19fce 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -53,7 +53,7 @@
+ #define KVM_MAX_VCPU_IDS (KVM_MAX_VCPUS * KVM_VCPU_ID_RATIO)
  
- SYSCALL_DEFINE2(memfd_create,
- 		const char __user *, uname,
-@@ -284,6 +286,10 @@ SYSCALL_DEFINE2(memfd_create,
- 			return -EINVAL;
- 	}
+ /* memory slots that are not exposed to userspace */
+-#define KVM_PRIVATE_MEM_SLOTS 3
++#define KVM_INTERNAL_MEM_SLOTS 3
  
-+	/* Disallow sealing when MFD_INACCESSIBLE is set. */
-+	if (flags & MFD_INACCESSIBLE && flags & MFD_ALLOW_SEALING)
-+		return -EINVAL;
-+
- 	/* length includes terminating zero */
- 	len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
- 	if (len <= 0)
-@@ -330,12 +336,19 @@ SYSCALL_DEFINE2(memfd_create,
- 	if (flags & MFD_ALLOW_SEALING) {
- 		file_seals = memfd_file_seals_ptr(file);
- 		*file_seals &= ~F_SEAL_SEAL;
-+	} else if (flags & MFD_INACCESSIBLE) {
-+		error = memfile_node_set_flags(file,
-+					       MEMFILE_F_USER_INACCESSIBLE);
-+		if (error)
-+			goto err_file;
- 	}
+ #define KVM_HALT_POLL_NS_DEFAULT 200000
  
- 	fd_install(fd, file);
- 	kfree(name);
- 	return fd;
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 3b40f8d68fbb..0bdb6044e316 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -656,12 +656,12 @@ struct kvm_irq_routing_table {
+ };
+ #endif
  
-+err_file:
-+	fput(file);
- err_fd:
- 	put_unused_fd(fd);
- err_name:
+-#ifndef KVM_PRIVATE_MEM_SLOTS
+-#define KVM_PRIVATE_MEM_SLOTS 0
++#ifndef KVM_INTERNAL_MEM_SLOTS
++#define KVM_INTERNAL_MEM_SLOTS 0
+ #endif
+ 
+ #define KVM_MEM_SLOTS_NUM SHRT_MAX
+-#define KVM_USER_MEM_SLOTS (KVM_MEM_SLOTS_NUM - KVM_PRIVATE_MEM_SLOTS)
++#define KVM_USER_MEM_SLOTS (KVM_MEM_SLOTS_NUM - KVM_INTERNAL_MEM_SLOTS)
+ 
+ #ifndef __KVM_VCPU_MULTIPLE_ADDRESS_SPACE
+ static inline int kvm_arch_vcpu_memslots_id(struct kvm_vcpu *vcpu)
 -- 
 2.25.1
 
