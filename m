@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40123569231
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 20:51:25 +0200 (CEST)
-Received: from localhost ([::1]:33316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 204BE569243
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 20:57:50 +0200 (CEST)
+Received: from localhost ([::1]:49212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9A7Q-0000Lg-BH
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 14:51:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44498)
+	id 1o9ADd-0003PZ-8B
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 14:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o99x2-00055v-7T
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:40:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25149)
+ id 1o99xG-0005Kv-AX
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:40:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o99wp-0000jf-VT
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:40:34 -0400
+ id 1o99x4-0000pW-A9
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:40:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657132820;
+ s=mimecast20190719; t=1657132838;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uSWdFug0bHugEo57qqqEYlOs0IeaPAPFa6rk2TY2Lhc=;
- b=Kwm0fwA5qISkUrHAooBw7SKqcqq2HFLm9nCLiBE7fxcrm2tNnXRPkJfj3e4H24oRAHSkhW
- yKQIWXxA8UgEvJQ/d0lMERQDAdLHJvm2a9gNWc9DV9pZEMCr0Vs2EO0DkMbyMLx8/5XDKA
- lR09iEESdCpyODlUvmUM8nffbWp9IZc=
+ bh=Mro7mQDdAvykXc9MUpTOitbSw+VVbx2upRRODnnToII=;
+ b=ciVoow3Rb2ezG1k7Z0stIeJZolb3qYKMznV6R01s2tNOE0dsEylyMlacQGlJBYzwKDZsou
+ AQz0O668FyNedCjXUOcp3m9HyCBjGB4PaegVWpg20mA8q2PI2ezflk/tNppIJi9lC3H32V
+ bHH4PY1lO/h05zmR0JsGZNPmUjyqzTs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-247-CKG3XU3DPAmTjeE0-DOtJw-1; Wed, 06 Jul 2022 14:40:19 -0400
-X-MC-Unique: CKG3XU3DPAmTjeE0-DOtJw-1
+ us-mta-278-yPO70intPJeUIsx7w-RDyg-1; Wed, 06 Jul 2022 14:40:22 -0400
+X-MC-Unique: yPO70intPJeUIsx7w-RDyg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22D3A101A58D;
- Wed,  6 Jul 2022 18:40:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF2C7185A7BA;
+ Wed,  6 Jul 2022 18:40:21 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 906B41415116;
- Wed,  6 Jul 2022 18:40:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D3581415116;
+ Wed,  6 Jul 2022 18:40:19 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
@@ -55,25 +55,24 @@ Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
  Zhu Lingshan <lingshan.zhu@intel.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [RFC PATCH v9 02/23] vhost: move descriptor translation to
- vhost_svq_vring_write_descs
-Date: Wed,  6 Jul 2022 20:39:47 +0200
-Message-Id: <20220706184008.1649478-3-eperezma@redhat.com>
+Subject: [RFC PATCH v9 03/23] vdpa: delay set_vring_ready after DRIVER_OK
+Date: Wed,  6 Jul 2022 20:39:48 +0200
+Message-Id: <20220706184008.1649478-4-eperezma@redhat.com>
 In-Reply-To: <20220706184008.1649478-1-eperezma@redhat.com>
 References: <20220706184008.1649478-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,93 +88,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's done for both in and out descriptors so it's better placed here.
+To restore the device in the destination of a live migration we send the
+commands through control virtqueue. For a device to read CVQ it must
+have received DRIVER_OK status bit.
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+However this open a window where the device could start receiving
+packets in rx queue 0 before it receive the RSS configuration. To avoid
+that, we will not send vring_enable until all configuration is used by
+the device.
+
+As a first step, reverse the DRIVER_OK and SET_VRING_ENABLE steps.
+
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 39 +++++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 11 deletions(-)
+ hw/virtio/vhost-vdpa.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 9280285435..2939f4a243 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -122,17 +122,35 @@ static bool vhost_svq_translate_addr(const VhostShadowVirtqueue *svq,
-     return true;
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 66f054a12c..2ee8009594 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -728,13 +728,18 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
+     return idx;
  }
  
--static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
--                                    const struct iovec *iovec, size_t num,
--                                    bool more_descs, bool write)
 +/**
-+ * Write descriptors to SVQ vring
++ * Set ready all vring of the device
 + *
-+ * @svq: The shadow virtqueue
-+ * @sg: Cache for hwaddr
-+ * @iovec: The iovec from the guest
-+ * @num: iovec length
-+ * @more_descs: True if more descriptors come in the chain
-+ * @write: True if they are writeable descriptors
-+ *
-+ * Return true if success, false otherwise and print error.
++ * @dev: Vhost device
 + */
-+static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-+                                        const struct iovec *iovec, size_t num,
-+                                        bool more_descs, bool write)
+ static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
  {
-     uint16_t i = svq->free_head, last = svq->free_head;
-     unsigned n;
-     uint16_t flags = write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
-     vring_desc_t *descs = svq->vring.desc;
-+    bool ok;
+     int i;
+     trace_vhost_vdpa_set_vring_ready(dev);
+-    for (i = 0; i < dev->nvqs; ++i) {
++    for (i = 0; i < dev->vq_index_end; ++i) {
+         struct vhost_vring_state state = {
+-            .index = dev->vq_index + i,
++            .index = i,
+             .num = 1,
+         };
+         vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
+@@ -1097,7 +1102,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+         if (unlikely(!ok)) {
+             return -1;
+         }
+-        vhost_vdpa_set_vring_ready(dev);
+     } else {
+         ok = vhost_vdpa_svqs_stop(dev);
+         if (unlikely(!ok)) {
+@@ -1111,16 +1115,22 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+     }
  
-     if (num == 0) {
--        return;
-+        return true;
-+    }
+     if (started) {
++        int r;
 +
-+    ok = vhost_svq_translate_addr(svq, sg, iovec, num);
-+    if (unlikely(!ok)) {
-+        return false;
+         memory_listener_register(&v->listener, &address_space_memory);
+-        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
++        r = vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
++        if (unlikely(r)) {
++            return r;
++        }
++        vhost_vdpa_set_vring_ready(dev);
+     } else {
+         vhost_vdpa_reset_device(dev);
+         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+                                    VIRTIO_CONFIG_S_DRIVER);
+         memory_listener_unregister(&v->listener);
+-
+-        return 0;
      }
- 
-     for (n = 0; n < num; n++) {
-@@ -150,6 +168,7 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-     }
- 
-     svq->free_head = le16_to_cpu(svq->desc_next[last]);
-+    return true;
++
++    return 0;
  }
  
- static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
-@@ -169,21 +188,19 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
-         return false;
-     }
- 
--    ok = vhost_svq_translate_addr(svq, sgs, elem->out_sg, elem->out_num);
-+    ok = vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
-+                                     elem->in_num > 0, false);
-     if (unlikely(!ok)) {
-         return false;
-     }
--    vhost_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
--                            elem->in_num > 0, false);
--
- 
--    ok = vhost_svq_translate_addr(svq, sgs, elem->in_sg, elem->in_num);
-+    ok = vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false,
-+                                     true);
-     if (unlikely(!ok)) {
-+        /* TODO unwind out_sg */
-         return false;
-     }
- 
--    vhost_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false, true);
--
-     /*
-      * Put the entry in the available array (but don't update avail->idx until
-      * they do sync).
+ static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
 -- 
 2.31.1
 
