@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845FE56818A
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 10:31:26 +0200 (CEST)
-Received: from localhost ([::1]:54088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735115681BD
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 10:37:51 +0200 (CEST)
+Received: from localhost ([::1]:33502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o90RR-0008Uf-GN
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 04:31:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48406)
+	id 1o90Xd-0005Kk-Qt
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 04:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1o90KH-0005F5-8L
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:24:01 -0400
-Received: from mga14.intel.com ([192.55.52.115]:63504)
+ id 1o90KU-0005Uz-8h
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:24:14 -0400
+Received: from mga05.intel.com ([192.55.52.43]:23332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1o90KE-0000Ga-SM
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:24:01 -0400
+ id 1o90KQ-0000Hs-Si
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:24:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657095838; x=1688631838;
+ t=1657095850; x=1688631850;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+/BgOKNb3dxFVxOORdt/5r5R408fOO4X1WIXgnHGmWI=;
- b=Pz3rJT5N/3OwkWSYqjslWhz0sVFi04uTSCm3plBemDf2/swlZQeYxGgK
- cEfFSu1PgC2pxxgeyQOd6RO4FLVVaGXiZ7SZbcO9bYYZMWfxsx3aI7D4r
- 6DUdKtdYDg/qawKJl/oHYml/UiC2SULVHTytx6B4MiPiYt3h/hK2fxBPg
- /AHLeGefG/eaZI6xa96dR09cH9lv2ULCem/DY9LYhvK0QZUJuznz2PdTi
- a7X9PgfZN2v22NzUAwzVezaZEvarlzQLF9mghAaESAGItsQEXC1Aq+gTx
- jw98GBhj+Je+8BbE1pn+Jo9QejFi5++Zd7Op2PRyed1I0VP/D3rpN8Npo A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="283705272"
-X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; d="scan'208";a="283705272"
+ bh=kJl1R88jMUFb5Y8ov4QxxubYj5SsjR8PCdbcDnNsdhM=;
+ b=RDR2xMMhRcwUrPKW1pg0ymEV4CHGX4YPZCV5Qk9JexzUivIZovSN5j+2
+ 0rynbCBqP89Pkr7AilEWzinNeAOqOu9HrUdCMdDElOKhxIfEwbFju8gGv
+ mnK3e+fndbwXnXSO6Qqxswn4ooSA+bIQuGy1+WYwNcvZGvY/crDxjbb0C
+ JG7wI5XsF6g/aAo1rv8JnenP5uSrI/Toer05wSpxw3sSEEaPFPyaZFxeM
+ CzwwGUik7R1sjtuxss9CEM0A+LiatANtdv6h2xQxfZtKQYT+OGcsPQXZU
+ Ug7/IZi4PiwpWax4iXQTVaMWgIxhIWez8IH2vQwobCacwD/KHgTCsLMkE Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="369999427"
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; d="scan'208";a="369999427"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2022 01:23:57 -0700
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2022 01:24:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; d="scan'208";a="567967821"
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; d="scan'208";a="567967851"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga006.jf.intel.com with ESMTP; 06 Jul 2022 01:23:46 -0700
+ by orsmga006.jf.intel.com with ESMTP; 06 Jul 2022 01:23:57 -0700
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
@@ -66,21 +66,21 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
  dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
  Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
  Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
-Date: Wed,  6 Jul 2022 16:20:03 +0800
-Message-Id: <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+Subject: [PATCH v7 02/14] selftests/memfd: Add tests for F_SEAL_AUTO_ALLOCATE
+Date: Wed,  6 Jul 2022 16:20:04 +0800
+Message-Id: <20220706082016.2603916-3-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
 References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+Received-SPF: none client-ip=192.55.52.43;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga05.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,106 +98,219 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Normally, a write to unallocated space of a file or the hole of a sparse
-file automatically causes space allocation, for memfd, this equals to
-memory allocation. This new seal prevents such automatically allocating,
-either this is from a direct write() or a write on the previously
-mmap-ed area. The seal does not prevent fallocate() so an explicit
-fallocate() can still cause allocating and can be used to reserve
-memory.
+Add tests to verify sealing memfds with the F_SEAL_AUTO_ALLOCATE works
+as expected.
 
-This is used to prevent unintentional allocation from userspace on a
-stray or careless write and any intentional allocation should use an
-explicit fallocate(). One of the main usecases is to avoid memory double
-allocation for confidential computing usage where we use two memfds to
-back guest memory and at a single point only one memfd is alive and we
-want to prevent memory allocation for the other memfd which may have
-been mmap-ed previously. More discussion can be found at:
-
-  https://lkml.org/lkml/2022/6/14/1255
-
-Suggested-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- include/uapi/linux/fcntl.h |  1 +
- mm/memfd.c                 |  3 ++-
- mm/shmem.c                 | 16 ++++++++++++++--
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ tools/testing/selftests/memfd/memfd_test.c | 166 +++++++++++++++++++++
+ 1 file changed, 166 insertions(+)
 
-diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-index 2f86b2ad6d7e..98bdabc8e309 100644
---- a/include/uapi/linux/fcntl.h
-+++ b/include/uapi/linux/fcntl.h
-@@ -43,6 +43,7 @@
- #define F_SEAL_GROW	0x0004	/* prevent file from growing */
- #define F_SEAL_WRITE	0x0008	/* prevent writes */
- #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
-+#define F_SEAL_AUTO_ALLOCATE	0x0020  /* prevent allocation for writes */
- /* (1U << 31) is reserved for signed error codes */
- 
- /*
-diff --git a/mm/memfd.c b/mm/memfd.c
-index 08f5f8304746..2afd898798e4 100644
---- a/mm/memfd.c
-+++ b/mm/memfd.c
-@@ -150,7 +150,8 @@ static unsigned int *memfd_file_seals_ptr(struct file *file)
- 		     F_SEAL_SHRINK | \
- 		     F_SEAL_GROW | \
- 		     F_SEAL_WRITE | \
--		     F_SEAL_FUTURE_WRITE)
-+		     F_SEAL_FUTURE_WRITE | \
-+		     F_SEAL_AUTO_ALLOCATE)
- 
- static int memfd_add_seals(struct file *file, unsigned int seals)
- {
-diff --git a/mm/shmem.c b/mm/shmem.c
-index a6f565308133..6c8aef15a17d 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -2051,6 +2051,8 @@ static vm_fault_t shmem_fault(struct vm_fault *vmf)
- 	struct vm_area_struct *vma = vmf->vma;
- 	struct inode *inode = file_inode(vma->vm_file);
- 	gfp_t gfp = mapping_gfp_mask(inode->i_mapping);
-+	struct shmem_inode_info *info = SHMEM_I(inode);
-+	enum sgp_type sgp;
- 	int err;
- 	vm_fault_t ret = VM_FAULT_LOCKED;
- 
-@@ -2113,7 +2115,12 @@ static vm_fault_t shmem_fault(struct vm_fault *vmf)
- 		spin_unlock(&inode->i_lock);
+diff --git a/tools/testing/selftests/memfd/memfd_test.c b/tools/testing/selftests/memfd/memfd_test.c
+index 94df2692e6e4..b849ece295fd 100644
+--- a/tools/testing/selftests/memfd/memfd_test.c
++++ b/tools/testing/selftests/memfd/memfd_test.c
+@@ -9,6 +9,7 @@
+ #include <fcntl.h>
+ #include <linux/memfd.h>
+ #include <sched.h>
++#include <setjmp.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <signal.h>
+@@ -232,6 +233,31 @@ static void mfd_fail_open(int fd, int flags, mode_t mode)
  	}
+ }
  
--	err = shmem_getpage_gfp(inode, vmf->pgoff, &vmf->page, SGP_CACHE,
-+	if (unlikely(info->seals & F_SEAL_AUTO_ALLOCATE))
-+		sgp = SGP_NOALLOC;
-+	else
-+		sgp = SGP_CACHE;
++static void mfd_assert_fallocate(int fd)
++{
++	int r;
 +
-+	err = shmem_getpage_gfp(inode, vmf->pgoff, &vmf->page, sgp,
- 				  gfp, vma, vmf, &ret);
- 	if (err)
- 		return vmf_error(err);
-@@ -2459,6 +2466,7 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
- 	struct inode *inode = mapping->host;
- 	struct shmem_inode_info *info = SHMEM_I(inode);
- 	pgoff_t index = pos >> PAGE_SHIFT;
-+	enum sgp_type sgp;
- 	int ret = 0;
- 
- 	/* i_rwsem is held by caller */
-@@ -2470,7 +2478,11 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
- 			return -EPERM;
++	r = fallocate(fd, 0, 0, mfd_def_size);
++	if (r < 0) {
++		printf("fallocate(ALLOC) failed: %m\n");
++		abort();
++	}
++}
++
++static void mfd_assert_punch_hole(int fd)
++{
++	int r;
++
++	r = fallocate(fd,
++		      FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
++		      0,
++		      mfd_def_size);
++	if (r < 0) {
++		printf("fallocate(PUNCH_HOLE) failed: %m\n");
++		abort();
++	}
++}
++
+ static void mfd_assert_read(int fd)
+ {
+ 	char buf[16];
+@@ -594,6 +620,94 @@ static void mfd_fail_grow_write(int fd)
  	}
+ }
  
--	ret = shmem_getpage(inode, index, pagep, SGP_WRITE);
-+	if (unlikely(info->seals & F_SEAL_AUTO_ALLOCATE))
-+		sgp = SGP_NOALLOC;
-+	else
-+		sgp = SGP_WRITE;
-+	ret = shmem_getpage(inode, index, pagep, sgp);
++static void mfd_assert_hole_write(int fd)
++{
++	ssize_t l;
++	void *p;
++	char *p1;
++
++	/*
++	 * huegtlbfs does not support write, but we want to
++	 * verify everything else here.
++	 */
++	if (!hugetlbfs_test) {
++		/* verify direct write() succeeds */
++		l = write(fd, "\0\0\0\0", 4);
++		if (l != 4) {
++			printf("write() failed: %m\n");
++			abort();
++		}
++	}
++
++	/* verify mmaped write succeeds */
++	p = mmap(NULL,
++		 mfd_def_size,
++		 PROT_READ | PROT_WRITE,
++		 MAP_SHARED,
++		 fd,
++		 0);
++	if (p == MAP_FAILED) {
++		printf("mmap() failed: %m\n");
++		abort();
++	}
++	p1 = (char *)p + mfd_def_size - 1;
++	*p1 = 'H';
++	if (*p1 != 'H') {
++		printf("mmaped write failed: %m\n");
++		abort();
++
++	}
++	munmap(p, mfd_def_size);
++}
++
++sigjmp_buf jbuf, *sigbuf;
++static void sig_handler(int sig, siginfo_t *siginfo, void *ptr)
++{
++	if (sig == SIGBUS) {
++		if (sigbuf)
++			siglongjmp(*sigbuf, 1);
++		abort();
++	}
++}
++
++static void mfd_fail_hole_write(int fd)
++{
++	ssize_t l;
++	void *p;
++	char *p1;
++
++	/* verify direct write() fails */
++	l = write(fd, "data", 4);
++	if (l > 0) {
++		printf("expected failure on write(), but got %d: %m\n", (int)l);
++		abort();
++	}
++
++	/* verify mmaped write fails */
++	p = mmap(NULL,
++		 mfd_def_size,
++		 PROT_READ | PROT_WRITE,
++		 MAP_SHARED,
++		 fd,
++		 0);
++	if (p == MAP_FAILED) {
++		printf("mmap() failed: %m\n");
++		abort();
++	}
++
++	sigbuf = &jbuf;
++	if (sigsetjmp(*sigbuf, 1))
++		goto out;
++
++	/* Below write should trigger SIGBUS signal */
++	p1 = (char *)p + mfd_def_size - 1;
++	*p1 = 'H';
++	printf("failed to receive SIGBUS for mmaped write: %m\n");
++	abort();
++out:
++	munmap(p, mfd_def_size);
++}
++
+ static int idle_thread_fn(void *arg)
+ {
+ 	sigset_t set;
+@@ -880,6 +994,57 @@ static void test_seal_resize(void)
+ 	close(fd);
+ }
  
- 	if (ret)
- 		return ret;
++/*
++ * Test F_SEAL_AUTO_ALLOCATE
++ * Test whether F_SEAL_AUTO_ALLOCATE actually prevents allocation.
++ */
++static void test_seal_auto_allocate(void)
++{
++	struct sigaction act;
++	int fd;
++
++	printf("%s SEAL-AUTO-ALLOCATE\n", memfd_str);
++
++	memset(&act, 0, sizeof(act));
++	act.sa_sigaction = sig_handler;
++	act.sa_flags = SA_SIGINFO;
++	if (sigaction(SIGBUS, &act, 0)) {
++		printf("sigaction() failed: %m\n");
++		abort();
++	}
++
++	fd = mfd_assert_new("kern_memfd_seal_auto_allocate",
++			    mfd_def_size,
++			    MFD_CLOEXEC | MFD_ALLOW_SEALING);
++
++	/* read/write should pass if F_SEAL_AUTO_ALLOCATE not set */
++	mfd_assert_read(fd);
++	mfd_assert_hole_write(fd);
++
++	mfd_assert_has_seals(fd, 0);
++	mfd_assert_add_seals(fd, F_SEAL_AUTO_ALLOCATE);
++	mfd_assert_has_seals(fd, F_SEAL_AUTO_ALLOCATE);
++
++	/* read/write should pass for pre-allocated area */
++	mfd_assert_read(fd);
++	mfd_assert_hole_write(fd);
++
++	mfd_assert_punch_hole(fd);
++
++	/* read should pass, write should fail in hole */
++	mfd_assert_read(fd);
++	mfd_fail_hole_write(fd);
++
++	mfd_assert_fallocate(fd);
++
++	/* read/write should pass after fallocate */
++	mfd_assert_read(fd);
++	mfd_assert_hole_write(fd);
++
++	close(fd);
++}
++
++
+ /*
+  * Test sharing via dup()
+  * Test that seals are shared between dupped FDs and they're all equal.
+@@ -1059,6 +1224,7 @@ int main(int argc, char **argv)
+ 	test_seal_shrink();
+ 	test_seal_grow();
+ 	test_seal_resize();
++	test_seal_auto_allocate();
+ 
+ 	test_share_dup("SHARE-DUP", "");
+ 	test_share_mmap("SHARE-MMAP", "");
 -- 
 2.25.1
 
