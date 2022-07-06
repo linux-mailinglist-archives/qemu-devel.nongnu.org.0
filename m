@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DDC56924B
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 20:59:48 +0200 (CEST)
-Received: from localhost ([::1]:55566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D61A656925B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 21:07:53 +0200 (CEST)
+Received: from localhost ([::1]:38464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9AFX-0007wK-IQ
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 14:59:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44798)
+	id 1o9ANM-0007Kz-Ov
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 15:07:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o99xZ-0005VR-5D
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:41:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26523)
+ id 1o99xm-0005aF-7G
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:41:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o99xR-0000sb-3h
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:41:11 -0400
+ id 1o99xU-0000sv-1N
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:41:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657132863;
+ s=mimecast20190719; t=1657132866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mErUwknFduO65jJc0n1ezU/K63y3yE1x6XCKC1pU+Qk=;
- b=SPiKohMTUaZN4TXfx/m8Jly7OLkW0wbqcYtF0xecjOtFnpwwgvK9VstdjEP34tf+z72VQ3
- fokCeslDrKewNT9cXKQZdvgKUe2NKqWm5fFFZBdS7J9ETC+3hj6am5WmarjrocWOmAoj9t
- qE8Jj7+SfPELq5ziaEGe0WhgjwKLlU4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ziR3ctgT/CCLnNAiqZTlkOadNXJL1NwUmNcP1OIzuHA=;
+ b=MKvgtNipkECyKuihHgO6WqDEDmva3zXTsyO7Qft0r56RhdAyQXpmp1vO3LYzdf13R2YC8t
+ 2yAJvrkjmU6wEUsDhW1c1KFnbXuvoA4VxGJwF/1p+5ylxpMP+7dpY/w3I0f8pEWpoKB+uA
+ UGTDzT75N/bvfqglSyl1gpCUXVfUnXQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-492-U1B8RKULOCeUIc-_EtQBgg-1; Wed, 06 Jul 2022 14:41:00 -0400
-X-MC-Unique: U1B8RKULOCeUIc-_EtQBgg-1
+ us-mta-28-1C7HMeMgNWKz2SH2kUhu2A-1; Wed, 06 Jul 2022 14:41:02 -0400
+X-MC-Unique: 1C7HMeMgNWKz2SH2kUhu2A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76F63294EDEF;
- Wed,  6 Jul 2022 18:40:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5DA591019C8B;
+ Wed,  6 Jul 2022 18:41:02 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8C2F1415116;
- Wed,  6 Jul 2022 18:40:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B95531415116;
+ Wed,  6 Jul 2022 18:40:59 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
@@ -55,9 +55,9 @@ Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
  Zhu Lingshan <lingshan.zhu@intel.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [RFC PATCH v9 16/23] vhost: Add svq avail_handler callback
-Date: Wed,  6 Jul 2022 20:40:01 +0200
-Message-Id: <20220706184008.1649478-17-eperezma@redhat.com>
+Subject: [RFC PATCH v9 17/23] vhost: add detach SVQ operation
+Date: Wed,  6 Jul 2022 20:40:02 +0200
+Message-Id: <20220706184008.1649478-18-eperezma@redhat.com>
 In-Reply-To: <20220706184008.1649478-1-eperezma@redhat.com>
 References: <20220706184008.1649478-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -66,12 +66,13 @@ Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,73 +88,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows external handlers to be aware of new buffers that the guest
-places in the virtqueue.
-
-When this callback is defined the ownership of guest's virtqueue element
-is transferred to the callback. This means that if the user wants to
-forward the descriptor it needs to manually inject it. The callback is
-also free to process the command by itself and use the element with
-svq_push.
+To notify the caller it needs to discard the element.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h | 16 ++++++++++++++++
- hw/virtio/vhost-shadow-virtqueue.c |  8 +++++++-
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-shadow-virtqueue.h | 11 +++++++++++
+ hw/virtio/vhost-shadow-virtqueue.c | 11 ++++++++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index 296fef6f21..4300cb66f8 100644
+index 4300cb66f8..583b6fda5d 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.h
 +++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -27,12 +27,28 @@ typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
- typedef int (*ShadowVirtQueueStart)(VhostShadowVirtqueue *svq,
-                                     void *opaque);
- 
-+/**
-+ * Callback to handle an avail buffer.
-+ *
-+ * @svq:  Shadow virtqueue
-+ * @elem:  Element placed in the queue by the guest
-+ * @vq_callback_opaque:  Opaque
-+ *
-+ * Returns true if the vq is running as expected, false otherwise.
-+ *
-+ * Note that ownership of elem is transferred to the callback.
-+ */
-+typedef bool (*VirtQueueAvailCallback)(VhostShadowVirtqueue *svq,
-+                                       VirtQueueElement *elem,
-+                                       void *vq_callback_opaque);
-+
- typedef void (*VirtQueueUsedCallback)(VhostShadowVirtqueue *svq,
+@@ -46,10 +46,21 @@ typedef void (*VirtQueueUsedCallback)(VhostShadowVirtqueue *svq,
                                        void *used_elem_opaque,
                                        uint32_t written);
  
++/**
++ * Detach the element from the shadow virtqueue.  SVQ needs to free it and it
++ * cannot be pushed or discarded.
++ *
++ * @elem_opaque: The element opaque
++ *
++ * Return the guest element to detach and free if any.
++ */
++typedef VirtQueueElement *(*VirtQueueDetachCallback)(void *elem_opaque);
++
  typedef struct VhostShadowVirtqueueOps {
      ShadowVirtQueueStart start;
-+    VirtQueueAvailCallback avail_handler;
+     VirtQueueAvailCallback avail_handler;
      VirtQueueUsedCallback used_handler;
++    VirtQueueDetachCallback detach_handler;
  } VhostShadowVirtqueueOps;
  
+ /* Shadow virtqueue to relay notifications */
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index b92ca4a63f..dffea256f1 100644
+index dffea256f1..4f072f040b 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -371,7 +371,13 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-                 return;
-             }
+@@ -746,7 +746,16 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
  
--            ok = vhost_svq_add_element(svq, g_steal_pointer(&elem));
-+            if (svq->ops) {
-+                ok = svq->ops->avail_handler(svq, g_steal_pointer(&elem),
-+                                             svq->ops_opaque);
-+            } else {
-+                ok = vhost_svq_add_element(svq, g_steal_pointer(&elem));
-+            }
+     for (unsigned i = 0; i < svq->vring.num; ++i) {
+         g_autofree VirtQueueElement *elem = NULL;
+-        elem = g_steal_pointer(&svq->ring_id_maps[i].opaque);
++        void *opaque = g_steal_pointer(&svq->ring_id_maps[i].opaque);
 +
-             if (unlikely(!ok)) {
-                 /* VQ is broken, just return and ignore any other kicks */
-                 return;
++        if (!opaque) {
++            continue;
++        } else if (svq->ops) {
++            elem = svq->ops->detach_handler(opaque);
++        } else {
++            elem = opaque;
++        }
++
+         if (elem) {
+             virtqueue_detach_element(svq->vq, elem, 0);
+         }
 -- 
 2.31.1
 
