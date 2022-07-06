@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011095685AC
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 12:35:07 +0200 (CEST)
-Received: from localhost ([::1]:39654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB36568505
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 12:17:46 +0200 (CEST)
+Received: from localhost ([::1]:57174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o92N8-0002eq-4b
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 06:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48026)
+	id 1o926K-0003m3-NX
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 06:17:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o91yT-0003AM-J0
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:09:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22542)
+ id 1o9220-0000BW-Q7
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:13:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o91yS-0004I5-3I
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:09:37 -0400
+ id 1o921x-0005cb-Ly
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:13:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657102175;
+ s=mimecast20190719; t=1657102392;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=z7Ebi7pnMb2Z+4uHHmihc543pTb6Y5IN+mPlNTxBplk=;
- b=MQB5D8hEVhY63NEO5I/kzRKG6LrimSG6ZHYYffoOJcme5y2aUNneYIqBlP0Zc+EDC5qW+9
- 48pVUR+2GjNXb9xEReqwI1AzsFryfRhJf/9AXuc+dtlFALRfPs4NapOxSINDtgooBodnp6
- Dtn7P+BrWCdLOw4/d0Sprl8eP9I85nQ=
+ bh=2pblBfQLh6l+VnXM7hKL/iDmE+Cxwl/ctNYwNiOLm9o=;
+ b=UXPhbn5GKODUj9TWVcuYlYFYIumq0rduHhXNZukfE93aw/2eHBTbWkfUhP1Qu2m5R4UXQH
+ i9osLvCMJA8qIVU7pqv58GYZMuaQ8EdtDKUoqR4KjOcjc9JKt9HBeQjoezXDS1cMyZeU3f
+ sE5FjPCNF+Z40dqZ0uTvFUyzvCMRP+k=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-257-3LABkKdzMXO4dCnjiC_YKg-1; Wed, 06 Jul 2022 06:09:30 -0400
-X-MC-Unique: 3LABkKdzMXO4dCnjiC_YKg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-516-WVUb6TGOPcGKDYF3uC5a7Q-1; Wed, 06 Jul 2022 06:13:09 -0400
+X-MC-Unique: WVUb6TGOPcGKDYF3uC5a7Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06A733C0D855;
- Wed,  6 Jul 2022 10:09:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F15BB299E75A;
+ Wed,  6 Jul 2022 10:13:08 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8EE0E2EF97;
- Wed,  6 Jul 2022 10:09:27 +0000 (UTC)
-Date: Wed, 6 Jul 2022 11:09:26 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77831140EBE3;
+ Wed,  6 Jul 2022 10:13:08 +0000 (UTC)
+Date: Wed, 6 Jul 2022 11:13:06 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Wen Congyang <wencongyang2@huawei.com>,
  Xie Changlong <xiechanglong.d@gmail.com>,
  Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org
-Subject: Re: [PATCH v8 05/20] job.c: add job_lock/unlock while keeping job.h
- intact
-Message-ID: <YsVfVnCPOvxOl8Pn@stefanha-x1.localdomain>
+Subject: Re: [PATCH v8 13/20] jobs: group together API calls under the same
+ job lock
+Message-ID: <YsVgMtM9hl0lB26k@stefanha-x1.localdomain>
 References: <20220629141538.3400679-1-eesposit@redhat.com>
- <20220629141538.3400679-6-eesposit@redhat.com>
- <YsPqxG4//mc5DBn4@stefanha-x1.localdomain>
- <0c4ff18c-f12f-6955-09b8-8acd3126492e@redhat.com>
+ <20220629141538.3400679-14-eesposit@redhat.com>
+ <YsPyzyOItXg9Y4c0@stefanha-x1.localdomain>
+ <85eb06db-15ab-1451-c420-ec4956febe98@redhat.com>
+ <fa3e1d40-fe1c-7ae8-81da-d0122c753cc8@redhat.com>
+ <197ee109-450a-746a-e46e-a1ca511c3455@yandex-team.ru>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="p1wtWc0deZwvvkTM"
+ protocol="application/pgp-signature"; boundary="oBLU475sOaA6tw34"
 Content-Disposition: inline
-In-Reply-To: <0c4ff18c-f12f-6955-09b8-8acd3126492e@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <197ee109-450a-746a-e46e-a1ca511c3455@yandex-team.ru>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,59 +93,84 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---p1wtWc0deZwvvkTM
+--oBLU475sOaA6tw34
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 05, 2022 at 10:07:40AM +0200, Emanuele Giuseppe Esposito wrote:
->=20
->=20
-> Am 05/07/2022 um 09:39 schrieb Stefan Hajnoczi:
-> > On Wed, Jun 29, 2022 at 10:15:23AM -0400, Emanuele Giuseppe Esposito wr=
-ote:
-> >> +void job_ref(Job *job)
-> >> +{
-> >> +    JOB_LOCK_GUARD();
-> >> +    job_ref_locked(job);
-> >> +}
+On Tue, Jul 05, 2022 at 04:22:41PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> On 7/5/22 16:01, Emanuele Giuseppe Esposito wrote:
 > >=20
-> > You don't need to fix this, but just a note:
 > >=20
-> > This API seems dangerous. If we don't hold the lock, how can we be sure
-> > job won't be unreferenced before we call job_ref()? We would need to be
-> > sure there exists another reference that won't be released until
-> > job_ref() returns...
+> > Am 05/07/2022 um 10:17 schrieb Emanuele Giuseppe Esposito:
+> > >=20
+> > >=20
+> > > Am 05/07/2022 um 10:14 schrieb Stefan Hajnoczi:
+> > > > On Wed, Jun 29, 2022 at 10:15:31AM -0400, Emanuele Giuseppe Esposit=
+o wrote:
+> > > > > diff --git a/blockdev.c b/blockdev.c
+> > > > > index 71f793c4ab..5b79093155 100644
+> > > > > --- a/blockdev.c
+> > > > > +++ b/blockdev.c
+> > > > > @@ -150,12 +150,15 @@ void blockdev_mark_auto_del(BlockBackend *b=
+lk)
+> > > > >           return;
+> > > > >       }
+> > > > > -    for (job =3D block_job_next(NULL); job; job =3D block_job_ne=
+xt(job)) {
+> > > > > +    JOB_LOCK_GUARD();
+> > > > > +
+> > > > > +    for (job =3D block_job_next_locked(NULL); job;
+> > > > > +         job =3D block_job_next_locked(job)) {
+> > > > >           if (block_job_has_bdrv(job, blk_bs(blk))) {
+> > > > >               AioContext *aio_context =3D job->job.aio_context;
+> > > > >               aio_context_acquire(aio_context);
+> > > >=20
+> > > > Is there a lock ordering rule for job_mutex and the AioContext lock=
+? I
+> > > > haven't audited the code, but there might be ABBA lock ordering iss=
+ues.
+> > >=20
+> > > Doesn't really matter here, as lock is nop. To be honest I forgot whi=
+ch
+> > > one should go first, probably job_lock because the aiocontext lock can
+> > > be taken and released in callbacks.
+> > >=20
+> > > Should I resend with ordering fixed? Just to have a consistent logic
+> >=20
+> > Well actually how do I fix that? I would just add useless additional
+> > changes into the diff, because for example in the case below I am not
+> > even sure what exactly is the aiocontext protecting.
+> >=20
+> > So I guess I'll leave as it is. I will just update the commit message to
+> > make sure it is clear that the lock is nop and ordering is mixed.
 > >=20
 >=20
-> I guess that's a drawback of using this new serie organization :)
+> Yes, I think it's OK.
 >=20
-> This function is just a temporary placeholder to avoid having _locked
-> functions being called without the lock held (see previous serie
-> suggestions from Vladimir and Kevin).
+> As far as I understand, our final ordering rule is that job_mutex can be =
+taken under aio context lock but not visa-versa.
 
-Ah, yes, I saw non-locked functions being removed after I reviewed this
-patch. A comment would help explain this to reviewers but there's no
-need to change it now.
+I'm also fine with resolving the ordering in a later patch.
 
-Thanks,
 Stefan
 
---p1wtWc0deZwvvkTM
+--oBLU475sOaA6tw34
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLFX1YACgkQnKSrs4Gr
-c8j10QgAm+TzHynZez++1PA54zAjT6V7KaAdQ5f07FBxx+bEYtbnJZtrNJiHPLIe
-HM/BSsPpR457xuqw9FqIxvPKrQdD83b29wGp583EBMHEhs08toDaqyxGEU/ilMxW
-BTMh+Wbso6CAUIOXki7ovrsbJpF/9FVz6hoATVRobC8hpmucTjJQav4uheymHYzQ
-4/EAvTtyZQSSqUlYCbvkH+hq+5hEUuu6OvitntaufpIeBKm+aBmB/w0Bg2D5cRAc
-YVtX1DN8UZ2L716e2ByLE0r82QrHsfYTtXA70btfX9BE3b2cmYBZ546f+KJgSmN2
-8p7e7yN+IffmpCMtPD9yGVviSQxYmw==
-=MrDN
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLFYDIACgkQnKSrs4Gr
+c8gE2gf+MSONfdPcMHZ22ggzE0E/NtwR/M5dOXHBjpjF4Wq7v6hhuHtJMNv0kWL+
+3WcKGw2sbjEYHzzWd0Ipec9Z5ag+m28TMiCTwMkt2kkSCK3FKwrELxA4rPrd4vmY
+SnWHFQ9JZCuV68qsUdW5AeIVsJ/v2cfbmVRGDwxfl4j/jvjqRiiG9JdTjJ5DilYO
+L0+vNArgBVsWtQRHrKfBonC/n9+f6vXx85wFjcoDecFsk7nmKCga51ba/o/TQ3PG
+3iW64379qYC9bHzRiNf1/sxKX2UUfDSaefeNYIs1NvnvAWyWjAVJqkJX2NDRTVpx
+A1FWydvDhiDDKfPtizuiIRUAaO5ReQ==
+=K3DF
 -----END PGP SIGNATURE-----
 
---p1wtWc0deZwvvkTM--
+--oBLU475sOaA6tw34--
 
 
