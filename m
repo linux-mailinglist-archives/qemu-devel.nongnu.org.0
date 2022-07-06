@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981385694FC
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 00:04:45 +0200 (CEST)
-Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB4D5694DD
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 00:00:08 +0200 (CEST)
+Received: from localhost ([::1]:43872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9D8W-00010y-3o
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 18:04:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48258)
+	id 1o9D42-0005ju-HW
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 18:00:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1o9C9N-0006ch-Jy
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 17:01:39 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:47088)
+ id 1o9CEU-0000zI-01
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 17:06:50 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:41948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1o9C9K-0003NU-IR
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 17:01:31 -0400
-Received: by mail-pl1-x633.google.com with SMTP id l12so9276228plk.13
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 14:01:30 -0700 (PDT)
+ id 1o9CES-0004xo-9A
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 17:06:49 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ o31-20020a17090a0a2200b001ef7bd037bbso11589063pjo.0
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 14:06:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=E+DUmmWw5ML9LyVgXGJQ7TucbKYQVH7LAu5PyX0z+V8=;
- b=V0wkCwL7RzzfTE6j91n0YEBN8RpKTeZElE7lPRLWDalLjqI+iWxptaaXkApD6CZaB3
- zqmYHSFT9pDJxfv/lYzXEEqrsfZW+ac0EjvhtGlC2yPyB+XeuLzXzPxJjXosU2mn+MwD
- RwDRS9XfxLIMY7WTvozpLcRW0ps8Ozrw5Za6KBcYozrT9jU0ZvLvvzMvVPzvtNCyE+1I
- NHienC6rEU4itot4C2gjbFPoRrrCWWl2OGPpO7KuHREfJA4FNf80CJCe36OL6zwgVSF1
- +FeTuAuV3zf1czPegIvjg1julhDw3ehJ96zUGRxSLjT1x8tZNMb3cTpaMICpGMkTMoTd
- uevg==
+ bh=oTi/uvns8CujpWM8Jw8LmA4lqq8j2BtXnHscp8e1mfs=;
+ b=TUvy/EANpjLhkhroqPTkobOkwL21UqQ8SDNOr5nDodgg17OggE4Y94UXNB/G3kOg8i
+ a41pMqcwViRU6XgNa5BhaaCxFejFqHlJA2k4H13iPDy0NobYhmYoYshzFpjPpkYniWN7
+ Rv2+Mf6+RVKyuCL4O4Ls52oduvBFGk8xXQ01erT+C/BwSVaCxlAK9bjycHHjfe0EnOqD
+ /UO8Cn0q2imaKNGYsjQL30Ufxm+iv+ft+cSrHIL2oyBwrcPklslyBu5AoCrcx+KpHBgO
+ puXruOGkY2geZaNWrqsxk4PZUMzwPef3lCDAghadC6Gp9h+WlJVyQAQOiiYckMIfXxAt
+ UnTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=E+DUmmWw5ML9LyVgXGJQ7TucbKYQVH7LAu5PyX0z+V8=;
- b=3dZW4MSxP1x9sb3q847kjmMyXB+1ikeSnxMD/jDL2D6TaCRlfci0LeS+3W+cu7a2+l
- LXDSuts/9Kn6G6o5SnU4gySVbT1HqvVp0LAVPNAuQjfKIJR+tkx0EU7YR/wM2nOztlM0
- jQ8FXgRiEBuyZ+28ek1ota+PWw+4aeB9Ez14SS05vWR4TQNzsXdc4//e7O6SRltBmjtJ
- I+iC00DGWCSG56JeIW0zBCUatxNGTBJsr9yRB8eJvj93ABTfenw4DHfUgC9kJlYCj7+L
- XFIw3q8Wq+vDLi/vt7vl5etnrk3i2y1ktsqnfYkd1OiKgu+KwX2/NWAB7jXVk/2gX7lL
- Y9Wg==
-X-Gm-Message-State: AJIora+orGpTmpwIHfNsv3wyjwEONBPWysLm55cH9Km9+HejT5UxAqXO
- mgmOQy2TTQ59NsdYchE0Q7w=
-X-Google-Smtp-Source: AGRyM1u5B+DrhAq7FCQJXGG9kbSmlHS7KSQc7FUA+oj5tQIOqM3nJEw5DEUA5SSAVTruTK4RfCBNUQ==
-X-Received: by 2002:a17:902:bd47:b0:16a:71a4:9bfd with SMTP id
- b7-20020a170902bd4700b0016a71a49bfdmr48914489plx.109.1657141288828; 
- Wed, 06 Jul 2022 14:01:28 -0700 (PDT)
+ bh=oTi/uvns8CujpWM8Jw8LmA4lqq8j2BtXnHscp8e1mfs=;
+ b=ZeJMnQrgbvuVY812IZmXe+ZxDr0PdGCeu4m6hHM5AjQuKSvHjK0Kf/k/rqBT3V13HW
+ ++K49aPfz3X6e+GIbayL5ekXLmWiRxjqDN07X+k/pq9CD6hqlLtbGUgH0Zy9uUwYW2aD
+ p9HNbvH9TgO80G9z2tlvfnFgxDtfGCVPZbJfZ8mIiEu2RE5/OKpnJfpwS+RpZiETW9aW
+ +6yr9sbdnCeFmRm+M79/5PtPYAKjqTQniMF/EYSDdNmiZsdFDjedGupHbglf3a63FAxj
+ 5so3XjZ6sH1Vm4EpIi5Jq8P82He3d87rs+hAUdg3PQsEnjwmSip4ZBk/r44sPogWfk2L
+ 9qfg==
+X-Gm-Message-State: AJIora8UUk+zi2xguy8mn5ilXGz9Zm3/97xkyqXUZZLcbBdVZ4Ois4gG
+ wqcDKsIy2VtkN+kNjUvaPnE=
+X-Google-Smtp-Source: AGRyM1tQ+wSEkwmzMfaQ/JQ4IViBqFHejdPqySLowx7PlTe6WIFqLL0GcR8las+wwX6WVh2gUI+kXA==
+X-Received: by 2002:a17:902:ab96:b0:16a:6db6:2715 with SMTP id
+ f22-20020a170902ab9600b0016a6db62715mr50352378plr.141.1657141598418; 
+ Wed, 06 Jul 2022 14:06:38 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u27-20020a62d45b000000b0050dc7628148sm25380652pfl.34.2022.07.06.14.01.27
+ iw4-20020a170903044400b0016be5ed14d5sm6775586plb.40.2022.07.06.14.06.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jul 2022 14:01:28 -0700 (PDT)
-Message-ID: <44297893-a43c-578a-648f-6de561546c85@amsat.org>
-Date: Wed, 6 Jul 2022 23:01:24 +0200
+ Wed, 06 Jul 2022 14:06:37 -0700 (PDT)
+Message-ID: <8dd4ce07-c2f3-f0e5-855b-c167f471407f@amsat.org>
+Date: Wed, 6 Jul 2022 23:06:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH] tcg/tci: Remove CONFIG_DEBUG_TCG_INTERPRETER
+Subject: Re: [PATCH] tests/docker/dockerfiles: Add
+ debian-loongarch-cross.docker
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Song Gao <gaosong@loongson.cn>
-References: <20220705083623.1142250-1-richard.henderson@linaro.org>
-In-Reply-To: <20220705083623.1142250-1-richard.henderson@linaro.org>
+Cc: alex.bennee@linaro.org
+References: <20220704070824.965429-1-richard.henderson@linaro.org>
+In-Reply-To: <20220704070824.965429-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,19 +97,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 5/7/22 10:36, Richard Henderson wrote:
-> There is nothing in this environment variable that cannot
-> be done better with -d flags.  There is nothing special
-> about TCI that warrants this hack.
+On 4/7/22 09:08, Richard Henderson wrote:
+> Use the pre-packaged toolchain provided by Loongson via github.
 > 
-> Moreover, it does not compile -- remove it.
-> 
-> Reported-by: Song Gao <gaosong@loongson.cn>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tcg/tci/tcg-target.h     | 5 -----
->   tcg/tci/tcg-target.c.inc | 7 -------
->   2 files changed, 12 deletions(-)
+>   configure                                     |  5 ++++
+>   tests/docker/Makefile.include                 |  2 ++
+>   .../dockerfiles/debian-loongarch-cross.docker | 25 +++++++++++++++++++
+>   3 files changed, 32 insertions(+)
+>   create mode 100644 tests/docker/dockerfiles/debian-loongarch-cross.docker
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
