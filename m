@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68AA256859F
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 12:32:01 +0200 (CEST)
-Received: from localhost ([::1]:35088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B37556864B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 12:59:23 +0200 (CEST)
+Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o92K6-0007A6-HD
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 06:31:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56070)
+	id 1o92kb-0000PT-VU
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 06:59:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o92Ei-00050Q-NW
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:26:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o92Ef-0000mN-Sq
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:26:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657103180;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MN29x9dYDfOBVQLAhi3Yy6vh/fJu2wQ7+HjCKJDlpfU=;
- b=LSkeXoXc0AH3uJEYO+/k0hscgE/pga43Xt2+eF/At2xIniCZE898cqU/ObPPaGjeeZE1DJ
- GaRCHwg4KpGSh/bfI/a/c4Od1lL+jlFi5Bj0NhB77eFfWIAzxtnJXqZI326tAQjSkWAnd3
- bxYqacKlG29v+sScAv0IFWvZTh8WY54=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-493-1VWz4ZOpOA-YasDlq5HVjw-1; Wed, 06 Jul 2022 06:26:19 -0400
-X-MC-Unique: 1VWz4ZOpOA-YasDlq5HVjw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- x21-20020a05640226d500b00435bd7f9367so11298981edd.8
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 03:26:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MN29x9dYDfOBVQLAhi3Yy6vh/fJu2wQ7+HjCKJDlpfU=;
- b=V/cwMcTL3dyBIVzxm3erccfqp8r0lxnrT95Ts1UZ5e3R6mOnsUt/EbRGKltIeGdLxd
- kb2gc/OnM7G1/U8Qiv1Sro1bMWBGTH5iwp+A3f/WQhHMJJlrw9St7FV2RDTns2/l0+1z
- thc9fOz/fMHpIPrYUSVc4uiu2EzKgGLsfeZ/RnctCbeeZJILjSnHsf5nNkQam6VRS3bs
- o7fyivw0ckkB2j9nZm5r9dCSaMW8ZtLKIXQ10TkX5F7YV1xBE/XiPnrQEzGfPrBeUv0x
- WSod8HdQIAkyj97yRx5hs9ZdShI2o5nfoEca/PzihuByeElBXiesV/PvQul+jIwap4KW
- T+Rg==
-X-Gm-Message-State: AJIora9cr9U1Bg8SNOolV4pkFoij7GtuVT+RyjnRNxAMRlTWn02dqLcN
- 31VEBKIIEPdLh8EGVhtBlXuYTa0Fsas05I+XeNy4foa/v+Ch8R6ws9K5drY4NZW+AMMUZMS0v+j
- pntmF+dIAFxo1bEU=
-X-Received: by 2002:a17:907:86a7:b0:726:317f:aee0 with SMTP id
- qa39-20020a17090786a700b00726317faee0mr38771535ejc.229.1657103178427; 
- Wed, 06 Jul 2022 03:26:18 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1thdOA1EMTqFNMDETyfYiXGf4luCw1/nnLxGyLm26bnRN97cAvUhm6eTzF8saSG7YTIqNwmcw==
-X-Received: by 2002:a17:907:86a7:b0:726:317f:aee0 with SMTP id
- qa39-20020a17090786a700b00726317faee0mr38771507ejc.229.1657103178217; 
- Wed, 06 Jul 2022 03:26:18 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5056:d40:63e3:25a7:c1a1:4455?
- ([2a02:8071:5056:d40:63e3:25a7:c1a1:4455])
- by smtp.gmail.com with ESMTPSA id
- b17-20020a1709063cb100b0072afb6d4d6fsm546612ejh.171.2022.07.06.03.26.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jul 2022 03:26:17 -0700 (PDT)
-Message-ID: <a5b27e74-a6a3-01b0-35bf-b8c58802d99a@redhat.com>
-Date: Wed, 6 Jul 2022 12:26:17 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] iotests: fix copy-before-write for macOS and FreeBSD
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, thuth@redhat.com,
- jsnow@redhat.com, richard.henderson@linaro.org
-References: <20220705153708.186418-1-vsementsov@yandex-team.ru>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220705153708.186418-1-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o92id-00080d-7D
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:57:19 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:39264 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o92ia-0004KB-8q
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 06:57:18 -0400
+Received: from smtpclient.apple (unknown [111.199.64.159])
+ by APP-05 (Coremail) with SMTP id zQCowAAXH7OAasVii4AMCw--.30528S2;
+ Wed, 06 Jul 2022 18:57:04 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <YsRwyMONg0+mHVsL@apples>
+Date: Wed, 6 Jul 2022 18:57:04 +0800
+Cc: qemu-devel@nongnu.org,
+ Keith Busch <kbusch@kernel.org>
+Content-Transfer-Encoding: 7bit
+Message-Id: <43986990-9A3F-426F-8127-3DAAD43524EC@ict.ac.cn>
+References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
+ <YsRwyMONg0+mHVsL@apples>
+To: Klaus Jensen <its@irrelevant.dk>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowAAXH7OAasVii4AMCw--.30528S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gw4xXF4rtFWxGw4kZryrZwb_yoWkCrb_ur
+ W5t3yjy34jyrs3tFySyF13Ar12gF45A3W2v345Kry7tas5tr909F4qvryfuFyfGa9Ykr9x
+ Jw1Uta42g34IgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbFAYjsxI4VWkKwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+ 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
+ Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I
+ 3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
+ WUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
+ wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcI
+ k0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
+ Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU5PpnJUUUUU==
+X-Originating-IP: [111.199.64.159]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,49 +76,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.07.22 17:37, Vladimir Sementsov-Ogievskiy wrote:
-> strerror() represents ETIMEDOUT a bit different in Linux and macOS /
-> FreeBSD. Let's support the latter too.
->
-> Fixes: 9d05a87b77 ("iotests: copy-before-write: add cases for cbw-timeout option")
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> ---
->
-> As John and Thomas noted, the new iotests fails for FreeBSD and maxOS.
-> Here is a fix. Would be great if someone can test it.
->
-> I tried to push it by
->
->    git push --force  -o ci.variable="QEMU_CI=1"
->
-> to my block branch, I get a blocked pipeline
->    https://gitlab.com/vsementsov/qemu/-/pipelines/580573238
-> but it doesn't have neither freebsd nor macos jobs.. How to get them?
->
->   tests/qemu-iotests/tests/copy-before-write | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/tests/qemu-iotests/tests/copy-before-write b/tests/qemu-iotests/tests/copy-before-write
-> index 16efebbf8f..56937b9dff 100755
-> --- a/tests/qemu-iotests/tests/copy-before-write
-> +++ b/tests/qemu-iotests/tests/copy-before-write
-> @@ -192,6 +192,11 @@ read 1048576/1048576 bytes at offset 0
->   
->       def test_timeout_break_guest(self):
->           log = self.do_cbw_timeout('break-guest-write')
-> +        # macOS and FreeBSD tend to represent ETIMEDOUT as
-> +        # "Operation timed out", when Linux prefer
-> +        # "Connection timed out"
-> +        log = log.replace('Operation timed out',
-> +                          'Connection timed out')
+at 1:11 AM, Klaus Jensen <its@irrelevant.dk> wrote:
 
-If we know for sure that it’s ETIMEDOUT, how about 
-os.strerror(errno.ETIMEDOUT)?
+> On Jul  5 22:24, Jinhao Fan wrote:
+>> Add property "ioeventfd" which is enabled by default. When this is
+>> enabled, updates on the doorbell registers will cause KVM to signal
+>> an event to the QEMU main loop to handle the doorbell updates.
+>> Therefore, instead of letting the vcpu thread run both guest VM and
+>> IO emulation, we now use the main loop thread to do IO emulation and
+>> thus the vcpu thread has more cycles for the guest VM.
+> 
+> This is not entirely accurate.
+> 
+> Yes, the ioeventfd causes the doorbell write to be handled by the main
+> iothread, but previously we did not do any substantial device emulation
+> in the vcpu thread either. That is the reason why we only handle the
+> bare minimum of the doorbell write and then defer any work until the
+> timer fires on the main iothread.
+> 
+> But with this patch we just go ahead and do the work (nvme_process_sq)
+> immediately since we are already in the main iothread.
+> 
 
-Hanna
-
->           self.assertEqual(log, """\
->   wrote 524288/524288 bytes at offset 0
->   512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+Thanks for pointing this out. I previously thought the timers are fired in
+the vcpu threads. I misunderstood why this optimization works but
+accidentally got the code right.
 
 
