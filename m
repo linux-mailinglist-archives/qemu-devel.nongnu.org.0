@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C62D568FC0
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 18:53:49 +0200 (CEST)
-Received: from localhost ([::1]:51780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C72E56901E
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 18:57:34 +0200 (CEST)
+Received: from localhost ([::1]:57056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o98Hc-0005GG-Op
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 12:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50000)
+	id 1o98LF-0000as-Bb
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 12:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o98Fk-0002uz-QN
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 12:51:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1o98Fh-000459-Ab
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 12:51:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657126308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xIrzzQs5dsRszM27GtjindoD6PVyAf52uMecL1DroWg=;
- b=Mt5XoFwQ+0bxmauDT9kSzN8ssmmJT40DQVErSPekmp9aafZEusQEXZAF/00W6h4BQakGRV
- f5adzrnd4BRFXaVp86RQNoInKlydAOL03oVJEWssGaw7b/WR7DxxCq6ZBcpArYR5J5ZGPp
- qTcH0jmhhXPD1BAp8w6deeZHy0CHyYc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-a-0xSMvCO0OdKfaQYsAq-w-1; Wed, 06 Jul 2022 12:51:47 -0400
-X-MC-Unique: a-0xSMvCO0OdKfaQYsAq-w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- be8-20020a05600c1e8800b003a069fe18ffso10574380wmb.9
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 09:51:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o98IU-0007DN-4K
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 12:54:44 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:36850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o98II-0004RL-3e
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 12:54:41 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-31caffa4a45so74584917b3.3
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 09:54:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vw8mdLuuEMPv584JDmqMvt5ubyIGjiXJjC5oKLTyb0w=;
+ b=ui/CCp2iGMIyyLGpcMihdGOpTbx8d888tRFk84V9wmPJjwQACgnzJ/oj2DfdlZfdjU
+ gAOKlLmet6nVKEPa3M+lI+sePzugpj3EHGqoKPjOIsQJ0wvos1uROBSbqWXZ/+rbTq/Z
+ r8c3cuXmw787CjpooLQmciXEe8oJm3APbKuL8VZcb1wJDNGIIdhWqkpErj9qhPtGV97w
+ u6B65eng3VBlDlavHLZ2XB/v+Kd2nhPLEkt4REHIlkjRvOSPxTqiQwQlCSPVAlILExCT
+ PTo64WjflSaX0EPrQc9MVQ8gENyxm0KHEytBSnn/B96grEFcEHWEy/ol7DzKqDwEt02F
+ o6tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=xIrzzQs5dsRszM27GtjindoD6PVyAf52uMecL1DroWg=;
- b=P9fRqiojAuQzEOxXULqq51X1UHCJlA3CBlQuCzlkusGaoYf2ccjWpzO6tBCnfklYCw
- +qSt3XWkfslKhVQjrD2Vi1fqRqcEmky7yfE8GfO09sH+7Xl3qUnGG6MzxVxNqmUAAZU2
- 72bVFsmPv/mf4pNydxFhwZyw85ZQgBzaf4qfke7zWUu9phQ28BPzWZXSmVsuLB6n9alR
- Yckk9bszQCf9Cpp8P9yVRQJ4Wiy/Ou3GuU/7qK5VDsFxXWwHQiwl2J4DBc2cIcNtij/m
- UOiAq1PjPzHSx6JTVLYceZw7ZxBqLvw9bfzxzngRNdtZt5nIcHnu6Jx1Iwo3RGC8z9P4
- 3ygQ==
-X-Gm-Message-State: AJIora+CxRQG93cOr+Qo4mA9Vkj+xnR4z9ICYAtam04y7/qFuwOk6myG
- zlhPhwpj2pC4iF6Z69IQsHIrO1q3Bprv477hj7RqOqTa7i91rVXeffSEZUtWpyuncCPi62CiDnj
- lQbhCHZZWOETU2LM=
-X-Received: by 2002:a05:600c:210a:b0:3a0:3be1:718f with SMTP id
- u10-20020a05600c210a00b003a03be1718fmr45307842wml.181.1657126305989; 
- Wed, 06 Jul 2022 09:51:45 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sux8lb+klL+5NpOk8l76nUbfh/4rC2L8fynR2g+f7nhkl1MX79Qx3my9bk/NQrTsL+6AkWHA==
-X-Received: by 2002:a05:600c:210a:b0:3a0:3be1:718f with SMTP id
- u10-20020a05600c210a00b003a03be1718fmr45307819wml.181.1657126305689; 
- Wed, 06 Jul 2022 09:51:45 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
- ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
- by smtp.gmail.com with ESMTPSA id
- o11-20020a05600c4fcb00b003942a244f40sm23920231wmq.25.2022.07.06.09.51.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jul 2022 09:51:45 -0700 (PDT)
-Message-ID: <bde6f81b-af05-ce03-343c-3754ae8a1e4e@redhat.com>
-Date: Wed, 6 Jul 2022 18:51:44 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vw8mdLuuEMPv584JDmqMvt5ubyIGjiXJjC5oKLTyb0w=;
+ b=28RmNe2efYjWI9QAlIJN5u9SgVKoSiN9p4KQG8sgw6pUqTe/D5uGAYOSkxeuqu6Ch7
+ IZhLhD3opPHTGfdK+1R2aqb+xutrPO06WOvuwPYM6zLvNKUrG27dAZLPBIrtZGNZxA0f
+ kcXGGv3qCnXju5eg5wF8hqSchRch2Nlgses2IzvKwWR6NQnjOkVyAbb9DQL6RHLpJ3kd
+ i7kzT+Q+8fbPZ5mCFcEjKpgj9aMDa0ssJPdL7BRUbUisu5FnVBslAdDvxoYYH+/08QQL
+ ldkzwE+HnPqNCSMcsO+MKDSQJfX7WCgv1bsi+DPBlgaGNmzZOkdRRBPpf8vl2Mq+6cCV
+ rsHw==
+X-Gm-Message-State: AJIora8TYNpjLONCGhHsABu4snxosHMY7wVEKStYQ9nVyUFGhYxMHSp7
+ 2YY439LZKtPF5tigPmFgRpS4YPaa8ldgZeR3Hen34Q==
+X-Google-Smtp-Source: AGRyM1sxSLYLWJjiw1D8KMkXgYhsvYmIvDPA9AEFLLAASTCfla0VY+an00xYt4dQmdBzYuwNy7X3L2F6ls5xns66tJY=
+X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
+ d8-20020a818d08000000b00317a4cdd65dmr45627155ywg.329.1657126468987; Wed, 06
+ Jul 2022 09:54:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] iotests: fix copy-before-write for macOS and FreeBSD
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, thuth@redhat.com,
- jsnow@redhat.com, richard.henderson@linaro.org
-References: <20220705153708.186418-1-vsementsov@yandex-team.ru>
- <a5b27e74-a6a3-01b0-35bf-b8c58802d99a@redhat.com>
- <28788b2a-2144-17e9-b7b0-daf498bcbf49@yandex-team.ru>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <28788b2a-2144-17e9-b7b0-daf498bcbf49@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220706082411.1664825-1-richard.henderson@linaro.org>
+ <20220706082411.1664825-24-richard.henderson@linaro.org>
+In-Reply-To: <20220706082411.1664825-24-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 6 Jul 2022 17:53:51 +0100
+Message-ID: <CAFEAcA-UFwHkxtHEpEca2=HELeh8Ba9bHAvL3tFX5BDeGnwy=A@mail.gmail.com>
+Subject: Re: [PATCH v5 23/45] target/arm: Implement SME ADDHA, ADDVA
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,92 +83,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.07.22 16:46, Vladimir Sementsov-Ogievskiy wrote:
-> On 7/6/22 13:26, Hanna Reitz wrote:
->> On 05.07.22 17:37, Vladimir Sementsov-Ogievskiy wrote:
->>> strerror() represents ETIMEDOUT a bit different in Linux and macOS /
->>> FreeBSD. Let's support the latter too.
->>>
->>> Fixes: 9d05a87b77 ("iotests: copy-before-write: add cases for 
->>> cbw-timeout option")
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>> ---
->>>
->>> As John and Thomas noted, the new iotests fails for FreeBSD and maxOS.
->>> Here is a fix. Would be great if someone can test it.
->>>
->>> I tried to push it by
->>>
->>>    git push --force  -o ci.variable="QEMU_CI=1"
->>>
->>> to my block branch, I get a blocked pipeline
->>> https://gitlab.com/vsementsov/qemu/-/pipelines/580573238
->>> but it doesn't have neither freebsd nor macos jobs.. How to get them?
->>>
->>>   tests/qemu-iotests/tests/copy-before-write | 5 +++++
->>>   1 file changed, 5 insertions(+)
->>>
->>> diff --git a/tests/qemu-iotests/tests/copy-before-write 
->>> b/tests/qemu-iotests/tests/copy-before-write
->>> index 16efebbf8f..56937b9dff 100755
->>> --- a/tests/qemu-iotests/tests/copy-before-write
->>> +++ b/tests/qemu-iotests/tests/copy-before-write
->>> @@ -192,6 +192,11 @@ read 1048576/1048576 bytes at offset 0
->>>       def test_timeout_break_guest(self):
->>>           log = self.do_cbw_timeout('break-guest-write')
->>> +        # macOS and FreeBSD tend to represent ETIMEDOUT as
->>> +        # "Operation timed out", when Linux prefer
->>> +        # "Connection timed out"
->>> +        log = log.replace('Operation timed out',
->>> +                          'Connection timed out')
->>
->> If we know for sure that it’s ETIMEDOUT, how about 
->> os.strerror(errno.ETIMEDOUT)?
+On Wed, 6 Jul 2022 at 10:17, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> I've checked this with make vm-build-freebsd, but it doesn't work:
->
-> --- 
-> /home/qemu/qemu-test.fxwm16/src/tests/qemu-iotests/tests/copy-before-write.out
-> +++ 
-> /usr/home/qemu/qemu-test.fxwm16/build/tests/qemu-iotests/scratch/copy-before-write.out.bad
-> @@ -1,5 +1,22 @@
-> -....
-> +..F.
-> +======================================================================
-> +FAIL: test_timeout_break_guest (__main__.TestCbwError)
-> +----------------------------------------------------------------------
-> +Traceback (most recent call last):
-> +  File 
-> "/usr/home/qemu/qemu-test.fxwm16/src/tests/qemu-iotests/tests/copy-before-write", 
-> line 207, in test_timeout_break_guest
-> +    """)
-> +AssertionError: 'wrot[102 chars]led: Connection timed out\nread 
-> 1048576/104857[73 chars]c)\n' != 'wrot[102 chars]led: Operation timed 
-> out\nread 1048576/1048576[72 chars]c)\n'
-> +  wrote 524288/524288 bytes at offset 0
-> +  512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-> +- write failed: Connection timed out
-> +?               ^^^^ ^
-> ++ write failed: Operation timed out
-> +?               ^^ ^^
-> +  read 1048576/1048576 bytes at offset 0
-> +  1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+> +void HELPER(sme_addha_s)(void *vzda, void *vzn, void *vpn,
+> +                         void *vpm, uint32_t desc)
+> +{
+> +    intptr_t row, col, oprsz = simd_oprsz(desc) / 4;
+> +    uint64_t *pn = vpn, *pm = vpm;
+> +    uint32_t *zda = vzda, *zn = vzn;
 > +
-> +
->  ----------------------------------------------------------------------
->  Ran 4 tests
->
+> +    for (row = 0; row < oprsz; ) {
+> +        uint64_t pa = pn[row >> 4];
+> +        do {
+> +            if (pa & 1) {
+> +                for (col = 0; col < oprsz; ) {
+> +                    uint64_t pb = pm[col >> 4];
+> +                    do {
+> +                        if (pb & 1) {
+> +                            zda[tile_vslice_index(row) + col] += zn[col];
 
-:(
+Doesn't this need some H macros to handle the bigendian case?
+We process the predicate from architecturally least to most
+significant, but because zda is a uint32_t* we don't handle
+that in the same order I think. Similarly sme_addva_s().
 
-> Probably pythonic os.strerror doesn't correspond to what we have in C..
+> +                        }
+> +                        pb >>= 4;
+> +                    } while (++col & 15);
+> +                }
+> +            }
+> +            pa >>= 4;
+> +        } while (++row & 15);
+> +    }
+> +}
 
-Great...
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> So, let's just go with my fix.
-
-Sounds good, then.
-
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-
+thanks
+-- PMM
 
