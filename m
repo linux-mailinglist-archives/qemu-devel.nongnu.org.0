@@ -2,69 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539D85687BC
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 14:04:26 +0200 (CEST)
-Received: from localhost ([::1]:57486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2CD5687C5
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 14:07:41 +0200 (CEST)
+Received: from localhost ([::1]:33224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o93lY-00064u-V2
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 08:04:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54494)
+	id 1o93oi-0000aO-F9
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 08:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o93h1-0004pA-CM
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 07:59:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21409)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1o93mS-00076y-Mq
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 08:05:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1o93gu-0003Zt-QB
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 07:59:41 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1o93mN-0005An-Ue
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 08:05:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657108773;
+ s=mimecast20190719; t=1657109110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A/34uj3Fhans8q9m2GcoZ1iIGffdMlt52Pwfs9asBBE=;
- b=IMHrt3M49I6cvDFbngzGW/+bFJMZgMJkENODZuj4KQ+IbWcJxdIyKB23dwLj7/7KY8hEX9
- usXljWBnrU16y8arEexY+ofip5K2OHGEtxSsmXSGz5U+CyvzStYkcsKmpot7Q/8E2GCed6
- AoUZnRToYBKaUTVz1XrCLWgLEqev8W8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qDOXgdJ4jxegHcJl5h5y4cWXuSfRBcfvjP6y1YsFyJw=;
+ b=BWFHlKWNWz91oA2OnBT0HPW9+2opMDB8/CUwAUM5H6tp0tnlzwdUMTIDqv6Ti7+YiuLVMh
+ 21jWaBwKl9EYmbsMDexH/dONXbgFLptlgq968jQumMZusmO4T9yWdFlpyZhs6y0K+bgLwl
+ S34phhY8OmX+WhlimLkkqO1xZmO3Pk4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-41-HYO1TkmZO-G9rI8ghybq3Q-1; Wed, 06 Jul 2022 07:59:32 -0400
-X-MC-Unique: HYO1TkmZO-G9rI8ghybq3Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E13F8339A4;
- Wed,  6 Jul 2022 11:59:31 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F25D0140EBE3;
- Wed,  6 Jul 2022 11:59:30 +0000 (UTC)
-Date: Wed, 6 Jul 2022 12:59:29 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Chao Gao <chao.gao@intel.com>
-Cc: fam@euphon.net, pbonzini@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [RFC v1] util/aio: Keep notification disabled as much as possible
-Message-ID: <YsV5IYtyaqKoqRZ5@stefanha-x1.localdomain>
-References: <20220701091348.215320-1-chao.gao@intel.com>
+ us-mta-393-lB8wjecfOYqcjMsn873u-g-1; Wed, 06 Jul 2022 08:05:09 -0400
+X-MC-Unique: lB8wjecfOYqcjMsn873u-g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r17-20020adfa151000000b0021d6c4743b0so1785440wrr.10
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 05:05:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qDOXgdJ4jxegHcJl5h5y4cWXuSfRBcfvjP6y1YsFyJw=;
+ b=XSVk16Rgxp+OslxGbZv6voe86+zRY1sRTa/iPHK0oj0ZEN8M3VmQkqYyXQdalOCfSE
+ b+QT3JjncNWiyGSCRLxeBEesTdMief+AhpC0vH2XXx1aQdCst0A2qo8FU+AnYAebXvP7
+ e+6t3DwUm/TZTiNR5wlzpIT5aGg3XU1FnQgShIsjY3AI5ai+qb2+JcAg7JogNA/atQH+
+ swgiJyiXDycuP761h1Sh/hVRev6CVAVtzg47+whyZ9dV56RbFuaEivAH+DfYHPwD8QGh
+ gayc8Ce6A6/cRdoKcx30FH9YZ+GpyPD4ekPSgDSIW4iOVUhUCsFiYZAAFWXYsLxdnMgS
+ 73Cw==
+X-Gm-Message-State: AJIora/Nl1Jp2EWYf37Lfp7iHfRAZnAQxec5AV9jkJVGjJUKcqWK9TWI
+ 2JdBkd+X7+McEM/91YbRyBMQvhXTuYxjMLKj2w1BDwAOLd4uWYWSvTRpufAV2xouG4+NVrmuqri
+ yuPFLH4+6QXTqtQg=
+X-Received: by 2002:a05:600c:1c27:b0:3a0:5098:c8b6 with SMTP id
+ j39-20020a05600c1c2700b003a05098c8b6mr43190527wms.69.1657109108015; 
+ Wed, 06 Jul 2022 05:05:08 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s5Yp1AbjYJ9mfPele5cJS8a7+YzzQ5ae0LGhI8cnh/Bfpo7Mit/x/kY8pmDvezez0iO8eQQQ==
+X-Received: by 2002:a05:600c:1c27:b0:3a0:5098:c8b6 with SMTP id
+ j39-20020a05600c1c2700b003a05098c8b6mr43190446wms.69.1657109107612; 
+ Wed, 06 Jul 2022 05:05:07 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ o4-20020a05600c378400b003a2b708c26dsm5014988wmr.40.2022.07.06.05.05.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jul 2022 05:05:07 -0700 (PDT)
+Message-ID: <95c3dae0-a8dd-1ec6-0ba1-5a4b1e92c1a3@redhat.com>
+Date: Wed, 6 Jul 2022 14:05:06 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9Bk7F3JcFiPQQ3Rb"
-Content-Disposition: inline
-In-Reply-To: <20220701091348.215320-1-chao.gao@intel.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v8 08/20] blockjob.h: introduce block_job _locked() APIs
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220629141538.3400679-1-eesposit@redhat.com>
+ <20220629141538.3400679-9-eesposit@redhat.com>
+ <6c02430a-a8d8-0be3-18b4-1709e601cbf9@yandex-team.ru>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <6c02430a-a8d8-0be3-18b4-1709e601cbf9@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,179 +113,237 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---9Bk7F3JcFiPQQ3Rb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 01, 2022 at 05:13:48PM +0800, Chao Gao wrote:
-> When measuring FIO read performance (cache=3Dwritethrough, bs=3D4k, iodep=
-th=3D64) in
-> VMs, we observe ~80K/s notifications (e.g., EPT_MISCONFIG) from guest to =
-qemu.
+Am 05/07/2022 um 17:01 schrieb Vladimir Sementsov-Ogievskiy:
+> On 6/29/22 17:15, Emanuele Giuseppe Esposito wrote:
+>> Just as done with job.h, create _locked() functions in blockjob.h
+> 
+> We modify not only blockjob.h, I'd s/blockjob.h/blockjob/ in subject.
+> 
+> Also, we start to introduce _locked block_job_* APIs.
+> 
+> Does it mean that BlockJob and Job share the global mutex to protect
+> themselves? Than I think we should document in BlockJob struct what is
+> protected by job_mutex.
 
-It's not clear to me what caused the frequent poll_set_started(ctx,
-false) calls and whether this patch is correct. I have posted some
-questions below about the nature of this issue.
+There is nothing in the struct (apart from Job) that is protected by the
+job lock. I can add a comment "Protected by job mutex" on top of Job job
+field?
 
-If ctx->fdmon_ops->wait() is called while polling is still enabled then
-hangs or unnecessary latency can occur. For example, consider an fd
-handler that temporarily suppresses fd activity between poll start/end.
-The thread would be blocked in ->wait() and the fd will never become
-readable. Even if a hang doesn't occur because there is a timeout, there
-would be extra latency because the fd doesn't become readable and we
-have to wait for the timeout to expire so we can poll again. So we must
-be sure it's safe to leave polling enabled across the event loop and I'm
-not sure if this patch is okay.
+> 
+> And please, let's be consistent on whether we add or not add "with mutex
+> held" / "with mutex not held" comments. For job API you mostly add it
+> for each function.. Let's do same here? Same for "temporary unlock"
+> comments.
 
->=20
-> Currently, poll_set_started(ctx,false) is called in try_poll_mode() to en=
-able
-> virtqueue notification in below 4 cases:
->=20
-> 1. ctx->poll_ns is 0
-> 2. a zero timeout is passed to try_poll_mode()
-> 3. polling succeeded but reported as no progress
-> 4. polling failed and reported as no progress
->=20
-> To minimize unnecessary guest notifications, keep notification disabled w=
-hen
-> it is possible, i.e., polling is enabled and last polling doesn't fail.
+Where did I miss the mutex lock/unlock comments? Yes I forgot the
+"temporary unlock" thing but apart from that all functions have a
+comment saying if they take the lock or not.
 
-What is the exact definition of polling success/failure?
-
->=20
-> Keep notification disabled for case #2 and #3; handle case #2 simply by a=
- call
-
-Did you see case #2 happening often? What was the cause?
-
-> of run_poll_handlers_once() and for case #3, differentiate successful/fai=
-led
-> polling and skip the call of poll_set_started(ctx,false) for successful o=
-nes.
-
-This is probably the most interesting case. When polling detects an
-event, that's considered "progress", except for aio_notify() events.
-aio_notify() is an internal event for restarting the event loop when
-something has changed (e.g. fd handlers have been added/removed). I
-wouldn't expect it to intefere polling frequently since that requires
-another QEMU thread doing something to the AioContext, which should be
-rare.
-
-Was aio_notify() intefering with polling in your case? Do you know why?
-
->=20
-> With this patch applied, FIO seq-read performance (bs=3D4k, iodepth=3D64,
-> cache=3Dwritethrough) in VMs increases from 330K/s to 413K/s IOPS.
->=20
-> Below are changes in VM-exit statistics:
-> w/o this patch (duration:10s):
->            VM-EXIT    Samples  Samples%     Time%    Min Time    Max Time=
-         Avg time
->=20
->      EPT_MISCONFIG     797440    99.34%    98.58%      0.39us     57.92us=
-      0.60us ( +-   0.05% )
->          MSR_WRITE       3672     0.46%     1.15%      0.88us      4.97us=
-      1.52us ( +-   0.53% )
-> EXTERNAL_INTERRUPT       1638     0.20%     0.27%      0.59us     11.04us=
-      0.81us ( +-   1.71% )
->=20
-> w/ this patch (duration:10s):
->           VM-EXIT    Samples  Samples%     Time%    Min Time    Max Time =
-        Avg time
->=20
->          MSR_WRITE       3524    84.11%    87.17%      0.86us      4.43us=
-      1.74us ( +-   0.60% )
-> EXTERNAL_INTERRUPT        515    12.29%    10.05%      0.64us      8.95us=
-      1.37us ( +-   1.54% )
->      EPT_MISCONFIG        151     3.60%     2.79%      0.40us     52.07us=
-      1.30us ( +-  31.44% )
->=20
-> Signed-off-by: Chao Gao <chao.gao@intel.com>
-> ---
->  util/aio-posix.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
->=20
-> diff --git a/util/aio-posix.c b/util/aio-posix.c
-> index 731f3826c0..bd2076145b 100644
-> --- a/util/aio-posix.c
-> +++ b/util/aio-posix.c
-> @@ -519,7 +519,7 @@ static bool remove_idle_poll_handlers(AioContext *ctx,
->   * Returns: true if progress was made, false otherwise
->   */
->  static bool run_poll_handlers(AioContext *ctx, AioHandlerList *ready_lis=
-t,
-> -                              int64_t max_ns, int64_t *timeout)
-> +                              int64_t max_ns, int64_t *timeout, bool *su=
-ccess)
->  {
->      bool progress;
->      int64_t start_time, elapsed_time;
-> @@ -553,6 +553,8 @@ static bool run_poll_handlers(AioContext *ctx, AioHan=
-dlerList *ready_list,
->          progress =3D true;
->      }
-> =20
-> +    *success =3D !*timeout;
-> +
->      /* If time has passed with no successful polling, adjust *timeout to
->       * keep the same ending time.
->       */
-> @@ -577,22 +579,28 @@ static bool run_poll_handlers(AioContext *ctx, AioH=
-andlerList *ready_list,
->  static bool try_poll_mode(AioContext *ctx, AioHandlerList *ready_list,
->                            int64_t *timeout)
->  {
-> -    int64_t max_ns;
-> +    int64_t max_ns, start_time;
-> +    bool success =3D false;
-> =20
->      if (QLIST_EMPTY_RCU(&ctx->poll_aio_handlers)) {
->          return false;
->      }
-> =20
-> +    if (!*timeout) {
-> +        start_time =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-> +        return run_poll_handlers_once(ctx, ready_list, start_time, timeo=
-ut);
-> +    }
-> +
->      max_ns =3D qemu_soonest_timeout(*timeout, ctx->poll_ns);
->      if (max_ns && !ctx->fdmon_ops->need_wait(ctx)) {
->          poll_set_started(ctx, ready_list, true);
-> =20
-> -        if (run_poll_handlers(ctx, ready_list, max_ns, timeout)) {
-> +        if (run_poll_handlers(ctx, ready_list, max_ns, timeout, &success=
-)) {
->              return true;
->          }
->      }
-> =20
-> -    if (poll_set_started(ctx, ready_list, false)) {
-> +    if (!success && poll_set_started(ctx, ready_list, false)) {
->          *timeout =3D 0;
->          return true;
->      }
-> --=20
-> 2.25.1
->=20
-
---9Bk7F3JcFiPQQ3Rb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLFeSEACgkQnKSrs4Gr
-c8g4xQf/YDBRLh+HzrmWEghvEqDqLg20CGbfwrhFYa22BUEI2yOUKqGXAAHX5tFH
-1QUQI4P6pkMN/J8Mqu+Hic/pu841f0/Qz02QVxjFfiIwkY9cvX2iTkARgfvi/W+B
-b4qa4lv5JypSf7A8Xgp8cSLmgtMBVyjD418uCS9gP35CQGbuYKzTRufT35VY3oDV
-Zef8jPasysYxpz/ZNw5gU1vR7lphIfZ5PubV2fSChlVzWVHFHVEbbbqagrdfo/vW
-27VaXFuUSEixWWcxUbRPV3VXWo21NJmqepxlPzl1cj4PYxGWknSmkrM7YMB7cxPk
-PGwPqn6d6iwFxvdP6fjXz+SE+lzDow==
-=1pad
------END PGP SIGNATURE-----
-
---9Bk7F3JcFiPQQ3Rb--
+> 
+>>
+>> These functions will be later useful when caller has already taken
+>> the lock. All blockjob _locked functions call job _locked functions.
+>>
+>> Note: at this stage, job_{lock/unlock} and job lock guard macros
+>> are *nop*.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   blockjob.c               | 52 ++++++++++++++++++++++++++++++++--------
+>>   include/block/blockjob.h | 15 ++++++++++++
+>>   2 files changed, 57 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/blockjob.c b/blockjob.c
+>> index 7da59a1f1c..0d59aba439 100644
+>> --- a/blockjob.c
+>> +++ b/blockjob.c
+>> @@ -44,21 +44,27 @@ static bool is_block_job(Job *job)
+>>              job_type(job) == JOB_TYPE_STREAM;
+>>   }
+>>   -BlockJob *block_job_next(BlockJob *bjob)
+>> +BlockJob *block_job_next_locked(BlockJob *bjob)
+>>   {
+>>       Job *job = bjob ? &bjob->job : NULL;
+>>       GLOBAL_STATE_CODE();
+>>         do {
+>> -        job = job_next(job);
+>> +        job = job_next_locked(job);
+>>       } while (job && !is_block_job(job));
+>>         return job ? container_of(job, BlockJob, job) : NULL;
+>>   }
+>>   -BlockJob *block_job_get(const char *id)
+>> +BlockJob *block_job_next(BlockJob *bjob)
+>>   {
+>> -    Job *job = job_get(id);
+>> +    JOB_LOCK_GUARD();
+>> +    return block_job_next_locked(bjob);
+>> +}
+>> +
+>> +BlockJob *block_job_get_locked(const char *id)
+>> +{
+>> +    Job *job = job_get_locked(id);
+>>       GLOBAL_STATE_CODE();
+>>         if (job && is_block_job(job)) {
+>> @@ -68,6 +74,12 @@ BlockJob *block_job_get(const char *id)
+>>       }
+>>   }
+>>   +BlockJob *block_job_get(const char *id)
+>> +{
+>> +    JOB_LOCK_GUARD();
+>> +    return block_job_get_locked(id);
+>> +}
+>> +
+>>   void block_job_free(Job *job)
+>>   {
+>>       BlockJob *bjob = container_of(job, BlockJob, job);
+>> @@ -256,14 +268,14 @@ static bool job_timer_pending(Job *job)
+>>       return timer_pending(&job->sleep_timer);
+>>   }
+>>   -bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
+>> +bool block_job_set_speed_locked(BlockJob *job, int64_t speed, Error
+>> **errp)
+>>   {
+>>       const BlockJobDriver *drv = block_job_driver(job);
+>>       int64_t old_speed = job->speed;
+>>         GLOBAL_STATE_CODE();
+>>   -    if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
+>> +    if (job_apply_verb_locked(&job->job, JOB_VERB_SET_SPEED, errp) <
+>> 0) {
+>>           return false;
+>>       }
+>>       if (speed < 0) {
+>> @@ -277,7 +289,9 @@ bool block_job_set_speed(BlockJob *job, int64_t
+>> speed, Error **errp)
+>>       job->speed = speed;
+>>         if (drv->set_speed) {
+>> +        job_unlock();
+>>           drv->set_speed(job, speed);
+>> +        job_lock();
+>>       }
+>>         if (speed && speed <= old_speed) {
+>> @@ -285,18 +299,24 @@ bool block_job_set_speed(BlockJob *job, int64_t
+>> speed, Error **errp)
+>>       }
+>>         /* kick only if a timer is pending */
+>> -    job_enter_cond(&job->job, job_timer_pending);
+>> +    job_enter_cond_locked(&job->job, job_timer_pending);
+>>         return true;
+>>   }
+>>   +bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
+>> +{
+>> +    JOB_LOCK_GUARD();
+>> +    return block_job_set_speed_locked(job, speed, errp);
+>> +}
+>> +
+>>   int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n)
+>>   {
+>>       IO_CODE();
+>>       return ratelimit_calculate_delay(&job->limit, n);
+>>   }
+>>   -BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
+>> +BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp)
+>>   {
+>>       BlockJobInfo *info;
+>>       uint64_t progress_current, progress_total;
+>> @@ -320,7 +340,7 @@ BlockJobInfo *block_job_query(BlockJob *job, Error
+>> **errp)
+>>       info->len       = progress_total;
+>>       info->speed     = job->speed;
+>>       info->io_status = job->iostatus;
+>> -    info->ready     = job_is_ready(&job->job),
+>> +    info->ready     = job_is_ready_locked(&job->job),
+>>       info->status    = job->job.status;
+>>       info->auto_finalize = job->job.auto_finalize;
+>>       info->auto_dismiss  = job->job.auto_dismiss;
+>> @@ -333,6 +353,12 @@ BlockJobInfo *block_job_query(BlockJob *job,
+>> Error **errp)
+>>       return info;
+>>   }
+>>   +BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
+>> +{
+>> +    JOB_LOCK_GUARD();
+>> +    return block_job_query_locked(job, errp);
+>> +}
+>> +
+>>   static void block_job_iostatus_set_err(BlockJob *job, int error)
+>>   {
+>>       if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
+>> @@ -478,7 +504,7 @@ fail:
+>>       return NULL;
+>>   }
+>>   -void block_job_iostatus_reset(BlockJob *job)
+>> +void block_job_iostatus_reset_locked(BlockJob *job)
+>>   {
+>>       GLOBAL_STATE_CODE();
+>>       if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
+>> @@ -488,6 +514,12 @@ void block_job_iostatus_reset(BlockJob *job)
+>>       job->iostatus = BLOCK_DEVICE_IO_STATUS_OK;
+>>   }
+>>   +void block_job_iostatus_reset(BlockJob *job)
+>> +{
+>> +    JOB_LOCK_GUARD();
+>> +    block_job_iostatus_reset_locked(job);
+>> +}
+>> +
+>>   void block_job_user_resume(Job *job)
+>>   {
+>>       BlockJob *bjob = container_of(job, BlockJob, job);
+>> diff --git a/include/block/blockjob.h b/include/block/blockjob.h
+>> index 6525e16fd5..3959a98612 100644
+>> --- a/include/block/blockjob.h
+>> +++ b/include/block/blockjob.h
+>> @@ -92,6 +92,9 @@ typedef struct BlockJob {
+>>    */
+>>   BlockJob *block_job_next(BlockJob *job);
+>>   +/* Same as block_job_next(), but called with job lock held. */
+>> +BlockJob *block_job_next_locked(BlockJob *job);
+>> +
+>>   /**
+>>    * block_job_get:
+>>    * @id: The id of the block job.
+>> @@ -102,6 +105,9 @@ BlockJob *block_job_next(BlockJob *job);
+>>    */
+>>   BlockJob *block_job_get(const char *id);
+>>   +/* Same as block_job_get(), but called with job lock held. */
+>> +BlockJob *block_job_get_locked(const char *id);
+>> +
+>>   /**
+>>    * block_job_add_bdrv:
+>>    * @job: A block job
+>> @@ -145,6 +151,9 @@ bool block_job_has_bdrv(BlockJob *job,
+>> BlockDriverState *bs);
+>>    */
+>>   bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
+>>   +/* Same as block_job_set_speed(), but called with job lock held. */
+>> +bool block_job_set_speed_locked(BlockJob *job, int64_t speed, Error
+>> **errp);
+>> +
+>>   /**
+>>    * block_job_query:
+>>    * @job: The job to get information about.
+>> @@ -153,6 +162,9 @@ bool block_job_set_speed(BlockJob *job, int64_t
+>> speed, Error **errp);
+>>    */
+>>   BlockJobInfo *block_job_query(BlockJob *job, Error **errp);
+>>   +/* Same as block_job_query(), but called with job lock held. */
+>> +BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp);
+>> +
+>>   /**
+>>    * block_job_iostatus_reset:
+>>    * @job: The job whose I/O status should be reset.
+>> @@ -162,6 +174,9 @@ BlockJobInfo *block_job_query(BlockJob *job, Error
+>> **errp);
+>>    */
+>>   void block_job_iostatus_reset(BlockJob *job);
+>>   +/* Same as block_job_iostatus_reset(), but called with job lock
+>> held. */
+>> +void block_job_iostatus_reset_locked(BlockJob *job);
+>> +
+>>   /*
+>>    * block_job_get_aio_context:
+>>    *
+> 
+> 
 
 
