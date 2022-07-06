@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A32569395
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 22:49:41 +0200 (CEST)
-Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C875693E9
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 23:09:35 +0200 (CEST)
+Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Bxs-0000EA-Uy
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 16:49:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37752)
+	id 1o9CH8-0001Tg-6k
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 17:09:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9BMN-0000if-IF; Wed, 06 Jul 2022 16:10:59 -0400
-Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d]:43845)
+ id 1o9BMP-0000jL-Qe; Wed, 06 Jul 2022 16:11:01 -0400
+Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33]:46963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9BML-0003gu-Cz; Wed, 06 Jul 2022 16:10:55 -0400
-Received: by mail-vs1-xe2d.google.com with SMTP id d187so16177803vsd.10;
- Wed, 06 Jul 2022 13:10:52 -0700 (PDT)
+ id 1o9BMO-0003jL-62; Wed, 06 Jul 2022 16:10:57 -0400
+Received: by mail-vs1-xe33.google.com with SMTP id 126so16195348vsq.13;
+ Wed, 06 Jul 2022 13:10:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2eaOVbokY+S8+DaN4zl7nKIlg6C9aLbG5VzjxMhIIbc=;
- b=YfRDZKgmxlGjRBCMPctRJokiS9kLfsvFil7iqWxGEig9hTbqhrTJocKlPmonKz/Ncj
- Ukg6IglY+U5VL5iOjqp24lrlQkazAZ0rbRfklHuJ9HxVwj8SM7CmDrdfggwYs8wVQZuD
- MEbVm2znAoie6ekMCgrAezxOltcviysYZ0VC+e8qdLMQrdFqIC6vJFEwm14PLQ5B2y07
- QS9u3gHhFHI1vhs6NpMpSbSC6qfTQTYGXrNostvm63nh1/+LTzlon5glcffcrTJP0yKE
- d2QPo2JR+iOots40X5b4qB7owottmeM3NmMFpSLJrJ4o4UJM1/WKpvaz1WgqYUMWf4ws
- 3NTQ==
+ bh=F7skUdLM3nYIUL9ViyNBwEsmbt8UvAw4fPBEIdIUczY=;
+ b=EU8NnAbTQ9Z8NxY/t22ZoOnt8RvUq2wW35wNGL4eesEXqZtQWlVBl+eSd336dtMUnL
+ OGa4sKLctPIjkSGyZ5XICAUGBCIk7PpSqTPiez7FqHyxwtiPOa0Cu6SteIlOJjTBG5xt
+ J3kS6gB0+xszRQu+ixZwCpFUv5fa/dLORwbIPLejz9sVcWbK/uWHU3nZI7mzgeabdRxS
+ b+pgTP2Viuw0FCG6urgMBHsBhjzen1UZ++VpC2vESTMPMFl98y36+r0o0YFL7vMnX4Ga
+ xr7O+gH/3sk7hFSRV4ZtzJydF7U1W3kPCm4mPr0NCp55ARN8jGnjMnVI69o2BraodZ54
+ TveQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2eaOVbokY+S8+DaN4zl7nKIlg6C9aLbG5VzjxMhIIbc=;
- b=n49vFkrCMYTdD8RoGRp0F5X3yGbnbTi79hjdVH4ayfPzNeP74Mf9do9Nl+aNyT+vq2
- cY2B6rpFEuiMzzUUNruneiM8CGLPWy0zLDEVi7bFwMkTVGFhhzV8oYiIO5FdodGPh5NJ
- e/gipKv5Y9M7QuHFDF7NoWP2alx3WR+oN5HwGLAByauJZIcaqjEf4V3sQHYHVAJOjgtO
- TQPQ7hZGo9DcF0IIbtgsvCLQrUCrXh77dqiCKbYQLB4CL6iHXtc6sQHKmv+AxIb64U5s
- yDKf6lIYFjzvFHBaONnTBNrpdmh6Dscsg5G7bXBSRsWqTh1IdDeLdja62fkTqS8Qd/h3
- mJJg==
-X-Gm-Message-State: AJIora+M3xuIogw8o79XALN2/CMUsO8Pn7fMBUF0OeqWps5vzF0lpEAM
- nQJH5Nkcqh9xJvUZ4rTwwaWMMM8PRz8=
-X-Google-Smtp-Source: AGRyM1tv2B4t/e6iyyogD1PM04VfMhkmnJUkueOohmzI+9Xbp5n4QxQ0p0JeyF+Nv8/9TnTigjdCEw==
-X-Received: by 2002:a05:6102:7b9:b0:356:9ef:999e with SMTP id
- x25-20020a05610207b900b0035609ef999emr24674504vsg.47.1657138251914; 
- Wed, 06 Jul 2022 13:10:51 -0700 (PDT)
+ bh=F7skUdLM3nYIUL9ViyNBwEsmbt8UvAw4fPBEIdIUczY=;
+ b=mn650qkyn+aiGgdQxuToNMFiS1FiZPGaPnJZFKwgnLWACvUnJpaBhg9vsutYrgPRyK
+ B7RbDJvC4lu9KZhUEI472KyMVmU8ANr7lkNJ5Bfjga5fGBmXB3nlDVvSIAHpgF+aznSM
+ w+nEsXwumUYUk/dBOq68Wu5TG7KGLaWqlIh/HdKYnKopbKx/GnQFSX54Qn3NeTHMVPud
+ 1AH0GAr4FwDSPS8A7MVzU5bSejovK5TZ4U62df3R+Cg73/ryVLLxCku8Itzdy4hfBmWb
+ CP8dtnAzb7rZsV1rKk+W/9gG2+w5U1N9RxhSfLnKeHCVBcUqBdKlF4LBA/fT9ead3Vdb
+ SMxw==
+X-Gm-Message-State: AJIora9iseP+8UWdwF6E2JG2QOgPaodxamGBXvYoZxsHkiEyu5ght9UB
+ fvj4nVH4Y6WM1cCLYNhdicowtxeaq68=
+X-Google-Smtp-Source: AGRyM1sbOLPvUrSI44PeEqp4h/NAvcsHi8KpeG88wpuamLqiGsOEhtLo4hbsHDVKOfNUTRCc0qEzzg==
+X-Received: by 2002:a05:6102:159f:b0:357:147b:bb55 with SMTP id
+ g31-20020a056102159f00b00357147bbb55mr2865865vsv.34.1657138254747; 
+ Wed, 06 Jul 2022 13:10:54 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- r22-20020a056122015600b003744975035asm788662vko.19.2022.07.06.13.10.50
+ r22-20020a056122015600b003744975035asm788662vko.19.2022.07.06.13.10.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 13:10:51 -0700 (PDT)
+ Wed, 06 Jul 2022 13:10:54 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PULL 31/34] target/ppc: implement cdtbcd
-Date: Wed,  6 Jul 2022 17:09:43 -0300
-Message-Id: <20220706200946.471114-32-danielhb413@gmail.com>
+ richard.henderson@linaro.org,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>,
+ "Matheus K . Ferst" <matheus.ferst@eldorado.org.br>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+Subject: [PULL 32/34] target/ppc: Return default CPU for max CPU
+Date: Wed,  6 Jul 2022 17:09:44 -0300
+Message-Id: <20220706200946.471114-33-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220706200946.471114-1-danielhb413@gmail.com>
 References: <20220706200946.471114-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe33.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,104 +96,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 
-Implements the Convert Declets To Binary Coded Decimal instruction.
-Since libdecnumber doesn't expose the methods for direct conversion
-(decDigitsFromDPD, DPD2BCD, etc), a positive decimal32 with zero
-exponent is used as an intermediate value to convert the declets.
+All ppc CPUs represent hardware that exists in the real world, i.e.: we
+do not have a "max" CPU with all possible emulated features enabled.
+Return the default CPU type for the machine because that has greater
+chance of being useful as the "max" CPU.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-Message-Id: <20220629162904.105060-12-victor.colombo@eldorado.org.br>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1038
+Cc: Cédric Le Goater <clg@kaod.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>
+Cc: Matheus K. Ferst <matheus.ferst@eldorado.org.br>
+Cc: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Reviewed-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Message-Id: <20220628205513.81917-1-muriloo@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/dfp_helper.c                    | 26 ++++++++++++++++++++++
- target/ppc/helper.h                        |  1 +
- target/ppc/insn32.decode                   |  1 +
- target/ppc/translate/fixedpoint-impl.c.inc |  7 ++++++
- 4 files changed, 35 insertions(+)
+ target/ppc/cpu-models.c |  1 -
+ target/ppc/cpu_init.c   | 19 +++++++++++++++++++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index db9e994c8c..5ba74b2124 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -1392,6 +1392,32 @@ DFP_HELPER_SHIFT(DSCLIQ, 128, 1)
- DFP_HELPER_SHIFT(DSCRI, 64, 0)
- DFP_HELPER_SHIFT(DSCRIQ, 128, 0)
+diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
+index 976be5e0d1..05589eb21d 100644
+--- a/target/ppc/cpu-models.c
++++ b/target/ppc/cpu-models.c
+@@ -879,7 +879,6 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
+     { "755", "755_v2.8" },
+     { "goldfinger", "755_v2.8" },
+     { "7400", "7400_v2.9" },
+-    { "max", "7400_v2.9" },
+     { "g4",  "7400_v2.9" },
+     { "7410", "7410_v1.4" },
+     { "nitro", "7410_v1.4" },
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index bdfb1a5c6f..86ad28466a 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -47,6 +47,10 @@
+ #include "spr_common.h"
+ #include "power8-pmu.h"
  
-+target_ulong helper_CDTBCD(target_ulong s)
-+{
-+    uint64_t res = 0;
-+    uint32_t dec32, declets;
-+    uint8_t bcd[6];
-+    int i, w, sh;
-+    decNumber a;
++#ifndef CONFIG_USER_ONLY
++#include "hw/boards.h"
++#endif
 +
-+    for (w = 1; w >= 0; w--) {
-+        res <<= 32;
-+        declets = extract64(s, 32 * w, 20);
-+        if (declets) {
-+            /* decimal32 with zero exponent and word "w" declets */
-+            dec32 = (0x225ULL << 20) | declets;
-+            decimal32ToNumber((decimal32 *)&dec32, &a);
-+            decNumberGetBCD(&a, bcd);
-+            for (i = 0; i < a.digits; i++) {
-+                sh = 4 * (a.digits - 1 - i);
-+                res |= (uint64_t)bcd[i] << sh;
-+            }
+ /* #define PPC_DEBUG_SPR */
+ /* #define USE_APPLE_GDB */
+ 
+@@ -6965,6 +6969,21 @@ static ObjectClass *ppc_cpu_class_by_name(const char *name)
+         }
+     }
+ 
++    /*
++     * All ppc CPUs represent hardware that exists in the real world, i.e.: we
++     * do not have a "max" CPU with all possible emulated features enabled.
++     * Return the default CPU type for the machine because that has greater
++     * chance of being useful as the "max" CPU.
++     */
++#if !defined(CONFIG_USER_ONLY)
++    if (strcmp(name, "max") == 0) {
++        MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
++        if (mc) {
++            return object_class_by_name(mc->default_cpu_type);
 +        }
 +    }
++#endif
 +
-+    return res;
-+}
-+
- target_ulong helper_CBCDTD(target_ulong s)
- {
-     uint64_t res = 0;
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 583c8dd0c2..ed0641a234 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -54,6 +54,7 @@ DEF_HELPER_3(sraw, tl, env, tl, tl)
- DEF_HELPER_FLAGS_2(CFUGED, TCG_CALL_NO_RWG_SE, i64, i64, i64)
- DEF_HELPER_FLAGS_2(PDEPD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
- DEF_HELPER_FLAGS_2(PEXTD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
-+DEF_HELPER_FLAGS_1(CDTBCD, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_1(CBCDTD, TCG_CALL_NO_RWG_SE, tl, tl)
- #if defined(TARGET_PPC64)
- DEF_HELPER_FLAGS_2(cmpeqb, TCG_CALL_NO_RWG_SE, i32, tl, tl)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 65bcaf657f..f7653ef9d5 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -317,6 +317,7 @@ PEXTD           011111 ..... ..... ..... 0010111100 -   @X
- ## BCD Assist
- 
- ADDG6S          011111 ..... ..... ..... - 001001010 -  @X
-+CDTBCD          011111 ..... ..... ----- 0100011010 -   @X_sa
- CBCDTD          011111 ..... ..... ----- 0100111010 -   @X_sa
- 
- ### Float-Point Load Instructions
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index 892c9d2568..cb0097bedb 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -530,6 +530,13 @@ static bool trans_ADDG6S(DisasContext *ctx, arg_X *a)
-     return true;
- }
- 
-+static bool trans_CDTBCD(DisasContext *ctx, arg_X_sa *a)
-+{
-+    REQUIRE_INSNS_FLAGS2(ctx, BCDA_ISA206);
-+    gen_helper_CDTBCD(cpu_gpr[a->ra], cpu_gpr[a->rs]);
-+    return true;
-+}
-+
- static bool trans_CBCDTD(DisasContext *ctx, arg_X_sa *a)
- {
-     REQUIRE_INSNS_FLAGS2(ctx, BCDA_ISA206);
+     cpu_model = g_ascii_strdown(name, -1);
+     p = ppc_cpu_lookup_alias(cpu_model);
+     if (p) {
 -- 
 2.36.1
 
