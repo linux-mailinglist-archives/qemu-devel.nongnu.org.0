@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B64567CD7
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 05:52:29 +0200 (CEST)
-Received: from localhost ([::1]:60664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7ECD567D19
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 06:24:10 +0200 (CEST)
+Received: from localhost ([::1]:36724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o8w5U-0003fQ-Up
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jul 2022 23:52:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48890)
+	id 1o8wa9-0000OA-Gy
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 00:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o8w0c-0007Eg-6p
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 23:47:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29512)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8wY2-00079N-Ur
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 00:21:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o8w0a-0002dO-NK
- for qemu-devel@nongnu.org; Tue, 05 Jul 2022 23:47:25 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o8wXz-0004Yv-2R
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 00:21:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657079244;
+ s=mimecast20190719; t=1657081311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fftXIwR07UHjXrAaMyTCQ2mMhpdTiRDERprdXGWGFfc=;
- b=cA3NLbMZFepjQCurbH0Hdg6fNVINLsdwXZPEJ59CKmXHy33fRal2V+MoMfiwe0ixvRker0
- 31EoE72izWIhJ4CCQULHA89gDl6ZnfIfyrnLPBuPKGtTeMzp5UaUqL82e+SDzRZHZL9Do0
- nDbeQ5BZG1LrWkL0GTwFShCc15dJYJk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pCAtlPbmfyCtdOc8VXPwCSt5pXSHsWkQMhUFQ09SERE=;
+ b=AfepHxe57YdwJpVrha6faBh7ElHlovSFgNC0FiY+pBgZs5OzZYwGz2vvSU145EgdSqBSKe
+ v2IA0pISPhL2OL8WXbNi9XOK52CF1nH9rtboms6ekvMsqy0wER3vKQzvjIqSdt1gMC9Fn9
+ KjkSlcWHmfaZNaPeSwCs6cBNuPO50VY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-ag7L0m1LMzeel-Uw1HTglA-1; Tue, 05 Jul 2022 23:47:20 -0400
-X-MC-Unique: ag7L0m1LMzeel-Uw1HTglA-1
+ us-mta-548-lajm36vDNkqW86e_yz5tVQ-1; Wed, 06 Jul 2022 00:21:50 -0400
+X-MC-Unique: lajm36vDNkqW86e_yz5tVQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 487983C02198;
- Wed,  6 Jul 2022 03:47:20 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-233.pek2.redhat.com
- [10.72.12.233])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DFEB91415108;
- Wed,  6 Jul 2022 03:47:17 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Cc: Haochen Tong <i@hexchain.org>, Zhang Chen <chen.zhang@intel.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PULL 2/2] ebpf: replace deprecated bpf_program__set_socket_filter
-Date: Wed,  6 Jul 2022 11:47:06 +0800
-Message-Id: <20220706034706.36620-3-jasowang@redhat.com>
-In-Reply-To: <20220706034706.36620-1-jasowang@redhat.com>
-References: <20220706034706.36620-1-jasowang@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D71908339B5;
+ Wed,  6 Jul 2022 04:21:49 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A99B11415111;
+ Wed,  6 Jul 2022 04:21:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8B5B021E690D; Wed,  6 Jul 2022 06:21:48 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Dongwon Kim <dongwon.kim@intel.com>
+Cc: qemu-devel@nongnu.org,  Daniel P . =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Vivek
+ Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v3 2/2] ui/gtk: a new array param monitor to specify the
+ target displays
+References: <20220630005141.16680-1-dongwon.kim@intel.com>
+ <20220630005141.16680-3-dongwon.kim@intel.com>
+ <87wncy41s1.fsf@pond.sub.org>
+ <20220705210628.GB582@dongwonk-MOBL.amr.corp.intel.com>
+Date: Wed, 06 Jul 2022 06:21:48 +0200
+In-Reply-To: <20220705210628.GB582@dongwonk-MOBL.amr.corp.intel.com> (Dongwon
+ Kim's message of "Tue, 5 Jul 2022 14:06:29 -0700")
+Message-ID: <87h73uq3ab.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -82,33 +89,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Haochen Tong <i@hexchain.org>
+Dongwon Kim <dongwon.kim@intel.com> writes:
 
-bpf_program__set_<TYPE> functions have been deprecated since libbpf 0.8.
-Replace with the equivalent bpf_program__set_type call to avoid a
-deprecation warning.
+> On Thu, Jun 30, 2022 at 05:19:26PM +0200, Markus Armbruster wrote:
+>> Dongwon Kim <dongwon.kim@intel.com> writes:
+>>=20
+>> > New integer array parameter, 'monitor' is for specifying the target
+>> > monitors where individual GTK windows are placed upon launching.
+>> >
+>> > Monitor numbers in the array are associated with virtual consoles
+>> > in the order of [VC0, VC1, VC2 ... VCn].
+>> >
+>> > Every GTK window containing each VC will be placed in the region
+>> > of corresponding monitors.
+>> >
+>> > Usage: -display gtk,monitor.<id of VC>=3D<target monitor>,..
+>> >        ex)-display gtk,monitor.0=3D1,monitor.1=3D0
+>> >
+>> > v3: - Revised commit message
+>> >     - Rewrote desription of the new parameter (Markus Armbruster)
+>> >     - Replaced unnecessary 'for' loop with 'if' condition
+>> >       (Markus Armbruster)
+>>=20
+>> Again, patch history ...
+>>
+>> > Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> > Cc: Markus Armbruster <armbru@redhat.com>
+>> > Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+>> > Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+>> > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+>> > ---
+>>=20
+>> ... goes here.
+>
+> No problem moving down the version history but may I ask you if that
+> is current rule? We don't want to include the history anymore in the
+> git history?
 
-Signed-off-by: Haochen Tong <i@hexchain.org>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- ebpf/ebpf_rss.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patch history is really valuable for reviewers, but once the patch is
+done, it's rarely interesting anymore, so we keep it out of Git.
 
-diff --git a/ebpf/ebpf_rss.c b/ebpf/ebpf_rss.c
-index 118c68d..cee658c 100644
---- a/ebpf/ebpf_rss.c
-+++ b/ebpf/ebpf_rss.c
-@@ -49,7 +49,7 @@ bool ebpf_rss_load(struct EBPFRSSContext *ctx)
-         goto error;
-     }
- 
--    bpf_program__set_socket_filter(rss_bpf_ctx->progs.tun_rss_steering_prog);
-+    bpf_program__set_type(rss_bpf_ctx->progs.tun_rss_steering_prog, BPF_PROG_TYPE_SOCKET_FILTER);
- 
-     if (rss_bpf__load(rss_bpf_ctx)) {
-         trace_ebpf_error("eBPF RSS", "can not load RSS program");
--- 
-2.7.4
+Sometimes, bits of history are still useful to understand why the patch
+is done the way it is.  Such bits should be worked into the commit
+message.
+
+Don't:
+
+    v2: A replaced by B [J. Reviewer]
+
+Do:
+
+    I initially tried A, but it turned out to be a bad idea because X,
+    so I did B instead.
+
+Makes sense?
+
+> And FYI, the cover letter has the whole history already. I guess I can
+> simply remove the history from individual patches then?
+
+I like to keep detailed history in the cover letter.
+
+Others like to keep it in each patch.
+
+Still others like to keep an overview in the cover letter and details in
+each patch.
+
+All fine.
+
+> Thanks!!
+>
+>>=20
+>> >  qapi/ui.json    |  9 ++++++++-
+>> >  qemu-options.hx |  3 ++-
+>> >  ui/gtk.c        | 31 +++++++++++++++++++++++++++++--
+>> >  3 files changed, 39 insertions(+), 4 deletions(-)
+>> >
+>> > diff --git a/qapi/ui.json b/qapi/ui.json
+>> > index 413371d5e8..7b4c098bb4 100644
+>> > --- a/qapi/ui.json
+>> > +++ b/qapi/ui.json
+>> > @@ -1195,12 +1195,19 @@
+>> >  #               assuming the guest will resize the display to match
+>> >  #               the window size then.  Otherwise it defaults to "off".
+>> >  #               Since 3.1
+>> > +# @monitor:     Array of numbers, each of which represents physical
+>> > +#               monitor where GTK window containing a given VC will be
+>> > +#               placed. Each monitor number in the array will be
+>> > +#               associated with a virtual-console starting from VC0.
+>>=20
+>> Drop the hyphen in "virtual-console".
+>>=20
+>> Is the term "virtual console" obvious?  Gerd?
+>>=20
+>
+> I will do so.
+
+Replace it by space, of course.
+
+[...]
 
 
