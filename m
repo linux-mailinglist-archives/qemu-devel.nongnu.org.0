@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C72E56901E
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 18:57:34 +0200 (CEST)
-Received: from localhost ([::1]:57056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7F756901F
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 18:57:59 +0200 (CEST)
+Received: from localhost ([::1]:58724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o98LF-0000as-Bb
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 12:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50616)
+	id 1o98Le-0001ku-6B
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 12:57:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o98IU-0007DN-4K
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 12:54:44 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:36850)
+ id 1o98JH-0007fo-59
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 12:55:31 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:40669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o98II-0004RL-3e
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 12:54:41 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-31caffa4a45so74584917b3.3
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 09:54:29 -0700 (PDT)
+ id 1o98JF-0004gc-EM
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 12:55:30 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id o2so23046800yba.7
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 09:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vw8mdLuuEMPv584JDmqMvt5ubyIGjiXJjC5oKLTyb0w=;
- b=ui/CCp2iGMIyyLGpcMihdGOpTbx8d888tRFk84V9wmPJjwQACgnzJ/oj2DfdlZfdjU
- gAOKlLmet6nVKEPa3M+lI+sePzugpj3EHGqoKPjOIsQJ0wvos1uROBSbqWXZ/+rbTq/Z
- r8c3cuXmw787CjpooLQmciXEe8oJm3APbKuL8VZcb1wJDNGIIdhWqkpErj9qhPtGV97w
- u6B65eng3VBlDlavHLZ2XB/v+Kd2nhPLEkt4REHIlkjRvOSPxTqiQwQlCSPVAlILExCT
- PTo64WjflSaX0EPrQc9MVQ8gENyxm0KHEytBSnn/B96grEFcEHWEy/ol7DzKqDwEt02F
- o6tA==
+ :cc; bh=nzRDbeusJSH/uRWYgDMC+U2qMkhIfsVFGfIMpfQktsg=;
+ b=J1EsXaHgN62DMefF5NakbeqqvDvm64xVlEydny9klEjgFVTrbk70xeQS9SaE+hqqbA
+ WBAyWqJNYzK7TD/AxYrMOuIuyBVb+01pJZL+wn1sEHtDC5ohuTOBQl1xNJmpNZ6VZyWb
+ TBs2IWnvqo/xsmfKHJTtwwxsmQTmiwdQv2Xp1x64lX6Zye1JjSdSA10a2fXvgvAg/MDP
+ KpUI/au7Lcwtc3u7QkHjRgmGn9K7LY2fnpJhPKeLAuLBHA2LVuS8X+j5q/nMKzPAcCxH
+ GvBUmNuBtLPRNr3uO27PndDEESTIGouW1fcpl9gC9wlxCAeL3VH73mVuzuEzrFxZ3sSS
+ VZjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vw8mdLuuEMPv584JDmqMvt5ubyIGjiXJjC5oKLTyb0w=;
- b=28RmNe2efYjWI9QAlIJN5u9SgVKoSiN9p4KQG8sgw6pUqTe/D5uGAYOSkxeuqu6Ch7
- IZhLhD3opPHTGfdK+1R2aqb+xutrPO06WOvuwPYM6zLvNKUrG27dAZLPBIrtZGNZxA0f
- kcXGGv3qCnXju5eg5wF8hqSchRch2Nlgses2IzvKwWR6NQnjOkVyAbb9DQL6RHLpJ3kd
- i7kzT+Q+8fbPZ5mCFcEjKpgj9aMDa0ssJPdL7BRUbUisu5FnVBslAdDvxoYYH+/08QQL
- ldkzwE+HnPqNCSMcsO+MKDSQJfX7WCgv1bsi+DPBlgaGNmzZOkdRRBPpf8vl2Mq+6cCV
- rsHw==
-X-Gm-Message-State: AJIora8TYNpjLONCGhHsABu4snxosHMY7wVEKStYQ9nVyUFGhYxMHSp7
- 2YY439LZKtPF5tigPmFgRpS4YPaa8ldgZeR3Hen34Q==
-X-Google-Smtp-Source: AGRyM1sxSLYLWJjiw1D8KMkXgYhsvYmIvDPA9AEFLLAASTCfla0VY+an00xYt4dQmdBzYuwNy7X3L2F6ls5xns66tJY=
-X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
- d8-20020a818d08000000b00317a4cdd65dmr45627155ywg.329.1657126468987; Wed, 06
- Jul 2022 09:54:28 -0700 (PDT)
+ bh=nzRDbeusJSH/uRWYgDMC+U2qMkhIfsVFGfIMpfQktsg=;
+ b=tc9z15CkjbxMDyav6/PaMTDa0IjtgHfaOV1bNcbNxT3tmYWkMSbkZcwdtwwOQsvPWY
+ 8UGOTOoj6qwHg/SMGZJZtJd+4NSlNoZ/BO//EfQLHcto/z8emBQKX8oBhrR4S1HHj88n
+ xreeEt7FXn4FgGsEv7SKKcUUxtrj/kHB7MWw8ZP6iwgHllwH9+fvIVcFY0IRH1xZcEMI
+ fJFQ9lxFT4gK9YDCGnrL5Fs+oxqYAtneElC9GeAEQU8o0teHS7K8uRFzzagz6oZItkpK
+ XrBXf8h2u85h615FOU5CJNZYanGsmmgo15V9JisNajVinvU+cnp1nyBhAShmCUjB5ns/
+ rBGA==
+X-Gm-Message-State: AJIora+6lMwiu2yNpz2jwBFleCWf9H1ZK2cb567omi2UtHyDZ7IYd/B8
+ rKDQE78+vZn1eV5f3oaocx9UTi03ODIHFi7XcgrVb2u46LQ=
+X-Google-Smtp-Source: AGRyM1tR50h6ewEuKN7rZHWTR3CfNKZpd5AcYtHScTIdKtESCwLV+MGfMJ60x5c95aPNm7HX5M6mBZ+oteQ4pc29I6A=
+X-Received: by 2002:a25:500e:0:b0:66e:4c27:6223 with SMTP id
+ e14-20020a25500e000000b0066e4c276223mr18152101ybb.85.1657126528183; Wed, 06
+ Jul 2022 09:55:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220706082411.1664825-1-richard.henderson@linaro.org>
- <20220706082411.1664825-24-richard.henderson@linaro.org>
-In-Reply-To: <20220706082411.1664825-24-richard.henderson@linaro.org>
+ <20220706082411.1664825-36-richard.henderson@linaro.org>
+In-Reply-To: <20220706082411.1664825-36-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 6 Jul 2022 17:53:51 +0100
-Message-ID: <CAFEAcA-UFwHkxtHEpEca2=HELeh8Ba9bHAvL3tFX5BDeGnwy=A@mail.gmail.com>
-Subject: Re: [PATCH v5 23/45] target/arm: Implement SME ADDHA, ADDVA
+Date: Wed, 6 Jul 2022 17:54:50 +0100
+Message-ID: <CAFEAcA9CGLJZvC+WA8dZqjAiQTeYRYmL=M_o8qszYFRdUo5bKA@mail.gmail.com>
+Subject: Re: [PATCH v5 35/45] linux-user/aarch64: Add SM bit to SVE signal
+ context
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,44 +83,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Jul 2022 at 10:17, Richard Henderson
+On Wed, 6 Jul 2022 at 10:32, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
+> Make sure to zero the currently reserved fields.
+>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-> +void HELPER(sme_addha_s)(void *vzda, void *vzn, void *vpn,
-> +                         void *vpm, uint32_t desc)
-> +{
-> +    intptr_t row, col, oprsz = simd_oprsz(desc) / 4;
-> +    uint64_t *pn = vpn, *pm = vpm;
-> +    uint32_t *zda = vzda, *zn = vzn;
-> +
-> +    for (row = 0; row < oprsz; ) {
-> +        uint64_t pa = pn[row >> 4];
-> +        do {
-> +            if (pa & 1) {
-> +                for (col = 0; col < oprsz; ) {
-> +                    uint64_t pb = pm[col >> 4];
-> +                    do {
-> +                        if (pb & 1) {
-> +                            zda[tile_vslice_index(row) + col] += zn[col];
-
-Doesn't this need some H macros to handle the bigendian case?
-We process the predicate from architecturally least to most
-significant, but because zda is a uint32_t* we don't handle
-that in the same order I think. Similarly sme_addva_s().
-
-> +                        }
-> +                        pb >>= 4;
-> +                    } while (++col & 15);
-> +                }
-> +            }
-> +            pa >>= 4;
-> +        } while (++row & 15);
-> +    }
-> +}
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
