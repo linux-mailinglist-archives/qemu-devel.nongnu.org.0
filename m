@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF9B456834D
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 11:17:33 +0200 (CEST)
-Received: from localhost ([::1]:42788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9294656836D
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 11:26:28 +0200 (CEST)
+Received: from localhost ([::1]:60050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o91A5-0008KU-1m
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 05:17:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49452)
+	id 1o91Ih-0003NR-M2
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 05:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o90LV-0006KT-0n
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:25:18 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:34689)
+ id 1o90LY-0006LY-8z
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:25:22 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:40660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o90LS-0000fA-Ey
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:25:15 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- cp18-20020a17090afb9200b001ef79e8484aso6170883pjb.1
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 01:25:14 -0700 (PDT)
+ id 1o90LW-0000fj-Jb
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 04:25:20 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id i190so848251pge.7
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 01:25:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WXFOydNqWu4pd209lRdohDlcMY8B614kNt2CpuhFxBg=;
- b=JI/ATYoekixrud7Hb4ATmnrtVhfS0Gb7+OrtNiA0g289g6jVAYkC2Diqt7IPHixTMJ
- BhNnA8umkAUOy/TG7WfqYHpTm7f7aSTukkCfzmc+q9B+ZsphGqk1SRiuW3cgwdbcZOpL
- vTGuX09Yy53cLdre22AfjQYikWZ7u49jgcI/JgvelzmcbPmqR+IeDAsOvx1/3AVhVm3P
- MuS9GBoKhcO4zp3uRkO/XxZyhCy7idlFWsnWrTwzv30X1ZAO6VKhBm1vIJMT9Ld6pUeg
- AF0TrTMNdJwoDZCVABItFfIyVd+fNdSdw/yBwahLIT/dPwjrPW+pmwJfJxW/z9trlO2p
- hSFw==
+ bh=xubRGg1CD554iutFjuAkV3ppcjr54S3DVLv86vq5+4E=;
+ b=Rop1Ui4LnzcawtHKojmRq9aqxgdrfuE38U3EsPOAcYDbDSrc4WYWDxVDgaDlvFOfV2
+ ydVSt/oezYT3n6e9QdKsPIxb6qssYbXcKJPsNhWNMrc501+Mb5tdYHzl4nlVxl94Ruw0
+ KttvyEbGDKhrC18Vf3xYQxSL4na6QqMTQGF35EXDze63/3ZOWCHOcfi5pNilgb4hEhEx
+ iz3cb/8L4RQHCp5nl5ZoyK0wXoMfcVHWHByuBuVKU7M6GFA7xeSKHgWn1AHjaJeGskZc
+ Wt2Zbm+I3zfl1HONxlBHZMyzlmq48BnXtv+bsb3C8ZCaL5di9Egwh9XM7FHYNdkxiiaO
+ 0jng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WXFOydNqWu4pd209lRdohDlcMY8B614kNt2CpuhFxBg=;
- b=TLvWpoLAep1ICU/ES/1l56CEYUhTcNNH3wQhER8AIZYVZVQKyh+v1mHfZ/OrcUhw1s
- zF7r2cLqhvqCEWMnDPSeUMgwmcz3s+4yvCtebC7tFA1XIvnktmFloC7CYGzEbdUenVAn
- vXI/PkoXJ6vHn0gpwFo9ZkopHzL7q0Ce6P9Q2uAdCgbXAQRqt8Q/WLCfWE/tuirzR9+x
- ndwuXF4nbwIPbWPFgnOQzKSfvB+c8VqizWLgej/yxXGH+j3RZ+k2beTpx9gGRm3cf0v/
- pYFw6HvWdpcZjADF4QBbeMD45WiQuB4iu8Owd5Bql3tb6UwaSIjxIeu2gECczF5QhVde
- avIw==
-X-Gm-Message-State: AJIora90gec5O6b7l0s/8udoODslKiDft8dPhLbMW3wV8yfkNpVnPN81
- ahG3JFNQruRv2QKhEQSTJxTIZDmVnQ8wAfKr
-X-Google-Smtp-Source: AGRyM1uVq591MgBCXg9ZANcwhooeSGnagSA7Lk36kpAv6Mi+mZZxl3g6osVjSGz115AfDKP8QLbFvw==
-X-Received: by 2002:a17:90b:33ca:b0:1ec:c617:9660 with SMTP id
- lk10-20020a17090b33ca00b001ecc6179660mr49445214pjb.95.1657095913287; 
- Wed, 06 Jul 2022 01:25:13 -0700 (PDT)
+ bh=xubRGg1CD554iutFjuAkV3ppcjr54S3DVLv86vq5+4E=;
+ b=0iogrQsgGrbPW1ASbGf1ubJ1qzofiChskWjWehhz2MMQl2WX39xZvd2+NPZnQ7ugIK
+ T58RktPP3FUd5bxWtKPuZJ32bnyzDvfFZTdH2DrRnEUL5TMNYv9QLg0vjdOEheouvfHT
+ E6e3D1vrUrx++BgnkYmDSUn01OccsJ/MzAfLaVrI4aPnmevjYtqHjNsgDVzb9Y5SCLZa
+ gnfvbSNROvqiQW7sSJKAPZ9Vgk3Zd4OnT8lyk+dPthSj4eg0lp9RWJY0hMmhT5aYOJba
+ AQWirKzGseFQ5FZUk/1S1Kj6r0v3IKLyx9HuoYSVR6TY1hCK17Jj2w66zIZ5i8cDF/7y
+ HLHg==
+X-Gm-Message-State: AJIora/XUP95ByM+ubiT3re5o/5bTtJeVukg6IptLq8oMm3Fd9Xtof4D
+ NeZU1JjVrHsWAfSiBGbL28ZwojcTwgBDDkeR
+X-Google-Smtp-Source: AGRyM1utkdKbweBn8zRSPjKNOKeteozaC+SPmAZ4NuzhAdRK0cRJMFY2XSixWjCcAM3LB84f/mGe7w==
+X-Received: by 2002:a63:42c2:0:b0:412:82c5:45af with SMTP id
+ p185-20020a6342c2000000b0041282c545afmr4877472pga.461.1657095916176; 
+ Wed, 06 Jul 2022 01:25:16 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- t17-20020a170902e85100b00162529828aesm25199256plg.109.2022.07.06.01.25.11
+ t17-20020a170902e85100b00162529828aesm25199256plg.109.2022.07.06.01.25.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 01:25:12 -0700 (PDT)
+ Wed, 06 Jul 2022 01:25:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v5 21/45] target/arm: Export unpredicated ld/st from
- translate-sve.c
-Date: Wed,  6 Jul 2022 13:53:47 +0530
-Message-Id: <20220706082411.1664825-22-richard.henderson@linaro.org>
+Subject: [PATCH v5 22/45] target/arm: Implement SME LDR, STR
+Date: Wed,  6 Jul 2022 13:53:48 +0530
+Message-Id: <20220706082411.1664825-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220706082411.1664825-1-richard.henderson@linaro.org>
 References: <20220706082411.1664825-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,185 +88,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a TCGv_ptr base argument, which will be cpu_env for SVE.
-We will reuse this for SME save and restore array insns.
+We can reuse the SVE functions for LDR and STR, passing in the
+base of the ZA vector and a zero offset.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.h |  3 +++
- target/arm/translate-sve.c | 48 ++++++++++++++++++++++++++++----------
- 2 files changed, 39 insertions(+), 12 deletions(-)
+ target/arm/sme.decode      |  7 +++++++
+ target/arm/translate-sme.c | 24 ++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
 
-diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-index 2a7fe6e9e7..ad3762d1ac 100644
---- a/target/arm/translate-a64.h
-+++ b/target/arm/translate-a64.h
-@@ -195,4 +195,7 @@ void gen_gvec_xar(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-                   uint32_t rm_ofs, int64_t shift,
-                   uint32_t opr_sz, uint32_t max_sz);
- 
-+void gen_sve_ldr(DisasContext *s, TCGv_ptr, int vofs, int len, int rn, int imm);
-+void gen_sve_str(DisasContext *s, TCGv_ptr, int vofs, int len, int rn, int imm);
+diff --git a/target/arm/sme.decode b/target/arm/sme.decode
+index 900e3f2a07..f1ebd857a5 100644
+--- a/target/arm/sme.decode
++++ b/target/arm/sme.decode
+@@ -46,3 +46,10 @@ LDST1           1110000 0 esz:2 st:1 rm:5 v:1 .. pg:3 rn:5 0 za_imm:4  \
+                 &ldst rs=%mova_rs
+ LDST1           1110000 111     st:1 rm:5 v:1 .. pg:3 rn:5 0 za_imm:4  \
+                 &ldst esz=4 rs=%mova_rs
 +
- #endif /* TARGET_ARM_TRANSLATE_A64_H */
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 95016e49e9..fd1a173637 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -4306,7 +4306,8 @@ TRANS_FEAT(UCVTF_dd, aa64_sve, gen_gvec_fpst_arg_zpz,
-  * The load should begin at the address Rn + IMM.
-  */
- 
--static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-+void gen_sve_ldr(DisasContext *s, TCGv_ptr base, int vofs,
-+                 int len, int rn, int imm)
- {
-     int len_align = QEMU_ALIGN_DOWN(len, 8);
-     int len_remain = len % 8;
-@@ -4332,7 +4333,7 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-         t0 = tcg_temp_new_i64();
-         for (i = 0; i < len_align; i += 8) {
-             tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEUQ);
--            tcg_gen_st_i64(t0, cpu_env, vofs + i);
-+            tcg_gen_st_i64(t0, base, vofs + i);
-             tcg_gen_addi_i64(clean_addr, clean_addr, 8);
-         }
-         tcg_temp_free_i64(t0);
-@@ -4345,6 +4346,12 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-         clean_addr = new_tmp_a64_local(s);
-         tcg_gen_mov_i64(clean_addr, t0);
- 
-+        if (base != cpu_env) {
-+            TCGv_ptr b = tcg_temp_local_new_ptr();
-+            tcg_gen_mov_ptr(b, base);
-+            base = b;
-+        }
++&ldstr          rv rn imm
++@ldstr          ....... ... . ...... .. ... rn:5 . imm:4 \
++                &ldstr rv=%mova_rs
 +
-         gen_set_label(loop);
- 
-         t0 = tcg_temp_new_i64();
-@@ -4352,7 +4359,7 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-         tcg_gen_addi_i64(clean_addr, clean_addr, 8);
- 
-         tp = tcg_temp_new_ptr();
--        tcg_gen_add_ptr(tp, cpu_env, i);
-+        tcg_gen_add_ptr(tp, base, i);
-         tcg_gen_addi_ptr(i, i, 8);
-         tcg_gen_st_i64(t0, tp, vofs);
-         tcg_temp_free_ptr(tp);
-@@ -4360,6 +4367,11 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
- 
-         tcg_gen_brcondi_ptr(TCG_COND_LTU, i, len_align, loop);
-         tcg_temp_free_ptr(i);
-+
-+        if (base != cpu_env) {
-+            tcg_temp_free_ptr(base);
-+            assert(len_remain == 0);
-+        }
-     }
- 
-     /*
-@@ -4388,13 +4400,14 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-         default:
-             g_assert_not_reached();
-         }
--        tcg_gen_st_i64(t0, cpu_env, vofs + len_align);
-+        tcg_gen_st_i64(t0, base, vofs + len_align);
-         tcg_temp_free_i64(t0);
-     }
- }
- 
- /* Similarly for stores.  */
--static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-+void gen_sve_str(DisasContext *s, TCGv_ptr base, int vofs,
-+                 int len, int rn, int imm)
- {
-     int len_align = QEMU_ALIGN_DOWN(len, 8);
-     int len_remain = len % 8;
-@@ -4420,7 +4433,7 @@ static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
- 
-         t0 = tcg_temp_new_i64();
-         for (i = 0; i < len_align; i += 8) {
--            tcg_gen_ld_i64(t0, cpu_env, vofs + i);
-+            tcg_gen_ld_i64(t0, base, vofs + i);
-             tcg_gen_qemu_st_i64(t0, clean_addr, midx, MO_LEUQ);
-             tcg_gen_addi_i64(clean_addr, clean_addr, 8);
-         }
-@@ -4434,11 +4447,17 @@ static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-         clean_addr = new_tmp_a64_local(s);
-         tcg_gen_mov_i64(clean_addr, t0);
- 
-+        if (base != cpu_env) {
-+            TCGv_ptr b = tcg_temp_local_new_ptr();
-+            tcg_gen_mov_ptr(b, base);
-+            base = b;
-+        }
-+
-         gen_set_label(loop);
- 
-         t0 = tcg_temp_new_i64();
-         tp = tcg_temp_new_ptr();
--        tcg_gen_add_ptr(tp, cpu_env, i);
-+        tcg_gen_add_ptr(tp, base, i);
-         tcg_gen_ld_i64(t0, tp, vofs);
-         tcg_gen_addi_ptr(i, i, 8);
-         tcg_temp_free_ptr(tp);
-@@ -4449,12 +4468,17 @@ static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
- 
-         tcg_gen_brcondi_ptr(TCG_COND_LTU, i, len_align, loop);
-         tcg_temp_free_ptr(i);
-+
-+        if (base != cpu_env) {
-+            tcg_temp_free_ptr(base);
-+            assert(len_remain == 0);
-+        }
-     }
- 
-     /* Predicate register stores can be any multiple of 2.  */
-     if (len_remain) {
-         t0 = tcg_temp_new_i64();
--        tcg_gen_ld_i64(t0, cpu_env, vofs + len_align);
-+        tcg_gen_ld_i64(t0, base, vofs + len_align);
- 
-         switch (len_remain) {
-         case 2:
-@@ -4486,7 +4510,7 @@ static bool trans_LDR_zri(DisasContext *s, arg_rri *a)
-     if (sve_access_check(s)) {
-         int size = vec_full_reg_size(s);
-         int off = vec_full_reg_offset(s, a->rd);
--        do_ldr(s, off, size, a->rn, a->imm * size);
-+        gen_sve_ldr(s, cpu_env, off, size, a->rn, a->imm * size);
-     }
++LDR             1110000 100 0 000000 .. 000 ..... 0 ....        @ldstr
++STR             1110000 100 1 000000 .. 000 ..... 0 ....        @ldstr
+diff --git a/target/arm/translate-sme.c b/target/arm/translate-sme.c
+index 42d14b883a..35c2644812 100644
+--- a/target/arm/translate-sme.c
++++ b/target/arm/translate-sme.c
+@@ -243,3 +243,27 @@ static bool trans_LDST1(DisasContext *s, arg_LDST1 *a)
+     tcg_temp_free_i64(addr);
      return true;
  }
-@@ -4499,7 +4523,7 @@ static bool trans_LDR_pri(DisasContext *s, arg_rri *a)
-     if (sve_access_check(s)) {
-         int size = pred_full_reg_size(s);
-         int off = pred_full_reg_offset(s, a->rd);
--        do_ldr(s, off, size, a->rn, a->imm * size);
-+        gen_sve_ldr(s, cpu_env, off, size, a->rn, a->imm * size);
-     }
-     return true;
- }
-@@ -4512,7 +4536,7 @@ static bool trans_STR_zri(DisasContext *s, arg_rri *a)
-     if (sve_access_check(s)) {
-         int size = vec_full_reg_size(s);
-         int off = vec_full_reg_offset(s, a->rd);
--        do_str(s, off, size, a->rn, a->imm * size);
-+        gen_sve_str(s, cpu_env, off, size, a->rn, a->imm * size);
-     }
-     return true;
- }
-@@ -4525,7 +4549,7 @@ static bool trans_STR_pri(DisasContext *s, arg_rri *a)
-     if (sve_access_check(s)) {
-         int size = pred_full_reg_size(s);
-         int off = pred_full_reg_offset(s, a->rd);
--        do_str(s, off, size, a->rn, a->imm * size);
-+        gen_sve_str(s, cpu_env, off, size, a->rn, a->imm * size);
-     }
-     return true;
- }
++
++typedef void GenLdStR(DisasContext *, TCGv_ptr, int, int, int, int);
++
++static bool do_ldst_r(DisasContext *s, arg_ldstr *a, GenLdStR *fn)
++{
++    int svl = streaming_vec_reg_size(s);
++    int imm = a->imm;
++    TCGv_ptr base;
++
++    if (!sme_za_enabled_check(s)) {
++        return true;
++    }
++
++    /* ZA[n] equates to ZA0H.B[n]. */
++    base = get_tile_rowcol(s, MO_8, a->rv, imm, false);
++
++    fn(s, base, 0, svl, a->rn, imm * svl);
++
++    tcg_temp_free_ptr(base);
++    return true;
++}
++
++TRANS_FEAT(LDR, aa64_sme, do_ldst_r, a, gen_sve_ldr)
++TRANS_FEAT(STR, aa64_sme, do_ldst_r, a, gen_sve_str)
 -- 
 2.34.1
 
