@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366BA5692D4
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 21:48:08 +0200 (CEST)
-Received: from localhost ([::1]:49998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1C15692AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 21:37:40 +0200 (CEST)
+Received: from localhost ([::1]:43276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9B0J-0002g2-21
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 15:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56394)
+	id 1o9AqB-0005rw-7g
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 15:37:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9Akj-0003Hw-Tj; Wed, 06 Jul 2022 15:32:06 -0400
-Received: from mail-vk1-xa33.google.com ([2607:f8b0:4864:20::a33]:36422)
+ id 1o9Akl-0003Hx-2I; Wed, 06 Jul 2022 15:32:12 -0400
+Received: from mail-ua1-x92d.google.com ([2607:f8b0:4864:20::92d]:35400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9Akh-00068D-MV; Wed, 06 Jul 2022 15:32:01 -0400
-Received: by mail-vk1-xa33.google.com with SMTP id m188so7887410vkm.3;
- Wed, 06 Jul 2022 12:31:57 -0700 (PDT)
+ id 1o9Aki-00068K-H0; Wed, 06 Jul 2022 15:32:02 -0400
+Received: by mail-ua1-x92d.google.com with SMTP id s3so3964283uaq.2;
+ Wed, 06 Jul 2022 12:31:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SzbsEb73BXpa6gMReMERwR04DzXaL19I57Pb6iUf4nQ=;
- b=apcOFQq+4xEkK9wdWgih/1zrkO9JO9NoE/GlEDpglS+RKmy5jQnp1FfK1enHi1vIV8
- SQJko1iCfJQ/lRPJO6S2Vzlhegdb60c65icR4Xm3SYmKxqPN7wMTnBYh0IeopmY16lFJ
- gZsyoBKVfvaWb9nBM/dBcJtKAD5qfORN634LvtZFXd0/z+zrCBVrQidz4PzSpBfnCQIt
- HcyLVwdPz4R/uX+HFVff6uq4m/PiGr74rR0vUC7A1OwnJIRg/Mv9jAe8twrSk6c1Qf52
- L8VmBQO89zCJEsTISANlwTrnCjCWrwiplftKzq6Q9dQYPYe1mFTkHJvJiNkhsax14wIJ
- b6MQ==
+ bh=asn4YzwX5mBIX1qiRMLgANcS1JnrdHbUQq3YD07AP3I=;
+ b=q4jqDVug9z/qMpFh7w5UpRCbFEpoYTUGTkJOcaff2PA3+DoVcsSbnmbnWA6TFK5Ra9
+ eq+wNityOhZjbOdPnkqC6ZzSpmLypht8BSE+eQgEMZ/dmbZ8TGqdDJ4sTjCbLEmurBzy
+ gF+Ko0y0BwQtatVuQR09mXWJUrSOT5CxsiFJPPJIeCMr7ubYiUdEooxLYmFFyEbGvxwQ
+ lnQHZaryK2rzyGHkXXXjPJEdpMB7grvNjdagpWSDA4dzdZ4vUybFzT/n8X9zVoH2bjDh
+ k5vwQ29kKiDg/Dx+8nS8UV/d1sHmUMVU2nqg+PGOz9cImu8yBcF1NuD2LC75d5HZsSfl
+ xXeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SzbsEb73BXpa6gMReMERwR04DzXaL19I57Pb6iUf4nQ=;
- b=StpjwfLmioFch/q27QQ9si53Ek3OZ0tetrbueoC9CjkXYQLZBrPhWcNRBml1XNurXP
- ji9ZQW5+CSC8Fg7kRBk2xCAP95Hc5naTgGdIkSt19jS/ntBkjw8H5dFd37R+AH9Pv0wG
- 0czWQOO4jrn949UCl1iNk/l5uvEV+Hbx2c2QBSmuHhpPT4jbu5FQnzZzYG+GCTH0JZFE
- PZanVE3Z3bEcCW44HdJBNOs27jfn36OdZvWDRn0akc9KlffhbmekJGycLYc4fZfDrsMT
- kkxV7F7DcKabu8MlnqySHcdG3EWUdVb72zjct44mxGFOfubikjF48u/lSHumVve3mwaE
- Y5Eg==
-X-Gm-Message-State: AJIora96DMcaklqLKqhxqIG1KgVcniK7A7kh/Beaxe1eOjgVYAm55D9k
- vZ4eaEkwamSGtecpRSC9THnjmesmjTI=
-X-Google-Smtp-Source: AGRyM1ufTzoGbWAB1Ll21l0JwsFamZicXTrueKNTIPQVsSR5thH0W+yStsr3hwmdvlmC5rgsjzNApg==
-X-Received: by 2002:a1f:3055:0:b0:373:f1e0:aa57 with SMTP id
- w82-20020a1f3055000000b00373f1e0aa57mr8563359vkw.36.1657135916528; 
- Wed, 06 Jul 2022 12:31:56 -0700 (PDT)
+ bh=asn4YzwX5mBIX1qiRMLgANcS1JnrdHbUQq3YD07AP3I=;
+ b=oXC+ix/o/En0NTmwotGZ0ndpfJfTMDEk3oB8CFkPfuuDaauGuCu4uTGk3qSMpLXuEI
+ AMWH5KkVq77k8JFNbkJ0TjgOqBRk6RjOvVbeoG9A0H2KzOWRr2Y4iuN7B8qba2/IyufG
+ mqtYEfi+9gQ6qIrV6eAZomJhWB7755CPTic8PAP9LqlSCKB0pA4S5Q1iKM4s4NUsvDlk
+ 5NZKSx8wLpswgdjvJEQEzVvl6BjS46yfQkw/CoSA77Bc5xTnRpNvkQwKdqnfxi82DNL0
+ AWGJ9U5IDUNWzG8v8oe8vkdN0Rq4UY9RQ5FG8vBwmZn+vA16wir8t3ahSUwcaUoAr2YS
+ mnYQ==
+X-Gm-Message-State: AJIora/ZyET2awECwkIXTJrn7dQR6SuZ2Lsk96qrxBvYmArhfDWg8yKz
+ pAqZZokd/8ltPIFUDqlHxJVIFXEWkk8=
+X-Google-Smtp-Source: AGRyM1unTgxBTM2gBCvkVxk6WznNvX80kaC4PTMBNxBW8i7ddPyjXbrIPQCFVIB7AzcoWedpI8VYgw==
+X-Received: by 2002:ab0:298e:0:b0:382:982e:9ba8 with SMTP id
+ u14-20020ab0298e000000b00382982e9ba8mr8576762uap.36.1657135917987; 
+ Wed, 06 Jul 2022 12:31:57 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- p2-20020ab01ec2000000b003828ebf6b49sm6034791uak.4.2022.07.06.12.31.54
+ p2-20020ab01ec2000000b003828ebf6b49sm6034791uak.4.2022.07.06.12.31.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 12:31:55 -0700 (PDT)
+ Wed, 06 Jul 2022 12:31:57 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v2 4/5] target/ppc: use g_autofree in kvmppc_read_int_cpu_dt()
-Date: Wed,  6 Jul 2022 16:31:39 -0300
-Message-Id: <20220706193140.468009-5-danielhb413@gmail.com>
+Subject: [PATCH v2 5/5] target/ppc: exit(1) on failure in
+ kvmppc_get_clockfreq()
+Date: Wed,  6 Jul 2022 16:31:40 -0300
+Message-Id: <20220706193140.468009-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220706193140.468009-1-danielhb413@gmail.com>
 References: <20220706193140.468009-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a33;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,41 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This spares us a g_free() call. Let's also not use 'val' and return the
-value of kvmppc_read_int_dt() directly.
+When running under KVM accel it is expected to have 'clock-frequency' in
+the DT. Not having this attribute is too risky for both the machine
+emulation and userspace.
+
+We have a way of telling whether this error scenario might happen or not
+via kvmppc_read_int_cpu_dt() now being able to report errors. From now
+on, when running KVM, we will assume that 'clock-frequency' will always
+be present in the DT.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/kvm.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ target/ppc/kvm.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 7611e9ccf6..c218380eb7 100644
+index c218380eb7..d9febb2c63 100644
 --- a/target/ppc/kvm.c
 +++ b/target/ppc/kvm.c
-@@ -1932,8 +1932,8 @@ static uint64_t kvmppc_read_int_dt(const char *filename, Error **errp)
-  */
- static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
- {
--    char buf[PATH_MAX], *tmp;
--    uint64_t val;
-+    g_autofree char *tmp = NULL;
-+    char buf[PATH_MAX];
- 
-     if (kvmppc_find_cpu_dt(buf, sizeof(buf))) {
-         error_setg(errp, "Failed to read CPU property %s", propname);
-@@ -1941,10 +1941,8 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
-     }
- 
-     tmp = g_strdup_printf("%s/%s", buf, propname);
--    val = kvmppc_read_int_dt(tmp, errp);
--    g_free(tmp);
- 
--    return val;
-+    return kvmppc_read_int_dt(tmp, errp);
+@@ -1945,9 +1945,24 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
+     return kvmppc_read_int_dt(tmp, errp);
  }
  
++/*
++ * Read the clock-frequency from the DT. On error (e.g.
++ * 'clock-frequency' is not present in the DT) will
++ * report an error and exit(1).
++ */
  uint64_t kvmppc_get_clockfreq(void)
+ {
+-    return kvmppc_read_int_cpu_dt("clock-frequency", NULL);
++    Error *local_err = NULL;
++    int ret;
++
++    ret = kvmppc_read_int_cpu_dt("clock-frequency", &local_err);
++
++    if (local_err) {
++        error_report_err(local_err);
++        exit(1);
++    }
++
++    return ret;
+ }
+ 
+ static int kvmppc_get_dec_bits(void)
 -- 
 2.36.1
 
