@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EEE569371
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 22:39:05 +0200 (CEST)
-Received: from localhost ([::1]:44964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42F756938B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 22:46:28 +0200 (CEST)
+Received: from localhost ([::1]:53346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Bnc-0008O1-5j
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 16:39:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37436)
+	id 1o9Bul-0005tW-Cr
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 16:46:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9BLx-0000WW-QB; Wed, 06 Jul 2022 16:10:34 -0400
-Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31]:42650)
+ id 1o9BM0-0000Wb-25; Wed, 06 Jul 2022 16:10:34 -0400
+Received: from mail-vk1-xa34.google.com ([2607:f8b0:4864:20::a34]:42653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9BLv-0003ZZ-Vh; Wed, 06 Jul 2022 16:10:29 -0400
-Received: by mail-vk1-xa31.google.com with SMTP id r184so1134425vkg.9;
- Wed, 06 Jul 2022 13:10:27 -0700 (PDT)
+ id 1o9BLx-0003Zp-Uo; Wed, 06 Jul 2022 16:10:31 -0400
+Received: by mail-vk1-xa34.google.com with SMTP id r184so1134465vkg.9;
+ Wed, 06 Jul 2022 13:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ve6hY3Wum/ydWk7IqBHIOQfGxbEY1YmsIA2+9osiFik=;
- b=Jw1cFGB+Bjl86dxqDLgvqrKg/T9esmhuOzOuQGWByqb7VejpWJJkXLOTC9Lzt8hyql
- 3utTeM8zs2Qjd4vWj+rj/sHr0pPZhRiDfIgMIK87/TNcdet0oJLwz58vL36tyMJV4sfK
- YHKFCz/jPyS85VDj21KoSkcPFYPg3w/I0BZgyF+hykbNs6IW+u7Rih7obMrK3SGPtQmx
- gAdMVlYTMkuOalL2r2gJPQbqMlIVqQvgBFs57HhdMVbaxIyBjbyncYsHGZC0uqfUVvnz
- sO/nScW6gSpkwAMEDIi8AQ3ZdiGmc7d7AnfSRBNIOSWf+ocgFw33MdGZ9upm0+VNrO2U
- t1UQ==
+ bh=9gNpwUW0nGeRtr0KvWUJvAGB/3o+wQ2ilsbSvquXNuY=;
+ b=d3EYy6lGN+XiNK8GMZ+H+cBBrHAJOd28adLjflHvrNJZZmKSGSzt9NJGfHbpSc4DzW
+ atICL9WVSy/m7bDEY0pgIMwA0MouVhCeGwpBeff2f8TTbuaaD0TQ0m2oD7c/5c8BI2d7
+ R4H6SMDAXMBFVrxCoVq7yyuJdldspAtpy+OOTy1cXa3t+F9oH/ox6OqQr7QBu37LQMcT
+ 9+/A7Rm65Cpio14ViRMpD+HdxWZlbzdt2//wJxpybasjhoMQ6QyV63CfSUnf9sPMvfnP
+ 28D3luUF+w1R9x+w+xOx3M2NJu9GAgXioDJHIgb0jNxgCs3hVT5yIwB6mMOEYp6JVx6Y
+ 6Dtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ve6hY3Wum/ydWk7IqBHIOQfGxbEY1YmsIA2+9osiFik=;
- b=OHmIbxgpbWMhHR566c2qh01q28ABAHBUgdg59hlVPlPFryhzWgot25aM82N9HnNBRP
- ENO8x9detcxjzZwFAaP4aMmfJaWGQhyDkXDob24OcmRmg2ptNyWiBBp50QYwGXj/oRv9
- QGyVeP/pAaoW8WYLII56h1rq05l/KRgm4AqOTe5m50k83CNg8gTjfpNmuulXWUvj9Ml3
- rwHL3HC4yfcbiQ5XNdxKUXeI3HquZG0mb4JQh4HDBBY1j4W/OhpWwVCB1dj/Q7EDx9z2
- hyObIqW3liiWNjqdyhK8qFAmM+pQ2G7omcX3jvaFSCfeQdKdx786csleRM/HvqeusNes
- yoRw==
-X-Gm-Message-State: AJIora9C5YMQ88cTpJwoqjaSE/lvaxN8NvVIaXjrpibWaAC6a8LaF1+Z
- WddSNX5WmHSOWq6Ur2TU5HuAWG4DTwc=
-X-Google-Smtp-Source: AGRyM1vyc1y8fDwJPT2RqtKfOmmIkqJiZtItVsvWw3b1jOlvYSEEPZiEf+xxE8iT6k+BB7IHXA/3BQ==
-X-Received: by 2002:a1f:aa91:0:b0:374:35b0:af7d with SMTP id
- t139-20020a1faa91000000b0037435b0af7dmr2949770vke.32.1657138226567; 
- Wed, 06 Jul 2022 13:10:26 -0700 (PDT)
+ bh=9gNpwUW0nGeRtr0KvWUJvAGB/3o+wQ2ilsbSvquXNuY=;
+ b=UjqV7lxrUqJTAR2hhYPlXxpZNAFq41JdW2OFU/tpMTFXsQBrSfvot/BvMxez06RUJN
+ Dhi24TQ3djq2Uj03hyi303ZfSU2Ds/Th7sz3pzOxyqND4Mv/+0wClkCZa8pzLelBR2I/
+ ud964RLhMJwxpJyB/eRGFA7QpRNctxR2W0EYW6DGQnmxtL4uZ7S2QcyLWyDnJC9VYno4
+ XEExYz/j8ttd19xnmp/Y3QiAJvz89Ibv+DOq1LlLJQ7sjnplZIQNroYC2nXTH5l7NiyZ
+ Tq9BNY88tJNR+NKXSj7ETsD4CHIJOz+JZ9YGfor+Mi5JI4yJWWHGuz9wpb77DK1fJGRu
+ DqwQ==
+X-Gm-Message-State: AJIora86lC4ZTTHPp+SNLx9hshzT8XYnH9EhYGRDmU1F7Jzq6Rkg5sQu
+ tgtItJezDTy/IOOwwq3n0v9jAF67gUU=
+X-Google-Smtp-Source: AGRyM1vS1ypfLHzUgX0Lvyqv9hti2sg/FCU3H2CyPPlQAlDONJlBJyF29c+Gkhn6G8D0V7iGe28Icg==
+X-Received: by 2002:a1f:a094:0:b0:36c:e403:52eb with SMTP id
+ j142-20020a1fa094000000b0036ce40352ebmr24470414vke.36.1657138228404; 
+ Wed, 06 Jul 2022 13:10:28 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- r22-20020a056122015600b003744975035asm788662vko.19.2022.07.06.13.10.24
+ r22-20020a056122015600b003744975035asm788662vko.19.2022.07.06.13.10.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 13:10:26 -0700 (PDT)
+ Wed, 06 Jul 2022 13:10:28 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org,
- Matheus Ferst <matheus.ferst@eldorado.org.br>,
- =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-Subject: [PULL 18/34] target/ppc: use int128.h methods in vsubcuq
-Date: Wed,  6 Jul 2022 17:09:30 -0300
-Message-Id: <20220706200946.471114-19-danielhb413@gmail.com>
+ richard.henderson@linaro.org, Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: [PULL 19/34] ppc: Define SETFIELD for the ppc target
+Date: Wed,  6 Jul 2022 17:09:31 -0300
+Message-Id: <20220706200946.471114-20-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220706200946.471114-1-danielhb413@gmail.com>
 References: <20220706200946.471114-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a34;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa34.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,162 +88,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-And also move the insn to decodetree and remove the now unused
-avr_qw_not, avr_qw_cmpu, and avr_qw_add methods.
+It keeps repeating, move it to the header. This uses __builtin_ffsll() to
+allow using the macros in #define.
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Reviewed-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-Message-Id: <20220606150037.338931-8-matheus.ferst@eldorado.org.br>
+This is not using the QEMU's FIELD macros as this would require changing
+all such macros found in skiboot (the PPC PowerNV firmware).
+
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20220628080544.1509428-1-aik@ozlabs.ru>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/helper.h                 |  2 +-
- target/ppc/insn32.decode            |  1 +
- target/ppc/int_helper.c             | 51 +++--------------------------
- target/ppc/translate/vmx-impl.c.inc |  5 +--
- target/ppc/translate/vmx-ops.c.inc  |  2 +-
- 5 files changed, 9 insertions(+), 52 deletions(-)
+ hw/intc/pnv_xive.c                  | 20 --------------------
+ hw/intc/pnv_xive2.c                 | 20 --------------------
+ hw/pci-host/pnv_phb4.c              | 16 ----------------
+ include/hw/pci-host/pnv_phb3_regs.h | 16 ----------------
+ target/ppc/cpu.h                    | 12 ++++++++++++
+ 5 files changed, 12 insertions(+), 72 deletions(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 04ced6ef70..84a41d85b0 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -211,7 +211,7 @@ DEF_HELPER_FLAGS_3(VADDCUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VSUBUQM, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_4(VSUBECUQ, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
- DEF_HELPER_FLAGS_4(VSUBEUQM, TCG_CALL_NO_RWG, void, avr, avr, avr, avr)
--DEF_HELPER_FLAGS_3(vsubcuq, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VSUBCUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_4(vsldoi, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
- DEF_HELPER_FLAGS_3(vextractub, TCG_CALL_NO_RWG, void, avr, avr, i32)
- DEF_HELPER_FLAGS_3(vextractuh, TCG_CALL_NO_RWG, void, avr, avr, i32)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 5e6f3b668e..65a6a42f78 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -556,6 +556,7 @@ VADDUQM         000100 ..... ..... ..... 00100000000    @VX
- VADDEUQM        000100 ..... ..... ..... ..... 111100   @VA
- VADDECUQ        000100 ..... ..... ..... ..... 111101   @VA
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 1ce1d7b07d..c7b75ed12e 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -66,26 +66,6 @@ static const XiveVstInfo vst_infos[] = {
+     qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
+                   (xive)->chip->chip_id, ## __VA_ARGS__);
  
-+VSUBCUQ         000100 ..... ..... ..... 10101000000    @VX
- VSUBUQM         000100 ..... ..... ..... 10100000000    @VX
- 
- VSUBECUQ        000100 ..... ..... ..... ..... 111111   @VA
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index a93398fde4..d905f07d02 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -2176,38 +2176,6 @@ VGENERIC_DO(popcntd, u64)
- 
- #undef VGENERIC_DO
- 
--#ifndef CONFIG_INT128
--
--static inline void avr_qw_not(ppc_avr_t *t, ppc_avr_t a)
+-/*
+- * QEMU version of the GETFIELD/SETFIELD macros
+- *
+- * TODO: It might be better to use the existing extract64() and
+- * deposit64() but this means that all the register definitions will
+- * change and become incompatible with the ones found in skiboot.
+- *
+- * Keep it as it is for now until we find a common ground.
+- */
+-static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
 -{
--    t->u64[0] = ~a.u64[0];
--    t->u64[1] = ~a.u64[1];
+-    return (word & mask) >> ctz64(mask);
 -}
 -
--static int avr_qw_cmpu(ppc_avr_t a, ppc_avr_t b)
+-static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+-                                uint64_t value)
 -{
--    if (a.VsrD(0) < b.VsrD(0)) {
--        return -1;
--    } else if (a.VsrD(0) > b.VsrD(0)) {
--        return 1;
--    } else if (a.VsrD(1) < b.VsrD(1)) {
--        return -1;
--    } else if (a.VsrD(1) > b.VsrD(1)) {
--        return 1;
--    } else {
--        return 0;
--    }
+-    return (word & ~mask) | ((value << ctz64(mask)) & mask);
 -}
 -
--static void avr_qw_add(ppc_avr_t *t, ppc_avr_t a, ppc_avr_t b)
+ /*
+  * When PC_TCTXT_CHIPID_OVERRIDE is configured, the PC_TCTXT_CHIPID
+  * field overrides the hardwired chip ID in the Powerbus operations
+diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+index f31c53c28d..f22ce5ca59 100644
+--- a/hw/intc/pnv_xive2.c
++++ b/hw/intc/pnv_xive2.c
+@@ -75,26 +75,6 @@ static const XiveVstInfo vst_infos[] = {
+     qemu_log_mask(LOG_GUEST_ERROR, "XIVE[%x] - " fmt "\n",              \
+                   (xive)->chip->chip_id, ## __VA_ARGS__);
+ 
+-/*
+- * QEMU version of the GETFIELD/SETFIELD macros
+- *
+- * TODO: It might be better to use the existing extract64() and
+- * deposit64() but this means that all the register definitions will
+- * change and become incompatible with the ones found in skiboot.
+- *
+- * Keep it as it is for now until we find a common ground.
+- */
+-static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
 -{
--    t->VsrD(1) = a.VsrD(1) + b.VsrD(1);
--    t->VsrD(0) = a.VsrD(0) + b.VsrD(0) +
--                     (~a.VsrD(1) < b.VsrD(1));
+-    return (word & mask) >> ctz64(mask);
 -}
 -
--#endif
+-static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+-                                uint64_t value)
+-{
+-    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+-}
 -
- void helper_VADDUQM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+ /*
+  * TODO: Document block id override
+  */
+diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+index d225ab5b0f..67ddde4a6e 100644
+--- a/hw/pci-host/pnv_phb4.c
++++ b/hw/pci-host/pnv_phb4.c
+@@ -31,22 +31,6 @@
+     qemu_log_mask(LOG_GUEST_ERROR, "phb4_pec[%d:%d]: " fmt "\n",        \
+                   (pec)->chip_id, (pec)->index, ## __VA_ARGS__)
+ 
+-/*
+- * QEMU version of the GETFIELD/SETFIELD macros
+- *
+- * These are common with the PnvXive model.
+- */
+-static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+-{
+-    return (word & mask) >> ctz64(mask);
+-}
+-
+-static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+-                                uint64_t value)
+-{
+-    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+-}
+-
+ static PCIDevice *pnv_phb4_find_cfg_dev(PnvPHB4 *phb)
  {
-     r->s128 = int128_add(a->s128, b->s128);
-@@ -2250,22 +2218,13 @@ void helper_VSUBEUQM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
-                          int128_make64(int128_getlo(c->s128) & 1));
- }
+     PCIHostState *pci = PCI_HOST_BRIDGE(phb);
+diff --git a/include/hw/pci-host/pnv_phb3_regs.h b/include/hw/pci-host/pnv_phb3_regs.h
+index a174ef1f70..38f8ce9d74 100644
+--- a/include/hw/pci-host/pnv_phb3_regs.h
++++ b/include/hw/pci-host/pnv_phb3_regs.h
+@@ -12,22 +12,6 @@
  
--void helper_vsubcuq(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-+void helper_VSUBCUQ(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
- {
--#ifdef CONFIG_INT128
--    r->u128 = (~a->u128 < ~b->u128) ||
--                 (a->u128 + ~b->u128 == (__uint128_t)-1);
--#else
--    int carry = (avr_qw_cmpu(*a, *b) > 0);
--    if (!carry) {
--        ppc_avr_t tmp;
--        avr_qw_not(&tmp, *b);
--        avr_qw_add(&tmp, *a, tmp);
--        carry = ((tmp.VsrSD(0) == -1ull) && (tmp.VsrSD(1) == -1ull));
--    }
-+    Int128 tmp = int128_not(b->s128);
+ #include "qemu/host-utils.h"
+ 
+-/*
+- * QEMU version of the GETFIELD/SETFIELD macros
+- *
+- * These are common with the PnvXive model.
+- */
+-static inline uint64_t GETFIELD(uint64_t mask, uint64_t word)
+-{
+-    return (word & mask) >> ctz64(mask);
+-}
+-
+-static inline uint64_t SETFIELD(uint64_t mask, uint64_t word,
+-                                uint64_t value)
+-{
+-    return (word & ~mask) | ((value << ctz64(mask)) & mask);
+-}
+-
+ /*
+  * PBCQ XSCOM registers
+  */
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index e109b5902b..b38c651af4 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -47,6 +47,18 @@
+                                  PPC_BIT32(bs))
+ #define PPC_BITMASK8(bs, be)    ((PPC_BIT8(bs) - PPC_BIT8(be)) | PPC_BIT8(bs))
+ 
++/*
++ * QEMU version of the GETFIELD/SETFIELD macros from skiboot
++ *
++ * It might be better to use the existing extract64() and
++ * deposit64() but this means that all the register definitions will
++ * change and become incompatible with the ones found in skiboot.
++ */
++#define MASK_TO_LSH(m)          (__builtin_ffsll(m) - 1)
++#define GETFIELD(m, v)          (((v) & (m)) >> MASK_TO_LSH(m))
++#define SETFIELD(m, v, val) \
++        (((v) & ~(m)) | ((((typeof(v))(val)) << MASK_TO_LSH(m)) & (m)))
 +
-+    r->VsrD(1) = int128_ult(int128_not(a->s128), tmp) ||
-+                 int128_eq(int128_add(a->s128, tmp), int128_makes64(-1));
-     r->VsrD(0) = 0;
--    r->VsrD(1) = carry;
--#endif
- }
- 
- void helper_VSUBECUQ(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 671992f7d1..e644ad3236 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1234,7 +1234,6 @@ GEN_VXFORM_SAT(vsubuws, MO_32, sub, ussub, 0, 26);
- GEN_VXFORM_SAT(vsubsbs, MO_8, sub, sssub, 0, 28);
- GEN_VXFORM_SAT(vsubshs, MO_16, sub, sssub, 0, 29);
- GEN_VXFORM_SAT(vsubsws, MO_32, sub, sssub, 0, 30);
--GEN_VXFORM(vsubcuq, 0, 21);
- GEN_VXFORM_TRANS(vsl, 2, 7);
- GEN_VXFORM_TRANS(vsr, 2, 11);
- GEN_VXFORM_ENV(vpkuhum, 7, 0);
-@@ -2856,9 +2855,6 @@ GEN_VXFORM_DUAL(vsubuwm, PPC_ALTIVEC, PPC_NONE, \
-                 bcdus, PPC_NONE, PPC2_ISA300)
- GEN_VXFORM_DUAL(vsubsbs, PPC_ALTIVEC, PPC_NONE, \
-                 bcdtrunc, PPC_NONE, PPC2_ISA300)
--GEN_VXFORM_DUAL(vsubcuq, PPC2_ALTIVEC_207, PPC_NONE, \
--                bcdutrunc, PPC_NONE, PPC2_ISA300)
--
- 
- static void gen_vsbox(DisasContext *ctx)
- {
-@@ -3098,6 +3094,7 @@ TRANS_FLAGS2(ALTIVEC_207, VADDUQM, do_vx_helper, gen_helper_VADDUQM)
- 
- TRANS_FLAGS2(ALTIVEC_207, VPMSUMD, do_vx_helper, gen_helper_VPMSUMD)
- 
-+TRANS_FLAGS2(ALTIVEC_207, VSUBCUQ, do_vx_helper, gen_helper_VSUBCUQ)
- TRANS_FLAGS2(ALTIVEC_207, VSUBUQM, do_vx_helper, gen_helper_VSUBUQM)
- 
- static bool do_vx_vmuleo(DisasContext *ctx, arg_VX *a, bool even,
-diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-index 9395806f3d..a3a0fd0650 100644
---- a/target/ppc/translate/vmx-ops.c.inc
-+++ b/target/ppc/translate/vmx-ops.c.inc
-@@ -127,7 +127,7 @@ GEN_VXFORM_DUAL(vsubsbs, bcdtrunc, 0, 28, PPC_ALTIVEC, PPC2_ISA300),
- GEN_VXFORM(vsubshs, 0, 29),
- GEN_VXFORM_DUAL(vsubsws, xpnd04_2, 0, 30, PPC_ALTIVEC, PPC_NONE),
- GEN_VXFORM_300(bcdtrunc, 0, 20),
--GEN_VXFORM_DUAL(vsubcuq, bcdutrunc, 0, 21, PPC2_ALTIVEC_207, PPC2_ISA300),
-+GEN_VXFORM_300(bcdutrunc, 0, 21),
- GEN_VXFORM(vsl, 2, 7),
- GEN_VXFORM(vsr, 2, 11),
- GEN_VXFORM(vpkuhum, 7, 0),
+ /*****************************************************************************/
+ /* Exception vectors definitions                                             */
+ enum {
 -- 
 2.36.1
 
