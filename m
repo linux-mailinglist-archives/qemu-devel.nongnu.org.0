@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C8C569269
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 21:10:54 +0200 (CEST)
-Received: from localhost ([::1]:45190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8917556924E
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jul 2022 21:02:31 +0200 (CEST)
+Received: from localhost ([::1]:57860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9AQH-0003Ry-8R
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 15:10:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44886)
+	id 1o9AIA-00014R-Ic
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 15:02:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o99xn-0005bh-C6
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:41:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45719)
+ id 1o99xr-0005d4-PU
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:41:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o99xX-0000tN-MZ
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:41:27 -0400
+ id 1o99xl-0000vH-4R
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 14:41:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657132869;
+ s=mimecast20190719; t=1657132877;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3QD+UF4oXCfphsAmpAc8aXI/PNUipIiY45PMK1Y5dq8=;
- b=F+s/rwdtRw0Uu3Zg7VV+d/0EU5OLlm+3laWwwhstAlLYSvoZ34hAXmB+NYGLBNp+RubZpM
- tK2VLlZ+0Y3l5TeGX2ETATgEK0bdEzXsKouWPAOIjSTc/VIvzsh3X05norQ8R3Kwfa5IZE
- OWQNxmtmqExmbx4d6DAQQY1frmU5iK8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=S6RMZ31CQp3UEAC5pDU+a65ORFdNDnmqt/5vMRiq4B8=;
+ b=iyK2WjdFtawYUiIksSMrx+n39jJ636p57DYHu4jSsAwCDPmLm79q8R3+somwLE3yrbCHEd
+ 5g63Xm9ieQQUF354YESbDLOFnmlgaRy9QlPiYs4En6Q3aJGrq4/EkWivOeMCsRUHwXjoYf
+ dz1VXo0vvqX8/+Sr6mlVOaTcXp1FM98=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-4Kfm1CBnOUu7TXI0JGjxVg-1; Wed, 06 Jul 2022 14:41:05 -0400
-X-MC-Unique: 4Kfm1CBnOUu7TXI0JGjxVg-1
+ us-mta-646-A8TzJd9AP4u2vibckSVrTQ-1; Wed, 06 Jul 2022 14:41:08 -0400
+X-MC-Unique: A8TzJd9AP4u2vibckSVrTQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30C9D3800C39;
- Wed,  6 Jul 2022 18:41:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E1A0185A7A4;
+ Wed,  6 Jul 2022 18:41:08 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A1CF6141511D;
- Wed,  6 Jul 2022 18:41:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72B9E1415116;
+ Wed,  6 Jul 2022 18:41:05 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
@@ -55,23 +55,24 @@ Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
  Zhu Lingshan <lingshan.zhu@intel.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [RFC PATCH v9 18/23] vdpa: Export vhost_vdpa_dma_map and unmap calls
-Date: Wed,  6 Jul 2022 20:40:03 +0200
-Message-Id: <20220706184008.1649478-19-eperezma@redhat.com>
+Subject: [RFC PATCH v9 19/23] vdpa: Extract get features part from
+ vhost_vdpa_get_max_queue_pairs
+Date: Wed,  6 Jul 2022 20:40:04 +0200
+Message-Id: <20220706184008.1649478-20-eperezma@redhat.com>
 In-Reply-To: <20220706184008.1649478-1-eperezma@redhat.com>
 References: <20220706184008.1649478-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,53 +89,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Shadow CVQ will copy buffers on qemu VA, so we avoid TOCTOU attacks that
-can set a different state in qemu device model and vdpa device.
+To know the device features is needed for CVQ SVQ, so SVQ knows if it
+can handle all commands or not. Extract from
+vhost_vdpa_get_max_queue_pairs so we can reuse it.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/hw/virtio/vhost-vdpa.h | 4 ++++
- hw/virtio/vhost-vdpa.c         | 7 +++----
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ net/vhost-vdpa.c | 30 ++++++++++++++++++++----------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index a29dbb3f53..7214eb47dc 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -39,4 +39,8 @@ typedef struct vhost_vdpa {
-     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
- } VhostVDPA;
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index df1e69ee72..b0158f625e 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -219,20 +219,24 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+     return nc;
+ }
  
-+int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-+                       void *vaddr, bool readonly);
-+int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size);
+-static int vhost_vdpa_get_max_queue_pairs(int fd, int *has_cvq, Error **errp)
++static int vhost_vdpa_get_features(int fd, uint64_t *features, Error **errp)
++{
++    int ret = ioctl(fd, VHOST_GET_FEATURES, features);
++    if (ret) {
++        error_setg_errno(errp, errno,
++                         "Fail to query features from vhost-vDPA device");
++    }
++    return ret;
++}
 +
- #endif
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 69cfaf05d6..613c3483b0 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -71,8 +71,8 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
-     return false;
- }
- 
--static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
--                              void *vaddr, bool readonly)
-+int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-+                       void *vaddr, bool readonly)
++static int vhost_vdpa_get_max_queue_pairs(int fd, uint64_t features,
++                                          int *has_cvq, Error **errp)
  {
-     struct vhost_msg_v2 msg = {};
-     int fd = v->device_fd;
-@@ -97,8 +97,7 @@ static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-     return ret;
- }
+     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
+     g_autofree struct vhost_vdpa_config *config = NULL;
+     __virtio16 *max_queue_pairs;
+-    uint64_t features;
+     int ret;
  
--static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
--                                hwaddr size)
-+int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size)
+-    ret = ioctl(fd, VHOST_GET_FEATURES, &features);
+-    if (ret) {
+-        error_setg(errp, "Fail to query features from vhost-vDPA device");
+-        return ret;
+-    }
+-
+     if (features & (1 << VIRTIO_NET_F_CTRL_VQ)) {
+         *has_cvq = 1;
+     } else {
+@@ -262,10 +266,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+                         NetClientState *peer, Error **errp)
  {
-     struct vhost_msg_v2 msg = {};
-     int fd = v->device_fd;
+     const NetdevVhostVDPAOptions *opts;
++    uint64_t features;
+     int vdpa_device_fd;
+     g_autofree NetClientState **ncs = NULL;
+     NetClientState *nc;
+-    int queue_pairs, i, has_cvq = 0;
++    int queue_pairs, r, i, has_cvq = 0;
+ 
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
+@@ -279,7 +284,12 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+         return -errno;
+     }
+ 
+-    queue_pairs = vhost_vdpa_get_max_queue_pairs(vdpa_device_fd,
++    r = vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
++    if (r) {
++        return r;
++    }
++
++    queue_pairs = vhost_vdpa_get_max_queue_pairs(vdpa_device_fd, features,
+                                                  &has_cvq, errp);
+     if (queue_pairs < 0) {
+         qemu_close(vdpa_device_fd);
 -- 
 2.31.1
 
