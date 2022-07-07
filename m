@@ -2,101 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F212E569507
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 00:09:30 +0200 (CEST)
-Received: from localhost ([::1]:55932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718215696F7
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 02:40:13 +0200 (CEST)
+Received: from localhost ([::1]:52102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9DD8-00063T-23
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 18:09:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53526)
+	id 1o9FYy-0007rj-HM
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 20:40:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9Cac-0003G4-EI
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 17:29:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9CaY-0005M2-H6
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 17:29:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657142977;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CoPpErZ8fRAPKLU4/Shc970bLX5PIhkrGyYMVKq81Z4=;
- b=EctnR3+k29IZuIu3ZMIkS7DlnxdG/7TkIn9YGfeUwtCSlGxca6EuU33K4kIGE3H/l63Cxd
- 8FQ9Gck+x1tQfv464YUUcxfBT4S6ZLyNV3y8VW0oJToXfQutjlWq4LIndqcYMoMFyip4ud
- HSd9hYPrrdm5z2uNZd8+cpmYV6h3MJU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-Sytm_6NSOrykEF0Bmxtp1A-1; Wed, 06 Jul 2022 17:29:36 -0400
-X-MC-Unique: Sytm_6NSOrykEF0Bmxtp1A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 130-20020a1c0288000000b003a18127d11aso7830221wmc.6
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 14:29:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=CoPpErZ8fRAPKLU4/Shc970bLX5PIhkrGyYMVKq81Z4=;
- b=pZU4OifuS2POnF/Jtamjf914ET8azcO1ItLbFS5vmitCyKgfdZ0cp5ZO/Lg0gnIsam
- SvYfhV07ZYulMArB2LCG9Z0lU5MUOaJdfo5uP4zSVcV7OwK83U7RPls/itIcWnyow9AY
- io0iEDNTMMS1jKmVf9T8YRZygYtmffvUtSy3LD/jrVLwYOSmU/vxR5U4UXiA39EPofjY
- PDNBBVlLJknmED5lDkkvC0+sK9FDQCBzvcr1+kw7M+nU9NIjQGLaDHsCfJH3FLJr+LnZ
- ewL/7U6+d0EIyWhkkbgZQmRq2pFBEh0uM/noxlp0yRGpBvdYDeyTRYgvnFZkb0pgDeSq
- q9gw==
-X-Gm-Message-State: AJIora+dFyQcd9EumqXl5qj9N5dpUeOI2IJ24MVsr9kwVd4XwwCVhdF/
- I0LJYNs8V9RqNgjCIfNTOOYR4HNANRYrDDcx0UQTlTiSE0HC1t4+sNg/2IKiNzvAAssq3z5Am5A
- KEZ4M/v9lxhLn1hc=
-X-Received: by 2002:adf:ed41:0:b0:210:20a5:26c2 with SMTP id
- u1-20020adfed41000000b0021020a526c2mr37838035wro.603.1657142975099; 
- Wed, 06 Jul 2022 14:29:35 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sTlRX4bNbDdLnxFrQdYTc7PL1K5xzNorikLfi9W3ZspFUSD5ATlAQD9WHHFgG904DErPC97A==
-X-Received: by 2002:adf:ed41:0:b0:210:20a5:26c2 with SMTP id
- u1-20020adfed41000000b0021020a526c2mr37837999wro.603.1657142974647; 
- Wed, 06 Jul 2022 14:29:34 -0700 (PDT)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- bp25-20020a5d5a99000000b0021bbc0b671esm33407770wrb.20.2022.07.06.14.29.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jul 2022 14:29:34 -0700 (PDT)
-Message-ID: <fc9a0846-6ad9-c978-5c46-ad52a8f14002@redhat.com>
-Date: Wed, 6 Jul 2022 23:29:33 +0200
+ (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
+ id 1o9FWL-0006Sn-W1
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:37:30 -0400
+Received: from mout-u-107.mailbox.org ([80.241.59.207]:35572)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
+ id 1o9FWJ-00035g-KP
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:37:29 -0400
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-u-107.mailbox.org (Postfix) with ESMTPS id 4LdctZ05Gcz9sSG;
+ Thu,  7 Jul 2022 02:37:10 +0200 (CEST)
+From: Lev Kujawski <lkujaw@member.fsf.org>
+To: qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Lev Kujawski <lkujaw@member.fsf.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH v2 1/2] hw/i386/postcard.c: New ISA POST card device
+Date: Thu,  7 Jul 2022 00:37:04 +0000
+Message-Id: <20220707003705.43894-1-lkujaw@member.fsf.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v8 17/20] job.c: enable job lock/unlock and remove
- Aiocontext locks
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20220629141538.3400679-1-eesposit@redhat.com>
- <20220629141538.3400679-18-eesposit@redhat.com>
- <YsQ3r398HXi9B92H@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YsQ3r398HXi9B92H@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=80.241.59.207; envelope-from=lkujaw@member.fsf.org;
+ helo=mout-u-107.mailbox.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,83 +60,366 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Relocate the ioport80 functionality within hw/i386/pc.c into a new ISA
+POST card device (postcard.c) that is capable of being instantiated at
+different ports as well, such as for the following platforms [1]:
+  0x84  for COMPAQ
+  0x90  for PS/2 (ISA)
+  0x300 for AWARD BIOS
+  0x680 for PS/2 (MCA)
 
+Emulate i440FX hardware by storing the value written to the port, a
+behavior relied upon by firmware for these systems (e.g., AMIBIOS) to
+track the state of the boot process.  Despite the name of this device,
+said behavior does not rely upon the presence of an installed POST
+card, as the chipset provides an extraneous DMA page register at the
+POST address.
 
-Am 05/07/2022 um 15:07 schrieb Stefan Hajnoczi:
-> On Wed, Jun 29, 2022 at 10:15:35AM -0400, Emanuele Giuseppe Esposito wrote:
->> Change the job_{lock/unlock} and macros to use job_mutex.
->>
->> Now that they are not nop anymore, remove the aiocontext
->> to avoid deadlocks.
->>
->> Therefore:
->> - when possible, remove completely the aiocontext lock/unlock pair
->> - if it is used by some other function too, reduce the locking
->> section as much as possible, leaving the job API outside.
->>
->> There is only one JobDriver callback, ->free() that assumes that
->> the aiocontext lock is held (because it calls bdrv_unref), so for
->> now keep that under aiocontext lock.
-> 
-> This discussion shouldn't hold up the patch series, it's a separate
-> issue:
-> 
-> Why does bdrv_unref() need the AioContext lock? The reference count
-> itself is protected by the BQL (bdrv_ref() is GS too). I/O requests
-> should be using fine-grained locks now, so I'm not sure if we still need
-> to hold the AioContext lock to drain them?
+To aid firmware debugging, allow for tracing POST card values,
+mimicking the [new value, old value] display format of physical cards.
 
-If I remove the AioContex lock/unlock in job_unref_locked, I see that
-test 200 and test-bdrv-drain are failing.
+Reference platform:
+  TYAN S1686D (i440FX system board)
 
-The reason is that job->free() is calling block_job_free and then we
-eventually get to bdrv_detach_child claling bdrv_try_set_aio_context
-from the main loop, on a node that is in another AioContext lock.
+References:
+  [1] F. v. Gilluwe, The Undocumented PC. Boston, MA: Addison-Wesley,
+      1997, p. 800-801.
 
-So it isn't really about bdrv_unref, but more bdrv_try_set_aio_context.
-Until we don't find a solution to that, we can't get rid of this
-aiocontext lock.
+Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
+---
+ (v2) No functional changes. Add myself as the maintainer of this device,
+      per checkpatch; add technical details and references to commit log.
 
-That's the shared call stack from both tests:
+ MAINTAINERS                |   5 ++
+ hw/i386/Kconfig            |   5 ++
+ hw/i386/meson.build        |   1 +
+ hw/i386/pc.c               |  25 +------
+ hw/i386/postcard.c         | 149 +++++++++++++++++++++++++++++++++++++
+ hw/i386/trace-events       |   3 +
+ include/hw/i386/postcard.h |  35 +++++++++
+ 7 files changed, 200 insertions(+), 23 deletions(-)
+ create mode 100644 hw/i386/postcard.c
+ create mode 100644 include/hw/i386/postcard.h
 
-#0  __pthread_kill_implementation (threadid=<optimized out>,
-    signo=signo@entry=6, no_tid=no_tid@entry=0) at pthread_kill.c:44
-#1  0x00007ffff66a64a3 in __pthread_kill_internal (signo=6,
-    threadid=<optimized out>) at pthread_kill.c:78
-#2  0x00007ffff6659d06 in __GI_raise (sig=sig@entry=6)
-    at ../sysdeps/posix/raise.c:26
-#3  0x00007ffff662c7d3 in __GI_abort () at abort.c:79
-#4  0x0000555555d6411f in error_exit (err=<optimized out>,
-    msg=msg@entry=0x555555f49b30 <__func__.20> "qemu_mutex_unlock_impl")
-    at ../util/qemu-thread-posix.c:38
---Type <RET> for more, q to quit, c to continue without paging--
-#5  0x0000555555d64965 in qemu_mutex_unlock_impl (mutex=0x5555568d0620,
-    file=<optimized out>, line=<optimized out>)
-    at ../util/qemu-thread-posix.c:118
-#6  0x0000555555c39c06 in bdrv_set_aio_context_ignore (bs=0x5555575133e0,
-    new_context=0x5555566a2ad0, ignore=0x7fffffffd110) at ../block.c:7399
-#7  0x0000555555c3a100 in bdrv_child_try_set_aio_context (
-    bs=bs@entry=0x5555575133e0, ctx=ctx@entry=0x5555566a2ad0,
-    ignore_child=ignore_child@entry=0x0, errp=errp@entry=0x0)
-    at ../block.c:7493
-#8  0x0000555555c3a1f6 in bdrv_try_set_aio_context (errp=0x0,
---Type <RET> for more, q to quit, c to continue without paging--
-    ctx=0x5555566a2ad0, bs=0x5555575133e0) at ../block.c:7503
-#9  bdrv_detach_child (childp=0x7fffffffd168) at ../block.c:3130
-#10 bdrv_root_unref_child (child=<optimized out>,
-child@entry=0x55555732dc00)
-    at ../block.c:3228
-#11 0x0000555555c4265f in block_job_remove_all_bdrv (job=0x5555575b6a30)
-    at ../blockjob.c:195
-#12 0x0000555555c426b5 in block_job_free (job=0x5555575b6a30)
-    at ../blockjob.c:76
-#13 0x0000555555c4472e in job_unref_locked (job=0x5555575b6a30)
-    at ../job.c:464
---Type <RET> for more, q to quit, c to continue without paging--
-#14 job_unref_locked (job=0x5555575b6a30) at ../job.c:450
-
-> 
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 450abd0252..33b13583b7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1719,6 +1719,11 @@ F: include/sysemu/numa.h
+ F: tests/unit/test-smp-parse.c
+ T: git https://gitlab.com/ehabkost/qemu.git machine-next
+ 
++ISA POST card
++M: Lev Kujawski <lkujaw@member.fsf.org>
++S: Supported
++F: hw/i386/postcard.c
++
+ Xtensa Machines
+ ---------------
+ sim
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index d22ac4a4b9..17979e5c0d 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -10,6 +10,10 @@ config SGX
+     bool
+     depends on KVM
+ 
++config POST_CARD
++    bool
++    depends on ISA_BUS
++
+ config PC
+     bool
+     imply APPLESMC
+@@ -40,6 +44,7 @@ config PC
+     select PCSPK
+     select I8257
+     select MC146818RTC
++    select POST_CARD
+     # For ACPI builder:
+     select SERIAL_ISA
+     select ACPI_PCI
+diff --git a/hw/i386/meson.build b/hw/i386/meson.build
+index 213e2e82b3..c883e8ec9a 100644
+--- a/hw/i386/meson.build
++++ b/hw/i386/meson.build
+@@ -28,6 +28,7 @@ i386_ss.add(when: 'CONFIG_PC', if_true: files(
+   'port92.c'))
+ i386_ss.add(when: 'CONFIG_X86_FW_OVMF', if_true: files('pc_sysfw_ovmf.c'),
+                                         if_false: files('pc_sysfw_ovmf-stubs.c'))
++i386_ss.add(when: 'CONFIG_POST_CARD', if_true: files('postcard.c'))
+ 
+ subdir('kvm')
+ subdir('xen')
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 774cb2bf07..c179e38a61 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -32,6 +32,7 @@
+ #include "hw/i386/topology.h"
+ #include "hw/i386/fw_cfg.h"
+ #include "hw/i386/vmport.h"
++#include "hw/i386/postcard.h"
+ #include "sysemu/cpus.h"
+ #include "hw/block/fdc.h"
+ #include "hw/ide.h"
+@@ -403,16 +404,6 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled)
+     return s;
+ }
+ 
+-static void ioport80_write(void *opaque, hwaddr addr, uint64_t data,
+-                           unsigned size)
+-{
+-}
+-
+-static uint64_t ioport80_read(void *opaque, hwaddr addr, unsigned size)
+-{
+-    return 0xffffffffffffffffULL;
+-}
+-
+ /* MSDOS compatibility mode FPU exception support */
+ static void ioportF0_write(void *opaque, hwaddr addr, uint64_t data,
+                            unsigned size)
+@@ -1059,16 +1050,6 @@ DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus)
+     return dev;
+ }
+ 
+-static const MemoryRegionOps ioport80_io_ops = {
+-    .write = ioport80_write,
+-    .read = ioport80_read,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-    .impl = {
+-        .min_access_size = 1,
+-        .max_access_size = 1,
+-    },
+-};
+-
+ static const MemoryRegionOps ioportF0_io_ops = {
+     .write = ioportF0_write,
+     .read = ioportF0_read,
+@@ -1139,12 +1120,10 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+     qemu_irq pit_alt_irq = NULL;
+     qemu_irq rtc_irq = NULL;
+     ISADevice *pit = NULL;
+-    MemoryRegion *ioport80_io = g_new(MemoryRegion, 1);
+     MemoryRegion *ioportF0_io = g_new(MemoryRegion, 1);
+     X86MachineState *x86ms = X86_MACHINE(pcms);
+ 
+-    memory_region_init_io(ioport80_io, NULL, &ioport80_io_ops, NULL, "ioport80", 1);
+-    memory_region_add_subregion(isa_bus->address_space_io, 0x80, ioport80_io);
++    (void)post_card_init(isa_bus, POST_CARD_PORT_DEFAULT);
+ 
+     memory_region_init_io(ioportF0_io, NULL, &ioportF0_io_ops, NULL, "ioportF0", 1);
+     memory_region_add_subregion(isa_bus->address_space_io, 0xf0, ioportF0_io);
+diff --git a/hw/i386/postcard.c b/hw/i386/postcard.c
+new file mode 100644
+index 0000000000..c9fa263510
+--- /dev/null
++++ b/hw/i386/postcard.c
+@@ -0,0 +1,149 @@
++/*
++ * QEMU PC System Emulator
++ *
++ * Copyright (c) 2003-2004 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "exec/memory.h"
++#include "qapi/error.h"
++#include "qom/object.h"
++#include "migration/vmstate.h"
++#include "hw/qdev-properties.h"
++#include "trace.h"
++#include "hw/i386/postcard.h"
++
++struct POSTCardState {
++    ISADevice parent_obj;
++
++    MemoryRegion io;
++    uint16_t port;
++    uint8_t mem;
++};
++
++#define TYPE_POST_CARD "post-card"
++OBJECT_DECLARE_SIMPLE_TYPE(POSTCardState, POST_CARD)
++
++static uint64_t
++post_card_read(void *opaque, hwaddr addr, unsigned size)
++{
++    POSTCardState *s = opaque;
++    uint64_t val;
++
++    memset(&val, s->mem, sizeof(val));
++    return val;
++}
++
++static void
++post_card_write(void *opaque, hwaddr addr, uint64_t data, unsigned size)
++{
++    POSTCardState *s = opaque;
++    const uint8_t val = data & 0xff;
++
++    if (val != s->mem) {
++        trace_post_card_write(val, s->mem);
++        s->mem = val;
++    }
++}
++
++static const MemoryRegionOps post_card_ops = {
++    .read = post_card_read,
++    .write = post_card_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static void
++post_card_reset(DeviceState *dev)
++{
++    POSTCardState *s = POST_CARD(dev);
++    s->mem = 0;
++}
++
++static void
++post_card_realize(DeviceState *dev, Error **errp)
++{
++    ISADevice *isadev = ISA_DEVICE(dev);
++    POSTCardState *s = POST_CARD(dev);
++
++    memory_region_init_io(&s->io, OBJECT(s), &post_card_ops,
++                          s, TYPE_POST_CARD, 1);
++    isa_register_ioport(isadev, &s->io, s->port);
++    post_card_reset(dev);
++}
++
++static Property post_card_properties[] = {
++    DEFINE_PROP_UINT16("iobase", POSTCardState, port,
++                       POST_CARD_PORT_DEFAULT),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static const VMStateDescription post_card_vmstate = {
++    .name = TYPE_POST_CARD,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT16(port, POSTCardState),
++        VMSTATE_UINT8(mem, POSTCardState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void
++post_card_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    dc->desc = "ISA POST card";
++    dc->realize = post_card_realize;
++    dc->reset = post_card_reset;
++    dc->vmsd = &post_card_vmstate;
++    device_class_set_props(dc, post_card_properties);
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++}
++
++static const TypeInfo post_card_info = {
++    .name          = TYPE_POST_CARD,
++    .parent        = TYPE_ISA_DEVICE,
++    .instance_size = sizeof(POSTCardState),
++    .class_init    = post_card_class_init,
++};
++
++ISADevice *
++post_card_init(ISABus *bus, uint16_t iobase)
++{
++    DeviceState *dev;
++    ISADevice *isadev;
++
++    isadev = isa_new(TYPE_POST_CARD);
++    dev = DEVICE(isadev);
++    qdev_prop_set_uint16(dev, "iobase", iobase);
++    isa_realize_and_unref(isadev, bus, &error_fatal);
++
++    return isadev;
++}
++
++static void
++post_card_register_types(void)
++{
++    type_register_static(&post_card_info);
++}
++
++type_init(post_card_register_types)
+diff --git a/hw/i386/trace-events b/hw/i386/trace-events
+index e49814dd64..443c2a9d6a 100644
+--- a/hw/i386/trace-events
++++ b/hw/i386/trace-events
+@@ -119,3 +119,6 @@ x86_pic_interrupt(int irqn, int level) "PIC interrupt #%d level:%d"
+ # port92.c
+ port92_read(uint8_t val) "port92: read 0x%02x"
+ port92_write(uint8_t val) "port92: write 0x%02x"
++
++# postcard.c
++post_card_write(uint8_t new_val, uint8_t old_val) "[%.2x %.2x]"
+diff --git a/include/hw/i386/postcard.h b/include/hw/i386/postcard.h
+new file mode 100644
+index 0000000000..ae8cdb704a
+--- /dev/null
++++ b/include/hw/i386/postcard.h
+@@ -0,0 +1,35 @@
++/*
++ * QEMU PC System Emulator
++ *
++ * Copyright (c) 2003-2004 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef HW_I386_POSTCARD_H
++#define HW_I386_POSTCARD_H
++
++#include "hw/isa/isa.h"
++
++#define POST_CARD_PORT_DEFAULT 0x80
++
++ISADevice *
++post_card_init(ISABus *bus, uint16_t iobase);
++
++#endif /* HW_I386_POSTCARD_H */
+-- 
+2.34.1
 
 
