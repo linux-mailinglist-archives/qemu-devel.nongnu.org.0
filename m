@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD8256A08D
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 12:57:14 +0200 (CEST)
-Received: from localhost ([::1]:46104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5881656A0D5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 13:06:05 +0200 (CEST)
+Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9PC5-0002sA-26
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 06:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39770)
+	id 1o9PKd-0000AF-RX
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 07:06:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o9PAm-00021T-94
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 06:55:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o9PAi-0001Kp-UM
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 06:55:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657191347;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/LH2kPrvdKdLhr4lPkFt6xyRrMUEqnJpXWLeAHfW9I0=;
- b=C3sIaAJluzv4ekwUgDHlkaDanhtvF052dKqjnEFf5moMYauqZfLJO5SavfDESUuYAH1KiD
- 6JUGEvj7CZSScbKYL1Z5a/gDpugrGTXUSs7NCh+1HiFpRtSQJ0B7lk5BuXGIeXz89Mx0tR
- pGV1ldaM4+UkgwUIuU//kpEzTx3uP/0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-5Tt7lrDmO6K9vQrjMDPLXw-1; Thu, 07 Jul 2022 06:55:46 -0400
-X-MC-Unique: 5Tt7lrDmO6K9vQrjMDPLXw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- g7-20020a056402424700b00435ac9c7a8bso13683998edb.14
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 03:55:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9PI6-0006zq-Bz
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 07:03:26 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:43764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9PI4-0002el-Gy
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 07:03:26 -0400
+Received: by mail-pg1-x536.google.com with SMTP id 73so2417471pgb.10
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 04:03:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=BzTeCVGses3LC10W0yTEitv12gWNf8Zi+ab3tcU2txE=;
+ b=dSD2T9tiJrL2txAsePrQnRQ3Xqhe+zDJD8v0TKgyXJMSvGOlE0JnaiLyo0JvfRSk6C
+ unGnXDA15zrPDLfI49cVLLcq09393ulCaOFOtbtPR7kq2AjKNJZSguKUTNsZSS/bolvy
+ k+frOXXMsn3OgPorg6Sk+YdCfg+bDuZdjodvqYbMNotFSKlh86FMX25+OdbQ2/vjbxmg
+ Ic4wNj89wduiCTz6VckH7ay5e9ZCjMNacXB1yDzc026agEGi+/HgpHDHcahkUAwhixAq
+ yL3oqDiLbeV7+cA2RYfWB8q04PfLTPMMDF+4/XOMyqv1IpnbsOhYEpD9+wkZ3CdCrlP8
+ KqcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/LH2kPrvdKdLhr4lPkFt6xyRrMUEqnJpXWLeAHfW9I0=;
- b=CAy7vS60h3H5MTCRsWUTgUURa3MkUAGYb5Wn37wULJZ/FNcntzwcYZm53pbARdWNBr
- Q1TH2UGv0DjuX3L62DXyQT6iYFn6MXBEHabj28LNLlXQfdC8ciK2Y+5S9QwROzN0Oxky
- NsHjN7l9zVjLJECYZxJlwR3MOtJkYS9HX6yzkjsd4e89+HlUQpuiy6Q0Vm+g3zZFl9At
- 8RrFeEBlgAfi+QawDsOGFf9+IJtFtNWpmJVkuZk1iHnuBYQJA8x+LaafAas8oBx+LH8H
- y7FGZBY2cbMRMnf2yi2DAIzmG+NlmtIWCW6zTY41w11FCygPoMWevMmfdoE2Ghme2KDp
- AyCA==
-X-Gm-Message-State: AJIora/1oWwdTYJoX3jiQGRr3j7ZyRVj5TgKkHKAuVJVuOcujX1tc4zg
- MkwHIQs/o0lFEVM4Wc1nHyYlsCDEp3BVoeIgi0R9iOoOHJUc5H1plBCsse3R3sMnBYtwzGoJBKJ
- GmIHcNv9GJyd5iRs=
-X-Received: by 2002:aa7:d143:0:b0:43a:88f4:4ec1 with SMTP id
- r3-20020aa7d143000000b0043a88f44ec1mr12308728edo.141.1657191345201; 
- Thu, 07 Jul 2022 03:55:45 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vPWKyS0fy3neTB9vzTSP8TaP1PtbmdU4/suR+JLcCW4NtljZPup4v+FOOxtLxMjxrziUP04w==
-X-Received: by 2002:aa7:d143:0:b0:43a:88f4:4ec1 with SMTP id
- r3-20020aa7d143000000b0043a88f44ec1mr12308690edo.141.1657191344939; 
- Thu, 07 Jul 2022 03:55:44 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BzTeCVGses3LC10W0yTEitv12gWNf8Zi+ab3tcU2txE=;
+ b=voIKTJ+f8G8rMfRPv1ylSv8L5juzeJcIojpDZP0Gp3c0bnSGGTKY+asHlBNh6NABMQ
+ LwIPIT16XxKaxXFtRSaSHveFwacT9yYx6P62NCyD1/7/bS9vh//rb3Q3NwTPNeSrNxqO
+ na9vxOZbkhDbLYV213O6PKuM39CQ7DIifq6FeFCXmpx1WBnVCOMaQOf0JBlxLtyugFK8
+ NkRnaoa8MIZioeZLBEZlsiv9DsD4ToQn0ZfVteVE6hDgeN4q6Nvs1dRbUfgk+IrWhk+V
+ 5ogeL8LSheqV5UhRsu/6DnAMeKENPcmI5WHKD2aHhLKtCzRPXiJo7+sZ7Y0iHC5OGKw3
+ 2dfQ==
+X-Gm-Message-State: AJIora9LV9//3JDp255jcAmnutIJbiX65W6+HoQbHEUUFyox8/OVUBH2
+ 1g+r7nqbcYo/jP6W3I1evjU1hw==
+X-Google-Smtp-Source: AGRyM1vfvANWvr4UyBs2Z5OdrDlRdADvqDiM5oJaLtiNPv9Y3HMmjAcC76dE9gRIuYJ83NPZj/uIlA==
+X-Received: by 2002:a05:6a00:179c:b0:525:6823:2972 with SMTP id
+ s28-20020a056a00179c00b0052568232972mr52706330pfg.60.1657191803004; 
+ Thu, 07 Jul 2022 04:03:23 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- r19-20020a1709062cd300b006ff802baf5dsm18850123ejr.54.2022.07.07.03.55.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 03:55:44 -0700 (PDT)
-Date: Thu, 7 Jul 2022 12:55:43 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, ani@anisinha.ca
-Subject: Re: [PATCH 02/17] acpi: x86: deduplicate HPET AML building
-Message-ID: <20220707125543.61a1d72e@redhat.com>
-In-Reply-To: <20220707060622-mutt-send-email-mst@kernel.org>
-References: <20220701133515.137890-1-imammedo@redhat.com>
- <20220701133515.137890-3-imammedo@redhat.com>
- <20220701121346-mutt-send-email-mst@kernel.org>
- <20220707111616.3f43b503@redhat.com>
- <20220707060622-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ q5-20020a170902a3c500b0016beceac441sm7008760plb.195.2022.07.07.04.03.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jul 2022 04:03:22 -0700 (PDT)
+Message-ID: <86edd6d4-63bf-888b-78c8-096ea07f888d@linaro.org>
+Date: Thu, 7 Jul 2022 16:33:14 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 05/13] tests/vm: update sha256sum for ubuntu.aarch64
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20220707040310.4163682-1-jsnow@redhat.com>
+ <20220707040310.4163682-6-jsnow@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220707040310.4163682-6-jsnow@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,59 +99,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Jul 2022 06:08:35 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-
-> On Thu, Jul 07, 2022 at 11:16:16AM +0200, Igor Mammedov wrote:
-> > On Fri, 1 Jul 2022 12:26:16 -0400
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >   
-> > > On Fri, Jul 01, 2022 at 09:35:00AM -0400, Igor Mammedov wrote:  
-> > > > HPET AML doesn't depend on piix4 nor q35, move code buiding it
-> > > > to common scope to avoid duplication.
-> > > > 
-> > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>    
-> > > 
-> > > Apropos, tests/data/acpi/rebuild-expected-aml.sh ignores the
-> > > fact that some tables might be identical. Also, there's no
-> > > way to reuse expected files between machines. And so we have:
-> > > 
-> > > 
-> > > [qemu]$ find tests/data/acpi -type f -exec sha256sum '{}' ';'|sort  
-> > [...]
-> >   
-> > > 
-> > > 
-> > > It's easy to fix up duplications within virt. But I am not 100% sure how
-> > > fix up duplication between q35 and pc.  
-> > [...]
-> >    
-> > > Then we could maybe use the directory "pc" for files common to i440fx
-> > > and q35.  Maybe just teach the test to look under tests/data/acpi/x86
-> > > too? And I think we should teach tests/data/acpi/rebuild-expected-aml.sh
-> > > to check for duplicates and at least warn the user.  
-> > 
-> > Probably duplicates in 'virt' mostly due to combination of not knowing
-> > that there is a fallback lookup (which is hidden in the code)
-> > and simplistic way tests/data/acpi/rebuild-expected-aml.sh rebuilds tables.
-> > 
-> > As you suggest, rebuild-expected-aml.sh can be improved to warn or even
-> > better drop duplicates if found.  
+On 7/7/22 09:33, John Snow wrote:
+> This checksum changes weekly; use a fixed point image and update the
+> checksum so we don't have to re-download it quite so much.
 > 
-> Want to try?
-
-I'll put it on my queue, after PCI refactorings
-
+> Note: Just like the centos.aarch64 test, this test currently seems very
+> flaky when run as a TCG test.
 > 
-> > As for reusing tables between different machine types, alternatively
-> > we can add explicit remapping rules (possibly auto-generated) versus
-> > currently used implicit fallback approach.  
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   tests/vm/ubuntu.aarch64 | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> My worry with this is that if a specific table needs to be split from
-> the generic variant then user would have to hack the test code as opposed
-> to just updating the tables, so the update can not be done
-> automatically. Thoughts?
+> diff --git a/tests/vm/ubuntu.aarch64 b/tests/vm/ubuntu.aarch64
+> index b291945a7e9..fc9c2ce22ff 100755
+> --- a/tests/vm/ubuntu.aarch64
+> +++ b/tests/vm/ubuntu.aarch64
+> @@ -32,9 +32,13 @@ DEFAULT_CONFIG = {
+>   class UbuntuAarch64VM(ubuntuvm.UbuntuVM):
+>       name = "ubuntu.aarch64"
+>       arch = "aarch64"
+> +    # NOTE: The Ubuntu 18.04 cloud images are updated weekly. The
+> +    # release below has been chosen as the latest at time of writing.
+> +    # Using the rolling latest release means the SHA will be wrong
+> +    # within a week.
 
-I'll try to implement it and see if it's possible.
+Isn't 18.04 unsupported now?  Surely bumping to 20.04 or 22.04 would be better.
+
+
+r~
+
+>       image_name = "ubuntu-18.04-server-cloudimg-arm64.img"
+> -    image_link = "https://cloud-images.ubuntu.com/releases/18.04/release/" + image_name
+> -    image_sha256="0fdcba761965735a8a903d8b88df8e47f156f48715c00508e4315c506d7d3cb1"
+> +    image_link = "https://cloud-images.ubuntu.com/releases/bionic/release-20220610/" + image_name
+> +    image_sha256="0eacc5142238788365576b15f1d0b6f23dda6d3e545ee22f5306af7bd6ec47bd"
+>       BUILD_SCRIPT = """
+>           set -e;
+>           cd $(mktemp -d);
 
 
