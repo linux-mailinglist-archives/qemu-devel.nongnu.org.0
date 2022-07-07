@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88E5569B4E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 09:12:22 +0200 (CEST)
-Received: from localhost ([::1]:52592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05EE3569B53
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 09:13:58 +0200 (CEST)
+Received: from localhost ([::1]:55518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9LgT-0001pw-R9
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 03:12:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41420)
+	id 1o9Li1-0003xX-4i
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 03:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1o9LbP-0000IA-Gp
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 03:07:07 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:57788)
+ id 1o9LeT-0002EU-OL
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 03:10:22 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:58116)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1o9LbL-0005tK-U3
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 03:07:07 -0400
+ id 1o9LeH-0006J7-Br
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 03:10:15 -0400
 Received: from [192.168.43.94] (unknown [85.249.22.201])
- by mail.ispras.ru (Postfix) with ESMTPSA id 997BE40737A1;
- Thu,  7 Jul 2022 07:06:32 +0000 (UTC)
-Message-ID: <52627ce6-354b-f8d0-4e67-de5b293ac159@ispras.ru>
-Date: Thu, 7 Jul 2022 10:06:32 +0300
+ by mail.ispras.ru (Postfix) with ESMTPSA id 6B1EC40737A1;
+ Thu,  7 Jul 2022 07:10:03 +0000 (UTC)
+Message-ID: <bc115839-0891-d3f4-49ad-96a92f48731d@ispras.ru>
+Date: Thu, 7 Jul 2022 10:10:02 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
@@ -74,7 +74,8 @@ On 06.07.2022 23:53, Philippe Mathieu-Daudé wrote:
 > 
 > What kind of testing are you doing?
 
-We compared the instruction emulation with the behavior on dev board.
+BTW, we found SDK here: https://github.com/amitmisra16/OCTEON-SDK
+
 
 > 
 >> On 20.06.2022 15:05, Pavel Dovgalyuk wrote:
