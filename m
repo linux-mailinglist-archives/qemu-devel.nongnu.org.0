@@ -2,94 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1082E56AA1E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 19:57:54 +0200 (CEST)
-Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E54B56AA21
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 19:58:20 +0200 (CEST)
+Received: from localhost ([::1]:47800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9VlB-0003Ct-1r
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 13:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38872)
+	id 1o9Vlb-0003vq-GY
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 13:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o9VhU-0001JO-Q4; Thu, 07 Jul 2022 13:54:04 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:36625)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o9Vhx-0001UC-2T
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 13:54:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o9VhT-0002XZ-6X; Thu, 07 Jul 2022 13:54:04 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id EED7A2B05DE3;
- Thu,  7 Jul 2022 13:54:00 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 07 Jul 2022 13:54:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1657216440; x=
- 1657220040; bh=yPG/eYdVhjdJ32jsa+/xzrteYdA77S8EhopTZzDDysA=; b=a
- qqMAWQ03LjbO2nTyaWyVn3Z1FZ/hZkRX2fD7ZWqL8MMj5OFHPADtqoasEM/V0+6w
- BiCSdQmbrX3Wp5OISsQN0QZhOzS9mjcNRJ4991WARaRsWqGG5LeRqBMNgAqO1kQH
- PN+5W1cpqQqhwQnEq1aH9F3DWPeHM/FLg5wSNrneanEOUcMDvr4ft98/bPWV23UQ
- mOmWv//oF/t90t3bvG55sgEA0z5JTT/4Pv+CDbX/GMj66/wXsA7cSGBZ91xOeu9P
- ZyQpHY5YKDL92eCB/Ki2Fdn+tyEoSTeRC1P3krBSVy64s2e1uECXW3e3q8rMwvur
- 98BpCr67+nHFrbFkV6vGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657216440; x=
- 1657220040; bh=yPG/eYdVhjdJ32jsa+/xzrteYdA77S8EhopTZzDDysA=; b=Z
- p5BSb6ug7KWmdZZtnBEIW7s0hruO7vKIGravkUZBWH2TOA/EezTuiwey2WPk3XK4
- lWoT/vKVDWQ3KkQnhlPn9MFqdDaWWsuo5WQK7+Dn0tRjmZHhxSBwXWQ84oWNz2kg
- yST72v9VTl//5c5D3IU+CGMhV2qo/DbzISwi6/ghYeti4xXNilxUQUJwJQezlvN3
- M4mu+5+H+kp8Iu2ScREGwolPpGDQ5hSWHwxfCRqUZbkojxHCWwvPbc5HW2lGYTaw
- tAACJ3mPb1e/6AEoA2fVZT8O9AicQWesceAEQ4f/L/Fk32zJZ1+QD7wJkgtAsvn9
- 380GsPTdFwiT1YVKReKJw==
-X-ME-Sender: <xms:uB3HYrCkoIfCpnQKuNVSQbPNusgGHVPCExJl-u5HQ9Mw8Q5spcO5YA>
- <xme:uB3HYhhbks13Usi8s5W2fk_V2yezAdSa55rlC9Ehtbz5akAZ5GPg7T9erkkvxAbnd
- uYOWLigKYm4RcyGNX8>
-X-ME-Received: <xmr:uB3HYmmxqMbrWY7jLdIfLDGf2sgKGV3IA_hwmY2PoLtTE3Q9WOaf0Gf0Rihl>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeihedguddulecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgv
- thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
- grthhtvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefh
- hffffeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:uB3HYtxL5wS69vW0uqkZyrbryWwwQXG2FcGuQp-qDCnMoOZkE2UMSg>
- <xmx:uB3HYgS5ttfbrLFajU48x9zheS6nCQ0q3r0uziXmt1r8DgsDdxQWWQ>
- <xmx:uB3HYgb7nIvt1kIdwzw9oAImEMmQ31qsv7qAPHii0iRb1Ye9dveuaA>
- <xmx:uB3HYmO0abUxMG25DcY_iFxqTAxJ5gkEA4wXY70N3gphgbwrPRxA_2zVN88>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 Jul 2022 13:53:59 -0400 (EDT)
-Date: Thu, 7 Jul 2022 10:53:57 -0700
-From: Peter Delevoryas <peter@pjd.dev>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/2] hw/gpio/aspeed: Don't let guests modify input pins
-Message-ID: <YscdtXYL5sJRSm6Z@pdel-mbp>
-References: <20220707071731.34047-1-peter@pjd.dev>
- <20220707071731.34047-2-peter@pjd.dev>
- <fa52743a-5730-3b3f-f07f-99931bb66b01@kaod.org>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o9Vho-0002ZB-52
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 13:54:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657216462;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QrHyDeT03XM4kr5sXZUNu8zcZ+TXTnLRHf9lh0TpMJI=;
+ b=fUIbyoX5p7MvSxAIsS/6tKKD6eqB+z0Evd2kN7muN0ol5exKLFHipfjdGHjP2BaBHUgEY3
+ fLVBpIh/XDCd9qllGjxQqJ+BjyyDz9JOMzMV0XJKRGvYxxy74UIuTo46KXeokD6VHCUP3x
+ Zlvt2+CRAXz45Yl1MLLEdhswWg0JVNg=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-SWrY1HAUPFKG8sFsnO2qbQ-1; Thu, 07 Jul 2022 13:54:21 -0400
+X-MC-Unique: SWrY1HAUPFKG8sFsnO2qbQ-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ cr13-20020a05622a428d00b0031d3463f241so15964777qtb.8
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 10:54:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QrHyDeT03XM4kr5sXZUNu8zcZ+TXTnLRHf9lh0TpMJI=;
+ b=rZ8mLD5m+zx/22yZEG+R/GHdBMvWRz6iR0Wpq38KEhf3IQiZRxO2I25nwaCh/RbbBB
+ 0hcHnAgQPnVXVu5Ds6vA3LcHjqom7pTvW/AmJh5sQygfPF9HbdKHN7holEDTUT55B+hW
+ x8lccH2164ShzlIyeMemnJPGFGAAEzXIy2g2oVl+i7fvcj/2iAAXUa+//LinY8GleMFK
+ Gb8xPo0se19Lbrxo1IfgNbS2nEt2Ue+67ztgfVEVE+beqqsycgRdW4PrXDicvklpPQLC
+ +LK4poBWYDG+zIRw9MVzpb4sFKvsWUCqHRDoDwc3KEJgjQosqT6BcMunVUlC7Ws9mCEg
+ KBqA==
+X-Gm-Message-State: AJIora8y7/Tlg++rmBgn09onxRFoyJINjIdbTvPsMmj1Q69/Ni8DyfsB
+ tsSN48IgmHgkqe0KdGRDe9IDkXWgG6A0fOflexUSZvZPkG1LEvAACQmDmjfl+7Z2S49HfZaW3DT
+ 5k2fzSUJchk0OUgg=
+X-Received: by 2002:a05:622a:1114:b0:31a:b237:c1ec with SMTP id
+ e20-20020a05622a111400b0031ab237c1ecmr38952792qty.141.1657216460935; 
+ Thu, 07 Jul 2022 10:54:20 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vC1W3Jil593vmNeIwQVLGzrnrWSMqp4Wi8upy0UeSCCAqzAg6qoEEGxzX3dlgjVqWC+RY6wQ==
+X-Received: by 2002:a05:622a:1114:b0:31a:b237:c1ec with SMTP id
+ e20-20020a05622a111400b0031ab237c1ecmr38952774qty.141.1657216460706; 
+ Thu, 07 Jul 2022 10:54:20 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-37-74-12-30-85.dsl.bell.ca. [74.12.30.85])
+ by smtp.gmail.com with ESMTPSA id
+ s10-20020a05620a254a00b006a6d74f8fc9sm35496538qko.127.2022.07.07.10.54.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jul 2022 10:54:20 -0700 (PDT)
+Date: Thu, 7 Jul 2022 13:54:19 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 2/3] Add dirty-sync-missed-zero-copy migration stat
+Message-ID: <Yscdy/YZZ6H1Qpr3@xz-m1.local>
+References: <20220704202315.507145-1-leobras@redhat.com>
+ <20220704202315.507145-3-leobras@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fa52743a-5730-3b3f-f07f-99931bb66b01@kaod.org>
-Received-SPF: pass client-ip=64.147.123.27; envelope-from=peter@pjd.dev;
- helo=wnew2-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM14=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220704202315.507145-3-leobras@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,118 +101,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 07, 2022 at 10:56:02AM +0200, Cédric Le Goater wrote:
-> On 7/7/22 09:17, Peter Delevoryas wrote:
-> > It seems that aspeed_gpio_update is allowing the value for input pins to be
-> > modified through register writes and QOM property modification.
-> > 
-> > The QOM property modification is fine, but modifying the value through
-> > register writes from the guest OS seems wrong if the pin's direction is set
-> > to input.
-> > 
-> > The datasheet specifies that "0" bits in the direction register select input
-> > mode, and "1" selects output mode.
-> > 
-> > OpenBMC userspace code is accidentally writing 0's to the GPIO data
-> > registers somewhere (or perhaps the driver is doing it through a reset or
-> > something), and this is overwriting GPIO FRU information (board ID, slot
-> > presence pins) that is initialized in Aspeed machine reset code (see
-> > fby35_reset() in hw/arm/aspeed.c).
+On Mon, Jul 04, 2022 at 05:23:14PM -0300, Leonardo Bras wrote:
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  qapi/migration.json   | 7 ++++++-
+>  migration/migration.c | 2 ++
+>  monitor/hmp-cmds.c    | 4 ++++
+>  3 files changed, 12 insertions(+), 1 deletion(-)
 > 
-> It might be good to log a GUEST_ERROR in that case, when writing to an
-> input GPIO and when reading from an output GPIO.
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 7102e474a6..fed08b9b88 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -55,6 +55,10 @@
+>  # @postcopy-bytes: The number of bytes sent during the post-copy phase
+>  #                  (since 7.0).
+>  #
+> +# @dirty-sync-missed-zero-copy: Number of times dirty RAM synchronization could
+> +#                               not avoid copying zero pages.  This is between 0
 
-Good idea, I'll include a GUEST_ERROR for writing to an input GPIO.
+Avoid copying zero pages?  Isn't this for counting MSG_ZEROCOPY fallbacks?
 
-I'm actually not totally certain about emitting an error when reading from an
-output GPIO, because the driver can only do 8-bit reads at the finest
-granularity, and if 1 of the 8 pins' direction is output, then it will be
-reading the value of an output pin. But, that's not really bad, because
-presumably the value will be ignored. Maybe I can go test this out on
-hardware and figure out what happens though.
+> +#                               and @dirty-sync-count * @multifd-channels.
 
-Thanks,
-Peter
+I'd not name it as "dirty-sync-*" because fundamentally the accounting is
+not doing like that (more in latter patch).  I also think we should squash
+patch 2/3 as patch 3 only started to provide meaningful values.
 
+> +#                               (since 7.1)
+>  # Since: 0.14
+>  ##
+>  { 'struct': 'MigrationStats',
+> @@ -65,7 +69,8 @@
+>             'postcopy-requests' : 'int', 'page-size' : 'int',
+>             'multifd-bytes' : 'uint64', 'pages-per-second' : 'uint64',
+>             'precopy-bytes' : 'uint64', 'downtime-bytes' : 'uint64',
+> -           'postcopy-bytes' : 'uint64' } }
+> +           'postcopy-bytes' : 'uint64',
+> +           'dirty-sync-missed-zero-copy' : 'uint64' } }
+>  
+>  ##
+>  # @XBZRLECacheStats:
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 78f5057373..048f7f8bdb 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1027,6 +1027,8 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
+>      info->ram->normal_bytes = ram_counters.normal * page_size;
+>      info->ram->mbps = s->mbps;
+>      info->ram->dirty_sync_count = ram_counters.dirty_sync_count;
+> +    info->ram->dirty_sync_missed_zero_copy =
+> +            ram_counters.dirty_sync_missed_zero_copy;
+>      info->ram->postcopy_requests = ram_counters.postcopy_requests;
+>      info->ram->page_size = page_size;
+>      info->ram->multifd_bytes = ram_counters.multifd_bytes;
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index ca98df0495..5f3be9e405 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -307,6 +307,10 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+>              monitor_printf(mon, "postcopy ram: %" PRIu64 " kbytes\n",
+>                             info->ram->postcopy_bytes >> 10);
+>          }
+> +        if (info->ram->dirty_sync_missed_zero_copy) {
+> +            monitor_printf(mon, "missed zero-copy on: %" PRIu64 " iterations\n",
+> +                           info->ram->dirty_sync_missed_zero_copy);
+
+I suggest we don't call it "iterations" because it's not the generic mean
+of iterations.
+
+> +        }
+>      }
+>  
+>      if (info->has_disk) {
+> -- 
+> 2.36.1
 > 
-> Thanks,
-> 
-> C.
-> 
-> > 
-> > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> > Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
-> > ---
-> >   hw/gpio/aspeed_gpio.c | 22 ++++++++++++----------
-> >   1 file changed, 12 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-> > index a62a673857..2eae427201 100644
-> > --- a/hw/gpio/aspeed_gpio.c
-> > +++ b/hw/gpio/aspeed_gpio.c
-> > @@ -268,7 +268,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState *s, GPIOSets *regs)
-> >   }
-> >   static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
-> > -                               uint32_t value)
-> > +                               uint32_t value, bool force)
-> >   {
-> >       uint32_t input_mask = regs->input_mask;
-> >       uint32_t direction = regs->direction;
-> > @@ -293,10 +293,12 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
-> >               }
-> >               /* ...then update the state. */
-> > -            if (mask & new) {
-> > -                regs->data_value |= mask;
-> > -            } else {
-> > -                regs->data_value &= ~mask;
-> > +            if (direction & mask || force) {
-> > +                if (mask & new) {
-> > +                    regs->data_value |= mask;
-> > +                } else {
-> > +                    regs->data_value &= ~mask;
-> > +                }
-> >               }
-> >               /* If the gpio is set to output... */
-> > @@ -339,7 +341,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
-> >           value &= ~pin_mask;
-> >       }
-> > -    aspeed_gpio_update(s, &s->sets[set_idx], value);
-> > +    aspeed_gpio_update(s, &s->sets[set_idx], value, true);
-> >   }
-> >   /*
-> > @@ -653,7 +655,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
-> >           reg_value = update_value_control_source(set, set->data_value,
-> >                                                   reg_value);
-> >           set->data_read = reg_value;
-> > -        aspeed_gpio_update(s, set, reg_value);
-> > +        aspeed_gpio_update(s, set, reg_value, false);
-> >           return;
-> >       case gpio_reg_idx_direction:
-> >           reg_value = set->direction;
-> > @@ -753,7 +755,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
-> >               __func__, offset, data, reg_idx_type);
-> >           return;
-> >       }
-> > -    aspeed_gpio_update(s, set, set->data_value);
-> > +    aspeed_gpio_update(s, set, set->data_value, false);
-> >       return;
-> >   }
-> > @@ -799,7 +801,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-> >           data &= props->output;
-> >           data = update_value_control_source(set, set->data_value, data);
-> >           set->data_read = data;
-> > -        aspeed_gpio_update(s, set, data);
-> > +        aspeed_gpio_update(s, set, data, false);
-> >           return;
-> >       case gpio_reg_direction:
-> >           /*
-> > @@ -875,7 +877,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-> >                         PRIx64"\n", __func__, offset);
-> >           return;
-> >       }
-> > -    aspeed_gpio_update(s, set, set->data_value);
-> > +    aspeed_gpio_update(s, set, set->data_value, false);
-> >       return;
-> >   }
-> 
+
+-- 
+Peter Xu
+
 
