@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D808E56AB83
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 21:07:35 +0200 (CEST)
-Received: from localhost ([::1]:45090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E57B56AB34
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 21:04:10 +0200 (CEST)
+Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Wqc-0006So-IS
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 15:07:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55116)
+	id 1o9WnJ-0003DK-I9
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 15:04:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o9Wf0-0005xW-3V
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 14:55:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57754)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o9Wf3-0005zP-U7
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 14:55:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o9Wey-0001lx-JE
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 14:55:33 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o9Wf2-0001nY-Aj
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 14:55:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657220132;
+ s=mimecast20190719; t=1657220135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5dZRvfRbv4WzlyS1K+TxJ91b82FUR56T1ik0nvw67lk=;
- b=huCX9M53AB98C7dEB3huJ/4JEjSeD/P3CPAu1h0eO95x3//eCRO3VKKnuEPu2ePvdb5ffm
- ezGyeZ/doQHlcIiJTodBwDZRdhxBMPHMHUoo2bRiI4Ybikvol55yP2/dfvaXMnnOvcOLWL
- bN7oKzPMkRmJTVsFprNLGiO7ntPyduM=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=C9aabLAjl6WYInBM+zYfa0kWHALX+j9XmYOkOfNv/fw=;
+ b=Xy2TL38CbpP2aDvIIe7HDF7W7U94mJPb8N1zIHsvG9PQ7K0/oWb0NNtkJhVgi8BZIxDXyy
+ k4M0JWkgL+58Cbwi8BikS1Pok9Zg33UTNjSP83+pl5ElbRbrv2VoAjRtUENz6/aeJXidg0
+ 04c2m8IF785RtYdBugn6x3+LOEVQ9Oc=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-475-IvTgLcDnNZqsdOHo0z40bg-1; Thu, 07 Jul 2022 14:55:31 -0400
-X-MC-Unique: IvTgLcDnNZqsdOHo0z40bg-1
-Received: by mail-qt1-f200.google.com with SMTP id
- bc7-20020a05622a1cc700b0031e7e46e660so10264454qtb.10
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 11:55:30 -0700 (PDT)
+ us-mta-49-NXmhpmQbPsGUy5VoGrpsYw-1; Thu, 07 Jul 2022 14:55:34 -0400
+X-MC-Unique: NXmhpmQbPsGUy5VoGrpsYw-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ az11-20020a05620a170b00b006b55d790273so942216qkb.1
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 11:55:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5dZRvfRbv4WzlyS1K+TxJ91b82FUR56T1ik0nvw67lk=;
- b=xlwkEJugXC6WIrkCS0Rq/D52yinl50TMiXlOwTbQigRJrI5xBWiVtWm0CRo8uDKwDK
- xSfVnuax1q1+gleGph2rzhU230DjFCjilYQndCo8hoINNSQgNDImCn9rhw2l+r98maui
- wBZ6wvW+tP9aoPhhAgccVVs+5w+ZreBnTtqOGnWUyA/BR7AhHajmMHI+Xahyf5n8fAJE
- mBNMaVSrQjvyUH4gMGm9TUIqJ7W5pfnVhF1GAiW8ijTrbtlL/sH1OYyCsdHN5yMRUO41
- 3/ZpJG4yL+bTpRE6/lSCnToY8WYh5NArcn3mV0PQqCDNMZKjkz30VSenx1dv8d9ifvXd
- n7Aw==
-X-Gm-Message-State: AJIora9yHwscuDys0aEi1DOZZaLWiVBa1CQ0ipyLPR+25pzS4njsp43h
- dP+360cEmCo+ywytFmiZqg1DgfAa8c+WpNiAabHO/Cd3G3qdUP7BYekh902VHkvWqrMtz4ADbxq
- t7RdIBRyZPjeZsbssPSBu8lEDoudw8rJNacYvyCRCvjKpqirttrn4oaq82188PTfA
-X-Received: by 2002:ac8:5c12:0:b0:31e:9f86:1632 with SMTP id
- i18-20020ac85c12000000b0031e9f861632mr2464720qti.123.1657220130289; 
- Thu, 07 Jul 2022 11:55:30 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uvprnbtq5974YrUoJH1lKM4i7aXMfYHCFqGpn7DPFpRrCEu4IB5s+IIzEU063OsoZgiQds/Q==
-X-Received: by 2002:ac8:5c12:0:b0:31e:9f86:1632 with SMTP id
- i18-20020ac85c12000000b0031e9f861632mr2464701qti.123.1657220130020; 
- Thu, 07 Jul 2022 11:55:30 -0700 (PDT)
+ bh=C9aabLAjl6WYInBM+zYfa0kWHALX+j9XmYOkOfNv/fw=;
+ b=h/BHdQ+WJvo3ZpH+bDlhV59AoPAfqmUJtkEj7mfBy33CljDJpGCgJSazrN1xH6mpFU
+ qJG/qfyrElhkE8O28NAb4WD82p+k5jaHxgivN1Qwz2Qs95E9dnan4ZpZAVF2YMUiWp7N
+ XkjyILdTBUdvGZJrSt4C76U8wZiMVTyA+/mwlrvaLT14JgtTYSYcLa6dBQfnB8pHZUIA
+ zamk6J6EbW95d8IjT/Ra94HUfPv7movbKANrcyjAMhouhCO9lXPoFEYG7qXmTBdaazxd
+ 620x+KKXrgn/73klfYbCT2sfkvrwN004uELTphMg/W3vpMK3Q9WVXk5XyRD30oWcZRvK
+ KQoA==
+X-Gm-Message-State: AJIora/V3Sd9ZSaZcA2bO6JS6neaZ1ilWA/2xsBNsPPnk7hOtlXQCTdl
+ lJauG8IIhinnFbpugY2EVYxgKDs3BvXyttxCNzY2c5Sjmqr0yWQGhnqs3dXX3X2ufgOFCesejwf
+ hkJkLpJM5P3QasV7v5u5v6cH7pj0wa4whefVqg0Iu6dEUF6aqddAqnAh4XLqGjehG
+X-Received: by 2002:ac8:5b4d:0:b0:31d:3c73:58ed with SMTP id
+ n13-20020ac85b4d000000b0031d3c7358edmr27432739qtw.304.1657220132407; 
+ Thu, 07 Jul 2022 11:55:32 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uQph3Eh4Lcwi+gDEEvUzOU2UXVodE57ZEUPId1ZyfMGzdViTySyNCSrRN1k+RLZ6TuBGfSjA==
+X-Received: by 2002:ac8:5b4d:0:b0:31d:3c73:58ed with SMTP id
+ n13-20020ac85b4d000000b0031d3c7358edmr27432715qtw.304.1657220132121; 
+ Thu, 07 Jul 2022 11:55:32 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-aurron9127w-grc-37-74-12-30-85.dsl.bell.ca. [74.12.30.85])
  by smtp.gmail.com with ESMTPSA id
- 14-20020ac8594e000000b00304fc3d144esm28764902qtz.1.2022.07.07.11.55.28
+ z198-20020a3765cf000000b006a736c8ea80sm32909325qkb.48.2022.07.07.11.55.31
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 07 Jul 2022 11:55:29 -0700 (PDT)
+ Thu, 07 Jul 2022 11:55:31 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>, peterx@redhat.com,
@@ -69,9 +69,9 @@ Cc: Juan Quintela <quintela@redhat.com>, peterx@redhat.com,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
  Manish Mishra <manish.mishra@nutanix.com>,
  "Daniel P . Berrange" <berrange@redhat.com>
-Subject: [PATCH v9 13/14] tests: Add postcopy tls recovery migration test
-Date: Thu,  7 Jul 2022 14:55:27 -0400
-Message-Id: <20220707185527.27747-1-peterx@redhat.com>
+Subject: [PATCH v9 14/14] tests: Add postcopy preempt tests
+Date: Thu,  7 Jul 2022 14:55:30 -0400
+Message-Id: <20220707185530.27801-1-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220707185342.26794-1-peterx@redhat.com>
 References: <20220707185342.26794-1-peterx@redhat.com>
@@ -102,81 +102,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's easy to build this upon the postcopy tls test.  Rename the old
-postcopy recovery test to postcopy/recovery/plain.
+Four tests are added for preempt mode:
+
+  - Postcopy plain
+  - Postcopy recovery
+  - Postcopy tls
+  - Postcopy tls+recovery
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- tests/qtest/migration-test.c | 37 ++++++++++++++++++++++++++++--------
- 1 file changed, 29 insertions(+), 8 deletions(-)
+ tests/qtest/migration-test.c | 56 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index ee37ad6631..81ef9741cd 100644
+index 81ef9741cd..81780189a8 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -1137,17 +1137,15 @@ static void test_postcopy_tls_psk(void)
+@@ -569,6 +569,7 @@ typedef struct {
+ 
+     /* Postcopy specific fields */
+     void *postcopy_data;
++    bool postcopy_preempt;
+ } MigrateCommon;
+ 
+ static int test_migrate_start(QTestState **from, QTestState **to,
+@@ -1074,6 +1075,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+     migrate_set_capability(to, "postcopy-ram", true);
+     migrate_set_capability(to, "postcopy-blocktime", true);
+ 
++    if (args->postcopy_preempt) {
++        migrate_set_capability(from, "postcopy-preempt", true);
++        migrate_set_capability(to, "postcopy-preempt", true);
++    }
++
+     migrate_ensure_non_converge(from);
+ 
+     /* Wait for the first serial output from the source */
+@@ -1137,6 +1143,26 @@ static void test_postcopy_tls_psk(void)
      test_postcopy_common(&args);
  }
  
--static void test_postcopy_recovery(void)
-+static void test_postcopy_recovery_common(MigrateCommon *args)
- {
--    MigrateCommon args = {
--        .start = {
--            .hide_stderr = true,
--        },
--    };
-     QTestState *from, *to;
-     g_autofree char *uri = NULL;
- 
--    if (migrate_postcopy_prepare(&from, &to, &args)) {
-+    /* Always hide errors for postcopy recover tests since they're expected */
-+    args->start.hide_stderr = true;
++static void test_postcopy_preempt(void)
++{
++    MigrateCommon args = {
++        .postcopy_preempt = true,
++    };
 +
-+    if (migrate_postcopy_prepare(&from, &to, args)) {
-         return;
-     }
- 
-@@ -1198,7 +1196,24 @@ static void test_postcopy_recovery(void)
-     /* Restore the postcopy bandwidth to unlimited */
-     migrate_set_parameter_int(from, "max-postcopy-bandwidth", 0);
- 
--    migrate_postcopy_complete(from, to, &args);
-+    migrate_postcopy_complete(from, to, args);
++    test_postcopy_common(&args);
 +}
 +
-+static void test_postcopy_recovery(void)
++static void test_postcopy_preempt_tls_psk(void)
 +{
-+    MigrateCommon args = { };
++    MigrateCommon args = {
++        .postcopy_preempt = true,
++        .start_hook = test_migrate_tls_psk_start_match,
++        .finish_hook = test_migrate_tls_psk_finish,
++    };
++
++    test_postcopy_common(&args);
++}
++
+ static void test_postcopy_recovery_common(MigrateCommon *args)
+ {
+     QTestState *from, *to;
+@@ -1216,6 +1242,27 @@ static void test_postcopy_recovery_tls_psk(void)
+     test_postcopy_recovery_common(&args);
+ }
+ 
++static void test_postcopy_preempt_recovery(void)
++{
++    MigrateCommon args = {
++        .postcopy_preempt = true,
++    };
 +
 +    test_postcopy_recovery_common(&args);
 +}
 +
-+static void test_postcopy_recovery_tls_psk(void)
++/* This contains preempt+recovery+tls test altogether */
++static void test_postcopy_preempt_all(void)
 +{
 +    MigrateCommon args = {
++        .postcopy_preempt = true,
 +        .start_hook = test_migrate_tls_psk_start_match,
 +        .finish_hook = test_migrate_tls_psk_finish,
 +    };
 +
 +    test_postcopy_recovery_common(&args);
- }
- 
++}
++
  static void test_baddest(void)
-@@ -2163,6 +2178,12 @@ int main(int argc, char **argv)
-         qtest_add_func("/migration/postcopy/tls/psk", test_postcopy_tls_psk);
- #endif /* CONFIG_GNUTLS */
-         qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
-+        qtest_add_func("/migration/postcopy/recovery/plain",
-+                       test_postcopy_recovery);
-+#ifdef CONFIG_GNUTLS
-+        qtest_add_func("/migration/postcopy/recovery/tls/psk",
-+                       test_postcopy_recovery_tls_psk);
+ {
+     MigrateStart args = {
+@@ -2183,6 +2230,15 @@ int main(int argc, char **argv)
+ #ifdef CONFIG_GNUTLS
+         qtest_add_func("/migration/postcopy/recovery/tls/psk",
+                        test_postcopy_recovery_tls_psk);
 +#endif /* CONFIG_GNUTLS */
++        qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_preempt);
++        qtest_add_func("/migration/postcopy/preempt/recovery/plain",
++                       test_postcopy_preempt_recovery);
++#ifdef CONFIG_GNUTLS
++        qtest_add_func("/migration/postcopy/preempt/tls/psk",
++                       test_postcopy_preempt_tls_psk);
++        qtest_add_func("/migration/postcopy/preempt/recovery/tls/psk",
++                       test_postcopy_preempt_all);
+ #endif /* CONFIG_GNUTLS */
      }
      qtest_add_func("/migration/bad_dest", test_baddest);
-     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
 -- 
 2.32.0
 
