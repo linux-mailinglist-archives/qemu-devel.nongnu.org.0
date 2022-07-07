@@ -2,73 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D1056ACC5
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 22:32:32 +0200 (CEST)
-Received: from localhost ([::1]:47882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E612856ACE1
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 22:43:13 +0200 (CEST)
+Received: from localhost ([::1]:51990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9YAo-0005LW-Lz
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 16:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
+	id 1o9YL6-0001jH-Rp
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 16:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9Y8d-0003ns-R0
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 16:30:15 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:36626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9Y8c-0002dD-4J
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 16:30:15 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id n74so4860022yba.3
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 13:30:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=I+jfIWQC8REXp1K/R3jQP2uPdBIeEhCSbE5RAr2pvSY=;
- b=e+rYTEn1XsqRTKfV79JFRQoltditI02Yu8P6qqlxJm8Bt87bCzZ6X9Jg1FBpCim6Lt
- Fe/M/0OuGrm7Qm09ZD5fDbVy5FycX7OBgTQFUjz1JvVFaUsLdKlyeT8qi3THmIArLzJD
- pPUvL54PhJOJJCRWCG4nb8PC+uc7Oj81N6CGDc1LfR2lQpEKfNfX4xlN0kAwlbrBv9OH
- S7WcHZeu7wz8U/IltT7z7hFI4l/YEgxWxyqlkXb5AAblpsr56ZWlsg2ftv/0NH6RYlB6
- EShv+Xh3Hzlb5WrpNF0yvV1shXm9WmpuXdFG40e4J8ASgj50XTK2CSBwKD0caQgrtqCv
- 77ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=I+jfIWQC8REXp1K/R3jQP2uPdBIeEhCSbE5RAr2pvSY=;
- b=Ns2Jw6iNjH/Vd+nzpr2tbNSnOPCA1WlG1YbeJWTHos0iUPXD1/i95kJiS3UbgQRVCS
- 5kDKDxXc1/N1qcNhE6EI4aAg2rT/YOOczG4+3mdJt1VwlGWe1WZqdqh/pixeXfpLJ/P4
- 6xXvkv+kdUVLndwhvIzlb+kpYweFjQEp+v3qJNX9gfobfTRGSuZJHvU8uSkVD0VKLBjv
- v3kgszbpepm1wxl3CTq+UxDBHyNZKw7zG3+0tDf9SzLktXEN42r8enSJ6NSMAs4olm19
- TPKZxlmefVdK3nujo2ZacDErGPqUMFyVSw7971ZEa+B9if/qQWcUG43X4/RsINR/q+84
- 4UAw==
-X-Gm-Message-State: AJIora+qkSMLY1sYfq5qqm8amAlmZxyQMoOFB0Bju7oD0j9UAKCkUpp2
- nfhDK4/Et4NFgwpExnbY+mhwk80rfQXhVwuMm8Tgeg==
-X-Google-Smtp-Source: AGRyM1v5ogi3DViEm86pR0yjdTlyhVSyJxJXA3ur/XLYhVPvHopshc8wcjcKBNW+oTM7uOOYYgrjncabXZ0QyG6CLbE=
-X-Received: by 2002:a05:6902:1183:b0:66e:4860:575d with SMTP id
- m3-20020a056902118300b0066e4860575dmr27260811ybu.479.1657225813007; Thu, 07
- Jul 2022 13:30:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
+ id 1o9YJE-0000iN-Nr; Thu, 07 Jul 2022 16:41:12 -0400
+Received: from mout-u-204.mailbox.org ([80.241.59.204]:55584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
+ id 1o9YJC-0003pT-3W; Thu, 07 Jul 2022 16:41:12 -0400
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-u-204.mailbox.org (Postfix) with ESMTPS id 4Lf7bQ2Zx1z9sQZ;
+ Thu,  7 Jul 2022 22:40:50 +0200 (CEST)
+From: Lev Kujawski <lkujaw@member.fsf.org>
+To: qemu-devel@nongnu.org
+Cc: Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Lev Kujawski <lkujaw@member.fsf.org>
+Subject: [PATCH] hw/block/hd-geometry: Do not override specified bios-chs-trans
+Date: Thu,  7 Jul 2022 20:40:45 +0000
+Message-Id: <20220707204045.999544-1-lkujaw@member.fsf.org>
 MIME-Version: 1.0
-References: <CY1PR03MB213764AFCA6F51DC5558C1AEB3839@CY1PR03MB2137.namprd03.prod.outlook.com>
-In-Reply-To: <CY1PR03MB213764AFCA6F51DC5558C1AEB3839@CY1PR03MB2137.namprd03.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Jul 2022 21:29:34 +0100
-Message-ID: <CAFEAcA8s1MTvtSuX-xjqoxbz_c7_f-V97Ra6Qzy1QdMpfXTLAA@mail.gmail.com>
-Subject: Re: Support for Gaisler multicore LEONx SoCs
-To: Gregg Allison <Gregg.Allison@lasp.colorado.edu>
-Cc: "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Fabien Chouteau <chouteau@adacore.com>, 
- Frederic Konrad <konrad.frederic@yahoo.fr>
-Content-Type: multipart/alternative; boundary="000000000000e5b2a405e33cf3f5"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=80.241.59.204; envelope-from=lkujaw@member.fsf.org;
+ helo=mout-u-204.mailbox.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,66 +55,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e5b2a405e33cf3f5
-Content-Type: text/plain; charset="UTF-8"
+For small disk images (<4 GiB), QEMU and SeaBIOS default to the
+LARGE/ECHS disk translation method, but it is not uncommon for other
+BIOS software to use LBA in these cases as well.  Some operating
+system boot loaders (e.g., NT 4) do not handle LARGE translations
+outside of fixed configurations.  See, e.g., Q154052:
 
-On Thu, 7 Jul 2022 at 20:54, Gregg Allison <Gregg.Allison@lasp.colorado.edu>
-wrote:
+"When starting an x86 based computer, Ntdetect.com retrieves and
+stores Interrupt 13 information. . . If the disk controller is using a
+32 sector/64 head translation scheme, this boundary will be 1 GB. If
+the controller uses 63 sector/255 head translation [AUTHOR: i.e.,
+LBA], the limit will be 4 GB."
 
-> We are considering the Gaisler GR712RC (2 core LEON3) and GR740 (4 core
-> LEON4) SoCs for a new deep space mission.
->
-> Does QEMU support these two multicore configurations at present? Is there
-> an effort planned to provide multicore LEONx emulation?
->
+To accommodate these situations, hd_geometry_guess() now follows the
+disk translation specified by the user even when the ATA disk geometry
+is guessed.
 
-I've cc'd the people listed in MAINTAINERS for Leon, but as far as I can
-see there have been no Leon-related commits for a few years, so I don't
-think this area of QEMU is being actively developed. We seem to have
-currently LEON2 and LEON3 CPU support, and one machine type, the
-"Leon-3 generic" machine.
+hd_geometry_guess():
+* Only set the disk translation when translation is AUTO.
+* Show the soon-to-be active translation (*ptrans) in the trace rather
+  than what was guessed.
 
-thanks
--- PMM
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/56
+Buglink: https://bugs.launchpad.net/qemu/+bug/1745312
 
---000000000000e5b2a405e33cf3f5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
+---
+ hw/block/hd-geometry.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:monospace,monospace"><br></div></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 7 Jul 2022 at 20:54, Gregg =
-Allison &lt;<a href=3D"mailto:Gregg.Allison@lasp.colorado.edu">Gregg.Alliso=
-n@lasp.colorado.edu</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
+diff --git a/hw/block/hd-geometry.c b/hw/block/hd-geometry.c
+index dcbccee294..67462f1752 100644
+--- a/hw/block/hd-geometry.c
++++ b/hw/block/hd-geometry.c
+@@ -150,7 +150,12 @@ void hd_geometry_guess(BlockBackend *blk,
+         translation = BIOS_ATA_TRANSLATION_NONE;
+     }
+     if (ptrans) {
+-        *ptrans = translation;
++        if (*ptrans == BIOS_ATA_TRANSLATION_AUTO) {
++            *ptrans = translation;
++        } else {
++            /* Defer to the translation specified by the user.  */
++            translation = *ptrans;
++        }
+     }
+     trace_hd_geometry_guess(blk, *pcyls, *pheads, *psecs, translation);
+ }
+-- 
+2.34.1
 
-
-
-
-
-<div lang=3D"EN-US">
-<div class=3D"gmail-m_9049889610764523403WordSection1">
-<p class=3D"MsoNormal">We are considering the Gaisler GR712RC (2 core LEON3=
-) and GR740 (4 core LEON4) SoCs for a new deep space mission.<u></u><u></u>=
-</p>
-<p class=3D"MsoNormal">Does QEMU support these two multicore configurations=
- at present? Is there an effort planned to provide multicore LEONx emulatio=
-n?<u></u><u></u></p>
-</div></div></blockquote><div><br></div><div><div style=3D"font-family:mono=
-space,monospace" class=3D"gmail_default">I&#39;ve cc&#39;d the people liste=
-d in MAINTAINERS for Leon, but as far as I can</div><div style=3D"font-fami=
-ly:monospace,monospace" class=3D"gmail_default">see there have been no Leon=
--related commits for a few years, so I don&#39;t</div><div style=3D"font-fa=
-mily:monospace,monospace" class=3D"gmail_default">think this area of QEMU i=
-s being actively developed. We seem to have</div><div style=3D"font-family:=
-monospace,monospace" class=3D"gmail_default">currently LEON2 and LEON3 CPU =
-support, and one machine type, the</div><div style=3D"font-family:monospace=
-,monospace" class=3D"gmail_default">&quot;Leon-3 generic&quot; machine.</di=
-v><div style=3D"font-family:monospace,monospace" class=3D"gmail_default"><b=
-r></div><div style=3D"font-family:monospace,monospace" class=3D"gmail_defau=
-lt">thanks<br></div><div style=3D"font-family:monospace,monospace" class=3D=
-"gmail_default">-- PMM<br><br></div></div></div></div>
-
---000000000000e5b2a405e33cf3f5--
 
