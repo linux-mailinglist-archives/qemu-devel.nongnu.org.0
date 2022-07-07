@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB9E569A85
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 08:29:48 +0200 (CEST)
-Received: from localhost ([::1]:58088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48FD569A92
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 08:35:45 +0200 (CEST)
+Received: from localhost ([::1]:33484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9L1H-0000ne-9m
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 02:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33258)
+	id 1o9L72-0003pd-E0
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 02:35:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9KvW-0007Lf-5j
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 02:23:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42372)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9Kxr-0008Eq-3p
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 02:26:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9KvS-0004G5-Cm
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 02:23:48 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9Kxo-0004cA-3G
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 02:26:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657175023;
+ s=mimecast20190719; t=1657175171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1z7R9czkd7FGjw1l0NnLiF8MH0ueargNiy1fLciM8PE=;
- b=NlN27Wr7PcW4BzpbrVYsORBM3fkm9MYs1cG92ahZJBgT6pwav9SXChvV9urY0q0jjLMxVZ
- 6FAxUbI9ayqSrEbPJEjS1UAhavYHUvuLIFVHHOoIhUXPM+Bjsctu/L1JgsAFjsWXFZ1nJB
- 5jkUbRlXQbrnWI0g6dsTmvwybiz6T3w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qfaWV0ZU2uyt1d0NsuFfndWEZvMagnbCE7eYgpxEITI=;
+ b=PCPt9nN7wTzC/qAj13kjZ0BwZXrOlLwflDVm0DPqKog+SmHjRM1sC1zbZGTLk3ISoW3Zqy
+ +flYmrSc5LtsY+UkIcZHFliO7DYoAxlOH1AVi51eXcEAQY9bmJCUPcpaeIWk12oUH4uVrH
+ /KHVCdyMnkxCz5A4JSOVz3SNMeT8394=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-592-ijep5A-TNxCgDkfT3Ru3tw-1; Thu, 07 Jul 2022 02:23:40 -0400
-X-MC-Unique: ijep5A-TNxCgDkfT3Ru3tw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-240-S4IRQAKqN8Sz51KYZf0uGQ-1; Thu, 07 Jul 2022 02:26:09 -0400
+X-MC-Unique: S4IRQAKqN8Sz51KYZf0uGQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0232E185A7A4;
- Thu,  7 Jul 2022 06:23:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6CB8A38041C7;
+ Thu,  7 Jul 2022 06:26:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B856F40466D4;
- Thu,  7 Jul 2022 06:23:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 45D9D1415117;
+ Thu,  7 Jul 2022 06:26:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 849D421E690D; Thu,  7 Jul 2022 08:23:38 +0200 (CEST)
+ id 3FDEA21E690D; Thu,  7 Jul 2022 08:26:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org,  Liuxiangdong <liuxiangdong5@huawei.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,  Eric Blake
- <eblake@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  Parav Pandit
- <parav@mellanox.com>,  Cornelia Huck <cohuck@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Gautam Dawar <gdawar@xilinx.com>,  Eli Cohen
- <eli@mellanox.com>,  "Gonglei (Arei)" <arei.gonglei@huawei.com>,  Zhu
- Lingshan <lingshan.zhu@intel.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
- Cindy Lu <lulu@redhat.com>,  Jason Wang <jasowang@redhat.com>
-Subject: Re: [RFC PATCH v9 23/23] vdpa: Add x-svq to NetdevVhostVDPAOptions
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-24-eperezma@redhat.com>
-Date: Thu, 07 Jul 2022 08:23:38 +0200
-In-Reply-To: <20220706184008.1649478-24-eperezma@redhat.com> ("Eugenio
- =?utf-8?Q?P=C3=A9rez=22's?= message of "Wed, 6 Jul 2022 20:40:08 +0200")
-Message-ID: <87ilo9igph.fsf@pond.sub.org>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: michael.roth@amd.com,  kkostiuk@redhat.com,
+ marcandre.lureau@redhat.com,  qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 1/2] qapi: Avoid generating C identifier 'linux'
+References: <20220707005602.696557-1-pizhenwei@bytedance.com>
+ <20220707005602.696557-2-pizhenwei@bytedance.com>
+Date: Thu, 07 Jul 2022 08:26:08 +0200
+In-Reply-To: <20220707005602.696557-2-pizhenwei@bytedance.com> (zhenwei pi's
+ message of "Thu, 7 Jul 2022 08:56:01 +0800")
+Message-ID: <87edyxiglb.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -89,47 +83,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
+zhenwei pi <pizhenwei@bytedance.com> writes:
 
-> Finally offering the possibility to enable SVQ from the command line.
-
-QMP, too, I guess.
-
+> 'linux' is not usable as identifier, because C compilers targeting
+> Linux predefine it as a macro expanding to 1.  Add it to
+> @polluted_words. 'unix' is already there.
 >
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 > ---
->  qapi/net.json    |  9 +++++-
->  net/vhost-vdpa.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++--
->  2 files changed, 77 insertions(+), 4 deletions(-)
+>  scripts/qapi/common.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/qapi/net.json b/qapi/net.json
-> index 9af11e9a3b..75ba2cb989 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -445,12 +445,19 @@
->  # @queues: number of queues to be created for multiqueue vhost-vdpa
->  #          (default: 1)
->  #
-> +# @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.1)
-> +#         (default: false)
-> +#
-> +# Features:
-> +# @unstable: Member @x-svq is experimental.
-> +#
->  # Since: 5.1
->  ##
->  { 'struct': 'NetdevVhostVDPAOptions',
->    'data': {
->      '*vhostdev':     'str',
-> -    '*queues':       'int' } }
-> +    '*queues':       'int',
-> +    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
->=20=20
->  ##
+> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+> index 489273574a..737b059e62 100644
+> --- a/scripts/qapi/common.py
+> +++ b/scripts/qapi/common.py
+> @@ -114,7 +114,7 @@ def c_name(name: str, protect: bool =3D True) -> str:
+>                       'and', 'and_eq', 'bitand', 'bitor', 'compl', 'not',
+>                       'not_eq', 'or', 'or_eq', 'xor', 'xor_eq'])
+>      # namespace pollution:
+> -    polluted_words =3D set(['unix', 'errno', 'mips', 'sparc', 'i386'])
+> +    polluted_words =3D set(['unix', 'errno', 'mips', 'sparc', 'i386', 'l=
+inux'])
 
-QAPI schema:
-Acked-by: Markus Armbruster <armbru@redhat.com>
+If this list gets any longer, we better keep it in alphabetical order.
 
-[...]
+>      name =3D re.sub(r'[^A-Za-z0-9_]', '_', name)
+>      if protect and (name in (c89_words | c99_words | c11_words | gcc_wor=
+ds
+>                               | cpp_words | polluted_words)
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
