@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD88569EEA
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 11:56:23 +0200 (CEST)
-Received: from localhost ([::1]:60260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA782569F20
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 12:10:02 +0200 (CEST)
+Received: from localhost ([::1]:38938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9OFC-0004bg-8K
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 05:56:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54714)
+	id 1o9OSP-0001s1-Bi
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 06:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9OCJ-0002XT-Ao
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 05:53:23 -0400
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:35785)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9OCH-0003gq-TD
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 05:53:23 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-31cac89d8d6so95174327b3.2
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 02:53:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Y8C7guAptAfdK4tEL5pY1utId5SIjk80x5nLUW97Isg=;
- b=a9D574sCn28R6/Jjwld276XPPUxdmIJkQBc2O8zzdRGvVtczw/zGaMUba3A9pCcngt
- kE1SE0hTcuves3PXmW7d7QWH05YoG3GdsxOUmg3TTnn1K/VlZDahRGubB+K0NDk49g2Q
- z3prEdWNMmWmbIeQ0uNNNQGTEA527yhuay8/JXKJB3Bu4crHWSEcB4vMeXeNEt9ZYwDP
- 9QQzUcYl6Rr81A9US1ZRTvjFmyue9IWhE2dzfdcuP9olKX87Ls72tUV5tUF0idgsmM0Z
- dHp5vj/6kjyhfKuT1yixDzCbVuPA3L/GHGQvd49mdBelDXW07oT/A1u/Hvpu96nfls+i
- ND7g==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o9ORE-0001CD-Ho
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 06:08:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36011)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1o9ORA-0007in-RH
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 06:08:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657188523;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sTnTFjqUTY9ZmJPx84hSaxZzuiPka6Jy1n/64JFq+D4=;
+ b=HEOGB62hECymQqlJpVUpRbN/yIXLAyF4V4q5m713UIMRTi5+YBQi+nXvA3D7FAUtCTyDXA
+ qgUJBHTqY2Yo7q6bco84q0Ow05A+RYB5hi/LCzpeewsAc6dvAJB64pUWLLrKCZJgO4ZAW1
+ 4u6Z6tmW3GhAntvdfIYebyobTSCIo0A=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-208--WB8Z2afMkmMEF8trVuhTQ-1; Thu, 07 Jul 2022 06:08:40 -0400
+X-MC-Unique: -WB8Z2afMkmMEF8trVuhTQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ t4-20020a1c7704000000b003a2cfaeca37so362756wmi.5
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 03:08:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Y8C7guAptAfdK4tEL5pY1utId5SIjk80x5nLUW97Isg=;
- b=K35gyv+YGn8z8cDksOKD6JM4qFfyh8A+g5T60/Df9rTyLi1raVLVzNeEJLXYmzB3m2
- g7br/f899VFCEvxUaV0pkj0HWMZW5OIOCeniIPXQ80PfKBu8Fkp8jz/pPfd/C9b5eMhR
- d638dJMTsOR5wvuPwKWK98yJww50g4EHAT1Mc4B4CrRE74c6OV11IIwgG8u9qd1+6w7H
- auWScFGyD7ilQMYta2d6gOzCOJZD37gV6Y2NMOjF3FAQDlv9PN1NJeAkdd5qKfIZwd2T
- 7PzfWRSW85GJtSI2OTLgaQtqu0xvnvRstpN5mvaSGWsRIKURU/9ZtI6Z5U6fWFAGkcMl
- 1D6Q==
-X-Gm-Message-State: AJIora9iS0OnTlGhlkQ0LgEPllglzLKOiBJbJSyq5KBiafecdy20+f/L
- wWZbrUiQQHqrxXWbohvyGV7Z9q1ZdUi4mQGZt6Shcouqk/I=
-X-Google-Smtp-Source: AGRyM1vCDBrSbLHP899+/4Ne7yPV+Cfv/9GrI22zPDCQ2wkRR4d06BRdJqwzjNdv5MXpBTTBeh7IJW9VYHw8j08CB1Q=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr51833722ywb.257.1657187600699; Thu, 07
- Jul 2022 02:53:20 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sTnTFjqUTY9ZmJPx84hSaxZzuiPka6Jy1n/64JFq+D4=;
+ b=t0IAC+mC6iHLvAJ4rd66flRGPcIyH8IIHgtnj8xBkydit2ggDPTiF9DGxiagtKwFeO
+ WjiccduZXo5bpaREsdM4tE2awqARL+LtVp6Qz3cbqF0XyisNRXfijVgghsPQanFRToTz
+ zVFlYxHf2tbHUv0shCYPf9zDl+sB3qWFOmYjch8owb6dDqDRjR2gk3/20XaW2lO6xzpR
+ X/NyqJ2eFoBhRmoxigbaGB7tu974MXt5IldxOC6U8CJeM5ht6pnA/iqkaxWf0uI4898k
+ lq4fCW4jE2HcXSB6x/gGVDksCbAYeTuiaXWTa47yg2cl+S3vUok36YZYZT9DbsnrWvgz
+ Sybg==
+X-Gm-Message-State: AJIora+v3wKAOZExBU4TBLMZatZ7aQJ3ehgDWjoLrt+tiH/5/0zJ37JB
+ r7O4+REg4U6wDccbT6fkBTyooFjVrpnLsLU+4TZzYhMZr59ioo0X9o5weUk17oVEcAo6xDuVOB3
+ tM4XL/XlVtb70eZU=
+X-Received: by 2002:adf:9d92:0:b0:21d:66c4:e311 with SMTP id
+ p18-20020adf9d92000000b0021d66c4e311mr22572976wre.575.1657188519135; 
+ Thu, 07 Jul 2022 03:08:39 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sO1YvxjPJJiUZBg9gvTZHxaO7mvzNA9Fqma4sMNjVRlxfLdyiLgsRGfDDTBjMMwfJgHDe7OQ==
+X-Received: by 2002:adf:9d92:0:b0:21d:66c4:e311 with SMTP id
+ p18-20020adf9d92000000b0021d66c4e311mr22572950wre.575.1657188518835; 
+ Thu, 07 Jul 2022 03:08:38 -0700 (PDT)
+Received: from redhat.com ([2.52.154.68]) by smtp.gmail.com with ESMTPSA id
+ p5-20020a5d59a5000000b0021d20461bbbsm28400401wrr.88.2022.07.07.03.08.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jul 2022 03:08:38 -0700 (PDT)
+Date: Thu, 7 Jul 2022 06:08:35 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, ani@anisinha.ca
+Subject: Re: [PATCH 02/17] acpi: x86: deduplicate HPET AML building
+Message-ID: <20220707060622-mutt-send-email-mst@kernel.org>
+References: <20220701133515.137890-1-imammedo@redhat.com>
+ <20220701133515.137890-3-imammedo@redhat.com>
+ <20220701121346-mutt-send-email-mst@kernel.org>
+ <20220707111616.3f43b503@redhat.com>
 MIME-Version: 1.0
-References: <20220706082411.1664825-1-richard.henderson@linaro.org>
-In-Reply-To: <20220706082411.1664825-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Jul 2022 10:52:42 +0100
-Message-ID: <CAFEAcA9nfCaH4hYjdQqWMDMYc59SXAdNdMZ=WhfzZCVQZgu1ug@mail.gmail.com>
-Subject: Re: [PATCH v5 00/45] target/arm: Scalable Matrix Extension
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220707111616.3f43b503@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,29 +97,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Jul 2022 at 09:40, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Changes for v5:
->   * Use macros for vertical tile slice addressing.
->   * Other misc adjustments per review.
->
-> Patches without r-b:
->   03-target-arm-Trap-non-streaming-usage-when-Streamin.patch
->   07-target-arm-Mark-PMULL-FMMLA-as-non-streaming.patch
->   19-target-arm-Implement-SME-MOVA.patch
->   20-target-arm-Implement-SME-LD1-ST1.patch
->   23-target-arm-Implement-SME-ADDHA-ADDVA.patch
->   24-target-arm-Implement-FMOPA-FMOPS-non-widening.patch
->   25-target-arm-Implement-BFMOPA-BFMOPS.patch
->   26-target-arm-Implement-FMOPA-FMOPS-widening.patch
->   35-linux-user-aarch64-Add-SM-bit-to-SVE-signal-conte.patch
->   37-linux-user-aarch64-Do-not-allow-duplicate-or-shor.patch
+On Thu, Jul 07, 2022 at 11:16:16AM +0200, Igor Mammedov wrote:
+> On Fri, 1 Jul 2022 12:26:16 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> 
+> > On Fri, Jul 01, 2022 at 09:35:00AM -0400, Igor Mammedov wrote:
+> > > HPET AML doesn't depend on piix4 nor q35, move code buiding it
+> > > to common scope to avoid duplication.
+> > > 
+> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
+> > 
+> > Apropos, tests/data/acpi/rebuild-expected-aml.sh ignores the
+> > fact that some tables might be identical. Also, there's no
+> > way to reuse expected files between machines. And so we have:
+> > 
+> > 
+> > [qemu]$ find tests/data/acpi -type f -exec sha256sum '{}' ';'|sort
+> [...]
+> 
+> > 
+> > 
+> > It's easy to fix up duplications within virt. But I am not 100% sure how
+> > fix up duplication between q35 and pc.
+> [...]
+>  
+> > Then we could maybe use the directory "pc" for files common to i440fx
+> > and q35.  Maybe just teach the test to look under tests/data/acpi/x86
+> > too? And I think we should teach tests/data/acpi/rebuild-expected-aml.sh
+> > to check for duplicates and at least warn the user.
+> 
+> Probably duplicates in 'virt' mostly due to combination of not knowing
+> that there is a fallback lookup (which is hidden in the code)
+> and simplistic way tests/data/acpi/rebuild-expected-aml.sh rebuilds tables.
+> 
+> As you suggest, rebuild-expected-aml.sh can be improved to warn or even
+> better drop duplicates if found.
 
-Now all reviewed. There were just enough fixes needed that
-I don't quite feel comfortable doing them at my end, so if you
-could roll a v6 I think that would be better.
+Want to try?
 
-thanks
--- PMM
+> As for reusing tables between different machine types, alternatively
+> we can add explicit remapping rules (possibly auto-generated) versus
+> currently used implicit fallback approach.
+
+My worry with this is that if a specific table needs to be split from
+the generic variant then user would have to hack the test code as opposed
+to just updating the tables, so the update can not be done
+automatically. Thoughts?
+
+-- 
+MST
+
 
