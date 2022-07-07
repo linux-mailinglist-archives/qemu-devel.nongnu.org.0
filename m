@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA5E56ADAC
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 23:33:12 +0200 (CEST)
-Received: from localhost ([::1]:54098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1B256ADBD
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 23:35:27 +0200 (CEST)
+Received: from localhost ([::1]:58546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Z7X-000295-3f
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 17:33:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55450)
+	id 1o9Z9i-00058b-Dd
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 17:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9Z4t-0000HG-BB; Thu, 07 Jul 2022 17:30:27 -0400
-Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35]:33698)
+ id 1o9Z4t-0000HF-AH; Thu, 07 Jul 2022 17:30:27 -0400
+Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c]:35661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9Z4q-0004fZ-6I; Thu, 07 Jul 2022 17:30:26 -0400
-Received: by mail-vs1-xe35.google.com with SMTP id l190so2583544vsc.0;
- Thu, 07 Jul 2022 14:30:21 -0700 (PDT)
+ id 1o9Z4q-0004gH-Hu; Thu, 07 Jul 2022 17:30:26 -0400
+Received: by mail-ua1-x92c.google.com with SMTP id s3so5269263uaq.2;
+ Thu, 07 Jul 2022 14:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HWmnvnADIKX5GGaKCd+x0ILsXexS28mhqVO/nZa6GVI=;
- b=MLjStocM9EmxD1iYuFMA5I6iWJ/zIzDkHXp/hGgYsFAXTBhXhcwsmh0fNy/EVHIbXl
- 9j66Ki6X1GEU/538x1fDrZSRUdJgiqfCw9Sw516y3L0y8qfiUlDRzTwEXD9zxh+pY0ng
- viVNDCeqdwW5mLfWNuRUMO9S4eTvJuyXAmpnbgNY9mlOUfJaDCFW5syVFyha3Nn+Dr6e
- de10W2TauRxTIh+heOTsBGKlyaLZiRn5asvgyzX0URbotqfmYhKXLjH/OPsRTzQOIAhW
- Yv+oN52JIrSOTVLf9BCjCnKw6RrPA4lEFUuLmLUZ/qqhBRl1UC823QiUOCL4RK3EwzhR
- g57w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=EbgRJ9MdyHPnaY3lqJatX0u5qeF8Vuc/iS2wZ00ilX4=;
+ b=Iiluu95spCzepkDpGRhxq8d9IbRgVwmVIj+XEM6MWhGXlyvLsVBwCKmJDdnSK6HkVy
+ lQJ1mxJFy88Bo3+CqE0YG+3cL1sop4nFcz+JJQ96ycBFPW2mT5dSBEq65ySoLck2xytQ
+ vNxjlv1oWYAjnBVgcCLR2AdZVdAkS9yC8joEGrI6YJ/+cDikoTfBv3FYprh81jRdiH01
+ UaV4QYMH6M/MzLFTHSVxazstW0Xs9SwXtgyti5icWVbEWsWEVU5gVEaxR6wxtxhXqq9l
+ q6Svxh6OFFZCE3ahgQ0IU0Mv6m/qbJ1NFP4uH1UrOeuaNyAAGqLvw/DmXep6hwaBow1Q
+ 2UOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HWmnvnADIKX5GGaKCd+x0ILsXexS28mhqVO/nZa6GVI=;
- b=C/3+Sk82a4IBMQT+dKQixu3qaG5gatuTXx5IjwAB29FRAtGHnqKtdBSgYJd2VZ/ltH
- ntyXrKDe5tKtvFC6VYLFyzjlvqcOJOMCpW5KVWYMEnHYcDqGbGeD+N33kSFCck60S9LI
- wcfG7apNeIa2ZroWKTlUYixN/eP2CrGdv2zehAgCe9b9oRR6tBGZLbnzZiJQG29+yCdV
- cvMvp9rz7XiUnBcS5sRg6Vny6PtXZRlITSmXdzxLeX9JOdUnnhBte8+6lW8e1QNOTWTa
- BeKADiDJZY2DP0Ax2CRKZXaow/IkJLE7uVVy66a4ah/LvR8Wbbq61DLQfFrUfabQlESV
- TZmw==
-X-Gm-Message-State: AJIora9AkliYWimj4SU3tNMddCGeJQqS6qtmnpptqWj40IDq92E8srqI
- v6iJ04X/Siq2t4hXRg6xjIoFHgSu/tM=
-X-Google-Smtp-Source: AGRyM1s0H5l4GPwkmn0orlKEvdXB/puoh84zUqI4QGD3PH7cXSQdDcq6B9PgxT+XKnu4fN5n8l3hYA==
-X-Received: by 2002:a67:f74c:0:b0:354:5c29:aad7 with SMTP id
- w12-20020a67f74c000000b003545c29aad7mr24844516vso.40.1657229420521; 
- Thu, 07 Jul 2022 14:30:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=EbgRJ9MdyHPnaY3lqJatX0u5qeF8Vuc/iS2wZ00ilX4=;
+ b=3Rm8G9xuC1qAhVX9yDEGV7oDav5sJBzMbfm4h22qxvuDM5BmBKP58EePZ+5gE0eBY7
+ HjeGxIWI+WNbpcSvlhqcBKPL9hJMn1z30Xt6G+S+7WzZU9MO8WN02pnAUy7c6KzMXzRG
+ WrHEcdHOqBw6IOmbLhyWGxustzdFlsj9u2ib6h2uyfCN8qtPII6Dejm9WNgQXdFpvIki
+ 7k3PkKnCwfmbw7+TivYdH/g/L6j+RgUjLsGthAF3PABryCooz1PTMRcRon1mBzqCWHXV
+ r61sgB8iJoaz1ziGmyudxAKpoH1oPMtA5BR437H8/g0sT3TrCy0/ZvAjyhGFV/su5Psz
+ huNA==
+X-Gm-Message-State: AJIora+PeCD9ch3xcRznjA2fwyvvjD7qy3xoafm+DRAwQK+iZRXkStvX
+ oHQEBKTj05CLpZluERHnSzIELn2lwyM=
+X-Google-Smtp-Source: AGRyM1sZb5Xorwloee0Xq3jZC+LJGsBz9K05olPZPcnf2WPVNGsyO0aE9NTIyyuLaxrvRg2CxmN0/A==
+X-Received: by 2002:ab0:69d4:0:b0:381:f49f:21ee with SMTP id
+ u20-20020ab069d4000000b00381f49f21eemr17831uaq.92.1657229422729; 
+ Thu, 07 Jul 2022 14:30:22 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- 66-20020a1f1745000000b0036bfe74006esm12122103vkx.31.2022.07.07.14.30.18
+ 66-20020a1f1745000000b0036bfe74006esm12122103vkx.31.2022.07.07.14.30.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 14:30:19 -0700 (PDT)
+ Thu, 07 Jul 2022 14:30:22 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org,
+ jianchunfu <jianchunfu@cmss.chinamobile.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v3 0/4] enhance error handling in kvmppc_read_int*
-Date: Thu,  7 Jul 2022 18:30:11 -0300
-Message-Id: <20220707213015.552104-1-danielhb413@gmail.com>
+Subject: [PATCH v3 1/4] target/ppc: add error report when fopen fails in
+ kvmppc_read_int_dt()
+Date: Thu,  7 Jul 2022 18:30:12 -0300
+Message-Id: <20220707213015.552104-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220707213015.552104-1-danielhb413@gmail.com>
+References: <20220707213015.552104-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92c;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,32 +90,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: jianchunfu <jianchunfu@cmss.chinamobile.com>
 
-In this v3 I changed the error report after fopen() to use
-error_setg_errno(), as suggested by Cedric.
+Use an Error pointer to report the error back to the caller.
 
-I also cut patch 1/1 because it's simpler to do all the function changes
-in a single patch instead of having a separated patch just to change the
-return value of both.
+While we're at it, return '0' instead of '-1' on error since the
+function is supposed to return an uint64_t.
 
-Changes from v2:
-- former patch 1/1: dropped
-- patch 1 (former 3):
-  - use error_setg_errno() instead of error_setg() 
-- v2 link: https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01167.html
+Signed-off-by: jianchunfu <jianchunfu@cmss.chinamobile.com>
+[danielhb: return 0, use error_set_errno() instead of fprintf]
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ target/ppc/kvm.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Daniel Henrique Barboza (3):
-  target/ppc: enhance error report in kvmppc_read_int_cpu_dt()
-  target/ppc: use g_autofree in kvmppc_read_int_cpu_dt()
-  target/ppc: exit(1) on failure in kvmppc_get_clockfreq()
-
-jianchunfu (1):
-  target/ppc: add error report when fopen fails in kvmppc_read_int_dt()
-
- target/ppc/kvm.c | 46 +++++++++++++++++++++++++++++++---------------
- 1 file changed, 31 insertions(+), 15 deletions(-)
-
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 6eed466f80..65d136ed5a 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -1896,7 +1896,7 @@ static int kvmppc_find_cpu_dt(char *buf, int buf_len)
+     return 0;
+ }
+ 
+-static uint64_t kvmppc_read_int_dt(const char *filename)
++static uint64_t kvmppc_read_int_dt(const char *filename, Error **errp)
+ {
+     union {
+         uint32_t v32;
+@@ -1907,7 +1907,8 @@ static uint64_t kvmppc_read_int_dt(const char *filename)
+ 
+     f = fopen(filename, "rb");
+     if (!f) {
+-        return -1;
++        error_setg_errno(errp, errno, "error opening %s", filename);
++        return 0;
+     }
+ 
+     len = fread(&u, 1, sizeof(u), f);
+@@ -1938,7 +1939,7 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
+     }
+ 
+     tmp = g_strdup_printf("%s/%s", buf, propname);
+-    val = kvmppc_read_int_dt(tmp);
++    val = kvmppc_read_int_dt(tmp, NULL);
+     g_free(tmp);
+ 
+     return val;
 -- 
 2.36.1
 
