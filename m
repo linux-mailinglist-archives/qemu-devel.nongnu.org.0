@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3427569C62
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 10:03:40 +0200 (CEST)
-Received: from localhost ([::1]:58262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33C1569C4D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 09:58:20 +0200 (CEST)
+Received: from localhost ([::1]:50102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9MU7-0002zu-Nk
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 04:03:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52134)
+	id 1o9MOw-0005ap-Lp
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 03:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o9MLU-0002Ym-FZ
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 03:54:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58700)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o9MLT-0002Wu-Tc
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 03:54:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o9MLS-0007Tu-NA
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 03:54:44 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o9MLS-0007Ti-A6
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 03:54:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657180482;
+ s=mimecast20190719; t=1657180481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JX49n3pmcxTjrWe9XWUjvO3guR5PPOJFXcuBrH4E24Y=;
- b=UIALxlFjtS9ad1Lm6Y8JZYKotHyXk3PnEMpixBriXypQ32vxBzod2RzeZ8Lo0ALCkm1E4R
- g5Cs29pUHpbpNhfPHSEuD0vMK3Ms6Xrptf5vhN26h7I/L7q68VNe/cbiGEwUwGPZizhnU8
- O9EScKjsa9jWu1ZIiCQivo5eLhhf6rM=
+ bh=eW8tSnbUfFa7XU7Jv4TObIzh9o6O0ZI2mL9Ltg3gE6c=;
+ b=Ky3eVkhtR/W9y9FAgCcVSDnOUgn17Sq/Has0uGGIH8P73/pwixnq7py0Vyrvs8OswtySfR
+ yevRHEn3uvAhr9mTKspWsiFn8cKm1W2oYAfRCNmkh/qkXE8Q3Pxq5L4lDdGJBJsBvij8HD
+ QdGVvQgz+ltaLtWdK63nThAZfqC89ww=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-531-8bgmwj8KPResDf28YYXtBw-1; Thu, 07 Jul 2022 03:54:36 -0400
-X-MC-Unique: 8bgmwj8KPResDf28YYXtBw-1
+ us-mta-539-yT_3L09COnG86a_K8Ih3Uw-1; Thu, 07 Jul 2022 03:54:38 -0400
+X-MC-Unique: yT_3L09COnG86a_K8Ih3Uw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3FD69805AF5;
- Thu,  7 Jul 2022 07:54:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E88BF811E76;
+ Thu,  7 Jul 2022 07:54:37 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78B41404754C;
- Thu,  7 Jul 2022 07:54:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 846C1400DFA6;
+ Thu,  7 Jul 2022 07:54:36 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-s390x@nongnu.org
-Subject: [PULL 04/18] pc-bios/s390-ccw/bootmap: Improve the guessing logic in
- zipl_load_vblk()
-Date: Thu,  7 Jul 2022 09:54:12 +0200
-Message-Id: <20220707075426.1163210-5-thuth@redhat.com>
+Cc: qemu-s390x@nongnu.org,
+	Eric Farman <farman@linux.ibm.com>
+Subject: [PULL 05/18] pc-bios/s390-ccw/virtio-blkdev: Simplify/fix
+ virtio_ipl_disk_is_valid()
+Date: Thu,  7 Jul 2022 09:54:13 +0200
+Message-Id: <20220707075426.1163210-6-thuth@redhat.com>
 In-Reply-To: <20220707075426.1163210-1-thuth@redhat.com>
 References: <20220707075426.1163210-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,81 +79,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The logic of trying an final ISO or ECKD boot on virtio-block devices is
-very weird: Since the geometry hardly ever matches in virtio_disk_is_scsi(),
-virtio_blk_setup_device() always sets a "guessed" disk geometry via
-virtio_assume_scsi() (which is certainly also wrong in a lot of cases).
+The s390-ccw bios fails to boot if the boot disk is a virtio-blk
+disk with a sector size of 4096. For example:
 
-zipl_load_vblk() then sees that there's been a "virtio_guessed_disk_nature"
-and tries to fix up the geometry again via virtio_assume_iso9660() before
-always trying to do ipl_iso_el_torito(). That's a very brain-twisting
-way of attempting to boot from ISO images, which won't work anymore after
-the following patches that will clean up the virtio_assume_scsi() mess
-(and thus get rid of the "virtio_guessed_disk_nature" here).
+ dasdfmt -b 4096 -d cdl -y -p -M quick /dev/dasdX
+ fdasd -a /dev/dasdX
+ install a guest onto /dev/dasdX1 using virtio-blk
+ qemu-system-s390x -nographic -hda /dev/dasdX1
 
-Let's try a better approach instead: ISO files always have a magic
-string "CD001" at offset 0x8001 (see e.g. the ECMA-119 specification)
-which we can use to decide whether we should try to boot in ISO 9660
-mode (which we should also try if we see a sector size of 2048).
+The bios then bails out with:
 
-And if we were not able to boot in ISO mode here, the final boot attempt
-before panicking is to boot in ECKD mode. Since this is our last boot
-attempt anyway, simply always assume the ECKD geometry here (if the sector
-size was not 4096 yet), so that we also do not depend on the guessed disk
-geometry from virtio_blk_setup_device() here anymore.
+ ! Cannot read block 0 !
 
-Message-Id: <20220704111903.62400-4-thuth@redhat.com>
+Looking at virtio_ipl_disk_is_valid() and especially the function
+virtio_disk_is_scsi(), it does not really make sense that we expect
+only such a limited disk geometry (like a block size of 512) for
+our boot disks. Let's relax the check and allow everything that
+remotely looks like a sane disk.
+
+Message-Id: <20220704111903.62400-5-thuth@redhat.com>
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/bootmap.c | 27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
+ pc-bios/s390-ccw/virtio.h        |  2 --
+ pc-bios/s390-ccw/virtio-blkdev.c | 41 ++++++--------------------------
+ 2 files changed, 7 insertions(+), 36 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
-index 56411ab3b6..994e59c0b0 100644
---- a/pc-bios/s390-ccw/bootmap.c
-+++ b/pc-bios/s390-ccw/bootmap.c
-@@ -780,18 +780,37 @@ static void ipl_iso_el_torito(void)
-     }
+diff --git a/pc-bios/s390-ccw/virtio.h b/pc-bios/s390-ccw/virtio.h
+index 9e410bde6f..241730effe 100644
+--- a/pc-bios/s390-ccw/virtio.h
++++ b/pc-bios/s390-ccw/virtio.h
+@@ -186,8 +186,6 @@ void virtio_assume_scsi(void);
+ void virtio_assume_eckd(void);
+ void virtio_assume_iso9660(void);
+ 
+-extern bool virtio_disk_is_scsi(void);
+-extern bool virtio_disk_is_eckd(void);
+ extern bool virtio_ipl_disk_is_valid(void);
+ extern int virtio_get_block_size(void);
+ extern uint8_t virtio_get_heads(void);
+diff --git a/pc-bios/s390-ccw/virtio-blkdev.c b/pc-bios/s390-ccw/virtio-blkdev.c
+index 6483307630..7e13155589 100644
+--- a/pc-bios/s390-ccw/virtio-blkdev.c
++++ b/pc-bios/s390-ccw/virtio-blkdev.c
+@@ -166,46 +166,19 @@ void virtio_assume_eckd(void)
+         virtio_eckd_sectors_for_block_size(vdev->config.blk.blk_size);
  }
  
-+/**
-+ * Detect whether we're trying to boot from an .ISO image.
-+ * These always have a signature string "CD001" at offset 0x8001.
-+ */
-+static bool has_iso_signature(void)
-+{
-+    int blksize = virtio_get_block_size();
-+
-+    if (!blksize || virtio_read(0x8000 / blksize, sec)) {
-+        return false;
-+    }
-+
-+    return !memcmp("CD001", &sec[1], 5);
-+}
-+
- /***********************************************************************
-  * Bus specific IPL sequences
-  */
- 
- static void zipl_load_vblk(void)
+-bool virtio_disk_is_scsi(void)
+-{
+-    VDev *vdev = virtio_get_device();
+-
+-    if (vdev->guessed_disk_nature == VIRTIO_GDN_SCSI) {
+-        return true;
+-    }
+-    switch (vdev->senseid.cu_model) {
+-    case VIRTIO_ID_BLOCK:
+-        return (vdev->config.blk.geometry.heads == 255)
+-            && (vdev->config.blk.geometry.sectors == 63)
+-            && (virtio_get_block_size()  == VIRTIO_SCSI_BLOCK_SIZE);
+-    case VIRTIO_ID_SCSI:
+-        return true;
+-    }
+-    return false;
+-}
+-
+-bool virtio_disk_is_eckd(void)
++bool virtio_ipl_disk_is_valid(void)
  {
--    if (virtio_guessed_disk_nature()) {
--        virtio_assume_iso9660();
 +    int blksize = virtio_get_block_size();
-+
-+    if (blksize == VIRTIO_ISO_BLOCK_SIZE || has_iso_signature()) {
-+        if (blksize != VIRTIO_ISO_BLOCK_SIZE) {
-+            virtio_assume_iso9660();
-+        }
-+        ipl_iso_el_torito();
-     }
--    ipl_iso_el_torito();
+     VDev *vdev = virtio_get_device();
+-    const int block_size = virtio_get_block_size();
  
--    if (virtio_guessed_disk_nature()) {
-+    if (blksize != VIRTIO_DASD_DEFAULT_BLOCK_SIZE) {
-         sclp_print("Using guessed DASD geometry.\n");
-         virtio_assume_eckd();
+-    if (vdev->guessed_disk_nature == VIRTIO_GDN_DASD) {
++    if (vdev->guessed_disk_nature == VIRTIO_GDN_SCSI ||
++        vdev->guessed_disk_nature == VIRTIO_GDN_DASD) {
+         return true;
      }
+-    switch (vdev->senseid.cu_model) {
+-    case VIRTIO_ID_BLOCK:
+-        return (vdev->config.blk.geometry.heads == 15)
+-            && (vdev->config.blk.geometry.sectors ==
+-                virtio_eckd_sectors_for_block_size(block_size));
+-    case VIRTIO_ID_SCSI:
+-        return false;
+-    }
+-    return false;
+-}
+ 
+-bool virtio_ipl_disk_is_valid(void)
+-{
+-    return virtio_disk_is_scsi() || virtio_disk_is_eckd();
++    return (vdev->senseid.cu_model == VIRTIO_ID_BLOCK ||
++            vdev->senseid.cu_model == VIRTIO_ID_SCSI) &&
++           blksize >= 512 && blksize <= 4096;
+ }
+ 
+ int virtio_get_block_size(void)
 -- 
 2.31.1
 
