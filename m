@@ -2,90 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E57B56AB34
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 21:04:10 +0200 (CEST)
-Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255CA56AB8D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 21:11:27 +0200 (CEST)
+Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9WnJ-0003DK-I9
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 15:04:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55158)
+	id 1o9WuL-0003FW-Sf
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 15:11:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o9Wf3-0005zP-U7
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 14:55:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36328)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1o9WnR-0008R0-8h; Thu, 07 Jul 2022 15:04:17 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:43593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o9Wf2-0001nY-Aj
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 14:55:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657220135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C9aabLAjl6WYInBM+zYfa0kWHALX+j9XmYOkOfNv/fw=;
- b=Xy2TL38CbpP2aDvIIe7HDF7W7U94mJPb8N1zIHsvG9PQ7K0/oWb0NNtkJhVgi8BZIxDXyy
- k4M0JWkgL+58Cbwi8BikS1Pok9Zg33UTNjSP83+pl5ElbRbrv2VoAjRtUENz6/aeJXidg0
- 04c2m8IF785RtYdBugn6x3+LOEVQ9Oc=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-49-NXmhpmQbPsGUy5VoGrpsYw-1; Thu, 07 Jul 2022 14:55:34 -0400
-X-MC-Unique: NXmhpmQbPsGUy5VoGrpsYw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- az11-20020a05620a170b00b006b55d790273so942216qkb.1
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 11:55:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=C9aabLAjl6WYInBM+zYfa0kWHALX+j9XmYOkOfNv/fw=;
- b=h/BHdQ+WJvo3ZpH+bDlhV59AoPAfqmUJtkEj7mfBy33CljDJpGCgJSazrN1xH6mpFU
- qJG/qfyrElhkE8O28NAb4WD82p+k5jaHxgivN1Qwz2Qs95E9dnan4ZpZAVF2YMUiWp7N
- XkjyILdTBUdvGZJrSt4C76U8wZiMVTyA+/mwlrvaLT14JgtTYSYcLa6dBQfnB8pHZUIA
- zamk6J6EbW95d8IjT/Ra94HUfPv7movbKANrcyjAMhouhCO9lXPoFEYG7qXmTBdaazxd
- 620x+KKXrgn/73klfYbCT2sfkvrwN004uELTphMg/W3vpMK3Q9WVXk5XyRD30oWcZRvK
- KQoA==
-X-Gm-Message-State: AJIora/V3Sd9ZSaZcA2bO6JS6neaZ1ilWA/2xsBNsPPnk7hOtlXQCTdl
- lJauG8IIhinnFbpugY2EVYxgKDs3BvXyttxCNzY2c5Sjmqr0yWQGhnqs3dXX3X2ufgOFCesejwf
- hkJkLpJM5P3QasV7v5u5v6cH7pj0wa4whefVqg0Iu6dEUF6aqddAqnAh4XLqGjehG
-X-Received: by 2002:ac8:5b4d:0:b0:31d:3c73:58ed with SMTP id
- n13-20020ac85b4d000000b0031d3c7358edmr27432739qtw.304.1657220132407; 
- Thu, 07 Jul 2022 11:55:32 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uQph3Eh4Lcwi+gDEEvUzOU2UXVodE57ZEUPId1ZyfMGzdViTySyNCSrRN1k+RLZ6TuBGfSjA==
-X-Received: by 2002:ac8:5b4d:0:b0:31d:3c73:58ed with SMTP id
- n13-20020ac85b4d000000b0031d3c7358edmr27432715qtw.304.1657220132121; 
- Thu, 07 Jul 2022 11:55:32 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-aurron9127w-grc-37-74-12-30-85.dsl.bell.ca. [74.12.30.85])
- by smtp.gmail.com with ESMTPSA id
- z198-20020a3765cf000000b006a736c8ea80sm32909325qkb.48.2022.07.07.11.55.31
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 07 Jul 2022 11:55:31 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>, peterx@redhat.com,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Manish Mishra <manish.mishra@nutanix.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: [PATCH v9 14/14] tests: Add postcopy preempt tests
-Date: Thu,  7 Jul 2022 14:55:30 -0400
-Message-Id: <20220707185530.27801-1-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220707185342.26794-1-peterx@redhat.com>
-References: <20220707185342.26794-1-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1o9WnP-0005E1-1T; Thu, 07 Jul 2022 15:04:16 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id AFC0F5808BA;
+ Thu,  7 Jul 2022 15:04:13 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 07 Jul 2022 15:04:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1657220653; x=
+ 1657224253; bh=eYUc0MV2RVzG1/C7GW0kta5P2CfB8nCHdmDPuX9jZg4=; b=W
+ zmF6dY3zUeLFwDZlcBBI4yqUKvJm+JxbkhLUBuJa/Wo2H5zs63NjVpbHUzJC8sBh
+ 8ZTxZMKOvrJaEOf3xM8pmI+pqVQk7C4HngEnB9AN7FVrJ0bo9MWsgRYOOCi6D19q
+ k7HiXrnP1Og5PIuxZ6np4vhPS0Q5dcxsPyFeMfD/8gke5/Jhw31pc1nInE0+gC5E
+ j+/xRigIz66dA3g93keK4wztJIkPjdKk6eXTl/UNCZphTJzgAtQkWBM8Go4wOL9T
+ yQTQKFmvheMv+4TOiJ7sRa+earhcZLlcml8txak98Hz3jFW3/ilF1VfkDMyojEeO
+ JHdTHw3944ep75Snf/zNA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657220653; x=
+ 1657224253; bh=eYUc0MV2RVzG1/C7GW0kta5P2CfB8nCHdmDPuX9jZg4=; b=u
+ Seb8Rr/yz2suH+PU1kvH+OSu8GkxRs7tZM/FVd/4I7ifXEWv0L+2X3ruHgBVlJbH
+ Inju1pmFds1tkq0wTmD1hSm4FfPX7j9dnOaiWcWS/DZR00mQ2cAtCdGF83kLfVnu
+ OpzgnGObDMajBNhWyHkWE0zanZZsVXTF1XuvDP7/8KIeoX1PED9Iis4MvXVkWPB4
+ A+Jdw5587wV65VMbg+cmSuSPWP6/xqgxMYpGQiTVUTrho7IYQFliVUlFas//ArHy
+ glduTs/FztP58wmPJ8a5My5LGTIltkxv3IzexZe2/bHEl0e4OkYX1xamGpGENBMw
+ 4QcIBmFSuAFXilD2LPYaw==
+X-ME-Sender: <xms:LC7HYjJJqpWdzPQxngl9tIz2a1YDx6B5bGceOFH1z3vtPogSkkzNLQ>
+ <xme:LC7HYnIyUtUgOpCBh4YIwdPfRkbEYedpQ5mhuaPbRuefmptxaOPM1MybHBuJh1KQv
+ FA9IFFgxz0KYgXqwe8>
+X-ME-Received: <xmr:LC7HYrs-ygGROJVp2ksc0PF1JQDXHiYWKsbJIxG3B6reMlWjfmhi0CyYrITkHTYiEgdjsrwUCyYJvk7XjVMyvvNC>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeihedgudefgecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtugfgjgesthekrodttddtudenucfhrhhomheprfgv
+ thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
+ grthhtvghrnhepffeiuddthfeifedtleektedvtdellefgffeujeehjeejiefhffduveeg
+ leeiledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:LC7HYsYjwLp5xFI8qxV8izE4bJRv7N96k7kfre5JC9Kp0RQ0fS1gHg>
+ <xmx:LC7HYqbjvg6i1sO0U4M3fDD8HUsODhokxHRNGlb3vOV_7GWH6Kcopg>
+ <xmx:LC7HYgCuvBle7VrA44B-b0_rtZ58r7PGsXLSfYZ9F2nBTqv3OZZ9KA>
+ <xmx:LS7HYhVhmCOUvr2Ic5RuFKiaK1gJ7WKjDYQMVCr_VOblYPCq6m7CHA>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 7 Jul 2022 15:04:12 -0400 (EDT)
+Date: Thu, 7 Jul 2022 12:04:10 -0700
+From: Peter Delevoryas <peter@pjd.dev>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/2] hw/gpio/aspeed: Don't let guests modify input pins
+Message-ID: <YscuKtVuZojYtqXo@pdel-mbp.dhcp.thefacebook.com>
+References: <20220707071731.34047-1-peter@pjd.dev>
+ <20220707071731.34047-2-peter@pjd.dev>
+ <fa52743a-5730-3b3f-f07f-99931bb66b01@kaod.org>
+ <YscdtXYL5sJRSm6Z@pdel-mbp>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <YscdtXYL5sJRSm6Z@pdel-mbp>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=peter@pjd.dev;
+ helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_FMBLA_NEWDOM14=0.998, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,115 +107,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Four tests are added for preempt mode:
+On Thu, Jul 07, 2022 at 10:53:57AM -0700, Peter Delevoryas wrote:
+> On Thu, Jul 07, 2022 at 10:56:02AM +0200, Cédric Le Goater wrote:
+> > On 7/7/22 09:17, Peter Delevoryas wrote:
+> > > It seems that aspeed_gpio_update is allowing the value for input pins to be
+> > > modified through register writes and QOM property modification.
+> > > 
+> > > The QOM property modification is fine, but modifying the value through
+> > > register writes from the guest OS seems wrong if the pin's direction is set
+> > > to input.
+> > > 
+> > > The datasheet specifies that "0" bits in the direction register select input
+> > > mode, and "1" selects output mode.
+> > > 
+> > > OpenBMC userspace code is accidentally writing 0's to the GPIO data
+> > > registers somewhere (or perhaps the driver is doing it through a reset or
+> > > something), and this is overwriting GPIO FRU information (board ID, slot
+> > > presence pins) that is initialized in Aspeed machine reset code (see
+> > > fby35_reset() in hw/arm/aspeed.c).
+> > 
+> > It might be good to log a GUEST_ERROR in that case, when writing to an
+> > input GPIO and when reading from an output GPIO.
+> 
+> Good idea, I'll include a GUEST_ERROR for writing to an input GPIO.
+> 
+> I'm actually not totally certain about emitting an error when reading from an
+> output GPIO, because the driver can only do 8-bit reads at the finest
+> granularity, and if 1 of the 8 pins' direction is output, then it will be
+> reading the value of an output pin. But, that's not really bad, because
+> presumably the value will be ignored. Maybe I can go test this out on
+> hardware and figure out what happens though.
 
-  - Postcopy plain
-  - Postcopy recovery
-  - Postcopy tls
-  - Postcopy tls+recovery
+Did a small experiment, I was looking at some of the most significant
+bits:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- tests/qtest/migration-test.c | 56 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+root@dhcp-100-96-192-133:~# devmem 0x1e780000
+0x3CFF303E
+root@dhcp-100-96-192-133:~# devmem 0x1e780004
+0x2800000C
+root@dhcp-100-96-192-133:~# devmem 0x1e780000 32 0xffffffff
+root@dhcp-100-96-192-133:~# devmem 0x1e780004
+0x2800000C
+root@dhcp-100-96-192-133:~# devmem 0x1e780000
+0x3CFF303E
+root@dhcp-100-96-192-133:~# devmem 0x1e780000
+0x3CFF303E
+root@dhcp-100-96-192-133:~# devmem 0x1e780000 32 0
+root@dhcp-100-96-192-133:~# devmem 0x1e780000
+0x14FF303A
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 81ef9741cd..81780189a8 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -569,6 +569,7 @@ typedef struct {
- 
-     /* Postcopy specific fields */
-     void *postcopy_data;
-+    bool postcopy_preempt;
- } MigrateCommon;
- 
- static int test_migrate_start(QTestState **from, QTestState **to,
-@@ -1074,6 +1075,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
-     migrate_set_capability(to, "postcopy-ram", true);
-     migrate_set_capability(to, "postcopy-blocktime", true);
- 
-+    if (args->postcopy_preempt) {
-+        migrate_set_capability(from, "postcopy-preempt", true);
-+        migrate_set_capability(to, "postcopy-preempt", true);
-+    }
-+
-     migrate_ensure_non_converge(from);
- 
-     /* Wait for the first serial output from the source */
-@@ -1137,6 +1143,26 @@ static void test_postcopy_tls_psk(void)
-     test_postcopy_common(&args);
- }
- 
-+static void test_postcopy_preempt(void)
-+{
-+    MigrateCommon args = {
-+        .postcopy_preempt = true,
-+    };
-+
-+    test_postcopy_common(&args);
-+}
-+
-+static void test_postcopy_preempt_tls_psk(void)
-+{
-+    MigrateCommon args = {
-+        .postcopy_preempt = true,
-+        .start_hook = test_migrate_tls_psk_start_match,
-+        .finish_hook = test_migrate_tls_psk_finish,
-+    };
-+
-+    test_postcopy_common(&args);
-+}
-+
- static void test_postcopy_recovery_common(MigrateCommon *args)
- {
-     QTestState *from, *to;
-@@ -1216,6 +1242,27 @@ static void test_postcopy_recovery_tls_psk(void)
-     test_postcopy_recovery_common(&args);
- }
- 
-+static void test_postcopy_preempt_recovery(void)
-+{
-+    MigrateCommon args = {
-+        .postcopy_preempt = true,
-+    };
-+
-+    test_postcopy_recovery_common(&args);
-+}
-+
-+/* This contains preempt+recovery+tls test altogether */
-+static void test_postcopy_preempt_all(void)
-+{
-+    MigrateCommon args = {
-+        .postcopy_preempt = true,
-+        .start_hook = test_migrate_tls_psk_start_match,
-+        .finish_hook = test_migrate_tls_psk_finish,
-+    };
-+
-+    test_postcopy_recovery_common(&args);
-+}
-+
- static void test_baddest(void)
- {
-     MigrateStart args = {
-@@ -2183,6 +2230,15 @@ int main(int argc, char **argv)
- #ifdef CONFIG_GNUTLS
-         qtest_add_func("/migration/postcopy/recovery/tls/psk",
-                        test_postcopy_recovery_tls_psk);
-+#endif /* CONFIG_GNUTLS */
-+        qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_preempt);
-+        qtest_add_func("/migration/postcopy/preempt/recovery/plain",
-+                       test_postcopy_preempt_recovery);
-+#ifdef CONFIG_GNUTLS
-+        qtest_add_func("/migration/postcopy/preempt/tls/psk",
-+                       test_postcopy_preempt_tls_psk);
-+        qtest_add_func("/migration/postcopy/preempt/recovery/tls/psk",
-+                       test_postcopy_preempt_all);
- #endif /* CONFIG_GNUTLS */
-     }
-     qtest_add_func("/migration/bad_dest", test_baddest);
--- 
-2.32.0
+Seems like the output pin 0x20000000 was initially high, and the input
+pin right next to it 0x10000000 was also high. After writing 0 to the
+data register, the value in the data register changed for the output
+pin, but not the input pin.  Which matches what we're planning on doing
+in the controller.
 
+So yeah, I'll add GUEST_ERROR for writes to input pins but not output
+pins.  The driver should probably be doing a read-modify-update.
+Although...if it's not, that technically wouldn't matter, behavior
+wise...maybe GUEST_ERROR isn't appropriate for writes to input pins
+either, for the same reason as I mentioned with reads of output pins.
+I'll let you guys comment on what you think we should do.
+
+> 
+> Thanks,
+> Peter
+> 
+> > 
+> > Thanks,
+> > 
+> > C.
+> > 
+> > > 
+> > > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> > > Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
+> > > ---
+> > >   hw/gpio/aspeed_gpio.c | 22 ++++++++++++----------
+> > >   1 file changed, 12 insertions(+), 10 deletions(-)
+> > > 
+> > > diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+> > > index a62a673857..2eae427201 100644
+> > > --- a/hw/gpio/aspeed_gpio.c
+> > > +++ b/hw/gpio/aspeed_gpio.c
+> > > @@ -268,7 +268,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState *s, GPIOSets *regs)
+> > >   }
+> > >   static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+> > > -                               uint32_t value)
+> > > +                               uint32_t value, bool force)
+> > >   {
+> > >       uint32_t input_mask = regs->input_mask;
+> > >       uint32_t direction = regs->direction;
+> > > @@ -293,10 +293,12 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+> > >               }
+> > >               /* ...then update the state. */
+> > > -            if (mask & new) {
+> > > -                regs->data_value |= mask;
+> > > -            } else {
+> > > -                regs->data_value &= ~mask;
+> > > +            if (direction & mask || force) {
+> > > +                if (mask & new) {
+> > > +                    regs->data_value |= mask;
+> > > +                } else {
+> > > +                    regs->data_value &= ~mask;
+> > > +                }
+> > >               }
+> > >               /* If the gpio is set to output... */
+> > > @@ -339,7 +341,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
+> > >           value &= ~pin_mask;
+> > >       }
+> > > -    aspeed_gpio_update(s, &s->sets[set_idx], value);
+> > > +    aspeed_gpio_update(s, &s->sets[set_idx], value, true);
+> > >   }
+> > >   /*
+> > > @@ -653,7 +655,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
+> > >           reg_value = update_value_control_source(set, set->data_value,
+> > >                                                   reg_value);
+> > >           set->data_read = reg_value;
+> > > -        aspeed_gpio_update(s, set, reg_value);
+> > > +        aspeed_gpio_update(s, set, reg_value, false);
+> > >           return;
+> > >       case gpio_reg_idx_direction:
+> > >           reg_value = set->direction;
+> > > @@ -753,7 +755,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
+> > >               __func__, offset, data, reg_idx_type);
+> > >           return;
+> > >       }
+> > > -    aspeed_gpio_update(s, set, set->data_value);
+> > > +    aspeed_gpio_update(s, set, set->data_value, false);
+> > >       return;
+> > >   }
+> > > @@ -799,7 +801,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+> > >           data &= props->output;
+> > >           data = update_value_control_source(set, set->data_value, data);
+> > >           set->data_read = data;
+> > > -        aspeed_gpio_update(s, set, data);
+> > > +        aspeed_gpio_update(s, set, data, false);
+> > >           return;
+> > >       case gpio_reg_direction:
+> > >           /*
+> > > @@ -875,7 +877,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+> > >                         PRIx64"\n", __func__, offset);
+> > >           return;
+> > >       }
+> > > -    aspeed_gpio_update(s, set, set->data_value);
+> > > +    aspeed_gpio_update(s, set, set->data_value, false);
+> > >       return;
+> > >   }
+> > 
+> 
 
