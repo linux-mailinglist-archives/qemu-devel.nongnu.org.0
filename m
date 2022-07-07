@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8A856A217
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 14:35:17 +0200 (CEST)
-Received: from localhost ([::1]:43116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D2056A234
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 14:39:42 +0200 (CEST)
+Received: from localhost ([::1]:49614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Qiy-0005rR-0h
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 08:35:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33814)
+	id 1o9QnF-0002XV-BF
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 08:39:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9Qbf-0007jk-Vw
+ id 1o9Qbg-0007kU-Bn
  for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:27:44 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39698)
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9Qbe-0006vU-8P
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:27:43 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- r11-20020a1c440b000000b003a2d053adcbso530008wma.4
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 05:27:40 -0700 (PDT)
+ id 1o9Qbe-0006vq-6o
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:27:44 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ h131-20020a1c2189000000b003a2cc290135so819112wmh.2
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 05:27:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=58Nx8NOneDW9Nuz2TKQHd20F0hjUoWlS9lRm0FSj/KI=;
- b=LeYAgsOdMfL9g+wARPHQMZ6KTrq8tJcZgJFJY8U+O7pSlMKn8FclkSPk5g8ZsY2R9y
- 7vpQOUhLpbrKanX0xiJWZThLegnMMv5wn119SkP7XDP88h/pldSzBsnjor+TOUsXQCeb
- kkeCQVYgvqRa0iMYIo0aboLPsbEo7nXH0srVDR/TXjRwa9Phg4+YMf7kwPDUBQMHaHI0
- EKxooife6LrVSIrxf6bEELo11bW9teDnmUb1vLZfAlvUpwE/XmRz190iccFqee1bTtC6
- T3aAgpnjWzu+ebhoXxLCnjd6FxydXqWLJaUrObjJqQraOROTR3L1UvqREltDvjaKNKuX
- bmfg==
+ bh=VybfOs2fNz5z+Pm59pXoMNM44u6RPdQ7FNc33RNUKFM=;
+ b=pSWKOLb2xcxhg1n9jQST0oFL4sWPKk5nS2n09SoXh6lLcnCxufYeQnlSClu2PC8wah
+ nUdMzbLEm4IWDDlpI58cQW3prfsrNHkaqZSM4XOllprIAfeEFevc8sKrSqgDYJsf0kgH
+ ObBKfP3ZwJar1iOWkuDzGDsm/Yhd4ZXPFVjZdattRva3NEMm1gtwCKjhIL3IfKq148HK
+ H0LW1Te2WlhOUs7VuvwUj9iZgr+3jAc2zVN8fSdyvM8QltBg/R/mReFJbzFBtPcnt6h4
+ 7XDaEXfMYwBFJ1c7WB4M44dQoVj7MR5Snuq02JHFntoH7G8FYvVwp5yzOcMFW7HWavFt
+ 2UwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=58Nx8NOneDW9Nuz2TKQHd20F0hjUoWlS9lRm0FSj/KI=;
- b=qjeTNcstiQxKpbBBN8fg6JYuJACgrn3jE4+hsFn76XSOqxg8Dvf+dSvaPlQ6OWtbWH
- boqSldiIPbAwGbBCClC2gJU5J+WkZQI8ShAdvGj0ZvDFOdftL8CX1mSIUON8S2cwGYpW
- u5YlE3QO+Kx9CH0k26yGXH/9e/iMXoWFssa2jP7wHSWXAtGlZrLAeEXNkv6fW5VZWqYr
- /uBNsevJvO5QBaIOOz4U6YM84VvIEilUMYqb6MoBHHPXZmvGadvzdP94I0QoPS3beQRw
- aAnIcL8RuZjVP3zmRWqTwwBTbitHVbh1WanRgBn7ymNxxpKE2PyBh6K+W8DjvzScnZBp
- d2Vg==
-X-Gm-Message-State: AJIora+3+Cl5DFdfxKKSMz2DjPDSZABdP6zqTL1Yi+RTC2wurSsLXHcy
- bVD4U0RgPQf0XuiEgaTIuQoB/79AQXGX2A==
-X-Google-Smtp-Source: AGRyM1vl66KEwJ3we3ZHcqD1CRT7uF9zqR9X47xcrdfPqH4RiBnmcC/JwWx1ejSFpRpqBF7xmv0NFw==
-X-Received: by 2002:a7b:c4d3:0:b0:3a2:aef9:2415 with SMTP id
- g19-20020a7bc4d3000000b003a2aef92415mr4225865wmk.72.1657196859855; 
- Thu, 07 Jul 2022 05:27:39 -0700 (PDT)
+ bh=VybfOs2fNz5z+Pm59pXoMNM44u6RPdQ7FNc33RNUKFM=;
+ b=OceFGv9K/w2iZm5GFR5OQntVcxq/CVzaVRQ1SWm62tkEAnB68bzS/rr/y7Rh/GbGd9
+ fk1QUbXGQZ3eQXmPSW1MyikQabDxqRmKDONOfD9A3rgfxVFcx++y7E+ApLWTu3aH7sOV
+ Jp7bHoiWj0NzyaHRlgSupoQSE4WEHPjDU/FwSxoq+FTFVzTiMpvwWHS2D6C2WMwpmI5/
+ OzbVQAkKB3bYS9qBCMJsS06i4qWzTJRIJncSs9POD9HeFqxt+uJl4R9hKGnuh5Py6N5p
+ jGI+YCArMv0lyjDMRAR1JE0hNpBTWWysE2aM7O/CkpQhvxR65y+6csP3sVpBpM3WCLPp
+ Yr4g==
+X-Gm-Message-State: AJIora/9dHMbUJgbhnBb+aQXbdLLAOD26ll5aENFR37Pnk9dSz9zVv5j
+ CpdDMVaeQWikUgtHnGnNGLylyrN6GVdYHQ==
+X-Google-Smtp-Source: AGRyM1vAtxHu1RCAO9OLYhcACihHIAkyhW4ii8wbftkcN956rw1XqCpF79oMPdR97vmjzPOT6sijBQ==
+X-Received: by 2002:a7b:cd82:0:b0:3a1:7528:2d79 with SMTP id
+ y2-20020a7bcd82000000b003a175282d79mr4307410wmj.79.1657196860767; 
+ Thu, 07 Jul 2022 05:27:40 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- r16-20020a05600c35d000b003a0375c4f73sm29177618wmq.44.2022.07.07.05.27.38
+ r16-20020a05600c35d000b003a0375c4f73sm29177618wmq.44.2022.07.07.05.27.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 05:27:39 -0700 (PDT)
+ Thu, 07 Jul 2022 05:27:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] target/arm: Record tagged bit for user-only in
- sve_probe_page
-Date: Thu,  7 Jul 2022 13:27:28 +0100
-Message-Id: <20220707122734.288929-4-peter.maydell@linaro.org>
+Subject: [PULL 4/9] target/arm: Fix code style issues in debug helper functions
+Date: Thu,  7 Jul 2022 13:27:29 +0100
+Message-Id: <20220707122734.288929-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220707122734.288929-1-peter.maydell@linaro.org>
 References: <20220707122734.288929-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,33 +89,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Before moving debug system register helper functions to a
+different file, fix the code style issues (mostly block
+comment syntax) so checkpatch doesn't complain about the
+code-motion patch.
 
-Fixes a bug in that we were not honoring MTE from user-only
-SVE. Copy the user-only MTE logic from allocation_tag_mem
-into sve_probe_page.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220630194116.3438513-2-peter.maydell@linaro.org
 ---
- target/arm/sve_helper.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/arm/helper.c | 58 +++++++++++++++++++++++++++++----------------
+ 1 file changed, 38 insertions(+), 20 deletions(-)
 
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index db15d03ded8..0c6379e6e80 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -5337,6 +5337,9 @@ bool sve_probe_page(SVEHostPage *info, bool nofault, CPUARMState *env,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index f6dcb1a1152..1c7ec2f8678 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -307,7 +307,8 @@ static uint64_t arm_mdcr_el2_eff(CPUARMState *env)
+     return arm_is_el2_enabled(env) ? env->cp15.mdcr_el2 : 0;
+ }
  
- #ifdef CONFIG_USER_ONLY
-     memset(&info->attrs, 0, sizeof(info->attrs));
-+    /* Require both MAP_ANON and PROT_MTE -- see allocation_tag_mem. */
-+    arm_tlb_mte_tagged(&info->attrs) =
-+        (flags & PAGE_ANON) && (flags & PAGE_MTE);
- #else
-     /*
-      * Find the iotlbentry for addr and return the transaction attributes.
+-/* Check for traps to "powerdown debug" registers, which are controlled
++/*
++ * Check for traps to "powerdown debug" registers, which are controlled
+  * by MDCR.TDOSA
+  */
+ static CPAccessResult access_tdosa(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -327,7 +328,8 @@ static CPAccessResult access_tdosa(CPUARMState *env, const ARMCPRegInfo *ri,
+     return CP_ACCESS_OK;
+ }
+ 
+-/* Check for traps to "debug ROM" registers, which are controlled
++/*
++ * Check for traps to "debug ROM" registers, which are controlled
+  * by MDCR_EL2.TDRA for EL2 but by the more general MDCR_EL3.TDA for EL3.
+  */
+ static CPAccessResult access_tdra(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -347,7 +349,8 @@ static CPAccessResult access_tdra(CPUARMState *env, const ARMCPRegInfo *ri,
+     return CP_ACCESS_OK;
+ }
+ 
+-/* Check for traps to general debug registers, which are controlled
++/*
++ * Check for traps to general debug registers, which are controlled
+  * by MDCR_EL2.TDA for EL2 and MDCR_EL3.TDA for EL3.
+  */
+ static CPAccessResult access_tda(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -5982,7 +5985,8 @@ static CPAccessResult ctr_el0_access(CPUARMState *env, const ARMCPRegInfo *ri,
+ static void oslar_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                         uint64_t value)
+ {
+-    /* Writes to OSLAR_EL1 may update the OS lock status, which can be
++    /*
++     * Writes to OSLAR_EL1 may update the OS lock status, which can be
+      * read via a bit in OSLSR_EL1.
+      */
+     int oslock;
+@@ -5997,7 +6001,8 @@ static void oslar_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ }
+ 
+ static const ARMCPRegInfo debug_cp_reginfo[] = {
+-    /* DBGDRAR, DBGDSAR: always RAZ since we don't implement memory mapped
++    /*
++     * DBGDRAR, DBGDSAR: always RAZ since we don't implement memory mapped
+      * debug components. The AArch64 version of DBGDRAR is named MDRAR_EL1;
+      * unlike DBGDRAR it is never accessible from EL0.
+      * DBGDSAR is deprecated and must RAZ from v8 anyway, so it has no AArch64
+@@ -6052,21 +6057,24 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+       .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 1, .crm = 3, .opc2 = 4,
+       .access = PL1_RW, .accessfn = access_tdosa,
+       .type = ARM_CP_NOP },
+-    /* Dummy DBGVCR: Linux wants to clear this on startup, but we don't
++    /*
++     * Dummy DBGVCR: Linux wants to clear this on startup, but we don't
+      * implement vector catch debug events yet.
+      */
+     { .name = "DBGVCR",
+       .cp = 14, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 0,
+       .access = PL1_RW, .accessfn = access_tda,
+       .type = ARM_CP_NOP },
+-    /* Dummy DBGVCR32_EL2 (which is only for a 64-bit hypervisor
++    /*
++     * Dummy DBGVCR32_EL2 (which is only for a 64-bit hypervisor
+      * to save and restore a 32-bit guest's DBGVCR)
+      */
+     { .name = "DBGVCR32_EL2", .state = ARM_CP_STATE_AA64,
+       .opc0 = 2, .opc1 = 4, .crn = 0, .crm = 7, .opc2 = 0,
+       .access = PL2_RW, .accessfn = access_tda,
+       .type = ARM_CP_NOP | ARM_CP_EL3_NO_EL2_KEEP },
+-    /* Dummy MDCCINT_EL1, since we don't implement the Debug Communications
++    /*
++     * Dummy MDCCINT_EL1, since we don't implement the Debug Communications
+      * Channel but Linux may try to access this register. The 32-bit
+      * alias is DBGDCCINT.
+      */
+@@ -6079,9 +6087,9 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+ static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
+     /* 64 bit access versions of the (dummy) debug registers */
+     { .name = "DBGDRAR", .cp = 14, .crm = 1, .opc1 = 0,
+-      .access = PL0_R, .type = ARM_CP_CONST|ARM_CP_64BIT, .resetvalue = 0 },
++      .access = PL0_R, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
+     { .name = "DBGDSAR", .cp = 14, .crm = 2, .opc1 = 0,
+-      .access = PL0_R, .type = ARM_CP_CONST|ARM_CP_64BIT, .resetvalue = 0 },
++      .access = PL0_R, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
+ };
+ 
+ /*
+@@ -6496,13 +6504,15 @@ void hw_watchpoint_update(ARMCPU *cpu, int n)
+         break;
+     }
+ 
+-    /* Attempts to use both MASK and BAS fields simultaneously are
++    /*
++     * Attempts to use both MASK and BAS fields simultaneously are
+      * CONSTRAINED UNPREDICTABLE; we opt to ignore BAS in this case,
+      * thus generating a watchpoint for every byte in the masked region.
+      */
+     mask = FIELD_EX64(wcr, DBGWCR, MASK);
+     if (mask == 1 || mask == 2) {
+-        /* Reserved values of MASK; we must act as if the mask value was
++        /*
++         * Reserved values of MASK; we must act as if the mask value was
+          * some non-reserved value, or as if the watchpoint were disabled.
+          * We choose the latter.
+          */
+@@ -6510,7 +6520,8 @@ void hw_watchpoint_update(ARMCPU *cpu, int n)
+     } else if (mask) {
+         /* Watchpoint covers an aligned area up to 2GB in size */
+         len = 1ULL << mask;
+-        /* If masked bits in WVR are not zero it's CONSTRAINED UNPREDICTABLE
++        /*
++         * If masked bits in WVR are not zero it's CONSTRAINED UNPREDICTABLE
+          * whether the watchpoint fires when the unmasked bits match; we opt
+          * to generate the exceptions.
+          */
+@@ -6521,7 +6532,8 @@ void hw_watchpoint_update(ARMCPU *cpu, int n)
+         int basstart;
+ 
+         if (extract64(wvr, 2, 1)) {
+-            /* Deprecated case of an only 4-aligned address. BAS[7:4] are
++            /*
++             * Deprecated case of an only 4-aligned address. BAS[7:4] are
+              * ignored, and BAS[3:0] define which bytes to watch.
+              */
+             bas &= 0xf;
+@@ -6532,7 +6544,8 @@ void hw_watchpoint_update(ARMCPU *cpu, int n)
+             return;
+         }
+ 
+-        /* The BAS bits are supposed to be programmed to indicate a contiguous
++        /*
++         * The BAS bits are supposed to be programmed to indicate a contiguous
+          * range of bytes. Otherwise it is CONSTRAINED UNPREDICTABLE whether
+          * we fire for each byte in the word/doubleword addressed by the WVR.
+          * We choose to ignore any non-zero bits after the first range of 1s.
+@@ -6551,7 +6564,8 @@ void hw_watchpoint_update_all(ARMCPU *cpu)
+     int i;
+     CPUARMState *env = &cpu->env;
+ 
+-    /* Completely clear out existing QEMU watchpoints and our array, to
++    /*
++     * Completely clear out existing QEMU watchpoints and our array, to
+      * avoid possible stale entries following migration load.
+      */
+     cpu_watchpoint_remove_all(CPU(cpu), BP_CPU);
+@@ -6669,7 +6683,8 @@ void hw_breakpoint_update(ARMCPU *cpu, int n)
+     case 11: /* linked context ID and VMID match (reserved if no EL2) */
+     case 3: /* linked context ID match */
+     default:
+-        /* We must generate no events for Linked context matches (unless
++        /*
++         * We must generate no events for Linked context matches (unless
+          * they are linked to by some other bp/wp, which is handled in
+          * updates for the linking bp/wp). We choose to also generate no events
+          * for reserved values.
+@@ -6685,7 +6700,8 @@ void hw_breakpoint_update_all(ARMCPU *cpu)
+     int i;
+     CPUARMState *env = &cpu->env;
+ 
+-    /* Completely clear out existing QEMU breakpoints and our array, to
++    /*
++     * Completely clear out existing QEMU breakpoints and our array, to
+      * avoid possible stale entries following migration load.
+      */
+     cpu_breakpoint_remove_all(CPU(cpu), BP_CPU);
+@@ -6712,7 +6728,8 @@ static void dbgbcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     ARMCPU *cpu = env_archcpu(env);
+     int i = ri->crm;
+ 
+-    /* BAS[3] is a read-only copy of BAS[2], and BAS[1] a read-only
++    /*
++     * BAS[3] is a read-only copy of BAS[2], and BAS[1] a read-only
+      * copy of BAS[0].
+      */
+     value = deposit64(value, 6, 1, extract64(value, 5, 1));
+@@ -6724,7 +6741,8 @@ static void dbgbcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ 
+ static void define_debug_regs(ARMCPU *cpu)
+ {
+-    /* Define v7 and v8 architectural debug registers.
++    /*
++     * Define v7 and v8 architectural debug registers.
+      * These are just dummy implementations for now.
+      */
+     int i;
 -- 
 2.25.1
 
