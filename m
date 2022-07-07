@@ -2,88 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC675569BB0
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 09:34:15 +0200 (CEST)
-Received: from localhost ([::1]:41140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293FF569C4C
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 09:58:17 +0200 (CEST)
+Received: from localhost ([::1]:49950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9M1e-0006HN-7n
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 03:34:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46642)
+	id 1o9MOt-0005V4-N7
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 03:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o9Lua-00034M-1C; Thu, 07 Jul 2022 03:26:56 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:55657)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o9MLL-0002Sx-Uc
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 03:54:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1o9LuY-00016Y-DG; Thu, 07 Jul 2022 03:26:55 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id AB7D52B05909;
- Thu,  7 Jul 2022 03:26:50 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 07 Jul 2022 03:26:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1657178810; x=1657182410; bh=y+l8Jds1V8
- oMmLOSmR0Afdlw7vpYmGRTjDR7AwR9nps=; b=aNkRzVWryLz86ocD2Q0Qz02lKZ
- lrDcA/1vpV2PBSTyJyomRpXKUdBK3BnU2zfKfwfd3O8X+l5AkjrDsIZ0gc+3cgCa
- TZL7NRDOtkYZ+1YpVSKgQGDbHqpNZEq7CbDEd9IIG2TYcKgWEyq8gry8rHfWpoXz
- nGVFufkOG8vz6CL5RQ1vGqQpeMQlBEEB/hI2AK+UsAV29n0v28qJ2SAlCVEW/gJv
- guSCI/5dPK7gl6TpJ8VRn/0nZZu3JI1ZgKP2Zg47+XZDRMkwS0KtWKvjnRLBCl3K
- j7Wn7wHWCZip8Wes0tKvOvptd8C0nGdncfd7Is5yEkAD655T9WZMEYDMc61Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657178810; x=1657182410; bh=y+l8Jds1V8oMmLOSmR0Afdlw7vpY
- mGRTjDR7AwR9nps=; b=wQ4//1ekB8Rhw6B+G4sHtZEnqg7TPGSvE+u4MBFPTez9
- P3ORcLR1aDXz9j5SqyApXozqIRYwoBkfD0Cg7wSkt5Nt3XYbe1PbSvRBs/xgBpIA
- I6d4tId9RSbEcUr2uqdXEzVdhUFnqJQF9X6LDcEFNLxe1WVSA8rF7ldQ8LTz5CNl
- 7K0iMArYAXLLDCGMonIfF4ZK3IPZQmPiiNziiF6GNy3szzKFl1NE898NBZcuL0Uf
- reFztYLR3m2E6JQqSwKlP/+tmFaE/70C+EWpGFFMpDKJqhw4M/gxKgAR1tDBmfc/
- IxRnC9dHR+i1f1jhteN98H30/idQ8lExkQtUtbSQzg==
-X-ME-Sender: <xms:uYrGYpoz6kCtq7XBdV-O7qxus7mOjOnuEv4JxKUhLGOacNx1CB7UaQ>
- <xme:uYrGYrpwAnT8_mTE-9HBLM7EpnvvV-QSiaZ_ThvnFORD_c7zFdpisMenMr1Xz54gG
- Nl5F4NVvxmCE5eVnj0>
-X-ME-Received: <xmr:uYrGYmNzKcVLfd7xNcZsVrVmtEURqKPWCQJ8OuDraS290sCZ1JS-IFu00mKRXBxv1AOSwpA_4cJE8ekObTogT6V->
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeigedguddvvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecuogetfedtuddqtdduucdludehmdenucfjughrpe
- ffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghrucffvghl
- vghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrghtthgvrhhnpe
- duteeihfffleeuveekgedugfeffeehtdeguefffffhleehgfduueejjeekfeeukeenucev
- lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrse
- hpjhgurdguvghv
-X-ME-Proxy: <xmx:uYrGYk5_eK5dzvQJgJsvU68im502f80Qdq2ZSuAH79Luj6HPlRLCFw>
- <xmx:uYrGYo4M2seYjO0bMyj0Pzsgmu9V4JtNbDJTsYTAmRbLO96lFNEisQ>
- <xmx:uYrGYsiI7TbNUEaHSsqHTTzl3Obbcm9p1LtKQw4t1fBxuDJrdMwtYw>
- <xmx:uorGYiQvJy9mqLJnsU7BElzxuDKXu0xTHjKVWB8jesY1D4_-pIcd5W8P8WI>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 Jul 2022 03:26:48 -0400 (EDT)
-Date: Thu, 7 Jul 2022 00:26:47 -0700
-From: Peter Delevoryas <peter@pjd.dev>
-To: Peter Delevoryas <peter@pjd.dev>
-Cc: peter@pjd.dev, peter.maydell@linaro.org, andrew@aj.id.au,
- joel@jms.id.au, qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/2] hw/gpio/aspeed: Don't let guests modify input pins
-Message-ID: <YsaKtyJXbEWw4x3X@r37>
-References: <20220707071731.34047-1-peter@pjd.dev>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o9MLI-0007S1-Mj
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 03:54:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657180471;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PCDtht3J/FBgD00rgGALrLajE+7nZJetDgBwcc+QyXw=;
+ b=G1iJyLnQ8Zd+hAoNB+OaIhG2Nbyy90qkFrnket6wCB0ULa42N2pdEuRuPM5Fhqd11/tlnb
+ nLO7/AYvRYWp9V4/5yplX4ONK3HZSciXKY2/wD7b1S4aXFTQ0WQE1LjO/DC9/29crNn+Ro
+ z9fNEtT9ePTVKynJS3AJ316r3eMvKDY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-385-mMCjlGuxMHyxlkzq9h9BcQ-1; Thu, 07 Jul 2022 03:54:30 -0400
+X-MC-Unique: mMCjlGuxMHyxlkzq9h9BcQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3E9D3817A61;
+ Thu,  7 Jul 2022 07:54:29 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C11B040CFD0A;
+ Thu,  7 Jul 2022 07:54:28 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-s390x@nongnu.org
+Subject: [PULL 00/18] s390x updates
+Date: Thu,  7 Jul 2022 09:54:08 +0200
+Message-Id: <20220707075426.1163210-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220707071731.34047-1-peter@pjd.dev>
-Received-SPF: pass client-ip=64.147.123.27; envelope-from=peter@pjd.dev;
- helo=wnew2-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM14=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,50 +74,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 07, 2022 at 12:17:29AM -0700, Peter Delevoryas wrote:
-> The fby35 OpenBMC sysvinit scripts check various GPIO pins at start and
-> decide where to start IPMB daemons for each slot in the sled (4 slots max).
-> It only starts an IPMB daemon if the slot GPIO pins indicate that it's
-> present and powered on.
-> 
-> I've been simulating some input pins by setting their value in the machine
-> reset function. I think a proper solution would be to add input pins to the
-> Aspeed GPIO code and create devices that force the pins high or low
-> appropriately, but for now setting the QOM property seemed fine.
-> 
-> But, I noticed that while the values were set initially, something in the
-> boot process resets all the values I set to "low". I imagine something in
-> userspace or the driver is blanket writing zero to the data registers. I
-> think the Aspeed GPIO controller probably shouldn't be changing the value of
-> input pins in this case.
-> 
-> To fix this, we could just make sure that aspeed_gpio_update() never sets
-> the value of an input pin. However, that would also prevent my code in
-> fby35_reset from initializing the input pins to some special value. So, to
-> support the QOM property setup use-case, I added a "force" parameter. Kinda
-> hacky, but it was the simplest thing I could think of.
-> 
-> Thanks,
-> Peter
+ Hi Richard!
 
-My gitconfig was messed up, I was using the maintainers.pl script in my
-send-email.ccCmd, but that doesn't work for the cover letter.  So, it just sent
-the cover letter to me. I didn't notice it in test emailing cause I usually just
-test sending to myself. Sorry about this. Hopefully I should finally have
-my email configuration fixed at this point...I hope.
+The following changes since commit 39e19f5f67d925c60278a6156fd1776d04495a93:
 
-Peter
+  Merge tag 'pull-xen-20220705' of https://xenbits.xen.org/git-http/people/aperard/qemu-dm into staging (2022-07-05 22:13:51 +0530)
 
-> 
-> Peter Delevoryas (2):
->   hw/gpio/aspeed: Don't let guests modify input pins
->   aspeed: Add fby35-bmc slot GPIO's
-> 
->  hw/arm/aspeed.c       | 14 +++++++++++++-
->  hw/gpio/aspeed_gpio.c | 22 ++++++++++++----------
->  2 files changed, 25 insertions(+), 11 deletions(-)
-> 
-> -- 
-> 2.36.1
-> 
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-07-07
+
+for you to fetch changes up to 3d8111fd3bf7298486bcf1a72013b44c9044104e:
+
+  target/s390x: Exit tb after executing ex_value (2022-07-06 19:04:57 +0200)
+
+----------------------------------------------------------------
+* Check validity of the address in the SET PREFIX instruction
+* Fix booting from devices that use 4k sectors, but are not like DASDs
+* Re-evaluate pending interrupts after EXECUTE of certain instructions
+
+----------------------------------------------------------------
+Janis Schoetterl-Glausch (1):
+  target/s390x/tcg: SPX: check validity of new prefix
+
+Richard Henderson (4):
+  target/s390x: Remove DISAS_GOTO_TB
+  target/s390x: Remove DISAS_PC_STALE
+  target/s390x: Remove DISAS_PC_STALE_NOCHAIN
+  target/s390x: Exit tb after executing ex_value
+
+Thomas Huth (13):
+  pc-bios/s390-ccw: Add a proper prototype for main()
+  pc-bios/s390-ccw/virtio: Introduce a macro for the DASD block size
+  pc-bios/s390-ccw/bootmap: Improve the guessing logic in
+    zipl_load_vblk()
+  pc-bios/s390-ccw/virtio-blkdev: Simplify/fix
+    virtio_ipl_disk_is_valid()
+  pc-bios/s390-ccw/virtio-blkdev: Remove virtio_assume_scsi()
+  pc-bios/s390-ccw/virtio: Set missing status bits while initializing
+  pc-bios/s390-ccw/virtio: Read device config after feature negotiation
+  pc-bios/s390-ccw/virtio: Beautify the code for reading virtqueue
+    configuration
+  pc-bios/s390-ccw: Split virtio-scsi code from
+    virtio_blk_setup_device()
+  pc-bios/s390-ccw/virtio-blkdev: Request the right feature bits
+  pc-bios/s390-ccw/virtio: Remove "extern" keyword from prototypes
+  pc-bios/s390-ccw/netboot.mak: Ignore Clang's warnings about GNU
+    extensions
+  pc-bios/s390-ccw: Update the s390-ccw bios binaries with the
+    virtio-blk fixes
+
+ pc-bios/s390-ccw/netboot.mak     |   7 ++-
+ pc-bios/s390-ccw/s390-ccw.h      |   1 +
+ pc-bios/s390-ccw/virtio-scsi.h   |   2 +-
+ pc-bios/s390-ccw/virtio.h        |  16 +++---
+ pc-bios/s390-ccw/bootmap.c       |  27 +++++++--
+ pc-bios/s390-ccw/main.c          |  27 ++++++---
+ pc-bios/s390-ccw/virtio-blkdev.c |  91 +++++--------------------------
+ pc-bios/s390-ccw/virtio-scsi.c   |  19 ++++++-
+ pc-bios/s390-ccw/virtio.c        |  28 ++++++----
+ target/s390x/tcg/misc_helper.c   |   7 +++
+ target/s390x/tcg/translate.c     |  42 ++++++--------
+ pc-bios/s390-ccw.img             | Bin 50936 -> 42608 bytes
+ pc-bios/s390-netboot.img         | Bin 79688 -> 67232 bytes
+ 13 files changed, 129 insertions(+), 138 deletions(-)
+
+-- 
+2.31.1
+
 
