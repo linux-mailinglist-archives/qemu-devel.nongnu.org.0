@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1B256ADBD
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 23:35:27 +0200 (CEST)
-Received: from localhost ([::1]:58546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D3A56ADAD
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 23:33:21 +0200 (CEST)
+Received: from localhost ([::1]:54476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Z9i-00058b-Dd
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 17:35:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55448)
+	id 1o9Z7g-0002Oc-CY
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 17:33:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9Z4t-0000HF-AH; Thu, 07 Jul 2022 17:30:27 -0400
-Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c]:35661)
+ id 1o9Z4u-0000Ho-Lu; Thu, 07 Jul 2022 17:30:28 -0400
+Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35]:35462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9Z4q-0004gH-Hu; Thu, 07 Jul 2022 17:30:26 -0400
-Received: by mail-ua1-x92c.google.com with SMTP id s3so5269263uaq.2;
- Thu, 07 Jul 2022 14:30:23 -0700 (PDT)
+ id 1o9Z4s-0004gd-Mt; Thu, 07 Jul 2022 17:30:28 -0400
+Received: by mail-vs1-xe35.google.com with SMTP id 189so19643128vsh.2;
+ Thu, 07 Jul 2022 14:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EbgRJ9MdyHPnaY3lqJatX0u5qeF8Vuc/iS2wZ00ilX4=;
- b=Iiluu95spCzepkDpGRhxq8d9IbRgVwmVIj+XEM6MWhGXlyvLsVBwCKmJDdnSK6HkVy
- lQJ1mxJFy88Bo3+CqE0YG+3cL1sop4nFcz+JJQ96ycBFPW2mT5dSBEq65ySoLck2xytQ
- vNxjlv1oWYAjnBVgcCLR2AdZVdAkS9yC8joEGrI6YJ/+cDikoTfBv3FYprh81jRdiH01
- UaV4QYMH6M/MzLFTHSVxazstW0Xs9SwXtgyti5icWVbEWsWEVU5gVEaxR6wxtxhXqq9l
- q6Svxh6OFFZCE3ahgQ0IU0Mv6m/qbJ1NFP4uH1UrOeuaNyAAGqLvw/DmXep6hwaBow1Q
- 2UOg==
+ bh=XOredsu6SbX+k+sREA6mtNqWDsTUQkxRJJ/oY0tCG7w=;
+ b=kHIwDjdP4iGtPuhOOQJmbV8p7lKrlcXNqpWiGhCO3dkIk+jERNqGJ1G9UhKPL4bbZ2
+ z3/zrJvF5R51Tt+dLU+TpuIsVwRtQFYxnPXEXXdNT4JZeb7JgVEIHYmmonbJzOrdxIzI
+ X093WGvULWSfEWC2AoaaDGZ5M3qd7USvYxOyJ57x0S/O9eDXQjvzXNmsVZGd/QhidcAF
+ arXiRkHobd3LfuUFesh3h8u5vLgtyIFrlFwVB3bQvZJ5D8AJDxDxF9SDI0V6AHKC2uth
+ 4m2SKomCgOIiuZ2C/+0tVoxLW6a6RJMJkN7p79IbPU+w3YaWBisxEGVrY1wHDYwGPVfk
+ UahA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EbgRJ9MdyHPnaY3lqJatX0u5qeF8Vuc/iS2wZ00ilX4=;
- b=3Rm8G9xuC1qAhVX9yDEGV7oDav5sJBzMbfm4h22qxvuDM5BmBKP58EePZ+5gE0eBY7
- HjeGxIWI+WNbpcSvlhqcBKPL9hJMn1z30Xt6G+S+7WzZU9MO8WN02pnAUy7c6KzMXzRG
- WrHEcdHOqBw6IOmbLhyWGxustzdFlsj9u2ib6h2uyfCN8qtPII6Dejm9WNgQXdFpvIki
- 7k3PkKnCwfmbw7+TivYdH/g/L6j+RgUjLsGthAF3PABryCooz1PTMRcRon1mBzqCWHXV
- r61sgB8iJoaz1ziGmyudxAKpoH1oPMtA5BR437H8/g0sT3TrCy0/ZvAjyhGFV/su5Psz
- huNA==
-X-Gm-Message-State: AJIora+PeCD9ch3xcRznjA2fwyvvjD7qy3xoafm+DRAwQK+iZRXkStvX
- oHQEBKTj05CLpZluERHnSzIELn2lwyM=
-X-Google-Smtp-Source: AGRyM1sZb5Xorwloee0Xq3jZC+LJGsBz9K05olPZPcnf2WPVNGsyO0aE9NTIyyuLaxrvRg2CxmN0/A==
-X-Received: by 2002:ab0:69d4:0:b0:381:f49f:21ee with SMTP id
- u20-20020ab069d4000000b00381f49f21eemr17831uaq.92.1657229422729; 
- Thu, 07 Jul 2022 14:30:22 -0700 (PDT)
+ bh=XOredsu6SbX+k+sREA6mtNqWDsTUQkxRJJ/oY0tCG7w=;
+ b=B74pYKc4kmI+fN/Egrvm2I3fXBmYqwKoboEUnwGTP3EEfRa6bOINSDoWYPVTVVNlJe
+ U1W6bOwhElRUMrXGEdfUyQxpEo9tjB9sU4lQO8TLW3rIzF/Eu7v5lkpqU7YICzs7WvrV
+ Fikc6Qi/qWrzxdRoJhnONG34MSKXpuT7OTrU1T8qj0BfVLnFdfTtIDd1wi6Cn4EsdErV
+ 9S5/9cCeGxrRGuFH8MJg6xHz3LGFw8WLfz6Cbh13/AUoenYHeIKaRh9c5kRrEh2Bl0NO
+ h1XG0b87aC6ZG7ctXfYNgC/ALKLjzVrsRVc7cPbxr2iE0MWeK/F2lk/yQRQHdtpL09vD
+ 5LJA==
+X-Gm-Message-State: AJIora80JziKqRFEbtJ0iCy7Ytxn0H7LSF3r3gL0ZNm7kyonzU2FObPc
+ BfgVrsEJvbV+zYC76r0D6eQC5r33+B4=
+X-Google-Smtp-Source: AGRyM1uTAzIpUggWPLApzyFUPLNPfvzc6sEWOH47xWlvgj67xNr0GOgPHCsHlSp4M+x/NXB//RYhMQ==
+X-Received: by 2002:a05:6102:a34:b0:354:4268:c2d4 with SMTP id
+ 20-20020a0561020a3400b003544268c2d4mr26784026vsb.21.1657229424446; 
+ Thu, 07 Jul 2022 14:30:24 -0700 (PDT)
 Received: from balboa.ibmuc.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- 66-20020a1f1745000000b0036bfe74006esm12122103vkx.31.2022.07.07.14.30.20
+ 66-20020a1f1745000000b0036bfe74006esm12122103vkx.31.2022.07.07.14.30.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 14:30:22 -0700 (PDT)
+ Thu, 07 Jul 2022 14:30:24 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- jianchunfu <jianchunfu@cmss.chinamobile.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v3 1/4] target/ppc: add error report when fopen fails in
- kvmppc_read_int_dt()
-Date: Thu,  7 Jul 2022 18:30:12 -0300
-Message-Id: <20220707213015.552104-2-danielhb413@gmail.com>
+Subject: [PATCH v3 2/4] target/ppc: enhance error report in
+ kvmppc_read_int_cpu_dt()
+Date: Thu,  7 Jul 2022 18:30:13 -0300
+Message-Id: <20220707213015.552104-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220707213015.552104-1-danielhb413@gmail.com>
 References: <20220707213015.552104-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92c;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe35.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,52 +89,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: jianchunfu <jianchunfu@cmss.chinamobile.com>
+First and foremost, the function can't return '-1' when an error occurs
+because the return type is set to uint64_t. Let's fix that.
 
-Use an Error pointer to report the error back to the caller.
+After that, the function can't simply return 0 whether an error happened
+and call it a day. We must provide a way of letting callers know if the
+zero return is legitimate or due to an error.
 
-While we're at it, return '0' instead of '-1' on error since the
-function is supposed to return an uint64_t.
+Add an Error pointer to kvmppc_read_int_cpu_dt() that will be filled
+with an appropriate error, if one occurs. Callers are then free to pass
+an Error pointer and handle it.
 
-Signed-off-by: jianchunfu <jianchunfu@cmss.chinamobile.com>
-[danielhb: return 0, use error_set_errno() instead of fprintf]
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/kvm.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ target/ppc/kvm.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 6eed466f80..65d136ed5a 100644
+index 65d136ed5a..cf4610b6fa 100644
 --- a/target/ppc/kvm.c
 +++ b/target/ppc/kvm.c
-@@ -1896,7 +1896,7 @@ static int kvmppc_find_cpu_dt(char *buf, int buf_len)
-     return 0;
- }
+@@ -1926,20 +1926,22 @@ static uint64_t kvmppc_read_int_dt(const char *filename, Error **errp)
  
--static uint64_t kvmppc_read_int_dt(const char *filename)
-+static uint64_t kvmppc_read_int_dt(const char *filename, Error **errp)
+ /*
+  * Read a CPU node property from the host device tree that's a single
+- * integer (32-bit or 64-bit).  Returns 0 if anything goes wrong
+- * (can't find or open the property, or doesn't understand the format)
++ * integer (32-bit or 64-bit).  Returns 0 and set errp if anything goes
++ * wrong (can't find or open the property, or doesn't understand the
++ * format)
+  */
+-static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
++static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
  {
-     union {
-         uint32_t v32;
-@@ -1907,7 +1907,8 @@ static uint64_t kvmppc_read_int_dt(const char *filename)
+     char buf[PATH_MAX], *tmp;
+     uint64_t val;
  
-     f = fopen(filename, "rb");
-     if (!f) {
+     if (kvmppc_find_cpu_dt(buf, sizeof(buf))) {
 -        return -1;
-+        error_setg_errno(errp, errno, "error opening %s", filename);
++        error_setg(errp, "Failed to read CPU property %s", propname);
 +        return 0;
      }
  
-     len = fread(&u, 1, sizeof(u), f);
-@@ -1938,7 +1939,7 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
-     }
- 
      tmp = g_strdup_printf("%s/%s", buf, propname);
--    val = kvmppc_read_int_dt(tmp);
-+    val = kvmppc_read_int_dt(tmp, NULL);
+-    val = kvmppc_read_int_dt(tmp, NULL);
++    val = kvmppc_read_int_dt(tmp, errp);
      g_free(tmp);
  
      return val;
+@@ -1947,12 +1949,12 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname)
+ 
+ uint64_t kvmppc_get_clockfreq(void)
+ {
+-    return kvmppc_read_int_cpu_dt("clock-frequency");
++    return kvmppc_read_int_cpu_dt("clock-frequency", NULL);
+ }
+ 
+ static int kvmppc_get_dec_bits(void)
+ {
+-    int nr_bits = kvmppc_read_int_cpu_dt("ibm,dec-bits");
++    int nr_bits = kvmppc_read_int_cpu_dt("ibm,dec-bits", NULL);
+ 
+     if (nr_bits > 0) {
+         return nr_bits;
+@@ -2337,8 +2339,8 @@ static void alter_insns(uint64_t *word, uint64_t flags, bool on)
+ static void kvmppc_host_cpu_class_init(ObjectClass *oc, void *data)
+ {
+     PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
+-    uint32_t dcache_size = kvmppc_read_int_cpu_dt("d-cache-size");
+-    uint32_t icache_size = kvmppc_read_int_cpu_dt("i-cache-size");
++    uint32_t dcache_size = kvmppc_read_int_cpu_dt("d-cache-size", NULL);
++    uint32_t icache_size = kvmppc_read_int_cpu_dt("i-cache-size", NULL);
+ 
+     /* Now fix up the class with information we can query from the host */
+     pcc->pvr = mfpvr();
 -- 
 2.36.1
 
