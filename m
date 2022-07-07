@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3DA569903
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 06:12:05 +0200 (CEST)
-Received: from localhost ([::1]:42474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F21569911
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 06:18:41 +0200 (CEST)
+Received: from localhost ([::1]:56574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Is0-00051g-Et
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 00:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34736)
+	id 1o9IyO-0006Je-Gn
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 00:18:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9Ijg-0003gv-IN
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9Ijg-0003gu-Ed
  for qemu-devel@nongnu.org; Thu, 07 Jul 2022 00:03:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38058)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9Ija-0008E7-66
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9Ija-0008EV-Cy
  for qemu-devel@nongnu.org; Thu, 07 Jul 2022 00:03:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657166600;
+ s=mimecast20190719; t=1657166601;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BlS4nuHDSk+xz/TPcNnNuXIwz7cEjDyk1wvZa0fZC9o=;
- b=NkeRrrgX0LwfOMAKKa//Ieqpo0dKZZJ2P2ruprmx8i9iYJUCsxKVLm+/4+YJXowWtziM1m
- UrdHorUjGOm95vuKFyBX4RG/ddBAOSVcwmeqaSOEOBwWAnZPT0iccNfWLJ3gvcaiGrgyQR
- 2kJZ697A6BiiL90hk9/Lg9d3WGt+1b4=
+ bh=4+eG9q27lvcFshdYkip0FSqTPvTbmYctfKst4KfhumE=;
+ b=QSA15jCjtVplZkj4ygxEyANjxS0ABVHKQNkE6o4BoGlLg/pz98o3Glm5NUuPKIUPEK/LE5
+ QYrOul7+CQZ0tgwqF6oBbBNsvabTENOeL20LJfseia9KkHoEOs+IP7fuM7Avbw3LE8cx3b
+ mm3kic8A6MRWLIGpAfU0N06fSZS9pJY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-385-nosgbFuHMDCQMZFYkZVYEA-1; Thu, 07 Jul 2022 00:03:16 -0400
-X-MC-Unique: nosgbFuHMDCQMZFYkZVYEA-1
+ us-mta-479-6dmDMtCOMbS-wFUzUbkZQA-1; Thu, 07 Jul 2022 00:03:18 -0400
+X-MC-Unique: 6dmDMtCOMbS-wFUzUbkZQA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D7F789C8B9;
- Thu,  7 Jul 2022 04:03:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDB9A8339C1;
+ Thu,  7 Jul 2022 04:03:17 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E00242EF97;
- Thu,  7 Jul 2022 04:03:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CEA218ECC;
+ Thu,  7 Jul 2022 04:03:16 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
@@ -52,9 +52,10 @@ Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
  John Snow <jsnow@redhat.com>
-Subject: [PATCH v3 09/13] tests/vm: upgrade Ubuntu 18.04 VM to 20.04
-Date: Thu,  7 Jul 2022 00:03:06 -0400
-Message-Id: <20220707040310.4163682-10-jsnow@redhat.com>
+Subject: [PATCH v3 10/13] tests/vm: Remove docker cross-compile test from
+ CentOS VM
+Date: Thu,  7 Jul 2022 00:03:07 -0400
+Message-Id: <20220707040310.4163682-11-jsnow@redhat.com>
 In-Reply-To: <20220707040310.4163682-1-jsnow@redhat.com>
 References: <20220707040310.4163682-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,40 +85,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-18.04 has fallen out of our support window, so move ubuntu.aarch64
-forward to ubuntu 20.04, which is now our oldest supported Ubuntu
-release.
+The fedora container has since been split apart, so there's no suitable
+nearby target that would support "test-mingw" as it requires both x32
+and x64 support -- so either fedora-cross-win32 nor fedora-cross-win64
+would be truly suitable.
+
+Just remove this test as superfluous with our current CI infrastructure.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/vm/ubuntu.aarch64 | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ tests/vm/centos | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tests/vm/ubuntu.aarch64 b/tests/vm/ubuntu.aarch64
-index fc9c2ce22ff..666947393bd 100755
---- a/tests/vm/ubuntu.aarch64
-+++ b/tests/vm/ubuntu.aarch64
-@@ -32,13 +32,13 @@ DEFAULT_CONFIG = {
- class UbuntuAarch64VM(ubuntuvm.UbuntuVM):
-     name = "ubuntu.aarch64"
-     arch = "aarch64"
--    # NOTE: The Ubuntu 18.04 cloud images are updated weekly. The
--    # release below has been chosen as the latest at time of writing.
--    # Using the rolling latest release means the SHA will be wrong
--    # within a week.
--    image_name = "ubuntu-18.04-server-cloudimg-arm64.img"
--    image_link = "https://cloud-images.ubuntu.com/releases/bionic/release-20220610/" + image_name
--    image_sha256="0eacc5142238788365576b15f1d0b6f23dda6d3e545ee22f5306af7bd6ec47bd"
-+    # NOTE: The Ubuntu 20.04 cloud images are periodically updated. The
-+    # fixed image chosen below is the latest release at time of
-+    # writing. Using a rolling latest instead would mean that the SHA
-+    # would be incorrect at an indeterminate point in the future.
-+    image_name = "focal-server-cloudimg-arm64.img"
-+    image_link = "https://cloud-images.ubuntu.com/focal/20220615/" + image_name
-+    image_sha256="95a027336e197debe88c92ff2e554598e23c409139e1e750b71b3b820b514832"
-     BUILD_SCRIPT = """
-         set -e;
-         cd $(mktemp -d);
+diff --git a/tests/vm/centos b/tests/vm/centos
+index 3a527c47b3d..097a9ca14d3 100755
+--- a/tests/vm/centos
++++ b/tests/vm/centos
+@@ -28,7 +28,6 @@ class CentosVM(basevm.BaseVM):
+         tar -xf $SRC_ARCHIVE;
+         make docker-test-block@centos8 {verbose} J={jobs} NETWORK=1;
+         make docker-test-quick@centos8 {verbose} J={jobs} NETWORK=1;
+-        make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
+     """
+ 
+     def build_image(self, img):
 -- 
 2.34.3
 
