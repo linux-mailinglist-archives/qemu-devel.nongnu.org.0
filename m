@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F39CA56AA3C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 20:07:57 +0200 (CEST)
-Received: from localhost ([::1]:57752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F0256AA3F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 20:09:04 +0200 (CEST)
+Received: from localhost ([::1]:60154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Vuu-0002gi-Cf
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 14:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42690)
+	id 1o9Vvz-0004JH-EP
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 14:09:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o9VsZ-0001UP-IG; Thu, 07 Jul 2022 14:05:31 -0400
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:39814)
+ id 1o9VuB-00032z-Nf; Thu, 07 Jul 2022 14:07:12 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:40788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o9VsW-0001YF-B0; Thu, 07 Jul 2022 14:05:30 -0400
-Received: by mail-lf1-x130.google.com with SMTP id e12so32467733lfr.6;
- Thu, 07 Jul 2022 11:05:27 -0700 (PDT)
+ id 1o9Vu9-0001rq-IE; Thu, 07 Jul 2022 14:07:11 -0400
+Received: by mail-lf1-x136.google.com with SMTP id t25so32457194lfg.7;
+ Thu, 07 Jul 2022 11:07:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8Xq1C5DSWQ56ss5XAx6JECykBcbPk9pDXTzZ69DCTOg=;
- b=C01/5pvkhYs2I6JTlvXfoYsoY7O4SE3cCSyP02/gWPbo6Esk6vWpGw4+MvNAb1FvAi
- vl4Gfpmje3azklQiBmw7B66igSL/+PjSbJpex7jzTkAvctFjjw4G7hcHZKkrrsGRDwQZ
- 6Aq4p0/sUNqxc4MP7iP5MGbZb5E3/xtA1txwJpNxfSR5BzmWVHqrtbCLkgaP5qnuXFDf
- 0pILxK3VNKcuVwZzQyfY7qerzKIDJcLav0vL/DkWyuQy9C6uhSZtrnCgn7U5Up1FEyy0
- Loag07Hi3MqkruxinijZ44iuAAjP9n/bYrDDBe6S0ncKPFezdN7kub+xpitozv1V6qqP
- n9cQ==
+ :cc; bh=/A7d8BQLXV/XXdp/vvIK/7R6cuXLRsnA228FefT5qVY=;
+ b=Annx30K7eQkvadQO7MsihpNbIZW0EloAfctwxnQjLp3d8WFqRCl5OG9NyFwdIrvkvV
+ KsEZhWLg66Mhi3B7GmbDnvfe9wkBQDMM9cy9uKRKGjmfaeMDHCTK0bx9SDpcaMhBTRqW
+ xAxbIhPTu+x5IhUZUFosvehVBQHlxQO43ICa21FMygV0zoawlhujadaSGpqm6/4f/a8k
+ wTsTC65NPh9DLH8fl3cTr6iJ5qnWEnrpGkAy9gpmuUDIdPgtiUfYpJO8UwIzfCWcK3cp
+ OE0/ZuDj1p9FfnG2VPxCOy/VGN8OvDnmeFoUX03teXymKJ4TRQhd2M3S5l3uCDwwDLfC
+ Aejg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8Xq1C5DSWQ56ss5XAx6JECykBcbPk9pDXTzZ69DCTOg=;
- b=nLGDjpxz/xrZPy+oLoi4ZCPIqrM4TxmLgJYI3iYiX65WVqa7IoERYoN91if6ZNxXo6
- FSbt9Iu6eQsM7DL5nCmQdKWpw3MdvqUaaBKPCXMQ854H6d9Z/vmWjB8I6LgDMg/krBj1
- tECvnkhXzGZLwF2a+qNmLgbQh4OSyytDcOp24QMO0DZRmI0e0cJ7YV7DyJwiuWxfZ3sV
- Budm4jahteZDafwXgNm7Za6KBiLVVPpcytksMdvtKxRKwC4EN47PvK8BVdVzeEcG/0lR
- oNzuCgz12d183aHG0JEUYOV3UsLPWqYQrL/cI5lnzg2Kz0fU+M/HlloAWK32iR1KPgMq
- 9ihw==
-X-Gm-Message-State: AJIora8+79AzrmR7w4i7WqXO58zL2vwoVJOXoJk9h88pxqsOJi5Rnl3m
- 5ceGXC7Iyg84KM3PyIxtaOII0Jx/8azapJWHF/o=
-X-Google-Smtp-Source: AGRyM1sDYMZ1Onukv4V4Cdq8gNlItdTWgrDp6SYHkT9ynzBXjSE0y7tOcPVyTEWjnJqp/07mfV567C72Xio2qUx3xtI=
-X-Received: by 2002:a05:6512:1193:b0:481:22b3:f198 with SMTP id
- g19-20020a056512119300b0048122b3f198mr29978204lfr.446.1657217126164; Thu, 07
- Jul 2022 11:05:26 -0700 (PDT)
+ bh=/A7d8BQLXV/XXdp/vvIK/7R6cuXLRsnA228FefT5qVY=;
+ b=1/49VIHWbEUCQfrDRXQrgKFGeG6OIPOo/rlopkgpord5HE3Y8cqIdSAnWum6J9Aqlz
+ 0mkf/2GVMxx8P08Sj9lhwZtgZZG0REcvbbduYemvHpyx9pMav2k1OoURoMyP3fmSW6vS
+ DYVo+AcNbncYbGEqtPcrmkY3SL6e76emSoHGux9IUsV0Xo0TFm8HZJwmd23w1xGpP9uF
+ RJpT3o0DERyN927JL+xQ3NLkjYRTuJWOmV2ASgeK/rT25F7yDl89arLXZaad843Gakx6
+ aQOCQxeeqtPIu1T2w+knqJGCZKjSYLLhVxSAnTMGvrB7K0tnfldd0yJhvf7BEdjjY33y
+ /41w==
+X-Gm-Message-State: AJIora/SSdVRkfMIujzpe0XwyC54QkD7ndJSaz9H1Ouc0DYYMJ508DML
+ DlS0gaihFLNm3JJpUzx+1ctY5UAjeWV9RKbO5UM=
+X-Google-Smtp-Source: AGRyM1sNATu9CdgPBuMj4wFRFs0bOFBFJhCsoGiaYFakYKWBKVVNNrj4AeQZVga+vRMXYvRYCct1QS2QBl7ZgfqAXyE=
+X-Received: by 2002:a05:6512:6d4:b0:47f:74b4:4ec4 with SMTP id
+ u20-20020a05651206d400b0047f74b44ec4mr29559913lff.654.1657217227484; Thu, 07
+ Jul 2022 11:07:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
- <20220616124034.3381391-7-marcandre.lureau@redhat.com>
- <87ilo9dsne.fsf@pond.sub.org>
-In-Reply-To: <87ilo9dsne.fsf@pond.sub.org>
+ <20220616124034.3381391-6-marcandre.lureau@redhat.com>
+ <87mtdldswa.fsf@pond.sub.org>
+In-Reply-To: <87mtdldswa.fsf@pond.sub.org>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 7 Jul 2022 22:05:14 +0400
-Message-ID: <CAJ+F1CLNa=edp=O8LB=5v-2iChEyYdP7-oa_DtnKDLeC1E3_vw@mail.gmail.com>
-Subject: Re: [PATCH 6/9] error-report: add a callback to overwrite
- error_vprintf
-To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 7 Jul 2022 22:06:56 +0400
+Message-ID: <CAJ+F1C+u_hyRAG0ivQs3NWyBzMiA=ugonXxWfaz5A_33UPTGNQ@mail.gmail.com>
+Subject: Re: [PATCH 5/9] error-report: introduce ErrorReportDetailedFunc
+To: Markus Armbruster <armbru@redhat.com>
 Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
  Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
  Warner Losh <imp@bsdimp.com>, 
@@ -63,10 +62,11 @@ Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Fam Zheng <fam@euphon.net>, 
  Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  "open list:Block layer core" <qemu-block@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000001eec6505e33aee1c"
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x130.google.com
+Content-Type: multipart/alternative; boundary="00000000000028f48405e33af480"
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,108 +89,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001eec6505e33aee1c
+--00000000000028f48405e33af480
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-On Thu, Jul 7, 2022 at 4:18 PM Markus Armbruster <armbru@redhat.com> wrote:
+On Thu, Jul 7, 2022 at 4:13 PM Markus Armbruster <armbru@redhat.com> wrote:
 
 > marcandre.lureau@redhat.com writes:
 >
 > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > >
-> > error_vprintf() is implemented in monitor.c, which overrides the
-> > default implementation from stubs/, while avoiding a direct dependency
-> > to the monitor from error-report.c.
-> >
-> > However, the stub solution isn't working when moving error-report.c and
-> > stubs/error-printf.c in a common library. Linking with such library
-> > creates conflicts for the error_vprintf() implementations
->
-> I'm feeling dense today: how?
->
-
-If I try to overwrite a symbol in qemu when linking with a static library
-from a subproject, the linker fails:
-
-FAILED: storage-daemon/qemu-storage-daemon
-cc -m64 -mcx16  -o storage-daemon/qemu-storage-daemon
-storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-introspec=
-t.c.o
-storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-types.c.o
-storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-visit.c.o
-storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-commands.=
-c.o
-storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-init-comm=
-ands.c.o
-storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-events.c.=
-o
-storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-emit-even=
-ts.c.o
-storage-daemon/qemu-storage-daemon.p/qemu-storage-daemon.c.o
--Wl,--as-needed -Wl,--no-undefined -pie -Wl,--whole-archive libblockdev.fa
-libblock.fa libcrypto.fa libauthz.fa libqom.fa libio.fa -Wl,--start-group
-libevent-loop-base.a libchardev.fa libqmp.fa -Wl,--no-whole-archive
--Wl,--warn-common -Wl,-z,relro -Wl,-z,now -fstack-protector-strong
--Wl,-rpath,/usr/lib64/iscsi -Wl,-rpath-link,/usr/lib64/iscsi libqemuutil.a
-subprojects/libvhost-user/libvhost-user-glib.a
-subprojects/libvhost-user/libvhost-user.a
-subprojects/qemu-common/libqemu-common.a libblockdev.fa
-subprojects/libvduse/libvduse.a libblock.fa libcrypto.fa libauthz.fa
-libqom.fa libio.fa libchardev.fa libqmp.fa @block.syms
-/usr/lib64/libgnutls.so /usr/lib64/liburing.so /usr/lib64/libgio-2.0.so
-/usr/lib64/libgobject-2.0.so /usr/lib64/libglib-2.0.so -Wl,--export-dynamic
--pthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lm /usr/lib64/libpixman-1.so
--lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lgmodule-2.0 -lglib-2.0 -lglib-2.0
--lgmodule-2.0 -lglib-2.0 -lglib-2.0 /usr/lib64/libfuse3.so -lpthread
--lgmodule-2.0 -lglib-2.0 -lglib-2.0 /usr/lib64/libzstd.so
-/usr/lib64/libz.so /usr/lib64/iscsi/libiscsi.so -laio -lpam -lutil
--Wl,--end-group
-/usr/bin/ld:
-subprojects/qemu-common/libqemu-common.a.p/src_error-report.c.o: in
-function `error_init':
-/home/elmarco/src/qemu/build/../subprojects/qemu-common/src/error-report.c:=
-413:
-multiple definition of `error_init';
-libqmp.fa.p/monitor_qmp.c.o:/home/elmarco/src/qemu/build/../monitor/qmp.c:4=
-0:
-first defined here
-
-But I can't really explain why it works when overwriting symbols from
-libqemuutil.a, I am a bit puzzled here. Am I missing something obvious?
-(this is a bit of dark linker magic going on)
-
-
-
-> Why would the linker pull in error-printf.o when the symbols it defines
-> are already provided by .o the linker processed before the library
-> containing error-printf.o?
->
-> >                                                           (and weak
-> > symbols aren't great either).
->
-> Weak symbols are great, except Windows isn't.
->
-> >                               Instead, use the "traditional" approach t=
-o
-> > provide overidable callbacks.
+> > Remove monitor dependency from error printing code, by allowing program=
+s
+> > to set a callback for when to use "detailed" reporting or not.
 > >
 > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  include/qemu/error-report.h          | 4 +++-
+> >  bsd-user/main.c                      | 2 +-
+> >  linux-user/main.c                    | 2 +-
+> >  qemu-img.c                           | 2 +-
+> >  qemu-io.c                            | 2 +-
+> >  qemu-nbd.c                           | 2 +-
+> >  scsi/qemu-pr-helper.c                | 2 +-
+> >  softmmu/vl.c                         | 7 ++++++-
+> >  storage-daemon/qemu-storage-daemon.c | 7 ++++++-
+> >  util/error-report.c                  | 8 +++++---
+> >  10 files changed, 26 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/include/qemu/error-report.h b/include/qemu/error-report.h
+> > index 3ae2357fda54..e2e630f207f0 100644
+> > --- a/include/qemu/error-report.h
+> > +++ b/include/qemu/error-report.h
+> > @@ -13,6 +13,8 @@
+> >  #ifndef QEMU_ERROR_REPORT_H
+> >  #define QEMU_ERROR_REPORT_H
+> >
+> > +typedef bool (*ErrorReportDetailedFunc)(void);
+> > +
+> >  typedef struct Location {
+> >      /* all members are private to qemu-error.c */
+> >      enum { LOC_NONE, LOC_CMDLINE, LOC_FILE } kind;
+> > @@ -46,7 +48,7 @@ bool error_report_once_cond(bool *printed, const char
+> *fmt, ...)
+> >  bool warn_report_once_cond(bool *printed, const char *fmt, ...)
+> >      G_GNUC_PRINTF(2, 3);
+> >
+> > -void error_init(const char *argv0);
+> > +void error_init(const char *argv0, ErrorReportDetailedFunc detailed_fn=
+);
+> >
+> >  /*
+> >   * Similar to error_report(), except it prints the message just once.
+> > diff --git a/bsd-user/main.c b/bsd-user/main.c
+> > index 6f09180d6541..d5f8fca863d7 100644
+> > --- a/bsd-user/main.c
+> > +++ b/bsd-user/main.c
+> > @@ -292,7 +292,7 @@ int main(int argc, char **argv)
+> >
+> >      save_proc_pathname(argv[0]);
+> >
+> > -    error_init(argv[0]);
+> > +    error_init(argv[0], NULL);
+> >      module_call_init(MODULE_INIT_TRACE);
+> >      qemu_init_cpu_list();
+> >      module_call_init(MODULE_INIT_QOM);
+> [More such calls of error_init()...]
+> > diff --git a/softmmu/vl.c b/softmmu/vl.c
+> > index 54e920ada1a1..3b46fc9c1fc5 100644
+> > --- a/softmmu/vl.c
+> > +++ b/softmmu/vl.c
+> > @@ -2590,6 +2590,11 @@ void qmp_x_exit_preconfig(Error **errp)
+> >      }
+> >  }
+> >
+> > +static bool error_is_detailed(void)
+> > +{
+> > +    return !monitor_cur();
+> > +}
+> > +
+> >  void qemu_init(int argc, char **argv, char **envp)
+> >  {
+> >      QemuOpts *opts;
+> > @@ -2634,7 +2639,7 @@ void qemu_init(int argc, char **argv, char **envp=
+)
+> >      qemu_add_opts(&qemu_action_opts);
+> >      module_call_init(MODULE_INIT_OPTS);
+> >
+> > -    error_init(argv[0]);
+> > +    error_init(argv[0], error_is_detailed);
+> >      qemu_init_exec_dir(argv[0]);
+> >
+> >      qemu_init_arch_modules();
+> > diff --git a/storage-daemon/qemu-storage-daemon.c
+> b/storage-daemon/qemu-storage-daemon.c
+> > index c104817cdddc..7e4d5030a045 100644
+> > --- a/storage-daemon/qemu-storage-daemon.c
+> > +++ b/storage-daemon/qemu-storage-daemon.c
+> > @@ -368,13 +368,18 @@ static void pid_file_init(void)
+> >      atexit(pid_file_cleanup);
+> >  }
+> >
+> > +static bool error_is_detailed(void)
+> > +{
+> > +    return !monitor_cur();
+> > +}
+> > +
+> >  int main(int argc, char *argv[])
+> >  {
+> >  #ifdef CONFIG_POSIX
+> >      signal(SIGPIPE, SIG_IGN);
+> >  #endif
+> >
+> > -    error_init(argv[0]);
+> > +    error_init(argv[0], error_is_detailed);
+> >      qemu_init_exec_dir(argv[0]);
+> >      os_setup_signal_handling();
+> >
+> > diff --git a/util/error-report.c b/util/error-report.c
+> > index c43227a975e2..c2181f80a83d 100644
+> > --- a/util/error-report.c
+> > +++ b/util/error-report.c
+> > @@ -11,7 +11,6 @@
+> >   */
+> >
+> >  #include "qemu/osdep.h"
+> > -#include "monitor/monitor.h"
+> >  #include "qemu/error-report.h"
+> >
+> >  /*
+> > @@ -28,6 +27,7 @@ typedef enum {
+> >  bool message_with_timestamp;
+> >  bool error_with_guestname;
+> >  const char *error_guest_name;
+> > +ErrorReportDetailedFunc detailed_fn =3D NULL;
+> >
+> >  int error_printf(const char *fmt, ...)
+> >  {
+> > @@ -195,7 +195,7 @@ real_time_iso8601(void)
+> >   */
+> >  static void vreport(report_type type, const char *fmt, va_list ap)
+> >  {
+> > -    bool detailed =3D !monitor_cur();
+> > +    bool detailed =3D detailed_fn ? detailed_fn() : TRUE;
+> >      gchar *timestr;
+> >
+> >      if (message_with_timestamp && detailed) {
+> > @@ -387,7 +387,7 @@ static void qemu_log_func(const gchar *log_domain,
+> >      }
+> >  }
+> >
+> > -void error_init(const char *argv0)
+> > +void error_init(const char *argv0, ErrorReportDetailedFunc detailed)
+> >  {
+> >      const char *p =3D strrchr(argv0, '/');
+> >
+> > @@ -401,4 +401,6 @@ void error_init(const char *argv0)
+> >      g_log_set_default_handler(qemu_log_func, NULL);
+> >      g_warn_if_fail(qemu_glog_domains =3D=3D NULL);
+> >      qemu_glog_domains =3D g_strdup(g_getenv("G_MESSAGES_DEBUG"));
+> > +
+> > +    detailed_fn =3D detailed;
+> >  }
 >
+> A callback works, but note that each program's function is fixed.  Why
+> not use the linker to resolve it?  Have a .o in libqemuutil.a that
+> defines error_is_detailed() to return false always.  Have another
+> error_is_detailed() that returns !monitor_cur() in monitor.c.  A program
+> that links the monitor gets the latter, all the others the former.
 >
+> What do you think?
 >
+
+Yes, if we manage to overwrite symbols from a static library in a
+subproject. See the other thread for discussion.
+
 
 --=20
 Marc-Andr=C3=A9 Lureau
 
---0000000000001eec6505e33aee1c
+--00000000000028f48405e33af480
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 7, 2022 at 4:18 PM Mark=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 7, 2022 at 4:13 PM Mark=
 us Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a=
 >&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
  0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><a =
@@ -200,82 +285,193 @@ eau@redhat.com</a> writes:<br>
 &gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
 dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
 &gt;<br>
-&gt; error_vprintf() is implemented in monitor.c, which overrides the<br>
-&gt; default implementation from stubs/, while avoiding a direct dependency=
-<br>
-&gt; to the monitor from error-report.c.<br>
-&gt;<br>
-&gt; However, the stub solution isn&#39;t working when moving error-report.=
-c and<br>
-&gt; stubs/error-printf.c in a common library. Linking with such library<br=
->
-&gt; creates conflicts for the error_vprintf() implementations<br>
-<br>
-I&#39;m feeling dense today: how?<br></blockquote></div><div class=3D"gmail=
-_quote"><br></div><div class=3D"gmail_quote">If I try to overwrite a symbol=
- in qemu when linking with a static library from a subproject, the linker f=
-ails:</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">=
-FAILED: storage-daemon/qemu-storage-daemon <br>cc -m64 -mcx16 =C2=A0-o stor=
-age-daemon/qemu-storage-daemon storage-daemon/qemu-storage-daemon.p/meson-g=
-enerated_.._qapi_qapi-introspect.c.o storage-daemon/qemu-storage-daemon.p/m=
-eson-generated_.._qapi_qapi-types.c.o storage-daemon/qemu-storage-daemon.p/=
-meson-generated_.._qapi_qapi-visit.c.o storage-daemon/qemu-storage-daemon.p=
-/meson-generated_.._qapi_qapi-commands.c.o storage-daemon/qemu-storage-daem=
-on.p/meson-generated_.._qapi_qapi-init-commands.c.o storage-daemon/qemu-sto=
-rage-daemon.p/meson-generated_.._qapi_qapi-events.c.o storage-daemon/qemu-s=
-torage-daemon.p/meson-generated_.._qapi_qapi-emit-events.c.o storage-daemon=
-/qemu-storage-daemon.p/qemu-storage-daemon.c.o -Wl,--as-needed -Wl,--no-und=
-efined -pie -Wl,--whole-archive libblockdev.fa libblock.fa libcrypto.fa lib=
-authz.fa libqom.fa libio.fa -Wl,--start-group libevent-loop-base.a libchard=
-ev.fa libqmp.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,relro -Wl,-=
-z,now -fstack-protector-strong -Wl,-rpath,/usr/lib64/iscsi -Wl,-rpath-link,=
-/usr/lib64/iscsi libqemuutil.a subprojects/libvhost-user/libvhost-user-glib=
-.a subprojects/libvhost-user/libvhost-user.a subprojects/qemu-common/libqem=
-u-common.a libblockdev.fa subprojects/libvduse/libvduse.a libblock.fa libcr=
-ypto.fa libauthz.fa libqom.fa libio.fa libchardev.fa libqmp.fa @block.syms =
-/usr/lib64/libgnutls.so /usr/lib64/liburing.so /usr/lib64/<a href=3D"http:/=
-/libgio-2.0.so">libgio-2.0.so</a> /usr/lib64/<a href=3D"http://libgobject-2=
-.0.so">libgobject-2.0.so</a> /usr/lib64/<a href=3D"http://libglib-2.0.so">l=
-ibglib-2.0.so</a> -Wl,--export-dynamic -pthread -lgmodule-2.0 -lglib-2.0 -l=
-glib-2.0 -lm /usr/lib64/libpixman-1.so -lgmodule-2.0 -lglib-2.0 -lglib-2.0 =
--lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lgmodule-2.0 -lglib-2.0 -lglib-2.0 /us=
-r/lib64/libfuse3.so -lpthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0 /usr/lib6=
-4/libzstd.so /usr/lib64/libz.so /usr/lib64/iscsi/libiscsi.so -laio -lpam -l=
-util -Wl,--end-group<br>/usr/bin/ld: subprojects/qemu-common/libqemu-common=
-.a.p/src_error-report.c.o: in function `error_init&#39;:<br>/home/elmarco/s=
-rc/qemu/build/../subprojects/qemu-common/src/error-report.c:413: multiple d=
-efinition of `error_init&#39;; libqmp.fa.p/monitor_qmp.c.o:/home/elmarco/sr=
-c/qemu/build/../monitor/qmp.c:40: first defined here</div><div class=3D"gma=
-il_quote"><br><div>But I can&#39;t really explain why it works when overwri=
-ting symbols from libqemuutil.a, I am a bit puzzled here. Am I missing some=
-thing obvious? (this is a bit of dark linker magic going on)<br></div><div>=
-<br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Why would the linker pull in error-printf.o when the symbols it defines<br>
-are already provided by .o the linker processed before the library<br>
-containing error-printf.o?<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(and weak=
-<br>
-&gt; symbols aren&#39;t great either).<br>
-<br>
-Weak symbols are great, except Windows isn&#39;t.<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Instead, use the &quot;traditional=
-&quot; approach to<br>
-&gt; provide overidable callbacks.<br>
+&gt; Remove monitor dependency from error printing code, by allowing progra=
+ms<br>
+&gt; to set a callback for when to use &quot;detailed&quot; reporting or no=
+t.<br>
 &gt;<br>
 &gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
 lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
 >
+&gt; ---<br>
+&gt;=C2=A0 include/qemu/error-report.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =
+4 +++-<br>
+&gt;=C2=A0 bsd-user/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt;=C2=A0 linux-user/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt;=C2=A0 qemu-img.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+&gt;=C2=A0 qemu-io.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt;=C2=A0 qemu-nbd.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+&gt;=C2=A0 scsi/qemu-pr-helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 2 +-<br>
+&gt;=C2=A0 softmmu/vl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 7 ++++++-<br>
+&gt;=C2=A0 storage-daemon/qemu-storage-daemon.c | 7 ++++++-<br>
+&gt;=C2=A0 util/error-report.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 8 +++++---<br>
+&gt;=C2=A0 10 files changed, 26 insertions(+), 12 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/include/qemu/error-report.h b/include/qemu/error-report.h=
 <br>
+&gt; index 3ae2357fda54..e2e630f207f0 100644<br>
+&gt; --- a/include/qemu/error-report.h<br>
+&gt; +++ b/include/qemu/error-report.h<br>
+&gt; @@ -13,6 +13,8 @@<br>
+&gt;=C2=A0 #ifndef QEMU_ERROR_REPORT_H<br>
+&gt;=C2=A0 #define QEMU_ERROR_REPORT_H<br>
+&gt;=C2=A0 <br>
+&gt; +typedef bool (*ErrorReportDetailedFunc)(void);<br>
+&gt; +<br>
+&gt;=C2=A0 typedef struct Location {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 /* all members are private to qemu-error.c */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 enum { LOC_NONE, LOC_CMDLINE, LOC_FILE } kind;<br>
+&gt; @@ -46,7 +48,7 @@ bool error_report_once_cond(bool *printed, const cha=
+r *fmt, ...)<br>
+&gt;=C2=A0 bool warn_report_once_cond(bool *printed, const char *fmt, ...)<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 G_GNUC_PRINTF(2, 3);<br>
+&gt;=C2=A0 <br>
+&gt; -void error_init(const char *argv0);<br>
+&gt; +void error_init(const char *argv0, ErrorReportDetailedFunc detailed_f=
+n);<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 /*<br>
+&gt;=C2=A0 =C2=A0* Similar to error_report(), except it prints the message =
+just once.<br>
+&gt; diff --git a/bsd-user/main.c b/bsd-user/main.c<br>
+&gt; index 6f09180d6541..d5f8fca863d7 100644<br>
+&gt; --- a/bsd-user/main.c<br>
+&gt; +++ b/bsd-user/main.c<br>
+&gt; @@ -292,7 +292,7 @@ int main(int argc, char **argv)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 save_proc_pathname(argv[0]);<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 error_init(argv[0]);<br>
+&gt; +=C2=A0 =C2=A0 error_init(argv[0], NULL);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 module_call_init(MODULE_INIT_TRACE);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_init_cpu_list();<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 module_call_init(MODULE_INIT_QOM);<br>
+[More such calls of error_init()...]<br>
+&gt; diff --git a/softmmu/vl.c b/softmmu/vl.c<br>
+&gt; index 54e920ada1a1..3b46fc9c1fc5 100644<br>
+&gt; --- a/softmmu/vl.c<br>
+&gt; +++ b/softmmu/vl.c<br>
+&gt; @@ -2590,6 +2590,11 @@ void qmp_x_exit_preconfig(Error **errp)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; +static bool error_is_detailed(void)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 return !monitor_cur();<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 void qemu_init(int argc, char **argv, char **envp)<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QemuOpts *opts;<br>
+&gt; @@ -2634,7 +2639,7 @@ void qemu_init(int argc, char **argv, char **env=
+p)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_add_opts(&amp;qemu_action_opts);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 module_call_init(MODULE_INIT_OPTS);<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 error_init(argv[0]);<br>
+&gt; +=C2=A0 =C2=A0 error_init(argv[0], error_is_detailed);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_init_exec_dir(argv[0]);<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_init_arch_modules();<br>
+&gt; diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qem=
+u-storage-daemon.c<br>
+&gt; index c104817cdddc..7e4d5030a045 100644<br>
+&gt; --- a/storage-daemon/qemu-storage-daemon.c<br>
+&gt; +++ b/storage-daemon/qemu-storage-daemon.c<br>
+&gt; @@ -368,13 +368,18 @@ static void pid_file_init(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 atexit(pid_file_cleanup);<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; +static bool error_is_detailed(void)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 return !monitor_cur();<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 int main(int argc, char *argv[])<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 #ifdef CONFIG_POSIX<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 signal(SIGPIPE, SIG_IGN);<br>
+&gt;=C2=A0 #endif<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 error_init(argv[0]);<br>
+&gt; +=C2=A0 =C2=A0 error_init(argv[0], error_is_detailed);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_init_exec_dir(argv[0]);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 os_setup_signal_handling();<br>
+&gt;=C2=A0 <br>
+&gt; diff --git a/util/error-report.c b/util/error-report.c<br>
+&gt; index c43227a975e2..c2181f80a83d 100644<br>
+&gt; --- a/util/error-report.c<br>
+&gt; +++ b/util/error-report.c<br>
+&gt; @@ -11,7 +11,6 @@<br>
+&gt;=C2=A0 =C2=A0*/<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
+&gt; -#include &quot;monitor/monitor.h&quot;<br>
+&gt;=C2=A0 #include &quot;qemu/error-report.h&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 /*<br>
+&gt; @@ -28,6 +27,7 @@ typedef enum {<br>
+&gt;=C2=A0 bool message_with_timestamp;<br>
+&gt;=C2=A0 bool error_with_guestname;<br>
+&gt;=C2=A0 const char *error_guest_name;<br>
+&gt; +ErrorReportDetailedFunc detailed_fn =3D NULL;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 int error_printf(const char *fmt, ...)<br>
+&gt;=C2=A0 {<br>
+&gt; @@ -195,7 +195,7 @@ real_time_iso8601(void)<br>
+&gt;=C2=A0 =C2=A0*/<br>
+&gt;=C2=A0 static void vreport(report_type type, const char *fmt, va_list a=
+p)<br>
+&gt;=C2=A0 {<br>
+&gt; -=C2=A0 =C2=A0 bool detailed =3D !monitor_cur();<br>
+&gt; +=C2=A0 =C2=A0 bool detailed =3D detailed_fn ? detailed_fn() : TRUE;<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 gchar *timestr;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (message_with_timestamp &amp;&amp; detailed) {<=
+br>
+&gt; @@ -387,7 +387,7 @@ static void qemu_log_func(const gchar *log_domain,=
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -void error_init(const char *argv0)<br>
+&gt; +void error_init(const char *argv0, ErrorReportDetailedFunc detailed)<=
+br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 const char *p =3D strrchr(argv0, &#39;/&#39;);<br>
+&gt;=C2=A0 <br>
+&gt; @@ -401,4 +401,6 @@ void error_init(const char *argv0)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 g_log_set_default_handler(qemu_log_func, NULL);<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 g_warn_if_fail(qemu_glog_domains =3D=3D NULL);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_glog_domains =3D g_strdup(g_getenv(&quot;G_ME=
+SSAGES_DEBUG&quot;));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 detailed_fn =3D detailed;<br>
+&gt;=C2=A0 }<br>
+<br>
+A callback works, but note that each program&#39;s function is fixed.=C2=A0=
+ Why<br>
+not use the linker to resolve it?=C2=A0 Have a .o in libqemuutil.a that<br>
+defines error_is_detailed() to return false always.=C2=A0 Have another<br>
+error_is_detailed() that returns !monitor_cur() in monitor.c.=C2=A0 A progr=
+am<br>
+that links the monitor gets the latter, all the others the former.<br>
+<br>
+What do you think?<br></blockquote><div><br></div><div>Yes, if we manage to=
+ overwrite symbols from a static library in a subproject. See the other thr=
+ead for discussion. <br></div></div><br clear=3D"all"><br>-- <br><div dir=
+=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---0000000000001eec6505e33aee1c--
+--00000000000028f48405e33af480--
 
