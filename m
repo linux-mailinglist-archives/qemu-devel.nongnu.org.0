@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1315697D9
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 04:18:55 +0200 (CEST)
-Received: from localhost ([::1]:55992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A835697F3
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 04:26:47 +0200 (CEST)
+Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9H6T-0002G6-Tt
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 22:18:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47010)
+	id 1o9HE6-0005dw-IR
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 22:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=81874fe792=irischenlj@fb.com>)
- id 1o9H4W-0001Ex-3F; Wed, 06 Jul 2022 22:16:52 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:43236)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=81874fe792=irischenlj@fb.com>)
- id 1o9H4R-0005Wa-T4; Wed, 06 Jul 2022 22:16:51 -0400
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 266L6v7N029040;
- Wed, 6 Jul 2022 19:16:31 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=facebook;
- bh=3070Y4J7B6E4ebAzjovpyAX6FIkhzbPFyiS/r0Kai1U=;
- b=PuofVdc1NWCPMDEwm2r60nCSM1km58hEC19ggqfvmNBQ51EWrfVLWrDxpVttALJQQxoM
- uI/+UGN+8A+HLEw9QaOMvB7fDYLcHR4Chh3I++BomQ0KiimCgiWwBOoO/dK95CE+dayt
- OIKD/l8/lisIAtg9abhhx7oweCqhX2GgX9A= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3h4ucmac5h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Wed, 06 Jul 2022 19:16:31 -0700
-Received: from localhost (2620:10d:c0a8:1b::d) by mail.thefacebook.com
- (2620:10d:c0a8:83::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 6 Jul
- 2022 19:16:30 -0700
-From: Iris Chen <irischenlj@fb.com>
-To: 
-CC: <irischenlj@fb.com>, <pdel@fb.com>, <qemu-devel@nongnu.org>,
- <qemu-arm@nongnu.org>, <clg@kaod.org>, <patrick@stwcx.xyz>,
- <alistair@alistair23.me>, <kwolf@redhat.com>, <hreitz@redhat.com>,
- <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <thuth@redhat.com>, <lvivier@redhat.com>, <pbonzini@redhat.com>,
- <qemu-block@nongnu.org>, <dz4list@gmail.com>
-Subject: [PATCH v2] hw: m25p80: Add Block Protect and Top Bottom bits for
- write protect
-Date: Wed, 6 Jul 2022 19:16:26 -0700
-Message-ID: <20220707021626.2482219-1-irischenlj@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220627185234.1911337-1-irischenlj@fb.com>
-References: <20220627185234.1911337-1-irischenlj@fb.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9HCB-0004iR-2N
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 22:24:48 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:41873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9HC7-0006ZG-MQ
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 22:24:46 -0400
+Received: by mail-pg1-x531.google.com with SMTP id 23so15907769pgc.8
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 19:24:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=l2swe0jsyvTiBP9fWd5PZ2E3Dx1pKSpX2l3TpFS0U14=;
+ b=OE76u1isofWaYaTzlEmGI+wEueYUHSW4QK7BDR/uWavMvClr0szCPs/fBQDmu7JmGv
+ azIm2Gm4h/71fo+VSMp+JobA+nQxNk3pGUthOEQrc/aKyqBNO/IaMOzorPWGuaOR75Uc
+ KjxiF0bfrkGm6JmyKi/ob5tEOAP2JRHUgDExYplN5uDK6JbZeqi4USiA5IPqJk3+7MKK
+ eqUvKPqcTSAlc3vODARrFQoN6l7mRf36cjFSuV4RWL0p3tBt4yAxCG0TNYzkv6d+UXHM
+ T67w5jgs+GEZUFkSr/EuhL4ZbDrbTmMLtszawuGy3CHqiLGxPb2EnOQqV5m6AZsS8iJd
+ tk2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=l2swe0jsyvTiBP9fWd5PZ2E3Dx1pKSpX2l3TpFS0U14=;
+ b=nj1gnpl2vVZh4TziHpJnmmf1cYwMKaflVHf0uZO+03q3V9ArHl+GamUF/rrXqx/NB3
+ m3OYi0B9cvJHHRlTULALIRWK67fLS09PBsWn6iVJ74GqsIJnMykfHBSPWbv7aU3XfO6k
+ HZshiHOPTctpp47p3SzSHVNHMG3lRLNJDaVFbmwzWA7RLVWWwovzpsvLUF7pf6ZMwNHp
+ 8fEF6RGTLwmPpkkWgMq3ThFaGwDP5A0oy7kMy1jKFyY7OqXTDCHiedCj/zfgKoUWpHE/
+ 8Uz7uXGDUicMZdNPjeXtMh6hjXtoHblIL4e9Ijzy29mm1+AsKrEA+CqfNqklS9MxurQD
+ Y+vA==
+X-Gm-Message-State: AJIora81KyYLLVLJ518VDG/lzbht7tBcFY1RgWBCyVueJ7g1meTaF2Et
+ DZ2rB97Lmm119iUl/DXIKfyclg==
+X-Google-Smtp-Source: AGRyM1t+jdrqctz/J4MahPnBgB1wiwN23f1fSfbPllG2WNIOPCr4iyby2raNEhbvq0s9gUR+gMeHCg==
+X-Received: by 2002:a63:eb0a:0:b0:411:4cbf:c80b with SMTP id
+ t10-20020a63eb0a000000b004114cbfc80bmr37409918pgh.430.1657160681980; 
+ Wed, 06 Jul 2022 19:24:41 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ cp2-20020a170902e78200b0015e8d4eb1d7sm26401227plb.33.2022.07.06.19.24.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jul 2022 19:24:41 -0700 (PDT)
+Message-ID: <fe6baa39-41e0-125c-6b8c-377596af9e7c@linaro.org>
+Date: Thu, 7 Jul 2022 07:54:37 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 00/34] ppc queue
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, peter.maydell@linaro.org
+References: <20220706200946.471114-1-danielhb413@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220706200946.471114-1-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [2620:10d:c0a8:1b::d]
-X-Proofpoint-GUID: VBxGL_7BAGcCp5Se0CjsbHmTpRfcV5aV
-X-Proofpoint-ORIG-GUID: VBxGL_7BAGcCp5Se0CjsbHmTpRfcV5aV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-06_14,2022-06-28_01,2022-06-22_01
-Received-SPF: pass client-ip=67.231.153.30;
- envelope-from=prvs=81874fe792=irischenlj@fb.com;
- helo=mx0b-00082601.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,202 +92,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Iris Chen <irischenlj@fb.com>
----
-Addressing all comments. 
-In reponse to this comment:
-"Something wrong will occur if all block_protect[0123] are zeroes",
-the code actually ignores num_protected_sectors when block_protect_value = 0
-which happens when block_protect[0123] are zeroes.
- 
-You can refer to the bottom block in v1, where we only look at cases when 
-block_protect_value > 0 so it is actually handled.
-Regardless, since we were setting num_protected_sectors
-in either case, I have refactored the code to make it more clear. 
+On 7/7/22 01:39, Daniel Henrique Barboza wrote:
+> The following changes since commit 180c2f24d5e8eada41e012a3899d29bb695aae06:
+> 
+>    Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2022-07-06 10:41:34 +0530)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20220706
+> 
+> for you to fetch changes up to 0b83377f46042529adbbf3a77f7ffb6f1e8a0aaa:
+> 
+>    target/ppc: Fix MPC8555 and MPC8560 core type to e500v1 (2022-07-06 10:30:01 -0300)
+> 
+> ----------------------------------------------------------------
+> ppc patch queue for 2022-07-06:
+> 
+> This queue consists of improvements and bug fixes in TCG, powernv and
+> pSeries, with some fixes in other areas as well.
+> 
+> - tcg and target/ppc: BCDA and mffscdrn implementations, Remove CONFIG_INT128
+> conditional code
+> - fix '-cpu max' alias
+> - remove '-cpu default' alias
+> - spapr: fixes in DDW handling, H_WATCHDOG support
+> - powernv: cleanups in the pnv-phb3/4 models
+> - fix core type of MPC8555 and MPC8560 models
 
- hw/block/m25p80.c | 103 ++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 91 insertions(+), 12 deletions(-)
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 50b523e5b1..bddea9853b 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -38,21 +38,19 @@
- #include "trace.h"
- #include "qom/object.h"
- 
--/* Fields for FlashPartInfo->flags */
--
--/* erase capabilities */
--#define ER_4K 1
--#define ER_32K 2
--/* set to allow the page program command to write 0s back to 1. Useful for
-- * modelling EEPROM with SPI flash command set
-- */
--#define EEPROM 0x100
--
- /* 16 MiB max in 3 byte address mode */
- #define MAX_3BYTES_SIZE 0x1000000
--
- #define SPI_NOR_MAX_ID_LEN 6
- 
-+/* Fields for FlashPartInfo->flags */
-+enum spi_option_flags {
-+    ER_4K                  = BIT(0),
-+    ER_32K                 = BIT(1),
-+    EEPROM                 = BIT(2),
-+    HAS_SR_TB              = BIT(3),
-+    HAS_SR_BP3_BIT6        = BIT(4),
-+};
-+
- typedef struct FlashPartInfo {
-     const char *part_name;
-     /*
-@@ -253,7 +251,8 @@ static const FlashPartInfo known_devices[] = {
-     { INFO("n25q512a11",  0x20bb20,      0,  64 << 10, 1024, ER_4K) },
-     { INFO("n25q512a13",  0x20ba20,      0,  64 << 10, 1024, ER_4K) },
-     { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
--    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
-+    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512,
-+           ER_4K | HAS_SR_BP3_BIT6 | HAS_SR_TB) },
-     { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
-     { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
-     { INFO("mt25ql512ab", 0x20ba20, 0x1044, 64 << 10, 1024, ER_4K | ER_32K) },
-@@ -480,6 +479,11 @@ struct Flash {
-     bool reset_enable;
-     bool quad_enable;
-     bool aai_enable;
-+    bool block_protect0;
-+    bool block_protect1;
-+    bool block_protect2;
-+    bool block_protect3;
-+    bool top_bottom_bit;
-     bool status_register_write_disabled;
-     uint8_t ear;
- 
-@@ -626,11 +630,36 @@ void flash_write8(Flash *s, uint32_t addr, uint8_t data)
-     uint32_t page = addr / s->pi->page_size;
-     uint8_t prev = s->storage[s->cur_addr];
- 
-+    uint32_t block_protect_value = (s->block_protect3 << 3) |
-+                                   (s->block_protect2 << 2) |
-+                                   (s->block_protect1 << 1) |
-+                                   (s->block_protect0 << 0);
-+
-     if (!s->write_enable) {
-         qemu_log_mask(LOG_GUEST_ERROR, "M25P80: write with write protect!\n");
-         return;
-     }
- 
-+    if (block_protect_value > 0) {
-+        uint32_t num_protected_sectors = 1 << (block_protect_value - 1);
-+        uint32_t sector = addr / s->pi->sector_size;
-+
-+        /* top_bottom_bit == 0 means TOP */
-+        if (!s->top_bottom_bit) {
-+            if (s->pi->n_sectors <= sector + num_protected_sectors) {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                              "M25P80: write with write protect!\n");
-+                return;
-+            }
-+        } else {
-+            if (sector < num_protected_sectors) {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                              "M25P80: write with write protect!\n");
-+                return;
-+            }
-+        }
-+    }
-+
-     if ((prev ^ data) & data) {
-         trace_m25p80_programming_zero_to_one(s, addr, prev, data);
-     }
-@@ -728,6 +757,15 @@ static void complete_collecting_data(Flash *s)
-         break;
-     case WRSR:
-         s->status_register_write_disabled = extract32(s->data[0], 7, 1);
-+        s->block_protect0 = extract32(s->data[0], 2, 1);
-+        s->block_protect1 = extract32(s->data[0], 3, 1);
-+        s->block_protect2 = extract32(s->data[0], 4, 1);
-+        if (s->pi->flags & HAS_SR_TB) {
-+            s->top_bottom_bit = extract32(s->data[0], 5, 1);
-+        }
-+        if (s->pi->flags & HAS_SR_BP3_BIT6) {
-+            s->block_protect3 = extract32(s->data[0], 6, 1);
-+        }
- 
-         switch (get_man(s)) {
-         case MAN_SPANSION:
-@@ -1213,6 +1251,15 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-     case RDSR:
-         s->data[0] = (!!s->write_enable) << 1;
-         s->data[0] |= (!!s->status_register_write_disabled) << 7;
-+        s->data[0] |= (!!s->block_protect0) << 2;
-+        s->data[0] |= (!!s->block_protect1) << 3;
-+        s->data[0] |= (!!s->block_protect2) << 4;
-+        if (s->pi->flags & HAS_SR_TB) {
-+            s->data[0] |= (!!s->top_bottom_bit) << 5;
-+        }
-+        if (s->pi->flags & HAS_SR_BP3_BIT6) {
-+            s->data[0] |= (!!s->block_protect3) << 6;
-+        }
- 
-         if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
-             s->data[0] |= (!!s->quad_enable) << 6;
-@@ -1553,6 +1600,11 @@ static void m25p80_reset(DeviceState *d)
- 
-     s->wp_level = true;
-     s->status_register_write_disabled = false;
-+    s->block_protect0 = false;
-+    s->block_protect1 = false;
-+    s->block_protect2 = false;
-+    s->block_protect3 = false;
-+    s->top_bottom_bit = false;
- 
-     reset_memory(s);
- }
-@@ -1639,6 +1691,32 @@ static const VMStateDescription vmstate_m25p80_write_protect = {
-     }
- };
- 
-+static bool m25p80_block_protect_needed(void *opaque)
-+{
-+    Flash *s = (Flash *)opaque;
-+
-+    return s->block_protect0 ||
-+           s->block_protect1 ||
-+           s->block_protect2 ||
-+           s->block_protect3 ||
-+           s->top_bottom_bit;
-+}
-+
-+static const VMStateDescription vmstate_m25p80_block_protect = {
-+    .name = "m25p80/block_protect",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = m25p80_block_protect_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_BOOL(block_protect0, Flash),
-+        VMSTATE_BOOL(block_protect1, Flash),
-+        VMSTATE_BOOL(block_protect2, Flash),
-+        VMSTATE_BOOL(block_protect3, Flash),
-+        VMSTATE_BOOL(top_bottom_bit, Flash),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static const VMStateDescription vmstate_m25p80 = {
-     .name = "m25p80",
-     .version_id = 0,
-@@ -1671,6 +1749,7 @@ static const VMStateDescription vmstate_m25p80 = {
-         &vmstate_m25p80_data_read_loop,
-         &vmstate_m25p80_aai_enable,
-         &vmstate_m25p80_write_protect,
-+        &vmstate_m25p80_block_protect,
-         NULL
-     }
- };
--- 
-2.30.2
+
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> Alexey Kardashevskiy (4):
+>        spapr/ddw: Reset DMA when the last non-default window is removed
+>        spapr/ddw: Implement 64bit query extension
+>        ppc: Define SETFIELD for the ppc target
+>        ppc/spapr: Implement H_WATCHDOG
+> 
+> Daniel Henrique Barboza (8):
+>        ppc/pnv: move root port attach to pnv_phb4_realize()
+>        ppc/pnv: attach phb3/phb4 root ports in QOM tree
+>        ppc/pnv: assign pnv-phb-root-port chassis/slot earlier
+>        ppc/pnv: make pnv_ics_get() use the chip8->phbs[] array
+>        ppc/pnv: make pnv_ics_resend() use chip8->phbs[]
+>        ppc/pnv: make pnv_chip_power8_pic_print_info() use chip8->phbs[]
+>        ppc/pnv: remove 'INTERFACE_PCIE_DEVICE' from phb3 root bus
+>        ppc/pnv: remove 'INTERFACE_PCIE_DEVICE' from phb4 root bus
+> 
+> Matheus Ferst (11):
+>        target/ppc: use int128.h methods in vpmsumd
+>        target/ppc: use int128.h methods in vadduqm
+>        target/ppc: use int128.h methods in vaddecuq and vaddeuqm
+>        target/ppc: use int128.h methods in vaddcuq
+>        target/ppc: use int128.h methods in vsubuqm
+>        target/ppc: use int128.h methods in vsubecuq and vsubeuqm
+>        target/ppc: use int128.h methods in vsubcuq
+>        target/ppc: Add flag for ISA v2.06 BCDA instructions
+>        target/ppc: implement addg6s
+>        target/ppc: implement cbcdtd
+>        target/ppc: implement cdtbcd
+> 
+> Murilo Opsfelder Araujo (1):
+>        target/ppc: Return default CPU for max CPU
+> 
+> Pali Rohár (1):
+>        target/ppc: Fix MPC8555 and MPC8560 core type to e500v1
+> 
+> Thomas Huth (1):
+>        target/ppc/cpu-models: Remove the "default" CPU alias
+> 
+> Víctor Colombo (8):
+>        target/ppc: Change FPSCR_* to follow POWER ISA numbering convention
+>        target/ppc: Fix insn32.decode style issues
+>        target/ppc: Move mffscrn[i] to decodetree
+>        target/ppc: Move mffsce to decodetree
+>        target/ppc: Move mffsl to decodetree
+>        target/ppc: Move mffs[.] to decodetree
+>        target/ppc: Implement mffscdrn[i] instructions
+>        tests/tcg/ppc64: Add mffsce test
+> 
+>   hw/intc/pnv_xive.c                         |  20 ---
+>   hw/intc/pnv_xive2.c                        |  20 ---
+>   hw/pci-host/pnv_phb3.c                     |  22 +--
+>   hw/pci-host/pnv_phb4.c                     |  40 +----
+>   hw/pci-host/pnv_phb4_pec.c                 |   3 -
+>   hw/ppc/pnv.c                               | 102 +++++------
+>   hw/ppc/spapr.c                             |   4 +
+>   hw/ppc/spapr_iommu.c                       |   3 +-
+>   hw/ppc/spapr_pci.c                         |   6 +-
+>   hw/ppc/spapr_rtas_ddw.c                    |  34 +++-
+>   hw/watchdog/meson.build                    |   1 +
+>   hw/watchdog/spapr_watchdog.c               | 274 +++++++++++++++++++++++++++++
+>   hw/watchdog/trace-events                   |   7 +
+>   include/hw/pci-host/pnv_phb3_regs.h        |  16 --
+>   include/hw/ppc/pnv.h                       |   3 +-
+>   include/hw/ppc/spapr.h                     |  26 ++-
+>   target/ppc/cpu-models.c                    |  17 +-
+>   target/ppc/cpu-models.h                    |  14 +-
+>   target/ppc/cpu.h                           |  89 ++++++----
+>   target/ppc/cpu_init.c                      |  29 ++-
+>   target/ppc/dfp_helper.c                    |  65 +++++++
+>   target/ppc/helper.h                        |  20 ++-
+>   target/ppc/insn32.decode                   |  71 ++++++--
+>   target/ppc/int_helper.c                    | 229 ++++--------------------
+>   target/ppc/internal.h                      |   3 -
+>   target/ppc/translate/fixedpoint-impl.c.inc |  51 ++++++
+>   target/ppc/translate/fp-impl.c.inc         | 203 +++++++++++----------
+>   target/ppc/translate/fp-ops.c.inc          |   9 -
+>   target/ppc/translate/vmx-impl.c.inc        |  32 ++--
+>   target/ppc/translate/vmx-ops.c.inc         |   9 +-
+>   tests/tcg/ppc64/Makefile.target            |   1 +
+>   tests/tcg/ppc64le/Makefile.target          |   1 +
+>   tests/tcg/ppc64le/mffsce.c                 |  37 ++++
+>   33 files changed, 885 insertions(+), 576 deletions(-)
+>   create mode 100644 hw/watchdog/spapr_watchdog.c
+>   create mode 100644 tests/tcg/ppc64le/mffsce.c
 
 
