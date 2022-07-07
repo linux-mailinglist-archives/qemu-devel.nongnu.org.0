@@ -2,62 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D60556A736
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 17:44:03 +0200 (CEST)
-Received: from localhost ([::1]:35674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7878C56A737
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 17:44:08 +0200 (CEST)
+Received: from localhost ([::1]:35868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Tfd-0002C4-Om
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 11:44:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34254)
+	id 1o9Tfj-0002K6-JW
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 11:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o9Ta0-00050C-8v
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 11:38:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50048)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9TcS-0008EH-JG
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 11:40:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o9TZv-0001Xg-PY
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 11:38:10 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9TcO-00023S-Sd
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 11:40:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657208285;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=mgZEtcJqWah1MC6Xk/84jfJA7jA09sA9goWzW6703Zw=;
- b=ifQFTWw+VSBrqZBhELivauXep/N8fGpadPApt2y8xFjV0rd6B2DSgSpMpvbXrJGjvBv3lV
- 9Bw0T5NqdG938/JDkA5WO5kt9OIJ2IYcN/z5hTnPDpUvZvSkPzznZNCwWYzXP2Lugv8crp
- 8ip8ZedJcDGeP1/H5TZOOgwy2lCmAW8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1657208433;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y5BDJvYBK03iy18xb5ZbUzvu7rGFZQoDmlMvgaRIVCw=;
+ b=fTMIdEWHKGj5yLgQrs7tFAw9h6syqqEivn4rAxilkp7mlBiLg4dhFqZb36dSxbWIEFs82w
+ 3jrbDObyKVT4Ol4GiFxefAhwzQ8UdLJrDtVuJIKWHsv6Ogi8CwrY9p1uaUA2YAaSaJZXGD
+ 4vodn5t6X9CCTUDusAAtMAjC1kw/0bU=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-321-kabq8KtHMYeIgSoOPJNwWw-1; Thu, 07 Jul 2022 11:38:02 -0400
-X-MC-Unique: kabq8KtHMYeIgSoOPJNwWw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1C443806656;
- Thu,  7 Jul 2022 15:38:01 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.71])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 76E9E1121315;
- Thu,  7 Jul 2022 15:38:00 +0000 (UTC)
-Date: Thu, 7 Jul 2022 16:37:56 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- peter.maydell@linaro.org
-Subject: Re: [RFC PATCH] qobject: Rewrite implementation of QDict for
- in-order traversal
-Message-ID: <Ysb91P/X8WO7y3h+@redhat.com>
-References: <20220705095421.2455041-1-armbru@redhat.com>
+ us-mta-271-IGKDljD8OD-ABIdJ0Y0a7g-1; Thu, 07 Jul 2022 11:40:32 -0400
+X-MC-Unique: IGKDljD8OD-ABIdJ0Y0a7g-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ u92-20020ab045e5000000b003829dbb5419so3898624uau.10
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 08:40:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y5BDJvYBK03iy18xb5ZbUzvu7rGFZQoDmlMvgaRIVCw=;
+ b=2pNj0rZfy8YDy0eJCxMCCz9dhWnPUdU2zSpx2GCxRWjwVMMKi25gAP6RW4UsX3cRTy
+ ifoxqgisUEHYYE1dHvV79lAYQ2Faq6yooGvf8GMBSy242ehKI8psejv31bEm53msl+/6
+ cBsS2mej+32bE1FEB2CadpSX/h7D8IUWrbA8zNOA+Aj36OpZFNPvLGeP6O6bpO3+VyxK
+ nMDPhjOS9QeiQE+wgNktUZwmzUJfY8U9UnqYg9fJzR93rpuuRbetphy6Wfw/xGQgn6tD
+ u4Zr4gprAM+P6Z+kApz61wir9TWJpYHlWNUIAnvgTcYj8JCY0ZwaljyasuMqVT6Ox/yb
+ wjSQ==
+X-Gm-Message-State: AJIora8GWkg0r5tVUEDlA+MvYY4g/dTO2WomDNl1Qtncf+xgvUBdf/nA
+ uFsmj8PBEYaGlT7/imWMUk2O/5p9WbHZcgucrj4SgHngWPYyxJoFWvJ3a+dKbgXmD9OxMTBcLB8
+ QC7YZINondMkiKbc18wgyYIw9aPPkcwI=
+X-Received: by 2002:a05:6102:101:b0:354:355b:711b with SMTP id
+ z1-20020a056102010100b00354355b711bmr28119288vsq.61.1657208431459; 
+ Thu, 07 Jul 2022 08:40:31 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uPfe6/8uQAvAlyFBYN5zQr2N9KJ8H75pLnaBiDwKv/k0G2ql5Y4y6uZhu1gLitZi0v0Tq59vc5CbyXiIDEjCw=
+X-Received: by 2002:a05:6102:101:b0:354:355b:711b with SMTP id
+ z1-20020a056102010100b00354355b711bmr28119270vsq.61.1657208431275; Thu, 07
+ Jul 2022 08:40:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220705095421.2455041-1-armbru@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+References: <20220707040310.4163682-1-jsnow@redhat.com>
+ <20220707040310.4163682-10-jsnow@redhat.com>
+ <1c4bc1aa-9809-549f-8bc6-b1b2323dcdd5@linaro.org>
+In-Reply-To: <1c4bc1aa-9809-549f-8bc6-b1b2323dcdd5@linaro.org>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 7 Jul 2022 11:40:20 -0400
+Message-ID: <CAFn=p-Z1jGjpjUE8XednXc2BSH6hPnoit6Prd_iRVBiyAz8ByA@mail.gmail.com>
+Subject: Re: [PATCH v3 09/13] tests/vm: upgrade Ubuntu 18.04 VM to 20.04
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>, 
+ Hanna Reitz <hreitz@redhat.com>, Daniel Berrange <berrange@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,91 +95,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 05, 2022 at 11:54:21AM +0200, Markus Armbruster wrote:
-> QDict is implemented as a simple hash table of fixed size.  Observe:
-> 
-> * Slow for large n.  Not sure this matters.
+On Thu, Jul 7, 2022 at 7:05 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 7/7/22 09:33, John Snow wrote:
+> > 18.04 has fallen out of our support window, so move ubuntu.aarch64
+> > forward to ubuntu 20.04, which is now our oldest supported Ubuntu
+> > release.
+>
+> Ah.  Squash with patch 5?
 
-I presume you're referring qdict_find() here, which would
-ideally be O(1).
+Can do. I left it split for testing purposes, but if we want both
+patches I can merge them. (Testing all of this was a nightmare.)
 
-Our bucket size is 512, so for hash tables less than say
-2000, it is close enough to O(1) that it likely doesn't
-matter (except for our deterministic hash function which
-can be abused to overfill specific buckets).
-
-Ignoring the latter attack though, the fixed hash bucket
-count isn't likely a speed issue for normal usage as our
-QDict element counts are just not that big typically. So
-it is mostly a memory wastage issue.
-
-
-Historically QEMU's JSON input has come from sources that
-are more trusted than QEMU itself, so didn't matter. As
-we split up QEMU into co-operating processes with potentially
-varying privileges, this may cease to be a safe assumption.
-
-For pre-emptive robustness though I'd favour a guaranteed
-O(1) impl, which would mean a dynamically resizing bucket
-count, along with a non-deterministic (ideally cryptographically
-strong) key hash function.
-
-> * A QDict with n entries takes 4120 + n * 32 bytes on my box.  Wastes
->   space for small n, which is a common case.
-
-So effectively 8k usage for every QDict instance at a minimum.
-This is not so great with widespread QDict usage.
-
-> * Order of traversal depends on the hash function and on insertion
->   order, because it iterates first over buckets, then collision
->   chains.
-> 
-> * Special code ensures qdict_size() takes constant time.
-> 
-> Replace the hash table by a linked list.  Observe:
-> 
-> * Even slower for large n.  Might be bad enough to matter.
-
-Guaranteed O(n) every time, even for small values of 'n'.
-Just feels like a bad idea to me.
-
-> * A QDict with n entries takes 32 + n * 24 bytes.
-> 
-> * Traversal is in insertion order.
-> 
-> * qdict_size() is linear in the number of entries.
-> 
-> This is an experiment.  Do not commit to master as is.
-
-Two alternative ideas.
-
- * Implement it is both a hashtable and a linked list.
-   Hashtable to get O(1) lookup, linked list to get
-   stable iteration order based on insertion order.
-   Makes the insert/delete operations more expensive,
-   and slightly greater memory overhead.
-
- * Merely change the users to apply the ordering they
-   require when iterating.
-
-In both those cases, I'd suggest we consider use of GHashTable, to give
-us a more dynamic hash table impl with resizing buckets, so it is more
-memory efficient and stronger guarantee of O(1) lookups. It also quite
-simple to iterate over the keys in a fixed order, as you can get a GList
-of keys, and invoke g_list_sort with any comparator. While we could add
-more APIs to do this with QDict and QLIST, re-inventing the wheel feels
-dubious unless there's a compelling benefit to our existing impl.
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--js
 
 
