@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4BF5698F6
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 06:07:40 +0200 (CEST)
-Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3DA569903
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 06:12:05 +0200 (CEST)
+Received: from localhost ([::1]:42474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Inj-0006U3-Bf
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 00:07:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34482)
+	id 1o9Is0-00051g-Et
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 00:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9Ijc-0003dE-D6
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 00:03:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35719)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9Ijg-0003gv-IN
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 00:03:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9IjZ-0008Dy-Gd
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 00:03:22 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9Ija-0008E7-66
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 00:03:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657166599;
+ s=mimecast20190719; t=1657166600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eRKBQamr/85kyaYuX5mWgzy/vvLNJp/dZKHc2HThgMU=;
- b=icsIl+U/XdQ4XCoLTfaLK0agtM2gRBe7p1pFdUWn8X9JKZ2PtQxZe6NglOxQIe3vbWRttT
- 3xCB85b1MSMKkqf8IXNg+59+kPSxTaISzUoJs5ul6l5Q/2xnKY+YLeTkQ43p1avRBdKpxY
- /sH5k6ilzsqcAzDwLKcgXft2Tnp7Dks=
+ bh=BlS4nuHDSk+xz/TPcNnNuXIwz7cEjDyk1wvZa0fZC9o=;
+ b=NkeRrrgX0LwfOMAKKa//Ieqpo0dKZZJ2P2ruprmx8i9iYJUCsxKVLm+/4+YJXowWtziM1m
+ UrdHorUjGOm95vuKFyBX4RG/ddBAOSVcwmeqaSOEOBwWAnZPT0iccNfWLJ3gvcaiGrgyQR
+ 2kJZ697A6BiiL90hk9/Lg9d3WGt+1b4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-170-WHscINeSOj6yCpbGEmAjnw-1; Thu, 07 Jul 2022 00:03:16 -0400
-X-MC-Unique: WHscINeSOj6yCpbGEmAjnw-1
+ us-mta-385-nosgbFuHMDCQMZFYkZVYEA-1; Thu, 07 Jul 2022 00:03:16 -0400
+X-MC-Unique: nosgbFuHMDCQMZFYkZVYEA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D25E6185A7B2;
- Thu,  7 Jul 2022 04:03:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D7F789C8B9;
+ Thu,  7 Jul 2022 04:03:16 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 603D62EF97;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E00242EF97;
  Thu,  7 Jul 2022 04:03:15 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
@@ -52,23 +52,23 @@ Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
  John Snow <jsnow@redhat.com>
-Subject: [PATCH v3 08/13] tests/vm: add 1GB extra memory per core
-Date: Thu,  7 Jul 2022 00:03:05 -0400
-Message-Id: <20220707040310.4163682-9-jsnow@redhat.com>
+Subject: [PATCH v3 09/13] tests/vm: upgrade Ubuntu 18.04 VM to 20.04
+Date: Thu,  7 Jul 2022 00:03:06 -0400
+Message-Id: <20220707040310.4163682-10-jsnow@redhat.com>
 In-Reply-To: <20220707040310.4163682-1-jsnow@redhat.com>
 References: <20220707040310.4163682-1-jsnow@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,41 +84,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you try to run a 16 or 32 threaded test, you're going to run out of
-memory very quickly with qom-test and a few others. Bump the memory
-limit to try to scale with larger-core machines.
-
-Granted, this means that a 16 core processor is going to ask for 16GB,
-but you *probably* meet that requirement if you have such a machine.
-
-512MB per core didn't seem to be enough to avoid ENOMEM and SIGABRTs in
-the test cases in practice on a six core machine; so I bumped it up to
-1GB which seemed to help.
-
-Add this magic in early to the configuration process so that the
-config file, if provided, can still override it.
+18.04 has fallen out of our support window, so move ubuntu.aarch64
+forward to ubuntu 20.04, which is now our oldest supported Ubuntu
+release.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/vm/basevm.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ tests/vm/ubuntu.aarch64 | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index d7d0413df35..4fd9af10b7f 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -99,6 +99,11 @@ def __init__(self, args, config=None):
-         self._source_path = args.source_path
-         # Allow input config to override defaults.
-         self._config = DEFAULT_CONFIG.copy()
-+
-+        # 1GB per core, minimum of 4. This is only a default.
-+        mem = max(4, args.jobs)
-+        self._config['memory'] = f"{mem}G"
-+
-         if config != None:
-             self._config.update(config)
-         self.validate_ssh_keys()
+diff --git a/tests/vm/ubuntu.aarch64 b/tests/vm/ubuntu.aarch64
+index fc9c2ce22ff..666947393bd 100755
+--- a/tests/vm/ubuntu.aarch64
++++ b/tests/vm/ubuntu.aarch64
+@@ -32,13 +32,13 @@ DEFAULT_CONFIG = {
+ class UbuntuAarch64VM(ubuntuvm.UbuntuVM):
+     name = "ubuntu.aarch64"
+     arch = "aarch64"
+-    # NOTE: The Ubuntu 18.04 cloud images are updated weekly. The
+-    # release below has been chosen as the latest at time of writing.
+-    # Using the rolling latest release means the SHA will be wrong
+-    # within a week.
+-    image_name = "ubuntu-18.04-server-cloudimg-arm64.img"
+-    image_link = "https://cloud-images.ubuntu.com/releases/bionic/release-20220610/" + image_name
+-    image_sha256="0eacc5142238788365576b15f1d0b6f23dda6d3e545ee22f5306af7bd6ec47bd"
++    # NOTE: The Ubuntu 20.04 cloud images are periodically updated. The
++    # fixed image chosen below is the latest release at time of
++    # writing. Using a rolling latest instead would mean that the SHA
++    # would be incorrect at an indeterminate point in the future.
++    image_name = "focal-server-cloudimg-arm64.img"
++    image_link = "https://cloud-images.ubuntu.com/focal/20220615/" + image_name
++    image_sha256="95a027336e197debe88c92ff2e554598e23c409139e1e750b71b3b820b514832"
+     BUILD_SCRIPT = """
+         set -e;
+         cd $(mktemp -d);
 -- 
 2.34.3
 
