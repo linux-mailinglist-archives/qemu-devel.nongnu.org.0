@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288C756A0EA
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 13:11:33 +0200 (CEST)
-Received: from localhost ([::1]:58586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCC256A1C6
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 14:14:18 +0200 (CEST)
+Received: from localhost ([::1]:47126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9PPw-0004UO-3F
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 07:11:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41618)
+	id 1o9QOe-0004hp-IU
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 08:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9PJz-00015L-7O
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 07:05:23 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:34806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9PJx-0002A1-Hs
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 07:05:22 -0400
-Received: by mail-pf1-x432.google.com with SMTP id 70so3541979pfx.1
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 04:05:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=HaW7PtWyleRGzJN628OdizWbjlvBM2rvhX5zIW2GulE=;
- b=WCIuqX4JK4FhDf5KJoS4WqVws3uLfPHrErIo+j0qzqmS3vhWwr5TPbmvTIiUWsm6Ol
- 8vEECEvKBrENAUFI+CKzegR8fLtHWP1n5mXmn9kFbdBxa9MdsGng9EGApjufCxwPF/Y6
- oDNRxZEL+FlnlsXVWNzJKg6Uq/51vtAy6NX7ktMQqxNyJ7w9+waITUNwEwmLQInPGaIm
- rx6sXWFrQDBLtO0hw/rPfqNWLHKrITNVbLhB45bYwsXACd0uwnntdkvb4NCZYNdLJuEw
- 3KJyvyDN3wHAh5AQoeB927dHQlGS9NVUGe1cMZWKmHxq7lPSCx/se/WKDqRYl9gQM3X0
- 3r/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HaW7PtWyleRGzJN628OdizWbjlvBM2rvhX5zIW2GulE=;
- b=8MxrPEcaXnCvxghFP4Dduawq0wMG2XqSSQIAlLSU+NUaQyrJANnNsxg2hCpfaAr1DJ
- EmplNRAFLaLMbdARO1J2JMpkJNRec5GmVgG+Ia1+MAkYpDesM0wk8XNkhxPXycTLj8BO
- pzXmQhZeoZ/6J9Oz6Vg8nB8a5U3ZRk5xPns+ml2WnnOISR1vKchPRI1IE0kXhxZGHwSg
- cv1wxepo4FjUZ4P2DyZVyzrk309qB1vu4C8JK+JUcO40+tsbqUKgZq/yVkUZLk47ee6I
- iWzp+RH5bm5JCIasDgsPiuiSq8Ejf0os1nTwmooeNkoNMBiRftYDTJP9RxQhqas+9F9z
- fyGA==
-X-Gm-Message-State: AJIora+uOpfnoDn5dWjMd1Su6Vl7znqGz3tMv2IiJAP/Pfd9Nowrfzn2
- ryyrlPxLScGV/36bUwpuOr1UQQ==
-X-Google-Smtp-Source: AGRyM1sCU3WTbhP0+8pN0eQiZV+Gl8Wb5WX1z01B6iXtgGdG1yT6zkl1FR3wngUG5gxF0ynbugkebw==
-X-Received: by 2002:a17:902:f543:b0:16a:54cf:3da9 with SMTP id
- h3-20020a170902f54300b0016a54cf3da9mr51292318plf.1.1657191918783; 
- Thu, 07 Jul 2022 04:05:18 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- s2-20020a170902ea0200b0016bbcdc72f1sm9880104plg.298.2022.07.07.04.05.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jul 2022 04:05:17 -0700 (PDT)
-Message-ID: <1c4bc1aa-9809-549f-8bc6-b1b2323dcdd5@linaro.org>
-Date: Thu, 7 Jul 2022 16:35:10 +0530
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9QMD-00035m-4R
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:11:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39181)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9QM9-00009B-OZ
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:11:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657195899;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m/NJ1ZBvyO6qcQwURtEtzCS6L/4ZH2q5TmA+erlzQrE=;
+ b=K4tO4W/eZQ8rxXrd9kKcGJIzimguCbFpnqTuIaV2qEwL9i2ZFXoo/3hahiiJbaxxiMtPXZ
+ hBS7Np0x/9Tx5uW66eL/1MuJ/EBvjJTlM0UH9wFUV5+04D5j7Rf86nzQQq/qVlo0J65rTf
+ NMmmAtVQ7J0gdyWOaHxwA36R7EdPIZ0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-35-mT6oWIjmNn6CdXKOxH7Y_Q-1; Thu, 07 Jul 2022 08:11:35 -0400
+X-MC-Unique: mT6oWIjmNn6CdXKOxH7Y_Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2DCBA3C2F760;
+ Thu,  7 Jul 2022 12:11:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E6301121315;
+ Thu,  7 Jul 2022 12:11:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 36C6B21E690D; Thu,  7 Jul 2022 14:11:33 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>,  Kevin Wolf
+ <kwolf@redhat.com>,  Laurent Vivier <laurent@vivier.eu>,  Warner Losh
+ <imp@bsdimp.com>,  Kyle Evans <kevans@freebsd.org>,  Hanna Reitz
+ <hreitz@redhat.com>,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  Fam Zheng <fam@euphon.net>,  Eric Blake
+ <eblake@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,  qemu-block@nongnu.org
+Subject: Re: [PATCH 5/9] error-report: introduce ErrorReportDetailedFunc
+References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
+ <20220616124034.3381391-6-marcandre.lureau@redhat.com>
+Date: Thu, 07 Jul 2022 14:11:33 +0200
+In-Reply-To: <20220616124034.3381391-6-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Thu, 16 Jun 2022 16:40:30 +0400")
+Message-ID: <87mtdldswa.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 09/13] tests/vm: upgrade Ubuntu 18.04 VM to 20.04
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Daniel Berrange <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Michael Roth <michael.roth@amd.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20220707040310.4163682-1-jsnow@redhat.com>
- <20220707040310.4163682-10-jsnow@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220707040310.4163682-10-jsnow@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,46 +88,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/22 09:33, John Snow wrote:
-> 18.04 has fallen out of our support window, so move ubuntu.aarch64
-> forward to ubuntu 20.04, which is now our oldest supported Ubuntu
-> release.
+marcandre.lureau@redhat.com writes:
 
-Ah.  Squash with patch 5?
-
-
-r~
-
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Remove monitor dependency from error printing code, by allowing programs
+> to set a callback for when to use "detailed" reporting or not.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->   tests/vm/ubuntu.aarch64 | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/tests/vm/ubuntu.aarch64 b/tests/vm/ubuntu.aarch64
-> index fc9c2ce22ff..666947393bd 100755
-> --- a/tests/vm/ubuntu.aarch64
-> +++ b/tests/vm/ubuntu.aarch64
-> @@ -32,13 +32,13 @@ DEFAULT_CONFIG = {
->   class UbuntuAarch64VM(ubuntuvm.UbuntuVM):
->       name = "ubuntu.aarch64"
->       arch = "aarch64"
-> -    # NOTE: The Ubuntu 18.04 cloud images are updated weekly. The
-> -    # release below has been chosen as the latest at time of writing.
-> -    # Using the rolling latest release means the SHA will be wrong
-> -    # within a week.
-> -    image_name = "ubuntu-18.04-server-cloudimg-arm64.img"
-> -    image_link = "https://cloud-images.ubuntu.com/releases/bionic/release-20220610/" + image_name
-> -    image_sha256="0eacc5142238788365576b15f1d0b6f23dda6d3e545ee22f5306af7bd6ec47bd"
-> +    # NOTE: The Ubuntu 20.04 cloud images are periodically updated. The
-> +    # fixed image chosen below is the latest release at time of
-> +    # writing. Using a rolling latest instead would mean that the SHA
-> +    # would be incorrect at an indeterminate point in the future.
-> +    image_name = "focal-server-cloudimg-arm64.img"
-> +    image_link = "https://cloud-images.ubuntu.com/focal/20220615/" + image_name
-> +    image_sha256="95a027336e197debe88c92ff2e554598e23c409139e1e750b71b3b820b514832"
->       BUILD_SCRIPT = """
->           set -e;
->           cd $(mktemp -d);
+>  include/qemu/error-report.h          | 4 +++-
+>  bsd-user/main.c                      | 2 +-
+>  linux-user/main.c                    | 2 +-
+>  qemu-img.c                           | 2 +-
+>  qemu-io.c                            | 2 +-
+>  qemu-nbd.c                           | 2 +-
+>  scsi/qemu-pr-helper.c                | 2 +-
+>  softmmu/vl.c                         | 7 ++++++-
+>  storage-daemon/qemu-storage-daemon.c | 7 ++++++-
+>  util/error-report.c                  | 8 +++++---
+>  10 files changed, 26 insertions(+), 12 deletions(-)
+>
+> diff --git a/include/qemu/error-report.h b/include/qemu/error-report.h
+> index 3ae2357fda54..e2e630f207f0 100644
+> --- a/include/qemu/error-report.h
+> +++ b/include/qemu/error-report.h
+> @@ -13,6 +13,8 @@
+>  #ifndef QEMU_ERROR_REPORT_H
+>  #define QEMU_ERROR_REPORT_H
+>=20=20
+> +typedef bool (*ErrorReportDetailedFunc)(void);
+> +
+>  typedef struct Location {
+>      /* all members are private to qemu-error.c */
+>      enum { LOC_NONE, LOC_CMDLINE, LOC_FILE } kind;
+> @@ -46,7 +48,7 @@ bool error_report_once_cond(bool *printed, const char *=
+fmt, ...)
+>  bool warn_report_once_cond(bool *printed, const char *fmt, ...)
+>      G_GNUC_PRINTF(2, 3);
+>=20=20
+> -void error_init(const char *argv0);
+> +void error_init(const char *argv0, ErrorReportDetailedFunc detailed_fn);
+>=20=20
+>  /*
+>   * Similar to error_report(), except it prints the message just once.
+> diff --git a/bsd-user/main.c b/bsd-user/main.c
+> index 6f09180d6541..d5f8fca863d7 100644
+> --- a/bsd-user/main.c
+> +++ b/bsd-user/main.c
+> @@ -292,7 +292,7 @@ int main(int argc, char **argv)
+>=20=20
+>      save_proc_pathname(argv[0]);
+>=20=20
+> -    error_init(argv[0]);
+> +    error_init(argv[0], NULL);
+>      module_call_init(MODULE_INIT_TRACE);
+>      qemu_init_cpu_list();
+>      module_call_init(MODULE_INIT_QOM);
+[More such calls of error_init()...]
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 54e920ada1a1..3b46fc9c1fc5 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2590,6 +2590,11 @@ void qmp_x_exit_preconfig(Error **errp)
+>      }
+>  }
+>=20=20
+> +static bool error_is_detailed(void)
+> +{
+> +    return !monitor_cur();
+> +}
+> +
+>  void qemu_init(int argc, char **argv, char **envp)
+>  {
+>      QemuOpts *opts;
+> @@ -2634,7 +2639,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>      qemu_add_opts(&qemu_action_opts);
+>      module_call_init(MODULE_INIT_OPTS);
+>=20=20
+> -    error_init(argv[0]);
+> +    error_init(argv[0], error_is_detailed);
+>      qemu_init_exec_dir(argv[0]);
+>=20=20
+>      qemu_init_arch_modules();
+> diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-s=
+torage-daemon.c
+> index c104817cdddc..7e4d5030a045 100644
+> --- a/storage-daemon/qemu-storage-daemon.c
+> +++ b/storage-daemon/qemu-storage-daemon.c
+> @@ -368,13 +368,18 @@ static void pid_file_init(void)
+>      atexit(pid_file_cleanup);
+>  }
+>=20=20
+> +static bool error_is_detailed(void)
+> +{
+> +    return !monitor_cur();
+> +}
+> +
+>  int main(int argc, char *argv[])
+>  {
+>  #ifdef CONFIG_POSIX
+>      signal(SIGPIPE, SIG_IGN);
+>  #endif
+>=20=20
+> -    error_init(argv[0]);
+> +    error_init(argv[0], error_is_detailed);
+>      qemu_init_exec_dir(argv[0]);
+>      os_setup_signal_handling();
+>=20=20
+> diff --git a/util/error-report.c b/util/error-report.c
+> index c43227a975e2..c2181f80a83d 100644
+> --- a/util/error-report.c
+> +++ b/util/error-report.c
+> @@ -11,7 +11,6 @@
+>   */
+>=20=20
+>  #include "qemu/osdep.h"
+> -#include "monitor/monitor.h"
+>  #include "qemu/error-report.h"
+>=20=20
+>  /*
+> @@ -28,6 +27,7 @@ typedef enum {
+>  bool message_with_timestamp;
+>  bool error_with_guestname;
+>  const char *error_guest_name;
+> +ErrorReportDetailedFunc detailed_fn =3D NULL;
+>=20=20
+>  int error_printf(const char *fmt, ...)
+>  {
+> @@ -195,7 +195,7 @@ real_time_iso8601(void)
+>   */
+>  static void vreport(report_type type, const char *fmt, va_list ap)
+>  {
+> -    bool detailed =3D !monitor_cur();
+> +    bool detailed =3D detailed_fn ? detailed_fn() : TRUE;
+>      gchar *timestr;
+>=20=20
+>      if (message_with_timestamp && detailed) {
+> @@ -387,7 +387,7 @@ static void qemu_log_func(const gchar *log_domain,
+>      }
+>  }
+>=20=20
+> -void error_init(const char *argv0)
+> +void error_init(const char *argv0, ErrorReportDetailedFunc detailed)
+>  {
+>      const char *p =3D strrchr(argv0, '/');
+>=20=20
+> @@ -401,4 +401,6 @@ void error_init(const char *argv0)
+>      g_log_set_default_handler(qemu_log_func, NULL);
+>      g_warn_if_fail(qemu_glog_domains =3D=3D NULL);
+>      qemu_glog_domains =3D g_strdup(g_getenv("G_MESSAGES_DEBUG"));
+> +
+> +    detailed_fn =3D detailed;
+>  }
+
+A callback works, but note that each program's function is fixed.  Why
+not use the linker to resolve it?  Have a .o in libqemuutil.a that
+defines error_is_detailed() to return false always.  Have another
+error_is_detailed() that returns !monitor_cur() in monitor.c.  A program
+that links the monitor gets the latter, all the others the former.
+
+What do you think?
 
 
