@@ -2,160 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5578E56A3F0
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 15:42:00 +0200 (CEST)
-Received: from localhost ([::1]:43922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B94B56A3F7
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 15:43:35 +0200 (CEST)
+Received: from localhost ([::1]:47872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9RlW-0000cP-2d
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 09:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56280)
+	id 1o9Rn4-0003Xs-0A
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 09:43:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1o9Rgy-0006hJ-KQ; Thu, 07 Jul 2022 09:37:16 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:36822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1o9Rgo-0003um-0G; Thu, 07 Jul 2022 09:37:14 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 267C9KDt026135;
- Thu, 7 Jul 2022 13:36:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=corp-2021-07-09;
- bh=YBlR2EC1wCgG86M+3ZTzZ2OUkZwGduhT4XUjf5rBH2I=;
- b=tagzz69RZPAIIfnRUmLMT06OKuoBPuumd5jtN+tV+eemc7Wsh11UWAp+oYw8S8SszSsA
- qTc+gy/WGrq4ehmJ+YmfnRPVYZRiJbip1BgeOj1MktUj8Lcri3NPv1c3UaCxlmwDm2YQ
- olpgYfIWh4zr+bVEW55eGIlov5a1cZxcWHNwnxBGcZYdcq3GlsO6zHu8KOAN+Ib3EeT6
- jiqktzuFM8rDeQ+YGqLcW0V5jsxay5/1P1FNtv/OzI9LXvF269NuGSJWN2ALwDr9G5U2
- GUrT00+gITfmqLqaqvUqYdLH0Qp3n3J6Cemf1ynbC/fHHqKgBRZTs7z7RZ/WMTIHBxPn lA== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h4ubyw1x4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 07 Jul 2022 13:36:34 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 267DLVbM019130; Thu, 7 Jul 2022 13:36:33 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3h4ud8xmtg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 07 Jul 2022 13:36:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FLvPIBrpJWoONxMhU3thJ+Lp+6w7m691yFdArJ0oSLYTpeH+UEXEVOj2o4onSfaLi5QXOZVCQ1yt5xjr5p6a50JIjqei9rXAQfo7Ffm+/Zx6P5daIjYEM0WTXGO1zCJcC9iJeDBtmJU7y+gIzXsG/sP/8kFYwrDbKWwdnkgk17osUaPtDFugo5OBJmzZNbqKWlFM5yR8JaNfzVDQudi3RrjOZ6ftc0YOVgA73mRTmfDjuP2R4PXe59pZ8Rcgjuba6ify91au2LcM/AaC3H3hDfpbonoPNSIx8SQAQN77k8yIc11vHda8Rx2FaYVMFt+SW7gSh/qwwp5n4xeENkK3YQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YBlR2EC1wCgG86M+3ZTzZ2OUkZwGduhT4XUjf5rBH2I=;
- b=gjUEsaqi9s2z7cEL46W4lqzlRHmZc5O0vFvcQbQbbSye1ABBNNo0Cw/odOS4MqPVG1MrC+Fi2GA4wRgbp12wstb+LVtIs5tly7MR1eYDXqEouXi4rwEuo6pkgc+XKahhY4KhhbC+jRinzhLbVCsmqHwqwOgd5pZTlxEedUjs6PsCZx+uT6Bm+/Ss4f5xXfB07p2btxBtq/9C2qtP97rpuqNeybPw+gEvqvJ6df8HsWZw6fEv3a/opE1cT7fCLQNHCQTnluNI/PFGKCJTTXEPFBu72G56ZiYvP2hf3dkYn5M0LReVgdbifDXLP4XeqGrzOCxIPlmPDvxjkxfxXBQzFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YBlR2EC1wCgG86M+3ZTzZ2OUkZwGduhT4XUjf5rBH2I=;
- b=Imp7ST9FYsmboDf3D7se1c2pMeg/lmqr7aGJlH+cyzn+DZYqMoid+5mitO8mNbUH/46EMonq9tUN05/O7h3cV0gcrWpWIcR5qAXBKORURemArvODfonlqowGjq4NsgKIPTRQLAVfQoltdToFeWsPFE4M2THLlB3JHgsfZs0YtAs=
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
- by DM5PR1001MB2346.namprd10.prod.outlook.com (2603:10b6:4:30::33)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.15; Thu, 7 Jul
- 2022 13:36:32 +0000
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::89fe:338:779d:6bb0]) by BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::89fe:338:779d:6bb0%8]) with mapi id 15.20.5417.016; Thu, 7 Jul 2022
- 13:36:32 +0000
-From: Darren Kenny <darren.kenny@oracle.com>
-To: qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- darren.kenny@oracle.com
-Subject: [QEMU 1/1] nvme: Fix misleading macro when mixed with ternary operator
-Date: Thu,  7 Jul 2022 13:36:21 +0000
-Message-Id: <d3fc4a90ba74d4874c445480b48d45b67c9322ae.1657200900.git.darren.kenny@oracle.com>
-X-Mailer: git-send-email 2.31.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: DS7PR05CA0010.namprd05.prod.outlook.com
- (2603:10b6:5:3b9::15) To BLAPR10MB5138.namprd10.prod.outlook.com
- (2603:10b6:208:322::8)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o9Rm8-0002ZB-VW
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 09:42:36 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44740)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1o9Rm7-0001ka-3k
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 09:42:36 -0400
+Received: by mail-wr1-x429.google.com with SMTP id bk26so11313032wrb.11
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 06:42:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gQO5CZv/s8I4DGhu8BU0GVqfe26X4h0gK1nBS+CS6YM=;
+ b=tA32EDRRkya4k+DL6Oalff8xmP7OYom+NpOZF+YiYXixmBmwFssWjzRmzumOhFH9EQ
+ a67mpD0puG/+MnCjNG/9dWXICjdLLQgpQlQxwBLgpIHpCkV/6ZTD3ehyHt+SZ5i+LlXe
+ BARq7b1pLjv1lV+whxlgyejVF5CGp1rCOUuF/PE1OoQIG0aHzI6+7INLnu0FtuUkOTe9
+ MD8hyAN/VW4QHyh+UpXG/WMjohMpo6+KoCiiI3moj6AMHfranSFuLQTc/XJDIFIcZF0s
+ XbzHckA+s0X76mwjTtxc6n3npXToVERvkzkgSh1TGbfbZC6zHualDqaYUV7mCeXF5Mad
+ PVqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=gQO5CZv/s8I4DGhu8BU0GVqfe26X4h0gK1nBS+CS6YM=;
+ b=Y2NNbTz5iibSW4N3k0NtKM3OiS4FIUWGUxSN97yJy/dlD/XYfbZ62VfhyCuUnSctan
+ MQIYDUIHJQ0q2wrvNZxl4UDVvd9ClUpb0k3O6FEjm0b+diazz6TCodL4gV44sLxFNAPE
+ 7doUvwzeJ6+1ADfKFv0S77Sw72+ckW5VhtAjyQxjVjT2x71VotudrB39BYHxv0o2UZgP
+ WOiX2+aqvsoMxtUmoOVtpaHDCEpBhYvVHvON21OzgY/8zj2qnnbVZGXv+h3wp0gln/xc
+ bFkowBBIwbZov9/qdPIpKmGdRXNOfczDe65pIZaRoaL7zsIdTbwIlmD3irFDV7F2qp3/
+ KhYQ==
+X-Gm-Message-State: AJIora/raFQRyMWSxEDBzU2ILG44rz0o5T3cNQpZWRRvpG6CzVzT9Sz4
+ CtCXprCWiIKsPPbRvhc3eCUfPw==
+X-Google-Smtp-Source: AGRyM1tgfLrTdPlK7j96YY43jditG5y6XfP/kB1LOGEj3gxJyWOaBiT8TdW1R58kMUYCduP7cCGAyA==
+X-Received: by 2002:a05:6000:1861:b0:21b:b56f:3fb5 with SMTP id
+ d1-20020a056000186100b0021bb56f3fb5mr43795647wri.698.1657201352947; 
+ Thu, 07 Jul 2022 06:42:32 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ o11-20020a05600c4fcb00b003942a244f40sm26946062wmq.25.2022.07.07.06.42.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jul 2022 06:42:31 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E54301FFB7;
+ Thu,  7 Jul 2022 14:42:30 +0100 (BST)
+References: <20220524154056.2896913-1-alex.bennee@linaro.org>
+ <Yo5V19zE82hWFuSJ@stefanha-x1.localdomain>
+User-agent: mu4e 1.7.27; emacs 28.1.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
+ marcandre.lureau@redhat.com, mathieu.poirier@linaro.org,
+ viresh.kumar@linaro.org
+Subject: Re: [PATCH  v2 00/15] virtio-gpio and various virtio cleanups
+Date: Thu, 07 Jul 2022 14:38:13 +0100
+In-reply-to: <Yo5V19zE82hWFuSJ@stefanha-x1.localdomain>
+Message-ID: <87fsjdjayh.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 22fda383-1107-451d-4060-08da601db427
-X-MS-TrafficTypeDiagnostic: DM5PR1001MB2346:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4K0E4boF/N9UI2L7NINlhfXIvAi4VOuPy0PSE9SVS+2sDY2Gya7sWfM72PNBLNQ3cj3LDNE8WKZFlxGj89Hf0AXWxuVNpo5TLcyeAO48FbtZzTFgwq5l/a30r8/0s4IscKYKBRI1cqc534r+G3UHkiWBGlGXS5O2Scr1e6TVwgTOVmmKkJUp6nZhzBtdFfQZJ0xlTjS21XnSDINI6mgaH8fUinl4ej3FyhdNwouUstwvBJ9VtsmYCGkaI3revryC8azrMfi61hWx51yUnt05tVlwcmcnfnI82DQc5VW259EQocUkIvoh7WiFfNskhi5nWz+HsczUuYEIushhFYqwW/lY15DBnDAjQWzvAQYaSuzCFnf10FIbcX1inHncnF/dSVQ9zfxzg+JmeKGDlRzSFAqvtLRSrN4VdVhtFJ7+5FBuezuAkPH4zMeH9AQ/wXkGeAdviutwrierK0Rrg/uuJhoiEaxbpF029Nk46xOx0Y2bXhdhH4Bs0BXym3z0YMvztMFIp+6fVvl14RpdGZOs33SIajK18GNG/TNmD148O5zlOF94YDyZGr6dIBH5PHehNXVLO9Sy3NxouWMICTt1PjvPpVVYrd9xAwjzYo+ra3NHR+i6erl4aowHDRepnSZvJJ/zYDEf0ZszWwX9qAaOOL2qQRsVPfrp3SYPnfzTIFOZSShMvAVjwiAlOE0odrqR9tMsirYwlFLEblSFKB3OjQ7LLzJhwEZ5GtLZSTEOVW3pyREPX5JS54WKdMAHsALlpDQyjAUJXB63tnv9c6ROZ5YeNwG6NNaYeaoiVhES4WxJYQom0UtAskbv0Zl3+C0e
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(136003)(346002)(39860400002)(396003)(376002)(366004)(8936002)(44832011)(5660300002)(38350700002)(38100700002)(54906003)(2616005)(186003)(6512007)(316002)(6506007)(478600001)(6486002)(52116002)(107886003)(6666004)(41300700001)(26005)(8676002)(4326008)(83380400001)(66556008)(2906002)(66476007)(36756003)(86362001)(66946007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1cWktJ6mM3pSoxYu2mI67EciS5uidtQfEons75gOQU+GNtVPurd47PoamLcb?=
- =?us-ascii?Q?26BfeQ1AXIqaANAjbf9vu9T8GNjCiPUx1k1FP1a+XJWVoup3pnjUfwqLdtbK?=
- =?us-ascii?Q?IwWt9mQroVGH74lCGsPaDF1bwhH5m8s82UZ5Ygt/rUiFvrNf/OUXWqkZmrCe?=
- =?us-ascii?Q?Nmreb0MLskltoSS6EbW40C1h0jdyX9/enwpdB2vxlXiWWBl1C/WTAu0+1Hot?=
- =?us-ascii?Q?tzQOCFUZ7UNI4cQSMY9OlsjKqKuqB3v1QWgXp31ek20HwpdNNhUKeC2kNmQu?=
- =?us-ascii?Q?uaB7i9Ectr9AxmBfC55GWfOW+EB02jmq3DiM9x+5L2YwwGhHsXCqwd9xKJT7?=
- =?us-ascii?Q?7G6hZkpddLSd/O+IJY9QZrbYKB7Jy9esOmkaljACKbbM4GrEAkqtwvQZ95XT?=
- =?us-ascii?Q?z+HqtYHMd8jgor5vzwCQrSbqBVIOy0Cbo0V8RsxAcASK0p2zw+XjwzpStV8Q?=
- =?us-ascii?Q?fFWeMXJtqqndR361xOg34TvdyByOHWUCkCE07gmY3GzEMzxM0PcIOXwU7hfL?=
- =?us-ascii?Q?tUkrI4NlKGpLMQ1G9yaF4cbXtTL5PaD1Psx60TBl6wwTf69p9RtFcHld34wr?=
- =?us-ascii?Q?eG0VlEnebF9vaJN7HgWargofhnesWOFdoEU9j37oalo1w1wPDegF8SRZkJam?=
- =?us-ascii?Q?/zFLiHftHbVmf1IjxX+LJiN/EROW4+xWU5TEf4Hkuo8PYYsXVMDv5hnwQ/0B?=
- =?us-ascii?Q?BAuDsO2tMgiWz9tJOYmo8Z/HqBKWRifUUKtFB+IEBxGoHJcbijn5U9ws2vez?=
- =?us-ascii?Q?zpJu3IEp98RspkFZAUZ3KJrnXQKO7bwnzciWbMQfqzcZLcFvURRWA2aOdGnF?=
- =?us-ascii?Q?kn/GQ26TO8gdVyOtboL0C2wBX86Cs/cCbr3Xauj3L3Ch8CotYCn/GCdOHlne?=
- =?us-ascii?Q?vN21TaBrZvxzsgRtD5v2ahz/DTzK1R5TckL9y83u4XgDvckH+eCUmhA1dmQm?=
- =?us-ascii?Q?aGEMHwfx53U0QFe/9qN4TGZGxfdiU3zzaqM+0BU2HY0+lYrLt9UZRRzbuYqZ?=
- =?us-ascii?Q?qrhPK8xkwASsBCbb1dhlp7ghrKMW6xJpwbhozGQEn+j6jchYFSiur++Lg998?=
- =?us-ascii?Q?mnqnN0L2a7e7ZbTN1QuKc7zNLGOCqeAz4rxUBag+m35rNeAUip2a1kGRi5PZ?=
- =?us-ascii?Q?1m/9HFR+MoO6PGt0U6dmiONO1wfXwZEgTglMPfb81cY1SFiOL4duOfl5KyBS?=
- =?us-ascii?Q?tJbyC++wQylEAaVbO+8BGBhfwH7xs0117U3fDhLqILub0nWMSAlOoT2rApn7?=
- =?us-ascii?Q?q7AVrvgCCBe6rU6cCqtlkI7B8ePxKQTNXvYVDJqwjgJohLAVtDBASuT7KqBU?=
- =?us-ascii?Q?GdpOMcIZyNt5IsgD/R67quGNL0YdNKmV9vr9UJIcoXt2fwo+udEbDMLX2SIB?=
- =?us-ascii?Q?bUXBIqfxezCgWX00YN83HeopGHbsrbkGxqALcreWeF+QpVRE9JlRleEaDxDb?=
- =?us-ascii?Q?IsYVVC2RgfxPtglAZ8DZIoane34/nITtP4sW0x9qiNEghWauuE4Y7oWS+349?=
- =?us-ascii?Q?V4m3xilMqX7JXCebHzL/9GtTjX78EBPmaMA4UsA3da8OhNzkfhpZR75+e/x0?=
- =?us-ascii?Q?iPFXVX3N4aQ7J/BMaBT0Ufsf5Azb3NpUr9K2IHYDBvpRgqe4umi3eeY2ej93?=
- =?us-ascii?Q?HQ=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22fda383-1107-451d-4060-08da601db427
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 13:36:32.0542 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DakdcrtQ8vOu8macpf6URxuaC4F5t2Ipbg9PYpYVcbFxUKdCye2hfD05yr6yp4hbdiqAR/FloV89gqzO4zqikg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1001MB2346
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
- definitions=2022-07-07_09:2022-06-28,
- 2022-07-07 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 malwarescore=0
- mlxscore=0 spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207070053
-X-Proofpoint-ORIG-GUID: XJABegfuzGg3PvFscURGNBZSLl0aAYG6
-X-Proofpoint-GUID: XJABegfuzGg3PvFscURGNBZSLl0aAYG6
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=darren.kenny@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -171,81 +95,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using the Parfait source code analyser and issue was found in
-hw/nvme/ctrl.c where the macros NVME_CAP_SET_CMBS and NVME_CAP_SET_PMRS
-are called with a ternary operatore in the second parameter, resulting
-in a potentially unexpected expansion of the form:
 
-  x ? a: b & FLAG_TEST
+Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-which will result in a different result to:
+> [[PGP Signed Part:Undecided]]
+> On Tue, May 24, 2022 at 04:40:41PM +0100, Alex Benn=C3=A9e wrote:
+>> Hi,
+>>=20
+>> This series ostensibly adds virtio-user-gpio stubs to the build for
+>> use with an external vhost-user daemon. We've been testing it with our
+>> rust daemons from:
+>>=20
+>>   https://github.com/rust-vmm/vhost-device
+>>=20
+>> Getting the test enabled took some doing most likely because the need
+>> for CONFIG support exercised additional paths in the code that were
+>> not used for the simpler virtio-net tests. As a result the series has
+>> a number of cleanup and documentation patches.
+>>=20
+>> The final thing that needed fixing was the ensuring that
+>> VHOST_USER_F_PROTOCOL_FEATURES didn't get squashed in the negotiation
+>> process. This was the hardest thing to track down as we store the
+>> feature bits in several places variously as:
+>>=20
+>>   in VirtIODevice as:
+>>     uint64_t guest_features;
+>>     uint64_t host_features;
+>>     uint64_t backend_features;
+>
+> None of these know about VHOST_USER_F_PROTOCOL_FEATURES and vhost-user's
+> unfiltered feature bits should never be passed to VirtIODevice.
+>
+>>=20
+>>  in vhost_dev as:
+>>     uint64_t features;
+>>     uint64_t acked_features;
+>>     uint64_t backend_features;
+>
+> I don't think these should know about VHOST_USER_F_PROTOCOL_FEATURES
+> either. AFAIK vhost_dev deals with VIRTIO feature bits, not raw
+> vhost-user GET_FEATURES.
 
-  (x ? a: b) & FLAG_TEST.
+So where does VHOST_USER_F_PROTOCOL_FEATURES get set before it's set
+with the VHOST_USER_SET_FEATURES message? Currently it's fed via:
 
-The macros should wrap each of the parameters in brackets to ensure the
-correct result on expansion.
+    uint64_t features =3D vhost_dev->acked_features;
 
-Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
----
- include/block/nvme.h | 44 ++++++++++++++++++++++----------------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+in vhost_dev_set_features() which does apply a few extra bits
+(VHOST_F_LOG_ALL/VIRTIO_F_IOMMU_PLATFORM). Maybe it should be adding
+VHOST_USER_F_PROTOCOL_FEATURES here? How should it be signalled by the
+vhost-user backend that this should be done? Overload the function?
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 373c70b5ca7f..b35f31a9f958 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -98,28 +98,28 @@ enum NvmeCapMask {
- #define NVME_CAP_PMRS(cap)  (((cap) >> CAP_PMRS_SHIFT)   & CAP_PMRS_MASK)
- #define NVME_CAP_CMBS(cap)  (((cap) >> CAP_CMBS_SHIFT)   & CAP_CMBS_MASK)
- 
--#define NVME_CAP_SET_MQES(cap, val)   (cap |= (uint64_t)(val & CAP_MQES_MASK)  \
--                                                           << CAP_MQES_SHIFT)
--#define NVME_CAP_SET_CQR(cap, val)    (cap |= (uint64_t)(val & CAP_CQR_MASK)   \
--                                                           << CAP_CQR_SHIFT)
--#define NVME_CAP_SET_AMS(cap, val)    (cap |= (uint64_t)(val & CAP_AMS_MASK)   \
--                                                           << CAP_AMS_SHIFT)
--#define NVME_CAP_SET_TO(cap, val)     (cap |= (uint64_t)(val & CAP_TO_MASK)    \
--                                                           << CAP_TO_SHIFT)
--#define NVME_CAP_SET_DSTRD(cap, val)  (cap |= (uint64_t)(val & CAP_DSTRD_MASK) \
--                                                           << CAP_DSTRD_SHIFT)
--#define NVME_CAP_SET_NSSRS(cap, val)  (cap |= (uint64_t)(val & CAP_NSSRS_MASK) \
--                                                           << CAP_NSSRS_SHIFT)
--#define NVME_CAP_SET_CSS(cap, val)    (cap |= (uint64_t)(val & CAP_CSS_MASK)   \
--                                                           << CAP_CSS_SHIFT)
--#define NVME_CAP_SET_MPSMIN(cap, val) (cap |= (uint64_t)(val & CAP_MPSMIN_MASK)\
--                                                           << CAP_MPSMIN_SHIFT)
--#define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
--                                                           << CAP_MPSMAX_SHIFT)
--#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMRS_MASK)  \
--                                                           << CAP_PMRS_SHIFT)
--#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMBS_MASK)  \
--                                                           << CAP_CMBS_SHIFT)
-+#define NVME_CAP_SET_MQES(cap, val)   \
-+    ((cap) |= (uint64_t)((val) & CAP_MQES_MASK)   << CAP_MQES_SHIFT)
-+#define NVME_CAP_SET_CQR(cap, val)    \
-+    ((cap) |= (uint64_t)((val) & CAP_CQR_MASK)    << CAP_CQR_SHIFT)
-+#define NVME_CAP_SET_AMS(cap, val)    \
-+    ((cap) |= (uint64_t)((val) & CAP_AMS_MASK)    << CAP_AMS_SHIFT)
-+#define NVME_CAP_SET_TO(cap, val)     \
-+    ((cap) |= (uint64_t)((val) & CAP_TO_MASK)     << CAP_TO_SHIFT)
-+#define NVME_CAP_SET_DSTRD(cap, val)  \
-+    ((cap) |= (uint64_t)((val) & CAP_DSTRD_MASK)  << CAP_DSTRD_SHIFT)
-+#define NVME_CAP_SET_NSSRS(cap, val)  \
-+    ((cap) |= (uint64_t)((val) & CAP_NSSRS_MASK)  << CAP_NSSRS_SHIFT)
-+#define NVME_CAP_SET_CSS(cap, val)    \
-+    ((cap) |= (uint64_t)((val) & CAP_CSS_MASK)    << CAP_CSS_SHIFT)
-+#define NVME_CAP_SET_MPSMIN(cap, val) \
-+    ((cap) |= (uint64_t)((val) & CAP_MPSMIN_MASK) << CAP_MPSMIN_SHIFT)
-+#define NVME_CAP_SET_MPSMAX(cap, val) \
-+    ((cap) |= (uint64_t)((val) & CAP_MPSMAX_MASK) << CAP_MPSMAX_SHIFT)
-+#define NVME_CAP_SET_PMRS(cap, val)   \
-+    ((cap) |= (uint64_t)((val) & CAP_PMRS_MASK)   << CAP_PMRS_SHIFT)
-+#define NVME_CAP_SET_CMBS(cap, val)   \
-+    ((cap) |= (uint64_t)((val) & CAP_CMBS_MASK)   << CAP_CMBS_SHIFT)
- 
- enum NvmeCapCss {
-     NVME_CAP_CSS_NVM        = 1 << 0,
--- 
-2.31.1
+>
+> Stefan
+>
+> [[End of PGP Signed Part]]
 
+
+--=20
+Alex Benn=C3=A9e
 
