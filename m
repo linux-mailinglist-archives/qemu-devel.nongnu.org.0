@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F49569A13
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 07:55:12 +0200 (CEST)
-Received: from localhost ([::1]:49892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481AF569A3B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 08:06:42 +0200 (CEST)
+Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9KTm-0001cB-G0
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 01:55:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56310)
+	id 1o9Keu-0004jr-Ke
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 02:06:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o9KQw-0000k8-F7
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 01:52:14 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:50321)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1o9Kaz-0003ts-TV; Thu, 07 Jul 2022 02:02:37 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:37883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1o9KQi-0006Dc-Mj
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 01:52:14 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id CFAA75C00C0;
- Thu,  7 Jul 2022 01:51:57 -0400 (EDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1o9Kaw-0007kf-4G; Thu, 07 Jul 2022 02:02:36 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id C54AC5C01B1;
+ Thu,  7 Jul 2022 02:02:29 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 07 Jul 2022 01:51:57 -0400
+ by compute3.internal (MEProxy); Thu, 07 Jul 2022 02:02:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657173117; x=1657259517; bh=E+
- Iuss0fdMjA98I/RGoUAHGe75sEPtsLrsMbzz5Obe4=; b=al0z/fFGzAVr+GURBi
- lMJcZBt8taIU89Hgg+q/LriPScGiNieNp16Te62hbrOB2ewnYTYHdTfCgFZQ/dpn
- ufArlb9MaGt96KaQW+Pl6OIyNRgSLGf1U8vil3oQAIEADsZIMSukFbPtpLsvT5np
- uiAIWrh+LxNIKYtE+KmpeKeEmrmS9VXvEdCBHBsLHZOvcuoLoTDW1k6FowwjXeVd
- mjZAk2pXm263Fondwh/cb8/OIAvEP6GOI/m2fJiFnnCPgv2HMrxWN0/F3DAG5hpW
- n0fDmJhQo4FEGHxTwsnrQ13kuB0ljpJt3YGawgH71X5E5WJ5OZEiFDdVxEAYFAuo
- P+ig==
+ :subject:subject:to:to; s=fm2; t=1657173749; x=1657260149; bh=XO
+ yXpXuBO2wf1DruMjlMnJ8V0p8lGKbR3tkZ911wh4w=; b=OMC6ABKOAyTEQixcL5
+ A6/OJsDKq4CiQjxcbnk+naVmNhsWKwjZlLTBt9f8PGRtkaNGDGNHpcp05au+TSmg
+ pKLEqw0Rfl1VGm4j85DhQYJPcDt2vQ2xIjasHqEXAioDV67gXM8zpXU4IQFd7g5K
+ e0XMBf0bZ5awTqtBfkuHwGra5KfROdDcpa9zDb/c7n0Bpmv+vubx3chJCyDq6Zny
+ Kt1ugWw/gfXfwdyrLUTPEkorahmJac+Xaun1/ACHRdn3+sgbtuoZulVhFGNUafvq
+ z7/v11JrTJaSM6+d6rOR6auQMn3mvy7ECq3lemaXyK0MPNprqW2O8yu9aXkH3ETX
+ 5vMA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657173117; x=1657259517; bh=E+Iuss0fdMjA98I/RGoUAHGe75sE
- PtsLrsMbzz5Obe4=; b=3UmMkarGf37RXmIupFDMaZPBKHkUv9odSBPVgeBwd2OC
- THsgtigd5homxeDUX2Abqzm2o/n7YOyqZJsZbOKYAUTzk2rAK/Tc9R1qF5ts8PjI
- 3ztxfg+XVRIf7u9FE3lkV+n33m3E9eH8x32H6fDdmusURN0FkVPTXavSMWTgxYl9
- DX1cyArqm2GNt0TV8sYiVDcEcsJZPIQAJJJISFB47DG2QYv8k0nnk17muqMMpxYF
- EUbDkP+Ts7yKC19SleH6WWnlr3fGp4kpE5rY1S4sXpsj2RGud+zGO5KcrqJ88snF
- WsOEEPM9rdzQjxFlcGe89I9zhZwCtRSdHes0upKGcA==
-X-ME-Sender: <xms:fHTGYuXq8m2r_mJpwgxceG0dbG6R2QbyuHxFW4iBZDx4T-0mBTcqQQ>
- <xme:fHTGYqndiXjtCwjfEAUVjdAkySW7Prp4ATBR4sH0DAFlXZlgZxCdQ2O4GD7v5B6QV
- _p5YJsIZvabisPHvNI>
-X-ME-Received: <xmr:fHTGYiaPBQ1Sr4slCF6iHuQ6JfjYbobIhrev_okEirFnWrVESJ1e6o17r0ibrAaGw-htZm5T70DUfARR_u8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeigedguddtvdcutefuodetggdotefrod
+ fm3; t=1657173749; x=1657260149; bh=XOyXpXuBO2wf1DruMjlMnJ8V0p8l
+ GKbR3tkZ911wh4w=; b=T9dDFS7aeTxjF9O4qgpUUca/RRlXr09HiIOyy9/acHsA
+ PHvztebKtrDGhbYeRYd7d5xzrRPnqvx7ZM5yeAdkCwVUVl9OXiVhWQS9E13jLcRR
+ YUNJ/c8R0fx+kj4TuwCHW2mG6Dkc85msT4v9IiWt4TNY1raRXUOKV1U0dpLjGmc+
+ LaJAnomf5jeN1c7RVoRYrXEvkw769FfVMJhUsn9UMV6KeK2v26lxEZRNLxr9r7Vw
+ grfqTC0xiLvzQgnMBZH6QF73xj8WfEFdZLq0aXzJkOYvrjBDdtdSptp3xhO9M8K4
+ cME8wke6rdR3Bx9t6i2wKKvCOU5lRi8nohIo+OP9/w==
+X-ME-Sender: <xms:9XbGYk4_0jI168IkZFhBRL4fsPggf0q0dOGz9xuAnsLjQ9AB9KZgkg>
+ <xme:9XbGYl4kQ9AWckTZo1H2-1PMpEcYgZyimz2kuWa20BSE6sxieDB0naVG8KLyVnfJE
+ UshKr743CL0t-S3kPs>
+X-ME-Received: <xmr:9XbGYjdISwFolKrlUF95iLRmOLlwoIlLkED4TiJ-jL0Wu0vFFqJ9YLjIeBbo66r18xlsdHLXMSTjl0O2CYA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeigedguddthecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
@@ -57,28 +57,27 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeigedguddtvdcutefuodetgg
  htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
  ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:fHTGYlWD5bm6di6XPMC_SGhcgB9_3zNUt_cEAeuIJA4aNteeiMC0mQ>
- <xmx:fHTGYokNV19t4317Id3fW-h3bJpkH5e6rllRxwrxMz3FYVXT29aiGA>
- <xmx:fHTGYqd1bJfw82F-A6pnT0O3H5qxL6ey3Jyqu-abOOT5at5vHZjvAg>
- <xmx:fXTGYtziOCR50iIdYcCGWpltzCZyHe9Lzob_sR9qOxtPK7oMxN7acw>
+X-ME-Proxy: <xmx:9XbGYpKVhrlJo5tGKUnCeLKNAcquNOa89UJk7u5VR4lAmkgeY0RJ6A>
+ <xmx:9XbGYoKfiqMG3Cf9j2uKpLfNnvjgVX7UUuA_57IK7uAhEWjaI1YyVw>
+ <xmx:9XbGYqxSE3ZrRCMlLel-zJcU4J1QDyncSssb0avDipez5FFZdMgH7A>
+ <xmx:9XbGYtHxHxZ--4flccnwxy70l26JgluBjtfjDDW9bxM0QEaFztSyTw>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 Jul 2022 01:51:55 -0400 (EDT)
-Date: Thu, 7 Jul 2022 07:51:53 +0200
+ 7 Jul 2022 02:02:28 -0400 (EDT)
+Date: Thu, 7 Jul 2022 08:02:26 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: Keith Busch <kbusch@kernel.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
-Message-ID: <YsZ0eZ7xJtbxgLS8@apples>
-References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
- <YsRwyMONg0+mHVsL@apples>
- <YsSGbhJQXp9fiCZK@kbusch-mbp.dhcp.thefacebook.com>
- <69E2ADBE-5064-4E04-B236-8815D82263AB@ict.ac.cn>
+To: Niklas Cassel <niklas.cassel@wdc.com>
+Cc: kbusch@kernel.org, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ hch@infradead.org
+Subject: Re: [PATCH] hw/nvme: force nvme-ns param 'shared' to false if no
+ nvme-subsys node
+Message-ID: <YsZ28nGMPfQTt9h5@apples>
+References: <20220628122209.415725-1-niklas.cassel@wdc.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZJYb5WFZkJTzdmFc"
+ protocol="application/pgp-signature"; boundary="U/aGW40Z5BNhc9k4"
 Content-Disposition: inline
-In-Reply-To: <69E2ADBE-5064-4E04-B236-8815D82263AB@ict.ac.cn>
+In-Reply-To: <20220628122209.415725-1-niklas.cassel@wdc.com>
 Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
  helo=out3-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -104,93 +103,66 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ZJYb5WFZkJTzdmFc
+--U/aGW40Z5BNhc9k4
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Jul  6 19:34, Jinhao Fan wrote:
-> at 2:43 AM, Keith Busch <kbusch@kernel.org> wrote:
+On Jun 28 14:22, Niklas Cassel wrote:
+> Since commit 916b0f0b5264 ("hw/nvme: change nvme-ns 'shared' default")
+> the default value of nvme-ns param 'shared' is set to true, regardless
+> if there is a nvme-subsys node or not.
 >=20
-> > On Tue, Jul 05, 2022 at 07:11:36PM +0200, Klaus Jensen wrote:
-> >> On Jul  5 22:24, Jinhao Fan wrote:
-> >>> @@ -1374,7 +1374,14 @@ static void nvme_enqueue_req_completion(NvmeCQ=
-ueue *cq, NvmeRequest *req)
-> >>>=20
-> >>>     QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
-> >>>     QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
-> >>> -    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500=
-);
-> >>> +
-> >>> +    if (req->sq->ioeventfd_enabled) {
-> >>> +        /* Post CQE directly since we are in main loop thread */
-> >>> +        nvme_post_cqes(cq);
-> >>> +    } else {
-> >>> +        /* Schedule the timer to post CQE later since we are in vcpu=
- thread */
-> >>> +        timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +=
- 500);
-> >>> +    }
-> >>=20
-> >> Actually, we are only in the vcpu thread if we come here from
-> >> nvme_process_db that in very rare circumstances may enqueue the
-> >> completion of an AER due to an invalid doorbell write.
-> >>=20
-> >> In general, nvme_enqueue_req_completion is only ever called from the
-> >> main iothread. Which actually causes me to wonder why we defer this wo=
-rk
-> >> in the first place. It does have the benefit that we queue up several
-> >> completions before posting them in one go and raising the interrupt.
-> >> But I wonder if that could be handled better.
-> >=20
-> > I think the timer is used because of the cq_full condition. We need to =
-restart
-> > completions when it becomes not full, which requires a doorbell write. =
-Having
-> > everyone from the main iothread use the same timer as the doorbell hand=
-ler just
-> > ensures single threaded list access.
+> On a system without a nvme-subsys node, a namespace will never be able
+> to be attached to more than one controller, so for this configuration,
+> it is counterintuitive for this parameter to be set by default.
 >=20
-> Could we let nvme_process_aers register another timer/BH to trigger
-> nvme_enqueue_req_completion in the iothread? In this way we won=E2=80=99t=
- need the
-> timer_mod in nvme_enqueue_req_completion.
-
-Yes, we could have process_aers in a timer. Which would probably be
-preferable in order to limit the amount of work the mmio handler is
-doing in that rare case. However, its such a rare case (only misbehaving
-drivers) that it's probably not worth optimizing for.
-
-> We can also avoid some potential currency problems because CQ is only
-> modified in the iothread.
+> Force the nvme-ns param 'shared' to false for configurations where
+> there is no nvme-subsys node, as the namespace will never be able to
+> attach to more than one controller anyway.
+>=20
+> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+> ---
+>  hw/nvme/ns.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+> index 870c3ca1a2..62a1f97be0 100644
+> --- a/hw/nvme/ns.c
+> +++ b/hw/nvme/ns.c
+> @@ -546,6 +546,8 @@ static void nvme_ns_realize(DeviceState *dev, Error *=
+*errp)
+>      int i;
+> =20
+>      if (!n->subsys) {
+> +        /* If no subsys, the ns cannot be attached to more than one ctrl=
+=2E */
+> +        ns->params.shared =3D false;
+>          if (ns->params.detached) {
+>              error_setg(errp, "detached requires that the nvme device is "
+>                         "linked to an nvme-subsys device");
+> --=20
+> 2.36.1
 >=20
 
-There are currently no concurrency problems because of the Big QEMU
-Lock. When the mmio handler is running, the vcpu holds the BQL (and
-whenever the main iothread is running, it is holding the BQL).
+Thanks Niklas,
 
-> BTW, are there any reason that we must use timers (not BH) here? Also why=
- do
-> we choose to delay for 500ns?
+Applied to nvme-next.
 
-No particular reason. do not see any reason why this could not be bottom
-halfs. This will likely change into bhs when we add iothread support
-anyway.
-
---ZJYb5WFZkJTzdmFc
+--U/aGW40Z5BNhc9k4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLGdHQACgkQTeGvMW1P
-DelCbggAqnMH02p1335eZ5L9oZR2IHTmaPo4x81jIE8ZeQbsJBarALcKgYOSKObn
-4VLbX0ghN1wHc9nwpy50tcn62gTR8zOUWL4DHmjvb2UF5aiQ3Jrx6M3yg5prWGge
-ssmVHWbxObwLoA46p56ozb8JaPggtTp2Fi85t5QU4QU7JhoNlnI+eEgDdmPK1r9r
-bz2r7a8/SEkKLDNlN/K9bczP+rw+a0p88ZmNGGvXNUlH6L+6kzebEArMZ8JCE67n
-ThNbKDLbM5utDjcG/CXj8PDMEQzfjlwy48cDGK55ST/P3bLfY+HEl+Qx9CLwAV29
-9SFvqlFAq6OsuoOxh/b2y1yMdWSFZQ==
-=VL8i
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLGdvAACgkQTeGvMW1P
+Dem5dgf/XCwn2SYhjyQWL21UHuAvmSlkkT6Fx8GaV5Q0swHx+pcuxKBXSRGvi0hS
+Xy6czLfLv7LzW+gwhleMTIhKDBIupGI1PuOzu5fUoVYxCpyN6D87+WFq/1AwaZNm
+0b1zjJFh6AcfQRsDiqSyGkYJ/Yo4Bbn6bcfSCMluqDIbKZHFhGk9X45Gyj84znD+
+3zQoI2FwB7xxzI0TLz/A0JOsnZvJm3kWJ63eOqzKgh0UNEL81BSSQkVgC5y1acq/
+hmvCJlu3V2k9pnQwde4j3HJKDZ+joOFbEUIKgWRk5w86azUXqv1Gcm3ykIP63hSc
+DIISsdaiHBTYyrvyTy3wJ+XLQYP51A==
+=xaHS
 -----END PGP SIGNATURE-----
 
---ZJYb5WFZkJTzdmFc--
+--U/aGW40Z5BNhc9k4--
 
