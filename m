@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718215696F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 02:40:13 +0200 (CEST)
-Received: from localhost ([::1]:52102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC8E5696F6
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 02:40:12 +0200 (CEST)
+Received: from localhost ([::1]:52004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9FYy-0007rj-HM
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 20:40:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58986)
+	id 1o9FYx-0007nq-D1
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 20:40:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o9FWL-0006Sn-W1
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:37:30 -0400
-Received: from mout-u-107.mailbox.org ([80.241.59.207]:35572)
+ id 1o9FWP-0006TB-2j
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:37:34 -0400
+Received: from mout-u-204.mailbox.org ([80.241.59.204]:43382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
  (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o9FWJ-00035g-KP
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:37:29 -0400
+ id 1o9FWM-00036u-LN
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:37:32 -0400
 Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mout-u-107.mailbox.org (Postfix) with ESMTPS id 4LdctZ05Gcz9sSG;
- Thu,  7 Jul 2022 02:37:10 +0200 (CEST)
+ by mout-u-204.mailbox.org (Postfix) with ESMTPS id 4Ldctd1mByz9sQ9;
+ Thu,  7 Jul 2022 02:37:13 +0200 (CEST)
 From: Lev Kujawski <lkujaw@member.fsf.org>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -33,13 +33,16 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  Lev Kujawski <lkujaw@member.fsf.org>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v2 1/2] hw/i386/postcard.c: New ISA POST card device
-Date: Thu,  7 Jul 2022 00:37:04 +0000
-Message-Id: <20220707003705.43894-1-lkujaw@member.fsf.org>
+Subject: [PATCH v2 2/2] hw/i386/postcard: New test suite for the ISA POST card
+ device
+Date: Thu,  7 Jul 2022 00:37:05 +0000
+Message-Id: <20220707003705.43894-2-lkujaw@member.fsf.org>
+In-Reply-To: <20220707003705.43894-1-lkujaw@member.fsf.org>
+References: <20220707003705.43894-1-lkujaw@member.fsf.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=80.241.59.207; envelope-from=lkujaw@member.fsf.org;
- helo=mout-u-107.mailbox.org
+Received-SPF: pass client-ip=80.241.59.204; envelope-from=lkujaw@member.fsf.org;
+ helo=mout-u-204.mailbox.org
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -60,365 +63,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Relocate the ioport80 functionality within hw/i386/pc.c into a new ISA
-POST card device (postcard.c) that is capable of being instantiated at
-different ports as well, such as for the following platforms [1]:
-  0x84  for COMPAQ
-  0x90  for PS/2 (ISA)
-  0x300 for AWARD BIOS
-  0x680 for PS/2 (MCA)
+Verify that port 0x80 behavior corresponds with i440FX hardware.
+Despite the name of the device, said behavior is implemented by the
+system board and does not depend upon the actual presence of a POST
+card.
 
-Emulate i440FX hardware by storing the value written to the port, a
-behavior relied upon by firmware for these systems (e.g., AMIBIOS) to
-track the state of the boot process.  Despite the name of this device,
-said behavior does not rely upon the presence of an installed POST
-card, as the chipset provides an extraneous DMA page register at the
-POST address.
-
-To aid firmware debugging, allow for tracing POST card values,
-mimicking the [new value, old value] display format of physical cards.
+In particular:
+ a) Writes to port 0x80 are retained and may be read afterwards.
+ b) Word and double word reads return a repeated sequence of the
+    written octet.
 
 Reference platform:
-  TYAN S1686D (i440FX system board)
-
-References:
-  [1] F. v. Gilluwe, The Undocumented PC. Boston, MA: Addison-Wesley,
-      1997, p. 800-801.
+ TYAN S1686D (i440FX system board)
 
 Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
 ---
- (v2) No functional changes. Add myself as the maintainer of this device,
-      per checkpatch; add technical details and references to commit log.
+ (v2) First revision of test suite.
 
- MAINTAINERS                |   5 ++
- hw/i386/Kconfig            |   5 ++
- hw/i386/meson.build        |   1 +
- hw/i386/pc.c               |  25 +------
- hw/i386/postcard.c         | 149 +++++++++++++++++++++++++++++++++++++
- hw/i386/trace-events       |   3 +
- include/hw/i386/postcard.h |  35 +++++++++
- 7 files changed, 200 insertions(+), 23 deletions(-)
- create mode 100644 hw/i386/postcard.c
- create mode 100644 include/hw/i386/postcard.h
+ MAINTAINERS                 |   1 +
+ tests/qtest/meson.build     |   1 +
+ tests/qtest/postcard-test.c | 122 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 124 insertions(+)
+ create mode 100644 tests/qtest/postcard-test.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 450abd0252..33b13583b7 100644
+index 33b13583b7..801494d955 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1719,6 +1719,11 @@ F: include/sysemu/numa.h
- F: tests/unit/test-smp-parse.c
- T: git https://gitlab.com/ehabkost/qemu.git machine-next
+@@ -1723,6 +1723,7 @@ ISA POST card
+ M: Lev Kujawski <lkujaw@member.fsf.org>
+ S: Supported
+ F: hw/i386/postcard.c
++F: tests/qtest/postcard-test.c
  
-+ISA POST card
-+M: Lev Kujawski <lkujaw@member.fsf.org>
-+S: Supported
-+F: hw/i386/postcard.c
-+
  Xtensa Machines
  ---------------
- sim
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index d22ac4a4b9..17979e5c0d 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -10,6 +10,10 @@ config SGX
-     bool
-     depends on KVM
- 
-+config POST_CARD
-+    bool
-+    depends on ISA_BUS
-+
- config PC
-     bool
-     imply APPLESMC
-@@ -40,6 +44,7 @@ config PC
-     select PCSPK
-     select I8257
-     select MC146818RTC
-+    select POST_CARD
-     # For ACPI builder:
-     select SERIAL_ISA
-     select ACPI_PCI
-diff --git a/hw/i386/meson.build b/hw/i386/meson.build
-index 213e2e82b3..c883e8ec9a 100644
---- a/hw/i386/meson.build
-+++ b/hw/i386/meson.build
-@@ -28,6 +28,7 @@ i386_ss.add(when: 'CONFIG_PC', if_true: files(
-   'port92.c'))
- i386_ss.add(when: 'CONFIG_X86_FW_OVMF', if_true: files('pc_sysfw_ovmf.c'),
-                                         if_false: files('pc_sysfw_ovmf-stubs.c'))
-+i386_ss.add(when: 'CONFIG_POST_CARD', if_true: files('postcard.c'))
- 
- subdir('kvm')
- subdir('xen')
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 774cb2bf07..c179e38a61 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -32,6 +32,7 @@
- #include "hw/i386/topology.h"
- #include "hw/i386/fw_cfg.h"
- #include "hw/i386/vmport.h"
-+#include "hw/i386/postcard.h"
- #include "sysemu/cpus.h"
- #include "hw/block/fdc.h"
- #include "hw/ide.h"
-@@ -403,16 +404,6 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled)
-     return s;
- }
- 
--static void ioport80_write(void *opaque, hwaddr addr, uint64_t data,
--                           unsigned size)
--{
--}
--
--static uint64_t ioport80_read(void *opaque, hwaddr addr, unsigned size)
--{
--    return 0xffffffffffffffffULL;
--}
--
- /* MSDOS compatibility mode FPU exception support */
- static void ioportF0_write(void *opaque, hwaddr addr, uint64_t data,
-                            unsigned size)
-@@ -1059,16 +1050,6 @@ DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus)
-     return dev;
- }
- 
--static const MemoryRegionOps ioport80_io_ops = {
--    .write = ioport80_write,
--    .read = ioport80_read,
--    .endianness = DEVICE_NATIVE_ENDIAN,
--    .impl = {
--        .min_access_size = 1,
--        .max_access_size = 1,
--    },
--};
--
- static const MemoryRegionOps ioportF0_io_ops = {
-     .write = ioportF0_write,
-     .read = ioportF0_read,
-@@ -1139,12 +1120,10 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-     qemu_irq pit_alt_irq = NULL;
-     qemu_irq rtc_irq = NULL;
-     ISADevice *pit = NULL;
--    MemoryRegion *ioport80_io = g_new(MemoryRegion, 1);
-     MemoryRegion *ioportF0_io = g_new(MemoryRegion, 1);
-     X86MachineState *x86ms = X86_MACHINE(pcms);
- 
--    memory_region_init_io(ioport80_io, NULL, &ioport80_io_ops, NULL, "ioport80", 1);
--    memory_region_add_subregion(isa_bus->address_space_io, 0x80, ioport80_io);
-+    (void)post_card_init(isa_bus, POST_CARD_PORT_DEFAULT);
- 
-     memory_region_init_io(ioportF0_io, NULL, &ioportF0_io_ops, NULL, "ioportF0", 1);
-     memory_region_add_subregion(isa_bus->address_space_io, 0xf0, ioportF0_io);
-diff --git a/hw/i386/postcard.c b/hw/i386/postcard.c
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 31287a9173..0718bdb394 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -47,6 +47,7 @@ qtests_i386 = \
+   (config_all_devices.has_key('CONFIG_ISA_IPMI_KCS') ? ['ipmi-kcs-test'] : []) +            \
+   (config_host.has_key('CONFIG_LINUX') and                                                  \
+    config_all_devices.has_key('CONFIG_ISA_IPMI_BT') ? ['ipmi-bt-test'] : []) +              \
++  (config_all_devices.has_key('CONFIG_POST_CARD') ? ['postcard-test'] : []) +               \
+   (config_all_devices.has_key('CONFIG_WDT_IB700') ? ['wdt_ib700-test'] : []) +              \
+   (config_all_devices.has_key('CONFIG_PVPANIC_ISA') ? ['pvpanic-test'] : []) +              \
+   (config_all_devices.has_key('CONFIG_PVPANIC_PCI') ? ['pvpanic-pci-test'] : []) +          \
+diff --git a/tests/qtest/postcard-test.c b/tests/qtest/postcard-test.c
 new file mode 100644
-index 0000000000..c9fa263510
+index 0000000000..2e04876d4a
 --- /dev/null
-+++ b/hw/i386/postcard.c
-@@ -0,0 +1,149 @@
++++ b/tests/qtest/postcard-test.c
+@@ -0,0 +1,122 @@
 +/*
-+ * QEMU PC System Emulator
++ * Test Suite for the ISA POST Card
 + *
-+ * Copyright (c) 2003-2004 Fabrice Bellard
++ * Copyright (c) 2022 Lev Kujawski
 + *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
++ *  This program is free software; you can redistribute it and/or
++ *  modify it under the terms of the GNU General Public License as
++ *  published by the Free Software Foundation; either version 2 of the
++ *  License, or (at your option) any later version.
 + *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ *  General Public License for more details.
 + *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
 +#include "qemu/osdep.h"
-+#include "exec/memory.h"
-+#include "qapi/error.h"
-+#include "qom/object.h"
-+#include "migration/vmstate.h"
-+#include "hw/qdev-properties.h"
-+#include "trace.h"
++#include "libqtest-single.h"
 +#include "hw/i386/postcard.h"
 +
-+struct POSTCardState {
-+    ISADevice parent_obj;
 +
-+    MemoryRegion io;
-+    uint16_t port;
-+    uint8_t mem;
-+};
-+
-+#define TYPE_POST_CARD "post-card"
-+OBJECT_DECLARE_SIMPLE_TYPE(POSTCardState, POST_CARD)
-+
-+static uint64_t
-+post_card_read(void *opaque, hwaddr addr, unsigned size)
++/* I/O helper functions */
++static void
++post_card_write(uint8_t val)
 +{
-+    POSTCardState *s = opaque;
-+    uint64_t val;
++    outb(POST_CARD_PORT_DEFAULT, val);
++}
 +
-+    memset(&val, s->mem, sizeof(val));
-+    return val;
++static uint8_t
++post_card_readb(void)
++{
++    return inb(POST_CARD_PORT_DEFAULT);
++}
++
++static uint16_t
++post_card_readw(void)
++{
++    return inw(POST_CARD_PORT_DEFAULT);
++}
++
++static uint32_t
++post_card_readl(void)
++{
++    return inl(POST_CARD_PORT_DEFAULT);
++}
++
++
++/* Testing framework */
++static QTestState *qts;
++
++static void
++test_setup(void)
++{
++    assert(qts == NULL);
++    qts = qtest_start("-machine pc");
++    assert(qts != NULL);
 +}
 +
 +static void
-+post_card_write(void *opaque, hwaddr addr, uint64_t data, unsigned size)
++test_teardown(void)
 +{
-+    POSTCardState *s = opaque;
-+    const uint8_t val = data & 0xff;
-+
-+    if (val != s->mem) {
-+        trace_post_card_write(val, s->mem);
-+        s->mem = val;
-+    }
++    assert(qts != NULL);
++    qtest_quit(qts);
++    qts = NULL;
 +}
 +
-+static const MemoryRegionOps post_card_ops = {
-+    .read = post_card_read,
-+    .write = post_card_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+};
 +
++/* Test cases */
 +static void
-+post_card_reset(DeviceState *dev)
++test_initial_state(void)
 +{
-+    POSTCardState *s = POST_CARD(dev);
-+    s->mem = 0;
++    test_setup();
++    g_assert_cmphex(post_card_readb(), ==, 0x00);
++    test_teardown();
 +}
 +
 +static void
-+post_card_realize(DeviceState *dev, Error **errp)
++test_retain_write(void)
 +{
-+    ISADevice *isadev = ISA_DEVICE(dev);
-+    POSTCardState *s = POST_CARD(dev);
-+
-+    memory_region_init_io(&s->io, OBJECT(s), &post_card_ops,
-+                          s, TYPE_POST_CARD, 1);
-+    isa_register_ioport(isadev, &s->io, s->port);
-+    post_card_reset(dev);
-+}
-+
-+static Property post_card_properties[] = {
-+    DEFINE_PROP_UINT16("iobase", POSTCardState, port,
-+                       POST_CARD_PORT_DEFAULT),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static const VMStateDescription post_card_vmstate = {
-+    .name = TYPE_POST_CARD,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT16(port, POSTCardState),
-+        VMSTATE_UINT8(mem, POSTCardState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void
-+post_card_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+
-+    dc->desc = "ISA POST card";
-+    dc->realize = post_card_realize;
-+    dc->reset = post_card_reset;
-+    dc->vmsd = &post_card_vmstate;
-+    device_class_set_props(dc, post_card_properties);
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+}
-+
-+static const TypeInfo post_card_info = {
-+    .name          = TYPE_POST_CARD,
-+    .parent        = TYPE_ISA_DEVICE,
-+    .instance_size = sizeof(POSTCardState),
-+    .class_init    = post_card_class_init,
-+};
-+
-+ISADevice *
-+post_card_init(ISABus *bus, uint16_t iobase)
-+{
-+    DeviceState *dev;
-+    ISADevice *isadev;
-+
-+    isadev = isa_new(TYPE_POST_CARD);
-+    dev = DEVICE(isadev);
-+    qdev_prop_set_uint16(dev, "iobase", iobase);
-+    isa_realize_and_unref(isadev, bus, &error_fatal);
-+
-+    return isadev;
++    test_setup();
++    g_assert_cmphex(post_card_readb(), ==, 0x00);
++    post_card_write(0xaa);
++    g_assert_cmphex(post_card_readb(), ==, 0xaa);
++    test_teardown();
 +}
 +
 +static void
-+post_card_register_types(void)
++test_read_word(void)
 +{
-+    type_register_static(&post_card_info);
++    test_setup();
++    g_assert_cmphex(post_card_readb(), ==, 0x00);
++    post_card_write(0xa5);
++    g_assert_cmphex(post_card_readw(), ==, 0xa5a5);
++    test_teardown();
 +}
 +
-+type_init(post_card_register_types)
-diff --git a/hw/i386/trace-events b/hw/i386/trace-events
-index e49814dd64..443c2a9d6a 100644
---- a/hw/i386/trace-events
-+++ b/hw/i386/trace-events
-@@ -119,3 +119,6 @@ x86_pic_interrupt(int irqn, int level) "PIC interrupt #%d level:%d"
- # port92.c
- port92_read(uint8_t val) "port92: read 0x%02x"
- port92_write(uint8_t val) "port92: write 0x%02x"
++static void
++test_read_double_word(void)
++{
++    test_setup();
++    g_assert_cmphex(post_card_readb(), ==, 0x00);
++    post_card_write(0xa5);
++    g_assert_cmphex(post_card_readl(), ==, 0xa5a5a5a5);
++    test_teardown();
++}
 +
-+# postcard.c
-+post_card_write(uint8_t new_val, uint8_t old_val) "[%.2x %.2x]"
-diff --git a/include/hw/i386/postcard.h b/include/hw/i386/postcard.h
-new file mode 100644
-index 0000000000..ae8cdb704a
---- /dev/null
-+++ b/include/hw/i386/postcard.h
-@@ -0,0 +1,35 @@
-+/*
-+ * QEMU PC System Emulator
-+ *
-+ * Copyright (c) 2003-2004 Fabrice Bellard
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
 +
-+#ifndef HW_I386_POSTCARD_H
-+#define HW_I386_POSTCARD_H
++int
++main(int argc, char **argv)
++{
++    g_test_init(&argc, &argv, NULL);
 +
-+#include "hw/isa/isa.h"
++    qtest_add_func("/postcard/initial_state", test_initial_state);
++    qtest_add_func("/postcard/retain_write", test_retain_write);
++    qtest_add_func("/postcard/read_word", test_read_word);
++    qtest_add_func("/postcard/read_double_word", test_read_double_word);
 +
-+#define POST_CARD_PORT_DEFAULT 0x80
-+
-+ISADevice *
-+post_card_init(ISABus *bus, uint16_t iobase);
-+
-+#endif /* HW_I386_POSTCARD_H */
++    return g_test_run();
++}
 -- 
 2.34.1
 
