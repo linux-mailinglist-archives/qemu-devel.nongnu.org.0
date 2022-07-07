@@ -2,97 +2,160 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E19356A359
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 15:18:54 +0200 (CEST)
-Received: from localhost ([::1]:60940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5578E56A3F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 15:42:00 +0200 (CEST)
+Received: from localhost ([::1]:43922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9RPB-0008I0-95
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 09:18:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48776)
+	id 1o9RlW-0000cP-2d
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 09:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o9RMe-0007P2-Ic
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 09:16:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56613)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1o9Rgy-0006hJ-KQ; Thu, 07 Jul 2022 09:37:16 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:36822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1o9RMU-0003mG-E8
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 09:16:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657199764;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=952aGOg/SFwOjgyr5312Daxq0jsj4/8yy/9HT8+LLTA=;
- b=FLnvJgRLSZ9Mcco/I2Aa16C3OgzZBHQgW/ahHD+3ktODIjOgjCEOdnV0xlPFB9mBihx2hE
- OStB63Xzi9AiA8/DiV0GmaJqJLDHc8ggGgCJMMdoZtssrZK9YZtDlcTQ+rRMMhmxzaXt3G
- l74e/748mtHrKxd7kne02OiSXur3k3s=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-190-a6Ciki2QNKOh4yz4JLUHgA-1; Thu, 07 Jul 2022 09:16:03 -0400
-X-MC-Unique: a6Ciki2QNKOh4yz4JLUHgA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- nb10-20020a1709071c8a00b006e8f89863ceso4723091ejc.18
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 06:16:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=952aGOg/SFwOjgyr5312Daxq0jsj4/8yy/9HT8+LLTA=;
- b=cETeuedsS6GXpYC4r7i+YDpBDSGU2cQElfxUEaWQliborZqHEeBXxuPnKbhQ+aorCm
- 5gSwpc2nMCFc/LzlqaWR2h4GSipWkUQPJq1K7ztuZjt3s+FgqiMQ9/ZrqayXmqwaV2lS
- Jj3arc1EXZj2ETcXz4/85//HxNbJ46CqsfAebro4XCuJVMjFF6Wi+ORVRhvVMlYySz7X
- VU51lEgq1qqBVwaAN8jX/s2A9c4GHdqHIs8E+secRhzz/7Wn6IM94ElM34xFMOoDI/0w
- x3wK2rLSfGq1KuroirLtFkoP7XcjDgcYueGHvAAhrXJW/Zh7W+TW5wdL5f9u4xn0PKlL
- iP9A==
-X-Gm-Message-State: AJIora/TVBjP7tbDWRFd44IwgMlE+omqM41IOZGItzdp7df6mJpRk6y4
- gp+s8YjGtS2NJkra8VUVEohKu5P1iMhOzhtUdTEdiETP4Iii8Ui4Jxh8NxV9Tuo37J6wwDnC4mC
- KuiCJ+5ljwFpxt3I=
-X-Received: by 2002:a05:6402:1d50:b0:43a:737c:289c with SMTP id
- dz16-20020a0564021d5000b0043a737c289cmr21704729edb.47.1657199761855; 
- Thu, 07 Jul 2022 06:16:01 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uo0Y/ZldWmX/F75Lqgcijsc68EQ43Bm9NC9IopX4RZzERZndQ0pj3/hB6L+Mthv4+RNJFXOw==
-X-Received: by 2002:a05:6402:1d50:b0:43a:737c:289c with SMTP id
- dz16-20020a0564021d5000b0043a737c289cmr21704702edb.47.1657199761597; 
- Thu, 07 Jul 2022 06:16:01 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- e15-20020a056402104f00b0043577da51f1sm27948308edu.81.2022.07.07.06.16.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 06:16:01 -0700 (PDT)
-Date: Thu, 7 Jul 2022 15:15:59 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Alex Williamson
- <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
- <suravee.suthikulpanit@amd.com>, Jonathan Cameron
- <jonathan.cameron@huawei.com>
-Subject: Re: [PATCH v6 08/10] i386/pc: factor out device_memory base/size to
- helper
-Message-ID: <20220707151559.043fe91d@redhat.com>
-In-Reply-To: <20220701161014.3850-9-joao.m.martins@oracle.com>
-References: <20220701161014.3850-1-joao.m.martins@oracle.com>
- <20220701161014.3850-9-joao.m.martins@oracle.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1o9Rgo-0003um-0G; Thu, 07 Jul 2022 09:37:14 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 267C9KDt026135;
+ Thu, 7 Jul 2022 13:36:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=YBlR2EC1wCgG86M+3ZTzZ2OUkZwGduhT4XUjf5rBH2I=;
+ b=tagzz69RZPAIIfnRUmLMT06OKuoBPuumd5jtN+tV+eemc7Wsh11UWAp+oYw8S8SszSsA
+ qTc+gy/WGrq4ehmJ+YmfnRPVYZRiJbip1BgeOj1MktUj8Lcri3NPv1c3UaCxlmwDm2YQ
+ olpgYfIWh4zr+bVEW55eGIlov5a1cZxcWHNwnxBGcZYdcq3GlsO6zHu8KOAN+Ib3EeT6
+ jiqktzuFM8rDeQ+YGqLcW0V5jsxay5/1P1FNtv/OzI9LXvF269NuGSJWN2ALwDr9G5U2
+ GUrT00+gITfmqLqaqvUqYdLH0Qp3n3J6Cemf1ynbC/fHHqKgBRZTs7z7RZ/WMTIHBxPn lA== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h4ubyw1x4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 07 Jul 2022 13:36:34 +0000
+Received: from pps.filterd
+ (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 267DLVbM019130; Thu, 7 Jul 2022 13:36:33 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3h4ud8xmtg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 07 Jul 2022 13:36:33 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FLvPIBrpJWoONxMhU3thJ+Lp+6w7m691yFdArJ0oSLYTpeH+UEXEVOj2o4onSfaLi5QXOZVCQ1yt5xjr5p6a50JIjqei9rXAQfo7Ffm+/Zx6P5daIjYEM0WTXGO1zCJcC9iJeDBtmJU7y+gIzXsG/sP/8kFYwrDbKWwdnkgk17osUaPtDFugo5OBJmzZNbqKWlFM5yR8JaNfzVDQudi3RrjOZ6ftc0YOVgA73mRTmfDjuP2R4PXe59pZ8Rcgjuba6ify91au2LcM/AaC3H3hDfpbonoPNSIx8SQAQN77k8yIc11vHda8Rx2FaYVMFt+SW7gSh/qwwp5n4xeENkK3YQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YBlR2EC1wCgG86M+3ZTzZ2OUkZwGduhT4XUjf5rBH2I=;
+ b=gjUEsaqi9s2z7cEL46W4lqzlRHmZc5O0vFvcQbQbbSye1ABBNNo0Cw/odOS4MqPVG1MrC+Fi2GA4wRgbp12wstb+LVtIs5tly7MR1eYDXqEouXi4rwEuo6pkgc+XKahhY4KhhbC+jRinzhLbVCsmqHwqwOgd5pZTlxEedUjs6PsCZx+uT6Bm+/Ss4f5xXfB07p2btxBtq/9C2qtP97rpuqNeybPw+gEvqvJ6df8HsWZw6fEv3a/opE1cT7fCLQNHCQTnluNI/PFGKCJTTXEPFBu72G56ZiYvP2hf3dkYn5M0LReVgdbifDXLP4XeqGrzOCxIPlmPDvxjkxfxXBQzFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YBlR2EC1wCgG86M+3ZTzZ2OUkZwGduhT4XUjf5rBH2I=;
+ b=Imp7ST9FYsmboDf3D7se1c2pMeg/lmqr7aGJlH+cyzn+DZYqMoid+5mitO8mNbUH/46EMonq9tUN05/O7h3cV0gcrWpWIcR5qAXBKORURemArvODfonlqowGjq4NsgKIPTRQLAVfQoltdToFeWsPFE4M2THLlB3JHgsfZs0YtAs=
+Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
+ by DM5PR1001MB2346.namprd10.prod.outlook.com (2603:10b6:4:30::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.15; Thu, 7 Jul
+ 2022 13:36:32 +0000
+Received: from BLAPR10MB5138.namprd10.prod.outlook.com
+ ([fe80::89fe:338:779d:6bb0]) by BLAPR10MB5138.namprd10.prod.outlook.com
+ ([fe80::89fe:338:779d:6bb0%8]) with mapi id 15.20.5417.016; Thu, 7 Jul 2022
+ 13:36:32 +0000
+From: Darren Kenny <darren.kenny@oracle.com>
+To: qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ darren.kenny@oracle.com
+Subject: [QEMU 1/1] nvme: Fix misleading macro when mixed with ternary operator
+Date: Thu,  7 Jul 2022 13:36:21 +0000
+Message-Id: <d3fc4a90ba74d4874c445480b48d45b67c9322ae.1657200900.git.darren.kenny@oracle.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: DS7PR05CA0010.namprd05.prod.outlook.com
+ (2603:10b6:5:3b9::15) To BLAPR10MB5138.namprd10.prod.outlook.com
+ (2603:10b6:208:322::8)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 22fda383-1107-451d-4060-08da601db427
+X-MS-TrafficTypeDiagnostic: DM5PR1001MB2346:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4K0E4boF/N9UI2L7NINlhfXIvAi4VOuPy0PSE9SVS+2sDY2Gya7sWfM72PNBLNQ3cj3LDNE8WKZFlxGj89Hf0AXWxuVNpo5TLcyeAO48FbtZzTFgwq5l/a30r8/0s4IscKYKBRI1cqc534r+G3UHkiWBGlGXS5O2Scr1e6TVwgTOVmmKkJUp6nZhzBtdFfQZJ0xlTjS21XnSDINI6mgaH8fUinl4ej3FyhdNwouUstwvBJ9VtsmYCGkaI3revryC8azrMfi61hWx51yUnt05tVlwcmcnfnI82DQc5VW259EQocUkIvoh7WiFfNskhi5nWz+HsczUuYEIushhFYqwW/lY15DBnDAjQWzvAQYaSuzCFnf10FIbcX1inHncnF/dSVQ9zfxzg+JmeKGDlRzSFAqvtLRSrN4VdVhtFJ7+5FBuezuAkPH4zMeH9AQ/wXkGeAdviutwrierK0Rrg/uuJhoiEaxbpF029Nk46xOx0Y2bXhdhH4Bs0BXym3z0YMvztMFIp+6fVvl14RpdGZOs33SIajK18GNG/TNmD148O5zlOF94YDyZGr6dIBH5PHehNXVLO9Sy3NxouWMICTt1PjvPpVVYrd9xAwjzYo+ra3NHR+i6erl4aowHDRepnSZvJJ/zYDEf0ZszWwX9qAaOOL2qQRsVPfrp3SYPnfzTIFOZSShMvAVjwiAlOE0odrqR9tMsirYwlFLEblSFKB3OjQ7LLzJhwEZ5GtLZSTEOVW3pyREPX5JS54WKdMAHsALlpDQyjAUJXB63tnv9c6ROZ5YeNwG6NNaYeaoiVhES4WxJYQom0UtAskbv0Zl3+C0e
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(136003)(346002)(39860400002)(396003)(376002)(366004)(8936002)(44832011)(5660300002)(38350700002)(38100700002)(54906003)(2616005)(186003)(6512007)(316002)(6506007)(478600001)(6486002)(52116002)(107886003)(6666004)(41300700001)(26005)(8676002)(4326008)(83380400001)(66556008)(2906002)(66476007)(36756003)(86362001)(66946007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1cWktJ6mM3pSoxYu2mI67EciS5uidtQfEons75gOQU+GNtVPurd47PoamLcb?=
+ =?us-ascii?Q?26BfeQ1AXIqaANAjbf9vu9T8GNjCiPUx1k1FP1a+XJWVoup3pnjUfwqLdtbK?=
+ =?us-ascii?Q?IwWt9mQroVGH74lCGsPaDF1bwhH5m8s82UZ5Ygt/rUiFvrNf/OUXWqkZmrCe?=
+ =?us-ascii?Q?Nmreb0MLskltoSS6EbW40C1h0jdyX9/enwpdB2vxlXiWWBl1C/WTAu0+1Hot?=
+ =?us-ascii?Q?tzQOCFUZ7UNI4cQSMY9OlsjKqKuqB3v1QWgXp31ek20HwpdNNhUKeC2kNmQu?=
+ =?us-ascii?Q?uaB7i9Ectr9AxmBfC55GWfOW+EB02jmq3DiM9x+5L2YwwGhHsXCqwd9xKJT7?=
+ =?us-ascii?Q?7G6hZkpddLSd/O+IJY9QZrbYKB7Jy9esOmkaljACKbbM4GrEAkqtwvQZ95XT?=
+ =?us-ascii?Q?z+HqtYHMd8jgor5vzwCQrSbqBVIOy0Cbo0V8RsxAcASK0p2zw+XjwzpStV8Q?=
+ =?us-ascii?Q?fFWeMXJtqqndR361xOg34TvdyByOHWUCkCE07gmY3GzEMzxM0PcIOXwU7hfL?=
+ =?us-ascii?Q?tUkrI4NlKGpLMQ1G9yaF4cbXtTL5PaD1Psx60TBl6wwTf69p9RtFcHld34wr?=
+ =?us-ascii?Q?eG0VlEnebF9vaJN7HgWargofhnesWOFdoEU9j37oalo1w1wPDegF8SRZkJam?=
+ =?us-ascii?Q?/zFLiHftHbVmf1IjxX+LJiN/EROW4+xWU5TEf4Hkuo8PYYsXVMDv5hnwQ/0B?=
+ =?us-ascii?Q?BAuDsO2tMgiWz9tJOYmo8Z/HqBKWRifUUKtFB+IEBxGoHJcbijn5U9ws2vez?=
+ =?us-ascii?Q?zpJu3IEp98RspkFZAUZ3KJrnXQKO7bwnzciWbMQfqzcZLcFvURRWA2aOdGnF?=
+ =?us-ascii?Q?kn/GQ26TO8gdVyOtboL0C2wBX86Cs/cCbr3Xauj3L3Ch8CotYCn/GCdOHlne?=
+ =?us-ascii?Q?vN21TaBrZvxzsgRtD5v2ahz/DTzK1R5TckL9y83u4XgDvckH+eCUmhA1dmQm?=
+ =?us-ascii?Q?aGEMHwfx53U0QFe/9qN4TGZGxfdiU3zzaqM+0BU2HY0+lYrLt9UZRRzbuYqZ?=
+ =?us-ascii?Q?qrhPK8xkwASsBCbb1dhlp7ghrKMW6xJpwbhozGQEn+j6jchYFSiur++Lg998?=
+ =?us-ascii?Q?mnqnN0L2a7e7ZbTN1QuKc7zNLGOCqeAz4rxUBag+m35rNeAUip2a1kGRi5PZ?=
+ =?us-ascii?Q?1m/9HFR+MoO6PGt0U6dmiONO1wfXwZEgTglMPfb81cY1SFiOL4duOfl5KyBS?=
+ =?us-ascii?Q?tJbyC++wQylEAaVbO+8BGBhfwH7xs0117U3fDhLqILub0nWMSAlOoT2rApn7?=
+ =?us-ascii?Q?q7AVrvgCCBe6rU6cCqtlkI7B8ePxKQTNXvYVDJqwjgJohLAVtDBASuT7KqBU?=
+ =?us-ascii?Q?GdpOMcIZyNt5IsgD/R67quGNL0YdNKmV9vr9UJIcoXt2fwo+udEbDMLX2SIB?=
+ =?us-ascii?Q?bUXBIqfxezCgWX00YN83HeopGHbsrbkGxqALcreWeF+QpVRE9JlRleEaDxDb?=
+ =?us-ascii?Q?IsYVVC2RgfxPtglAZ8DZIoane34/nITtP4sW0x9qiNEghWauuE4Y7oWS+349?=
+ =?us-ascii?Q?V4m3xilMqX7JXCebHzL/9GtTjX78EBPmaMA4UsA3da8OhNzkfhpZR75+e/x0?=
+ =?us-ascii?Q?iPFXVX3N4aQ7J/BMaBT0Ufsf5Azb3NpUr9K2IHYDBvpRgqe4umi3eeY2ej93?=
+ =?us-ascii?Q?HQ=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22fda383-1107-451d-4060-08da601db427
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 13:36:32.0542 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DakdcrtQ8vOu8macpf6URxuaC4F5t2Ipbg9PYpYVcbFxUKdCye2hfD05yr6yp4hbdiqAR/FloV89gqzO4zqikg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1001MB2346
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
+ definitions=2022-07-07_09:2022-06-28,
+ 2022-07-07 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 malwarescore=0
+ mlxscore=0 spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2207070053
+X-Proofpoint-ORIG-GUID: XJABegfuzGg3PvFscURGNBZSLl0aAYG6
+X-Proofpoint-GUID: XJABegfuzGg3PvFscURGNBZSLl0aAYG6
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=darren.kenny@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,124 +171,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  1 Jul 2022 17:10:12 +0100
-Joao Martins <joao.m.martins@oracle.com> wrote:
+Using the Parfait source code analyser and issue was found in
+hw/nvme/ctrl.c where the macros NVME_CAP_SET_CMBS and NVME_CAP_SET_PMRS
+are called with a ternary operatore in the second parameter, resulting
+in a potentially unexpected expansion of the form:
 
-> Move obtaining hole64_start from device_memory MR base/size into an helper
-> alongside correspondent getters in pc_memory_init() when the hotplug
-> range is unitialized.
-> 
-> This is the final step that allows pc_pci_hole64_start() to be callable
-> at the beginning of pc_memory_init() before any MRs are initialized.
-> 
-> Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> ---
->  hw/i386/pc.c | 55 +++++++++++++++++++++++++++++++++++++++-------------
->  1 file changed, 41 insertions(+), 14 deletions(-)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index d6dff71012ab..a79fa1b6beeb 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -825,16 +825,48 @@ static hwaddr pc_above_4g_end(PCMachineState *pcms)
->      return x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
->  }
->  
-> +static void pc_get_device_memory_range(PCMachineState *pcms,
-> +                                       hwaddr *base,
-> +                                       ram_addr_t *device_mem_size)
-> +{
-> +    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-> +    MachineState *machine = MACHINE(pcms);
-> +    ram_addr_t size;
-> +    hwaddr addr;
-> +
+  x ? a: b & FLAG_TEST
 
-> +    if (pcmc->has_reserved_memory &&
-> +        machine->device_memory && machine->device_memory->base) {
-> +        *base = machine->device_memory->base;
-> +        *device_mem_size = memory_region_size(&machine->device_memory->mr);
-> +        return;
-> +    }
-is this block really needed?
-(i.e. shouldn't block bellow always yeld the same result
-as block above?)
+which will result in a different result to:
 
-> +
-> +    /* handles uninitialized @device_memory MR */
-> +    size = machine->maxram_size - machine->ram_size;
-> +    addr = ROUND_UP(pc_above_4g_end(pcms), 1 * GiB);
-> +
-> +    if (pcmc->enforce_aligned_dimm) {
-> +        /* size device region assuming 1G page max alignment per slot */
-> +        size += (1 * GiB) * machine->ram_slots;
-> +    }
-> +
-> +    *base = addr;
-> +    *device_mem_size = size;
-> +}
-> +
-> +
->  static uint64_t pc_get_cxl_range_start(PCMachineState *pcms)
->  {
->      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
->      MachineState *machine = MACHINE(pcms);
->      hwaddr cxl_base;
-> +    ram_addr_t size;
->  
-> -    if (pcmc->has_reserved_memory && machine->device_memory->base) {
-> -        cxl_base = machine->device_memory->base;
-> +    if (pcmc->has_reserved_memory &&
-> +        machine->device_memory && machine->device_memory->base) {
-> +        pc_get_device_memory_range(pcms, &cxl_base, &size);
->          if (!pcmc->broken_reserved_end) {
-> -            cxl_base += memory_region_size(&machine->device_memory->mr);
-> +            cxl_base += size;
->          }
->      } else {
->          cxl_base = pc_above_4g_end(pcms);
-> @@ -937,7 +969,7 @@ void pc_memory_init(PCMachineState *pcms,
->      /* initialize device memory address space */
->      if (pcmc->has_reserved_memory &&
->          (machine->ram_size < machine->maxram_size)) {
-> -        ram_addr_t device_mem_size = machine->maxram_size - machine->ram_size;
-> +        ram_addr_t device_mem_size;
->  
->          if (machine->ram_slots > ACPI_MAX_RAM_SLOTS) {
->              error_report("unsupported amount of memory slots: %"PRIu64,
-> @@ -952,13 +984,7 @@ void pc_memory_init(PCMachineState *pcms,
->              exit(EXIT_FAILURE);
->          }
->  
-> -        machine->device_memory->base =
-> -            ROUND_UP(pc_above_4g_end(pcms), 1 * GiB);
-> -
-> -        if (pcmc->enforce_aligned_dimm) {
-> -            /* size device region assuming 1G page max alignment per slot */
-> -            device_mem_size += (1 * GiB) * machine->ram_slots;
-> -        }
-> +        pc_get_device_memory_range(pcms, &machine->device_memory->base, &device_mem_size);
->  
->          if ((machine->device_memory->base + device_mem_size) <
->              device_mem_size) {
-> @@ -1063,13 +1089,14 @@ uint64_t pc_pci_hole64_start(void)
->      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
->      MachineState *ms = MACHINE(pcms);
->      uint64_t hole64_start = 0;
-> +    ram_addr_t size = 0;
->  
->      if (pcms->cxl_devices_state.is_enabled) {
->          hole64_start = pc_get_cxl_range_end(pcms);
-> -    } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
-> -        hole64_start = ms->device_memory->base;
-> +    } else if (pcmc->has_reserved_memory && (ms->ram_size < ms->maxram_size)) {
-> +        pc_get_device_memory_range(pcms, &hole64_start, &size);
->          if (!pcmc->broken_reserved_end) {
-> -            hole64_start += memory_region_size(&ms->device_memory->mr);
-> +            hole64_start += size;
->          }
->      } else {
->          hole64_start = pc_above_4g_end(pcms);
+  (x ? a: b) & FLAG_TEST.
+
+The macros should wrap each of the parameters in brackets to ensure the
+correct result on expansion.
+
+Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
+---
+ include/block/nvme.h | 44 ++++++++++++++++++++++----------------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
+
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 373c70b5ca7f..b35f31a9f958 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -98,28 +98,28 @@ enum NvmeCapMask {
+ #define NVME_CAP_PMRS(cap)  (((cap) >> CAP_PMRS_SHIFT)   & CAP_PMRS_MASK)
+ #define NVME_CAP_CMBS(cap)  (((cap) >> CAP_CMBS_SHIFT)   & CAP_CMBS_MASK)
+ 
+-#define NVME_CAP_SET_MQES(cap, val)   (cap |= (uint64_t)(val & CAP_MQES_MASK)  \
+-                                                           << CAP_MQES_SHIFT)
+-#define NVME_CAP_SET_CQR(cap, val)    (cap |= (uint64_t)(val & CAP_CQR_MASK)   \
+-                                                           << CAP_CQR_SHIFT)
+-#define NVME_CAP_SET_AMS(cap, val)    (cap |= (uint64_t)(val & CAP_AMS_MASK)   \
+-                                                           << CAP_AMS_SHIFT)
+-#define NVME_CAP_SET_TO(cap, val)     (cap |= (uint64_t)(val & CAP_TO_MASK)    \
+-                                                           << CAP_TO_SHIFT)
+-#define NVME_CAP_SET_DSTRD(cap, val)  (cap |= (uint64_t)(val & CAP_DSTRD_MASK) \
+-                                                           << CAP_DSTRD_SHIFT)
+-#define NVME_CAP_SET_NSSRS(cap, val)  (cap |= (uint64_t)(val & CAP_NSSRS_MASK) \
+-                                                           << CAP_NSSRS_SHIFT)
+-#define NVME_CAP_SET_CSS(cap, val)    (cap |= (uint64_t)(val & CAP_CSS_MASK)   \
+-                                                           << CAP_CSS_SHIFT)
+-#define NVME_CAP_SET_MPSMIN(cap, val) (cap |= (uint64_t)(val & CAP_MPSMIN_MASK)\
+-                                                           << CAP_MPSMIN_SHIFT)
+-#define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
+-                                                           << CAP_MPSMAX_SHIFT)
+-#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMRS_MASK)  \
+-                                                           << CAP_PMRS_SHIFT)
+-#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMBS_MASK)  \
+-                                                           << CAP_CMBS_SHIFT)
++#define NVME_CAP_SET_MQES(cap, val)   \
++    ((cap) |= (uint64_t)((val) & CAP_MQES_MASK)   << CAP_MQES_SHIFT)
++#define NVME_CAP_SET_CQR(cap, val)    \
++    ((cap) |= (uint64_t)((val) & CAP_CQR_MASK)    << CAP_CQR_SHIFT)
++#define NVME_CAP_SET_AMS(cap, val)    \
++    ((cap) |= (uint64_t)((val) & CAP_AMS_MASK)    << CAP_AMS_SHIFT)
++#define NVME_CAP_SET_TO(cap, val)     \
++    ((cap) |= (uint64_t)((val) & CAP_TO_MASK)     << CAP_TO_SHIFT)
++#define NVME_CAP_SET_DSTRD(cap, val)  \
++    ((cap) |= (uint64_t)((val) & CAP_DSTRD_MASK)  << CAP_DSTRD_SHIFT)
++#define NVME_CAP_SET_NSSRS(cap, val)  \
++    ((cap) |= (uint64_t)((val) & CAP_NSSRS_MASK)  << CAP_NSSRS_SHIFT)
++#define NVME_CAP_SET_CSS(cap, val)    \
++    ((cap) |= (uint64_t)((val) & CAP_CSS_MASK)    << CAP_CSS_SHIFT)
++#define NVME_CAP_SET_MPSMIN(cap, val) \
++    ((cap) |= (uint64_t)((val) & CAP_MPSMIN_MASK) << CAP_MPSMIN_SHIFT)
++#define NVME_CAP_SET_MPSMAX(cap, val) \
++    ((cap) |= (uint64_t)((val) & CAP_MPSMAX_MASK) << CAP_MPSMAX_SHIFT)
++#define NVME_CAP_SET_PMRS(cap, val)   \
++    ((cap) |= (uint64_t)((val) & CAP_PMRS_MASK)   << CAP_PMRS_SHIFT)
++#define NVME_CAP_SET_CMBS(cap, val)   \
++    ((cap) |= (uint64_t)((val) & CAP_CMBS_MASK)   << CAP_CMBS_SHIFT)
+ 
+ enum NvmeCapCss {
+     NVME_CAP_CSS_NVM        = 1 << 0,
+-- 
+2.31.1
 
 
