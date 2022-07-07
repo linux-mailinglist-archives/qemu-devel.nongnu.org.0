@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD1756A1E6
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 14:26:25 +0200 (CEST)
-Received: from localhost ([::1]:58124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A258956A212
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 14:34:53 +0200 (CEST)
+Received: from localhost ([::1]:42262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9QaN-00051L-O7
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 08:26:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32992)
+	id 1o9Qia-0005In-6k
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 08:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9QXZ-0002qz-SY
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:23:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55617)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9QXW-0006B3-3F
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:23:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657196604;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B4dpt6iaoNQiNYojMuAjboQaAc/s0icsejYUBEnV540=;
- b=WxbbsICEm+QkJENJNaVpGpE78puOd9lUiSXDH3eXBao+J2IN/miSqixN14rzzVXYasvsAi
- NoLswLOjmRDOMo2bLimHHUFNbbpbFB0RuTzbBcyMcbzmkIjG8S7JYn9/i3Hn89pealy0X5
- hSU1ZooTIMpAZsjjd8zWQkyw9FMNUAY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-378-XLlJwrSKMSKi5ey730dM_w-1; Thu, 07 Jul 2022 08:23:12 -0400
-X-MC-Unique: XLlJwrSKMSKi5ey730dM_w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC256805BDB;
- Thu,  7 Jul 2022 12:23:11 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61FDD2EF97;
- Thu,  7 Jul 2022 12:23:11 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5D92D21E690D; Thu,  7 Jul 2022 14:23:10 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>,  Kevin Wolf
- <kwolf@redhat.com>,  Laurent Vivier <laurent@vivier.eu>,  Warner Losh
- <imp@bsdimp.com>,  Kyle Evans <kevans@freebsd.org>,  Hanna Reitz
- <hreitz@redhat.com>,  Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>,  Fam Zheng <fam@euphon.net>,  Eric Blake
- <eblake@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,  qemu-block@nongnu.org
-Subject: Re: [PATCH 1/9] monitor: make error_vprintf_unless_qmp() static
-References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
- <20220616124034.3381391-2-marcandre.lureau@redhat.com>
-Date: Thu, 07 Jul 2022 14:23:10 +0200
-In-Reply-To: <20220616124034.3381391-2-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Thu, 16 Jun 2022 16:40:26 +0400")
-Message-ID: <87edyxdscx.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o9Qbd-0007gq-Fe
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:27:41 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1o9Qba-0006uw-Eh
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:27:41 -0400
+Received: by mail-wr1-x434.google.com with SMTP id a5so11400710wrx.12
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 05:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NZT+eNmzNOgQ/fdJR1/NfibTtOzhCUCbQtCWIySN6sc=;
+ b=HeTpE7UFiO266DEc4iRyuswXwelzRMrSrmVt//6G62R2qUd1R8UecaJzTV3LkZjoPe
+ CO80cOWaHdauO2ks/3RMCxEKL0DLdFI1XKyLgdKLC8SQ29LV7Ew5qJBvu+hEOtb5DNTe
+ i1PD3FZKkaRauBW6is6KqFP4XQowO9WyrYU1ezzK/FjFzEGSALFzL7xuVGj6S9D5VkkH
+ 0Owx7XZy6Z8mx/WZayJ5y6hNjmrl4vUOTSYh5rJP3lR2WXWeodL1fUBWAaxYMII9LD6K
+ hM++fkRV5U9ff/Ep/2qBhAw4OIJvZF57wTHBPJmdb87z4YzfVOEJp+TFZYsf0gKpD3IX
+ YG7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NZT+eNmzNOgQ/fdJR1/NfibTtOzhCUCbQtCWIySN6sc=;
+ b=4CUv+gVsE7KApdnrCZyP6D/4nvL9dFk4tq/0LyaI4JpFX25d86EP+axbLKI/MZmjqR
+ qKm1LJbugKcEkIe2oQ1I4H4mZ1TiQrS8w24tEfT1e05UUJDaOUXUNxWxHD7P9TyChMOp
+ pmFGNtn//GqkeBjg/pXHGbFnMtnGN5eGczSHAA9sDQofCZxgNrKuk4iP/ZXBXRFny+2s
+ VvVT34eBWyEHmCeMhUXDj4fhExW+Vf/LJWCF3gxgbNPglIWFNTTA26upRQls54YCtP5T
+ iUIO/s6VovfkrIyDbZ89qpQYGhFOoq0QF9JVEjzT1d6KXwBXw9vjRb6lX+G1k19kpMpx
+ z3Gg==
+X-Gm-Message-State: AJIora+z24Sbrcs5f8AKyuWnYax6Gjj3fEzoNwX4aaW+Vw/fiTB7H6IF
+ wKi+5xWzIy96aUXwgILhctPdk6DmiZQRKA==
+X-Google-Smtp-Source: AGRyM1vQpKSL+lXf1LCqwBVv+th3RLYsl3AxCxWYxU7SANUNAf6DyuPqUQwACU+gaFdYpzbZRezbaQ==
+X-Received: by 2002:a5d:56ca:0:b0:21d:8b21:9fd5 with SMTP id
+ m10-20020a5d56ca000000b0021d8b219fd5mr670912wrw.179.1657196856133; 
+ Thu, 07 Jul 2022 05:27:36 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ r16-20020a05600c35d000b003a0375c4f73sm29177618wmq.44.2022.07.07.05.27.35
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jul 2022 05:27:35 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] target-arm queue
+Date: Thu,  7 Jul 2022 13:27:25 +0100
+Message-Id: <20220707122734.288929-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,68 +86,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
+My OS Lock/DoubleLock patches, plus a small selection of other
+bug fixes and minor things.
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Not needed outside monitor.c. Remove the needless stub.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  include/monitor/monitor.h | 1 -
->  monitor/monitor.c         | 3 ++-
->  stubs/error-printf.c      | 5 -----
->  3 files changed, 2 insertions(+), 7 deletions(-)
->
-> diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-> index a4b40e8391db..44653e195b45 100644
-> --- a/include/monitor/monitor.h
-> +++ b/include/monitor/monitor.h
-> @@ -56,7 +56,6 @@ void monitor_register_hmp(const char *name, bool info,
->  void monitor_register_hmp_info_hrt(const char *name,
->                                     HumanReadableText *(*handler)(Error *=
-*errp));
->=20=20
-> -int error_vprintf_unless_qmp(const char *fmt, va_list ap) G_GNUC_PRINTF(=
-1, 0);
->  int error_printf_unless_qmp(const char *fmt, ...) G_GNUC_PRINTF(1, 2);
->=20=20
->  #endif /* MONITOR_H */
-> diff --git a/monitor/monitor.c b/monitor/monitor.c
-> index 86949024f643..ba4c1716a48a 100644
-> --- a/monitor/monitor.c
-> +++ b/monitor/monitor.c
-> @@ -273,7 +273,8 @@ int error_vprintf(const char *fmt, va_list ap)
->      return vfprintf(stderr, fmt, ap);
->  }
->=20=20
-> -int error_vprintf_unless_qmp(const char *fmt, va_list ap)
-> +G_GNUC_PRINTF(1, 0)
-> +static int error_vprintf_unless_qmp(const char *fmt, va_list ap)
->  {
->      Monitor *cur_mon =3D monitor_cur();
->=20=20
-> diff --git a/stubs/error-printf.c b/stubs/error-printf.c
-> index 0e326d801059..1afa0f62ca26 100644
-> --- a/stubs/error-printf.c
-> +++ b/stubs/error-printf.c
-> @@ -16,8 +16,3 @@ int error_vprintf(const char *fmt, va_list ap)
->      }
->      return vfprintf(stderr, fmt, ap);
->  }
-> -
-> -int error_vprintf_unless_qmp(const char *fmt, va_list ap)
-> -{
-> -    return error_vprintf(fmt, ap);
-> -}
+thanks
+-- PMM
 
-When I write a printf-like utility function, I habitually throw in a
-vprintf-like function.
+The following changes since commit 8e9398e3b1a860b8c29c670c1b6c36afe8d87849:
 
-Any particular reason for hiding this one?  To avoid misunderstandings:
-I'm fine with hiding it if it's causing you trouble.
+  Merge tag 'pull-ppc-20220706' of https://gitlab.com/danielhb/qemu into staging (2022-07-07 06:21:05 +0530)
 
-Except I think we'd better delete than hide then: inline into
-error_printf_unless_qmp().  Makes sense?
+are available in the Git repository at:
 
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220707
+
+for you to fetch changes up to c2360eaa0262a816faf8032b7762d0c73df2cc62:
+
+  target/arm: Fix qemu-system-arm handling of LPAE block descriptors for highmem (2022-07-07 11:41:04 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * hw/arm/virt: dt: add rng-seed property
+ * Fix MTE check in sve_ldnfff1_r
+ * Record tagged bit for user-only in sve_probe_page
+ * Correctly implement OS Lock and OS DoubleLock
+ * Implement DBGDEVID, DBGDEVID1, DBGDEVID2 registers
+ * Fix qemu-system-arm handling of LPAE block descriptors for highmem
+
+----------------------------------------------------------------
+Jason A. Donenfeld (1):
+      hw/arm/virt: dt: add rng-seed property
+
+Peter Maydell (6):
+      target/arm: Fix code style issues in debug helper functions
+      target/arm: Move define_debug_regs() to debug_helper.c
+      target/arm: Suppress debug exceptions when OS Lock set
+      target/arm: Implement AArch32 DBGDEVID, DBGDEVID1, DBGDEVID2
+      target/arm: Correctly implement Feat_DoubleLock
+      target/arm: Fix qemu-system-arm handling of LPAE block descriptors for highmem
+
+Richard Henderson (2):
+      target/arm: Fix MTE check in sve_ldnfff1_r
+      target/arm: Record tagged bit for user-only in sve_probe_page
+
+ docs/about/deprecated.rst |   8 +
+ docs/system/arm/virt.rst  |  17 +-
+ include/hw/arm/virt.h     |   2 +-
+ target/arm/cpregs.h       |   3 +
+ target/arm/cpu.h          |  27 +++
+ target/arm/internals.h    |   9 +
+ hw/arm/virt.c             |  44 ++--
+ target/arm/cpu64.c        |   6 +
+ target/arm/cpu_tcg.c      |   6 +
+ target/arm/debug_helper.c | 580 ++++++++++++++++++++++++++++++++++++++++++++++
+ target/arm/helper.c       | 513 +---------------------------------------
+ target/arm/ptw.c          |   2 +-
+ target/arm/sve_helper.c   |   5 +-
+ 13 files changed, 684 insertions(+), 538 deletions(-)
 
