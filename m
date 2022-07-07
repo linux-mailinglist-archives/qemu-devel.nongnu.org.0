@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B067569E27
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 10:54:28 +0200 (CEST)
-Received: from localhost ([::1]:50388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C57569DF5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 10:49:14 +0200 (CEST)
+Received: from localhost ([::1]:41776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9NHG-00074L-GA
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 04:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34040)
+	id 1o9NCD-0000z6-Jy
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 04:49:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1o9MvP-0003P5-O9
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:31:57 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:50812)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o9Mwj-00051m-Vd
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:33:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1o9MvK-0008Kt-W1
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:31:49 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 4C85A2E0D63;
- Thu,  7 Jul 2022 11:31:35 +0300 (MSK)
-Received: from rvkaganb (unknown [2a02:6b8:b081:1325::1:1d])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- IQlYl2VRoo-VXO8coMl; Thu, 07 Jul 2022 11:31:34 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1657182694; bh=RnTEoaOVgf4japN8otCWR9ijEPjVy0dC7nWk5Oi4kkU=;
- h=In-Reply-To:Cc:Message-ID:Subject:Date:References:To:From;
- b=awzj5nF0RoGuYKzVNxuVqTOp4idht3hi1vcSPPNaELtoIjYPL7RywlX4KADZYCVZQ
- 3rRgqcRn6h+X416xPuyoV6HiT+cM6A12VKLGRh7ynVNWtP6m7l3nzD8SK+kbcOc1Ou
- feXVBUV8eVouv7sIiboIPR4WTeqhttS/IG/mSyOw=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Date: Thu, 7 Jul 2022 11:31:32 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- yc-core@yandex-team.ru
-Subject: Re: [PATCH] hw/pci/pci_bridge: ensure PCIe slots have only one slot
-Message-ID: <YsaZ5MjtK3NJeC/y@rvkaganb>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- yc-core@yandex-team.ru
-References: <20220704102514.1284827-1-rvkagan@yandex-team.ru>
- <18e4c3fc-080a-a8e4-786a-b0410345167c@yandex-team.ru>
- <YsXl0BrhtoPTQUnn@rvkaganb>
- <20220707011825-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o9Mwh-0008WS-Te
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:33:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657182791;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WYx/2w+QN7K6leQptRp6mSD/r7PKurJAi8BBmHOm06A=;
+ b=E7ZFMEFU4E1HLhrtEB0/DBz8bD5ITdK6xOlcwx+YiPBOxpydlk1qhTybnOeJDZEvyK+jRO
+ wePUWs8f4srM5MpyL4VFzWdgTcoBPvZi0tnMhVRg65UvToaMhgF/i7+AUDQuznx4lH05vC
+ /qP4R24nIA2CKotJ6UizHCEBGJHTg9E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-326-53sAQXtcPRCzQLqVtAuxLQ-1; Thu, 07 Jul 2022 04:33:04 -0400
+X-MC-Unique: 53sAQXtcPRCzQLqVtAuxLQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C61589C8E0;
+ Thu,  7 Jul 2022 08:33:03 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D779400DFA6;
+ Thu,  7 Jul 2022 08:33:01 +0000 (UTC)
+Date: Thu, 7 Jul 2022 09:32:58 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 10/13] tests/vm: Remove docker cross-compile test from
+ CentOS VM
+Message-ID: <YsaaOtLYrbQseDaF@redhat.com>
+References: <20220707040310.4163682-1-jsnow@redhat.com>
+ <20220707040310.4163682-11-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220707011825-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=5.45.199.163; envelope-from=rvkagan@yandex-team.ru;
- helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220707040310.4163682-11-jsnow@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,72 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 07, 2022 at 01:19:18AM -0400, Michael S. Tsirkin wrote:
-> On Wed, Jul 06, 2022 at 10:43:12PM +0300, Roman Kagan wrote:
-> > On Wed, Jul 06, 2022 at 09:38:39PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > On 7/4/22 13:25, Roman Kagan wrote:
-> > > > It's possible to create non-working configurations by attaching a device
-> > > > to a derivative of PCIe slot (pcie-root-port, ioh3420, etc) and
-> > > > specifying a slot number other that zero, e.g.:
-> > > > 
-> > > >      -device pcie-root-port,id=s0,... \
-> > > >      -device virtio-blk-pci,bus=s0,addr=4,...
-> > > > 
-> > > > Make QEMU reject such configurations and only allow addr=0 on the
-> > > > secondary bus of a PCIe slot.
-> > > > 
-> > > > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-> > > > ---
-> > > >   hw/pci/pci_bridge.c | 5 +++++
-> > > >   1 file changed, 5 insertions(+)
-> > > > 
-> > > > diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-> > > > index da34c8ebcd..8b38d5ad3d 100644
-> > > > --- a/hw/pci/pci_bridge.c
-> > > > +++ b/hw/pci/pci_bridge.c
-> > > > @@ -33,6 +33,7 @@
-> > > >   #include "qemu/units.h"
-> > > >   #include "hw/pci/pci_bridge.h"
-> > > >   #include "hw/pci/pci_bus.h"
-> > > > +#include "hw/pci/pcie_port.h"
-> > > >   #include "qemu/module.h"
-> > > >   #include "qemu/range.h"
-> > > >   #include "qapi/error.h"
-> > > > @@ -386,6 +387,10 @@ void pci_bridge_initfn(PCIDevice *dev, const char *typename)
-> > > >       br->windows = pci_bridge_region_init(br);
-> > > >       QLIST_INIT(&sec_bus->child);
-> > > >       QLIST_INSERT_HEAD(&parent->child, sec_bus, sibling);
-> > > > +
-> > > > +    if (PCIE_SLOT(dev)) {
-> > > 
-> > > Hmm, wouldn't PCIE_SLOT just crash if dev is not pcie slot? As I understand, PCIE_SLOT is finally an OBJECT_CHECK(), which say:
-> > > 
-> > >  * If an invalid object is passed to this function, a run time assert will be
-> > >  * generated.
-> > 
-> > Well, the assertion is there only if configured with
-> > --enable-qom-cast-debug which is off by default, that's why it even
-> > passed make check.  As it stands, it's just a typecast which is a no-op
-> > here, and basically it makes every bridge have only a single slot, which
-> > is wrong of course.
-> > 
-> > Will rework, thanks!
-> > Roman.
+On Thu, Jul 07, 2022 at 12:03:07AM -0400, John Snow wrote:
+> The fedora container has since been split apart, so there's no suitable
+> nearby target that would support "test-mingw" as it requires both x32
+> and x64 support -- so either fedora-cross-win32 nor fedora-cross-win64
+> would be truly suitable.
 > 
-> Which probably means it was not actually tested that the patch
-> rejects the invalid configuration, was it?
+> Just remove this test as superfluous with our current CI infrastructure.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  tests/vm/centos | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/tests/vm/centos b/tests/vm/centos
+> index 3a527c47b3d..097a9ca14d3 100755
+> --- a/tests/vm/centos
+> +++ b/tests/vm/centos
+> @@ -28,7 +28,6 @@ class CentosVM(basevm.BaseVM):
+>          tar -xf $SRC_ARCHIVE;
+>          make docker-test-block@centos8 {verbose} J={jobs} NETWORK=1;
+>          make docker-test-quick@centos8 {verbose} J={jobs} NETWORK=1;
+> -        make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
 
-Yes it was.  What wasn't tested was that other PCI bridges remained
-unaffected.  In the default configuration (--enable-qom-cast-debug=no)
-the patch turns every bridge using pci_bridge_initfn into single-slot
-bridges.  This renders e.g. switches like x3130 useless, but the
-testsuite doesn't trigger that path.
+Well it could have been replaced with two:
 
-I'll try and add a test for this in the next iteration.
+      make docker-test-mingw@fedora-cross-win32  {verbose} J={jobs} NETWORK=1;
+      make docker-test-mingw@fedora-cross-win64  {verbose} J={jobs} NETWORK=1;
 
-Thanks,
-Roman.
+I don't mind either way though, and feel this is quite poiintless
+anyway, since mingw is trivial to test in containers
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
