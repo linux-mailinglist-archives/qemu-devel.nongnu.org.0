@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B213A56A7ED
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 18:22:28 +0200 (CEST)
-Received: from localhost ([::1]:44654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6024B56A80D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 18:28:21 +0200 (CEST)
+Received: from localhost ([::1]:58344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9UGp-0007Ls-4D
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 12:22:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44386)
+	id 1o9UMW-0000KI-FY
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 12:28:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1o9U7U-0000r1-7g
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 12:12:49 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:46039)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1o9U7S-0002zn-H6
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 12:12:47 -0400
-Received: by mail-pg1-x536.google.com with SMTP id 145so19347382pga.12
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 09:12:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=ccUA5VVAVRIyQPpXhxs+s0adwHMDI/F1/hlv7Px1Xfo=;
- b=lTabYbdKmE+4qOtWZDwQ5muJMtA+3gH90OYXQOYUq3YoPTJxaLEF0Rlh14iURrKziN
- P2A7bFNjnL+Kd44aizK2gx1++xzgMDU03vzRC5Qu2lIUKkT5ZTcOQglkWQuNKBVCnkS7
- +YoRSuPbD1Q+JIce8V2ma9DQ937Y805VMKFkw1x4EJ1CGAV223/1Ch+Qq7ceAnUhsyxm
- KCI/sLqndcxvsY97+HF79AEdMqyIJiRH3uUrDhB97hNjrEh8HeSHhd3FTw5t8Q7vRsm5
- x9hvGlQxSXSMQwBAvcnwhnvMhYXA1KpVwma09uQwHGd6LpwPFXumv1I9zLCMwGntARq/
- ZRzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=ccUA5VVAVRIyQPpXhxs+s0adwHMDI/F1/hlv7Px1Xfo=;
- b=6VqmVFuH5+3xZP7tXhLWLrQvnbGNhK+6PIYBQyvECD4eXHhq6AH5ijrY+QsUl5d6mx
- X6vTz7scn06eoS4wEl5hXrPVgv8v2vlCh0trbN6qWw/JBzBTd6/fNvrWzenHFEGL2ll+
- oxNt6J0Sv43ranKe/hMTuvN8fAyX48c1u0SY75fqvadwZNYLNXOzaENtSkeEAUaqeYHU
- lDGtnYwsWPLPzW/tNET0sH789xxk6fj/0jFC3KXQoN0dzlN7IddQjg9oZRWfRXnO+EgK
- ctD9LCt48AHni/h19wklyerO8oj6ng72l4uLdnN8+IYrthPTg/1zTYTp/heYQ+ZUx1rq
- mEtQ==
-X-Gm-Message-State: AJIora/mO17sdWm9bMm8TGe/Mfp3RezdYalNUi3I1JmshTDLcDw5DWbX
- ZuHWRjSldL8Ps6i2Iw0yYRGqLQ==
-X-Google-Smtp-Source: AGRyM1v5BKN17DElTi4AXLqAukMwZWefj7wCvXBgDxjVOFHM3DeyMrse94A6Q6vuZjf96ikQ4KibdA==
-X-Received: by 2002:a17:902:8309:b0:167:9a4c:cd58 with SMTP id
- bd9-20020a170902830900b001679a4ccd58mr53369931plb.166.1657210364892; 
- Thu, 07 Jul 2022 09:12:44 -0700 (PDT)
-Received: from [192.168.1.18] ([182.64.106.38])
- by smtp.gmail.com with ESMTPSA id
- s1-20020a170902ea0100b0015e8d4eb2ddsm12561005plg.295.2022.07.07.09.12.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 09:12:43 -0700 (PDT)
-Message-ID: <67f405603a9fb89f0ebec6e6bac8219e296472b4.camel@ventanamicro.com>
-Subject: Re: [RFC PATCH v5 3/4] target/riscv: smstateen check for fcsr
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, "open
- list:RISC-V" <qemu-riscv@nongnu.org>, Alistair Francis
- <alistair.francis@wdc.com>
-Date: Thu, 07 Jul 2022 21:42:35 +0530
-In-Reply-To: <CAKmqyKPwrhxM0YH_=noivZNsuOfJkkGnDz-ge1SXjfTxP12Q1g@mail.gmail.com>
-References: <20220603160425.3667456-1-mchitale@ventanamicro.com>
- <20220603160425.3667456-4-mchitale@ventanamicro.com>
- <CAKmqyKPwrhxM0YH_=noivZNsuOfJkkGnDz-ge1SXjfTxP12Q1g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1o9UBo-0007yp-S2
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 12:17:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22963)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1o9UBl-00079j-5e
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 12:17:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657210632;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=M6NGapFf616x3lfviLPQ8wkMqYW0tIq1LqqAGJqP98E=;
+ b=IEID1ZJTKk3yffRlbnxerTwrKXTcwbgYqdx4vOWNlwkmuvs4hL/sxwoHC0rpgQULPtYC39
+ WNPIO4C0xJyimigjVqQVCJdPUNQQ2VdqRorntzHjrmq9tP1ypjiGWnKiRwL33g+oddBC5B
+ iTSqlcleznJkKIOdt1v+sEVZK6wJkmo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-14-94AUJYg1PYS4INxmbSI57w-1; Thu, 07 Jul 2022 12:17:02 -0400
+X-MC-Unique: 94AUJYg1PYS4INxmbSI57w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F36D31019C8E;
+ Thu,  7 Jul 2022 16:17:01 +0000 (UTC)
+Received: from gondolin.fritz.box (unknown [10.39.192.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 661572166B26;
+ Thu,  7 Jul 2022 16:17:00 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Cc: Eric Auger <eauger@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH RFC v2 0/2] arm: enable MTE for QEMU + kvm
+Date: Thu,  7 Jul 2022 18:16:54 +0200
+Message-Id: <20220707161656.41664-1-cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=mchitale@ventanamicro.com; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -94,113 +79,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2022-06-16 at 17:17 +1000, Alistair Francis wrote:
-> On Sat, Jun 4, 2022 at 2:08 AM Mayuresh Chitale
-> <mchitale@ventanamicro.com> wrote:
-> > If smstateen is implemented and sstateen0.fcsr is clear
-> > then the floating point operations must return illegal
-> > instruction exception.
-> > 
-> > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> > ---
-> >  target/riscv/csr.c | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> > 
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index ae91ae1f7e..8bbbed38ff 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -77,6 +77,10 @@ static RISCVException fs(CPURISCVState *env, int
-> > csrno)
-> >          !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
-> >          return RISCV_EXCP_ILLEGAL_INST;
-> >      }
-> > +
-> > +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> > +        return smstateen_acc_ok(env, PRV_U, SMSTATEEN0_FCSR);
-> > +    }
-> 
-> This only checks access to the CSRs. Shouldn't we also be throwing
-> errors if any instruction operates on an x register?
-Yes.
-> 
-> >  #endif
-> >      return RISCV_EXCP_NONE;
-> >  }
-> > @@ -1700,6 +1704,10 @@ static RISCVException
-> > write_mstateen(CPURISCVState *env, int csrno,
-> >                         (1UL << SMSTATEEN0_HSENVCFG);
-> > 
-> >      reg = &env->mstateen[csrno - CSR_MSTATEEN0];
-> > +    if (riscv_has_ext(env, RVF)) {
-> > +        wr_mask |= 1UL << SMSTATEEN0_FCSR;
-> > +    }
-> 
-> This doesn't look right.
-> 
-> "Whenever misa.F = 1, bit 1 of mstateen0 is read-only zero".
-> Shouldn't
-> that mean we don't allow writes if we have the RVF extension?
+This series makes it possible to enable MTE for kvm guests, if the kernel
+supports it. Again, tested on the simulator via patiently waiting for the
+arm64/mte kselftests to finish successfully.
 
-I will fix it in the next version.
-> 
-> Alistair
-> 
-> > +
-> >      write_smstateen(env, reg, wr_mask, new_val);
-> > 
-> >      return RISCV_EXCP_NONE;
-> > @@ -1724,6 +1732,10 @@ static RISCVException
-> > write_mstateenh(CPURISCVState *env, int csrno,
-> >      reg = &env->mstateen[csrno - CSR_MSTATEEN0H];
-> >      val = (uint64_t)new_val << 32;
-> >      val |= *reg & 0xFFFFFFFF;
-> > +    if (riscv_has_ext(env, RVF)) {
-> > +        wr_mask |= 1UL << SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >      write_smstateen(env, reg, wr_mask, val);
-> > 
-> >      return RISCV_EXCP_NONE;
-> > @@ -1745,6 +1757,10 @@ static RISCVException
-> > write_hstateen(CPURISCVState *env, int csrno,
-> >                         (1UL << SMSTATEEN0_HSENVCFG);
-> >      int index = csrno - CSR_HSTATEEN0;
-> > 
-> > +    if (riscv_has_ext(env, RVF)) {
-> > +        wr_mask |= 1UL << SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >      reg = &env->hstateen[index];
-> >      wr_mask &= env->mstateen[index];
-> >      write_smstateen(env, reg, wr_mask, new_val);
-> > @@ -1769,6 +1785,10 @@ static RISCVException
-> > write_hstateenh(CPURISCVState *env, int csrno,
-> >      uint64_t wr_mask = (1UL << SMSTATEEN_STATEN) |
-> >                         (1UL << SMSTATEEN0_HSENVCFG);
-> > 
-> > +    if (riscv_has_ext(env, RVF)) {
-> > +        wr_mask |= 1UL << SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >      reg = &env->hstateen[index];
-> >      val = (uint64_t)new_val << 32;
-> >      val |= *reg & 0xFFFFFFFF;
-> > @@ -1794,6 +1814,10 @@ static RISCVException
-> > write_sstateen(CPURISCVState *env, int csrno,
-> >      int index = csrno - CSR_SSTATEEN0;
-> >      bool virt = riscv_cpu_virt_enabled(env);
-> > 
-> > +    if (riscv_has_ext(env, RVF)) {
-> > +        wr_mask |= 1UL << SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >      reg = &env->sstateen[index];
-> >      if (virt) {
-> >          wr_mask &= env->mstateen[index];
-> > --
-> > 2.25.1
-> > 
-> > 
+For tcg, turning on mte on the machine level (to get tag memory) stays a
+requirement. If the new mte cpu feature is not explicitly specified, a tcg
+vm will get mte depending on the presence of tag memory (just as today).
+
+For kvm, mte stays off by default; this is because migration is not yet
+supported (postcopy will need an extension of the kernel interface, possibly
+an extension of the userfaultfd interface), and turning on mte will add a
+migration blocker.
+
+My biggest question going forward is actually concerning migration; I gather
+that we should not bother adding something unless postcopy is working as well?
+If I'm not misunderstanding things, we need a way to fault in a page together
+with the tag; doing that in one go is probably the only way that we can be
+sure that this is race-free on the QEMU side. Comments welcome :)
+
+Changes v1->v2: [Thanks to Eric for the feedback!]
+- add documentation
+- switch the mte prop to OnOffAuto; this improves the interaction with the
+  existing mte machine prop
+- leave mte off for kvm by default
+- improve tests; the poking in QDicts feels a bit ugly, but seems to work
+
+Cornelia Huck (2):
+  arm/kvm: add support for MTE
+  qtests/arm: add some mte tests
+
+ docs/system/arm/cpu-features.rst |  21 +++++
+ target/arm/cpu.c                 |  18 ++---
+ target/arm/cpu.h                 |   1 +
+ target/arm/cpu64.c               | 132 +++++++++++++++++++++++++++++++
+ target/arm/internals.h           |   1 +
+ target/arm/kvm64.c               |   5 ++
+ target/arm/kvm_arm.h             |  12 +++
+ target/arm/monitor.c             |   1 +
+ tests/qtest/arm-cpu-features.c   |  77 ++++++++++++++++++
+ 9 files changed, 256 insertions(+), 12 deletions(-)
+
+-- 
+2.35.3
 
 
