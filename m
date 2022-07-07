@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB1F569E35
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 10:57:47 +0200 (CEST)
-Received: from localhost ([::1]:56664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EB7569E36
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 10:58:38 +0200 (CEST)
+Received: from localhost ([::1]:58452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9NKU-0002xP-PG
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 04:57:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36144)
+	id 1o9NLJ-0004DF-QA
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 04:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o9N3e-0004ii-7e; Thu, 07 Jul 2022 04:40:28 -0400
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:46801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o9N3a-0003VL-II; Thu, 07 Jul 2022 04:40:19 -0400
-Received: by mail-lf1-x131.google.com with SMTP id bf9so6683146lfb.13;
- Thu, 07 Jul 2022 01:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g+HgBPRNMnfQn9NM8UnioSQ5ZsmTbtQMVSOdunrUHE4=;
- b=n86MBmSfAgYs6YF3dqgWa/dr0hVjIeKgRqyF9e81Kuh9bRgpYgllabmhNSs0tLk2Hc
- lsBu1oui3V+0KRCLRCzUxgkruzQ1Yd0qYJCbmUtWBG4ZbLEqEi7cqQe6tjTEFzjIAnDr
- PU7VXDsaaQG5RYloHPV04FaO93FvNbAk5v7Ukf6c0HnxUgOR7qMhT0Rf98NdQ3JdQAUH
- EU255fOpWTMhEP5fCFIzEIkrv0nyROhf+yXl8izqzsTuehZH7vyGb71HKknwDZk2h2rf
- mBy6eU6sYVz/fL/q5+i4iO7bxcYQ26OymQLNCjrwgAWfZS0x9siQHm7M9FrCePXNiAnZ
- cFhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=g+HgBPRNMnfQn9NM8UnioSQ5ZsmTbtQMVSOdunrUHE4=;
- b=NNht4YaGy2byQtECIaMWY47LaBKgZcwppMIXKqDDVgAC4hAT0Xmm5NNAoN8KfmTq9P
- X3q+/Gs2H0f7tf79+n7WhmM7wQiS3IZaerfproGxE3UYGrZYtOhjAcwk9YRCVwyKMbpH
- kcIVbiOld5spZzElqanY+k50MWYOXpmO55La+wgeEK0dHmgjo7+y+Ypqkm6FgSJzCAs0
- PvyRVArG+vNCPynG2pWyhSON1dMisvl1e/gpZTFFkHSmRnb26+hysvcldbUuCBJLNbBt
- oxatgD0GXBx1PpjMMj+SndwZ8al8JJya/CTm/uINl0ewA3zqTdNO8JOzYfzwQnzRVhVK
- 3b7A==
-X-Gm-Message-State: AJIora+EGimcaC43D6gfFTLjLDtkQ7/wk5lRwV40/tEkCh45exncDZhE
- k4I5YzokcoiXXoPxoPPFbY29DOL0hl8z+xN4KZ8=
-X-Google-Smtp-Source: AGRyM1ufhZIQPJRLOvsE21qWyWi6OaDhWSUZWhMxtiXv/8Q5LtlGTW+QCXS/xcv2HlPbBtfm+zlRxrn6ZPwBAMNpTcE=
-X-Received: by 2002:ac2:4d22:0:b0:47f:65b5:35ec with SMTP id
- h2-20020ac24d22000000b0047f65b535ecmr29353722lfk.432.1657183214812; Thu, 07
- Jul 2022 01:40:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220707040310.4163682-1-jsnow@redhat.com>
- <20220707040310.4163682-2-jsnow@redhat.com>
-In-Reply-To: <20220707040310.4163682-2-jsnow@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 7 Jul 2022 12:40:02 +0400
-Message-ID: <CAJ+F1C+NAmgaMxB-XuzNUvn3i_=bK8pf0cEY+=06NZc4V5+fYQ@mail.gmail.com>
-Subject: Re: [PATCH v3 01/13] qga: treat get-guest-fsinfo as "best effort"
-To: John Snow <jsnow@redhat.com>
-Cc: QEMU <qemu-devel@nongnu.org>, 
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Michael Roth <michael.roth@amd.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d8c2bf05e3330852"
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1o9NDs-0004ex-52
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:50:56 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:45418 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o9NDp-0005Hi-7R
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:50:55 -0400
+Received: from smtpclient.apple (unknown [111.199.64.159])
+ by APP-05 (Coremail) with SMTP id zQCowACXn7NfnsZiMk5eCw--.3064S2;
+ Thu, 07 Jul 2022 16:50:40 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <YsZ0eZ7xJtbxgLS8@apples>
+Date: Thu, 7 Jul 2022 16:50:39 +0800
+Cc: Keith Busch <kbusch@kernel.org>,
+ qemu-devel@nongnu.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <F8469361-6748-4213-BE46-B68AC8078CC4@ict.ac.cn>
+References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
+ <YsRwyMONg0+mHVsL@apples> <YsSGbhJQXp9fiCZK@kbusch-mbp.dhcp.thefacebook.com>
+ <69E2ADBE-5064-4E04-B236-8815D82263AB@ict.ac.cn> <YsZ0eZ7xJtbxgLS8@apples>
+To: Klaus Jensen <its@irrelevant.dk>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowACXn7NfnsZiMk5eCw--.3064S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZFy3tr1fXr17KFW8ury7trb_yoW5uF4fpr
+ WYqa4DKFZ7Xay0yryqqa18Z3Wvkr4xWF4UWryfGw18CwnI9rnxXFW5tFWUuF4YvrZ7Jw42
+ vr4UtwsxZrZ0y37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUySb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwV
+ C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+ 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC2
+ 0s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
+ 0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
+ 14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20x
+ vaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+ 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07bOoGdUUUUU=
+X-Originating-IP: [111.199.64.159]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,127 +77,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d8c2bf05e3330852
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+at 1:51 PM, Klaus Jensen <its@irrelevant.dk> wrote:
 
-Hi
+> On Jul  6 19:34, Jinhao Fan wrote:
+>> at 2:43 AM, Keith Busch <kbusch@kernel.org> wrote:
+>>=20
+>>> On Tue, Jul 05, 2022 at 07:11:36PM +0200, Klaus Jensen wrote:
+>>>> On Jul  5 22:24, Jinhao Fan wrote:
+>>>>> @@ -1374,7 +1374,14 @@ static void =
+nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
+>>>>>=20
+>>>>>    QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
+>>>>>    QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
+>>>>> -    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + =
+500);
+>>>>> +
+>>>>> +    if (req->sq->ioeventfd_enabled) {
+>>>>> +        /* Post CQE directly since we are in main loop thread */
+>>>>> +        nvme_post_cqes(cq);
+>>>>> +    } else {
+>>>>> +        /* Schedule the timer to post CQE later since we are in =
+vcpu thread */
+>>>>> +        timer_mod(cq->timer, =
+qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+>>>>> +    }
+>>>>=20
+>>>> Actually, we are only in the vcpu thread if we come here from
+>>>> nvme_process_db that in very rare circumstances may enqueue the
+>>>> completion of an AER due to an invalid doorbell write.
+>>>>=20
+>>>> In general, nvme_enqueue_req_completion is only ever called from =
+the
+>>>> main iothread. Which actually causes me to wonder why we defer this =
+work
+>>>> in the first place. It does have the benefit that we queue up =
+several
+>>>> completions before posting them in one go and raising the =
+interrupt.
+>>>> But I wonder if that could be handled better.
+>>>=20
+>>> I think the timer is used because of the cq_full condition. We need =
+to restart
+>>> completions when it becomes not full, which requires a doorbell =
+write. Having
+>>> everyone from the main iothread use the same timer as the doorbell =
+handler just
+>>> ensures single threaded list access.
+>>=20
+>> Could we let nvme_process_aers register another timer/BH to trigger
+>> nvme_enqueue_req_completion in the iothread? In this way we won=E2=80=99=
+t need the
+>> timer_mod in nvme_enqueue_req_completion.
+>=20
+> Yes, we could have process_aers in a timer. Which would probably be
+> preferable in order to limit the amount of work the mmio handler is
+> doing in that rare case. However, its such a rare case (only =
+misbehaving
+> drivers) that it's probably not worth optimizing for.
 
-On Thu, Jul 7, 2022 at 8:10 AM John Snow <jsnow@redhat.com> wrote:
+I think putting nvme_process_aers in a timer can help make sure
+nvme_enqueue_req_completion is only called in an iothread context. =
+Currently
+it can be called either in iothread or vcpu thread. So
+nvme_enqueue_req_completion has to infer its context, in my patch using =
+the
+cq->ioeventfd_enabled flag. This approach is probably error-prone. =
+Honestly
+I am not sure whether cq->ioeventfd_enabled is enough to guarantee we =
+are in
+iothread.
 
-> In some container environments, there may be references to block devices
-> witnessable from a container through /proc/self/mountinfo that reference
-> devices we simply don't have access to in the container, and cannot
-> provide information about.
->
-> Instead of failing the entire fsinfo command, return stub information
-> for these failed lookups.
->
-> This allows test-qga to pass under docker tests, which are in turn used
-> by the CentOS VM tests.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  qga/commands-posix.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 0469dc409d4..950c9d72fe7 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -1207,7 +1207,12 @@ static void build_guest_fsinfo_for_device(char
-> const *devpath,
->
->      syspath =3D realpath(devpath, NULL);
->      if (!syspath) {
-> -        error_setg_errno(errp, errno, "realpath(\"%s\")", devpath);
-> +        if (errno =3D=3D ENOENT) {
-> +            /* This devpath may not exist because of container config,
-> etc. */
-> +            fs->name =3D g_path_get_basename(devpath);
-> +        } else {
-> +            error_setg_errno(errp, errno, "realpath(\"%s\")", devpath);
-> +        }
->
+>> We can also avoid some potential currency problems because CQ is only
+>> modified in the iothread.
+>=20
+> There are currently no concurrency problems because of the Big QEMU
+> Lock. When the mmio handler is running, the vcpu holds the BQL (and
+> whenever the main iothread is running, it is holding the BQL).
 
-It looks like this function is called recursively with the same "fs"
-argument. That's probably why there is a if (!fs->name) check next. You may
-want to check it too to avoid leaks and incorrect info.
+Will this still hold when we move on to iothreads?
 
+>=20
+>> BTW, are there any reason that we must use timers (not BH) here? Also =
+why do
+>> we choose to delay for 500ns?
+>=20
+> No particular reason. do not see any reason why this could not be =
+bottom
+> halfs. This will likely change into bhs when we add iothread support
+> anyway.
 
->          return;
->      }
->
-> --
-> 2.34.3
->
->
->
+I will try BH when I start the iothread work.
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000d8c2bf05e3330852
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 7, 2022 at 8:10 AM John=
- Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">In some conta=
-iner environments, there may be references to block devices<br>
-witnessable from a container through /proc/self/mountinfo that reference<br=
->
-devices we simply don&#39;t have access to in the container, and cannot<br>
-provide information about.<br>
-<br>
-Instead of failing the entire fsinfo command, return stub information<br>
-for these failed lookups.<br>
-<br>
-This allows test-qga to pass under docker tests, which are in turn used<br>
-by the CentOS VM tests.<br>
-<br>
-Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"=
-_blank">jsnow@redhat.com</a>&gt;<br>
----<br>
-=C2=A0qga/commands-posix.c | 7 ++++++-<br>
-=C2=A01 file changed, 6 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 0469dc409d4..950c9d72fe7 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -1207,7 +1207,12 @@ static void build_guest_fsinfo_for_device(char const=
- *devpath,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0syspath =3D realpath(devpath, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0if (!syspath) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;realpath(\=
-&quot;%s\&quot;)&quot;, devpath);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno =3D=3D ENOENT) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* This devpath may not exist be=
-cause of container config, etc. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fs-&gt;name =3D g_path_get_basen=
-ame(devpath);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
-uot;realpath(\&quot;%s\&quot;)&quot;, devpath);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>It looks=
- like this function is called recursively with the same &quot;fs&quot; argu=
-ment. That&#39;s probably why there is a if (!fs-&gt;name) check next. You =
-may want to check it too to avoid leaks and incorrect info.<br></div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--- <br>
-2.34.3<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000d8c2bf05e3330852--
 
