@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2F85698B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 05:17:35 +0200 (CEST)
-Received: from localhost ([::1]:46808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F050C5698AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 05:15:03 +0200 (CEST)
+Received: from localhost ([::1]:41336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9I1H-0002Gu-07
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 23:17:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55038)
+	id 1o9Hyo-0006zT-QX
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 23:15:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o9Hw4-0004TR-J8; Wed, 06 Jul 2022 23:12:12 -0400
-Received: from mout-u-107.mailbox.org ([80.241.59.207]:35578)
+ id 1o9Hw6-0004YN-9a; Wed, 06 Jul 2022 23:12:14 -0400
+Received: from mout-u-107.mailbox.org ([80.241.59.207]:35580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
  (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o9Hw2-0007hr-1o; Wed, 06 Jul 2022 23:12:12 -0400
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ id 1o9Hw4-0007k9-MK; Wed, 06 Jul 2022 23:12:14 -0400
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mout-u-107.mailbox.org (Postfix) with ESMTPS id 4LdhK52svpz9sTR;
- Thu,  7 Jul 2022 05:11:53 +0200 (CEST)
+ by mout-u-107.mailbox.org (Postfix) with ESMTPS id 4LdhK81pyZz9sSg;
+ Thu,  7 Jul 2022 05:11:56 +0200 (CEST)
 From: Lev Kujawski <lkujaw@member.fsf.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  John Snow <jsnow@redhat.com>, Lev Kujawski <lkujaw@member.fsf.org>
-Subject: [PATCH v2 4/7] tests/qtest/ide-test: Verify that DIAGNOSTIC clears
- DEV to zero
-Date: Thu,  7 Jul 2022 03:11:37 +0000
-Message-Id: <20220707031140.158958-4-lkujaw@member.fsf.org>
+Subject: [PATCH v2 5/7] qpci_device_enable: Allow for command bits hardwired
+ to 0
+Date: Thu,  7 Jul 2022 03:11:38 +0000
+Message-Id: <20220707031140.158958-5-lkujaw@member.fsf.org>
 In-Reply-To: <20220707031140.158958-1-lkujaw@member.fsf.org>
 References: <20220707031140.158958-1-lkujaw@member.fsf.org>
 MIME-Version: 1.0
@@ -59,73 +59,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verify correction of EXECUTE DEVICE DIAGNOSTIC introduced in commit
-72423831c3 (hw/ide/core: Clear LBA and drive bits for EXECUTE DEVICE
-DIAGNOSTIC, 2022-05-28).
+Devices like the PIIX3/4 IDE controller do not support certain modes
+of operation, such as memory space accesses, and indicate this lack of
+support by hardwiring the applicable bits to zero.  Extend the QEMU
+PCI device testing framework to accommodate such devices.
+
+* tests/qtest/libqos/pci.h: Add the command_disabled word to indicate
+  bits hardwired to 0.
+* tests/qtest/libqos/pci.c: Verify that hardwired bits are actually
+  hardwired.
 
 Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
 ---
- tests/qtest/ide-test.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ tests/qtest/libqos/pci.c | 13 +++++++------
+ tests/qtest/libqos/pci.h |  1 +
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-index 1ff707d2cd..dfcf59cee8 100644
---- a/tests/qtest/ide-test.c
-+++ b/tests/qtest/ide-test.c
-@@ -90,6 +90,7 @@ enum {
+diff --git a/tests/qtest/libqos/pci.c b/tests/qtest/libqos/pci.c
+index b23d72346b..4f3d28d8d9 100644
+--- a/tests/qtest/libqos/pci.c
++++ b/tests/qtest/libqos/pci.c
+@@ -220,18 +220,19 @@ int qpci_secondary_buses_init(QPCIBus *bus)
  
- enum {
-     CMD_DSM         = 0x06,
-+    CMD_DIAGNOSE    = 0x90,
-     CMD_READ_DMA    = 0xc8,
-     CMD_WRITE_DMA   = 0xca,
-     CMD_FLUSH_CACHE = 0xe7,
-@@ -616,6 +617,36 @@ static void test_identify(void)
-     free_pci_device(dev);
+ void qpci_device_enable(QPCIDevice *dev)
+ {
+-    uint16_t cmd;
++    const uint16_t enable_bits =
++        PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
++    uint16_t cmd, new_cmd;
+ 
+     /* FIXME -- does this need to be a bus callout? */
+     cmd = qpci_config_readw(dev, PCI_COMMAND);
+-    cmd |= PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
++    cmd |= enable_bits;
+     qpci_config_writew(dev, PCI_COMMAND, cmd);
+ 
+     /* Verify the bits are now set. */
+-    cmd = qpci_config_readw(dev, PCI_COMMAND);
+-    g_assert_cmphex(cmd & PCI_COMMAND_IO, ==, PCI_COMMAND_IO);
+-    g_assert_cmphex(cmd & PCI_COMMAND_MEMORY, ==, PCI_COMMAND_MEMORY);
+-    g_assert_cmphex(cmd & PCI_COMMAND_MASTER, ==, PCI_COMMAND_MASTER);
++    new_cmd = qpci_config_readw(dev, PCI_COMMAND);
++    new_cmd &= enable_bits;
++    g_assert_cmphex(new_cmd, ==, enable_bits & ~dev->command_disabled);
  }
  
-+static void test_diagnostic(void)
-+{
-+    QTestState *qts;
-+    QPCIDevice *dev;
-+    QPCIBar bmdma_bar, ide_bar;
-+    uint8_t data;
-+
-+    qts = ide_test_start(
-+        "-blockdev driver=file,node-name=hda,filename=%s "
-+        "-blockdev driver=file,node-name=hdb,filename=%s "
-+        "-device ide-hd,drive=hda,bus=ide.0,unit=0 "
-+        "-device ide-hd,drive=hdb,bus=ide.0,unit=1 ",
-+        tmp_path[0], tmp_path[1]);
-+
-+    dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
-+
-+    /* DIAGNOSE command on device 1 */
-+    qpci_io_writeb(dev, ide_bar, reg_device, DEV);
-+    data = qpci_io_readb(dev, ide_bar, reg_device);
-+    g_assert_cmphex(data & DEV, ==, DEV);
-+    qpci_io_writeb(dev, ide_bar, reg_command, CMD_DIAGNOSE);
-+
-+    /* Verify that DEVICE is now 0 */
-+    data = qpci_io_readb(dev, ide_bar, reg_device);
-+    g_assert_cmphex(data & DEV, ==, 0);
-+
-+    ide_test_quit(qts);
-+    free_pci_device(dev);
-+}
-+
- /*
-  * Write sector 1 with random data to make IDE storage dirty
-  * Needed for flush tests so that flushes actually go though the block layer
-@@ -1037,6 +1068,8 @@ int main(int argc, char **argv)
+ /**
+diff --git a/tests/qtest/libqos/pci.h b/tests/qtest/libqos/pci.h
+index 8389614523..eaedb98588 100644
+--- a/tests/qtest/libqos/pci.h
++++ b/tests/qtest/libqos/pci.h
+@@ -68,6 +68,7 @@ struct QPCIDevice
+     bool msix_enabled;
+     QPCIBar msix_table_bar, msix_pba_bar;
+     uint64_t msix_table_off, msix_pba_off;
++    uint16_t command_disabled;
+ };
  
-     qtest_add_func("/ide/identify", test_identify);
- 
-+    qtest_add_func("/ide/diagnostic", test_diagnostic);
-+
-     qtest_add_func("/ide/bmdma/simple_rw", test_bmdma_simple_rw);
-     qtest_add_func("/ide/bmdma/trim", test_bmdma_trim);
-     qtest_add_func("/ide/bmdma/various_prdts", test_bmdma_various_prdts);
+ struct QPCIAddress {
 -- 
 2.34.1
 
