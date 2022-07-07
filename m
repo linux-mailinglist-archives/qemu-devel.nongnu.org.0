@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478FD56AD52
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 23:18:05 +0200 (CEST)
-Received: from localhost ([::1]:44734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB9E56AD58
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 23:20:03 +0200 (CEST)
+Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Ysu-0003Un-Bw
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 17:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52656)
+	id 1o9Yuo-0004zr-7q
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 17:20:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1o9Yra-0001yU-8Q
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 17:16:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41453)
+ id 1o9Ytu-0004Jp-LN
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 17:19:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1o9YrW-00089u-Dd
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 17:16:41 -0400
+ id 1o9Yts-0000Uh-NI
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 17:19:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657228597;
+ s=mimecast20190719; t=1657228744;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eqvmCd1TX67k6XQscj/7HtU8gS4dXaCmWyaO6PUrsKU=;
- b=BacUlreJ5zWltumI7mH4Q5tn07flvcVRv8Qur3Z+D3fgUoVbA2YeAwc2TF70sWaIWv4FfQ
- xkB6Y9h0obwjV5MWeUbpxljtpxX9dXJMhJ2/yJ2kzMlomww/fHL5KgMjl7dR12XozM3ADR
- 8uNNGKCLwkfIVV1ziMO1sPLGeFpzPPk=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=W89Oxywcu+y0KOWqKPU+abz6mwu273vjHG0r5TYqP44=;
+ b=cCsL6xmVmgm4Brv6IjmLJQGTuaokN6Irp+f4MtPbtcYnubspEPwWSSQfN+I9h6V9akMIdf
+ yyQbnfn1+iKAfCyB3FOxszJjJLTeA4YQ6kr5Ods11hDUocx0VpFDbJWDY6ip4OZl/j3j08
+ FTNQUVbDlVmKlcEhF7oFv290q0cQ5y8=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-196-ma4uP7W3ONOQsyWVVMOnew-1; Thu, 07 Jul 2022 17:16:36 -0400
-X-MC-Unique: ma4uP7W3ONOQsyWVVMOnew-1
-Received: by mail-vk1-f197.google.com with SMTP id
- l19-20020ac5c353000000b0036c1d249b61so5771569vkk.12
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 14:16:35 -0700 (PDT)
+ us-mta-267-SKl_J24XNqywZWvlhzdgrg-1; Thu, 07 Jul 2022 17:18:56 -0400
+X-MC-Unique: SKl_J24XNqywZWvlhzdgrg-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ m63-20020a1fee42000000b0036c8981d9bdso5739314vkh.16
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 14:18:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:content-transfer-encoding:user-agent:mime-version;
- bh=eqvmCd1TX67k6XQscj/7HtU8gS4dXaCmWyaO6PUrsKU=;
- b=wYUYuX8zEvoaaXaLwUEWEvkAfTrCSUBdOIlxCuWyKGy9PjRTQYXl5LrmQOfMQNk0vd
- 9ewg23wZen3XVy1NTJOx1fhmzqS6cGBF9oP2zk0SFXWiYS7tfhAptVCelt0/klNkbekv
- IkADZz01pTlGK6HXJ3Kce6ZWfj5fAFjC3edZ6NnnWUb2pNcLSp+76Vv2PK6OgG5oQQN4
- shXYkd/9ln+193Am77jW3lcDIGvIwz8AzUrcVi05hbhZwsr+KQvS4fRMPxJkU6Vf9AfV
- QwsxOYYlNrJdZvCFBgVo1pY9SrBzeKyuh5iUVFyXOf+ow68baVSwujd8g19BOSprtZxH
- o7PA==
-X-Gm-Message-State: AJIora86Fwy4SnJPjZNCcox1xREW7u7ifY8A9/KcbNtL85zJuqrXamDa
- N3v4BOU1zziMM93SiPjObXbrd80Pc4CQF07dc3BqMZgw9GqMQ0IBCpsvMv1akr1qbya35an3MDK
- cWMFeTkdasIv+6cg=
-X-Received: by 2002:a67:345:0:b0:356:2b49:75f8 with SMTP id
- 66-20020a670345000000b003562b4975f8mr27287354vsd.49.1657228595549; 
- Thu, 07 Jul 2022 14:16:35 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tUKf3GODD3myMoMdHLPlUFQq7Sk3rGPnNPR2INMK46sqHKUMieQz8/NuZPZL5ZU9VKubCKVA==
-X-Received: by 2002:a67:345:0:b0:356:2b49:75f8 with SMTP id
- 66-20020a670345000000b003562b4975f8mr27287339vsd.49.1657228595355; 
- Thu, 07 Jul 2022 14:16:35 -0700 (PDT)
+ bh=W89Oxywcu+y0KOWqKPU+abz6mwu273vjHG0r5TYqP44=;
+ b=uhz7RWVdCwVOCSUmsugapXoLtbuzm1LT5oKU4GxyANPBpkzW147JWMtznY5w+okk63
+ W4IaA6j69zQcsTv4omcXl+un9zHw0D2QECP001go1Wxj/gy23w9qzhw/rzDoKbfumkAr
+ qq0joHOof2a1Bp7Wu5EhLBV4hKzS0wg0Z+NCPP8WPC/n2gTwTF8q0d87utmrIFlYd3yu
+ +Re2krnjb9EWGLqOOtxGjwdtBkr8nsoVE6Mtkj/XG3GhyzNCGu1OZwlBDMHy0txQuCVo
+ bzMzCJnjIm8rWu8bqfv8kLeC+U4cfED5IgnVoGC3wb5GL6JovCwxP3DOf+Gu/iRg/wDt
+ Glyw==
+X-Gm-Message-State: AJIora9NdsOu1zwLIXTZ8yQO5piRghZtWdQvgdtDnaK8lnHnk9Q6ohWj
+ ixk8DzITVU+CqON6fMeQblkbnTYyXmn4uaDfMPuuuXp+GqpmcmjKjhMAS+kgJdeJETY0/yVxAX2
+ ll5VVxC5UwbDwuUE=
+X-Received: by 2002:a05:6102:a34:b0:354:4268:c2d4 with SMTP id
+ 20-20020a0561020a3400b003544268c2d4mr26760267vsb.21.1657228725777; 
+ Thu, 07 Jul 2022 14:18:45 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sxjYeeq+dMbRQKxAdysunBn6BmF/ejPUkPJZraIYkjTQV/ywOpfqGm6o165y0i/JwxJaHGfA==
+X-Received: by 2002:a05:6102:a34:b0:354:4268:c2d4 with SMTP id
+ 20-20020a0561020a3400b003544268c2d4mr26760251vsb.21.1657228725529; 
+ Thu, 07 Jul 2022 14:18:45 -0700 (PDT)
 Received: from ?IPv6:2804:431:c7ec:44c:8a5c:6c79:3007:b149?
  ([2804:431:c7ec:44c:8a5c:6c79:3007:b149])
  by smtp.gmail.com with ESMTPSA id
- r23-20020ab03317000000b00370fe98f896sm11953987uao.7.2022.07.07.14.16.32
+ 2-20020a670702000000b0035434a68658sm10329343vsh.14.2022.07.07.14.18.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 14:16:34 -0700 (PDT)
-Message-ID: <05b5798177bcf5345c0a2d4f2586b037d80a2134.camel@redhat.com>
-Subject: Re: [PATCH v3 2/3] Add dirty-sync-missed-zero-copy migration stat
+ Thu, 07 Jul 2022 14:18:44 -0700 (PDT)
+Message-ID: <cbca16586126e2bf1034477f907446a3cf1f4594.camel@redhat.com>
+Subject: Re: [PATCH v3 3/3] migration/multifd: Warn user when zerocopy not
+ working
 From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Juan
  Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
  <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>, Markus Armbruster
  <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-Date: Thu, 07 Jul 2022 18:16:31 -0300
-In-Reply-To: <Ysc6gFpbuxW0GQFI@xz-m1.local>
+Date: Thu, 07 Jul 2022 18:18:41 -0300
+In-Reply-To: <Ysc80LAUttN/7QRZ@xz-m1.local>
 References: <20220704202315.507145-1-leobras@redhat.com>
- <20220704202315.507145-3-leobras@redhat.com> <Yscdy/YZZ6H1Qpr3@xz-m1.local>
- <CAJ6HWG7CDKKWfyiPQqRtUzEmnB5gTzHdOMJMTH1VvV1wG6LVoA@mail.gmail.com>
- <Ysc6gFpbuxW0GQFI@xz-m1.local>
+ <20220704202315.507145-4-leobras@redhat.com> <YsceXwzZGaWBBe5D@xz-m1.local>
+ <CAJ6HWG7d_v1Zc9wKZJrGYb7U3JXx08-adyWATDiQ9gjvsjU6ow@mail.gmail.com>
+ <Ysc80LAUttN/7QRZ@xz-m1.local>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.3 
@@ -106,57 +107,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2022-07-07 at 15:56 -0400, Peter Xu wrote:
-> On Thu, Jul 07, 2022 at 04:50:47PM -0300, Leonardo Bras Soares Passos wro=
+On Thu, 2022-07-07 at 16:06 -0400, Peter Xu wrote:
+> On Thu, Jul 07, 2022 at 04:59:22PM -0300, Leonardo Bras Soares Passos wro=
 te:
-> > > I also think we should squash
-> > > patch 2/3 as patch 3 only started to provide meaningful values.
+> > Hello Peter,
 > >=20
-> > IIRC Previously in zero-copy-send implementation, I was asked to keep t=
-he
-> > property/capability in a separated patch in order to make it easier to
-> > review.
-> > So I thought it would be helpful now.
->=20
-> Ah, that's fine then.
->=20
-> > > > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> > > > index ca98df0495..5f3be9e405 100644
-> > > > --- a/monitor/hmp-cmds.c
-> > > > +++ b/monitor/hmp-cmds.c
-> > > > @@ -307,6 +307,10 @@ void hmp_info_migrate(Monitor *mon, const QDic=
-t
-> > > > *qdict)
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 monitor_printf(mon, "postcopy ram: %" PRIu64 " kbytes\n",
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 info->ram->postcopy_bytes >> 10);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (info->ram->dirty_sy=
-nc_missed_zero_copy) {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- monitor_printf(mon, "missed zero-copy on: %" PRIu64 "
-> > > > iterations\n",
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 info->ram->dirty_sync_missed_zero_copy);
+> > On Thu, Jul 7, 2022 at 2:56 PM Peter Xu <peterx@redhat.com> wrote:
 > > >=20
-> > > I suggest we don't call it "iterations" because it's not the generic =
-mean
-> > > of iterations.
+> > > On Mon, Jul 04, 2022 at 05:23:15PM -0300, Leonardo Bras wrote:
+> > > > Some errors, like the lack of Scatter-Gather support by the network
+> > > > interface(NETIF_F_SG) may cause sendmsg(...,MSG_ZEROCOPY) to fail o=
+n
+> > > > using
+> > > > zero-copy, which causes it to fall back to the default copying
+> > > > mechanism.
+> > > >=20
+> > > > After each full dirty-bitmap scan there should be a zero-copy flush
+> > > > happening, which checks for errors each of the previous calls to
+> > > > sendmsg(...,MSG_ZEROCOPY). If all of them failed to use zero-copy, =
+then
+> > > > increment dirty_sync_missed_zero_copy migration stat to let the use=
+r
+> > > > know
+> > > > about it.
+> > > >=20
+> > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > > > ---
+> > > > =C2=A0migration/ram.h=C2=A0=C2=A0=C2=A0=C2=A0 | 2 ++
+> > > > =C2=A0migration/multifd.c | 2 ++
+> > > > =C2=A0migration/ram.c=C2=A0=C2=A0=C2=A0=C2=A0 | 5 +++++
+> > > > =C2=A03 files changed, 9 insertions(+)
+> > > >=20
+> > > > diff --git a/migration/ram.h b/migration/ram.h
+> > > > index ded0a3a086..d3c7eb96f5 100644
+> > > > --- a/migration/ram.h
+> > > > +++ b/migration/ram.h
+> > > > @@ -87,4 +87,6 @@ void ram_write_tracking_prepare(void);
+> > > > =C2=A0int ram_write_tracking_start(void);
+> > > > =C2=A0void ram_write_tracking_stop(void);
+> > > >=20
+> > > > +void dirty_sync_missed_zero_copy(void);
+> > > > +
+> > > > =C2=A0#endif
+> > > > diff --git a/migration/multifd.c b/migration/multifd.c
+> > > > index 684c014c86..3909b34967 100644
+> > > > --- a/migration/multifd.c
+> > > > +++ b/migration/multifd.c
+> > > > @@ -624,6 +624,8 @@ int multifd_send_sync_main(QEMUFile *f)
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 if (ret < 0) {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report_err(err);
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -1;
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ } else if (ret =3D=3D 1) {
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 dirty_sync_missed_zero_copy();
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 }
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0 }
+> > >=20
+> > > I know that Juan is working on some patch to only do
+> > > multifd_send_sync_main() for each dirty sync, but that's not landed,
+> > > right?
 > >=20
-> > Yeah, I thought that too, but I could not think on anything better.
-> > What do you suggest instead?
+> > That's correct, but I am hoping it should land before the release, so
+> > the numbers will match.
+> >=20
+> >=20
+> > >=20
+> > > Can we name it without "dirty-sync" at all (so it'll work before/afte=
+r
+> > > Juan's patch will be applied)?=C2=A0 Something like "zero-copy-send-f=
+allbacks"?
+> >=20
+> > It initially was something like that, but on the v2 thread there was
+> > some discussion on
+> > the topic, and it was suggested the number would not mean much to the
+> > user, unless
+> > it was connected to something else.
+> >=20
+> > Markus suggested the connection to @dirty-sync-count right in the
+> > name, and Daniel suggested the above name, which sounds fine to me.
 >=20
-> "Zero-copy-send fallbacks happened: xxx times\n"?
+> Ah okay.
+>=20
+> But then I suggest we make sure it lands only after Juan's.. or it won't
+> really match.=C2=A0 Also when Juan's patch ready, we'd also double check =
+it will
+> be exactly called once per iteration, or we can get confusing numbers.=C2=
+=A0 I
+> assume Juan will take care of that then.
+>=20
+> >=20
+> > >=20
+> > > The other thing is the subject may need to be touched up as right now=
+ with
+> > > the field we don't warn the user anymore on zero-copy-send fallbacks.
+> >=20
+> > Ok, Warning sounds misleading here.
+> > What do you think about 'report' instead?
+>=20
+> Looks good.=C2=A0 Thanks,
 
-Oh, yeah, that will work.
-I was thinking on keeping the pattern and ended up thinking what was the co=
-rrect
-unit. But this is much simpler and work better.
+Thank you for reviewing, Peter!
 
-Best regards,
 Leo
 
 >=20
