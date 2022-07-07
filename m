@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE07056A509
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 16:05:35 +0200 (CEST)
-Received: from localhost ([::1]:33420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B6456A561
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 16:28:47 +0200 (CEST)
+Received: from localhost ([::1]:46346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9S8M-0007RD-L3
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 10:05:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34976)
+	id 1o9SUo-0000NT-Hq
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 10:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1o9S6I-0005BT-S9
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 10:03:26 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:46680)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1o9S6D-0005Ro-7e
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 10:03:26 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-31c89653790so119746697b3.13
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 07:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OteogE6PGL46MmJLY4qGmLo72qNkonK3qDOWArKUZHk=;
- b=NwS9SbBdizVC+mvLrYz7kSa4ylvvDV4qTClKVCoJBoSrphiw+If/nfamUlfRsG0xh4
- eQep2XcNYJlj4e4Z2Db97HQ1ftzGuF6204yUoxmbHOzxDWa8+uRstu0c8/kLrq/PtZxM
- f7iC9LgMq7A63KPGVpkA2U4l7a5saOOc1JZeOYmbmfJMnVU4A9AlLekEBaE/qV2IDuFo
- Z9fa1A4ehm901SY2d8tTIxDCYp0RBGZkeIXqn4s286hZUV1L5s6UEjcZHWcu/EU4kw/6
- JMqMguhPq5E40vyd4n+fCTtvGT8imIBajjWirh3MvvqsVgG9qAH3FsqnPR1isYtnDLDi
- myoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OteogE6PGL46MmJLY4qGmLo72qNkonK3qDOWArKUZHk=;
- b=VbsbjJAXKG1Ct7/pf0jK7jmakjR488iVZsdKmf4I4MYXS1REe5q3KlxR2/L9aRc6c9
- C4W8cCCTHdCHguHRQ1U7Yh4yUMDqrmIXMXd2faV90lfT+5mWDDjJY3KzeRI19zQI0B2H
- qjdgyDprJ9xJpUGWIFwPgi9qkp9Q2N9MI6OmfLlCuLtLenBq7cz+Y4yjcxIon104TbvS
- fdtYXp28Q9M/7fXMCb1rXNBIZaOQs+ewt1Y4iiMRq7/eX8BBNUQqXziElRZppnXGvElu
- W9uueowDFZZ5Hf/Ej7JsBHS89ofeq+uu5yk2pX/S8wRpw3ERtkGZdNAoHVMdmIpm8vAc
- wZhQ==
-X-Gm-Message-State: AJIora+Av2EXq7FEhGTtTSOhn+5uAhXrSAmY7eGOxCsT172ITY/t64+N
- RIxUaOkbXXhIQ04gVThwnzbkWxmp458L79PCNuo=
-X-Google-Smtp-Source: AGRyM1uXdzM6TeFV+P6ikeGC5mI8mwT0K6wHsVcnks6AHELEPKL6etBOkdzzSPq+6dxc2ii45rqu2cEg5ZPuGWa7IBA=
-X-Received: by 2002:a81:1a05:0:b0:31c:83fa:15de with SMTP id
- a5-20020a811a05000000b0031c83fa15demr30691483ywa.111.1657202598149; Thu, 07
- Jul 2022 07:03:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9STs-00086u-NL
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 10:27:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51487)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9STq-0002k6-Al
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 10:27:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657204065;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+ULvJ++hc+xMLY0Eqcaao1GkbphNpgzhANj9Wd4g5CI=;
+ b=O6j0yizj2fWmJ4v4j/sZnDcI0Hk56EBq2Mbr3vPYIwahkpwA7hBobMzMef9Y01MkNua0Jm
+ fU2ebJL0C36SpgrE4e7R+C7oJBywVG5QMeKTk/hpn59cferz/Eora+4RzNwR6lJ91DQipD
+ BxdGaSaMqv2VyTshJaP0wZJLklbBRXg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-202-Odgp6POTPtG0aFhQdB4GEQ-1; Thu, 07 Jul 2022 10:27:37 -0400
+X-MC-Unique: Odgp6POTPtG0aFhQdB4GEQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56B5A381079B;
+ Thu,  7 Jul 2022 14:27:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DFF2414A7E7;
+ Thu,  7 Jul 2022 14:27:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EF6ED21E690D; Thu,  7 Jul 2022 16:27:35 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org,  kwolf@redhat.com,  hreitz@redhat.com
+Subject: Re: [RFC PATCH] qobject: Rewrite implementation of QDict for
+ in-order traversal
+References: <20220705095421.2455041-1-armbru@redhat.com>
+ <CAFEAcA-xaQSOGWixtnq0XosSsdt2VKACxgCK5KpdkNscBPD-wA@mail.gmail.com>
+Date: Thu, 07 Jul 2022 16:27:35 +0200
+In-Reply-To: <CAFEAcA-xaQSOGWixtnq0XosSsdt2VKACxgCK5KpdkNscBPD-wA@mail.gmail.com>
+ (Peter Maydell's message of "Thu, 7 Jul 2022 13:57:22 +0100")
+Message-ID: <87zghlatgo.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220524154056.2896913-1-alex.bennee@linaro.org>
- <Yo5V19zE82hWFuSJ@stefanha-x1.localdomain> <87fsjdjayh.fsf@linaro.org>
-In-Reply-To: <87fsjdjayh.fsf@linaro.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 7 Jul 2022 15:03:06 +0100
-Message-ID: <CAJSP0QVDEKn9MHu431q8Qdy+z73MSoGR5DCRMir9xEndZZqnQA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/15] virtio-gpio and various virtio cleanups
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- mathieu.poirier@linaro.org, viresh.kumar@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,94 +81,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Jul 2022 at 14:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
->
-> Stefan Hajnoczi <stefanha@redhat.com> writes:
->
-> > [[PGP Signed Part:Undecided]]
-> > On Tue, May 24, 2022 at 04:40:41PM +0100, Alex Benn=C3=A9e wrote:
-> >> Hi,
-> >>
-> >> This series ostensibly adds virtio-user-gpio stubs to the build for
-> >> use with an external vhost-user daemon. We've been testing it with our
-> >> rust daemons from:
-> >>
-> >>   https://github.com/rust-vmm/vhost-device
-> >>
-> >> Getting the test enabled took some doing most likely because the need
-> >> for CONFIG support exercised additional paths in the code that were
-> >> not used for the simpler virtio-net tests. As a result the series has
-> >> a number of cleanup and documentation patches.
-> >>
-> >> The final thing that needed fixing was the ensuring that
-> >> VHOST_USER_F_PROTOCOL_FEATURES didn't get squashed in the negotiation
-> >> process. This was the hardest thing to track down as we store the
-> >> feature bits in several places variously as:
-> >>
-> >>   in VirtIODevice as:
-> >>     uint64_t guest_features;
-> >>     uint64_t host_features;
-> >>     uint64_t backend_features;
-> >
-> > None of these know about VHOST_USER_F_PROTOCOL_FEATURES and vhost-user'=
-s
-> > unfiltered feature bits should never be passed to VirtIODevice.
-> >
-> >>
-> >>  in vhost_dev as:
-> >>     uint64_t features;
-> >>     uint64_t acked_features;
-> >>     uint64_t backend_features;
-> >
-> > I don't think these should know about VHOST_USER_F_PROTOCOL_FEATURES
-> > either. AFAIK vhost_dev deals with VIRTIO feature bits, not raw
-> > vhost-user GET_FEATURES.
->
-> So where does VHOST_USER_F_PROTOCOL_FEATURES get set before it's set
-> with the VHOST_USER_SET_FEATURES message? Currently it's fed via:
->
->     uint64_t features =3D vhost_dev->acked_features;
->
-> in vhost_dev_set_features() which does apply a few extra bits
-> (VHOST_F_LOG_ALL/VIRTIO_F_IOMMU_PLATFORM). Maybe it should be adding
-> VHOST_USER_F_PROTOCOL_FEATURES here? How should it be signalled by the
-> vhost-user backend that this should be done? Overload the function?
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-A modern vhost-user server replies to VHOST_USER_GET_FEATURES with
-VHOST_USER_F_PROTOCOL_FEATURES set. That's when the vhost-user client
-encounters this bit.
+> On Tue, 5 Jul 2022 at 10:54, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> QDict is implemented as a simple hash table of fixed size.  Observe:
+>>
+>> * Slow for large n.  Not sure this matters.
+>>
+>> * A QDict with n entries takes 4120 + n * 32 bytes on my box.  Wastes
+>>   space for small n, which is a common case.
+>>
+>> * Order of traversal depends on the hash function and on insertion
+>>   order, because it iterates first over buckets, then collision
+>>   chains.
+>>
+>> * Special code ensures qdict_size() takes constant time.
+>>
+>> Replace the hash table by a linked list.  Observe:
+>>
+>> * Even slower for large n.  Might be bad enough to matter.
+>>
+>> * A QDict with n entries takes 32 + n * 24 bytes.
+>>
+>> * Traversal is in insertion order.
+>>
+>> * qdict_size() is linear in the number of entries.
+>>
+>> This is an experiment.  Do not commit to master as is.
+>>
+>> The change of traversal order affects expected test output.  I updated
+>> only the tests covered by "make check" so far.  I expect some more to
+>> hide under tests/qemu-iotests/.
+>
+> Seems to fix the 'rocker' device regression, at least in that
+> it no longer gives an error message on startup.
+>
+> The amount of patching you had to do to expected-output files
+> in 'tests' suggests we have quite a lot of test cases that
+> are currently implicitly reliant on the hash table traversal
+> order, which is not guaranteed to remain stable.
 
-The vhost-user client should then filter out
-VHOST_USER_F_PROTOCOL_FEATURES because it belongs to the vhost-user
-protocol and isn't a real VIRTIO feature bit. The client uses the
-filtered VIRTIO feature bits and it now knows whether the vhost-user
-server supports the VHOST_USER_GET_PROTOCOL_FEATURES and
-VHOST_USER_SET_PROTOCOL_FEATURES messages.
+Correct.
 
-I think vhost_user_set_features() should set
-VHOST_USER_F_PROTOCOL_FEATURES if the server returned it from
-VHOST_USER_GET_FEATURES. At the moment vhost_user_backend_init()
-stores VHOST_USER_F_PROTOCOL_FEATURES in struct
-vhost_dev->backend_features, which only seems to be used by vhost-net
-code.
+I expect to find a few more in tests not run by "make check".
 
-The other vhost-user devices set acked_features =3D guest_features and
-ignore backend_features. As a result I guess they don't set
-VHOST_USER_F_PROTOCOL_FEATURES in the VHOST_USER_SET_FEATURES message.
-Most vhost-user servers probably don't care and still respond to
-VHOST_USER_GET_PROTOCOL_FEATURES and VHOST_USER_SET_PROTOCOL_FEATURES
-messages (although the vhost-user protocol spec mentions other
-protocol differences when VHOST_USER_F_PROTOCOL_FEATURES is not
-negotiated).
+>                                                  Regardless of
+> what we do with this patch it would probably be a good idea
+> for whatever is outputting the text these tests are comparing
+> against to be made to use a stable output order (alphabetical??).
 
-Does this match what you've found? The code is a maze so I may have
-gotten something wrong. In general I think hw/virtio/vhost-user.c
-should be responsible for VHOST_USER_F_PROTOCOL_FEATURES and no other
-part of the QEMU codebase should ever see the bit since it's a
-vhost-user protocol detail and not part of VIRTIO or even a common
-part of vhost.
+Traversal order before the patch depends on the (fixed) size of the hash
+table and the has function for (string) keys.  Both have remained
+unchanged since the initial commit (2009), which is why we've gotten
+away with relying on it in tests.
 
-Stefan
+Traversal order after the patch depends on insertion order.  I think
+this is already an improvement for the tests: now the expected output
+depends on what the test does, not on how qdict.c does its job.
+
+If we think this still isn't good enough, we can investigate how to get
+test output where the keys are in alphabetical order.
+
 
