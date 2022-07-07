@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D46569727
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 03:07:57 +0200 (CEST)
-Received: from localhost ([::1]:48496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B827569721
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 03:03:45 +0200 (CEST)
+Received: from localhost ([::1]:40950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Fzo-0000t2-Nn
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 21:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
+	id 1o9Fvk-00047G-Ae
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 21:03:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1o9FtJ-0002tc-Q2
+ id 1o9FtJ-0002te-KY
  for qemu-devel@nongnu.org; Wed, 06 Jul 2022 21:01:13 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:45841)
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:33721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1o9FtE-0000Qm-5r
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 21:01:09 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id 145so15643356pga.12
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 18:01:04 -0700 (PDT)
+ id 1o9FtE-0000R2-M2
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 21:01:10 -0400
+Received: by mail-pf1-x436.google.com with SMTP id n12so16303026pfq.0
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 18:01:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ciy/rVsUfuCzRTIRDYNTp21K1MImnDH8PNlQB0j83jA=;
- b=4gCeWOPDzggRrt8xQiE5SvC83J+XsDSfeUlu5bAERZJNq/HssMEJ7zJc6AbRyjcxSl
- Cp9AcUG6ujl/I8cCo4Q1nQgeUyf2lZAhD51h+lu5jFYeYclZHFW2LAoYvz6c/rdsHv6O
- 3bNuybFCynlFyoD1PzBdAhz6T1WZ7fzh/BOtph59+U7o6SOwUIv7yQ9kTHnFJgO8RavT
- BLENsgFp8Xgc0YfWP77xsA5Upbay24Whz2y/29U98CCEQonmtGjtiiI6UpfNRubKcvgc
- gfQPdzzjbCdhxJlpwuQ+bsLq1x4ibyaBFJGtTpxn6+/qfrvqod2FHs57urIey/YzsqBf
- 2TEQ==
+ bh=IhCxsYSHLosXl7V9PSYQ6mQg0PRKB1tVYcws6yF4v4k=;
+ b=GrQOhDXoofmaI+yDVyZfovbBZsbC+6R2B3dqpoZIpCZkwM8Lt+pZbkKNyDNalg/MuH
+ zdL7gX4GYZhrZJomMS5nweoyk4KMrRQNk7EZJe9Nd3EIZWW2t243r2LGqRgoc9+2xvQG
+ 42CXmlSXu+t8HGUcbr5L58LttQlRInmPAf/6F4v91XE77VdNPGV6Pxho0LOQcBwLj3fj
+ a/nOLDpqOCVZPC6+h+7iGUhB/XMv0sFI/+BFzfIIXc93GBaHn88ODj6/1geX6aV3A4yV
+ 8zwplZr9boOmSnG5GQdj05NA/4T+luH80ZOCRSLK6fadYNaQY2yYRMxGkrFlRrpCPWSD
+ Q0Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ciy/rVsUfuCzRTIRDYNTp21K1MImnDH8PNlQB0j83jA=;
- b=kuHuLoLQs7PgDe8Urrl6Ycy9AOT10X5JK8ESThO9wZjOXBhX/S9bPg6TffCnIZTDV4
- /WvvL4Dxnoqzwq7Mn0iKi5ZkaU+JE5ynXOHscE95WEnNHOz209MODzzr5Xe/3U+pAsND
- mIJLIcv4H2g4GOJWvsDesrRBnf84W5beCHbshqEXKXJCk6a72VIUOBR1f9yI94BpzcCS
- dKx/AfBwNfEiwR4LE+hnAeLv5TgaHx7BdpPqVvJhy4iL0kMBa25FYCNIyLpGVI2ZlnWb
- W7aXaou2j54bzR6PsKNLaPxFdydAePY634O8Mrl9/tFT6M7HxlEGSBLp6pyRnsEVY6qa
- MCJQ==
-X-Gm-Message-State: AJIora/V6nxBME3Q6eQe4JtMvfcZ+PxElsjtTHkmoVaWWEl0qfncCFDU
- UlsGgtsdbkUr/HmjhACVCm00pQ==
-X-Google-Smtp-Source: AGRyM1vknaT19jo25gJa7nw8cgf9A3HSlwZgQdUcv/DuMr8Bqt6QKE73xpbBlrkIXpuY8iOrHPvdMA==
-X-Received: by 2002:a63:87c6:0:b0:411:6ef7:ca80 with SMTP id
- i189-20020a6387c6000000b004116ef7ca80mr36039730pge.580.1657155663538; 
- Wed, 06 Jul 2022 18:01:03 -0700 (PDT)
+ bh=IhCxsYSHLosXl7V9PSYQ6mQg0PRKB1tVYcws6yF4v4k=;
+ b=3pYX7IbXzH1UJhFI4p1A4o6Bwk1bAsnVH3EH7dFyhtuWqKNj3S/aqPSAgFhrDpAgXH
+ X0dduCA5XPMEltXsrWPlR669HvOH22hsGCsy+sQz5WU/Kce5bxoFJMi2Ikbax1hADNMn
+ I9p+bVyOsza5608jZIG53kdCe7jQCskIBGwv/W2q3iNco+5SJPzHvcesMEilO+nDALwE
+ slmdw/j6+XvMndm9+VhObM9dZs1KSYakflssgG2/udqRh+u070HQSOkZ2hN0EsRWl+9J
+ vjzhDaAqhytnjC+V1nOHKbs/mQ4c//4Z3+KFtQlFjf34gJr5XD2Zr+igY5f2puTO3zNm
+ DMrQ==
+X-Gm-Message-State: AJIora833JCqNtexq4JXDaCkoSvzZngRrcfef72uKDy45VayHOv2Zfg2
+ 5Al9wkqb2IGeIDZY3tBamNvrjw==
+X-Google-Smtp-Source: AGRyM1stUtMigCHSX434iH5is9SQ77A5dM6pnKI/1P303bDKZ4yOW//N2WCq/e6ggEZXwu8txQO/xg==
+X-Received: by 2002:a63:5121:0:b0:412:6f70:53e8 with SMTP id
+ f33-20020a635121000000b004126f7053e8mr10224086pgb.68.1657155667372; 
+ Wed, 06 Jul 2022 18:01:07 -0700 (PDT)
 Received: from always-x1.bytedance.net ([61.120.150.70])
  by smtp.gmail.com with ESMTPSA id
- 7-20020a620607000000b00528c26c84a3sm982445pfg.64.2022.07.06.18.01.00
+ 7-20020a620607000000b00528c26c84a3sm982445pfg.64.2022.07.06.18.01.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jul 2022 18:01:02 -0700 (PDT)
+ Wed, 06 Jul 2022 18:01:06 -0700 (PDT)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: michael.roth@amd.com, kkostiuk@redhat.com, marcandre.lureau@redhat.com,
  armbru@redhat.com
 Cc: qemu-devel@nongnu.org,
 	zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PATCH v4 1/2] qapi: Avoid generating C identifier 'linux'
-Date: Thu,  7 Jul 2022 08:56:01 +0800
-Message-Id: <20220707005602.696557-2-pizhenwei@bytedance.com>
+Subject: [PATCH v4 2/2] qga: add command 'guest-get-cpustats'
+Date: Thu,  7 Jul 2022 08:56:02 +0800
+Message-Id: <20220707005602.696557-3-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220707005602.696557-1-pizhenwei@bytedance.com>
 References: <20220707005602.696557-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,30 +91,232 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'linux' is not usable as identifier, because C compilers targeting
-Linux predefine it as a macro expanding to 1.  Add it to
-@polluted_words. 'unix' is already there.
+A vCPU thread always reaches 100% utilization when:
+- guest uses idle=poll
+- disable HLT vm-exit
+- enable MWAIT
 
-Suggested-by: Markus Armbruster <armbru@redhat.com>
+Add new guest agent command 'guest-get-cpustats' to get guest CPU
+statistics, we can know the guest workload and how busy the CPU is.
+
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- scripts/qapi/common.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qga/commands-posix.c | 89 ++++++++++++++++++++++++++++++++++++++++++++
+ qga/commands-win32.c |  6 +++
+ qga/qapi-schema.json | 81 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 176 insertions(+)
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 489273574a..737b059e62 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -114,7 +114,7 @@ def c_name(name: str, protect: bool = True) -> str:
-                      'and', 'and_eq', 'bitand', 'bitor', 'compl', 'not',
-                      'not_eq', 'or', 'or_eq', 'xor', 'xor_eq'])
-     # namespace pollution:
--    polluted_words = set(['unix', 'errno', 'mips', 'sparc', 'i386'])
-+    polluted_words = set(['unix', 'errno', 'mips', 'sparc', 'i386', 'linux'])
-     name = re.sub(r'[^A-Za-z0-9_]', '_', name)
-     if protect and (name in (c89_words | c99_words | c11_words | gcc_words
-                              | cpp_words | polluted_words)
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 0469dc409d..f18530d85f 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -2893,6 +2893,90 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
+     return guest_get_diskstats(errp);
+ }
+ 
++GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
++{
++    GuestCpuStatsList *head = NULL, **tail = &head;
++    const char *cpustats = "/proc/stat";
++    int clk_tck = sysconf(_SC_CLK_TCK);
++    FILE *fp;
++    size_t n;
++    char *line = NULL;
++
++    fp = fopen(cpustats, "r");
++    if (fp  == NULL) {
++        error_setg_errno(errp, errno, "open(\"%s\")", cpustats);
++        return NULL;
++    }
++
++    while (getline(&line, &n, fp) != -1) {
++        GuestCpuStats *cpustat = NULL;
++        GuestLinuxCpuStats *linuxcpustat;
++        int i;
++        unsigned long user, system, idle, iowait, irq, softirq, steal, guest;
++        unsigned long nice, guest_nice;
++        char name[64];
++
++        i = sscanf(line, "%s %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu",
++                   name, &user, &nice, &system, &idle, &iowait, &irq, &softirq,
++                   &steal, &guest, &guest_nice);
++
++        /* drop "cpu 1 2 3 ...", get "cpuX 1 2 3 ..." only */
++        if ((i == EOF) || strncmp(name, "cpu", 3) || (name[3] == '\0')) {
++            continue;
++        }
++
++        if (i < 5) {
++            slog("Parsing cpu stat from %s failed, see \"man proc\"", cpustats);
++            break;
++        }
++
++        cpustat = g_new0(GuestCpuStats, 1);
++        cpustat->type = GUEST_CPU_STATS_TYPE_LINUX;
++
++        linuxcpustat = &cpustat->u.q_linux;
++        linuxcpustat->cpu = atoi(&name[3]);
++        linuxcpustat->user = user * 1000 / clk_tck;
++        linuxcpustat->nice = nice * 1000 / clk_tck;
++        linuxcpustat->system = system * 1000 / clk_tck;
++        linuxcpustat->idle = idle * 1000 / clk_tck;
++
++        if (i > 5) {
++            linuxcpustat->has_iowait = true;
++            linuxcpustat->iowait = iowait * 1000 / clk_tck;
++        }
++
++        if (i > 6) {
++            linuxcpustat->has_irq = true;
++            linuxcpustat->irq = irq * 1000 / clk_tck;
++            linuxcpustat->has_softirq = true;
++            linuxcpustat->softirq = softirq * 1000 / clk_tck;
++        }
++
++        if (i > 8) {
++            linuxcpustat->has_steal = true;
++            linuxcpustat->steal = steal * 1000 / clk_tck;
++        }
++
++        if (i > 9) {
++            linuxcpustat->has_guest = true;
++            linuxcpustat->guest = guest * 1000 / clk_tck;
++        }
++
++        if (i > 10) {
++            linuxcpustat->has_guest = true;
++            linuxcpustat->guest = guest * 1000 / clk_tck;
++            linuxcpustat->has_guestnice = true;
++            linuxcpustat->guestnice = guest_nice * 1000 / clk_tck;
++        }
++
++        QAPI_LIST_APPEND(tail, cpustat);
++    }
++
++    free(line);
++    fclose(fp);
++    return head;
++}
++
+ #else /* defined(__linux__) */
+ 
+ void qmp_guest_suspend_disk(Error **errp)
+@@ -3247,6 +3331,11 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
+     return NULL;
+ }
+ 
++GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
+ 
+ #endif /* CONFIG_FSFREEZE */
+ 
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 36f94c0f9c..7ed7664715 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -2543,3 +2543,9 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
+     error_setg(errp, QERR_UNSUPPORTED);
+     return NULL;
+ }
++
++GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 9fa20e791b..869399ea1a 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -1576,3 +1576,84 @@
+ { 'command': 'guest-get-diskstats',
+   'returns': ['GuestDiskStatsInfo']
+ }
++
++##
++# @GuestCpuStatsType:
++#
++# An enumeration of OS type
++#
++# Since: 7.1
++##
++{ 'enum': 'GuestCpuStatsType',
++  'data': [ 'linux' ] }
++
++
++##
++# @GuestLinuxCpuStats:
++#
++# CPU statistics of Linux
++#
++# @cpu: CPU index in guest OS
++#
++# @user: Time spent in user mode
++#
++# @nice: Time spent in user mode with low priority (nice)
++#
++# @system: Time spent in system mode
++#
++# @idle: Time spent in the idle task
++#
++# @iowait: Time waiting for I/O to complete (since Linux 2.5.41)
++#
++# @irq: Time servicing interrupts (since Linux 2.6.0-test4)
++#
++# @softirq: Time servicing softirqs (since Linux 2.6.0-test4)
++#
++# @steal: Stolen time by host (since Linux 2.6.11)
++#
++# @guest: ime spent running a virtual CPU for guest operating systems under
++#         the  control of the Linux kernel (since Linux 2.6.24)
++#
++# @guestnice: Time spent running a niced guest (since Linux 2.6.33)
++#
++# Since: 7.1
++##
++{ 'struct': 'GuestLinuxCpuStats',
++  'data': {'cpu': 'int',
++           'user': 'uint64',
++           'nice': 'uint64',
++           'system': 'uint64',
++           'idle': 'uint64',
++           '*iowait': 'uint64',
++           '*irq': 'uint64',
++           '*softirq': 'uint64',
++           '*steal': 'uint64',
++           '*guest': 'uint64',
++           '*guestnice': 'uint64'
++           } }
++
++##
++# @GuestCpuStats:
++#
++# Get statistics of each CPU in millisecond.
++#
++# - @linux: Linux style CPU statistics
++#
++# Since: 7.1
++##
++{ 'union': 'GuestCpuStats',
++  'base': { 'type': 'GuestCpuStatsType' },
++  'discriminator': 'type',
++  'data': { 'linux': 'GuestLinuxCpuStats' } }
++
++##
++# @guest-get-cpustats:
++#
++# Retrieve information about CPU stats.
++# Returns: List of CPU stats of guest.
++#
++# Since: 7.1
++##
++{ 'command': 'guest-get-cpustats',
++  'returns': ['GuestCpuStats']
++}
 -- 
 2.20.1
 
