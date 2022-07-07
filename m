@@ -2,77 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9A356A23E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 14:43:33 +0200 (CEST)
-Received: from localhost ([::1]:55654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78E556A24B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 14:50:03 +0200 (CEST)
+Received: from localhost ([::1]:35978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Qqy-0007Yv-DN
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 08:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35232)
+	id 1o9QxG-0005rv-P7
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 08:50:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9QjW-00008P-Gd
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:35:51 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:38694)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9QjU-0007wS-TL
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:35:50 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-31c8a1e9e33so116135837b3.5
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 05:35:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=P1z2YkMDX/WVS38YM566xaZGlop703ofSRFxpBPecRQ=;
- b=G8csMEaU3Wnmbs3ijUECsdCzNx98+5lyga2tr368e1WtnGDJFQF1rLzccV/zfqFGqb
- Cmo44iEvqjKjibuCSrBcSgn2cCxUXwQXve92/7LkX83tNloNDXh6jsKSma8ktkQk/ySG
- BqpZGZ53vSypP7bMK1g/LjxNrZGp1nhXEgb0EDdaIMJGKu7MWzTVD+51Fe5WWVNvsb6f
- 8IircLVA0VM4nzkgEpolSBmX9qvWYMl1sFXXUkqX767uu9jQCAi1FSbJOqpfbJdasFQl
- Ocuowve7PmMDsdfTeMIUkvhDIDMOb9n4ybOTmRZhkATgFyTY7EmWMWfxxwPqZ1OeYhqL
- Rbbw==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o9Qpe-000747-JK
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:42:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35944)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o9Qpb-0002s7-RR
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:42:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657197726;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7hzOmKGAT9iJmUSb5iQjz/hLcjUcf6NlAOJcQfngPSI=;
+ b=iDGD4J3AHzkag2RcV5AvEVNWIv5jhz+xZsTSZNc8KXdIhh9cjqTMwGWof47Aq6J5KxPl7R
+ L+1usWoriO3KzvVYdlcTMIh19MLu1TQHb9TrP4g59ENKMTqK5CMPZe2/K8I3JUlhcG8bc1
+ WvhdQAOk1t/Gbu/FxWiEKLdvbgxsPXU=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-620-Z-brWi1nOfq7ubIEqQDfoQ-1; Thu, 07 Jul 2022 08:42:05 -0400
+X-MC-Unique: Z-brWi1nOfq7ubIEqQDfoQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ hq41-20020a1709073f2900b00722e5ad076cso4782083ejc.20
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 05:42:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=P1z2YkMDX/WVS38YM566xaZGlop703ofSRFxpBPecRQ=;
- b=XO4FHKe5pq4wpNXLwXU6P+zA2g4XlmNEXyK0emjq3BNo4BWLrQK79p/e4rx5bQhWOz
- yIF6i6t41yRqhfr1fpBWnfVsaRpPf0m8Rn7TdiH8TP3V0qstG5rgtZjsoglFXBEDjta7
- ONSP7UwCrWNsggngT6dmRd250+CaKFSsymWAj0QgOg6VNvPVD56Zi3mwpaKS71h8AMrW
- 9/9OPtJe2ZDkKxSHOqtywSUSTRcSbLupdfpUvnQdw2sfJg5Z7nFtVPw8gNdVz3hDbFDo
- t8EOjUzBUiv3m4qcOs/qG5gqzVQeobbf4wp3mGTJlHT2WsZK1zhKXo5sHU7EoVwW2tTv
- dxJw==
-X-Gm-Message-State: AJIora/inw6TjL8MmABvTOgYDISecOylyrUCTyyIOx4mWzMeYDS4owXj
- fSv2LppKzcXO1hnRTAxuMuiwFdAP2XUiN3k6oYHZYg==
-X-Google-Smtp-Source: AGRyM1vbDuXfMp8aVUlnYNVJZ8b6FOVOUfCf2azKG/isItIqyAsSgLD8eS1Cy7OaqpZ7Xw5RiuxZBtgm6xrRMzvVur0=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr52583182ywb.257.1657197347284; Thu, 07
- Jul 2022 05:35:47 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7hzOmKGAT9iJmUSb5iQjz/hLcjUcf6NlAOJcQfngPSI=;
+ b=FM7SVLhBtcTh8Js7nVm4CbPFV47TIsSvx2fCfe0BelAdm+alGVpVXBEgOwvFBvu572
+ rsKnJMtoVYII8uKyayZtwnKqMeGKxhJgjzmbk55Q5v8dmLlD/tR/y2kTK/bg/iqaajH6
+ vWU7blJ2mxpHXV8+3aSo/26f7LMdEiSbRGwF3kuPt80TZ9gYYekI9RRVgVrqqAfOkug7
+ a86YjoPwM8C23Lk6PDUo1faTfwfOELdxc/lXuWduWwoGoYl15ncbxz9a0/YAMU+0L2Wm
+ JL6qw2nSkGF94Ji/mxrgqXtSbpOvfrz0KkV29yetiGLKQ/B9BtNVYiQ3eCTMXtmzfVRf
+ xc9A==
+X-Gm-Message-State: AJIora/smXrjwr/AM0lrtZy1Vkn0kvvUZkKA8HjYAqFRYJDjBCRYFmHO
+ sZrKnZzLvWos1xYrxwRAUISavy5rkepBGEfNknsvqZp4o8rIuY9dMo0WSYs7exAivIZLkJGMX12
+ zB4ymGAqu6vzAFNM=
+X-Received: by 2002:a05:6402:5214:b0:437:5b1d:9966 with SMTP id
+ s20-20020a056402521400b004375b1d9966mr62145889edd.16.1657197724528; 
+ Thu, 07 Jul 2022 05:42:04 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sx6KtC+I1WmcWVmRpLFvh+xs+cgT/OdnYs8A+Pe7UVEzISr9iwBuDHaUHpmrWnSK1TmK18pg==
+X-Received: by 2002:a05:6402:5214:b0:437:5b1d:9966 with SMTP id
+ s20-20020a056402521400b004375b1d9966mr62145859edd.16.1657197724287; 
+ Thu, 07 Jul 2022 05:42:04 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ e12-20020a170906314c00b0072aa009aa68sm8153979eje.36.2022.07.07.05.42.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jul 2022 05:42:03 -0700 (PDT)
+Date: Thu, 7 Jul 2022 14:42:02 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Alex Williamson
+ <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
+ Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
+ <suravee.suthikulpanit@amd.com>
+Subject: Re: [PATCH v6 04/10] i386/pc: factor out above-4g end to an helper
+Message-ID: <20220707144202.6a7c3f9c@redhat.com>
+In-Reply-To: <20220701161014.3850-5-joao.m.martins@oracle.com>
+References: <20220701161014.3850-1-joao.m.martins@oracle.com>
+ <20220701161014.3850-5-joao.m.martins@oracle.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220704152303.760983-1-berrange@redhat.com>
- <20220704152303.760983-5-berrange@redhat.com>
- <CAFEAcA9=cKaD=LoBheRfU610nOQVjVWmqCT=ONUpD6OhBX9WxA@mail.gmail.com>
- <YsbR3/ZJtQAS2yg/@redhat.com>
-In-Reply-To: <YsbR3/ZJtQAS2yg/@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Jul 2022 13:35:08 +0100
-Message-ID: <CAFEAcA_ftFckHNLwhM+SQ=UMDjR-6rfkGgezK27DRy0vUnTfjg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] misc: fix commonly doubled up words
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,54 +106,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Jul 2022 at 13:30, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
->
-> On Mon, Jul 04, 2022 at 04:52:40PM +0100, Peter Maydell wrote:
-> > On Mon, 4 Jul 2022 at 16:23, Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
-> > >
-> > > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > > ---
-> >
-> > > --- a/docs/tools/qemu-pr-helper.rst
-> > > +++ b/docs/tools/qemu-pr-helper.rst
-> > > @@ -22,7 +22,7 @@ storage fabric. QEMU's SCSI passthrough devices ``s=
-csi-block``
-> > >  and ``scsi-generic`` support passing guest persistent reservation
-> > >  requests to a privileged external helper program. :program:`qemu-pr-=
-helper`
-> > >  is that external helper; it creates a socket which QEMU can
-> > > -connect to to communicate with it.
-> > > +connect to communicate with it.
-> >
-> > This text is correct as it stands, and the change is wrong.
->
-> I think the current text is a rather awkward, so I'll rephrase it
-> next time.
->
-> > > diff --git a/tests/qtest/microbit-test.c b/tests/qtest/microbit-test.=
-c
-> > > index 04e199ec33..6cc1f5d932 100644
-> > > --- a/tests/qtest/microbit-test.c
-> > > +++ b/tests/qtest/microbit-test.c
-> > > @@ -449,9 +449,9 @@ static void test_nrf51_timer(void)
-> > >      timer_set_prescaler(qts, 0);
-> > >      /* Swept over in first step */
-> > >      timer_set_cc(qts, 0, 2);
-> > > -    /* Barely miss on first step */
-> > > +    /* Barely miss in first step */
-> > >      timer_set_cc(qts, 1, 162);
-> > > -    /* Spot on on third step */
-> > > +    /* Spot on in third step */
-> > >      timer_set_cc(qts, 2, 480);
-> >
-> > These changes also look wrong.
->
-> It makes them consistent wth the first comment "Swept over in first step"
+On Fri,  1 Jul 2022 17:10:08 +0100
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-There's a difference between "in step X" -- during the duration
-of the step, and "on step X" -- at the point where the step stops.
+> There's a couple of places that seem to duplicate this calculation
+> of RAM size above the 4G boundary. Move all those to a helper function.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 
--- PMM
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  hw/i386/pc.c | 29 ++++++++++++++---------------
+>  1 file changed, 14 insertions(+), 15 deletions(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 1bb89a9c17ec..6c7c49ca5a32 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -814,6 +814,17 @@ void xen_load_linux(PCMachineState *pcms)
+>  #define PC_ROM_ALIGN       0x800
+>  #define PC_ROM_SIZE        (PC_ROM_MAX - PC_ROM_MIN_VGA)
+>  
+> +static hwaddr pc_above_4g_end(PCMachineState *pcms)
+> +{
+> +    X86MachineState *x86ms = X86_MACHINE(pcms);
+> +
+> +    if (pcms->sgx_epc.size != 0) {
+> +        return sgx_epc_above_4g_end(&pcms->sgx_epc);
+> +    }
+> +
+> +    return x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+> +}
+> +
+>  void pc_memory_init(PCMachineState *pcms,
+>                      MemoryRegion *system_memory,
+>                      MemoryRegion *rom_memory,
+> @@ -891,15 +902,8 @@ void pc_memory_init(PCMachineState *pcms,
+>              exit(EXIT_FAILURE);
+>          }
+>  
+> -        if (pcms->sgx_epc.size != 0) {
+> -            machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+> -        } else {
+> -            machine->device_memory->base =
+> -                x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+> -        }
+> -
+>          machine->device_memory->base =
+> -            ROUND_UP(machine->device_memory->base, 1 * GiB);
+> +            ROUND_UP(pc_above_4g_end(pcms), 1 * GiB);
+>  
+>          if (pcmc->enforce_aligned_dimm) {
+>              /* size device region assuming 1G page max alignment per slot */
+> @@ -928,10 +932,8 @@ void pc_memory_init(PCMachineState *pcms,
+>              if (!pcmc->broken_reserved_end) {
+>                  cxl_base += memory_region_size(&machine->device_memory->mr);
+>              }
+> -        } else if (pcms->sgx_epc.size != 0) {
+> -            cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+>          } else {
+> -            cxl_base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+> +            cxl_base = pc_above_4g_end(pcms);
+>          }
+>  
+>          e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+> @@ -1018,7 +1020,6 @@ uint64_t pc_pci_hole64_start(void)
+>      PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
+>      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+>      MachineState *ms = MACHINE(pcms);
+> -    X86MachineState *x86ms = X86_MACHINE(pcms);
+>      uint64_t hole64_start = 0;
+>  
+>      if (pcms->cxl_devices_state.host_mr.addr) {
+> @@ -1036,10 +1037,8 @@ uint64_t pc_pci_hole64_start(void)
+>          if (!pcmc->broken_reserved_end) {
+>              hole64_start += memory_region_size(&ms->device_memory->mr);
+>          }
+> -    } else if (pcms->sgx_epc.size != 0) {
+> -            hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
+>      } else {
+> -        hole64_start = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+> +        hole64_start = pc_above_4g_end(pcms);
+>      }
+>  
+>      return ROUND_UP(hole64_start, 1 * GiB);
+
 
