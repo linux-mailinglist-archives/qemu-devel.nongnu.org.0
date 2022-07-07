@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B108E569D7E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 10:32:59 +0200 (CEST)
-Received: from localhost ([::1]:47852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370EA569D86
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 10:36:56 +0200 (CEST)
+Received: from localhost ([::1]:55702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9MwU-0002Ht-OT
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 04:32:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59220)
+	id 1o9N0J-0007uw-Ae
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 04:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o9MkH-0006mZ-5x; Thu, 07 Jul 2022 04:20:21 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34666)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1o9MkB-0006E3-Ey; Thu, 07 Jul 2022 04:20:17 -0400
-Received: by mail-wr1-x431.google.com with SMTP id r14so19411647wrg.1;
- Thu, 07 Jul 2022 01:20:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X6ZqWm+8gfZ38fRuEbFy9FTJdrbiR1mJzW6B0QcDN4E=;
- b=inQk1oJRFjUec1pdXDIj/USBDRMJ/8n/GiPtBWcVi2NQo3hnmD7piwO2aaeDX8bLLa
- vsuksi4ysaeyWow8Mv6IsdyG5mM0bBBWw5d0C+nLtkuZuZ7osTrj4vGiif5+yoYJm39p
- vsOm5Z48A9fpPlGZ1bNBDCdyuqJHaOCAQ+aKs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=X6ZqWm+8gfZ38fRuEbFy9FTJdrbiR1mJzW6B0QcDN4E=;
- b=wQFI7vzgFFrxK0EI1ltQFxbHY0cIgUSXIz2KGPS4EiQ8Cxa6u101o2H5lDEC7PMm0s
- IEx1R6etMweTEA003cJx9j4OPVuWEIKrxYlw33vJB9EBRoPUxHg4hzptp17wDpGUt5MD
- nbZ/RaXE1YrwFuFKSBXqjKm6auz+lcwf3K4lZUdyjUr0n8nkpgbtzvc83gLvrxbfS75Q
- tLahMmjLgmnFoyGjO9JsK3vwj/omRv2pfEEWGKM4zYjHKN06SQkESzIB5huZzMnEq5PW
- U2bW/CGiAWRojhR/DGVUA713hI/V6Gz/Q51ehRPZ7y/Kj4vhiDM+m8R4vR83C8Q0AFSh
- CmOg==
-X-Gm-Message-State: AJIora+Woea0FzjTWDsvhI+0OkINJrV+KX9LsZoVOTES+8YGTmAeTXPd
- Xd1dJHdgEJePj9YhRV1tbK8ysQUSJrbOSnx50a8=
-X-Google-Smtp-Source: AGRyM1teCx7hG6znDePPwUkxl8th0yYcOHI/n3oWJWhP2WVk8yuMy/mong1F5XK8FmsM+/fSlqFtapQ7jCR1dI55R5E=
-X-Received: by 2002:a05:6000:1446:b0:21d:2245:ab65 with SMTP id
- v6-20020a056000144600b0021d2245ab65mr41101046wrx.315.1657182013434; Thu, 07
- Jul 2022 01:20:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o9MmH-0000ZB-Hm
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:22:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35989)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o9MmD-0006Zb-C8
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:22:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657182140;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a24fCZzrPrN3Z3I7scUVAlLPO7rsollrXP47fO6LQjE=;
+ b=IqN0m9kosg37sFidxrCpvkv+/BrgDzt1+AMiRJvqbiMUnzlJU/d8kBEryO05ik+FXs3QYa
+ 3uKceEXKQGaossy26PTr/wPLCM8VweLuQT6/IJ6luS+hUujHwUPdVY2VH5G74OEbyx+jNY
+ npezoGVjV25qAcKHRH1XEC8i/IVmviI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-61-m9Vn0r_GMHaN4GkNMKn1OQ-1; Thu, 07 Jul 2022 04:22:19 -0400
+X-MC-Unique: m9Vn0r_GMHaN4GkNMKn1OQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03B59299E777;
+ Thu,  7 Jul 2022 08:22:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 408C9140240F;
+ Thu,  7 Jul 2022 08:22:17 +0000 (UTC)
+Date: Thu, 7 Jul 2022 09:22:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 04/13] tests/vm: switch centos.aarch64 to CentOS 8
+ Stream
+Message-ID: <YsaXtkGdOi4pOOqH@redhat.com>
+References: <20220707040310.4163682-1-jsnow@redhat.com>
+ <20220707040310.4163682-5-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20220707071731.34047-1-peter@pjd.dev>
- <20220707071731.34047-2-peter@pjd.dev>
-In-Reply-To: <20220707071731.34047-2-peter@pjd.dev>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 7 Jul 2022 08:20:01 +0000
-Message-ID: <CACPK8Xe-BXFt7oefdO-QS67tQSRP6arzgnGO973MYDYOMrQK4w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] hw/gpio/aspeed: Don't let guests modify input pins
-To: Peter Delevoryas <peter@pjd.dev>
-Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, 
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=joel.stan@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220707040310.4163682-5-jsnow@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,135 +88,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Jul 2022 at 07:17, Peter Delevoryas <peter@pjd.dev> wrote:
->
-> It seems that aspeed_gpio_update is allowing the value for input pins to be
-> modified through register writes and QOM property modification.
->
-> The QOM property modification is fine, but modifying the value through
-> register writes from the guest OS seems wrong if the pin's direction is set
-> to input.
->
-> The datasheet specifies that "0" bits in the direction register select input
-> mode, and "1" selects output mode.
->
-> OpenBMC userspace code is accidentally writing 0's to the GPIO data
-> registers somewhere (or perhaps the driver is doing it through a reset or
-> something), and this is overwriting GPIO FRU information (board ID, slot
-> presence pins) that is initialized in Aspeed machine reset code (see
-> fby35_reset() in hw/arm/aspeed.c).
->
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
+On Thu, Jul 07, 2022 at 12:03:01AM -0400, John Snow wrote:
+> Switch this test over to using a cloud image like the base CentOS8 VM
+> test, which helps make this script a bit simpler too.
+> 
+> Note: At time of writing, this test seems pretty flaky when run without
+> KVM support for aarch64. Certain unit tests like migration-test,
+> virtio-net-failover, test-hmp and qom-test seem quite prone to fail
+> under TCG. Still, this is an improvement in that at least pure build
+> tests are functional.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  hw/gpio/aspeed_gpio.c | 22 ++++++++++++----------
->  1 file changed, 12 insertions(+), 10 deletions(-)
->
-> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-> index a62a673857..2eae427201 100644
-> --- a/hw/gpio/aspeed_gpio.c
-> +++ b/hw/gpio/aspeed_gpio.c
-> @@ -268,7 +268,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState *s, GPIOSets *regs)
->  }
->
->  static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
-> -                               uint32_t value)
-> +                               uint32_t value, bool force)
->  {
->      uint32_t input_mask = regs->input_mask;
->      uint32_t direction = regs->direction;
-> @@ -293,10 +293,12 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
->              }
->
+>  tests/vm/centos.aarch64 | 174 ++++++----------------------------------
+>  1 file changed, 24 insertions(+), 150 deletions(-)
 
-Reading this model hurts my head a little. Perhaps we also need to add
-a test for this case to make it clear what's going on.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-The test above the code you've changed does this:
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
->            /* ...and we're output or not input-masked... */
->            if (!(direction & mask) && (input_mask & mask)) {
->                continue;
->            }
-
-For clarity, !(direction & mask) means "is input".
-
-The comment confuses me because it says "or", but the code has "and".
-
-input_mask doesn't seem to feature in the Linux driver, so that will
-always be zero. The test will be X && 0, which is always 0.
-
-If you changed it to || then we would do the test that the comment
-suggests. When the pin is input, we will skip updating the value.
-
-This will solve the bug you had with your input pins being reset. It
-won't fix the QOM case, but we could consider handling that separately
-without confusing the logic in this function.
-
-
->              /* ...then update the state. */
-> -            if (mask & new) {
-> -                regs->data_value |= mask;
-> -            } else {
-> -                regs->data_value &= ~mask;
-> +            if (direction & mask || force) {
-> +                if (mask & new) {
-> +                    regs->data_value |= mask;
-> +                } else {
-> +                    regs->data_value &= ~mask;
-> +                }
->              }
->
->              /* If the gpio is set to output... */
-> @@ -339,7 +341,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
->          value &= ~pin_mask;
->      }
->
-> -    aspeed_gpio_update(s, &s->sets[set_idx], value);
-> +    aspeed_gpio_update(s, &s->sets[set_idx], value, true);
->  }
->
->  /*
-> @@ -653,7 +655,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
->          reg_value = update_value_control_source(set, set->data_value,
->                                                  reg_value);
->          set->data_read = reg_value;
-> -        aspeed_gpio_update(s, set, reg_value);
-> +        aspeed_gpio_update(s, set, reg_value, false);
->          return;
->      case gpio_reg_idx_direction:
->          reg_value = set->direction;
-> @@ -753,7 +755,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
->              __func__, offset, data, reg_idx_type);
->          return;
->      }
-> -    aspeed_gpio_update(s, set, set->data_value);
-> +    aspeed_gpio_update(s, set, set->data_value, false);
->      return;
->  }
->
-> @@ -799,7 +801,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
->          data &= props->output;
->          data = update_value_control_source(set, set->data_value, data);
->          set->data_read = data;
-> -        aspeed_gpio_update(s, set, data);
-> +        aspeed_gpio_update(s, set, data, false);
->          return;
->      case gpio_reg_direction:
->          /*
-> @@ -875,7 +877,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
->                        PRIx64"\n", __func__, offset);
->          return;
->      }
-> -    aspeed_gpio_update(s, set, set->data_value);
-> +    aspeed_gpio_update(s, set, set->data_value, false);
->      return;
->  }
->
-> --
-> 2.36.1
->
 
