@@ -2,55 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5677C569E56
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 11:14:44 +0200 (CEST)
-Received: from localhost ([::1]:49908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB6A569E6C
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 11:18:03 +0200 (CEST)
+Received: from localhost ([::1]:52238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Nat-0001UT-10
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 05:14:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44174)
+	id 1o9Ne4-0003Gr-CK
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 05:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=/X4V=XM=kaod.org=clg@ozlabs.org>)
- id 1o9NZH-00005M-8z; Thu, 07 Jul 2022 05:13:03 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:49357)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o9NcZ-0002QO-AX
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 05:16:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=/X4V=XM=kaod.org=clg@ozlabs.org>)
- id 1o9NZE-0001sF-DC; Thu, 07 Jul 2022 05:13:03 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LdrKZ3PJvz4xbm;
- Thu,  7 Jul 2022 19:12:50 +1000 (AEST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LdrKR58rBz4xMW;
- Thu,  7 Jul 2022 19:12:43 +1000 (AEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Troy Lee <troy_lee@aspeedtech.com>, Jamin Lin <jamin_lin@aspeedtech.com>,
- Steven Lee <steven_lee@aspeedtech.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH] test/avocado/machine_aspeed.py: Add SDK tests
-Date: Thu,  7 Jul 2022 11:12:39 +0200
-Message-Id: <20220707091239.1029561-1-clg@kaod.org>
-X-Mailer: git-send-email 2.35.3
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o9NcU-0003dn-C7
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 05:16:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657185381;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9aXAa41vx67eJlZ5N5uST8LLUcsxoGbDP5TEsuoMc3Y=;
+ b=UNp+pEoAjGt1kQFIqSwMjVtcK3ob/U3viQMcfO41+fhFiOBGYJBwhKUPpD96JbCQxUaBya
+ cEi+BcfwIRNi5HdKCFNH/2dKZ5ooudUqBB2gkKXhZiLDgjIgMJTuBNe7BF+/6pETMIgrjC
+ xPrTXvtZmN1JuT652gziKwIqZRMi/mQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-119-Sw0YB6ZdPN6APEPtaIdWFw-1; Thu, 07 Jul 2022 05:16:19 -0400
+X-MC-Unique: Sw0YB6ZdPN6APEPtaIdWFw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ k7-20020a1709062a4700b006fe92440164so4563587eje.23
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 02:16:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=9aXAa41vx67eJlZ5N5uST8LLUcsxoGbDP5TEsuoMc3Y=;
+ b=F6CkPsngFWUf96+q/7gV7WYIHp54ZANn33OiFcl0rXc4VIWVT/EkKJXwaebwET3IV+
+ M7yozIUabh7BJ9QlB+Bdcs+z+S3Tc5TMx923VFA2XRFD5u8Pv4dQBH2XHvIAx+JIuioO
+ jbmcl/5DqfitzQU6Eqr1ZDK6IpxF7alD5JVVGzha3kRKD4pM5EbCaTgPk+ZKLu54AAi1
+ ReQzJMyE3hbnsEiclB/2iGrYiuvZ4QczFAQqYox///xoXV0jSoKuJNCrEn7x8mp92YPN
+ htZtgBIvZrxRp57SaLe8VwbtuggwxdmvZmpGBCvF8vznHWXuBMcLxRWI5pZu5eROcjNu
+ Z85w==
+X-Gm-Message-State: AJIora+IzD/kI+xrSCoeFtUo4066WqKRn/oyt1b2+/M9ClHgbFDtuO74
+ NdUVxg9RgVlOx+it+SLuSwi0RSjOGxrwY+aiS4jLjNWb7CLfusI72jQip5ca+zAOuX2w7QuFZJi
+ NJeHRKQPtWJ+sDTE=
+X-Received: by 2002:a17:907:6da4:b0:726:9a46:49cd with SMTP id
+ sb36-20020a1709076da400b007269a4649cdmr44045584ejc.12.1657185378409; 
+ Thu, 07 Jul 2022 02:16:18 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s8tWLp69lh1R1fJY4muasULRctf5O9rdGSunMZ+3Zp3CDy78BTS3R30ciHEKNLq1rjPMMkeQ==
+X-Received: by 2002:a17:907:6da4:b0:726:9a46:49cd with SMTP id
+ sb36-20020a1709076da400b007269a4649cdmr44045559ejc.12.1657185378134; 
+ Thu, 07 Jul 2022 02:16:18 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ kz9-20020a17090777c900b0072af2460cd6sm2721301ejc.30.2022.07.07.02.16.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jul 2022 02:16:17 -0700 (PDT)
+Date: Thu, 7 Jul 2022 11:16:16 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, ani@anisinha.ca
+Subject: Re: [PATCH 02/17] acpi: x86: deduplicate HPET AML building
+Message-ID: <20220707111616.3f43b503@redhat.com>
+In-Reply-To: <20220701121346-mutt-send-email-mst@kernel.org>
+References: <20220701133515.137890-1-imammedo@redhat.com>
+ <20220701133515.137890-3-imammedo@redhat.com>
+ <20220701121346-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=SRS0=/X4V=XM=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,95 +101,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Aspeed SDK kernel usually includes support for the lastest HW
-features. This is interesting to exercise QEMU and discover the gaps
-in the models.
+On Fri, 1 Jul 2022 12:26:16 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Add extra I2C tests for the AST2600 EVB machine to check the new
-register interface.
+> On Fri, Jul 01, 2022 at 09:35:00AM -0400, Igor Mammedov wrote:
+> > HPET AML doesn't depend on piix4 nor q35, move code buiding it
+> > to common scope to avoid duplication.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
+> 
+> Apropos, tests/data/acpi/rebuild-expected-aml.sh ignores the
+> fact that some tables might be identical. Also, there's no
+> way to reuse expected files between machines. And so we have:
+> 
+> 
+> [qemu]$ find tests/data/acpi -type f -exec sha256sum '{}' ';'|sort
+[...]
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- tests/avocado/machine_aspeed.py | 68 +++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
-
-diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-index 3b8f784a57b6..b4e35a3d0743 100644
---- a/tests/avocado/machine_aspeed.py
-+++ b/tests/avocado/machine_aspeed.py
-@@ -170,3 +170,71 @@ def test_arm_ast2600_evb_builroot(self):
-         exec_command_and_wait_for_pattern(self, 'hwclock -f /dev/rtc1', year);
+> 
+> 
+> It's easy to fix up duplications within virt. But I am not 100% sure how
+> fix up duplication between q35 and pc.
+[...]
  
-         self.do_test_arm_aspeed_buidroot_poweroff()
-+
-+
-+    def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
-+        self.vm.set_console()
-+        self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
-+                         '-net', 'nic', '-net', 'user')
-+        self.vm.launch()
-+
-+        self.wait_for_console_pattern('U-Boot 2019.04')
-+        self.wait_for_console_pattern('## Loading kernel from FIT Image')
-+        self.wait_for_console_pattern('Starting kernel ...')
-+        self.wait_for_console_pattern('Booting Linux on physical CPU ' + cpu_id)
-+
-+    def test_arm_ast2500_evb_sdk(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:ast2500-evb
-+        """
-+
-+        image_url = ('https://github.com/AspeedTech-BMC/openbmc/releases/'
-+                     'download/v08.01/ast2500-default-obmc.tar.gz')
-+        image_hash = ('5375f82b4c43a79427909342a1e18b4e48bd663e38466862145d27bb358796fd')
-+        image_path = self.fetch_asset(image_url, asset_hash=image_hash,
-+                                      algorithm='sha256')
-+        archive.extract(image_path, self.workdir)
-+
-+        self.do_test_arm_aspeed_sdk_start(
-+            self.workdir + '/ast2500-default/image-bmc', '0x0')
-+        self.wait_for_console_pattern('ast2500-default login:')
-+
-+    def test_arm_ast2600_evb_sdk(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:ast2600-evb
-+        """
-+
-+        image_url = ('https://github.com/AspeedTech-BMC/openbmc/releases/'
-+                     'download/v08.01/ast2600-default-obmc.tar.gz')
-+        image_hash = ('f12ef15e8c1f03a214df3b91c814515c5e2b2f56119021398c1dbdd626817d15')
-+        image_path = self.fetch_asset(image_url, asset_hash=image_hash,
-+                                      algorithm='sha256')
-+        archive.extract(image_path, self.workdir)
-+
-+        self.vm.add_args('-device',
-+                         'tmp105,bus=aspeed.i2c.bus.5,address=0x4d,id=tmp-test');
-+        self.vm.add_args('-device',
-+                         'ds1338,bus=aspeed.i2c.bus.5,address=0x32');
-+        self.do_test_arm_aspeed_sdk_start(
-+            self.workdir + '/ast2600-default/image-bmc', '0xf00')
-+        self.wait_for_console_pattern('ast2600-default login:')
-+        exec_command_and_wait_for_pattern(self, 'root', 'Password:')
-+        exec_command_and_wait_for_pattern(self, '0penBmc', 'root@ast2600-default:~#')
-+
-+        exec_command_and_wait_for_pattern(self,
-+             'echo lm75 0x4d > /sys/class/i2c-dev/i2c-5/device/new_device',
-+             'i2c i2c-5: new_device: Instantiated device lm75 at 0x4d');
-+        exec_command_and_wait_for_pattern(self,
-+                             'cat /sys/class/hwmon/hwmon19/temp1_input', '0')
-+        self.vm.command('qom-set', path='/machine/peripheral/tmp-test',
-+                        property='temperature', value=18000);
-+        exec_command_and_wait_for_pattern(self,
-+                             'cat /sys/class/hwmon/hwmon19/temp1_input', '18000')
-+
-+        exec_command_and_wait_for_pattern(self,
-+             'echo ds1307 0x32 > /sys/class/i2c-dev/i2c-5/device/new_device',
-+             'i2c i2c-5: new_device: Instantiated device ds1307 at 0x32');
-+        year = time.strftime("%Y")
-+        exec_command_and_wait_for_pattern(self, 'hwclock -f /dev/rtc1', year);
--- 
-2.35.3
+> Then we could maybe use the directory "pc" for files common to i440fx
+> and q35.  Maybe just teach the test to look under tests/data/acpi/x86
+> too? And I think we should teach tests/data/acpi/rebuild-expected-aml.sh
+> to check for duplicates and at least warn the user.
+
+Probably duplicates in 'virt' mostly due to combination of not knowing
+that there is a fallback lookup (which is hidden in the code)
+and simplistic way tests/data/acpi/rebuild-expected-aml.sh rebuilds tables.
+
+As you suggest, rebuild-expected-aml.sh can be improved to warn or even
+better drop duplicates if found.
+
+As for reusing tables between different machine types, alternatively
+we can add explicit remapping rules (possibly auto-generated) versus
+currently used implicit fallback approach.
 
 
