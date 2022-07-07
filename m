@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF0BF569A96
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 08:38:18 +0200 (CEST)
-Received: from localhost ([::1]:35716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44DE8569AAC
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 08:46:50 +0200 (CEST)
+Received: from localhost ([::1]:38618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9L9V-0005UM-No
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 02:38:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34974)
+	id 1o9LHk-0007fN-PX
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 02:46:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1o9L58-0003uL-9z
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 02:33:46 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:42680)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1o9LBf-0006Vn-Iu; Thu, 07 Jul 2022 02:40:31 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1o9L53-0006Ce-1k
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 02:33:42 -0400
-Received: by mail-pf1-x432.google.com with SMTP id d10so3656778pfd.9
- for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 23:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=G+kbmL48vWTa/opXdAIknMMGBpNMklkFBqIbtWLjxJ0=;
- b=Twao0iJD+BkzkneI7OQ2t/sQvyVUXroML19LWdMPR3vp5zNoBwBmfyX3HgTVqWaqeg
- NZZLeWWekIsZglo7h0EuPPquTsFCaVnus11IotncRsyIFP0HDBo1ZRT5ngLPhXl5dYPG
- hcECKz5DaYjFsRKtxRHFJoxmmLy6DMDq/vQhVuax17m/IkkFeqmGUsi7wBqSPFRz2/6A
- huTG1HFEM14pS67xluX5yVYKH6dWUHoQ1b0sBeobH/VCZfLyUK8p4UC/BD2V+AnZXE+q
- FdlEuTx8nLl/3o9I2YwuY54Y41eB0CTLbE+0WgNnAwTdxcb6pUExAbNC74dQyvXye78k
- EX6Q==
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1o9LBa-0007Ka-BO; Thu, 07 Jul 2022 02:40:31 -0400
+Received: by mail-wr1-x430.google.com with SMTP id z12so15267342wrq.7;
+ Wed, 06 Jul 2022 23:40:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uyXwDTBgNxm6yYOiAxFyUFRB8JwP1em8UAAS5GyLauE=;
+ b=VlTWuLODYwujTKuOU15lpQPlKkt3hC0gjyNq08hm5GjKKt5CR0SWaxToL2y5xpWH7q
+ CHZ8gVMxPhBV9fcs3JaJHn8JqnX3QAk4jpSc4jq0SJTR+V2I9y2O49ER5upmVIIOe/yI
+ btLCI8qExOqU2YoUARZWzJGA/YiaiTsYaUyI0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=G+kbmL48vWTa/opXdAIknMMGBpNMklkFBqIbtWLjxJ0=;
- b=UYkACmofBy2RkNr+f/WS7jCVNA6opDyXxOxn1y3NxiNWeWgQU6qcuyd3UuBFPeXhD/
- SLgHI64I7GRfeuIzH/7MQ6VYHWaStU8utNMq4UgolxobSI2bdRLEk4GqRBiX7cIqPvsd
- hAL6JCHEmyqZQlnBrbsi6Qhn0neoSlOg0gnLpKPNL3mbRaj8xbHTDPRTRNBD2vIFOW74
- y6cOXSetU8BwwoxoYJQH37dx0on/Pm0f2GASaHvRvXVv9pb4hlGIZxLsMXPZ04wtvE+k
- x9RwJiGLgFgF9IxgHv2jlNDB+16kjpM5mw33w5E1jXVtmbXvajOCxL48RCERAL/lA8Q3
- nKAw==
-X-Gm-Message-State: AJIora9X3M99Yz6pNM/d2v9Wcjx8VxKOB/s3PDNdvjWphYmJTb4W2JUS
- NOvLb+F5s92o7YrmBJsI2Btr0w==
-X-Google-Smtp-Source: AGRyM1uO46uqHh4k4tQyQ3VYVfBSsnaRdMz4wlPar+yBIqjo95Le13T8ASgOUQzFyoBkLlrJ8xPTrQ==
-X-Received: by 2002:a63:4d61:0:b0:412:6081:4bbf with SMTP id
- n33-20020a634d61000000b0041260814bbfmr13722245pgl.109.1657175618646; 
- Wed, 06 Jul 2022 23:33:38 -0700 (PDT)
-Received: from [10.76.15.169] ([61.120.150.70])
- by smtp.gmail.com with ESMTPSA id
- l8-20020a17090a384800b001ecd954f3b6sm16080887pjf.7.2022.07.06.23.33.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jul 2022 23:33:37 -0700 (PDT)
-Message-ID: <c29fe789-a063-26c8-bcb3-0ffb56f47016@bytedance.com>
-Date: Thu, 7 Jul 2022 14:28:43 +0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uyXwDTBgNxm6yYOiAxFyUFRB8JwP1em8UAAS5GyLauE=;
+ b=TgZjdmnSrwkB3wwMU3EzJuU9jNmuDZAciXgMQONcCEjfGifLBpiNlN22RnGumne42/
+ RLb1GiP/kmfzVmTnb1yqo/aXVo9OHR/sPUcQCcJy/lC9CVY6NcJSuIoLvRS5N+qhPlhG
+ nJBAiTpPzOPhJ+MkvJg5NKJ2FvbEaPeHxvLPwt/x+P+z0hvNdziDpUwKpqOW5x/3iIAD
+ X9L6PLJMVFUyz976boVA4F266d6zkM5VHSGBXwTtTFTCnFkPQvS1rmRqHTu0ivP0Kf0b
+ 7PA57h1pfnHK9Yu8F+I4z6X6+cNYpgVLvsG76/XYATYZAU6dd3Bpi7DUnaqh9SzNnR/0
+ Kr6w==
+X-Gm-Message-State: AJIora8CKlmGPGnoc1Memndy03cvyfdCNbLwygkq+AWUzFoH8Fw6kCy6
+ ES54MOVlPX94CpZKRmodNRJfI4EAtLzEHu0PNH8=
+X-Google-Smtp-Source: AGRyM1sDqLvEvpAMPv0rVS9hK8CRFZ5kz3S8t97NR2EEmTFsYnx8DPKRHNBDUbW9GDmC+4H1YPYv1EzfDffWq6I1TqM=
+X-Received: by 2002:a05:6000:1446:b0:21d:2245:ab65 with SMTP id
+ v6-20020a056000144600b0021d2245ab65mr40704036wrx.315.1657176024463; Wed, 06
+ Jul 2022 23:40:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: Re: [PATCH v4 1/2] qapi: Avoid generating C identifier 'linux'
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: michael.roth@amd.com, kkostiuk@redhat.com, marcandre.lureau@redhat.com,
- qemu-devel@nongnu.org
-References: <20220707005602.696557-1-pizhenwei@bytedance.com>
- <20220707005602.696557-2-pizhenwei@bytedance.com>
- <87edyxiglb.fsf@pond.sub.org>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <87edyxiglb.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20220706172131.809255-1-clg@kaod.org>
+In-Reply-To: <20220706172131.809255-1-clg@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 7 Jul 2022 06:40:12 +0000
+Message-ID: <CACPK8Xen+qaTYE5UAuRXih_VdAhhRUpRR+hRT9PhzPMksf1uYw@mail.gmail.com>
+Subject: Re: [PATCH] docs: aspeed: Minor updates
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=joel.stan@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,45 +80,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 6 Jul 2022 at 17:21, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> Some more controllers have been modeled recently. Reflect that in the
+> list of supported devices. New machines were also added.
+>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  docs/system/arm/aspeed.rst | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+>
+> diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+> index 445095690c04..6c5b05128ea8 100644
+> --- a/docs/system/arm/aspeed.rst
+> +++ b/docs/system/arm/aspeed.rst
+> @@ -31,7 +31,10 @@ AST2600 SoC based machines :
+>  - ``tacoma-bmc``           OpenPOWER Witherspoon POWER9 AST2600 BMC
+>  - ``rainier-bmc``          IBM Rainier POWER10 BMC
+>  - ``fuji-bmc``             Facebook Fuji BMC
+> +- ``bletchley-bmc``        Facebook Bletchley BMC
+>  - ``fby35-bmc``            Facebook fby35 BMC
+> +- ``qcom-dc-scm-v1-bmc``   Qualcomm DC-SCM V1 BMC
+> +- ``qcom-firework-bmc``    Qualcomm Firework BMC
+>
+>  Supported devices
+>  -----------------
+> @@ -40,7 +43,7 @@ Supported devices
+>   * Interrupt Controller (VIC)
+>   * Timer Controller
+>   * RTC Controller
+> - * I2C Controller
+> + * I2C Controller, including the new register interface of the AST2600
+>   * System Control Unit (SCU)
+>   * SRAM mapping
+>   * X-DMA Controller (basic interface)
+> @@ -57,6 +60,10 @@ Supported devices
+>   * LPC Peripheral Controller (a subset of subdevices are supported)
+>   * Hash/Crypto Engine (HACE) - Hash support only. TODO: HMAC and RSA
+>   * ADC
+> + * Secure Boot Controller (AST2600)
+> + * eMMC Boot Controller (dummy)
+> + * PECI Controller (minimal)
+> + * I3C Controller
 
+I missed these patches. That's good news, it's good to see some more
+of the SoC modelled.
 
-On 7/7/22 14:26, Markus Armbruster wrote:
-> zhenwei pi <pizhenwei@bytedance.com> writes:
-> 
->> 'linux' is not usable as identifier, because C compilers targeting
->> Linux predefine it as a macro expanding to 1.  Add it to
->> @polluted_words. 'unix' is already there.
->>
->> Suggested-by: Markus Armbruster <armbru@redhat.com>
->> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->> ---
->>   scripts/qapi/common.py | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
->> index 489273574a..737b059e62 100644
->> --- a/scripts/qapi/common.py
->> +++ b/scripts/qapi/common.py
->> @@ -114,7 +114,7 @@ def c_name(name: str, protect: bool = True) -> str:
->>                        'and', 'and_eq', 'bitand', 'bitor', 'compl', 'not',
->>                        'not_eq', 'or', 'or_eq', 'xor', 'xor_eq'])
->>       # namespace pollution:
->> -    polluted_words = set(['unix', 'errno', 'mips', 'sparc', 'i386'])
->> +    polluted_words = set(['unix', 'errno', 'mips', 'sparc', 'i386', 'linux'])
-> 
-> If this list gets any longer, we better keep it in alphabetical order.
-> 
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-OK!
-
->>       name = re.sub(r'[^A-Za-z0-9_]', '_', name)
->>       if protect and (name in (c89_words | c99_words | c11_words | gcc_words
->>                                | cpp_words | polluted_words)
-> 
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> 
-
--- 
-zhenwei pi
+>
+>
+>  Missing devices
+> @@ -68,12 +75,10 @@ Missing devices
+>   * Super I/O Controller
+>   * PCI-Express 1 Controller
+>   * Graphic Display Controller
+> - * PECI Controller
+>   * MCTP Controller
+>   * Mailbox Controller
+>   * Virtual UART
+>   * eSPI Controller
+> - * I3C Controller
+>
+>  Boot options
+>  ------------
+> @@ -154,6 +159,8 @@ Supported devices
+>   * LPC Peripheral Controller (a subset of subdevices are supported)
+>   * Hash/Crypto Engine (HACE) - Hash support only. TODO: HMAC and RSA
+>   * ADC
+> + * Secure Boot Controller
+> + * PECI Controller (minimal)
+>
+>
+>  Missing devices
+> @@ -161,7 +168,6 @@ Missing devices
+>
+>   * PWM and Fan Controller
+>   * Slave GPIO Controller
+> - * PECI Controller
+>   * Mailbox Controller
+>   * Virtual UART
+>   * eSPI Controller
+> --
+> 2.35.3
+>
 
