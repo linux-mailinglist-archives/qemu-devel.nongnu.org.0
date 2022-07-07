@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4807C56A1F4
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 14:29:59 +0200 (CEST)
-Received: from localhost ([::1]:36936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F03CA56A218
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 14:35:21 +0200 (CEST)
+Received: from localhost ([::1]:43362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Qdq-0001VB-BO
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 08:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
+	id 1o9Qj3-00064l-0X
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 08:35:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9Qbj-0007o9-2H
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:27:47 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37717)
+ id 1o9Qbs-0007zr-0y
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:27:56 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9Qbg-0006vq-PA
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:27:46 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- h131-20020a1c2189000000b003a2cc290135so819202wmh.2
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 05:27:44 -0700 (PDT)
+ id 1o9Qbj-0006wt-Aw
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:27:55 -0400
+Received: by mail-wr1-x431.google.com with SMTP id o4so26094763wrh.3
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 05:27:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3Zny3pPpx6FNeCxsKe5coi8T+FO7ki0GbLttskNZyF4=;
- b=NSySmL3Cd1Zl2mUrqUq+r+FQ+c4r3c54hOMKOVQV6i2GStcJHgaQUZDJ3nfpNuOX0j
- KoWxVCC3Pq2PstXsWQ5qVxLhIs8gLZQVjZN/xGHO8vO4Da6kYWx99fhyMIBA8/fxYO2e
- 8Q4PcJmpfBBGQNMrjud3LYKI+HDt2kP3YFvdJX/qCGgc7jIR/XsjoLwzyTqcIWU9Jh8M
- LrF+4P4/TTURx1adYlAiYXSuZz43WQAyhW3BrYONAJJHVG4JuAhWRDFsGhDEl1vZ1Sfv
- wHLcqwTSrwZhwQ02rWfpFZWQIMJwLzvg7K5Lh/hdqrvcynH5XoD98wL2MLn063A8kEsd
- ZBiA==
+ bh=q2W2KJbvVZ1DqZjim4XTGaRocWnbTuEZJ2sDv28nrwM=;
+ b=ybZT6PFLZYgcsxADZOSBuPoTsrTIRF7RzqRBhjKj0ClHLaTFZW1YgrdxSflgD6++nW
+ kB0txt8X9iHlBtSrDAx1AhWU6Slf9Xssacht4fQV+iE6VhCYDDIsPFUXauD0x+DN+pH4
+ J2crgebAjYLoEqwq7jfCNu/dBey0xxyrT30MOrGd7jwqI8pc7uxbPiCTh8RYa/ChtsCd
+ gUpszwpB8Fa+HX0h8erzpVfZKbFPYsfZI3703ol407Mhf0aO3WXHxxvJqNIpUs5u5+nT
+ lNoD3tKhN4CX6dtzHU6suAm5qk11qA1VZCS1ngYMOlVAF9vyk0nKA1I/C5V4iVrubT+C
+ f7FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3Zny3pPpx6FNeCxsKe5coi8T+FO7ki0GbLttskNZyF4=;
- b=U04WKw3GpbAYkkjyegaISwe5WKMpjEP+6wxwSK3MVQsTWbdwAVH6W9sNs2s03un+PR
- NU7vRBREIwwyYM7lgNnzJJwuj6K1/CRBLf+HEgJ72AmSQPnPsLmSAaHktTBTxotnHVbb
- 3ma5Q9PyegUcsYnWMAlDKS3ExcjDnNg/S8AicLj5hsfvdso1KIc8iI5IE81IF8mwOrOm
- gfxRDooLabdTqdplITGcbspCqbaZnWPs+CqXmlKMV1w9c6YrNYZ1zA8L888aBiSLv6YW
- R+rbyJfX1dgsLNAe7BCDo3Zm1ljHzwPEyFNhZOLpEVo5beSqXXnCftD2VjOJ3+5PpEAk
- GPaQ==
-X-Gm-Message-State: AJIora9XH9HDcrvvhAHYH5zVE+KhegriKEP/PG4U+0m9JP9PrXrt0p3v
- O0+eq63VpLgw+g7tMR9d0kGHYmUcys2uOg==
-X-Google-Smtp-Source: AGRyM1sKQ7ddsLzymYDQE/vuBORhfhWjEy9U9UnmiMFAywNtpawlshhFvBggIaR80mh0EuXagTPJyQ==
-X-Received: by 2002:a05:600c:3553:b0:3a0:519b:4b96 with SMTP id
- i19-20020a05600c355300b003a0519b4b96mr4129218wmq.61.1657196864033; 
+ bh=q2W2KJbvVZ1DqZjim4XTGaRocWnbTuEZJ2sDv28nrwM=;
+ b=6boDk1vuBrQRHU+XJUUlToqcrMIjOcwIgKnpMfrow1Zv8V+t8sVKYvj1TPnJ9KtOoK
+ mrchCfECnSHan4k9KL7stAku13ukTQ9W9fT5Ksrkr1MbZeCoIMirtaEl3GPQxQUHCke5
+ 6jFHw4U6rLHV5fKm97MT10+KfBXaxgFpuwJPhJnpxnfnmFnti4hPU33rzUVJlQuBxavc
+ jwzZbrzzd7uNQx7fy30Rg+Y7rGoZCK/aEyoK+gQcq0FqEhd4PItI2FpfhLgy3tgyxfAu
+ iMvBhV7KqWhrBw0dX6cIb2yXxAFhg+YW0PQorN0YnBAhA0EJi2Yq05kSXLbJIxqvuhoU
+ gq7Q==
+X-Gm-Message-State: AJIora9FQzjGxjccXvjPEywNg927BVx4OVbJIeY4njFhLH11Q8Ef57y1
+ 16ma9/n6m7BW79b4gcbn4x1+9RzjYmHrvQ==
+X-Google-Smtp-Source: AGRyM1uKMGDnj2DVjf+5+CVqmoKR1tnnfXtOxP+lgiPUTzjqWXlqw9BauWwpW9+3mXTcr3wUzcPOqQ==
+X-Received: by 2002:a05:6000:1d98:b0:21b:aead:9b6c with SMTP id
+ bk24-20020a0560001d9800b0021baead9b6cmr42885509wrb.531.1657196864868; 
  Thu, 07 Jul 2022 05:27:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- r16-20020a05600c35d000b003a0375c4f73sm29177618wmq.44.2022.07.07.05.27.43
+ r16-20020a05600c35d000b003a0375c4f73sm29177618wmq.44.2022.07.07.05.27.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 05:27:43 -0700 (PDT)
+ Thu, 07 Jul 2022 05:27:44 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] target/arm: Implement AArch32 DBGDEVID, DBGDEVID1,
- DBGDEVID2
-Date: Thu,  7 Jul 2022 13:27:32 +0100
-Message-Id: <20220707122734.288929-8-peter.maydell@linaro.org>
+Subject: [PULL 8/9] target/arm: Correctly implement Feat_DoubleLock
+Date: Thu,  7 Jul 2022 13:27:33 +0100
+Message-Id: <20220707122734.288929-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220707122734.288929-1-peter.maydell@linaro.org>
 References: <20220707122734.288929-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,163 +88,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Starting with v7 of the debug architecture, there are three extra
-ID registers that add information on top of that provided in
-DBGDIDR. These are DBGDEVID, DBGDEVID1 and DBGDEVID2. In the
-v7 debug architecture, DBGDEVID is optional, present only of
-DBGDIDR.DEVID_imp is set. In v7.1 all three must be present.
+The architecture defines the OS DoubleLock as a register which
+(similarly to the OS Lock) suppresses debug events for use in CPU
+powerdown sequences.  This functionality is required in Arm v7 and
+v8.0; from v8.2 it becomes optional and in v9 it must not be
+implemented.
 
-Implement the missing registers.  Note that we only need to set the
-values in the ARMISARegisters struct for the CPUs Cortex-A7, A15,
-A53, A57 and A72 (plus the 32-bit 'max' which uses the Cortex-A53
-values): earlier CPUs didn't implement v7 of the architecture, and
-our other 64-bit CPUs (Cortex-A76, Neoverse-N1 and A64fx) don't have
-AArch32 support at EL1.
+Currently in QEMU we implement the OSDLR_EL1 register as a NOP.  This
+is wrong both for the "feature implemented" and the "feature not
+implemented" cases: if the feature is implemented then the DLK bit
+should read as written and cause suppression of debug exceptions, and
+if it is not implemented then the bit must be RAZ/WI.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220630194116.3438513-5-peter.maydell@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h          |  7 +++++++
- target/arm/cpu64.c        |  6 ++++++
- target/arm/cpu_tcg.c      |  6 ++++++
- target/arm/debug_helper.c | 36 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 55 insertions(+)
+ target/arm/cpu.h          | 20 ++++++++++++++++++++
+ target/arm/debug_helper.c | 20 ++++++++++++++++++--
+ 2 files changed, 38 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 4a4342f2622..c533ad0b64d 100644
+index c533ad0b64d..1f4f3e0485c 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -988,6 +988,8 @@ struct ArchCPU {
-         uint32_t mvfr2;
-         uint32_t id_dfr0;
-         uint32_t dbgdidr;
-+        uint32_t dbgdevid;
-+        uint32_t dbgdevid1;
-         uint64_t id_aa64isar0;
-         uint64_t id_aa64isar1;
-         uint64_t id_aa64pfr0;
-@@ -3719,6 +3721,11 @@ static inline bool isar_feature_aa32_ssbs(const ARMISARegisters *id)
-     return FIELD_EX32(id->id_pfr2, ID_PFR2, SSBS) != 0;
+@@ -500,6 +500,7 @@ typedef struct CPUArchState {
+         uint64_t dbgwcr[16]; /* watchpoint control registers */
+         uint64_t mdscr_el1;
+         uint64_t oslsr_el1; /* OS Lock Status */
++        uint64_t osdlr_el1; /* OS DoubleLock status */
+         uint64_t mdcr_el2;
+         uint64_t mdcr_el3;
+         /* Stores the architectural value of the counter *the last time it was
+@@ -2253,6 +2254,15 @@ FIELD(DBGDIDR, CTX_CMPS, 20, 4)
+ FIELD(DBGDIDR, BRPS, 24, 4)
+ FIELD(DBGDIDR, WRPS, 28, 4)
+ 
++FIELD(DBGDEVID, PCSAMPLE, 0, 4)
++FIELD(DBGDEVID, WPADDRMASK, 4, 4)
++FIELD(DBGDEVID, BPADDRMASK, 8, 4)
++FIELD(DBGDEVID, VECTORCATCH, 12, 4)
++FIELD(DBGDEVID, VIRTEXTNS, 16, 4)
++FIELD(DBGDEVID, DOUBLELOCK, 20, 4)
++FIELD(DBGDEVID, AUXREGS, 24, 4)
++FIELD(DBGDEVID, CIDMASK, 28, 4)
++
+ FIELD(MVFR0, SIMDREG, 0, 4)
+ FIELD(MVFR0, FPSP, 4, 4)
+ FIELD(MVFR0, FPDP, 8, 4)
+@@ -3731,6 +3741,11 @@ static inline bool isar_feature_aa32_debugv8p2(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_dfr0, ID_DFR0, COPDBG) >= 8;
  }
  
-+static inline bool isar_feature_aa32_debugv7p1(const ARMISARegisters *id)
++static inline bool isar_feature_aa32_doublelock(const ARMISARegisters *id)
 +{
-+    return FIELD_EX32(id->id_dfr0, ID_DFR0, COPDBG) >= 5;
++    return FIELD_EX32(id->dbgdevid, DBGDEVID, DOUBLELOCK) > 0;
 +}
 +
- static inline bool isar_feature_aa32_debugv8p2(const ARMISARegisters *id)
- {
-     return FIELD_EX32(id->id_dfr0, ID_DFR0, COPDBG) >= 8;
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 19188d6cc2a..b4fd4b7ec87 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -79,6 +79,8 @@ static void aarch64_a57_initfn(Object *obj)
-     cpu->isar.id_aa64isar0 = 0x00011120;
-     cpu->isar.id_aa64mmfr0 = 0x00001124;
-     cpu->isar.dbgdidr = 0x3516d000;
-+    cpu->isar.dbgdevid = 0x01110f13;
-+    cpu->isar.dbgdevid1 = 0x2;
-     cpu->isar.reset_pmcr_el0 = 0x41013000;
-     cpu->clidr = 0x0a200023;
-     cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
-@@ -134,6 +136,8 @@ static void aarch64_a53_initfn(Object *obj)
-     cpu->isar.id_aa64isar0 = 0x00011120;
-     cpu->isar.id_aa64mmfr0 = 0x00001122; /* 40 bit physical addr */
-     cpu->isar.dbgdidr = 0x3516d000;
-+    cpu->isar.dbgdevid = 0x00110f13;
-+    cpu->isar.dbgdevid1 = 0x1;
-     cpu->isar.reset_pmcr_el0 = 0x41033000;
-     cpu->clidr = 0x0a200023;
-     cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
-@@ -187,6 +191,8 @@ static void aarch64_a72_initfn(Object *obj)
-     cpu->isar.id_aa64isar0 = 0x00011120;
-     cpu->isar.id_aa64mmfr0 = 0x00001124;
-     cpu->isar.dbgdidr = 0x3516d000;
-+    cpu->isar.dbgdevid = 0x01110f13;
-+    cpu->isar.dbgdevid1 = 0x2;
-     cpu->isar.reset_pmcr_el0 = 0x41023000;
-     cpu->clidr = 0x0a200023;
-     cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index b751a19c8a7..3099b38e32b 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -563,6 +563,8 @@ static void cortex_a7_initfn(Object *obj)
-     cpu->isar.id_isar3 = 0x11112131;
-     cpu->isar.id_isar4 = 0x10011142;
-     cpu->isar.dbgdidr = 0x3515f005;
-+    cpu->isar.dbgdevid = 0x01110f13;
-+    cpu->isar.dbgdevid1 = 0x1;
-     cpu->clidr = 0x0a200023;
-     cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
-     cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
-@@ -606,6 +608,8 @@ static void cortex_a15_initfn(Object *obj)
-     cpu->isar.id_isar3 = 0x11112131;
-     cpu->isar.id_isar4 = 0x10011142;
-     cpu->isar.dbgdidr = 0x3515f021;
-+    cpu->isar.dbgdevid = 0x01110f13;
-+    cpu->isar.dbgdevid1 = 0x0;
-     cpu->clidr = 0x0a200023;
-     cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
-     cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
-@@ -1098,6 +1102,8 @@ static void arm_max_initfn(Object *obj)
-     cpu->isar.id_isar5 = 0x00011121;
-     cpu->isar.id_isar6 = 0;
-     cpu->isar.dbgdidr = 0x3516d000;
-+    cpu->isar.dbgdevid = 0x00110f13;
-+    cpu->isar.dbgdevid1 = 0x2;
-     cpu->isar.reset_pmcr_el0 = 0x41013000;
-     cpu->clidr = 0x0a200023;
-     cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
+ /*
+  * 64-bit feature tests via id registers.
+  */
+@@ -4155,6 +4170,11 @@ static inline bool isar_feature_aa64_sme_fa64(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64smfr0, ID_AA64SMFR0, FA64);
+ }
+ 
++static inline bool isar_feature_aa64_doublelock(const ARMISARegisters *id)
++{
++    return FIELD_SEX64(id->id_aa64dfr0, ID_AA64DFR0, DOUBLELOCK) >= 0;
++}
++
+ /*
+  * Feature tests for "does this exist in either 32-bit or 64-bit?"
+  */
 diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index 691b9b74c4a..e96a4ffd28d 100644
+index e96a4ffd28d..d09fccb0a4f 100644
 --- a/target/arm/debug_helper.c
 +++ b/target/arm/debug_helper.c
-@@ -999,6 +999,42 @@ void define_debug_regs(ARMCPU *cpu)
-         define_one_arm_cp_reg(cpu, &dbgdidr);
+@@ -142,7 +142,7 @@ static bool aa32_generate_debug_exceptions(CPUARMState *env)
+  */
+ bool arm_generate_debug_exceptions(CPUARMState *env)
+ {
+-    if (env->cp15.oslsr_el1 & 1) {
++    if ((env->cp15.oslsr_el1 & 1) || (env->cp15.osdlr_el1 & 1)) {
+         return false;
      }
+     if (is_a64(env)) {
+@@ -614,6 +614,21 @@ static void oslar_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     env->cp15.oslsr_el1 = deposit32(env->cp15.oslsr_el1, 1, 1, oslock);
+ }
  
++static void osdlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                        uint64_t value)
++{
++    ARMCPU *cpu = env_archcpu(env);
 +    /*
-+     * DBGDEVID is present in the v7 debug architecture if
-+     * DBGDIDR.DEVID_imp is 1 (bit 15); from v7.1 and on it is
-+     * mandatory (and bit 15 is RES1). DBGDEVID1 and DBGDEVID2 exist
-+     * from v7.1 of the debug architecture. Because no fields have yet
-+     * been defined in DBGDEVID2 (and quite possibly none will ever
-+     * be) we don't define an ARMISARegisters field for it.
-+     * These registers exist only if EL1 can use AArch32, but that
-+     * happens naturally because they are only PL1 accessible anyway.
++     * Only defined bit is bit 0 (DLK); if Feat_DoubleLock is not
++     * implemented this is RAZ/WI.
 +     */
-+    if (extract32(cpu->isar.dbgdidr, 15, 1)) {
-+        ARMCPRegInfo dbgdevid = {
-+            .name = "DBGDEVID",
-+            .cp = 14, .opc1 = 0, .crn = 7, .opc2 = 2, .crn = 7,
-+            .access = PL1_R, .accessfn = access_tda,
-+            .type = ARM_CP_CONST, .resetvalue = cpu->isar.dbgdevid,
-+        };
-+        define_one_arm_cp_reg(cpu, &dbgdevid);
++    if(arm_feature(env, ARM_FEATURE_AARCH64)
++       ? cpu_isar_feature(aa64_doublelock, cpu)
++       : cpu_isar_feature(aa32_doublelock, cpu)) {
++        env->cp15.osdlr_el1 = value & 1;
 +    }
-+    if (cpu_isar_feature(aa32_debugv7p1, cpu)) {
-+        ARMCPRegInfo dbgdevid12[] = {
-+            {
-+                .name = "DBGDEVID1",
-+                .cp = 14, .opc1 = 0, .crn = 7, .opc2 = 1, .crn = 7,
-+                .access = PL1_R, .accessfn = access_tda,
-+                .type = ARM_CP_CONST, .resetvalue = cpu->isar.dbgdevid1,
-+            }, {
-+                .name = "DBGDEVID2",
-+                .cp = 14, .opc1 = 0, .crn = 7, .opc2 = 0, .crn = 7,
-+                .access = PL1_R, .accessfn = access_tda,
-+                .type = ARM_CP_CONST, .resetvalue = 0,
-+            },
-+        };
-+        define_arm_cp_regs(cpu, dbgdevid12);
-+    }
++}
 +
-     brps = arm_num_brps(cpu);
-     wrps = arm_num_wrps(cpu);
-     ctx_cmps = arm_num_ctx_cmps(cpu);
+ static const ARMCPRegInfo debug_cp_reginfo[] = {
+     /*
+      * DBGDRAR, DBGDSAR: always RAZ since we don't implement memory mapped
+@@ -670,7 +685,8 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+     { .name = "OSDLR_EL1", .state = ARM_CP_STATE_BOTH,
+       .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 1, .crm = 3, .opc2 = 4,
+       .access = PL1_RW, .accessfn = access_tdosa,
+-      .type = ARM_CP_NOP },
++      .writefn = osdlr_write,
++      .fieldoffset = offsetof(CPUARMState, cp15.osdlr_el1) },
+     /*
+      * Dummy DBGVCR: Linux wants to clear this on startup, but we don't
+      * implement vector catch debug events yet.
 -- 
 2.25.1
 
