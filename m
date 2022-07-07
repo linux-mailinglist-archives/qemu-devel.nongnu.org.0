@@ -2,76 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA93456ADBE
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 23:35:47 +0200 (CEST)
-Received: from localhost ([::1]:58990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D79556AE3D
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 00:19:38 +0200 (CEST)
+Received: from localhost ([::1]:42330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9ZA2-0005Qa-O2
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 17:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55506)
+	id 1o9ZqR-00023H-M6
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 18:19:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9Z4w-0000Ja-Ed; Thu, 07 Jul 2022 17:30:31 -0400
-Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c]:46933)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1o9Z4v-0004iJ-1C; Thu, 07 Jul 2022 17:30:30 -0400
-Received: by mail-vs1-xe2c.google.com with SMTP id 126so19600709vsq.13;
- Thu, 07 Jul 2022 14:30:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=X7g0ZEIbbAirSzVLJgJceqK9f+d4u/48V7OosDEGVa0=;
- b=L3YyPdvEAVHYlqRVKBeSK0hvGJivtJUr4I2PWkrAjt8t/WLLbWzaKejhGuA9V/nSoC
- rDvrSRW115vpFNPW2BN56Yc5glBtlyPq4liQ0wbYo2kIRjx/2VMhAcPE2ssvD7Ev7RJn
- y1nN7Ol7fyR9EqMZ8hS0eeViRpwNGIOp+ZfaeVkth4rgA2YOOuPs2v2QSz9izQBRKXLA
- DAdUHL9x8icDM9QA0viOwUgGrotbQMRD+fJOfC6GeJNvOQoYRHHLyMxsMtLWdIRYNB12
- 57/x3KejhaO6FKEfLJ/HN6lAEY3SIaRKDeYmY56ep94Y6cNwEQkI1oQDaIvsrnuC8x1F
- BKOg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o9Zp7-0001Hi-Iu
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 18:18:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1o9Zp3-0004ar-Vu
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 18:18:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657232288;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xn42YU/aO1FwMtKy5Bz2UBQ2zzht3ZCG69IYO0ZbiHU=;
+ b=L5EJBVnNKookH1IxE+fxnkmO4J5ZVseqJmrkK3LLLGudQcFDD10XB/lS+7kSt9W7yIVmw3
+ y1PhgKUugL0q9WF0rP8q86FqFhMvqCH99CTBj/DUlIOiLS2G0b0nCT+FbiTuutuNUUbeuG
+ HKWIcSAAYwI0obu9J06K7HQQgYo20jE=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-122-QM5fuBUiMGS54-XIUgbVdw-1; Thu, 07 Jul 2022 18:18:07 -0400
+X-MC-Unique: QM5fuBUiMGS54-XIUgbVdw-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ cf8-20020a05622a400800b0031e80dcf14cso10142360qtb.3
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 15:18:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=X7g0ZEIbbAirSzVLJgJceqK9f+d4u/48V7OosDEGVa0=;
- b=G4KUUCiubUNN4+8CrWCNZGNZvVsZaMGaoP0XJdmfFYfcQgDUcUZFRyiH5OOKXO84MO
- GMsoE1aakP/aZ0XgM34PLG/m0+4syYGqSqU3tKogjcaI8/3oV87OzPfxPNlqVbTmMwD7
- D1knyp8tXxMHdNc/51HmNBAQ+8ThsSixQR5PObq7LYyz+18Cu47o0IFUNhjFcfKRBBU8
- dYaptGOUy66qZDglrGAEKSXNAuYzUnHoZ6dAoNgzDvUEft02rbDRx3dLaCRXWso2+PxQ
- w6zMd2Q9Auv0KM1cjz0pccybG7oezusX4sgetKXieS6FAVdupb2hSJULTAaQoAG0DxmB
- 456g==
-X-Gm-Message-State: AJIora822D8O+aeVa3k9lcNNJT/lwvy/4JShlbTjS3P6s+OR7LkDe7/z
- 8IWl0dPFTg+iVuuLLOT4bl82pgMZcUY=
-X-Google-Smtp-Source: AGRyM1uM7mVsug6R+ynP5P5KzkGKSrLMUu1fNwEZCljzgoKmfV+E5PPYVk1704VJHiM/DXAy9MuvZA==
-X-Received: by 2002:a05:6102:e8b:b0:356:5222:e574 with SMTP id
- l11-20020a0561020e8b00b003565222e574mr26881795vst.62.1657229427796; 
- Thu, 07 Jul 2022 14:30:27 -0700 (PDT)
-Received: from balboa.ibmuc.com (201-27-97-88.dsl.telesp.net.br.
- [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- 66-20020a1f1745000000b0036bfe74006esm12122103vkx.31.2022.07.07.14.30.26
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=xn42YU/aO1FwMtKy5Bz2UBQ2zzht3ZCG69IYO0ZbiHU=;
+ b=O762cqfQs1LN3Pm54oJgU0fOBDwsz51WQikKniqkF+m6jVKoGbb+nBVcO8c91bCS+A
+ vLLXqEYRPwNiUhYNlNUIB/9BHoRvKGZuvP+aZRoAphGZgv5K2kgbD9mYHblI4HnTZaR/
+ Lod53hNTZUt3L8rU5CDyciLljGl1VEmszx5jHS+EPWYM2a3UKwFsITEf4H02XD5weuPl
+ UEhG6JKipN+w+HAJskLJuQmf2ZTNrhULwrtyq936Yz2H876FMloIaV2lW3Ji/0CxcVTB
+ z3HYO9voyecBeTpcHOUaSSAb3pC3EdXlfVwfMKF2w3M4lEtEadue65gCqAvARdd8vDng
+ o4Jw==
+X-Gm-Message-State: AJIora8Pht8ZSTccUWLfAXBT/f92AlHW4hcKE/02VSJhqebVG3qHabux
+ /rm06Pk1Qw25t8+niWNKBzG+y5qJ34JiNdXSZ5LSsZl9oQWnKiCqe3NznrdxSNIDrST6eITQxXF
+ oAMDeUeYE36QxTlY=
+X-Received: by 2002:a05:620a:574:b0:6b5:5032:5e98 with SMTP id
+ p20-20020a05620a057400b006b550325e98mr152069qkp.509.1657232287393; 
+ Thu, 07 Jul 2022 15:18:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vDs/YM05ybqiiXJ8jFWL9Nuzv5nLzsD+GDRRgzu2uVnG54dViIL7U33chhFotdQiKHY6oKSQ==
+X-Received: by 2002:a05:620a:574:b0:6b5:5032:5e98 with SMTP id
+ p20-20020a05620a057400b006b550325e98mr152059qkp.509.1657232287173; 
+ Thu, 07 Jul 2022 15:18:07 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-37-74-12-30-48.dsl.bell.ca. [74.12.30.48])
+ by smtp.gmail.com with ESMTPSA id
+ o23-20020ac84297000000b0031871343473sm25683773qtl.83.2022.07.07.15.18.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 14:30:27 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v3 4/4] target/ppc: exit(1) on failure in
- kvmppc_get_clockfreq()
-Date: Thu,  7 Jul 2022 18:30:15 -0300
-Message-Id: <20220707213015.552104-5-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220707213015.552104-1-danielhb413@gmail.com>
-References: <20220707213015.552104-1-danielhb413@gmail.com>
+ Thu, 07 Jul 2022 15:18:06 -0700 (PDT)
+Date: Thu, 7 Jul 2022 18:18:05 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo =?utf-8?B?QnLDoXM=?= <leobras@redhat.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v3 1/3] QIOChannelSocket: Fix zero-copy flush returning
+ code 1 when nothing sent
+Message-ID: <YsdbnfbTnE/ZJvQt@xz-m1.local>
+References: <20220704202315.507145-1-leobras@redhat.com>
+ <20220704202315.507145-2-leobras@redhat.com>
+ <YsccDel9oiTPqvHW@xz-m1.local>
+ <CAJ6HWG5YbABGpacT9hD1dx0-o3Ey8sN++=MxhEaGML62jzQ=xQ@mail.gmail.com>
+ <Ysc5hpnTb3k96Ubo@xz-m1.local>
+ <904f8698a28c27bddbabaa1207a695fe0a832607.camel@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <904f8698a28c27bddbabaa1207a695fe0a832607.camel@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,51 +109,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running under KVM accel it is expected to have 'clock-frequency' in
-the DT. Not having this attribute is too risky for both the machine
-emulation and userspace.
+On Thu, Jul 07, 2022 at 06:14:17PM -0300, Leonardo Brás wrote:
+> Having 'if(queued == sent)' will cause us to falsely return '1' in two buggy
+> cases, while 'if queued == 0) will either skip early or go into 'infinite' loop.
 
-We have a way of telling whether this error scenario might happen or not
-via kvmppc_read_int_cpu_dt() now being able to report errors. From now
-on, when running KVM, we will assume that 'clock-frequency' will always
-be present in the DT.
+I'm not sure I strictly follow here..
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/kvm.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+Imagine the case we do flush() twice without sending anything, then in the
+1st flush we'll see queued>sent, we'll finish flush() until queued==sent.
+Then in the 2nd (continuous) flush() we'll see queued==sent immediately.
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 37a312288d..14faa14da3 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -1945,9 +1945,24 @@ static uint64_t kvmppc_read_int_cpu_dt(const char *propname, Error **errp)
-     return kvmppc_read_int_dt(tmp, errp);
- }
- 
-+/*
-+ * Read the clock-frequency from the DT. On error (e.g.
-+ * 'clock-frequency' is not present in the DT) will
-+ * report an error and exit(1).
-+ */
- uint64_t kvmppc_get_clockfreq(void)
- {
--    return kvmppc_read_int_cpu_dt("clock-frequency", NULL);
-+    Error *local_err = NULL;
-+    int ret;
-+
-+    ret = kvmppc_read_int_cpu_dt("clock-frequency", &local_err);
-+
-+    if (local_err) {
-+        error_report_err(local_err);
-+        exit(1);
-+    }
-+
-+    return ret;
- }
- 
- static int kvmppc_get_dec_bits(void)
+IIUC with the current patch we'll return 1 which I think is wrong because
+fallback didn't happen, and if with the change to "if (queued==sent) return
+0" it'll fix it?
+
 -- 
-2.36.1
+Peter Xu
 
 
