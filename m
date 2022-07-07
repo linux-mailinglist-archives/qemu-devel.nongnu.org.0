@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563AF569726
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 03:07:07 +0200 (CEST)
-Received: from localhost ([::1]:46526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB59569756
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 03:20:00 +0200 (CEST)
+Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Fz0-0007zJ-F2
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 21:07:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35158)
+	id 1o9GBT-0003zU-19
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 21:19:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=oW6x=XM=zx2c4.com=Jason@kernel.org>)
- id 1o9Fx6-0006XD-VC
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 21:05:13 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:55750)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=oW6x=XM=zx2c4.com=Jason@kernel.org>)
- id 1o9Fx4-0005Do-Vm
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 21:05:08 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6B0BEB80DEA;
- Thu,  7 Jul 2022 01:04:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B515C3411C;
- Thu,  7 Jul 2022 01:04:55 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="EWJ4kaUJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1657155894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bnallzYwiVPcx76TTsFB7abClHf+tiQF/gf0NwYQ3EI=;
- b=EWJ4kaUJqY+fIybxznUbrdsP/TqA1ddM85P1s5h8kDHWfZtK1b4G9wR3eBdjL2/eJ8Lrq6
- GtkMjoGLAAfuBTUNtV1/lHxJ3L/lsGSti9Er7cKQoUUnO7qb+9InK8ee3Qh4BXGK1AJDq8
- P1puVXY7EGLMpw5Fb+xYl3Fu+9K23sk=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d99679c8
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Thu, 7 Jul 2022 01:04:53 +0000 (UTC)
-Date: Thu, 7 Jul 2022 03:04:51 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH] hw/riscv: virt: pass random seed to fdt
-Message-ID: <YsYxM6gmJf7y/nJc@zx2c4.com>
-References: <20220613115810.178210-1-Jason@zx2c4.com>
- <CAKmqyKMn+-FXacKrzB7FppQ5WEi-9h+-6w+Ev51j2Qoum4-QKw@mail.gmail.com>
- <CAHmME9rgMnAtPNDQ5hPrZ8ROd_Mgm4C+2PZioJ861HpcLfZL8Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9GAE-0003Kt-Ea
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 21:18:42 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:33349)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9GAC-0003K8-VX
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 21:18:42 -0400
+Received: by mail-pf1-x429.google.com with SMTP id n12so16369694pfq.0
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 18:18:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+ :subject:content-transfer-encoding;
+ bh=SQIOeQtn2ZlJnreXFgrXpMPDg+Y+CTxPnbzK2mCRmsc=;
+ b=mdceAbzRIkjyU7nuUomb3QDNR1itnSCdXa32ZJG/J8X1OuNneQTzAbSmtYLDkUD0bD
+ fs2hXESZyjOeGXPcliQu/Pwcs0JpOTXVuAlQiWtRq66IHVQ+Z9R+eXkhlfqwwfY1mjTg
+ LS/La4X2bP+VPw0Of6inqG42IBg7E8/dPMP1nulMcalAsAjUM/bwgdGMwYPUYY/2/TDe
+ 01e2CqdJGrgT6wQd9zg0M6wPjZVMyYuA7ShFKJnND1azgp2bZrsT+3Hv8CnkauVYlANW
+ nT3nlJR2mG7IyH5BWhv+CZEKmPKqgoOEAgGqEmIyGbg3MzuTQGg1pZCPsuHIPyeXXUai
+ yYcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:from:subject:content-transfer-encoding;
+ bh=SQIOeQtn2ZlJnreXFgrXpMPDg+Y+CTxPnbzK2mCRmsc=;
+ b=OqDn7NfQHFGq7V66NGKnUVJqUZLRoBf+hD6ILN2ErxF7YVzaP3T9oI6Lsx1lbWq0/v
+ BFXw+biM81ejl09srIrMexae1T3OMcDVQmG025dUTe4ZFzbzxABC1caH5YWtZolEeKZi
+ UT4jrqlZF4osmv1EoNcLcX+eK8EEJqwiAmlFZvr8HVMmqrEtLLjq0xjERRt1LQDD4Sme
+ Gbfe6FRnuPqahDU99YtpnyJy2RrF3EHsZ7LN1w21ES6OXFD74MFHkg10BwsjuF58LiAu
+ TD07E4z7XtC23uyMWlvFvp4rkPhab0GCrVDWhWk+1WyuOkpGpxFG6Zn86Su/K75VNFsr
+ RmKQ==
+X-Gm-Message-State: AJIora+QM3FZBAAMdG6QU5zutdeN93P9ZKXtWQQ9Vki6Y8HFZOt/Uv5W
+ BQZQvzryOaT5Zdk185Gsw6dNkw==
+X-Google-Smtp-Source: AGRyM1sGwmYoCUPSRTL7wZWpWqDHUl1ZZTzElYONoneO+Yo5Wd3wwulxRhAcFu4Q/eW70JaWRd69Aw==
+X-Received: by 2002:a17:902:ce8f:b0:16b:fbc1:9529 with SMTP id
+ f15-20020a170902ce8f00b0016bfbc19529mr8670569plg.159.1657156719048; 
+ Wed, 06 Jul 2022 18:18:39 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ w205-20020a627bd6000000b00528c7ac7f27sm190925pfc.81.2022.07.06.18.18.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jul 2022 18:18:38 -0700 (PDT)
+Message-ID: <fc85a25a-2679-b3c0-ad21-04a2a590dc5a@linaro.org>
+Date: Thu, 7 Jul 2022 06:48:33 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHmME9rgMnAtPNDQ5hPrZ8ROd_Mgm4C+2PZioJ861HpcLfZL8Q@mail.gmail.com>
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=oW6x=XM=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Subject: vhost-user-test failure
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,30 +89,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey Alistair,
+Seen on my ubuntu 22.04 laptop:
 
-On Tue, Jul 05, 2022 at 03:09:09AM +0200, Jason A. Donenfeld wrote:
-> Hi Alistair,
-> 
-> On Wed, Jun 29, 2022 at 4:09 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > I have a Linux 5.8 test case that is failing due to this patch.
-> 
-> Before I started fixing things in random.c, there were a lot of early
-> boot bugs with the RNG in Linux. I backported the fixes for these to
-> all stable kernels. It's a bummer that risc-v got hit by these bugs,
-> but I think that's just the way things go unfortunately.
-> 
-> Jason
-> 
+  86/591 qemu:qtest+qtest-i386 / qtest-i386/qos-test                               ERROR 
+        10.74s   killed by signal 6 SIGABRT
 
-By the way, I still can't find this in your github tree. I was hoping we
-could get this in for 7.1.
 
-As for your 5.8 issue, I've been trying to reproduce that to understand
-more about it, but I'm unable to. I've been trying with
-nommu_virt_defconfig using my patch ontop of qemu master. Maybe it's
-possible in testing this out you were testing the wrong branch? Anyway,
-it'd be nice to get this queued up...
 
-Jason
+# child process (/i386/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virti
+
+o-net/virtio-net-tests/vhost-user/reconnect/subprocess [1677921]) stderr: "qemu-
+
+system-i386: -chardev socket,id=chr-reconnect,path=/tmp/vhost-test-MdgDF8/reconn
+
+ect.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp
+
+/vhost-test-MdgDF8/reconnect.sock,server=on\nqemu-system-i386: Failed to set msg
+
+  fds.\nqemu-system-i386: vhost VQ 0 ring restore failed: -22: Invalid argument (
+
+22)\nqemu-system-i386: Failed to set msg fds.\nqemu-system-i386: vhost VQ 1 ring
+
+  restore failed: -22: Invalid argument (22)\n**\nERROR:../src/tests/qtest/vhost-
+
+user-test.c:809:wait_for_rings_started: assertion failed (ctpop64(s->rings) == c
+
+ount): (1 == 2)\n"
+
+Bail out! ERROR:../src/tests/qtest/qos-test.c:189:subprocess_run_one_test: child
+
+  process (/i386/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/v
+
+irtio-net-tests/vhost-user/reconnect/subprocess [1677921]) failed unexpectedly
+
+stderr:
+
+**
+
+ERROR:../src/tests/qtest/qos-test.c:189:subprocess_run_one_test: child process 
+(/i386/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/reconnect/subprocess 
+[1677921]) failed unexpectedly
+
+
+
+The failure appears to be timeout related, so it's not consistent, but some of the error 
+messages embedded in that block suggest the test never really got started correctly?
+
+
+r~
 
