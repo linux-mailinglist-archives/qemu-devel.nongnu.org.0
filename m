@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481AF569A3B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 08:06:42 +0200 (CEST)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB9E569A85
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 08:29:48 +0200 (CEST)
+Received: from localhost ([::1]:58088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Keu-0004jr-Ke
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 02:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57970)
+	id 1o9L1H-0000ne-9m
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 02:29:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o9Kaz-0003ts-TV; Thu, 07 Jul 2022 02:02:37 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:37883)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9KvW-0007Lf-5j
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 02:23:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1o9Kaw-0007kf-4G; Thu, 07 Jul 2022 02:02:36 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id C54AC5C01B1;
- Thu,  7 Jul 2022 02:02:29 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 07 Jul 2022 02:02:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657173749; x=1657260149; bh=XO
- yXpXuBO2wf1DruMjlMnJ8V0p8lGKbR3tkZ911wh4w=; b=OMC6ABKOAyTEQixcL5
- A6/OJsDKq4CiQjxcbnk+naVmNhsWKwjZlLTBt9f8PGRtkaNGDGNHpcp05au+TSmg
- pKLEqw0Rfl1VGm4j85DhQYJPcDt2vQ2xIjasHqEXAioDV67gXM8zpXU4IQFd7g5K
- e0XMBf0bZ5awTqtBfkuHwGra5KfROdDcpa9zDb/c7n0Bpmv+vubx3chJCyDq6Zny
- Kt1ugWw/gfXfwdyrLUTPEkorahmJac+Xaun1/ACHRdn3+sgbtuoZulVhFGNUafvq
- z7/v11JrTJaSM6+d6rOR6auQMn3mvy7ECq3lemaXyK0MPNprqW2O8yu9aXkH3ETX
- 5vMA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657173749; x=1657260149; bh=XOyXpXuBO2wf1DruMjlMnJ8V0p8l
- GKbR3tkZ911wh4w=; b=T9dDFS7aeTxjF9O4qgpUUca/RRlXr09HiIOyy9/acHsA
- PHvztebKtrDGhbYeRYd7d5xzrRPnqvx7ZM5yeAdkCwVUVl9OXiVhWQS9E13jLcRR
- YUNJ/c8R0fx+kj4TuwCHW2mG6Dkc85msT4v9IiWt4TNY1raRXUOKV1U0dpLjGmc+
- LaJAnomf5jeN1c7RVoRYrXEvkw769FfVMJhUsn9UMV6KeK2v26lxEZRNLxr9r7Vw
- grfqTC0xiLvzQgnMBZH6QF73xj8WfEFdZLq0aXzJkOYvrjBDdtdSptp3xhO9M8K4
- cME8wke6rdR3Bx9t6i2wKKvCOU5lRi8nohIo+OP9/w==
-X-ME-Sender: <xms:9XbGYk4_0jI168IkZFhBRL4fsPggf0q0dOGz9xuAnsLjQ9AB9KZgkg>
- <xme:9XbGYl4kQ9AWckTZo1H2-1PMpEcYgZyimz2kuWa20BSE6sxieDB0naVG8KLyVnfJE
- UshKr743CL0t-S3kPs>
-X-ME-Received: <xmr:9XbGYjdISwFolKrlUF95iLRmOLlwoIlLkED4TiJ-jL0Wu0vFFqJ9YLjIeBbo66r18xlsdHLXMSTjl0O2CYA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeigedguddthecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
- ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:9XbGYpKVhrlJo5tGKUnCeLKNAcquNOa89UJk7u5VR4lAmkgeY0RJ6A>
- <xmx:9XbGYoKfiqMG3Cf9j2uKpLfNnvjgVX7UUuA_57IK7uAhEWjaI1YyVw>
- <xmx:9XbGYqxSE3ZrRCMlLel-zJcU4J1QDyncSssb0avDipez5FFZdMgH7A>
- <xmx:9XbGYtHxHxZ--4flccnwxy70l26JgluBjtfjDDW9bxM0QEaFztSyTw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 Jul 2022 02:02:28 -0400 (EDT)
-Date: Thu, 7 Jul 2022 08:02:26 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Niklas Cassel <niklas.cassel@wdc.com>
-Cc: kbusch@kernel.org, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- hch@infradead.org
-Subject: Re: [PATCH] hw/nvme: force nvme-ns param 'shared' to false if no
- nvme-subsys node
-Message-ID: <YsZ28nGMPfQTt9h5@apples>
-References: <20220628122209.415725-1-niklas.cassel@wdc.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9KvS-0004G5-Cm
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 02:23:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657175023;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1z7R9czkd7FGjw1l0NnLiF8MH0ueargNiy1fLciM8PE=;
+ b=NlN27Wr7PcW4BzpbrVYsORBM3fkm9MYs1cG92ahZJBgT6pwav9SXChvV9urY0q0jjLMxVZ
+ 6FAxUbI9ayqSrEbPJEjS1UAhavYHUvuLIFVHHOoIhUXPM+Bjsctu/L1JgsAFjsWXFZ1nJB
+ 5jkUbRlXQbrnWI0g6dsTmvwybiz6T3w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-592-ijep5A-TNxCgDkfT3Ru3tw-1; Thu, 07 Jul 2022 02:23:40 -0400
+X-MC-Unique: ijep5A-TNxCgDkfT3Ru3tw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0232E185A7A4;
+ Thu,  7 Jul 2022 06:23:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B856F40466D4;
+ Thu,  7 Jul 2022 06:23:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 849D421E690D; Thu,  7 Jul 2022 08:23:38 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org,  Liuxiangdong <liuxiangdong5@huawei.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,  Eric Blake
+ <eblake@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  Parav Pandit
+ <parav@mellanox.com>,  Cornelia Huck <cohuck@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Gautam Dawar <gdawar@xilinx.com>,  Eli Cohen
+ <eli@mellanox.com>,  "Gonglei (Arei)" <arei.gonglei@huawei.com>,  Zhu
+ Lingshan <lingshan.zhu@intel.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ Cindy Lu <lulu@redhat.com>,  Jason Wang <jasowang@redhat.com>
+Subject: Re: [RFC PATCH v9 23/23] vdpa: Add x-svq to NetdevVhostVDPAOptions
+References: <20220706184008.1649478-1-eperezma@redhat.com>
+ <20220706184008.1649478-24-eperezma@redhat.com>
+Date: Thu, 07 Jul 2022 08:23:38 +0200
+In-Reply-To: <20220706184008.1649478-24-eperezma@redhat.com> ("Eugenio
+ =?utf-8?Q?P=C3=A9rez=22's?= message of "Wed, 6 Jul 2022 20:40:08 +0200")
+Message-ID: <87ilo9igph.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="U/aGW40Z5BNhc9k4"
-Content-Disposition: inline
-In-Reply-To: <20220628122209.415725-1-niklas.cassel@wdc.com>
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,67 +89,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
 
---U/aGW40Z5BNhc9k4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Finally offering the possibility to enable SVQ from the command line.
 
-On Jun 28 14:22, Niklas Cassel wrote:
-> Since commit 916b0f0b5264 ("hw/nvme: change nvme-ns 'shared' default")
-> the default value of nvme-ns param 'shared' is set to true, regardless
-> if there is a nvme-subsys node or not.
->=20
-> On a system without a nvme-subsys node, a namespace will never be able
-> to be attached to more than one controller, so for this configuration,
-> it is counterintuitive for this parameter to be set by default.
->=20
-> Force the nvme-ns param 'shared' to false for configurations where
-> there is no nvme-subsys node, as the namespace will never be able to
-> attach to more than one controller anyway.
->=20
-> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+QMP, too, I guess.
+
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > ---
->  hw/nvme/ns.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-> index 870c3ca1a2..62a1f97be0 100644
-> --- a/hw/nvme/ns.c
-> +++ b/hw/nvme/ns.c
-> @@ -546,6 +546,8 @@ static void nvme_ns_realize(DeviceState *dev, Error *=
-*errp)
->      int i;
-> =20
->      if (!n->subsys) {
-> +        /* If no subsys, the ns cannot be attached to more than one ctrl=
-=2E */
-> +        ns->params.shared =3D false;
->          if (ns->params.detached) {
->              error_setg(errp, "detached requires that the nvme device is "
->                         "linked to an nvme-subsys device");
-> --=20
-> 2.36.1
->=20
+>  qapi/net.json    |  9 +++++-
+>  net/vhost-vdpa.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++--
+>  2 files changed, 77 insertions(+), 4 deletions(-)
+>
+> diff --git a/qapi/net.json b/qapi/net.json
+> index 9af11e9a3b..75ba2cb989 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -445,12 +445,19 @@
+>  # @queues: number of queues to be created for multiqueue vhost-vdpa
+>  #          (default: 1)
+>  #
+> +# @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.1)
+> +#         (default: false)
+> +#
+> +# Features:
+> +# @unstable: Member @x-svq is experimental.
+> +#
+>  # Since: 5.1
+>  ##
+>  { 'struct': 'NetdevVhostVDPAOptions',
+>    'data': {
+>      '*vhostdev':     'str',
+> -    '*queues':       'int' } }
+> +    '*queues':       'int',
+> +    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
+>=20=20
+>  ##
 
-Thanks Niklas,
+QAPI schema:
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
-Applied to nvme-next.
+[...]
 
---U/aGW40Z5BNhc9k4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLGdvAACgkQTeGvMW1P
-Dem5dgf/XCwn2SYhjyQWL21UHuAvmSlkkT6Fx8GaV5Q0swHx+pcuxKBXSRGvi0hS
-Xy6czLfLv7LzW+gwhleMTIhKDBIupGI1PuOzu5fUoVYxCpyN6D87+WFq/1AwaZNm
-0b1zjJFh6AcfQRsDiqSyGkYJ/Yo4Bbn6bcfSCMluqDIbKZHFhGk9X45Gyj84znD+
-3zQoI2FwB7xxzI0TLz/A0JOsnZvJm3kWJ63eOqzKgh0UNEL81BSSQkVgC5y1acq/
-hmvCJlu3V2k9pnQwde4j3HJKDZ+joOFbEUIKgWRk5w86azUXqv1Gcm3ykIP63hSc
-DIISsdaiHBTYyrvyTy3wJ+XLQYP51A==
-=xaHS
------END PGP SIGNATURE-----
-
---U/aGW40Z5BNhc9k4--
 
