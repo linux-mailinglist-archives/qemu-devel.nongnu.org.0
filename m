@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B6556A30B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 15:00:35 +0200 (CEST)
-Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D837A56A30A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 15:00:27 +0200 (CEST)
+Received: from localhost ([::1]:50456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9R7K-0007le-HK
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 09:00:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41228)
+	id 1o9R7J-0007jb-9q
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 09:00:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9R53-0005f7-Nm
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o9R54-0005f8-36
  for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:58:06 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:37449)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1o9R50-0006XO-NA
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:58:04 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-31cf1adbf92so42119887b3.4
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 05:58:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=E/egEhPUycr7uwAggdOFxypLTb877uZjjSw6IAc6nBs=;
- b=rGMcT3Hvgzlw26MNU6BXgNFuNJ/vG+Rc7rWzik4MLwufgDDloY0XIdnCXqgGZsPHvs
- 7dw0xnw87f0b/2JwLVVDPNGDwQqSc0MdxZFUfccEcNLoKE3cD75qpceaQDwaX9vMRbCA
- 1sOPxHSZcfGa/Ei+V5ESd1QFEB0Hpbak20pUPnlscU4mbJLYSPwGYZu2kd01JELxafPT
- k4f7PwiSew4siBQ/c2B499zsx4YaP6YwomSS5zEARB0hIb6GHbP9KGmL0koJj2VPzkV4
- iGhRJnPRP6lJTCRyxFgc3zgtMAOvY4/Ee9R/F4jQKDaHAmDBxtUivNm+8yPtQBT+6ZiW
- fuGw==
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1o9R4y-0006XA-WD
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 08:58:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657198679;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Pnyq8h+Je5HCxvu87pio9mNVUBbXiUkr0hENGD812Ng=;
+ b=HVqTOVNTIW9RiKltzlC0SvxpDRh1MB107tNsY17+GjEYTXbdCppSeIYzg/he74gbCLEQCm
+ 4+KSwt+d4t/w4KHg558f7xe69ldYtn1s7RiwMYanyq+GTETPhLBM2+6KZ857lVW6odTrJT
+ 6ZY8lCqZP80dVVt2L4P2fqZnDmP6pEQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-658-SJZOYmedOiW6Pv4SS9Xcyg-1; Thu, 07 Jul 2022 08:57:58 -0400
+X-MC-Unique: SJZOYmedOiW6Pv4SS9Xcyg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ qk8-20020a1709077f8800b00722fcbfdcf7so4679394ejc.2
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 05:57:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=E/egEhPUycr7uwAggdOFxypLTb877uZjjSw6IAc6nBs=;
- b=qdhv+R1zdfdv+HPGVKlXaVGCK5UthcK5t14WO4jiXe53YPRvIDLRDXb4/MUWHKU9F6
- wdlJ+XREqOAs+Cmgp2htiz6cifKwoSrVWdge2q5MHINYv3t8mtweoJLP5aSYFETIsU+1
- sj606o1pH4JHeX3vKYpb57CLoBe3SD8wwjyM3hHRSuS5x2kow+msDIQZo4JNouSrFEem
- MjZzPjBNtSn8+9Huzhw3YwLX+iELuPlgUQG2ra8pGHUYvJKS+5uvBiC9qV6ta4qmdLOB
- 2Utz5FNXcw9kIgd39tSzNFlO5eg3YRSeqk9Rr02aQ39CbZ1VQwBIuTlFDpgYZaCSrtS0
- eSjA==
-X-Gm-Message-State: AJIora+xoJ8ArJNXR03DwWNEKseo22cXFoLtHtiU4fnw8yhdvb7+nYy0
- xXiFGngG6oRDpMwzyb7ptz5HlZ+BfRIYtLJjRVxzwA==
-X-Google-Smtp-Source: AGRyM1urAXHVXOLK19tl0s2YdIkFoCVZ74qrYfrarXGThWpwtXS83Z44fb2SV1NQristIMKEDRDUF0quZW5OlLzrNnI=
-X-Received: by 2002:a81:1cc:0:b0:317:a0fa:7a61 with SMTP id
- 195-20020a8101cc000000b00317a0fa7a61mr51344354ywb.10.1657198681297; Thu, 07
- Jul 2022 05:58:01 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Pnyq8h+Je5HCxvu87pio9mNVUBbXiUkr0hENGD812Ng=;
+ b=0XXCWR3tlpCwtd3VI7KGVUr/bxH6fndRFEzOqMd651aDoF3cLbSfZHBG89ht5w7bci
+ Aii1+dGj6rb8DGCCcSOOmSS95c7dJmNf9KJ6PxKpqYL0q/xmO97QFdX31s5TLzEkXzVW
+ dzWyjH/Se8LvIg5PMBr/05JNKTfGu/DZgumeCv93vAOzO9mBgv/ZNzoVRYhIhPNkYs/O
+ Wl2grT9giACv1c3Nk7/MmFJ9KEq0ZvFPPGNW1Bp0/m2m7CReiIzdf908u3Yoay4a45p9
+ wdoLJaeOU6PAS9kqLAgdoR7mKNfcDdMlGUK/itaiCM36f+efOu3ZEkSlShzGLRQIanSq
+ lR3A==
+X-Gm-Message-State: AJIora+UL+m5N171XiK68nTJwJgNRYoTTsdE52NNfGFAGbtE4XcWqnud
+ eZJ2AxQ1XDSJavVUT8gX+6sbU8uTyk7yK1aqmi1j1+AD8e39mZ6h4oJfTBd/lS4/vBIS0dPBs0P
+ 3R9KQ1LEd1l1rmhc=
+X-Received: by 2002:a05:6402:248d:b0:437:dd4c:e70e with SMTP id
+ q13-20020a056402248d00b00437dd4ce70emr59723576eda.75.1657198677468; 
+ Thu, 07 Jul 2022 05:57:57 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sOTutUPRcgxdHtWVL6qgbe3u+E8RN6X2a2PT2BCWcHJZquigcj4q/R8VZXKpXdMy8ZMd74cQ==
+X-Received: by 2002:a05:6402:248d:b0:437:dd4c:e70e with SMTP id
+ q13-20020a056402248d00b00437dd4ce70emr59723543eda.75.1657198677243; 
+ Thu, 07 Jul 2022 05:57:57 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ b17-20020a1709063cb100b0072b1c21ce65sm59669ejh.150.2022.07.07.05.57.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jul 2022 05:57:56 -0700 (PDT)
+Date: Thu, 7 Jul 2022 14:57:55 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Alex Williamson
+ <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
+ Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
+ <suravee.suthikulpanit@amd.com>, Jonathan Cameron
+ <jonathan.cameron@huawei.com>
+Subject: Re: [PATCH v6 05/10] i386/pc: factor out cxl range end to helper
+Message-ID: <20220707145755.280abc54@redhat.com>
+In-Reply-To: <20220701161014.3850-6-joao.m.martins@oracle.com>
+References: <20220701161014.3850-1-joao.m.martins@oracle.com>
+ <20220701161014.3850-6-joao.m.martins@oracle.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220705095421.2455041-1-armbru@redhat.com>
-In-Reply-To: <20220705095421.2455041-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Jul 2022 13:57:22 +0100
-Message-ID: <CAFEAcA-xaQSOGWixtnq0XosSsdt2VKACxgCK5KpdkNscBPD-wA@mail.gmail.com>
-Subject: Re: [RFC PATCH] qobject: Rewrite implementation of QDict for in-order
- traversal
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,47 +107,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 Jul 2022 at 10:54, Markus Armbruster <armbru@redhat.com> wrote:
->
-> QDict is implemented as a simple hash table of fixed size.  Observe:
->
-> * Slow for large n.  Not sure this matters.
->
-> * A QDict with n entries takes 4120 + n * 32 bytes on my box.  Wastes
->   space for small n, which is a common case.
->
-> * Order of traversal depends on the hash function and on insertion
->   order, because it iterates first over buckets, then collision
->   chains.
->
-> * Special code ensures qdict_size() takes constant time.
->
-> Replace the hash table by a linked list.  Observe:
->
-> * Even slower for large n.  Might be bad enough to matter.
->
-> * A QDict with n entries takes 32 + n * 24 bytes.
->
-> * Traversal is in insertion order.
->
-> * qdict_size() is linear in the number of entries.
->
-> This is an experiment.  Do not commit to master as is.
->
-> The change of traversal order affects expected test output.  I updated
-> only the tests covered by "make check" so far.  I expect some more to
-> hide under tests/qemu-iotests/.
+On Fri,  1 Jul 2022 17:10:09 +0100
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-Seems to fix the 'rocker' device regression, at least in that
-it no longer gives an error message on startup.
+> Move calculation of CXL memory region end to separate helper in
+> preparation to allow pc_pci_hole64_start() to be called before
+> any mrs are initialized.
+s/mrs/memory regions/
 
-The amount of patching you had to do to expected-output files
-in 'tests' suggests we have quite a lot of test cases that
-are currently implicitly reliant on the hash table traversal
-order, which is not guaranteed to remain stable. Regardless of
-what we do with this patch it would probably be a good idea
-for whatever is outputting the text these tests are comparing
-against to be made to use a stable output order (alphabetical??).
 
--- PMM
+
+> 
+> Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>  hw/i386/pc.c | 31 +++++++++++++++++++++----------
+>  1 file changed, 21 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 6c7c49ca5a32..0abbf81841a9 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -825,6 +825,25 @@ static hwaddr pc_above_4g_end(PCMachineState *pcms)
+>      return x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+>  }
+>  
+> +static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
+> +{
+> +    uint64_t start = 0;
+> +
+> +    if (pcms->cxl_devices_state.host_mr.addr) {
+> +        start = pcms->cxl_devices_state.host_mr.addr +
+> +            memory_region_size(&pcms->cxl_devices_state.host_mr);
+> +        if (pcms->cxl_devices_state.fixed_windows) {
+> +            GList *it;
+> +            for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
+> +                CXLFixedWindow *fw = it->data;
+> +                start = fw->mr.addr + memory_region_size(&fw->mr);
+> +            }
+
+this block deals with 'initialized' memory regions,
+so claim 'before any mrs are initialized' in commit message is
+confusing at least or outright wrong.
+
+> +        }
+> +    }
+> +
+> +    return start;
+> +}
+> +
+>  void pc_memory_init(PCMachineState *pcms,
+>                      MemoryRegion *system_memory,
+>                      MemoryRegion *rom_memory,
+> @@ -1022,16 +1041,8 @@ uint64_t pc_pci_hole64_start(void)
+>      MachineState *ms = MACHINE(pcms);
+>      uint64_t hole64_start = 0;
+>  
+> -    if (pcms->cxl_devices_state.host_mr.addr) {
+> -        hole64_start = pcms->cxl_devices_state.host_mr.addr +
+> -            memory_region_size(&pcms->cxl_devices_state.host_mr);
+> -        if (pcms->cxl_devices_state.fixed_windows) {
+> -            GList *it;
+> -            for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
+> -                CXLFixedWindow *fw = it->data;
+> -                hole64_start = fw->mr.addr + memory_region_size(&fw->mr);
+> -            }
+> -        }
+> +    if (pcms->cxl_devices_state.is_enabled) {
+> +        hole64_start = pc_get_cxl_range_end(pcms);
+>      } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
+>          hole64_start = ms->device_memory->base;
+>          if (!pcmc->broken_reserved_end) {
+
 
