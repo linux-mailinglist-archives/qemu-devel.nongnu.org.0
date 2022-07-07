@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C52456A951
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 19:22:14 +0200 (CEST)
-Received: from localhost ([::1]:56290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433AD56A9BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 19:37:26 +0200 (CEST)
+Received: from localhost ([::1]:33890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9VCe-0005hF-Px
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 13:22:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60322)
+	id 1o9VRM-00020R-Uy
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 13:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1o9VAw-0004rl-CU
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 13:20:26 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:43974)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1o9VPN-0000Xd-8U; Thu, 07 Jul 2022 13:35:21 -0400
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:37726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1o9VAt-0004Ov-LY
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 13:20:25 -0400
-Received: by mail-pg1-x532.google.com with SMTP id 73so4286526pgb.10
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 10:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=7l3OyRQF4jExyMQe7zeFEVUk3lb2PZUMnFo/DDRjEwc=;
- b=Hd83+UDAYD0CTwaD6odq4JUa+W7eRYMOFRxT59Aa0bXpdDr3oX34gGdjs4g08xjLfk
- LSMvhjVmL9YhnKeQWYbPYjtkctstC7qUH58lG4F0ApmCNvQhzrjlYHQxs7Cmlzn/RIvY
- JNi/RLTN/cs4hUVw24xsSNOP++LwU91MBclokpaitgL7DOsVUxE5qzBNWBmbJUypElmm
- YKico+csVRFJ84Np7yNP18isD5w5H9Dgzt7cVzw76wRoRYiBo0EPOES+/MLLjMfWNScA
- 3KDl81nFK094oCydiWRU6ZwezPzHw/nMN0SjZLNs5gjwyUsBZNpJtZoyox4opGfaX9n4
- raKA==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1o9VPL-00023J-Am; Thu, 07 Jul 2022 13:35:20 -0400
+Received: by mail-lf1-x132.google.com with SMTP id t24so32368810lfr.4;
+ Thu, 07 Jul 2022 10:35:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+Ybq1OU6D6bKrZ6zyzdlzXYcLvMWgv8O4NaBiObZZWA=;
+ b=ot1L+v2nzSf6RgoGH5HN1zXgRiPe3nIYQRmEIsCn+iw4MdSsZthlkUwMZC9Qd/tF0b
+ x1HcHLutWv5zywbelh89u0pzaWzoPk2uv0i7bVQqgwNe1XApoaNsBeqsr3kSgkIAgWk4
+ ZyXlYlC2T8F1RhFoBXJpB1592jRD1KXhGJGXoTVjJWpQhjK+k+Zl4hAoMZYTo3Qrjs7m
+ MVcbnN7ZVUGhsLLiCIhAwfzNzUtx3ZavLl/mRHMxlyO5rFYyUUqCLHBoJ0d5oSN5gMw5
+ XILXrlTwRNKSJ1q4qoTdMd5+0jCTYnz9rJyCqwqZ9LaawcnshP+GmMp6x9iddWk4vC9f
+ 8hSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=7l3OyRQF4jExyMQe7zeFEVUk3lb2PZUMnFo/DDRjEwc=;
- b=Q4/Sze+/wIeRXaI6kCK9DGj87TlaR9ChnI46aPor6G7FrtaKN1RG+te0HefK/lI2uc
- aOUT0PU9ZiKf8zD/DAT1InDevP2CrIqwssxmGbn2E8t/DVdrXGjhjuPHE86tPQVczD22
- HaWZxpQemepRt/ZMyRwd7S9vE9zCIgyIdFRhiIPpgzaIC/oUXwBFzTVQTPUvlUGhwGnY
- yIpIQlerxdNCAPIJVrR5CpKUtgayhWeO0MDPkHYidboCSUFhgwtJuoKDpvyVUb87HiMk
- l6c3hfskumbeQPI0U4AHM4T6b5JRrOgoKXvtJ+ehUbpjD/FOtMoRlLxAdYFHa3kIhTvo
- YwVw==
-X-Gm-Message-State: AJIora/YyWP9GhUCMw4q70RTwssinLo1hD/DxpK7oOu1Cy0hRfZkLeEt
- Iuy0RqlDM6K2kXHVWi0wqwRoLw==
-X-Google-Smtp-Source: AGRyM1trZYFG6mQzCXqRwmYC4yoPLr60sNMXQl7XMvRaac92fdye7IzZNimRxAVQvX2zTZc6vix5pg==
-X-Received: by 2002:a17:90a:1485:b0:1ec:788e:a053 with SMTP id
- k5-20020a17090a148500b001ec788ea053mr6190733pja.16.1657214421977; 
- Thu, 07 Jul 2022 10:20:21 -0700 (PDT)
-Received: from [192.168.1.18] ([182.64.106.38])
- by smtp.gmail.com with ESMTPSA id
- f9-20020a170902684900b00168c52319c3sm28144653pln.149.2022.07.07.10.20.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 10:20:21 -0700 (PDT)
-Message-ID: <f1da6f0a0a566badeadc95527457d6e0afe57a9f.camel@ventanamicro.com>
-Subject: Re: [RFC PATCH v5 2/4] target/riscv: smstateen check for h/senvcfg
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-To: angell1518 <angell1518@163.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
-Date: Thu, 07 Jul 2022 22:50:14 +0530
-In-Reply-To: <35f3afa1.21b5.181be7970fc.Coremail.angell1518@163.com>
-References: <20220603160425.3667456-1-mchitale@ventanamicro.com>
- <20220603160425.3667456-3-mchitale@ventanamicro.com>
- <35f3afa1.21b5.181be7970fc.Coremail.angell1518@163.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+Ybq1OU6D6bKrZ6zyzdlzXYcLvMWgv8O4NaBiObZZWA=;
+ b=tAIluOd18gVWSP6q70uEHkWjGYt7ovqExxZkbJ86psHlrYn5+weLvpAnKVc4KMkrlJ
+ iBLf6JE6k7gWR45M900nfEErrg7Sw5wLU6eAB2M6C+sbJm4/XgJM+TDFg+Z+oU+rQbVC
+ CqvvqACa4wKe8DyUBAK1F+t6SU+V9cdWqrBkqbO8bv1T+gWWJlARWM3eO9D0OSSCkwSc
+ buSQz4suKkKG95o9p7UWGxYWXPAqy9ZFL301Fog/9d4RtPcDiccZoO9SS9LD3qJ5nuOG
+ 8TmSQXiFcePUQ9myCwo+hFoEu99X7bPJPslmd0HiYbw40j0VJdnqkd1jG2uxa7jsQb5U
+ WOjA==
+X-Gm-Message-State: AJIora9XZ/KKZN5TkkUHVs6UoUcPsbXxRrXTdOa79vPGZwWPE85WhrMg
+ QyHnvfHQ6trraysgH3Mgaj8I8VjTRS0/MB0T1SM=
+X-Google-Smtp-Source: AGRyM1tNB5BHC2Z0dFu7mEajXvYTEWR/Ps29ysQMOb1itZxXwj3A2a7UobxqFG+o6Z+kMPOVILyhuREE6CgLz7WtY9s=
+X-Received: by 2002:a05:6512:3da8:b0:47f:616d:e54c with SMTP id
+ k40-20020a0565123da800b0047f616de54cmr32960291lfv.218.1657215316601; Thu, 07
+ Jul 2022 10:35:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=mchitale@ventanamicro.com; helo=mail-pg1-x532.google.com
+References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
+ <20220616124034.3381391-2-marcandre.lureau@redhat.com>
+ <87edyxdscx.fsf@pond.sub.org>
+In-Reply-To: <87edyxdscx.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 7 Jul 2022 21:35:05 +0400
+Message-ID: <CAJ+F1CLtkoHZWwyBDJH6ZNek=McM3k8OQhKsVfcidXvRToqY3Q@mail.gmail.com>
+Subject: Re: [PATCH 1/9] monitor: make error_vprintf_unless_qmp() static
+To: Markus Armbruster <armbru@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Warner Losh <imp@bsdimp.com>, 
+ Kyle Evans <kevans@freebsd.org>, Hanna Reitz <hreitz@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Fam Zheng <fam@euphon.net>, 
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000043301405e33a8213"
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x132.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,231 +89,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 2022-07-02 at 18:33 +0800, angell1518 wrote:
-> At 2022-06-04 00:04:23, "Mayuresh Chitale" <mchitale@ventanamicro.com
-> > wrote:
-> >Accesses to henvcfg, henvcfgh and senvcfg are allowed
-> >only if corresponding bit in mstateen0/hstateen0 is
-> >enabled. Otherwise an illegal instruction trap is
-> >generated.
+--00000000000043301405e33a8213
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Thu, Jul 7, 2022 at 4:25 PM Markus Armbruster <armbru@redhat.com> wrote:
+
+> marcandre.lureau@redhat.com writes:
+>
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > >
-> >Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> >---
-> > target/riscv/csr.c | 84 ++++++++++++++++++++++++++++++++++++++++++-
-> ---
-> > 1 file changed, 78 insertions(+), 6 deletions(-)
+> > Not needed outside monitor.c. Remove the needless stub.
 > >
-> >diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> >index 324fefce59..ae91ae1f7e 100644
-> >--- a/target/riscv/csr.c
-> >+++ b/target/riscv/csr.ccounteren
-> >@@ -39,6 +39,37 @@ void riscv_set_csr_ops(int csrno,
-> riscv_csr_operations *ops)
-> > }
-> > 
-> > /* Predicates */
-> >+static RISCVException smstateen_acc_ok(CPURISCVState *env, int
-> mode, int bit)
-> >+{
-> >+    CPUState *cs = env_cpu(env);
-> >+    RISCVCPU *cpu = RISCV_CPU(cs);
-> >+    bool virt = riscv_cpu_virt_enabled(env);
-> >+
-> >+    if (!cpu->cfg.ext_smstateen) {
-> >+        return RISCV_EXCP_NONE;
-> >+    }
-> >+
-> >+#if !defined(CONFIG_USER_ONLY)
-> >+    if (!(env->mstateen[0] & 1UL << bit)) {
-> >+        return RISCV_EXCP_ILLEGAL_INST;
-> >+    }
-> >+
-> I think mstateen only control access in priv mode under M mode.  
-> So we should take the current priv node into consideration here.
-
-For any curent priv mode if the required bit is not set in mstateen we
-can return here itself. For e.g if current priv mode is S then we only
-check the required bit in mstateen. If current priv mode is 'U', we
-need to check the required bit in mstateen and sstateen
-
-> >+    if (virt) {
-> >+        if (!(env->hstateen[0] & 1UL << bit)) {
-> >+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> >+        }
-> >+    }
-> >+
-> >+    if (mode == PRV_U) {
-> >+        if (!(env->sstateen[0] & 1UL << bit)) {
-> >+            return RISCV_EXCP_ILLEGAL_INST;
-> >+ }
-> I think there are two problem here:
-> The first is that we should also take virt mode into consideration
-> here too. 
-Actually virt mode is considered above for both priv modes S and U.
-> As the spec said: 
-> "if executing in VS or VU mode and the circumstances for a virtual
-> instruction
-> exception apply, raises a virtual instruction exception instead of an
-> illegal instruction exception"
-> So it will generate RISCV_EXCP_VIRT_INSTRUCTION_FAULT in VU mode.
-
-> 
-> The second is that sstateen csr works only when 'S' extension is
-> enabled
-> 
-I will fix it in the next version.
-
-> Regards,
-> Weiwei Li
-> >+    }
-> >+#endif
-> >+
-> >+    return RISCV_EXCP_NONE;
-> >+}
-> >+
-> > static RISCVException fs(CPURISCVState *env, int csrno)
-> > {
-> > #if !defined(CONFIG_USER_ONLY)
-> >@@ -1557,6 +1588,13 @@ static RISCVException
-> write_menvcfgh(CPURISCVState *env, int csrno,
-> > static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
-> >                                  target_ulong *val)
-> > {
-> >+    RISCVException ret;
-> >+
-> >+    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
-> >+    if (ret != RISCV_EXCP_NONE) {
-> >+        return ret;
-> >+    }
-> >+
-> >     *val = env->senvcfg;
-> >     return RISCV_EXCP_NONE;
-> > }
-> >@@ -1565,15 +1603,27 @@ static RISCVException
-> write_senvcfg(CPURISCVState *env, int csrno,
-> >                                   target_ulong val)
-> > {
-> >     uint64_t mask = SENVCFG_FIOM | SENVCFG_CBIE | SENVCFG_CBCFE |
-> SENVCFG_CBZE;
-> >+    RISCVException ret;
-> > 
-> >-    env->senvcfg = (env->senvcfg & ~mask) | (val & mask);
-> >+    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
-> >+    if (ret != RISCV_EXCP_NONE) {
-> >+        return ret;
-> >+    }
-> > 
-> >+    env->senvcfg = (env->senvcfg & ~mask) | (val & mask);
-> >     return RISCV_EXCP_NONE;
-> > }
-> > 
-> > static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
-> >                                  target_ulong *val)
-> > {
-> >+    RISCVException ret;
-> >+
-> >+    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
-> >+    if (ret != RISCV_EXCP_NONE) {
-> >+        return ret;
-> >+    }
-> >+
-> >     *val = env->henvcfg;
-> >     return RISCV_EXCP_NONE;
-> > }
-> >@@ -1582,6 +1632,12 @@ static RISCVException
-> write_henvcfg(CPURISCVState *env, int csrno,
-> >                                   target_ulong val)
-> > {
-> >     uint64_t mask = HENVCFG_FIOM | HENVCFG_CBIE | HENVCFG_CBCFE |
-> HENVCFG_CBZE;
-> >+    RISCVException ret;
-> >+
-> >+    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
-> >+    if (ret != RISCV_EXCP_NONE) {
-> >+        return ret;
-> >+    }
-> > 
-> >     if (riscv_cpu_mxl(env) == MXL_RV64) {
-> >         mask |= HENVCFG_PBMTE | HENVCFG_STCE;
-> >@@ -1595,6 +1651,13 @@ static RISCVException
-> write_henvcfg(CPURISCVState *env, int csrno,
-> > static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
-> >                                  target_ulong *val)
-> > {
-> >+    RISCVException ret;
-> >+
-> >+    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
-> >+    if (ret != RISCV_EXCP_NONE) {
-> >+        return ret;
-> >+    }
-> >+
-> >     *val = env->henvcfg >> 32;
-> >     return RISCV_EXCP_NONE;
-> > }
-> >@@ -1604,9 +1667,14 @@ static RISCVException
-> write_henvcfgh(CPURISCVState *env, int csrno,
-> > {
-> >     uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
-> >     uint64_t valh = (uint64_t)val << 32;
-> >+    RISCVException ret;
-> > 
-> >-    env->henvcfg = (env->henvcfg & ~mask) | (valh & mask);
-> >+    ret = smstateen_acc_ok(env, PRV_S, SMSTATEEN0_HSENVCFG);
-> >+    if (ret != RISCV_EXCP_NONE) {
-> >+        return ret;
-> >+    }
-> > 
-> >+    env->henvcfg = (env->henvcfg & ~mask) | (valh & mask);
-> >     return RISCV_EXCP_NONE;
-> > }
-> > 
-> >@@ -1628,7 +1696,8 @@ static RISCVException
-> write_mstateen(CPURISCVState *env, int csrno,
-> >                                      target_ulong new_val)
-> > {
-> >     uint64_t *reg;
-> >-    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
-> >+    uint64_t wr_mask = (1UL << SMSTATEEN_STATEN) |
-> >+                       (1UL << SMSTATEEN0_HSENVCFG);
-> > 
-> >     reg = &env->mstateen[csrno - CSR_MSTATEEN0];
-> >     write_smstateen(env, reg, wr_mask, new_val);
-> >@@ -1649,7 +1718,8 @@ static RISCVException
-> write_mstateenh(CPURISCVState *env, int csrno,
-> > {
-> >     uint64_t *reg;
-> >     uint64_t val;
-> >-    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
-> >+    uint64_t wr_mask = (1UL << SMSTATEEN_STATEN) |
-> >+                       (1UL << SMSTATEEN0_HSENVCFG);
-> > 
-> >     reg = &env->mstateen[csrno - CSR_MSTATEEN0H];
-> >     val = (uint64_t)new_val << 32;
-> >@@ -1671,7 +1741,8 @@ static RISCVException
-> write_hstateen(CPURISCVState *env, int csrno,
-> >                                      target_ulong new_val)
-> > {
-> >     uint64_t *reg;
-> >-    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
-> >+    uint64_t wr_mask = (1UL << SMSTATEEN_STATEN) |
-> >+                       (1UL << SMSTATEEN0_HSENVCFG);
-> >     int index = csrno - CSR_HSTATEEN0;
-> > 
-> >     reg = &env->hstateen[index];
-> >@@ -1694,8 +1765,9 @@ static RISCVException
-> write_hstateenh(CPURISCVState *env, int csrno,
-> > {
-> >     uint64_t *reg;
-> >     uint64_t val;
-> >-    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
-> >     int index = csrno - CSR_HSTATEEN0H;
-> >+    uint64_t wr_mask = (1UL << SMSTATEEN_STATEN) |
-> >+                       (1UL << SMSTATEEN0_HSENVCFG);
-> > 
-> >     reg = &env->hstateen[index];
-> >     val = (uint64_t)new_val << 32;
-> >-- 
-> >2.25.1
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  include/monitor/monitor.h | 1 -
+> >  monitor/monitor.c         | 3 ++-
+> >  stubs/error-printf.c      | 5 -----
+> >  3 files changed, 2 insertions(+), 7 deletions(-)
 > >
+> > diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+> > index a4b40e8391db..44653e195b45 100644
+> > --- a/include/monitor/monitor.h
+> > +++ b/include/monitor/monitor.h
+> > @@ -56,7 +56,6 @@ void monitor_register_hmp(const char *name, bool info=
+,
+> >  void monitor_register_hmp_info_hrt(const char *name,
+> >                                     HumanReadableText *(*handler)(Error
+> **errp));
+> >
+> > -int error_vprintf_unless_qmp(const char *fmt, va_list ap)
+> G_GNUC_PRINTF(1, 0);
+> >  int error_printf_unless_qmp(const char *fmt, ...) G_GNUC_PRINTF(1, 2);
+> >
+> >  #endif /* MONITOR_H */
+> > diff --git a/monitor/monitor.c b/monitor/monitor.c
+> > index 86949024f643..ba4c1716a48a 100644
+> > --- a/monitor/monitor.c
+> > +++ b/monitor/monitor.c
+> > @@ -273,7 +273,8 @@ int error_vprintf(const char *fmt, va_list ap)
+> >      return vfprintf(stderr, fmt, ap);
+> >  }
+> >
+> > -int error_vprintf_unless_qmp(const char *fmt, va_list ap)
+> > +G_GNUC_PRINTF(1, 0)
+> > +static int error_vprintf_unless_qmp(const char *fmt, va_list ap)
+> >  {
+> >      Monitor *cur_mon =3D monitor_cur();
+> >
+> > diff --git a/stubs/error-printf.c b/stubs/error-printf.c
+> > index 0e326d801059..1afa0f62ca26 100644
+> > --- a/stubs/error-printf.c
+> > +++ b/stubs/error-printf.c
+> > @@ -16,8 +16,3 @@ int error_vprintf(const char *fmt, va_list ap)
+> >      }
+> >      return vfprintf(stderr, fmt, ap);
+> >  }
+> > -
+> > -int error_vprintf_unless_qmp(const char *fmt, va_list ap)
+> > -{
+> > -    return error_vprintf(fmt, ap);
+> > -}
+>
+> When I write a printf-like utility function, I habitually throw in a
+> vprintf-like function.
+>
+> Any particular reason for hiding this one?  To avoid misunderstandings:
+> I'm fine with hiding it if it's causing you trouble.
+>
 
+I don't think I had an issue with it, only that I wrote tests for the
+error-report.h API, and didn't see the need to cover a function that isn't
+used outside the unit.
+
+
+>
+> Except I think we'd better delete than hide then: inline into
+> error_printf_unless_qmp().  Makes sense?
+>
+
+It can't be easily inlined because of the surrounding va_start/va_end
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000043301405e33a8213
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Thu, Jul 7, 2022 at 4:25 PM Markus Armbrus=
+ter &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><a href=3D"ma=
+ilto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat=
+.com</a> writes:<br>
+<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; Not needed outside monitor.c. Remove the needless stub.<br>
+&gt;<br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 include/monitor/monitor.h | 1 -<br>
+&gt;=C2=A0 monitor/monitor.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 3 ++-<br>
+&gt;=C2=A0 stubs/error-printf.c=C2=A0 =C2=A0 =C2=A0 | 5 -----<br>
+&gt;=C2=A0 3 files changed, 2 insertions(+), 7 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h<br>
+&gt; index a4b40e8391db..44653e195b45 100644<br>
+&gt; --- a/include/monitor/monitor.h<br>
+&gt; +++ b/include/monitor/monitor.h<br>
+&gt; @@ -56,7 +56,6 @@ void monitor_register_hmp(const char *name, bool inf=
+o,<br>
+&gt;=C2=A0 void monitor_register_hmp_info_hrt(const char *name,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0HumanReadable=
+Text *(*handler)(Error **errp));<br>
+&gt;=C2=A0 <br>
+&gt; -int error_vprintf_unless_qmp(const char *fmt, va_list ap) G_GNUC_PRIN=
+TF(1, 0);<br>
+&gt;=C2=A0 int error_printf_unless_qmp(const char *fmt, ...) G_GNUC_PRINTF(=
+1, 2);<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 #endif /* MONITOR_H */<br>
+&gt; diff --git a/monitor/monitor.c b/monitor/monitor.c<br>
+&gt; index 86949024f643..ba4c1716a48a 100644<br>
+&gt; --- a/monitor/monitor.c<br>
+&gt; +++ b/monitor/monitor.c<br>
+&gt; @@ -273,7 +273,8 @@ int error_vprintf(const char *fmt, va_list ap)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return vfprintf(stderr, fmt, ap);<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; -int error_vprintf_unless_qmp(const char *fmt, va_list ap)<br>
+&gt; +G_GNUC_PRINTF(1, 0)<br>
+&gt; +static int error_vprintf_unless_qmp(const char *fmt, va_list ap)<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Monitor *cur_mon =3D monitor_cur();<br>
+&gt;=C2=A0 <br>
+&gt; diff --git a/stubs/error-printf.c b/stubs/error-printf.c<br>
+&gt; index 0e326d801059..1afa0f62ca26 100644<br>
+&gt; --- a/stubs/error-printf.c<br>
+&gt; +++ b/stubs/error-printf.c<br>
+&gt; @@ -16,8 +16,3 @@ int error_vprintf(const char *fmt, va_list ap)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return vfprintf(stderr, fmt, ap);<br>
+&gt;=C2=A0 }<br>
+&gt; -<br>
+&gt; -int error_vprintf_unless_qmp(const char *fmt, va_list ap)<br>
+&gt; -{<br>
+&gt; -=C2=A0 =C2=A0 return error_vprintf(fmt, ap);<br>
+&gt; -}<br>
+<br>
+When I write a printf-like utility function, I habitually throw in a<br>
+vprintf-like function.<br>
+<br>
+Any particular reason for hiding this one?=C2=A0 To avoid misunderstandings=
+:<br>
+I&#39;m fine with hiding it if it&#39;s causing you trouble.<br></blockquot=
+e><div><br></div><div>I don&#39;t think I had an issue with it, only that I=
+ wrote tests for the error-report.h API, and didn&#39;t see the need to cov=
+er a function that isn&#39;t used outside the unit.</div><div>=C2=A0<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Except I think we&#39;d better delete than hide then: inline into<br>
+error_printf_unless_qmp().=C2=A0 Makes sense?<br></blockquote><div><br></di=
+v><div>It can&#39;t be easily inlined because of the surrounding va_start/v=
+a_end<br></div></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D=
+"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000043301405e33a8213--
 
