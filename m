@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476D0569D7D
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 10:32:53 +0200 (CEST)
-Received: from localhost ([::1]:49002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74D5569D83
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 10:35:59 +0200 (CEST)
+Received: from localhost ([::1]:54432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9MwO-00039Z-6t
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 04:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58758)
+	id 1o9MzP-00071i-2R
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 04:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o9MiU-0004Lc-UG
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:18:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44381)
+ id 1o9Mip-0004e4-IC
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:18:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o9MiO-0005q3-3N
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:18:30 -0400
+ id 1o9Min-0005sn-TY
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:18:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657181903;
+ s=mimecast20190719; t=1657181929;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/WLp4C2APFLe2HdTuli8HBiKMXT78OaB1EtrrNVzqkM=;
- b=TAMHDpG2SrW33k6HzLD5c86ODt7c2KQS5IvlM/Se6QH5z8KWqq64+eh3HD70UIO9uHS/7y
- J2e3qMReAbWMKIl1IGXV3eeopnXu4NTCvqpCu6pcdkt06tj6B40ZeBTSkMCkWWFtVBJF/2
- SiPf77eOqqKakObwXHtbBCVzCKNUEPI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HuMJdCkhhohnUSRMODmtG/BemxSXmBVnmOsz6xeJ8jo=;
+ b=iEClYyftEXXbBapkuc+Hb3BjbECKTRxfIriDjvL91nBoR1Ai19cu4Wb240HAzEnzUXzzUr
+ ozSet94CW2V6VqLK/8VP9sHsFgm5NbD3JUmsnS1MLjY4UP/TAvVzuvvrMIt/l4toCXjSIX
+ Qu4p6+Uxol0ggwYJcb7mfLn7ckepQtI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-63-1BNpnVxNNymAZhprE7GsIw-1; Thu, 07 Jul 2022 04:18:20 -0400
-X-MC-Unique: 1BNpnVxNNymAZhprE7GsIw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-391-liQTlUjIPxCGWJUw4chnOQ-1; Thu, 07 Jul 2022 04:18:46 -0400
+X-MC-Unique: liQTlUjIPxCGWJUw4chnOQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92B3929AB408;
- Thu,  7 Jul 2022 08:18:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A85D08339C3;
+ Thu,  7 Jul 2022 08:18:45 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.71])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE33240315A;
- Thu,  7 Jul 2022 08:18:17 +0000 (UTC)
-Date: Thu, 7 Jul 2022 09:18:15 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 81D72C27D9A;
+ Thu,  7 Jul 2022 08:18:41 +0000 (UTC)
+Date: Thu, 7 Jul 2022 09:18:38 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: John Snow <jsnow@redhat.com>
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
@@ -55,18 +55,17 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
  Michael Roth <michael.roth@amd.com>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 02/13] tests/vm: use 'cp' instead of 'ln' for
- temporary vm images
-Message-ID: <YsaWxyBmnWlM19dU@redhat.com>
+Subject: Re: [PATCH v3 03/13] tests/vm: switch CentOS 8 to CentOS 8 Stream
+Message-ID: <YsaW3vAx3VfKBth8@redhat.com>
 References: <20220707040310.4163682-1-jsnow@redhat.com>
- <20220707040310.4163682-3-jsnow@redhat.com>
+ <20220707040310.4163682-4-jsnow@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220707040310.4163682-3-jsnow@redhat.com>
+In-Reply-To: <20220707040310.4163682-4-jsnow@redhat.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -75,7 +74,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,16 +91,15 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 07, 2022 at 12:02:59AM -0400, John Snow wrote:
-> If the initial setup fails, you've permanently altered the state of the
-> downloaded image in an unknowable way. Use 'cp' like our other test
-> setup scripts do.
+On Thu, Jul 07, 2022 at 12:03:00AM -0400, John Snow wrote:
+> The old CentOS image didn't work anymore because it was already EOL at
+> the beginning of 2022.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > Reviewed-by: Thomas Huth <thuth@redhat.com>
 > ---
->  tests/vm/centos | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/vm/centos | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
