@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0EB7569E36
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 10:58:38 +0200 (CEST)
-Received: from localhost ([::1]:58452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42932569E37
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 11:00:02 +0200 (CEST)
+Received: from localhost ([::1]:60540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9NLJ-0004DF-QA
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 04:58:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38718)
+	id 1o9NMe-0005dU-Ba
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 05:00:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1o9NDs-0004ex-52
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:50:56 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:45418 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1o9NDp-0005Hi-7R
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:50:55 -0400
-Received: from smtpclient.apple (unknown [111.199.64.159])
- by APP-05 (Coremail) with SMTP id zQCowACXn7NfnsZiMk5eCw--.3064S2;
- Thu, 07 Jul 2022 16:50:40 +0800 (CST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <YsZ0eZ7xJtbxgLS8@apples>
-Date: Thu, 7 Jul 2022 16:50:39 +0800
-Cc: Keith Busch <kbusch@kernel.org>,
- qemu-devel@nongnu.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <F8469361-6748-4213-BE46-B68AC8078CC4@ict.ac.cn>
-References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
- <YsRwyMONg0+mHVsL@apples> <YsSGbhJQXp9fiCZK@kbusch-mbp.dhcp.thefacebook.com>
- <69E2ADBE-5064-4E04-B236-8815D82263AB@ict.ac.cn> <YsZ0eZ7xJtbxgLS8@apples>
-To: Klaus Jensen <its@irrelevant.dk>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: zQCowACXn7NfnsZiMk5eCw--.3064S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZFy3tr1fXr17KFW8ury7trb_yoW5uF4fpr
- WYqa4DKFZ7Xay0yryqqa18Z3Wvkr4xWF4UWryfGw18CwnI9rnxXFW5tFWUuF4YvrZ7Jw42
- vr4UtwsxZrZ0y37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUySb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwV
- C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC2
- 0s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
- 0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
- 14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20x
- vaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
- 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07bOoGdUUUUU=
-X-Originating-IP: [111.199.64.159]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o9NIx-0002o5-LU
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:56:11 -0400
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:51571)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1o9NIu-0006Cl-4c
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 04:56:11 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.164])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 10F0027698;
+ Thu,  7 Jul 2022 08:56:03 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 7 Jul 2022
+ 10:56:03 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0040a4aee57-9010-4aa9-8aba-bd3fa6eceb39,
+ 2B39F57B81C0BD827FC0711042E7B74C62F0E97C) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <fa52743a-5730-3b3f-f07f-99931bb66b01@kaod.org>
+Date: Thu, 7 Jul 2022 10:56:02 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] hw/gpio/aspeed: Don't let guests modify input pins
+Content-Language: en-US
+To: Peter Delevoryas <peter@pjd.dev>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
+ <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20220707071731.34047-1-peter@pjd.dev>
+ <20220707071731.34047-2-peter@pjd.dev>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220707071731.34047-2-peter@pjd.dev>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 8f1c9ca1-5748-4dc0-9c7d-057dc0a516f7
+X-Ovh-Tracer-Id: 11503037874949557030
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeihedgtdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,95 +76,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-at 1:51 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+On 7/7/22 09:17, Peter Delevoryas wrote:
+> It seems that aspeed_gpio_update is allowing the value for input pins to be
+> modified through register writes and QOM property modification.
+> 
+> The QOM property modification is fine, but modifying the value through
+> register writes from the guest OS seems wrong if the pin's direction is set
+> to input.
+> 
+> The datasheet specifies that "0" bits in the direction register select input
+> mode, and "1" selects output mode.
+> 
+> OpenBMC userspace code is accidentally writing 0's to the GPIO data
+> registers somewhere (or perhaps the driver is doing it through a reset or
+> something), and this is overwriting GPIO FRU information (board ID, slot
+> presence pins) that is initialized in Aspeed machine reset code (see
+> fby35_reset() in hw/arm/aspeed.c).
 
-> On Jul  6 19:34, Jinhao Fan wrote:
->> at 2:43 AM, Keith Busch <kbusch@kernel.org> wrote:
->>=20
->>> On Tue, Jul 05, 2022 at 07:11:36PM +0200, Klaus Jensen wrote:
->>>> On Jul  5 22:24, Jinhao Fan wrote:
->>>>> @@ -1374,7 +1374,14 @@ static void =
-nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
->>>>>=20
->>>>>    QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
->>>>>    QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
->>>>> -    timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + =
-500);
->>>>> +
->>>>> +    if (req->sq->ioeventfd_enabled) {
->>>>> +        /* Post CQE directly since we are in main loop thread */
->>>>> +        nvme_post_cqes(cq);
->>>>> +    } else {
->>>>> +        /* Schedule the timer to post CQE later since we are in =
-vcpu thread */
->>>>> +        timer_mod(cq->timer, =
-qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
->>>>> +    }
->>>>=20
->>>> Actually, we are only in the vcpu thread if we come here from
->>>> nvme_process_db that in very rare circumstances may enqueue the
->>>> completion of an AER due to an invalid doorbell write.
->>>>=20
->>>> In general, nvme_enqueue_req_completion is only ever called from =
-the
->>>> main iothread. Which actually causes me to wonder why we defer this =
-work
->>>> in the first place. It does have the benefit that we queue up =
-several
->>>> completions before posting them in one go and raising the =
-interrupt.
->>>> But I wonder if that could be handled better.
->>>=20
->>> I think the timer is used because of the cq_full condition. We need =
-to restart
->>> completions when it becomes not full, which requires a doorbell =
-write. Having
->>> everyone from the main iothread use the same timer as the doorbell =
-handler just
->>> ensures single threaded list access.
->>=20
->> Could we let nvme_process_aers register another timer/BH to trigger
->> nvme_enqueue_req_completion in the iothread? In this way we won=E2=80=99=
-t need the
->> timer_mod in nvme_enqueue_req_completion.
->=20
-> Yes, we could have process_aers in a timer. Which would probably be
-> preferable in order to limit the amount of work the mmio handler is
-> doing in that rare case. However, its such a rare case (only =
-misbehaving
-> drivers) that it's probably not worth optimizing for.
+It might be good to log a GUEST_ERROR in that case, when writing to an
+input GPIO and when reading from an output GPIO.
 
-I think putting nvme_process_aers in a timer can help make sure
-nvme_enqueue_req_completion is only called in an iothread context. =
-Currently
-it can be called either in iothread or vcpu thread. So
-nvme_enqueue_req_completion has to infer its context, in my patch using =
-the
-cq->ioeventfd_enabled flag. This approach is probably error-prone. =
-Honestly
-I am not sure whether cq->ioeventfd_enabled is enough to guarantee we =
-are in
-iothread.
+Thanks,
 
->> We can also avoid some potential currency problems because CQ is only
->> modified in the iothread.
->=20
-> There are currently no concurrency problems because of the Big QEMU
-> Lock. When the mmio handler is running, the vcpu holds the BQL (and
-> whenever the main iothread is running, it is holding the BQL).
+C.
 
-Will this still hold when we move on to iothreads?
-
->=20
->> BTW, are there any reason that we must use timers (not BH) here? Also =
-why do
->> we choose to delay for 500ns?
->=20
-> No particular reason. do not see any reason why this could not be =
-bottom
-> halfs. This will likely change into bhs when we add iothread support
-> anyway.
-
-I will try BH when I start the iothread work.
+> 
+> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
+> ---
+>   hw/gpio/aspeed_gpio.c | 22 ++++++++++++----------
+>   1 file changed, 12 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+> index a62a673857..2eae427201 100644
+> --- a/hw/gpio/aspeed_gpio.c
+> +++ b/hw/gpio/aspeed_gpio.c
+> @@ -268,7 +268,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState *s, GPIOSets *regs)
+>   }
+>   
+>   static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+> -                               uint32_t value)
+> +                               uint32_t value, bool force)
+>   {
+>       uint32_t input_mask = regs->input_mask;
+>       uint32_t direction = regs->direction;
+> @@ -293,10 +293,12 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+>               }
+>   
+>               /* ...then update the state. */
+> -            if (mask & new) {
+> -                regs->data_value |= mask;
+> -            } else {
+> -                regs->data_value &= ~mask;
+> +            if (direction & mask || force) {
+> +                if (mask & new) {
+> +                    regs->data_value |= mask;
+> +                } else {
+> +                    regs->data_value &= ~mask;
+> +                }
+>               }
+>   
+>               /* If the gpio is set to output... */
+> @@ -339,7 +341,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
+>           value &= ~pin_mask;
+>       }
+>   
+> -    aspeed_gpio_update(s, &s->sets[set_idx], value);
+> +    aspeed_gpio_update(s, &s->sets[set_idx], value, true);
+>   }
+>   
+>   /*
+> @@ -653,7 +655,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
+>           reg_value = update_value_control_source(set, set->data_value,
+>                                                   reg_value);
+>           set->data_read = reg_value;
+> -        aspeed_gpio_update(s, set, reg_value);
+> +        aspeed_gpio_update(s, set, reg_value, false);
+>           return;
+>       case gpio_reg_idx_direction:
+>           reg_value = set->direction;
+> @@ -753,7 +755,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
+>               __func__, offset, data, reg_idx_type);
+>           return;
+>       }
+> -    aspeed_gpio_update(s, set, set->data_value);
+> +    aspeed_gpio_update(s, set, set->data_value, false);
+>       return;
+>   }
+>   
+> @@ -799,7 +801,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+>           data &= props->output;
+>           data = update_value_control_source(set, set->data_value, data);
+>           set->data_read = data;
+> -        aspeed_gpio_update(s, set, data);
+> +        aspeed_gpio_update(s, set, data, false);
+>           return;
+>       case gpio_reg_direction:
+>           /*
+> @@ -875,7 +877,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+>                         PRIx64"\n", __func__, offset);
+>           return;
+>       }
+> -    aspeed_gpio_update(s, set, set->data_value);
+> +    aspeed_gpio_update(s, set, set->data_value, false);
+>       return;
+>   }
+>   
 
 
