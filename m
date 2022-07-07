@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7876E56970F
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 02:54:11 +0200 (CEST)
-Received: from localhost ([::1]:59380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77EC569712
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 02:57:16 +0200 (CEST)
+Received: from localhost ([::1]:33412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9FmU-00056H-Ea
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 20:54:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33336)
+	id 1o9FpT-0007K5-Mn
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 20:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1o9FlJ-0004GN-2G
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:52:57 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:52609)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1o9Fnu-0006cx-Vv
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:55:39 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:34531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1o9FlH-0007XH-4D
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:52:56 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 0FD96580582;
- Wed,  6 Jul 2022 20:52:52 -0400 (EDT)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1o9Fnr-00082J-JE
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:55:38 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 149EC580582;
+ Wed,  6 Jul 2022 20:55:35 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 06 Jul 2022 20:52:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1657155172; x=
- 1657158772; bh=X70JhSGF+WTbL9Lkgm7o9W0KfFX1y3JLx3XzJ0cvNKw=; b=n
- 7ApKdCRvf5iTTYBkIlW59sbVNGmufAo5u9iH+aCUjLqFmeRNq/fFpixnQiOYqZs7
- knWHwgAzu4xE6/sstW+DcfBv7of55NLyT6z7Thw5xRefvkWqWUirqNW7hQoG80nn
- sSE1tj/3AQiisBT4Z47V7r+LdYEYVUls3HmlNetEKWHXQIIoKsIrcU4RsxY+kvXg
- sP0+IYg4Rg6GfegChvFEeuugLM8A5HpsmW8MeOSCbTkPdDXFRTsUB0QfTCUDl6Z6
- 6YjEw4ISJkknd3zP4DsCnqbnBnJh4cbbMroj+Vo8hV2cdbUlCw5iZU/fP3LPcI6z
- QuERMsJ2ZX27uU3YZE5lQ==
+ by compute2.internal (MEProxy); Wed, 06 Jul 2022 20:55:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1657155335; x=1657158935; bh=R7hxhWtseQ
+ N9theF+MOYHaOSAS65qemIKzkscQhKTlk=; b=DD3hsi/4pK1zAfHiWCCJuBqizf
+ MTdc/gD1U1h6nuVhggr6CM8cmTeMzfqOBXFQgVluZruMFnVk6JHLcwxyFmt5nxrU
+ sjkSbnUbrd0A5awjIt1n++m4dcIwyt9bBH66RVEezeoVC+NUOzUkeTP7y6givTLW
+ ZXyHocrnHtwsW1h54v9gd4yfOLs4P3TNgCgyMa6l+HU5NpxTKvlfb3RQAQhx/klq
+ hXYiHvebQgF4a7VWwmZj3AYTyIZqHdvayg8gZsXNHVYwwjBgz0MFWqXklospwRd5
+ uvJvik4Di47pYbxmIi0nj7zJwT6N9fQTGalpqy47e/HSSXyi9Cyvk0PHw72g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657155172; x=
- 1657158772; bh=X70JhSGF+WTbL9Lkgm7o9W0KfFX1y3JLx3XzJ0cvNKw=; b=b
- L16wAFGqQdr4OthSuDY7rduAtYu0g69jwAVmIOVpQeAdizkHK5nRiWSfE/OSmFdC
- baKOniWkH4pyFpJeopqtpW8UXMMmPU0IlgZrD/c/srm/Wrh+PEvSKnn8qmyh2DlZ
- TZCw651McqsxajShf4h07zs/oqfYL6iCGRTmeFeunti6WMBKDmbLqf9K8n6ujCaS
- lM9jgYTgIFCJSMLd+pAUQeEBownQXwZF6bRAHQu4JHl8nYZ8/QOOCwnhJKS+0qX5
- /9IeUBqC92J1Zi4gtKAw0yjk9NrxiTfAnlwYMb5llJfeO4xSv4cCZPw+YDOL9+HT
- FZ/cKQwmHEJNnb+f1Rr/A==
-X-ME-Sender: <xms:Yy7GYr0jzLDKXy5wM6IuneihhB9S_renERpfvvUg2JFi8Cq5Lu-b0Q>
- <xme:Yy7GYqEhOc8ybl_Y8Ov60vtpHLU2kykaBsSuSkZdvdJuQei3Ac9dww9toEXqCaglY
- T9hY5qeFbd89mIpNfg>
-X-ME-Received: <xmr:Yy7GYr5PViXoXKc2XoDTVC1YuimGvESrwAQK4BysrjUtI-OYp46TpbdypV-4OazOb46sb9zcU-rY5V-zfAyvAxkb>
+ messagingengine.com; h=cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1657155335; x=1657158935; bh=R7hxhWtseQN9theF+MOYHaOSAS65
+ qemIKzkscQhKTlk=; b=munITmaRJ2eL1jnmJKhCadTF/SQO715X1qEiT7fLpc/w
+ bXQwGF9SuiXVXm+DzO7bysadpByCuxKOpLGaorRhaJ4flnui6CnX+cohsNF/8F2Z
+ zxBQS3M079zCC5E1t6M677GFmgdPCw1Gt+dVx4W3h/Fp+Im6PdYap4PFRkpTKfGO
+ inDpz/zWhSypf7SYTU23FMaDIHL0kx71OFxmnGY2YRME84dqJ6wPbdPpj8lZaRr1
+ YoICXPq6QswjZwJMbZMIv5Zg2aNGCjRoCzp8PCxnHXKAPW6wp9ZW+VsUKWkHNZUj
+ 4nHwSVszlT/GuQw4fYDmqaLcGK+hX/dP0zBW8GObVw==
+X-ME-Sender: <xms:Bi_GYt8vztLatWph3SRNDV6BM6cjhutQ2DrfX2R3ZIkV8ce33X0h6w>
+ <xme:Bi_GYhvYVszmWfZCjlxRNbF4hTrRXYJsgJzdXdpBM6frKh8LHENG-I-ZBTmDkFqdF
+ QIjh1qIBtlv-I6lGTs>
+X-ME-Received: <xmr:Bi_GYrCdZqHmp8a8TFvX9VvH79SNCFAY2xPEde4squYUoodsKPxag3Dxhe7BdCBi196ye6nFHMGxtzKvI8DuNsJD>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeigedggeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
- htthgvrhhnpeetfedvveevhfeuleeuheeludevjeeftdduheeuhedvveefvdffleejfeeh
- geeffeenucffohhmrghinhepsggvrhhrrghnghgvrdgtohhmpdhflhhitghkrhdrtghomh
- dplhhisghvihhrthdrohhrghdpvghnthgrnhhglhgvqdhphhhothhordhorhhgpdhinhhs
- thgrghhrrghmrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
- hilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:Yy7GYg0UcP0rwNQdBgfpkHOA5uwLGIEIkkItYsT34h5IJnq-SXdzhw>
- <xmx:Yy7GYuH7-5hMmCvBgTK70zpaE63O2lc_wb4hft8Gc71HcxPhTXJXLA>
- <xmx:Yy7GYh8B6VkoUljX212wsJ2U600RdvKv4i_6jssvKYaoik--psU9tA>
- <xmx:Yy7GYqDL3p44JyOyLTVciHAHFIHbUQ8KVAOS84k7R1Hg-11t7D9HQg>
+ cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghr
+ ucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrghtth
+ gvrhhnpeetjefhheejieejveeikeduvdejleevfeejfedttdekgfeluedugeduteegkeej
+ ieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvg
+ htvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:Bi_GYhewgC1yaNWEwaTBJcSPZeAwbylabAdLVpXsLGffZM5EAHL2hQ>
+ <xmx:Bi_GYiNod4HvSz8V8iZDs7ClcVwTPyjPA95RypZnBlax7NsQZaRlCw>
+ <xmx:Bi_GYjllkULR4ElkEVaUQ9qP1W1MAvwnwmxphdrPPMGrU3YomCrvCg>
+ <xmx:By_GYvrYgdBvZqcotFSkp-c0nCIuyYBlEvQ3F54GKlgIvU819d_dDg>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 6 Jul 2022 20:52:50 -0400 (EDT)
-Date: Wed, 6 Jul 2022 17:52:48 -0700
+ 6 Jul 2022 20:55:34 -0400 (EDT)
+Date: Wed, 6 Jul 2022 17:55:32 -0700
 From: Peter Delevoryas <peter@pjd.dev>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+To: Cleber Rosa <crosa@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH RESEND] python/machine: Fix AF_UNIX path too long on macOS
-Message-ID: <YsYuYAJE2Hx64aIY@pdel-mbp.dhcp.thefacebook.com>
-References: <20220705214659.73369-1-peter@pjd.dev>
- <YsVBhmvAm2ANDUEt@redhat.com> <YsW8eO5eeRKfpxJp@r37>
+Subject: Re: [PATCH] avocado: Fix BUILD_DIR if it's equal to SOURCE_DIR
+Message-ID: <YsYvBONMr8hs74TX@pdel-mbp.dhcp.thefacebook.com>
+References: <20220702185604.46643-1-peter@pjd.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YsW8eO5eeRKfpxJp@r37>
+In-Reply-To: <20220702185604.46643-1-peter@pjd.dev>
 Received-SPF: pass client-ip=66.111.4.224; envelope-from=peter@pjd.dev;
  helo=new2-smtp.messagingengine.com
 X-Spam_score_int: -17
@@ -105,137 +100,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 06, 2022 at 09:46:48AM -0700, Peter Delevoryas wrote:
-> On Wed, Jul 06, 2022 at 09:02:14AM +0100, Daniel P. Berrangé wrote:
-> > On Tue, Jul 05, 2022 at 02:46:59PM -0700, Peter Delevoryas wrote:
-> > > I noticed that I can't run any avocado tests on macOS because the QMP
-> > > unix socket path is too long:
-> > 
-> > 
-> > > I think the path limit for unix sockets on macOS might be 104 [1]
-> > 
-> > All platforms have a very limited path limit, so it isn't really
-> > a macOS specific problem, rather....
-> > 
-> > > 
-> > > /*
-> > >  * [XSI] Definitions for UNIX IPC domain.
-> > >  */
-> > > struct  sockaddr_un {
-> > >     unsigned char   sun_len;        /* sockaddr len including null */
-> > >     sa_family_t     sun_family;     /* [XSI] AF_UNIX */
-> > >     char            sun_path[104];  /* [XSI] path name (gag) */
-> > > };
-> > > 
-> > > The path we're using is exactly 105 characters:
-> > > 
-> > > $ python
-> > > Python 2.7.10 (default, Jan 19 2016, 22:24:01)
-> > > [GCC 4.2.1 Compatible Apple LLVM 7.0.2 (clang-700.1.81)] on darwin
-> > > Type "help", "copyright", "credits" or "license" for more information.
-> > > >>> len('/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/avo_qemu_sock_uh3w_dgc/qemu-37331-10bacf110-monitor.sock')
-> > 
-> > It is a problem related to where the test suite is creating the
-> > paths.
-> > 
-> > /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/avo_qemu_sock_uh3w_dgc/
-> > 
-> > is way too deep a directory location.
-> 
-> That's a good point.
-> 
-> > 
-> > It seems we just create this location using 'tempfile.TemporyDirectory'
-> > to get a standard tmp dir.
-> > 
-> > Do you know why python is choosing
-> > 
-> >   /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
-> > 
-> > as the temp dir ? Is that a standard location on macOS or is it
-> > from some env variable you have set ?
-> 
-> Hmmm yeah it is odd, I'm not really sure why it's created there or if
-> standard glibc tmpfile creation goes there too, I'll go experiment and
-> report back. And yeah, maybe I'll double check any environment variables or
-> other things.
-> 
-> The macOS system I use happens to be a Facebook work laptop, which could
-> also be related now that I think about it.
+On Sat, Jul 02, 2022 at 11:56:04AM -0700, Peter Delevoryas wrote:
+> I like to build QEMU from the root source directory, rather than cd'ing
+> into the build directory. This code may as well include a search path
+> for that, so that you can run avocado tests individually without
+> specifying "-p qemu_bin=build/qemu-system-arm" manually.
 
-Hmmm yeah looks like this is because my TMPDIR is weird.
-
-$ echo $TMPDIR
-/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
-
-I didn't think to check this cause I wasn't familiar with TMPDIR. 🤷
-
-Thanks for responding, I'll just use TMPDIR=/tmp for now. It's probably
-something wrong with the Facebook development environment.
-
-Peter
+Pinging this thread since I didn't get a response.
 
 > 
-> > 
-> > > diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-> > > index 37191f433b..93451774e3 100644
-> > > --- a/python/qemu/machine/machine.py
-> > > +++ b/python/qemu/machine/machine.py
-> > > @@ -157,7 +157,7 @@ def __init__(self,
-> > >          self._wrapper = wrapper
-> > >          self._qmp_timer = qmp_timer
-> > >  
-> > > -        self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
-> > > +        self._name = name or f"{os.getpid()}{id(self):02x}"
-> > 
-> > I don't think this is the right fix really, because IMHO the problem
-> > is the hugely long path, rather than the final socket name.
+> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> ---
+>  tests/avocado/avocado_qemu/__init__.py | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
 > 
-> True, yeah let me try to investigate the directory placement.
+> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+> index b656a70c55..ed4853c805 100644
+> --- a/tests/avocado/avocado_qemu/__init__.py
+> +++ b/tests/avocado/avocado_qemu/__init__.py
+> @@ -120,14 +120,15 @@ def pick_default_qemu_bin(bin_prefix='qemu-system-', arch=None):
+>      # qemu binary path does not match arch for powerpc, handle it
+>      if 'ppc64le' in arch:
+>          arch = 'ppc64'
+> -    qemu_bin_relative_path = os.path.join(".", bin_prefix + arch)
+> -    if is_readable_executable_file(qemu_bin_relative_path):
+> -        return qemu_bin_relative_path
+> -
+> -    qemu_bin_from_bld_dir_path = os.path.join(BUILD_DIR,
+> -                                              qemu_bin_relative_path)
+> -    if is_readable_executable_file(qemu_bin_from_bld_dir_path):
+> -        return qemu_bin_from_bld_dir_path
+> +    qemu_bin_name = bin_prefix + arch
+> +    qemu_bin_paths = [
+> +        os.path.join(".", qemu_bin_name),
+> +        os.path.join(BUILD_DIR, qemu_bin_name),
+> +        os.path.join(BUILD_DIR, "build", qemu_bin_name),
+
+Thinking about how to write this last line again, maybe it should actually
+be "os.path.join(SOURCE_DIR, "build", qemu_bin_name)"?
+
+> +    ]
+> +    for path in qemu_bin_paths:
+> +        if is_readable_executable_file(path):
+> +            return path
+>      return None
+>  
+>  
+> -- 
+> 2.37.0
 > 
-> > 
-> > That said, there is redundancy in the path - avocado is passing in
-> > a dierctory created using 'tempfile.TemporyDirectory' so there is no
-> > reason why we need to add more entropy via the POD and the 'id(self)'
-> > hex string.
-> 
-> Oh good point, I hadn't thought about that.
-> 
-> > 
-> > IMHO avocado should pass in the 'name' parameter explicitly, using a
-> > plain name and thus get a shorter string.
-> 
-> I see, yeah that makes sense. Maybe I can include a couple patches for this,
-> one fixing the directory location, and one refactoring the temporary file
-> name template (If I'm understanding your suggestion correctly).
-> 
-> Thanks for the review! I really appreciate it.
-> Peter
-> 
-> > 
-> > >          self._temp_dir: Optional[str] = None
-> > >          self._base_temp_dir = base_temp_dir
-> > >          self._sock_dir = sock_dir
-> > > @@ -167,7 +167,7 @@ def __init__(self,
-> > >              self._monitor_address = monitor_address
-> > >          else:
-> > >              self._monitor_address = os.path.join(
-> > > -                self.sock_dir, f"{self._name}-monitor.sock"
-> > > +                self.sock_dir, f"{self._name}.sock"
-> > >              )
-> > >  
-> > >          self._console_log_path = console_log
-> > > -- 
-> > > 2.37.0
-> > > 
-> > > 
-> > 
-> > With regards,
-> > Daniel
-> > -- 
-> > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> > |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> > 
 > 
 
