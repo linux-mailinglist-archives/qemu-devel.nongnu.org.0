@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA8956AD50
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 23:17:03 +0200 (CEST)
-Received: from localhost ([::1]:42228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478FD56AD52
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 23:18:05 +0200 (CEST)
+Received: from localhost ([::1]:44734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9Yru-0001lD-HS
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 17:17:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52254)
+	id 1o9Ysu-0003Un-Bw
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 17:18:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1o9YpS-0000eW-Ui
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 17:14:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30694)
+ id 1o9Yra-0001yU-8Q
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 17:16:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1o9YpO-0006p1-94
- for qemu-devel@nongnu.org; Thu, 07 Jul 2022 17:14:29 -0400
+ id 1o9YrW-00089u-Dd
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 17:16:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657228464;
+ s=mimecast20190719; t=1657228597;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sZaPdUxXlcaJheop+097Ysil9t5YLkxSHY3SRGMbwSw=;
- b=Rm/5IOPCUm+1wIjzdLDMEHIk40AWA1ar5di0N2Cvun5Ag5eOa3yrzrmjKGVqzJOCtxcSp7
- GMAX/RqmZNSoDPUK6ouXvO9yx3fPlBTPH1M5i3ntQkJGUX1sZc/e9l6zJoyQPMyjCZ98Ya
- K7+PkkOxrtBDjM5amb25KfL3dGgsGCw=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eqvmCd1TX67k6XQscj/7HtU8gS4dXaCmWyaO6PUrsKU=;
+ b=BacUlreJ5zWltumI7mH4Q5tn07flvcVRv8Qur3Z+D3fgUoVbA2YeAwc2TF70sWaIWv4FfQ
+ xkB6Y9h0obwjV5MWeUbpxljtpxX9dXJMhJ2/yJ2kzMlomww/fHL5KgMjl7dR12XozM3ADR
+ 8uNNGKCLwkfIVV1ziMO1sPLGeFpzPPk=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-274-cjpN31S7NNmhCpjNgLNQBg-1; Thu, 07 Jul 2022 17:14:23 -0400
-X-MC-Unique: cjpN31S7NNmhCpjNgLNQBg-1
-Received: by mail-vs1-f69.google.com with SMTP id
- w188-20020a6762c5000000b003572b8828d8so136453vsb.6
- for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 14:14:23 -0700 (PDT)
+ us-mta-196-ma4uP7W3ONOQsyWVVMOnew-1; Thu, 07 Jul 2022 17:16:36 -0400
+X-MC-Unique: ma4uP7W3ONOQsyWVVMOnew-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ l19-20020ac5c353000000b0036c1d249b61so5771569vkk.12
+ for <qemu-devel@nongnu.org>; Thu, 07 Jul 2022 14:16:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
  :references:content-transfer-encoding:user-agent:mime-version;
- bh=sZaPdUxXlcaJheop+097Ysil9t5YLkxSHY3SRGMbwSw=;
- b=UYdWV6unC1l5TcporbVHpM6EsUJCSYQlk28j8lLk5666vihlGI5B18YqmSMv2f6ghz
- RvYNnw3GBnUVVmLBfgrCZT2ruHbBVRb7ufFBRUoKjE1nuY5DhUUKf+TzQ5njZhuCxM53
- z+dLct87V80Krdm0gEAQ59zddeSFKZC6RAcOtLBvNydQIvPqJ9Ij2eKo638ZX1Gq2NH2
- Fas3pT0vc7Zgc2zuhqHnQdycy3S6I0m5sgnsdeouuh0lJet3k2oi/Bjf/M9CVC1drxQ/
- aGAVRJNlXQ/pTlXDEGuv5FF0jDNNiuCKcEXGtbN24adai29Q+bpkxYWocZ8lQMi6lAq0
- ZvwA==
-X-Gm-Message-State: AJIora+/nFUhFF4jL2Ntsuhuo3E/tF0p+5yXc5FgBKgJaXIZ1AUH3Lll
- 1OvA91UjdQMVC4e30nF88bRB9ebdSB90VcaqHMDHFGPAlED3zG2xSiP0nv78mnWHQl8vICVNM5u
- r/bAXqbta/Ga097s=
-X-Received: by 2002:a67:c019:0:b0:357:93b:978b with SMTP id
- v25-20020a67c019000000b00357093b978bmr7662843vsi.65.1657228462836; 
- Thu, 07 Jul 2022 14:14:22 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sZhXxavTZGi6MYolA0n5qqmuOlS/qGo6u84/mlYCy0LI0wdO6UB5CZNhZQPH+UsgDp4OVzew==
-X-Received: by 2002:a67:c019:0:b0:357:93b:978b with SMTP id
- v25-20020a67c019000000b00357093b978bmr7662829vsi.65.1657228462548; 
- Thu, 07 Jul 2022 14:14:22 -0700 (PDT)
+ bh=eqvmCd1TX67k6XQscj/7HtU8gS4dXaCmWyaO6PUrsKU=;
+ b=wYUYuX8zEvoaaXaLwUEWEvkAfTrCSUBdOIlxCuWyKGy9PjRTQYXl5LrmQOfMQNk0vd
+ 9ewg23wZen3XVy1NTJOx1fhmzqS6cGBF9oP2zk0SFXWiYS7tfhAptVCelt0/klNkbekv
+ IkADZz01pTlGK6HXJ3Kce6ZWfj5fAFjC3edZ6NnnWUb2pNcLSp+76Vv2PK6OgG5oQQN4
+ shXYkd/9ln+193Am77jW3lcDIGvIwz8AzUrcVi05hbhZwsr+KQvS4fRMPxJkU6Vf9AfV
+ QwsxOYYlNrJdZvCFBgVo1pY9SrBzeKyuh5iUVFyXOf+ow68baVSwujd8g19BOSprtZxH
+ o7PA==
+X-Gm-Message-State: AJIora86Fwy4SnJPjZNCcox1xREW7u7ifY8A9/KcbNtL85zJuqrXamDa
+ N3v4BOU1zziMM93SiPjObXbrd80Pc4CQF07dc3BqMZgw9GqMQ0IBCpsvMv1akr1qbya35an3MDK
+ cWMFeTkdasIv+6cg=
+X-Received: by 2002:a67:345:0:b0:356:2b49:75f8 with SMTP id
+ 66-20020a670345000000b003562b4975f8mr27287354vsd.49.1657228595549; 
+ Thu, 07 Jul 2022 14:16:35 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tUKf3GODD3myMoMdHLPlUFQq7Sk3rGPnNPR2INMK46sqHKUMieQz8/NuZPZL5ZU9VKubCKVA==
+X-Received: by 2002:a67:345:0:b0:356:2b49:75f8 with SMTP id
+ 66-20020a670345000000b003562b4975f8mr27287339vsd.49.1657228595355; 
+ Thu, 07 Jul 2022 14:16:35 -0700 (PDT)
 Received: from ?IPv6:2804:431:c7ec:44c:8a5c:6c79:3007:b149?
  ([2804:431:c7ec:44c:8a5c:6c79:3007:b149])
  by smtp.gmail.com with ESMTPSA id
- ba16-20020a056102283000b00357329f770dsm642353vsb.21.2022.07.07.14.14.19
+ r23-20020ab03317000000b00370fe98f896sm11953987uao.7.2022.07.07.14.16.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jul 2022 14:14:21 -0700 (PDT)
-Message-ID: <904f8698a28c27bddbabaa1207a695fe0a832607.camel@redhat.com>
-Subject: Re: [PATCH v3 1/3] QIOChannelSocket: Fix zero-copy flush returning
- code 1 when nothing sent
+ Thu, 07 Jul 2022 14:16:34 -0700 (PDT)
+Message-ID: <05b5798177bcf5345c0a2d4f2586b037d80a2134.camel@redhat.com>
+Subject: Re: [PATCH v3 2/3] Add dirty-sync-missed-zero-copy migration stat
 From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Juan
  Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
  <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>, Markus Armbruster
  <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-Date: Thu, 07 Jul 2022 18:14:17 -0300
-In-Reply-To: <Ysc5hpnTb3k96Ubo@xz-m1.local>
+Date: Thu, 07 Jul 2022 18:16:31 -0300
+In-Reply-To: <Ysc6gFpbuxW0GQFI@xz-m1.local>
 References: <20220704202315.507145-1-leobras@redhat.com>
- <20220704202315.507145-2-leobras@redhat.com> <YsccDel9oiTPqvHW@xz-m1.local>
- <CAJ6HWG5YbABGpacT9hD1dx0-o3Ey8sN++=MxhEaGML62jzQ=xQ@mail.gmail.com>
- <Ysc5hpnTb3k96Ubo@xz-m1.local>
+ <20220704202315.507145-3-leobras@redhat.com> <Yscdy/YZZ6H1Qpr3@xz-m1.local>
+ <CAJ6HWG7CDKKWfyiPQqRtUzEmnB5gTzHdOMJMTH1VvV1wG6LVoA@mail.gmail.com>
+ <Ysc6gFpbuxW0GQFI@xz-m1.local>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.3 
@@ -107,142 +106,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2022-07-07 at 15:52 -0400, Peter Xu wrote:
-> On Thu, Jul 07, 2022 at 04:44:21PM -0300, Leonardo Bras Soares Passos wro=
+On Thu, 2022-07-07 at 15:56 -0400, Peter Xu wrote:
+> On Thu, Jul 07, 2022 at 04:50:47PM -0300, Leonardo Bras Soares Passos wro=
 te:
-> > Hello Peter,
+> > > I also think we should squash
+> > > patch 2/3 as patch 3 only started to provide meaningful values.
 > >=20
-> > On Thu, Jul 7, 2022 at 2:47 PM Peter Xu <peterx@redhat.com> wrote:
-> > >=20
-> > > Hi, Leo,
-> > >=20
-> > > On Mon, Jul 04, 2022 at 05:23:13PM -0300, Leonardo Bras wrote:
-> > > > If flush is called when no buffer was sent with MSG_ZEROCOPY, it
-> > > > currently
-> > > > returns 1. This return code should be used only when Linux fails to=
- use
-> > > > MSG_ZEROCOPY on a lot of sendmsg().
-> > > >=20
-> > > > Fix this by returning early from flush if no sendmsg(...,MSG_ZEROCO=
-PY)
-> > > > was attempted.
-> > > >=20
-> > > > Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero co=
-py
-> > > > flag & io_flush for CONFIG_LINUX")
-> > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > > > ---
-> > > > =C2=A0io/channel-socket.c | 8 +++++++-
-> > > > =C2=A01 file changed, 7 insertions(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/io/channel-socket.c b/io/channel-socket.c
-> > > > index 4466bb1cd4..698c086b70 100644
-> > > > --- a/io/channel-socket.c
-> > > > +++ b/io/channel-socket.c
-> > > > @@ -716,12 +716,18 @@ static int qio_channel_socket_flush(QIOChanne=
-l
-> > > > *ioc,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 struct cmsghdr *cm;
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 char control[CMSG_SPACE(sizeof(*serr))];
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 int received;
-> > > > -=C2=A0=C2=A0=C2=A0 int ret =3D 1;
-> > > > +=C2=A0=C2=A0=C2=A0 int ret;
-> > > > +
-> > > > +=C2=A0=C2=A0=C2=A0 if (!sioc->zero_copy_queued) {
-> > >=20
-> > > I think I asked this in the downstream review but didn't get a
-> > > response.. shouldn't this check be "queued =3D=3D sent"?
-> >=20
-> > This is just supposed to skip flush if nothing was queued for sending.
-> > queued =3D=3D sent is tested bellow in the while part.
-> >=20
-> > Without this, the function could return 1 if nothing was sent with zero=
--
-> > copy,
-> > and it would be confusing, because the QIOChannel API says 1 should be
-> > returned only if all zero-copy sends fell back to copying.
+> > IIRC Previously in zero-copy-send implementation, I was asked to keep t=
+he
+> > property/capability in a separated patch in order to make it easier to
+> > review.
+> > So I thought it would be helpful now.
 >=20
-> I know it won't happen in practise, but.. what if we call flush() without
-> sending anything zero-copy-wise at all (so zero_copy_sent > 0,
-> zero_copy_queued > 0,=C2=A0
+> Ah, that's fine then.
+>=20
+> > > > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> > > > index ca98df0495..5f3be9e405 100644
+> > > > --- a/monitor/hmp-cmds.c
+> > > > +++ b/monitor/hmp-cmds.c
+> > > > @@ -307,6 +307,10 @@ void hmp_info_migrate(Monitor *mon, const QDic=
+t
+> > > > *qdict)
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 monitor_printf(mon, "postcopy ram: %" PRIu64 " kbytes\n",
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 info->ram->postcopy_bytes >> 10);
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (info->ram->dirty_sy=
+nc_missed_zero_copy) {
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ monitor_printf(mon, "missed zero-copy on: %" PRIu64 "
+> > > > iterations\n",
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 info->ram->dirty_sync_missed_zero_copy);
+> > >=20
+> > > I suggest we don't call it "iterations" because it's not the generic =
+mean
+> > > of iterations.
+> >=20
+> > Yeah, I thought that too, but I could not think on anything better.
+> > What do you suggest instead?
+>=20
+> "Zero-copy-send fallbacks happened: xxx times\n"?
 
-On a no-bug scenario:
-- If we don't send anything zero-copy wise, zero_copy_queued will never get
-incremented.=C2=A0
-- If we don't get inside the while loop in flush, zero_copy_sent will never=
- be
-incremented.
-
-
-But sure, suppose it does get incremented by bug / mistake:=C2=A0
--  zero_copy_queued incremented, zero_copy_sent untouched :=20
- On (queued =3D=3D 0) it will go past the 'if', and get stuck 'forever' in =
-the while
-loop, since sent will 'never' get incremented.
- On (queued =3D=3D sent), same.
- On (queued <=3D sent), same.
-
--  zero_copy_queued untouched, zero_copy_sent incremented :
- On 'if (queued =3D=3D 0)' it will not go past the 'if'
- On 'if (queued =3D=3D sent)', will go past the 'if', but will exit on the =
-'while',
-falsely returning 1.
- On 'if (queued <=3D sent)', it will not go past the 'if'.
-
--  zero_copy_queued incremented, zero_copy_sent incremented :=20
- On 'if (queued =3D=3D 0)',  infinite loop as above.
- On 'if (queued =3D=3D sent)',=C2=A0
-	if sent < queued :  infinite loop ,=C2=A0
-	if sent =3D=3D queued : won't go past 'if' ,
-       	if sent > queued :  will go past the 'if', but will exit on the
-'while', falsely returning 1. =20
- On (queued <=3D sent), infinite loop if sent < queued, not past if otherwi=
-se
-
-BTW, I consider it 'infinite loop', but it could also end up returning -1 o=
-n any
-error.
-
-> meanwhile zero_copy_sent =3D=3D zero_copy_queued)?=C2=A0 Then
-> IIUC we'll return 1 even if we didn't do any fallback, or am I wrong?
-
-Having 'if(queued =3D=3D sent)' will cause us to falsely return '1' in two =
-buggy
-cases, while 'if queued =3D=3D 0) will either skip early or go into 'infini=
-te' loop.
+Oh, yeah, that will work.
+I was thinking on keeping the pattern and ended up thinking what was the co=
+rrect
+unit. But this is much simpler and work better.
 
 Best regards,
 Leo
 
->=20
-> >=20
-> > Best regards,
-> > Leo
-> >=20
-> > >=20
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
-> > > > +=C2=A0=C2=A0=C2=A0 }
-> > > >=20
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 msg.msg_control =3D control;
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 msg.msg_controllen =3D sizeof(control);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 memset(control, 0, sizeof(control));
-> > > >=20
-> > > > +=C2=A0=C2=A0=C2=A0 ret =3D 1;
-> > > > +
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0 while (sioc->zero_copy_sent < sioc->zero_c=
-opy_queued) {
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 received =3D recvm=
-sg(sioc->fd, &msg, MSG_ERRQUEUE);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (received < 0) =
-{
-> > > > --
-> > > > 2.36.1
-> > > >=20
-> > >=20
-> > > --
-> > > Peter Xu
-> > >=20
-> >=20
 >=20
 
 
