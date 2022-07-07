@@ -2,49 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011505698B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 05:17:53 +0200 (CEST)
-Received: from localhost ([::1]:47658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85915698F8
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 06:07:40 +0200 (CEST)
+Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9I1Y-0002rS-3R
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 23:17:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55128)
+	id 1o9Inj-0006VZ-GT
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jul 2022 00:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o9HwC-0004sC-8E; Wed, 06 Jul 2022 23:12:20 -0400
-Received: from mout-u-204.mailbox.org ([2001:67c:2050:101:465::204]:41590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o9HwA-0007l3-6K; Wed, 06 Jul 2022 23:12:19 -0400
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-u-204.mailbox.org (Postfix) with ESMTPS id 4LdhKF5d8lz9sQr;
- Thu,  7 Jul 2022 05:12:01 +0200 (CEST)
-From: Lev Kujawski <lkujaw@member.fsf.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9Ijd-0003dP-Il
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 00:03:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9IjZ-0008D2-Gj
+ for qemu-devel@nongnu.org; Thu, 07 Jul 2022 00:03:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657166595;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=F5Z28Eh/jJhRE3S8GhkSndEUy+mmJypdpI+ptCVrVX0=;
+ b=TcgytOEsS29OfAFabfmB3GEo9WykanNIHN/tlDwOpFWBwebrMNOshO6218l4/lhEzYPkqG
+ dNxSxkVIqnDKhTljl2CO9tY+7OMo2WA+yqj8UbMvVkO2/qzge8OIjPDE88H74mMH4/z+V6
+ MfUgNAWmLUaK1bW9lr1Ugq9iabvipts=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-447-VYE_MDlVM5CBE-aErwfNSg-1; Thu, 07 Jul 2022 00:03:12 -0400
+X-MC-Unique: VYE_MDlVM5CBE-aErwfNSg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A0CC3811E75;
+ Thu,  7 Jul 2022 04:03:11 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.16.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FA0218ECB;
+ Thu,  7 Jul 2022 04:03:11 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, Lev Kujawski <lkujaw@member.fsf.org>
-Subject: [PATCH v2 7/7] hw/ide/core.c: Implement ATA
- INITIALIZE_DEVICE_PARAMETERS command
-Date: Thu,  7 Jul 2022 03:11:40 +0000
-Message-Id: <20220707031140.158958-7-lkujaw@member.fsf.org>
-In-Reply-To: <20220707031140.158958-1-lkujaw@member.fsf.org>
-References: <20220707031140.158958-1-lkujaw@member.fsf.org>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Subject: [PATCH v3 00/13] Improve reliability of VM tests
+Date: Thu,  7 Jul 2022 00:02:57 -0400
+Message-Id: <20220707040310.4163682-1-jsnow@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2050:101:465::204;
- envelope-from=lkujaw@member.fsf.org; helo=mout-u-204.mailbox.org
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,134 +82,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CHS-based disk utilities and operating systems may adjust the logical
-geometry of a hard drive to cope with the expectations or limitations
-of software using the ATA INITIALIZE_DEVICE_PARAMETERS command.
-
-Prior to this patch, INITIALIZE_DEVICE_PARAMETERS was a nop that
-always returned success, raising the possibility of data loss or
-corruption if the CHS<->LBA translation redirected a write to the
-wrong sector.
-
-* hw/ide/core.c
-ide_reset():
-  Reset the logical CHS geometry of the hard disk when the power-on
-  defaults feature is enabled.
-cmd_specify():
-  a) New function implementing INITIALIZE_DEVICE_PARAMETERS.
-  b) Ignore calls for empty or ATAPI devices.
-cmd_set_features():
-  Implement the power-on defaults enable and disable features.
-struct ide_cmd_table:
-  Switch WIN_SPECIFY from cmd_nop() to cmd_specify().
-ide_init_drive():
-  Set new fields 'drive_heads' and 'drive_sectors' based upon the
-  actual disk geometry.
-
-* include/hw/ide/internal.h
-struct IDEState:
-a) Store the actual drive CHS values within the new fields
-   'drive_heads' and 'drive_sectors.'
-b) Track whether a soft IDE reset should also reset the logical CHS
-   geometry of the hard disk within the new field 'reset_reverts'.
-
-Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
----
- hw/ide/core.c             | 29 ++++++++++++++++++++++++++---
- include/hw/ide/internal.h |  3 +++
- 2 files changed, 29 insertions(+), 3 deletions(-)
-
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index b747191ebf..39afdc0006 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -1340,6 +1340,11 @@ static void ide_reset(IDEState *s)
-         s->pio_aiocb = NULL;
-     }
- 
-+    if (s->reset_reverts) {
-+        s->reset_reverts = false;
-+        s->heads         = s->drive_heads;
-+        s->sectors       = s->drive_sectors;
-+    }
-     if (s->drive_kind == IDE_CFATA)
-         s->mult_sectors = 0;
-     else
-@@ -1618,6 +1623,20 @@ static bool cmd_check_power_mode(IDEState *s, uint8_t cmd)
-     return true;
- }
- 
-+/* INITIALIZE DEVICE PARAMETERS */
-+static bool cmd_specify(IDEState *s, uint8_t cmd)
-+{
-+    if (s->blk && s->drive_kind != IDE_CD) {
-+        s->heads = (s->select & (ATA_DEV_HS)) + 1;
-+        s->sectors = s->nsector;
-+        ide_set_irq(s->bus);
-+    } else {
-+        ide_abort_command(s);
-+    }
-+
-+    return true;
-+}
-+
- static bool cmd_set_features(IDEState *s, uint8_t cmd)
- {
-     uint16_t *identify_data;
-@@ -1641,7 +1660,11 @@ static bool cmd_set_features(IDEState *s, uint8_t cmd)
-         ide_flush_cache(s);
-         return false;
-     case 0xcc: /* reverting to power-on defaults enable */
-+        s->reset_reverts = true;
-+        return true;
-     case 0x66: /* reverting to power-on defaults disable */
-+        s->reset_reverts = false;
-+        return true;
-     case 0xaa: /* read look-ahead enable */
-     case 0x55: /* read look-ahead disable */
-     case 0x05: /* set advanced power management mode */
-@@ -2051,7 +2074,7 @@ static const struct {
-     [WIN_SEEK]                    = { cmd_seek, HD_CFA_OK | SET_DSC },
-     [CFA_TRANSLATE_SECTOR]        = { cmd_cfa_translate_sector, CFA_OK },
-     [WIN_DIAGNOSE]                = { cmd_exec_dev_diagnostic, ALL_OK },
--    [WIN_SPECIFY]                 = { cmd_nop, HD_CFA_OK | SET_DSC },
-+    [WIN_SPECIFY]                 = { cmd_specify, HD_CFA_OK | SET_DSC },
-     [WIN_STANDBYNOW2]             = { cmd_nop, HD_CFA_OK },
-     [WIN_IDLEIMMEDIATE2]          = { cmd_nop, HD_CFA_OK },
-     [WIN_STANDBY2]                = { cmd_nop, HD_CFA_OK },
-@@ -2541,8 +2564,8 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
- 
-     blk_get_geometry(blk, &nb_sectors);
-     s->cylinders = cylinders;
--    s->heads = heads;
--    s->sectors = secs;
-+    s->heads = s->drive_heads = heads;
-+    s->sectors = s->drive_sectors = secs;
-     s->chs_trans = chs_trans;
-     s->nb_sectors = nb_sectors;
-     s->wwn = wwn;
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 97e7e59dc5..b17f36df95 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -375,6 +375,7 @@ struct IDEState {
-     uint8_t unit;
-     /* ide config */
-     IDEDriveKind drive_kind;
-+    int drive_heads, drive_sectors;
-     int cylinders, heads, sectors, chs_trans;
-     int64_t nb_sectors;
-     int mult_sectors;
-@@ -401,6 +402,8 @@ struct IDEState {
-     uint8_t select;
-     uint8_t status;
- 
-+    bool reset_reverts;
-+
-     /* set for lba48 access */
-     uint8_t lba48;
-     BlockBackend *blk;
--- 
-2.34.1
+Note: patches 11-13 are included for testing simplicity, they shouldn't=0D
+be merged. They will be included in a forthcoming block PR.=0D
+=0D
+This patch series attempts to improve the reliability of several of the=0D
+VM test targets. In particular, both CentOS 8 tests are non-functional=0D
+because CentOS 8 was EOL at the beginning of this calendar year, with=0D
+repositories and mirrors going offline.=0D
+=0D
+I also remove the ubuntu.i386 test because we no longer support Ubuntu=0D
+18.04 nor do we have explicit need of an i386 build test.=0D
+=0D
+After this series, I am able to successfully run every VM target on an=0D
+x86_64 host, except:=0D
+=0D
+- ubuntu.aarch64: Hangs often during testing, see below.=0D
+- centos.aarch64: Hangs often during testing, see below.=0D
+- haiku.x86_64: Build failures not addressed by this series, see=0D
+  https://lists.gnu.org/archive/html/qemu-devel/2022-06/msg02103.html=0D
+=0D
+The unit tests that I see fail most often under aarch64 are:=0D
+=0D
+- virtio-net-failover: Seems to like to hang on openbsd=0D
+- migration-test: Tends to hang under aarch64 tcg=0D
+=0D
+Future work (next version? next series?);=0D
+=0D
+- Try to get centos.aarch64 working reliably under TCG=0D
+- Upgrade ubuntu.aarch64 to 20.04 after fixing centos.aarch64=0D
+- Fix the Haiku build test, if possible.=0D
+- Ensure I can reliably run and pass "make vm-build-all".=0D
+  (Remove VMs from this recipe if necessary.)=0D
+=0D
+John Snow (12):=0D
+  qga: treat get-guest-fsinfo as "best effort"=0D
+  tests/vm: use 'cp' instead of 'ln' for temporary vm images=0D
+  tests/vm: switch CentOS 8 to CentOS 8 Stream=0D
+  tests/vm: switch centos.aarch64 to CentOS 8 Stream=0D
+  tests/vm: update sha256sum for ubuntu.aarch64=0D
+  tests/vm: remove ubuntu.i386 VM test=0D
+  tests/vm: remove duplicate 'centos' VM test=0D
+  tests/vm: add 1GB extra memory per core=0D
+  tests/vm: upgrade Ubuntu 18.04 VM to 20.04=0D
+  tests/vm: Remove docker cross-compile test from CentOS VM=0D
+  tests/qemu-iotests: hotfix for 307, 223 output=0D
+  tests/qemu-iotests: skip 108 when FUSE is not loaded=0D
+=0D
+Vladimir Sementsov-Ogievskiy (1):=0D
+  iotests: fix copy-before-write for macOS and FreeBSD=0D
+=0D
+ qga/commands-posix.c                       |   7 +-=0D
+ tests/qemu-iotests/108                     |   5 +=0D
+ tests/qemu-iotests/223.out                 |   4 +-=0D
+ tests/qemu-iotests/307.out                 |   4 +-=0D
+ tests/qemu-iotests/tests/copy-before-write |   5 +=0D
+ tests/vm/Makefile.include                  |   5 +-=0D
+ tests/vm/basevm.py                         |   5 +=0D
+ tests/vm/centos                            |   9 +-=0D
+ tests/vm/centos.aarch64                    | 174 +++------------------=0D
+ tests/vm/ubuntu.aarch64                    |  10 +-=0D
+ tests/vm/ubuntu.i386                       |  40 -----=0D
+ 11 files changed, 62 insertions(+), 206 deletions(-)=0D
+ delete mode 100755 tests/vm/ubuntu.i386=0D
+=0D
+-- =0D
+2.34.3=0D
+=0D
 
 
