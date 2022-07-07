@@ -2,52 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC8E5696F6
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 02:40:12 +0200 (CEST)
-Received: from localhost ([::1]:52004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A621556970B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jul 2022 02:52:04 +0200 (CEST)
+Received: from localhost ([::1]:56596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9FYx-0007nq-D1
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 20:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59060)
+	id 1o9FkR-00032P-8c
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jul 2022 20:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o9FWP-0006TB-2j
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:37:34 -0400
-Received: from mout-u-204.mailbox.org ([80.241.59.204]:43382)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <lkujaw@member.fsf.org>)
- id 1o9FWM-00036u-LN
- for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:37:32 -0400
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-u-204.mailbox.org (Postfix) with ESMTPS id 4Ldctd1mByz9sQ9;
- Thu,  7 Jul 2022 02:37:13 +0200 (CEST)
-From: Lev Kujawski <lkujaw@member.fsf.org>
-To: qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Lev Kujawski <lkujaw@member.fsf.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v2 2/2] hw/i386/postcard: New test suite for the ISA POST card
- device
-Date: Thu,  7 Jul 2022 00:37:05 +0000
-Message-Id: <20220707003705.43894-2-lkujaw@member.fsf.org>
-In-Reply-To: <20220707003705.43894-1-lkujaw@member.fsf.org>
-References: <20220707003705.43894-1-lkujaw@member.fsf.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9Fiw-00027x-7h
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:50:30 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:46961)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9Fiu-0007FV-Gr
+ for qemu-devel@nongnu.org; Wed, 06 Jul 2022 20:50:29 -0400
+Received: by mail-pg1-x534.google.com with SMTP id s27so15601163pga.13
+ for <qemu-devel@nongnu.org>; Wed, 06 Jul 2022 17:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=TKrRWw4y10h+lUHhLI0L6+jdVBeraEO+YeqFH8sCyuI=;
+ b=IZhkIU8NmgqEUaTpDHwEuKxxgLKK7n3Duoh+At+Nf+0L/IXJ0QbsrA0dkTf+ROvepX
+ faIToGVuNTfCr51G+jW8vWlFs5i3l/30utcGeRGOg0LK7KndZqYaR7H6C+hx6MHiXNF3
+ Sgq8VyA0lUa668V8tL2WiSVudbZNcQzTe1IDV+m/jj5amEfwQcOH4B6nRZJ4eE0RPkDd
+ oY+600zZ/8gGaYWQYlxBr6e3AnEebxThwFE7AJbtw/ybkOggCc+9ecp+yhab6ilE63F5
+ DrjAuG8y1L8MB0fzSDXOTIROSE+QiQICmcwDNJfBHLD61Drv35VWtryTZWanVpBb9330
+ DE8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=TKrRWw4y10h+lUHhLI0L6+jdVBeraEO+YeqFH8sCyuI=;
+ b=2n0EWEvfcs0s/GNKfpV4GtirKKzy2erq3afzB4oHyGT8YvkWDlfZ1a208837eEyHYy
+ AGBGv4IOE/gJzPLY5BY5DebZlSuq6NFh8413hDISDktvVTfd300xxjk5XUlUWWywPXCE
+ XduGfPv+yH3DM+1Ddg6F4zT6j2WI7pITm/CvSUpWQB2gG/vH6H2/8IFbZHp4NrdzHE7M
+ CLWdW+Cuww/WqkxDd7Y204azajDgJPqMkP/SokBqnj00J9SNQ0LVoZJFgFoB05LtbFAM
+ /NLUbGome2ealArdr9uNYebSsmPTjOn63w4nejjM9rYDGmTPPUUL5qvO7wJRTCd8rA37
+ h5+w==
+X-Gm-Message-State: AJIora+Ym9ss4XUgq9TMTpPu41Epao/j6lEbc53Ru+PsVEJS2hAKyLV0
+ NuS3/YCkyQWnTX+xReOtVCMgGw==
+X-Google-Smtp-Source: AGRyM1vXawGLPH5kay+Fe6uOmf5K9l4sOKSDrF6RInkhGwp3EgbNrcxlBeUFPTCPNAuauhbdw72NZg==
+X-Received: by 2002:a17:902:bb90:b0:16b:8a74:3aad with SMTP id
+ m16-20020a170902bb9000b0016b8a743aadmr49524582pls.47.1657155026896; 
+ Wed, 06 Jul 2022 17:50:26 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020a17090322d200b0016bdc98730bsm8601539plg.151.2022.07.06.17.50.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jul 2022 17:50:26 -0700 (PDT)
+Message-ID: <4b139900-ba8a-e2c5-217f-f73268f33ce9@linaro.org>
+Date: Thu, 7 Jul 2022 06:20:21 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=80.241.59.204; envelope-from=lkujaw@member.fsf.org;
- helo=mout-u-204.mailbox.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PULL 0/2] M68k for 7.1 patches
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20220706114013.340537-1-laurent@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220706114013.340537-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,182 +91,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verify that port 0x80 behavior corresponds with i440FX hardware.
-Despite the name of the device, said behavior is implemented by the
-system board and does not depend upon the actual presence of a POST
-card.
+On 7/6/22 17:10, Laurent Vivier wrote:
+> The following changes since commit 180c2f24d5e8eada41e012a3899d29bb695aae06:
+> 
+>    Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2022-07-06 10:41:34 +0530)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/vivier/qemu-m68k.git tags/m68k-for-7.1-pull-request
+> 
+> for you to fetch changes up to a988465d0eb7e2ee31a3679bbe3fbe71681820da:
+> 
+>    m68k: virt: pass RNG seed via bootinfo block (2022-07-06 12:30:41 +0200)
+> 
+> ----------------------------------------------------------------
+> Pull request m68k 20220706
+> 
+> pass RNG seed via bootinfo block
 
-In particular:
- a) Writes to port 0x80 are retained and may be read afterwards.
- b) Word and double word reads return a repeated sequence of the
-    written octet.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Reference platform:
- TYAN S1686D (i440FX system board)
 
-Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
----
- (v2) First revision of test suite.
+r~
 
- MAINTAINERS                 |   1 +
- tests/qtest/meson.build     |   1 +
- tests/qtest/postcard-test.c | 122 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 124 insertions(+)
- create mode 100644 tests/qtest/postcard-test.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 33b13583b7..801494d955 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1723,6 +1723,7 @@ ISA POST card
- M: Lev Kujawski <lkujaw@member.fsf.org>
- S: Supported
- F: hw/i386/postcard.c
-+F: tests/qtest/postcard-test.c
- 
- Xtensa Machines
- ---------------
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 31287a9173..0718bdb394 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -47,6 +47,7 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_ISA_IPMI_KCS') ? ['ipmi-kcs-test'] : []) +            \
-   (config_host.has_key('CONFIG_LINUX') and                                                  \
-    config_all_devices.has_key('CONFIG_ISA_IPMI_BT') ? ['ipmi-bt-test'] : []) +              \
-+  (config_all_devices.has_key('CONFIG_POST_CARD') ? ['postcard-test'] : []) +               \
-   (config_all_devices.has_key('CONFIG_WDT_IB700') ? ['wdt_ib700-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_PVPANIC_ISA') ? ['pvpanic-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_PVPANIC_PCI') ? ['pvpanic-pci-test'] : []) +          \
-diff --git a/tests/qtest/postcard-test.c b/tests/qtest/postcard-test.c
-new file mode 100644
-index 0000000000..2e04876d4a
---- /dev/null
-+++ b/tests/qtest/postcard-test.c
-@@ -0,0 +1,122 @@
-+/*
-+ * Test Suite for the ISA POST Card
-+ *
-+ * Copyright (c) 2022 Lev Kujawski
-+ *
-+ *  This program is free software; you can redistribute it and/or
-+ *  modify it under the terms of the GNU General Public License as
-+ *  published by the Free Software Foundation; either version 2 of the
-+ *  License, or (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ *  General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest-single.h"
-+#include "hw/i386/postcard.h"
-+
-+
-+/* I/O helper functions */
-+static void
-+post_card_write(uint8_t val)
-+{
-+    outb(POST_CARD_PORT_DEFAULT, val);
-+}
-+
-+static uint8_t
-+post_card_readb(void)
-+{
-+    return inb(POST_CARD_PORT_DEFAULT);
-+}
-+
-+static uint16_t
-+post_card_readw(void)
-+{
-+    return inw(POST_CARD_PORT_DEFAULT);
-+}
-+
-+static uint32_t
-+post_card_readl(void)
-+{
-+    return inl(POST_CARD_PORT_DEFAULT);
-+}
-+
-+
-+/* Testing framework */
-+static QTestState *qts;
-+
-+static void
-+test_setup(void)
-+{
-+    assert(qts == NULL);
-+    qts = qtest_start("-machine pc");
-+    assert(qts != NULL);
-+}
-+
-+static void
-+test_teardown(void)
-+{
-+    assert(qts != NULL);
-+    qtest_quit(qts);
-+    qts = NULL;
-+}
-+
-+
-+/* Test cases */
-+static void
-+test_initial_state(void)
-+{
-+    test_setup();
-+    g_assert_cmphex(post_card_readb(), ==, 0x00);
-+    test_teardown();
-+}
-+
-+static void
-+test_retain_write(void)
-+{
-+    test_setup();
-+    g_assert_cmphex(post_card_readb(), ==, 0x00);
-+    post_card_write(0xaa);
-+    g_assert_cmphex(post_card_readb(), ==, 0xaa);
-+    test_teardown();
-+}
-+
-+static void
-+test_read_word(void)
-+{
-+    test_setup();
-+    g_assert_cmphex(post_card_readb(), ==, 0x00);
-+    post_card_write(0xa5);
-+    g_assert_cmphex(post_card_readw(), ==, 0xa5a5);
-+    test_teardown();
-+}
-+
-+static void
-+test_read_double_word(void)
-+{
-+    test_setup();
-+    g_assert_cmphex(post_card_readb(), ==, 0x00);
-+    post_card_write(0xa5);
-+    g_assert_cmphex(post_card_readl(), ==, 0xa5a5a5a5);
-+    test_teardown();
-+}
-+
-+
-+int
-+main(int argc, char **argv)
-+{
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("/postcard/initial_state", test_initial_state);
-+    qtest_add_func("/postcard/retain_write", test_retain_write);
-+    qtest_add_func("/postcard/read_word", test_read_word);
-+    qtest_add_func("/postcard/read_double_word", test_read_double_word);
-+
-+    return g_test_run();
-+}
--- 
-2.34.1
+> 
+> ----------------------------------------------------------------
+> 
+> Jason A. Donenfeld (2):
+>    m68k: use correct variable name in boot info string macro
+>    m68k: virt: pass RNG seed via bootinfo block
+> 
+>   hw/m68k/bootinfo.h                             | 18 +++++++++++++++++-
+>   .../standard-headers/asm-m68k/bootinfo-virt.h  |  1 +
+>   hw/m68k/virt.c                                 |  7 +++++++
+>   3 files changed, 25 insertions(+), 1 deletion(-)
+> 
 
 
