@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3992156BA80
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 15:17:26 +0200 (CEST)
-Received: from localhost ([::1]:41302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC0156BAA1
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 15:28:34 +0200 (CEST)
+Received: from localhost ([::1]:55628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9nrI-0002gT-Ox
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 09:17:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60348)
+	id 1o9o24-0005nw-Mu
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 09:28:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o9nnX-0001Dg-EX
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 09:13:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o9nnN-0004d6-Ng
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 09:13:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657285997;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xSUp2E0tYMGibNvQjaOgkkqhvoUsGKcb2J8EoTjosqU=;
- b=Z/+TE+CXBr1wd6dF9ljXddBo0NksMgfTnPnYfE7DVn/1VlDF4drZw9STDK8w26qrevZ+rg
- nycuNO/MCGgKoCNwQR4hnQyQUn45Ep3gImUhKiR8h74PDwJhhZai5/7QRMPMOa3WYGIDwb
- uHEL/tO+xzrK/IK/zfv042Nyelfd7WE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-241-TUk80wlDOhKld76DisUBWg-1; Fri, 08 Jul 2022 09:13:15 -0400
-X-MC-Unique: TUk80wlDOhKld76DisUBWg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4DD9811E87;
- Fri,  8 Jul 2022 13:13:14 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B984E18EAA;
- Fri,  8 Jul 2022 13:13:13 +0000 (UTC)
-Date: Fri, 8 Jul 2022 14:13:10 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: Intermittent meson failures on msys2
-Message-ID: <YsgtZo/dQPT58Sfm@redhat.com>
-References: <c27c93e9-c6e9-1d12-8b45-41c34065a977@linaro.org>
- <CAJ+F1CLQ6Y-tzcjwQeL=EO21+v+_49F85E2fnEcN170Gb89kjw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o9nzA-0002xk-GR; Fri, 08 Jul 2022 09:25:33 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:38622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1o9nz7-000715-B6; Fri, 08 Jul 2022 09:25:32 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id
+ cb12-20020a056830618c00b00616b871cef3so16196090otb.5; 
+ Fri, 08 Jul 2022 06:25:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6w8PXzh4/K+L+S7xwVaG5RiROAiJ1UZvyFsnBzRMSes=;
+ b=hQYE3vEmHX8Q7Ms+pBaLDvF1VlbIXqJpfxB5wAFMDB252nfwxU+FJNLNyHhvNH+nDR
+ bM3+gzsNXGoW6x8U9k86f7nTIU9BrMg66aBDd6wuv9B86k2KPJITKttga5bB7LBXHyUL
+ TC0H44GKEcShOKx5vWOAcUGszkTPNy18Mt+wQJY73qO3Ku8eYCYTiTKz2X1dUgAehagh
+ B9KeJrDIdIDSvSTSAUaa6+VJzqrJIL4GuB/YbkX7hS/Z+xyo90KNOCb3nEUclYSFqFgc
+ QLGbQcQJbW6eo+Lubw4FRNo9h+2/bjT/v8ty7z60EOxwzy144taCG2PEEIMcgb53ciVj
+ Jo8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6w8PXzh4/K+L+S7xwVaG5RiROAiJ1UZvyFsnBzRMSes=;
+ b=PYsZGmiBWZmvRdhxk7d14NbKkUanVyOIOVuyMnxgAbgaNldFBzDhCeieId4VJsh+dy
+ zI41bHHJN9AjYoo+HuTSjaLpT7mhKgzci3C4qGIBPHq4qvGCFZ+I/AE3Zw4ABVOy5Ztc
+ NGjju+vIxYGfXLwqwXPqDD68ZitlfIy4VcysfDxVCQ64HfutIXi1tpBEikKivibi0QLa
+ faYWgDhB8iEbjfE0dGW4vFCQSYZG7mrOz4CWC9yp5y8KPiAJkRiUie2nbOGMcRglllOy
+ Xdn6T4Ebs5RuU70fd0YT0bjYL9olFJgRNUstgYUCYwT4TaspDQSvUamksOVTChESBr04
+ n66A==
+X-Gm-Message-State: AJIora+7FFThA5ZWOhKXedYJ+YdmkZKFTDZztF4yUIyU/gkjbTjx3mNb
+ tQJD/TM+b7uCXO3/EKIvWMyyixMUfNE=
+X-Google-Smtp-Source: AGRyM1vqa8dUYk/1404Z30Q+JKDyD02qjsymOA37/ORnmTS0Dpp1WG+aFUdV/XBLFelRX73i3mJ7TQ==
+X-Received: by 2002:a05:6830:14d3:b0:616:e484:a103 with SMTP id
+ t19-20020a05683014d300b00616e484a103mr1542856otq.168.1657286727807; 
+ Fri, 08 Jul 2022 06:25:27 -0700 (PDT)
+Received: from balboa.ibmmodules.com (201-27-97-88.dsl.telesp.net.br.
+ [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
+ f108-20020a9d03f5000000b0060c00c3fde5sm18435797otf.72.2022.07.08.06.25.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Jul 2022 06:25:27 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, fbarrat@linux.ibm.com,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH 00/10] enable pnv-phb user created devices
+Date: Fri,  8 Jul 2022 10:25:12 -0300
+Message-Id: <20220708132522.581382-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ+F1CLQ6Y-tzcjwQeL=EO21+v+_49F85E2fnEcN170Gb89kjw@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,83 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 08, 2022 at 04:41:48PM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Mon, Jun 27, 2022 at 6:41 AM Richard Henderson <
-> richard.henderson@linaro.org> wrote:
-> 
-> > Hi guys,
-> >
-> > There's an occasional failure on msys2, where meson fails to capture the
-> > output of a build
-> > script.  E.g.
-> >
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2642051161
-> >
-> > FAILED: ui/input-keymap-qcode-to-linux.c.inc
-> > "C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.exe"
-> > "C:/GitLab-Runner/builds/qemu-project/qemu/meson/meson.py" "--internal"
-> > "exe" "--capture"
-> > "ui/input-keymap-qcode-to-linux.c.inc" "--"
-> > "C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.exe"
-> > "../ui/keycodemapdb/tools/keymap-gen" "code-map" "--lang" "glib2"
-> > "--varname"
-> > "qemu_input_map_qcode_to_linux" "../ui/keycodemapdb/data/keymaps.csv"
-> > "qcode" "linux"
-> > [301/1665] Generating input-keymap-qcode-to-qnum.c.inc with a custom
-> > command (wrapped by
-> > meson to capture output)
-> > ninja: build stopped: subcommand failed.
-> >
-> >
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2625836697
-> >
-> > FAILED: ui/shader/texture-blit-frag.h
-> > "C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.exe"
-> > "C:/GitLab-Runner/builds/qemu-project/qemu/meson/meson.py" "--internal"
-> > "exe" "--capture"
-> > "ui/shader/texture-blit-frag.h" "--" "perl"
-> > "C:/GitLab-Runner/builds/qemu-project/qemu/scripts/shaderinclude.pl"
-> > "../ui/shader/texture-blit.frag"
-> > [313/1663] Generating texture-blit-vert.h with a custom command (wrapped
-> > by meson to
-> > capture output)
-> > ninja: build stopped: subcommand failed.
-> >
-> >
-> > Could you have a look please?
-> >
-> >
-> >
-> Ah, we don't have artifacts for msys2 builds it seems, that would perhaps
-> help. It would make sense to at least take meson-logs/*.txt. I'll work on a
-> patch.
-> 
-> My guess is that CI randomly fails with "too many opened files", as I have
-> seen that regularly on various projects with Windows runners. And here,
-> it's probably reaching limits when running python/perl scripts
-> simultaneously... I don't see an easy way to solve that if that's the issue.
+This series is built on top of
 
-There shouldn't be very much parallelism even taking place, because
+"[PATCH v3 00/12] powernv: introduce pnv-phb base/proxy devices" [1]
 
-https://docs.gitlab.com/ee/ci/runners/saas/windows_saas_runner.html
+that is under review in [1]. I'm sending this last part of the pnv-phb
+rework to allow everyone to see what's the endgame I'm planning with
+this work.
 
-says  "Windows runners execute your CI/CD jobs on n1-standard-2 
-       instances with 2 vCPUs and 7.5 GB RAM. "
+The main differences between the approach taken here, versus the approach 
+made by "[PATCH v2 00/16] powernv: introduce pnv-phb base/proxy
+devices" [2], is:
 
-unless ninja is setting a parellism much higher than nCPUs ?
+- the Root Buses objects are now inheriting phb-id and chip-id. This
+turned out to be a clean way of keeping the code QOM compliant, without
+having to do things like dev->parent_bus->parent. All the attributes
+that the root port needs are found in its bus parent;
 
+- the logic exclusive to user created devices is all centered in a
+single helper inside pnv-phb realize(). PHB3/PHB4 realize() are
+oblivious to whether the device is user created or not. I believe this
+approach is clearer than what I was doing before.
 
-With regards,
-Daniel
+I'll respin/rebase this patches depending on the amount of changes
+we have during the pnv-phb proxy device review.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-06/msg04347.html
+[2] https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg06254.html
+
+Daniel Henrique Barboza (10):
+  ppc/pnv: add phb-id/chip-id PnvPHB3RootBus properties
+  ppc/pnv: add phb-id/chip-id PnvPHB4RootBus properties
+  ppc/pnv: set root port chassis and slot using Bus properties
+  ppc/pnv: add helpers for pnv-phb user devices
+  ppc/pnv: turn chip8->phbs[] into a PnvPHB* array
+  ppc/pnv: enable user created pnv-phb for powernv8
+  ppc/pnv: add PHB4 helpers for user created pnv-phb
+  ppc/pnv: enable user created pnv-phb powernv9
+  ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
+  ppc/pnv: user creatable pnv-phb for powernv10
+
+ hw/pci-host/pnv_phb.c          | 166 ++++++++++++++++++++++++++++++---
+ hw/pci-host/pnv_phb3.c         |  50 ++++++++++
+ hw/pci-host/pnv_phb4.c         |  51 ++++++++++
+ hw/pci-host/pnv_phb4_pec.c     |   6 +-
+ hw/ppc/pnv.c                   |  30 +++++-
+ include/hw/pci-host/pnv_phb3.h |   9 +-
+ include/hw/pci-host/pnv_phb4.h |  10 ++
+ include/hw/ppc/pnv.h           |   6 +-
+ 8 files changed, 308 insertions(+), 20 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.36.1
 
 
