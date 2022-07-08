@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A800956B3B8
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 09:42:46 +0200 (CEST)
-Received: from localhost ([::1]:33048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE6056B3B9
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 09:42:47 +0200 (CEST)
+Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9idQ-0008Vv-Vz
+	id 1o9idR-0008Uq-Hi
 	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 03:42:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40736)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kito.cheng@sifive.com>)
- id 1o9iae-0006eC-2z
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 03:39:52 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:47010)
+ id 1o9iag-0006f8-Cx
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 03:39:54 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:34335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <kito.cheng@sifive.com>)
- id 1o9iac-0007p0-58
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 03:39:51 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- t5-20020a17090a6a0500b001ef965b262eso1063561pjj.5
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 00:39:49 -0700 (PDT)
+ id 1o9iae-0007pb-Px
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 03:39:53 -0400
+Received: by mail-pl1-x633.google.com with SMTP id z1so9906874plb.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 00:39:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W43+Wt4Y6WBfMt3QVm7reNKwOS0giC47Sbj29SuDsC0=;
- b=RErXKggVmpxgQzovZNHs5Mb9i/aQYYW60up7L1v5rvjewShH9ZUPlS35PGz0PPeeUL
- CEwDvRUg23mfMefJsrvqz6HYmQ1reHqz7uQr0JzmNIsJquA/3tRVl7YuRtvD6tgGEjAO
- joCuSUYq4w0taoLdUMTc+Ra/HY9b5m8aE7uTkDomitP6Ekn9AZ3ztlxJ//8qtu/B3vH+
- PWPr2XAPwD5n9XU5XGEDBw3yU57xbhXw5wdIevY+UWl6ob7SI8VCsvBaZ/7yOZ4dmWGK
- qkxs8Jjzj74GtqvpnCQDL/nrEcwcUgQi7Z0hUkgjoD050LFz+C8YsIzco5rhPzWeGORB
- 6EPw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=78f3UoYPyR9YoulyrKcvwwDRZlSVOSbTJYl/G8DuHig=;
+ b=axPc6VyGqrlGySrqMb/1XHjEId1tMfg0rwtUzI+3fdVh0TRkYnYcGSkxnKXL9R6TKs
+ XG+XyfqEeRVAKUpOpwJADUc1VkqwYvv5aq0fpYOr6d13KfPzQa9cpwTMqFkP7dOACDLt
+ U8X8KHtjc/SR21xqtCNnboFGLWNHE3WFLQLZur50V1IoSltluZ1b3fg/VrTigpdPlqOd
+ Y8BYcTMmj7msoOuYrBq160Ejm5il4IjkUWe0GButlISXCpTUsGUzWUILDb0cXwXqz4u+
+ NaPIfXJFYLlIkuR6GIdB5RHk/XLOf4AGCE93i6dvrgkSG5Y6i900zjpG1qehGK2zGZD1
+ lCkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W43+Wt4Y6WBfMt3QVm7reNKwOS0giC47Sbj29SuDsC0=;
- b=voAoNhLi8WATzjsgi5cRIbpyqAHCF4bOxTn9ckIYPsMWwwaDjjvZp46NnJ4CFWpAUN
- d8wAfRbwyaJ05k+Eb2KGwXWeKQicKWn/f3LTy/lhz4EgrhZJmKYYJjTcMcJTVqt+mCiA
- Vd2BpvOI+2YHdr0y7q61CdV0+UDFuBsGEWnHiTq23jyxlZYPzf0Vr/tVht2a9gCRN8f9
- nwPIqFmFgumMvsJnbFuUqOxzffm85Coz9vj41YjavR2O/evc7X1aYKeggPw9xTQLdXpF
- 1BkEo1+HjMFeWVgEKTPKLb6dN91NmY7Brs5EMLqiN3UBCM7WJ+b2Fhelcs/ffD31jmdq
- wD/w==
-X-Gm-Message-State: AJIora/Aq4XRSaTobGH9SJBLMx/dT+eenJJSYBePCqi3eisUGTql7/l4
- 02RQCJgYqQiT3nyYhqvnnc8xbw==
-X-Google-Smtp-Source: AGRyM1tw0HQfeZEUxOKsrHNe6Y5s0jJn2yH/BbqTk4uZabixqgQOo5VE+MLcNm8UF8BdvC/UUEQyKw==
-X-Received: by 2002:a17:90a:a404:b0:1ee:e545:288b with SMTP id
- y4-20020a17090aa40400b001eee545288bmr2506685pjp.142.1657265987989; 
- Fri, 08 Jul 2022 00:39:47 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=78f3UoYPyR9YoulyrKcvwwDRZlSVOSbTJYl/G8DuHig=;
+ b=PrsuzJxYOwfI8aX7zsl2xc+8viOz0rVDDRaheJ5QB4xvGhbdKrduEnNYsJuUP9hRTH
+ SHsuTPyUFNi0Ctn3rbLXpZYqRYbSaMPF91ACx2JrOYoQr+G2l5gv+02bRNOCQZ/82u8i
+ GSXLRttw83KfHxLq++1i7kKljn0VysRHnfou4vj8GcbrftzjV8DLlNJ+4HB8ozSsGOg7
+ EhZMI4j/rW3TbNHjxP+/pAKSLbkjlYyzauDJHQlLWDEqV0WURNDMDhPAawzD6L0dVoeF
+ 37cfyP84+zcInziSZjdG9IrYLjjSVcq6PqZ2A85fc7NYBYSz+V0/1hScbYZhBVpgeMSd
+ 4VZw==
+X-Gm-Message-State: AJIora9V7w7zZtoDPstaUksSHA/whSk/01fzkzewJY3U96W7k/drFLML
+ ht4w54z8ICus+4oqkdQLKQHK8g==
+X-Google-Smtp-Source: AGRyM1ufd8hRZCXK40u/ukBn7NhP8GKrgDe2t6U1B0xdA+js8Mx6tu9VV/ZgBlnFSc0PSXO4xepBFA==
+X-Received: by 2002:a17:902:d4c3:b0:16a:2dc1:1ce6 with SMTP id
+ o3-20020a170902d4c300b0016a2dc11ce6mr2428245plg.161.1657265991399; 
+ Fri, 08 Jul 2022 00:39:51 -0700 (PDT)
 Received: from hsinchu02.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
  by smtp.gmail.com with ESMTPSA id
- l17-20020a170903121100b0016bef50c1ebsm8122412plh.128.2022.07.08.00.39.46
+ l17-20020a170903121100b0016bef50c1ebsm8122412plh.128.2022.07.08.00.39.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 00:39:47 -0700 (PDT)
+ Fri, 08 Jul 2022 00:39:51 -0700 (PDT)
 From: Kito Cheng <kito.cheng@sifive.com>
 To: alistair.francis@wdc.com, palmer@dabbelt.com, frank.chang@sifive.com,
  qemu-devel@nongnu.org, qemu-riscv@nongnu.org, liweiwei@iscas.ac.cn
 Cc: Kito Cheng <kito.cheng@sifive.com>
-Subject: [PATCH 1/2] target/riscv: Lower bound of VLEN is 32,
- and check VLEN >= ELEN
-Date: Fri,  8 Jul 2022 15:39:42 +0800
-Message-Id: <20220708073943.54781-1-kito.cheng@sifive.com>
+Subject: [PATCH 2/2] target/riscv: Auto set elen from vector extension by
+ default
+Date: Fri,  8 Jul 2022 15:39:43 +0800
+Message-Id: <20220708073943.54781-2-kito.cheng@sifive.com>
 X-Mailer: git-send-email 2.34.0
+In-Reply-To: <20220708073943.54781-1-kito.cheng@sifive.com>
+References: <20220708073943.54781-1-kito.cheng@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=kito.cheng@sifive.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=kito.cheng@sifive.com; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,49 +91,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According RVV spec 1.0, the minmal requirement of VLEN is great than or
-equal to ELEN, and minmal possible ELEN is 32, and also spec has mention
-`Minimum VLEN` for zve32* is 32, so the lower bound of VLEN is 32 I
-think.
+Default ELEN is setting to 64 for now, which is incorrect setting for
+Zve32*, and spec has mention minimum VLEN and supported EEW in chapter
+"Zve*: Vector Extensions for Embedded Processors" is 32 for Zve32.
 
-[1] https://github.com/riscv/riscv-v-spec/blob/master/v-spec.adoc#2-implementation-defined-constant-parameters
-[2] https://github.com/riscv/riscv-v-spec/blob/master/v-spec.adoc#182-zve-vector-extensions-for-embedded-processors
+ELEN actaully could be derived from which extensions are enabled,
+so this patch set elen to 0 as auto detect, and keep the capability to
+let user could configure that.
 
 Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
 ---
- target/riscv/cpu.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ target/riscv/cpu.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1bb3973806..487d0faa63 100644
+index 487d0faa63..c1b96da7da 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -740,10 +740,10 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-                         "Vector extension VLEN must be power of 2");
+@@ -751,13 +751,22 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+                         "Vector extension ELEN must be power of 2");
                  return;
              }
--            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
-+            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 32) {
+-            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
++            if (cpu->cfg.elen == 0) {
++              if (cpu->cfg.ext_zve32f) {
++                cpu->cfg.elen = 32;
++              }
++              if (cpu->cfg.ext_zve64f || cpu->cfg.ext_v) {
++                cpu->cfg.elen = 64;
++              }
++            }
++            if (cpu->cfg.elen != 0 && (cpu->cfg.elen > 64 ||
++                                       cpu->cfg.elen < 8)) {
                  error_setg(errp,
-                         "Vector extension implementation only supports VLEN "
--                        "in the range [128, %d]", RV_VLEN_MAX);
-+                        "in the range [32, %d]", RV_VLEN_MAX);
-                 return;
-             }
-             if (!is_power_of_2(cpu->cfg.elen)) {
-@@ -757,6 +757,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+                         "Vector extension implementation only supports ELEN "
                          "in the range [8, 64]");
                  return;
              }
-+            if (cpu->cfg.vlen < cpu->cfg.elen) {
-+                error_setg(errp,
-+                        "Vector extension VLEN must be greater than or equal "
-+                        "to ELEN");
-+                return;
-+            }
-             if (cpu->cfg.vext_spec) {
-                 if (!g_strcmp0(cpu->cfg.vext_spec, "v1.0")) {
-                     vext_version = VEXT_VERSION_1_00_0;
+-            if (cpu->cfg.vlen < cpu->cfg.elen) {
++            if (cpu->cfg.elen != 0 && cpu->cfg.vlen < cpu->cfg.elen) {
+                 error_setg(errp,
+                         "Vector extension VLEN must be greater than or equal "
+                         "to ELEN");
+@@ -901,7 +910,8 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+-    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
++    /* elen = 0 means set from v or zve* extension */
++    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 0),
+ 
+     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
 -- 
 2.34.0
 
