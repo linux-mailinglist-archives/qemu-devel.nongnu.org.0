@@ -2,98 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D6356B508
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 11:05:50 +0200 (CEST)
-Received: from localhost ([::1]:39468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E4956B512
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 11:09:03 +0200 (CEST)
+Received: from localhost ([::1]:42626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9jvp-0005zH-HU
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 05:05:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34142)
+	id 1o9jyw-0000JQ-8Q
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 05:09:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9jrx-0004aY-Cw
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:01:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41370)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o9jwy-0007Vz-8c
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:07:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9jrq-0005KH-AE
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:01:47 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o9jwu-00009d-89
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:06:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657270901;
+ s=mimecast20190719; t=1657271213;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RPC2FprAQpvkolXDROuIRPKvfXm4Ggphy1KkxDdCNHw=;
- b=OHjJRrmy0Uod09/YgV6l+xDGCTNuHsbHv/dlaIv6EHDSEaDsk2f/vteSOLmHzV4Yu/Z0ys
- pttk7eB4iB3Mg3TKz8oHIOFOyRjGKk+aLTPrEgymK74R5NdPNTVw+TVWwJtHVO2vYmK4nb
- 8W0rQqlqvAZ49HUN4UUid8szo0DiOG4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=S8r5Q0y4sPPCiX0G/3c0bzO8BdE/+PrL7qk2UDyAxqU=;
+ b=DxdxMDuBJsaW+l+wNu0IWYxrUEONao/V5MZBpm/JLq/bsF4LhbF9xsuKjMcKrVflYIafkf
+ RPSsaxIfK+8xAEQTsFbPg3mDsm0cjDs/A5DAwLkmkOCAbhe4lRfFAv3xyltuQHRVC24Cxk
+ YNkzFE8xQecK39EKs/CKguyoUEAs21k=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-367-o44L8nRvOM-ekCSSvhB9eQ-1; Fri, 08 Jul 2022 05:01:40 -0400
-X-MC-Unique: o44L8nRvOM-ekCSSvhB9eQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r186-20020a1c44c3000000b003a2daf644f9so424048wma.2
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 02:01:39 -0700 (PDT)
+ us-mta-427-a8sI1FDVPoCbAW35B-MJwQ-1; Fri, 08 Jul 2022 05:06:46 -0400
+X-MC-Unique: a8sI1FDVPoCbAW35B-MJwQ-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ u10-20020a2e9b0a000000b0025d2a397f12so3265391lji.15
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 02:06:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=RPC2FprAQpvkolXDROuIRPKvfXm4Ggphy1KkxDdCNHw=;
- b=RJhFZs6dilwOGi4x+CxDdsEH7GjEBsoKx0t+uhXTSlXhPnBoX+y2zL1Yhp+eimrEZo
- Di7qayhPOgSPXhsMnqQke6dLT7HAWE1d6g4RU8eyIcaF8uiI+eqf1LWgOJMbI0xSBLku
- zWzWSH3TD89eeAWNNJtYbcyAc9j66/UHkYaR0q3VX19SOb0PjhI5IFb8v5SOaZCdDPfy
- I++vkcvHU2YfyMw6R1u5Lm+Z7V62nDMswlly/Ye4JnqGL2xqiQDj2mWBsrRVCnxwtfEG
- QtAsUHjMgrDO9d0SMmAg3cu3GvB9NnCaFmybDIvo8EkK1rRa0JhMWfDy+J8QmA7ozq7G
- mKEA==
-X-Gm-Message-State: AJIora+De5XkW711/UPdlo4tNJaHlmp1Ctkn/cv3v8CFLETDxqVLlynI
- sd4L+jjJXxDU77QJ2CMETIGT95gbzQDH3o/mOqbNuHIVNNr8Odf1JlPP1qOzsygRpbSpYdbknIv
- w05ZsdTia3LcJfJA=
-X-Received: by 2002:adf:ffc1:0:b0:21d:66a1:c3ee with SMTP id
- x1-20020adfffc1000000b0021d66a1c3eemr2152729wrs.364.1657270899077; 
- Fri, 08 Jul 2022 02:01:39 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1swXuFzzX//ukzdRyBY8WHz6m2ZA9oZyj/m8Dj3C5oAf1LNxlgWoMCaYCNs1b0752PAhocWGQ==
-X-Received: by 2002:adf:ffc1:0:b0:21d:66a1:c3ee with SMTP id
- x1-20020adfffc1000000b0021d66a1c3eemr2152688wrs.364.1657270898722; 
- Fri, 08 Jul 2022 02:01:38 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- q17-20020adfdfd1000000b0021d4d6355efsm7347240wrn.109.2022.07.08.02.01.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jul 2022 02:01:38 -0700 (PDT)
-Message-ID: <3c910e80-dfdd-da1c-9683-3d7db51467c4@redhat.com>
-Date: Fri, 8 Jul 2022 11:01:37 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=S8r5Q0y4sPPCiX0G/3c0bzO8BdE/+PrL7qk2UDyAxqU=;
+ b=UgKY5N66G/SZCfU9kdztZzGMFOAVVQKLfOLerH/WhjLBro7Oo4EVGtUn/isDHNaMUS
+ gSJtN0PJa4UaQTb8sKpiDj1mPbFZ7eYrCNO3UZ8+pQLLPbh4B0z/WI+mk4bA0GaWhgBj
+ kF/0tivtWtWvP01XTQ3w5CnFHsNMwkGPaXj0BbGOF1VMsKI3E/9c86G1VXTJPeXZxEH0
+ RxiEBfRLcJ2VVVa8EBJ1sqPEl1z8d3UpMRqYcUcA37PYOGlQQDZ1TKJ/AwimZAq3itSb
+ +ubcniyQ8bDbTnbwptT++cFBbGAc0FNnjJaQUGNTTd8kkm507FRMXsYXuyttQ+bP9arH
+ dBaQ==
+X-Gm-Message-State: AJIora/PxweAZoM+4OdhnhJ7y8Fj4icUro/1WCvRB1tfNQDFFx7hEY08
+ 4wAGgku61lHAPNMYB174giqWo1p8Z0gXAG/k9Usf9x0pP1HHRo6uw+Od6ZAImKLF8bptytupz0U
+ Tr435UgwTuMKmb+Dk99zjGC+qYMc3llQ=
+X-Received: by 2002:a2e:9043:0:b0:25d:1ba8:5b59 with SMTP id
+ n3-20020a2e9043000000b0025d1ba85b59mr1352178ljg.496.1657271204732; 
+ Fri, 08 Jul 2022 02:06:44 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v3f0Ic5eTw1kEHPBijhDTMWYg4vTDzA0exTpoyUVr/bKgrR876ShO0X0xq0v8AuuOdLqB4L86QzNovsE2LfaA=
+X-Received: by 2002:a2e:9043:0:b0:25d:1ba8:5b59 with SMTP id
+ n3-20020a2e9043000000b0025d1ba85b59mr1352158ljg.496.1657271204465; Fri, 08
+ Jul 2022 02:06:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 1/8] virtio_queue_aio_attach_host_notifier: remove
- AioContext lock
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20220609143727.1151816-1-eesposit@redhat.com>
- <20220609143727.1151816-2-eesposit@redhat.com>
- <YsRGpb02psGIffrw@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YsRGpb02psGIffrw@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+References: <20220706184008.1649478-1-eperezma@redhat.com>
+ <20220706184008.1649478-4-eperezma@redhat.com>
+In-Reply-To: <20220706184008.1649478-4-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 8 Jul 2022 17:06:33 +0800
+Message-ID: <CACGkMEv361=0fJY-x2=xARkDKYWgZcAUrQD=jds=m30GvPzR_g@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 03/23] vdpa: delay set_vring_ready after DRIVER_OK
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Eric Blake <eblake@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,35 +102,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Jul 7, 2022 at 2:40 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
+te:
+>
+> To restore the device in the destination of a live migration we send the
+> commands through control virtqueue. For a device to read CVQ it must
+> have received DRIVER_OK status bit.
+>
+> However this open a window where the device could start receiving
+> packets in rx queue 0 before it receive the RSS configuration. To avoid
+> that, we will not send vring_enable until all configuration is used by
+> the device.
+>
+> As a first step, reverse the DRIVER_OK and SET_VRING_ENABLE steps.
 
+I wonder if it's better to delay this to the series that implements
+migration since the shadow cvq doesn't depends on this?
 
-Am 05/07/2022 um 16:11 schrieb Stefan Hajnoczi:
-> On Thu, Jun 09, 2022 at 10:37:20AM -0400, Emanuele Giuseppe Esposito wrote:
->> @@ -146,7 +147,6 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
->>  
->>      s->dataplane_starting = false;
->>      s->dataplane_started = true;
->> -    aio_context_release(s->ctx);
->>      return 0;
-> 
-> This looks risky because s->dataplane_started is accessed by IO code and
-> there is a race condition here. Maybe you can refactor the code along
-> the lines of virtio-blk to avoid the race.
-> 
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
+>  hw/virtio/vhost-vdpa.c | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 66f054a12c..2ee8009594 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -728,13 +728,18 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev=
+ *dev, int idx)
+>      return idx;
+>  }
+>
+> +/**
+> + * Set ready all vring of the device
+> + *
+> + * @dev: Vhost device
+> + */
+>  static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
+>  {
+>      int i;
+>      trace_vhost_vdpa_set_vring_ready(dev);
+> -    for (i =3D 0; i < dev->nvqs; ++i) {
+> +    for (i =3D 0; i < dev->vq_index_end; ++i) {
+>          struct vhost_vring_state state =3D {
+> -            .index =3D dev->vq_index + i,
+> +            .index =3D i,
 
-Uhmm could you explain why is virtio-blk also safe here?
-And what is currently protecting dataplane_started (in both blk and
-scsi, as I don't see any other AioContext lock taken)?
+Looks like a cleanup or bugfix which deserves a separate patch?
 
-Because I see that for example virtio_blk_req_complete is IO_CODE, so it
-could theoretically read dataplane_started while it is being changed in
-dataplane_stop? Even though I guess it doesn't because we disable and
-clean the host notifier before modifying it?
+>              .num =3D 1,
+>          };
+>          vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
+> @@ -1097,7 +1102,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *d=
+ev, bool started)
+>          if (unlikely(!ok)) {
+>              return -1;
+>          }
+> -        vhost_vdpa_set_vring_ready(dev);
+>      } else {
+>          ok =3D vhost_vdpa_svqs_stop(dev);
+>          if (unlikely(!ok)) {
+> @@ -1111,16 +1115,22 @@ static int vhost_vdpa_dev_start(struct vhost_dev =
+*dev, bool started)
+>      }
+>
+>      if (started) {
+> +        int r;
+> +
+>          memory_listener_register(&v->listener, &address_space_memory);
+> -        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> +        r =3D vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> +        if (unlikely(r)) {
+> +            return r;
+> +        }
+> +        vhost_vdpa_set_vring_ready(dev);
 
-But if so, I don't get what is the difference with scsi code, and why we
-need to protect only that instance with the aiocontext lock?
+Interesting, does this mean we only enable the last two queues without
+this patch?
 
-Thank you,
-Emanuele
+Thanks
+
+>      } else {
+>          vhost_vdpa_reset_device(dev);
+>          vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+>                                     VIRTIO_CONFIG_S_DRIVER);
+>          memory_listener_unregister(&v->listener);
+> -
+> -        return 0;
+>      }
+> +
+> +    return 0;
+>  }
+>
+>  static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
+> --
+> 2.31.1
+>
 
 
