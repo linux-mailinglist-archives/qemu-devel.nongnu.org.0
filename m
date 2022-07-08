@@ -2,93 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054F856BE88
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 19:58:02 +0200 (CEST)
-Received: from localhost ([::1]:54366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E8356C113
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 21:28:05 +0200 (CEST)
+Received: from localhost ([::1]:49766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9sEq-0002It-NK
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 13:58:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44202)
+	id 1o9te0-0004iP-1c
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 15:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o9sAn-0008P7-FY
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 13:53:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20278)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o9tbq-0003dP-3G; Fri, 08 Jul 2022 15:25:50 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:33248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o9sAM-0000Yh-NB
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 13:53:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657302801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lMXIjvX+UCigV7EShc6BTHKFakS6DwNWPmdABTNbw2A=;
- b=XSWa5xvRYUgqDU+kkuK71dQ8Q+C92Y44RJ9JnRblDLPzcFrNnNUbWw4NSUD4TfOKEoSAB0
- fg6Izm/3ghgEY1Cu7mmZ9N1lbYAtsM/ZMwasQZ5b//g4Hf/L1PVuBhGjvR4/5ig6dRf1XC
- hemsGGlSU1XmrGDct3zCvklMK5c1CLs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-182-8QCU3pZjPlyqS7ZuoqFAdg-1; Fri, 08 Jul 2022 13:53:20 -0400
-X-MC-Unique: 8QCU3pZjPlyqS7ZuoqFAdg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n18-20020a05600c501200b003a050cc39a0so9736655wmr.7
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 10:53:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=lMXIjvX+UCigV7EShc6BTHKFakS6DwNWPmdABTNbw2A=;
- b=dnpHmFMXLaBo440rNln1LWBtBbuj1vWV1JBimw+Yh12MoXh5lizF/BEv76jdV/xQjS
- TPWuwMq7DCPWCXw8wn04nQEwMpHq6hV+LSKCxFX/A0Jqo83zYwFbW8aIHW6/foyKe/lP
- 2pcsxj0T57FfDdNkn5KvZx0LHbcGywVnAnHbNbXwRNVFO4oKJG/U3fEwWuoEH+PvtjLw
- B+D1D0qbcmkbBUmypmAnRvywXaFUE/Ney6romX0PVo7H7cxm+lzpUoZ7Gaj8oGI72ck0
- HQxZ0AvATgqeZUriPqppv0Oj06zTR9puU8f7GnI4rWoDy5MrIWhTU7Y6dpgI8HSCaIlG
- EyKw==
-X-Gm-Message-State: AJIora/c3GP20Zg8exvr/W4Wnj/YG7Mw2qR2hoeHcffxa8vLHok3BrFU
- HqmLLYxgB9ryTYEDfL0JBlnnoBjRDMVLtpHL2K/40FhShRQmaTuGe5sC1ILVXS5jOqfcuhxoHsA
- JyTDXrPGQUScV+Yo=
-X-Received: by 2002:adf:f78d:0:b0:21d:6e79:88a2 with SMTP id
- q13-20020adff78d000000b0021d6e7988a2mr4453583wrp.493.1657302799040; 
- Fri, 08 Jul 2022 10:53:19 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vxK2nN9Q/rFgVNdr8GtXaWjGuHd8EYnGA14eXwPifZ6jgW19+eDffAkeL/lcc3ZVFIFFD4lw==
-X-Received: by 2002:adf:f78d:0:b0:21d:6e79:88a2 with SMTP id
- q13-20020adff78d000000b0021d6e7988a2mr4453569wrp.493.1657302798787; 
- Fri, 08 Jul 2022 10:53:18 -0700 (PDT)
-Received: from [192.168.8.100] (tmo-099-20.customers.d1-online.com.
- [80.187.99.20]) by smtp.gmail.com with ESMTPSA id
- g12-20020a05600c4ecc00b0039c99f61e5bsm3294320wmq.5.2022.07.08.10.53.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jul 2022 10:53:18 -0700 (PDT)
-Message-ID: <9014432a-045f-a1ee-add6-7a37c693ee2f@redhat.com>
-Date: Fri, 8 Jul 2022 19:53:16 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1o9tbm-0000fP-Ba; Fri, 08 Jul 2022 15:25:48 -0400
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 4B6742E1320;
+ Fri,  8 Jul 2022 22:25:32 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:8001::1:0] (unknown
+ [2a02:6b8:b081:8001::1:0])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ vzlv8o23Fq-PUOK4KPh; Fri, 08 Jul 2022 22:25:31 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1657308331; bh=1ylztOPu/Zxrszb7YtwIiU7UWznr1/E0Sn7Y4lHqXNg=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=p8wY5IHwqv1QqvOAZxi62op23ukOGLj0GpJ5VVtpV47vCcsW8CCRpU2zzHrGeKo5K
+ vgwR4GqtPnHYomkMmdqJG71hJ/P19U6a7bzUFAb1Qma/OpDxJHeeQcnU8Et9luJ9sy
+ wsLfDljqyn07uNqebiXdOvkeOjE6ms4gv75WCupA=
+Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <1c7b5083-01eb-f53d-4b3e-fae0e630cea2@yandex-team.ru>
+Date: Fri, 8 Jul 2022 22:25:30 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: Intermittent meson failures on msys2
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v9 05/21] job.c: add job_lock/unlock while keeping job.h
+ intact
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <c27c93e9-c6e9-1d12-8b45-41c34065a977@linaro.org>
- <CAJ+F1CLQ6Y-tzcjwQeL=EO21+v+_49F85E2fnEcN170Gb89kjw@mail.gmail.com>
- <YsgtZo/dQPT58Sfm@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <YsgtZo/dQPT58Sfm@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220706201533.289775-1-eesposit@redhat.com>
+ <20220706201533.289775-6-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220706201533.289775-6-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,80 +85,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/07/2022 15.13, Daniel P. Berrangé wrote:
-> On Fri, Jul 08, 2022 at 04:41:48PM +0400, Marc-André Lureau wrote:
->> Hi
->>
->> On Mon, Jun 27, 2022 at 6:41 AM Richard Henderson <
->> richard.henderson@linaro.org> wrote:
->>
->>> Hi guys,
->>>
->>> There's an occasional failure on msys2, where meson fails to capture the
->>> output of a build
->>> script.  E.g.
->>>
->>> https://gitlab.com/qemu-project/qemu/-/jobs/2642051161
->>>
->>> FAILED: ui/input-keymap-qcode-to-linux.c.inc
->>> "C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.exe"
->>> "C:/GitLab-Runner/builds/qemu-project/qemu/meson/meson.py" "--internal"
->>> "exe" "--capture"
->>> "ui/input-keymap-qcode-to-linux.c.inc" "--"
->>> "C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.exe"
->>> "../ui/keycodemapdb/tools/keymap-gen" "code-map" "--lang" "glib2"
->>> "--varname"
->>> "qemu_input_map_qcode_to_linux" "../ui/keycodemapdb/data/keymaps.csv"
->>> "qcode" "linux"
->>> [301/1665] Generating input-keymap-qcode-to-qnum.c.inc with a custom
->>> command (wrapped by
->>> meson to capture output)
->>> ninja: build stopped: subcommand failed.
->>>
->>>
->>> https://gitlab.com/qemu-project/qemu/-/jobs/2625836697
->>>
->>> FAILED: ui/shader/texture-blit-frag.h
->>> "C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.exe"
->>> "C:/GitLab-Runner/builds/qemu-project/qemu/meson/meson.py" "--internal"
->>> "exe" "--capture"
->>> "ui/shader/texture-blit-frag.h" "--" "perl"
->>> "C:/GitLab-Runner/builds/qemu-project/qemu/scripts/shaderinclude.pl"
->>> "../ui/shader/texture-blit.frag"
->>> [313/1663] Generating texture-blit-vert.h with a custom command (wrapped
->>> by meson to
->>> capture output)
->>> ninja: build stopped: subcommand failed.
->>>
->>>
->>> Could you have a look please?
->>>
->>>
->>>
->> Ah, we don't have artifacts for msys2 builds it seems, that would perhaps
->> help. It would make sense to at least take meson-logs/*.txt. I'll work on a
->> patch.
->>
->> My guess is that CI randomly fails with "too many opened files", as I have
->> seen that regularly on various projects with Windows runners. And here,
->> it's probably reaching limits when running python/perl scripts
->> simultaneously... I don't see an easy way to solve that if that's the issue.
+On 7/6/22 23:15, Emanuele Giuseppe Esposito wrote:
+> With "intact" we mean that all job.h functions implicitly
+> take the lock. Therefore API callers are unmodified.
 > 
-> There shouldn't be very much parallelism even taking place, because
+> This means that:
+> - many static functions that will be always called with job lock held
+>    become _locked, and call _locked functions
+> - all public functions take the lock internally if needed, and call _locked
+>    functions
+> - all public functions called internally by other functions in job.c will have a
+>    _locked counterpart (sometimes public), to avoid deadlocks (job lock already taken).
+>    These functions are not used for now.
+> - some public functions called only from exernal files (not job.c) do not
+>    have _locked() counterpart and take the lock inside. Others won't need
+>    the lock at all because use fields only set at initialization and
+>    never modified.
 > 
-> https://docs.gitlab.com/ee/ci/runners/saas/windows_saas_runner.html
+> job_{lock/unlock} is independent from real_job_{lock/unlock}.
 > 
-> says  "Windows runners execute your CI/CD jobs on n1-standard-2
->         instances with 2 vCPUs and 7.5 GB RAM. "
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are *nop*
 > 
-> unless ninja is setting a parellism much higher than nCPUs ?
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-We're compiling with "make -j2" there, see .gitlab-ci.d/windows.yml ... so I 
-don't think that it's about too many things going on in parallel. 
-Additionally, the problem hasn't been there a couple of weeks ago, so it's 
-either something new that we merged recently, or the Windows containers or 
-MSYS2 environment has been changed recently?
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-  Thomas
+I think, we still lack some comments on function lock-related interface, but it may be improved later.
 
+[..]
+
+>   
+> -static int job_txn_apply(Job *job, int fn(Job *))
+> +/* Called with job_mutex held, but releases it temporarily. */
+
+Hmm. Yes, it may release it temprorarily when fn() release it.. Not very clear but OK..
+
+> +static int job_txn_apply_locked(Job *job, int fn(Job *))
+>   {
+>       AioContext *inner_ctx;
+>       Job *other_job, *next;
+> @@ -170,7 +182,7 @@ static int job_txn_apply(Job *job, int fn(Job *))
+>        * we need to release it here to avoid holding the lock twice - which would
+>        * break AIO_WAIT_WHILE from within fn.
+>        */
+> -    job_ref(job);
+> +    job_ref_locked(job);
+>       aio_context_release(job->aio_context);
+>   
+
+[..]
+
+> +
+>   static bool job_started(Job *job)
+
+So we can call it both with mutex locked and without. Hope it never race with job_start.
+
+>   {
+>       return job->co;
+>   }
+>   
+> -static bool job_should_pause(Job *job)
+> +/* Called with job_mutex held. */
+
+[..]
+
+>   
+> -/** Useful only as a type shim for aio_bh_schedule_oneshot. */
+> +/**
+> + * Useful only as a type shim for aio_bh_schedule_oneshot.
+> + * Called with job_mutex *not* held, but releases it temporarily.
+
+", but releases it temprorarily" is misleading for me. If called with mutext not held, then "releases it temprorarily" is not part of function interface.. Many functions that take some mutex internally do release it temporarily and callers should not care of it.
+
+So, better just "Called with job_mutex *not* held."
+
+> + */
+>   static void job_exit(void *opaque)
+>   {
+>       Job *job = (Job *)opaque;
+>       AioContext *ctx;
+> +    JOB_LOCK_GUARD();
+>   
+
+
+
+-- 
+Best regards,
+Vladimir
 
