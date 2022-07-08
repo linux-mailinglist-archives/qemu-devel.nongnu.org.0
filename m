@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DD556BE4E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 18:44:28 +0200 (CEST)
-Received: from localhost ([::1]:33994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EA656BE46
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 18:39:58 +0200 (CEST)
+Received: from localhost ([::1]:51662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9r5f-0003Ii-N1
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 12:44:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45048)
+	id 1o9r1J-00043i-6C
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 12:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9qD7-0005yd-PG
+ id 1o9qD8-0005yi-Ux
  for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:48:08 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:36643)
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:53036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9qD5-0002X2-EK
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:48:05 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- z12-20020a17090a7b8c00b001ef84000b8bso2313765pjc.1
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:48:03 -0700 (PDT)
+ id 1o9qD7-0002Ra-A4
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:48:06 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id fz10so12265977pjb.2
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:48:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cT93Lxc9mPWCnChsVCUCuYS7cifJUMOpzXauTBVN+y4=;
- b=kLncZh2cCRZ0gNjwCfYl6p1PQyezmnZItOPl8xO95pu1Ti/hLdJbXVrou1ysqmXazB
- 7PH9ENNq2Q5B4DeJMpxogBK0l9MYkeHiCoSBZRhkcmK9VEMZJQAetH+5Luc3G4n0inb9
- LARN+uSTx4uiUHwup0IrGD6hc5c5iEwp35LUboyTZJLxBrlWbxIBv34Qpf5aoFe0hpqw
- C4tp7+sNjjLemzpJZ9JnbnTPg5lfeeyADPfE8iDUbLEcgKmjKPNMJhauhx+Z6rOoRp9G
- Wz9bi7yTWfEIMMcehYPdAIKBTtok6KK1GAbp5ntrwgD7JOUg4Go66lcXxxsC3xnC9f9+
- uhXA==
+ bh=vlO0Hy0xq7x5BD/ngIXXowwVL1t8ftN3CmLzeuQQxqU=;
+ b=k7NtZtb/c/RkM48ccJZB8FEawARumCpACdsbVAjUMYfQBdDRkLJvoSlJBjkWs0sbop
+ knQ1w33qO9tHTCwgcBw7LwdkhKAnHB4Aelc0jSFkbg89qLRu3iZTmLSe/2RuX+WA/x3c
+ 3RTtUqArfNriGtvemu1ILADTB6L11CH5yFB3+eHmfT54inJlKfHrGKNrMTEGR+cJrezP
+ cTxpMtiKlzvODNybmacg5nMuN0umBo4oiT8CEAMc0KH5rxUxrjoeFvdtx3ibsKqoXJ5j
+ dtYJDt5hwwGcDo4FPwH1XQXLjcpeDQcl8g6fUj4Al19fYB+klYtk0a5UWL1tPXJvcmPu
+ +9Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cT93Lxc9mPWCnChsVCUCuYS7cifJUMOpzXauTBVN+y4=;
- b=56ty48uOle20mumGwG7910h2faCvekxIYN2KGZ7xmkX2227Rcop4sBQu+zTpC/24Me
- wQVmU+tDPgAVORsxr0nsK8u/0siLtUC+KBiLLSbnuukFR7u9at9yya6Va79Ojn7/U+Pi
- Jt/kgf27+vMHemtGajckMtiD9ryVq6mNBA4DYRDT8BDQQbB0sScU5bixgP3LDJMJypAP
- 1wYUCn1YDYuVZTJ+wlf0iDm1c2WSuHoqdnEeBgI6qk2xWeVCNeJSlI9GP7W5qWjEo7N1
- Vm1UsVG1Wt51+JG38ei8uLagAPH/jvPbpai+VzL1MeuN0GH8x828aXXN3TcZdi2OzFE/
- Qg7g==
-X-Gm-Message-State: AJIora+5AXlNjQ0mbgA0rtzfUZ7ijKTUqpOO2PK3GHwNQYaQyt9Mm45n
- WDkDBHtrcmtKGc0pt4hvQNrSPs5Dws2rRmnN
-X-Google-Smtp-Source: AGRyM1vC1D3OQuYhedlWbfVEMIdO+2Xk+WTKFGbADRqykgVDIfdnUMmDOgIvwMG3CRXwMLqIgGdxAA==
-X-Received: by 2002:a17:902:7402:b0:16c:9e2:3b1c with SMTP id
- g2-20020a170902740200b0016c09e23b1cmr4179855pll.128.1657295282168; 
- Fri, 08 Jul 2022 08:48:02 -0700 (PDT)
+ bh=vlO0Hy0xq7x5BD/ngIXXowwVL1t8ftN3CmLzeuQQxqU=;
+ b=F6z/Mlad4TEMGZMQ+2zc1ejgxaV+IsvhXfbCYqzGOPDrOms75aOIXEuP5vp8LWKgI7
+ e6MiHILsZJt6Lq/cWYbTQe+4mq4NXRgiLEmW6o3vFtB+KPiCyHmhyNIJm/kZsmAIhcFP
+ zOvEfab0DHfpsLtbTDgID8i1u4doJ/MXNjglFRe6JeSZPJebhAWg3Rl7KuqMEV05hC+V
+ pEMuFIfPBr2CrlSwlWLWrrahS6zW9jHeNaU41FZBmmLaal7APY7veJRBXSwB+2WD+jqF
+ ptS+xQnyZ6tq6yNI157fikvSbczsnv45L/V8ClpYRyEiEJ3i0LBGVKBUn7utyNYuDs/o
+ EtPA==
+X-Gm-Message-State: AJIora/gXazXOEZn819Sn3EdrtATiehyxDhdkfIMzmVWbH7dNkC3eKny
+ BW7fjbpBLRC5rbhhmY4YjS4/NFFZjUZPRiDh
+X-Google-Smtp-Source: AGRyM1t6dp3w2ShfeuCNiwGNwiaVkme4szswTJelxklC2IV3DClOhaUNTm4guGvYHgby5fNNNXyMag==
+X-Received: by 2002:a17:90a:474c:b0:1ec:f898:d85b with SMTP id
+ y12-20020a17090a474c00b001ecf898d85bmr518525pjg.11.1657295284590; 
+ Fri, 08 Jul 2022 08:48:04 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- y3-20020a17090a390300b001ef81bac701sm1782089pjb.42.2022.07.08.08.48.00
+ y3-20020a17090a390300b001ef81bac701sm1782089pjb.42.2022.07.08.08.48.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 08:48:01 -0700 (PDT)
+ Fri, 08 Jul 2022 08:48:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [RISU PATCH v4 18/29] Compute reginfo_size based on the reginfo
-Date: Fri,  8 Jul 2022 21:16:49 +0530
-Message-Id: <20220708154700.18682-19-richard.henderson@linaro.org>
+Subject: [RISU PATCH v4 19/29] aarch64: Assume system support for SVE
+Date: Fri,  8 Jul 2022 21:16:50 +0530
+Message-Id: <20220708154700.18682-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220708154700.18682-1-richard.henderson@linaro.org>
 References: <20220708154700.18682-1-richard.henderson@linaro.org>
@@ -88,145 +87,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will allow dumping of SVE frames without having
-to know the SVE vector length beforehand.
+SVE support is no longer new, assume it's present.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- risu.h                 | 2 +-
- risu.c                 | 9 +++++++--
- risu_reginfo_aarch64.c | 4 ++--
- risu_reginfo_arm.c     | 4 ++--
- risu_reginfo_i386.c    | 4 ++--
- risu_reginfo_m68k.c    | 4 ++--
- risu_reginfo_ppc64.c   | 4 ++--
- 7 files changed, 18 insertions(+), 13 deletions(-)
+ risu_reginfo_aarch64.h |  4 ----
+ risu_reginfo_aarch64.c | 24 ------------------------
+ 2 files changed, 28 deletions(-)
 
-diff --git a/risu.h b/risu.h
-index bfcf0af..3cad3d5 100644
---- a/risu.h
-+++ b/risu.h
-@@ -126,6 +126,6 @@ int reginfo_dump(struct reginfo *ri, FILE * f);
- int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE *f);
+diff --git a/risu_reginfo_aarch64.h b/risu_reginfo_aarch64.h
+index c33b86f..efbca56 100644
+--- a/risu_reginfo_aarch64.h
++++ b/risu_reginfo_aarch64.h
+@@ -20,7 +20,6 @@ struct simd_reginfo {
+     char end[0];
+ };
  
- /* return size of reginfo */
--const int reginfo_size(void);
-+int reginfo_size(struct reginfo *ri);
+-#ifdef SVE_MAGIC
+ struct sve_reginfo {
+     /* SVE */
+     uint16_t    vl; /* current VL */
+@@ -29,7 +28,6 @@ struct sve_reginfo {
+     uint16_t    ffr[SVE_VQ_MAX];
+     char end[0];
+ };
+-#endif
  
- #endif /* RISU_H */
-diff --git a/risu.c b/risu.c
-index a248db1..a70b778 100644
---- a/risu.c
-+++ b/risu.c
-@@ -125,7 +125,7 @@ static RisuResult send_register_info(void *uc)
-     case OP_TESTEND:
-     case OP_COMPARE:
-     case OP_SIGILL:
--        header.size = reginfo_size();
-+        header.size = reginfo_size(&ri[MASTER]);
-         extra = &ri[MASTER];
-         break;
-     case OP_COMPAREMEM:
-@@ -209,7 +209,12 @@ static RisuResult recv_register_info(struct reginfo *ri)
-             return RES_BAD_SIZE;
-         }
-         respond(RES_OK);
--        return read_buffer(ri, header.size);
-+        res = read_buffer(ri, header.size);
-+        if (res == RES_OK && header.size != reginfo_size(ri)) {
-+            /* The payload size is not self-consistent with the data. */
-+            return RES_BAD_SIZE;
-+        }
-+        return res;
+ /* The kernel headers set this based on future arch extensions.
+    The current arch maximum is 16.  Save space below.  */
+@@ -50,9 +48,7 @@ struct reginfo {
  
-     case OP_COMPAREMEM:
-         if (header.size != MEMBLOCKLEN) {
+     union {
+         struct simd_reginfo simd;
+-#ifdef SVE_MAGIC
+         struct sve_reginfo sve;
+-#endif
+     };
+ };
+ 
 diff --git a/risu_reginfo_aarch64.c b/risu_reginfo_aarch64.c
-index 028c690..7044648 100644
+index 7044648..16a57ba 100644
 --- a/risu_reginfo_aarch64.c
 +++ b/risu_reginfo_aarch64.c
-@@ -69,7 +69,7 @@ void process_arch_opt(int opt, const char *arg)
- #endif
+@@ -24,11 +24,6 @@
+ #include "risu.h"
+ #include "risu_reginfo_aarch64.h"
+ 
+-#ifndef SVE_MAGIC
+-const struct option * const arch_long_opts;
+-const char * const arch_extra_help;
+-#else
+-
+ /* Should we test SVE register state */
+ static int test_sve;
+ static const struct option extra_opts[] = {
+@@ -39,11 +34,9 @@ static const struct option extra_opts[] = {
+ const struct option * const arch_long_opts = &extra_opts[0];
+ const char * const arch_extra_help
+     = "  --test-sve=<vq>        Compare SVE registers with VQ\n";
+-#endif
+ 
+ void process_arch_opt(int opt, const char *arg)
+ {
+-#ifdef SVE_MAGIC
+     long want, got;
+ 
+     assert(opt == FIRST_ARCH_OPT);
+@@ -64,19 +57,14 @@ void process_arch_opt(int opt, const char *arg)
+         }
+         exit(EXIT_FAILURE);
+     }
+-#else
+-    abort();
+-#endif
  }
  
--const int reginfo_size(void)
-+int reginfo_size(struct reginfo *ri)
+ int reginfo_size(struct reginfo *ri)
  {
      int size = offsetof(struct reginfo, simd.end);
- #ifdef SVE_MAGIC
-@@ -194,7 +194,7 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
- /* reginfo_is_eq: compare the reginfo structs, returns nonzero if equal */
- int reginfo_is_eq(struct reginfo *r1, struct reginfo *r2)
+-#ifdef SVE_MAGIC
+     if (test_sve) {
+         size = offsetof(struct reginfo, sve.end);
+     }
+-#endif
+     return size;
+ }
+ 
+@@ -86,9 +74,7 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
+     int i;
+     struct _aarch64_ctx *ctx, *extra = NULL;
+     struct fpsimd_context *fp = NULL;
+-#ifdef SVE_MAGIC
+     struct sve_context *sve = NULL;
+-#endif
+ 
+     /* necessary to be able to compare with memcmp later */
+     memset(ri, 0, sizeof(*ri));
+@@ -110,14 +96,12 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
+         case FPSIMD_MAGIC:
+             fp = (void *)ctx;
+             break;
+-#ifdef SVE_MAGIC
+         case SVE_MAGIC:
+             sve = (void *)ctx;
+             break;
+         case EXTRA_MAGIC:
+             extra = (void *)((struct extra_context *)(ctx))->datap;
+             break;
+-#endif
+         case 0:
+             /* End of list.  */
+             ctx = extra;
+@@ -137,7 +121,6 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
+     ri->fpsr = fp->fpsr;
+     ri->fpcr = fp->fpcr;
+ 
+-#ifdef SVE_MAGIC
+     if (test_sve) {
+         int vq = test_sve;
+ 
+@@ -184,7 +167,6 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
+ 
+         return;
+     }
+-#endif /* SVE_MAGIC */
+ 
+     for (i = 0; i < 32; i++) {
+         ri->simd.vregs[i] = fp->vregs[i];
+@@ -197,7 +179,6 @@ int reginfo_is_eq(struct reginfo *r1, struct reginfo *r2)
+     return memcmp(r1, r2, reginfo_size(r1)) == 0;
+ }
+ 
+-#ifdef SVE_MAGIC
+ static int sve_zreg_is_eq(int vq, const void *z1, const void *z2)
  {
--    return memcmp(r1, r2, reginfo_size()) == 0;
-+    return memcmp(r1, r2, reginfo_size(r1)) == 0;
- }
- 
- #ifdef SVE_MAGIC
-diff --git a/risu_reginfo_arm.c b/risu_reginfo_arm.c
-index 3662f12..47c52e8 100644
---- a/risu_reginfo_arm.c
-+++ b/risu_reginfo_arm.c
-@@ -36,9 +36,9 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
- 
--const int reginfo_size(void)
-+int reginfo_size(struct reginfo *ri)
- {
--    return sizeof(struct reginfo);
-+    return sizeof(*ri);
- }
- 
- static void reginfo_init_vfp(struct reginfo *ri, ucontext_t *uc)
-diff --git a/risu_reginfo_i386.c b/risu_reginfo_i386.c
-index 60fc239..50505ab 100644
---- a/risu_reginfo_i386.c
-+++ b/risu_reginfo_i386.c
-@@ -74,9 +74,9 @@ void process_arch_opt(int opt, const char *arg)
+     return memcmp(z1, z2, vq * 16) == 0;
+@@ -241,7 +222,6 @@ static void sve_dump_zreg_diff(FILE *f, int vq, const __uint128_t *z1,
+         }
      }
  }
+-#endif
  
--const int reginfo_size(void)
-+int reginfo_size(struct reginfo *ri)
- {
--    return sizeof(struct reginfo);
-+    return sizeof(*ri);
- }
+ /* reginfo_dump: print state to a stream, returns nonzero on success */
+ int reginfo_dump(struct reginfo *ri, FILE * f)
+@@ -259,7 +239,6 @@ int reginfo_dump(struct reginfo *ri, FILE * f)
+     fprintf(f, "  fpsr   : %08x\n", ri->fpsr);
+     fprintf(f, "  fpcr   : %08x\n", ri->fpcr);
  
- static void *xsave_feature_buf(struct _xstate *xs, int feature)
-diff --git a/risu_reginfo_m68k.c b/risu_reginfo_m68k.c
-index 32b28c8..4eb30cd 100644
---- a/risu_reginfo_m68k.c
-+++ b/risu_reginfo_m68k.c
-@@ -23,9 +23,9 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
+-#ifdef SVE_MAGIC
+     if (test_sve) {
+         int q, vq = test_sve;
  
--const int reginfo_size(void)
-+int reginfo_size(struct reginfo *ri)
- {
--    return sizeof(struct reginfo);
-+    return sizeof(*ri);
- }
+@@ -287,7 +266,6 @@ int reginfo_dump(struct reginfo *ri, FILE * f)
  
- /* reginfo_init: initialize with a ucontext */
-diff --git a/risu_reginfo_ppc64.c b/risu_reginfo_ppc64.c
-index 071c951..39e8f1c 100644
---- a/risu_reginfo_ppc64.c
-+++ b/risu_reginfo_ppc64.c
-@@ -32,9 +32,9 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
+         return !ferror(f);
+     }
+-#endif
  
--const int reginfo_size(void)
-+int reginfo_size(struct reginfo *ri)
- {
--    return sizeof(struct reginfo);
-+    return sizeof(*ri);
- }
+     for (i = 0; i < 32; i++) {
+         fprintf(f, "  V%-2d    : %016" PRIx64 "%016" PRIx64 "\n", i,
+@@ -336,7 +314,6 @@ int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE * f)
+         fprintf(f, "  fpcr   : %08x vs %08x\n", m->fpcr, a->fpcr);
+     }
  
- /* reginfo_init: initialize with a ucontext */
+-#ifdef SVE_MAGIC
+     if (test_sve) {
+         int vq = sve_vq_from_vl(m->sve.vl);
+ 
+@@ -365,7 +342,6 @@ int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE * f)
+ 
+         return !ferror(f);
+     }
+-#endif
+ 
+     for (i = 0; i < 32; i++) {
+         if (m->simd.vregs[i] != a->simd.vregs[i]) {
 -- 
 2.34.1
 
