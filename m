@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1BB56B26E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 07:52:52 +0200 (CEST)
-Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459FA56B27E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 08:04:40 +0200 (CEST)
+Received: from localhost ([::1]:57480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9gv5-0007bT-8k
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 01:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49124)
+	id 1o9h6U-0003Rv-Rl
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 02:04:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1o9gsC-0004K4-C4
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 01:49:52 -0400
-Received: from mga05.intel.com ([192.55.52.43]:10706)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1o9h4g-0002km-K7
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 02:02:46 -0400
+Received: from mga17.intel.com ([192.55.52.151]:21890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1o9gs7-0003nV-0C
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 01:49:51 -0400
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1o9h4e-0005sw-5t
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 02:02:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657259387; x=1688795387;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=NdUhA1O6O1Z2RaZYimsQNzqQner3jQzdbsCVIT6Dhrk=;
- b=StKZIuIw0WEH7vuE8MCBV/2iQQXffcgEDDC5u8aygvSMHGAdWdgx6UFH
- ZqHy1hamonX++/qrVZn65/rDMe2lecbmEBIOVL9jvwvmfPbC6T6Acrtm0
- 4kxXXvO3hnSdescMTDBv9p9066drxUYM0rbTZivFwHsMHC1z1oBnYeo4y
- F7kUyQAKn0QkT/gUq5ioquAGTUFVo8HCCsJdgyGmN4Ajt3tRWIO7di1zT
- LcMvVvVKJiRyV87b4SheR2W8iutd6gosDLhI39iyYeoUCmFs+c7S3/q7D
- ONpF42OGcRaieTIwJ0idtsCBaEEPpwvx0G6MOqIlgm01814ckbAco9z7L g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="370511158"
-X-IronPort-AV: E=Sophos;i="5.92,254,1650956400"; d="scan'208";a="370511158"
+ t=1657260164; x=1688796164;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=f4J2eVou6cKWBKhORg7hWmubaWHRaoQ4S25YOdBgGfg=;
+ b=GeTCutAkzyhju0uOWD9dcLdplKO105MitoCiWVX9xAZHVMQfMZvV5/OI
+ fdQjULPFQMYRKE48Th0lpbmlfIsBRDR65fSgzMcLJYzsMM0NuP3FesXTd
+ 1UwsOcPb3kgvuUW6ld8WgpOjhyTcX4J21j6C36bMur7pK8LC0gRa7z2Jr
+ y2Gvxm0Dj6yf3+q5FUMlyTCYL+GGhqAWJ4gW6J56BjNaWyuJfWHV6iQD3
+ JxENi1+1r8yxPPCWX6yB6jjjPOAvkPowVhKGkPJurCPleVjC4IKVrYeUb
+ 6pr5ejSZTJostN/bqH6AauvpqZGQ0ooOkc/t6/SuKwH8h0RJG88k6ueKE w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="264613015"
+X-IronPort-AV: E=Sophos;i="5.92,254,1650956400"; d="scan'208";a="264613015"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2022 22:49:28 -0700
-X-IronPort-AV: E=Sophos;i="5.92,254,1650956400"; d="scan'208";a="651432904"
-Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.123])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2022 23:02:38 -0700
+X-IronPort-AV: E=Sophos;i="5.92,254,1650956400"; d="scan'208";a="651436394"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.175.131])
+ ([10.249.175.131])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2022 22:49:27 -0700
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com,
-	ehabkost@redhat.com
-Subject: [PATCH] target/i386: Fix CPU feature dependency check
-Date: Fri,  8 Jul 2022 13:42:27 +0800
-Message-Id: <20220708054227.195038-1-zhenzhong.duan@intel.com>
-X-Mailer: git-send-email 2.25.1
+ 07 Jul 2022 23:02:36 -0700
+Message-ID: <e9129a16-c568-7cb2-1a4a-b28d8f79ea4f@intel.com>
+Date: Fri, 8 Jul 2022 14:02:34 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43;
- envelope-from=zhenzhong.duan@intel.com; helo=mga05.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH] target/i386: Restore TSX features with taa-no
+Content-Language: en-US
+To: Zhenzhong Duan <zhenzhong.duan@intel.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, ehabkost@redhat.com, xiangfeix.ma@intel.com
+References: <20220708054203.194978-1-zhenzhong.duan@intel.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220708054203.194978-1-zhenzhong.duan@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=xiaoyao.li@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -74,33 +80,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While in other call site "x-force-features" takes effect to keep
-the CPU feature even though not supported for any reason.
+On 7/8/2022 1:42 PM, Zhenzhong Duan wrote:
+> In L1 kernel side, taa-no is cleared because RTM is disabled
+> which will lead to below warning when starting L2 qemu:
+> 
+> "warning: host doesn't support requested feature: MSR(10AH).taa-no [bit 8]"
+> 
+> If host isn't susceptible to TSX Async Abort (TAA) vulnerabilities,
+> exposing TSX to L2 may help performance too.
 
-This isn't consistent while expanding features, Fixed to keep user
-explicitly enabled features if "x-force-features" is specified.
+If L1 doesn't see RTM, how can it expose it to L2?
 
-Fixes: 99e24dbdaa682 ("target/i386: introduce generic feature dependency mechanism")
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
----
- target/i386/cpu.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6a57ef13af86..b64c0b37f0cb 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6206,6 +6206,9 @@ void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-                                       unavailable_features & env->user_features[d->to.index],
-                                       "This feature depends on other features that were not requested");
- 
-+            if (cpu->force_features) {
-+                unavailable_features &= ~env->user_features[d->to.index];
-+            }
-             env->features[d->to.index] &= ~unavailable_features;
-         }
-     }
--- 
-2.25.1
+> Fixes: d965dc35592d ("target/i386: Add ARCH_CAPABILITIES related bits into Icelake-Server CPU model")
+> Tested-by: Xiangfei Ma <xiangfeix.ma@intel.com>
+> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+> ---
+>   target/i386/cpu.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 6a57ef13af86..bda2569c73cc 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -3423,6 +3423,9 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+>               {
+>                   .version = 3,
+>                   .props = (PropValue[]) {
+> +                    /* Restore TSX features removed by -v2 above */
+> +                    { "hle", "on" },
+> +                    { "rtm", "on" },
+>                       { "arch-capabilities", "on" },
+>                       { "rdctl-no", "on" },
+>                       { "ibrs-all", "on" },
 
 
