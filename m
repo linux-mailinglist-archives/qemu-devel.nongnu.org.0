@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5EB56B84B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:19:45 +0200 (CEST)
-Received: from localhost ([::1]:35148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 393D456B853
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:21:40 +0200 (CEST)
+Received: from localhost ([::1]:37884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9m1Q-0006dl-Ic
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:19:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57886)
+	id 1o9m3H-0000Au-9t
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o9ljr-0001sS-8r
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:01:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58061)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o9lwL-0001ac-6v
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:14:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o9ljo-00033G-8j
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:01:33 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o9lwI-0003NU-I8
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:14:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657278091;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=CqGPGiN7JbNPOhgwQS2plm8OVZgUFcP5lYUQHjl+4cs=;
- b=PauvlpoxJlBeZHRvGbk0ACgEy51RbIKLvINilT6HTAMPW/nlPkaNUW7CeHzYRHLQbF0iLB
- JKJZlfDhlLe9Km4GMcTL7wRA8iVXlXSGK5hlNVzpJy1rmfwx2KzXH9rEypR6msDB2qSQ5g
- 8ppaMnwh2RS1eFN3vB39lgp0f8oN+Fw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1657278865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cXdNhbyMKGK5OvK1Us66ddOoSgCT4nTPK8hEXBdNMOs=;
+ b=IM3pgVF+rvOC39VprdPh/rCrGESLkurzXvqb0T0gNlkyOfNK4wnxT9bS3WicH86MB/saiD
+ CPMrmZ6h99t9W8e6nHp9BO0v3Tp3GGys1Z0ZPNJZquB2XwhxJBHYiiWm0fvymkeY0dXRwL
+ 2cRCKJ6NWV0M74DPEWnMA/9Gd0fXvKk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-6KHl8vSWNsyKIxdx3UWk1Q-1; Fri, 08 Jul 2022 07:01:28 -0400
-X-MC-Unique: 6KHl8vSWNsyKIxdx3UWk1Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE0EC3C0ED61;
- Fri,  8 Jul 2022 11:01:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 000ED40C141D;
- Fri,  8 Jul 2022 11:01:26 +0000 (UTC)
-Date: Fri, 8 Jul 2022 12:01:24 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- peter.maydell@linaro.org
-Subject: Re: [RFC PATCH] qobject: Rewrite implementation of QDict for
- in-order traversal
-Message-ID: <YsgOhJLpbyODJCGG@redhat.com>
-References: <20220705095421.2455041-1-armbru@redhat.com>
- <87wncqmq2t.fsf@pond.sub.org>
+ us-mta-173-8JssKQPfNXGhyRxOEEvxQQ-1; Fri, 08 Jul 2022 07:14:17 -0400
+X-MC-Unique: 8JssKQPfNXGhyRxOEEvxQQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ az35-20020a05600c602300b003a1867d09b5so1498438wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 04:14:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=cXdNhbyMKGK5OvK1Us66ddOoSgCT4nTPK8hEXBdNMOs=;
+ b=3TXARjwjflPfIzQ+zkMyC10qAFgs4RBrRS+eqRdqAWmk1v0/MWAjQRsKROclisjs4n
+ Zp4qVV2ossKWtKqAMItdWnV/v2q3JDENRkFn6FvgydpbCWN+1uxAdnxDfPv+WhpvgfMq
+ pF0iCYcuksZ9VnznAn8DG0juvUzsCktZ4o0ncjw0UHNzkCzFhM3ubZX/hVWpoOBQv/CO
+ a3a2AdJg3M9NJ2NMa19z3dSEUEvZUdWGuNH/Q70aupHB2ceZLLwDwo3cCf6oPhYE5Obx
+ o2kR4QJrLtfrr/AZTZy22XwuYv3dv/7fWpc9S3wy/9SuhIKVr9SEQt7GhJ9TuerCqn7X
+ ttmw==
+X-Gm-Message-State: AJIora9uTRb2on/smUpo1xeeFEeaQOsMRd90ZUP6urynb0E15ajenosr
+ G5SNfILYIYvavjBtl5s7bRdlGglDGcqCPRyobRLG+o9CNsd/+LkRiah/+i/yeoRthmfZ4tWwURE
+ YAIAMhrxXoq3Ajtc=
+X-Received: by 2002:a05:600c:3ca2:b0:3a0:1825:2e6b with SMTP id
+ bg34-20020a05600c3ca200b003a018252e6bmr9916907wmb.132.1657278855779; 
+ Fri, 08 Jul 2022 04:14:15 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tTI5pvS/rzuFGl1cXE7Tya692fC4kb8iZtlUYXLEM7WIc1tFmMmZ0F9Ss+Bt4PIRiiSLjv0A==
+X-Received: by 2002:a05:600c:3ca2:b0:3a0:1825:2e6b with SMTP id
+ bg34-20020a05600c3ca200b003a018252e6bmr9916891wmb.132.1657278855549; 
+ Fri, 08 Jul 2022 04:14:15 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c702:6300:c44f:789a:59b5:91e9?
+ (p200300cbc7026300c44f789a59b591e9.dip0.t-ipconnect.de.
+ [2003:cb:c702:6300:c44f:789a:59b5:91e9])
+ by smtp.gmail.com with ESMTPSA id
+ b15-20020adff90f000000b0021b90cc66a1sm40624391wrr.2.2022.07.08.04.14.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jul 2022 04:14:15 -0700 (PDT)
+Message-ID: <3110fdcb-55dc-17e5-3bad-27493ea173cb@redhat.com>
+Date: Fri, 8 Jul 2022 13:14:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87wncqmq2t.fsf@pond.sub.org>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 1/4] target/s390x: Remove DISAS_GOTO_TB
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: svens@linux.ibm.com, qemu-s390x@nongnu.org
+References: <20220702060228.420454-1-richard.henderson@linaro.org>
+ <20220702060228.420454-2-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220702060228.420454-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,92 +102,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 06, 2022 at 01:35:22PM +0200, Markus Armbruster wrote:
-> Markus Armbruster <armbru@redhat.com> writes:
+On 02.07.22 08:02, Richard Henderson wrote:
+> There is nothing to distinguish this from DISAS_NORETURN.
 > 
-> > QDict is implemented as a simple hash table of fixed size.  Observe:
-> >
-> > * Slow for large n.  Not sure this matters.
-> >
-> > * A QDict with n entries takes 4120 + n * 32 bytes on my box.  Wastes
-> >   space for small n, which is a common case.
-> >
-> > * Order of traversal depends on the hash function and on insertion
-> >   order, because it iterates first over buckets, then collision
-> >   chains.
-> >
-> > * Special code ensures qdict_size() takes constant time.
-> >
-> > Replace the hash table by a linked list.  Observe:
-> >
-> > * Even slower for large n.  Might be bad enough to matter.
-> >
-> > * A QDict with n entries takes 32 + n * 24 bytes.
-> >
-> > * Traversal is in insertion order.
-> >
-> > * qdict_size() is linear in the number of entries.
-> >
-> > This is an experiment.  Do not commit to master as is.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/tcg/translate.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 > 
-> Forgot to mention: see also
-> 
->         Subject: Re: [PULL 14/15] qdev: Base object creation on QDict rather than QemuOpts
->         Message-ID: <87wnctzdl9.fsf@pond.sub.org>
->         https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg00358.html
+> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+> index fd2433d625..e38ae9ce09 100644
+> --- a/target/s390x/tcg/translate.c
+> +++ b/target/s390x/tcg/translate.c
+> @@ -1123,9 +1123,6 @@ typedef struct {
+>     exiting the TB.  */
+>  #define DISAS_PC_UPDATED        DISAS_TARGET_0
+>  
+> -/* We have emitted one or more goto_tb.  No fixup required.  */
+> -#define DISAS_GOTO_TB           DISAS_TARGET_1
+> -
+>  /* We have updated the PC and CC values.  */
+>  #define DISAS_PC_CC_UPDATED     DISAS_TARGET_2
+>  
+> @@ -1189,7 +1186,7 @@ static DisasJumpType help_goto_direct(DisasContext *s, uint64_t dest)
+>          tcg_gen_goto_tb(0);
+>          tcg_gen_movi_i64(psw_addr, dest);
+>          tcg_gen_exit_tb(s->base.tb, 0);
+> -        return DISAS_GOTO_TB;
+> +        return DISAS_NORETURN;
+>      } else {
+>          tcg_gen_movi_i64(psw_addr, dest);
+>          per_branch(s, false);
+> @@ -1258,7 +1255,7 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+>              tcg_gen_movi_i64(psw_addr, dest);
+>              tcg_gen_exit_tb(s->base.tb, 1);
+>  
+> -            ret = DISAS_GOTO_TB;
+> +            ret = DISAS_NORETURN;
+>          } else {
+>              /* Fallthru can use goto_tb, but taken branch cannot.  */
+>              /* Store taken branch destination before the brcond.  This
+> @@ -6634,7 +6631,6 @@ static void s390x_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+>      DisasContext *dc = container_of(dcbase, DisasContext, base);
+>  
+>      switch (dc->base.is_jmp) {
+> -    case DISAS_GOTO_TB:
+>      case DISAS_NORETURN:
+>          break;
+>      case DISAS_TOO_MANY:
 
-What alternative options do we have for addressing this scenario.
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-I can think of
-
-  - Auto-create array elements, if seeing an element set before length.
-
-    This is based on the theory that 'len-PROP' field is largely
-    redundant. It is only needed if you want to create a sparse
-    array, with empty elements /after/ the last one explicitly
-    set, or if you want to get error reporting for an app setting
-    element 3 after saying it wanted a 2 element list. IMHO the
-    error reporting benefit is dubious, because the error scenario
-    only exists because we made the app set this redundant 'len-PROP'
-    attribute. Does anything actually need the 'sparse array'
-    facility ?
-
-  - Special case array properties
-
-    Modify object_set_properties_from_qdict, so that it has a special
-    case first iterating over any properties with 'len-' prefix in
-    their name, then iterating over everything else.
-
-    Assuming this 'len-' property is the only case where we genuinely
-    have ordering dependancies between properties, this is quite a
-    simple fix, and avoid imposes ordering requirements on either
-    clients or QEMU in general.
-
-
-  - Insertion order preserving QDict
-
-    What you've done here, pushing the ordering problem off to be
-    the caller's responsibility to get right. The caller could
-    easily have the same problem though. For example, for CLI args
-    these days, libvirt will populate a data structure based on
-    QAPI, and then serialize that to CLI args. I don't know offhand
-    if our code is insertion order preserving, or will hit this
-    exact same problem. Luckily we don't support the 'rocker'
-    object so havent hit this precise issue.
-
-
-  - Any other options ?
-
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks,
+
+David / dhildenb
 
 
