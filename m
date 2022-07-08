@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E1E56BCE9
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 17:29:51 +0200 (CEST)
-Received: from localhost ([::1]:56598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C2B56BCE8
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 17:29:11 +0200 (CEST)
+Received: from localhost ([::1]:54288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9pvS-0004db-Ap
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 11:29:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
+	id 1o9pup-0003A4-2i
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 11:29:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9piW-0002YB-1P
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:16:29 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:35529)
+ id 1o9pia-0002a3-2T
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:16:33 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:36817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9piU-0002HZ-CK
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:16:27 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- x18-20020a17090a8a9200b001ef83b332f5so2221785pjn.0
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:16:25 -0700 (PDT)
+ id 1o9piX-0002IT-BQ
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:16:31 -0400
+Received: by mail-pf1-x436.google.com with SMTP id g126so9355557pfb.3
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:16:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3fycTpR631CAyDn0p7xxlDZ9oFm740riIb23T+ghRkc=;
- b=KlqFeacpPikz8VlCkQC8zAM6eV6tmOBIgQcStlKRUSVfF8K7WzNlgrcN/WiPETLfN+
- ndWnSoUvH9msmc8ffLen0nZECoMK4JNcitWt3Wab88mFabLKgY6Vv3VyNXRG3pOh+Sdp
- zhfqGhpGoXthYzt24zTqjbEAUhR3hRG62mtY8qh1NhsaPmKJCQux8DSIY921e1S401wv
- xAlmq5neMSmnnWw80itX2n20uCm76bSENpEqrC8CjYdoEkKcl5cXKdvenxAbo5Xb67JT
- Y6HfQEBfMAjJfl0wsputEBachvP8rzbXE5lR8zgB5aiBoOxLHWFytatItiNTzj6tfHlg
- /ZlA==
+ bh=Eedjnu3eOCixQFi7+Gzy6ksLbMXPKA3RAkF+Pv5QpfE=;
+ b=RLRqYk0b4m+zHsufuHYy7XOLtTeQ7v56+VvEl5yg+lSfw6qbJ4ilGk7ZYhdn32RK5M
+ pr0wasqrkSGUrSYVhAhZxQMc7QE2B6xQFOSSDr/aapx5k/21I265MGfmvty9TLYMmGmJ
+ 2czn5Rj2eJlWml1W4DVmrh8dCYnyGWgPBBTWYOjKbDOqodo2HUwpSiYy4/pIqjevV6W1
+ /R9tAWpvvDN0yTLjfGDmJ8aHW2ynInnTso9T/tLEt+PqA/A84CU8BbWZfo0odlCylN36
+ T0AXt6IHEilZ1yYS+hndgmBcRWvT9iyA0GqOx3RzTnzqlNU2gMaeDrCSVhuzlpcINCWw
+ Tx+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3fycTpR631CAyDn0p7xxlDZ9oFm740riIb23T+ghRkc=;
- b=EmPCSh2WYOB1+OfVV1GUu9Lq4Ib87z3sdAWShLKAr8HOQoNOKp4aVjLDyo1SYWKjtO
- tkfqBrNMPckORWXBjik0A2ak2IL3NYNFghPil6aAHzIJQjGWU6N6UpgDeW9+/kyKxHD8
- GeByrWhZR4O5RwgXPr9lr8S07EOnqTRTH2kG9tzIIHw5PL135Dk+Y9WW6qxNNuicglwX
- sv9R2oYbyKGuwUDpC/eTbU5fXfTKYT4DvDBJcHynPTlZiJPs3ebbm8cS9Vv+N0OCSDKj
- Fj66P17Z4oTUbi1JRpUapyjR/IempV3gq2Gh7bULkkAPfBhS5Ssy/EVcSwwrdaTkawh6
- VxlQ==
-X-Gm-Message-State: AJIora9IQS2aV/3HHnVnRBedQs0lDJ1ccVGVq/qMmZryQV/K5v5gAL2V
- tOqcqMjJqvqI7JMzKSU3jhsQ8F04uBkmRU4f
-X-Google-Smtp-Source: AGRyM1sLULJidU4fzwcq7p9Vq99XqYQHAi4zdbebRNEB6XLLWpP/kThHoxhqCW9nshhjlWt39BY9+Q==
-X-Received: by 2002:a17:90a:f415:b0:1ef:8811:e0c7 with SMTP id
- ch21-20020a17090af41500b001ef8811e0c7mr373534pjb.130.1657293385095; 
- Fri, 08 Jul 2022 08:16:25 -0700 (PDT)
+ bh=Eedjnu3eOCixQFi7+Gzy6ksLbMXPKA3RAkF+Pv5QpfE=;
+ b=SNozmfF/FnvicNSGxda3bZ3jpgLlFFZHOwB34RV+BOq7ed5eTe+4Pgk54uiTB4StaR
+ oMUwAKtXwOfZgQJIaP8tg8wHUnydYa3YXJC1AmdBW54sa8PQeH0ajsJeTyVwggBQ0BBg
+ fAGkJ9Vbe3yXQIM62ZHu0YomQZ0uJ1UBsdwpG/Rk5dgzFJ4qGn8eeiQhA0veFXoQv4M4
+ HprJLorDhGF1wYJl7BoMc6nv5cYYpCVUan8/khfLFPLS7XxpSze3DJV3zelVv+P9Uu0G
+ V4+DfLhNmjh70XpiDgj4ndZslG4JDdAUmEWH5dAfzCiUs0U2JqdBUJ5WYj082ERedag/
+ 7lGw==
+X-Gm-Message-State: AJIora/GiiG5s69tXV2/Kly6hs3R/szKuO8lzlR9+O4hlPjQd/Ox1/zg
+ KN46S/1i9T2gRVDXTnCvugjw+EQ7O8V4WqM3
+X-Google-Smtp-Source: AGRyM1tCdFyfjZNs3sbLOhkVQ7+vrJ8XADT2MURr0Akb/GcYly/bQukI2NkPQM+L0AFdnAK5gDZXRg==
+X-Received: by 2002:a05:6a00:124a:b0:525:894b:7924 with SMTP id
+ u10-20020a056a00124a00b00525894b7924mr4324990pfi.31.1657293387932; 
+ Fri, 08 Jul 2022 08:16:27 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- n17-20020a056a0007d100b0051bada81bc7sm29085774pfu.161.2022.07.08.08.16.22
+ n17-20020a056a0007d100b0051bada81bc7sm29085774pfu.161.2022.07.08.08.16.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 08:16:24 -0700 (PDT)
+ Fri, 08 Jul 2022 08:16:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v6 13/45] target/arm: Mark LDFF1 and LDNF1 as non-streaming
-Date: Fri,  8 Jul 2022 20:45:08 +0530
-Message-Id: <20220708151540.18136-14-richard.henderson@linaro.org>
+Subject: [PATCH v6 14/45] target/arm: Mark LD1RO as non-streaming
+Date: Fri,  8 Jul 2022 20:45:09 +0530
+Message-Id: <20220708151540.18136-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220708151540.18136-1-richard.henderson@linaro.org>
 References: <20220708151540.18136-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,42 +94,41 @@ if full a64 support is not enabled in streaming mode.
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sme-fa64.decode | 2 --
+ target/arm/sme-fa64.decode | 3 ---
  target/arm/translate-sve.c | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/target/arm/sme-fa64.decode b/target/arm/sme-fa64.decode
-index 7d4c33fb5b..2b5432bf85 100644
+index 2b5432bf85..47708ccc8d 100644
 --- a/target/arm/sme-fa64.decode
 +++ b/target/arm/sme-fa64.decode
-@@ -59,7 +59,5 @@ FAIL    0001 1110 0111 1110 0000 00-- ---- ----   # FJCVTZS
+@@ -58,6 +58,3 @@ FAIL    0001 1110 0111 1110 0000 00-- ---- ----   # FJCVTZS
+ #       --11 1100 --0- ---- ---- ---- ---- ----   # Load/store FP register (unscaled imm)
  #       --11 1100 --1- ---- ---- ---- ---- --10   # Load/store FP register (register offset)
  #       --11 1101 ---- ---- ---- ---- ---- ----   # Load/store FP register (scaled imm)
- 
--FAIL    1010 010- ---- ---- 011- ---- ---- ----   # SVE contiguous FF load (scalar+scalar)
--FAIL    1010 010- ---1 ---- 101- ---- ---- ----   # SVE contiguous NF load (scalar+imm)
- FAIL    1010 010- -01- ---- 000- ---- ---- ----   # SVE load & replicate 32 bytes (scalar+scalar)
- FAIL    1010 010- -010 ---- 001- ---- ---- ----   # SVE load & replicate 32 bytes (scalar+imm)
+-
+-FAIL    1010 010- -01- ---- 000- ---- ---- ----   # SVE load & replicate 32 bytes (scalar+scalar)
+-FAIL    1010 010- -010 ---- 001- ---- ---- ----   # SVE load & replicate 32 bytes (scalar+imm)
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index bbf3bf2119..5182ee4c06 100644
+index 5182ee4c06..96e934c1ea 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -4805,6 +4805,7 @@ static bool trans_LDFF1_zprr(DisasContext *s, arg_rprr_load *a)
-     if (!dc_isar_feature(aa64_sve, s)) {
+@@ -5062,6 +5062,7 @@ static bool trans_LD1RO_zprr(DisasContext *s, arg_rprr_load *a)
+     if (a->rm == 31) {
          return false;
      }
 +    s->is_nonstreaming = true;
      if (sve_access_check(s)) {
          TCGv_i64 addr = new_tmp_a64(s);
          tcg_gen_shli_i64(addr, cpu_reg(s, a->rm), dtype_msz(a->dtype));
-@@ -4906,6 +4907,7 @@ static bool trans_LDNF1_zpri(DisasContext *s, arg_rpri_load *a)
-     if (!dc_isar_feature(aa64_sve, s)) {
+@@ -5076,6 +5077,7 @@ static bool trans_LD1RO_zpri(DisasContext *s, arg_rpri_load *a)
+     if (!dc_isar_feature(aa64_sve_f64mm, s)) {
          return false;
      }
 +    s->is_nonstreaming = true;
      if (sve_access_check(s)) {
-         int vsz = vec_full_reg_size(s);
-         int elements = vsz >> dtype_esz[a->dtype];
+         TCGv_i64 addr = new_tmp_a64(s);
+         tcg_gen_addi_i64(addr, cpu_reg_sp(s, a->rn), a->imm * 32);
 -- 
 2.34.1
 
