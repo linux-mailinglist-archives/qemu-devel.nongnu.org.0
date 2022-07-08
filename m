@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100A056B7B6
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 12:53:11 +0200 (CEST)
-Received: from localhost ([::1]:39186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B10BC56B7B8
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 12:53:14 +0200 (CEST)
+Received: from localhost ([::1]:39600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9lbh-0002Bs-IT
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 06:53:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55750)
+	id 1o9lbl-0002Sn-N4
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 06:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o9lZ4-0008Fq-TR
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21726)
+ id 1o9lZ7-0008HK-IZ
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o9lZ1-0007o5-5x
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:25 -0400
+ id 1o9lZ4-0007oi-KB
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657277422;
+ s=mimecast20190719; t=1657277426;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EG4KkoeObcqqJo4sgJ33wulv4SxfYem4N+fWBOb67Ec=;
- b=L0SHGriguingZUyFieDmyKg2h9YtVoTK9kk/+sXVgb2aJp6guCNg0kRW/88oh52CU+pwIH
- SNDAvbnCTDePIA86D7jWiDqmjUPJPwVSyUWG9t9nsscT7HzPhiSks6ndZQsuaCr2PsOMKT
- xdvDuxiNKVAdLS7SfJTfEak0hDANB4U=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GbbeuVcdMLnUg8QSdjm8tfSk1mPpN9NaBIPoPghrH1c=;
+ b=ipPUxkwbbHbmz4kMqCYxsY5ALjxoeMH94tL0W5mLj+DqMhSig9BKrQosU2WCRiRe+WA21G
+ DC6fjmapgdAeBQ6wq0Gcpp6P4RIxagUoJP/1MiG8a3WrpUFesiZ8VWknEcoXWhVi58aeB3
+ HxsdiN42525rFxu4Kqkq0qRBCSYQDDg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-TkODqOekMvG1k2zIi3Nx-Q-1; Fri, 08 Jul 2022 06:50:19 -0400
-X-MC-Unique: TkODqOekMvG1k2zIi3Nx-Q-1
+ us-mta-590-F6HrS1zAOqWhduVENEsm7w-1; Fri, 08 Jul 2022 06:50:22 -0400
+X-MC-Unique: F6HrS1zAOqWhduVENEsm7w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 841C938041D6;
- Fri,  8 Jul 2022 10:50:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D94F38041D2;
+ Fri,  8 Jul 2022 10:50:21 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A6F661121314;
- Fri,  8 Jul 2022 10:50:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C392B1121314;
+ Fri,  8 Jul 2022 10:50:18 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -54,13 +55,14 @@ Cc: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>, Jason Wang <jasowang@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>,
  Parav Pandit <parav@mellanox.com>, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH 00/22] vdpa net devices Rx filter change notification with
- Shadow VQ
-Date: Fri,  8 Jul 2022 12:49:51 +0200
-Message-Id: <20220708105013.1899854-1-eperezma@redhat.com>
+Subject: [PATCH 01/22] vhost: Return earlier if used buffers overrun
+Date: Fri,  8 Jul 2022 12:49:52 +0200
+Message-Id: <20220708105013.1899854-2-eperezma@redhat.com>
+In-Reply-To: <20220708105013.1899854-1-eperezma@redhat.com>
+References: <20220708105013.1899854-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,102 +88,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Control virtqueue is used by networking device for accepting various=0D
-commands from the driver. It's a must to support advanced configurations.=0D
-=0D
-Rx filtering event is issues by qemu when device's MAC address changed once=
- and=0D
-the previous one has not been queried by external agents.=0D
-=0D
-Shadow VirtQueue (SVQ) already makes possible tracking the state of virtque=
-ues,=0D
-effectively intercepting them so qemu can track what regions of memory are=
-=0D
-dirty because device action and needs migration. However, this does not sol=
-ve=0D
-networking device state seen by the driver because CVQ messages, like chang=
-es=0D
-on MAC addresses from the driver.=0D
-=0D
-This series uses SVQ infraestructure to intercept networking control messag=
-es=0D
-used by the device. This way, qemu is able to update VirtIONet device model=
- and=0D
-react to them. In particular, this series enables rx filter change=0D
-notification.=0D
-=0D
-This is a pre-requisite to achieve net vdpa device with CVQ live migration.=
-=0D
-It's a stripped down version of [1], with error paths checked and no migrat=
-ion=0D
-enabled.=0D
-=0D
-First patch solves a memory leak if the device is able to trick qemu to thi=
-nk=0D
-it has returned more buffers than svq size. This should not be possible, bu=
-t=0D
-we're a bit safer this way.=0D
-=0D
-Next nine patches reorder and clean code base so its easier to apply later=
-=0D
-ones. No functional change should be noticed from these changes.=0D
-=0D
-Patches from 11 to 16 enable SVQ API to make other parts of qemu to interac=
-t=0D
-with it. In particular, they will be used by vhost-vdpa net to handle CVQ=0D
-messages.=0D
-=0D
-Patches 17 to 19 enable the update of the virtio-net device model for each=
-=0D
-CVQ message acknoledged by the device.=0D
-=0D
-Last patches enable x-svq parameter, forbidding device migration since it i=
-s=0D
-not restored in the destination's vdpa device yet. This will be added in la=
-ter=0D
-series, using this work.=0D
-=0D
-Comments are welcome.=0D
-=0D
-[1] https://patchwork.kernel.org/project/qemu-devel/cover/20220706184008.16=
-49478-1-eperezma@redhat.com/=0D
-=0D
-Eugenio P=C3=A9rez (22):=0D
-  vhost: Return earlier if used buffers overrun=0D
-  vhost: move descriptor translation to vhost_svq_vring_write_descs=0D
-  vdpa: Clean vhost_vdpa_dev_start(dev, false)=0D
-  virtio-net: Expose ctrl virtqueue logic=0D
-  vhost: Decouple vhost_svq_add_split from VirtQueueElement=0D
-  vhost: Reorder vhost_svq_last_desc_of_chain=0D
-  vhost: Add SVQElement=0D
-  vhost: Move last chain id to SVQ element=0D
-  vhost: Add opaque member to SVQElement=0D
-  vdpa: Small rename of error labels=0D
-  vhost: add vhost_svq_push_elem=0D
-  vhost: Add vhost_svq_inject=0D
-  vhost: add vhost_svq_poll=0D
-  vhost: Add custom used buffer callback=0D
-  vhost: Add svq avail_handler callback=0D
-  vhost: add detach SVQ operation=0D
-  vdpa: Export vhost_vdpa_dma_map and unmap calls=0D
-  vdpa: manual forward CVQ buffers=0D
-  vdpa: Buffer CVQ support on shadow virtqueue=0D
-  vdpa: Extract get features part from vhost_vdpa_get_max_queue_pairs=0D
-  vdpa: Add device migration blocker=0D
-  vdpa: Add x-svq to NetdevVhostVDPAOptions=0D
-=0D
- qapi/net.json                      |   9 +-=0D
- hw/virtio/vhost-shadow-virtqueue.h |  64 +++-=0D
- include/hw/virtio/vhost-vdpa.h     |   8 +=0D
- include/hw/virtio/virtio-net.h     |   4 +=0D
- hw/net/virtio-net.c                |  84 ++---=0D
- hw/virtio/vhost-shadow-virtqueue.c | 287 +++++++++++++----=0D
- hw/virtio/vhost-vdpa.c             |  63 ++--=0D
- net/vhost-vdpa.c                   | 473 ++++++++++++++++++++++++++++-=0D
- 8 files changed, 855 insertions(+), 137 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+Previous function misses the just picked avail buffer from the queue.
+This way keeps blocking the used queue forever, but is cleaner to check
+before calling to vhost_svq_get_buf.
+
+Fixes: 100890f7cad50 ("vhost: Shadow virtqueue buffers forwarding")
+Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/vhost-shadow-virtqueue.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 56c96ebd13..9280285435 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -405,19 +405,21 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+         vhost_svq_disable_notification(svq);
+         while (true) {
+             uint32_t len;
+-            g_autofree VirtQueueElement *elem = vhost_svq_get_buf(svq, &len);
+-            if (!elem) {
+-                break;
+-            }
++            g_autofree VirtQueueElement *elem = NULL;
+ 
+             if (unlikely(i >= svq->vring.num)) {
+                 qemu_log_mask(LOG_GUEST_ERROR,
+                          "More than %u used buffers obtained in a %u size SVQ",
+                          i, svq->vring.num);
+-                virtqueue_fill(vq, elem, len, i);
+-                virtqueue_flush(vq, i);
++                virtqueue_flush(vq, svq->vring.num);
+                 return;
+             }
++
++            elem = vhost_svq_get_buf(svq, &len);
++            if (!elem) {
++                break;
++            }
++
+             virtqueue_fill(vq, elem, len, i++);
+         }
+ 
+-- 
+2.31.1
 
 
