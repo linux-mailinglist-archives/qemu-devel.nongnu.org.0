@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0551556BE10
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 18:16:42 +0200 (CEST)
-Received: from localhost ([::1]:54322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CF756BCFC
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 17:41:20 +0200 (CEST)
+Received: from localhost ([::1]:55258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9qem-0006dt-3Q
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 12:16:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39074)
+	id 1o9q6Z-0006rx-Dw
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 11:41:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9pn1-0003qm-U1
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:21:07 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:37518)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9pn0-0003JW-Av
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:21:07 -0400
-Received: by mail-pl1-x634.google.com with SMTP id f11so4055476plr.4
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IH0GiEUf1cl31EpypJHGc9N38GuuWqV/keLjTWnDRUI=;
- b=xgquYLXYJXsW1UdcvjlI689LtEmJcoi3Hr7/dyoIlSxt75FzcYeh8n6q5oqoVq7jiM
- bnn+CpvLDm4RRA7cKilyTkHndqjIruzjPAJZDzZVZa+ktu79asB5pjTzdT3QyWnJPrPY
- vkUm6ZrfFg8/jiwajXZyBaJvPUV7UN3IpzVDqJQ8IpU4Zbod5h6t1oUSuqpiV54rVOXe
- M9a5Wtnnrwrx+habCsi3qxjLPspeXVtqjm/NKWyHi6IHyqkysnvLuxeXnCbnlGb0xt+5
- 0drSnI7tYK9i1QyQKlKfbzqmBCsHFKnI/JML9Aul+4PoeLS23o2+qoSJFG7YMdtodHvc
- 0geA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IH0GiEUf1cl31EpypJHGc9N38GuuWqV/keLjTWnDRUI=;
- b=cWxefQuHCzFU6Ycf5AqW3cEz599lRFX9VyisxU2mICZvncDt0QcOvOyt8Aw92/xdQu
- 8anApUVI2kvlWaHewL2my5Uo0UxxOHGQdo1eEUXLLt10foT4s9Ac7/N53uw7vXEkfNlG
- dd5g3LCBF1R1ce/RpGk8LZwn9jTd1H4mQnL8y8II5ch4rGAd+wGoxbqV35J1dvSa+YW4
- HJ0qIJe4KvSPDEY+P8E87Wi2FqNpOfa863WG3REaDSove0/z1g2KuzVT6fNAeyS58kFw
- 6d8zYj01Dsrg+I6puBYxhkL3nkRwLwGk/KZoXLoHKw1JE/2Y1ROjohS0bXyLXAPjWNV4
- XCCg==
-X-Gm-Message-State: AJIora9zvK7QnNj9BK7lYXqeh3NjoH5opoaOoJawBHS9Hl99RRf+kLVy
- GBYWlPTy2bniJjdZ6NvrWyxJRTHrRGDAdYNH
-X-Google-Smtp-Source: AGRyM1s2TQsHBNDcTnokgrOaaCK8nMfva+py7DwicVtwuGa3tJYEnD/kZKrmOPolEx9e81mAJWgFQg==
-X-Received: by 2002:a17:902:e84f:b0:16c:76c:561d with SMTP id
- t15-20020a170902e84f00b0016c076c561dmr4301208plg.119.1657293665113; 
- Fri, 08 Jul 2022 08:21:05 -0700 (PDT)
-Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- cp2-20020a170902e78200b0015e8d4eb1d7sm30067741plb.33.2022.07.08.08.21.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 08:21:04 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9q0n-0006xt-UK
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:35:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24261)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1o9q0l-0007SW-2k
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:35:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657294518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zdVI21pILkuNzymX8f/FHb9lGvnDCiGMzLRXaWCvfzE=;
+ b=aKAF6N6AcEyab4RrUGmDVjYaq1assSS20sMbr0tnjFclxJzvxntnxQfUG2Bs3v3nL37MqL
+ 53MDi74cfS1QrVsVp+rHPQzf/TY5zsDc82lk3n5oCaRbZ4hFxVHSFjj+yP9iMcZrORDh/P
+ +9c7fiiUTcDzHdxBYCxq5a+P/ji65VU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-452-5crpSMgQOmis_F6uMN8qhQ-1; Fri, 08 Jul 2022 11:35:05 -0400
+X-MC-Unique: 5crpSMgQOmis_F6uMN8qhQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B269294EDFB;
+ Fri,  8 Jul 2022 15:35:05 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.16.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A027F18EB5;
+ Fri,  8 Jul 2022 15:35:03 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v6 45/45] linux-user/aarch64: Add SME related hwcap entries
-Date: Fri,  8 Jul 2022 20:45:40 +0530
-Message-Id: <20220708151540.18136-46-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220708151540.18136-1-richard.henderson@linaro.org>
-References: <20220708151540.18136-1-richard.henderson@linaro.org>
+Cc: Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Daniel Berrange <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ John Snow <jsnow@redhat.com>
+Subject: [PATCH v4 00/12] Improve reliability of VM tests
+Date: Fri,  8 Jul 2022 11:34:51 -0400
+Message-Id: <20220708153503.18864-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,51 +81,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- linux-user/elfload.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 1de77c7959..ce902dbd56 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -605,6 +605,18 @@ enum {
-     ARM_HWCAP2_A64_RNG          = 1 << 16,
-     ARM_HWCAP2_A64_BTI          = 1 << 17,
-     ARM_HWCAP2_A64_MTE          = 1 << 18,
-+    ARM_HWCAP2_A64_ECV          = 1 << 19,
-+    ARM_HWCAP2_A64_AFP          = 1 << 20,
-+    ARM_HWCAP2_A64_RPRES        = 1 << 21,
-+    ARM_HWCAP2_A64_MTE3         = 1 << 22,
-+    ARM_HWCAP2_A64_SME          = 1 << 23,
-+    ARM_HWCAP2_A64_SME_I16I64   = 1 << 24,
-+    ARM_HWCAP2_A64_SME_F64F64   = 1 << 25,
-+    ARM_HWCAP2_A64_SME_I8I32    = 1 << 26,
-+    ARM_HWCAP2_A64_SME_F16F32   = 1 << 27,
-+    ARM_HWCAP2_A64_SME_B16F32   = 1 << 28,
-+    ARM_HWCAP2_A64_SME_F32F32   = 1 << 29,
-+    ARM_HWCAP2_A64_SME_FA64     = 1 << 30,
- };
- 
- #define ELF_HWCAP   get_elf_hwcap()
-@@ -674,6 +686,14 @@ static uint32_t get_elf_hwcap2(void)
-     GET_FEATURE_ID(aa64_rndr, ARM_HWCAP2_A64_RNG);
-     GET_FEATURE_ID(aa64_bti, ARM_HWCAP2_A64_BTI);
-     GET_FEATURE_ID(aa64_mte, ARM_HWCAP2_A64_MTE);
-+    GET_FEATURE_ID(aa64_sme, (ARM_HWCAP2_A64_SME |
-+                              ARM_HWCAP2_A64_SME_F32F32 |
-+                              ARM_HWCAP2_A64_SME_B16F32 |
-+                              ARM_HWCAP2_A64_SME_F16F32 |
-+                              ARM_HWCAP2_A64_SME_I8I32));
-+    GET_FEATURE_ID(aa64_sme_f64f64, ARM_HWCAP2_A64_SME_F64F64);
-+    GET_FEATURE_ID(aa64_sme_i16i64, ARM_HWCAP2_A64_SME_I16I64);
-+    GET_FEATURE_ID(aa64_sme_fa64, ARM_HWCAP2_A64_SME_FA64);
- 
-     return hwcaps;
- }
--- 
-2.34.1
+Note: patches 10-12 are included for testing simplicity, they shouldn't=0D
+be merged. They will be included in a forthcoming block PR.=0D
+=0D
+V4:=0D
+=0D
+- Addressed concern by Marc-Andre in patch 01.=0D
+- Squashed Ubuntu patches (rth)=0D
+=0D
+This patch series attempts to improve the reliability of several of the=0D
+VM test targets. In particular, both CentOS 8 tests are non-functional=0D
+because CentOS 8 was EOL at the beginning of this calendar year, with=0D
+repositories and mirrors going offline.=0D
+=0D
+I also remove the ubuntu.i386 test because we no longer support Ubuntu=0D
+18.04 nor do we have explicit need of an i386 build test.=0D
+=0D
+After this series, I am able to successfully run every VM target on an=0D
+x86_64 host, except:=0D
+=0D
+- ubuntu.aarch64: Hangs often during testing, see below.=0D
+- centos.aarch64: Hangs often during testing, see below.=0D
+- haiku.x86_64: Build failures not addressed by this series, see=0D
+  https://lists.gnu.org/archive/html/qemu-devel/2022-06/msg02103.html=0D
+=0D
+The unit tests that I see fail most often under aarch64 are:=0D
+=0D
+- virtio-net-failover: Seems to like to hang on openbsd=0D
+- migration-test: Tends to hang under aarch64 tcg=0D
+=0D
+Future work (next version? next series?);=0D
+=0D
+- Try to get centos.aarch64 working reliably under TCG=0D
+- Upgrade ubuntu.aarch64 to 20.04 after fixing centos.aarch64=0D
+- Fix the Haiku build test, if possible.=0D
+- Ensure I can reliably run and pass "make vm-build-all".=0D
+  (Remove VMs from this recipe if necessary.)=0D
+=0D
+John Snow (11):=0D
+  qga: treat get-guest-fsinfo as "best effort"=0D
+  tests/vm: use 'cp' instead of 'ln' for temporary vm images=0D
+  tests/vm: switch CentOS 8 to CentOS 8 Stream=0D
+  tests/vm: switch centos.aarch64 to CentOS 8 Stream=0D
+  tests/vm: upgrade Ubuntu 18.04 VM to 20.04=0D
+  tests/vm: remove ubuntu.i386 VM test=0D
+  tests/vm: remove duplicate 'centos' VM test=0D
+  tests/vm: add 1GB extra memory per core=0D
+  tests/vm: Remove docker cross-compile test from CentOS VM=0D
+  tests/qemu-iotests: hotfix for 307, 223 output=0D
+  tests/qemu-iotests: skip 108 when FUSE is not loaded=0D
+=0D
+Vladimir Sementsov-Ogievskiy (1):=0D
+  iotests: fix copy-before-write for macOS and FreeBSD=0D
+=0D
+ qga/commands-posix.c                       |  10 +-=0D
+ tests/qemu-iotests/108                     |   5 +=0D
+ tests/qemu-iotests/223.out                 |   4 +-=0D
+ tests/qemu-iotests/307.out                 |   4 +-=0D
+ tests/qemu-iotests/tests/copy-before-write |   5 +=0D
+ tests/vm/Makefile.include                  |   5 +-=0D
+ tests/vm/basevm.py                         |   5 +=0D
+ tests/vm/centos                            |   9 +-=0D
+ tests/vm/centos.aarch64                    | 174 +++------------------=0D
+ tests/vm/ubuntu.aarch64                    |  10 +-=0D
+ tests/vm/ubuntu.i386                       |  40 -----=0D
+ 11 files changed, 65 insertions(+), 206 deletions(-)=0D
+ delete mode 100755 tests/vm/ubuntu.i386=0D
+=0D
+-- =0D
+2.34.3=0D
+=0D
 
 
