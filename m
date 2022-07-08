@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED7256BB8F
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 16:15:45 +0200 (CEST)
-Received: from localhost ([::1]:43938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD8656BBE7
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 16:44:43 +0200 (CEST)
+Received: from localhost ([::1]:58456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9olk-0001cx-BG
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 10:15:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50094)
+	id 1o9pDm-00068a-D8
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 10:44:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o9okN-0000rX-MT
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 10:14:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1o9okJ-0004g5-C4
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 10:14:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657289654;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hzK9nW3ujczOjIlYmHmQU60FoWyGm7rYIy7FOwGaLLc=;
- b=c8Y+57bZbCPbOhSzttikY7y+RneOTiVtE601aVMT8HmXOT79smQODL+RoNiEUEfvmDEOd0
- 1YvJrILMXq0dLqLn4JRWyvxSxniMdCIxk6wjhg1MX3CcavP/lmIorXPL3pPA94Uq3Mr/zu
- TrqlULQNAnYN/P7DW3FaCHGvoBtYmME=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-117-GXzkeyMtP7mlaNEtDwJ9Uw-1; Fri, 08 Jul 2022 10:14:10 -0400
-X-MC-Unique: GXzkeyMtP7mlaNEtDwJ9Uw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 306878041BE;
- Fri,  8 Jul 2022 14:14:10 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 452A3492C3B;
- Fri,  8 Jul 2022 14:14:09 +0000 (UTC)
-Date: Fri, 8 Jul 2022 15:14:04 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] hw/i386: pass RNG seed to e820 setup table
-Message-ID: <Ysg7rM674vX8rAJN@redhat.com>
-References: <20220630113717.1893529-1-Jason@zx2c4.com>
- <YsgcXWuE2HIbFvN6@redhat.com>
- <CAHmME9rp0_6_pw=btXwuMEVthunnose6UZb4JWBYCUk+mo8WCA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9pCA-0005EG-8y
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 10:43:03 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:33745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9pC7-0002Z3-N7
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 10:43:01 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id 72so1034703pge.0
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 07:42:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ZPbrArNFZ/rWeA8x7cl5tNZ595+1bD1UnZfj1X9XxkA=;
+ b=XzIE5gqayEQOT+n4vcOqBRkm488gYNyZCAsBYo7ua49q4UZ9KXeVv69h2jbMDLtCvS
+ wqmUnkzPzLjn1Gqus6eGIglSLfGtpR5sH/w1jdOFt7zvxFabDOQIuGXIPPGhB4N5zUG/
+ sOBNB5f6kea1tLjBSiILLdakELgvl7QPC5n8RYFXhueLdpy339tsEc/6k/0OaXnM3bxg
+ pXbecybgtDRWnCZpFWNR93Nh0EC42ChLxMg1OpD+lfBpshAnY1583s0GbqBk5rczN6jQ
+ xG3jidQr1mPIP1QuhcwXXLt+XItfoN5CPjxJGv/LD9SQN3QkxNXkUP4yRk727AjIWwbH
+ ilUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ZPbrArNFZ/rWeA8x7cl5tNZ595+1bD1UnZfj1X9XxkA=;
+ b=3DRZntbocagPhf2kGFqefPtNAqBoMuFw9FMu3sJdpse2chLE/ggmMhhxPcKuAUDD+4
+ MStUpqaYZe5WvuFlphnKBIx+izN2+2QRKqMRbQfwAoCLmI5515tGSz9DfYaVvVm2d2dr
+ VxrAAY017NnSdErkClhxevjSP+3tBreYjf2kCZ9HCZe0jf9t9xGnzJjrWKUFGUSrRPa1
+ 5ZPfReqeTYmbHkDmwKQBDqNC7TEwXWrKml1MVkXT4RCaxs00oebPQgUm/d7nmV/y9m+V
+ 2FONrX8nA9isNvCDbAvrwsFm1tKyhzjHQoEkxOJLUCl2/6VhWOxuryiccf14ykZjMALh
+ xP3g==
+X-Gm-Message-State: AJIora+YiOh35Yz+fJdYn3cqCADHjIM/tyP5hcVvYaiNsSjecBSvxldY
+ MtiRzL8neEOjMqFVempUsoezXw==
+X-Google-Smtp-Source: AGRyM1tqcNAd4JatcCA4KM2MV/AehuRgKnKvr15khzpnKvkQ6wtcWfW8YbMbEGZMeou+ksehfzghKg==
+X-Received: by 2002:a63:4604:0:b0:40d:a0ec:5dc4 with SMTP id
+ t4-20020a634604000000b0040da0ec5dc4mr3693668pga.510.1657291378038; 
+ Fri, 08 Jul 2022 07:42:58 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ d2-20020a170903230200b0016b90620910sm22677315plh.71.2022.07.08.07.42.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jul 2022 07:42:57 -0700 (PDT)
+Message-ID: <83f71b37-848b-ad6f-d51f-b3d6e0d4cf24@linaro.org>
+Date: Fri, 8 Jul 2022 20:12:50 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHmME9rp0_6_pw=btXwuMEVthunnose6UZb4JWBYCUk+mo8WCA@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v5 25/45] target/arm: Implement BFMOPA, BFMOPS
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220706082411.1664825-1-richard.henderson@linaro.org>
+ <20220706082411.1664825-26-richard.henderson@linaro.org>
+ <CAFEAcA8Ou2N9qJyvSy2wkpGtguCjJrA9YWoio4jsrv5VrNE3VQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8Ou2N9qJyvSy2wkpGtguCjJrA9YWoio4jsrv5VrNE3VQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,85 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 08, 2022 at 02:04:40PM +0200, Jason A. Donenfeld wrote:
-> Hi Daniel,
+On 7/7/22 15:12, Peter Maydell wrote:
+>> +static inline uint32_t f16mop_adj_pair(uint32_t pair, uint32_t pg, uint32_t neg)
+>> +{
+>> +    pair ^= neg;
 > 
-> On Fri, Jul 8, 2022 at 2:00 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Thu, Jun 30, 2022 at 01:37:17PM +0200, Jason A. Donenfeld wrote:
-> > > Tiny machines optimized for fast boot time generally don't use EFI,
-> > > which means a random seed has to be supplied some other way, in this
-> > > case by the e820 setup table, which supplies a place for one. This
-> > > commit adds passing this random seed via the table. It is confirmed to
-> > > be working with the Linux patch in the link.
-> >
-> > IIUC, this approach will only expose the random seed when QEMU
-> > is booted using -kernel + -initrd args.
-> >
-> > I agree with what you say about most VMs not using UEFI right now.
-> > I'd say the majority of general purpose VMs are using SeaBIOS
-> > still. The usage of -kernel + -initrd, is typically for more
-> > specialized use cases.
+> You seem to be negating element 1 of row and col ('neg' here is
+> 1 << 15 unless I've misread something, and it gets passed to
+> the calls for both the row and column data), but the pseudocode
+> says we want to negate element 0 and element 1 of row, and not
+> negate the col elements.
+
+Yep, thanks.
+
+>> +    if (!(pg & 1)) {
+>> +        pair &= 0xffff0000u;
+>> +    }
+>> +    if (!(pg & 4)) {
+>> +        pair &= 0x0000ffffu;
+>> +    }
 > 
-> Highly disagree, based on seeing a lot of real world deployment.
+> The pseudocode sets the element to 0 if it is not
+> predicated, and then applies the negation second.
 
-I guess we're looking at different places then, as all of the large
-scale virt mgmt apps I've experianced with KVM (OpenStack, oVirt,
-KubeVirt), along with the small scale ones (GNOME Boxes, virt-manager,
-virt-install, Cockpit), etc all primarily use SeaBIOS, and in more
-recently times a bit of UEFI.  Direct kernel/initrd boot is usualy
-reserved for special cases, since users like to be able to manage
-their kernel/initrd inside the guest image.
+Yes.  However, the negation is predicated too -- the squashed FPZero is never negated.  I 
+found it simpler to unconditionally negate and then conditionally squash to zero.
 
-> Furthermore, this is going to be used within Linux itself for kexec,
-> so it makes sense to use it here too.
-
-Ok, useful info.
-
-> > Can we get an approach that exposes a random seed regardless of
-> > whether using -kernel, or seabios, or uefi, or $whatever firmware ?
+>> +            uint32_t n = *(uint32_t *)(vzn + row);
 > 
-> No.
+> More missing H macros ?
+
+Yep.
+
+>> +                    if ((pa & 0b0101) == 0b0101 || (pb & 0b0101) == 0b0101) {
 > 
-> > Perhaps (ab)use 'fw_cfg', which is exposed for any x86 VM no matter
-> > what config it has for booting ?
+> The pseudocode test for "do we do anything" is
+>   (prow_0 && pcol_0) || (prow_1 && pcol_1)
 > 
-> That approach is super messy and doesn't work. I've already gone down
-> that route.
+> but isn't this C expression doing
+>   (prow_0 && prow_1) || (pcol_0 && pcol_1) ?
 
-What's the problem with it ? fw_cfg is a pretty straightforward
-mechanism for injecting data into the guest OS, that we already
-use for alot of stuff.
+Yep, thanks.
 
-> The entire point here is to include the seed on this part of the boot
-> protocol. There might be other opportunities for doing it elsewhere.
-> For example, EFI already has a thing.
-> 
-> Please don't sink a good idea because it doesn't handle every possible
-> use case. That type of mentality is just going to result in nothing
-> ever getting done anywhere, making a decades old problem last for
-> another decade. This patch here is simple and makes a tangible
-> incremental advance toward something good, and fits the pattern of how
-> it's done on all other platforms.
 
-I'm not trying to sink an idea. If this turns out to be the best
-idea, I've no problem with that.
-
-I merely asked some reasonable questions about whether there were
-alternative approaches that could solve more broadly useful scenarios,
-given the narrow usage of direct kernel boot, in context of the common
-VM deployments I've seen at large scale. You can't expect reviewers to
-blindly accept any proposal without considering it broader context.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+r~
 
