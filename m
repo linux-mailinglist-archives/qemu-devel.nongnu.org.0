@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FDC56BE61
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 19:10:21 +0200 (CEST)
-Received: from localhost ([::1]:33982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4065756BE6D
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 19:15:09 +0200 (CEST)
+Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9rUh-0007Bf-SU
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 13:10:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45448)
+	id 1o9rZL-00027R-Q6
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 13:15:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9qDb-0006yY-GN
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:48:35 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:33314)
+ id 1o9qDd-00072v-2Z
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:48:37 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:36520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9qDY-0002cp-NC
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:48:35 -0400
-Received: by mail-pl1-x632.google.com with SMTP id p16so1945965plo.0
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:48:32 -0700 (PDT)
+ id 1o9qDb-0002d6-G7
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:48:36 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id m2so16684030plx.3
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v0mp2fwMAm/3QWt6/khtoo1bYBedtATdI31SE5nBFNs=;
- b=DyveKn7nHnlRo64TdMxrSezLt3U4Dqfw+SoJOH+Opg2LiBeRjKFVJsnsOx4/6dMef7
- A9V9viJSMUcJm+690shHgQHsbnkonWiawop1aJVX+0dld5H7lO2wqBoHUtXbGt6a2ogh
- fJsvTNKKx0naRn/amePeZITQ6HEaXgCiZydRK3gtA4KhPFuhI8fR1LhZsi5cxyQ38TxO
- H6RhM5iL8pc3OBHfKtB/0eke9P6/8Iyi3j/5Hub2Qs7i+kHYj23RKTGFkoRwvSd5TBRa
- jgq+WtDzbRsIAJs+OYJUKc7R2jX4bNyQnC7Vy2e2W3WcHyQXNigV2xyKo/zS9do2EnUa
- Um1A==
+ bh=tDlq7Gwmx8RjkvitHJnXFST75wSJBtl/6C34V4BWgAA=;
+ b=G7+mIjoXub1NheYWmd06XLVXHaJz5wicH2cKKE3fyO49E2kltVlkfxZSk44pgDXa/u
+ RFRwnmnPq2KB32DgvCx1bi4urniouKay2rqJCv77Kd/ILWff16d3subaDknaMjJM6o8q
+ byJD6mrSIw1ZgXT4QsBG52TgIlqCHLWzmVOuaj4sYA0cod6/eh3h0CIh0JZRsX59q5jP
+ oB5e7HPXjkk+vqnfs/hjmeZX7I4lnYkCyJJlGE5obU8HC4Gd6y4BTRJcENLqM1UHH+Oy
+ hCkB5jgfCDXXMBxTiijzjecy66CdCguugfWL4jzxta5qgeUR9NZLnObMj2NJN/WMjblf
+ ydQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v0mp2fwMAm/3QWt6/khtoo1bYBedtATdI31SE5nBFNs=;
- b=Kc8i9UlJ/hRFviKGnqPzKxy3wa0Zos+RJwtX30Vw0RwPeFBh4frhDUXrXhHlyU4WJm
- qBwmZ5MhWTQqL72K/epDjjSWJSX1i4+qHW/vVWnnNovp1tPb2ju+wE/HtrHWBH4sWSLy
- C53BY8O7VX4ebdqgQKFQ4Ujzg51lpWW6+AeW/tulUA4JelGCWqNFJ6zXHjOsZCFyKi+H
- PqNdHwZYD7KQaCoNzmbwua0iBNZhTQ4XDS9YCwSwLHo1UyMMwbfRfwWH7AdLJujhH5QV
- EtRk8+syrX9nnTWrKhFHHvIhdaLtJ6kLeFWxbLyXeXyNHrGJ3hV8XCQKfVM4j9N2fddN
- dzJw==
-X-Gm-Message-State: AJIora8E5SHcaccN5x9Q69o4nJVHtNnfFmlcQeFzBPLghtFogXRRaXdz
- 8vaKcFAP705UoimO6sTQyeDic+dYI4VFPe47
-X-Google-Smtp-Source: AGRyM1tGBohz2TxEEc+kszW1NPpFnyCxN7hI3gVkGC7cQn3Y/tpgQ1ekJ/yB8BEttpjTolJa2Q6caQ==
-X-Received: by 2002:a17:902:f790:b0:16b:d796:3696 with SMTP id
- q16-20020a170902f79000b0016bd7963696mr4257201pln.97.1657295311415; 
- Fri, 08 Jul 2022 08:48:31 -0700 (PDT)
+ bh=tDlq7Gwmx8RjkvitHJnXFST75wSJBtl/6C34V4BWgAA=;
+ b=PtBcDj2n4u2D3r7mezQ5SV9i431s70axVuYsNXTOrRYqh09lsRo7mFVbJDJh3kV5Zb
+ 8/sfWceqWmbcghc8da24WHCC/3uSPG/hEvPz+2JzSzpy3VmYGycIzXTzgyRELyBxBGWj
+ pL49rfmDg4SS9Jq34dB0Lx7YvydD/Njf78Xr/qJGCTiODrDszwIkK+TDMBgAebyREubV
+ OpcdjGfqn2lg7E7TL6kZInNbITny7x4GPFf28ynBureOjYg+2cxN8D9XOreRaP71HQoe
+ S4AiR+x5vOk0EBx5405y2pNyh4as8uFUrXd0KuN4Ubhel75QMXe5esM+QKVNgZ+HCC9c
+ EbSQ==
+X-Gm-Message-State: AJIora8i8LFobKIT6rmdmfdj9PuUpynijdwOuZW4n4wNTP+B6uKwQpWQ
+ WV4tUVYVPBaVJy6yn4OC0oBZm6lo6HnBMyIx
+X-Google-Smtp-Source: AGRyM1vrGlEr90v8ZPOYN6w9xF5QRwTvQXsc93MSL3Xwo1TwiLQu2EOacwuPZg/GQh/2X2kf9VpcTw==
+X-Received: by 2002:a17:902:d707:b0:16b:e35e:abd4 with SMTP id
+ w7-20020a170902d70700b0016be35eabd4mr4275451ply.111.1657295314262; 
+ Fri, 08 Jul 2022 08:48:34 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- y3-20020a17090a390300b001ef81bac701sm1782089pjb.42.2022.07.08.08.48.28
+ y3-20020a17090a390300b001ef81bac701sm1782089pjb.42.2022.07.08.08.48.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 08:48:31 -0700 (PDT)
+ Fri, 08 Jul 2022 08:48:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [RISU PATCH v4 28/29] aarch64: Add support for ZA storage
-Date: Fri,  8 Jul 2022 21:16:59 +0530
-Message-Id: <20220708154700.18682-29-richard.henderson@linaro.org>
+Subject: [RISU PATCH v4 29/29] aarch64: Trivial SME test
+Date: Fri,  8 Jul 2022 21:17:00 +0530
+Message-Id: <20220708154700.18682-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220708154700.18682-1-richard.henderson@linaro.org>
 References: <20220708154700.18682-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,370 +87,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Require NVL == SVL on startup, to make it easier to manage reginfo.
-Most of the time PSTATE.SM would be active with PSTATE.ZA anyway,
-for any non-trivial SME testing.
-
-Extend saved storage only when PSTATE.ZA is active.
-Use a carefully reserved uint16_t for saving SVCR.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- risu_reginfo_aarch64.h |  52 ++++++++++++-
- risu_reginfo_aarch64.c | 161 ++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 191 insertions(+), 22 deletions(-)
+ test_sme_aarch64.s | 55 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+ create mode 100644 test_sme_aarch64.s
 
-diff --git a/risu_reginfo_aarch64.h b/risu_reginfo_aarch64.h
-index 536c12b..097b7ad 100644
---- a/risu_reginfo_aarch64.h
-+++ b/risu_reginfo_aarch64.h
-@@ -21,6 +21,43 @@
- #define SVE_VQ_MAX 16
- 
- #define ROUND_UP(SIZE, POW2)    (((SIZE) + (POW2) - 1) & -(POW2))
+diff --git a/test_sme_aarch64.s b/test_sme_aarch64.s
+new file mode 100644
+index 0000000..a5ef909
+--- /dev/null
++++ b/test_sme_aarch64.s
+@@ -0,0 +1,55 @@
++	.arch_extension sme
 +
-+#ifdef ZA_MAGIC
-+/* System headers have all Streaming SVE definitions. */
-+typedef struct sve_context risu_sve_context;
-+typedef struct za_context  risu_za_context;
-+#else
-+#define ZA_MAGIC         0x54366345
-+#define SVE_SIG_FLAG_SM  1
++	mov	w0, #0
++	mov	w1, #0
++	mov	w2, #0
++	mov	w3, #0
++	mov	w4, #0
++	mov	w5, #0
++	mov	w6, #0
++	mov	w7, #0
++	mov	w8, #0
++	mov	w9, #0
++	mov	w10, #0
++	mov	w11, #0
++	mov	w12, #0
++	mov	w13, #0
++	mov	w14, #0
++	mov	w15, #0
++	mov	w16, #0
++	mov	w17, #0
++	mov	w18, #0
++	mov	w19, #0
++	mov	w20, #0
++	mov	w21, #0
++	mov	w22, #0
++	mov	w23, #0
++	mov	w24, #0
++	mov	w25, #0
++	mov	w26, #0
++	mov	w27, #0
++	mov	w28, #0
++	mov	w29, #0
++	mov	w30, #0
 +
-+/* System headers missing flags field. */
-+typedef struct {
-+    struct _aarch64_ctx head;
-+    uint16_t vl;
-+    uint16_t flags;
-+    uint16_t reserved[2];
-+} risu_sve_context;
++	smstart
 +
-+typedef struct {
-+    struct _aarch64_ctx head;
-+    uint16_t vl;
-+    uint16_t reserved[3];
-+} risu_za_context;
++	ptrue	p0.b
++	rdsvl	x12, #1
 +
-+#define ZA_SIG_REGS_OFFSET \
-+    ROUND_UP(sizeof(risu_za_context), SVE_VQ_BYTES)
++0:	subs	w12, w12, #1
++	lsl	w13, w12, #4
++	index	z0.b, w13, #1
++	mova	za0h.b[w12, #0], p0/m, z0.b
++	b.ne	0b
 +
-+#define ZA_SIG_REGS_SIZE(vq) \
-+    ((vq) * (vq) * SVE_VQ_BYTES * SVE_VQ_BYTES)
++	.inst 0x00005af0		/* compare */
 +
-+#define ZA_SIG_ZAV_OFFSET(vq, n) \
-+    (ZA_SIG_REGS_OFFSET + (SVE_SIG_ZREG_SIZE(vq) * n))
++	rdsvl	x12, #1
++0:	subs	w12, w12, #1
++	lsl	w13, w12, #4
++	index	z0.b, w13, #1
++	mova	za0v.b[w12, #0], p0/m, z0.b
++	b.ne	0b
 +
-+#define ZA_SIG_CONTEXT_SIZE(vq) \
-+    (ZA_SIG_REGS_OFFSET + ZA_SIG_REGS_SIZE(vq))
-+
-+#endif /* ZA_MAGIC */
-+
- #define RISU_SVE_REGS_SIZE(VQ)  ROUND_UP(SVE_SIG_REGS_SIZE(VQ), 16)
- #define RISU_SIMD_REGS_SIZE     (32 * 16)
- 
-@@ -36,12 +73,16 @@ struct reginfo {
-     uint32_t fpsr;
-     uint32_t fpcr;
-     uint16_t sve_vl;
--    uint16_t reserved;
-+    uint16_t svcr;
- 
--    char extra[RISU_SVE_REGS_SIZE(SVE_VQ_MAX)]
-+    char extra[RISU_SVE_REGS_SIZE(SVE_VQ_MAX) +
-+               ZA_SIG_REGS_SIZE(SVE_VQ_MAX)]
-         __attribute__((aligned(16)));
- };
- 
-+#define SVCR_SM  1
-+#define SVCR_ZA  2
-+
- static inline uint64_t *reginfo_vreg(struct reginfo *ri, int i)
- {
-     return (uint64_t *)&ri->extra[i * 16];
-@@ -59,4 +100,11 @@ static inline uint16_t *reginfo_preg(struct reginfo *ri, int vq, int i)
-                                   SVE_SIG_REGS_OFFSET];
- }
- 
-+static inline uint64_t *reginfo_zav(struct reginfo *ri, int vq, int i)
-+{
-+    return (uint64_t *)&ri->extra[RISU_SVE_REGS_SIZE(vq) +
-+                                  ZA_SIG_ZAV_OFFSET(vq, i) -
-+                                  ZA_SIG_REGS_OFFSET];
-+}
-+
- #endif /* RISU_REGINFO_AARCH64_H */
-diff --git a/risu_reginfo_aarch64.c b/risu_reginfo_aarch64.c
-index 9ea0acf..af620f3 100644
---- a/risu_reginfo_aarch64.c
-+++ b/risu_reginfo_aarch64.c
-@@ -25,25 +25,44 @@
- #include "risu.h"
- #include "risu_reginfo_aarch64.h"
- 
-+#ifndef PR_SME_SET_VL
-+#define PR_SME_SET_VL 63
-+#endif
-+
- /* Should we test SVE register state */
- static int test_sve;
-+static int test_za;
- static const struct option extra_opts[] = {
-     {"test-sve", required_argument, NULL, FIRST_ARCH_OPT },
-+    {"test-za", required_argument, NULL, FIRST_ARCH_OPT + 1 },
-     {0, 0, 0, 0}
- };
- 
- const struct option * const arch_long_opts = &extra_opts[0];
- const char * const arch_extra_help
--    = "  --test-sve=<vq>        Compare SVE registers with VQ\n";
-+    = "  --test-sve=<vq>        Compare SVE registers with VQ\n"
-+      "  --test-za=<vq>         Compare ZA storage with VQ\n";
- 
- void process_arch_opt(int opt, const char *arg)
- {
--    assert(opt == FIRST_ARCH_OPT);
--    test_sve = strtol(arg, 0, 10);
--
--    if (test_sve <= 0 || test_sve > SVE_VQ_MAX) {
--        fprintf(stderr, "Invalid value for VQ (1-%d)\n", SVE_VQ_MAX);
--        exit(EXIT_FAILURE);
-+    switch (opt) {
-+    case FIRST_ARCH_OPT:
-+        test_sve = strtol(arg, 0, 10);
-+        if (test_sve <= 0 || test_sve > SVE_VQ_MAX) {
-+            fprintf(stderr, "Invalid value for SVE VQ (1-%d)\n", SVE_VQ_MAX);
-+            exit(EXIT_FAILURE);
-+        }
-+        break;
-+    case FIRST_ARCH_OPT + 1:
-+        test_za = strtol(arg, 0, 10);
-+        if (test_za <= 0 || test_za > SVE_VQ_MAX
-+            || (test_za & (test_za - 1))) {
-+            fprintf(stderr, "Invalid value for ZA VQ (1-%d)\n", SVE_VQ_MAX);
-+            exit(EXIT_FAILURE);
-+        }
-+        break;
-+    default:
-+        abort();
-     }
- }
- 
-@@ -51,6 +70,31 @@ void arch_init(void)
- {
-     long want, got;
- 
-+    if (test_za) {
-+        /*
-+         * For now, reginfo requires NVL == SVL.
-+         * There doesn't seem to be much advantage to differing.
-+         */
-+        if (test_sve && test_sve != test_za) {
-+            fprintf(stderr, "Mismatched values for SVE and ZA VQ\n");
-+            exit(EXIT_FAILURE);
-+        }
-+
-+        want = sve_vl_from_vq(test_za);
-+        got = prctl(PR_SME_SET_VL, want);
-+        if (want != got) {
-+            if (got >= 0) {
-+                fprintf(stderr, "Unsupported VQ for ZA (%d != %d)\n",
-+                        test_za, (int)sve_vq_from_vl(got));
-+            } else if (errno == EINVAL) {
-+                fprintf(stderr, "System does not support SME\n");
-+            } else {
-+                perror("prctl PR_SME_SET_VL");
-+            }
-+            exit(EXIT_FAILURE);
-+        }
-+    }
-+
-     if (test_sve) {
-         want = sve_vl_from_vq(test_sve);
-         got = prctl(PR_SVE_SET_VL, want);
-@@ -75,6 +119,9 @@ int reginfo_size(struct reginfo *ri)
-     if (ri->sve_vl) {
-         int vq = sve_vq_from_vl(ri->sve_vl);
-         size += RISU_SVE_REGS_SIZE(vq);
-+        if (ri->svcr & SVCR_ZA) {
-+            size += ZA_SIG_REGS_SIZE(vq);
-+        }
-     } else {
-         size += RISU_SIMD_REGS_SIZE;
-     }
-@@ -84,10 +131,11 @@ int reginfo_size(struct reginfo *ri)
- /* reginfo_init: initialize with a ucontext */
- void reginfo_init(struct reginfo *ri, ucontext_t *uc)
- {
--    int i;
-+    int i, vq;
-     struct _aarch64_ctx *ctx, *extra = NULL;
-     struct fpsimd_context *fp = NULL;
--    struct sve_context *sve = NULL;
-+    risu_sve_context *sve = NULL;
-+    risu_za_context *za = NULL;
- 
-     /* necessary to be able to compare with memcmp later */
-     memset(ri, 0, sizeof(*ri));
-@@ -112,6 +160,9 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-         case SVE_MAGIC:
-             sve = (void *)ctx;
-             break;
-+        case ZA_MAGIC:
-+            za = (void *)ctx;
-+            break;
-         case EXTRA_MAGIC:
-             extra = (void *)((struct extra_context *)(ctx))->datap;
-             break;
-@@ -134,21 +185,55 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-     ri->fpsr = fp->fpsr;
-     ri->fpcr = fp->fpcr;
- 
--    if (test_sve) {
--        int vq = test_sve;
-+    /*
-+     * Note that arch_init required NVL==SVL, so test_sve and test_za
-+     * are equal when non-zero.  We will verify this matches below.
-+     */
-+    vq = test_sve | test_za;
-+    ri->sve_vl = sve_vl_from_vq(vq);
- 
--        if (sve == NULL) {
--            fprintf(stderr, "risu_reginfo_aarch64: failed to get SVE state\n");
-+    if (test_za) {
-+        if (za == NULL) {
-+            /* ZA_MAGIC is supposed to be present, even if empty. */
-+            fprintf(stderr, "risu_reginfo_aarch64: missing ZA state\n");
-             return;
-         }
-+        assert(za->head.size >= ZA_SIG_CONTEXT_SIZE(0));
- 
--        if (sve->vl != sve_vl_from_vq(vq)) {
-+        if (za->vl != ri->sve_vl) {
-             fprintf(stderr, "risu_reginfo_aarch64: "
--                    "unexpected SVE state: %d != %d\n",
--                    sve->vl, sve_vl_from_vq(vq));
-+                    "unexpected ZA VQ: %d != %d\n",
-+                    za->vl, ri->sve_vl);
-+            return;
-+        }
-+        if (za->head.size == ZA_SIG_CONTEXT_SIZE(0)) {
-+            /* ZA storage is disabled. */
-+        } else if (za->head.size < ZA_SIG_CONTEXT_SIZE(vq)) {
-+            fprintf(stderr, "risu_reginfo_aarch64: "
-+                    "failed to get complete ZA state\n");
-+            return;
-+        } else {
-+            ri->svcr |= SVCR_ZA;
-+            memcpy(reginfo_zav(ri, vq, 0), (char *)za + ZA_SIG_REGS_OFFSET,
-+                   ZA_SIG_CONTEXT_SIZE(vq) - ZA_SIG_REGS_OFFSET);
-+        }
-+    }
-+
-+    if (test_sve) {
-+        if (sve == NULL) {
-+            /* SVE_MAGIC is supposed to be present, even if empty. */
-+            fprintf(stderr, "risu_reginfo_aarch64: missing SVE state\n");
-             return;
-         }
- 
-+        if (sve->vl != ri->sve_vl) {
-+            fprintf(stderr, "risu_reginfo_aarch64: "
-+                    "unexpected SVE VQ: %d != %d\n",
-+                    sve->vl, ri->sve_vl);
-+            return;
-+        }
-+
-+        ri->svcr |= sve->flags & SVE_SIG_FLAG_SM;
-         if (sve->head.size <= SVE_SIG_CONTEXT_SIZE(0)) {
-             /* Only AdvSIMD state is present. */
-         } else if (sve->head.size < SVE_SIG_CONTEXT_SIZE(vq)) {
-@@ -156,7 +241,6 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-                     "failed to get complete SVE state\n");
-             return;
-         } else {
--            ri->sve_vl = sve->vl;
-             memcpy(reginfo_zreg(ri, vq, 0),
-                    (char *)sve + SVE_SIG_REGS_OFFSET,
-                    SVE_SIG_REGS_SIZE(vq));
-@@ -164,7 +248,18 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-         }
-     }
- 
--    memcpy(reginfo_vreg(ri, 0), fp->vregs, RISU_SIMD_REGS_SIZE);
-+    /*
-+     * Be prepared for ZA state present but SVE state absent (VQ != 0).
-+     * In which case, copy AdvSIMD vregs into the low portion of zregs;
-+     * pregs remain all zero.
-+     */
-+    if (vq == 0) {
-+        memcpy(reginfo_vreg(ri, 0), fp->vregs, RISU_SIMD_REGS_SIZE);
-+    } else {
-+        for (i = 0; i < 32; ++i) {
-+            memcpy(reginfo_zreg(ri, vq, i), &fp->vregs[i], 16);
-+        }
-+    }
- }
- 
- /* reginfo_is_eq: compare the reginfo structs, returns nonzero if equal */
-@@ -248,9 +343,11 @@ void reginfo_dump(struct reginfo *ri, FILE * f)
-     fprintf(f, "  fpcr   : %08x\n", ri->fpcr);
- 
-     if (ri->sve_vl) {
--        int vq = sve_vq_from_vl(ri->sve_vl);
-+        int vl = ri->sve_vl;
-+        int vq = sve_vq_from_vl(vl);
- 
--        fprintf(f, "  vl     : %d\n", ri->sve_vl);
-+        fprintf(f, "  vl     : %d\n", vl);
-+        fprintf(f, "  svcr   : %d\n", ri->svcr);
- 
-         for (i = 0; i < SVE_NUM_ZREGS; i++) {
-             uint64_t *z = reginfo_zreg(ri, vq, i);
-@@ -270,6 +367,14 @@ void reginfo_dump(struct reginfo *ri, FILE * f)
-             sve_dump_preg(f, vq, p);
-             fprintf(f, "\n");
-         }
-+
-+        if (ri->svcr & SVCR_ZA) {
-+            for (i = 0; i < vl; ++i) {
-+                uint64_t *z = reginfo_zav(ri, vq, i);
-+                fprintf(f, "  ZA[%-3d]: ", i);
-+                sve_dump_zreg(f, vq, z);
-+            }
-+        }
-         return;
-     }
- 
-@@ -322,6 +427,10 @@ void reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE * f)
-         fprintf(f, "  vl     : %d vs %d\n", m->sve_vl, a->sve_vl);
-     }
- 
-+    if (m->svcr != a->svcr) {
-+        fprintf(f, "  svcr   : %d vs %d\n", m->svcr, a->svcr);
-+    }
-+
-     if (m->sve_vl) {
-         int vq = sve_vq_from_vl(m->sve_vl);
- 
-@@ -347,6 +456,18 @@ void reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE * f)
-                 sve_dump_preg_diff(f, vq, pm, pa);
-             }
-         }
-+
-+        if (m->svcr & a->svcr & SVCR_ZA) {
-+            for (i = 0; i < vq * 16; i++) {
-+                uint64_t *zm = reginfo_zav(m, vq, i);
-+                uint64_t *za = reginfo_zav(a, vq, i);
-+
-+                if (!sve_zreg_is_eq(vq, zm, za)) {
-+                    fprintf(f, "  ZA[%-3d]: ", i);
-+                    sve_dump_zreg_diff(f, vq, zm, za);
-+                }
-+            }
-+        }
-         return;
-     }
- 
++	.inst 0x00005af1		/* exit */
 -- 
 2.34.1
 
