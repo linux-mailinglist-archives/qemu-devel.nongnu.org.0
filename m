@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE5956BD10
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 17:53:19 +0200 (CEST)
-Received: from localhost ([::1]:60704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C93856BE0B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 18:09:52 +0200 (CEST)
+Received: from localhost ([::1]:43418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9qI9-0005s1-0r
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 11:53:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38870)
+	id 1o9qYB-0007QX-7t
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 12:09:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9pmo-0003Eq-Hz
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:20:54 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:35557)
+ id 1o9pmq-0003Mv-Ns
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:20:56 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:46025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9pmm-0003EB-JK
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:20:54 -0400
-Received: by mail-pf1-x431.google.com with SMTP id x184so10404291pfx.2
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:20:52 -0700 (PDT)
+ id 1o9pmp-0003F5-1p
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:20:56 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id 145so22594005pga.12
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:20:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eZwyJS+DI6VXP8TVU6OuO37fm60h5FhLdjsLlNVqKXk=;
- b=l0eUZFbwuXNFm8Z28qebRMsopGHJpOh4hwAKUJa9xlE4rhkqlSo146+GlWLg326yCB
- mMb1a5MV5kfzNGHAPiVdRP0MCGiOGkFU06+rLSlONe5uySBVUDvrzbfMTTTcGCffrDbi
- PFo05DkdAEeinAsA2yQ3rdu67oQGnyhQvUoTlRxYB1mfBCzH8fzknvIq7JN4RMXCQpxJ
- 5vfayod/aZ625R7EGbquTsh25Zh6V0YClCPFOQ8gJIM+5jaHzUg6vrZ5SjgV5R1tnqMl
- rSh3swG6mnMh+tf/PPmyU7PUx2pHe/7Jtnuzq+xyvN8GT42+WXU+QjpfVWT+KjrEOxHn
- eB2w==
+ bh=V2fLCOd7w5RVaZMEE/2yClzk5I5RfuvEjcRKKU0Ql6A=;
+ b=dytHw4yHn9aQZiiETbPqvNBq7y0fHoTgmVXEA9wNgNhw7/wa5b4S8S/vO4hv11wdi3
+ 8TxSlDY2MXKDKNSxyaYf7jMszGmUVtU3zmM9NXy4Sz+s2ym9yfJli7Kdt5ciRFkeC1Bi
+ Tx8dA+9YaZTTxVaS3riauBtUxI4mSVh1oZaniW4renTeJn0vcFTCy/d9ceezLUIoCVIz
+ WYzAq9v7U0upxK5f2an5o3P+PiLg1Ll/S72XwcyB+ZWcbQUEUd557+GuWen1zCVHqt/W
+ RAhNMNk0TpAqdQGEE3uVxh1tzVuUXiLzkeSnDqrcMyePuIJTWcy4DtacOxQJeIyqjw//
+ 3ISg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eZwyJS+DI6VXP8TVU6OuO37fm60h5FhLdjsLlNVqKXk=;
- b=tWm2e/+ZfRO83RW8DhVU+C+UutAs4mnHFgFwJynwpI52BPsYgtEtpspxbPJwXAF1HX
- RI5YckV+TmFP9OZPZggqIJV09cj4mzMUkO+VLb1Xi1FHedVaoZW9SGfIAyMDGoJmejVr
- hCX5lIeqcBCDYIgrQKtYOlY/1UjIpagzwoLl2U8P/zfJMdNsvcEjE1pWwUpmwabUX8Ik
- vZL8rAuXV9J97YcvsAOSL2DzW91AKujDPM1ETOQxVdh32lAKA5pLRNxPpkLjtZ382ffk
- 8rhDyPd4RU0t9LknY0jTC+1bxVgQ8zWaNd4nvPZSJTXjjqjJDGtuQzSjKpJGP4TSZ39P
- FKoA==
-X-Gm-Message-State: AJIora97IJX9nwO25iVyh1N4Xqmx5zb4BJbvGeUYHM8I8SF+VXoTfkZg
- 3YeKP6Y/aMl7N6Oha5tBunWUY587l+19uoe5
-X-Google-Smtp-Source: AGRyM1truwjbjKwbcSGpjEJMFqe5Zd/Cgn6/pv9D0mmsbUhpRkIeJJNOBJxcrHLdtpyodEqsAmbIuA==
-X-Received: by 2002:a63:8649:0:b0:415:c328:4dff with SMTP id
- x70-20020a638649000000b00415c3284dffmr1053576pgd.430.1657293650994; 
- Fri, 08 Jul 2022 08:20:50 -0700 (PDT)
+ bh=V2fLCOd7w5RVaZMEE/2yClzk5I5RfuvEjcRKKU0Ql6A=;
+ b=a2h7PZ2paT+30inD305BbI/QH1NS59tx8MCkSVWrH+aesDsF9viOU8YaObn2+Phccd
+ fzRX0IpwokFr3p+o32FegtTH86Pei5RZym0ytGWU1CeSOuLNeZSHRXa8HuBKnEJQymJf
+ 8GaSYs8WZTfTDCcw8XETE43z30U6nyai/RCsAqRnnAvSmuoPZk27m6tM1cl4LKIEBjP8
+ KfL3Fkr7MXgduy/i4TtKDtc/cPCFPPMld413uKpdIb6uEtEEGebq6o9BpS5v6mkHf4yI
+ 52rqGT0LHc2W4OgCynyIxkgEbTgd4YaVdI4VKgHj2epHcOE5bYDvUQ2RNnk/aNYjhpjy
+ 69nQ==
+X-Gm-Message-State: AJIora8E1Nu9/HAQQao1my568xL1VwP3Oly9Onri4VqMRtBEnrePcqhH
+ Uj39/vfGpa994ne3sEF8pBgLfbExcOyRlEq0
+X-Google-Smtp-Source: AGRyM1vhWvWAoq3Pn2YIBCjUc6kze1JMVknL/i6c8RjTWxQvqey4vNkvdMYxXSCicTo8tfV4we4UXA==
+X-Received: by 2002:a63:460f:0:b0:412:7a8b:128c with SMTP id
+ t15-20020a63460f000000b004127a8b128cmr3968354pga.270.1657293653809; 
+ Fri, 08 Jul 2022 08:20:53 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- cp2-20020a170902e78200b0015e8d4eb1d7sm30067741plb.33.2022.07.08.08.20.48
+ cp2-20020a170902e78200b0015e8d4eb1d7sm30067741plb.33.2022.07.08.08.20.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 08:20:50 -0700 (PDT)
+ Fri, 08 Jul 2022 08:20:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v6 40/45] linux-user/aarch64: Implement SME signal handling
-Date: Fri,  8 Jul 2022 20:45:35 +0530
-Message-Id: <20220708151540.18136-41-richard.henderson@linaro.org>
+Subject: [PATCH v6 41/45] linux-user: Rename sve prctls
+Date: Fri,  8 Jul 2022 20:45:36 +0530
+Message-Id: <20220708151540.18136-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220708151540.18136-1-richard.henderson@linaro.org>
 References: <20220708151540.18136-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,289 +88,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set the SM bit in the SVE record on signal delivery, create the ZA record.
-Restore SM and ZA state according to the records present on return.
+Add "sve" to the sve prctl functions, to distinguish
+them from the coming "sme" prctls with similar names.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/signal.c | 167 +++++++++++++++++++++++++++++++++---
- 1 file changed, 154 insertions(+), 13 deletions(-)
+ linux-user/aarch64/target_prctl.h |  8 ++++----
+ linux-user/syscall.c              | 12 ++++++------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-index 22d0b8b4ec..6a2c6e06d2 100644
---- a/linux-user/aarch64/signal.c
-+++ b/linux-user/aarch64/signal.c
-@@ -104,6 +104,22 @@ struct target_sve_context {
+diff --git a/linux-user/aarch64/target_prctl.h b/linux-user/aarch64/target_prctl.h
+index 1d440ffbea..40481e6663 100644
+--- a/linux-user/aarch64/target_prctl.h
++++ b/linux-user/aarch64/target_prctl.h
+@@ -6,7 +6,7 @@
+ #ifndef AARCH64_TARGET_PRCTL_H
+ #define AARCH64_TARGET_PRCTL_H
  
- #define TARGET_SVE_SIG_FLAG_SM  1
- 
-+#define TARGET_ZA_MAGIC        0x54366345
-+
-+struct target_za_context {
-+    struct target_aarch64_ctx head;
-+    uint16_t vl;
-+    uint16_t reserved[3];
-+    /* The actual ZA data immediately follows. */
-+};
-+
-+#define TARGET_ZA_SIG_REGS_OFFSET \
-+    QEMU_ALIGN_UP(sizeof(struct target_za_context), TARGET_SVE_VQ_BYTES)
-+#define TARGET_ZA_SIG_ZAV_OFFSET(VQ, N) \
-+    (TARGET_ZA_SIG_REGS_OFFSET + (VQ) * TARGET_SVE_VQ_BYTES * (N))
-+#define TARGET_ZA_SIG_CONTEXT_SIZE(VQ) \
-+    TARGET_ZA_SIG_ZAV_OFFSET(VQ, VQ * TARGET_SVE_VQ_BYTES)
-+
- struct target_rt_sigframe {
-     struct target_siginfo info;
-     struct target_ucontext uc;
-@@ -176,9 +192,9 @@ static void target_setup_end_record(struct target_aarch64_ctx *end)
+-static abi_long do_prctl_get_vl(CPUArchState *env)
++static abi_long do_prctl_sve_get_vl(CPUArchState *env)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+     if (cpu_isar_feature(aa64_sve, cpu)) {
+@@ -14,9 +14,9 @@ static abi_long do_prctl_get_vl(CPUArchState *env)
+     }
+     return -TARGET_EINVAL;
  }
+-#define do_prctl_get_vl do_prctl_get_vl
++#define do_prctl_sve_get_vl do_prctl_sve_get_vl
  
- static void target_setup_sve_record(struct target_sve_context *sve,
--                                    CPUARMState *env, int vq, int size)
-+                                    CPUARMState *env, int size)
+-static abi_long do_prctl_set_vl(CPUArchState *env, abi_long arg2)
++static abi_long do_prctl_sve_set_vl(CPUArchState *env, abi_long arg2)
  {
--    int i, j;
-+    int i, j, vq = sve_vq(env);
- 
-     memset(sve, 0, sizeof(*sve));
-     __put_user(TARGET_SVE_MAGIC, &sve->head.magic);
-@@ -207,6 +223,35 @@ static void target_setup_sve_record(struct target_sve_context *sve,
-     }
- }
- 
-+static void target_setup_za_record(struct target_za_context *za,
-+                                   CPUARMState *env, int size)
-+{
-+    int vq = sme_vq(env);
-+    int vl = vq * TARGET_SVE_VQ_BYTES;
-+    int i, j;
-+
-+    memset(za, 0, sizeof(*za));
-+    __put_user(TARGET_ZA_MAGIC, &za->head.magic);
-+    __put_user(size, &za->head.size);
-+    __put_user(vl, &za->vl);
-+
-+    if (size == TARGET_ZA_SIG_CONTEXT_SIZE(0)) {
-+        return;
-+    }
-+    assert(size == TARGET_ZA_SIG_CONTEXT_SIZE(vq));
-+
-+    /*
-+     * Note that ZA vectors are stored as a byte stream,
-+     * with each byte element at a subsequent address.
-+     */
-+    for (i = 0; i < vl; ++i) {
-+        uint64_t *z = (void *)za + TARGET_ZA_SIG_ZAV_OFFSET(vq, i);
-+        for (j = 0; j < vq * 2; ++j) {
-+            __put_user_e(env->zarray[i].d[j], z + j, le);
-+        }
-+    }
-+}
-+
- static void target_restore_general_frame(CPUARMState *env,
-                                          struct target_rt_sigframe *sf)
- {
-@@ -252,16 +297,28 @@ static void target_restore_fpsimd_record(CPUARMState *env,
- 
- static bool target_restore_sve_record(CPUARMState *env,
-                                       struct target_sve_context *sve,
--                                      int size)
-+                                      int size, int *svcr)
- {
--    int i, j, vl, vq;
-+    int i, j, vl, vq, flags;
-+    bool sm;
- 
--    if (!cpu_isar_feature(aa64_sve, env_archcpu(env))) {
-+    __get_user(vl, &sve->vl);
-+    __get_user(flags, &sve->flags);
-+
-+    sm = flags & TARGET_SVE_SIG_FLAG_SM;
-+
-+    /* The cpu must support Streaming or Non-streaming SVE. */
-+    if (sm
-+        ? !cpu_isar_feature(aa64_sme, env_archcpu(env))
-+        : !cpu_isar_feature(aa64_sve, env_archcpu(env))) {
-         return false;
-     }
- 
--    __get_user(vl, &sve->vl);
--    vq = sve_vq(env);
-+    /*
-+     * Note that we cannot use sve_vq() because that depends on the
-+     * current setting of PSTATE.SM, not the state to be restored.
-+     */
-+    vq = sve_vqm1_for_el_sm(env, 0, sm) + 1;
- 
-     /* Reject mismatched VL. */
-     if (vl != vq * TARGET_SVE_VQ_BYTES) {
-@@ -278,6 +335,8 @@ static bool target_restore_sve_record(CPUARMState *env,
-         return false;
-     }
- 
-+    *svcr = FIELD_DP64(*svcr, SVCR, SM, sm);
-+
      /*
-      * Note that SVE regs are stored as a byte stream, with each byte element
-      * at a subsequent address.  This corresponds to a little-endian load
-@@ -304,15 +363,57 @@ static bool target_restore_sve_record(CPUARMState *env,
-     return true;
+      * We cannot support either PR_SVE_SET_VL_ONEXEC or PR_SVE_VL_INHERIT.
+@@ -47,7 +47,7 @@ static abi_long do_prctl_set_vl(CPUArchState *env, abi_long arg2)
+     }
+     return -TARGET_EINVAL;
  }
+-#define do_prctl_set_vl do_prctl_set_vl
++#define do_prctl_sve_set_vl do_prctl_sve_set_vl
  
-+static bool target_restore_za_record(CPUARMState *env,
-+                                     struct target_za_context *za,
-+                                     int size, int *svcr)
-+{
-+    int i, j, vl, vq;
-+
-+    if (!cpu_isar_feature(aa64_sme, env_archcpu(env))) {
-+        return false;
-+    }
-+
-+    __get_user(vl, &za->vl);
-+    vq = sme_vq(env);
-+
-+    /* Reject mismatched VL. */
-+    if (vl != vq * TARGET_SVE_VQ_BYTES) {
-+        return false;
-+    }
-+
-+    /* Accept empty record -- used to clear PSTATE.ZA. */
-+    if (size <= TARGET_ZA_SIG_CONTEXT_SIZE(0)) {
-+        return true;
-+    }
-+
-+    /* Reject non-empty but incomplete record. */
-+    if (size < TARGET_ZA_SIG_CONTEXT_SIZE(vq)) {
-+        return false;
-+    }
-+
-+    *svcr = FIELD_DP64(*svcr, SVCR, ZA, 1);
-+
-+    for (i = 0; i < vl; ++i) {
-+        uint64_t *z = (void *)za + TARGET_ZA_SIG_ZAV_OFFSET(vq, i);
-+        for (j = 0; j < vq * 2; ++j) {
-+            __get_user_e(env->zarray[i].d[j], z + j, le);
-+        }
-+    }
-+    return true;
-+}
-+
- static int target_restore_sigframe(CPUARMState *env,
-                                    struct target_rt_sigframe *sf)
+ static abi_long do_prctl_reset_keys(CPUArchState *env, abi_long arg2)
  {
-     struct target_aarch64_ctx *ctx, *extra = NULL;
-     struct target_fpsimd_context *fpsimd = NULL;
-     struct target_sve_context *sve = NULL;
-+    struct target_za_context *za = NULL;
-     uint64_t extra_datap = 0;
-     bool used_extra = false;
-     int sve_size = 0;
-+    int za_size = 0;
-+    int svcr = 0;
- 
-     target_restore_general_frame(env, sf);
- 
-@@ -350,6 +451,14 @@ static int target_restore_sigframe(CPUARMState *env,
-             sve_size = size;
-             break;
- 
-+        case TARGET_ZA_MAGIC:
-+            if (za || size < sizeof(struct target_za_context)) {
-+                goto err;
-+            }
-+            za = (struct target_za_context *)ctx;
-+            za_size = size;
-+            break;
-+
-         case TARGET_EXTRA_MAGIC:
-             if (extra || size != sizeof(struct target_extra_context)) {
-                 goto err;
-@@ -381,9 +490,16 @@ static int target_restore_sigframe(CPUARMState *env,
-     }
- 
-     /* SVE data, if present, overwrites FPSIMD data.  */
--    if (sve && !target_restore_sve_record(env, sve, sve_size)) {
-+    if (sve && !target_restore_sve_record(env, sve, sve_size, &svcr)) {
-         goto err;
-     }
-+    if (za && !target_restore_za_record(env, za, za_size, &svcr)) {
-+        goto err;
-+    }
-+    if (env->svcr != svcr) {
-+        env->svcr = svcr;
-+        arm_rebuild_hflags(env);
-+    }
-     unlock_user(extra, extra_datap, 0);
-     return 0;
- 
-@@ -451,7 +567,8 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
-         .total_size = offsetof(struct target_rt_sigframe,
-                                uc.tuc_mcontext.__reserved),
-     };
--    int fpsimd_ofs, fr_ofs, sve_ofs = 0, vq = 0, sve_size = 0;
-+    int fpsimd_ofs, fr_ofs, sve_ofs = 0, za_ofs = 0;
-+    int sve_size = 0, za_size = 0;
-     struct target_rt_sigframe *frame;
-     struct target_rt_frame_record *fr;
-     abi_ulong frame_addr, return_addr;
-@@ -461,11 +578,20 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
-                                       &layout);
- 
-     /* SVE state needs saving only if it exists.  */
--    if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
--        vq = sve_vq(env);
--        sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
-+    if (cpu_isar_feature(aa64_sve, env_archcpu(env)) ||
-+        cpu_isar_feature(aa64_sme, env_archcpu(env))) {
-+        sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(sve_vq(env)), 16);
-         sve_ofs = alloc_sigframe_space(sve_size, &layout);
-     }
-+    if (cpu_isar_feature(aa64_sme, env_archcpu(env))) {
-+        /* ZA state needs saving only if it is enabled.  */
-+        if (FIELD_EX64(env->svcr, SVCR, ZA)) {
-+            za_size = TARGET_ZA_SIG_CONTEXT_SIZE(sme_vq(env));
-+        } else {
-+            za_size = TARGET_ZA_SIG_CONTEXT_SIZE(0);
-+        }
-+        za_ofs = alloc_sigframe_space(za_size, &layout);
-+    }
- 
-     if (layout.extra_ofs) {
-         /* Reserve space for the extra end marker.  The standard end marker
-@@ -512,7 +638,10 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
-         target_setup_end_record((void *)frame + layout.extra_end_ofs);
-     }
-     if (sve_ofs) {
--        target_setup_sve_record((void *)frame + sve_ofs, env, vq, sve_size);
-+        target_setup_sve_record((void *)frame + sve_ofs, env, sve_size);
-+    }
-+    if (za_ofs) {
-+        target_setup_za_record((void *)frame + za_ofs, env, za_size);
-     }
- 
-     /* Set up the stack frame for unwinding.  */
-@@ -536,6 +665,18 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
-         env->btype = 2;
-     }
- 
-+    /*
-+     * Invoke the signal handler with both SM and ZA disabled.
-+     * When clearing SM, ResetSVEState, per SMSTOP.
-+     */
-+    if (FIELD_EX64(env->svcr, SVCR, SM)) {
-+        arm_reset_sve_state(env);
-+    }
-+    if (env->svcr) {
-+        env->svcr = 0;
-+        arm_rebuild_hflags(env);
-+    }
-+
-     if (info) {
-         tswap_siginfo(&frame->info, info);
-         env->xregs[1] = frame_addr + offsetof(struct target_rt_sigframe, info);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 669add74c1..cbde82c907 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -6362,11 +6362,11 @@ static abi_long do_prctl_inval1(CPUArchState *env, abi_long arg2)
+ #ifndef do_prctl_set_fp_mode
+ #define do_prctl_set_fp_mode do_prctl_inval1
+ #endif
+-#ifndef do_prctl_get_vl
+-#define do_prctl_get_vl do_prctl_inval0
++#ifndef do_prctl_sve_get_vl
++#define do_prctl_sve_get_vl do_prctl_inval0
+ #endif
+-#ifndef do_prctl_set_vl
+-#define do_prctl_set_vl do_prctl_inval1
++#ifndef do_prctl_sve_set_vl
++#define do_prctl_sve_set_vl do_prctl_inval1
+ #endif
+ #ifndef do_prctl_reset_keys
+ #define do_prctl_reset_keys do_prctl_inval1
+@@ -6431,9 +6431,9 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
+     case PR_SET_FP_MODE:
+         return do_prctl_set_fp_mode(env, arg2);
+     case PR_SVE_GET_VL:
+-        return do_prctl_get_vl(env);
++        return do_prctl_sve_get_vl(env);
+     case PR_SVE_SET_VL:
+-        return do_prctl_set_vl(env, arg2);
++        return do_prctl_sve_set_vl(env, arg2);
+     case PR_PAC_RESET_KEYS:
+         if (arg3 || arg4 || arg5) {
+             return -TARGET_EINVAL;
 -- 
 2.34.1
 
