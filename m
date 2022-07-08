@@ -2,98 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859C056B86F
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:29:01 +0200 (CEST)
-Received: from localhost ([::1]:47816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F8456B8B9
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:42:50 +0200 (CEST)
+Received: from localhost ([::1]:52854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9mAO-0007IB-5J
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:29:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34058)
+	id 1o9mNi-0003Qw-Rt
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9m4k-0002g9-P8
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:23:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37901)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9mLz-0002VV-Gu
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:40:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9m4f-0006Cg-2A
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:23:09 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9mLv-0008I0-S6
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:40:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657279384;
+ s=mimecast20190719; t=1657280454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y6DhL9DvWpdPTFh9KbbQdMsfFAIrZRu+L7q2GfDGa74=;
- b=P4uqNyqDoKO1RQOyt1E8dQLZ3y9SAt87IskGB6nt0aij3+EW1q/bL4vVx+v1H/xlKpqmX+
- MZerRKixNvkaPeVa6z/tTplbm8KYBK1dcrDC76rEp0a+sJ3bZmrfx8lo8dqBz/laoCZHAe
- HvIaSRHJfQB+/ZETrfpZ1uciOcipqS4=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fOiZN9eN/jTn5kwCjT80/BDcKGBf4OJld2nWdo/vVaI=;
+ b=eS6IzuTOM7Gx7TxqAmrvuw2y41PCg+8Vje2vfX+DXNW5Uk/L7oWR8Uxo+t+YDRyvHrRY5Z
+ zTLbXNWjrebDREzhCKMg25FYSiPVXsa8vmUa0nuTXDAJ8mi+0kRJfrWNWYIA7lU8Kurxad
+ sD4xL75NRVeP0wPhHX0ohOKjZf2846M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-AKPqlirNN_-SerNdBRkJxg-1; Fri, 08 Jul 2022 07:23:03 -0400
-X-MC-Unique: AKPqlirNN_-SerNdBRkJxg-1
-Received: by mail-qt1-f198.google.com with SMTP id
- m4-20020aed27c4000000b0031b0ef018aaso18421553qtg.20
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 04:23:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=Y6DhL9DvWpdPTFh9KbbQdMsfFAIrZRu+L7q2GfDGa74=;
- b=ki17qckpvDp78E1zVB20JnOxlPIhAcBLX2bSBG8rG0iPHhTJ7U0Q/h6sa6SDSihmBa
- fl9urUgHvzaV58qrVpU/OL/cKwhiS2JGxkIVhVsYhG51Up021RcVpkpVM70pSqvR6X7n
- Ak9sO6iKjNsKmrebjfQaeC/WL9JhimSEGppuRwS7kKpKvhoIxtzda6qDazWi98koWJ8I
- m/YklhdrIToiwule7C02hwJ3CyJhFap3d6AL92XGsm+E29SVPX85wUW0oDpYDEfHmT6Y
- DsYUyAVQJgu6VTTHC65aYuym096fJAjoj5mJ4WyWl4o9ai2nrrMwXmCdAvdceKjHRkza
- KNag==
-X-Gm-Message-State: AJIora82AeMBi3C7qPFvfuI/DSwofmr0HWmfYUAWLGbQ1mNzSXGOnS6a
- AoWAwghZ2ouBBlVx40RWnse2sB264L2mU359yYIxxFqXhY806E1B+2X+TtxSrzNAsS0eFfGIrj0
- q6yNuAn32SFxOFoE=
-X-Received: by 2002:a37:a903:0:b0:6b5:5326:9839 with SMTP id
- s3-20020a37a903000000b006b553269839mr1914229qke.463.1657279382614; 
- Fri, 08 Jul 2022 04:23:02 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tdI/nfbwqp0AxNu90BbVUbSjc/woYU9Z4Tabn3UX8oUpVfrADi8RnBIzZzEw+IpCim5XY/vA==
-X-Received: by 2002:a37:a903:0:b0:6b5:5326:9839 with SMTP id
- s3-20020a37a903000000b006b553269839mr1914207qke.463.1657279382345; 
- Fri, 08 Jul 2022 04:23:02 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- o1-20020a05620a2a0100b006a6f68c8a87sm27265460qkp.126.2022.07.08.04.23.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jul 2022 04:23:01 -0700 (PDT)
-Message-ID: <1f88322f-00f0-ae1e-2a3e-c7bac034de72@redhat.com>
-Date: Fri, 8 Jul 2022 13:22:58 +0200
+ us-mta-608-e1JBm12nPuGmrgS0pdzQ3w-1; Fri, 08 Jul 2022 07:40:45 -0400
+X-MC-Unique: e1JBm12nPuGmrgS0pdzQ3w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 593BD18A64EA;
+ Fri,  8 Jul 2022 11:40:45 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BDB92026D64;
+ Fri,  8 Jul 2022 11:40:44 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 19CB721E690D; Fri,  8 Jul 2022 13:40:43 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,  qemu-devel@nongnu.org,  Hanna Reitz
+ <hreitz@redhat.com>,  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Michael Tokarev <mjt@tls.msk.ru>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@gmail.com>
+Subject: The case for array properties (was: [PULL 14/15] qdev: Base object
+ creation on QDict rather than QemuOpts)
+References: <20211015144640.198044-1-kwolf@redhat.com>
+ <20211015144640.198044-15-kwolf@redhat.com>
+ <CAFEAcA9jnySMWRD56FF9D7rXhwARiyvqJx+4Ys+smYa2ghdLBg@mail.gmail.com>
+ <87wnctzdl9.fsf@pond.sub.org>
+ <CAFEAcA_cYpt_FU5mD+X+BSmQq9e6u1n+nm8EVfdrPeVN0o3Spw@mail.gmail.com>
+Date: Fri, 08 Jul 2022 13:40:43 +0200
+In-Reply-To: <CAFEAcA_cYpt_FU5mD+X+BSmQq9e6u1n+nm8EVfdrPeVN0o3Spw@mail.gmail.com>
+ (Peter Maydell's message of "Thu, 7 Jul 2022 21:24:09 +0100")
+Message-ID: <87y1x37ryc.fsf_-_@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 7/8] VirtIOBlock: protect rq with its own lock
-Content-Language: en-US
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20220609143727.1151816-1-eesposit@redhat.com>
- <20220609143727.1151816-8-eesposit@redhat.com>
- <YsRObmNTP471U9zU@stefanha-x1.localdomain>
- <2a1e8343-df7d-b98a-1d3b-2bd4345adf3e@redhat.com>
-In-Reply-To: <2a1e8343-df7d-b98a-1d3b-2bd4345adf3e@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,65 +90,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cc'ing QOM maintainers.
 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Am 08/07/2022 um 11:33 schrieb Emanuele Giuseppe Esposito:
-> 
-> 
-> Am 05/07/2022 um 16:45 schrieb Stefan Hajnoczi:
->> On Thu, Jun 09, 2022 at 10:37:26AM -0400, Emanuele Giuseppe Esposito wrote:
->>> @@ -946,17 +955,20 @@ static void virtio_blk_reset(VirtIODevice *vdev)
->>>       * stops all Iothreads.
->>>       */
->>>      blk_drain(s->blk);
->>> +    aio_context_release(ctx);
->>>  
->>>      /* We drop queued requests after blk_drain() because blk_drain() itself can
->>>       * produce them. */
->>> +    qemu_mutex_lock(&s->req_mutex);
->>>      while (s->rq) {
->>>          req = s->rq;
->>>          s->rq = req->next;
->>> +        qemu_mutex_unlock(&s->req_mutex);
->>>          virtqueue_detach_element(req->vq, &req->elem, 0);
->>>          virtio_blk_free_request(req);
->>> +        qemu_mutex_lock(&s->req_mutex);
->>
->> Why is req_mutex dropped temporarily? At this point we don't really need
->> the req_mutex (all I/O should be stopped and drained), but maybe we
->> should do:
-> 
-> Agree that maybe it is not useful to drop the mutex temporarily.
-> 
-> Regarding why req_mutex is not needed, yes I guess it isn't. Should I
-> get rid of this hunk at all, and maybe leave a comment like "no
-> synchronization needed, due to drain + ->stop_ioeventfd()"?
+> On Mon, 4 Jul 2022 at 05:50, Markus Armbruster <armbru@redhat.com> wrote:
+>> My initial (knee-jerk) reaction to breaking array properties: Faster,
+>> Pussycat! Kill! Kill!
+>
+> In an ideal world, what would you replace them with?
 
-Actually, regarding this, I found why I added the lock:
+Let's first recapitulate their intended purpose.
 
-https://patchew.org/QEMU/20220426085114.199647-1-eesposit@redhat.com/#584d7d1a-94cc-9ebb-363b-2fddb8d79f5b@redhat.com
+commit 339659041f87a76f8b71ad3d12cadfc5f89b4bb3q
+Author: Peter Crosthwaite <peter.crosthwaite@xilinx.com>
+Date:   Tue Aug 19 23:55:52 2014 -0700
 
-So maybe it's better to add it.
+    qom: Add automatic arrayification to object_property_add()
+=20=20=20=20
+    If "[*]" is given as the last part of a QOM property name, treat that
+    as an array property. The added property is given the first available
+    name, replacing the * with a decimal number counting from 0.
+=20=20=20=20
+    First add with name "foo[*]" will be "foo[0]". Second "foo[1]" and so
+    on.
+=20=20=20=20
+    Callers may inspect the ObjectProperty * return value to see what
+    number the added property was given.
+=20=20=20=20
+    Signed-off-by: Peter Crosthwaite <peter.crosthwaite@xilinx.com>
+    Signed-off-by: Andreas F=C3=A4rber <afaerber@suse.de>
 
-> 
->>
->>   WITH_QEMU_MUTEX(&s->req_mutex) {
->>       req = s->rq;
->>       s->rq = NULL;
->>   }
->>
->>   ...process req list...
-> 
-> Not sure what you mean here, we are looping on s->rq, so do we need to
-> protect also that? and why setting it to NULL? Sorry I am a little bit
-> lost here.
-> 
-> Thank you,
-> Emanuele
-> 
->>
->> Otherwise:
->> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->>
+This describes how they work, but sadly not why we want them.  For such
+arcane lore, we need to consult a guru.  Possibly via the mailing list
+archive.
+
+Digression: when you add a feature, please, please, *please* explain why
+you need it right in the commit message.  Such rationale is useful
+information, tends to age well, and can be quite laborious to
+reconstruct later.
+
+Even though I'm sure we discussed the intended purpose(s) of array
+properties before, a quick grep of my list archive comes up mostly
+empty, so I'm falling back to (foggy) memory.  Please correct mistakes
+and fill in omissions.
+
+We occasionally have a need for an array of properties where the length
+of the array is not fixed at compile time.  Say in code common to
+several related devices, where some have two frobs, some four, and a
+future one may have some other number.
+
+We could define properties frob0, frob1, ... frobN for some fixed N.
+Users have to set them like frob0=3D...,frob1=3D... and so forth.  We need
+code to reject frobI=3D... for I exeeding the actual limit.
+
+Array properties spare developers picking a fixed N, and users adding an
+index to the property name.  Whether the latter is a good idea is
+unclear.  We need code to reject usage exceeding the actual limit.
+
+A secondary use is (was?) avoiding memory region name clashes in code we
+don't want to touch.  Discussed in the review of my attempt to strangle
+array properties in 2014:
+
+    Message-ID: <87sihn9nji.fsf@blackfin.pond.sub.org>
+    https://lists.gnu.org/archive/html/qemu-devel/2014-11/msg02103.html
 
 
