@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C9656B7BF
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 12:55:51 +0200 (CEST)
-Received: from localhost ([::1]:47718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11EC656B7D7
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 12:58:25 +0200 (CEST)
+Received: from localhost ([::1]:54078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9leI-0007qw-WE
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 06:55:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55786)
+	id 1o9lgm-0003km-21
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 06:58:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o9lZ8-0008K5-6O
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42678)
+ id 1o9lZD-0008Vf-LL
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o9lZ6-0007pl-Jp
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:29 -0400
+ id 1o9lZC-0007qA-2j
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657277428;
+ s=mimecast20190719; t=1657277433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gX4BuPtQthhmaCSP++xgs/u1fO7F4rAKv28CZduvlB8=;
- b=g/gIZpgbC+SJGFsiIB4+iCOKHkC2TIeXheLkbfIIlq23UFQf3vNSKqbASR9mDgMBH+fKic
- +DfCi8syttIpQ5ea1MMK1bh3CKPu1MiRxGjdmdjOjMwdnJ7Fs4KQm2S0X1IoJy8pMZ5I09
- RR8KRfg9DokdVisDh4/47zK+N8rGnok=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rwjfjExn+wG1ucbjx3Vn2878/88Fyf5V5axZfvfWapU=;
+ b=eL9Rapgv3NDDEBSS6iRHfoOhRmzlrQnt92/h3StOR7q1rMjNETSxIJJCMF567pFoDveXsg
+ 3VyAzkDwC9B6M+nqt9xgKpaOZyIeJIaYiMKwyhZK37jctzCaOcHQAA0cCZL0SGUShYThEm
+ eSnWyvQs8QoWHc1njtyFB6ijNo4efBo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-ny8Yk9DtOXejLU-qZ3hZIg-1; Fri, 08 Jul 2022 06:50:25 -0400
-X-MC-Unique: ny8Yk9DtOXejLU-qZ3hZIg-1
+ us-mta-444-7I83_6TxNeqRXNlQ-cGNGg-1; Fri, 08 Jul 2022 06:50:28 -0400
+X-MC-Unique: 7I83_6TxNeqRXNlQ-cGNGg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90B1F1C05EBD;
- Fri,  8 Jul 2022 10:50:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9820F185A79C;
+ Fri,  8 Jul 2022 10:50:27 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC04E1121314;
- Fri,  8 Jul 2022 10:50:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D035A1121314;
+ Fri,  8 Jul 2022 10:50:24 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -55,10 +55,9 @@ Cc: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>, Jason Wang <jasowang@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>,
  Parav Pandit <parav@mellanox.com>, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH 02/22] vhost: move descriptor translation to
- vhost_svq_vring_write_descs
-Date: Fri,  8 Jul 2022 12:49:53 +0200
-Message-Id: <20220708105013.1899854-3-eperezma@redhat.com>
+Subject: [PATCH 03/22] vdpa: Clean vhost_vdpa_dev_start(dev, false)
+Date: Fri,  8 Jul 2022 12:49:54 +0200
+Message-Id: <20220708105013.1899854-4-eperezma@redhat.com>
 In-Reply-To: <20220708105013.1899854-1-eperezma@redhat.com>
 References: <20220708105013.1899854-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -89,92 +88,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's done for both in and out descriptors so it's better placed here.
+Return value is never checked and is a clean path, so assume success
 
-Acked-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 38 +++++++++++++++++++++---------
- 1 file changed, 27 insertions(+), 11 deletions(-)
+ hw/virtio/vhost-vdpa.c | 33 ++++++++++-----------------------
+ 1 file changed, 10 insertions(+), 23 deletions(-)
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 9280285435..115d769b86 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -122,17 +122,35 @@ static bool vhost_svq_translate_addr(const VhostShadowVirtqueue *svq,
-     return true;
- }
- 
--static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
--                                    const struct iovec *iovec, size_t num,
--                                    bool more_descs, bool write)
-+/**
-+ * Write descriptors to SVQ vring
-+ *
-+ * @svq: The shadow virtqueue
-+ * @sg: Cache for hwaddr
-+ * @iovec: The iovec from the guest
-+ * @num: iovec length
-+ * @more_descs: True if more descriptors come in the chain
-+ * @write: True if they are writeable descriptors
-+ *
-+ * Return true if success, false otherwise and print error.
-+ */
-+static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-+                                        const struct iovec *iovec, size_t num,
-+                                        bool more_descs, bool write)
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 66f054a12c..d6ba4a492a 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -872,41 +872,35 @@ static int vhost_vdpa_svq_set_fds(struct vhost_dev *dev,
+ /**
+  * Unmap a SVQ area in the device
+  */
+-static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
++static void vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
+                                       const DMAMap *needle)
  {
-     uint16_t i = svq->free_head, last = svq->free_head;
-     unsigned n;
-     uint16_t flags = write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
-     vring_desc_t *descs = svq->vring.desc;
-+    bool ok;
+     const DMAMap *result = vhost_iova_tree_find_iova(v->iova_tree, needle);
+     hwaddr size;
+-    int r;
  
-     if (num == 0) {
--        return;
-+        return true;
-+    }
-+
-+    ok = vhost_svq_translate_addr(svq, sg, iovec, num);
-+    if (unlikely(!ok)) {
-+        return false;
+     if (unlikely(!result)) {
+         error_report("Unable to find SVQ address to unmap");
+-        return false;
++        return;
      }
  
-     for (n = 0; n < num; n++) {
-@@ -150,6 +168,7 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-     }
- 
-     svq->free_head = le16_to_cpu(svq->desc_next[last]);
-+    return true;
+     size = ROUND_UP(result->size, qemu_real_host_page_size());
+-    r = vhost_vdpa_dma_unmap(v, result->iova, size);
+-    return r == 0;
++    vhost_vdpa_dma_unmap(v, result->iova, size);
  }
  
- static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
-@@ -169,21 +188,18 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
-         return false;
+-static bool vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
++static void vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
+                                        const VhostShadowVirtqueue *svq)
+ {
+     DMAMap needle = {};
+     struct vhost_vdpa *v = dev->opaque;
+     struct vhost_vring_addr svq_addr;
+-    bool ok;
+ 
+     vhost_svq_get_vring_addr(svq, &svq_addr);
+ 
+     needle.translated_addr = svq_addr.desc_user_addr;
+-    ok = vhost_vdpa_svq_unmap_ring(v, &needle);
+-    if (unlikely(!ok)) {
+-        return false;
+-    }
++    vhost_vdpa_svq_unmap_ring(v, &needle);
+ 
+     needle.translated_addr = svq_addr.used_user_addr;
+-    return vhost_vdpa_svq_unmap_ring(v, &needle);
++    vhost_vdpa_svq_unmap_ring(v, &needle);
+ }
+ 
+ /**
+@@ -1066,23 +1060,19 @@ err:
+     return false;
+ }
+ 
+-static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
++static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+ {
+     struct vhost_vdpa *v = dev->opaque;
+ 
+     if (!v->shadow_vqs) {
+-        return true;
++        return;
      }
  
--    ok = vhost_svq_translate_addr(svq, sgs, elem->out_sg, elem->out_num);
-+    ok = vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
-+                                     elem->in_num > 0, false);
-     if (unlikely(!ok)) {
-         return false;
-     }
--    vhost_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
--                            elem->in_num > 0, false);
--
- 
--    ok = vhost_svq_translate_addr(svq, sgs, elem->in_sg, elem->in_num);
-+    ok = vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false,
-+                                     true);
-     if (unlikely(!ok)) {
-         return false;
+     for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
+         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
+-        bool ok = vhost_vdpa_svq_unmap_rings(dev, svq);
+-        if (unlikely(!ok)) {
+-            return false;
+-        }
++        vhost_vdpa_svq_unmap_rings(dev, svq);
      }
  
--    vhost_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false, true);
--
-     /*
-      * Put the entry in the available array (but don't update avail->idx until
-      * they do sync).
+-    return true;
+ }
+ 
+ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+@@ -1099,10 +1089,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+         }
+         vhost_vdpa_set_vring_ready(dev);
+     } else {
+-        ok = vhost_vdpa_svqs_stop(dev);
+-        if (unlikely(!ok)) {
+-            return -1;
+-        }
++        vhost_vdpa_svqs_stop(dev);
+         vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+     }
+ 
 -- 
 2.31.1
 
