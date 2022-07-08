@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C93856BE0B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 18:09:52 +0200 (CEST)
-Received: from localhost ([::1]:43418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B993856BCF6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 17:36:29 +0200 (CEST)
+Received: from localhost ([::1]:42936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9qYB-0007QX-7t
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 12:09:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38904)
+	id 1o9q1s-0006Hn-L4
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 11:36:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9pmq-0003Mv-Ns
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:20:56 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:46025)
+ id 1o9pmu-0003Ta-0i
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:21:01 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:33662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9pmp-0003F5-1p
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:20:56 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id 145so22594005pga.12
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:20:54 -0700 (PDT)
+ id 1o9pmr-0003GB-V3
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:20:59 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id n12so23847334pfq.0
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:20:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V2fLCOd7w5RVaZMEE/2yClzk5I5RfuvEjcRKKU0Ql6A=;
- b=dytHw4yHn9aQZiiETbPqvNBq7y0fHoTgmVXEA9wNgNhw7/wa5b4S8S/vO4hv11wdi3
- 8TxSlDY2MXKDKNSxyaYf7jMszGmUVtU3zmM9NXy4Sz+s2ym9yfJli7Kdt5ciRFkeC1Bi
- Tx8dA+9YaZTTxVaS3riauBtUxI4mSVh1oZaniW4renTeJn0vcFTCy/d9ceezLUIoCVIz
- WYzAq9v7U0upxK5f2an5o3P+PiLg1Ll/S72XwcyB+ZWcbQUEUd557+GuWen1zCVHqt/W
- RAhNMNk0TpAqdQGEE3uVxh1tzVuUXiLzkeSnDqrcMyePuIJTWcy4DtacOxQJeIyqjw//
- 3ISg==
+ bh=QT+j4xhm70EdfcVhkO7HkP89Z4Z0asvpHZ6p48VqoaU=;
+ b=ECNVhHBnuFyy5aiwg2TX0p1hNXUE5EYxY3DbXyf6GdMLR6hp6QTgGBtuVgnqG2lhik
+ BxuYZzVOKZTlVqJesjt3yvu11wee2iA6BtFduqcYkXon8iLlxhzFQUT8PKCw5xUq5BNE
+ dMgsVayrkX0cAUv5VYK2IUdzn2CCOKBx19aHunQxHg9y2sp4Dfkzl6brkPd6Sm/LSYPK
+ x9hhuDPURI+6KTZUcjO/WKgu1zgEAZDG5Z6Zly2Z3/p4Tn4VIEjcIYDWkwV+HpzENOtq
+ Ab2WGoG6VN+JAsnElg4KzSxOCNL/IVYMFHl2xQRJOZLIhiVr546jF0Ezpf0sE+r3HqJd
+ E6CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V2fLCOd7w5RVaZMEE/2yClzk5I5RfuvEjcRKKU0Ql6A=;
- b=a2h7PZ2paT+30inD305BbI/QH1NS59tx8MCkSVWrH+aesDsF9viOU8YaObn2+Phccd
- fzRX0IpwokFr3p+o32FegtTH86Pei5RZym0ytGWU1CeSOuLNeZSHRXa8HuBKnEJQymJf
- 8GaSYs8WZTfTDCcw8XETE43z30U6nyai/RCsAqRnnAvSmuoPZk27m6tM1cl4LKIEBjP8
- KfL3Fkr7MXgduy/i4TtKDtc/cPCFPPMld413uKpdIb6uEtEEGebq6o9BpS5v6mkHf4yI
- 52rqGT0LHc2W4OgCynyIxkgEbTgd4YaVdI4VKgHj2epHcOE5bYDvUQ2RNnk/aNYjhpjy
- 69nQ==
-X-Gm-Message-State: AJIora8E1Nu9/HAQQao1my568xL1VwP3Oly9Onri4VqMRtBEnrePcqhH
- Uj39/vfGpa994ne3sEF8pBgLfbExcOyRlEq0
-X-Google-Smtp-Source: AGRyM1vhWvWAoq3Pn2YIBCjUc6kze1JMVknL/i6c8RjTWxQvqey4vNkvdMYxXSCicTo8tfV4we4UXA==
-X-Received: by 2002:a63:460f:0:b0:412:7a8b:128c with SMTP id
- t15-20020a63460f000000b004127a8b128cmr3968354pga.270.1657293653809; 
- Fri, 08 Jul 2022 08:20:53 -0700 (PDT)
+ bh=QT+j4xhm70EdfcVhkO7HkP89Z4Z0asvpHZ6p48VqoaU=;
+ b=mpqVX4sWIdOf3UjcMydLTBUPA+LrnmS6voIRmNIxyfFfkMKRDdWfkFR/4Cos9tzck1
+ esgggwL2ZR8l6WCCQ3zmdh/AmusBK8/nJSxpAlWlmqh5Nzl0S7MjVUXg1ljlS2JaclHb
+ xyYQ1nCLlVi3fh/rf91iI8+w1iXf5T9B9eIWR9k5pVObJCjnQqPXS4z2APcNmcY26Er8
+ IEOgscn5VvdEJIM8aW+wI7o0vk/GdVnW1/FJjB3qZUV2+K6UmeMCNpuFLecXKTtVZCSy
+ QDOupZLExLy4w+0KL03g5wcVDEAFXLbp9/Be+AHjrwDBQc3FQEKwaILbcoeX9PyTJdzQ
+ K63Q==
+X-Gm-Message-State: AJIora8lMKqkpeCRNtoA1iyJkHjGdlBemSphvnEzqIa79wWkFNeXCYcj
+ GGdxak335/0q8cm6p66DMQs0nGBHe+/IyA2R
+X-Google-Smtp-Source: AGRyM1t0ynntIkCgcUySwSFCZc+nOSpuAT6SlMrPRqY+hMm7FhxL/GJ+AmAPZwlmsWWEfw4Axs+55A==
+X-Received: by 2002:aa7:88d2:0:b0:525:92bb:cb3c with SMTP id
+ k18-20020aa788d2000000b0052592bbcb3cmr4580572pff.2.1657293656425; 
+ Fri, 08 Jul 2022 08:20:56 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- cp2-20020a170902e78200b0015e8d4eb1d7sm30067741plb.33.2022.07.08.08.20.51
+ cp2-20020a170902e78200b0015e8d4eb1d7sm30067741plb.33.2022.07.08.08.20.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 08:20:53 -0700 (PDT)
+ Fri, 08 Jul 2022 08:20:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v6 41/45] linux-user: Rename sve prctls
-Date: Fri,  8 Jul 2022 20:45:36 +0530
-Message-Id: <20220708151540.18136-42-richard.henderson@linaro.org>
+Subject: [PATCH v6 42/45] linux-user/aarch64: Implement PR_SME_GET_VL,
+ PR_SME_SET_VL
+Date: Fri,  8 Jul 2022 20:45:37 +0530
+Message-Id: <20220708151540.18136-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220708151540.18136-1-richard.henderson@linaro.org>
 References: <20220708151540.18136-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,79 +89,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add "sve" to the sve prctl functions, to distinguish
-them from the coming "sme" prctls with similar names.
+These prctl set the Streaming SVE vector length, which may
+be completely different from the Normal SVE vector length.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/target_prctl.h |  8 ++++----
- linux-user/syscall.c              | 12 ++++++------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ linux-user/aarch64/target_prctl.h | 54 +++++++++++++++++++++++++++++++
+ linux-user/syscall.c              | 16 +++++++++
+ 2 files changed, 70 insertions(+)
 
 diff --git a/linux-user/aarch64/target_prctl.h b/linux-user/aarch64/target_prctl.h
-index 1d440ffbea..40481e6663 100644
+index 40481e6663..907c314146 100644
 --- a/linux-user/aarch64/target_prctl.h
 +++ b/linux-user/aarch64/target_prctl.h
-@@ -6,7 +6,7 @@
- #ifndef AARCH64_TARGET_PRCTL_H
- #define AARCH64_TARGET_PRCTL_H
- 
--static abi_long do_prctl_get_vl(CPUArchState *env)
-+static abi_long do_prctl_sve_get_vl(CPUArchState *env)
+@@ -10,6 +10,7 @@ static abi_long do_prctl_sve_get_vl(CPUArchState *env)
  {
      ARMCPU *cpu = env_archcpu(env);
      if (cpu_isar_feature(aa64_sve, cpu)) {
-@@ -14,9 +14,9 @@ static abi_long do_prctl_get_vl(CPUArchState *env)
++        /* PSTATE.SM is always unset on syscall entry. */
+         return sve_vq(env) * 16;
      }
      return -TARGET_EINVAL;
- }
--#define do_prctl_get_vl do_prctl_get_vl
-+#define do_prctl_sve_get_vl do_prctl_sve_get_vl
+@@ -27,6 +28,7 @@ static abi_long do_prctl_sve_set_vl(CPUArchState *env, abi_long arg2)
+         && arg2 >= 0 && arg2 <= 512 * 16 && !(arg2 & 15)) {
+         uint32_t vq, old_vq;
  
--static abi_long do_prctl_set_vl(CPUArchState *env, abi_long arg2)
-+static abi_long do_prctl_sve_set_vl(CPUArchState *env, abi_long arg2)
- {
-     /*
-      * We cannot support either PR_SVE_SET_VL_ONEXEC or PR_SVE_VL_INHERIT.
-@@ -47,7 +47,7 @@ static abi_long do_prctl_set_vl(CPUArchState *env, abi_long arg2)
-     }
-     return -TARGET_EINVAL;
- }
--#define do_prctl_set_vl do_prctl_set_vl
-+#define do_prctl_sve_set_vl do_prctl_sve_set_vl
++        /* PSTATE.SM is always unset on syscall entry. */
+         old_vq = sve_vq(env);
  
+         /*
+@@ -49,6 +51,58 @@ static abi_long do_prctl_sve_set_vl(CPUArchState *env, abi_long arg2)
+ }
+ #define do_prctl_sve_set_vl do_prctl_sve_set_vl
+ 
++static abi_long do_prctl_sme_get_vl(CPUArchState *env)
++{
++    ARMCPU *cpu = env_archcpu(env);
++    if (cpu_isar_feature(aa64_sme, cpu)) {
++        return sme_vq(env) * 16;
++    }
++    return -TARGET_EINVAL;
++}
++#define do_prctl_sme_get_vl do_prctl_sme_get_vl
++
++static abi_long do_prctl_sme_set_vl(CPUArchState *env, abi_long arg2)
++{
++    /*
++     * We cannot support either PR_SME_SET_VL_ONEXEC or PR_SME_VL_INHERIT.
++     * Note the kernel definition of sve_vl_valid allows for VQ=512,
++     * i.e. VL=8192, even though the architectural maximum is VQ=16.
++     */
++    if (cpu_isar_feature(aa64_sme, env_archcpu(env))
++        && arg2 >= 0 && arg2 <= 512 * 16 && !(arg2 & 15)) {
++        int vq, old_vq;
++
++        old_vq = sme_vq(env);
++
++        /*
++         * Bound the value of vq, so that we know that it fits into
++         * the 4-bit field in SMCR_EL1.  Because PSTATE.SM is cleared
++         * on syscall entry, we are not modifying the current SVE
++         * vector length.
++         */
++        vq = MAX(arg2 / 16, 1);
++        vq = MIN(vq, 16);
++        env->vfp.smcr_el[1] =
++            FIELD_DP64(env->vfp.smcr_el[1], SMCR, LEN, vq - 1);
++
++        /* Delay rebuilding hflags until we know if ZA must change. */
++        vq = sve_vqm1_for_el_sm(env, 0, true) + 1;
++
++        if (vq != old_vq) {
++            /*
++             * PSTATE.ZA state is cleared on any change to SVL.
++             * We need not call arm_rebuild_hflags because PSTATE.SM was
++             * cleared on syscall entry, so this hasn't changed VL.
++             */
++            env->svcr = FIELD_DP64(env->svcr, SVCR, ZA, 0);
++            arm_rebuild_hflags(env);
++        }
++        return vq * 16;
++    }
++    return -TARGET_EINVAL;
++}
++#define do_prctl_sme_set_vl do_prctl_sme_set_vl
++
  static abi_long do_prctl_reset_keys(CPUArchState *env, abi_long arg2)
  {
+     ARMCPU *cpu = env_archcpu(env);
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 669add74c1..cbde82c907 100644
+index cbde82c907..991b85e6b4 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -6362,11 +6362,11 @@ static abi_long do_prctl_inval1(CPUArchState *env, abi_long arg2)
- #ifndef do_prctl_set_fp_mode
- #define do_prctl_set_fp_mode do_prctl_inval1
+@@ -6343,6 +6343,12 @@ abi_long do_arch_prctl(CPUX86State *env, int code, abi_ulong addr)
+ #ifndef PR_SET_SYSCALL_USER_DISPATCH
+ # define PR_SET_SYSCALL_USER_DISPATCH 59
  #endif
--#ifndef do_prctl_get_vl
--#define do_prctl_get_vl do_prctl_inval0
-+#ifndef do_prctl_sve_get_vl
-+#define do_prctl_sve_get_vl do_prctl_inval0
++#ifndef PR_SME_SET_VL
++# define PR_SME_SET_VL  63
++# define PR_SME_GET_VL  64
++# define PR_SME_VL_LEN_MASK  0xffff
++# define PR_SME_VL_INHERIT   (1 << 17)
++#endif
+ 
+ #include "target_prctl.h"
+ 
+@@ -6383,6 +6389,12 @@ static abi_long do_prctl_inval1(CPUArchState *env, abi_long arg2)
+ #ifndef do_prctl_set_unalign
+ #define do_prctl_set_unalign do_prctl_inval1
  #endif
--#ifndef do_prctl_set_vl
--#define do_prctl_set_vl do_prctl_inval1
-+#ifndef do_prctl_sve_set_vl
-+#define do_prctl_sve_set_vl do_prctl_inval1
- #endif
- #ifndef do_prctl_reset_keys
- #define do_prctl_reset_keys do_prctl_inval1
-@@ -6431,9 +6431,9 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
-     case PR_SET_FP_MODE:
-         return do_prctl_set_fp_mode(env, arg2);
-     case PR_SVE_GET_VL:
--        return do_prctl_get_vl(env);
-+        return do_prctl_sve_get_vl(env);
++#ifndef do_prctl_sme_get_vl
++#define do_prctl_sme_get_vl do_prctl_inval0
++#endif
++#ifndef do_prctl_sme_set_vl
++#define do_prctl_sme_set_vl do_prctl_inval1
++#endif
+ 
+ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
+                          abi_long arg3, abi_long arg4, abi_long arg5)
+@@ -6434,6 +6446,10 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
+         return do_prctl_sve_get_vl(env);
      case PR_SVE_SET_VL:
--        return do_prctl_set_vl(env, arg2);
-+        return do_prctl_sve_set_vl(env, arg2);
+         return do_prctl_sve_set_vl(env, arg2);
++    case PR_SME_GET_VL:
++        return do_prctl_sme_get_vl(env);
++    case PR_SME_SET_VL:
++        return do_prctl_sme_set_vl(env, arg2);
      case PR_PAC_RESET_KEYS:
          if (arg3 || arg4 || arg5) {
              return -TARGET_EINVAL;
