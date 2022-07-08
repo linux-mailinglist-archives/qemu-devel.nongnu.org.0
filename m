@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91CAC56BE2B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 18:31:47 +0200 (CEST)
-Received: from localhost ([::1]:34142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E10B756BE25
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 18:28:31 +0200 (CEST)
+Received: from localhost ([::1]:54232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9qtO-0007ri-MG
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 12:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44632)
+	id 1o9qqF-0001ah-0B
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 12:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9qCa-0004qJ-8i
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:47:32 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:33291)
+ id 1o9qCe-000562-Dj
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:47:36 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:44988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9qCY-0002Rz-8x
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:47:31 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id n12so23903068pfq.0
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:47:29 -0700 (PDT)
+ id 1o9qCb-0002Rb-IV
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:47:35 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ o3-20020a17090a744300b001ef8f7f3dddso2145815pjk.3
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=q073Mp4VcMDO3I3Vy8AI4TpHUeDs1rzP3KM+D2Dojc0=;
- b=fgKbjynVbMpZLRFnegJPE3DU229xWRdL/RcAZA3xZHUUrpy9bIyhxsExtYz95Wty6V
- k1wQXM40TezwxDwBleIGmj1IMqDUuz76zAviOLhY0mMyo4N5g+wtpNh7wxhho216Vodu
- b5hIW7HNDWvTiEg7rGBCdWEJIVF6hFVUamJNvawstYqUvpCaf3Cm0PHEvdmzGBDSck8E
- xFJZHtuRHToCEu1BK7PFgnUn49D8t0WaiKd87+I+jmJMHuy8KgVrRx9IhiwHvkxR6q9y
- P4Q400tSpzUJNw9mvZJCkVoKry1/Yhs+TZ6+Sx5Dmu8xRVzgzShP3EYP7HORZ4Ohr9Us
- uiAQ==
+ bh=qhmfc0Bs2SrTe50tDkhCkofVbawYB7l8nD2/4Z7gVmI=;
+ b=YwwW7u5uJpkoRDfoxBb61fLnmcvQXo3pRZ/zsLICXNOG1rE6bYHit1n42QaaDpvasQ
+ HU8g0JKMC0VjMwZ7UD3dE3tY/zFVnCPoCRbZztdiWsTkcSDSs0qp6a8dGpWyXxIjastl
+ nDVdpwKfp1UNn4nBxvf+KeHUIV897DpEh3q4K1pXDJ/G+nwS5HuBCs3fsLjjx7cyBWtb
+ O0F9tqo2lMrntmIJ+crr5dtlkf4oNMPY4r6tMUp8qLzPxHYQzvZ6cPTdXfAFR7qeKZOs
+ 3Q5DVUyg23Tut7KQTxySjaiOR7M+7wZBfI/EtUUXb56QFOXtPomNrWuWPJy9eU5Hz2tP
+ kheg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=q073Mp4VcMDO3I3Vy8AI4TpHUeDs1rzP3KM+D2Dojc0=;
- b=OwsNQ+ARx91AVu+p4FWcbx1rLTWV+NGURQ06vlI/tM+X/srEy0F4oiWFEJTJ8VSlK0
- R5uwZMsjXWunW69nB5VYj5E6+gSYFrZOtcy+4fU64s7IlAnfKrRcUwZWtuJEixxYnuqt
- PSPPRZuPgSmYviV47JYxbXcdvZ8mIonzA8OOWho+4ENUinpMcfwoWJ5NkAU3K47MDVBa
- lAZOOpbclr1gYcM87lE84DX9UPeva9MZ1g9Lr8sNf0wkiE5blmRQzkoPTjEB2LVb4Odp
- Zo5KAAzLrKFNWMcwVVRxZcVLpo/w3anmZyYo1uWjMHwMbhw6djPwOKRA9Qiyb7sHLnlg
- 2VhA==
-X-Gm-Message-State: AJIora/caY20iDATAjL2Lp5hSDcnq0UZ9iatmPDl0EcpYQTe0VMf1bQg
- C47xYIG1g03HxcQGw7+LYnaOYQyBFulzahR+
-X-Google-Smtp-Source: AGRyM1sc3OWUt5wzuqL+vIsTEiSb9rpjnX01UInnjEwf+D3HNcc2gGlnhmeRYcyZ3YuR2nxstFx8bA==
-X-Received: by 2002:a63:e658:0:b0:40d:dfde:89f7 with SMTP id
- p24-20020a63e658000000b0040ddfde89f7mr3857658pgj.178.1657295248857; 
- Fri, 08 Jul 2022 08:47:28 -0700 (PDT)
+ bh=qhmfc0Bs2SrTe50tDkhCkofVbawYB7l8nD2/4Z7gVmI=;
+ b=zD/qbk3m5T/S+KBWE9ZiNvambzfmTafPKP1ZCYCp9keDkrEYHvkd4/7iyBHxYQP0Bc
+ nBUMWLKRmsMjja2eroJkMJ1w9JCgT52oqWB59FvdGZ9RX6gMP8DZ3syDFS9Trn0LkuPK
+ UbnYlNZq7FzgJXb/6EjuXBskvHw3gJwQLyxuHAAaX8xFBwEGtiAUBTBNdhz1D9VqCJGS
+ +xrvcUquxCQ8ITuUWlwc/6E3wcHAyHgvVSsooxqRsDQQ2+XAQYdfFQApW9GCeFt9q3fE
+ Cj8gJhvweNhF9wd+TDGxBaoiSI+5Hu2hOZD6bDcYs7342DU7UflDAxVtalDYnw52erFO
+ T3Yw==
+X-Gm-Message-State: AJIora+QPJM+Me1ACCKLImLvuGobJHpl8bCH60zNsfQV6ookAlE+5x67
+ bc+juDtqD5h8JIjoE/zr8ZHYzETXGj9si0rj
+X-Google-Smtp-Source: AGRyM1sMF2DxGYe9F+0SLjsP9is3MlcA4vhRElFPJ2daDsccVWvB552DcXli7RHD0e5Pc3+ShKE4lQ==
+X-Received: by 2002:a17:902:f650:b0:15f:3a10:a020 with SMTP id
+ m16-20020a170902f65000b0015f3a10a020mr4182527plg.61.1657295252711; 
+ Fri, 08 Jul 2022 08:47:32 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- y3-20020a17090a390300b001ef81bac701sm1782089pjb.42.2022.07.08.08.47.25
+ y3-20020a17090a390300b001ef81bac701sm1782089pjb.42.2022.07.08.08.47.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 08:47:28 -0700 (PDT)
+ Fri, 08 Jul 2022 08:47:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RISU PATCH v4 07/29] Add enum RisuOp
-Date: Fri,  8 Jul 2022 21:16:38 +0530
-Message-Id: <20220708154700.18682-8-richard.henderson@linaro.org>
+Subject: [RISU PATCH v4 08/29] Add enum RisuResult
+Date: Fri,  8 Jul 2022 21:16:39 +0530
+Message-Id: <20220708154700.18682-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220708154700.18682-1-richard.henderson@linaro.org>
 References: <20220708154700.18682-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,258 +90,245 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Formalize the set of defines, plus -1, into an enum.
+Formalize the random set of numbers into an enum.  Doing this
+makes it easy to see that one of the responses in
+recv_and_compare_register_info was inconsistent.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- risu.h         | 23 +++++++++++++++--------
- reginfo.c      | 32 +++++++++++++++++++-------------
- risu_aarch64.c |  6 +++---
- risu_arm.c     |  6 +++---
- risu_i386.c    |  4 ++--
- risu_m68k.c    |  4 ++--
- risu_ppc64.c   |  4 ++--
- 7 files changed, 46 insertions(+), 33 deletions(-)
+ risu.h    | 25 +++++++++++++++++--------
+ reginfo.c | 32 ++++++++++++++++----------------
+ risu.c    | 18 +++++++++---------
+ 3 files changed, 42 insertions(+), 33 deletions(-)
 
 diff --git a/risu.h b/risu.h
-index e2b4508..a7aa929 100644
+index a7aa929..e6d07eb 100644
 --- a/risu.h
 +++ b/risu.h
-@@ -45,11 +45,17 @@ extern uintptr_t image_start_address;
- extern void *memblock;
+@@ -57,6 +57,14 @@ typedef enum {
+     OP_COMPAREMEM = 4,
+ } RisuOp;
  
- /* Ops code under test can request from risu: */
--#define OP_COMPARE 0
--#define OP_TESTEND 1
--#define OP_SETMEMBLOCK 2
--#define OP_GETMEMBLOCK 3
--#define OP_COMPAREMEM 4
++/* Result of operation */
 +typedef enum {
-+    /* Any other sigill besides the destignated undefined insn.  */
-+    OP_SIGILL = -1,
++    RES_OK = 0,
++    RES_END,
++    RES_MISMATCH,
++    RES_BAD_IO,
++} RisuResult;
 +
-+    /* These are generated by the designated undefined insn. */
-+    OP_COMPARE = 0,
-+    OP_TESTEND = 1,
-+    OP_SETMEMBLOCK = 2,
-+    OP_GETMEMBLOCK = 3,
-+    OP_COMPAREMEM = 4,
-+} RisuOp;
- 
  /* The memory block should be this long */
  #define MEMBLOCKLEN 8192
-@@ -114,10 +120,11 @@ void set_ucontext_paramreg(void *vuc, uint64_t value);
- /* Return the value of the parameter register from a reginfo. */
- uint64_t get_reginfo_paramreg(struct reginfo *ri);
  
--/* Return the risu operation number we have been asked to do,
-- * or -1 if this was a SIGILL for a non-risuop insn.
-+/*
-+ * Return the risu operation number we have been asked to do,
-+ * or OP_SIGILL if this was a SIGILL for a non-risuop insn.
+@@ -82,20 +90,21 @@ typedef struct {
   */
--int get_risuop(struct reginfo *ri);
-+RisuOp get_risuop(struct reginfo *ri);
+ typedef int (*write_fn) (void *ptr, size_t bytes);
+ typedef int (*read_fn) (void *ptr, size_t bytes);
+-typedef void (*respond_fn) (int response);
++typedef void (*respond_fn) (RisuResult response);
  
- /* Return the PC from a reginfo */
- uintptr_t get_pc(struct reginfo *ri);
+-/* Send the register information from the struct ucontext down the socket.
+- * Return the response code from the master.
++/*
++ * Send the register information from the struct ucontext down the socket.
+  * NB: called from a signal handler.
+  */
+-int send_register_info(write_fn write_fn, void *uc);
++RisuResult send_register_info(write_fn write_fn, void *uc);
+ 
+-/* Read register info from the socket and compare it with that from the
+- * ucontext. Return 0 for match, 1 for end-of-test, 2 for mismatch.
++/*
++ * Read register info from the socket and compare it with that from the
++ * ucontext.
+  * NB: called from a signal handler.
+  */
+-int recv_and_compare_register_info(read_fn read_fn,
+-                                   respond_fn respond, void *uc);
++RisuResult recv_and_compare_register_info(read_fn read_fn,
++                                          respond_fn respond, void *uc);
+ 
+ /* Print a useful report on the status of the last comparison
+  * done in recv_and_compare_register_info(). This is called on
 diff --git a/reginfo.c b/reginfo.c
-index 1b2a821..2d67c93 100644
+index 2d67c93..b909a1f 100644
 --- a/reginfo.c
 +++ b/reginfo.c
-@@ -11,7 +11,7 @@
+@@ -21,7 +21,7 @@ uint8_t apprentice_memblock[MEMBLOCKLEN];
+ static int mem_used;
+ static int packet_mismatch;
  
- #include <stdio.h>
- #include <string.h>
--
-+#include <stdlib.h>
- #include "risu.h"
- 
- struct reginfo master_ri, apprentice_ri;
-@@ -25,7 +25,7 @@ int send_register_info(write_fn write_fn, void *uc)
+-int send_register_info(write_fn write_fn, void *uc)
++RisuResult send_register_info(write_fn write_fn, void *uc)
  {
      struct reginfo ri;
      trace_header_t header;
--    int op;
-+    RisuOp op;
- 
-     reginfo_init(&ri, uc);
-     op = get_risuop(&ri);
-@@ -38,11 +38,18 @@ int send_register_info(write_fn write_fn, void *uc)
+@@ -34,7 +34,7 @@ int send_register_info(write_fn write_fn, void *uc)
+     header.pc = get_pc(&ri);
+     header.risu_op = op;
+     if (write_fn(&header, sizeof(header)) != 0) {
+-        return -1;
++        return RES_BAD_IO;
      }
  
      switch (op) {
-+    case OP_COMPARE:
-     case OP_TESTEND:
--        write_fn(&ri, reginfo_size());
--        /* if we are tracing write_fn will return 0 unlike a remote
--           end, hence we force return of 1 here */
--        return 1;
-+    case OP_SIGILL:
-+        /*
-+         * Do a simple register compare on (a) explicit request
-+         * (b) end of test (c) a non-risuop UNDEF
-+         */
-+        if (write_fn(&ri, reginfo_size()) != 0) {
-+            return -1;
-+        }
-+        /* For OP_TEST_END, force return 1 to exit. */
-+        return op == OP_TESTEND;
+@@ -46,10 +46,10 @@ int send_register_info(write_fn write_fn, void *uc)
+          * (b) end of test (c) a non-risuop UNDEF
+          */
+         if (write_fn(&ri, reginfo_size()) != 0) {
+-            return -1;
++            return RES_BAD_IO;
+         }
+         /* For OP_TEST_END, force return 1 to exit. */
+-        return op == OP_TESTEND;
++        return op == OP_TESTEND ? RES_END : RES_OK;
      case OP_SETMEMBLOCK:
          memblock = (void *)(uintptr_t)get_reginfo_paramreg(&ri);
          break;
-@@ -53,12 +60,8 @@ int send_register_info(write_fn write_fn, void *uc)
-     case OP_COMPAREMEM:
-         return write_fn(memblock, MEMBLOCKLEN);
-         break;
--    case OP_COMPARE:
+@@ -63,7 +63,7 @@ int send_register_info(write_fn write_fn, void *uc)
      default:
--        /* Do a simple register compare on (a) explicit request
--         * (b) end of test (c) a non-risuop UNDEF
--         */
--        return write_fn(&ri, reginfo_size());
-+        abort();
+         abort();
      }
-     return 0;
+-    return 0;
++    return RES_OK;
  }
-@@ -74,8 +77,9 @@ int send_register_info(write_fn write_fn, void *uc)
- int recv_and_compare_register_info(read_fn read_fn,
-                                    respond_fn resp_fn, void *uc)
- {
--    int resp = 0, op;
-+    int resp = 0;
-     trace_header_t header;
-+    RisuOp op;
  
-     reginfo_init(&master_ri, uc);
+ /* Read register info from the socket and compare it with that from the
+@@ -74,10 +74,10 @@ int send_register_info(write_fn write_fn, void *uc)
+  * that says whether it is register or memory data, so if the two
+  * sides get out of sync then we will fail obscurely.
+  */
+-int recv_and_compare_register_info(read_fn read_fn,
+-                                   respond_fn resp_fn, void *uc)
++RisuResult recv_and_compare_register_info(read_fn read_fn,
++                                          respond_fn resp_fn, void *uc)
+ {
+-    int resp = 0;
++    RisuResult resp = RES_OK;
+     trace_header_t header;
+     RisuOp op;
+ 
+@@ -85,18 +85,18 @@ int recv_and_compare_register_info(read_fn read_fn,
      op = get_risuop(&master_ri);
-@@ -97,7 +101,7 @@ int recv_and_compare_register_info(read_fn read_fn,
+ 
+     if (read_fn(&header, sizeof(header)) != 0) {
+-        return -1;
++        return RES_BAD_IO;
+     }
+ 
+     if (header.risu_op != op) {
+         /* We are out of sync */
+-        resp = 2;
++        resp = RES_BAD_IO;
+         resp_fn(resp);
+         return resp;
+     }
+ 
+     /* send OK for the header */
+-    resp_fn(0);
++    resp_fn(RES_OK);
+ 
      switch (op) {
      case OP_COMPARE:
-     case OP_TESTEND:
--    default:
-+    case OP_SIGILL:
-         /* Do a simple register compare on (a) explicit request
-          * (b) end of test (c) a non-risuop UNDEF
+@@ -107,12 +107,12 @@ int recv_and_compare_register_info(read_fn read_fn,
           */
-@@ -130,6 +134,8 @@ int recv_and_compare_register_info(read_fn read_fn,
+         if (read_fn(&apprentice_ri, reginfo_size())) {
+             packet_mismatch = 1;
+-            resp = 2;
++            resp = RES_BAD_IO;
+         } else if (!reginfo_is_eq(&master_ri, &apprentice_ri)) {
+             /* register mismatch */
+-            resp = 2;
++            resp = RES_MISMATCH;
+         } else if (op == OP_TESTEND) {
+-            resp = 1;
++            resp = RES_END;
          }
          resp_fn(resp);
          break;
-+    default:
-+        abort();
+@@ -127,10 +127,10 @@ int recv_and_compare_register_info(read_fn read_fn,
+         mem_used = 1;
+         if (read_fn(apprentice_memblock, MEMBLOCKLEN)) {
+             packet_mismatch = 1;
+-            resp = 2;
++            resp = RES_BAD_IO;
+         } else if (memcmp(memblock, apprentice_memblock, MEMBLOCKLEN) != 0) {
+             /* memory mismatch */
+-            resp = 2;
++            resp = RES_MISMATCH;
+         }
+         resp_fn(resp);
+         break;
+diff --git a/risu.c b/risu.c
+index ab17c71..7b14f72 100644
+--- a/risu.c
++++ b/risu.c
+@@ -69,7 +69,7 @@ int write_trace(void *ptr, size_t bytes)
+     return (res == bytes) ? 0 : 1;
+ }
+ 
+-void respond_sock(int r)
++void respond_sock(RisuResult r)
+ {
+     send_response_byte(comm_fd, r);
+ }
+@@ -98,11 +98,11 @@ int read_trace(void *ptr, size_t bytes)
+     return (res == bytes) ? 0 : 1;
+ }
+ 
+-void respond_trace(int r)
++void respond_trace(RisuResult r)
+ {
+     switch (r) {
+-    case 0: /* test ok */
+-    case 1: /* end of test */
++    case RES_OK:
++    case RES_END:
+         break;
+     default:
+         /* mismatch - if tracing we need to report, otherwise barf */
+@@ -115,7 +115,7 @@ void respond_trace(int r)
+ 
+ static void master_sigill(int sig, siginfo_t *si, void *uc)
+ {
+-    int r;
++    RisuResult r;
+     signal_count++;
+ 
+     if (trace) {
+@@ -125,7 +125,7 @@ static void master_sigill(int sig, siginfo_t *si, void *uc)
      }
  
-     return resp;
-diff --git a/risu_aarch64.c b/risu_aarch64.c
-index 492d141..f8a8412 100644
---- a/risu_aarch64.c
-+++ b/risu_aarch64.c
-@@ -29,16 +29,16 @@ uint64_t get_reginfo_paramreg(struct reginfo *ri)
-     return ri->regs[0];
- }
+     switch (r) {
+-    case 0:
++    case RES_OK:
+         /* match OK */
+         advance_pc(uc);
+         return;
+@@ -137,7 +137,7 @@ static void master_sigill(int sig, siginfo_t *si, void *uc)
  
--int get_risuop(struct reginfo *ri)
-+RisuOp get_risuop(struct reginfo *ri)
+ static void apprentice_sigill(int sig, siginfo_t *si, void *uc)
  {
-     /* Return the risuop we have been asked to do
--     * (or -1 if this was a SIGILL for a non-risuop insn)
-+     * (or OP_SIGILL if this was a SIGILL for a non-risuop insn)
-      */
-     uint32_t insn = ri->faulting_insn;
-     uint32_t op = insn & 0xf;
-     uint32_t key = insn & ~0xf;
-     uint32_t risukey = 0x00005af0;
--    return (key != risukey) ? -1 : op;
-+    return (key != risukey) ? OP_SIGILL : op;
- }
+-    int r;
++    RisuResult r;
+     signal_count++;
  
- uintptr_t get_pc(struct reginfo *ri)
-diff --git a/risu_arm.c b/risu_arm.c
-index 5fcb2a5..a20bf73 100644
---- a/risu_arm.c
-+++ b/risu_arm.c
-@@ -56,17 +56,17 @@ uint64_t get_reginfo_paramreg(struct reginfo *ri)
-     return ri->gpreg[0];
- }
- 
--int get_risuop(struct reginfo *ri)
-+RisuOp get_risuop(struct reginfo *ri)
- {
-     /* Return the risuop we have been asked to do
--     * (or -1 if this was a SIGILL for a non-risuop insn)
-+     * (or OP_SIGILL if this was a SIGILL for a non-risuop insn)
-      */
-     uint32_t insn = ri->faulting_insn;
-     int isz = ri->faulting_insn_size;
-     uint32_t op = insn & 0xf;
-     uint32_t key = insn & ~0xf;
-     uint32_t risukey = (isz == 2) ? 0xdee0 : 0xe7fe5af0;
--    return (key != risukey) ? -1 : op;
-+    return (key != risukey) ? OP_SIGILL : op;
- }
- 
- uintptr_t get_pc(struct reginfo *ri)
-diff --git a/risu_i386.c b/risu_i386.c
-index 9962b8f..127e816 100644
---- a/risu_i386.c
-+++ b/risu_i386.c
-@@ -38,12 +38,12 @@ uint64_t get_reginfo_paramreg(struct reginfo *ri)
-     return ri->gregs[REG_E(AX)];
- }
- 
--int get_risuop(struct reginfo *ri)
-+RisuOp get_risuop(struct reginfo *ri)
- {
-     if ((ri->faulting_insn & 0xf8ffff) == 0xc0b90f) { /* UD1 %xxx,%eax */
-         return (ri->faulting_insn >> 16) & 7;
+     if (trace) {
+@@ -147,11 +147,11 @@ static void apprentice_sigill(int sig, siginfo_t *si, void *uc)
      }
--    return -1;
-+    return OP_SIGILL;
- }
  
- uintptr_t get_pc(struct reginfo *ri)
-diff --git a/risu_m68k.c b/risu_m68k.c
-index 1056eef..acdd57a 100644
---- a/risu_m68k.c
-+++ b/risu_m68k.c
-@@ -25,13 +25,13 @@ uint64_t get_reginfo_paramreg(struct reginfo *ri)
-     return ri->gregs[R_A0];
- }
- 
--int get_risuop(struct reginfo *ri)
-+RisuOp get_risuop(struct reginfo *ri)
- {
-     uint32_t insn = ri->faulting_insn;
-     uint32_t op = insn & 0xf;
-     uint32_t key = insn & ~0xf;
-     uint32_t risukey = 0x4afc7000;
--    return (key != risukey) ? -1 : op;
-+    return (key != risukey) ? OP_SIGILL : op;
- }
- 
- uintptr_t get_pc(struct reginfo *ri)
-diff --git a/risu_ppc64.c b/risu_ppc64.c
-index a3028f7..9df8d58 100644
---- a/risu_ppc64.c
-+++ b/risu_ppc64.c
-@@ -32,13 +32,13 @@ uint64_t get_reginfo_paramreg(struct reginfo *ri)
-     return ri->gregs[0];
- }
- 
--int get_risuop(struct reginfo *ri)
-+RisuOp get_risuop(struct reginfo *ri)
- {
-     uint32_t insn = ri->faulting_insn;
-     uint32_t op = insn & 0xf;
-     uint32_t key = insn & ~0xf;
-     uint32_t risukey = 0x00005af0;
--    return (key != risukey) ? -1 : op;
-+    return (key != risukey) ? OP_SIGILL : op;
- }
- 
- uintptr_t get_pc(struct reginfo *ri)
+     switch (r) {
+-    case 0:
++    case RES_OK:
+         /* match OK */
+         advance_pc(uc);
+         return;
+-    case 1:
++    case RES_END:
+         /* end of test */
+         exit(EXIT_SUCCESS);
+     default:
 -- 
 2.34.1
 
