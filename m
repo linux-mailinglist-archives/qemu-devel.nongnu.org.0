@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F8456B8B9
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:42:50 +0200 (CEST)
-Received: from localhost ([::1]:52854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25C356B8CF
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:48:10 +0200 (CEST)
+Received: from localhost ([::1]:55748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9mNi-0003Qw-Rt
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:42:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38244)
+	id 1o9mSv-0005jU-Gg
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9mLz-0002VV-Gu
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:40:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44977)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=2dMv=XN=zx2c4.com=Jason@kernel.org>)
+ id 1o9mNM-0003rT-3D
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:42:24 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:49716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9mLv-0008I0-S6
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:40:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657280454;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=2dMv=XN=zx2c4.com=Jason@kernel.org>)
+ id 1o9mNJ-0008Qu-JG
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:42:23 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7C01E624E0
+ for <qemu-devel@nongnu.org>; Fri,  8 Jul 2022 11:42:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D570C341C0
+ for <qemu-devel@nongnu.org>; Fri,  8 Jul 2022 11:42:18 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="Q9dOMSD3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1657280536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fOiZN9eN/jTn5kwCjT80/BDcKGBf4OJld2nWdo/vVaI=;
- b=eS6IzuTOM7Gx7TxqAmrvuw2y41PCg+8Vje2vfX+DXNW5Uk/L7oWR8Uxo+t+YDRyvHrRY5Z
- zTLbXNWjrebDREzhCKMg25FYSiPVXsa8vmUa0nuTXDAJ8mi+0kRJfrWNWYIA7lU8Kurxad
- sD4xL75NRVeP0wPhHX0ohOKjZf2846M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-e1JBm12nPuGmrgS0pdzQ3w-1; Fri, 08 Jul 2022 07:40:45 -0400
-X-MC-Unique: e1JBm12nPuGmrgS0pdzQ3w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 593BD18A64EA;
- Fri,  8 Jul 2022 11:40:45 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BDB92026D64;
- Fri,  8 Jul 2022 11:40:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 19CB721E690D; Fri,  8 Jul 2022 13:40:43 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Kevin Wolf <kwolf@redhat.com>,  qemu-devel@nongnu.org,  Hanna Reitz
- <hreitz@redhat.com>,  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Michael Tokarev <mjt@tls.msk.ru>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@gmail.com>
-Subject: The case for array properties (was: [PULL 14/15] qdev: Base object
- creation on QDict rather than QemuOpts)
-References: <20211015144640.198044-1-kwolf@redhat.com>
- <20211015144640.198044-15-kwolf@redhat.com>
- <CAFEAcA9jnySMWRD56FF9D7rXhwARiyvqJx+4Ys+smYa2ghdLBg@mail.gmail.com>
- <87wnctzdl9.fsf@pond.sub.org>
- <CAFEAcA_cYpt_FU5mD+X+BSmQq9e6u1n+nm8EVfdrPeVN0o3Spw@mail.gmail.com>
-Date: Fri, 08 Jul 2022 13:40:43 +0200
-In-Reply-To: <CAFEAcA_cYpt_FU5mD+X+BSmQq9e6u1n+nm8EVfdrPeVN0o3Spw@mail.gmail.com>
- (Peter Maydell's message of "Thu, 7 Jul 2022 21:24:09 +0100")
-Message-ID: <87y1x37ryc.fsf_-_@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=wPOh0uUEi6/qME7bYTETBWNDc1c9pPUFW/pv26G34QM=;
+ b=Q9dOMSD3oNuQLHXGGOJuM84hQWB87l6SuwBfzjPt2cRDdkRS2p3G0fM7Gxg6iFFCIB0xou
+ 7B8bVJClVi9ENC/wFqVTqCzuVC3OYNSad5uyNbpYltrn6BJ09Pq9ygxde+emYG74YgHVaK
+ 8IT/2vTxrB0vbSF/8PWumdDj/Glv67k=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f7ebac88
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Fri, 8 Jul 2022 11:42:16 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: [PATCH v2] hw/i386: pass RNG seed to e820 setup table
+Date: Fri,  8 Jul 2022 13:42:12 +0200
+Message-Id: <20220708114212.932457-1-Jason@zx2c4.com>
+In-Reply-To: <20220630113717.1893529-1-Jason@zx2c4.com>
+References: <20220630113717.1893529-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=2dMv=XN=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,69 +79,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing QOM maintainers.
+Tiny machines optimized for fast boot time generally don't use EFI,
+which means a random seed has to be supplied some other way, in this
+case by the e820 setup table, which supplies a place for one. This
+commit adds passing this random seed via the table. It is confirmed to
+be working with the Linux patch in the link.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Link: https://lore.kernel.org/lkml/20220708113907.891319-1-Jason@zx2c4.com/
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ hw/i386/x86.c                                | 19 ++++++++++++++-----
+ include/standard-headers/asm-x86/bootparam.h |  1 +
+ 2 files changed, 15 insertions(+), 5 deletions(-)
 
-> On Mon, 4 Jul 2022 at 05:50, Markus Armbruster <armbru@redhat.com> wrote:
->> My initial (knee-jerk) reaction to breaking array properties: Faster,
->> Pussycat! Kill! Kill!
->
-> In an ideal world, what would you replace them with?
-
-Let's first recapitulate their intended purpose.
-
-commit 339659041f87a76f8b71ad3d12cadfc5f89b4bb3q
-Author: Peter Crosthwaite <peter.crosthwaite@xilinx.com>
-Date:   Tue Aug 19 23:55:52 2014 -0700
-
-    qom: Add automatic arrayification to object_property_add()
-=20=20=20=20
-    If "[*]" is given as the last part of a QOM property name, treat that
-    as an array property. The added property is given the first available
-    name, replacing the * with a decimal number counting from 0.
-=20=20=20=20
-    First add with name "foo[*]" will be "foo[0]". Second "foo[1]" and so
-    on.
-=20=20=20=20
-    Callers may inspect the ObjectProperty * return value to see what
-    number the added property was given.
-=20=20=20=20
-    Signed-off-by: Peter Crosthwaite <peter.crosthwaite@xilinx.com>
-    Signed-off-by: Andreas F=C3=A4rber <afaerber@suse.de>
-
-This describes how they work, but sadly not why we want them.  For such
-arcane lore, we need to consult a guru.  Possibly via the mailing list
-archive.
-
-Digression: when you add a feature, please, please, *please* explain why
-you need it right in the commit message.  Such rationale is useful
-information, tends to age well, and can be quite laborious to
-reconstruct later.
-
-Even though I'm sure we discussed the intended purpose(s) of array
-properties before, a quick grep of my list archive comes up mostly
-empty, so I'm falling back to (foggy) memory.  Please correct mistakes
-and fill in omissions.
-
-We occasionally have a need for an array of properties where the length
-of the array is not fixed at compile time.  Say in code common to
-several related devices, where some have two frobs, some four, and a
-future one may have some other number.
-
-We could define properties frob0, frob1, ... frobN for some fixed N.
-Users have to set them like frob0=3D...,frob1=3D... and so forth.  We need
-code to reject frobI=3D... for I exeeding the actual limit.
-
-Array properties spare developers picking a fixed N, and users adding an
-index to the property name.  Whether the latter is a good idea is
-unclear.  We need code to reject usage exceeding the actual limit.
-
-A secondary use is (was?) avoiding memory region name clashes in code we
-don't want to touch.  Discussed in the review of my attempt to strangle
-array properties in 2014:
-
-    Message-ID: <87sihn9nji.fsf@blackfin.pond.sub.org>
-    https://lists.gnu.org/archive/html/qemu-devel/2014-11/msg02103.html
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 6003b4b2df..0724759eec 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -26,6 +26,7 @@
+ #include "qemu/cutils.h"
+ #include "qemu/units.h"
+ #include "qemu/datadir.h"
++#include "qemu/guest-random.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qapi-visit-common.h"
+@@ -1045,6 +1046,16 @@ void x86_load_linux(X86MachineState *x86ms,
+     }
+     fclose(f);
+ 
++    setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
++    kernel_size = setup_data_offset + sizeof(struct setup_data) + 32;
++    kernel = g_realloc(kernel, kernel_size);
++    stq_p(header + 0x250, prot_addr + setup_data_offset);
++    setup_data = (struct setup_data *)(kernel + setup_data_offset);
++    setup_data->next = 0;
++    setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
++    setup_data->len = cpu_to_le32(32);
++    qemu_guest_getrandom_nofail(setup_data->data, 32);
++
+     /* append dtb to kernel */
+     if (dtb_filename) {
+         if (protocol < 0x209) {
+@@ -1059,13 +1070,11 @@ void x86_load_linux(X86MachineState *x86ms,
+             exit(1);
+         }
+ 
+-        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+-        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
++        kernel_size += sizeof(struct setup_data) + dtb_size;
+         kernel = g_realloc(kernel, kernel_size);
+ 
+-        stq_p(header + 0x250, prot_addr + setup_data_offset);
+-
+-        setup_data = (struct setup_data *)(kernel + setup_data_offset);
++        setup_data->next = prot_addr + setup_data_offset + sizeof(*setup_data) + setup_data->len;
++        ++setup_data;
+         setup_data->next = 0;
+         setup_data->type = cpu_to_le32(SETUP_DTB);
+         setup_data->len = cpu_to_le32(dtb_size);
+diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/standard-headers/asm-x86/bootparam.h
+index 072e2ed546..b2aaad10e5 100644
+--- a/include/standard-headers/asm-x86/bootparam.h
++++ b/include/standard-headers/asm-x86/bootparam.h
+@@ -10,6 +10,7 @@
+ #define SETUP_EFI			4
+ #define SETUP_APPLE_PROPERTIES		5
+ #define SETUP_JAILHOUSE			6
++#define SETUP_RNG_SEED			9
+ 
+ #define SETUP_INDIRECT			(1<<31)
+ 
+-- 
+2.35.1
 
 
