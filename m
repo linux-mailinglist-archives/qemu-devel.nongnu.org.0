@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D16F356BA33
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 14:59:20 +0200 (CEST)
-Received: from localhost ([::1]:47592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B2356BA5E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 15:12:12 +0200 (CEST)
+Received: from localhost ([::1]:37710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9nZm-0003kg-W8
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 08:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54270)
+	id 1o9nmF-0008Jj-EG
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 09:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9nTl-00076u-W0
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 08:53:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56278)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9nTk-0002AG-67
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 08:53:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657284783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6Zt/ZjAWZaCzy66f46RSiVYww6amglB9md7om9AsRxM=;
- b=XjRnSvLhh0HRR60Xn8ORdZeA06AOJNVkTGEnFm9VzFU7N1VeVRTFgipq0xANS31FLvi7Ck
- IMGseH857E2W0twl3bF1uQTzMbNnmgWjdj0pGHOp4fuT5SvfaZ1s6q3KNpi7j/hhtnLnBB
- +mbTz5roZlOL7NF/pX2sVCxaq6lGqS8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-606-UeJm70FkPj6v8Cp04GCn_w-1; Fri, 08 Jul 2022 08:52:59 -0400
-X-MC-Unique: UeJm70FkPj6v8Cp04GCn_w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C328E3C0CD2D;
- Fri,  8 Jul 2022 12:52:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B1A58A4D1;
- Fri,  8 Jul 2022 12:52:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 69F3921E690D; Fri,  8 Jul 2022 14:52:57 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Stefan Hajnoczi
- <stefanha@redhat.com>,  Liuxiangdong <liuxiangdong5@huawei.com>,  Cindy Lu
- <lulu@redhat.com>,  Zhu Lingshan <lingshan.zhu@intel.com>,  "Gonglei
- (Arei)" <arei.gonglei@huawei.com>,  Laurent Vivier <lvivier@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>,  Stefano Garzarella
- <sgarzare@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Harpreet
- Singh Anand <hanand@xilinx.com>,  Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,  Eli Cohen <eli@mellanox.com>,
- Parav Pandit <parav@mellanox.com>,  Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH 22/22] vdpa: Add x-svq to NetdevVhostVDPAOptions
-References: <20220708105013.1899854-1-eperezma@redhat.com>
- <20220708105013.1899854-23-eperezma@redhat.com>
-Date: Fri, 08 Jul 2022 14:52:57 +0200
-In-Reply-To: <20220708105013.1899854-23-eperezma@redhat.com> ("Eugenio
- =?utf-8?Q?P=C3=A9rez=22's?= message of "Fri, 8 Jul 2022 12:50:13 +0200")
-Message-ID: <87h73r7oly.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9nkG-0007Hi-VX
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 09:10:08 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:36624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1o9nkB-0001sv-OY
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 09:10:08 -0400
+Received: by mail-pf1-x434.google.com with SMTP id g126so9076698pfb.3
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 06:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=sXeSs2lMyDHIHjvDEJlIt5IxPjmCWcu5GrsyuDU8oHk=;
+ b=CnbUffA8k3f2h5whzWhGU+9xaiSFwTbnMDnen5Pli+IMNOVi3vVuj9w8Di0KTy0a3z
+ yB92YXayPVxqq9hRsSj7ACpqNsTh4VVjxF29Z53o8KSKwZfaxLo0iWevXZcWv9/8fCUf
+ H7fPqx9HBTn1iE7lCK+1tcEjyB6VVTNTnPMt/ISYe5ohiUOLOUhPjHPWs3v4ms4VpmO4
+ NMChEDw2xVgjfMLb2dIp69+3RIPBv5FMW6Ibg/WkQcWulhnDZrpJ3yNBvuAYdatP/px4
+ 7vaPjNpn3Yw+ivlTxNey1YjWDwUpUx4zBeuiM5B7e5lGrEcXn7yIN51poMXmixiGWWog
+ oRBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=sXeSs2lMyDHIHjvDEJlIt5IxPjmCWcu5GrsyuDU8oHk=;
+ b=boeuLuULnwXj/Rju1Z2eBuNleBiI3hTrECrQO/i6mGaN248ZALhOnmUZlgifgI4rIs
+ G9mnpb2oH8wOfaCXlHC9QSFxClY2RIzzONj3T2YOft4oq2iZbviiWoeuQ+hbnOmXnjrT
+ DAXYGNI5jO8mKtPQtkflAjsexxcB/vL4i9xhjPPjA8Fkj0ZPe1vNJkjIQk5BPh2Or2+X
+ qsRu8fNUI3q1JkcUt42wO9R5lNpc7rsXm+1pgej8tVx+JGrTedX+TvV0GYI1AUuwyrN6
+ NZbGbFviUpqvjkGMoY6/fxa9iSnNCSvobT7hNzPCxGSWZb0uQlhm4QOSwpm/dEi/si9q
+ +5cg==
+X-Gm-Message-State: AJIora+EjM2OOwzlXHMittVOeHZOCEpVwhTGFgjvSjnkw8EYx6pa1Dx7
+ XnucwVoXMdQ6HNpd5Nb8cBVgbg==
+X-Google-Smtp-Source: AGRyM1tDqpo0ZRXFFfFBsimTT92L6sgJ6BFaboR/fcq2CrYb7pjho6FXa6N7mov6o9pSEWE6Rie68A==
+X-Received: by 2002:a63:3fcc:0:b0:408:c856:dd6d with SMTP id
+ m195-20020a633fcc000000b00408c856dd6dmr3319293pga.354.1657285800546; 
+ Fri, 08 Jul 2022 06:10:00 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ g20-20020a170902869400b0016a565f3f34sm1803034plo.168.2022.07.08.06.09.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jul 2022 06:10:00 -0700 (PDT)
+Message-ID: <72296629-0870-9c69-21e8-aa18881ea277@linaro.org>
+Date: Fri, 8 Jul 2022 18:39:53 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: Intermittent meson failures on msys2
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <c27c93e9-c6e9-1d12-8b45-41c34065a977@linaro.org>
+ <CAJ+F1CLQ6Y-tzcjwQeL=EO21+v+_49F85E2fnEcN170Gb89kjw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAJ+F1CLQ6Y-tzcjwQeL=EO21+v+_49F85E2fnEcN170Gb89kjw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,15 +93,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
+On 7/8/22 18:11, Marc-André Lureau wrote:
+> My guess is that CI randomly fails with "too many opened files", as I have seen that 
+> regularly on various projects with Windows runners. And here, it's probably reaching 
+> limits when running python/perl scripts simultaneously... I don't see an easy way to solve 
+> that if that's the issue.
 
-> Finally offering the possibility to enable SVQ from the command line.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+If that's really the issue, with no solution, then we should turn these jobs off.
 
-Please carry forward Acked-by and Reviewed-by you received for prior
-revisions unless you change something that invalidates them.  This
-ensures reviewers get credit, and also saves them time: if the tag is
-still there, nothing much changed, and no need to look at it again.
 
+r~
 
