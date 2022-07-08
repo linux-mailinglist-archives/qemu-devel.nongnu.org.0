@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E55956BCF5
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 17:36:29 +0200 (CEST)
-Received: from localhost ([::1]:42852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBE556BCFA
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 17:39:42 +0200 (CEST)
+Received: from localhost ([::1]:51242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9q1s-0006E1-Fg
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 11:36:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37218)
+	id 1o9q4z-0003yJ-6L
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 11:39:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9pij-0002h4-1c
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:16:41 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:43639)
+ id 1o9pin-0002ok-1b
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:16:45 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:34620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9pih-0002K8-9i
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:16:40 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- o5-20020a17090a3d4500b001ef76490983so2077186pjf.2
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:16:38 -0700 (PDT)
+ id 1o9pil-0002Kd-7U
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 11:16:44 -0400
+Received: by mail-pl1-x630.google.com with SMTP id z1so10808198plb.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 08:16:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KwsMd3cs1kMRtBrVlO0pZElFPRsZqBMQRBB6JbUzQes=;
- b=cRKGy8VKMm6AEnV91tsqYTPXNOzh/LNtyRIm40ACejW5oOd4AWkbwXXKw6U8U0zzPP
- luWp1GU3qtKFfjBYXQz7T5UCTuRN86F7Cnbe8YjZk2GtEc0zKxCz/VjMoqzRyqb9S5nR
- yZTGeGDOrLXF6gVIgVYWMPHRbU8LZVahuIJxrd2rTqekCnKtKO7AJ0TEK1U2DUmWquwV
- 7MULD1XdXZq9x06zEiBcPb3RRlBCwjCgvsJSRGMhmP/3gpZ0ClP4ZmOaaTAcmoLkUoYf
- h0ZtGUysSA9cR922Uq0asXeMp9DN++d78ocyYccroLFYASIqKoyqIfB+XiNCK410dq8T
- A+9w==
+ bh=8q6UgHZNxgLAwjYyD3emx4pnHnGEMm3xg5CqdRKZ5yA=;
+ b=Rlh1uGi31mr+nppIEi5f5Iw+0CqYnLlsV5W4Y9htIKl857meuFaODi5r42vJqjvFMa
+ 64UddTFV0Pck0r52ey0INwG+wvNrmZzcFJ25fA6gRSh/66FJwigzMwuAlmmQ4z2klcjX
+ Jz8UbWO38MuTX0HYp18aLscwUdPNanyfiBqgSOcvHvx+rSobpm9f2Qrs8jYYR/AIdByh
+ YdeK1EdS/axxGRrnQXVktLudanqfxfQ5vYf1yIkieF6XfBoN44+x2ZBb5e6v7W+6Kuk/
+ X0RsYx7y3K8TDTg1yJBgwRt+3142+Xe/3FI1HPNn1yno4qD49Z/2USXyvjZL9LbQrO9i
+ TnCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KwsMd3cs1kMRtBrVlO0pZElFPRsZqBMQRBB6JbUzQes=;
- b=ipU/0XDm1mavJ3ML1PouH+Y7mOgB5zVdmXjLpJeQREEFKIiSH06k7ydSzkt8j2PNXk
- 3wenY7fAcCM3moFcQDZR3QMDz8aGwsqJ9qW/eiE58rQehL7tS7jWJ2djVKPnSMY6vgtN
- i0EjxEaoC3O776G5zviCzbBW7k3hftEf9tlMoEJ758w1xYDufjPESmiB6j5fndpVJ5Sw
- Evix1uuf7PjUnNHHTxgQO0R2Xs9tRUCzq7gdyDObk2nA3cbS8EizGlU0AtBYX6bVRlhx
- g++/6S9961a5LjFIzC9iC6ndHqHvWGi7xzCJlNVwUOK2fyp71uwLlwApacfTFAF/RlZT
- PVvA==
-X-Gm-Message-State: AJIora+HwdqkZPaCz4qCv/zzAmm5uTTlQ/OjP36mikR+PokWIcYHEK7R
- dBxAWVRhqDasF8Om565f1kLdh4FkcrtQARxR
-X-Google-Smtp-Source: AGRyM1tfk2AY+8wskYh8SWkwOwiEaSQi0zJI2OhqHRmlfkDcj5RSdMkT0cOVZmJAzgl1w1fl7kS13g==
-X-Received: by 2002:a17:902:d708:b0:16b:d655:e15a with SMTP id
- w8-20020a170902d70800b0016bd655e15amr4157317ply.34.1657293398047; 
- Fri, 08 Jul 2022 08:16:38 -0700 (PDT)
+ bh=8q6UgHZNxgLAwjYyD3emx4pnHnGEMm3xg5CqdRKZ5yA=;
+ b=5jQrz9LPZA9ya+/KO/zZ/3DjFnroir73Bwe3Rr+SbWryINXmeRNinUQwkxn8G54Ggy
+ u7J6wih5fX/cvi9vdR1v1IPVgOV1MGJ4HhyNHW/wvouhCLj1U2F5lyWcIltMljFhquIX
+ /ph+NBpxRMFG4/LvrcIXB3SDgNFLxWRQvPNZPcXFfnEADVMbHTGrQhjDmUI0pWlBFq1T
+ xKlSQUfFeSexH2MmxhHIK+wcjBCXI7hpGnUYijVs16Sfniweaosn/KK9AY/jnwlWwXdn
+ YX/5o5eXxaj/jjZyzoGn/JD5ETzRd2MgJjaDl4WjWrqxMF8i2OZSFhn+5vGm4z83DOok
+ /+5g==
+X-Gm-Message-State: AJIora8XbZEZXzyfrBM6zYvfjeAktwAFMEZAy87cdlnQjhk7BA32NpIA
+ vvjWIAzsU1n81NI1S9QX1SvqP8kcTifnavRJ
+X-Google-Smtp-Source: AGRyM1u+MFCnidnLKz0VNTg5XVKueCAuXlN9sNj0U4eX382vtO7eMPWaOMIWU0KvaSRHSH6DjN8KSg==
+X-Received: by 2002:a17:90b:3b4b:b0:1ef:f5b0:ce60 with SMTP id
+ ot11-20020a17090b3b4b00b001eff5b0ce60mr352337pjb.71.1657293400833; 
+ Fri, 08 Jul 2022 08:16:40 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- n17-20020a056a0007d100b0051bada81bc7sm29085774pfu.161.2022.07.08.08.16.35
+ n17-20020a056a0007d100b0051bada81bc7sm29085774pfu.161.2022.07.08.08.16.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 08:16:37 -0700 (PDT)
+ Fri, 08 Jul 2022 08:16:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v6 17/45] target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
-Date: Fri,  8 Jul 2022 20:45:12 +0530
-Message-Id: <20220708151540.18136-18-richard.henderson@linaro.org>
+Subject: [PATCH v6 18/45] target/arm: Implement SME ZERO
+Date: Fri,  8 Jul 2022 20:45:13 +0530
+Message-Id: <20220708151540.18136-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220708151540.18136-1-richard.henderson@linaro.org>
 References: <20220708151540.18136-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,135 +88,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These SME instructions are nominally within the SVE decode space,
-so we add them to sve.decode and translate-sve.c.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v4: Add streaming_{vec,pred}_reg_size.
+v4: Fix ZA[] comment in helper_sme_zero.
 ---
- target/arm/translate-a64.h | 12 ++++++++++++
- target/arm/sve.decode      |  5 ++++-
- target/arm/translate-sve.c | 38 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 54 insertions(+), 1 deletion(-)
+ target/arm/helper-sme.h    |  2 ++
+ target/arm/sme.decode      |  4 ++++
+ target/arm/sme_helper.c    | 25 +++++++++++++++++++++++++
+ target/arm/translate-sme.c | 13 +++++++++++++
+ 4 files changed, 44 insertions(+)
 
-diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-index 02fb95e019..099d3d11d6 100644
---- a/target/arm/translate-a64.h
-+++ b/target/arm/translate-a64.h
-@@ -128,6 +128,12 @@ static inline int vec_full_reg_size(DisasContext *s)
-     return s->vl;
- }
+diff --git a/target/arm/helper-sme.h b/target/arm/helper-sme.h
+index 3bd48c235f..c4ee1f09e4 100644
+--- a/target/arm/helper-sme.h
++++ b/target/arm/helper-sme.h
+@@ -19,3 +19,5 @@
  
-+/* Return the byte size of the vector register, SVL / 8. */
-+static inline int streaming_vec_reg_size(DisasContext *s)
-+{
-+    return s->svl;
-+}
+ DEF_HELPER_FLAGS_2(set_pstate_sm, TCG_CALL_NO_RWG, void, env, i32)
+ DEF_HELPER_FLAGS_2(set_pstate_za, TCG_CALL_NO_RWG, void, env, i32)
 +
- /*
-  * Return the offset info CPUARMState of the predicate vector register Pn.
-  * Note for this purpose, FFR is P16.
-@@ -143,6 +149,12 @@ static inline int pred_full_reg_size(DisasContext *s)
-     return s->vl >> 3;
- }
- 
-+/* Return the byte size of the predicate register, SVL / 64.  */
-+static inline int streaming_pred_reg_size(DisasContext *s)
-+{
-+    return s->svl >> 3;
-+}
++DEF_HELPER_FLAGS_3(sme_zero, TCG_CALL_NO_RWG, void, env, i32, i32)
+diff --git a/target/arm/sme.decode b/target/arm/sme.decode
+index c25c031a71..6e4483fdce 100644
+--- a/target/arm/sme.decode
++++ b/target/arm/sme.decode
+@@ -18,3 +18,7 @@
+ #
+ # This file is processed by scripts/decodetree.py
+ #
 +
- /*
-  * Round up the size of a register to a size allowed by
-  * the tcg vector infrastructure.  Any operation which uses this
-diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index 908643d7d9..95af08c139 100644
---- a/target/arm/sve.decode
-+++ b/target/arm/sve.decode
-@@ -449,14 +449,17 @@ INDEX_ri        00000100 esz:2 1 imm:s5 010001 rn:5 rd:5
- # SVE index generation (register start, register increment)
- INDEX_rr        00000100 .. 1 ..... 010011 ..... .....          @rd_rn_rm
- 
--### SVE Stack Allocation Group
-+### SVE / Streaming SVE Stack Allocation Group
- 
- # SVE stack frame adjustment
- ADDVL           00000100 001 ..... 01010 ...... .....           @rd_rn_i6
-+ADDSVL          00000100 001 ..... 01011 ...... .....           @rd_rn_i6
- ADDPL           00000100 011 ..... 01010 ...... .....           @rd_rn_i6
-+ADDSPL          00000100 011 ..... 01011 ...... .....           @rd_rn_i6
- 
- # SVE stack frame size
- RDVL            00000100 101 11111 01010 imm:s6 rd:5
-+RDSVL           00000100 101 11111 01011 imm:s6 rd:5
- 
- ### SVE Bitwise Shift - Unpredicated Group
- 
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 96e934c1ea..95016e49e9 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -1286,6 +1286,19 @@ static bool trans_ADDVL(DisasContext *s, arg_ADDVL *a)
-     return true;
- }
- 
-+static bool trans_ADDSVL(DisasContext *s, arg_ADDSVL *a)
-+{
-+    if (!dc_isar_feature(aa64_sme, s)) {
-+        return false;
-+    }
-+    if (sme_enabled_check(s)) {
-+        TCGv_i64 rd = cpu_reg_sp(s, a->rd);
-+        TCGv_i64 rn = cpu_reg_sp(s, a->rn);
-+        tcg_gen_addi_i64(rd, rn, a->imm * streaming_vec_reg_size(s));
-+    }
-+    return true;
-+}
++### SME Misc
 +
- static bool trans_ADDPL(DisasContext *s, arg_ADDPL *a)
- {
-     if (!dc_isar_feature(aa64_sve, s)) {
-@@ -1299,6 +1312,19 @@ static bool trans_ADDPL(DisasContext *s, arg_ADDPL *a)
-     return true;
++ZERO            11000000 00 001 00000000000 imm:8
+diff --git a/target/arm/sme_helper.c b/target/arm/sme_helper.c
+index b215725594..eef2df73e1 100644
+--- a/target/arm/sme_helper.c
++++ b/target/arm/sme_helper.c
+@@ -59,3 +59,28 @@ void helper_set_pstate_za(CPUARMState *env, uint32_t i)
+         memset(env->zarray, 0, sizeof(env->zarray));
+     }
  }
- 
-+static bool trans_ADDSPL(DisasContext *s, arg_ADDSPL *a)
-+{
-+    if (!dc_isar_feature(aa64_sme, s)) {
-+        return false;
-+    }
-+    if (sme_enabled_check(s)) {
-+        TCGv_i64 rd = cpu_reg_sp(s, a->rd);
-+        TCGv_i64 rn = cpu_reg_sp(s, a->rn);
-+        tcg_gen_addi_i64(rd, rn, a->imm * streaming_pred_reg_size(s));
-+    }
-+    return true;
-+}
 +
- static bool trans_RDVL(DisasContext *s, arg_RDVL *a)
- {
-     if (!dc_isar_feature(aa64_sve, s)) {
-@@ -1311,6 +1337,18 @@ static bool trans_RDVL(DisasContext *s, arg_RDVL *a)
-     return true;
- }
- 
-+static bool trans_RDSVL(DisasContext *s, arg_RDSVL *a)
++void helper_sme_zero(CPUARMState *env, uint32_t imm, uint32_t svl)
 +{
-+    if (!dc_isar_feature(aa64_sme, s)) {
-+        return false;
-+    }
-+    if (sme_enabled_check(s)) {
-+        TCGv_i64 reg = cpu_reg(s, a->rd);
-+        tcg_gen_movi_i64(reg, a->imm * streaming_vec_reg_size(s));
-+    }
-+    return true;
-+}
++    uint32_t i;
 +
- /*
-  *** SVE Compute Vector Address Group
++    /*
++     * Special case clearing the entire ZA space.
++     * This falls into the CONSTRAINED UNPREDICTABLE zeroing of any
++     * parts of the ZA storage outside of SVL.
++     */
++    if (imm == 0xff) {
++        memset(env->zarray, 0, sizeof(env->zarray));
++        return;
++    }
++
++    /*
++     * Recall that ZAnH.D[m] is spread across ZA[n+8*m],
++     * so each row is discontiguous within ZA[].
++     */
++    for (i = 0; i < svl; i++) {
++        if (imm & (1 << (i % 8))) {
++            memset(&env->zarray[i], 0, svl);
++        }
++    }
++}
+diff --git a/target/arm/translate-sme.c b/target/arm/translate-sme.c
+index 786c93fb2d..971504559b 100644
+--- a/target/arm/translate-sme.c
++++ b/target/arm/translate-sme.c
+@@ -33,3 +33,16 @@
   */
+ 
+ #include "decode-sme.c.inc"
++
++
++static bool trans_ZERO(DisasContext *s, arg_ZERO *a)
++{
++    if (!dc_isar_feature(aa64_sme, s)) {
++        return false;
++    }
++    if (sme_za_enabled_check(s)) {
++        gen_helper_sme_zero(cpu_env, tcg_constant_i32(a->imm),
++                            tcg_constant_i32(streaming_vec_reg_size(s)));
++    }
++    return true;
++}
 -- 
 2.34.1
 
