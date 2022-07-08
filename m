@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B7A56B9FE
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 14:47:03 +0200 (CEST)
-Received: from localhost ([::1]:33330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA49156BA19
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 14:53:19 +0200 (CEST)
+Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9nNt-0001no-Mo
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 08:47:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51712)
+	id 1o9nTy-0006aI-IL
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 08:53:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o9nJ6-0005wt-Tk
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 08:42:05 -0400
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:33654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1o9nJ4-00085j-Hc
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 08:42:04 -0400
-Received: by mail-lj1-x232.google.com with SMTP id c15so25835698ljr.0
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 05:42:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=N1e4+2cocgBv5wQNyc9lspLGxN7LkUEdKXf1iJjGpho=;
- b=RwdxGbjagb8TxnVmRljGguxagfYFRfHKWE9XP6yF/WsypCUKcCcq20iNs+PA0HVppK
- UJpwKMYtrjLXUB+dTIXp4+7IaIGsGTCOYAL2SVyUQKWTLf8fJ88VpkBHLrG+t+MCe1OP
- 6RiAaapFpsfYpvwdAb9pcWgIDh4vgNtzGT0iQQKcW6BklrC/x/rGr2DyLcjWEXp34ho/
- qRk0z/N4R6XgaMFgau5jhKxOrMBhqgb/GJIedqYbNe1O42a5IjKdGidHJZyYijaF+yb8
- qc+6x8ZbJUbvTFh5xyz8yZnnZo1YqRq0+a9F+4mV0MVeCuW9krx+PCbBlQHR4sITaT+I
- adBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=N1e4+2cocgBv5wQNyc9lspLGxN7LkUEdKXf1iJjGpho=;
- b=GTPXiuwUIknqtcYbDDl6rP+5nRdVa/RPLg1Ud0kpm/ivqR9rFJcddpL7aMwLlVwkHF
- MV/+23/qJxIH0S4enfGgH5Yykx7c3qI8mpG3lOzE97kYlJZ+bC87iI5Wn6csvhgzK6t6
- hWCiP1XeC06g0XRXVeP7f/2o1h5pi1fq+CBpYClZh0osynXgtJ6MBq/9Hd45RyFqkiZ+
- /dDp9irW/mbkC8SpIHvh5Zb6lOZ1R3dp+KuUA488ku/XqgtLmZZd4UaK38wZkFxCBmZ/
- c+faUbSmEneJ1sPUhM6/th3dBHVJgvkeiQXU8kFtBFmE5g+CqzWmVOCnIfpg+4srwcwS
- lq/A==
-X-Gm-Message-State: AJIora+U4cpmVbm2J4hSFh0XqrsuzDUGQd91RsO0cqqkpdeUSNBqo8ex
- /zOa3eEzSG/rIoUTLnmujZoUqNUFrHF6J1VCUpw=
-X-Google-Smtp-Source: AGRyM1vtjaxbjGWKQSZTiRBcN5gcVyCO2NB0w/OukdymP7jzQYV83qkPOgVDxFXdLiuCpiTzdg9S9geo71aUfFtctxw=
-X-Received: by 2002:a05:651c:1542:b0:249:5d86:3164 with SMTP id
- y2-20020a05651c154200b002495d863164mr1851543ljp.500.1657284119928; Fri, 08
- Jul 2022 05:41:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9nRw-0005uL-2k
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 08:51:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1o9nRr-0001w5-JS
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 08:51:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657284666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mORBhYMes42rNo5YADPFkiCglpufZ5QMEgSovUXhW5o=;
+ b=fVxCIUNfyYRQm/epNADkWSU61aUmm/N6ukoWWpJMxDCNU1p0BXNd2rMsnmD11RBO9jkNMY
+ tLVoxNn1mg/eD3SpNVgKlENdpzMn1KioH8bFI3zaQ7hyih5nayE68hVmwaK50crqixttp/
+ HtsA8u+thy++DZUKohPdx8T1iBBSe00=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-637-UdCkKbA6MpmtHBfC0Nv-7w-1; Fri, 08 Jul 2022 08:51:05 -0400
+X-MC-Unique: UdCkKbA6MpmtHBfC0Nv-7w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F223B38149B4;
+ Fri,  8 Jul 2022 12:51:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A35B41121314;
+ Fri,  8 Jul 2022 12:51:04 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 447AE21E690D; Fri,  8 Jul 2022 14:51:03 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>,  Liuxiangdong
+ <liuxiangdong5@huawei.com>,  Harpreet Singh Anand <hanand@xilinx.com>,
+ Eric Blake <eblake@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,
+ Parav Pandit <parav@mellanox.com>,  Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,  Gautam Dawar <gdawar@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>,  "Gonglei (Arei)"
+ <arei.gonglei@huawei.com>,  Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,  Cindy Lu <lulu@redhat.com>,
+ Jason Wang <jasowang@redhat.com>
+Subject: Re: [RFC PATCH v9 23/23] vdpa: Add x-svq to NetdevVhostVDPAOptions
+References: <20220706184008.1649478-1-eperezma@redhat.com>
+ <20220706184008.1649478-24-eperezma@redhat.com>
+ <87ilo9igph.fsf@pond.sub.org>
+ <CAJaqyWff6kfi6UAwvU64vj-q6CuncYBQnE4=P_3cGAGeL-rNVg@mail.gmail.com>
+Date: Fri, 08 Jul 2022 14:51:03 +0200
+In-Reply-To: <CAJaqyWff6kfi6UAwvU64vj-q6CuncYBQnE4=P_3cGAGeL-rNVg@mail.gmail.com>
+ (Eugenio Perez Martin's message of "Fri, 8 Jul 2022 12:53:55 +0200")
+Message-ID: <87let37op4.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <c27c93e9-c6e9-1d12-8b45-41c34065a977@linaro.org>
-In-Reply-To: <c27c93e9-c6e9-1d12-8b45-41c34065a977@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 8 Jul 2022 16:41:48 +0400
-Message-ID: <CAJ+F1CLQ6Y-tzcjwQeL=EO21+v+_49F85E2fnEcN170Gb89kjw@mail.gmail.com>
-Subject: Re: Intermittent meson failures on msys2
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000042a30505e34a87ef"
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x232.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,144 +92,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000042a30505e34a87ef
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Eugenio Perez Martin <eperezma@redhat.com> writes:
 
-Hi
+> On Thu, Jul 7, 2022 at 8:23 AM Markus Armbruster <armbru@redhat.com> wrot=
+e:
+>>
+>> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
+>>
+>> > Finally offering the possibility to enable SVQ from the command line.
+>>
+>> QMP, too, I guess.
+>>
+>
+> Hi Markus,
+>
+> I'm not sure what you mean. Dynamic enabling / disabling of SVQ was
+> delayed, and now it's only possible to enable or disable it from the
+> beginning of the run of qemu. Do you mean to enable SVQ before
+> starting the guest somehow?
 
-On Mon, Jun 27, 2022 at 6:41 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+QMP command netdev_add takes a Netdev argument.  Branch 'vhost-vdpa' has
+member x-svq.  Are you telling me it doesn't work there?  Or only before
+the guest runs?
 
-> Hi guys,
->
-> There's an occasional failure on msys2, where meson fails to capture the
-> output of a build
-> script.  E.g.
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/2642051161
->
-> FAILED: ui/input-keymap-qcode-to-linux.c.inc
-> "C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.exe=
-"
-> "C:/GitLab-Runner/builds/qemu-project/qemu/meson/meson.py" "--internal"
-> "exe" "--capture"
-> "ui/input-keymap-qcode-to-linux.c.inc" "--"
-> "C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.exe=
-"
-> "../ui/keycodemapdb/tools/keymap-gen" "code-map" "--lang" "glib2"
-> "--varname"
-> "qemu_input_map_qcode_to_linux" "../ui/keycodemapdb/data/keymaps.csv"
-> "qcode" "linux"
-> [301/1665] Generating input-keymap-qcode-to-qnum.c.inc with a custom
-> command (wrapped by
-> meson to capture output)
-> ninja: build stopped: subcommand failed.
->
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/2625836697
->
-> FAILED: ui/shader/texture-blit-frag.h
-> "C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.exe=
-"
-> "C:/GitLab-Runner/builds/qemu-project/qemu/meson/meson.py" "--internal"
-> "exe" "--capture"
-> "ui/shader/texture-blit-frag.h" "--" "perl"
-> "C:/GitLab-Runner/builds/qemu-project/qemu/scripts/shaderinclude.pl"
-> "../ui/shader/texture-blit.frag"
-> [313/1663] Generating texture-blit-vert.h with a custom command (wrapped
-> by meson to
-> capture output)
-> ninja: build stopped: subcommand failed.
->
->
-> Could you have a look please?
->
->
->
-Ah, we don't have artifacts for msys2 builds it seems, that would perhaps
-help. It would make sense to at least take meson-logs/*.txt. I'll work on a
-patch.
+[...]
 
-My guess is that CI randomly fails with "too many opened files", as I have
-seen that regularly on various projects with Windows runners. And here,
-it's probably reaching limits when running python/perl scripts
-simultaneously... I don't see an easy way to solve that if that's the issue=
-.
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000042a30505e34a87ef
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 27, 2022 at 6:41 AM Ric=
-hard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.=
-henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">Hi guys,<br>
-<br>
-There&#39;s an occasional failure on msys2, where meson fails to capture th=
-e output of a build <br>
-script.=C2=A0 E.g.<br>
-<br>
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/2642051161" rel=3D"n=
-oreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jobs/26=
-42051161</a><br>
-<br>
-FAILED: ui/input-keymap-qcode-to-linux.c.inc<br>
-&quot;C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.=
-exe&quot; <br>
-&quot;C:/GitLab-Runner/builds/qemu-project/qemu/meson/meson.py&quot; &quot;=
---internal&quot; &quot;exe&quot; &quot;--capture&quot; <br>
-&quot;ui/input-keymap-qcode-to-linux.c.inc&quot; &quot;--&quot; <br>
-&quot;C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.=
-exe&quot; <br>
-&quot;../ui/keycodemapdb/tools/keymap-gen&quot; &quot;code-map&quot; &quot;=
---lang&quot; &quot;glib2&quot; &quot;--varname&quot; <br>
-&quot;qemu_input_map_qcode_to_linux&quot; &quot;../ui/keycodemapdb/data/key=
-maps.csv&quot; &quot;qcode&quot; &quot;linux&quot;<br>
-[301/1665] Generating input-keymap-qcode-to-qnum.c.inc with a custom comman=
-d (wrapped by <br>
-meson to capture output)<br>
-ninja: build stopped: subcommand failed.<br>
-<br>
-<br>
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/2625836697" rel=3D"n=
-oreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jobs/26=
-25836697</a><br>
-<br>
-FAILED: ui/shader/texture-blit-frag.h<br>
-&quot;C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/bin/python3.=
-exe&quot; <br>
-&quot;C:/GitLab-Runner/builds/qemu-project/qemu/meson/meson.py&quot; &quot;=
---internal&quot; &quot;exe&quot; &quot;--capture&quot; <br>
-&quot;ui/shader/texture-blit-frag.h&quot; &quot;--&quot; &quot;perl&quot; <=
-br>
-&quot;C:/GitLab-Runner/builds/qemu-project/qemu/scripts/<a href=3D"http://s=
-haderinclude.pl" rel=3D"noreferrer" target=3D"_blank">shaderinclude.pl</a>&=
-quot; <br>
-&quot;../ui/shader/texture-blit.frag&quot;<br>
-[313/1663] Generating texture-blit-vert.h with a custom command (wrapped by=
- meson to <br>
-capture output)<br>
-ninja: build stopped: subcommand failed.<br>
-<br>
-<br>
-Could you have a look please?<br>
-<br>
-<br></blockquote><div><br></div>Ah, we don&#39;t have artifacts for msys2 b=
-uilds it seems, that would perhaps help. It would make sense to at least ta=
-ke meson-logs/*.txt. I&#39;ll work on a patch.</div><div class=3D"gmail_quo=
-te"><br></div><div class=3D"gmail_quote">My guess is that CI randomly fails=
- with &quot;too many opened files&quot;, as I have seen that regularly on v=
-arious projects with Windows runners. And here, it&#39;s probably reaching =
-limits when running python/perl scripts simultaneously... I don&#39;t see a=
-n easy way to solve that if that&#39;s the issue.<br clear=3D"all"></div><b=
-r>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<=
-br></div></div>
-
---00000000000042a30505e34a87ef--
 
