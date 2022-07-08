@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1E456B5A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 11:35:12 +0200 (CEST)
-Received: from localhost ([::1]:53720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1117D56B5D1
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 11:44:37 +0200 (CEST)
+Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9kOE-0001W4-OF
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 05:35:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40070)
+	id 1o9kXL-0004bB-A5
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 05:44:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9kMn-00009K-Hv
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:33:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23382)
+ id 1o9kV5-0003kK-HS
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:42:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9kMl-0001f4-1E
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:33:40 -0400
+ id 1o9kV1-0008QI-Hf
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:42:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657272818;
+ s=mimecast20190719; t=1657273330;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FJA0JlvewwhmU6PuTnNG18nB2ZlyHeHVVTvg41sIKEU=;
- b=dsMoProAHZ4a+7nLi+c6dEWzylBvYzJ6l767fZVXWyBzTdTDoITNWbbyNYJ8RMKi1blapr
- 7d23dE2FC7/qFXsczTPsJo+4jmO/9tHNHRTkXhusY9boTrQrbEthwXqXto7AM2sEANUN5z
- BwLNaT0q+zmQKvcWwAC2gVz3zZXVS2Y=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gPv+qy8xb30Eg9mnmRkS6JPZkkHHKuzPj6sFoEUF2z4=;
+ b=Gdf9w54JSK1le1wNRhsas8OzogIEDHqUgd3HyBLUtglDpvMW6DSgWZhghjhDED8lnva+dZ
+ LKd0WYKVaCQKt/llK9QdLajuq6qWg75jIbnciSj4Z6GOvPO1ZVrR5LPfWP8gK38/bu/cyV
+ fhy9k9TefkmFMDLHyZNTobAJxHdpnfw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-398-4aeicvfnMsG5pI2IHp7grw-1; Fri, 08 Jul 2022 05:33:31 -0400
-X-MC-Unique: 4aeicvfnMsG5pI2IHp7grw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c126-20020a1c3584000000b003a02fa133ceso5033084wma.2
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 02:33:31 -0700 (PDT)
+ us-mta-498-qws_SzpKPM6Osq3pNEiZ_A-1; Fri, 08 Jul 2022 05:42:09 -0400
+X-MC-Unique: qws_SzpKPM6Osq3pNEiZ_A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w12-20020adf8bcc000000b0021d20a5b24fso3744230wra.22
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 02:42:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:from:to:cc:references:in-reply-to
  :content-transfer-encoding;
- bh=FJA0JlvewwhmU6PuTnNG18nB2ZlyHeHVVTvg41sIKEU=;
- b=szmWM65KLvWCSEuE8LKVaPaCF53dLtWVKikVo1TaCekq9Ttiaa3aA1H1ug6mjbsvme
- V9xCx17k2QiDs+UjMpAM/PbIXloRcUEf7xn1wjxPxeAj3kusY3bm2bPxIIFM17/dcH1p
- WhNiJQE6STbuYIfrcc+tzS7xksTOG4LDSVqmSL49rn+TQonynGmG1k8D5mUZtFDTusX4
- BQ7uOpQAeivX12G2eex4XxtZZmw53uDw6JJAupOPLaaUrVu7pIdk+0uHSiEF6oCI0i5l
- XMFf6G22VlSr19Cs3ITVicxHLumIhP7o3O2AcvUb2eHbayi2kn+U5pJiaNSEOTi01arT
- aRVg==
-X-Gm-Message-State: AJIora9oUHwj4rvzMCc3M2ttF1eoOAUbTi6j36TDe3z39VgUk0ep6n2O
- IY01bRzV4M/b0QKzqfadh2y0hNbPhXbzMw3N0hiMUJb/d20jzYiPKFnSVP8HjR9i0xPMzLJVNOM
- r6agB8mjiY0teTZk=
-X-Received: by 2002:a5d:56ca:0:b0:21d:8b21:9fd5 with SMTP id
- m10-20020a5d56ca000000b0021d8b219fd5mr2352094wrw.179.1657272810284; 
- Fri, 08 Jul 2022 02:33:30 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tn2I/1suxmJsFUi8e3PfM1w4QexNjB4r3kwMg7nmG6zpwT4ElEwe0+E6uH33i6XurXrN5IPA==
-X-Received: by 2002:a5d:56ca:0:b0:21d:8b21:9fd5 with SMTP id
- m10-20020a5d56ca000000b0021d8b219fd5mr2352067wrw.179.1657272809994; 
- Fri, 08 Jul 2022 02:33:29 -0700 (PDT)
+ bh=gPv+qy8xb30Eg9mnmRkS6JPZkkHHKuzPj6sFoEUF2z4=;
+ b=V9cpbzKZJkcBiu6H7r8VcNlCuuRjOHPWSElpPjGUM4S27vU8p9blLGu52AWn++UYuL
+ o0NCUPsOzZ9sV+Ca47tmvP8Ff7+cMr7XTaY51XLfOvopN3xwIhsqoiPPMEphOEu83uCU
+ eqja8jW8/a+S/GoAU3v6kucKf0J6oXzo6FGFVtmm8q2O4F02qJ3fLePcFyBllRNIkQp0
+ X5Di5XJW0UeHNE73r0C8lbxs4iqy0jl+zJikRkfwa9Sg1E/m528yx1/uBKaAYtL+noeg
+ l+UlcMoaAzh4IEGSh3ZVrqOC8X+WsFKqndm90h2WfLEzXcu46Rg71o8V2SgyIHFLmiN0
+ jCGA==
+X-Gm-Message-State: AJIora/RWrK4PIXrz+a8xeYVW54vL1ifupR68KOq5lv/v9JKwNOiMAcr
+ ozDjh1fLN6G+AbFVJqHo9SQs8kfX/zGMEcuAPzmBSzGJYDS7+DpFgUZth1q/Sm40Yo+Ir6o7j50
+ 2n9BrY3OLpoO33ss=
+X-Received: by 2002:a05:6000:1885:b0:21b:ad25:8ae6 with SMTP id
+ a5-20020a056000188500b0021bad258ae6mr2219538wri.183.1657273327788; 
+ Fri, 08 Jul 2022 02:42:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uPeqem9d26cIkFHDhU1UMFMSVIC5gqUXatfkZFA0ONb0U4X1rNCpAlhgfY6lz+PjOp3kgU8g==
+X-Received: by 2002:a05:6000:1885:b0:21b:ad25:8ae6 with SMTP id
+ a5-20020a056000188500b0021bad258ae6mr2219505wri.183.1657273327468; 
+ Fri, 08 Jul 2022 02:42:07 -0700 (PDT)
 Received: from [192.168.149.123]
  (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
  by smtp.gmail.com with ESMTPSA id
- j2-20020a5d4522000000b0021d6ac977fasm12836860wra.69.2022.07.08.02.33.29
+ v17-20020a5d5911000000b0021bbdc3375fsm16718907wrd.68.2022.07.08.02.42.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jul 2022 02:33:29 -0700 (PDT)
-Message-ID: <2a1e8343-df7d-b98a-1d3b-2bd4345adf3e@redhat.com>
-Date: Fri, 8 Jul 2022 11:33:28 +0200
+ Fri, 08 Jul 2022 02:42:06 -0700 (PDT)
+Message-ID: <7ca3224d-102f-f45c-f765-9ea79110d127@redhat.com>
+Date: Fri, 8 Jul 2022 11:42:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 7/8] VirtIOBlock: protect rq with its own lock
+Subject: Re: AioContext lock removal: help needed
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20220609143727.1151816-1-eesposit@redhat.com>
- <20220609143727.1151816-8-eesposit@redhat.com>
- <YsRObmNTP471U9zU@stefanha-x1.localdomain>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YsRObmNTP471U9zU@stefanha-x1.localdomain>
+To: "open list:Block layer core" <qemu-block@nongnu.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Alberto Faria <afaria@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <8904fc80-4ecf-23f5-ab7b-7d016db78aa5@redhat.com>
+In-Reply-To: <8904fc80-4ecf-23f5-ab7b-7d016db78aa5@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
@@ -111,53 +109,116 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-Am 05/07/2022 um 16:45 schrieb Stefan Hajnoczi:
-> On Thu, Jun 09, 2022 at 10:37:26AM -0400, Emanuele Giuseppe Esposito wrote:
->> @@ -946,17 +955,20 @@ static void virtio_blk_reset(VirtIODevice *vdev)
->>       * stops all Iothreads.
->>       */
->>      blk_drain(s->blk);
->> +    aio_context_release(ctx);
->>  
->>      /* We drop queued requests after blk_drain() because blk_drain() itself can
->>       * produce them. */
->> +    qemu_mutex_lock(&s->req_mutex);
->>      while (s->rq) {
->>          req = s->rq;
->>          s->rq = req->next;
->> +        qemu_mutex_unlock(&s->req_mutex);
->>          virtqueue_detach_element(req->vq, &req->elem, 0);
->>          virtio_blk_free_request(req);
->> +        qemu_mutex_lock(&s->req_mutex);
+Am 08/07/2022 um 10:42 schrieb Emanuele Giuseppe Esposito:
+> Hello everyone,
 > 
-> Why is req_mutex dropped temporarily? At this point we don't really need
-> the req_mutex (all I/O should be stopped and drained), but maybe we
-> should do:
+> As you all know, I am trying to find a way to replace the well known
+> AioContext lock with something else that makes sense and provides the
+> same (or even better) guarantees than using this lock.
+> 
+> The reason for this change have been explained over and over and I don't
+> really want to repeat them. Please read the various series I posted in
+> the past [1] for more information.
+> 
+> The end goal is to get rid of the AioContext, and have fine-granularity
+> locks in the various components, to make the whole block layer more
+> multi-thread friendly and eventually be able to assign multiple virtual
+> queues to a single iothread.
+> 
+> AioContext lock is used everywhere, to protect a huge variety of data.
+> This limits a lot the level of multithreading that iothreads can achieve.
+> 
+> Before digging into the problem itself and possible solutions, I would
+> like to also add that we are having a weekly (or bi-weekly, we'll see)
+> public meeting where we plan to discuss about this project. Anyone
+> interested is very welcome to join. Event invitation is here:
+> 
+> https://calendar.google.com/event?action=TEMPLATE&tmeid=NTdja2VwMDFyYm9nNjNyc25pdXU5bm8wb3FfMjAyMjA3MTRUMDgwMDAwWiBlZXNwb3NpdEByZWRoYXQuY29t&tmsrc=eesposit%40redhat.com&scp=ALL
+> 
+> One huge blocker we are having is removing the AioContext from the block
+> API (bdrv_* and friends).
+> I identified two initial and main candidates that need to lose the
+> aiocontext protection:
+> - bdrv_replace_child_noperm
+> - bdtv_try_set_aio_context
+> 
+> When these two functions can safely run without AioContext lock, then we
+> are getting rid of the majority of its usage.
+> The main issue is: what can we use as replacement?
+> 
+> Let's analyze bdrv_replace_child_noperm (probably the toughest of the
+> two): this function performs a graph modification, removing a child from
+> a bs and putting it under another. It modifies the bs' ->parents and
+> ->children nodes list, and it definitely needs protection because these
+> lists are also read from iothreads in parallel.
+> 
+> Possible candidates to use as replacement:
+> 
+> - rwlock. With the help of Paolo, I implemented a rwlock optimized for
+> many and fast readers, and few writers. Ideal for
+> bdrv_replace_child_noperm. However, the problem here is that when a
+> writer has to wait other readers to finish (since it has exclusive
+> access), it should call a nested event loop to allow others (reader
+> included) to progress.
+> And this brings us into serious complications, because polling with a
+> wlock taken is prone to a lot of deadlocks, including the fact that the
+> AioContext lock is still needed in AIO_WAIT_WHILE. The solution would be
+> to run everything, readers included, in coroutines. However, this is not
+> easy either: long story short, switching BlockDriverState callbacks to
+> coroutines is a big problem, as the AioContext lock is still being taken
+> in many of the callbacks caller and therefore switching from a coroutine
+> creates a mixture of locks taken that simply results in deadlocks.
+> Ideally we want to first get rid of the AioContext lock and then switch
+> to coroutines, but that's the whole point of the rwlock.
+> More on this here:
+> https://patchew.org/QEMU/20220426085114.199647-1-eesposit@redhat.com/#cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com
 
-Agree that maybe it is not useful to drop the mutex temporarily.
-
-Regarding why req_mutex is not needed, yes I guess it isn't. Should I
-get rid of this hunk at all, and maybe leave a comment like "no
-synchronization needed, due to drain + ->stop_ioeventfd()"?
+This is also very useful (on the same thread as above):
+https://patchew.org/QEMU/20220426085114.199647-1-eesposit@redhat.com/#6fc3e40e-7682-b9dc-f789-3ca95e0430db@redhat.com
 
 > 
->   WITH_QEMU_MUTEX(&s->req_mutex) {
->       req = s->rq;
->       s->rq = NULL;
->   }
+> But I would say this is not an ideal candidate to replace the AioContext
+> lock. At least not in the immediate future.
 > 
->   ...process req list...
-
-Not sure what you mean here, we are looping on s->rq, so do we need to
-protect also that? and why setting it to NULL? Sorry I am a little bit
-lost here.
-
-Thank you,
-Emanuele
-
+> - drains. This was the initial and still main lead. Using
+> bdrv_drained_begin/end we are sure that a node and all its parents will
+> be paused (included jobs), no io will further come since it will be
+> temporarily disabled and all processing requests are ensured to be
+> finished by the end bdrv_drained_begin returns.
+> Even better than bdrv_drained, I proposed using
+> bdrv_subtree_drained_begin, which also stops and protects the child of a
+> node.
+> I think the major drawback of this is that we need to be sure that there
+> are no cases where drains is not enough. Together with Kevin and Stefan
+> we identified that we need to prevent drain to be called in coroutines,
+> regardless on which AioContext they are run. That's because they could
+> allow parallel drain/graph reading to happen, for example (thinking
+> about the general case) a coroutine yielding after calling drain_begin
+> and in the middle of a graph modification could allow another coroutine
+> to drain/read the graph.
+> Note that draining itself also involves reading the graph too.
 > 
-> Otherwise:
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> We thought the only usage of coroutines draining was in mirror run()
+> callback. However, that is just the tip of the iceberg.
+> Other functions like .bdrv_open callbacks (like qcow2_open) take care of
+> creating coroutines to execute part of the logic, with valid performance
+> reasons (we don't want to wait when we could simply yield and allow
+> something else to run).
+> 
+> So another question is: what could we do to solve this coroutine issue?
+> Ideas?
+> 
+> Main drain series:
+> https://patchew.org/QEMU/20220118162738.1366281-1-eesposit@redhat.com/
+> [1]
+> 
+> 
+> 
+> [1] = https://patchew.org/QEMU/20220301142113.163174-1-eesposit@redhat.com/
+> 
+> Thank you,
+> Emanuele
+> 
 > 
 
 
