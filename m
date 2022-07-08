@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B759756B4A6
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 10:44:00 +0200 (CEST)
-Received: from localhost ([::1]:52704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2FA56B4D1
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 10:56:08 +0200 (CEST)
+Received: from localhost ([::1]:58248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9jah-0002l2-A0
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 04:43:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54820)
+	id 1o9jmQ-0007GN-Mx
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 04:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9jZG-0001uX-Fn
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 04:42:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35661)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o9jiv-0005Dq-Kb
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 04:52:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1o9jZC-0001Qd-G5
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 04:42:28 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1o9jis-0003R2-FO
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 04:52:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657269744;
+ s=mimecast20190719; t=1657270345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=k7qBCyVFonNjqIZHtU3RMX1pQtURwESm+Cwkw2oNRc0=;
- b=XORtqa3b0yVtIgUFwFfyVPm+iU3GduRrh76bTE/3SXqvcsH3PLEsq4K/81bd3V/MblkzFY
- M7qczIbrdWlqqSnZ/yCTl0LYdZrMEaPy3RODCw7YXJWqd1IhZZTzzgaqVaECORrEDCX5W8
- +KkWZ68DURTrg4hkddNjqjEC61zDVBs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+sk74N8zEOEUIE3rArwjHQD55MbAB+RjS3UZwlau/Xg=;
+ b=im5NaqAGcnuDss8AFHjG3Q/FuE4aGwe7J4CqZa500dUM95q4Qmpk7KdZ5n8wCn3VwlZ4cv
+ 1ddLzKVyFA6tHQ8ws5or5TiFjIEvRnFqcFmDI28wNmgRAMMx7ZLOtJxMxzQsCPqA62853y
+ JvO7VVcDZb3J7JxiltmT/7t/j2BkCwk=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-_ejunNN7MjCpOsmatqF2nw-1; Fri, 08 Jul 2022 04:42:23 -0400
-X-MC-Unique: _ejunNN7MjCpOsmatqF2nw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r186-20020a1c44c3000000b003a2daf644f9so404484wma.2
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 01:42:22 -0700 (PDT)
+ us-mta-237-sftDCEc8OQ2PRtQd1dHzBw-1; Fri, 08 Jul 2022 04:52:23 -0400
+X-MC-Unique: sftDCEc8OQ2PRtQd1dHzBw-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ e8-20020ac24e08000000b0047fad5770d2so7594867lfr.17
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 01:52:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:from:subject:content-transfer-encoding;
- bh=k7qBCyVFonNjqIZHtU3RMX1pQtURwESm+Cwkw2oNRc0=;
- b=QSs8TfxCKSsDH10kt6q38sh0dm8sBnT4jdco9fvhr8RxZvwmpDGoIAl6zoIz1gbFrm
- 0FblWwIrCPAI3JCED6tXrGlTxoagxNw/FsfHFCYztC/bPalDuC2Q28pYfzPkOMCDanzw
- KyO+BvZxBShjVsRgGvz85wGZPXdAP9xol6zpyzPOQLKec6Mm2+Shuyj4Iorr2Ct00oBD
- ol1au/f29XBmikuetR0wRG+w2JC8yMMLxwDKK6VRTAhDM5ekZlTgburpHmYmtvvrFy+Q
- yfZeNVLuUMUL1FNcWGRNmKUWvGPM2HTwYUewmEEjNsXQkMfrKi7m2xLjkcoh5OtPl1id
- kSJg==
-X-Gm-Message-State: AJIora8nnsLB+vdkEatJLbdAW0LPppK8GLtTzXAwsWzvUc2jJzmjiUQe
- nmir8K0vNdTm2bzNnJ2OrwMa/xBL1G/k8QiRaCYX7TX1rU1gEZxV8QpCzClzr2tup9bONVodO2Z
- oWBneNLxm1bzf2TA=
-X-Received: by 2002:a05:6000:1a88:b0:21b:ca70:f622 with SMTP id
- f8-20020a0560001a8800b0021bca70f622mr2295205wry.330.1657269741867; 
- Fri, 08 Jul 2022 01:42:21 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sXqT8I2JDWJDRVn82MUuP5gEKAZDCScGDiQND6zrJF8MUQpGGTUB8Js7rKXoa3bnkknZ5h5w==
-X-Received: by 2002:a05:6000:1a88:b0:21b:ca70:f622 with SMTP id
- f8-20020a0560001a8800b0021bca70f622mr2295188wry.330.1657269741637; 
- Fri, 08 Jul 2022 01:42:21 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- h17-20020a05600c351100b003973ea7e725sm1765139wmq.0.2022.07.08.01.42.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jul 2022 01:42:21 -0700 (PDT)
-Message-ID: <8904fc80-4ecf-23f5-ab7b-7d016db78aa5@redhat.com>
-Date: Fri, 8 Jul 2022 10:42:20 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+sk74N8zEOEUIE3rArwjHQD55MbAB+RjS3UZwlau/Xg=;
+ b=Q3lEjr3dUkndU78PkUPkhbg2oLJpDTomsgoKqsQKHpTLDNx7OSoDz4BFRp67D9WuS/
+ 26SVHwEL7ndM13ZQTKe3fiPZ7o1u6kjNraNek0nUJcBRTra3p1qT/idgJT/1Mel8cKv4
+ 1WsB5j1jg272UntuRo+7ubo+mjNhZsVLaMbBcr3gDbzrTx8QmBwMVKd/GKkYh3XSMxe2
+ oCTqtMSftS0yASQJbQVlMh5pBYQKAWgxC6OzMCXNFV3jH1QGeGR4/TWbjEe8FevpVgBR
+ 8Bl2fqe4JRM46oT3LUBcMft/1e9vDhlH4dXtRcbrpf6uRCsZr7rfEeHL1vFTHueOOc2Q
+ 8wjw==
+X-Gm-Message-State: AJIora8XhJ8+xP+1QUy+NtCLhwnJ1BCeVem+itvSnqXO9bJLJBlUXsBu
+ dSnLkMS46Vs+LwwdUTKgPu8MfUbBeC5dDTgB8vz+SR3zkrXgjzhtY5RfHQVd6UlbxSSI6qArzgi
+ cVGnwgVeXE1SK0mKKCrfrhrZccAnAdDk=
+X-Received: by 2002:a2e:b703:0:b0:25a:93d0:8a57 with SMTP id
+ j3-20020a2eb703000000b0025a93d08a57mr1326222ljo.487.1657270341995; 
+ Fri, 08 Jul 2022 01:52:21 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uAKL4cgqemORcF9T+LUdzTJ7JfioSyzdLXcmcMwXxN87Xlgu5J/U90KPrcQBU1j+8kgeMJu99DWA95rmTGpk8=
+X-Received: by 2002:a2e:b703:0:b0:25a:93d0:8a57 with SMTP id
+ j3-20020a2eb703000000b0025a93d08a57mr1326197ljo.487.1657270341716; Fri, 08
+ Jul 2022 01:52:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Content-Language: en-US
-To: "open list:Block layer core" <qemu-block@nongnu.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Alberto Faria <afaria@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: AioContext lock removal: help needed
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+References: <20220706184008.1649478-1-eperezma@redhat.com>
+ <20220706184008.1649478-2-eperezma@redhat.com>
+In-Reply-To: <20220706184008.1649478-2-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 8 Jul 2022 16:52:10 +0800
+Message-ID: <CACGkMEvOr4ugFTzU-NSK6u3m4jR9aJ4Uori9D+=sy7XgshBXOA@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 01/23] vhost: Return earlier if used buffers overrun
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Eric Blake <eblake@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -102,110 +102,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello everyone,
+On Thu, Jul 7, 2022 at 2:40 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
+te:
+>
+> Previous function misses the just picked avail buffer from the queue.
+> This way keeps blocking the used queue forever, but is cleaner to check
+> before calling to vhost_svq_get_buf.
+>
+> Fixes: 100890f7cad50 ("vhost: Shadow virtqueue buffers forwarding")
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-As you all know, I am trying to find a way to replace the well known
-AioContext lock with something else that makes sense and provides the
-same (or even better) guarantees than using this lock.
+Acked-by: Jason Wang <jasowang@redhat.com>
 
-The reason for this change have been explained over and over and I don't
-really want to repeat them. Please read the various series I posted in
-the past [1] for more information.
-
-The end goal is to get rid of the AioContext, and have fine-granularity
-locks in the various components, to make the whole block layer more
-multi-thread friendly and eventually be able to assign multiple virtual
-queues to a single iothread.
-
-AioContext lock is used everywhere, to protect a huge variety of data.
-This limits a lot the level of multithreading that iothreads can achieve.
-
-Before digging into the problem itself and possible solutions, I would
-like to also add that we are having a weekly (or bi-weekly, we'll see)
-public meeting where we plan to discuss about this project. Anyone
-interested is very welcome to join. Event invitation is here:
-
-https://calendar.google.com/event?action=TEMPLATE&tmeid=NTdja2VwMDFyYm9nNjNyc25pdXU5bm8wb3FfMjAyMjA3MTRUMDgwMDAwWiBlZXNwb3NpdEByZWRoYXQuY29t&tmsrc=eesposit%40redhat.com&scp=ALL
-
-One huge blocker we are having is removing the AioContext from the block
-API (bdrv_* and friends).
-I identified two initial and main candidates that need to lose the
-aiocontext protection:
-- bdrv_replace_child_noperm
-- bdtv_try_set_aio_context
-
-When these two functions can safely run without AioContext lock, then we
-are getting rid of the majority of its usage.
-The main issue is: what can we use as replacement?
-
-Let's analyze bdrv_replace_child_noperm (probably the toughest of the
-two): this function performs a graph modification, removing a child from
-a bs and putting it under another. It modifies the bs' ->parents and
-->children nodes list, and it definitely needs protection because these
-lists are also read from iothreads in parallel.
-
-Possible candidates to use as replacement:
-
-- rwlock. With the help of Paolo, I implemented a rwlock optimized for
-many and fast readers, and few writers. Ideal for
-bdrv_replace_child_noperm. However, the problem here is that when a
-writer has to wait other readers to finish (since it has exclusive
-access), it should call a nested event loop to allow others (reader
-included) to progress.
-And this brings us into serious complications, because polling with a
-wlock taken is prone to a lot of deadlocks, including the fact that the
-AioContext lock is still needed in AIO_WAIT_WHILE. The solution would be
-to run everything, readers included, in coroutines. However, this is not
-easy either: long story short, switching BlockDriverState callbacks to
-coroutines is a big problem, as the AioContext lock is still being taken
-in many of the callbacks caller and therefore switching from a coroutine
-creates a mixture of locks taken that simply results in deadlocks.
-Ideally we want to first get rid of the AioContext lock and then switch
-to coroutines, but that's the whole point of the rwlock.
-More on this here:
-https://patchew.org/QEMU/20220426085114.199647-1-eesposit@redhat.com/#cc5e12d1-d25f-d338-bff2-0d3f5cc0def7@redhat.com
-
-But I would say this is not an ideal candidate to replace the AioContext
-lock. At least not in the immediate future.
-
-- drains. This was the initial and still main lead. Using
-bdrv_drained_begin/end we are sure that a node and all its parents will
-be paused (included jobs), no io will further come since it will be
-temporarily disabled and all processing requests are ensured to be
-finished by the end bdrv_drained_begin returns.
-Even better than bdrv_drained, I proposed using
-bdrv_subtree_drained_begin, which also stops and protects the child of a
-node.
-I think the major drawback of this is that we need to be sure that there
-are no cases where drains is not enough. Together with Kevin and Stefan
-we identified that we need to prevent drain to be called in coroutines,
-regardless on which AioContext they are run. That's because they could
-allow parallel drain/graph reading to happen, for example (thinking
-about the general case) a coroutine yielding after calling drain_begin
-and in the middle of a graph modification could allow another coroutine
-to drain/read the graph.
-Note that draining itself also involves reading the graph too.
-
-We thought the only usage of coroutines draining was in mirror run()
-callback. However, that is just the tip of the iceberg.
-Other functions like .bdrv_open callbacks (like qcow2_open) take care of
-creating coroutines to execute part of the logic, with valid performance
-reasons (we don't want to wait when we could simply yield and allow
-something else to run).
-
-So another question is: what could we do to solve this coroutine issue?
-Ideas?
-
-Main drain series:
-https://patchew.org/QEMU/20220118162738.1366281-1-eesposit@redhat.com/
-[1]
-
-
-
-[1] = https://patchew.org/QEMU/20220301142113.163174-1-eesposit@redhat.com/
-
-Thank you,
-Emanuele
-
+> ---
+>  hw/virtio/vhost-shadow-virtqueue.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
+virtqueue.c
+> index 56c96ebd13..9280285435 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -405,19 +405,21 @@ static void vhost_svq_flush(VhostShadowVirtqueue *s=
+vq,
+>          vhost_svq_disable_notification(svq);
+>          while (true) {
+>              uint32_t len;
+> -            g_autofree VirtQueueElement *elem =3D vhost_svq_get_buf(svq,=
+ &len);
+> -            if (!elem) {
+> -                break;
+> -            }
+> +            g_autofree VirtQueueElement *elem =3D NULL;
+>
+>              if (unlikely(i >=3D svq->vring.num)) {
+>                  qemu_log_mask(LOG_GUEST_ERROR,
+>                           "More than %u used buffers obtained in a %u siz=
+e SVQ",
+>                           i, svq->vring.num);
+> -                virtqueue_fill(vq, elem, len, i);
+> -                virtqueue_flush(vq, i);
+> +                virtqueue_flush(vq, svq->vring.num);
+>                  return;
+>              }
+> +
+> +            elem =3D vhost_svq_get_buf(svq, &len);
+> +            if (!elem) {
+> +                break;
+> +            }
+> +
+>              virtqueue_fill(vq, elem, len, i++);
+>          }
+>
+> --
+> 2.31.1
+>
 
 
