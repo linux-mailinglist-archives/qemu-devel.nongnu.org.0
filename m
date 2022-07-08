@@ -2,84 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8943B56B848
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:18:41 +0200 (CEST)
-Received: from localhost ([::1]:60722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5EB56B84B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:19:45 +0200 (CEST)
+Received: from localhost ([::1]:35148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9m0O-0004mb-FB
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56696)
+	id 1o9m1Q-0006dl-Ic
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o9ld8-0006ms-C9
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:54:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45669)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o9ljr-0001sS-8r
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:01:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o9ld3-00015O-WC
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:54:36 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1o9ljo-00033G-8j
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:01:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657277673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aNgZs6irygp42c18TSOe2U+iCxiWbT47ZvqZona2FYE=;
- b=Ytz3/jggSspIo+8rZZSb6A6rT9z2QF3DjtrvCWr6qd2wgkKz6hj+tP0csyWId89Ind44Xk
- Am/aGqDZoq8y8p8ei8hfA5SIyoN7M28Nfpgm6GxHd7FqOH5QD2rpi8SpiE3c38uKEzA61E
- j7NdOajaGi7KihLlZp5CUxXIgoyCvt0=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1657278091;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=CqGPGiN7JbNPOhgwQS2plm8OVZgUFcP5lYUQHjl+4cs=;
+ b=PauvlpoxJlBeZHRvGbk0ACgEy51RbIKLvINilT6HTAMPW/nlPkaNUW7CeHzYRHLQbF0iLB
+ JKJZlfDhlLe9Km4GMcTL7wRA8iVXlXSGK5hlNVzpJy1rmfwx2KzXH9rEypR6msDB2qSQ5g
+ 8ppaMnwh2RS1eFN3vB39lgp0f8oN+Fw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-87RgJ_bmOmWqoB3ABVbnmg-1; Fri, 08 Jul 2022 06:54:32 -0400
-X-MC-Unique: 87RgJ_bmOmWqoB3ABVbnmg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- bm2-20020a05620a198200b006a5dac37fa2so20642829qkb.16
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 03:54:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=aNgZs6irygp42c18TSOe2U+iCxiWbT47ZvqZona2FYE=;
- b=fcyJ9VLsfJbd6YIT0dpUAeSs/LhfRZc8riW1sRX8RACoE8M/gvJGNIByf+kCNWNidL
- p9AqLgl0lZnhFFD4k3eburCEbkJVWgYlIStR0G2vl4KCYqlITNH5gfMRQMizKgQPtHSc
- WgNgURBRcZp1cvH3V1XxERE2YZyXSJ6BfVpoArrYxESPAjovsfPUDedx6HAvAu5IGFwW
- Yqbf7Q4Uz6HbunyhYeqH8+sv7R9egmSsI8CJWHCJfbJTKMw0dY0DZtBaAPUsFHD6fH9X
- tsohbQULTBB0usecEXG1P+Rs95RL2SbJgq7n+bh5xi4GuTV/6ci1h/Q5hXO7UUOfRPtb
- T12Q==
-X-Gm-Message-State: AJIora+4vKDkwSfYWFA0zZEWqf3zvFKXajE2jd2cNLqg/io3fxt7EVJt
- SW+P5cGIvQ63wuqyVM6hsSRsTYKQBsXAtb+cW32UCPAUmcePMHt4YKxF7z+U0sXkkdzVRdlLaw1
- dlTAIlRW7ri0+koppcVxdhto/Rc1u2OM=
-X-Received: by 2002:a05:620a:1344:b0:6af:597:37a8 with SMTP id
- c4-20020a05620a134400b006af059737a8mr1641943qkl.193.1657277672042; 
- Fri, 08 Jul 2022 03:54:32 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sqO7oP6zFIIa+fOEp6Mb9moNMbr3lNABa+7a1iXYbmkL+Bck8WZq3FUKyVQFyBDRg/bdAWPmr+xHHpdk8JJBA=
-X-Received: by 2002:a05:620a:1344:b0:6af:597:37a8 with SMTP id
- c4-20020a05620a134400b006af059737a8mr1641926qkl.193.1657277671828; Fri, 08
- Jul 2022 03:54:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-24-eperezma@redhat.com>
- <87ilo9igph.fsf@pond.sub.org>
-In-Reply-To: <87ilo9igph.fsf@pond.sub.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 8 Jul 2022 12:53:55 +0200
-Message-ID: <CAJaqyWff6kfi6UAwvU64vj-q6CuncYBQnE4=P_3cGAGeL-rNVg@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 23/23] vdpa: Add x-svq to NetdevVhostVDPAOptions
+ us-mta-245-6KHl8vSWNsyKIxdx3UWk1Q-1; Fri, 08 Jul 2022 07:01:28 -0400
+X-MC-Unique: 6KHl8vSWNsyKIxdx3UWk1Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE0EC3C0ED61;
+ Fri,  8 Jul 2022 11:01:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 000ED40C141D;
+ Fri,  8 Jul 2022 11:01:26 +0000 (UTC)
+Date: Fri, 8 Jul 2022 12:01:24 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Eric Blake <eblake@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
+ peter.maydell@linaro.org
+Subject: Re: [RFC PATCH] qobject: Rewrite implementation of QDict for
+ in-order traversal
+Message-ID: <YsgOhJLpbyODJCGG@redhat.com>
+References: <20220705095421.2455041-1-armbru@redhat.com>
+ <87wncqmq2t.fsf@pond.sub.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87wncqmq2t.fsf@pond.sub.org>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -100,64 +79,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 7, 2022 at 8:23 AM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
->
-> > Finally offering the possibility to enable SVQ from the command line.
->
-> QMP, too, I guess.
->
-
-Hi Markus,
-
-I'm not sure what you mean. Dynamic enabling / disabling of SVQ was
-delayed, and now it's only possible to enable or disable it from the
-beginning of the run of qemu. Do you mean to enable SVQ before
-starting the guest somehow?
-
-Thanks!
-
+On Wed, Jul 06, 2022 at 01:35:22PM +0200, Markus Armbruster wrote:
+> Markus Armbruster <armbru@redhat.com> writes:
+> 
+> > QDict is implemented as a simple hash table of fixed size.  Observe:
 > >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >  qapi/net.json    |  9 +++++-
-> >  net/vhost-vdpa.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 77 insertions(+), 4 deletions(-)
+> > * Slow for large n.  Not sure this matters.
 > >
-> > diff --git a/qapi/net.json b/qapi/net.json
-> > index 9af11e9a3b..75ba2cb989 100644
-> > --- a/qapi/net.json
-> > +++ b/qapi/net.json
-> > @@ -445,12 +445,19 @@
-> >  # @queues: number of queues to be created for multiqueue vhost-vdpa
-> >  #          (default: 1)
-> >  #
-> > +# @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.=
-1)
-> > +#         (default: false)
-> > +#
-> > +# Features:
-> > +# @unstable: Member @x-svq is experimental.
-> > +#
-> >  # Since: 5.1
-> >  ##
-> >  { 'struct': 'NetdevVhostVDPAOptions',
-> >    'data': {
-> >      '*vhostdev':     'str',
-> > -    '*queues':       'int' } }
-> > +    '*queues':       'int',
-> > +    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
+> > * A QDict with n entries takes 4120 + n * 32 bytes on my box.  Wastes
+> >   space for small n, which is a common case.
 > >
-> >  ##
->
-> QAPI schema:
-> Acked-by: Markus Armbruster <armbru@redhat.com>
->
-> [...]
->
+> > * Order of traversal depends on the hash function and on insertion
+> >   order, because it iterates first over buckets, then collision
+> >   chains.
+> >
+> > * Special code ensures qdict_size() takes constant time.
+> >
+> > Replace the hash table by a linked list.  Observe:
+> >
+> > * Even slower for large n.  Might be bad enough to matter.
+> >
+> > * A QDict with n entries takes 32 + n * 24 bytes.
+> >
+> > * Traversal is in insertion order.
+> >
+> > * qdict_size() is linear in the number of entries.
+> >
+> > This is an experiment.  Do not commit to master as is.
+> 
+> Forgot to mention: see also
+> 
+>         Subject: Re: [PULL 14/15] qdev: Base object creation on QDict rather than QemuOpts
+>         Message-ID: <87wnctzdl9.fsf@pond.sub.org>
+>         https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg00358.html
+
+What alternative options do we have for addressing this scenario.
+
+I can think of
+
+  - Auto-create array elements, if seeing an element set before length.
+
+    This is based on the theory that 'len-PROP' field is largely
+    redundant. It is only needed if you want to create a sparse
+    array, with empty elements /after/ the last one explicitly
+    set, or if you want to get error reporting for an app setting
+    element 3 after saying it wanted a 2 element list. IMHO the
+    error reporting benefit is dubious, because the error scenario
+    only exists because we made the app set this redundant 'len-PROP'
+    attribute. Does anything actually need the 'sparse array'
+    facility ?
+
+  - Special case array properties
+
+    Modify object_set_properties_from_qdict, so that it has a special
+    case first iterating over any properties with 'len-' prefix in
+    their name, then iterating over everything else.
+
+    Assuming this 'len-' property is the only case where we genuinely
+    have ordering dependancies between properties, this is quite a
+    simple fix, and avoid imposes ordering requirements on either
+    clients or QEMU in general.
+
+
+  - Insertion order preserving QDict
+
+    What you've done here, pushing the ordering problem off to be
+    the caller's responsibility to get right. The caller could
+    easily have the same problem though. For example, for CLI args
+    these days, libvirt will populate a data structure based on
+    QAPI, and then serialize that to CLI args. I don't know offhand
+    if our code is insertion order preserving, or will hit this
+    exact same problem. Luckily we don't support the 'rocker'
+    object so havent hit this precise issue.
+
+
+  - Any other options ?
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
