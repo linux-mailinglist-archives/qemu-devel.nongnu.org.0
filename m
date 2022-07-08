@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E204D56B7EC
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:02:29 +0200 (CEST)
-Received: from localhost ([::1]:34488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CA456B81A
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:12:12 +0200 (CEST)
+Received: from localhost ([::1]:51180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9lkj-0001PS-12
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:02:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56090)
+	id 1o9lu7-0005dP-LF
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o9lZh-0000gC-1C
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:51:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39325)
+ id 1o9lZz-0000sa-3F
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:51:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o9lZf-0007z7-EF
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:51:04 -0400
+ id 1o9lZu-0008Bb-Gj
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:51:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657277462;
+ s=mimecast20190719; t=1657277477;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xswl/Jc8b1wgHU6i3G9Ba66pY8Pzv6II872M9hZ4ZWc=;
- b=FZApXsAz2wDIP3I+pK6A/CCLrxTJSb0tFi31+LlI/VU2QKtnUDnSXz8un6SmRvIId3dttJ
- pM8GrE3LdI4urOpoKfbkJ8bM9GpdGLNbei/Uw4JIT26A9UPn+zkAcP8Pa/UMEFMb+tx64x
- ff5aMv6916VBmOy005W2+IfRsVvg2z0=
+ bh=/arxl0NhicUjNzdDaV6yuaWp53bWftFUsUw26SLP1/c=;
+ b=Y2BJc6m96lln5dNnUYpfVxlfjTh46M+5Xz9q6FUQufS50z2Dv+pnWZtTVLgDmEiZIbG8j2
+ 3nBwmBBIhi5BZl1rO3Fwy6XQaDUYwpIruFseFiVHkh3fF1Z+FJEFqBqXeNr+83SDwZiTaf
+ oE7S4DO9Y8o+hJFHIRzmo6/ozLIrPyo=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-dXEciqZbM96ndOMV0pWTrw-1; Fri, 08 Jul 2022 06:50:58 -0400
-X-MC-Unique: dXEciqZbM96ndOMV0pWTrw-1
+ us-mta-647-6xhctQkTOB6SWqS9S5IryQ-1; Fri, 08 Jul 2022 06:51:01 -0400
+X-MC-Unique: 6xhctQkTOB6SWqS9S5IryQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 309C23C0ED4F;
- Fri,  8 Jul 2022 10:50:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 377662999B34;
+ Fri,  8 Jul 2022 10:51:01 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F2071121314;
- Fri,  8 Jul 2022 10:50:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7196B1121314;
+ Fri,  8 Jul 2022 10:50:58 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -55,9 +55,9 @@ Cc: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>, Jason Wang <jasowang@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>,
  Parav Pandit <parav@mellanox.com>, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH 13/22] vhost: add vhost_svq_poll
-Date: Fri,  8 Jul 2022 12:50:04 +0200
-Message-Id: <20220708105013.1899854-14-eperezma@redhat.com>
+Subject: [PATCH 14/22] vhost: Add custom used buffer callback
+Date: Fri,  8 Jul 2022 12:50:05 +0200
+Message-Id: <20220708105013.1899854-15-eperezma@redhat.com>
 In-Reply-To: <20220708105013.1899854-1-eperezma@redhat.com>
 References: <20220708105013.1899854-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -88,122 +88,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It allows the Shadow Control VirtQueue to wait the device to use the commands
-that restore the net device state after a live migration.
+The callback allows SVQ users to know the VirtQueue requests and
+responses. QEMU can use this to synchronize virtio device model state,
+allowing to migrate it with minimum changes to the migration code.
+
+If callbacks are specified at svq creation, the buffers need to be
+injected to the device using vhost_svq_inject. An opaque data must be
+given with it, and its returned to the callback at used_handler call.
+
+In the case of networking, this will be used to inspect control
+virtqueue messages status from the device.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h |  1 +
- hw/virtio/vhost-shadow-virtqueue.c | 54 ++++++++++++++++++++++++++++--
- 2 files changed, 52 insertions(+), 3 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.h | 15 ++++++++++++++-
+ hw/virtio/vhost-shadow-virtqueue.c | 22 ++++++++++++++++------
+ hw/virtio/vhost-vdpa.c             |  3 ++-
+ 3 files changed, 32 insertions(+), 8 deletions(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index 09b87078af..57ff97ce4f 100644
+index 57ff97ce4f..96ce7aa62e 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.h
 +++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -86,6 +86,7 @@ void vhost_svq_push_elem(VhostShadowVirtqueue *svq,
-                          const VirtQueueElement *elem, uint32_t len);
- int vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *iov,
-                      size_t out_num, size_t in_num, void *opaque);
-+ssize_t vhost_svq_poll(VhostShadowVirtqueue *svq);
- void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd);
- void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_fd);
- void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
+@@ -23,6 +23,15 @@ typedef struct SVQElement {
+     uint32_t last_chain_id;
+ } SVQElement;
+ 
++typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
++typedef void (*VirtQueueUsedCallback)(VhostShadowVirtqueue *svq,
++                                      void *used_elem_opaque,
++                                      uint32_t written);
++
++typedef struct VhostShadowVirtqueueOps {
++    VirtQueueUsedCallback used_handler;
++} VhostShadowVirtqueueOps;
++
+ /* Shadow virtqueue to relay notifications */
+ typedef struct VhostShadowVirtqueue {
+     /* Shadow vring */
+@@ -67,6 +76,9 @@ typedef struct VhostShadowVirtqueue {
+      */
+     uint16_t *desc_next;
+ 
++    /* Caller callbacks */
++    const VhostShadowVirtqueueOps *ops;
++
+     /* Next head to expose to the device */
+     uint16_t shadow_avail_idx;
+ 
+@@ -98,7 +110,8 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
+                      VirtQueue *vq);
+ void vhost_svq_stop(VhostShadowVirtqueue *svq);
+ 
+-VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree);
++VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree,
++                                    const VhostShadowVirtqueueOps *ops);
+ 
+ void vhost_svq_free(gpointer vq);
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostShadowVirtqueue, vhost_svq_free);
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 4d59954f1b..f4affa52ee 100644
+index f4affa52ee..40183f8afd 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -10,6 +10,8 @@
- #include "qemu/osdep.h"
- #include "hw/virtio/vhost-shadow-virtqueue.h"
+@@ -306,6 +306,7 @@ int vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *iov,
+      * assertions.
+      */
+     assert(out_num || in_num);
++    assert(svq->ops);
  
-+#include <glib/gpoll.h>
-+
- #include "qemu/error-report.h"
- #include "qapi/error.h"
- #include "qemu/main-loop.h"
-@@ -492,10 +494,11 @@ void vhost_svq_push_elem(VhostShadowVirtqueue *svq,
-     }
- }
+     if (unlikely(num > vhost_svq_available_slots(svq))) {
+         error_report("Injecting in a full queue");
+@@ -508,7 +509,6 @@ static size_t vhost_svq_flush(VhostShadowVirtqueue *svq,
+         while (true) {
+             uint32_t len;
+             SVQElement svq_elem;
+-            g_autofree VirtQueueElement *elem = NULL;
  
--static void vhost_svq_flush(VhostShadowVirtqueue *svq,
--                            bool check_for_avail_queue)
-+static size_t vhost_svq_flush(VhostShadowVirtqueue *svq,
-+                              bool check_for_avail_queue)
- {
-     VirtQueue *vq = svq->vq;
-+    size_t ret = 0;
- 
-     /* Forward as many used buffers as possible. */
-     do {
-@@ -512,7 +515,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
-                          "More than %u used buffers obtained in a %u size SVQ",
-                          i, svq->vring.num);
-                 virtqueue_flush(vq, svq->vring.num);
--                return;
-+                return ret;
+             if (unlikely(i >= svq->vring.num)) {
+                 qemu_log_mask(LOG_GUEST_ERROR,
+@@ -523,13 +523,20 @@ static size_t vhost_svq_flush(VhostShadowVirtqueue *svq,
+                 break;
              }
  
-             svq_elem = vhost_svq_get_buf(svq, &len);
-@@ -522,6 +525,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
- 
-             elem = g_steal_pointer(&svq_elem.opaque);
-             virtqueue_fill(vq, elem, len, i++);
-+            ret++;
+-            elem = g_steal_pointer(&svq_elem.opaque);
+-            virtqueue_fill(vq, elem, len, i++);
++            if (svq->ops) {
++                svq->ops->used_handler(svq, svq_elem.opaque, len);
++            } else {
++                g_autofree VirtQueueElement *elem = NULL;
++                elem = g_steal_pointer(&svq_elem.opaque);
++                virtqueue_fill(vq, elem, len, i++);
++            }
+             ret++;
          }
  
-         virtqueue_flush(vq, i);
-@@ -535,6 +539,50 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
-             vhost_handle_guest_kick(svq);
-         }
-     } while (!vhost_svq_enable_notification(svq));
-+
-+    return ret;
-+}
-+
-+/**
-+ * Poll the SVQ for device used buffers.
-+ *
-+ * This function race with main event loop SVQ polling, so extra
-+ * synchronization is needed.
-+ *
-+ * Return the number of descriptors read from the device.
-+ */
-+ssize_t vhost_svq_poll(VhostShadowVirtqueue *svq)
-+{
-+    int fd = event_notifier_get_fd(&svq->hdev_call);
-+    GPollFD poll_fd = {
-+        .fd = fd,
-+        .events = G_IO_IN,
-+    };
-+    assert(fd >= 0);
-+    int r = g_poll(&poll_fd, 1, -1);
-+
-+    if (unlikely(r < 0)) {
-+        error_report("Cannot poll device call fd "G_POLLFD_FORMAT": (%d) %s",
-+                     poll_fd.fd, errno, g_strerror(errno));
-+        return -errno;
-+    }
-+
-+    if (r == 0) {
-+        return 0;
-+    }
-+
-+    if (unlikely(poll_fd.revents & ~(G_IO_IN))) {
-+        error_report(
-+            "Error polling device call fd "G_POLLFD_FORMAT": revents=%d",
-+            poll_fd.fd, poll_fd.revents);
-+        return -1;
-+    }
-+
-+    /*
-+     * Max return value of vhost_svq_flush is (uint16_t)-1, so it's safe to
-+     * convert to ssize_t.
-+     */
-+    return vhost_svq_flush(svq, false);
- }
+-        virtqueue_flush(vq, i);
+-        event_notifier_set(&svq->svq_call);
++        if (i > 0) {
++            virtqueue_flush(vq, i);
++            event_notifier_set(&svq->svq_call);
++        }
  
- /**
+         if (check_for_avail_queue && svq->next_guest_avail_elem) {
+             /*
+@@ -758,12 +765,14 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
+  * shadow methods and file descriptors.
+  *
+  * @iova_tree: Tree to perform descriptors translations
++ * @ops: SVQ owner callbacks
+  *
+  * Returns the new virtqueue or NULL.
+  *
+  * In case of error, reason is reported through error_report.
+  */
+-VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree)
++VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree,
++                                    const VhostShadowVirtqueueOps *ops)
+ {
+     g_autofree VhostShadowVirtqueue *svq = g_new0(VhostShadowVirtqueue, 1);
+     int r;
+@@ -785,6 +794,7 @@ VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree)
+     event_notifier_init_fd(&svq->svq_kick, VHOST_FILE_UNBIND);
+     event_notifier_set_handler(&svq->hdev_call, vhost_svq_handle_call);
+     svq->iova_tree = iova_tree;
++    svq->ops = ops;
+     return g_steal_pointer(&svq);
+ 
+ err_init_hdev_call:
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index fccfc832ea..25f7146fe4 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -418,8 +418,9 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
+ 
+     shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
+     for (unsigned n = 0; n < hdev->nvqs; ++n) {
+-        g_autoptr(VhostShadowVirtqueue) svq = vhost_svq_new(v->iova_tree);
++        g_autoptr(VhostShadowVirtqueue) svq;
+ 
++        svq = vhost_svq_new(v->iova_tree, NULL);
+         if (unlikely(!svq)) {
+             error_setg(errp, "Cannot create svq %u", n);
+             return -1;
 -- 
 2.31.1
 
