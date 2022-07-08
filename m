@@ -2,83 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD8656BBE7
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 16:44:43 +0200 (CEST)
-Received: from localhost ([::1]:58456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EE356BBFE
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 17:03:32 +0200 (CEST)
+Received: from localhost ([::1]:34514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9pDm-00068a-D8
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 10:44:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56358)
+	id 1o9pVy-0002Ft-QH
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 11:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9pCA-0005EG-8y
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 10:43:03 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:33745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1o9pC7-0002Z3-N7
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 10:43:01 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id 72so1034703pge.0
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 07:42:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ZPbrArNFZ/rWeA8x7cl5tNZ595+1bD1UnZfj1X9XxkA=;
- b=XzIE5gqayEQOT+n4vcOqBRkm488gYNyZCAsBYo7ua49q4UZ9KXeVv69h2jbMDLtCvS
- wqmUnkzPzLjn1Gqus6eGIglSLfGtpR5sH/w1jdOFt7zvxFabDOQIuGXIPPGhB4N5zUG/
- sOBNB5f6kea1tLjBSiILLdakELgvl7QPC5n8RYFXhueLdpy339tsEc/6k/0OaXnM3bxg
- pXbecybgtDRWnCZpFWNR93Nh0EC42ChLxMg1OpD+lfBpshAnY1583s0GbqBk5rczN6jQ
- xG3jidQr1mPIP1QuhcwXXLt+XItfoN5CPjxJGv/LD9SQN3QkxNXkUP4yRk727AjIWwbH
- ilUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ZPbrArNFZ/rWeA8x7cl5tNZ595+1bD1UnZfj1X9XxkA=;
- b=3DRZntbocagPhf2kGFqefPtNAqBoMuFw9FMu3sJdpse2chLE/ggmMhhxPcKuAUDD+4
- MStUpqaYZe5WvuFlphnKBIx+izN2+2QRKqMRbQfwAoCLmI5515tGSz9DfYaVvVm2d2dr
- VxrAAY017NnSdErkClhxevjSP+3tBreYjf2kCZ9HCZe0jf9t9xGnzJjrWKUFGUSrRPa1
- 5ZPfReqeTYmbHkDmwKQBDqNC7TEwXWrKml1MVkXT4RCaxs00oebPQgUm/d7nmV/y9m+V
- 2FONrX8nA9isNvCDbAvrwsFm1tKyhzjHQoEkxOJLUCl2/6VhWOxuryiccf14ykZjMALh
- xP3g==
-X-Gm-Message-State: AJIora+YiOh35Yz+fJdYn3cqCADHjIM/tyP5hcVvYaiNsSjecBSvxldY
- MtiRzL8neEOjMqFVempUsoezXw==
-X-Google-Smtp-Source: AGRyM1tqcNAd4JatcCA4KM2MV/AehuRgKnKvr15khzpnKvkQ6wtcWfW8YbMbEGZMeou+ksehfzghKg==
-X-Received: by 2002:a63:4604:0:b0:40d:a0ec:5dc4 with SMTP id
- t4-20020a634604000000b0040da0ec5dc4mr3693668pga.510.1657291378038; 
- Fri, 08 Jul 2022 07:42:58 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- d2-20020a170903230200b0016b90620910sm22677315plh.71.2022.07.08.07.42.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jul 2022 07:42:57 -0700 (PDT)
-Message-ID: <83f71b37-848b-ad6f-d51f-b3d6e0d4cf24@linaro.org>
-Date: Fri, 8 Jul 2022 20:12:50 +0530
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1o9pTk-000109-Ct; Fri, 08 Jul 2022 11:01:12 -0400
+Received: from elephant.ash.relay.mailchannels.net ([23.83.222.57]:30619)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1o9pTg-0002UJ-P6; Fri, 08 Jul 2022 11:01:11 -0400
+X-Sender-Id: hostpapa|x-authuser|frederic@petrot.fr
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+ by relay.mailchannels.net (Postfix) with ESMTP id 07E2576230B;
+ Fri,  8 Jul 2022 15:00:58 +0000 (UTC)
+Received: from hp220.hostpapa.com (unknown [127.0.0.6])
+ (Authenticated sender: hostpapa)
+ by relay.mailchannels.net (Postfix) with ESMTPA id 10707761DE8;
+ Fri,  8 Jul 2022 15:00:54 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1657292456; a=rsa-sha256;
+ cv=none;
+ b=gtFtrNJcUvHZ1GlKyCDbPnMpK/cgGLht+/q8IhTp66FTV3Lz8wVyPhQA91C1EtW0/E0doP
+ stAhEBMJZCrdKAhaoa37r9XOT7s32Lxhq10AZ5AqyXnNxeAf2OvneRWyij0B5B8KxG548f
+ u/iCkTF8LaFX7/8lWfRykDtW9WcNjkZKp6Tfp1jzd3+rfctEJDQ7y7Prfl1S3D92xLr21U
+ qTb8Pni9IN05SrpEETuR62mX3p8FuikIYz0H/YO/OZGvRdi9u07H2xW8ZO8AlO7vluli21
+ ioQGEXrlK7W0OKUzeU2pzDpvrqgRhbiL2OkFRF6cbgPJEXgm+1CJyt+9/V4CLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net; s=arc-2022; t=1657292456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:dkim-signature;
+ bh=vLKHDQimy8+xBVr6wK2V1kfJV6/EObJp1t9I9EHpEzM=;
+ b=xLfVveu1yDfEoYcHyu2K9HOwtG0aTytN4/VoCQ/YQBr/UU0rU1Acn3dJlNVW1rFR3ZFAHa
+ W4hKZFrN3ais4TiM7mJgwc2P9oThol1LPwv18ed3HdPdJiu6gl8acazEoSVvqyxKVRJfrq
+ poHcjKgERs48VWh7qFIm31haEWanZm3goYaLPvpo7dv/sukk63h/6P++f40A8aG1I0DGkO
+ TXYtQWwe6edm6U0pRSm5vhc4LFPv7MmxeShMMZ7/w7931Y0ZNpLK0zPd5QoUlC/iog3Xpq
+ bNm/nG/zKhuLXpJRrwWWM/YA9/UjPFgNX3mtKdIwvB9oWMqKBS5YSDV4q8Z4aA==
+ARC-Authentication-Results: i=1; rspamd-689699966c-d2vq5;
+ auth=pass smtp.auth=hostpapa
+ smtp.mailfrom=frederic.petrot@univ-grenoble-alpes.fr
+X-Sender-Id: hostpapa|x-authuser|frederic@petrot.fr
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostpapa|x-authuser|frederic@petrot.fr
+X-MailChannels-Auth-Id: hostpapa
+X-Bitter-Tart: 5bdb35210e4fcdc0_1657292456758_279952398
+X-MC-Loop-Signature: 1657292456758:1936925537
+X-MC-Ingress-Time: 1657292456758
+Received: from hp220.hostpapa.com (hp220.hostpapa.com [69.90.161.120])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
+ by 100.115.45.63 (trex/6.7.1); Fri, 08 Jul 2022 15:00:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=petrot.fr; 
+ s=default;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=vLKHDQimy8+xBVr6wK2V1kfJV6/EObJp1t9I9EHpEzM=; b=IqniT7553iDP6sVeTqNmZvwx9a
+ +XLhyuuGpHgt2AoEJKzhXZiuwz9ERIFWmpAKy9gYt/TN4fZI1BnpBOMg2Pzu5NaY/8AeenYuW0W42
+ n9uckiqkX9WGeUqoA8t4DVv4KBaoHk5AH09NbbBcI8GF/Jyl552sSyZilmrDfKYBqdvAN4FcT6NrM
+ cUWbaSRdEDiHIO8Kf+LFdpcAk7NTKvzp+/tJngUEZyjW0HHSYnJyXS1J4jzUcfw0n3BZQAahnXCeE
+ ccCJ23lr2Rn7NFsHlERAcawhYYgVMrI+sKX8S/INYb+1Z2yYQJh1E/TWcAtnf/3I48MrrTjIRfIHe
+ vBc0qLEg==;
+Received: from palmier.tima.u-ga.fr ([147.171.132.208]:59344
+ helo=palmier.u-ga.fr) by hp220.hostpapa.com with esmtpa (Exim 4.94.2)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1o9pTR-00BGwV-J4; Fri, 08 Jul 2022 17:00:52 +0200
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, palmer@dabbelt.com,
+ Alistair.Francis@wdc.com, bin.meng@windriver.com
+Cc: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH] target/riscv: fix right shifts shamt value for rv128c
+Date: Fri,  8 Jul 2022 17:00:38 +0200
+Message-Id: <20220708150038.216575-1-frederic.petrot@univ-grenoble-alpes.fr>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v5 25/45] target/arm: Implement BFMOPA, BFMOPS
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20220706082411.1664825-1-richard.henderson@linaro.org>
- <20220706082411.1664825-26-richard.henderson@linaro.org>
- <CAFEAcA8Ou2N9qJyvSy2wkpGtguCjJrA9YWoio4jsrv5VrNE3VQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8Ou2N9qJyvSy2wkpGtguCjJrA9YWoio4jsrv5VrNE3VQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-AuthUser: frederic@petrot.fr
+Received-SPF: neutral client-ip=23.83.222.57;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=elephant.ash.relay.mailchannels.net
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,48 +113,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/22 15:12, Peter Maydell wrote:
->> +static inline uint32_t f16mop_adj_pair(uint32_t pair, uint32_t pg, uint32_t neg)
->> +{
->> +    pair ^= neg;
-> 
-> You seem to be negating element 1 of row and col ('neg' here is
-> 1 << 15 unless I've misread something, and it gets passed to
-> the calls for both the row and column data), but the pseudocode
-> says we want to negate element 0 and element 1 of row, and not
-> negate the col elements.
+For rv128c right shifts, the 6-bit shamt is sign extended to 7 bits.
 
-Yep, thanks.
+Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+---
+ target/riscv/insn16.decode |  7 ++++---
+ disas/riscv.c              | 27 +++++++++++++++++++++------
+ target/riscv/translate.c   | 12 +++++++++++-
+ 3 files changed, 36 insertions(+), 10 deletions(-)
 
->> +    if (!(pg & 1)) {
->> +        pair &= 0xffff0000u;
->> +    }
->> +    if (!(pg & 4)) {
->> +        pair &= 0x0000ffffu;
->> +    }
-> 
-> The pseudocode sets the element to 0 if it is not
-> predicated, and then applies the negation second.
+diff --git a/target/riscv/insn16.decode b/target/riscv/insn16.decode
+index 02c8f61b48..ea3c5a0411 100644
+--- a/target/riscv/insn16.decode
++++ b/target/riscv/insn16.decode
+@@ -31,7 +31,8 @@
+ %imm_cb        12:s1 5:2 2:1 10:2 3:2 !function=ex_shift_1
+ %imm_cj        12:s1 8:1 9:2 6:1 7:1 2:1 11:1 3:3 !function=ex_shift_1
+ 
+-%shimm_6bit   12:1 2:5               !function=ex_rvc_shifti
++%shlimm_6bit   12:1 2:5              !function=ex_rvc_shiftli
++%shrimm_6bit   12:1 2:5              !function=ex_rvc_shiftri
+ %uimm_6bit_lq 2:4 12:1 6:1           !function=ex_shift_4
+ %uimm_6bit_ld 2:3 12:1 5:2           !function=ex_shift_3
+ %uimm_6bit_lw 2:2 12:1 4:3           !function=ex_shift_2
+@@ -82,9 +83,9 @@
+ @c_addi16sp     ... .  ..... ..... .. &i imm=%imm_addi16sp rs1=2 rd=2
+ 
+ @c_shift        ... . .. ... ..... .. \
+-                &shift rd=%rs1_3 rs1=%rs1_3 shamt=%shimm_6bit
++                &shift rd=%rs1_3 rs1=%rs1_3 shamt=%shrimm_6bit
+ @c_shift2       ... . .. ... ..... .. \
+-                &shift rd=%rd rs1=%rd shamt=%shimm_6bit
++                &shift rd=%rd rs1=%rd shamt=%shlimm_6bit
+ 
+ @c_andi         ... . .. ... ..... .. &i imm=%imm_ci rs1=%rs1_3 rd=%rs1_3
+ 
+diff --git a/disas/riscv.c b/disas/riscv.c
+index 7af6afc8fa..489c2ae5e8 100644
+--- a/disas/riscv.c
++++ b/disas/riscv.c
+@@ -2402,10 +2402,25 @@ static int32_t operand_sbimm12(rv_inst inst)
+         ((inst << 56) >> 63) << 11;
+ }
+ 
+-static uint32_t operand_cimmsh6(rv_inst inst)
++static uint32_t operand_cimmshl6(rv_inst inst, rv_isa isa)
+ {
+-    return ((inst << 51) >> 63) << 5 |
++    int imm = ((inst << 51) >> 63) << 5 |
+         (inst << 57) >> 59;
++    if (isa == rv128) {
++        imm = imm ? imm : 64;
++    }
++    return imm;
++}
++
++static uint32_t operand_cimmshr6(rv_inst inst, rv_isa isa)
++{
++    int imm = ((inst << 51) >> 63) << 5 |
++        (inst << 57) >> 59;
++    if (isa == rv128) {
++        imm = imm | (imm & 32) << 1;
++        imm = imm ? imm : 64;
++    }
++    return imm;
+ }
+ 
+ static int32_t operand_cimmi(rv_inst inst)
+@@ -2529,7 +2544,7 @@ static uint32_t operand_rnum(rv_inst inst)
+ 
+ /* decode operands */
+ 
+-static void decode_inst_operands(rv_decode *dec)
++static void decode_inst_operands(rv_decode *dec, rv_isa isa)
+ {
+     rv_inst inst = dec->inst;
+     dec->codec = opcode_data[dec->op].codec;
+@@ -2652,7 +2667,7 @@ static void decode_inst_operands(rv_decode *dec)
+     case rv_codec_cb_sh6:
+         dec->rd = dec->rs1 = operand_crs1rdq(inst) + 8;
+         dec->rs2 = rv_ireg_zero;
+-        dec->imm = operand_cimmsh6(inst);
++        dec->imm = operand_cimmshr6(inst, isa);
+         break;
+     case rv_codec_ci:
+         dec->rd = dec->rs1 = operand_crs1rd(inst);
+@@ -2667,7 +2682,7 @@ static void decode_inst_operands(rv_decode *dec)
+     case rv_codec_ci_sh6:
+         dec->rd = dec->rs1 = operand_crs1rd(inst);
+         dec->rs2 = rv_ireg_zero;
+-        dec->imm = operand_cimmsh6(inst);
++        dec->imm = operand_cimmshl6(inst, isa);
+         break;
+     case rv_codec_ci_16sp:
+         dec->rd = rv_ireg_sp;
+@@ -3193,7 +3208,7 @@ disasm_inst(char *buf, size_t buflen, rv_isa isa, uint64_t pc, rv_inst inst)
+     dec.pc = pc;
+     dec.inst = inst;
+     decode_inst_opcode(&dec, isa);
+-    decode_inst_operands(&dec);
++    decode_inst_operands(&dec, isa);
+     decode_inst_decompress(&dec, isa);
+     decode_inst_lift_pseudo(&dec);
+     format_inst(buf, buflen, 16, &dec);
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 63b04e8a94..af3a2cd68c 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -705,12 +705,22 @@ static int ex_rvc_register(DisasContext *ctx, int reg)
+     return 8 + reg;
+ }
+ 
+-static int ex_rvc_shifti(DisasContext *ctx, int imm)
++static int ex_rvc_shiftli(DisasContext *ctx, int imm)
+ {
+     /* For RV128 a shamt of 0 means a shift by 64. */
+     return imm ? imm : 64;
+ }
+ 
++static int ex_rvc_shiftri(DisasContext *ctx, int imm)
++{
++    /*
++     * For RV128 a shamt of 0 means a shift by 64, furthermore, for right
++     * shifts, the shamt is sign-extended.
++     */
++    imm = imm | (imm & 32) << 1;
++    return imm ? imm : 64;
++}
++
+ /* Include the auto-generated decoder for 32 bit insn */
+ #include "decode-insn32.c.inc"
+ 
+-- 
+2.36.1
 
-Yes.  However, the negation is predicated too -- the squashed FPZero is never negated.  I 
-found it simpler to unconditionally negate and then conditionally squash to zero.
-
->> +            uint32_t n = *(uint32_t *)(vzn + row);
-> 
-> More missing H macros ?
-
-Yep.
-
->> +                    if ((pa & 0b0101) == 0b0101 || (pb & 0b0101) == 0b0101) {
-> 
-> The pseudocode test for "do we do anything" is
->   (prow_0 && pcol_0) || (prow_1 && pcol_1)
-> 
-> but isn't this C expression doing
->   (prow_0 && prow_1) || (pcol_0 && pcol_1) ?
-
-Yep, thanks.
-
-
-r~
 
