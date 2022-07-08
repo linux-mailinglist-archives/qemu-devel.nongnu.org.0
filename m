@@ -2,74 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E8356C113
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 21:28:05 +0200 (CEST)
-Received: from localhost ([::1]:49766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD4D56C123
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 21:56:44 +0200 (CEST)
+Received: from localhost ([::1]:57732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9te0-0004iP-1c
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 15:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34532)
+	id 1o9u5i-0005Th-Su
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 15:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o9tbq-0003dP-3G; Fri, 08 Jul 2022 15:25:50 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:33248)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o9u3D-0004I8-TK
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 15:54:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1o9tbm-0000fP-Ba; Fri, 08 Jul 2022 15:25:48 -0400
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 4B6742E1320;
- Fri,  8 Jul 2022 22:25:32 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:8001::1:0] (unknown
- [2a02:6b8:b081:8001::1:0])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- vzlv8o23Fq-PUOK4KPh; Fri, 08 Jul 2022 22:25:31 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1657308331; bh=1ylztOPu/Zxrszb7YtwIiU7UWznr1/E0Sn7Y4lHqXNg=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=p8wY5IHwqv1QqvOAZxi62op23ukOGLj0GpJ5VVtpV47vCcsW8CCRpU2zzHrGeKo5K
- vgwR4GqtPnHYomkMmdqJG71hJ/P19U6a7bzUFAb1Qma/OpDxJHeeQcnU8Et9luJ9sy
- wsLfDljqyn07uNqebiXdOvkeOjE6ms4gv75WCupA=
-Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <1c7b5083-01eb-f53d-4b3e-fae0e630cea2@yandex-team.ru>
-Date: Fri, 8 Jul 2022 22:25:30 +0300
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1o9u39-0002ua-Mm
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 15:54:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657310042;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=c/JatWN02SclRjIGqcLlx2rH36Os4o3a2wiE5RMQ5Lg=;
+ b=A2KcSdl6EoB9nPoc0yUeFV+Ayedlta0FfqWUqkFcuweJWC1x5vbV6RKs2/2qS6KYzJApjt
+ N5w29+UdgM44H8iVypk1f/Df/zPzi2Dyf6IHEaXq+hjm5OMZscPtwSloXm0cz8a4CSTvlN
+ cfysu4anKZUU0NFZZF2+suaMR0qljdc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-586-WshHfTTcOxKZE44_4Ua1CA-1; Fri, 08 Jul 2022 15:54:01 -0400
+X-MC-Unique: WshHfTTcOxKZE44_4Ua1CA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v123-20020a1cac81000000b003a02a3f0beeso1413295wme.3
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 12:54:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=c/JatWN02SclRjIGqcLlx2rH36Os4o3a2wiE5RMQ5Lg=;
+ b=YCrp/zhfVyBtfcCXvHy5l+haxBXjmWFeSH6vfKnYSSN9XM0bXukuIrGTGtbtykiuc2
+ 3t1Lp5sWn+HShjCW7Zd1Qn9QiEAx8ZUDDIXeRTIiUw0f7DRZWT89IhQsuxPk/enUUQt5
+ DwgFAmss+9s2kxkiByUSSIPaFEgUoXdI4FYqiQ7vYJz6QX22A1iInzQ19kaXRwcHOsIz
+ 7va6bi2NUx0hUW+D+DPx/nN6G7g2Ol5Z2ui8khoDB2rpZXDgjF17HmaskRJeGJ442aCW
+ Bzz35zcIP24ijzJatycCsF1IVBPDFDvxY+EAt+eHRPei2UL2y2NnCvrncjN7ZzzSqc8C
+ M2xQ==
+X-Gm-Message-State: AJIora98BuCG2FHG3AlAwPkIuUbdpmzA3NcWxXoXcE0NmDRDDbjWdSnz
+ yoc+xPjIXSNUfgoRwLDewUbrg91As+tJrBy3bYLTB0p7HKxoXBzUW4xKHESPqzXXEdH0DOpMPjh
+ qXjyI7/GVGTEbtz4=
+X-Received: by 2002:a05:6000:381:b0:21b:9a20:7edb with SMTP id
+ u1-20020a056000038100b0021b9a207edbmr5148692wrf.71.1657310040248; 
+ Fri, 08 Jul 2022 12:54:00 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tHnJf+OuMSRJ5lv/orVoeMhzz7F3Zx8NVe7oVuZJ0taZFvphasvBwFtgR0S0pXBTCIjTAL/A==
+X-Received: by 2002:a05:6000:381:b0:21b:9a20:7edb with SMTP id
+ u1-20020a056000038100b0021b9a207edbmr5148672wrf.71.1657310039976; 
+ Fri, 08 Jul 2022 12:53:59 -0700 (PDT)
+Received: from [192.168.8.100] (tmo-099-20.customers.d1-online.com.
+ [80.187.99.20]) by smtp.gmail.com with ESMTPSA id
+ a16-20020a5d5090000000b0021d819c8f6dsm6181016wrt.39.2022.07.08.12.53.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jul 2022 12:53:59 -0700 (PDT)
+Message-ID: <cf15780a-b02e-dc88-954c-6f90d6ba5107@redhat.com>
+Date: Fri, 8 Jul 2022 21:53:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v9 05/21] job.c: add job_lock/unlock while keeping job.h
- intact
+ Thunderbird/91.10.0
+Subject: Re: What to do with the nanomips disassembler (was: [PATCH] disas:
+ Remove libvixl disassembler)
 Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220706201533.289775-1-eesposit@redhat.com>
- <20220706201533.289775-6-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220706201533.289775-6-eesposit@redhat.com>
+To: Milica Lazarevic <Milica.Lazarevic@Syrmia.com>
+Cc: "cfontana@suse.de" <cfontana@suse.de>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ Djordje Todorovic <Djordje.Todorovic@syrmia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+References: <VE1PR03MB60454933EBCDB900C8A9AAD4F8BE9@VE1PR03MB6045.eurprd03.prod.outlook.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <VE1PR03MB60454933EBCDB900C8A9AAD4F8BE9@VE1PR03MB6045.eurprd03.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,92 +107,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/6/22 23:15, Emanuele Giuseppe Esposito wrote:
-> With "intact" we mean that all job.h functions implicitly
-> take the lock. Therefore API callers are unmodified.
+On 04/07/2022 14.22, Milica Lazarevic wrote:
 > 
-> This means that:
-> - many static functions that will be always called with job lock held
->    become _locked, and call _locked functions
-> - all public functions take the lock internally if needed, and call _locked
->    functions
-> - all public functions called internally by other functions in job.c will have a
->    _locked counterpart (sometimes public), to avoid deadlocks (job lock already taken).
->    These functions are not used for now.
-> - some public functions called only from exernal files (not job.c) do not
->    have _locked() counterpart and take the lock inside. Others won't need
->    the lock at all because use fields only set at initialization and
->    never modified.
+> On 09/06/2022 18.31, Vince Del Vecchio wrote:
+...
+>     Regardless, I think we can look at converting the existing disassembler from
+>     C++ to C.  That would address the current concern, right?
 > 
-> job_{lock/unlock} is independent from real_job_{lock/unlock}.
+> > Right - if it's not too much of a hassle that would be great!
 > 
-> Note: at this stage, job_{lock/unlock} and job lock guard macros
-> are *nop*
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Hi everyone, I am interested in taking on this task.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Since nobody else replied, I assume nobody started working on this task yet, 
+so I'd say: Please go ahead and convert that file to plain C!
 
-I think, we still lack some comments on function lock-related interface, but it may be improved later.
+  Thanks,
+    Thomas
 
-[..]
-
->   
-> -static int job_txn_apply(Job *job, int fn(Job *))
-> +/* Called with job_mutex held, but releases it temporarily. */
-
-Hmm. Yes, it may release it temprorarily when fn() release it.. Not very clear but OK..
-
-> +static int job_txn_apply_locked(Job *job, int fn(Job *))
->   {
->       AioContext *inner_ctx;
->       Job *other_job, *next;
-> @@ -170,7 +182,7 @@ static int job_txn_apply(Job *job, int fn(Job *))
->        * we need to release it here to avoid holding the lock twice - which would
->        * break AIO_WAIT_WHILE from within fn.
->        */
-> -    job_ref(job);
-> +    job_ref_locked(job);
->       aio_context_release(job->aio_context);
->   
-
-[..]
-
-> +
->   static bool job_started(Job *job)
-
-So we can call it both with mutex locked and without. Hope it never race with job_start.
-
->   {
->       return job->co;
->   }
->   
-> -static bool job_should_pause(Job *job)
-> +/* Called with job_mutex held. */
-
-[..]
-
->   
-> -/** Useful only as a type shim for aio_bh_schedule_oneshot. */
-> +/**
-> + * Useful only as a type shim for aio_bh_schedule_oneshot.
-> + * Called with job_mutex *not* held, but releases it temporarily.
-
-", but releases it temprorarily" is misleading for me. If called with mutext not held, then "releases it temprorarily" is not part of function interface.. Many functions that take some mutex internally do release it temporarily and callers should not care of it.
-
-So, better just "Called with job_mutex *not* held."
-
-> + */
->   static void job_exit(void *opaque)
->   {
->       Job *job = (Job *)opaque;
->       AioContext *ctx;
-> +    JOB_LOCK_GUARD();
->   
-
-
-
--- 
-Best regards,
-Vladimir
 
