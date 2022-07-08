@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3CD56B7C0
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 12:56:15 +0200 (CEST)
-Received: from localhost ([::1]:48578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C17D56B7E3
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:01:16 +0200 (CEST)
+Received: from localhost ([::1]:60484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9leg-0008Qy-Rj
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 06:56:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55902)
+	id 1o9ljX-0007zZ-MD
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:01:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o9lZK-0000CH-Cs
+ id 1o9lZL-0000CO-Gf
  for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48466)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1o9lZI-0007qp-FU
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:42 -0400
+ id 1o9lZJ-0007qu-N8
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 06:50:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657277439;
+ s=mimecast20190719; t=1657277440;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mWzsDwO9nIsGjL7QQb44G8D1SQOeaXUZrd+nCaIkCtM=;
- b=M0+0pbPuubnTaPrAGHrfpnEVCwq/t+RrC7PYQQ4PoyGpXW5m83qQLmFTvMof+P6qV8kWNZ
- u6kyFEDwIv071M8uQ8D1+pUvVhBPidP+zjuQ5zcTyIg93nW1qbZbGxwKlyQLFenrHVr/ud
- SxeluPRACDpDEFkTYQHyUltXq/xIJ6c=
+ bh=5twCG4jbQlHnkDf4BEAs6Yqj2extBvmdjQb3IXvRaa4=;
+ b=NPNwmLOPoq+myLcbOZ4N2+GSoSMiYJeDCXZZd/Xv6NwHGvZ8/+FUw7njkDAaeEfiqIVtIZ
+ g4OFLcU5RRwGS0mson2TKUsUbeHFcY3gebMn3f91bdvxX5ZVaf4ri1AOzP71WgD1efa8Ip
+ 7wtKqKcrdftp8nk7VE4bnhK7lF5D3EE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-9-40EVzmmTP2GzGYKOE12M8w-1; Fri, 08 Jul 2022 06:50:34 -0400
-X-MC-Unique: 40EVzmmTP2GzGYKOE12M8w-1
+ us-mta-568-qvgMWaHxNmOWl2R_C_LOTA-1; Fri, 08 Jul 2022 06:50:37 -0400
+X-MC-Unique: qvgMWaHxNmOWl2R_C_LOTA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AFDF7801231;
- Fri,  8 Jul 2022 10:50:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE113801231;
+ Fri,  8 Jul 2022 10:50:36 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E19D11121314;
- Fri,  8 Jul 2022 10:50:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F22C01121314;
+ Fri,  8 Jul 2022 10:50:33 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -55,24 +55,23 @@ Cc: Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>, Jason Wang <jasowang@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>,
  Parav Pandit <parav@mellanox.com>, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH 05/22] vhost: Decouple vhost_svq_add_split from
- VirtQueueElement
-Date: Fri,  8 Jul 2022 12:49:56 +0200
-Message-Id: <20220708105013.1899854-6-eperezma@redhat.com>
+Subject: [PATCH 06/22] vhost: Reorder vhost_svq_last_desc_of_chain
+Date: Fri,  8 Jul 2022 12:49:57 +0200
+Message-Id: <20220708105013.1899854-7-eperezma@redhat.com>
 In-Reply-To: <20220708105013.1899854-1-eperezma@redhat.com>
 References: <20220708105013.1899854-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,112 +88,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VirtQueueElement comes from the guest, but we're heading SVQ to be able
-to inject element without the guest's knowledge.
-
-To do so, make this accept sg buffers directly, instead of using
-VirtQueueElement.
-
-Add vhost_svq_add_element to maintain element convenience
+SVQ is going to store it in SVQElement, so we need it before add functions.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 38 +++++++++++++++++++++---------
- 1 file changed, 27 insertions(+), 11 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 115d769b86..2d70f832e9 100644
+index 2d70f832e9..a4d5d7bae0 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -172,30 +172,32 @@ static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
+@@ -217,6 +217,16 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+     return true;
  }
  
- static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
--                                VirtQueueElement *elem, unsigned *head)
-+                                const struct iovec *out_sg, size_t out_num,
-+                                const struct iovec *in_sg, size_t in_num,
-+                                unsigned *head)
- {
-     unsigned avail_idx;
-     vring_avail_t *avail = svq->vring.avail;
-     bool ok;
--    g_autofree hwaddr *sgs = g_new(hwaddr, MAX(elem->out_num, elem->in_num));
-+    g_autofree hwaddr *sgs = NULL;
- 
-     *head = svq->free_head;
- 
-     /* We need some descriptors here */
--    if (unlikely(!elem->out_num && !elem->in_num)) {
-+    if (unlikely(!out_num && !in_num)) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "Guest provided element with no descriptors");
-         return false;
-     }
- 
--    ok = vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
--                                     elem->in_num > 0, false);
-+    sgs = g_new(hwaddr, MAX(out_num, in_num));
-+    ok = vhost_svq_vring_write_descs(svq, sgs, out_sg, out_num, in_num > 0,
-+                                     false);
-     if (unlikely(!ok)) {
-         return false;
-     }
- 
--    ok = vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false,
--                                     true);
-+    ok = vhost_svq_vring_write_descs(svq, sgs, in_sg, in_num, false, true);
-     if (unlikely(!ok)) {
-         return false;
-     }
-@@ -222,10 +224,13 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
-  * takes ownership of the element: In case of failure, it is free and the SVQ
-  * is considered broken.
-  */
--static bool vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
-+static bool vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
-+                          size_t out_num, const struct iovec *in_sg,
-+                          size_t in_num, VirtQueueElement *elem)
- {
-     unsigned qemu_head;
--    bool ok = vhost_svq_add_split(svq, elem, &qemu_head);
-+    bool ok = vhost_svq_add_split(svq, out_sg, out_num, in_sg, in_num,
-+                                  &qemu_head);
-     if (unlikely(!ok)) {
-         g_free(elem);
-         return false;
-@@ -249,6 +254,18 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
-     event_notifier_set(&svq->hdev_kick);
- }
- 
-+static bool vhost_svq_add_element(VhostShadowVirtqueue *svq,
-+                                  VirtQueueElement *elem)
++static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
++                                             uint16_t num, uint16_t i)
 +{
-+    bool ok = vhost_svq_add(svq, elem->out_sg, elem->out_num, elem->in_sg,
-+                            elem->in_num, elem);
-+    if (ok) {
-+        vhost_svq_kick(svq);
++    for (uint16_t j = 0; j < (num - 1); ++j) {
++        i = le16_to_cpu(svq->desc_next[i]);
 +    }
 +
-+    return ok;
++    return i;
 +}
 +
  /**
-  * Forward available buffers.
+  * Add an element to a SVQ.
   *
-@@ -301,12 +318,11 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-                 return;
-             }
+@@ -374,16 +384,6 @@ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
+     svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+ }
  
--            ok = vhost_svq_add(svq, elem);
-+            ok = vhost_svq_add_element(svq, g_steal_pointer(&elem));
-             if (unlikely(!ok)) {
-                 /* VQ is broken, just return and ignore any other kicks */
-                 return;
-             }
--            vhost_svq_kick(svq);
-         }
- 
-         virtio_queue_set_notification(svq->vq, true);
+-static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
+-                                             uint16_t num, uint16_t i)
+-{
+-    for (uint16_t j = 0; j < (num - 1); ++j) {
+-        i = le16_to_cpu(svq->desc_next[i]);
+-    }
+-
+-    return i;
+-}
+-
+ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+                                            uint32_t *len)
+ {
 -- 
 2.31.1
 
