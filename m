@@ -2,91 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989D056B526
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 11:14:16 +0200 (CEST)
-Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E9056B53B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 11:21:49 +0200 (CEST)
+Received: from localhost ([::1]:49410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9k3z-0003vK-OU
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 05:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36116)
+	id 1o9kBI-0006JJ-Is
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 05:21:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o9k2d-0003Fy-P5
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:12:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41555)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1o9k9Q-0005MC-02
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:19:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1o9k2b-00011y-Vu
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:12:51 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1o9k9N-0004z5-3U
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 05:19:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657271569;
+ s=mimecast20190719; t=1657271987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NOv4bRDuA5IrkgXZCncFaxVhd+zuqwplpis+ihnXhKU=;
- b=G28/a97IUnpwpi4TtaDWp8Tn9tixfZ4866jFmJ7Ophk1wqBzlBnIinm9buRioRub3mGXpO
- ReAgs0Wk209j/0UVqwtXmf7lqBGm2BPuJKZ+2RLE60G1QQ2WPT1ROooMQurPMHFE2kNYX4
- n2+YTCbgPD41pWK6EdC16g4eFhdHiuI=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6gHxB4Z5l0G9wzWZbiq5sWdDhLNloZA4BBwNAg3wrU0=;
+ b=RYHpRwdH0OQFmHIQWyCvL6+nv+rvcfOGrcJDycMFrsaYPhNA/84Zb81xNvDSYaSQMCFMtD
+ tPY5xNYquS3Pfl4l1VCl0z9T6c86wJmFeon3+Un6QyaFsnH+8v/F8SLWDUDVK+oME1v8TL
+ IUSJpChaL3+JIQVvlI31gsTbdxG9+1I=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-637-zalTG-9_OBOzzycxOy66fw-1; Fri, 08 Jul 2022 05:12:48 -0400
-X-MC-Unique: zalTG-9_OBOzzycxOy66fw-1
-Received: by mail-lj1-f199.google.com with SMTP id
- y8-20020a2eb008000000b0025bf6ec0c6cso5863348ljk.20
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 02:12:47 -0700 (PDT)
+ us-mta-509-1DYWj-96N5aoANUzmByKFw-1; Fri, 08 Jul 2022 05:19:46 -0400
+X-MC-Unique: 1DYWj-96N5aoANUzmByKFw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 2-20020a1c0202000000b003a2cfab44eeso730990wmc.6
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 02:19:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NOv4bRDuA5IrkgXZCncFaxVhd+zuqwplpis+ihnXhKU=;
- b=CNTqstoj7H3VQHu5qjL6TlNstHsBYaaxrWist5Z7h4a1R/hCIiMIjgi8Fqc6vSVN+2
- 38hq40iVDw5+eG33Bu5r8inIuB1N8X/t99/mMnuBZMtlZbQmRVnsoI/RF0nssEesapER
- cLmWCam3h8vD0OCCxp6TnnOzuElNPXwaZtp39VlUDNZPfdGuVTyoy6bHF62rHGvgYrAb
- Wg4vyN8yzLjRlG7GgR2s8qroJkE+648wt8Gy5igHD/yOdHSWCouHWhnIK9tciuweFJ+g
- is4+r4vK1zUjjKtXn4rE7ZLQ9XGXjLT08lDh6ixELwmvAK/ZQiOufIoPo2xuRbLsZDD2
- Q81w==
-X-Gm-Message-State: AJIora+zgwj2Cb89j0nrhJlixm2cix7TLOT6G0XtTXXbYoDWr3M/fPwq
- CrqV5cSkiWRiFgLGC2C6Lu24f1lwffBU8wVu4faffoWYzlASqIxESwAWt7aUzh1eSdM2/VY32do
- 9zM/fjT60EbiUu0q22Lw2qiSD74JIH9c=
-X-Received: by 2002:a05:6512:b0d:b0:481:5cb4:cf1e with SMTP id
- w13-20020a0565120b0d00b004815cb4cf1emr1638390lfu.442.1657271566624; 
- Fri, 08 Jul 2022 02:12:46 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vIYPlT2/w52hTYdp2O2p3cNwSjJmKLmZ+Qo93DRAQrYiZQtkFYSOaO9yeL5EEROk3Qz3p6zi7bS6AgIfbtLkc=
-X-Received: by 2002:a05:6512:b0d:b0:481:5cb4:cf1e with SMTP id
- w13-20020a0565120b0d00b004815cb4cf1emr1638366lfu.442.1657271566385; Fri, 08
- Jul 2022 02:12:46 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6gHxB4Z5l0G9wzWZbiq5sWdDhLNloZA4BBwNAg3wrU0=;
+ b=GD8mffxpsuLol79snWe32pfal7VX8E0Zaevm2PVvV7dtdUkbcdjJGuM8lfANEJoqpY
+ gLHOWFnjdJPT6HM70mvXHZ0sc81lYJaxzASf4rP5B5aP9gleP2S4oMTHHR3/LoNDOCtj
+ vYlJb7zsuJvZemSQAYqe6c3UqkXvS7YRpTOt0cRhwab03GQ6ildrUBJPZgoYnTPkfMdI
+ 4HSfcQR4jzjO6uHLSknSN/rjSxxmAgmElZvBzIjvnoePLt2tP0jLbsP/H0ouDmWwYrck
+ oSmKkATAmC6EVCcRlHXo/myHmJdL4Ol3cY0AJ3VI7BpQu1dJYUqdReNTtWGeiqISWqwB
+ CePw==
+X-Gm-Message-State: AJIora/Yyq9/ojSVoL3DjZ/5tVS/0DUt36zEY6dXan4OighZpLIgwlea
+ N81YBRc5YwYACTxvDiBmrEM7BNb/+pytsEb7Zm+NyCzhOH1AQvdeT0S9qQTErghSTuXanEmAwF6
+ 1+2wVsPOr2FJD6Qw=
+X-Received: by 2002:a5d:5919:0:b0:21d:60cf:cbf4 with SMTP id
+ v25-20020a5d5919000000b0021d60cfcbf4mr2192240wrd.188.1657271985131; 
+ Fri, 08 Jul 2022 02:19:45 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tKgxCnflRwOnOedK0ZDVr+qE/dGOg52lP0jyh9qhavP7iwUJL4tXG4AH+OUE3/j16iZOg5+A==
+X-Received: by 2002:a5d:5919:0:b0:21d:60cf:cbf4 with SMTP id
+ v25-20020a5d5919000000b0021d60cfcbf4mr2192218wrd.188.1657271984909; 
+ Fri, 08 Jul 2022 02:19:44 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ c3-20020adfef43000000b0021bab0ba755sm42110507wrp.106.2022.07.08.02.19.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jul 2022 02:19:44 -0700 (PDT)
+Message-ID: <ab3f6227-20c2-1c3a-4bae-814f06670bd0@redhat.com>
+Date: Fri, 8 Jul 2022 11:19:43 +0200
 MIME-Version: 1.0
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-5-eperezma@redhat.com>
-In-Reply-To: <20220706184008.1649478-5-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 8 Jul 2022 17:12:34 +0800
-Message-ID: <CACGkMEv660pXKK9-E+eLhph_Pq346PVELVEryg=MKNtB0BL5eg@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 04/23] vhost: Get vring base from vq, not svq
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Eric Blake <eblake@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 6/8] virtio-blk: mark IO_CODE functions
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+References: <20220609143727.1151816-1-eesposit@redhat.com>
+ <20220609143727.1151816-7-eesposit@redhat.com>
+ <YsRNC0tj6YP2pgMi@stefanha-x1.localdomain>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <YsRNC0tj6YP2pgMi@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,103 +108,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 7, 2022 at 2:40 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
-te:
->
-> The used idx used to match with this, but it will not match from the
-> moment we introduce svq_inject.
 
-It might be better to explain what "svq_inject" means here.
 
-> Rewind all the descriptors not used by
-> vdpa device and get the vq state properly.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
->  include/hw/virtio/virtio.h | 1 +
->  hw/virtio/vhost-vdpa.c     | 7 +++----
->  hw/virtio/virtio.c         | 5 +++++
->  3 files changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index db1c0ddf6b..4b51ab9d06 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -302,6 +302,7 @@ hwaddr virtio_queue_get_desc_size(VirtIODevice *vdev,=
- int n);
->  hwaddr virtio_queue_get_avail_size(VirtIODevice *vdev, int n);
->  hwaddr virtio_queue_get_used_size(VirtIODevice *vdev, int n);
->  unsigned int virtio_queue_get_last_avail_idx(VirtIODevice *vdev, int n);
-> +unsigned int virtio_queue_get_in_use(const VirtQueue *vq);
->  void virtio_queue_set_last_avail_idx(VirtIODevice *vdev, int n,
->                                       unsigned int idx);
->  void virtio_queue_restore_last_avail_idx(VirtIODevice *vdev, int n);
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 2ee8009594..de76128030 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -1189,12 +1189,10 @@ static int vhost_vdpa_get_vring_base(struct vhost=
-_dev *dev,
->                                         struct vhost_vring_state *ring)
->  {
->      struct vhost_vdpa *v =3D dev->opaque;
-> -    int vdpa_idx =3D ring->index - dev->vq_index;
->      int ret;
->
->      if (v->shadow_vqs_enabled) {
-> -        VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs, v=
-dpa_idx);
-> -
-> +        const VirtQueue *vq =3D virtio_get_queue(dev->vdev, ring->index)=
-;
->          /*
->           * Setting base as last used idx, so destination will see as ava=
-ilable
->           * all the entries that the device did not use, including the in=
--flight
-> @@ -1203,7 +1201,8 @@ static int vhost_vdpa_get_vring_base(struct vhost_d=
-ev *dev,
->           * TODO: This is ok for networking, but other kinds of devices m=
-ight
->           * have problems with these retransmissions.
->           */
-> -        ring->num =3D svq->last_used_idx;
-> +        ring->num =3D virtio_queue_get_last_avail_idx(dev->vdev, ring->i=
-ndex) -
-> +                    virtio_queue_get_in_use(vq);
+Am 05/07/2022 um 16:39 schrieb Stefan Hajnoczi:
+> On Thu, Jun 09, 2022 at 10:37:25AM -0400, Emanuele Giuseppe Esposito wrote:
+>> Just as done in the block API, mark functions in virtio-blk
+>> that are called also from iothread(s).
+>>
+>> We know such functions are IO because many are blk_* callbacks,
+>> running always in the device iothread, and remaining are propagated
+>> from the leaf IO functions (if a function calls a IO_CODE function,
+>> itself is categorized as IO_CODE too).
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>  hw/block/dataplane/virtio-blk.c |  4 ++++
+>>  hw/block/virtio-blk.c           | 35 +++++++++++++++++++++++++++++++++
+>>  2 files changed, 39 insertions(+)
+> 
+> The definition of IO_CODE() is:
+> 
+>   I/O API functions. These functions are thread-safe, and therefore
+>   can run in any thread as long as the thread has called
+>   aio_context_acquire/release().
+> 
+> I'm not sure it matches with the exact semantics you have in mind. Are
+> they really allowed to be called from any thread and even from multiple
+> threads? Or maybe just from the BlockBackend's AioContext thread?
 
-I think we need to change the above comment as well otherwise readers
-might get confused.
+I think it is just from the BlockBackend's AioContext thread. But I
+classified blk_* functions as IO_CODE.
 
-I wonder why we need to bother at this time. Is this an issue for
-networking devices? And for block device, it's not sufficient since
-there's no guarantee that the descriptor is handled in order?
+What is your opinion on that?
 
-Thanks
-
->          return 0;
->      }
->
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 5d607aeaa0..e02656f7a2 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -3420,6 +3420,11 @@ unsigned int virtio_queue_get_last_avail_idx(VirtI=
-ODevice *vdev, int n)
->      }
->  }
->
-> +unsigned int virtio_queue_get_in_use(const VirtQueue *vq)
-> +{
-> +    return vq->inuse;
-> +}
-> +
->  static void virtio_queue_packed_set_last_avail_idx(VirtIODevice *vdev,
->                                                     int n, unsigned int i=
-dx)
->  {
-> --
-> 2.31.1
->
+> 
+> We need to be very careful to define these terms precisely and avoid
+> applying them in cases that are similar but different as that will cause
+> problems in the future.
+> 
+> Otherwise:
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> 
 
 
