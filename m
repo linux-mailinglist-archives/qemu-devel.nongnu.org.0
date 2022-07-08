@@ -2,94 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E946656B847
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:18:21 +0200 (CEST)
-Received: from localhost ([::1]:60018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA72B56B856
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jul 2022 13:23:03 +0200 (CEST)
+Received: from localhost ([::1]:39618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9m05-0004BP-1D
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60374)
+	id 1o9m4c-0001Qw-Pv
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 07:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o9lwX-000255-4y
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:14:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47473)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o9lxN-0003HF-OR
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:15:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o9lwV-0003OS-Gg
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:14:40 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1o9lxK-0003lS-MD
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 07:15:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657278878;
+ s=mimecast20190719; t=1657278930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WsoMdZSKLO42ywTMkNvNJXjSc5U3WNBblyApnNCI0JI=;
- b=btL1L+4MDOC9pfH9i7Q/VOWq3fxKC7zowoT9HJL9ijjSSF8kliX3K+KpyQaW29EQfrOF/6
- u5p4UFsCsVw/VUZiIF/5EdP06KN045IGkPJ8A3fbVroecwzmgqwb3sEqIf1BwgyB8JwwTQ
- NsTPlGC1NRpXpGj41Ku3+uYENRZo/IA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6zqomPknXHq1NY1rHi5lnA9MvgPcZcFqrctayDmijyo=;
+ b=UVt0MCYvZbzsRI+OeRetnZNMFgh/btV2c1t1+/HOmDGOeHFSOdyWX18woTVu5rV8UMCgD1
+ 9+WbVV/qTXdi7sVFJMJb3Ghlav38i/3ZYkLS8dfwuwLL0srxHJsVH0KNSANV5owW+iuYC2
+ PKvQGgJa7OdlbGhgw+LzXcRb0iT2Uxo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-602-2bYvBAIvNV6mHBIJ-zfFSA-1; Fri, 08 Jul 2022 07:14:35 -0400
-X-MC-Unique: 2bYvBAIvNV6mHBIJ-zfFSA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h186-20020a1c21c3000000b003a2cf5b5aaaso2010636wmh.8
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 04:14:35 -0700 (PDT)
+ us-mta-209-UKi2GTWnMtWUILPdMWwAgA-1; Fri, 08 Jul 2022 07:15:28 -0400
+X-MC-Unique: UKi2GTWnMtWUILPdMWwAgA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ a6-20020a05600c348600b003a2d72b7a15so846115wmq.9
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 04:15:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=WsoMdZSKLO42ywTMkNvNJXjSc5U3WNBblyApnNCI0JI=;
- b=24dq0VXcS5/Btzr2DeWDvqXOTKMDsVi3BQtgEkGsAJtZkfZhZBlMQkWEcORPJhMybO
- K6xFpUhEkn8BmsLDI0PaKvL+k47cmV4Jnukc1R9GGsyRV7h8Jj8Y/q6S2eKRAPsSt6vN
- TrrwEtwFXWaxCVLYBJlKiNesbkZzQWa7cDl1S4PNY6uQ7QHpwSLj5fsSUyjifBCQ/Xq3
- s2bHspSjrvXiFDZizQS5zFi6dhzaHouxWZ9h4K/ubKI/Iktxu+fXPqZvBBhM6IFhn4JE
- XGNh8apuu9ULO0ct7ZFlH45QpoaLJ7cy0xnvpUcowf4XSQhWwNfoQu3iysPr5wu+Hej1
- F2fA==
-X-Gm-Message-State: AJIora/PX5Vag/4YKmqyr9VHuoVGifC0ebfgcEqIhyW2rP12qu9Bik1J
- RtldV/EksfChcCCgr9zykAJuLeGhnFrLWxn2Pbnvky1mGD47Ss+CNWhvXBoYkFmDCRyvoafsIa3
- 0dcONoQ19M1q3VOE=
-X-Received: by 2002:a05:600c:1986:b0:3a1:9936:67ff with SMTP id
- t6-20020a05600c198600b003a1993667ffmr3066520wmq.47.1657278874470; 
- Fri, 08 Jul 2022 04:14:34 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sXDwe+fl0MD6Q+zYXMh0dZMSjiQR9KTyx4dyeC5DESShZ1nrKpmUPcTacG8Dv5wWAHUIPvMA==
-X-Received: by 2002:a05:600c:1986:b0:3a1:9936:67ff with SMTP id
- t6-20020a05600c198600b003a1993667ffmr3066497wmq.47.1657278874197; 
- Fri, 08 Jul 2022 04:14:34 -0700 (PDT)
+ bh=6zqomPknXHq1NY1rHi5lnA9MvgPcZcFqrctayDmijyo=;
+ b=49Wkyw0G9zNBiqckrODK/rNFeUc0pYeUwdSkTkIW/U6AzMvvoxcP6FhY4cZI6tr+ft
+ PdRlK3xCODoiZDBExci/MRAHJ5AIhoF/f3oIpN8LuJxF8uXYVFDPEuw4LM6slKqt43xI
+ 5zER8kzqU8XwxhCSHO2FsuyrfV6euzzQ1ftwsoHR6qiqTGzbZpZRML0Sb91hlgxAN9x8
+ GlWr3o0U4dK1UOG77pelQFD0ytr6l4GHV62eZAedO6M5pR74UbiEFvOWtBvXza91W3/3
+ l7U5mhHzTeEav4IHcwavsapw2UldfJ1JcVpZOJall7pkoWDpkMkEc57ADQ33vrWwqjIz
+ wkkQ==
+X-Gm-Message-State: AJIora/HWLDqVaVKGu7BYoui9pUTkeSTZQFxERQ8THVyPwBfMISW7VMd
+ sgfowVFB6O3DKz9mQoYYwcwJpU6CFFfH019Cs+eeLjaceHLrri845a8ftDDI33/mKYkLoddmvKI
+ 9YCf/O/3qTTfr/rc=
+X-Received: by 2002:a05:600c:3512:b0:3a0:5005:86b5 with SMTP id
+ h18-20020a05600c351200b003a0500586b5mr3192288wmq.191.1657278927769; 
+ Fri, 08 Jul 2022 04:15:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vZ56s8kBf4FXM/iFXyK97GQYae6yKDOS33nLor3F7IZYk2xFEKEJTFfvG7KApNhXedthwu2g==
+X-Received: by 2002:a05:600c:3512:b0:3a0:5005:86b5 with SMTP id
+ h18-20020a05600c351200b003a0500586b5mr3192264wmq.191.1657278927469; 
+ Fri, 08 Jul 2022 04:15:27 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c702:6300:c44f:789a:59b5:91e9?
  (p200300cbc7026300c44f789a59b591e9.dip0.t-ipconnect.de.
  [2003:cb:c702:6300:c44f:789a:59b5:91e9])
  by smtp.gmail.com with ESMTPSA id
- g1-20020adffc81000000b00213ba3384aesm41749683wrr.35.2022.07.08.04.14.33
+ p12-20020a5d638c000000b0021d6dad334bsm12747723wru.4.2022.07.08.04.15.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jul 2022 04:14:33 -0700 (PDT)
-Message-ID: <954f28a6-a417-9af9-80f1-32e3e423613f@redhat.com>
-Date: Fri, 8 Jul 2022 13:14:33 +0200
+ Fri, 08 Jul 2022 04:15:27 -0700 (PDT)
+Message-ID: <44605af5-ef33-ec24-8ce5-8d929d3b9c9d@redhat.com>
+Date: Fri, 8 Jul 2022 13:15:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 2/4] target/s390x: Remove DISAS_PC_STALE
+Subject: Re: [PATCH v2 3/4] target/s390x: Remove DISAS_PC_STALE_NOCHAIN
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: svens@linux.ibm.com, qemu-s390x@nongnu.org
 References: <20220702060228.420454-1-richard.henderson@linaro.org>
- <20220702060228.420454-3-richard.henderson@linaro.org>
+ <20220702060228.420454-4-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20220702060228.420454-3-richard.henderson@linaro.org>
+In-Reply-To: <20220702060228.420454-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,72 +105,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 02.07.22 08:02, Richard Henderson wrote:
-> There is nothing to distinguish this from DISAS_TOO_MANY.
+> Replace this with a flag: exit_to_mainloop.
+> We can now control the exit for each of DISAS_TOO_MANY,
+> DISAS_PC_UPDATED, and DISAS_PC_CC_UPDATED, and fold in
+> the check for PER.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/s390x/tcg/translate.c | 13 ++++---------
->  1 file changed, 4 insertions(+), 9 deletions(-)
-> 
-> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-> index e38ae9ce09..a3422c0eb0 100644
-> --- a/target/s390x/tcg/translate.c
-> +++ b/target/s390x/tcg/translate.c
-> @@ -1126,10 +1126,6 @@ typedef struct {
->  /* We have updated the PC and CC values.  */
->  #define DISAS_PC_CC_UPDATED     DISAS_TARGET_2
->  
-> -/* We are exiting the TB, but have neither emitted a goto_tb, nor
-> -   updated the PC for the next instruction to be executed.  */
-> -#define DISAS_PC_STALE          DISAS_TARGET_3
-> -
->  /* We are exiting the TB to the main loop.  */
->  #define DISAS_PC_STALE_NOCHAIN  DISAS_TARGET_4
->  
-> @@ -3993,7 +3989,7 @@ static DisasJumpType op_sacf(DisasContext *s, DisasOps *o)
->  {
->      gen_helper_sacf(cpu_env, o->in2);
->      /* Addressing mode has changed, so end the block.  */
-> -    return DISAS_PC_STALE;
-> +    return DISAS_TOO_MANY;
->  }
->  #endif
->  
-> @@ -4029,7 +4025,7 @@ static DisasJumpType op_sam(DisasContext *s, DisasOps *o)
->      tcg_temp_free_i64(tsam);
->  
->      /* Always exit the TB, since we (may have) changed execution mode.  */
-> -    return DISAS_PC_STALE;
-> +    return DISAS_TOO_MANY;
->  }
->  
->  static DisasJumpType op_sar(DisasContext *s, DisasOps *o)
-> @@ -6562,13 +6558,13 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
->  
->      /* io should be the last instruction in tb when icount is enabled */
->      if (unlikely(icount && ret == DISAS_NEXT)) {
-> -        ret = DISAS_PC_STALE;
-> +        ret = DISAS_TOO_MANY;
->      }
->  
->  #ifndef CONFIG_USER_ONLY
->      if (s->base.tb->flags & FLAG_MASK_PER) {
->          /* An exception might be triggered, save PSW if not already done.  */
-> -        if (ret == DISAS_NEXT || ret == DISAS_PC_STALE) {
-> +        if (ret == DISAS_NEXT || ret == DISAS_TOO_MANY) {
->              tcg_gen_movi_i64(psw_addr, s->pc_tmp);
->          }
->  
-> @@ -6634,7 +6630,6 @@ static void s390x_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
->      case DISAS_NORETURN:
->          break;
->      case DISAS_TOO_MANY:
-> -    case DISAS_PC_STALE:
->      case DISAS_PC_STALE_NOCHAIN:
->          update_psw_addr(dc);
->          /* FALLTHRU */
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
+
 
 -- 
 Thanks,
