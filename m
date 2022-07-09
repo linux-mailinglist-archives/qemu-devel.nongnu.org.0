@@ -2,86 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435A256C61F
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jul 2022 05:01:56 +0200 (CEST)
-Received: from localhost ([::1]:42924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B42A56C623
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jul 2022 05:08:32 +0200 (CEST)
+Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oA0jC-0002OO-KX
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 23:01:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48850)
+	id 1oA0pa-0005kq-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 23:08:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oA0hM-0001KQ-29
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 23:00:00 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:33550)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oA0hK-0002Hi-5D
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 22:59:59 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id p16so313836plo.0
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 19:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=+wfnHbZqha+Bnbae0/WVZKsuUJrB7fybdYg9Vfg9MfA=;
- b=aUxyPdXKSwd0UinnwmEnUJ3e4lJl/uGAGrPQOIHOvoKrX2HFgl1tHixPc2A1/3jmjc
- AU8WbfjbJb1p0vM1gZMezxccJIcNg3o5xfyxEBwzl1hnAwOZmSdhLk33Acy61qbtcPIO
- DbH0IR1sR3g2aNCKNPvYLYrDRH7pw1wJFiDnVzqaSVEkIIu5geIeJsZfdq60//s8y+PR
- NQSZsKLlwHIrrfo5uaoIR8wm1LczJ/7I2OfK5MAD1GH/KZqk2VHbD08HfI5sQgEwVGMQ
- IE/r2922aK0OsZvTvoGARRG7qCnT2qkQUklP/8iStdK9HNSmwcgmJqjj+jfxUG/IGvVd
- SSjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+wfnHbZqha+Bnbae0/WVZKsuUJrB7fybdYg9Vfg9MfA=;
- b=oJx1t8HmqwKwIQmnTyUyZjqLrpE0Sz1YKcuaZeD3JToGAfJoqS14RXBG1rY5alyrWQ
- 2UlyoNsPGN9hxoKlUJ/tvCfuOseE0y8qIAcHYmKrVZbZPqMd+ElQJxqe28yUEgzN5UiJ
- o+RQwyGzewE19MVPvweByS68dHY9OhILcD9laiqPkr/dMea8ciNhuyntZ7cYYq9Ygh1c
- EqEv/RYFcRHpyfQbEMiM1cr4IfepdAzQ1Pzzq5hp2lGWs12UXyjwDxV5pOJNirNBmiDz
- EiG+waZyYU8iYnk9LTGVpl2caMJXpDGzndenzlJhtuqbiOjb38UoOCeBGRrrI3/5cf2b
- NXIQ==
-X-Gm-Message-State: AJIora8uE/8emE8XkkErV8bpzf50gRK/MKUrKkl/KJtQRuClPZr9WtUi
- 6P5V2MQvVAdOrMEQg+zpPj+pnA==
-X-Google-Smtp-Source: AGRyM1t+bFbUEmHhT3R+sE2kPW09HXQQ3FsxckmcSw30y6vbNnROnMT1YAyv4bXb813fJvJ94G9xyw==
-X-Received: by 2002:a17:90b:3ec2:b0:1ee:d9c3:53ce with SMTP id
- rm2-20020a17090b3ec200b001eed9c353cemr3438524pjb.189.1657335596424; 
- Fri, 08 Jul 2022 19:59:56 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- t8-20020a17090a2f8800b001e31fea8c85sm2050578pjd.14.2022.07.08.19.59.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jul 2022 19:59:56 -0700 (PDT)
-Message-ID: <89098547-6e30-96b0-2e7a-f131999c5528@linaro.org>
-Date: Sat, 9 Jul 2022 08:29:47 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH RFC v2 0/2] arm: enable MTE for QEMU + kvm
-Content-Language: en-US
-To: Cornelia Huck <cohuck@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Cc: Eric Auger <eauger@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <20220707161656.41664-1-cohuck@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220707161656.41664-1-cohuck@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oA0oJ-0004im-Ho
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 23:07:11 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:41552 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oA0oG-0005hG-M1
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 23:07:10 -0400
+Received: from smtpclient.apple (unknown [114.245.36.56])
+ by APP-05 (Coremail) with SMTP id zQCowABXXbHR8MhiP8zuCw--.17245S2;
+ Sat, 09 Jul 2022 11:06:57 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
+Date: Sat, 9 Jul 2022 11:06:57 +0800
+Cc: Klaus Jensen <its@irrelevant.dk>,
+ Keith Busch <kbusch@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D7E0940C-3263-485C-81AC-E102566282EF@ict.ac.cn>
+References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
+To: qemu-devel@nongnu.org
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowABXXbHR8MhiP8zuCw--.17245S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5Z7k0a2IF6F4UM7kC6x804xWl14x267AK
+ xVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
+ A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I
+ 6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr
+ 0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv
+ 0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z2
+ 80aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28I
+ cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
+ IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI
+ 42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
+ IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+ 87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jeXdbUUUUU=
+X-Originating-IP: [114.245.36.56]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,13 +73,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/22 21:46, Cornelia Huck wrote:
-> If I'm not misunderstanding things, we need a way to fault in a page together
-> with the tag; doing that in one go is probably the only way that we can be
-> sure that this is race-free on the QEMU side.
+at 10:24 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
 
-That's my understanding as well.
+> @@ -5793,6 +5891,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, =
+const NvmeRequest *req)
+>     uint64_t dbs_addr =3D le64_to_cpu(req->cmd.dptr.prp1);
+>     uint64_t eis_addr =3D le64_to_cpu(req->cmd.dptr.prp2);
+>     int i;
+> +    int ret;
+>=20
 
+I just noticed this ret is unused. Could you help remove this line when
+applying the patch?=
 
-r~
 
