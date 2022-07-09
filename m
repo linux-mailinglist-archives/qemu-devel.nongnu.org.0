@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A48A56CB74
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jul 2022 22:52:31 +0200 (CEST)
-Received: from localhost ([::1]:36802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8E0456CBAD
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 00:26:20 +0200 (CEST)
+Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAHRF-0003AK-8L
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jul 2022 16:52:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60712)
+	id 1oAIu3-0000T6-H4
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jul 2022 18:26:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oAHQI-0002W8-53
- for qemu-devel@nongnu.org; Sat, 09 Jul 2022 16:51:30 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oAHQG-0002fV-5F
- for qemu-devel@nongnu.org; Sat, 09 Jul 2022 16:51:29 -0400
-Received: by mail-ed1-x536.google.com with SMTP id fd6so2190255edb.5
- for <qemu-devel@nongnu.org>; Sat, 09 Jul 2022 13:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:in-reply-to:references:message-id
- :mime-version:content-transfer-encoding;
- bh=SZy6A5MBI5f5cteAyZukbJrVeHUXG9I7g1jO/N11ET0=;
- b=kqloik9JZhm4BtjwvzDlQOxrbBbCaQt1BYh0LIKUtZrYIy3MT6fLjsnPlB5SysVa/F
- vovHz8nvLleoZTpp/U4RjYLQx/k3cDo7wDvrfsZcGCAo4k/tqq8FeaaXkDq5S7/DVq4P
- xG1i6iJ5ltorRMJE20a+gcV03+YaSq8nyED2KpLq4m10Ejh947A3+o5T2+C4L2QPdzK8
- g9m3EfcofJ+aIaqnzEq2/QFr6OwVEPlv52Kea40KeF/3zJQoybQZMwlIGUgGDn/cUFvp
- PJCkeoI4q77t4ykhgBqUwQ84Qp4dojvzv5ORQahkPvAozj0NGKX/i99MMocrFIUmLj+s
- bR/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=SZy6A5MBI5f5cteAyZukbJrVeHUXG9I7g1jO/N11ET0=;
- b=0rEdED8xbTQiBmXo7NXVFBfz5R5r+wLFlSTeWbd3jPhmLZt/vJLyCtpIriC2DcCyI0
- 6MCWYLuZX6GPfDgIEPcTsN7URNPBdLa8js/CqOub6VNMqAc92HOwh2dRFqRMl43jRTDc
- XwyCu8/bA3ZbP8EGxKRt9+peT7v8FFrSUMGntdUE+rLLk9ENSHxaRGTaNH9gA6R8xvxq
- 8N71S8JElz/74+OQskrYXbwqeN799VlMbSMP2GdCxCv2Tzap4Yan1m8ZsR6Cb4X7kSN6
- vRRDAms5flA/5fEYZAVLmTa3ZUxbphzPbpSU3IyA+h0aN1o2E1mdYGYPa4dsbMwAxt5o
- F7KA==
-X-Gm-Message-State: AJIora+QXxf1+4Nveo+03kAwT8tlz4SLSMb9N5jlfk2YeC+Sn/L6OTDo
- ijpmyFZn3tQDowHN5+OmoovgY34+olA=
-X-Google-Smtp-Source: AGRyM1sdA6YCHJwF1raTRXLdLKSyXA/ism+r/xJNTp1xYs0IPf7N5hJmFoQJLRzjkyqMDOCLCoRA2g==
-X-Received: by 2002:a05:6402:358d:b0:43a:c600:a678 with SMTP id
- y13-20020a056402358d00b0043ac600a678mr2995041edc.219.1657399885941; 
- Sat, 09 Jul 2022 13:51:25 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-077-011-174-006.77.11.pool.telefonica.de.
- [77.11.174.6]) by smtp.gmail.com with ESMTPSA id
- o24-20020a170906769800b00726abf9a32bsm930212ejm.138.2022.07.09.13.51.25
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 09 Jul 2022 13:51:25 -0700 (PDT)
-Date: Sat, 09 Jul 2022 20:51:22 +0000
-From: B <shentey@gmail.com>
-To: qemu-devel@nongnu.org, Joao Martins <joao.m.martins@oracle.com>
-CC: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v6_03/10=5D_i386/pc=3A_pass_?=
- =?US-ASCII?Q?pci=5Fhole64=5Fsize_to_pc=5Fmemory=5Finit=28=29?=
-In-Reply-To: <20220701161014.3850-4-joao.m.martins@oracle.com>
-References: <20220701161014.3850-1-joao.m.martins@oracle.com>
- <20220701161014.3850-4-joao.m.martins@oracle.com>
-Message-ID: <FA725D44-6D1C-4A6A-9D83-FF9482DB4593@gmail.com>
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1oAIsK-0007fk-7Y; Sat, 09 Jul 2022 18:24:32 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:50516)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1oAIsB-0003bP-BT; Sat, 09 Jul 2022 18:24:30 -0400
+Received: from mailhub.u-ga.fr (mailhub-1.u-ga.fr [129.88.178.98])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 9A60440243;
+ Sun, 10 Jul 2022 00:24:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1657405456;
+ bh=TAAz3/NqUq5OEZdtYrPrYHHEXePTDxqnnpValXZH4UA=;
+ h=Date:To:References:From:Subject:In-Reply-To:From;
+ b=NL/lIWoYVm7B7d/yYhXbBkkXMX73XI/ZQ5NuvOW87mX19rx9k+Il24EnmgA46yReT
+ iwFOuzzF3gf/6kgU/bkTWMiUuGwe5bky0IKQGoWzXb5eZHbrK4EKBkjNjMGne9S1+p
+ +/KqHzk9LvJSENc5CoBInsTdeHPeNmpNUu2I67cb39AzBMg8eYrs47SYrWxGVw4Hck
+ fzk5zf0Pizc3CFRIxe6rqYy3PJZfzWcxp3iGOoe58J7aUarQo2qjPdE2rg7U8WAh/Q
+ 1qmPu8wQLDH3dKfpBJ9j+Ys3xsv8k006RADmRR6hje5vjjhpyLJ2F5ofWWej7bB5TX
+ UD/dwC2iQrjJw==
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhub.u-ga.fr (Postfix) with ESMTP id 97DBF10005A;
+ Sun, 10 Jul 2022 00:24:16 +0200 (CEST)
+Received: from [192.168.5.58] (unknown [37.72.194.135])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 9DBE0140059;
+ Sun, 10 Jul 2022 00:24:08 +0200 (CEST)
+Message-ID: <032ab978-6fa6-4e42-b9cb-6ce6751f74c9@univ-grenoble-alpes.fr>
+Date: Sun, 10 Jul 2022 00:24:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: fr
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, palmer@dabbelt.com, Alistair.Francis@wdc.com,
+ bin.meng@windriver.com
+References: <20220708150038.216575-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <96d10e26-9ab2-593d-fda7-40b14d706056@iscas.ac.cn>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [PATCH] target/riscv: fix right shifts shamt value for rv128c
+In-Reply-To: <96d10e26-9ab2-593d-fda7-40b14d706056@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (42)
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,160 +86,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 09/07/2022 à 10:52, Weiwei Li a écrit :
+> 
+> 在 2022/7/8 下午11:00, Frédéric Pétrot 写道:
+>> For rv128c right shifts, the 6-bit shamt is sign extended to 7 bits.
+>>
+>> Signed-off-by: Frédéric Pétrot<frederic.petrot@univ-grenoble-alpes.fr>
+>> ---
+>>   target/riscv/insn16.decode |  7 ++++---
+>>   disas/riscv.c              | 27 +++++++++++++++++++++------
+>>   target/riscv/translate.c   | 12 +++++++++++-
+>>   3 files changed, 36 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/target/riscv/insn16.decode b/target/riscv/insn16.decode
+>> index 02c8f61b48..ea3c5a0411 100644
+>> --- a/target/riscv/insn16.decode
+>> +++ b/target/riscv/insn16.decode
+>> @@ -31,7 +31,8 @@
+>>   %imm_cb        12:s1 5:2 2:1 10:2 3:2 !function=ex_shift_1
+>>   %imm_cj        12:s1 8:1 9:2 6:1 7:1 2:1 11:1 3:3 !function=ex_shift_1
+>>   
+>> -%shimm_6bit   12:1 2:5               !function=ex_rvc_shifti
+>> +%shlimm_6bit   12:1 2:5              !function=ex_rvc_shiftli
+>> +%shrimm_6bit   12:1 2:5              !function=ex_rvc_shiftri
+>>   %uimm_6bit_lq 2:4 12:1 6:1           !function=ex_shift_4
+>>   %uimm_6bit_ld 2:3 12:1 5:2           !function=ex_shift_3
+>>   %uimm_6bit_lw 2:2 12:1 4:3           !function=ex_shift_2
+> 
+> It's better to maintain the alignment here.
 
+   Ooups! I'll do that.
 
-Am 1=2E Juli 2022 16:10:07 UTC schrieb Joao Martins <joao=2Em=2Emartins@or=
-acle=2Ecom>:
->Use the pre-initialized pci-host qdev and fetch the
->pci-hole64-size into pc_memory_init() newly added argument=2E
->piix needs a bit of care given all the !pci_enabled()
->and that the pci_hole64_size is private to i440fx=2E
-
-It exposes this value as the property PCI_HOST_PROP_PCI_HOLE64_SIZE=2E Reu=
-sing it allows for not touching i440fx in this patch at all=2E
-
-For code symmetry reasons the analogue property could be used for Q35 as w=
-ell=2E
-
-Best regards,
-Bernhard
-
->
->This is in preparation to determine that host-phys-bits are
->enough and for pci-hole64-size to be considered to relocate
->ram-above-4g to be at 1T (on AMD platforms)=2E
->
->Signed-off-by: Joao Martins <joao=2Em=2Emartins@oracle=2Ecom>
->Reviewed-by: Igor Mammedov <imammedo@redhat=2Ecom>
->---
-> hw/i386/pc=2Ec                 | 3 ++-
-> hw/i386/pc_piix=2Ec            | 5 ++++-
-> hw/i386/pc_q35=2Ec             | 8 +++++++-
-> hw/pci-host/i440fx=2Ec         | 7 +++++++
-> include/hw/i386/pc=2Eh         | 3 ++-
-> include/hw/pci-host/i440fx=2Eh | 1 +
-> 6 files changed, 23 insertions(+), 4 deletions(-)
->
->diff --git a/hw/i386/pc=2Ec b/hw/i386/pc=2Ec
->index a9d1bf95649a=2E=2E1bb89a9c17ec 100644
->--- a/hw/i386/pc=2Ec
->+++ b/hw/i386/pc=2Ec
->@@ -817,7 +817,8 @@ void xen_load_linux(PCMachineState *pcms)
-> void pc_memory_init(PCMachineState *pcms,
->                     MemoryRegion *system_memory,
->                     MemoryRegion *rom_memory,
->-                    MemoryRegion **ram_memory)
->+                    MemoryRegion **ram_memory,
->+                    uint64_t pci_hole64_size)
-> {
->     int linux_boot, i;
->     MemoryRegion *option_rom_mr;
->diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
->index 6186a1473755=2E=2Ef3c726e42400 100644
->--- a/hw/i386/pc_piix=2Ec
->+++ b/hw/i386/pc_piix=2Ec
->@@ -91,6 +91,7 @@ static void pc_init1(MachineState *machine,
->     MemoryRegion *pci_memory;
->     MemoryRegion *rom_memory;
->     ram_addr_t lowmem;
->+    uint64_t hole64_size;
->     DeviceState *i440fx_host;
->=20
->     /*
->@@ -166,10 +167,12 @@ static void pc_init1(MachineState *machine,
->         memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
->         rom_memory =3D pci_memory;
->         i440fx_host =3D qdev_new(host_type);
->+        hole64_size =3D i440fx_pci_hole64_size(i440fx_host);
->     } else {
->         pci_memory =3D NULL;
->         rom_memory =3D system_memory;
->         i440fx_host =3D NULL;
->+        hole64_size =3D 0;
->     }
->=20
->     pc_guest_info_init(pcms);
->@@ -186,7 +189,7 @@ static void pc_init1(MachineState *machine,
->     /* allocate ram and load rom/bios */
->     if (!xen_enabled()) {
->         pc_memory_init(pcms, system_memory,
->-                       rom_memory, &ram_memory);
->+                       rom_memory, &ram_memory, hole64_size);
->     } else {
->         pc_system_flash_cleanup_unused(pcms);
->         if (machine->kernel_filename !=3D NULL) {
->diff --git a/hw/i386/pc_q35=2Ec b/hw/i386/pc_q35=2Ec
->index 46ea89e564de=2E=2E5a4a737fe203 100644
->--- a/hw/i386/pc_q35=2Ec
->+++ b/hw/i386/pc_q35=2Ec
->@@ -138,6 +138,7 @@ static void pc_q35_init(MachineState *machine)
->     MachineClass *mc =3D MACHINE_GET_CLASS(machine);
->     bool acpi_pcihp;
->     bool keep_pci_slot_hpc;
->+    uint64_t pci_hole64_size =3D 0;
->=20
->     /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
->      * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapp=
-ing
->@@ -206,8 +207,13 @@ static void pc_q35_init(MachineState *machine)
->     /* create pci host bus */
->     q35_host =3D Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
->=20
->+    if (pcmc->pci_enabled) {
->+        pci_hole64_size =3D q35_host->mch=2Epci_hole64_size;
->+    }
->+
->     /* allocate ram and load rom/bios */
->-    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
->+    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory,
->+                   pci_hole64_size);
->=20
->     object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host=
-));
->     object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
->diff --git a/hw/pci-host/i440fx=2Ec b/hw/pci-host/i440fx=2Ec
->index d5426ef4a53c=2E=2E15680da7d709 100644
->--- a/hw/pci-host/i440fx=2Ec
->+++ b/hw/pci-host/i440fx=2Ec
->@@ -237,6 +237,13 @@ static void i440fx_realize(PCIDevice *dev, Error **e=
-rrp)
->     }
+> 
+>> @@ -82,9 +83,9 @@
+>>   @c_addi16sp     ... .  ..... ..... .. &i imm=%imm_addi16sp rs1=2 rd=2
+>>   
+>>   @c_shift        ... . .. ... ..... .. \
+>> -                &shift rd=%rs1_3 rs1=%rs1_3 shamt=%shimm_6bit
+>> +                &shift rd=%rs1_3 rs1=%rs1_3 shamt=%shrimm_6bit
+>>   @c_shift2       ... . .. ... ..... .. \
+>> -                &shift rd=%rd rs1=%rd shamt=%shimm_6bit
+>> +                &shift rd=%rd rs1=%rd shamt=%shlimm_6bit
+>>   
+>>   @c_andi         ... . .. ... ..... .. &i imm=%imm_ci rs1=%rs1_3 rd=%rs1_3
+>>   
+>> diff --git a/disas/riscv.c b/disas/riscv.c
+>> index 7af6afc8fa..489c2ae5e8 100644
+>> --- a/disas/riscv.c
+>> +++ b/disas/riscv.c
+>> @@ -2402,10 +2402,25 @@ static int32_t operand_sbimm12(rv_inst inst)
+>>           ((inst << 56) >> 63) << 11;
+>>   }
+>>   
+>> -static uint32_t operand_cimmsh6(rv_inst inst)
+>> +static uint32_t operand_cimmshl6(rv_inst inst, rv_isa isa)
+>>   {
+>> -    return ((inst << 51) >> 63) << 5 |
+>> +    int imm = ((inst << 51) >> 63) << 5 |
+>>           (inst << 57) >> 59;
+>> +    if (isa == rv128) {
+>> +        imm = imm ? imm : 64;
+>> +    }
+>> +    return imm;
+>> +}
+>> +
+>> +static uint32_t operand_cimmshr6(rv_inst inst, rv_isa isa)
+>> +{
+>> +    int imm = ((inst << 51) >> 63) << 5 |
+>> +        (inst << 57) >> 59;
+>> +    if (isa == rv128) {
+>> +        imm = imm | (imm & 32) << 1;
+>> +        imm = imm ? imm : 64;
+>> +    }
+>> +    return imm;
+>>   }
+>>   
+>>   static int32_t operand_cimmi(rv_inst inst)
+>> @@ -2529,7 +2544,7 @@ static uint32_t operand_rnum(rv_inst inst)
+>>   
+>>   /* decode operands */
+>>   
+>> -static void decode_inst_operands(rv_decode *dec)
+>> +static void decode_inst_operands(rv_decode *dec, rv_isa isa)
+>>   {
+>>       rv_inst inst = dec->inst;
+>>       dec->codec = opcode_data[dec->op].codec;
+>> @@ -2652,7 +2667,7 @@ static void decode_inst_operands(rv_decode *dec)
+>>       case rv_codec_cb_sh6:
+>>           dec->rd = dec->rs1 = operand_crs1rdq(inst) + 8;
+>>           dec->rs2 = rv_ireg_zero;
+>> -        dec->imm = operand_cimmsh6(inst);
+>> +        dec->imm = operand_cimmshr6(inst, isa);
+>>           break;
+>>       case rv_codec_ci:
+>>           dec->rd = dec->rs1 = operand_crs1rd(inst);
+>> @@ -2667,7 +2682,7 @@ static void decode_inst_operands(rv_decode *dec)
+>>       case rv_codec_ci_sh6:
+>>           dec->rd = dec->rs1 = operand_crs1rd(inst);
+>>           dec->rs2 = rv_ireg_zero;
+>> -        dec->imm = operand_cimmsh6(inst);
+>> +        dec->imm = operand_cimmshl6(inst, isa);
+>>           break;
+>>       case rv_codec_ci_16sp:
+>>           dec->rd = rv_ireg_sp;
+>> @@ -3193,7 +3208,7 @@ disasm_inst(char *buf, size_t buflen, rv_isa isa, uint64_t pc, rv_inst inst)
+>>       dec.pc = pc;
+>>       dec.inst = inst;
+>>       decode_inst_opcode(&dec, isa);
+>> -    decode_inst_operands(&dec);
+>> +    decode_inst_operands(&dec, isa);
+>>       decode_inst_decompress(&dec, isa);
+>>       decode_inst_lift_pseudo(&dec);
+>>       format_inst(buf, buflen, 16, &dec);
+>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>> index 63b04e8a94..af3a2cd68c 100644
+>> --- a/target/riscv/translate.c
+>> +++ b/target/riscv/translate.c
+>> @@ -705,12 +705,22 @@ static int ex_rvc_register(DisasContext *ctx, int reg)
+>>       return 8 + reg;
+>>   }
+>>   
+>> -static int ex_rvc_shifti(DisasContext *ctx, int imm)
+>> +static int ex_rvc_shiftli(DisasContext *ctx, int imm)
+>>   {
+>>       /* For RV128 a shamt of 0 means a shift by 64. */
+>>       return imm ? imm : 64;
+>>   }
+>>   
+>> +static int ex_rvc_shiftri(DisasContext *ctx, int imm)
+>> +{
+>> +    /*
+>> +     * For RV128 a shamt of 0 means a shift by 64, furthermore, for right
+>> +     * shifts, the shamt is sign-extended.
+>> +     */
+>> +    imm = imm | (imm & 32) << 1;
+>> +    return imm ? imm : 64;
+>> +}
+>> +
+> 
+> This calculation didn't add limitation for only working in RV128, and may 
+> trigger fault in RV32/RV64,
+> 
+> such as following check in gen_shift_imm_fn:
+> 
+> if (a->shamt >= max_len) {
+> return false;
 > }
->=20
->+uint64_t i440fx_pci_hole64_size(DeviceState *i440fx_dev)
->+{
->+        I440FXState *i440fx =3D I440FX_PCI_HOST_BRIDGE(i440fx_dev);
->+
->+        return i440fx->pci_hole64_size;
->+}
->+
-> PCIBus *i440fx_init(const char *pci_type,
->                     DeviceState *dev,
->                     MemoryRegion *address_space_mem,
->diff --git a/include/hw/i386/pc=2Eh b/include/hw/i386/pc=2Eh
->index b7735dccfc81=2E=2E568c226d3034 100644
->--- a/include/hw/i386/pc=2Eh
->+++ b/include/hw/i386/pc=2Eh
->@@ -159,7 +159,8 @@ void xen_load_linux(PCMachineState *pcms);
-> void pc_memory_init(PCMachineState *pcms,
->                     MemoryRegion *system_memory,
->                     MemoryRegion *rom_memory,
->-                    MemoryRegion **ram_memory);
->+                    MemoryRegion **ram_memory,
->+                    uint64_t pci_hole64_size);
-> uint64_t pc_pci_hole64_start(void);
-> DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
-> void pc_basic_device_init(struct PCMachineState *pcms,
->diff --git a/include/hw/pci-host/i440fx=2Eh b/include/hw/pci-host/i440fx=
-=2Eh
->index d02bf1ed6b93=2E=2E2234dd5a2a6a 100644
->--- a/include/hw/pci-host/i440fx=2Eh
->+++ b/include/hw/pci-host/i440fx=2Eh
->@@ -45,5 +45,6 @@ PCIBus *i440fx_init(const char *pci_type,
->                     MemoryRegion *pci_memory,
->                     MemoryRegion *ram_memory);
->=20
->+uint64_t i440fx_pci_hole64_size(DeviceState *i440fx_dev);
->=20
-> #endif
+
+   Indeed! Thanks for pointing that mistake out.
+   Also 0 becoming 64 is a rv128 only thing, and a shamt of zero should be a
+   hint in rv64/rv32, so I believe the immediat should not be changed.
+
+   Yours,
+   Frédéric
+
+> Regards,
+> Weiwei Li
+>>   /* Include the auto-generated decoder for 32 bit insn */
+>>   #include "decode-insn32.c.inc"
+>>   
+
+-- 
++---------------------------------------------------------------------------+
+| Frédéric Pétrot,                            Pr. Grenoble INP-Ensimag/TIMA |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
