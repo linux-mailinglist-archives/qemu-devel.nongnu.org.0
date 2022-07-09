@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115F156C890
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jul 2022 11:56:46 +0200 (CEST)
-Received: from localhost ([::1]:51644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E702956C917
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jul 2022 12:56:24 +0200 (CEST)
+Received: from localhost ([::1]:41592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oA7Ce-0007uI-Lh
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jul 2022 05:56:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59206)
+	id 1oA88N-0007oo-Hv
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jul 2022 06:56:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oA79y-00078L-J3; Sat, 09 Jul 2022 05:53:59 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:40462 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oA79v-00053X-Hm; Sat, 09 Jul 2022 05:53:58 -0400
-Received: from [192.168.0.104] (unknown [117.151.235.104])
- by APP-01 (Coremail) with SMTP id qwCowADns1grUMliOx8PDg--.41316S2;
- Sat, 09 Jul 2022 17:53:47 +0800 (CST)
-Subject: Re: [PATCH 2/2] target/riscv: Auto set elen from vector extension by
- default
-To: Weiwei Li <liweiwei@iscas.ac.cn>, Kito Cheng <kito.cheng@sifive.com>,
- alistair.francis@wdc.com, palmer@dabbelt.com, frank.chang@sifive.com,
- qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20220708073943.54781-1-kito.cheng@sifive.com>
- <20220708073943.54781-2-kito.cheng@sifive.com>
- <8969069c-8005-7564-1d79-948e7e9ecfcb@iscas.ac.cn>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <650474c0-0d65-5f4a-017b-315f9f6d783d@iscas.ac.cn>
-Date: Sat, 9 Jul 2022 17:53:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1)
+ (envelope-from <bounce+55f5a6.0b57-qemu-devel=nongnu.org@quantumachine.net>)
+ id 1oA86y-000759-OW
+ for qemu-devel@nongnu.org; Sat, 09 Jul 2022 06:54:56 -0400
+Received: from m32-12.eu.mailgun.net ([141.193.32.12]:12929)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1)
+ (envelope-from <bounce+55f5a6.0b57-qemu-devel=nongnu.org@quantumachine.net>)
+ id 1oA86x-0004tH-1R
+ for qemu-devel@nongnu.org; Sat, 09 Jul 2022 06:54:56 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=quantumachine.net;
+ q=dns/txt; 
+ s=k1; t=1657364092; x=1657572892; h=Content-Transfer-Encoding:
+ Content-Type: In-Reply-To: From: From: Cc: References: To: To: Subject:
+ Subject: MIME-Version: Date: Message-ID: Sender: Sender;
+ bh=XxW6PiCoIxCKSd242w/OmPgpMnIqysL2RHGmAK5e7vU=;
+ b=Y+odYQ1a3Qm4MJFLQZSxXY2qjhL6QvuetZ45Of4PXvV78xuoqauDPH3CTO2JbIumhQ1jf/mm
+ uF6NCwZj/Uo3HdBdAjShEYwmRFzwOdW8AbG/crTCf8xlUHjU3EnGYBZyz9bm2Vb7XBe+7n0z
+ chKgP2LBhQFG6Hq/bwMT+dx+j12gxY85yP2QVijRaBqkJeK3zVpYRH/LeCDsgdFIpKsCXq23
+ HRS5d9RbL9zOTwCT+Y847sT/ov/pE/i5dl0hlFtMGDV48NtOdg1BKTACuymoFwJBWZMfFyJz
+ 2060bZjhP/YByD7h+SavyupBQ3M1q1j67w3Tbe7xeEGADJ9UobN36g==
+X-Mailgun-Sending-Ip: 141.193.32.12
+X-Mailgun-Sid: WyIzN2E0YiIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiMGI1NyJd
+Received: from mail-01.sector.int (225.pool90-165-196.dynamic.orange.es
+ [90.165.196.225]) by smtp-out-n02.prod.eu-central-1.postgun.com with SMTP
+ id 62c95e7bd0e690e725d0a8b7 (version=TLS1.3,
+ cipher=TLS_AES_128_GCM_SHA256); Sat, 09 Jul 2022 10:54:51 GMT
+Received: from [192.168.5.136] (revealer.sector.int [192.168.5.1])
+ by mail-01.sector.int (Postfix) with ESMTPA id 2E7AD99996;
+ Sat,  9 Jul 2022 10:54:50 +0000 (UTC)
+Message-ID: <527d2492-e8a7-6fe2-31dc-bcf6d2793e87@quantumachine.net>
+Date: Sat, 9 Jul 2022 12:54:49 +0200
 MIME-Version: 1.0
-In-Reply-To: <8969069c-8005-7564-1d79-948e7e9ecfcb@iscas.ac.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; DragonFly x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v8 00/12] qtests: Check accelerator available at runtime
+ via QMP 'query-accels'
 Content-Language: en-US
-X-CM-TRANSID: qwCowADns1grUMliOx8PDg--.41316S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGrWDWF15Zr4UAr17tFy8AFb_yoWrJFWxpr
- 4kJry5GryUJr1kJr17Jr1UJryUAr18J3WUGw48X3WUJr47Gr1jqr1DXr1qgr1UJr48Jr1U
- Jr1UJr1UZr4DJ37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
- AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
- rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
- v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWU
- JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUF9
- a9DUUUU
-X-Originating-IP: [117.151.235.104]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: qemu-devel@nongnu.org
+References: <d566d35a-6aa7-5fa4-76eb-b21ddd95ec8e@quantumachine.net>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, philmd@redhat.com,
+ richard.henderson@linaro.org, armbru@redhat.com, pbonzini@redhat.com
+From: Antonio Huete Jimenez <tuxillo@quantumachine.net>
+In-Reply-To: <d566d35a-6aa7-5fa4-76eb-b21ddd95ec8e@quantumachine.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=141.193.32.12;
+ envelope-from=bounce+55f5a6.0b57-qemu-devel=nongnu.org@quantumachine.net;
+ helo=m32-12.eu.mailgun.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,86 +82,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Second attempt of trying to resurrect this thread :-)
 
-在 2022/7/9 下午4:11, Weiwei Li 写道:
-> 在 2022/7/8 下午3:39, Kito Cheng 写道:
->> Default ELEN is setting to 64 for now, which is incorrect setting for
->> Zve32*, and spec has mention minimum VLEN and supported EEW in chapter
->> "Zve*: Vector Extensions for Embedded Processors" is 32 for Zve32.
->>
->> ELEN actaully could be derived from which extensions are enabled,
->> so this patch set elen to 0 as auto detect, and keep the capability to
->> let user could configure that.
->>
->> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
->> ---
->>   target/riscv/cpu.c | 16 +++++++++++++---
->>   1 file changed, 13 insertions(+), 3 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 487d0faa63..c1b96da7da 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -751,13 +751,22 @@ static void riscv_cpu_realize(DeviceState *dev, 
->> Error **errp)
->>                           "Vector extension ELEN must be power of 2");
->>                   return;
->>               }
->> -            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
->> +            if (cpu->cfg.elen == 0) {
->> +              if (cpu->cfg.ext_zve32f) {
->> +                cpu->cfg.elen = 32;
->> +              }
->> +              if (cpu->cfg.ext_zve64f || cpu->cfg.ext_v) {
->> +                cpu->cfg.elen = 64;
->> +              }
->
-> This code is in the "if(cpu->cfg.ext_v){...}",  so 
-> "cpu->cfg.ext_zve64f || cpu->cfg.ext_v" will always be true.
->
-> It can use "else ... " directly.
+May anybody please let us know what else is missing in this series of 
+patches? I'm trying to add a 'query-nvmm' qmp command but got redirected 
+to this thread.
 
-Sorry, misunderstood the logic. It seems that we should set 
-cpu->cfg.elen=64 directly here.
-
-Regards,
-
-Weiwei Li
-
->> +            }
->> +            if (cpu->cfg.elen != 0 && (cpu->cfg.elen > 64 ||
->> +                                       cpu->cfg.elen < 8)) {
->>                   error_setg(errp,
->>                           "Vector extension implementation only 
->> supports ELEN "
->>                           "in the range [8, 64]");
->>                   return;
->>               }
->> -            if (cpu->cfg.vlen < cpu->cfg.elen) {
->> +            if (cpu->cfg.elen != 0 && cpu->cfg.vlen < cpu->cfg.elen) {
->
-> when cfg.elen is set to zero, it  will be changed to the auto detect 
-> value(32/64)  before this two check.
->
-> So this two modifications seem unnecessary.
->
-> Regards,
->
-> Weiwei Li
->
->>                   error_setg(errp,
->>                           "Vector extension VLEN must be greater than 
->> or equal "
->>                           "to ELEN");
->> @@ -901,7 +910,8 @@ static Property riscv_cpu_extensions[] = {
->>       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
->>       DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
->>       DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->> -    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->> +    /* elen = 0 means set from v or zve* extension */
->> +    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 0),
->>         DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
->>       DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
->
-
+On 4/7/22 21:27, Antonio Huete Jimenez wrote:
+> Are all these changes OK or is there anything else missing? I was 
+> thinking in adding a QMP 'query-nvmm' command but I got pointed to this 
+> thread as a better alternative to having a per-accelerator query command.
+> 
 
