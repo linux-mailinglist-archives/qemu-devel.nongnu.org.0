@@ -2,104 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F251D56C4C1
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jul 2022 02:25:34 +0200 (CEST)
-Received: from localhost ([::1]:43048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 435A256C61F
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jul 2022 05:01:56 +0200 (CEST)
+Received: from localhost ([::1]:42924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1o9yHt-000712-E8
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 20:25:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56946)
+	id 1oA0jC-0002OO-KX
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jul 2022 23:01:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o9yFK-0006KK-LU
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 20:22:54 -0400
-Received: from esa11.hc2706-39.iphmx.com ([216.71.137.81]:55373)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1o9yFI-0004w2-Co
- for qemu-devel@nongnu.org; Fri, 08 Jul 2022 20:22:54 -0400
-X-IronPort-RemoteIP: 209.85.166.70
-X-IronPort-MID: 211250530
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:RUWMPqpTaHpSCj+o9TkwK7xnmM5eBmKTZxIvgKrLsJaIsI4StFCzt
- garIBmGP/6CMDanKYpxOYvlp0IAuceAn4RnSVZk/C02EC5A95acVYWSI3mrAy7DdceroGCLT
- ik9hnssCOhuExcwcz/0auCJQUFUjP3OHvymYAL9EngZqTVMEU/Nsjo+3b9j6mJUqYLhWVnV5
- oui+5G31GKNgFaYDEpFs8pvlzsy5JweiBtA1rDpTakW1LN2vyB94KM3fMldHVOhKmVnNrfSq
- 9L48V2M1jixEyHBqz+Suu2TnkUiGtY+NOUV45Zcc/HKbhNq/0Te3kunXRa1hIg+ZzihxrhMJ
- NtxWZOYcDYvAIjrlugkUQhFNjxOY5RbypncPi3q2SCT5xWun3rExvxvCAQ3OtRd9LkvR25J8
- vMcJXYGaRXra+CemurqDLkxwJ19co+0ZOvzuVk5pd3dJf8iUZbPWY3A+JlV0CpYasVmR6+HP
- ZdBNGE3BPjGSxloBlwvBplvoMel2VfEbR4FigqYv6VitgA/yyQ0itABKuH9Y9GPWIBZk1iVo
- krA+GL2BAxcM8aQoQdp6Vqpj+7L2CL8AcccS+X++fltj1megGcUDXX6SGeGnBVwsWbmM/o3F
- qDe0nNGQXQanKBzcuTAYg==
-IronPort-HdrOrdr: A9a23:wRKRZq9Eh+Ocs95LUVhuk+DBI+orL9Y04lQ7vn2ZLiYlEfBw9v
- rPoB1173TJYVoqMk3I+urgBEDjexzhHPdOiOEs1NGZMTUO01HHEGgN1+ff/wE=
-Received: from mail-io1-f70.google.com ([209.85.166.70])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 08 Jul 2022 20:22:46 -0400
-Received: by mail-io1-f70.google.com with SMTP id
- k1-20020a5d8741000000b00678ad1103e7so216706iol.21
- for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 17:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=+5SLBsDzkP+5zYo9F0kzfTnD2ouZwmVjOb9PxbbPICQ=;
- b=oCG9Dk0TDyoGEEHsPPrlgLKA6LmlB4wgqgTUDLT1QlGx1rbWHFeQ5yqlhNtt/wre4B
- OhuK6FCYxjb3X9EcPLiFrqr++LsXypeeecIfi1HH7CKNXlnCi4oeHsZuX4hnHDPxQQd4
- 6RAgONlWWKGY1qbOBDWrzV4yJla40/mtMYoXdTOpuZBAdnJDhWowTBXKM+Mv6St2APAV
- 5rn7c5RDJrHaTGcbYPgprBJim9f8SPHd0WadfQmVBMLibb5WxnQ2ZRs4O88J0WhzLgoa
- RvZ9umTqSuNAuw5jmQUrhUmXYIMt7Mq5g9tdCP57r4gus8kk8n/WrZqxSEQy09eFJoK9
- 2OkQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oA0hM-0001KQ-29
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 23:00:00 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:33550)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oA0hK-0002Hi-5D
+ for qemu-devel@nongnu.org; Fri, 08 Jul 2022 22:59:59 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id p16so313836plo.0
+ for <qemu-devel@nongnu.org>; Fri, 08 Jul 2022 19:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=+wfnHbZqha+Bnbae0/WVZKsuUJrB7fybdYg9Vfg9MfA=;
+ b=aUxyPdXKSwd0UinnwmEnUJ3e4lJl/uGAGrPQOIHOvoKrX2HFgl1tHixPc2A1/3jmjc
+ AU8WbfjbJb1p0vM1gZMezxccJIcNg3o5xfyxEBwzl1hnAwOZmSdhLk33Acy61qbtcPIO
+ DbH0IR1sR3g2aNCKNPvYLYrDRH7pw1wJFiDnVzqaSVEkIIu5geIeJsZfdq60//s8y+PR
+ NQSZsKLlwHIrrfo5uaoIR8wm1LczJ/7I2OfK5MAD1GH/KZqk2VHbD08HfI5sQgEwVGMQ
+ IE/r2922aK0OsZvTvoGARRG7qCnT2qkQUklP/8iStdK9HNSmwcgmJqjj+jfxUG/IGvVd
+ SSjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+5SLBsDzkP+5zYo9F0kzfTnD2ouZwmVjOb9PxbbPICQ=;
- b=2K2kk/gV6wrMxZmFGaZ0bbWXaSAWosCemfIHgV/MxGbhFD2+O9pVAXxrwLk14yG4me
- noU1MLdBtJg7C5P/Dx/cwNOrNRr3YbBlODltyykl029gbkPo7rW65eMjcy8q4RtQNbic
- S1czzD5kWD4KKqywQ2UZp9ml4S+Rmhd6dYHWUPdUqcy+dlPoKrP/XnUSCurBrO6dHHXh
- pm6D98BuWpoHxB4gxfgPO6pwL+XNFme+X1rRjw4bj53zwc12RPMwxYk39YXFkYbPOfwx
- mhsp3SfuvNWURzXtHNIgXxVm/r57Y3+jLVh5+1KA6EJlETUnFNKExDQqLYoSqGzyXDsm
- W7ew==
-X-Gm-Message-State: AJIora9xmOUTNgbelKQlJ5hDLOuecoJMjg5ncKlgET/EUiPpyCj0uI9F
- xlwgfdpUAWl5f+HYC6hXSW4GZeQd2UxbMZbTdCas6hqPOgJbsoBdWHxnSyn9XOWag2yP5jRW8PG
- Z7PYBXx7gx2vJz/4mzjRRp8D4wQ5JYg==
-X-Received: by 2002:a92:c26d:0:b0:2dc:3f21:28fc with SMTP id
- h13-20020a92c26d000000b002dc3f2128fcmr3574894ild.242.1657326166295; 
- Fri, 08 Jul 2022 17:22:46 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sow4C65jeKVhMQesOyuH0Bt5siOvK4APJy/3aJqw9iqujFGXRLNhlG3C2ZeK6c2KHb4cxF8A==
-X-Received: by 2002:a92:c26d:0:b0:2dc:3f21:28fc with SMTP id
- h13-20020a92c26d000000b002dc3f2128fcmr3574883ild.242.1657326166016; 
- Fri, 08 Jul 2022 17:22:46 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+wfnHbZqha+Bnbae0/WVZKsuUJrB7fybdYg9Vfg9MfA=;
+ b=oJx1t8HmqwKwIQmnTyUyZjqLrpE0Sz1YKcuaZeD3JToGAfJoqS14RXBG1rY5alyrWQ
+ 2UlyoNsPGN9hxoKlUJ/tvCfuOseE0y8qIAcHYmKrVZbZPqMd+ElQJxqe28yUEgzN5UiJ
+ o+RQwyGzewE19MVPvweByS68dHY9OhILcD9laiqPkr/dMea8ciNhuyntZ7cYYq9Ygh1c
+ EqEv/RYFcRHpyfQbEMiM1cr4IfepdAzQ1Pzzq5hp2lGWs12UXyjwDxV5pOJNirNBmiDz
+ EiG+waZyYU8iYnk9LTGVpl2caMJXpDGzndenzlJhtuqbiOjb38UoOCeBGRrrI3/5cf2b
+ NXIQ==
+X-Gm-Message-State: AJIora8uE/8emE8XkkErV8bpzf50gRK/MKUrKkl/KJtQRuClPZr9WtUi
+ 6P5V2MQvVAdOrMEQg+zpPj+pnA==
+X-Google-Smtp-Source: AGRyM1t+bFbUEmHhT3R+sE2kPW09HXQQ3FsxckmcSw30y6vbNnROnMT1YAyv4bXb813fJvJ94G9xyw==
+X-Received: by 2002:a17:90b:3ec2:b0:1ee:d9c3:53ce with SMTP id
+ rm2-20020a17090b3ec200b001eed9c353cemr3438524pjb.189.1657335596424; 
+ Fri, 08 Jul 2022 19:59:56 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- i21-20020a056638381500b0032ec5c47c17sm33052jav.46.2022.07.08.17.22.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jul 2022 17:22:45 -0700 (PDT)
-Date: Fri, 8 Jul 2022 20:22:41 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Mauro Matteo Cascella <mcascell@redhat.com>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
- thuth@redhat.com
-Subject: Re: [PATCH] scsi/lsi53c895a: fix use-after-free in lsi_do_msgout
- (CVE-2022-0216)
-Message-ID: <20220709002241.222q4rphpim4lf74@mozz.bu.edu>
-References: <20220705200543.2366809-1-mcascell@redhat.com>
+ t8-20020a17090a2f8800b001e31fea8c85sm2050578pjd.14.2022.07.08.19.59.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jul 2022 19:59:56 -0700 (PDT)
+Message-ID: <89098547-6e30-96b0-2e7a-f131999c5528@linaro.org>
+Date: Sat, 9 Jul 2022 08:29:47 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220705200543.2366809-1-mcascell@redhat.com>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.81; envelope-from=alxndr@bu.edu;
- helo=esa11.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC v2 0/2] arm: enable MTE for QEMU + kvm
+Content-Language: en-US
+To: Cornelia Huck <cohuck@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Cc: Eric Auger <eauger@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220707161656.41664-1-cohuck@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220707161656.41664-1-cohuck@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,57 +97,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 220705 2205, Mauro Matteo Cascella wrote:
-> Set current_req->req to NULL to prevent reusing a free'd buffer in case of
-> repeated SCSI cancel requests. Thanks to Thomas Huth for suggesting the patch.
-> 
-> Fixes: CVE-2022-0216
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> ---
->  hw/scsi/lsi53c895a.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-> index c8773f73f7..99ea42d49b 100644
-> --- a/hw/scsi/lsi53c895a.c
-> +++ b/hw/scsi/lsi53c895a.c
-> @@ -1028,8 +1028,9 @@ static void lsi_do_msgout(LSIState *s)
->          case 0x0d:
->              /* The ABORT TAG message clears the current I/O process only. */
->              trace_lsi_do_msgout_abort(current_tag);
-> -            if (current_req) {
-> +            if (current_req && current_req->req) {
->                  scsi_req_cancel(current_req->req);
-> +                current_req->req = NULL;
->              }
->              lsi_disconnect(s);
->              break;
-> -- 
-> 2.35.3
-> 
->
+On 7/7/22 21:46, Cornelia Huck wrote:
+> If I'm not misunderstanding things, we need a way to fault in a page together
+> with the tag; doing that in one go is probably the only way that we can be
+> sure that this is race-free on the QEMU side.
 
-Hi Mauro,
-https://gitlab.com/qemu-project/qemu/-/issues/972#note_1019851430
-This reproducer crashes, with this patch applied. Maybe it is some
-different bug though - I'm not sure.
+That's my understanding as well.
 
-With -trace lsi*
 
-lsi_reg_write Write reg DSP1 0x2d = 0x00
-lsi_reg_write Write reg DSP2 0x2e = 0x40
-lsi_reg_write Write reg DSP3 0x2f = 0x36
-lsi_execute_script SCRIPTS dsp=0x364001d0 opcode 0x58000008 arg 0x0
-lsi_execute_script_io_set Set ATN
-lsi_execute_script SCRIPTS dsp=0x364001d8 opcode 0x26010000 arg 0x5a41ae0d
-lsi_do_msgout MSG out len=65536
-lsi_do_msgout_busdevicereset MSG: BUS DEVICE RESET tag=0x0
-lsi_do_msgout_select Select LUN 0
-lsi_do_msgout_abort MSG: ABORT TAG tag=0x0
-
-In busdevicereset, there are also scsi_req_cancel calls. Do they need
-similar changes?
-
--Alex
+r~
 
