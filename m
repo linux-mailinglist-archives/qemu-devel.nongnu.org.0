@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D8856CDC9
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 10:33:30 +0200 (CEST)
-Received: from localhost ([::1]:47326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A859B56CDC2
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 10:26:38 +0200 (CEST)
+Received: from localhost ([::1]:35734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oASNd-0006DX-A6
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 04:33:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33904)
+	id 1oASGz-0006Xc-PV
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 04:26:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oASEk-0003rI-AR; Sun, 10 Jul 2022 04:24:18 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:36382 helo=cstnet.cn)
+ id 1oASEj-0003qK-Da; Sun, 10 Jul 2022 04:24:17 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:36398 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oASEh-0005dz-Ht; Sun, 10 Jul 2022 04:24:18 -0400
+ id 1oASEg-0005eH-KT; Sun, 10 Jul 2022 04:24:16 -0400
 Received: from liww-tm.www.tendawifi.com (unknown [117.151.235.104])
- by APP-01 (Coremail) with SMTP id qwCowAAnLASjjMpiF30+Dg--.38648S2;
- Sun, 10 Jul 2022 16:24:04 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowAAnLASjjMpiF30+Dg--.38648S3;
+ Sun, 10 Jul 2022 16:24:05 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 0/6] Improve the U/S/H extension related check
-Date: Sun, 10 Jul 2022 16:23:54 +0800
-Message-Id: <20220710082400.29224-1-liweiwei@iscas.ac.cn>
+Subject: [PATCH 1/6] target/riscv: add check for supported privilege modes
+ conbinations
+Date: Sun, 10 Jul 2022 16:23:55 +0800
+Message-Id: <20220710082400.29224-2-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: qwCowAAnLASjjMpiF30+Dg--.38648S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Xw4UAr15uw4fKF17Aw1DKFg_yoWfurc_KF
- y0gF93X340qa1UJayDAr15tryUKr4rGFy2ya12yrWj9Fy3Wrn5ZanFvFWUZw1UurWxtFn3
- Zwn3Aa4Skw12kjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbzkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
- 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAK
- I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
- xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
- 0EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
- 7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+In-Reply-To: <20220710082400.29224-1-liweiwei@iscas.ac.cn>
+References: <20220710082400.29224-1-liweiwei@iscas.ac.cn>
+X-CM-TRANSID: qwCowAAnLASjjMpiF30+Dg--.38648S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrKrWDCr4kuw1kKrWfAw15XFb_yoW3Awb_Gw
+ 10gF97W34UXF1IkFWUAF4Yyr1fJ3ykurW0ga13tF4fGF9rW39xC3Z7Kr97JrW8CrWxuF93
+ Aw1xJ343G3WUujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbT8FF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGwA2048vs2IY02
+ 0Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
+ 8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
+ jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l4I
+ 8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
+ xVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
+ AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8I
+ cIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r
+ 4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5SoXUUUUU
 X-Originating-IP: [117.151.235.104]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
@@ -70,27 +74,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset tries to improve the U/S/H related check:
-* add check for the supported privilege modes conbinations: only supporting M,
-S mode is not a suggested combination
-* add check for "H extension depends on I extension"
-* add check for csrs only existed when U mode is supported
-* fix and simplify the checks in hmode/hmode32
-Any suggestions are welcome.
+- There are 3 suggested privilege modes conbinations listed in the spec:
+1) M, 2) M, U 3) M, S, U
 
-Weiwei Li (6):
-  target/riscv: add check for supported privilege modes conbinations
-  target/riscv: H extension depends on I extension
-  target/riscv: fix checkpatch warning may triggered in csr_ops table
-  target/riscv: add check for csrs existed with U extension
-  target/riscv: fix checks in hmode/hmode32
-  target/riscv: simplify the check in hmode to resue the check in
-    riscv_csrrw_check
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+---
+ target/riscv/cpu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- target/riscv/cpu.c |  12 ++
- target/riscv/csr.c | 412 ++++++++++++++++++++++++---------------------
- 2 files changed, 236 insertions(+), 188 deletions(-)
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 1bb3973806..0dad6906bc 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -636,6 +636,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             return;
+         }
+ 
++        if (cpu->cfg.ext_s && !cpu->cfg.ext_u) {
++            error_setg(errp,
++                       "Setting S extension without U extension is illegal");
++            return;
++        }
++
+         if (cpu->cfg.ext_f && !cpu->cfg.ext_icsr) {
+             error_setg(errp, "F extension requires Zicsr");
+             return;
 -- 
 2.17.1
 
