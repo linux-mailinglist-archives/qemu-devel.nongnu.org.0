@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A19D56CDC0
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 10:26:30 +0200 (CEST)
-Received: from localhost ([::1]:35620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E370C56CDC8
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 10:32:26 +0200 (CEST)
+Received: from localhost ([::1]:45206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oASGq-0006TZ-To
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 04:26:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33892)
+	id 1oASMc-0004fo-1s
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 04:32:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oASEj-0003qL-FF; Sun, 10 Jul 2022 04:24:17 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:36416 helo=cstnet.cn)
+ id 1oASEj-0003qh-Pj; Sun, 10 Jul 2022 04:24:17 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:36422 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oASEg-0005eh-LZ; Sun, 10 Jul 2022 04:24:17 -0400
+ id 1oASEh-0005ej-Fz; Sun, 10 Jul 2022 04:24:17 -0400
 Received: from liww-tm.www.tendawifi.com (unknown [117.151.235.104])
- by APP-01 (Coremail) with SMTP id qwCowAAnLASjjMpiF30+Dg--.38648S7;
+ by APP-01 (Coremail) with SMTP id qwCowAAnLASjjMpiF30+Dg--.38648S8;
  Sun, 10 Jul 2022 16:24:07 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 5/6] target/riscv: fix checks in hmode/hmode32
-Date: Sun, 10 Jul 2022 16:23:59 +0800
-Message-Id: <20220710082400.29224-6-liweiwei@iscas.ac.cn>
+Subject: [PATCH 6/6] target/riscv: simplify the check in hmode to resue the
+ check in riscv_csrrw_check
+Date: Sun, 10 Jul 2022 16:24:00 +0800
+Message-Id: <20220710082400.29224-7-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220710082400.29224-1-liweiwei@iscas.ac.cn>
 References: <20220710082400.29224-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: qwCowAAnLASjjMpiF30+Dg--.38648S7
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF48uF1rXry8trW8Zwb_yoW8Jw4kpr
- 43u3y7Kr9xtasFvayxKr48Jr43AF47G3yUCw4Du3y8tF45A3y5tF1Dta1IvFykXFW8ur42
- 9F4xCF1rZw47AaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBj14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: qwCowAAnLASjjMpiF30+Dg--.38648S8
+X-Coremail-Antispam: 1UD129KBjvJXoW7uF13AF17uF48Jw4kGrW3Jrb_yoW8KFWxpr
+ 4xC347Ga4kKrZFya9xtF1UXF45CF43GayUX3Z293y8AF43ZrW09r95XFWFvF9xXFyDursI
+ vF40yr1fAF47Za7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUB014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
  z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
@@ -45,9 +46,9 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF48uF1rXry8trW8Zwb_yoW8Jw4kpr
  6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwI
  xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
  Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
- IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k2
- 6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
- AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQSdkUUUUU=
+ IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK
+ 8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+ 0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOBTYUUUUU
 X-Originating-IP: [117.151.235.104]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
@@ -73,44 +74,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- It seems that there is no explicitly description about whether
-the Hypervisor CSRs requires S extension
-- Csrs only existed in RV32 will not trigger virtual instruction fault
-when not in RV32
+Just add 1 to the effective privledge level when in HS mode, then reuse the check
+'effective_priv < csr_priv' in riscv_csrrw_check to replace the privilege level
+related check in hmode. Then, hmode will only check whether H extension is supported.
+
+when accessing Hypervior CSRs:
+   1) if access from M privilege level, the check of 'effective_priv < csr_priv'
+passes, returns hmode(...) which will return RISCV_EXCP_ILLEGAL_INST when H
+extension is not supported and return RISCV_EXCP_NONE otherwise.
+   2) if access from HS privilege level, effective_priv will add 1, the check
+passes too, also returns hmode(...) too.
+   3) if access from VS/VU privilege level, the check fails, and returns
+RISCV_EXCP_VIRT_INSTRUCTION_FAULT
+   4) if access from U privilege level, the check fails, and returns
+RISCV_EXCP_ILLEGAL_INST
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/csr.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ target/riscv/csr.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 0d8e98b7a9..975007f1ac 100644
+index 975007f1ac..2b3ed94366 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -311,8 +311,7 @@ static int aia_smode32(CPURISCVState *env, int csrno)
- 
+@@ -312,13 +312,7 @@ static int aia_smode32(CPURISCVState *env, int csrno)
  static RISCVException hmode(CPURISCVState *env, int csrno)
  {
--    if (riscv_has_ext(env, RVS) &&
--        riscv_has_ext(env, RVH)) {
-+    if (riscv_has_ext(env, RVH)) {
-         /* Hypervisor extension is supported */
-         if ((env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
-             env->priv == PRV_M) {
-@@ -328,11 +327,7 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
- static RISCVException hmode32(CPURISCVState *env, int csrno)
- {
-     if (riscv_cpu_mxl(env) != MXL_RV32) {
--        if (!riscv_cpu_virt_enabled(env)) {
--            return RISCV_EXCP_ILLEGAL_INST;
+     if (riscv_has_ext(env, RVH)) {
+-        /* Hypervisor extension is supported */
+-        if ((env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+-            env->priv == PRV_M) {
+-            return RISCV_EXCP_NONE;
 -        } else {
 -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
 -        }
-+        return RISCV_EXCP_ILLEGAL_INST;
++        return RISCV_EXCP_NONE;
      }
  
-     return hmode(env, csrno);
+     return RISCV_EXCP_ILLEGAL_INST;
+@@ -3280,13 +3274,11 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+ #if !defined(CONFIG_USER_ONLY)
+     int csr_priv, effective_priv = env->priv;
+ 
+-    if (riscv_has_ext(env, RVH) && env->priv == PRV_S) {
++    if (riscv_has_ext(env, RVH) && env->priv == PRV_S &&
++        !riscv_cpu_virt_enabled(env)) {
+         /*
+-         * We are in either HS or VS mode.
+-         * Add 1 to the effective privledge level to allow us to access the
+-         * Hypervisor CSRs. The `hmode` predicate will determine if access
+-         * should be allowed(HS) or if a virtual instruction exception should be
+-         * raised(VS).
++         * We are in HS mode. Add 1 to the effective privledge level to
++         * allow us to access the Hypervisor CSRs.
+          */
+         effective_priv++;
+     }
 -- 
 2.17.1
 
