@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E370C56CDC8
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 10:32:26 +0200 (CEST)
-Received: from localhost ([::1]:45206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F3E56CE86
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 12:18:45 +0200 (CEST)
+Received: from localhost ([::1]:60896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oASMc-0004fo-1s
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 04:32:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
+	id 1oAU1T-00044T-OA
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 06:18:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oASEj-0003qh-Pj; Sun, 10 Jul 2022 04:24:17 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:36422 helo=cstnet.cn)
+ id 1oATzG-0002Um-E5; Sun, 10 Jul 2022 06:16:26 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:52772 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oASEh-0005ej-Fz; Sun, 10 Jul 2022 04:24:17 -0400
+ id 1oATzC-0004MU-U2; Sun, 10 Jul 2022 06:16:25 -0400
 Received: from liww-tm.www.tendawifi.com (unknown [117.151.235.104])
- by APP-01 (Coremail) with SMTP id qwCowAAnLASjjMpiF30+Dg--.38648S8;
- Sun, 10 Jul 2022 16:24:07 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowABnbg7tpspiOvpDDg--.48854S2;
+ Sun, 10 Jul 2022 18:16:14 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 6/6] target/riscv: simplify the check in hmode to resue the
- check in riscv_csrrw_check
-Date: Sun, 10 Jul 2022 16:24:00 +0800
-Message-Id: <20220710082400.29224-7-liweiwei@iscas.ac.cn>
+Subject: [PATCH] target/riscv: move zmmul out of the experimental properties
+Date: Sun, 10 Jul 2022 18:15:46 +0800
+Message-Id: <20220710101546.3907-1-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220710082400.29224-1-liweiwei@iscas.ac.cn>
-References: <20220710082400.29224-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: qwCowAAnLASjjMpiF30+Dg--.38648S8
-X-Coremail-Antispam: 1UD129KBjvJXoW7uF13AF17uF48Jw4kGrW3Jrb_yoW8KFWxpr
- 4xC347Ga4kKrZFya9xtF1UXF45CF43GayUX3Z293y8AF43ZrW09r95XFWFvF9xXFyDursI
- vF40yr1fAF47Za7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUB014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
- 1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j
- 6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7V
- C0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j
- 6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwI
- xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
- Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
- IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK
- 8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
- 0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOBTYUUUUU
+X-CM-TRANSID: qwCowABnbg7tpspiOvpDDg--.48854S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZw4xGryDtr17Xry3ZFy5Arb_yoWkXwc_J3
+ 48Z3Wvka47ZFy2gr4DAw1jgr4Ikr9Yga1vgayakayUGFWkWF1fAw1vkws3GF1jkr43CFs3
+ AFyxJrZ3KwsFvjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbzAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_
+ Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
+ 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAK
+ I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+ xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
+ jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
+ 0EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
 X-Originating-IP: [117.151.235.104]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
@@ -74,64 +70,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just add 1 to the effective privledge level when in HS mode, then reuse the check
-'effective_priv < csr_priv' in riscv_csrrw_check to replace the privilege level
-related check in hmode. Then, hmode will only check whether H extension is supported.
-
-when accessing Hypervior CSRs:
-   1) if access from M privilege level, the check of 'effective_priv < csr_priv'
-passes, returns hmode(...) which will return RISCV_EXCP_ILLEGAL_INST when H
-extension is not supported and return RISCV_EXCP_NONE otherwise.
-   2) if access from HS privilege level, effective_priv will add 1, the check
-passes too, also returns hmode(...) too.
-   3) if access from VS/VU privilege level, the check fails, and returns
-RISCV_EXCP_VIRT_INSTRUCTION_FAULT
-   4) if access from U privilege level, the check fails, and returns
-RISCV_EXCP_ILLEGAL_INST
+- Zmmul is ratified and is now version 1.0
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/csr.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ target/riscv/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 975007f1ac..2b3ed94366 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -312,13 +312,7 @@ static int aia_smode32(CPURISCVState *env, int csrno)
- static RISCVException hmode(CPURISCVState *env, int csrno)
- {
-     if (riscv_has_ext(env, RVH)) {
--        /* Hypervisor extension is supported */
--        if ((env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
--            env->priv == PRV_M) {
--            return RISCV_EXCP_NONE;
--        } else {
--            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
--        }
-+        return RISCV_EXCP_NONE;
-     }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 1bb3973806..6301871fdf 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -924,12 +924,13 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
+     DEFINE_PROP_BOOL("zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
  
-     return RISCV_EXCP_ILLEGAL_INST;
-@@ -3280,13 +3274,11 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
- #if !defined(CONFIG_USER_ONLY)
-     int csr_priv, effective_priv = env->priv;
++    DEFINE_PROP_BOOL("zmmul", RISCVCPU, cfg.ext_zmmul, false),
++
+     /* Vendor-specific custom extensions */
+     DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
  
--    if (riscv_has_ext(env, RVH) && env->priv == PRV_S) {
-+    if (riscv_has_ext(env, RVH) && env->priv == PRV_S &&
-+        !riscv_cpu_virt_enabled(env)) {
-         /*
--         * We are in either HS or VS mode.
--         * Add 1 to the effective privledge level to allow us to access the
--         * Hypervisor CSRs. The `hmode` predicate will determine if access
--         * should be allowed(HS) or if a virtual instruction exception should be
--         * raised(VS).
-+         * We are in HS mode. Add 1 to the effective privledge level to
-+         * allow us to access the Hypervisor CSRs.
-          */
-         effective_priv++;
-     }
+     /* These are experimental so mark with 'x-' */
+     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+-    DEFINE_PROP_BOOL("x-zmmul", RISCVCPU, cfg.ext_zmmul, false),
+     /* ePMP 0.9.3 */
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+     DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
 -- 
 2.17.1
 
