@@ -2,75 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF2656CE9E
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 12:51:37 +0200 (CEST)
-Received: from localhost ([::1]:50844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC7A56CEAB
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 13:07:57 +0200 (CEST)
+Received: from localhost ([::1]:58334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAUXH-00010k-JW
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 06:51:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
+	id 1oAUn6-0007FV-82
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 07:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hal.martin@gmail.com>)
- id 1oAUTz-000746-4P
- for qemu-devel@nongnu.org; Sun, 10 Jul 2022 06:48:13 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:44732)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hal.martin@gmail.com>)
- id 1oAUTx-0002Co-Bd
- for qemu-devel@nongnu.org; Sun, 10 Jul 2022 06:48:10 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id x17so2052054qkh.11
- for <qemu-devel@nongnu.org>; Sun, 10 Jul 2022 03:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/xIg08I3Z3acJeOtSskzddHcdVAk/RY1YStm/y63W/M=;
- b=g1fY/r1cQM5QTCFzyVU9wvTM9K8um9rusUrWiQ9hHb0SNvVwbRN5qDTdDuRCmKcMyg
- ohMlaodU4MW3JmLiar6qWKUbE14WJa6aUjXnPCw01e6q3VxVhyiREtDGdN/ASvGlx6L0
- 578D1nCcHrNrcxgE5JT+nD8NjnDW+Fk7ExXlZo3+cukWNv8FuF9M4mLJA/xPkUJ64/v6
- dxU+Bn3fRer6TVRTePH5F8e7asoxz2rsLIK6xiVqsonC9nXI4gEA3b3335h5CQq7czLj
- Dbmwt0YY1p8d94qYAPVHqN/18bkf1EzSMMqoq9ZvXOkyZnWWaMisbARJ1n9hTEvKZ4QG
- SYpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/xIg08I3Z3acJeOtSskzddHcdVAk/RY1YStm/y63W/M=;
- b=5c5e6j3QnAMk2Y8jB9tUiTHGdICy5ouKfs2htExdy40H+uyHQZKopemNfe4U8p6jRD
- p943DM1YOhRoEFGiV7bCqz3ewEzmeKsD/nZeGiJXRKq9Z4NHLv3fKsUOW0KXa5wTi/Vh
- XnlescTeLTt/c9OL98NOvDAqNd5bJIvefJy+Zxzm0tZKo11TCFX1NclwNweI5JrwniKB
- vAX2OoTijU7SaHYMBgtH5G+j40IyThE5YlRX58v5pwl3/wx6DJbzPCSUwP9by5YiBDCm
- wyPpggYP1GWzVZ8GcOBMyu7e3Yc6M8NzFR8H2cZoPbkYZ1WrtHKE7+oTA0gbAoF+3Seg
- s6nw==
-X-Gm-Message-State: AJIora92hi0L6HoH2txTJwCNfYcmTyCcBZ7eEbMLeB00L6q4mDXQ3csr
- xD3IN/1wl/VnvK/rLdm6He6v36f9pKPAp6Pk
-X-Google-Smtp-Source: AGRyM1uWz5eM+X3d6Zq51uGl2FWXXBLeLFK46lpp3iOuev7xWwXaUDeNeoySDorPZ3VT5sVQTVHBtQ==
-X-Received: by 2002:a05:620a:4086:b0:6b1:e044:3f66 with SMTP id
- f6-20020a05620a408600b006b1e0443f66mr8143262qko.500.1657450086559; 
- Sun, 10 Jul 2022 03:48:06 -0700 (PDT)
-Received: from cezanne.lan ([84.55.118.52]) by smtp.gmail.com with ESMTPSA id
- u5-20020a05620a0c4500b006a32bf19502sm3341966qki.60.2022.07.10.03.48.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jul 2022 03:48:05 -0700 (PDT)
-From: Hal Martin <hal.martin@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Hal Martin <hal.martin@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH] Add support for SMBIOS type 8 (Port Connector Information)
-Date: Sun, 10 Jul 2022 12:48:04 +0200
-Message-Id: <20220710104804.31694-1-hal.martin@gmail.com>
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1oAUka-0005Sf-RN; Sun, 10 Jul 2022 07:05:20 -0400
+Received: from aye.elm.relay.mailchannels.net ([23.83.212.6]:28863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1oAUkX-0004o0-ME; Sun, 10 Jul 2022 07:05:20 -0400
+X-Sender-Id: hostpapa|x-authuser|frederic@petrot.fr
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+ by relay.mailchannels.net (Postfix) with ESMTP id 091004C1DB9;
+ Sun, 10 Jul 2022 11:05:12 +0000 (UTC)
+Received: from hp220.hostpapa.com (unknown [127.0.0.6])
+ (Authenticated sender: hostpapa)
+ by relay.mailchannels.net (Postfix) with ESMTPA id E5C184C1D5F;
+ Sun, 10 Jul 2022 11:05:10 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1657451111; a=rsa-sha256;
+ cv=none;
+ b=pQuwHTMNezWgqafMTtZKJP1wPJLbc+yhecha4Zmix0ieWJ+O+TJUkvhcbDevFwC0IyGmB0
+ G5lGou6VhnBX7WALBzPCAEoF8bAZWkFdcgMgaqxD0VAz6nUhg9sDl3P92Te42tL7OPkA9U
+ gSoFlRaB0fp+nw1hDexy9Ah2k/BSF3XFLQv1ongD/JOxPqu50Cxm+2Sz8MtNqr40S0EXsk
+ WL3JVewDHumL5iH8Um+1PkfDZkUV/dMv3EGN5RhNz1Vw8Fialqg0t2PVUiDRbrGSxkgWmS
+ 42J+BT8uMcsYWirEu7nQ2BnUAtRI1IMvG0ijXDKpgCvUaPZRu/uQyE7c6961AA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net; s=arc-2022; t=1657451111;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:dkim-signature;
+ bh=/PRLQ9cFPMi9YXZy4q8Y22urOLzvANNirfV2Lq3pfpg=;
+ b=eDiiKyYo+BY/CcV9J4e1h0bpvXIslPMrbEX02e9EL66JZO0wIqECqlXhqGEeu5QCdrJxKx
+ 7lXzqyCkZ8arS47v0gmpEIysb5fe+3c0XxHxrXH1sIsJEewpuQlP82xGvi9F+iCqEqj/yg
+ EijCDcOPagW0vrkqoaCCZy16F1Dmufqe1Wjk6IdAXtRXQjrNadWKPfvHh3vdhjely68Y7x
+ oBEJ9Z9sfwYXnVbHmqcICtX60iewPuKukIC+VA8TL/Garg9SbXgf5e+BpIQZQnWCtsTjJO
+ OFIL/+9GZRhqTXqE8ebHmTeIQOsYkMdQo37zVJ8wLKdxblZ6wcwLSmwtK6Op2Q==
+ARC-Authentication-Results: i=1; rspamd-674ffb986c-5f767;
+ auth=pass smtp.auth=hostpapa
+ smtp.mailfrom=frederic.petrot@univ-grenoble-alpes.fr
+X-Sender-Id: hostpapa|x-authuser|frederic@petrot.fr
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostpapa|x-authuser|frederic@petrot.fr
+X-MailChannels-Auth-Id: hostpapa
+X-Arch-Occur: 4f709daf3c8c41ab_1657451111674_4282186247
+X-MC-Loop-Signature: 1657451111673:352706108
+X-MC-Ingress-Time: 1657451111673
+Received: from hp220.hostpapa.com (hp220.hostpapa.com [69.90.161.120])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
+ by 100.120.38.170 (trex/6.7.1); Sun, 10 Jul 2022 11:05:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=petrot.fr; 
+ s=default;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=/PRLQ9cFPMi9YXZy4q8Y22urOLzvANNirfV2Lq3pfpg=; b=oohnpn5Ixl+rpoJgCNkwbCFHAK
+ tkKhQHYw0MTiodm90AIjJLlq8b683l7S4jqFq48S/Qa99VZjqQ9LnqEzj+hPC7jYvdGs2/jd5CXq1
+ zY/Wz4yOCosZROTxNNoqSLoMjV50Mmsc527j4Sm1FUpT4fLCJwjjLwHFAUH9CiZRwkvg81fDrDjtA
+ dmXE6H7LKndzno30knFIxi6u8CLyKlChmTcmJ32Svn5dT3E7GuACKDMZ87vmimIygP8lsE/hYJ1T0
+ pmO+apEvtX7twiarjzy4lSmfPcHpglzgvHsk6qU6owCOaJHzPTkBVT5g45DmhRn+rwOkzawVAD3H9
+ fx6gVkCg==;
+Received: from [37.72.194.135] (port=58712 helo=palmier.Home)
+ by hp220.hostpapa.com with esmtpa (Exim 4.94.2)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1oAUkN-001fZL-Id; Sun, 10 Jul 2022 13:05:10 +0200
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, palmer@dabbelt.com,
+ Alistair.Francis@wdc.com, bin.meng@windriver.com
+Cc: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH v2] target/riscv: fix shifts shamt value for rv128c
+Date: Sun, 10 Jul 2022 13:04:51 +0200
+Message-Id: <20220710110451.245567-1-frederic.petrot@univ-grenoble-alpes.fr>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=hal.martin@gmail.com; helo=mail-qk1-x72d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-AuthUser: frederic@petrot.fr
+Received-SPF: neutral client-ip=23.83.212.6;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=aye.elm.relay.mailchannels.net
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,163 +114,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+For rv128c shifts, a shamt of 0 is a shamt of 64, while for rv32c/rv64c
+it stays 0 and is a hint instruction that does not change processor state.
+For rv128c right shifts, the 6-bit shamt is in addition sign extended to
+7 bits.
 
-This patch adds support for SMBIOS type 8 to qemu.
-
-internal_reference: internal reference designator
-external_reference: external reference designator
-connector_type: hex value for port connector type (see SMBIOS 7.9.2)
-port_type: hex value for port type (see SMBIOS 7.9.3)
-
-After studying various vendor implementationsi (Dell, Lenovo, MSI),
-the value of internal connector type was hard-coded to 0x0 (None).
-
-Example usage:
--smbios type=8,internal_reference=JUSB1,external_reference=USB1,connector_type=0x12,port_type=0x10 \
--smbios type=8,internal_reference=JAUD1,external_reference="Audio Jack",connector_type=0x1f,port_type=0x1d \
--smbios type=8,internal_reference=LAN,external_reference=Ethernet,connector_type=0x0b,port_type=0x1f \
--smbios type=8,internal_reference=PS2,external_reference=Mouse,connector_type=0x0f,port_type=0x0e \
--smbios type=8,internal_reference=PS2,external_reference=Keyboard,connector_type=0x0f,port_type=0x0d
-
-Signed-off-by: Hal Martin <hal.martin@gmail.com>
-
+Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 ---
- hw/smbios/smbios.c           | 65 ++++++++++++++++++++++++++++++++++++
- include/hw/firmware/smbios.h | 10 ++++++
- 2 files changed, 75 insertions(+)
+ target/riscv/insn16.decode |  7 ++++---
+ disas/riscv.c              | 27 +++++++++++++++++++++------
+ target/riscv/translate.c   | 20 ++++++++++++++++++--
+ 3 files changed, 43 insertions(+), 11 deletions(-)
 
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 60349ee402..11fe75ece0 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -111,6 +111,13 @@ static struct {
-     .processor_id = 0,
- };
+diff --git a/target/riscv/insn16.decode b/target/riscv/insn16.decode
+index 02c8f61b48..ccfe59f294 100644
+--- a/target/riscv/insn16.decode
++++ b/target/riscv/insn16.decode
+@@ -31,7 +31,8 @@
+ %imm_cb        12:s1 5:2 2:1 10:2 3:2 !function=ex_shift_1
+ %imm_cj        12:s1 8:1 9:2 6:1 7:1 2:1 11:1 3:3 !function=ex_shift_1
  
-+struct type8_instance {
-+    const char *internal_reference, *external_reference;
-+    uint8_t connector_type, port_type;
-+    QTAILQ_ENTRY(type8_instance) next;
-+};
-+static QTAILQ_HEAD(, type8_instance) type8 = QTAILQ_HEAD_INITIALIZER(type8);
-+
- static struct {
-     size_t nvalues;
-     char **values;
-@@ -136,6 +143,7 @@ static QEnumLookup type41_kind_lookup = {
-     },
-     .size = 10
- };
-+
- struct type41_instance {
-     const char *designation, *pcidev;
-     uint8_t instance, kind;
-@@ -337,6 +345,29 @@ static const QemuOptDesc qemu_smbios_type4_opts[] = {
-     { /* end of list */ }
- };
+-%shimm_6bit   12:1 2:5               !function=ex_rvc_shifti
++%shlimm_6bit  12:1 2:5               !function=ex_rvc_shiftli
++%shrimm_6bit  12:1 2:5               !function=ex_rvc_shiftri
+ %uimm_6bit_lq 2:4 12:1 6:1           !function=ex_shift_4
+ %uimm_6bit_ld 2:3 12:1 5:2           !function=ex_shift_3
+ %uimm_6bit_lw 2:2 12:1 4:3           !function=ex_shift_2
+@@ -82,9 +83,9 @@
+ @c_addi16sp     ... .  ..... ..... .. &i imm=%imm_addi16sp rs1=2 rd=2
  
-+static const QemuOptDesc qemu_smbios_type8_opts[] = {
-+    {
-+        .name = "internal_reference",
-+        .type = QEMU_OPT_STRING,
-+        .help = "internal reference designator",
-+    },
-+    {
-+        .name = "external_reference",
-+        .type = QEMU_OPT_STRING,
-+        .help = "external reference designator",
-+    },
-+    {
-+        .name = "connector_type",
-+        .type = QEMU_OPT_NUMBER,
-+        .help = "connector type",
-+    },
-+    {
-+        .name = "port_type",
-+        .type = QEMU_OPT_NUMBER,
-+        .help = "port type",
-+    },
-+};
-+
- static const QemuOptDesc qemu_smbios_type11_opts[] = {
-     {
-         .name = "value",
-@@ -718,6 +749,27 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
-     smbios_type4_count++;
+ @c_shift        ... . .. ... ..... .. \
+-                &shift rd=%rs1_3 rs1=%rs1_3 shamt=%shimm_6bit
++                &shift rd=%rs1_3 rs1=%rs1_3 shamt=%shrimm_6bit
+ @c_shift2       ... . .. ... ..... .. \
+-                &shift rd=%rd rs1=%rd shamt=%shimm_6bit
++                &shift rd=%rd rs1=%rd shamt=%shlimm_6bit
+ 
+ @c_andi         ... . .. ... ..... .. &i imm=%imm_ci rs1=%rs1_3 rd=%rs1_3
+ 
+diff --git a/disas/riscv.c b/disas/riscv.c
+index 7af6afc8fa..489c2ae5e8 100644
+--- a/disas/riscv.c
++++ b/disas/riscv.c
+@@ -2402,10 +2402,25 @@ static int32_t operand_sbimm12(rv_inst inst)
+         ((inst << 56) >> 63) << 11;
  }
  
-+static void smbios_build_type_8_table(void)
-+{
-+    unsigned instance = 0;
-+    struct type8_instance *t8;
-+
-+    QTAILQ_FOREACH(t8, &type8, next) {
-+
-+        SMBIOS_BUILD_TABLE_PRE(8, T0_BASE + instance, true);
-+
-+        SMBIOS_TABLE_SET_STR(8, internal_reference_str, t8->internal_reference);
-+        SMBIOS_TABLE_SET_STR(8, external_reference_str, t8->external_reference);
-+        // most vendors seem to set this to None
-+        t->internal_connector_type = 0x0;
-+        t->external_connector_type = t8->connector_type;
-+        t->port_type = t8->port_type;
-+
-+        SMBIOS_BUILD_TABLE_POST;
-+        instance++;
+-static uint32_t operand_cimmsh6(rv_inst inst)
++static uint32_t operand_cimmshl6(rv_inst inst, rv_isa isa)
+ {
+-    return ((inst << 51) >> 63) << 5 |
++    int imm = ((inst << 51) >> 63) << 5 |
+         (inst << 57) >> 59;
++    if (isa == rv128) {
++        imm = imm ? imm : 64;
 +    }
++    return imm;
 +}
 +
- static void smbios_build_type_11_table(void)
++static uint32_t operand_cimmshr6(rv_inst inst, rv_isa isa)
++{
++    int imm = ((inst << 51) >> 63) << 5 |
++        (inst << 57) >> 59;
++    if (isa == rv128) {
++        imm = imm | (imm & 32) << 1;
++        imm = imm ? imm : 64;
++    }
++    return imm;
+ }
+ 
+ static int32_t operand_cimmi(rv_inst inst)
+@@ -2529,7 +2544,7 @@ static uint32_t operand_rnum(rv_inst inst)
+ 
+ /* decode operands */
+ 
+-static void decode_inst_operands(rv_decode *dec)
++static void decode_inst_operands(rv_decode *dec, rv_isa isa)
  {
-     char count_str[128];
-@@ -1030,6 +1082,7 @@ void smbios_get_tables(MachineState *ms,
-             smbios_build_type_4_table(ms, i);
-         }
+     rv_inst inst = dec->inst;
+     dec->codec = opcode_data[dec->op].codec;
+@@ -2652,7 +2667,7 @@ static void decode_inst_operands(rv_decode *dec)
+     case rv_codec_cb_sh6:
+         dec->rd = dec->rs1 = operand_crs1rdq(inst) + 8;
+         dec->rs2 = rv_ireg_zero;
+-        dec->imm = operand_cimmsh6(inst);
++        dec->imm = operand_cimmshr6(inst, isa);
+         break;
+     case rv_codec_ci:
+         dec->rd = dec->rs1 = operand_crs1rd(inst);
+@@ -2667,7 +2682,7 @@ static void decode_inst_operands(rv_decode *dec)
+     case rv_codec_ci_sh6:
+         dec->rd = dec->rs1 = operand_crs1rd(inst);
+         dec->rs2 = rv_ireg_zero;
+-        dec->imm = operand_cimmsh6(inst);
++        dec->imm = operand_cimmshl6(inst, isa);
+         break;
+     case rv_codec_ci_16sp:
+         dec->rd = rv_ireg_sp;
+@@ -3193,7 +3208,7 @@ disasm_inst(char *buf, size_t buflen, rv_isa isa, uint64_t pc, rv_inst inst)
+     dec.pc = pc;
+     dec.inst = inst;
+     decode_inst_opcode(&dec, isa);
+-    decode_inst_operands(&dec);
++    decode_inst_operands(&dec, isa);
+     decode_inst_decompress(&dec, isa);
+     decode_inst_lift_pseudo(&dec);
+     format_inst(buf, buflen, 16, &dec);
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 63b04e8a94..d7c82a9c81 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -705,10 +705,26 @@ static int ex_rvc_register(DisasContext *ctx, int reg)
+     return 8 + reg;
+ }
  
-+        smbios_build_type_8_table();
-         smbios_build_type_11_table();
- 
- #define MAX_DIMM_SZ (16 * GiB)
-@@ -1346,6 +1399,18 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
-                            UINT16_MAX);
-             }
-             return;
-+        case 8:
-+            if (!qemu_opts_validate(opts, qemu_smbios_type8_opts, errp)) {
-+                return;
-+            }
-+            struct type8_instance *t;
-+            t = g_new0(struct type8_instance, 1);
-+            save_opt(&t->internal_reference, opts, "internal_reference");
-+            save_opt(&t->external_reference, opts, "external_reference");
-+            t->connector_type = qemu_opt_get_number(opts, "connector_type", 0);
-+            t->port_type = qemu_opt_get_number(opts, "port_type", 0);
-+            QTAILQ_INSERT_TAIL(&type8, t, next);
-+            return;
-         case 11:
-             if (!qemu_opts_validate(opts, qemu_smbios_type11_opts, errp)) {
-                 return;
-diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
-index 4b7ad77a44..e7d386f7c8 100644
---- a/include/hw/firmware/smbios.h
-+++ b/include/hw/firmware/smbios.h
-@@ -189,6 +189,16 @@ struct smbios_type_4 {
-     uint16_t processor_family2;
- } QEMU_PACKED;
- 
-+/* SMBIOS type 8 - Port Connector Information */
-+struct smbios_type_8 {
-+    struct smbios_structure_header header;
-+    uint8_t internal_reference_str;
-+    uint8_t internal_connector_type;
-+    uint8_t external_reference_str;
-+    uint8_t external_connector_type;
-+    uint8_t port_type;
-+} QEMU_PACKED;
+-static int ex_rvc_shifti(DisasContext *ctx, int imm)
++static int ex_rvc_shiftli(DisasContext *ctx, int imm)
+ {
+     /* For RV128 a shamt of 0 means a shift by 64. */
+-    return imm ? imm : 64;
++    if (get_ol(ctx) == MXL_RV128) {
++        imm = imm ? imm : 64;
++    }
++    return imm;
++}
 +
- /* SMBIOS type 11 - OEM strings */
- struct smbios_type_11 {
-     struct smbios_structure_header header;
++static int ex_rvc_shiftri(DisasContext *ctx, int imm)
++{
++    /*
++     * For RV128 a shamt of 0 means a shift by 64, furthermore, for right
++     * shifts, the shamt is sign-extended.
++     */
++    if (get_ol(ctx) == MXL_RV128) {
++        imm = imm | (imm & 32) << 1;
++        imm = imm ? imm : 64;
++    }
++    return imm;
+ }
+ 
+ /* Include the auto-generated decoder for 32 bit insn */
 -- 
 2.36.1
 
