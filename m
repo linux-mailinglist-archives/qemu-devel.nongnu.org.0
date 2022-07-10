@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A859B56CDC2
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 10:26:38 +0200 (CEST)
-Received: from localhost ([::1]:35734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1ECE56CDC1
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jul 2022 10:26:31 +0200 (CEST)
+Received: from localhost ([::1]:35612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oASGz-0006Xc-PV
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 04:26:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33884)
+	id 1oASGs-0006TG-Qg
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 04:26:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oASEj-0003qK-Da; Sun, 10 Jul 2022 04:24:17 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:36398 helo=cstnet.cn)
+ id 1oASEj-0003qN-Hc; Sun, 10 Jul 2022 04:24:17 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:36386 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oASEg-0005eH-KT; Sun, 10 Jul 2022 04:24:16 -0400
+ id 1oASEg-0005eF-Tl; Sun, 10 Jul 2022 04:24:17 -0400
 Received: from liww-tm.www.tendawifi.com (unknown [117.151.235.104])
- by APP-01 (Coremail) with SMTP id qwCowAAnLASjjMpiF30+Dg--.38648S3;
+ by APP-01 (Coremail) with SMTP id qwCowAAnLASjjMpiF30+Dg--.38648S4;
  Sun, 10 Jul 2022 16:24:05 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 1/6] target/riscv: add check for supported privilege modes
- conbinations
-Date: Sun, 10 Jul 2022 16:23:55 +0800
-Message-Id: <20220710082400.29224-2-liweiwei@iscas.ac.cn>
+Subject: [PATCH 2/6] target/riscv: H extension depends on I extension
+Date: Sun, 10 Jul 2022 16:23:56 +0800
+Message-Id: <20220710082400.29224-3-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220710082400.29224-1-liweiwei@iscas.ac.cn>
 References: <20220710082400.29224-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: qwCowAAnLASjjMpiF30+Dg--.38648S3
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrWDCr4kuw1kKrWfAw15XFb_yoW3Awb_Gw
- 10gF97W34UXF1IkFWUAF4Yyr1fJ3ykurW0ga13tF4fGF9rW39xC3Z7Kr97JrW8CrWxuF93
- Aw1xJ343G3WUujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbT8FF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGwA2048vs2IY02
- 0Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+X-CM-TRANSID: qwCowAAnLASjjMpiF30+Dg--.38648S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xr4DZFW5XFyUKr1DAw15CFg_yoW3Xwb_Gw
+ 40gFyfXw1UXF1xKFWUAFn5tr1fJayrGrWvga1ftF48Gr97WanxAa4kKF93Cr18C3yxWFyf
+ A3WfA343Ga45CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbT8FF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY02
+ 0Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
  wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
  x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
  e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
@@ -48,7 +47,7 @@ X-Coremail-Antispam: 1UD129KBjvdXoWrKrWDCr4kuw1kKrWfAw15XFb_yoW3Awb_Gw
  xVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
  AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8I
  cIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r
- 4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5SoXUUUUU
+ 4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU8BMNUUUUU
 X-Originating-IP: [117.151.235.104]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
@@ -74,8 +73,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- There are 3 suggested privilege modes conbinations listed in the spec:
-1) M, 2) M, U 3) M, S, U
+- add check for "H depends on an I base integer ISA with 32 x registers"
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
@@ -84,16 +82,16 @@ Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
  1 file changed, 6 insertions(+)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1bb3973806..0dad6906bc 100644
+index 0dad6906bc..4e40f26e13 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -636,6 +636,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+@@ -642,6 +642,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
              return;
          }
  
-+        if (cpu->cfg.ext_s && !cpu->cfg.ext_u) {
++        if (cpu->cfg.ext_h && !cpu->cfg.ext_i) {
 +            error_setg(errp,
-+                       "Setting S extension without U extension is illegal");
++                       "H depends on an I base integer ISA with 32 x registers");
 +            return;
 +        }
 +
