@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7B1570A45
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 21:02:25 +0200 (CEST)
-Received: from localhost ([::1]:35038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978A2570A46
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 21:02:29 +0200 (CEST)
+Received: from localhost ([::1]:35302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAyfn-0007FF-Fl
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 15:02:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40862)
+	id 1oAyfs-0007RZ-KZ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 15:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oAyaY-0002RW-Ec; Mon, 11 Jul 2022 14:56:58 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45082
- helo=mx0a-001b2d01.pphosted.com)
+ id 1oAyaX-0002RG-Pe; Mon, 11 Jul 2022 14:56:57 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oAyaV-00060u-PQ; Mon, 11 Jul 2022 14:56:58 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26BICKjd012718;
- Mon, 11 Jul 2022 18:56:52 GMT
+ id 1oAyaV-00067B-OX; Mon, 11 Jul 2022 14:56:57 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26BInTqC022352;
+ Mon, 11 Jul 2022 18:56:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=i4yVnMq/TEfygjts3btTYr61C0buV1CPNPpNqKp7VhM=;
- b=G7sZ2jjxycnRZ3jpShZv9Ax7nzxgG4EswXDNNIfRFfCy+JT469i9tkM8uLzXjxkkk/3J
- NV51VyKkwXI0sHGUfSxx6dHUHHfFvLQI+yo8U0107tlgM6BDkhqgQlItv6xxdO5tollj
- o9DBlI/qauy8tW4b+aZzt41SO3/4WmF40NaDL1/MxKP61S0QL5fnpv94OGwSRgf26asC
- As/V75qHvQf2qdBX+kFEoHvERoYnK6DXi5Cqnv2m8P1piuSk1mlcmKhMaqHkJkZzdcDv
- fx1ZtzeQI+db6Jj8U5GE7Wh8MclfXuvQmQJuXP3/NGfDNRq6PuxHyj5nL1giFlbz1Lsn KA== 
+ bh=AQVO8WNAAxuBqLptMhXJqx6J/Dn9b2QzeScLobxXJ6w=;
+ b=f7GtUggrgBvtrRdEriT2IPD2c4K9p1FLrFTFC/zrk8ocQOtnUCYm+T7FryQ7+y/MD4IW
+ tWfZzZEhcUS6Fz7OdIxrwow6+LWt9okVrKhzyxeWnYpnRcSLoBAuZzVDqC8dpMgfb5Gh
+ SjImb0jsIaCHxrm19K/esVEQMjVlO4KivSVOvRwypapFlLwG9SawlWhFVJKQphrzqK60
+ aATVnFox0HKOvRpGfzvsEz1ufoMaset1ox3HY++lxIXZBosrOn41ai13P715y8Q4KkeD
+ yjVmTBXTlp3htP3gqoeDR8hZrwGVC5P4BPtnhals1DTytN/szTvvyETGNZVQhdxEYrne 2w== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8pk9d9h8-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8sfwg5c3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jul 2022 18:56:53 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26BInW6G022410;
+ Mon, 11 Jul 2022 18:56:53 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8sfwg5b8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 11 Jul 2022 18:56:52 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26BIWh8l013270;
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26BIo3fp016875;
  Mon, 11 Jul 2022 18:56:51 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8pk9d9gq-1
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 3h70xhu4yb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 11 Jul 2022 18:56:51 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26BIpiUK017486;
- Mon, 11 Jul 2022 18:56:49 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04ams.nl.ibm.com with ESMTP id 3h8rrn01h4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jul 2022 18:56:49 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26BIukfT20972014
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26BIuma87995818
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 Jul 2022 18:56:46 GMT
+ Mon, 11 Jul 2022 18:56:48 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 88DB842041;
- Mon, 11 Jul 2022 18:56:46 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E3E8B42041;
+ Mon, 11 Jul 2022 18:56:47 +0000 (GMT)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0CA704203F;
- Mon, 11 Jul 2022 18:56:46 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 648A54203F;
+ Mon, 11 Jul 2022 18:56:47 +0000 (GMT)
 Received: from heavy.ibmuc.com (unknown [9.171.48.196])
  by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 11 Jul 2022 18:56:45 +0000 (GMT)
+ Mon, 11 Jul 2022 18:56:47 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
@@ -74,29 +72,28 @@ To: Richard Henderson <richard.henderson@linaro.org>,
  Eric Farman <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>
 Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 1/3] accel/tcg: Fix unaligned stores to s390x
- low-address-protected lowcore
-Date: Mon, 11 Jul 2022 20:56:38 +0200
-Message-Id: <20220711185640.3558813-2-iii@linux.ibm.com>
+Subject: [PATCH 2/3] hw/misc: Add mmio-debug-exit device
+Date: Mon, 11 Jul 2022 20:56:39 +0200
+Message-Id: <20220711185640.3558813-3-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220711185640.3558813-1-iii@linux.ibm.com>
 References: <20220711185640.3558813-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: c3j7NlnROJ8QUv6ZLR2y6FktUXmUoM3K
-X-Proofpoint-ORIG-GUID: iupURZyDm9hg8eBox04Puizeu-1LTMZA
+X-Proofpoint-GUID: qcPSydl876BqhKHgpQdn4pJm0bzUp46b
+X-Proofpoint-ORIG-GUID: wyHMXz_PRkPUl8syza9_44rRoMr0EwKn
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-11_23,2022-07-08_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 impostorscore=0 mlxscore=0 mlxlogscore=954
- lowpriorityscore=0 adultscore=0 spamscore=0 phishscore=0 suspectscore=0
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=999
+ malwarescore=0 adultscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
+ spamscore=0 phishscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2206140000 definitions=main-2207110079
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -119,62 +116,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If low-address-protection is active, unaligned stores to non-protected
-parts of lowcore lead to protection exceptions. The reason is that in
-such cases tlb_fill() call in store_helper_unaligned() covers
-[0, addr + size) range, which contains the protected portion of
-lowcore. This range is too large.
+System tests on x86 use isa-debug-exit device in order to signal
+success or failure to the test runner. Unfortunately it's not easily
+usable on other architectures, since a guest needs to access
+address_space_io, which may not be as straightforward as on x86.
+Also, it requires adding ISA bus, which an architecture might not
+otherwise need.
 
-The most straightforward fix would be to make sure we stay within the
-original [addr, addr + size) range. However, if an unaligned access
-affects a single page, we don't need to call tlb_fill() in
-store_helper_unaligned() at all, since it would be identical to
-the previous tlb_fill() call in store_helper(), and therefore a no-op.
-If an unaligned access covers multiple pages, this situation does not
-occur.
+Introduce mmio-debug-exit device, which has the same semantics, but is
+triggered by writes to memory.
 
-Therefore simply skip TLB handling in store_helper_unaligned() if we
-are dealing with a single page.
-
-Fixes: 2bcf018340cb ("s390x/tcg: low-address protection support")
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- accel/tcg/cputlb.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/misc/Kconfig          |  3 ++
+ hw/misc/debugexit_mmio.c | 80 ++++++++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build      |  1 +
+ hw/s390x/Kconfig         |  1 +
+ 4 files changed, 85 insertions(+)
+ create mode 100644 hw/misc/debugexit_mmio.c
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index f90f4312ea..a46f3a654d 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -2248,7 +2248,7 @@ store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
-     const size_t tlb_off = offsetof(CPUTLBEntry, addr_write);
-     uintptr_t index, index2;
-     CPUTLBEntry *entry, *entry2;
--    target_ulong page2, tlb_addr, tlb_addr2;
-+    target_ulong page1, page2, tlb_addr, tlb_addr2;
-     MemOpIdx oi;
-     size_t size2;
-     int i;
-@@ -2256,15 +2256,17 @@ store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
-     /*
-      * Ensure the second page is in the TLB.  Note that the first page
-      * is already guaranteed to be filled, and that the second page
--     * cannot evict the first.
-+     * cannot evict the first.  An exception to this rule is PAGE_WRITE_INV
-+     * handling: the first page could have evicted itself.
-      */
-+    page1 = addr & TARGET_PAGE_MASK;
-     page2 = (addr + size) & TARGET_PAGE_MASK;
-     size2 = (addr + size) & ~TARGET_PAGE_MASK;
-     index2 = tlb_index(env, mmu_idx, page2);
-     entry2 = tlb_entry(env, mmu_idx, page2);
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index cbabe9f78c..0f12735ef7 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -15,6 +15,9 @@ config ISA_DEBUG
+     bool
+     depends on ISA_BUS
  
-     tlb_addr2 = tlb_addr_write(entry2);
--    if (!tlb_hit_page(tlb_addr2, page2)) {
-+    if (page1 != page2 && !tlb_hit_page(tlb_addr2, page2)) {
-         if (!victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
-             tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
-                      mmu_idx, retaddr);
++config MMIO_DEBUGEXIT
++    bool
++
+ config SGA
+     bool
+     depends on ISA_BUS
+diff --git a/hw/misc/debugexit_mmio.c b/hw/misc/debugexit_mmio.c
+new file mode 100644
+index 0000000000..5e823cc01c
+--- /dev/null
++++ b/hw/misc/debugexit_mmio.c
+@@ -0,0 +1,80 @@
++/*
++ * Exit with status X when the guest writes X (little-endian) to a specified
++ * address. For testing purposes only.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "exec/address-spaces.h"
++#include "exec/memory.h"
++#include "hw/qdev-core.h"
++#include "hw/qdev-properties.h"
++
++#define TYPE_MMIO_DEBUG_EXIT_DEVICE "mmio-debug-exit"
++OBJECT_DECLARE_SIMPLE_TYPE(MMIODebugExitState, MMIO_DEBUG_EXIT_DEVICE)
++
++struct MMIODebugExitState {
++    DeviceState parent_obj;
++
++    uint32_t base;
++    uint32_t size;
++    MemoryRegion region;
++};
++
++static uint64_t mmio_debug_exit_read(void *opaque, hwaddr addr, unsigned size)
++{
++    return 0;
++}
++
++static void mmio_debug_exit_write(void *opaque, hwaddr addr, uint64_t val,
++                                  unsigned width)
++{
++    exit(val);
++}
++
++static const MemoryRegionOps mmio_debug_exit_ops = {
++    .read = mmio_debug_exit_read,
++    .write = mmio_debug_exit_write,
++    .valid.min_access_size = 1,
++    .valid.max_access_size = 8,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void mmio_debug_exit_realizefn(DeviceState *d, Error **errp)
++{
++    MMIODebugExitState *s = MMIO_DEBUG_EXIT_DEVICE(d);
++
++    memory_region_init_io(&s->region, OBJECT(s), &mmio_debug_exit_ops, s,
++                          TYPE_MMIO_DEBUG_EXIT_DEVICE, s->size);
++    memory_region_add_subregion(get_system_memory(), s->base, &s->region);
++}
++
++static Property mmio_debug_exit_properties[] = {
++    DEFINE_PROP_UINT32("base", MMIODebugExitState, base, 0),
++    DEFINE_PROP_UINT32("size", MMIODebugExitState, size, 1),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void mmio_debug_exit_class_initfn(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = mmio_debug_exit_realizefn;
++    device_class_set_props(dc, mmio_debug_exit_properties);
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++}
++
++static const TypeInfo mmio_debug_exit_info = {
++    .name          = TYPE_MMIO_DEBUG_EXIT_DEVICE,
++    .parent        = TYPE_DEVICE,
++    .instance_size = sizeof(MMIODebugExitState),
++    .class_init    = mmio_debug_exit_class_initfn,
++};
++
++static void mmio_debug_exit_register_types(void)
++{
++    type_register_static(&mmio_debug_exit_info);
++}
++
++type_init(mmio_debug_exit_register_types)
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 95268eddc0..1d2a1067dc 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -2,6 +2,7 @@ softmmu_ss.add(when: 'CONFIG_APPLESMC', if_true: files('applesmc.c'))
+ softmmu_ss.add(when: 'CONFIG_EDU', if_true: files('edu.c'))
+ softmmu_ss.add(when: 'CONFIG_FW_CFG_DMA', if_true: files('vmcoreinfo.c'))
+ softmmu_ss.add(when: 'CONFIG_ISA_DEBUG', if_true: files('debugexit.c'))
++softmmu_ss.add(when: 'CONFIG_MMIO_DEBUGEXIT', if_true: files('debugexit_mmio.c'))
+ softmmu_ss.add(when: 'CONFIG_ISA_TESTDEV', if_true: files('pc-testdev.c'))
+ softmmu_ss.add(when: 'CONFIG_PCA9552', if_true: files('pca9552.c'))
+ softmmu_ss.add(when: 'CONFIG_PCI_TESTDEV', if_true: files('pci-testdev.c'))
+diff --git a/hw/s390x/Kconfig b/hw/s390x/Kconfig
+index 5e7d8a2bae..9223715dcc 100644
+--- a/hw/s390x/Kconfig
++++ b/hw/s390x/Kconfig
+@@ -5,6 +5,7 @@ config S390_CCW_VIRTIO
+     imply VFIO_AP
+     imply VFIO_CCW
+     imply WDT_DIAG288
++    imply MMIO_DEBUGEXIT
+     select PCI
+     select S390_FLIC
+     select SCLPCONSOLE
 -- 
 2.35.3
 
