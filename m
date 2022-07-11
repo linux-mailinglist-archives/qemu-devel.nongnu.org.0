@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E58570348
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 14:48:36 +0200 (CEST)
-Received: from localhost ([::1]:43778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5607D57034F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 14:50:08 +0200 (CEST)
+Received: from localhost ([::1]:45866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAsq3-0006TL-Bc
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 08:48:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50124)
+	id 1oAsrX-0007vx-En
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 08:50:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oAsmt-0002JY-MT; Mon, 11 Jul 2022 08:45:24 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:40610 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oAsmp-0001hM-LF; Mon, 11 Jul 2022 08:45:17 -0400
-Received: from [192.168.3.6] (unknown [180.156.173.38])
- by APP-01 (Coremail) with SMTP id qwCowAC3FxVTG8xiPR+hDg--.57713S2;
- Mon, 11 Jul 2022 20:45:07 +0800 (CST)
-Subject: Re: [PATCH 5/6] target/riscv: fix checks in hmode/hmode32
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, "open list:RISC-V"
- <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?=
- <lazyparser@gmail.com>
-References: <20220710082400.29224-1-liweiwei@iscas.ac.cn>
- <20220710082400.29224-6-liweiwei@iscas.ac.cn>
- <CAKmqyKM2ghDn0=sBMuj-9-Uba7mBCNmCVps224c-2XUbBBSBsg@mail.gmail.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <626a6b2f-6412-624c-5dc3-3467668289a7@iscas.ac.cn>
-Date: Mon, 11 Jul 2022 20:45:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oAsp9-00050B-6y
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 08:47:39 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:45906)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oAsp7-00027U-G0
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 08:47:38 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id 64so8478935ybt.12
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 05:47:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ny5moR436jEE4ZB4BywUae5NLSW14L3Afj99oc8s6/s=;
+ b=z3w1YAju32hsQ5eIfcDzqCZXuvcvtcQlpewipMWFb63Fk6Ue4Lp7cz4d7/wcMVnW6L
+ RsHwkRImEit1O1HqxpuDDP8S8brjUikStAOyG55WuUMSgqK86iqyNMNyrpUaGLjf3XW8
+ YBSXBSEqreqZJ9xRYAPl93tk34xuTgfN3IBi30Le/iQvRjSehdQerLgWkXQNfZnDw6tq
+ 6y/s/BwKx/a/wUruBLL+/bDuz6iYZ9Z7JgQ4nhJfBILRdhOzm6xsi9UzdMN1eayb3lSx
+ UqgqtbQOgw+Bm7+NMPNCvYeuhiDQ51jL/2HDbNqbztm3HmmDQq9GpvGu59nQwrBXu2Ld
+ eEiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ny5moR436jEE4ZB4BywUae5NLSW14L3Afj99oc8s6/s=;
+ b=n9KH6WiFXDyUudwsFVYJfnRVPCAxgaq4SYAluq4ETN5SFqpCWHfpVW0lUyirnGvfdM
+ FnXYUoowL5tWfEQhvweKyYGLFrS/gYC1NsfMnSMr1rOJ/uEHptbTbpMZahW3OaCjp4FL
+ zP6EqDJpxOA402MtxIBIbdi8XWI73FXTW2S4u02pHE8boAAYu3ussKNnSSX7cun8FlC5
+ 0e8XeXim1SpZGejf5tUduv7BI9g/ptrsm2SgPFZPXMpHFGH5saKWaS7vDwsjnaVZlGZz
+ 984uqD++HFPAS/k4toPhOB5SY4uG80B99TOYHYx8+qWGXQJEB9ztUJglpjMXme/mIkry
+ HBIA==
+X-Gm-Message-State: AJIora+P/Bu+njhu08kUBZUJXuKuvzi5uXUL9iw3k7otafYqP4AbGuVJ
+ b11dxSNEF9N3OnAHGRZtfImyTrP5Y7plMp1XK/FhuQ==
+X-Google-Smtp-Source: AGRyM1uFHNrRrlKDsm1cUF/XrVkJeu53gs5DWczfswezB5ZpdY0B5bI454etipJsDB1M1mSFWMNFUN/Oo/MW7UfNwIY=
+X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
+ t18-20020a5b0dd2000000b00668fc4a9403mr17172252ybr.39.1657543656419; Mon, 11
+ Jul 2022 05:47:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKM2ghDn0=sBMuj-9-Uba7mBCNmCVps224c-2XUbBBSBsg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: qwCowAC3FxVTG8xiPR+hDg--.57713S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFyrtrW3tF4UCr4UJrWrKrg_yoW8Cw1xpF
- 4xZFWjkF9xAFZF9ayIqr1jgF15uF4Ygw4UGwsav3y8JFsxJ3yYyFyDtw4Fk34kXa48ur40
- va17CFn5Za17tFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6Fyj6rWUJwCI
- 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
- evJa73UjIFyTuYvjfUnXdbUUUUU
-X-Originating-IP: [180.156.173.38]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220705145814.461723-1-clg@kaod.org>
+In-Reply-To: <20220705145814.461723-1-clg@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 11 Jul 2022 13:46:57 +0100
+Message-ID: <CAFEAcA8q35_skS4RZLFt416Qk_h0URQYhiZbeb9sZ1RfNpqgEQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] ppc: Remove irq_inputs
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, 
+ Greg Kurz <groug@kaod.org>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,68 +88,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/7/11 下午2:46, Alistair Francis 写道:
-> On Sun, Jul 10, 2022 at 6:24 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->> - It seems that there is no explicitly description about whether
->> the Hypervisor CSRs requires S extension
->> - Csrs only existed in RV32 will not trigger virtual instruction fault
->> when not in RV32
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> ---
->>   target/riscv/csr.c | 9 ++-------
->>   1 file changed, 2 insertions(+), 7 deletions(-)
->>
->> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->> index 0d8e98b7a9..975007f1ac 100644
->> --- a/target/riscv/csr.c
->> +++ b/target/riscv/csr.c
->> @@ -311,8 +311,7 @@ static int aia_smode32(CPURISCVState *env, int csrno)
->>
->>   static RISCVException hmode(CPURISCVState *env, int csrno)
->>   {
->> -    if (riscv_has_ext(env, RVS) &&
->> -        riscv_has_ext(env, RVH)) {
->> +    if (riscv_has_ext(env, RVH)) {
-> This doesn't seem right. The spec doesn't explicitly say this, but I
-> don't see how you can have the Hypervisor extension without S-mode
-
-I'm also wonder about this. However, if H extension implicitly requires  
-S-mode,
-
-maybe it's better to add a check for this in riscv_cpu_realize, and we 
-just check H here.
-
-Regards,
-
-Weiwei Li
-
+On Tue, 5 Jul 2022 at 16:01, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
->>           /* Hypervisor extension is supported */
->>           if ((env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
->>               env->priv == PRV_M) {
->> @@ -328,11 +327,7 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
->>   static RISCVException hmode32(CPURISCVState *env, int csrno)
->>   {
->>       if (riscv_cpu_mxl(env) != MXL_RV32) {
->> -        if (!riscv_cpu_virt_enabled(env)) {
->> -            return RISCV_EXCP_ILLEGAL_INST;
->> -        } else {
->> -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> -        }
->> +        return RISCV_EXCP_ILLEGAL_INST;
-> Good catch
+> Hello,
 >
-> Alistair
+> This replaces the IRQ array 'irq_inputs' with GPIO lines and removes
+> 'irq_inputs' when all CPUs have been converted.
 >
->>       }
->>
->>       return hmode(env, csrno);
->> --
->> 2.17.1
->>
->>
+> Thanks,
+>
+> C.
+>
+> C=C3=A9dric Le Goater (5):
+>   ppc64: Allocate IRQ lines with qdev_init_gpio_in()
+>   ppc/40x: Allocate IRQ lines with qdev_init_gpio_in()
+>   ppc/6xx: Allocate IRQ lines with qdev_init_gpio_in()
+>   ppc/e500: Allocate IRQ lines with qdev_init_gpio_in()
+>   ppc: Remove unused irq_inputs
 
+Whole series:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
