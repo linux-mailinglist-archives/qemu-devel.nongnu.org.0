@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CA95705E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:40:01 +0200 (CEST)
-Received: from localhost ([::1]:56250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D026570663
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:59:22 +0200 (CEST)
+Received: from localhost ([::1]:48318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAuZs-0000ta-PN
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:40:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43100)
+	id 1oAusb-0000NL-Ej
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:59:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvj-0006hL-Pp
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:31 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42549)
+ id 1oAtvp-0006nw-7j
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:37 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvd-0002nQ-5k
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:31 -0400
-Received: by mail-wr1-x434.google.com with SMTP id bu1so5948297wrb.9
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:23 -0700 (PDT)
+ id 1oAtve-0002ud-Sf
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:36 -0400
+Received: by mail-wr1-x431.google.com with SMTP id v16so7100932wrd.13
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=m/AOR0tE++/JatDV791mjXVdOhyKmyy8clrV8yxXoMI=;
- b=Aybkf3luW4WNSsT6/FZwKEyDSC8u7GPbuN1BxsiyFz39s39Uy4jEjJwlddwujMDSzf
- sD8ajcvDDhSPYP9jSktlecCKN2fXr0ZWsg+ikJCmAZQAT57oUGN53D3OxI/4a/Q4aiCk
- s/C0F/EZoDE4i6J08ysxBM9J8Yq0KKA8AJXr61MEcVFJ1QBVFfejhWGs0ZuG8MJw2aSj
- LKV+f6LF/OZ6HIl1qbHpvrYJpJGPNVlwG9a9IFlhN81fVclkYU/y/gnJ7S6nWVjV6jDV
- 2AKfI2wMUSs+Z8zKBQ1R8HvqH78vGc4bHtvKvVlCuYPvMod9AbTeKfrzTwWSGwXI5uIC
- ZMwg==
+ bh=RcIdbbXzpewsExSM+4LX7uPRbT+xi+nVqfYtgmho4n4=;
+ b=QEind2Jf9dCdgO4FuxMA77M1WMoHKJ21n7EvqoZNhvq5DGNRw5CJZRWz0yTMh8y3c9
+ kETjkJBfM6KFBD7GBkEyTNS25l//lGry3ga3+lFmZPk5B4HH9iLX8Am/0pXkywsJ2pZ7
+ HQFtx0YfrTArFxcXg3l4/8Ahk2monl2mAuc5/RS/e17C3QDsOrNgNTP49W8kBcoL7WV+
+ LsbSuxg4zrm5dEK2E3vS5jyLC69lNLGIr47PBEhwWidOLknxaa/XY4Xx+qDmyz+V8HSW
+ 8NPza4Rz5XhPBIzviUHCtJHhkmTx4898GEIRMgzKZclY+5yMkiOqDP1t6drdt6WzzczE
+ MKHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m/AOR0tE++/JatDV791mjXVdOhyKmyy8clrV8yxXoMI=;
- b=VeWv8V78wUnvVZplTx21n06Jbu2XaYkgH7btVJAUpav/jXscYgEThQMRTluePaM9m7
- p1R687k7sbKoH8UPaTN9VQckUvs2aPfnXY5L8+idZ7wY7N2LZi+4xout0morBa1vVRIN
- gknO5va4nSk8+M8DLxaB1hen8RT5kaxv/FRn9456bojKs9ce7ThHl4ASXJpue+fiWa/z
- MB6shVVE5G6KLBnPXEL0NYKVEHRoST2uyyf1RjBr0B6f1tK3qriJaWeLKvMpKkez2kou
- lN2oc41AmaM19e2oloYiXBQxuA4fmz37022tz0wx81quPRmY6HUspfffl/K306SycA+M
- 6UPQ==
-X-Gm-Message-State: AJIora8baP7hZ/9J81DXByjnLRn+Bj4MDdTr4lu5x/gdBln9drJJQfWd
- SAj5RoHYzaN/ERSVbtG2Bu8dgCRKgnHt4g==
-X-Google-Smtp-Source: AGRyM1vtAFlIo7D9YXEHVOzjqr/CMu/7RCXhlLMNORBYL2ZGNqp+tlw9W5bK3Ve6hGFifkDf1m7nGg==
-X-Received: by 2002:a5d:5151:0:b0:21d:730b:c64a with SMTP id
- u17-20020a5d5151000000b0021d730bc64amr17337911wrt.392.1657547903092; 
+ bh=RcIdbbXzpewsExSM+4LX7uPRbT+xi+nVqfYtgmho4n4=;
+ b=O3hPq974EGhISWg4kJFJoSsnqYa6Dfl6k7DF6Ao2kUJ++QfWxi4cswt833n0ZRp5Gk
+ UNdywLJ7y+/T7X0z55iB26fXyV+ybfzTYNOn0HuxPIdwV1xt3HHZWua/po/Gmxu19KDc
+ WrgdGWDIvIUJpcQmvnrpsk3N9dInSMYbS2h55QUtZKS++85vfX/sjrmFBhIzQY2ukIFC
+ OTS4Fol2JgwFyjSMiiA/p6mozhsc9lUVz/mk/d9iHv6Yj8i4OI6IzHDWsmcKA6k69eS7
+ n8R4+gEInGHKucxc7o8dHkZak65Y9pmniqXZ6G/yOCqtn+HXFjPyTAKgdnbJznqB6yhy
+ LCmA==
+X-Gm-Message-State: AJIora82x6Hd5SBtF1fo/0uWZ8njpoaIrc//HAiTvJ+XEVErmrx4/h+N
+ 0ng5OQZfAPV9R/s2OE6kmyga1quJal50Qg==
+X-Google-Smtp-Source: AGRyM1vm+lSjlPIMtHwqTGzRYVy/PKLbxC2mqHyk5w64IFNL/QdN6Cnm5KF51MEksnshkT+q4WnaNw==
+X-Received: by 2002:adf:fbc6:0:b0:21d:3fc3:99e with SMTP id
+ d6-20020adffbc6000000b0021d3fc3099emr17159923wrs.550.1657547903776; 
  Mon, 11 Jul 2022 06:58:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.22
+ q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:58:22 -0700 (PDT)
+ Mon, 11 Jul 2022 06:58:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/45] linux-user/aarch64: Do not allow duplicate or short sve
- records
-Date: Mon, 11 Jul 2022 14:57:42 +0100
-Message-Id: <20220711135750.765803-38-peter.maydell@linaro.org>
+Subject: [PULL 38/45] linux-user/aarch64: Verify extra record lock succeeded
+Date: Mon, 11 Jul 2022 14:57:43 +0100
+Message-Id: <20220711135750.765803-39-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711135750.765803-1-peter.maydell@linaro.org>
 References: <20220711135750.765803-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,37 +90,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-In parse_user_sigframe, the kernel rejects duplicate sve records,
-or records that are smaller than the header.  We were silently
-allowing these cases to pass, dropping the record.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220708151540.18136-38-richard.henderson@linaro.org
+Message-id: 20220708151540.18136-39-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/aarch64/signal.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ linux-user/aarch64/signal.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-index 8b352abb97c..8fbe98d72f2 100644
+index 8fbe98d72f2..9ff79da4be0 100644
 --- a/linux-user/aarch64/signal.c
 +++ b/linux-user/aarch64/signal.c
-@@ -318,10 +318,13 @@ static int target_restore_sigframe(CPUARMState *env,
+@@ -340,6 +340,9 @@ static int target_restore_sigframe(CPUARMState *env,
+             __get_user(extra_size,
+                        &((struct target_extra_context *)ctx)->size);
+             extra = lock_user(VERIFY_READ, extra_datap, extra_size, 0);
++            if (!extra) {
++                return 1;
++            }
              break;
  
-         case TARGET_SVE_MAGIC:
-+            if (sve || size < sizeof(struct target_sve_context)) {
-+                goto err;
-+            }
-             if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
-                 vq = sve_vq(env);
-                 sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
--                if (!sve && size == sve_size) {
-+                if (size == sve_size) {
-                     sve = (struct target_sve_context *)ctx;
-                     break;
-                 }
+         default:
 -- 
 2.25.1
 
