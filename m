@@ -2,96 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E405703DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 15:08:22 +0200 (CEST)
-Received: from localhost ([::1]:42460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4675703E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 15:12:14 +0200 (CEST)
+Received: from localhost ([::1]:49398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAt9B-0000ez-8z
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 09:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54270)
+	id 1oAtCv-0005so-C3
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 09:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oAt4U-0004F7-KE
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:03:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54611)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oAt9k-0001wd-I3; Mon, 11 Jul 2022 09:08:58 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:42038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oAt46-0000xT-4V
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:03:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657544585;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l9s3/tUNPGmUKebMAflxOrykcrvclm5bYSlq0OuR7oo=;
- b=eUYYJgRgVizaUvaDdN2Q+47iK/FLDuGsE+fLbQgWhyboBjCwAOfiBp4R694fWiHVuUzH0o
- GCDSwkJnGijUcHnFMeD53XdKqWEreirYkg1RLcPT7CBachZFDG3DkX96FlBqveYU953zoc
- inmBdlnImRW/i3WV2PBZbbbNyPX0kzg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-xfO6eLQ6Np6zWBlnQ0DzBQ-1; Mon, 11 Jul 2022 09:03:04 -0400
-X-MC-Unique: xfO6eLQ6Np6zWBlnQ0DzBQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- w15-20020a056402268f00b0043ac600a6bcso3136242edd.6
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:03:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=l9s3/tUNPGmUKebMAflxOrykcrvclm5bYSlq0OuR7oo=;
- b=d2/u7VWN6lY+Tc8mfoT2MXHeboAeiWjWF2BsewSU4zH7fNBNYRnTHw2LAiUizCSmtq
- oaagO00p38GEC2Kjy4JhK/25YOjd7za6/YYbkGhr7MyvPC1ALIgP0DkFMzzIUYYSt5Sa
- bQ2PrrUpK9++lFt5UaRdmyI0w4YcNo0FB7VuunNhXGsW1WlfUn5/jms2u3x9dghO1BNx
- SqxPV+Dud0Cap6EK2O2IqpsnzULhM57ssLktb0k0gc3dBOIKoihGLCE/GDNGOuNeVX8Q
- MPJCGxFSbxzFBiAmeZbdzwHOtFvsVQTZIHZaeRPDDWPksjs8s0fG2oK6dpkPZFaMf2/c
- IpuQ==
-X-Gm-Message-State: AJIora+yx38UJQ8X6ET7JKLZxDAHYCEH8ymFXO/2DRfq/5PM/iQkp2sH
- S9qFxkgSjYgHetUCssxN/eRqt7/P1t7pseS6mTW/+K4BVYO1LHmyRs+Yxt6tZ8SMlCzMB0eTqKx
- IJAXmh9qalMiF/BA=
-X-Received: by 2002:a17:907:2895:b0:72a:ed50:f0e8 with SMTP id
- em21-20020a170907289500b0072aed50f0e8mr18516941ejc.392.1657544582964; 
- Mon, 11 Jul 2022 06:03:02 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u/5NQCR1wYdTaD+CPuQhp2dyHCGWc1b8kjPAzfl+y3qXFCD1TZm6wGWyhA1FSpyLNUZUR2/w==
-X-Received: by 2002:a17:907:2895:b0:72a:ed50:f0e8 with SMTP id
- em21-20020a170907289500b0072aed50f0e8mr18516907ejc.392.1657544582665; 
- Mon, 11 Jul 2022 06:03:02 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- o7-20020a50fd87000000b0043a83f77b59sm4305380edt.48.2022.07.11.06.03.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:03:02 -0700 (PDT)
-Date: Mon, 11 Jul 2022 15:03:01 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Alex Williamson
- <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
- <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v6 10/10] i386/pc: restrict AMD only enforcing of valid
- IOVAs to new machine type
-Message-ID: <20220711150301.0909b023@redhat.com>
-In-Reply-To: <20220701161014.3850-11-joao.m.martins@oracle.com>
-References: <20220701161014.3850-1-joao.m.martins@oracle.com>
- <20220701161014.3850-11-joao.m.martins@oracle.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oAt9f-0001q9-As; Mon, 11 Jul 2022 09:08:53 -0400
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id BBE952E1A89;
+ Mon, 11 Jul 2022 16:08:41 +0300 (MSK)
+Received: from [10.211.6.101] (10.211.6.101-vpn.dhcp.yndx.net [10.211.6.101])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id SaVLfVF6CC-8eOK20F0; Mon, 11 Jul 2022 16:08:41 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1657544921; bh=1HqOR8QsRmscxe+TVPa+Bx1K2OiLa+J6F3nFf9WNmxc=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=ieYp5ucOGr3uDtpU8TG6DYHKjFMEz99+ovifBouzJHvK4a9apw48GDQ6xgX5ekBuN
+ tvFH5ndzI2CHzWYdq5XdA2U7cYl/0Z7rtoeDFVWTbuy1r8pUTUB2N2ooay7bIbTl8t
+ Q5sz322D0NkE0TL4L/qKOxFu9OkX6OOxJkgBIakY=
+Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <b86ef36a-a82c-591e-54fe-481690a5987f@yandex-team.ru>
+Date: Mon, 11 Jul 2022 16:08:40 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v9 09/21] jobs: use job locks also in the unit tests
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220706201533.289775-1-eesposit@redhat.com>
+ <20220706201533.289775-10-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220706201533.289775-10-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,105 +82,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  1 Jul 2022 17:10:14 +0100
-Joao Martins <joao.m.martins@oracle.com> wrote:
-
-> The added enforcing is only relevant in the case of AMD where the
-> range right before the 1TB is restricted and cannot be DMA mapped
-> by the kernel consequently leading to IOMMU INVALID_DEVICE_REQUEST
-> or possibly other kinds of IOMMU events in the AMD IOMMU.
+On 7/6/22 23:15, Emanuele Giuseppe Esposito wrote:
+> Add missing job synchronization in the unit tests, with
+> explicit locks.
 > 
-> Although, there's a case where it may make sense to disable the
-> IOVA relocation/validation when migrating from a
-> non-valid-IOVA-aware qemu to one that supports it.
+> We are deliberately using _locked functions wrapped by a guard
+> instead of a normal call because the normal call will be removed
+> in future, as the only usage is limited to the tests.
 > 
-> Relocating RAM regions to after the 1Tb hole has consequences for
-> guest ABI because we are changing the memory mapping, so make
-> sure that only new machine enforce but not older ones.
+> In other words, if a function like job_pause() is/will be only used
+> in tests to avoid:
 > 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> ---
->  hw/i386/pc.c         | 6 ++++--
->  hw/i386/pc_piix.c    | 2 ++
->  hw/i386/pc_q35.c     | 2 ++
->  include/hw/i386/pc.h | 1 +
->  4 files changed, 9 insertions(+), 2 deletions(-)
+> WITH_JOB_LOCK_GUARD(){
+>      job_pause_locked();
+> }
 > 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 07025b510540..f99e16a5db4b 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1013,9 +1013,10 @@ void pc_memory_init(PCMachineState *pcms,
->      /*
->       * The HyperTransport range close to the 1T boundary is unique to AMD
->       * hosts with IOMMUs enabled. Restrict the ram-above-4g relocation
-> -     * to above 1T to AMD vCPUs only.
-> +     * to above 1T to AMD vCPUs only. @enforce_valid_iova is only false in
-> +     * older machine types (<= 7.0) for compatibility purposes.
->       */
-> -    if (IS_AMD_CPU(&cpu->env)) {
-> +    if (IS_AMD_CPU(&cpu->env) && pcmc->enforce_valid_iova) {
->          pc_set_amd_above_4g_mem_start(pcms, pci_hole64_size);
->  
->          /*
-> @@ -1950,6 +1951,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->      pcmc->has_reserved_memory = true;
->      pcmc->kvmclock_enabled = true;
->      pcmc->enforce_aligned_dimm = true;
-> +    pcmc->enforce_valid_iova = true;
->      /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K reported
->       * to be used at the moment, 32K should be enough for a while.  */
->      pcmc->acpi_data_size = 0x20000 + 0x8000;
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index f3c726e42400..504ddd0deece 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -444,9 +444,11 @@ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
->  
->  static void pc_i440fx_7_0_machine_options(MachineClass *m)
->  {
-> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_i440fx_7_1_machine_options(m);
->      m->alias = NULL;
->      m->is_default = false;
-> +    pcmc->enforce_valid_iova = false;
->      compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
->      compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
->  }
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 5a4a737fe203..4b747c59c19a 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -381,8 +381,10 @@ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
->  
->  static void pc_q35_7_0_machine_options(MachineClass *m)
->  {
-> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_q35_7_1_machine_options(m);
->      m->alias = NULL;
-> +    pcmc->enforce_valid_iova = false;
->      compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
->      compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
->  }
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 568c226d3034..3a873ff69499 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -118,6 +118,7 @@ struct PCMachineClass {
->      bool has_reserved_memory;
->      bool enforce_aligned_dimm;
->      bool broken_reserved_end;
-> +    bool enforce_valid_iova;
+> then it is not worth keeping job_pause(), and just use the guard.
 
-maybe
-s/enforce_valid_iova/enforce_amd_1tb_hole/
-to be less ambiguous
+I'm not sure. Why not worth keeping simpler code in tests? But I don't insist.
 
-otherwise looks good to me so
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+> 
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are *nop*.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
->  
->      /* generate legacy CPU hotplug AML */
->      bool legacy_cpu_hotplug;
+[..]
 
+> --- a/tests/unit/test-blockjob-txn.c
+> +++ b/tests/unit/test-blockjob-txn.c
+> @@ -116,8 +116,10 @@ static void test_single_job(int expected)
+>       job = test_block_job_start(1, true, expected, &result, txn);
+>       job_start(&job->job);
+>   
+> -    if (expected == -ECANCELED) {
+> -        job_cancel(&job->job, false);
+> +    WITH_JOB_LOCK_GUARD() {
+> +        if (expected == -ECANCELED) {
+> +            job_cancel_locked(&job->job, false);
+> +        }
+>       }
+
+"if (expected == ..)" may be kept around LOCK_GUARD section.
+
+>   
+>       while (result == -EINPROGRESS) {
+> @@ -160,13 +162,15 @@ static void test_pair_jobs(int expected1, int expected2)
+>       /* Release our reference now to trigger as many nice
+>        * use-after-free bugs as possible.
+>        */
+> -    job_txn_unref(txn);
+
+[..]
+
+>       cancel_common(s);
+>   }
+>   
+> +/*
+> + * This test always runs in the main loop, so there is no
+> + * need to protect job->status.
+> + */
+
+That made me ask:
+
+1. Are all tests always run in main loop? If yes, why to protect status reading in test_complete_in_standby() ?
+
+2. Maybe, we don't need to protect anything here? Why to protect other things if we run everything in main loop?
+
+
+
+
+
+-- 
+Best regards,
+Vladimir
 
