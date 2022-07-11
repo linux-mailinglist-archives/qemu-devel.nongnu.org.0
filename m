@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20D2570D41
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 00:19:15 +0200 (CEST)
-Received: from localhost ([::1]:45312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7C7570DD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 01:05:55 +0200 (CEST)
+Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB1kI-000157-OX
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 18:19:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54262)
+	id 1oB2TS-0005H3-88
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 19:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oB1is-00070J-8Z
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 18:17:46 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:39481)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oB1iq-000569-NL
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 18:17:46 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id bp15so902569ejb.6
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 15:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:in-reply-to:references:message-id
- :mime-version:content-transfer-encoding;
- bh=qDW6Zju6Vbx+u9eAuAX3AvR7N7OIW99lWjajL/LS30s=;
- b=nVIsR9YLiu5mk0QPq5esLo2Al6Kud6JxN2jN6Y8HPkwkvt4sBn8rBICFb0d6IZGYBm
- tFF964rtenDLWv97UsUIRjNNGXxfmdu5QCr0s5B6xvJBQP0Y8cJvIPFJoAwpEH35ay5r
- ncO/k6+knrl51IvD2EEg2fh/Ax6S10ginmmk3dSD0IL8dr3O+2pBdBU3ZVhhCsB2cxEf
- 6Me8lVfn8y8jhszTi9PTAYEa8VnyNt5xpOxgGjgdRk2lhAPHwxPQztUY8Blo0NvgHrD6
- A5fACyze9Jl532lXs5Z41ixFkI7gw7KgwjH2sB9JttXDJOE/sYzeWWY4/7MwUCF/N9wG
- +c6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=qDW6Zju6Vbx+u9eAuAX3AvR7N7OIW99lWjajL/LS30s=;
- b=N0iWBpV0B1bqgz9frbqSy3f62A3H1DylbUfirmA+GEJXCPuFX2Nzt3WirBsfDU1Rs3
- RAqH3NWoFkiY9bdJQ0jw5gAtmRKNtkN1/cXxk0ea/K2/nOpcc5eboMV5Zsg2IEbeW5Cx
- uM5N4TDhJHEgc5FVqtpwX4ezsExr2FJNbB7noPslaRDVzO0OCE4+rTnuu5lzJHgzrI1Q
- sGqrVN0BuY802csBviov6DF6dklgzlYmoerb5wnANAj1qbNK6L4kmSQldrj9YQitQxZS
- 1CEEDTEuuXeiGd5ChJ+i21i+7K08FXQhm+6JsN7NSbagevQ1KwfNBODv8X3bpFyBw/Sv
- sJww==
-X-Gm-Message-State: AJIora95E/NTXggd6LlU4WDlOG/L8rS82o7KBKLv6XE1L6OOay0/A9nY
- bKmNDy8o0YEyIZFBiC+Nq7U=
-X-Google-Smtp-Source: AGRyM1vpdTnmKoUR8GRbslJr3m4oANYggJ/eJMx2S44o1sOeYf0aOpU+ySyNbbVEzKZNSJWyf/SwsQ==
-X-Received: by 2002:a17:907:75f9:b0:72b:1438:474d with SMTP id
- jz25-20020a17090775f900b0072b1438474dmr20769533ejc.738.1657577862024; 
- Mon, 11 Jul 2022 15:17:42 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-089-014-011-030.89.14.pool.telefonica.de.
- [89.14.11.30]) by smtp.gmail.com with ESMTPSA id
- g24-20020a170906199800b00724261b592esm3048868ejd.186.2022.07.11.15.17.41
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 11 Jul 2022 15:17:41 -0700 (PDT)
-Date: Mon, 11 Jul 2022 22:17:39 +0000
-From: B <shentey@gmail.com>
-To: Joao Martins <joao.m.martins@oracle.com>,
- Igor Mammedov <imammedo@redhat.com>
-CC: Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, qemu-devel@nongnu.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v6_03/10=5D_i386/pc=3A_pass_?=
- =?US-ASCII?Q?pci=5Fhole64=5Fsize_to_pc=5Fmemory=5Finit=28=29?=
-In-Reply-To: <0eefb382-4ac6-4335-ca61-035babb95a88@oracle.com>
-References: <20220701161014.3850-1-joao.m.martins@oracle.com>
- <20220701161014.3850-4-joao.m.martins@oracle.com>
- <FA725D44-6D1C-4A6A-9D83-FF9482DB4593@gmail.com>
- <0eefb382-4ac6-4335-ca61-035babb95a88@oracle.com>
-Message-ID: <2A6CE4BD-F846-4802-BADA-4983F5462343@gmail.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Pk-0000gX-T6
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49238)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Ph-00022U-Nz
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657580520;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QJuOkhEXAiXjH4eYGnIaD9sRWCWZFi+PQLkERePzj1U=;
+ b=Z9BsMVqgTiQ5XLtuQPI3rRI0v3/k9qmZPOlyC8M362T4GeuEx2f0eVRCUhEomJpG4etxXn
+ CWAbsKNu22/H/nNYEvmZpg2p/eIajkj6p9VABX2MCmUzECOIwv2IKKwmIfhQdKXntcgEWh
+ J+pNIz0iIBPhZWQfy1jZQyJUuUfGx9k=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-55-4i_7WstmN4-lyZQtNrWdNQ-1; Mon, 11 Jul 2022 19:01:57 -0400
+X-MC-Unique: 4i_7WstmN4-lyZQtNrWdNQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3E8F1C06ECA;
+ Mon, 11 Jul 2022 23:01:56 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.16.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B9F32166B26;
+ Mon, 11 Jul 2022 23:01:55 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Daniel Berrange <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Michael Tsirkin <mst@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [RFC PATCH v3 0/7] tests: run python tests under a venv
+Date: Mon, 11 Jul 2022 19:01:48 -0400
+Message-Id: <20220711230155.953788-1-jsnow@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,100 +83,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi, here's another RFC for bringing external Python dependencies to the=0D
+QEMU test suite.=0D
+=0D
+This is mostly a refresh of a version I sent out before, but mixes in my=0D
+VM improvement test as an optional pre-requisite to improve VM test=0D
+stability to ensure that the BSDs all pass with the new=0D
+infrastructure. (And our oldest supported Debian and Ubuntu targets,=0D
+too.)=0D
+=0D
+(Note: this requires dropping support for Ubuntu 18.04, which ships with=0D
+a version of setuptools that is simply too old.)=0D
+=0D
+This patchset is still not without some problems that I am working on,=0D
+but progress has been slow.=0D
+=0D
+Problems I am aware of:=0D
+=0D
+- This version of the patch series does not itself enforce any=0D
+  offline-only behavior for venv creation, but downstreams can modify=0D
+  any call to 'mkvenv' to pass '--offline'. I am working on a configure=0D
+  file toggle to swap the default behavior when running tests.=0D
+=0D
+- iotests will now actually never run mypy or pylint tests by default=0D
+  anymore, because the bootstrapper won't select those packages by=0D
+  default, and the virtual environment won't utilize the system=0D
+  packages, so iotest 297 will just "skip" all of the time now.=0D
+=0D
+  The reason we don't want to install these packages by default is=0D
+  because we don't want to add dependencies on mypy and pylint for=0D
+  downstream builds.=0D
+=0D
+  With these patches, 297 would still work if you manually opened up the=0D
+  testing venv and installed suitable mypy/pylint packages there. I=0D
+  could also add a new optional dependency group, and one could=0D
+  theoretically invoke a once-per-build-dir command of 'make=0D
+  check-venv-iotests' to help make the process only semi-manual, but=0D
+  it's still annoying.=0D
+=0D
+  Ideally, the python checks in qemu.git/python/ can handle the same=0D
+  tests as 297 does -- but we need to give a shorthand invocation like=0D
+  "make check-python" that is excluded from the default "make check" to=0D
+  allow block developers to quickly opt-in to the same tests.=0D
+=0D
+  I've covered some of the problems here on-list before:=0D
+  https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg03661.html=0D
+=0D
+  ...But I haven't quite solved them yet.=0D
+=0D
+- iotests can now self-bootstrap the venv when it isn't present, but=0D
+  this self-bootstrapping has some issues in that because it skips the=0D
+  Makefile magic, it cannot update the venv when changes are made to the=0D
+  venv configuration piece.=0D
+=0D
+That's all for now. Work on the configure file integration is ongoing. I=0D
+don't know if I'll beat soft freeze (It's looking unlikely given the=0D
+amount of IRL issues I am juggling right now), but I'm hoping to push as=0D
+much of this forward as I can to try and get some testing in for RC=0D
+phase to determine what problems might exist that I haven't noticed yet.=0D
+=0D
+--js=0D
+=0D
+John Snow (7):=0D
+  tests: create optional tests/venv dependency groups=0D
+  tests: pythonize test venv creation=0D
+  tests: Remove spurious pip warnings on Ubuntu20.04=0D
+  tests/vm: add venv pre-requisites to VM building recipes=0D
+  tests: add 'check-venv' as a dependency of 'make check'=0D
+  iotests: use tests/venv for running tests=0D
+  iotests: self-bootstrap testing venv=0D
+=0D
+ tests/Makefile.include        |  32 +++---=0D
+ tests/mkvenv.py               | 187 ++++++++++++++++++++++++++++++++++=0D
+ tests/qemu-iotests/testenv.py |  25 +++--=0D
+ tests/requirements.txt        |   6 --=0D
+ tests/setup.cfg               |  20 ++++=0D
+ tests/setup.py                |  16 +++=0D
+ tests/vm/netbsd               |   1 +=0D
+ 7 files changed, 262 insertions(+), 25 deletions(-)=0D
+ create mode 100644 tests/mkvenv.py=0D
+ delete mode 100644 tests/requirements.txt=0D
+ create mode 100644 tests/setup.cfg=0D
+ create mode 100644 tests/setup.py=0D
+=0D
+-- =0D
+2.34.3=0D
+=0D
 
-
-Am 11=2E Juli 2022 10:01:49 UTC schrieb Joao Martins <joao=2Em=2Emartins@o=
-racle=2Ecom>:
->On 7/9/22 21:51, B wrote:
->> Am 1=2E Juli 2022 16:10:07 UTC schrieb Joao Martins <joao=2Em=2Emartins=
-@oracle=2Ecom>:
->>> Use the pre-initialized pci-host qdev and fetch the
->>> pci-hole64-size into pc_memory_init() newly added argument=2E
->>> piix needs a bit of care given all the !pci_enabled()
->>> and that the pci_hole64_size is private to i440fx=2E
->>=20
->> It exposes this value as the property PCI_HOST_PROP_PCI_HOLE64_SIZE=2E=
-=20
->
->Indeed=2E
->
->> Reusing it allows for not touching i440fx in this patch at all=2E
->>=20
->> For code symmetry reasons the analogue property could be used for Q35 a=
-s well=2E
->>=20
->Presumably you want me to change into below while deleting i440fx_pci_hol=
-e64_size()
->from this patch (see snip below)=2E
-
-Yes, exactly=2E
-
->IMHO, gotta say that in q35 the code symmetry
->doesn't buy much readability here,
-
-That's true=2E It communicates, though, that a value is used which was del=
-iberately made public, IOW that the code isn't sneaky=2E (That's just my in=
-terpretation, not sure what the common understanding is) Feel free to do ho=
-wever you prefer=2E
-
-Best regards,
-Bernhard
-
->albeit it does remove any need for that other
->helper in i440fx=2E
->
->@Igor let me know if you agree with the change and whether I can keep the=
- Reviewed-by=2E
->
->diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
->index 504ddd0deece=2E=2Ecc0855066d06 100644
->--- a/hw/i386/pc_piix=2Ec
->+++ b/hw/i386/pc_piix=2Ec
->@@ -167,7 +167,9 @@ static void pc_init1(MachineState *machine,
->         memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
->         rom_memory =3D pci_memory;
->         i440fx_host =3D qdev_new(host_type);
->-        hole64_size =3D i440fx_pci_hole64_size(i440fx_host);
->+        hole64_size =3D object_property_get_uint(OBJECT(i440fx_host),
->+                                               PCI_HOST_PROP_PCI_HOLE64_=
-SIZE,
->+                                               &error_abort);
->     } else {
->         pci_memory =3D NULL;
->         rom_memory =3D system_memory;
->diff --git a/hw/i386/pc_q35=2Ec b/hw/i386/pc_q35=2Ec
->index 4b747c59c19a=2E=2E466f3ef3c918 100644
->--- a/hw/i386/pc_q35=2Ec
->+++ b/hw/i386/pc_q35=2Ec
->@@ -208,7 +208,9 @@ static void pc_q35_init(MachineState *machine)
->     q35_host =3D Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
->
->     if (pcmc->pci_enabled) {
->-        pci_hole64_size =3D q35_host->mch=2Epci_hole64_size;
->+        pci_hole64_size =3D object_property_get_uint(OBJECT(q35_host),
->+                                                   PCI_HOST_PROP_PCI_HOL=
-E64_SIZE,
->+                                                   &error_abort);
->     }
->
->     /* allocate ram and load rom/bios */
->diff --git a/hw/pci-host/i440fx=2Ec b/hw/pci-host/i440fx=2Ec
->index 15680da7d709=2E=2Ed5426ef4a53c 100644
->--- a/hw/pci-host/i440fx=2Ec
->+++ b/hw/pci-host/i440fx=2Ec
->@@ -237,13 +237,6 @@ static void i440fx_realize(PCIDevice *dev, Error **e=
-rrp)
->     }
-> }
->
->-uint64_t i440fx_pci_hole64_size(DeviceState *i440fx_dev)
->-{
->-        I440FXState *i440fx =3D I440FX_PCI_HOST_BRIDGE(i440fx_dev);
->-
->-        return i440fx->pci_hole64_size;
->-}
->-
-> PCIBus *i440fx_init(const char *pci_type,
->                     DeviceState *dev,
->                     MemoryRegion *address_space_mem,
 
