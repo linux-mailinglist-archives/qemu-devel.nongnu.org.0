@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9830570695
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 17:07:13 +0200 (CEST)
-Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B951570667
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:59:26 +0200 (CEST)
+Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAv0D-0002U6-26
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 11:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56452)
+	id 1oAusf-0000io-Gu
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=G9Ii=XQ=zx2c4.com=Jason@kernel.org>)
- id 1oAuoF-0007Pz-6R
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 10:54:52 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:58800)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oAuqS-0003mq-Tn
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 10:57:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=G9Ii=XQ=zx2c4.com=Jason@kernel.org>)
- id 1oAuoC-0002n8-1n
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 10:54:49 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8280B61573;
- Mon, 11 Jul 2022 14:54:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54449C34115;
- Mon, 11 Jul 2022 14:54:45 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="faSX8plK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1657551283;
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oAuqR-0003XN-9p
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 10:57:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657551426;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=eSLt3wEgykvw/Xuop36lq+vA0tNeWQSZ3y66uyq34mo=;
- b=faSX8plKNq5eLqKwdizYATYdWwF0t/fJ+8fce/d+dqwdDYzu76ek1EbsGB7FUreFgEObDI
- N8w5+ko7h+42TooHUAlcNPxt5LLl05tK/KHERQNKdHUW79Va85W1NvVEl5Imjgw3a3pNNp
- JQWl3/oJPdY9eHJyn0g2pMRjjvnIJ+0=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6489b482
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Mon, 11 Jul 2022 14:54:42 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v3] hw/i386: pass RNG seed via setup_data entry
-Date: Mon, 11 Jul 2022 16:54:32 +0200
-Message-Id: <20220711145432.56704-1-Jason@zx2c4.com>
+ in-reply-to:in-reply-to:references:references;
+ bh=RjKS13/NlMqaLdRkWRLl34SCYGjbP2YQ4ufi2FT/Xdk=;
+ b=EvgJpoQnrMcn0sw1dbnt5KRje/XqBrFgPZmlPSnsHtCiBc+cD7cJxyHocrT7MspB8xH7oT
+ DaJSJu9A1QzTIg497pXXcd4VkKYwcKEf37igMEn+StwlZKYVRfffhXoDgRIt2qWnITr34x
+ p14Bqtx2w0yp15n5ZVr5WWpyqEko090=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-6-szgrPC89OX-dLPadLwjCKQ-1; Mon, 11 Jul 2022 10:56:55 -0400
+X-MC-Unique: szgrPC89OX-dLPadLwjCKQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A818801590;
+ Mon, 11 Jul 2022 14:56:55 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA84A40D296C;
+ Mon, 11 Jul 2022 14:56:54 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eric Auger <eauger@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Subject: Re: [PATCH RFC v2 0/2] arm: enable MTE for QEMU + kvm
+In-Reply-To: <YswzM/Q75rkkj/+Y@work-vm>
+Organization: Red Hat GmbH
+References: <20220707161656.41664-1-cohuck@redhat.com>
+ <YswkdVeESqf5sknQ@work-vm>
+ <CAFEAcA-e4Jvb-wV8sKc7etKrHYPGuOh=naozrcy2MCoiYeANDQ@mail.gmail.com>
+ <YswzM/Q75rkkj/+Y@work-vm>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date: Mon, 11 Jul 2022 16:56:53 +0200
+Message-ID: <87r12r66kq.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=G9Ii=XQ=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,81 +83,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tiny machines optimized for fast boot time generally don't use EFI,
-which means a random seed has to be supplied some other way. For this
-purpose, Linux (≥5.20) supports passing a seed in the setup_data table
-with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
-specialized bootloaders. The linked commit shows the upstream kernel
-implementation.
+On Mon, Jul 11 2022, "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-Link: https://git.kernel.org/tip/tip/c/68b8e9713c8
-Cc: Laurent Vivier <laurent@vivier.eu>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/i386/x86.c                                | 19 ++++++++++++++-----
- include/standard-headers/asm-x86/bootparam.h |  1 +
- 2 files changed, 15 insertions(+), 5 deletions(-)
+> * Peter Maydell (peter.maydell@linaro.org) wrote:
+>> On Mon, 11 Jul 2022 at 14:24, Dr. David Alan Gilbert
+>> <dgilbert@redhat.com> wrote:
+>> > But, ignoring postcopy for a minute, with KVM how do different types of
+>> > backing memory work - e.g. if I back a region of guest memory with
+>> > /dev/shm/something or a hugepage equivalent, where does the MTE memory
+>> > come from, and how do you set it?
+>> 
+>> Generally in an MTE system anything that's "plain old RAM" is expected
+>> to support tags. (The architecture manual calls this "conventional
+>> memory". This isn't quite the same as "anything that looks RAM-like",
+>> e.g. the graphics card framebuffer doesn't have to support tags!)
+>
+> I guess things like non-volatile disks mapped as DAX are fun edge cases.
+>
+>> One plausible implementation is that the firmware and memory controller
+>> are in cahoots and arrange that the appropriate fraction of the DRAM is
+>> reserved for holding tags (and inaccessible as normal RAM even by the OS);
+>> but where the tags are stored is entirely impdef and an implementation
+>> could choose to put the tags in their own entirely separate storage if
+>> it liked. The only way to access the tag storage is via the instructions
+>> for getting and setting tags.
+>
+> Hmm OK;   In postcopy, at the moment, the call qemu uses is a call that
+> atomically places a page of data in memory and then tells the vCPUs to
+> continue.  I guess a variant that took an extra blob of MTE data would
+> do.
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 6003b4b2df..0724759eec 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -26,6 +26,7 @@
- #include "qemu/cutils.h"
- #include "qemu/units.h"
- #include "qemu/datadir.h"
-+#include "qemu/guest-random.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/qapi-visit-common.h"
-@@ -1045,6 +1046,16 @@ void x86_load_linux(X86MachineState *x86ms,
-     }
-     fclose(f);
- 
-+    setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
-+    kernel_size = setup_data_offset + sizeof(struct setup_data) + 32;
-+    kernel = g_realloc(kernel, kernel_size);
-+    stq_p(header + 0x250, prot_addr + setup_data_offset);
-+    setup_data = (struct setup_data *)(kernel + setup_data_offset);
-+    setup_data->next = 0;
-+    setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-+    setup_data->len = cpu_to_le32(32);
-+    qemu_guest_getrandom_nofail(setup_data->data, 32);
-+
-     /* append dtb to kernel */
-     if (dtb_filename) {
-         if (protocol < 0x209) {
-@@ -1059,13 +1070,11 @@ void x86_load_linux(X86MachineState *x86ms,
-             exit(1);
-         }
- 
--        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
--        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
-+        kernel_size += sizeof(struct setup_data) + dtb_size;
-         kernel = g_realloc(kernel, kernel_size);
- 
--        stq_p(header + 0x250, prot_addr + setup_data_offset);
--
--        setup_data = (struct setup_data *)(kernel + setup_data_offset);
-+        setup_data->next = prot_addr + setup_data_offset + sizeof(*setup_data) + setup_data->len;
-+        ++setup_data;
-         setup_data->next = 0;
-         setup_data->type = cpu_to_le32(SETUP_DTB);
-         setup_data->len = cpu_to_le32(dtb_size);
-diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/standard-headers/asm-x86/bootparam.h
-index 072e2ed546..b2aaad10e5 100644
---- a/include/standard-headers/asm-x86/bootparam.h
-+++ b/include/standard-headers/asm-x86/bootparam.h
-@@ -10,6 +10,7 @@
- #define SETUP_EFI			4
- #define SETUP_APPLE_PROPERTIES		5
- #define SETUP_JAILHOUSE			6
-+#define SETUP_RNG_SEED			9
- 
- #define SETUP_INDIRECT			(1<<31)
- 
--- 
-2.35.1
+Yes, the current idea is to extend UFFDIO_COPY with a flag so that we
+get the tag data along with the page.
+
+> Note that other VMMs built on kvm work in different ways; the other
+> common way is to write into the backing file (i.e. the /dev/shm
+> whatever atomically somehow) and then do the userfault call to tell the
+> vcpus to continue.  It looks like this is the way things will work in
+> the split hugepage mechanism Google are currently adding.
+
+Hmm... I had the impression that other VMMs had not cared about this
+particular use case yet; if they need a slightly different mechanism,
+it would complicate things a bit.
 
 
