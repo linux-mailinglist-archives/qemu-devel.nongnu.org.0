@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706BD570582
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:26:24 +0200 (CEST)
-Received: from localhost ([::1]:38556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40D357057F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:24:46 +0200 (CEST)
+Received: from localhost ([::1]:33856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAuMh-0003vr-Ga
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:26:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42918)
+	id 1oAuL7-0000PF-UV
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtve-0006cc-FA
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:26 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54929)
+ id 1oAtvf-0006dg-5w
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:28 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvT-0002oE-RW
+ id 1oAtvV-0002sV-EH
  for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:25 -0400
-Received: by mail-wm1-x331.google.com with SMTP id n185so3088970wmn.4
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:14 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id r10so972173wrv.4
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=rdPq6uSChyhiVf54BW91Z5hNyR78/N5QUsEASqtPQEU=;
- b=YzbXPtF1TvUA9ew7yBXawqoZTg4RXJ1kjCc/f8l7mUrlChfZbu6VRuOL8mvfVBkWfA
- JVJ5uQvkAk8jKFn8mmnG9gj7VjmwrgnfTYww8l/fwI94E8edEo9qjI2eztw5TkNfSF/3
- TPoD/lapfdm9lWGc7jKy5WuU+0Z9D1TJUV59S8V994OU5EnkI2hdkdxCH6Ht5HoKh48M
- a8dijUOKZjGnqLC78gITYP4qcl0uabPWubmgtGlWd+svImLB5zDcxUdJ+cRy5yN1FaGe
- LBvAip8Ub5vhO8OiqqYZ5IR7aFvAxCq52E2TZyYM7ZRSfFa1vYETibORqhpftW9kVhm6
- b4MQ==
+ bh=wLF084Ezdzf2ZLeUWRpU2I0inK+HajABcj7tU1hY7is=;
+ b=g1lx7ooML7P7W/t+Y9qQnAL5svtDlOKVmWuwWkfpQyX/UtjLhUBzUNtAdZ7QYAM9hJ
+ iFaQOKccnc1iFqGtsrbsYc/nVhgBKv8FCtvtnGRqHCwOTB/75y3Sk1oQ/ML7Do79eM9V
+ U7RlPh7CxCveDGFVs9c+oRtnNZQYFnUHgcqKEDkt0y3ZA4RBCNfqS49NtfIYNS5i/LDR
+ WlQWAWpW5qSRWuVKXFOYDf4tZFlTQug4mEGZCWJrolSji7u0PBT3+7CY8pKBaLTqGiNF
+ TbYEC/9v7NkOnDyM9C2PB9Wy2joH3X4SPCY8cfyJzVbhC26kzadMFLbKFUUsq2Hp/9N6
+ hr8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rdPq6uSChyhiVf54BW91Z5hNyR78/N5QUsEASqtPQEU=;
- b=hvryrXBYSiNRnDSoXxzU6oJNbxL9R6kf/jQTUrUJGPZNRawBijtDPKG9Wp4JFRi27R
- ZoS8HcUNB5QDmu5SAdJoPrhUdxFMVAO0v2CMXl9oorbkD6w0RFkLepN/SBMsBO/d6IL6
- kO9ttMDkD5NZ37w/157J1AP6g799cbRz4HC7nY4YoCzDYwWt0BL4+eb4h5kc8fCV5yth
- iQ/2v1T6fovZP3Qvn/Qf0oJTTniN23OXmVeL9YsqF4RLpFG1DP0pGz14G560u6MQ5ori
- Pqg37sEHSvdrrNfnaTQvX5OP+fb4+b9dvMP6Yi3Ilt4J1fsMcgxNpwGWG3h8RjVHm+DB
- HKTA==
-X-Gm-Message-State: AJIora+LW6W/4giSnRIYwd6tzpofCHI2HSWQTsWa1L2NvUVYSqf3Qulo
- DKW6+48cW+nJYuvhsrzTSzfSK6fT679nhA==
-X-Google-Smtp-Source: AGRyM1sElvFC/i0hZPWOm0CS+JWUaED1gEoTx12BKDaHTeX2NEMjP2/39o3N7r18bOohSqVg0YJH5A==
-X-Received: by 2002:a05:600c:c2:b0:3a2:e51a:78aa with SMTP id
- u2-20020a05600c00c200b003a2e51a78aamr9164467wmm.48.1657547894086; 
+ bh=wLF084Ezdzf2ZLeUWRpU2I0inK+HajABcj7tU1hY7is=;
+ b=M6QUq7Z5OlOt2bfcACB2N1yV2K+0bdGfldKFX9XtmgP8BS/wWiRK5DxMG2+QAfjndt
+ OYWrVBdDgspKnC0xVjcd5LCv1qwbeV/719bcS0wJOD42kyAYVcTOYJknSNWfB7TIUPIH
+ hyMv4L/alULsKveqJ12ICXIYVWuPLc3Ltf5F6NLRf/oopV4Oa5OdsXf0a0NwUwwoW0X2
+ 4/LwIU0xZgBqCAZWhpJKH7F6kL2eJoQKPN+ad8DY89jH+O9LPrQufas4T538nbBEarzT
+ Hfbqz9g+EqELQ4bHKSgPfZV0tYQZ4OVwu9eutZrag3ErdEYPUCHhMWS48xx+pB+y3o7y
+ uxkw==
+X-Gm-Message-State: AJIora93p6sEF2RGfcFJcgdQ8gVm8zN8gdkA0SN1X4XnlxNtxJUz00YR
+ usjQchYybCyQPc9oQxRuOgnLbhpVxZcSsg==
+X-Google-Smtp-Source: AGRyM1t2ctr0VeBu2ljQnwkLJKkLLG776zaOfo+jOk+tlP3b2Tof5i4/td2Zs8qQn9uLsKP+IJHQjQ==
+X-Received: by 2002:adf:dc0d:0:b0:21d:ea5:710f with SMTP id
+ t13-20020adfdc0d000000b0021d0ea5710fmr17031328wri.48.1657547894981; 
  Mon, 11 Jul 2022 06:58:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.13
+ q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:58:13 -0700 (PDT)
+ Mon, 11 Jul 2022 06:58:14 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/45] target/arm: Implement FMOPA, FMOPS (widening)
-Date: Mon, 11 Jul 2022 14:57:31 +0100
-Message-Id: <20220711135750.765803-27-peter.maydell@linaro.org>
+Subject: [PULL 27/45] target/arm: Implement SME integer outer product
+Date: Mon, 11 Jul 2022 14:57:32 +0100
+Message-Id: <20220711135750.765803-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711135750.765803-1-peter.maydell@linaro.org>
 References: <20220711135750.765803-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,136 +90,169 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220708151540.18136-27-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+This is SMOPA, SUMOPA, USMOPA_s, UMOPA, for both Int8 and Int16.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220708151540.18136-28-richard.henderson@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper-sme.h    |  2 ++
- target/arm/sme.decode      |  1 +
- target/arm/sme_helper.c    | 74 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-sme.c |  1 +
- 4 files changed, 78 insertions(+)
+ target/arm/helper-sme.h    | 16 ++++++++
+ target/arm/sme.decode      | 10 +++++
+ target/arm/sme_helper.c    | 82 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-sme.c | 10 +++++
+ 4 files changed, 118 insertions(+)
 
 diff --git a/target/arm/helper-sme.h b/target/arm/helper-sme.h
-index 1d68fb8c74f..4d5d05db3a0 100644
+index 4d5d05db3a0..d2d544a6961 100644
 --- a/target/arm/helper-sme.h
 +++ b/target/arm/helper-sme.h
-@@ -121,6 +121,8 @@ DEF_HELPER_FLAGS_5(sme_addva_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sme_addha_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sme_addva_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_7(sme_fmopa_h, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_7(sme_fmopa_s, TCG_CALL_NO_RWG,
+@@ -129,3 +129,19 @@ DEF_HELPER_FLAGS_7(sme_fmopa_d, TCG_CALL_NO_RWG,
                     void, ptr, ptr, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_7(sme_fmopa_d, TCG_CALL_NO_RWG,
+ DEF_HELPER_FLAGS_6(sme_bfmopa, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_6(sme_smopa_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_6(sme_umopa_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_6(sme_sumopa_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_6(sme_usmopa_s, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_6(sme_smopa_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_6(sme_umopa_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_6(sme_sumopa_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_6(sme_usmopa_d, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, ptr, i32)
 diff --git a/target/arm/sme.decode b/target/arm/sme.decode
-index afd9c0dffda..e8d27fd8a0e 100644
+index e8d27fd8a0e..628804e37a8 100644
 --- a/target/arm/sme.decode
 +++ b/target/arm/sme.decode
-@@ -75,3 +75,4 @@ FMOPA_s         10000000 100 ..... ... ... ..... . 00 ..        @op_32
- FMOPA_d         10000000 110 ..... ... ... ..... . 0 ...        @op_64
+@@ -76,3 +76,13 @@ FMOPA_d         10000000 110 ..... ... ... ..... . 0 ...        @op_64
  
  BFMOPA          10000001 100 ..... ... ... ..... . 00 ..        @op_32
-+FMOPA_h         10000001 101 ..... ... ... ..... . 00 ..        @op_32
+ FMOPA_h         10000001 101 ..... ... ... ..... . 00 ..        @op_32
++
++SMOPA_s         1010000 0 10 0 ..... ... ... ..... . 00 ..      @op_32
++SUMOPA_s        1010000 0 10 1 ..... ... ... ..... . 00 ..      @op_32
++USMOPA_s        1010000 1 10 0 ..... ... ... ..... . 00 ..      @op_32
++UMOPA_s         1010000 1 10 1 ..... ... ... ..... . 00 ..      @op_32
++
++SMOPA_d         1010000 0 11 0 ..... ... ... ..... . 0 ...      @op_64
++SUMOPA_d        1010000 0 11 1 ..... ... ... ..... . 0 ...      @op_64
++USMOPA_d        1010000 1 11 0 ..... ... ... ..... . 0 ...      @op_64
++UMOPA_d         1010000 1 11 1 ..... ... ... ..... . 0 ...      @op_64
 diff --git a/target/arm/sme_helper.c b/target/arm/sme_helper.c
-index 690a53eee2d..302f89c30b3 100644
+index 302f89c30b3..f891306bb98 100644
 --- a/target/arm/sme_helper.c
 +++ b/target/arm/sme_helper.c
-@@ -1008,6 +1008,80 @@ static inline uint32_t f16mop_adj_pair(uint32_t pair, uint32_t pg, uint32_t neg)
-     return pair;
+@@ -1117,3 +1117,85 @@ void HELPER(sme_bfmopa)(void *vza, void *vzn, void *vzm, void *vpn,
+         } while (row & 15);
+     }
  }
- 
-+static float32 f16_dotadd(float32 sum, uint32_t e1, uint32_t e2,
-+                          float_status *s_std, float_status *s_odd)
++
++typedef uint64_t IMOPFn(uint64_t, uint64_t, uint64_t, uint8_t, bool);
++
++static inline void do_imopa(uint64_t *za, uint64_t *zn, uint64_t *zm,
++                            uint8_t *pn, uint8_t *pm,
++                            uint32_t desc, IMOPFn *fn)
 +{
-+    float64 e1r = float16_to_float64(e1 & 0xffff, true, s_std);
-+    float64 e1c = float16_to_float64(e1 >> 16, true, s_std);
-+    float64 e2r = float16_to_float64(e2 & 0xffff, true, s_std);
-+    float64 e2c = float16_to_float64(e2 >> 16, true, s_std);
-+    float64 t64;
-+    float32 t32;
++    intptr_t row, col, oprsz = simd_oprsz(desc) / 8;
++    bool neg = simd_data(desc);
 +
-+    /*
-+     * The ARM pseudocode function FPDot performs both multiplies
-+     * and the add with a single rounding operation.  Emulate this
-+     * by performing the first multiply in round-to-odd, then doing
-+     * the second multiply as fused multiply-add, and rounding to
-+     * float32 all in one step.
-+     */
-+    t64 = float64_mul(e1r, e2r, s_odd);
-+    t64 = float64r32_muladd(e1c, e2c, t64, 0, s_std);
++    for (row = 0; row < oprsz; ++row) {
++        uint8_t pa = pn[H1(row)];
++        uint64_t *za_row = &za[tile_vslice_index(row)];
++        uint64_t n = zn[row];
 +
-+    /* This conversion is exact, because we've already rounded. */
-+    t32 = float64_to_float32(t64, s_std);
++        for (col = 0; col < oprsz; ++col) {
++            uint8_t pb = pm[H1(col)];
++            uint64_t *a = &za_row[col];
 +
-+    /* The final accumulation step is not fused. */
-+    return float32_add(sum, t32, s_std);
-+}
-+
-+void HELPER(sme_fmopa_h)(void *vza, void *vzn, void *vzm, void *vpn,
-+                         void *vpm, void *vst, uint32_t desc)
-+{
-+    intptr_t row, col, oprsz = simd_maxsz(desc);
-+    uint32_t neg = simd_data(desc) * 0x80008000u;
-+    uint16_t *pn = vpn, *pm = vpm;
-+    float_status fpst_odd, fpst_std;
-+
-+    /*
-+     * Make a copy of float_status because this operation does not
-+     * update the cumulative fp exception status.  It also produces
-+     * default nans.  Make a second copy with round-to-odd -- see above.
-+     */
-+    fpst_std = *(float_status *)vst;
-+    set_default_nan_mode(true, &fpst_std);
-+    fpst_odd = fpst_std;
-+    set_float_rounding_mode(float_round_to_odd, &fpst_odd);
-+
-+    for (row = 0; row < oprsz; ) {
-+        uint16_t prow = pn[H2(row >> 4)];
-+        do {
-+            void *vza_row = vza + tile_vslice_offset(row);
-+            uint32_t n = *(uint32_t *)(vzn + H1_4(row));
-+
-+            n = f16mop_adj_pair(n, prow, neg);
-+
-+            for (col = 0; col < oprsz; ) {
-+                uint16_t pcol = pm[H2(col >> 4)];
-+                do {
-+                    if (prow & pcol & 0b0101) {
-+                        uint32_t *a = vza_row + H1_4(col);
-+                        uint32_t m = *(uint32_t *)(vzm + H1_4(col));
-+
-+                        m = f16mop_adj_pair(m, pcol, 0);
-+                        *a = f16_dotadd(*a, n, m, &fpst_std, &fpst_odd);
-+
-+                        col += 4;
-+                        pcol >>= 4;
-+                    }
-+                } while (col & 15);
-+            }
-+            row += 4;
-+            prow >>= 4;
-+        } while (row & 15);
++            *a = fn(n, zm[col], *a, pa & pb, neg);
++        }
 +    }
 +}
 +
- void HELPER(sme_bfmopa)(void *vza, void *vzn, void *vzm, void *vpn,
-                         void *vpm, uint32_t desc)
- {
++#define DEF_IMOP_32(NAME, NTYPE, MTYPE) \
++static uint64_t NAME(uint64_t n, uint64_t m, uint64_t a, uint8_t p, bool neg) \
++{                                                                           \
++    uint32_t sum0 = 0, sum1 = 0;                                            \
++    /* Apply P to N as a mask, making the inactive elements 0. */           \
++    n &= expand_pred_b(p);                                                  \
++    sum0 += (NTYPE)(n >> 0) * (MTYPE)(m >> 0);                              \
++    sum0 += (NTYPE)(n >> 8) * (MTYPE)(m >> 8);                              \
++    sum0 += (NTYPE)(n >> 16) * (MTYPE)(m >> 16);                            \
++    sum0 += (NTYPE)(n >> 24) * (MTYPE)(m >> 24);                            \
++    sum1 += (NTYPE)(n >> 32) * (MTYPE)(m >> 32);                            \
++    sum1 += (NTYPE)(n >> 40) * (MTYPE)(m >> 40);                            \
++    sum1 += (NTYPE)(n >> 48) * (MTYPE)(m >> 48);                            \
++    sum1 += (NTYPE)(n >> 56) * (MTYPE)(m >> 56);                            \
++    if (neg) {                                                              \
++        sum0 = (uint32_t)a - sum0, sum1 = (uint32_t)(a >> 32) - sum1;       \
++    } else {                                                                \
++        sum0 = (uint32_t)a + sum0, sum1 = (uint32_t)(a >> 32) + sum1;       \
++    }                                                                       \
++    return ((uint64_t)sum1 << 32) | sum0;                                   \
++}
++
++#define DEF_IMOP_64(NAME, NTYPE, MTYPE) \
++static uint64_t NAME(uint64_t n, uint64_t m, uint64_t a, uint8_t p, bool neg) \
++{                                                                           \
++    uint64_t sum = 0;                                                       \
++    /* Apply P to N as a mask, making the inactive elements 0. */           \
++    n &= expand_pred_h(p);                                                  \
++    sum += (NTYPE)(n >> 0) * (MTYPE)(m >> 0);                               \
++    sum += (NTYPE)(n >> 16) * (MTYPE)(m >> 16);                             \
++    sum += (NTYPE)(n >> 32) * (MTYPE)(m >> 32);                             \
++    sum += (NTYPE)(n >> 48) * (MTYPE)(m >> 48);                             \
++    return neg ? a - sum : a + sum;                                         \
++}
++
++DEF_IMOP_32(smopa_s, int8_t, int8_t)
++DEF_IMOP_32(umopa_s, uint8_t, uint8_t)
++DEF_IMOP_32(sumopa_s, int8_t, uint8_t)
++DEF_IMOP_32(usmopa_s, uint8_t, int8_t)
++
++DEF_IMOP_64(smopa_d, int16_t, int16_t)
++DEF_IMOP_64(umopa_d, uint16_t, uint16_t)
++DEF_IMOP_64(sumopa_d, int16_t, uint16_t)
++DEF_IMOP_64(usmopa_d, uint16_t, int16_t)
++
++#define DEF_IMOPH(NAME) \
++    void HELPER(sme_##NAME)(void *vza, void *vzn, void *vzm, void *vpn,      \
++                            void *vpm, uint32_t desc)                        \
++    { do_imopa(vza, vzn, vzm, vpn, vpm, desc, NAME); }
++
++DEF_IMOPH(smopa_s)
++DEF_IMOPH(umopa_s)
++DEF_IMOPH(sumopa_s)
++DEF_IMOPH(usmopa_s)
++DEF_IMOPH(smopa_d)
++DEF_IMOPH(umopa_d)
++DEF_IMOPH(sumopa_d)
++DEF_IMOPH(usmopa_d)
 diff --git a/target/arm/translate-sme.c b/target/arm/translate-sme.c
-index ecb7583c559..c2953b22ce3 100644
+index c2953b22ce3..7b87a9df63c 100644
 --- a/target/arm/translate-sme.c
 +++ b/target/arm/translate-sme.c
-@@ -355,6 +355,7 @@ static bool do_outprod_fpst(DisasContext *s, arg_op *a, MemOp esz,
-     return true;
- }
+@@ -361,3 +361,13 @@ TRANS_FEAT(FMOPA_d, aa64_sme_f64f64, do_outprod_fpst, a, MO_64, gen_helper_sme_f
  
-+TRANS_FEAT(FMOPA_h, aa64_sme, do_outprod_fpst, a, MO_32, gen_helper_sme_fmopa_h)
- TRANS_FEAT(FMOPA_s, aa64_sme, do_outprod_fpst, a, MO_32, gen_helper_sme_fmopa_s)
- TRANS_FEAT(FMOPA_d, aa64_sme_f64f64, do_outprod_fpst, a, MO_64, gen_helper_sme_fmopa_d)
- 
+ /* TODO: FEAT_EBF16 */
+ TRANS_FEAT(BFMOPA, aa64_sme, do_outprod, a, MO_32, gen_helper_sme_bfmopa)
++
++TRANS_FEAT(SMOPA_s, aa64_sme, do_outprod, a, MO_32, gen_helper_sme_smopa_s)
++TRANS_FEAT(UMOPA_s, aa64_sme, do_outprod, a, MO_32, gen_helper_sme_umopa_s)
++TRANS_FEAT(SUMOPA_s, aa64_sme, do_outprod, a, MO_32, gen_helper_sme_sumopa_s)
++TRANS_FEAT(USMOPA_s, aa64_sme, do_outprod, a, MO_32, gen_helper_sme_usmopa_s)
++
++TRANS_FEAT(SMOPA_d, aa64_sme_i16i64, do_outprod, a, MO_64, gen_helper_sme_smopa_d)
++TRANS_FEAT(UMOPA_d, aa64_sme_i16i64, do_outprod, a, MO_64, gen_helper_sme_umopa_d)
++TRANS_FEAT(SUMOPA_d, aa64_sme_i16i64, do_outprod, a, MO_64, gen_helper_sme_sumopa_d)
++TRANS_FEAT(USMOPA_d, aa64_sme_i16i64, do_outprod, a, MO_64, gen_helper_sme_usmopa_d)
 -- 
 2.25.1
 
