@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CCDB570D1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 00:03:01 +0200 (CEST)
-Received: from localhost ([::1]:32870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C20D2570D41
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 00:19:15 +0200 (CEST)
+Received: from localhost ([::1]:45312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB1Ua-0008Px-8S
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 18:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51014)
+	id 1oB1kI-000157-OX
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 18:19:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3gZ3MYgoKCgw7u5mxAn6wms00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--vitalybuka.bounces.google.com>)
- id 1oB1Sa-0006eq-0w
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 18:00:56 -0400
-Received: from mail-yw1-x1149.google.com ([2607:f8b0:4864:20::1149]:44022)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oB1is-00070J-8Z
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 18:17:46 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:39481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3gZ3MYgoKCgw7u5mxAn6wms00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--vitalybuka.bounces.google.com>)
- id 1oB1SQ-0002VA-My
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 18:00:49 -0400
-Received: by mail-yw1-x1149.google.com with SMTP id
- 00721157ae682-31cbe6ad44fso54790257b3.10
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 15:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=ha/fBOQkFNZTTXgSAWqd3aCaZr8aABJoRAfLAYgjl3Q=;
- b=Sl34ywdO2tSXUtCt8x/vXyXJFu+H2D/TXmrhCM7PAajQpmO0yhNc08DWDTXqmWLKzN
- LAoNpRTw4zxb7w6gPxgh8TfmD2qE0zRJ1yYtsRX2lez+OjeyL9Miu1YFpnEowSXlGIfK
- x4Ts7UeOT252jaQRrESQZ+QoVNyTGFWWZIJwPAejcxtBC5SKqemvRyt99LFcdpUCsSsA
- tjS1e+5XA9Bl8Nkz1m6blXdz7n9HJSI5Hp8p5mHqMOvFnj9d1EarfFFH4xCSxX7NI5kt
- IRnEB9dYF0D9o4nX+ieRJZX4LsEaoWf/7liSgA0KIXxUJHj/zyAa6765n0iEYqdfwCBL
- A0+w==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oB1iq-000569-NL
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 18:17:46 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id bp15so902569ejb.6
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 15:17:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:in-reply-to:references:message-id
+ :mime-version:content-transfer-encoding;
+ bh=qDW6Zju6Vbx+u9eAuAX3AvR7N7OIW99lWjajL/LS30s=;
+ b=nVIsR9YLiu5mk0QPq5esLo2Al6Kud6JxN2jN6Y8HPkwkvt4sBn8rBICFb0d6IZGYBm
+ tFF964rtenDLWv97UsUIRjNNGXxfmdu5QCr0s5B6xvJBQP0Y8cJvIPFJoAwpEH35ay5r
+ ncO/k6+knrl51IvD2EEg2fh/Ax6S10ginmmk3dSD0IL8dr3O+2pBdBU3ZVhhCsB2cxEf
+ 6Me8lVfn8y8jhszTi9PTAYEa8VnyNt5xpOxgGjgdRk2lhAPHwxPQztUY8Blo0NvgHrD6
+ A5fACyze9Jl532lXs5Z41ixFkI7gw7KgwjH2sB9JttXDJOE/sYzeWWY4/7MwUCF/N9wG
+ +c6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=ha/fBOQkFNZTTXgSAWqd3aCaZr8aABJoRAfLAYgjl3Q=;
- b=aQzfRYswet2dLZh5/aZ96/dZE8YFJIeH0hIz29n43rD9ybZSvaHysi/zUhBF2IVdcY
- rcmvkDITgQ0aVijA1AmrVV9l4w3+jbIdSZVuBnhAnHkYrVD+rm5usalHpRalxBGVSidH
- axwy/kt+PTdr/2+zce3KQqwojPDhqsSDE8MD/AH/SUPyx2yF2RpeGQo1wepyPSAFeP6P
- NOvMqWWttbgNkcjZkGGvPOUawt8szybMSAlpxddWhYLQmEWezyMuExEv1R2/Ovtm3/2x
- z3zGfl7iIypaBzuHRPs+OTrvvVBGozE8fI7b/kp9b5Xxr6LuLNh7+ZgNMAeOniZwewxU
- 4KMA==
-X-Gm-Message-State: AJIora9GWx+oxtNODGe8/OOnPL7wK5EhtE8oHvFJTcaC1iaH32JhioD8
- ssw9LUK2Ot53sG2Yl2c3DRcQLVaUczTU4C8wqvhCf/n/6zkrg8IXugfj7RE0LBylfpylRxzCxEO
- M/D3XSpbX7HpQ+xRasNQ4f2L92KNHZVvh0uEcfyyIMp4uqTdiDl4Nbsrp5arsa5A+3zjjdWo=
-X-Google-Smtp-Source: AGRyM1sQKj09zO5frjZFd69qQxIVhqrmwhYhRRjwmp+BsGxzIIiyYSoWcqeeM/klYl1QKve4RC3YnJCVnrVYk9wh
-X-Received: from vvv.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:56c])
- (user=vitalybuka job=sendgmr) by 2002:a05:6902:72a:b0:66e:b863:1eb1 with SMTP
- id l10-20020a056902072a00b0066eb8631eb1mr19095010ybt.406.1657576833538; Mon,
- 11 Jul 2022 15:00:33 -0700 (PDT)
-Date: Mon, 11 Jul 2022 15:00:28 -0700
-Message-Id: <20220711220028.2467290-1-vitalybuka@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
-Subject: [PATCH] [PATCH] linux-user/aarch64: Reset target data on MADV_DONTNEED
-From: Vitaly Buka <vitalybuka@google.com>
-To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Vitaly Buka <vitalybuka@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1149;
- envelope-from=3gZ3MYgoKCgw7u5mxAn6wms00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--vitalybuka.bounces.google.com;
- helo=mail-yw1-x1149.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=qDW6Zju6Vbx+u9eAuAX3AvR7N7OIW99lWjajL/LS30s=;
+ b=N0iWBpV0B1bqgz9frbqSy3f62A3H1DylbUfirmA+GEJXCPuFX2Nzt3WirBsfDU1Rs3
+ RAqH3NWoFkiY9bdJQ0jw5gAtmRKNtkN1/cXxk0ea/K2/nOpcc5eboMV5Zsg2IEbeW5Cx
+ uM5N4TDhJHEgc5FVqtpwX4ezsExr2FJNbB7noPslaRDVzO0OCE4+rTnuu5lzJHgzrI1Q
+ sGqrVN0BuY802csBviov6DF6dklgzlYmoerb5wnANAj1qbNK6L4kmSQldrj9YQitQxZS
+ 1CEEDTEuuXeiGd5ChJ+i21i+7K08FXQhm+6JsN7NSbagevQ1KwfNBODv8X3bpFyBw/Sv
+ sJww==
+X-Gm-Message-State: AJIora95E/NTXggd6LlU4WDlOG/L8rS82o7KBKLv6XE1L6OOay0/A9nY
+ bKmNDy8o0YEyIZFBiC+Nq7U=
+X-Google-Smtp-Source: AGRyM1vpdTnmKoUR8GRbslJr3m4oANYggJ/eJMx2S44o1sOeYf0aOpU+ySyNbbVEzKZNSJWyf/SwsQ==
+X-Received: by 2002:a17:907:75f9:b0:72b:1438:474d with SMTP id
+ jz25-20020a17090775f900b0072b1438474dmr20769533ejc.738.1657577862024; 
+ Mon, 11 Jul 2022 15:17:42 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-089-014-011-030.89.14.pool.telefonica.de.
+ [89.14.11.30]) by smtp.gmail.com with ESMTPSA id
+ g24-20020a170906199800b00724261b592esm3048868ejd.186.2022.07.11.15.17.41
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 11 Jul 2022 15:17:41 -0700 (PDT)
+Date: Mon, 11 Jul 2022 22:17:39 +0000
+From: B <shentey@gmail.com>
+To: Joao Martins <joao.m.martins@oracle.com>,
+ Igor Mammedov <imammedo@redhat.com>
+CC: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, qemu-devel@nongnu.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v6_03/10=5D_i386/pc=3A_pass_?=
+ =?US-ASCII?Q?pci=5Fhole64=5Fsize_to_pc=5Fmemory=5Finit=28=29?=
+In-Reply-To: <0eefb382-4ac6-4335-ca61-035babb95a88@oracle.com>
+References: <20220701161014.3850-1-joao.m.martins@oracle.com>
+ <20220701161014.3850-4-joao.m.martins@oracle.com>
+ <FA725D44-6D1C-4A6A-9D83-FF9482DB4593@gmail.com>
+ <0eefb382-4ac6-4335-ca61-035babb95a88@oracle.com>
+Message-ID: <2A6CE4BD-F846-4802-BADA-4983F5462343@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,77 +99,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-aarch64 stores MTE tags in target_date, and they should be reset by
-MADV_DONTNEED.
 
-Signed-off-by: Vitaly Buka <vitalybuka@google.com>
----
- accel/tcg/translate-all.c | 24 ++++++++++++++++++++++++
- include/exec/cpu-all.h    |  1 +
- linux-user/mmap.c         |  2 ++
- 3 files changed, 27 insertions(+)
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index ef62a199c7..d6f2f1a40a 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2314,6 +2314,30 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
-     }
- }
- 
-+void page_reset_target_data(target_ulong start, target_ulong end)
-+{
-+    target_ulong addr, len;
-+
-+    /* This function should never be called with addresses outside the
-+       guest address space.  If this assert fires, it probably indicates
-+       a missing call to h2g_valid.  */
-+    assert(end - 1 <= GUEST_ADDR_MAX);
-+    assert(start < end);
-+    assert_memory_lock();
-+
-+    start = start & TARGET_PAGE_MASK;
-+    end = TARGET_PAGE_ALIGN(end);
-+
-+    for (addr = start, len = end - start;
-+         len != 0;
-+         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
-+        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
-+
-+        g_free(p->target_data);
-+        p->target_data = NULL;
-+    }
-+}
-+
- void *page_get_target_data(target_ulong address)
- {
-     PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index f5bda2c3ca..491629b9ba 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -271,6 +271,7 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
- 
- int page_get_flags(target_ulong address);
- void page_set_flags(target_ulong start, target_ulong end, int flags);
-+void page_reset_target_data(target_ulong start, target_ulong end);
- int page_check_range(target_ulong start, target_ulong len, int flags);
- 
- /**
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 4e7a6be6ee..c535dfdc7c 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -894,6 +894,8 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
-     if ((advice & MADV_DONTNEED) &&
-         can_passthrough_madv_dontneed(start, end)) {
-         ret = get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED));
-+        if (ret == 0)
-+            page_reset_target_data(start, start + len);
-     }
-     mmap_unlock();
- 
--- 
-2.37.0.144.g8ac04bfd2-goog
+Am 11=2E Juli 2022 10:01:49 UTC schrieb Joao Martins <joao=2Em=2Emartins@o=
+racle=2Ecom>:
+>On 7/9/22 21:51, B wrote:
+>> Am 1=2E Juli 2022 16:10:07 UTC schrieb Joao Martins <joao=2Em=2Emartins=
+@oracle=2Ecom>:
+>>> Use the pre-initialized pci-host qdev and fetch the
+>>> pci-hole64-size into pc_memory_init() newly added argument=2E
+>>> piix needs a bit of care given all the !pci_enabled()
+>>> and that the pci_hole64_size is private to i440fx=2E
+>>=20
+>> It exposes this value as the property PCI_HOST_PROP_PCI_HOLE64_SIZE=2E=
+=20
+>
+>Indeed=2E
+>
+>> Reusing it allows for not touching i440fx in this patch at all=2E
+>>=20
+>> For code symmetry reasons the analogue property could be used for Q35 a=
+s well=2E
+>>=20
+>Presumably you want me to change into below while deleting i440fx_pci_hol=
+e64_size()
+>from this patch (see snip below)=2E
 
+Yes, exactly=2E
+
+>IMHO, gotta say that in q35 the code symmetry
+>doesn't buy much readability here,
+
+That's true=2E It communicates, though, that a value is used which was del=
+iberately made public, IOW that the code isn't sneaky=2E (That's just my in=
+terpretation, not sure what the common understanding is) Feel free to do ho=
+wever you prefer=2E
+
+Best regards,
+Bernhard
+
+>albeit it does remove any need for that other
+>helper in i440fx=2E
+>
+>@Igor let me know if you agree with the change and whether I can keep the=
+ Reviewed-by=2E
+>
+>diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
+>index 504ddd0deece=2E=2Ecc0855066d06 100644
+>--- a/hw/i386/pc_piix=2Ec
+>+++ b/hw/i386/pc_piix=2Ec
+>@@ -167,7 +167,9 @@ static void pc_init1(MachineState *machine,
+>         memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
+>         rom_memory =3D pci_memory;
+>         i440fx_host =3D qdev_new(host_type);
+>-        hole64_size =3D i440fx_pci_hole64_size(i440fx_host);
+>+        hole64_size =3D object_property_get_uint(OBJECT(i440fx_host),
+>+                                               PCI_HOST_PROP_PCI_HOLE64_=
+SIZE,
+>+                                               &error_abort);
+>     } else {
+>         pci_memory =3D NULL;
+>         rom_memory =3D system_memory;
+>diff --git a/hw/i386/pc_q35=2Ec b/hw/i386/pc_q35=2Ec
+>index 4b747c59c19a=2E=2E466f3ef3c918 100644
+>--- a/hw/i386/pc_q35=2Ec
+>+++ b/hw/i386/pc_q35=2Ec
+>@@ -208,7 +208,9 @@ static void pc_q35_init(MachineState *machine)
+>     q35_host =3D Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
+>
+>     if (pcmc->pci_enabled) {
+>-        pci_hole64_size =3D q35_host->mch=2Epci_hole64_size;
+>+        pci_hole64_size =3D object_property_get_uint(OBJECT(q35_host),
+>+                                                   PCI_HOST_PROP_PCI_HOL=
+E64_SIZE,
+>+                                                   &error_abort);
+>     }
+>
+>     /* allocate ram and load rom/bios */
+>diff --git a/hw/pci-host/i440fx=2Ec b/hw/pci-host/i440fx=2Ec
+>index 15680da7d709=2E=2Ed5426ef4a53c 100644
+>--- a/hw/pci-host/i440fx=2Ec
+>+++ b/hw/pci-host/i440fx=2Ec
+>@@ -237,13 +237,6 @@ static void i440fx_realize(PCIDevice *dev, Error **e=
+rrp)
+>     }
+> }
+>
+>-uint64_t i440fx_pci_hole64_size(DeviceState *i440fx_dev)
+>-{
+>-        I440FXState *i440fx =3D I440FX_PCI_HOST_BRIDGE(i440fx_dev);
+>-
+>-        return i440fx->pci_hole64_size;
+>-}
+>-
+> PCIBus *i440fx_init(const char *pci_type,
+>                     DeviceState *dev,
+>                     MemoryRegion *address_space_mem,
 
