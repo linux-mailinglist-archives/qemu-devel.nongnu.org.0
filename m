@@ -2,101 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B698570202
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 14:28:26 +0200 (CEST)
-Received: from localhost ([::1]:49912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0841570208
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 14:29:31 +0200 (CEST)
+Received: from localhost ([::1]:52054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAsWW-0006z1-T4
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 08:28:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45572)
+	id 1oAsXa-000052-SP
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 08:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oAsTA-0003fj-5w
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 08:24:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41975)
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1oAsUf-0004is-QP; Mon, 11 Jul 2022 08:26:30 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:54081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oAsT7-0001RT-Ao
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 08:24:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657542292;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lW5nQ8v1zT6BFK9dFMFyWguHwWwy1kHBavsihAfCaJk=;
- b=BsUo1Kp94l628kw+2JlumiDqBbP+4yOTPHYGRVD6WNVnkymZnSLGdXh+wbdPQiHhlxG9J6
- K8LkxDc41e4u3ssKmeexNHbs0iM/CFxXfa8gI+407I20ctfkgW6TLBp71xj7dbev42CcBS
- t+7rv16V0vESgs3UIgzXvLNwVcQkZj0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-MhDyvVaoPKWyB8b9vnGjDQ-1; Mon, 11 Jul 2022 08:24:51 -0400
-X-MC-Unique: MhDyvVaoPKWyB8b9vnGjDQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q12-20020adfab0c000000b0021d6dcb51e8so592167wrc.13
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 05:24:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=lW5nQ8v1zT6BFK9dFMFyWguHwWwy1kHBavsihAfCaJk=;
- b=1IY645N2E/W8OJFVCvF3SiB0ksytDzXvGh7fn9VFIwp1Fyy3aRmxne25vjqhGP/10e
- BUceJkH82Eq6ckeoRReLM1rOVsvuEF7rvGKl0Ntavan/1h8yatejB0mMtBfadB57MycS
- 4NcBXdWkuGBmIXi5j/gtMbaYJWfHx5TkK61ZQ96vQ4uisThxCyc/9+ipsefNqypVumyX
- mBxH4+bfW/1s4Z6H3H/2BlJ6LOQPK8gAyJf/FiTG/HZZSFOx3fzEblWIphJQ/qWCG3n5
- 0lHdoi9yJ8pCmhH0t5df3HFlTiHEI2HnoAQYhCJs/VX/rV/yEHe3QaT3mo/sdzbOyxe7
- DQNA==
-X-Gm-Message-State: AJIora+lPQdjwBJ9Wmdn++dw1pkxHyW/TewKY+A+SMBarRmSXqSWpMm2
- OBzDgBk4eMsDbdOWjVJKu4TQcFr5Uo0ofm1n8GiVzM/2cWlhrPNCMJijRwv7PXcRO8PPdUqLCp5
- JzN6/R05LZOiOL4w=
-X-Received: by 2002:adf:fb43:0:b0:21a:22eb:da43 with SMTP id
- c3-20020adffb43000000b0021a22ebda43mr16314528wrs.347.1657542290534; 
- Mon, 11 Jul 2022 05:24:50 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vHpUeE9DhXoHB658kr1dT1qtLOCxAoQrSd50NPwPmkk3ElKelmu6zKgYvyd3gVvriTi3FJKQ==
-X-Received: by 2002:adf:fb43:0:b0:21a:22eb:da43 with SMTP id
- c3-20020adffb43000000b0021a22ebda43mr16314492wrs.347.1657542290200; 
- Mon, 11 Jul 2022 05:24:50 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- j38-20020a05600c1c2600b00397342e3830sm19074370wms.0.2022.07.11.05.24.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 05:24:49 -0700 (PDT)
-Message-ID: <f78afe56-61c4-2f57-4f4a-62225aeff1bf@redhat.com>
-Date: Mon, 11 Jul 2022 14:24:48 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v9 07/21] blockjob: introduce block_job _locked() APIs
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220706201533.289775-1-eesposit@redhat.com>
- <20220706201533.289775-8-eesposit@redhat.com>
- <636b3296-72c8-a359-2dd3-973822640848@yandex-team.ru>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <636b3296-72c8-a359-2dd3-973822640848@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1oAsUd-0001sT-Up; Mon, 11 Jul 2022 08:26:29 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 010C95C0094;
+ Mon, 11 Jul 2022 08:26:24 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+ by compute3.internal (MEProxy); Mon, 11 Jul 2022 08:26:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1657542383; x=1657628783; bh=Vi4vr9+Iaq
+ snwt0/FE4RWix28SqDR8s2ycbcSmiry1U=; b=LFJmge2uvDDrO+4hbPfPL0HN9b
+ n9Q01U/92wjVO+Th1tdmRZe/c5mKwzdAo/V6jpV0da/DRIZIBldAgOn+oJycyDaw
+ hl8rPguU1At5lPqMbFcI/9REyRKBfobdPY/JFleD+nvYjXXYNMtau/Sr0OvwXiCc
+ MDz+in7BmfXPimhQdVF4sLdPmx+q8n4QL7Kf7BGEpHbpAXBezJZa9nUyAvKk5aTg
+ TLgAXGdFGwmHhN59ISz/ORz4vQcEPHZAeHNx3ZTTdVO84aCxGrUvDNYRX3w5pFd6
+ rX04/9C+coS7UZKmqUp37KG04hdY7CWclZJ6jtOdO/tPzt0L+H7ui/fmBKtA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1657542383; x=1657628783; bh=Vi4vr9+Iaqsnwt0/FE4RWix28SqD
+ R8s2ycbcSmiry1U=; b=GByfh8qoXktQY1NKAzeVLhdEpWNprnRafhU++FXa56w3
+ 8FdVMgz9bMo7ScQdQBOqtqRPngqFkY36fTVbeWdBrs6cEKYgXQSHQeNWEhmqm7se
+ 5JtX492AcGXXDFoNZpprXLrHqcY2UtC39lRyjyKwjjrLPW7jWM1sxAmK3sp1BS6Q
+ sTONhWIlzfRJa3AMx48TVEswIUqtXdKzYrMWvfETuIHt0W86aW67P/L+myS8zVO+
+ F40hlAUgqMrP4h6qzS8AJrsfQmE8MThNe8TRkll0VnuvWql3+E65mvQZUYT/+e8j
+ KpQ20JRcFoQ/Hp383LbMiMfFnq2CYu7AL8qLLqiUiw==
+X-ME-Sender: <xms:7xbMYmc8FLPLW65-mxWarB-qcxJpYuHTPnzH0D8c20VcgO0b9mLTsg>
+ <xme:7xbMYgNezLaa1fm8urXMwx144pZCO7Sf3XQ3c8c9qAJTFfNhs-8oFJJSccEMKMZQs
+ W9vUjM6LMFN0H-9Ig>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedggeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+ frrghtthgvrhhnpeekvdekjeekgfejudffteetgeejkeetteduvedtffdtledutdfhheev
+ feetkeeiteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:7xbMYngRn61VDknnfb6Av79lgeJLLgLrxDObqNcXbGd5Px8e-0OIhQ>
+ <xmx:7xbMYj-s70UcZY-mf91miRAUOs3FOrNe5WYcMfKuOEyDHE3xVc-WaQ>
+ <xmx:7xbMYiu1JMQOaMkR9NTfv6xqB-2SVBbU5M_lwGYqPdCyvIbsfuMXWA>
+ <xmx:7xbMYmL6jDgK6HURkXsleWjg5rKSn5fo0inD9JaKbXad7QCXnI3tvg>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id A7980170007E; Mon, 11 Jul 2022 08:26:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-720-gbf5afa95ff-fm-20220708.001-gbf5afa95
+Mime-Version: 1.0
+Message-Id: <db1ffbd9-a827-4fba-8e4f-83522634f20b@www.fastmail.com>
+In-Reply-To: <CACPK8Xe-BXFt7oefdO-QS67tQSRP6arzgnGO973MYDYOMrQK4w@mail.gmail.com>
+References: <20220707071731.34047-1-peter@pjd.dev>
+ <20220707071731.34047-2-peter@pjd.dev>
+ <CACPK8Xe-BXFt7oefdO-QS67tQSRP6arzgnGO973MYDYOMrQK4w@mail.gmail.com>
+Date: Mon, 11 Jul 2022 21:55:55 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Joel Stanley" <joel@jms.id.au>, "Peter Delevoryas" <peter@pjd.dev>
+Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "Peter Maydell" <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9_via?= <qemu-arm@nongnu.org>,
+ "Cameron Esfahani via" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 1/2] hw/gpio/aspeed: Don't let guests modify input pins
+Content-Type: text/plain
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=andrew@aj.id.au;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,51 +106,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-Am 11/07/2022 um 14:04 schrieb Vladimir Sementsov-Ogievskiy:
-> On 7/6/22 23:15, Emanuele Giuseppe Esposito wrote:
->> Just as done with job.h, create _locked() functions in blockjob.h
+On Thu, 7 Jul 2022, at 17:50, Joel Stanley wrote:
+> On Thu, 7 Jul 2022 at 07:17, Peter Delevoryas <peter@pjd.dev> wrote:
 >>
->> These functions will be later useful when caller has already taken
->> the lock. All blockjob _locked functions call job _locked functions.
+>> It seems that aspeed_gpio_update is allowing the value for input pins to be
+>> modified through register writes and QOM property modification.
 >>
->> Note: at this stage, job_{lock/unlock} and job lock guard macros
->> are *nop*.
+>> The QOM property modification is fine, but modifying the value through
+>> register writes from the guest OS seems wrong if the pin's direction is set
+>> to input.
 >>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> 
-> We not only create _locked() interfaces, but also make some functions
-> correct relatively to job_mutex that was not correct pre-patch, for
-> example:
-> 
-> block_job_iostatus_reset(): the function doesn't call any job_* APIs,
-> but it access Job fields. After patch fields are accessed under mutex
-> which is correct, and that's the significant change worth mentioning in
-> commit message.
-> 
-> So, more correct is to say, that we make some functions of blockjob API
-> correct relatively to job_mutex and Job fields.
-> 
-> With at least this clarified, I'm OK with the patch as is:
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> 
-> 
-> What kept in mind after the patch:
-> 
-> 1. Some functions still need an update, for example
-> block_job_error_action, that access Job.user_pause without locking the
-> job_mutex. Or, block_job_event_completed that accesses Job.ret..
+>> The datasheet specifies that "0" bits in the direction register select input
+>> mode, and "1" selects output mode.
+>>
+>> OpenBMC userspace code is accidentally writing 0's to the GPIO data
+>> registers somewhere (or perhaps the driver is doing it through a reset or
+>> something), and this is overwriting GPIO FRU information (board ID, slot
+>> presence pins) that is initialized in Aspeed machine reset code (see
+>> fby35_reset() in hw/arm/aspeed.c).
+>>
+>> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+>> Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
+>> ---
+>>  hw/gpio/aspeed_gpio.c | 22 ++++++++++++----------
+>>  1 file changed, 12 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+>> index a62a673857..2eae427201 100644
+>> --- a/hw/gpio/aspeed_gpio.c
+>> +++ b/hw/gpio/aspeed_gpio.c
+>> @@ -268,7 +268,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState *s, GPIOSets *regs)
+>>  }
+>>
+>>  static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+>> -                               uint32_t value)
+>> +                               uint32_t value, bool force)
+>>  {
+>>      uint32_t input_mask = regs->input_mask;
+>>      uint32_t direction = regs->direction;
+>> @@ -293,10 +293,12 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+>>              }
+>>
+>
+> Reading this model hurts my head a little. Perhaps we also need to add
+> a test for this case to make it clear what's going on.
+>
+> The test above the code you've changed does this:
+>
+>>            /* ...and we're output or not input-masked... */
+>>            if (!(direction & mask) && (input_mask & mask)) {
+>>                continue;
+>>            }
+>
+> For clarity, !(direction & mask) means "is input".
+>
+> The comment confuses me because it says "or", but the code has "and".
 
-This comes afterward, I didn't check the patches but the end result
-covers what you mention above.
+The comment documents what conditions we need before we actually go and set the
+output value.
 
-> 
-> 2. What about BlockJob.nodes field? Shouldn't we protect it by the mutex?
-> 
+The test is whether we fail to meet those conditions.
 
-As I wrote in the comment in patch 17, seems to be always modified under
-GLOBAL_STATE_CODE.
+If the condition evaluates true we don't want to modify the GPIO value, so we
+`continue` to the next loop iteration to test the next GPIO.
 
-Thank you,
-Emanuele
+>
+> input_mask doesn't seem to feature in the Linux driver, so that will
+> always be zero. The test will be X && 0, which is always 0.
+>
+> If you changed it to || then we would do the test that the comment
+> suggests. When the pin is input, we will skip updating the value.
 
+The condition shouldn't change, rather if the comment makes things more
+confusing rather than less, we should change that instead.
+
+Andrew
 
