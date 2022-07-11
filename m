@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026D157088E
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 18:52:01 +0200 (CEST)
-Received: from localhost ([::1]:53788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD5A5708A4
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 19:07:32 +0200 (CEST)
+Received: from localhost ([::1]:39334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAwdb-00054r-S5
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 12:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35598)
+	id 1oAwsd-0006Rq-9G
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 13:07:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=G9Ii=XQ=zx2c4.com=Jason@kernel.org>)
- id 1oAwXs-0001LU-RR
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 12:46:08 -0400
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1]:42696)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=G9Ii=XQ=zx2c4.com=Jason@kernel.org>)
- id 1oAwXo-0005Jh-29
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 12:46:04 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 3F357CE1282;
- Mon, 11 Jul 2022 16:45:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27798C34115;
- Mon, 11 Jul 2022 16:45:53 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="YppZTJE0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1657557951;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TTPFgBEg+NRhk7UtwOitje7JV7ehsa4iJlwWGGxvTxc=;
- b=YppZTJE0sLDSPPIaaxvl/e3BJWqkCWmKIDqWfgKPP2jEhxLhelzTgwMbZGJ/hm3rjzXIuq
- RCiQYqys5Lu9nk8cODn9wPWD8pZ4Vnqsi8dikYQitXAmtmsIXWHM8xhfVuHt+oCQ4dvYbe
- g2OAws97BxG8+H8eJ041Lq80ojljBJ4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 378cb2cb
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Mon, 11 Jul 2022 16:45:51 +0000 (UTC)
-Date: Mon, 11 Jul 2022 18:45:42 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH] hw/riscv: virt: pass random seed to fdt
-Message-ID: <YsxTtkdp7p10qzc3@zx2c4.com>
-References: <20220613115810.178210-1-Jason@zx2c4.com>
- <CAKmqyKMn+-FXacKrzB7FppQ5WEi-9h+-6w+Ev51j2Qoum4-QKw@mail.gmail.com>
- <CAHmME9rgMnAtPNDQ5hPrZ8ROd_Mgm4C+2PZioJ861HpcLfZL8Q@mail.gmail.com>
- <YsYxM6gmJf7y/nJc@zx2c4.com>
- <CAKmqyKNUC+eiXLqqwSC3AjmqUtBc8p59mAHdumZ2oHiCT8aT0A@mail.gmail.com>
- <CAHmME9o1AaNHacHV8O0Ni+AHdYeQZ9xjt-ygc-wwU=Vu97juCQ@mail.gmail.com>
- <CAKmqyKOJFz7i5sORoZ4sbjeLg_=b3=Nim6zfPRK0Dp1w29KfSQ@mail.gmail.com>
- <CAHmME9qqOVhKOiCc=UVZcj07GwGFcBJB6UdOY5LXpFpy9GA=Rg@mail.gmail.com>
- <CAKmqyKM16Hjwu1kQgvk-18bSszRKTTvpP7oeZx=hwP-m-KsL-w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAKmqyKM16Hjwu1kQgvk-18bSszRKTTvpP7oeZx=hwP-m-KsL-w@mail.gmail.com>
-Received-SPF: pass client-ip=2604:1380:40e1:4800::1;
- envelope-from=SRS0=G9Ii=XQ=zx2c4.com=Jason@kernel.org;
- helo=sin.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3DFXMYgcKCgU0jsyzwjlttlqj.htrvjrz-ij0jqstslsz.twl@flex--venture.bounces.google.com>)
+ id 1oAwd5-0004y2-Hm
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 12:51:27 -0400
+Received: from mail-yw1-x1149.google.com ([2607:f8b0:4864:20::1149]:35381)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3DFXMYgcKCgU0jsyzwjlttlqj.htrvjrz-ij0jqstslsz.twl@flex--venture.bounces.google.com>)
+ id 1oAwd3-0007Yt-MM
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 12:51:27 -0400
+Received: by mail-yw1-x1149.google.com with SMTP id
+ 00721157ae682-31c936387fbso48763397b3.2
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 09:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=CS03g6LdUzLlF3X/TJXikbBtMI46Jvzm72BrBzkJ1i8=;
+ b=PPhQOn9jkKVIy4EjQPlzMIkA/NHYOWRqAd2VLjobLHTuYWqNYIZxN717f3fUcVF9c5
+ 6HvbM4x+pjTDC05X5FNpD4NegKO9KP2oxvsfj80CgnEJC4DGYM8Q8PNx3eOOiq2JlCL3
+ JlMaiOtVNZ7gShDDelRVqSlNy8iSZRuof+t6mJkAhMt/6dzVG4KViibBIlTsjF7/tJhE
+ daTDdn9zY09nLyECSRsvRg3qdKidiYocjPMcyqrq8txQAlG2y+D1ngK4a+bc1e3pgpIK
+ oTGD6TU1aJ9wSuPxXI7kkLsCVcQIAebRMTxzGFz4KI5nFh8mgf37pjxiOXGUqsNL9PXo
+ zKfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=CS03g6LdUzLlF3X/TJXikbBtMI46Jvzm72BrBzkJ1i8=;
+ b=fVJUvVdw8m8u7Xla558MI3BES0m+wwmFxSTTceOEXdnw/ouHDAFgWLKl5P4TX2gksH
+ jcvuLjQ2Fb7OQ/TJCmbG8joRtqGi2zyEx/N36LgX1Gp4CCJXhSq2+IfaO3JHrEkUFEu+
+ KyUq5Z8QwGs/QO7dteW8IG4uSDsuMBA/pDPDmRc+sbL0dgJ2O4SAf1dLuv/t4LCEiL9z
+ ssObExcMi1O5VYov5z9vkwRjnGeP4qK55E7Fgi3z99JzzN5PR4iui2BpVV7wx3IueWch
+ tdGPHvTJtrMb3WxUOGIWCR01Y+CUrVwybuQNd/5rHQrA72fLbJRfjnXghBVkQfm2skdJ
+ xWzQ==
+X-Gm-Message-State: AJIora+K+ECuHv/8e2w/JbPcU5jLAzZeKyLY0K+NKxlfEZJJXR6g0eS7
+ 6EPmrh9V8ve5klKZOnrncBkgYpkICER1
+X-Google-Smtp-Source: AGRyM1ukpFuYN7ZEL4/dTieGA/8zz2XF0kLp28znsvFy2dxNlwbe781RAkGQWbs/c6fSJ6Rllu4dMLnFrZzY
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:201:cd82:31ee:d030:c73c])
+ (user=venture job=sendgmr) by 2002:a0d:dfd7:0:b0:31d:6466:3485 with SMTP id
+ i206-20020a0ddfd7000000b0031d64663485mr8819808ywe.509.1657558284043; Mon, 11
+ Jul 2022 09:51:24 -0700 (PDT)
+Date: Mon, 11 Jul 2022 09:51:19 -0700
+Message-Id: <20220711165119.2591835-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
+Subject: [PATCH v2] hw/nvram: Add at24c-eeprom support for small eeproms
+From: Patrick Venture <venture@google.com>
+To: f4bug@amsat.org, cminyard@mvista.com
+Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>,
+ Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1149;
+ envelope-from=3DFXMYgcKCgU0jsyzwjlttlqj.htrvjrz-ij0jqstslsz.twl@flex--venture.bounces.google.com;
+ helo=mail-yw1-x1149.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,90 +87,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,
+Tested: Verified at24c02 driver happy and contents matched
+expectations.
 
-On Mon, Jul 11, 2022 at 01:36:28PM +1000, Alistair Francis wrote:
-> On Mon, Jul 11, 2022 at 10:28 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> >
-> > On 7/11/22, Alistair Francis <alistair23@gmail.com> wrote:
-> > > On Fri, Jul 8, 2022 at 7:56 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> > >>
-> > >> Hi Alistair,
-> > >>
-> > >> On 7/8/22, Alistair Francis <alistair23@gmail.com> wrote:
-> > >>
-> > >> >> > but I think that's just the way things go unfortunately.
-> > >> >
-> > >> > Hmm... That's a pain. So there is a bug in older kernels where they
-> > >> > won't boot if we specify this?
-> > >> >
-> > >> > Can you point to the fixes?
-> > >>
-> > >> Actually, in trying to reproduce this, I don't actually think this is
-> > >> affected by those old random.c bugs.
-> > >>
-> > >>
-> > >> >> As for your 5.8 issue, I've been trying to reproduce that to
-> > >> >> understand
-> > >> >> more about it, but I'm unable to. I've been trying with
-> > >> >> nommu_virt_defconfig using my patch ontop of qemu master. Maybe it's
-> > >> >> possible in testing this out you were testing the wrong branch?
-> > >> >> Anyway,
-> > >> >> it'd be nice to get this queued up...
-> > >> >
-> > >> > Hmm... you can't reproduce it?
-> > >>
-> > >> No, I can't, and I'm now no longer convinced that there *is* a bug.
-> > >> Can you try to repro again and send me detailed reproduction steps?
-> > >
-> > > I just checked again and I can confirm it is this patch that causes
-> > > the regression.
-> > >
-> > > This is the command line:
-> > >
-> > > qemu-system-riscv64 \
-> > > -machine virt -m 64M \
-> > > -cpu rv64,mmu=false \
-> > > -serial mon:stdio -serial null -nographic \
-> > > -append "root=/dev/vda rw highres=off  console=ttyS0 mem=1G ip=dhcp
-> > > earlycon=sbi" \
-> > > -device virtio-net-device,netdev=net0,mac=52:54:00:12:34:02 -netdev
-> > > user,id=net0 \
-> > > -object rng-random,filename=/dev/urandom,id=rng0 -device
-> > > virtio-rng-device,rng=rng0 \
-> > > -smp 1 -d guest_errors \
-> > > -kernel ./images/qemuriscv64/nommu-Image \
-> > > -drive
-> > > id=disk0,file=./images/qemuriscv64/nommu-rootfs.ext2,if=none,format=raw \
-> > > -device virtio-blk-device,drive=disk0 -bios none
-> > >
-> > > You can access the images from:
-> > > https://nextcloud.alistair23.me/index.php/s/a2zrtbT7DjdTx9t
-> > >
-> >
-> > Thanks. Can you send the kernel . config too?
-> 
-> Unfortunately I don't have it, it should just be the 5.8 no MMU defconfig though
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+---
+v2: Added comment describing the new behavior.
+---
+ hw/nvram/eeprom_at24c.c | 56 ++++++++++++++++++++++++++++-------------
+ 1 file changed, 39 insertions(+), 17 deletions(-)
 
-I've reproduced the problem and determined the root cause. This is a
-generic issue with the mmio get_cycles() implementation before 5.9 on
-no-MMU configs, which was fixed during the 5.9 cycle. I don't believe
-that this is the only thing affected on that .0 kernel, where fixes were
-ostensibly backported. Given the relative age of risc-v, the fact that
-5.8.0 was broken anyway, and that likely nobody is using this kernel in
-that configuration without applying updates, I'm pretty sure my patch is
-safe to apply. I'd recommend updating the broken kernel in your CI.
+diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+index d695f6ae89..eb91ec6813 100644
+--- a/hw/nvram/eeprom_at24c.c
++++ b/hw/nvram/eeprom_at24c.c
+@@ -45,6 +45,8 @@ struct EEPROMState {
+     bool changed;
+     /* during WRITE, # of address bytes transfered */
+     uint8_t haveaddr;
++    /* whether it's 8-bit addressed or 16-bit */
++    bool eightbit;
+ 
+     uint8_t *mem;
+ 
+@@ -87,7 +89,7 @@ uint8_t at24c_eeprom_recv(I2CSlave *s)
+     EEPROMState *ee = AT24C_EE(s);
+     uint8_t ret;
+ 
+-    if (ee->haveaddr == 1) {
++    if (ee->haveaddr == 1 && !ee->eightbit) {
+         return 0xff;
+     }
+ 
+@@ -104,26 +106,35 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
+ {
+     EEPROMState *ee = AT24C_EE(s);
+ 
+-    if (ee->haveaddr < 2) {
+-        ee->cur <<= 8;
+-        ee->cur |= data;
++    if (ee->haveaddr < 1) {
++        ee->cur = data;
+         ee->haveaddr++;
+-        if (ee->haveaddr == 2) {
+-            ee->cur %= ee->rsize;
++        if (ee->eightbit) {
+             DPRINTK("Set pointer %04x\n", ee->cur);
+         }
++        return 0;
++    } else if (ee->haveaddr < 2) {
++        if (!ee->eightbit) {
++            ee->cur <<= 8;
++            ee->cur |= data;
++            ee->haveaddr++;
++            if (ee->haveaddr == 2) {
++                ee->cur %= ee->rsize;
++                DPRINTK("Set pointer %04x\n", ee->cur);
++            }
+ 
+-    } else {
+-        if (ee->writable) {
+-            DPRINTK("Send %02x\n", data);
+-            ee->mem[ee->cur] = data;
+-            ee->changed = true;
+-        } else {
+-            DPRINTK("Send error %02x read-only\n", data);
++            return 0;
+         }
+-        ee->cur = (ee->cur + 1u) % ee->rsize;
++    }
+ 
++    if (ee->writable) {
++        DPRINTK("Send %02x\n", data);
++        ee->mem[ee->cur] = data;
++        ee->changed = true;
++    } else {
++        DPRINTK("Send error %02x read-only\n", data);
+     }
++    ee->cur = (ee->cur + 1u) % ee->rsize;
+ 
+     return 0;
+ }
+@@ -133,12 +144,16 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+     EEPROMState *ee = AT24C_EE(dev);
+ 
+     if (ee->blk) {
++        /* blk length is a minimum of 1 sector. */
+         int64_t len = blk_getlength(ee->blk);
+ 
+         if (len != ee->rsize) {
+-            error_setg(errp, "%s: Backing file size %" PRId64 " != %u",
+-                       TYPE_AT24C_EE, len, ee->rsize);
+-            return;
++            /* for the at24c01 and at24c02, they are smaller than a sector. */
++            if (ee->rsize >= BDRV_SECTOR_SIZE) {
++                error_setg(errp, "%s: Backing file size %" PRId64 " != %u",
++                           TYPE_AT24C_EE, len, ee->rsize);
++                return;
++            }
+         }
+ 
+         if (blk_set_perm(ee->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
+@@ -150,6 +165,13 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+         }
+     }
+ 
++    /*
++     * The eeprom sizes are 2**x based, so if it's strictly less than 512, we
++     * expect it to be 256 or 128.
++     */
++    if (ee->rsize < 512) {
++        ee->eightbit = true;
++    }
+     ee->mem = g_malloc0(ee->rsize);
+ }
+ 
+-- 
+2.37.0.144.g8ac04bfd2-goog
 
-Meanwhile, the rng-seed field is part of the DT spec. Holding back the
-(virtual) hardware just because some random dot-zero non-LTS release had
-a quickly fixed bug seems ridiculous, and the way in which progress gets
-held up, hacks accumulate, and generally nothing good gets done. It will
-only hamper security, functionality, and boot speed, while helping no
-real practical case that can't be fixed in a better way.
-
-So I believe you should apply the rng-seed commit so that the RISC-V
-machine honors that DT field.
-
-Regards,
-Jason
 
