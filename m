@@ -2,91 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC86E57098F
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 19:55:02 +0200 (CEST)
-Received: from localhost ([::1]:38800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7D6570A44
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 21:02:25 +0200 (CEST)
+Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAxcb-000240-8M
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 13:55:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54692)
+	id 1oAyfm-0007Dn-WC
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 15:02:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oAxao-0000YX-8D
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 13:53:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42766)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oAyaX-0002R4-4C; Mon, 11 Jul 2022 14:56:57 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oAxak-0003no-A6
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 13:53:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657561985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=babD7UDcU1gYaaaM965cIigQSR9TILDl64vr9k0aGjc=;
- b=gXt2kNgYFmSb1aiL/D3psO6FmZD6QitAN8RXUY5yMQQHt2VvwDlnMdd9YskpgiUA/KE4gC
- gPsBAezgJbY3mPnu8Vcynu8c5mPCEQvbAJf6YnibNJ5XeNHtlmbwkrxtqgjL9NB30zJGGc
- Q2B6VmbuNWkPJg2WUAw1QJUfvkUFMwA=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-UL3r4YBbPTSvzPhjDdav_w-1; Mon, 11 Jul 2022 13:52:52 -0400
-X-MC-Unique: UL3r4YBbPTSvzPhjDdav_w-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bm2-20020a05620a198200b006a5dac37fa2so5875557qkb.16
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 10:52:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=babD7UDcU1gYaaaM965cIigQSR9TILDl64vr9k0aGjc=;
- b=tBufZkDg4aLFFXefOXDgJvexac7dyVoJTpAxWgeEPvy3KdgWyZ+w7FU7euguVs4qfx
- 0Ta5KAxry/MywxOm8AnEvehrUGR2i7sFDpnUcEUajSGs/mh1LDgl0fRWNiUPYslYaclp
- QF3f8FuzfAsG3lWRGiZZfMc59jIIgPNcHme3/38KejT2JxLwLSm/fbwDaYV28riTSrf2
- aWCJRCd5LRlolhXJlS9G6POVvCh+Vh28N77H2/MtijykqDL0ufl8PEc/xe56BQwJnm95
- Roekm0M4Q8I2N6Uyk/3u2pcVBoYMEIhMo4FfPqgqmQep3EXdh0CzdJppuvc4vzpwzFx9
- SFSQ==
-X-Gm-Message-State: AJIora9Gnu2QyXOmhhNdsxKeq8EjGzELirIvqQcpfPmGsPl98sZ2JJSB
- tgBO7dAwKGvoEGpwPGpjnpTbAFictUgcxR4aLRGgQrX6VU4p4stDM3FGAN/SSIbmSe/AYPKR3yb
- K52FjB46VJ+yppPnNysjkV9SNOkD8TgE=
-X-Received: by 2002:a05:622a:104c:b0:31e:b177:6bf0 with SMTP id
- f12-20020a05622a104c00b0031eb1776bf0mr7110718qte.582.1657561969750; 
- Mon, 11 Jul 2022 10:52:49 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vzMHV0gXe+t+qTz7Jh9DbTsHuU9Htxg+iR8MKsEaFmE3o2usaMVyUGRzH/CjL9xTUjG1TMBC5huXt71/bgzRE=
-X-Received: by 2002:a05:622a:104c:b0:31e:b177:6bf0 with SMTP id
- f12-20020a05622a104c00b0031eb1776bf0mr7110697qte.582.1657561969510; Mon, 11
- Jul 2022 10:52:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oAyaV-0005xT-8L; Mon, 11 Jul 2022 14:56:56 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26BHJYR4009799;
+ Mon, 11 Jul 2022 18:56:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=dja5qNhFMidWWRcqGwEE52roSibN8A1rnBHFE4gUAxk=;
+ b=ZezxH+t/qwP/PkJT85xCx01kGlz4Fj0ZAswhefwinQk8T1q6AHGL5pG892lKn+XTVkea
+ 3AGlBTqcQkV594eyMGZaFcYUHSv6Mw8S31JRban/VV/Cs5LdyeM7Rffr2B506+Dx8M/Y
+ WhY868YqCfkFXNWhaRfSRJX0OFi0Wk+gMYfedETxjbKryKSB7i95ECLx5bBbKrW9QKBr
+ 1/OyZJnSi7te3DNu7raI7YS9VxYTnxDoce2irVqNc2QCxVasihffZjbO6PeKtNDjAC1y
+ rCBU+GF0Vh5kx97AajJjG2PccstkkiMAbHzlB6hTlQxt5rKp0KujKiM4eKBbFF1NBxWf 2g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8r5rjbna-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jul 2022 18:56:50 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26BHw9xp031989;
+ Mon, 11 Jul 2022 18:56:50 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8r5rjbmq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jul 2022 18:56:49 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26BIplpx017489;
+ Mon, 11 Jul 2022 18:56:47 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3h8rrn01h3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jul 2022 18:56:47 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26BIuiGi24117578
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Jul 2022 18:56:44 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4636A42041;
+ Mon, 11 Jul 2022 18:56:44 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AEB5842042;
+ Mon, 11 Jul 2022 18:56:43 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.48.196])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 11 Jul 2022 18:56:43 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH 0/3] accel/tcg: Fix unaligned stores to s390x
+ low-address-protected lowcore
+Date: Mon, 11 Jul 2022 20:56:37 +0200
+Message-Id: <20220711185640.3558813-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-15-eperezma@redhat.com>
- <cac07706-7753-c3bd-e3f7-5ef48e190f1d@redhat.com>
-In-Reply-To: <cac07706-7753-c3bd-e3f7-5ef48e190f1d@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 11 Jul 2022 19:52:13 +0200
-Message-ID: <CAJaqyWdcr3VDL0cM7kSe_4uTzvsfZd_dYkqdZSo5ptQkAmX3UA@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 14/23] vhost: add vhost_svq_poll
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Eric Blake <eblake@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 1CvrOhAAtuXx7EwvAaRivNhuDPkXezCI
+X-Proofpoint-GUID: nPbzrZQAUIWRBp6ptrymFOufaTkEAumE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-11_23,2022-07-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0
+ lowpriorityscore=0 adultscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
+ priorityscore=1501 clxscore=1015 bulkscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207110079
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,154 +114,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 11, 2022 at 11:19 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/7/7 02:39, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > It allows the Shadow Control VirtQueue to wait the device to use the co=
-mmands
-> > that restore the net device state after a live migration.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   hw/virtio/vhost-shadow-virtqueue.h |  1 +
-> >   hw/virtio/vhost-shadow-virtqueue.c | 54 ++++++++++++++++++++++++++++-=
--
-> >   2 files changed, 52 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
-w-virtqueue.h
-> > index d01d2370db..c8668fbdd6 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > @@ -100,6 +100,7 @@ void vhost_svq_push_elem(VhostShadowVirtqueue *svq,
-> >                            const VirtQueueElement *elem, uint32_t len);
-> >   int vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *i=
-ov,
-> >                        size_t out_num, size_t in_num, void *opaque);
-> > +ssize_t vhost_svq_poll(VhostShadowVirtqueue *svq);
-> >   void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kic=
-k_fd);
-> >   void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_fd=
-);
-> >   void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
-w-virtqueue.c
-> > index bd9e34b413..ed7f1d0bc9 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > @@ -10,6 +10,8 @@
-> >   #include "qemu/osdep.h"
-> >   #include "hw/virtio/vhost-shadow-virtqueue.h"
-> >
-> > +#include <glib/gpoll.h>
-> > +
-> >   #include "qemu/error-report.h"
-> >   #include "qapi/error.h"
-> >   #include "qemu/main-loop.h"
-> > @@ -490,10 +492,11 @@ void vhost_svq_push_elem(VhostShadowVirtqueue *sv=
-q,
-> >       }
-> >   }
-> >
-> > -static void vhost_svq_flush(VhostShadowVirtqueue *svq,
-> > -                            bool check_for_avail_queue)
-> > +static size_t vhost_svq_flush(VhostShadowVirtqueue *svq,
-> > +                              bool check_for_avail_queue)
-> >   {
-> >       VirtQueue *vq =3D svq->vq;
-> > +    size_t ret =3D 0;
-> >
-> >       /* Forward as many used buffers as possible. */
-> >       do {
-> > @@ -510,7 +513,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *s=
-vq,
-> >                            "More than %u used buffers obtained in a %u =
-size SVQ",
-> >                            i, svq->vring.num);
-> >                   virtqueue_flush(vq, svq->vring.num);
-> > -                return;
-> > +                return ret;
-> >               }
-> >
-> >               svq_elem =3D vhost_svq_get_buf(svq, &len);
-> > @@ -520,6 +523,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *s=
-vq,
-> >
-> >               elem =3D g_steal_pointer(&svq_elem.opaque);
-> >               virtqueue_fill(vq, elem, len, i++);
-> > +            ret++;
-> >           }
-> >
-> >           virtqueue_flush(vq, i);
-> > @@ -533,6 +537,50 @@ static void vhost_svq_flush(VhostShadowVirtqueue *=
-svq,
-> >               vhost_handle_guest_kick(svq);
-> >           }
-> >       } while (!vhost_svq_enable_notification(svq));
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +/**
-> > + * Poll the SVQ for device used buffers.
-> > + *
-> > + * This function race with main event loop SVQ polling, so extra
-> > + * synchronization is needed.
-> > + *
-> > + * Return the number of descriptors read from the device.
-> > + */
-> > +ssize_t vhost_svq_poll(VhostShadowVirtqueue *svq)
-> > +{
-> > +    int fd =3D event_notifier_get_fd(&svq->hdev_call);
-> > +    GPollFD poll_fd =3D {
-> > +        .fd =3D fd,
-> > +        .events =3D G_IO_IN,
-> > +    };
-> > +    assert(fd >=3D 0);
-> > +    int r =3D g_poll(&poll_fd, 1, -1);
->
->
-> Any reason we can't simply (busy) polling the used ring here? It might
-> help to reduce the latency (and it is what kernel driver uses).
->
+Hi,
 
-Yes, I'll change to a busy polling. I forgot to change it.
+I noticed that certain accesses to lowcore incorrectly trigger
+protection exceptions. I tracked it down to store_helper_unaligned()
+calling tlb_fill() with ranges like [0, 2000).
 
-Thanks!
+Patch 1 fixes the issue, patch 2 adds a new MMIO device that enables
+writing system tests for s390x, patch 3 adds a system test for this
+issue.
 
-> Thanks
->
->
-> > +
-> > +    if (unlikely(r < 0)) {
-> > +        error_report("Cannot poll device call fd "G_POLLFD_FORMAT": (%=
-d) %s",
-> > +                     poll_fd.fd, errno, g_strerror(errno));
-> > +        return -errno;
-> > +    }
-> > +
-> > +    if (r =3D=3D 0) {
-> > +        return 0;
-> > +    }
-> > +
-> > +    if (unlikely(poll_fd.revents & ~(G_IO_IN))) {
-> > +        error_report(
-> > +            "Error polling device call fd "G_POLLFD_FORMAT": revents=
-=3D%d",
-> > +            poll_fd.fd, poll_fd.revents);
-> > +        return -1;
-> > +    }
-> > +
-> > +    /*
-> > +     * Max return value of vhost_svq_flush is (uint16_t)-1, so it's sa=
-fe to
-> > +     * convert to ssize_t.
-> > +     */
-> > +    return vhost_svq_flush(svq, false);
-> >   }
-> >
-> >   /**
->
+Best regards,
+Ilya
+
+Ilya Leoshkevich (3):
+  accel/tcg: Fix unaligned stores to s390x low-address-protected lowcore
+  hw/misc: Add mmio-debug-exit device
+  tests/tcg/s390x: Test unaligned accesses to lowcore
+
+ accel/tcg/cputlb.c                      |  8 ++-
+ hw/misc/Kconfig                         |  3 +
+ hw/misc/debugexit_mmio.c                | 80 +++++++++++++++++++++++++
+ hw/misc/meson.build                     |  1 +
+ hw/s390x/Kconfig                        |  1 +
+ tests/tcg/s390x/Makefile.softmmu-target |  9 +++
+ tests/tcg/s390x/unaligned-lowcore.S     | 24 ++++++++
+ 7 files changed, 123 insertions(+), 3 deletions(-)
+ create mode 100644 hw/misc/debugexit_mmio.c
+ create mode 100644 tests/tcg/s390x/Makefile.softmmu-target
+ create mode 100644 tests/tcg/s390x/unaligned-lowcore.S
+
+-- 
+2.35.3
 
 
