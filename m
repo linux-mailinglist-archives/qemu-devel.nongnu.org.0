@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D026570663
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:59:22 +0200 (CEST)
-Received: from localhost ([::1]:48318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CB9570591
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:29:44 +0200 (CEST)
+Received: from localhost ([::1]:42402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAusb-0000NL-Ej
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:59:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43266)
+	id 1oAuPv-0007DW-Mr
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:29:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvp-0006nw-7j
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:37 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46673)
+ id 1oAtvo-0006mS-1S
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:36 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtve-0002ud-Sf
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:36 -0400
-Received: by mail-wr1-x431.google.com with SMTP id v16so7100932wrd.13
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:24 -0700 (PDT)
+ id 1oAtve-0002uh-RC
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:35 -0400
+Received: by mail-wr1-x431.google.com with SMTP id a5so7118064wrx.12
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=RcIdbbXzpewsExSM+4LX7uPRbT+xi+nVqfYtgmho4n4=;
- b=QEind2Jf9dCdgO4FuxMA77M1WMoHKJ21n7EvqoZNhvq5DGNRw5CJZRWz0yTMh8y3c9
- kETjkJBfM6KFBD7GBkEyTNS25l//lGry3ga3+lFmZPk5B4HH9iLX8Am/0pXkywsJ2pZ7
- HQFtx0YfrTArFxcXg3l4/8Ahk2monl2mAuc5/RS/e17C3QDsOrNgNTP49W8kBcoL7WV+
- LsbSuxg4zrm5dEK2E3vS5jyLC69lNLGIr47PBEhwWidOLknxaa/XY4Xx+qDmyz+V8HSW
- 8NPza4Rz5XhPBIzviUHCtJHhkmTx4898GEIRMgzKZclY+5yMkiOqDP1t6drdt6WzzczE
- MKHg==
+ bh=zRQNKZGKQhKr7J1kk0X1ky1/gLAO7OPNVwA91vM50lQ=;
+ b=dodTiylk8c2Zgq+uMwhnhz1/KCy2tN0oR029p0OWSytK2pg9i1BNquAWp1ip9fksHm
+ 8mMbQG+PFspwYnjmIl4GhhnXyoXZXOokEAyp8Gg+zwVVK93ZLRxWgYXWQ9uiHrc2eDuH
+ u2fem9KxjkQWDivUrmbT94HcOv5QZEpFieVgzCeEpC+fy0dieWIknOtG3ubPIg7+Eku6
+ oGOttQIMHwBD7Of6NAVIzhoYW9MekD3rzkRf7AQtp4Q+M6zcuBnaRh2g4UYrV8HLQ2ez
+ oL724rbWi2ENs+x3cNP++pYfLsve8Xiypm6Zp42JJnhW3snVLYAmdyGV1Pljh1GodJnl
+ UEhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RcIdbbXzpewsExSM+4LX7uPRbT+xi+nVqfYtgmho4n4=;
- b=O3hPq974EGhISWg4kJFJoSsnqYa6Dfl6k7DF6Ao2kUJ++QfWxi4cswt833n0ZRp5Gk
- UNdywLJ7y+/T7X0z55iB26fXyV+ybfzTYNOn0HuxPIdwV1xt3HHZWua/po/Gmxu19KDc
- WrgdGWDIvIUJpcQmvnrpsk3N9dInSMYbS2h55QUtZKS++85vfX/sjrmFBhIzQY2ukIFC
- OTS4Fol2JgwFyjSMiiA/p6mozhsc9lUVz/mk/d9iHv6Yj8i4OI6IzHDWsmcKA6k69eS7
- n8R4+gEInGHKucxc7o8dHkZak65Y9pmniqXZ6G/yOCqtn+HXFjPyTAKgdnbJznqB6yhy
- LCmA==
-X-Gm-Message-State: AJIora82x6Hd5SBtF1fo/0uWZ8njpoaIrc//HAiTvJ+XEVErmrx4/h+N
- 0ng5OQZfAPV9R/s2OE6kmyga1quJal50Qg==
-X-Google-Smtp-Source: AGRyM1vm+lSjlPIMtHwqTGzRYVy/PKLbxC2mqHyk5w64IFNL/QdN6Cnm5KF51MEksnshkT+q4WnaNw==
-X-Received: by 2002:adf:fbc6:0:b0:21d:3fc3:99e with SMTP id
- d6-20020adffbc6000000b0021d3fc3099emr17159923wrs.550.1657547903776; 
- Mon, 11 Jul 2022 06:58:23 -0700 (PDT)
+ bh=zRQNKZGKQhKr7J1kk0X1ky1/gLAO7OPNVwA91vM50lQ=;
+ b=c56jvAu3l9n8I1tYtrCNvJK0LxT/2yN2MrA/+FuOsStTBYWlMX3L9XxJTPpLiAHbei
+ BnJlo6Hqe7AKa+P0IONNxg9LL2igKOXpAjUPPASYUOhbXG1uKQMuWnDYHWRhCQbRb8+H
+ fEUsFynibPAHtdQAoW2813PHM0UXQ4nNRc5Iqlq3tSfWGLJSzX/0AQNdua+3ontXkDnZ
+ NOdgWEl3T6YeOB8sTxc41x3VZe/D5ooqIgXD8TIr+odytmKbqZNFtpdigNfebnwdgPGM
+ LeYl7s5gBxTVp5hsw1b138bkv0u6B/nx1f9OrVVT77iG58uq9w4bvbroKG7EBNRlEFWm
+ MYhg==
+X-Gm-Message-State: AJIora9ki+grUj9JUPa+7Ou8AF9equsrbTs8PGG6U5ATQLfmNi/0k72J
+ rdCgKmCdxqkBuV+ET4/5+dPNoJNcowQKlg==
+X-Google-Smtp-Source: AGRyM1vnFIAHkgliCHBD6cSmbqsFkAFb8Cl9O3ouPmtKe//bgoxpvi1q2uI2/ZltQpviGQrg4BNJJQ==
+X-Received: by 2002:a05:6000:2aa:b0:21d:ac4b:95af with SMTP id
+ l10-20020a05600002aa00b0021dac4b95afmr2138572wry.479.1657547904559; 
+ Mon, 11 Jul 2022 06:58:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:58:23 -0700 (PDT)
+ Mon, 11 Jul 2022 06:58:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/45] linux-user/aarch64: Verify extra record lock succeeded
-Date: Mon, 11 Jul 2022 14:57:43 +0100
-Message-Id: <20220711135750.765803-39-peter.maydell@linaro.org>
+Subject: [PULL 39/45] linux-user/aarch64: Move sve record checks into restore
+Date: Mon, 11 Jul 2022 14:57:44 +0100
+Message-Id: <20220711135750.765803-40-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711135750.765803-1-peter.maydell@linaro.org>
 References: <20220711135750.765803-1-peter.maydell@linaro.org>
@@ -90,28 +90,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+Move the checks out of the parsing loop and into the
+restore function.  This more closely mirrors the code
+structure in the kernel, and is slightly clearer.
+
+Reject rather than silently skip incorrect VL and SVE record sizes,
+bringing our checks in to line with those the kernel does.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220708151540.18136-39-richard.henderson@linaro.org
+Message-id: 20220708151540.18136-40-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/aarch64/signal.c | 3 +++
- 1 file changed, 3 insertions(+)
+ linux-user/aarch64/signal.c | 51 +++++++++++++++++++++++++------------
+ 1 file changed, 35 insertions(+), 16 deletions(-)
 
 diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-index 8fbe98d72f2..9ff79da4be0 100644
+index 9ff79da4be0..22d0b8b4ece 100644
 --- a/linux-user/aarch64/signal.c
 +++ b/linux-user/aarch64/signal.c
-@@ -340,6 +340,9 @@ static int target_restore_sigframe(CPUARMState *env,
-             __get_user(extra_size,
-                        &((struct target_extra_context *)ctx)->size);
-             extra = lock_user(VERIFY_READ, extra_datap, extra_size, 0);
-+            if (!extra) {
-+                return 1;
-+            }
-             break;
+@@ -250,12 +250,36 @@ static void target_restore_fpsimd_record(CPUARMState *env,
+     }
+ }
  
-         default:
+-static void target_restore_sve_record(CPUARMState *env,
+-                                      struct target_sve_context *sve, int vq)
++static bool target_restore_sve_record(CPUARMState *env,
++                                      struct target_sve_context *sve,
++                                      int size)
+ {
+-    int i, j;
++    int i, j, vl, vq;
+ 
+-    /* Note that SVE regs are stored as a byte stream, with each byte element
++    if (!cpu_isar_feature(aa64_sve, env_archcpu(env))) {
++        return false;
++    }
++
++    __get_user(vl, &sve->vl);
++    vq = sve_vq(env);
++
++    /* Reject mismatched VL. */
++    if (vl != vq * TARGET_SVE_VQ_BYTES) {
++        return false;
++    }
++
++    /* Accept empty record -- used to clear PSTATE.SM. */
++    if (size <= sizeof(*sve)) {
++        return true;
++    }
++
++    /* Reject non-empty but incomplete record. */
++    if (size < TARGET_SVE_SIG_CONTEXT_SIZE(vq)) {
++        return false;
++    }
++
++    /*
++     * Note that SVE regs are stored as a byte stream, with each byte element
+      * at a subsequent address.  This corresponds to a little-endian load
+      * of our 64-bit hunks.
+      */
+@@ -277,6 +301,7 @@ static void target_restore_sve_record(CPUARMState *env,
+             }
+         }
+     }
++    return true;
+ }
+ 
+ static int target_restore_sigframe(CPUARMState *env,
+@@ -287,7 +312,7 @@ static int target_restore_sigframe(CPUARMState *env,
+     struct target_sve_context *sve = NULL;
+     uint64_t extra_datap = 0;
+     bool used_extra = false;
+-    int vq = 0, sve_size = 0;
++    int sve_size = 0;
+ 
+     target_restore_general_frame(env, sf);
+ 
+@@ -321,15 +346,9 @@ static int target_restore_sigframe(CPUARMState *env,
+             if (sve || size < sizeof(struct target_sve_context)) {
+                 goto err;
+             }
+-            if (cpu_isar_feature(aa64_sve, env_archcpu(env))) {
+-                vq = sve_vq(env);
+-                sve_size = QEMU_ALIGN_UP(TARGET_SVE_SIG_CONTEXT_SIZE(vq), 16);
+-                if (size == sve_size) {
+-                    sve = (struct target_sve_context *)ctx;
+-                    break;
+-                }
+-            }
+-            goto err;
++            sve = (struct target_sve_context *)ctx;
++            sve_size = size;
++            break;
+ 
+         case TARGET_EXTRA_MAGIC:
+             if (extra || size != sizeof(struct target_extra_context)) {
+@@ -362,8 +381,8 @@ static int target_restore_sigframe(CPUARMState *env,
+     }
+ 
+     /* SVE data, if present, overwrites FPSIMD data.  */
+-    if (sve) {
+-        target_restore_sve_record(env, sve, vq);
++    if (sve && !target_restore_sve_record(env, sve, sve_size)) {
++        goto err;
+     }
+     unlock_user(extra, extra_datap, 0);
+     return 0;
 -- 
 2.25.1
 
