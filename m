@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818B15707DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 18:05:07 +0200 (CEST)
-Received: from localhost ([::1]:34676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365A4570844
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 18:26:41 +0200 (CEST)
+Received: from localhost ([::1]:58400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAvuA-0002GT-LP
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 12:05:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44520)
+	id 1oAwF5-0004hY-Qs
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 12:26:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oAvlT-0000vS-WB
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:56:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34234)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oAvkj-0007xc-Pb
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:55:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oAvlS-0006Hv-3p
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:56:03 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oAvke-0006EP-9x
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:55:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657554961;
+ s=mimecast20190719; t=1657554909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=No/B0wgsBjW3C5K8xP8qUrc6DUDiQpuwkE5eAfqBF64=;
- b=VGFJe6jZ6mMGy3X3MyoLT1MKj0Ogl/H1od6kdfL1SuRmLkl/une5MdCi6Tcpg802pdzOLJ
- 6H5pcyrOxw+2h/UTS/hy63j/pV17pGq1SufCh7io8Hxnge/JQmt7e2SNI+/Lyw4H+VRbs1
- nCZb0G4gjkh5i8JUlvGpXyILSOTcTSg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1dDBzn2aR7gKgVbZ7HASjiRSQXSRy9sXH4e5xeh6G64=;
+ b=Dxv8ld0LnvRr/hnJoTejSe7unzjfn9g47m1uDYkMk/umLV/+lBepH/PEEgxyhqnbEzPzFy
+ OdVlXVHCUqWJG2T8qbEw86rtAR6+u7QujXchJj8aGoGZDg1NpH7ODylZmSQnG75sgyn62P
+ eUXWWZkSYIPPrit1lZww10rc9H+xHQk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-344-c-aZaQ25PrGJJjfKiDPO0g-1; Mon, 11 Jul 2022 11:53:55 -0400
-X-MC-Unique: c-aZaQ25PrGJJjfKiDPO0g-1
+ us-mta-314-iYhpnFn8OKyKe9XJ1vN87w-1; Mon, 11 Jul 2022 11:54:00 -0400
+X-MC-Unique: iYhpnFn8OKyKe9XJ1vN87w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D3F0710726A4;
- Mon, 11 Jul 2022 15:53:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C15F382ECCE;
+ Mon, 11 Jul 2022 15:54:00 +0000 (UTC)
 Received: from server.redhat.com (ovpn-12-65.pek2.redhat.com [10.72.12.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 577CD1415118;
- Mon, 11 Jul 2022 15:53:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3D071415118;
+ Mon, 11 Jul 2022 15:53:56 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, kraxel@redhat.com,
  dgilbert@redhat.com, stefanha@redhat.com, arei.gonglei@huawei.com,
  marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v11 08/10] virtio-net: add support for configure interrupt
-Date: Mon, 11 Jul 2022 23:52:41 +0800
-Message-Id: <20220711155243.866530-9-lulu@redhat.com>
+Subject: [PATCH v11 09/10] virtio-mmio: add support for configure interrupt
+Date: Mon, 11 Jul 2022 23:52:42 +0800
+Message-Id: <20220711155243.866530-10-lulu@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
@@ -74,73 +74,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add functions to support configure interrupt in virtio_net
-Add the functions to support vhost_net_config_pending
-and vhost_net_config_mask.
+Add configure interrupt support in virtio-mmio bus.
+add function to set configure guest notifier.
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/net/vhost_net.c      | 9 +++++++++
- hw/net/virtio-net.c     | 4 ++--
- include/net/vhost_net.h | 2 ++
- 3 files changed, 13 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-mmio.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 30379d2ca4..9c9fd0a73f 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -457,6 +457,15 @@ void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
-     vhost_virtqueue_mask(&net->dev, dev, idx, mask);
- }
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index 688eccda94..5c613a96d9 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -672,7 +672,30 @@ static int virtio_mmio_set_guest_notifier(DeviceState *d, int n, bool assign,
  
-+bool vhost_net_config_pending(VHostNetState *net)
+     return 0;
+ }
++static int virtio_mmio_set_config_guest_notifier(DeviceState *d, bool assign,
++                                                 bool with_irqfd)
 +{
-+    return vhost_config_pending(&net->dev);
++    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
++    EventNotifier *notifier = virtio_config_get_guest_notifier(vdev);
++    int r = 0;
+ 
++    if (assign) {
++        r = event_notifier_init(notifier, 0);
++        if (r < 0) {
++            return r;
++        }
++        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
++    } else {
++        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
++        event_notifier_cleanup(notifier);
++    }
++    if (vdc->guest_notifier_mask && vdev->use_guest_notifier_mask) {
++        vdc->guest_notifier_mask(vdev, VIRTIO_CONFIG_IRQ_IDX, !assign);
++    }
++    return r;
 +}
-+
-+void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev, bool mask)
-+{
-+    vhost_config_mask(&net->dev, dev, mask);
-+}
- VHostNetState *get_vhost_net(NetClientState *nc)
+ static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
+                                            bool assign)
  {
-     VHostNetState *vhost_net = 0;
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 72ea4819f7..490caef2c6 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3173,7 +3173,7 @@ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
-     NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
-     assert(n->vhost_started);
-     if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return false;
-+        return vhost_net_config_pending(get_vhost_net(nc->peer));
+@@ -694,6 +717,10 @@ static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
+             goto assign_error;
+         }
      }
-     return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
- }
-@@ -3185,9 +3185,9 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
-     NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
-     assert(n->vhost_started);
-     if (idx == VIRTIO_CONFIG_IRQ_IDX) {
-+        vhost_net_config_mask(get_vhost_net(nc->peer), vdev, mask);
-         return;
-     }
--
-     vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mask);
- }
++    r = virtio_mmio_set_config_guest_notifier(d, assign, with_irqfd);
++    if (r < 0) {
++        goto assign_error;
++    }
  
-diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-index 387e913e4e..fc37498550 100644
---- a/include/net/vhost_net.h
-+++ b/include/net/vhost_net.h
-@@ -39,6 +39,8 @@ int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
- bool vhost_net_virtqueue_pending(VHostNetState *net, int n);
- void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
-                               int idx, bool mask);
-+bool vhost_net_config_pending(VHostNetState *net);
-+void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev, bool mask);
- int vhost_net_notify_migration_done(VHostNetState *net, char* mac_addr);
- VHostNetState *get_vhost_net(NetClientState *nc);
+     return 0;
  
 -- 
 2.34.3
