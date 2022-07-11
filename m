@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF3656D7B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 10:19:42 +0200 (CEST)
-Received: from localhost ([::1]:38878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A04756D7B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 10:19:40 +0200 (CEST)
+Received: from localhost ([::1]:38858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAodp-0005vT-FR
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 04:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47334)
+	id 1oAodn-0005tL-1h
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 04:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1oAoYG-0000nr-VC
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 04:13:56 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:39910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1oAoYE-0001wS-TF
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 04:13:56 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id j3so4160242pfb.6
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 01:13:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rpUbkuTQdUddEKkOXn0k7t4grR2gHM5eNP//j9YHX38=;
- b=Y5WW7yrJZ7B4hRjeSiVrPZeFl6lf9++rk0uMDO809HI34iwQ1U8t/oVTw0yMLHRYE4
- rrFb2peyv7P5OxwCzHWU2PTg4/Nwnhn9rNQvnn2aCSH6b7fBFd3kYz4qn7whcIq1LOn1
- kUQtfOzksfGhi91Yeli9X3ABWjGzDY4EyBVoudwkG6HDSETp3kIf2gcAnDsnT38Gully
- DB9ldYw/INkrL+ofROHO9MWS8sD2SeseNtFd5moSD/ZgQmd61hNphN1oyjxVUESwKlqU
- WNdGDNFi4yOS66N9UR0Gbkib9kgd9huFsKJDrv+ruvNwxOjxcfZ3aLen4gSJvhHEYIt+
- E1sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rpUbkuTQdUddEKkOXn0k7t4grR2gHM5eNP//j9YHX38=;
- b=IzPLwzD1N33rZUxhjf/GAsieFzbOpFdE0OhHnUe6XhAxWUOPwmqXMXpc6b+VFgD42h
- B4ar8RCT7RKZc/5VgNmBkk5ZNR2l0dBXyoft93H/8DGJj0sVRusKIpKrhHEnoLSnGln+
- Ys7lXDw1pLyCgzb7OA4wOTKwZ5OUiY6rrBcxwEcuTE7ugQicKQ2Q9hsg6+wcWbOgS199
- 2GrFyhk9iibbgy5pRKihCsS1KkiqnhwBRZklqL7VMqQm1jBehB3EFKkFRb5ddA8V+Yg3
- IfweMfXKc+Efr96ggEwxK0FZ1j2M5YCn51fGnrzM/PbYJsN69eNZaD97Sgc/5oeLvAYJ
- crEw==
-X-Gm-Message-State: AJIora+WCD+O0jJ4vaiHCeH0geVzv/kRBIepqyI43pqOZicR6mCWjn7X
- Wbfa0PXVWvewKbtohXP6giMyPHx3r1E4AvNGVjbgVg==
-X-Google-Smtp-Source: AGRyM1vpmrMoT7MNDeKdXaXHboVlLrDCVNfSTWYu/QUcMJ90zrOIKYToxm9xac5kgdAO21zyXrLOm+u4r74aX+/q7Qk=
-X-Received: by 2002:a05:6a00:852:b0:528:c669:ad65 with SMTP id
- q18-20020a056a00085200b00528c669ad65mr17184393pfk.75.1657527232910; Mon, 11
- Jul 2022 01:13:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oAoYb-0000xl-Gr
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 04:14:17 -0400
+Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:43827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oAoYW-0001y4-M6
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 04:14:16 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.118])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9D34326E63;
+ Mon, 11 Jul 2022 08:14:08 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 11 Jul
+ 2022 10:14:01 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0012d5bb2cf-29b7-4301-a400-05aea7395715,
+ B4A626E929F7F6A388BA3F96B07B1F4CEE71A9BF) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+Message-ID: <c893d821-381f-06ea-3aa8-e6354ea3f95d@kaod.org>
+Date: Mon, 11 Jul 2022 10:13:54 +0200
 MIME-Version: 1.0
-References: <20220708073943.54781-1-kito.cheng@sifive.com>
- <20220708073943.54781-2-kito.cheng@sifive.com>
-In-Reply-To: <20220708073943.54781-2-kito.cheng@sifive.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Mon, 11 Jul 2022 16:13:42 +0800
-Message-ID: <CAE_xrPiT+s0=CrPpJV_=A1E12oyzEm_=sjuK9GGRWGv8pUsMLA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/riscv: Auto set elen from vector extension by
- default
-To: Kito Cheng <kito.cheng@sifive.com>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, qemu-devel@nongnu.org, 
- qemu-riscv@nongnu.org, liweiwei@iscas.ac.cn
-Content-Type: multipart/alternative; boundary="000000000000ec6dfb05e3832115"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/2] hw/gpio/aspeed: Don't let guests modify input pins
+Content-Language: en-US
+To: Peter Delevoryas <peter@pjd.dev>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
+ <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20220707071731.34047-1-peter@pjd.dev>
+ <20220707071731.34047-2-peter@pjd.dev>
+ <fa52743a-5730-3b3f-f07f-99931bb66b01@kaod.org> <YscdtXYL5sJRSm6Z@pdel-mbp>
+ <YscuKtVuZojYtqXo@pdel-mbp.dhcp.thefacebook.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <YscuKtVuZojYtqXo@pdel-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: dfd50cae-17b8-4a8b-a638-59f29c702d66
+X-Ovh-Tracer-Id: 15839159891890309926
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,181 +78,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ec6dfb05e3832115
-Content-Type: text/plain; charset="UTF-8"
+On 7/7/22 21:04, Peter Delevoryas wrote:
+> On Thu, Jul 07, 2022 at 10:53:57AM -0700, Peter Delevoryas wrote:
+>> On Thu, Jul 07, 2022 at 10:56:02AM +0200, Cédric Le Goater wrote:
+>>> On 7/7/22 09:17, Peter Delevoryas wrote:
+>>>> It seems that aspeed_gpio_update is allowing the value for input pins to be
+>>>> modified through register writes and QOM property modification.
+>>>>
+>>>> The QOM property modification is fine, but modifying the value through
+>>>> register writes from the guest OS seems wrong if the pin's direction is set
+>>>> to input.
+>>>>
+>>>> The datasheet specifies that "0" bits in the direction register select input
+>>>> mode, and "1" selects output mode.
+>>>>
+>>>> OpenBMC userspace code is accidentally writing 0's to the GPIO data
+>>>> registers somewhere (or perhaps the driver is doing it through a reset or
+>>>> something), and this is overwriting GPIO FRU information (board ID, slot
+>>>> presence pins) that is initialized in Aspeed machine reset code (see
+>>>> fby35_reset() in hw/arm/aspeed.c).
+>>>
+>>> It might be good to log a GUEST_ERROR in that case, when writing to an
+>>> input GPIO and when reading from an output GPIO.
+>>
+>> Good idea, I'll include a GUEST_ERROR for writing to an input GPIO.
+>>
+>> I'm actually not totally certain about emitting an error when reading from an
+>> output GPIO, because the driver can only do 8-bit reads at the finest
+>> granularity, and if 1 of the 8 pins' direction is output, then it will be
+>> reading the value of an output pin. But, that's not really bad, because
+>> presumably the value will be ignored. Maybe I can go test this out on
+>> hardware and figure out what happens though.
+> 
+> Did a small experiment, I was looking at some of the most significant
+> bits:
+> 
+> root@dhcp-100-96-192-133:~# devmem 0x1e780000
+> 0x3CFF303E
+> root@dhcp-100-96-192-133:~# devmem 0x1e780004
+> 0x2800000C
+> root@dhcp-100-96-192-133:~# devmem 0x1e780000 32 0xffffffff
+> root@dhcp-100-96-192-133:~# devmem 0x1e780004
+> 0x2800000C
+> root@dhcp-100-96-192-133:~# devmem 0x1e780000
+> 0x3CFF303E
+> root@dhcp-100-96-192-133:~# devmem 0x1e780000
+> 0x3CFF303E
+> root@dhcp-100-96-192-133:~# devmem 0x1e780000 32 0
+> root@dhcp-100-96-192-133:~# devmem 0x1e780000
+> 0x14FF303A
+> 
+> Seems like the output pin 0x20000000 was initially high, and the input
+> pin right next to it 0x10000000 was also high. After writing 0 to the
+> data register, the value in the data register changed for the output
+> pin, but not the input pin.  Which matches what we're planning on doing
+> in the controller.
+> 
+> So yeah, I'll add GUEST_ERROR for writes to input pins but not output
+> pins. The driver should probably be doing a read-modify-update.
+> Although...if it's not, that technically wouldn't matter, behavior
+> wise...maybe GUEST_ERROR isn't appropriate for writes to input pins
+> either, for the same reason as I mentioned with reads of output pins.
+> I'll let you guys comment on what you think we should do.
 
-On Fri, Jul 8, 2022 at 3:39 PM Kito Cheng <kito.cheng@sifive.com> wrote:
+I am not an expert of the GPIO controller. Andrew may be ?
 
-> Default ELEN is setting to 64 for now, which is incorrect setting for
-> Zve32*, and spec has mention minimum VLEN and supported EEW in chapter
-> "Zve*: Vector Extensions for Embedded Processors" is 32 for Zve32.
->
-> ELEN actaully could be derived from which extensions are enabled,
-> so this patch set elen to 0 as auto detect, and keep the capability to
-> let user could configure that.
->
-> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-> ---
->  target/riscv/cpu.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 487d0faa63..c1b96da7da 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -751,13 +751,22 @@ static void riscv_cpu_realize(DeviceState *dev,
-> Error **errp)
->                          "Vector extension ELEN must be power of 2");
->                  return;
->              }
-> -            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
-> +            if (cpu->cfg.elen == 0) {
-> +              if (cpu->cfg.ext_zve32f) {
-> +                cpu->cfg.elen = 32;
-> +              }
-> +              if (cpu->cfg.ext_zve64f || cpu->cfg.ext_v) {
-> +                cpu->cfg.elen = 64;
-> +              }
-> +            }
-> +            if (cpu->cfg.elen != 0 && (cpu->cfg.elen > 64 ||
-> +                                       cpu->cfg.elen < 8)) {
->                  error_setg(errp,
->                          "Vector extension implementation only supports
-> ELEN "
->                          "in the range [8, 64]");
->                  return;
->              }
->
+Anyhow, anything that can help tracking invalid software operations
+is good to have and it seems that your patch is trying to fix one.
+Hence my suggestion to add some logging where it makes sense.
 
-Should we also check whether cpu->cfg.elen set by user must >= 32 if Zve32f
-is enabled?
-Same for Zve64f.
+Thanks,
 
-Regards,
-Frank Chang
-
-
-> -            if (cpu->cfg.vlen < cpu->cfg.elen) {
-> +            if (cpu->cfg.elen != 0 && cpu->cfg.vlen < cpu->cfg.elen) {
->                  error_setg(errp,
->                          "Vector extension VLEN must be greater than or
-> equal "
->                          "to ELEN");
-> @@ -901,7 +910,8 @@ static Property riscv_cpu_extensions[] = {
->      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
->      DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
->      DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-> -    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-> +    /* elen = 0 means set from v or zve* extension */
-> +    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 0),
->
->      DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
->      DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-> --
-> 2.34.0
->
->
-
---000000000000ec6dfb05e3832115
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Jul 8, 2022 at 3:39 PM Kito Cheng=
- &lt;<a href=3D"mailto:kito.cheng@sifive.com">kito.cheng@sifive.com</a>&gt;=
- wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">Default ELEN is setting to 64 for now, which is incorrec=
-t setting for<br>
-Zve32*, and spec has mention minimum VLEN and supported EEW in chapter<br>
-&quot;Zve*: Vector Extensions for Embedded Processors&quot; is 32 for Zve32=
-.<br>
-<br>
-ELEN actaully could be derived from which extensions are enabled,<br>
-so this patch set elen to 0 as auto detect, and keep the capability to<br>
-let user could configure that.<br>
-<br>
-Signed-off-by: Kito Cheng &lt;<a href=3D"mailto:kito.cheng@sifive.com" targ=
-et=3D"_blank">kito.cheng@sifive.com</a>&gt;<br>
----<br>
-=C2=A0target/riscv/cpu.c | 16 +++++++++++++---<br>
-=C2=A01 file changed, 13 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-index 487d0faa63..c1b96da7da 100644<br>
---- a/target/riscv/cpu.c<br>
-+++ b/target/riscv/cpu.c<br>
-@@ -751,13 +751,22 @@ static void riscv_cpu_realize(DeviceState *dev, Error=
- **errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&quot;Vector extension ELEN must be power of 2&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;cfg.elen &gt; 64 || =
-cpu-&gt;cfg.vlen &lt; 8) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;cfg.elen =3D=3D 0) {=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;cfg.ext_zve32=
-f) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.elen =
-=3D 32;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;cfg.ext_zve64=
-f || cpu-&gt;cfg.ext_v) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.elen =
-=3D 64;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;cfg.elen !=3D 0 &amp=
-;&amp; (cpu-&gt;cfg.elen &gt; 64 ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu-&gt;c=
-fg.elen &lt; 8)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(er=
-rp,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&quot;Vector extension implementation only supports ELEN &=
-quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&quot;in the range [8, 64]&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br></blockquote><div><br>=
-</div><div>Should we also check whether cpu-&gt;cfg.elen set by user must &=
-gt;=3D 32 if Zve32f is enabled?</div><div>Same for Zve64f.</div><div><br></=
-div><div>Regards,</div><div>Frank Chang</div><div>=C2=A0</div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;cfg.vlen &lt; cpu-&g=
-t;cfg.elen) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;cfg.elen !=3D 0 &amp=
-;&amp; cpu-&gt;cfg.vlen &lt; cpu-&gt;cfg.elen) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(er=
-rp,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&quot;Vector extension VLEN must be greater than or equal =
-&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&quot;to ELEN&quot;);<br>
-@@ -901,7 +910,8 @@ static Property riscv_cpu_extensions[] =3D {<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_STRING(&quot;priv_spec&quot;, RISCVCPU, cfg=
-.priv_spec),<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_STRING(&quot;vext_spec&quot;, RISCVCPU, cfg=
-.vext_spec),<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_UINT16(&quot;vlen&quot;, RISCVCPU, cfg.vlen=
-, 128),<br>
--=C2=A0 =C2=A0 DEFINE_PROP_UINT16(&quot;elen&quot;, RISCVCPU, cfg.elen, 64)=
-,<br>
-+=C2=A0 =C2=A0 /* elen =3D 0 means set from v or zve* extension */<br>
-+=C2=A0 =C2=A0 DEFINE_PROP_UINT16(&quot;elen&quot;, RISCVCPU, cfg.elen, 0),=
-<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;svinval&quot;, RISCVCPU, cfg.ext=
-_svinval, false),<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;svnapot&quot;, RISCVCPU, cfg.ext=
-_svnapot, false),<br>
--- <br>
-2.34.0<br>
-<br>
-</blockquote></div></div>
-
---000000000000ec6dfb05e3832115--
+C.
 
