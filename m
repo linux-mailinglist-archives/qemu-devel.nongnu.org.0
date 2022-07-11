@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B755703B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 14:59:22 +0200 (CEST)
-Received: from localhost ([::1]:60588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6AE5703D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 15:06:03 +0200 (CEST)
+Received: from localhost ([::1]:38202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAt0S-0001WV-R4
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 08:59:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52942)
+	id 1oAt6v-0005xh-L5
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 09:06:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oAsxo-0005Va-Qj
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 08:56:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59013)
+ id 1oAszR-0007Vd-04
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 08:58:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oAsxk-0003Wd-OI
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 08:56:34 -0400
+ id 1oAszL-0007qS-0O
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 08:58:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657544191;
+ s=mimecast20190719; t=1657544290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iMFKuT/enobWbYJ0mRWELQr5C1Lqku/rrTJ/mY0uTtw=;
- b=U+kUvp5XPPyF1QE5FnggUA5vpmXUeRkLrHxXlnZWpiwQB+7HXN4AVuoaXGigHVO89ySAxp
- evytNMY3IXCF9fTBOzzePlERlCJtaCvgWEq4UbERGHzD+alUA+oKisr7gT/hRn+NAuGKUc
- OsuW8pCLsgMf/qnRxmA1XzaQMZ+guPw=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=21R1nTczZLehW8By3gai4NO9O5AME6Ss6MlzvVx11J4=;
+ b=dtb1EZlkSaQV6YGeaeJk5WxnVKOb8JmI+Z4/tW/16uZyV1m4eKLVCFvIxtWFyMus2on9Bv
+ i94WABpSqIqLHFePUrQ6u1/rYmXo8M0HuLA1jzoV7FdZloDSTevz4miDcLJiMD33CA2LrR
+ /8+dyjuBBzLzKYT4myrhhyS7bbhPIBY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-519-4aXhKcqqM7KDQ5X5MedvBQ-1; Mon, 11 Jul 2022 08:56:30 -0400
-X-MC-Unique: 4aXhKcqqM7KDQ5X5MedvBQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- k7-20020a1709062a4700b006fe92440164so1052298eje.23
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 05:56:29 -0700 (PDT)
+ us-mta-570-Fyt8Q4cJP9u9e3NvBNPuHA-1; Mon, 11 Jul 2022 08:58:09 -0400
+X-MC-Unique: Fyt8Q4cJP9u9e3NvBNPuHA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ w15-20020a056402268f00b0043ac600a6bcso3125936edd.6
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 05:58:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iMFKuT/enobWbYJ0mRWELQr5C1Lqku/rrTJ/mY0uTtw=;
- b=3UpS+sJnGnr5QA6EUt5RAAIOb0hWnCP7Z2dJxDZGBk3figqZ95p0uIP417s2pUJt2P
- Obb2GjdIo7Pzy/Tdou5oCNj9T9DMFrgyLqM4JPHTjNaYi6+mwAuxw+psDHVC0GlbtFjA
- BiRzAfCF4NbQqK4v36rxsvdYRTj50k2IWl2hrFfGl6dy4UaDTs2iw0iaaNKAIQdko8LO
- zfsKF9B1/Atfm/pd843SPx6FXru8p6PDLxNJ6Mz3pYf/zBXg3uQ8oARxbgBXZVI2eZsW
- aBjV3zytQLUvTd5WILQersz/FE6ntkr+sA6lW/P96Cxs1aZHSyTnXWsFQQ0Gv1HFnx7s
- 81ZA==
-X-Gm-Message-State: AJIora//n33s5UVPUwGxLHBzhBmsaLY86XB8IOpmiBXjEplgIcHSSR/O
- yT8PFH4xGxP3ndq4l5dCq1AeXTIH2gwieiMqCdN5G70R6WY4swvDWMVY6C4K6zI2a8OWpYz8Qut
- m+zfMFHnXm1hFajE=
-X-Received: by 2002:a17:906:9bd1:b0:72b:302:2b88 with SMTP id
- de17-20020a1709069bd100b0072b03022b88mr18308022ejc.250.1657544188966; 
- Mon, 11 Jul 2022 05:56:28 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vTleXPVrBUvYkp368UteoqS9HcipAFGhvecXGpVEbiRa79HERsht1U0O2YwK2rkki3anuxhg==
-X-Received: by 2002:a17:906:9bd1:b0:72b:302:2b88 with SMTP id
- de17-20020a1709069bd100b0072b03022b88mr18307995ejc.250.1657544188650; 
- Mon, 11 Jul 2022 05:56:28 -0700 (PDT)
+ bh=21R1nTczZLehW8By3gai4NO9O5AME6Ss6MlzvVx11J4=;
+ b=6n1M8gQD24DpDxlsrgKyb/u/8IUx5BBZ8M1jutaT7EL9FNYuIdaRuufKU/+I29vD/Q
+ 80UC+fhxS4sbx77IyTN8yX9htoOh5jL0PlBBzdonhG879CJZQuRuto6r1Hr72cvNTtE1
+ Cxf5Mj5yFyCkwSjK5kN7tHUnYIQSJen5uBieaxgU5ayjQHPtCb4UKKQX1XuAj/BtLZt6
+ 4/7I4ZCFKeGwzD1PvvaGjR/7/FJeXBkOelAm8hZTV/4Z43p5zL+Em2kZGLpkBm7L/56t
+ XM1WFeIeT8FRgMXyqE6qs+8+WPwx1RYbAXC7rMS++GVcGa+MBM0aTRU6K1+Zg7sQZiEl
+ FH6Q==
+X-Gm-Message-State: AJIora8ONhV++Tbm3ROyhaziUZdHnbOtzZ3wURlWHSgnA2eCFWU+SGfz
+ QTcvNLdPTVFgk7DoqQYzKqhJPOX6pITaZVtCfMRpvYNdgyJRpvqkSW3RmUEmkFBWMTKDnFQKkNW
+ B7UuBsEH3jyKNVoY=
+X-Received: by 2002:a05:6402:510a:b0:43a:91ff:3f4b with SMTP id
+ m10-20020a056402510a00b0043a91ff3f4bmr24585947edd.187.1657544288150; 
+ Mon, 11 Jul 2022 05:58:08 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u/H0o9RgUavTVF7nbTEF4zBMfBIdSj8gSFuFC1wVnADxMtfVVuePT0WQmJ9vjKsGhEoL6bEQ==
+X-Received: by 2002:a05:6402:510a:b0:43a:91ff:3f4b with SMTP id
+ m10-20020a056402510a00b0043a91ff3f4bmr24585917edd.187.1657544287965; 
+ Mon, 11 Jul 2022 05:58:07 -0700 (PDT)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- t23-20020a1709063e5700b00722e31fcf42sm2624985eji.184.2022.07.11.05.56.27
+ f10-20020a1709064dca00b006fef557bb7asm2660858ejw.80.2022.07.11.05.58.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 05:56:28 -0700 (PDT)
-Date: Mon, 11 Jul 2022 14:56:27 +0200
+ Mon, 11 Jul 2022 05:58:07 -0700 (PDT)
+Date: Mon, 11 Jul 2022 14:58:06 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Joao Martins <joao.m.martins@oracle.com>
 Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
@@ -72,25 +72,29 @@ Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
  <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
  Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
- <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v6 09/10] i386/pc: relocate 4g start to 1T where applicable
-Message-ID: <20220711145627.2c318ba6@redhat.com>
-In-Reply-To: <20220701161014.3850-10-joao.m.martins@oracle.com>
+ <suravee.suthikulpanit@amd.com>, Jonathan Cameron
+ <jonathan.cameron@huawei.com>
+Subject: Re: [PATCH v6 07/10] i386/pc: handle unitialized mr in
+ pc_get_cxl_range_end()
+Message-ID: <20220711145806.1d47f365@redhat.com>
+In-Reply-To: <b9ae2b09-4b25-34f7-e9ed-1aad3ebfadf5@oracle.com>
 References: <20220701161014.3850-1-joao.m.martins@oracle.com>
- <20220701161014.3850-10-joao.m.martins@oracle.com>
+ <20220701161014.3850-8-joao.m.martins@oracle.com>
+ <20220707150533.68892c2e@redhat.com>
+ <b9ae2b09-4b25-34f7-e9ed-1aad3ebfadf5@oracle.com>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,210 +110,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  1 Jul 2022 17:10:13 +0100
+On Thu, 7 Jul 2022 16:21:07 +0100
 Joao Martins <joao.m.martins@oracle.com> wrote:
 
-> It is assumed that the whole GPA space is available to be DMA
-> addressable, within a given address space limit, except for a
-> tiny region before the 4G. Since Linux v5.4, VFIO validates
-> whether the selected GPA is indeed valid i.e. not reserved by
-> IOMMU on behalf of some specific devices or platform-defined
-> restrictions, and thus failing the ioctl(VFIO_DMA_MAP) with
->  -EINVAL.
+> On 7/7/22 14:05, Igor Mammedov wrote:
+> > On Fri,  1 Jul 2022 17:10:11 +0100
+> > Joao Martins <joao.m.martins@oracle.com> wrote:
+> >   
+> >> This in preparation to allow pc_pci_hole64_start() to be called early
+> >> in pc_memory_init(), handle CXL memory region end when its underlying
+> >> memory region isn't yet initialized.
+> >>
+> >> Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
+> >> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> >> ---
+> >>  hw/i386/pc.c | 13 +++++++++++++
+> >>  1 file changed, 13 insertions(+)
+> >>
+> >> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> >> index 8655cc3b8894..d6dff71012ab 100644
+> >> --- a/hw/i386/pc.c
+> >> +++ b/hw/i386/pc.c
+> >> @@ -857,6 +857,19 @@ static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
+> >>                  start = fw->mr.addr + memory_region_size(&fw->mr);
+> >>              }
+> >>          }
+> >> +    } else {  
+> > 
+> >   
+> >> +        hwaddr cxl_size = MiB;
+> >> +
+> >> +        start = pc_get_cxl_range_start(pcms);
+> >> +        if (pcms->cxl_devices_state.fixed_windows) {
+> >> +            GList *it;
+> >> +
+> >> +            start = ROUND_UP(start + cxl_size, 256 * MiB);
+> >> +            for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
+> >> +                CXLFixedWindow *fw = it->data;
+> >> +                start += fw->size;
+> >> +            }
+> >> +        }  
+> > 
+> > /me wondering if this can replace block above that supposedly does
+> > the same only using initialized cxl memory regions?
+> >   
 > 
-> AMD systems with an IOMMU are examples of such platforms and
-> particularly may only have these ranges as allowed:
+> I was thinking about the same thing as of writing.
 > 
-> 	0000000000000000 - 00000000fedfffff (0      .. 3.982G)
-> 	00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
-> 	0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb[*])
-> 
-> We already account for the 4G hole, albeit if the guest is big
-> enough we will fail to allocate a guest with  >1010G due to the
-> ~12G hole at the 1Tb boundary, reserved for HyperTransport (HT).
-> 
-> [*] there is another reserved region unrelated to HT that exists
-> in the 256T boundary in Fam 17h according to Errata #1286,
-> documeted also in "Open-Source Register Reference for AMD Family
-> 17h Processors (PUB)"
-> 
-> When creating the region above 4G, take into account that on AMD
-> platforms the HyperTransport range is reserved and hence it
-> cannot be used either as GPAs. On those cases rather than
-> establishing the start of ram-above-4g to be 4G, relocate instead
-> to 1Tb. See AMD IOMMU spec, section 2.1.2 "IOMMU Logical
-> Topology", for more information on the underlying restriction of
-> IOVAs.
-> 
-> After accounting for the 1Tb hole on AMD hosts, mtree should
-> look like:
-> 
-> 0000000000000000-000000007fffffff (prio 0, i/o):
-> 	 alias ram-below-4g @pc.ram 0000000000000000-000000007fffffff
-> 0000010000000000-000001ff7fffffff (prio 0, i/o):
-> 	alias ram-above-4g @pc.ram 0000000080000000-000000ffffffffff
-> 
-> If the relocation is done or the address space covers it, we
-> also add the the reserved HT e820 range as reserved.
-> 
-> Default phys-bits on Qemu is TCG_PHYS_ADDR_BITS (40) which is enough
-> to address 1Tb (0xff ffff ffff). On AMD platforms, if a
-> ram-above-4g relocation may be desired and the CPU wasn't configured
-> with a big enough phys-bits, print an error message to the user
-> and do not make the relocation of the above-4g-region if phys-bits
-> is too low.
-> 
-> Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> ---
->  hw/i386/pc.c | 101 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 101 insertions(+)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index a79fa1b6beeb..07025b510540 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -907,6 +907,87 @@ static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
->      return start;
->  }
->  
-> +static hwaddr pc_max_used_gpa(PCMachineState *pcms,
-> +                                hwaddr above_4g_mem_start,
-> +                                uint64_t pci_hole64_size)
-> +{
-> +    X86MachineState *x86ms = X86_MACHINE(pcms);
-> +
+> If the calculation returns the same values might as well just replace it
+> as opposed to branching out similar logic.
 
-> +    if (!x86ms->above_4g_mem_size) {
-> +        /*
-> +         * 32-bit pci hole goes from
-> +         * end-of-low-ram (@below_4g_mem_size) to IOAPIC.
-> +          */
-> +        return IO_APIC_DEFAULT_ADDRESS - 1;
-> +    }
-this hunk still bothers me (nothing changed wrt v5 issues around it)
-issues recap: (
- 1. correctness of it
- 2. being limited to AMD only, while it seems pretty generic to me
- 3. should be a separate patch
-)
+Let's drop not needed code, so reader won't have to wonder why
+the same thing is done in 2 different ways.
 
-> +
-> +    return pc_pci_hole64_start() + pci_hole64_size;
-> +}
-> +
-> +/*
-> + * AMD systems with an IOMMU have an additional hole close to the
-> + * 1Tb, which are special GPAs that cannot be DMA mapped. Depending
-> + * on kernel version, VFIO may or may not let you DMA map those ranges.
-> + * Starting Linux v5.4 we validate it, and can't create guests on AMD machines
-> + * with certain memory sizes. It's also wrong to use those IOVA ranges
-> + * in detriment of leading to IOMMU INVALID_DEVICE_REQUEST or worse.
-> + * The ranges reserved for Hyper-Transport are:
-> + *
-> + * FD_0000_0000h - FF_FFFF_FFFFh
-> + *
-> + * The ranges represent the following:
-> + *
-> + * Base Address   Top Address  Use
-> + *
-> + * FD_0000_0000h FD_F7FF_FFFFh Reserved interrupt address space
-> + * FD_F800_0000h FD_F8FF_FFFFh Interrupt/EOI IntCtl
-> + * FD_F900_0000h FD_F90F_FFFFh Legacy PIC IACK
-> + * FD_F910_0000h FD_F91F_FFFFh System Management
-> + * FD_F920_0000h FD_FAFF_FFFFh Reserved Page Tables
-> + * FD_FB00_0000h FD_FBFF_FFFFh Address Translation
-> + * FD_FC00_0000h FD_FDFF_FFFFh I/O Space
-> + * FD_FE00_0000h FD_FFFF_FFFFh Configuration
-> + * FE_0000_0000h FE_1FFF_FFFFh Extended Configuration/Device Messages
-> + * FE_2000_0000h FF_FFFF_FFFFh Reserved
-> + *
-> + * See AMD IOMMU spec, section 2.1.2 "IOMMU Logical Topology",
-> + * Table 3: Special Address Controls (GPA) for more information.
-> + */
-> +#define AMD_HT_START         0xfd00000000UL
-> +#define AMD_HT_END           0xffffffffffUL
-> +#define AMD_ABOVE_1TB_START  (AMD_HT_END + 1)
-> +#define AMD_HT_SIZE          (AMD_ABOVE_1TB_START - AMD_HT_START)
-> +
-> +static void pc_set_amd_above_4g_mem_start(PCMachineState *pcms,
-> +                                          uint64_t pci_hole64_size)
-> +{
-> +    X86MachineState *x86ms = X86_MACHINE(pcms);
-> +    hwaddr start = x86ms->above_4g_mem_start;
-> +    hwaddr maxphysaddr, maxusedaddr;
-> +
-> +    /* Bail out if max possible address does not cross HT range */
-> +    if (pc_max_used_gpa(pcms, start, pci_hole64_size) < AMD_HT_START) {
-
-move it to the caller?
-
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * Relocating ram-above-4G requires more than TCG_PHYS_ADDR_BITS (40).
-> +     * So make sure phys-bits is required to be appropriately sized in order
-> +     * to proceed with the above-4g-region relocation and thus boot.
-> +     */
-> +    start = AMD_ABOVE_1TB_START;
-> +    maxphysaddr = ((hwaddr)1 << X86_CPU(first_cpu)->phys_bits) - 1;
-> +    maxusedaddr = pc_max_used_gpa(pcms, start, pci_hole64_size);
-> +    if (maxphysaddr < maxusedaddr) {
-> +        error_report("Address space limit 0x%"PRIx64" < 0x%"PRIx64
-> +                     " phys-bits too low (%u) cannot avoid AMD HT range",
-> +                     maxphysaddr, maxusedaddr, X86_CPU(first_cpu)->phys_bits);
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    x86ms->above_4g_mem_start = start;
-> +}
-> +
->  void pc_memory_init(PCMachineState *pcms,
->                      MemoryRegion *system_memory,
->                      MemoryRegion *rom_memory,
-> @@ -922,12 +1003,31 @@ void pc_memory_init(PCMachineState *pcms,
->      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
->      X86MachineState *x86ms = X86_MACHINE(pcms);
->      hwaddr cxl_base, cxl_resv_end = 0;
-> +    X86CPU *cpu = X86_CPU(first_cpu);
->  
->      assert(machine->ram_size == x86ms->below_4g_mem_size +
->                                  x86ms->above_4g_mem_size);
->  
->      linux_boot = (machine->kernel_filename != NULL);
->  
-> +    /*
-> +     * The HyperTransport range close to the 1T boundary is unique to AMD
-> +     * hosts with IOMMUs enabled. Restrict the ram-above-4g relocation
-> +     * to above 1T to AMD vCPUs only.
-> +     */
-> +    if (IS_AMD_CPU(&cpu->env)) {
-> +        pc_set_amd_above_4g_mem_start(pcms, pci_hole64_size);
-> +
-> +        /*
-> +         * Advertise the HT region if address space covers the reserved
-> +         * region or if we relocate.
-> +         */
-> +        if (x86ms->above_4g_mem_start == AMD_ABOVE_1TB_START ||
-> +            cpu->phys_bits >= 40) {
-> +            e820_add_entry(AMD_HT_START, AMD_HT_SIZE, E820_RESERVED);
-> +        }
-> +    }
-> +
->      /*
->       * Split single memory region and use aliases to address portions of it,
->       * done for backwards compatibility with older qemus.
-> @@ -938,6 +1038,7 @@ void pc_memory_init(PCMachineState *pcms,
->                               0, x86ms->below_4g_mem_size);
->      memory_region_add_subregion(system_memory, 0, ram_below_4g);
->      e820_add_entry(0, x86ms->below_4g_mem_size, E820_RAM);
-> +
-
-stray newline?
-
->      if (x86ms->above_4g_mem_size > 0) {
->          ram_above_4g = g_malloc(sizeof(*ram_above_4g));
->          memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g",
+> 
+> I can do that in v7.
+> 
 
 
