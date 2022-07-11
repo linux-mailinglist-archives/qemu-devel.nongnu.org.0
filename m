@@ -2,63 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E9D57072E
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 17:35:44 +0200 (CEST)
-Received: from localhost ([::1]:56144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF2A570736
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 17:37:56 +0200 (CEST)
+Received: from localhost ([::1]:60038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAvRn-0002FA-Vx
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 11:35:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36718)
+	id 1oAvTv-0004yp-P4
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 11:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oAvJZ-0003YG-Ag
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:27:13 -0400
-Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:37715)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oAvKb-0004rC-SA
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:28:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oAvJW-00050l-K5
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:27:12 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.128])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 1EE7328866;
- Mon, 11 Jul 2022 15:27:07 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 11 Jul
- 2022 17:27:06 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G00135afa195-10e3-420a-9975-453b639884d9,
- B4A626E929F7F6A388BA3F96B07B1F4CEE71A9BF) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Message-ID: <789c42e4-b5ce-8a79-eed6-5fa69812a01a@kaod.org>
-Date: Mon, 11 Jul 2022 17:26:44 +0200
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oAvKY-0001S1-7P
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:28:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657553292;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AQ9AFgjAq9AFWyJhWhhuGWEoRzdPmRiYM2CqArRFNmo=;
+ b=Wf/TFkDuVQkBRCCIe2UDlc4aBvJptqF6Zd07l+dmPgdEpWbc8t2/qG6U3yUOMRYfSRJJBl
+ gw2rmDd6gpO0X4Rs5G+QewDqzmYeOAVs3iwTJz7RqjUdI0VlhJdEe7f1Itvrq1bmrlicb1
+ 3Q6WHvN85ak9BSvEUXectOBhZDDQOpk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-185-Ct43ce96NluM5UDf7g85VQ-1; Mon, 11 Jul 2022 11:28:11 -0400
+X-MC-Unique: Ct43ce96NluM5UDf7g85VQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t13-20020adfe10d000000b0021bae3def1eso736099wrz.3
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 08:28:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=AQ9AFgjAq9AFWyJhWhhuGWEoRzdPmRiYM2CqArRFNmo=;
+ b=ryV8MqTsjZ0BiRFlWJm3cEM5820krPlJLnsGTptyHK+9Yecl1w3CvPkh4UgYAyB61W
+ SkTnimVV48Cv90h+Hsz0X+zal2aK7nBTJUX/HZpXda363I2akING9BVquk96S89UI7Lm
+ Y9UOMJ/ifdZmp8zTnaqMYpsBE/4cqA78Nx6u41uqG5aBy3nM/wYgnD5tnZY6qSV8LegV
+ mlbmzTGyqfglZ7koC0et78ltNCRF6BfU+sULNFWKR+8KoK8+koas4GuEqMbqyaZIcCNX
+ gnDCgcx7hyQt6CattXK8BLM2Vp2WjGx05EE/nVReA4bXOjhRaKjcvhSHmsvZlqgCU/DB
+ KUkQ==
+X-Gm-Message-State: AJIora/wYE+JGNNzjbsZWHaAnvWzr1Kmx1X+Klv3pefp7mCl1syhj6BW
+ +RBpVocCj6G/dvZPqQtRnC5eLu+RHkK/hoesWV3W84Rs58DbfIsf5NyZyZihq1D+MV7v536TVD2
+ vPmVb0aJ/RnFrneg=
+X-Received: by 2002:a5d:47a8:0:b0:21b:a318:2c31 with SMTP id
+ 8-20020a5d47a8000000b0021ba3182c31mr17271991wrb.463.1657553290655; 
+ Mon, 11 Jul 2022 08:28:10 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1umoOE6F3TF/C4rCdhEN4YxFLp/CjqND8ZeK2+w2mCDb4Dh3IREsmxv9tEeCNjhbEJdT4uSfw==
+X-Received: by 2002:a5d:47a8:0:b0:21b:a318:2c31 with SMTP id
+ 8-20020a5d47a8000000b0021ba3182c31mr17271965wrb.463.1657553290404; 
+ Mon, 11 Jul 2022 08:28:10 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ j16-20020adfff90000000b0021d76a1b0e3sm6039975wrr.6.2022.07.11.08.28.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jul 2022 08:28:09 -0700 (PDT)
+Date: Mon, 11 Jul 2022 16:28:07 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eric Auger <eauger@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Subject: Re: [PATCH RFC v2 0/2] arm: enable MTE for QEMU + kvm
+Message-ID: <YsxBh3bJmbF8MvsJ@work-vm>
+References: <20220707161656.41664-1-cohuck@redhat.com>
+ <YswkdVeESqf5sknQ@work-vm> <87o7xv660k.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] qemu-options: bring the kernel and image options
- together
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- <qemu-devel@nongnu.org>
-References: <20220707151037.397324-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220707151037.397324-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 85b593f1-cb30-413e-8751-35215971bfcf
-X-Ovh-Tracer-Id: 4704572760887626650
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvedvhfehkeejvedvkeelleetjeeuieeuveduteehkeeuhfehvefhvedtkeeiiefgnecuffhomhgrihhnpehsthgrtghkohhvvghrfhhlohifrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedv
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
- helo=8.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o7xv660k.fsf@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,161 +102,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/22 17:10, Alex Bennée wrote:
-> How to control the booting of QEMU is often a source of confusion for
-> users. Bring the options that control this together in the manual
-> pages and add some verbiage to describe when each option is
-> appropriate. This attempts to codify some of the knowledge expressed
-> in:
+* Cornelia Huck (cohuck@redhat.com) wrote:
+> On Mon, Jul 11 2022, "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 > 
->    https://stackoverflow.com/questions/58420670/qemu-bios-vs-kernel-vs-device-loader-file/58434837#58434837
+> > * Cornelia Huck (cohuck@redhat.com) wrote:
+> >> For kvm, mte stays off by default; this is because migration is not yet
+> >> supported (postcopy will need an extension of the kernel interface, possibly
+> >> an extension of the userfaultfd interface), and turning on mte will add a
+> >> migration blocker.
+> >
+> > My assumption was that a normal migration would need something as well
+> > to retrieve and place the MTE flags; albeit not atomically.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Cédric Le Goater <clg@kaod.org>
-> Message-Id: <20220622145052.4012981-1-alex.bennee@linaro.org>
-
-LGTM,
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-
+> There's KVM_ARM_MTE_COPY_TAGS, which should be sufficient to move tags
+> around for normal migration.
 > 
-> ---
-> v2
->    - fix third and last reference for kernel and generic loader
->    - more verbiage following feedback from Peter
->    - mention Peter's write up in the commit message
-> ---
->   qemu-options.hx | 90 +++++++++++++++++++++++++++++++++++++++----------
->   1 file changed, 72 insertions(+), 18 deletions(-)
+> >
+> >> My biggest question going forward is actually concerning migration; I gather
+> >> that we should not bother adding something unless postcopy is working as well?
+> >
+> > I don't think that restriction is fair on you; just make sure
+> > postcopy_ram_supported_by_host gains an arch call and fails cleanly;
+> > that way if anyone tries to enable postcopy they'll find out with a
+> > clean fail.
 > 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 377d22fbd8..70e7f98882 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1585,13 +1585,6 @@ SRST
->       Use file as SecureDigital card image.
->   ERST
->   
-> -DEF("pflash", HAS_ARG, QEMU_OPTION_pflash,
-> -    "-pflash file    use 'file' as a parallel flash image\n", QEMU_ARCH_ALL)
-> -SRST
-> -``-pflash file``
-> -    Use file as a parallel flash image.
-> -ERST
-> -
->   DEF("snapshot", 0, QEMU_OPTION_snapshot,
->       "-snapshot       write to temporary files instead of disk image files\n",
->       QEMU_ARCH_ALL)
-> @@ -3680,12 +3673,61 @@ DEFHEADING()
->   
->   #endif
->   
-> -DEFHEADING(Linux/Multiboot boot specific:)
-> +DEFHEADING(Boot Image or Kernel specific:)
-> +SRST
-> +There are broadly 4 ways you can boot a system with QEMU.
-> +
-> + - specify a firmware and let it control finding a kernel
-> + - specify a firmware and pass a hint to the kernel to boot
-> + - direct kernel image boot
-> + - manually load files into the guest's address space
-> +
-> +The third method is useful for quickly testing kernels but as there is
-> +no firmware to pass configuration information to the kernel the
-> +hardware must either be probable, the kernel built for the exact
-> +configuration or passed some configuration data (e.g. a DTB blob)
-> +which tells the kernel what drivers it needs. This exact details are
-> +often hardware specific.
-> +
-> +The final method is the most generic way of loading images into the
-> +guest address space and used mostly for ``bare metal`` type
-> +development where the reset vectors of the processor are taken into
-> +account.
-> +
-> +ERST
-> +
-> +SRST
-> +
-> +For x86 machines and some other architectures ``-bios`` will generally
-> +do the right thing with whatever it is given. For other machines the
-> +more strict ``-pflash`` option needs an image that is sized for the
-> +flash device for the given machine type.
-> +
-> +Please see the :ref:`system-targets-ref` section of the manual for
-> +more detailed documentation.
-> +
-> +ERST
-> +
-> +DEF("bios", HAS_ARG, QEMU_OPTION_bios, \
-> +    "-bios file      set the filename for the BIOS\n", QEMU_ARCH_ALL)
-> +SRST
-> +``-bios file``
-> +    Set the filename for the BIOS.
-> +ERST
-> +
-> +DEF("pflash", HAS_ARG, QEMU_OPTION_pflash,
-> +    "-pflash file    use 'file' as a parallel flash image\n", QEMU_ARCH_ALL)
->   SRST
-> -When using these options, you can use a given Linux or Multiboot kernel
-> -without installing it in the disk image. It can be useful for easier
-> -testing of various kernels.
-> +``-pflash file``
-> +    Use file as a parallel flash image.
-> +ERST
->   
-> +SRST
-> +
-> +The kernel options were designed to work with Linux kernels although
-> +other things (like hypervisors) can be packaged up as a kernel
-> +executable image. The exact format of a executable image is usually
-> +architecture specific.
->   
->   ERST
->   
-> @@ -3725,6 +3767,25 @@ SRST
->       kernel on boot.
->   ERST
->   
-> +SRST
-> +
-> +Finally you can also manually load images directly into the address
-> +space of the guest. This is most useful for developers who already
-> +know the layout of their guest and take care to ensure something sane
-> +will happen when the reset vector executes.
-> +
-> +The generic loader can be invoked by using the loader device:
-> +
-> +``-device loader,addr=<addr>,data=<data>,data-len=<data-len>[,data-be=<data-be>][,cpu-num=<cpu-num>]``
-> +
-> +there is also the guest loader which operates in a similar way but
-> +tweaks the DTB so a hypervisor loaded via ``-kernel`` can find where
-> +the guest image is:
-> +
-> +``-device guest-loader,addr=<addr>[,kernel=<path>,[bootargs=<arguments>]][,initrd=<path>]``
-> +
-> +ERST
-> +
->   DEFHEADING()
->   
->   DEFHEADING(Debug/Expert options:)
-> @@ -4175,13 +4236,6 @@ SRST
->       To list all the data directories, use ``-L help``.
->   ERST
->   
-> -DEF("bios", HAS_ARG, QEMU_OPTION_bios, \
-> -    "-bios file      set the filename for the BIOS\n", QEMU_ARCH_ALL)
-> -SRST
-> -``-bios file``
-> -    Set the filename for the BIOS.
-> -ERST
-> -
->   DEF("enable-kvm", 0, QEMU_OPTION_enable_kvm, \
->       "-enable-kvm     enable KVM full virtualization support\n",
->       QEMU_ARCH_ARM | QEMU_ARCH_I386 | QEMU_ARCH_MIPS | QEMU_ARCH_PPC |
+> Ok, if simply fencing off postcopy is fine, we can try to move forward
+> with what we have now. The original attempt at
+> https://lore.kernel.org/all/881871e8394fa18a656dfb105d42e6099335c721.1615972140.git.haibo.xu@linaro.org/
+> hooked itself directly into common code; maybe we should rather copy the
+> approach used for s390 storage keys (extra "device") instead?
+
+I don't understand how a separate device would keep the idea of page
+changed flags coherent with the main RAM that the tags correspond to.
+
+Dave
+
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
