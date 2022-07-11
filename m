@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD5A5708A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 19:07:32 +0200 (CEST)
-Received: from localhost ([::1]:39334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752F757089D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 18:59:03 +0200 (CEST)
+Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAwsd-0006Rq-9G
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 13:07:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37042)
+	id 1oAwkQ-0001Ap-1D
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 12:59:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3DFXMYgcKCgU0jsyzwjlttlqj.htrvjrz-ij0jqstslsz.twl@flex--venture.bounces.google.com>)
- id 1oAwd5-0004y2-Hm
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 12:51:27 -0400
-Received: from mail-yw1-x1149.google.com ([2607:f8b0:4864:20::1149]:35381)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oAwfg-0006Dh-5Q
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 12:54:08 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3DFXMYgcKCgU0jsyzwjlttlqj.htrvjrz-ij0jqstslsz.twl@flex--venture.bounces.google.com>)
- id 1oAwd3-0007Yt-MM
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 12:51:27 -0400
-Received: by mail-yw1-x1149.google.com with SMTP id
- 00721157ae682-31c936387fbso48763397b3.2
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 09:51:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=CS03g6LdUzLlF3X/TJXikbBtMI46Jvzm72BrBzkJ1i8=;
- b=PPhQOn9jkKVIy4EjQPlzMIkA/NHYOWRqAd2VLjobLHTuYWqNYIZxN717f3fUcVF9c5
- 6HvbM4x+pjTDC05X5FNpD4NegKO9KP2oxvsfj80CgnEJC4DGYM8Q8PNx3eOOiq2JlCL3
- JlMaiOtVNZ7gShDDelRVqSlNy8iSZRuof+t6mJkAhMt/6dzVG4KViibBIlTsjF7/tJhE
- daTDdn9zY09nLyECSRsvRg3qdKidiYocjPMcyqrq8txQAlG2y+D1ngK4a+bc1e3pgpIK
- oTGD6TU1aJ9wSuPxXI7kkLsCVcQIAebRMTxzGFz4KI5nFh8mgf37pjxiOXGUqsNL9PXo
- zKfA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oAwfe-00080k-Na
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 12:54:07 -0400
+Received: by mail-wr1-x434.google.com with SMTP id bu1so6622973wrb.9
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 09:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=s/nxFiMIGUifB6edkOzkgR1RpSiKhhGsoOmgEzZ+sh4=;
+ b=QhwXURIgm24rKXQEE+gQH/SNoL11kxY9g8xYEl5X/ouYRnLFuGqGJVLAXgtRwisCUz
+ AF8NNBp/vMQfWk7TRl92haZY3Dl5T/tPXZmZlVZV6SQ52/um3UhlAQwHjLHL0fYraKOR
+ ZKaSTliq88kh6SJAlHsBhUZKJW20MvDs5Uqve9OV3iyutbAULs9JuCj8QrK7LYfLpSLj
+ f6+OjB9w6zXnUVFDVrbezxKyqK0YXUuOvWTYErvL8bT3npgzof/n+UVNFJUSWQHS+OKc
+ 3AXQTaAlGxkMP601sa6Q9U0d2MQD4L0lQm19HFC+LWOrst2wLmpaZa2yCp5Xc/vpZNgc
+ ZCWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=CS03g6LdUzLlF3X/TJXikbBtMI46Jvzm72BrBzkJ1i8=;
- b=fVJUvVdw8m8u7Xla558MI3BES0m+wwmFxSTTceOEXdnw/ouHDAFgWLKl5P4TX2gksH
- jcvuLjQ2Fb7OQ/TJCmbG8joRtqGi2zyEx/N36LgX1Gp4CCJXhSq2+IfaO3JHrEkUFEu+
- KyUq5Z8QwGs/QO7dteW8IG4uSDsuMBA/pDPDmRc+sbL0dgJ2O4SAf1dLuv/t4LCEiL9z
- ssObExcMi1O5VYov5z9vkwRjnGeP4qK55E7Fgi3z99JzzN5PR4iui2BpVV7wx3IueWch
- tdGPHvTJtrMb3WxUOGIWCR01Y+CUrVwybuQNd/5rHQrA72fLbJRfjnXghBVkQfm2skdJ
- xWzQ==
-X-Gm-Message-State: AJIora+K+ECuHv/8e2w/JbPcU5jLAzZeKyLY0K+NKxlfEZJJXR6g0eS7
- 6EPmrh9V8ve5klKZOnrncBkgYpkICER1
-X-Google-Smtp-Source: AGRyM1ukpFuYN7ZEL4/dTieGA/8zz2XF0kLp28znsvFy2dxNlwbe781RAkGQWbs/c6fSJ6Rllu4dMLnFrZzY
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:201:cd82:31ee:d030:c73c])
- (user=venture job=sendgmr) by 2002:a0d:dfd7:0:b0:31d:6466:3485 with SMTP id
- i206-20020a0ddfd7000000b0031d64663485mr8819808ywe.509.1657558284043; Mon, 11
- Jul 2022 09:51:24 -0700 (PDT)
-Date: Mon, 11 Jul 2022 09:51:19 -0700
-Message-Id: <20220711165119.2591835-1-venture@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.0.144.g8ac04bfd2-goog
-Subject: [PATCH v2] hw/nvram: Add at24c-eeprom support for small eeproms
-From: Patrick Venture <venture@google.com>
-To: f4bug@amsat.org, cminyard@mvista.com
-Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>,
- Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1149;
- envelope-from=3DFXMYgcKCgU0jsyzwjlttlqj.htrvjrz-ij0jqstslsz.twl@flex--venture.bounces.google.com;
- helo=mail-yw1-x1149.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=s/nxFiMIGUifB6edkOzkgR1RpSiKhhGsoOmgEzZ+sh4=;
+ b=7bBrq1nfLi1kNYWcE225MgO82L+co/ru+CNG96FteJ/sSzlTCE+yleJZNtaxvyaLzN
+ e2uPFxZwKpDi283K0fjx0aE7x08ll99DkDOHD4/Ac6vfxvd98V1vu0zXowxd08kEgLfC
+ X3NEP7TGhmCj+/k+uIvu8q9aaZxH0cO+OjzpV9lJ/b93J3t2xlO1ygTgk38Fx8uXDqIy
+ CVDVA5tgm6ZANZsgHoNrlhObIdV8xlBQaoNrazFldBFlxpKBSAY91H3Fy1ucghRA/Ihs
+ xbRpFbXesib5QDhUtWHyZxePMGXob3bZ+ClTk0FOGVmMuVjJiOhBZLYueD22462u7L47
+ Ke5g==
+X-Gm-Message-State: AJIora8V+RDR3btXLPhSHxhGL2yv9SvJxCdXQ1pPCsLQkqUEhHgUb2ai
+ /W0wyLFVDjftR1V9FHSeWx+J4sUlugbNNg==
+X-Google-Smtp-Source: AGRyM1ugkLUdd3QpTR5imcj8D2uiW6pWuciX/kGebGIMtjvEA6JDkBGt40yAhzD/v6rIh/eHank/9A==
+X-Received: by 2002:a05:6000:2a7:b0:21b:af5a:323a with SMTP id
+ l7-20020a05600002a700b0021baf5a323amr17790113wry.88.1657558443330; 
+ Mon, 11 Jul 2022 09:54:03 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ o6-20020a1c7506000000b003a1a02c6d7bsm10446848wmc.35.2022.07.11.09.54.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jul 2022 09:54:02 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A24751FFB7;
+ Mon, 11 Jul 2022 17:54:01 +0100 (BST)
+References: <20220711095300.60462-1-thuth@redhat.com>
+User-agent: mu4e 1.7.27; emacs 28.1.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-trivial@nongnu.org, Eric Blake <eblake@redhat.com>, John Snow
+ <jsnow@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] Replace 'whitelist' with 'allow'
+Date: Mon, 11 Jul 2022 17:53:57 +0100
+In-reply-to: <20220711095300.60462-1-thuth@redhat.com>
+Message-ID: <87fsj7si8m.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,123 +94,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tested: Verified at24c02 driver happy and contents matched
-expectations.
 
-Signed-off-by: Patrick Venture <venture@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
----
-v2: Added comment describing the new behavior.
----
- hw/nvram/eeprom_at24c.c | 56 ++++++++++++++++++++++++++++-------------
- 1 file changed, 39 insertions(+), 17 deletions(-)
+Thomas Huth <thuth@redhat.com> writes:
 
-diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-index d695f6ae89..eb91ec6813 100644
---- a/hw/nvram/eeprom_at24c.c
-+++ b/hw/nvram/eeprom_at24c.c
-@@ -45,6 +45,8 @@ struct EEPROMState {
-     bool changed;
-     /* during WRITE, # of address bytes transfered */
-     uint8_t haveaddr;
-+    /* whether it's 8-bit addressed or 16-bit */
-+    bool eightbit;
- 
-     uint8_t *mem;
- 
-@@ -87,7 +89,7 @@ uint8_t at24c_eeprom_recv(I2CSlave *s)
-     EEPROMState *ee = AT24C_EE(s);
-     uint8_t ret;
- 
--    if (ee->haveaddr == 1) {
-+    if (ee->haveaddr == 1 && !ee->eightbit) {
-         return 0xff;
-     }
- 
-@@ -104,26 +106,35 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
- {
-     EEPROMState *ee = AT24C_EE(s);
- 
--    if (ee->haveaddr < 2) {
--        ee->cur <<= 8;
--        ee->cur |= data;
-+    if (ee->haveaddr < 1) {
-+        ee->cur = data;
-         ee->haveaddr++;
--        if (ee->haveaddr == 2) {
--            ee->cur %= ee->rsize;
-+        if (ee->eightbit) {
-             DPRINTK("Set pointer %04x\n", ee->cur);
-         }
-+        return 0;
-+    } else if (ee->haveaddr < 2) {
-+        if (!ee->eightbit) {
-+            ee->cur <<= 8;
-+            ee->cur |= data;
-+            ee->haveaddr++;
-+            if (ee->haveaddr == 2) {
-+                ee->cur %= ee->rsize;
-+                DPRINTK("Set pointer %04x\n", ee->cur);
-+            }
- 
--    } else {
--        if (ee->writable) {
--            DPRINTK("Send %02x\n", data);
--            ee->mem[ee->cur] = data;
--            ee->changed = true;
--        } else {
--            DPRINTK("Send error %02x read-only\n", data);
-+            return 0;
-         }
--        ee->cur = (ee->cur + 1u) % ee->rsize;
-+    }
- 
-+    if (ee->writable) {
-+        DPRINTK("Send %02x\n", data);
-+        ee->mem[ee->cur] = data;
-+        ee->changed = true;
-+    } else {
-+        DPRINTK("Send error %02x read-only\n", data);
-     }
-+    ee->cur = (ee->cur + 1u) % ee->rsize;
- 
-     return 0;
- }
-@@ -133,12 +144,16 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
-     EEPROMState *ee = AT24C_EE(dev);
- 
-     if (ee->blk) {
-+        /* blk length is a minimum of 1 sector. */
-         int64_t len = blk_getlength(ee->blk);
- 
-         if (len != ee->rsize) {
--            error_setg(errp, "%s: Backing file size %" PRId64 " != %u",
--                       TYPE_AT24C_EE, len, ee->rsize);
--            return;
-+            /* for the at24c01 and at24c02, they are smaller than a sector. */
-+            if (ee->rsize >= BDRV_SECTOR_SIZE) {
-+                error_setg(errp, "%s: Backing file size %" PRId64 " != %u",
-+                           TYPE_AT24C_EE, len, ee->rsize);
-+                return;
-+            }
-         }
- 
-         if (blk_set_perm(ee->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
-@@ -150,6 +165,13 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
-         }
-     }
- 
-+    /*
-+     * The eeprom sizes are 2**x based, so if it's strictly less than 512, we
-+     * expect it to be 256 or 128.
-+     */
-+    if (ee->rsize < 512) {
-+        ee->eightbit = true;
-+    }
-     ee->mem = g_malloc0(ee->rsize);
- }
- 
--- 
-2.37.0.144.g8ac04bfd2-goog
+> Let's use more inclusive language here and avoid terms
+> that are frowned upon nowadays.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
