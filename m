@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C0657044E
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 15:29:33 +0200 (CEST)
-Received: from localhost ([::1]:37966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE1B57045D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 15:34:45 +0200 (CEST)
+Received: from localhost ([::1]:43504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAtTg-0002Le-BD
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 09:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35364)
+	id 1oAtYi-0005vU-Em
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 09:34:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oAtRO-00076l-0J; Mon, 11 Jul 2022 09:27:10 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:60002)
+ id 1oAtXC-0003ud-RQ; Mon, 11 Jul 2022 09:33:11 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:55058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oAtRJ-0006fE-2I; Mon, 11 Jul 2022 09:27:07 -0400
+ id 1oAtXA-0003gA-1X; Mon, 11 Jul 2022 09:33:09 -0400
 Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
  (myt5-70c90f7d6d7d.qloud-c.yandex.net
  [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 728612E1260;
- Mon, 11 Jul 2022 16:26:53 +0300 (MSK)
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 351D62E1A93;
+ Mon, 11 Jul 2022 16:32:57 +0300 (MSK)
 Received: from [10.211.6.101] (10.211.6.101-vpn.dhcp.yndx.net [10.211.6.101])
  by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id rOdXfnTBgZ-QpOOgNSG; Mon, 11 Jul 2022 16:26:52 +0300
+ ESMTPSA id J39uC1SwZT-WtOKhuia; Mon, 11 Jul 2022 16:32:56 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1657546012; bh=8yJT0gAhbaK9FBLsa6sYRzt8apkiUnung2166VTH0Mg=;
+ t=1657546376; bh=oh/O1VTP/LwEXO/m3GMf/4oO9x0FgyfuIn/rUXqe27M=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=0oqvTkFn4EMfjBt0uFjE0XeAHyfJ4baFT+NUNroBlnDEs0S/TbbStZ5yd7s9ZT5iI
- C97+WNGDbmgyl4fkm1hbpvjRwiFxeT5K9JqBpZAfwfC8wjfMsyOFeHjdOAbs/SIrow
- YJX0PquF7nXe9jSNy6Bb+gSx3oQKK86oFe+mIsuA=
+ b=l+as4J5JT6k/QJxsZRlqRtcAIhGH3IvEvotjPtwa9LL3IFWYiF+euZyfPFmIDCHBF
+ ZyyIdQnKm80eK0v4zwAAzAEIt2b+Bk9trEcVc+juMs1CD7wADTeBpZLot5PAUs2BdV
+ h87bxpVUArrwNyeCbQ322UTiL9MSOm5SYeQQ1EbI=
 Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <1925769b-7fc1-a5f3-b9bf-9799a0656b69@yandex-team.ru>
-Date: Mon, 11 Jul 2022 16:26:51 +0300
+Message-ID: <6777fa68-84f7-5828-c310-b5e50d579214@yandex-team.ru>
+Date: Mon, 11 Jul 2022 16:32:55 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v9 11/21] jobs: group together API calls under the same
- job lock
+Subject: Re: [PATCH v9 12/21] commit and mirror: create new nodes using
+ bdrv_get_aio_context, and not the job aiocontext
 Content-Language: en-US
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -55,13 +54,13 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
  <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 References: <20220706201533.289775-1-eesposit@redhat.com>
- <20220706201533.289775-12-eesposit@redhat.com>
+ <20220706201533.289775-13-eesposit@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220706201533.289775-12-eesposit@redhat.com>
+In-Reply-To: <20220706201533.289775-13-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,81 +84,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/6/22 23:15, Emanuele Giuseppe Esposito wrote:
-> Now that the API offers also _locked() functions, take advantage
-> of it and give also the caller control to take the lock and call
-> _locked functions.
+> We are always using the given bs AioContext, so there is no need
+> to take the job ones (which is identical anyways).
+> This also reduces the point we need to check when protecting
+> job.aio_context field.
 > 
-> This makes sense especially when we have for loops, because it
-> makes no sense to have:
-> 
-> for(job = job_next(); ...)
-> 
-> where each job_next() takes the lock internally.
-> Instead we want
-> 
-> JOB_LOCK_GUARD();
-> for(job = job_next_locked(); ...)
-> 
-> Note: at this stage, job_{lock/unlock} and job lock guard macros
-> are *nop*.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
+> Reviewed-by: Stefan Hajnoczi<stefanha@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
 
-[..]
-
->   
-> diff --git a/blockjob.c b/blockjob.c
-> index 0d59aba439..bce05a9096 100644
-> --- a/blockjob.c
-> +++ b/blockjob.c
-> @@ -99,7 +99,9 @@ static char *child_job_get_parent_desc(BdrvChild *c)
->   static void child_job_drained_begin(BdrvChild *c)
->   {
->       BlockJob *job = c->opaque;
-> -    job_pause(&job->job);
-> +    WITH_JOB_LOCK_GUARD() {
-> +        job_pause_locked(&job->job);
-> +    }
-
-What's the reason for it? I'd keep job_pause().
-
-(and it doesn't correspond to what commit subject presents.)
-
->   }
->   
->   static bool child_job_drained_poll(BdrvChild *c)
-> @@ -111,8 +113,10 @@ static bool child_job_drained_poll(BdrvChild *c)
->       /* An inactive or completed job doesn't have any pending requests. Jobs
->        * with !job->busy are either already paused or have a pause point after
->        * being reentered, so no job driver code will run before they pause. */
-> -    if (!job->busy || job_is_completed(job)) {
-> -        return false;
-> +    WITH_JOB_LOCK_GUARD() {
-> +        if (!job->busy || job_is_completed_locked(job)) {
-> +            return false;
-> +        }
->       }
-
-This doesn't correspond to commit subject. I'd put such things to separate commit "correct use of job_mutex in blockjob.c".
-
->   
->       /* Otherwise, assume that it isn't fully stopped yet, but allow the job to
-> @@ -127,7 +131,9 @@ static bool child_job_drained_poll(BdrvChild *c)
->   static void child_job_drained_end(BdrvChild *c, int *drained_end_counter)
->   {
->       BlockJob *job = c->opaque;
-> -    job_resume(&job->job);
-> +    WITH_JOB_LOCK_GUARD() {
-> +        job_resume_locked(&job->job);
-> +    }
->   }
-
-Again, don't see a reason for such change.
-
-
-[my comments relate to more similar cases in the patch]
-
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
 -- 
 Best regards,
