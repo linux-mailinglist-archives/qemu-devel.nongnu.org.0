@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9AF56FCCD
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 11:48:28 +0200 (CEST)
-Received: from localhost ([::1]:54268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987C756FCC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 11:47:58 +0200 (CEST)
+Received: from localhost ([::1]:53348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAq1j-0006F4-8b
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 05:48:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37124)
+	id 1oAq1F-0005d4-Mi
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 05:47:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oApyR-00038j-Ko
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:45:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38019)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oApy8-0002Yy-R2
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:44:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oApyM-0006b4-TK
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:45:02 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oApy7-0006Z1-Cf
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:44:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657532698;
+ s=mimecast20190719; t=1657532682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=is9XanqoG7jbc2HkDAP5RVT00ngVtMj2JbXCu+3UgNo=;
- b=LqEQ3kj6uGAAXW1YpJ5fmYDnhHrP7UJ0D/tAyX+yfFbGgE460N2nqmuMtolh7Ch3Y65MF9
- 7A29Y+THjqkCkq9kILYBg55JTiP335HZCDJUWd11tmuTxF2fueInvxfwj2G41amZ3o7A9g
- gZcUYSUHxkaQPNM9SlPgjm2Q0XJLlyg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=M/nrSDNX4Qb9g5XbQSVFpY3J9MHci+/nAHcRadAykjg=;
+ b=KzXfQs4d9Wd3ngb6aEEHf37k7GfTF2frWaGm2dN3oDTVbUqM8hbq8DOGp+9a+lW62J/h2d
+ TkFyQVN2//t7/3DHchKsjzWr9WT2cRia3NSUErWnw0QXPwRq8iXhCEunnxOZ8bQZEsuBYs
+ o5CIYnKYI+E6cCePjcW0g6S3Z5E5tM4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-414-TJPQmpinOp6rr3R7ctV7RA-1; Mon, 11 Jul 2022 05:44:39 -0400
-X-MC-Unique: TJPQmpinOp6rr3R7ctV7RA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-513-yTs1NysoPgaiIngRckzpBw-1; Mon, 11 Jul 2022 05:44:41 -0400
+X-MC-Unique: yTs1NysoPgaiIngRckzpBw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F5E5857AA0
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 09:44:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D02A738217E0
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 09:44:40 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EAD92166B26;
- Mon, 11 Jul 2022 09:44:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FD23C28118;
+ Mon, 11 Jul 2022 09:44:40 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F23D1180039F; Mon, 11 Jul 2022 11:44:37 +0200 (CEST)
+ id 09B021800620; Mon, 11 Jul 2022 11:44:38 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Michal=20Pr=C3=ADvozn=C3=ADk?= <mprivozn@redhat.com>
-Subject: [PATCH 1/2] usb: document guest-reset and guest-reset-all
-Date: Mon, 11 Jul 2022 11:44:36 +0200
-Message-Id: <20220711094437.3995927-2-kraxel@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH 2/2] usb: document pcap (aka usb traffic capture)
+Date: Mon, 11 Jul 2022 11:44:37 +0200
+Message-Id: <20220711094437.3995927-3-kraxel@redhat.com>
 In-Reply-To: <20220711094437.3995927-1-kraxel@redhat.com>
 References: <20220711094437.3995927-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,49 +78,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: Michal Prívozník <mprivozn@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- docs/system/devices/usb.rst | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ docs/system/devices/usb.rst | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/docs/system/devices/usb.rst b/docs/system/devices/usb.rst
-index 872d9167589b..18e7c8b4d716 100644
+index 18e7c8b4d716..f39a88f080ff 100644
 --- a/docs/system/devices/usb.rst
 +++ b/docs/system/devices/usb.rst
-@@ -353,3 +353,32 @@ and also assign it to the correct USB bus in QEMU like this:
-         -device usb-ehci,id=ehci                             \\
-         -device usb-host,bus=usb-bus.0,hostbus=3,hostport=1  \\
-         -device usb-host,bus=ehci.0,hostbus=1,hostport=1
+@@ -382,3 +382,15 @@ What works best pretty much depends on the behavior of the specific
+ usb device at hand, so it's a trial-and-error game.  If the default
+ doesn't work, try another option and see whenever the situation
+ improves.
 +
-+``usb-host`` properties for reset behavior
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++record usb transfers
++^^^^^^^^^^^^^^^^^^^^
 +
-+The ``guest-reset`` and ``guest-reset-all`` properties control
-+whenever the guest is allowed to reset the physical usb device on the
-+host.  There are three cases:
++All usb devices have support for recording the usb traffic.  This can
++be enabled using the ``pcap=<file>`` property, for example:
 +
-+``guest-reset=false``
-+  The guest is not allowed to reset the (physical) usb device.
++``-device usb-mouse,pcap=mouse.pcap``
 +
-+``guest-reset=true,guest-resets-all=false``
-+  The guest is allowed to reset the device when it is not yet
-+  initialized (aka no usb bus address assigned).  Usually this results
-+  in one guest reset being allowed.  This is the default behavior.
-+
-+``guest-reset=true,guest-resets-all=true``
-+  The guest is allowed to reset the device as it pleases.
-+
-+The reason for this existing are broken usb devices.  In theory one
-+should be able to reset (and re-initialize) usb devices at any time.
-+In practice that may result in shitty usb device firmware crashing and
-+the device not responding any more until you power-cycle (aka un-plug
-+and re-plug) it.
-+
-+What works best pretty much depends on the behavior of the specific
-+usb device at hand, so it's a trial-and-error game.  If the default
-+doesn't work, try another option and see whenever the situation
-+improves.
++The pcap files are compatible with the linux kernels usbmon.  Many
++tools, including ``wireshark``, can decode and inspect these trace
++files.
 -- 
 2.36.1
 
