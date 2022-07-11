@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5425957274E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 22:32:51 +0200 (CEST)
-Received: from localhost ([::1]:36608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19B057274F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 22:32:52 +0200 (CEST)
+Received: from localhost ([::1]:36742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBMYs-0002GC-2c
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 16:32:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53532)
+	id 1oBMYt-0002Ln-Pd
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 16:32:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBMUW-0004ul-EB
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:21 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:55817)
+ id 1oBMUa-0004y2-L6; Tue, 12 Jul 2022 16:28:24 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBMUU-0004pE-9p
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:19 -0400
-Received: by mail-wm1-x333.google.com with SMTP id l42so5304143wms.5
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 13:28:17 -0700 (PDT)
+ id 1oBMUY-0004pb-7A; Tue, 12 Jul 2022 16:28:24 -0400
+Received: by mail-wr1-x431.google.com with SMTP id bk26so12721381wrb.11;
+ Tue, 12 Jul 2022 13:28:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:cc:from:in-reply-to
  :content-transfer-encoding;
- bh=KUXgOi7xhWLDj74V3dLbpwpaZVWbhOgOdX9pj8pkZAk=;
- b=G5XIeau26FBDiG3V/iO90qO7GJ/m5TGxYxZBkhBIsBzTRlOpUq0Mgc9+nyufDObxDD
- ZeNn6GZrWB+AZ8XiPbs2OfV7NyFopI6S6TseTCiV/P2O1pEDsvOW3LRKcRqTZ/jTYbdN
- gME/0RDAiWqLO1RkdOZrPDpoitAwMPNEtevut9ZBeyL+iLeAp8kCrFZe0kTI97bqBScP
- 91NWraur0cxCEY9GNSZP4PXi/lBqXVyUsBYa14MKOIXrJ7oeKZzWPB7J8IuNMEKEkpuP
- 2Um7gtlmm13pE0gPuT4DQ9cZ9lF/9O2hj3QLGBMpm1YI4G58ePRObq180hARr4jEu5dr
- o04g==
+ bh=IDYCYJSt4frMasC7+79x+7xLUOxcIa1Av1u3UPIBm0g=;
+ b=qWncnOoPt07nGYdts2FH2wSHGbzI41Y6az7E3Ssxwi9x2I5jzsHT5SZ6nHxu21sqx5
+ BbIkZiDYAun1zweFjSjkzl7OJZ6uRRSKjfd4xFOingXcaUs258LDEr4saP416grDXvSY
+ 8yGsBnkUQC+s6mOggF7/mIuqYR06RqRlgTevLF95x7MRo12GlMGbeCVyEhvvCrj3E9+j
+ nLn2Sz7OP8wJ7gX5UiaXxTRRCD+ABuexkTixi4b8CJoCKNDeZJc94aRi+kovmJiVges4
+ gmt7E/uZJsiUseXAA7G0sKkCQVdnDPpkX7D4FO+PI4IBe3AwxuBgtCNHnbG/6RDLAHcc
+ GgWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ :subject:content-language:to:references:cc:from:in-reply-to
  :content-transfer-encoding;
- bh=KUXgOi7xhWLDj74V3dLbpwpaZVWbhOgOdX9pj8pkZAk=;
- b=ARApZuWVAROpPQa+swlI0oNr1tFVJxLgjI2alBYi9ZZCHZyrOv1QwUzorEiRbAtvPH
- 1H/bk7pfg/xvGXkx6RGSJOjyM7lpgO8KNibox4zDA4lc9Bh6oBq/HaVdN+DsXmOsS3Am
- Dg4wep9C8W7Om7cAdxSYTZCfwVrPga+/R0GnTUpPPOyIpKz7g5W15P23UpPdd+bUogGT
- eTeJsvsxlnLpppjmDfhhbjOXl4Mmbvfipv5jE10nAqjaJr5KZBflRu9Fdb1TgAATDgv8
- S9gjRX1GMERLNeS7hKm+gkFbZgyKH0vsIspWgpgPtUIfDgw0wtukeS76zXTrtpVyV8Ed
- 9ukA==
-X-Gm-Message-State: AJIora/4Bz+ia57NbCBcMr5KC3RO7bDepzUifo3Q0ow8k/cD9c1QVAxW
- jRFn6CJM2AIn1pCwXdnMzLo=
-X-Google-Smtp-Source: AGRyM1tTodoxn30fp3byd7TI4HeCrYrzifMXfaFm5E77F0BCuITT/fuJWNFUq1nOiK/ht17h1jOLDA==
-X-Received: by 2002:a1c:ed04:0:b0:3a2:b7d7:2843 with SMTP id
- l4-20020a1ced04000000b003a2b7d72843mr5906754wmh.43.1657657696751; 
- Tue, 12 Jul 2022 13:28:16 -0700 (PDT)
+ bh=IDYCYJSt4frMasC7+79x+7xLUOxcIa1Av1u3UPIBm0g=;
+ b=gzFReOyMvLZrPNZwL/6HRpOjyd8Rp+y5nCzDrMRW+NhUVzutpmTeNr16kmtOx3Kkl1
+ +U6bwVMamtL/peu5bGZf/lqrwSCky43oG9WKCcNzv7A/KHvy85ctqrL5+mJMtfRzwuky
+ zIqkidqH8gvyzYRnRzxDSnsPWm97a4zF224215Rp/8M9CPHGFfHignzIZcYuMJWoPllQ
+ +DIoJXa7r3SUiRIwNVKo9UrTFttMY90fVXXwNNps9z1T786NALpoyjy0qUDO81Vv2kao
+ ELxVlRhhwMRVX11xYnMoObkpeEKMLG7fu3MN+rVMOMTbeO5c1MENGMRL9OF7j2LdN1jf
+ Ljkw==
+X-Gm-Message-State: AJIora8rdrh5bCgSLbTbQU76ufdVWw06DNr4NffcYk3UU5X+6kYYmqD2
+ T+pES4hbgS0BCbw9r6ZQfjM=
+X-Google-Smtp-Source: AGRyM1vQ22xy5zz2uczjUejjycRJ1WF+hC/fv8COWiVoLjLTdmBI7UhFujd1iIBbfSsEXKo9rLadwg==
+X-Received: by 2002:a5d:5989:0:b0:21d:b2bd:d712 with SMTP id
+ n9-20020a5d5989000000b0021db2bdd712mr5099343wri.698.1657657700666; 
+ Tue, 12 Jul 2022 13:28:20 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n4-20020a5d6604000000b0021d650e4df4sm9017448wru.87.2022.07.12.13.28.15
+ b17-20020adff911000000b0021d819c8f6dsm9022340wrr.39.2022.07.12.13.28.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 13:28:16 -0700 (PDT)
-Message-ID: <54df7007-6b84-dfeb-950a-55f798d660e3@amsat.org>
-Date: Mon, 11 Jul 2022 18:24:22 +0200
+ Tue, 12 Jul 2022 13:28:20 -0700 (PDT)
+Message-ID: <950c757e-5d35-0c80-b9a5-c7ec3f8585dd@amsat.org>
+Date: Mon, 11 Jul 2022 18:25:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH v3 3/9] tests/style: check for mixups of bool constants
- with int variables
+Subject: Re: Error ret=-1 with EINTR in nbd_connect_systemd_socket_activation()
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20220707163720.1421716-1-berrange@redhat.com>
- <20220707163720.1421716-4-berrange@redhat.com>
-In-Reply-To: <20220707163720.1421716-4-berrange@redhat.com>
+To: Motohiro Kawahito <JL25131@jp.ibm.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <DM6PR15MB2635A63B1B5F9F204E08BBEED5879@DM6PR15MB2635.namprd15.prod.outlook.com>
+Cc: Qemu-block <qemu-block@nongnu.org>
+In-Reply-To: <DM6PR15MB2635A63B1B5F9F204E08BBEED5879@DM6PR15MB2635.namprd15.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -1
 X-Spam_score: -0.2
 X-Spam_bar: /
@@ -101,32 +95,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 7/7/22 18:37, Daniel P. Berrangé wrote:
-> The 'true' and 'false' constants should only ever be used with the
-> 'bool' type, never 'int'.
+Cc'ing qemu-block@
+
+On 11/7/22 08:38, Motohiro Kawahito wrote:
+> Hi, I’d like to connect to an encrypted QCOW2 file by 
+> nbd_connect_systemd_socket_activation(), but I got ret=-1 with EINTR.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   tests/style.yml | 5 +++++
->   1 file changed, 5 insertions(+)
+> The arg parameter I used is
 > 
-> diff --git a/tests/style.yml b/tests/style.yml
-> index b4e7c6111f..704227d8e9 100644
-> --- a/tests/style.yml
-> +++ b/tests/style.yml
-> @@ -86,3 +86,8 @@
->   #        A match added to the front of the regex. Useful when
->   #        'terms' is a list of strings and a common prefix is
->   #        desired
-> +
-> +int_assign_bool:
-> +  files: \.c$
+> qemu-nbd --object secret,id=sec0,data=abc123 --image-opts 
+> driver=qcow2,encrypt.format=luks,encrypt.key-secret=sec0,file.filename=/tmp/empty.qcow2
+> 
+> Can you find what a problem is? The version of qemu-nbd is
+> 
+> $ qemu-nbd -V
+> 
+> qemu-nbd 4.2.1 (Debian 1:4.2-3ubuntu6.23)
+> 
+> I created this encrypted QCOW2 image by the following command.
+> 
+> qemu-img create --object secret,id=sec0,data=abc123 -f qcow2 -o 
+> encrypt.format=luks,encrypt.key-secret=sec0 /tmp/empty.qcow2 8539292672
+> 
+> Note that I can connect to a normal QCOW2 file by this function without 
+> any error. (arg: qemu-nbd -f qcow2 /tmp/normal.qcow2)
+> 
 
-Why not check .c.inc and .h (for static inlined func)?
-
-Regardless:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> +  prohibit: \<int\>.*= *(true|false)\b
-> +  message: use bool type for boolean values
 
