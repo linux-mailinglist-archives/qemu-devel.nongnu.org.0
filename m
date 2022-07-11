@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B8F5708A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 19:07:29 +0200 (CEST)
-Received: from localhost ([::1]:39190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC86E57098F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 19:55:02 +0200 (CEST)
+Received: from localhost ([::1]:38800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAwsa-0006Lx-BD
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 13:07:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40418)
+	id 1oAxcb-000240-8M
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 13:55:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oAwmM-0002Ue-LH
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 13:01:05 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oAwmK-0006zq-RK
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 13:01:02 -0400
-Received: by mail-ej1-x634.google.com with SMTP id j22so9898529ejs.2
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 10:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=AijNuFhleeZ+ShSP3y5L5ifu0DE5uB2ce+dGZsPrL3g=;
- b=FR9p95e1/u8u8Jb4ObZVzt/rPzhTCKbghHkhrnWG5cyWWf6+9qB1PwnN4bsXzo7Uww
- TfGcJN1LclYbPNivH39AJEi3ZGTsYPmpoXfL7wbDwAaFwi/AB7gHGmIngzOQF3EWKTrQ
- USjEMxneuEn3mK6LnZ39GPQ4oIKCWMQA0BzcvYhBPumuhc/hXIT0Anu0jo083MDRD03H
- qSjIu6Ja9VQQaBAptSTWCAWLHZ86WKEk/AQCkNNaUCPFx7zoEqi8BcuPGVaAx6Ma+DwI
- HcTvsqporKvuJnGjNfuYkBCM+xYSzyqYSkR6vuny25aBgdLZpz90xKGRJpi9F50gThmA
- +Kig==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oAxao-0000YX-8D
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 13:53:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oAxak-0003no-A6
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 13:53:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657561985;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=babD7UDcU1gYaaaM965cIigQSR9TILDl64vr9k0aGjc=;
+ b=gXt2kNgYFmSb1aiL/D3psO6FmZD6QitAN8RXUY5yMQQHt2VvwDlnMdd9YskpgiUA/KE4gC
+ gPsBAezgJbY3mPnu8Vcynu8c5mPCEQvbAJf6YnibNJ5XeNHtlmbwkrxtqgjL9NB30zJGGc
+ Q2B6VmbuNWkPJg2WUAw1QJUfvkUFMwA=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-76-UL3r4YBbPTSvzPhjDdav_w-1; Mon, 11 Jul 2022 13:52:52 -0400
+X-MC-Unique: UL3r4YBbPTSvzPhjDdav_w-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ bm2-20020a05620a198200b006a5dac37fa2so5875557qkb.16
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 10:52:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=AijNuFhleeZ+ShSP3y5L5ifu0DE5uB2ce+dGZsPrL3g=;
- b=194QmbyhYPBgIW4TSlvRyuxku0BNjaDD47B657XhrTAebb8p904WStKijY7vqvD+Ej
- cJBOsUQAansRIybASAwQvViabQKbmekrNntWlVlOKPMLUVj60TdkVgV/iACqKiKlX259
- VB06iUvz3FTrIPe0sRBa6bdnvhWyTGchN//EXN97gCpFGDUjyZG1BjX0ctq6fuHUhW0B
- BTDgBPNiJCJSjEovlZ9eUkQdwaNrCrYoWyl2LjhIZiLGUzURGLTnJ3hh1lkY0csyN/Ep
- EEtypmmnK7Uzf3IMUKYxprat23D4J24MMfvQSINCfUUPGMKPUZV8t+aG/o7gUDrURX2A
- hqtw==
-X-Gm-Message-State: AJIora93bRD3hV3Tzch1g6wTcPsjsuMZWbYpu4KUxiTKaOhAAFyO1Y84
- G0APY92Sa3hvSKnWAEI3iiCmZZrxzK6EaA==
-X-Google-Smtp-Source: AGRyM1tcXwN/I2X9SJSpNcuRGU57wZ3chAWHmwJtDVznpeYTsiq2f4krA+fFfN/bXs4qBFXKFlAYqg==
-X-Received: by 2002:a17:907:7349:b0:72b:4f05:e17 with SMTP id
- dq9-20020a170907734900b0072b4f050e17mr7775596ejc.307.1657558859070; 
- Mon, 11 Jul 2022 10:00:59 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- g24-20020a170906539800b00727c6da69besm2849570ejo.38.2022.07.11.10.00.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 10:00:57 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 739C41FFB7;
- Mon, 11 Jul 2022 18:00:57 +0100 (BST)
-References: <DS0PR14MB5592DD9ACC1CC45554386FE18E879@DS0PR14MB5592.namprd14.prod.outlook.com>
-User-agent: mu4e 1.7.27; emacs 28.1.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Vaidehi Anant Deshpande (i)" <vaidehi.deshpande@nio.io>
-Cc: qemu-devel@nongnu.org
-Subject: Re: Information needed regarding gnu-arm-eclipse version:
-Date: Mon, 11 Jul 2022 17:54:38 +0100
-In-reply-to: <DS0PR14MB5592DD9ACC1CC45554386FE18E879@DS0PR14MB5592.namprd14.prod.outlook.com>
-Message-ID: <87bktvshx2.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=babD7UDcU1gYaaaM965cIigQSR9TILDl64vr9k0aGjc=;
+ b=tBufZkDg4aLFFXefOXDgJvexac7dyVoJTpAxWgeEPvy3KdgWyZ+w7FU7euguVs4qfx
+ 0Ta5KAxry/MywxOm8AnEvehrUGR2i7sFDpnUcEUajSGs/mh1LDgl0fRWNiUPYslYaclp
+ QF3f8FuzfAsG3lWRGiZZfMc59jIIgPNcHme3/38KejT2JxLwLSm/fbwDaYV28riTSrf2
+ aWCJRCd5LRlolhXJlS9G6POVvCh+Vh28N77H2/MtijykqDL0ufl8PEc/xe56BQwJnm95
+ Roekm0M4Q8I2N6Uyk/3u2pcVBoYMEIhMo4FfPqgqmQep3EXdh0CzdJppuvc4vzpwzFx9
+ SFSQ==
+X-Gm-Message-State: AJIora9Gnu2QyXOmhhNdsxKeq8EjGzELirIvqQcpfPmGsPl98sZ2JJSB
+ tgBO7dAwKGvoEGpwPGpjnpTbAFictUgcxR4aLRGgQrX6VU4p4stDM3FGAN/SSIbmSe/AYPKR3yb
+ K52FjB46VJ+yppPnNysjkV9SNOkD8TgE=
+X-Received: by 2002:a05:622a:104c:b0:31e:b177:6bf0 with SMTP id
+ f12-20020a05622a104c00b0031eb1776bf0mr7110718qte.582.1657561969750; 
+ Mon, 11 Jul 2022 10:52:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vzMHV0gXe+t+qTz7Jh9DbTsHuU9Htxg+iR8MKsEaFmE3o2usaMVyUGRzH/CjL9xTUjG1TMBC5huXt71/bgzRE=
+X-Received: by 2002:a05:622a:104c:b0:31e:b177:6bf0 with SMTP id
+ f12-20020a05622a104c00b0031eb1776bf0mr7110697qte.582.1657561969510; Mon, 11
+ Jul 2022 10:52:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220706184008.1649478-1-eperezma@redhat.com>
+ <20220706184008.1649478-15-eperezma@redhat.com>
+ <cac07706-7753-c3bd-e3f7-5ef48e190f1d@redhat.com>
+In-Reply-To: <cac07706-7753-c3bd-e3f7-5ef48e190f1d@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 11 Jul 2022 19:52:13 +0200
+Message-ID: <CAJaqyWdcr3VDL0cM7kSe_4uTzvsfZd_dYkqdZSo5ptQkAmX3UA@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 14/23] vhost: add vhost_svq_poll
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Eric Blake <eblake@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,48 +103,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-"Vaidehi Anant Deshpande (i)" <vaidehi.deshpande@nio.io> writes:
-
-> Hello,
+On Mon, Jul 11, 2022 at 11:19 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> I am Vaidehi and I am currently trying to run a code on QEMU emulator usi=
-ng eclipse IDE. However, I came across some documentation
-> regarding the deprecation of qemu-system-gnuarmeclipse and I need to know=
- if there is v7.0.0 available for
-> qemu-syetem-gnuarmeclipse.
-
-qemu-system-gnuarmeclipse is nothing to do with the upstream qemu
-project. It's a fork of QEMU which was focused on M-profile and IDE
-integration. You would have to ask xPack developers how to migrate to
-upstream QEMU.
-
-Do you know what board/processor you are trying to emulate?
-
-> Please let me know the links for the same if available.
 >
-> Best regards,
-> Vaidehi. D
+> =E5=9C=A8 2022/7/7 02:39, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > It allows the Shadow Control VirtQueue to wait the device to use the co=
+mmands
+> > that restore the net device state after a live migration.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.h |  1 +
+> >   hw/virtio/vhost-shadow-virtqueue.c | 54 ++++++++++++++++++++++++++++-=
+-
+> >   2 files changed, 52 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
+w-virtqueue.h
+> > index d01d2370db..c8668fbdd6 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > @@ -100,6 +100,7 @@ void vhost_svq_push_elem(VhostShadowVirtqueue *svq,
+> >                            const VirtQueueElement *elem, uint32_t len);
+> >   int vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *i=
+ov,
+> >                        size_t out_num, size_t in_num, void *opaque);
+> > +ssize_t vhost_svq_poll(VhostShadowVirtqueue *svq);
+> >   void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kic=
+k_fd);
+> >   void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_fd=
+);
+> >   void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index bd9e34b413..ed7f1d0bc9 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -10,6 +10,8 @@
+> >   #include "qemu/osdep.h"
+> >   #include "hw/virtio/vhost-shadow-virtqueue.h"
+> >
+> > +#include <glib/gpoll.h>
+> > +
+> >   #include "qemu/error-report.h"
+> >   #include "qapi/error.h"
+> >   #include "qemu/main-loop.h"
+> > @@ -490,10 +492,11 @@ void vhost_svq_push_elem(VhostShadowVirtqueue *sv=
+q,
+> >       }
+> >   }
+> >
+> > -static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+> > -                            bool check_for_avail_queue)
+> > +static size_t vhost_svq_flush(VhostShadowVirtqueue *svq,
+> > +                              bool check_for_avail_queue)
+> >   {
+> >       VirtQueue *vq =3D svq->vq;
+> > +    size_t ret =3D 0;
+> >
+> >       /* Forward as many used buffers as possible. */
+> >       do {
+> > @@ -510,7 +513,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *s=
+vq,
+> >                            "More than %u used buffers obtained in a %u =
+size SVQ",
+> >                            i, svq->vring.num);
+> >                   virtqueue_flush(vq, svq->vring.num);
+> > -                return;
+> > +                return ret;
+> >               }
+> >
+> >               svq_elem =3D vhost_svq_get_buf(svq, &len);
+> > @@ -520,6 +523,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *s=
+vq,
+> >
+> >               elem =3D g_steal_pointer(&svq_elem.opaque);
+> >               virtqueue_fill(vq, elem, len, i++);
+> > +            ret++;
+> >           }
+> >
+> >           virtqueue_flush(vq, i);
+> > @@ -533,6 +537,50 @@ static void vhost_svq_flush(VhostShadowVirtqueue *=
+svq,
+> >               vhost_handle_guest_kick(svq);
+> >           }
+> >       } while (!vhost_svq_enable_notification(svq));
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +/**
+> > + * Poll the SVQ for device used buffers.
+> > + *
+> > + * This function race with main event loop SVQ polling, so extra
+> > + * synchronization is needed.
+> > + *
+> > + * Return the number of descriptors read from the device.
+> > + */
+> > +ssize_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+> > +{
+> > +    int fd =3D event_notifier_get_fd(&svq->hdev_call);
+> > +    GPollFD poll_fd =3D {
+> > +        .fd =3D fd,
+> > +        .events =3D G_IO_IN,
+> > +    };
+> > +    assert(fd >=3D 0);
+> > +    int r =3D g_poll(&poll_fd, 1, -1);
 >
-> Email Signature
 >
->=20=20=20=20
->  Banner=20=20=20
->  This email and any files transmitted with it are confidential and intend=
-ed solely for the use of the individual or entity to whom they are=20=20
->  addressed. You may NOT use, disclose, copy or disseminate this informati=
-on. If you have received this email in error, please notify the=20=20
->  sender and destroy all copies of the original message and all attachment=
-s. Please note that any views or opinions presented in this=20=20
->  email are solely those of the author and do not necessarily represent th=
-ose of the company. Finally, the recipient should check this=20=20
->  email and any attachments for the presence of viruses. The company accep=
-ts no liability for any damage caused by any virus=20=20
->  transmitted by this email.
+> Any reason we can't simply (busy) polling the used ring here? It might
+> help to reduce the latency (and it is what kernel driver uses).
+>
 
-You may want to tweak your email client not to dump this banner on posts
-to public mailing lists...
+Yes, I'll change to a busy polling. I forgot to change it.
 
---=20
-Alex Benn=C3=A9e
+Thanks!
+
+> Thanks
+>
+>
+> > +
+> > +    if (unlikely(r < 0)) {
+> > +        error_report("Cannot poll device call fd "G_POLLFD_FORMAT": (%=
+d) %s",
+> > +                     poll_fd.fd, errno, g_strerror(errno));
+> > +        return -errno;
+> > +    }
+> > +
+> > +    if (r =3D=3D 0) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    if (unlikely(poll_fd.revents & ~(G_IO_IN))) {
+> > +        error_report(
+> > +            "Error polling device call fd "G_POLLFD_FORMAT": revents=
+=3D%d",
+> > +            poll_fd.fd, poll_fd.revents);
+> > +        return -1;
+> > +    }
+> > +
+> > +    /*
+> > +     * Max return value of vhost_svq_flush is (uint16_t)-1, so it's sa=
+fe to
+> > +     * convert to ssize_t.
+> > +     */
+> > +    return vhost_svq_flush(svq, false);
+> >   }
+> >
+> >   /**
+>
+
 
