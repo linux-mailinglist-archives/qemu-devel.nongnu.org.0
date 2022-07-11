@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4342157000B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 13:19:06 +0200 (CEST)
-Received: from localhost ([::1]:36214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57303570014
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 13:19:45 +0200 (CEST)
+Received: from localhost ([::1]:38206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oArRR-0000PC-3A
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 07:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59118)
+	id 1oArS4-0001jb-36
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 07:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oArOZ-00052G-VF
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 07:16:08 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:46969)
+ (Exim 4.90_1) (envelope-from <anders.roxell@linaro.org>)
+ id 1oArQB-0006Je-R0
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 07:17:47 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:47012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oArOV-0005IQ-0k
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 07:16:07 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id l11so8110729ybu.13
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 04:16:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anders.roxell@linaro.org>)
+ id 1oArPu-0005T0-II
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 07:17:47 -0400
+Received: by mail-pl1-x633.google.com with SMTP id l12so4126249plk.13
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 04:17:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=GeeOlx8aDwBWqkBPi6HicLNoiR9rj3KWEGMtIHYi954=;
- b=KvCcLvxugsvdeHlc/M60hn3kOB/nQRgn4SpRyPdIF4CD6npFHw3KuUjuthzoZmOzcs
- cY4LkSEoXQleJxaSWCDeDIYE0Ab1zRp8tNwxhKbj586uesy6XUfGzjFZ4pxvAdtVkJyb
- dQsijutsSFdChIhEEyFljUfjcIu4cwHS9I2PWNKIwEZY9isgmgE8eedWQ22/28sk9WUb
- VV9w3KcqmeA63AGyNRefL6z9y7yvEyCATyyISeBehrBceaDX2iOysDCb2Zyp1fj5P/5d
- Oq29+fDLxMk3TNKYHeUmqi1i1HEZKS/LfZoWeHxTa8KjjT8cZaotzwYS6roXwyjjMw7t
- FBcg==
+ bh=Q2gUroj1wYZHw0Na7ndJnXEPlpzhpMRIriQNm0MkpII=;
+ b=aovM00XBMKBV32IdqDEXw3OVXn5r4XguPvJ31roXE+1GS9yl0w5zCTCNBBqdrogaYm
+ rzSkUdrJtMhNZcoXy2wQ8rXM6redvte/doHsG/zjwTgnwUdexaINPrlFZQ7XPRrjRcgk
+ sM0n5w1Du3UsdPuLDZqxLia2c1/HOSHYfPdaunVOqmlqj3Hl0/5qXYXDuuEWwqKNlzCk
+ lemjrGVLcC+maiJ/WvSzK5p71qAb8QTjGZjiTlXM51MtHPiQjQPOdDrA+ym1NRZpK89A
+ YX2qAjp7WuOJhCMltZje5JFCBW8WSEtIFbq7FVIZuQWPbDqgLs3ZqVsWza4GEBUioI2/
+ q5iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=GeeOlx8aDwBWqkBPi6HicLNoiR9rj3KWEGMtIHYi954=;
- b=GnG/yqFBlEvNy0bU/AK/Kdw6BV5e8VIXhzhcY6kSPbvhO9k1sjcmvd2piVq3HmGuNf
- J5PwHr7YA3OrdzuP9eQLxTZBIK8Vta3nf2EkFZqlbkmxEKVnIcesFvHAOtozENAG9Clq
- fhcqrVl2mtTJ9zJzXvbkxz75o3RL+qDfSN2ZIvX6AoJnDnKBbrQ8OoZNHdEANPNzpPG+
- CpLHzgjr9nlrJsRrf4lh8MdmR+B6dRvARh4gb7k0L8iO11SWwj/N4HXC1H8zkgPv73Ve
- wc8nWGSxH5bdmeLZtxRWeoivrnMnf9NiJC17FRVBasNc7OpoJ8PYDWhMGEX/InM8tjRT
- a+Ew==
-X-Gm-Message-State: AJIora9amVmWpn9h37rAgcSPdKixeSHu4OkY18d/nsMJ9fGa2Kw29OW1
- I4oCu2Lxv/ewg1bX4OHz0/rkmjTDgKjCwaKztoskvw==
-X-Google-Smtp-Source: AGRyM1vXd3Vm6EZPP4YwiyIoyQAiLEIEA/mhYO0pZpGEjAWXl0N64H+Kg7e4rTjZmSP/4Naq59IfPdwbnrAPWzbOQro=
-X-Received: by 2002:a25:230b:0:b0:66e:e008:a76b with SMTP id
- j11-20020a25230b000000b0066ee008a76bmr14517193ybj.479.1657538161529; Mon, 11
- Jul 2022 04:16:01 -0700 (PDT)
+ bh=Q2gUroj1wYZHw0Na7ndJnXEPlpzhpMRIriQNm0MkpII=;
+ b=iVsX/NM1sc8MlWEjGoatDN4XGsxUAtxHinYt/paIIqslAj6NU3dnwxR+b/VhUjAFR2
+ TY/sBqQggednSJj69bBzZBhQpOR3/5BYSQOxqaUDdWNN+ktMoMnyBVfgvVI4WYhCCnVe
+ qrPz3MD5di4JrohbRwEZ4SFby3UePppCfHcCgLNhouKapH87WvTxRCZ9d4ayS908Q28+
+ jwHYcGQnLi982v/3OeTwYPYITyhOk81Y7zeMQRzCtXDB9qEUiSC7qTgV2XePCeWP+VPe
+ 19GNdo9L1usxZOazIGIqzdnO1ZVMZoO60tGq50oX9DahZyr7KTz7m67JlYpjEM2RRNLC
+ nziw==
+X-Gm-Message-State: AJIora9nxs4nDYMZb3BzkS53iuNNYAnmaQwacoRSuKcXhTRhnlrvCLVp
+ 5UXIoxlHzj+Z2wOvT9FH2gcubdqPzpn6isROpEhmGg==
+X-Google-Smtp-Source: AGRyM1t+WNhXIZULo0+/zc/28SnymvdvlkKYKCVvh+HRwKqdHAndBAyVxTZkuBp7c2OcKpdwMrPLeuLGS69Fxv074aU=
+X-Received: by 2002:a17:903:120f:b0:15f:99f:9597 with SMTP id
+ l15-20020a170903120f00b0015f099f9597mr17989401plh.45.1657538244941; Mon, 11
+ Jul 2022 04:17:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220705095421.2455041-1-armbru@redhat.com>
- <87wncqmq2t.fsf@pond.sub.org> <YsgOhJLpbyODJCGG@redhat.com>
- <CAFEAcA_pA_K=06chM9xwS8BzK2W6v0g5S5Vr_=YT1A9xqX+tfw@mail.gmail.com>
- <YswEzUyQJtxAlylE@redhat.com>
-In-Reply-To: <YswEzUyQJtxAlylE@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Jul 2022 12:15:22 +0100
-Message-ID: <CAFEAcA80xNkyoPV78eJS5wdJ2CEtqkGQZMebuBSBgTJLNwpDGw@mail.gmail.com>
-Subject: Re: [RFC PATCH] qobject: Rewrite implementation of QDict for in-order
- traversal
+References: <20220622123305.3971169-1-alex.bennee@linaro.org>
+ <CAFEAcA_v+VM1kd=_D2Tm7DkkS=i+3k26aaM-YGjnTT6-zsPDxg@mail.gmail.com>
+ <87bkukrbwz.fsf@linaro.org> <YrMv+9l1VUJJUKMS@redhat.com>
+In-Reply-To: <YrMv+9l1VUJJUKMS@redhat.com>
+From: Anders Roxell <anders.roxell@linaro.org>
+Date: Mon, 11 Jul 2022 13:17:14 +0200
+Message-ID: <CADYN=9LNC+UXe8Wdx+BkSQWTNveACf__7tJhWph3-Zvybny4ew@mail.gmail.com>
+Subject: Re: [RFC PATCH] gitlab: add a binary build to project registry
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- kwolf@redhat.com, hreitz@redhat.com
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
+ Remi Duraffort <remi.duraffort@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=anders.roxell@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,53 +90,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jul 2022 at 12:09, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+On Wed, 22 Jun 2022 at 17:06, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
  wrote:
 >
-> On Mon, Jul 11, 2022 at 11:32:35AM +0100, Peter Maydell wrote:
-> > I'm pretty sure that nothing needs sparse array elements like
-> > that. The major reason for the len-PROP field is an implementation
-> > one: because there is currently no way for a QOM object to
-> > say "call this method if somebody tries to set a non-existent
-> > property", the way array properties work is that the 'set'
-> > method for the len-PROP property is the place where we then
-> > add the PROP[0], PROP[1], ... properties.
+> On Wed, Jun 22, 2022 at 03:43:54PM +0100, Alex Benn=C3=A9e wrote:
+> >
+> > Peter Maydell <peter.maydell@linaro.org> writes:
+> >
+> > > On Wed, 22 Jun 2022 at 13:33, Alex Benn=C3=A9e <alex.bennee@linaro.or=
+g> wrote:
+> > >>
+> > >> There have been requests from other projects such LKFT to have
+> > >> "official" docker images with pre-built QEMU binaries. These could
+> > >> then be consumed by downstream CI systems by pulling directly from t=
+he
+> > >> qemu-project container registry. The final image could then be run b=
+y
+> > >> doing:
+> > >>
+> > >>   docker run --rm -it \
+> > >>     registry.gitlab.com/qemu-project/qemu/qemu/debian-amd64-binaries=
+ \
+> > >>     /opt/bin/qemu-system-aarch64 $ARGS
+> > >>
+> > >> To keep the build time down we skip user-mode, documents, plugins an=
+d
+> > >> a selection of the more esoteric hardware emulations. Even so it sti=
+ll
+> > >> takes over an hour to build and install everything.
+> > >
+> > >> This is very much an RFC for now as we have traditionally not provid=
+ed
+> > >> binaries for our users except for the slightly special case of
+> > >> Windows. As currently structured this will rebuild the binaries on
+> > >> every merge but we could change the generation rules to only trigger
+> > >> for tagged or stable branch pushes. We also wouldn't be testing thes=
+e
+> > >> binaries so we are basically assuming they are OK by the nature of
+> > >> being built from master which in theory never breaks.
+> > >
+> > > I'm a bit uncertain about providing "official" docker images
+> > > or other pre-built binaries, because it might give the impression
+> > > that these are OK to use with KVM, when in fact they won't necessaril=
+y
+> > > get security fixes in a timely manner, and almost all users of QEMU f=
+or
+> > > KVM purposes are better off with the distro QEMU.
+> >
+> > Do we have any sort of idea how long it takes from a CVE being fixed in
+> > a distro kernel to the eventual merge of a patch in master?
+> >
+> > Anyway the main use case for this is emulation where we want to get new
+> > features under -cpu max into the CI loops as soon as possible. I think
+> > the LKFT guys are testing KVM as well though and again want to see new
+> > KVM features as soon as possible.
+> >
+> > I'm not proposing these images are uploaded to docker.io so less likely
+> > to be hit by the default:
+> >
+> >   docker run qemu:latest
+> >
+> > (they instead get 6 year old things packages by someone calling
+> > themselves qemu: https://hub.docker.com/u/qemu)
 >
-> Ahhh, I see what you mean. I totally missed this subtle detail.
+> I guess I would question whether we really need to introduce ourselves
+> as a dependancy of arbitrary downstream projects. We will have little
+> insight into what other projects are doing with any containers we publish=
+.
+> This in turn means our scope for making changes to the containers over
+> time is quite limited, unless we're willing to risk breaking those
+> unknown projects' CI systems.
 >
-> IIUC, there's essentially no such thing as array properties
-> in QOM. 'prop[0]', 'prop[1]', 'prop[2]', etc are all simply
-> scalar properties from QOM's, that just happen to follow a
-> common naming scheme, but QOM doesn't care about that.
+> Personally, I feel CI systems are already fragile enough that it is
+> better to have a self contained system as much as possible. This is why,
+> for example, libvirt's integration test suite builds QEMU from git
+> itself. We get exact control over which QEMU features are built, and
+> get to choose which distros we target too. It isn't hard for apps wanting
+> to use QEMU to perform a build:
+>
+>   https://gitlab.com/libvirt/libvirt/-/blob/master/ci/integration-templat=
+e.yml#L5
+>
+> Probably the hardest part here is understanding the build time package
+> dependancies that are required to be installed, if you want to all QEMU
+> features enabled. We could perhaps use lcitool to record the full set of
+> build dependancies for each distro in git, so 3rd party CI can grab the
+> package list and install it, and thus get the trivial build done. Even
+> better if we publish the package list info in our docs too.
+>
+> I wonder why LKFT isn't building QEMU themselves in the way that they
+> need already ?  Would be nice to know what their problems are, rather
+> than just assume that a container build is the solution.
 
-Yeah. The exception is the bit Markus pointed out where somebody
-has later added special case support for setting "prop[*]" to
-mean "whatever the next index is".
+Right now we use QEMU from Debian, and we miss new
+architectural feature's that gets into QEMU. Our plan is to do:
+1. running the latest QEMU with all the new architectual feature's.
+2. helping out finding regressions in QEMU and/or the kernel, when
+    different kernels are booted with different QEMU versions.
 
-> > If we either had a "call this for any property set/get attempt
-> > where there is no specific method set" or else had array
-> > properties supported by the core QOM code, we could avoid
-> > having to set len-PROP first.
->
-> Techically arrays are already supported at the core QOM level, because
-> you can use any QAPI type as a property.  The authz/list.c object
-> has a 'rules' property that is an array of QAuthzListRule objects:
->
->   { 'struct': 'AuthZListProperties',
->     'data': { '*policy': 'QAuthZListPolicy',
->               '*rules': ['QAuthZListRule'] } }
->
-> At the time I wrote that, we couldn't express it on the CLI though,
-> without using JSON syntax for -object. I don't think we've ever
-> made it possible to use the opts_visitor with non-scalar properties
-> though.
+If the hub.docker.com/u/qemu namespace could be used to store all the
+different QEMU builds. With that we can get use of the latest architectural
+feature's, also tri to find if the kernel regressed or if its QEMU that
+regressed.
 
-Mmm, if we had started the array-property implementation starting
-from a QAPI API (or even with the idea of setting properties from
-command line arguments) and working from there we'd probably have ended
-up with something different. The primary use case though has
-never involved QAPI or the command line, it's just C code for setting
-property values on devices created within QEMU.
-
--- PMM
+Cheers,
+Anders
 
