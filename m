@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD5F570580
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:24:47 +0200 (CEST)
-Received: from localhost ([::1]:33950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7163957063A
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:52:24 +0200 (CEST)
+Received: from localhost ([::1]:54460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAuL8-0000WB-Ni
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43122)
+	id 1oAulq-0002Rf-3Q
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvk-0006iA-R7
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:33 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46673)
+ id 1oAtvp-0006nu-50
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:37 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:41915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvd-0002pv-69
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:32 -0400
-Received: by mail-wr1-x435.google.com with SMTP id v16so7100738wrd.13
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:21 -0700 (PDT)
+ id 1oAtve-0002uE-SV
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:36 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ y22-20020a7bcd96000000b003a2e2725e89so2774666wmj.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9bCQOBJQUNrEYM6NaGyKlOsHHz/7cHH58vaKjgHSLV8=;
- b=F8FJT9RaQ7WvNLn0W/5wE34FSH144WQ5YQ/znspJVUix52rVL9KGXDCgugnLgqX+nd
- PPOV7quuyNX9vSPsDSCQBsmNeV5PX7Ml+Z04QF3ha5yJu34dbVjop2WHvtefV6juTavX
- 4kN84UfZInQtbsDdvqPdpUof6BbjBCtP4Emk+ZEZYGbLdFHodO7eLbAKxkrb5FV4ncyi
- F7vP9Ynm0BEdM4KLHZMHEm6gCWozr5j+ml960sBdzspU7ysX63yRhrkuqdpuEXx+Gljy
- we6IlTI/J2JuQu+VsXqMDEv5mGYFnoZqaM37GxDx3x2DOmDJytm1jba47CgfnXy1HtSY
- pDSw==
+ bh=y9vQj24+H/subuYvXTmDhTviP3udk/OQzLlUg2NVuHs=;
+ b=BJDMN9ZfTw6KR0OPbAAVvWMoTF9ljj+EQTUeSm1/RvbmUKYwk7dR66sEWbhSb3ikrF
+ 1kXPazJMk5Baa6lfl+uPy0IiBNja36tLTdnSUoNkq9s+ziZ7I7LGqMmyAVk3yY3k6bXP
+ 5ULBF/RR0pkNda99LVMCUzMY2lTeXFKd8ktOptK9bpbogI2fcVDk/Y+5wpSXXaBEJAME
+ NERskgAKY+GY33Tsx5OPsINNNP6uLYh6qTt8awkS2RFezO0KrrBrsdsKRQIt3XWLFLJc
+ q6egwmw8RperZEO5biP+LuSrzhWZHxJnm+yG7VFRDb0PZj97+CyfRC/ZnbczWuTnqyIj
+ mCHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9bCQOBJQUNrEYM6NaGyKlOsHHz/7cHH58vaKjgHSLV8=;
- b=xitxA1llF+egPlytyyWS53QCdD3JCtEpUX8DITtGjpNoaG7DxRYs/Nkm/hhbcWPlLp
- 72EZXltePSA6Fb7/HF9FUVVogJz1Z6W4/7ufcOQjAhN9eAzr5UIP26sdR25jwV0qAAJ7
- rWMc5ChfW7h8Hj0nFlnRQfZFkyDRXrmBGKCUNPfa7rLAHfbAw+WZo/h7YDPCzk84i/Ji
- xnZVYFhtZ+O9pIu6yUQLMhAqcS5TpQaI/5K+ePBK2r9I4G3aSfnsBj5Vg1kIH4bHQH1R
- uATsDVuEtgZdYYAX9I6FqmLuAs8hLnG3oteGDEwrFa7pzpu8Oh1HW1wCfFREHModbUwV
- yuhw==
-X-Gm-Message-State: AJIora/eoQACyoxiXwWEph43Kog/njhMXhgkv75rhiYl9ayouaSKaDk1
- ZgptnhtfsM2KM+S9sD10JkF1zhD5FlaWYQ==
-X-Google-Smtp-Source: AGRyM1utdngGgCVCEq0lIHJBGz/1ueoPaAnuwVMi8GdT1IGB/p14oMHwph9wo9nn5Nr3wV1hfpvmpA==
-X-Received: by 2002:adf:f3c7:0:b0:21d:9349:7a5 with SMTP id
- g7-20020adff3c7000000b0021d934907a5mr14682599wrp.23.1657547900857; 
- Mon, 11 Jul 2022 06:58:20 -0700 (PDT)
+ bh=y9vQj24+H/subuYvXTmDhTviP3udk/OQzLlUg2NVuHs=;
+ b=JOepFcpHYvdu8tFnDQoogvcGm4ItSH9nR1TkO8fp5i+xlSjkUab4Ht2SuePPFvZcX0
+ gZ9jgCfLnZarrHlLW0q6dM0jZi2LWWvr07bqRGuHRfD3tNzcXF6UxzeTZRjXsD34An6D
+ riMWX/bATrAVkpOBYwfjwFngiMow+wRKtz7xQlljIyE2GqIkPhzfTdZFPKc3ubVXqfXE
+ oJiWBGNDNDA7XtLeGTNgk1HErqqXHAhwc7oQvA333HDCZsnOhe8oVmE4uiUOlrQcOw+q
+ b8np7N/Q0uBn1mJOXawyoDmPq2mKdaDK9+XD8xFR0vAF2zFNC2njaSVtAy25ylSFckE6
+ EdeQ==
+X-Gm-Message-State: AJIora+dUFDQ+AY0VsrtkjywLN5FT5VrlqUDwXqMDJqHo8slxHYOG3kx
+ +brOwzukAbVJaO0MEXOcAdb5bo1nLmFG+g==
+X-Google-Smtp-Source: AGRyM1v6DwA4932m64yHso+KQhFCr9lshhpkGnVzsZkLwQ2viNThZk014EY5IrYsBjO5ipSvA/azyQ==
+X-Received: by 2002:a7b:ce04:0:b0:3a1:92e0:d889 with SMTP id
+ m4-20020a7bce04000000b003a192e0d889mr15652351wmc.131.1657547901545; 
+ Mon, 11 Jul 2022 06:58:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:58:20 -0700 (PDT)
+ Mon, 11 Jul 2022 06:58:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/45] linux-user/aarch64: Reset PSTATE.SM on syscalls
-Date: Mon, 11 Jul 2022 14:57:39 +0100
-Message-Id: <20220711135750.765803-35-peter.maydell@linaro.org>
+Subject: [PULL 35/45] linux-user/aarch64: Add SM bit to SVE signal context
+Date: Mon, 11 Jul 2022 14:57:40 +0100
+Message-Id: <20220711135750.765803-36-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711135750.765803-1-peter.maydell@linaro.org>
 References: <20220711135750.765803-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,34 +91,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+Make sure to zero the currently reserved fields.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220708151540.18136-35-richard.henderson@linaro.org
+Message-id: 20220708151540.18136-36-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/aarch64/cpu_loop.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ linux-user/aarch64/signal.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
-index f7ef36cd9fa..9875d609a91 100644
---- a/linux-user/aarch64/cpu_loop.c
-+++ b/linux-user/aarch64/cpu_loop.c
-@@ -89,6 +89,15 @@ void cpu_loop(CPUARMState *env)
+diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+index 7da0e36c6d4..3cef2f44cf5 100644
+--- a/linux-user/aarch64/signal.c
++++ b/linux-user/aarch64/signal.c
+@@ -78,7 +78,8 @@ struct target_extra_context {
+ struct target_sve_context {
+     struct target_aarch64_ctx head;
+     uint16_t vl;
+-    uint16_t reserved[3];
++    uint16_t flags;
++    uint16_t reserved[2];
+     /* The actual SVE data immediately follows.  It is laid out
+      * according to TARGET_SVE_SIG_{Z,P}REG_OFFSET, based off of
+      * the original struct pointer.
+@@ -101,6 +102,8 @@ struct target_sve_context {
+ #define TARGET_SVE_SIG_CONTEXT_SIZE(VQ) \
+     (TARGET_SVE_SIG_PREG_OFFSET(VQ, 17))
  
-         switch (trapnr) {
-         case EXCP_SWI:
-+            /*
-+             * On syscall, PSTATE.ZA is preserved, along with the ZA matrix.
-+             * PSTATE.SM is cleared, per SMSTOP, which does ResetSVEState.
-+             */
-+            if (FIELD_EX64(env->svcr, SVCR, SM)) {
-+                env->svcr = FIELD_DP64(env->svcr, SVCR, SM, 0);
-+                arm_rebuild_hflags(env);
-+                arm_reset_sve_state(env);
-+            }
-             ret = do_syscall(env,
-                              env->xregs[8],
-                              env->xregs[0],
++#define TARGET_SVE_SIG_FLAG_SM  1
++
+ struct target_rt_sigframe {
+     struct target_siginfo info;
+     struct target_ucontext uc;
+@@ -177,9 +180,13 @@ static void target_setup_sve_record(struct target_sve_context *sve,
+ {
+     int i, j;
+ 
++    memset(sve, 0, sizeof(*sve));
+     __put_user(TARGET_SVE_MAGIC, &sve->head.magic);
+     __put_user(size, &sve->head.size);
+     __put_user(vq * TARGET_SVE_VQ_BYTES, &sve->vl);
++    if (FIELD_EX64(env->svcr, SVCR, SM)) {
++        __put_user(TARGET_SVE_SIG_FLAG_SM, &sve->flags);
++    }
+ 
+     /* Note that SVE regs are stored as a byte stream, with each byte element
+      * at a subsequent address.  This corresponds to a little-endian store
 -- 
 2.25.1
 
