@@ -2,91 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8CC57044D
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 15:29:15 +0200 (CEST)
-Received: from localhost ([::1]:37174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C0657044E
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 15:29:33 +0200 (CEST)
+Received: from localhost ([::1]:37966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAtTO-0001pA-Hi
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 09:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35256)
+	id 1oAtTg-0002Le-BD
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 09:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>) id 1oAtQm-0006fj-Ja
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:26:36 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:48897)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oAtRO-00076l-0J; Mon, 11 Jul 2022 09:27:10 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:60002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>) id 1oAtQk-00069m-Fu
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:26:32 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id BFB495C007A
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 09:26:29 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
- by compute3.internal (MEProxy); Mon, 11 Jul 2022 09:26:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1657545989; x=
- 1657632389; bh=X90ww6VZsHoxiVANxT61tSrdZeuJV4RsEu//xgO1RPk=; b=h
- fZ5+A3l0I5Eeb/aidFZMzIEOWZ+rj3T/tob2sdJPKctz1qfIfx+Iv4LprkVn6qi8
- 6WZh0MF3n0u+DZk10I7ZNFX2K8lpf+DcgZnHrz1Ex9w2GY0HRPXxHkNA5fXh46yG
- pcps5Gd31KlAAfJhYUnRf5iTp/hb06Rc6wMOeFhVI6FhldIF2Qof7HsMSEpS1m+k
- KssQcfk/QTKcyo8Ga1WGMXIipCyAIKBU9qiYv2hJDextFRH/GSovM7qAufTNicx8
- r6WtcSTtW6hTJSO6IFGhOsmaoi94MM7jaOcvQ6IwKj6SPCecYlUAiI3sikLg2MG1
- BBa4yDppfmi/O3RyKJuYQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:date:feedback-id:feedback-id:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; t=1657545989; x=1657632389; bh=X
- 90ww6VZsHoxiVANxT61tSrdZeuJV4RsEu//xgO1RPk=; b=sE7DMa6Ksgu0VQUda
- pAGmU+BPDYUmXPS7NwPnruVuVLVYUsjZYkg7h3EaEKdh/xtDKGkbDucvf7FUT/yf
- KyMUlqNJ7B6KJ0mnAoM0y16BzYMRuWRbksIQNMxLt2o2ZC3eqfIisrmo+8vZk4/x
- P1NnNqOb0pZyuYdtjThpoqT5on93neUYGL5QRAr5nlEWdhna1GY0zuOYeybEyhix
- Gd9e78+fysXvGqeG2hn5MLZPlPgM6/n+NAmyYbuTkwlO2xaACx6hLH+tICVnCciy
- J+vDKRCJN5lcAp+Qi9yPjA96oo52rs5GciPfOumQj1udhEDsNW46VL+KnUibSpEq
- CST0w==
-X-ME-Sender: <xms:BSXMYhKTNX2MBbMC_Vb41VCwZRaSsQRRAFAplFvVhhgEEJB87-BJsA>
- <xme:BSXMYtLmf-qADfWdkqR5iPBPgvh-wvuXBRtT5E28wRveX_BqCE3KYTXtt7cX73LyO
- 01X-LiVJZ77oO1pUA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejfedgiedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtgfesth
- hqredtreerjeenucfhrhhomhepfdetnhgurhgvficulfgvfhhfvghrhidfuceorghnughr
- vgifsegrjhdrihgurdgruheqnecuggftrfgrthhtvghrnhepvdegkeehgeefvdfhteehhf
- duteetgeeugefgieeigeeuheekudegtdekgfelgfehnecuvehluhhsthgvrhfuihiivgep
- tdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:BSXMYptLzp7Xz9tN669pOtjhOL7dp7H0PEo2-X1I0I_QBUto8wo66g>
- <xmx:BSXMYibfilc_WN4hoN6aKQbIVozfapxO1sbHs_SrFR7om4kqTTM8pw>
- <xmx:BSXMYobr6PGHM6fQvdwCTBfpnpm88h3ezICn4rws2VQUJU8Qd2RSsg>
- <xmx:BSXMYhmOKmZUAduOY8URWKgsxT8O-SYeI-AXcYZc1-1pF0z8kOocRg>
-Feedback-ID: idfb84289:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 7BEA61700077; Mon, 11 Jul 2022 09:26:29 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-720-gbf5afa95ff-fm-20220708.001-gbf5afa95
-Mime-Version: 1.0
-Message-Id: <23523aa1-ba81-412b-92cc-8174faba3612@www.fastmail.com>
-In-Reply-To: <YscuKtVuZojYtqXo@pdel-mbp.dhcp.thefacebook.com>
-References: <20220707071731.34047-1-peter@pjd.dev>
- <20220707071731.34047-2-peter@pjd.dev>
- <fa52743a-5730-3b3f-f07f-99931bb66b01@kaod.org> <YscdtXYL5sJRSm6Z@pdel-mbp>
- <YscuKtVuZojYtqXo@pdel-mbp.dhcp.thefacebook.com>
-Date: Mon, 11 Jul 2022 22:56:08 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Cameron Esfahani via" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 1/2] hw/gpio/aspeed: Don't let guests modify input pins
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=andrew@aj.id.au;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oAtRJ-0006fE-2I; Mon, 11 Jul 2022 09:27:07 -0400
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 728612E1260;
+ Mon, 11 Jul 2022 16:26:53 +0300 (MSK)
+Received: from [10.211.6.101] (10.211.6.101-vpn.dhcp.yndx.net [10.211.6.101])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id rOdXfnTBgZ-QpOOgNSG; Mon, 11 Jul 2022 16:26:52 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1657546012; bh=8yJT0gAhbaK9FBLsa6sYRzt8apkiUnung2166VTH0Mg=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=0oqvTkFn4EMfjBt0uFjE0XeAHyfJ4baFT+NUNroBlnDEs0S/TbbStZ5yd7s9ZT5iI
+ C97+WNGDbmgyl4fkm1hbpvjRwiFxeT5K9JqBpZAfwfC8wjfMsyOFeHjdOAbs/SIrow
+ YJX0PquF7nXe9jSNy6Bb+gSx3oQKK86oFe+mIsuA=
+Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <1925769b-7fc1-a5f3-b9bf-9799a0656b69@yandex-team.ru>
+Date: Mon, 11 Jul 2022 16:26:51 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v9 11/21] jobs: group together API calls under the same
+ job lock
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220706201533.289775-1-eesposit@redhat.com>
+ <20220706201533.289775-12-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220706201533.289775-12-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,178 +84,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/6/22 23:15, Emanuele Giuseppe Esposito wrote:
+> Now that the API offers also _locked() functions, take advantage
+> of it and give also the caller control to take the lock and call
+> _locked functions.
+> 
+> This makes sense especially when we have for loops, because it
+> makes no sense to have:
+> 
+> for(job = job_next(); ...)
+> 
+> where each job_next() takes the lock internally.
+> Instead we want
+> 
+> JOB_LOCK_GUARD();
+> for(job = job_next_locked(); ...)
+> 
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are *nop*.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+
+[..]
+
+>   
+> diff --git a/blockjob.c b/blockjob.c
+> index 0d59aba439..bce05a9096 100644
+> --- a/blockjob.c
+> +++ b/blockjob.c
+> @@ -99,7 +99,9 @@ static char *child_job_get_parent_desc(BdrvChild *c)
+>   static void child_job_drained_begin(BdrvChild *c)
+>   {
+>       BlockJob *job = c->opaque;
+> -    job_pause(&job->job);
+> +    WITH_JOB_LOCK_GUARD() {
+> +        job_pause_locked(&job->job);
+> +    }
+
+What's the reason for it? I'd keep job_pause().
+
+(and it doesn't correspond to what commit subject presents.)
+
+>   }
+>   
+>   static bool child_job_drained_poll(BdrvChild *c)
+> @@ -111,8 +113,10 @@ static bool child_job_drained_poll(BdrvChild *c)
+>       /* An inactive or completed job doesn't have any pending requests. Jobs
+>        * with !job->busy are either already paused or have a pause point after
+>        * being reentered, so no job driver code will run before they pause. */
+> -    if (!job->busy || job_is_completed(job)) {
+> -        return false;
+> +    WITH_JOB_LOCK_GUARD() {
+> +        if (!job->busy || job_is_completed_locked(job)) {
+> +            return false;
+> +        }
+>       }
+
+This doesn't correspond to commit subject. I'd put such things to separate commit "correct use of job_mutex in blockjob.c".
+
+>   
+>       /* Otherwise, assume that it isn't fully stopped yet, but allow the job to
+> @@ -127,7 +131,9 @@ static bool child_job_drained_poll(BdrvChild *c)
+>   static void child_job_drained_end(BdrvChild *c, int *drained_end_counter)
+>   {
+>       BlockJob *job = c->opaque;
+> -    job_resume(&job->job);
+> +    WITH_JOB_LOCK_GUARD() {
+> +        job_resume_locked(&job->job);
+> +    }
+>   }
+
+Again, don't see a reason for such change.
 
 
-On Fri, 8 Jul 2022, at 04:34, Peter Delevoryas wrote:
-> On Thu, Jul 07, 2022 at 10:53:57AM -0700, Peter Delevoryas wrote:
->> On Thu, Jul 07, 2022 at 10:56:02AM +0200, C=C3=A9dric Le Goater wrote:
->> > On 7/7/22 09:17, Peter Delevoryas wrote:
->> > > It seems that aspeed_gpio_update is allowing the value for input =
-pins to be
->> > > modified through register writes and QOM property modification.
->> > >=20
->> > > The QOM property modification is fine, but modifying the value th=
-rough
->> > > register writes from the guest OS seems wrong if the pin's direct=
-ion is set
->> > > to input.
->> > >=20
->> > > The datasheet specifies that "0" bits in the direction register s=
-elect input
->> > > mode, and "1" selects output mode.
->> > >=20
->> > > OpenBMC userspace code is accidentally writing 0's to the GPIO da=
-ta
->> > > registers somewhere (or perhaps the driver is doing it through a =
-reset or
->> > > something), and this is overwriting GPIO FRU information (board I=
-D, slot
->> > > presence pins) that is initialized in Aspeed machine reset code (=
-see
->> > > fby35_reset() in hw/arm/aspeed.c).
->> >=20
->> > It might be good to log a GUEST_ERROR in that case, when writing to=
- an
->> > input GPIO and when reading from an output GPIO.
->>=20
->> Good idea, I'll include a GUEST_ERROR for writing to an input GPIO.
->>=20
->> I'm actually not totally certain about emitting an error when reading=
- from an
->> output GPIO, because the driver can only do 8-bit reads at the finest
->> granularity, and if 1 of the 8 pins' direction is output, then it wil=
-l be
->> reading the value of an output pin. But, that's not really bad, becau=
-se
->> presumably the value will be ignored. Maybe I can go test this out on
->> hardware and figure out what happens though.
->
-> Did a small experiment, I was looking at some of the most significant
-> bits:
->
-> root@dhcp-100-96-192-133:~# devmem 0x1e780000
-> 0x3CFF303E
-> root@dhcp-100-96-192-133:~# devmem 0x1e780004
-> 0x2800000C
-> root@dhcp-100-96-192-133:~# devmem 0x1e780000 32 0xffffffff
-> root@dhcp-100-96-192-133:~# devmem 0x1e780004
-> 0x2800000C
-> root@dhcp-100-96-192-133:~# devmem 0x1e780000
-> 0x3CFF303E
-> root@dhcp-100-96-192-133:~# devmem 0x1e780000
-> 0x3CFF303E
-> root@dhcp-100-96-192-133:~# devmem 0x1e780000 32 0
-> root@dhcp-100-96-192-133:~# devmem 0x1e780000
-> 0x14FF303A
->
-> Seems like the output pin 0x20000000 was initially high, and the input
-> pin right next to it 0x10000000 was also high. After writing 0 to the
-> data register, the value in the data register changed for the output
-> pin, but not the input pin.  Which matches what we're planning on doing
-> in the controller.
->
-> So yeah, I'll add GUEST_ERROR for writes to input pins but not output
-> pins.  The driver should probably be doing a read-modify-update.
-> Although...if it's not, that technically wouldn't matter, behavior
-> wise...maybe GUEST_ERROR isn't appropriate for writes to input pins
-> either, for the same reason as I mentioned with reads of output pins.
-> I'll let you guys comment on what you think we should do.
->
+[my comments relate to more similar cases in the patch]
 
-With the quick hack below I think I got sensible behaviour?
 
-```
-# devmem 0x1e780000
-0x00000000
-# devmem 0x1e780004
-0x00000000
-# devmem 0x1e780004 32 1
-# devmem 0x1e780000 32 1
-# devmem 0x1e780000
-0x00000001
-# devmem 0x1e780000 32 3
-# devmem 0x1e780000
-0x00000001
-# QEMU 7.0.0 monitor - type 'help' for more information
-(qemu) qom-set gpio gpioA1 on
-(qemu)=20
-
-# devmem 0x1e780000
-0x00000003
-# (qemu) qom-set gpio gpioA1 off
-(qemu)=20
-
-# devmem 0x1e780000
-0x00000001
-# (qemu) qom-set gpio gpioA0 off
-(qemu)=20
-# devmem 0x1e780000
-0x00000001
-#=20
-```
-
-That was with the patch below. However, I think there's a deeper issue=20
-with the input masking that needs to be addressed. Essentially we lack=20
-modelling for the actual line state, we were proxying that with=20
-register state. As it stands if we input-mask a line and use qom-set to=20
-change its state the state update will go missing. However, as Joel=20
-notes, I don't think we have anything configuring input masking.
-
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index c63634d3d3e2..a1aa6504a8d8 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -244,7 +244,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState=
- *s, GPIOSets *regs)
- }
-=20
- static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
--                               uint32_t value)
-+                               uint32_t value, uint32_t mode_mask)
- {
-     uint32_t input_mask =3D regs->input_mask;
-     uint32_t direction =3D regs->direction;
-@@ -253,7 +253,8 @@ static void aspeed_gpio_update(AspeedGPIOState *s, G=
-PIOSets *regs,
-     uint32_t diff;
-     int gpio;
-=20
--    diff =3D old ^ new;
-+    diff =3D (old ^ new);
-+    diff &=3D mode_mask;
-     if (diff) {
-         for (gpio =3D 0; gpio < ASPEED_GPIOS_PER_SET; gpio++) {
-             uint32_t mask =3D 1 << gpio;
-@@ -315,7 +316,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOStat=
-e *s, uint32_t set_idx,
-         value &=3D !pin_mask;
-     }
-=20
--    aspeed_gpio_update(s, &s->sets[set_idx], value);
-+    aspeed_gpio_update(s, &s->sets[set_idx], value, ~s->sets[set_idx].d=
-irection);
- }
-=20
- /*
-@@ -607,7 +608,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr o=
-ffset, uint64_t data,
-         data &=3D props->output;
-         data =3D update_value_control_source(set, set->data_value, data=
-);
-         set->data_read =3D data;
--        aspeed_gpio_update(s, set, data);
-+        aspeed_gpio_update(s, set, data, set->direction);
-         return;
-     case gpio_reg_direction:
-         /*
-@@ -683,7 +684,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr o=
-ffset, uint64_t data,
-                       HWADDR_PRIx"\n", __func__, offset);
-         return;
-     }
--    aspeed_gpio_update(s, set, set->data_value);
-+    aspeed_gpio_update(s, set, set->data_value, UINT32_MAX);
-     return;
- }
-=20
+-- 
+Best regards,
+Vladimir
 
