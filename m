@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAEF756FF87
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 12:53:55 +0200 (CEST)
-Received: from localhost ([::1]:58488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BC056FF8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 12:55:11 +0200 (CEST)
+Received: from localhost ([::1]:34590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAr34-0000Nj-Vz
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 06:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52402)
+	id 1oAr4I-0003Lw-AJ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 06:55:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hesham.almatary@huawei.com>)
- id 1oAqx8-0007JW-GH; Mon, 11 Jul 2022 06:47:48 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2656)
+ id 1oAqxe-0007yn-8P; Mon, 11 Jul 2022 06:48:18 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hesham.almatary@huawei.com>)
- id 1oAqx6-0000dA-Vr; Mon, 11 Jul 2022 06:47:46 -0400
-Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LhL8C1QV0z687Rd;
- Mon, 11 Jul 2022 18:43:23 +0800 (CST)
+ id 1oAqxb-0001Lf-Ve; Mon, 11 Jul 2022 06:48:17 -0400
+Received: from fraeml713-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LhL8n5TMCz6889W;
+ Mon, 11 Jul 2022 18:43:53 +0800 (CST)
 Received: from lhreml751-chm.china.huawei.com (10.201.108.201) by
- fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
+ fraeml713-chm.china.huawei.com (10.206.15.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 11 Jul 2022 12:47:42 +0200
+ 15.1.2375.24; Mon, 11 Jul 2022 12:48:13 +0200
 Received: from O84201547D.china.huawei.com (10.122.247.218) by
  lhreml751-chm.china.huawei.com (10.201.108.201) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 11 Jul 2022 11:47:42 +0100
+ 15.1.2375.24; Mon, 11 Jul 2022 11:48:12 +0100
 To: <jonathan.cameron@huawei.com>, <qemu-devel@nongnu.org>
 CC: <yangyicong@huawei.com>, <chenxiang66@hisilicon.com>,
  <linuxarm@huawei.com>, <qemu-arm@nongnu.org>, <peter.maydell@linaro.org>,
  <imammedo@redhat.com>, <wangyanan55@huawei.com>,
  <marcel.apfelbaum@gmail.com>, <eduardo@habkost.net>, <Brice.Goglin@inria.fr>, 
  <mst@redhat.com>
-Subject: [PATCH 6/8] hw/arm/virt: Enable HMAT on arm virt machine
-Date: Mon, 11 Jul 2022 11:44:34 +0100
-Message-ID: <20220711104436.8363-7-hesham.almatary@huawei.com>
+Subject: [PATCH 7/8] tests: acpi: aarch64/virt: add a test for hmat nodes with
+ no initiators
+Date: Mon, 11 Jul 2022 11:44:35 +0100
+Message-ID: <20220711104436.8363-8-hesham.almatary@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711104436.8363-1-hesham.almatary@huawei.com>
 References: <20220711104436.8363-1-hesham.almatary@huawei.com>
@@ -72,54 +73,118 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Hesham Almatary <hesham.almatary@huawei.com>
 From:  Hesham Almatary via <qemu-devel@nongnu.org>
 
-From: Xiang Chen <chenxiang66@hisilicon.com>
+This patch imitates the "tests: acpi: q35: add test for hmat nodes
+without initiators" commit to test numa nodes with different HMAT
+attributes, but on AArch64/virt.
 
-Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
-HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
+Tested with:
+qemu-system-aarch64 -accel tcg \
+ -machine virt,hmat=on,gic-version=3  -cpu cortex-a57 \
+ -bios qemu-efi-aarch64/QEMU_EFI.fd \
+ -kernel Image -append "root=/dev/vda2 console=ttyAMA0" \
+ -drive if=virtio,file=aarch64.qcow2,format=qcow2,id=hd \
+ -device virtio-rng-pci \
+ -net user,hostfwd=tcp::10022-:22 -net nic \
+ -device intel-hda -device hda-duplex -nographic \
+ -smp 4 \
+ -m 3G \
+ -object memory-backend-ram,size=1G,id=ram0 \
+ -object memory-backend-ram,size=1G,id=ram1 \
+ -object memory-backend-ram,size=1G,id=ram2 \
+ -numa node,nodeid=0,memdev=ram0,cpus=0-1 \
+ -numa node,nodeid=1,memdev=ram1,cpus=2-3 \
+ -numa node,nodeid=2,memdev=ram2 \
+ -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \
+ -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+ -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \
+ -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+ -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+ -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
+ -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \
+ -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+ -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \
+ -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+ -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+ -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576
 
-Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
 ---
- hw/arm/Kconfig           | 1 +
- hw/arm/virt-acpi-build.c | 7 +++++++
- 2 files changed, 8 insertions(+)
+ tests/qtest/bios-tables-test.c | 55 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 15fa79afd3..17fcde8e1c 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -30,6 +30,7 @@ config ARM_VIRT
-     select ACPI_VIOT
-     select VIRTIO_MEM_SUPPORTED
-     select ACPI_CXL
-+    select ACPI_HMAT
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index f02b386d75..ed843c2abf 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1461,6 +1461,59 @@ static void test_acpi_piix4_tcg_acpi_hmat(void)
+     test_acpi_tcg_acpi_hmat(MACHINE_PC);
+ }
  
- config CHEETAH
-     bool
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 449fab0080..f19b55e486 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -42,6 +42,7 @@
- #include "hw/acpi/memory_hotplug.h"
- #include "hw/acpi/generic_event_device.h"
- #include "hw/acpi/tpm.h"
-+#include "hw/acpi/hmat.h"
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
-@@ -990,6 +991,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-             build_slit(tables_blob, tables->linker, ms, vms->oem_id,
-                        vms->oem_table_id);
-         }
++static void test_acpi_virt_tcg_acpi_hmat(void)
++{
++    test_data data = {
++        .machine = "virt",
++        .tcg_only = true,
++        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
++        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
++        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
++        .ram_start = 0x40000000ULL,
++        .scan_len = 128ULL * 1024 * 1024,
++    };
 +
-+        if (ms->numa_state->hmat_enabled) {
-+            acpi_add_table(table_offsets, tables_blob);
-+            build_hmat(tables_blob, tables->linker, ms->numa_state,
-+                       vms->oem_id, vms->oem_table_id);
-+        }
-     }
- 
-     if (ms->nvdimms_state->is_enabled) {
++    data.variant = ".acpihmatvirt";
++
++    test_acpi_one(" -machine hmat=on"
++                  " -cpu cortex-a57"
++                  " -smp 4"
++                  " -m 256M"
++                  " -object memory-backend-ram,size=64M,id=ram0"
++                  " -object memory-backend-ram,size=64M,id=ram1"
++                  " -object memory-backend-ram,size=128M,id=ram2"
++                  " -numa node,nodeid=0,memdev=ram0,cpus=0-1"
++                  " -numa node,nodeid=1,memdev=ram1,cpus=2-3"
++                  " -numa node,nodeid=2,memdev=ram2"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-latency,latency=10"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=10485760"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-latency,latency=20"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=5242880"
++                  " -numa hmat-lb,initiator=0,target=2,hierarchy=memory,"
++                  "data-type=access-latency,latency=30"
++                  " -numa hmat-lb,initiator=0,target=2,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=1048576"
++                  " -numa hmat-lb,initiator=1,target=0,hierarchy=memory,"
++                  "data-type=access-latency,latency=20"
++                  " -numa hmat-lb,initiator=1,target=0,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=5242880"
++                  " -numa hmat-lb,initiator=1,target=1,hierarchy=memory,"
++                  "data-type=access-latency,latency=10"
++                  " -numa hmat-lb,initiator=1,target=1,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=10485760"
++                  " -numa hmat-lb,initiator=1,target=2,hierarchy=memory,"
++                  "data-type=access-latency,latency=30"
++                  " -numa hmat-lb,initiator=1,target=2,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=1048576",
++                  &data);
++
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_tcg_acpi_hmat_noinitiator(void)
+ {
+     test_data data;
+@@ -1875,6 +1928,8 @@ int main(int argc, char *argv[])
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
+             qtest_add_func("acpi/virt", test_acpi_virt_tcg);
++            qtest_add_func("acpi/virt/acpihmatvirt",
++                            test_acpi_virt_tcg_acpi_hmat);
+             qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+             qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+             qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
 -- 
 2.25.1
 
