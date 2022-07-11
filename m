@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987C756FCC2
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 11:47:58 +0200 (CEST)
-Received: from localhost ([::1]:53348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9D456FD5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 11:54:52 +0200 (CEST)
+Received: from localhost ([::1]:60944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAq1F-0005d4-Mi
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 05:47:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37066)
+	id 1oAq7v-0002jP-Ft
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 05:54:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oApy8-0002Yy-R2
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:44:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35971)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oAq6H-0000PQ-R8
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:53:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oApy7-0006Z1-Cf
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:44:44 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oAq6F-0007zI-Hx
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:53:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657532682;
+ s=mimecast20190719; t=1657533186;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M/nrSDNX4Qb9g5XbQSVFpY3J9MHci+/nAHcRadAykjg=;
- b=KzXfQs4d9Wd3ngb6aEEHf37k7GfTF2frWaGm2dN3oDTVbUqM8hbq8DOGp+9a+lW62J/h2d
- TkFyQVN2//t7/3DHchKsjzWr9WT2cRia3NSUErWnw0QXPwRq8iXhCEunnxOZ8bQZEsuBYs
- o5CIYnKYI+E6cCePjcW0g6S3Z5E5tM4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=WsJsp5hKVV9QNYRo6M04UgD7UE1Tky68VGodq0gD68o=;
+ b=incdzbNA11zNif8Hb0n8RYW8HQf9iH5WuQ5F44Ftc+RmiH8iAhjUKRT5jiHDY/v3h7QX0e
+ S78Kkdt4w5/77eRCP/JJ+0a2pUI0DeW64z1iSs+efvasFctM5iZE7M5yOA178j07yYgYOy
+ 6GfM+TyyXya3lBBIA+fFjJqbR7IOtPg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-513-yTs1NysoPgaiIngRckzpBw-1; Mon, 11 Jul 2022 05:44:41 -0400
-X-MC-Unique: yTs1NysoPgaiIngRckzpBw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-524-zlHYQHnoP1CVxZrUl439vg-1; Mon, 11 Jul 2022 05:53:04 -0400
+X-MC-Unique: zlHYQHnoP1CVxZrUl439vg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D02A738217E0
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 09:44:40 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FD23C28118;
- Mon, 11 Jul 2022 09:44:40 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 09B021800620; Mon, 11 Jul 2022 11:44:38 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10644101A54E;
+ Mon, 11 Jul 2022 09:53:04 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60987492C3B;
+ Mon, 11 Jul 2022 09:53:02 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 2/2] usb: document pcap (aka usb traffic capture)
-Date: Mon, 11 Jul 2022 11:44:37 +0200
-Message-Id: <20220711094437.3995927-3-kraxel@redhat.com>
-In-Reply-To: <20220711094437.3995927-1-kraxel@redhat.com>
-References: <20220711094437.3995927-1-kraxel@redhat.com>
+Cc: qemu-trivial@nongnu.org, Eric Blake <eblake@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: [PATCH] Replace 'whitelist' with 'allow'
+Date: Mon, 11 Jul 2022 11:53:00 +0200
+Message-Id: <20220711095300.60462-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,32 +75,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- docs/system/devices/usb.rst | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Let's use more inclusive language here and avoid terms
+that are frowned upon nowadays.
 
-diff --git a/docs/system/devices/usb.rst b/docs/system/devices/usb.rst
-index 18e7c8b4d716..f39a88f080ff 100644
---- a/docs/system/devices/usb.rst
-+++ b/docs/system/devices/usb.rst
-@@ -382,3 +382,15 @@ What works best pretty much depends on the behavior of the specific
- usb device at hand, so it's a trial-and-error game.  If the default
- doesn't work, try another option and see whenever the situation
- improves.
-+
-+record usb transfers
-+^^^^^^^^^^^^^^^^^^^^
-+
-+All usb devices have support for recording the usb traffic.  This can
-+be enabled using the ``pcap=<file>`` property, for example:
-+
-+``-device usb-mouse,pcap=mouse.pcap``
-+
-+The pcap files are compatible with the linux kernels usbmon.  Many
-+tools, including ``wireshark``, can decode and inspect these trace
-+files.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/devel/submitting-a-patch.rst | 2 +-
+ docs/tools/qemu-nbd.rst           | 2 +-
+ scripts/vmstate-static-checker.py | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
+index 09a8d12c2c..fec33ce148 100644
+--- a/docs/devel/submitting-a-patch.rst
++++ b/docs/devel/submitting-a-patch.rst
+@@ -39,7 +39,7 @@ ideas from other posts. If you do subscribe, be prepared for a high
+ volume of email, often over one thousand messages in a week. The list is
+ moderated; first-time posts from an email address (whether or not you
+ subscribed) may be subject to some delay while waiting for a moderator
+-to whitelist your address.
++to allow your address.
+ 
+ The larger your contribution is, or if you plan on becoming a long-term
+ contributor, then the more important the rest of this page becomes.
+diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
+index 8e08a29e89..faf6349ea5 100644
+--- a/docs/tools/qemu-nbd.rst
++++ b/docs/tools/qemu-nbd.rst
+@@ -225,7 +225,7 @@ disconnects:
+   qemu-nbd -f qcow2 file.qcow2
+ 
+ Start a long-running server listening with encryption on port 10810,
+-and whitelist clients with a specific X.509 certificate to connect to
++and allow clients with a specific X.509 certificate to connect to
+ a 1 megabyte subset of a raw file, using the export name 'subset':
+ 
+ ::
+diff --git a/scripts/vmstate-static-checker.py b/scripts/vmstate-static-checker.py
+index 539ead62b4..b369388360 100755
+--- a/scripts/vmstate-static-checker.py
++++ b/scripts/vmstate-static-checker.py
+@@ -40,7 +40,7 @@ def check_fields_match(name, s_field, d_field):
+         return True
+ 
+     # Some fields changed names between qemu versions.  This list
+-    # is used to whitelist such changes in each section / description.
++    # is used to allow such changes in each section / description.
+     changed_names = {
+         'apic': ['timer', 'timer_expiry'],
+         'e1000': ['dev', 'parent_obj'],
 -- 
-2.36.1
+2.31.1
 
 
