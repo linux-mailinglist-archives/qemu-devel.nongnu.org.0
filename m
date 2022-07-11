@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95AD56FF8C
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 12:54:50 +0200 (CEST)
-Received: from localhost ([::1]:33500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAEF756FF87
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 12:53:55 +0200 (CEST)
+Received: from localhost ([::1]:58488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAr3y-0002Zq-0J
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 06:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52272)
+	id 1oAr34-0000Nj-Vz
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 06:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hesham.almatary@huawei.com>)
- id 1oAqwe-0007BL-M2; Mon, 11 Jul 2022 06:47:19 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2655)
+ id 1oAqx8-0007JW-GH; Mon, 11 Jul 2022 06:47:48 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hesham.almatary@huawei.com>)
- id 1oAqwd-0000VN-6m; Mon, 11 Jul 2022 06:47:16 -0400
-Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LhLC43pNHz686my;
- Mon, 11 Jul 2022 18:45:52 +0800 (CST)
+ id 1oAqx6-0000dA-Vr; Mon, 11 Jul 2022 06:47:46 -0400
+Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LhL8C1QV0z687Rd;
+ Mon, 11 Jul 2022 18:43:23 +0800 (CST)
 Received: from lhreml751-chm.china.huawei.com (10.201.108.201) by
- fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
+ fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 11 Jul 2022 12:47:12 +0200
+ 15.1.2375.24; Mon, 11 Jul 2022 12:47:42 +0200
 Received: from O84201547D.china.huawei.com (10.122.247.218) by
  lhreml751-chm.china.huawei.com (10.201.108.201) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 11 Jul 2022 11:47:11 +0100
+ 15.1.2375.24; Mon, 11 Jul 2022 11:47:42 +0100
 To: <jonathan.cameron@huawei.com>, <qemu-devel@nongnu.org>
 CC: <yangyicong@huawei.com>, <chenxiang66@hisilicon.com>,
  <linuxarm@huawei.com>, <qemu-arm@nongnu.org>, <peter.maydell@linaro.org>,
  <imammedo@redhat.com>, <wangyanan55@huawei.com>,
  <marcel.apfelbaum@gmail.com>, <eduardo@habkost.net>, <Brice.Goglin@inria.fr>, 
  <mst@redhat.com>
-Subject: [PATCH 5/8] tests: Add HMAT AArch64/virt empty table files
-Date: Mon, 11 Jul 2022 11:44:33 +0100
-Message-ID: <20220711104436.8363-6-hesham.almatary@huawei.com>
+Subject: [PATCH 6/8] hw/arm/virt: Enable HMAT on arm virt machine
+Date: Mon, 11 Jul 2022 11:44:34 +0100
+Message-ID: <20220711104436.8363-7-hesham.almatary@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711104436.8363-1-hesham.almatary@huawei.com>
 References: <20220711104436.8363-1-hesham.almatary@huawei.com>
@@ -72,41 +72,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Hesham Almatary <hesham.almatary@huawei.com>
 From:  Hesham Almatary via <qemu-devel@nongnu.org>
 
-Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
----
- tests/data/acpi/virt/DSDT.acpihmatvirt      | 0
- tests/data/acpi/virt/FACP.acpihmatvirt      | 0
- tests/data/acpi/virt/HMAT.acpihmatvirt      | 0
- tests/data/acpi/virt/SRAT.acpihmatvirt      | 0
- tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
- 5 files changed, 4 insertions(+)
- create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/FACP.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
+From: Xiang Chen <chenxiang66@hisilicon.com>
 
-diff --git a/tests/data/acpi/virt/DSDT.acpihmatvirt b/tests/data/acpi/virt/DSDT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/FACP.acpihmatvirt b/tests/data/acpi/virt/FACP.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/HMAT.acpihmatvirt b/tests/data/acpi/virt/HMAT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/SRAT.acpihmatvirt b/tests/data/acpi/virt/SRAT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..44594cae59 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,5 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/DSDT.acpihmatvirt",
-+"tests/data/acpi/virt/FACP.acpihmatvirt",
-+"tests/data/acpi/virt/HMAT.acpihmatvirt",
-+"tests/data/acpi/virt/SRAT.acpihmatvirt",
+Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
+HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
+
+Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+---
+ hw/arm/Kconfig           | 1 +
+ hw/arm/virt-acpi-build.c | 7 +++++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 15fa79afd3..17fcde8e1c 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -30,6 +30,7 @@ config ARM_VIRT
+     select ACPI_VIOT
+     select VIRTIO_MEM_SUPPORTED
+     select ACPI_CXL
++    select ACPI_HMAT
+ 
+ config CHEETAH
+     bool
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 449fab0080..f19b55e486 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -42,6 +42,7 @@
+ #include "hw/acpi/memory_hotplug.h"
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/acpi/tpm.h"
++#include "hw/acpi/hmat.h"
+ #include "hw/pci/pcie_host.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bus.h"
+@@ -990,6 +991,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+             build_slit(tables_blob, tables->linker, ms, vms->oem_id,
+                        vms->oem_table_id);
+         }
++
++        if (ms->numa_state->hmat_enabled) {
++            acpi_add_table(table_offsets, tables_blob);
++            build_hmat(tables_blob, tables->linker, ms->numa_state,
++                       vms->oem_id, vms->oem_table_id);
++        }
+     }
+ 
+     if (ms->nvdimms_state->is_enabled) {
 -- 
 2.25.1
 
