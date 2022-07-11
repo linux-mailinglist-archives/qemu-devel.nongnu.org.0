@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC28570DF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 01:10:57 +0200 (CEST)
-Received: from localhost ([::1]:40550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D19F570E6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 01:49:13 +0200 (CEST)
+Received: from localhost ([::1]:51538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB2YK-0003AT-2a
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 19:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34260)
+	id 1oB39M-000500-AL
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 19:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Pq-0000iz-He
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45067)
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1oB37V-0002Iq-OX
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:47:17 -0400
+Received: from mga01.intel.com ([192.55.52.88]:11795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Pn-00023P-O8
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657580525;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0f3qVSnmvQZOUE7GmzmLW3QsKQrZDOm39K1IEFxZUeU=;
- b=UqFzoiJ/LbO061pAO1HrIOHAk+47mrQ48Ep7Rpvyln+d8HitfMuDPOb4fLXxRZtiwuGG+E
- 8NrG6wquxHXZg4LiRMQ8e51rH+zFnbTTo964vSIjUBUMJ5gNOZTn3UulbQ9wath447Vh9Z
- CB/gEKZIavyADmnXW8GL3gBt4UcQ63U=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-yZ0K2dzuMmeNC_bwA1Vw9Q-1; Mon, 11 Jul 2022 19:02:01 -0400
-X-MC-Unique: yZ0K2dzuMmeNC_bwA1Vw9Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76DC91C06EC7;
- Mon, 11 Jul 2022 23:02:01 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.16.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE80D2166B26;
- Mon, 11 Jul 2022 23:02:00 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1oB37T-0003vv-8d
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:47:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657583235; x=1689119235;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ux6Jgbqup1Tu+2CtZzyPftAlx9sl3wwHyT11UtStDIY=;
+ b=QlFfGSyM7DajGpG0V95wm917rVHTTTzbq8FPKjp+nJCwZz43VYLBRrf+
+ Sq0yd458CzMA7jsKGHZyi/FQ5SfX5pjXitJIUkVZQVMXQqDOu3UZTyTw1
+ GNeVw3h0Ckm+W1MbJv4ZapD0DvX4+Ilr/0izk1IylpOY/X9yFh2vvPUaO
+ oBn3jDFkCuCi1RVnAWUpb4MCHZUSc7lRHXH99SDDfK0TJXEwfdU6fdMZK
+ TBdIUsKLl4ZYwjmXP2w90MnxnSBkHrsdgsHdcXTaaGfyq3NZcYEyAh4XS
+ rPNHA+OxqoAib111F/mpbafx8e9Slq1OhxunBukMeSWFqr6YZ1XEqMT/a w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="310408722"
+X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; d="scan'208";a="310408722"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2022 16:47:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; d="scan'208";a="569972984"
+Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
+ ([10.105.129.122])
+ by orsmga006.jf.intel.com with ESMTP; 11 Jul 2022 16:47:07 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
 To: qemu-devel@nongnu.org
-Cc: Daniel Berrange <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
- qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Michael Tsirkin <mst@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [RFC PATCH v3 7/7] iotests: self-bootstrap testing venv
-Date: Mon, 11 Jul 2022 19:01:55 -0400
-Message-Id: <20220711230155.953788-8-jsnow@redhat.com>
-In-Reply-To: <20220711230155.953788-1-jsnow@redhat.com>
-References: <20220711230155.953788-1-jsnow@redhat.com>
+Cc: armbru@redhat.com, berrange@redhat.com, kraxel@redhat.com,
+ pbonzini@redhat.com, f4bug@amsat.org, vivek.kasireddy@intel.com,
+ Dongwon Kim <dongwon.kim@intel.com>
+Subject: [PATCH v4 0/2] handling guest multiple displays
+Date: Mon, 11 Jul 2022 16:39:57 -0700
+Message-Id: <20220711233959.32219-1-dongwon.kim@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=dongwon.kim@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,43 +77,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When iotests are invoked manually from
-e.g. $build/tests/qemu-iotests/check, it is not necessarily guaranteed
-that we'll have run 'check-venv' yet.
+This patch seires is for adding some useful features for the guest os with
+multi-displays. First patch is to make all of guest displays visible
+when guest os is launched using "detach". Second patch is for providing
+a method to assign each guest display to specific physical monitor,
+which would be useful if someone wants to directly full-screen individual
+guest scanouts to host's physical displays.
 
-With this patch, teach testenv.py how to create its own environment.
+Changes in v4:
 
-Note: this self-bootstrapping is fairly rudimentary and will miss
-certain triggers to refresh the venv. It will miss when new dependencies
-are added to either python/setup.cfg or tests/setup.cfg. It can be
-coaxed into updating by running 'make check', 'make check-block', 'make
-check-venv', etc.
+* ui/gtk: a new array param monitor to specify the target
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- tests/qemu-iotests/testenv.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+  - changed "virtual-console" to an official term, "virtual console"
+  - made if condition to check only 'full_screen' since 'has_full_screen' won't
+    affect the result as 'full_screen' is always false if 'has_full_screen' is false.
 
-diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-index 29404ac94be..e985eaf3e97 100644
---- a/tests/qemu-iotests/testenv.py
-+++ b/tests/qemu-iotests/testenv.py
-@@ -112,10 +112,10 @@ def init_directories(self) -> None:
-         """
-         venv_path = Path(self.build_root, 'tests/venv/')
-         if not venv_path.exists():
--            raise FileNotFoundError(
--                f"Virtual environment \"{venv_path!s}\" isn't found."
--                " (Maybe you need to run 'make check-venv'"
--                " from the build dir?)"
-+            mkvenv = Path(self.source_iotests, '../mkvenv.py')
-+            subprocess.run(
-+                (sys.executable, str(mkvenv), str(venv_path)),
-+                check=True,
-             )
-         self.virtual_env: str = str(venv_path)
- 
+Changes in v3:
+
+* ui/gtk: a new array param monitor to specify the target
+
+  - Revised commit message
+  - Rewrote desription of the new parameter for clarification
+  - 'for' loop that iterates through virtual consoles is actually executed only once
+    only if the condition is met so replaced it with 'if' statement
+
+Changes in v2:
+
+* ui/gtk: detach VCS for additional guest displays
+
+  - must check if the type of VC is GD_VC_GFX before qemu_console_is_graphic
+  - It is not needed to pre-calculate n_gfx_vcs to determine how many times "detach"
+    should be executed (n_gfx_vcs - 1) because the first virtual console (vc[0])
+    is always in graphic mode so we can simply detach all other graphic mode
+    virtual consoles.
+  - making sure detached window's size same as original surface size
+
+Dongwon Kim (2):
+  ui/gtk: detach VCS for additional guest displays (v4)
+  ui/gtk: a new array param monitor to specify the target displays (v4)
+
+ qapi/ui.json    |  9 ++++++++-
+ qemu-options.hx |  3 ++-
+ ui/gtk.c        | 41 +++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 49 insertions(+), 4 deletions(-)
+
 -- 
-2.34.3
+2.30.2
 
 
