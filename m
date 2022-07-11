@@ -2,46 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB3E56FFB7
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 13:10:02 +0200 (CEST)
-Received: from localhost ([::1]:53096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F55156FFCD
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 13:12:53 +0200 (CEST)
+Received: from localhost ([::1]:57196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oArIf-0000Uh-GU
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 07:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57440)
+	id 1oArLQ-0003Zd-Dt
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 07:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oArGP-0005O3-EV; Mon, 11 Jul 2022 07:07:41 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:54256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oArI3-0008RW-L0
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 07:09:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>)
- id 1oArGM-0003NG-GZ; Mon, 11 Jul 2022 07:07:41 -0400
-Received: from [192.168.16.169] (helo=iris.sw.ru)
- by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <den@openvz.org>) id 1oArFq-009lgc-RN;
- Mon, 11 Jul 2022 13:07:18 +0200
-From: "Denis V. Lunev" <den@openvz.org>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org,
-	qemu-stable@nongnu.org
-Cc: "Denis V. Lunev" <den@openvz.org>, Peter Krempa <pkrempa@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH 1/1] block: add missed block_acct_setup with new block device
- init procedure
-Date: Mon, 11 Jul 2022 13:07:25 +0200
-Message-Id: <20220711110725.425261-1-den@openvz.org>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oArHq-0003oi-AH
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 07:09:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657537748;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4A7pSfFON7ys5BQH/RZIJDGQIcBwKDXbGc2X7Ns/bYs=;
+ b=LNr2UJee/wzeZ79P8ExOe2pcpIXhEIIt9YrubAo0EUtZxW5q1J5fUftnO7lswZULoD0kHp
+ tbzHW2iY33wMzBZhSjbOB3PMDagiCGddfqim8W5WMVm0hHG4f/E1iD959Tk/LHgz3/UJG0
+ NJORi/uu9g06/B2fSM82UZ9CQL7FzVE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-665-LXHRyxWaO6-32qqLKTrF8A-1; Mon, 11 Jul 2022 07:09:05 -0400
+X-MC-Unique: LXHRyxWaO6-32qqLKTrF8A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 231323C01DF2;
+ Mon, 11 Jul 2022 11:09:05 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 47AEB40D2827;
+ Mon, 11 Jul 2022 11:09:04 +0000 (UTC)
+Date: Mon, 11 Jul 2022 12:09:01 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ kwolf@redhat.com, hreitz@redhat.com
+Subject: Re: [RFC PATCH] qobject: Rewrite implementation of QDict for
+ in-order traversal
+Message-ID: <YswEzUyQJtxAlylE@redhat.com>
+References: <20220705095421.2455041-1-armbru@redhat.com>
+ <87wncqmq2t.fsf@pond.sub.org> <YsgOhJLpbyODJCGG@redhat.com>
+ <CAFEAcA_pA_K=06chM9xwS8BzK2W6v0g5S5Vr_=YT1A9xqX+tfw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=130.117.225.111; envelope-from=den@openvz.org;
- helo=relay.virtuozzo.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA_pA_K=06chM9xwS8BzK2W6v0g5S5Vr_=YT1A9xqX+tfw@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,420 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 5f76a7aac156ca75680dad5df4a385fd0b58f6b1 is looking harmless from
-the first glance, but it has changed things a lot. 'libvirt' uses it to
-detect that it should follow new initialization way and this changes
-things considerably. With this procedure followed, blockdev_init() is
-not called anymore and thus block_acct_setup() helper is not called.
+On Mon, Jul 11, 2022 at 11:32:35AM +0100, Peter Maydell wrote:
+> On Fri, 8 Jul 2022 at 12:01, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > What alternative options do we have for addressing this scenario.
+> >
+> > I can think of
+> >
+> >   - Auto-create array elements, if seeing an element set before length.
+> >
+> >     This is based on the theory that 'len-PROP' field is largely
+> >     redundant. It is only needed if you want to create a sparse
+> >     array, with empty elements /after/ the last one explicitly
+> >     set, or if you want to get error reporting for an app setting
+> >     element 3 after saying it wanted a 2 element list. IMHO the
+> >     error reporting benefit is dubious, because the error scenario
+> >     only exists because we made the app set this redundant 'len-PROP'
+> >     attribute. Does anything actually need the 'sparse array'
+> >     facility ?
+> 
+> I'm pretty sure that nothing needs sparse array elements like
+> that. The major reason for the len-PROP field is an implementation
+> one: because there is currently no way for a QOM object to
+> say "call this method if somebody tries to set a non-existent
+> property", the way array properties work is that the 'set'
+> method for the len-PROP property is the place where we then
+> add the PROP[0], PROP[1], ... properties.
 
-This means in particular that defaults for block accounting statistics
-are changed and account_invalid/account_failed are actually initialized
-as false instead of true originally.
+Ahhh, I see what you mean. I totally missed this subtle detail.
 
-This commit changes things to match original world. It adds
-account_invalid/account_failed properties to BlockConf and setups them
-accordingly.
+IIUC, there's essentially no such thing as array properties
+in QOM. 'prop[0]', 'prop[1]', 'prop[2]', etc are all simply
+scalar properties from QOM's, that just happen to follow a
+common naming scheme, but QOM doesn't care about that.
 
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: Peter Krempa <pkrempa@redhat.com>
-CC: Markus Armbruster <armbru@redhat.com>
-CC: John Snow <jsnow@redhat.com>
-CC: Kevin Wolf <kwolf@redhat.com>
-CC: Hanna Reitz <hreitz@redhat.com>
----
- hw/block/block.c           |  2 +
- include/hw/block/block.h   |  7 +++-
- tests/qemu-iotests/172.out | 76 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 84 insertions(+), 1 deletion(-)
+> If we either had a "call this for any property set/get attempt
+> where there is no specific method set" or else had array
+> properties supported by the core QOM code, we could avoid
+> having to set len-PROP first.
 
-diff --git a/hw/block/block.c b/hw/block/block.c
-index 25f45df723..53b100cdc3 100644
---- a/hw/block/block.c
-+++ b/hw/block/block.c
-@@ -205,6 +205,8 @@ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
-     blk_set_enable_write_cache(blk, wce);
-     blk_set_on_error(blk, rerror, werror);
- 
-+    block_acct_setup(blk_get_stats(blk), conf->account_invalid,
-+                     conf->account_failed);
-     return true;
- }
- 
-diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-index 5902c0440a..ffd439fc83 100644
---- a/include/hw/block/block.h
-+++ b/include/hw/block/block.h
-@@ -31,6 +31,7 @@ typedef struct BlockConf {
-     uint32_t lcyls, lheads, lsecs;
-     OnOffAuto wce;
-     bool share_rw;
-+    bool account_invalid, account_failed;
-     BlockdevOnError rerror;
-     BlockdevOnError werror;
- } BlockConf;
-@@ -61,7 +62,11 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
-                        _conf.discard_granularity, -1),                  \
-     DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce,           \
-                             ON_OFF_AUTO_AUTO),                          \
--    DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false)
-+    DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false),        \
-+    DEFINE_PROP_BOOL("account-invalid", _state,                         \
-+                     _conf.account_invalid, true),                      \
-+    DEFINE_PROP_BOOL("account-failed", _state,                          \
-+                     _conf.account_failed, true)
- 
- #define DEFINE_BLOCK_PROPERTIES(_state, _conf)                          \
-     DEFINE_PROP_DRIVE("drive", _state, _conf.blk),                      \
-diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
-index 9479b92185..a6c451e098 100644
---- a/tests/qemu-iotests/172.out
-+++ b/tests/qemu-iotests/172.out
-@@ -28,6 +28,8 @@ Formatting 'TEST_DIR/t.IMGFMT.3', fmt=IMGFMT size=737280
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "288"
- 
- 
-@@ -55,6 +57,8 @@ Testing: -fda TEST_DIR/t.qcow2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -92,6 +96,8 @@ Testing: -fdb TEST_DIR/t.qcow2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -104,6 +110,8 @@ Testing: -fdb TEST_DIR/t.qcow2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "288"
- floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -145,6 +153,8 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -157,6 +167,8 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -199,6 +211,8 @@ Testing: -fdb
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "288"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -211,6 +225,8 @@ Testing: -fdb
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "288"
- 
- 
-@@ -238,6 +254,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -275,6 +293,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -287,6 +307,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "288"
- floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -328,6 +350,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -340,6 +364,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -385,6 +411,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -422,6 +450,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,unit=1
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -459,6 +489,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -471,6 +503,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -522,6 +556,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -534,6 +570,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -576,6 +614,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -588,6 +628,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -630,6 +672,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 1 (0x1)
-@@ -642,6 +686,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -684,6 +730,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 1 (0x1)
-@@ -696,6 +744,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -747,6 +797,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -759,6 +811,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -801,6 +855,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
-               dev: floppy, id ""
-                 unit = 0 (0x0)
-@@ -813,6 +869,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/unattached/device[N]
-@@ -861,6 +919,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global floppy.drive=none0 -device
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -928,6 +988,8 @@ Testing: -device floppy
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "288"
- 
- Testing: -device floppy,drive-type=120
-@@ -952,6 +1014,8 @@ Testing: -device floppy,drive-type=120
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "120"
- 
- Testing: -device floppy,drive-type=144
-@@ -976,6 +1040,8 @@ Testing: -device floppy,drive-type=144
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- 
- Testing: -device floppy,drive-type=288
-@@ -1000,6 +1066,8 @@ Testing: -device floppy,drive-type=288
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "288"
- 
- 
-@@ -1027,6 +1095,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "120"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -1064,6 +1134,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "288"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -1104,6 +1176,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,logical
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
-@@ -1141,6 +1215,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physica
-                 discard_granularity = 4294967295 (4 GiB)
-                 write-cache = "auto"
-                 share-rw = false
-+                account-invalid = true
-+                account-failed = true
-                 drive-type = "144"
- none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
-     Attached to:      /machine/peripheral-anon/device[N]
+Techically arrays are already supported at the core QOM level, because
+you can use any QAPI type as a property.  The authz/list.c object
+has a 'rules' property that is an array of QAuthzListRule objects:
+
+  { 'struct': 'AuthZListProperties',
+    'data': { '*policy': 'QAuthZListPolicy',
+              '*rules': ['QAuthZListRule'] } }
+
+At the time I wrote that, we couldn't express it on the CLI though,
+without using JSON syntax for -object. I don't think we've ever
+made it possible to use the opts_visitor with non-scalar properties
+though.
+
+With regards,
+Daniel
 -- 
-2.32.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
