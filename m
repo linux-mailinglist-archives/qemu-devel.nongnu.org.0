@@ -2,75 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D000570682
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 17:01:43 +0200 (CEST)
-Received: from localhost ([::1]:52110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC525706DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 17:21:44 +0200 (CEST)
+Received: from localhost ([::1]:38002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAuus-0002zK-8R
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 11:01:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49030)
+	id 1oAvED-0005id-J7
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 11:21:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAuIW-00043D-DE
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 10:22:04 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:47045)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAuIU-00007k-Or
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 10:22:04 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id l11so8918298ybu.13
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 07:22:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=p5YL+SvC+oLEcxW+RYbHykwtZyRjVghxkgLZhsWkbaU=;
- b=BzT0p86c8tU+mrnajHK/nD4dPtrYK3x4K4tdJLyhq8JBHuAk8ZO4wa++UJYGyQhQ38
- 8Recmo/sgq2gAthNK1iu0kk9RxfAha6txSJBJYE/VJbfk1+/JaJDX3uHjGidOcMpfbNY
- E2A59BHh8QSHZksQgBp5JGR/AQFi+SO8D3gfj+EJuSD3HYsL+IUe3I3I2EEXvDNlmqQy
- vjHCMUrcM8kZ12pXqdRS+pHebhCePYHJ2LOJMTS7avUzJ0SBLfzKfv/QnQFqySP4gh2G
- u9SV9Pwl0oguWGAdLpeJmJut20XGtsOrVmPbVf+YBUHo885x33LlPRv4UHZSYqlMCvrF
- GLPg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oAuNR-0005Bk-Tb
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 10:27:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21297)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oAuNO-0001Be-9R
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 10:27:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657549625;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AbErK0bCIAQSkWRANxlcsQH4wjElnnliu1hTmkvJ0+o=;
+ b=NP7Dloauy+1x1fcSYtRBLJIyDJlHth6mml5nGYVafgdVshPcI6ogMxFaOg6Nhkuo3CGOKu
+ jE8uTkKBHb81WVNS+Z2xpEXwNXwb+oS/7qBKPAmCAzZlXvw1jemasUvXrGv+TPC0p/RriZ
+ 2Nv+9K1kISOLy0rd+JjxtWLJSziwNB4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-550-zsVWRLNlOM6xBUsdpj1Vxw-1; Mon, 11 Jul 2022 10:27:04 -0400
+X-MC-Unique: zsVWRLNlOM6xBUsdpj1Vxw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m20-20020a05600c4f5400b003a03aad6bdfso2733051wmq.6
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 07:27:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=p5YL+SvC+oLEcxW+RYbHykwtZyRjVghxkgLZhsWkbaU=;
- b=OufAIYnd6ySXgprw9QLbGzRSvDXWadxoj/myLUmZZjb59UH/dk01w+uaPxVcbu7nA0
- 7s7T+7DuQmiTNnfw0F8RXlgCGmcpAJXmm/kzbsM2XDCdOSv3obfTNIneAccaRXWwjnIG
- 5KWBsFvHk2vEZFm+fxlMadKAHF6evdY1/Os3gc7Icj67OGt7f60o22Tl4/MlDqO3+egk
- Ez/HCbJ0IIF9uYC7JwdN9S/ku1GO1uN/t09ADbrorL1ueseHPJ+4FG97GWvVQrpCI9fU
- o9SbNQCPH6ksYm3fgSfs18bGrpNWPI72RE87uFsdXpoXafDMjt8AdVBC/8ltOSMC0/O3
- qw7w==
-X-Gm-Message-State: AJIora/IHeh7K6xEz6IfQ/5CMqzTi2Qx8VFIDIdhTFMnZnbjLyYkwF0g
- HTMOaV1iR4oNKP7rwJrNuHIuPnBNwA3Z4ei62DV1XA==
-X-Google-Smtp-Source: AGRyM1tQMoG3cCT1v+hpmJ/cb/n9UkB12j/7P8e+/SH9lpCHZmrT1bQuHHg77Vs4k+j2Xz10CJN7FgGfZpuMOItcjxs=
-X-Received: by 2002:a25:230b:0:b0:66e:e008:a76b with SMTP id
- j11-20020a25230b000000b0066ee008a76bmr15398635ybj.479.1657549321692; Mon, 11
- Jul 2022 07:22:01 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=AbErK0bCIAQSkWRANxlcsQH4wjElnnliu1hTmkvJ0+o=;
+ b=eBuf5XouruF9Hq2am0URyAxOL5FGIfCYgBU0s3ljN+R2eYT4J8Bqz/F7Y14BuLkFdD
+ twV2ukOY24PBruon9EjoEc4yes1XOhlfFxbzsEHYw8jGmBT1xbSYzTZYPx1FYSYScphJ
+ q1scqe59OfHlRxtifXwYm2bcVo1VcGioug1P0NlbEW+K6eb6KDoilBcgJuUTCAIk79IH
+ 5NtTDlalKq46lu2ETto3RxpKrFDQ5B4ugRX2NO5V5SR7BDst/vjMc2d0uU2cEFKtzSI4
+ lqc35//6bOna2pdTKJLtp5XwavSYRQapHDXAVp9tb3+20H2LGJw3IHICO1cXfGmqJaPj
+ ZkfA==
+X-Gm-Message-State: AJIora/Cf9Dxe/lV0kKmZSaAjpmS4+xmjDfgw5T2da5Dleq9Gk9cJhcq
+ uBxW1UuNW5tC7OuMm8ALNhCx/WNxN272xFJsm0EvFljlWrGsb2SEFGnLDFi9jDp0LnoLU5+ZpqW
+ ohj1nFq2Bcx2Tnkg=
+X-Received: by 2002:adf:f20e:0:b0:21d:8aa6:69da with SMTP id
+ p14-20020adff20e000000b0021d8aa669damr16905746wro.66.1657549623075; 
+ Mon, 11 Jul 2022 07:27:03 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t6JrSxYzE7lTcuRNdNCGMDPUqq72htqeelx3kHencLRcEto4bMByJBBBcklphe8DQX6EU83A==
+X-Received: by 2002:adf:f20e:0:b0:21d:8aa6:69da with SMTP id
+ p14-20020adff20e000000b0021d8aa669damr16905726wro.66.1657549622871; 
+ Mon, 11 Jul 2022 07:27:02 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ y5-20020adff6c5000000b0021d83071683sm5922049wrp.64.2022.07.11.07.27.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jul 2022 07:27:01 -0700 (PDT)
+Date: Mon, 11 Jul 2022 15:26:59 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eric Auger <eauger@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+Subject: Re: [PATCH RFC v2 0/2] arm: enable MTE for QEMU + kvm
+Message-ID: <YswzM/Q75rkkj/+Y@work-vm>
+References: <20220707161656.41664-1-cohuck@redhat.com>
+ <YswkdVeESqf5sknQ@work-vm>
+ <CAFEAcA-e4Jvb-wV8sKc7etKrHYPGuOh=naozrcy2MCoiYeANDQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220707163720.1421716-1-berrange@redhat.com>
- <20220707163720.1421716-5-berrange@redhat.com>
-In-Reply-To: <20220707163720.1421716-5-berrange@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Jul 2022 15:21:23 +0100
-Message-ID: <CAFEAcA_bsmQe_7o-z9u+Pv0wA7hdUtEFnF1SujS3V7PXWRJHng@mail.gmail.com>
-Subject: Re: [PATCH v3 4/9] misc: fix commonly doubled up words
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-e4Jvb-wV8sKc7etKrHYPGuOh=naozrcy2MCoiYeANDQ@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,13 +103,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Jul 2022 at 17:38, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Mon, 11 Jul 2022 at 14:24, Dr. David Alan Gilbert
+> <dgilbert@redhat.com> wrote:
+> > But, ignoring postcopy for a minute, with KVM how do different types of
+> > backing memory work - e.g. if I back a region of guest memory with
+> > /dev/shm/something or a hugepage equivalent, where does the MTE memory
+> > come from, and how do you set it?
+> 
+> Generally in an MTE system anything that's "plain old RAM" is expected
+> to support tags. (The architecture manual calls this "conventional
+> memory". This isn't quite the same as "anything that looks RAM-like",
+> e.g. the graphics card framebuffer doesn't have to support tags!)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I guess things like non-volatile disks mapped as DAX are fun edge cases.
 
-thanks
--- PMM
+> One plausible implementation is that the firmware and memory controller
+> are in cahoots and arrange that the appropriate fraction of the DRAM is
+> reserved for holding tags (and inaccessible as normal RAM even by the OS);
+> but where the tags are stored is entirely impdef and an implementation
+> could choose to put the tags in their own entirely separate storage if
+> it liked. The only way to access the tag storage is via the instructions
+> for getting and setting tags.
+
+Hmm OK;   In postcopy, at the moment, the call qemu uses is a call that
+atomically places a page of data in memory and then tells the vCPUs to
+continue.  I guess a variant that took an extra blob of MTE data would
+do.
+Note that other VMMs built on kvm work in different ways; the other
+common way is to write into the backing file (i.e. the /dev/shm
+whatever atomically somehow) and then do the userfault call to tell the
+vcpus to continue.  It looks like this is the way things will work in
+the split hugepage mechanism Google are currently adding.
+
+Dave
+
+> -- PMM
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
