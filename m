@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752F757089D
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 18:59:03 +0200 (CEST)
-Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B8F5708A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 19:07:29 +0200 (CEST)
+Received: from localhost ([::1]:39190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAwkQ-0001Ap-1D
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 12:59:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37932)
+	id 1oAwsa-0006Lx-BD
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 13:07:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oAwfg-0006Dh-5Q
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 12:54:08 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42816)
+ id 1oAwmM-0002Ue-LH
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 13:01:05 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oAwfe-00080k-Na
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 12:54:07 -0400
-Received: by mail-wr1-x434.google.com with SMTP id bu1so6622973wrb.9
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 09:54:05 -0700 (PDT)
+ id 1oAwmK-0006zq-RK
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 13:01:02 -0400
+Received: by mail-ej1-x634.google.com with SMTP id j22so9898529ejs.2
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 10:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=s/nxFiMIGUifB6edkOzkgR1RpSiKhhGsoOmgEzZ+sh4=;
- b=QhwXURIgm24rKXQEE+gQH/SNoL11kxY9g8xYEl5X/ouYRnLFuGqGJVLAXgtRwisCUz
- AF8NNBp/vMQfWk7TRl92haZY3Dl5T/tPXZmZlVZV6SQ52/um3UhlAQwHjLHL0fYraKOR
- ZKaSTliq88kh6SJAlHsBhUZKJW20MvDs5Uqve9OV3iyutbAULs9JuCj8QrK7LYfLpSLj
- f6+OjB9w6zXnUVFDVrbezxKyqK0YXUuOvWTYErvL8bT3npgzof/n+UVNFJUSWQHS+OKc
- 3AXQTaAlGxkMP601sa6Q9U0d2MQD4L0lQm19HFC+LWOrst2wLmpaZa2yCp5Xc/vpZNgc
- ZCWg==
+ bh=AijNuFhleeZ+ShSP3y5L5ifu0DE5uB2ce+dGZsPrL3g=;
+ b=FR9p95e1/u8u8Jb4ObZVzt/rPzhTCKbghHkhrnWG5cyWWf6+9qB1PwnN4bsXzo7Uww
+ TfGcJN1LclYbPNivH39AJEi3ZGTsYPmpoXfL7wbDwAaFwi/AB7gHGmIngzOQF3EWKTrQ
+ USjEMxneuEn3mK6LnZ39GPQ4oIKCWMQA0BzcvYhBPumuhc/hXIT0Anu0jo083MDRD03H
+ qSjIu6Ja9VQQaBAptSTWCAWLHZ86WKEk/AQCkNNaUCPFx7zoEqi8BcuPGVaAx6Ma+DwI
+ HcTvsqporKvuJnGjNfuYkBCM+xYSzyqYSkR6vuny25aBgdLZpz90xKGRJpi9F50gThmA
+ +Kig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=s/nxFiMIGUifB6edkOzkgR1RpSiKhhGsoOmgEzZ+sh4=;
- b=7bBrq1nfLi1kNYWcE225MgO82L+co/ru+CNG96FteJ/sSzlTCE+yleJZNtaxvyaLzN
- e2uPFxZwKpDi283K0fjx0aE7x08ll99DkDOHD4/Ac6vfxvd98V1vu0zXowxd08kEgLfC
- X3NEP7TGhmCj+/k+uIvu8q9aaZxH0cO+OjzpV9lJ/b93J3t2xlO1ygTgk38Fx8uXDqIy
- CVDVA5tgm6ZANZsgHoNrlhObIdV8xlBQaoNrazFldBFlxpKBSAY91H3Fy1ucghRA/Ihs
- xbRpFbXesib5QDhUtWHyZxePMGXob3bZ+ClTk0FOGVmMuVjJiOhBZLYueD22462u7L47
- Ke5g==
-X-Gm-Message-State: AJIora8V+RDR3btXLPhSHxhGL2yv9SvJxCdXQ1pPCsLQkqUEhHgUb2ai
- /W0wyLFVDjftR1V9FHSeWx+J4sUlugbNNg==
-X-Google-Smtp-Source: AGRyM1ugkLUdd3QpTR5imcj8D2uiW6pWuciX/kGebGIMtjvEA6JDkBGt40yAhzD/v6rIh/eHank/9A==
-X-Received: by 2002:a05:6000:2a7:b0:21b:af5a:323a with SMTP id
- l7-20020a05600002a700b0021baf5a323amr17790113wry.88.1657558443330; 
- Mon, 11 Jul 2022 09:54:03 -0700 (PDT)
+ bh=AijNuFhleeZ+ShSP3y5L5ifu0DE5uB2ce+dGZsPrL3g=;
+ b=194QmbyhYPBgIW4TSlvRyuxku0BNjaDD47B657XhrTAebb8p904WStKijY7vqvD+Ej
+ cJBOsUQAansRIybASAwQvViabQKbmekrNntWlVlOKPMLUVj60TdkVgV/iACqKiKlX259
+ VB06iUvz3FTrIPe0sRBa6bdnvhWyTGchN//EXN97gCpFGDUjyZG1BjX0ctq6fuHUhW0B
+ BTDgBPNiJCJSjEovlZ9eUkQdwaNrCrYoWyl2LjhIZiLGUzURGLTnJ3hh1lkY0csyN/Ep
+ EEtypmmnK7Uzf3IMUKYxprat23D4J24MMfvQSINCfUUPGMKPUZV8t+aG/o7gUDrURX2A
+ hqtw==
+X-Gm-Message-State: AJIora93bRD3hV3Tzch1g6wTcPsjsuMZWbYpu4KUxiTKaOhAAFyO1Y84
+ G0APY92Sa3hvSKnWAEI3iiCmZZrxzK6EaA==
+X-Google-Smtp-Source: AGRyM1tcXwN/I2X9SJSpNcuRGU57wZ3chAWHmwJtDVznpeYTsiq2f4krA+fFfN/bXs4qBFXKFlAYqg==
+X-Received: by 2002:a17:907:7349:b0:72b:4f05:e17 with SMTP id
+ dq9-20020a170907734900b0072b4f050e17mr7775596ejc.307.1657558859070; 
+ Mon, 11 Jul 2022 10:00:59 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- o6-20020a1c7506000000b003a1a02c6d7bsm10446848wmc.35.2022.07.11.09.54.02
+ g24-20020a170906539800b00727c6da69besm2849570ejo.38.2022.07.11.10.00.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 09:54:02 -0700 (PDT)
+ Mon, 11 Jul 2022 10:00:57 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A24751FFB7;
- Mon, 11 Jul 2022 17:54:01 +0100 (BST)
-References: <20220711095300.60462-1-thuth@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id 739C41FFB7;
+ Mon, 11 Jul 2022 18:00:57 +0100 (BST)
+References: <DS0PR14MB5592DD9ACC1CC45554386FE18E879@DS0PR14MB5592.namprd14.prod.outlook.com>
 User-agent: mu4e 1.7.27; emacs 28.1.90
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-trivial@nongnu.org, Eric Blake <eblake@redhat.com>, John Snow
- <jsnow@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] Replace 'whitelist' with 'allow'
-Date: Mon, 11 Jul 2022 17:53:57 +0100
-In-reply-to: <20220711095300.60462-1-thuth@redhat.com>
-Message-ID: <87fsj7si8m.fsf@linaro.org>
+To: "Vaidehi Anant Deshpande (i)" <vaidehi.deshpande@nio.io>
+Cc: qemu-devel@nongnu.org
+Subject: Re: Information needed regarding gnu-arm-eclipse version:
+Date: Mon, 11 Jul 2022 17:54:38 +0100
+In-reply-to: <DS0PR14MB5592DD9ACC1CC45554386FE18E879@DS0PR14MB5592.namprd14.prod.outlook.com>
+Message-ID: <87bktvshx2.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,14 +93,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Thomas Huth <thuth@redhat.com> writes:
+"Vaidehi Anant Deshpande (i)" <vaidehi.deshpande@nio.io> writes:
 
-> Let's use more inclusive language here and avoid terms
-> that are frowned upon nowadays.
+> Hello,
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> I am Vaidehi and I am currently trying to run a code on QEMU emulator usi=
+ng eclipse IDE. However, I came across some documentation
+> regarding the deprecation of qemu-system-gnuarmeclipse and I need to know=
+ if there is v7.0.0 available for
+> qemu-syetem-gnuarmeclipse.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+qemu-system-gnuarmeclipse is nothing to do with the upstream qemu
+project. It's a fork of QEMU which was focused on M-profile and IDE
+integration. You would have to ask xPack developers how to migrate to
+upstream QEMU.
+
+Do you know what board/processor you are trying to emulate?
+
+> Please let me know the links for the same if available.
+>
+> Best regards,
+> Vaidehi. D
+>
+> Email Signature
+>
+>=20=20=20=20
+>  Banner=20=20=20
+>  This email and any files transmitted with it are confidential and intend=
+ed solely for the use of the individual or entity to whom they are=20=20
+>  addressed. You may NOT use, disclose, copy or disseminate this informati=
+on. If you have received this email in error, please notify the=20=20
+>  sender and destroy all copies of the original message and all attachment=
+s. Please note that any views or opinions presented in this=20=20
+>  email are solely those of the author and do not necessarily represent th=
+ose of the company. Finally, the recipient should check this=20=20
+>  email and any attachments for the presence of viruses. The company accep=
+ts no liability for any damage caused by any virus=20=20
+>  transmitted by this email.
+
+You may want to tweak your email client not to dump this banner on posts
+to public mailing lists...
 
 --=20
 Alex Benn=C3=A9e
