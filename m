@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20EC57050C
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:06:34 +0200 (CEST)
-Received: from localhost ([::1]:56826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CF35704E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:03:06 +0200 (CEST)
+Received: from localhost ([::1]:48232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAu3V-0001UA-N1
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42428)
+	id 1oAu08-00040F-Ul
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:03:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvF-0006No-8o
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:01 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42549)
+ id 1oAtvD-0006L6-Vf
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:00 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvC-0002nQ-KV
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:01 -0400
-Received: by mail-wr1-x434.google.com with SMTP id bu1so5946594wrb.9
+ id 1oAtvC-0002ng-2u
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:57:59 -0400
+Received: by mail-wr1-x432.google.com with SMTP id h17so7181291wrx.0
  for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:57:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=fI18+z5edTaeRfrH4Mp6ek59dUDomNqM3YPKq/pXVYg=;
- b=N7nKfodaaa/h8ATKhvtMvX/S8Y45rlcFw8ZxMjRMPxlhszit/5PvFWcQ+YpFGdDjT6
- lmuhjeRvaUhPcrw4uPp6qoRQ73W5eY4WXUaOEgE8FV3kmfH68Lj/ZU0Ce1irQvUINiXZ
- 6oGtI9NAvxJKEg0C2LDbPt/1T1FeU7/0J1G/vkshgjdWGwqPJgPwMNF429fvKDZiw2bp
- HRGe7anA1CpYbFPtmjpcdn5RJw2Z8l9PBGsfM6C7PrNxMpQzdtUdxesH/pFVExhIPdxq
- eRhNT5de9BDqYgAK/Tx+vfHmgZpD+7jgQrcFGaomIXP3kHbsoQRy8kKJZslvglty22qQ
- OSNA==
+ bh=7NGRjcW6POBMRqlOP/cTnnyIXKw34HJdhD9MVrSH9hs=;
+ b=YGfk2a3o145gMr7ZaO0pMjMZiC9R/Dxnvmbrph4eD9ep9e2pdT6dQKldkNcFcU+zHH
+ vusdzwas6L2JFBS1H6h/3IfdPY24EMWNhNOleiFN5n3eqfaBzahy622DRtbbh2U3J+dT
+ 6lr7ZVneRpwM69T53XiZhQQsIDj2d+G+42SBL47C2cgVagyJRgUNfW5mIhG5VnmhNy9y
+ 8NiH3BsfVXDk198Wq/OWcLQTFkKqo4dPY1Qs9RHlgHu0gbqClV0G6PpPxaq5Lis7MkeQ
+ sqwp5Dutrj0UIIfJg0dI/8eV73HNmdHrTVInYC2x+zHCq8ZZ7w3uwadVmo+yqC4HnWRo
+ IKbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fI18+z5edTaeRfrH4Mp6ek59dUDomNqM3YPKq/pXVYg=;
- b=vpTV8wE3SMZUdUIEXAKznUo+mr1FaeBKBDdqqVdslw0TKMT0TwUoaAd0Z1OH5zwb1j
- Fv1wuNI+/py9nntzckB18Jwpl41jxBB0+RRv5nRj4eHqAgikK9GMGmdK3ROyN6uH/fkL
- 9zDSQKv8eJSJZsJ6HEvaVwA9FMxyJOXVtD29IjwkCnxJHD+t8CJVHy0pud9K5wxnJAtP
- vlm7gofUQFbwJy83w24ihpKN6xPetEjAKqwk9J+uTYVRv+fVrlPGX+pIh3U7tkzRFJDP
- yZZyqv6L87EhksjCsrg01AEBdjAZTHKvOAUCEUJUu8zSoOZ8tm4NukWEO/Wym6428mI+
- TF0w==
-X-Gm-Message-State: AJIora/c0lEFjByoRHsOD8qpmQ2X0Q/ncIqbE1YdLOpH01nMmH3hXCUK
- AClO7OStkeqR+pFfDDEEGD2ZIZSEFjCILg==
-X-Google-Smtp-Source: AGRyM1ubocUR7tCW9kalT5dV8TJzq3fzwIOvvZwGbdPmZEPW7sSEYInAjTMSH00QLiEOVb+JYEXM1A==
-X-Received: by 2002:a5d:5a9d:0:b0:21b:8247:7ec4 with SMTP id
- bp29-20020a5d5a9d000000b0021b82477ec4mr16837271wrb.561.1657547876105; 
+ bh=7NGRjcW6POBMRqlOP/cTnnyIXKw34HJdhD9MVrSH9hs=;
+ b=LQoYPOflluLq2PS4kT63K+d6PwFwZHAeXFsKH+K9wAW9+arGbfvDwNDqsa3tVU9GPl
+ hMxjDdexXc2rImpwBUly75Mtr78SYPyUzgFdykiLs95WMo81NCWZCrQEG+3qQ/2jc4Vd
+ N+IiazoUO5WEFn2ygIbIzaXh7S6WYtQP1Ibus3Xd+jS+x/aI+CrBDlz6UbwJFcYXPuMD
+ 21wUE3GnsmNBONzhgKp2Tf7Qew593qj4e0IsHMopUKEkZ6xzQLChrb6CexADRXN8cXHa
+ 8zHatkjyu00RvE2VjUpl5HiRPwSCUXUyoapchCC87lVtUeBBw9q75BkK1lPa45IoMHHr
+ EbRw==
+X-Gm-Message-State: AJIora9NpP6QT9woz72lzDR7kqkhX2LO0LH996WDRJW91Litdqf1Sd2P
+ OYUW4/PRi87L8GZ5fB2a9HtYBpj/6h0jcw==
+X-Google-Smtp-Source: AGRyM1tIeypE6hSnQHHZEbPLreSJMVwVdAslsL1o3omSkZa/BW8ml761e1Un0Vm6OR+4MFEc0hIWlw==
+X-Received: by 2002:a5d:6149:0:b0:21d:6ba7:6095 with SMTP id
+ y9-20020a5d6149000000b0021d6ba76095mr16720628wrt.680.1657547876760; 
  Mon, 11 Jul 2022 06:57:56 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.57.55
+ q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.57.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:57:55 -0700 (PDT)
+ Mon, 11 Jul 2022 06:57:56 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/45] target/arm: Mark ADR as non-streaming
-Date: Mon, 11 Jul 2022 14:57:09 +0100
-Message-Id: <20220711135750.765803-5-peter.maydell@linaro.org>
+Subject: [PULL 05/45] target/arm: Mark RDFFR, WRFFR, SETFFR as non-streaming
+Date: Mon, 11 Jul 2022 14:57:10 +0100
+Message-Id: <20220711135750.765803-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711135750.765803-1-peter.maydell@linaro.org>
 References: <20220711135750.765803-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,69 +90,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Mark ADR as a non-streaming instruction, which should trap
+Mark these as a non-streaming instructions, which should trap
 if full a64 support is not enabled in streaming mode.
-
-Removing entries from sme-fa64.decode is an easy way to see
-what remains to be done.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220708151540.18136-5-richard.henderson@linaro.org
+Message-id: 20220708151540.18136-6-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.h     | 7 +++++++
- target/arm/sme-fa64.decode | 1 -
- target/arm/translate-sve.c | 8 ++++----
- 3 files changed, 11 insertions(+), 5 deletions(-)
+ target/arm/sme-fa64.decode | 2 --
+ target/arm/translate-sve.c | 9 ++++++---
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index cbc907c7516..e2e619dab25 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -566,4 +566,11 @@ uint64_t asimd_imm_const(uint32_t imm, int cmode, int op);
-     static bool trans_##NAME(DisasContext *s, arg_##NAME *a) \
-     { return dc_isar_feature(FEAT, s) && FUNC(s, __VA_ARGS__); }
- 
-+#define TRANS_FEAT_NONSTREAMING(NAME, FEAT, FUNC, ...)            \
-+    static bool trans_##NAME(DisasContext *s, arg_##NAME *a)      \
-+    {                                                             \
-+        s->is_nonstreaming = true;                                \
-+        return dc_isar_feature(FEAT, s) && FUNC(s, __VA_ARGS__);  \
-+    }
-+
- #endif /* TARGET_ARM_TRANSLATE_H */
 diff --git a/target/arm/sme-fa64.decode b/target/arm/sme-fa64.decode
-index 3d90837fc7c..73c71abc462 100644
+index 73c71abc462..fa2b5cbf1a3 100644
 --- a/target/arm/sme-fa64.decode
 +++ b/target/arm/sme-fa64.decode
-@@ -59,7 +59,6 @@ FAIL    0001 1110 0111 1110 0000 00-- ---- ----   # FJCVTZS
- #       --11 1100 --1- ---- ---- ---- ---- --10   # Load/store FP register (register offset)
- #       --11 1101 ---- ---- ---- ---- ---- ----   # Load/store FP register (scaled imm)
+@@ -61,8 +61,6 @@ FAIL    0001 1110 0111 1110 0000 00-- ---- ----   # FJCVTZS
  
--FAIL    0000 0100 --1- ---- 1010 ---- ---- ----   # ADR
  FAIL    0000 0100 --1- ---- 1011 -0-- ---- ----   # FTSSEL, FEXPA
  FAIL    0000 0101 --10 0001 100- ---- ---- ----   # COMPACT
- FAIL    0010 0101 --01 100- 1111 000- ---0 ----   # RDFFR, RDFFRS
+-FAIL    0010 0101 --01 100- 1111 000- ---0 ----   # RDFFR, RDFFRS
+-FAIL    0010 0101 --10 1--- 1001 ---- ---- ----   # WRFFR, SETFFR
+ FAIL    0100 0101 --0- ---- 1011 ---- ---- ----   # BDEP, BEXT, BGRP
+ FAIL    0100 0101 000- ---- 0110 1--- ---- ----   # PMULLB, PMULLT (128b result)
+ FAIL    0110 0100 --1- ---- 1110 01-- ---- ----   # FMMLA, BFMMLA
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 62b5f3040c7..5d1db0d3ff9 100644
+index 5d1db0d3ff9..d6faec15fe9 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -1320,10 +1320,10 @@ static bool do_adr(DisasContext *s, arg_rrri *a, gen_helper_gvec_3 *fn)
-     return gen_gvec_ool_zzz(s, fn, a->rd, a->rn, a->rm, a->imm);
+@@ -1785,7 +1785,8 @@ static bool do_predset(DisasContext *s, int esz, int rd, int pat, bool setflag)
+ TRANS_FEAT(PTRUE, aa64_sve, do_predset, a->esz, a->rd, a->pat, a->s)
+ 
+ /* Note pat == 31 is #all, to set all elements.  */
+-TRANS_FEAT(SETFFR, aa64_sve, do_predset, 0, FFR_PRED_NUM, 31, false)
++TRANS_FEAT_NONSTREAMING(SETFFR, aa64_sve,
++                        do_predset, 0, FFR_PRED_NUM, 31, false)
+ 
+ /* Note pat == 32 is #unimp, to set no elements.  */
+ TRANS_FEAT(PFALSE, aa64_sve, do_predset, 0, a->rd, 32, false)
+@@ -1799,11 +1800,13 @@ static bool trans_RDFFR_p(DisasContext *s, arg_RDFFR_p *a)
+         .rd = a->rd, .pg = a->pg, .s = a->s,
+         .rn = FFR_PRED_NUM, .rm = FFR_PRED_NUM,
+     };
++
++    s->is_nonstreaming = true;
+     return trans_AND_pppp(s, &alt_a);
  }
  
--TRANS_FEAT(ADR_p32, aa64_sve, do_adr, a, gen_helper_sve_adr_p32)
--TRANS_FEAT(ADR_p64, aa64_sve, do_adr, a, gen_helper_sve_adr_p64)
--TRANS_FEAT(ADR_s32, aa64_sve, do_adr, a, gen_helper_sve_adr_s32)
--TRANS_FEAT(ADR_u32, aa64_sve, do_adr, a, gen_helper_sve_adr_u32)
-+TRANS_FEAT_NONSTREAMING(ADR_p32, aa64_sve, do_adr, a, gen_helper_sve_adr_p32)
-+TRANS_FEAT_NONSTREAMING(ADR_p64, aa64_sve, do_adr, a, gen_helper_sve_adr_p64)
-+TRANS_FEAT_NONSTREAMING(ADR_s32, aa64_sve, do_adr, a, gen_helper_sve_adr_s32)
-+TRANS_FEAT_NONSTREAMING(ADR_u32, aa64_sve, do_adr, a, gen_helper_sve_adr_u32)
+-TRANS_FEAT(RDFFR, aa64_sve, do_mov_p, a->rd, FFR_PRED_NUM)
+-TRANS_FEAT(WRFFR, aa64_sve, do_mov_p, FFR_PRED_NUM, a->rn)
++TRANS_FEAT_NONSTREAMING(RDFFR, aa64_sve, do_mov_p, a->rd, FFR_PRED_NUM)
++TRANS_FEAT_NONSTREAMING(WRFFR, aa64_sve, do_mov_p, FFR_PRED_NUM, a->rn)
  
- /*
-  *** SVE Integer Misc - Unpredicated Group
+ static bool do_pfirst_pnext(DisasContext *s, arg_rr_esz *a,
+                             void (*gen_fn)(TCGv_i32, TCGv_ptr,
 -- 
 2.25.1
 
