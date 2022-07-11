@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365A4570844
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 18:26:41 +0200 (CEST)
-Received: from localhost ([::1]:58400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA039570822
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 18:16:50 +0200 (CEST)
+Received: from localhost ([::1]:44698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAwF5-0004hY-Qs
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 12:26:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44376)
+	id 1oAw5Z-0002EW-TC
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 12:16:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oAvkj-0007xc-Pb
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:55:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22826)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oAvmx-0004H4-D6; Mon, 11 Jul 2022 11:57:35 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:44444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oAvke-0006EP-9x
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:55:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657554909;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=1dDBzn2aR7gKgVbZ7HASjiRSQXSRy9sXH4e5xeh6G64=;
- b=Dxv8ld0LnvRr/hnJoTejSe7unzjfn9g47m1uDYkMk/umLV/+lBepH/PEEgxyhqnbEzPzFy
- OdVlXVHCUqWJG2T8qbEw86rtAR6+u7QujXchJj8aGoGZDg1NpH7ODylZmSQnG75sgyn62P
- eUXWWZkSYIPPrit1lZww10rc9H+xHQk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-iYhpnFn8OKyKe9XJ1vN87w-1; Mon, 11 Jul 2022 11:54:00 -0400
-X-MC-Unique: iYhpnFn8OKyKe9XJ1vN87w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C15F382ECCE;
- Mon, 11 Jul 2022 15:54:00 +0000 (UTC)
-Received: from server.redhat.com (ovpn-12-65.pek2.redhat.com [10.72.12.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3D071415118;
- Mon, 11 Jul 2022 15:53:56 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, kraxel@redhat.com,
- dgilbert@redhat.com, stefanha@redhat.com, arei.gonglei@huawei.com,
- marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v11 09/10] virtio-mmio: add support for configure interrupt
-Date: Mon, 11 Jul 2022 23:52:42 +0800
-Message-Id: <20220711155243.866530-10-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oAvms-0006zt-Fj; Mon, 11 Jul 2022 11:57:32 -0400
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 20E132E0AB3;
+ Mon, 11 Jul 2022 18:57:20 +0300 (MSK)
+Received: from [10.211.6.101] (10.211.6.101-vpn.dhcp.yndx.net [10.211.6.101])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id 9K3k4nFly9-vHOusV5b; Mon, 11 Jul 2022 18:57:19 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1657555039; bh=o9V9yVinP+dNUJ8gRReUw/SJeK6qcfjhX2zRlpKc37c=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=L5NDvGZi135++8xl4+grMeX+RwsGugpoql57FnFDB7eUcISB0urDHArASaE9+p/y8
+ 4lJVnlj2IDFobIyWtX8yOdapU4EJNwDdqQEYc0b7C/nKKpEHmXnrI9MDix4Iwk06xD
+ su1vpLZzZPeyEA8IjlKSTHzhVKRIkBATv0YUjjNI=
+Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <5291284b-9740-16e1-d852-47bb5ac8be77@yandex-team.ru>
+Date: Mon, 11 Jul 2022 18:57:17 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v9 00/21] job: replace AioContext lock with job_mutex
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220706201533.289775-1-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220706201533.289775-1-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -74,61 +81,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add configure interrupt support in virtio-mmio bus.
-add function to set configure guest notifier.
+That seems a lot closer!
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/virtio-mmio.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+Now I'm going to vocation from tomorrow up to the end of week, so I'll return next Monday.
 
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 688eccda94..5c613a96d9 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -672,7 +672,30 @@ static int virtio_mmio_set_guest_notifier(DeviceState *d, int n, bool assign,
- 
-     return 0;
- }
-+static int virtio_mmio_set_config_guest_notifier(DeviceState *d, bool assign,
-+                                                 bool with_irqfd)
-+{
-+    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    EventNotifier *notifier = virtio_config_get_guest_notifier(vdev);
-+    int r = 0;
- 
-+    if (assign) {
-+        r = event_notifier_init(notifier, 0);
-+        if (r < 0) {
-+            return r;
-+        }
-+        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
-+    } else {
-+        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
-+        event_notifier_cleanup(notifier);
-+    }
-+    if (vdc->guest_notifier_mask && vdev->use_guest_notifier_mask) {
-+        vdc->guest_notifier_mask(vdev, VIRTIO_CONFIG_IRQ_IDX, !assign);
-+    }
-+    return r;
-+}
- static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
-                                            bool assign)
- {
-@@ -694,6 +717,10 @@ static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
-             goto assign_error;
-         }
-     }
-+    r = virtio_mmio_set_config_guest_notifier(d, assign, with_irqfd);
-+    if (r < 0) {
-+        goto assign_error;
-+    }
- 
-     return 0;
- 
+
+On 7/6/22 23:15, Emanuele Giuseppe Esposito wrote:
+> In this series, we want to remove the AioContext lock and instead
+> use the already existent job_mutex to protect the job structures
+> and list. This is part of the work to get rid of AioContext lock
+> usage in favour of smaller granularity locks.
+> [..]
+
+
 -- 
-2.34.3
-
+Best regards,
+Vladimir
 
