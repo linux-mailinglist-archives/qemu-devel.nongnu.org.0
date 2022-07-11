@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C83570C2A
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 22:48:37 +0200 (CEST)
-Received: from localhost ([::1]:56488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B25E570C43
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 22:59:00 +0200 (CEST)
+Received: from localhost ([::1]:60616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB0Kb-0006Gu-4Z
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 16:48:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37320)
+	id 1oB0Uc-0001Wa-UZ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 16:58:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB0J2-0004qj-NM
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 16:47:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26920)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB0Sa-0007vv-Ql
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 16:56:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB0J0-0005HD-Dj
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 16:46:59 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB0SY-0006om-33
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 16:56:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657572417;
+ s=mimecast20190719; t=1657573007;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z2Uh5wGAQRnWhuWdmRnU59CA2Oi6nG+4RZgJzSKrQJI=;
- b=Kj369WYanQX0gWwfY+nWZpF6d3iWWmkIUOFCeieJwfKB4wwcz/mffWbDfbqN7R1ku28f9H
- 1ydtKTYi3fCRYc7uExt/UruBQTcYcYhAMLNCLzdKYfRImESG7UHRnGtEU5f+GtdPuRP9bw
- 5qmblQbAzWTbX8Ql/wDmtC8CUykRg/A=
+ bh=XHqh2chV48wlRVfHOCERf7s323TtsFlfs5Qk86gHnY4=;
+ b=LQxWuZWnI8YqwkkX+wN7R5LcJ/GklLDqsYsqt/5KsN6CX39aV0PE7ksU5GH6TIDhkETcua
+ Uz50oE97fIOfMzojn5SvRJGYdiXwXRLHdLvRa2SuVbf/clcn7/qVcO+zaPWFvzX4LoOYFV
+ cLlDUoMxGTgmDcaCLWxriDMULeKFBS0=
 Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
  [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-UWvXK15VM2CUblH_OPGT5g-1; Mon, 11 Jul 2022 16:46:56 -0400
-X-MC-Unique: UWvXK15VM2CUblH_OPGT5g-1
+ us-mta-518-gl4lXaQSNvS3RIDlFBXzpQ-1; Mon, 11 Jul 2022 16:56:40 -0400
+X-MC-Unique: gl4lXaQSNvS3RIDlFBXzpQ-1
 Received: by mail-ua1-f71.google.com with SMTP id
- i19-20020ab01593000000b0038317fe5e1dso1221754uae.17
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 13:46:56 -0700 (PDT)
+ b2-20020ab05f82000000b003826734f585so1244654uaj.2
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 13:56:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z2Uh5wGAQRnWhuWdmRnU59CA2Oi6nG+4RZgJzSKrQJI=;
- b=yT5qZCtlDyn+X5yfXPhPUxdpXzBqV+1h5GaTbzse7CsVlLJ4f3rvZlGtTg7Ll56Y6z
- A99wiKMWLPLcXtPDZX4GVTTQwDEgZEKGX3OxNmqRYVGeAuR5kfJz6YSX4WDzmSf8OtXd
- KqtckmNjpVmbI+i8mC+GGIabRT4svc6RTBsHU06ePbgOjgFSU6mX+NuUy36vT1/bXZ2n
- 9hOhWJIT2/5CKQPzyiQxk9UuNQYgFc8Tt8/4QjCCbiwtafGkelNOsA+G+oT0QalrCHsb
- ms4Bs5loEtA6WQQr1dmRMiXQwW0r2Sfqi/rXCJ2zIPAl30FGMyG6XLKxTshP7NqX/uin
- Bu7w==
-X-Gm-Message-State: AJIora+r5a5QLJEg5gjXgP6Ctl6oYcYvVJxYPt16YwwjFMEl8nW8fzmL
- jVLTUilHYZSqYPCKaiZ8P33kRNtCK+VS7TgQhnVtoCTRs0qmlony6uyHLVVna/h7hVV1LXj+4P+
- eYjfigSpJuN2ClTYXl1VmoYY5dsMnmsE=
-X-Received: by 2002:a05:6102:31ac:b0:357:530e:6496 with SMTP id
- d12-20020a05610231ac00b00357530e6496mr3168226vsh.38.1657572415782; 
- Mon, 11 Jul 2022 13:46:55 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vXsnpxcUYKFxBSVaxpKLQC+iLxaQD8l8PXvMw0MfG92Fdqy/OJvqCUqIh1ks9HfeqB0MRgnHF2cYG8l04ixqQ=
-X-Received: by 2002:a05:6102:31ac:b0:357:530e:6496 with SMTP id
- d12-20020a05610231ac00b00357530e6496mr3168217vsh.38.1657572415548; Mon, 11
- Jul 2022 13:46:55 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=XHqh2chV48wlRVfHOCERf7s323TtsFlfs5Qk86gHnY4=;
+ b=AMtzJMn+xqTXPh0NobbvTVLyC0hmJ8EeNCjBvWsTcXlAiUGSDf9zudkPhd4EiIG05X
+ 4/zZZ3WTGaOU2/36HsGiu8iR8CI0BSuNVbWsKFgb1qqRcGLdX2NwqkHMfVXnmBmEcXVt
+ ESUwD/dXzEjr3zF0yBsqtXcjnRxP+OPjnX7XWzVnvPJmu1B90JWb+xeZIkZEqu9RDfBZ
+ 9xoNa84dcEgQ5jxVf70l0hvE8TdNpMKRSkj0MMc0xCNyXqABALFWGVjtaGousqtx/Fme
+ NjgUz8fQjToiIr49EL316bArHkaXmYKxkQp/pVmTR0BWhoDfgQRJueR+rgvbEAFAK0+q
+ 3oqg==
+X-Gm-Message-State: AJIora+Uxl8WvUvWtAF4yNdL2cTvB3ci9jc0CG8fij6xC9PkD21cqmOr
+ 6nzvjrFj5zzoAHi3tNvh5WD6X7LS2mqJmAy912J54KTyfZ3p8lrZy4tuo6JTSZHBDB20EhRpJKk
+ i3EZOUYKAdtYYcjB46jPmtSr2FCBO7Jk=
+X-Received: by 2002:a05:6102:1586:b0:357:5677:75ef with SMTP id
+ g6-20020a056102158600b00357567775efmr3046965vsv.61.1657572999719; 
+ Mon, 11 Jul 2022 13:56:39 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uTZJENSpE3M5VWKK9qWJYQ4N+7+OTkS+3l+8zkKXnhLfVtqpKsZTOsnAeuFMkgnGN3Ob+ZHGS+i1N8N7UlEv8=
+X-Received: by 2002:a05:6102:1586:b0:357:5677:75ef with SMTP id
+ g6-20020a056102158600b00357567775efmr3046952vsv.61.1657572999472; Mon, 11 Jul
+ 2022 13:56:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220710170014.1673480-11-ani@anisinha.ca>
-In-Reply-To: <20220710170014.1673480-11-ani@anisinha.ca>
+References: <20220705214659.73369-1-peter@pjd.dev>
+ <YsVBhmvAm2ANDUEt@redhat.com>
+ <YsW8eO5eeRKfpxJp@r37> <YsYuYAJE2Hx64aIY@pdel-mbp.dhcp.thefacebook.com>
+ <YscqCErtNGOG9GVx@pdel-mbp.dhcp.thefacebook.com>
+In-Reply-To: <YscqCErtNGOG9GVx@pdel-mbp.dhcp.thefacebook.com>
 From: John Snow <jsnow@redhat.com>
-Date: Mon, 11 Jul 2022 16:46:44 -0400
-Message-ID: <CAFn=p-b_uVDib7qFcy=6fsMCGrcY8hQ89ZsQAfQMuHO26WM1dg@mail.gmail.com>
-Subject: Re: [PATCH v2 10/11] pytest: add pytest to the meson build system
-To: Ani Sinha <ani@anisinha.ca>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>, Daniel Berrange <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, 
- Michael Tsirkin <mst@redhat.com>
+Date: Mon, 11 Jul 2022 16:56:28 -0400
+Message-ID: <CAFn=p-bhhu+G-p=w_K2OSOe0WkDHbBaO0ZS53F+jTDuo074VFw@mail.gmail.com>
+Subject: Re: [PATCH RESEND] python/machine: Fix AF_UNIX path too long on macOS
+To: peter@pjd.dev
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -93,126 +96,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 10, 2022 at 1:01 PM Ani Sinha <ani@anisinha.ca> wrote:
+On Thu, Jul 7, 2022 at 2:46 PM Peter Delevoryas <peter@pjd.dev> wrote:
 >
-> Integrate the pytest framework with the meson build system. This will make meson
-> run all the pytests under the pytest directory.
+> On Wed, Jul 06, 2022 at 05:52:48PM -0700, Peter Delevoryas wrote:
+> > On Wed, Jul 06, 2022 at 09:46:48AM -0700, Peter Delevoryas wrote:
+> > > On Wed, Jul 06, 2022 at 09:02:14AM +0100, Daniel P. Berrang=C3=A9 wro=
+te:
+> > > > On Tue, Jul 05, 2022 at 02:46:59PM -0700, Peter Delevoryas wrote:
+> > > > > I noticed that I can't run any avocado tests on macOS because the=
+ QMP
+> > > > > unix socket path is too long:
+> > > >
+> > > >
+> > > > > I think the path limit for unix sockets on macOS might be 104 [1]
+> > > >
+> > > > All platforms have a very limited path limit, so it isn't really
+> > > > a macOS specific problem, rather....
+> > > >
+> > > > >
+> > > > > /*
+> > > > >  * [XSI] Definitions for UNIX IPC domain.
+> > > > >  */
+> > > > > struct  sockaddr_un {
+> > > > >     unsigned char   sun_len;        /* sockaddr len including nul=
+l */
+> > > > >     sa_family_t     sun_family;     /* [XSI] AF_UNIX */
+> > > > >     char            sun_path[104];  /* [XSI] path name (gag) */
+> > > > > };
+> > > > >
+> > > > > The path we're using is exactly 105 characters:
+> > > > >
+> > > > > $ python
+> > > > > Python 2.7.10 (default, Jan 19 2016, 22:24:01)
+> > > > > [GCC 4.2.1 Compatible Apple LLVM 7.0.2 (clang-700.1.81)] on darwi=
+n
+> > > > > Type "help", "copyright", "credits" or "license" for more informa=
+tion.
+> > > > > >>> len('/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/avo_qem=
+u_sock_uh3w_dgc/qemu-37331-10bacf110-monitor.sock')
+> > > >
+> > > > It is a problem related to where the test suite is creating the
+> > > > paths.
+> > > >
+> > > > /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/avo_qemu_sock_uh3w=
+_dgc/
+> > > >
+> > > > is way too deep a directory location.
+> > >
+> > > That's a good point.
+> > >
+> > > >
+> > > > It seems we just create this location using 'tempfile.TemporyDirect=
+ory'
+> > > > to get a standard tmp dir.
+> > > >
+> > > > Do you know why python is choosing
+> > > >
+> > > >   /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
+> > > >
+> > > > as the temp dir ? Is that a standard location on macOS or is it
+> > > > from some env variable you have set ?
+> > >
+> > > Hmmm yeah it is odd, I'm not really sure why it's created there or if
+> > > standard glibc tmpfile creation goes there too, I'll go experiment an=
+d
+> > > report back. And yeah, maybe I'll double check any environment variab=
+les or
+> > > other things.
+> > >
+> > > The macOS system I use happens to be a Facebook work laptop, which co=
+uld
+> > > also be related now that I think about it.
+> >
+> > Hmmm yeah looks like this is because my TMPDIR is weird.
+> >
+> > $ echo $TMPDIR
+> > /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
+> >
+> > I didn't think to check this cause I wasn't familiar with TMPDIR. =F0=
+=9F=A4=B7
+> >
+> > Thanks for responding, I'll just use TMPDIR=3D/tmp for now. It's probab=
+ly
+> > something wrong with the Facebook development environment.
+> >
+> > Peter
 >
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> ---
->  tests/Makefile.include   |  4 +++-
->  tests/meson.build        |  1 +
->  tests/pytest/meson.build | 49 ++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 53 insertions(+), 1 deletion(-)
->  create mode 100644 tests/pytest/meson.build
+> Update: Actually, this might not be a Facebook-work-laptop specific
+> thing.  I asked my non-engineer friend to print out $TMPDIR on his
+> macbook and he got the same thing.
 >
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 3accb83b13..40755a6bd1 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -3,12 +3,14 @@
->  .PHONY: check-help
->  check-help:
->         @echo "Regression testing targets:"
-> -       @echo " $(MAKE) check                  Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
-> +       @echo " $(MAKE) check                  Run block, qapi-schema, unit, softfloat, qtest, pytest and decodetree tests"
+> https://apple.stackexchange.com/questions/353832/why-is-mac-osx-temp-dire=
+ctory-in-weird-path
+>
+> I guess this person suggests it's just to separate the permissions for
+> each user's /tmp directory, for better isolation.
+>
+> I'll resubmit this patch with the suggestions you had, because perhaps
+> this is actually affecting other macOS users too.
+>
+> >
+> > >
+> > > >
+> > > > > diff --git a/python/qemu/machine/machine.py b/python/qemu/machine=
+/machine.py
+> > > > > index 37191f433b..93451774e3 100644
+> > > > > --- a/python/qemu/machine/machine.py
+> > > > > +++ b/python/qemu/machine/machine.py
+> > > > > @@ -157,7 +157,7 @@ def __init__(self,
+> > > > >          self._wrapper =3D wrapper
+> > > > >          self._qmp_timer =3D qmp_timer
+> > > > >
+> > > > > -        self._name =3D name or f"qemu-{os.getpid()}-{id(self):02=
+x}"
+> > > > > +        self._name =3D name or f"{os.getpid()}{id(self):02x}"
+> > > >
+> > > > I don't think this is the right fix really, because IMHO the proble=
+m
+> > > > is the hugely long path, rather than the final socket name.
+> > >
+> > > True, yeah let me try to investigate the directory placement.
+> > >
+> > > >
+> > > > That said, there is redundancy in the path - avocado is passing in
+> > > > a dierctory created using 'tempfile.TemporyDirectory' so there is n=
+o
+> > > > reason why we need to add more entropy via the POD and the 'id(self=
+)'
+> > > > hex string.
+> > >
+> > > Oh good point, I hadn't thought about that.
+> > >
+> > > >
+> > > > IMHO avocado should pass in the 'name' parameter explicitly, using =
+a
+> > > > plain name and thus get a shorter string.
+> > >
+> > > I see, yeah that makes sense. Maybe I can include a couple patches fo=
+r this,
+> > > one fixing the directory location, and one refactoring the temporary =
+file
+> > > name template (If I'm understanding your suggestion correctly).
+> > >
+> > > Thanks for the review! I really appreciate it.
+> > > Peter
 
-Does this mean that "make check" *requires* an internet connection? If
-so, I'm afraid that introduces some complications for downstreams
-which require that "make check" can run without an internet
-connection. It's something I've been trying to wrestle with as I split
-the qemu.qmp library out of the QEMU tree, and I have been working
-(slowly) on remedying it with some additional Makefile logic.
+I agree with Dan: I believe the correct solution here is for Avocado
+to provide its own less redundant name; but the default name that
+machine.py provides is not *that* long and provides adequate
+protection against collisions with multiple instances of the VM
+utility within a single python process. If Avocado is creating its own
+directories that guard against that redundancy, Avocado should provide
+a shortened name for the VM.
 
-I have been looking into making a testing "dummy package" for python
-with optional dependency groups that use a venv building script to
-either pull from PyPI in online mode, or use system packages in
-offline mode. In the case of offline mode, I am working on augmenting
-the configure script to test that dependencies are met, and disabling
-test groups when the correct dependencies cannot be located.
+Note that the QEMUMachine process also provides a sock_dir parameter
+that was introduced for precisely this reason; it should be possible
+to instruct the avocado tests to use a shorter path for sock_dir.
 
-I hope to have another version of that series soon; it should be
-trivial to add a new optional dependency group to it. I'll CC you on
-the next version of the series.
+I'm not clear on what the best "just works" solution will be when
+certain operating environments choose a tmp dir that's quite long to
+begin with; maybe we need a different default sockfile naming strategy
+that avoids the instance collision problem in machine.py, too. Ideas?
 
 --js
 
->         @echo " $(MAKE) bench                  Run speed tests"
->         @echo
->         @echo "Individual test suites:"
->         @echo " $(MAKE) check-qtest-TARGET     Run qtest tests for given target"
->         @echo " $(MAKE) check-qtest            Run qtest tests"
-> +       @echo " $(MAKE) check-pytest           Run pytest tests"
-> +       @echo " $(MAKE) check-pytest-TARGET    Run pytest for a given target"
->         @echo " $(MAKE) check-unit             Run qobject tests"
->         @echo " $(MAKE) check-qapi-schema      Run QAPI schema tests"
->         @echo " $(MAKE) check-block            Run block tests"
-> diff --git a/tests/meson.build b/tests/meson.build
-> index 8e318ec513..f344cbdc6c 100644
-> --- a/tests/meson.build
-> +++ b/tests/meson.build
-> @@ -93,3 +93,4 @@ subdir('unit')
->  subdir('qapi-schema')
->  subdir('qtest')
->  subdir('migration')
-> +subdir('pytest')
-> diff --git a/tests/pytest/meson.build b/tests/pytest/meson.build
-> new file mode 100644
-> index 0000000000..e60d481ae4
-> --- /dev/null
-> +++ b/tests/pytest/meson.build
-> @@ -0,0 +1,49 @@
-> +slow_pytests = {
-> +  'acpi-bits' : 120,
-> +}
-> +
-> +pytests_generic = []
-> +
-> +# biosbits tests are currenly only supported on x86_64 platforms.
-> +pytests_x86_64 = ['acpi-bits-test']
-> +
-> +pytest_executables = {}
-> +other_deps = []
-> +
-> +subdir('acpi-bits')
-> +
-> +foreach dir : target_dirs
-> +  if not dir.endswith('-softmmu')
-> +    continue
-> +  endif
-> +
-> +  target_base = dir.split('-')[0]
-> +  pytest_emulator = emulators['qemu-system-' + target_base]
-> +  target_pytests = get_variable('pytests_' + target_base, []) + pytests_generic
-> +
-> +  test_deps = roms
-> +  pytest_env = environment()
-> +  if have_tools
-> +    pytest_env.set('QTEST_QEMU_IMG', './qemu-img')
-> +    test_deps += [qemu_img]
-> +  endif
-> +  pytest_env.set('G_TEST_DBUS_DAEMON', meson.project_source_root() / 'tests/dbus-vmstate-daemon.sh')
-> +  pytest_env.set('PYTEST_QEMU_BINARY', './qemu-system-' + target_base)
-> +  pytest_env.set('PYTEST_SOURCE_ROOT', meson.project_source_root())
-> +  if have_tools and have_vhost_user_blk_server
-> +    pytest_env.set('PYTEST_QEMU_STORAGE_DAEMON_BINARY', './storage-daemon/qemu-storage-daemon')
-> +    test_deps += [qsd]
-> +  endif
-> +
-> +  foreach test : target_pytests
-> +    test('pytest-@0@/@1@'.format(target_base, test),
-> +         pytest_executables[test],
-> +         depends: [test_deps, pytest_emulator, emulator_modules, other_deps],
-> +         env: pytest_env,
-> +         args: ['--tap', '-k'],
-> +         protocol: 'tap',
-> +         timeout: slow_pytests.get(test, 30),
-> +         priority: slow_pytests.get(test, 30),
-> +         suite: ['pytest', 'pytest-' + target_base])
-> +  endforeach
-> +endforeach
-> --
-> 2.25.1
+> > >
+> > > >
+> > > > >          self._temp_dir: Optional[str] =3D None
+> > > > >          self._base_temp_dir =3D base_temp_dir
+> > > > >          self._sock_dir =3D sock_dir
+> > > > > @@ -167,7 +167,7 @@ def __init__(self,
+> > > > >              self._monitor_address =3D monitor_address
+> > > > >          else:
+> > > > >              self._monitor_address =3D os.path.join(
+> > > > > -                self.sock_dir, f"{self._name}-monitor.sock"
+> > > > > +                self.sock_dir, f"{self._name}.sock"
+> > > > >              )
+> > > > >
+> > > > >          self._console_log_path =3D console_log
+> > > > > --
+> > > > > 2.37.0
+> > > > >
+> > > > >
+> > > >
+> > > > With regards,
+> > > > Daniel
+> > > > --
+> > > > |: https://berrange.com      -o-    https://www.flickr.com/photos/d=
+berrange :|
+> > > > |: https://libvirt.org         -o-            https://fstop138.berr=
+ange.com :|
+> > > > |: https://entangle-photo.org    -o-    https://www.instagram.com/d=
+berrange :|
+> > > >
+> > >
+> >
 >
 
 
