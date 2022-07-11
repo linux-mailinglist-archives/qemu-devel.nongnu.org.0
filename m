@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB146570602
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:43:43 +0200 (CEST)
-Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2915570576
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:23:00 +0200 (CEST)
+Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAudS-0005o9-Vz
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:43:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42754)
+	id 1oAuJP-00057b-Q1
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvV-0006Z7-SN
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:18 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:53119)
+ id 1oAtvS-0006Wi-Oc
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:15 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvR-0002pb-Lk
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:16 -0400
-Received: by mail-wm1-x330.google.com with SMTP id o8so3085856wms.2
+ id 1oAtvQ-0002bg-3W
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:13 -0400
+Received: by mail-wr1-x433.google.com with SMTP id v14so7135092wra.5
  for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/RhdQJhnWDHCgh0k4clVqzvRti9Nt0LbFx159lSbzvk=;
- b=VJjAg4wx/p/h/PPmbx3PBM6VoRZwZ32EbVVBlfUMS/U4ZuciLWkmy+NHVLM/5sPYiq
- /JwLXvs4QKRtKKfR9gwAuwTT7YE0CYEsr0qRAytoMTcJciHBxs1CbNqNm+xTQ5fB7bfA
- RLK9Sywq7K3uMIYRYpRzIguBfuQPgMGs+PagIS/5itsD99s/CGUI7VE6t0Lm8KxPakqt
- eW2ueor+X5HLOJpJhLewvueVZ3el4ipbMosMfdCjN7N32rP8el/V/l1wvhdYe2An58hM
- gij/JacC3sB2d0RcnOTq0O6oIB9srW3Y97nv//460BTgmsvIEiWg0D2/pgFGSnI0F7WP
- W7pw==
+ bh=eWXMTGlXUgB42hymanetwXDWMolb+Ga7HqnDSm4JcUg=;
+ b=jiVOr/BLuJ3vQuajPip4tMXdolyVvZ3LuO7lA5ORUJOZi57fzV1oevvF3xSKXOO3Ug
+ yeBLOryv3sQOzPuZbyXTwCxY9aYujSGO2F0hP3vk4PF48ZMBc3ZAFZs6dZUgIdBk5LAx
+ EWW222pPmWh7haW7ChlDAkCwfLCOxaIBkOXgcKm171vl1Sr8gTprIK2zJhU7GnVGbRZi
+ kbFEByO/eMaljGZKkXd0tdlRRh78hH5DRTGbOaBjreLoTiz1eOfORWfitFqPU4wVjLNY
+ nGf48IRBgJgWlkDz38cpFvjv8PoK6ceWzdhpEU17XmSU/wbLTy7ejqnBKS8k5Ur2z50H
+ HmQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/RhdQJhnWDHCgh0k4clVqzvRti9Nt0LbFx159lSbzvk=;
- b=DPwnsdRunH0aORvuqOa7phY8FAcNID9YejdAviyN3nhj3jOzqmkrzIiuXrybNoBU0y
- ssm/o9f2g6Q/jRmiZM7804KHnegJAzepUaJS6M+hRLb/XyJBPNCm/IiNMhlCo/7y3JgU
- CXKHuvRqzfvFpaVMgyRP7iMtaTC0UEVxzZjKIgeX10TwL6usX0AbA05KaRaK+k8D85VT
- l/S31kwPI9XE9615dtrN32htPh5uPOvpABpQeMHLMgABay6xZ1qqAy4bcLb+2MYFM8WL
- uitD/sbLkTwgs/VGI6wPYsRLVc/Zyj2P1ElYBNrGpSoojTrhhf+PPfhZ+OajTkNvZSD2
- DtiA==
-X-Gm-Message-State: AJIora8Y1h0Fw3MEu+nNYGB7+MrdI0+UuJuR5dFAOsStkTIrDFaaavmK
- Qfi9bU49kHdMdlkMoLYZZRNjRIdQOMmI5w==
-X-Google-Smtp-Source: AGRyM1su7+QBssXT+sqal+2n2jMxJVS3XqW+Et61W8PMMcMSv8TESd+7A13Svia9v9WQ+9UGLyLObg==
-X-Received: by 2002:a05:600c:4e4c:b0:3a0:53a2:48b5 with SMTP id
- e12-20020a05600c4e4c00b003a053a248b5mr15482318wmq.174.1657547883594; 
- Mon, 11 Jul 2022 06:58:03 -0700 (PDT)
+ bh=eWXMTGlXUgB42hymanetwXDWMolb+Ga7HqnDSm4JcUg=;
+ b=5Ok0CG2kBwJGawPMRIywuDIM7hyxKsd5tlfj4JUAQMsjd/nQp1K5hSH6X9DQp+0vAu
+ CcD/UPqxEvlhMMJn9Tr1y5tQbfKCvOw45zlCgYp9Q8PgTf507VcJQtKrSpmescT1xEBc
+ lIInpu7C/XMg4fINR0DKHCyNkjlyW6KtBXbg56hRAmNkaoZflLGucJgrfyxMZSdXxJWn
+ lWwWCnPzKh7uSnVdrOSr/Dl4C4Po+87niHHHTWwOEy7vNVEWNFwgS+IBbUNDyyjXg5aC
+ mesN5KOqhIIBhZf9VkM7iXbV3EIS5FDH6YhJFqjsNZK49qq60Q/Y6wdpjEPtfIbegct6
+ E0eQ==
+X-Gm-Message-State: AJIora/IHnK0EVH4EN5HJhuiJeZA4wFt+Jyg4RxnA36pijFV5VAZnqjS
+ Fl6eQRSDx8o2mAMmQ3M7Gzd6iXxTvw8Nnw==
+X-Google-Smtp-Source: AGRyM1sC8KAkSd0xwX7B5ShrWOU/Kjqbll1lXXh63NR9BBfCNBAtgruShbsdo521BzfJhw0Xi7QIWA==
+X-Received: by 2002:adf:f7c3:0:b0:21d:6d21:f704 with SMTP id
+ a3-20020adff7c3000000b0021d6d21f704mr17152601wrq.590.1657547884426; 
+ Mon, 11 Jul 2022 06:58:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.02
+ q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:58:03 -0700 (PDT)
+ Mon, 11 Jul 2022 06:58:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/45] target/arm: Mark LD1RO as non-streaming
-Date: Mon, 11 Jul 2022 14:57:19 +0100
-Message-Id: <20220711135750.765803-15-peter.maydell@linaro.org>
+Subject: [PULL 15/45] target/arm: Add SME enablement checks
+Date: Mon, 11 Jul 2022 14:57:20 +0100
+Message-Id: <20220711135750.765803-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711135750.765803-1-peter.maydell@linaro.org>
 References: <20220711135750.765803-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,49 +90,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Mark these as a non-streaming instructions, which should trap
-if full a64 support is not enabled in streaming mode.
+These functions will be used to verify that the cpu
+is in the correct state for a given instruction.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220708151540.18136-15-richard.henderson@linaro.org
+Message-id: 20220708151540.18136-16-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/sme-fa64.decode | 3 ---
- target/arm/translate-sve.c | 2 ++
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ target/arm/translate-a64.h | 21 +++++++++++++++++++++
+ target/arm/translate-a64.c | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 55 insertions(+)
 
-diff --git a/target/arm/sme-fa64.decode b/target/arm/sme-fa64.decode
-index 2b5432bf856..47708ccc8da 100644
---- a/target/arm/sme-fa64.decode
-+++ b/target/arm/sme-fa64.decode
-@@ -58,6 +58,3 @@ FAIL    0001 1110 0111 1110 0000 00-- ---- ----   # FJCVTZS
- #       --11 1100 --0- ---- ---- ---- ---- ----   # Load/store FP register (unscaled imm)
- #       --11 1100 --1- ---- ---- ---- ---- --10   # Load/store FP register (register offset)
- #       --11 1101 ---- ---- ---- ---- ---- ----   # Load/store FP register (scaled imm)
--
--FAIL    1010 010- -01- ---- 000- ---- ---- ----   # SVE load & replicate 32 bytes (scalar+scalar)
--FAIL    1010 010- -010 ---- 001- ---- ---- ----   # SVE load & replicate 32 bytes (scalar+imm)
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 5182ee4c068..96e934c1ea9 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -5062,6 +5062,7 @@ static bool trans_LD1RO_zprr(DisasContext *s, arg_rprr_load *a)
-     if (a->rm == 31) {
-         return false;
-     }
-+    s->is_nonstreaming = true;
-     if (sve_access_check(s)) {
-         TCGv_i64 addr = new_tmp_a64(s);
-         tcg_gen_shli_i64(addr, cpu_reg(s, a->rm), dtype_msz(a->dtype));
-@@ -5076,6 +5077,7 @@ static bool trans_LD1RO_zpri(DisasContext *s, arg_rpri_load *a)
-     if (!dc_isar_feature(aa64_sve_f64mm, s)) {
-         return false;
-     }
-+    s->is_nonstreaming = true;
-     if (sve_access_check(s)) {
-         TCGv_i64 addr = new_tmp_a64(s);
-         tcg_gen_addi_i64(addr, cpu_reg_sp(s, a->rn), a->imm * 32);
+diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+index 789b6e8e781..02fb95e0199 100644
+--- a/target/arm/translate-a64.h
++++ b/target/arm/translate-a64.h
+@@ -29,6 +29,27 @@ void write_fp_dreg(DisasContext *s, int reg, TCGv_i64 v);
+ bool logic_imm_decode_wmask(uint64_t *result, unsigned int immn,
+                             unsigned int imms, unsigned int immr);
+ bool sve_access_check(DisasContext *s);
++bool sme_enabled_check(DisasContext *s);
++bool sme_enabled_check_with_svcr(DisasContext *s, unsigned);
++
++/* This function corresponds to CheckStreamingSVEEnabled. */
++static inline bool sme_sm_enabled_check(DisasContext *s)
++{
++    return sme_enabled_check_with_svcr(s, R_SVCR_SM_MASK);
++}
++
++/* This function corresponds to CheckSMEAndZAEnabled. */
++static inline bool sme_za_enabled_check(DisasContext *s)
++{
++    return sme_enabled_check_with_svcr(s, R_SVCR_ZA_MASK);
++}
++
++/* Note that this function corresponds to CheckStreamingSVEAndZAEnabled. */
++static inline bool sme_smza_enabled_check(DisasContext *s)
++{
++    return sme_enabled_check_with_svcr(s, R_SVCR_SM_MASK | R_SVCR_ZA_MASK);
++}
++
+ TCGv_i64 clean_data_tbi(DisasContext *s, TCGv_i64 addr);
+ TCGv_i64 gen_mte_check1(DisasContext *s, TCGv_i64 addr, bool is_write,
+                         bool tag_checked, int log2_size);
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 7fab7f64f86..b16d81bf197 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1216,6 +1216,40 @@ static bool sme_access_check(DisasContext *s)
+     return true;
+ }
+ 
++/* This function corresponds to CheckSMEEnabled. */
++bool sme_enabled_check(DisasContext *s)
++{
++    /*
++     * Note that unlike sve_excp_el, we have not constrained sme_excp_el
++     * to be zero when fp_excp_el has priority.  This is because we need
++     * sme_excp_el by itself for cpregs access checks.
++     */
++    if (!s->fp_excp_el || s->sme_excp_el < s->fp_excp_el) {
++        s->fp_access_checked = true;
++        return sme_access_check(s);
++    }
++    return fp_access_check_only(s);
++}
++
++/* Common subroutine for CheckSMEAnd*Enabled. */
++bool sme_enabled_check_with_svcr(DisasContext *s, unsigned req)
++{
++    if (!sme_enabled_check(s)) {
++        return false;
++    }
++    if (FIELD_EX64(req, SVCR, SM) && !s->pstate_sm) {
++        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
++                           syn_smetrap(SME_ET_NotStreaming, false));
++        return false;
++    }
++    if (FIELD_EX64(req, SVCR, ZA) && !s->pstate_za) {
++        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
++                           syn_smetrap(SME_ET_InactiveZA, false));
++        return false;
++    }
++    return true;
++}
++
+ /*
+  * This utility function is for doing register extension with an
+  * optional shift. You will likely want to pass a temporary for the
 -- 
 2.25.1
 
