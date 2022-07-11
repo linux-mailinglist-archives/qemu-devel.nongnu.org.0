@@ -2,93 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1036156D68E
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 09:17:23 +0200 (CEST)
-Received: from localhost ([::1]:50150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4384A56D698
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 09:21:00 +0200 (CEST)
+Received: from localhost ([::1]:52498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAnfV-0005tU-Vc
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 03:17:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35444)
+	id 1oAnj0-0007gK-9Y
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 03:20:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oAnd6-0004MW-SK
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 03:14:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35621)
+ id 1oAngb-0006BU-29
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 03:18:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oAnd3-0006ot-Sj
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 03:14:51 -0400
+ id 1oAngY-0007Sc-HY
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 03:18:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657523688;
+ s=mimecast20190719; t=1657523905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N6FnTRLk8k2t/W/sQZS8OeNezWkX3L3N9JflCIeZhP0=;
- b=HkDteuo/gbMPZUmMofjvZ7yf8ngYFDkkR29AcV2nJQU/1w30j0mw6l7q/aU5yK5PFaids/
- UnwAmnYGcMpst/t5tp2yj5aprI4rN2IFcxvhLA/zjNz9sKc+guF2zepityKARxr4FS3otH
- 96J9QreizxLM1LLx+bpYd1FOF44ajL8=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iz3BRPUWt+eOfqHvVpr7vhJh/c0kin9KYHcKXOjbc5M=;
+ b=RE0LD9hItCjiGvYkGOMM68E6Z2t8eAN8Ldn5uqDmPj755ULARzI8jqLCiYMm3FPfxxDveZ
+ CYQRa0ESrsdmJgcc8B14Nu/JuL012JbfYepZsthJHF2DkuwUEXWSdpM3UHaKECyd1z//R6
+ Sh3/gE3D9R6Zpr8fgHvqyf3FGsM7SoY=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-gfcUfBkDN8SCNsdsmkp3IA-1; Mon, 11 Jul 2022 03:14:41 -0400
-X-MC-Unique: gfcUfBkDN8SCNsdsmkp3IA-1
-Received: by mail-qt1-f197.google.com with SMTP id
- h25-20020ac87779000000b0031ea852ca63so4298822qtu.11
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 00:14:41 -0700 (PDT)
+ us-mta-573-CqoZ0UYjNziPFVFfqNwDvQ-1; Mon, 11 Jul 2022 03:18:24 -0400
+X-MC-Unique: CqoZ0UYjNziPFVFfqNwDvQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ f10-20020a05620a408a00b006b267fdf71fso4675546qko.6
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 00:18:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=N6FnTRLk8k2t/W/sQZS8OeNezWkX3L3N9JflCIeZhP0=;
- b=JVfHhfCu3XSQUuVTk0j289k9q/9bKcd6hpWQBGodUCdL5m+AI4XB2utOEQR7005s0D
- M67vsuBO8PdT5JsDNjiKl124pKEkyUQ1QK6FN2rg9i63f6JolGVPiPH9zeJV1A88gnZq
- 9B52MY1ql+2VXNYaPfUfsf/qAgn/iiNK5niwHupmhtGR2TIcsDWFRyskoICb/YgFUYc+
- GyDuz0PGUyPK7GnXUV5RirlYmQyWVGxV0cd+y8oIM1+yIJWecY1NBve77/oFo/5jleL8
- 1mw59N+DdGTW+nrUjKZo9kUugDaKbxWpiTPzNV5Jv69d+WsKyYEEb3UzyZJIPrc3US+C
- 3kCA==
-X-Gm-Message-State: AJIora/sB6XamHY13q9qWdRSENSIYFCR/msGuvD0n9MYBGDvvnHoqB6G
- ryGEvlDxfxAgn295rbmjrNFZRLBt/BDnZCjYR3t0WT5sw1OFImVM1tYR7RXnSBfgP4LBmR6LQpu
- EcZtV/SZs4d1tqNRjPbm9oY5NTyXZ69s=
-X-Received: by 2002:ac8:5b51:0:b0:317:3513:cf60 with SMTP id
- n17-20020ac85b51000000b003173513cf60mr12870354qtw.495.1657523681267; 
- Mon, 11 Jul 2022 00:14:41 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uycCdxJGg2TIi5AdlnBkGBRMzxBKN2NHWSwkvil5Toas6PZWm6i4YkqxDmuCdI7r7E4EGsNxwCz+WE1O+f7jk=
-X-Received: by 2002:ac8:5b51:0:b0:317:3513:cf60 with SMTP id
- n17-20020ac85b51000000b003173513cf60mr12870344qtw.495.1657523681032; Mon, 11
- Jul 2022 00:14:41 -0700 (PDT)
+ bh=iz3BRPUWt+eOfqHvVpr7vhJh/c0kin9KYHcKXOjbc5M=;
+ b=OKYx3zG5841mG2b64PUfT3rvpcF0MQxVY9jtRj79Q2tGtX1tGOYS8f4qPG0s4Qs630
+ nApKdG4rtEmGa++/HtijfNUpnQXcUwmzHyOll2MJJraXf9DE2YVjUeUGQr1lldFaVhk6
+ xL/PF3SS2M8KAswbUFQ/c7367pzM5YUZkp47l5SbOHpxnZ7HzpU56Att+vfM6WJ8hgUx
+ Q+7fsLs13iPWazSI6EKIESjCvjBmYVpRJZ1vJYV+/wSHW0AKEedQvxuTBQWJZZaKGJPD
+ V51GU+uNe41/OjWNGfgQxGPvTga2SHdPWXH9f3mZBNmMS5B0DV4jYA2pxwEAtcV6UUpf
+ jpIg==
+X-Gm-Message-State: AJIora+Dqd5ANGrXeg9XRZV5rHKynldXZmvSEL2cwv8WMP93QlzkInTt
+ YALO2IQnDVfVVM2FyrUPeyPfENj4nUnXZb58up1mWjI6YovQ6R1bstPlUTbIEI1GLTnVF45SvT1
+ wKI7oZF2aMEV3T9xKqcfCLU/dxvDU1fQ=
+X-Received: by 2002:ac8:5dd1:0:b0:31d:34db:e0d with SMTP id
+ e17-20020ac85dd1000000b0031d34db0e0dmr13022812qtx.592.1657523903702; 
+ Mon, 11 Jul 2022 00:18:23 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vzzzHU4guebc0xDhRIduxBhO4QHL/piA+xGoR9NXCZML45uDRU5Ui8d1b6UHWBoiww5EYjCXkKl+O3WSGCsSo=
+X-Received: by 2002:ac8:5dd1:0:b0:31d:34db:e0d with SMTP id
+ e17-20020ac85dd1000000b0031d34db0e0dmr13022797qtx.592.1657523903515; Mon, 11
+ Jul 2022 00:18:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-24-eperezma@redhat.com>
- <87ilo9igph.fsf@pond.sub.org>
- <CAJaqyWff6kfi6UAwvU64vj-q6CuncYBQnE4=P_3cGAGeL-rNVg@mail.gmail.com>
- <87let37op4.fsf@pond.sub.org>
-In-Reply-To: <87let37op4.fsf@pond.sub.org>
+References: <20220708105013.1899854-1-eperezma@redhat.com>
+ <20220708105013.1899854-23-eperezma@redhat.com>
+ <87h73r7oly.fsf@pond.sub.org>
+In-Reply-To: <87h73r7oly.fsf@pond.sub.org>
 From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 11 Jul 2022 09:14:08 +0200
-Message-ID: <CAJaqyWdd61GxmkOT8BiL-Wc+vcP5QAN8VozXdkYrPOSJJg4bSA@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 23/23] vdpa: Add x-svq to NetdevVhostVDPAOptions
+Date: Mon, 11 Jul 2022 09:17:50 +0200
+Message-ID: <CAJaqyWeEGqt4hvAwGKu9JhK6LTXzCOnQz61oRBc2MQkykcmCeg@mail.gmail.com>
+Subject: Re: [PATCH 22/22] vdpa: Add x-svq to NetdevVhostVDPAOptions
 To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Eric Blake <eblake@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Cindy Lu <lulu@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Laurent Vivier <lvivier@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>, 
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ Parav Pandit <parav@mellanox.com>, Cornelia Huck <cohuck@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,38 +103,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 8, 2022 at 2:51 PM Markus Armbruster <armbru@redhat.com> wrote:
+On Fri, Jul 8, 2022 at 2:53 PM Markus Armbruster <armbru@redhat.com> wrote:
 >
-> Eugenio Perez Martin <eperezma@redhat.com> writes:
+> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
 >
-> > On Thu, Jul 7, 2022 at 8:23 AM Markus Armbruster <armbru@redhat.com> wr=
-ote:
-> >>
-> >> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
-> >>
-> >> > Finally offering the possibility to enable SVQ from the command line=
-.
-> >>
-> >> QMP, too, I guess.
-> >>
+> > Finally offering the possibility to enable SVQ from the command line.
 > >
-> > Hi Markus,
-> >
-> > I'm not sure what you mean. Dynamic enabling / disabling of SVQ was
-> > delayed, and now it's only possible to enable or disable it from the
-> > beginning of the run of qemu. Do you mean to enable SVQ before
-> > starting the guest somehow?
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 >
-> QMP command netdev_add takes a Netdev argument.  Branch 'vhost-vdpa' has
-> member x-svq.  Are you telling me it doesn't work there?  Or only before
-> the guest runs?
+> Please carry forward Acked-by and Reviewed-by you received for prior
+> revisions unless you change something that invalidates them.  This
+> ensures reviewers get credit, and also saves them time: if the tag is
+> still there, nothing much changed, and no need to look at it again.
 >
 
-Oh, that's right, adding a device via QMP works as you describe.
+I'm sorry, I didn't carry forward because I was not sure if we agreed
+on the previous behavior. Now that I understand better what you meant,
+yes, it should have been carried. I'll make sure I put it in for the
+next revisions.
 
 Thanks!
-
-> [...]
->
 
 
