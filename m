@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CF35704E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:03:06 +0200 (CEST)
-Received: from localhost ([::1]:48232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8505A570522
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:11:31 +0200 (CEST)
+Received: from localhost ([::1]:39424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAu08-00040F-Ul
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42398)
+	id 1oAu8I-0000Oo-Hw
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvD-0006L6-Vf
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:00 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33723)
+ id 1oAtvQ-0006V8-JQ
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:13 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:54928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvC-0002ng-2u
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:57:59 -0400
-Received: by mail-wr1-x432.google.com with SMTP id h17so7181291wrx.0
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:57:57 -0700 (PDT)
+ id 1oAtvC-0002o9-Rm
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:02 -0400
+Received: by mail-wm1-x330.google.com with SMTP id n185so3088480wmn.4
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:57:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7NGRjcW6POBMRqlOP/cTnnyIXKw34HJdhD9MVrSH9hs=;
- b=YGfk2a3o145gMr7ZaO0pMjMZiC9R/Dxnvmbrph4eD9ep9e2pdT6dQKldkNcFcU+zHH
- vusdzwas6L2JFBS1H6h/3IfdPY24EMWNhNOleiFN5n3eqfaBzahy622DRtbbh2U3J+dT
- 6lr7ZVneRpwM69T53XiZhQQsIDj2d+G+42SBL47C2cgVagyJRgUNfW5mIhG5VnmhNy9y
- 8NiH3BsfVXDk198Wq/OWcLQTFkKqo4dPY1Qs9RHlgHu0gbqClV0G6PpPxaq5Lis7MkeQ
- sqwp5Dutrj0UIIfJg0dI/8eV73HNmdHrTVInYC2x+zHCq8ZZ7w3uwadVmo+yqC4HnWRo
- IKbw==
+ bh=I1g46N7GyifDhLvrgy885389BGvUDqIbWCLHK1RD3mA=;
+ b=N23zhAuyXsmgoib6tFw8RZLpnxSyNjsKwQG81qPbz3ilmFBiOtfz3nZPUnMYTyYR5l
+ URoU5E4OsLv47qwtsXgNrH6u8lMRvxn73NXxyfcpeUKAp/0hf4Sai9/tjV3BpgxwL7oW
+ LA483TsUKrAoGQ4eyo+NfhArRMgrFwsHybm3WupsVuP7IVobN23S2xxMTxtHRhSBxpRn
+ a+f0bJr79SjZ2kj91H9y0kG4XACdugLkoGAjcmazcDkYF6dyFmkEXZBu0fQ/ms3Mhzhf
+ cAeTXzisPS5ovuzusPTRU693H2AyvAlQ0CK/KVsz0HmXblZTl5UIAOlvpzVMHjV3A59U
+ 3oLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7NGRjcW6POBMRqlOP/cTnnyIXKw34HJdhD9MVrSH9hs=;
- b=LQoYPOflluLq2PS4kT63K+d6PwFwZHAeXFsKH+K9wAW9+arGbfvDwNDqsa3tVU9GPl
- hMxjDdexXc2rImpwBUly75Mtr78SYPyUzgFdykiLs95WMo81NCWZCrQEG+3qQ/2jc4Vd
- N+IiazoUO5WEFn2ygIbIzaXh7S6WYtQP1Ibus3Xd+jS+x/aI+CrBDlz6UbwJFcYXPuMD
- 21wUE3GnsmNBONzhgKp2Tf7Qew593qj4e0IsHMopUKEkZ6xzQLChrb6CexADRXN8cXHa
- 8zHatkjyu00RvE2VjUpl5HiRPwSCUXUyoapchCC87lVtUeBBw9q75BkK1lPa45IoMHHr
- EbRw==
-X-Gm-Message-State: AJIora9NpP6QT9woz72lzDR7kqkhX2LO0LH996WDRJW91Litdqf1Sd2P
- OYUW4/PRi87L8GZ5fB2a9HtYBpj/6h0jcw==
-X-Google-Smtp-Source: AGRyM1tIeypE6hSnQHHZEbPLreSJMVwVdAslsL1o3omSkZa/BW8ml761e1Un0Vm6OR+4MFEc0hIWlw==
-X-Received: by 2002:a5d:6149:0:b0:21d:6ba7:6095 with SMTP id
- y9-20020a5d6149000000b0021d6ba76095mr16720628wrt.680.1657547876760; 
- Mon, 11 Jul 2022 06:57:56 -0700 (PDT)
+ bh=I1g46N7GyifDhLvrgy885389BGvUDqIbWCLHK1RD3mA=;
+ b=oe0AoE/AIe3lzthKvCg8iDUL5Dl20D4QFtjNqvZ8IzBebVEgOIg1zYfMXwGFgcM6sO
+ 5S7b+/giiWjXZYni1Ked8YSMnCSExdW3RaExbg2+L/UNj8xd+gRDEDyvZqWvPYyZpCiU
+ 9D4pzDR6cezcN55nmOCW7b+iURKuGhVyp9Ggpm107Mjf50SmgaDIBgEbcSnMKH/C3vGp
+ H1T1px+tcOGr4nOEjRxjZoiLx3zxl2Afecv/4jfc2Zr75vZ5ji0xXj9bjiO7Q+1ALYBk
+ o0OfgIbYW+YnMWwdOrydtpd6pMcZKo1redipEr1XAC3VhbGRg6O3kEGNpigEDT6+S30I
+ SZ3Q==
+X-Gm-Message-State: AJIora+b8ZSPtvzvKlv0jTHQpsu+FKqA7m4afbkbmdqhPwcGshjVCWB2
+ Fte2N2NO8UJ9z582JqSaTCgLtecyRDRpGQ==
+X-Google-Smtp-Source: AGRyM1s0t/TP4GvoBGh/tEY4KogCr9pcHXq7vREiwxYmHrpP9btoD3eOV5FoOqFcMzFPZs+zK8Rseg==
+X-Received: by 2002:a05:600c:3491:b0:3a0:4d4a:2e2d with SMTP id
+ a17-20020a05600c349100b003a04d4a2e2dmr16579351wmq.4.1657547877467; 
+ Mon, 11 Jul 2022 06:57:57 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.57.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:57:56 -0700 (PDT)
+ Mon, 11 Jul 2022 06:57:57 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/45] target/arm: Mark RDFFR, WRFFR, SETFFR as non-streaming
-Date: Mon, 11 Jul 2022 14:57:10 +0100
-Message-Id: <20220711135750.765803-6-peter.maydell@linaro.org>
+Subject: [PULL 06/45] target/arm: Mark BDEP, BEXT, BGRP, COMPACT, FEXPA,
+ FTSSEL as non-streaming
+Date: Mon, 11 Jul 2022 14:57:11 +0100
+Message-Id: <20220711135750.765803-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711135750.765803-1-peter.maydell@linaro.org>
 References: <20220711135750.765803-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,56 +96,89 @@ if full a64 support is not enabled in streaming mode.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220708151540.18136-6-richard.henderson@linaro.org
+Message-id: 20220708151540.18136-7-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/sme-fa64.decode | 2 --
- target/arm/translate-sve.c | 9 ++++++---
- 2 files changed, 6 insertions(+), 5 deletions(-)
+ target/arm/sme-fa64.decode |  3 ---
+ target/arm/translate-sve.c | 22 ++++++++++++----------
+ 2 files changed, 12 insertions(+), 13 deletions(-)
 
 diff --git a/target/arm/sme-fa64.decode b/target/arm/sme-fa64.decode
-index 73c71abc462..fa2b5cbf1a3 100644
+index fa2b5cbf1a3..4f515939d9c 100644
 --- a/target/arm/sme-fa64.decode
 +++ b/target/arm/sme-fa64.decode
-@@ -61,8 +61,6 @@ FAIL    0001 1110 0111 1110 0000 00-- ---- ----   # FJCVTZS
+@@ -59,9 +59,6 @@ FAIL    0001 1110 0111 1110 0000 00-- ---- ----   # FJCVTZS
+ #       --11 1100 --1- ---- ---- ---- ---- --10   # Load/store FP register (register offset)
+ #       --11 1101 ---- ---- ---- ---- ---- ----   # Load/store FP register (scaled imm)
  
- FAIL    0000 0100 --1- ---- 1011 -0-- ---- ----   # FTSSEL, FEXPA
- FAIL    0000 0101 --10 0001 100- ---- ---- ----   # COMPACT
--FAIL    0010 0101 --01 100- 1111 000- ---0 ----   # RDFFR, RDFFRS
--FAIL    0010 0101 --10 1--- 1001 ---- ---- ----   # WRFFR, SETFFR
- FAIL    0100 0101 --0- ---- 1011 ---- ---- ----   # BDEP, BEXT, BGRP
+-FAIL    0000 0100 --1- ---- 1011 -0-- ---- ----   # FTSSEL, FEXPA
+-FAIL    0000 0101 --10 0001 100- ---- ---- ----   # COMPACT
+-FAIL    0100 0101 --0- ---- 1011 ---- ---- ----   # BDEP, BEXT, BGRP
  FAIL    0100 0101 000- ---- 0110 1--- ---- ----   # PMULLB, PMULLT (128b result)
  FAIL    0110 0100 --1- ---- 1110 01-- ---- ----   # FMMLA, BFMMLA
+ FAIL    0110 0101 --0- ---- 0000 11-- ---- ----   # FTSMUL
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 5d1db0d3ff9..d6faec15fe9 100644
+index d6faec15fe9..ae48040aa4c 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -1785,7 +1785,8 @@ static bool do_predset(DisasContext *s, int esz, int rd, int pat, bool setflag)
- TRANS_FEAT(PTRUE, aa64_sve, do_predset, a->esz, a->rd, a->pat, a->s)
+@@ -1333,14 +1333,15 @@ static gen_helper_gvec_2 * const fexpa_fns[4] = {
+     NULL,                   gen_helper_sve_fexpa_h,
+     gen_helper_sve_fexpa_s, gen_helper_sve_fexpa_d,
+ };
+-TRANS_FEAT(FEXPA, aa64_sve, gen_gvec_ool_zz,
+-           fexpa_fns[a->esz], a->rd, a->rn, 0)
++TRANS_FEAT_NONSTREAMING(FEXPA, aa64_sve, gen_gvec_ool_zz,
++                        fexpa_fns[a->esz], a->rd, a->rn, 0)
  
- /* Note pat == 31 is #all, to set all elements.  */
--TRANS_FEAT(SETFFR, aa64_sve, do_predset, 0, FFR_PRED_NUM, 31, false)
-+TRANS_FEAT_NONSTREAMING(SETFFR, aa64_sve,
-+                        do_predset, 0, FFR_PRED_NUM, 31, false)
+ static gen_helper_gvec_3 * const ftssel_fns[4] = {
+     NULL,                    gen_helper_sve_ftssel_h,
+     gen_helper_sve_ftssel_s, gen_helper_sve_ftssel_d,
+ };
+-TRANS_FEAT(FTSSEL, aa64_sve, gen_gvec_ool_arg_zzz, ftssel_fns[a->esz], a, 0)
++TRANS_FEAT_NONSTREAMING(FTSSEL, aa64_sve, gen_gvec_ool_arg_zzz,
++                        ftssel_fns[a->esz], a, 0)
  
- /* Note pat == 32 is #unimp, to set no elements.  */
- TRANS_FEAT(PFALSE, aa64_sve, do_predset, 0, a->rd, 32, false)
-@@ -1799,11 +1800,13 @@ static bool trans_RDFFR_p(DisasContext *s, arg_RDFFR_p *a)
-         .rd = a->rd, .pg = a->pg, .s = a->s,
-         .rn = FFR_PRED_NUM, .rm = FFR_PRED_NUM,
-     };
-+
-+    s->is_nonstreaming = true;
-     return trans_AND_pppp(s, &alt_a);
- }
+ /*
+  *** SVE Predicate Logical Operations Group
+@@ -2536,7 +2537,8 @@ TRANS_FEAT(TRN2_q, aa64_sve_f64mm, gen_gvec_ool_arg_zzz,
+ static gen_helper_gvec_3 * const compact_fns[4] = {
+     NULL, NULL, gen_helper_sve_compact_s, gen_helper_sve_compact_d
+ };
+-TRANS_FEAT(COMPACT, aa64_sve, gen_gvec_ool_arg_zpz, compact_fns[a->esz], a, 0)
++TRANS_FEAT_NONSTREAMING(COMPACT, aa64_sve, gen_gvec_ool_arg_zpz,
++                        compact_fns[a->esz], a, 0)
  
--TRANS_FEAT(RDFFR, aa64_sve, do_mov_p, a->rd, FFR_PRED_NUM)
--TRANS_FEAT(WRFFR, aa64_sve, do_mov_p, FFR_PRED_NUM, a->rn)
-+TRANS_FEAT_NONSTREAMING(RDFFR, aa64_sve, do_mov_p, a->rd, FFR_PRED_NUM)
-+TRANS_FEAT_NONSTREAMING(WRFFR, aa64_sve, do_mov_p, FFR_PRED_NUM, a->rn)
+ /* Call the helper that computes the ARM LastActiveElement pseudocode
+  * function, scaled by the element size.  This includes the not found
+@@ -6374,22 +6376,22 @@ static gen_helper_gvec_3 * const bext_fns[4] = {
+     gen_helper_sve2_bext_b, gen_helper_sve2_bext_h,
+     gen_helper_sve2_bext_s, gen_helper_sve2_bext_d,
+ };
+-TRANS_FEAT(BEXT, aa64_sve2_bitperm, gen_gvec_ool_arg_zzz,
+-           bext_fns[a->esz], a, 0)
++TRANS_FEAT_NONSTREAMING(BEXT, aa64_sve2_bitperm, gen_gvec_ool_arg_zzz,
++                        bext_fns[a->esz], a, 0)
  
- static bool do_pfirst_pnext(DisasContext *s, arg_rr_esz *a,
-                             void (*gen_fn)(TCGv_i32, TCGv_ptr,
+ static gen_helper_gvec_3 * const bdep_fns[4] = {
+     gen_helper_sve2_bdep_b, gen_helper_sve2_bdep_h,
+     gen_helper_sve2_bdep_s, gen_helper_sve2_bdep_d,
+ };
+-TRANS_FEAT(BDEP, aa64_sve2_bitperm, gen_gvec_ool_arg_zzz,
+-           bdep_fns[a->esz], a, 0)
++TRANS_FEAT_NONSTREAMING(BDEP, aa64_sve2_bitperm, gen_gvec_ool_arg_zzz,
++                        bdep_fns[a->esz], a, 0)
+ 
+ static gen_helper_gvec_3 * const bgrp_fns[4] = {
+     gen_helper_sve2_bgrp_b, gen_helper_sve2_bgrp_h,
+     gen_helper_sve2_bgrp_s, gen_helper_sve2_bgrp_d,
+ };
+-TRANS_FEAT(BGRP, aa64_sve2_bitperm, gen_gvec_ool_arg_zzz,
+-           bgrp_fns[a->esz], a, 0)
++TRANS_FEAT_NONSTREAMING(BGRP, aa64_sve2_bitperm, gen_gvec_ool_arg_zzz,
++                        bgrp_fns[a->esz], a, 0)
+ 
+ static gen_helper_gvec_3 * const cadd_fns[4] = {
+     gen_helper_sve2_cadd_b, gen_helper_sve2_cadd_h,
 -- 
 2.25.1
 
