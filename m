@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F165704CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 15:57:53 +0200 (CEST)
-Received: from localhost ([::1]:39414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8ACA570500
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:05:06 +0200 (CEST)
+Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAtv6-00064Y-Ii
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 09:57:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41754)
+	id 1oAu26-000758-0D
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:05:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oAtsi-0003tN-AA
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:55:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oAtse-0007aO-FV
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:55:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657547719;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=i6aMyK5Ntv0hUxRexx3zBfDiHceMvVJG/f5gGbTdYak=;
- b=fWH0uEx+PdlwAHTS/lTplmYno3tWqoVgFNC0lBQ7gMo77V1juoFexqcnUWLky/OjREbRlw
- Y5DqcLMVaQByVYQJEFyrVoefPltfb63VRmRItHjIYy+PTktvMi4iCbdldRCwXwejoR08BS
- h6Cku7+z3dqR2+ZKRHUELmkF4tbmT2Q=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-fY9hmxikPoq_Mcv6oXlOTw-1; Mon, 11 Jul 2022 09:55:18 -0400
-X-MC-Unique: fY9hmxikPoq_Mcv6oXlOTw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h10-20020a1c210a000000b003a2cf5b5aaaso882495wmh.8
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:55:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oAtvC-0006JP-P9
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:57:58 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oAtv8-0002bg-Ls
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:57:57 -0400
+Received: by mail-wr1-x433.google.com with SMTP id v14so7134367wra.5
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:57:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DQk9DmWtqtvD4nHry4G30rbxmtCygV0H+jlz6QQuc38=;
+ b=cLpu4fJdDx413cMAWVzJNKY8u2sL8go0s8Rk42Obc96WsYPKhH1cEeW1I8Xvis4Z70
+ lItjXxqna+3r0lS90S8tQdr7bFthk0TVZP/fEyvr0CfIGL93//yspLXJk7lYpteqUydj
+ 6Ii+HNAsT2EgP/ydpLBB0ALpAIlVH8CXrx0iE7xYjOOqiLY7qB8kTro3clIXiIfLPSgd
+ WsO4iNSSf+I/pZk5YL0h+C43z1fi83m0XVG058Q9SkbRZdiG3WLbU0nY7daGKzBXwAJl
+ EHZFogTXwqEtSrh/m6wReu04IQ46baatLYCrM/9TUJ6hF7Ca5irJtKQfD6v4Ftl/DyMq
+ Y56w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=i6aMyK5Ntv0hUxRexx3zBfDiHceMvVJG/f5gGbTdYak=;
- b=S3/C+dMVZniFV/8AyE71KIotouAbuRKoGiMS40p5x0+dEa2MB6K3FvmGjVGiK7m1mO
- /yEFhjmyDdN85mq+RhY44XoVxzyuA3gEESDy6U0TNseJvI8w5RqRMkQMgwnngE1sSf2f
- Ae3aVHymSh+wPdxfozC8XEh3e2fOAx0orHXIl+zcbC+DVkL3f6YxHOFvFfekgeC333i3
- TkYe4XVViWGlakw971XFUlU53MqApciSS+hJBKzTnVX7Zs4AvzLCjUVOZ2syhRNdrmVm
- 7EcE7uVWw4ERUVeBXWOkjGiiDEynmmvbjN754FnnNe/JSWFDzVlWiNJw5HE8D1hj2RaE
- JXkA==
-X-Gm-Message-State: AJIora8mHW4e+0BUSmC6VisIIjo4cv/PEKNpizNnpY/pH53WdWArjD/W
- J5wCbouKChO7gSCe+RULpyrL0+OISUnb3kh5Q2A2OJtWMcBDQkrUBWYZA5NqaLGLBBCeJcuznCy
- E4jeJ5nHsbuog02I=
-X-Received: by 2002:a5d:440f:0:b0:21d:888b:a65b with SMTP id
- z15-20020a5d440f000000b0021d888ba65bmr17363570wrq.655.1657547716844; 
- Mon, 11 Jul 2022 06:55:16 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sQcBSF1WN0t72ZglVSiQslVZ3Xs38A/mwVHxR3ubM07DEwj9YOlq0hBqmBeD5F2c6ONw5dYQ==
-X-Received: by 2002:a5d:440f:0:b0:21d:888b:a65b with SMTP id
- z15-20020a5d440f000000b0021d888ba65bmr17363542wrq.655.1657547716581; 
- Mon, 11 Jul 2022 06:55:16 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- f12-20020a05600c4e8c00b003a2cf17a894sm11047981wmq.41.2022.07.11.06.55.14
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DQk9DmWtqtvD4nHry4G30rbxmtCygV0H+jlz6QQuc38=;
+ b=8GxbQBajqYzCdyioJMo9Ob07yDH1yBHdlk5dQ6FyIqD5yWW7mHwkwhU6tw9iTJMX4L
+ Xy5KgnLk80XgRrbg5ew7glYLSSchIYe4lY9MISY8Ba3A+wlduXBjrH8n20q+dyANgqsN
+ GWgi4A2xNeYSOVNAHENEW37EVjucb63ccRpPtrZLgskLsinKCGfjc6UwndDqBLX+GRju
+ KsPHShB4JTcCe50Ji/EKuJJ7taiOBdaVOYqm3Qtp4bG7i+EcCx/rpPppdNufSRZySYNX
+ ZlyFPc2ntsyyw3av4j+yIiPREguIfK3raKDphzgqHg/Ot7UzJtd2GPkL6KCxe0cJ47fW
+ eJHA==
+X-Gm-Message-State: AJIora8GYfNnz5Qi6UaGQZDsHO9QiWIq3//dhfEaaaLlJJ8zbKRKFKpL
+ aVNFfIIh5JuUInwu2yYiSqLPxxcf41jNNQ==
+X-Google-Smtp-Source: AGRyM1vB7fbVeaJKGWeUl09CIpZKEPgdsHX/qc5qn/5x19goUjQHhp+4bNXRGwa9QM5b2/kG4QoMxA==
+X-Received: by 2002:a5d:5f05:0:b0:21d:9ad7:f281 with SMTP id
+ cl5-20020a5d5f05000000b0021d9ad7f281mr10846680wrb.4.1657547872948; 
+ Mon, 11 Jul 2022 06:57:52 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.57.52
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:55:15 -0700 (PDT)
-Date: Mon, 11 Jul 2022 14:55:13 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eric Auger <eauger@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org
-Subject: Re: [PATCH RFC v2 0/2] arm: enable MTE for QEMU + kvm
-Message-ID: <YswrwWVLlhoF2fN6@work-vm>
-References: <20220707161656.41664-1-cohuck@redhat.com>
- <YswkdVeESqf5sknQ@work-vm>
+ Mon, 11 Jul 2022 06:57:52 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/45] target-arm queue
+Date: Mon, 11 Jul 2022 14:57:05 +0100
+Message-Id: <20220711135750.765803-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YswkdVeESqf5sknQ@work-vm>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,79 +86,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> * Cornelia Huck (cohuck@redhat.com) wrote:
-> > This series makes it possible to enable MTE for kvm guests, if the kernel
-> > supports it. Again, tested on the simulator via patiently waiting for the
-> > arm64/mte kselftests to finish successfully.
-> > 
-> > For tcg, turning on mte on the machine level (to get tag memory) stays a
-> > requirement. If the new mte cpu feature is not explicitly specified, a tcg
-> > vm will get mte depending on the presence of tag memory (just as today).
-> > 
-> > For kvm, mte stays off by default; this is because migration is not yet
-> > supported (postcopy will need an extension of the kernel interface, possibly
-> > an extension of the userfaultfd interface), and turning on mte will add a
-> > migration blocker.
-> 
-> My assumption was that a normal migration would need something as well
-> to retrieve and place the MTE flags; albeit not atomically.
-> 
-> > My biggest question going forward is actually concerning migration; I gather
-> > that we should not bother adding something unless postcopy is working as well?
-> 
-> I don't think that restriction is fair on you; just make sure
-> postcopy_ram_supported_by_host gains an arch call and fails cleanly;
-> that way if anyone tries to enable postcopy they'll find out with a
-> clean fail.
-> 
-> > If I'm not misunderstanding things, we need a way to fault in a page together
-> > with the tag; doing that in one go is probably the only way that we can be
-> > sure that this is race-free on the QEMU side. Comments welcome :)
-> 
-> I think it will.
-> But, ignoring postcopy for a minute, with KVM how do different types of
-> backing memory work - e.g. if I back a region of guest memory with
-> /dev/shm/something or a hugepage equivalent, where does the MTE memory
-> come from, and how do you set it?
+I don't have anything else queued up at the moment, so this is just
+Richard's SME patches.
 
-Another case that just came to mind, are the data content optimisations;
-we special case all-zero pages, which I guess you still need to transmit
-tags for, and the xbzrle page-difference code wouldn't notice
-differences in tags.
+-- PMM
 
-Dave
+The following changes since commit 63b38f6c85acd312c2cab68554abf33adf4ee2b3:
 
-> Dave
-> 
-> > Changes v1->v2: [Thanks to Eric for the feedback!]
-> > - add documentation
-> > - switch the mte prop to OnOffAuto; this improves the interaction with the
-> >   existing mte machine prop
-> > - leave mte off for kvm by default
-> > - improve tests; the poking in QDicts feels a bit ugly, but seems to work
-> > 
-> > Cornelia Huck (2):
-> >   arm/kvm: add support for MTE
-> >   qtests/arm: add some mte tests
-> > 
-> >  docs/system/arm/cpu-features.rst |  21 +++++
-> >  target/arm/cpu.c                 |  18 ++---
-> >  target/arm/cpu.h                 |   1 +
-> >  target/arm/cpu64.c               | 132 +++++++++++++++++++++++++++++++
-> >  target/arm/internals.h           |   1 +
-> >  target/arm/kvm64.c               |   5 ++
-> >  target/arm/kvm_arm.h             |  12 +++
-> >  target/arm/monitor.c             |   1 +
-> >  tests/qtest/arm-cpu-features.c   |  77 ++++++++++++++++++
-> >  9 files changed, 256 insertions(+), 12 deletions(-)
-> > 
-> > -- 
-> > 2.35.3
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+  Merge tag 'pull-target-arm-20220707' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-07-08 06:17:11 +0530)
 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220711
+
+for you to fetch changes up to f9982ceaf26df27d15547a3a7990a95019e9e3a8:
+
+  linux-user/aarch64: Add SME related hwcap entries (2022-07-11 13:43:52 +0100)
+
+----------------------------------------------------------------
+target-arm:
+ * Implement SME emulation, for both system and linux-user
+
+----------------------------------------------------------------
+Richard Henderson (45):
+      target/arm: Handle SME in aarch64_cpu_dump_state
+      target/arm: Add infrastructure for disas_sme
+      target/arm: Trap non-streaming usage when Streaming SVE is active
+      target/arm: Mark ADR as non-streaming
+      target/arm: Mark RDFFR, WRFFR, SETFFR as non-streaming
+      target/arm: Mark BDEP, BEXT, BGRP, COMPACT, FEXPA, FTSSEL as non-streaming
+      target/arm: Mark PMULL, FMMLA as non-streaming
+      target/arm: Mark FTSMUL, FTMAD, FADDA as non-streaming
+      target/arm: Mark SMMLA, UMMLA, USMMLA as non-streaming
+      target/arm: Mark string/histo/crypto as non-streaming
+      target/arm: Mark gather/scatter load/store as non-streaming
+      target/arm: Mark gather prefetch as non-streaming
+      target/arm: Mark LDFF1 and LDNF1 as non-streaming
+      target/arm: Mark LD1RO as non-streaming
+      target/arm: Add SME enablement checks
+      target/arm: Handle SME in sve_access_check
+      target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
+      target/arm: Implement SME ZERO
+      target/arm: Implement SME MOVA
+      target/arm: Implement SME LD1, ST1
+      target/arm: Export unpredicated ld/st from translate-sve.c
+      target/arm: Implement SME LDR, STR
+      target/arm: Implement SME ADDHA, ADDVA
+      target/arm: Implement FMOPA, FMOPS (non-widening)
+      target/arm: Implement BFMOPA, BFMOPS
+      target/arm: Implement FMOPA, FMOPS (widening)
+      target/arm: Implement SME integer outer product
+      target/arm: Implement PSEL
+      target/arm: Implement REVD
+      target/arm: Implement SCLAMP, UCLAMP
+      target/arm: Reset streaming sve state on exception boundaries
+      target/arm: Enable SME for -cpu max
+      linux-user/aarch64: Clear tpidr2_el0 if CLONE_SETTLS
+      linux-user/aarch64: Reset PSTATE.SM on syscalls
+      linux-user/aarch64: Add SM bit to SVE signal context
+      linux-user/aarch64: Tidy target_restore_sigframe error return
+      linux-user/aarch64: Do not allow duplicate or short sve records
+      linux-user/aarch64: Verify extra record lock succeeded
+      linux-user/aarch64: Move sve record checks into restore
+      linux-user/aarch64: Implement SME signal handling
+      linux-user: Rename sve prctls
+      linux-user/aarch64: Implement PR_SME_GET_VL, PR_SME_SET_VL
+      target/arm: Only set ZEN in reset if SVE present
+      target/arm: Enable SME for user-only
+      linux-user/aarch64: Add SME related hwcap entries
+
+ docs/system/arm/emulation.rst     |    4 +
+ linux-user/aarch64/target_cpu.h   |    5 +-
+ linux-user/aarch64/target_prctl.h |   62 +-
+ target/arm/cpu.h                  |    7 +
+ target/arm/helper-sme.h           |  126 ++++
+ target/arm/helper-sve.h           |    4 +
+ target/arm/helper.h               |   18 +
+ target/arm/translate-a64.h        |   45 ++
+ target/arm/translate.h            |   16 +
+ target/arm/sme-fa64.decode        |   60 ++
+ target/arm/sme.decode             |   88 +++
+ target/arm/sve.decode             |   41 +-
+ linux-user/aarch64/cpu_loop.c     |    9 +
+ linux-user/aarch64/signal.c       |  243 ++++++--
+ linux-user/elfload.c              |   20 +
+ linux-user/syscall.c              |   28 +-
+ target/arm/cpu.c                  |   35 +-
+ target/arm/cpu64.c                |   11 +
+ target/arm/helper.c               |   56 +-
+ target/arm/sme_helper.c           | 1140 +++++++++++++++++++++++++++++++++++++
+ target/arm/sve_helper.c           |   28 +
+ target/arm/translate-a64.c        |  103 +++-
+ target/arm/translate-sme.c        |  373 ++++++++++++
+ target/arm/translate-sve.c        |  393 ++++++++++---
+ target/arm/translate-vfp.c        |   12 +
+ target/arm/translate.c            |    2 +
+ target/arm/vec_helper.c           |   24 +
+ target/arm/meson.build            |    3 +
+ 28 files changed, 2821 insertions(+), 135 deletions(-)
+ create mode 100644 target/arm/sme-fa64.decode
+ create mode 100644 target/arm/sme.decode
+ create mode 100644 target/arm/translate-sme.c
 
