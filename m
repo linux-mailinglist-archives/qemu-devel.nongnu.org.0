@@ -2,92 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC08570AC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 21:34:47 +0200 (CEST)
-Received: from localhost ([::1]:47294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB34570ADE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 21:41:29 +0200 (CEST)
+Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAzB8-0001I6-BN
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 15:34:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48010)
+	id 1oAzHc-00045c-Au
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 15:41:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1oAz6t-0007qi-Ft
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 15:30:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26901)
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1oAzEh-00029v-Nq; Mon, 11 Jul 2022 15:38:27 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1oAz6p-0000MX-MR
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 15:30:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657567812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qM6zdtWMHQ9cS2qhNT7mLpfjXy11cGUyLnPQ/rZbAnU=;
- b=ctxEdpepCzxGsHrqSnopAkqL9Hc62BUCxD1rvLlv43V+VIcGebOY2ANtgh0W8S20ig47DQ
- Ap9dRaVCxpQQZnFib8w3Gzz2d96AlS9f1GBf8nPRQ0BP2WBjsofDnmRhcB5vmFBCK3bM0E
- JVAHpUi3sfkiOpNXdNLVfBLFl5P/0Fw=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-KAfJT7WRNCuAjVt447GvyQ-1; Mon, 11 Jul 2022 15:30:04 -0400
-X-MC-Unique: KAfJT7WRNCuAjVt447GvyQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- jg29-20020a170907971d00b0072b5acf30e7so1060851ejc.8
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 12:30:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qM6zdtWMHQ9cS2qhNT7mLpfjXy11cGUyLnPQ/rZbAnU=;
- b=AXKXNh41rzKOHHvBjhuvq3/BTEIFOM8rtXZtBBAlWeQTq0KYMTnGLQUp+esgqzW8bR
- hdw9dSkbJ0li7f9fRqCOijuWn/5IFYI0X+t8sqT+xCKH2OBQIBB1Q/9ZrBK8m8UKwDqE
- 1I+jBj5KIdgdJeYqQ3eDuy685R4M3CCQLFVoX1tRjEXXvIYJHcSQ52+dML960UqQmZny
- whSeDiEpCHfv/DD4+a4wGqULy8Y4UB2sZANG9Tuf35Ulc/3xiiKzL9Xxak9nzoLEooCi
- 8Y3jRFQDbXxxvsGb7CzrxB4ovCJBVbV9ZqO7UeEF/qL8V2rmDurgVRWpXP0UU3EyHs7T
- PAoQ==
-X-Gm-Message-State: AJIora9u9ac8BwUIpnnuGOfwJxcvPUbyCtYB9SIU+4KQYyp15GzVKXo1
- rw+a8neF2J8LTam0McAJuo2VohyOhXmFGzcksP8+V+emCpulYg/dl1phcCaEA1nX3qKRxRbWcA+
- ol+0N4erzURBt0Z0/+IFfAleMVcjFIbs=
-X-Received: by 2002:a05:6402:11:b0:431:680c:cca1 with SMTP id
- d17-20020a056402001100b00431680ccca1mr27517762edu.420.1657567803269; 
- Mon, 11 Jul 2022 12:30:03 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s2J6ML5mRZmp2nVhgfVb0GzHuQ46aqH1QA3tSaNkvi0IVYvgZScoyCuj5y4wcp1s5mbcR63YvTnWJyBAUGazg=
-X-Received: by 2002:a05:6402:11:b0:431:680c:cca1 with SMTP id
- d17-20020a056402001100b00431680ccca1mr27517746edu.420.1657567803109; Mon, 11
- Jul 2022 12:30:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1oAzEe-0003QS-8f; Mon, 11 Jul 2022 15:38:26 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26BJW5bi021009;
+ Mon, 11 Jul 2022 19:38:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=2xrUlKM3Xt6TEOPRA+Dago9M6q/dtc3r6EAt73cr3f8=;
+ b=i3pL12iEYi3AbqLqykR7Rl88c6zmeYC8QB7q8nqLFchNz0pBVKq++kpXHUYiWJYZvsBc
+ C6k3jhgwCZf5K//g97c7n5q2S72L3Q059XV0ZO1fYsZ1h3BnjqaC/sTZog0mqTzh6dZN
+ IvmY7ED16Rn8BUZHJG2TpXqRlZXil7GwjnOEpdC9y4NJ1xQPuK8purSR/7SvMIKPuRJ+
+ STsvMxw+fLCUp1D7seI0FYRFd8LtDPx4b5yIXyTZh58vN5PeSbFvdxvf0R9Eh9fMXAad
+ s/QU+xQ9m8pyoKCDsPfSo1bb2/mbYSioD+eCxU0YoYPC4wdidXdSodOoprJaHdxEjNLs XA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8t3t04v9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jul 2022 19:38:08 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26BJWghc022999;
+ Mon, 11 Jul 2022 19:38:07 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8t3t04uv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jul 2022 19:38:07 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26BJZrhI007609;
+ Mon, 11 Jul 2022 19:38:06 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma04wdc.us.ibm.com with ESMTP id 3h71a99b79-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jul 2022 19:38:06 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26BJc5xP54264180
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Jul 2022 19:38:05 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 91BBFAC059;
+ Mon, 11 Jul 2022 19:38:05 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF925AC05E;
+ Mon, 11 Jul 2022 19:38:04 +0000 (GMT)
+Received: from localhost (unknown [9.163.4.84])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Mon, 11 Jul 2022 19:38:04 +0000 (GMT)
+From: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ mopsfelder@gmail.com, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>
+Subject: [PATCH] target/ppc/kvm: Skip ".." directory in kvmppc_find_cpu_dt
+Date: Mon, 11 Jul 2022 16:37:43 -0300
+Message-Id: <20220711193743.51456-1-muriloo@linux.ibm.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220704202315.507145-1-leobras@redhat.com>
- <20220704202315.507145-2-leobras@redhat.com>
- <YsccDel9oiTPqvHW@xz-m1.local>
- <CAJ6HWG5YbABGpacT9hD1dx0-o3Ey8sN++=MxhEaGML62jzQ=xQ@mail.gmail.com>
- <Ysc5hpnTb3k96Ubo@xz-m1.local>
- <904f8698a28c27bddbabaa1207a695fe0a832607.camel@redhat.com>
- <YsdbnfbTnE/ZJvQt@xz-m1.local>
-In-Reply-To: <YsdbnfbTnE/ZJvQt@xz-m1.local>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Mon, 11 Jul 2022 16:29:52 -0300
-Message-ID: <CAJ6HWG7C9_dhtLD8UDMePgTfj97b63Wb5fCr=3k+eEE0DbQMKw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] QIOChannelSocket: Fix zero-copy flush returning
- code 1 when nothing sent
-To: Peter Xu <peterx@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: r6q7M3YInvZWsBgfpzrtkrdeUGERtsN8
+X-Proofpoint-GUID: oXJZXSOPE_GNK0SUmudLO27ovm5I1I7B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-11_24,2022-07-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ priorityscore=1501 clxscore=1015 spamscore=0 adultscore=0 phishscore=0
+ mlxlogscore=835 bulkscore=0 suspectscore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207110082
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=muriloo@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,43 +115,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 7, 2022 at 7:18 PM Peter Xu <peterx@redhat.com> wrote:
->
-> On Thu, Jul 07, 2022 at 06:14:17PM -0300, Leonardo Br=C3=A1s wrote:
-> > Having 'if(queued =3D=3D sent)' will cause us to falsely return '1' in =
-two buggy
-> > cases, while 'if queued =3D=3D 0) will either skip early or go into 'in=
-finite' loop.
->
-> I'm not sure I strictly follow here..
->
+Some systems have /proc/device-tree/cpus/../clock-frequency. However,
+this is not the expected path for a CPU device tree directory.
 
-Sorry, I was thinking of a different scenario.
+Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+---
+ target/ppc/kvm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> Imagine the case we do flush() twice without sending anything, then in th=
-e
-> 1st flush we'll see queued>sent, we'll finish flush() until queued=3D=3Ds=
-ent.
-> Then in the 2nd (continuous) flush() we'll see queued=3D=3Dsent immediate=
-ly.
->
-> IIUC with the current patch we'll return 1 which I think is wrong because
-> fallback didn't happen, and if with the change to "if (queued=3D=3Dsent) =
-return
-> 0" it'll fix it?
-
-Yes, you are correct.
-It's a possible scenario to have a flush happen just after another
-without any sending in between.
-
-I will fix it as suggested.
-
-Best regards,
-Leo
-
->
-> --
-> Peter Xu
->
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 6eed466f80..c8485a5cc0 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -1877,6 +1877,12 @@ static int kvmppc_find_cpu_dt(char *buf, int buf_len)
+     buf[0] = '\0';
+     while ((dirp = readdir(dp)) != NULL) {
+         FILE *f;
++
++        /* Don't accidentally read from the upper directory */
++        if (strcmp(dirp->d_name, "..") == 0) {
++            continue;
++        }
++
+         snprintf(buf, buf_len, "%s%s/clock-frequency", PROC_DEVTREE_CPU,
+                  dirp->d_name);
+         f = fopen(buf, "r");
+-- 
+2.36.1
 
 
