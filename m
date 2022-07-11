@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739BA570DE7
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 01:07:49 +0200 (CEST)
-Received: from localhost ([::1]:35918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C584570E01
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 01:12:37 +0200 (CEST)
+Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB2VI-0008QA-HQ
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 19:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34198)
+	id 1oB2Zw-0004vH-4c
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 19:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Pq-0000h9-B9
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30002)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Pt-0000q0-7H
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Pn-00022s-M4
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:08 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Pq-00025T-JN
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657580523;
+ s=mimecast20190719; t=1657580529;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rZVW9wb/Sy6wFZiPqp05CpN1WWQfMiHBMfVd1UK0Fho=;
- b=HmlP1XyWbvfi+bx3tHFMFu2Mej/QICZNChmf5CThT7iBj57IDC5szhl+SzJ6d8gKC3O+Q1
- dw2IwqsotRPqys9sNMvjbxsirc4PSPXvdCXbidxOpfUmW0iutriMOW6DLlPP3LQTw5a2RH
- lGZ0ZKiEy7LZQKEacqZN8q9K6OXWy9k=
+ bh=bjWxx+HtDYkpHG8IIiAqT8hxb/16pFET6uQ6IklA3os=;
+ b=GcINsKRucnosGhe7u68GdNf9P3ASmifE+LcIlj/rF4LMtDIE8hcevazEoMjSniaT24evgX
+ 7N/Mbz1EDh1J/1EpgKRS4LUVdsIOaNKZd7aVnngjHQhvUpBLFjsxD/x17XvvPw1s/yQhwk
+ VwQp1GArATLOuIKa4JQU3LtQ4rJ9fOE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-427-Owg9gEGoMk6XOjNEwp2VHg-1; Mon, 11 Jul 2022 19:02:00 -0400
-X-MC-Unique: Owg9gEGoMk6XOjNEwp2VHg-1
+ us-mta-656-ng3-Hu3JPleRE_NZBL_20A-1; Mon, 11 Jul 2022 19:02:00 -0400
+X-MC-Unique: ng3-Hu3JPleRE_NZBL_20A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6856F101AA48;
- Mon, 11 Jul 2022 23:01:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C2658032FB;
+ Mon, 11 Jul 2022 23:02:00 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C681F2166B26;
- Mon, 11 Jul 2022 23:01:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76AB02166B26;
+ Mon, 11 Jul 2022 23:01:59 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Berrange <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
@@ -53,23 +53,23 @@ Cc: Daniel Berrange <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  Cleber Rosa <crosa@redhat.com>, Michael Tsirkin <mst@redhat.com>,
  Ani Sinha <ani@anisinha.ca>, Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [RFC PATCH v3 4/7] tests/vm: add venv pre-requisites to VM building
- recipes
-Date: Mon, 11 Jul 2022 19:01:52 -0400
-Message-Id: <20220711230155.953788-5-jsnow@redhat.com>
+Subject: [RFC PATCH v3 5/7] tests: add 'check-venv' as a dependency of 'make
+ check'
+Date: Mon, 11 Jul 2022 19:01:53 -0400
+Message-Id: <20220711230155.953788-6-jsnow@redhat.com>
 In-Reply-To: <20220711230155.953788-1-jsnow@redhat.com>
 References: <20220711230155.953788-1-jsnow@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,25 +86,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NetBSD needs "py37-pip" in order to create virtual environments.
+This patch adds the 'check-venv' target as a requisite of all meson
+driven check-* targets. As of this commit, it will only install the
+"qemu" namespace package from the source tree, and nothing else.
+
+In the future, the "qemu" namespace package in qemu.git will begin to
+require an external qemu.qmp package, and this would be installed into
+this environment as well.
+
+The avocado test dependencies will *not* be pulled into this venv by
+default, but they may be added in at a later point in time by running
+'make check-avocado' or, without running the tests, 'make
+check-venv-avocado'.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/vm/netbsd | 1 +
- 1 file changed, 1 insertion(+)
+ tests/Makefile.include | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 45aa9a7fda7..53fe508e487 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -31,6 +31,7 @@ class NetBSDVM(basevm.BaseVM):
-         "pkgconf",
-         "xz",
-         "python37",
-+        "py37-pip",
-         "ninja-build",
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index d8af6a38112..d484a335be5 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -155,6 +155,9 @@ check-acceptance-deprecated-warning:
  
-         # gnu tools
+ check-acceptance: check-acceptance-deprecated-warning | check-avocado
+ 
++# The do-meson-check and do-meson-bench targets are defined in Makefile.mtest
++do-meson-check do-meson-bench: check-venv
++
+ # Consolidated targets
+ 
+ .PHONY: check check-clean get-vm-images
 -- 
 2.34.3
 
