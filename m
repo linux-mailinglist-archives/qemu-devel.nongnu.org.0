@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA295706A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 17:09:25 +0200 (CEST)
-Received: from localhost ([::1]:39772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828405705FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:42:39 +0200 (CEST)
+Received: from localhost ([::1]:59516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAv2K-0005eK-2m
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 11:09:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43386)
+	id 1oAucQ-0003Ih-HY
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:42:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvt-00071U-TJ
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:41 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37550)
+ id 1oAtvu-00072H-4U
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:42 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvh-0002qz-Td
+ id 1oAtvh-0002ng-UD
  for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:41 -0400
-Received: by mail-wr1-x432.google.com with SMTP id r10so972991wrv.4
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:28 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id h17so7183289wrx.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=v+KpABCiERhEMgs7leq7TSMjJyDNMo+se3mODEwafVE=;
- b=vLBYM+P0gHjlS8+mJgvn4d9dDAouNdzgQfc1sutxElNyW/hVbDmbxclVU4UjWEMRMA
- bpKPFrgE5HnOPw28N/BRv8xYQRmihvRFWnwbOt9SEo4SnUd54FpurJrmrM7fpYH49J8O
- Dix8GqeTBV6gn7t+T0XxocW7/Z0uymrTuUH1zF6IBPEFFYW4mE1d7GJ7a7K5MYOC6BCb
- CGAyjjh0r692A8ZkuVy7bULtouRlH7Q1fGIhtRh9yXUiT5zYWb/xU5u3TMf9CeRlsbvJ
- JnhJQpnDiUNarHR8PAkWyIYRnweH02xhthEaebXe3V4J7+xwsdKnJYh9Kf625tzfRdLa
- eAYw==
+ bh=H39kaTMy9J7xwr8e9kYgt0j0csqMDxRmuwJQoBhCvKw=;
+ b=d+Ji1fHzNjRMybbKZMKDlRaldwg6kI9RSlLnXAhq6yZqZVq0i7Ii+nyEhfm0Ruz9KN
+ WhJs+clqJ41qYa1Et7NX8D/UOIa13x4SOtRubnDWf3wQQKY1jM+kExwFlcfF2hWgJGCB
+ FXuVgsmJ/BOGwJ6q450MxJhps3jGY3XaIlaETDxVw33uIJ/0s/g6RXKiGzUh2u7/8I4m
+ C41F8zz2JHDxZYlFXLPLIiqPyjvCHq65EtP8eYhpVNjmluh0OAJZsy1uEPy00qu1MDPi
+ 3V7U3kW/EGLoZ6qFhmxzQuVDdvC1bQAlcydQZ3SVnuycBKIPpkUimFxsloPy824RC0CJ
+ CmiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v+KpABCiERhEMgs7leq7TSMjJyDNMo+se3mODEwafVE=;
- b=szmH1WBh1x4pknv+lSHizEdSc+E6Yh+tHn45EUE9DumcsNIRwoNTIKGjjbzY+Y1Dt7
- tuZSBb4UdnbP3q9SOR4lI5nG0H5qDs8n9HdAmmhqHyHLwKO9b3u0pwCd0sWx8Zr31p7h
- RgWGvcjR+9FUiwo4irRWQ5yTTnFCvOycqsb4hDIi6/2+I821YrXbpvpsC2J6PB+dIria
- 4nSli6TsRna2/x5o/2aakvybeRyYTtFPED6zrL7hE2YWHSjQ17ut6Ik97sr18H289MCu
- HLexm+FMvCLBo0XtsWkLN6+4oPH2PwShtSqH058DdUo4vY+50su57Fqcddeb48yXf/zB
- vP5Q==
-X-Gm-Message-State: AJIora9FpsCS9cl+vl2QS/XEZ4pKoShOZPexU11Yu/IokmVVYGIuas88
- jNQCs9w72+aTKp2FNOV9bpN72hFndmnP3A==
-X-Google-Smtp-Source: AGRyM1tN4A2cb+l5vkZUyeWj7MRp13zQiJ0LipfsmHhypcFpFRRA5QXvKBWRmDT+bQMAEb87cazVBQ==
-X-Received: by 2002:adf:dc0d:0:b0:21d:ea5:710f with SMTP id
- t13-20020adfdc0d000000b0021d0ea5710fmr17032110wri.48.1657547908036; 
+ bh=H39kaTMy9J7xwr8e9kYgt0j0csqMDxRmuwJQoBhCvKw=;
+ b=0KCSUSbkie0wmIY0Fgt7HSzBKPPYLJghO+ZeMOXlRQ0ESm0XOm2LKqJfiZx7VNAPuT
+ XOP7vDxJO+EQ+t09DA2IwE2JEo3eqNyDXbzPtC0F2BZFLjHR1NFkL0gHx8maJiHL/UHl
+ dEWTwt7XoiB5fmIVzprM5WT0mEqy2kLRqNhDD2mVnIvjnUVtYtTTVOvPaqCUL5X2yTuU
+ 3lUtwHKS1g94gfb+z8EIMs5X7mVB0jKXNbRyOgquEatmEmBSoweXnL9RhQY4y2Q/Obdh
+ 0zu4ekozT9K8aYbP2QYzmFIoByGh4+olOy1+BvGDKHcuJQ7QCymXxx3u2nQ3jUGlFjvE
+ p6hg==
+X-Gm-Message-State: AJIora+zPVa8pZtEXg/pdkMyCaWn45YZXzprGDmS7ADY4oZht7igSW5o
+ CsYx3ygoIypEPE66D8QOdto2HnGje3inKA==
+X-Google-Smtp-Source: AGRyM1um3VwFhsppHo27aEoeIp8NcPT1U4SvGNuHIqE9mdYi3Ppf4QHxHnwNzXmxYk3acRZuQMDjfg==
+X-Received: by 2002:a5d:6149:0:b0:21d:6ba7:6095 with SMTP id
+ y9-20020a5d6149000000b0021d6ba76095mr16722577wrt.680.1657547908737; 
  Mon, 11 Jul 2022 06:58:28 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.26
+ q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:58:27 -0700 (PDT)
+ Mon, 11 Jul 2022 06:58:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/45] linux-user/aarch64: Implement PR_SME_GET_VL,
- PR_SME_SET_VL
-Date: Mon, 11 Jul 2022 14:57:47 +0100
-Message-Id: <20220711135750.765803-43-peter.maydell@linaro.org>
+Subject: [PULL 43/45] target/arm: Only set ZEN in reset if SVE present
+Date: Mon, 11 Jul 2022 14:57:48 +0100
+Message-Id: <20220711135750.765803-44-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711135750.765803-1-peter.maydell@linaro.org>
 References: <20220711135750.765803-1-peter.maydell@linaro.org>
@@ -91,138 +90,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-These prctl set the Streaming SVE vector length, which may
-be completely different from the Normal SVE vector length.
+There's no reason to set CPACR_EL1.ZEN if SVE disabled.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220708151540.18136-43-richard.henderson@linaro.org
+Message-id: 20220708151540.18136-44-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/aarch64/target_prctl.h | 54 +++++++++++++++++++++++++++++++
- linux-user/syscall.c              | 16 +++++++++
- 2 files changed, 70 insertions(+)
+ target/arm/cpu.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/linux-user/aarch64/target_prctl.h b/linux-user/aarch64/target_prctl.h
-index 40481e66635..907c3141466 100644
---- a/linux-user/aarch64/target_prctl.h
-+++ b/linux-user/aarch64/target_prctl.h
-@@ -10,6 +10,7 @@ static abi_long do_prctl_sve_get_vl(CPUArchState *env)
- {
-     ARMCPU *cpu = env_archcpu(env);
-     if (cpu_isar_feature(aa64_sve, cpu)) {
-+        /* PSTATE.SM is always unset on syscall entry. */
-         return sve_vq(env) * 16;
-     }
-     return -TARGET_EINVAL;
-@@ -27,6 +28,7 @@ static abi_long do_prctl_sve_set_vl(CPUArchState *env, abi_long arg2)
-         && arg2 >= 0 && arg2 <= 512 * 16 && !(arg2 & 15)) {
-         uint32_t vq, old_vq;
- 
-+        /* PSTATE.SM is always unset on syscall entry. */
-         old_vq = sve_vq(env);
- 
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 9c58be8b146..9b544438432 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -204,11 +204,10 @@ static void arm_cpu_reset(DeviceState *dev)
+         /* and to the FP/Neon instructions */
+         env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
+                                          CPACR_EL1, FPEN, 3);
+-        /* and to the SVE instructions */
+-        env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
+-                                         CPACR_EL1, ZEN, 3);
+-        /* with reasonable vector length */
++        /* and to the SVE instructions, with default vector length */
+         if (cpu_isar_feature(aa64_sve, cpu)) {
++            env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
++                                             CPACR_EL1, ZEN, 3);
+             env->vfp.zcr_el[1] = cpu->sve_default_vq - 1;
+         }
          /*
-@@ -49,6 +51,58 @@ static abi_long do_prctl_sve_set_vl(CPUArchState *env, abi_long arg2)
- }
- #define do_prctl_sve_set_vl do_prctl_sve_set_vl
- 
-+static abi_long do_prctl_sme_get_vl(CPUArchState *env)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+    if (cpu_isar_feature(aa64_sme, cpu)) {
-+        return sme_vq(env) * 16;
-+    }
-+    return -TARGET_EINVAL;
-+}
-+#define do_prctl_sme_get_vl do_prctl_sme_get_vl
-+
-+static abi_long do_prctl_sme_set_vl(CPUArchState *env, abi_long arg2)
-+{
-+    /*
-+     * We cannot support either PR_SME_SET_VL_ONEXEC or PR_SME_VL_INHERIT.
-+     * Note the kernel definition of sve_vl_valid allows for VQ=512,
-+     * i.e. VL=8192, even though the architectural maximum is VQ=16.
-+     */
-+    if (cpu_isar_feature(aa64_sme, env_archcpu(env))
-+        && arg2 >= 0 && arg2 <= 512 * 16 && !(arg2 & 15)) {
-+        int vq, old_vq;
-+
-+        old_vq = sme_vq(env);
-+
-+        /*
-+         * Bound the value of vq, so that we know that it fits into
-+         * the 4-bit field in SMCR_EL1.  Because PSTATE.SM is cleared
-+         * on syscall entry, we are not modifying the current SVE
-+         * vector length.
-+         */
-+        vq = MAX(arg2 / 16, 1);
-+        vq = MIN(vq, 16);
-+        env->vfp.smcr_el[1] =
-+            FIELD_DP64(env->vfp.smcr_el[1], SMCR, LEN, vq - 1);
-+
-+        /* Delay rebuilding hflags until we know if ZA must change. */
-+        vq = sve_vqm1_for_el_sm(env, 0, true) + 1;
-+
-+        if (vq != old_vq) {
-+            /*
-+             * PSTATE.ZA state is cleared on any change to SVL.
-+             * We need not call arm_rebuild_hflags because PSTATE.SM was
-+             * cleared on syscall entry, so this hasn't changed VL.
-+             */
-+            env->svcr = FIELD_DP64(env->svcr, SVCR, ZA, 0);
-+            arm_rebuild_hflags(env);
-+        }
-+        return vq * 16;
-+    }
-+    return -TARGET_EINVAL;
-+}
-+#define do_prctl_sme_set_vl do_prctl_sme_set_vl
-+
- static abi_long do_prctl_reset_keys(CPUArchState *env, abi_long arg2)
- {
-     ARMCPU *cpu = env_archcpu(env);
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index cbde82c9076..991b85e6b4d 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6343,6 +6343,12 @@ abi_long do_arch_prctl(CPUX86State *env, int code, abi_ulong addr)
- #ifndef PR_SET_SYSCALL_USER_DISPATCH
- # define PR_SET_SYSCALL_USER_DISPATCH 59
- #endif
-+#ifndef PR_SME_SET_VL
-+# define PR_SME_SET_VL  63
-+# define PR_SME_GET_VL  64
-+# define PR_SME_VL_LEN_MASK  0xffff
-+# define PR_SME_VL_INHERIT   (1 << 17)
-+#endif
- 
- #include "target_prctl.h"
- 
-@@ -6383,6 +6389,12 @@ static abi_long do_prctl_inval1(CPUArchState *env, abi_long arg2)
- #ifndef do_prctl_set_unalign
- #define do_prctl_set_unalign do_prctl_inval1
- #endif
-+#ifndef do_prctl_sme_get_vl
-+#define do_prctl_sme_get_vl do_prctl_inval0
-+#endif
-+#ifndef do_prctl_sme_set_vl
-+#define do_prctl_sme_set_vl do_prctl_inval1
-+#endif
- 
- static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
-                          abi_long arg3, abi_long arg4, abi_long arg5)
-@@ -6434,6 +6446,10 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
-         return do_prctl_sve_get_vl(env);
-     case PR_SVE_SET_VL:
-         return do_prctl_sve_set_vl(env, arg2);
-+    case PR_SME_GET_VL:
-+        return do_prctl_sme_get_vl(env);
-+    case PR_SME_SET_VL:
-+        return do_prctl_sme_set_vl(env, arg2);
-     case PR_PAC_RESET_KEYS:
-         if (arg3 || arg4 || arg5) {
-             return -TARGET_EINVAL;
 -- 
 2.25.1
 
