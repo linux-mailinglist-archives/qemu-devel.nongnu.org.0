@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F576570527
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:14:52 +0200 (CEST)
-Received: from localhost ([::1]:45824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CA057053D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 16:18:09 +0200 (CEST)
+Received: from localhost ([::1]:50560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAuBX-00051D-Bw
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:14:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42614)
+	id 1oAuEi-0008RP-Ju
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 10:18:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvS-0006Wf-Oy
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:15 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46673)
+ id 1oAtvd-0006c6-HS
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:26 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oAtvQ-0002pv-3X
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:13 -0400
-Received: by mail-wr1-x435.google.com with SMTP id v16so7099742wrd.13
+ id 1oAtvT-0002q3-Qq
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 09:58:25 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id d16so7106529wrv.10
  for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 06:58:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iUJ2sm4ykqwIgMCGtXLZ1jWMeR/9y75k/xuAaZSsGgw=;
- b=s2V0A2vicMkb/gmZaVb31xl+Of7w/mXz4hTaw3m2QUlvR8MRvAXd6jsr6AbgJGLMg4
- rZAuY3NyW29tbBslgza0fSsGt+PxZEkjbBkKiWS+STBS5qBoMgWbWiQfK/ZKlnlTWrNT
- XOFOI6bhr6TwYdF9gPuFSAAm3jLHBXDplnCwbT8e4Yn0Q8ihvjB+nuaelG33vO6BeDO/
- ObcmBt1XbAva9vgO9vzvjIFvnql/a7Qoc+qYbWs6LY2WmrIlXkHvHYA0BQNmpWWosM6Q
- XW1mXOG/0zHlBWzja1ZJ/v4QFvhrQGmDTFWfXwnKXXVVkUqG6FD17XggywWNGmpqVs2i
- uaow==
+ bh=0SnW41amKkOvYQy7JWpeer4ukEO9PLX9nZ7OoMrxHX8=;
+ b=YdSN+EVtwVxk5j2FeViqmNxXOPCPNpNpS+AsgMR0sGVuq1IWuN4+P2Kot83rAOg5oV
+ ga68QBZtn9xwzhovi873WrEUrzAJHOWLedjPVeAlJhwyzwR1qid3KnM2vL/vzybauVIt
+ 037lWWqQ095jkR55wuE3Ah01/8KE3hkWVMgjAQGc9DWx8Dkw8io05quxmNgISspDHUSX
+ 0ALIJkSFW9mtee0lV2mZPCyI2oll7iFkQT1HNz7jBEldrzozHMKV3RqBZAJ0/n8+cOMp
+ bk0BqFArgR9Jwc0eLPYaI09sxmCd4IiqwN2ktsvaq3XLIRl7A+Dimj3AlRk9rsevHUHj
+ 3eCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iUJ2sm4ykqwIgMCGtXLZ1jWMeR/9y75k/xuAaZSsGgw=;
- b=frk9dNgyhKQY3mKil/qKlZ/36OdvXyJ58pVTZg8wR50uO/ZAIjGHOSWw2EHH7TS8vp
- UyZCk/SrvXNprueNER969Peq1IlkQWKFXwghLZNHUZUkVCvc4SZdumcq4SgGNRubaEhi
- ZYVqHpQGRDSw/Nocx2A6cZ5dV2BEy5o1PZQclcRZXOUrLM25xPmXYCD/lcJ3orXjYC9G
- Ul7GKNuxJz+Ubn4cLsMj3lYSzEo4oIiO/M2FKn2Mu1TflLyGIIiYS2rFqsiQdyYheMXd
- LtMMclTzDjRgvFkXKM3o8Cegw/ll8aia/Gr41aiG+FFptKu6wwMRwfVLWajFLuF/Fnxj
- tGsA==
-X-Gm-Message-State: AJIora+lLlrKVRX4OVDVMfOJNXbCUt7ByeDPKvRJ3XUwpbd9Ry2/+gkt
- q+AN8X9EwDIHDkMWoxROxkhltAz6LplM5g==
-X-Google-Smtp-Source: AGRyM1uPJtiIyC1KElSCrozXUEmY6s3Q9roIKRpzGYU2a+R8kU7gVNiF9ycskIiggXeTyGnJUgqm7A==
-X-Received: by 2002:a05:6000:15c3:b0:21d:9f8b:2c3e with SMTP id
- y3-20020a05600015c300b0021d9f8b2c3emr8367710wry.72.1657547885103; 
+ bh=0SnW41amKkOvYQy7JWpeer4ukEO9PLX9nZ7OoMrxHX8=;
+ b=WUwbHj8cr1cZJFLmWPXdp+ajmKzAoF7/i5VA/5XsuKDQwvIyx66aGSmUyDcqT4dUnS
+ nsuWA/t60nNpzezG+2M4AJUIpcSl1DhnRcmVWttc8zYhyHTceavcQmPwe3QQpsJsJk6f
+ 2kA6Fkw4PspElxMvMVQw18GT1dSgMFuQw3uZBEn848U6/pzQDcJHae3LVDTFpQv9v9WF
+ VU2mDQcGB+tyOIfPfsEL5r8qes/42XtjhkMeCl0HF59G1bgyXeYzSE4zaLyQ8a7I7JXk
+ 4cQsA4LZi4cMWQLGwKaaLorCSyLzD+VxaDny8QMaPAPI1K3vQKr0amRDTcPBOjVV0UBh
+ 2eSQ==
+X-Gm-Message-State: AJIora/MMGOfPLTh6WbaWZJ9jHnQgBXpHKW40dmCdlvSiLfGknNPWd/8
+ f7ExSkafsK3wmEHIjjsKGDcsZxWrZqGaoA==
+X-Google-Smtp-Source: AGRyM1vgr3KXr2YSQGkcavU/ZAvTPK3fKJIsRiQt7J6dgOazXX6SNGzw2tqJi+Q3gbbXOZRzmoUTRw==
+X-Received: by 2002:a5d:5151:0:b0:21d:730b:c64a with SMTP id
+ u17-20020a5d5151000000b0021d730bc64amr17336831wrt.392.1657547885843; 
  Mon, 11 Jul 2022 06:58:05 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.04
+ q123-20020a1c4381000000b00397402ae674sm7595596wma.11.2022.07.11.06.58.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 06:58:04 -0700 (PDT)
+ Mon, 11 Jul 2022 06:58:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/45] target/arm: Handle SME in sve_access_check
-Date: Mon, 11 Jul 2022 14:57:21 +0100
-Message-Id: <20220711135750.765803-17-peter.maydell@linaro.org>
+Subject: [PULL 17/45] target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
+Date: Mon, 11 Jul 2022 14:57:22 +0100
+Message-Id: <20220711135750.765803-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220711135750.765803-1-peter.maydell@linaro.org>
 References: <20220711135750.765803-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,59 +90,135 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The pseudocode for CheckSVEEnabled gains a check for Streaming
-SVE mode, and for SME present but SVE absent.
+These SME instructions are nominally within the SVE decode space,
+so we add them to sve.decode and translate-sve.c.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220708151540.18136-17-richard.henderson@linaro.org
+Message-id: 20220708151540.18136-18-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-a64.c | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+ target/arm/translate-a64.h | 12 ++++++++++++
+ target/arm/sve.decode      |  5 ++++-
+ target/arm/translate-sve.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index b16d81bf197..b7b64f73584 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1183,21 +1183,31 @@ static bool fp_access_check(DisasContext *s)
+diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+index 02fb95e0199..099d3d11d60 100644
+--- a/target/arm/translate-a64.h
++++ b/target/arm/translate-a64.h
+@@ -128,6 +128,12 @@ static inline int vec_full_reg_size(DisasContext *s)
+     return s->vl;
+ }
+ 
++/* Return the byte size of the vector register, SVL / 8. */
++static inline int streaming_vec_reg_size(DisasContext *s)
++{
++    return s->svl;
++}
++
+ /*
+  * Return the offset info CPUARMState of the predicate vector register Pn.
+  * Note for this purpose, FFR is P16.
+@@ -143,6 +149,12 @@ static inline int pred_full_reg_size(DisasContext *s)
+     return s->vl >> 3;
+ }
+ 
++/* Return the byte size of the predicate register, SVL / 64.  */
++static inline int streaming_pred_reg_size(DisasContext *s)
++{
++    return s->svl >> 3;
++}
++
+ /*
+  * Round up the size of a register to a size allowed by
+  * the tcg vector infrastructure.  Any operation which uses this
+diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+index 908643d7d90..95af08c139f 100644
+--- a/target/arm/sve.decode
++++ b/target/arm/sve.decode
+@@ -449,14 +449,17 @@ INDEX_ri        00000100 esz:2 1 imm:s5 010001 rn:5 rd:5
+ # SVE index generation (register start, register increment)
+ INDEX_rr        00000100 .. 1 ..... 010011 ..... .....          @rd_rn_rm
+ 
+-### SVE Stack Allocation Group
++### SVE / Streaming SVE Stack Allocation Group
+ 
+ # SVE stack frame adjustment
+ ADDVL           00000100 001 ..... 01010 ...... .....           @rd_rn_i6
++ADDSVL          00000100 001 ..... 01011 ...... .....           @rd_rn_i6
+ ADDPL           00000100 011 ..... 01010 ...... .....           @rd_rn_i6
++ADDSPL          00000100 011 ..... 01011 ...... .....           @rd_rn_i6
+ 
+ # SVE stack frame size
+ RDVL            00000100 101 11111 01010 imm:s6 rd:5
++RDSVL           00000100 101 11111 01011 imm:s6 rd:5
+ 
+ ### SVE Bitwise Shift - Unpredicated Group
+ 
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 96e934c1ea9..95016e49e9d 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -1286,6 +1286,19 @@ static bool trans_ADDVL(DisasContext *s, arg_ADDVL *a)
      return true;
  }
  
--/* Check that SVE access is enabled.  If it is, return true.
-+/*
-+ * Check that SVE access is enabled.  If it is, return true.
-  * If not, emit code to generate an appropriate exception and return false.
-+ * This function corresponds to CheckSVEEnabled().
-  */
- bool sve_access_check(DisasContext *s)
- {
--    if (s->sve_excp_el) {
--        assert(!s->sve_access_checked);
--        s->sve_access_checked = true;
--
-+    if (s->pstate_sm || !dc_isar_feature(aa64_sve, s)) {
-+        assert(dc_isar_feature(aa64_sme, s));
-+        if (!sme_sm_enabled_check(s)) {
-+            goto fail_exit;
-+        }
-+    } else if (s->sve_excp_el) {
-         gen_exception_insn_el(s, s->pc_curr, EXCP_UDEF,
-                               syn_sve_access_trap(), s->sve_excp_el);
--        return false;
-+        goto fail_exit;
-     }
-     s->sve_access_checked = true;
-     return fp_access_check(s);
++static bool trans_ADDSVL(DisasContext *s, arg_ADDSVL *a)
++{
++    if (!dc_isar_feature(aa64_sme, s)) {
++        return false;
++    }
++    if (sme_enabled_check(s)) {
++        TCGv_i64 rd = cpu_reg_sp(s, a->rd);
++        TCGv_i64 rn = cpu_reg_sp(s, a->rn);
++        tcg_gen_addi_i64(rd, rn, a->imm * streaming_vec_reg_size(s));
++    }
++    return true;
++}
 +
-+ fail_exit:
-+    /* Assert that we only raise one exception per instruction. */
-+    assert(!s->sve_access_checked);
-+    s->sve_access_checked = true;
-+    return false;
+ static bool trans_ADDPL(DisasContext *s, arg_ADDPL *a)
+ {
+     if (!dc_isar_feature(aa64_sve, s)) {
+@@ -1299,6 +1312,19 @@ static bool trans_ADDPL(DisasContext *s, arg_ADDPL *a)
+     return true;
  }
  
++static bool trans_ADDSPL(DisasContext *s, arg_ADDSPL *a)
++{
++    if (!dc_isar_feature(aa64_sme, s)) {
++        return false;
++    }
++    if (sme_enabled_check(s)) {
++        TCGv_i64 rd = cpu_reg_sp(s, a->rd);
++        TCGv_i64 rn = cpu_reg_sp(s, a->rn);
++        tcg_gen_addi_i64(rd, rn, a->imm * streaming_pred_reg_size(s));
++    }
++    return true;
++}
++
+ static bool trans_RDVL(DisasContext *s, arg_RDVL *a)
+ {
+     if (!dc_isar_feature(aa64_sve, s)) {
+@@ -1311,6 +1337,18 @@ static bool trans_RDVL(DisasContext *s, arg_RDVL *a)
+     return true;
+ }
+ 
++static bool trans_RDSVL(DisasContext *s, arg_RDSVL *a)
++{
++    if (!dc_isar_feature(aa64_sme, s)) {
++        return false;
++    }
++    if (sme_enabled_check(s)) {
++        TCGv_i64 reg = cpu_reg(s, a->rd);
++        tcg_gen_movi_i64(reg, a->imm * streaming_vec_reg_size(s));
++    }
++    return true;
++}
++
  /*
+  *** SVE Compute Vector Address Group
+  */
 -- 
 2.25.1
 
