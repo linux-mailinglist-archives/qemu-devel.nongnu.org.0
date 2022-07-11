@@ -2,52 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A8657261F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 21:42:38 +0200 (CEST)
-Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFAC557274D
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 22:32:19 +0200 (CEST)
+Received: from localhost ([::1]:36028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBLmH-0000gr-LX
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 15:42:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42966)
+	id 1oBMYM-0001qx-IQ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 16:32:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1oBLjC-0005Om-JD; Tue, 12 Jul 2022 15:39:26 -0400
-Received: from [200.168.210.66] (port=36372 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1oBLj2-0004X1-Hk; Tue, 12 Jul 2022 15:39:26 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 12 Jul 2022 16:37:51 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id E566E800146;
- Tue, 12 Jul 2022 16:37:50 -0300 (-03)
-From: Leandro Lupori <leandro.lupori@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, npiggin@gmail.com, richard.henderson@linaro.org,
- Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: [PATCH v3 2/2] target/ppc: Implement ISA 3.00 tlbie[l]
-Date: Tue, 12 Jul 2022 16:37:41 -0300
-Message-Id: <20220712193741.59134-3-leandro.lupori@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220712193741.59134-1-leandro.lupori@eldorado.org.br>
-References: <20220712193741.59134-1-leandro.lupori@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oBMUP-0004sT-2Y
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:13 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oBMUM-0004nU-SE
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:12 -0400
+Received: by mail-wr1-x429.google.com with SMTP id r10so6590729wrv.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 13:28:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=s2Y0M6J0BPnacOShpVucSD3h2YZU0U3E08PBx5ALuXY=;
+ b=kVGb+hBKiSpD0c5N/U37svlrMmxwXRNgM6EWWWtwTeY+qaZ6eQ3W9mIDbMEdofQyct
+ bzxgn/La19i/Jd2H19IaUtlxK+rtPi91lm4vC7+PrQB2Sn3KC97AWz2S+jVjVeUdDqyL
+ ID6ywo/WGOEoEcL9oUmOf+BJZvgMqheW45FIDxF7Q5ZrxFi/NOQkjSfRn1So5TgSs0Fj
+ dzAcVuf2ocjuMIyzwQvXAUNgpNZpUE5HjUwWWUlWrrjX4lUbPt5pfK0C0QWbbDGAZt+U
+ AjojhcgLSNCOGpNT/By9St7VcsPcTMBP74IzF8edR/SulUHSOVZFYEpSBdMt4cNnzsJU
+ vn1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=s2Y0M6J0BPnacOShpVucSD3h2YZU0U3E08PBx5ALuXY=;
+ b=XZLViYk9mZ+j+ZCFwO3C64q9Lwwqh9nBMJ4lP8TAe7VScIfPVPXdRqnIGoEFSFwzW7
+ CT87qBqvIfGy9LFxmcyZGqzJ/QzXThuTvQhCqpzcTYWpuUVdWYt8HljUspWD1HHuwIj/
+ HaOSbXqzMFa0T03Zb2tBkOfPXzlFmIAHmSJBdaeTM+nSHcrnf0dy8CSb5PvtvSLHQd/j
+ dqQ0JB+gi3l+WqQZOycVZ6wBsYtAtpe7lUeinegTvOPmERJT4FA7bgVdTtKb/sukY+MO
+ qOtCn440DFNNGPH5IL7itFEGvqkzjzksDwmiX+qLH8nGPavqv0MLj9XeCBXdpU+6zshH
+ DVPw==
+X-Gm-Message-State: AJIora/HOvkveoN/mcIG1Fn0WTBWIBC2xKy7r++0UH44y9aULGgVGQX4
+ eYDW9YADCu7b8oeq43YL4mY=
+X-Google-Smtp-Source: AGRyM1t+LRePIisitFiXxRq+6Byf20bFjBBmJ9DScLK93WfKvbUuYg5Jw9CwbOKf6lfZicKRhjYj2w==
+X-Received: by 2002:adf:de0d:0:b0:21d:66a1:ad4d with SMTP id
+ b13-20020adfde0d000000b0021d66a1ad4dmr24118558wrm.17.1657657688974; 
+ Tue, 12 Jul 2022 13:28:08 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ w13-20020adff9cd000000b0021d20461bbbsm9072863wrr.88.2022.07.12.13.28.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jul 2022 13:28:08 -0700 (PDT)
+Message-ID: <4d2bdc57-8cdb-daf3-e610-45bbdb685927@amsat.org>
+Date: Mon, 11 Jul 2022 18:20:42 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 12 Jul 2022 19:37:51.0355 (UTC)
- FILETIME=[DFB53CB0:01D89626]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -3
-X-Spam_score: -0.4
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH v3 8/9] misc: remove qemu/osdep.h from headers / included
+ source files
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20220707163720.1421716-1-berrange@redhat.com>
+ <20220707163720.1421716-9-berrange@redhat.com>
+In-Reply-To: <20220707163720.1421716-9-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
 X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,261 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-This initial version supports the invalidation of one or all
-TLB entries. Flush by PID/LPID, or based in process/partition
-scope is not supported, because it would make using the
-generic QEMU TLB implementation hard. In these cases, all
-entries are flushed.
+On 7/7/22 18:37, Daniel P. Berrangé wrote:
+> Since qemu/osdep.h is guaranteed present in all C source files,
+> there is hno reason for it to be present in header files. Some
+> C source files are not directly directly, but rather included
+> from other source files. These should also not have qemu/osdep.h
+> present, as the primary source will have already included it.
+> ---
+>   crypto/akcipher-gcrypt.c.inc                              | 1 -
+>   crypto/akcipher-nettle.c.inc                              | 1 -
+>   crypto/cipher-gnutls.c.inc                                | 1 -
+>   crypto/rsakey-nettle.c.inc                                | 1 -
+>   crypto/rsakey.h                                           | 1 -
+>   include/hw/cxl/cxl_host.h                                 | 1 -
+>   include/hw/tricore/triboard.h                             | 1 -
+>   include/qemu/userfaultfd.h                                | 1 -
+>   net/vmnet_int.h                                           | 1 -
+>   qga/cutils.h                                              | 2 --
+>   target/cris/translate_v10.c.inc                           | 1 -
+>   target/hexagon/hex_arch_types.h                           | 1 -
+>   target/hexagon/mmvec/macros.h                             | 1 -
+>   target/riscv/pmu.h                                        | 1 -
+>   target/xtensa/core-dc232b/xtensa-modules.c.inc            | 1 -
+>   target/xtensa/core-dc233c/xtensa-modules.c.inc            | 1 -
+>   target/xtensa/core-de212/xtensa-modules.c.inc             | 1 -
+>   target/xtensa/core-fsf/xtensa-modules.c.inc               | 1 -
+>   target/xtensa/core-sample_controller/xtensa-modules.c.inc | 1 -
+>   ui/vnc-enc-zrle.c.inc                                     | 3 ---
+>   ui/vnc-enc-zywrle-template.c.inc                          | 1 -
+>   21 files changed, 24 deletions(-)
 
-Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
----
- target/ppc/helper.h                          |   2 +
- target/ppc/mmu-book3s-v3.h                   |  15 ++
- target/ppc/mmu_helper.c                      | 154 +++++++++++++++++++
- target/ppc/translate/storage-ctrl-impl.c.inc |  17 ++
- 4 files changed, 188 insertions(+)
-
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index d627cfe6ed..90d16f00e7 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -672,6 +672,8 @@ DEF_HELPER_FLAGS_1(tlbia, TCG_CALL_NO_RWG, void, env)
- DEF_HELPER_FLAGS_2(tlbie, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_FLAGS_2(tlbiva, TCG_CALL_NO_RWG, void, env, tl)
- #if defined(TARGET_PPC64)
-+DEF_HELPER_FLAGS_4(tlbie_isa300, TCG_CALL_NO_WG, void, \
-+        env, tl, tl, i32)
- DEF_HELPER_FLAGS_3(store_slb, TCG_CALL_NO_RWG, void, env, tl, tl)
- DEF_HELPER_2(load_slb_esid, tl, env, tl)
- DEF_HELPER_2(load_slb_vsid, tl, env, tl)
-diff --git a/target/ppc/mmu-book3s-v3.h b/target/ppc/mmu-book3s-v3.h
-index d6d5ed8f8e..674377a19e 100644
---- a/target/ppc/mmu-book3s-v3.h
-+++ b/target/ppc/mmu-book3s-v3.h
-@@ -50,6 +50,21 @@ struct prtb_entry {
- 
- #ifdef TARGET_PPC64
- 
-+/*
-+ * tlbie[l] helper flags
-+ *
-+ * RIC, PRS, R and local are passed as flags in the last argument.
-+ */
-+#define TLBIE_F_RIC_SHIFT       0
-+#define TLBIE_F_PRS_SHIFT       2
-+#define TLBIE_F_R_SHIFT         3
-+#define TLBIE_F_LOCAL_SHIFT     4
-+
-+#define TLBIE_F_RIC_MASK        (3 << TLBIE_F_RIC_SHIFT)
-+#define TLBIE_F_PRS             (1 << TLBIE_F_PRS_SHIFT)
-+#define TLBIE_F_R               (1 << TLBIE_F_R_SHIFT)
-+#define TLBIE_F_LOCAL           (1 << TLBIE_F_LOCAL_SHIFT)
-+
- static inline bool ppc64_use_proc_tbl(PowerPCCPU *cpu)
- {
-     return !!(cpu->env.spr[SPR_LPCR] & LPCR_UPRT);
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 15239dc95b..b881aee23f 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -429,6 +429,160 @@ void helper_tlbie(CPUPPCState *env, target_ulong addr)
-     ppc_tlb_invalidate_one(env, addr);
- }
- 
-+#if defined(TARGET_PPC64)
-+
-+/* Invalidation Selector */
-+#define TLBIE_IS_VA         0
-+#define TLBIE_IS_PID        1
-+#define TLBIE_IS_LPID       2
-+#define TLBIE_IS_ALL        3
-+
-+/* Radix Invalidation Control */
-+#define TLBIE_RIC_TLB       0
-+#define TLBIE_RIC_PWC       1
-+#define TLBIE_RIC_ALL       2
-+#define TLBIE_RIC_GRP       3
-+
-+/* Radix Actual Page sizes */
-+#define TLBIE_R_AP_4K       0
-+#define TLBIE_R_AP_64K      5
-+#define TLBIE_R_AP_2M       1
-+#define TLBIE_R_AP_1G       2
-+
-+/* RB field masks */
-+#define TLBIE_RB_EPN_MASK   PPC_BITMASK(0, 51)
-+#define TLBIE_RB_IS_MASK    PPC_BITMASK(52, 53)
-+#define TLBIE_RB_AP_MASK    PPC_BITMASK(56, 58)
-+
-+void helper_tlbie_isa300(CPUPPCState *env, target_ulong rb, target_ulong rs,
-+                         uint32_t flags)
-+{
-+    unsigned ric = (flags & TLBIE_F_RIC_MASK) >> TLBIE_F_RIC_SHIFT;
-+    /*
-+     * With the exception of the checks for invalid instruction forms,
-+     * PRS is currently ignored, because we don't know if a given TLB entry
-+     * is process or partition scoped.
-+     */
-+    bool prs = flags & TLBIE_F_PRS;
-+    bool r = flags & TLBIE_F_R;
-+    bool local = flags & TLBIE_F_LOCAL;
-+    bool effR;
-+    unsigned is = extract64(rb, PPC_BIT_NR(53), 2), set;
-+    unsigned ap;        /* actual page size */
-+    target_ulong addr, pgoffs_mask;
-+
-+    qemu_log_mask(CPU_LOG_MMU,
-+        "%s: local=%d addr=" TARGET_FMT_lx " ric=%u prs=%d r=%d is=%u\n",
-+        __func__, local, rb & TARGET_PAGE_MASK, ric, prs, r, is);
-+
-+    effR = FIELD_EX64(env->msr, MSR, HV) ? r : env->spr[SPR_LPCR] & LPCR_HR;
-+
-+    /* Partial TLB invalidation is supported for Radix only for now. */
-+    if (!effR) {
-+        goto inval_all;
-+    }
-+
-+    /* Check for invalid instruction forms (effR=1). */
-+    if (unlikely(ric == TLBIE_RIC_GRP ||
-+                 ((ric == TLBIE_RIC_PWC || ric == TLBIE_RIC_ALL) &&
-+                                           is == TLBIE_IS_VA) ||
-+                 (!prs && is == TLBIE_IS_PID))) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+            "%s: invalid instruction form: ric=%u prs=%d r=%d is=%u\n",
-+            __func__, ric, prs, r, is);
-+        goto invalid;
-+    }
-+
-+    /* We don't cache Page Walks. */
-+    if (ric == TLBIE_RIC_PWC) {
-+        if (local) {
-+            set = extract64(rb, PPC_BIT_NR(51), 12);
-+            if (set != 0) {
-+                qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid set: %d\n",
-+                              __func__, set);
-+                goto invalid;
-+            }
-+        }
-+        return;
-+    }
-+
-+    /*
-+     * Invalidation by LPID or PID is not supported, so fallback
-+     * to full TLB flush in these cases.
-+     */
-+    if (is != TLBIE_IS_VA) {
-+        goto inval_all;
-+    }
-+
-+    /*
-+     * The results of an attempt to invalidate a translation outside of
-+     * quadrant 0 for Radix Tree translation (effR=1, RIC=0, PRS=1, IS=0,
-+     * and EA 0:1 != 0b00) are boundedly undefined.
-+     */
-+    if (unlikely(ric == TLBIE_RIC_TLB && prs && is == TLBIE_IS_VA &&
-+                 (rb & R_EADDR_QUADRANT) != R_EADDR_QUADRANT0)) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+            "%s: attempt to invalidate a translation outside of quadrant 0\n",
-+            __func__);
-+        goto inval_all;
-+    }
-+
-+    assert(is == TLBIE_IS_VA);
-+    assert(ric == TLBIE_RIC_TLB || ric == TLBIE_RIC_ALL);
-+
-+    ap = extract64(rb, PPC_BIT_NR(58), 3);
-+    switch (ap) {
-+    case TLBIE_R_AP_4K:
-+        pgoffs_mask = 0xfffull;
-+        break;
-+
-+    case TLBIE_R_AP_64K:
-+        pgoffs_mask = 0xffffull;
-+        break;
-+
-+    case TLBIE_R_AP_2M:
-+        pgoffs_mask = 0x1fffffull;
-+        break;
-+
-+    case TLBIE_R_AP_1G:
-+        pgoffs_mask = 0x3fffffffull;
-+        break;
-+
-+    default:
-+        /*
-+         * If the value specified in RS 0:31, RS 32:63, RB 54:55, RB 56:58,
-+         * RB 44:51, or RB 56:63, when it is needed to perform the specified
-+         * operation, is not supported by the implementation, the instruction
-+         * is treated as if the instruction form were invalid.
-+         */
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid AP: %d\n", __func__, ap);
-+        goto invalid;
-+    }
-+
-+    addr = rb & TLBIE_RB_EPN_MASK & ~pgoffs_mask;
-+
-+    if (local) {
-+        tlb_flush_page(env_cpu(env), addr);
-+    } else {
-+        tlb_flush_page_all_cpus(env_cpu(env), addr);
-+    }
-+    return;
-+
-+inval_all:
-+    env->tlb_need_flush |= TLB_NEED_LOCAL_FLUSH;
-+    if (!local) {
-+        env->tlb_need_flush |= TLB_NEED_GLOBAL_FLUSH;
-+    }
-+    return;
-+
-+invalid:
-+    raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
-+                           POWERPC_EXCP_INVAL |
-+                           POWERPC_EXCP_INVAL_INVAL, GETPC());
-+}
-+
-+#endif
-+
- void helper_tlbiva(CPUPPCState *env, target_ulong addr)
- {
-     /* tlbiva instruction only exists on BookE */
-diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
-index 7793297dd4..467c390888 100644
---- a/target/ppc/translate/storage-ctrl-impl.c.inc
-+++ b/target/ppc/translate/storage-ctrl-impl.c.inc
-@@ -21,6 +21,8 @@
-  * Store Control Instructions
-  */
- 
-+#include "mmu-book3s-v3.h"
-+
- static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
- {
- #if defined(CONFIG_USER_ONLY)
-@@ -65,6 +67,21 @@ static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
-         tcg_gen_ext32u_tl(t0, cpu_gpr[rb]);
-         gen_helper_tlbie(cpu_env, t0);
-         tcg_temp_free(t0);
-+
-+#if defined(TARGET_PPC64)
-+    /*
-+     * ISA 3.1B says that MSR SF must be 1 when this instruction is executed;
-+     * otherwise the results are undefined.
-+     */
-+    } else if (a->r) {
-+        gen_helper_tlbie_isa300(cpu_env, cpu_gpr[rb], cpu_gpr[a->rs],
-+                tcg_constant_i32(a->ric << TLBIE_F_RIC_SHIFT |
-+                                 a->prs << TLBIE_F_PRS_SHIFT |
-+                                 a->r << TLBIE_F_R_SHIFT |
-+                                 local << TLBIE_F_LOCAL_SHIFT));
-+        return true;
-+#endif
-+
-     } else {
-         gen_helper_tlbie(cpu_env, cpu_gpr[rb]);
-     }
--- 
-2.25.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
