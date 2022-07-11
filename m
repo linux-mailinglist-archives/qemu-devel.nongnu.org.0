@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7D6570A44
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7B1570A45
 	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 21:02:25 +0200 (CEST)
-Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:35038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAyfm-0007Dn-WC
+	id 1oAyfn-0007FF-Fl
 	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 15:02:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oAyaX-0002R4-4C; Mon, 11 Jul 2022 14:56:57 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40206)
+ id 1oAyaY-0002RW-Ec; Mon, 11 Jul 2022 14:56:58 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45082
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oAyaV-0005xT-8L; Mon, 11 Jul 2022 14:56:56 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26BHJYR4009799;
- Mon, 11 Jul 2022 18:56:50 GMT
+ id 1oAyaV-00060u-PQ; Mon, 11 Jul 2022 14:56:58 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26BICKjd012718;
+ Mon, 11 Jul 2022 18:56:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=dja5qNhFMidWWRcqGwEE52roSibN8A1rnBHFE4gUAxk=;
- b=ZezxH+t/qwP/PkJT85xCx01kGlz4Fj0ZAswhefwinQk8T1q6AHGL5pG892lKn+XTVkea
- 3AGlBTqcQkV594eyMGZaFcYUHSv6Mw8S31JRban/VV/Cs5LdyeM7Rffr2B506+Dx8M/Y
- WhY868YqCfkFXNWhaRfSRJX0OFi0Wk+gMYfedETxjbKryKSB7i95ECLx5bBbKrW9QKBr
- 1/OyZJnSi7te3DNu7raI7YS9VxYTnxDoce2irVqNc2QCxVasihffZjbO6PeKtNDjAC1y
- rCBU+GF0Vh5kx97AajJjG2PccstkkiMAbHzlB6hTlQxt5rKp0KujKiM4eKBbFF1NBxWf 2g== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=i4yVnMq/TEfygjts3btTYr61C0buV1CPNPpNqKp7VhM=;
+ b=G7sZ2jjxycnRZ3jpShZv9Ax7nzxgG4EswXDNNIfRFfCy+JT469i9tkM8uLzXjxkkk/3J
+ NV51VyKkwXI0sHGUfSxx6dHUHHfFvLQI+yo8U0107tlgM6BDkhqgQlItv6xxdO5tollj
+ o9DBlI/qauy8tW4b+aZzt41SO3/4WmF40NaDL1/MxKP61S0QL5fnpv94OGwSRgf26asC
+ As/V75qHvQf2qdBX+kFEoHvERoYnK6DXi5Cqnv2m8P1piuSk1mlcmKhMaqHkJkZzdcDv
+ fx1ZtzeQI+db6Jj8U5GE7Wh8MclfXuvQmQJuXP3/NGfDNRq6PuxHyj5nL1giFlbz1Lsn KA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8r5rjbna-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8pk9d9h8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jul 2022 18:56:50 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26BHw9xp031989;
- Mon, 11 Jul 2022 18:56:50 GMT
+ Mon, 11 Jul 2022 18:56:52 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26BIWh8l013270;
+ Mon, 11 Jul 2022 18:56:51 GMT
 Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
  [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8r5rjbmq-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8pk9d9gq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jul 2022 18:56:51 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26BIpiUK017486;
+ Mon, 11 Jul 2022 18:56:49 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 3h8rrn01h4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 11 Jul 2022 18:56:49 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26BIplpx017489;
- Mon, 11 Jul 2022 18:56:47 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3h8rrn01h3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jul 2022 18:56:47 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26BIuiGi24117578
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26BIukfT20972014
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 Jul 2022 18:56:44 GMT
+ Mon, 11 Jul 2022 18:56:46 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4636A42041;
- Mon, 11 Jul 2022 18:56:44 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 88DB842041;
+ Mon, 11 Jul 2022 18:56:46 +0000 (GMT)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AEB5842042;
- Mon, 11 Jul 2022 18:56:43 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0CA704203F;
+ Mon, 11 Jul 2022 18:56:46 +0000 (GMT)
 Received: from heavy.ibmuc.com (unknown [9.171.48.196])
  by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 11 Jul 2022 18:56:43 +0000 (GMT)
+ Mon, 11 Jul 2022 18:56:45 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
@@ -71,26 +74,28 @@ To: Richard Henderson <richard.henderson@linaro.org>,
  Eric Farman <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>
 Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 0/3] accel/tcg: Fix unaligned stores to s390x
+Subject: [PATCH 1/3] accel/tcg: Fix unaligned stores to s390x
  low-address-protected lowcore
-Date: Mon, 11 Jul 2022 20:56:37 +0200
-Message-Id: <20220711185640.3558813-1-iii@linux.ibm.com>
+Date: Mon, 11 Jul 2022 20:56:38 +0200
+Message-Id: <20220711185640.3558813-2-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20220711185640.3558813-1-iii@linux.ibm.com>
+References: <20220711185640.3558813-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 1CvrOhAAtuXx7EwvAaRivNhuDPkXezCI
-X-Proofpoint-GUID: nPbzrZQAUIWRBp6ptrymFOufaTkEAumE
+X-Proofpoint-GUID: c3j7NlnROJ8QUv6ZLR2y6FktUXmUoM3K
+X-Proofpoint-ORIG-GUID: iupURZyDm9hg8eBox04Puizeu-1LTMZA
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-11_23,2022-07-08_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- lowpriorityscore=0 adultscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
- priorityscore=1501 clxscore=1015 bulkscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0
+ priorityscore=1501 impostorscore=0 mlxscore=0 mlxlogscore=954
+ lowpriorityscore=0 adultscore=0 spamscore=0 phishscore=0 suspectscore=0
+ clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2206140000 definitions=main-2207110079
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -114,36 +119,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+If low-address-protection is active, unaligned stores to non-protected
+parts of lowcore lead to protection exceptions. The reason is that in
+such cases tlb_fill() call in store_helper_unaligned() covers
+[0, addr + size) range, which contains the protected portion of
+lowcore. This range is too large.
 
-I noticed that certain accesses to lowcore incorrectly trigger
-protection exceptions. I tracked it down to store_helper_unaligned()
-calling tlb_fill() with ranges like [0, 2000).
+The most straightforward fix would be to make sure we stay within the
+original [addr, addr + size) range. However, if an unaligned access
+affects a single page, we don't need to call tlb_fill() in
+store_helper_unaligned() at all, since it would be identical to
+the previous tlb_fill() call in store_helper(), and therefore a no-op.
+If an unaligned access covers multiple pages, this situation does not
+occur.
 
-Patch 1 fixes the issue, patch 2 adds a new MMIO device that enables
-writing system tests for s390x, patch 3 adds a system test for this
-issue.
+Therefore simply skip TLB handling in store_helper_unaligned() if we
+are dealing with a single page.
 
-Best regards,
-Ilya
+Fixes: 2bcf018340cb ("s390x/tcg: low-address protection support")
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ accel/tcg/cputlb.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Ilya Leoshkevich (3):
-  accel/tcg: Fix unaligned stores to s390x low-address-protected lowcore
-  hw/misc: Add mmio-debug-exit device
-  tests/tcg/s390x: Test unaligned accesses to lowcore
-
- accel/tcg/cputlb.c                      |  8 ++-
- hw/misc/Kconfig                         |  3 +
- hw/misc/debugexit_mmio.c                | 80 +++++++++++++++++++++++++
- hw/misc/meson.build                     |  1 +
- hw/s390x/Kconfig                        |  1 +
- tests/tcg/s390x/Makefile.softmmu-target |  9 +++
- tests/tcg/s390x/unaligned-lowcore.S     | 24 ++++++++
- 7 files changed, 123 insertions(+), 3 deletions(-)
- create mode 100644 hw/misc/debugexit_mmio.c
- create mode 100644 tests/tcg/s390x/Makefile.softmmu-target
- create mode 100644 tests/tcg/s390x/unaligned-lowcore.S
-
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index f90f4312ea..a46f3a654d 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -2248,7 +2248,7 @@ store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
+     const size_t tlb_off = offsetof(CPUTLBEntry, addr_write);
+     uintptr_t index, index2;
+     CPUTLBEntry *entry, *entry2;
+-    target_ulong page2, tlb_addr, tlb_addr2;
++    target_ulong page1, page2, tlb_addr, tlb_addr2;
+     MemOpIdx oi;
+     size_t size2;
+     int i;
+@@ -2256,15 +2256,17 @@ store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
+     /*
+      * Ensure the second page is in the TLB.  Note that the first page
+      * is already guaranteed to be filled, and that the second page
+-     * cannot evict the first.
++     * cannot evict the first.  An exception to this rule is PAGE_WRITE_INV
++     * handling: the first page could have evicted itself.
+      */
++    page1 = addr & TARGET_PAGE_MASK;
+     page2 = (addr + size) & TARGET_PAGE_MASK;
+     size2 = (addr + size) & ~TARGET_PAGE_MASK;
+     index2 = tlb_index(env, mmu_idx, page2);
+     entry2 = tlb_entry(env, mmu_idx, page2);
+ 
+     tlb_addr2 = tlb_addr_write(entry2);
+-    if (!tlb_hit_page(tlb_addr2, page2)) {
++    if (page1 != page2 && !tlb_hit_page(tlb_addr2, page2)) {
+         if (!victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
+             tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
+                      mmu_idx, retaddr);
 -- 
 2.35.3
 
