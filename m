@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7C7570DD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 01:05:55 +0200 (CEST)
-Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0637570DF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 01:10:54 +0200 (CEST)
+Received: from localhost ([::1]:40434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB2TS-0005H3-88
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 19:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34116)
+	id 1oB2YH-00035C-U2
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 19:10:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Pk-0000gX-T6
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49238)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Px-0000zr-LT
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Ph-00022U-Nz
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oB2Pn-00024m-TN
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:02:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657580520;
+ s=mimecast20190719; t=1657580527;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QJuOkhEXAiXjH4eYGnIaD9sRWCWZFi+PQLkERePzj1U=;
- b=Z9BsMVqgTiQ5XLtuQPI3rRI0v3/k9qmZPOlyC8M362T4GeuEx2f0eVRCUhEomJpG4etxXn
- CWAbsKNu22/H/nNYEvmZpg2p/eIajkj6p9VABX2MCmUzECOIwv2IKKwmIfhQdKXntcgEWh
- J+pNIz0iIBPhZWQfy1jZQyJUuUfGx9k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Hpl9Hcmja7wCqA/6pHrgfp7z/GTa2UgFHuwdaUlLYz0=;
+ b=RXtJrP0bUkJj3Fdh1bSujUgQqbUilsquFtFoZOqgmp/YIgHOSAhREq5pD93V20V3yjUuY9
+ 21qU3ZA+aWQYbw/Uo0aN73LDxOTbw8QLdSvg/pekZfnouGHKaWU8lFJ7scNlBZ2ChGlN5G
+ X5328U/jZ9m82Typsw2jjKWbMKFJ8PQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-4i_7WstmN4-lyZQtNrWdNQ-1; Mon, 11 Jul 2022 19:01:57 -0400
-X-MC-Unique: 4i_7WstmN4-lyZQtNrWdNQ-1
+ us-mta-82-YaLRLi9JOuWG_NSDB_JWiQ-1; Mon, 11 Jul 2022 19:01:58 -0400
+X-MC-Unique: YaLRLi9JOuWG_NSDB_JWiQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3E8F1C06ECA;
- Mon, 11 Jul 2022 23:01:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 625D080029D;
+ Mon, 11 Jul 2022 23:01:57 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B9F32166B26;
- Mon, 11 Jul 2022 23:01:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C19D72166B26;
+ Mon, 11 Jul 2022 23:01:56 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Berrange <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
@@ -52,22 +53,23 @@ Cc: Daniel Berrange <berrange@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  Cleber Rosa <crosa@redhat.com>, Michael Tsirkin <mst@redhat.com>,
  Ani Sinha <ani@anisinha.ca>, Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [RFC PATCH v3 0/7] tests: run python tests under a venv
-Date: Mon, 11 Jul 2022 19:01:48 -0400
-Message-Id: <20220711230155.953788-1-jsnow@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [RFC PATCH v3 1/7] tests: create optional tests/venv dependency groups
+Date: Mon, 11 Jul 2022 19:01:49 -0400
+Message-Id: <20220711230155.953788-2-jsnow@redhat.com>
+In-Reply-To: <20220711230155.953788-1-jsnow@redhat.com>
+References: <20220711230155.953788-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,91 +85,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, here's another RFC for bringing external Python dependencies to the=0D
-QEMU test suite.=0D
-=0D
-This is mostly a refresh of a version I sent out before, but mixes in my=0D
-VM improvement test as an optional pre-requisite to improve VM test=0D
-stability to ensure that the BSDs all pass with the new=0D
-infrastructure. (And our oldest supported Debian and Ubuntu targets,=0D
-too.)=0D
-=0D
-(Note: this requires dropping support for Ubuntu 18.04, which ships with=0D
-a version of setuptools that is simply too old.)=0D
-=0D
-This patchset is still not without some problems that I am working on,=0D
-but progress has been slow.=0D
-=0D
-Problems I am aware of:=0D
-=0D
-- This version of the patch series does not itself enforce any=0D
-  offline-only behavior for venv creation, but downstreams can modify=0D
-  any call to 'mkvenv' to pass '--offline'. I am working on a configure=0D
-  file toggle to swap the default behavior when running tests.=0D
-=0D
-- iotests will now actually never run mypy or pylint tests by default=0D
-  anymore, because the bootstrapper won't select those packages by=0D
-  default, and the virtual environment won't utilize the system=0D
-  packages, so iotest 297 will just "skip" all of the time now.=0D
-=0D
-  The reason we don't want to install these packages by default is=0D
-  because we don't want to add dependencies on mypy and pylint for=0D
-  downstream builds.=0D
-=0D
-  With these patches, 297 would still work if you manually opened up the=0D
-  testing venv and installed suitable mypy/pylint packages there. I=0D
-  could also add a new optional dependency group, and one could=0D
-  theoretically invoke a once-per-build-dir command of 'make=0D
-  check-venv-iotests' to help make the process only semi-manual, but=0D
-  it's still annoying.=0D
-=0D
-  Ideally, the python checks in qemu.git/python/ can handle the same=0D
-  tests as 297 does -- but we need to give a shorthand invocation like=0D
-  "make check-python" that is excluded from the default "make check" to=0D
-  allow block developers to quickly opt-in to the same tests.=0D
-=0D
-  I've covered some of the problems here on-list before:=0D
-  https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg03661.html=0D
-=0D
-  ...But I haven't quite solved them yet.=0D
-=0D
-- iotests can now self-bootstrap the venv when it isn't present, but=0D
-  this self-bootstrapping has some issues in that because it skips the=0D
-  Makefile magic, it cannot update the venv when changes are made to the=0D
-  venv configuration piece.=0D
-=0D
-That's all for now. Work on the configure file integration is ongoing. I=0D
-don't know if I'll beat soft freeze (It's looking unlikely given the=0D
-amount of IRL issues I am juggling right now), but I'm hoping to push as=0D
-much of this forward as I can to try and get some testing in for RC=0D
-phase to determine what problems might exist that I haven't noticed yet.=0D
-=0D
---js=0D
-=0D
-John Snow (7):=0D
-  tests: create optional tests/venv dependency groups=0D
-  tests: pythonize test venv creation=0D
-  tests: Remove spurious pip warnings on Ubuntu20.04=0D
-  tests/vm: add venv pre-requisites to VM building recipes=0D
-  tests: add 'check-venv' as a dependency of 'make check'=0D
-  iotests: use tests/venv for running tests=0D
-  iotests: self-bootstrap testing venv=0D
-=0D
- tests/Makefile.include        |  32 +++---=0D
- tests/mkvenv.py               | 187 ++++++++++++++++++++++++++++++++++=0D
- tests/qemu-iotests/testenv.py |  25 +++--=0D
- tests/requirements.txt        |   6 --=0D
- tests/setup.cfg               |  20 ++++=0D
- tests/setup.py                |  16 +++=0D
- tests/vm/netbsd               |   1 +=0D
- 7 files changed, 262 insertions(+), 25 deletions(-)=0D
- create mode 100644 tests/mkvenv.py=0D
- delete mode 100644 tests/requirements.txt=0D
- create mode 100644 tests/setup.cfg=0D
- create mode 100644 tests/setup.py=0D
-=0D
--- =0D
-2.34.3=0D
-=0D
+This patch uses a dummy package and setup.cfg/setup.py files to manage
+optional dependency groups for the test venv specification. Now, there's
+a core set of dependencies which for now includes just "qemu" (but soon,
+qemu.qmp) and a separate, optional 'avocado' group that includes
+avocado-framework and pycdlib.
+
+Practical upshot: We install only a minimum of things for the majority
+of check-* targets, but allow optional add-ons to be processed when
+running avocado tests. This will spare downstreams from having to add
+more dependencies than is necessary as a build dependencies when
+invoking "make check".
+
+(We also keep both sets of dependencies in one file, which is helpful
+for review to ensure that different option groups don't conflict with
+one another.)
+
+NOTE: There is a non-fatal caveat introduced by this patch on Ubuntu
+20.04 systems; see the subsequent commit "tests: Remove spurious pip
+warnings on Ubuntu20.04" for more information.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ tests/Makefile.include | 21 ++++++++++++++-------
+ tests/requirements.txt |  6 ------
+ tests/setup.cfg        | 20 ++++++++++++++++++++
+ tests/setup.py         | 16 ++++++++++++++++
+ 4 files changed, 50 insertions(+), 13 deletions(-)
+ delete mode 100644 tests/requirements.txt
+ create mode 100644 tests/setup.cfg
+ create mode 100644 tests/setup.py
+
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 3accb83b132..82c697230e0 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -81,13 +81,13 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
+ 
+ # Python venv for running tests
+ 
+-.PHONY: check-venv check-avocado check-acceptance check-acceptance-deprecated-warning
++.PHONY: check-venv check-venv-avocado check-avocado check-acceptance \
++        check-acceptance-deprecated-warning
+ 
+ # Build up our target list from the filtered list of ninja targets
+ TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
+ 
+ TESTS_VENV_DIR=$(BUILD_DIR)/tests/venv
+-TESTS_VENV_REQ=$(SRC_PATH)/tests/requirements.txt
+ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
+ TESTS_PYTHON=$(TESTS_VENV_DIR)/bin/python3
+ ifndef AVOCADO_TESTS
+@@ -108,10 +108,16 @@ quiet-venv-pip = $(quiet-@)$(call quiet-command-run, \
+     $(TESTS_PYTHON) -m pip -q --disable-pip-version-check $1, \
+     "VENVPIP","$1")
+ 
+-$(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
++# Core dependencies for tests/venv
++$(TESTS_VENV_DIR): $(SRC_PATH)/tests/setup.cfg $(SRC_PATH)/python/setup.cfg
+ 	$(call quiet-command, $(PYTHON) -m venv $@, VENV, $@)
+ 	$(call quiet-venv-pip,install -e "$(SRC_PATH)/python/")
+-	$(call quiet-venv-pip,install -r $(TESTS_VENV_REQ))
++	$(call quiet-venv-pip,install "$(SRC_PATH)/tests/")
++	$(call quiet-command, touch $@)
++
++# Optional avocado dependencies for tests/venv
++$(TESTS_VENV_DIR)/avocado: $(TESTS_VENV_DIR)
++	$(call quiet-venv-pip,install "$(SRC_PATH)/tests/[avocado]")
+ 	$(call quiet-command, touch $@)
+ 
+ $(TESTS_RESULTS_DIR):
+@@ -119,6 +125,7 @@ $(TESTS_RESULTS_DIR):
+             MKDIR, $@)
+ 
+ check-venv: $(TESTS_VENV_DIR)
++check-venv-avocado: $(TESTS_VENV_DIR)/avocado
+ 
+ FEDORA_31_ARCHES_TARGETS=$(patsubst %-softmmu,%, $(filter %-softmmu,$(TARGETS)))
+ FEDORA_31_ARCHES_CANDIDATES=$(patsubst ppc64,ppc64le,$(FEDORA_31_ARCHES_TARGETS))
+@@ -126,16 +133,16 @@ FEDORA_31_ARCHES := x86_64 aarch64 ppc64le s390x
+ FEDORA_31_DOWNLOAD=$(filter $(FEDORA_31_ARCHES),$(FEDORA_31_ARCHES_CANDIDATES))
+ 
+ # download one specific Fedora 31 image
+-get-vm-image-fedora-31-%: check-venv
++get-vm-image-fedora-31-%: check-venv-avocado
+ 	$(call quiet-command, \
+              $(TESTS_PYTHON) -m avocado vmimage get \
+              --distro=fedora --distro-version=31 --arch=$*, \
+ 	"AVOCADO", "Downloading avocado tests VM image for $*")
+ 
+ # download all vm images, according to defined targets
+-get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
++get-vm-images: check-venv-avocado $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
+ 
+-check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
++check-avocado: check-venv-avocado $(TESTS_RESULTS_DIR) get-vm-images
+ 	$(call quiet-command, \
+             $(TESTS_PYTHON) -m avocado \
+             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+deleted file mode 100644
+index 0ba561b6bdf..00000000000
+--- a/tests/requirements.txt
++++ /dev/null
+@@ -1,6 +0,0 @@
+-# Add Python module requirements, one per line, to be installed
+-# in the tests/venv Python virtual environment. For more info,
+-# refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+-# Note that qemu.git/python/ is always implicitly installed.
+-avocado-framework==88.1
+-pycdlib==1.11.0
+diff --git a/tests/setup.cfg b/tests/setup.cfg
+new file mode 100644
+index 00000000000..263a5de01af
+--- /dev/null
++++ b/tests/setup.cfg
+@@ -0,0 +1,20 @@
++# This file represents a "dummy" package that expresses
++# the dependencies necessary to run the various python-based
++# test suites in the qemu.git tree.
++[metadata]
++name = qemu.dummy_tests
++version = 0.0.0
++description = qemu.git testing dummy package
++
++[options]
++packages =
++python_requires = >= 3.6
++install_requires =
++    qemu  # Note: A special setup script will always install 'qemu' from
++          # qemu.git/python. It doesn't have a meaningful/real version.
++
++[options.extras_require]
++# Extra dependencies required by the avocado tests.
++avocado =
++    avocado-framework<89.0,>=88.1
++    pycdlib<2.0,>=1.11.0
+diff --git a/tests/setup.py b/tests/setup.py
+new file mode 100644
+index 00000000000..c99fe5d1725
+--- /dev/null
++++ b/tests/setup.py
+@@ -0,0 +1,16 @@
++# This setup file is just-enough-config to allow pip to bootstrap a
++# testing environment. It is not meant to be executed directly.
++# See also: setup.cfg
++
++import setuptools
++import pkg_resources
++
++
++def main():
++    # https://medium.com/@daveshawley/safely-using-setup-cfg-for-metadata-1babbe54c108
++    pkg_resources.require('setuptools>=39.2')
++    setuptools.setup()
++
++
++if __name__ == '__main__':
++    main()
+-- 
+2.34.3
 
 
