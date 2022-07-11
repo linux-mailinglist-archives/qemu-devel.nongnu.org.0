@@ -2,91 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F124B56FBE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 11:36:32 +0200 (CEST)
-Received: from localhost ([::1]:45716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DAB56FBE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 11:36:53 +0200 (CEST)
+Received: from localhost ([::1]:46356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oApqB-0008Oi-Qp
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 05:36:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34510)
+	id 1oApqW-0000QK-9m
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 05:36:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oApnm-0005kq-6a
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:34:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52931)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oApoQ-0006EJ-3s
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:34:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oApni-0004ui-Pv
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:34:00 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oApoM-0004zq-Np
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 05:34:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657532037;
+ s=mimecast20190719; t=1657532073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C7IKGO4VHxhjAth2znQ7bg1mJruw+APYcIoDEbniPSE=;
- b=iaQUFprsOWR3jusfRpEIlXfKnfk7Xxo5XHGUpP3jfATYUDcM6Kp1VFhOf54H1xn+9vPGUE
- NdBPBFMsraye0uMLXfr6rgcM151EPVz/BjB5dhx1ALSaluCM6OfvNYxMuE9Eklb4jQNSe+
- yKellg9/Md6sfm4t+w3GAgdzc3xu0MM=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eKxkEYIvlnSupJ4OR2aX+aKWQ3V4zBL6U/37QrvFcx8=;
+ b=P6vOkGG3SyDzAC5G+GZear6Jmc5Y9q+tI9yX8eqZwdcnMxNM/4SbCuZuAjsWO1Dbbj1lW4
+ agK45VcgKZxvpiPUffheiIDMQGG6JqbskQYmLpGbD9vEjt6GA+e9d37xDJaIFr0H57sqQt
+ e6XeNdyoiLYjYr1WJh3FrkfGFZTzOao=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-36-R_e4pO4lPwGUCtZ8TxODWA-1; Mon, 11 Jul 2022 05:33:50 -0400
-X-MC-Unique: R_e4pO4lPwGUCtZ8TxODWA-1
-Received: by mail-qk1-f199.google.com with SMTP id
- e128-20020a376986000000b006af6adf035cso4923620qkc.8
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 02:33:50 -0700 (PDT)
+ us-mta-447-TuklxRleMsSS03Q1bMDHGQ-1; Mon, 11 Jul 2022 05:34:31 -0400
+X-MC-Unique: TuklxRleMsSS03Q1bMDHGQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v67-20020a1cac46000000b003a2be9fa09cso2505898wme.3
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 02:34:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=C7IKGO4VHxhjAth2znQ7bg1mJruw+APYcIoDEbniPSE=;
- b=JIiGltr7favMG1/o723lyZG4egF5aSdBnsRWTk2A9h7GXR6E4ZRtMCBK8SooOjMBT7
- ZrBS4jJPjDw5nV8FL8PiVuqFAXAnABRydznB5o4bHFVRV46sC8PlZ+EZY5EHonJcI8Qb
- agpWYYbYxk+Rm1/hoNFFigmsDo3p5qeiX52U1gumorp/Ve7oHTiIVP+yMgwLKkeaLfHV
- grbpRu+yVcl2oxMskYYDGAtwVbvk9iVcOKhYNJ/N/ny0CXijjLVUYCF6rrTrdXqIGLw/
- 9pz4NLi5qEbqcJU8QWLpHJ0cA8pRT/MDZ1NBNdvFq/fA0OLr5FLGqVUnp1fthfPtiz1T
- yMjg==
-X-Gm-Message-State: AJIora8tf1mH4RAZ65K7lxoRJyKmHIRpgjtSYHLdegNhzAf6pr6cILhM
- FKXaeAgeCcmpSpVzYEb6g16kyVNdKP+MWgfTsWnaqUKqzSL/JHYVUlKCpNikLcUE71YNj6O8+qe
- aCCUWbfaGmmubHI1K9TrtAwGNwMNNdXk=
-X-Received: by 2002:ac8:5dd1:0:b0:31d:34db:e0d with SMTP id
- e17-20020ac85dd1000000b0031d34db0e0dmr13298629qtx.592.1657532029667; 
- Mon, 11 Jul 2022 02:33:49 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uL1+NlXgABZMgQ5nQgKAM2/Z4HFp7LE/C7f71xHmnVgHZQEa4SthgbW7D6iKZtyfAmLQn0p5oahTqCUpQN9mg=
-X-Received: by 2002:ac8:5dd1:0:b0:31d:34db:e0d with SMTP id
- e17-20020ac85dd1000000b0031d34db0e0dmr13298608qtx.592.1657532029411; Mon, 11
- Jul 2022 02:33:49 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eKxkEYIvlnSupJ4OR2aX+aKWQ3V4zBL6U/37QrvFcx8=;
+ b=Zhv2QLVG99jJT/b9b9szlpIoP2hgex39q+UOz4IWl3ft3WBGIusCxK7ZBOqNHkg5Od
+ /Gn2XJF3HD89mRrtPlXBQRjmHEhkJKrEnXIEPZW4ORPBZ8wKBkyCjMs5d/bfEpH4Sg/N
+ IsfdOZogHHJkBZgjNmSBJNw1qnM2lnPBM+ASr5Cl1QmBafkNJy8eMo+7b/lGoIsb+/HM
+ EU8+fyrm0XdIFbf4j2/b84fgWxEjFvBOFZYm4H3AJQGX0tPDvf/sTzOu51FnLU1kHeo0
+ EuJpbE6NvSs5izLQFGYyWzoY6j+vpHrmMVgsWA5mSTUGTgtoLv4XbNElXEYkRh25+1Gf
+ a/Mw==
+X-Gm-Message-State: AJIora97UTJx2mzWRA+qT93ZN3g4hfCDSYApeBO/a+v4uYBDMBegYEIQ
+ 8JZm126Y5XgL76axVXP74STpPP3fjgdNahnuVPuk0VvYzkyiZHcfisTNFiJkqS/ZCmIjBTz8h7w
+ EBYJ+zEsJbHBS+D0=
+X-Received: by 2002:a05:6000:1cc:b0:21d:a352:116b with SMTP id
+ t12-20020a05600001cc00b0021da352116bmr5869103wrx.418.1657532070663; 
+ Mon, 11 Jul 2022 02:34:30 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sKLqDT6rdCHLZ/7vDnOC50dRYnwxEoBjd/RkkEpc+4r9wjbFtrxaotzfd4gvTXuopQnIAK4Q==
+X-Received: by 2002:a05:6000:1cc:b0:21d:a352:116b with SMTP id
+ t12-20020a05600001cc00b0021da352116bmr5869086wrx.418.1657532070455; 
+ Mon, 11 Jul 2022 02:34:30 -0700 (PDT)
+Received: from redhat.com ([2.52.154.68]) by smtp.gmail.com with ESMTPSA id
+ u3-20020a5d6da3000000b0021d66cf9547sm6647941wrs.0.2022.07.11.02.34.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jul 2022 02:34:30 -0700 (PDT)
+Date: Mon, 11 Jul 2022 05:33:55 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: qemu-devel@nongnu.org, thuth@redhat.com, peter.maydell@linaro.org,
+ berrange@redhat.com, jsnow@redhat.com, pbonzini@redhat.com,
+ imammedo@redhat.com
+Subject: Re: [PATCH v2 00/11] Introduce new acpi/smbios python tests using
+ biosbits
+Message-ID: <20220711044032-mutt-send-email-mst@kernel.org>
+References: <20220710170014.1673480-1-ani@anisinha.ca>
 MIME-Version: 1.0
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-10-eperezma@redhat.com>
- <ece7b78f-9920-be6f-cea4-b9069035a6b0@redhat.com>
-In-Reply-To: <ece7b78f-9920-be6f-cea4-b9069035a6b0@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 11 Jul 2022 11:33:13 +0200
-Message-ID: <CAJaqyWfpOTmUkdiRN57A3wfnmZojoAaHte-oOtmo3wfQWD1pfA@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 09/23] vhost: Add SVQElement
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Eric Blake <eblake@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220710170014.1673480-1-ani@anisinha.ca>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,204 +97,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 11, 2022 at 11:00 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/7/7 02:39, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > This will allow SVQ to add metadata to the different queue elements. To
-> > simplify changes, only store actual element at this patch.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   hw/virtio/vhost-shadow-virtqueue.h |  8 ++++--
-> >   hw/virtio/vhost-shadow-virtqueue.c | 41 ++++++++++++++++++++---------=
--
-> >   2 files changed, 33 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
-w-virtqueue.h
-> > index 0fbdd69153..e434dc63b0 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > @@ -15,6 +15,10 @@
-> >   #include "standard-headers/linux/vhost_types.h"
-> >   #include "hw/virtio/vhost-iova-tree.h"
-> >
-> > +typedef struct SVQElement {
-> > +    VirtQueueElement *elem;
-> > +} SVQElement;
-> > +
-> >   typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
-> >   typedef int (*ShadowVirtQueueStart)(VhostShadowVirtqueue *svq,
-> >                                       void *opaque);
-> > @@ -55,8 +59,8 @@ typedef struct VhostShadowVirtqueue {
-> >       /* IOVA mapping */
-> >       VhostIOVATree *iova_tree;
-> >
-> > -    /* Map for use the guest's descriptors */
-> > -    VirtQueueElement **ring_id_maps;
-> > +    /* Each element context */
-> > +    SVQElement *ring_id_maps;
-> >
-> >       /* Next VirtQueue element that guest made available */
-> >       VirtQueueElement *next_guest_avail_elem;
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
-w-virtqueue.c
-> > index 46d3c1d74f..913bca8769 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > @@ -237,7 +237,7 @@ static bool vhost_svq_add(VhostShadowVirtqueue *svq=
-, const struct iovec *out_sg,
-> >           return false;
-> >       }
-> >
-> > -    svq->ring_id_maps[qemu_head] =3D elem;
-> > +    svq->ring_id_maps[qemu_head].elem =3D elem;
-> >       return true;
-> >   }
-> >
-> > @@ -385,15 +385,25 @@ static uint16_t vhost_svq_last_desc_of_chain(cons=
-t VhostShadowVirtqueue *svq,
-> >       return i;
-> >   }
-> >
-> > -static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
-> > -                                           uint32_t *len)
-> > +static bool vhost_svq_is_empty_elem(SVQElement elem)
-> > +{
-> > +    return elem.elem =3D=3D NULL;
-> > +}
-> > +
-> > +static SVQElement vhost_svq_empty_elem(void)
-> > +{
-> > +    return (SVQElement){};
-> > +}
->
->
-> I wonder what's the benefit of using this instead of passing pointer to
-> SVQElement and using memset().
->
+On Sun, Jul 10, 2022 at 10:30:03PM +0530, Ani Sinha wrote:
+> Changelog:
+> v2:
+>  - a new class of python based tests introduced that is separate from avocado
+>    tests or qtests. Can be run by using "make check-pytest".
+>  - acpi biosbits tests are the first tests to use pytest environment.
+>  - bios bits tests now download the bits binary archives from a remote
+>    repository if they are not found locally. The test skips if download
+>    fails.
+>  - A new environment variable is introduced that can be passed by the tester
+>    to specify the location of the bits archives locally. test skips if the
+>    bits binaries are not found in that location.
+>  - if pip install of python module fails for whatever reaoson, the test skips.
+>  - misc code fixes including spell check of the README doc. README has been
+>    updated as well.
+>  - addition of SPDX license headers to bits test files.
+>  - update MAINTAINERS to reflect the new pytest test class.
+> 
+> For biosbits repo:
+>  - added Dockerfile and build script. Made bios bits build on gcc 11.
+>    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
+>    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts.sh
+>    The build script generates the zip archive and tarball used by the test.
 
-It was a more direct translation of the previous workflow but we can
-use memset here for sure.
-
->
-> > +
-> > +static SVQElement vhost_svq_get_buf(VhostShadowVirtqueue *svq, uint32_=
-t *len)
-> >   {
-> >       const vring_used_t *used =3D svq->vring.used;
-> >       vring_used_elem_t used_elem;
-> > +    SVQElement svq_elem =3D vhost_svq_empty_elem();
-> >       uint16_t last_used, last_used_chain, num;
-> >
-> >       if (!vhost_svq_more_used(svq)) {
-> > -        return NULL;
-> > +        return svq_elem;
-> >       }
-> >
-> >       /* Only get used array entries after they have been exposed by de=
-v */
-> > @@ -406,24 +416,25 @@ static VirtQueueElement *vhost_svq_get_buf(VhostS=
-hadowVirtqueue *svq,
-> >       if (unlikely(used_elem.id >=3D svq->vring.num)) {
-> >           qemu_log_mask(LOG_GUEST_ERROR, "Device %s says index %u is us=
-ed",
-> >                         svq->vdev->name, used_elem.id);
-> > -        return NULL;
-> > +        return svq_elem;
-> >       }
-> >
-> > -    if (unlikely(!svq->ring_id_maps[used_elem.id])) {
-> > +    svq_elem =3D svq->ring_id_maps[used_elem.id];
-> > +    svq->ring_id_maps[used_elem.id] =3D vhost_svq_empty_elem();
-> > +    if (unlikely(vhost_svq_is_empty_elem(svq_elem))) {
->
->
-> Any reason we can't simply assign NULL to ring_id_maps[used_elem.id]?
->
-
-It simply avoids allocating more memory, so error code paths are
-simplified, etc. In the kernel, vring_desc_state_split, desc_extra and
-similar are not an array of pointers but an array of states, so we
-apply the same here. Returning them by value it's not so common
-though.
-
-But we can allocate a state per in-flight descriptor for sure.
-
-Thanks!
+So far so good, I think it's ok for a start. It's probably a good idea
+to host the source on qemu.org. Peter - any objection to this?
 
 
-> Thanks
->
->
-> >           qemu_log_mask(LOG_GUEST_ERROR,
-> >               "Device %s says index %u is used, but it was not availabl=
-e",
-> >               svq->vdev->name, used_elem.id);
-> > -        return NULL;
-> > +        return svq_elem;
-> >       }
-> >
-> > -    num =3D svq->ring_id_maps[used_elem.id]->in_num +
-> > -          svq->ring_id_maps[used_elem.id]->out_num;
-> > +    num =3D svq_elem.elem->in_num + svq_elem.elem->out_num;
-> >       last_used_chain =3D vhost_svq_last_desc_of_chain(svq, num, used_e=
-lem.id);
-> >       svq->desc_next[last_used_chain] =3D svq->free_head;
-> >       svq->free_head =3D used_elem.id;
-> >
-> >       *len =3D used_elem.len;
-> > -    return g_steal_pointer(&svq->ring_id_maps[used_elem.id]);
-> > +    return svq_elem;
-> >   }
-> >
-> >   /**
-> > @@ -454,6 +465,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *s=
-vq,
-> >           vhost_svq_disable_notification(svq);
-> >           while (true) {
-> >               uint32_t len;
-> > +            SVQElement svq_elem;
-> >               g_autofree VirtQueueElement *elem =3D NULL;
-> >
-> >               if (unlikely(i >=3D svq->vring.num)) {
-> > @@ -464,11 +476,12 @@ static void vhost_svq_flush(VhostShadowVirtqueue =
-*svq,
-> >                   return;
-> >               }
-> >
-> > -            elem =3D vhost_svq_get_buf(svq, &len);
-> > -            if (!elem) {
-> > +            svq_elem =3D vhost_svq_get_buf(svq, &len);
-> > +            if (vhost_svq_is_empty_elem(svq_elem)) {
-> >                   break;
-> >               }
-> >
-> > +            elem =3D g_steal_pointer(&svq_elem.elem);
-> >               virtqueue_fill(vq, elem, len, i++);
-> >           }
-> >
-> > @@ -611,7 +624,7 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, Vir=
-tIODevice *vdev,
-> >       memset(svq->vring.desc, 0, driver_size);
-> >       svq->vring.used =3D qemu_memalign(qemu_real_host_page_size(), dev=
-ice_size);
-> >       memset(svq->vring.used, 0, device_size);
-> > -    svq->ring_id_maps =3D g_new0(VirtQueueElement *, svq->vring.num);
-> > +    svq->ring_id_maps =3D g_new0(SVQElement, svq->vring.num);
-> >       svq->desc_next =3D g_new0(uint16_t, svq->vring.num);
-> >       for (unsigned i =3D 0; i < svq->vring.num - 1; i++) {
-> >           svq->desc_next[i] =3D cpu_to_le16(i + 1);
-> > @@ -636,7 +649,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
-> >
-> >       for (unsigned i =3D 0; i < svq->vring.num; ++i) {
-> >           g_autofree VirtQueueElement *elem =3D NULL;
-> > -        elem =3D g_steal_pointer(&svq->ring_id_maps[i]);
-> > +        elem =3D g_steal_pointer(&svq->ring_id_maps[i].elem);
-> >           if (elem) {
-> >               virtqueue_detach_element(svq->vq, elem, 0);
-> >           }
->
+> v1: initial patchset. uses qtest to implement the bios bits tests.
+> 
+> Ani Sinha (11):
+>   acpi/tests/bits: initial commit of test scripts that are run by
+>     biosbits
+>   acpi/tests/bits: add SPDX license identifiers for bios bits tests
+>   acpi/tests/bits: disable acpi PSS tests that are failing in biosbits
+>   acpi/tests/bits: add smilatency test suite from bits in order to
+>     disable it
+>   acpi/tests/bits: add SPDX license identifiers for bios bits smilatency
+>     tests
+>   acpi/tests/bits: disable smilatency test since it does not pass
+>     everytime
+>   acpi/tests/bits: add python test that exercizes QEMU bios tables using
+>     biosbits
+>   acpi/tests/bits: add biosbits config file for running bios tests
+>   acpi/tests/bits: add a README file describing bits pytests
+>   pytest: add pytest to the meson build system
+>   MAINTAINERS: add myself as the maintainer for acpi biosbits pytests
+> 
+>  MAINTAINERS                                   |    5 +
+>  tests/Makefile.include                        |    4 +-
+>  tests/meson.build                             |    1 +
+>  tests/pytest/acpi-bits/README                 |  129 +
+>  tests/pytest/acpi-bits/acpi-bits-test-venv.sh |   59 +
+>  tests/pytest/acpi-bits/acpi-bits-test.py      |  382 +++
+>  .../pytest/acpi-bits/bits-config/bits-cfg.txt |   18 +
+>  .../pytest/acpi-bits/bits-config/meson.build  |   11 +
+>  tests/pytest/acpi-bits/bits-tests/meson.build |   11 +
+>  tests/pytest/acpi-bits/bits-tests/smbios.py   | 2432 +++++++++++++++++
+>  .../pytest/acpi-bits/bits-tests/smilatency.py |  105 +
+>  tests/pytest/acpi-bits/bits-tests/testacpi.py |  285 ++
+>  .../pytest/acpi-bits/bits-tests/testcpuid.py  |   85 +
+>  tests/pytest/acpi-bits/meson.build            |   33 +
+>  tests/pytest/acpi-bits/requirements.txt       |    1 +
+>  tests/pytest/meson.build                      |   49 +
+>  16 files changed, 3609 insertions(+), 1 deletion(-)
+>  create mode 100644 tests/pytest/acpi-bits/README
+>  create mode 100644 tests/pytest/acpi-bits/acpi-bits-test-venv.sh
+>  create mode 100644 tests/pytest/acpi-bits/acpi-bits-test.py
+>  create mode 100644 tests/pytest/acpi-bits/bits-config/bits-cfg.txt
+>  create mode 100644 tests/pytest/acpi-bits/bits-config/meson.build
+>  create mode 100644 tests/pytest/acpi-bits/bits-tests/meson.build
+>  create mode 100644 tests/pytest/acpi-bits/bits-tests/smbios.py
+>  create mode 100644 tests/pytest/acpi-bits/bits-tests/smilatency.py
+>  create mode 100644 tests/pytest/acpi-bits/bits-tests/testacpi.py
+>  create mode 100644 tests/pytest/acpi-bits/bits-tests/testcpuid.py
+>  create mode 100644 tests/pytest/acpi-bits/meson.build
+>  create mode 100644 tests/pytest/acpi-bits/requirements.txt
+>  create mode 100644 tests/pytest/meson.build
+> 
+> -- 
+> 2.25.1
 
 
