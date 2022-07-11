@@ -2,72 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0328C56D7B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 10:20:47 +0200 (CEST)
-Received: from localhost ([::1]:40086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 610A656D807
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 10:31:38 +0200 (CEST)
+Received: from localhost ([::1]:47482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAoej-0006mW-04
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 04:20:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47690)
+	id 1oAopK-0003yC-V5
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 04:31:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1oAoZd-0001z2-RC
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 04:15:26 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:42817)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1oAoZa-0002HD-0I
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 04:15:19 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- i8-20020a17090a4b8800b001ef8a65bfbdso4235005pjh.1
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 01:15:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gALJA9XQQHnnvw6djZ88dk8W/j/i4rQwf653bx741zQ=;
- b=W+xwxs4a9iEeKCqUhQKXSukc5OHN/tISoi+N9/mQgItjPiBOJ3Or0dbcenhdg0yj2z
- qtWDllJEgK0XmJvD8MTuw01t954kOVa8gPhGj1PwFuDFxrG/xgH8kWn1zP4e/g8KFJCz
- RvUpcvaxG3OFYs7Rp3kz876ACnCTpOss4q2evh9XJiqReOhohPh9Zok5Ri4vBp1/MAAv
- 6KZoFkExnRWtRMX44Pt0GXifxYYBHz/1PFbFtIBqfIHMejCtltdXUyv1dked5kwhwGp5
- rlLrh+jQFRf3RgJ1WWw3R2vSWYWDVDTa37RGS66BoWHpgLtpjyLxgTXlwgsg96l/Ruog
- xaFw==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oAomd-0001CJ-JV
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 04:28:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58134)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oAomU-0004Nf-B9
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 04:28:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657528117;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0i/hWiy9radgt4vxlT5+KFbHFzTOV5lZH9X5XdD7UPs=;
+ b=Fpkn6DM9S6f8mL2WNjAw+CqiUxNIt1NMIxinC0U+iji9fF+5JsmdDZcSwDeGoU12lNBAgl
+ ukC/G0tur7VM8buvLup7xBh6uTtJxBiL/Ry5lJJSL1JclFnMYxZQGdzPWuMieFKnawHNoA
+ ykbzwX6HxieQHy1kXtC9pne3IpBfxQ8=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-314-8qPHtv7rOxav7zpnV7S_2A-1; Mon, 11 Jul 2022 04:28:35 -0400
+X-MC-Unique: 8qPHtv7rOxav7zpnV7S_2A-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ p25-20020ac87419000000b0031eaaf91124so4473798qtq.20
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 01:28:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gALJA9XQQHnnvw6djZ88dk8W/j/i4rQwf653bx741zQ=;
- b=c2n4L3mW11grcDRhGkEX2DAAyp9alMIMO13wLcO7KO7k8r0zt/g/7+PJJvOCLHa2OJ
- da8LDmO4cQCo6tiwYtDUUZh/WJGeWfMOuRjKiRETvTgObjeRFZI4PNVS6k0TvCZgs9r/
- HpF3pBMiJelTdFi34Xr2HWG6avZy2xnTL7Ix1S1XFmlj2Dt2BIvcSj709eSEAKPqk7Bb
- bDI57Lf76DpvdN3myjDDcZaWc7J0dNGTZim3kgTuVrqzN/zPbhGd5cp+ipQ9zW/fSrV7
- zELT6s/rggRDVdYSM8ekdtzsZU+e4Fbkd7piZeV3jDbh5EXvX4845UstQky6LCpDcnOn
- Mjcg==
-X-Gm-Message-State: AJIora9cgl9EsP9FUXODCEQhcoe2u2nXHc2T7kS/RMFClrNnt31C11Ih
- FGJ7QEm8e45B9bxzxNxNxPi4HYzUCGCpKPq0141D7A==
-X-Google-Smtp-Source: AGRyM1vWEXhi80hXyrZkhXXPdVU7Qf+M5cDU+ng2sKKjX1D4AeO/6uiD46vC4u1GAG1udyQEN4+Fyl3wHElW8R+UPl8=
-X-Received: by 2002:a17:902:f606:b0:168:ecca:44e with SMTP id
- n6-20020a170902f60600b00168ecca044emr16977922plg.144.1657527316489; Mon, 11
- Jul 2022 01:15:16 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0i/hWiy9radgt4vxlT5+KFbHFzTOV5lZH9X5XdD7UPs=;
+ b=w7KRE2V82aLLrK2YwCs1AnhLIYyjlbuiQdNYPXKXxXHyJ9LNByu1FtlELaW+QB+gWm
+ QG3rKPQfFdQQo0Fso06yIWpdIIOljcazYTeRcHg+o0QhWWoOxD/3DhUO+zMjRaKlYIyC
+ DkfRbcFaYcH/2PYxrebau088uU2n1WlaFwjikUg8/Dy9RJih/LZcfeVoL/DoD5IFXQlL
+ yZqbsPzWyMdpA80qGikPvQ4Q63R5lARI/oXLqTxtTcNXo8mog3BnTHDxrhVQikN91/xu
+ t9BpbDTCOsqnefbeOkHhcNg2H2VA0i9uv2+nbBTseaAIEZ8wifca6J8Vwf6GfKTvbaSB
+ ckQg==
+X-Gm-Message-State: AJIora+O63PTkY1gFC7PJH1bhHcf+v1WJzcGN13t5VlWc+3mBfkYYOVB
+ dwnbUbF0AqhrBG2L1xlUDIUUVOb/WWaOMBPuxjaIgqO35m35DDfKIBxqN2YshBhQiWtiUsSytzo
+ 4TEJajoTHvhfLIdwxKIgbpKDbDkWjEc8=
+X-Received: by 2002:ac8:5dca:0:b0:31e:85b8:8a18 with SMTP id
+ e10-20020ac85dca000000b0031e85b88a18mr12690520qtx.370.1657528114559; 
+ Mon, 11 Jul 2022 01:28:34 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sAlH5wm0ZLBlCS9s+gkCC9V+Kjca900gJ5+JEl8hfWYYQk8EKT9tgpRRcytCvy5XdAc1H0LblfJUcZjAqjhmk=
+X-Received: by 2002:ac8:5dca:0:b0:31e:85b8:8a18 with SMTP id
+ e10-20020ac85dca000000b0031e85b88a18mr12690505qtx.370.1657528114305; Mon, 11
+ Jul 2022 01:28:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220708085736.94546-1-kito.cheng@sifive.com>
-In-Reply-To: <20220708085736.94546-1-kito.cheng@sifive.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Mon, 11 Jul 2022 16:15:05 +0800
-Message-ID: <CAE_xrPhF2egOghgQ_rdUznJ1W=PCqmzaLrF27GeNOWbbg8Yo3g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] util/log: Add vu to dump content of vector unit
-To: Kito Cheng <kito.cheng@sifive.com>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, qemu-devel@nongnu.org, 
- qemu-riscv@nongnu.org, liweiwei@iscas.ac.cn, richard.henderson@linaro.org
-Content-Type: multipart/alternative; boundary="000000000000e7c05905e38326ab"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220706184008.1649478-1-eperezma@redhat.com>
+ <20220706184008.1649478-9-eperezma@redhat.com>
+ <48852cd1-fe92-81a1-8c35-ec1d8956f1a8@redhat.com>
+In-Reply-To: <48852cd1-fe92-81a1-8c35-ec1d8956f1a8@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 11 Jul 2022 10:27:57 +0200
+Message-ID: <CAJaqyWftrXQ3bg9LFjC14SYOGP1g_3t-_iekHmBDSvd5XVRKAA@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 08/23] vhost: Decouple vhost_svq_add_split from
+ VirtQueueElement
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Eric Blake <eblake@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,191 +104,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e7c05905e38326ab
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Jul 11, 2022 at 10:00 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2022/7/7 02:39, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > VirtQueueElement comes from the guest, but we're heading SVQ to be able
+> > to inject element without the guest's knowledge.
+> >
+> > To do so, make this accept sg buffers directly, instead of using
+> > VirtQueueElement.
+> >
+> > Add vhost_svq_add_element to maintain element convenience
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.c | 38 +++++++++++++++++++++--------=
+-
+> >   1 file changed, 27 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index 2fc5789b73..46d3c1d74f 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -172,30 +172,32 @@ static bool vhost_svq_vring_write_descs(VhostShad=
+owVirtqueue *svq, hwaddr *sg,
+> >   }
+> >
+> >   static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+> > -                                VirtQueueElement *elem, unsigned *head=
+)
+> > +                                const struct iovec *out_sg, size_t out=
+_num,
+> > +                                const struct iovec *in_sg, size_t in_n=
+um,
+> > +                                unsigned *head)
+> >   {
+> >       unsigned avail_idx;
+> >       vring_avail_t *avail =3D svq->vring.avail;
+> >       bool ok;
+> > -    g_autofree hwaddr *sgs =3D g_new(hwaddr, MAX(elem->out_num, elem->=
+in_num));
+> > +    g_autofree hwaddr *sgs =3D NULL;
+>
+>
+> Is this change a must for this patch? (looks not related to the
+> decoupling anyhow)
+>
 
-On Fri, Jul 8, 2022 at 4:57 PM Kito Cheng <kito.cheng@sifive.com> wrote:
+Right, the delay on the variable assignment is an artifact I missed in
+the cleaning. I can revert for the next version if any.
 
-> Add new option for -d vu to dump the content of vector unit, many target
-> has vector register, but there is no easy way to dump the content, we
-> use this on downstream for a while to help debug, and I feel that's
-> really useful, so I think it would be great to upstream that to save debug
-> time
-> for other people :)
->
-> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-> ---
->  accel/tcg/cpu-exec.c  | 3 +++
->  include/hw/core/cpu.h | 2 ++
->  include/qemu/log.h    | 1 +
->  util/log.c            | 2 ++
->  4 files changed, 8 insertions(+)
->
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index a565a3f8ec..2cbec0a6ed 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -221,6 +221,9 @@ static inline void log_cpu_exec(target_ulong pc,
-> CPUState *cpu,
->                  if (qemu_loglevel_mask(CPU_LOG_TB_FPU)) {
->                      flags |= CPU_DUMP_FPU;
->                  }
-> +                if (qemu_loglevel_mask(CPU_LOG_TB_VU)) {
-> +                    flags |= CPU_DUMP_VU;
-> +                }
->  #if defined(TARGET_I386)
->                  flags |= CPU_DUMP_CCOP;
->  #endif
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 996f94059f..7a767e17cd 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -535,11 +535,13 @@ GuestPanicInformation *cpu_get_crash_info(CPUState
-> *cpu);
->   * @CPU_DUMP_CODE:
->   * @CPU_DUMP_FPU: dump FPU register state, not just integer
->   * @CPU_DUMP_CCOP: dump info about TCG QEMU's condition code optimization
-> state
-> + * @CPU_DUMP_VU: dump vector register state
->   */
->  enum CPUDumpFlags {
->      CPU_DUMP_CODE = 0x00010000,
->      CPU_DUMP_FPU  = 0x00020000,
->      CPU_DUMP_CCOP = 0x00040000,
-> +    CPU_DUMP_VU   = 0x00080000,
->  };
->
->  /**
-> diff --git a/include/qemu/log.h b/include/qemu/log.h
-> index c5643d8dd5..49bd0b0fbc 100644
-> --- a/include/qemu/log.h
-> +++ b/include/qemu/log.h
-> @@ -35,6 +35,7 @@ bool qemu_log_separate(void);
->  /* LOG_STRACE is used for user-mode strace logging. */
->  #define LOG_STRACE         (1 << 19)
->  #define LOG_PER_THREAD     (1 << 20)
-> +#define CPU_LOG_TB_VU      (1 << 21)
->
->  /* Lock/unlock output. */
->
-> diff --git a/util/log.c b/util/log.c
-> index d6eb0378c3..775d122c2e 100644
-> --- a/util/log.c
-> +++ b/util/log.c
-> @@ -441,6 +441,8 @@ const QEMULogItem qemu_log_items[] = {
->  #ifdef CONFIG_PLUGIN
->      { CPU_LOG_PLUGIN, "plugin", "output from TCG plugins\n"},
->  #endif
-> +    { CPU_LOG_TB_VU, "vu",
-> +      "include vector unit registers in the 'cpu' logging" },
->      { LOG_STRACE, "strace",
->        "log every user-mode syscall, its input, and its result" },
->      { LOG_PER_THREAD, "tid",
-> --
-> 2.34.0
->
->
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
+With that reverted, can I add the acked-by tag from you?
 
---000000000000e7c05905e38326ab
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks!
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div>On Fri, Jul 8, 2022 at 4:57 PM Kito =
-Cheng &lt;<a href=3D"mailto:kito.cheng@sifive.com">kito.cheng@sifive.com</a=
->&gt; wrote:<br></div></div><div class=3D"gmail_quote"><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">Add new option for -d vu to dump the content =
-of vector unit, many target<br>
-has vector register, but there is no easy way to dump the content, we<br>
-use this on downstream for a while to help debug, and I feel that&#39;s<br>
-really useful, so I think it would be great to upstream that to save debug =
-time<br>
-for other people :)<br>
-<br>
-Signed-off-by: Kito Cheng &lt;<a href=3D"mailto:kito.cheng@sifive.com" targ=
-et=3D"_blank">kito.cheng@sifive.com</a>&gt;<br>
----<br>
-=C2=A0accel/tcg/cpu-exec.c=C2=A0 | 3 +++<br>
-=C2=A0include/hw/core/cpu.h | 2 ++<br>
-=C2=A0include/qemu/log.h=C2=A0 =C2=A0 | 1 +<br>
-=C2=A0util/log.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 ++<br>
-=C2=A04 files changed, 8 insertions(+)<br>
-<br>
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c<br>
-index a565a3f8ec..2cbec0a6ed 100644<br>
---- a/accel/tcg/cpu-exec.c<br>
-+++ b/accel/tcg/cpu-exec.c<br>
-@@ -221,6 +221,9 @@ static inline void log_cpu_exec(target_ulong pc, CPUSta=
-te *cpu,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (qemu_logl=
-evel_mask(CPU_LOG_TB_FPU)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0flags |=3D CPU_DUMP_FPU;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_loglevel_=
-mask(CPU_LOG_TB_VU)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 flag=
-s |=3D CPU_DUMP_VU;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0#if defined(TARGET_I386)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0flags |=3D CP=
-U_DUMP_CCOP;<br>
-=C2=A0#endif<br>
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h<br>
-index 996f94059f..7a767e17cd 100644<br>
---- a/include/hw/core/cpu.h<br>
-+++ b/include/hw/core/cpu.h<br>
-@@ -535,11 +535,13 @@ GuestPanicInformation *cpu_get_crash_info(CPUState *c=
-pu);<br>
-=C2=A0 * @CPU_DUMP_CODE:<br>
-=C2=A0 * @CPU_DUMP_FPU: dump FPU register state, not just integer<br>
-=C2=A0 * @CPU_DUMP_CCOP: dump info about TCG QEMU&#39;s condition code opti=
-mization state<br>
-+ * @CPU_DUMP_VU: dump vector register state<br>
-=C2=A0 */<br>
-=C2=A0enum CPUDumpFlags {<br>
-=C2=A0 =C2=A0 =C2=A0CPU_DUMP_CODE =3D 0x00010000,<br>
-=C2=A0 =C2=A0 =C2=A0CPU_DUMP_FPU=C2=A0 =3D 0x00020000,<br>
-=C2=A0 =C2=A0 =C2=A0CPU_DUMP_CCOP =3D 0x00040000,<br>
-+=C2=A0 =C2=A0 CPU_DUMP_VU=C2=A0 =C2=A0=3D 0x00080000,<br>
-=C2=A0};<br>
-<br>
-=C2=A0/**<br>
-diff --git a/include/qemu/log.h b/include/qemu/log.h<br>
-index c5643d8dd5..49bd0b0fbc 100644<br>
---- a/include/qemu/log.h<br>
-+++ b/include/qemu/log.h<br>
-@@ -35,6 +35,7 @@ bool qemu_log_separate(void);<br>
-=C2=A0/* LOG_STRACE is used for user-mode strace logging. */<br>
-=C2=A0#define LOG_STRACE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; 19)<b=
-r>
-=C2=A0#define LOG_PER_THREAD=C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; 20)<br>
-+#define CPU_LOG_TB_VU=C2=A0 =C2=A0 =C2=A0 (1 &lt;&lt; 21)<br>
-<br>
-=C2=A0/* Lock/unlock output. */<br>
-<br>
-diff --git a/util/log.c b/util/log.c<br>
-index d6eb0378c3..775d122c2e 100644<br>
---- a/util/log.c<br>
-+++ b/util/log.c<br>
-@@ -441,6 +441,8 @@ const QEMULogItem qemu_log_items[] =3D {<br>
-=C2=A0#ifdef CONFIG_PLUGIN<br>
-=C2=A0 =C2=A0 =C2=A0{ CPU_LOG_PLUGIN, &quot;plugin&quot;, &quot;output from=
- TCG plugins\n&quot;},<br>
-=C2=A0#endif<br>
-+=C2=A0 =C2=A0 { CPU_LOG_TB_VU, &quot;vu&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 &quot;include vector unit registers in the &#39;cpu&#=
-39; logging&quot; },<br>
-=C2=A0 =C2=A0 =C2=A0{ LOG_STRACE, &quot;strace&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;log every user-mode syscall, its input, an=
-d its result&quot; },<br>
-=C2=A0 =C2=A0 =C2=A0{ LOG_PER_THREAD, &quot;tid&quot;,<br>
--- <br>
-2.34.0<br>
-<br></blockquote><div><br></div><div>Reviewed-by: Frank Chang &lt;<a href=
-=3D"mailto:frank.chang@sifive.com">frank.chang@sifive.com</a>&gt;=C2=A0</di=
-v></div></div>
+> Other looks good.
+>
+> Thanks
+>
+>
+> >
+> >       *head =3D svq->free_head;
+> >
+> >       /* We need some descriptors here */
+> > -    if (unlikely(!elem->out_num && !elem->in_num)) {
+> > +    if (unlikely(!out_num && !in_num)) {
+> >           qemu_log_mask(LOG_GUEST_ERROR,
+> >                         "Guest provided element with no descriptors");
+> >           return false;
+> >       }
+> >
+> > -    ok =3D vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->o=
+ut_num,
+> > -                                     elem->in_num > 0, false);
+> > +    sgs =3D g_new(hwaddr, MAX(out_num, in_num));
+> > +    ok =3D vhost_svq_vring_write_descs(svq, sgs, out_sg, out_num, in_n=
+um > 0,
+> > +                                     false);
+> >       if (unlikely(!ok)) {
+> >           return false;
+> >       }
+> >
+> > -    ok =3D vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in=
+_num, false,
+> > -                                     true);
+> > +    ok =3D vhost_svq_vring_write_descs(svq, sgs, in_sg, in_num, false,=
+ true);
+> >       if (unlikely(!ok)) {
+> >           /* TODO unwind out_sg */
+> >           return false;
+> > @@ -223,10 +225,13 @@ static bool vhost_svq_add_split(VhostShadowVirtqu=
+eue *svq,
+> >    * takes ownership of the element: In case of failure, it is free and=
+ the SVQ
+> >    * is considered broken.
+> >    */
+> > -static bool vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement =
+*elem)
+> > +static bool vhost_svq_add(VhostShadowVirtqueue *svq, const struct iove=
+c *out_sg,
+> > +                          size_t out_num, const struct iovec *in_sg,
+> > +                          size_t in_num, VirtQueueElement *elem)
+> >   {
+> >       unsigned qemu_head;
+> > -    bool ok =3D vhost_svq_add_split(svq, elem, &qemu_head);
+> > +    bool ok =3D vhost_svq_add_split(svq, out_sg, out_num, in_sg, in_nu=
+m,
+> > +                                  &qemu_head);
+> >       if (unlikely(!ok)) {
+> >           g_free(elem);
+> >           return false;
+> > @@ -250,6 +255,18 @@ static void vhost_svq_kick(VhostShadowVirtqueue *s=
+vq)
+> >       event_notifier_set(&svq->hdev_kick);
+> >   }
+> >
+> > +static bool vhost_svq_add_element(VhostShadowVirtqueue *svq,
+> > +                                  VirtQueueElement *elem)
+> > +{
+> > +    bool ok =3D vhost_svq_add(svq, elem->out_sg, elem->out_num, elem->=
+in_sg,
+> > +                            elem->in_num, elem);
+> > +    if (ok) {
+> > +        vhost_svq_kick(svq);
+> > +    }
+> > +
+> > +    return ok;
+> > +}
+> > +
+> >   /**
+> >    * Forward available buffers.
+> >    *
+> > @@ -302,12 +319,11 @@ static void vhost_handle_guest_kick(VhostShadowVi=
+rtqueue *svq)
+> >                   return;
+> >               }
+> >
+> > -            ok =3D vhost_svq_add(svq, elem);
+> > +            ok =3D vhost_svq_add_element(svq, g_steal_pointer(&elem));
+> >               if (unlikely(!ok)) {
+> >                   /* VQ is broken, just return and ignore any other kic=
+ks */
+> >                   return;
+> >               }
+> > -            vhost_svq_kick(svq);
+> >           }
+> >
+> >           virtio_queue_set_notification(svq->vq, true);
+>
 
---000000000000e7c05905e38326ab--
 
