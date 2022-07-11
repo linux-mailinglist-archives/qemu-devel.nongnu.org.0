@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFBC57082D
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 18:20:00 +0200 (CEST)
-Received: from localhost ([::1]:48680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF718570818
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 18:14:43 +0200 (CEST)
+Received: from localhost ([::1]:41360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAw8b-0005FY-BZ
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 12:19:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44300)
+	id 1oAw3W-0007ok-87
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 12:14:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oAvkV-0007vJ-Gt
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:55:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50083)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oAvkI-0007be-PY
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:54:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oAvkT-00061k-Gb
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:55:03 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oAvkH-00060n-34
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 11:54:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657554900;
+ s=mimecast20190719; t=1657554888;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=jgZJwgQg+6uAnijcn6lbnL97ilRF+QkDex1Q7QgoAjo=;
- b=czSwe9Wgz3rPYUwQnkz+GhZIhEWypXWJTBTQj1K7KxoO9sT5pNFYsi9nUUZhByvq0dWhdN
- udLnAz420IdsqjcFPhjIGESEAU5zCjcH1H2cHu8ee9xhUn+iz+YEE1Y0oxhPem3HwPSFOJ
- XgkR5IPSVboFi3kyzkx6VncB/Ompbxk=
+ bh=tkeGEwBtBxew1C/y6hu94o2+rWfF0TEqg2aKIrUIdKU=;
+ b=fc4aDf+qmEeP90BcBLP9O5v6eF1WjdOemMdYoK+NAAXJqVwCvkgLckMNiImWjMKOh8ahSo
+ E6wyB+rzV20nnL6ESnD2b3W7yiipmGb55GxLmZ8Ehz6xCT/e07UNY0ettVO5jvE6R3pXjD
+ GRrgtDFQyytQHhmufncvYbTm5Tr2Pq4=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-287-8ekporJzOAiDDcqIptz9dA-1; Mon, 11 Jul 2022 11:53:30 -0400
-X-MC-Unique: 8ekporJzOAiDDcqIptz9dA-1
+ us-mta-244--Xfd9KQoPkiYeTZftumiwA-1; Mon, 11 Jul 2022 11:53:40 -0400
+X-MC-Unique: -Xfd9KQoPkiYeTZftumiwA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66E353C16187;
- Mon, 11 Jul 2022 15:53:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 164ED382ECD1;
+ Mon, 11 Jul 2022 15:53:40 +0000 (UTC)
 Received: from server.redhat.com (ovpn-12-65.pek2.redhat.com [10.72.12.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DDCED1415118;
- Mon, 11 Jul 2022 15:53:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E17814152E0;
+ Mon, 11 Jul 2022 15:53:36 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, kraxel@redhat.com,
  dgilbert@redhat.com, stefanha@redhat.com, arei.gonglei@huawei.com,
  marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v11 03/10] virtio-pci: decouple the single vector from the
- interrupt process
-Date: Mon, 11 Jul 2022 23:52:36 +0800
-Message-Id: <20220711155243.866530-4-lulu@redhat.com>
+Subject: [PATCH v11 05/10] vhost-vdpa: add support for config interrupt
+Date: Mon, 11 Jul 2022 23:52:38 +0800
+Message-Id: <20220711155243.866530-6-lulu@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
@@ -75,190 +74,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To reuse the interrupt process in configure interrupt
-Need to decouple the single vector from the interrupt process.
-We add new function kvm_virtio_pci_vector_use_one and _release_one.
-These functions are used for the single vector, the whole process will
-finish in the loop with vq number.
+Add new call back function in vhost-vdpa, The function
+vhost_set_config_call can set the event fd to kernel.
+This function will be called in the vhost_dev_start
+and vhost_dev_stop
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/virtio-pci.c | 131 +++++++++++++++++++++++------------------
- 1 file changed, 73 insertions(+), 58 deletions(-)
+ hw/virtio/trace-events | 1 +
+ hw/virtio/vhost-vdpa.c | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 2869d0d2f6..4b86008bcf 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -676,7 +676,6 @@ static uint32_t virtio_read_config(PCIDevice *pci_dev,
- }
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index a5102eac9e..b968ba9e4e 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -53,6 +53,7 @@ vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRI
+ vhost_vdpa_set_owner(void *dev) "dev: %p"
+ vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
+ vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
++vhost_vdpa_set_config_call(void *dev, int fd)"dev: %p fd: %d"
  
- static int kvm_virtio_pci_vq_vector_use(VirtIOPCIProxy *proxy,
--                                        unsigned int queue_no,
-                                         unsigned int vector)
- {
-     VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
-@@ -741,87 +740,103 @@ static int virtio_pci_get_notifier(VirtIOPCIProxy *proxy, int queue_no,
+ # virtio.c
+ virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 8adf7c0b92..02bafb61b9 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -733,6 +733,13 @@ static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
      return 0;
  }
  
--static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-+static int kvm_virtio_pci_vector_use_one(VirtIOPCIProxy *proxy, int queue_no)
- {
-+    unsigned int vector;
-+    int ret;
-+    EventNotifier *n;
-     PCIDevice *dev = &proxy->pci_dev;
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    unsigned int vector;
--    int ret, queue_no;
--    EventNotifier *n;
--    for (queue_no = 0; queue_no < nvqs; queue_no++) {
--        if (!virtio_queue_get_num(vdev, queue_no)) {
--            break;
--        }
--        ret = virtio_pci_get_notifier(proxy, queue_no, &n, &vector);
--        if (ret < 0) {
--            break;
--        }
--        if (vector >= msix_nr_vectors_allocated(dev)) {
--            continue;
--        }
--        ret = kvm_virtio_pci_vq_vector_use(proxy, queue_no, vector);
-+
-+    ret = virtio_pci_get_notifier(proxy, queue_no, &n, &vector);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+    if (vector >= msix_nr_vectors_allocated(dev)) {
-+        return 0;
-+    }
-+    ret = kvm_virtio_pci_vq_vector_use(proxy, vector);
-+    if (ret < 0) {
-+        goto undo;
-+    }
-+    /*
-+     * If guest supports masking, set up irqfd now.
-+     * Otherwise, delay until unmasked in the frontend.
-+     */
-+    if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
-+        ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
-         if (ret < 0) {
-+            kvm_virtio_pci_vq_vector_release(proxy, vector);
-             goto undo;
-         }
--        /* If guest supports masking, set up irqfd now.
--         * Otherwise, delay until unmasked in the frontend.
--         */
--        if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
--            ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
--            if (ret < 0) {
--                kvm_virtio_pci_vq_vector_release(proxy, vector);
--                goto undo;
--            }
--        }
-     }
--    return 0;
- 
-+    return 0;
- undo:
--    while (--queue_no >= 0) {
--        vector = virtio_queue_vector(vdev, queue_no);
--        if (vector >= msix_nr_vectors_allocated(dev)) {
--            continue;
-+
-+    vector = virtio_queue_vector(vdev, queue_no);
-+    if (vector >= msix_nr_vectors_allocated(dev)) {
-+        return ret;
-+    }
-+    if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
-+        ret = virtio_pci_get_notifier(proxy, queue_no, &n, &vector);
-+        if (ret < 0) {
-+            return ret;
-         }
--        if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
--            ret = virtio_pci_get_notifier(proxy, queue_no, &n, &vector);
--            if (ret < 0) {
--                break;
--            }
--            kvm_virtio_pci_irqfd_release(proxy, n, vector);
-+        kvm_virtio_pci_irqfd_release(proxy, n, vector);
-+    }
-+    return ret;
-+}
-+static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
++static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
++                                       int fd)
 +{
-+    int queue_no;
-+    int ret = 0;
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+
-+    for (queue_no = 0; queue_no < nvqs; queue_no++) {
-+        if (!virtio_queue_get_num(vdev, queue_no)) {
-+            return -1;
-         }
--        kvm_virtio_pci_vq_vector_release(proxy, vector);
-+        ret = kvm_virtio_pci_vector_use_one(proxy, queue_no);
-     }
-     return ret;
- }
- 
--static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-+
-+static void kvm_virtio_pci_vector_release_one(VirtIOPCIProxy *proxy,
-+                                              int queue_no)
- {
--    PCIDevice *dev = &proxy->pci_dev;
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     unsigned int vector;
--    int queue_no;
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-     EventNotifier *n;
--    int ret ;
-+    int ret;
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    PCIDevice *dev = &proxy->pci_dev;
-+
-+    ret = virtio_pci_get_notifier(proxy, queue_no, &n, &vector);
-+    if (ret < 0) {
-+        return;
-+    }
-+    if (vector >= msix_nr_vectors_allocated(dev)) {
-+        return;
-+    }
-+    if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
-+        kvm_virtio_pci_irqfd_release(proxy, n, vector);
-+    }
-+    kvm_virtio_pci_vq_vector_release(proxy, vector);
++    trace_vhost_vdpa_set_config_call(dev, fd);
++    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, &fd);
 +}
 +
-+static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-+{
-+    int queue_no;
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+
-     for (queue_no = 0; queue_no < nvqs; queue_no++) {
-         if (!virtio_queue_get_num(vdev, queue_no)) {
-             break;
-         }
--        ret = virtio_pci_get_notifier(proxy, queue_no, &n, &vector);
--        if (ret < 0) {
--            break;
--        }
--        if (vector >= msix_nr_vectors_allocated(dev)) {
--            continue;
--        }
--        /* If guest supports masking, clean up irqfd now.
--         * Otherwise, it was cleaned when masked in the frontend.
--         */
--        if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
--            kvm_virtio_pci_irqfd_release(proxy, n, vector);
--        }
--        kvm_virtio_pci_vq_vector_release(proxy, vector);
-+        kvm_virtio_pci_vector_release_one(proxy, queue_no);
-     }
- }
- 
+ static void vhost_vdpa_dump_config(struct vhost_dev *dev, const uint8_t *config,
+                                    uint32_t config_len)
+ {
+@@ -1297,4 +1304,5 @@ const VhostOps vdpa_ops = {
+         .vhost_get_device_id = vhost_vdpa_get_device_id,
+         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
+         .vhost_force_iommu = vhost_vdpa_force_iommu,
++        .vhost_set_config_call = vhost_vdpa_set_config_call,
+ };
 -- 
 2.34.3
 
