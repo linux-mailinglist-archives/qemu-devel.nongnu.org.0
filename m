@@ -2,58 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F0C56D2B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 03:48:46 +0200 (CEST)
-Received: from localhost ([::1]:36446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5569756D348
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jul 2022 05:16:46 +0200 (CEST)
+Received: from localhost ([::1]:36834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oAiXV-00042V-2Y
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 21:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44320)
+	id 1oAjue-0002aQ-Vw
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jul 2022 23:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1oAiWH-0002hG-WA
- for qemu-devel@nongnu.org; Sun, 10 Jul 2022 21:47:30 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3946)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1oAiWF-0003YS-Ek
- for qemu-devel@nongnu.org; Sun, 10 Jul 2022 21:47:29 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Lh6Cn5v8BzlVtQ;
- Mon, 11 Jul 2022 09:45:41 +0800 (CST)
-Received: from kwepemm600007.china.huawei.com (7.193.23.208) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 11 Jul 2022 09:47:08 +0800
-Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
- kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 11 Jul 2022 09:47:07 +0800
-To: Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-CC: <wanghaibin.wang@huawei.com>, <yuzenghui@huawei.com>, Kunkun Jiang
- <jiangkunkun@huawei.com>
-Subject: [PATCH] vfio/migration: Fix incorrect initialization value for
- parameters in VFIOMigration
-Date: Mon, 11 Jul 2022 09:46:51 +0800
-Message-ID: <20220711014651.1327-1-jiangkunkun@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oAjsY-0000t2-3Z
+ for qemu-devel@nongnu.org; Sun, 10 Jul 2022 23:14:34 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35831)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oAjsT-0001Ll-RQ
+ for qemu-devel@nongnu.org; Sun, 10 Jul 2022 23:14:31 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id r22so3656666pgr.2
+ for <qemu-devel@nongnu.org>; Sun, 10 Jul 2022 20:14:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k+sfQEgSsbvS9wtJSqfw3sWZdwFCpVNA33aansD5syA=;
+ b=n6aLtUAnFSFNqfa8lzqMSVpVsrhOXnh4SNA5WJ0QW103A823s6F1BuUJTjVW6gNlVn
+ PjO/gsLZphOEi0RbsT56mKhA3gWC2ufpOelO9OKYEgC29y6WnpXymtMZJW4zrr1x1Tu5
+ 4qJa6VAuV4gTt00GbTo30xkHhL/WB5eCJLRdO+97t4PwaxZEWdyWRqztD9v9DJsv+jIl
+ PsX5MN+RO5JH+fHgcOmr0KfZluLh1bxcMCKYx5SOZvwVaztbKoJM4vvX6E/bw72z35pF
+ Kdj6rYO8GnG6ypZAvBxEny3WSOzYfTR2sGnpcXUgwQOGn70SOOZaCa4Cj4uX0mpGtE2P
+ aukQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k+sfQEgSsbvS9wtJSqfw3sWZdwFCpVNA33aansD5syA=;
+ b=hSW4yg+mDXAxfwDnEkMWezEl4uEMgObOBUJh4LFbq7uWmSGRb71rU1BYtymMrzqyK4
+ N70WuvUVvW9zqc9SMlLz65ReMY7ChmdFYkaWWnjhiS3nKs1vrun1YvqmhO5pe8JPfcr4
+ LnJc2AySIbPEKkOfpTYDyR7AXbHWMc33A1jYPjdPM9NA++nMH/Js6lFz7BECmfkcC2iF
+ jBenk4KuD2sEncBM+LCCCWqWPCTHtTyDho0VAwZX4RV1XQYmh/GhQtfjSu3zDXI2N2dP
+ JB/bZ2VNbYEToxhBg+CU+YI8kYQftYS6WmYlATeyrwMtKISKtPc/hV7C7PNRh21AvxLq
+ HpdQ==
+X-Gm-Message-State: AJIora88EwOmaPY+s4hdRYBy7VHw+WJwdg46bmXQsm/7kKMRyxmZC96H
+ +6hyZYOBvf9Hs35DF99jzk4yexgA9o5YpNxs
+X-Google-Smtp-Source: AGRyM1tBrPkG/coSih6rBbofmmUSSaibs+1y7gPnQnTitY61TSaEzLY3GSwT2Qz4LF/VaeRFbQ/ONw==
+X-Received: by 2002:a63:d1:0:b0:411:885e:1503 with SMTP id
+ 200-20020a6300d1000000b00411885e1503mr13832979pga.65.1657509267810; 
+ Sun, 10 Jul 2022 20:14:27 -0700 (PDT)
+Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
+ p10-20020a1709028a8a00b0016c0408932dsm3436697plo.129.2022.07.10.20.14.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 10 Jul 2022 20:14:27 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, qemu-arm@nongnu.org, Vitaly Buka <vitalybuka@google.com>
+Subject: [PATCH] linux-user/aarch64: Do not clear PROT_MTE on mprotect
+Date: Mon, 11 Jul 2022 08:44:20 +0530
+Message-Id: <20220711031420.17820-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemm600007.china.huawei.com (7.193.23.208)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=jiangkunkun@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,36 +84,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Kunkun Jiang <jiangkunkun@huawei.com>
-From:  Kunkun Jiang via <qemu-devel@nongnu.org>
 
-The structure VFIOMigration of a VFIODevice is allocated and initialized
-in vfio_migration_init(). "device_state" and "vm_running" are initialized
-to 0, indicating that VFIO device is_STOP and VM is not-running. The
-initialization value is incorrect. According to the agreement, default
-state of VFIO device is _RUNNING. And if a VFIO device is hot-plugged
-while the VM is running, "vm_running" should be 1. This patch fixes it.
+The documentation for PROT_MTE says that it cannot be cleared
+by mprotect.  Further, the implementation of the VM_ARCH_CLEAR bit,
+contains PROT_BTI confiming that bit should be cleared.
 
-Fixes: 02a7e71b1e5 (vfio: Add VM state change handler to know state of VM)
-Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+Introduce PAGE_TARGET_STICKY to allow target/arch/cpu.h to control
+which bits may be reset during page_set_flags.  This is sort of the
+opposite of VM_ARCH_CLEAR, but works better with qemu's PAGE_* bits
+that are separate from PROT_* bits.
+
+Reported-by: Vitaly Buka <vitalybuka@google.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/vfio/migration.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index a6ad1f8945..3de4252111 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -806,6 +806,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+My initial reaction to the bug report was that we weren't treating
+the other PAGE_* bits properly during the update.  But auditing the
+code more thoroughly shows we are -- it's just PROT_MTE that's not
+up to scratch.
+
+
+r~
+
+---
+ target/arm/cpu.h          |  7 +++++--
+ accel/tcg/translate-all.c | 13 +++++++++++--
+ 2 files changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 1f4f3e0485..35c279e1f1 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3385,9 +3385,12 @@ static inline MemTxAttrs *typecheck_memtxattrs(MemTxAttrs *x)
+ 
+ /*
+  * AArch64 usage of the PAGE_TARGET_* bits for linux-user.
++ * Note that with the Linux kernel, PROT_MTE may not be cleared by mprotect
++ * mprotect but PROT_BTI may be cleared.  C.f. the kernel's VM_ARCH_CLEAR.
+  */
+-#define PAGE_BTI  PAGE_TARGET_1
+-#define PAGE_MTE  PAGE_TARGET_2
++#define PAGE_BTI            PAGE_TARGET_1
++#define PAGE_MTE            PAGE_TARGET_2
++#define PAGE_TARGET_STICKY  PAGE_MTE
+ 
+ #ifdef TARGET_TAGGED_ADDRESSES
+ /**
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 8fd23a9d05..ef62a199c7 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2256,6 +2256,15 @@ int page_get_flags(target_ulong address)
+     return p->flags;
+ }
+ 
++/*
++ * Allow the target to decide if PAGE_TARGET_[12] may be reset.
++ * By default, they are not kept.
++ */
++#ifndef PAGE_TARGET_STICKY
++#define PAGE_TARGET_STICKY  0
++#endif
++#define PAGE_STICKY  (PAGE_ANON | PAGE_TARGET_STICKY)
++
+ /* Modify the flags of a page and invalidate the code if necessary.
+    The flag PAGE_WRITE_ORG is positioned automatically depending
+    on PAGE_WRITE.  The mmap_lock should already be held.  */
+@@ -2299,8 +2308,8 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+             p->target_data = NULL;
+             p->flags = flags;
+         } else {
+-            /* Using mprotect on a page does not change MAP_ANON. */
+-            p->flags = (p->flags & PAGE_ANON) | flags;
++            /* Using mprotect on a page does not change sticky bits. */
++            p->flags = (p->flags & PAGE_STICKY) | flags;
+         }
      }
- 
-     vbasedev->migration = g_new0(VFIOMigration, 1);
-+    vbasedev->migration->device_state = VFIO_DEVICE_STATE_RUNNING;
-+    vbasedev->migration->vm_running = runstate_is_running();
- 
-     ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
-                             info->index, "migration");
+ }
 -- 
-2.27.0
+2.34.1
 
 
