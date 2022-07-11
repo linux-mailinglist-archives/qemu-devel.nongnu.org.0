@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFAC557274D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 22:32:19 +0200 (CEST)
-Received: from localhost ([::1]:36028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F885572756
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 22:34:24 +0200 (CEST)
+Received: from localhost ([::1]:44400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBMYM-0001qx-IQ
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 16:32:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53498)
+	id 1oBMaN-0007dA-EU
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 16:34:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBMUP-0004sT-2Y
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:13 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37664)
+ id 1oBMUU-0004uD-HI
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:19 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBMUM-0004nU-SE
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:12 -0400
-Received: by mail-wr1-x429.google.com with SMTP id r10so6590729wrv.4
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 13:28:10 -0700 (PDT)
+ id 1oBMUR-0004nk-8B
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:17 -0400
+Received: by mail-wr1-x435.google.com with SMTP id h17so12798346wrx.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 13:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=s2Y0M6J0BPnacOShpVucSD3h2YZU0U3E08PBx5ALuXY=;
- b=kVGb+hBKiSpD0c5N/U37svlrMmxwXRNgM6EWWWtwTeY+qaZ6eQ3W9mIDbMEdofQyct
- bzxgn/La19i/Jd2H19IaUtlxK+rtPi91lm4vC7+PrQB2Sn3KC97AWz2S+jVjVeUdDqyL
- ID6ywo/WGOEoEcL9oUmOf+BJZvgMqheW45FIDxF7Q5ZrxFi/NOQkjSfRn1So5TgSs0Fj
- dzAcVuf2ocjuMIyzwQvXAUNgpNZpUE5HjUwWWUlWrrjX4lUbPt5pfK0C0QWbbDGAZt+U
- AjojhcgLSNCOGpNT/By9St7VcsPcTMBP74IzF8edR/SulUHSOVZFYEpSBdMt4cNnzsJU
- vn1Q==
+ bh=y1nx8HiZfwVh11MMgNf6Ys/H3ZIl7zBF2ayNXglVOOc=;
+ b=Ny68BufCDX5T8R45Ri4tubpCVzNOGlioxSm955gtkSxX87nnVq3RmpXw7r4rf9vBdI
+ 7Ee71D3Yj+BPX4jq/vzGQa3QUoD7sFLyhNPY3+nR3gJkveBFW1a7lI4DFfO+xQcjg34M
+ JYquINbmopQWB8YPMWINtYgBGg17HWtstGm+NpJL6CufxD1zjTJLY2gh5wX8DWdRMtCU
+ pSYUm/HAqExABeWLwGTklZKZT8BnEpYG5FxjylNp21JUJgghHSN7/nPCI/2RF2Mfc3qB
+ Gg7WmdGY2VgxnB3JayAEQAO8N6giRPtdsauI6G66N1106RjHpzlkacrdeQKxAo0fqCwf
+ BZYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=s2Y0M6J0BPnacOShpVucSD3h2YZU0U3E08PBx5ALuXY=;
- b=XZLViYk9mZ+j+ZCFwO3C64q9Lwwqh9nBMJ4lP8TAe7VScIfPVPXdRqnIGoEFSFwzW7
- CT87qBqvIfGy9LFxmcyZGqzJ/QzXThuTvQhCqpzcTYWpuUVdWYt8HljUspWD1HHuwIj/
- HaOSbXqzMFa0T03Zb2tBkOfPXzlFmIAHmSJBdaeTM+nSHcrnf0dy8CSb5PvtvSLHQd/j
- dqQ0JB+gi3l+WqQZOycVZ6wBsYtAtpe7lUeinegTvOPmERJT4FA7bgVdTtKb/sukY+MO
- qOtCn440DFNNGPH5IL7itFEGvqkzjzksDwmiX+qLH8nGPavqv0MLj9XeCBXdpU+6zshH
- DVPw==
-X-Gm-Message-State: AJIora/HOvkveoN/mcIG1Fn0WTBWIBC2xKy7r++0UH44y9aULGgVGQX4
- eYDW9YADCu7b8oeq43YL4mY=
-X-Google-Smtp-Source: AGRyM1t+LRePIisitFiXxRq+6Byf20bFjBBmJ9DScLK93WfKvbUuYg5Jw9CwbOKf6lfZicKRhjYj2w==
-X-Received: by 2002:adf:de0d:0:b0:21d:66a1:ad4d with SMTP id
- b13-20020adfde0d000000b0021d66a1ad4dmr24118558wrm.17.1657657688974; 
- Tue, 12 Jul 2022 13:28:08 -0700 (PDT)
+ bh=y1nx8HiZfwVh11MMgNf6Ys/H3ZIl7zBF2ayNXglVOOc=;
+ b=7eQM7Vgtk2Q13DttF/MS/5NPeFkEmTKqQ60AwcS/JCjeERblSGXlSr7gx497WgdDhZ
+ TK+EH5w+t/yKgDtdU/3eYoSe8p1EYAh0Ap7FfCtajXo8ha7PAwYd75B+MV/9OD/fI8jm
+ g57xZKI20wZI4mQMIsUkISEPsXsNhXT6fQFLduT7QlYnN6QGlbqHtKeBnWjqkszLKd0y
+ vdJ0o0pOqf/ZylMzxQRUTqZ2C2ZKEiz23EM6/x6LStpprz5r+HtNcsi7Gqv26L4xpei5
+ CAmN5YX4ftj7bq8ccGDSnK4NYMIftZQQ+hAkzxiu5RbmcViuG5rvIUy4OnA8psj5Gipz
+ QztQ==
+X-Gm-Message-State: AJIora95DlUMm0lKNqBg7I4DAnYCfsI7865Tm01OdzWGrLS0QQE1/l2r
+ gfoOp8CiQev/PM3ktoKR5jKHB5y1JPiQeHcv
+X-Google-Smtp-Source: AGRyM1vLar3W85Qekkfkq1d4Cgu1tURq9kMha4vvoK6OY88rZ3Ioy3G0kjFE/c1pT80VwqUOu0SuiQ==
+X-Received: by 2002:a05:6000:15ce:b0:21d:b177:a8f0 with SMTP id
+ y14-20020a05600015ce00b0021db177a8f0mr5699564wry.370.1657657693422; 
+ Tue, 12 Jul 2022 13:28:13 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- w13-20020adff9cd000000b0021d20461bbbsm9072863wrr.88.2022.07.12.13.28.07
+ az11-20020a05600c600b00b003a2ebb087fbsm77732wmb.0.2022.07.12.13.28.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 13:28:08 -0700 (PDT)
-Message-ID: <4d2bdc57-8cdb-daf3-e610-45bbdb685927@amsat.org>
-Date: Mon, 11 Jul 2022 18:20:42 +0200
+ Tue, 12 Jul 2022 13:28:12 -0700 (PDT)
+Message-ID: <f1f5b6a6-1885-6abb-ec57-da76515f8bab@amsat.org>
+Date: Mon, 11 Jul 2022 18:21:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH v3 8/9] misc: remove qemu/osdep.h from headers / included
- source files
+Subject: Re: [PATCH v3 9/9] tests/style: check qemu/osdep.h is NOT included in
+ all .h/.c.inc files
 Content-Language: en-US
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
@@ -69,12 +69,12 @@ Cc: Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
 References: <20220707163720.1421716-1-berrange@redhat.com>
- <20220707163720.1421716-9-berrange@redhat.com>
-In-Reply-To: <20220707163720.1421716-9-berrange@redhat.com>
+ <20220707163720.1421716-10-berrange@redhat.com>
+In-Reply-To: <20220707163720.1421716-10-berrange@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -1
 X-Spam_score: -0.2
 X-Spam_bar: /
@@ -102,34 +102,15 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 7/7/22 18:37, Daniel P. Berrangé wrote:
-> Since qemu/osdep.h is guaranteed present in all C source files,
-> there is hno reason for it to be present in header files. Some
-> C source files are not directly directly, but rather included
-> from other source files. These should also not have qemu/osdep.h
-> present, as the primary source will have already included it.
+> Since the qemu/osdep.h file must be included as the very first header
+> in all C source files, there is no reason to include it in .h or .c.in
+> files.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   crypto/akcipher-gcrypt.c.inc                              | 1 -
->   crypto/akcipher-nettle.c.inc                              | 1 -
->   crypto/cipher-gnutls.c.inc                                | 1 -
->   crypto/rsakey-nettle.c.inc                                | 1 -
->   crypto/rsakey.h                                           | 1 -
->   include/hw/cxl/cxl_host.h                                 | 1 -
->   include/hw/tricore/triboard.h                             | 1 -
->   include/qemu/userfaultfd.h                                | 1 -
->   net/vmnet_int.h                                           | 1 -
->   qga/cutils.h                                              | 2 --
->   target/cris/translate_v10.c.inc                           | 1 -
->   target/hexagon/hex_arch_types.h                           | 1 -
->   target/hexagon/mmvec/macros.h                             | 1 -
->   target/riscv/pmu.h                                        | 1 -
->   target/xtensa/core-dc232b/xtensa-modules.c.inc            | 1 -
->   target/xtensa/core-dc233c/xtensa-modules.c.inc            | 1 -
->   target/xtensa/core-de212/xtensa-modules.c.inc             | 1 -
->   target/xtensa/core-fsf/xtensa-modules.c.inc               | 1 -
->   target/xtensa/core-sample_controller/xtensa-modules.c.inc | 1 -
->   ui/vnc-enc-zrle.c.inc                                     | 3 ---
->   ui/vnc-enc-zywrle-template.c.inc                          | 1 -
->   21 files changed, 24 deletions(-)
+>   tests/style.yml | 5 +++++
+>   1 file changed, 5 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
