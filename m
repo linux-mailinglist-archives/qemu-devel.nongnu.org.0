@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E7357104F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 04:38:23 +0200 (CEST)
-Received: from localhost ([::1]:52480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E0357106B
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 04:42:59 +0200 (CEST)
+Received: from localhost ([::1]:57698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB5n4-0005q2-R2
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 22:38:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41046)
+	id 1oB5rW-000199-LZ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 22:42:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oB5hQ-0007lx-6p; Mon, 11 Jul 2022 22:32:32 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:58615)
+ id 1oB5hS-0007sm-Jy; Mon, 11 Jul 2022 22:32:34 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oB5hO-0006YA-1L; Mon, 11 Jul 2022 22:32:31 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 387F0580A08;
- Mon, 11 Jul 2022 22:32:29 -0400 (EDT)
+ id 1oB5hQ-0006YK-LM; Mon, 11 Jul 2022 22:32:34 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id D13ED580A0C;
+ Mon, 11 Jul 2022 22:32:31 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 11 Jul 2022 22:32:29 -0400
+ by compute4.internal (MEProxy); Mon, 11 Jul 2022 22:32:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1657593149; x=1657596749; bh=pG
- sGK45f/Ri6DTtanJdSX5iZ4ftWDYqlLviaTcX/oX4=; b=rUVfnEISfOGn2EWTMn
- xXmuuTTJbaBDXtwqsby9c/ccEa7sF7G2Ap4hRObWXQFIty2w9yXGNb2cCuEm4O+G
- VIuSEb1ffsm39OvKLfUHBPNsxqEDy6NsU/Yp9yaUtBIuKFFardix2frwDzV0zy6N
- w/IrOBK/YCwf41MPoPvLk8iGMLM+3bIFEMDyWA/nqYuM58AoTQbE4Ss4yQhdYOJu
- aTf/9x0iYVWdtfOKjxqKQlJ9vUMZ2k6hbRsqU4R9qzvdfiHrBZNBUrx351WzW9ve
- 9QK0SYMT0IL+sYNDGvpSEzczPyxwXh5IWx0uxapWpBazfEwG2GgO2YRE7QG8D9qA
- GnOA==
+ :subject:subject:to:to; s=fm1; t=1657593151; x=1657596751; bh=lZ
+ 0HvsZ9FnoYrEYLIINLY/xwbc82MeQ14CYmLwhYr/g=; b=E7FaEnf5V1Irnxm4z4
+ iewagBcVob2zdOjQJQMmNOG+y1EwDyHhhGiJfhd2Rl6UgUPRjTfdhLHbzW01eQ7k
+ 9auTkklEIMoUt1zPcM3JeN0cJdENeT1DgYrUWzauwH+g4xG+KCjyafdPvoMhZIYN
+ 4mSGpl+z+A+bOFF0StXR4017GnXHDEWuJ1rrPVu3pj5N+VkcAxeU5rF5yU3EJDef
+ azx+EpKGmsmQhekBMYPEfoMyeRcWqVvFV79y+2fbHeOEgLyoHmx2MXXWXUWQwa9N
+ ei8xN2Q2YuyozNzBvrVZPNc9QMxhtg2JZINVqfqx9U7Vfq/8HPz5Nj7nj+wmdgT7
+ Z6Wg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1657593149; x=1657596749; bh=pGsGK45f/Ri6D
- TtanJdSX5iZ4ftWDYqlLviaTcX/oX4=; b=hn82RcjIAChR+K6fCKx71gxHmipms
- lTqHSt/v5y8MW6jsOGvdVLTX1nnwh8acsvZGEgY8PFZmXEOFVuFOwad8YsNNp0+B
- wBnpbRtRA2c9SSVVepK+Wb4zSdnY5WEn4vfmCnE1cbzRNwpq4NihN4HIwIoZvG2X
- yOCsQ1trYux2HZc0zxnS7E8IsvcD0zxyDmEJtgJkR0ocLk0yPb9fun2gKP9RAHHl
- 9qFKKN2uKiMjZ1RRGO5VsCSgA8R1noY03cgDPH4rRK6ibVdAP2NWPP/kUun7nVFB
- ltl18DTx85i4Z/IX5PpbrUHqN/JVav0VSIXEhGTMWwifDCGZjgC66EYFA==
-X-ME-Sender: <xms:PN3MYuJ_tHcsXFTobOhDnzjDlAlx3QmnBiJZR772jsCr-QyyEA8mrg>
- <xme:PN3MYmKbDUs7laqRXh7fn-ekXYumEICoKho3H3NB470dGiQY5IijPY7kkazcTgGT5
- mjw7nnNiD8wyj0feJ4>
-X-ME-Received: <xmr:PN3MYuuMHWBzlquvZ7jD6y9bVeG0AkzHCnwuO-9uYYyg-CfE2Ka6ENEFjy2rAA>
+ :x-sasl-enc; s=fm3; t=1657593151; x=1657596751; bh=lZ0HvsZ9FnoYr
+ EYLIINLY/xwbc82MeQ14CYmLwhYr/g=; b=fWXLlPIxLvvpWZVUacRJlWEUMuRPM
+ zF+Fh8KUDDUB6F7aY3U4v0QYSWTXXYEBwguWl6mR2U9AGh/s5pkKhs1t9y5P8sUI
+ sL7Vna6IYvMljG+qfjkJsE8f/rUnhX3Rfaufu0Bv5IGypm2q+43omdN7aMuwxo2f
+ zv6neNSKZutxFBl73HIJK48aU36VREu9XoS30zPWxNIxSvrp5hH4i9tRNYC3+EDa
+ nGF+wm7an+fysMXFoxel8UgqmxenUnNSV6TeKong5CzLZNQJexJgw0yPV+1NPMzX
+ oF1ciDpX/HSH1wj4R5Fr9jZtdb8CwHgkWpQA7m6IcXjfPn+4vGrTJzsmw==
+X-ME-Sender: <xms:P93MYtoDkfaIlLgt_JjveGb-cp6FW7OsZr68q9xpaU6fQTU2s_RLOQ>
+ <xme:P93MYvqbIiYQawKza5lG3IAjTDjZE3pO_sevlj_rMT__GKwpeQmFYBstv1vq2ZE9h
+ pVu8piwJ6TJ43ZoHeQ>
+X-ME-Received: <xmr:P93MYqNdt-IMVKak9p0TusLbsnWGPJjvNqL-4RuCAXXO1JTTYtub4ogb69nOmQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgedgiedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
  dmnegoteeftdduqddtudculdduhedmnecujfgurhephffvvefufffkofgjfhgggfestdek
  redtredttdenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrh
- esphhjugdruggvvheqnecuggftrfgrthhtvghrnhepteelgfeuleeffffffeekiefghfej
- uefgtdfgteeigeekvdefffevieekvdelteevnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:Pd3MYjaOt3DkRJmL9IEfq8FZhUSpldXSsevBt5RuzXdiqmTpWOJ3Ig>
- <xmx:Pd3MYlbV9xGr20YXeJ6SPtRM2c-3Z2SZ68JrFKODsKm_Z5YTa_AerA>
- <xmx:Pd3MYvC1XxCnMznMrARuRecdTvAqZnfd_taFo-Gd8PDcUbYNn1gLcg>
- <xmx:Pd3MYjOGxdSpbeD14cxGdzBIKt3Kg7xjt_vq2ZK6Q2uOv8WymzEWNw>
+ esphhjugdruggvvheqnecuggftrfgrthhtvghrnhepteegleegffehvdfhleduleefueff
+ kedutddtjeehffeludelvdejveejjeejuefgnecuffhomhgrihhnpehkvghrnhgvlhdroh
+ hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehp
+ vghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:P93MYo68WjfjzvMcDk4CYM4cmrnwK-O7DDEBS4LbBlU3om9mfWpUvQ>
+ <xmx:P93MYs6gNUo7HqQClBbwb8ox7KH-aiuR1GLblKtILGQcAy61MkEEtA>
+ <xmx:P93MYggoHSo0xlvg5kVav1t2FmRsNAlp1I4f3OxT98OMz-4c41KiJA>
+ <xmx:P93MYuv01MRY4CiEISuhhRQBn2PUTogBEzf156z9aVWKwXfHpcanYA>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Jul 2022 22:32:28 -0400 (EDT)
+ 11 Jul 2022 22:32:31 -0400 (EDT)
 From: Peter Delevoryas <peter@pjd.dev>
 To: 
 Cc: peter@pjd.dev, clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au,
  joel@jms.id.au, thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] qtest/aspeed_gpio: Add input pin modification test
-Date: Mon, 11 Jul 2022 19:32:17 -0700
-Message-Id: <20220712023219.41065-2-peter@pjd.dev>
+Subject: [PATCH v3 2/3] hw/gpio/aspeed: Don't let guests modify input pins
+Date: Mon, 11 Jul 2022 19:32:18 -0700
+Message-Id: <20220712023219.41065-3-peter@pjd.dev>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220712023219.41065-1-peter@pjd.dev>
 References: <20220712023219.41065-1-peter@pjd.dev>
@@ -101,66 +102,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verify the current behavior, which is that input pins can be modified by
-guest OS register writes.
+Up until now, guests could modify input pins by overwriting the data
+value register. The guest OS should only be allowed to modify output pin
+values, and the QOM property setter should only be permitted to modify
+input pins.
 
+This change also updates the gpio input pin test to match this
+expectation.
+
+Andrew suggested this particularly refactoring here:
+
+    https://lore.kernel.org/qemu-devel/23523aa1-ba81-412b-92cc-8174faba3612@www.fastmail.com/
+
+Suggested-by: Andrew Jeffery <andrew@aj.id.au>
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
 ---
- tests/qtest/aspeed_gpio-test.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ hw/gpio/aspeed_gpio.c          | 15 ++++++++-------
+ tests/qtest/aspeed_gpio-test.c |  2 +-
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
-index bac63e8742..8f52454099 100644
---- a/tests/qtest/aspeed_gpio-test.c
-+++ b/tests/qtest/aspeed_gpio-test.c
-@@ -28,6 +28,11 @@
- #include "qapi/qmp/qdict.h"
- #include "libqtest-single.h"
- 
-+#define AST2600_GPIO_BASE 0x1E780000
-+
-+#define GPIO_ABCD_DATA_VALUE 0x000
-+#define GPIO_ABCD_DIRECTION  0x004
-+
- static void test_set_colocated_pins(const void *data)
- {
-     QTestState *s = (QTestState *)data;
-@@ -46,6 +51,27 @@ static void test_set_colocated_pins(const void *data)
-     g_assert(!qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index a62a673857..1e267dd482 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -268,7 +268,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState *s, GPIOSets *regs)
  }
  
-+static void test_set_input_pins(const void *data)
-+{
-+    QTestState *s = (QTestState *)data;
-+    char name[16];
-+    uint32_t value;
-+
-+    qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DIRECTION, 0x00000000);
-+    for (char c = 'A'; c <= 'D'; c++) {
-+        for (int i = 0; i < 8; i++) {
-+            sprintf(name, "gpio%c%d", c, i);
-+            qtest_qom_set_bool(s, "/machine/soc/gpio", name, true);
-+        }
-+    }
-+    value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
-+    g_assert_cmphex(value, ==, 0xffffffff);
-+
-+    qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE, 0x00000000);
-+    value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
-+    g_assert_cmphex(value, ==, 0x00000000);
-+}
-+
- int main(int argc, char **argv)
+ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+-                               uint32_t value)
++                               uint32_t value, uint32_t mode_mask)
  {
-     QTestState *s;
-@@ -56,6 +82,7 @@ int main(int argc, char **argv)
-     s = qtest_init("-machine ast2600-evb");
-     qtest_add_data_func("/ast2600/gpio/set_colocated_pins", s,
-                         test_set_colocated_pins);
-+    qtest_add_data_func("/ast2600/gpio/set_input_pins", s, test_set_input_pins);
-     r = g_test_run();
-     qtest_quit(s);
+     uint32_t input_mask = regs->input_mask;
+     uint32_t direction = regs->direction;
+@@ -277,7 +277,8 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+     uint32_t diff;
+     int gpio;
  
+-    diff = old ^ new;
++    diff = (old ^ new);
++    diff &= mode_mask;
+     if (diff) {
+         for (gpio = 0; gpio < ASPEED_GPIOS_PER_SET; gpio++) {
+             uint32_t mask = 1 << gpio;
+@@ -339,7 +340,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
+         value &= ~pin_mask;
+     }
+ 
+-    aspeed_gpio_update(s, &s->sets[set_idx], value);
++    aspeed_gpio_update(s, &s->sets[set_idx], value, ~s->sets[set_idx].direction);
+ }
+ 
+ /*
+@@ -653,7 +654,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
+         reg_value = update_value_control_source(set, set->data_value,
+                                                 reg_value);
+         set->data_read = reg_value;
+-        aspeed_gpio_update(s, set, reg_value);
++        aspeed_gpio_update(s, set, reg_value, set->direction);
+         return;
+     case gpio_reg_idx_direction:
+         reg_value = set->direction;
+@@ -753,7 +754,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
+             __func__, offset, data, reg_idx_type);
+         return;
+     }
+-    aspeed_gpio_update(s, set, set->data_value);
++    aspeed_gpio_update(s, set, set->data_value, UINT32_MAX);
+     return;
+ }
+ 
+@@ -799,7 +800,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+         data &= props->output;
+         data = update_value_control_source(set, set->data_value, data);
+         set->data_read = data;
+-        aspeed_gpio_update(s, set, data);
++        aspeed_gpio_update(s, set, data, set->direction);
+         return;
+     case gpio_reg_direction:
+         /*
+@@ -875,7 +876,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+                       PRIx64"\n", __func__, offset);
+         return;
+     }
+-    aspeed_gpio_update(s, set, set->data_value);
++    aspeed_gpio_update(s, set, set->data_value, UINT32_MAX);
+     return;
+ }
+ 
+diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
+index 8f52454099..d38f51d719 100644
+--- a/tests/qtest/aspeed_gpio-test.c
++++ b/tests/qtest/aspeed_gpio-test.c
+@@ -69,7 +69,7 @@ static void test_set_input_pins(const void *data)
+ 
+     qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE, 0x00000000);
+     value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
+-    g_assert_cmphex(value, ==, 0x00000000);
++    g_assert_cmphex(value, ==, 0xffffffff);
+ }
+ 
+ int main(int argc, char **argv)
 -- 
 2.37.0
 
