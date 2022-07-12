@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2344A57130E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 09:25:45 +0200 (CEST)
-Received: from localhost ([::1]:50532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F389D57130F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 09:25:49 +0200 (CEST)
+Received: from localhost ([::1]:50792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBAH9-0003i2-Qf
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 03:25:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35428)
+	id 1oBAHF-0003tA-2i
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 03:25:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oBA7J-0005sC-Tu
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:15:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36827)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oBA7H-0006FH-NI
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:15:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657610131;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rwjfjExn+wG1ucbjx3Vn2878/88Fyf5V5axZfvfWapU=;
- b=HZNeaZgRKnz8jVADjE5KvmrMJ/b4ZVZ3z8kvZVuHAyVmMDBKS7lqm6vX2+3bECErT/wHVc
- l28JfgLnRuoH+q5rTNYsqR8ztbTzY6yQ8FlsiO8XcMbMws99h116TN2dcRio1fFUy8jqrV
- hOoJB1FIit0NtInO1/CHImMGduAl9i8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-140-AzknjKfuPwucrh47q0WHbA-1; Tue, 12 Jul 2022 03:15:28 -0400
-X-MC-Unique: AzknjKfuPwucrh47q0WHbA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B6C6D1C06ECE;
- Tue, 12 Jul 2022 07:15:27 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.179])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57D5940D2827;
- Tue, 12 Jul 2022 07:15:26 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org
-Subject: [PATCH] vdpa: Clean vhost_vdpa_dev_start(dev, false)
-Date: Tue, 12 Jul 2022 09:15:24 +0200
-Message-Id: <20220712071524.2144723-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oBA7k-00063U-LH
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:16:04 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:38696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oBA7X-0006H4-Qp
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:15:56 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id o12so6748701pfp.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 00:15:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=dcS6eDyshdyYxcZ1IS78oXCqaoR9mF+9Yi3QowTW6QE=;
+ b=V4blpXu6hPCDr19mfSb+KwlSJRJSFGg4O+L4qXLhQq6xessveGfYW7Smx+eGtB9v8Z
+ Xmik1u1pc8LXbElBgEoZfOJw846L0XmQ0eiIh957nmVTk5y58WUpKdBjYFtOFS28v4xP
+ bda/ERhpDLdKa6fSQyDrXTG+OspNDmsDYWG4bZqcR3xzQZijjz4b/JtwcAhl3OxeyeV9
+ oMm+N9dbudC98NDSWZnPU/DwMpxN4zPrJMCGBQe76r99S01maKT7C0iafIFVwicjcjer
+ Wmh78+RjIhpfVBCalmk4IRWOT2iAq/k5SbADDkC4rlGdqCfvE2Y95IZyL+E3D9r8hAMZ
+ WkXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dcS6eDyshdyYxcZ1IS78oXCqaoR9mF+9Yi3QowTW6QE=;
+ b=4ffaJdwlqxBgslnHApCVNcv7DkW7J3gtGnrUCuD9hJw8K68xy2tzNVoyBpvRTsmoNZ
+ CFmdEKCE/tNyx/AYVyA8+AVpR7NnG3kAuHd+3mYZlHFMYeDM2h3t3/B2iiqFAJ7Xlr7p
+ +G7hIzDdlaEogMxFmxe+FdXqWCS2i+rn+Osg7/0P7yC3rMgQN+mTtxLh7/C/zQPobKSY
+ ssT9wU+3DTJ974udtlgbiHQNHFa2g1sQ6qgn5H1gi++B3VEaJYBMHyIyCV/Ca6TEeYCB
+ 8DLYr21w5UKXoTSye34F/ZBEbBNVhhlw54qsRa9zfBITbwhYseoV4hMmlE+1OYfn9DGa
+ lHwg==
+X-Gm-Message-State: AJIora/icBE6h3Oo1WZvGRAFwI0JY2TjJCgjd2qeBsRolML51z66pCqK
+ qO0xWMKHFooYXi/vnEbfd+BeeA==
+X-Google-Smtp-Source: AGRyM1uw37GuQT3DyExRvGftG4N/LayLydLKJj2W8CHL90f45vF8H2ojScYGPQWwcQu2sNRRYnypHw==
+X-Received: by 2002:a63:f84b:0:b0:416:360f:230d with SMTP id
+ v11-20020a63f84b000000b00416360f230dmr4259989pgj.376.1657610145794; 
+ Tue, 12 Jul 2022 00:15:45 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ j4-20020a170902c3c400b0016bf24611e7sm6012099plj.5.2022.07.12.00.15.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jul 2022 00:15:45 -0700 (PDT)
+Message-ID: <f6d1aa8c-1790-9c04-7341-fcd23304c2d1@linaro.org>
+Date: Tue, 12 Jul 2022 12:45:38 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] iotests: fix copy-before-write for macOS and FreeBSD
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
+ thuth@redhat.com, jsnow@redhat.com
+References: <20220705153708.186418-1-vsementsov@yandex-team.ru>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220705153708.186418-1-vsementsov@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,105 +93,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Return value is never checked and is a clean path, so assume success
+On 7/5/22 21:07, Vladimir Sementsov-Ogievskiy wrote:
+> strerror() represents ETIMEDOUT a bit different in Linux and macOS /
+> FreeBSD. Let's support the latter too.
+> 
+> Fixes: 9d05a87b77 ("iotests: copy-before-write: add cases for cbw-timeout option")
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> ---
+> 
+> As John and Thomas noted, the new iotests fails for FreeBSD and maxOS.
+> Here is a fix. Would be great if someone can test it.
+> 
+> I tried to push it by
+> 
+>    git push --force  -o ci.variable="QEMU_CI=1"
+> 
+> to my block branch, I get a blocked pipeline
+>    https://gitlab.com/vsementsov/qemu/-/pipelines/580573238
+> but it doesn't have neither freebsd nor macos jobs.. How to get them?
+> 
+>   tests/qemu-iotests/tests/copy-before-write | 5 +++++
+>   1 file changed, 5 insertions(+)
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- hw/virtio/vhost-vdpa.c | 33 ++++++++++-----------------------
- 1 file changed, 10 insertions(+), 23 deletions(-)
+I am going to apply this as a hot fix, trying to re-green the CI.
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 66f054a12c..d6ba4a492a 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -872,41 +872,35 @@ static int vhost_vdpa_svq_set_fds(struct vhost_dev *dev,
- /**
-  * Unmap a SVQ area in the device
-  */
--static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
-+static void vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
-                                       const DMAMap *needle)
- {
-     const DMAMap *result = vhost_iova_tree_find_iova(v->iova_tree, needle);
-     hwaddr size;
--    int r;
- 
-     if (unlikely(!result)) {
-         error_report("Unable to find SVQ address to unmap");
--        return false;
-+        return;
-     }
- 
-     size = ROUND_UP(result->size, qemu_real_host_page_size());
--    r = vhost_vdpa_dma_unmap(v, result->iova, size);
--    return r == 0;
-+    vhost_vdpa_dma_unmap(v, result->iova, size);
- }
- 
--static bool vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
-+static void vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
-                                        const VhostShadowVirtqueue *svq)
- {
-     DMAMap needle = {};
-     struct vhost_vdpa *v = dev->opaque;
-     struct vhost_vring_addr svq_addr;
--    bool ok;
- 
-     vhost_svq_get_vring_addr(svq, &svq_addr);
- 
-     needle.translated_addr = svq_addr.desc_user_addr;
--    ok = vhost_vdpa_svq_unmap_ring(v, &needle);
--    if (unlikely(!ok)) {
--        return false;
--    }
-+    vhost_vdpa_svq_unmap_ring(v, &needle);
- 
-     needle.translated_addr = svq_addr.used_user_addr;
--    return vhost_vdpa_svq_unmap_ring(v, &needle);
-+    vhost_vdpa_svq_unmap_ring(v, &needle);
- }
- 
- /**
-@@ -1066,23 +1060,19 @@ err:
-     return false;
- }
- 
--static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
-+static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
- {
-     struct vhost_vdpa *v = dev->opaque;
- 
-     if (!v->shadow_vqs) {
--        return true;
-+        return;
-     }
- 
-     for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
-         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
--        bool ok = vhost_vdpa_svq_unmap_rings(dev, svq);
--        if (unlikely(!ok)) {
--            return false;
--        }
-+        vhost_vdpa_svq_unmap_rings(dev, svq);
-     }
- 
--    return true;
- }
- 
- static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-@@ -1099,10 +1089,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-         }
-         vhost_vdpa_set_vring_ready(dev);
-     } else {
--        ok = vhost_vdpa_svqs_stop(dev);
--        if (unlikely(!ok)) {
--            return -1;
--        }
-+        vhost_vdpa_svqs_stop(dev);
-         vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-     }
- 
--- 
-2.31.1
 
+r~
 
