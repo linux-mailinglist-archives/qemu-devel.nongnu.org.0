@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F995715E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:39:52 +0200 (CEST)
-Received: from localhost ([::1]:58938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36045715EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:41:20 +0200 (CEST)
+Received: from localhost ([::1]:60428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBCMx-00010y-DD
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35770)
+	id 1oBCON-00024G-UE
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:41:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oBCID-0004c0-2l
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:34:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52651)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oBCJ3-000565-LD
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:35:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oBCIA-00061P-Gm
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:34:55 -0400
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oBCJ1-0006N1-IS
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:35:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657618493;
+ s=mimecast20190719; t=1657618544;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Y0Cw41L5uvaCp5LxeQbylHUyp1eAk47TWc+uZAPsZis=;
- b=Oo63O7qpf90n2iEVO2ab6rqEKJJGDu0GhchKcC3m0WEW52NKYyEuFVpuAD4su1k/s7eovd
- GOFU27hWaFrIDVo/gXI/kOjxo8Jz2Wd66gddhNvu63RTZVide+eHiQvqVz78OAxr6EmwSe
- yjBhfMJ+MI5h4g3n2/zyxWKTLOl64LI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hhR8DCRo8jt59ldwinIsGcA//CRQQvJjnOE31kEUmC8=;
+ b=CL0WFcowmuNUCrw4Ijr0F0CGc3VJxAuFfgB1MDRI0mxyJcBqbNRfmEDeE6xIOc8PsfrURF
+ NzuxICxEmT/ZoCABciFT+hl/o/n/3xrS7ToMfr/FEh+2zZiAc4w0Vm5p2qJTl9ykpaxj86
+ pp8mE8qJlJwRBNh88YNsN67loL6DkMc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-J1U-_XKEM9mDKh7EJ96Jyg-1; Tue, 12 Jul 2022 05:34:50 -0400
-X-MC-Unique: J1U-_XKEM9mDKh7EJ96Jyg-1
+ us-mta-370-7qAxnUAJPKWkx0goNc8XxA-1; Tue, 12 Jul 2022 05:35:35 -0400
+X-MC-Unique: 7qAxnUAJPKWkx0goNc8XxA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E93C801755;
- Tue, 12 Jul 2022 09:34:50 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 803C71410F38;
- Tue, 12 Jul 2022 09:34:49 +0000 (UTC)
-Date: Tue, 12 Jul 2022 10:34:48 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Li Qiang <liq3ea@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH v2] memory: prevent dma-reentracy issues
-Message-ID: <Ys1AOOWLZRBxYNbC@stefanha-x1.localdomain>
-References: <20220609135851.42193-1-alxndr@bu.edu>
- <CAFEAcA-QOqGWzeeQLLK2pH0WwABzXP2ZjFKxLY7d62bWhGRWxw@mail.gmail.com>
- <20220621155306.2mvr22dd5xuc6pqm@mozz.bu.edu>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BBCDD803520;
+ Tue, 12 Jul 2022 09:35:34 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE5E21415117;
+ Tue, 12 Jul 2022 09:35:32 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Xie Yongji <xieyongji@bytedance.com>, Kyle Evans <kevans@freebsd.org>,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Warner Losh <imp@bsdimp.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Fam Zheng <fam@euphon.net>,
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH v2 00/15] Preliminary patches for subproject split
+Date: Tue, 12 Jul 2022 13:35:13 +0400
+Message-Id: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="N64uyCRIMCLOnmBv"
-Content-Disposition: inline
-In-Reply-To: <20220621155306.2mvr22dd5xuc6pqm@mozz.bu.edu>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,109 +88,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
---N64uyCRIMCLOnmBv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Tue, Jun 21, 2022 at 11:53:06AM -0400, Alexander Bulekov wrote:
-> On 220621 1630, Peter Maydell wrote:
-> > On Thu, 9 Jun 2022 at 14:59, Alexander Bulekov <alxndr@bu.edu> wrote:
-> > > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> > > index 44dacfa224..ab1ad0f7a8 100644
-> > > --- a/include/hw/pci/pci.h
-> > > +++ b/include/hw/pci/pci.h
-> > > @@ -834,8 +834,17 @@ static inline MemTxResult pci_dma_rw(PCIDevice *=
-dev, dma_addr_t addr,
-> > >                                       void *buf, dma_addr_t len,
-> > >                                       DMADirection dir, MemTxAttrs at=
-trs)
-> > >  {
-> > > -    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
-> > > -                         dir, attrs);
-> > > +    bool prior_engaged_state;
-> > > +    MemTxResult result;
-> > > +
-> > > +    prior_engaged_state =3D dev->qdev.engaged_in_io;
-> > > +
-> > > +    dev->qdev.engaged_in_io =3D true;
-> > > +    result =3D dma_memory_rw(pci_get_address_space(dev), addr, buf, =
-len,
-> > > +                           dir, attrs);
-> > > +    dev->qdev.engaged_in_io =3D prior_engaged_state;
-> > > +
-> > > +    return result;
-> >=20
-> > Why do we need to do something in this pci-specific function ?
-> > I was expecting this to only need changes at the generic-to-all-devices
-> > level.
->=20
-> Both of these handle the BH->DMA->MMIO case. Unlike MMIO, I don't think
-> there is any neat way to set the engaged_in_io flag as we enter a BH. So
-> instead, we try to set it when a device initiates DMA.
->=20
-> The pci function lets us do that since we get a glimpse of the dev/qdev
-> (unlike the dma_memory_...  functions).
-=2E..
-> > > @@ -302,6 +310,10 @@ static MemTxResult dma_buf_rw(void *buf, dma_add=
-r_t len, dma_addr_t *residual,
-> > >          xresidual -=3D xfer;
-> > >      }
-> > >
-> > > +    if (dev) {
-> > > +        dev->engaged_in_io =3D prior_engaged_state;
-> > > +    }
-> >=20
-> > Not all DMA goes through dma_buf_rw() -- why does it need changes?
->=20
-> This one has the same goal, but accesses the qdev through sg, instead of
-> PCI.
+Here is another subset of the large "subproject(qga)"" series I intend to send
+soon after (https://gitlab.com/marcandre.lureau/qemu/-/commits/qga).
 
-Should dma_*() APIs take a reentrancy guard argument so that all DMA
-accesses are systematically covered?
+Thanks
 
-  /* Define this in the memory API */
-  typedef struct {
-      bool engaged_in_io;
-  } MemReentrancyGuard;
+v2:
+ - drop error_init() callbacks, use static library symbol override instead
+ - include a few patches from the rest of the series to introduce qemu-common
+   subproject
 
-  /* Embed MemReentrancyGuard in DeviceState */
-  ...
+Marc-André Lureau (15):
+  error-report: misc comment fix
+  error-report: introduce "detailed" variable
+  error-report: simplify print_loc()
+  error-report: introduce overridable error_is_detailed()
+  stubs: remove needless error_vprintf_unless_qmp()
+  qapi: move QEMU-specific dispatch code in monitor
+  scripts/qapi-gen: add -i option
+  scripts/qapi: add required system includes to visitor
+  util: move 256-by-128 division helpers to int128
+  qemu-common: introduce a common subproject
+  qemu-common: move scripts/qapi
+  qemu-common: move glib-compat.h
+  qemu-common: move error-report
+  mtest2make.py: teach suite name that are just "PROJECT"
+  qemu-common: add error-report test
 
-  /* Require it in dma_*() APIs */
-  static inline MemTxResult dma_memory_rw(AddressSpace *as, dma_addr_t addr,
-                                          void *buf, dma_addr_t len,
-                                          DMADirection dir, MemTxAttrs attr=
-s,
-					  MemReentrancyGuard *guard);
+ docs/conf.py                                  |   2 +-
+ meson.build                                   |  28 +--
+ include/qapi/qmp/dispatch.h                   |   7 +-
+ include/qemu/host-utils.h                     |   3 -
+ include/qemu/int128.h                         |   3 +
+ .../qemu-common/include}/glib-compat.h        |   4 +-
+ .../qemu-common/include}/qemu/error-report.h  |   4 +
+ .../qemu-common/include}/qemu/help-texts.h    |   0
+ monitor/qmp.c                                 |  68 ++++++-
+ qapi/qmp-dispatch.c                           |  64 +------
+ qga/main.c                                    |   2 +-
+ softmmu/vl.c                                  |   5 +
+ .../qemu-common/src/error-is-detailed.c       |   6 +
+ .../qemu-common/src}/error-report.c           |  20 +-
+ .../qemu-common/src/error-vprintf.c           |  10 +-
+ .../qemu-common/tests/test-error-report.c     | 120 ++++++++++++
+ tests/unit/test-qmp-cmds.c                    |   6 +-
+ util/host-utils.c                             | 180 ------------------
+ util/int128.c                                 | 180 ++++++++++++++++++
+ MAINTAINERS                                   |   4 +-
+ linux-user/meson.build                        |   4 +-
+ scripts/mtest2make.py                         |   7 +-
+ stubs/meson.build                             |   1 -
+ subprojects/libvduse/meson.build              |   2 +
+ subprojects/libvduse/subprojects/qemu-common  |   1 +
+ subprojects/libvhost-user/meson.build         |   2 +
+ .../libvhost-user/subprojects/qemu-common     |   1 +
+ subprojects/qemu-common/meson.build           |  26 +++
+ subprojects/qemu-common/scripts/meson.build   |   3 +
+ .../qemu-common/scripts}/qapi-gen.py          |   0
+ .../qemu-common/scripts}/qapi/.flake8         |   0
+ .../qemu-common/scripts}/qapi/.isort.cfg      |   0
+ .../qemu-common/scripts}/qapi/__init__.py     |   0
+ .../qemu-common/scripts}/qapi/commands.py     |  15 +-
+ .../qemu-common/scripts}/qapi/common.py       |   0
+ .../qemu-common/scripts}/qapi/error.py        |   0
+ .../qemu-common/scripts}/qapi/events.py       |  17 +-
+ .../qemu-common/scripts}/qapi/expr.py         |   0
+ .../qemu-common/scripts}/qapi/gen.py          |  17 ++
+ .../qemu-common/scripts}/qapi/introspect.py   |  11 +-
+ .../qemu-common/scripts}/qapi/main.py         |  17 +-
+ .../qemu-common/scripts/qapi/meson.build      |  16 ++
+ .../qemu-common/scripts}/qapi/mypy.ini        |   0
+ .../qemu-common/scripts}/qapi/parser.py       |   0
+ .../qemu-common/scripts}/qapi/pylintrc        |   0
+ .../qemu-common/scripts}/qapi/schema.py       |   0
+ .../qemu-common/scripts}/qapi/source.py       |   0
+ .../qemu-common/scripts}/qapi/types.py        |  17 +-
+ .../qemu-common/scripts}/qapi/visit.py        |  19 +-
+ subprojects/qemu-common/src/meson.build       |   5 +
+ subprojects/qemu-common/tests/meson.build     |  12 ++
+ tests/qapi-schema/meson.build                 |   2 +-
+ util/meson.build                              |   2 +-
+ 53 files changed, 585 insertions(+), 328 deletions(-)
+ rename {include => subprojects/qemu-common/include}/glib-compat.h (97%)
+ rename {include => subprojects/qemu-common/include}/qemu/error-report.h (97%)
+ rename {include => subprojects/qemu-common/include}/qemu/help-texts.h (100%)
+ create mode 100644 subprojects/qemu-common/src/error-is-detailed.c
+ rename {util => subprojects/qemu-common/src}/error-report.c (96%)
+ rename stubs/error-printf.c => subprojects/qemu-common/src/error-vprintf.c (64%)
+ create mode 100644 subprojects/qemu-common/tests/test-error-report.c
+ create mode 120000 subprojects/libvduse/subprojects/qemu-common
+ create mode 120000 subprojects/libvhost-user/subprojects/qemu-common
+ create mode 100644 subprojects/qemu-common/meson.build
+ create mode 100644 subprojects/qemu-common/scripts/meson.build
+ rename {scripts => subprojects/qemu-common/scripts}/qapi-gen.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/.flake8 (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/.isort.cfg (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/__init__.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/commands.py (96%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/common.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/error.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/events.py (95%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/expr.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/gen.py (95%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/introspect.py (97%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/main.py (85%)
+ create mode 100644 subprojects/qemu-common/scripts/qapi/meson.build
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/mypy.ini (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/parser.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/pylintrc (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/schema.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/source.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/types.py (96%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/visit.py (96%)
+ create mode 100644 subprojects/qemu-common/src/meson.build
+ create mode 100644 subprojects/qemu-common/tests/meson.build
 
-  /* Call dma_*() APIs like this... */
-  static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
-                                       void *buf, dma_addr_t len,
-                                       DMADirection dir, MemTxAttrs attrs)
-  {
-      return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
-                           dir, attrs, &dev->qdev.reentrancy_guard);
-  }
-
-Stefan
-
---N64uyCRIMCLOnmBv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLNQDgACgkQnKSrs4Gr
-c8hgAgf9GMjHDni/IlsRb61Edn1D7GutZ9MznqDHnMAl9NHgC/xCQ+MQ4X4OhPLU
-ps3AyW9na7aEUcVHPTyKiGLw/MGKlANPhzFHsrD4FgSjPoGY/kAyB4DTtjXEyJ5A
-VEEUvzmUR67hPZjIhPIr6qR1wyVGmAwei/FpnBQ+AzW+VMbDypUQDCkB6HJVFUqP
-unHdyiDiCkPxIkz7aBbQ+eVKmLaXhN6Tqd1nCUMy8pebw4/KFkmd3fPhjqttQsKJ
-C8eWlnWJZZ2Tq9yRg9HthkSRaW5k0cC/edch5B3GYytnC9vPEfAgITE4uvfIxtsj
-//QMHe2A0y7GnmeQnQ0+UC9yM1z0Iw==
-=cQ+t
------END PGP SIGNATURE-----
-
---N64uyCRIMCLOnmBv--
+-- 
+2.37.0.rc0
 
 
