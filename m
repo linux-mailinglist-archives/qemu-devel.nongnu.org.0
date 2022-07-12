@@ -2,103 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43125571A6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:48:45 +0200 (CEST)
-Received: from localhost ([::1]:53270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5AD571A85
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:52:56 +0200 (CEST)
+Received: from localhost ([::1]:59290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBFJj-0001dO-Rv
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49852)
+	id 1oBFNn-0006Pd-Fe
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oBFCu-00040t-I2
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:41:51 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5198
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBFIK-0000GK-G8
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:47:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oBFCp-0007So-6G
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:41:37 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26CCcS1i009000;
- Tue, 12 Jul 2022 12:41:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=ur7onCcTHZ7rfCxwX6HfBm8IRsb1uzi416EV/ieC/Hw=;
- b=dNfIPW4PV+ahtPfSmtAvWxH6pSnqiHnekzh+YUxchkKR5bZoEJ7BR49WMkLuRJzFvxZp
- sWShWl2TY3kSjL30iVaGj9ahswZ7HDMFcSFF54fsqzkf/j0ixjQwyavsRhzTY+jVWfMz
- 5gpyDg6jqY5JQdEnVpYbLvM2PkJG+WSI+uJVXxpZsq9d30CSXQt5dHz7PNwa3NMoxyLG
- a8EDfLZ0RWVLb6jKkwtkdR7NE88AN31geKSnbBHFZ55FlO+v/fE4gdn3hVoIyiVvtiFk
- EFNOn0v4PibRp8l0nyw5fajMk5d6Uh7Wprmk7vTIEHNPEsF+QlzXyFlM18kqcweKuylE uQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h98vw0ega-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 12:41:31 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26CCde4W019303;
- Tue, 12 Jul 2022 12:41:31 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h98vw0efa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 12:41:31 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26CCL40b029199;
- Tue, 12 Jul 2022 12:41:29 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03fra.de.ibm.com with ESMTP id 3h71a8k3wb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 12:41:29 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26CCfQHg10355082
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 Jul 2022 12:41:27 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DEC2A5204F;
- Tue, 12 Jul 2022 12:41:26 +0000 (GMT)
-Received: from [9.171.48.196] (unknown [9.171.48.196])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 966495204E;
- Tue, 12 Jul 2022 12:41:26 +0000 (GMT)
-Message-ID: <763043af0fd527ad7c45be7e4f9d9ee363c7063e.camel@linux.ibm.com>
-Subject: [PING] linux-user: Passthrough MADV_DONTNEED for certain file mappings
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>
-Date: Tue, 12 Jul 2022 14:41:26 +0200
-In-Reply-To: <20220701135207.2710488-1-iii@linux.ibm.com>
-References: <20220701135207.2710488-1-iii@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 6t0I4DnAOVZ0M0FoGW9IrQE0bBIZ7FAt
-X-Proofpoint-ORIG-GUID: JRW7vP8NPWHvfobKbcWn0F5G4oRnoWfC
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBFII-0000KH-5O
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:47:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657630032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VY9+pLsviGvcBUHTeOWYNWwAWnENofpNZzApa9yRYz4=;
+ b=RplBviNkYw4kNs5r1gmXUjh5WOzUj9NFvLAAkeqLfOuOvk67eFAQQ3SNX/jApJOe1uRLae
+ +l6E1kmFM2VBsgfDTHUB5KVyTiIZc8HgUpXyy9UZJkhv6JS9BqSODEq4Nssc7Hb7qhclhj
+ EizpsMLTLFIxBTZRFGx433CJvqZNigw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-608-DaAvtNGgM9WoIO9ieKWMFQ-1; Tue, 12 Jul 2022 08:47:09 -0400
+X-MC-Unique: DaAvtNGgM9WoIO9ieKWMFQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F1A61C0336D;
+ Tue, 12 Jul 2022 12:47:09 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA6CE1121314;
+ Tue, 12 Jul 2022 12:47:08 +0000 (UTC)
+Date: Tue, 12 Jul 2022 13:47:07 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/8] virtio_queue_aio_attach_host_notifier: remove
+ AioContext lock
+Message-ID: <Ys1tS51bxJ+VovCt@stefanha-x1.localdomain>
+References: <20220609143727.1151816-1-eesposit@redhat.com>
+ <20220609143727.1151816-2-eesposit@redhat.com>
+ <YsRGpb02psGIffrw@stefanha-x1.localdomain>
+ <3c910e80-dfdd-da1c-9683-3d7db51467c4@redhat.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-12_08,2022-07-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- spamscore=0 lowpriorityscore=0 mlxlogscore=999 adultscore=0
- impostorscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207120048
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8cYzRl2hzEEm5xmC"
+Content-Disposition: inline
+In-Reply-To: <3c910e80-dfdd-da1c-9683-3d7db51467c4@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,130 +86,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2022-07-01 at 15:52 +0200, Ilya Leoshkevich wrote:
-> This is a follow-up for commit 892a4f6a750a ("linux-user: Add partial
-> support for MADV_DONTNEED"), which added passthrough for anonymous
-> mappings. File mappings can be handled in a similar manner.
-> 
-> In order to do that, mark pages, for which mmap() was passed through,
-> with PAGE_PASSTHROUGH, and then allow madvise() passthrough for these
-> pages as well.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->  include/exec/cpu-all.h |  6 ++++++
->  linux-user/mmap.c      | 25 +++++++++++++++++++++----
->  2 files changed, 27 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-> index f5bda2c3ca..fbdbc0fdec 100644
-> --- a/include/exec/cpu-all.h
-> +++ b/include/exec/cpu-all.h
-> @@ -262,6 +262,12 @@ extern const TargetPageBits target_page;
->  #define PAGE_TARGET_1  0x0200
->  #define PAGE_TARGET_2  0x0400
->  
-> +/*
-> + * For linux-user, indicates that the page is mapped with the same
-> semantics
-> + * in both guest and host.
-> + */
-> +#define PAGE_PASSTHROUGH 0x0080
-> +
->  #if defined(CONFIG_USER_ONLY)
->  void page_dump(FILE *f);
->  
-> diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-> index 4e7a6be6ee..58622a0c15 100644
-> --- a/linux-user/mmap.c
-> +++ b/linux-user/mmap.c
-> @@ -424,7 +424,8 @@ abi_ulong mmap_find_vma(abi_ulong start,
-> abi_ulong size, abi_ulong align)
->  abi_long target_mmap(abi_ulong start, abi_ulong len, int
-> target_prot,
->                       int flags, int fd, abi_ulong offset)
->  {
-> -    abi_ulong ret, end, real_start, real_end, retaddr, host_offset,
-> host_len;
-> +    abi_ulong ret, end, real_start, real_end, retaddr, host_offset,
-> host_len,
-> +              passthrough_start = -1, passthrough_end = -1;
->      int page_flags, host_prot;
->  
->      mmap_lock();
-> @@ -537,6 +538,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong
-> len, int target_prot,
->              host_start += offset - host_offset;
->          }
->          start = h2g(host_start);
-> +        passthrough_start = start;
-> +        passthrough_end = start + len;
->      } else {
->          if (start & ~TARGET_PAGE_MASK) {
->              errno = EINVAL;
-> @@ -619,6 +622,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong
-> len, int target_prot,
->                       host_prot, flags, fd, offset1);
->              if (p == MAP_FAILED)
->                  goto fail;
-> +            passthrough_start = real_start;
-> +            passthrough_end = real_end;
->          }
->      }
->   the_end1:
-> @@ -626,7 +631,18 @@ abi_long target_mmap(abi_ulong start, abi_ulong
-> len, int target_prot,
->          page_flags |= PAGE_ANON;
->      }
->      page_flags |= PAGE_RESET;
-> -    page_set_flags(start, start + len, page_flags);
-> +    if (passthrough_start == passthrough_end) {
-> +        page_set_flags(start, start + len, page_flags);
-> +    } else {
-> +        if (start != passthrough_start) {
-> +            page_set_flags(start, passthrough_start, page_flags);
-> +        }
-> +        page_set_flags(passthrough_start, passthrough_end,
-> +                       page_flags | PAGE_PASSTHROUGH);
-> +        if (passthrough_end != start + len) {
-> +            page_set_flags(passthrough_end, start + len,
-> page_flags);
-> +        }
-> +    }
->   the_end:
->      trace_target_mmap_complete(start);
->      if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
-> @@ -845,7 +861,7 @@ static bool
-> can_passthrough_madv_dontneed(abi_ulong start, abi_ulong end)
->      }
->  
->      for (addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
-> -        if (!(page_get_flags(addr) & PAGE_ANON)) {
-> +        if (!(page_get_flags(addr) & (PAGE_ANON |
-> PAGE_PASSTHROUGH))) {
->              return false;
->          }
->      }
-> @@ -888,7 +904,8 @@ abi_long target_madvise(abi_ulong start,
-> abi_ulong len_in, int advice)
->       *
->       * This breaks MADV_DONTNEED, completely implementing which is
-> quite
->       * complicated. However, there is one low-hanging fruit: host-
-> page-aligned
-> -     * anonymous mappings. In this case passthrough is safe, so do
-> it.
-> +     * anonymous mappings or mappings that are known to have the
-> same semantics
-> +     * in the host and the guest. In this case passthrough is safe,
-> so do it.
->       */
->      mmap_lock();
->      if ((advice & MADV_DONTNEED) &&
 
-Ping:
+--8cYzRl2hzEEm5xmC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://patchew.org/QEMU/20220701135207.2710488-1-iii@linux.ibm.com/
+On Fri, Jul 08, 2022 at 11:01:37AM +0200, Emanuele Giuseppe Esposito wrote:
+>=20
+>=20
+> Am 05/07/2022 um 16:11 schrieb Stefan Hajnoczi:
+> > On Thu, Jun 09, 2022 at 10:37:20AM -0400, Emanuele Giuseppe Esposito wr=
+ote:
+> >> @@ -146,7 +147,6 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+> >> =20
+> >>      s->dataplane_starting =3D false;
+> >>      s->dataplane_started =3D true;
+> >> -    aio_context_release(s->ctx);
+> >>      return 0;
+> >=20
+> > This looks risky because s->dataplane_started is accessed by IO code and
+> > there is a race condition here. Maybe you can refactor the code along
+> > the lines of virtio-blk to avoid the race.
+> >=20
+>=20
+> Uhmm could you explain why is virtio-blk also safe here?
+> And what is currently protecting dataplane_started (in both blk and
+> scsi, as I don't see any other AioContext lock taken)?
 
-Also +Cc: Richard and Paolo.
+dataplane_started is assigned before the host notifier is set up, which
+I'm assuming is an implicit write barrier.
+
+> Because I see that for example virtio_blk_req_complete is IO_CODE, so it
+> could theoretically read dataplane_started while it is being changed in
+> dataplane_stop? Even though I guess it doesn't because we disable and
+> clean the host notifier before modifying it?
+
+virtio_blk_data_plane_stop() has:
+
+  aio_context_acquire(s->ctx);
+  aio_wait_bh_oneshot(s->ctx, virtio_blk_data_plane_stop_bh, s);
+
+  /* Drain and try to switch bs back to the QEMU main loop. If other users
+   * keep the BlockBackend in the iothread, that's ok */
+  blk_set_aio_context(s->conf->conf.blk, qemu_get_aio_context(), NULL);
+
+  aio_context_release(s->ctx);
+
+and disables host notifiers. At that point the IOThread no longer
+receives virtqueue kicks and all in-flight requests have completed.
+dataplane_started is only written afterwards so there is no race with
+virtio_blk_req_complete().
+
+>=20
+> But if so, I don't get what is the difference with scsi code, and why we
+> need to protect only that instance with the aiocontext lock?
+
+The race condition I pointed out is not with virtio_blk_req_complete()
+and data_plane_stop(). It's data_plane_start() racing with
+virtio_blk_req_complete().
+
+The virtio-scsi dataplane code is different for historical reasons and
+happens to have the race. I don't think the virtio-blk code is affected.
+
+Stefan
+
+--8cYzRl2hzEEm5xmC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLNbUsACgkQnKSrs4Gr
+c8hgqwf9HScoTqc8ZsbW4enzRp67yelZ0yLBtW0oEGfmA/2E948jSLTEdXIKZBMG
+aRYqX9qFWW4/Cw60XK7Dck+yqUodteGSH78j9dMLk5Q78p7TIlAsPnnWdhRsVGHy
+qYJ1xUj6FIAn3ctAVm5D8IYkPE/9Y7B0vyjY0gPPg9ws2V+4Oud7i0+rtHbVM3Ob
+GlP58tGol4GON4LtoShSYNhvZ38hP/S+oMntsKKXIuvpj2aCMd92ZE3BNGyImjvi
+RTtoQXnD8pmkuukmD69QZtxaGqUnN46GNP27d0XzyapDGReAq06tSNoVqUGwqZ7B
+Ip70teKqIQ1dQpoRJADoKcqI/mjWdA==
+=L5Me
+-----END PGP SIGNATURE-----
+
+--8cYzRl2hzEEm5xmC--
+
 
