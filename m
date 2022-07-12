@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D637E572758
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 22:34:38 +0200 (CEST)
-Received: from localhost ([::1]:45690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61436572780
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 22:40:26 +0200 (CEST)
+Received: from localhost ([::1]:59262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBMab-0008VO-Vs
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 16:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53636)
+	id 1oBMgD-0001A3-Ff
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 16:40:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBMUo-0005Ti-3Q
+ id 1oBMUp-0005Uv-Sr
  for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:39 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36694)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBMUl-0004pk-8L
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:37 -0400
-Received: by mail-wr1-x436.google.com with SMTP id o4so12765921wrh.3
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 13:28:34 -0700 (PDT)
+ id 1oBMUo-0004r7-J2
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:39 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id o4so12766049wrh.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 13:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gL8x9uZuIlu9PysBtxO5Ec7KlznPr6v02QdAFrUtKSI=;
- b=dUZwkSIE1W9aeELtsIcR7QGrr/n2aoWCdX7f0PpHtrrmu3/Tm+cn3NssMbdlLcGZaL
- NSmC4BRwJ6I6KrqO9TMapL3/jM+1AiyhV8ChJlcb9xoxMe3QdOOsnsCV9u2+4ZiNyTBV
- +988GXVusTNNXyrC4LhWj/Ytu/4j4tarX/akBcoAE2m41RoUW+Z6G6Rih2S+90jf1cVs
- NGfHoJ1JDyHaNzRd6U3eZzEVxvHhu4IugddiCnugVnNbFCepO3p9cYZPHUO+fEIdNiFn
- 2ZM0nkcwCrdjy8//5R5s7daIzKId11cAPjEbVltqi/qkCYD+jY/GQsfLlo1NfQ3rTuEs
- RKvw==
+ bh=AfFiIPj26qyK9G2ElhQrQLyyHJKZyrkdUA9W5YbdrtM=;
+ b=l3MdXvXhk860p0HvC9OG1pHz/luuUivwPkzYVUvsa5EIzxu3aGU89csCIVR+GYrK1s
+ zl3w6stp6mP4Mydo16ZwGJVD+oQRR+5xCgOZuw7e6CWCb9cvJJ3/d13lxTtpz0ZkqKZA
+ OmVkD8qHMKkg9XR405kl5D71bpsLstq9gbGJovxMNzHdvwita/yQUzz9teKtEhJ62jET
+ RKNcSrflADR9a2ah20vXJfUn4UBYUnxyplabXRluYq3oxtU1TBhzM0lxVKuUgVOMtLqw
+ 7+66tK/jjjAmHbOIJYtYYWrp9GgqCHOtgx3Z4G2ao8ovA7tszj7wUgT8s2rnHL0CIhLj
+ 7PlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gL8x9uZuIlu9PysBtxO5Ec7KlznPr6v02QdAFrUtKSI=;
- b=0EsSgyeN27dXFWEbWRXeAFM+YoVgAsn/DCZiEmC/ItB2KBa/li8WEVpqg9KFuRPyaF
- gt0sSyCOMZUetw6mughtL2j5YBvcb1vlKHkN7aXljDhkJuOzocor+ZS9kWKHN3NnfSQd
- BxP4pB+C3/VF9HdTRbCbO0w1pg3Bele6BgMV7zpHcvD5w67IbcKjk+pSJbdGGgvP1Sey
- n0w+mIHiOjRvKEuGUBhJXle8cPmTfVtancXbu1GrHTbC5lSMYgnPkV86Q+TAS3JwBNwY
- /6rsdWXfA84nZzYNXltBQt/4W/2DX8khaC+sSrJocAYWOg+MOZhpxaA97qQsvfsgP5PN
- MrDQ==
-X-Gm-Message-State: AJIora/LV9Xt3SJYo/vyK6IpRZe4p0XMcu5wjpXIL0M3MPviVZLgTtul
- LuI2oaq7pOITqTVW65kfkaPnv6IqcuKeulYP
-X-Google-Smtp-Source: AGRyM1sbYBYYePlef77iF13qZYxl4een/1oSAMUYcPn2/6opPRwZCLJNEez+Ult2Iyh1gDEdD7iIUw==
-X-Received: by 2002:a5d:64ac:0:b0:21d:7832:ecf9 with SMTP id
- m12-20020a5d64ac000000b0021d7832ecf9mr23952662wrp.86.1657657714597; 
- Tue, 12 Jul 2022 13:28:34 -0700 (PDT)
+ bh=AfFiIPj26qyK9G2ElhQrQLyyHJKZyrkdUA9W5YbdrtM=;
+ b=4ck7PeXWhgQEFQHa1Oi3pa7eMfVvhdI7C77ed3A3TmLoBoBY5aPf7FtKJrpyPJmC00
+ T1/q6MM7cxdC7j4HQvRDCNUxXa6PYBNP4/OWVjGiCSJM5ZOD/2geEk/8Hj1VLcCP5jX6
+ tdHOH/F8OZtj33z7A4UwBob2K6k0h9zZEN7ZyxOotc2syimHJQhh9aQsSiTe8Ni95svJ
+ ncxjx6SmJz0lMybDqzxovrsWM4WRrZn2lrV/w4mWZQ6rFQNDW9sISxCP6Qd3cJAHruqM
+ dj/YX6z1yz+BIpli1T70i0j7+ojdhWXjSiXp5xmDi9WwoEIp6PFni4a6yZCBEjjg6tn1
+ OLFw==
+X-Gm-Message-State: AJIora/PqyN/4sxSJQIS22SL5WcHBZUmrkGOU5lLoEfBrHaHk/+fAY8e
+ /XjZvVYGYVeLbn8p0n0QuTo=
+X-Google-Smtp-Source: AGRyM1uIDCcsXCdPcXunr+hcXocQFrQDMY2tVH1e+wv71XAnPAbU449pD/PJXT6+B6DRsH+CgiysYg==
+X-Received: by 2002:a5d:4e49:0:b0:21d:6e8a:fa3 with SMTP id
+ r9-20020a5d4e49000000b0021d6e8a0fa3mr22591616wrt.528.1657657717351; 
+ Tue, 12 Jul 2022 13:28:37 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- h10-20020adff18a000000b0021bae66362esm9033265wro.58.2022.07.12.13.28.33
+ k16-20020a05600c1c9000b00397342e3830sm4874474wms.0.2022.07.12.13.28.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 13:28:34 -0700 (PDT)
-Message-ID: <ccd73fc7-a848-bb88-a96a-83a8c5a44d50@amsat.org>
-Date: Tue, 12 Jul 2022 22:21:27 +0200
+ Tue, 12 Jul 2022 13:28:36 -0700 (PDT)
+Message-ID: <169afb80-f646-bddf-34bb-0612d6cc68e6@amsat.org>
+Date: Tue, 12 Jul 2022 22:22:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH v5 3/8] target/mips: Use semihosting/syscalls.h
+Subject: Re: [PATCH v5 5/8] target/mips: Use error_report for UHI_assert
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org, jiaxun.yang@flygoat.com,
  aleksandar.rikalo@syrmia.com
 References: <20220628111701.677216-1-richard.henderson@linaro.org>
- <20220628111701.677216-4-richard.henderson@linaro.org>
-In-Reply-To: <20220628111701.677216-4-richard.henderson@linaro.org>
+ <20220628111701.677216-6-richard.henderson@linaro.org>
+In-Reply-To: <20220628111701.677216-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,13 +98,14 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 28/6/22 13:16, Richard Henderson wrote:
-> This separates guest file descriptors from host file descriptors,
-> and utilizes shared infrastructure for integration with gdbstub.
+> Always log the assert locally.  Do not report_fault, but
+> instead include the fact of the fault in the assertion.
+> Don't bother freeing allocated strings before the abort().
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/mips/tcg/sysemu/mips-semi.c | 219 +++++++++++++----------------
->   1 file changed, 95 insertions(+), 124 deletions(-)
+>   target/mips/tcg/sysemu/mips-semi.c | 39 ++++++++++++++----------------
+>   1 file changed, 18 insertions(+), 21 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
