@@ -2,104 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EB2570EA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 02:11:37 +0200 (CEST)
-Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2353570FAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 03:48:24 +0200 (CEST)
+Received: from localhost ([::1]:50374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB3V2-0003vF-26
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 20:11:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46314)
+	id 1oB50f-0005H9-MU
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 21:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1oB3T1-0002Oi-HC
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 20:09:31 -0400
-Received: from esa7.hc2706-39.iphmx.com ([216.71.137.80]:40497)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1oB4zB-0003Pd-Ty
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 21:46:50 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:55533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1oB3Sy-00026n-Uj
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 20:09:30 -0400
-X-IronPort-RemoteIP: 209.85.166.71
-X-IronPort-MID: 211976934
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:g2qlBKl8xFnG6eDbl5WQTjro5gwKJERdPkR7XQ2eYbSJt1+Wr1Gzt
- xIZWTyBP6uDYzTwfttwaYm+oRlVsMTTnNVkTVM++383QS4T+ZvOCOrCEkqhZCn6wu8v7a5EA
- 2fyTvGacajYm1eF/k/F3oDJ9CU6jefSLlbFILas1hpZHGeIcw98z0M58wIFqtQw24LhXFrU4
- YiaT/D3YzdJ5RYlagr41Ire8HuDjNyq0N/PlgVjDRzjlAa2e0g9VfrzF4noR5fLatA88tqBe
- gr25OrRElU1XvsaIojNfr7TKiXmS1NJVOSEoiM+t6OK23CuqsGuu0qS2TV1hUp/0l20c95NJ
- Npl6qOvVgs4Zob3xds5YiR4IQRPBa0b9+qSSZS/mZT7I0zudnLtx7BvCxhzM9JBvOlwBm5K+
- LoTLzVlghKr3brnhuLmDLAy2IJ8daEHP6tG0p1k5TjdHfAqW7jJXuPH6cIwMDIY3JkXTKmAN
- pFFAdZpRDLBQRhIN2oxM5I/jM7rjFLEQg9x9GvA8MLb5ECWlmSdyoPFKdfQZ5mGSNtYmm6eo
- WTJ+Xm/BQsVXOFz0hKA+3Oow+7IxGb1B9tUG7q/+fpnxlaUwwT/FSEraLdymtHh4mbWZj6VA
- xV8FvYGxUTqyHGWcw==
-IronPort-HdrOrdr: A9a23:WLEpxqDkF8hzxvvlHem955DYdb4zR+YMi2TDtnoddfUxSKfzqy
- nAppQmPGDP+VQssR0b9exoW5PwIk80l6QV3WB5B97LYOCMggWVxe9ZgrcKygeQfhHDyg==
-Received: from mail-io1-f71.google.com ([209.85.166.71])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 11 Jul 2022 20:09:23 -0400
-Received: by mail-io1-f71.google.com with SMTP id
- w12-20020a5d960c000000b00678e4b1197bso3358851iol.2
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 17:09:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/PX6VtDc3r2r+UjLACx4KCItiLt+7QLSbOLBujwEGWQ=;
- b=f7+4n+RHo2bULx59IeUszifDsnHzSxqrlUSWs6HJpUa/l9aV8olVo++FsRZvGt6rMu
- X1JxWfYVVJqGRvk910ZSbjW+AhpogQ26drbzR9JgGKhIO1G/5+QpM9WjXrxHp4+nf1MA
- /fLouBKKhNkTG+MEUNTv6tvoX3QVKsk0wusgg0qlyCRXUCllOBwOkDoD55Yv/dULCDIe
- N96OeUfbFcomD2Nci+1ge7j2yaUoYxwKnbNYHVsbXpw2JAGe5sBVqvaeQfGPQ13ZHxUM
- Movh+Zz23eJPKGri3zN1ksUDuqPRJqCoILnIqWgeYX+BCatyh83341J11uZH14huUq3q
- y75g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/PX6VtDc3r2r+UjLACx4KCItiLt+7QLSbOLBujwEGWQ=;
- b=cQRiaUbNdWtMJuq0U1Tx0OQqTimjArT6SHSr5YkSmrybnzCRo0Ehd3+RHqBvRuuAWn
- TIdjKD1XM7hSCXI2HFM/doyuHdbyhS4LEiNfCg8tNh4IRPp0Q4w8vAxfVdJe8HIQto8T
- GeretgFwSbgvvCc+CI7TY1Jqz0CU6jrVJF3QlmkU1n0Zk01edZhoKtv1GsjSImKIkkvE
- Ps8DNQrn0djKFvkzEDHbXdN4TWldkAGRdMIR29XDYgSQvOvJtKTHXvkTt6fyBaVi2l9W
- LZ2iepKVLvuAbfA1z/J1r7h6wdOlbJpVsYsD/kLyyzHzuNHtMbGT6YC9syYrUKIHs9oK
- BbxQ==
-X-Gm-Message-State: AJIora+j14PcdJQwnSpae0PyEBTARi166sopRkSwbwYTPFCgtVWSWiRx
- Tlr7ESw/1SRUhVP5cSQ5J8lk3l3Pem7WYpOTGS/MUuHbnk2XGZ3JTpriobvtJhS0zQcESYeS1C9
- Q9JPf96VeCNA799RLTMpG3+tHw5Y4yA==
-X-Received: by 2002:a05:6e02:1bad:b0:2da:d6d0:a58 with SMTP id
- n13-20020a056e021bad00b002dad6d00a58mr10697970ili.19.1657584563659; 
- Mon, 11 Jul 2022 17:09:23 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tRIeXjND4/TY7ptL7mJUfUCE7uol5rjmF+wzRsk57xiFecmPxAhMUuHhxO25m5LHJHdneyBw==
-X-Received: by 2002:a05:6e02:1bad:b0:2da:d6d0:a58 with SMTP id
- n13-20020a056e021bad00b002dad6d00a58mr10697962ili.19.1657584563386; 
- Mon, 11 Jul 2022 17:09:23 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- z15-20020a056602080f00b0067b4d6cecc8sm4310369iow.45.2022.07.11.17.09.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 17:09:22 -0700 (PDT)
-Date: Mon, 11 Jul 2022 20:09:17 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Mauro Matteo Cascella <mcascell@redhat.com>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
- thuth@redhat.com
-Subject: Re: [PATCH v2] scsi/lsi53c895a: fix use-after-free in lsi_do_msgout
- (CVE-2022-0216)
-Message-ID: <20220712000917.i77k4p3o2qh6dw5z@mozz.bu.edu>
-References: <20220711123316.421279-1-mcascell@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1oB4z2-0000jH-CO
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 21:46:49 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B0F28580897;
+ Mon, 11 Jul 2022 21:46:38 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 11 Jul 2022 21:46:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1657590398; x=
+ 1657593998; bh=/utS1DScPsJqD5k/uheow1p//566o6s2u0/OQWuefZ8=; b=S
+ aLHMcO1g2e780g7/ROW/k2FRv79yCyTKqEvFBkEDe5wPCaO5PVhUU3JjO/TiUmyf
+ Snu4YTrg7bcXcybEEEUoB3M46SlwMblmBk/TmBtqFL4wzVjChdnAIMk2a9p50ACj
+ TSvE6Q4i5PeXrGlqHHwotgvT6i+PWh23XPg7pi4BmkQSqcyE3rnd3gxZVE5WXNe0
+ UsDJs0T7TQj3PeXvsdlyzgcnAqXSAYUTGEuaQ6gJdQwA5thvVpGoAMOgAHqrQ4d2
+ umV5hAzKBgVVmOtsNnuTZQX1e2e1lw2kNabi0Z+sYOw+nsPZ8JhpAXyb5HdHsC5F
+ GnVVtd9i9oiEi1v+utycA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657590398; x=
+ 1657593998; bh=/utS1DScPsJqD5k/uheow1p//566o6s2u0/OQWuefZ8=; b=0
+ xgW3I4mkynMralNrCEzgYNW+kxLR6oMBXuar4JZ908e7sHOew2tIaPO2G/kMWg08
+ NkOd9fHvxQ8tGn7rcJJZsTjffdJGr4ti3SFIE7lEZF40EDqSM++Nub1fxY72oDa0
+ JIp4Hlq9lc00FwFUvIoMKTkFR7LtnQkbnYQW8fyWgiNEe8yP7kMo+IXuxxuL+enm
+ IvoHwvynQPYCH2qaFHwZwpWG2ZFZ9VUg78J8vWqa0BZF6PwTX0VMEsx/PFfetjrj
+ UnTAOnlPJTTw8JpORcuZQSAa8PynXW9tGjm6xruF57aVbiPp1gOEnVF3+Ohg7zo1
+ YD2p3hE3qZOh022sXWpQQ==
+X-ME-Sender: <xms:fdLMYvvugU_2i-7vL-0805P6UDjvZyobj75BrR9RrssYrS9XZirrWw>
+ <xme:fdLMYgdfYtjc9IHTzkIhxYxwXmQJCrDyL9dmJ0S_xYKbN6t3T0Fx6dAyjsDEaLDGg
+ zVkAzxWjUz1Va3iwQQ>
+X-ME-Received: <xmr:fdLMYiwYFydYJJi9r7wuGpIp4B_C972wkybpEpcwLhR0aIgc2AECAkyXQVhNZOGn1wwtyqQ74tDck9xaf_4ZsVEb>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgedgheduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpeetvdfhudfghffhvdfhkeevvdeigeejgeetfedtvdehvdevkeelheffhefh
+ veehhfenucffohhmrghinhepshhtrggtkhgvgigthhgrnhhgvgdrtghomhdpsggvrhhrrg
+ hnghgvrdgtohhmpdhflhhitghkrhdrtghomhdplhhisghvihhrthdrohhrghdpvghnthgr
+ nhhglhgvqdhphhhothhordhorhhgpdhinhhsthgrghhrrghmrdgtohhmnecuvehluhhsth
+ gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdr
+ uggvvh
+X-ME-Proxy: <xmx:ftLMYuM-ABq_ariBXNA8D_3XBe272MV_m5RrVKZY5_DfPdbwfM6tCw>
+ <xmx:ftLMYv98IlreyoTvBXO0hU9W0kYakFBnSpzEgKts-2RwXaZqER59Yw>
+ <xmx:ftLMYuXu9jpCBYFAdDbmvso9AIDuAG9k2Emh7o2vsHkPeMxT1A6jfA>
+ <xmx:ftLMYiZs9p_CQT1NojHx5695sFGKmU19U2_YiUuToFB7-FeRV6b8cw>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 Jul 2022 21:46:37 -0400 (EDT)
+Date: Mon, 11 Jul 2022 18:46:35 -0700
+From: Peter Delevoryas <peter@pjd.dev>
+To: John Snow <jsnow@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH RESEND] python/machine: Fix AF_UNIX path too long on macOS
+Message-ID: <YszSe2qCVcqd0CVI@pdel-mbp.dhcp.thefacebook.com>
+References: <20220705214659.73369-1-peter@pjd.dev>
+ <YsVBhmvAm2ANDUEt@redhat.com> <YsW8eO5eeRKfpxJp@r37>
+ <YsYuYAJE2Hx64aIY@pdel-mbp.dhcp.thefacebook.com>
+ <YscqCErtNGOG9GVx@pdel-mbp.dhcp.thefacebook.com>
+ <CAFn=p-bhhu+G-p=w_K2OSOe0WkDHbBaO0ZS53F+jTDuo074VFw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220711123316.421279-1-mcascell@redhat.com>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.80; envelope-from=alxndr@bu.edu;
- helo=esa7.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFn=p-bhhu+G-p=w_K2OSOe0WkDHbBaO0ZS53F+jTDuo074VFw@mail.gmail.com>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=peter@pjd.dev;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ FROM_FMBLA_NEWDOM14=0.998, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,138 +110,188 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 220711 1433, Mauro Matteo Cascella wrote:
-> Set current_req to NULL to prevent reusing a free'd buffer in case of repeated
-> SCSI cancel requests. Thanks to Thomas Huth for suggesting the first version of
-> the patch and Alexander Bulekov for providing a reproducer.
+On Mon, Jul 11, 2022 at 04:56:28PM -0400, John Snow wrote:
+> On Thu, Jul 7, 2022 at 2:46 PM Peter Delevoryas <peter@pjd.dev> wrote:
+> >
+> > On Wed, Jul 06, 2022 at 05:52:48PM -0700, Peter Delevoryas wrote:
+> > > On Wed, Jul 06, 2022 at 09:46:48AM -0700, Peter Delevoryas wrote:
+> > > > On Wed, Jul 06, 2022 at 09:02:14AM +0100, Daniel P. Berrangé wrote:
+> > > > > On Tue, Jul 05, 2022 at 02:46:59PM -0700, Peter Delevoryas wrote:
+> > > > > > I noticed that I can't run any avocado tests on macOS because the QMP
+> > > > > > unix socket path is too long:
+> > > > >
+> > > > >
+> > > > > > I think the path limit for unix sockets on macOS might be 104 [1]
+> > > > >
+> > > > > All platforms have a very limited path limit, so it isn't really
+> > > > > a macOS specific problem, rather....
+> > > > >
+> > > > > >
+> > > > > > /*
+> > > > > >  * [XSI] Definitions for UNIX IPC domain.
+> > > > > >  */
+> > > > > > struct  sockaddr_un {
+> > > > > >     unsigned char   sun_len;        /* sockaddr len including null */
+> > > > > >     sa_family_t     sun_family;     /* [XSI] AF_UNIX */
+> > > > > >     char            sun_path[104];  /* [XSI] path name (gag) */
+> > > > > > };
+> > > > > >
+> > > > > > The path we're using is exactly 105 characters:
+> > > > > >
+> > > > > > $ python
+> > > > > > Python 2.7.10 (default, Jan 19 2016, 22:24:01)
+> > > > > > [GCC 4.2.1 Compatible Apple LLVM 7.0.2 (clang-700.1.81)] on darwin
+> > > > > > Type "help", "copyright", "credits" or "license" for more information.
+> > > > > > >>> len('/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/avo_qemu_sock_uh3w_dgc/qemu-37331-10bacf110-monitor.sock')
+> > > > >
+> > > > > It is a problem related to where the test suite is creating the
+> > > > > paths.
+> > > > >
+> > > > > /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/avo_qemu_sock_uh3w_dgc/
+> > > > >
+> > > > > is way too deep a directory location.
+> > > >
+> > > > That's a good point.
+> > > >
+> > > > >
+> > > > > It seems we just create this location using 'tempfile.TemporyDirectory'
+> > > > > to get a standard tmp dir.
+> > > > >
+> > > > > Do you know why python is choosing
+> > > > >
+> > > > >   /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
+> > > > >
+> > > > > as the temp dir ? Is that a standard location on macOS or is it
+> > > > > from some env variable you have set ?
+> > > >
+> > > > Hmmm yeah it is odd, I'm not really sure why it's created there or if
+> > > > standard glibc tmpfile creation goes there too, I'll go experiment and
+> > > > report back. And yeah, maybe I'll double check any environment variables or
+> > > > other things.
+> > > >
+> > > > The macOS system I use happens to be a Facebook work laptop, which could
+> > > > also be related now that I think about it.
+> > >
+> > > Hmmm yeah looks like this is because my TMPDIR is weird.
+> > >
+> > > $ echo $TMPDIR
+> > > /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
+> > >
+> > > I didn't think to check this cause I wasn't familiar with TMPDIR. 🤷
+> > >
+> > > Thanks for responding, I'll just use TMPDIR=/tmp for now. It's probably
+> > > something wrong with the Facebook development environment.
+> > >
+> > > Peter
+> >
+> > Update: Actually, this might not be a Facebook-work-laptop specific
+> > thing.  I asked my non-engineer friend to print out $TMPDIR on his
+> > macbook and he got the same thing.
+> >
+> > https://apple.stackexchange.com/questions/353832/why-is-mac-osx-temp-directory-in-weird-path
+> >
+> > I guess this person suggests it's just to separate the permissions for
+> > each user's /tmp directory, for better isolation.
+> >
+> > I'll resubmit this patch with the suggestions you had, because perhaps
+> > this is actually affecting other macOS users too.
+> >
+> > >
+> > > >
+> > > > >
+> > > > > > diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+> > > > > > index 37191f433b..93451774e3 100644
+> > > > > > --- a/python/qemu/machine/machine.py
+> > > > > > +++ b/python/qemu/machine/machine.py
+> > > > > > @@ -157,7 +157,7 @@ def __init__(self,
+> > > > > >          self._wrapper = wrapper
+> > > > > >          self._qmp_timer = qmp_timer
+> > > > > >
+> > > > > > -        self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
+> > > > > > +        self._name = name or f"{os.getpid()}{id(self):02x}"
+> > > > >
+> > > > > I don't think this is the right fix really, because IMHO the problem
+> > > > > is the hugely long path, rather than the final socket name.
+> > > >
+> > > > True, yeah let me try to investigate the directory placement.
+> > > >
+> > > > >
+> > > > > That said, there is redundancy in the path - avocado is passing in
+> > > > > a dierctory created using 'tempfile.TemporyDirectory' so there is no
+> > > > > reason why we need to add more entropy via the POD and the 'id(self)'
+> > > > > hex string.
+> > > >
+> > > > Oh good point, I hadn't thought about that.
+> > > >
+> > > > >
+> > > > > IMHO avocado should pass in the 'name' parameter explicitly, using a
+> > > > > plain name and thus get a shorter string.
+> > > >
+> > > > I see, yeah that makes sense. Maybe I can include a couple patches for this,
+> > > > one fixing the directory location, and one refactoring the temporary file
+> > > > name template (If I'm understanding your suggestion correctly).
+> > > >
+> > > > Thanks for the review! I really appreciate it.
+> > > > Peter
 > 
-> Fixes: CVE-2022-0216
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> I agree with Dan: I believe the correct solution here is for Avocado
+> to provide its own less redundant name; but the default name that
+> machine.py provides is not *that* long and provides adequate
+> protection against collisions with multiple instances of the VM
+> utility within a single python process. If Avocado is creating its own
+> directories that guard against that redundancy, Avocado should provide
+> a shortened name for the VM.
 
-Thank you - With this, the fuzzer isn't finding any more heap-related
-crashes.
+Hmmm, I see.
 
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
-
-> ---
-> v2:
-> - handle CLEAR QUEUE and BUS DEVICE RESET messages
-> - new qtest: test_lsi_do_msgout_cancel_req
 > 
->  hw/scsi/lsi53c895a.c               |  2 +
->  tests/qtest/fuzz-lsi53c895a-test.c | 71 ++++++++++++++++++++++++++++++
->  2 files changed, 73 insertions(+)
+> Note that the QEMUMachine process also provides a sock_dir parameter
+> that was introduced for precisely this reason; it should be possible
+> to instruct the avocado tests to use a shorter path for sock_dir.
 > 
-> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-> index c8773f73f7..6934040c59 100644
-> --- a/hw/scsi/lsi53c895a.c
-> +++ b/hw/scsi/lsi53c895a.c
-> @@ -1030,6 +1030,7 @@ static void lsi_do_msgout(LSIState *s)
->              trace_lsi_do_msgout_abort(current_tag);
->              if (current_req) {
->                  scsi_req_cancel(current_req->req);
-> +                current_req = NULL;
->              }
->              lsi_disconnect(s);
->              break;
-> @@ -1055,6 +1056,7 @@ static void lsi_do_msgout(LSIState *s)
->              /* clear the current I/O process */
->              if (s->current) {
->                  scsi_req_cancel(s->current->req);
-> +                current_req = NULL;
->              }
->  
->              /* As the current implemented devices scsi_disk and scsi_generic
-> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-> index 2e8e67859e..6872c70d3a 100644
-> --- a/tests/qtest/fuzz-lsi53c895a-test.c
-> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
-> @@ -8,6 +8,74 @@
->  #include "qemu/osdep.h"
->  #include "libqtest.h"
->  
-> +/*
-> + * This used to trigger a UAF in lsi_do_msgout()
-> + * https://gitlab.com/qemu-project/qemu/-/issues/972
-> + */
-> +static void test_lsi_do_msgout_cancel_req(void)
-> +{
-> +    QTestState *s;
-> +
-> +    s = qtest_init("-M q35 -m 4G -display none -nodefaults "
-> +                   "-device lsi53c895a,id=scsi "
-> +                   "-device scsi-hd,drive=disk0 "
-> +                   "-drive file=null-co://,id=disk0,if=none,format=raw");
-> +
-> +    qtest_outl(s, 0xcf8, 0x80000810);
-> +    qtest_outl(s, 0xcf8, 0xc000);
-> +    qtest_outl(s, 0xcf8, 0x80000810);
-> +    qtest_outw(s, 0xcfc, 0x7);
-> +    qtest_outl(s, 0xcf8, 0x80000810);
-> +    qtest_outl(s, 0xcfc, 0xc000);
-> +    qtest_outl(s, 0xcf8, 0x80000804);
-> +    qtest_outw(s, 0xcfc, 0x05);
-> +    qtest_writeb(s, 0x69736c10, 0x08);
-> +    qtest_writeb(s, 0x69736c13, 0x58);
-> +    qtest_writeb(s, 0x69736c1a, 0x01);
-> +    qtest_writeb(s, 0x69736c1b, 0x06);
-> +    qtest_writeb(s, 0x69736c22, 0x01);
-> +    qtest_writeb(s, 0x69736c23, 0x07);
-> +    qtest_writeb(s, 0x69736c2b, 0x02);
-> +    qtest_writeb(s, 0x69736c48, 0x08);
-> +    qtest_writeb(s, 0x69736c4b, 0x58);
-> +    qtest_writeb(s, 0x69736c52, 0x04);
-> +    qtest_writeb(s, 0x69736c53, 0x06);
-> +    qtest_writeb(s, 0x69736c5b, 0x02);
-> +    qtest_outl(s, 0xc02d, 0x697300);
-> +    qtest_writeb(s, 0x5a554662, 0x01);
-> +    qtest_writeb(s, 0x5a554663, 0x07);
-> +    qtest_writeb(s, 0x5a55466a, 0x10);
-> +    qtest_writeb(s, 0x5a55466b, 0x22);
-> +    qtest_writeb(s, 0x5a55466c, 0x5a);
-> +    qtest_writeb(s, 0x5a55466d, 0x5a);
-> +    qtest_writeb(s, 0x5a55466e, 0x34);
-> +    qtest_writeb(s, 0x5a55466f, 0x5a);
-> +    qtest_writeb(s, 0x5a345a5a, 0x77);
-> +    qtest_writeb(s, 0x5a345a5b, 0x55);
-> +    qtest_writeb(s, 0x5a345a5c, 0x51);
-> +    qtest_writeb(s, 0x5a345a5d, 0x27);
-> +    qtest_writeb(s, 0x27515577, 0x41);
-> +    qtest_outl(s, 0xc02d, 0x5a5500);
-> +    qtest_writeb(s, 0x364001d0, 0x08);
-> +    qtest_writeb(s, 0x364001d3, 0x58);
-> +    qtest_writeb(s, 0x364001da, 0x01);
-> +    qtest_writeb(s, 0x364001db, 0x26);
-> +    qtest_writeb(s, 0x364001dc, 0x0d);
-> +    qtest_writeb(s, 0x364001dd, 0xae);
-> +    qtest_writeb(s, 0x364001de, 0x41);
-> +    qtest_writeb(s, 0x364001df, 0x5a);
-> +    qtest_writeb(s, 0x5a41ae0d, 0xf8);
-> +    qtest_writeb(s, 0x5a41ae0e, 0x36);
-> +    qtest_writeb(s, 0x5a41ae0f, 0xd7);
-> +    qtest_writeb(s, 0x5a41ae10, 0x36);
-> +    qtest_writeb(s, 0x36d736f8, 0x0c);
-> +    qtest_writeb(s, 0x36d736f9, 0x80);
-> +    qtest_writeb(s, 0x36d736fa, 0x0d);
-> +    qtest_outl(s, 0xc02d, 0x364000);
-> +
-> +    qtest_quit(s);
-> +}
-> +
->  /*
->   * This used to trigger the assert in lsi_do_dma()
->   * https://bugs.launchpad.net/qemu/+bug/697510
-> @@ -44,5 +112,8 @@ int main(int argc, char **argv)
->      qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
->                     test_lsi_do_dma_empty_queue);
->  
-> +    qtest_add_func("fuzz/lsi53c895a/lsi_do_msgout_cancel_req",
-> +                   test_lsi_do_msgout_cancel_req);
-> +
->      return g_test_run();
->  }
-> -- 
-> 2.35.3
+> I'm not clear on what the best "just works" solution will be when
+> certain operating environments choose a tmp dir that's quite long to
+> begin with; maybe we need a different default sockfile naming strategy
+> that avoids the instance collision problem in machine.py, too. Ideas?
+
+I guess I don't really understand why QEMU is attempting to create a
+unique path instead of just using mktemp(), right? This seems like
+something that the OS can provide. If we want some semblance of meaning
+to the filename, we can provide a short template, right?
+
+-- Peter
+
+> 
+> --js
+> 
+> > > >
+> > > > >
+> > > > > >          self._temp_dir: Optional[str] = None
+> > > > > >          self._base_temp_dir = base_temp_dir
+> > > > > >          self._sock_dir = sock_dir
+> > > > > > @@ -167,7 +167,7 @@ def __init__(self,
+> > > > > >              self._monitor_address = monitor_address
+> > > > > >          else:
+> > > > > >              self._monitor_address = os.path.join(
+> > > > > > -                self.sock_dir, f"{self._name}-monitor.sock"
+> > > > > > +                self.sock_dir, f"{self._name}.sock"
+> > > > > >              )
+> > > > > >
+> > > > > >          self._console_log_path = console_log
+> > > > > > --
+> > > > > > 2.37.0
+> > > > > >
+> > > > > >
+> > > > >
+> > > > > With regards,
+> > > > > Daniel
+> > > > > --
+> > > > > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> > > > > |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> > > > > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> > > > >
+> > > >
+> > >
+> >
 > 
 
