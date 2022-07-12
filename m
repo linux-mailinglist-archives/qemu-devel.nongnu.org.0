@@ -2,73 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB55571A23
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:36:27 +0200 (CEST)
-Received: from localhost ([::1]:35612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5546C571A2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:39:43 +0200 (CEST)
+Received: from localhost ([::1]:41460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBF7q-0004r0-UT
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46544)
+	id 1oBFB0-0000pn-Dk
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:39:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oBF1B-0008M7-B7
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:29:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46426)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oBF4h-0002gq-8D; Tue, 12 Jul 2022 08:33:11 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42426
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oBF18-0003pD-Bh
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:29:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657628964;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BpvMbALqdqaBIgxojtJX59yg0Rt4dx3WrrwylHYSEGQ=;
- b=dh4wwuJsSaPwyqCYAHMZkIYWP7M3wSg8Fm2hNhs0kL4d0WmatvnzjIBs4pjPO+v2xoX0Ug
- 6sXhu+PzdHi1cgKtMVwM7Ezbs0S5XCJJIuV5VSqYEBl/P61HNmh+Ohbfk4M7H/XRBp4l12
- ufwBqpvrXCV3le4cmsTZx8EWM+IX9ME=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-257-RTBE_L5HO-eUMPsmT2zJIw-1; Tue, 12 Jul 2022 08:29:21 -0400
-X-MC-Unique: RTBE_L5HO-eUMPsmT2zJIw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 310693C138A4;
- Tue, 12 Jul 2022 12:29:21 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD2B2492C3B;
- Tue, 12 Jul 2022 12:29:20 +0000 (UTC)
-Date: Tue, 12 Jul 2022 13:29:19 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 7/8] VirtIOBlock: protect rq with its own lock
-Message-ID: <Ys1pH+z38M4PHu3f@stefanha-x1.localdomain>
-References: <20220609143727.1151816-1-eesposit@redhat.com>
- <20220609143727.1151816-8-eesposit@redhat.com>
- <YsRObmNTP471U9zU@stefanha-x1.localdomain>
- <2a1e8343-df7d-b98a-1d3b-2bd4345adf3e@redhat.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oBF4e-0005PD-UI; Tue, 12 Jul 2022 08:33:10 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26CAhHWM002261;
+ Tue, 12 Jul 2022 12:32:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=tUZvzFXAlsipVY4kglVh6X+/A1exKg455ahBjAlT1nU=;
+ b=PSIDWaE8/pH29DOUKWBT5+AySutLaNsFHMIj6u5X3orA8QyhSFjB4cIHPmr5AfeQs9WF
+ QJnLB8CMCQx9Ab8k1w4lpsKLpubZcR5IjuK3FAT0w3EZC/7/n8Pw9XEhf1MxCJb+3qQy
+ 8XV/xuTZRr5yqcWA/UIOXFmWgPHstxUbprxD/4M/CBK/ITHeWuY16432KpaT3MniJ1bQ
+ VUI/BIwOyQ9O7ZLuytsJZMenl0YMoLW+M/2QTMkz1kgNfcrV823Czm0i7qvq+2rTu0T1
+ /m1t8Ibgw8tt1/O+0zLs9XJQMXiE72hjl3J0yOEjvdwwcxpSIwVyv3akC8ylGnGmDh9e jQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h97erk3dq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 12:32:58 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26CBHf3u030312;
+ Tue, 12 Jul 2022 12:32:58 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h97erk3cw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 12:32:58 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26CCK1ZA019521;
+ Tue, 12 Jul 2022 12:32:56 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3h71a8v5ev-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 12:32:56 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26CCWr7t6160858
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 Jul 2022 12:32:53 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D01C5AE045;
+ Tue, 12 Jul 2022 12:32:53 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5B542AE051;
+ Tue, 12 Jul 2022 12:32:53 +0000 (GMT)
+Received: from [9.171.48.196] (unknown [9.171.48.196])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 12 Jul 2022 12:32:53 +0000 (GMT)
+Message-ID: <c7a32437850ddc70438173ff7f0f0966e5f48384.camel@linux.ibm.com>
+Subject: Re: [PATCH 3/3] tests/tcg/s390x: test signed vfmin/vfmax
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
+ <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>, Peter Maydell
+ <peter.maydell@linaro.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, Christian Borntraeger
+ <borntraeger@linux.ibm.com>
+Date: Tue, 12 Jul 2022 14:32:53 +0200
+In-Reply-To: <c7897b91-dbfd-3a32-68c8-d7afa40495ba@linaro.org>
+References: <20220712015717.3602602-1-iii@linux.ibm.com>
+ <20220712015717.3602602-4-iii@linux.ibm.com>
+ <c7897b91-dbfd-3a32-68c8-d7afa40495ba@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+f0sBFDDU8Lq5JSq"
-Content-Disposition: inline
-In-Reply-To: <2a1e8343-df7d-b98a-1d3b-2bd4345adf3e@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IqzdSF_YURs_0NjXAESfMeatsHrlccDH
+X-Proofpoint-ORIG-GUID: ziJEqiazl69v5104Mfx05FBtH_tKpqN0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-12_08,2022-07-12_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ impostorscore=0 mlxlogscore=950 mlxscore=0 adultscore=0 lowpriorityscore=0
+ spamscore=0 suspectscore=0 phishscore=0 clxscore=1015 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207120048
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,86 +121,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 2022-07-12 at 10:19 +0530, Richard Henderson wrote:
+> On 7/12/22 07:27, Ilya Leoshkevich wrote:
+> > +/*
+> > + * vfmin/vfmax code generation.
+> > + */
+> > +extern const char vfminmax_template[];
+> > +extern const int vfminmax_template_size;
+> > +extern const int vfminmax_offset;
+> > +asm(".globl vfminmax_template\n"
+> > +    "vfminmax_template:\n"
+> > +    "vl %v25,0(%r3)\n"
+> > +    "vl %v26,0(%r4)\n"
+> > +    "0: vfmax %v24,%v25,%v26,2,0,0\n"
+> > +    "vst %v24,0(%r2)\n"
+> > +    "br %r14\n"
+> > +    "1: .align 4\n"
+> > +    ".globl vfminmax_template_size\n"
+> > +    "vfminmax_template_size: .long 1b - vfminmax_template\n"
+> > +    ".globl vfminmax_offset\n"
+> > +    "vfminmax_offset: .long 0b - vfminmax_template\n");
+> ...
+> > +
+> > +#define VFMIN 0xEE
+> > +#define VFMAX 0xEF
+> > +
+> > +static void vfminmax(unsigned char *buf, unsigned int op,
+> > +                     unsigned int m4, unsigned int m5, unsigned
+> > int m6,
+> > +                     void *v1, const void *v2, const void *v3)
+> > +{
+> > +    memcpy(buf, vfminmax_template, vfminmax_template_size);
+> > +    buf[vfminmax_offset + 3] = (m6 << 4) | m5;
+> > +    buf[vfminmax_offset + 4] &= 0x0F;
+> > +    buf[vfminmax_offset + 4] |= (m4 << 4);
+> > +    buf[vfminmax_offset + 5] = op;
+> > +    ((void (*)(void *, const void *, const void *))buf)(v1, v2,
+> > v3);
+> > +}
+> 
+> This works, of course.  It could be simpler using EXECUTE, to store
+> just the one 
+> instruction and not worry about an executable mapped page, but I
+> guess it doesn't matter.
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> 
+> r~
 
---+f0sBFDDU8Lq5JSq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks!
 
-On Fri, Jul 08, 2022 at 11:33:28AM +0200, Emanuele Giuseppe Esposito wrote:
->=20
->=20
-> Am 05/07/2022 um 16:45 schrieb Stefan Hajnoczi:
-> > On Thu, Jun 09, 2022 at 10:37:26AM -0400, Emanuele Giuseppe Esposito wr=
-ote:
-> >> @@ -946,17 +955,20 @@ static void virtio_blk_reset(VirtIODevice *vdev)
-> >>       * stops all Iothreads.
-> >>       */
-> >>      blk_drain(s->blk);
-> >> +    aio_context_release(ctx);
-> >> =20
-> >>      /* We drop queued requests after blk_drain() because blk_drain() =
-itself can
-> >>       * produce them. */
-> >> +    qemu_mutex_lock(&s->req_mutex);
-> >>      while (s->rq) {
-> >>          req =3D s->rq;
-> >>          s->rq =3D req->next;
-> >> +        qemu_mutex_unlock(&s->req_mutex);
-> >>          virtqueue_detach_element(req->vq, &req->elem, 0);
-> >>          virtio_blk_free_request(req);
-> >> +        qemu_mutex_lock(&s->req_mutex);
-> >=20
-> > Why is req_mutex dropped temporarily? At this point we don't really need
-> > the req_mutex (all I/O should be stopped and drained), but maybe we
-> > should do:
->=20
-> Agree that maybe it is not useful to drop the mutex temporarily.
->=20
-> Regarding why req_mutex is not needed, yes I guess it isn't. Should I
-> get rid of this hunk at all, and maybe leave a comment like "no
-> synchronization needed, due to drain + ->stop_ioeventfd()"?
->=20
-> >=20
-> >   WITH_QEMU_MUTEX(&s->req_mutex) {
-> >       req =3D s->rq;
-> >       s->rq =3D NULL;
-> >   }
-> >=20
-> >   ...process req list...
->=20
-> Not sure what you mean here, we are looping on s->rq, so do we need to
-> protect also that? and why setting it to NULL? Sorry I am a little bit
-> lost here.
-
-During reset we need to free the s->rq list and set the head pointer to
-NULL.
-
-If we want to access s->rq under s->req_mutex for consistency, then we
-can fetch the list head into a local variable, drop the lock, and then
-process the list (new items will not be added to the list anymore).
-
-FWIW I think accessing s->rq under req_mutex for consistency is fine.
-That makes the code easier to understand (no special case) and reduces
-the danger of copy-pasting code into a context where a lock is required.
-
-Stefan
-
---+f0sBFDDU8Lq5JSq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLNaR8ACgkQnKSrs4Gr
-c8j+HAf+JZkzU5hnJ4qYI77eNCS0qETd9d/uVN7FG7Zg0dL6r0Vy/hrRi8iczitC
-ayqZdES3v6Kzzs/4EXtqKaSguobCK1SBZz/nmiekku9lrgTG4CaTKY4fgWi6+jV7
-uyFI6K0yumpK4I1+u6T2PIX4ceMqbGl64nBEEoBrBM4shMUxyOfn45uiPVwz2htR
-lnDTY6281BFlvFJKNnvGr8Oj4tmPWcxX+bsp7CYxtigGAEM9/ivdSe/6zUyLOpLd
-NkdwiVqs78xfnEFi99hGGvTNrOAipeZ6LfI653D+MxxyyZdjkYWbPw7ByQDwm6h+
-DazHwJ0n/+2+SH1DewvFobK+7zhJQw==
-=8RZa
------END PGP SIGNATURE-----
-
---+f0sBFDDU8Lq5JSq--
-
+I thought about this too, but EX/EXRL operate only on the second byte,
+and I need to modify bytes 3-5 here.
 
