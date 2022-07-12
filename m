@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D5D571AA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:58:42 +0200 (CEST)
-Received: from localhost ([::1]:44712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8342F571ABF
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 15:03:47 +0200 (CEST)
+Received: from localhost ([::1]:50956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBFTN-0007UJ-JZ
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51960)
+	id 1oBFYI-0003ky-PA
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 09:03:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLI-00037e-Va
+ id 1oBFLI-00037d-VR
  for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23742)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLE-0001Rq-2B
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:18 -0400
+ id 1oBFLE-0001Rx-2z
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657630214;
+ s=mimecast20190719; t=1657630215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vdqmLvR6JN932wcQnmiu8+mPHY+md+mV37njXiUqS3g=;
- b=gpiZ8l2oLRpMv071k9Fs5GY389akS0KdV/ygqJH/jcZnA2iSaq1PTjLwkOtp+XRgtiYwV3
- STcNE/K+8v9Njw0iriNTn5KQ+Rm2UnlEEwqUnne55v7YWE/3HHgdzEYRIcl73McNu5a4tp
- M6iG2pZedhzPYwlRjBBslvG3PnHjwIw=
+ bh=OmKEKXz1WMCXAE3ifCH3/oBkIMjVzlAEXgVpEHl337o=;
+ b=gwerzvcFfaJRN9fj3NQawuUIh/2TegP6bq9nmh8tDEGU1rc+TkhQsu1fQStAP59TJr+107
+ fN5hAzC7eLrmBKruzn9I8TxzRZS+s6rfaWrA3OQI1traRxrmGBow6dLuyaxk5fu/cNHuS6
+ BomngspLRW7HDYC5yqhb4UEAtgJnfEc=
 Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
  [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-481-MUyGXDHtOs6G9onTAU7IHQ-1; Tue, 12 Jul 2022 08:50:12 -0400
-X-MC-Unique: MUyGXDHtOs6G9onTAU7IHQ-1
+ us-mta-403-O9wd1JSbPaSjOWb6XA7osg-1; Tue, 12 Jul 2022 08:50:14 -0400
+X-MC-Unique: O9wd1JSbPaSjOWb6XA7osg-1
 Received: by mail-ej1-f72.google.com with SMTP id
- sc42-20020a1709078a2a00b0072b5f51a9dbso1888098ejc.1
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:12 -0700 (PDT)
+ sh39-20020a1709076ea700b0072aa3156a68so2252741ejc.19
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vdqmLvR6JN932wcQnmiu8+mPHY+md+mV37njXiUqS3g=;
- b=aUbltpC04sR60M8mtVkopAeIJES8bu8PIGFxsSKz+hIG/7L3qZCgWrUW4UvOfJ707U
- h1g2ca6oq/GJQejP/XOrwm3cyxUkG/NN4SY/4KLt4zDF6DCnDe6D6BhAbCttuwqzzB3n
- snIDagEQyMrOoS1OpIKpvaMTLEZzB99Ups/paomI7BIjp2Uut00P57ai7+OqvTWbqdkx
- Db4w485i2+y/L+jes90qSr3J4BAjNuTIQcxkIngqbyhCFFdh1N11QI2pN7QqTdI8/xob
- ac6aL0iOkrNWQthcZEKJ5+8JHeAcgDloWpZhc/Dpp1BQIVNyuX7XIg7wnEvEXJJe5c21
- GLdw==
-X-Gm-Message-State: AJIora9eiUxqwurbnvG/Fm87lXm14tpygMK4uQLVW95MnxI4Iid08yao
- dZ0H/0xcslWxafR6d377/7WMp4pYftZNgWAru3Qa8jPO6UD1tEJtkI3srmsTwwA6sm8elYw/zlD
- QlP7+YU1UIoHTMS24a+7fr9ALdLdZBajxVcv4B5BfX0DYhswPuIMjHDhjlPTsfXUci9c=
-X-Received: by 2002:aa7:c2d7:0:b0:43a:78af:6e57 with SMTP id
- m23-20020aa7c2d7000000b0043a78af6e57mr31507216edp.163.1657630211486; 
- Tue, 12 Jul 2022 05:50:11 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tIP/7f3VhUc2LnZnQLNkLTa8q2AleDk5eO6cOIwXMSLo4CP1VbPTZdz+7F3mcuioz4u7HXjg==
-X-Received: by 2002:aa7:c2d7:0:b0:43a:78af:6e57 with SMTP id
- m23-20020aa7c2d7000000b0043a78af6e57mr31507181edp.163.1657630211186; 
- Tue, 12 Jul 2022 05:50:11 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- pv5-20020a170907208500b0072af4af2f46sm3764846ejb.74.2022.07.12.05.50.10
+ bh=OmKEKXz1WMCXAE3ifCH3/oBkIMjVzlAEXgVpEHl337o=;
+ b=lfJGEegh8T/18Z0o4A0pv3ygcaIkXsi4fWhheiIWErJVQUzwakzpBC03pxpvOzeogm
+ B3QEb6fCXard/uZE+v0EFcxHql/l3coOnghJLiSb4esnAtnbZGkukTM3V31kRZzlJfT8
+ a2kU/ndtAMyR/H+MpKhZ1STl/ftbevXhAE9AZcdZ1bVpVOutB8zs3o3dL2RJ+u80LiFS
+ CA5bBNUiJmd328lxe7cDbVVSS0bQARkAdEpcWcOgy7itRgn5QcxxrGC+DAqRU75dtMs4
+ 7iQPWZkl9FmWB7Aj9mDgciyON+XXWMva0dNCb1DfsZqcIAB/RW7TQ+DpqhXxFrJgASoJ
+ J92w==
+X-Gm-Message-State: AJIora/FfH8sApDrIRYAh4/pxfC82XL+np31Fg15g7nuaZ+5Ky3vdPh2
+ LazaEG6sULOwa4M5QC9k/htO7ZKsanboOihlGm1Tl9b7WzlKyUR7Br5HfQUVaWKV0tbIl/kA49h
+ 6Jwu26F12TgoT/+Fkl+Zz0BrqQH6rtIU2zeR+NNRTPfmermQpPjF2wBF8JDatfpGGRmI=
+X-Received: by 2002:a05:6402:348e:b0:43a:953d:ade8 with SMTP id
+ v14-20020a056402348e00b0043a953dade8mr31804965edc.135.1657630212883; 
+ Tue, 12 Jul 2022 05:50:12 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vNm94WruIMDdeVC9jo2ODDBDBWLiqqJPgADnnEzeXqOWjCNV9jeaEhh6PoiV7+Zg8paXzsLQ==
+X-Received: by 2002:a05:6402:348e:b0:43a:953d:ade8 with SMTP id
+ v14-20020a056402348e00b0043a953dade8mr31804937edc.135.1657630212567; 
+ Tue, 12 Jul 2022 05:50:12 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ lx20-20020a170906af1400b0072737733f9asm3744791ejb.106.2022.07.12.05.50.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jul 2022 05:50:10 -0700 (PDT)
+ Tue, 12 Jul 2022 05:50:12 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/18] configure: allow more host/target combos to use the host
- compiler
-Date: Tue, 12 Jul 2022 14:49:45 +0200
-Message-Id: <20220712124956.150451-8-pbonzini@redhat.com>
+Subject: [PULL 08/18] configure: write EXTRA_CFLAGS for all sub-Makefiles
+Date: Tue, 12 Jul 2022 14:49:46 +0200
+Message-Id: <20220712124956.150451-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220712124956.150451-1-pbonzini@redhat.com>
 References: <20220712124956.150451-1-pbonzini@redhat.com>
@@ -100,31 +98,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add more pairs of bi-arch compilers, so that it is not necessary to have
-e.g. both little-endian and big-endian ARM compilers.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 4 ++++
- 1 file changed, 4 insertions(+)
+ configure | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/configure b/configure
-index 8f3401a23e..c9feb1a924 100755
+index c9feb1a924..0fd2838e82 100755
 --- a/configure
 +++ b/configure
-@@ -2058,8 +2058,12 @@ probe_target_compiler() {
-   compute_target_variable $1 target_ranlib ranlib
-   compute_target_variable $1 target_strip strip
-   case "$1:$cpu" in
-+    aarch64_be:aarch64 | \
-+    armeb:arm | \
-     i386:x86_64 | \
-+    mips*:mips64 | \
-     ppc*:ppc64 | \
-+    sparc:sparc64 | \
-     "$cpu:$cpu")
-       : ${target_cc:=$cc}
-       : ${target_ccas:=$ccas}
+@@ -2090,6 +2090,7 @@ probe_target_compiler() {
+ }
+ 
+ write_target_makefile() {
++  echo "EXTRA_CFLAGS=$target_cflags"
+   if test -n "$target_cc"; then
+     echo "CC=$target_cc"
+     echo "CCAS=$target_ccas"
+@@ -2118,6 +2119,7 @@ write_target_makefile() {
+ }
+ 
+ write_container_target_makefile() {
++  echo "EXTRA_CFLAGS=$target_cflags"
+   if test -n "$container_cross_cc"; then
+     echo "CC=\$(DOCKER_SCRIPT) cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
+     echo "CCAS=\$(DOCKER_SCRIPT) cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
+@@ -2258,7 +2260,6 @@ if test -n "$target_cc" &&
+         echo "# Automatically generated by configure - do not modify" > $config_mak
+         echo "TOPSRC_DIR=$source_path" >> $config_mak
+         echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_mak
+-        echo "EXTRA_CFLAGS=$target_cflags" >> $config_mak
+         write_target_makefile >> $config_mak
+     fi
+ fi
+@@ -2269,7 +2270,6 @@ if test -n "$target_cc" && test "$softmmu" = yes; then
+     config_mak=pc-bios/vof/config.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+     echo "SRC_DIR=$source_path/pc-bios/vof" >> $config_mak
+-    echo "EXTRA_CFLAGS=$target_cflags" >> $config_mak
+     write_target_makefile >> $config_mak
+ fi
+ 
+@@ -2289,7 +2289,6 @@ if test -n "$target_cc" && test "$softmmu" = yes; then
+     config_mak=pc-bios/s390-ccw/config-host.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+     echo "SRC_PATH=$source_path/pc-bios/s390-ccw" >> $config_mak
+-    echo "EXTRA_CFLAGS=$target_cflags" >> $config_mak
+     write_target_makefile >> $config_mak
+     # SLOF is required for building the s390-ccw firmware on s390x,
+     # since it is using the libnet code from SLOF for network booting.
+@@ -2604,7 +2603,6 @@ for target in $target_list; do
+   if test $got_cross_cc = yes; then
+       mkdir -p tests/tcg/$target
+       echo "QEMU=$PWD/$qemu" >> $config_target_mak
+-      echo "EXTRA_CFLAGS=$target_cflags" >> $config_target_mak
+       echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> $makefile
+       tcg_tests_targets="$tcg_tests_targets $target"
+   fi
 -- 
 2.36.1
 
