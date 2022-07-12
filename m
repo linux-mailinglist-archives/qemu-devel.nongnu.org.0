@@ -2,178 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B02A5715CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:33:00 +0200 (CEST)
-Received: from localhost ([::1]:48742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B485715D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:34:30 +0200 (CEST)
+Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBCGJ-0002C6-4J
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34338)
+	id 1oBCHm-0003zd-4b
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:34:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oBCBO-0006vp-VS
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:27:55 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:2398)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1oBCEg-0000xm-LC
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:31:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oBCBL-00050w-Vh
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:27:54 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26C7tRpO027941;
- Tue, 12 Jul 2022 09:27:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=Mokg9ysR0RIzLeRPa5lCiCUNxaARP6f13vZAXgyRn7Y=;
- b=ZowbTgfGKIPcPxasxUQgM8G4ARHSLkjuHrAAVNDrVLczwbkt5vafo/g/cDi39c9p3bAt
- nsIR2H7K4HIgBD+bD/1crVjFLLlHtWUi3WhZxZ1/58gBMUlNwg7eD7M/NPWsiwZNTlR3
- gBpuzFnbIgs4FlFeQok9IBHj3hGiQHy4bbr5uRrt7jYBLLnWUj6SOlLgr+un1DtKBFoU
- SqBgXfZOpuKMMqAI7WYDDaCp8UWSK+r3DsGNoFilRBfZwYFTmNmy7WJTU53nLeP66lHH
- tbAUPliWUZl4QjrL1sFoX0H7fFe7xLCusNKqdOny7CacL6Zb0FcO4qQF4+PVrsk7tNyH /Q== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h71rfx50m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 Jul 2022 09:27:40 +0000
-Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 26C9Gax9028254; Tue, 12 Jul 2022 09:27:39 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3h7042q1qx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 Jul 2022 09:27:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R/51WTnYyin4/AUxNX/QzpSRyba2j14UXVImOEt/ORGMwCxP6qMQ8406a6OSdRFELh0TYjaMLRjXoN+S5B67JkHXRRaIcgQBO/acghLPRTku3gapdkZ7bK2BXqa/8CchcyerYwSzBUKbAVUJEWINpW+BTRqmVN+M3VmSCaUbNsepD3NcHgpNBGczueCVi+9FX8BLrvBcbwN8HcfSivSQPdF0yY11EIgAbs7HFJRy81Or+rDlGbONbDK14fDYOq1QYI9a15HipUXCMNRu/fmrwKX53tD+iblH56FMyqRmMzt/ZQKjsvX2pGilQJFTliOEFCpZiC1VqHrCJ2MvtLP7gQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mokg9ysR0RIzLeRPa5lCiCUNxaARP6f13vZAXgyRn7Y=;
- b=RGlANHLLmEZ3Vz8Xqtgyb7ncuMbpSUMBK4aNsQGKK8zrxdalUyhqFyQIlNZC6pauAPIOhc9OVheBDFn7SkNhL5vSgF4D7wn0a8wFCmh6VRvA6krO0NS3YvoVXnFCPMarn6Yv+RaQSbU387QWWfWC8yRIOblM0KjG0VZtfPxlrx364u8jTQKpI+9ExAUgAsght3RNdVSliRKq/nOKH7hTew2/k4V5mK0K/jzDlvyNaZ4G+dnbos5qMx7YnRusqDO/rPHA5QrsIHNg5CajpOkq+KTSFkdMTy5zF9lRtR4xCr+yhJW6a2Qz6u0bnPxunqMz/cIOJxnHIhnQUBhrWOAOPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mokg9ysR0RIzLeRPa5lCiCUNxaARP6f13vZAXgyRn7Y=;
- b=aWiqsnTXRAnONrvWO53XaO+B7OgkGrxr8kIgvHQXWwlqTVIpcJnNjVQK6a2p6t+Mx6AgRnncCr13WfYT8RKTk3gAH5C1XVMrIXPcII2QsNGwGB3TgsgmhzwTnE4I6LhgP8XR0UbAG/9PNECooMezZ1toCIQAb8FWVnt6DSymC4k=
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by CH2PR10MB3752.namprd10.prod.outlook.com (2603:10b6:610:d::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.23; Tue, 12 Jul
- 2022 09:27:37 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::b842:a301:806d:231e]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::b842:a301:806d:231e%9]) with mapi id 15.20.5417.026; Tue, 12 Jul 2022
- 09:27:37 +0000
-Message-ID: <4a90535e-0381-e0fa-65d1-decdabb1f328@oracle.com>
-Date: Tue, 12 Jul 2022 10:27:29 +0100
-Subject: Re: [PATCH v6 03/10] i386/pc: pass pci_hole64_size to pc_memory_init()
-Content-Language: en-US
-To: B <shentey@gmail.com>, Igor Mammedov <imammedo@redhat.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- qemu-devel@nongnu.org
-References: <20220701161014.3850-1-joao.m.martins@oracle.com>
- <20220701161014.3850-4-joao.m.martins@oracle.com>
- <FA725D44-6D1C-4A6A-9D83-FF9482DB4593@gmail.com>
- <0eefb382-4ac6-4335-ca61-035babb95a88@oracle.com>
- <2A6CE4BD-F846-4802-BADA-4983F5462343@gmail.com>
-From: Joao Martins <joao.m.martins@oracle.com>
-In-Reply-To: <2A6CE4BD-F846-4802-BADA-4983F5462343@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM3PR03CA0058.eurprd03.prod.outlook.com
- (2603:10a6:207:5::16) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1oBCEd-0005Yi-C7
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:31:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657618274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4QXkpRfSfStZPV+UvqnCbimj+iouYZXetKbLfzs8hGc=;
+ b=FlO2APnu7TFhCXmmFJkrFuIMojU8jP3wt1bUVTQEpKNmKiwZ9PokfF8Qg6I36jwv2V8X9q
+ 1E+SPBGNOsYUis1n2bTW5hZhl/nS3VcfvnZ7vX2AIe2Se4C9mrF5w1z3VnozHfubIhg6zu
+ LDVE6omwcaAbiaNYVESso+5emHte8EI=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-381-BxzcGV6QNhGKd3bcqbcIGA-1; Tue, 12 Jul 2022 05:31:11 -0400
+X-MC-Unique: BxzcGV6QNhGKd3bcqbcIGA-1
+Received: by mail-yb1-f200.google.com with SMTP id
+ t10-20020a5b07ca000000b0066ec1bb6e2cso5644783ybq.14
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 02:31:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4QXkpRfSfStZPV+UvqnCbimj+iouYZXetKbLfzs8hGc=;
+ b=pCw345YaSs7wNp6RAe2a/JDKVx1JCQuNejHKczljDc40OtcP/BAsMRKhLBTqCjEjbS
+ mZK44cSRv0mW9rHgvGhCOMixO+YUgk6BwXblDdM+7G+FM+Tb0d+JeWkWr9vjjgR0BT5/
+ EbJplbxEFW2yFJiB4tLUqIjZ8r8pe6QdFeGkIcCtZR7hL6Vuh2DTCJhyg4FmitdKhyH1
+ 4EkEMb/W3tev28086BI7CKJoLParLCJfE6akp/QDhx/sUjzy4TH6MOiDfXRmmI+ktrD9
+ s65+X5i+KUTqGkWp/u8dIVYODPCoTHdxtztPuwVAGaVtgIdHdYybiXf+AQ/HDoXgzdLz
+ Q0sA==
+X-Gm-Message-State: AJIora8/IlElbQhNRRNvShjqeeUHdm4OrxwHGKPBtNVPTOQ7MVm2vgSY
+ dWaYSv0EFIPemYCAQrdNF0cR4E01q9qJmxSmR9ezJidXBW82/NbpvIx/C5I8ssWxQp8KR9CAlIU
+ WImF2D7GlnKlNf4R7uA2TCcWn/TYeAFo=
+X-Received: by 2002:a81:a055:0:b0:31c:86f0:cd31 with SMTP id
+ x82-20020a81a055000000b0031c86f0cd31mr24960354ywg.75.1657618270825; 
+ Tue, 12 Jul 2022 02:31:10 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1ts0c7npNo8QSZyDKCjk4P7cWRwaXwPDoacuQevCLAUPp0lYXzfNC3wiXYAV6eEecp12JBCZkKF7DAa6+4mYWY=
+X-Received: by 2002:a81:a055:0:b0:31c:86f0:cd31 with SMTP id
+ x82-20020a81a055000000b0031c86f0cd31mr24960337ywg.75.1657618270665; Tue, 12
+ Jul 2022 02:31:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 732d6215-41a7-450b-b8b0-08da63e8c27e
-X-MS-TrafficTypeDiagnostic: CH2PR10MB3752:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1+1kHfp5xuVsEVYdLMklyIqx6wTKks6/BHsW+oc+jOejJlYIdMQucy7Xc4eoVJP1IY+MWbqTvH8yzgJ6c2Xe0t4v9rRaYk0eC9VFeO7SAaq70v6dquxi+A2hVqLwM4pxZXiaV3SZZ0E7QDD/qljkyXJXSxjM6k7YsPGxLcGG4e7NT2Q5mM09INEKfHIIK1VN/Irl95JBtWRvnZ8W2oUYtNxmvSLT12EwNg8npWQ360nmJlvoKsQUD5IM91YUpxye8ZZ+WPCf9eNsowghkiz9wyZvSuyJiDdS7vmvGtH08IgAjAkzdRUWFqTH1f0wdYz8w+4SX+W+tvYgVtzU6BjedsK+ghh2o6m6VEfnzY0+jqMX8kQwHR+0FxZ5yXPFPGLNeQ+9SiKyPTEqjcpyWQocMVnXGbLTrjYRV+V61QVxJAgkQQK8zDPHTgqjIEEdEYI+I+bsuregF4oiV7D3WzX5A41xogcC7oIXuGOj8REv4jKePiisCQz/KzEWYM9ldb/8LnKBXCvGVvbHt3pHv808rr92yjrBjbRF5JA/lHEmCpzfiERcxZ7EmfVjcpkm4KUcS8wj9vc+JGw5ee8U9maPyWarIk7YjuQEjR0mSca/99L83CsO6u+YE4B2vz4B4S1jWbD00xa9yriEoPqW7PKVRQl6zRoie5ROrxWoVvw6YS7Bi3Tid9YnfI3YBFIFbeHOEyLQRGT4DYyznKVzYCQSKb7FtC6JuCbjmkaGYkGuTOYZPMP86gsSq485xnpISj1BtXIvWdOzii9Xgh1kVX3TTClWwsNWVo8MjTHMry+UdTWz9XmSTmwcGxX9sCg1yWta
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(39860400002)(136003)(346002)(376002)(396003)(366004)(31696002)(38100700002)(6506007)(26005)(41300700001)(110136005)(2906002)(31686004)(54906003)(6512007)(5660300002)(36756003)(86362001)(7416002)(8936002)(186003)(8676002)(2616005)(66556008)(66476007)(66946007)(6486002)(6666004)(53546011)(4326008)(316002)(478600001)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Nm1OZkE5Sm9BTzRmYkNLTG9zVTE5NTdpU1doVzZDdHNZVEVvb29QU0tCczM0?=
- =?utf-8?B?WGlXbkpTS2lvbzBSZXRqL0l1UldvOWlzREVSMUszNkVsQ1pmVTR6VWhZTGFs?=
- =?utf-8?B?VTFhZXFhNGlTL29zNzNrOXhlWkluL3BkUzhQemI1dGZ2ZmtxcmxqQllnRTNj?=
- =?utf-8?B?VTNuK05XTkFSWU9MamtiZ1RmUGg4NWY0VHVWT21kalM4bk1MbEU3b012TzR5?=
- =?utf-8?B?UnlsaTltRTJGMmJiNWFZZGw4b0tKeDlWTDR1dnIrS2FKNFhDTVEvY3Z5cDVm?=
- =?utf-8?B?cXNrc0NablQ2dWwxSjlZL1did1RFRHQ2S1ArUUtIZ01ES0d3MjZRVm9kckNj?=
- =?utf-8?B?QUVhTTg3OXAzck5mMWlSRndGdFZrQS9zMGZZdmk4Q2tUTDB2ZWI5VXRSWlZF?=
- =?utf-8?B?UHkyclYwazV0VUd2dGpIcXRpSG81SURVek1zdGpaNjZ5OGdPN0YwZWZJejJh?=
- =?utf-8?B?eVBudmNGMUNpZG1jZXdhSVIwSjZsUTFmZ0lMR3BpNUJ3SHhFSkFtWXhvWXlt?=
- =?utf-8?B?U3dpYTRIbmwvU25uWVVvc0JzM01RQzA0ZllaOUw3ZVVBYmxTZ0dha0RhdlRW?=
- =?utf-8?B?cGh0T05kRE94cllhdDc5elRaVXJLaThRMkJmWEU1RXMwNVB2Wi9zbVQzNnc2?=
- =?utf-8?B?RWh2R255QUplWGZZbGs4ZWh0cGJBVkxGQlhMMFg0NXZnRnB6c2MrNWs1OWpD?=
- =?utf-8?B?cWYyVkFZQXZxK01vSmlTT0praUw1dHJZNjNmYVZaT21ENFlFTWFnT0VncVNC?=
- =?utf-8?B?cFNuTk1TM1JFR2p5Y2hPSWxaMk5qcGlGUXR1ZUJSREJ2Y2V2SWE4U001ZStG?=
- =?utf-8?B?WHdXbFM1WXdmb0YwREZqUXErNnJadmxBL2o1ZVYvL2xheUVlN1dqR2Y1ejZL?=
- =?utf-8?B?WW12bXBvMjkzbmVhWWNzK1pQNnQxb3IzeU5ONW1zMW13eHlsaFZua3UxR2xa?=
- =?utf-8?B?d0M3T09rRVpQTVIremkxQi8yeEZJdi9PQ0xwVkdUVG9zaGlvSFZoM0FwVVFh?=
- =?utf-8?B?WEMzdGdSaUR4L3ZnR3V0cGh5MlZLZDR1cWJMak1jQm9NMzljVXBGWnJaWWpZ?=
- =?utf-8?B?cFlXRGdYbVhZN2F6WjhOakpTb2FnVHgxVlFpYmxmSDlLbktEMFNQcWg2eUNv?=
- =?utf-8?B?ZlRpN1VScVNPVjVTMFpxazFkR0NVY3BnVS9ydUJGb241OWpPVVZwdStEYXNp?=
- =?utf-8?B?Mk9aSnNkVGJpNFRoa1JEZ1FXOHQwTDIwcTI4WjRWNDlwQWVpZnoyZ01aM3lR?=
- =?utf-8?B?RDVMWkNwUmZyRnh3clNkQnNDQ0s1UEVzYm5ic2MzaU96REI0MXFiSVB3SUk2?=
- =?utf-8?B?S1k3RWdQWmFsVTBVbnZvL2FoN1pHeTV6Q3BiT0tZS0tRNy9qU1V0eWVvQTlF?=
- =?utf-8?B?TWd4RHB5akRzdEhmVEx1dTkwcTJad3kzOVpMYXA4elNKSkZHNzVrUXh6U3FM?=
- =?utf-8?B?QVRYckV5d0RUZUs1UnlxVWM1T3JzZkRSVEVxK0xwWjVpTmNPY0FLMW5mTEtM?=
- =?utf-8?B?aFZXWDhKbW9icFpjcFVWMkJjMmt4RTg3am4vT0FQS296WWdVOVBHeFdpUHBv?=
- =?utf-8?B?a1Q1V0laMHYxNWxIdldHbHNab0lHSVFvRTNxV1l4VnBHaFVmcThYZUVyelVw?=
- =?utf-8?B?alZlc3h3am5mRUloa0hSaCtacFFrTnBKYTFZNnZtaVpmcXA4TWVHcnpLZHo4?=
- =?utf-8?B?WlphNmtsZ3RXUU5BT2xzemVXR2J5cEE1VTR4Mnd1cmdrZDlWUEJFdE05R0g4?=
- =?utf-8?B?NWxORzRnRC9NbnFXZXV4bXl3amZKbEFyNmVzMUZKblpGby9aN1BKOVpONXQ4?=
- =?utf-8?B?S0cxQ0FkWGNwQmZEcVpGQmlLZGRqckhxK1FzcXMzUkFlWFNja1pQODcrc09E?=
- =?utf-8?B?ZXN5eWgzSnFrNC9aZ0xUc0cwclkzM0VqenV0dUc5QkxMYmVOUmkzMHBGeW4x?=
- =?utf-8?B?UlJWMmVIaWVSS0dROVVPV2pBZDNxVXV6bllnZG5IZElhbGNJVERONURMWStW?=
- =?utf-8?B?SmpNZ2tSR01XYWd5KzYzWWFLazhjTjI3ZVk2dVIyeU1vVU1IeFQzMFJFQXRv?=
- =?utf-8?B?cVZheWhDNDAzK2FiZHM4QWtPc2hzMlhIV1REdFlPdWdJaXNUUERKMGs3VDJ2?=
- =?utf-8?B?YkRnQks5MlFhOFZBbzYxaSs5UUpnNk1QSGdIVDUvcU1VaTFHOUNac3lHaTV0?=
- =?utf-8?B?YUE9PQ==?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 732d6215-41a7-450b-b8b0-08da63e8c27e
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 09:27:37.5024 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FuOKfc30c9/TxcMwEfA2n4dECN2hOL7A8u2UH4l85BS7Q4okr4Gy+3lJ0PpFsD0DdLFuq/fwja8NraOTbIAbXFGI0RhL8xkE8A0wmJvSXJY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB3752
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.883
- definitions=2022-07-12_05:2022-07-08,
- 2022-07-12 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- phishscore=0
- mlxlogscore=999 suspectscore=0 adultscore=0 mlxscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207120035
-X-Proofpoint-GUID: 9YE1Yy2rLSN2ABI-rrjaag1bhy8YO1p6
-X-Proofpoint-ORIG-GUID: 9YE1Yy2rLSN2ABI-rrjaag1bhy8YO1p6
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220707005602.696557-1-pizhenwei@bytedance.com>
+In-Reply-To: <20220707005602.696557-1-pizhenwei@bytedance.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Tue, 12 Jul 2022 12:30:59 +0300
+Message-ID: <CAPMcbCqPw_nh9Cu1U7t6VYV=3gKSa7q74r6iQ_kHmxZX+YmkuA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/2] qga: add command 'guest-get-cpustats'
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: Michael Roth <michael.roth@amd.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000032540f05e3985437"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -190,90 +93,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/11/22 23:17, B wrote:
-> Am 11. Juli 2022 10:01:49 UTC schrieb Joao Martins <joao.m.martins@oracle.com>:
->> On 7/9/22 21:51, B wrote:
->>> Am 1. Juli 2022 16:10:07 UTC schrieb Joao Martins <joao.m.martins@oracle.com>:
->>>> Use the pre-initialized pci-host qdev and fetch the
->>>> pci-hole64-size into pc_memory_init() newly added argument.
->>>> piix needs a bit of care given all the !pci_enabled()
->>>> and that the pci_hole64_size is private to i440fx.
->>>
->>> It exposes this value as the property PCI_HOST_PROP_PCI_HOLE64_SIZE. 
->>
->> Indeed.
->>
->>> Reusing it allows for not touching i440fx in this patch at all.
->>>
->>> For code symmetry reasons the analogue property could be used for Q35 as well.
->>>
->> Presumably you want me to change into below while deleting i440fx_pci_hole64_size()
->>from this patch (see snip below).
-> 
-> Yes, exactly.
-> 
->> IMHO, gotta say that in q35 the code symmetry
->> doesn't buy much readability here,
-> 
-> That's true. It communicates, though, that a value is used which was deliberately made public, IOW that the code isn't sneaky. (That's just my interpretation, not sure what the common understanding is) Feel free to do however you prefer.
-> 
-I think it's a good improvement, as avoids duplicating this new helper in i440fx pcihost
-which also means less code for the same thing.
+--00000000000032540f05e3985437
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Best regards,
-> Bernhard
-> 
->> albeit it does remove any need for that other
->> helper in i440fx.
->>
->> @Igor let me know if you agree with the change and whether I can keep the Reviewed-by.
->>
->> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->> index 504ddd0deece..cc0855066d06 100644
->> --- a/hw/i386/pc_piix.c
->> +++ b/hw/i386/pc_piix.c
->> @@ -167,7 +167,9 @@ static void pc_init1(MachineState *machine,
->>         memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
->>         rom_memory = pci_memory;
->>         i440fx_host = qdev_new(host_type);
->> -        hole64_size = i440fx_pci_hole64_size(i440fx_host);
->> +        hole64_size = object_property_get_uint(OBJECT(i440fx_host),
->> +                                               PCI_HOST_PROP_PCI_HOLE64_SIZE,
->> +                                               &error_abort);
->>     } else {
->>         pci_memory = NULL;
->>         rom_memory = system_memory;
->> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
->> index 4b747c59c19a..466f3ef3c918 100644
->> --- a/hw/i386/pc_q35.c
->> +++ b/hw/i386/pc_q35.c
->> @@ -208,7 +208,9 @@ static void pc_q35_init(MachineState *machine)
->>     q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
->>
->>     if (pcmc->pci_enabled) {
->> -        pci_hole64_size = q35_host->mch.pci_hole64_size;
->> +        pci_hole64_size = object_property_get_uint(OBJECT(q35_host),
->> +                                                   PCI_HOST_PROP_PCI_HOLE64_SIZE,
->> +                                                   &error_abort);
->>     }
->>
->>     /* allocate ram and load rom/bios */
->> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
->> index 15680da7d709..d5426ef4a53c 100644
->> --- a/hw/pci-host/i440fx.c
->> +++ b/hw/pci-host/i440fx.c
->> @@ -237,13 +237,6 @@ static void i440fx_realize(PCIDevice *dev, Error **errp)
->>     }
->> }
->>
->> -uint64_t i440fx_pci_hole64_size(DeviceState *i440fx_dev)
->> -{
->> -        I440FXState *i440fx = I440FX_PCI_HOST_BRIDGE(i440fx_dev);
->> -
->> -        return i440fx->pci_hole64_size;
->> -}
->> -
->> PCIBus *i440fx_init(const char *pci_type,
->>                     DeviceState *dev,
->>                     MemoryRegion *address_space_mem,
+Queued, thanks.
+
+On Thu, Jul 7, 2022 at 4:01 AM zhenwei pi <pizhenwei@bytedance.com> wrote:
+
+> v3 -> v4:
+> - Separate qapi script change from qga.
+>
+> v2 -> v3:
+> - Rename 'GuestOsType' to 'GuestCpuStatsType'.
+> - Add 'linux' into polluted_words, rename 'linuxos' to 'linux'. Remove
+>   'windows' from 'GuestCpuStatsType', because currently we don't use it.
+>
+> v1 -> v2:
+> - Konstantin & Marc-Andr=C3=A9 pointed out that the structure 'GuestCpuSt=
+ats'
+>   is too *linux style*, so re-define it to 'GuestLinuxCpuStats', and use
+>   an union type of 'GuestCpuStats'.
+>
+> - Modify comment info from 'man proc', also add linux version infomation.
+>
+> - Test sscanf return value by '(i =3D=3D EOF)' (To Marc-Andr=C3=A9: name =
+is declared
+>   as 'char name[64];', so we can't test '!name').
+>
+> - Suggested by Marc-Andr=C3=A9, use 'int clk_tck =3D sysconf(_SC_CLK_TCK)=
+;'
+>   instead of hard code.
+>
+> v1:
+> - Implement guest agent command 'guest-get-cpustats'
+>
+> Zhenwei Pi (2):
+>   qapi: Avoid generating C identifier 'linux'
+>   qga: add command 'guest-get-cpustats'
+>
+>  qga/commands-posix.c   | 89 ++++++++++++++++++++++++++++++++++++++++++
+>  qga/commands-win32.c   |  6 +++
+>  qga/qapi-schema.json   | 81 ++++++++++++++++++++++++++++++++++++++
+>  scripts/qapi/common.py |  2 +-
+>  4 files changed, 177 insertions(+), 1 deletion(-)
+>
+> --
+> 2.20.1
+>
+>
+
+--00000000000032540f05e3985437
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div id=3D"gmail-:1hj" class=3D"gmail-a3s=
+ gmail-aiL"><div dir=3D"ltr">Queued, thanks.<font color=3D"#888888"><br>
+</font></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">On Thu, Jul 7, 2022 at 4:01 AM zhenwei pi &lt;<a href=3D=
+"mailto:pizhenwei@bytedance.com">pizhenwei@bytedance.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">v3 -&gt; v4:<br>
+- Separate qapi script change from qga.<br>
+<br>
+v2 -&gt; v3:<br>
+- Rename &#39;GuestOsType&#39; to &#39;GuestCpuStatsType&#39;.<br>
+- Add &#39;linux&#39; into polluted_words, rename &#39;linuxos&#39; to &#39=
+;linux&#39;. Remove<br>
+=C2=A0 &#39;windows&#39; from &#39;GuestCpuStatsType&#39;, because currentl=
+y we don&#39;t use it.<br>
+<br>
+v1 -&gt; v2:<br>
+- Konstantin &amp; Marc-Andr=C3=A9 pointed out that the structure &#39;Gues=
+tCpuStats&#39;<br>
+=C2=A0 is too *linux style*, so re-define it to &#39;GuestLinuxCpuStats&#39=
+;, and use<br>
+=C2=A0 an union type of &#39;GuestCpuStats&#39;.<br>
+<br>
+- Modify comment info from &#39;man proc&#39;, also add linux version infom=
+ation.<br>
+<br>
+- Test sscanf return value by &#39;(i =3D=3D EOF)&#39; (To Marc-Andr=C3=A9:=
+ name is declared<br>
+=C2=A0 as &#39;char name[64];&#39;, so we can&#39;t test &#39;!name&#39;).<=
+br>
+<br>
+- Suggested by Marc-Andr=C3=A9, use &#39;int clk_tck =3D sysconf(_SC_CLK_TC=
+K);&#39;<br>
+=C2=A0 instead of hard code.<br>
+<br>
+v1:<br>
+- Implement guest agent command &#39;guest-get-cpustats&#39;<br>
+<br>
+Zhenwei Pi (2):<br>
+=C2=A0 qapi: Avoid generating C identifier &#39;linux&#39;<br>
+=C2=A0 qga: add command &#39;guest-get-cpustats&#39;<br>
+<br>
+=C2=A0qga/commands-posix.c=C2=A0 =C2=A0| 89 +++++++++++++++++++++++++++++++=
++++++++++++<br>
+=C2=A0qga/commands-win32.c=C2=A0 =C2=A0|=C2=A0 6 +++<br>
+=C2=A0qga/qapi-schema.json=C2=A0 =C2=A0| 81 +++++++++++++++++++++++++++++++=
++++++++<br>
+=C2=A0scripts/qapi/common.py |=C2=A0 2 +-<br>
+=C2=A04 files changed, 177 insertions(+), 1 deletion(-)<br>
+<br>
+-- <br>
+2.20.1<br>
+<br>
+</blockquote></div></div>
+
+--00000000000032540f05e3985437--
+
 
