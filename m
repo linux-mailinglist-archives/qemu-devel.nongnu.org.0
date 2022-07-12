@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06131571EBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 17:17:43 +0200 (CEST)
-Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CCB9571F14
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 17:26:59 +0200 (CEST)
+Received: from localhost ([::1]:57560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBHdt-0004yd-GY
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 11:17:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39344)
+	id 1oBHms-0000l2-13
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 11:26:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oBHap-0002p2-U3
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 11:14:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39043)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oBHk2-0006kS-TU
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 11:24:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oBHal-0002Yc-Fx
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 11:14:29 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oBHjy-0004MV-Cn
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 11:24:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657638865;
+ s=mimecast20190719; t=1657639437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=N5AZ/VGfdcHwbGDwKvDWvV7uLaLsYb0yzDkzGNNtNhg=;
- b=PvpF5WE0l2sXgg2fmV+tKswgjNmiu+jrpEVzP4pcPx57XTPXk/6iewbrNIPGnx5XsFCASu
- +OTP+bJj9tluvpaILKbcwQpLAAi+8AxRmreUp8E0QPDWQW6Q82K84M0qJxBdkNy8Vy7nqP
- F3e4wn1/NICFvYU8Ta/eRsIx/o5e+8Y=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7Kj9er0AGEdF+qCChLb6AZ1utabiwntc7MiE32ZdPiQ=;
+ b=e9zI4vtxQzs7GaQ7JRxC6yqEAn7JdRrIyelHvuwd8ZcgXsdLassDHumArnry66GB2aQt83
+ WkpXUvRh+Oy0QBQioRDJ5RAig0M6wdc0e5XTPBM+aTX/WE3rvr1JqiykKc90u4ntHWwjdc
+ 3aIV4xxuGl3VCZOK16oBhLXmu7pVszg=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189--UgSU0JHNGaz4Omihgx9jQ-1; Tue, 12 Jul 2022 11:14:24 -0400
-X-MC-Unique: -UgSU0JHNGaz4Omihgx9jQ-1
-Received: by mail-ua1-f70.google.com with SMTP id
- c45-20020ab01470000000b0038361e2d746so1542106uae.15
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 08:14:24 -0700 (PDT)
+ us-mta-543-djR0uxzQNG-klo7oBsRAEA-1; Tue, 12 Jul 2022 11:23:54 -0400
+X-MC-Unique: djR0uxzQNG-klo7oBsRAEA-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ h11-20020ab0470b000000b003832767ad4eso1899610uac.23
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 08:23:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=N5AZ/VGfdcHwbGDwKvDWvV7uLaLsYb0yzDkzGNNtNhg=;
- b=b5e2JfFmw77IQEqRYhH/WyG6MZLsyybd+9rDxb+oYt5Gl8OmQTsu/CE/3c++EcwR9t
- 2pm/vF7eZXaFS5pWRoJ6gAq4Q9F4jSU69aF6hqxifwICUZ1pJCCyyCTSfB3Dnhxh9pRl
- vSXbUbloiQPo/HFST8qJzLFp5XooXtFuns3tTy8HnywYxuuxqHj/KGsgRk99gDum4B1D
- xIbtS+iVKDM+fuUC8Y8r7HQIe8mClLKYhDTRXuv3GVVORLOd78muVKQBLT4XxUs5qwLs
- MRfFikDTcyuuXCwfdzQQQZxVpBH0eDFYYEp6COOEYYlL22HF+6asmYK8T+7OoTSIYz14
- Nf6Q==
-X-Gm-Message-State: AJIora9izfV201k7Oq0a9PViqykvBddfIL42UNifRSudtLporlN+c8tP
- RZZ5Ws4PaqJb038gLCVaLeDImOZgMxWFYfn5gehjTwSNOBoAQGdn48eFyIqrhPqwt7B7qzqg7FZ
- J19OdwRG8VWMLLe0MiJjCllM898sTuHs=
+ bh=7Kj9er0AGEdF+qCChLb6AZ1utabiwntc7MiE32ZdPiQ=;
+ b=TpRh4hiH3XhTOa/jA8oT/MT+gzvY+4tg0GE+3d3yDXafgMoCwsv/NJbw+uNCNRuSAf
+ OYRix+Coxuziu5lPC7co8l5oV5YfDldghDTE5RueFfXu03fdS4oOuYi+LdbdLESyKN9w
+ LT92sMxQbHsjnm3Zd3ptVS2eciguixjiI3zxKK4lsJ9xqO1vXsnfiHYd5vLDlkSWNT1P
+ 2o+hREKtZe7n7kMe7tV3L1b8BVtln7GvCy/ayva/+TKYnck+PcJmgq5IhNVS6td/zXAG
+ VmWJWgeFT9ANGErnahv8Agj+wIls39FZaSzA6p3xcxPl2zwR+TH9f6TOhI41qJwyTFfJ
+ 7siQ==
+X-Gm-Message-State: AJIora9hWaCJyK5BKMp1Qct3y8tlP6s06HN6SscabuRuvGvUOHZyc1Tn
+ oRtvF5OlCuZEtSAit+j3BombuA1mSLgICw6yzSldVo07Ga5OqQduvodkN/XPjHiAd8cvM1qUANr
+ AD+e4eKDJMeBV65VMPd1jtSRyxjOp63Q=
 X-Received: by 2002:a1f:27d6:0:b0:374:3614:d037 with SMTP id
- n205-20020a1f27d6000000b003743614d037mr8851552vkn.1.1657638862979; 
- Tue, 12 Jul 2022 08:14:22 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vWcAlzlr5hSZYfpx7g6Hl15F5EfLoeMJ0qwP6oM8zmrqyBpHD06uiju3vqSqNOPNkVTStOOkl22h8t3Ssymyo=
+ n205-20020a1f27d6000000b003743614d037mr8908450vkn.1.1657639433631; 
+ Tue, 12 Jul 2022 08:23:53 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vlZ97CwYWPdu/GHysWct4sQJsfHdnaoHv0XOkR3jdsXoNx1gWJwxg6ocgXWRjSpLupvsPB1L9402NgPJe+dYU=
 X-Received: by 2002:a1f:27d6:0:b0:374:3614:d037 with SMTP id
- n205-20020a1f27d6000000b003743614d037mr8851487vkn.1.1657638862443; Tue, 12
- Jul 2022 08:14:22 -0700 (PDT)
+ n205-20020a1f27d6000000b003743614d037mr8908430vkn.1.1657639433277; Tue, 12
+ Jul 2022 08:23:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220705214659.73369-1-peter@pjd.dev>
- <YsVBhmvAm2ANDUEt@redhat.com>
- <YsW8eO5eeRKfpxJp@r37> <YsYuYAJE2Hx64aIY@pdel-mbp.dhcp.thefacebook.com>
- <YscqCErtNGOG9GVx@pdel-mbp.dhcp.thefacebook.com>
- <CAFn=p-bhhu+G-p=w_K2OSOe0WkDHbBaO0ZS53F+jTDuo074VFw@mail.gmail.com>
- <YszSe2qCVcqd0CVI@pdel-mbp.dhcp.thefacebook.com>
-In-Reply-To: <YszSe2qCVcqd0CVI@pdel-mbp.dhcp.thefacebook.com>
+References: <20220710170014.1673480-1-ani@anisinha.ca>
+ <20220710170014.1673480-2-ani@anisinha.ca>
+ <CAFn=p-bcY7xuT-wAZqShhTD9KeVu52OM6-kh3XFNkWgKXbDYUA@mail.gmail.com>
+ <alpine.DEB.2.22.394.2207121246490.1824593@anisinha-lenovo>
+In-Reply-To: <alpine.DEB.2.22.394.2207121246490.1824593@anisinha-lenovo>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 12 Jul 2022 11:14:11 -0400
-Message-ID: <CAFn=p-ZnxcEj6=-HNV1BeePTtXHGmvp+AwtMeUFTTqYh0a8YTA@mail.gmail.com>
-Subject: Re: [PATCH RESEND] python/machine: Fix AF_UNIX path too long on macOS
-To: Peter Delevoryas <peter@pjd.dev>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000008feac905e39d1fcd"
+Date: Tue, 12 Jul 2022 11:23:42 -0400
+Message-ID: <CAFn=p-bTwoj7+0o0jKVSirwA3cU316XmiOD316NsB0m5yQ_dnw@mail.gmail.com>
+Subject: Re: [PATCH v2 01/11] acpi/tests/bits: initial commit of test scripts
+ that are run by biosbits
+To: Ani Sinha <ani@anisinha.ca>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, Daniel Berrange <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, 
+ Michael Tsirkin <mst@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000009628e005e39d4127"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -96,550 +96,331 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008feac905e39d1fcd
+--0000000000009628e005e39d4127
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 11, 2022, 9:46 PM Peter Delevoryas <peter@pjd.dev> wrote:
+On Tue, Jul 12, 2022, 3:17 AM Ani Sinha <ani@anisinha.ca> wrote:
 
-> On Mon, Jul 11, 2022 at 04:56:28PM -0400, John Snow wrote:
-> > On Thu, Jul 7, 2022 at 2:46 PM Peter Delevoryas <peter@pjd.dev> wrote:
+>
+>
+> On Mon, 11 Jul 2022, John Snow wrote:
+>
+> > On Sun, Jul 10, 2022 at 1:01 PM Ani Sinha <ani@anisinha.ca> wrote:
 > > >
-> > > On Wed, Jul 06, 2022 at 05:52:48PM -0700, Peter Delevoryas wrote:
-> > > > On Wed, Jul 06, 2022 at 09:46:48AM -0700, Peter Delevoryas wrote:
-> > > > > On Wed, Jul 06, 2022 at 09:02:14AM +0100, Daniel P. Berrang=C3=A9=
- wrote:
-> > > > > > On Tue, Jul 05, 2022 at 02:46:59PM -0700, Peter Delevoryas wrot=
-e:
-> > > > > > > I noticed that I can't run any avocado tests on macOS because
-> the QMP
-> > > > > > > unix socket path is too long:
-> > > > > >
-> > > > > >
-> > > > > > > I think the path limit for unix sockets on macOS might be 104
-> [1]
-> > > > > >
-> > > > > > All platforms have a very limited path limit, so it isn't reall=
-y
-> > > > > > a macOS specific problem, rather....
-> > > > > >
-> > > > > > >
-> > > > > > > /*
-> > > > > > >  * [XSI] Definitions for UNIX IPC domain.
-> > > > > > >  */
-> > > > > > > struct  sockaddr_un {
-> > > > > > >     unsigned char   sun_len;        /* sockaddr len including
-> null */
-> > > > > > >     sa_family_t     sun_family;     /* [XSI] AF_UNIX */
-> > > > > > >     char            sun_path[104];  /* [XSI] path name (gag) =
-*/
-> > > > > > > };
-> > > > > > >
-> > > > > > > The path we're using is exactly 105 characters:
-> > > > > > >
-> > > > > > > $ python
-> > > > > > > Python 2.7.10 (default, Jan 19 2016, 22:24:01)
-> > > > > > > [GCC 4.2.1 Compatible Apple LLVM 7.0.2 (clang-700.1.81)] on
-> darwin
-> > > > > > > Type "help", "copyright", "credits" or "license" for more
-> information.
-> > > > > > > >>>
-> len('/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/avo_qemu_sock_uh3w_=
-dgc/qemu-37331-10bacf110-monitor.sock')
-> > > > > >
-> > > > > > It is a problem related to where the test suite is creating the
-> > > > > > paths.
-> > > > > >
-> > > > > >
-> /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/avo_qemu_sock_uh3w_dgc/
-> > > > > >
-> > > > > > is way too deep a directory location.
-> > > > >
-> > > > > That's a good point.
-> > > > >
-> > > > > >
-> > > > > > It seems we just create this location using
-> 'tempfile.TemporyDirectory'
-> > > > > > to get a standard tmp dir.
-> > > > > >
-> > > > > > Do you know why python is choosing
-> > > > > >
-> > > > > >   /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
-> > > > > >
-> > > > > > as the temp dir ? Is that a standard location on macOS or is it
-> > > > > > from some env variable you have set ?
-> > > > >
-> > > > > Hmmm yeah it is odd, I'm not really sure why it's created there o=
-r
-> if
-> > > > > standard glibc tmpfile creation goes there too, I'll go experimen=
-t
-> and
-> > > > > report back. And yeah, maybe I'll double check any environment
-> variables or
-> > > > > other things.
-> > > > >
-> > > > > The macOS system I use happens to be a Facebook work laptop, whic=
-h
-> could
-> > > > > also be related now that I think about it.
-> > > >
-> > > > Hmmm yeah looks like this is because my TMPDIR is weird.
-> > > >
-> > > > $ echo $TMPDIR
-> > > > /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
-> > > >
-> > > > I didn't think to check this cause I wasn't familiar with TMPDIR. =
-=F0=9F=A4=B7
-> > > >
-> > > > Thanks for responding, I'll just use TMPDIR=3D/tmp for now. It's
-> probably
-> > > > something wrong with the Facebook development environment.
-> > > >
-> > > > Peter
+> > > This is initial commit of cpuid, acpi and smbios python test scripts
+> for
+> > > biosbits to execute. No change has been made to them from the original
+> code
+> > > written by the biosbits author Josh Triplett. They are required to be
+> installed
+> > > into the bits iso file and then run from within the virtual machine
+> booted off
+> > > with biosbits iso.
 > > >
-> > > Update: Actually, this might not be a Facebook-work-laptop specific
-> > > thing.  I asked my non-engineer friend to print out $TMPDIR on his
-> > > macbook and he got the same thing.
+> > > The original location of these tests are here:
+> > > https://github.com/biosbits/bits/blob/master/python/testacpi.py
+> > > https://github.com/biosbits/bits/blob/master/python/smbios.py
+> > > https://github.com/biosbits/bits/blob/master/python/testcpuid.py
 > > >
+> > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > ---
+> > >  tests/pytest/acpi-bits/bits-tests/meson.build |   11 +
+> > >  tests/pytest/acpi-bits/bits-tests/smbios.py   | 2430 +++++++++++++++++
+> > >  tests/pytest/acpi-bits/bits-tests/testacpi.py |  283 ++
+> > >  .../pytest/acpi-bits/bits-tests/testcpuid.py  |   83 +
+> > >  4 files changed, 2807 insertions(+)
+> > >  create mode 100644 tests/pytest/acpi-bits/bits-tests/meson.build
+> > >  create mode 100644 tests/pytest/acpi-bits/bits-tests/smbios.py
+> > >  create mode 100644 tests/pytest/acpi-bits/bits-tests/testacpi.py
+> > >  create mode 100644 tests/pytest/acpi-bits/bits-tests/testcpuid.py
 > > >
-> https://apple.stackexchange.com/questions/353832/why-is-mac-osx-temp-dire=
-ctory-in-weird-path
-> > >
-> > > I guess this person suggests it's just to separate the permissions fo=
-r
-> > > each user's /tmp directory, for better isolation.
-> > >
-> > > I'll resubmit this patch with the suggestions you had, because perhap=
-s
-> > > this is actually affecting other macOS users too.
-> > >
-> > > >
-> > > > >
-> > > > > >
-> > > > > > > diff --git a/python/qemu/machine/machine.py
-> b/python/qemu/machine/machine.py
-> > > > > > > index 37191f433b..93451774e3 100644
-> > > > > > > --- a/python/qemu/machine/machine.py
-> > > > > > > +++ b/python/qemu/machine/machine.py
-> > > > > > > @@ -157,7 +157,7 @@ def __init__(self,
-> > > > > > >          self._wrapper =3D wrapper
-> > > > > > >          self._qmp_timer =3D qmp_timer
-> > > > > > >
-> > > > > > > -        self._name =3D name or
-> f"qemu-{os.getpid()}-{id(self):02x}"
-> > > > > > > +        self._name =3D name or f"{os.getpid()}{id(self):02x}=
-"
-> > > > > >
-> > > > > > I don't think this is the right fix really, because IMHO the
-> problem
-> > > > > > is the hugely long path, rather than the final socket name.
-> > > > >
-> > > > > True, yeah let me try to investigate the directory placement.
-> > > > >
-> > > > > >
-> > > > > > That said, there is redundancy in the path - avocado is passing
-> in
-> > > > > > a dierctory created using 'tempfile.TemporyDirectory' so there
-> is no
-> > > > > > reason why we need to add more entropy via the POD and the
-> 'id(self)'
-> > > > > > hex string.
-> > > > >
-> > > > > Oh good point, I hadn't thought about that.
-> > > > >
-> > > > > >
-> > > > > > IMHO avocado should pass in the 'name' parameter explicitly,
-> using a
-> > > > > > plain name and thus get a shorter string.
-> > > > >
-> > > > > I see, yeah that makes sense. Maybe I can include a couple patche=
-s
-> for this,
-> > > > > one fixing the directory location, and one refactoring the
-> temporary file
-> > > > > name template (If I'm understanding your suggestion correctly).
-> > > > >
-> > > > > Thanks for the review! I really appreciate it.
-> > > > > Peter
+> > > diff --git a/tests/pytest/acpi-bits/bits-tests/meson.build
+> b/tests/pytest/acpi-bits/bits-tests/meson.build
+> > > new file mode 100644
+> > > index 0000000000..3056731a53
+> > > --- /dev/null
+> > > +++ b/tests/pytest/acpi-bits/bits-tests/meson.build
+> > > @@ -0,0 +1,11 @@
+> > > +test_files = ['smbios.py', 'testacpi.py', 'testcpuid.py']
+> > > +
+> > > +copytestfiles = custom_target('copy test files',
+> > > +  input : test_files,
+> > > +  output :  test_files,
+> > > +  command : ['cp', '@INPUT@', '@OUTDIR@'],
+> > > +  install : true,
+> > > +  install_dir : 'bits-tests',
+> > > +  build_by_default : true)
+> > > +
+> > > +other_deps += copytestfiles
+> > > diff --git a/tests/pytest/acpi-bits/bits-tests/smbios.py
+> b/tests/pytest/acpi-bits/bits-tests/smbios.py
+> > > new file mode 100644
+> > > index 0000000000..9667d0542c
+> > > --- /dev/null
+> > > +++ b/tests/pytest/acpi-bits/bits-tests/smbios.py
+> > > @@ -0,0 +1,2430 @@
+> > > +# Copyright (c) 2015, Intel Corporation
+> > > +# All rights reserved.
+> > > +#
+> > > +# Redistribution and use in source and binary forms, with or without
+> > > +# modification, are permitted provided that the following conditions
+> are met:
+> > > +#
+> > > +#     * Redistributions of source code must retain the above
+> copyright notice,
+> > > +#       this list of conditions and the following disclaimer.
+> > > +#     * Redistributions in binary form must reproduce the above
+> copyright notice,
+> > > +#       this list of conditions and the following disclaimer in the
+> documentation
+> > > +#       and/or other materials provided with the distribution.
+> > > +#     * Neither the name of Intel Corporation nor the names of its
+> contributors
+> > > +#       may be used to endorse or promote products derived from this
+> software
+> > > +#       without specific prior written permission.
+> > > +#
+> > > +# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+> "AS IS" AND
+> > > +# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+> THE IMPLIED
+> > > +# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+> ARE
+> > > +# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+> BE LIABLE FOR
+> > > +# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+> CONSEQUENTIAL DAMAGES
+> > > +# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+> SERVICES;
+> > > +# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+> CAUSED AND ON
+> > > +# ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+> TORT
+> > > +# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+> USE OF THIS
+> > > +# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+> > > +
+> > > +"""SMBIOS/DMI module."""
+> > > +
+> > > +import bits
+> > > +import bitfields
 > >
-> > I agree with Dan: I believe the correct solution here is for Avocado
-> > to provide its own less redundant name; but the default name that
-> > machine.py provides is not *that* long and provides adequate
-> > protection against collisions with multiple instances of the VM
-> > utility within a single python process. If Avocado is creating its own
-> > directories that guard against that redundancy, Avocado should provide
-> > a shortened name for the VM.
->
-> Hmmm, I see.
->
+> > New deps?
 > >
-> > Note that the QEMUMachine process also provides a sock_dir parameter
-> > that was introduced for precisely this reason; it should be possible
-> > to instruct the avocado tests to use a shorter path for sock_dir.
+> > > +import ctypes
+> > > +import redirect
 > >
-> > I'm not clear on what the best "just works" solution will be when
-> > certain operating environments choose a tmp dir that's quite long to
-> > begin with; maybe we need a different default sockfile naming strategy
-> > that avoids the instance collision problem in machine.py, too. Ideas?
->
-> I guess I don't really understand why QEMU is attempting to create a
-> unique path instead of just using mktemp(), right? This seems like
-> something that the OS can provide. If we want some semblance of meaning
-> to the filename, we can provide a short template, right?
->
-
-Yeah, should be good. The "name" of the VM should be left unique for
-logging purposes, so the name should remain as-is, IMO.
-
-However, if you want to change how we create the sockfile by using a new,
-temporary name (and not the vm name), that works for me as far as I can
-remember.
-
-I think there was some desire to have the temp file obviously correlate to
-the instance, but that's not a hard requirement, so feel free to change
-that part.
-
-Just make sure that come hell or high water the sockfile is cleaned up on
-exit.
-
-
-
-> -- Peter
->
->
+> > Also a new dep?
 > >
-> > --js
+> > > +import struct
+> > > +import uuid
+> > > +import unpack
 > >
-> > > > >
-> > > > > >
-> > > > > > >          self._temp_dir: Optional[str] =3D None
-> > > > > > >          self._base_temp_dir =3D base_temp_dir
-> > > > > > >          self._sock_dir =3D sock_dir
-> > > > > > > @@ -167,7 +167,7 @@ def __init__(self,
-> > > > > > >              self._monitor_address =3D monitor_address
-> > > > > > >          else:
-> > > > > > >              self._monitor_address =3D os.path.join(
-> > > > > > > -                self.sock_dir, f"{self._name}-monitor.sock"
-> > > > > > > +                self.sock_dir, f"{self._name}.sock"
-> > > > > > >              )
-> > > > > > >
-> > > > > > >          self._console_log_path =3D console_log
-> > > > > > > --
-> > > > > > > 2.37.0
-> > > > > > >
-> > > > > > >
-> > > > > >
-> > > > > > With regards,
-> > > > > > Daniel
-> > > > > > --
-> > > > > > |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> > > > > > |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> > > > > > |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
-> > > > > >
-> > > > >
-> > > >
-> > >
+> > And another?
+> >
+> > > +import ttypager
+> > > +import sys
+> >
+> > What's the proposed strategy for dependency management for these
+> > tests? I know there's some mail I'm backlogged on ...
 > >
 >
+> For some reason I did not need to add those libraries as dependencies. If
+> needed we can add them in requirements.txt for pyenv.
 >
 
---0000000000008feac905e39d1fcd
+Probably pulled in as deps to what you do install; pinning them may be
+helpful for repeatability reasons and to avoid playing whackamole with new
+pypi releases during the rc testing phase - speaking from experience with
+the other python test packages in the tree.
+
+That said, explicitly enumerating all of the deps is also a costly
+maintenance activity, so ... YMMV.
+
+It depends on how fastidiously the main requirements you state manage their
+own sub deps. Some projects do it well, some don't.
+
+Just something to consider.
+
+--js
+
+>
+
+--0000000000009628e005e39d4127
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Jul 11, 2022, 9:46 PM Peter Delevoryas &lt;<a =
-href=3D"mailto:peter@pjd.dev">peter@pjd.dev</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">On Mon, Jul 11, 2022 at 04:56:28PM -0400, John Snow=
- wrote:<br>
-&gt; On Thu, Jul 7, 2022 at 2:46 PM Peter Delevoryas &lt;<a href=3D"mailto:=
-peter@pjd.dev" target=3D"_blank" rel=3D"noreferrer">peter@pjd.dev</a>&gt; w=
-rote:<br>
-&gt; &gt;<br>
-&gt; &gt; On Wed, Jul 06, 2022 at 05:52:48PM -0700, Peter Delevoryas wrote:=
+class=3D"gmail_attr">On Tue, Jul 12, 2022, 3:17 AM Ani Sinha &lt;<a href=3D=
+"mailto:ani@anisinha.ca">ani@anisinha.ca</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex"><br>
 <br>
-&gt; &gt; &gt; On Wed, Jul 06, 2022 at 09:46:48AM -0700, Peter Delevoryas w=
-rote:<br>
-&gt; &gt; &gt; &gt; On Wed, Jul 06, 2022 at 09:02:14AM +0100, Daniel P. Ber=
-rang=C3=A9 wrote:<br>
-&gt; &gt; &gt; &gt; &gt; On Tue, Jul 05, 2022 at 02:46:59PM -0700, Peter De=
-levoryas wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; I noticed that I can&#39;t run any avocado te=
-sts on macOS because the QMP<br>
-&gt; &gt; &gt; &gt; &gt; &gt; unix socket path is too long:<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; I think the path limit for unix sockets on ma=
-cOS might be 104 [1]<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; All platforms have a very limited path limit, so i=
-t isn&#39;t really<br>
-&gt; &gt; &gt; &gt; &gt; a macOS specific problem, rather....<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; /*<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 * [XSI] Definitions for UNIX IPC domain=
-.<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 */<br>
-&gt; &gt; &gt; &gt; &gt; &gt; struct=C2=A0 sockaddr_un {<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0unsigned char=C2=A0 =C2=A0=
-sun_len;=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* sockaddr len including null */<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0sa_family_t=C2=A0 =C2=A0 =
-=C2=A0sun_family;=C2=A0 =C2=A0 =C2=A0/* [XSI] AF_UNIX */<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0char=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 sun_path[104];=C2=A0 /* [XSI] path name (gag) */<br>
-&gt; &gt; &gt; &gt; &gt; &gt; };<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; The path we&#39;re using is exactly 105 chara=
-cters:<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; $ python<br>
-&gt; &gt; &gt; &gt; &gt; &gt; Python 2.7.10 (default, Jan 19 2016, 22:24:01=
-)<br>
-&gt; &gt; &gt; &gt; &gt; &gt; [GCC 4.2.1 Compatible Apple LLVM 7.0.2 (clang=
--700.1.81)] on darwin<br>
-&gt; &gt; &gt; &gt; &gt; &gt; Type &quot;help&quot;, &quot;copyright&quot;,=
- &quot;credits&quot; or &quot;license&quot; for more information.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt;&gt;&gt; len(&#39;/var/folders/d7/rz20f6h=
-d709c1ty8f6_6y_z40000gn/T/avo_qemu_sock_uh3w_dgc/qemu-37331-10bacf110-monit=
-or.sock&#39;)<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; It is a problem related to where the test suite is=
- creating the<br>
-&gt; &gt; &gt; &gt; &gt; paths.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/a=
-vo_qemu_sock_uh3w_dgc/<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; is way too deep a directory location.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; That&#39;s a good point.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; It seems we just create this location using &#39;t=
-empfile.TemporyDirectory&#39;<br>
-&gt; &gt; &gt; &gt; &gt; to get a standard tmp dir.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Do you know why python is choosing<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0/var/folders/d7/rz20f6hd709c1ty8f6_6y_=
-z40000gn/T/<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; as the temp dir ? Is that a standard location on m=
-acOS or is it<br>
-&gt; &gt; &gt; &gt; &gt; from some env variable you have set ?<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Hmmm yeah it is odd, I&#39;m not really sure why it&#39=
-;s created there or if<br>
-&gt; &gt; &gt; &gt; standard glibc tmpfile creation goes there too, I&#39;l=
-l go experiment and<br>
-&gt; &gt; &gt; &gt; report back. And yeah, maybe I&#39;ll double check any =
-environment variables or<br>
-&gt; &gt; &gt; &gt; other things.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; The macOS system I use happens to be a Facebook work la=
-ptop, which could<br>
-&gt; &gt; &gt; &gt; also be related now that I think about it.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Hmmm yeah looks like this is because my TMPDIR is weird.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; $ echo $TMPDIR<br>
-&gt; &gt; &gt; /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I didn&#39;t think to check this cause I wasn&#39;t familiar=
- with TMPDIR. =F0=9F=A4=B7<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Thanks for responding, I&#39;ll just use TMPDIR=3D/tmp for n=
-ow. It&#39;s probably<br>
-&gt; &gt; &gt; something wrong with the Facebook development environment.<b=
+On Mon, 11 Jul 2022, John Snow wrote:<br>
+<br>
+&gt; On Sun, Jul 10, 2022 at 1:01 PM Ani Sinha &lt;<a href=3D"mailto:ani@an=
+isinha.ca" target=3D"_blank" rel=3D"noreferrer">ani@anisinha.ca</a>&gt; wro=
+te:<br>
+&gt; &gt;<br>
+&gt; &gt; This is initial commit of cpuid, acpi and smbios python test scri=
+pts for<br>
+&gt; &gt; biosbits to execute. No change has been made to them from the ori=
+ginal code<br>
+&gt; &gt; written by the biosbits author Josh Triplett. They are required t=
+o be installed<br>
+&gt; &gt; into the bits iso file and then run from within the virtual machi=
+ne booted off<br>
+&gt; &gt; with biosbits iso.<br>
+&gt; &gt;<br>
+&gt; &gt; The original location of these tests are here:<br>
+&gt; &gt; <a href=3D"https://github.com/biosbits/bits/blob/master/python/te=
+stacpi.py" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.c=
+om/biosbits/bits/blob/master/python/testacpi.py</a><br>
+&gt; &gt; <a href=3D"https://github.com/biosbits/bits/blob/master/python/sm=
+bios.py" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.com=
+/biosbits/bits/blob/master/python/smbios.py</a><br>
+&gt; &gt; <a href=3D"https://github.com/biosbits/bits/blob/master/python/te=
+stcpuid.py" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.=
+com/biosbits/bits/blob/master/python/testcpuid.py</a><br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" t=
+arget=3D"_blank" rel=3D"noreferrer">ani@anisinha.ca</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 tests/pytest/acpi-bits/bits-tests/meson.build |=C2=A0 =C2=
+=A011 +<br>
+&gt; &gt;=C2=A0 tests/pytest/acpi-bits/bits-tests/smbios.py=C2=A0 =C2=A0| 2=
+430 +++++++++++++++++<br>
+&gt; &gt;=C2=A0 tests/pytest/acpi-bits/bits-tests/testacpi.py |=C2=A0 283 +=
++<br>
+&gt; &gt;=C2=A0 .../pytest/acpi-bits/bits-tests/testcpuid.py=C2=A0 |=C2=A0 =
+=C2=A083 +<br>
+&gt; &gt;=C2=A0 4 files changed, 2807 insertions(+)<br>
+&gt; &gt;=C2=A0 create mode 100644 tests/pytest/acpi-bits/bits-tests/meson.=
+build<br>
+&gt; &gt;=C2=A0 create mode 100644 tests/pytest/acpi-bits/bits-tests/smbios=
+.py<br>
+&gt; &gt;=C2=A0 create mode 100644 tests/pytest/acpi-bits/bits-tests/testac=
+pi.py<br>
+&gt; &gt;=C2=A0 create mode 100644 tests/pytest/acpi-bits/bits-tests/testcp=
+uid.py<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/tests/pytest/acpi-bits/bits-tests/meson.build b/test=
+s/pytest/acpi-bits/bits-tests/meson.build<br>
+&gt; &gt; new file mode 100644<br>
+&gt; &gt; index 0000000000..3056731a53<br>
+&gt; &gt; --- /dev/null<br>
+&gt; &gt; +++ b/tests/pytest/acpi-bits/bits-tests/meson.build<br>
+&gt; &gt; @@ -0,0 +1,11 @@<br>
+&gt; &gt; +test_files =3D [&#39;smbios.py&#39;, &#39;testacpi.py&#39;, &#39=
+;testcpuid.py&#39;]<br>
+&gt; &gt; +<br>
+&gt; &gt; +copytestfiles =3D custom_target(&#39;copy test files&#39;,<br>
+&gt; &gt; +=C2=A0 input : test_files,<br>
+&gt; &gt; +=C2=A0 output :=C2=A0 test_files,<br>
+&gt; &gt; +=C2=A0 command : [&#39;cp&#39;, &#39;@INPUT@&#39;, &#39;@OUTDIR@=
+&#39;],<br>
+&gt; &gt; +=C2=A0 install : true,<br>
+&gt; &gt; +=C2=A0 install_dir : &#39;bits-tests&#39;,<br>
+&gt; &gt; +=C2=A0 build_by_default : true)<br>
+&gt; &gt; +<br>
+&gt; &gt; +other_deps +=3D copytestfiles<br>
+&gt; &gt; diff --git a/tests/pytest/acpi-bits/bits-tests/smbios.py b/tests/=
+pytest/acpi-bits/bits-tests/smbios.py<br>
+&gt; &gt; new file mode 100644<br>
+&gt; &gt; index 0000000000..9667d0542c<br>
+&gt; &gt; --- /dev/null<br>
+&gt; &gt; +++ b/tests/pytest/acpi-bits/bits-tests/smbios.py<br>
+&gt; &gt; @@ -0,0 +1,2430 @@<br>
+&gt; &gt; +# Copyright (c) 2015, Intel Corporation<br>
+&gt; &gt; +# All rights reserved.<br>
+&gt; &gt; +#<br>
+&gt; &gt; +# Redistribution and use in source and binary forms, with or wit=
+hout<br>
+&gt; &gt; +# modification, are permitted provided that the following condit=
+ions are met:<br>
+&gt; &gt; +#<br>
+&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0* Redistributions of source code must retai=
+n the above copyright notice,<br>
+&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0this list of conditions and the foll=
+owing disclaimer.<br>
+&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0* Redistributions in binary form must repro=
+duce the above copyright notice,<br>
+&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0this list of conditions and the foll=
+owing disclaimer in the documentation<br>
+&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0and/or other materials provided with=
+ the distribution.<br>
+&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0* Neither the name of Intel Corporation nor=
+ the names of its contributors<br>
+&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0may be used to endorse or promote pr=
+oducts derived from this software<br>
+&gt; &gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0without specific prior written permi=
+ssion.<br>
+&gt; &gt; +#<br>
+&gt; &gt; +# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIB=
+UTORS &quot;AS IS&quot; AND<br>
+&gt; &gt; +# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED =
+TO, THE IMPLIED<br>
+&gt; &gt; +# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PUR=
+POSE ARE<br>
+&gt; &gt; +# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUT=
+ORS BE LIABLE FOR<br>
+&gt; &gt; +# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSE=
+QUENTIAL DAMAGES<br>
+&gt; &gt; +# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOOD=
+S OR SERVICES;<br>
+&gt; &gt; +# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEV=
+ER CAUSED AND ON<br>
+&gt; &gt; +# ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY=
+, OR TORT<br>
+&gt; &gt; +# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF =
+THE USE OF THIS<br>
+&gt; &gt; +# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<b=
 r>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Peter<br>
-&gt; &gt;<br>
-&gt; &gt; Update: Actually, this might not be a Facebook-work-laptop specif=
-ic<br>
-&gt; &gt; thing.=C2=A0 I asked my non-engineer friend to print out $TMPDIR =
-on his<br>
-&gt; &gt; macbook and he got the same thing.<br>
-&gt; &gt;<br>
-&gt; &gt; <a href=3D"https://apple.stackexchange.com/questions/353832/why-i=
-s-mac-osx-temp-directory-in-weird-path" rel=3D"noreferrer noreferrer" targe=
-t=3D"_blank">https://apple.stackexchange.com/questions/353832/why-is-mac-os=
-x-temp-directory-in-weird-path</a><br>
-&gt; &gt;<br>
-&gt; &gt; I guess this person suggests it&#39;s just to separate the permis=
-sions for<br>
-&gt; &gt; each user&#39;s /tmp directory, for better isolation.<br>
-&gt; &gt;<br>
-&gt; &gt; I&#39;ll resubmit this patch with the suggestions you had, becaus=
-e perhaps<br>
-&gt; &gt; this is actually affecting other macOS users too.<br>
-&gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; diff --git a/python/qemu/machine/machine.py b=
-/python/qemu/machine/machine.py<br>
-&gt; &gt; &gt; &gt; &gt; &gt; index 37191f433b..93451774e3 100644<br>
-&gt; &gt; &gt; &gt; &gt; &gt; --- a/python/qemu/machine/machine.py<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +++ b/python/qemu/machine/machine.py<br>
-&gt; &gt; &gt; &gt; &gt; &gt; @@ -157,7 +157,7 @@ def __init__(self,<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._wrapp=
-er =3D wrapper<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._qmp_t=
-imer =3D qmp_timer<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._name =3D n=
-ame or f&quot;qemu-{os.getpid()}-{id(self):02x}&quot;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._name =3D n=
-ame or f&quot;{os.getpid()}{id(self):02x}&quot;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; I don&#39;t think this is the right fix really, be=
-cause IMHO the problem<br>
-&gt; &gt; &gt; &gt; &gt; is the hugely long path, rather than the final soc=
-ket name.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; True, yeah let me try to investigate the directory plac=
-ement.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; That said, there is redundancy in the path - avoca=
-do is passing in<br>
-&gt; &gt; &gt; &gt; &gt; a dierctory created using &#39;tempfile.TemporyDir=
-ectory&#39; so there is no<br>
-&gt; &gt; &gt; &gt; &gt; reason why we need to add more entropy via the POD=
- and the &#39;id(self)&#39;<br>
-&gt; &gt; &gt; &gt; &gt; hex string.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Oh good point, I hadn&#39;t thought about that.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; IMHO avocado should pass in the &#39;name&#39; par=
-ameter explicitly, using a<br>
-&gt; &gt; &gt; &gt; &gt; plain name and thus get a shorter string.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; I see, yeah that makes sense. Maybe I can include a cou=
-ple patches for this,<br>
-&gt; &gt; &gt; &gt; one fixing the directory location, and one refactoring =
-the temporary file<br>
-&gt; &gt; &gt; &gt; name template (If I&#39;m understanding your suggestion=
- correctly).<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Thanks for the review! I really appreciate it.<br>
-&gt; &gt; &gt; &gt; Peter<br>
-&gt; <br>
-&gt; I agree with Dan: I believe the correct solution here is for Avocado<b=
+&gt; &gt; +<br>
+&gt; &gt; +&quot;&quot;&quot;SMBIOS/DMI module.&quot;&quot;&quot;<br>
+&gt; &gt; +<br>
+&gt; &gt; +import bits<br>
+&gt; &gt; +import bitfields<br>
+&gt;<br>
+&gt; New deps?<br>
+&gt;<br>
+&gt; &gt; +import ctypes<br>
+&gt; &gt; +import redirect<br>
+&gt;<br>
+&gt; Also a new dep?<br>
+&gt;<br>
+&gt; &gt; +import struct<br>
+&gt; &gt; +import uuid<br>
+&gt; &gt; +import unpack<br>
+&gt;<br>
+&gt; And another?<br>
+&gt;<br>
+&gt; &gt; +import ttypager<br>
+&gt; &gt; +import sys<br>
+&gt;<br>
+&gt; What&#39;s the proposed strategy for dependency management for these<b=
 r>
-&gt; to provide its own less redundant name; but the default name that<br>
-&gt; machine.py provides is not *that* long and provides adequate<br>
-&gt; protection against collisions with multiple instances of the VM<br>
-&gt; utility within a single python process. If Avocado is creating its own=
+&gt; tests? I know there&#39;s some mail I&#39;m backlogged on ...<br>
+&gt;<br>
 <br>
-&gt; directories that guard against that redundancy, Avocado should provide=
-<br>
-&gt; a shortened name for the VM.<br>
-<br>
-Hmmm, I see.<br>
-<br>
-&gt; <br>
-&gt; Note that the QEMUMachine process also provides a sock_dir parameter<b=
+For some reason I did not need to add those libraries as dependencies. If<b=
 r>
-&gt; that was introduced for precisely this reason; it should be possible<b=
-r>
-&gt; to instruct the avocado tests to use a shorter path for sock_dir.<br>
-&gt; <br>
-&gt; I&#39;m not clear on what the best &quot;just works&quot; solution wil=
-l be when<br>
-&gt; certain operating environments choose a tmp dir that&#39;s quite long =
-to<br>
-&gt; begin with; maybe we need a different default sockfile naming strategy=
-<br>
-&gt; that avoids the instance collision problem in machine.py, too. Ideas?<=
-br>
-<br>
-I guess I don&#39;t really understand why QEMU is attempting to create a<br=
->
-unique path instead of just using mktemp(), right? This seems like<br>
-something that the OS can provide. If we want some semblance of meaning<br>
-to the filename, we can provide a short template, right?<br></blockquote></=
-div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Yeah, should be goo=
-d. The &quot;name&quot; of the VM should be left unique for logging purpose=
-s, so the name should remain as-is, IMO.</div><div dir=3D"auto"><br></div><=
-div dir=3D"auto">However, if you want to change how we create the sockfile =
-by using a new, temporary name (and not the vm name), that works for me as =
-far as I can remember.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I=
- think there was some desire to have the temp file obviously correlate to t=
-he instance, but that&#39;s not a hard requirement, so feel free to change =
-that part.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Just make sur=
-e that come hell or high water the sockfile is cleaned up on exit.</div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div=
- class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
--- Peter<br>
-<br><br>
-&gt; <br>
-&gt; --js<br>
-&gt; <br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._temp_=
-dir: Optional[str] =3D None<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._base_=
-temp_dir =3D base_temp_dir<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._sock_=
-dir =3D sock_dir<br>
-&gt; &gt; &gt; &gt; &gt; &gt; @@ -167,7 +167,7 @@ def __init__(self,<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 self._monitor_address =3D monitor_address<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 self._monitor_address =3D os.path.join(<br>
-&gt; &gt; &gt; &gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 self.sock_dir, f&quot;{self._name}-monitor.sock&quot;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 self.sock_dir, f&quot;{self._name}.sock&quot;<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 )<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._conso=
-le_log_path =3D console_log<br>
-&gt; &gt; &gt; &gt; &gt; &gt; --<br>
-&gt; &gt; &gt; &gt; &gt; &gt; 2.37.0<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; With regards,<br>
-&gt; &gt; &gt; &gt; &gt; Daniel<br>
-&gt; &gt; &gt; &gt; &gt; --<br>
-&gt; &gt; &gt; &gt; &gt; |: <a href=3D"https://berrange.com" rel=3D"norefer=
-rer noreferrer" target=3D"_blank">https://berrange.com</a>=C2=A0 =C2=A0 =C2=
-=A0 -o-=C2=A0 =C2=A0 <a href=3D"https://www.flickr.com/photos/dberrange" re=
-l=3D"noreferrer noreferrer" target=3D"_blank">https://www.flickr.com/photos=
-/dberrange</a> :|<br>
-&gt; &gt; &gt; &gt; &gt; |: <a href=3D"https://libvirt.org" rel=3D"noreferr=
-er noreferrer" target=3D"_blank">https://libvirt.org</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"ht=
-tps://fstop138.berrange.com" rel=3D"noreferrer noreferrer" target=3D"_blank=
-">https://fstop138.berrange.com</a> :|<br>
-&gt; &gt; &gt; &gt; &gt; |: <a href=3D"https://entangle-photo.org" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">https://entangle-photo.org</a>=C2=
-=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"https://www.instagram.com/dberrange"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.instagram.com/=
-dberrange</a> :|<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; <br>
-<br>
+needed we can add them in requirements.txt for pyenv.<br></blockquote></div=
+></div><div dir=3D"auto"><br></div><div dir=3D"auto">Probably pulled in as =
+deps to what you do install; pinning them may be helpful for repeatability =
+reasons and to avoid playing whackamole with new pypi releases during the r=
+c testing phase - speaking from experience with the other python test packa=
+ges in the tree.</div><div dir=3D"auto"><br></div><div dir=3D"auto">That sa=
+id, explicitly enumerating all of the deps is also a costly maintenance act=
+ivity, so ... YMMV.</div><div dir=3D"auto"><br></div><div dir=3D"auto">It d=
+epends on how fastidiously the main requirements you state manage their own=
+ sub deps. Some projects do it well, some don&#39;t.=C2=A0</div><div dir=3D=
+"auto"><br></div><div dir=3D"auto">Just something to consider.</div><div di=
+r=3D"auto"><br></div><div dir=3D"auto">--js</div><div dir=3D"auto"><div cla=
+ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">
 </blockquote></div></div></div>
 
---0000000000008feac905e39d1fcd--
+--0000000000009628e005e39d4127--
 
 
