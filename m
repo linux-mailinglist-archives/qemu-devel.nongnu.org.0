@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810B457285A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 23:16:31 +0200 (CEST)
-Received: from localhost ([::1]:48296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1E05727FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 22:56:46 +0200 (CEST)
+Received: from localhost ([::1]:42134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBNF5-0008Mp-Nw
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 17:16:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60814)
+	id 1oBMw1-0000xS-Pf
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 16:56:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBNA5-0000u2-27
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 17:11:17 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53186)
+ id 1oBMtF-0005RW-UB
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:53:53 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBNA3-00019k-J9
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 17:11:16 -0400
-Received: by mail-wm1-x332.google.com with SMTP id o8so5421126wms.2
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 14:11:15 -0700 (PDT)
+ id 1oBMtD-0007Aw-Kw
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:53:53 -0400
+Received: by mail-wr1-x429.google.com with SMTP id d16so12798008wrv.10
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 13:53:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=eN052Hkv67zritsFaQPBSx0lPuNQMc4eVhsvbxQxwr8=;
- b=X1nnVH+Vv/OYrX0gMTPh6k/bZDw69kuzCxNmtlGqD1rrfrxm5FlpPThXtGYFEkNCFJ
- tyIO+xnbwL7endyEZPcaG6v2aTffXlMsNVsCG4I8oaqYclKVszbkGTZiN/GOIOXap6+6
- D6xMsOgTA+X01lj9weooKSx4LDMs8tSK1VDaBA1sKxJQYHBq9ZTPo1frgvXHblmuwP7Q
- ZLUgW1+uDf78SBPZk2PROFsnxuuAnQP4OYOk+V68ivKq1V2ATAxwbRPPlmmSiY0TpF7M
- tSuGJH0XjCJcbhT6k2zrNo9D+UHRh7BwwkpIzkvFEZNaqD4X1s4/Jdwm3K9czk5uI9Hv
- Nn+w==
+ bh=blVlv4jhWFybm66tURNwjdfYLWf7AYdSvlRAmjpIyaw=;
+ b=gKX4h9lOLDjo5tleOC42x3Q7i/ZqwYZHDkjgoeVQZm6ZtPd4YtReTMM+OZzdKifNWt
+ nRMvqemHuZO6gokGnEGCY0Iyw/9Ogrpzfk9GotqEhZPUDr6ZYJKKS2EKmx9vKLGE/a6N
+ 2DQsBsQxqgEtVMaJ1EVicewGw88tPxyvTfSSXoNfYbdSOhCRh9dVGKoht2AQ8jIY3MVy
+ EBhCcxBb4WvbQPQfiCtwG1ujn6/+QfxKQ5RgTsg6cfCydvRv2qsNgcd7Q11iPJ8lWKL2
+ AsWIqdak3MF3ewsM+EqSCIj4+A970CdJZzcB5ES+UggZ9FY2M9oS0qGuauMbHrt/XX53
+ tqaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=eN052Hkv67zritsFaQPBSx0lPuNQMc4eVhsvbxQxwr8=;
- b=g9nfY7FgU8QD15CvPscaiN+ygkFggW5CGOJZkNjkeduUKyEc9LSWB2ZGEfLgdPfObt
- BpD+/PB7M4TgiaT42gSDNPhDoTeQ95PzigEhytC+KHy0vt85nbJoPO/claEjDnVVosDK
- BjHHoaqi7xinsR1ECwXf2ZoSaNdGY77NC1ImMuzbTQWKDdzTYhpTKXrKMMcDx1ABQAC8
- Wg1prXHEiwJaCktCsEayCMMH2ie86xVnssL7sR3SdWgdpUc0P2O+3YnJe+YlRsVPyfPw
- P0v18p5XWaUmfEw/Y4qyn34hZNlE9Wg6+BnowbKs5Yy3EgUUwQJiNBP9/KcotFAqnv6G
- V03w==
-X-Gm-Message-State: AJIora/xcNwD/lUFcypga1Rxb0SKosAqgA6y393XhS5Tn/aqWrArFSx3
- Wlv1s1V0RQRWA7StWCCed3s=
-X-Google-Smtp-Source: AGRyM1vmmDf/FXzioza4AlDY2L0irCgsXWddg1XvFY20KPqp9LCSGZxwpx66mlhmB1Nrqw3DpDXzeQ==
-X-Received: by 2002:a05:600c:190b:b0:3a0:ac8a:7c2d with SMTP id
- j11-20020a05600c190b00b003a0ac8a7c2dmr6051552wmq.205.1657660274257; 
- Tue, 12 Jul 2022 14:11:14 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=blVlv4jhWFybm66tURNwjdfYLWf7AYdSvlRAmjpIyaw=;
+ b=uK2P8bM3aIrBkZ1l1AzxzfQL501OHJU91WbNReCKO+zadqhuz5fjolbVEp1tz6dg7z
+ L1ODHIM6fq095+M2JbqJgnnsPALfft5fK4GB7KNkeTZ/3gh7k5PnP1/MTCzNlEVsvXXP
+ js9g9kWfF+wTkwxBI2iKruozctKMHKGR5OWazLhyIPD6Y2iHPTHw59hle0Fj5YzA4FTA
+ +hqGy+kd44qOSrBi9Cr98cLLTxqiYlrZndR1s2EV8ISMMXVfDbT88ZHx32owXKyYG2qp
+ USWrYilihwMm/Yx1037yVYrmtvzAF2jtF3TpB68R3bUKQDVCa9fdqg5MXya1rnGIUzIX
+ J9FQ==
+X-Gm-Message-State: AJIora+YiyAMard/yfOoRMB9OsIhFg4C9+hUF0rY4wvRDwF9A4yLy1aX
+ R8oFP3neOuNUlhV9mPIIaN4YbtA1F0wSRY+d
+X-Google-Smtp-Source: AGRyM1t/lbEdlqYX3POHnbD1qRuS8KAHspIP2OH6vcrTMt4/nxehA/pWRXaLfw6uRajm39xyoT28bQ==
+X-Received: by 2002:a5d:5504:0:b0:21d:6dca:f720 with SMTP id
+ b4-20020a5d5504000000b0021d6dcaf720mr23378306wrv.141.1657659229780; 
+ Tue, 12 Jul 2022 13:53:49 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- c9-20020adfed89000000b0021d9233e7e6sm11027557wro.54.2022.07.12.14.11.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 14:11:13 -0700 (PDT)
-Message-ID: <55891da0-4597-4667-fb64-86af21f04861@amsat.org>
-Date: Tue, 12 Jul 2022 22:44:04 +0200
+ l16-20020a7bc450000000b003a2d6f26babsm102601wmi.3.2022.07.12.13.53.48
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 12 Jul 2022 13:53:49 -0700 (PDT)
+To: qemu-devel@nongnu.org
+Cc: Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Subject: [PULL 00/12] MIPS patches for 2022-07-12
+Date: Tue, 12 Jul 2022 22:53:35 +0200
+Message-Id: <20220712205347.58372-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH] configure: Restrict TCG to emulation
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220706153816.768143-1-thuth@redhat.com>
-In-Reply-To: <20220706153816.768143-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -95,25 +90,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
+Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On 6/7/22 17:38, Thomas Huth wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> If we don't need to emulate any target, we certainly don't need TCG.
-> 
-> This should also help to compile again with
->   ".../configure --enable-tools --disable-system --disable-user"
-> on systems that do not have a TCG backend.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> [thuth: Re-arranged the code, remove check-softfloat from buildtest.yml]
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   configure                  | 20 ++++++++++++++------
->   .gitlab-ci.d/buildtest.yml |  2 +-
->   2 files changed, 15 insertions(+), 7 deletions(-)
+The following changes since commit 8e3d85d36b77f11ad7bded3a2d48c1f0cc334f82:
 
-Thanks for re-spinning! Queued via mips-next.
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-07-12 14:12:15 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/philmd/qemu.git tags/mips-20220712
+
+for you to fetch changes up to b10ccec10096a27bb3b99a7291d5a3d5c826a1f3:
+
+  target/mips: Remove GET_TARGET_STRING and FREE_TARGET_STRING (2022-07-12 22:32:22 +0200)
+
+----------------------------------------------------------------
+MIPS patches queue
+
+- Cavium Octeon MIPS extension and CPU model (Pavel Dovgalyuk)
+- Semihosting cleanup (Richard Henderson)
+
+----------------------------------------------------------------
+
+Pavel Dovgalyuk (4):
+  target/mips: introduce decodetree structure for Cavium Octeon
+    extension
+  target/mips: implement Octeon-specific BBIT instructions
+  target/mips: implement Octeon-specific arithmetic instructions
+  target/mips: introduce Cavium Octeon CPU model
+
+Richard Henderson (8):
+  target/mips: Create report_fault for semihosting
+  target/mips: Drop link syscall from semihosting
+  target/mips: Use semihosting/syscalls.h
+  target/mips: Avoid qemu_semihosting_log_out for UHI_plog
+  target/mips: Use error_report for UHI_assert
+  semihosting: Remove qemu_semihosting_log_out
+  target/mips: Simplify UHI_argnlen and UHI_argn
+  target/mips: Remove GET_TARGET_STRING and FREE_TARGET_STRING
+
+ include/semihosting/console.h      |  13 -
+ semihosting/console.c              |   9 -
+ target/mips/cpu-defs.c.inc         |  28 ++
+ target/mips/mips-defs.h            |   1 +
+ target/mips/tcg/meson.build        |   2 +
+ target/mips/tcg/octeon.decode      |  41 +++
+ target/mips/tcg/octeon_translate.c | 201 +++++++++++++++
+ target/mips/tcg/sysemu/mips-semi.c | 397 ++++++++++++++---------------
+ target/mips/tcg/translate.c        |   5 +
+ target/mips/tcg/translate.h        |   1 +
+ 10 files changed, 465 insertions(+), 233 deletions(-)
+ create mode 100644 target/mips/tcg/octeon.decode
+ create mode 100644 target/mips/tcg/octeon_translate.c
+
+-- 
+2.36.1
+
 
