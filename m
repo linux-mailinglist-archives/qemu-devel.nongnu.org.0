@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A2C571B0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 15:21:37 +0200 (CEST)
-Received: from localhost ([::1]:48416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C512D571AE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 15:13:36 +0200 (CEST)
+Received: from localhost ([::1]:39914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBFpY-00055b-IC
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 09:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51988)
+	id 1oBFhn-0007Af-UZ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 09:13:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLK-00037p-Ai
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55703)
+ id 1oBFLL-00037w-Qu
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLI-0001Ss-Ep
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:22 -0400
+ id 1oBFLI-0001TL-Rb
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657630219;
+ s=mimecast20190719; t=1657630220;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HOJOnSmKg2WSy30NZDwJenV9RNS5JdblfeNNvCQXTJ0=;
- b=G0JpMhE/YqDcgKJurEpnal2pSE8C0lsKp3AZkgbnOu5GE9yX3i9HqK4JIDUpXYr/i1+569
- jx43M8V4lZAsS3sYIQtVEI2YmaAhzy+jmG76B4aCw2hfehwCBhBI6h+Js8PljWgVO9TzJW
- d+9koHaQtRYETYj4lRmddiAEu2Eg9sc=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7qmpefHMeFqt7J+eOJs+uvYBST3HY9OKBgcZualR70g=;
+ b=FPhpnJqvasNtp8LLf60564EVNIRyER4w4c1yGas2Aib1RcZSWUsn60oz/giA9BgUqNv+tH
+ TNkg3897T41czfvTQA4DdsZ33zRdMcPD3lV6yMi87jrkL4aOcLPN+R5Xs7oOcDo6ZqwZoq
+ IRs/lrdLaALkzARWFNMmRjrSzSfGABw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-bfNTCLlvPZKc9KOhXHx84A-1; Tue, 12 Jul 2022 08:50:15 -0400
-X-MC-Unique: bfNTCLlvPZKc9KOhXHx84A-1
-Received: by mail-ed1-f71.google.com with SMTP id
- c9-20020a05640227c900b0043ad14b1fa0so4003334ede.1
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:15 -0700 (PDT)
+ us-mta-338-Q8eEJzbHNmmJOFV0HYn54w-1; Tue, 12 Jul 2022 08:50:16 -0400
+X-MC-Unique: Q8eEJzbHNmmJOFV0HYn54w-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ b15-20020a056402278f00b0043acaf76f8dso4733770ede.21
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HOJOnSmKg2WSy30NZDwJenV9RNS5JdblfeNNvCQXTJ0=;
- b=fyt/c4iIvdSiWUhMgZb7GF+z69ANFN6CRJHHqz1G5CwGe9hF8muh8CxpSLV4obnlFQ
- bV998RPMSjbQdmahN6Pr5PZvaWqOD/BwNXMlrhnEs1L14oyPldPLbvVddBkWRod+c+87
- jSZhqTO+as7a9sMSSa83ZpaXpJBNk5mKXp5i+MOu/eAHhnUQTuxjPpZxICBw1UF23MS7
- NE8iJAb23dXyuTUn+2riCyQnPz+KXUfYVmy1uK8XRRXkUVShaZD0NzfC8dHT/jEeY9eY
- zZAXDyEaIUAh8oo7vpDB/Wa8ECsaq8n6FCf2JeltOPs7/i+6kHsq0yN9u8wdSR/MGzaQ
- 04sQ==
-X-Gm-Message-State: AJIora+x1P4FQlPtqwaLN5yoNztwkZ4X05Fdi3clBIW7Ih/OZLy9idRj
- ZyiSKYVuMudnOlJ+FFQhqYByGOnsa/F2rWVtLtnvvm4zzCLc/RP2hRrwt/8ko6FG+WyMVOljczy
- mgZFNVDaAcHnE+VSKLKuEGrjhrlwDf84cEURJ0S4ymcVJ1uhciKRFjVwfa75kBsRlZkE=
-X-Received: by 2002:a17:907:7292:b0:726:95e4:5a21 with SMTP id
- dt18-20020a170907729200b0072695e45a21mr24082084ejc.266.1657630214029; 
+ bh=7qmpefHMeFqt7J+eOJs+uvYBST3HY9OKBgcZualR70g=;
+ b=UAO8hjGsfMhHYX0vgfuDvU8JNiiK7IOZN44MQFeljeoPYybyYbh56bKJgAYTRtej04
+ Y5FE1IbnPMLW2AzQuYXnZodVhBubrm9JzTNW8dVUXm3KAByqanYDQ2FCaG3qErAqZ269
+ Hc1osC1zV+1j03NEuMO9fLzaqNxudjmvaA7lhDnYNLmVzHLA4kteMlg+TTzdIK8JjUbl
+ NBpi5ImNIURr5JIGlpDFk6neaKByV63Ptya+hXjSPoSyM8fsuYPTkb14UVGpeGIJZH8W
+ QtF1IcoNmnpK2tfCyCBIvD7EgtxZRhfqG61KtbLweLwZXtfd1Xa+Z/7AYBnC/GD0mARr
+ y2uw==
+X-Gm-Message-State: AJIora8/ZNoCM08uyPw8LDID4w7llqvtevJfwHssMB22JwDnlRFk7PRt
+ 0LxeUargbmNE4/Mgwy1xuzoCXuDehRPyAKw+/VDoy1DD91pNm5YIWNm9j9wCNZMVUT8/xOX9f+9
+ QsOF42kO2erhIFDgORv29AmWp/4n4jsOG9ZUcHlnykUkyFhSwR9lWk7NXZ6nhb6EBcXs=
+X-Received: by 2002:a05:6402:c48:b0:437:d938:9691 with SMTP id
+ cs8-20020a0564020c4800b00437d9389691mr31279340edb.254.1657630215257; 
+ Tue, 12 Jul 2022 05:50:15 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uGfcQtSFvKNFQloyESJXKNvldgaKsuebolDUYvclxDIMYTkWPOrzNbihmwZxtamH2Ku3m7iA==
+X-Received: by 2002:a05:6402:c48:b0:437:d938:9691 with SMTP id
+ cs8-20020a0564020c4800b00437d9389691mr31279298edb.254.1657630214900; 
  Tue, 12 Jul 2022 05:50:14 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tLawvZHJuvj4b9THQm6/o32Lw2izbNCfyIxfQa7a4Eo1zQM4rI2984YvveqyOH+KE+KXE+Qw==
-X-Received: by 2002:a17:907:7292:b0:726:95e4:5a21 with SMTP id
- dt18-20020a170907729200b0072695e45a21mr24082043ejc.266.1657630213670; 
- Tue, 12 Jul 2022 05:50:13 -0700 (PDT)
 Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- 25-20020a170906309900b00722e57fa051sm3810358ejv.90.2022.07.12.05.50.12
+ d18-20020a170906345200b007052b183d51sm3762346ejb.132.2022.07.12.05.50.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jul 2022 05:50:13 -0700 (PDT)
+ Tue, 12 Jul 2022 05:50:14 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/18] tests/tcg: compile system emulation tests as freestanding
-Date: Tue, 12 Jul 2022 14:49:47 +0200
-Message-Id: <20220712124956.150451-10-pbonzini@redhat.com>
+Subject: [PULL 10/18] configure: pass whole target name to
+ probe_target_compiler
+Date: Tue, 12 Jul 2022 14:49:48 +0200
+Message-Id: <20220712124956.150451-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220712124956.150451-1-pbonzini@redhat.com>
 References: <20220712124956.150451-1-pbonzini@redhat.com>
@@ -98,84 +99,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-System emulation tests do not run in a hosted environment, since they
-do not link with libc.  They should only use freestanding headers
-(float.h, limits.h, stdarg.h, stddef.h, stdbool.h, stdint.h,
-stdalign.h, stdnoreturn.h) and should be compiled with -ffreestanding
-in order to use the compiler implementation of those headers
-rather than the one in libc.
-
-Some tests are using inttypes.h instead of stdint.h, so fix that.
+Let probe_target_compiler know if it is looking for a compiler for a
+softmmu (freestanding) or a linux-user (hosted) environment.  The
+detection for the compiler has to be done differently in the two
+cases.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/tcg/Makefile.target              | 1 +
- tests/tcg/aarch64/system/pauth-3.c     | 2 +-
- tests/tcg/aarch64/system/semiconsole.c | 2 +-
- tests/tcg/aarch64/system/semiheap.c    | 2 +-
- tests/tcg/multiarch/system/memory.c    | 2 +-
- 5 files changed, 5 insertions(+), 4 deletions(-)
+ configure | 52 ++++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 32 insertions(+), 20 deletions(-)
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index f427a0304e..e68830af15 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -111,6 +111,7 @@ else
- # For softmmu targets we include a different Makefile fragement as the
- # build options for bare programs are usually pretty different. They
- # are expected to provide their own build recipes.
-+EXTRA_CFLAGS += -ffreestanding
- -include $(SRC_PATH)/tests/tcg/minilib/Makefile.target
- -include $(SRC_PATH)/tests/tcg/multiarch/system/Makefile.softmmu-target
- -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.softmmu-target
-diff --git a/tests/tcg/aarch64/system/pauth-3.c b/tests/tcg/aarch64/system/pauth-3.c
-index 42eff4d5ea..77a467277b 100644
---- a/tests/tcg/aarch64/system/pauth-3.c
-+++ b/tests/tcg/aarch64/system/pauth-3.c
-@@ -1,4 +1,4 @@
--#include <inttypes.h>
-+#include <stdint.h>
- #include <minilib.h>
+diff --git a/configure b/configure
+index 0fd2838e82..5256bc88e5 100755
+--- a/configure
++++ b/configure
+@@ -1875,6 +1875,17 @@ compute_target_variable() {
+   fi
+ }
  
- int main()
-diff --git a/tests/tcg/aarch64/system/semiconsole.c b/tests/tcg/aarch64/system/semiconsole.c
-index bfe7c9e26b..81324c639f 100644
---- a/tests/tcg/aarch64/system/semiconsole.c
-+++ b/tests/tcg/aarch64/system/semiconsole.c
-@@ -6,7 +6,7 @@
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
++# probe_target_compiler TARGET
++#
++# Look for a compiler for the given target, either native or cross.
++# Set variables target_* if a compiler is found, and container_cross_*
++# if a Docker-based cross-compiler image is known for the target.
++# Set got_cross_cc to yes/no depending on whether a non-container-based
++# compiler was found.
++#
++# If TARGET is a user-mode emulation target, also set build_static to
++# "y" if static linking is possible.
++#
+ probe_target_compiler() {
+   # reset all output variables
+   container_image=
+@@ -1896,7 +1907,8 @@ probe_target_compiler() {
+   target_ranlib=
+   target_strip=
  
--#include <inttypes.h>
-+#include <stdint.h>
- #include <minilib.h>
+-  case $1 in
++  target_arch=${1%%-*}
++  case $target_arch in
+     aarch64) container_hosts="x86_64 aarch64" ;;
+     alpha) container_hosts=x86_64 ;;
+     arm) container_hosts="x86_64 aarch64" ;;
+@@ -1925,7 +1937,7 @@ probe_target_compiler() {
+   for host in $container_hosts; do
+     test "$container" != no || continue
+     test "$host" = "$cpu" || continue
+-    case $1 in
++    case $target_arch in
+       aarch64)
+         # We don't have any bigendian build tools so we only use this for AArch64
+         container_image=debian-arm64-cross
+@@ -2041,23 +2053,23 @@ probe_target_compiler() {
+     : ${container_cross_strip:=${container_cross_prefix}strip}
+   done
  
- #define SYS_READC 0x7
-diff --git a/tests/tcg/aarch64/system/semiheap.c b/tests/tcg/aarch64/system/semiheap.c
-index 4ed258476d..a254bd8982 100644
---- a/tests/tcg/aarch64/system/semiheap.c
-+++ b/tests/tcg/aarch64/system/semiheap.c
-@@ -6,7 +6,7 @@
-  * SPDX-License-Identifier: GPL-2.0-or-later
-  */
+-  eval "target_cflags=\${cross_cc_cflags_$1}"
+-  if eval test -n "\"\${cross_cc_$1}\""; then
+-    if eval has "\"\${cross_cc_$1}\""; then
+-      eval "target_cc=\"\${cross_cc_$1}\""
++  eval "target_cflags=\${cross_cc_cflags_$target_arch}"
++  if eval test -n "\"\${cross_cc_$target_arch}\""; then
++    if eval has "\"\${cross_cc_$target_arch}\""; then
++      eval "target_cc=\"\${cross_cc_$target_arch}\""
+     fi
+   else
+-    compute_target_variable $1 target_cc gcc
++    compute_target_variable $target_arch target_cc gcc
+   fi
+   target_ccas=$target_cc
+-  compute_target_variable $1 target_ar ar
+-  compute_target_variable $1 target_as as
+-  compute_target_variable $1 target_ld ld
+-  compute_target_variable $1 target_nm nm
+-  compute_target_variable $1 target_objcopy objcopy
+-  compute_target_variable $1 target_ranlib ranlib
+-  compute_target_variable $1 target_strip strip
+-  case "$1:$cpu" in
++  compute_target_variable $target_arch target_ar ar
++  compute_target_variable $target_arch target_as as
++  compute_target_variable $target_arch target_ld ld
++  compute_target_variable $target_arch target_nm nm
++  compute_target_variable $target_arch target_objcopy objcopy
++  compute_target_variable $target_arch target_ranlib ranlib
++  compute_target_variable $target_arch target_strip strip
++  case "$target_arch:$cpu" in
+     aarch64_be:aarch64 | \
+     armeb:arm | \
+     i386:x86_64 | \
+@@ -2079,7 +2091,7 @@ probe_target_compiler() {
+       ;;
+   esac
+   if test -n "$target_cc"; then
+-    case $1 in
++    case $target_arch in
+       i386|x86_64)
+         if $target_cc --version | grep -qi "clang"; then
+           unset target_cc
+@@ -2241,7 +2253,7 @@ done
  
--#include <inttypes.h>
-+#include <stdint.h>
- #include <stddef.h>
- #include <minilib.h>
+ # Mac OS X ships with a broken assembler
+ roms=
+-probe_target_compiler i386
++probe_target_compiler i386-softmmu
+ if test -n "$target_cc" &&
+         test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
+         test "$targetos" != "haiku" && test "$softmmu" = yes ; then
+@@ -2264,7 +2276,7 @@ if test -n "$target_cc" &&
+     fi
+ fi
  
-diff --git a/tests/tcg/multiarch/system/memory.c b/tests/tcg/multiarch/system/memory.c
-index 41c7f66e2e..214f7d4f54 100644
---- a/tests/tcg/multiarch/system/memory.c
-+++ b/tests/tcg/multiarch/system/memory.c
-@@ -12,7 +12,7 @@
-  *   - sign extension when loading
-  */
+-probe_target_compiler ppc
++probe_target_compiler ppc-softmmu
+ if test -n "$target_cc" && test "$softmmu" = yes; then
+     roms="$roms pc-bios/vof"
+     config_mak=pc-bios/vof/config.mak
+@@ -2275,7 +2287,7 @@ fi
  
--#include <inttypes.h>
-+#include <stdint.h>
- #include <stdbool.h>
- #include <minilib.h>
+ # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
+ # (which is the lowest architecture level that Clang supports)
+-probe_target_compiler s390x
++probe_target_compiler s390x-softmmu
+ if test -n "$target_cc" && test "$softmmu" = yes; then
+   write_c_skeleton
+   do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
+@@ -2488,7 +2500,6 @@ tcg_tests_targets=
+ for target in $target_list; do
+   arch=${target%%-*}
+ 
+-  probe_target_compiler ${arch}
+   config_target_mak=tests/tcg/config-$target.mak
+ 
+   echo "# Automatically generated by configure - do not modify" > $config_target_mak
+@@ -2507,6 +2518,7 @@ for target in $target_list; do
+       ;;
+   esac
+ 
++  probe_target_compiler $target
+   got_cross_cc=no
+   unset build_static
  
 -- 
 2.36.1
