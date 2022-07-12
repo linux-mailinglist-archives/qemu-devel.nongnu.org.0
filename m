@@ -2,76 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29208571273
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 08:48:06 +0200 (CEST)
-Received: from localhost ([::1]:47076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4AAB5712BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 09:04:02 +0200 (CEST)
+Received: from localhost ([::1]:60876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB9gj-00058x-5J
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 02:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51358)
+	id 1oB9w9-0006zg-Q9
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 03:04:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB9GB-00047r-5K
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 02:20:39 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:42882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB9G9-0002JE-IJ
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 02:20:38 -0400
-Received: by mail-pg1-x534.google.com with SMTP id o18so6690833pgu.9
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 23:20:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ameaOYTaejX0n/etuEC9PIIeVKsPKESqsBuicmuydr8=;
- b=IsMnhkWb90qtkcnR29Z/AMLQKysLRdZ3FIyeDsjqFW37OOifRNF641/vb5NgzWIs5e
- xFuiG/QXsB2kvb89tpE1rMioARlyhjNeQlg9XF8KU055JDjrG8crVBpn2FN81CosOUQD
- qQNqWTZNkpomCV8CE1+xf9lW3hgy5o0DUkTosLx8JAoEJPnfWCxCa2LXMkSwJ4FkhrdH
- brr8Y/7SjZqIJoYECB+Qbvt/b6xRZiNUmakVFAl6wKEnUdQ+3NSeQwwnCk4k7+V9HQ3B
- 6dGj24uJNHr0zJYgGSRESnvZN3Ibm0zXMT6qeGNkBhXo4WBKByHFIlYRkwZQTlNYX5qd
- Y6gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ameaOYTaejX0n/etuEC9PIIeVKsPKESqsBuicmuydr8=;
- b=yc2rBA9Z5QdPrSM0Y0bTbj/088Lx9nnacftT5jPvwgnYvA0EmRbqtdZi8gfk+Cy6qf
- LOfpuzXfIdXclMjrJRpPC6+fDqzKcNlkFhvKMr163S4JqGtB6TDOWAA+bxb1NRXv6Mj+
- HD2OGFBvAuMEW+tdFhGXUv+BMSSY/emvdJISy4i8KNInj9e1zyyUJ1UJcKDaRWMag/JA
- i4lOkYGNwyRWIiDxcQXi9cA3S642HRNwUlVppJ+YK9lWz3xbTSl2CEDEL0LKktWy2mE8
- vobYFRuVz/1v7aS0UtqRtrpGwm4U2YTA3W7bmwrZ29wRhKNFsRl4xxRfUYTdFr79wM/Q
- fYug==
-X-Gm-Message-State: AJIora/hHbPGTQ3t4jCRTLhg+7AwHtfck5PUBpg8Qxqsz8xaOMKh21b1
- cyKmZ7qrqWR6DcsDzBNQHG7Pyxji53w07zr0
-X-Google-Smtp-Source: AGRyM1sXGSEKbRAfIteRspOMlwXjZ5JaXAwDpJPyp7dCC4cBmEWskTfWtqVp/CnkVpxQlaTb82q2Iw==
-X-Received: by 2002:a63:c15:0:b0:411:f92a:8ec7 with SMTP id
- b21-20020a630c15000000b00411f92a8ec7mr18895806pgl.86.1657606836196; 
- Mon, 11 Jul 2022 23:20:36 -0700 (PDT)
-Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- f2-20020aa79682000000b0052ab7144de8sm6040776pfk.10.2022.07.11.23.20.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 23:20:35 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 2/2] accel/tcg: Fix unaligned stores to s390x
- low-address-protected lowcore
-Date: Tue, 12 Jul 2022 11:50:25 +0530
-Message-Id: <20220712062025.197634-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220712062025.197634-1-richard.henderson@linaro.org>
-References: <20220712062025.197634-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oB9SN-0003Yw-DY; Tue, 12 Jul 2022 02:33:15 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:53760 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oB9SJ-0001bq-CL; Tue, 12 Jul 2022 02:33:15 -0400
+Received: from localhost.localdomain (unknown [180.156.173.38])
+ by APP-01 (Coremail) with SMTP id qwCowADns1idFc1ijYPeDg--.64613S2;
+ Tue, 12 Jul 2022 14:33:03 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 0/6] Improve the U/S/H extension related check
+Date: Tue, 12 Jul 2022 14:32:30 +0800
+Message-Id: <20220712063236.23834-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: qwCowADns1idFc1ijYPeDg--.64613S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw4UAr15tr47XryUuFykXwb_yoWkAFc_WF
+ y8WF9xXa40qa1UJayDAr13try7GrWrGF9rta12yr4j9Fy3WrykZr1DXrWUZr4UZ3yxKFna
+ vrn3Ja4Skr1jkjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbz8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJV
+ W0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
+ rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+ xKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+ 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [180.156.173.38]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,68 +70,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+This patchset tries to improve the U/S/H related check:
+* add check for the supported privilege modes conbinations: only supporting M,
+S mode is not a suggested combination
+* add check for "H extension depends on I extension"
+* add check for "H extension implicitly requires S mode"
+* add check for csrs only existed when U mode is supported
+* fix and simplify the checks in hmode/hmode32
 
-If low-address-protection is active, unaligned stores to non-protected
-parts of lowcore lead to protection exceptions. The reason is that in
-such cases tlb_fill() call in store_helper_unaligned() covers
-[0, addr + size) range, which contains the protected portion of
-lowcore. This range is too large.
+Any suggestions are welcome.
 
-The most straightforward fix would be to make sure we stay within the
-original [addr, addr + size) range. However, if an unaligned access
-affects a single page, we don't need to call tlb_fill() in
-store_helper_unaligned() at all, since it would be identical to
-the previous tlb_fill() call in store_helper(), and therefore a no-op.
-If an unaligned access covers multiple pages, this situation does not
-occur.
+v2:
+* update patch 3 to make the newlines start at the same position as above line
+* update patch 5 to add check for "H extension implicitly requires S mode"
 
-Therefore simply skip TLB handling in store_helper_unaligned() if we
-are dealing with a single page.
+Weiwei Li (6):
+  target/riscv: add check for supported privilege modes conbinations
+  target/riscv: H extension depends on I extension
+  target/riscv: fix checkpatch warning may triggered in csr_ops table
+  target/riscv: add check for csrs existed with U extension
+  target/riscv: fix checks in hmode/hmode32
+  target/riscv: simplify the check in hmode to resue the check in
+    riscv_csrrw_check
 
-Fixes: 2bcf018340cb ("s390x/tcg: low-address protection support")
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20220711185640.3558813-2-iii@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/cputlb.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ target/riscv/cpu.c |  17 ++
+ target/riscv/csr.c | 491 ++++++++++++++++++++++++---------------------
+ 2 files changed, 279 insertions(+), 229 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index f90f4312ea..a46f3a654d 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -2248,7 +2248,7 @@ store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
-     const size_t tlb_off = offsetof(CPUTLBEntry, addr_write);
-     uintptr_t index, index2;
-     CPUTLBEntry *entry, *entry2;
--    target_ulong page2, tlb_addr, tlb_addr2;
-+    target_ulong page1, page2, tlb_addr, tlb_addr2;
-     MemOpIdx oi;
-     size_t size2;
-     int i;
-@@ -2256,15 +2256,17 @@ store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
-     /*
-      * Ensure the second page is in the TLB.  Note that the first page
-      * is already guaranteed to be filled, and that the second page
--     * cannot evict the first.
-+     * cannot evict the first.  An exception to this rule is PAGE_WRITE_INV
-+     * handling: the first page could have evicted itself.
-      */
-+    page1 = addr & TARGET_PAGE_MASK;
-     page2 = (addr + size) & TARGET_PAGE_MASK;
-     size2 = (addr + size) & ~TARGET_PAGE_MASK;
-     index2 = tlb_index(env, mmu_idx, page2);
-     entry2 = tlb_entry(env, mmu_idx, page2);
- 
-     tlb_addr2 = tlb_addr_write(entry2);
--    if (!tlb_hit_page(tlb_addr2, page2)) {
-+    if (page1 != page2 && !tlb_hit_page(tlb_addr2, page2)) {
-         if (!victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
-             tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
-                      mmu_idx, retaddr);
 -- 
-2.34.1
+2.17.1
 
 
