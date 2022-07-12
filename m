@@ -2,82 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBBB357297C
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 00:49:52 +0200 (CEST)
-Received: from localhost ([::1]:35388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3078C572983
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 00:52:21 +0200 (CEST)
+Received: from localhost ([::1]:42140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBOhU-00019c-1a
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 18:49:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51800)
+	id 1oBOjs-00063G-3z
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 18:52:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBOd5-0003Ux-SP
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:45:23 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBOd4-00068T-6R
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:45:19 -0400
-Received: by mail-wr1-x429.google.com with SMTP id v16so13082318wrd.13
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 15:45:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3uDQtSKbr4zrfMqNz3tJ92Bk0rYQWh9ZuOEWzXK639w=;
- b=X9UjLNKeaVYl/r1oXi/3JF9FE3uuY3jOatX1vdKv/9SnjY25SVVeq2zBS+qOluqsyF
- VWQdPCacNPr3FaQZ305D7P7afUrS1JBd+X8WGONs2HA3XfSJlzH5QiGUP3g9YfXURxde
- qlJu1DEt9pymJCfB9ieB/g7v0IAkkOhI7nDPiS75nT07O2tcVENoyA2QT1eCte2jp+XH
- B5JUnaKvwCgeprFmCyhvsmB2xjqbdBIpQvZvH9ZUdJ5w4rEBcPVJ8ibXbTgGzgOBlf++
- f6KVgkaywz0eYMX+WrH/GAisfWy0GGhZdTd4JwJHFdX2spbgX0br4vJ7D0I1pqil0r0+
- KrMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3uDQtSKbr4zrfMqNz3tJ92Bk0rYQWh9ZuOEWzXK639w=;
- b=jKHsIRndltHSS//mW0lsq4/cb/NdPF+6G5lwHegMN5O/vCm88sYDC/TDHuj/yULJwy
- i0z57d6Wv00VhT45mXdXVpHvnRQBb1G9/sbKcSEKBDPtdn932b7cbgTSWAPV3v1E45LI
- DfSSiyZC7GNDRlTDntPIONNQjup6gbdcaK99XH1D00uTD/Mm0aFsB43cG80rrXnbUtzq
- GQt7cfyXwq+5YJYTtrcEqNvQ4NPbGevc/NEDYvrCSVUmiTz+Roq1ZcSKmJxozWBbpmCD
- nTbZBev7TiHis0sH/3ILzC0vwV2gdi3XxmvXUnmJhHYPsnqQDCaVUKqfDtWB8c+fRQSx
- 2zmQ==
-X-Gm-Message-State: AJIora/YuQkUV5oi69fjTmtsM4KoZp7RERQYYBKJmRjBHyJtP10NCA4+
- bx1b65kpg92F2JCWzFGqbnE=
-X-Google-Smtp-Source: AGRyM1tB3mQQwVHEP4k7nCfBRLPLjGyCPFh8QNxuz5Nrme+obDOBUU0Ovf86TKLIbY4BHPP1jrSv/w==
-X-Received: by 2002:a05:6000:1888:b0:21c:9a16:5cdd with SMTP id
- a8-20020a056000188800b0021c9a165cddmr240882wri.562.1657665914953; 
- Tue, 12 Jul 2022 15:45:14 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- x4-20020a05600c2d0400b003974a00697esm206337wmf.38.2022.07.12.15.45.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 15:45:14 -0700 (PDT)
-Message-ID: <0a39c59d-05a0-e792-3ad8-f3a148df1a6f@amsat.org>
-Date: Wed, 13 Jul 2022 00:45:13 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH v2] Align Raspberry Pi DMA interrupts with Linux DTS
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1oBOds-0004ZI-4X; Tue, 12 Jul 2022 18:46:09 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27142)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1oBOdo-0006IM-Lr; Tue, 12 Jul 2022 18:46:07 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26CLn9o3011486;
+ Tue, 12 Jul 2022 22:45:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ reply-to : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding : mime-version; s=pp1;
+ bh=8+VjjJfBomgOhOygjq7G1lUDw3XZi2ydYi2R7gi9fxc=;
+ b=Nv7hXKt+oHHS6qA5vkWmEfiVFNi1Do8eXTN+EuesDOw9xE23XI8f9Medzs3TiFuO2+73
+ YFTvmtQDNsfMCkDcJHCOw7PnmNq3VFRxf9jgTBFFuLlCT1PgkFgAjxu71wEi8614LmBq
+ c43Kb4JwlYF/c9US6pmBfcdtHtMGBGlRbJuNk5YdTJ84suxaH2adtTjfGsvFnYGyK90m
+ LXrcHsCQIPvPRTPNDKIYs/1/X85vHK+7l4f6T1BzmsjBEuKnkVW6o2FJshH7zbKD42VS
+ GJvJxetDnzNq3BhevQCFl3lUIJHcPD4VThPgvVTqnpNPX/p46urnkqit2LnT7csvacFy OQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9akr4088-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 22:45:57 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26CMTviq036604;
+ Tue, 12 Jul 2022 22:45:57 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9akr4080-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 22:45:56 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26CMaE6a006295;
+ Tue, 12 Jul 2022 22:45:56 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma05wdc.us.ibm.com with ESMTP id 3h8mb9s2nh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 22:45:56 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26CMjtYw14483780
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 Jul 2022 22:45:55 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C0D4AAC05E;
+ Tue, 12 Jul 2022 22:45:55 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B0391AC059;
+ Tue, 12 Jul 2022 22:45:53 +0000 (GMT)
+Received: from [9.211.155.64] (unknown [9.211.155.64])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Tue, 12 Jul 2022 22:45:53 +0000 (GMT)
+Message-ID: <880046ed-9048-da8e-1150-32bcfd938344@linux.ibm.com>
+Date: Tue, 12 Jul 2022 19:45:51 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH] target/ppc/kvm: Skip ".." directory in kvmppc_find_cpu_dt
 Content-Language: en-US
-To: Andrey Makarov <ph.makarov@gmail.com>, qemu-devel@nongnu.org
-Cc: Andrey Makarov <andrey.makarov@auriga.com>
-References: <20220712104500.143538-1-andrey.makarov@auriga.com>
-In-Reply-To: <20220712104500.143538-1-andrey.makarov@auriga.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, mopsfelder@gmail.com,
+ Fabiano Rosas <farosas@linux.ibm.com>
+References: <20220711193743.51456-1-muriloo@linux.ibm.com>
+ <YszugDqguoCKti0j@yekko> <1c11f8ec-5635-9812-a091-d9a1e9f11ce5@gmail.com>
+From: =?UTF-8?Q?Murilo_Opsfelder_Ara=c3=bajo?= <muriloo@linux.ibm.com>
+Organization: IBM
+In-Reply-To: <1c11f8ec-5635-9812-a091-d9a1e9f11ce5@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: wjjWIHdvkyqHK3vkrMR-isxRSomJvq5I
+X-Proofpoint-GUID: Sx6ht3UnZ2PdfNq4RbD3WWDYOTzHxy35
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-12_12,2022-07-12_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=955
+ malwarescore=0 mlxscore=0 impostorscore=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 spamscore=0 clxscore=1015
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207120091
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=muriloo@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,143 +118,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: muriloo@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Hi Andrey,
+Hi, Daniel, David.
 
-On 12/7/22 12:45, Andrey Makarov wrote:
-> There is nothing in the specs on DMA engine interrupt lines: it should have
-> been in the "BCM2835 ARM Peripherals" datasheet but the appropriate
-> "ARM peripherals interrupt table" (p.113) is nearly empty.
+On 7/12/22 10:03, Daniel Henrique Barboza wrote:
 > 
-> All Raspberry Pi models 1-3 (based on bcm2835) have
-> Linux device tree (arch/arm/boot/dts/bcm2835-common.dtsi +25):
 > 
->      /* dma channel 11-14 share one irq */
+> On 7/12/22 00:46, David Gibson wrote:
+>> On Mon, Jul 11, 2022 at 04:37:43PM -0300, Murilo Opsfelder Araujo wrote:
+>>> Some systems have /proc/device-tree/cpus/../clock-frequency. However,
+>>> this is not the expected path for a CPU device tree directory.
+>>>
+>>> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+>>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+>>> ---
+>>>   target/ppc/kvm.c | 6 ++++++
+>>>   1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>>> index 6eed466f80..c8485a5cc0 100644
+>>> --- a/target/ppc/kvm.c
+>>> +++ b/target/ppc/kvm.c
+>>> @@ -1877,6 +1877,12 @@ static int kvmppc_find_cpu_dt(char *buf, int buf_len)
+>>>       buf[0] = '\0';
+>>>       while ((dirp = readdir(dp)) != NULL) {
+>>>           FILE *f;
+>>> +
+>>> +        /* Don't accidentally read from the upper directory */
+>>> +        if (strcmp(dirp->d_name, "..") == 0) {
+>>
+>> It might not be causing problems now, but it would be technically more
+>> correct to also skip ".", wouldn't it?
 > 
-> This information is repeated in the driver code
-> (drivers/dma/bcm2835-dma.c +1344):
+> Given that the use of this function is inside kvmppc_read_int_cpu_dt(), which
+> is used to read a property that belongs to a CPU node, I believe you're right.
+> It's better to avoid returning "PROC_DEVTREE_CPU" as well.
 > 
->      /*
->       * in case of channel >= 11
->       * use the 11th interrupt and that is shared
->       */
+> Murilo, can you please re-send it skipping both ".." and "." ? Better be
+> on the safe side.
 > 
-> In this patch channels 0--10 and 11--14 are handled separately.
 > 
-> In version v2:
-> 
-> 1) an OR-gate is added according to review
-> 2) a simple qtest is added for testing DMA & its interrupts
-> 
-> Signed-off-by: Andrey Makarov <andrey.makarov@auriga.com>
-> ---
->   hw/arm/bcm2835_peripherals.c         |  21 +++++-
->   include/hw/arm/bcm2835_peripherals.h |   2 +
->   tests/qtest/bcm2835-dma-test.c       | 106 +++++++++++++++++++++++++++
->   tests/qtest/meson.build              |   3 +-
->   4 files changed, 130 insertions(+), 2 deletions(-)
->   create mode 100644 tests/qtest/bcm2835-dma-test.c
-> 
-> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-> index 48538c9360..5a9c472b5a 100644
-> --- a/hw/arm/bcm2835_peripherals.c
-> +++ b/hw/arm/bcm2835_peripherals.c
-> @@ -101,6 +101,11 @@ static void bcm2835_peripherals_init(Object *obj)
->       /* DMA Channels */
->       object_initialize_child(obj, "dma", &s->dma, TYPE_BCM2835_DMA);
->   
-> +    object_initialize_child(obj, "dma-11-14-irq-orgate",
+> Daniel
 
-Maybe name "shared-dma-irq-orgate"?
+I've sent v2:
 
-> +                            &s->dma_11_14_irq_orgate, TYPE_OR_IRQ);
+     https://lore.kernel.org/qemu-devel/20220712210810.35514-1-muriloo@linux.ibm.com/
 
-Similarly 'shared_dma' or 'orgated-dma'? But not _11_14_.
+Thank you for reviewing.
 
-> +    object_property_set_int(OBJECT(&s->dma_11_14_irq_orgate), "num-lines", 4,
-
-Instead of using a magic number:
-
-#define BCM2835_SHARED_DMA_COUNT 4
-
-> +                            &error_abort);
-> +
->       object_property_add_const_link(OBJECT(&s->dma), "dma-mr",
->                                      OBJECT(&s->gpu_bus_mr));
->   
-> @@ -322,13 +327,27 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
->       memory_region_add_subregion(&s->peri_mr, DMA15_OFFSET,
->                   sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dma), 1));
->   
-> -    for (n = 0; n <= 12; n++) {
-> +    for (n = 0; n <= 10; n++) {
-
-So before we could trigger IRQ #12, and now it is unbound?
-
-Also:
-
-#define BCM2835_DMA_CHANNELS 10
-
->           sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
->                              qdev_get_gpio_in_named(DEVICE(&s->ic),
->                                                     BCM2835_IC_GPU_IRQ,
->                                                     INTERRUPT_DMA0 + n));
->       }
->   
-> +    /* According to DTS, dma channels 11-14 share one irq */
-> +    if (!qdev_realize(DEVICE(&s->dma_11_14_irq_orgate), NULL, errp)) {
-> +        return;
-> +    }
-> +    for (n = 11; n <= 14; n++) {
-
-Logic simplified if you use the [0 .. BCM2835_SHARED_DMA_COUNT-1] range:
-
-   for (n = 0; n < BCM2835_SHARED_DMA_COUNT; n++) {
-
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
-
-     BCM2835_DMA_CHANNELS + 1 + n,
-
-> +                           qdev_get_gpio_in(DEVICE(&s->dma_11_14_irq_orgate),
-> +                                            n - 11));
-
-     n)
-
-> +    }
-> +    qdev_connect_gpio_out(DEVICE(&s->dma_11_14_irq_orgate), 0,
-> +                          qdev_get_gpio_in_named(DEVICE(&s->ic),
-> +                                                 BCM2835_IC_GPU_IRQ,
-> +                                                 INTERRUPT_DMA0 + 11));
-> +
->       /* THERMAL */
->       if (!sysbus_realize(SYS_BUS_DEVICE(&s->thermal), errp)) {
->           return;
-> diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-> index d864879421..79e2f2771a 100644
-> --- a/include/hw/arm/bcm2835_peripherals.h
-> +++ b/include/hw/arm/bcm2835_peripherals.h
-> @@ -17,6 +17,7 @@
->   #include "hw/char/bcm2835_aux.h"
->   #include "hw/display/bcm2835_fb.h"
->   #include "hw/dma/bcm2835_dma.h"
-> +#include "hw/or-irq.h"
->   #include "hw/intc/bcm2835_ic.h"
->   #include "hw/misc/bcm2835_property.h"
->   #include "hw/misc/bcm2835_rng.h"
-> @@ -55,6 +56,7 @@ struct BCM2835PeripheralState {
->       BCM2835AuxState aux;
->       BCM2835FBState fb;
->       BCM2835DMAState dma;
-> +    qemu_or_irq dma_11_14_irq_orgate;
->       BCM2835ICState ic;
->       BCM2835PropertyState property;
->       BCM2835RngState rng;
-
-Regards,
-
-Phil.
+-- 
+Murilo
 
