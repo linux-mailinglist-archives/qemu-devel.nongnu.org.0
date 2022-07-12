@@ -2,101 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BDEF571742
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:25:10 +0200 (CEST)
-Received: from localhost ([::1]:47120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0265716F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:14:17 +0200 (CEST)
+Received: from localhost ([::1]:58210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBD4m-00023x-UY
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:25:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42880)
+	id 1oBCuG-0006Yy-Lm
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oBCok-0007Dh-5n
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:08:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39534)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oBCrI-0001IH-1L
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:11:13 -0400
+Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:49563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oBCoh-0005df-VV
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:08:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657620511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z5TBqzYWwbtsWIT+aQo5sjIiIFDW7ToxIUygQzu4YMI=;
- b=cuZDDHU651jr12clnP0bxWxgUxot1lBMTx4Zxe/ROzSvAkt+BlxrxqQ1tnu+MDW7LvxAAv
- VBv6EUuc2siFSNUEvdT0gDMNDyftJzJVWlIYdCngs6fsLB+UTyQXCT6RCqamC4leVccxTf
- Zh9FedQsIZBfy9RhcA6rjD8MS1ka/jo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-90-YSvfdXQoOR27XHo_jsfWCQ-1; Tue, 12 Jul 2022 06:08:27 -0400
-X-MC-Unique: YSvfdXQoOR27XHo_jsfWCQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j16-20020adfa550000000b0021d63d200a8so1259491wrb.5
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 03:08:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=z5TBqzYWwbtsWIT+aQo5sjIiIFDW7ToxIUygQzu4YMI=;
- b=Q3knslXgrVoxslox1O1OLdOpTFRNYZOWNxfx3zZTRLmrpK+h/KA6KOAHac8ygowzk3
- ulV9QGXk4vi56Xurr0T6GmxSdO/H7OjAOdYyWwR4cj8IUxj2xfroWoIvCawwPmOpZ/od
- sU3zxXYmWnVbT7NAfoA0Rtfx9Tdikg8xpDBH2Ijoagbkx6z8mwzheWKzG+uU+OJNEf0t
- sHF/R2JSSRu8f28GswAUNkihmiStMWhDA/GquZf9cwi/aBA38Dbq4siQx45rQbQAoxIr
- Aslwpwl0mMh64lZOSH9810If/3PSGBQqQCX7lpSScciADo3q6poB688lOoYh5owszRyy
- 4ovA==
-X-Gm-Message-State: AJIora+RQLChNRoNEDd3htg9sLtmrUIb9pR9F66qagSepAhtpjV6X2hl
- V46mvS79Sw+Vf7y4ipd1EB75pTbUC36U3C3/DQGUQUgZ0tE762p0ePRbfYK7MAm8dlG3PMwjGYd
- nUEaHHl9IQnUJ9Dg=
-X-Received: by 2002:adf:f2cd:0:b0:21d:6913:6d32 with SMTP id
- d13-20020adff2cd000000b0021d69136d32mr21198831wrp.438.1657620506586; 
- Tue, 12 Jul 2022 03:08:26 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vFPXGqX9DKNKd5EL8C/hod1KIP3nj3o8nwXFhNOXcnrIHsROw0vkkcPWu/LUEkYcQ+dk8FMw==
-X-Received: by 2002:adf:f2cd:0:b0:21d:6913:6d32 with SMTP id
- d13-20020adff2cd000000b0021d69136d32mr21198813wrp.438.1657620506295; 
- Tue, 12 Jul 2022 03:08:26 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c703:d900:a75d:cddc:d29f:bdb3?
- (p200300cbc703d900a75dcddcd29fbdb3.dip0.t-ipconnect.de.
- [2003:cb:c703:d900:a75d:cddc:d29f:bdb3])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a5d4606000000b0021b866397a7sm8044143wrq.1.2022.07.12.03.08.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 03:08:25 -0700 (PDT)
-Message-ID: <2dfdce60-6c8b-4874-a901-01e1ea37d976@redhat.com>
-Date: Tue, 12 Jul 2022 12:08:25 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oBCrF-0008Ou-E8
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:11:11 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.132])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 92E302181D;
+ Tue, 12 Jul 2022 10:10:57 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 12 Jul
+ 2022 12:10:56 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G00207753fc6-92c4-4791-9777-de1138a73027,
+ 45D3CB73ADAA424D805A6DB9B8EE1C960B0FAC85) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+Message-ID: <2b0cff90-1b42-f95e-8278-ddfcd89e4619@kaod.org>
+Date: Tue, 12 Jul 2022 12:10:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
+Subject: Re: [PATCH v3 3/3] aspeed: Add fby35-bmc slot GPIO's
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-References: <20220711185640.3558813-1-iii@linux.ibm.com>
- <20220711185640.3558813-3-iii@linux.ibm.com>
- <dd9d7b97-88c2-f1c3-8b0a-bb090059b180@linaro.org>
- <832533a5b27c9aee11fea7633ed401e655491d5b.camel@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH 2/3] hw/misc: Add mmio-debug-exit device
-In-Reply-To: <832533a5b27c9aee11fea7633ed401e655491d5b.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+To: Peter Delevoryas <peter@pjd.dev>
+CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <thuth@redhat.com>, <lvivier@redhat.com>, <pbonzini@redhat.com>,
+ <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220712023219.41065-1-peter@pjd.dev>
+ <20220712023219.41065-4-peter@pjd.dev>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220712023219.41065-4-peter@pjd.dev>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: a3b339b5-cd15-4ef2-8456-f74a9b92b659
+X-Ovh-Tracer-Id: 5237967845722000175
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedgvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheegke
+Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
+ helo=6.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,64 +76,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12.07.22 11:52, Ilya Leoshkevich wrote:
-> On Tue, 2022-07-12 at 10:42 +0530, Richard Henderson wrote:
->> On 7/12/22 00:26, Ilya Leoshkevich wrote:
->>> System tests on x86 use isa-debug-exit device in order to signal
->>> success or failure to the test runner. Unfortunately it's not
->>> easily
->>> usable on other architectures, since a guest needs to access
->>> address_space_io, which may not be as straightforward as on x86.
->>> Also, it requires adding ISA bus, which an architecture might not
->>> otherwise need.
->>>
->>> Introduce mmio-debug-exit device, which has the same semantics, but
->>> is
->>> triggered by writes to memory.
->>>
->>> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
->>
->> You shouldn't need this for s390x, as there are already (at least)
->> two other paths to 
->> qemu_system_shutdown_request.
->>
->> E.g. SIGP, which has a stop option.
->>
->>
->> r~
->>
-> 
-> I would normally use lpswe + disabled wait, but this always gives me
-> exit status code 0, which doesn't allow easily distinguishing between
-> success and failure.
-> 
-> Code-wise SIGP seems to do roughly the same thing, and a quick
-> experiment with:
-> 
->     lgfi %r4,-1
->     lgfi %r5,-1
->     larl %r6,_cpuaddr
->     stap 0(%r6)
->     lh %r6,0(%r6)
->     nilh %r6,0
->     sigp %r4,%r6,5
-> _cpuaddr: .short 0
-> 
-> confirmed that we get exit status code 0 as well.
+On 7/12/22 04:32, Peter Delevoryas wrote:
+> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 
-disabled wait should trigger a qemu_system_guest_panicked().
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-But "panic_action == PANIC_ACTION_SHUTDOWN" seems to only make
-qemu_main_loop() return with main_loop_should_exit() == true.
-
-main/qemu_main will always return 0.
-
-We could return != 0 on guest panic, but not sure if that could break
-existing scripts. We'd need a new QEMU toggle for that most probably ...
-
--- 
 Thanks,
 
-David / dhildenb
+C.
+
+
+> ---
+>   hw/arm/aspeed.c | 14 +++++++++++++-
+>   1 file changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 6fe9b13548..0ce9a42c2b 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -1343,11 +1343,23 @@ static void fby35_reset(MachineState *state)
+>   
+>       qemu_devices_reset();
+>   
+> -    /* Board ID */
+> +    /* Board ID: 7 (Class-1, 4 slots) */
+>       object_property_set_bool(OBJECT(gpio), "gpioV4", true, &error_fatal);
+>       object_property_set_bool(OBJECT(gpio), "gpioV5", true, &error_fatal);
+>       object_property_set_bool(OBJECT(gpio), "gpioV6", true, &error_fatal);
+>       object_property_set_bool(OBJECT(gpio), "gpioV7", false, &error_fatal);
+> +
+> +    /* Slot presence pins, inverse polarity. (False means present) */
+> +    object_property_set_bool(OBJECT(gpio), "gpioH4", false, &error_fatal);
+> +    object_property_set_bool(OBJECT(gpio), "gpioH5", true, &error_fatal);
+> +    object_property_set_bool(OBJECT(gpio), "gpioH6", true, &error_fatal);
+> +    object_property_set_bool(OBJECT(gpio), "gpioH7", true, &error_fatal);
+> +
+> +    /* Slot 12v power pins, normal polarity. (True means powered-on) */
+> +    object_property_set_bool(OBJECT(gpio), "gpioB2", true, &error_fatal);
+> +    object_property_set_bool(OBJECT(gpio), "gpioB3", false, &error_fatal);
+> +    object_property_set_bool(OBJECT(gpio), "gpioB4", false, &error_fatal);
+> +    object_property_set_bool(OBJECT(gpio), "gpioB5", false, &error_fatal);
+>   }
+>   
+>   static void aspeed_machine_fby35_class_init(ObjectClass *oc, void *data)
 
 
