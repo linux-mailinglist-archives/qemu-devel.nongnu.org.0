@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEAE25711A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 06:59:34 +0200 (CEST)
-Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6AE5711A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 06:58:57 +0200 (CEST)
+Received: from localhost ([::1]:44766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB7zh-0000lQ-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 00:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37322)
+	id 1oB7z6-0000Fz-4v
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 00:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB7sH-0004Xe-VI
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:51:56 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:46029)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oB7u5-0005Le-LR
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:53:45 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:47065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB7sE-00069B-Py
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:51:52 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id y9so6495010pff.12
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 21:51:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=vtUHf4u1UHMjILb7P+zr79jU//IlIqKKH/MA/LVyU+A=;
- b=sOO8Dov+2LK02vkPH5m5N3konRKdZN2WIvYiEecv1qIbvmP4RY84QRZFD8KaJm7rsF
- KxNIQs+MbDlHU+ngMZXl66Yee+ThF+Jfkob8Mgv5kCgQtU96lD86J9jxXPwPvOReRasK
- Jrih93PtSsRLk5QZiGZkVW5uTZws0M4KZKJdyhY6RhyLSzzLjM2O3Ty3iPvzD68s0LnH
- r+eF1cPM2O32udlPKbSPZGWqjXaLUEISz/XK6O8BxXh9VuasUECba0ilp0QcayKztqcm
- MAMA7u5cfKDfP+Pv4D0DQ4zog/uxOYy4xUhEmorGwoN8DrnISUxFzCEf5dh0ebNl0ZY4
- ilhQ==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oB7u3-0006HA-Og
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:53:45 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id s27so6541903pga.13
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 21:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yfrz5GsqkYvZo8aGSUqQYbA4xjW4hmI4d+p/5mMlCZ4=;
+ b=puYN9wNnXLMTjBAtpvCqZsszliqs3e1vBK/50t1SLXVbjrgcWjDBHgXuLDWOUfS5cg
+ +g7LRT1ITFfnVMAX7m9tOjlUlSlTV0NRGvSQMs04gfRwVI6rIL+45bg2ZzcVFA3nAuJf
+ qcX+hHRWsmtyODr2HTC1UDWlvZbsW1al3RE6+rOPhsnR/FgBcW0wcRcDdNXwFmdoZ3bw
+ 82zYMZ9hW9DcgKW7pGQUIwdy2yGkgX4TYLetyd6wCQp1QjeAQnNjdoO0qoHelSqlu5xH
+ b5iq3RVngiwrKS/JwJDqVNr2gc4AvZQ/QdxJo9Qd/lUWcVVZG6qJMB7772kOY6aygOvT
+ FJ+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vtUHf4u1UHMjILb7P+zr79jU//IlIqKKH/MA/LVyU+A=;
- b=MRdHgrZp2k0cL7aycfeM800hHLHut+FhktoPEOwmno3/+wBdX8bOApSSA+im1xJ7+b
- jYctQgP1z5EGVXZ7ZFv7sAKWQQglqYftq1wWhZj2damQHjh/mAKZuLBzblRV4CiL/8mJ
- wPOR8BQ78tpdRab7QtzV90mm6baGlx9xukqlpIbg+PUBBIyk4Sym6Js9hjbxZ0UtmjBA
- hIaEhS4NneprDL5Yzxuv8CXH4NjcEA4lMkxk7n4qKN//Msn8dGUtEMdqKnHMYg6YWNpj
- Ck3JebB3Xx3YEVkL6yoeS3WXrM4OrTlVFRVyLTnqRrL0MuSceCEBRZ70Kiz9cNw0agQk
- A2nw==
-X-Gm-Message-State: AJIora9krgVHGozG6cTDqTSkwZsgLNp2JDIUfcgD1MhGRN7HE7VD5vs0
- OJnvSsWjm/bEJb35g2c1Rkg0wg==
-X-Google-Smtp-Source: AGRyM1u7cwnJsZ71dcnTU63XUGHGVf/tFAv2oTwE+K0VyIOPqW8C0UD8S+gzA17SdiDghsyy/30+DQ==
-X-Received: by 2002:a63:82c6:0:b0:416:1717:4add with SMTP id
- w189-20020a6382c6000000b0041617174addmr4946010pgd.472.1657601508432; 
- Mon, 11 Jul 2022 21:51:48 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- u7-20020a17090341c700b0016befcc142csm5651018ple.293.2022.07.11.21.51.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 21:51:48 -0700 (PDT)
-Message-ID: <bcb30961-ab68-3782-e763-cd1c4b9601d4@linaro.org>
-Date: Tue, 12 Jul 2022 10:21:44 +0530
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yfrz5GsqkYvZo8aGSUqQYbA4xjW4hmI4d+p/5mMlCZ4=;
+ b=GhT2w2nEFNYg7fUEDsKb3sE71IalP/5aGIzNAaKoGGniBvS+Otua7VWDGLa/oXrStp
+ icZ9MjozMMBnVySRjG7mJYtKz4C1+YTHp/FMzsy/9P8yCTPULK0lcrth+PzZ7nNqzCCb
+ 6z+AvdzK8TsA0aMfd1WkHxmLdlJhNr6AGC7ZU0QaB4n0chcGcg4c6cXp+1yzx6xawjn1
+ gRe3eECE02BQ0hyUQG2CnlMMV7+C6+pcTeCcypGSKkeWLHE2Vzls48ja9zWqBuaiNr6r
+ DkYLnvx1I7oAp56VkPHYOMy/NPmDxKg1FUWpBvyHBQ8H8fHR1e8eI6izVGSPMOgyqRoI
+ RsSQ==
+X-Gm-Message-State: AJIora9BEm9eO0YLFcmt6eodtIHxa3copvZ4GGrLxsvSp8tmnLJpPFSP
+ GVAVUkRqqG7/rCxLOPWEmkzwEGI37VjKrNB+gos=
+X-Google-Smtp-Source: AGRyM1u7DCGCazfd9dLAhGh0hHjRMCP2MUaLxBqrTU1g7UI+Y1ISsixfdhzemLMmjtyKiQ/dmBGvZN8N0VaFE/+VO6k=
+X-Received: by 2002:a05:6a00:1303:b0:528:2ed8:7e86 with SMTP id
+ j3-20020a056a00130300b005282ed87e86mr21618416pfu.4.1657601621946; Mon, 11 Jul
+ 2022 21:53:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] [PATCH] linux-user/aarch64: Reset target data on
- MADV_DONTNEED
-Content-Language: en-US
-To: Vitaly Buka <vitalybuka@google.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20220711220028.2467290-1-vitalybuka@google.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220711220028.2467290-1-vitalybuka@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20220625223458.1273408-1-simon.sapin@exyr.org>
+ <da785d05-e322-2e40-7a89-e926256c6dbe@exyr.org>
+ <CAKmqyKN+xvOseT_5XeFgZ=b77giU+wdaZy=w9OgEFL8EXNGDVg@mail.gmail.com>
+ <357832d7-6e23-4298-5dbf-cf9171e32e6e@exyr.org>
+In-Reply-To: <357832d7-6e23-4298-5dbf-cf9171e32e6e@exyr.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 12 Jul 2022 14:53:15 +1000
+Message-ID: <CAKmqyKNtKTkER5y+O1p3S32GqFvpTKnsyxu+eRggAL7KV6TZPQ@mail.gmail.com>
+Subject: Re: Booting bare-metal RISC-V virt (Was: [PATCH] Add some
+ documentation for "dtb" devices tree blobs)
+To: Simon Sapin <simon.sapin@exyr.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,81 +92,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/22 03:30, Vitaly Buka wrote:
-> aarch64 stores MTE tags in target_date, and they should be reset by
-> MADV_DONTNEED.
-> 
-> Signed-off-by: Vitaly Buka <vitalybuka@google.com>
-> ---
->   accel/tcg/translate-all.c | 24 ++++++++++++++++++++++++
->   include/exec/cpu-all.h    |  1 +
->   linux-user/mmap.c         |  2 ++
->   3 files changed, 27 insertions(+)
+On Mon, Jun 27, 2022 at 4:15 PM Simon Sapin <simon.sapin@exyr.org> wrote:
+>
+> On 27/06/2022 07:40, Alistair Francis wrote:
+> > We have previously kept the addresses backwards compatible. So that
+> > software for an older virt machine will work on a newer one. There is
+> > currently talks about changing the virt machine memory layout in a
+> > breaking way and versioning in the current one though.
+> >
+> > So I don't really have a good answer for you. I would recommend
+> > reading as much as possible from the device tree dynamically at boot.
+> >
+> > In general though we don't want to break people, we just might have to
+> > make changes in the future to allow for new functionality.
+>
+> I agree that reading from the device tree as much as possible is good. We=
+ there=E2=80=99s
+> still a need to get code running at all, and finding the device tree.
+>
+> So it would be good to decide to make stable what=E2=80=99s needed to get=
+ there (like was
+> apparently decided for ARM) and document it.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Yeah, we are working towards that
 
-r~
+>
+> On principle maybe a firmware/bootloader could be entirely position-indep=
+endent? But
 
-> 
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index ef62a199c7..d6f2f1a40a 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -2314,6 +2314,30 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
->       }
->   }
->   
-> +void page_reset_target_data(target_ulong start, target_ulong end)
-> +{
-> +    target_ulong addr, len;
-> +
-> +    /* This function should never be called with addresses outside the
-> +       guest address space.  If this assert fires, it probably indicates
-> +       a missing call to h2g_valid.  */
-> +    assert(end - 1 <= GUEST_ADDR_MAX);
-> +    assert(start < end);
-> +    assert_memory_lock();
-> +
-> +    start = start & TARGET_PAGE_MASK;
-> +    end = TARGET_PAGE_ALIGN(end);
-> +
-> +    for (addr = start, len = end - start;
-> +         len != 0;
-> +         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
-> +        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
-> +
-> +        g_free(p->target_data);
-> +        p->target_data = NULL;
-> +    }
-> +}
-> +
->   void *page_get_target_data(target_ulong address)
->   {
->       PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
-> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-> index f5bda2c3ca..491629b9ba 100644
-> --- a/include/exec/cpu-all.h
-> +++ b/include/exec/cpu-all.h
-> @@ -271,6 +271,7 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
->   
->   int page_get_flags(target_ulong address);
->   void page_set_flags(target_ulong start, target_ulong end, int flags);
-> +void page_reset_target_data(target_ulong start, target_ulong end);
->   int page_check_range(target_ulong start, target_ulong len, int flags);
->   
->   /**
-> diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-> index 4e7a6be6ee..c535dfdc7c 100644
-> --- a/linux-user/mmap.c
-> +++ b/linux-user/mmap.c
-> @@ -894,6 +894,8 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
->       if ((advice & MADV_DONTNEED) &&
->           can_passthrough_madv_dontneed(start, end)) {
->           ret = get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED));
-> +        if (ret == 0)
-> +            page_reset_target_data(start, start + len);
->       }
->       mmap_unlock();
->   
+I don't link the RISC-V toolchains suppor fully position independent code
 
+> in what I=E2=80=99ve done/seen so far https://docs.rs/riscv-rt/latest/ris=
+cv_rt/ has address
+> ranges hard-coded in a linker script for different regions, and when pass=
+ing an ELF
+> file to -kernel, QEMU maps it to those addresses but boots at 0x8000_0000=
+ regardless.
+
+Yeah, I suspect we will keep the 0x8000_0000 as that's pretty standard
+
+>
+>
+> >> * With `qemu-system-riscv32 -machine virt -bios none -kernel something=
+.elf -s -S`,
+> >> GDB shows that execution starts at the lowest address of RAM, not of f=
+lash like I
+> >> expected. Then what is emulated flash for?
+> >
+> > If you supply a flash image we will start executing from flash automati=
+cally.
+>
+> Passing with -drive? Should I use that instead of -kernel?
+
+If you want to pass a drive then yes, that's the better option
+
+>
+>
+> >> * To what extent is the above calling convention standardized? I found=
+ similar things
+> >> in coreboot[4] and in OpenSBI[5]
+> >
+> > Good question. I don't think it's specified in a spec, but it is very c=
+ommon
+>
+> Should we document this convention as something guest code can rely on?
+
+We probably should at some point
+
+Alistair
+
+>
+> --
+> Simon Sapin
 
