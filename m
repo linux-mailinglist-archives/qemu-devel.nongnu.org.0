@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE14C571751
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:29:25 +0200 (CEST)
-Received: from localhost ([::1]:53116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDEF571742
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:25:10 +0200 (CEST)
+Received: from localhost ([::1]:47120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBD8v-0006MW-30
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:29:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42926)
+	id 1oBD4m-00023x-UY
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:25:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oBCot-0007LJ-TI
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:08:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47070)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oBCok-0007Dh-5n
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:08:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oBCof-0005d7-4r
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:08:42 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oBCoh-0005df-VV
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:08:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657620508;
+ s=mimecast20190719; t=1657620511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
  bh=z5TBqzYWwbtsWIT+aQo5sjIiIFDW7ToxIUygQzu4YMI=;
- b=ckxk91TtBz+A7Ck8s6FR1oQhouE3459WyKnKunuUqS6OT+0eXUg+yoLC/u8LS7ndOcBX/z
- iZgfAVfJedDeO9TFMeDmpjNtRIjY9deivHzToFbi/frsWp9dEC+T4N/7kJYIXCpJfPtmWX
- +0CFKcI+7cUEC+07Iod80Pw0BG7+m3g=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ b=cuZDDHU651jr12clnP0bxWxgUxot1lBMTx4Zxe/ROzSvAkt+BlxrxqQ1tnu+MDW7LvxAAv
+ VBv6EUuc2siFSNUEvdT0gDMNDyftJzJVWlIYdCngs6fsLB+UTyQXCT6RCqamC4leVccxTf
+ Zh9FedQsIZBfy9RhcA6rjD8MS1ka/jo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-jTZFDJzZN6mZbIZQYM-bZQ-1; Tue, 12 Jul 2022 06:08:21 -0400
-X-MC-Unique: jTZFDJzZN6mZbIZQYM-bZQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c17-20020a7bc011000000b003a2bfaf8d3dso3955641wmb.0
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 03:08:20 -0700 (PDT)
+ us-mta-90-YSvfdXQoOR27XHo_jsfWCQ-1; Tue, 12 Jul 2022 06:08:27 -0400
+X-MC-Unique: YSvfdXQoOR27XHo_jsfWCQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ j16-20020adfa550000000b0021d63d200a8so1259491wrb.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 03:08:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent
  :content-language:to:cc:references:from:organization:subject
  :in-reply-to:content-transfer-encoding;
  bh=z5TBqzYWwbtsWIT+aQo5sjIiIFDW7ToxIUygQzu4YMI=;
- b=tZaSSIMaLlYdxgWgdYfzjiDEld8hQ3bwm745B4PHvLzbNlzawx46RHtvIRz92seejl
- yvRCXqmv/LLGQzlPzmvbD1C+dDOW//lceOY0OdMXeG5AkiJ8FMkUp9UdZeE/M/8gP3+n
- X1UxbTXFZZeg/+xicBNbG5jLHoROvSMThWn6mseOjHUPwK1JHjdqdx+rhbHgyjvtrX5t
- snHMmepDeOivOvIHNBEB2bSo4DAhV6Zx8kcND/CStqcAo9h+VkhB6XqeTALULEAkQ4D7
- wKoRAnZ1kKWEiBLbxyWG0mpTRmU2F9XifFzMqnuxF/Pe+JdM5tzahzIEz/biElmLlL1S
- qo9g==
-X-Gm-Message-State: AJIora+UhAQ+CTODmvSIksgGVXzQWBuI8ASAKCwhgVxIA6Ixqm1cIF12
- bP0P71YLRZB3u9nomGqGCMLItjZdobFAp+5Ev6fYrVZnE+7NjNMrF+TpKQeQSZaWIckUTx/IpVr
- oLPE1dIE4jjLkPOw=
-X-Received: by 2002:a05:600c:214c:b0:3a2:f197:fae7 with SMTP id
- v12-20020a05600c214c00b003a2f197fae7mr383597wml.174.1657620499937; 
- Tue, 12 Jul 2022 03:08:19 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sYENC1C28mhUs/4MkFecYOwSdaxtrjewpLEGoYSp66vKZAiQUxSDVmmYuY0G9mv/IhHB6dcA==
-X-Received: by 2002:a05:600c:214c:b0:3a2:f197:fae7 with SMTP id
- v12-20020a05600c214c00b003a2f197fae7mr383561wml.174.1657620499622; 
- Tue, 12 Jul 2022 03:08:19 -0700 (PDT)
+ b=Q3knslXgrVoxslox1O1OLdOpTFRNYZOWNxfx3zZTRLmrpK+h/KA6KOAHac8ygowzk3
+ ulV9QGXk4vi56Xurr0T6GmxSdO/H7OjAOdYyWwR4cj8IUxj2xfroWoIvCawwPmOpZ/od
+ sU3zxXYmWnVbT7NAfoA0Rtfx9Tdikg8xpDBH2Ijoagbkx6z8mwzheWKzG+uU+OJNEf0t
+ sHF/R2JSSRu8f28GswAUNkihmiStMWhDA/GquZf9cwi/aBA38Dbq4siQx45rQbQAoxIr
+ Aslwpwl0mMh64lZOSH9810If/3PSGBQqQCX7lpSScciADo3q6poB688lOoYh5owszRyy
+ 4ovA==
+X-Gm-Message-State: AJIora+RQLChNRoNEDd3htg9sLtmrUIb9pR9F66qagSepAhtpjV6X2hl
+ V46mvS79Sw+Vf7y4ipd1EB75pTbUC36U3C3/DQGUQUgZ0tE762p0ePRbfYK7MAm8dlG3PMwjGYd
+ nUEaHHl9IQnUJ9Dg=
+X-Received: by 2002:adf:f2cd:0:b0:21d:6913:6d32 with SMTP id
+ d13-20020adff2cd000000b0021d69136d32mr21198831wrp.438.1657620506586; 
+ Tue, 12 Jul 2022 03:08:26 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vFPXGqX9DKNKd5EL8C/hod1KIP3nj3o8nwXFhNOXcnrIHsROw0vkkcPWu/LUEkYcQ+dk8FMw==
+X-Received: by 2002:adf:f2cd:0:b0:21d:6913:6d32 with SMTP id
+ d13-20020adff2cd000000b0021d69136d32mr21198813wrp.438.1657620506295; 
+ Tue, 12 Jul 2022 03:08:26 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c703:d900:a75d:cddc:d29f:bdb3?
  (p200300cbc703d900a75dcddcd29fbdb3.dip0.t-ipconnect.de.
  [2003:cb:c703:d900:a75d:cddc:d29f:bdb3])
  by smtp.gmail.com with ESMTPSA id
- v17-20020a5d6b11000000b002185631adf0sm7860199wrw.23.2022.07.12.03.08.18
+ t6-20020a5d4606000000b0021b866397a7sm8044143wrq.1.2022.07.12.03.08.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 03:08:19 -0700 (PDT)
-Message-ID: <b4023e83-18bb-dde0-8669-ad0856506f1f@redhat.com>
-Date: Tue, 12 Jul 2022 12:08:18 +0200
+ Tue, 12 Jul 2022 03:08:25 -0700 (PDT)
+Message-ID: <2dfdce60-6c8b-4874-a901-01e1ea37d976@redhat.com>
+Date: Tue, 12 Jul 2022 12:08:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
@@ -94,7 +94,8 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
