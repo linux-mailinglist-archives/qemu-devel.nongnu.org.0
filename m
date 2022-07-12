@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED780572750
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 22:32:52 +0200 (CEST)
-Received: from localhost ([::1]:36662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0D9572757
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 22:34:30 +0200 (CEST)
+Received: from localhost ([::1]:45038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBMYu-0002IL-37
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 16:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53560)
+	id 1oBMaU-00084q-2w
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 16:34:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBMUb-00051h-Qd
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:25 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36694)
+ id 1oBMUe-0005BL-Pv; Tue, 12 Jul 2022 16:28:28 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBMUa-0004pk-Gg
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:28:25 -0400
-Received: by mail-wr1-x436.google.com with SMTP id o4so12765405wrh.3
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 13:28:24 -0700 (PDT)
+ id 1oBMUd-0004q2-84; Tue, 12 Jul 2022 16:28:28 -0400
+Received: by mail-wr1-x431.google.com with SMTP id a5so12737367wrx.12;
+ Tue, 12 Jul 2022 13:28:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JRUrGe5IQT9RBbdLi1zvK/UHy9obDqF8nwtG0tL2tdY=;
- b=Cc9XOd+vvJbl4PRn9JxXvgkZXUCfWtrNroxKO7zUC4PblFd/W1GDF5DTc6tuKgbjg+
- uP9s1qXKZW9cqzqI5LXLuhpKwz52MaxS5rXXIIuHnEnp+VNu8D/dDb6ZX92OMi8y69Kw
- zFp7iRcCTdapu/MWq/PCaMwWaTNOlwr80Sq4qxGBNRkFh1VFFhVGYB7OOB+sVjwMxO6C
- QqFZLbDY5MUZ0S6FqrU2L2gDRnpmh5Hvt4RrBSh3HUBK5mkBWIzSxZOuFbTnLM0kZPRQ
- YhO3RRn6nu83KxuYDgRJhzSkP7Wl7MsE3HpGIdM2me+lFmz2UGu5iCqqdu6sM2Kjln8o
- KM8A==
+ bh=W9YnMTm4KQVfXFw96DY2vqBiBt5aZrVruQ2F7I8t9nE=;
+ b=G6y+tRPf7xPUv0nP0Kbk7DcgMELlTXAfePcwTlxvQArVz0lQqBUsJ1yb2rUysPtYCs
+ KZQtvJ0RBQDvpoatD/eYHHEV0TkcDG5RSRRUlevNbRJr75Q0A0iUZLPlgA2hC7hn5c76
+ 0m3aY3D36TfH/utD1FwG4mndkcseynfKDdAWKJFKc5PPVHl3Vd3SyEt0xiltIuy+XhCt
+ IgvntjbonKhEsIsOjhuRZScYj1aeKYwPBeEJn019YsbTi+22dPyAdxjPLigeonUa+YkY
+ rHgM/yBX7oSkxGPY0fMDlrln6+Br2t4k8F8VANjdl7GnJiGingRCxjcEG0J2I3faeAb1
+ cPAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JRUrGe5IQT9RBbdLi1zvK/UHy9obDqF8nwtG0tL2tdY=;
- b=hJjtzP4StNZIhirSraDWPsyF0Ekefdt36xZ/sh4Yl2y8XQgzF0Qv3KZ/utUAUjkGqw
- RufzdsgwSjs2BdR0smC6IzN1JloAZg1NzP3NnPUf0XcM7pVXIXT9NHouCvuyoBcdQsj0
- Jyyjh6Mr/tRPtJPnMQaFQjWQNqy4vn6Jc5XMlY2yoO943zXKz+9rzNjZ9uHXPgEiOO6b
- akLG6Nyu2A7+kqrcoGCaLS/nCxgqOafViWq3o+JlLoHPeVPjtvI8P6jaKymBlApbLB0H
- O24qDX+K+o3cbywBDGLEqrcziB9uVxalpgTJX0HvYrqD0iEawQwOUHNQd46VkzUsqNWi
- RMeg==
-X-Gm-Message-State: AJIora/qtiDuEPqsG3fGV7U4NxA9veEuTjD8qnDTSL87SSfq0hX1N2Fl
- xUxZodtG/x1TMDbRjUSPmhHfHUjYYMl7XfJ7
-X-Google-Smtp-Source: AGRyM1szNHPlfm515KMo31cMiq4Djwgw1G3lTVUY1NeGo8yuze8AlkIJhhSKZcp2eqsZ8XTs8fr2bg==
-X-Received: by 2002:adf:d20e:0:b0:21d:7654:729b with SMTP id
- j14-20020adfd20e000000b0021d7654729bmr24120953wrh.239.1657657703093; 
- Tue, 12 Jul 2022 13:28:23 -0700 (PDT)
+ bh=W9YnMTm4KQVfXFw96DY2vqBiBt5aZrVruQ2F7I8t9nE=;
+ b=clxAkuB+UoML2AQbvXDuqP3hOzGHdNP1lNnUP7Pdwg+5Jg4WVbehQBVh+rcANk1Aoy
+ 2i1JeBiDgaiFyH9/wBhd1kGJ+HdWL6Art+jrXEWtms4VvW6TJQhoY2eGPZdjwA6d7VxC
+ J4gR8aANI5zQQJ0q9NZWHEm6Davv368BPH+RZzSCmhh4yCtBeXO+K4YGnTEtag8vSUSu
+ 301fcfVbAv5CtD0SYFTA5YL+qrkOS+IVCUNe2x66/6AI34OVsfCRXL9rKfBKq7I+cyGo
+ 32mE5u9X6zAnoV9GPs2rn+loJC96nbXYc1ZisZyj9zF8rvUwRwUmD2umSLKiTQ/NnbVA
+ tFEQ==
+X-Gm-Message-State: AJIora+ZOI0Ee8uxj1FzSONl+u2/wOYtGxQGc+IGaQUYRCgmybRjrpml
+ 2Ol8VTnj4p53EsienmQtXqvfhbmiZj9GOBWW
+X-Google-Smtp-Source: AGRyM1uUP+SPl9xBJtV+UqpJRpOjL+vCxYBUFpxR72VfGSwBRCUfwBmoqgSgfRo6ey9LSXEzwvaslA==
+X-Received: by 2002:a05:6000:81e:b0:21d:8811:777b with SMTP id
+ bt30-20020a056000081e00b0021d8811777bmr24020366wrb.647.1657657705692; 
+ Tue, 12 Jul 2022 13:28:25 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f17-20020a5d50d1000000b0021b956da1dcsm9176686wrt.113.2022.07.12.13.28.22
+ p129-20020a1c2987000000b003a17ab4e7c8sm14235580wmp.39.2022.07.12.13.28.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 13:28:22 -0700 (PDT)
-Message-ID: <d8527d10-626f-5b8c-3b4e-16a98a04add6@amsat.org>
-Date: Tue, 12 Jul 2022 22:12:20 +0200
+ Tue, 12 Jul 2022 13:28:25 -0700 (PDT)
+Message-ID: <ba682c99-de50-eea9-1ade-89aba0a54388@amsat.org>
+Date: Tue, 12 Jul 2022 22:13:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [RFC PATCH] docs/devel: fix description of
- OBJECT_DECLARE_SIMPLE_TYPE
+Subject: Re: [PATCH] MAINTAINERS: Add myself as Guest Agent reviewer
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220712103131.2006653-1-alex.bennee@linaro.org>
-In-Reply-To: <20220712103131.2006653-1-alex.bennee@linaro.org>
+To: Konstantin Kostiuk <kkostiuk@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20220712092715.2136898-1-kkostiuk@redhat.com>
+In-Reply-To: <20220712092715.2136898-1-kkostiuk@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,16 +95,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 12/7/22 12:31, Alex Bennée wrote:
-> Since 30b5707c26 (qom: Remove module_obj_name parameter from
-> OBJECT_DECLARE* macros) we don't need the additional two parameters.
-> Fix the documentation.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+On 12/7/22 11:27, Konstantin Kostiuk wrote:
+> Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 > ---
->   docs/devel/qom.rst | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 450abd0252..b1e73d99f3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2880,6 +2880,7 @@ T: git https://repo.or.cz/qemu/armbru.git qapi-next
+>   
+>   QEMU Guest Agent
+>   M: Michael Roth <michael.roth@amd.com>
+> +R: Konstantin Kostiuk <kkostiuk@redhat.com>
+>   S: Maintained
+>   F: qga/
+>   F: docs/interop/qemu-ga.rst
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
 
