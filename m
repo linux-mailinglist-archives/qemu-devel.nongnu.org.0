@@ -2,94 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888FA57294B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 00:28:55 +0200 (CEST)
-Received: from localhost ([::1]:57770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EED57299B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 01:03:36 +0200 (CEST)
+Received: from localhost ([::1]:59080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBONC-0002Jp-Lr
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 18:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48332)
+	id 1oBOul-000105-7d
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 19:03:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1oBOIA-00047R-BD
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:23:42 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:37307)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1oBOI8-0003Pz-B4
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:23:42 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 9BF592B05A68;
- Tue, 12 Jul 2022 18:23:37 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 12 Jul 2022 18:23:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1657664617; x=
- 1657668217; bh=8FlRVxSbtBJ7Cpk5qU1QcastxbDfhqCD27gOB1Rd184=; b=c
- v0zs8T0Shf8KcfN4wYVIyX+9335Lp9SzZSSJ+RAFF2A0dH+Zu0sDxTtybAHxLiod
- OQplYQe76Lq1A/bVDNh3LYRZqx8nzX3Wy3KdJsbp7rmCaSWCITPYpAQbfzbcT+rF
- X0EufSFJrpOgHM9o+Yr79Zce8SZpjR4uEzqnRGAxLq96cKUkklWdPI1su3R/MELw
- YIZQAAeqMcISh3IxzkTerJ8tVXl+sLih9Z3CxxvyfPfhSGe1hu0S6aunURBUU90w
- go0paNt+j9lMdEhBz1hkr4pQlrGhypGVV48UHnu+U+q18eHAhXqfbvbpSB8KhLmg
- PT77Gh/PFy6cwc/8lViUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657664617; x=
- 1657668217; bh=8FlRVxSbtBJ7Cpk5qU1QcastxbDfhqCD27gOB1Rd184=; b=P
- 1B4CKKx59IQq3F9SsDRo0mAs70UBHHSqszP9NHM4qUAlomweyAVnzn21k2I5d9Kx
- eowFlB8GNcKI6X5P7GONp+2Hu/Sk0gVZYeeEyCIYcVSHrMrZiv7m1+t+k0gXdm6M
- G2+VWFNVUrIcSdhnihCgwEFEsTD4xNo0L2EMrC3PlxueVNXTZ/FXLbESF9fRlZ/9
- 0pUI8aOkVYX/M3/u0d54ToV4Xhx6xCDR7C5ziTG8o2aDtl6FHLCzhV/HmHzMX0oM
- R8ivAb9OJTXDHtXAg6aP03bGJMwdygat0TYuUFUKJFfCQ/3JZFIQDQCRZ9BEJDwe
- tj5rHDqXImCV9ozUmIpkA==
-X-ME-Sender: <xms:aPTNYvLu08G70Y1Mi1EWd1NjdwxsokFGcIaWzH3eqy6e3tkHK_0V5A>
- <xme:aPTNYjJF-FrL0hAjolwlRt5X_7kyk5UKWSwHjBLP8KAfyxJPzqes0EnNp_ov3Ko2I
- lwluNRgXXVQOqFdJv0>
-X-ME-Received: <xmr:aPTNYnu6WOem1U7RkTOSdSxFw_42aAflyxUfEeUnhAzAc6Puyz64-hbXfwYV>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejiedgudduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
- htthgvrhhnpefhgeffvedufeevteegkeetieejhffhudeujedvgedvheffheejveethffh
- ffefueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:aPTNYoZUmRDnGsP18mJmqUyv8bRmcrD25M4hkHC7v_2nwe1oMJNbRw>
- <xmx:aPTNYmYlBS9dcdTTSJHEmI2_GUbQ6xugljR6TUA2mwMThBzDHpj2dQ>
- <xmx:aPTNYsAsuRPBn5H5aC_seYE7UhqagC3fwr35kl-8DAY13erJ14t4Aw>
- <xmx:afTNYtUQaurcKJ4ATS5vFFILJi08kO1mJjJPU6lG38MDgjyn5Y_aLWtzA7s>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Jul 2022 18:23:35 -0400 (EDT)
-Date: Tue, 12 Jul 2022 15:23:34 -0700
-From: Peter Delevoryas <peter@pjd.dev>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Cc: Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] avocado: Fix BUILD_DIR if it's equal to SOURCE_DIR
-Message-ID: <Ys30ZrWne5IBpYQZ@pdel-mbp>
-References: <20220702185604.46643-1-peter@pjd.dev>
- <f2fceb5e-ab0e-20fd-3549-a6086cec5215@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oBOOu-0003wc-Kw
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:30:40 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46734)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oBOOs-0003yE-Qk
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:30:40 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id v16so13048473wrd.13
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 15:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=D1nrpbVQc4na+LF8DaVMc4xDJEDtsUl9ox4IxP3GdXc=;
+ b=kw8T3i7D5+VG17+BnpCXG6o02FK4XvU3aHP7zzx07S5pZcWNa/n02SQSf/4Gx90EVS
+ +HgvLQfA/5WFmotGIpKIl19PkNx4cvdvvv7x9atGZlDvvi7oZimDUO08K4iD+2ARH9ri
+ YiPdJUIrstj41Ntt+K1ncogF0Bqm7ZfZiOpfePm6N9BrKMGDhK0wFr4ss22bLfyBGMWP
+ KiyeSKRaGX9Z1NApQ423rtDdVcxrgTownKavx3Jzxx+YcHdzCKp1Vi2ckiP6jPdK5b8N
+ 9hVdxHq1CWarU05fNGxnWegtViN/DCIghmT7yMluJejqNm6K4W5hGHBLxchf8gNEF2md
+ CoGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=D1nrpbVQc4na+LF8DaVMc4xDJEDtsUl9ox4IxP3GdXc=;
+ b=1VZHXfiDQTt5kLNW9EIvRpOxFILv78J8UCNA5YvWnz/ZqyY46JvClCw+Zds2Lrfbl2
+ xFbg9KjZBrT3YjBQIW9hIL5glplt+qWyOTrvGW7V+f6Y1fNaNrqhFETeIKJ3NWqtITbF
+ GEzHBn7CACsGC/in3l1L/tSddplfYZsQsGSVtZvhHlBvn1pwc3VG8rbItZnsTEzqWgz8
+ atrCJtVk1tfPzgbf8lePLDpl2Of5OtXygu2p6L2ckIyh08g6pbcMoX0lsQdjqiBio+X8
+ TO2xLWFu0QiP80/YGAKEnfoRP6huZaphglBnmmihUJnRomnUJrtiuFj379J87BfzncBE
+ I6kQ==
+X-Gm-Message-State: AJIora/vEeGw4K6Uz39+2S9wkXLYteXGJui0RSEvcVROGEZzX5IC3/h9
+ UWVj7FUKvrPZaHW5YQbXdqs=
+X-Google-Smtp-Source: AGRyM1sXBLVvIx0yvSK3x2i0WAm+YBX2EDKMlI+LFz4fLjBymsTgA9zy3Z+aAdmDNEiZwILDP9ZNrA==
+X-Received: by 2002:a5d:59a9:0:b0:21d:7ee2:8f90 with SMTP id
+ p9-20020a5d59a9000000b0021d7ee28f90mr197946wrr.598.1657665037028; 
+ Tue, 12 Jul 2022 15:30:37 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ c15-20020adfe70f000000b0021d65e9d449sm9490209wrm.73.2022.07.12.15.30.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jul 2022 15:30:36 -0700 (PDT)
+Message-ID: <e6b2e720-7322-c925-cf15-643794badd4a@amsat.org>
+Date: Wed, 13 Jul 2022 00:30:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f2fceb5e-ab0e-20fd-3549-a6086cec5215@amsat.org>
-Received-SPF: pass client-ip=64.147.123.27; envelope-from=peter@pjd.dev;
- helo=wnew2-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH] Align Raspberry Pi DMA interrupts with Linux DTS
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Andrey Makarov <ph.makarov@gmail.com>
+Cc: qemu-devel@nongnu.org, Andrey Makarov <andrey.makarov@auriga.com>,
+ Jeremy Linton <lintonrjeremy@gmail.com>, Pete Batard <pete@akeo.ie>
+References: <20220624195206.671993-1-andrey.makarov@auriga.com>
+ <CAFEAcA_xQd45CGsmU-_C4LcTP6M+5PfkgKOJuk2SSBVDbm7pyg@mail.gmail.com>
+In-Reply-To: <CAFEAcA_xQd45CGsmU-_C4LcTP6M+5PfkgKOJuk2SSBVDbm7pyg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM14=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,58 +95,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Tue, Jul 12, 2022 at 11:53:14PM +0200, Philippe Mathieu-Daudé wrote:
-> On 2/7/22 20:56, Peter Delevoryas wrote:
-> > I like to build QEMU from the root source directory, rather than cd'ing
-> > into the build directory. This code may as well include a search path
-> > for that, so that you can run avocado tests individually without
-> > specifying "-p qemu_bin=build/qemu-system-arm" manually.
-> > 
-> > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> > ---
-> >   tests/avocado/avocado_qemu/__init__.py | 17 +++++++++--------
-> >   1 file changed, 9 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-> > index b656a70c55..ed4853c805 100644
-> > --- a/tests/avocado/avocado_qemu/__init__.py
-> > +++ b/tests/avocado/avocado_qemu/__init__.py
-> > @@ -120,14 +120,15 @@ def pick_default_qemu_bin(bin_prefix='qemu-system-', arch=None):
-> >       # qemu binary path does not match arch for powerpc, handle it
-> >       if 'ppc64le' in arch:
-> >           arch = 'ppc64'
-> > -    qemu_bin_relative_path = os.path.join(".", bin_prefix + arch)
-> > -    if is_readable_executable_file(qemu_bin_relative_path):
-> > -        return qemu_bin_relative_path
-> > -
-> > -    qemu_bin_from_bld_dir_path = os.path.join(BUILD_DIR,
-> > -                                              qemu_bin_relative_path)
-> > -    if is_readable_executable_file(qemu_bin_from_bld_dir_path):
-> > -        return qemu_bin_from_bld_dir_path
-> > +    qemu_bin_name = bin_prefix + arch
-> > +    qemu_bin_paths = [
-> > +        os.path.join(".", qemu_bin_name),
-> > +        os.path.join(BUILD_DIR, qemu_bin_name),
-> > +        os.path.join(BUILD_DIR, "build", qemu_bin_name),
++Pete/Jeremy
+
+On 26/6/22 12:16, Peter Maydell wrote:
+> On Fri, 24 Jun 2022 at 21:54, Andrey Makarov <ph.makarov@gmail.com> wrote:
+>>
+>> All Raspberry Pi models 1-3 (based on bcm2835) have
+>> Linux device tree (arch/arm/boot/dts/bcm2835-common.dtsi +25):
+>>
+>>      /* dma channel 11-14 share one irq */
+>>
+>> which mismatched the Qemu model.
+>> In this patch channels 0--10 and 11--14 are handled separately.
 > 
-> I suppose you are building as pseudo-in-tree (see commit dedad02720:
-> "configure: add support for pseudo-"in source tree" builds"). OK.
+> Is there any hardware documentation that says whether QEMU or
+> the DTB is correct? The device tree is at best a secondary source...
 
-That's right, thanks for adding the reference in the commit message.
+There are 10 DMA channels, one is labelled "reserved".
 
+EDK2 lists it too:
+https://github.com/tianocore/edk2-platforms/blob/master/Platform/RaspberryPi/AcpiTables/AcpiTables.h#L57
+
+I couldn't find any precise information regarding channels 11-14.
+
+>> Signed-off-by: Andrey Makarov <andrey.makarov@auriga.com>
+>> ---
+>>   hw/arm/bcm2835_peripherals.c | 10 +++++++++-
+>>   1 file changed, 9 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+>> index 48538c9360..3d808b0e31 100644
+>> --- a/hw/arm/bcm2835_peripherals.c
+>> +++ b/hw/arm/bcm2835_peripherals.c
+>> @@ -322,13 +322,21 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+>>       memory_region_add_subregion(&s->peri_mr, DMA15_OFFSET,
+>>                   sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dma), 1));
+>>
+>> -    for (n = 0; n <= 12; n++) {
+>> +    for (n = 0; n <= 10; n++) {
+>>           sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
+>>                              qdev_get_gpio_in_named(DEVICE(&s->ic),
+>>                                                     BCM2835_IC_GPU_IRQ,
+>>                                                     INTERRUPT_DMA0 + n));
+>>       }
+>>
+>> +    /* According to DTS, dma channels 11-14 share one irq */
+>> +    for (n = 11; n <= 14; n++) {
+>> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
+>> +                           qdev_get_gpio_in_named(DEVICE(&s->ic),
+>> +                                                  BCM2835_IC_GPU_IRQ,
+>> +                                                  INTERRUPT_DMA0 + 11));
 > 
-> > +    ]
-> > +    for path in qemu_bin_paths:
-> > +        if is_readable_executable_file(path):
-> > +            return path
-> >       return None
+> You can't connect multiple qemu_irq lines to one like this.
+> If the hardware behaves this way then you need to create
+> an OR gate, wire all the lines from the devices to the
+> OR gate inputs, and wire the OR gate output to the destination.
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Thanks!!
-Peter
-
+> thanks
+> -- PMM
 > 
-> And queued.
+
 
