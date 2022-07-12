@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA5F572896
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 23:26:54 +0200 (CEST)
-Received: from localhost ([::1]:38430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF525728B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 23:43:36 +0200 (CEST)
+Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBNPB-0004sk-6p
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 17:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34688)
+	id 1oBNfK-0005Ep-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 17:43:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oBNIK-0002ut-PO
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 17:19:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60985)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oBNHx-0002L3-UT
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 17:19:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657660765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pePwG8ZwqKYsNfcZobAmGxdftqc/BwZCeZvQfQvX01I=;
- b=DkoAZdCXQIvkGXKrGcz22pnLqlumLMfrqAp9/5JRzH+5uriAQ/7rsNwkiiHH1eZ/2fwgEQ
- l1yeoCVh55i/kkvc6r27CLdNqgvim9luEcel4C93zZHnPics/q1hjbTZZtAMJWU3tjrSjG
- Ht3qsaYQw/+clx1/9wDpplCaskjFALU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-cBaNBE9pO5CTXScsY0LqWg-1; Tue, 12 Jul 2022 17:19:22 -0400
-X-MC-Unique: cBaNBE9pO5CTXScsY0LqWg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 672D11857F07;
- Tue, 12 Jul 2022 21:19:21 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 514F22166B30;
- Tue, 12 Jul 2022 21:19:20 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- qemu-block@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [RFC PATCH 8/8] block: remove all unused ->can_set_aio_ctx and
- ->set_aio_ctx callbacks
-Date: Tue, 12 Jul 2022 17:19:11 -0400
-Message-Id: <20220712211911.1302836-9-eesposit@redhat.com>
-In-Reply-To: <20220712211911.1302836-1-eesposit@redhat.com>
-References: <20220712211911.1302836-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oBNd0-00038D-1j
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 17:41:10 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:46710)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oBNct-0005xs-OD
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 17:41:09 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ h14-20020a1ccc0e000000b0039eff745c53so143126wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 14:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0t3CY8K8KJUFI+MGrv97UERw8eIKwQF3im5xCkO6ucI=;
+ b=pLSAGexSm1Uv08I6LmO44/t9hfg1lYwjQJspoKwPxnOv2/4IoKLVxVC1NaqRwwbT1c
+ /1QsUoeeu1Jr6xd22fRCBcxHq1Nid23zJjd+rd6wjamWdrSRXKclZR+NFVXqbKmJU/q0
+ JnSqHIlXSbBA1euDppSoDah3+WwHKorS0DUok7JE9FraWzfFJbQ3A5eT3wdhVln/DGoy
+ e3GKe6bFtoSCYtFTotUOCHyFk9ujsnZA3jEq4dL9ahuI8tTv8OkxYkHOyeXpW8vY6Iaa
+ yIDApiN9D+jnHwjsYW8MIf1djL5UV5uCwKJbrrZvLhPbOVBzFeMyRO0z9B5TniPqhk1l
+ Ljew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0t3CY8K8KJUFI+MGrv97UERw8eIKwQF3im5xCkO6ucI=;
+ b=wId3nViIOXRsV5JrCpX2+2l3G8TPxBw+yzj82aigbhursajcRYGf8ncKPBzFxfRArp
+ XxrmJkj0Z6Oq8sAwgxBsiZSPttEoW/ilJytDrW0ZfXrJDmun+OBDjSGLKd6WHzdClYxE
+ /GkLc8yi6ePl7QQxJlTPYHNmMnIzaL1ol0xr0xoeTKWUjgyJiFiZPlRPW2hUWcD4b7OU
+ KYvadJpx4mmV2dKY3vaB+gAnWTS9VgPYqK++jHV9Ybnuc03k3ppzPuTRWkDrRfkA13im
+ 5BnvZT1gJ4Ihju7jz5bSKnQDSKwan3C9BzNb30qFzcV9ebPqG6ujLEyBXFeW8KwrNH7Z
+ 3+Rg==
+X-Gm-Message-State: AJIora/ykAkLACcI2NoBgeZP/kSIt2Sd3uhiIoCuRQ+yeEuqvsj6SPgu
+ +vHxrZc4+nIsKTXDmJE6rtg=
+X-Google-Smtp-Source: AGRyM1twxMMgkhJstFz/YainQ8tarAt3dVJicrgZPxk8FVmgibk3teCmBqlzUZDkMtd6Wmbsqrp/8g==
+X-Received: by 2002:a05:600c:3592:b0:3a1:9e9d:2595 with SMTP id
+ p18-20020a05600c359200b003a19e9d2595mr6344455wmq.76.1657662061666; 
+ Tue, 12 Jul 2022 14:41:01 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ z12-20020a05600c0a0c00b003a02b135747sm81114wmp.46.2022.07.12.14.41.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jul 2022 14:41:01 -0700 (PDT)
+Message-ID: <06506e7e-a512-be55-f2c2-5899cc99898c@amsat.org>
+Date: Tue, 12 Jul 2022 23:40:59 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH 1/3] ui/cocoa: Run qemu_init in the main thread
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20220706021322.22570-1-akihiko.odaki@gmail.com>
+ <20220706021322.22570-2-akihiko.odaki@gmail.com>
+In-Reply-To: <20220706021322.22570-2-akihiko.odaki@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,411 +97,471 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Together with all _can_set_ and _set_ APIs, as they are not needed
-anymore.
+Hi Akihiko,
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- block.c                            | 196 -----------------------------
- block/block-backend.c              |  33 -----
- blockjob.c                         |  35 ------
- include/block/block-global-state.h |   9 --
- include/block/block_int-common.h   |   4 -
- 5 files changed, 277 deletions(-)
+On 6/7/22 04:13, Akihiko Odaki wrote:
+> This work is based on:
+> https://patchew.org/QEMU/20220317125534.38706-1-philippe.mathieu.daude@gmail.com/
+> 
+> Simplify the initialization dance by running qemu_init() in the main
+> thread before the Cocoa event loop starts. The secondary thread only
+> runs only qemu_main_loop() and qemu_cleanup().
+> 
+> This fixes a case where addRemovableDevicesMenuItems() calls
+> qmp_query_block() while expecting the main thread to still hold
+> the BQL.
+> 
+> Overriding the code after calling qemu_init() is done by dynamically
+> replacing a function pointer variable, qemu_main when initializing
+> ui/cocoa, which unifies the static implementation of main() for
+> builds with ui/cocoa and ones without ui/cocoa.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>   docs/devel/fuzzing.rst  |   4 +-
+>   include/qemu-main.h     |   3 +-
+>   include/sysemu/sysemu.h |   2 +-
+>   softmmu/main.c          |  14 +--
+>   softmmu/vl.c            |   2 +-
+>   tests/qtest/fuzz/fuzz.c |   2 +-
+>   ui/cocoa.m              | 185 ++++++++++++----------------------------
+>   7 files changed, 69 insertions(+), 143 deletions(-)
+> 
+> diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
+> index 784ecb99e66..715330c8561 100644
+> --- a/docs/devel/fuzzing.rst
+> +++ b/docs/devel/fuzzing.rst
+> @@ -287,8 +287,8 @@ select the fuzz target. Then, the qtest client is initialized. If the target
+>   requires qos, qgraph is set up and the QOM/LIBQOS modules are initialized.
+>   Then the QGraph is walked and the QEMU cmd_line is determined and saved.
+>   
+> -After this, the ``vl.c:qemu_main`` is called to set up the guest. There are
+> -target-specific hooks that can be called before and after qemu_main, for
+> +After this, the ``vl.c:main`` is called to set up the guest. There are
+> +target-specific hooks that can be called before and after main, for
+>   additional setup(e.g. PCI setup, or VM snapshotting).
+>   
+>   ``LLVMFuzzerTestOneInput``: Uses qtest/qos functions to act based on the fuzz
+> diff --git a/include/qemu-main.h b/include/qemu-main.h
+> index 6a3e90d0ad5..6889375e7c2 100644
+> --- a/include/qemu-main.h
+> +++ b/include/qemu-main.h
+> @@ -5,6 +5,7 @@
+>   #ifndef QEMU_MAIN_H
+>   #define QEMU_MAIN_H
+>   
+> -int qemu_main(int argc, char **argv, char **envp);
+> +void qemu_default_main(void);
+> +extern void (*qemu_main)(void);
+>   
+>   #endif /* QEMU_MAIN_H */
+> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> index 812f66a31a9..254c1eabf57 100644
+> --- a/include/sysemu/sysemu.h
+> +++ b/include/sysemu/sysemu.h
+> @@ -102,7 +102,7 @@ void qemu_boot_set(const char *boot_order, Error **errp);
+>   
+>   bool defaults_enabled(void);
+>   
+> -void qemu_init(int argc, char **argv, char **envp);
+> +void qemu_init(int argc, char **argv);
+>   void qemu_main_loop(void);
+>   void qemu_cleanup(void);
+>   
+> diff --git a/softmmu/main.c b/softmmu/main.c
+> index c00432ff098..41a091f2c72 100644
+> --- a/softmmu/main.c
+> +++ b/softmmu/main.c
+> @@ -30,18 +30,18 @@
+>   #include <SDL.h>
+>   #endif
+>   
+> -int qemu_main(int argc, char **argv, char **envp)
+> +void qemu_default_main(void)
+>   {
+> -    qemu_init(argc, argv, envp);
+>       qemu_main_loop();
+>       qemu_cleanup();
+> -
+> -    return 0;
+>   }
+>   
+> -#ifndef CONFIG_COCOA
+> +void (*qemu_main)(void) = qemu_default_main;
+> +
+>   int main(int argc, char **argv)
+>   {
+> -    return qemu_main(argc, argv, NULL);
+> +    qemu_init(argc, argv);
+> +    qemu_main();
+> +
+> +    return 0;
+>   }
+> -#endif
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 3f264d4b093..e8c73d0bb40 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2589,7 +2589,7 @@ void qmp_x_exit_preconfig(Error **errp)
+>       }
+>   }
+>   
+> -void qemu_init(int argc, char **argv, char **envp)
+> +void qemu_init(int argc, char **argv)
+>   {
+>       QemuOpts *opts;
+>       QemuOpts *icount_opts = NULL, *accel_opts = NULL;
+> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+> index 2062b40d82b..0bde925bf83 100644
+> --- a/tests/qtest/fuzz/fuzz.c
+> +++ b/tests/qtest/fuzz/fuzz.c
+> @@ -221,7 +221,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+>           g_free(pretty_cmd_line);
+>       }
+>   
+> -    qemu_init(result.we_wordc, result.we_wordv, NULL);
+> +    qemu_init(result.we_wordc, result.we_wordv);
+>   
+>       /* re-enable the rcu atfork, which was previously disabled in qemu_init */
+>       rcu_enable_atfork();
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index 6a4dccff7f0..55413594d14 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -100,15 +100,11 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+>   static int left_command_key_enabled = 1;
+>   static bool swap_opt_cmd;
+>   
+> -static int gArgc;
+> -static char **gArgv;
+> +static QemuThread qemu_main_thread;
+> +static bool qemu_main_terminating;
+>   static bool stretch_video;
+>   static NSTextField *pauseLabel;
+>   
+> -static QemuSemaphore display_init_sem;
+> -static QemuSemaphore app_started_sem;
+> -static bool allow_events;
+> -
+>   static NSInteger cbchangecount = -1;
+>   static QemuClipboardInfo *cbinfo;
+>   static QemuEvent cbevent;
+> @@ -581,18 +577,6 @@ - (void) updateUIInfoLocked
+>   
+>   - (void) updateUIInfo
+>   {
+> -    if (!allow_events) {
+> -        /*
+> -         * Don't try to tell QEMU about UI information in the application
+> -         * startup phase -- we haven't yet registered dcl with the QEMU UI
+> -         * layer, and also trying to take the iothread lock would deadlock.
+> -         * When cocoa_display_init() does register the dcl, the UI layer
+> -         * will call cocoa_switch(), which will call updateUIInfo, so
+> -         * we don't lose any information here.
+> -         */
+> -        return;
+> -    }
+> -
+>       with_iothread_lock(^{
+>           [self updateUIInfoLocked];
+>       });
+> @@ -778,16 +762,6 @@ - (void) handleMonitorInput:(NSEvent *)event
+>   
+>   - (bool) handleEvent:(NSEvent *)event
+>   {
+> -    if(!allow_events) {
+> -        /*
+> -         * Just let OSX have all events that arrive before
+> -         * applicationDidFinishLaunching.
+> -         * This avoids a deadlock on the iothread lock, which cocoa_display_init()
+> -         * will not drop until after the app_started_sem is posted. (In theory
+> -         * there should not be any such events, but OSX Catalina now emits some.)
+> -         */
+> -        return false;
+> -    }
+>       return bool_with_iothread_lock(^{
+>           return [self handleEventLocked:event];
+>       });
+> @@ -1279,29 +1253,18 @@ - (void) dealloc
+>       [super dealloc];
+>   }
+>   
+> -- (void)applicationDidFinishLaunching: (NSNotification *) note
+> -{
+> -    COCOA_DEBUG("QemuCocoaAppController: applicationDidFinishLaunching\n");
+> -    allow_events = true;
+> -    /* Tell cocoa_display_init to proceed */
+> -    qemu_sem_post(&app_started_sem);
+> -}
+> -
+>   - (void)applicationWillTerminate:(NSNotification *)aNotification
+>   {
+>       COCOA_DEBUG("QemuCocoaAppController: applicationWillTerminate\n");
+>   
+>       with_iothread_lock(^{
+> -        shutdown_action = SHUTDOWN_ACTION_POWEROFF;
+> -        qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_UI);
+> +        if (!qemu_main_terminating) {
+> +            shutdown_action = SHUTDOWN_ACTION_POWEROFF;
+> +            qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_UI);
+> +        }
+>       });
+>   
+> -    /*
+> -     * Sleep here, because returning will cause OSX to kill us
+> -     * immediately; the QEMU main loop will handle the shutdown
+> -     * request and terminate the process.
+> -     */
+> -    [NSThread sleepForTimeInterval:INFINITY];
+> +    qemu_thread_join(&qemu_main_thread);
+>   }
+>   
+>   - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
+> @@ -1313,7 +1276,7 @@ - (NSApplicationTerminateReply)applicationShouldTerminate:
+>                                                            (NSApplication *)sender
+>   {
+>       COCOA_DEBUG("QemuCocoaAppController: applicationShouldTerminate\n");
+> -    return [self verifyQuit];
+> +    return qatomic_read(&qemu_main_terminating) || [self verifyQuit];
+>   }
+>   
+>   - (void)windowDidChangeScreen:(NSNotification *)notification
+> @@ -1915,92 +1878,35 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
+>   /*
+>    * The startup process for the OSX/Cocoa UI is complicated, because
+>    * OSX insists that the UI runs on the initial main thread, and so we
+> - * need to start a second thread which runs the vl.c qemu_main():
+> - *
+> - * Initial thread:                    2nd thread:
+> - * in main():
+> - *  create qemu-main thread
+> - *  wait on display_init semaphore
+> - *                                    call qemu_main()
+> - *                                    ...
+> - *                                    in cocoa_display_init():
+> - *                                     post the display_init semaphore
+> - *                                     wait on app_started semaphore
+> - *  create application, menus, etc
+> - *  enter OSX run loop
+> - * in applicationDidFinishLaunching:
+> - *  post app_started semaphore
+> - *                                     tell main thread to fullscreen if needed
+> - *                                    [...]
+> - *                                    run qemu main-loop
+> - *
+> - * We do this in two stages so that we don't do the creation of the
+> - * GUI application menus and so on for command line options like --help
+> - * where we want to just print text to stdout and exit immediately.
+> + * need to start a second thread which runs the qemu_default_main().
+>    */
+>   
+>   static void *call_qemu_main(void *opaque)
+>   {
+> -    int status;
+> -
+> -    COCOA_DEBUG("Second thread: calling qemu_main()\n");
+> -    status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
+> -    COCOA_DEBUG("Second thread: qemu_main() returned, exiting\n");
+> +    COCOA_DEBUG("Second thread: calling qemu_default_main()\n");
+> +    qemu_mutex_lock_iothread();
+> +    qemu_default_main();
+> +    qatomic_set(&qemu_main_terminating, true);
+> +    qemu_mutex_unlock_iothread();
+> +    COCOA_DEBUG("Second thread: qemu_default_main() returned, exiting\n");
+>       [cbowner release];
+> -    exit(status);
+> -}
+> -
+> -int main (int argc, char **argv) {
+> -    QemuThread thread;
+> -
+> -    COCOA_DEBUG("Entered main()\n");
+> -    gArgc = argc;
+> -    gArgv = argv;
+> +    [NSApp terminate:nil];
+>   
+> -    qemu_sem_init(&display_init_sem, 0);
+> -    qemu_sem_init(&app_started_sem, 0);
+> -
+> -    qemu_thread_create(&thread, "qemu_main", call_qemu_main,
+> -                       NULL, QEMU_THREAD_DETACHED);
+> -
+> -    COCOA_DEBUG("Main thread: waiting for display_init_sem\n");
+> -    qemu_sem_wait(&display_init_sem);
+> -    COCOA_DEBUG("Main thread: initializing app\n");
+> -
+> -    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+> -
+> -    // Pull this console process up to being a fully-fledged graphical
+> -    // app with a menubar and Dock icon
+> -    ProcessSerialNumber psn = { 0, kCurrentProcess };
+> -    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+> -
+> -    [QemuApplication sharedApplication];
+> -
+> -    create_initial_menus();
+> +    return NULL;
+> +}
+>   
+> -    /*
+> -     * Create the menu entries which depend on QEMU state (for consoles
+> -     * and removeable devices). These make calls back into QEMU functions,
+> -     * which is OK because at this point we know that the second thread
+> -     * holds the iothread lock and is synchronously waiting for us to
+> -     * finish.
+> -     */
+> -    add_console_menu_entries();
+> -    addRemovableDevicesMenuItems();
+> +static void cocoa_main()
+> +{
+> +    COCOA_DEBUG("Entered %s()\n", __func__);
+>   
+> -    // Create an Application controller
+> -    QemuCocoaAppController *appController = [[QemuCocoaAppController alloc] init];
+> -    [NSApp setDelegate:appController];
+> +    qemu_mutex_unlock_iothread();
+> +    qemu_thread_create(&qemu_main_thread, "qemu_main", call_qemu_main,
+> +                       NULL, QEMU_THREAD_JOINABLE);
+>   
+>       // Start the main event loop
+>       COCOA_DEBUG("Main thread: entering OSX run loop\n");
+>       [NSApp run];
+>       COCOA_DEBUG("Main thread: left OSX run loop, exiting\n");
+> -
+> -    [appController release];
+> -    [pool release];
+> -
+> -    return 0;
+>   }
+>   
+>   
+> @@ -2079,25 +1985,42 @@ static void cocoa_refresh(DisplayChangeListener *dcl)
+>   
+>   static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+>   {
+> +    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+> +
+>       COCOA_DEBUG("qemu_cocoa: cocoa_display_init\n");
+>   
+> -    /* Tell main thread to go ahead and create the app and enter the run loop */
+> -    qemu_sem_post(&display_init_sem);
+> -    qemu_sem_wait(&app_started_sem);
+> -    COCOA_DEBUG("cocoa_display_init: app start completed\n");
+> +    qemu_main = cocoa_main;
+> +
+> +    // Pull this console process up to being a fully-fledged graphical
+> +    // app with a menubar and Dock icon
+> +    ProcessSerialNumber psn = { 0, kCurrentProcess };
+> +    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+> +
+> +    [QemuApplication sharedApplication];
+> +
+> +    create_initial_menus();
+> +
+> +    /*
+> +     * Create the menu entries which depend on QEMU state (for consoles
+> +     * and removeable devices). These make calls back into QEMU functions,
+> +     * which is OK because at this point we know that the second thread
+> +     * holds the iothread lock and is synchronously waiting for us to
+> +     * finish.
+> +     */
+> +    add_console_menu_entries();
+> +    addRemovableDevicesMenuItems();
+> +
+> +    // Create an Application controller
+> +    QemuCocoaAppController *controller = [[QemuCocoaAppController alloc] init];
+> +    [NSApp setDelegate:controller];
+>   
+> -    QemuCocoaAppController *controller = (QemuCocoaAppController *)[[NSApplication sharedApplication] delegate];
+>       /* if fullscreen mode is to be used */
+>       if (opts->has_full_screen && opts->full_screen) {
+> -        dispatch_async(dispatch_get_main_queue(), ^{
+> -            [NSApp activateIgnoringOtherApps: YES];
+> -            [controller toggleFullScreen: nil];
+> -        });
+> +        [NSApp activateIgnoringOtherApps: YES];
+> +        [controller toggleFullScreen: nil];
+>       }
+>       if (opts->u.cocoa.has_full_grab && opts->u.cocoa.full_grab) {
+> -        dispatch_async(dispatch_get_main_queue(), ^{
+> -            [controller setFullGrab: nil];
+> -        });
+> +        [controller setFullGrab: nil];
+>       }
+>   
+>       if (opts->has_show_cursor && opts->show_cursor) {
+> @@ -2117,6 +2040,8 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+>       qemu_event_init(&cbevent, false);
+>       cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
+>       qemu_clipboard_peer_register(&cbpeer);
+> +
+> +    [pool release];
+>   }
+>   
+>   static QemuDisplay qemu_display_cocoa = {
 
-diff --git a/block.c b/block.c
-index 101188a2d4..d99784dff1 100644
---- a/block.c
-+++ b/block.c
-@@ -1243,20 +1243,6 @@ static bool bdrv_child_cb_change_aio_ctx(BdrvChild *child, AioContext *ctx,
-     return bdrv_change_aio_context(bs, ctx, visited, tran, errp);
- }
- 
--static bool bdrv_child_cb_can_set_aio_ctx(BdrvChild *child, AioContext *ctx,
--                                          GSList **ignore, Error **errp)
--{
--    BlockDriverState *bs = child->opaque;
--    return bdrv_can_set_aio_context(bs, ctx, ignore, errp);
--}
--
--static void bdrv_child_cb_set_aio_ctx(BdrvChild *child, AioContext *ctx,
--                                      GSList **ignore)
--{
--    BlockDriverState *bs = child->opaque;
--    return bdrv_set_aio_context_ignore(bs, ctx, ignore);
--}
--
- /*
-  * Returns the options and flags that a temporary snapshot should get, based on
-  * the originally requested flags (the originally requested image will have
-@@ -1497,8 +1483,6 @@ const BdrvChildClass child_of_bds = {
-     .attach          = bdrv_child_cb_attach,
-     .detach          = bdrv_child_cb_detach,
-     .inactivate      = bdrv_child_cb_inactivate,
--    .can_set_aio_ctx = bdrv_child_cb_can_set_aio_ctx,
--    .set_aio_ctx     = bdrv_child_cb_set_aio_ctx,
-     .change_aio_ctx  = bdrv_child_cb_change_aio_ctx,
-     .update_filename = bdrv_child_cb_update_filename,
-     .get_parent_aio_context = child_of_bds_get_parent_aio_context,
-@@ -7329,125 +7313,6 @@ static void bdrv_attach_aio_context(BlockDriverState *bs,
-     bs->walking_aio_notifiers = false;
- }
- 
--/*
-- * Changes the AioContext used for fd handlers, timers, and BHs by this
-- * BlockDriverState and all its children and parents.
-- *
-- * Must be called from the main AioContext.
-- *
-- * The caller must own the AioContext lock for the old AioContext of bs, but it
-- * must not own the AioContext lock for new_context (unless new_context is the
-- * same as the current context of bs).
-- *
-- * @ignore will accumulate all visited BdrvChild object. The caller is
-- * responsible for freeing the list afterwards.
-- */
--void bdrv_set_aio_context_ignore(BlockDriverState *bs,
--                                 AioContext *new_context, GSList **ignore)
--{
--    AioContext *old_context = bdrv_get_aio_context(bs);
--    GSList *children_to_process = NULL;
--    GSList *parents_to_process = NULL;
--    GSList *entry;
--    BdrvChild *child, *parent;
--
--    g_assert(qemu_get_current_aio_context() == qemu_get_aio_context());
--    GLOBAL_STATE_CODE();
--
--    if (old_context == new_context) {
--        return;
--    }
--
--    bdrv_drained_begin(bs);
--
--    QLIST_FOREACH(child, &bs->children, next) {
--        if (g_slist_find(*ignore, child)) {
--            continue;
--        }
--        *ignore = g_slist_prepend(*ignore, child);
--        children_to_process = g_slist_prepend(children_to_process, child);
--    }
--
--    QLIST_FOREACH(parent, &bs->parents, next_parent) {
--        if (g_slist_find(*ignore, parent)) {
--            continue;
--        }
--        *ignore = g_slist_prepend(*ignore, parent);
--        parents_to_process = g_slist_prepend(parents_to_process, parent);
--    }
--
--    for (entry = children_to_process;
--         entry != NULL;
--         entry = g_slist_next(entry)) {
--        child = entry->data;
--        bdrv_set_aio_context_ignore(child->bs, new_context, ignore);
--    }
--    g_slist_free(children_to_process);
--
--    for (entry = parents_to_process;
--         entry != NULL;
--         entry = g_slist_next(entry)) {
--        parent = entry->data;
--        assert(parent->klass->set_aio_ctx);
--        parent->klass->set_aio_ctx(parent, new_context, ignore);
--    }
--    g_slist_free(parents_to_process);
--
--    bdrv_detach_aio_context(bs);
--
--    /* Acquire the new context, if necessary */
--    if (qemu_get_aio_context() != new_context) {
--        aio_context_acquire(new_context);
--    }
--
--    bdrv_attach_aio_context(bs, new_context);
--
--    /*
--     * If this function was recursively called from
--     * bdrv_set_aio_context_ignore(), there may be nodes in the
--     * subtree that have not yet been moved to the new AioContext.
--     * Release the old one so bdrv_drained_end() can poll them.
--     */
--    if (qemu_get_aio_context() != old_context) {
--        aio_context_release(old_context);
--    }
--
--    bdrv_drained_end(bs);
--
--    if (qemu_get_aio_context() != old_context) {
--        aio_context_acquire(old_context);
--    }
--    if (qemu_get_aio_context() != new_context) {
--        aio_context_release(new_context);
--    }
--}
--
--static bool bdrv_parent_can_set_aio_context(BdrvChild *c, AioContext *ctx,
--                                            GSList **ignore, Error **errp)
--{
--    GLOBAL_STATE_CODE();
--    if (g_slist_find(*ignore, c)) {
--        return true;
--    }
--    *ignore = g_slist_prepend(*ignore, c);
--
--    /*
--     * A BdrvChildClass that doesn't handle AioContext changes cannot
--     * tolerate any AioContext changes
--     */
--    if (!c->klass->can_set_aio_ctx) {
--        char *user = bdrv_child_user_desc(c);
--        error_setg(errp, "Changing iothreads is not supported by %s", user);
--        g_free(user);
--        return false;
--    }
--    if (!c->klass->can_set_aio_ctx(c, ctx, ignore, errp)) {
--        assert(!errp || *errp);
--        return false;
--    }
--    return true;
--}
--
- typedef struct BdrvStateSetAioContext {
-     AioContext *new_ctx;
-     BlockDriverState *bs;
-@@ -7493,17 +7358,6 @@ static bool bdrv_parent_change_aio_context(BdrvChild *c, AioContext *ctx,
-     return true;
- }
- 
--bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
--                                    GSList **ignore, Error **errp)
--{
--    GLOBAL_STATE_CODE();
--    if (g_slist_find(*ignore, c)) {
--        return true;
--    }
--    *ignore = g_slist_prepend(*ignore, c);
--    return bdrv_can_set_aio_context(c->bs, ctx, ignore, errp);
--}
--
- bool bdrv_child_change_aio_context(BdrvChild *c, AioContext *ctx,
-                                    GSList **visited, Transaction *tran,
-                                    Error **errp)
-@@ -7516,33 +7370,6 @@ bool bdrv_child_change_aio_context(BdrvChild *c, AioContext *ctx,
-     return bdrv_change_aio_context(c->bs, ctx, visited, tran, errp);
- }
- 
--/* @ignore will accumulate all visited BdrvChild object. The caller is
-- * responsible for freeing the list afterwards. */
--bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
--                              GSList **ignore, Error **errp)
--{
--    BdrvChild *c;
--
--    if (bdrv_get_aio_context(bs) == ctx) {
--        return true;
--    }
--
--    GLOBAL_STATE_CODE();
--
--    QLIST_FOREACH(c, &bs->parents, next_parent) {
--        if (!bdrv_parent_can_set_aio_context(c, ctx, ignore, errp)) {
--            return false;
--        }
--    }
--    QLIST_FOREACH(c, &bs->children, next) {
--        if (!bdrv_child_can_set_aio_context(c, ctx, ignore, errp)) {
--            return false;
--        }
--    }
--
--    return true;
--}
--
- static void bdrv_drained_begin_commit(void *opaque)
- {
-     BdrvStateSetAioContext *state = (BdrvStateSetAioContext *) opaque;
-@@ -7636,29 +7463,6 @@ bool bdrv_change_aio_context(BlockDriverState *bs, AioContext *ctx,
-     return true;
- }
- 
--int bdrv_child_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
--                                   BdrvChild *ignore_child, Error **errp)
--{
--    GSList *ignore;
--    bool ret;
--
--    GLOBAL_STATE_CODE();
--
--    ignore = ignore_child ? g_slist_prepend(NULL, ignore_child) : NULL;
--    ret = bdrv_can_set_aio_context(bs, ctx, &ignore, errp);
--    g_slist_free(ignore);
--
--    if (!ret) {
--        return -EPERM;
--    }
--
--    ignore = ignore_child ? g_slist_prepend(NULL, ignore_child) : NULL;
--    bdrv_set_aio_context_ignore(bs, ctx, &ignore);
--    g_slist_free(ignore);
--
--    return 0;
--}
--
- /*
-  * First, go recursively through all nodes in the graph, and see if they
-  * can change their AioContext.
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 6e90ac3a6a..9925663ca1 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -134,10 +134,6 @@ static void blk_root_drained_end(BdrvChild *child, int *drained_end_counter);
- static void blk_root_change_media(BdrvChild *child, bool load);
- static void blk_root_resize(BdrvChild *child);
- 
--static bool blk_root_can_set_aio_ctx(BdrvChild *child, AioContext *ctx,
--                                     GSList **ignore, Error **errp);
--static void blk_root_set_aio_ctx(BdrvChild *child, AioContext *ctx,
--                                 GSList **ignore);
- static bool blk_root_change_aio_ctx(BdrvChild *child, AioContext *ctx,
-                                     GSList **visited, Transaction *tran,
-                                     Error **errp);
-@@ -337,8 +333,6 @@ static const BdrvChildClass child_root = {
-     .attach             = blk_root_attach,
-     .detach             = blk_root_detach,
- 
--    .can_set_aio_ctx    = blk_root_can_set_aio_ctx,
--    .set_aio_ctx        = blk_root_set_aio_ctx,
-     .change_aio_ctx     = blk_root_change_aio_ctx,
- 
-     .get_parent_aio_context = blk_root_get_parent_aio_context,
-@@ -2266,33 +2260,6 @@ finish:
-     return true;
- }
- 
--static bool blk_root_can_set_aio_ctx(BdrvChild *child, AioContext *ctx,
--                                     GSList **ignore, Error **errp)
--{
--    BlockBackend *blk = child->opaque;
--
--    if (blk->allow_aio_context_change) {
--        return true;
--    }
--
--    /* Only manually created BlockBackends that are not attached to anything
--     * can change their AioContext without updating their user. */
--    if (!blk->name || blk->dev) {
--        /* TODO Add BB name/QOM path */
--        error_setg(errp, "Cannot change iothread of active block backend");
--        return false;
--    }
--
--    return true;
--}
--
--static void blk_root_set_aio_ctx(BdrvChild *child, AioContext *ctx,
--                                 GSList **ignore)
--{
--    BlockBackend *blk = child->opaque;
--    blk_do_set_aio_context(blk, ctx, false, &error_abort);
--}
--
- void blk_add_aio_context_notifier(BlockBackend *blk,
-         void (*attached_aio_context)(AioContext *new_context, void *opaque),
-         void (*detach_aio_context)(void *opaque), void *opaque)
-diff --git a/blockjob.c b/blockjob.c
-index 9e26b06ed4..219a444108 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -168,39 +168,6 @@ static bool child_job_change_aio_ctx(BdrvChild *c, AioContext *ctx,
-     return true;
- }
- 
--static bool child_job_can_set_aio_ctx(BdrvChild *c, AioContext *ctx,
--                                      GSList **ignore, Error **errp)
--{
--    BlockJob *job = c->opaque;
--    GSList *l;
--
--    for (l = job->nodes; l; l = l->next) {
--        BdrvChild *sibling = l->data;
--        if (!bdrv_child_can_set_aio_context(sibling, ctx, ignore, errp)) {
--            return false;
--        }
--    }
--    return true;
--}
--
--static void child_job_set_aio_ctx(BdrvChild *c, AioContext *ctx,
--                                  GSList **ignore)
--{
--    BlockJob *job = c->opaque;
--    GSList *l;
--
--    for (l = job->nodes; l; l = l->next) {
--        BdrvChild *sibling = l->data;
--        if (g_slist_find(*ignore, sibling)) {
--            continue;
--        }
--        *ignore = g_slist_prepend(*ignore, sibling);
--        bdrv_set_aio_context_ignore(sibling->bs, ctx, ignore);
--    }
--
--    job_set_aio_context(&job->job, ctx);
--}
--
- static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
- {
-     BlockJob *job = c->opaque;
-@@ -214,8 +181,6 @@ static const BdrvChildClass child_job = {
-     .drained_begin      = child_job_drained_begin,
-     .drained_poll       = child_job_drained_poll,
-     .drained_end        = child_job_drained_end,
--    .can_set_aio_ctx    = child_job_can_set_aio_ctx,
--    .set_aio_ctx        = child_job_set_aio_ctx,
-     .change_aio_ctx     = child_job_change_aio_ctx,
-     .stay_at_node       = true,
-     .get_parent_aio_context = child_job_get_parent_aio_context,
-diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-index 5847b64f95..65262781ab 100644
---- a/include/block/block-global-state.h
-+++ b/include/block/block-global-state.h
-@@ -217,18 +217,9 @@ void coroutine_fn bdrv_co_lock(BlockDriverState *bs);
-  */
- void coroutine_fn bdrv_co_unlock(BlockDriverState *bs);
- 
--void bdrv_set_aio_context_ignore(BlockDriverState *bs,
--                                 AioContext *new_context, GSList **ignore);
- int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
-                              Error **errp);
--int bdrv_child_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
--                                   BdrvChild *ignore_child, Error **errp);
--bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
--                                    GSList **ignore, Error **errp);
--bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
--                              GSList **ignore, Error **errp);
- AioContext *bdrv_child_get_parent_aio_context(BdrvChild *c);
--
- bool bdrv_child_change_aio_context(BdrvChild *c, AioContext *ctx,
-                                    GSList **visited, Transaction *tran,
-                                    Error **errp);
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index b35a0fe840..3c0e059602 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -892,10 +892,6 @@ struct BdrvChildClass {
-     int (*update_filename)(BdrvChild *child, BlockDriverState *new_base,
-                            const char *filename, Error **errp);
- 
--    bool (*can_set_aio_ctx)(BdrvChild *child, AioContext *ctx,
--                        GSList **ignore, Error **errp);
--    void (*set_aio_ctx)(BdrvChild *child, AioContext *ctx, GSList **ignore);
--
-     bool (*change_aio_ctx)(BdrvChild *child, AioContext *ctx,
-                            GSList **ignore, Transaction *tran, Error **errp);
- 
--- 
-2.31.1
+This doesn't work for me:
 
+(lldb) bt
+* thread #1, queue = 'com.apple.main-thread', stop reason = 
+EXC_BAD_ACCESS (code=1, address=0x18)
+   * frame #0: 0x0000000100012bf0 
+qemu-system-x86_64`update_displaychangelistener(dcl=0x00000001007d5f90, 
+interval=16) at console.c:1671:14
+     frame #1: 0x000000010001d150 qemu-system-x86_64`-[QemuCocoaView 
+updateUIInfoLocked](self=<unavailable>, _cmd=<unavailable>) at 
+cocoa.m:568:17
+     frame #2: 0x00000001ae31d2a8 AppKit`-[NSView _setWindow:] + 2196
+     frame #3: 0x00000001ae3266bc AppKit`-[NSView addSubview:] + 176
+     frame #4: 0x00000001ae32d898 AppKit`-[NSFrameView addSubview:] + 52
+     frame #5: 0x00000001ae32d84c AppKit`-[NSThemeFrame addSubview:] + 468
+     frame #6: 0x00000001ae32d394 AppKit`-[NSView 
+addSubview:positioned:relativeTo:] + 216
+     frame #7: 0x00000001ae32d220 AppKit`-[NSThemeFrame 
+addSubview:positioned:relativeTo:] + 52
+     frame #8: 0x00000001ae32d1d4 AppKit`-[NSThemeFrame 
+_addKnownSubview:positioned:relativeTo:] + 52
+     frame #9: 0x00000001ae34d9a4 AppKit`-[NSWindow setContentView:] + 376
+     frame #10: 0x000000010001e574 
+qemu-system-x86_64`-[QemuCocoaAppController 
+init](self=0x00006000000265f0, _cmd=<unavailable>) at cocoa.m:1230:9
+     frame #11: 0x0000000100020be4 
+qemu-system-x86_64`cocoa_display_init(ds=<unavailable>, 
+opts=0x0000000100b5d678) at cocoa.m:2018:42
+     frame #12: 0x00000001001c17b4 qemu-system-x86_64`qemu_init 
+[inlined] qemu_init_displays at vl.c:2449:5
+     frame #13: 0x00000001001c17a4 
+qemu-system-x86_64`qemu_init(argc=<unavailable>, argv=<unavailable>) at 
+vl.c:3566:5
+     frame #14: 0x000000010000dc5c 
+qemu-system-x86_64`main(argc=<unavailable>, argv=<unavailable>) at 
+main.c:43:5
+     frame #15: 0x000000010107108c dyld`start + 520
+
+* thread #1, queue = 'com.apple.main-thread', stop reason = 
+EXC_BAD_ACCESS (code=1, address=0x18)
+     frame #0: 0x0000000100012bf0 
+qemu-system-x86_64`update_displaychangelistener(dcl=0x00000001007d5f90, 
+interval=16) at console.c:1671:14
+    1668	    DisplayState *ds = dcl->ds;
+    1669	
+    1670	    dcl->update_interval = interval;
+-> 1671	    if (!ds->refreshing && ds->update_interval > interval) {
+    1672	        timer_mod(ds->gui_timer, ds->last_update + interval);
+    1673	    }
+    1674	}
+
+(lldb) p ds
+(DisplayState *) $0 = NULL
+
+It seems what was discussed here:
+https://lore.kernel.org/qemu-devel/89a0316d-7e9a-46d9-31cc-c3507483fffb@redhat.com/
+register_displaychangelistener() not yet called.
+
+Regards,
+
+Phil.
 
