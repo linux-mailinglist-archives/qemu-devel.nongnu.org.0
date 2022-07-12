@@ -2,94 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CCB5714FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:47:24 +0200 (CEST)
-Received: from localhost ([::1]:55954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F2357155F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:09:11 +0200 (CEST)
+Received: from localhost ([::1]:41874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBBYB-0001ii-AK
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:47:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53754)
+	id 1oBBtG-0004Ep-CH
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oBBUO-0007Q1-R4
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:43:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49810)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oBBqf-0002lu-Qb
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:06:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oBBUL-0006Pt-18
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:43:26 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oBBqZ-0003y5-97
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:06:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657615403;
+ s=mimecast20190719; t=1657616781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zzrCt/dQXoNyGt11auu4eh1SEMU5bYSXno1kKnG8fbI=;
- b=NDpLE0X4pCLCRyoz2glYgHu4HLJlovVe1caAA7qjVPgYrwOL/MYpfpBhr9BXqtQrAuNxQU
- CYG+TNY6cLdEM6vYRa7+h0v6PNXLYZBzWhkMgEFVihOjXRupxbRiF3smdgCSijmvZqsmjj
- hX0PJlXah8FB1fRKQOM5C95uySq7FXs=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JTf56C1mReEL9QNivYwxUflvuoVCqgZsBSBA/QM1a+M=;
+ b=Y0s/GAmjKmdtHlhzA9SfMb2OwCPuuLAJ6O09axE3qadrA18/w7mjMwf8eFOAy5tKC2FsJA
+ Ntt+MfRSdtaNFLEqIjVpXgdCxNI47QXk7QPw1q8t2/geHqIVDjVrnWK+5eyYHH8AQnL5dq
+ Cxt//tQiU+YNloC/+qgnsMNLpEV8UXA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-E8Fa19UrOluRzjdarZYPOA-1; Tue, 12 Jul 2022 04:43:21 -0400
-X-MC-Unique: E8Fa19UrOluRzjdarZYPOA-1
-Received: by mail-lj1-f198.google.com with SMTP id
- z5-20020a05651c022500b0025d4d99593aso1302355ljn.18
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 01:43:21 -0700 (PDT)
+ us-mta-660-3LYuVjnBNnyCdr6iwcJQaA-1; Tue, 12 Jul 2022 05:06:18 -0400
+X-MC-Unique: 3LYuVjnBNnyCdr6iwcJQaA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z24-20020a1c4c18000000b003a2e963c399so1642842wmf.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 02:06:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zzrCt/dQXoNyGt11auu4eh1SEMU5bYSXno1kKnG8fbI=;
- b=i2gKWg8pHEWeyyVXXktmFPVnOowfMnMZP5el4KVkv2eIKdOkGdcwPWBOR+bYMipiHK
- 1A/cdI8fqRPoZaLBT3APoOBbBQnQ0cpCE9rdjMz1RM60GMoO8oHWHlebVl3MGtsy6Rxj
- RWHAf6WV/e8PoX5vLP3kf9J4PXAs+gm1Xb7tPaIjQLvRO/lIz5uHaz7q+GTPDvaXs/fr
- ppDdSG+wMAV1sAnV7PuDczjCLUEfftlIQ/AU/dXViGtKDP3zzWVdzx/srCIxtqBSv9SU
- Udz8eErMPcHAK3Z4i0NOpFfWlDsaYinZ4mRvQ3wWWgzbcxFrejxtonaylOkufjXYHXJQ
- iVUQ==
-X-Gm-Message-State: AJIora+OzLcDJa7rj+qG8kLnAX3fNdKiZhnYiLGayTUo8IWdVpEoCf2p
- dM47JEdAFh8p2QEHuNV4M1M0DD1ILfqgT4uFt54EyJ6hwpH3YzTRNOxcggXs/gchHantoJilmbW
- IGm0ygaOYBQShuEvnvrndyCmtxmZbKxg=
-X-Received: by 2002:a05:6512:3b8e:b0:481:1a75:452 with SMTP id
- g14-20020a0565123b8e00b004811a750452mr15380893lfv.238.1657615400320; 
- Tue, 12 Jul 2022 01:43:20 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v40KSGki5A5CjyNY/rVQeuPw2HdTYgtS5PSl0NeHoRNK7NTL7LsnY4idGsjjU3KBkV7/+aZpv14wmGYQYLgs8=
-X-Received: by 2002:a05:6512:3b8e:b0:481:1a75:452 with SMTP id
- g14-20020a0565123b8e00b004811a750452mr15380868lfv.238.1657615400031; Tue, 12
- Jul 2022 01:43:20 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=JTf56C1mReEL9QNivYwxUflvuoVCqgZsBSBA/QM1a+M=;
+ b=QpUIKFLqmRnVAjONPwZk50hswdMAXj4Zw16JvIbj6D2mGyZbXY0S/nZG7xwfbhQbVw
+ LtTsRI4nKbPx1mghd9d13f9IOqk/7Rjm7p4xPbWdRTy2B+hCUsRRFkLKd9yMwHQ193id
+ bFYMpwejYGoJa9Zy7d1urFBDw+3CRE4gGg5xd8+GdJHnTOmBmNljXbTRXdVaaM2Z0aGQ
+ w5zAER6GOeIq1hGp6BUA58EQv5A3AarWotEt4fshkl8X4se7m6y85FQAa+STkoma7Mug
+ +CTvL3DHJjwIU3J2czlbkd6g7muH4S8mLX0tR+xVQQShxVoV3hJ3/kTLO9iS26phgAwq
+ XtpA==
+X-Gm-Message-State: AJIora9ti7QKNQbM6dwlX1xOBHwg8whJ7NQ7P7E4T5D9Lr3JWbBGvuX1
+ /ksS/idGZbifAQkXnAhvk00OZK1slXZga60OR+IlGUQcmt0h/kiu9g6ogZnUGNdV53kfY0dQH59
+ L0fbXMmCApyMpz68=
+X-Received: by 2002:a5d:4344:0:b0:21d:578a:d8b7 with SMTP id
+ u4-20020a5d4344000000b0021d578ad8b7mr20264234wrr.108.1657616777602; 
+ Tue, 12 Jul 2022 02:06:17 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v8AqWdEM3eMu0vL7W/OKqxDOvUc7b/D+SBGH4FKo80XftecD+njldgtylSN65TsEbCiNGUEw==
+X-Received: by 2002:a5d:4344:0:b0:21d:578a:d8b7 with SMTP id
+ u4-20020a5d4344000000b0021d578ad8b7mr20264201wrr.108.1657616777248; 
+ Tue, 12 Jul 2022 02:06:17 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ p188-20020a1c29c5000000b003a2cf1535aasm9008887wmp.17.2022.07.12.02.06.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jul 2022 02:06:16 -0700 (PDT)
+Date: Tue, 12 Jul 2022 11:06:15 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Alex Williamson
+ <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
+ Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
+ <suravee.suthikulpanit@amd.com>
+Subject: Re: [PATCH v6 09/10] i386/pc: relocate 4g start to 1T where applicable
+Message-ID: <20220712110615.09c3e303@redhat.com>
+In-Reply-To: <a731592c-4e42-ea23-6fe3-550b8a07af11@oracle.com>
+References: <20220701161014.3850-1-joao.m.martins@oracle.com>
+ <20220701161014.3850-10-joao.m.martins@oracle.com>
+ <20220711145627.2c318ba6@redhat.com>
+ <5179013f-a2b6-b5a4-a509-42657dbde25a@oracle.com>
+ <65ea8b7f-37cb-55dc-3306-fd32880aa0fb@oracle.com>
+ <a731592c-4e42-ea23-6fe3-550b8a07af11@oracle.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-13-eperezma@redhat.com>
- <ffa1e417-846a-0da8-7fa1-fe473e860215@redhat.com>
- <CAJaqyWccXPE5A4wAQb5rymPGfEDjQzNMeVCHhjCAXww2fdk7Pw@mail.gmail.com>
- <bcaee23e-6d48-e35b-856b-97e1d397d418@redhat.com>
- <CAJaqyWdCuQgK=KR5j=ZOWVgjHfbo0SVn+NsnfWsG+Xb9iDkyrw@mail.gmail.com>
-In-Reply-To: <CAJaqyWdCuQgK=KR5j=ZOWVgjHfbo0SVn+NsnfWsG+Xb9iDkyrw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 12 Jul 2022 16:43:08 +0800
-Message-ID: <CACGkMEtZuiqP8qPm3Y0FeVfwQFa2WYbK+u4eb1Hj5N+fAoopoA@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 12/23] vhost: Add opaque member to SVQElement
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Eric Blake <eblake@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,116 +110,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 12, 2022 at 4:33 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Tue, Jul 12, 2022 at 9:53 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2022/7/11 17:56, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > > On Mon, Jul 11, 2022 at 11:05 AM Jason Wang <jasowang@redhat.com> wro=
-te:
-> > >>
-> > >> =E5=9C=A8 2022/7/7 02:39, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > >>> When qemu injects buffers to the vdpa device it will be used to mai=
-ntain
-> > >>> contextual data. If SVQ has no operation, it will be used to mainta=
-in
-> > >>> the VirtQueueElement pointer.
-> > >>>
-> > >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > >>> ---
-> > >>>    hw/virtio/vhost-shadow-virtqueue.h |  3 ++-
-> > >>>    hw/virtio/vhost-shadow-virtqueue.c | 13 +++++++------
-> > >>>    2 files changed, 9 insertions(+), 7 deletions(-)
-> > >>>
-> > >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-s=
-hadow-virtqueue.h
-> > >>> index 0e434e9fd0..a811f90e01 100644
-> > >>> --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > >>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > >>> @@ -16,7 +16,8 @@
-> > >>>    #include "hw/virtio/vhost-iova-tree.h"
-> > >>>
-> > >>>    typedef struct SVQElement {
-> > >>> -    VirtQueueElement *elem;
-> > >>> +    /* Opaque data */
-> > >>> +    void *opaque;
-> > >>
-> > >> So I wonder if we can simply:
-> > >>
-> > >> 1) introduce a opaque to VirtQueueElement
-> > > (answered in other thread, pasting here for completion)
-> > >
-> > > It does not work for messages that are not generated by the guest. Fo=
-r
-> > > example, the ones used to restore the device state at live migration
-> > > destination.
-> >
-> >
-> > For the ones that requires more metadata, we can store it in elem->opaq=
-ue?
-> >
->
-> But there is no VirtQueueElem there. VirtQueueElem is allocated by
-> virtqueue_pop, but state restoring messages are not received by this
-> function. If we allocate an artificial one, a lot of members do not
-> make sense (like in_addr / out_addr), and we should never use them
-> with virtqueue_push / fill / flush and similar.
+On Mon, 11 Jul 2022 21:03:28 +0100
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-Ok.
+> On 7/11/22 16:31, Joao Martins wrote:
+> > On 7/11/22 15:52, Joao Martins wrote:  
+> >> On 7/11/22 13:56, Igor Mammedov wrote:  
+> >>> On Fri,  1 Jul 2022 17:10:13 +0100
+> >>> Joao Martins <joao.m.martins@oracle.com> wrote:
+> >>>  
+> >>>> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> >>>> index a79fa1b6beeb..07025b510540 100644
+> >>>> --- a/hw/i386/pc.c
+> >>>> +++ b/hw/i386/pc.c
+> >>>> @@ -907,6 +907,87 @@ static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
+> >>>>      return start;
+> >>>>  }
+> >>>>  
+> >>>> +static hwaddr pc_max_used_gpa(PCMachineState *pcms,
+> >>>> +                                hwaddr above_4g_mem_start,
+> >>>> +                                uint64_t pci_hole64_size)
+> >>>> +{
+> >>>> +    X86MachineState *x86ms = X86_MACHINE(pcms);
+> >>>> +  
+> >>>  
+> >>>> +    if (!x86ms->above_4g_mem_size) {
+> >>>> +        /*
+> >>>> +         * 32-bit pci hole goes from
+> >>>> +         * end-of-low-ram (@below_4g_mem_size) to IOAPIC.
+> >>>> +          */
+> >>>> +        return IO_APIC_DEFAULT_ADDRESS - 1;
+> >>>> +    }  
+> >>> this hunk still bothers me (nothing changed wrt v5 issues around it)
+> >>> issues recap: (
+> >>>  1. correctness of it
+> >>>  2. being limited to AMD only, while it seems pretty generic to me
+> >>>  3. should be a separate patch
+> >>> )
+> >>>  
+> >> How about I instead delete this hunk, and only call pc_set_amd_above_4g_mem_start()
+> >> when there's @above_4g_mem_size ? Like in pc_memory_init() I would instead:
+> >>
+> >> if (IS_AMD_CPU(&cpu->env) && x86ms->above_4g_mem_size) {
+> >>     hwaddr start = x86ms->above_4g_mem_start;
+> >>
+> >>     if (pc_max_used_gpa(pcms, start, pci_hole64_size) >= AMD_HT_START) {
+> >>         pc_set_amd_above_4g_mem_start(pcms, pci_hole64_size);
+> >>     }
+> >>     ...
+> >> }
+> >>
+> >> Given that otherwise it is impossible to ever encounter the 1T boundary.
+> >>  
+> > 
+> > And while at it I would also remove any unneeded arguments from pc_max_used_gpa(),
+> > which would turn the function into this:
+> > 
+> > +static hwaddr pc_max_used_gpa(uint64_t pci_hole64_size)
+> > +{
+> > +    return pc_pci_hole64_start() + pci_hole64_size;
+> > +}
+> > 
+> > I would nuke the added helper if it wasn't for having 2 call sites in this patch.
+> >   
+> 
+> Full patch diff further below -- after removing pc_max_used_gpa() and made further
+> cleanups given this code can be much simpler after using this approach.
+> 
+> >> If not ... what other alternative would address your concern?
+> >>  
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index e178bbc4129c..1ded3faeffe0 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -882,6 +882,62 @@ static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
+>      return start;
+>  }
+> 
+> +/*
+> + * AMD systems with an IOMMU have an additional hole close to the
+> + * 1Tb, which are special GPAs that cannot be DMA mapped. Depending
+> + * on kernel version, VFIO may or may not let you DMA map those ranges.
+> + * Starting Linux v5.4 we validate it, and can't create guests on AMD machines
+> + * with certain memory sizes. It's also wrong to use those IOVA ranges
+> + * in detriment of leading to IOMMU INVALID_DEVICE_REQUEST or worse.
+> + * The ranges reserved for Hyper-Transport are:
+> + *
+> + * FD_0000_0000h - FF_FFFF_FFFFh
+> + *
+> + * The ranges represent the following:
+> + *
+> + * Base Address   Top Address  Use
+> + *
+> + * FD_0000_0000h FD_F7FF_FFFFh Reserved interrupt address space
+> + * FD_F800_0000h FD_F8FF_FFFFh Interrupt/EOI IntCtl
+> + * FD_F900_0000h FD_F90F_FFFFh Legacy PIC IACK
+> + * FD_F910_0000h FD_F91F_FFFFh System Management
+> + * FD_F920_0000h FD_FAFF_FFFFh Reserved Page Tables
+> + * FD_FB00_0000h FD_FBFF_FFFFh Address Translation
+> + * FD_FC00_0000h FD_FDFF_FFFFh I/O Space
+> + * FD_FE00_0000h FD_FFFF_FFFFh Configuration
+> + * FE_0000_0000h FE_1FFF_FFFFh Extended Configuration/Device Messages
+> + * FE_2000_0000h FF_FFFF_FFFFh Reserved
+> + *
+> + * See AMD IOMMU spec, section 2.1.2 "IOMMU Logical Topology",
+> + * Table 3: Special Address Controls (GPA) for more information.
+> + */
+> +#define AMD_HT_START         0xfd00000000UL
+> +#define AMD_HT_END           0xffffffffffUL
+> +#define AMD_ABOVE_1TB_START  (AMD_HT_END + 1)
+> +#define AMD_HT_SIZE          (AMD_ABOVE_1TB_START - AMD_HT_START)
+> +
+> +static void pc_set_amd_above_4g_mem_start(PCMachineState *pcms,
+> +                                          hwaddr maxusedaddr)
+> +{
+> +    X86MachineState *x86ms = X86_MACHINE(pcms);
+> +    hwaddr maxphysaddr;
+> +
+> +    /*
+> +     * Relocating ram-above-4G requires more than TCG_PHYS_ADDR_BITS (40).
+> +     * So make sure phys-bits is required to be appropriately sized in order
+> +     * to proceed with the above-4g-region relocation and thus boot.
+> +     */
+> +    maxphysaddr = ((hwaddr)1 << X86_CPU(first_cpu)->phys_bits) - 1;
+> +    if (maxphysaddr < maxusedaddr) {
+> +        error_report("Address space limit 0x%"PRIx64" < 0x%"PRIx64
+> +                     " phys-bits too low (%u) cannot avoid AMD HT range",
+> +                     maxphysaddr, maxusedaddr, X86_CPU(first_cpu)->phys_bits);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    x86ms->above_4g_mem_start = AMD_ABOVE_1TB_START;
+> +}
+> +
+>  void pc_memory_init(PCMachineState *pcms,
+>                      MemoryRegion *system_memory,
+>                      MemoryRegion *rom_memory,
+> @@ -897,6 +953,7 @@ void pc_memory_init(PCMachineState *pcms,
+>      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+>      X86MachineState *x86ms = X86_MACHINE(pcms);
+>      hwaddr cxl_base, cxl_resv_end = 0;
+> +    X86CPU *cpu = X86_CPU(first_cpu);
+> 
+>      assert(machine->ram_size == x86ms->below_4g_mem_size +
+>                                  x86ms->above_4g_mem_size);
+> @@ -904,6 +961,29 @@ void pc_memory_init(PCMachineState *pcms,
+>      linux_boot = (machine->kernel_filename != NULL);
+> 
+>      /*
+> +     * The HyperTransport range close to the 1T boundary is unique to AMD
+> +     * hosts with IOMMUs enabled. Restrict the ram-above-4g relocation
+> +     * to above 1T to AMD vCPUs only.
+> +     */
+> +    if (IS_AMD_CPU(&cpu->env) && x86ms->above_4g_mem_size) {
 
->
-> >
-> > >
-> > >> 2) store pointers to ring_id_maps
-> > >>
-> > > I think you mean to keep storing VirtQueueElement at ring_id_maps?
-> >
-> >
-> > Yes and introduce a pointer to metadata in VirtQueueElement
-> >
-> >
-> > > Otherwise, looking for them will not be immediate.
-> > >
-> > >> Since
-> > >>
-> > >> 1) VirtQueueElement's member looks general
-> > > Not general enough :).
-> > >
-> > >> 2) help to reduce the tricky codes like vhost_svq_empty_elem() and
-> > >> vhost_svq_empty_elem().
-> > >>
-> > > I'm ok to change to whatever other method, but to allocate them
-> > > individually seems worse to me. Both performance wise and because
-> > > error paths are more complicated. Maybe it would be less tricky if I
-> > > try to move the use of them less "by value" and more "as pointers"?
-> >
-> >
-> > Or let's having a dedicated arrays (like desc_state/desc_extra in
-> > kernel) instead of trying to reuse ring_id_maps.
-> >
->
-> Sure, it looks to me like:
-> * renaming ring_id_maps to desc_state/desc_extra/something similar,
-> since now it's used to store more state that only the guest mapping
-> * Rename "opaque" to "data"
-> * Forget the wrapper and assume data =3D=3D NULL is an invalid head /
-> empty. To me they serve as a doc, but I guess it's fine to use them
-> directly. The kernel works that way anyway.
->
-> Does this look better?
+it has the same issue as pc_max_used_gpa(), i.e.
+  x86ms->above_4g_mem_size != 0
+doesn't mean that there isn't any memory above 4Gb nor that there aren't
+any MMIO (sgx/cxl/pci64hole), that's was the reason we were are considering
+max_used_gpa
 
-Yes.
+I'd prefer to keep pc_max_used_gpa(),
+idea but make it work for above cases and be more generic (i.e. not to be
+tied to AMD only) since 'pc_max_used_gpa() < physbits' applies to equally
+to AMD and Intel (and to trip it, one just have to configure small enough
+physbits or large enough hotpluggable RAM/CXL/PCI64HOLE)
 
-> It's definitely closer to the kernel so I guess
-> it's an advantage.
 
-I think the advantage is that it decouples the dynamic allocated
-metadata (VirtQueueElem) out of the static allocated ones.
 
->
-> Thanks!
->
+> +        hwaddr maxusedaddr = pc_pci_hole64_start() + pci_hole64_size;
+> +
+> +        /* Bail out if max possible address does not cross HT range */
+> +        if (maxusedaddr >= AMD_HT_START) {
+> +            pc_set_amd_above_4g_mem_start(pcms, maxusedaddr);
+> +        }
+> +
+> +        /*
+> +         * Advertise the HT region if address space covers the reserved
+> +         * region or if we relocate.
+> +         */
+> +        if (x86ms->above_4g_mem_start == AMD_ABOVE_1TB_START ||
+> +            cpu->phys_bits >= 40) {
+> +            e820_add_entry(AMD_HT_START, AMD_HT_SIZE, E820_RESERVED);
+> +        }
+> +    }
+> +
+> +    /*
+>       * Split single memory region and use aliases to address portions of it,
+>       * done for backwards compatibility with older qemus.
+>       */
+> 
 
 
