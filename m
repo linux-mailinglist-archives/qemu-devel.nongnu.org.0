@@ -2,87 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9D28571AE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 15:13:23 +0200 (CEST)
-Received: from localhost ([::1]:39448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A19C571B2C
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 15:27:18 +0200 (CEST)
+Received: from localhost ([::1]:55838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBFha-0006oa-CX
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 09:13:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52144)
+	id 1oBFv3-0001mG-Au
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 09:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLY-0003Fa-MT
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37144)
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1oBFQL-0002MN-7D
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:55:34 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:3870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLU-0001Vg-6N
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657630230;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IEBtrhHOZoW2IpVmQ2emXJdx/NNh7WPD0iaL+UDhKTg=;
- b=V96PLMdrvH6O3N79TMUSJVtxsKjRnOWODEXcZQIXpNHjKO5v1A0ZJwvDtPcbm5ZhFahy6d
- ScZ2knbKhGxQtIkVYpBF22fcA9lVSfw993k94eQolcJII9Llbb5InuznO4/M1UigZafHCW
- svmwweltIozyhHJrpMMpQuDORfk944M=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-404-7BuHiN8fMS2SE_DwlFesHA-1; Tue, 12 Jul 2022 08:50:29 -0400
-X-MC-Unique: 7BuHiN8fMS2SE_DwlFesHA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- f13-20020a0564021e8d00b00437a2acb543so6086362edf.7
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IEBtrhHOZoW2IpVmQ2emXJdx/NNh7WPD0iaL+UDhKTg=;
- b=o+vnV03zk/7XmhY5gSA0hNtiMNM5hDTeuhl5atNUHHVYLYK9gc7Ti7nmgiKECsQyZK
- RAucGqrM9GpRilXNne+Asv3aLArKV7V4/eph33btfH8YfaE+Ale24BOV7JNeBR5n2f2x
- vsvIIL4vnjL1V3S0T72OSQ2tCKdp2xQvfErhTnJSx8SwcshkHjm+RnUWWYNisTmFUPzr
- 5amxfW55kB0xcSos6qnv3P67y5uWBEyRmI9wt+EKYitz54axQyzXyoqSlsxGdo7uFZjO
- 5Dp9Hc64hk3zxgMt5AYC4SmCThfz9AGQfY+9jEWn+3ZsFeyE9yvimyJgJFmzf0EASl5D
- 020w==
-X-Gm-Message-State: AJIora9Av/goghLy3Da48xabrOUCGLTR06VvkMDI5evsaojEuxVIsYo+
- BQFUcumpyx1IudfT67eoJ5lcIGeYI0Sd7WUHFZufTGPsFhf3tU0qnqC+SqvMNxvoA2zjeVTUwI8
- rNiVutDUfjA/vjGM2A786DYS8z8Sfa2uNPY4Plm+l40Q1bw7UyLX8/a8qxZGbtHf8X9M=
-X-Received: by 2002:aa7:c84a:0:b0:437:bc9c:af63 with SMTP id
- g10-20020aa7c84a000000b00437bc9caf63mr30491562edt.370.1657630228293; 
- Tue, 12 Jul 2022 05:50:28 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vu4zLlhw1hr+9GIvJX6L1lvEE8SZ0MaoXpH+NOCBMro1PRjhSvXxur8+8MasIu/dT3r+K5sA==
-X-Received: by 2002:aa7:c84a:0:b0:437:bc9c:af63 with SMTP id
- g10-20020aa7c84a000000b00437bc9caf63mr30491542edt.370.1657630228077; 
- Tue, 12 Jul 2022 05:50:28 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- ec10-20020a0564020d4a00b0043a45dc7158sm5916949edb.72.2022.07.12.05.50.27
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jul 2022 05:50:27 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 18/18] meson: place default firmware path under .../share
-Date: Tue, 12 Jul 2022 14:49:56 +0200
-Message-Id: <20220712124956.150451-19-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220712124956.150451-1-pbonzini@redhat.com>
-References: <20220712124956.150451-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1oBFQG-0002KM-40
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:55:32 -0400
+Received: from kwepemi500016.china.huawei.com (unknown [172.30.72.55])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Lj0yz4JJYz1L8sH;
+ Tue, 12 Jul 2022 20:52:43 +0800 (CST)
+Received: from [10.40.193.166] (10.40.193.166) by
+ kwepemi500016.china.huawei.com (7.221.188.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 12 Jul 2022 20:55:16 +0800
+To: Alex Williamson <alex.williamson@redhat.com>, <maz@kernel.org>,
+ <pbonzini@redhat.com>
+CC: <kvm@vger.kernel.org>, chenxiang via <qemu-devel@nongnu.org>, linux-kernel
+ <linux-kernel@vger.kernel.org>
+Subject: [QUESTION] Exception print when enabling GICv4
+Message-ID: <6d6d61fb-6241-4e1e-ddff-8ae8be96f9ff@hisilicon.com>
+Date: Tue, 12 Jul 2022 20:55:16 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.40.193.166]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemi500016.china.huawei.com (7.221.188.220)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=chenxiang66@hisilicon.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,41 +64,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "chenxiang (M)" <chenxiang66@hisilicon.com>
+From:  "chenxiang (M)" via <qemu-devel@nongnu.org>
 
-Fixes: c09c1ce7e9 ("configure: switch directory options to automatic parsing", 2022-05-07)
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson_options.txt             | 2 +-
- scripts/meson-buildoptions.sh | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Hi,
+I encounter a issue related to GICv4 enable on ARM64 platform (kernel 
+5.19-rc4, qemu 6.2.0):
+We have a accelaration module whose VF has 3 MSI interrupts, and we 
+passthrough it to virtual machine with following steps:
 
-diff --git a/meson_options.txt b/meson_options.txt
-index 97c38109b1..9a034f875b 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -6,7 +6,7 @@ option('qemu_suffix', type : 'string', value: 'qemu',
-        description: 'Suffix for QEMU data/modules/config directories (can be empty)')
- option('docdir', type : 'string', value : 'share/doc',
-        description: 'Base directory for documentation installation (can be empty)')
--option('qemu_firmwarepath', type : 'string', value : 'qemu-firmware',
-+option('qemu_firmwarepath', type : 'string', value : 'share/qemu-firmware',
-        description: 'search PATH for firmware files')
- option('pkgversion', type : 'string', value : '',
-        description: 'use specified string as sub-version of the package')
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index d0e14fd6de..4b7b8ffaa2 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -42,7 +42,7 @@ meson_options_help() {
-   printf "%s\n" '  --enable-trace-backends=CHOICES'
-   printf "%s\n" '                           Set available tracing backends [log] (choices:'
-   printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
--  printf "%s\n" '  --firmwarepath=VALUE     search PATH for firmware files [qemu-firmware]'
-+  printf "%s\n" '  --firmwarepath=VALUE     search PATH for firmware files [share/qemu-firmware]'
-   printf "%s\n" '  --iasl=VALUE             Path to ACPI disassembler'
-   printf "%s\n" '  --includedir=VALUE       Header file directory [include]'
-   printf "%s\n" '  --interp-prefix=VALUE    where to find shared libraries etc., use %M for'
--- 
-2.36.1
+echo 0000:79:00.1 > /sys/bus/pci/drivers/hisi_hpre/unbind
+echo vfio-pci > 
+/sys/devices/pci0000\:78/0000\:78\:00.0/0000\:79\:00.1/driver_override
+echo 0000:79:00.1 > /sys/bus/pci/drivers_probe
+
+Then we boot VM with "-device vfio-pci,host=79:00.1,id=net0 \".
+When insmod the driver which registers 3 PCI MSI interrupts in VM,  some 
+exception print occur as following:
+
+vfio-pci 0000:3a:00.1: irq bypass producer (token 000000008f08224d) 
+registration fails: 66311
+
+I find that bit[6:4] of register PCI_MSI_FLAGS is 2 (4 MSI interrupts) 
+though we only register 3 PCI MSI interrupt,
+
+and only 3 MSI interrupt is activated at last.
+It allocates 4 vectors in function vfio_msi_enable() (qemu)  as it reads 
+the register PCI_MSI_FLAGS.
+Later it will  call system call VFIO_DEVICE_SET_IRQS to set forwarding 
+for those interrupts
+using function kvm_vgic_v4_set_forrwarding() as GICv4 is enabled. For 
+interrupt 0~2, it success to set forwarding as they are already activated,
+but for the 4th interrupt, it is not activated, so ite is not found in 
+function vgic_its_resolve_lpi(), so above printk occurs.
+
+It seems that we only allocate and activate 3 MSI interrupts in guest 
+while it tried to set forwarding for 4 MSI interrupts in host.
+Do you have any idea about this issue?
+
+
+Best regards,
+
+Xiang Chen
 
 
