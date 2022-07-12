@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93DC5719BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:19:23 +0200 (CEST)
-Received: from localhost ([::1]:44694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E265719C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:19:48 +0200 (CEST)
+Received: from localhost ([::1]:44998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBErK-0007oN-TL
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:19:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42880)
+	id 1oBErj-00081V-LU
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:19:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oBEmN-0003cr-CR
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:14:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36945)
+ id 1oBEn9-0004bI-7U
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:15:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oBEmL-0003Hg-I5
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:14:14 -0400
+ id 1oBEn4-0003Mp-Ef
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:15:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657628052;
+ s=mimecast20190719; t=1657628097;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H63/Tjpj0sDd4jinunQH7TIIHUth8F5+GMsho8jaR8U=;
- b=hJTy6XyxobYh4WPKd1cKH5iaZPTijYMk+jz3T7/glHeY1DkuX3X2maPh32YQuYmGuNq4cQ
- 5ttKDDOPwj9BpqyVhBWzKxwVtcy8l9EK8/tclG33+SghzErAhDW+C5Lk+pe1oyh8d512AR
- Ee9aDFDwRLccIWr5+s91TOVLhCZiJuo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=flwAzFdYWqnnUich5XWSRXpFLBLbFQ6QrfzliaHES2Y=;
+ b=VHdVxsKdK8TxAhwSB33PjzU2/muNw1ATYg7xwb9yoKs70Ng6ihFASPTYVACAxAunP728lZ
+ DH90MBe0U2llyUWGiVgtXk2iCMdp+QRksG+RZqc0w1AXMFdztS7uatTJ2G2Z7578CSOosH
+ mp0Erumvqgc0GRjO2n7os7T2kDIAI20=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-MIBVOs8wPCux1vTWo69PwA-1; Tue, 12 Jul 2022 08:14:05 -0400
-X-MC-Unique: MIBVOs8wPCux1vTWo69PwA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-563-sMvS6xXQMxevs3gChnLGGA-1; Tue, 12 Jul 2022 08:14:56 -0400
+X-MC-Unique: sMvS6xXQMxevs3gChnLGGA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 18F902803034;
- Tue, 12 Jul 2022 12:14:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58DCF85A581;
+ Tue, 12 Jul 2022 12:14:56 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14A4140E7F28;
- Tue, 12 Jul 2022 12:14:03 +0000 (UTC)
-Date: Tue, 12 Jul 2022 13:14:01 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54CD5492C3B;
+ Tue, 12 Jul 2022 12:14:55 +0000 (UTC)
+Date: Tue, 12 Jul 2022 13:14:52 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Hanna Reitz <hreitz@redhat.com>
 Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
  Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 1/3] qsd: Unlink absolute PID file path
-Message-ID: <Ys1liVGbmb1CdoKn@redhat.com>
+Subject: Re: [PATCH 2/3] vl: Conditionally register PID file unlink notifier
+Message-ID: <Ys1lvL02oQ08BQYM@redhat.com>
 References: <20220609122701.17172-1-hreitz@redhat.com>
- <20220609122701.17172-2-hreitz@redhat.com>
+ <20220609122701.17172-3-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220609122701.17172-2-hreitz@redhat.com>
+In-Reply-To: <20220609122701.17172-3-hreitz@redhat.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,33 +85,15 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 09, 2022 at 02:26:59PM +0200, Hanna Reitz wrote:
-> After writing the PID file, we register an atexit() handler to unlink it
-> when the process terminates.  However, if the process has changed its
-> working directory in the meantime (e.g. in os_setup_post() when
-> daemonizing), this will not work when the PID file path was relative.
-> Therefore, pass the absolute path (created with realpath()) to the
-> unlink() call in the atexit() handler.
+On Thu, Jun 09, 2022 at 02:27:00PM +0200, Hanna Reitz wrote:
+> Currently, the exit notifier for unlinking the PID file is registered
+> unconditionally.  Limit it to only when we actually do create a PID
+> file.
 > 
-> (realpath() needs a path pointing to an existing file, so we cannot use
-> it before qemu_write_pidfile().)
-> 
-> Reproducer:
-> $ cd /tmp
-> $ qemu-storage-daemon --daemonize --pidfile qsd.pid
-> $ file qsd.pid
-> qsd.pid: ASCII text
-> $ kill $(cat qsd.pid)
-> $ file qsd.pid
-> qsd.pid: ASCII text
-> 
-> (qsd.pid should be gone after the process has terminated.)
-> 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2092322
 > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 > ---
->  storage-daemon/qemu-storage-daemon.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+>  softmmu/vl.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
