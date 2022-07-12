@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D65572338
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 20:45:47 +0200 (CEST)
-Received: from localhost ([::1]:35200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96253572443
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 20:59:13 +0200 (CEST)
+Received: from localhost ([::1]:54374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBKtG-00005P-Lz
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 14:45:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52502)
+	id 1oBL6G-00056y-Fz
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 14:59:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBKJm-0005xg-Hq
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 14:09:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29799)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBKJn-00061n-9h
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 14:09:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBKJk-0006xT-K7
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 14:09:05 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBKJl-0006xd-Ns
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 14:09:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657649344;
+ s=mimecast20190719; t=1657649345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GwfYEabRQuNYr5hT2GRge5eJbHX3Q8Wd8vl/yi8ukqk=;
- b=XDAh2HL4YJ0s54HDcm+fyxSVk9UitpG1kbQxnKZaYT/1tdN7Rd24cwtb6bAcC/NbNGoVvu
- 6T+Ov63x1fLkVcJCmW0CJ648fw5t5ghSJBcwPmA/bHieXX3NszWF1Gh6tK2SyIMuwnympd
- 5ryxU7zYNDPNVr7rW++fdxzhrycjuCY=
+ bh=t6rSVTqCEJRgErg71STTRUlM4jkKu7lQyjXZhF6Dz0Q=;
+ b=Ld/pyIgdTFk70XudHLHEHgKXY5zC8GuQbRO/C1abvg2J6Mcg8P6RWyQyF7CqnPGmuvvmvU
+ tSb0AdFLss7Yg7T2V4WrsII8lRFnFoKBGT9YLvPbdVUyFpVpHU0Gwqwrg8j0mbHhh0uaes
+ dmSN00Cwbx/t5Kn/bT5CpGX2OpYS3y0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-Ic97zXrYMEygtNKaP1DlRQ-1; Tue, 12 Jul 2022 14:08:56 -0400
-X-MC-Unique: Ic97zXrYMEygtNKaP1DlRQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-656-THgQlf9iNkS-OlF9_tpIoA-1; Tue, 12 Jul 2022 14:08:58 -0400
+X-MC-Unique: THgQlf9iNkS-OlF9_tpIoA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5746B108C0F3;
- Tue, 12 Jul 2022 18:08:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8D44101A54E;
+ Tue, 12 Jul 2022 18:08:57 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14FD7414A7E7;
- Tue, 12 Jul 2022 18:08:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A6DC140CFD0A;
+ Tue, 12 Jul 2022 18:08:57 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org,
 	Hanna Reitz <hreitz@redhat.com>
-Subject: [PULL 34/35] vl: Conditionally register PID file unlink notifier
-Date: Tue, 12 Jul 2022 20:08:52 +0200
-Message-Id: <20220712180853.1364155-2-hreitz@redhat.com>
+Subject: [PULL 35/35] vl: Unlink absolute PID file path
+Date: Tue, 12 Jul 2022 20:08:53 +0200
+Message-Id: <20220712180853.1364155-3-hreitz@redhat.com>
 In-Reply-To: <20220712180617.1362407-1-hreitz@redhat.com>
 References: <20220712180617.1362407-1-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -78,54 +78,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the exit notifier for unlinking the PID file is registered
-unconditionally.  Limit it to only when we actually do create a PID
-file.
+After writing the PID file, we register an exit notifier to unlink it
+when the process terminates.  However, if the process has changed its
+working directory in the meantime (e.g. in os_setup_post() when
+daemonizing), this will not work when the PID file path was relative.
+Therefore, pass the absolute path (created with realpath()) to the
+unlink() call in the exit notifier.
+
+(realpath() needs a path pointing to an existing file, so we cannot use
+it before qemu_write_pidfile().)
+
+Reproducer:
+$ cd /tmp
+$ qemu-system-x86_64 --daemonize --pidfile qemu.pid
+$ file qemu.pid
+qemu.pid: ASCII text
+$ kill $(cat qemu.pid)
+$ file qemu.pid
+qemu.pid: ASCII text
+
+(qemu.pid should be gone after the process has terminated.)
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220609122701.17172-3-hreitz@redhat.com>
+Message-Id: <20220609122701.17172-4-hreitz@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- softmmu/vl.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ softmmu/vl.c | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 3f264d4b09..36f46fcdad 100644
+index 36f46fcdad..aabd82e09a 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -1526,9 +1526,7 @@ static Notifier qemu_unlink_pidfile_notifier;
+@@ -1522,11 +1522,18 @@ machine_parse_property_opt(QemuOptsList *opts_list, const char *propname,
+ }
+ 
+ static const char *pid_file;
+-static Notifier qemu_unlink_pidfile_notifier;
++struct UnlinkPidfileNotifier {
++    Notifier notifier;
++    char *pid_file_realpath;
++};
++static struct UnlinkPidfileNotifier qemu_unlink_pidfile_notifier;
  
  static void qemu_unlink_pidfile(Notifier *n, void *data)
  {
--    if (pid_file) {
--        unlink(pid_file);
--    }
-+    unlink(pid_file);
+-    unlink(pid_file);
++    struct UnlinkPidfileNotifier *upn;
++
++    upn = DO_UPCAST(struct UnlinkPidfileNotifier, notifier, n);
++    unlink(upn->pid_file_realpath);
  }
  
  static const QEMUOption *lookup_opt(int argc, char **argv,
-@@ -2431,13 +2429,15 @@ static void qemu_maybe_daemonize(const char *pid_file)
-     os_daemonize();
+@@ -2430,13 +2437,28 @@ static void qemu_maybe_daemonize(const char *pid_file)
      rcu_disable_atfork();
  
--    if (pid_file && !qemu_write_pidfile(pid_file, &err)) {
--        error_reportf_err(err, "cannot create PID file: ");
--        exit(1);
--    }
-+    if (pid_file) {
-+        if (!qemu_write_pidfile(pid_file, &err)) {
-+            error_reportf_err(err, "cannot create PID file: ");
+     if (pid_file) {
++        char *pid_file_realpath = NULL;
++
+         if (!qemu_write_pidfile(pid_file, &err)) {
+             error_reportf_err(err, "cannot create PID file: ");
+             exit(1);
+         }
+ 
+-        qemu_unlink_pidfile_notifier.notify = qemu_unlink_pidfile;
+-        qemu_add_exit_notifier(&qemu_unlink_pidfile_notifier);
++        pid_file_realpath = g_malloc0(PATH_MAX);
++        if (!realpath(pid_file, pid_file_realpath)) {
++            error_report("cannot resolve PID file path: %s: %s",
++                         pid_file, strerror(errno));
++            unlink(pid_file);
 +            exit(1);
 +        }
- 
--    qemu_unlink_pidfile_notifier.notify = qemu_unlink_pidfile;
--    qemu_add_exit_notifier(&qemu_unlink_pidfile_notifier);
-+        qemu_unlink_pidfile_notifier.notify = qemu_unlink_pidfile;
-+        qemu_add_exit_notifier(&qemu_unlink_pidfile_notifier);
-+    }
++
++        qemu_unlink_pidfile_notifier = (struct UnlinkPidfileNotifier) {
++            .notifier = {
++                .notify = qemu_unlink_pidfile,
++            },
++            .pid_file_realpath = pid_file_realpath,
++        };
++        qemu_add_exit_notifier(&qemu_unlink_pidfile_notifier.notifier);
+     }
  }
  
- static void qemu_init_displays(void)
 -- 
 2.35.3
 
