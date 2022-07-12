@@ -2,51 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A57571526
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:55:26 +0200 (CEST)
-Received: from localhost ([::1]:33646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DB5571531
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:57:32 +0200 (CEST)
+Received: from localhost ([::1]:35768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBBfx-0006UR-NM
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51420)
+	id 1oBBhz-00083g-CL
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:57:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1oBBJf-0002rq-Te
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:32:27 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:40906 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1oBBJb-0006R4-0j
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:32:23 -0400
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz9CGMc1iyeQYAA--.15566S8; 
- Tue, 12 Jul 2022 16:32:09 +0800 (CST)
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
- ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: [PATCH 6/6] hw/loongarch: Add fdt support
-Date: Tue, 12 Jul 2022 16:32:06 +0800
-Message-Id: <20220712083206.4187715-7-yangxiaojuan@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220712083206.4187715-1-yangxiaojuan@loongson.cn>
-References: <20220712083206.4187715-1-yangxiaojuan@loongson.cn>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oBBKN-000466-H3
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:33:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31327)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oBBKK-0006b7-A0
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:33:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657614783;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hwwGeiIBLA5JtHVjpsQdnU+tqnYHNvE5TdtW3jKtg90=;
+ b=SvtcP6lXN2PUq8bSQHgGLphfUPFb8pCjybRgaaV8GQQQLw/4zLfCr53ktp+woq7xeBBooK
+ X9bhc/OBmImUjdUiSeW4sSBR+ETh2XyPpMBQHfreAcWp6nieA6ZKKN32bFxxd9VLb7xO4m
+ uy2IQF43i6iw94cfkc1SD+lPeohcuy8=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-615-_9kJ-OleMmagsAu8lKw1Sw-1; Tue, 12 Jul 2022 04:33:01 -0400
+X-MC-Unique: _9kJ-OleMmagsAu8lKw1Sw-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ h25-20020ac87779000000b0031ea852ca63so6400032qtu.11
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 01:33:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hwwGeiIBLA5JtHVjpsQdnU+tqnYHNvE5TdtW3jKtg90=;
+ b=wYpecS4dqs7LRmj7t6fj+PwNXAzVpG5lNXUbscolrzqYo9IDluTy0e3/fZ4G1vE863
+ bjFxlW6MUCspJ9XdOs5qtiox3vEV/nE4Wb3sjvQepw5xMFx6t7hqdHdZn9qjhNUBIY8Y
+ eoKY2BXwCErDd5Xcrh5IGs0UuempgTXGmmGmQHWITOU+dlMMSoD37SOLUcQEyDNoBM6x
+ iwWe/1ppqAHqq1PH1Goc0sVGyWNw3BEBfLNmCSjLszI/AYXB9bJdHbUfxqioGCGwIJjx
+ R1hgYXzymKFMIyZJ6AVBdDaHTAVlNlaiRN3POeofJRdbjYMq5A7Gdyqj2oys5jbrNEZN
+ mXDg==
+X-Gm-Message-State: AJIora8DjIunVBeExC6NSFuJ0rLuVv9A37BqYtzoq78rMFBwV6lZMGfN
+ h8sa0kr3V3lXpylb0XlyFD8BCyNMecAJgpTU6kMWoyYSjS2tTtwO0NU/O98tVQwi9hmuMNaFwN9
+ X8fNhm84usp8TPDOXxOlse9faCzrBoBM=
+X-Received: by 2002:ac8:5b51:0:b0:317:3513:cf60 with SMTP id
+ n17-20020ac85b51000000b003173513cf60mr17270435qtw.495.1657614780807; 
+ Tue, 12 Jul 2022 01:33:00 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1slknWGnidIk4rHxr0dwXP54poR/R3zYmXmxgJpoe2cx+C/xgsXFHRXjA59poUPuTHw9YfEmvk1szOg3/7q9H4=
+X-Received: by 2002:ac8:5b51:0:b0:317:3513:cf60 with SMTP id
+ n17-20020ac85b51000000b003173513cf60mr17270420qtw.495.1657614780611; Tue, 12
+ Jul 2022 01:33:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxz9CGMc1iyeQYAA--.15566S8
-X-Coremail-Antispam: 1UD129KBjvJXoWxtw1rtryUur1ruF4rGF4fGrg_yoW3tw4kpF
- W7AFWUWrW8Xrn7urs3W345uwn3Jr18GFW7Ww47WrWFkFyDWw1UZay0ya9ayF15J34jqFyY
- vFZ0qrySg3WxKFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220706184008.1649478-1-eperezma@redhat.com>
+ <20220706184008.1649478-13-eperezma@redhat.com>
+ <ffa1e417-846a-0da8-7fa1-fe473e860215@redhat.com>
+ <CAJaqyWccXPE5A4wAQb5rymPGfEDjQzNMeVCHhjCAXww2fdk7Pw@mail.gmail.com>
+ <bcaee23e-6d48-e35b-856b-97e1d397d418@redhat.com>
+In-Reply-To: <bcaee23e-6d48-e35b-856b-97e1d397d418@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 12 Jul 2022 10:32:24 +0200
+Message-ID: <CAJaqyWdCuQgK=KR5j=ZOWVgjHfbo0SVn+NsnfWsG+Xb9iDkyrw@mail.gmail.com>
+Subject: Re: [RFC PATCH v9 12/23] vhost: Add opaque member to SVQElement
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Eric Blake <eblake@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,246 +105,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add LoongArch flatted device tree, adding cpu device node, firmware cfg node,
-pcie node into it, and create fdt rom memory region. Now fdt info is not
-full since only uefi bios uses fdt, linux kernel does not use fdt.
-Loongarch Linux kernel uses acpi table which is full in qemu virt
-machine.
+On Tue, Jul 12, 2022 at 9:53 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2022/7/11 17:56, Eugenio Perez Martin =E5=86=99=E9=81=93:
+> > On Mon, Jul 11, 2022 at 11:05 AM Jason Wang <jasowang@redhat.com> wrote=
+:
+> >>
+> >> =E5=9C=A8 2022/7/7 02:39, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> >>> When qemu injects buffers to the vdpa device it will be used to maint=
+ain
+> >>> contextual data. If SVQ has no operation, it will be used to maintain
+> >>> the VirtQueueElement pointer.
+> >>>
+> >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >>> ---
+> >>>    hw/virtio/vhost-shadow-virtqueue.h |  3 ++-
+> >>>    hw/virtio/vhost-shadow-virtqueue.c | 13 +++++++------
+> >>>    2 files changed, 9 insertions(+), 7 deletions(-)
+> >>>
+> >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-sha=
+dow-virtqueue.h
+> >>> index 0e434e9fd0..a811f90e01 100644
+> >>> --- a/hw/virtio/vhost-shadow-virtqueue.h
+> >>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> >>> @@ -16,7 +16,8 @@
+> >>>    #include "hw/virtio/vhost-iova-tree.h"
+> >>>
+> >>>    typedef struct SVQElement {
+> >>> -    VirtQueueElement *elem;
+> >>> +    /* Opaque data */
+> >>> +    void *opaque;
+> >>
+> >> So I wonder if we can simply:
+> >>
+> >> 1) introduce a opaque to VirtQueueElement
+> > (answered in other thread, pasting here for completion)
+> >
+> > It does not work for messages that are not generated by the guest. For
+> > example, the ones used to restore the device state at live migration
+> > destination.
+>
+>
+> For the ones that requires more metadata, we can store it in elem->opaque=
+?
+>
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
----
- hw/loongarch/loongson3.c    | 136 +++++++++++++++++++++++++++++++++++-
- include/hw/loongarch/virt.h |   4 ++
- target/loongarch/cpu.c      |   1 +
- target/loongarch/cpu.h      |   3 +
- 4 files changed, 141 insertions(+), 3 deletions(-)
+But there is no VirtQueueElem there. VirtQueueElem is allocated by
+virtqueue_pop, but state restoring messages are not received by this
+function. If we allocate an artificial one, a lot of members do not
+make sense (like in_addr / out_addr), and we should never use them
+with virtqueue_push / fill / flush and similar.
 
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 45d1c60916..bdcd3a81cb 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -35,6 +35,129 @@
- #include "qapi/qapi-visit-common.h"
- #include "hw/acpi/generic_event_device.h"
- #include "hw/mem/nvdimm.h"
-+#include "sysemu/device_tree.h"
-+#include <libfdt.h>
-+
-+static void create_fdt(LoongArchMachineState *lams)
-+{
-+    MachineState *ms = MACHINE(lams);
-+
-+    ms->fdt = create_device_tree(&lams->fdt_size);
-+    if (!ms->fdt) {
-+        error_report("create_device_tree() failed");
-+        exit(1);
-+    }
-+
-+    /* Header */
-+    qemu_fdt_setprop_string(ms->fdt, "/", "compatible",
-+                            "linux,dummy-loongson3");
-+    qemu_fdt_setprop_cell(ms->fdt, "/", "#address-cells", 0x2);
-+    qemu_fdt_setprop_cell(ms->fdt, "/", "#size-cells", 0x2);
-+}
-+
-+static void fdt_add_cpu_nodes(const LoongArchMachineState *lams)
-+{
-+    int num;
-+    const MachineState *ms = MACHINE(lams);
-+    int smp_cpus = ms->smp.cpus;
-+
-+    qemu_fdt_add_subnode(ms->fdt, "/cpus");
-+    qemu_fdt_setprop_cell(ms->fdt, "/cpus", "#address-cells", 0x1);
-+    qemu_fdt_setprop_cell(ms->fdt, "/cpus", "#size-cells", 0x0);
-+
-+    /* cpu nodes */
-+    for (num = smp_cpus - 1; num >= 0; num--) {
-+        char *nodename = g_strdup_printf("/cpus/cpu@%d", num);
-+        LoongArchCPU *cpu = LOONGARCH_CPU(qemu_get_cpu(num));
-+
-+        qemu_fdt_add_subnode(ms->fdt, nodename);
-+        qemu_fdt_setprop_string(ms->fdt, nodename, "device_type", "cpu");
-+        qemu_fdt_setprop_string(ms->fdt, nodename, "compatible",
-+                                cpu->dtb_compatible);
-+        qemu_fdt_setprop_cell(ms->fdt, nodename, "reg", num);
-+        qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle",
-+                              qemu_fdt_alloc_phandle(ms->fdt));
-+        g_free(nodename);
-+    }
-+
-+    /*cpu map */
-+    qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
-+
-+    for (num = smp_cpus - 1; num >= 0; num--) {
-+        char *cpu_path = g_strdup_printf("/cpus/cpu@%d", num);
-+        char *map_path;
-+
-+        if (ms->smp.threads > 1) {
-+            map_path = g_strdup_printf(
-+                "/cpus/cpu-map/socket%d/core%d/thread%d",
-+                num / (ms->smp.cores * ms->smp.threads),
-+                (num / ms->smp.threads) % ms->smp.cores,
-+                num % ms->smp.threads);
-+        } else {
-+            map_path = g_strdup_printf(
-+                "/cpus/cpu-map/socket%d/core%d",
-+                num / ms->smp.cores,
-+                num % ms->smp.cores);
-+        }
-+        qemu_fdt_add_path(ms->fdt, map_path);
-+        qemu_fdt_setprop_phandle(ms->fdt, map_path, "cpu", cpu_path);
-+
-+        g_free(map_path);
-+        g_free(cpu_path);
-+    }
-+}
-+
-+static void fdt_add_fw_cfg_node(const LoongArchMachineState *lams)
-+{
-+    char *nodename;
-+    hwaddr base = VIRT_FWCFG_BASE;
-+    const MachineState *ms = MACHINE(lams);
-+
-+    nodename = g_strdup_printf("/fw_cfg@%" PRIx64, base);
-+    qemu_fdt_add_subnode(ms->fdt, nodename);
-+    qemu_fdt_setprop_string(ms->fdt, nodename,
-+                            "compatible", "qemu,fw-cfg-mmio");
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-+                                 2, base, 2, 0x8);
-+    qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-+    g_free(nodename);
-+}
-+
-+static void fdt_add_pcie_node(const LoongArchMachineState *lams)
-+{
-+    char *nodename;
-+    hwaddr base_mmio = LS7A_PCI_MEM_BASE;
-+    hwaddr size_mmio = LS7A_PCI_MEM_SIZE;
-+    hwaddr base_pio = LS7A_PCI_IO_BASE;
-+    hwaddr size_pio = LS7A_PCI_IO_SIZE;
-+    hwaddr base_pcie = LS_PCIECFG_BASE;
-+    hwaddr size_pcie = LS_PCIECFG_SIZE;
-+    hwaddr base = base_pcie;
-+
-+    const MachineState *ms = MACHINE(lams);
-+
-+    nodename = g_strdup_printf("/pcie@%" PRIx64, base);
-+    qemu_fdt_add_subnode(ms->fdt, nodename);
-+    qemu_fdt_setprop_string(ms->fdt, nodename,
-+                            "compatible", "pci-host-ecam-generic");
-+    qemu_fdt_setprop_string(ms->fdt, nodename, "device_type", "pci");
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "#address-cells", 3);
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "#size-cells", 2);
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "linux,pci-domain", 0);
-+    qemu_fdt_setprop_cells(ms->fdt, nodename, "bus-range", 0,
-+                           PCIE_MMCFG_BUS(LS_PCIECFG_SIZE - 1));
-+    qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-+                                 2, base_pcie, 2, size_pcie);
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "ranges",
-+                                 1, FDT_PCI_RANGE_IOPORT, 2, LS7A_PCI_IO_OFFSET,
-+                                 2, base_pio, 2, size_pio,
-+                                 1, FDT_PCI_RANGE_MMIO, 2, base_mmio,
-+                                 2, base_mmio, 2, size_mmio);
-+    g_free(nodename);
-+    qemu_fdt_dumpdtb(ms->fdt, lams->fdt_size);
-+}
-+
- 
- #define PM_BASE 0x10080000
- #define PM_SIZE 0x100
-@@ -530,12 +653,12 @@ static void loongarch_init(MachineState *machine)
-         error_report("ram_size must be greater than 1G.");
-         exit(1);
-     }
--
-+    create_fdt(lams);
-     /* Init CPUs */
-     for (i = 0; i < machine->smp.cpus; i++) {
-         cpu_create(machine->cpu_type);
-     }
--
-+    fdt_add_cpu_nodes(lams);
-     /* Add memory region */
-     memory_region_init_alias(&lams->lowmem, NULL, "loongarch.lowram",
-                              machine->ram, 0, 256 * MiB);
-@@ -558,12 +681,12 @@ static void loongarch_init(MachineState *machine)
-     /* fw_cfg init */
-     lams->fw_cfg = loongarch_fw_cfg_init(ram_size, machine);
-     rom_set_fw(lams->fw_cfg);
--
-     if (lams->fw_cfg != NULL) {
-         fw_cfg_add_file(lams->fw_cfg, "etc/memmap",
-                         memmap_table,
-                         sizeof(struct memmap_entry) * (memmap_entries));
-     }
-+    fdt_add_fw_cfg_node(lams);
-     loaderparams.ram_size = ram_size;
-     loaderparams.kernel_filename = machine->kernel_filename;
-     loaderparams.kernel_cmdline = machine->kernel_cmdline;
-@@ -585,6 +708,13 @@ static void loongarch_init(MachineState *machine)
-     loongarch_irq_init(lams);
-     lams->machine_done.notify = virt_machine_done;
-     qemu_add_machine_init_done_notifier(&lams->machine_done);
-+    fdt_add_pcie_node(lams);
-+
-+    /* load fdt */
-+    MemoryRegion *fdt_rom = g_new(MemoryRegion, 1);
-+    memory_region_init_rom(fdt_rom, NULL, "fdt", LA_FDT_SIZE, &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), LA_FDT_BASE, fdt_rom);
-+    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, LA_FDT_BASE);
- }
- 
- bool loongarch_is_acpi_enabled(LoongArchMachineState *lams)
-diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-index fb4a4f4e7b..f4f24df428 100644
---- a/include/hw/loongarch/virt.h
-+++ b/include/hw/loongarch/virt.h
-@@ -28,6 +28,9 @@
- #define VIRT_GED_MEM_ADDR       (VIRT_GED_EVT_ADDR + ACPI_GED_EVT_SEL_LEN)
- #define VIRT_GED_REG_ADDR       (VIRT_GED_MEM_ADDR + MEMORY_HOTPLUG_IO_LEN)
- 
-+#define LA_FDT_BASE             0x1c400000
-+#define LA_FDT_SIZE             0x100000
-+
- struct LoongArchMachineState {
-     /*< private >*/
-     MachineState parent_obj;
-@@ -45,6 +48,7 @@ struct LoongArchMachineState {
-     char         *oem_id;
-     char         *oem_table_id;
-     DeviceState  *acpi_ged;
-+    int          fdt_size;
- };
- 
- #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index 8e17b61a85..da67b84309 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -341,6 +341,7 @@ static void loongarch_la464_initfn(Object *obj)
-         env->cpucfg[i] = 0x0;
-     }
- 
-+    cpu->dtb_compatible = "loongarch,Loongson-3A5000";
-     env->cpucfg[0] = 0x14c010;  /* PRID */
- 
-     uint32_t data = 0;
-diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index d141ec9b5d..a36349df83 100644
---- a/target/loongarch/cpu.h
-+++ b/target/loongarch/cpu.h
-@@ -326,6 +326,9 @@ struct ArchCPU {
-     CPUNegativeOffsetState neg;
-     CPULoongArchState env;
-     QEMUTimer timer;
-+
-+    /* 'compatible' string for this CPU for Linux device trees */
-+    const char *dtb_compatible;
- };
- 
- #define TYPE_LOONGARCH_CPU "loongarch-cpu"
--- 
-2.31.1
+>
+> >
+> >> 2) store pointers to ring_id_maps
+> >>
+> > I think you mean to keep storing VirtQueueElement at ring_id_maps?
+>
+>
+> Yes and introduce a pointer to metadata in VirtQueueElement
+>
+>
+> > Otherwise, looking for them will not be immediate.
+> >
+> >> Since
+> >>
+> >> 1) VirtQueueElement's member looks general
+> > Not general enough :).
+> >
+> >> 2) help to reduce the tricky codes like vhost_svq_empty_elem() and
+> >> vhost_svq_empty_elem().
+> >>
+> > I'm ok to change to whatever other method, but to allocate them
+> > individually seems worse to me. Both performance wise and because
+> > error paths are more complicated. Maybe it would be less tricky if I
+> > try to move the use of them less "by value" and more "as pointers"?
+>
+>
+> Or let's having a dedicated arrays (like desc_state/desc_extra in
+> kernel) instead of trying to reuse ring_id_maps.
+>
+
+Sure, it looks to me like:
+* renaming ring_id_maps to desc_state/desc_extra/something similar,
+since now it's used to store more state that only the guest mapping
+* Rename "opaque" to "data"
+* Forget the wrapper and assume data =3D=3D NULL is an invalid head /
+empty. To me they serve as a doc, but I guess it's fine to use them
+directly. The kernel works that way anyway.
+
+Does this look better? It's definitely closer to the kernel so I guess
+it's an advantage.
+
+Thanks!
 
 
