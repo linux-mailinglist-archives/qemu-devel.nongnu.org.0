@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBDC571106
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 05:59:16 +0200 (CEST)
-Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D77571105
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 05:59:01 +0200 (CEST)
+Received: from localhost ([::1]:58906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB73L-0001g2-8I
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 23:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55736)
+	id 1oB735-0001Ql-Vv
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 23:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oB70S-0005im-UV
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 23:56:16 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34428)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oB71Y-0006pj-Ba
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 23:57:24 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:44786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oB70Q-0003oS-Da
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 23:56:16 -0400
-Received: by mail-pg1-x533.google.com with SMTP id g4so6520268pgc.1
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 20:56:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oB71T-0005rV-OV
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 23:57:23 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id q5so6163780plr.11
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 20:57:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ZCuD8LXNOmQ44vte1e3HiNDuztygoahjd91M1DbCNtM=;
- b=EFDsyihKN6fcfnEh4eb/bhdyAK2IY2K+rsoF+qSmEKUnE3SXWNJO/oVV+OsGFLcPBr
- NFZJ+ws5QMtERq0lgLkcENb+LLgtQxEAkMtEjbELLNL25Q0X9LgUg/K162bxOL1RjeZc
- fqPa+Euqef0dU6wfH82drB+SNtRFgcJnAiPCTsYpUrgTtU63Jsbs9OgCj1SEdYgbkO+i
- mRsIptganNVUQuulMaL3ry4OWmroVCI1QieH/cKmcgMd8Mklbyyw2mG3IetXPIY1zoHB
- RyjqFVs0TPAE3BOpbyYSeOVoMSjfruc7sFPBpb4d2x+yHjHO5DCOe/bX7CPXoQlPEtsj
- f7KQ==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=QwHStl5Jh76xT8ueZEs++mtcKfAkINQHPsCO9/NHZU8=;
+ b=RANo3o8VWP+tFiN3s690hqyEqQCvFoGWngsDNlYff5gB/g59Ap2N50Ll4b+vzCnIN8
+ oMYCaMJDiga7l1+p5GR5w4hwoOwmjd7J3Y65P/oJkuXErAnLGdZPIfIHXOMpqsTqKxqd
+ wVidRVmhElfqPsIDjscsPSveztxU9UoIXGhGqNEMeuxo5+RSOeHHhxMzv3cnyfznL91j
+ gKPEtTqqWKuuxWlRngvMGnWENnceWXNyOZcbS76Z/LbHy8aj7c3r7aEMmVmpYNjdqYaO
+ jLYqcZ/Rs8fXgQpDWZo+cWd3QHKO2ZqscEpsUH7lyaOUqEzU1djshUjmQOn9xmS3iGv8
+ 3CDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ZCuD8LXNOmQ44vte1e3HiNDuztygoahjd91M1DbCNtM=;
- b=B8mGsfWXqZ30XiRL3Vf5ybzaWl7cPgKHwDqpCDDQLwakmJrQYIvSvcjKo8zHClIdMp
- veqxCbIc8DMpVjK9LhOSGU3thQ1T6J0DXrQEuVpayopIUQt4DzirR3IAZcxHeSjPel/e
- O+W3/zkI9165ax5uvIn3RfhAy/mdWUS9jrATk3XMeMS3a00TKb3w/CgUOvwFWsjerFzE
- Vj+fhCXAQHw4n1/F3vwI4ceePH7Tszim7eEsSZ5aj2+queuWhN/dyCIptsiHFdEsKbMx
- wQ2jMFdDH9NGSY7u53tQYOvEiqOpXNNJsmbqnVA4BOt9teeKTiM0RmAv5HaYNzN7pxJQ
- Jw1g==
-X-Gm-Message-State: AJIora8c4w2XXfCmbIoNugLG9F3gxN1SS4JL1olmhpjfYeNRGM+DsX9w
- A8my837PJXsBjlP/8aEQ8lY=
-X-Google-Smtp-Source: AGRyM1tjAlWIReZP6770OcieQGMtGRlsEIqATyZnlZ6PKVe/YT4lXvN2kIR9G6J1bCWjub57XMv1Qw==
-X-Received: by 2002:a63:e556:0:b0:412:3286:faaa with SMTP id
- z22-20020a63e556000000b004123286faaamr18680143pgj.192.1657598172509; 
- Mon, 11 Jul 2022 20:56:12 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ bh=QwHStl5Jh76xT8ueZEs++mtcKfAkINQHPsCO9/NHZU8=;
+ b=8LD1QMwnjVo0K1vfry0cSFr5qEb/vl+I+UVL/iwkjHDIjJT6gw4Bg1eidAdnZ+kV++
+ 7qNC41ig6TD/XVgujm1SJDltb7wYW04+nZo8d98qLsXoZEs3pzGxCUMAP2O9vB6vw3ZU
+ 87D5chL5SAzbNsWtBBi3Pqxl8rpwvjEJuqSj+U++6UyYYzfOOgf41t11Hv2Mx5YHE+g+
+ L3XSGgLoGEKivsaNq28WVSm/nSRRKekLIzoz/5Gl+5JBMxt8lk46yz9eF4tT/nZUmB99
+ u/UOgSet4z6cBdovtmLTQnniUSd48vQ1783Fg5DmhlZSKexzRXq4QnkUz08iQc7aMGAz
+ AruA==
+X-Gm-Message-State: AJIora/Elwa1j89jTeZ/g9K7FhnUCu2faByNgsp8iCOh3oHEKnu2iAC3
+ cI4e0Ece8eqLEs2bGaU9GFI9ZWG0HhgDtGmI
+X-Google-Smtp-Source: AGRyM1s99nRTI5sCJIY+oX/mmaqN9B4p7R10Hxu7KCaOTb80MQmIKM6mJAfak1Te568dvvvECMBSFg==
+X-Received: by 2002:a17:90a:f2d7:b0:1ef:8859:d61 with SMTP id
+ gt23-20020a17090af2d700b001ef88590d61mr1919075pjb.215.1657598237145; 
+ Mon, 11 Jul 2022 20:57:17 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- u7-20020a170903124700b0016bee668a5asm5559754plh.161.2022.07.11.20.56.10
+ 63-20020a620542000000b00525373aac7csm5571251pff.26.2022.07.11.20.57.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 20:56:11 -0700 (PDT)
-Message-ID: <414d3d16-9ed2-190b-a3a9-03e648de64e3@gmail.com>
-Date: Tue, 12 Jul 2022 12:56:08 +0900
+ Mon, 11 Jul 2022 20:57:16 -0700 (PDT)
+Message-ID: <27c5985a-d7a2-0f82-1fb6-733b92a11e58@linaro.org>
+Date: Tue, 12 Jul 2022 09:27:13 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] ui/cocoa: Fix switched_to_fullscreen warning
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] meson: place default firmware path under .../share
 Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, f4bug@amsat.org,
- kraxel@redhat.com
-References: <20220702044304.90553-1-peter@pjd.dev>
- <8e54f374-d4bc-36f1-6d1c-470853174aaa@gmail.com>
- <YsYvvnzmg8jU7zip@pdel-mbp.dhcp.thefacebook.com>
- <Ysy61jH53fDEgJfs@pdel-mbp.dhcp.thefacebook.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <Ysy61jH53fDEgJfs@pdel-mbp.dhcp.thefacebook.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220711080718.13593-1-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220711080718.13593-1-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,79 +91,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/07/12 9:05, Peter Delevoryas wrote:
-> On Wed, Jul 06, 2022 at 05:58:38PM -0700, Peter Delevoryas wrote:
->> On Sat, Jul 02, 2022 at 11:30:16PM +0900, Akihiko Odaki wrote:
->>> Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
->>
->> Just checking in on the status of this: do I need to submit a pull request?
->> Or will this patch be picked up in a miscellaneous pull queue eventually?
-> 
-> Pinging this thread again, does this change need anyone else to review it?
+On 7/11/22 13:37, Paolo Bonzini wrote:
+> Fixes: c09c1ce7e9 ("configure: switch directory options to automatic parsing", 2022-05-07)
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   meson_options.txt             | 2 +-
+>   scripts/meson-buildoptions.sh | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 
-The patch should be picked up later. You may ping again if there is no 
-response after weeks.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Sorry for replying late,
-Akihiko Odaki
-
-> 
->>
->>>
->>> On 2022/07/02 13:43, Peter Delevoryas wrote:
->>>> I noticed this error while building QEMU on Mac OS X:
->>>>
->>>>       [1040/1660] Compiling Objective-C object libcommon.fa.p/ui_cocoa.m.o
->>>>       ../ui/cocoa.m:803:17: warning: variable 'switched_to_fullscreen' set but not used [-Wunused-but-set-variable]
->>>>           static bool switched_to_fullscreen = false;
->>>>                       ^
->>>>       1 warning generated.
->>>>
->>>> I think the behavior is fine if you remove "switched_to_fullscreen", I can
->>>> still switch in and out of mouse grabbed mode and fullscreen mode with this
->>>> change, and Command keycodes will only be passed to the guest if the mouse
->>>> is grabbed, which I think is the right behavior. I'm not sure why a static
->>>> piece of state was needed to handle that in the first place. Perhaps the
->>>> refactoring of the flags-state-change fixed that by toggling the Command
->>>> keycode on.
->>>>
->>>> I tested this with an Ubuntu core image on macOS 12.4
->>>>
->>>>       wget https://cdimage.ubuntu.com/ubuntu-core/18/stable/current/ubuntu-core-18-i386.img.xz
->>>>       xz -d ubuntu-core-18-i386.img.xz
->>>>       qemu-system-x86_64 -drive file=ubuntu-core-18.i386.img,format=raw
->>>>
->>>> Fixes: 6d73bb643aa7 ("ui/cocoa: Clear modifiers whenever possible")
->>>> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
->>>> ---
->>>>    ui/cocoa.m | 8 --------
->>>>    1 file changed, 8 deletions(-)
->>>>
->>>> diff --git a/ui/cocoa.m b/ui/cocoa.m
->>>> index 84c84e98fc..13e208b037 100644
->>>> --- a/ui/cocoa.m
->>>> +++ b/ui/cocoa.m
->>>> @@ -800,7 +800,6 @@ - (bool) handleEventLocked:(NSEvent *)event
->>>>        int buttons = 0;
->>>>        int keycode = 0;
->>>>        bool mouse_event = false;
->>>> -    static bool switched_to_fullscreen = false;
->>>>        // Location of event in virtual screen coordinates
->>>>        NSPoint p = [self screenLocationOfEvent:event];
->>>>        NSUInteger modifiers = [event modifierFlags];
->>>> @@ -952,13 +951,6 @@ - (bool) handleEventLocked:(NSEvent *)event
->>>>                // forward command key combos to the host UI unless the mouse is grabbed
->>>>                if (!isMouseGrabbed && ([event modifierFlags] & NSEventModifierFlagCommand)) {
->>>> -                /*
->>>> -                 * Prevent the command key from being stuck down in the guest
->>>> -                 * when using Command-F to switch to full screen mode.
->>>> -                 */
->>>> -                if (keycode == Q_KEY_CODE_F) {
->>>> -                    switched_to_fullscreen = true;
->>>> -                }
->>>>                    return false;
->>>>                }
->>>
->>
-
+r~
 
