@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB23A572991
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 00:59:45 +0200 (CEST)
-Received: from localhost ([::1]:55694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77826572936
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 00:22:49 +0200 (CEST)
+Received: from localhost ([::1]:45234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBOr1-0006tB-AE
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 18:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47114)
+	id 1oBOHI-0002At-Gk
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 18:22:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBOBc-0007rX-7Q
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:16:56 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:52841)
+ id 1oBOBe-0007wu-Hq
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:16:58 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:56114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBOBX-0002T5-Az
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:16:55 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id o8so5492686wms.2
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 15:16:50 -0700 (PDT)
+ id 1oBOBd-0002W1-1Q
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:16:58 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id l42so5428406wms.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 15:16:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EWeAZEgVjDNYCPX5r/G5ZnsWsZ8ptX15tIjDl2hMt5Y=;
- b=HlPrzP/YAWj4KI4uGXZD9Fef8IwYby2V8B+7pDLACdW1xwcqBd9ZGMi+CqxpUO16th
- dG8CovQXIojMb+TG2I4MuzBas4JS6ewErZBMrM/omWHkNYT0d2IOEnAxoiOBDPBAr8D5
- 6ttq0YZ4mWyawdm1IX1x+sdgWzmbbCMsqCuEW6mmoskXrYgyNgrg1OQ9dLrRDjLYFGAu
- m/6SDNd3w6GzoWYW2WntipK7PSSA1HtZtAQDJxVp1DIYTqPa6dzJOJK9k6SkM1x8gzg3
- bWfCGt4hAMCx1KSwVsOXn7tqBteyOtQD+o3UJDhs+b7BKD2DIBRAf41xXVkjAxFD+zf8
- /fQw==
+ bh=kNSwwLUlb4TjazJWbInH85IZYRihokDtaxUvDxQfVGw=;
+ b=aXaRkxGuky9dWr7wLOcLG3Qv5yAzQFzMDrDz3na2GFUg6S/xavmkjXFJqfArXrLcWH
+ PueATxn3udioZjtwGM2k6fW/eld76R+oIw4h+6Ml328uwRJ4zxbLOAcaeK+JqQ6+Vl1Y
+ Rqd6eLGQS8qEmpMedyT08J8857ZAkkZiK/1PvniElRgTf2on9zZqkqg72QeyHX9ju8+k
+ aw33VV8DIA3VVRZMmWLnlSBK/uGDsNhvolxkrdBHOjfoO99EWr+Hw/+sMugypBzSO/z5
+ GuDWJ8TAZ+d750H/tWfY2jBehltm45ZpRBbNmKH/Qm9h5e3II1OaIX99sAOuLC3mJN17
+ fTig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EWeAZEgVjDNYCPX5r/G5ZnsWsZ8ptX15tIjDl2hMt5Y=;
- b=diZPnrQS6HPq+YprWhaM91lJtgDztgwqrikPNEHEKfzREBJAi9GGNASZORqrv0z/1Z
- xCghd1ed+bHyC+No/1JV1QkR1ubu2o/4A5oORQ2hNc6z+tKOVoponakGqcNbuyxMnkUR
- 4gt3aUVBGrfVtSE7vLi5VxS2D9/6yDYLrGThnheofAV7CkB6NATo/hkEAXys4D3yb1E1
- I9VEhUMCDvgZhGO+kcR4QO6xy9MhNmpBZwYp5xUvD9i16rFvc5uDmeMJ2jJ3hPgbOlN0
- SQRwm3U0Yuayhoi5QAzCRHy+jp9rL1fHlR6oTWcRe4LV4e1Vx3UDDZ4/ic6D5YjdwO7N
- XaIg==
-X-Gm-Message-State: AJIora+R8mY9TEWBJKM5WAP6wpTqOgu8nujlp1sKcEA55MwmfKj2RrMu
- Le3O0cCNcBwS2X4TlTBk2tsCvcxkEK48qb0W
-X-Google-Smtp-Source: AGRyM1sxD3vuhFjlFxdVWQ/7MSuvMfOXGD3nfMW9P1nbGdQxToL/YXstcaPMZPRVxWwh0oqGlh17VA==
-X-Received: by 2002:a05:600c:1e8d:b0:3a1:9eb0:fd81 with SMTP id
- be13-20020a05600c1e8d00b003a19eb0fd81mr194101wmb.19.1657664210427; 
- Tue, 12 Jul 2022 15:16:50 -0700 (PDT)
+ bh=kNSwwLUlb4TjazJWbInH85IZYRihokDtaxUvDxQfVGw=;
+ b=bNzxydxr0Ecr+JZHSSEJwwONMEsjeZCoDy14p3WEimj/QzRrKU8+K53QeANa/ll7FQ
+ eyEtNwgTwJFdqX3uNvYbVD2LCjAVtuw2xMyMvc78qfPtCt6Xtbex7EIAmwqOc5ICM2IO
+ xeWErtv2WILiKXnEoh0/Eq1RcYyhCmyVZOsGydeMv1rF8isGY1Rctvg7Uzf1Rp4k1cf8
+ qJlGWPAKi/sZwceC/GP2WSKfRQ4DsnvAYv+mzdecdNMAdZQSBRkO6G32KfTqdr41rcKy
+ xPMlaNgZpVX0peVvuTyRyAlYVCNeZaZHfzkOypto8cUTE9FR/qlhThbml1+JFS3z9dgR
+ xGjA==
+X-Gm-Message-State: AJIora+SeYu28ZnxlGravlzqJvu22pcPb8wEZpTZsZj2KbEXQf5fFg4h
+ +WhvBndvbetbGhsetPkJV6gdbyEWyAhcpV9i
+X-Google-Smtp-Source: AGRyM1vPxNW2EsSrR6U2SwExhHijQjSt0W5gLuUTO511wlEJ0aKgFU+820TIvTgWz+ob+PA60zbQww==
+X-Received: by 2002:a05:600c:4fc9:b0:3a0:4d54:b315 with SMTP id
+ o9-20020a05600c4fc900b003a04d54b315mr217598wmq.62.1657664215496; 
+ Tue, 12 Jul 2022 15:16:55 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- r10-20020a05600c35ca00b003a2e5296befsm181242wmq.32.2022.07.12.15.16.49
+ x4-20020adfdd84000000b0021d7f032022sm9258680wrl.17.2022.07.12.15.16.54
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 12 Jul 2022 15:16:49 -0700 (PDT)
+ Tue, 12 Jul 2022 15:16:55 -0700 (PDT)
 To: qemu-devel@nongnu.org
 Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>, Thomas Huth <thuth@redhat.com>,
  Cameron Esfahani <dirty@apple.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/5] ui/cocoa: Take refresh rate into account
-Date: Wed, 13 Jul 2022 00:16:06 +0200
-Message-Id: <20220712221607.9933-5-f4bug@amsat.org>
+ Peter Delevoryas <peter@pjd.dev>
+Subject: [PULL 5/5] avocado: Fix BUILD_DIR if it's equal to SOURCE_DIR
+Date: Wed, 13 Jul 2022 00:16:07 +0200
+Message-Id: <20220712221607.9933-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220712221607.9933-1-f4bug@amsat.org>
 References: <20220712221607.9933-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,65 +95,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
+From: Peter Delevoryas <peter@pjd.dev>
 
-Retrieve the refresh rate of the display and reflect it with
-dpy_set_ui_info() and update_displaychangelistener(), allowing the
-guest and DisplayChangeListener to consume the information.
+I like to build QEMU from the root source directory [*], rather
+than cd'ing into the build directory. This code may as well include
+a search path for that, so that you can run avocado tests individually
+without specifying "-p qemu_bin=build/qemu-system-arm" manually.
 
-The information will be used as a hint how often the display should
-be updated. For example, when we run 30 Hz physical display updates
-it is pointless for the guest to update the screen at 60Hz
-frequency, the guest can spare some work instead.
+[*] See commit dedad02720 ("configure: add support for pseudo-"in source tree" builds")
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220702142519.12188-1-akihiko.odaki@gmail.com>
+Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220702185604.46643-1-peter@pjd.dev>
+[PMD: Mention commit dedad02720]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- meson.build |  3 ++-
- ui/cocoa.m  | 12 ++++++++++++
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ tests/avocado/avocado_qemu/__init__.py | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index ad92d288a6..fea3566ea8 100644
---- a/meson.build
-+++ b/meson.build
-@@ -583,7 +583,8 @@ if get_option('attr').allowed()
-   endif
- endif
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index b656a70c55..ed4853c805 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -120,14 +120,15 @@ def pick_default_qemu_bin(bin_prefix='qemu-system-', arch=None):
+     # qemu binary path does not match arch for powerpc, handle it
+     if 'ppc64le' in arch:
+         arch = 'ppc64'
+-    qemu_bin_relative_path = os.path.join(".", bin_prefix + arch)
+-    if is_readable_executable_file(qemu_bin_relative_path):
+-        return qemu_bin_relative_path
+-
+-    qemu_bin_from_bld_dir_path = os.path.join(BUILD_DIR,
+-                                              qemu_bin_relative_path)
+-    if is_readable_executable_file(qemu_bin_from_bld_dir_path):
+-        return qemu_bin_from_bld_dir_path
++    qemu_bin_name = bin_prefix + arch
++    qemu_bin_paths = [
++        os.path.join(".", qemu_bin_name),
++        os.path.join(BUILD_DIR, qemu_bin_name),
++        os.path.join(BUILD_DIR, "build", qemu_bin_name),
++    ]
++    for path in qemu_bin_paths:
++        if is_readable_executable_file(path):
++            return path
+     return None
  
--cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
-+cocoa = dependency('appleframeworks', modules: ['Cocoa', 'CoreVideo'],
-+                   required: get_option('cocoa'))
- if cocoa.found() and get_option('sdl').enabled()
-   error('Cocoa and SDL cannot be enabled at the same time')
- endif
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index e883c7466e..5a8bd5dd84 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -561,8 +561,20 @@ - (void) updateUIInfoLocked
-         CGDirectDisplayID display = [[description objectForKey:@"NSScreenNumber"] unsignedIntValue];
-         NSSize screenSize = [[[self window] screen] frame].size;
-         CGSize screenPhysicalSize = CGDisplayScreenSize(display);
-+        CVDisplayLinkRef displayLink;
  
-         frameSize = isFullscreen ? screenSize : [self frame].size;
-+
-+        if (!CVDisplayLinkCreateWithCGDisplay(display, &displayLink)) {
-+            CVTime period = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(displayLink);
-+            CVDisplayLinkRelease(displayLink);
-+            if (!(period.flags & kCVTimeIsIndefinite)) {
-+                update_displaychangelistener(&dcl,
-+                                             1000 * period.timeValue / period.timeScale);
-+                info.refresh_rate = (int64_t)1000 * period.timeScale / period.timeValue;
-+            }
-+        }
-+
-         info.width_mm = frameSize.width / screenSize.width * screenPhysicalSize.width;
-         info.height_mm = frameSize.height / screenSize.height * screenPhysicalSize.height;
-     } else {
 -- 
 2.36.1
 
