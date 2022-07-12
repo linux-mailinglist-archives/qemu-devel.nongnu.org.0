@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF9A57292C
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 00:19:34 +0200 (CEST)
-Received: from localhost ([::1]:37040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB23A572991
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 00:59:45 +0200 (CEST)
+Received: from localhost ([::1]:55694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBOE9-0004vH-9d
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 18:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
+	id 1oBOr1-0006tB-AE
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 18:59:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBOBV-0007cw-Hw
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:16:49 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:44786)
+ id 1oBOBc-0007rX-7Q
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:16:56 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:52841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBOBS-0002U1-Gn
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:16:48 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- be14-20020a05600c1e8e00b003a04a458c54so185740wmb.3
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 15:16:46 -0700 (PDT)
+ id 1oBOBX-0002T5-Az
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:16:55 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id o8so5492686wms.2
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 15:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iAKkygkMO1TUtVaK/7uVgYzViBXQ1KnHrGHWUDPP7AE=;
- b=P6jvTc26WoW9mGGPpngwUR0CDdsgB68NIOQTH35UuE23TcorudpzQkaMdakCmGk5U0
- EDpZVITphXPqXyHQ+/zVaUpPwOoGhg7YxrnfxQ7HGZfDtHGXDIC+aPp0VmwX2dlElM7i
- TqprLGu0S//lTfI0CJ512FwPzobAETfSgoVfcWL/+aVBrwEU5/JA4QEIvpxfixbnLmqa
- XVMR/V9DmIdPyaHip4OjHKsU0CfAYqX/VoCI/xepmk6aevZ/AF6A901bWRoQAH7mBdNj
- gLsofPH2I9tAdJw8ugM9gV2RfPMcwpHGZm2nOpkTnv/6upppRk/EyZTlyQWF1A9hKK4U
- ppJg==
+ bh=EWeAZEgVjDNYCPX5r/G5ZnsWsZ8ptX15tIjDl2hMt5Y=;
+ b=HlPrzP/YAWj4KI4uGXZD9Fef8IwYby2V8B+7pDLACdW1xwcqBd9ZGMi+CqxpUO16th
+ dG8CovQXIojMb+TG2I4MuzBas4JS6ewErZBMrM/omWHkNYT0d2IOEnAxoiOBDPBAr8D5
+ 6ttq0YZ4mWyawdm1IX1x+sdgWzmbbCMsqCuEW6mmoskXrYgyNgrg1OQ9dLrRDjLYFGAu
+ m/6SDNd3w6GzoWYW2WntipK7PSSA1HtZtAQDJxVp1DIYTqPa6dzJOJK9k6SkM1x8gzg3
+ bWfCGt4hAMCx1KSwVsOXn7tqBteyOtQD+o3UJDhs+b7BKD2DIBRAf41xXVkjAxFD+zf8
+ /fQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iAKkygkMO1TUtVaK/7uVgYzViBXQ1KnHrGHWUDPP7AE=;
- b=fTsXYkVKsP719Vt4kl73BnHqv2FJkbcpQW8majj9D8N661FxC113Ddo7kDRouAbnbl
- 5YO2crhjr57bnRLGZEsVNY5h6tWpkxpVKzuLEob3gzUnJsPGoFI+81dsPuu8NJ85ALIc
- ke/iGa45zJK1shzYOhLuVCDgae0QASBY7tnfKKF3FZoPOcXpLI20helNk6KDQF1EIAcS
- z5W+6CcOksBoMzx1IdOruZGF4R/t9DOzPTITy+wdjhJCYhswhnnLe7kTNevsBGtbfQ2Y
- YjhPtAHA0hQtiBKtQdTs9D1B+s1/suJkt1mDH8E8u8eWoiYZmZ+SRCi3MBa6Nn4CfbLY
- m9CA==
-X-Gm-Message-State: AJIora/P7By5vclium0T33ht/uzqeonsvL5MeDMf956HOWYa0BdqIs3w
- rCQO0n53XSUJEUvTSKGRGVuw/rwe1p5mbGOM
-X-Google-Smtp-Source: AGRyM1uqp1Zlw04TWTdCzEZBBEymzCc+K8V/sERb4NDmaPr/TjVN2xW+AH6cGmgSHkyLARdAVCGWGA==
-X-Received: by 2002:a05:600c:3507:b0:3a1:9fbb:4d62 with SMTP id
- h7-20020a05600c350700b003a19fbb4d62mr174945wmq.161.1657664205139; 
- Tue, 12 Jul 2022 15:16:45 -0700 (PDT)
+ bh=EWeAZEgVjDNYCPX5r/G5ZnsWsZ8ptX15tIjDl2hMt5Y=;
+ b=diZPnrQS6HPq+YprWhaM91lJtgDztgwqrikPNEHEKfzREBJAi9GGNASZORqrv0z/1Z
+ xCghd1ed+bHyC+No/1JV1QkR1ubu2o/4A5oORQ2hNc6z+tKOVoponakGqcNbuyxMnkUR
+ 4gt3aUVBGrfVtSE7vLi5VxS2D9/6yDYLrGThnheofAV7CkB6NATo/hkEAXys4D3yb1E1
+ I9VEhUMCDvgZhGO+kcR4QO6xy9MhNmpBZwYp5xUvD9i16rFvc5uDmeMJ2jJ3hPgbOlN0
+ SQRwm3U0Yuayhoi5QAzCRHy+jp9rL1fHlR6oTWcRe4LV4e1Vx3UDDZ4/ic6D5YjdwO7N
+ XaIg==
+X-Gm-Message-State: AJIora+R8mY9TEWBJKM5WAP6wpTqOgu8nujlp1sKcEA55MwmfKj2RrMu
+ Le3O0cCNcBwS2X4TlTBk2tsCvcxkEK48qb0W
+X-Google-Smtp-Source: AGRyM1sxD3vuhFjlFxdVWQ/7MSuvMfOXGD3nfMW9P1nbGdQxToL/YXstcaPMZPRVxWwh0oqGlh17VA==
+X-Received: by 2002:a05:600c:1e8d:b0:3a1:9eb0:fd81 with SMTP id
+ be13-20020a05600c1e8d00b003a19eb0fd81mr194101wmb.19.1657664210427; 
+ Tue, 12 Jul 2022 15:16:50 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- j5-20020adfea45000000b0021d6a23fdf3sm9212775wrn.15.2022.07.12.15.16.44
+ r10-20020a05600c35ca00b003a2e5296befsm181242wmq.32.2022.07.12.15.16.49
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 12 Jul 2022 15:16:44 -0700 (PDT)
+ Tue, 12 Jul 2022 15:16:49 -0700 (PDT)
 To: qemu-devel@nongnu.org
 Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>, Thomas Huth <thuth@redhat.com>,
  Cameron Esfahani <dirty@apple.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Peter Delevoryas <peter@pjd.dev>
-Subject: [PULL 3/5] ui/cocoa: Fix switched_to_fullscreen warning
-Date: Wed, 13 Jul 2022 00:16:05 +0200
-Message-Id: <20220712221607.9933-4-f4bug@amsat.org>
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 4/5] ui/cocoa: Take refresh rate into account
+Date: Wed, 13 Jul 2022 00:16:06 +0200
+Message-Id: <20220712221607.9933-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220712221607.9933-1-f4bug@amsat.org>
 References: <20220712221607.9933-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,66 +95,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Peter Delevoryas <peter@pjd.dev>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-I noticed this error while building QEMU on Mac OS X:
+Retrieve the refresh rate of the display and reflect it with
+dpy_set_ui_info() and update_displaychangelistener(), allowing the
+guest and DisplayChangeListener to consume the information.
 
-    [1040/1660] Compiling Objective-C object libcommon.fa.p/ui_cocoa.m.o
-    ../ui/cocoa.m:803:17: warning: variable 'switched_to_fullscreen' set but not used [-Wunused-but-set-variable]
-        static bool switched_to_fullscreen = false;
-                    ^
-    1 warning generated.
+The information will be used as a hint how often the display should
+be updated. For example, when we run 30 Hz physical display updates
+it is pointless for the guest to update the screen at 60Hz
+frequency, the guest can spare some work instead.
 
-I think the behavior is fine if you remove "switched_to_fullscreen", I can
-still switch in and out of mouse grabbed mode and fullscreen mode with this
-change, and Command keycodes will only be passed to the guest if the mouse
-is grabbed, which I think is the right behavior. I'm not sure why a static
-piece of state was needed to handle that in the first place. Perhaps the
-refactoring of the flags-state-change fixed that by toggling the Command
-keycode on.
-
-I tested this with an Ubuntu core image on macOS 12.4
-
-    wget https://cdimage.ubuntu.com/ubuntu-core/18/stable/current/ubuntu-core-18-i386.img.xz
-    xz -d ubuntu-core-18-i386.img.xz
-    qemu-system-x86_64 -drive file=ubuntu-core-18.i386.img,format=raw
-
-Fixes: 6d73bb643aa7 ("ui/cocoa: Clear modifiers whenever possible")
-Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220702044304.90553-1-peter@pjd.dev>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20220702142519.12188-1-akihiko.odaki@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- ui/cocoa.m | 8 --------
- 1 file changed, 8 deletions(-)
+ meson.build |  3 ++-
+ ui/cocoa.m  | 12 ++++++++++++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
+diff --git a/meson.build b/meson.build
+index ad92d288a6..fea3566ea8 100644
+--- a/meson.build
++++ b/meson.build
+@@ -583,7 +583,8 @@ if get_option('attr').allowed()
+   endif
+ endif
+ 
+-cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
++cocoa = dependency('appleframeworks', modules: ['Cocoa', 'CoreVideo'],
++                   required: get_option('cocoa'))
+ if cocoa.found() and get_option('sdl').enabled()
+   error('Cocoa and SDL cannot be enabled at the same time')
+ endif
 diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 6a4dccff7f..e883c7466e 100644
+index e883c7466e..5a8bd5dd84 100644
 --- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -800,7 +800,6 @@ - (bool) handleEventLocked:(NSEvent *)event
-     int buttons = 0;
-     int keycode = 0;
-     bool mouse_event = false;
--    static bool switched_to_fullscreen = false;
-     // Location of event in virtual screen coordinates
-     NSPoint p = [self screenLocationOfEvent:event];
-     NSUInteger modifiers = [event modifierFlags];
-@@ -952,13 +951,6 @@ - (bool) handleEventLocked:(NSEvent *)event
+@@ -561,8 +561,20 @@ - (void) updateUIInfoLocked
+         CGDirectDisplayID display = [[description objectForKey:@"NSScreenNumber"] unsignedIntValue];
+         NSSize screenSize = [[[self window] screen] frame].size;
+         CGSize screenPhysicalSize = CGDisplayScreenSize(display);
++        CVDisplayLinkRef displayLink;
  
-             // forward command key combos to the host UI unless the mouse is grabbed
-             if (!isMouseGrabbed && ([event modifierFlags] & NSEventModifierFlagCommand)) {
--                /*
--                 * Prevent the command key from being stuck down in the guest
--                 * when using Command-F to switch to full screen mode.
--                 */
--                if (keycode == Q_KEY_CODE_F) {
--                    switched_to_fullscreen = true;
--                }
-                 return false;
-             }
- 
+         frameSize = isFullscreen ? screenSize : [self frame].size;
++
++        if (!CVDisplayLinkCreateWithCGDisplay(display, &displayLink)) {
++            CVTime period = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(displayLink);
++            CVDisplayLinkRelease(displayLink);
++            if (!(period.flags & kCVTimeIsIndefinite)) {
++                update_displaychangelistener(&dcl,
++                                             1000 * period.timeValue / period.timeScale);
++                info.refresh_rate = (int64_t)1000 * period.timeScale / period.timeValue;
++            }
++        }
++
+         info.width_mm = frameSize.width / screenSize.width * screenPhysicalSize.width;
+         info.height_mm = frameSize.height / screenSize.height * screenPhysicalSize.height;
+     } else {
 -- 
 2.36.1
 
