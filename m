@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B34F571975
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:10:25 +0200 (CEST)
-Received: from localhost ([::1]:34620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044C6571991
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:14:29 +0200 (CEST)
+Received: from localhost ([::1]:39308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBEie-0000aB-0j
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:10:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40618)
+	id 1oBEmZ-0003sh-Q1
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:14:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oBEdx-0006kR-HK
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:05:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48655)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oBEja-0000sr-8l; Tue, 12 Jul 2022 08:11:22 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oBEdt-0001W1-IM
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:05:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657627512;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Yt7SKqPnnqw5yWcDybAhdga3M7DjH2xk0Vw1zycKy9w=;
- b=G2PY6eVapcnr7iafh/eN7VcDJ+TNb/mKiy4GNdhXmKYISLn37MXVtkirQdo8MMMpyTOmH0
- yNsN2foowbTCo1+2roRgg+oW460H9BvuqsVEjZxfgdwEDV1kQHTQqTWymZDEF6n0BRdv/F
- DoWS9f7kXywog2fpJjQSKcyMiEgfMo0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-99-TLlTABIBMX2SzLtofUURvA-1; Tue, 12 Jul 2022 08:05:10 -0400
-X-MC-Unique: TLlTABIBMX2SzLtofUURvA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- t4-20020a1c7704000000b003a2cfaeca37so3669716wmi.5
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:05:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Yt7SKqPnnqw5yWcDybAhdga3M7DjH2xk0Vw1zycKy9w=;
- b=LOK4MFpSrbMhpwbKUgNejzYWCQrn2CsWpkCwjI4DDW3W7dqOmJCJCTpvWLt1qyQKAt
- pFTEs+ukjDE7CvI3eyslk0LSAV3roH67anJyl/okW6ZLy9DtIcUfFGuI4FpmWSmy5zKD
- jd2l326oYGsTm7uuqibqjGlVMLqirnA3w0nPPumOZm6zHu1Ynyj4TaP94/aENtcIfzvd
- 75VvQ5wyIImh0w+T9KG4I9gj8GRF3Vtir1kIl/h3kB2a0lXxJLLDr7vyn5SiBuvrOK3g
- Ub2CPgrzJQEeo4NvIPK6F1fj1MxRb0D8/esH+EOQPaSeOfZfpg3Pai92tXs7F4HDhcMe
- Wx0A==
-X-Gm-Message-State: AJIora+JEh2xyiGBO0p2Ej6P13AZljMW8PXDPgzIA3llqQTU44dBEdCb
- z4u8nEeS2FwKn8HN1CrvYhyWkQOEmJnm9eARRSnKwROU8BwJ1GOU+wWkqlNlDaPRLceznjBpynl
- P1KHEJZqQGTGv/vY=
-X-Received: by 2002:a5d:6d84:0:b0:21d:a7c7:d44a with SMTP id
- l4-20020a5d6d84000000b0021da7c7d44amr9190474wrs.710.1657627509495; 
- Tue, 12 Jul 2022 05:05:09 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tkbP5wmrpP3x7/Xp8w550Kj0Rxv2Jhc/gdPR5RM6mQRbgDjaZVaCri/nTCYpUsgvzMptSiNA==
-X-Received: by 2002:a5d:6d84:0:b0:21d:a7c7:d44a with SMTP id
- l4-20020a5d6d84000000b0021da7c7d44amr9190426wrs.710.1657627509169; 
- Tue, 12 Jul 2022 05:05:09 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- p18-20020a05600c359200b003a2e2ba94ecsm8497108wmq.40.2022.07.12.05.05.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jul 2022 05:05:08 -0700 (PDT)
-Date: Tue, 12 Jul 2022 13:05:06 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH v6 12/13] qemu-sockets: update socket_uri() to be
- consistent with socket_parse()
-Message-ID: <Ys1jck60PfCJPtXQ@work-vm>
-References: <20220706062847.1396719-1-lvivier@redhat.com>
- <20220706064607.1397659-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oBEjY-0002p5-Kr; Tue, 12 Jul 2022 08:11:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=e0JJ6zQg2ExsQTqxwJOvUkbMKgW6PkV4BZZengdUaog=; b=syALaxq5TAzgdpqK/22Y91UA/y
+ dMJ1GlQXD+YZmmKAhxDd2+YBY30CbTbacDvXLm+dCpLOm4Y9c/bTMMxmBmc3fbV+78Tar0S/hYNom
+ snjNrkFJhBcHK18/37J8n/V25s2QdSHYfoyvTuhwyToceAwR94F7fn9CB3y//lCKaEV72KkGvaXmp
+ DN2nhKR0j0X2LhvC9kuUtQhNCqMVKcnM0BBEtYPAOxietdIpePSY0OkF/rXW5qkNFil+PTjADlPpo
+ 8GO5ruaQFUnmBnn4Mb86bWih4ZoA1T1syb+/2ASjXFPC9rwQl/KCAMKq3BtAaSXBL0nG3eAWk/Pn9
+ shqhicYx9TEQl6ekpvNy06hkMb2YDA4XdNrxWl48EAD2IdnvsG1btn4vH4mnMXxI5Xr0g/O+yAuTH
+ ZBb+FopNvJwow/jyGaEbVZYapwSbqJKqnnyTqB9zhWLvOk+I9KWTm9cxSUMudeXRDmNEFO4uM1t6t
+ vGFJ9pZYOwa/sKD2ctnIEszh/Rew9lCxwzymanMUJ24Bikvj/JtNyoHs16YAch4ynGIxrDOCQXP8b
+ LsIY8cmNQXeHiJV4vgoa0aw72VA0q40SWSKVEYym2g4NHfqDYA1/3HpY7uVsqcMGrD3oSH7yB167M
+ 31KPyTPHjUkdsszb9t7SjEV55PEcfhuYEm9TZ1Ex0=;
+Received: from [2a00:23c4:8ba5:df00:fd7d:1c3a:1dd0:c576]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oBEiB-0009Kj-Gn; Tue, 12 Jul 2022 13:09:59 +0100
+Message-ID: <4ff0668b-02b9-b0dc-99fc-6471d534a404@ilande.co.uk>
+Date: Tue, 12 Jul 2022 13:11:07 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220706064607.1397659-1-lvivier@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org
+References: <20220630194249.886747-1-danielhb413@gmail.com>
+ <20220630194249.886747-3-danielhb413@gmail.com>
+ <55014e2a-a668-4843-8338-850abeb5ff04@kaod.org>
+ <47277f4f-a6a5-85dc-4806-67df8e2fc153@gmail.com>
+ <6d37b1dc-5dfb-2513-f74e-3f58e84e8117@kaod.org>
+ <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
+ <6b5e0e42-973d-19de-4979-7db06941ea19@kaod.org>
+ <13b65b0e-716f-a6e0-fd63-c1e7cfe2a63c@kaod.org>
+ <c08df33f-f6e8-67bb-9159-190a0b9a2dd5@ilande.co.uk>
+ <af1b3289-a9ff-b417-e2dd-ae9801f2c74a@kaod.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <af1b3289-a9ff-b417-e2dd-ae9801f2c74a@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba5:df00:fd7d:1c3a:1dd0:c576
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 2/9] target/ppc: add errp to kvmppc_read_int_cpu_dt()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,59 +89,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Laurent Vivier (lvivier@redhat.com) wrote:
-> Remove 'tcp:' prefix for inet type (because inet can be 'tcp' or 'udp'
-> and socket_parse() doesn't recognize it), the format is 'host:port'.
+On 11/07/2022 08:42, Cédric Le Goater wrote:
 
-I don't think I understand why tests/qtest/migration-test.c
-test_precopy_common is happy with this; it does:
-
-    if (!args->connect_uri) {
-        g_autofree char *local_connect_uri =
-            migrate_get_socket_address(to, "socket-address");
-        migrate_qmp(from, local_connect_uri, "{}");
-
-which hmm, is the code you're changing what was in SocketAddress_to_str
-which is what migrate_get_socket_address uses; but then the migrate_qmp
-I don't think will take a migrate uri without the tcp: on the front.
-
-Dave
-
-> Use 'vsock:' prefix for vsock type rather than 'tcp:' because it makes
-> a vsock address look like an inet address with CID misinterpreted as host.
-> Goes back to commit 9aca82ba31 "migration: Create socket-address parameter"
+>>> Anything special I should know ?
+>>
+>> As I don't have access to a G5 I've never tried that, however the qemu-system-ppc64 
+>> mac99 is wired differently to the qemu-system-ppc mac99 machine so I wouldn't be 
+>> surprised if something is broken there.
+>>
+>> My normal test for MacOS is something like:
+>>
+>>     qemu-system-ppc -M mac99 -accel kvm -hda macos104.img
+>>
+>> Can you try qemu-system-ppc and see if it is any better? If not then I can fire up 
+>> the G4 and get the git hashes for my last known working configuration.
 > 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->  util/qemu-sockets.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index 870a36eb0e93..4cd76b3ae3af 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -1102,7 +1102,7 @@ char *socket_uri(SocketAddress *addr)
->  {
->      switch (addr->type) {
->      case SOCKET_ADDRESS_TYPE_INET:
-> -        return g_strdup_printf("tcp:%s:%s",
-> +        return g_strdup_printf("%s:%s",
->                                 addr->u.inet.host,
->                                 addr->u.inet.port);
->      case SOCKET_ADDRESS_TYPE_UNIX:
-> @@ -1111,7 +1111,7 @@ char *socket_uri(SocketAddress *addr)
->      case SOCKET_ADDRESS_TYPE_FD:
->          return g_strdup_printf("fd:%s", addr->u.fd.str);
->      case SOCKET_ADDRESS_TYPE_VSOCK:
-> -        return g_strdup_printf("tcp:%s:%s",
-> +        return g_strdup_printf("vsock:%s:%s",
->                                 addr->u.vsock.cid,
->                                 addr->u.vsock.port);
->      default:
-> -- 
-> 2.36.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Same issue with 32bit.
 
+I've just fired up my G4 to test this again, pulled the latest QEMU git master and 
+confirmed that I have a working setup with the details below:
+
+Host kernel: (5.1.0-rc2+)
+commit a3ac7917b73070010c05b4485b8582a6c9cd69b6
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon Mar 25 14:49:00 2019 -0700
+
+Guest kernel: (4.14.0-3-powerpc)
+using Debian ports debian-9.0-powerpc-NETINST-1.iso
+
+Command line:
+./qemu-system-ppc [-M mac99] -accel kvm -cdrom 
+/home/mca/images/debian-9.0-powerpc-NETINST-1.iso -boot d -nographic
+
+However if I switch to using the latest Debian ports 
+debian-10.0.0-powerpc-NETINST-1.iso then I get a failure:
+
+[    0.198565] BUG: Unable to handle kernel data access on read at 0xbb0030d4
+[    0.205152] Faulting instruction address: 0x0001b0c4
+[    0.210175] Oops: Kernel access of bad area, sig: 11 [#1]
+[    0.214933] BE PAGE_SIZE=4K MMU=Hash PowerMac
+[    0.218226] Modules linked in:
+[    0.220746] CPU: 0 PID: 0 Comm: swapper Not tainted 5.6.0-2-powerpc #1 Debian 5.6.14-1
+[    0.226967] NIP:  0001b0c4 LR: 000030d4 CTR: 00000000
+[    0.230869] REGS: c7fb5908 TRAP: 0300   Not tainted  (5.6.0-2-powerpc Debian 5.6.14-1)
+[    0.236844] MSR:  00001012 <ME,DR,RI>  CR: 24002820  XER: 20000000
+[    0.242096] DAR: bb0030d4 DSISR: 40000000
+[    0.242096] GPR00: c0044e70 c7fb59c0 c0b26510 c7fb5f48 bb0030d4 40000000 00000000 
+00000001
+[    0.242096] GPR08: ff340038 bb0030d4 00001032 c7fb59c0 00000000 00000000 00000000 
+00000004
+[    0.242096] GPR16: 029c61f0 029c5d68 07c5cd08 00000001 029dd844 fffffffd fff55d10 
+42000000
+[    0.242096] GPR24: c0af6704 c0b20d94 00000000 00000000 c0bd862c 00000000 00000000 
+0000000d
+[    0.271138] NIP [0001b0c4] 0x1b0c4
+[    0.273978] LR [000030d4] 0x30d4
+[    0.276410] Call Trace:
+[    0.278812] Instruction dump:
+[    0.281219] 55290206 XXXXXXXX XXXXXXXX XXXXXXXX 4c00012c XXXXXXXX XXXXXXXX XXXXXXXX
+[    0.287561] 419f0028 XXXXXXXX XXXXXXXX XXXXXXXX 81690000 XXXXXXXX XXXXXXXX XXXXXXXX
+[    0.293922] ---[ end trace 3a9d775bab6f3340 ]---
+[    0.297491]
+[    1.284408] Kernel panic - not syncing: Attempted to kill the idle task!
+[    1.290027] ---[ end Kernel panic - not syncing: Attempted to kill the idle task! ]---
+
+
+Decompressing the initrd takes quite a long time, but I think this is the issue that 
+was recently discussed on the mailing list?
+
+I think the next step should be to move my host kernel forward to a more current 
+version with the working debian-9.0-powerpc-NETINST-1.iso and see if it is able to 
+boot without any problems.
+
+
+ATB,
+
+Mark.
 
