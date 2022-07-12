@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D512D57100B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 04:16:36 +0200 (CEST)
-Received: from localhost ([::1]:43924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D70957100C
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 04:16:52 +0200 (CEST)
+Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB5Rz-0004rY-Li
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 22:16:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37162)
+	id 1oB5SF-00051Y-DU
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 22:16:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oB5Oj-00086I-PG
+ id 1oB5Oj-00086E-Dw
  for qemu-devel@nongnu.org; Mon, 11 Jul 2022 22:13:14 -0400
-Received: from mga01.intel.com ([192.55.52.88]:21784)
+Received: from mga01.intel.com ([192.55.52.88]:21787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oB5Ob-0007qx-Pi
+ id 1oB5Oc-0007r4-Pl
  for qemu-devel@nongnu.org; Mon, 11 Jul 2022 22:13:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657591985; x=1689127985;
+ t=1657591986; x=1689127986;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=r/dM6zuxOsycIsS+pswJqYib9i9kyiLg5BUSrz5lpm8=;
- b=kKChTBoFAR4HbvfUrgNv91l1ZICadthDHoZQLB8s+jTgXMkk+6DqyHjJ
- btj8K3Q8xHsq0cdkVmMsPh3Xb9AdfUpZDEj5AsP5/zMor91OUGpHJkIbh
- BVax51rjp/F4D2uLjGI4pvY+AeHSN0AliS0FqzhbK9JtV/bkjoKcaYiz5
- jcl4IvD1L8qbXFcr5h4j7jWN8bFrodbyqBvdV9EmhGAn3lVGWRCb9gGgt
- xqAqu6t8FzsmkB/XaMITH9P2Aqicau7Diko6lrss99Vcs6GR2RqTBTDU3
- tJscW1lK63dT9O8wvwO7P1hKJC16uaKiPgAyMKkdyFzMoCAn4JVkQhLpu Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="310429699"
-X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; d="scan'208";a="310429699"
+ bh=sW48LhJtFySdFOipzLcNWF35NfAbhYk3bcFRIsTzh+g=;
+ b=N7xLfN2L3nDdq1AqUyk2x9o3hZy/abDNigqskR7j/Aw+CVN1RrSaJLgC
+ mre2rVIN0hBFJbhL7wydtWJi5HqvxSAs+YZynJzhRcyvx+7LVSE/Pexwe
+ 3oNOGWWEn6FHLRiW+tlWr9teBODEOMW4bT9asl5/7QBOADB0Ly2vegpDr
+ 6zAWpjZHL3t8pJqZATj+0kfHn3S3Dze+94BHduA6MOP4uNb8Tdet+lLY6
+ qkjBYaEdAJZ2Lmb71bkwIJhmSEbPIMVV5+ldMawwZRotk07q0z/+QxyKV
+ Ki43wods9wdKHtQOyXMGPFkSMPdS5v7+Ar7k5/CYUDYzAvVnA49X7gUOw Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="310429703"
+X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; d="scan'208";a="310429703"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2022 19:12:53 -0700
+ 11 Jul 2022 19:12:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; d="scan'208";a="622320254"
+X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; d="scan'208";a="622320257"
 Received: from lxy-dell.sh.intel.com ([10.239.159.55])
- by orsmga008.jf.intel.com with ESMTP; 11 Jul 2022 19:12:52 -0700
+ by orsmga008.jf.intel.com with ESMTP; 11 Jul 2022 19:12:53 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
 Cc: qemu-devel@nongnu.org,
 	xiaoyao.li@intel.com
-Subject: [PATCH 1/2] i386/cpuid: Decrease cpuid_i when skipping CPUID leaf 1F
-Date: Tue, 12 Jul 2022 10:12:48 +0800
-Message-Id: <20220712021249.3227256-2-xiaoyao.li@intel.com>
+Subject: [PATCH 2/2] i386/cpuid: Remove subleaf constraint on CPUID leaf 1F
+Date: Tue, 12 Jul 2022 10:12:49 +0800
+Message-Id: <20220712021249.3227256-3-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220712021249.3227256-1-xiaoyao.li@intel.com>
 References: <20220712021249.3227256-1-xiaoyao.li@intel.com>
@@ -77,27 +77,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Decrease array index cpuid_i when CPUID leaf 1F is skipped, otherwise it
-will get an all zero'ed CPUID entry with leaf 0 and subleaf 0. It
-conflicts with correct leaf 0.
+No such constraint that subleaf index needs to be less than 64.
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 ---
- target/i386/kvm/kvm.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/kvm/kvm.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index b8578882c12b..a0b412a1129f 100644
+index a0b412a1129f..3efa524b4b93 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -1831,6 +1831,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         }
-         case 0x1f:
-             if (env->nr_dies < 2) {
-+                cpuid_i--;
-                 break;
-             }
-             /* fallthrough */
+@@ -1843,10 +1843,6 @@ int kvm_arch_init_vcpu(CPUState *cs)
+                     break;
+                 }
+ 
+-                if (i == 0x1f && j == 64) {
+-                    break;
+-                }
+-
+                 c->function = i;
+                 c->flags = KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
+                 c->index = j;
 -- 
 2.27.0
 
