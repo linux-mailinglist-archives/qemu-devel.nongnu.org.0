@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3624A57111D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 06:12:26 +0200 (CEST)
-Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95808571170
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 06:27:39 +0200 (CEST)
+Received: from localhost ([::1]:59986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB7G5-00067q-95
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 00:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57146)
+	id 1oB7Uo-0006Cy-Ef
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 00:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB74z-0002oK-6a
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:00:58 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:46975)
+ id 1oB7Qs-0001of-3e
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:23:34 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:33488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB74x-0001GY-L0
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:00:56 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- t5-20020a17090a6a0500b001ef965b262eso6746792pjj.5
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 21:00:55 -0700 (PDT)
+ id 1oB7Qq-0004vE-GD
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:23:33 -0400
+Received: by mail-pf1-x431.google.com with SMTP id v7so4419976pfb.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 21:23:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0HRb+Azc4p2o11CbDKWFf2Mh+ooq2uXuIk/74tbO3CE=;
- b=rvju08WMUhVIwRXO0V6r8OrYTg5D+VQG0CTc2UinPXXsGedRQFCFWGkh4nkj9lEtRJ
- 8snbmr/dGzQ0rS85mCjZEPwtbeUEBFLD4rC4s2JTPNNYc8RiN3BSf/P5r6yA/vTcsgDe
- vCu16e16RM6FDOep6FpWt6qVOlXrcnBK3eg7uthXRd/sYS4HDVOc2TixIUnZCwtqmyX7
- CU2wQVDJPMAfhWl47dImn9q4XeijVMVz9IgAR6SgqLJWmZleniaYYkKwHB8FhSwBUzZf
- p9yzG9tHepQgsswXG00AM6NzP3dAUBbpA5+mTPT6DvibICycYubAR56c05fQWJV6k9NW
- qsNw==
+ bh=yymjKM4tk+i0ww/fDuALNS4VPeHfRf1lfm8q29qDxHw=;
+ b=RI2EKI8Zs7qeN3uMxd4aExJ6s/3iN3dFM/hbjb5bHh8xibXbTXtcWrlG1jgK8kwlYP
+ u+rL8WZBbY7YlHnMOlbksOqHorhpAVYhTohTtYoirNaVF72E24IVNp0tmcEl2jz7PYYp
+ R4jeL3EAztD5RLmJfdWF8nyFcbmkKXlXXp5UBSl0OCzF6sDeR3IuOI5WcTWgtniVKNfH
+ 8n4zp8L0zMmRoUYtuAX0yxIgfb1id77VHGu+BcrKfALCOqMsum0KocLkDHmh0edU9Z3H
+ YKBLBrkTbTAwMouqsM1jfXJX12gP3wkDAFIc6WlrBfPI27P8SFkqd0BQ5fpCjhCNO5F+
+ Snzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0HRb+Azc4p2o11CbDKWFf2Mh+ooq2uXuIk/74tbO3CE=;
- b=FKYH6/e1Q40TyCg+6uy3A95r3xRq84FQt92P/LG4tLwf1l9tr1DfxFnTn5930nka2q
- YeHToOxK72v8yl4lJi8VcVoXn4NZoaAhEbu5oEK73++H47UI4mMnvTDTGc2JSQ3shIEv
- SDc4v3rHzPNVY8AttGhyXfW8ABx8cpKK4X1843+yvS/23R5l/IuLtqKv9djPv48bp8Yo
- uj9QtvcjdKCSbVCauZQ2TnFFnUrBScskN1+VwOKdYD3wox8cXV7iPSZMUKVV7xwoToG0
- 4KT+ZjhsM0XIfe3s+Lurob8Nq1RLcMUhjHqUqbHSkh9X9I4RkBK6ZUBlqm02M5ODIZYs
- 1uPQ==
-X-Gm-Message-State: AJIora8uXHJjI5WRLASRzZbnQBVo30/qEfsj2YsjWYqiJlyuLJ8OeAFh
- bXICglGE4T0TBOCXJmrFwW1O9A==
-X-Google-Smtp-Source: AGRyM1v5nlYoz4T9KfquCpFfKVkYRXahVu2d8kUGWMpVE+zYZcdqF2Gf20iEnpU8TQTdU355+moVfg==
-X-Received: by 2002:a17:903:11d2:b0:167:8a0f:8d33 with SMTP id
- q18-20020a17090311d200b001678a0f8d33mr21836518plh.95.1657598454239; 
- Mon, 11 Jul 2022 21:00:54 -0700 (PDT)
+ bh=yymjKM4tk+i0ww/fDuALNS4VPeHfRf1lfm8q29qDxHw=;
+ b=fCvp0/mSuC1SjtsGYUh4E3+NyXClgm64csPPWSiG+8ZdWMOJxmAeQ3YAeZ6vDCn9qt
+ +58UUxNKRp6vtwltSBnjJKJcpd+CueOLVvp4R4LI3X0dgXR/k8Oo9+GhyWwZGNF1DJ1l
+ k0hxks6B0+Wbo3CzYM0fpTKte9TMzgc8Ao5HVT3+dQeC3HEwxt6d2NJSaDNs5CCYszT2
+ E2H3puhDZzVOk4hzXzDj7zpHn9AhQuiMNTSSney+JiKYMVBpBi0OXbJBX5OjjZterjwq
+ ot8diRwzIhDvnvRdKZbtUDa60qX8dJAW13okl6gWPs6snmnMoNOlWtRF0PPnt3Yvkxoc
+ a31Q==
+X-Gm-Message-State: AJIora94GeNRPiVltKRJ08h7/NlfT1+IMGkJWfj7FNrUoUnHhCDstCNT
+ vqpZjgSQj7lMeXUHTGXucRQ/kw==
+X-Google-Smtp-Source: AGRyM1unZcfePC6NiHDg0v5Z8wvIgVX5Hx/54H8ex1jXXPgB21JiebHMDdcGGYfTLUVdKz3UmyhT3g==
+X-Received: by 2002:a05:6a00:23c8:b0:52a:e35b:47f1 with SMTP id
+ g8-20020a056a0023c800b0052ae35b47f1mr3050916pfc.10.1657599810704; 
+ Mon, 11 Jul 2022 21:23:30 -0700 (PDT)
 Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- k4-20020a170902d58400b0016bf5557690sm5550227plh.4.2022.07.11.21.00.42
+ y73-20020a62ce4c000000b005283cd33ea6sm5710199pfg.145.2022.07.11.21.23.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 21:00:53 -0700 (PDT)
-Message-ID: <7aabac5e-cdff-c1e8-a9bb-a4fe276ed91c@linaro.org>
-Date: Tue, 12 Jul 2022 09:30:27 +0530
+ Mon, 11 Jul 2022 21:23:30 -0700 (PDT)
+Message-ID: <1fe31da9-bccb-362c-946a-df349a523021@linaro.org>
+Date: Tue, 12 Jul 2022 09:30:53 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v4 08/12] tests/vm: add 1GB extra memory per core
+Subject: Re: [PATCH v4 09/12] tests/vm: Remove docker cross-compile test from
+ CentOS VM
 Content-Language: en-US
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Cc: Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
@@ -71,13 +71,13 @@ Cc: Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  Michael Roth <michael.roth@amd.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  <alex.bennee@linaro.org>
 References: <20220708153503.18864-1-jsnow@redhat.com>
- <20220708153503.18864-9-jsnow@redhat.com>
+ <20220708153503.18864-10-jsnow@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220708153503.18864-9-jsnow@redhat.com>
+In-Reply-To: <20220708153503.18864-10-jsnow@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,26 +100,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/22 21:04, John Snow wrote:
-> If you try to run a 16 or 32 threaded test, you're going to run out of
-> memory very quickly with qom-test and a few others. Bump the memory
-> limit to try to scale with larger-core machines.
+On 7/8/22 21:05, John Snow wrote:
+> The fedora container has since been split apart, so there's no suitable
+> nearby target that would support "test-mingw" as it requires both x32
+> and x64 support -- so either fedora-cross-win32 nor fedora-cross-win64
+> would be truly suitable.
 > 
-> Granted, this means that a 16 core processor is going to ask for 16GB,
-> but you*probably*  meet that requirement if you have such a machine.
-> 
-> 512MB per core didn't seem to be enough to avoid ENOMEM and SIGABRTs in
-> the test cases in practice on a six core machine; so I bumped it up to
-> 1GB which seemed to help.
-> 
-> Add this magic in early to the configuration process so that the
-> config file, if provided, can still override it.
+> Just remove this test as superfluous with our current CI infrastructure.
 > 
 > Signed-off-by: John Snow<jsnow@redhat.com>
 > Reviewed-by: Daniel P. Berrangé<berrange@redhat.com>
 > ---
->   tests/vm/basevm.py | 5 +++++
->   1 file changed, 5 insertions(+)
+>   tests/vm/centos | 1 -
+>   1 file changed, 1 deletion(-)
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
