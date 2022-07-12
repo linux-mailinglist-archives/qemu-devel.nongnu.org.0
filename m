@@ -2,104 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A34D57164A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:58:31 +0200 (CEST)
-Received: from localhost ([::1]:60084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C966A571675
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:02:20 +0200 (CEST)
+Received: from localhost ([::1]:36954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBCf0-0004ua-Eh
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:58:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39386)
+	id 1oBCih-0008Tk-IZ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:02:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oBCYt-0007ax-CT; Tue, 12 Jul 2022 05:52:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39100)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oBCK5-00066s-1Q
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:37:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oBCYr-0006Kc-MC; Tue, 12 Jul 2022 05:52:11 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26C9i1eg019955;
- Tue, 12 Jul 2022 09:52:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=TSMQv2XSpMRAJNVXtva96SwPmcpW6w7F0HQpVCkJH8c=;
- b=M2Z3vOV2grrQwbNq2iQNslGX8ETwUT3m9yrSk29sCS6M/8gDlWjNF9mzdAp/6yrDJwTS
- 4082iSgrpa8s7DVpCXYJ9ROZYKBG1jFSUuVAXpl4UvZeGNUp9IbYmekh9Mlv43APjQRl
- 8SQFoYKpB5pHBF0+3FeBeO42xnpejEKAOLmQD71adjoRKqPAWlzFoEOyV4KXHTRUN8P9
- IDC3pgAk2cTZhK0VHCxi5OsLvbAf8bAJh0dnHhAZbVAo7MEPfwJkJyds8W8rfL7KYYvw
- P84sHuGNyvl/0PhhHhQW4D3T+a/kl2sIwrfc6hagViCoBAbXY4rIWvYthnW9rIhb3+qC xQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h96jyr5un-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 09:52:08 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26C9jSHX028748;
- Tue, 12 Jul 2022 09:52:07 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h96jyr5u2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 09:52:07 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26C9o867017610;
- Tue, 12 Jul 2022 09:52:05 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06ams.nl.ibm.com with ESMTP id 3h70xhv0fh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 09:52:05 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26C9q2ga23593404
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 Jul 2022 09:52:02 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 95B8B5204F;
- Tue, 12 Jul 2022 09:52:02 +0000 (GMT)
-Received: from [9.171.48.196] (unknown [9.171.48.196])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 1F83A52050;
- Tue, 12 Jul 2022 09:52:02 +0000 (GMT)
-Message-ID: <832533a5b27c9aee11fea7633ed401e655491d5b.camel@linux.ibm.com>
-Subject: Re: [PATCH 2/3] hw/misc: Add mmio-debug-exit device
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Thomas Huth
- <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
- <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Date: Tue, 12 Jul 2022 11:52:01 +0200
-In-Reply-To: <dd9d7b97-88c2-f1c3-8b0a-bb090059b180@linaro.org>
-References: <20220711185640.3558813-1-iii@linux.ibm.com>
- <20220711185640.3558813-3-iii@linux.ibm.com>
- <dd9d7b97-88c2-f1c3-8b0a-bb090059b180@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oBCK0-0000gP-Ie
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:36:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657618607;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RSWmqrCRifNkF/Ky3wI4xiwm7h2jr7Ylkixe4+gDIWI=;
+ b=i/iES+23WB2y839vsFOW6qRN6dnX3dZ1ixhFYgiBLrfXnHmVbqHiyXolCjyy0gX/k2oG3l
+ cKa3PbWUcPe2bN1bxPzKruVOAOwoFlnT1EGB6WymMQAv5WjIm9esqNBwH2NI9u0LWJ5Hov
+ PyQs5ESby4vMZayFKvAvPbFfWCwbR4w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-523-WRcDgSgDMv-C1_krHwVs6Q-1; Tue, 12 Jul 2022 05:36:44 -0400
+X-MC-Unique: WRcDgSgDMv-C1_krHwVs6Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38829185A7BA;
+ Tue, 12 Jul 2022 09:36:43 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0EF81C15D40;
+ Tue, 12 Jul 2022 09:36:41 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Xie Yongji <xieyongji@bytedance.com>, Kyle Evans <kevans@freebsd.org>,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Warner Losh <imp@bsdimp.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Fam Zheng <fam@euphon.net>,
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH v2 10/15] qemu-common: introduce a common subproject
+Date: Tue, 12 Jul 2022 13:35:23 +0400
+Message-Id: <20220712093528.4144184-11-marcandre.lureau@redhat.com>
+In-Reply-To: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
+References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: biyT-YPu8fifFTmn1WkUEAKX3xtAdWPq
-X-Proofpoint-ORIG-GUID: P2JBn54mcnfQZD9aT8HXmeXiUgD9Mtc2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-12_05,2022-07-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0
- mlxscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2206140000 definitions=main-2207120035
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,50 +91,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2022-07-12 at 10:42 +0530, Richard Henderson wrote:
-> On 7/12/22 00:26, Ilya Leoshkevich wrote:
-> > System tests on x86 use isa-debug-exit device in order to signal
-> > success or failure to the test runner. Unfortunately it's not
-> > easily
-> > usable on other architectures, since a guest needs to access
-> > address_space_io, which may not be as straightforward as on x86.
-> > Also, it requires adding ISA bus, which an architecture might not
-> > otherwise need.
-> > 
-> > Introduce mmio-debug-exit device, which has the same semantics, but
-> > is
-> > triggered by writes to memory.
-> > 
-> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> 
-> You shouldn't need this for s390x, as there are already (at least)
-> two other paths to 
-> qemu_system_shutdown_request.
-> 
-> E.g. SIGP, which has a stop option.
-> 
-> 
-> r~
-> 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-I would normally use lpswe + disabled wait, but this always gives me
-exit status code 0, which doesn't allow easily distinguishing between
-success and failure.
+Add a new meson subproject to provide common code and scripts for QEMU
+and tools. Initially, it will offer QAPI/QMP code generation and
+common utilities.
 
-Code-wise SIGP seems to do roughly the same thing, and a quick
-experiment with:
+libvhost-user & libvduse will make use of the subproject to avoid having
+include/ links to common headers.
 
-    lgfi %r4,-1
-    lgfi %r5,-1
-    larl %r6,_cpuaddr
-    stap 0(%r6)
-    lh %r6,0(%r6)
-    nilh %r6,0
-    sigp %r4,%r6,5
-_cpuaddr: .short 0
+The other targeted user is qemu-ga, which will also be converted to a
+subproject (so it can be built, moved, released etc independent from QEMU).
 
-confirmed that we get exit status code 0 as well.
+Other projects such as qemu-storage-daemon could be built standalone
+eventually in the future.
 
-Best regards,
-Ilya
+Note that with meson subprojects are "global". Projects will share
+subprojects (https://mesonbuild.com/Subprojects.html#subprojects-depending-on-other-subprojects).
+We will add extra subprojects/ links to allow standalone subproject
+compilation though.
+
+This initial commit simply set the stage to build and link against it.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ meson.build                                              | 9 ++++++++-
+ .../qemu-common/include}/qemu/help-texts.h               | 0
+ linux-user/meson.build                                   | 4 ++--
+ subprojects/libvduse/meson.build                         | 2 ++
+ subprojects/libvduse/subprojects/qemu-common             | 1 +
+ subprojects/libvhost-user/meson.build                    | 2 ++
+ subprojects/libvhost-user/subprojects/qemu-common        | 1 +
+ subprojects/qemu-common/meson.build                      | 8 ++++++++
+ 8 files changed, 24 insertions(+), 3 deletions(-)
+ rename {include => subprojects/qemu-common/include}/qemu/help-texts.h (100%)
+ create mode 120000 subprojects/libvduse/subprojects/qemu-common
+ create mode 120000 subprojects/libvhost-user/subprojects/qemu-common
+ create mode 100644 subprojects/qemu-common/meson.build
+
+diff --git a/meson.build b/meson.build
+index bc5569ace159..254eb1263a66 100644
+--- a/meson.build
++++ b/meson.build
+@@ -167,6 +167,10 @@ if 'dtrace' in get_option('trace_backends')
+   endif
+ endif
+ 
++add_project_arguments('-I' + meson.current_source_dir() / 'subprojects/qemu-common/include',
++  language: ['c', 'cpp', 'objc'],
++)
++
+ if get_option('iasl') == ''
+   iasl = find_program('iasl', required: false)
+ else
+@@ -1577,6 +1581,9 @@ if libbpf.found() and not cc.links('''
+   endif
+ endif
+ 
++qemu_common = subproject('qemu-common')
++qemu_common = qemu_common.get_variable('qemu_common_dep')
++
+ #################
+ # config-host.h #
+ #################
+@@ -3052,7 +3059,7 @@ util_ss.add_all(trace_ss)
+ util_ss = util_ss.apply(config_all, strict: false)
+ libqemuutil = static_library('qemuutil',
+                              sources: util_ss.sources() + stub_ss.sources() + genh,
+-                             dependencies: [util_ss.dependencies(), libm, threads, glib, socket, malloc, pixman])
++                             dependencies: [util_ss.dependencies(), libm, threads, glib, socket, malloc, pixman, qemu_common])
+ qemuutil = declare_dependency(link_with: libqemuutil,
+                               sources: genh + version_res,
+                               dependencies: [event_loop_base])
+diff --git a/include/qemu/help-texts.h b/subprojects/qemu-common/include/qemu/help-texts.h
+similarity index 100%
+rename from include/qemu/help-texts.h
+rename to subprojects/qemu-common/include/qemu/help-texts.h
+diff --git a/linux-user/meson.build b/linux-user/meson.build
+index de4320af053c..fc6cdb55d657 100644
+--- a/linux-user/meson.build
++++ b/linux-user/meson.build
+@@ -7,7 +7,7 @@ linux_user_ss = ss.source_set()
+ common_user_inc += include_directories('include/host/' / host_arch)
+ common_user_inc += include_directories('include')
+ 
+-linux_user_ss.add(files(
++linux_user_ss.add([files(
+   'elfload.c',
+   'exit.c',
+   'fd-trans.c',
+@@ -20,7 +20,7 @@ linux_user_ss.add(files(
+   'thunk.c',
+   'uaccess.c',
+   'uname.c',
+-))
++), qemu_common])
+ linux_user_ss.add(rt)
+ 
+ linux_user_ss.add(when: 'TARGET_HAS_BFLT', if_true: files('flatload.c'))
+diff --git a/subprojects/libvduse/meson.build b/subprojects/libvduse/meson.build
+index ba08f5ee1a03..841509ecb996 100644
+--- a/subprojects/libvduse/meson.build
++++ b/subprojects/libvduse/meson.build
+@@ -2,6 +2,8 @@ project('libvduse', 'c',
+         license: 'GPL-2.0-or-later',
+         default_options: ['c_std=gnu99'])
+ 
++qemu_common = subproject('qemu-common')
++
+ libvduse = static_library('vduse',
+                           files('libvduse.c'),
+                           c_args: '-D_GNU_SOURCE')
+diff --git a/subprojects/libvduse/subprojects/qemu-common b/subprojects/libvduse/subprojects/qemu-common
+new file mode 120000
+index 000000000000..4c1c87018a7a
+--- /dev/null
++++ b/subprojects/libvduse/subprojects/qemu-common
+@@ -0,0 +1 @@
++../../qemu-common
+\ No newline at end of file
+diff --git a/subprojects/libvhost-user/meson.build b/subprojects/libvhost-user/meson.build
+index 39825d9404ae..73355908e072 100644
+--- a/subprojects/libvhost-user/meson.build
++++ b/subprojects/libvhost-user/meson.build
+@@ -5,6 +5,8 @@ project('libvhost-user', 'c',
+ threads = dependency('threads')
+ glib = dependency('glib-2.0')
+ 
++qemu_common = subproject('qemu-common')
++
+ vhost_user = static_library('vhost-user',
+                             files('libvhost-user.c'),
+                             dependencies: threads,
+diff --git a/subprojects/libvhost-user/subprojects/qemu-common b/subprojects/libvhost-user/subprojects/qemu-common
+new file mode 120000
+index 000000000000..4c1c87018a7a
+--- /dev/null
++++ b/subprojects/libvhost-user/subprojects/qemu-common
+@@ -0,0 +1 @@
++../../qemu-common
+\ No newline at end of file
+diff --git a/subprojects/qemu-common/meson.build b/subprojects/qemu-common/meson.build
+new file mode 100644
+index 000000000000..8969b08473ef
+--- /dev/null
++++ b/subprojects/qemu-common/meson.build
+@@ -0,0 +1,8 @@
++project('qemu-common', 'c',
++  license: 'GPL-2.0-or-later',
++  default_options: ['c_std=gnu11']
++)
++
++qemu_common_dep = declare_dependency(
++  include_directories: include_directories('include'),
++)
+-- 
+2.37.0.rc0
+
 
