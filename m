@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2204571752
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:29:55 +0200 (CEST)
-Received: from localhost ([::1]:53764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B51557176E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:34:58 +0200 (CEST)
+Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBD9O-0006qD-PJ
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47830)
+	id 1oBDEG-000422-IZ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBD6b-0002yr-Sz
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:27:02 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:44644)
+ id 1oBD9W-0007Ae-Iq
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:30:03 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBD6a-0003dq-0J
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:27:01 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id q5so6872074plr.11
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 03:26:59 -0700 (PDT)
+ id 1oBD9U-0007UQ-Ob
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:30:02 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ v4-20020a17090abb8400b001ef966652a3so10960636pjr.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 03:30:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=bxa7w9Zsctn+iyM4gWdukd6MGCfP6ln33tZ3z/9q/jc=;
- b=sXFge9/ghtPC7qQR+C8MS8OAjXQwSYoU+WpOjkrYd+RiCa8Ewx+v3WWxxnU9rQnf7W
- mHFpyR4a9eGwaYNPDil41b541JvEFtFzjizbsP0ELUswN3MVALGJX35x2guuNnfUtDBb
- PndH+FIM8sutSLvHtaM/JT3Uudp6xhzZVLi/blfYZYFfPP+2sCva3YMpYV/8W/5YdZX8
- FJyl7IuBrRC1bCTMSt1nAxij4TzCLR+aFLXxCZAqki0r9Irik6HlwQFPS+nz6B20l8xS
- 9FSKW5NcHeBQhgwFxh5mpgZilMZ7gs2rnJaYWp3k+vBnmZhfEHj3tx0DJmx5s42jmxc7
- 9uRw==
+ bh=WSjBhF0YzHcl6wlz9hstFvCuHPialzP31d7pQsVVCZ4=;
+ b=t2wH0FL4CsoEb0h89XFP+zh/5jhl4kx/5CI7q1JX9JKx8honlwDhH96v6k65jBWrGd
+ 6FiCoD3w77q+eO/YNP5lTLqhBRWFHWsjf5BH3/mtq0xSHLVwKz+j4fQw5PLcKAk54zzF
+ Z/lzTjpGRr90dewmbN5J/IpbQsxR0kDIb7bVyOUcIZLBs57s/IoqMC1F0EBvFxGfg3hE
+ tf3DKP2kGfEwje0tWE7hOpbXUtCDYGwsFxdB87Dzd0MjXwokCqm1vnA5aiby0pos2obE
+ /yMTZ3B3sBt+22H98laCQgudkLgbv7TyUTK9hwaxz5f3qRhrKsulrhUQTFeO1NP8Ez10
+ CsQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=bxa7w9Zsctn+iyM4gWdukd6MGCfP6ln33tZ3z/9q/jc=;
- b=aL0igjujhFHo/MMFXWpNToykKi4AE6wr4bFCSpD6viUKsFXJkYz91lNCxbx4OkFpAn
- FMyd0HiG7SZatPTWhD23CvcjWN9DkomgP2IApKIUqEA6JpGQTfcr4wUm6ZKL8uq2cpf1
- o2vlwL+jf+f5nL4qI1TaacSszVwE0ag3VxmB7A43chc63KMpmXrjldXt1Mp+4AcN06GV
- xopbuExb8z0a0YRM8ZORkVw9OXaNe/T/3ltx31DkGoxWRMzGZ3OsETI1PoJI6nrKbnNQ
- Jrprk2OuWITewEXQG+HbXvxamScDtu8PRk85X/I7UMbtE2u7QW+UeP+K0vt85CPoXCRC
- unlQ==
-X-Gm-Message-State: AJIora8Ymy5PSQFTsNO1wBCK8gTsMrJP609pbIXm8PQ/T8DJaZJePRap
- llrYrcdd+mEQAjZ97ZRV09pTdhC6oE5idw8Y
-X-Google-Smtp-Source: AGRyM1vDqprFEbgx1S9jZ2jAOS6PoEGIJlp5oDraPLgOwSzPcgcJwrjoruK8s2PyT5N7m/WI8Do2IA==
-X-Received: by 2002:a17:902:e749:b0:16c:3d6f:aba3 with SMTP id
- p9-20020a170902e74900b0016c3d6faba3mr13771843plf.135.1657621618652; 
- Tue, 12 Jul 2022 03:26:58 -0700 (PDT)
+ bh=WSjBhF0YzHcl6wlz9hstFvCuHPialzP31d7pQsVVCZ4=;
+ b=eXzpNysA2TizzIhgM/HHgJyBN6Q/TdeifrwxYaSK1pP2IuMRT4ms+Lkgn3XuTeH5g5
+ UjT7uO0NKl3X572zpe0YVxDw5CRb760R0gGDyJj7AGHkjskSNDEXm+23C/dYUcJRC0cS
+ VsPjTV5j2UYFytYWpEx2HSV10P7OAF1mqaKpA0Ivbi8szoBSDThD3JQ/9QbEboX4ct9j
+ P7vn8CYwHmyXrgpz+PR0yZxASyHzCOED3kOxEmEJRiKyK1snOnfkwcwpmp63G3xdMVXl
+ n2jYTI3TydyI/WRwHcsE1KdTDuYOUC7COFwqT48/aL0o8gigrLJ1X5XEUX//C2NYBuwX
+ ZNUQ==
+X-Gm-Message-State: AJIora8QabqHAp+SgjgOBdNCy7nX1FNA1QVtqwUYuNk/65xobrs1GEZ3
+ 1ydBt+Np5f/wKpAO4R60lM+LNA==
+X-Google-Smtp-Source: AGRyM1s5kJj5RX1xxXKBoTMxG6FhAaCCIc5sRo8fB5ZK/EoQRhgJEHrgezI7jQSWsmki0Mde3oAJyQ==
+X-Received: by 2002:a17:90b:4aca:b0:1f0:3395:6432 with SMTP id
+ mh10-20020a17090b4aca00b001f033956432mr3387006pjb.19.1657621798249; 
+ Tue, 12 Jul 2022 03:29:58 -0700 (PDT)
 Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- a6-20020aa795a6000000b00528d752969esm6444198pfk.25.2022.07.12.03.26.56
+ u28-20020a63471c000000b0040c644e82efsm5693541pga.43.2022.07.12.03.29.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 03:26:58 -0700 (PDT)
-Message-ID: <d9bd8b54-868a-6f0e-09b9-754f23c12cbb@linaro.org>
-Date: Tue, 12 Jul 2022 15:56:54 +0530
+ Tue, 12 Jul 2022 03:29:57 -0700 (PDT)
+Message-ID: <1e9faeff-5797-5093-ea31-d9b77faf474d@linaro.org>
+Date: Tue, 12 Jul 2022 15:59:50 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [COMMITTED 0/3] build fixes
+Subject: Re: [PATCH 1/5] target/loongarch/cpu: Fix cpu_class_by_name function
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20220712095901.212353-1-richard.henderson@linaro.org>
- <Ys1JMetNPT47lpbV@redhat.com>
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
+ mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
+ peter.maydell@linaro.org
+References: <20220712080133.4176971-1-yangxiaojuan@loongson.cn>
+ <20220712080133.4176971-2-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <Ys1JMetNPT47lpbV@redhat.com>
+In-Reply-To: <20220712080133.4176971-2-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,18 +96,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/22 15:43, Daniel P. Berrangé wrote:
-> On Tue, Jul 12, 2022 at 03:28:58PM +0530, Richard Henderson wrote:
->> This is a collection of fixes required to get CI back to green.
->> Given that 2 of 3 apply to cirrus, I had to push them to staging to
->> even try them.  Since it worked, I've now pushed them to master.
+On 7/12/22 13:31, Xiaojuan Yang wrote:
+> In loongarch_cpu_class_by_name(char *cpu_model) function,
+> the argument cpu_model already has the suffix '-loongarch-cpu',
+> so we should remove the LOONGARCH_CPU_TYPE_NAME(cpu_model) macro.
 > 
-> FWIW, it is possible to test Cirrus CI fixes in your own personal
-> fork too, but it needs a little extra setup first, detailed in
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> ---
+>   target/loongarch/cpu.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
 > 
->    .gitlab-ci.d/cirrus/README.rst
+> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+> index e21715592a..8294b05ee8 100644
+> --- a/target/loongarch/cpu.c
+> +++ b/target/loongarch/cpu.c
+> @@ -571,11 +571,8 @@ static void loongarch_cpu_init(Object *obj)
+>   static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
+>   {
+>       ObjectClass *oc;
+> -    char *typename;
+>   
+> -    typename = g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"), cpu_model);
+> -    oc = object_class_by_name(typename);
+> -    g_free(typename);
+> +    oc = object_class_by_name(cpu_model);
+>       return oc;
+>   }
+>   
 
-How many of the 'github' strings therein should really be 'gitlab'?
+Looks like we're missing the assertion that 'cpu_model' resolves to a class of the 
+appropriate type.  From e.g riscv/cpu.c,
+
+     if (!oc || !object_class_dynamic_cast(oc, TYPE_RISCV_CPU) ||
+
+         object_class_is_abstract(oc)) {
+
+         return NULL;
+
+     }
+
 
 
 r~
