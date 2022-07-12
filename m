@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4C2571AA1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:58:09 +0200 (CEST)
-Received: from localhost ([::1]:42826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647F4571A92
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:54:52 +0200 (CEST)
+Received: from localhost ([::1]:36466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBFSq-00068f-O5
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:58:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51904)
+	id 1oBFPf-0001fL-Jq
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:54:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLF-000373-TF
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47345)
+ id 1oBFL5-00035R-T9
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFL7-0001Qw-OA
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:15 -0400
+ id 1oBFL4-0001Q7-36
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657630208;
+ s=mimecast20190719; t=1657630204;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gHygSK+6+NNh3UJy9c+v7SWR6sNBV/G9iEqB9FThl5w=;
- b=XalPcDVQR1bWDhPniavMuO5KMI0bOmHwy7wPk8jDU/KH4TONAIhjQIB/T6pSGHbLanO1UU
- YkCg1a3b0XbKvgtuqYeMYoYWdve4LQjszT/znbbSeh/a/m0a0IAhEcohSQAvdhKjM37Tp4
- Tssnt1kTJwzJ3XhQCOOJEVE9hU65wro=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vvCO5iW75Uo0QBR8ClgsLomr7SuVTuh71gKSSgESR6U=;
+ b=gibazowUjq72n7/5HPLVPAqv8GTsYa7yN3rPx1jrdoxtMbXRXIV7qxf88DAAZijImfWy7i
+ QUXeE2e2MlTzqTi3olqF7TKU9BRgFgtD5ZUrsbeU9eWiSto36yV1t6f4Y0IKRhMk2CSEzq
+ fMjEMlZb9zZIBO1xhIEDW663QdrH0pE=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-TV_c9o1hPSqyNoZ2mV0aFg-1; Tue, 12 Jul 2022 08:50:01 -0400
-X-MC-Unique: TV_c9o1hPSqyNoZ2mV0aFg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- y21-20020a056402359500b0043adf65d1a0so2805824edc.10
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:01 -0700 (PDT)
+ us-mta-675-mEQIPVHjPP6dXLFBQg9qZA-1; Tue, 12 Jul 2022 08:50:03 -0400
+X-MC-Unique: mEQIPVHjPP6dXLFBQg9qZA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ gb37-20020a170907962500b0072b820af09dso645018ejc.20
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gHygSK+6+NNh3UJy9c+v7SWR6sNBV/G9iEqB9FThl5w=;
- b=IQnWoAS7Xqf1X4/jOdWRyLDol9RVZCao8zDEsGslX9zx5rj+nymVddPWgxC6PEA8wJ
- LyebaHzpJ//Ok7cyBujUu5MZFp2c95HryVv+0/PApEF8uZzlwWFHmftWPbBokydoqZv4
- pA1eHIwQDWpwlb/fVMIaRs23aZ8SiQq/y878F2+mXiLliPTDBLzzH7Zyqaq0FXLPExtK
- 0w9H/eIG159Ftu6wnhH64Jor7ykzJ+wDT7rswO61jyuzll9eNW/rPIBQjLQQmoQ1EE7Z
- 6obTwsaxMYfdOGFJnsl7GBFXpELZFxSE3XF/Kmkfbv3nA7diK6PvyntvlnSVY/FcJJwX
- M2vQ==
-X-Gm-Message-State: AJIora8NSyxAheU8ONR9aUK+R3iouHCNzHjH7Vk5iayiPM13JB7/ASi2
- ipEcg67qgP2scWZdlSzzZBGOYKvrfmVpcxr65I86j7azdASDAtTeJUZODB98cXG40z+UlQyIzmn
- zWWDz6sNdGXbnVhtzA1AxFWVZNF7l0cZdECoxjlJ5d5otN6ycFnIe/eDK/whKYzBKHNQ=
-X-Received: by 2002:a05:6402:c44:b0:431:52cc:f933 with SMTP id
- cs4-20020a0564020c4400b0043152ccf933mr31987909edb.41.1657630199846; 
- Tue, 12 Jul 2022 05:49:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tLbjv1x1Y/o0281z67QdPzNYfbG3Dzn+8OXsSZYaJj9IFLytdDJ8ZhXeSrbBZ3dnZmyP99vw==
-X-Received: by 2002:a05:6402:c44:b0:431:52cc:f933 with SMTP id
- cs4-20020a0564020c4400b0043152ccf933mr31987861edb.41.1657630199404; 
- Tue, 12 Jul 2022 05:49:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vvCO5iW75Uo0QBR8ClgsLomr7SuVTuh71gKSSgESR6U=;
+ b=EuCblK98ul11HMlETJ4fazwkojCeRsfAoCahPYvm7dHNJlPlKmTfo2h95wI1B+QZAb
+ wjo7LDTi8cuSRlVppxI4YlNNeButEb3pukPaQ2YEIN7rxu9QUD5QNHCLTDa2c3qPeH6r
+ 5jKhca2jAnUk6wkGirMU1QUBk/ve+eLvssf0d2j1rgB0H6xZ0d46cQCME3Mt1v/5UYDV
+ GSpmtvvxK/Y67tw7v8XGoyo9/RGlNfXBAXbO5XpTCmjJFjrrepwD+i+els6VJhvc7KCE
+ 3Od5J3Ieg/YgN5cFTWIGu1Ftthoc/8ASUIK1sYf8ZwMiQaZ3OfG86Kt1XTOKLLUF8ctA
+ XlXg==
+X-Gm-Message-State: AJIora8+8IsLaRDy4tur5lLwoKkqxjW8P4wvnq+mPvxFPRbHCe5jBxz7
+ Fa6jNzNw6o9cO9qFZ2CR7aWl88z9SZR670+sREIgtPZaMTyd0IbA60EX3LaADiKYurNGMIZpasQ
+ k8oUklKLBC29qaxmT64R4mJ9PuMvIgdu2wan8m9rRAF6ycYDf0c83Nj8k/dcYKDNjqzk=
+X-Received: by 2002:a17:906:4fd4:b0:722:f223:8d86 with SMTP id
+ i20-20020a1709064fd400b00722f2238d86mr24030231ejw.558.1657630201962; 
+ Tue, 12 Jul 2022 05:50:01 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tRxJKDhf+1hcEPgsrEeGOFJcEhzV40/DHM1P34InGc0MWY5hmU6wZGNmZQVpgn86+jhHo8DA==
+X-Received: by 2002:a17:906:4fd4:b0:722:f223:8d86 with SMTP id
+ i20-20020a1709064fd400b00722f2238d86mr24030194ejw.558.1657630201517; 
+ Tue, 12 Jul 2022 05:50:01 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- cb1-20020a0564020b6100b0043a6dc3c4b0sm5988260edb.41.2022.07.12.05.49.57
+ w20-20020a056402071400b0043a87e6196esm6002885edx.6.2022.07.12.05.50.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jul 2022 05:49:57 -0700 (PDT)
+ Tue, 12 Jul 2022 05:50:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/18] Misc patches for 2022-07-12
-Date: Tue, 12 Jul 2022 14:49:38 +0200
-Message-Id: <20220712124956.150451-1-pbonzini@redhat.com>
+Subject: [PULL 01/18] tests/vm: do not specify -bios option
+Date: Tue, 12 Jul 2022 14:49:39 +0200
+Message-Id: <20220712124956.150451-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220712124956.150451-1-pbonzini@redhat.com>
+References: <20220712124956.150451-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,83 +99,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 180c2f24d5e8eada41e012a3899d29bb695aae06:
+When running from the build tree, the executable is able to find
+the BIOS on its own; when running from the source tree, a firmware
+blob should already be installed and there is no guarantee that
+the one in the source tree works with the QEMU that is being used for
+the installation.
 
-  Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2022-07-06 10:41:34 +0530)
+Just remove the -bios option, since it is unnecessary and in fact
+there are other x86 VM tests that do not bother specifying it.
 
-are available in the Git repository at:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/vm/fedora  | 1 -
+ tests/vm/freebsd | 1 -
+ tests/vm/netbsd  | 1 -
+ tests/vm/openbsd | 1 -
+ 4 files changed, 4 deletions(-)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 9fb6d8a9b2fc0e150b56a0ff4341494dcd8360b8:
-
-  meson: place default firmware path under .../share (2022-07-12 14:46:58 +0200)
-
-----------------------------------------------------------------
-* fuzzing fixes (Alexander)
-* fix cross compilation CFLAGS and compiler choice
-* do not specify -bios option for tests/vm
-* miscellaneous fixes
-* preparation for pre-install tree in the build directory (Akihiko)
-
-----------------------------------------------------------------
-Akihiko Odaki (2):
-      build: Do not depend on pc-bios for config-host.mak
-      qga: Relocate a path emitted in the help text
-
-Alexander Bulekov (2):
-      build: improve -fsanitize-coverage-allowlist check
-      fuzz: only use generic-fuzz targets on oss-fuzz
-
-Marc-André Lureau (1):
-      audio/dbus: fix building
-
-Mauro Matteo Cascella (1):
-      scsi/lsi53c895a: fix use-after-free in lsi_do_msgout (CVE-2022-0216)
-
-Miaoqian Lin (1):
-      accel: kvm: Fix memory leak in find_stats_descriptors
-
-Paolo Bonzini (11):
-      tests/vm: do not specify -bios option
-      pc-bios/optionrom: use -m16 unconditionally
-      configure, pc-bios/optionrom: pass cross CFLAGS correctly
-      configure, pc-bios/s390-ccw: pass cross CFLAGS correctly
-      configure, pc-bios/vof: pass cross CFLAGS correctly
-      configure: allow more host/target combos to use the host compiler
-      configure: write EXTRA_CFLAGS for all sub-Makefiles
-      tests/tcg: compile system emulation tests as freestanding
-      configure: pass whole target name to probe_target_compiler
-      build: try both native and cross compilers
-      meson: place default firmware path under .../share
-
- Makefile                               |   2 +-
- accel/kvm/kvm-all.c                    |   1 +
- audio/meson.build                      |   2 +-
- configure                              | 201 ++++++++++++++++++++-------------
- hw/scsi/lsi53c895a.c                   |   3 +-
- meson.build                            |   5 +-
- meson_options.txt                      |   2 +-
- pc-bios/optionrom/Makefile             |  15 +--
- pc-bios/optionrom/code16gcc.h          |   3 -
- pc-bios/s390-ccw/Makefile              |  20 ++--
- pc-bios/s390-ccw/netboot.mak           |   6 +-
- pc-bios/vof/Makefile                   |   8 +-
- qga/main.c                             |   6 +-
- scripts/meson-buildoptions.sh          |   2 +-
- scripts/oss-fuzz/build.sh              |   4 +-
- tests/tcg/Makefile.target              |   1 +
- tests/tcg/aarch64/system/pauth-3.c     |   2 +-
- tests/tcg/aarch64/system/semiconsole.c |   2 +-
- tests/tcg/aarch64/system/semiheap.c    |   2 +-
- tests/tcg/multiarch/system/memory.c    |   2 +-
- tests/vm/fedora                        |   1 -
- tests/vm/freebsd                       |   1 -
- tests/vm/netbsd                        |   1 -
- tests/vm/openbsd                       |   1 -
- 24 files changed, 163 insertions(+), 130 deletions(-)
- delete mode 100644 pc-bios/optionrom/code16gcc.h
+diff --git a/tests/vm/fedora b/tests/vm/fedora
+index 92b78d6e2c..12eca919a0 100755
+--- a/tests/vm/fedora
++++ b/tests/vm/fedora
+@@ -79,7 +79,6 @@ class FedoraVM(basevm.BaseVM):
+         self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+-            "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
+             "-device", "VGA",
+             "-cdrom", iso
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 805db759d6..cd1fabde52 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -95,7 +95,6 @@ class FreeBSDVM(basevm.BaseVM):
+ 
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+-            "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
+             "-device", "VGA",
+             "-cdrom", iso
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index 45aa9a7fda..aa883ec23c 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -86,7 +86,6 @@ class NetBSDVM(basevm.BaseVM):
+ 
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+-            "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
+             "-cdrom", iso
+         ])
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index 13c8254214..6f1b6f5b98 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -82,7 +82,6 @@ class OpenBSDVM(basevm.BaseVM):
+ 
+         self.print_step("Booting installer")
+         self.boot(img_tmp, extra_args = [
+-            "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=off",
+             "-device", "VGA",
+             "-cdrom", iso
 -- 
 2.36.1
+
 
 
