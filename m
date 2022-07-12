@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29F75719F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:29:22 +0200 (CEST)
-Received: from localhost ([::1]:56674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD219571A0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:33:03 +0200 (CEST)
+Received: from localhost ([::1]:60270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBF0z-00083J-LA
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:29:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44708)
+	id 1oBF4Y-0002Hb-SU
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBEve-0003YH-0w
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:23:50 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:41679)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBEy1-0005sf-1p
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:26:17 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:39995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBEvc-0004vH-Fs
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:23:49 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id AF0355C00BD;
- Tue, 12 Jul 2022 08:23:46 -0400 (EDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBExz-0005Tw-3N
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:26:16 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0A8F75C0067;
+ Tue, 12 Jul 2022 08:26:14 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 12 Jul 2022 08:23:46 -0400
+ by compute2.internal (MEProxy); Tue, 12 Jul 2022 08:26:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657628626; x=1657715026; bh=MU
- uC2zBzYMps/tzwu4iwfnYm++J/e1AQbIGC3c6ZA4o=; b=3NyhsDLoVuVby6v+kz
- j4RvKtND/hF3kCOvQvN5f5t2gM0CHRiw5dZs4sR8waFG5j2p9tvO+Vv2PLgj168J
- EMmdQP7an3Jt+OkWKybch69fePsMD1ALxFg5Y1QyyjM8Cr9FlMt4UQf88iUnk6DD
- 6zuQYO/XVqaX+QRCBjLbzbScjS41mCrEMGpfQGZU3iMNmBVaCdIO7zuorrMpsxxg
- 1aQIfQVB0iP/5+AWZ+YhzlYGco2V8A9JMOQPzuBuvp8EbNNaE2MrGuIQPAaK3zLc
- bRpgdrOq9Qt13R4asfUWi/GKqUIRI6XBs0Zr4GbZzge9DtfL+Q5BSq/JRU1tkuz5
- Ic7A==
+ :subject:subject:to:to; s=fm2; t=1657628774; x=1657715174; bh=xI
+ vyjE0GuHquMQbnJvaKjT6PIGzo2BM+LsreBuCKaGI=; b=R18erdLOyHhMgbymSn
+ OZAxwSuMbObZGGnha2vncVJY3je2+EnOjfl6fODFGuZE6i2Cu3tRABotJ8SeGZcF
+ 3pPguH6X71X1EUGP0XO8kepvTvi5iL3BekZhmIgxtlJ37W/Xtb/Ebs3uPrKHXsJP
+ DSj1uAyRGVgvW5s4EMt/lLgyL8Lj0h920Po0vGBF+zI1l7raEdbSq+SWp2zf0d9w
+ JFj6ioqFZI5g6sF6cRFSEn+T890F50HEgh+JuH0YMLq5CzWpJT0nuAlbmEQ7Wc3h
+ X42N8y49F5nrne4P0aehATdrhgwT297P2mEyiAYO1PP5s4J99FK1+Sh/aKcv51ad
+ 8czQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657628626; x=1657715026; bh=MUuC2zBzYMps/tzwu4iwfnYm++J/
- e1AQbIGC3c6ZA4o=; b=nQYR8/l+2ob5yYpwbzKCEojv96aUhvwBecxXp4G0xyhV
- hL57CINmab+CjdOE3BiS6Axho/EkrkGNU6YdHqrK85Wzo/mNqzb24OMmmK/vV/Lw
- TXdOU/yNLAF+MOrXXO+GtBdKwkB5ue8iAVggbdGhgIoZ58YcBigh5leDj9jqEhij
- fsTUWWrGY8GdxDUKIj/ZTN4uiNJ4LR+ds5/d3vIejCRk3zRqG7Pn5FSUw04NXMlp
- bT1ONbIWHgux0XacYbjz88QwT4L6VRq6CnTXJWEvxlMa6bnIiIM7wlstWR+aUXQn
- LnZvHpFCbRG++dMwppFJN6MmpQqMfQeRVIptqiI22w==
-X-ME-Sender: <xms:0mfNYplm9Or77YOArVZ9RstndCF0-8pD1ulgdFyLbmGhzL-m2Py4gA>
- <xme:0mfNYk1BPymt5WB3KG2jo31j7XoUR7nQdiL7zhEGJ-UBjQTj23xU1PfX2IbqFrgyi
- G5d9Px-Uwj2DoG9d3c>
-X-ME-Received: <xmr:0mfNYvpT9lTXd_ecPG1jfrRps6KngGmC8Xj_EKILV4vrbbfQLOeyGiWlBj8tgXrdVhDoB9UHrWzpycJM8D0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedghedvucetufdoteggodetrfdotf
+ fm3; t=1657628774; x=1657715174; bh=xIvyjE0GuHquMQbnJvaKjT6PIGzo
+ 2BM+LsreBuCKaGI=; b=YHUUe/+J9S0BYGzS/d4RKxn1+8cJo2gfD7tQVW0dgD1V
+ eEx4TrMwkg2DXf0syYRKvY9O87LYcufi6VBU/0Z+04KQbn4Zhr4mLVbLnPyvNJ8a
+ fQYwTpNv6nsL24x4rM1kPFkqlwUmpe6YT+JcMxqM8+41lbKdOgvtCyb+R691TVEY
+ L3XGfRQ0oSUyfoU1236RinhqIuWn7v9wQTkmJTHB3ogfyizjUqL3adVSJoNpqm7Y
+ OhTaRL9pANfp2yFfjfgaxe4AM7wo8Iej/Xn1qp3vhTiZga8i1D2xhrdbs1/1qL+l
+ aDCVCFpcRJiomED11owc2oJ19xgLN1iE8yyRbU1tGg==
+X-ME-Sender: <xms:ZWjNYkBluRdMAhLA8B0p6ozOIBIpgo_t5uXDCjE3m5hvB75PSzGCbA>
+ <xme:ZWjNYmi43cmmsauzxOEvZ4d-cbwOPE2O42KcdSvfjrVhoh67AoM55coHYmUsWSE8b
+ Ju-5u8IqPWUfzGZfHE>
+X-ME-Received: <xmr:ZWjNYnlMVU4-_YmyZKFWo8HJg2rcJzYE5yn1nTudbNvErPsL5EexLTUfAY0wt2J2oTJYnd7G9ya3POfBPKo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedgheefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:0mfNYpnJr_fcAW6Zs3fIpQFVhJWEM6FqWiDZp598DH6HYlywf9yC6Q>
- <xmx:0mfNYn0QSCirOlpI-fFEYmFGD7HAND0UJSYTPLGvnHYFdlffecyL8A>
- <xmx:0mfNYovvof-dzAl8EttBO_VAvd86V5drAmaTDlaxEzH-J9ZZcs1DWQ>
- <xmx:0mfNYlDQY7W9aKb0LvjoMEWbQdCPhVDNMf9a09vysuY387eYhJHy4w>
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
+ elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:ZWjNYqyxda_ufV15aJBndrI4cYDsbxxxeRbNfNC3_Sbk0lDMfGkRoQ>
+ <xmx:ZWjNYpTykKFKgP0RivZ5t4JSwcN83YOUsOEEvG-UiEgJo_d2VoLaaQ>
+ <xmx:ZWjNYlbd_n2-fHtv9sp-8vxGJ345KtLXdt0sIMLJdNLDoZ7m7QTFPw>
+ <xmx:ZmjNYkc-iJIMb2WafxUTdLLq_Guu3G7red4S1jAgsexNJi0SkmZMBw>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Jul 2022 08:23:45 -0400 (EDT)
-Date: Tue, 12 Jul 2022 14:23:43 +0200
+ 12 Jul 2022 08:26:12 -0400 (EDT)
+Date: Tue, 12 Jul 2022 14:26:11 +0200
 From: Klaus Jensen <its@irrelevant.dk>
 To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
-Message-ID: <Ys1nz68zLPN3Hq8F@apples>
-References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
- <D7E0940C-3263-485C-81AC-E102566282EF@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org
+Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
+Message-ID: <Ys1oY9LmeDCGT9FT@apples>
+References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wmC0QJPm5SC595b6"
+ protocol="application/pgp-signature"; boundary="3owB6eZS6XDAvR2L"
 Content-Disposition: inline
-In-Reply-To: <D7E0940C-3263-485C-81AC-E102566282EF@ict.ac.cn>
+In-Reply-To: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
 Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
  helo=out4-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -103,41 +101,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---wmC0QJPm5SC595b6
+--3owB6eZS6XDAvR2L
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Jul  9 11:06, Jinhao Fan wrote:
-> at 10:24 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
+On Jul  9 12:35, Jinhao Fan wrote:
+> Use irqfd to directly notify KVM to inject interrupts. This is done by
+> registering a virtual IRQ(virq) in KVM and associate the virq with an
+> irqfd, so that KVM can directly inject the interrupt when it receives
+> notification from the irqfd. This approach is supposed to improve=20
+> performance because it bypasses QEMU's MSI interrupt emulation logic.
 >=20
-> > @@ -5793,6 +5891,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, co=
-nst NvmeRequest *req)
-> >     uint64_t dbs_addr =3D le64_to_cpu(req->cmd.dptr.prp1);
-> >     uint64_t eis_addr =3D le64_to_cpu(req->cmd.dptr.prp2);
-> >     int i;
-> > +    int ret;
-> >=20
+> However, I did not see an obvious improvement of the emulation KIOPS:
 >=20
-> I just noticed this ret is unused. Could you help remove this line when
-> applying the patch?
+> QD      1   4  16  64=20
+> QEMU   38 123 210 329
+> irqfd  40 129 219 328
+>=20
+> I found this problem quite hard to diagnose since irqfd's workflow
+> involves both QEMU and the in-kernel KVM.=20
+>=20
+> Could you help me figure out the following questions:
+>=20
+> 1. How much performance improvement can I expect from using irqfd?
 
-Yes, I noticed it and hot-fixed it ;)
+This is a level of QEMU/KVM that I am by no means an expert on and I
+would have to let the broader QEMU community comment on this.
 
---wmC0QJPm5SC595b6
+> 2. How can I debug this kind of cross QEMU-KVM problems?
+
+Not sure how to directly "debug" it, but there is `perf kvm` to get
+information about what is happing in the kvm subsystem.
+
+--3owB6eZS6XDAvR2L
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLNZ84ACgkQTeGvMW1P
-Demw1Af/TecT37vluSRgdVStSrekmkZrhlxeMRnZLkxFGq8Y4Byi9sQbWhhvwEG3
-gtKq049yK0OrrvbJCDF8svUmXDOxuoD4aMvVVC+URPPR33r79RjaBinhSnPb+UoF
-FLOEA3yo5r1GrxBCekKFLJl97xCLf/SoE/KDMoMO6BH3KKUQvb2qSKYRxoAGvcLe
-lBfw7PtdLNsETnJcbTgas/Ckh4jqVUBLYdzBl4HHKgaqsE/xKvCOKF45Ngvcxxs+
-AVd40Fc/BzB6P/SFY5eiGBffl+3wtsh4e8hqyew4p/tWG7uaicWDFE5mrqyves/0
-XxhC1SEhh2xNL7l+EUFjSWLnO5sNmw==
-=qe1w
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLNaGEACgkQTeGvMW1P
+DekEbAf/fouLr22nvG3428QNaTZRl8j50ooWMAwx7Upw/+lMhCp9WizETCnhEnNE
+vRwhd5yxGFvh72GqK+bi9WtfaKK/TzMYlErRIy+z/kUpFEN12Fyiod+7ozXMaGu7
+0R9zlOPvqTDdsTAL+YrbKUmL3rs1VsgGrHeANx6DRUWfXx2jB8RhkyzMCc+QB4SR
+RSAS0zzcg67t++O490ZHtjMNZnhKbHce+We5y5B4fmWKzH2xGMySPyPNiNsOBQ0H
+8iBIABFjnrNkWo0kHTGPErPhkv/ZGkHmXTmT0M3gxbaUZYH/Ca8YFSO0u3TF+5eD
+beZUcq9TtbfrA1CmngJSkccVDk5wXg==
+=imql
 -----END PGP SIGNATURE-----
 
---wmC0QJPm5SC595b6--
+--3owB6eZS6XDAvR2L--
 
