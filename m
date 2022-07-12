@@ -2,99 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D76571333
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 09:37:04 +0200 (CEST)
-Received: from localhost ([::1]:34000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2344A57130E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 09:25:45 +0200 (CEST)
+Received: from localhost ([::1]:50532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBAS7-0003bT-Cq
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 03:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35072)
+	id 1oBAH9-0003i2-Qf
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 03:25:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oBA64-0005Ly-30
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:14:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47944)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oBA7J-0005sC-Tu
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:15:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oBA60-0005ol-GV
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:14:13 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oBA7H-0006FH-NI
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:15:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657610051;
+ s=mimecast20190719; t=1657610131;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SeHd4Sq150CNMEw7FbTV5FzLH0vnrfn4gWBHV+XF1oA=;
- b=BxL+LAQ0pT14wyHAvfmHxiP/pxqs4FPMvG4lBcnTRZjKWbH2mZWMwJ8NOAHCs6wLeN2WTS
- Q3Yxpf/br+K+EqpE/XQhS3L8oIvlYe2ucZTdNbed1UmTq4Bm9Au6OpjtsIYAPuoS48nueu
- pBojIEhBmGiRuHRBqwO7Ad3en/LTGdA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rwjfjExn+wG1ucbjx3Vn2878/88Fyf5V5axZfvfWapU=;
+ b=HZNeaZgRKnz8jVADjE5KvmrMJ/b4ZVZ3z8kvZVuHAyVmMDBKS7lqm6vX2+3bECErT/wHVc
+ l28JfgLnRuoH+q5rTNYsqR8ztbTzY6yQ8FlsiO8XcMbMws99h116TN2dcRio1fFUy8jqrV
+ hOoJB1FIit0NtInO1/CHImMGduAl9i8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-C9Hh5bLONauzev73GFvzIg-1; Tue, 12 Jul 2022 03:14:09 -0400
-X-MC-Unique: C9Hh5bLONauzev73GFvzIg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- i13-20020adfaacd000000b0021d96b4da5eso1131324wrc.18
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 00:14:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=SeHd4Sq150CNMEw7FbTV5FzLH0vnrfn4gWBHV+XF1oA=;
- b=R5mDnBBmfRT+KiLIsMUw+/TVl1ANtNOArQoiQX03banzeedAm6W7H3kg5CxtC0nXH2
- 4v+pUgRvUD5m0zjFeLM8RkraF536ydLbgEKeH+KuscuBNJHEEHjRylBXZvAN92KftpSt
- AI9QoWOMeq9nlTpQLbqxXfykzp5ekSc1Ox6KiPqYSikn2cw1yklrew/1mt6fn3+iLFyh
- l2zvPvzJDiJ6kFNVGr/SdNDeetgQUdKH/XFjml9k2+rsAsFEYJQgMeDgXQnzR5qq3Eom
- d5eTaWeu9IYnGZFXYgbhJbQGBbnlqIxpDO4vCbzE0Zfp7j3A4WddIb6gikZiVeVYuIbJ
- nRTg==
-X-Gm-Message-State: AJIora8XkNGS9nAAuMu4zqVcWfhDSfosF87xAb9nxNdHG4rbw2eC5T22
- 9TiORG3H/RxJjGeFxnmc3zpY5ULslB19nw+1MoYF9T+AJK1SQOSiGAmDDG92+AKgoxuMxlDxPAg
- 5dQcNNJwet/856+k=
-X-Received: by 2002:a1c:f709:0:b0:3a0:3b29:5eb2 with SMTP id
- v9-20020a1cf709000000b003a03b295eb2mr2235643wmh.133.1657610048573; 
- Tue, 12 Jul 2022 00:14:08 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sFGDihs6xn4XdVL2EZLcIARimicDgkLbYzkgzOrmd2dEmBR0GRYbs8Uns2qqNlPIFYTAXFrQ==
-X-Received: by 2002:a1c:f709:0:b0:3a0:3b29:5eb2 with SMTP id
- v9-20020a1cf709000000b003a03b295eb2mr2235614wmh.133.1657610048256; 
- Tue, 12 Jul 2022 00:14:08 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c703:d900:a75d:cddc:d29f:bdb3?
- (p200300cbc703d900a75dcddcd29fbdb3.dip0.t-ipconnect.de.
- [2003:cb:c703:d900:a75d:cddc:d29f:bdb3])
- by smtp.gmail.com with ESMTPSA id
- t18-20020a5d6912000000b0021d888e1132sm7533911wru.43.2022.07.12.00.14.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 00:14:07 -0700 (PDT)
-Message-ID: <3b0504e9-4adf-34e6-464f-37b4f11d48b0@redhat.com>
-Date: Tue, 12 Jul 2022 09:14:07 +0200
+ us-mta-140-AzknjKfuPwucrh47q0WHbA-1; Tue, 12 Jul 2022 03:15:28 -0400
+X-MC-Unique: AzknjKfuPwucrh47q0WHbA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B6C6D1C06ECE;
+ Tue, 12 Jul 2022 07:15:27 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57D5940D2827;
+ Tue, 12 Jul 2022 07:15:26 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org
+Subject: [PATCH] vdpa: Clean vhost_vdpa_dev_start(dev, false)
+Date: Tue, 12 Jul 2022 09:15:24 +0200
+Message-Id: <20220712071524.2144723-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/3] accel/tcg: Fix unaligned stores to s390x
- low-address-protected lowcore
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-References: <20220711185640.3558813-1-iii@linux.ibm.com>
- <20220711185640.3558813-2-iii@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220711185640.3558813-2-iii@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,69 +77,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.07.22 20:56, Ilya Leoshkevich wrote:
-> If low-address-protection is active, unaligned stores to non-protected
-> parts of lowcore lead to protection exceptions. The reason is that in
-> such cases tlb_fill() call in store_helper_unaligned() covers
-> [0, addr + size) range, which contains the protected portion of
-> lowcore. This range is too large.
-> 
-> The most straightforward fix would be to make sure we stay within the
-> original [addr, addr + size) range. However, if an unaligned access
-> affects a single page, we don't need to call tlb_fill() in
-> store_helper_unaligned() at all, since it would be identical to
-> the previous tlb_fill() call in store_helper(), and therefore a no-op.
-> If an unaligned access covers multiple pages, this situation does not
-> occur.
-> 
-> Therefore simply skip TLB handling in store_helper_unaligned() if we
-> are dealing with a single page.
-> 
-> Fixes: 2bcf018340cb ("s390x/tcg: low-address protection support")
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->  accel/tcg/cputlb.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index f90f4312ea..a46f3a654d 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -2248,7 +2248,7 @@ store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
->      const size_t tlb_off = offsetof(CPUTLBEntry, addr_write);
->      uintptr_t index, index2;
->      CPUTLBEntry *entry, *entry2;
-> -    target_ulong page2, tlb_addr, tlb_addr2;
-> +    target_ulong page1, page2, tlb_addr, tlb_addr2;
->      MemOpIdx oi;
->      size_t size2;
->      int i;
-> @@ -2256,15 +2256,17 @@ store_helper_unaligned(CPUArchState *env, target_ulong addr, uint64_t val,
->      /*
->       * Ensure the second page is in the TLB.  Note that the first page
->       * is already guaranteed to be filled, and that the second page
-> -     * cannot evict the first.
-> +     * cannot evict the first.  An exception to this rule is PAGE_WRITE_INV
-> +     * handling: the first page could have evicted itself.
->       */
-> +    page1 = addr & TARGET_PAGE_MASK;
->      page2 = (addr + size) & TARGET_PAGE_MASK;
->      size2 = (addr + size) & ~TARGET_PAGE_MASK;
->      index2 = tlb_index(env, mmu_idx, page2);
->      entry2 = tlb_entry(env, mmu_idx, page2);
->  
->      tlb_addr2 = tlb_addr_write(entry2);
-> -    if (!tlb_hit_page(tlb_addr2, page2)) {
-> +    if (page1 != page2 && !tlb_hit_page(tlb_addr2, page2)) {
->          if (!victim_tlb_hit(env, mmu_idx, index2, tlb_off, page2)) {
->              tlb_fill(env_cpu(env), page2, size2, MMU_DATA_STORE,
->                       mmu_idx, retaddr);
+Return value is never checked and is a clean path, so assume success
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/vhost-vdpa.c | 33 ++++++++++-----------------------
+ 1 file changed, 10 insertions(+), 23 deletions(-)
 
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 66f054a12c..d6ba4a492a 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -872,41 +872,35 @@ static int vhost_vdpa_svq_set_fds(struct vhost_dev *dev,
+ /**
+  * Unmap a SVQ area in the device
+  */
+-static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
++static void vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
+                                       const DMAMap *needle)
+ {
+     const DMAMap *result = vhost_iova_tree_find_iova(v->iova_tree, needle);
+     hwaddr size;
+-    int r;
+ 
+     if (unlikely(!result)) {
+         error_report("Unable to find SVQ address to unmap");
+-        return false;
++        return;
+     }
+ 
+     size = ROUND_UP(result->size, qemu_real_host_page_size());
+-    r = vhost_vdpa_dma_unmap(v, result->iova, size);
+-    return r == 0;
++    vhost_vdpa_dma_unmap(v, result->iova, size);
+ }
+ 
+-static bool vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
++static void vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
+                                        const VhostShadowVirtqueue *svq)
+ {
+     DMAMap needle = {};
+     struct vhost_vdpa *v = dev->opaque;
+     struct vhost_vring_addr svq_addr;
+-    bool ok;
+ 
+     vhost_svq_get_vring_addr(svq, &svq_addr);
+ 
+     needle.translated_addr = svq_addr.desc_user_addr;
+-    ok = vhost_vdpa_svq_unmap_ring(v, &needle);
+-    if (unlikely(!ok)) {
+-        return false;
+-    }
++    vhost_vdpa_svq_unmap_ring(v, &needle);
+ 
+     needle.translated_addr = svq_addr.used_user_addr;
+-    return vhost_vdpa_svq_unmap_ring(v, &needle);
++    vhost_vdpa_svq_unmap_ring(v, &needle);
+ }
+ 
+ /**
+@@ -1066,23 +1060,19 @@ err:
+     return false;
+ }
+ 
+-static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
++static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+ {
+     struct vhost_vdpa *v = dev->opaque;
+ 
+     if (!v->shadow_vqs) {
+-        return true;
++        return;
+     }
+ 
+     for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
+         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
+-        bool ok = vhost_vdpa_svq_unmap_rings(dev, svq);
+-        if (unlikely(!ok)) {
+-            return false;
+-        }
++        vhost_vdpa_svq_unmap_rings(dev, svq);
+     }
+ 
+-    return true;
+ }
+ 
+ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+@@ -1099,10 +1089,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+         }
+         vhost_vdpa_set_vring_ready(dev);
+     } else {
+-        ok = vhost_vdpa_svqs_stop(dev);
+-        if (unlikely(!ok)) {
+-            return -1;
+-        }
++        vhost_vdpa_svqs_stop(dev);
+         vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+     }
+ 
 -- 
-Thanks,
-
-David / dhildenb
+2.31.1
 
 
