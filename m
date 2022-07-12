@@ -2,93 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3328657161F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:50:03 +0200 (CEST)
-Received: from localhost ([::1]:48626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A34D57164A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:58:31 +0200 (CEST)
+Received: from localhost ([::1]:60084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBCWo-0005IJ-8Q
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:50:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37608)
+	id 1oBCf0-0004ua-Eh
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:58:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oBCQH-00053t-PF
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:43:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35453)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oBCYt-0007ax-CT; Tue, 12 Jul 2022 05:52:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oBCQF-0004xN-92
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:43:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657618993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W/cFVyPgvctv1d1A4qetV3aBBUZz7TB638muE0LEszA=;
- b=Qc/Dg38+snYrWjkErBxj48/U3h/uEfxiS6lKfW0HMrElOAZf8Yvz8kZVhxGeNmA84pe0QP
- trucN6zjOO56rzHgDGTwEIL3cAQMw0mt2qcnR4B7CpV7X06hhD4Ho/aNe8DmnRmAxriYRw
- 3rzDEl+SoVKDoSQaQ1ZG68gNGewk/88=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-211-S9JtV4ayPXOhmQSp_AxMZg-1; Tue, 12 Jul 2022 05:43:07 -0400
-X-MC-Unique: S9JtV4ayPXOhmQSp_AxMZg-1
-Received: by mail-qt1-f200.google.com with SMTP id
- bb14-20020a05622a1b0e00b0031eb88da7d0so2628810qtb.3
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 02:43:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=W/cFVyPgvctv1d1A4qetV3aBBUZz7TB638muE0LEszA=;
- b=DZ/tBoOgLblb+DW8xUhQjpqZB4ix+6JtEmAezBQDN/VGBUXiClsLriHDHmQ2WdzP9U
- BUZ9HmzNQJmzuf5dZH2uWh77Z/c4jtcwgt5kWRh7pNN1xCq83UYPtPlFoAUpVdFMKNPd
- d9cEyJwplX8xA3YasMMkBAc6m5MvzNIA4cxzP/Y2DZSyznMIyV6ZElHx2zUFSf7C/pi/
- 7U28QSYLKZ8n4MiKWHoJs0tTUXM/eg2/+UxJlXFoioUNKZqJl6/pYSRv5GB+YtnCjViP
- plUgrOEZAiu8nT1apZXF7ov8laN/J3Uyka7d+OAGU3GpGMH9JUAl67vfX42UOBrzBglf
- L5ag==
-X-Gm-Message-State: AJIora8lpIgFZ5QJFXf/dTRSfZYp/CqQ2dpuctfndLEqcwh8o1Lpf68c
- ffsCwXmon798HGbFF550ARfl9uPbg6XcLi9klnBGE2vaWyI69XBIC0hOlA9bY4p0IGjPCpwl/cC
- 3ypZiNUrvEbcOWaazchw6i4gzwZZZOos=
-X-Received: by 2002:a05:622a:14cc:b0:31b:f650:16af with SMTP id
- u12-20020a05622a14cc00b0031bf65016afmr16931314qtx.186.1657618987425; 
- Tue, 12 Jul 2022 02:43:07 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tXEkV62uTllmOQC16lJyHLgCA0KCdkzkmKZQKN5/3jkfwm5UuHsssfKsxZXyE5DWCJ0nfY0Gi0/MgeboV01+s=
-X-Received: by 2002:a05:622a:14cc:b0:31b:f650:16af with SMTP id
- u12-20020a05622a14cc00b0031bf65016afmr16931277qtx.186.1657618986574; Tue, 12
- Jul 2022 02:43:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-5-eperezma@redhat.com>
- <CACGkMEv660pXKK9-E+eLhph_Pq346PVELVEryg=MKNtB0BL5eg@mail.gmail.com>
- <CAJaqyWcqmpyXGvz6OvJaO=qJG+PFyjF_M+Bm0o-9cSQ+fbuApg@mail.gmail.com>
- <e3d5000e-993b-597c-2e1e-4acc4a89bb04@redhat.com>
-In-Reply-To: <e3d5000e-993b-597c-2e1e-4acc4a89bb04@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 12 Jul 2022 11:42:30 +0200
-Message-ID: <CAJaqyWcudk83XCPgMSDGfGhM6k5Nf2qBceMWU_aDAHhNi=5CkQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 04/23] vhost: Get vring base from vq, not svq
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Eric Blake <eblake@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oBCYr-0006Kc-MC; Tue, 12 Jul 2022 05:52:11 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26C9i1eg019955;
+ Tue, 12 Jul 2022 09:52:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=TSMQv2XSpMRAJNVXtva96SwPmcpW6w7F0HQpVCkJH8c=;
+ b=M2Z3vOV2grrQwbNq2iQNslGX8ETwUT3m9yrSk29sCS6M/8gDlWjNF9mzdAp/6yrDJwTS
+ 4082iSgrpa8s7DVpCXYJ9ROZYKBG1jFSUuVAXpl4UvZeGNUp9IbYmekh9Mlv43APjQRl
+ 8SQFoYKpB5pHBF0+3FeBeO42xnpejEKAOLmQD71adjoRKqPAWlzFoEOyV4KXHTRUN8P9
+ IDC3pgAk2cTZhK0VHCxi5OsLvbAf8bAJh0dnHhAZbVAo7MEPfwJkJyds8W8rfL7KYYvw
+ P84sHuGNyvl/0PhhHhQW4D3T+a/kl2sIwrfc6hagViCoBAbXY4rIWvYthnW9rIhb3+qC xQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h96jyr5un-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 09:52:08 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26C9jSHX028748;
+ Tue, 12 Jul 2022 09:52:07 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h96jyr5u2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 09:52:07 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26C9o867017610;
+ Tue, 12 Jul 2022 09:52:05 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 3h70xhv0fh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 09:52:05 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26C9q2ga23593404
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 Jul 2022 09:52:02 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 95B8B5204F;
+ Tue, 12 Jul 2022 09:52:02 +0000 (GMT)
+Received: from [9.171.48.196] (unknown [9.171.48.196])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 1F83A52050;
+ Tue, 12 Jul 2022 09:52:02 +0000 (GMT)
+Message-ID: <832533a5b27c9aee11fea7633ed401e655491d5b.camel@linux.ibm.com>
+Subject: Re: [PATCH 2/3] hw/misc: Add mmio-debug-exit device
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Eric Farman
+ <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Date: Tue, 12 Jul 2022 11:52:01 +0200
+In-Reply-To: <dd9d7b97-88c2-f1c3-8b0a-bb090059b180@linaro.org>
+References: <20220711185640.3558813-1-iii@linux.ibm.com>
+ <20220711185640.3558813-3-iii@linux.ibm.com>
+ <dd9d7b97-88c2-f1c3-8b0a-bb090059b180@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: biyT-YPu8fifFTmn1WkUEAKX3xtAdWPq
+X-Proofpoint-ORIG-GUID: P2JBn54mcnfQZD9aT8HXmeXiUgD9Mtc2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-12_05,2022-07-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0
+ mlxscore=0 clxscore=1015 phishscore=0 priorityscore=1501
+ lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2206140000 definitions=main-2207120035
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,128 +116,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 12, 2022 at 9:42 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/7/8 18:10, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > On Fri, Jul 8, 2022 at 11:12 AM Jason Wang <jasowang@redhat.com> wrote:
-> >> On Thu, Jul 7, 2022 at 2:40 AM Eugenio P=C3=A9rez <eperezma@redhat.com=
-> wrote:
-> >>> The used idx used to match with this, but it will not match from the
-> >>> moment we introduce svq_inject.
-> >> It might be better to explain what "svq_inject" means here.
-> >>
-> > Good point, I'll change for the next version.
-> >
-> >>> Rewind all the descriptors not used by
-> >>> vdpa device and get the vq state properly.
-> >>>
-> >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>> ---
-> >>>   include/hw/virtio/virtio.h | 1 +
-> >>>   hw/virtio/vhost-vdpa.c     | 7 +++----
-> >>>   hw/virtio/virtio.c         | 5 +++++
-> >>>   3 files changed, 9 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> >>> index db1c0ddf6b..4b51ab9d06 100644
-> >>> --- a/include/hw/virtio/virtio.h
-> >>> +++ b/include/hw/virtio/virtio.h
-> >>> @@ -302,6 +302,7 @@ hwaddr virtio_queue_get_desc_size(VirtIODevice *v=
-dev, int n);
-> >>>   hwaddr virtio_queue_get_avail_size(VirtIODevice *vdev, int n);
-> >>>   hwaddr virtio_queue_get_used_size(VirtIODevice *vdev, int n);
-> >>>   unsigned int virtio_queue_get_last_avail_idx(VirtIODevice *vdev, in=
-t n);
-> >>> +unsigned int virtio_queue_get_in_use(const VirtQueue *vq);
-> >>>   void virtio_queue_set_last_avail_idx(VirtIODevice *vdev, int n,
-> >>>                                        unsigned int idx);
-> >>>   void virtio_queue_restore_last_avail_idx(VirtIODevice *vdev, int n)=
-;
-> >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> >>> index 2ee8009594..de76128030 100644
-> >>> --- a/hw/virtio/vhost-vdpa.c
-> >>> +++ b/hw/virtio/vhost-vdpa.c
-> >>> @@ -1189,12 +1189,10 @@ static int vhost_vdpa_get_vring_base(struct v=
-host_dev *dev,
-> >>>                                          struct vhost_vring_state *ri=
-ng)
-> >>>   {
-> >>>       struct vhost_vdpa *v =3D dev->opaque;
-> >>> -    int vdpa_idx =3D ring->index - dev->vq_index;
-> >>>       int ret;
-> >>>
-> >>>       if (v->shadow_vqs_enabled) {
-> >>> -        VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vq=
-s, vdpa_idx);
-> >>> -
-> >>> +        const VirtQueue *vq =3D virtio_get_queue(dev->vdev, ring->in=
-dex);
-> >>>           /*
-> >>>            * Setting base as last used idx, so destination will see a=
-s available
-> >>>            * all the entries that the device did not use, including t=
-he in-flight
-> >>> @@ -1203,7 +1201,8 @@ static int vhost_vdpa_get_vring_base(struct vho=
-st_dev *dev,
-> >>>            * TODO: This is ok for networking, but other kinds of devi=
-ces might
-> >>>            * have problems with these retransmissions.
-> >>>            */
-> >>> -        ring->num =3D svq->last_used_idx;
-> >>> +        ring->num =3D virtio_queue_get_last_avail_idx(dev->vdev, rin=
-g->index) -
-> >>> +                    virtio_queue_get_in_use(vq);
-> >> I think we need to change the above comment as well otherwise readers
-> >> might get confused.
-> >>
-> > Re-thinking this: This part has always been buggy, so this is actually
-> > a fix. I'll tag it for next versions or, even better, send it
-> > separately.
-> >
-> > But the comment still holds: We cannot use the device's used idx since
-> > it could not match with the guest visible one. This is actually easy
-> > to trigger if we migrate a guest many times with traffic.
->
->
-> I may miss someting, maybe you can give me an example on this (I assume
-> the size of the svq is the same as what guest can see).
->
+On Tue, 2022-07-12 at 10:42 +0530, Richard Henderson wrote:
+> On 7/12/22 00:26, Ilya Leoshkevich wrote:
+> > System tests on x86 use isa-debug-exit device in order to signal
+> > success or failure to the test runner. Unfortunately it's not
+> > easily
+> > usable on other architectures, since a guest needs to access
+> > address_space_io, which may not be as straightforward as on x86.
+> > Also, it requires adding ISA bus, which an architecture might not
+> > otherwise need.
+> > 
+> > Introduce mmio-debug-exit device, which has the same semantics, but
+> > is
+> > triggered by writes to memory.
+> > 
+> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> 
+> You shouldn't need this for s390x, as there are already (at least)
+> two other paths to 
+> qemu_system_shutdown_request.
+> 
+> E.g. SIGP, which has a stop option.
+> 
+> 
+> r~
+> 
 
-The code assumes that the device's last_used_idx will be the same as
-the guest one. This was true as long as the guest has booted the
-device, because one used descriptor in the device always forward to
-one used descriptor to the guest.
+I would normally use lpswe + disabled wait, but this always gives me
+exit status code 0, which doesn't allow easily distinguishing between
+success and failure.
 
-However, now we're injecting buffers to the device so we can restore
-the status. These buffers only count on the device's avail / used
-rings, not in the guest's one. So we got the invalid one (device's).
-We want to migrate the guest's visible vring state.
+Code-wise SIGP seems to do roughly the same thing, and a quick
+experiment with:
 
->
-> >
-> > Maybe it's cleaner to export directly used_idx from VirtQueue? Extra
-> > care is needed with packed vq, but SVQ still does not support it. I
-> > didn't want to duplicate that logic in virtio ring handling.
->
->
-> So two more questions here:
->
-> 1) what's the reason of rewinding via virtio_queue_get_in_use()?
->
+    lgfi %r4,-1
+    lgfi %r5,-1
+    larl %r6,_cpuaddr
+    stap 0(%r6)
+    lh %r6,0(%r6)
+    nilh %r6,0
+    sigp %r4,%r6,5
+_cpuaddr: .short 0
 
-We don't want to count in-flight descriptors, like rx ones, in the vq state=
-.
+confirmed that we get exit status code 0 as well.
 
-Re-thinking about this, maybe we could get enough information about
-them only with the VirtIODevice, and expose them as new available ones
-in the destination?
-
-> 2) it looks like we could end up with underflow with the above math?
->
-
-I don't think so, we're using the same inuse variable both times.
-
-Thanks!
-
+Best regards,
+Ilya
 
