@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3995722E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 20:41:51 +0200 (CEST)
-Received: from localhost ([::1]:55306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9C5572291
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 20:27:09 +0200 (CEST)
+Received: from localhost ([::1]:55210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBKpR-0002oH-ON
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 14:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51680)
+	id 1oBKbE-0000FU-OL
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 14:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBKHj-0003SL-Bs
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 14:06:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56892)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBKHm-0003Vr-3W
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 14:07:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBKHh-0006dQ-Cg
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 14:06:58 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBKHh-0006dn-DY
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 14:07:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657649215;
+ s=mimecast20190719; t=1657649216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q/q8e18xlcsV60GmlFDScChxVStImD5RD7awhBEqWj8=;
- b=Azd6KZe0Niqxkuilp/sx9NCPvwUAPwPLXwyYUtsn5dhepbFDEjv7o51T2uZ08k+xXciFVm
- gvAv1MaycNo7pNzSdLlv2AvwzXqF6D2/fDFyXp5rOUwmcImGNDXAgXxoabUbIyIgnbCZus
- xNCMUA0All9DPHLZdZfBmmCtZtPrUO8=
+ bh=P056BZmmNOHG+TMosCuQH52pQUmFgn+uwy3KD7uAvfE=;
+ b=iUfBDYaa77P6Zmn2AUn/hcRVll4PYrfqLbUX9QNI2lxA7TE4+vXUmISjESi0Vt35yVI9kh
+ WqHLmn+3oPbbhIvpYnhxMcyQ1XHp44r8dc8X5d9b68q1TY5trBSqV6x9aW6yeLOPD1bz3U
+ mVhmNwhIBhet0LYNBGoUBjQMWK0zKaw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-xGqUrbrJMF6B1QsYmaXfvw-1; Tue, 12 Jul 2022 14:06:53 -0400
-X-MC-Unique: xGqUrbrJMF6B1QsYmaXfvw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-609-aBnp996zNl2XRrCsH_rEQw-1; Tue, 12 Jul 2022 14:06:55 -0400
+X-MC-Unique: aBnp996zNl2XRrCsH_rEQw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB85F1C08964;
- Tue, 12 Jul 2022 18:06:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9A273C02B66;
+ Tue, 12 Jul 2022 18:06:54 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 96FDE2166B26;
- Tue, 12 Jul 2022 18:06:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 651492026D64;
+ Tue, 12 Jul 2022 18:06:54 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org,
 	Hanna Reitz <hreitz@redhat.com>
-Subject: [PULL 19/35] block: Add blk_{preadv,pwritev}()
-Date: Tue, 12 Jul 2022 20:06:01 +0200
-Message-Id: <20220712180617.1362407-20-hreitz@redhat.com>
+Subject: [PULL 20/35] block: Add blk_[co_]preadv_part()
+Date: Tue, 12 Jul 2022 20:06:02 +0200
+Message-Id: <20220712180617.1362407-21-hreitz@redhat.com>
 In-Reply-To: <20220712180617.1362407-1-hreitz@redhat.com>
 References: <20220712180617.1362407-1-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -80,109 +80,153 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Faria <afaria@redhat.com>
 
-Implement them using generated_co_wrapper.
+Implement blk_preadv_part() using generated_co_wrapper.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220705161527.1054072-8-afaria@redhat.com>
+Message-Id: <20220705161527.1054072-9-afaria@redhat.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- include/sysemu/block-backend-io.h |  6 +++++
- tests/unit/test-block-iothread.c  | 42 ++++++++++++++++++++++++++++++-
- 2 files changed, 47 insertions(+), 1 deletion(-)
+ block/coroutines.h                |  5 -----
+ include/sysemu/block-backend-io.h |  7 +++++++
+ block/block-backend.c             | 30 +++++++++++++++++++++++-------
+ tests/unit/test-block-iothread.c  | 19 +++++++++++++++++++
+ 4 files changed, 49 insertions(+), 12 deletions(-)
 
+diff --git a/block/coroutines.h b/block/coroutines.h
+index 443ef2f2e6..85423f8db6 100644
+--- a/block/coroutines.h
++++ b/block/coroutines.h
+@@ -63,11 +63,6 @@ nbd_co_do_establish_connection(BlockDriverState *bs, bool blocking,
+                                Error **errp);
+ 
+ 
+-int coroutine_fn
+-blk_co_do_preadv(BlockBackend *blk, int64_t offset, int64_t bytes,
+-                 QEMUIOVector *qiov, BdrvRequestFlags flags);
+-
+-
+ int coroutine_fn
+ blk_co_do_pwritev_part(BlockBackend *blk, int64_t offset, int64_t bytes,
+                        QEMUIOVector *qiov, size_t qiov_offset,
 diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
-index 750089fc9b..cbf4422ea1 100644
+index cbf4422ea1..877274a999 100644
 --- a/include/sysemu/block-backend-io.h
 +++ b/include/sysemu/block-backend-io.h
-@@ -107,6 +107,9 @@ int generated_co_wrapper blk_pread(BlockBackend *blk, int64_t offset,
+@@ -107,6 +107,13 @@ int generated_co_wrapper blk_pread(BlockBackend *blk, int64_t offset,
  int generated_co_wrapper blk_pwrite(BlockBackend *blk, int64_t offset,
                                      int64_t bytes, const void *buf,
                                      BdrvRequestFlags flags);
-+int generated_co_wrapper blk_preadv(BlockBackend *blk, int64_t offset,
++int generated_co_wrapper blk_preadv_part(BlockBackend *blk, int64_t offset,
++                                         int64_t bytes, QEMUIOVector *qiov,
++                                         size_t qiov_offset,
++                                         BdrvRequestFlags flags);
++int coroutine_fn blk_co_preadv_part(BlockBackend *blk, int64_t offset,
 +                                    int64_t bytes, QEMUIOVector *qiov,
-+                                    BdrvRequestFlags flags);
- int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
-                                int64_t bytes, QEMUIOVector *qiov,
-                                BdrvRequestFlags flags);
-@@ -114,6 +117,9 @@ int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
-                                      int64_t bytes,
-                                      QEMUIOVector *qiov, size_t qiov_offset,
-                                      BdrvRequestFlags flags);
-+int generated_co_wrapper blk_pwritev(BlockBackend *blk, int64_t offset,
-+                                     int64_t bytes, QEMUIOVector *qiov,
-+                                     BdrvRequestFlags flags);
- int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
-                                 int64_t bytes, QEMUIOVector *qiov,
-                                 BdrvRequestFlags flags);
++                                    size_t qiov_offset, BdrvRequestFlags flags);
+ int generated_co_wrapper blk_preadv(BlockBackend *blk, int64_t offset,
+                                     int64_t bytes, QEMUIOVector *qiov,
+                                     BdrvRequestFlags flags);
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 4d6c18bc39..49db3f63fb 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1280,9 +1280,10 @@ static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
+ }
+ 
+ /* To be called between exactly one pair of blk_inc/dec_in_flight() */
+-int coroutine_fn
+-blk_co_do_preadv(BlockBackend *blk, int64_t offset, int64_t bytes,
+-                 QEMUIOVector *qiov, BdrvRequestFlags flags)
++static int coroutine_fn
++blk_co_do_preadv_part(BlockBackend *blk, int64_t offset, int64_t bytes,
++                      QEMUIOVector *qiov, size_t qiov_offset,
++                      BdrvRequestFlags flags)
+ {
+     int ret;
+     BlockDriverState *bs;
+@@ -1307,7 +1308,8 @@ blk_co_do_preadv(BlockBackend *blk, int64_t offset, int64_t bytes,
+                 bytes, false);
+     }
+ 
+-    ret = bdrv_co_preadv(blk->root, offset, bytes, qiov, flags);
++    ret = bdrv_co_preadv_part(blk->root, offset, bytes, qiov, qiov_offset,
++                              flags);
+     bdrv_dec_in_flight(bs);
+     return ret;
+ }
+@@ -1320,7 +1322,21 @@ int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
+     IO_OR_GS_CODE();
+ 
+     blk_inc_in_flight(blk);
+-    ret = blk_co_do_preadv(blk, offset, bytes, qiov, flags);
++    ret = blk_co_do_preadv_part(blk, offset, bytes, qiov, 0, flags);
++    blk_dec_in_flight(blk);
++
++    return ret;
++}
++
++int coroutine_fn blk_co_preadv_part(BlockBackend *blk, int64_t offset,
++                                    int64_t bytes, QEMUIOVector *qiov,
++                                    size_t qiov_offset, BdrvRequestFlags flags)
++{
++    int ret;
++    IO_OR_GS_CODE();
++
++    blk_inc_in_flight(blk);
++    ret = blk_co_do_preadv_part(blk, offset, bytes, qiov, qiov_offset, flags);
+     blk_dec_in_flight(blk);
+ 
+     return ret;
+@@ -1537,8 +1553,8 @@ static void blk_aio_read_entry(void *opaque)
+     QEMUIOVector *qiov = rwco->iobuf;
+ 
+     assert(qiov->size == acb->bytes);
+-    rwco->ret = blk_co_do_preadv(rwco->blk, rwco->offset, acb->bytes,
+-                                 qiov, rwco->flags);
++    rwco->ret = blk_co_do_preadv_part(rwco->blk, rwco->offset, acb->bytes, qiov,
++                                      0, rwco->flags);
+     blk_aio_complete(acb);
+ }
+ 
 diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
-index 0ced5333ff..b9c5da3a87 100644
+index b9c5da3a87..2fa1248445 100644
 --- a/tests/unit/test-block-iothread.c
 +++ b/tests/unit/test-block-iothread.c
-@@ -138,6 +138,36 @@ static void test_sync_op_blk_pwrite(BlockBackend *blk)
+@@ -168,6 +168,21 @@ static void test_sync_op_blk_pwritev(BlockBackend *blk)
      g_assert_cmpint(ret, ==, -EIO);
  }
  
-+static void test_sync_op_blk_preadv(BlockBackend *blk)
++static void test_sync_op_blk_preadv_part(BlockBackend *blk)
 +{
 +    uint8_t buf[512];
 +    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, sizeof(buf));
 +    int ret;
 +
 +    /* Success */
-+    ret = blk_preadv(blk, 0, sizeof(buf), &qiov, 0);
++    ret = blk_preadv_part(blk, 0, sizeof(buf), &qiov, 0, 0);
 +    g_assert_cmpint(ret, ==, 0);
 +
 +    /* Early error: Negative offset */
-+    ret = blk_preadv(blk, -2, sizeof(buf), &qiov, 0);
-+    g_assert_cmpint(ret, ==, -EIO);
-+}
-+
-+static void test_sync_op_blk_pwritev(BlockBackend *blk)
-+{
-+    uint8_t buf[512] = { 0 };
-+    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, sizeof(buf));
-+    int ret;
-+
-+    /* Success */
-+    ret = blk_pwritev(blk, 0, sizeof(buf), &qiov, 0);
-+    g_assert_cmpint(ret, ==, 0);
-+
-+    /* Early error: Negative offset */
-+    ret = blk_pwritev(blk, -2, sizeof(buf), &qiov, 0);
++    ret = blk_preadv_part(blk, -2, sizeof(buf), &qiov, 0, 0);
 +    g_assert_cmpint(ret, ==, -EIO);
 +}
 +
  static void test_sync_op_load_vmstate(BdrvChild *c)
  {
      uint8_t buf[512];
-@@ -301,6 +331,14 @@ const SyncOpTest sync_op_tests[] = {
-         .name   = "/sync-op/pwrite",
-         .fn     = test_sync_op_pwrite,
-         .blkfn  = test_sync_op_blk_pwrite,
+@@ -339,6 +354,10 @@ const SyncOpTest sync_op_tests[] = {
+         .name   = "/sync-op/pwritev",
+         .fn     = NULL,
+         .blkfn  = test_sync_op_blk_pwritev,
 +    }, {
-+        .name   = "/sync-op/preadv",
++        .name   = "/sync-op/preadv_part",
 +        .fn     = NULL,
-+        .blkfn  = test_sync_op_blk_preadv,
-+    }, {
-+        .name   = "/sync-op/pwritev",
-+        .fn     = NULL,
-+        .blkfn  = test_sync_op_blk_pwritev,
++        .blkfn  = test_sync_op_blk_preadv_part,
      }, {
          .name   = "/sync-op/load_vmstate",
          .fn     = test_sync_op_load_vmstate,
-@@ -349,7 +387,9 @@ static void test_sync_op(const void *opaque)
- 
-     blk_set_aio_context(blk, ctx, &error_abort);
-     aio_context_acquire(ctx);
--    t->fn(c);
-+    if (t->fn) {
-+        t->fn(c);
-+    }
-     if (t->blkfn) {
-         t->blkfn(blk);
-     }
 -- 
 2.35.3
 
