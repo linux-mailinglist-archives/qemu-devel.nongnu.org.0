@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E0357106B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 04:42:59 +0200 (CEST)
-Received: from localhost ([::1]:57698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D96857104E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 04:38:15 +0200 (CEST)
+Received: from localhost ([::1]:51892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB5rW-000199-LZ
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 22:42:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41062)
+	id 1oB5mv-0005Pi-U5
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 22:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oB5hS-0007sm-Jy; Mon, 11 Jul 2022 22:32:34 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38681)
+ id 1oB5hV-0007zo-Mc; Mon, 11 Jul 2022 22:32:39 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:36555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oB5hQ-0006YK-LM; Mon, 11 Jul 2022 22:32:34 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id D13ED580A0C;
- Mon, 11 Jul 2022 22:32:31 -0400 (EDT)
+ id 1oB5hT-0006Yi-7R; Mon, 11 Jul 2022 22:32:37 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 677DA580A06;
+ Mon, 11 Jul 2022 22:32:34 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 11 Jul 2022 22:32:31 -0400
+ by compute2.internal (MEProxy); Mon, 11 Jul 2022 22:32:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1657593151; x=1657596751; bh=lZ
- 0HvsZ9FnoYrEYLIINLY/xwbc82MeQ14CYmLwhYr/g=; b=E7FaEnf5V1Irnxm4z4
- iewagBcVob2zdOjQJQMmNOG+y1EwDyHhhGiJfhd2Rl6UgUPRjTfdhLHbzW01eQ7k
- 9auTkklEIMoUt1zPcM3JeN0cJdENeT1DgYrUWzauwH+g4xG+KCjyafdPvoMhZIYN
- 4mSGpl+z+A+bOFF0StXR4017GnXHDEWuJ1rrPVu3pj5N+VkcAxeU5rF5yU3EJDef
- azx+EpKGmsmQhekBMYPEfoMyeRcWqVvFV79y+2fbHeOEgLyoHmx2MXXWXUWQwa9N
- ei8xN2Q2YuyozNzBvrVZPNc9QMxhtg2JZINVqfqx9U7Vfq/8HPz5Nj7nj+wmdgT7
- Z6Wg==
+ :subject:subject:to:to; s=fm1; t=1657593154; x=1657596754; bh=Vh
+ qGtyrYzVJ9Rd1eruRM4BhB7rRjhoY3NcA1oWCb5BQ=; b=TN5ezanDhc4qbCszTG
+ lMaU50vfRITwr172lpq4XLara3rONDfvOjTthxgPxjMDkIv8gAbMc1pDhYXhd8UD
+ WlBqwdxeBr3EsDRlDJwSnfVITQO5K7PGz+BAvc5uj00MZp5PgzIK7yapfUonQF7K
+ UTWKpsEYaQ/Dxp1Cxn9suB3XlPUWwG3zLOvczaV/AGC+FueKX76jOZL1ehGE59Ji
+ cBS8lI00Clmd6sjm3+UMdiWqBw/3zVAcehe92fYYVRig4BnEQdIp7//n73jCe1gM
+ EGhLpIUkoCMdRLDGy/mOxOkAQR1j+olNuHHoe0kpIRrOj9ctngign7pVs/PqutOW
+ CK4w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1657593151; x=1657596751; bh=lZ0HvsZ9FnoYr
- EYLIINLY/xwbc82MeQ14CYmLwhYr/g=; b=fWXLlPIxLvvpWZVUacRJlWEUMuRPM
- zF+Fh8KUDDUB6F7aY3U4v0QYSWTXXYEBwguWl6mR2U9AGh/s5pkKhs1t9y5P8sUI
- sL7Vna6IYvMljG+qfjkJsE8f/rUnhX3Rfaufu0Bv5IGypm2q+43omdN7aMuwxo2f
- zv6neNSKZutxFBl73HIJK48aU36VREu9XoS30zPWxNIxSvrp5hH4i9tRNYC3+EDa
- nGF+wm7an+fysMXFoxel8UgqmxenUnNSV6TeKong5CzLZNQJexJgw0yPV+1NPMzX
- oF1ciDpX/HSH1wj4R5Fr9jZtdb8CwHgkWpQA7m6IcXjfPn+4vGrTJzsmw==
-X-ME-Sender: <xms:P93MYtoDkfaIlLgt_JjveGb-cp6FW7OsZr68q9xpaU6fQTU2s_RLOQ>
- <xme:P93MYvqbIiYQawKza5lG3IAjTDjZE3pO_sevlj_rMT__GKwpeQmFYBstv1vq2ZE9h
- pVu8piwJ6TJ43ZoHeQ>
-X-ME-Received: <xmr:P93MYqNdt-IMVKak9p0TusLbsnWGPJjvNqL-4RuCAXXO1JTTYtub4ogb69nOmQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgedgiedvucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm3; t=1657593154; x=1657596754; bh=VhqGtyrYzVJ9R
+ d1eruRM4BhB7rRjhoY3NcA1oWCb5BQ=; b=m07c1kMqk9B4hU717bQJXGQQVitgi
+ WRR6CTUDfaKmt4gaDZC9A+x+tFCYVZffWq0Uwpi/7idPqZ7XWf8KH7K/K7bOpEXv
+ Rr8z8FVnRFuqOn2qt5XoJ2itElWWNR2QGvEVCOiIRRuy2uC6oT6d4/nuTn5yQ6/f
+ KHCxkxP+/bxGRdjcvD5qfP+3pI+tsSgblqp5pIcwNhSGaYAa5m1s1saNT40wwddV
+ VAdHqB3bUzcHs+LIiAuJ6G62uh3IaBK7K8GdQOfJ2zhsw/Ps3JrV2qfic/kmDFn9
+ atecGsO9+kIKiAjoQdvkCCvcBHNmQt7lnZwAX6gTGs2iEb0QMOWPob1/g==
+X-ME-Sender: <xms:Qt3MYhowLbj3plnJDXelHVgg8a6mnBVTTLNRe5o3wvk9W0ERRwgj3Q>
+ <xme:Qt3MYjrzYjAD1fpZLLdqUZ2s792KBuchqwQ50qgIPJZKhkJfhQNdKzWkRWKIff7Wx
+ zuCAu3YuQO5pnK8tYQ>
+X-ME-Received: <xmr:Qt3MYuMDgP2GIG2k5VrO1kDkXGHqDOtt6WKHhiEmrONFCCI-k6H9cNHMR-Co8g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgedgieduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
  dmnegoteeftdduqddtudculdduhedmnecujfgurhephffvvefufffkofgjfhgggfestdek
  redtredttdenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrh
- esphhjugdruggvvheqnecuggftrfgrthhtvghrnhepteegleegffehvdfhleduleefueff
- kedutddtjeehffeludelvdejveejjeejuefgnecuffhomhgrihhnpehkvghrnhgvlhdroh
- hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehp
- vghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:P93MYo68WjfjzvMcDk4CYM4cmrnwK-O7DDEBS4LbBlU3om9mfWpUvQ>
- <xmx:P93MYs6gNUo7HqQClBbwb8ox7KH-aiuR1GLblKtILGQcAy61MkEEtA>
- <xmx:P93MYggoHSo0xlvg5kVav1t2FmRsNAlp1I4f3OxT98OMz-4c41KiJA>
- <xmx:P93MYuv01MRY4CiEISuhhRQBn2PUTogBEzf156z9aVWKwXfHpcanYA>
+ esphhjugdruggvvheqnecuggftrfgrthhtvghrnhepteelgfeuleeffffffeekiefghfej
+ uefgtdfgteeigeekvdefffevieekvdelteevnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:Qt3MYs4FJ6d57Np4jB_mEBJVZ0wynaifDO0bqtzuS3_3d0RsxSA4uQ>
+ <xmx:Qt3MYg5RAHVS0LoKk4pyjw3IuIr6_2oByvTznDAJ4qCf1j6LSoLjCg>
+ <xmx:Qt3MYkizw3e0sYzznTVRoNCitajXZa3NUAcrjlTbVoDCiLz6fUvGFg>
+ <xmx:Qt3MYiurE3gyjZpc6f_mo228LmbaJnzFuiAdLq9JJfNjkHOF0ysEpw>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Jul 2022 22:32:31 -0400 (EDT)
+ 11 Jul 2022 22:32:33 -0400 (EDT)
 From: Peter Delevoryas <peter@pjd.dev>
 To: 
 Cc: peter@pjd.dev, clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au,
  joel@jms.id.au, thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 2/3] hw/gpio/aspeed: Don't let guests modify input pins
-Date: Mon, 11 Jul 2022 19:32:18 -0700
-Message-Id: <20220712023219.41065-3-peter@pjd.dev>
+Subject: [PATCH v3 3/3] aspeed: Add fby35-bmc slot GPIO's
+Date: Mon, 11 Jul 2022 19:32:19 -0700
+Message-Id: <20220712023219.41065-4-peter@pjd.dev>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220712023219.41065-1-peter@pjd.dev>
 References: <20220712023219.41065-1-peter@pjd.dev>
@@ -102,107 +101,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Up until now, guests could modify input pins by overwriting the data
-value register. The guest OS should only be allowed to modify output pin
-values, and the QOM property setter should only be permitted to modify
-input pins.
-
-This change also updates the gpio input pin test to match this
-expectation.
-
-Andrew suggested this particularly refactoring here:
-
-    https://lore.kernel.org/qemu-devel/23523aa1-ba81-412b-92cc-8174faba3612@www.fastmail.com/
-
-Suggested-by: Andrew Jeffery <andrew@aj.id.au>
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
 ---
- hw/gpio/aspeed_gpio.c          | 15 ++++++++-------
- tests/qtest/aspeed_gpio-test.c |  2 +-
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ hw/arm/aspeed.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index a62a673857..1e267dd482 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -268,7 +268,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState *s, GPIOSets *regs)
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 6fe9b13548..0ce9a42c2b 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -1343,11 +1343,23 @@ static void fby35_reset(MachineState *state)
+ 
+     qemu_devices_reset();
+ 
+-    /* Board ID */
++    /* Board ID: 7 (Class-1, 4 slots) */
+     object_property_set_bool(OBJECT(gpio), "gpioV4", true, &error_fatal);
+     object_property_set_bool(OBJECT(gpio), "gpioV5", true, &error_fatal);
+     object_property_set_bool(OBJECT(gpio), "gpioV6", true, &error_fatal);
+     object_property_set_bool(OBJECT(gpio), "gpioV7", false, &error_fatal);
++
++    /* Slot presence pins, inverse polarity. (False means present) */
++    object_property_set_bool(OBJECT(gpio), "gpioH4", false, &error_fatal);
++    object_property_set_bool(OBJECT(gpio), "gpioH5", true, &error_fatal);
++    object_property_set_bool(OBJECT(gpio), "gpioH6", true, &error_fatal);
++    object_property_set_bool(OBJECT(gpio), "gpioH7", true, &error_fatal);
++
++    /* Slot 12v power pins, normal polarity. (True means powered-on) */
++    object_property_set_bool(OBJECT(gpio), "gpioB2", true, &error_fatal);
++    object_property_set_bool(OBJECT(gpio), "gpioB3", false, &error_fatal);
++    object_property_set_bool(OBJECT(gpio), "gpioB4", false, &error_fatal);
++    object_property_set_bool(OBJECT(gpio), "gpioB5", false, &error_fatal);
  }
  
- static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
--                               uint32_t value)
-+                               uint32_t value, uint32_t mode_mask)
- {
-     uint32_t input_mask = regs->input_mask;
-     uint32_t direction = regs->direction;
-@@ -277,7 +277,8 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
-     uint32_t diff;
-     int gpio;
- 
--    diff = old ^ new;
-+    diff = (old ^ new);
-+    diff &= mode_mask;
-     if (diff) {
-         for (gpio = 0; gpio < ASPEED_GPIOS_PER_SET; gpio++) {
-             uint32_t mask = 1 << gpio;
-@@ -339,7 +340,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
-         value &= ~pin_mask;
-     }
- 
--    aspeed_gpio_update(s, &s->sets[set_idx], value);
-+    aspeed_gpio_update(s, &s->sets[set_idx], value, ~s->sets[set_idx].direction);
- }
- 
- /*
-@@ -653,7 +654,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
-         reg_value = update_value_control_source(set, set->data_value,
-                                                 reg_value);
-         set->data_read = reg_value;
--        aspeed_gpio_update(s, set, reg_value);
-+        aspeed_gpio_update(s, set, reg_value, set->direction);
-         return;
-     case gpio_reg_idx_direction:
-         reg_value = set->direction;
-@@ -753,7 +754,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
-             __func__, offset, data, reg_idx_type);
-         return;
-     }
--    aspeed_gpio_update(s, set, set->data_value);
-+    aspeed_gpio_update(s, set, set->data_value, UINT32_MAX);
-     return;
- }
- 
-@@ -799,7 +800,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-         data &= props->output;
-         data = update_value_control_source(set, set->data_value, data);
-         set->data_read = data;
--        aspeed_gpio_update(s, set, data);
-+        aspeed_gpio_update(s, set, data, set->direction);
-         return;
-     case gpio_reg_direction:
-         /*
-@@ -875,7 +876,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-                       PRIx64"\n", __func__, offset);
-         return;
-     }
--    aspeed_gpio_update(s, set, set->data_value);
-+    aspeed_gpio_update(s, set, set->data_value, UINT32_MAX);
-     return;
- }
- 
-diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
-index 8f52454099..d38f51d719 100644
---- a/tests/qtest/aspeed_gpio-test.c
-+++ b/tests/qtest/aspeed_gpio-test.c
-@@ -69,7 +69,7 @@ static void test_set_input_pins(const void *data)
- 
-     qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE, 0x00000000);
-     value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
--    g_assert_cmphex(value, ==, 0x00000000);
-+    g_assert_cmphex(value, ==, 0xffffffff);
- }
- 
- int main(int argc, char **argv)
+ static void aspeed_machine_fby35_class_init(ObjectClass *oc, void *data)
 -- 
 2.37.0
 
