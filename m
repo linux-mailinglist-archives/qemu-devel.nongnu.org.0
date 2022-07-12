@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40B2571A2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:39:28 +0200 (CEST)
-Received: from localhost ([::1]:40870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B02571A36
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:43:47 +0200 (CEST)
+Received: from localhost ([::1]:48162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBFAl-0000R3-I4
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48060)
+	id 1oBFEv-0005lO-Pq
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1oBF5x-0003bz-0G
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:34:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42922)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBF63-0003it-NA
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:34:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1oBF5t-0005Xm-B2
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:34:27 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBF5y-0005YL-0d
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:34:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657629264;
+ s=mimecast20190719; t=1657629269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7a1n9jOxFfEIX4jA2NwASy9hdiVx0wW2KvV5U4FiQW4=;
- b=gCgFFcaGxdIEVsaYZ5dNOx2eRZdakf8uosGLyAbVRzQixxLP5pDgo88p8JdwqQoTApkjBq
- 49+23rsXsaFzj3LxySytzph/SRrJlNz/WC2OscO08b68s6bUm3giheY3WMg8kK6mD8sJ20
- FP/YU7gfR3jhqYekWeIYGm+1gFZhw5Q=
+ bh=VHOUFAAeCggYddTDUTO8A9GIn/NVNLxsVdzOkFN8dxM=;
+ b=Ga3pWZdXodJDOdnj0FebQLbjh5xAQ4He2Oy/AK2yu63N3J/+6RLPiHWPx/XTFgImaSZ81q
+ rSv8iSrn+Za1l/+KOlgAIpmFokMRRXETji5hROcZDpIML+tuex1PD67NrzQhBDxEeS3Ywc
+ qmckg97gHFJV1oBmteEOO/poe3u/PvI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-xkq1q3L5N-23IN9KcGUCFA-1; Tue, 12 Jul 2022 08:33:18 -0400
-X-MC-Unique: xkq1q3L5N-23IN9KcGUCFA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-631-0VAR_hZqP8eW6_MgdCKjzQ-1; Tue, 12 Jul 2022 08:34:26 -0400
+X-MC-Unique: 0VAR_hZqP8eW6_MgdCKjzQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58B8D8001EA;
- Tue, 12 Jul 2022 12:33:18 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.18.25.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43EBF1121314;
- Tue, 12 Jul 2022 12:33:18 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 1C9F1220463; Tue, 12 Jul 2022 08:33:18 -0400 (EDT)
-Date: Tue, 12 Jul 2022 08:33:18 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Zhao, Shirley" <shirley.zhao@intel.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [Virtio-fs] [Qemu] how to use viriofs in qemu without NUMA
-Message-ID: <Ys1qDhW/DCCt0XdS@redhat.com>
-References: <BY5PR11MB42911D5BF55D9FAF501F64F68D819@BY5PR11MB4291.namprd11.prod.outlook.com>
- <3b6c8e16-3712-3402-3ab2-17bf53ec64a8@redhat.com>
- <YsPwbbiuxtkD6HSp@work-vm>
- <BY5PR11MB42912BFEA77F94B5B20D6F258D819@BY5PR11MB4291.namprd11.prod.outlook.com>
- <YsQGNk5hLv8b6DJS@work-vm>
- <BY5PR11MB4291BCA40054FB484003D4278D829@BY5PR11MB4291.namprd11.prod.outlook.com>
- <BY5PR11MB42914FD092B4312B76417A9C8D869@BY5PR11MB4291.namprd11.prod.outlook.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD29385A58B;
+ Tue, 12 Jul 2022 12:34:25 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46396C28118;
+ Tue, 12 Jul 2022 12:34:25 +0000 (UTC)
+Date: Tue, 12 Jul 2022 13:34:23 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 7/8] VirtIOBlock: protect rq with its own lock
+Message-ID: <Ys1qT1jU9gajugvC@stefanha-x1.localdomain>
+References: <20220609143727.1151816-1-eesposit@redhat.com>
+ <20220609143727.1151816-8-eesposit@redhat.com>
+ <YsRObmNTP471U9zU@stefanha-x1.localdomain>
+ <2a1e8343-df7d-b98a-1d3b-2bd4345adf3e@redhat.com>
+ <1f88322f-00f0-ae1e-2a3e-c7bac034de72@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EnTcNOqF1x1y5E35"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <BY5PR11MB42914FD092B4312B76417A9C8D869@BY5PR11MB4291.namprd11.prod.outlook.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
+In-Reply-To: <1f88322f-00f0-ae1e-2a3e-c7bac034de72@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -73,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,191 +86,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 12, 2022 at 07:06:50AM +0000, Zhao, Shirley wrote:
-> Hi, all, 
-> 
-> I have another question want to consult you. 
-> To enable DAX in virtiofs, according to the memu https://virtio-fs.gitlab.io/howto-qemu.html. 
-> I need to add "cache-size=2G" as below. 
-> -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs,cache-size=2G
-> 
-> My qemu command is: 
-> sudo qemu-system-x86_64 -M pc -cpu host --enable-kvm -smp 2 -m 4G -drive if=virtio,file=ubuntu.img -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on -machine q35,memory-backend=mem -chardev socket,id=char0,path=/tmp/vhostqemu -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs_root,cache-size=2G -chardev stdio,mux=on,id=mon -mon chardev=mon,mode=readline -device virtio-serial-pci -device virtconsole,chardev=mon -vga none -display none
-> 
-> And virtiofsd command is:
-> sudo ./virtiofsd --socket-path=/tmp/vhostqemu -o source=/home/shirley/testdir -o cache=always
-> 
-> But there is no option of "cache-size" in qemu 6.0, like below. So how to enable it? 
 
-Hi Shirley,
+--EnTcNOqF1x1y5E35
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-DAX support in qemu is not upstream yet. We are carrying DAX patches
-out of the tree on a branch here.
+On Fri, Jul 08, 2022 at 01:22:58PM +0200, Emanuele Giuseppe Esposito wrote:
+>=20
+>=20
+> Am 08/07/2022 um 11:33 schrieb Emanuele Giuseppe Esposito:
+> >=20
+> >=20
+> > Am 05/07/2022 um 16:45 schrieb Stefan Hajnoczi:
+> >> On Thu, Jun 09, 2022 at 10:37:26AM -0400, Emanuele Giuseppe Esposito w=
+rote:
+> >>> @@ -946,17 +955,20 @@ static void virtio_blk_reset(VirtIODevice *vdev)
+> >>>       * stops all Iothreads.
+> >>>       */
+> >>>      blk_drain(s->blk);
+> >>> +    aio_context_release(ctx);
+> >>> =20
+> >>>      /* We drop queued requests after blk_drain() because blk_drain()=
+ itself can
+> >>>       * produce them. */
+> >>> +    qemu_mutex_lock(&s->req_mutex);
+> >>>      while (s->rq) {
+> >>>          req =3D s->rq;
+> >>>          s->rq =3D req->next;
+> >>> +        qemu_mutex_unlock(&s->req_mutex);
+> >>>          virtqueue_detach_element(req->vq, &req->elem, 0);
+> >>>          virtio_blk_free_request(req);
+> >>> +        qemu_mutex_lock(&s->req_mutex);
+> >>
+> >> Why is req_mutex dropped temporarily? At this point we don't really ne=
+ed
+> >> the req_mutex (all I/O should be stopped and drained), but maybe we
+> >> should do:
+> >=20
+> > Agree that maybe it is not useful to drop the mutex temporarily.
+> >=20
+> > Regarding why req_mutex is not needed, yes I guess it isn't. Should I
+> > get rid of this hunk at all, and maybe leave a comment like "no
+> > synchronization needed, due to drain + ->stop_ioeventfd()"?
+>=20
+> Actually, regarding this, I found why I added the lock:
+>=20
+> https://patchew.org/QEMU/20220426085114.199647-1-eesposit@redhat.com/#584=
+d7d1a-94cc-9ebb-363b-2fddb8d79f5b@redhat.com
+>=20
+> So maybe it's better to add it.
 
-https://gitlab.com/virtio-fs/qemu/-/commits/virtio-fs-dev
+I don't see anything obvious in Paolo's email that you linked. I think
+he was saying it's safest to use a lock but not that it's necessary.
 
-There are some changes required and David Gilbert is looking into
-making these changes. I am hoping at some point of time these patches
-will make into upstream.
+Can you clarify what you mean?
 
-So for the time being, to test DAX, you will have to fetch above branch,
-build it and use that qemu.
+Stefan
 
-Thanks
-Vivek
+--EnTcNOqF1x1y5E35
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> qemu-6.0.0$ qemu-system-x86_64 -device vhost-user-fs-pci,help
-> vhost-user-fs-pci options:
->   acpi-index=<uint32>    -  (default: 0)
->   addr=<int32>           - Slot and optional function number, example: 06.0 or 06 (default: -1)
->   aer=<bool>             - on/off (default: false)
->   any_layout=<bool>      - on/off (default: true)
->   ats=<bool>             - on/off (default: false)
->   bootindex=<int32>
->   chardev=<str>          - ID of a chardev to use as a backend
->   event_idx=<bool>       - on/off (default: true)
->   failover_pair_id=<str>
->   indirect_desc=<bool>   - on/off (default: true)
->   iommu_platform=<bool>  - on/off (default: false)
->   migrate-extra=<bool>   - on/off (default: true)
->   modern-pio-notify=<bool> - on/off (default: false)
->   multifunction=<bool>   - on/off (default: false)
->   notify_on_empty=<bool> - on/off (default: true)
->   num-request-queues=<uint16> -  (default: 1)
->   packed=<bool>          - on/off (default: false)
->   page-per-vq=<bool>     - on/off (default: false)
->   queue-size=<uint16>    -  (default: 128)
->   rombar=<uint32>        -  (default: 1)
->   romfile=<str>
->   romsize=<uint32>       -  (default: 4294967295)
->   tag=<str>
->   use-disabled-flag=<bool> -  (default: true)
->   use-started=<bool>     -  (default: true)
->   vectors=<uint32>       -  (default: 4294967295)
->   virtio-backend=<child<vhost-user-fs-device>>
->   virtio-pci-bus-master-bug-migration=<bool> - on/off (default: false)
->   x-ats-page-aligned=<bool> - on/off (default: true)
->   x-disable-legacy-check=<bool> -  (default: false)
->   x-disable-pcie=<bool>  - on/off (default: false)
->   x-ignore-backend-features=<bool> -  (default: false)
->   x-pcie-deverr-init=<bool> - on/off (default: true)
->   x-pcie-extcap-init=<bool> - on/off (default: true)
->   x-pcie-flr-init=<bool> - on/off (default: true)
->   x-pcie-lnkctl-init=<bool> - on/off (default: true)
->   x-pcie-lnksta-dllla=<bool> - on/off (default: true)
->   x-pcie-pm-init=<bool>  - on/off (default: true) 
-> 
-> 
-> -----Original Message-----
-> From: Zhao, Shirley 
-> Sent: Friday, July 8, 2022 8:40 AM
-> To: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>; qemu-devel@nongnu.org; virtio-fs@redhat.com; Stefan Hajnoczi <stefanha@redhat.com>
-> Subject: RE: [Qemu] how to use viriofs in qemu without NUMA
-> 
-> Yes, the qemu version is too old. 
-> My previous qemu version is 4.2, and I upgraded it into 6.0, and it worked now. 
-> Thanks a lot. 
-> 
-> - Shirley 
-> 
-> -----Original Message-----
-> From: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Sent: Tuesday, July 5, 2022 5:37 PM
-> To: Zhao, Shirley <shirley.zhao@intel.com>
-> Cc: Thomas Huth <thuth@redhat.com>; qemu-devel@nongnu.org; virtio-fs@redhat.com; Stefan Hajnoczi <stefanha@redhat.com>
-> Subject: Re: [Qemu] how to use viriofs in qemu without NUMA
-> 
-> * Zhao, Shirley (shirley.zhao@intel.com) wrote:
-> > Thanks for the information. 
-> > Yes, I also found the memory backend options on s390x, and also copy the command to x86, but failed. 
-> > 
-> > The following is the command used to start qemu + virtiofs + ubuntu 20.04. 
-> > One is worked well using NUMA, another one is failed without NUMA. 
-> > Is there anything wrong? 
-> > 
-> > The worked one with NUMA options: 
-> > 
-> > qemu-system-x86_64 -M pc -cpu host --enable-kvm -smp 2 -m 4G -object 
-> > memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on -numa 
-> > node,memdev=mem -chardev socket,id=char0,path=/tmp/vfsd.sock -device 
-> > vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs -chardev 
-> > stdio,mux=on,id=mon -mon chardev=mon,mode=readline -device 
-> > virtio-serial-pci -device virtconsole,chardev=mon -vga none -display 
-> > none -drive if=virtio,file=ubuntu.img
-> > 
-> > The failed one without NUMA options: 
-> > 
-> > qemu-system-x86_64 -M pc -cpu host --enable-kvm -smp 2 -m 4G -object 
-> > memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on -machine 
-> > q35,memory-backend=mem -chardev socket,id=char0,path=/tmp/vfsd.sock
-> > -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs
-> > -chardev stdio,mux=on,id=mon -mon chardev=mon,mode=readline -device 
-> > virtio-serial-pci -device virtconsole,chardev=mon -vga none -display 
-> > none -drive if=virtio,file=ubuntu.img
-> 
-> What error did it give?
-> 
-> 20.04 is quite old, what qemu version is it?
-> 
-> I'd have to check when the memdev= went in.
-> 
-> Dave
-> 
-> > 
-> > Thanks. 
-> > - Shirley
-> > 
-> > -----Original Message-----
-> > From: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Sent: Tuesday, July 5, 2022 4:04 PM
-> > To: Thomas Huth <thuth@redhat.com>
-> > Cc: Zhao, Shirley <shirley.zhao@intel.com>; qemu-devel@nongnu.org; 
-> > virtio-fs@redhat.com; Stefan Hajnoczi <stefanha@redhat.com>
-> > Subject: Re: [Qemu] how to use viriofs in qemu without NUMA
-> > 
-> > * Thomas Huth (thuth@redhat.com) wrote:
-> > > On 05/07/2022 03.02, Zhao, Shirley wrote:
-> > > > Hi, all,
-> > > > 
-> > > > I want to use virtiofs to share folder between host and guest.
-> > > > 
-> > > >  From the guide, it must set the NUMA node.
-> > > > https://virtio-fs.gitlab.io/howto-qemu.html
-> > > > 
-> > > > But my guest doesn’t support NUMA.
-> > > > 
-> > > > Is there any guide to use qemu + virtiofs without NUMA?
-> > > > 
-> > > > Or does qemu have any plan to support it?
-> > > 
-> > >  Hi!
-> > > 
-> > > At least on s390x, you can also specify the memory backend via the 
-> > > -machine option instead of using the -numa option, e.g.:
-> > > 
-> > >  qemu-system-s390x -machine memory-backend=mem \
-> > >   -object memory-backend-file,id=mem,...
-> > > 
-> > > Not sure whether that works on other architectures, too, though. 
-> > > Stefan, David, do you know?
-> > 
-> > Right, that's the way I do it on x86.
-> > We wrote virtiofs before the memory-backend option existed, which is why the old docs talk about using the NUMA stuff.
-> > 
-> > Dave
-> > 
-> > >  Thomas
-> > > 
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://listman.redhat.com/mailman/listinfo/virtio-fs
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLNak8ACgkQnKSrs4Gr
+c8gqrAf/YCBkAph6yVC702mV8a2paj5gTXlQMt2aespNtoTiP5HM5zaK1zgoFkPK
+zAL0YZU9KCflkQtFqfIzvo+F229Txq1Fr5LqGJhA7xuyB9LxAjJzWvH+c1gsvl0r
+/ZcCFJIurXur3ILMYKWCzyPA8zUsndhWwPR7LcUqDpuxaom6vikrdsHqe6YuZDxa
+vemC3baXMHiD92EiLnVD6Eauk160AzZ+kw6C6ykhu1TtEl5YObvuPuKjNKbc3eB+
++mZXQFSpaQg1mqeBRjFySUYohD8QN+r8+eKovXaoaF0kHtjsiXQg0OEqdi4TOsL5
+27VHDg9TabvOGbYndTDeJz3pStpuaw==
+=cFGW
+-----END PGP SIGNATURE-----
+
+--EnTcNOqF1x1y5E35--
 
 
