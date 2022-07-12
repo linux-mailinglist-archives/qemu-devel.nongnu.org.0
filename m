@@ -2,82 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC19B572989
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 00:55:24 +0200 (CEST)
-Received: from localhost ([::1]:47658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 407B95729A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 01:07:15 +0200 (CEST)
+Received: from localhost ([::1]:34608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBOmf-0001Vd-1J
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 18:55:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49668)
+	id 1oBOyI-0003mt-3f
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 19:07:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBOQB-00057M-9b
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:32:02 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36588)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBOQ9-00049V-Dx
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:31:59 -0400
-Received: by mail-wr1-x434.google.com with SMTP id o4so13099425wrh.3
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 15:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tXWFPpA4TnmdFeW8zHL0XdF8sOZeyxaXr7aKDmNqhCk=;
- b=PchlZIvoKlAjPrKNQ52Vuz25TKRx91tLiCICarTtnwUXAjCFThxMKen05YvZFvud8f
- u+shys1sgTyldlgJmIZrm2V6qrAnaoQMT7Gy92LhhcOC/taTdsXrGbo/egyl6Cs7vTcL
- 2eiVHKqIuoPwx8zPH1p9z+Sa9CEcHnm98sEGRVVx9kC9+OSt/Im45xLSetMeR464sHxT
- iJhRRfvQc1GzosS76VwRHwPFpY+W1cHcrMbIoIe0AH6v4Wce7K8kz/f1UChbH0T/a+kn
- Per6cMkFQ3p+LbLw7GNvuFRo56aTOPzEHsmVx3ETcH9NkJTybZZRV5ytho4HYp1cDeJk
- hDHg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oBOWf-0004QD-K7
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:38:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oBOWP-000554-K9
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 18:38:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657665501;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F3SLJWQ6ZTWHTWfYbzqeqwqgxsn1JANpNhROR3s70TU=;
+ b=VgqfGg/NhJAQXV5ZZOhULG1fjerqRZfm+Qvx5fnYHwAWu26OEX06C07ZZY0mveVUSfVgnc
+ QA+GPU2HotBhokoGNEIlNgiExcY5O77x8rGzQl8NhopDUuY6HawT1qCHjrhuHCOZ7GAWBA
+ eDQ6dRkY2s93A2F44ffSE+PgI2rRtdM=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-550-UgBGRnZ1M3SZN9Tc1cgCUQ-1; Tue, 12 Jul 2022 18:38:20 -0400
+X-MC-Unique: UgBGRnZ1M3SZN9Tc1cgCUQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ x22-20020a05620a259600b006b552a69231so8795871qko.18
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 15:38:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tXWFPpA4TnmdFeW8zHL0XdF8sOZeyxaXr7aKDmNqhCk=;
- b=ar/TfbkWpNqZ2PXIQ0JgMwXDKtQGQ+NCc+VxeNXqMRPYkov/vkEvI711AqatCROqLw
- 5/eXaoL3dKtHYQoWu80uxhsUB+9Wv1tmIZkHCAhITHB74dI3Au+XRY7hD+2lAIf1Dwwz
- vKWK3oYMLszAoC6739m5gbx4L9iTD0PXNGV3YZnljt2JK119+nfM46hESfqKbEgES9x3
- tuWIvZZ6ON/DuoDtDI8DdxtfnyLk0Zhnxs66Wupjo7SSuXjeUvJm2tDPwFtJUTYI/93J
- wPHHOesEWWG+27wqE25Y1WNat4RXT8X22uvfRZ/l1lUPaO5BxYSUDxT6CRkvkrTSGVGH
- a5Nw==
-X-Gm-Message-State: AJIora+g10Y4myef2Ha5itXa43sssGogCBBcfSv41GP0+/lds6FQZBs5
- FDNZYaHtu+q4un8HWhDBqUSYxwUZ+kpLIYZa
-X-Google-Smtp-Source: AGRyM1uhH1CHbAq4Ji1xHqD2Cd1su9LJENYOkTMdSa40sShf9xWvEjHOV3BgNOi/Tv902kwcXwvyQA==
-X-Received: by 2002:adf:edc1:0:b0:21d:7157:f4aa with SMTP id
- v1-20020adfedc1000000b0021d7157f4aamr213490wro.454.1657665115134; 
- Tue, 12 Jul 2022 15:31:55 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=F3SLJWQ6ZTWHTWfYbzqeqwqgxsn1JANpNhROR3s70TU=;
+ b=w4FJxZHXXvM9xJx7sC9CQ4QyVVIQwLUIp9Qzj4ytZ84+iGJdXZ52iAbc4vlfW9lhfn
+ H0+jNG7EwinzeazeXl6ynIoPCWWa92eVSdnMQQBogRwK+cduhRnrOtK4tfMSat3JqpFa
+ lbCZIDYTf+O63j348IIry7xyaBuzjj/kPuriwIClSY4MyovIWBRWstHNqMUhx5MUU2qj
+ 84XJv0RkH1lDGgiV0VKz0salQU/hPX82ycnZk48khrY87zkUPZNMDKrzh1ZZPlprBVLR
+ duqtxnAQ5pySkWigXjcqFnTp0CJsNxJPGeUzTQZfxn5D5ps1fE/s1nzvo0OTdkCCNokz
+ rnqQ==
+X-Gm-Message-State: AJIora9haH8/ECFPOQFlE5dby82eDFiA0z/73ARPSch7VwA1kFUw2kMZ
+ Qrzav6TSnKfldmrTjqBAWWYBMdBw/I+t8jo83yOMDfPQQ2inbDR7+DiImSzlu+uzcyG5EpR0Ouq
+ oTHLu7kLF420leu8=
+X-Received: by 2002:ad4:5de8:0:b0:473:8d62:d2db with SMTP id
+ jn8-20020ad45de8000000b004738d62d2dbmr507540qvb.112.1657665499761; 
+ Tue, 12 Jul 2022 15:38:19 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vJjVhO33uWCZgagyEHU7n8fgTtrc5EW2hfh6QSC89gviPt9IoFmq/fRE1Vy6LZsJacYoj33A==
+X-Received: by 2002:ad4:5de8:0:b0:473:8d62:d2db with SMTP id
+ jn8-20020ad45de8000000b004738d62d2dbmr507527qvb.112.1657665499573; 
+ Tue, 12 Jul 2022 15:38:19 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-37-74-12-30-48.dsl.bell.ca. [74.12.30.48])
  by smtp.gmail.com with ESMTPSA id
- k28-20020a5d525c000000b0020fcc655e4asm9320879wrc.5.2022.07.12.15.31.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 15:31:54 -0700 (PDT)
-Message-ID: <477d1b2c-3fea-ee1f-28c5-d03dc1d66c9b@amsat.org>
-Date: Wed, 13 Jul 2022 00:31:53 +0200
+ h9-20020a05620a244900b006af59e9ddeasm10252634qkn.18.2022.07.12.15.38.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jul 2022 15:38:18 -0700 (PDT)
+Date: Tue, 12 Jul 2022 18:38:17 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 1/3] QIOChannelSocket: Fix zero-copy flush returning
+ code 1 when nothing sent
+Message-ID: <Ys332UU1hnEGi9GV@xz-m1.local>
+References: <20220711211112.18951-1-leobras@redhat.com>
+ <20220711211112.18951-2-leobras@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH] linux-user/hppa: Fix segfaults on page zero
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <Ysc3vc0T+qfjiyKo@p100>
-In-Reply-To: <Ysc3vc0T+qfjiyKo@p100>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220711211112.18951-2-leobras@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,47 +104,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 7/7/22 21:45, Helge Deller wrote:
-> This program:
+On Mon, Jul 11, 2022 at 06:11:11PM -0300, Leonardo Bras wrote:
+> If flush is called when no buffer was sent with MSG_ZEROCOPY, it currently
+> returns 1. This return code should be used only when Linux fails to use
+> MSG_ZEROCOPY on a lot of sendmsg().
 > 
->      int main(void) { asm("bv %r0(%r0)"); return 0; }
+> Fix this by returning early from flush if no sendmsg(...,MSG_ZEROCOPY)
+> was attempted.
 > 
-> produces on real hardware the expected segfault:
-> 
-> --- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x3} ---
-> +++ killed by SIGSEGV +++
-> Segmentation fault
-> 
-> But when run on linux-user you get instead internal qemu errors:
-> 
-> ERROR: linux-user/hppa/cpu_loop.c:172:cpu_loop: code should not be reached
-> Bail out! ERROR: linux-user/hppa/cpu_loop.c:172:cpu_loop: code should not be reached
-> ERROR: accel/tcg/cpu-exec.c:933:cpu_exec: assertion failed: (cpu == current_cpu)
-> Bail out! ERROR: accel/tcg/cpu-exec.c:933:cpu_exec: assertion failed: (cpu == current_cpu)
-> 
-> Fix it by adding the missing case for the EXCP_IMP trap in
-> cpu_loop() and raise a segfault.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> 
-> diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-> index a576d1a249..8f374aeef6 100644
-> --- a/linux-user/hppa/cpu_loop.c
-> +++ b/linux-user/hppa/cpu_loop.c
-> @@ -143,6 +143,9 @@ void cpu_loop(CPUHPPAState *env)
->               env->iaoq_f = env->gr[31];
->               env->iaoq_b = env->gr[31] + 4;
->               break;
-> +        case EXCP_IMP:
-> +            force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, env->iaoq_f);
-> +            break;
->           case EXCP_ILL:
->               force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->iaoq_f);
->               break;
+> Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX")
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Acked-by: Daniel P. Berrangé <berrange@redhat.com>
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+
+-- 
+Peter Xu
 
 
