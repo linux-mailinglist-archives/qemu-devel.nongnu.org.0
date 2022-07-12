@@ -2,65 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C0A571776
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:38:24 +0200 (CEST)
-Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D45571778
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:40:30 +0200 (CEST)
+Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBDHa-0006gV-PE
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:38:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44492)
+	id 1oBDJd-0000KE-V0
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:40:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oBCvF-0007KD-JN
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:15:22 -0400
-Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:38593)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oBCv9-0000X2-5r
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:15:13 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.131])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 01F1A2762B;
- Tue, 12 Jul 2022 10:15:06 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 12 Jul
- 2022 12:15:06 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001824944f1-91f4-4f8c-8387-effa3d0919a5,
- 309EE2169E248EACDB990A87B215E6D8094BB52C) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Message-ID: <d9bbc4d0-b70a-92c6-3966-ba0dcaa87ea1@kaod.org>
-Date: Tue, 12 Jul 2022 12:15:00 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oBCx7-0000Dr-F4
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:17:16 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:55130)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oBCx6-00010U-0Y
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:17:13 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id s21so7188758pjq.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 03:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=2GOhGSIAgAI7R5VlJcbom+0iPWY/mzNGleRCz0vQu7k=;
+ b=W3/wgyr+aWV/d0j50C+HGUjQGeqcSAqz0jwcqU22t2eRiQxlABdz15yJ2mGTtJm8e/
+ wRCWwKVBLY77fw2YYMaV0xbLPpDTyNJZzvgyVpq2l8wlFpPaBzUnX0UbhqWqrVdg1Lqe
+ zk8DQwumKNu9LVsfidTGIksfd2OIDT700Hbbi5VxY2LEmEboannlgCoaSMv2C+iw984g
+ lOILddicHKUXHpHM+lvWD0yjFu5WiQB3NeRQNfBhUG+15cSW9pgql1ffCSd4Ut+lIGks
+ wMpzl68xo3AuBfaFtvJRd2EQytTJuz2IRkNSi0KOU8PRXqNWYuwFL7RU+87UyL2ZVsUV
+ QnYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2GOhGSIAgAI7R5VlJcbom+0iPWY/mzNGleRCz0vQu7k=;
+ b=OxPJjxX/NGr5mLqdO32eNsVrQJzlFAy3HbPTNGySOyW52kQKMH3SOVPvYdRUpGFMU7
+ XrHb9wmWkvoK6EhZ9MBjzkIyktSuNLf23s3FJv8za2yohExPC11xqDEM393hZOYmYBqX
+ VuicXBPscmIJYpifWnHXjrx6DUtT2z4p93fx3fNa+1pEeu4Gq4hDSU9iL2M+rPYUx8FM
+ mCK0dpljv/F+A4Z2Etqh5YGoNNOAO3xO7PQoS99BTijBAV8AiieEZlmynlXzUYgKknF5
+ X4lN48g/OsAkuhgeKX1UYmg7il387rF4oB4Lyb7Xtr8G2cqc8hwUFHMU+qMhcb1kaBPL
+ oleA==
+X-Gm-Message-State: AJIora9p1C/ESQnqdrIktxUfaFjwwexbof5/f46yM1HTW+tEdIIyP6FC
+ SgSiwxaEZT22DZnGeU/Nb92Rmw==
+X-Google-Smtp-Source: AGRyM1u3t/wZ1dpuLRNQaQjoXqQunoUYa1Jpaex3TubGDifazDCOB+2dl1lUlZ2xV18EUqTBzXxQrA==
+X-Received: by 2002:a17:90b:1c8f:b0:1f0:4a09:5167 with SMTP id
+ oo15-20020a17090b1c8f00b001f04a095167mr3520531pjb.47.1657621030597; 
+ Tue, 12 Jul 2022 03:17:10 -0700 (PDT)
+Received: from [192.168.138.227] ([122.255.60.245])
+ by smtp.gmail.com with ESMTPSA id
+ i189-20020a62c1c6000000b0051bdb735647sm6375060pfg.159.2022.07.12.03.17.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jul 2022 03:17:10 -0700 (PDT)
+Message-ID: <42b1857e-6a5f-cc40-86d5-713305545ee3@linaro.org>
+Date: Tue, 12 Jul 2022 15:47:01 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 1/3] qtest/aspeed_gpio: Add input pin modification test
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 4/5] target/loongarch/tlb_helper: Fix coverity integer
+ overflow error
 Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
- <thuth@redhat.com>, <lvivier@redhat.com>, <pbonzini@redhat.com>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220712023219.41065-1-peter@pjd.dev>
- <20220712023219.41065-2-peter@pjd.dev>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220712023219.41065-2-peter@pjd.dev>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: c9994d80-514e-4c11-bef6-6f30c47a2dcc
-X-Ovh-Tracer-Id: 5308055111312968495
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedgvdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
- helo=10.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
+ mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
+ peter.maydell@linaro.org
+References: <20220712080133.4176971-1-yangxiaojuan@loongson.cn>
+ <20220712080133.4176971-5-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220712080133.4176971-5-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,74 +96,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/22 04:32, Peter Delevoryas wrote:
-> Verify the current behavior, which is that input pins can be modified by
-> guest OS register writes.
+On 7/12/22 13:31, Xiaojuan Yang wrote:
+> Replace '1' with '1UL' to fix unintentional integer overflow errors
+> in tlb_helper file.
 > 
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-
+> Fix coverity CID: 1489759 1489762
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 > ---
->   tests/qtest/aspeed_gpio-test.c | 27 +++++++++++++++++++++++++++
->   1 file changed, 27 insertions(+)
+>   target/loongarch/tlb_helper.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
-> index bac63e8742..8f52454099 100644
-> --- a/tests/qtest/aspeed_gpio-test.c
-> +++ b/tests/qtest/aspeed_gpio-test.c
-> @@ -28,6 +28,11 @@
->   #include "qapi/qmp/qdict.h"
->   #include "libqtest-single.h"
->   
-> +#define AST2600_GPIO_BASE 0x1E780000
-> +
-> +#define GPIO_ABCD_DATA_VALUE 0x000
-> +#define GPIO_ABCD_DIRECTION  0x004
-> +
->   static void test_set_colocated_pins(const void *data)
->   {
->       QTestState *s = (QTestState *)data;
-> @@ -46,6 +51,27 @@ static void test_set_colocated_pins(const void *data)
->       g_assert(!qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
->   }
->   
-> +static void test_set_input_pins(const void *data)
-> +{
-> +    QTestState *s = (QTestState *)data;
-> +    char name[16];
-> +    uint32_t value;
-> +
-> +    qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DIRECTION, 0x00000000);
-> +    for (char c = 'A'; c <= 'D'; c++) {
-> +        for (int i = 0; i < 8; i++) {
-> +            sprintf(name, "gpio%c%d", c, i);
-> +            qtest_qom_set_bool(s, "/machine/soc/gpio", name, true);
-> +        }
-> +    }
-> +    value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
-> +    g_assert_cmphex(value, ==, 0xffffffff);
-> +
-> +    qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE, 0x00000000);
-> +    value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
-> +    g_assert_cmphex(value, ==, 0x00000000);
-> +}
-> +
->   int main(int argc, char **argv)
->   {
->       QTestState *s;
-> @@ -56,6 +82,7 @@ int main(int argc, char **argv)
->       s = qtest_init("-machine ast2600-evb");
->       qtest_add_data_func("/ast2600/gpio/set_colocated_pins", s,
->                           test_set_colocated_pins);
-> +    qtest_add_data_func("/ast2600/gpio/set_input_pins", s, test_set_input_pins);
->       r = g_test_run();
->       qtest_quit(s);
->   
+> diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
+> index bab19c7e05..b300230588 100644
+> --- a/target/loongarch/tlb_helper.c
+> +++ b/target/loongarch/tlb_helper.c
+> @@ -298,7 +298,7 @@ static void invalidate_tlb_entry(CPULoongArchState *env, int index)
+>       } else {
+>           tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
+>       }
+> -    pagesize = 1 << tlb_ps;
+> +    pagesize = 1UL << tlb_ps;
+>       mask = MAKE_64BIT_MASK(0, tlb_ps + 1);
 
+This is incorrect, because 1ul is still 32 bits on some hosts, including windows64.
+More generally, 'ul' is *always* incorrect for qemu.
+
+Much better here to use
+
+     pagesize = MAKE_64BIT_MASK(tlb_ps, 1);
+
+> -            tmp0 += (1 << ps);
+> +            tmp0 += (1UL << ps);
+
+Likewise.
+
+
+r~
 
