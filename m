@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30325715D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:35:32 +0200 (CEST)
-Received: from localhost ([::1]:52350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F995715E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:39:52 +0200 (CEST)
+Received: from localhost ([::1]:58938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBCIl-0004hp-TJ
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:35:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
+	id 1oBCMx-00010y-DD
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oBCG5-0001os-Ly; Tue, 12 Jul 2022 05:32:45 -0400
-Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:42623)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oBCFr-0005lD-HE; Tue, 12 Jul 2022 05:32:45 -0400
-Received: by mail-lj1-x234.google.com with SMTP id r9so9183889ljp.9;
- Tue, 12 Jul 2022 02:32:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+iO7ZWU58OptAthR9roRRVHkML4fVitWMMleas1hsTY=;
- b=S0uND38iO6hIPPSVyrU7fSf+RjOlwD36nYtWliBz1MH2YJ7Jo16fOBOp0nHW9U2aRY
- axqBViHCSCoBaFSc3JUtUxm4nv+pyDpvsbvL5psi+PHMBiVsDtkNDuEO5wUtmEPt4Vfl
- 01h5fPm67q/wCoBxElK1a00O7XngrWycR1CjcxYSh4c1pEw57WmUErKCijWPrLqi3F5o
- dwhICfuEb/uc6peVCzGxknMfMQDPVAJ9fVz8Xw1Uw+wrRBgVMSrWSpGGTYrTYlylGfoj
- hQ9Igz3A44cHsQC4yhUeElfrOeDGTdfJjd/JyUAvMdbv4foeAM9JDDQAqqxUgJWQ6k9L
- SLFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+iO7ZWU58OptAthR9roRRVHkML4fVitWMMleas1hsTY=;
- b=7TQnPQy11CJDuaj82oZnm7mQPYA3v1iAegJ4k0Mnb6odALHzKznyT+9WRl8XKo44o3
- 8sERiKLAsJXl7jhY+1AAdt79Qszc7UlUCjFf9OS2V1ZLoRLNjUO0exYSkflZsLgFMFKw
- ExIT8riB4PNsAY00ThE21q/5s6dljbvLFaBNMfi77lnvgiWlTRYmVtVczW8FNh2Xj/Zt
- VBdcAaEa2DzARxF0vEe0Wyf/s9c0QjQEL1GWAr8TAMf3imfv0kWa7qgvEDJcJWTgItu9
- iJ0v8vu4nZDXBBt+j8pgpe1E2ZBbwxAo3eQvhQvSk/VmqztEkx9oOz64oks3QawBuJfN
- X52w==
-X-Gm-Message-State: AJIora+oxFp2rW7XX116NUw4H2Cqyjxif0kkrr2Jh46u/24NstYPaD4I
- F0Sf5b7w9xIRtdqxSepAWNtSNWK/KHifEr19y50=
-X-Google-Smtp-Source: AGRyM1vCUF1BgCL5E81QKusk7jeE9OfTR2YNpGG/Untc/PiUUC71ER4zBYxLDCw04lw7aQNHsOH7JAWuaqTDffN3/Tc=
-X-Received: by 2002:a2e:6e0b:0:b0:25b:bf22:47a with SMTP id
- j11-20020a2e6e0b000000b0025bbf22047amr12308764ljc.524.1657618348594; Tue, 12
- Jul 2022 02:32:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBCID-0004c0-2l
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:34:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBCIA-00061P-Gm
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:34:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657618493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y0Cw41L5uvaCp5LxeQbylHUyp1eAk47TWc+uZAPsZis=;
+ b=Oo63O7qpf90n2iEVO2ab6rqEKJJGDu0GhchKcC3m0WEW52NKYyEuFVpuAD4su1k/s7eovd
+ GOFU27hWaFrIDVo/gXI/kOjxo8Jz2Wd66gddhNvu63RTZVide+eHiQvqVz78OAxr6EmwSe
+ yjBhfMJ+MI5h4g3n2/zyxWKTLOl64LI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-227-J1U-_XKEM9mDKh7EJ96Jyg-1; Tue, 12 Jul 2022 05:34:50 -0400
+X-MC-Unique: J1U-_XKEM9mDKh7EJ96Jyg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E93C801755;
+ Tue, 12 Jul 2022 09:34:50 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 803C71410F38;
+ Tue, 12 Jul 2022 09:34:49 +0000 (UTC)
+Date: Tue, 12 Jul 2022 10:34:48 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH v2] memory: prevent dma-reentracy issues
+Message-ID: <Ys1AOOWLZRBxYNbC@stefanha-x1.localdomain>
+References: <20220609135851.42193-1-alxndr@bu.edu>
+ <CAFEAcA-QOqGWzeeQLLK2pH0WwABzXP2ZjFKxLY7d62bWhGRWxw@mail.gmail.com>
+ <20220621155306.2mvr22dd5xuc6pqm@mozz.bu.edu>
 MIME-Version: 1.0
-References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
- <20220616124034.3381391-7-marcandre.lureau@redhat.com>
- <87ilo9dsne.fsf@pond.sub.org>
- <CAJ+F1CLNa=edp=O8LB=5v-2iChEyYdP7-oa_DtnKDLeC1E3_vw@mail.gmail.com>
-In-Reply-To: <CAJ+F1CLNa=edp=O8LB=5v-2iChEyYdP7-oa_DtnKDLeC1E3_vw@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 12 Jul 2022 13:32:16 +0400
-Message-ID: <CAJ+F1CK+UTpCDjJZ2YN=L9YDTxgEVHnCQPycDNPTD706y014yA@mail.gmail.com>
-Subject: Re: [PATCH 6/9] error-report: add a callback to overwrite
- error_vprintf
-To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
- Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Warner Losh <imp@bsdimp.com>, 
- Kyle Evans <kevans@freebsd.org>, Hanna Reitz <hreitz@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Fam Zheng <fam@euphon.net>, 
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000d75a3d05e3985860"
-Received-SPF: pass client-ip=2a00:1450:4864:20::234;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x234.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="N64uyCRIMCLOnmBv"
+Content-Disposition: inline
+In-Reply-To: <20220621155306.2mvr22dd5xuc6pqm@mozz.bu.edu>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,236 +94,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d75a3d05e3985860
-Content-Type: text/plain; charset="UTF-8"
+
+--N64uyCRIMCLOnmBv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Tue, Jun 21, 2022 at 11:53:06AM -0400, Alexander Bulekov wrote:
+> On 220621 1630, Peter Maydell wrote:
+> > On Thu, 9 Jun 2022 at 14:59, Alexander Bulekov <alxndr@bu.edu> wrote:
+> > > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> > > index 44dacfa224..ab1ad0f7a8 100644
+> > > --- a/include/hw/pci/pci.h
+> > > +++ b/include/hw/pci/pci.h
+> > > @@ -834,8 +834,17 @@ static inline MemTxResult pci_dma_rw(PCIDevice *=
+dev, dma_addr_t addr,
+> > >                                       void *buf, dma_addr_t len,
+> > >                                       DMADirection dir, MemTxAttrs at=
+trs)
+> > >  {
+> > > -    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+> > > -                         dir, attrs);
+> > > +    bool prior_engaged_state;
+> > > +    MemTxResult result;
+> > > +
+> > > +    prior_engaged_state =3D dev->qdev.engaged_in_io;
+> > > +
+> > > +    dev->qdev.engaged_in_io =3D true;
+> > > +    result =3D dma_memory_rw(pci_get_address_space(dev), addr, buf, =
+len,
+> > > +                           dir, attrs);
+> > > +    dev->qdev.engaged_in_io =3D prior_engaged_state;
+> > > +
+> > > +    return result;
+> >=20
+> > Why do we need to do something in this pci-specific function ?
+> > I was expecting this to only need changes at the generic-to-all-devices
+> > level.
+>=20
+> Both of these handle the BH->DMA->MMIO case. Unlike MMIO, I don't think
+> there is any neat way to set the engaged_in_io flag as we enter a BH. So
+> instead, we try to set it when a device initiates DMA.
+>=20
+> The pci function lets us do that since we get a glimpse of the dev/qdev
+> (unlike the dma_memory_...  functions).
+=2E..
+> > > @@ -302,6 +310,10 @@ static MemTxResult dma_buf_rw(void *buf, dma_add=
+r_t len, dma_addr_t *residual,
+> > >          xresidual -=3D xfer;
+> > >      }
+> > >
+> > > +    if (dev) {
+> > > +        dev->engaged_in_io =3D prior_engaged_state;
+> > > +    }
+> >=20
+> > Not all DMA goes through dma_buf_rw() -- why does it need changes?
+>=20
+> This one has the same goal, but accesses the qdev through sg, instead of
+> PCI.
 
-On Thu, Jul 7, 2022 at 10:05 PM Marc-Andr=C3=A9 Lureau <
-marcandre.lureau@gmail.com> wrote:
+Should dma_*() APIs take a reentrancy guard argument so that all DMA
+accesses are systematically covered?
 
-> Hi
->
-> On Thu, Jul 7, 2022 at 4:18 PM Markus Armbruster <armbru@redhat.com>
-> wrote:
->
->> marcandre.lureau@redhat.com writes:
->>
->> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >
->> > error_vprintf() is implemented in monitor.c, which overrides the
->> > default implementation from stubs/, while avoiding a direct dependency
->> > to the monitor from error-report.c.
->> >
->> > However, the stub solution isn't working when moving error-report.c an=
-d
->> > stubs/error-printf.c in a common library. Linking with such library
->> > creates conflicts for the error_vprintf() implementations
->>
->> I'm feeling dense today: how?
->>
->
-> If I try to overwrite a symbol in qemu when linking with a static library
-> from a subproject, the linker fails:
->
-> FAILED: storage-daemon/qemu-storage-daemon
-> cc -m64 -mcx16  -o storage-daemon/qemu-storage-daemon
-> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-introsp=
-ect.c.o
-> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-types.c=
-.o
-> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-visit.c=
-.o
-> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-command=
-s.c.o
-> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-init-co=
-mmands.c.o
-> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-events.=
-c.o
-> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-emit-ev=
-ents.c.o
-> storage-daemon/qemu-storage-daemon.p/qemu-storage-daemon.c.o
-> -Wl,--as-needed -Wl,--no-undefined -pie -Wl,--whole-archive libblockdev.f=
-a
-> libblock.fa libcrypto.fa libauthz.fa libqom.fa libio.fa -Wl,--start-group
-> libevent-loop-base.a libchardev.fa libqmp.fa -Wl,--no-whole-archive
-> -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -fstack-protector-strong
-> -Wl,-rpath,/usr/lib64/iscsi -Wl,-rpath-link,/usr/lib64/iscsi libqemuutil.=
-a
-> subprojects/libvhost-user/libvhost-user-glib.a
-> subprojects/libvhost-user/libvhost-user.a
-> subprojects/qemu-common/libqemu-common.a libblockdev.fa
-> subprojects/libvduse/libvduse.a libblock.fa libcrypto.fa libauthz.fa
-> libqom.fa libio.fa libchardev.fa libqmp.fa @block.syms
-> /usr/lib64/libgnutls.so /usr/lib64/liburing.so /usr/lib64/libgio-2.0.so
-> /usr/lib64/libgobject-2.0.so /usr/lib64/libglib-2.0.so
-> -Wl,--export-dynamic -pthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lm
-> /usr/lib64/libpixman-1.so -lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lgmodule-2=
-.0
-> -lglib-2.0 -lglib-2.0 -lgmodule-2.0 -lglib-2.0 -lglib-2.0
-> /usr/lib64/libfuse3.so -lpthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0
-> /usr/lib64/libzstd.so /usr/lib64/libz.so /usr/lib64/iscsi/libiscsi.so -la=
-io
-> -lpam -lutil -Wl,--end-group
-> /usr/bin/ld:
-> subprojects/qemu-common/libqemu-common.a.p/src_error-report.c.o: in
-> function `error_init':
-> /home/elmarco/src/qemu/build/../subprojects/qemu-common/src/error-report.=
-c:413:
-> multiple definition of `error_init';
-> libqmp.fa.p/monitor_qmp.c.o:/home/elmarco/src/qemu/build/../monitor/qmp.c=
-:40:
-> first defined here
->
-> But I can't really explain why it works when overwriting symbols from
-> libqemuutil.a, I am a bit puzzled here. Am I missing something obvious?
-> (this is a bit of dark linker magic going on)
->
->
-After playing with this for a few hours ... I managed to get the symbol
-override work, by having a single overridable function per unit. No idea
-why in qemutil.a/stubs we manage to have several. That's a mystery. Anyway,
-I will send a new version where I also introduce the subproject, to
-demonstrate it works.
+  /* Define this in the memory API */
+  typedef struct {
+      bool engaged_in_io;
+  } MemReentrancyGuard;
 
-thanks
+  /* Embed MemReentrancyGuard in DeviceState */
+  ...
 
+  /* Require it in dma_*() APIs */
+  static inline MemTxResult dma_memory_rw(AddressSpace *as, dma_addr_t addr,
+                                          void *buf, dma_addr_t len,
+                                          DMADirection dir, MemTxAttrs attr=
+s,
+					  MemReentrancyGuard *guard);
 
->
->> Why would the linker pull in error-printf.o when the symbols it defines
->> are already provided by .o the linker processed before the library
->> containing error-printf.o?
->>
->> >                                                           (and weak
->> > symbols aren't great either).
->>
->> Weak symbols are great, except Windows isn't.
->>
->> >                               Instead, use the "traditional" approach =
-to
->> > provide overidable callbacks.
->> >
->> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>
->>
->>
->
-> --
-> Marc-Andr=C3=A9 Lureau
->
+  /* Call dma_*() APIs like this... */
+  static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+                                       void *buf, dma_addr_t len,
+                                       DMADirection dir, MemTxAttrs attrs)
+  {
+      return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+                           dir, attrs, &dev->qdev.reentrancy_guard);
+  }
 
+Stefan
 
---=20
-Marc-Andr=C3=A9 Lureau
+--N64uyCRIMCLOnmBv
+Content-Type: application/pgp-signature; name="signature.asc"
 
---000000000000d75a3d05e3985860
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-----BEGIN PGP SIGNATURE-----
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 7, 2022 at 10:05 PM Mar=
-c-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com">marca=
-ndre.lureau@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div=
- class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 7,=
- 2022 at 4:18 PM Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com"=
- target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex"><a href=3D"mailto:marcandre.lureau@redh=
-at.com" target=3D"_blank">marcandre.lureau@redhat.com</a> writes:<br>
-<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; error_vprintf() is implemented in monitor.c, which overrides the<br>
-&gt; default implementation from stubs/, while avoiding a direct dependency=
-<br>
-&gt; to the monitor from error-report.c.<br>
-&gt;<br>
-&gt; However, the stub solution isn&#39;t working when moving error-report.=
-c and<br>
-&gt; stubs/error-printf.c in a common library. Linking with such library<br=
->
-&gt; creates conflicts for the error_vprintf() implementations<br>
-<br>
-I&#39;m feeling dense today: how?<br></blockquote></div><div class=3D"gmail=
-_quote"><br></div><div class=3D"gmail_quote">If I try to overwrite a symbol=
- in qemu when linking with a static library from a subproject, the linker f=
-ails:</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">=
-FAILED: storage-daemon/qemu-storage-daemon <br>cc -m64 -mcx16 =C2=A0-o stor=
-age-daemon/qemu-storage-daemon storage-daemon/qemu-storage-daemon.p/meson-g=
-enerated_.._qapi_qapi-introspect.c.o storage-daemon/qemu-storage-daemon.p/m=
-eson-generated_.._qapi_qapi-types.c.o storage-daemon/qemu-storage-daemon.p/=
-meson-generated_.._qapi_qapi-visit.c.o storage-daemon/qemu-storage-daemon.p=
-/meson-generated_.._qapi_qapi-commands.c.o storage-daemon/qemu-storage-daem=
-on.p/meson-generated_.._qapi_qapi-init-commands.c.o storage-daemon/qemu-sto=
-rage-daemon.p/meson-generated_.._qapi_qapi-events.c.o storage-daemon/qemu-s=
-torage-daemon.p/meson-generated_.._qapi_qapi-emit-events.c.o storage-daemon=
-/qemu-storage-daemon.p/qemu-storage-daemon.c.o -Wl,--as-needed -Wl,--no-und=
-efined -pie -Wl,--whole-archive libblockdev.fa libblock.fa libcrypto.fa lib=
-authz.fa libqom.fa libio.fa -Wl,--start-group libevent-loop-base.a libchard=
-ev.fa libqmp.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,relro -Wl,-=
-z,now -fstack-protector-strong -Wl,-rpath,/usr/lib64/iscsi -Wl,-rpath-link,=
-/usr/lib64/iscsi libqemuutil.a subprojects/libvhost-user/libvhost-user-glib=
-.a subprojects/libvhost-user/libvhost-user.a subprojects/qemu-common/libqem=
-u-common.a libblockdev.fa subprojects/libvduse/libvduse.a libblock.fa libcr=
-ypto.fa libauthz.fa libqom.fa libio.fa libchardev.fa libqmp.fa @block.syms =
-/usr/lib64/libgnutls.so /usr/lib64/liburing.so /usr/lib64/<a href=3D"http:/=
-/libgio-2.0.so" target=3D"_blank">libgio-2.0.so</a> /usr/lib64/<a href=3D"h=
-ttp://libgobject-2.0.so" target=3D"_blank">libgobject-2.0.so</a> /usr/lib64=
-/<a href=3D"http://libglib-2.0.so" target=3D"_blank">libglib-2.0.so</a> -Wl=
-,--export-dynamic -pthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lm /usr/lib=
-64/libpixman-1.so -lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lgmodule-2.0 -lglib-=
-2.0 -lglib-2.0 -lgmodule-2.0 -lglib-2.0 -lglib-2.0 /usr/lib64/libfuse3.so -=
-lpthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0 /usr/lib64/libzstd.so /usr/lib=
-64/libz.so /usr/lib64/iscsi/libiscsi.so -laio -lpam -lutil -Wl,--end-group<=
-br>/usr/bin/ld: subprojects/qemu-common/libqemu-common.a.p/src_error-report=
-.c.o: in function `error_init&#39;:<br>/home/elmarco/src/qemu/build/../subp=
-rojects/qemu-common/src/error-report.c:413: multiple definition of `error_i=
-nit&#39;; libqmp.fa.p/monitor_qmp.c.o:/home/elmarco/src/qemu/build/../monit=
-or/qmp.c:40: first defined here</div><div class=3D"gmail_quote"><br><div>Bu=
-t I can&#39;t really explain why it works when overwriting symbols from lib=
-qemuutil.a, I am a bit puzzled here. Am I missing something obvious? (this =
-is a bit of dark linker magic going on)<br></div><div><br></div></div></div=
-></blockquote><div><br></div><div>After playing with this for a few hours .=
-.. I managed to get the symbol override work, by having a single overridabl=
-e function per unit. No idea why in qemutil.a/stubs we manage to have sever=
-al. That&#39;s a mystery. Anyway, I will send a new version where I also in=
-troduce the subproject, to demonstrate it works.</div><div><br></div><div>t=
-hanks<br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div><br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Why would the linker pull in error-printf.o when the symbols it defines<br>
-are already provided by .o the linker processed before the library<br>
-containing error-printf.o?<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(and weak=
-<br>
-&gt; symbols aren&#39;t great either).<br>
-<br>
-Weak symbols are great, except Windows isn&#39;t.<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Instead, use the &quot;traditional=
-&quot; approach to<br>
-&gt; provide overidable callbacks.<br>
-&gt;<br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLNQDgACgkQnKSrs4Gr
+c8hgAgf9GMjHDni/IlsRb61Edn1D7GutZ9MznqDHnMAl9NHgC/xCQ+MQ4X4OhPLU
+ps3AyW9na7aEUcVHPTyKiGLw/MGKlANPhzFHsrD4FgSjPoGY/kAyB4DTtjXEyJ5A
+VEEUvzmUR67hPZjIhPIr6qR1wyVGmAwei/FpnBQ+AzW+VMbDypUQDCkB6HJVFUqP
+unHdyiDiCkPxIkz7aBbQ+eVKmLaXhN6Tqd1nCUMy8pebw4/KFkmd3fPhjqttQsKJ
+C8eWlnWJZZ2Tq9yRg9HthkSRaW5k0cC/edch5B3GYytnC9vPEfAgITE4uvfIxtsj
+//QMHe2A0y7GnmeQnQ0+UC9yM1z0Iw==
+=cQ+t
+-----END PGP SIGNATURE-----
 
---000000000000d75a3d05e3985860--
+--N64uyCRIMCLOnmBv--
+
 
