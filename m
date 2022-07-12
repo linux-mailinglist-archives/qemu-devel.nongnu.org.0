@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E71A571AD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 15:07:14 +0200 (CEST)
-Received: from localhost ([::1]:59342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9409F571AD1
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 15:07:04 +0200 (CEST)
+Received: from localhost ([::1]:59010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBFbd-00013P-8h
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 09:07:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52146)
+	id 1oBFbT-0000qN-Nu
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 09:07:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLZ-0003Fb-5y
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31588)
+ id 1oBFLU-0003CE-0P
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLX-0001WM-OE
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:36 -0400
+ id 1oBFLS-0001Uo-54
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657630235;
+ s=mimecast20190719; t=1657630229;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VRrYKlDmJSTg+EmFGqVl3x/Dcb1GLjJtX5irMQnBiqU=;
- b=iUevqCQpMvJWG9hYeR8ZnmqIPNmLUh44gFTvu1Ff/juHJMgRpmlnSo66InDto0A2WVDi4o
- oBN11exS4vK4ZyK6HTmsVemnF2yrbU3zfBUPW3giTLUtTBZ/uLxI96VmYy+dBrfSld8TwA
- EcDeA0TkMzHyJZkCdPdjHRgswcggdqM=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VKBzYHIAT6VBcq03PETtR4a9TQUaMhkMxNp2UTkCvng=;
+ b=XBBJ1ZrJNiloE50Aj7wQShcb9Deo0LCg2ihCpcHgb2rGClCWxlFJEWO3OwCU0OvAT+Tew3
+ Q8FmluKtqaGe0RUUCygaOfjywm9/feXoTLV4r6qgzDJL4CXWx0JxkYYHr5RVTM8Ycnr0sw
+ TjTWqzPAicMMQs7L4FIjqHwsBNe2A+0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-vLFJrqgrMxKcfXZyU77Y0g-1; Tue, 12 Jul 2022 08:50:26 -0400
-X-MC-Unique: vLFJrqgrMxKcfXZyU77Y0g-1
-Received: by mail-ej1-f70.google.com with SMTP id
- sa13-20020a1709076d0d00b0072a8791298aso2259186ejc.7
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:26 -0700 (PDT)
+ us-mta-15-EM5US8_lNIuLVkINNcwxuQ-1; Tue, 12 Jul 2022 08:50:28 -0400
+X-MC-Unique: EM5US8_lNIuLVkINNcwxuQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ gb37-20020a170907962500b0072b820af09dso645471ejc.20
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VRrYKlDmJSTg+EmFGqVl3x/Dcb1GLjJtX5irMQnBiqU=;
- b=zbYJJPkR930XU7uacXjLYFSuoff4zrS/dg9foJwSVsTk/IJMhupqiPVuhnAzmChAif
- dA6jxIggyWczfS3J2YkkWpoi+6HAKEEaHdw+XpngiYFiC0eLZYQUQS9dmHNBZDUYUyxb
- F7emA/pnn6PYg7bbNDFgPTBZ4SlHuyAnME6W94TL0+2MjmDD7uo12Y0G8y4kiT/H1yEc
- 8DH8jOM1ADz6erOIkqJncgGs7f2GOTECynO8Vo+bHshe7t5WItLkKv+wDbpqaoPttRCk
- sSEfuD4+sdt0/3NLSX8fgOyGfwNq4RNtuM92VvRp8zpWanWa8quDel47Cq2w/6p2pL7i
- xtlg==
-X-Gm-Message-State: AJIora+z6ilcN8khJl6i7u3VE3YAWJv10m7L97JGF36L6/3nMCUd0Q8T
- vQfIsWKGy8l74a0DRfTg6ewu3XJI614pIAWlqPnZfLrJ5RwOEgPMc9EYwdJAIQzRhbq/b8SzfqG
- 0w2wY/JDLRHGaLJrgygrzDAOfH+00+wKfgTHe4qFQA/fVrPhRl+yQOOxKwusTvTbTCDw=
-X-Received: by 2002:a05:6402:1914:b0:43a:d548:8adc with SMTP id
- e20-20020a056402191400b0043ad5488adcmr13885457edz.214.1657630224993; 
- Tue, 12 Jul 2022 05:50:24 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tYeB+Mpcvx6iV5Tl26e1eLdsBKIZZHK5tYDbj6cd3+BD7JNkK0eC1fBlHFhVTo1ahZRIUpWg==
-X-Received: by 2002:a05:6402:1914:b0:43a:d548:8adc with SMTP id
- e20-20020a056402191400b0043ad5488adcmr13885416edz.214.1657630224681; 
- Tue, 12 Jul 2022 05:50:24 -0700 (PDT)
+ bh=VKBzYHIAT6VBcq03PETtR4a9TQUaMhkMxNp2UTkCvng=;
+ b=Q1TucxX8Vp5puXVdBvI13EKmPMoK75BgSq9Fx/2SioW/URbWPESQraktRA/vXj+eIL
+ qHe0tDH/PoW4qd3cg+9CIzqBHuOvJXRxOwSSiXmiVFujJlWPAHywOdPyWFQ+A2YRMRP1
+ K9QVcCVMeliDYBHRn4Mwu5XkJRqDybqxlltnAhfp3e8jrMkZLiWvYr/BhCELvDU6xczY
+ b/o4di7pkn/rD1DFtL/1TcMOXd/ZvX+SkCY75u8znga7gmJW4k24ICg9QhLDOwZEDH+/
+ lnlglbb3/Vum9xXxlrEgs0szVkZTRih1GhZ/L5wxzs1ZzUSnEWApNDvSPkXCER48ovmU
+ ae6g==
+X-Gm-Message-State: AJIora+YizsvpLRt8rG3pRYfm2ogcmOkyYXMw1+Yv0djfwSR9MenD2L0
+ NajvlH+UVseiArYTSJg1t5koC5VMnKYYyRhkClEByZUULrSiGSbmyfp//y1pW6WIsk8cDpdT9la
+ Pj8XypGtxVfUDD5yNhn+1iayGgf59ckteBPKfY0nF99Ds9yQoJPQiioKx1ssioKs9BdI=
+X-Received: by 2002:a17:907:7202:b0:722:e4d6:2e17 with SMTP id
+ dr2-20020a170907720200b00722e4d62e17mr23557876ejc.434.1657630227121; 
+ Tue, 12 Jul 2022 05:50:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tf22oQqrWUCezgPW3nunB3SitYzOfN4V2IsxM+yv/zV6CCI9y2lxR/OXV8sewlC4kbvQPvYA==
+X-Received: by 2002:a17:907:7202:b0:722:e4d6:2e17 with SMTP id
+ dr2-20020a170907720200b00722e4d62e17mr23557857ejc.434.1657630226848; 
+ Tue, 12 Jul 2022 05:50:26 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- ap13-20020a17090735cd00b0072a66960843sm3832951ejc.51.2022.07.12.05.50.23
+ u1-20020a1709061da100b006fe8c831632sm100496ejh.73.2022.07.12.05.50.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jul 2022 05:50:24 -0700 (PDT)
+ Tue, 12 Jul 2022 05:50:26 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PULL 16/18] build: Do not depend on pc-bios for config-host.mak
-Date: Tue, 12 Jul 2022 14:49:54 +0200
-Message-Id: <20220712124956.150451-17-pbonzini@redhat.com>
+Subject: [PULL 17/18] qga: Relocate a path emitted in the help text
+Date: Tue, 12 Jul 2022 14:49:55 +0200
+Message-Id: <20220712124956.150451-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220712124956.150451-1-pbonzini@redhat.com>
 References: <20220712124956.150451-1-pbonzini@redhat.com>
@@ -101,29 +101,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Commit 45f1eecdd63f9e4fa93fef01dd826e7706ac6d7b removed the dependency
-from configure to pc-bios
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <20220624150258.50449-1-akihiko.odaki@gmail.com>
+Message-Id: <20220624145455.50058-1-akihiko.odaki@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qga/main.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index ec4445db9a..b4feda93c8 100644
---- a/Makefile
-+++ b/Makefile
-@@ -87,7 +87,7 @@ x := $(shell rm -rf meson-private meson-info meson-logs)
- endif
+diff --git a/qga/main.c b/qga/main.c
+index c373fec3ee..5f1efa2333 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -223,6 +223,10 @@ void reopen_fd_to_null(int fd)
  
- # 1. ensure config-host.mak is up-to-date
--config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/scripts/meson-buildoptions.sh $(SRC_PATH)/pc-bios $(SRC_PATH)/VERSION
-+config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/scripts/meson-buildoptions.sh $(SRC_PATH)/VERSION
- 	@echo config-host.mak is out-of-date, running configure
- 	@if test -f meson-private/coredata.dat; then \
- 	  ./config.status --skip-meson; \
+ static void usage(const char *cmd)
+ {
++#ifdef CONFIG_FSFREEZE
++    g_autofree char *fsfreeze_hook = get_relocated_path(QGA_FSFREEZE_HOOK_DEFAULT);
++#endif
++
+     printf(
+ "Usage: %s [-m <method> -p <path>] [<options>]\n"
+ "QEMU Guest Agent " QEMU_FULL_VERSION "\n"
+@@ -270,7 +274,7 @@ QEMU_HELP_BOTTOM "\n"
+     , cmd, QGA_VIRTIO_PATH_DEFAULT, QGA_SERIAL_PATH_DEFAULT,
+     dfl_pathnames.pidfile,
+ #ifdef CONFIG_FSFREEZE
+-    QGA_FSFREEZE_HOOK_DEFAULT,
++    fsfreeze_hook,
+ #endif
+     dfl_pathnames.state_dir);
+ }
 -- 
 2.36.1
 
