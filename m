@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 596C8571473
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:26:15 +0200 (CEST)
-Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8481A5714AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:32:42 +0200 (CEST)
+Received: from localhost ([::1]:33966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBBDi-0003yt-6L
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45142)
+	id 1oBBJx-0002v2-Gj
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:32:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1oBAq8-0003Nx-I0
+ id 1oBAq9-0003Ob-0m
  for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:01:59 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57090 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:57094 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1oBAq5-0001Qj-Np
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1oBAq6-0001RL-NT
  for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:01:52 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_9JdKs1i3NgYAA--.15429S4; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_9JdKs1i3NgYAA--.15429S5; 
  Tue, 12 Jul 2022 16:01:35 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: [PATCH 2/5] hw/intc/loongarch_pch_pic: Fix coverity errors in update
- irq
-Date: Tue, 12 Jul 2022 16:01:30 +0800
-Message-Id: <20220712080133.4176971-3-yangxiaojuan@loongson.cn>
+Subject: [PATCH 3/5] target/loongarch/cpu: Fix coverity errors about excp_names
+Date: Tue, 12 Jul 2022 16:01:31 +0800
+Message-Id: <20220712080133.4176971-4-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220712080133.4176971-1-yangxiaojuan@loongson.cn>
 References: <20220712080133.4176971-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx_9JdKs1i3NgYAA--.15429S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxJr1xtrW7JF15Kr1DCryrCrg_yoW8XFWxpF
- WDAF13Kr4rJFsxX3s5Cay5WFyfuFnrZr17WFZIya4xCr45ArnYk3yvqrW3ZFy8WrWrJFyj
- qFZ3Wa15u3WDCaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Dx_9JdKs1i3NgYAA--.15429S5
+X-Coremail-Antispam: 1UD129KBjvJXoWruFyrury7uFW7ZryxWw17KFg_yoW8JF1xpF
+ sFvr9FgryfJrWDZw1kJayYqrn8Xw43GFn2ga1SkFyrtr1Sqr92vF1vqa9YvF15J397XrWU
+ uF4fAryFq3W5XaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -63,53 +62,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix coverity errors:
-1. In find_first_bit function, the 'size' argument need
-'unsigned long' type, so we add the suffix 'UL' on 'size'
-argument when use the function.
-2. In expression 1ULL << irq, left shifting by more than
-63 bits has undefined behavior. And out-of-bounds access
-error occured when 'irq' >= 64. So we add a condition to
-avoid this.
+Fix out-of-bounds errors when access excp_names[] array. the valid
+boundary size of excp_names should be 0 to ARRAY_SIZE(excp_names)-1.
+However, the general code do not consider the max boundary.
 
-Fix coverity CID: 1489761 1489764 1489765
+Fix coverity CID: 1489758
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 ---
- hw/intc/loongarch_pch_pic.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ target/loongarch/cpu.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/intc/loongarch_pch_pic.c b/hw/intc/loongarch_pch_pic.c
-index 3c9814a3b4..779a087a03 100644
---- a/hw/intc/loongarch_pch_pic.c
-+++ b/hw/intc/loongarch_pch_pic.c
-@@ -21,16 +21,20 @@ static void pch_pic_update_irq(LoongArchPCHPIC *s, uint64_t mask, int level)
-     if (level) {
-         val = mask & s->intirr & ~s->int_mask;
-         if (val) {
--            irq = find_first_bit(&val, 64);
--            s->intisr |= 0x1ULL << irq;
--            qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 1);
-+            irq = find_first_bit(&val, 64UL);
-+            if (irq < 64) {
-+                s->intisr |= 0x1ULL << irq;
-+                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 1);
-+            }
-         }
-     } else {
-         val = mask & s->intisr;
-         if (val) {
--            irq = find_first_bit(&val, 64);
--            s->intisr &= ~(0x1ULL << irq);
--            qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 0);
-+            irq = find_first_bit(&val, 64UL);
-+            if (irq < 64) {
-+                s->intisr &= ~(0x1ULL << irq);
-+                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 0);
-+            }
-         }
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 8294b05ee8..8e17b61a85 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -140,7 +140,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
+ 
+     if (cs->exception_index != EXCCODE_INT) {
+         if (cs->exception_index < 0 ||
+-            cs->exception_index > ARRAY_SIZE(excp_names)) {
++            cs->exception_index >= ARRAY_SIZE(excp_names)) {
+             name = "unknown";
+         } else {
+             name = excp_names[cs->exception_index];
+@@ -190,8 +190,8 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
+         cause = cs->exception_index;
+         break;
+     default:
+-        qemu_log("Error: exception(%d) '%s' has not been supported\n",
+-                 cs->exception_index, excp_names[cs->exception_index]);
++        qemu_log("Error: exception(%d) has not been supported\n",
++                 cs->exception_index);
+         abort();
      }
- }
+ 
 -- 
 2.31.1
 
