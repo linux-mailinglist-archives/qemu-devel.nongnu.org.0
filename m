@@ -2,54 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3A1571DC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 17:02:48 +0200 (CEST)
-Received: from localhost ([::1]:36342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B17DB571D6D
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 16:57:17 +0200 (CEST)
+Received: from localhost ([::1]:57800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBHPU-0001xV-09
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 11:02:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33536)
+	id 1oBHK8-0005em-Ry
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 10:57:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oBHEJ-0007JG-GZ; Tue, 12 Jul 2022 10:51:19 -0400
-Received: from [200.168.210.66] (port=19551 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oBHEH-0006lY-Sf; Tue, 12 Jul 2022 10:51:15 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 12 Jul 2022 11:51:11 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 89921800146;
- Tue, 12 Jul 2022 11:51:11 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------XxihHi0bUVwEmcw9frhkC5VW"
-Message-ID: <ae24ca7c-fc8e-ae34-5f0f-0d70840efdbe@eldorado.org.br>
-Date: Tue, 12 Jul 2022 11:51:11 -0300
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oBHHk-0001uK-Az; Tue, 12 Jul 2022 10:54:49 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:11235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oBHHh-0007nA-KX; Tue, 12 Jul 2022 10:54:47 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 610457470B9;
+ Tue, 12 Jul 2022 16:54:40 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5B090746FDE; Tue, 12 Jul 2022 16:54:39 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 5662C7462D3;
+ Tue, 12 Jul 2022 16:54:39 +0200 (CEST)
+Date: Tue, 12 Jul 2022 16:54:39 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH 2/9] target/ppc: add errp to kvmppc_read_int_cpu_dt()
+In-Reply-To: <4ff0668b-02b9-b0dc-99fc-6471d534a404@ilande.co.uk>
+Message-ID: <7c4a60d8-a112-5d99-3720-ee707efcfb5d@eik.bme.hu>
+References: <20220630194249.886747-1-danielhb413@gmail.com>
+ <20220630194249.886747-3-danielhb413@gmail.com>
+ <55014e2a-a668-4843-8338-850abeb5ff04@kaod.org>
+ <47277f4f-a6a5-85dc-4806-67df8e2fc153@gmail.com>
+ <6d37b1dc-5dfb-2513-f74e-3f58e84e8117@kaod.org>
+ <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
+ <6b5e0e42-973d-19de-4979-7db06941ea19@kaod.org>
+ <13b65b0e-716f-a6e0-fd63-c1e7cfe2a63c@kaod.org>
+ <c08df33f-f6e8-67bb-9159-190a0b9a2dd5@ilande.co.uk>
+ <af1b3289-a9ff-b417-e2dd-ae9801f2c74a@kaod.org>
+ <4ff0668b-02b9-b0dc-99fc-6471d534a404@ilande.co.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-Subject: Using Unicamp's Minicloud for the QEMU CI
-To: qemu-devel@nongnu.org, qemu-ppc <qemu-ppc@nongnu.org>
-Cc: Rafael Peria de Sene <rpsene@br.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>
-Content-Language: en-US
-X-OriginalArrivalTime: 12 Jul 2022 14:51:11.0835 (UTC)
- FILETIME=[D3FEC2B0:01D895FE]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-191673787-1657637679=:25154"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,76 +72,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------XxihHi0bUVwEmcw9frhkC5VW
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-191673787-1657637679=:25154
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8BIT
 
-SGkgZXZlcnlvbmUhDQoNCkkgd291bGQgbGlrZSBnYXVnZSB0aGUgaW50ZXJlc3QgaW4gdXNp
-bmcgTWluaWNsb3VkJ3MgaW5mcmFzdHJ1Y3R1cmVbMV0gDQpmb3IgdGhlIENJLCB0YWxraW5n
-IHdpdGggc29tZSBwZW9wbGUgZnJvbSB0aGVyZSB0aGV5IGFyZSBpbnRlcmVzdGVkLiBJdCAN
-CmhhcyBib3RoIHBwYzY0IGFuZCBwcDY0bGUgaW1hZ2VzLCBtdWx0aXBsZSB2ZXJzaW9ucyBv
-ZiA0IGRpc3Ryb3MgDQooVWJ1bnR1LCBGZWRvcmEsIERlYmlhbiBhbmQgQ2VudE9TKS4NCg0K
-SSd2ZSBtYWRlIGEgaW5pdGlhbCB0ZXN0IHNldHVwIGluIGEgZm9ya1syXSB3aXRoIGEgYnJh
-bmNoKHBwYzY0LXJ1bm5lcnMpIA0KdGhhdCBoYXMgYm90aCBhIG5ldyBwaXBlbGluZSB3aXRo
-IGpvYnMgdG8gcnVuIG9uIHRoZSBwcGM2NC9wcGM2NGxlIA0KcnVubmVycyBhbmQgdXBkYXRl
-ZCBzb21lIHNjcmlwdHMgKG1haW5seSB0aGUgYnVpbGQtZW52aXJvbm1lbnQueW1sKSB0byAN
-CmF1dG9tYXRlIHRoZSBzZXR1cCBvZiB0aGUgZW52aXJvbm1lbnQgaW4gdGhvc2UgYXJjaGl0
-ZWN0dXJlcy4NCg0KWzFdIGh0dHBzOi8vb3BlbnBvd2VyLmljLnVuaWNhbXAuYnIvbWluaWNs
-b3VkLw0KDQpbMl0gaHR0cHM6Ly9naXRsYWIuY29tL3BwYzY0L3FlbXUvLS9waXBlbGluZXMN
-Cg0KUC5TLjogUmUtc2VuZGluZyBkdWUgdG8gYW4gZXJyb3INCg0KQXR0Lg0KDQotLSANCkx1
-Y2FzIE1hdGV1cyBNLiBBcmF1am8gZSBDYXN0cm8NCkluc3RpdHV0byBkZSBQZXNxdWlzYXMg
-RUxET1JBRE8gDQo8aHR0cHM6Ly93d3cuZWxkb3JhZG8ub3JnLmJyLz91dG1fY2FtcGFpZ249
-YXNzaW5hdHVyYV9kZV9lLW1haWwmdXRtX21lZGl1bT1lbWFpbCZ1dG1fc291cmNlPVJEK1N0
-YXRpb24+DQpEZXBhcnRhbWVudG8gQ29tcHV0YcOnw6NvIEVtYmFyY2FkYQ0KQW5hbGlzdGEg
-ZGUgU29mdHdhcmUgVHJhaW5lZQ0KQXZpc28gTGVnYWwgLSBEaXNjbGFpbWVyIDxodHRwczov
-L3d3dy5lbGRvcmFkby5vcmcuYnIvZGlzY2xhaW1lci5odG1sPg0K
---------------XxihHi0bUVwEmcw9frhkC5VW
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Tue, 12 Jul 2022, Mark Cave-Ayland wrote:
+> On 11/07/2022 08:42, Cédric Le Goater wrote:
+>>>> Anything special I should know ?
+>>> 
+>>> As I don't have access to a G5 I've never tried that, however the 
+>>> qemu-system-ppc64 mac99 is wired differently to the qemu-system-ppc mac99 
+>>> machine so I wouldn't be surprised if something is broken there.
+>>> 
+>>> My normal test for MacOS is something like:
+>>> 
+>>>     qemu-system-ppc -M mac99 -accel kvm -hda macos104.img
+>>> 
+>>> Can you try qemu-system-ppc and see if it is any better? If not then I can 
+>>> fire up the G4 and get the git hashes for my last known working 
+>>> configuration.
+>> 
+>> Same issue with 32bit.
+>
+> I've just fired up my G4 to test this again, pulled the latest QEMU git 
+> master and confirmed that I have a working setup with the details below:
+>
+> Host kernel: (5.1.0-rc2+)
+> commit a3ac7917b73070010c05b4485b8582a6c9cd69b6
+> Author: Linus Torvalds <torvalds@linux-foundation.org>
+> Date:   Mon Mar 25 14:49:00 2019 -0700
+>
+> Guest kernel: (4.14.0-3-powerpc)
+> using Debian ports debian-9.0-powerpc-NETINST-1.iso
+>
+> Command line:
+> ./qemu-system-ppc [-M mac99] -accel kvm -cdrom 
+> /home/mca/images/debian-9.0-powerpc-NETINST-1.iso -boot d -nographic
+>
+> However if I switch to using the latest Debian ports 
+> debian-10.0.0-powerpc-NETINST-1.iso then I get a failure:
+>
+> [    0.198565] BUG: Unable to handle kernel data access on read at 0xbb0030d4
 
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p>Hi everyone!</p>
-    <p>I would like gauge the interest in using Minicloud's
-      infrastructure[1] for the CI, talking with some people from there
-      they are interested. It has both ppc64 and pp64le images, multiple
-      versions of 4 distros (Ubuntu, Fedora, Debian and CentOS).<br>
-    </p>
-    <p>I've made a initial test setup in a fork[2] with a
-      branch(ppc64-runners) that has both a new pipeline with jobs to
-      run on the ppc64/ppc64le runners and updated some scripts (mainly
-      the build-environment.yml) to automate the setup of the
-      environment in those architectures.<br>
-    </p>
-    <p>[1] <a class=3D"moz-txt-link-freetext"
-        href=3D"https://openpower.ic.unicamp.br/minicloud/"
-        moz-do-not-send=3D"true">https://openpower.ic.unicamp.br/miniclou=
-d/</a></p>
-    <p>[2] <a class=3D"moz-txt-link-freetext"
-        href=3D"https://gitlab.com/ppc64/qemu/-/pipelines"
-        moz-do-not-send=3D"true">https://gitlab.com/ppc64/qemu/-/pipeline=
-s</a></p>
-    <p>P.S.: Re-sending due to an error<br>
-    </p>
-    <p>Att.<br>
-    </p>
-    <div class=3D"moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href=3D"https://www.eldorado.org.br/?utm_campaign=3Dassinatura_de_e-mail&=
-amp;utm_medium=3Demail&amp;utm_source=3DRD+Station"
-        moz-do-not-send=3D"true">Instituto de Pesquisas ELDORADO</a><br>
-      Departamento Computa=C3=A7=C3=A3o Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href=3D"https://www.eldorado.org.br/disclaimer.html"
-        moz-do-not-send=3D"true">Aviso Legal - Disclaimer</a></div>
-  </body>
-</html>
+What is or should be at this address and why does the kernel access it? By 
+default I see nothing mapped there. Do you need more RAM? Maybe the 
+default 128 MB is not enough for newer kernels? I've seen such problem 
+with other OSes before.
 
---------------XxihHi0bUVwEmcw9frhkC5VW--
+Regards,
+BALATON Zoltan
+
+> [    0.205152] Faulting instruction address: 0x0001b0c4
+> [    0.210175] Oops: Kernel access of bad area, sig: 11 [#1]
+> [    0.214933] BE PAGE_SIZE=4K MMU=Hash PowerMac
+> [    0.218226] Modules linked in:
+> [    0.220746] CPU: 0 PID: 0 Comm: swapper Not tainted 5.6.0-2-powerpc #1 
+> Debian 5.6.14-1
+> [    0.226967] NIP:  0001b0c4 LR: 000030d4 CTR: 00000000
+> [    0.230869] REGS: c7fb5908 TRAP: 0300   Not tainted  (5.6.0-2-powerpc 
+> Debian 5.6.14-1)
+> [    0.236844] MSR:  00001012 <ME,DR,RI>  CR: 24002820  XER: 20000000
+> [    0.242096] DAR: bb0030d4 DSISR: 40000000
+> [    0.242096] GPR00: c0044e70 c7fb59c0 c0b26510 c7fb5f48 bb0030d4 40000000 
+> 00000000 00000001
+> [    0.242096] GPR08: ff340038 bb0030d4 00001032 c7fb59c0 00000000 00000000 
+> 00000000 00000004
+> [    0.242096] GPR16: 029c61f0 029c5d68 07c5cd08 00000001 029dd844 fffffffd 
+> fff55d10 42000000
+> [    0.242096] GPR24: c0af6704 c0b20d94 00000000 00000000 c0bd862c 00000000 
+> 00000000 0000000d
+> [    0.271138] NIP [0001b0c4] 0x1b0c4
+> [    0.273978] LR [000030d4] 0x30d4
+> [    0.276410] Call Trace:
+> [    0.278812] Instruction dump:
+> [    0.281219] 55290206 XXXXXXXX XXXXXXXX XXXXXXXX 4c00012c XXXXXXXX XXXXXXXX 
+> XXXXXXXX
+> [    0.287561] 419f0028 XXXXXXXX XXXXXXXX XXXXXXXX 81690000 XXXXXXXX XXXXXXXX 
+> XXXXXXXX
+> [    0.293922] ---[ end trace 3a9d775bab6f3340 ]---
+> [    0.297491]
+> [    1.284408] Kernel panic - not syncing: Attempted to kill the idle task!
+> [    1.290027] ---[ end Kernel panic - not syncing: Attempted to kill the 
+> idle task! ]---
+>
+>
+> Decompressing the initrd takes quite a long time, but I think this is the 
+> issue that was recently discussed on the mailing list?
+>
+> I think the next step should be to move my host kernel forward to a more 
+> current version with the working debian-9.0-powerpc-NETINST-1.iso and see if 
+> it is able to boot without any problems.
+>
+>
+> ATB,
+>
+> Mark.
+>
+>
+--3866299591-191673787-1657637679=:25154--
 
