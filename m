@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D1057176F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:35:14 +0200 (CEST)
-Received: from localhost ([::1]:34460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D3A571770
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:35:15 +0200 (CEST)
+Received: from localhost ([::1]:34568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBDEX-0004di-JL
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48872)
+	id 1oBDEY-0004hv-Gw
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:35:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oBDAz-0007gs-1j
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:31:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60246)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oBDAv-0002uL-4F
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:31:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657621886;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Esm+4otGl9dvM3CmdyjexSop2mJhhgaZ7sb1onAtT5I=;
- b=dnOn+ypSkFWkgEDdwCxoxudMTL4ASL/vXXKlFel6J5MILFUGs4iiM9iUAQu7B8T3mmER+r
- 6MMPUA+do/+/wsdcGeCHMt3MySEjNTE5jByswcG8JjryODZ116vuBKhG2G8BfNVFT7HM9c
- 1CxSlVyNsnDWMT1mcvPIRDtjfSfijiA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-442-JMQm22AAN1KWpSiUCxnR8w-1; Tue, 12 Jul 2022 06:31:19 -0400
-X-MC-Unique: JMQm22AAN1KWpSiUCxnR8w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E2143810D37;
- Tue, 12 Jul 2022 10:31:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 808952026D64;
- Tue, 12 Jul 2022 10:31:18 +0000 (UTC)
-Date: Tue, 12 Jul 2022 11:31:15 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [COMMITTED 0/3] build fixes
-Message-ID: <Ys1Ncx+gyEBw/uIM@redhat.com>
-References: <20220712095901.212353-1-richard.henderson@linaro.org>
- <Ys1JMetNPT47lpbV@redhat.com>
- <d9bd8b54-868a-6f0e-09b9-754f23c12cbb@linaro.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oBDB6-0007lq-Gr
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:31:40 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oBDB4-0002v8-Rm
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:31:40 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id bu1so9352369wrb.9
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 03:31:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iqLuBw7DZw5qVfMG42Sddy0l8VVTwKfh409n2NZQH4o=;
+ b=nH2Ww3FI6KKiTYySxDLmtATvXc9ug9sAuSwTkaPNbMBmz7BMOTmbyxaUJfYA700Jau
+ 2IKaQOBUfqqim/RjDQXH8O9VjEqH5zF+Rx8QZUbhYyHOZZL18+5ubjX3i2qG/z37yn8R
+ 5zbhu4Enq6Jxrp6/X/4mHFa+I00BGwzl3Js2xVT5g6GOjHiqKozXl4NSrkdNMYfcQsQ3
+ eRZFqUBp++AEm5uT5/FC7wGbjB+B2zNV4rozRaVzx//X8vPHvX8Y7n74nEEtYQbGWyM/
+ IvCEC9hfkztCe1FAbeF9QeRSkY+NqJ4e6Dqbd5kvT+GHRILhTpHWhQbpNmghH3NnUySQ
+ FH6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iqLuBw7DZw5qVfMG42Sddy0l8VVTwKfh409n2NZQH4o=;
+ b=JNUAJIimQDFrvkUfatuzO/oMwaRxZP/av9K295qS0kGqQJhIxYNjThREVm5Ow22DM1
+ XBFmej/zfAAIgkBazopsCYqODa8J/5HJNNGCQDEojZZoKEw62/frvm5xrJMgygzVAMt8
+ /+XaXbTVZY9JLKhXZSx/f9AqM4gWsIr6Fy7MNqjeX84eeTMuMboeqx8DXuqtUpK46Nq0
+ qCOL9ET/hdQDhPmU4MBAP5v5rSd1Z0LP+r2I7/BhA9PjRvh3wfi9RDLkH9bDITPgA5O8
+ 3IWUou+h1FCUOypDAixCZc2x4s4M8imLSGt2eT+g86RYibSrQoKUS/0bpmSV3ZExYk2Z
+ WsWg==
+X-Gm-Message-State: AJIora/k+MNJ4SaQx8+8vUNJc/FNhiRYEenhHIBI/v/hmmmytzQeWRxC
+ DwV6iMgCkX/uLzMKwxAeBtDVFg==
+X-Google-Smtp-Source: AGRyM1tyMsxGjd22n6Y/aQasDe2JtfPbyivaBQb2WkpNAmterolvN1njVG8xF6pWy99F4i8lWExZfQ==
+X-Received: by 2002:a5d:544b:0:b0:21d:70cb:b4a2 with SMTP id
+ w11-20020a5d544b000000b0021d70cbb4a2mr20929250wrv.281.1657621897132; 
+ Tue, 12 Jul 2022 03:31:37 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ p13-20020a1c740d000000b0039c5642e430sm8934927wmc.20.2022.07.12.03.31.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jul 2022 03:31:35 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4021A1FFB7;
+ Tue, 12 Jul 2022 11:31:35 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [RFC PATCH] docs/devel: fix description of OBJECT_DECLARE_SIMPLE_TYPE
+Date: Tue, 12 Jul 2022 11:31:31 +0100
+Message-Id: <20220712103131.2006653-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d9bd8b54-868a-6f0e-09b9-754f23c12cbb@linaro.org>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,33 +87,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 12, 2022 at 03:56:54PM +0530, Richard Henderson wrote:
-> On 7/12/22 15:43, Daniel P. Berrangé wrote:
-> > On Tue, Jul 12, 2022 at 03:28:58PM +0530, Richard Henderson wrote:
-> > > This is a collection of fixes required to get CI back to green.
-> > > Given that 2 of 3 apply to cirrus, I had to push them to staging to
-> > > even try them.  Since it worked, I've now pushed them to master.
-> > 
-> > FWIW, it is possible to test Cirrus CI fixes in your own personal
-> > fork too, but it needs a little extra setup first, detailed in
-> > 
-> >    .gitlab-ci.d/cirrus/README.rst
-> 
-> How many of the 'github' strings therein should really be 'gitlab'?
+Since 30b5707c26 (qom: Remove module_obj_name parameter from
+OBJECT_DECLARE* macros) we don't need the additional two parameters.
+Fix the documentation.
 
-None actually, this is all part of the (gross) hack. Cirrus CI officially
-only integrates with GitHub, so we need a dummy GitHub repo there. Once
-the job starts though, it actually pulls the real code from gitlab.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ docs/devel/qom.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-With regards,
-Daniel
+diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+index e5fe3597cd..0cf9a714f0 100644
+--- a/docs/devel/qom.rst
++++ b/docs/devel/qom.rst
+@@ -292,8 +292,7 @@ in the header file:
+ .. code-block:: c
+    :caption: Declaring a simple type
+ 
+-   OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device,
+-                              MY_DEVICE, DEVICE)
++   OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, MY_DEVICE)
+ 
+ This is equivalent to the following:
+ 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.30.2
 
 
