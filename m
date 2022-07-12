@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B02571A36
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:43:47 +0200 (CEST)
-Received: from localhost ([::1]:48162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C61571A39
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:44:03 +0200 (CEST)
+Received: from localhost ([::1]:49066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBFEv-0005lO-Pq
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:43:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48128)
+	id 1oBFFC-0006Pg-Sy
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oBF63-0003it-NA
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:34:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49801)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBF9N-0007oo-8m
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:38:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oBF5y-0005YL-0d
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:34:34 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBF9J-0006Ed-Q8
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:38:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657629269;
+ s=mimecast20190719; t=1657629476;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VHOUFAAeCggYddTDUTO8A9GIn/NVNLxsVdzOkFN8dxM=;
- b=Ga3pWZdXodJDOdnj0FebQLbjh5xAQ4He2Oy/AK2yu63N3J/+6RLPiHWPx/XTFgImaSZ81q
- rSv8iSrn+Za1l/+KOlgAIpmFokMRRXETji5hROcZDpIML+tuex1PD67NrzQhBDxEeS3Ywc
- qmckg97gHFJV1oBmteEOO/poe3u/PvI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ybBwjFecaknMJp6X9yPX8/vY33NVpn7CcZBgB4haJ1E=;
+ b=GNgu17bm6+PI8IkMpQdCU+Is8JM/jaQ0dGSqEixQt7eYADYiyI6QljGXuZJZt9Q0O4KsDP
+ VKrA+DHb+VrOauNR0zfvFo3xvlFWTUd+47cf2HnVG3YXL4QY/o+6IuO/5cSpu6Z8tJMrko
+ //luUqMZF9y2F8iEe69emwsA/au29eg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-0VAR_hZqP8eW6_MgdCKjzQ-1; Tue, 12 Jul 2022 08:34:26 -0400
-X-MC-Unique: 0VAR_hZqP8eW6_MgdCKjzQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD29385A58B;
- Tue, 12 Jul 2022 12:34:25 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 46396C28118;
- Tue, 12 Jul 2022 12:34:25 +0000 (UTC)
-Date: Tue, 12 Jul 2022 13:34:23 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 7/8] VirtIOBlock: protect rq with its own lock
-Message-ID: <Ys1qT1jU9gajugvC@stefanha-x1.localdomain>
-References: <20220609143727.1151816-1-eesposit@redhat.com>
- <20220609143727.1151816-8-eesposit@redhat.com>
- <YsRObmNTP471U9zU@stefanha-x1.localdomain>
- <2a1e8343-df7d-b98a-1d3b-2bd4345adf3e@redhat.com>
- <1f88322f-00f0-ae1e-2a3e-c7bac034de72@redhat.com>
+ us-mta-460-xv5MC0frOumu21MRdwL_8w-1; Tue, 12 Jul 2022 08:37:55 -0400
+X-MC-Unique: xv5MC0frOumu21MRdwL_8w-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ o13-20020a056402438d00b0043aa846b2d2so6070879edc.8
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:37:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ybBwjFecaknMJp6X9yPX8/vY33NVpn7CcZBgB4haJ1E=;
+ b=JldMGJwtA/b6rto3ZRzYSVtB1hyai7gRN+VNO+H/9VST8zRDzPSzNHtXQC09CLq/Un
+ CV9eIxjeFhKA6W0J9r5ZQNFJiF3OsSLmVZVG9RgPp5HVNV0ypJKh5Ty0VfL0OkGdZ5ab
+ iv3kUcOezv4LKUeXn5/ePxrzCqppDEc1AzmHbedMyIk6t/nP+gKUko6W9ee0VnK7Y0Hq
+ O37WnIXF8LOgxDkosZF2SHggkwooV99R+ds5lI9J9emySzH0e8PI/Psk7RFZwN1Bywo9
+ 7/eabs23Akm0rAWnvTmA7uu9cN2v/PhBWd4EoVseprIawYnhtjG0ujgXZOCU+zZypkvc
+ Y+Xw==
+X-Gm-Message-State: AJIora8nO0LgnHQSKi6xIqoycVX8o8nXRUZXKNWWBwhr/CBtrFh8Fyd6
+ Kr0pEzZ1eEWZOVOAIdHg5uyKnyQ1pOGLZM2nuljdy6k/apWt28wgIkPdndqTu27+0HzORwipnoy
+ 8dGP2/vWbQCc83WY=
+X-Received: by 2002:a17:906:9b8a:b0:722:e50e:2a6d with SMTP id
+ dd10-20020a1709069b8a00b00722e50e2a6dmr24306408ejc.724.1657629474618; 
+ Tue, 12 Jul 2022 05:37:54 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sTTPzofRPgEEzRM/gq8lV2Gp/NBLGlqMIOQtPHa0IW38GLJy7XmRVz540FriS1crrQQxUXNA==
+X-Received: by 2002:a17:906:9b8a:b0:722:e50e:2a6d with SMTP id
+ dd10-20020a1709069b8a00b00722e50e2a6dmr24306390ejc.724.1657629474377; 
+ Tue, 12 Jul 2022 05:37:54 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
+ ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
+ by smtp.gmail.com with ESMTPSA id
+ 26-20020a170906329a00b0072b4da1ed9asm2574602ejw.225.2022.07.12.05.37.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jul 2022 05:37:53 -0700 (PDT)
+Message-ID: <044695c5-c030-0cb9-9880-45e9e3ff2c29@redhat.com>
+Date: Tue, 12 Jul 2022 14:37:52 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EnTcNOqF1x1y5E35"
-Content-Disposition: inline
-In-Reply-To: <1f88322f-00f0-ae1e-2a3e-c7bac034de72@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 0/3] qemu/qsd: Unlink absolute PID file path
+Content-Language: en-US
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Daniel P. Berrange"
+ <berrange@redhat.com>
+References: <20220609122701.17172-1-hreitz@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220609122701.17172-1-hreitz@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,79 +104,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 09.06.22 14:26, Hanna Reitz wrote:
+> Hi,
+>
+> QEMU (the system emulator) and the storage daemon (QSD) write their PID
+> to the given file when you specify --pidfile.  They keep the path around
+> and register exit handlers (QEMU uses an exit notifier, QSD an atexit()
+> function) to unlink this file when the process terminates.  These
+> handlers unlink precisely the path that the user has specified via
+> --pidfile, so if it was a relative path and the process has at any point
+> changed its working directory, the path no longer points to the PID
+> file, and so the unlink() will fail (or worse).
+>
+> When using --daemonize, the process will always change its working
+> directory to /, so this problem basically always appears when using
+> --daemonize and --pidfile in conjunction.
 
---EnTcNOqF1x1y5E35
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[...]
 
-On Fri, Jul 08, 2022 at 01:22:58PM +0200, Emanuele Giuseppe Esposito wrote:
->=20
->=20
-> Am 08/07/2022 um 11:33 schrieb Emanuele Giuseppe Esposito:
-> >=20
-> >=20
-> > Am 05/07/2022 um 16:45 schrieb Stefan Hajnoczi:
-> >> On Thu, Jun 09, 2022 at 10:37:26AM -0400, Emanuele Giuseppe Esposito w=
-rote:
-> >>> @@ -946,17 +955,20 @@ static void virtio_blk_reset(VirtIODevice *vdev)
-> >>>       * stops all Iothreads.
-> >>>       */
-> >>>      blk_drain(s->blk);
-> >>> +    aio_context_release(ctx);
-> >>> =20
-> >>>      /* We drop queued requests after blk_drain() because blk_drain()=
- itself can
-> >>>       * produce them. */
-> >>> +    qemu_mutex_lock(&s->req_mutex);
-> >>>      while (s->rq) {
-> >>>          req =3D s->rq;
-> >>>          s->rq =3D req->next;
-> >>> +        qemu_mutex_unlock(&s->req_mutex);
-> >>>          virtqueue_detach_element(req->vq, &req->elem, 0);
-> >>>          virtio_blk_free_request(req);
-> >>> +        qemu_mutex_lock(&s->req_mutex);
-> >>
-> >> Why is req_mutex dropped temporarily? At this point we don't really ne=
-ed
-> >> the req_mutex (all I/O should be stopped and drained), but maybe we
-> >> should do:
-> >=20
-> > Agree that maybe it is not useful to drop the mutex temporarily.
-> >=20
-> > Regarding why req_mutex is not needed, yes I guess it isn't. Should I
-> > get rid of this hunk at all, and maybe leave a comment like "no
-> > synchronization needed, due to drain + ->stop_ioeventfd()"?
->=20
-> Actually, regarding this, I found why I added the lock:
->=20
-> https://patchew.org/QEMU/20220426085114.199647-1-eesposit@redhat.com/#584=
-d7d1a-94cc-9ebb-363b-2fddb8d79f5b@redhat.com
->=20
-> So maybe it's better to add it.
+> We can fix the problem by running realpath() once the PID file has been
+> created, so we get an absolute path that we can unlink in the exit
+> handler.  This is done here.
 
-I don't see anything obvious in Paolo's email that you linked. I think
-he was saying it's safest to use a lock but not that it's necessary.
+Thanks for the review, Dan, I’ve applied the series to my block branch:
 
-Can you clarify what you mean?
-
-Stefan
-
---EnTcNOqF1x1y5E35
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLNak8ACgkQnKSrs4Gr
-c8gqrAf/YCBkAph6yVC702mV8a2paj5gTXlQMt2aespNtoTiP5HM5zaK1zgoFkPK
-zAL0YZU9KCflkQtFqfIzvo+F229Txq1Fr5LqGJhA7xuyB9LxAjJzWvH+c1gsvl0r
-/ZcCFJIurXur3ILMYKWCzyPA8zUsndhWwPR7LcUqDpuxaom6vikrdsHqe6YuZDxa
-vemC3baXMHiD92EiLnVD6Eauk160AzZ+kw6C6ykhu1TtEl5YObvuPuKjNKbc3eB+
-+mZXQFSpaQg1mqeBRjFySUYohD8QN+r8+eKovXaoaF0kHtjsiXQg0OEqdi4TOsL5
-27VHDg9TabvOGbYndTDeJz3pStpuaw==
-=cFGW
------END PGP SIGNATURE-----
-
---EnTcNOqF1x1y5E35--
+https://gitlab.com/hreitz/qemu/-/commits/block
 
 
