@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF5557164D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:58:55 +0200 (CEST)
-Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5992D571647
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:57:10 +0200 (CEST)
+Received: from localhost ([::1]:58400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBCfO-0005T6-Bi
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36664)
+	id 1oBCdh-0003ko-6N
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oBCKa-0006HV-Le
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:37:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25818)
+ id 1oBCKS-0006Ev-LA
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:37:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oBCKE-0001gj-Ai
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:37:21 -0400
+ id 1oBCKQ-0001rq-Eq
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:37:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657618621;
+ s=mimecast20190719; t=1657618631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ECB1rjXtaOld755Ej47L1U6FtyhUddpB7HqdBC6SqTw=;
- b=IUmwh0JOprIoHiRnxbRb6tS/3adkHefq61/R4ETtmmGxzROsfZVEQFy3y7LuCIHBcOhHGu
- +2ajWTEJklJidJOdofU2jrC5uaxV1JNJt4HCvmfNHzs2PgDqW5g+F+zZGskeub2SZVqaiP
- V1xl7x3Anh22KS/PLK/lm0Ltd4nwbYM=
+ bh=2nM7wrY/D3ugiS6pxblMsXcRuVCQA1Yk9Qt/yIkB040=;
+ b=H2OUU10+tXuozC1aE/IpE6Qi3Nd59WihxQxdTXGT61sarP4o5aAz/kAPxIh9EM6WTAY2HO
+ t54209ZutE3xLYlozdjtcVXcqyPw3A/VwospH6mfbPyJMvl9wiTi436E2LRrYMgCLLvRkD
+ 8+WHGalMx3en4y0FLqapJBx22eERMVo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-E0IAtwoQNEWSS5ZUlZhvuA-1; Tue, 12 Jul 2022 05:36:55 -0400
-X-MC-Unique: E0IAtwoQNEWSS5ZUlZhvuA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-282-xzoUKBeSMcGd8V7V2KxrGg-1; Tue, 12 Jul 2022 05:37:06 -0400
+X-MC-Unique: xzoUKBeSMcGd8V7V2KxrGg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9744D85A584;
- Tue, 12 Jul 2022 09:36:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 73E1D185A7BA;
+ Tue, 12 Jul 2022 09:37:05 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A4241415117;
- Tue, 12 Jul 2022 09:36:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 804E340D2827;
+ Tue, 12 Jul 2022 09:37:04 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
@@ -57,16 +57,17 @@ Cc: Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>, Fam Zheng <fam@euphon.net>,
  Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 12/15] qemu-common: move glib-compat.h
-Date: Tue, 12 Jul 2022 13:35:25 +0400
-Message-Id: <20220712093528.4144184-13-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 14/15] mtest2make.py: teach suite name that are just
+ "PROJECT"
+Date: Tue, 12 Jul 2022 13:35:27 +0400
+Message-Id: <20220712093528.4144184-15-marcandre.lureau@redhat.com>
 In-Reply-To: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
 References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -74,7 +75,7 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,45 +94,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-qemu-common will have compatible dependency requirements with QEMU.
-
-Since qemu-common won't have a toplevel qemu/osdep.h which would include
-various system headers, include stdbool.h (bool is used for some
-declarations here).
-
-Replace getenv() with g_getenv() to avoid extra header inclusion.
+A subproject test may be simply in the "PROJECT" suite (such as
+"qemu-common" with the following patches)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- {include => subprojects/qemu-common/include}/glib-compat.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
- rename {include => subprojects/qemu-common/include}/glib-compat.h (97%)
+ scripts/mtest2make.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/include/glib-compat.h b/subprojects/qemu-common/include/glib-compat.h
-similarity index 97%
-rename from include/glib-compat.h
-rename to subprojects/qemu-common/include/glib-compat.h
-index 43a562974d80..2b0f2962f322 100644
---- a/include/glib-compat.h
-+++ b/subprojects/qemu-common/include/glib-compat.h
-@@ -30,6 +30,8 @@
- #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+index 0fe81efbbcec..606821ee2732 100644
+--- a/scripts/mtest2make.py
++++ b/scripts/mtest2make.py
+@@ -51,8 +51,11 @@ def process_tests(test, targets, suites):
  
- #include <glib.h>
-+#include <stdbool.h>
-+
- #if defined(G_OS_UNIX)
- #include <glib-unix.h>
- #include <sys/types.h>
-@@ -133,7 +135,7 @@ qemu_g_test_slow(void)
- {
-     static int cached = -1;
-     if (cached == -1) {
--        cached = g_test_slow() || getenv("G_TEST_SLOW") != NULL;
-+        cached = g_test_slow() || g_getenv("G_TEST_SLOW") != NULL;
-     }
-     return cached;
- }
+     test_suites = test['suite'] or ['default']
+     for s in test_suites:
+-        # The suite name in the introspection info is "PROJECT:SUITE"
+-        s = s.split(':')[1]
++        # The suite name in the introspection info is "PROJECT" or "PROJECT:SUITE"
++        try:
++            s = s.split(':')[1]
++        except IndexError:
++            continue
+         if s == 'slow' or s == 'thorough':
+             continue
+         if s.endswith('-slow'):
 -- 
 2.37.0.rc0
 
