@@ -2,106 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292F157284A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 23:13:22 +0200 (CEST)
-Received: from localhost ([::1]:43854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDAF4572849
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 23:13:15 +0200 (CEST)
+Received: from localhost ([::1]:43498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBNC5-000533-A6
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 17:13:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60384)
+	id 1oBNBy-0004nF-Un
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 17:13:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1oBN7V-0006jY-FW; Tue, 12 Jul 2022 17:08:37 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10958)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
- id 1oBN7T-0000fN-Gq; Tue, 12 Jul 2022 17:08:37 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26CL3ivu011246;
- Tue, 12 Jul 2022 21:08:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=/jEjCL7YZNXl35sUy8hZMe+9+/eyZ6DMN+SytBl4AY0=;
- b=rA5E2GoBh9K1iUsq9quvhfo/HOu7R6T8+jibkJErWFGKpfN1PeVB7PsZh/KC9z6HC4VQ
- j2rp+03YC0MrLJnL+KV9+JCn41a0TCiz2eg62rXbBxvs+roiRZrFkrlizaTVf8Upa0fy
- Ha5g2BdSP7IlWe8gZzHAe9nB0RoQZNRGoQnpjrkd9VwkFYI93URIjRVO1WJnZ41Fmgxe
- bxelMyoyNxHxkdQhgTvdC5roeoUn4QeOatZ5KwUVnVQvc+Xf37IABj2KS0UJ26Ly6Gvf
- 0KRVdy/s3VEzOV5AP9SQPU1RGh0W1dMmHCb/WvYDib9dEexk570SHyDIfNMmu2OiJdVG gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9akr222r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 21:08:21 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26CL6dPF024445;
- Tue, 12 Jul 2022 21:08:21 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9akr2222-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 21:08:21 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26CL6D0N011666;
- Tue, 12 Jul 2022 21:08:20 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma05wdc.us.ibm.com with ESMTP id 3h8mb9rnn6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 21:08:20 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26CL8JV317629624
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 Jul 2022 21:08:19 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6F69AC6055;
- Tue, 12 Jul 2022 21:08:19 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DC3ECC605B;
- Tue, 12 Jul 2022 21:08:18 +0000 (GMT)
-Received: from localhost (unknown [9.211.155.64])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Tue, 12 Jul 2022 21:08:18 +0000 (GMT)
-From: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- mopsfelder@gmail.com, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Fabiano Rosas <farosas@linux.ibm.com>
-Subject: [PATCH v2] target/ppc/kvm: Skip current and parent directories in
- kvmppc_find_cpu_dt
-Date: Tue, 12 Jul 2022 18:08:10 -0300
-Message-Id: <20220712210810.35514-1-muriloo@linux.ibm.com>
-X-Mailer: git-send-email 2.36.1
-Content-Type: text/plain; charset="utf-8"
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: XP-HfteOCQzu5NFqlBJiJLOHsI-Ntg0-
-X-Proofpoint-GUID: y9Es0O4dhqE4FkBSrnbe1kNJ6Y-orx7k
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oBN9y-0000gO-MV
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 17:11:12 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oBN9r-00017J-M9
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 17:11:09 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ r129-20020a1c4487000000b003a2d053adcbso105022wma.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 14:11:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=asYrFsiLuS/T+uct/m6Ld+3D3rLjSHXeNK9F7xrlGQM=;
+ b=OteorUUmalArS/qj4Dr7BJqHvhz3dQQD6f37GEBU59n7k8Mp4biUkzUcSWwaFzFiSk
+ ZOKYLTY6QLwVNFRRjwib7mnrD7oInluxXBso7PGL5J1DfBXudRACZ+emqD7uks2ObpUa
+ AzjeK4HR7F2laQLEQBDvQP5K6T6/Cl+tP9Tp5JuOSBT7oK/V+FI6ARq6yjEcvioAZqLy
+ NuGddn+haChEX4KjyOdEiHGSYlapyuJVBlZzMEwPbn2mrf0l3twQMoT4QNVlKLFMKRQF
+ N7LLKJbPER1ISv3WMl/AYEdntI8+LIcqczM6chEEdARBg7kLpJFKC0O6HZBcyeX5S32r
+ My0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=asYrFsiLuS/T+uct/m6Ld+3D3rLjSHXeNK9F7xrlGQM=;
+ b=z2MMAXmh93IBenVk++u3fOLaxRKINQFRR+N+MwvPYZlR8BNFyAiUKjNKI+AGh6vZhQ
+ iUyH4gEOBaYTo3Siq28dQZYZXZ53Hbn2uyeT0su0h4B35fpPFKbbHyyLXt6htBULmN9+
+ PRCoDDX7JADMAh0hQJowuXguCp9IK9Uu8sZ/09823MTNaCjRzIYDR+1gVEPw9UMSZ6vl
+ pjVlp+Kz07h6SnoPMKpfgx3QTRtSO5Q6eBBJzB4jkT0Rc1kocqhC6RI3Gr8ikuMp2Vqm
+ CYnNm1MePjSPGjvdsCjU4vqceI58sDq4twqB10vzP3DUUMAjGmNuL7V/6Y4pMHyTMPl3
+ VkRQ==
+X-Gm-Message-State: AJIora/12XtSrXgBaLMfnrBrMb2kFfvSbDo5HMmaKkb97AxcBc9MTEmg
+ +CGPuLROleycX32PII0bIDk=
+X-Google-Smtp-Source: AGRyM1sluLWlcELiceBeYDph3o85d5K+zwYiOOMXyY/7xOSMQ4PMEjBeGbv3no61sTGQXWh232vadw==
+X-Received: by 2002:a7b:cb03:0:b0:39e:e826:ce6d with SMTP id
+ u3-20020a7bcb03000000b0039ee826ce6dmr6037706wmj.102.1657660260636; 
+ Tue, 12 Jul 2022 14:11:00 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ b5-20020adff905000000b0021d64a11727sm9130629wrr.49.2022.07.12.14.10.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jul 2022 14:10:59 -0700 (PDT)
+Message-ID: <9f22d04b-1c8d-f419-6ed6-aefac5e9716f@amsat.org>
+Date: Tue, 12 Jul 2022 23:10:58 +0200
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-12_12,2022-07-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=780
- malwarescore=0 mlxscore=0 impostorscore=0 suspectscore=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 clxscore=1015
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207120086
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=muriloo@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH v4] ui/cocoa: Take refresh rate into account
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20220702142519.12188-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20220702142519.12188-1-akihiko.odaki@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,39 +94,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Some systems have /proc/device-tree/cpus/../clock-frequency. However,
-this is not the expected path for a CPU device tree directory.
+On 2/7/22 16:25, Akihiko Odaki wrote:
+> Retreieve the refresh rate of the display and reflect it with
+> dpy_set_ui_info() and update_displaychangelistener(), allowing the
+> guest and DisplayChangeListener to consume the information.
+> 
+> The information will be used as a hint how often the display should
+> be updated. For example, when we run 30 Hz physical display updates
+> it is pointless for the guest to update the screen at 60Hz
+> frequency, the guest can spare some work instead.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>   meson.build |  3 ++-
+>   ui/cocoa.m  | 12 ++++++++++++
+>   2 files changed, 14 insertions(+), 1 deletion(-)
 
-Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
-v2:
-- Skip current and parent directories.
-
-v1: https://lore.kernel.org/qemu-devel/20220711193743.51456-1-muriloo@linux.ibm.com/
-
- target/ppc/kvm.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 6eed466f80..466d0d2f4c 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -1877,6 +1877,12 @@ static int kvmppc_find_cpu_dt(char *buf, int buf_len)
-     buf[0] = '\0';
-     while ((dirp = readdir(dp)) != NULL) {
-         FILE *f;
-+
-+        /* Don't accidentally read from the current and parent directories */
-+        if (strcmp(dirp->d_name, ".") == 0 || strcmp(dirp->d_name, "..") == 0) {
-+            continue;
-+        }
-+
-         snprintf(buf, buf_len, "%s%s/clock-frequency", PROC_DEVTREE_CPU,
-                  dirp->d_name);
-         f = fopen(buf, "r");
--- 
-2.36.1
-
+Thanks, patch queued.
 
