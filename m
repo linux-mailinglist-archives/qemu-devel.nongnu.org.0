@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB145719F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:26:25 +0200 (CEST)
-Received: from localhost ([::1]:53962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29F75719F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:29:22 +0200 (CEST)
+Received: from localhost ([::1]:56674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBEy9-0005zw-1j
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:26:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44424)
+	id 1oBF0z-00083J-LA
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:29:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oBEuF-0001kS-TJ; Tue, 12 Jul 2022 08:22:24 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:55463)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBEve-0003YH-0w
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:23:50 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:41679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oBEuA-0004lp-Ob; Tue, 12 Jul 2022 08:22:21 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 5BF965C0067;
- Tue, 12 Jul 2022 08:22:16 -0400 (EDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBEvc-0004vH-Fs
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:23:49 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id AF0355C00BD;
+ Tue, 12 Jul 2022 08:23:46 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 12 Jul 2022 08:22:16 -0400
+ by compute5.internal (MEProxy); Tue, 12 Jul 2022 08:23:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657628536; x=1657714936; bh=HV
- kxoQGf904cze7sglZBeurLOBqEha/6moItBO7y3bU=; b=Q1js20GvVByD3P7yB7
- FY3vETauu+fBZZW+9H6RDp7pec+kFQIedVMhDqYoIBWbqjG8K3SQR43j5IDhvD95
- GqCkZ8cA2MXMw20n0QJlTce38BcyB0ngqzmOYCWURNm6Pbue+kDPtwy/jvbw0FYK
- r7AugeRXYkrFFFuabfEk0Qo7k/v3hjjbIEA9HY21AjLHkZvxl7mGcnvcI4J7fdQq
- Tohfbe6OxRudFpQmNqbTg/sTZi/hRsI/NDncJS0bKtI6SSNCNXVx0EHQuADtWyX0
- pcl0xyzfKGKmnOr2cv7dlSQxkSKwV1ard8P3Dmp44UMj5Eai9eU0hR2GU+yKKDqx
- hm5Q==
+ :subject:subject:to:to; s=fm2; t=1657628626; x=1657715026; bh=MU
+ uC2zBzYMps/tzwu4iwfnYm++J/e1AQbIGC3c6ZA4o=; b=3NyhsDLoVuVby6v+kz
+ j4RvKtND/hF3kCOvQvN5f5t2gM0CHRiw5dZs4sR8waFG5j2p9tvO+Vv2PLgj168J
+ EMmdQP7an3Jt+OkWKybch69fePsMD1ALxFg5Y1QyyjM8Cr9FlMt4UQf88iUnk6DD
+ 6zuQYO/XVqaX+QRCBjLbzbScjS41mCrEMGpfQGZU3iMNmBVaCdIO7zuorrMpsxxg
+ 1aQIfQVB0iP/5+AWZ+YhzlYGco2V8A9JMOQPzuBuvp8EbNNaE2MrGuIQPAaK3zLc
+ bRpgdrOq9Qt13R4asfUWi/GKqUIRI6XBs0Zr4GbZzge9DtfL+Q5BSq/JRU1tkuz5
+ Ic7A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657628536; x=1657714936; bh=HVkxoQGf904cze7sglZBeurLOBqE
- ha/6moItBO7y3bU=; b=linb8fTp2jzFLm0ZhGaqPIXree0e5HM2r2nluQCKCYDP
- yTBibCJCo3iHDUbNUDk9czXL69z8BamuJdnol87jbEwEhn17Pyb6+AyKV0kHJPHI
- xXUl/BoVYQxsZs4OA7Rz/54iJTRqyLpwjQ/tA4ehw9TsH/77TeOFwF4beo7/EZKt
- sO/oTWOgk18dgdmkwikhOv/SKSb8seA0t5IRXVbhAfIN7BgydJ0r2zpTbiO2q7Au
- 1foV3/nsexcTzKsN74I12n1hBaUgCck9KzsQhNR59hJCuVub4udg0uHEIO+8qgUA
- yxXigz3nTT9dmmnOuHjTGZfWdDscy67G8ODwTyuyEw==
-X-ME-Sender: <xms:d2fNYu_CBqZlk5G2zDVsSIwzzmWWLPV0H9sk-Zk3W_GO_ZuWdmOaXQ>
- <xme:d2fNYuvVTQJiOEbqudR15nIWw_QPy3K3iVwMwoEDCq0RQG-1F9TlrNPaydTpu2rzq
- pGGBJ8HzAZe8W_pdAk>
-X-ME-Received: <xmr:d2fNYkCPWd8wLZW3vd1xOj6H0bfQ5Ns172Lob_FkcBdPIVTrRtFXVkp0Zgplmu3eHqbISe-qqksTlSmvnHk>
+ fm3; t=1657628626; x=1657715026; bh=MUuC2zBzYMps/tzwu4iwfnYm++J/
+ e1AQbIGC3c6ZA4o=; b=nQYR8/l+2ob5yYpwbzKCEojv96aUhvwBecxXp4G0xyhV
+ hL57CINmab+CjdOE3BiS6Axho/EkrkGNU6YdHqrK85Wzo/mNqzb24OMmmK/vV/Lw
+ TXdOU/yNLAF+MOrXXO+GtBdKwkB5ue8iAVggbdGhgIoZ58YcBigh5leDj9jqEhij
+ fsTUWWrGY8GdxDUKIj/ZTN4uiNJ4LR+ds5/d3vIejCRk3zRqG7Pn5FSUw04NXMlp
+ bT1ONbIWHgux0XacYbjz88QwT4L6VRq6CnTXJWEvxlMa6bnIiIM7wlstWR+aUXQn
+ LnZvHpFCbRG++dMwppFJN6MmpQqMfQeRVIptqiI22w==
+X-ME-Sender: <xms:0mfNYplm9Or77YOArVZ9RstndCF0-8pD1ulgdFyLbmGhzL-m2Py4gA>
+ <xme:0mfNYk1BPymt5WB3KG2jo31j7XoUR7nQdiL7zhEGJ-UBjQTj23xU1PfX2IbqFrgyi
+ G5d9Px-Uwj2DoG9d3c>
+X-ME-Received: <xmr:0mfNYvpT9lTXd_ecPG1jfrRps6KngGmC8Xj_EKILV4vrbbfQLOeyGiWlBj8tgXrdVhDoB9UHrWzpycJM8D0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedghedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -57,31 +57,26 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedghedvucetufdoteggod
  htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
  jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:d2fNYmfquGP8msVTaaBAIMVzWaPz1vs5H8W4WD4NCNlR5bJY0RlJqQ>
- <xmx:d2fNYjMcjD3URCIwoo5Xhhtgpv_yJgfA1bvMlr5W0lufdJi5y_bZow>
- <xmx:d2fNYglw6M8YGeuPTAGYYnf3JDB5kiefc0MgKwKovgVFGJTIY96uug>
- <xmx:eGfNYsjHiokkvPTwCpCBhvSuFJAfF3k6RB_GROls0acYTiJZZhqHaA>
+X-ME-Proxy: <xmx:0mfNYpnJr_fcAW6Zs3fIpQFVhJWEM6FqWiDZp598DH6HYlywf9yC6Q>
+ <xmx:0mfNYn0QSCirOlpI-fFEYmFGD7HAND0UJSYTPLGvnHYFdlffecyL8A>
+ <xmx:0mfNYovvof-dzAl8EttBO_VAvd86V5drAmaTDlaxEzH-J9ZZcs1DWQ>
+ <xmx:0mfNYlDQY7W9aKb0LvjoMEWbQdCPhVDNMf9a09vysuY387eYhJHy4w>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Jul 2022 08:22:13 -0400 (EDT)
-Date: Tue, 12 Jul 2022 14:22:11 +0200
+ 12 Jul 2022 08:23:45 -0400 (EDT)
+Date: Tue, 12 Jul 2022 14:23:43 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Fam Zheng <fam@euphon.net>, Keith Busch <kbusch@kernel.org>,
- darren.kenny@oracle.com
-Subject: Re: [QEMU 1/1] nvme: Fix misleading macro when mixed with ternary
- operator
-Message-ID: <Ys1nc+eAyghckfIe@apples>
-References: <d3fc4a90ba74d4874c445480b48d45b67c9322ae.1657200900.git.darren.kenny@oracle.com>
- <Ys1k6ameYujtE1TX@stefanha-x1.localdomain>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
+Message-ID: <Ys1nz68zLPN3Hq8F@apples>
+References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
+ <D7E0940C-3263-485C-81AC-E102566282EF@ict.ac.cn>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WJRB15Ft9CQPgZt+"
+ protocol="application/pgp-signature"; boundary="wmC0QJPm5SC595b6"
 Content-Disposition: inline
-In-Reply-To: <Ys1k6ameYujtE1TX@stefanha-x1.localdomain>
+In-Reply-To: <D7E0940C-3263-485C-81AC-E102566282EF@ict.ac.cn>
 Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
  helo=out4-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -108,56 +103,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---WJRB15Ft9CQPgZt+
+--wmC0QJPm5SC595b6
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Jul 12 13:11, Stefan Hajnoczi wrote:
-> On Thu, Jul 07, 2022 at 01:36:21PM +0000, Darren Kenny wrote:
-> > Using the Parfait source code analyser and issue was found in
-> > hw/nvme/ctrl.c where the macros NVME_CAP_SET_CMBS and NVME_CAP_SET_PMRS
-> > are called with a ternary operatore in the second parameter, resulting
-> > in a potentially unexpected expansion of the form:
-> >=20
-> >   x ? a: b & FLAG_TEST
-> >=20
-> > which will result in a different result to:
-> >=20
-> >   (x ? a: b) & FLAG_TEST.
-> >=20
-> > The macros should wrap each of the parameters in brackets to ensure the
-> > correct result on expansion.
-> >=20
-> > Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
-> > ---
-> >  include/block/nvme.h | 44 ++++++++++++++++++++++----------------------
-> >  1 file changed, 22 insertions(+), 22 deletions(-)
+On Jul  9 11:06, Jinhao Fan wrote:
+> at 10:24 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
 >=20
-> Klaus: ping
+> > @@ -5793,6 +5891,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, co=
+nst NvmeRequest *req)
+> >     uint64_t dbs_addr =3D le64_to_cpu(req->cmd.dptr.prp1);
+> >     uint64_t eis_addr =3D le64_to_cpu(req->cmd.dptr.prp2);
+> >     int i;
+> > +    int ret;
+> >=20
 >=20
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> I just noticed this ret is unused. Could you help remove this line when
+> applying the patch?
 
-Sorry,
+Yes, I noticed it and hot-fixed it ;)
 
-Thanks Darren, applied to nvme-next!
-
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
---WJRB15Ft9CQPgZt+
+--wmC0QJPm5SC595b6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLNZ28ACgkQTeGvMW1P
-DemXoAf+KsGV4q4UFkSnBviPwt2mAgApOREr3RexU8cM1X3n1A4hZZRRJAWkZjwk
-OH2X/FpgYVUkw47/QW13GKKv1ZWw+R1U4yjqoFt4N8+EeILzyt4m4VfBMBJlLn7I
-uz0JjEd8WG1LSIkUbM8ws7bwCjqsl/jwCrKFzgmAYuum9U7v5goqMFguFf0nsn3Q
-wQXXfx8q7az+xDDpp+9JEXLqdzp9B7Ve3OJ8s3EfDDeEg7P0HBwKfIFIxnnxGpIV
-0ptQTt7PBJLG93KPvNPGJxbf58Gzy9UbnbBhN9ST/TwQ91GOiwrIZc7PSrI2ikrp
-sjgtExClVfxDPtvwubSLzMbwnPr4aA==
-=vKL4
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLNZ84ACgkQTeGvMW1P
+Demw1Af/TecT37vluSRgdVStSrekmkZrhlxeMRnZLkxFGq8Y4Byi9sQbWhhvwEG3
+gtKq049yK0OrrvbJCDF8svUmXDOxuoD4aMvVVC+URPPR33r79RjaBinhSnPb+UoF
+FLOEA3yo5r1GrxBCekKFLJl97xCLf/SoE/KDMoMO6BH3KKUQvb2qSKYRxoAGvcLe
+lBfw7PtdLNsETnJcbTgas/Ckh4jqVUBLYdzBl4HHKgaqsE/xKvCOKF45Ngvcxxs+
+AVd40Fc/BzB6P/SFY5eiGBffl+3wtsh4e8hqyew4p/tWG7uaicWDFE5mrqyves/0
+XxhC1SEhh2xNL7l+EUFjSWLnO5sNmw==
+=qe1w
 -----END PGP SIGNATURE-----
 
---WJRB15Ft9CQPgZt+--
+--wmC0QJPm5SC595b6--
 
