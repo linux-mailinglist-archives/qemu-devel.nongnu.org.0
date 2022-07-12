@@ -2,110 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE1D571787
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:47:05 +0200 (CEST)
-Received: from localhost ([::1]:44732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D1057176F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:35:14 +0200 (CEST)
+Received: from localhost ([::1]:34460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBDQ0-0004TQ-2B
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:47:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48506)
+	id 1oBDEX-0004di-JL
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oBD9l-0007Ct-4F; Tue, 12 Jul 2022 06:30:19 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6636)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oBDAz-0007gs-1j
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:31:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oBD9i-00081Q-P8; Tue, 12 Jul 2022 06:30:16 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26C9gIPj022936;
- Tue, 12 Jul 2022 10:30:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=LaGaCq66NuQ2zNCT7fATPTrCZ/3Qc5W+IieKr7aB8bA=;
- b=JCfy9kQGraGWMYJwJx3Gst0bmUB1IdbZqWSm+m4Q3B+scy6smPRtQXc0OYheKeDuNbqz
- 3mDsybyS2AyfOxUpgTlHik4pKFskmz9L3RqHN+L9mm5rd/On3bIIUpHyVDIEdo/L9aEd
- oRf+2cupCXf0pgq6GdWVEE7lwTULKEgLtXqdZRlJDBcJqhwJUD+3u2gYRGC/Nwlr7Bls
- IvPWjkk+f1v5etXXq6V9Fr4K1/1yc7INTXGBONVvw8n4E64aQGRy5SFlJaTpt9gwCt1o
- RM+8bWgSGQlECrLxZyMgE1IzwaWPI0DMcACi37+Z7B7QQY3d0XdtaGeixffdnEdRbDxI 9A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h96j414yw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 10:30:11 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26C9gjLN024048;
- Tue, 12 Jul 2022 10:30:10 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h96j414xv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 10:30:10 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26CALfUQ031242;
- Tue, 12 Jul 2022 10:30:08 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06fra.de.ibm.com with ESMTP id 3h8ncngbhr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 10:30:08 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26CASa7o21234138
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 Jul 2022 10:28:36 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3F196AE056;
- Tue, 12 Jul 2022 10:30:05 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BC242AE04D;
- Tue, 12 Jul 2022 10:30:04 +0000 (GMT)
-Received: from [9.171.48.196] (unknown [9.171.48.196])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 12 Jul 2022 10:30:04 +0000 (GMT)
-Message-ID: <555fadfa834be75e117e69f2d3892dab9d937f5d.camel@linux.ibm.com>
-Subject: Re: [PATCH 2/3] hw/misc: Add mmio-debug-exit device
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: David Hildenbrand <david@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Date: Tue, 12 Jul 2022 12:30:04 +0200
-In-Reply-To: <2dfdce60-6c8b-4874-a901-01e1ea37d976@redhat.com>
-References: <20220711185640.3558813-1-iii@linux.ibm.com>
- <20220711185640.3558813-3-iii@linux.ibm.com>
- <dd9d7b97-88c2-f1c3-8b0a-bb090059b180@linaro.org>
- <832533a5b27c9aee11fea7633ed401e655491d5b.camel@linux.ibm.com>
- <2dfdce60-6c8b-4874-a901-01e1ea37d976@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oBDAv-0002uL-4F
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:31:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657621886;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Esm+4otGl9dvM3CmdyjexSop2mJhhgaZ7sb1onAtT5I=;
+ b=dnOn+ypSkFWkgEDdwCxoxudMTL4ASL/vXXKlFel6J5MILFUGs4iiM9iUAQu7B8T3mmER+r
+ 6MMPUA+do/+/wsdcGeCHMt3MySEjNTE5jByswcG8JjryODZ116vuBKhG2G8BfNVFT7HM9c
+ 1CxSlVyNsnDWMT1mcvPIRDtjfSfijiA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-442-JMQm22AAN1KWpSiUCxnR8w-1; Tue, 12 Jul 2022 06:31:19 -0400
+X-MC-Unique: JMQm22AAN1KWpSiUCxnR8w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E2143810D37;
+ Tue, 12 Jul 2022 10:31:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 808952026D64;
+ Tue, 12 Jul 2022 10:31:18 +0000 (UTC)
+Date: Tue, 12 Jul 2022 11:31:15 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [COMMITTED 0/3] build fixes
+Message-ID: <Ys1Ncx+gyEBw/uIM@redhat.com>
+References: <20220712095901.212353-1-richard.henderson@linaro.org>
+ <Ys1JMetNPT47lpbV@redhat.com>
+ <d9bd8b54-868a-6f0e-09b9-754f23c12cbb@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: dQuZj5SNibLOoPGtZQ0bwqourzEtfIPc
-X-Proofpoint-ORIG-GUID: Y-8nm9hqeoZmrHi-oAyqBfDamag1sDm9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-12_05,2022-07-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999
- priorityscore=1501 mlxscore=0 malwarescore=0 impostorscore=0 clxscore=1015
- adultscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207120038
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <d9bd8b54-868a-6f0e-09b9-754f23c12cbb@linaro.org>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,76 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2022-07-12 at 12:08 +0200, David Hildenbrand wrote:
-> On 12.07.22 11:52, Ilya Leoshkevich wrote:
-> > On Tue, 2022-07-12 at 10:42 +0530, Richard Henderson wrote:
-> > > On 7/12/22 00:26, Ilya Leoshkevich wrote:
-> > > > System tests on x86 use isa-debug-exit device in order to
-> > > > signal
-> > > > success or failure to the test runner. Unfortunately it's not
-> > > > easily
-> > > > usable on other architectures, since a guest needs to access
-> > > > address_space_io, which may not be as straightforward as on
-> > > > x86.
-> > > > Also, it requires adding ISA bus, which an architecture might
-> > > > not
-> > > > otherwise need.
-> > > > 
-> > > > Introduce mmio-debug-exit device, which has the same semantics,
-> > > > but
-> > > > is
-> > > > triggered by writes to memory.
-> > > > 
-> > > > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> > > 
-> > > You shouldn't need this for s390x, as there are already (at
-> > > least)
-> > > two other paths to 
-> > > qemu_system_shutdown_request.
-> > > 
-> > > E.g. SIGP, which has a stop option.
-> > > 
-> > > 
-> > > r~
-> > > 
+On Tue, Jul 12, 2022 at 03:56:54PM +0530, Richard Henderson wrote:
+> On 7/12/22 15:43, Daniel P. Berrangé wrote:
+> > On Tue, Jul 12, 2022 at 03:28:58PM +0530, Richard Henderson wrote:
+> > > This is a collection of fixes required to get CI back to green.
+> > > Given that 2 of 3 apply to cirrus, I had to push them to staging to
+> > > even try them.  Since it worked, I've now pushed them to master.
 > > 
-> > I would normally use lpswe + disabled wait, but this always gives
-> > me
-> > exit status code 0, which doesn't allow easily distinguishing
-> > between
-> > success and failure.
+> > FWIW, it is possible to test Cirrus CI fixes in your own personal
+> > fork too, but it needs a little extra setup first, detailed in
 > > 
-> > Code-wise SIGP seems to do roughly the same thing, and a quick
-> > experiment with:
-> > 
-> >     lgfi %r4,-1
-> >     lgfi %r5,-1
-> >     larl %r6,_cpuaddr
-> >     stap 0(%r6)
-> >     lh %r6,0(%r6)
-> >     nilh %r6,0
-> >     sigp %r4,%r6,5
-> > _cpuaddr: .short 0
-> > 
-> > confirmed that we get exit status code 0 as well.
+> >    .gitlab-ci.d/cirrus/README.rst
 > 
-> disabled wait should trigger a qemu_system_guest_panicked().
-> 
-> But "panic_action == PANIC_ACTION_SHUTDOWN" seems to only make
-> qemu_main_loop() return with main_loop_should_exit() == true.
-> 
-> main/qemu_main will always return 0.
-> 
-> We could return != 0 on guest panic, but not sure if that could break
-> existing scripts. We'd need a new QEMU toggle for that most probably
-> ...
-> 
+> How many of the 'github' strings therein should really be 'gitlab'?
 
-I wonder if a device is a cleaner way to solve this? It may be used on
-all architectures, so there is no need to invent per-architecture way
-to exit with a specific code. Maybe we can even replace Intel's
-debugexit with it.
+None actually, this is all part of the (gross) hack. Cirrus CI officially
+only integrates with GitHub, so we need a dummy GitHub repo there. Once
+the job starts though, it actually pulls the real code from gitlab.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
