@@ -2,54 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA0D571D63
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 16:54:27 +0200 (CEST)
-Received: from localhost ([::1]:51496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E439C571D68
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 16:55:44 +0200 (CEST)
+Received: from localhost ([::1]:54348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBHHM-0001On-R5
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 10:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32782)
+	id 1oBHId-0003HN-Rt
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 10:55:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oBHBm-0005jE-W6; Tue, 12 Jul 2022 10:48:39 -0400
-Received: from [200.168.210.66] (port=2967 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oBHBl-0006G9-5W; Tue, 12 Jul 2022 10:48:38 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 12 Jul 2022 11:31:16 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id A038D800146;
- Tue, 12 Jul 2022 11:31:16 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------01a6M4iy8yEnAo2JETigJpRf"
-Message-ID: <e272e6ad-7274-9920-d40e-1eed12e65ee3@eldorado.org.br>
-Date: Tue, 12 Jul 2022 11:31:16 -0300
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oBHFg-0008LK-Mf
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 10:52:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25176)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oBHFZ-0007XE-U7
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 10:52:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657637552;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lyawkcn0y6w3lQNfRnC3G2IuzcRBhovO5YC0D9oA8aE=;
+ b=QNI8VeCOBFUpO8hSWWHEsn8/aatihGfZB9r/kFBSml2keTyDM+Bxlrye28I4RVXR2/kouZ
+ ZWkIuUmQVJV81rDcejrtps8kKLeQTKF4QZI6rZndokEtXv8FFjuw85V8zDLCRblGwBOest
+ QHHsySyDf0ul4VHbAixJgCt+gh/7pok=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-593-HsLO2FBmPQOfvkiqls8KQw-1; Tue, 12 Jul 2022 10:52:30 -0400
+X-MC-Unique: HsLO2FBmPQOfvkiqls8KQw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ s17-20020a056402521100b0043ade613038so3096323edd.17
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 07:52:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Lyawkcn0y6w3lQNfRnC3G2IuzcRBhovO5YC0D9oA8aE=;
+ b=Y3zTCyByPPJow05t/89WUGvrMhIz1oWRhEkuBOo3flIFF1Ho2GqRfh24CP7KPaHKPy
+ Y/cquKcdod8TrLGFd2oCrFn8GjDcLwTXEAN9n53sMeleFtk4EO5XZo3kHZOmHt9XqUVF
+ nS3u4P4pzp+iLBYzEM77joCPVz8HiuRPvw7cF0D5idqtdD7gqSpiGtnD5WIbfUfryPn7
+ WoFWVxgqZTaW9P1e+cKAuAvYR1P0zBkoCFrApW+NHEO7MITqX66SRcYLLuXVHwfenqwv
+ ngsIBcoc1VtpNQm4H8Nik+R+SP5fvMhSi/HakEwQW8BjHc2ma+2IJbCib0ObYNwTQ7Kh
+ T7vw==
+X-Gm-Message-State: AJIora/s7zxTMMGRTcuGhpalkIR774FGg8CcBo/cdBQfK27nBFP647ci
+ 0QOrPpteivBdLx6p2WEqevdI656BXYXvfsTlH1bwfaPeEIbOQ3iH+Wtek6zA/5Rks3oPbRxYPMY
+ Ilz6oOvI2XvJ63tQ=
+X-Received: by 2002:a05:6402:7da:b0:43a:6fe3:b7a9 with SMTP id
+ u26-20020a05640207da00b0043a6fe3b7a9mr32288748edy.410.1657637548892; 
+ Tue, 12 Jul 2022 07:52:28 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tb8ItpfRSC1zl/WtWVbNNrAFgNrYsO+/u7n9SfTPIF1erO26Z87bNnVGMZ7/WSQq1j9STjHQ==
+X-Received: by 2002:a05:6402:7da:b0:43a:6fe3:b7a9 with SMTP id
+ u26-20020a05640207da00b0043a6fe3b7a9mr32288707edy.410.1657637548536; 
+ Tue, 12 Jul 2022 07:52:28 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ a25-20020aa7cf19000000b0043a56c0ededsm6144512edy.74.2022.07.12.07.52.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jul 2022 07:52:27 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Subject: Re: [PATCH v3 00/14] scsi: add quirks and features to support m68k
+ Macs
+Date: Tue, 12 Jul 2022 16:48:33 +0200
+Message-Id: <20220712144832.162389-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220622105314.802852-1-mark.cave-ayland@ilande.co.uk>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-Subject: Using Unicamp's Minicloud for the QEMU CI
-Content-Language: en-US
-To: qemu-devel@nongnu.org, qemu-ppc <qemu-ppc@nongnu.org>
-Cc: Rafael Peria de Sene <rpsene@br.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>
-X-OriginalArrivalTime: 12 Jul 2022 14:31:16.0953 (UTC)
- FILETIME=[0BCA3C90:01D895FC]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,73 +98,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------01a6M4iy8yEnAo2JETigJpRf
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Queued, thanks (I was on vacation last week).
 
-Hi everyone!
+I am a bit scared about the mode_select_truncated quirk.  My reading
+of the code is that the MODE SELECT would fail anyway because the
+page length does not match in scsi_disk_check_mode_select:
 
-I would like gauge the interest in using Minicloud's infrastructure[1] 
-for the CI, talking with some people from there they are interested. It 
-has both ppc64 and pp64le images, multiple versions of 4 distros 
-(Ubuntu, Fedora, Debian and CentOS).
+    len = mode_sense_page(s, page, &p, 0);
+    if (len < 0 || len != expected_len) {
+        return -1;
+    }
 
-I've made a initial test setup in a fork[2] with a branch(ppc64-runners) 
-that has both a new pipeline with jobs to run on the ppc64/ppc64le 
-runners and updated some scripts (mainly the build-environment.yml) to 
-automate the setup of the environment in those architectures.
+Is that correct?  If not, I'm not sure where I am wrong.  If so,
+I wonder if it is enough for the quirk to do just a "goto invalid_param;" 
+in place of invalid_param_len.
 
-[1] https://openpower.ic.unicamp.br/minicloud/
+Thanks,
 
-[2] https://gitlab.com/ppc64/qemu/-/pipelines
+Paolo
 
-Att.
 
--- 
-Lucas Mateus M. Araujo e Castro
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
---------------01a6M4iy8yEnAo2JETigJpRf
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi everyone!</p>
-    <p>I would like gauge the interest in using Minicloud's
-      infrastructure[1] for the CI, talking with some people from there
-      they are interested. It has both ppc64 and pp64le images, multiple
-      versions of 4 distros (Ubuntu, Fedora, Debian and CentOS).<br>
-    </p>
-    <p>I've made a initial test setup in a fork[2] with a
-      branch(ppc64-runners) that has both a new pipeline with jobs to
-      run on the ppc64/ppc64le runners and updated some scripts (mainly
-      the build-environment.yml) to automate the setup of the
-      environment in those architectures.<br>
-    </p>
-    <p>[1] <a class="moz-txt-link-freetext"
-        href="https://openpower.ic.unicamp.br/minicloud/">https://openpower.ic.unicamp.br/minicloud/</a></p>
-    <p>[2] <a class="moz-txt-link-freetext" href="https://gitlab.com/ppc64/qemu/-/pipelines">https://gitlab.com/ppc64/qemu/-/pipelines</a></p>
-    <p>Att.<br>
-    </p>
-    <div class="moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------01a6M4iy8yEnAo2JETigJpRf--
 
