@@ -2,84 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95A3572842
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 23:11:02 +0200 (CEST)
-Received: from localhost ([::1]:37512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292F157284A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 23:13:22 +0200 (CEST)
+Received: from localhost ([::1]:43854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBN9q-0000Qy-35
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 17:11:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58174)
+	id 1oBNC5-000533-A6
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 17:13:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBMuH-00079e-Lt
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:54:57 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oBMuG-0007IY-0k
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 16:54:57 -0400
-Received: by mail-wr1-x433.google.com with SMTP id f2so12814627wrr.6
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 13:54:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=J+fYyUK4Wn/KdMxUP+5nF/zpMZEk/uz6FzEWPHrbQtQ=;
- b=fLcXoP5nHs2nXupXU8cRkw1+IAK5146OcyGyGjC5xXkKLXFMhb4Zi3+GsZd8EFP9Nz
- 9+OLUPNG2St9HT4RilRdsxKVQJIu1CcL/T9FAxjDHr9UwBxTjQWNuh8pX3AWpCX0ryBI
- 7IUyFpmKQ2s6KK+A3YGvaBNOzoJI7+edGJxyCpfXmvTTYKc59at47NPwIzdTU5PWftAL
- /HbpfwSFm3DGQaWbdl1shq+1B9NzGVkJzKXRAVvB7BuKZDC/bY5ZVnRCzZcF8cH+xQBm
- 40Jw0X9l8goKIdU3wgQF0weRLL4t2vT1njtq6lpypqwDyZnPh9ag7pXMF8nIZxSK2CIJ
- 32Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=J+fYyUK4Wn/KdMxUP+5nF/zpMZEk/uz6FzEWPHrbQtQ=;
- b=QkmZL96XxgiapxgkNuJdtXvPPQtE/HGItGIxrmcV4u5EsqfzGLGGhLrzVefiz4qeCo
- Ns+h11dQpwjDdj6sIHXCFAmPVb5UFDWW/84Keq/mW4bfq/lm6I5KoCPYWmzu1+SgnBiz
- /ttcdMv7t85Rzd6ORFhpyFpEb2aKcMssbWbo5chhdNeLqdjVWJ6jsaNN7xpTDohprmsg
- JSMfs0/upPPfae0/VxwhqV8mPP1BWThTB27CPEhw6lvhuertZ1lXJaOV+AdwgGD+ul97
- jqPyJSomIk7ElkoBYru+3hGSsHFtwV7Quk2gTkjxR4jr11zHbc7H2F3OgsgHkJr8Hejw
- qxDA==
-X-Gm-Message-State: AJIora9QKVoJnpY1vZzfIOE1cFQTwBKqBmGVSCwf1iu7pU6frx48WF6y
- cXF1lAq+KkcblN8HkYp1+T7tiEzp7prkaXAJ
-X-Google-Smtp-Source: AGRyM1soun2R9vZ4GXwv9N5Rg658M+GnTn+hwGBL1jkmO2SI8KT47XlVvppgDebVY8lNNZAHKMdFeg==
-X-Received: by 2002:a5d:6c6b:0:b0:1ea:77ea:dde8 with SMTP id
- r11-20020a5d6c6b000000b001ea77eadde8mr24447112wrz.690.1657659294357; 
- Tue, 12 Jul 2022 13:54:54 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- l16-20020a7bc450000000b003a2d6f26babsm105028wmi.3.2022.07.12.13.54.53
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 12 Jul 2022 13:54:53 -0700 (PDT)
-To: qemu-devel@nongnu.org
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 12/12] target/mips: Remove GET_TARGET_STRING and
- FREE_TARGET_STRING
-Date: Tue, 12 Jul 2022 22:53:47 +0200
-Message-Id: <20220712205347.58372-13-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1oBN7V-0006jY-FW; Tue, 12 Jul 2022 17:08:37 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10958)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1oBN7T-0000fN-Gq; Tue, 12 Jul 2022 17:08:37 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26CL3ivu011246;
+ Tue, 12 Jul 2022 21:08:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=/jEjCL7YZNXl35sUy8hZMe+9+/eyZ6DMN+SytBl4AY0=;
+ b=rA5E2GoBh9K1iUsq9quvhfo/HOu7R6T8+jibkJErWFGKpfN1PeVB7PsZh/KC9z6HC4VQ
+ j2rp+03YC0MrLJnL+KV9+JCn41a0TCiz2eg62rXbBxvs+roiRZrFkrlizaTVf8Upa0fy
+ Ha5g2BdSP7IlWe8gZzHAe9nB0RoQZNRGoQnpjrkd9VwkFYI93URIjRVO1WJnZ41Fmgxe
+ bxelMyoyNxHxkdQhgTvdC5roeoUn4QeOatZ5KwUVnVQvc+Xf37IABj2KS0UJ26Ly6Gvf
+ 0KRVdy/s3VEzOV5AP9SQPU1RGh0W1dMmHCb/WvYDib9dEexk570SHyDIfNMmu2OiJdVG gg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9akr222r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 21:08:21 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26CL6dPF024445;
+ Tue, 12 Jul 2022 21:08:21 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9akr2222-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 21:08:21 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26CL6D0N011666;
+ Tue, 12 Jul 2022 21:08:20 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma05wdc.us.ibm.com with ESMTP id 3h8mb9rnn6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Jul 2022 21:08:20 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26CL8JV317629624
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 Jul 2022 21:08:19 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6F69AC6055;
+ Tue, 12 Jul 2022 21:08:19 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DC3ECC605B;
+ Tue, 12 Jul 2022 21:08:18 +0000 (GMT)
+Received: from localhost (unknown [9.211.155.64])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Tue, 12 Jul 2022 21:08:18 +0000 (GMT)
+From: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ mopsfelder@gmail.com, Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>
+Subject: [PATCH v2] target/ppc/kvm: Skip current and parent directories in
+ kvmppc_find_cpu_dt
+Date: Tue, 12 Jul 2022 18:08:10 -0300
+Message-Id: <20220712210810.35514-1-muriloo@linux.ibm.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220712205347.58372-1-f4bug@amsat.org>
-References: <20220712205347.58372-1-f4bug@amsat.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: XP-HfteOCQzu5NFqlBJiJLOHsI-Ntg0-
+X-Proofpoint-GUID: y9Es0O4dhqE4FkBSrnbe1kNJ6Y-orx7k
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-12_12,2022-07-12_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=780
+ malwarescore=0 mlxscore=0 impostorscore=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 spamscore=0 clxscore=1015
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207120086
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=muriloo@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,95 +116,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Some systems have /proc/device-tree/cpus/../clock-frequency. However,
+this is not the expected path for a CPU device tree directory.
 
-Inline these macros into the only two callers.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220628111701.677216-9-richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 ---
- target/mips/tcg/sysemu/mips-semi.c | 27 +++++++++------------------
- 1 file changed, 9 insertions(+), 18 deletions(-)
+v2:
+- Skip current and parent directories.
 
-diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
-index b54267681e..5fb1ad9092 100644
---- a/target/mips/tcg/sysemu/mips-semi.c
-+++ b/target/mips/tcg/sysemu/mips-semi.c
-@@ -198,19 +198,6 @@ static void uhi_fstat_cb(CPUState *cs, uint64_t ret, int err)
-     uhi_cb(cs, ret, err);
- }
- 
--#define GET_TARGET_STRING(p, addr)              \
--    do {                                        \
--        p = lock_user_string(addr);             \
--        if (!p) {                               \
--            report_fault(env);                  \
--        }                                       \
--    } while (0)
--
--#define FREE_TARGET_STRING(p, gpr)              \
--    do {                                        \
--        unlock_user(p, gpr, 0);                 \
--    } while (0)
--
- void mips_semihosting(CPUMIPSState *env)
- {
-     CPUState *cs = env_cpu(env);
-@@ -225,9 +212,13 @@ void mips_semihosting(CPUMIPSState *env)
- 
-     case UHI_open:
-         {
-+            target_ulong fname = gpr[4];
-             int ret = -1;
- 
--            GET_TARGET_STRING(p, gpr[4]);
-+            p = lock_user_string(fname);
-+            if (!p) {
-+                report_fault(env);
-+            }
-             if (!strcmp("/dev/stdin", p)) {
-                 ret = 0;
-             } else if (!strcmp("/dev/stdout", p)) {
-@@ -235,7 +226,7 @@ void mips_semihosting(CPUMIPSState *env)
-             } else if (!strcmp("/dev/stderr", p)) {
-                 ret = 2;
-             }
--            FREE_TARGET_STRING(p, gpr[4]);
-+            unlock_user(p, fname, 0);
- 
-             /* FIXME: reusing a guest fd doesn't seem correct. */
-             if (ret >= 0) {
-@@ -243,7 +234,7 @@ void mips_semihosting(CPUMIPSState *env)
-                 break;
-             }
- 
--            semihost_sys_open(cs, uhi_cb, gpr[4], 0, gpr[5], gpr[6]);
-+            semihost_sys_open(cs, uhi_cb, fname, 0, gpr[5], gpr[6]);
-         }
-         break;
- 
-@@ -314,14 +305,14 @@ void mips_semihosting(CPUMIPSState *env)
- 
-             pct_d = strstr(p, "%d");
-             if (!pct_d) {
--                FREE_TARGET_STRING(p, addr);
-+                unlock_user(p, addr, 0);
-                 semihost_sys_write(cs, uhi_cb, 2, addr, len);
-                 break;
-             }
- 
-             str = g_string_new_len(p, pct_d - p);
-             g_string_append_printf(str, "%d%s", (int)gpr[5], pct_d + 2);
--            FREE_TARGET_STRING(p, addr);
-+            unlock_user(p, addr, 0);
- 
-             /*
-              * When we're using gdb, we need a guest address, so
+v1: https://lore.kernel.org/qemu-devel/20220711193743.51456-1-muriloo@linux.ibm.com/
+
+ target/ppc/kvm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 6eed466f80..466d0d2f4c 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -1877,6 +1877,12 @@ static int kvmppc_find_cpu_dt(char *buf, int buf_len)
+     buf[0] = '\0';
+     while ((dirp = readdir(dp)) != NULL) {
+         FILE *f;
++
++        /* Don't accidentally read from the current and parent directories */
++        if (strcmp(dirp->d_name, ".") == 0 || strcmp(dirp->d_name, "..") == 0) {
++            continue;
++        }
++
+         snprintf(buf, buf_len, "%s%s/clock-frequency", PROC_DEVTREE_CPU,
+                  dirp->d_name);
+         f = fopen(buf, "r");
 -- 
 2.36.1
 
