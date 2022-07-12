@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5AD571A85
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:52:56 +0200 (CEST)
-Received: from localhost ([::1]:59290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4C2571AA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:58:09 +0200 (CEST)
+Received: from localhost ([::1]:42826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBFNn-0006Pd-Fe
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:52:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51070)
+	id 1oBFSq-00068f-O5
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oBFIK-0000GK-G8
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:47:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22816)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oBFLF-000373-TF
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oBFII-0000KH-5O
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:47:15 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oBFL7-0001Qw-OA
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657630032;
+ s=mimecast20190719; t=1657630208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VY9+pLsviGvcBUHTeOWYNWwAWnENofpNZzApa9yRYz4=;
- b=RplBviNkYw4kNs5r1gmXUjh5WOzUj9NFvLAAkeqLfOuOvk67eFAQQ3SNX/jApJOe1uRLae
- +l6E1kmFM2VBsgfDTHUB5KVyTiIZc8HgUpXyy9UZJkhv6JS9BqSODEq4Nssc7Hb7qhclhj
- EizpsMLTLFIxBTZRFGx433CJvqZNigw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gHygSK+6+NNh3UJy9c+v7SWR6sNBV/G9iEqB9FThl5w=;
+ b=XalPcDVQR1bWDhPniavMuO5KMI0bOmHwy7wPk8jDU/KH4TONAIhjQIB/T6pSGHbLanO1UU
+ YkCg1a3b0XbKvgtuqYeMYoYWdve4LQjszT/znbbSeh/a/m0a0IAhEcohSQAvdhKjM37Tp4
+ Tssnt1kTJwzJ3XhQCOOJEVE9hU65wro=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-DaAvtNGgM9WoIO9ieKWMFQ-1; Tue, 12 Jul 2022 08:47:09 -0400
-X-MC-Unique: DaAvtNGgM9WoIO9ieKWMFQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F1A61C0336D;
- Tue, 12 Jul 2022 12:47:09 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA6CE1121314;
- Tue, 12 Jul 2022 12:47:08 +0000 (UTC)
-Date: Tue, 12 Jul 2022 13:47:07 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/8] virtio_queue_aio_attach_host_notifier: remove
- AioContext lock
-Message-ID: <Ys1tS51bxJ+VovCt@stefanha-x1.localdomain>
-References: <20220609143727.1151816-1-eesposit@redhat.com>
- <20220609143727.1151816-2-eesposit@redhat.com>
- <YsRGpb02psGIffrw@stefanha-x1.localdomain>
- <3c910e80-dfdd-da1c-9683-3d7db51467c4@redhat.com>
+ us-mta-660-TV_c9o1hPSqyNoZ2mV0aFg-1; Tue, 12 Jul 2022 08:50:01 -0400
+X-MC-Unique: TV_c9o1hPSqyNoZ2mV0aFg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ y21-20020a056402359500b0043adf65d1a0so2805824edc.10
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gHygSK+6+NNh3UJy9c+v7SWR6sNBV/G9iEqB9FThl5w=;
+ b=IQnWoAS7Xqf1X4/jOdWRyLDol9RVZCao8zDEsGslX9zx5rj+nymVddPWgxC6PEA8wJ
+ LyebaHzpJ//Ok7cyBujUu5MZFp2c95HryVv+0/PApEF8uZzlwWFHmftWPbBokydoqZv4
+ pA1eHIwQDWpwlb/fVMIaRs23aZ8SiQq/y878F2+mXiLliPTDBLzzH7Zyqaq0FXLPExtK
+ 0w9H/eIG159Ftu6wnhH64Jor7ykzJ+wDT7rswO61jyuzll9eNW/rPIBQjLQQmoQ1EE7Z
+ 6obTwsaxMYfdOGFJnsl7GBFXpELZFxSE3XF/Kmkfbv3nA7diK6PvyntvlnSVY/FcJJwX
+ M2vQ==
+X-Gm-Message-State: AJIora8NSyxAheU8ONR9aUK+R3iouHCNzHjH7Vk5iayiPM13JB7/ASi2
+ ipEcg67qgP2scWZdlSzzZBGOYKvrfmVpcxr65I86j7azdASDAtTeJUZODB98cXG40z+UlQyIzmn
+ zWWDz6sNdGXbnVhtzA1AxFWVZNF7l0cZdECoxjlJ5d5otN6ycFnIe/eDK/whKYzBKHNQ=
+X-Received: by 2002:a05:6402:c44:b0:431:52cc:f933 with SMTP id
+ cs4-20020a0564020c4400b0043152ccf933mr31987909edb.41.1657630199846; 
+ Tue, 12 Jul 2022 05:49:59 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tLbjv1x1Y/o0281z67QdPzNYfbG3Dzn+8OXsSZYaJj9IFLytdDJ8ZhXeSrbBZ3dnZmyP99vw==
+X-Received: by 2002:a05:6402:c44:b0:431:52cc:f933 with SMTP id
+ cs4-20020a0564020c4400b0043152ccf933mr31987861edb.41.1657630199404; 
+ Tue, 12 Jul 2022 05:49:59 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ cb1-20020a0564020b6100b0043a6dc3c4b0sm5988260edb.41.2022.07.12.05.49.57
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jul 2022 05:49:57 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/18] Misc patches for 2022-07-12
+Date: Tue, 12 Jul 2022 14:49:38 +0200
+Message-Id: <20220712124956.150451-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8cYzRl2hzEEm5xmC"
-Content-Disposition: inline
-In-Reply-To: <3c910e80-dfdd-da1c-9683-3d7db51467c4@redhat.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,86 +97,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 180c2f24d5e8eada41e012a3899d29bb695aae06:
 
---8cYzRl2hzEEm5xmC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2022-07-06 10:41:34 +0530)
 
-On Fri, Jul 08, 2022 at 11:01:37AM +0200, Emanuele Giuseppe Esposito wrote:
->=20
->=20
-> Am 05/07/2022 um 16:11 schrieb Stefan Hajnoczi:
-> > On Thu, Jun 09, 2022 at 10:37:20AM -0400, Emanuele Giuseppe Esposito wr=
-ote:
-> >> @@ -146,7 +147,6 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
-> >> =20
-> >>      s->dataplane_starting =3D false;
-> >>      s->dataplane_started =3D true;
-> >> -    aio_context_release(s->ctx);
-> >>      return 0;
-> >=20
-> > This looks risky because s->dataplane_started is accessed by IO code and
-> > there is a race condition here. Maybe you can refactor the code along
-> > the lines of virtio-blk to avoid the race.
-> >=20
->=20
-> Uhmm could you explain why is virtio-blk also safe here?
-> And what is currently protecting dataplane_started (in both blk and
-> scsi, as I don't see any other AioContext lock taken)?
+are available in the Git repository at:
 
-dataplane_started is assigned before the host notifier is set up, which
-I'm assuming is an implicit write barrier.
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-> Because I see that for example virtio_blk_req_complete is IO_CODE, so it
-> could theoretically read dataplane_started while it is being changed in
-> dataplane_stop? Even though I guess it doesn't because we disable and
-> clean the host notifier before modifying it?
+for you to fetch changes up to 9fb6d8a9b2fc0e150b56a0ff4341494dcd8360b8:
 
-virtio_blk_data_plane_stop() has:
+  meson: place default firmware path under .../share (2022-07-12 14:46:58 +0200)
 
-  aio_context_acquire(s->ctx);
-  aio_wait_bh_oneshot(s->ctx, virtio_blk_data_plane_stop_bh, s);
+----------------------------------------------------------------
+* fuzzing fixes (Alexander)
+* fix cross compilation CFLAGS and compiler choice
+* do not specify -bios option for tests/vm
+* miscellaneous fixes
+* preparation for pre-install tree in the build directory (Akihiko)
 
-  /* Drain and try to switch bs back to the QEMU main loop. If other users
-   * keep the BlockBackend in the iothread, that's ok */
-  blk_set_aio_context(s->conf->conf.blk, qemu_get_aio_context(), NULL);
+----------------------------------------------------------------
+Akihiko Odaki (2):
+      build: Do not depend on pc-bios for config-host.mak
+      qga: Relocate a path emitted in the help text
 
-  aio_context_release(s->ctx);
+Alexander Bulekov (2):
+      build: improve -fsanitize-coverage-allowlist check
+      fuzz: only use generic-fuzz targets on oss-fuzz
 
-and disables host notifiers. At that point the IOThread no longer
-receives virtqueue kicks and all in-flight requests have completed.
-dataplane_started is only written afterwards so there is no race with
-virtio_blk_req_complete().
+Marc-André Lureau (1):
+      audio/dbus: fix building
 
->=20
-> But if so, I don't get what is the difference with scsi code, and why we
-> need to protect only that instance with the aiocontext lock?
+Mauro Matteo Cascella (1):
+      scsi/lsi53c895a: fix use-after-free in lsi_do_msgout (CVE-2022-0216)
 
-The race condition I pointed out is not with virtio_blk_req_complete()
-and data_plane_stop(). It's data_plane_start() racing with
-virtio_blk_req_complete().
+Miaoqian Lin (1):
+      accel: kvm: Fix memory leak in find_stats_descriptors
 
-The virtio-scsi dataplane code is different for historical reasons and
-happens to have the race. I don't think the virtio-blk code is affected.
+Paolo Bonzini (11):
+      tests/vm: do not specify -bios option
+      pc-bios/optionrom: use -m16 unconditionally
+      configure, pc-bios/optionrom: pass cross CFLAGS correctly
+      configure, pc-bios/s390-ccw: pass cross CFLAGS correctly
+      configure, pc-bios/vof: pass cross CFLAGS correctly
+      configure: allow more host/target combos to use the host compiler
+      configure: write EXTRA_CFLAGS for all sub-Makefiles
+      tests/tcg: compile system emulation tests as freestanding
+      configure: pass whole target name to probe_target_compiler
+      build: try both native and cross compilers
+      meson: place default firmware path under .../share
 
-Stefan
-
---8cYzRl2hzEEm5xmC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLNbUsACgkQnKSrs4Gr
-c8hgqwf9HScoTqc8ZsbW4enzRp67yelZ0yLBtW0oEGfmA/2E948jSLTEdXIKZBMG
-aRYqX9qFWW4/Cw60XK7Dck+yqUodteGSH78j9dMLk5Q78p7TIlAsPnnWdhRsVGHy
-qYJ1xUj6FIAn3ctAVm5D8IYkPE/9Y7B0vyjY0gPPg9ws2V+4Oud7i0+rtHbVM3Ob
-GlP58tGol4GON4LtoShSYNhvZ38hP/S+oMntsKKXIuvpj2aCMd92ZE3BNGyImjvi
-RTtoQXnD8pmkuukmD69QZtxaGqUnN46GNP27d0XzyapDGReAq06tSNoVqUGwqZ7B
-Ip70teKqIQ1dQpoRJADoKcqI/mjWdA==
-=L5Me
------END PGP SIGNATURE-----
-
---8cYzRl2hzEEm5xmC--
+ Makefile                               |   2 +-
+ accel/kvm/kvm-all.c                    |   1 +
+ audio/meson.build                      |   2 +-
+ configure                              | 201 ++++++++++++++++++++-------------
+ hw/scsi/lsi53c895a.c                   |   3 +-
+ meson.build                            |   5 +-
+ meson_options.txt                      |   2 +-
+ pc-bios/optionrom/Makefile             |  15 +--
+ pc-bios/optionrom/code16gcc.h          |   3 -
+ pc-bios/s390-ccw/Makefile              |  20 ++--
+ pc-bios/s390-ccw/netboot.mak           |   6 +-
+ pc-bios/vof/Makefile                   |   8 +-
+ qga/main.c                             |   6 +-
+ scripts/meson-buildoptions.sh          |   2 +-
+ scripts/oss-fuzz/build.sh              |   4 +-
+ tests/tcg/Makefile.target              |   1 +
+ tests/tcg/aarch64/system/pauth-3.c     |   2 +-
+ tests/tcg/aarch64/system/semiconsole.c |   2 +-
+ tests/tcg/aarch64/system/semiheap.c    |   2 +-
+ tests/tcg/multiarch/system/memory.c    |   2 +-
+ tests/vm/fedora                        |   1 -
+ tests/vm/freebsd                       |   1 -
+ tests/vm/netbsd                        |   1 -
+ tests/vm/openbsd                       |   1 -
+ 24 files changed, 163 insertions(+), 130 deletions(-)
+ delete mode 100644 pc-bios/optionrom/code16gcc.h
+-- 
+2.36.1
 
 
