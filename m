@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621BD57125E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 08:44:10 +0200 (CEST)
-Received: from localhost ([::1]:44600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEECB57124E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 08:38:44 +0200 (CEST)
+Received: from localhost ([::1]:39178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB9cu-0003Iv-85
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 02:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51302)
+	id 1oB9Xe-0007ok-Ro
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 02:38:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB9G6-00040j-Kx
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 02:20:34 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:54000)
+ id 1oB9G9-00044L-4Q
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 02:20:37 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:38569)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB9G4-0002IQ-Mp
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 02:20:34 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id p9so6744752pjd.3
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 23:20:32 -0700 (PDT)
+ id 1oB9G7-0002Iw-Dx
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 02:20:36 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id e132so6706336pgc.5
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 23:20:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FcVDMx6XBLuLD21szWjiKhXVc6asjVfFqXJMCZRcXHg=;
- b=q/BizUmI3IbofzdhuvEvIIGRPg0V2A57D1uK7UCvGy5CvYQEa0t3deOyTvYdfna7bI
- yINuwu+LJUTLN9d4oas4LkVGIhp57qAYfKf2cRT9u+pV/WaOc/xBt7vSnO6wmOOo8kzm
- MnKMobPqW0InFuNjP25TzzvmwGMZv56APBS1BLCDRgBycndexTOLRqYP+LNe0p9E5VAV
- Nd4tR+K+YKhOnZzBYI9BbO2lHVMy5TPaXAMzwTJjwdmuM8VSaXhfj1LKZjEfKeOlFA4w
- rrp7TWflgkJS6rM8AWZ2IthBlR4wtoaDtIlifXtpUWrgZVF+/EuzDT5v2wmPaaTJxYYH
- I7Ew==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NKgbO3syVPPBCsmhbVDzMpoOrW9wAuvKeglhNug4je8=;
+ b=ug9oUTbB+WFA4/J0VCeH2DW3Th273vTRyh52yPW+O7DQZhB6jRwQ1uRhITEEePFd9d
+ L0UZKZvHdSGSoZLdwyWIHk8vdT85gPtkAhV1C2LJWVwGnIZCOFkYE3vCBJMU5SAP/6FD
+ aD0kPNV7TvWw2D89w/q76d9Mj83uHvMnNFniXoOHWVBVEYs7Lda6YeQyjWkiqKSmONA9
+ 2gNu96FBFtvmiB0aA6u4J+8UzAIU2CRp6WwI2XczfvJQybLcCc5dNKMgIN5mdNxKTp+I
+ ztJ4Wdh+OVrrlseVRYOpyH79X/llegPCh7ekSzwrQCEA+o7JBAKtzOjBCbGVJ3QhJbYb
+ u0sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FcVDMx6XBLuLD21szWjiKhXVc6asjVfFqXJMCZRcXHg=;
- b=CizQakDJ5jap4ZrGIpMZj/s500km54JpBU8IjRl6rlp7TRzSTJdghaC/IxMX2BAMJ9
- wvr6HPPLBqctNj1+eaiyxXxakJM1WP7miQ3ykD1aQYAdfujNiTxpJdXxjlaMgH7d2fZq
- 4VcatXeq02Hd1P98s0yMY1Kmoknzv6DqZ4kS0piOeGEbGQCb5JTN4Y5wgleqvJeUL+FV
- 51LYZXkc/LR1HKVSxk+VXbRo10eXrGajcoq48ZaiCUU60S4CFupB4RpWLjSVdsPXbNuo
- 2TDLKgM+ya3vfzgdoQCZeNAXWmJb3gXi/sQt0uLYXXk9i25lkz3dx2EzWwNSoIHYfj3/
- VMMg==
-X-Gm-Message-State: AJIora8WwdMOQcJwL0+30HjmOStj6B3G6o50FKk5oLNQeiWFOC9ynuBz
- S14OeHljuA4zvIF2tje97pV28ZH2km+XGXXQ
-X-Google-Smtp-Source: AGRyM1vcUhmXdGfFLyoewfKjRFqPeO08epDhtTG4/ZCRcgaxL4Id9nXfyw96wykR44fnP3SbWuokbQ==
-X-Received: by 2002:a17:90a:e008:b0:1ef:831a:1fff with SMTP id
- u8-20020a17090ae00800b001ef831a1fffmr2380124pjy.221.1657606831060; 
- Mon, 11 Jul 2022 23:20:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NKgbO3syVPPBCsmhbVDzMpoOrW9wAuvKeglhNug4je8=;
+ b=OxUaCptumk2vaZnHqSqeaFaHKPuFyMxWDD3JBcwzYacqRutcMVMgGoPK/q/kzSGV1x
+ 2oxQURmAYYd6J3Bb9UF8qEL2wefHIKyuZQ34vtkpf7kW+EfIN39dLFJKIoBTPvHEB+8e
+ F/Od2ZTVHOqyBpqceYc0f+E3kAxB7h0tZdbc2+msX9nuvu/M+H/Dw4EqXpVl5fkyrkRK
+ 1W+HL9Ir67aWQITAPBZpirzDGrAmPiXBHQGN7oFHgIY/4U5MhgTeqb4glHpTMOS+NjZ3
+ clVbag0US7nqC8RrZVzu0G1v5nIskH0GhHcD+j2fX/AlCDFYqR+mfwQ6zWl39wz/CaX8
+ 5vCg==
+X-Gm-Message-State: AJIora/F3qNc18iwy/dHiZ3cPOpZ/Ocsq3Y1iEt5pcidl1DkJFsWW2Z7
+ 8F3uVKIbdRNkrjYqJSqN2DquQFHeRLbEJ7rT
+X-Google-Smtp-Source: AGRyM1uOjaTtlrnc7a9nJlXQ8N9kpQxZug9LzbPQaWLP7JIUePmHQ1PJRet+J/Oc8iGUF3yvfhKHag==
+X-Received: by 2002:a05:6a00:2487:b0:525:7c72:ee73 with SMTP id
+ c7-20020a056a00248700b005257c72ee73mr21986951pfv.47.1657606833999; 
+ Mon, 11 Jul 2022 23:20:33 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- f2-20020aa79682000000b0052ab7144de8sm6040776pfk.10.2022.07.11.23.20.29
- for <qemu-devel@nongnu.org>
+ f2-20020aa79682000000b0052ab7144de8sm6040776pfk.10.2022.07.11.23.20.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jul 2022 23:20:30 -0700 (PDT)
+ Mon, 11 Jul 2022 23:20:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] tcg patch queue
-Date: Tue, 12 Jul 2022 11:50:23 +0530
-Message-Id: <20220712062025.197634-1-richard.henderson@linaro.org>
+Cc: Shaobo Song <shnusongshaobo@gmail.com>, qemu-stable@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 1/2] tcg: Fix returned type in
+ alloc_code_gen_buffer_splitwx_memfd()
+Date: Tue, 12 Jul 2022 11:50:24 +0530
+Message-Id: <20220712062025.197634-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220712062025.197634-1-richard.henderson@linaro.org>
+References: <20220712062025.197634-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,30 +90,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9fed1bca6bc643ce91b6117f4974421aaede4751:
+From: Shaobo Song <shnusongshaobo@gmail.com>
 
-  Merge tag 'pull-target-arm-20220711' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-07-11 22:02:09 +0530)
+This fixes a bug in POSIX-compliant environments. Since we had allocated
+a buffer named 'tcg-jit' with read-write access protections we need a int
+type to combine these access flags and return it, whereas we had inexplicably
+return a bool type. It may cause an unnecessary protection change in
+tcg_region_init().
 
-are available in the Git repository at:
+Cc: qemu-stable@nongnu.org
+Fixes: 7be9ebcf924c ("tcg: Return the map protection from alloc_code_gen_buffer")
+Signed-off-by: Shaobo Song <shnusongshaobo@gmail.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220624150216.3627-1-shnusongshaobo@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/region.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20220712
+diff --git a/tcg/region.c b/tcg/region.c
+index 71ea81d671..88d6bb273f 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -548,7 +548,7 @@ static int alloc_code_gen_buffer_anon(size_t size, int prot,
+ #ifdef CONFIG_POSIX
+ #include "qemu/memfd.h"
+ 
+-static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
++static int alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+ {
+     void *buf_rw = NULL, *buf_rx = MAP_FAILED;
+     int fd = -1;
+-- 
+2.34.1
 
-for you to fetch changes up to b0f650f0477ae775e0915e3d60ab5110ad5e9157:
-
-  accel/tcg: Fix unaligned stores to s390x low-address-protected lowcore (2022-07-12 10:43:33 +0530)
-
-----------------------------------------------------------------
-Fix for duplicate tlb check on unaligned access.
-Fix for w^x code gen buffer mapping.
-
-----------------------------------------------------------------
-Ilya Leoshkevich (1):
-      accel/tcg: Fix unaligned stores to s390x low-address-protected lowcore
-
-Shaobo Song (1):
-      tcg: Fix returned type in alloc_code_gen_buffer_splitwx_memfd()
-
- accel/tcg/cputlb.c | 8 +++++---
- tcg/region.c       | 2 +-
- 2 files changed, 6 insertions(+), 4 deletions(-)
 
