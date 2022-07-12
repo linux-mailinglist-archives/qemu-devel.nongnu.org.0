@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044C6571991
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:14:29 +0200 (CEST)
-Received: from localhost ([::1]:39308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E922C571993
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:14:37 +0200 (CEST)
+Received: from localhost ([::1]:39746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBEmZ-0003sh-Q1
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42380)
+	id 1oBEmj-0004AD-3U
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:14:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oBEja-0000sr-8l; Tue, 12 Jul 2022 08:11:22 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41094)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBEjj-0000xc-Dw
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:11:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oBEjY-0002p5-Kr; Tue, 12 Jul 2022 08:11:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=e0JJ6zQg2ExsQTqxwJOvUkbMKgW6PkV4BZZengdUaog=; b=syALaxq5TAzgdpqK/22Y91UA/y
- dMJ1GlQXD+YZmmKAhxDd2+YBY30CbTbacDvXLm+dCpLOm4Y9c/bTMMxmBmc3fbV+78Tar0S/hYNom
- snjNrkFJhBcHK18/37J8n/V25s2QdSHYfoyvTuhwyToceAwR94F7fn9CB3y//lCKaEV72KkGvaXmp
- DN2nhKR0j0X2LhvC9kuUtQhNCqMVKcnM0BBEtYPAOxietdIpePSY0OkF/rXW5qkNFil+PTjADlPpo
- 8GO5ruaQFUnmBnn4Mb86bWih4ZoA1T1syb+/2ASjXFPC9rwQl/KCAMKq3BtAaSXBL0nG3eAWk/Pn9
- shqhicYx9TEQl6ekpvNy06hkMb2YDA4XdNrxWl48EAD2IdnvsG1btn4vH4mnMXxI5Xr0g/O+yAuTH
- ZBb+FopNvJwow/jyGaEbVZYapwSbqJKqnnyTqB9zhWLvOk+I9KWTm9cxSUMudeXRDmNEFO4uM1t6t
- vGFJ9pZYOwa/sKD2ctnIEszh/Rew9lCxwzymanMUJ24Bikvj/JtNyoHs16YAch4ynGIxrDOCQXP8b
- LsIY8cmNQXeHiJV4vgoa0aw72VA0q40SWSKVEYym2g4NHfqDYA1/3HpY7uVsqcMGrD3oSH7yB167M
- 31KPyTPHjUkdsszb9t7SjEV55PEcfhuYEm9TZ1Ex0=;
-Received: from [2a00:23c4:8ba5:df00:fd7d:1c3a:1dd0:c576]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oBEiB-0009Kj-Gn; Tue, 12 Jul 2022 13:09:59 +0100
-Message-ID: <4ff0668b-02b9-b0dc-99fc-6471d534a404@ilande.co.uk>
-Date: Tue, 12 Jul 2022 13:11:07 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBEjg-0002qQ-G0
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:11:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657627887;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hUB6RzY1+/oEvYTZyxRDnPtB3AAIVD+YRfFRZz625+Y=;
+ b=J9ktm5rkEFwoxf6S5L0uf5JJHAzvkLRqIgYUTx6vn4NL/xk2u3QQPmGAcaf+VafUJJ5EGR
+ tpi2e4baJ398QR/pjJeEP126/QV7RHsEIriwv9T1TgwdcsIPgc7pubZ6YG28z0NY6/4Eqz
+ JUCf3cxXBxZoABw8LIzuVKTz6Q4YR6c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-133-tSSbwSQOOUqQg6Y0JBdbrw-1; Tue, 12 Jul 2022 08:11:24 -0400
+X-MC-Unique: tSSbwSQOOUqQg6Y0JBdbrw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7BD5D811E83;
+ Tue, 12 Jul 2022 12:11:23 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 142B2401E54;
+ Tue, 12 Jul 2022 12:11:22 +0000 (UTC)
+Date: Tue, 12 Jul 2022 13:11:21 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: its@irrelevant.dk
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Fam Zheng <fam@euphon.net>, Keith Busch <kbusch@kernel.org>,
+ darren.kenny@oracle.com
+Subject: Re: [QEMU 1/1] nvme: Fix misleading macro when mixed with ternary
+ operator
+Message-ID: <Ys1k6ameYujtE1TX@stefanha-x1.localdomain>
+References: <d3fc4a90ba74d4874c445480b48d45b67c9322ae.1657200900.git.darren.kenny@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org
-References: <20220630194249.886747-1-danielhb413@gmail.com>
- <20220630194249.886747-3-danielhb413@gmail.com>
- <55014e2a-a668-4843-8338-850abeb5ff04@kaod.org>
- <47277f4f-a6a5-85dc-4806-67df8e2fc153@gmail.com>
- <6d37b1dc-5dfb-2513-f74e-3f58e84e8117@kaod.org>
- <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
- <6b5e0e42-973d-19de-4979-7db06941ea19@kaod.org>
- <13b65b0e-716f-a6e0-fd63-c1e7cfe2a63c@kaod.org>
- <c08df33f-f6e8-67bb-9159-190a0b9a2dd5@ilande.co.uk>
- <af1b3289-a9ff-b417-e2dd-ae9801f2c74a@kaod.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <af1b3289-a9ff-b417-e2dd-ae9801f2c74a@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba5:df00:fd7d:1c3a:1dd0:c576
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 2/9] target/ppc: add errp to kvmppc_read_int_cpu_dt()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="iIMBD4atD7ty3CIe"
+Content-Disposition: inline
+In-Reply-To: <d3fc4a90ba74d4874c445480b48d45b67c9322ae.1657200900.git.darren.kenny@oracle.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,80 +84,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/07/2022 08:42, Cédric Le Goater wrote:
 
->>> Anything special I should know ?
->>
->> As I don't have access to a G5 I've never tried that, however the qemu-system-ppc64 
->> mac99 is wired differently to the qemu-system-ppc mac99 machine so I wouldn't be 
->> surprised if something is broken there.
->>
->> My normal test for MacOS is something like:
->>
->>     qemu-system-ppc -M mac99 -accel kvm -hda macos104.img
->>
->> Can you try qemu-system-ppc and see if it is any better? If not then I can fire up 
->> the G4 and get the git hashes for my last known working configuration.
-> 
-> Same issue with 32bit.
+--iIMBD4atD7ty3CIe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I've just fired up my G4 to test this again, pulled the latest QEMU git master and 
-confirmed that I have a working setup with the details below:
+On Thu, Jul 07, 2022 at 01:36:21PM +0000, Darren Kenny wrote:
+> Using the Parfait source code analyser and issue was found in
+> hw/nvme/ctrl.c where the macros NVME_CAP_SET_CMBS and NVME_CAP_SET_PMRS
+> are called with a ternary operatore in the second parameter, resulting
+> in a potentially unexpected expansion of the form:
+>=20
+>   x ? a: b & FLAG_TEST
+>=20
+> which will result in a different result to:
+>=20
+>   (x ? a: b) & FLAG_TEST.
+>=20
+> The macros should wrap each of the parameters in brackets to ensure the
+> correct result on expansion.
+>=20
+> Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
+> ---
+>  include/block/nvme.h | 44 ++++++++++++++++++++++----------------------
+>  1 file changed, 22 insertions(+), 22 deletions(-)
 
-Host kernel: (5.1.0-rc2+)
-commit a3ac7917b73070010c05b4485b8582a6c9cd69b6
-Author: Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon Mar 25 14:49:00 2019 -0700
+Klaus: ping
 
-Guest kernel: (4.14.0-3-powerpc)
-using Debian ports debian-9.0-powerpc-NETINST-1.iso
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Command line:
-./qemu-system-ppc [-M mac99] -accel kvm -cdrom 
-/home/mca/images/debian-9.0-powerpc-NETINST-1.iso -boot d -nographic
+--iIMBD4atD7ty3CIe
+Content-Type: application/pgp-signature; name="signature.asc"
 
-However if I switch to using the latest Debian ports 
-debian-10.0.0-powerpc-NETINST-1.iso then I get a failure:
+-----BEGIN PGP SIGNATURE-----
 
-[    0.198565] BUG: Unable to handle kernel data access on read at 0xbb0030d4
-[    0.205152] Faulting instruction address: 0x0001b0c4
-[    0.210175] Oops: Kernel access of bad area, sig: 11 [#1]
-[    0.214933] BE PAGE_SIZE=4K MMU=Hash PowerMac
-[    0.218226] Modules linked in:
-[    0.220746] CPU: 0 PID: 0 Comm: swapper Not tainted 5.6.0-2-powerpc #1 Debian 5.6.14-1
-[    0.226967] NIP:  0001b0c4 LR: 000030d4 CTR: 00000000
-[    0.230869] REGS: c7fb5908 TRAP: 0300   Not tainted  (5.6.0-2-powerpc Debian 5.6.14-1)
-[    0.236844] MSR:  00001012 <ME,DR,RI>  CR: 24002820  XER: 20000000
-[    0.242096] DAR: bb0030d4 DSISR: 40000000
-[    0.242096] GPR00: c0044e70 c7fb59c0 c0b26510 c7fb5f48 bb0030d4 40000000 00000000 
-00000001
-[    0.242096] GPR08: ff340038 bb0030d4 00001032 c7fb59c0 00000000 00000000 00000000 
-00000004
-[    0.242096] GPR16: 029c61f0 029c5d68 07c5cd08 00000001 029dd844 fffffffd fff55d10 
-42000000
-[    0.242096] GPR24: c0af6704 c0b20d94 00000000 00000000 c0bd862c 00000000 00000000 
-0000000d
-[    0.271138] NIP [0001b0c4] 0x1b0c4
-[    0.273978] LR [000030d4] 0x30d4
-[    0.276410] Call Trace:
-[    0.278812] Instruction dump:
-[    0.281219] 55290206 XXXXXXXX XXXXXXXX XXXXXXXX 4c00012c XXXXXXXX XXXXXXXX XXXXXXXX
-[    0.287561] 419f0028 XXXXXXXX XXXXXXXX XXXXXXXX 81690000 XXXXXXXX XXXXXXXX XXXXXXXX
-[    0.293922] ---[ end trace 3a9d775bab6f3340 ]---
-[    0.297491]
-[    1.284408] Kernel panic - not syncing: Attempted to kill the idle task!
-[    1.290027] ---[ end Kernel panic - not syncing: Attempted to kill the idle task! ]---
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLNZOkACgkQnKSrs4Gr
+c8ijLAf/dpFf5X3cvWuQHX0X9WpwnZsMp/WF6PoyxVXXlpW1/Po4priRfcZp7JSB
+fhQ5BEzgL7B6o5vsHQl4W6OQP24HffiffnXUDll6WkFX3k8sO1Jhn9KSqnf9X3Sv
+byh2JELiQbZYaME5Lk+eesGFcoSmhCDrMdbBthps9Z8Z4rTtnnHk88f4EjIhaBjZ
+UHDQBYcpPCjOeNcyru6fFhQl8xC7wj8W6H8BVyvyK+pkUFTfBO6TjBmkotTofDJV
+DxuFThAv0QuE0e/VRDfDjwulDeqVO2AOjvvBeatRO9kBuba+gVPVWFQf7eVwt16u
+yJqwNqf6zrf+E3k06SpdNYXNhuoSnA==
+=qd/p
+-----END PGP SIGNATURE-----
 
+--iIMBD4atD7ty3CIe--
 
-Decompressing the initrd takes quite a long time, but I think this is the issue that 
-was recently discussed on the mailing list?
-
-I think the next step should be to move my host kernel forward to a more current 
-version with the working debian-9.0-powerpc-NETINST-1.iso and see if it is able to 
-boot without any problems.
-
-
-ATB,
-
-Mark.
 
