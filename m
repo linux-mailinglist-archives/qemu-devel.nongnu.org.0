@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B485715D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:34:30 +0200 (CEST)
-Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D30325715D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:35:32 +0200 (CEST)
+Received: from localhost ([::1]:52350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBCHm-0003zd-4b
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:34:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
+	id 1oBCIl-0004hp-TJ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1oBCEg-0000xm-LC
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:31:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1oBCEd-0005Yi-C7
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:31:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657618274;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4QXkpRfSfStZPV+UvqnCbimj+iouYZXetKbLfzs8hGc=;
- b=FlO2APnu7TFhCXmmFJkrFuIMojU8jP3wt1bUVTQEpKNmKiwZ9PokfF8Qg6I36jwv2V8X9q
- 1E+SPBGNOsYUis1n2bTW5hZhl/nS3VcfvnZ7vX2AIe2Se4C9mrF5w1z3VnozHfubIhg6zu
- LDVE6omwcaAbiaNYVESso+5emHte8EI=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-381-BxzcGV6QNhGKd3bcqbcIGA-1; Tue, 12 Jul 2022 05:31:11 -0400
-X-MC-Unique: BxzcGV6QNhGKd3bcqbcIGA-1
-Received: by mail-yb1-f200.google.com with SMTP id
- t10-20020a5b07ca000000b0066ec1bb6e2cso5644783ybq.14
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 02:31:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oBCG5-0001os-Ly; Tue, 12 Jul 2022 05:32:45 -0400
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:42623)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oBCFr-0005lD-HE; Tue, 12 Jul 2022 05:32:45 -0400
+Received: by mail-lj1-x234.google.com with SMTP id r9so9183889ljp.9;
+ Tue, 12 Jul 2022 02:32:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+iO7ZWU58OptAthR9roRRVHkML4fVitWMMleas1hsTY=;
+ b=S0uND38iO6hIPPSVyrU7fSf+RjOlwD36nYtWliBz1MH2YJ7Jo16fOBOp0nHW9U2aRY
+ axqBViHCSCoBaFSc3JUtUxm4nv+pyDpvsbvL5psi+PHMBiVsDtkNDuEO5wUtmEPt4Vfl
+ 01h5fPm67q/wCoBxElK1a00O7XngrWycR1CjcxYSh4c1pEw57WmUErKCijWPrLqi3F5o
+ dwhICfuEb/uc6peVCzGxknMfMQDPVAJ9fVz8Xw1Uw+wrRBgVMSrWSpGGTYrTYlylGfoj
+ hQ9Igz3A44cHsQC4yhUeElfrOeDGTdfJjd/JyUAvMdbv4foeAM9JDDQAqqxUgJWQ6k9L
+ SLFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=4QXkpRfSfStZPV+UvqnCbimj+iouYZXetKbLfzs8hGc=;
- b=pCw345YaSs7wNp6RAe2a/JDKVx1JCQuNejHKczljDc40OtcP/BAsMRKhLBTqCjEjbS
- mZK44cSRv0mW9rHgvGhCOMixO+YUgk6BwXblDdM+7G+FM+Tb0d+JeWkWr9vjjgR0BT5/
- EbJplbxEFW2yFJiB4tLUqIjZ8r8pe6QdFeGkIcCtZR7hL6Vuh2DTCJhyg4FmitdKhyH1
- 4EkEMb/W3tev28086BI7CKJoLParLCJfE6akp/QDhx/sUjzy4TH6MOiDfXRmmI+ktrD9
- s65+X5i+KUTqGkWp/u8dIVYODPCoTHdxtztPuwVAGaVtgIdHdYybiXf+AQ/HDoXgzdLz
- Q0sA==
-X-Gm-Message-State: AJIora8/IlElbQhNRRNvShjqeeUHdm4OrxwHGKPBtNVPTOQ7MVm2vgSY
- dWaYSv0EFIPemYCAQrdNF0cR4E01q9qJmxSmR9ezJidXBW82/NbpvIx/C5I8ssWxQp8KR9CAlIU
- WImF2D7GlnKlNf4R7uA2TCcWn/TYeAFo=
-X-Received: by 2002:a81:a055:0:b0:31c:86f0:cd31 with SMTP id
- x82-20020a81a055000000b0031c86f0cd31mr24960354ywg.75.1657618270825; 
- Tue, 12 Jul 2022 02:31:10 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ts0c7npNo8QSZyDKCjk4P7cWRwaXwPDoacuQevCLAUPp0lYXzfNC3wiXYAV6eEecp12JBCZkKF7DAa6+4mYWY=
-X-Received: by 2002:a81:a055:0:b0:31c:86f0:cd31 with SMTP id
- x82-20020a81a055000000b0031c86f0cd31mr24960337ywg.75.1657618270665; Tue, 12
- Jul 2022 02:31:10 -0700 (PDT)
+ bh=+iO7ZWU58OptAthR9roRRVHkML4fVitWMMleas1hsTY=;
+ b=7TQnPQy11CJDuaj82oZnm7mQPYA3v1iAegJ4k0Mnb6odALHzKznyT+9WRl8XKo44o3
+ 8sERiKLAsJXl7jhY+1AAdt79Qszc7UlUCjFf9OS2V1ZLoRLNjUO0exYSkflZsLgFMFKw
+ ExIT8riB4PNsAY00ThE21q/5s6dljbvLFaBNMfi77lnvgiWlTRYmVtVczW8FNh2Xj/Zt
+ VBdcAaEa2DzARxF0vEe0Wyf/s9c0QjQEL1GWAr8TAMf3imfv0kWa7qgvEDJcJWTgItu9
+ iJ0v8vu4nZDXBBt+j8pgpe1E2ZBbwxAo3eQvhQvSk/VmqztEkx9oOz64oks3QawBuJfN
+ X52w==
+X-Gm-Message-State: AJIora+oxFp2rW7XX116NUw4H2Cqyjxif0kkrr2Jh46u/24NstYPaD4I
+ F0Sf5b7w9xIRtdqxSepAWNtSNWK/KHifEr19y50=
+X-Google-Smtp-Source: AGRyM1vCUF1BgCL5E81QKusk7jeE9OfTR2YNpGG/Untc/PiUUC71ER4zBYxLDCw04lw7aQNHsOH7JAWuaqTDffN3/Tc=
+X-Received: by 2002:a2e:6e0b:0:b0:25b:bf22:47a with SMTP id
+ j11-20020a2e6e0b000000b0025bbf22047amr12308764ljc.524.1657618348594; Tue, 12
+ Jul 2022 02:32:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220707005602.696557-1-pizhenwei@bytedance.com>
-In-Reply-To: <20220707005602.696557-1-pizhenwei@bytedance.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Tue, 12 Jul 2022 12:30:59 +0300
-Message-ID: <CAPMcbCqPw_nh9Cu1U7t6VYV=3gKSa7q74r6iQ_kHmxZX+YmkuA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] qga: add command 'guest-get-cpustats'
-To: zhenwei pi <pizhenwei@bytedance.com>
-Cc: Michael Roth <michael.roth@amd.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000032540f05e3985437"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220616124034.3381391-1-marcandre.lureau@redhat.com>
+ <20220616124034.3381391-7-marcandre.lureau@redhat.com>
+ <87ilo9dsne.fsf@pond.sub.org>
+ <CAJ+F1CLNa=edp=O8LB=5v-2iChEyYdP7-oa_DtnKDLeC1E3_vw@mail.gmail.com>
+In-Reply-To: <CAJ+F1CLNa=edp=O8LB=5v-2iChEyYdP7-oa_DtnKDLeC1E3_vw@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 12 Jul 2022 13:32:16 +0400
+Message-ID: <CAJ+F1CK+UTpCDjJZ2YN=L9YDTxgEVHnCQPycDNPTD706y014yA@mail.gmail.com>
+Subject: Re: [PATCH 6/9] error-report: add a callback to overwrite
+ error_vprintf
+To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Warner Losh <imp@bsdimp.com>, 
+ Kyle Evans <kevans@freebsd.org>, Hanna Reitz <hreitz@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Fam Zheng <fam@euphon.net>, 
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000d75a3d05e3985860"
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x234.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,115 +90,236 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000032540f05e3985437
+--000000000000d75a3d05e3985860
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Queued, thanks.
+Hi
 
-On Thu, Jul 7, 2022 at 4:01 AM zhenwei pi <pizhenwei@bytedance.com> wrote:
+On Thu, Jul 7, 2022 at 10:05 PM Marc-Andr=C3=A9 Lureau <
+marcandre.lureau@gmail.com> wrote:
 
-> v3 -> v4:
-> - Separate qapi script change from qga.
+> Hi
 >
-> v2 -> v3:
-> - Rename 'GuestOsType' to 'GuestCpuStatsType'.
-> - Add 'linux' into polluted_words, rename 'linuxos' to 'linux'. Remove
->   'windows' from 'GuestCpuStatsType', because currently we don't use it.
+> On Thu, Jul 7, 2022 at 4:18 PM Markus Armbruster <armbru@redhat.com>
+> wrote:
 >
-> v1 -> v2:
-> - Konstantin & Marc-Andr=C3=A9 pointed out that the structure 'GuestCpuSt=
-ats'
->   is too *linux style*, so re-define it to 'GuestLinuxCpuStats', and use
->   an union type of 'GuestCpuStats'.
+>> marcandre.lureau@redhat.com writes:
+>>
+>> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> >
+>> > error_vprintf() is implemented in monitor.c, which overrides the
+>> > default implementation from stubs/, while avoiding a direct dependency
+>> > to the monitor from error-report.c.
+>> >
+>> > However, the stub solution isn't working when moving error-report.c an=
+d
+>> > stubs/error-printf.c in a common library. Linking with such library
+>> > creates conflicts for the error_vprintf() implementations
+>>
+>> I'm feeling dense today: how?
+>>
 >
-> - Modify comment info from 'man proc', also add linux version infomation.
+> If I try to overwrite a symbol in qemu when linking with a static library
+> from a subproject, the linker fails:
 >
-> - Test sscanf return value by '(i =3D=3D EOF)' (To Marc-Andr=C3=A9: name =
-is declared
->   as 'char name[64];', so we can't test '!name').
+> FAILED: storage-daemon/qemu-storage-daemon
+> cc -m64 -mcx16  -o storage-daemon/qemu-storage-daemon
+> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-introsp=
+ect.c.o
+> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-types.c=
+.o
+> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-visit.c=
+.o
+> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-command=
+s.c.o
+> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-init-co=
+mmands.c.o
+> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-events.=
+c.o
+> storage-daemon/qemu-storage-daemon.p/meson-generated_.._qapi_qapi-emit-ev=
+ents.c.o
+> storage-daemon/qemu-storage-daemon.p/qemu-storage-daemon.c.o
+> -Wl,--as-needed -Wl,--no-undefined -pie -Wl,--whole-archive libblockdev.f=
+a
+> libblock.fa libcrypto.fa libauthz.fa libqom.fa libio.fa -Wl,--start-group
+> libevent-loop-base.a libchardev.fa libqmp.fa -Wl,--no-whole-archive
+> -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -fstack-protector-strong
+> -Wl,-rpath,/usr/lib64/iscsi -Wl,-rpath-link,/usr/lib64/iscsi libqemuutil.=
+a
+> subprojects/libvhost-user/libvhost-user-glib.a
+> subprojects/libvhost-user/libvhost-user.a
+> subprojects/qemu-common/libqemu-common.a libblockdev.fa
+> subprojects/libvduse/libvduse.a libblock.fa libcrypto.fa libauthz.fa
+> libqom.fa libio.fa libchardev.fa libqmp.fa @block.syms
+> /usr/lib64/libgnutls.so /usr/lib64/liburing.so /usr/lib64/libgio-2.0.so
+> /usr/lib64/libgobject-2.0.so /usr/lib64/libglib-2.0.so
+> -Wl,--export-dynamic -pthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lm
+> /usr/lib64/libpixman-1.so -lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lgmodule-2=
+.0
+> -lglib-2.0 -lglib-2.0 -lgmodule-2.0 -lglib-2.0 -lglib-2.0
+> /usr/lib64/libfuse3.so -lpthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0
+> /usr/lib64/libzstd.so /usr/lib64/libz.so /usr/lib64/iscsi/libiscsi.so -la=
+io
+> -lpam -lutil -Wl,--end-group
+> /usr/bin/ld:
+> subprojects/qemu-common/libqemu-common.a.p/src_error-report.c.o: in
+> function `error_init':
+> /home/elmarco/src/qemu/build/../subprojects/qemu-common/src/error-report.=
+c:413:
+> multiple definition of `error_init';
+> libqmp.fa.p/monitor_qmp.c.o:/home/elmarco/src/qemu/build/../monitor/qmp.c=
+:40:
+> first defined here
 >
-> - Suggested by Marc-Andr=C3=A9, use 'int clk_tck =3D sysconf(_SC_CLK_TCK)=
-;'
->   instead of hard code.
+> But I can't really explain why it works when overwriting symbols from
+> libqemuutil.a, I am a bit puzzled here. Am I missing something obvious?
+> (this is a bit of dark linker magic going on)
 >
-> v1:
-> - Implement guest agent command 'guest-get-cpustats'
 >
-> Zhenwei Pi (2):
->   qapi: Avoid generating C identifier 'linux'
->   qga: add command 'guest-get-cpustats'
+After playing with this for a few hours ... I managed to get the symbol
+override work, by having a single overridable function per unit. No idea
+why in qemutil.a/stubs we manage to have several. That's a mystery. Anyway,
+I will send a new version where I also introduce the subproject, to
+demonstrate it works.
+
+thanks
+
+
 >
->  qga/commands-posix.c   | 89 ++++++++++++++++++++++++++++++++++++++++++
->  qga/commands-win32.c   |  6 +++
->  qga/qapi-schema.json   | 81 ++++++++++++++++++++++++++++++++++++++
->  scripts/qapi/common.py |  2 +-
->  4 files changed, 177 insertions(+), 1 deletion(-)
+>> Why would the linker pull in error-printf.o when the symbols it defines
+>> are already provided by .o the linker processed before the library
+>> containing error-printf.o?
+>>
+>> >                                                           (and weak
+>> > symbols aren't great either).
+>>
+>> Weak symbols are great, except Windows isn't.
+>>
+>> >                               Instead, use the "traditional" approach =
+to
+>> > provide overidable callbacks.
+>> >
+>> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>>
+>>
+>>
 >
 > --
-> 2.20.1
->
+> Marc-Andr=C3=A9 Lureau
 >
 
---00000000000032540f05e3985437
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000d75a3d05e3985860
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div id=3D"gmail-:1hj" class=3D"gmail-a3s=
- gmail-aiL"><div dir=3D"ltr">Queued, thanks.<font color=3D"#888888"><br>
-</font></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Thu, Jul 7, 2022 at 4:01 AM zhenwei pi &lt;<a href=3D=
-"mailto:pizhenwei@bytedance.com">pizhenwei@bytedance.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">v3 -&gt; v4:<br>
-- Separate qapi script change from qga.<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 7, 2022 at 10:05 PM Mar=
+c-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com">marca=
+ndre.lureau@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 7,=
+ 2022 at 4:18 PM Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com"=
+ target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex"><a href=3D"mailto:marcandre.lureau@redh=
+at.com" target=3D"_blank">marcandre.lureau@redhat.com</a> writes:<br>
 <br>
-v2 -&gt; v3:<br>
-- Rename &#39;GuestOsType&#39; to &#39;GuestCpuStatsType&#39;.<br>
-- Add &#39;linux&#39; into polluted_words, rename &#39;linuxos&#39; to &#39=
-;linux&#39;. Remove<br>
-=C2=A0 &#39;windows&#39; from &#39;GuestCpuStatsType&#39;, because currentl=
-y we don&#39;t use it.<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; error_vprintf() is implemented in monitor.c, which overrides the<br>
+&gt; default implementation from stubs/, while avoiding a direct dependency=
 <br>
-v1 -&gt; v2:<br>
-- Konstantin &amp; Marc-Andr=C3=A9 pointed out that the structure &#39;Gues=
-tCpuStats&#39;<br>
-=C2=A0 is too *linux style*, so re-define it to &#39;GuestLinuxCpuStats&#39=
-;, and use<br>
-=C2=A0 an union type of &#39;GuestCpuStats&#39;.<br>
+&gt; to the monitor from error-report.c.<br>
+&gt;<br>
+&gt; However, the stub solution isn&#39;t working when moving error-report.=
+c and<br>
+&gt; stubs/error-printf.c in a common library. Linking with such library<br=
+>
+&gt; creates conflicts for the error_vprintf() implementations<br>
 <br>
-- Modify comment info from &#39;man proc&#39;, also add linux version infom=
-ation.<br>
+I&#39;m feeling dense today: how?<br></blockquote></div><div class=3D"gmail=
+_quote"><br></div><div class=3D"gmail_quote">If I try to overwrite a symbol=
+ in qemu when linking with a static library from a subproject, the linker f=
+ails:</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">=
+FAILED: storage-daemon/qemu-storage-daemon <br>cc -m64 -mcx16 =C2=A0-o stor=
+age-daemon/qemu-storage-daemon storage-daemon/qemu-storage-daemon.p/meson-g=
+enerated_.._qapi_qapi-introspect.c.o storage-daemon/qemu-storage-daemon.p/m=
+eson-generated_.._qapi_qapi-types.c.o storage-daemon/qemu-storage-daemon.p/=
+meson-generated_.._qapi_qapi-visit.c.o storage-daemon/qemu-storage-daemon.p=
+/meson-generated_.._qapi_qapi-commands.c.o storage-daemon/qemu-storage-daem=
+on.p/meson-generated_.._qapi_qapi-init-commands.c.o storage-daemon/qemu-sto=
+rage-daemon.p/meson-generated_.._qapi_qapi-events.c.o storage-daemon/qemu-s=
+torage-daemon.p/meson-generated_.._qapi_qapi-emit-events.c.o storage-daemon=
+/qemu-storage-daemon.p/qemu-storage-daemon.c.o -Wl,--as-needed -Wl,--no-und=
+efined -pie -Wl,--whole-archive libblockdev.fa libblock.fa libcrypto.fa lib=
+authz.fa libqom.fa libio.fa -Wl,--start-group libevent-loop-base.a libchard=
+ev.fa libqmp.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,relro -Wl,-=
+z,now -fstack-protector-strong -Wl,-rpath,/usr/lib64/iscsi -Wl,-rpath-link,=
+/usr/lib64/iscsi libqemuutil.a subprojects/libvhost-user/libvhost-user-glib=
+.a subprojects/libvhost-user/libvhost-user.a subprojects/qemu-common/libqem=
+u-common.a libblockdev.fa subprojects/libvduse/libvduse.a libblock.fa libcr=
+ypto.fa libauthz.fa libqom.fa libio.fa libchardev.fa libqmp.fa @block.syms =
+/usr/lib64/libgnutls.so /usr/lib64/liburing.so /usr/lib64/<a href=3D"http:/=
+/libgio-2.0.so" target=3D"_blank">libgio-2.0.so</a> /usr/lib64/<a href=3D"h=
+ttp://libgobject-2.0.so" target=3D"_blank">libgobject-2.0.so</a> /usr/lib64=
+/<a href=3D"http://libglib-2.0.so" target=3D"_blank">libglib-2.0.so</a> -Wl=
+,--export-dynamic -pthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lm /usr/lib=
+64/libpixman-1.so -lgmodule-2.0 -lglib-2.0 -lglib-2.0 -lgmodule-2.0 -lglib-=
+2.0 -lglib-2.0 -lgmodule-2.0 -lglib-2.0 -lglib-2.0 /usr/lib64/libfuse3.so -=
+lpthread -lgmodule-2.0 -lglib-2.0 -lglib-2.0 /usr/lib64/libzstd.so /usr/lib=
+64/libz.so /usr/lib64/iscsi/libiscsi.so -laio -lpam -lutil -Wl,--end-group<=
+br>/usr/bin/ld: subprojects/qemu-common/libqemu-common.a.p/src_error-report=
+.c.o: in function `error_init&#39;:<br>/home/elmarco/src/qemu/build/../subp=
+rojects/qemu-common/src/error-report.c:413: multiple definition of `error_i=
+nit&#39;; libqmp.fa.p/monitor_qmp.c.o:/home/elmarco/src/qemu/build/../monit=
+or/qmp.c:40: first defined here</div><div class=3D"gmail_quote"><br><div>Bu=
+t I can&#39;t really explain why it works when overwriting symbols from lib=
+qemuutil.a, I am a bit puzzled here. Am I missing something obvious? (this =
+is a bit of dark linker magic going on)<br></div><div><br></div></div></div=
+></blockquote><div><br></div><div>After playing with this for a few hours .=
+.. I managed to get the symbol override work, by having a single overridabl=
+e function per unit. No idea why in qemutil.a/stubs we manage to have sever=
+al. That&#39;s a mystery. Anyway, I will send a new version where I also in=
+troduce the subproject, to demonstrate it works.</div><div><br></div><div>t=
+hanks<br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div><br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
-- Test sscanf return value by &#39;(i =3D=3D EOF)&#39; (To Marc-Andr=C3=A9:=
- name is declared<br>
-=C2=A0 as &#39;char name[64];&#39;, so we can&#39;t test &#39;!name&#39;).<=
-br>
+Why would the linker pull in error-printf.o when the symbols it defines<br>
+are already provided by .o the linker processed before the library<br>
+containing error-printf.o?<br>
 <br>
-- Suggested by Marc-Andr=C3=A9, use &#39;int clk_tck =3D sysconf(_SC_CLK_TC=
-K);&#39;<br>
-=C2=A0 instead of hard code.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(and weak=
 <br>
-v1:<br>
-- Implement guest agent command &#39;guest-get-cpustats&#39;<br>
+&gt; symbols aren&#39;t great either).<br>
 <br>
-Zhenwei Pi (2):<br>
-=C2=A0 qapi: Avoid generating C identifier &#39;linux&#39;<br>
-=C2=A0 qga: add command &#39;guest-get-cpustats&#39;<br>
+Weak symbols are great, except Windows isn&#39;t.<br>
 <br>
-=C2=A0qga/commands-posix.c=C2=A0 =C2=A0| 89 +++++++++++++++++++++++++++++++=
-+++++++++++<br>
-=C2=A0qga/commands-win32.c=C2=A0 =C2=A0|=C2=A0 6 +++<br>
-=C2=A0qga/qapi-schema.json=C2=A0 =C2=A0| 81 +++++++++++++++++++++++++++++++=
-+++++++<br>
-=C2=A0scripts/qapi/common.py |=C2=A0 2 +-<br>
-=C2=A04 files changed, 177 insertions(+), 1 deletion(-)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Instead, use the &quot;traditional=
+&quot; approach to<br>
+&gt; provide overidable callbacks.<br>
+&gt;<br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
 <br>
--- <br>
-2.20.1<br>
 <br>
-</blockquote></div></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
+=C3=A9 Lureau<br></div></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000032540f05e3985437--
-
+--000000000000d75a3d05e3985860--
 
