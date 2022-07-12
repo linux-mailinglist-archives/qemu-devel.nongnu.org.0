@@ -2,108 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18648570FF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 04:04:23 +0200 (CEST)
-Received: from localhost ([::1]:33520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40143570FF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 04:02:31 +0200 (CEST)
+Received: from localhost ([::1]:59658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB5GA-0005Tl-7s
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 22:04:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34884)
+	id 1oB5EM-0003xF-CX
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 22:02:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oB5A7-00075N-54; Mon, 11 Jul 2022 21:58:07 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53484)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1oB59z-0006kB-Eu
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 21:57:59 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:33001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oB5A4-0003Ma-BT; Mon, 11 Jul 2022 21:58:06 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26C0U8QD029927;
- Tue, 12 Jul 2022 01:57:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=YDjsCBtzxo7nvzd/UpRj+ABa8o7StXwmURcP2hAYy9k=;
- b=nZB95TioMynhXnjvtFAeMundd8kHtZIo0N24YHHAu9eAdIm3OywAS2vy9rEms8dJ2Msp
- tWOttkTAmYcF/sVDS9A7p4HZ//fxIk3L+tvHA8B0S+JtfXu/YeMZOlys2IX7qoq9oCNR
- c+xADnWp0Y6Zf5YNQVFV/qPNCVko2/NqMnNSfqW3iziAKymQel/oqLJDpSsV6IQL0CCC
- 8w8VbpT6oDizy/d6y//pqa3psDDErG+JttIlKVtPZqma5CCnpJOZzHrwzDj7XQm0uLkx
- /HZQIby9jFGPN8o6tlGzo+pw7yjnjx28jxSYO0p2siTbOhyjHdIxs7wtgvV3Or3HDayp Qg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8xfda571-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 01:57:46 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26C1q2SS025258;
- Tue, 12 Jul 2022 01:57:45 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h8xfda56k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 01:57:44 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26C1oM5J028510;
- Tue, 12 Jul 2022 01:57:42 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3h71a8ueca-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Jul 2022 01:57:42 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26C1vnpN30474606
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 Jul 2022 01:57:49 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0AD7EA4040;
- Tue, 12 Jul 2022 01:57:39 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 69815A404D;
- Tue, 12 Jul 2022 01:57:38 +0000 (GMT)
-Received: from heavy.ibmuc.com (unknown [9.171.48.196])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 12 Jul 2022 01:57:38 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 3/3] tests/tcg/s390x: test signed vfmin/vfmax
-Date: Tue, 12 Jul 2022 03:57:17 +0200
-Message-Id: <20220712015717.3602602-4-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220712015717.3602602-1-iii@linux.ibm.com>
-References: <20220712015717.3602602-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1oB59x-0003Lh-8P
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 21:57:58 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 26AE75809F8;
+ Mon, 11 Jul 2022 21:57:55 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 11 Jul 2022 21:57:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1657591075; x=
+ 1657594675; bh=Cs2LFVdOOqVDBRWqGliPDI07Y93G5RjeLKoGD3zyULQ=; b=z
+ cdQYPplvE/1t1RvONr33XBhLXYVsMwSo9YUiSyLSdjjxQlmySv7LR+1ustA22iHH
+ 3Swrb8WyGGzNmh8MOW2Bh3O//tjq84eZanZTYo2QDD20d+1nFWslaf034YV9MaxT
+ AmaJeKDPGZMnX5KfasrfwrNMcWMBeu5RkVcAx/6sjFoUKLJkGw2xsHf/3gw6Aupw
+ P58bKjqueXwrBakMDX8wmZWQM+kKHbFaMsPX2VjGOw44iTRXU96+H2SUqORmeieD
+ 8k6flUq+90A6vpOxjmKFUwD08qQ2+voMgJq0CBjx9t1TvOG4PMtuXpqnbrdqmiB4
+ fxDT8L933VtdZlpoO8uMg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657591075; x=
+ 1657594675; bh=Cs2LFVdOOqVDBRWqGliPDI07Y93G5RjeLKoGD3zyULQ=; b=q
+ 4Aw5fOCZXgv3iqWqaJWygEAzwdmmdVGSjzrhihSxdWTdymWmB5ZXQaVjNc+zjopL
+ FYv1leRCvfP5w3PC4TMqPlgMYOzEN8OMidzQ9w8GXJTLP6pf88zFhmOBokSA7iCw
+ oAev9M4FBAk2OZ755KCyUx51phC1z3OZnkgAMz0W5O6jy7SYNj+mQMjhdOvYAZ1E
+ 9hlYa6y0Q4lb46j6p4h9nJxnSli4y0EN691U+bXBZMoIYsfctYDs3hn2ceLtGAUD
+ IAKZxOlymeQAqvyFncZxBbl+qWzFgyAltnnCbVQb3HZnyeAT4cdoI/KaMf0F9LHq
+ G/lMh+nVrJ4oDKDx9K0FA==
+X-ME-Sender: <xms:ItXMYqa2FO6D3XV0Qjqov30fKZNHOe7pVlDmYYAzqIIGzgqRViZRIg>
+ <xme:ItXMYtYE6ZcsD8IvPLx6qHOrpT994fmoHgUFuBb_kbSlJqhLG-fts0ni3D6gJVMcq
+ viDjnnA5ygU2A0f7z0>
+X-ME-Received: <xmr:ItXMYk-rNwmELzOCxPOf_ZApbwZHb-ig6ayOmyZ8WAQeghHHPNlblLC_RfVayCZBY3ZBafLNHu6L-dz6DxpOaUhQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgedgheefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpefhgeffvedufeevteegkeetieejhffhudeujedvgedvheffheejveethffh
+ ffefueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:ItXMYspWVKS3cnyqBrD4Jt3AGdwJs5mcp_o0PAKdXIhydwJRZqvPDQ>
+ <xmx:ItXMYlo0XihS3CHRNE_-OTrW0BRIUTw_yUFygonrqh80VGhU51kTxQ>
+ <xmx:ItXMYqTCA6OkzkrFgc0kZRM9ecWccVHGLih3H1A_M9nS3PjJp4qa_g>
+ <xmx:ItXMYkRDS7-syGzannyD0ywAf3-QNC5EVX514zxx-x4QANHSrQU1QA>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 Jul 2022 21:57:54 -0400 (EDT)
+Date: Mon, 11 Jul 2022 18:57:52 -0700
+From: Peter Delevoryas <peter@pjd.dev>
+To: Andrew Jeffery <andrew@aj.id.au>
+Cc: Cameron Esfahani via <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 1/2] hw/gpio/aspeed: Don't let guests modify input pins
+Message-ID: <YszVIJrPXFmMMZ/A@pdel-mbp.dhcp.thefacebook.com>
+References: <20220707071731.34047-1-peter@pjd.dev>
+ <20220707071731.34047-2-peter@pjd.dev>
+ <fa52743a-5730-3b3f-f07f-99931bb66b01@kaod.org>
+ <YscdtXYL5sJRSm6Z@pdel-mbp>
+ <YscuKtVuZojYtqXo@pdel-mbp.dhcp.thefacebook.com>
+ <23523aa1-ba81-412b-92cc-8174faba3612@www.fastmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: PmwgaULlB81cCNL7bTCtYllEiRJQz1Dq
-X-Proofpoint-GUID: cTZo8owA3A5PBg0evcrIOuqmxK_ktYH3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-11_26,2022-07-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=999 spamscore=0 phishscore=0
- impostorscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207120004
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <23523aa1-ba81-412b-92cc-8174faba3612@www.fastmail.com>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=peter@pjd.dev;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_FMBLA_NEWDOM14=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,470 +106,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test to prevent regressions. Try all floating point value sizes
-and all combinations of floating point value classes. Verify the results
-against PoP tables, which are represented as close to the original as
-possible - this produces a lot of checkpatch complaints, but it seems
-to be justified in this case.
+On Mon, Jul 11, 2022 at 10:56:08PM +0930, Andrew Jeffery wrote:
+> 
+> 
+> On Fri, 8 Jul 2022, at 04:34, Peter Delevoryas wrote:
+> > On Thu, Jul 07, 2022 at 10:53:57AM -0700, Peter Delevoryas wrote:
+> >> On Thu, Jul 07, 2022 at 10:56:02AM +0200, Cédric Le Goater wrote:
+> >> > On 7/7/22 09:17, Peter Delevoryas wrote:
+> >> > > It seems that aspeed_gpio_update is allowing the value for input pins to be
+> >> > > modified through register writes and QOM property modification.
+> >> > > 
+> >> > > The QOM property modification is fine, but modifying the value through
+> >> > > register writes from the guest OS seems wrong if the pin's direction is set
+> >> > > to input.
+> >> > > 
+> >> > > The datasheet specifies that "0" bits in the direction register select input
+> >> > > mode, and "1" selects output mode.
+> >> > > 
+> >> > > OpenBMC userspace code is accidentally writing 0's to the GPIO data
+> >> > > registers somewhere (or perhaps the driver is doing it through a reset or
+> >> > > something), and this is overwriting GPIO FRU information (board ID, slot
+> >> > > presence pins) that is initialized in Aspeed machine reset code (see
+> >> > > fby35_reset() in hw/arm/aspeed.c).
+> >> > 
+> >> > It might be good to log a GUEST_ERROR in that case, when writing to an
+> >> > input GPIO and when reading from an output GPIO.
+> >> 
+> >> Good idea, I'll include a GUEST_ERROR for writing to an input GPIO.
+> >> 
+> >> I'm actually not totally certain about emitting an error when reading from an
+> >> output GPIO, because the driver can only do 8-bit reads at the finest
+> >> granularity, and if 1 of the 8 pins' direction is output, then it will be
+> >> reading the value of an output pin. But, that's not really bad, because
+> >> presumably the value will be ignored. Maybe I can go test this out on
+> >> hardware and figure out what happens though.
+> >
+> > Did a small experiment, I was looking at some of the most significant
+> > bits:
+> >
+> > root@dhcp-100-96-192-133:~# devmem 0x1e780000
+> > 0x3CFF303E
+> > root@dhcp-100-96-192-133:~# devmem 0x1e780004
+> > 0x2800000C
+> > root@dhcp-100-96-192-133:~# devmem 0x1e780000 32 0xffffffff
+> > root@dhcp-100-96-192-133:~# devmem 0x1e780004
+> > 0x2800000C
+> > root@dhcp-100-96-192-133:~# devmem 0x1e780000
+> > 0x3CFF303E
+> > root@dhcp-100-96-192-133:~# devmem 0x1e780000
+> > 0x3CFF303E
+> > root@dhcp-100-96-192-133:~# devmem 0x1e780000 32 0
+> > root@dhcp-100-96-192-133:~# devmem 0x1e780000
+> > 0x14FF303A
+> >
+> > Seems like the output pin 0x20000000 was initially high, and the input
+> > pin right next to it 0x10000000 was also high. After writing 0 to the
+> > data register, the value in the data register changed for the output
+> > pin, but not the input pin.  Which matches what we're planning on doing
+> > in the controller.
+> >
+> > So yeah, I'll add GUEST_ERROR for writes to input pins but not output
+> > pins.  The driver should probably be doing a read-modify-update.
+> > Although...if it's not, that technically wouldn't matter, behavior
+> > wise...maybe GUEST_ERROR isn't appropriate for writes to input pins
+> > either, for the same reason as I mentioned with reads of output pins.
+> > I'll let you guys comment on what you think we should do.
+> >
+> 
+> With the quick hack below I think I got sensible behaviour?
+> 
+> ```
+> # devmem 0x1e780000
+> 0x00000000
+> # devmem 0x1e780004
+> 0x00000000
+> # devmem 0x1e780004 32 1
+> # devmem 0x1e780000 32 1
+> # devmem 0x1e780000
+> 0x00000001
+> # devmem 0x1e780000 32 3
+> # devmem 0x1e780000
+> 0x00000001
+> # QEMU 7.0.0 monitor - type 'help' for more information
+> (qemu) qom-set gpio gpioA1 on
+> (qemu) 
+> 
+> # devmem 0x1e780000
+> 0x00000003
+> # (qemu) qom-set gpio gpioA1 off
+> (qemu) 
+> 
+> # devmem 0x1e780000
+> 0x00000001
+> # (qemu) qom-set gpio gpioA0 off
+> (qemu) 
+> # devmem 0x1e780000
+> 0x00000001
+> # 
+> ```
+> 
+> That was with the patch below. However, I think there's a deeper issue 
+> with the input masking that needs to be addressed. Essentially we lack 
+> modelling for the actual line state, we were proxying that with 
+> register state. As it stands if we input-mask a line and use qom-set to 
+> change its state the state update will go missing. However, as Joel 
+> notes, I don't think we have anything configuring input masking.
+> 
+> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+> index c63634d3d3e2..a1aa6504a8d8 100644
+> --- a/hw/gpio/aspeed_gpio.c
+> +++ b/hw/gpio/aspeed_gpio.c
+> @@ -244,7 +244,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState *s, GPIOSets *regs)
+>  }
+>  
+>  static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+> -                               uint32_t value)
+> +                               uint32_t value, uint32_t mode_mask)
+>  {
+>      uint32_t input_mask = regs->input_mask;
+>      uint32_t direction = regs->direction;
+> @@ -253,7 +253,8 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+>      uint32_t diff;
+>      int gpio;
+>  
+> -    diff = old ^ new;
+> +    diff = (old ^ new);
+> +    diff &= mode_mask;
+>      if (diff) {
+>          for (gpio = 0; gpio < ASPEED_GPIOS_PER_SET; gpio++) {
+>              uint32_t mask = 1 << gpio;
+> @@ -315,7 +316,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
+>          value &= !pin_mask;
+>      }
+>  
+> -    aspeed_gpio_update(s, &s->sets[set_idx], value);
+> +    aspeed_gpio_update(s, &s->sets[set_idx], value, ~s->sets[set_idx].direction);
+>  }
+>  
+>  /*
+> @@ -607,7 +608,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+>          data &= props->output;
+>          data = update_value_control_source(set, set->data_value, data);
+>          set->data_read = data;
+> -        aspeed_gpio_update(s, set, data);
+> +        aspeed_gpio_update(s, set, data, set->direction);
+>          return;
+>      case gpio_reg_direction:
+>          /*
+> @@ -683,7 +684,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+>                        HWADDR_PRIx"\n", __func__, offset);
+>          return;
+>      }
+> -    aspeed_gpio_update(s, set, set->data_value);
+> +    aspeed_gpio_update(s, set, set->data_value, UINT32_MAX);
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/s390x/Makefile.target |   7 +
- tests/tcg/s390x/vfminmax.c      | 426 ++++++++++++++++++++++++++++++++
- 2 files changed, 433 insertions(+)
- create mode 100644 tests/tcg/s390x/vfminmax.c
+Looks great overall, but why is the mode_mask UINT32_MAX here? Shouldn't it be
+set->direction? We only want to let the guest OS write to output pins, right?
+Or is that not how the register works?
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 3124172736..1a7a4a2f59 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -17,6 +17,13 @@ TESTS+=trap
- TESTS+=signals-s390x
- TESTS+=branch-relative-long
- 
-+Z14_TESTS=vfminmax
-+vfminmax: LDFLAGS+=-lm
-+$(Z14_TESTS): CFLAGS+=-march=z14 -O2
-+
-+TESTS+=$(if $(shell $(CC) -march=z14 -S -o /dev/null -xc /dev/null \
-+			 >/dev/null 2>&1 && echo OK),$(Z14_TESTS))
-+
- VECTOR_TESTS=vxeh2_vs
- VECTOR_TESTS+=vxeh2_vcvt
- VECTOR_TESTS+=vxeh2_vlstr
-diff --git a/tests/tcg/s390x/vfminmax.c b/tests/tcg/s390x/vfminmax.c
-new file mode 100644
-index 0000000000..daf58b6b33
---- /dev/null
-+++ b/tests/tcg/s390x/vfminmax.c
-@@ -0,0 +1,426 @@
-+#define _GNU_SOURCE
-+#include <fenv.h>
-+#include <stdbool.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+
-+/*
-+ * vfmin/vfmax code generation.
-+ */
-+extern const char vfminmax_template[];
-+extern const int vfminmax_template_size;
-+extern const int vfminmax_offset;
-+asm(".globl vfminmax_template\n"
-+    "vfminmax_template:\n"
-+    "vl %v25,0(%r3)\n"
-+    "vl %v26,0(%r4)\n"
-+    "0: vfmax %v24,%v25,%v26,2,0,0\n"
-+    "vst %v24,0(%r2)\n"
-+    "br %r14\n"
-+    "1: .align 4\n"
-+    ".globl vfminmax_template_size\n"
-+    "vfminmax_template_size: .long 1b - vfminmax_template\n"
-+    ".globl vfminmax_offset\n"
-+    "vfminmax_offset: .long 0b - vfminmax_template\n");
-+
-+#define VFMIN 0xEE
-+#define VFMAX 0xEF
-+
-+static void vfminmax(unsigned char *buf, unsigned int op,
-+                     unsigned int m4, unsigned int m5, unsigned int m6,
-+                     void *v1, const void *v2, const void *v3)
-+{
-+    memcpy(buf, vfminmax_template, vfminmax_template_size);
-+    buf[vfminmax_offset + 3] = (m6 << 4) | m5;
-+    buf[vfminmax_offset + 4] &= 0x0F;
-+    buf[vfminmax_offset + 4] |= (m4 << 4);
-+    buf[vfminmax_offset + 5] = op;
-+    ((void (*)(void *, const void *, const void *))buf)(v1, v2, v3);
-+}
-+
-+/*
-+ * Floating-point value classes.
-+ */
-+#define N_FORMATS 3
-+#define N_SIGNED_CLASSES 8
-+static const size_t float_sizes[N_FORMATS] = {
-+    /* M4 == 2: short    */ 4,
-+    /* M4 == 3: long     */ 8,
-+    /* M4 == 4: extended */ 16,
-+};
-+static const size_t e_bits[N_FORMATS] = {
-+    /* M4 == 2: short    */ 8,
-+    /* M4 == 3: long     */ 11,
-+    /* M4 == 4: extended */ 15,
-+};
-+static const unsigned char signed_floats[N_FORMATS][N_SIGNED_CLASSES][2][16] = {
-+    /* M4 == 2: short */
-+    {
-+        /* -inf */ {{0xff, 0x80, 0x00, 0x00},
-+                    {0xff, 0x80, 0x00, 0x00}},
-+        /* -Fn */  {{0xc2, 0x28, 0x00, 0x00},
-+                    {0xc2, 0x29, 0x00, 0x00}},
-+        /* -0 */   {{0x80, 0x00, 0x00, 0x00},
-+                    {0x80, 0x00, 0x00, 0x00}},
-+        /* +0 */   {{0x00, 0x00, 0x00, 0x00},
-+                    {0x00, 0x00, 0x00, 0x00}},
-+        /* +Fn */  {{0x42, 0x28, 0x00, 0x00},
-+                    {0x42, 0x2a, 0x00, 0x00}},
-+        /* +inf */ {{0x7f, 0x80, 0x00, 0x00},
-+                    {0x7f, 0x80, 0x00, 0x00}},
-+        /* QNaN */ {{0x7f, 0xff, 0xff, 0xff},
-+                    {0x7f, 0xff, 0xff, 0xfe}},
-+        /* SNaN */ {{0x7f, 0xbf, 0xff, 0xff},
-+                    {0x7f, 0xbf, 0xff, 0xfd}},
-+    },
-+
-+    /* M4 == 3: long */
-+    {
-+        /* -inf */ {{0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* -Fn */  {{0xc0, 0x45, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0xc0, 0x46, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* -0 */   {{0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* +0 */   {{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* +Fn */  {{0x40, 0x45, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0x40, 0x47, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* +inf */ {{0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* QNaN */ {{0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
-+                    {0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe}},
-+        /* SNaN */ {{0x7f, 0xf7, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
-+                    {0x7f, 0xf7, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfd}},
-+    },
-+
-+    /* M4 == 4: extended */
-+    {
-+        /* -inf */ {{0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* -Fn */  {{0xc0, 0x04, 0x50, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0xc0, 0x04, 0x51, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* -0 */   {{0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* +0 */   {{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* +Fn */  {{0x40, 0x04, 0x50, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0x40, 0x04, 0x52, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* +inf */ {{0x7f, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
-+                    {0x7f, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
-+        /* QNaN */ {{0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
-+                    {0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe}},
-+        /* SNaN */ {{0x7f, 0xff, 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
-+                    {0x7f, 0xff, 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfd}},
-+    },
-+};
-+
-+/*
-+ * PoP tables as close to the original as possible.
-+ */
-+struct signed_test {
-+    int op;
-+    int m6;
-+    const char *m6_desc;
-+    const char *table[N_SIGNED_CLASSES][N_SIGNED_CLASSES];
-+} signed_tests[] = {
-+    {
-+        .op = VFMIN,
-+        .m6 = 0,
-+        .m6_desc = "IEEE MinNum",
-+        .table = {
-+             /*         -inf         -Fn          -0           +0           +Fn          +inf         QNaN         SNaN     */
-+            {/* -inf */ "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "Xi: T(b*)"},
-+            {/* -Fn  */ "T(b)",      "T(M(a,b))", "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "Xi: T(b*)"},
-+            {/* -0   */ "T(b)",      "T(b)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "Xi: T(b*)"},
-+            {/* +0   */ "T(b)",      "T(b)",      "T(b)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "Xi: T(b*)"},
-+            {/* +Fn  */ "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(M(a,b))", "T(a)",      "T(a)",      "Xi: T(b*)"},
-+            {/* +inf */ "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(a)",      "T(a)",      "Xi: T(b*)"},
-+            {/* QNaN */ "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(a)",      "Xi: T(b*)"},
-+            {/* SNaN */ "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)"},
-+        },
-+    },
-+    {
-+        .op = VFMIN,
-+        .m6 = 1,
-+        .m6_desc = "JAVA Math.Min()",
-+        .table = {
-+             /*         -inf         -Fn          -0           +0           +Fn          +inf         QNaN         SNaN     */
-+            {/* -inf */ "T(b)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(b)",      "Xi: T(b*)"},
-+            {/* -Fn  */ "T(b)",      "T(M(a,b))", "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(b)",      "Xi: T(b*)"},
-+            {/* -0   */ "T(b)",      "T(b)",      "T(b)",      "T(a)",      "T(a)",      "T(a)",      "T(b)",      "Xi: T(b*)"},
-+            {/* +0   */ "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(a)",      "T(a)",      "T(b)",      "Xi: T(b*)"},
-+            {/* +Fn  */ "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(M(a,b))", "T(a)",      "T(b)",      "Xi: T(b*)"},
-+            {/* +inf */ "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "Xi: T(b*)"},
-+            {/* QNaN */ "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "Xi: T(b*)"},
-+            {/* SNaN */ "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)"},
-+        },
-+    },
-+    {
-+        .op = VFMIN,
-+        .m6 = 2,
-+        .m6_desc = "C-style Min Macro",
-+        .table = {
-+             /*         -inf        -Fn          -0          +0          +Fn          +inf        QNaN        SNaN    */
-+            {/* -inf */ "T(b)",     "T(a)",      "T(a)",     "T(a)",     "T(a)",      "T(a)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* -Fn  */ "T(b)",     "T(M(a,b))", "T(a)",     "T(a)",     "T(a)",      "T(a)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* -0   */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(a)",      "T(a)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* +0   */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(a)",      "T(a)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* +Fn  */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(M(a,b))", "T(a)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* +inf */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(b)",      "T(a)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* QNaN */ "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(b)", "Xi: T(b)"},
-+            {/* SNaN */ "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(b)", "Xi: T(b)"},
-+        },
-+    },
-+    {
-+        .op = VFMIN,
-+        .m6 = 3,
-+        .m6_desc = "C++ algorithm.min()",
-+        .table = {
-+             /*         -inf        -Fn          -0          +0          +Fn          +inf        QNaN        SNaN    */
-+            {/* -inf */ "T(b)",     "T(a)",      "T(a)",     "T(a)",     "T(a)",      "T(a)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* -Fn  */ "T(b)",     "T(M(a,b))", "T(a)",     "T(a)",     "T(a)",      "T(a)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* -0   */ "T(b)",     "T(b)",      "T(a)",     "T(a)",     "T(a)",      "T(a)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* +0   */ "T(b)",     "T(b)",      "T(a)",     "T(a)",     "T(a)",      "T(a)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* +Fn  */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(M(a,b))", "T(a)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* +inf */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(b)",      "T(a)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* QNaN */ "Xi: T(a)", "Xi: T(a)",  "Xi: T(a)", "Xi: T(a)", "Xi: T(a)",  "Xi: T(a)", "Xi: T(a)", "Xi: T(a)"},
-+            {/* SNaN */ "Xi: T(a)", "Xi: T(a)",  "Xi: T(a)", "Xi: T(a)", "Xi: T(a)",  "Xi: T(a)", "Xi: T(a)", "Xi: T(a)"},
-+        },
-+    },
-+    {
-+        .op = VFMIN,
-+        .m6 = 4,
-+        .m6_desc = "fmin()",
-+        .table = {
-+             /*         -inf        -Fn          -0          +0          +Fn          +inf        QNaN        SNaN    */
-+            {/* -inf */ "T(a)",     "T(a)",      "T(a)",     "T(a)",     "T(a)",      "T(a)",     "T(a)",     "Xi: T(a)"},
-+            {/* -Fn  */ "T(b)",     "T(M(a,b))", "T(a)",     "T(a)",     "T(a)",      "T(a)",     "T(a)",     "Xi: T(a)"},
-+            {/* -0   */ "T(b)",     "T(b)",      "T(a)",     "T(a)",     "T(a)",      "T(a)",     "T(a)",     "Xi: T(a)"},
-+            {/* +0   */ "T(b)",     "T(b)",      "T(b)",     "T(a)",     "T(a)",      "T(a)",     "T(a)",     "Xi: T(a)"},
-+            {/* +Fn  */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(M(a,b))", "T(a)",     "T(a)",     "Xi: T(a)"},
-+            {/* +inf */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(b)",      "T(a)",     "T(a)",     "Xi: T(a)"},
-+            {/* QNaN */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(b)",      "T(b)",     "T(a)",     "Xi: T(a)"},
-+            {/* SNaN */ "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(a)", "Xi: T(a)"},
-+        },
-+    },
-+
-+    {
-+        .op = VFMAX,
-+        .m6 = 0,
-+        .m6_desc = "IEEE MaxNum",
-+        .table = {
-+             /*         -inf         -Fn          -0           +0           +Fn          +inf         QNaN         SNaN     */
-+            {/* -inf */ "T(a)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(a)",      "Xi: T(b*)"},
-+            {/* -Fn  */ "T(a)",      "T(M(a,b))", "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(a)",      "Xi: T(b*)"},
-+            {/* -0   */ "T(a)",      "T(a)",      "T(a)",      "T(b)",      "T(b)",      "T(b)",      "T(a)",      "Xi: T(b*)"},
-+            {/* +0   */ "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(b)",      "T(b)",      "T(a)",      "Xi: T(b*)"},
-+            {/* +Fn  */ "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(M(a,b))", "T(b)",      "T(a)",      "Xi: T(b*)"},
-+            {/* +inf */ "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "Xi: T(b*)"},
-+            {/* QNaN */ "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(a)",      "Xi: T(b*)"},
-+            {/* SNaN */ "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)"},
-+        },
-+    },
-+    {
-+        .op = VFMAX,
-+        .m6 = 1,
-+        .m6_desc = "JAVA Math.Max()",
-+        .table = {
-+             /*         -inf         -Fn          -0           +0           +Fn          +inf         QNaN         SNaN     */
-+            {/* -inf */ "T(a)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "Xi: T(b*)"},
-+            {/* -Fn  */ "T(a)",      "T(M(a,b))", "T(b)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "Xi: T(b*)"},
-+            {/* -0   */ "T(a)",      "T(a)",      "T(a)",      "T(b)",      "T(b)",      "T(b)",      "T(b)",      "Xi: T(b*)"},
-+            {/* +0   */ "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(b)",      "T(b)",      "T(b)",      "Xi: T(b*)"},
-+            {/* +Fn  */ "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(M(a,b))", "T(b)",      "T(b)",      "Xi: T(b*)"},
-+            {/* +inf */ "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(b)",      "Xi: T(b*)"},
-+            {/* QNaN */ "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "T(a)",      "Xi: T(b*)"},
-+            {/* SNaN */ "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)", "Xi: T(a*)"},
-+        },
-+    },
-+    {
-+        .op = VFMAX,
-+        .m6 = 2,
-+        .m6_desc = "C-style Max Macro",
-+        .table = {
-+             /*         -inf        -Fn          -0          +0          +Fn          +inf        QNaN        SNaN    */
-+            {/* -inf */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(b)",      "T(b)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* -Fn  */ "T(a)",     "T(M(a,b))", "T(b)",     "T(b)",     "T(b)",      "T(b)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* -0   */ "T(a)",     "T(a)",      "T(b)",     "T(b)",     "T(b)",      "T(b)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* +0   */ "T(a)",     "T(a)",      "T(b)",     "T(b)",     "T(b)",      "T(b)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* +Fn  */ "T(a)",     "T(a)",      "T(a)",     "T(a)",     "T(M(a,b))", "T(b)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* +inf */ "T(a)",     "T(a)",      "T(a)",     "T(a)",     "T(a)",      "T(b)",     "Xi: T(b)", "Xi: T(b)"},
-+            {/* QNaN */ "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(b)", "Xi: T(b)"},
-+            {/* SNaN */ "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(b)", "Xi: T(b)"},
-+        },
-+    },
-+    {
-+        .op = VFMAX,
-+        .m6 = 3,
-+        .m6_desc = "C++ algorithm.max()",
-+        .table = {
-+             /*         -inf        -Fn          -0          +0          +Fn          +inf        QNaN        SNaN    */
-+            {/* -inf */ "T(a)",     "T(b)",      "T(b)",     "T(b)",     "T(b)",      "T(b)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* -Fn  */ "T(a)",     "T(M(a,b))", "T(b)",     "T(b)",     "T(b)",      "T(b)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* -0   */ "T(a)",     "T(a)",      "T(a)",     "T(a)",     "T(b)",      "T(b)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* +0   */ "T(a)",     "T(a)",      "T(a)",     "T(a)",     "T(b)",      "T(b)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* +Fn  */ "T(a)",     "T(a)",      "T(a)",     "T(a)",     "T(M(a,b))", "T(b)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* +inf */ "T(a)",     "T(a)",      "T(a)",     "T(a)",     "T(a)",      "T(a)",     "Xi: T(a)", "Xi: T(a)"},
-+            {/* QNaN */ "Xi: T(a)", "Xi: T(a)",  "Xi: T(a)", "Xi: T(a)", "Xi: T(a)",  "Xi: T(a)", "Xi: T(a)", "Xi: T(a)"},
-+            {/* SNaN */ "Xi: T(a)", "Xi: T(a)",  "Xi: T(a)", "Xi: T(a)", "Xi: T(a)",  "Xi: T(a)", "Xi: T(a)", "Xi: T(a)"},
-+        },
-+    },
-+    {
-+        .op = VFMAX,
-+        .m6 = 4,
-+        .m6_desc = "fmax()",
-+        .table = {
-+             /*         -inf        -Fn          -0          +0          +Fn          +inf        QNaN        SNaN    */
-+            {/* -inf */ "T(a)",     "T(b)",      "T(b)",     "T(b)",     "T(b)",      "T(b)",     "T(a)",     "Xi: T(a)"},
-+            {/* -Fn  */ "T(a)",     "T(M(a,b))", "T(b)",     "T(b)",     "T(b)",      "T(b)",     "T(a)",     "Xi: T(a)"},
-+            {/* -0   */ "T(a)",     "T(a)",      "T(a)",     "T(b)",     "T(b)",      "T(b)",     "T(a)",     "Xi: T(a)"},
-+            {/* +0   */ "T(a)",     "T(a)",      "T(a)",     "T(a)",     "T(b)",      "T(b)",     "T(a)",     "Xi: T(a)"},
-+            {/* +Fn  */ "T(a)",     "T(a)",      "T(a)",     "T(a)",     "T(M(a,b))", "T(b)",     "T(a)",     "Xi: T(a)"},
-+            {/* +inf */ "T(a)",     "T(a)",      "T(a)",     "T(a)",     "T(a)",      "T(a)",     "T(a)",     "Xi: T(a)"},
-+            {/* QNaN */ "T(b)",     "T(b)",      "T(b)",     "T(b)",     "T(b)",      "T(b)",     "T(a)",     "Xi: T(a)"},
-+            {/* SNaN */ "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(b)", "Xi: T(b)",  "Xi: T(b)", "Xi: T(a)", "Xi: T(a)"},
-+        },
-+    },
-+};
-+
-+static void dump_v(FILE *f, const void *v, size_t n)
-+{
-+    for (int i = 0; i < n; i++) {
-+        fprintf(f, "%02x", ((const unsigned char *)v)[i]);
-+    }
-+}
-+
-+static int signed_test(unsigned char *buf, struct signed_test *test,
-+                       int m4, int m5,
-+                       const void *v1_exp, bool xi_exp,
-+                       const void *v2, const void *v3)
-+{
-+    size_t n = (m5 & 8) ? float_sizes[m4 - 2] : 16;
-+    char v1[16];
-+    bool xi;
-+
-+    feclearexcept(FE_ALL_EXCEPT);
-+    vfminmax(buf, test->op, m4, m5, test->m6, v1, v2, v3);
-+    xi = fetestexcept(FE_ALL_EXCEPT) == FE_INVALID;
-+
-+    if (memcmp(v1, v1_exp, n) != 0 || xi != xi_exp) {
-+        fprintf(stderr, "[  FAILED  ] %s ", test->m6_desc);
-+        dump_v(stderr, v2, n);
-+        fprintf(stderr, ", ");
-+        dump_v(stderr, v3, n);
-+        fprintf(stderr, ", %d, %d, %d: actual=", m4, m5, test->m6);
-+        dump_v(stderr, v1, n);
-+        fprintf(stderr, "/%d, expected=", (int)xi);
-+        dump_v(stderr, v1_exp, n);
-+        fprintf(stderr, "/%d\n", (int)xi_exp);
-+        return 1;
-+    }
-+
-+    return 0;
-+}
-+
-+static void snan_to_qnan(char *v, int m4)
-+{
-+    size_t bit = 1 + e_bits[m4 - 2];
-+    v[bit / 8] |= 1 << (7 - (bit % 8));
-+}
-+
-+int main(void)
-+{
-+    unsigned char *buf;
-+    int ret = 0;
-+    size_t i;
-+
-+    buf = mmap(NULL, 0x1000, PROT_READ | PROT_WRITE | PROT_EXEC,
-+               MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+    if (buf == MAP_FAILED) {
-+        perror("mmap() failed");
-+        return 1;
-+    }
-+
-+    for (i = 0; i < sizeof(signed_tests) / sizeof(signed_tests[0]); i++) {
-+        struct signed_test *test = &signed_tests[i];
-+        int m4;
-+
-+        for (m4 = 2; m4 <= 4; m4++) {
-+            const unsigned char (*floats)[2][16] = signed_floats[m4 - 2];
-+            size_t float_size = float_sizes[m4 - 2];
-+            int m5;
-+
-+            for (m5 = 0; m5 <= 8; m5 += 8) {
-+                char v1_exp[16], v2[16], v3[16];
-+                bool xi_exp = false;
-+                int pos = 0;
-+                int i2;
-+
-+                for (i2 = 0; i2 < N_SIGNED_CLASSES * 2; i2++) {
-+                    int i3;
-+
-+                    for (i3 = 0; i3 < N_SIGNED_CLASSES * 2; i3++) {
-+                        const char *spec = test->table[i2 / 2][i3 / 2];
-+
-+                        memcpy(&v2[pos], floats[i2 / 2][i2 % 2], float_size);
-+                        memcpy(&v3[pos], floats[i3 / 2][i3 % 2], float_size);
-+                        if (strcmp(spec, "T(a)") == 0 ||
-+                            strcmp(spec, "Xi: T(a)") == 0) {
-+                            memcpy(&v1_exp[pos], &v2[pos], float_size);
-+                        } else if (strcmp(spec, "T(b)") == 0 ||
-+                                   strcmp(spec, "Xi: T(b)") == 0) {
-+                            memcpy(&v1_exp[pos], &v3[pos], float_size);
-+                        } else if (strcmp(spec, "Xi: T(a*)") == 0) {
-+                            memcpy(&v1_exp[pos], &v2[pos], float_size);
-+                            snan_to_qnan(&v1_exp[pos], m4);
-+                        } else if (strcmp(spec, "Xi: T(b*)") == 0) {
-+                            memcpy(&v1_exp[pos], &v3[pos], float_size);
-+                            snan_to_qnan(&v1_exp[pos], m4);
-+                        } else if (strcmp(spec, "T(M(a,b))") == 0) {
-+                            /*
-+                             * Comparing floats is risky, since the compiler
-+                             * might generate the same instruction that we are
-+                             * testing. Compare ints instead. This works,
-+                             * because we get here only for +-Fn, and the
-+                             * corresponding test values have identical
-+                             * exponents.
-+                             */
-+                            int v2_int = *(int *)&v2[pos];
-+                            int v3_int = *(int *)&v3[pos];
-+
-+                            if ((v2_int < v3_int) ==
-+                                ((test->op == VFMIN) != (v2_int < 0))) {
-+                                memcpy(&v1_exp[pos], &v2[pos], float_size);
-+                            } else {
-+                                memcpy(&v1_exp[pos], &v3[pos], float_size);
-+                            }
-+                        } else {
-+                            fprintf(stderr, "Unexpected spec: %s\n", spec);
-+                            return 1;
-+                        }
-+                        xi_exp |= spec[0] == 'X';
-+                        pos += float_size;
-+
-+                        if ((m5 & 8) || pos == 16) {
-+                            ret |= signed_test(buf, test, m4, m5,
-+                                               v1_exp, xi_exp, v2, v3);
-+                            pos = 0;
-+                            xi_exp = false;
-+                        }
-+                    }
-+                }
-+
-+                if (pos != 0) {
-+                    ret |= signed_test(buf, test, m4, m5,
-+                                       v1_exp, xi_exp, v2, v3);
-+                }
-+            }
-+        }
-+    }
-+
-+    munmap(buf, 0x1000);
-+
-+    return ret;
-+}
--- 
-2.35.3
-
+>      return;
+>  }
+>  
+> 
 
