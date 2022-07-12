@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDE157146C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:23:05 +0200 (CEST)
-Received: from localhost ([::1]:47862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E9057147E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:28:04 +0200 (CEST)
+Received: from localhost ([::1]:55256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBBAc-0000hZ-D7
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45144)
+	id 1oBBFT-00066l-Jj
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:28:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1oBAq8-0003Ny-N6
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:01:59 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57092 helo=loongson.cn)
+ id 1oBAqG-0003Os-0z
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:02:01 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:57098 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1oBAq5-0001Qk-Lt
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:01:52 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1oBAq8-0001R7-Sn
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 04:01:59 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_9JdKs1i3NgYAA--.15429S6; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_9JdKs1i3NgYAA--.15429S7; 
  Tue, 12 Jul 2022 16:01:35 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: [PATCH 4/5] target/loongarch/tlb_helper: Fix coverity integer
- overflow error
-Date: Tue, 12 Jul 2022 16:01:32 +0800
-Message-Id: <20220712080133.4176971-5-yangxiaojuan@loongson.cn>
+Subject: [PATCH 5/5] target/loongarch/op_helper: Fix coverity cond_at_most
+ error
+Date: Tue, 12 Jul 2022 16:01:33 +0800
+Message-Id: <20220712080133.4176971-6-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220712080133.4176971-1-yangxiaojuan@loongson.cn>
 References: <20220712080133.4176971-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx_9JdKs1i3NgYAA--.15429S6
-X-Coremail-Antispam: 1UD129KBjvdXoWrZw47GF17Gry7tFW7Ww4rZrb_yoWDZrg_CF
- 1Iqwn7uryUWw12ywsYv34qyF17Kw1IgF43Cay2gFW7K345XF43Kw4qq3Z3Ar4YkrWrCrna
- kwnrZry3CF4YgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID: AQAAf9Dx_9JdKs1i3NgYAA--.15429S7
+X-Coremail-Antispam: 1UD129KBjvdXoWrtFW7CFWrZw4UKr4rury5twb_yoW3uFX_uF
+ W7Xr1Dur4DWw1jkw4Yv3s5tr17KF18GFnIkF4UXr42kFyYga13Jw1DW3s3Cr1UCFyrJrs0
+ vwnFyry7C3WYkjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
  9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -63,38 +63,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace '1' with '1UL' to fix unintentional integer overflow errors
-in tlb_helper file.
+The boundary size of cpucfg array should be 0 to 20. So,
+using index bigger than 20 to access cpucfg[] must be forbidden.
 
-Fix coverity CID: 1489759 1489762
+Fix coverity CID: 1489760
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 ---
- target/loongarch/tlb_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/loongarch/op_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-index bab19c7e05..b300230588 100644
---- a/target/loongarch/tlb_helper.c
-+++ b/target/loongarch/tlb_helper.c
-@@ -298,7 +298,7 @@ static void invalidate_tlb_entry(CPULoongArchState *env, int index)
-     } else {
-         tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-     }
--    pagesize = 1 << tlb_ps;
-+    pagesize = 1UL << tlb_ps;
-     mask = MAKE_64BIT_MASK(0, tlb_ps + 1);
+diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
+index 4b429b6699..b05a0b7648 100644
+--- a/target/loongarch/op_helper.c
++++ b/target/loongarch/op_helper.c
+@@ -81,7 +81,7 @@ target_ulong helper_crc32c(target_ulong val, target_ulong m, uint64_t sz)
  
-     if (tlb_v0) {
-@@ -736,7 +736,7 @@ void helper_ldpte(CPULoongArchState *env, target_ulong base, target_ulong odd,
-                 (tmp0 & (~(1 << R_TLBENTRY_G_SHIFT)));
-         ps = ptbase + ptwidth - 1;
-         if (odd) {
--            tmp0 += (1 << ps);
-+            tmp0 += (1UL << ps);
-         }
-     } else {
-         /* 0:64bit, 1:128bit, 2:192bit, 3:256bit */
+ target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
+ {
+-    return rj > 21 ? 0 : env->cpucfg[rj];
++    return rj > 20 ? 0 : env->cpucfg[rj];
+ }
+ 
+ uint64_t helper_rdtime_d(CPULoongArchState *env)
 -- 
 2.31.1
 
