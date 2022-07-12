@@ -2,88 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD219571A0E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:33:03 +0200 (CEST)
-Received: from localhost ([::1]:60270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D25571A0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 14:33:00 +0200 (CEST)
+Received: from localhost ([::1]:60134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBF4Y-0002Hb-SU
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45104)
+	id 1oBF4V-0002CQ-Ih
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 08:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBEy1-0005sf-1p
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:26:17 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:39995)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBEy5-0005yD-67
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:26:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBExz-0005Tw-3N
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:26:16 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 0A8F75C0067;
- Tue, 12 Jul 2022 08:26:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 12 Jul 2022 08:26:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657628774; x=1657715174; bh=xI
- vyjE0GuHquMQbnJvaKjT6PIGzo2BM+LsreBuCKaGI=; b=R18erdLOyHhMgbymSn
- OZAxwSuMbObZGGnha2vncVJY3je2+EnOjfl6fODFGuZE6i2Cu3tRABotJ8SeGZcF
- 3pPguH6X71X1EUGP0XO8kepvTvi5iL3BekZhmIgxtlJ37W/Xtb/Ebs3uPrKHXsJP
- DSj1uAyRGVgvW5s4EMt/lLgyL8Lj0h920Po0vGBF+zI1l7raEdbSq+SWp2zf0d9w
- JFj6ioqFZI5g6sF6cRFSEn+T890F50HEgh+JuH0YMLq5CzWpJT0nuAlbmEQ7Wc3h
- X42N8y49F5nrne4P0aehATdrhgwT297P2mEyiAYO1PP5s4J99FK1+Sh/aKcv51ad
- 8czQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657628774; x=1657715174; bh=xIvyjE0GuHquMQbnJvaKjT6PIGzo
- 2BM+LsreBuCKaGI=; b=YHUUe/+J9S0BYGzS/d4RKxn1+8cJo2gfD7tQVW0dgD1V
- eEx4TrMwkg2DXf0syYRKvY9O87LYcufi6VBU/0Z+04KQbn4Zhr4mLVbLnPyvNJ8a
- fQYwTpNv6nsL24x4rM1kPFkqlwUmpe6YT+JcMxqM8+41lbKdOgvtCyb+R691TVEY
- L3XGfRQ0oSUyfoU1236RinhqIuWn7v9wQTkmJTHB3ogfyizjUqL3adVSJoNpqm7Y
- OhTaRL9pANfp2yFfjfgaxe4AM7wo8Iej/Xn1qp3vhTiZga8i1D2xhrdbs1/1qL+l
- aDCVCFpcRJiomED11owc2oJ19xgLN1iE8yyRbU1tGg==
-X-ME-Sender: <xms:ZWjNYkBluRdMAhLA8B0p6ozOIBIpgo_t5uXDCjE3m5hvB75PSzGCbA>
- <xme:ZWjNYmi43cmmsauzxOEvZ4d-cbwOPE2O42KcdSvfjrVhoh67AoM55coHYmUsWSE8b
- Ju-5u8IqPWUfzGZfHE>
-X-ME-Received: <xmr:ZWjNYnlMVU4-_YmyZKFWo8HJg2rcJzYE5yn1nTudbNvErPsL5EexLTUfAY0wt2J2oTJYnd7G9ya3POfBPKo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedgheefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
- elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:ZWjNYqyxda_ufV15aJBndrI4cYDsbxxxeRbNfNC3_Sbk0lDMfGkRoQ>
- <xmx:ZWjNYpTykKFKgP0RivZ5t4JSwcN83YOUsOEEvG-UiEgJo_d2VoLaaQ>
- <xmx:ZWjNYlbd_n2-fHtv9sp-8vxGJ345KtLXdt0sIMLJdNLDoZ7m7QTFPw>
- <xmx:ZmjNYkc-iJIMb2WafxUTdLLq_Guu3G7red4S1jAgsexNJi0SkmZMBw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Jul 2022 08:26:12 -0400 (EDT)
-Date: Tue, 12 Jul 2022 14:26:11 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org
-Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
-Message-ID: <Ys1oY9LmeDCGT9FT@apples>
-References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBEy2-0005UU-FS
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:26:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657628777;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WZ2BG7uSgc61gOzE20AgXWR4lnUuBh4ZajFD+pM9hNc=;
+ b=KML8F3uupdBv27UKs5i203856Tv/vLymboDR6XLfPUS+XaC9OkfY/k12M4cQh9zZc5tzQh
+ +fztPvDrtsv9EAbenjGGoI6ZTiTd3THOXoyWaEI1ocv3U2gU+EOr6JoobCxfQlM2fJS7p9
+ zI+ak7wUKHG/8lI9KG3BpaZ1lMGZkbY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-576-GYqOGcLbN-qrPwESxPrNHw-1; Tue, 12 Jul 2022 08:26:16 -0400
+X-MC-Unique: GYqOGcLbN-qrPwESxPrNHw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF4921C1BD2A;
+ Tue, 12 Jul 2022 12:26:15 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 610999D7F;
+ Tue, 12 Jul 2022 12:26:15 +0000 (UTC)
+Date: Tue, 12 Jul 2022 13:26:14 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 6/8] virtio-blk: mark IO_CODE functions
+Message-ID: <Ys1oZtGUpCxziwuH@stefanha-x1.localdomain>
+References: <20220609143727.1151816-1-eesposit@redhat.com>
+ <20220609143727.1151816-7-eesposit@redhat.com>
+ <YsRNC0tj6YP2pgMi@stefanha-x1.localdomain>
+ <ab3f6227-20c2-1c3a-4bae-814f06670bd0@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3owB6eZS6XDAvR2L"
+ protocol="application/pgp-signature"; boundary="S0zDzufI3g2dxFsU"
 Content-Disposition: inline
-In-Reply-To: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <ab3f6227-20c2-1c3a-4bae-814f06670bd0@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,53 +86,71 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---3owB6eZS6XDAvR2L
-Content-Type: text/plain; charset=utf-8
+--S0zDzufI3g2dxFsU
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Jul  9 12:35, Jinhao Fan wrote:
-> Use irqfd to directly notify KVM to inject interrupts. This is done by
-> registering a virtual IRQ(virq) in KVM and associate the virq with an
-> irqfd, so that KVM can directly inject the interrupt when it receives
-> notification from the irqfd. This approach is supposed to improve=20
-> performance because it bypasses QEMU's MSI interrupt emulation logic.
+On Fri, Jul 08, 2022 at 11:19:43AM +0200, Emanuele Giuseppe Esposito wrote:
 >=20
-> However, I did not see an obvious improvement of the emulation KIOPS:
 >=20
-> QD      1   4  16  64=20
-> QEMU   38 123 210 329
-> irqfd  40 129 219 328
+> Am 05/07/2022 um 16:39 schrieb Stefan Hajnoczi:
+> > On Thu, Jun 09, 2022 at 10:37:25AM -0400, Emanuele Giuseppe Esposito wr=
+ote:
+> >> Just as done in the block API, mark functions in virtio-blk
+> >> that are called also from iothread(s).
+> >>
+> >> We know such functions are IO because many are blk_* callbacks,
+> >> running always in the device iothread, and remaining are propagated
+> >> from the leaf IO functions (if a function calls a IO_CODE function,
+> >> itself is categorized as IO_CODE too).
+> >>
+> >> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> >> ---
+> >>  hw/block/dataplane/virtio-blk.c |  4 ++++
+> >>  hw/block/virtio-blk.c           | 35 +++++++++++++++++++++++++++++++++
+> >>  2 files changed, 39 insertions(+)
+> >=20
+> > The definition of IO_CODE() is:
+> >=20
+> >   I/O API functions. These functions are thread-safe, and therefore
+> >   can run in any thread as long as the thread has called
+> >   aio_context_acquire/release().
+> >=20
+> > I'm not sure it matches with the exact semantics you have in mind. Are
+> > they really allowed to be called from any thread and even from multiple
+> > threads? Or maybe just from the BlockBackend's AioContext thread?
 >=20
-> I found this problem quite hard to diagnose since irqfd's workflow
-> involves both QEMU and the in-kernel KVM.=20
+> I think it is just from the BlockBackend's AioContext thread. But I
+> classified blk_* functions as IO_CODE.
 >=20
-> Could you help me figure out the following questions:
->=20
-> 1. How much performance improvement can I expect from using irqfd?
+> What is your opinion on that?
 
-This is a level of QEMU/KVM that I am by no means an expert on and I
-would have to let the broader QEMU community comment on this.
+There is a difference between blk_*() APIs and device emulation code.
+Device emulation code controls exactly where it runs (vCPU thread, main
+loop, IOThread). blk_*() APIs may be called from more of contexts and
+they have no control over it.
 
-> 2. How can I debug this kind of cross QEMU-KVM problems?
+I'd like to make sure that the annotations match the actual usage that
+the code was designed for.
 
-Not sure how to directly "debug" it, but there is `perf kvm` to get
-information about what is happing in the kvm subsystem.
+Stefan
 
---3owB6eZS6XDAvR2L
+--S0zDzufI3g2dxFsU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLNaGEACgkQTeGvMW1P
-DekEbAf/fouLr22nvG3428QNaTZRl8j50ooWMAwx7Upw/+lMhCp9WizETCnhEnNE
-vRwhd5yxGFvh72GqK+bi9WtfaKK/TzMYlErRIy+z/kUpFEN12Fyiod+7ozXMaGu7
-0R9zlOPvqTDdsTAL+YrbKUmL3rs1VsgGrHeANx6DRUWfXx2jB8RhkyzMCc+QB4SR
-RSAS0zzcg67t++O490ZHtjMNZnhKbHce+We5y5B4fmWKzH2xGMySPyPNiNsOBQ0H
-8iBIABFjnrNkWo0kHTGPErPhkv/ZGkHmXTmT0M3gxbaUZYH/Ca8YFSO0u3TF+5eD
-beZUcq9TtbfrA1CmngJSkccVDk5wXg==
-=imql
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLNaGYACgkQnKSrs4Gr
+c8hw0ggApq1gXhvGq1Wb1w1R8UTJA4NZCdNUt9DCOA3AemXpAxhZqlKzapMumI/1
+Bs0s9FVq/Q3sGFLRCCUkbYns9iCuBHVBLmNZINAkrSmfo1GdYFT7QpOFPK+6zvMu
+LDZVqd/VRm+ZKdD97lbtcrT+pIimBLycR/ZVNCddd4Ug+aTHdkJyAroXCSxe2Zvc
+Rjqw6+TpAoeFF+tRN1PmFZyfundbhUfHL9Eu6HdCmu1r2u3ybtxGSjdoGFyFYV8j
+2fh6BmVGIMinUBh5zQYBD+qJ5f00Z9X14qzt6dX7hzKoVeND7Xe6ZLQZG1k2exAk
+BRkn7l9wOjNO6xioalsJ4B3iUNr7qg==
+=fnRW
 -----END PGP SIGNATURE-----
 
---3owB6eZS6XDAvR2L--
+--S0zDzufI3g2dxFsU--
+
 
