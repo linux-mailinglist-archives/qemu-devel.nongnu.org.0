@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9409F571AD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 15:07:04 +0200 (CEST)
-Received: from localhost ([::1]:59010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D28571AE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 15:13:23 +0200 (CEST)
+Received: from localhost ([::1]:39448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBFbT-0000qN-Nu
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 09:07:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
+	id 1oBFha-0006oa-CX
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 09:13:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLU-0003CE-0P
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34891)
+ id 1oBFLY-0003Fa-MT
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBFLS-0001Uo-54
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:31 -0400
+ id 1oBFLU-0001Vg-6N
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 08:50:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657630229;
+ s=mimecast20190719; t=1657630230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VKBzYHIAT6VBcq03PETtR4a9TQUaMhkMxNp2UTkCvng=;
- b=XBBJ1ZrJNiloE50Aj7wQShcb9Deo0LCg2ihCpcHgb2rGClCWxlFJEWO3OwCU0OvAT+Tew3
- Q8FmluKtqaGe0RUUCygaOfjywm9/feXoTLV4r6qgzDJL4CXWx0JxkYYHr5RVTM8Ycnr0sw
- TjTWqzPAicMMQs7L4FIjqHwsBNe2A+0=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IEBtrhHOZoW2IpVmQ2emXJdx/NNh7WPD0iaL+UDhKTg=;
+ b=V96PLMdrvH6O3N79TMUSJVtxsKjRnOWODEXcZQIXpNHjKO5v1A0ZJwvDtPcbm5ZhFahy6d
+ ScZ2knbKhGxQtIkVYpBF22fcA9lVSfw993k94eQolcJII9Llbb5InuznO4/M1UigZafHCW
+ svmwweltIozyhHJrpMMpQuDORfk944M=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-15-EM5US8_lNIuLVkINNcwxuQ-1; Tue, 12 Jul 2022 08:50:28 -0400
-X-MC-Unique: EM5US8_lNIuLVkINNcwxuQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- gb37-20020a170907962500b0072b820af09dso645471ejc.20
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:28 -0700 (PDT)
+ us-mta-404-7BuHiN8fMS2SE_DwlFesHA-1; Tue, 12 Jul 2022 08:50:29 -0400
+X-MC-Unique: 7BuHiN8fMS2SE_DwlFesHA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ f13-20020a0564021e8d00b00437a2acb543so6086362edf.7
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 05:50:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VKBzYHIAT6VBcq03PETtR4a9TQUaMhkMxNp2UTkCvng=;
- b=Q1TucxX8Vp5puXVdBvI13EKmPMoK75BgSq9Fx/2SioW/URbWPESQraktRA/vXj+eIL
- qHe0tDH/PoW4qd3cg+9CIzqBHuOvJXRxOwSSiXmiVFujJlWPAHywOdPyWFQ+A2YRMRP1
- K9QVcCVMeliDYBHRn4Mwu5XkJRqDybqxlltnAhfp3e8jrMkZLiWvYr/BhCELvDU6xczY
- b/o4di7pkn/rD1DFtL/1TcMOXd/ZvX+SkCY75u8znga7gmJW4k24ICg9QhLDOwZEDH+/
- lnlglbb3/Vum9xXxlrEgs0szVkZTRih1GhZ/L5wxzs1ZzUSnEWApNDvSPkXCER48ovmU
- ae6g==
-X-Gm-Message-State: AJIora+YizsvpLRt8rG3pRYfm2ogcmOkyYXMw1+Yv0djfwSR9MenD2L0
- NajvlH+UVseiArYTSJg1t5koC5VMnKYYyRhkClEByZUULrSiGSbmyfp//y1pW6WIsk8cDpdT9la
- Pj8XypGtxVfUDD5yNhn+1iayGgf59ckteBPKfY0nF99Ds9yQoJPQiioKx1ssioKs9BdI=
-X-Received: by 2002:a17:907:7202:b0:722:e4d6:2e17 with SMTP id
- dr2-20020a170907720200b00722e4d62e17mr23557876ejc.434.1657630227121; 
- Tue, 12 Jul 2022 05:50:27 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tf22oQqrWUCezgPW3nunB3SitYzOfN4V2IsxM+yv/zV6CCI9y2lxR/OXV8sewlC4kbvQPvYA==
-X-Received: by 2002:a17:907:7202:b0:722:e4d6:2e17 with SMTP id
- dr2-20020a170907720200b00722e4d62e17mr23557857ejc.434.1657630226848; 
- Tue, 12 Jul 2022 05:50:26 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- u1-20020a1709061da100b006fe8c831632sm100496ejh.73.2022.07.12.05.50.25
+ bh=IEBtrhHOZoW2IpVmQ2emXJdx/NNh7WPD0iaL+UDhKTg=;
+ b=o+vnV03zk/7XmhY5gSA0hNtiMNM5hDTeuhl5atNUHHVYLYK9gc7Ti7nmgiKECsQyZK
+ RAucGqrM9GpRilXNne+Asv3aLArKV7V4/eph33btfH8YfaE+Ale24BOV7JNeBR5n2f2x
+ vsvIIL4vnjL1V3S0T72OSQ2tCKdp2xQvfErhTnJSx8SwcshkHjm+RnUWWYNisTmFUPzr
+ 5amxfW55kB0xcSos6qnv3P67y5uWBEyRmI9wt+EKYitz54axQyzXyoqSlsxGdo7uFZjO
+ 5Dp9Hc64hk3zxgMt5AYC4SmCThfz9AGQfY+9jEWn+3ZsFeyE9yvimyJgJFmzf0EASl5D
+ 020w==
+X-Gm-Message-State: AJIora9Av/goghLy3Da48xabrOUCGLTR06VvkMDI5evsaojEuxVIsYo+
+ BQFUcumpyx1IudfT67eoJ5lcIGeYI0Sd7WUHFZufTGPsFhf3tU0qnqC+SqvMNxvoA2zjeVTUwI8
+ rNiVutDUfjA/vjGM2A786DYS8z8Sfa2uNPY4Plm+l40Q1bw7UyLX8/a8qxZGbtHf8X9M=
+X-Received: by 2002:aa7:c84a:0:b0:437:bc9c:af63 with SMTP id
+ g10-20020aa7c84a000000b00437bc9caf63mr30491562edt.370.1657630228293; 
+ Tue, 12 Jul 2022 05:50:28 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vu4zLlhw1hr+9GIvJX6L1lvEE8SZ0MaoXpH+NOCBMro1PRjhSvXxur8+8MasIu/dT3r+K5sA==
+X-Received: by 2002:aa7:c84a:0:b0:437:bc9c:af63 with SMTP id
+ g10-20020aa7c84a000000b00437bc9caf63mr30491542edt.370.1657630228077; 
+ Tue, 12 Jul 2022 05:50:28 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ ec10-20020a0564020d4a00b0043a45dc7158sm5916949edb.72.2022.07.12.05.50.27
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jul 2022 05:50:26 -0700 (PDT)
+ Tue, 12 Jul 2022 05:50:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PULL 17/18] qga: Relocate a path emitted in the help text
-Date: Tue, 12 Jul 2022 14:49:55 +0200
-Message-Id: <20220712124956.150451-18-pbonzini@redhat.com>
+Subject: [PULL 18/18] meson: place default firmware path under .../share
+Date: Tue, 12 Jul 2022 14:49:56 +0200
+Message-Id: <20220712124956.150451-19-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220712124956.150451-1-pbonzini@redhat.com>
 References: <20220712124956.150451-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,41 +98,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <20220624145455.50058-1-akihiko.odaki@gmail.com>
+Fixes: c09c1ce7e9 ("configure: switch directory options to automatic parsing", 2022-05-07)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qga/main.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meson_options.txt             | 2 +-
+ scripts/meson-buildoptions.sh | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qga/main.c b/qga/main.c
-index c373fec3ee..5f1efa2333 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -223,6 +223,10 @@ void reopen_fd_to_null(int fd)
- 
- static void usage(const char *cmd)
- {
-+#ifdef CONFIG_FSFREEZE
-+    g_autofree char *fsfreeze_hook = get_relocated_path(QGA_FSFREEZE_HOOK_DEFAULT);
-+#endif
-+
-     printf(
- "Usage: %s [-m <method> -p <path>] [<options>]\n"
- "QEMU Guest Agent " QEMU_FULL_VERSION "\n"
-@@ -270,7 +274,7 @@ QEMU_HELP_BOTTOM "\n"
-     , cmd, QGA_VIRTIO_PATH_DEFAULT, QGA_SERIAL_PATH_DEFAULT,
-     dfl_pathnames.pidfile,
- #ifdef CONFIG_FSFREEZE
--    QGA_FSFREEZE_HOOK_DEFAULT,
-+    fsfreeze_hook,
- #endif
-     dfl_pathnames.state_dir);
- }
+diff --git a/meson_options.txt b/meson_options.txt
+index 97c38109b1..9a034f875b 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -6,7 +6,7 @@ option('qemu_suffix', type : 'string', value: 'qemu',
+        description: 'Suffix for QEMU data/modules/config directories (can be empty)')
+ option('docdir', type : 'string', value : 'share/doc',
+        description: 'Base directory for documentation installation (can be empty)')
+-option('qemu_firmwarepath', type : 'string', value : 'qemu-firmware',
++option('qemu_firmwarepath', type : 'string', value : 'share/qemu-firmware',
+        description: 'search PATH for firmware files')
+ option('pkgversion', type : 'string', value : '',
+        description: 'use specified string as sub-version of the package')
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index d0e14fd6de..4b7b8ffaa2 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -42,7 +42,7 @@ meson_options_help() {
+   printf "%s\n" '  --enable-trace-backends=CHOICES'
+   printf "%s\n" '                           Set available tracing backends [log] (choices:'
+   printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
+-  printf "%s\n" '  --firmwarepath=VALUE     search PATH for firmware files [qemu-firmware]'
++  printf "%s\n" '  --firmwarepath=VALUE     search PATH for firmware files [share/qemu-firmware]'
+   printf "%s\n" '  --iasl=VALUE             Path to ACPI disassembler'
+   printf "%s\n" '  --includedir=VALUE       Header file directory [include]'
+   printf "%s\n" '  --interp-prefix=VALUE    where to find shared libraries etc., use %M for'
 -- 
 2.36.1
-
 
 
