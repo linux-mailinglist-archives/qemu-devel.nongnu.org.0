@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B8B571031
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 04:28:34 +0200 (CEST)
-Received: from localhost ([::1]:38586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1B7571066
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 04:40:23 +0200 (CEST)
+Received: from localhost ([::1]:54936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB5dZ-0004IU-V7
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 22:28:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37830)
+	id 1oB5p0-0007ZB-Fo
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 22:40:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB5Re-00049e-LG
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 22:16:14 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:45848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB5Rc-0008SC-Dw
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 22:16:14 -0400
-Received: by mail-pl1-x634.google.com with SMTP id d5so6004331plo.12
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 19:16:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=dLgnOh+Zc9O4qeeV59yLvxXFRgNt84Z6qm9JgQNto8U=;
- b=a6J7+qTSSEeP519WjtmNps4Xa4HvHDgTfkRrbPEtxXy3zQLnQchci2QakAqxTzjFGC
- lkag2QFZbFGk5bPcOnXi2jX6e+3yh+q6WLP3lDHQ0dJy2IuQK4otvKVPxcicm7uUwTmb
- XT3F/edqjaM1K80plpWZjW6Ds4M89HxCCUUkqu6B931n1q+igpLQqvGDdjOQ4Z/NOumL
- fWw5HWA+JfBj9+ggMFnif9nzwwYBX8AVzkeJOMaiy4Zh7y42eUGllcRlBh1g52tQsJsQ
- KiyaX74cyKF6oA8ibigSRoRdPgNF8FWiFRHvBu3JNL0i6iBxhrpHjOXVazK9BdpV4QIQ
- oqRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dLgnOh+Zc9O4qeeV59yLvxXFRgNt84Z6qm9JgQNto8U=;
- b=WWR5Whwk8WQhLNNelFCpq6nItk0JXVVhSEjEQgvSQx0FfvUYflrrztP31W0uqhl/Ne
- 5dWXfFuNDTsKPBnOmwYLf07c6K+SIgu7KAeiiyK5Qgg0rt+UvNYDitjOJjNNiWMpFBhH
- Cz++ECLDGEzx4+PekS3p585tD/xtM40HZGBQbrHB9oPVCzfXq7X0pekB4sCpuTCzNDSs
- PDQb0GAhUo5nRp9VauMvBhvDb5oHEUf3OFMLqRdzATSU01BnBZvTFwQNTnQBX2hRv5Xh
- IEa8YsVuwBkcFvm6TRC6YRmDi+yNSUhrTeA1X61K7GQZ8avTUdFd9hy747aoHbS/13Jp
- 4wig==
-X-Gm-Message-State: AJIora/WVE0poa+/Hr3v7XoJwyziyi+SkZpyW4/mKmsON0tCCynn1i0/
- 4qvrISm5s282i2MH5XpDTFRUax6mnVtd6N1p
-X-Google-Smtp-Source: AGRyM1tkTOReLhxwgk7e1mrjpwJo2okl0wLDuUyM5l++IpSjboZ4Md267qC9ruGoDec4DYzh3Dn4Bg==
-X-Received: by 2002:a17:902:c205:b0:16b:f021:4299 with SMTP id
- 5-20020a170902c20500b0016bf0214299mr21633526pll.70.1657592170811; 
- Mon, 11 Jul 2022 19:16:10 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- w9-20020a63c109000000b0040d87299ca3sm4914258pgf.54.2022.07.11.19.16.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 19:16:10 -0700 (PDT)
-Message-ID: <0f409c01-4a6c-3a5d-0b7f-23b038224cc0@linaro.org>
-Date: Tue, 12 Jul 2022 07:46:05 +0530
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oB5hM-0007kW-W7; Mon, 11 Jul 2022 22:32:29 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:59781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oB5hL-0006XO-0d; Mon, 11 Jul 2022 22:32:28 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id F1A31580A06;
+ Mon, 11 Jul 2022 22:32:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 11 Jul 2022 22:32:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1657593144; x=1657596744; bh=dC94u0acFC77t7Vh4yTVAzl3K
+ W+gG7tWXOK31wAM6yo=; b=HXf6+SlH5+eYm8lznjNYl5H+gWVB2UNvuQnZ+X8oC
+ 5drOOxlydVG5twFEYnbShudl+AQVVDQHx4zUalkwOM2sLY9gD1MK/x1V9WnoV60E
+ MnWLdhm4mDGNWkNZicMNU4EwljZVmgQIJcYsULDEpjHHgMy/TWILc8WvCnx3ht4e
+ 7+kCGk9G5426Le+55KkjOoUPJTNPTMtH8qMAyv9kXYYG6rwesSMK4/T5EqgKAPJO
+ 8hBGe1G8MZNccc0Ml225XaTXNFzaPBnzHyl3uXIENyQhJIPR4ZPefOwvRX9L8ATB
+ hN6fcGPo2KI3btUJWs6SC8c8FJrH/Z5OLUV7fgsYjfFQg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1657593144; x=1657596744; bh=dC94u0acFC77t7Vh4yTVAzl3KW+gG7tWXOK
+ 31wAM6yo=; b=UCYakeLKYupgxahHLdTJCbQAdN9dn8q6VEBzb+P+GALENXCbBj+
+ 2gb2+9cDng+UHzgOeiiZ08+SpgK38D32jUYhPcoG7Ee2mEHIttUplrUObs287Kb5
+ z6+dbIlCX2+MnZfTKpIdi6NRMSnsV/+JEkKWsqniKHvKDeXEs3VIBsT9i2sKCgA8
+ R0AfaymlcbmLJRsvZON/NyhC3VONQwZL07x2gYFuKSOMnOhsIDtjX4tzAwk5zrfS
+ 9xi3GkXpsxU0UpLfgERV3ddb+9Xe5gzr0mKAqLZFaWYv1215LhB9fcn+vrKBLY5X
+ 7n8pqRgzH3rTpB47PKfalOmmik/RkNGIsEA==
+X-ME-Sender: <xms:ON3MYkc6eIiE8qo4b1OrLhvi16rTJHjH9SgkxYBCLzfglpqwXPlE7g>
+ <xme:ON3MYmO29rJ_-AV0yJsIde2dSPcP8eAtll1dt45sHU6tUtL8QqMYQQc2z-0Yp29Na
+ lwYaEebTceTFVmlVfE>
+X-ME-Received: <xmr:ON3MYljyjM-pxMatecqDgz_YRQFKSskojzeQCPu2ta7Q4WGXMrKNEoKa7WBySA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgedgiedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenuchmihhsshhinhhgucfvqfcufhhivghlugculdeftd
+ dmnegoteeftdduqddtudculdduhedmnecujfgurhephffvvefufffkofgggfestdekredt
+ redttdenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesph
+ hjugdruggvvheqnecuggftrfgrthhtvghrnhepvdejgefhkeejjeeitddutddvueegheeh
+ feelteffueegjedutdetgfdvgeevieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:ON3MYp-rwf7kzJCthxW_420QgniSq6sBAXtaDV_X1tQ4NltN8ohzbA>
+ <xmx:ON3MYguxfs2V34TQqLrfhY8-GGCeBZWC0__pgTj6jgDKKhhaGFV5-Q>
+ <xmx:ON3MYgHgC5NnOd1U3DC8diLPMo8yCoGXU-YY8T2yrC1IXM1yGucrzg>
+ <xmx:ON3MYuAgPdR161wBoPwY0JMNrBX3fNopgJEzdkwvaZh0oQ-2DgqFAQ>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 Jul 2022 22:32:24 -0400 (EDT)
+From: Peter Delevoryas <peter@pjd.dev>
+To: 
+Cc: peter@pjd.dev, clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au,
+ joel@jms.id.au, thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v3 0/3] hw/gpio/aspeed: Don't let guests modify input pins
+Date: Mon, 11 Jul 2022 19:32:16 -0700
+Message-Id: <20220712023219.41065-1-peter@pjd.dev>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PULL 00/45] target-arm queue
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220711135750.765803-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220711135750.765803-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=peter@pjd.dev;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_FMBLA_NEWDOM14=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,115 +98,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/11/22 19:27, Peter Maydell wrote:
-> I don't have anything else queued up at the moment, so this is just
-> Richard's SME patches.
-> 
-> -- PMM
-> 
-> The following changes since commit 63b38f6c85acd312c2cab68554abf33adf4ee2b3:
-> 
->    Merge tag 'pull-target-arm-20220707' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-07-08 06:17:11 +0530)
-> 
-> are available in the Git repository at:
-> 
->    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220711
-> 
-> for you to fetch changes up to f9982ceaf26df27d15547a3a7990a95019e9e3a8:
-> 
->    linux-user/aarch64: Add SME related hwcap entries (2022-07-11 13:43:52 +0100)
-> 
-> ----------------------------------------------------------------
-> target-arm:
->   * Implement SME emulation, for both system and linux-user
+v3:
+- Replaced fix in v2 with change suggested by arj
+- Removed all changes to the body of the aspeed_gpio_update loop
+- Removed guest error messages from v2
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Peter Delevoryas (3):
+  qtest/aspeed_gpio: Add input pin modification test
+  hw/gpio/aspeed: Don't let guests modify input pins
+  aspeed: Add fby35-bmc slot GPIO's
 
+ hw/arm/aspeed.c                | 14 +++++++++++++-
+ hw/gpio/aspeed_gpio.c          | 15 ++++++++-------
+ tests/qtest/aspeed_gpio-test.c | 27 +++++++++++++++++++++++++++
+ 3 files changed, 48 insertions(+), 8 deletions(-)
 
-r~
-
-
-> 
-> ----------------------------------------------------------------
-> Richard Henderson (45):
->        target/arm: Handle SME in aarch64_cpu_dump_state
->        target/arm: Add infrastructure for disas_sme
->        target/arm: Trap non-streaming usage when Streaming SVE is active
->        target/arm: Mark ADR as non-streaming
->        target/arm: Mark RDFFR, WRFFR, SETFFR as non-streaming
->        target/arm: Mark BDEP, BEXT, BGRP, COMPACT, FEXPA, FTSSEL as non-streaming
->        target/arm: Mark PMULL, FMMLA as non-streaming
->        target/arm: Mark FTSMUL, FTMAD, FADDA as non-streaming
->        target/arm: Mark SMMLA, UMMLA, USMMLA as non-streaming
->        target/arm: Mark string/histo/crypto as non-streaming
->        target/arm: Mark gather/scatter load/store as non-streaming
->        target/arm: Mark gather prefetch as non-streaming
->        target/arm: Mark LDFF1 and LDNF1 as non-streaming
->        target/arm: Mark LD1RO as non-streaming
->        target/arm: Add SME enablement checks
->        target/arm: Handle SME in sve_access_check
->        target/arm: Implement SME RDSVL, ADDSVL, ADDSPL
->        target/arm: Implement SME ZERO
->        target/arm: Implement SME MOVA
->        target/arm: Implement SME LD1, ST1
->        target/arm: Export unpredicated ld/st from translate-sve.c
->        target/arm: Implement SME LDR, STR
->        target/arm: Implement SME ADDHA, ADDVA
->        target/arm: Implement FMOPA, FMOPS (non-widening)
->        target/arm: Implement BFMOPA, BFMOPS
->        target/arm: Implement FMOPA, FMOPS (widening)
->        target/arm: Implement SME integer outer product
->        target/arm: Implement PSEL
->        target/arm: Implement REVD
->        target/arm: Implement SCLAMP, UCLAMP
->        target/arm: Reset streaming sve state on exception boundaries
->        target/arm: Enable SME for -cpu max
->        linux-user/aarch64: Clear tpidr2_el0 if CLONE_SETTLS
->        linux-user/aarch64: Reset PSTATE.SM on syscalls
->        linux-user/aarch64: Add SM bit to SVE signal context
->        linux-user/aarch64: Tidy target_restore_sigframe error return
->        linux-user/aarch64: Do not allow duplicate or short sve records
->        linux-user/aarch64: Verify extra record lock succeeded
->        linux-user/aarch64: Move sve record checks into restore
->        linux-user/aarch64: Implement SME signal handling
->        linux-user: Rename sve prctls
->        linux-user/aarch64: Implement PR_SME_GET_VL, PR_SME_SET_VL
->        target/arm: Only set ZEN in reset if SVE present
->        target/arm: Enable SME for user-only
->        linux-user/aarch64: Add SME related hwcap entries
-> 
->   docs/system/arm/emulation.rst     |    4 +
->   linux-user/aarch64/target_cpu.h   |    5 +-
->   linux-user/aarch64/target_prctl.h |   62 +-
->   target/arm/cpu.h                  |    7 +
->   target/arm/helper-sme.h           |  126 ++++
->   target/arm/helper-sve.h           |    4 +
->   target/arm/helper.h               |   18 +
->   target/arm/translate-a64.h        |   45 ++
->   target/arm/translate.h            |   16 +
->   target/arm/sme-fa64.decode        |   60 ++
->   target/arm/sme.decode             |   88 +++
->   target/arm/sve.decode             |   41 +-
->   linux-user/aarch64/cpu_loop.c     |    9 +
->   linux-user/aarch64/signal.c       |  243 ++++++--
->   linux-user/elfload.c              |   20 +
->   linux-user/syscall.c              |   28 +-
->   target/arm/cpu.c                  |   35 +-
->   target/arm/cpu64.c                |   11 +
->   target/arm/helper.c               |   56 +-
->   target/arm/sme_helper.c           | 1140 +++++++++++++++++++++++++++++++++++++
->   target/arm/sve_helper.c           |   28 +
->   target/arm/translate-a64.c        |  103 +++-
->   target/arm/translate-sme.c        |  373 ++++++++++++
->   target/arm/translate-sve.c        |  393 ++++++++++---
->   target/arm/translate-vfp.c        |   12 +
->   target/arm/translate.c            |    2 +
->   target/arm/vec_helper.c           |   24 +
->   target/arm/meson.build            |    3 +
->   28 files changed, 2821 insertions(+), 135 deletions(-)
->   create mode 100644 target/arm/sme-fa64.decode
->   create mode 100644 target/arm/sme.decode
->   create mode 100644 target/arm/translate-sme.c
-> 
+-- 
+2.37.0
 
 
