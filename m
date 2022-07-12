@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6AE5711A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 06:58:57 +0200 (CEST)
-Received: from localhost ([::1]:44766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBE35711BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 07:12:41 +0200 (CEST)
+Received: from localhost ([::1]:48138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB7z6-0000Fz-4v
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 00:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37546)
+	id 1oB8CN-0003OU-R5
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 01:12:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oB7u5-0005Le-LR
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:53:45 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:47065)
+ id 1oB8A4-0001jo-9m; Tue, 12 Jul 2022 01:10:16 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oB7u3-0006HA-Og
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:53:45 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id s27so6541903pga.13
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 21:53:42 -0700 (PDT)
+ id 1oB8A2-0005WG-Ae; Tue, 12 Jul 2022 01:10:15 -0400
+Received: by mail-pg1-x533.google.com with SMTP id g4so6631965pgc.1;
+ Mon, 11 Jul 2022 22:10:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=yfrz5GsqkYvZo8aGSUqQYbA4xjW4hmI4d+p/5mMlCZ4=;
- b=puYN9wNnXLMTjBAtpvCqZsszliqs3e1vBK/50t1SLXVbjrgcWjDBHgXuLDWOUfS5cg
- +g7LRT1ITFfnVMAX7m9tOjlUlSlTV0NRGvSQMs04gfRwVI6rIL+45bg2ZzcVFA3nAuJf
- qcX+hHRWsmtyODr2HTC1UDWlvZbsW1al3RE6+rOPhsnR/FgBcW0wcRcDdNXwFmdoZ3bw
- 82zYMZ9hW9DcgKW7pGQUIwdy2yGkgX4TYLetyd6wCQp1QjeAQnNjdoO0qoHelSqlu5xH
- b5iq3RVngiwrKS/JwJDqVNr2gc4AvZQ/QdxJo9Qd/lUWcVVZG6qJMB7772kOY6aygOvT
- FJ+A==
+ bh=6SEvyiQKdjhVdlBPZEkj/W1tMoGioU8MRXqX5+sdTDQ=;
+ b=oKTRpZPulXxujkv3Rx2H97H8LeKQeQk9uwWV0n4qbH0jJg8qKfxHDqVo4SZKfcfBac
+ 0CufnJVBo+0iOTknOgZcB+du8wu9z+SEtzEjy5siz4GKuvaDu7fqDrOKF0KBGxGr9LxT
+ kiqHA7GQqCtksre25cnS59mQDRMg2ecsJTDO0m2F0kGPhr56Y3TB6omcBUpwvEanLWbh
+ QmPxABGksdXq0z0JV24AUkxB2GLWjOdIi5vUmXennnntutCxVAPocS2FBQUQf6yxAHHX
+ y3Uw56NXTnI2Vm49oEVT+TtMBHYwfCp5KZ4Plwrmiyl/5Mv7gFVP36gGjwHHNJiLWDLf
+ 3qkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=yfrz5GsqkYvZo8aGSUqQYbA4xjW4hmI4d+p/5mMlCZ4=;
- b=GhT2w2nEFNYg7fUEDsKb3sE71IalP/5aGIzNAaKoGGniBvS+Otua7VWDGLa/oXrStp
- icZ9MjozMMBnVySRjG7mJYtKz4C1+YTHp/FMzsy/9P8yCTPULK0lcrth+PzZ7nNqzCCb
- 6z+AvdzK8TsA0aMfd1WkHxmLdlJhNr6AGC7ZU0QaB4n0chcGcg4c6cXp+1yzx6xawjn1
- gRe3eECE02BQ0hyUQG2CnlMMV7+C6+pcTeCcypGSKkeWLHE2Vzls48ja9zWqBuaiNr6r
- DkYLnvx1I7oAp56VkPHYOMy/NPmDxKg1FUWpBvyHBQ8H8fHR1e8eI6izVGSPMOgyqRoI
- RsSQ==
-X-Gm-Message-State: AJIora9BEm9eO0YLFcmt6eodtIHxa3copvZ4GGrLxsvSp8tmnLJpPFSP
- GVAVUkRqqG7/rCxLOPWEmkzwEGI37VjKrNB+gos=
-X-Google-Smtp-Source: AGRyM1u7DCGCazfd9dLAhGh0hHjRMCP2MUaLxBqrTU1g7UI+Y1ISsixfdhzemLMmjtyKiQ/dmBGvZN8N0VaFE/+VO6k=
+ bh=6SEvyiQKdjhVdlBPZEkj/W1tMoGioU8MRXqX5+sdTDQ=;
+ b=Dzpi0stAWr0C/eYDlI7zW5+A2Z0+axfAkB0aUgrFw+llKxXDMoekSnd954CGEpRZGd
+ yCBnVJD93Sx7O3kRDNBuefq2qJ/s85d+uoh5rMeo8mpLrpYXC1F7If0UKVJGR20WdC+g
+ utWL3Adl02OTiyT/QfZ+u2Qm5XXqStqORLNrYouVM2WvjBmiUPCpyUtOZ/YhFEb3gSa8
+ 3ZhmyQewO3nT9xfUmuKuoWBtfLNFxJfMQziGkt3AzaQTJSA7fq3TwLp8z6mfjkoVQekw
+ 4oQmTD6mwzdIrpb8jn61A/KDBOMP4v5kzpDfpA7bc1R4pckTlevOWGantE2/HcQ9xQbB
+ YRAw==
+X-Gm-Message-State: AJIora+sBZSpupxvPP7d1mq/AsrMOvx2ozfdmN4R25uDxqeGfAIE6S0S
+ n3d4HRc3TZMd3C04DdZlSwOm5F/FURDix2n/TYs=
+X-Google-Smtp-Source: AGRyM1spDqeMI54L+5b30nu1HX04j8j+KHvy4YW4vnQ/r9T2WS4IHtZkxn9UIGedoXy2M/JJ2HiMJniYjCMUfJ/riGE=
 X-Received: by 2002:a05:6a00:1303:b0:528:2ed8:7e86 with SMTP id
- j3-20020a056a00130300b005282ed87e86mr21618416pfu.4.1657601621946; Mon, 11 Jul
- 2022 21:53:41 -0700 (PDT)
+ j3-20020a056a00130300b005282ed87e86mr21670105pfu.4.1657602612442; Mon, 11 Jul
+ 2022 22:10:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220625223458.1273408-1-simon.sapin@exyr.org>
- <da785d05-e322-2e40-7a89-e926256c6dbe@exyr.org>
- <CAKmqyKN+xvOseT_5XeFgZ=b77giU+wdaZy=w9OgEFL8EXNGDVg@mail.gmail.com>
- <357832d7-6e23-4298-5dbf-cf9171e32e6e@exyr.org>
-In-Reply-To: <357832d7-6e23-4298-5dbf-cf9171e32e6e@exyr.org>
+References: <20220710110451.245567-1-frederic.petrot@univ-grenoble-alpes.fr>
+In-Reply-To: <20220710110451.245567-1-frederic.petrot@univ-grenoble-alpes.fr>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 12 Jul 2022 14:53:15 +1000
-Message-ID: <CAKmqyKNtKTkER5y+O1p3S32GqFvpTKnsyxu+eRggAL7KV6TZPQ@mail.gmail.com>
-Subject: Re: Booting bare-metal RISC-V virt (Was: [PATCH] Add some
- documentation for "dtb" devices tree blobs)
-To: Simon Sapin <simon.sapin@exyr.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>
+Date: Tue, 12 Jul 2022 15:09:46 +1000
+Message-ID: <CAKmqyKPs2VObeLPPPAKJmAZpD9T-_m4d0tbsVWFWztBN-xBrfA@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: fix shifts shamt value for rv128c
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,76 +86,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 27, 2022 at 4:15 PM Simon Sapin <simon.sapin@exyr.org> wrote:
+On Sun, Jul 10, 2022 at 9:05 PM Fr=C3=A9d=C3=A9ric P=C3=A9trot
+<frederic.petrot@univ-grenoble-alpes.fr> wrote:
 >
-> On 27/06/2022 07:40, Alistair Francis wrote:
-> > We have previously kept the addresses backwards compatible. So that
-> > software for an older virt machine will work on a newer one. There is
-> > currently talks about changing the virt machine memory layout in a
-> > breaking way and versioning in the current one though.
-> >
-> > So I don't really have a good answer for you. I would recommend
-> > reading as much as possible from the device tree dynamically at boot.
-> >
-> > In general though we don't want to break people, we just might have to
-> > make changes in the future to allow for new functionality.
+> For rv128c shifts, a shamt of 0 is a shamt of 64, while for rv32c/rv64c
+> it stays 0 and is a hint instruction that does not change processor state=
+.
+> For rv128c right shifts, the 6-bit shamt is in addition sign extended to
+> 7 bits.
 >
-> I agree that reading from the device tree as much as possible is good. We=
- there=E2=80=99s
-> still a need to get code running at all, and finding the device tree.
->
-> So it would be good to decide to make stable what=E2=80=99s needed to get=
- there (like was
-> apparently decided for ARM) and document it.
+> Signed-off-by: Fr=C3=A9d=C3=A9ric P=C3=A9trot <frederic.petrot@univ-greno=
+ble-alpes.fr>
 
-Yeah, we are working towards that
+Thanks!
 
->
-> On principle maybe a firmware/bootloader could be entirely position-indep=
-endent? But
-
-I don't link the RISC-V toolchains suppor fully position independent code
-
-> in what I=E2=80=99ve done/seen so far https://docs.rs/riscv-rt/latest/ris=
-cv_rt/ has address
-> ranges hard-coded in a linker script for different regions, and when pass=
-ing an ELF
-> file to -kernel, QEMU maps it to those addresses but boots at 0x8000_0000=
- regardless.
-
-Yeah, I suspect we will keep the 0x8000_0000 as that's pretty standard
-
->
->
-> >> * With `qemu-system-riscv32 -machine virt -bios none -kernel something=
-.elf -s -S`,
-> >> GDB shows that execution starts at the lowest address of RAM, not of f=
-lash like I
-> >> expected. Then what is emulated flash for?
-> >
-> > If you supply a flash image we will start executing from flash automati=
-cally.
->
-> Passing with -drive? Should I use that instead of -kernel?
-
-If you want to pass a drive then yes, that's the better option
-
->
->
-> >> * To what extent is the above calling convention standardized? I found=
- similar things
-> >> in coreboot[4] and in OpenSBI[5]
-> >
-> > Good question. I don't think it's specified in a spec, but it is very c=
-ommon
->
-> Should we document this convention as something guest code can rely on?
-
-We probably should at some point
+Applied to riscv-to-apply.next
 
 Alistair
 
+> ---
+>  target/riscv/insn16.decode |  7 ++++---
+>  disas/riscv.c              | 27 +++++++++++++++++++++------
+>  target/riscv/translate.c   | 20 ++++++++++++++++++--
+>  3 files changed, 43 insertions(+), 11 deletions(-)
 >
+> diff --git a/target/riscv/insn16.decode b/target/riscv/insn16.decode
+> index 02c8f61b48..ccfe59f294 100644
+> --- a/target/riscv/insn16.decode
+> +++ b/target/riscv/insn16.decode
+> @@ -31,7 +31,8 @@
+>  %imm_cb        12:s1 5:2 2:1 10:2 3:2 !function=3Dex_shift_1
+>  %imm_cj        12:s1 8:1 9:2 6:1 7:1 2:1 11:1 3:3 !function=3Dex_shift_1
+>
+> -%shimm_6bit   12:1 2:5               !function=3Dex_rvc_shifti
+> +%shlimm_6bit  12:1 2:5               !function=3Dex_rvc_shiftli
+> +%shrimm_6bit  12:1 2:5               !function=3Dex_rvc_shiftri
+>  %uimm_6bit_lq 2:4 12:1 6:1           !function=3Dex_shift_4
+>  %uimm_6bit_ld 2:3 12:1 5:2           !function=3Dex_shift_3
+>  %uimm_6bit_lw 2:2 12:1 4:3           !function=3Dex_shift_2
+> @@ -82,9 +83,9 @@
+>  @c_addi16sp     ... .  ..... ..... .. &i imm=3D%imm_addi16sp rs1=3D2 rd=
+=3D2
+>
+>  @c_shift        ... . .. ... ..... .. \
+> -                &shift rd=3D%rs1_3 rs1=3D%rs1_3 shamt=3D%shimm_6bit
+> +                &shift rd=3D%rs1_3 rs1=3D%rs1_3 shamt=3D%shrimm_6bit
+>  @c_shift2       ... . .. ... ..... .. \
+> -                &shift rd=3D%rd rs1=3D%rd shamt=3D%shimm_6bit
+> +                &shift rd=3D%rd rs1=3D%rd shamt=3D%shlimm_6bit
+>
+>  @c_andi         ... . .. ... ..... .. &i imm=3D%imm_ci rs1=3D%rs1_3 rd=
+=3D%rs1_3
+>
+> diff --git a/disas/riscv.c b/disas/riscv.c
+> index 7af6afc8fa..489c2ae5e8 100644
+> --- a/disas/riscv.c
+> +++ b/disas/riscv.c
+> @@ -2402,10 +2402,25 @@ static int32_t operand_sbimm12(rv_inst inst)
+>          ((inst << 56) >> 63) << 11;
+>  }
+>
+> -static uint32_t operand_cimmsh6(rv_inst inst)
+> +static uint32_t operand_cimmshl6(rv_inst inst, rv_isa isa)
+>  {
+> -    return ((inst << 51) >> 63) << 5 |
+> +    int imm =3D ((inst << 51) >> 63) << 5 |
+>          (inst << 57) >> 59;
+> +    if (isa =3D=3D rv128) {
+> +        imm =3D imm ? imm : 64;
+> +    }
+> +    return imm;
+> +}
+> +
+> +static uint32_t operand_cimmshr6(rv_inst inst, rv_isa isa)
+> +{
+> +    int imm =3D ((inst << 51) >> 63) << 5 |
+> +        (inst << 57) >> 59;
+> +    if (isa =3D=3D rv128) {
+> +        imm =3D imm | (imm & 32) << 1;
+> +        imm =3D imm ? imm : 64;
+> +    }
+> +    return imm;
+>  }
+>
+>  static int32_t operand_cimmi(rv_inst inst)
+> @@ -2529,7 +2544,7 @@ static uint32_t operand_rnum(rv_inst inst)
+>
+>  /* decode operands */
+>
+> -static void decode_inst_operands(rv_decode *dec)
+> +static void decode_inst_operands(rv_decode *dec, rv_isa isa)
+>  {
+>      rv_inst inst =3D dec->inst;
+>      dec->codec =3D opcode_data[dec->op].codec;
+> @@ -2652,7 +2667,7 @@ static void decode_inst_operands(rv_decode *dec)
+>      case rv_codec_cb_sh6:
+>          dec->rd =3D dec->rs1 =3D operand_crs1rdq(inst) + 8;
+>          dec->rs2 =3D rv_ireg_zero;
+> -        dec->imm =3D operand_cimmsh6(inst);
+> +        dec->imm =3D operand_cimmshr6(inst, isa);
+>          break;
+>      case rv_codec_ci:
+>          dec->rd =3D dec->rs1 =3D operand_crs1rd(inst);
+> @@ -2667,7 +2682,7 @@ static void decode_inst_operands(rv_decode *dec)
+>      case rv_codec_ci_sh6:
+>          dec->rd =3D dec->rs1 =3D operand_crs1rd(inst);
+>          dec->rs2 =3D rv_ireg_zero;
+> -        dec->imm =3D operand_cimmsh6(inst);
+> +        dec->imm =3D operand_cimmshl6(inst, isa);
+>          break;
+>      case rv_codec_ci_16sp:
+>          dec->rd =3D rv_ireg_sp;
+> @@ -3193,7 +3208,7 @@ disasm_inst(char *buf, size_t buflen, rv_isa isa, u=
+int64_t pc, rv_inst inst)
+>      dec.pc =3D pc;
+>      dec.inst =3D inst;
+>      decode_inst_opcode(&dec, isa);
+> -    decode_inst_operands(&dec);
+> +    decode_inst_operands(&dec, isa);
+>      decode_inst_decompress(&dec, isa);
+>      decode_inst_lift_pseudo(&dec);
+>      format_inst(buf, buflen, 16, &dec);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 63b04e8a94..d7c82a9c81 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -705,10 +705,26 @@ static int ex_rvc_register(DisasContext *ctx, int r=
+eg)
+>      return 8 + reg;
+>  }
+>
+> -static int ex_rvc_shifti(DisasContext *ctx, int imm)
+> +static int ex_rvc_shiftli(DisasContext *ctx, int imm)
+>  {
+>      /* For RV128 a shamt of 0 means a shift by 64. */
+> -    return imm ? imm : 64;
+> +    if (get_ol(ctx) =3D=3D MXL_RV128) {
+> +        imm =3D imm ? imm : 64;
+> +    }
+> +    return imm;
+> +}
+> +
+> +static int ex_rvc_shiftri(DisasContext *ctx, int imm)
+> +{
+> +    /*
+> +     * For RV128 a shamt of 0 means a shift by 64, furthermore, for righ=
+t
+> +     * shifts, the shamt is sign-extended.
+> +     */
+> +    if (get_ol(ctx) =3D=3D MXL_RV128) {
+> +        imm =3D imm | (imm & 32) << 1;
+> +        imm =3D imm ? imm : 64;
+> +    }
+> +    return imm;
+>  }
+>
+>  /* Include the auto-generated decoder for 32 bit insn */
 > --
-> Simon Sapin
+> 2.36.1
+>
+>
 
