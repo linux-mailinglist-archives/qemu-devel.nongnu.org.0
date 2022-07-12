@@ -2,47 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A225720B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 18:24:58 +0200 (CEST)
-Received: from localhost ([::1]:36558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483A8572124
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 18:41:37 +0200 (CEST)
+Received: from localhost ([::1]:44976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBIgy-0005pm-Vl
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 12:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56780)
+	id 1oBIx5-0004jo-QM
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 12:41:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1oBIei-00048i-5A; Tue, 12 Jul 2022 12:22:36 -0400
-Received: from [200.168.210.66] (port=61184 helo=outlook.eldorado.org.br)
+ id 1oBIuB-0002Of-SN; Tue, 12 Jul 2022 12:38:35 -0400
+Received: from [200.168.210.66] (port=62578 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1oBIeg-0005y3-HS; Tue, 12 Jul 2022 12:22:35 -0400
+ id 1oBIuA-0000JF-CV; Tue, 12 Jul 2022 12:38:35 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 12 Jul 2022 13:22:29 -0300
+ Tue, 12 Jul 2022 13:38:28 -0300
 Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id C6989800146;
- Tue, 12 Jul 2022 13:22:28 -0300 (-03)
-Message-ID: <4d4e642b-3ecd-1fd5-3416-2c6353f84601@eldorado.org.br>
-Date: Tue, 12 Jul 2022 13:22:28 -0300
+ by p9ibm (Postfix) with ESMTPS id 61BC8800146;
+ Tue, 12 Jul 2022 13:38:28 -0300 (-03)
+Message-ID: <b17754f8-e041-619d-0a4d-2c1dbce45681@eldorado.org.br>
+Date: Tue, 12 Jul 2022 13:38:28 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH RESEND v2 2/2] target/ppc: Implement ISA 3.00 tlbie[l]
+Subject: Re: [PATCH v3 3/3] target/ppc: Check page dir/table base alignment
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, npiggin@gmail.com
-References: <20220624191424.190471-1-leandro.lupori@eldorado.org.br>
- <20220624191424.190471-3-leandro.lupori@eldorado.org.br>
- <fa56c2e6-3f05-e446-4b31-d6b88ee115de@linaro.org>
+ groug@kaod.org, richard.henderson@linaro.org
+References: <20220628133959.15131-1-leandro.lupori@eldorado.org.br>
+ <20220628133959.15131-4-leandro.lupori@eldorado.org.br>
 From: Leandro Lupori <leandro.lupori@eldorado.org.br>
-In-Reply-To: <fa56c2e6-3f05-e446-4b31-d6b88ee115de@linaro.org>
+In-Reply-To: <20220628133959.15131-4-leandro.lupori@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 Jul 2022 16:22:29.0169 (UTC)
- FILETIME=[94BD9A10:01D8960B]
+Content-Transfer-Encoding: 7bit
+X-OriginalArrivalTime: 12 Jul 2022 16:38:28.0781 (UTC)
+ FILETIME=[D0B6C5D0:01D8960D]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,58 +65,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/24/22 16:50, Richard Henderson wrote:
-> On 6/24/22 12:14, Leandro Lupori wrote:
->> This initial version supports the invalidation of one or all
->> TLB entries. Flush by PID/LPID, or based in process/partition
->> scope is not supported, because it would make using the
->> generic QEMU TLB implementation hard. In these cases, all
->> entries are flushed.
->>
->> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
->> ---
->>   target/ppc/helper.h                          |  18 +++
->>   target/ppc/mmu_helper.c                      | 154 +++++++++++++++++++
->>   target/ppc/translate/storage-ctrl-impl.c.inc |  15 ++
->>   3 files changed, 187 insertions(+)
->>
->> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
->> index d627cfe6ed..5e663a0a50 100644
->> --- a/target/ppc/helper.h
->> +++ b/target/ppc/helper.h
->> @@ -672,6 +672,24 @@ DEF_HELPER_FLAGS_1(tlbia, TCG_CALL_NO_RWG, void, 
->> env)
->>   DEF_HELPER_FLAGS_2(tlbie, TCG_CALL_NO_RWG, void, env, tl)
->>   DEF_HELPER_FLAGS_2(tlbiva, TCG_CALL_NO_RWG, void, env, tl)
->>   #if defined(TARGET_PPC64)
->> +
->> +/*
->> + * tlbie[l] helper flags
->> + *
->> + * RIC, PRS, R and local are passed as flags in the last argument.
->> + */
->> +#define TLBIE_F_RIC_SHIFT       0
->> +#define TLBIE_F_PRS_SHIFT       2
->> +#define TLBIE_F_R_SHIFT         3
->> +#define TLBIE_F_LOCAL_SHIFT     4
->> +
->> +#define TLBIE_F_RIC_MASK        (3 << TLBIE_F_RIC_SHIFT)
->> +#define TLBIE_F_PRS             (1 << TLBIE_F_PRS_SHIFT)
->> +#define TLBIE_F_R               (1 << TLBIE_F_R_SHIFT)
->> +#define TLBIE_F_LOCAL           (1 << TLBIE_F_LOCAL_SHIFT)
->> +
+On 6/28/22 10:39, Leandro Lupori wrote:
+> According to PowerISA 3.1B, Book III 6.7.6 programming note, the
+> page directory base addresses are expected to be aligned to their
+> size. Real hardware seems to rely on that and will access the
+> wrong address if they are misaligned. This results in a
+> translation failure even if the page tables seem to be properly
+> populated.
 > 
-> Better to put these somewhere else -- internal.h probably -- helper.h is 
-> included multiple
-> times.
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+> ---
+>   target/ppc/mmu-radix64.c | 28 ++++++++++++++++++++++++----
+>   1 file changed, 24 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+> index 705bff76be..00f2e9fa2e 100644
+> --- a/target/ppc/mmu-radix64.c
+> +++ b/target/ppc/mmu-radix64.c
+> @@ -265,7 +265,7 @@ static int ppc_radix64_next_level(AddressSpace *as, vaddr eaddr,
+>                                     uint64_t *pte_addr, uint64_t *nls,
+>                                     int *psize, uint64_t *pte, int *fault_cause)
+>   {
+> -    uint64_t index, pde;
+> +    uint64_t index, mask, nlb, pde;
+>   
+>       /* Read page <directory/table> entry from guest address space */
+>       pde = ldq_phys(as, *pte_addr);
+> @@ -280,7 +280,17 @@ static int ppc_radix64_next_level(AddressSpace *as, vaddr eaddr,
+>           *nls = pde & R_PDE_NLS;
+>           index = eaddr >> (*psize - *nls);       /* Shift */
+>           index &= ((1UL << *nls) - 1);           /* Mask */
+> -        *pte_addr = (pde & R_PDE_NLB) + (index * sizeof(pde));
+> +        nlb = pde & R_PDE_NLB;
+> +        mask = MAKE_64BIT_MASK(0, *nls + 3);
+> +
+> +        if (nlb & mask) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                "%s: misaligned page dir/table base: 0x"TARGET_FMT_lx
+> +                " page dir size: 0x"TARGET_FMT_lx"\n",
+> +                __func__, nlb, mask + 1);
+> +            nlb &= ~mask;
+> +        }
+> +        *pte_addr = nlb + index * sizeof(pde);
+>       }
+>       return 0;
+>   }
+> @@ -294,8 +304,18 @@ static int ppc_radix64_walk_tree(AddressSpace *as, vaddr eaddr,
+>       int level = 0;
+>   
+>       index = eaddr >> (*psize - nls);    /* Shift */
+> -    index &= ((1UL << nls) - 1);       /* Mask */
+> -    *pte_addr = base_addr + (index * sizeof(pde));
+> +    index &= ((1UL << nls) - 1);        /* Mask */
+> +    mask = MAKE_64BIT_MASK(0, nls + 3);
+> +
+> +    if (base_addr & mask) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +            "%s: misaligned page dir base: 0x"TARGET_FMT_lx
+> +            " page dir size: 0x"TARGET_FMT_lx"\n",
+> +            __func__, base_addr, mask + 1);
+> +        base_addr &= ~mask;
+> +    }
+> +    *pte_addr = base_addr + index * sizeof(pde);
+> +
+>       do {
+>           int ret;
+>   
 
-I guess I forgot about this change.
-I'll move these defines to another header file.
+Is the v3 of this patch ok, now that cpu behavior on misaligned page 
+dir/table base is also being emulated?
 
 Thanks,
 Leandro
-
-> 
-> r~
-
 
