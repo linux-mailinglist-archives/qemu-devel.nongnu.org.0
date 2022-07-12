@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C966A571675
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:02:20 +0200 (CEST)
-Received: from localhost ([::1]:36954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F098B571697
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:08:14 +0200 (CEST)
+Received: from localhost ([::1]:45594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBCih-0008Tk-IZ
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36442)
+	id 1oBCoO-00064h-VZ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:08:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oBCK5-00066s-1Q
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:37:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28909)
+ id 1oBCKP-0006Ce-6o
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:37:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oBCK0-0000gP-Ie
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:36:52 -0400
+ id 1oBCK5-0000y0-Cr
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:37:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657618607;
+ s=mimecast20190719; t=1657618612;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RSWmqrCRifNkF/Ky3wI4xiwm7h2jr7Ylkixe4+gDIWI=;
- b=i/iES+23WB2y839vsFOW6qRN6dnX3dZ1ixhFYgiBLrfXnHmVbqHiyXolCjyy0gX/k2oG3l
- cKa3PbWUcPe2bN1bxPzKruVOAOwoFlnT1EGB6WymMQAv5WjIm9esqNBwH2NI9u0LWJ5Hov
- PyQs5ESby4vMZayFKvAvPbFfWCwbR4w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SwaBP8hFBuotG5J6yd49FTMQtesqfc4olAZlluLUNm8=;
+ b=gdN6XR/gbJ/cABrJWOQJENUhKC7FzwSK6N5QAXGkDXhDvBvFLgOt41x0kkopIwvkva1fqI
+ B85AJZ/i2qPkwlO2YmuL1hkxOgDuim6EqdukiecNb/RswOlIsee7Epqm/EhwZF9Yfp9b0f
+ bQi9XGLRLfIej9EnTB0Y+uFoWoXcoUw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-WRcDgSgDMv-C1_krHwVs6Q-1; Tue, 12 Jul 2022 05:36:44 -0400
-X-MC-Unique: WRcDgSgDMv-C1_krHwVs6Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-511-KltQUYI8M4SPWWWohmR82w-1; Tue, 12 Jul 2022 05:36:49 -0400
+X-MC-Unique: KltQUYI8M4SPWWWohmR82w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38829185A7BA;
- Tue, 12 Jul 2022 09:36:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6909280D212;
+ Tue, 12 Jul 2022 09:36:48 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EF81C15D40;
- Tue, 12 Jul 2022 09:36:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 10E8540CF8EF;
+ Tue, 12 Jul 2022 09:36:46 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
@@ -57,25 +57,25 @@ Cc: Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>, Fam Zheng <fam@euphon.net>,
  Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 10/15] qemu-common: introduce a common subproject
-Date: Tue, 12 Jul 2022 13:35:23 +0400
-Message-Id: <20220712093528.4144184-11-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 11/15] qemu-common: move scripts/qapi
+Date: Tue, 12 Jul 2022 13:35:24 +0400
+Message-Id: <20220712093528.4144184-12-marcandre.lureau@redhat.com>
 In-Reply-To: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
 References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,158 +93,254 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Add a new meson subproject to provide common code and scripts for QEMU
-and tools. Initially, it will offer QAPI/QMP code generation and
-common utilities.
-
-libvhost-user & libvduse will make use of the subproject to avoid having
-include/ links to common headers.
-
-The other targeted user is qemu-ga, which will also be converted to a
-subproject (so it can be built, moved, released etc independent from QEMU).
-
-Other projects such as qemu-storage-daemon could be built standalone
-eventually in the future.
-
-Note that with meson subprojects are "global". Projects will share
-subprojects (https://mesonbuild.com/Subprojects.html#subprojects-depending-on-other-subprojects).
-We will add extra subprojects/ links to allow standalone subproject
-compilation though.
-
-This initial commit simply set the stage to build and link against it.
+This is just moving qapi-gen.py and related subdir to qemu-common, to
+ease review and proceed step by step. The following patches will move
+related necessary code, tests etc.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- meson.build                                              | 9 ++++++++-
- .../qemu-common/include}/qemu/help-texts.h               | 0
- linux-user/meson.build                                   | 4 ++--
- subprojects/libvduse/meson.build                         | 2 ++
- subprojects/libvduse/subprojects/qemu-common             | 1 +
- subprojects/libvhost-user/meson.build                    | 2 ++
- subprojects/libvhost-user/subprojects/qemu-common        | 1 +
- subprojects/qemu-common/meson.build                      | 8 ++++++++
- 8 files changed, 24 insertions(+), 3 deletions(-)
- rename {include => subprojects/qemu-common/include}/qemu/help-texts.h (100%)
- create mode 120000 subprojects/libvduse/subprojects/qemu-common
- create mode 120000 subprojects/libvhost-user/subprojects/qemu-common
- create mode 100644 subprojects/qemu-common/meson.build
+ docs/conf.py                                  |  2 +-
+ meson.build                                   | 19 ++-----------------
+ MAINTAINERS                                   |  4 ++--
+ subprojects/qemu-common/meson.build           |  2 ++
+ subprojects/qemu-common/scripts/meson.build   |  3 +++
+ .../qemu-common/scripts}/qapi-gen.py          |  0
+ .../qemu-common/scripts}/qapi/.flake8         |  0
+ .../qemu-common/scripts}/qapi/.isort.cfg      |  0
+ .../qemu-common/scripts}/qapi/__init__.py     |  0
+ .../qemu-common/scripts}/qapi/commands.py     |  0
+ .../qemu-common/scripts}/qapi/common.py       |  0
+ .../qemu-common/scripts}/qapi/error.py        |  0
+ .../qemu-common/scripts}/qapi/events.py       |  0
+ .../qemu-common/scripts}/qapi/expr.py         |  0
+ .../qemu-common/scripts}/qapi/gen.py          |  0
+ .../qemu-common/scripts}/qapi/introspect.py   |  0
+ .../qemu-common/scripts}/qapi/main.py         |  0
+ .../qemu-common/scripts/qapi/meson.build      | 16 ++++++++++++++++
+ .../qemu-common/scripts}/qapi/mypy.ini        |  0
+ .../qemu-common/scripts}/qapi/parser.py       |  0
+ .../qemu-common/scripts}/qapi/pylintrc        |  0
+ .../qemu-common/scripts}/qapi/schema.py       |  0
+ .../qemu-common/scripts}/qapi/source.py       |  0
+ .../qemu-common/scripts}/qapi/types.py        |  0
+ .../qemu-common/scripts}/qapi/visit.py        |  0
+ tests/qapi-schema/meson.build                 |  2 +-
+ 26 files changed, 27 insertions(+), 21 deletions(-)
+ create mode 100644 subprojects/qemu-common/scripts/meson.build
+ rename {scripts => subprojects/qemu-common/scripts}/qapi-gen.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/.flake8 (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/.isort.cfg (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/__init__.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/commands.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/common.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/error.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/events.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/expr.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/gen.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/introspect.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/main.py (100%)
+ create mode 100644 subprojects/qemu-common/scripts/qapi/meson.build
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/mypy.ini (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/parser.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/pylintrc (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/schema.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/source.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/types.py (100%)
+ rename {scripts => subprojects/qemu-common/scripts}/qapi/visit.py (100%)
 
+diff --git a/docs/conf.py b/docs/conf.py
+index e33cf3d38121..02dcd987b426 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -56,7 +56,7 @@
+ # Our extensions are in docs/sphinx; the qapidoc extension requires
+ # the QAPI modules from scripts/.
+ sys.path.insert(0, os.path.join(qemu_docdir, "sphinx"))
+-sys.path.insert(0, os.path.join(qemu_docdir, "../scripts"))
++sys.path.insert(0, os.path.join(qemu_docdir, "../subprojects/qemu-common/scripts"))
+ 
+ 
+ # -- General configuration ------------------------------------------------
 diff --git a/meson.build b/meson.build
-index bc5569ace159..254eb1263a66 100644
+index 254eb1263a66..97e8ab37eb08 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -167,6 +167,10 @@ if 'dtrace' in get_option('trace_backends')
-   endif
+@@ -1582,6 +1582,8 @@ if libbpf.found() and not cc.links('''
  endif
  
-+add_project_arguments('-I' + meson.current_source_dir() / 'subprojects/qemu-common/include',
-+  language: ['c', 'cpp', 'objc'],
-+)
-+
- if get_option('iasl') == ''
-   iasl = find_program('iasl', required: false)
- else
-@@ -1577,6 +1581,9 @@ if libbpf.found() and not cc.links('''
-   endif
- endif
+ qemu_common = subproject('qemu-common')
++qapi_gen = qemu_common.get_variable('qapi_gen')
++qapi_gen_depends = qemu_common.get_variable('qapi_gen_depends')
+ qemu_common = qemu_common.get_variable('qemu_common_dep')
  
-+qemu_common = subproject('qemu-common')
-+qemu_common = qemu_common.get_variable('qemu_common_dep')
-+
  #################
- # config-host.h #
- #################
-@@ -3052,7 +3059,7 @@ util_ss.add_all(trace_ss)
- util_ss = util_ss.apply(config_all, strict: false)
- libqemuutil = static_library('qemuutil',
-                              sources: util_ss.sources() + stub_ss.sources() + genh,
--                             dependencies: [util_ss.dependencies(), libm, threads, glib, socket, malloc, pixman])
-+                             dependencies: [util_ss.dependencies(), libm, threads, glib, socket, malloc, pixman, qemu_common])
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res,
-                               dependencies: [event_loop_base])
-diff --git a/include/qemu/help-texts.h b/subprojects/qemu-common/include/qemu/help-texts.h
-similarity index 100%
-rename from include/qemu/help-texts.h
-rename to subprojects/qemu-common/include/qemu/help-texts.h
-diff --git a/linux-user/meson.build b/linux-user/meson.build
-index de4320af053c..fc6cdb55d657 100644
---- a/linux-user/meson.build
-+++ b/linux-user/meson.build
-@@ -7,7 +7,7 @@ linux_user_ss = ss.source_set()
- common_user_inc += include_directories('include/host/' / host_arch)
- common_user_inc += include_directories('include')
+@@ -2790,23 +2792,6 @@ genh += configure_file(output: 'config-host.h', configuration: config_host_data)
  
--linux_user_ss.add(files(
-+linux_user_ss.add([files(
-   'elfload.c',
-   'exit.c',
-   'fd-trans.c',
-@@ -20,7 +20,7 @@ linux_user_ss.add(files(
-   'thunk.c',
-   'uaccess.c',
-   'uname.c',
--))
-+), qemu_common])
- linux_user_ss.add(rt)
+ hxtool = find_program('scripts/hxtool')
+ shaderinclude = find_program('scripts/shaderinclude.pl')
+-qapi_gen = find_program('scripts/qapi-gen.py')
+-qapi_gen_depends = [ meson.current_source_dir() / 'scripts/qapi/__init__.py',
+-                     meson.current_source_dir() / 'scripts/qapi/commands.py',
+-                     meson.current_source_dir() / 'scripts/qapi/common.py',
+-                     meson.current_source_dir() / 'scripts/qapi/error.py',
+-                     meson.current_source_dir() / 'scripts/qapi/events.py',
+-                     meson.current_source_dir() / 'scripts/qapi/expr.py',
+-                     meson.current_source_dir() / 'scripts/qapi/gen.py',
+-                     meson.current_source_dir() / 'scripts/qapi/introspect.py',
+-                     meson.current_source_dir() / 'scripts/qapi/parser.py',
+-                     meson.current_source_dir() / 'scripts/qapi/schema.py',
+-                     meson.current_source_dir() / 'scripts/qapi/source.py',
+-                     meson.current_source_dir() / 'scripts/qapi/types.py',
+-                     meson.current_source_dir() / 'scripts/qapi/visit.py',
+-                     meson.current_source_dir() / 'scripts/qapi/common.py',
+-                     meson.current_source_dir() / 'scripts/qapi-gen.py'
+-]
  
- linux_user_ss.add(when: 'TARGET_HAS_BFLT', if_true: files('flatload.c'))
-diff --git a/subprojects/libvduse/meson.build b/subprojects/libvduse/meson.build
-index ba08f5ee1a03..841509ecb996 100644
---- a/subprojects/libvduse/meson.build
-+++ b/subprojects/libvduse/meson.build
-@@ -2,6 +2,8 @@ project('libvduse', 'c',
-         license: 'GPL-2.0-or-later',
-         default_options: ['c_std=gnu99'])
- 
-+qemu_common = subproject('qemu-common')
-+
- libvduse = static_library('vduse',
-                           files('libvduse.c'),
-                           c_args: '-D_GNU_SOURCE')
-diff --git a/subprojects/libvduse/subprojects/qemu-common b/subprojects/libvduse/subprojects/qemu-common
-new file mode 120000
-index 000000000000..4c1c87018a7a
---- /dev/null
-+++ b/subprojects/libvduse/subprojects/qemu-common
-@@ -0,0 +1 @@
-+../../qemu-common
-\ No newline at end of file
-diff --git a/subprojects/libvhost-user/meson.build b/subprojects/libvhost-user/meson.build
-index 39825d9404ae..73355908e072 100644
---- a/subprojects/libvhost-user/meson.build
-+++ b/subprojects/libvhost-user/meson.build
-@@ -5,6 +5,8 @@ project('libvhost-user', 'c',
- threads = dependency('threads')
- glib = dependency('glib-2.0')
- 
-+qemu_common = subproject('qemu-common')
-+
- vhost_user = static_library('vhost-user',
-                             files('libvhost-user.c'),
-                             dependencies: threads,
-diff --git a/subprojects/libvhost-user/subprojects/qemu-common b/subprojects/libvhost-user/subprojects/qemu-common
-new file mode 120000
-index 000000000000..4c1c87018a7a
---- /dev/null
-+++ b/subprojects/libvhost-user/subprojects/qemu-common
-@@ -0,0 +1 @@
-+../../qemu-common
-\ No newline at end of file
+ tracetool = [
+   python, files('scripts/tracetool.py'),
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 450abd025271..b45511dab550 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2847,8 +2847,8 @@ F: tests/unit/test-*-visitor.c
+ F: tests/unit/test-qapi-*.c
+ F: tests/unit/test-qmp-*.c
+ F: tests/unit/test-visitor-serialization.c
+-F: scripts/qapi-gen.py
+-F: scripts/qapi/*
++F: subprojects/qemu-common/scripts/qapi-gen.py
++F: subprojects/qemu-common/scripts/qapi/*
+ F: docs/sphinx/qapidoc.py
+ F: docs/devel/qapi*
+ T: git https://repo.or.cz/qemu/armbru.git qapi-next
 diff --git a/subprojects/qemu-common/meson.build b/subprojects/qemu-common/meson.build
-new file mode 100644
-index 000000000000..8969b08473ef
---- /dev/null
+index 8969b08473ef..207e53991061 100644
+--- a/subprojects/qemu-common/meson.build
 +++ b/subprojects/qemu-common/meson.build
-@@ -0,0 +1,8 @@
-+project('qemu-common', 'c',
-+  license: 'GPL-2.0-or-later',
-+  default_options: ['c_std=gnu11']
-+)
+@@ -6,3 +6,5 @@ project('qemu-common', 'c',
+ qemu_common_dep = declare_dependency(
+   include_directories: include_directories('include'),
+ )
 +
-+qemu_common_dep = declare_dependency(
-+  include_directories: include_directories('include'),
++subdir('scripts')
+diff --git a/subprojects/qemu-common/scripts/meson.build b/subprojects/qemu-common/scripts/meson.build
+new file mode 100644
+index 000000000000..626bed6dcdfe
+--- /dev/null
++++ b/subprojects/qemu-common/scripts/meson.build
+@@ -0,0 +1,3 @@
++qapi_gen = find_program('qapi-gen.py')
++
++subdir('qapi')
+diff --git a/scripts/qapi-gen.py b/subprojects/qemu-common/scripts/qapi-gen.py
+similarity index 100%
+rename from scripts/qapi-gen.py
+rename to subprojects/qemu-common/scripts/qapi-gen.py
+diff --git a/scripts/qapi/.flake8 b/subprojects/qemu-common/scripts/qapi/.flake8
+similarity index 100%
+rename from scripts/qapi/.flake8
+rename to subprojects/qemu-common/scripts/qapi/.flake8
+diff --git a/scripts/qapi/.isort.cfg b/subprojects/qemu-common/scripts/qapi/.isort.cfg
+similarity index 100%
+rename from scripts/qapi/.isort.cfg
+rename to subprojects/qemu-common/scripts/qapi/.isort.cfg
+diff --git a/scripts/qapi/__init__.py b/subprojects/qemu-common/scripts/qapi/__init__.py
+similarity index 100%
+rename from scripts/qapi/__init__.py
+rename to subprojects/qemu-common/scripts/qapi/__init__.py
+diff --git a/scripts/qapi/commands.py b/subprojects/qemu-common/scripts/qapi/commands.py
+similarity index 100%
+rename from scripts/qapi/commands.py
+rename to subprojects/qemu-common/scripts/qapi/commands.py
+diff --git a/scripts/qapi/common.py b/subprojects/qemu-common/scripts/qapi/common.py
+similarity index 100%
+rename from scripts/qapi/common.py
+rename to subprojects/qemu-common/scripts/qapi/common.py
+diff --git a/scripts/qapi/error.py b/subprojects/qemu-common/scripts/qapi/error.py
+similarity index 100%
+rename from scripts/qapi/error.py
+rename to subprojects/qemu-common/scripts/qapi/error.py
+diff --git a/scripts/qapi/events.py b/subprojects/qemu-common/scripts/qapi/events.py
+similarity index 100%
+rename from scripts/qapi/events.py
+rename to subprojects/qemu-common/scripts/qapi/events.py
+diff --git a/scripts/qapi/expr.py b/subprojects/qemu-common/scripts/qapi/expr.py
+similarity index 100%
+rename from scripts/qapi/expr.py
+rename to subprojects/qemu-common/scripts/qapi/expr.py
+diff --git a/scripts/qapi/gen.py b/subprojects/qemu-common/scripts/qapi/gen.py
+similarity index 100%
+rename from scripts/qapi/gen.py
+rename to subprojects/qemu-common/scripts/qapi/gen.py
+diff --git a/scripts/qapi/introspect.py b/subprojects/qemu-common/scripts/qapi/introspect.py
+similarity index 100%
+rename from scripts/qapi/introspect.py
+rename to subprojects/qemu-common/scripts/qapi/introspect.py
+diff --git a/scripts/qapi/main.py b/subprojects/qemu-common/scripts/qapi/main.py
+similarity index 100%
+rename from scripts/qapi/main.py
+rename to subprojects/qemu-common/scripts/qapi/main.py
+diff --git a/subprojects/qemu-common/scripts/qapi/meson.build b/subprojects/qemu-common/scripts/qapi/meson.build
+new file mode 100644
+index 000000000000..5f73a966f344
+--- /dev/null
++++ b/subprojects/qemu-common/scripts/qapi/meson.build
+@@ -0,0 +1,16 @@
++qapi_gen_depends = files(
++  '__init__.py',
++  'commands.py',
++  'common.py',
++  'error.py',
++  'events.py',
++  'expr.py',
++  'gen.py',
++  'introspect.py',
++  'parser.py',
++  'schema.py',
++  'source.py',
++  'types.py',
++  'visit.py',
++  'common.py',
 +)
+diff --git a/scripts/qapi/mypy.ini b/subprojects/qemu-common/scripts/qapi/mypy.ini
+similarity index 100%
+rename from scripts/qapi/mypy.ini
+rename to subprojects/qemu-common/scripts/qapi/mypy.ini
+diff --git a/scripts/qapi/parser.py b/subprojects/qemu-common/scripts/qapi/parser.py
+similarity index 100%
+rename from scripts/qapi/parser.py
+rename to subprojects/qemu-common/scripts/qapi/parser.py
+diff --git a/scripts/qapi/pylintrc b/subprojects/qemu-common/scripts/qapi/pylintrc
+similarity index 100%
+rename from scripts/qapi/pylintrc
+rename to subprojects/qemu-common/scripts/qapi/pylintrc
+diff --git a/scripts/qapi/schema.py b/subprojects/qemu-common/scripts/qapi/schema.py
+similarity index 100%
+rename from scripts/qapi/schema.py
+rename to subprojects/qemu-common/scripts/qapi/schema.py
+diff --git a/scripts/qapi/source.py b/subprojects/qemu-common/scripts/qapi/source.py
+similarity index 100%
+rename from scripts/qapi/source.py
+rename to subprojects/qemu-common/scripts/qapi/source.py
+diff --git a/scripts/qapi/types.py b/subprojects/qemu-common/scripts/qapi/types.py
+similarity index 100%
+rename from scripts/qapi/types.py
+rename to subprojects/qemu-common/scripts/qapi/types.py
+diff --git a/scripts/qapi/visit.py b/subprojects/qemu-common/scripts/qapi/visit.py
+similarity index 100%
+rename from scripts/qapi/visit.py
+rename to subprojects/qemu-common/scripts/qapi/visit.py
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index c18dd7d02f72..2c676360041e 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -1,5 +1,5 @@
+ test_env = environment()
+-test_env.set('PYTHONPATH', meson.project_source_root() / 'scripts')
++test_env.set('PYTHONPATH', meson.project_source_root() / 'subprojects/qemu-common/scripts')
+ test_env.set('PYTHONIOENCODING', 'utf-8')
+ 
+ schemas = [
 -- 
 2.37.0.rc0
 
