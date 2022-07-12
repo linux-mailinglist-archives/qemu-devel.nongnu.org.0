@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A605713E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:03:01 +0200 (CEST)
-Received: from localhost ([::1]:57224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09CEB57143F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:18:43 +0200 (CEST)
+Received: from localhost ([::1]:43680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBArE-0003de-7G
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43430)
+	id 1oBB6P-0005sm-Uc
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:18:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oBAi7-00065m-Fs
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:53:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48295)
+ id 1oBAn3-0001NH-ET
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:58:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oBAi3-0001rB-Ca
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:53:33 -0400
+ id 1oBAn0-0008Vu-9q
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:58:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657612410;
+ s=mimecast20190719; t=1657612717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A+0ckJ/YZUM299BybSeCoLQedIA9luFD16bRPT/CHCc=;
- b=Sji4GYa545xDPJB+hvVfRo1qZNA1F+6YqP2eU0mh/bsNhiooeUxYCoWyLmQF7AlvVCwy2P
- g0dQR+AmVQ840dKbichLfb5xL+2CqumJ1/A9LKvnp7hjdneibPjL8MrrLHs7MwdEFuilG3
- SAVHMXhSVQT1v5aOg3Umqax3GrHw/7w=
+ bh=QigzZa+W5zh+oI8K40g2omEr/Ae52Xhsu/eImjLe06o=;
+ b=DcYeBsQ+xap6XpzDJ9YDKdxfMMhB/YVbUhqKdkU3QmUMXHAlF2B3Bk59xHvs9un9TwMMkD
+ 0EtijjbEqRwjMOyPjd36XjCSKlzmBDbwIx4ibZYmRGpgpR/kSq4d7Np37ZJACwCYGbU9HA
+ 68LKITugXw2EsrEg8Fvu8CIBaqTox8Q=
 Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
  [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-rnGpMVpYO8eZsIl37ii1BQ-1; Tue, 12 Jul 2022 03:53:29 -0400
-X-MC-Unique: rnGpMVpYO8eZsIl37ii1BQ-1
+ us-mta-169-lb-GyFDENYu-3h0mF_u9CQ-1; Tue, 12 Jul 2022 03:58:35 -0400
+X-MC-Unique: lb-GyFDENYu-3h0mF_u9CQ-1
 Received: by mail-pj1-f72.google.com with SMTP id
- mi13-20020a17090b4b4d00b001ef9759d26aso608254pjb.0
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 00:53:29 -0700 (PDT)
+ o21-20020a17090aac1500b001ef977190efso7167267pjq.7
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 00:58:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=A+0ckJ/YZUM299BybSeCoLQedIA9luFD16bRPT/CHCc=;
- b=2dnJbc03yNOE1rVQH2xhbB0rh+FC9PXLf1wCADws0mderdJVLNgxjwwfW1TUkMJcOh
- /4pU/LFD7PJUz6vEDn/IMUIjhr6ORQVeTVVP0fzU480Y5nUJvBDbpBvczrETmKxoPxyJ
- 2rS/r5GJ63BkPuDG4LZ630Lu6kZI5Iyhn3ontEb5GveeoUKbjRa467wyLBSAUC9dnjzS
- Qp+cGE1SSoM6e10ic394L8G1JO2U2BmXwipd7UF/xFM9Iu6jU2+7kXugOv0poeGPXaQy
- AuT847vdv59aXe1aNZu0jf6lVIyYEoprSLrVYi/b8hvX8Pzi/2F7tB8u/3nDpRuJwIlp
- dA0w==
-X-Gm-Message-State: AJIora9/6UlV3kKvips7m0yics6l47MTbgUqSEUlK+BAlU0PMlBNuyxx
- 42nhjHtwaFcsX+k2OSXmlaGVPhAkn+NcQIC1Iz40qlQcXiix1iyPgfCxHjfYOD+X8JkQDttq53y
- d3MIL5TWlRSEpfak=
-X-Received: by 2002:a17:902:6acb:b0:16b:efc7:8de7 with SMTP id
- i11-20020a1709026acb00b0016befc78de7mr22161248plt.63.1657612408618; 
- Tue, 12 Jul 2022 00:53:28 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tgEYXhC6gQ7N7fy6XW0OJPFAACgbidOkZomiBknFSNN2Nk+40TwsiblTXl8wXI1wQEfCUl3g==
-X-Received: by 2002:a17:902:6acb:b0:16b:efc7:8de7 with SMTP id
- i11-20020a1709026acb00b0016befc78de7mr22161227plt.63.1657612408355; 
- Tue, 12 Jul 2022 00:53:28 -0700 (PDT)
+ bh=QigzZa+W5zh+oI8K40g2omEr/Ae52Xhsu/eImjLe06o=;
+ b=g6+PF9kMiI51xnaQtZufx0AaPgZxAzDgCvGIjoMl+8AXDF4iG252MGYUQreCEoX25s
+ QHzYq4QbF58kSVyLolZb7ybxqD+ZXrLyt+oCocEEx5Ww5ncpj9UJKBeUflhvSI1QjeXX
+ mi/QWWoNx2BiAxVzJm+xvd0+ZMtjfJBC2ONp5dK1+d2DJHSXCRpkBmzrmYZCvaqv4Hb/
+ Wyxz8rwk4JGNnOB4rfcKLarImF68Swn704YUraWuaN3+S6LyEgxEneDusUi6QlxcVDs8
+ 8UdwMvU25K6uc3GUVga7aj4ltMACm5KsOwBLBVKzBo4MOc9kPUzLOuX8/JFKSMy2O8FC
+ yl+A==
+X-Gm-Message-State: AJIora/aObGM171dBRJ5KwzX9PddjZ6Iqj5HRNiRnTx04/gVUvcGc57z
+ XU7KAr8u5OkYlQrdrs8DeZbHh56LcZMN0wqdorkhyoca6CsK2cy/mYTHWZKjoohtL/PdSYNSKMQ
+ wQm9SKyGQbipR9fE=
+X-Received: by 2002:a17:902:dac4:b0:16c:34a3:e46f with SMTP id
+ q4-20020a170902dac400b0016c34a3e46fmr15404121plx.61.1657612714162; 
+ Tue, 12 Jul 2022 00:58:34 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sKgX3Fyucy/NKKn0GZDvt9nOK7QQfQNtP0TfgOi1+rM0s/r3WFWya5JrxN1IljQUS5hX6FFA==
+X-Received: by 2002:a17:902:dac4:b0:16c:34a3:e46f with SMTP id
+ q4-20020a170902dac400b0016c34a3e46fmr15404093plx.61.1657612713870; 
+ Tue, 12 Jul 2022 00:58:33 -0700 (PDT)
 Received: from [10.72.12.111] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- y3-20020a17090ad0c300b001ef7655fcc0sm6018862pjw.10.2022.07.12.00.53.19
+ x17-20020a170902ec9100b00163d76696e1sm6166304plg.102.2022.07.12.00.58.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 00:53:27 -0700 (PDT)
-Message-ID: <bcaee23e-6d48-e35b-856b-97e1d397d418@redhat.com>
-Date: Tue, 12 Jul 2022 15:53:15 +0800
+ Tue, 12 Jul 2022 00:58:33 -0700 (PDT)
+Message-ID: <4d9d8580-e8c8-571c-85d3-bcfca35d29ac@redhat.com>
+Date: Tue, 12 Jul 2022 15:58:26 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [RFC PATCH v9 12/23] vhost: Add opaque member to SVQElement
+Subject: Re: [RFC PATCH v9 13/23] vhost: Add vhost_svq_inject
 Content-Language: en-US
 To: Eugenio Perez Martin <eperezma@redhat.com>
 Cc: qemu-level <qemu-devel@nongnu.org>,
@@ -83,11 +83,11 @@ Cc: qemu-level <qemu-devel@nongnu.org>,
  Zhu Lingshan <lingshan.zhu@intel.com>, "Michael S. Tsirkin"
  <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
 References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-13-eperezma@redhat.com>
- <ffa1e417-846a-0da8-7fa1-fe473e860215@redhat.com>
- <CAJaqyWccXPE5A4wAQb5rymPGfEDjQzNMeVCHhjCAXww2fdk7Pw@mail.gmail.com>
+ <20220706184008.1649478-14-eperezma@redhat.com>
+ <5f1c6d8f-5d3f-8e13-05d5-3afed733626f@redhat.com>
+ <CAJaqyWcnuM3n4Zpu48MZS9YqP_Czg4i-eq=pKtZcjQMvdHen8Q@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWccXPE5A4wAQb5rymPGfEDjQzNMeVCHhjCAXww2fdk7Pw@mail.gmail.com>
+In-Reply-To: <CAJaqyWcnuM3n4Zpu48MZS9YqP_Czg4i-eq=pKtZcjQMvdHen8Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
@@ -115,147 +115,111 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/7/11 17:56, Eugenio Perez Martin 写道:
-> On Mon, Jul 11, 2022 at 11:05 AM Jason Wang <jasowang@redhat.com> wrote:
+在 2022/7/11 17:43, Eugenio Perez Martin 写道:
+> On Mon, Jul 11, 2022 at 11:14 AM Jason Wang <jasowang@redhat.com> wrote:
 >>
 >> 在 2022/7/7 02:39, Eugenio Pérez 写道:
->>> When qemu injects buffers to the vdpa device it will be used to maintain
->>> contextual data. If SVQ has no operation, it will be used to maintain
->>> the VirtQueueElement pointer.
->>>
+>>> This allows qemu to inject buffers to the device.
+>>
+>> Not a native speaker but we probably need a better terminology than
+>> inject here.
+>>
+>> Since the CVQ is totally under the control of the Qemu anyhow.
+>>
+> I'm totally fine to change terminology
+>
 >>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 >>> ---
->>>    hw/virtio/vhost-shadow-virtqueue.h |  3 ++-
->>>    hw/virtio/vhost-shadow-virtqueue.c | 13 +++++++------
->>>    2 files changed, 9 insertions(+), 7 deletions(-)
+>>>    hw/virtio/vhost-shadow-virtqueue.h |  2 ++
+>>>    hw/virtio/vhost-shadow-virtqueue.c | 34 ++++++++++++++++++++++++++++++
+>>>    2 files changed, 36 insertions(+)
 >>>
 >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
->>> index 0e434e9fd0..a811f90e01 100644
+>>> index a811f90e01..d01d2370db 100644
 >>> --- a/hw/virtio/vhost-shadow-virtqueue.h
 >>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
->>> @@ -16,7 +16,8 @@
->>>    #include "hw/virtio/vhost-iova-tree.h"
+>>> @@ -98,6 +98,8 @@ bool vhost_svq_valid_features(uint64_t features, Error **errp);
 >>>
->>>    typedef struct SVQElement {
->>> -    VirtQueueElement *elem;
->>> +    /* Opaque data */
->>> +    void *opaque;
+>>>    void vhost_svq_push_elem(VhostShadowVirtqueue *svq,
+>>>                             const VirtQueueElement *elem, uint32_t len);
+>>> +int vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *iov,
+>>> +                     size_t out_num, size_t in_num, void *opaque);
+>>>    void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd);
+>>>    void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_fd);
+>>>    void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
+>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+>>> index 492bb12b5f..bd9e34b413 100644
+>>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+>>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+>>> @@ -283,6 +283,40 @@ static bool vhost_svq_add_element(VhostShadowVirtqueue *svq,
+>>>        return ok;
+>>>    }
+>>>
+>>> +/**
+>>> + * Inject a chain of buffers to the device
+>>> + *
+>>> + * @svq: Shadow VirtQueue
+>>> + * @iov: I/O vector
+>>> + * @out_num: Number of front out descriptors
+>>> + * @in_num: Number of last input descriptors
+>>> + * @opaque: Contextual data to store in descriptor
+>>> + *
+>>> + * Return 0 on success, -ENOMEM if cannot inject
+>>> + */
+>>> +int vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *iov,
+>>> +                     size_t out_num, size_t in_num, void *opaque)
 >>
->> So I wonder if we can simply:
+>> If we manage to embed opaque into VirtqueueElement, we can simply use
+>> vhost_svq_add() here.
 >>
->> 1) introduce a opaque to VirtQueueElement
-> (answered in other thread, pasting here for completion)
+> That works fine as long as SVQ only forwards elements, but it needs to
+> do more than that: We need to inject new elements without guest
+> notice.
 >
-> It does not work for messages that are not generated by the guest. For
-> example, the ones used to restore the device state at live migration
-> destination.
+> How could we track elements that do not have corresponding
+> VirtQueueElement, like the elements sent to restore the status at the
+> LM destination?
 
 
-For the ones that requires more metadata, we can store it in elem->opaque?
+Having a token for each VirtQueueElement will work? Or maybe I can ask 
+differently, what kind of extra state that need to be tracked here?
 
-
->
->> 2) store pointers to ring_id_maps
->>
-> I think you mean to keep storing VirtQueueElement at ring_id_maps?
-
-
-Yes and introduce a pointer to metadata in VirtQueueElement
-
-
-> Otherwise, looking for them will not be immediate.
->
->> Since
->>
->> 1) VirtQueueElement's member looks general
-> Not general enough :).
->
->> 2) help to reduce the tricky codes like vhost_svq_empty_elem() and
->> vhost_svq_empty_elem().
->>
-> I'm ok to change to whatever other method, but to allocate them
-> individually seems worse to me. Both performance wise and because
-> error paths are more complicated. Maybe it would be less tricky if I
-> try to move the use of them less "by value" and more "as pointers"?
-
-
-Or let's having a dedicated arrays (like desc_state/desc_extra in 
-kernel) instead of trying to reuse ring_id_maps.
+(For virtio state it should be handled by shadow virtqueue core).
 
 Thanks
 
 
+>
+> I'll try to make it clearer in the patch message.
 >
 > Thanks!
 >
 >> Thanks
 >>
 >>
->>>        /* Last descriptor of the chain */
->>>        uint32_t last_chain_id;
->>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
->>> index c5e49e51c5..492bb12b5f 100644
->>> --- a/hw/virtio/vhost-shadow-virtqueue.c
->>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
->>> @@ -237,7 +237,7 @@ static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
->>>     */
->>>    static bool vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
->>>                              size_t out_num, const struct iovec *in_sg,
->>> -                          size_t in_num, VirtQueueElement *elem)
->>> +                          size_t in_num, void *opaque)
->>>    {
->>>        SVQElement *svq_elem;
->>>        unsigned qemu_head;
->>> @@ -245,13 +245,12 @@ static bool vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
->>>        bool ok = vhost_svq_add_split(svq, out_sg, out_num, in_sg, in_num,
->>>                                      &qemu_head);
->>>        if (unlikely(!ok)) {
->>> -        g_free(elem);
->>>            return false;
->>>        }
->>>
->>>        n = out_num + in_num;
->>>        svq_elem = &svq->ring_id_maps[qemu_head];
->>> -    svq_elem->elem = elem;
->>> +    svq_elem->opaque = opaque;
->>>        svq_elem->last_chain_id = vhost_svq_last_desc_of_chain(svq, n, qemu_head);
->>>        return true;
->>>    }
->>> @@ -277,6 +276,8 @@ static bool vhost_svq_add_element(VhostShadowVirtqueue *svq,
->>>                                elem->in_num, elem);
->>>        if (ok) {
->>>            vhost_svq_kick(svq);
->>> +    } else {
->>> +        g_free(elem);
->>>        }
->>>
->>>        return ok;
->>> @@ -392,7 +393,7 @@ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
->>>
->>>    static bool vhost_svq_is_empty_elem(SVQElement elem)
->>>    {
->>> -    return elem.elem == NULL;
->>> +    return elem.opaque == NULL;
->>>    }
->>>
->>>    static SVQElement vhost_svq_empty_elem(void)
->>> @@ -483,7 +484,7 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
->>>                    break;
->>>                }
->>>
->>> -            elem = g_steal_pointer(&svq_elem.elem);
->>> +            elem = g_steal_pointer(&svq_elem.opaque);
->>>                virtqueue_fill(vq, elem, len, i++);
->>>            }
->>>
->>> @@ -651,7 +652,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
->>>
->>>        for (unsigned i = 0; i < svq->vring.num; ++i) {
->>>            g_autofree VirtQueueElement *elem = NULL;
->>> -        elem = g_steal_pointer(&svq->ring_id_maps[i].elem);
->>> +        elem = g_steal_pointer(&svq->ring_id_maps[i].opaque);
->>>            if (elem) {
->>>                virtqueue_detach_element(svq->vq, elem, 0);
->>>            }
+>>> +{
+>>> +    bool ok;
+>>> +
+>>> +    /*
+>>> +     * All vhost_svq_inject calls are controlled by qemu so we won't hit this
+>>> +     * assertions.
+>>> +     */
+>>> +    assert(out_num || in_num);
+>>> +    assert(svq->ops);
+>>> +
+>>> +    if (unlikely(svq->next_guest_avail_elem)) {
+>>> +        error_report("Injecting in a full queue");
+>>> +        return -ENOMEM;
+>>> +    }
+>>> +
+>>> +    ok = vhost_svq_add(svq, iov, out_num, iov + out_num, in_num, opaque);
+>>> +    assert(ok);
+>>> +    vhost_svq_kick(svq);
+>>> +    return 0;
+>>> +}
+>>> +
+>>>    /**
+>>>     * Forward available buffers.
+>>>     *
 
 
