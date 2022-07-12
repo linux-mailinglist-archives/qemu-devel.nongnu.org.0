@@ -2,88 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799D0571192
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 06:55:29 +0200 (CEST)
-Received: from localhost ([::1]:41406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEAE25711A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 06:59:34 +0200 (CEST)
+Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB7vk-00063T-72
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 00:55:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36964)
+	id 1oB7zh-0000lQ-NQ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 00:59:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB7qB-0003k6-Sx
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:49:43 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:37761)
+ id 1oB7sH-0004Xe-VI
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:51:56 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:46029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oB7q9-0005dt-Ji
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:49:43 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- y14-20020a17090a644e00b001ef775f7118so10284772pjm.2
- for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 21:49:40 -0700 (PDT)
+ id 1oB7sE-00069B-Py
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 00:51:52 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id y9so6495010pff.12
+ for <qemu-devel@nongnu.org>; Mon, 11 Jul 2022 21:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=uOprlVGQvRFmcbSXDm0xTImsnnGaI6HZynQbKm9+iIA=;
- b=P/qJISFVt68qTTmnd0NgybbzARx93hpRx+962b8/lDxfEr84lC9Hieg6FE+WBNqo7o
- Fs2Z9z4x7UOAPO6AY+iqzfnEkJjD1bcxQ6+80kEut56ksRbK+nD41Au7JGGulY2aJCCu
- JNILPMoDIWN7pABdn2ooMP7SA11RUJJs4ktp7Dp2CvTz4wFKV+ekIMhr/oa21Ip3tJmx
- r3fOiJDwUNrPX9BgCpG8niEo+lqJS6UW/drHpbAdtj6IM8fVI8+3huqpEzrdBO4VLHeY
- drMaOvOayXPON6BcmG0Npl3goxpQ9H9aRHX0fF8UBJf+gvgrANBwN8SGjy7k4mFaY9PC
- r6+Q==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=vtUHf4u1UHMjILb7P+zr79jU//IlIqKKH/MA/LVyU+A=;
+ b=sOO8Dov+2LK02vkPH5m5N3konRKdZN2WIvYiEecv1qIbvmP4RY84QRZFD8KaJm7rsF
+ KxNIQs+MbDlHU+ngMZXl66Yee+ThF+Jfkob8Mgv5kCgQtU96lD86J9jxXPwPvOReRasK
+ Jrih93PtSsRLk5QZiGZkVW5uTZws0M4KZKJdyhY6RhyLSzzLjM2O3Ty3iPvzD68s0LnH
+ r+eF1cPM2O32udlPKbSPZGWqjXaLUEISz/XK6O8BxXh9VuasUECba0ilp0QcayKztqcm
+ MAMA7u5cfKDfP+Pv4D0DQ4zog/uxOYy4xUhEmorGwoN8DrnISUxFzCEf5dh0ebNl0ZY4
+ ilhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uOprlVGQvRFmcbSXDm0xTImsnnGaI6HZynQbKm9+iIA=;
- b=LHFVOAEipsiubwrSOSNb8zu2pG9aHo5hOFuPS2GNv9mRi91z2uAlA2V7jun0MFwJBe
- LAghQj9kUIuWZjiMIFeA8FoEsWC7GLbcneuZWxCfT4dTHZ6Ve6ABG+iEdDFlq04+6Bgz
- LIrqW+/zOzbLtExCxVU9j30UP1D4SSXR4AgqIbvyYBTDZWm6Lo9QtvjyjXN7g4kHGhrs
- n0jy3QC0x2zd1tkkxMPvCbOXj48JGtC1yq4w18Y2sPyUT8O7GWS3rxiK200rcaExw9fS
- 3yfjBoJxUCfQFYfKdSyy4hwq7JxlkP6aCZJAcQKmkYgx4jHtdCnYvsUEEU8j2542wtkw
- p+WQ==
-X-Gm-Message-State: AJIora8nzfqleufxrmcsGWGqL2o2ZoQ98Y04yRsWEqtLUCecVs8yP/aK
- gjPiLUi9coUnB6E8wyFmxIWEhQ==
-X-Google-Smtp-Source: AGRyM1tou2/QUkkNw8Rmt62iUPVcagJctyPk+bDA0BILsg9ZP/zoLLU74s7WlWnYxIQfpm6U0KwRBA==
-X-Received: by 2002:a17:902:e885:b0:16c:49c9:792a with SMTP id
- w5-20020a170902e88500b0016c49c9792amr8895972plg.11.1657601379811; 
- Mon, 11 Jul 2022 21:49:39 -0700 (PDT)
+ bh=vtUHf4u1UHMjILb7P+zr79jU//IlIqKKH/MA/LVyU+A=;
+ b=MRdHgrZp2k0cL7aycfeM800hHLHut+FhktoPEOwmno3/+wBdX8bOApSSA+im1xJ7+b
+ jYctQgP1z5EGVXZ7ZFv7sAKWQQglqYftq1wWhZj2damQHjh/mAKZuLBzblRV4CiL/8mJ
+ wPOR8BQ78tpdRab7QtzV90mm6baGlx9xukqlpIbg+PUBBIyk4Sym6Js9hjbxZ0UtmjBA
+ hIaEhS4NneprDL5Yzxuv8CXH4NjcEA4lMkxk7n4qKN//Msn8dGUtEMdqKnHMYg6YWNpj
+ Ck3JebB3Xx3YEVkL6yoeS3WXrM4OrTlVFRVyLTnqRrL0MuSceCEBRZ70Kiz9cNw0agQk
+ A2nw==
+X-Gm-Message-State: AJIora9krgVHGozG6cTDqTSkwZsgLNp2JDIUfcgD1MhGRN7HE7VD5vs0
+ OJnvSsWjm/bEJb35g2c1Rkg0wg==
+X-Google-Smtp-Source: AGRyM1u7cwnJsZ71dcnTU63XUGHGVf/tFAv2oTwE+K0VyIOPqW8C0UD8S+gzA17SdiDghsyy/30+DQ==
+X-Received: by 2002:a63:82c6:0:b0:416:1717:4add with SMTP id
+ w189-20020a6382c6000000b0041617174addmr4946010pgd.472.1657601508432; 
+ Mon, 11 Jul 2022 21:51:48 -0700 (PDT)
 Received: from [192.168.138.227] ([122.255.60.245])
  by smtp.gmail.com with ESMTPSA id
- gv21-20020a17090b11d500b001ef7a9bc07csm5528165pjb.32.2022.07.11.21.49.35
+ u7-20020a17090341c700b0016befcc142csm5651018ple.293.2022.07.11.21.51.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jul 2022 21:49:39 -0700 (PDT)
-Message-ID: <c7897b91-dbfd-3a32-68c8-d7afa40495ba@linaro.org>
-Date: Tue, 12 Jul 2022 10:19:33 +0530
+ Mon, 11 Jul 2022 21:51:48 -0700 (PDT)
+Message-ID: <bcb30961-ab68-3782-e763-cd1c4b9601d4@linaro.org>
+Date: Tue, 12 Jul 2022 10:21:44 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 3/3] tests/tcg/s390x: test signed vfmin/vfmax
+Subject: Re: [PATCH] [PATCH] linux-user/aarch64: Reset target data on
+ MADV_DONTNEED
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand
- <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220712015717.3602602-1-iii@linux.ibm.com>
- <20220712015717.3602602-4-iii@linux.ibm.com>
+To: Vitaly Buka <vitalybuka@google.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20220711220028.2467290-1-vitalybuka@google.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220712015717.3602602-4-iii@linux.ibm.com>
+In-Reply-To: <20220711220028.2467290-1-vitalybuka@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,47 +93,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/22 07:27, Ilya Leoshkevich wrote:
-> +/*
-> + * vfmin/vfmax code generation.
-> + */
-> +extern const char vfminmax_template[];
-> +extern const int vfminmax_template_size;
-> +extern const int vfminmax_offset;
-> +asm(".globl vfminmax_template\n"
-> +    "vfminmax_template:\n"
-> +    "vl %v25,0(%r3)\n"
-> +    "vl %v26,0(%r4)\n"
-> +    "0: vfmax %v24,%v25,%v26,2,0,0\n"
-> +    "vst %v24,0(%r2)\n"
-> +    "br %r14\n"
-> +    "1: .align 4\n"
-> +    ".globl vfminmax_template_size\n"
-> +    "vfminmax_template_size: .long 1b - vfminmax_template\n"
-> +    ".globl vfminmax_offset\n"
-> +    "vfminmax_offset: .long 0b - vfminmax_template\n");
-...
-> +
-> +#define VFMIN 0xEE
-> +#define VFMAX 0xEF
-> +
-> +static void vfminmax(unsigned char *buf, unsigned int op,
-> +                     unsigned int m4, unsigned int m5, unsigned int m6,
-> +                     void *v1, const void *v2, const void *v3)
-> +{
-> +    memcpy(buf, vfminmax_template, vfminmax_template_size);
-> +    buf[vfminmax_offset + 3] = (m6 << 4) | m5;
-> +    buf[vfminmax_offset + 4] &= 0x0F;
-> +    buf[vfminmax_offset + 4] |= (m4 << 4);
-> +    buf[vfminmax_offset + 5] = op;
-> +    ((void (*)(void *, const void *, const void *))buf)(v1, v2, v3);
-> +}
-
-This works, of course.  It could be simpler using EXECUTE, to store just the one 
-instruction and not worry about an executable mapped page, but I guess it doesn't matter.
+On 7/12/22 03:30, Vitaly Buka wrote:
+> aarch64 stores MTE tags in target_date, and they should be reset by
+> MADV_DONTNEED.
+> 
+> Signed-off-by: Vitaly Buka <vitalybuka@google.com>
+> ---
+>   accel/tcg/translate-all.c | 24 ++++++++++++++++++++++++
+>   include/exec/cpu-all.h    |  1 +
+>   linux-user/mmap.c         |  2 ++
+>   3 files changed, 27 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
 r~
+
+> 
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index ef62a199c7..d6f2f1a40a 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -2314,6 +2314,30 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+>       }
+>   }
+>   
+> +void page_reset_target_data(target_ulong start, target_ulong end)
+> +{
+> +    target_ulong addr, len;
+> +
+> +    /* This function should never be called with addresses outside the
+> +       guest address space.  If this assert fires, it probably indicates
+> +       a missing call to h2g_valid.  */
+> +    assert(end - 1 <= GUEST_ADDR_MAX);
+> +    assert(start < end);
+> +    assert_memory_lock();
+> +
+> +    start = start & TARGET_PAGE_MASK;
+> +    end = TARGET_PAGE_ALIGN(end);
+> +
+> +    for (addr = start, len = end - start;
+> +         len != 0;
+> +         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
+> +        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
+> +
+> +        g_free(p->target_data);
+> +        p->target_data = NULL;
+> +    }
+> +}
+> +
+>   void *page_get_target_data(target_ulong address)
+>   {
+>       PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
+> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+> index f5bda2c3ca..491629b9ba 100644
+> --- a/include/exec/cpu-all.h
+> +++ b/include/exec/cpu-all.h
+> @@ -271,6 +271,7 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
+>   
+>   int page_get_flags(target_ulong address);
+>   void page_set_flags(target_ulong start, target_ulong end, int flags);
+> +void page_reset_target_data(target_ulong start, target_ulong end);
+>   int page_check_range(target_ulong start, target_ulong len, int flags);
+>   
+>   /**
+> diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+> index 4e7a6be6ee..c535dfdc7c 100644
+> --- a/linux-user/mmap.c
+> +++ b/linux-user/mmap.c
+> @@ -894,6 +894,8 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
+>       if ((advice & MADV_DONTNEED) &&
+>           can_passthrough_madv_dontneed(start, end)) {
+>           ret = get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED));
+> +        if (ret == 0)
+> +            page_reset_target_data(start, start + len);
+>       }
+>       mmap_unlock();
+>   
+
 
