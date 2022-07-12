@@ -2,104 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 608A9571435
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:16:43 +0200 (CEST)
-Received: from localhost ([::1]:40582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645AA5713F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 10:08:08 +0200 (CEST)
+Received: from localhost ([::1]:59830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBB4S-0003l4-I1
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:16:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41850)
+	id 1oBAwB-0005fY-63
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 04:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oBAYw-0000fS-Jn
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:44:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57116)
+ (Exim 4.90_1)
+ (envelope-from <prvs=18524360e=damien.lemoal@opensource.wdc.com>)
+ id 1oBAd6-0002vs-4v
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:48:24 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oBAYu-0000HB-HX
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:44:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657611841;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2R3TAhxIx/+WmgkNIpvKhKgfc0QzCQSe7vJkHDSeeHo=;
- b=VhHwhiC1+yZBI9vncdzzvs9oe0QbPt119EP9vkhlDAokQ0UMiR2hrQeNxOdzfUv7rfe770
- F5GFMNCMxstiYRjlMMyaBcixM7ihqo8RuRfGpQJv0hJ0VW6TtI20C6NRqGbLb/yBTVpeRW
- FQn8oZdg3SwtN93h5NrwuwTXgeeH4pg=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-354-CKNjfCvNNNy9QYxcvX-Emg-1; Tue, 12 Jul 2022 03:44:00 -0400
-X-MC-Unique: CKNjfCvNNNy9QYxcvX-Emg-1
-Received: by mail-pf1-f200.google.com with SMTP id
- d83-20020a621d56000000b00528ce187233so1946018pfd.23
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 00:44:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2R3TAhxIx/+WmgkNIpvKhKgfc0QzCQSe7vJkHDSeeHo=;
- b=qwvooYDDOauGR23yUkKe+WBg8eJw3oYA8h13cmL5fvAafMPVP6d9LnwOiOgidFo/V7
- 5e8QDqQzQKNtvjQ6ItDp/DmZwjfOTkTAWt99gDaPFv9OhTB+UPzhzy7vSdD0Q76H/f1P
- fbgmFLGyf/+USOQHXCLuVQSJQszzfN4aNu3XA2kv0MyNU44FrSexJYjDkwO/h9/FBZYw
- EcEFu5dxVV9QSF7QRUYwPANJC6dlFPut23hiez3YaR7NNbDoPbIB0wI2M4gg5n2DdoAE
- GVNXsDqaUcxU63S9lB7YekfkwahXSyRCQo7eSk4+HVmGUYY8Y+GEK/yyh78rTOo4alJy
- brLg==
-X-Gm-Message-State: AJIora/Gv8obb3J7Dc+6UK8bfHgW4+kRNbFJ3cseSQ/r4UH+LijaZr8H
- tYG0FmXw2l5SeLO9j/C3RpAIeN42wVNF+ad+92qSXea2EPsCL85ql/liGqvtJa3E2pPTRKjZK6B
- vJWmP2bYBG60ewuA=
-X-Received: by 2002:a17:902:d2c8:b0:16c:58d:7278 with SMTP id
- n8-20020a170902d2c800b0016c058d7278mr23107608plc.45.1657611839137; 
- Tue, 12 Jul 2022 00:43:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1um42HJb++7caqHWDq5Y0lmnZzYwqv+i7kRfvZlCwKUd6WFvaPASJEHpmBcvX8uHhIpWE7Xpg==
-X-Received: by 2002:a17:902:d2c8:b0:16c:58d:7278 with SMTP id
- n8-20020a170902d2c800b0016c058d7278mr23107581plc.45.1657611838830; 
- Tue, 12 Jul 2022 00:43:58 -0700 (PDT)
-Received: from [10.72.12.111] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- e17-20020a170902ef5100b0016be82cc7b4sm168390plx.8.2022.07.12.00.43.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 00:43:58 -0700 (PDT)
-Message-ID: <40865b2f-353f-8910-a73c-94260ec6fe07@redhat.com>
-Date: Tue, 12 Jul 2022 15:43:50 +0800
+ (Exim 4.90_1)
+ (envelope-from <prvs=18524360e=damien.lemoal@opensource.wdc.com>)
+ id 1oBAd2-0000za-3k
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 03:48:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1657612100; x=1689148100;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=6bqmCQluMqDa/hHDg7ltNhz4r7uaGGeB3I3Ozavuguc=;
+ b=EHfbhZFEOzovzuIzpj6xoMrdgtOEBFabxiaU9VDlxFgqrHdvIZ0+7k/X
+ x5ieq/kVUpBgLqRG/aN6MEf6T69+Co07CMmdlbok70DoTsRCVx89mLtBo
+ j3Ve4V+LthdnAADsid3fcvt+CxOr7GH31XIWULjaZb2pmaM41gi20N62L
+ ljJPzV3xMDEMm4QeWHEA5y6hd8Scym9sxXWSDbqHSCq8lQjnjDzZjSQAb
+ mpKRm3uET7sRPDOznUH9mcr4XRLWg/JOvSCR1mUKHIVq++ysXg6mCDElw
+ 8JnbnXZkYxpm++OYjHS8ZnpNYSQDDRFdhNRuTaSGBv2jKcUzbtGpnUl6a g==;
+X-IronPort-AV: E=Sophos;i="5.92,265,1650902400"; d="scan'208";a="204108378"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 12 Jul 2022 15:48:16 +0800
+IronPort-SDR: qJfC2nfoHM8a8P/zmxvimdi1WKZeG36BlinQimTj5MTn7wDWHW1L5coFMWGOIj6P0D+HMWtFa1
+ Bv96g2scntMxCNgqodBEpHn+WGxUkCJ9HVGYzcWKgEXEx5rBZE1Q3WVY9BRCKoqNNGfGw7LVG6
+ BpshI3Spu7OW1OUALWxEXKtrKDGc8o3cd5R0/4qTh3CGAmZlKixpqIdCi49jpqN91HFJzsWfMa
+ YMGsLO8BKyyELvPnQ3nkEBux0TFu4HTqniMNP7rvHLo+B+c57gZAypys43qRd/zVpY4R6FF3cQ
+ w//rWU1/oMpdTpfP4C0a64/h
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 12 Jul 2022 00:09:52 -0700
+IronPort-SDR: LLYz5+G6bRNzej1nEjuIghSCYoEJ3jd7a7S4fJCLDAnJCztmPSxCW2fmeE6f1jadUPY8ET+eKy
+ 8I8g/6mDpC6Wm24dWoyIzflvkBfoPuxFZQGpDjaM+B4fODq9hlAFyWoLdkAA/n185/r0boXwza
+ s9V6OZuZNF/DDP3Uvku8EZTegtrnK7d3SUtqqKlbzSQvqBvd9B/GAcNGCdOuRlAfQ+sArBE8Io
+ cuxqvOwCqCMzy1L6jQv/CzZzI/s3VfJelzAfVlJoGuvL0bXktnZWVIff4BVgpayn4b82T1x0GU
+ u7A=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 12 Jul 2022 00:48:16 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LhtCg5yhnz1Rwqy
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 00:48:15 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:references:to:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1657612095; x=1660204096; bh=6bqmCQluMqDa/hHDg7ltNhz4r7uaGGeB3I3
+ Ozavuguc=; b=Pc0dcmdeev9P6lOP7KIc0aeg4znn0fgKGul6Xuj89ahp4XyLeLg
+ 1LrrO4LkfR9BWQhlT3V/T3jQpVfmu1+4EwQ+OZarLji55q15WzMGrwVEmiq5/1Yh
+ qHtXwzan8cIns3/1GtpSGGIKQ+M6OILxVSQB/idiYa15d/qBYKHFo5r2oV8V2aOi
+ oG+FhZibp6IjiVTYQAiAXBYlD6knk456s7kbXTxAKh06HjPcsBD/2SIj07WGVOyk
+ 08R3udz+yxc0YjkyPLoUdTNrMs0yFtR8GJZHWTKuqGt970dW76KOssU8bCxf9pGf
+ /JmW24aU2u8Z2SYnHTf4LvN6OxLIdGSY7aA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id B4HIler7eioa for <qemu-devel@nongnu.org>;
+ Tue, 12 Jul 2022 00:48:15 -0700 (PDT)
+Received: from [10.225.163.116] (unknown [10.225.163.116])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LhtCd1NFDz1RtVk;
+ Tue, 12 Jul 2022 00:48:12 -0700 (PDT)
+Message-ID: <73248014-9944-9a1b-743f-a5e7a1dda2b3@opensource.wdc.com>
+Date: Tue, 12 Jul 2022 16:48:11 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [RFC PATCH v9 08/23] vhost: Decouple vhost_svq_add_split from
- VirtQueueElement
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC v4 9/9] qapi: add support for zoned host device
 Content-Language: en-US
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Markus Armbruster <armbru@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Eric Blake <eblake@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-9-eperezma@redhat.com>
- <48852cd1-fe92-81a1-8c35-ec1d8956f1a8@redhat.com>
- <CAJaqyWftrXQ3bg9LFjC14SYOGP1g_3t-_iekHmBDSvd5XVRKAA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWftrXQ3bg9LFjC14SYOGP1g_3t-_iekHmBDSvd5XVRKAA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, dmitry.fomichev@wdc.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>, hare@suse.de
+References: <20220712021345.8530-1-faithilikerun@gmail.com>
+ <20220712021345.8530-10-faithilikerun@gmail.com>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220712021345.8530-10-faithilikerun@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=18524360e=damien.lemoal@opensource.wdc.com;
+ helo=esa4.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,138 +123,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/12/22 11:13, Sam Li wrote:
+> ---
+>  block/file-posix.c   | 8 +++++++-
+>  qapi/block-core.json | 7 +++++--
+>  2 files changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index e9ad1d8e1e..4e0aa02acf 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -3737,6 +3737,12 @@ static void hdev_parse_filename(const char *filename, QDict *options,
+>      bdrv_parse_filename_strip_prefix(filename, "host_device:", options);
+>  }
+>  
+> +static void zoned_host_device_parse_filename(const char *filename, QDict *options,
+> +                                Error **errp)
+> +{
+> +    bdrv_parse_filename_strip_prefix(filename, "zoned_host_device:", options);
+> +}
+> +
+>  static bool hdev_is_sg(BlockDriverState *bs)
+>  {
+>  
+> @@ -3975,7 +3981,7 @@ static BlockDriver bdrv_zoned_host_device = {
+>          .is_zoned = true,
+>          .bdrv_needs_filename = true,
+>          .bdrv_probe_device  = hdev_probe_device,
+> -        .bdrv_parse_filename = hdev_parse_filename,
+> +        .bdrv_parse_filename = zoned_host_device_parse_filename,
+>          .bdrv_file_open     = hdev_open,
+>          .bdrv_close         = raw_close,
+>          .bdrv_reopen_prepare = raw_reopen_prepare,
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 2173e7734a..ab05c2ef99 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2955,7 +2955,8 @@
+>              'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+>              'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+>              { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
+> -            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
+> +            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat',
+> +            { 'name': 'zoned_host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' } ] }
 
-在 2022/7/11 16:27, Eugenio Perez Martin 写道:
-> On Mon, Jul 11, 2022 at 10:00 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> 在 2022/7/7 02:39, Eugenio Pérez 写道:
->>> VirtQueueElement comes from the guest, but we're heading SVQ to be able
->>> to inject element without the guest's knowledge.
->>>
->>> To do so, make this accept sg buffers directly, instead of using
->>> VirtQueueElement.
->>>
->>> Add vhost_svq_add_element to maintain element convenience
->>>
->>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>> ---
->>>    hw/virtio/vhost-shadow-virtqueue.c | 38 +++++++++++++++++++++---------
->>>    1 file changed, 27 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
->>> index 2fc5789b73..46d3c1d74f 100644
->>> --- a/hw/virtio/vhost-shadow-virtqueue.c
->>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
->>> @@ -172,30 +172,32 @@ static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
->>>    }
->>>
->>>    static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
->>> -                                VirtQueueElement *elem, unsigned *head)
->>> +                                const struct iovec *out_sg, size_t out_num,
->>> +                                const struct iovec *in_sg, size_t in_num,
->>> +                                unsigned *head)
->>>    {
->>>        unsigned avail_idx;
->>>        vring_avail_t *avail = svq->vring.avail;
->>>        bool ok;
->>> -    g_autofree hwaddr *sgs = g_new(hwaddr, MAX(elem->out_num, elem->in_num));
->>> +    g_autofree hwaddr *sgs = NULL;
->>
->> Is this change a must for this patch? (looks not related to the
->> decoupling anyhow)
->>
-> Right, the delay on the variable assignment is an artifact I missed in
-> the cleaning. I can revert for the next version if any.
->
-> With that reverted, can I add the acked-by tag from you?
+This needs to be something like:
+
+{ 'name': 'zoned_host_device', 'if': 'CONFIG_BLKZONED' } ] }
+
+And we need to make sure CONFIG_BLKZONED is defined if and only if we also
+have HAVE_HOST_BLOCK_DEVICE.
+
+>  
+>  ##
+>  # @BlockdevOptionsFile:
+> @@ -4329,7 +4330,9 @@
+>        'vhdx':       'BlockdevOptionsGenericFormat',
+>        'vmdk':       'BlockdevOptionsGenericCOWFormat',
+>        'vpc':        'BlockdevOptionsGenericFormat',
+> -      'vvfat':      'BlockdevOptionsVVFAT'
+> +      'vvfat':      'BlockdevOptionsVVFAT',
+> +      'zoned_host_device': { 'type': 'BlockdevOptionsFile',
+> +                             'if': 'HAVE_HOST_BLOCK_DEVICE' }
+
+Same here I think.
+
+>    } }
+>  
+>  ##
 
 
-Yes.
-
-Thanks
-
-
->
-> Thanks!
->
->> Other looks good.
->>
->> Thanks
->>
->>
->>>        *head = svq->free_head;
->>>
->>>        /* We need some descriptors here */
->>> -    if (unlikely(!elem->out_num && !elem->in_num)) {
->>> +    if (unlikely(!out_num && !in_num)) {
->>>            qemu_log_mask(LOG_GUEST_ERROR,
->>>                          "Guest provided element with no descriptors");
->>>            return false;
->>>        }
->>>
->>> -    ok = vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
->>> -                                     elem->in_num > 0, false);
->>> +    sgs = g_new(hwaddr, MAX(out_num, in_num));
->>> +    ok = vhost_svq_vring_write_descs(svq, sgs, out_sg, out_num, in_num > 0,
->>> +                                     false);
->>>        if (unlikely(!ok)) {
->>>            return false;
->>>        }
->>>
->>> -    ok = vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false,
->>> -                                     true);
->>> +    ok = vhost_svq_vring_write_descs(svq, sgs, in_sg, in_num, false, true);
->>>        if (unlikely(!ok)) {
->>>            /* TODO unwind out_sg */
->>>            return false;
->>> @@ -223,10 +225,13 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
->>>     * takes ownership of the element: In case of failure, it is free and the SVQ
->>>     * is considered broken.
->>>     */
->>> -static bool vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
->>> +static bool vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
->>> +                          size_t out_num, const struct iovec *in_sg,
->>> +                          size_t in_num, VirtQueueElement *elem)
->>>    {
->>>        unsigned qemu_head;
->>> -    bool ok = vhost_svq_add_split(svq, elem, &qemu_head);
->>> +    bool ok = vhost_svq_add_split(svq, out_sg, out_num, in_sg, in_num,
->>> +                                  &qemu_head);
->>>        if (unlikely(!ok)) {
->>>            g_free(elem);
->>>            return false;
->>> @@ -250,6 +255,18 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
->>>        event_notifier_set(&svq->hdev_kick);
->>>    }
->>>
->>> +static bool vhost_svq_add_element(VhostShadowVirtqueue *svq,
->>> +                                  VirtQueueElement *elem)
->>> +{
->>> +    bool ok = vhost_svq_add(svq, elem->out_sg, elem->out_num, elem->in_sg,
->>> +                            elem->in_num, elem);
->>> +    if (ok) {
->>> +        vhost_svq_kick(svq);
->>> +    }
->>> +
->>> +    return ok;
->>> +}
->>> +
->>>    /**
->>>     * Forward available buffers.
->>>     *
->>> @@ -302,12 +319,11 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
->>>                    return;
->>>                }
->>>
->>> -            ok = vhost_svq_add(svq, elem);
->>> +            ok = vhost_svq_add_element(svq, g_steal_pointer(&elem));
->>>                if (unlikely(!ok)) {
->>>                    /* VQ is broken, just return and ignore any other kicks */
->>>                    return;
->>>                }
->>> -            vhost_svq_kick(svq);
->>>            }
->>>
->>>            virtio_queue_set_notification(svq->vq, true);
-
+-- 
+Damien Le Moal
+Western Digital Research
 
