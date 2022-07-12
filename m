@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A459571771
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:35:34 +0200 (CEST)
-Received: from localhost ([::1]:34984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C0A571776
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 12:38:24 +0200 (CEST)
+Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBDEq-0004yN-VE
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:35:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44050)
+	id 1oBDHa-0006gV-PE
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 06:38:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBCtU-0005kG-KL
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:13:28 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:45999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBCtS-0000KW-PN
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:13:28 -0400
-Received: by mail-pg1-x529.google.com with SMTP id p11so377217pgr.12
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 03:13:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=kZqn4TXEwJMW1HgVDNGK+WjAkBTafguZAbPsc8RKmfk=;
- b=YMKDzpeePrvZAZyA/TFiqs5rUlcPI+y/MiwcYhJ3ENqRfBK0JQZBLp8ZkiQB9iKThZ
- u5RsrMmsuqRAnyiOmjeAOa6SWwHgYX81ACJsNMZSf9fB/w/CGCWcn98JGz204IJ6Ygvk
- dp6Zhnmr3a+mcdcOelEe/dqhZzFUgQcsQlyD2VX4CbGek2mVP0/aXjSEP0QJZ4cRkj8t
- aFXJ9j5K2Zdj/NWyBHB1FbkpmSMdfEnaJvMPfHhcJn5KX+iXjisXuc1/xNecWLEVj1j3
- aIoF9s+vzkBJUqZoNfi9FyDuoT9mOY6knLw7X2otNTtrTYfIxv94Sk+swz+TR6tbUZvy
- +7cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=kZqn4TXEwJMW1HgVDNGK+WjAkBTafguZAbPsc8RKmfk=;
- b=22bTom1bNmy0uOJFBa5H4min/OKg+RmVZu/g4ojMvQGEGfXnNRbOCsL7Z/qbM04WlX
- kxNi1L1HGisn1CIiUSzZYZfg1XyKWEhetytBN+n74YkVZSkKdgSE4Q3ipivDscrJh3Om
- ZFWL/60HDx9OzKiyrVSf0i7nxCneZ9Ugh3s7gHLzGFWtEhZ6bHdTeO6vUVW39pLfHW8P
- DlpFHWDaN16fDGutSeXgV7QsnfWuY31G3OW1on/T2s1brV65VVeT/xLme4N3tXC5uh6Z
- 9NyTUYgsm4ku21008SCTfObWKOXfOHCJeOZtBIYhXspcEHKmZPqoEqSxEjb3q9vJY6Zd
- wACA==
-X-Gm-Message-State: AJIora9M0d009e2LeyvPNtWBt861UH10wcoia+JKkaR+lnkep3FrLGfp
- tnLFFiDaXE5VL3zJMZA23xpOwA==
-X-Google-Smtp-Source: AGRyM1v/nGf4UcoZusX6rcagYgd8rSQFDXy7QbDIxXENCx/iOwmiDbijbQGnelwEN0gWc4mf7JTVVw==
-X-Received: by 2002:a63:500c:0:b0:412:a56c:9ac with SMTP id
- e12-20020a63500c000000b00412a56c09acmr20660194pgb.158.1657620805215; 
- Tue, 12 Jul 2022 03:13:25 -0700 (PDT)
-Received: from [192.168.138.227] ([122.255.60.245])
- by smtp.gmail.com with ESMTPSA id
- b13-20020a170903228d00b0016c35b21901sm6064814plh.195.2022.07.12.03.13.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jul 2022 03:13:24 -0700 (PDT)
-Message-ID: <342916e7-f296-60bf-d0ad-4d8a0df13e0b@linaro.org>
-Date: Tue, 12 Jul 2022 15:43:17 +0530
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oBCvF-0007KD-JN
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:15:22 -0400
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:38593)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oBCv9-0000X2-5r
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 06:15:13 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.131])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 01F1A2762B;
+ Tue, 12 Jul 2022 10:15:06 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 12 Jul
+ 2022 12:15:06 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001824944f1-91f4-4f8c-8387-effa3d0919a5,
+ 309EE2169E248EACDB990A87B215E6D8094BB52C) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+Message-ID: <d9bbc4d0-b70a-92c6-3966-ba0dcaa87ea1@kaod.org>
+Date: Tue, 12 Jul 2022 12:15:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/5] target/loongarch/cpu: Fix coverity errors about
- excp_names
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 1/3] qtest/aspeed_gpio: Add input pin modification test
 Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
- mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
- peter.maydell@linaro.org
-References: <20220712080133.4176971-1-yangxiaojuan@loongson.cn>
- <20220712080133.4176971-4-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220712080133.4176971-4-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Peter Delevoryas <peter@pjd.dev>
+CC: <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <thuth@redhat.com>, <lvivier@redhat.com>, <pbonzini@redhat.com>,
+ <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+References: <20220712023219.41065-1-peter@pjd.dev>
+ <20220712023219.41065-2-peter@pjd.dev>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220712023219.41065-2-peter@pjd.dev>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: c9994d80-514e-4c11-bef6-6f30c47a2dcc
+X-Ovh-Tracer-Id: 5308055111312968495
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedgvdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,46 +76,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/22 13:31, Xiaojuan Yang wrote:
-> Fix out-of-bounds errors when access excp_names[] array. the valid
-> boundary size of excp_names should be 0 to ARRAY_SIZE(excp_names)-1.
-> However, the general code do not consider the max boundary.
+On 7/12/22 04:32, Peter Delevoryas wrote:
+> Verify the current behavior, which is that input pins can be modified by
+> guest OS register writes.
 > 
-> Fix coverity CID: 1489758
-> 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
+
+
 > ---
->   target/loongarch/cpu.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
-
+>   tests/qtest/aspeed_gpio-test.c | 27 +++++++++++++++++++++++++++
+>   1 file changed, 27 insertions(+)
 > 
-> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-> index 8294b05ee8..8e17b61a85 100644
-> --- a/target/loongarch/cpu.c
-> +++ b/target/loongarch/cpu.c
-> @@ -140,7 +140,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
+> diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
+> index bac63e8742..8f52454099 100644
+> --- a/tests/qtest/aspeed_gpio-test.c
+> +++ b/tests/qtest/aspeed_gpio-test.c
+> @@ -28,6 +28,11 @@
+>   #include "qapi/qmp/qdict.h"
+>   #include "libqtest-single.h"
 >   
->       if (cs->exception_index != EXCCODE_INT) {
->           if (cs->exception_index < 0 ||
-> -            cs->exception_index > ARRAY_SIZE(excp_names)) {
-> +            cs->exception_index >= ARRAY_SIZE(excp_names)) {
->               name = "unknown";
->           } else {
->               name = excp_names[cs->exception_index];
-> @@ -190,8 +190,8 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
->           cause = cs->exception_index;
->           break;
->       default:
-> -        qemu_log("Error: exception(%d) '%s' has not been supported\n",
-> -                 cs->exception_index, excp_names[cs->exception_index]);
-> +        qemu_log("Error: exception(%d) has not been supported\n",
-> +                 cs->exception_index);
->           abort();
->       }
+> +#define AST2600_GPIO_BASE 0x1E780000
+> +
+> +#define GPIO_ABCD_DATA_VALUE 0x000
+> +#define GPIO_ABCD_DIRECTION  0x004
+> +
+>   static void test_set_colocated_pins(const void *data)
+>   {
+>       QTestState *s = (QTestState *)data;
+> @@ -46,6 +51,27 @@ static void test_set_colocated_pins(const void *data)
+>       g_assert(!qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
+>   }
+>   
+> +static void test_set_input_pins(const void *data)
+> +{
+> +    QTestState *s = (QTestState *)data;
+> +    char name[16];
+> +    uint32_t value;
+> +
+> +    qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DIRECTION, 0x00000000);
+> +    for (char c = 'A'; c <= 'D'; c++) {
+> +        for (int i = 0; i < 8; i++) {
+> +            sprintf(name, "gpio%c%d", c, i);
+> +            qtest_qom_set_bool(s, "/machine/soc/gpio", name, true);
+> +        }
+> +    }
+> +    value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
+> +    g_assert_cmphex(value, ==, 0xffffffff);
+> +
+> +    qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE, 0x00000000);
+> +    value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
+> +    g_assert_cmphex(value, ==, 0x00000000);
+> +}
+> +
+>   int main(int argc, char **argv)
+>   {
+>       QTestState *s;
+> @@ -56,6 +82,7 @@ int main(int argc, char **argv)
+>       s = qtest_init("-machine ast2600-evb");
+>       qtest_add_data_func("/ast2600/gpio/set_colocated_pins", s,
+>                           test_set_colocated_pins);
+> +    qtest_add_data_func("/ast2600/gpio/set_input_pins", s, test_set_input_pins);
+>       r = g_test_run();
+>       qtest_quit(s);
 >   
 
 
