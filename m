@@ -2,68 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D11570E6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 01:51:57 +0200 (CEST)
-Received: from localhost ([::1]:53940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0638B570E9E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 02:09:00 +0200 (CEST)
+Received: from localhost ([::1]:58408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oB3C0-0006kJ-D0
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 19:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42398)
+	id 1oB3SU-0002FQ-KM
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jul 2022 20:08:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1oB37Y-0002Ks-Le
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:47:20 -0400
-Received: from mga18.intel.com ([134.134.136.126]:53563)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1oB3PS-0000jB-57
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 20:05:50 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:56407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1oB37W-0003wX-EB
- for qemu-devel@nongnu.org; Mon, 11 Jul 2022 19:47:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657583238; x=1689119238;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=V+7PTKQ8m4pcVDRJPFwCzzAfBycw9fEs+LjqDgV0ybU=;
- b=DqtNqYsZY8F+7HfGpJuu+YLt6GrJrpsaClXfJ1v2z8FNRVgUsBVrlm+a
- LrEQYTWgH7Hk/6Qp4S971Nxbf67pLEjowB9aPQz5a/LKStkIYOVi+W1Jp
- iiwgGTXvY0jonnzPzFmDLvEesB1jaEt6oB3vEeDd1co21jKEgLGnVSz4I
- sKO9Qbb0kYqUEfsb2L6u31plg35N8vJvOf2Cpvz4Q24tB5jRcfTXoJvaz
- FvQIZ1qPpo6Arx5LwnuYtA2iEmHQ3cpMdZ4KabKJAc4YUcfD3HvhlzrGG
- qbPSRQkXivE92SEXtGIF1N6oI9aHdrYKnFQ2KtQVdwSbrRPuwgELF2S3a A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="267836263"
-X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; d="scan'208";a="267836263"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2022 16:47:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; d="scan'208";a="569973005"
-Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
- ([10.105.129.122])
- by orsmga006.jf.intel.com with ESMTP; 11 Jul 2022 16:47:16 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com, berrange@redhat.com, kraxel@redhat.com,
- pbonzini@redhat.com, f4bug@amsat.org, vivek.kasireddy@intel.com,
- Dongwon Kim <dongwon.kim@intel.com>
-Subject: [PATCH v4 2/2] ui/gtk: a new array param monitor to specify the
- target displays
-Date: Mon, 11 Jul 2022 16:39:59 -0700
-Message-Id: <20220711233959.32219-3-dongwon.kim@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220711233959.32219-1-dongwon.kim@intel.com>
-References: <20220711233959.32219-1-dongwon.kim@intel.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1oB3PQ-0001kz-0w
+ for qemu-devel@nongnu.org; Mon, 11 Jul 2022 20:05:49 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B5F9358329A;
+ Mon, 11 Jul 2022 20:05:45 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 11 Jul 2022 20:05:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1657584345; x=1657587945; bh=mKCbmFJBgf
+ 1i0Ix5kZ1g/arwzQVNQdWVuqtiBFbJEac=; b=U+3Iv5yB1Ro+1EWuGQVlufI6cM
+ zHfm70dVhBiPLKH5OPXyGhuQ7NsodLlQRdeBq3+VFGX8goRQJBi+fUx6waSThaiP
+ ZDxc9PDSW+eWg4wrSOjAohE8rqhx3UkYfDeeeECmMFAPE6PCroWc1ZsteLjkJGWq
+ BUmVZRO2mUVTZUOY+KfckoNo5HmhtKt2oHQ8cvlJ7FLQ/wGiByRrrW3bWQLp8rJo
+ g9F6nMcWEHRN2Sb9jEuxqJ+CnlvUl5GTd0y4fEm33GMn4J2kc+ls7jMZ+oWOpWny
+ lpz08RuzdCGgFyZzF03YsUCw567HED8daxzoLZgef0U01xMdq74TsPfsllKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1657584345; x=1657587945; bh=mKCbmFJBgf1i0Ix5kZ1g/arwzQVN
+ QdWVuqtiBFbJEac=; b=YW7ByUmP0Rbcg4j38GW9wA3ITGkW+IZ8VyBIwH0a5IWB
+ LH0lBDm/BEQ/63NNytNPZJB3QsWQ2JLtqOvrraIQo3AN5RvcKui9rabsoVLxPMTb
+ loUp/xZhK3vgMm/Ou8PXmpYJISOV8mvN/ZmPEpo33q469LC29KruQqVBvEVq/2OA
+ IGnzWOxZfq9sXkDk87SkigKX0y1ObmblUifcO1DL5U2FtCNaL55QOJhQD6BMOrB5
+ FHKRyliiU27lGqKxYyat/yEcnGGpmVpLGMAOT1/i3xVjdHzRy2dYD+xhPTjihdJS
+ f5j2naboWx+VFbxlANgVC4EaIMLvQrRIcSGuPzS0kg==
+X-ME-Sender: <xms:2brMYlI2xzz6ichymw4pftusu_cnNUF_t9u-rdmiwAP598vmMIRMPg>
+ <xme:2brMYhLpLVOaKmZBKzwzxNFI2cltUDfslUC59qfq04MSr5b0jFcw8TsDAH4M8RmgZ
+ UL8q8VPLghYyiSmkyE>
+X-ME-Received: <xmr:2brMYtvA6hnJ0uzZsm0S52Lje-g9YKVYWgjRzC9JRK4dvEXf7XrV_tjevMJsBWm83PBwVCZP0tIicJZ4OCTkoCsF>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejgedgfedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgv
+ rhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrfgrth
+ htvghrnhepkeffgeevuddtteevfeelgfefhfefffeugedvveduuddtteelveekkeeihfev
+ uefhnecuffhomhgrihhnpehusghunhhtuhdrtghomhenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:2brMYmZLAOsIDxhDIpazcCOQqP4AZdqzffdDUsCPA3pvzXjII7nBnQ>
+ <xmx:2brMYsaCKYVcjFC8KzQw2De_zBDfeb4yMHrgxYw29ydXxdr9_X_pNg>
+ <xmx:2brMYqAumcFGmJSvdSpqRE7XlzTUmw54jVZo7KGvfLXu4ry2k6Oykw>
+ <xmx:2brMYkHIfBuEfluQQ4OsSMmJ_c14kypFUgOISqcorFmHo-ex3335bg>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 Jul 2022 20:05:44 -0400 (EDT)
+Date: Mon, 11 Jul 2022 17:05:42 -0700
+From: Peter Delevoryas <peter@pjd.dev>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, f4bug@amsat.org,
+ kraxel@redhat.com
+Subject: Re: [PATCH] ui/cocoa: Fix switched_to_fullscreen warning
+Message-ID: <Ysy61jH53fDEgJfs@pdel-mbp.dhcp.thefacebook.com>
+References: <20220702044304.90553-1-peter@pjd.dev>
+ <8e54f374-d4bc-36f1-6d1c-470853174aaa@gmail.com>
+ <YsYvvnzmg8jU7zip@pdel-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=dongwon.kim@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YsYvvnzmg8jU7zip@pdel-mbp.dhcp.thefacebook.com>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=peter@pjd.dev;
+ helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_FMBLA_NEWDOM14=0.998, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,121 +102,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New integer array parameter, 'monitor' is for specifying the target
-monitors where individual GTK windows are placed upon launching.
+On Wed, Jul 06, 2022 at 05:58:38PM -0700, Peter Delevoryas wrote:
+> On Sat, Jul 02, 2022 at 11:30:16PM +0900, Akihiko Odaki wrote:
+> > Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> 
+> Just checking in on the status of this: do I need to submit a pull request?
+> Or will this patch be picked up in a miscellaneous pull queue eventually?
 
-Monitor numbers in the array are associated with virtual consoles
-in the order of [VC0, VC1, VC2 ... VCn].
+Pinging this thread again, does this change need anyone else to review it?
 
-Every GTK window containing each VC will be placed in the region
-of corresponding monitors.
-
-Usage: -display gtk,monitor.<id of VC>=<target monitor>,..
-       ex)-display gtk,monitor.0=1,monitor.1=0
-
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
----
- qapi/ui.json    |  9 ++++++++-
- qemu-options.hx |  3 ++-
- ui/gtk.c        | 30 ++++++++++++++++++++++++++++--
- 3 files changed, 38 insertions(+), 4 deletions(-)
-
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 413371d5e8..ee0f9244ef 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1195,12 +1195,19 @@
- #               assuming the guest will resize the display to match
- #               the window size then.  Otherwise it defaults to "off".
- #               Since 3.1
-+# @monitor:     Array of numbers, each of which represents physical
-+#               monitor where GTK window containing a given VC will be
-+#               placed. Each monitor number in the array will be
-+#               associated with a virtual console starting from VC0.
-+#
-+#               since 7.1
- #
- # Since: 2.12
- ##
- { 'struct'  : 'DisplayGTK',
-   'data'    : { '*grab-on-hover' : 'bool',
--                '*zoom-to-fit'   : 'bool'  } }
-+                '*zoom-to-fit'   : 'bool',
-+                '*monitor'       : ['uint16']  } }
- 
- ##
- # @DisplayEGLHeadless:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 377d22fbd8..aabdfb0636 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1938,7 +1938,8 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
- #endif
- #if defined(CONFIG_GTK)
-     "-display gtk[,full-screen=on|off][,gl=on|off][,grab-on-hover=on|off]\n"
--    "            [,show-cursor=on|off][,window-close=on|off]\n"
-+    "            [,monitor.<id of VC>=<monitor number>][,show-cursor=on|off]"
-+    "            [,window-close=on|off]\n"
- #endif
- #if defined(CONFIG_VNC)
-     "-display vnc=<display>[,<optargs>]\n"
-diff --git a/ui/gtk.c b/ui/gtk.c
-index e6878c3209..598ab4970f 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2316,6 +2316,10 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-     GtkDisplayState *s = g_malloc0(sizeof(*s));
-     GdkDisplay *window_display;
-     GtkIconTheme *theme;
-+    GtkWidget *win;
-+    GdkRectangle dest;
-+    uint16List *mon;
-+    int n_mon;
-     int i;
-     char *dir;
- 
-@@ -2393,10 +2397,32 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-             gtk_menu_item_activate(GTK_MENU_ITEM(s->untabify_item));
-         }
-     }
--    if (opts->has_full_screen &&
--        opts->full_screen) {
-+
-+    if (opts->u.gtk.has_monitor) {
-+        i = 0;
-+        n_mon = gdk_display_get_n_monitors(window_display);
-+        for (mon = opts->u.gtk.monitor; mon; mon = mon->next) {
-+            if (mon->value < n_mon && i < s->nb_vcs) {
-+                win = s->vc[i].window ? s->vc[i].window : s->window;
-+                if (opts->full_screen) {
-+                    gtk_window_fullscreen_on_monitor(
-+                        GTK_WINDOW(win),
-+                        gdk_display_get_default_screen(window_display),
-+                        mon->value);
-+                } else {
-+                    gdk_monitor_get_geometry(
-+                        gdk_display_get_monitor(window_display, mon->value),
-+                        &dest);
-+                    gtk_window_move(GTK_WINDOW(win),
-+                                    dest.x, dest.y);
-+                }
-+                i++;
-+            }
-+        }
-+    } else if (opts->full_screen) {
-         gtk_menu_item_activate(GTK_MENU_ITEM(s->full_screen_item));
-     }
-+
-     if (opts->u.gtk.has_grab_on_hover &&
-         opts->u.gtk.grab_on_hover) {
-         gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
--- 
-2.30.2
-
+> 
+> > 
+> > On 2022/07/02 13:43, Peter Delevoryas wrote:
+> > > I noticed this error while building QEMU on Mac OS X:
+> > > 
+> > >      [1040/1660] Compiling Objective-C object libcommon.fa.p/ui_cocoa.m.o
+> > >      ../ui/cocoa.m:803:17: warning: variable 'switched_to_fullscreen' set but not used [-Wunused-but-set-variable]
+> > >          static bool switched_to_fullscreen = false;
+> > >                      ^
+> > >      1 warning generated.
+> > > 
+> > > I think the behavior is fine if you remove "switched_to_fullscreen", I can
+> > > still switch in and out of mouse grabbed mode and fullscreen mode with this
+> > > change, and Command keycodes will only be passed to the guest if the mouse
+> > > is grabbed, which I think is the right behavior. I'm not sure why a static
+> > > piece of state was needed to handle that in the first place. Perhaps the
+> > > refactoring of the flags-state-change fixed that by toggling the Command
+> > > keycode on.
+> > > 
+> > > I tested this with an Ubuntu core image on macOS 12.4
+> > > 
+> > >      wget https://cdimage.ubuntu.com/ubuntu-core/18/stable/current/ubuntu-core-18-i386.img.xz
+> > >      xz -d ubuntu-core-18-i386.img.xz
+> > >      qemu-system-x86_64 -drive file=ubuntu-core-18.i386.img,format=raw
+> > > 
+> > > Fixes: 6d73bb643aa7 ("ui/cocoa: Clear modifiers whenever possible")
+> > > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> > > ---
+> > >   ui/cocoa.m | 8 --------
+> > >   1 file changed, 8 deletions(-)
+> > > 
+> > > diff --git a/ui/cocoa.m b/ui/cocoa.m
+> > > index 84c84e98fc..13e208b037 100644
+> > > --- a/ui/cocoa.m
+> > > +++ b/ui/cocoa.m
+> > > @@ -800,7 +800,6 @@ - (bool) handleEventLocked:(NSEvent *)event
+> > >       int buttons = 0;
+> > >       int keycode = 0;
+> > >       bool mouse_event = false;
+> > > -    static bool switched_to_fullscreen = false;
+> > >       // Location of event in virtual screen coordinates
+> > >       NSPoint p = [self screenLocationOfEvent:event];
+> > >       NSUInteger modifiers = [event modifierFlags];
+> > > @@ -952,13 +951,6 @@ - (bool) handleEventLocked:(NSEvent *)event
+> > >               // forward command key combos to the host UI unless the mouse is grabbed
+> > >               if (!isMouseGrabbed && ([event modifierFlags] & NSEventModifierFlagCommand)) {
+> > > -                /*
+> > > -                 * Prevent the command key from being stuck down in the guest
+> > > -                 * when using Command-F to switch to full screen mode.
+> > > -                 */
+> > > -                if (keycode == Q_KEY_CODE_F) {
+> > > -                    switched_to_fullscreen = true;
+> > > -                }
+> > >                   return false;
+> > >               }
+> > 
+> 
 
