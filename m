@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5AE7572156
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 18:48:54 +0200 (CEST)
-Received: from localhost ([::1]:50438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961BC572186
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 19:04:31 +0200 (CEST)
+Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBJ49-0001yG-D9
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 12:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33762)
+	id 1oBJJG-0001Wd-0J
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 13:04:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=V6zu=XR=zx2c4.com=Jason@kernel.org>)
- id 1oBJ28-0007D6-RS
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 12:46:49 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:35312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=V6zu=XR=zx2c4.com=Jason@kernel.org>)
- id 1oBJ26-0001eC-39
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 12:46:48 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8FD39B81A90;
- Tue, 12 Jul 2022 16:46:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63524C3411C;
- Tue, 12 Jul 2022 16:46:41 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="CKf/23T9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1657644399;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=iwsHLV9WNMrfaQc3DA7BC1+OCflXBbVPcxlPcTWXjMs=;
- b=CKf/23T9TE4KuI2cjN80lhm0FVRW/tY1qqZ3fpAQmTnNMybNqcDxl6SkaPEv1pxlRKIP5W
- X0b4DBqXhyxrp/vjLqCZG3/OIyTEisnRZO/P4JMsqB339UvwSfzDiQ+HT7SMPV4ZRgHyZK
- Ob7JHyjS1AG8bGyz6WWUW1dy1b0DVzQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f8d2426e
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Tue, 12 Jul 2022 16:46:38 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: linux-s390@vger.kernel.org,
-	qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>
-Subject: [PATCH qemu] target/s390x: support PRNO_TRNG instruction
-Date: Tue, 12 Jul 2022 18:46:27 +0200
-Message-Id: <20220712164627.581570-1-Jason@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oBJGL-0007ur-MJ
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 13:01:41 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:35746)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oBJGH-0003NA-Ah
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 13:01:27 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-31cac89d8d6so87734907b3.2
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 10:01:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JCpocHi3AmqOwkZ0SuvBMpsth0l5pYY8FmoMCg3ahHk=;
+ b=KQ53MHeobsDZxwtfxuTc8EejmDCbqW/jsQe1qy1qSDUOP2pIER1B05Xj+TFL302KTq
+ VgpiGd/auK3GJuZ70R2qxZkJy7ASCFMIVMfTZm+GGuxEvn3P8+jN1vePpksz6kzPZAtw
+ 8kCYqlXLyakamzzbhXIYcUXE2d6fGSWyND8mHaVUdGbqJvsI1zqEfoKN7GUWNdNTK7k7
+ 6RPa4cyqteF7Cl1uLRTGZKof71PjC4rPf4dYTIRA2FzbzhEO8sB7cRNYRw/P30N+cVMr
+ T+zZQ1yMzxFyZZaWBEso1KS1ZFDm8rZMSD0tYtHKjbzYphYgKDzxoqmgA+QhcdOwv+h1
+ Bp/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JCpocHi3AmqOwkZ0SuvBMpsth0l5pYY8FmoMCg3ahHk=;
+ b=RYyFeG7veZgMF0Mawo2PbovAzaDp3RFTZEBMXl/W5GmpsMm2KvP9JZ8Jm5KkWUGxxl
+ X8N8NDOmUfDKayzLSxg7AEGN6Yrvv4f69k3IvT1qlwAcTGLuVqiragUHFDm2NcYg3SAv
+ /Z0vS3R7H2aSJSwf2RJXPY6E+EI+89DA6XknZk4ZSqQw254JUsmcC8EejaTbl18d2cd9
+ K4EJ3mZi+y5PO48xUGHBnFPUvXHDVr+X7O0mN5RxNJnzCt313AvvadC+j62JG5fkNFdr
+ vSCB0Mzbglv5nkU9dSjZdc67ViyEfuk2A1Oa8A3dpLQuhPcqJGfka+U8GigxH/3vBwAg
+ 9VDg==
+X-Gm-Message-State: AJIora/KH2KePsXYaLIP3cvOvDFm4ABQ0cHuVadyspoUrhP2Fns9JcoO
+ VPALcYep1BUXAVJaVuPmfAi9BVaH3p3YVTz7N+zLYQ==
+X-Google-Smtp-Source: AGRyM1vmsxQ4PNgIayeDWZa0bhHk3h1xPudVmM6XWdqPiKOSPIcc5GkHfDmoHNUAlc0pooQCJ9BpZ5fram6hmAi7yqA=
+X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
+ d8-20020a818d08000000b00317a4cdd65dmr25948655ywg.329.1657645284129; Tue, 12
+ Jul 2022 10:01:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=V6zu=XR=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220712124956.150451-1-pbonzini@redhat.com>
+In-Reply-To: <20220712124956.150451-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 Jul 2022 18:00:44 +0100
+Message-ID: <CAFEAcA9xXUhJkgFP-_muPePX7agH=3q+30qXb1J2_XNXrFvvFg@mail.gmail.com>
+Subject: Re: [PULL 00/18] Misc patches for 2022-07-12
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,82 +82,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order for hosts running inside of TCG to initialize the kernel's
-random number generator, we should support the PRNO_TRNG instruction,
-backed in the usual way with the qemu_guest_getrandom helper. This is
-confirmed working on Linux 5.19-rc6.
+On Tue, 12 Jul 2022 at 13:57, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 180c2f24d5e8eada41e012a3899d29bb695aae06:
+>
+>   Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2022-07-06 10:41:34 +0530)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 9fb6d8a9b2fc0e150b56a0ff4341494dcd8360b8:
+>
+>   meson: place default firmware path under .../share (2022-07-12 14:46:58 +0200)
+>
+> ----------------------------------------------------------------
+> * fuzzing fixes (Alexander)
+> * fix cross compilation CFLAGS and compiler choice
+> * do not specify -bios option for tests/vm
+> * miscellaneous fixes
+> * preparation for pre-install tree in the build directory (Akihiko)
 
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Harald Freudenberger <freude@linux.ibm.com>
-Cc: Holger Dengler <dengler@linux.ibm.com>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- target/s390x/gen-features.c      |  2 ++
- target/s390x/tcg/crypto_helper.c | 23 +++++++++++++++++++++++
- 2 files changed, 25 insertions(+)
 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index ad140184b9..3d333e2789 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -749,6 +749,8 @@ static uint16_t qemu_V7_0[] = {
-  */
- static uint16_t qemu_MAX[] = {
-     S390_FEAT_VECTOR_ENH2,
-+    S390_FEAT_MSA_EXT_5,
-+    S390_FEAT_PRNO_TRNG,
- };
- 
- /****** END FEATURE DEFS ******/
-diff --git a/target/s390x/tcg/crypto_helper.c b/target/s390x/tcg/crypto_helper.c
-index 138d9e7ad9..cefdfd114e 100644
---- a/target/s390x/tcg/crypto_helper.c
-+++ b/target/s390x/tcg/crypto_helper.c
-@@ -12,12 +12,28 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
-+#include "qemu/guest-random.h"
- #include "s390x-internal.h"
- #include "tcg_s390x.h"
- #include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- 
-+static void fill_buf_random(CPUS390XState *env, uintptr_t ra,
-+                            uint64_t buf, uint64_t len)
-+{
-+        uint64_t addr = wrap_address(env, buf);
-+        uint8_t tmp[256];
-+
-+        while (len) {
-+                size_t block = MIN(len, sizeof(tmp));
-+                qemu_guest_getrandom_nofail(tmp, block);
-+                for (size_t i = 0; i < block; ++i)
-+                        cpu_stb_data_ra(env, addr++, tmp[i], ra);
-+                len -= block;
-+        }
-+}
-+
- uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
-                      uint32_t type)
- {
-@@ -52,6 +68,13 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
-             cpu_stb_data_ra(env, param_addr, subfunc[i], ra);
-         }
-         break;
-+    case 114: {
-+        const uint64_t ucbuf = env->regs[r1], ucbuf_len = env->regs[r1 + 1];
-+        const uint64_t cbuf = env->regs[r2], cbuf_len = env->regs[r2 + 1];
-+        fill_buf_random(env, ra, ucbuf, ucbuf_len);
-+        fill_buf_random(env, ra, cbuf, cbuf_len);
-+        break;
-+    }
-     default:
-         /* we don't implement any other subfunction yet */
-         g_assert_not_reached();
--- 
-2.35.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
+for any user-visible changes.
+
+-- PMM
 
