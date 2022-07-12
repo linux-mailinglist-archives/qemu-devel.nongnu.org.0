@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4E1571600
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:44:58 +0200 (CEST)
-Received: from localhost ([::1]:39620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658AA571604
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jul 2022 11:45:43 +0200 (CEST)
+Received: from localhost ([::1]:40490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBCRu-0007Gd-2c
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36000)
+	id 1oBCSc-0007tj-GM
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 05:45:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oBCJ7-0005Bo-W2
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:35:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39644)
+ id 1oBCJ9-0005I1-Et
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:35:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oBCJ5-0006Sb-Ez
- for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:35:52 -0400
+ id 1oBCJ7-0006Vj-HP
+ for qemu-devel@nongnu.org; Tue, 12 Jul 2022 05:35:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657618550;
+ s=mimecast20190719; t=1657618552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fuUMfnKM4RKA8OiTM4aAaBM6S7QmPOnfp6bFoWwhm54=;
- b=KZSkELt7vZZ47Cn2WyDYOknMXDP6eAlkDBUKfJbg4PL6i6FpmxPU4HqWgmYW3wRHCkyAo0
- 2DCidt+E1t+2v3jQJTnxRgPNd4e6+t0661iyvy1xpbxK3juQI76o28YhTpc3a+2sk13xXC
- Wi3JOVKHtxgPRb9+K0cVrnD5gywY0nE=
+ bh=RzBc0nl4yI9EOA558uood9/BjlvTEJkzBDosBBKzsnk=;
+ b=PoRUXeDMpGgaOZng/G+1WT3RucGbf//0w/Vbrtuxd4/wkDUKLGfQuooJZHTgVMmlPFHS5J
+ Cgh0OJi64N4VdE9MYLUuAYNB4y/cNBuFlemnv/L01FWV7QjmYtQ2gN2Z0zMZsE/1+yV2X1
+ NXD9V30WGrXLoskgJ6xgrdH3lAJO4fE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-350-NANvpr9ROKK2F-b4prIhFg-1; Tue, 12 Jul 2022 05:35:41 -0400
-X-MC-Unique: NANvpr9ROKK2F-b4prIhFg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-427-FKTduMrANg2r4WvaBzKfVg-1; Tue, 12 Jul 2022 05:35:49 -0400
+X-MC-Unique: FKTduMrANg2r4WvaBzKfVg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CB30811E7A;
- Tue, 12 Jul 2022 09:35:41 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1FF3F811E7A;
+ Tue, 12 Jul 2022 09:35:49 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18B96C15D40;
- Tue, 12 Jul 2022 09:35:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 13AD9492C3B;
+ Tue, 12 Jul 2022 09:35:47 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
@@ -57,25 +57,25 @@ Cc: Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>, Fam Zheng <fam@euphon.net>,
  Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 01/15] error-report: misc comment fix
-Date: Tue, 12 Jul 2022 13:35:14 +0400
-Message-Id: <20220712093528.4144184-2-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 02/15] error-report: introduce "detailed" variable
+Date: Tue, 12 Jul 2022 13:35:15 +0400
+Message-Id: <20220712093528.4144184-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
 References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,28 +93,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Missed in commit beeb175c0d "util/qemu-error: Rename error_print_loc()
-to be more generic".
+Let's use a more explicit variable "detailed" instead of calling
+monitor_cur() multiple times.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- util/error-report.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ util/error-report.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/util/error-report.c b/util/error-report.c
-index 5edb2e604061..98f242b75bbf 100644
+index 98f242b75bbf..893da10f19bc 100644
 --- a/util/error-report.c
 +++ b/util/error-report.c
-@@ -390,7 +390,7 @@ void error_init(const char *argv0)
+@@ -195,16 +195,17 @@ real_time_iso8601(void)
+  */
+ static void vreport(report_type type, const char *fmt, va_list ap)
  {
-     const char *p = strrchr(argv0, '/');
++    bool detailed = !monitor_cur();
+     gchar *timestr;
  
--    /* Set the program name for error_print_loc(). */
-+    /* Set the program name for print_loc(). */
-     g_set_prgname(p ? p + 1 : argv0);
+-    if (message_with_timestamp && !monitor_cur()) {
++    if (message_with_timestamp && detailed) {
+         timestr = real_time_iso8601();
+         error_printf("%s ", timestr);
+         g_free(timestr);
+     }
  
-     /*
+     /* Only prepend guest name if -msg guest-name and -name guest=... are set */
+-    if (error_with_guestname && error_guest_name && !monitor_cur()) {
++    if (error_with_guestname && error_guest_name && detailed) {
+         error_printf("%s ", error_guest_name);
+     }
+ 
 -- 
 2.37.0.rc0
 
