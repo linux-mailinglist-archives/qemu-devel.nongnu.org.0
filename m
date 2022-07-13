@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D772D573390
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 11:54:54 +0200 (CEST)
-Received: from localhost ([::1]:40790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A272957338F
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 11:54:52 +0200 (CEST)
+Received: from localhost ([::1]:40694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBZ53-0000KZ-6P
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 05:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58400)
+	id 1oBZ51-0000ET-BI
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 05:54:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1oBZ1W-0003Io-M0
+ id 1oBZ1W-0003Iu-OG
  for qemu-devel@nongnu.org; Wed, 13 Jul 2022 05:51:14 -0400
-Received: from [114.242.206.163] (port=38476 helo=loongson.cn)
+Received: from [114.242.206.163] (port=38480 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1oBZ1U-0005J6-JZ
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1oBZ1U-0005JC-JZ
  for qemu-devel@nongnu.org; Wed, 13 Jul 2022 05:51:14 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx39Bslc5iXkcbAA--.18694S5; 
- Wed, 13 Jul 2022 17:50:37 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx39Bslc5iXkcbAA--.18694S6; 
+ Wed, 13 Jul 2022 17:50:38 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: [PATCH 3/5] target/loongarch/cpu: Fix coverity errors about excp_names
-Date: Wed, 13 Jul 2022 17:50:34 +0800
-Message-Id: <20220713095036.705102-4-yangxiaojuan@loongson.cn>
+Subject: [PATCH 4/5] target/loongarch/tlb_helper: Fix coverity integer
+ overflow error
+Date: Wed, 13 Jul 2022 17:50:35 +0800
+Message-Id: <20220713095036.705102-5-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220713095036.705102-1-yangxiaojuan@loongson.cn>
 References: <20220713095036.705102-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx39Bslc5iXkcbAA--.18694S5
-X-Coremail-Antispam: 1UD129KBjvJXoWruFyrury7uFW7ZryxWw17KFg_yoW8JF1xpF
- sFvr9FgryfJr9rZw1kJayYqrn8Xw43GFn2qa1S9a4rKr4ftr92v3Wvqa9avF15J3s7XrWU
- uF4fAryrX3W5XaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9Dx39Bslc5iXkcbAA--.18694S6
+X-Coremail-Antispam: 1UD129KBjvdXoWrKr4rurWxtrWfKrykCw45Wrg_yoWkGFg_CF
+ 1fJw1v9ryUWw12ywsYv3s8t3W7Kw1IgF45Cay8WrW7K345XF43Ga1qq3Z3Ar4YkrWrCrnI
+ kwnFvry3CF4YyjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 114.242.206.163 (deferred)
 Received-SPF: pass client-ip=114.242.206.163;
@@ -64,41 +65,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix out-of-bounds errors when access excp_names[] array. the valid
-boundary size of excp_names should be 0 to ARRAY_SIZE(excp_names)-1.
-However, the general code do not consider the max boundary.
+Replace '1 << shift' with 'MAKE_64BIT_MASK(shift, 1)' to fix
+unintentional integer overflow errors in tlb_helper file.
 
-Fix coverity CID: 1489758
+Fix coverity CID: 1489759 1489762
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 ---
- target/loongarch/cpu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/loongarch/tlb_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index ed26f9beed..89ea971cde 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -140,7 +140,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
- 
-     if (cs->exception_index != EXCCODE_INT) {
-         if (cs->exception_index < 0 ||
--            cs->exception_index > ARRAY_SIZE(excp_names)) {
-+            cs->exception_index >= ARRAY_SIZE(excp_names)) {
-             name = "unknown";
-         } else {
-             name = excp_names[cs->exception_index];
-@@ -190,8 +190,8 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
-         cause = cs->exception_index;
-         break;
-     default:
--        qemu_log("Error: exception(%d) '%s' has not been supported\n",
--                 cs->exception_index, excp_names[cs->exception_index]);
-+        qemu_log("Error: exception(%d) has not been supported\n",
-+                 cs->exception_index);
-         abort();
+diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
+index bab19c7e05..610b6d123c 100644
+--- a/target/loongarch/tlb_helper.c
++++ b/target/loongarch/tlb_helper.c
+@@ -298,7 +298,7 @@ static void invalidate_tlb_entry(CPULoongArchState *env, int index)
+     } else {
+         tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
      }
+-    pagesize = 1 << tlb_ps;
++    pagesize = MAKE_64BIT_MASK(tlb_ps, 1);
+     mask = MAKE_64BIT_MASK(0, tlb_ps + 1);
  
+     if (tlb_v0) {
+@@ -736,7 +736,7 @@ void helper_ldpte(CPULoongArchState *env, target_ulong base, target_ulong odd,
+                 (tmp0 & (~(1 << R_TLBENTRY_G_SHIFT)));
+         ps = ptbase + ptwidth - 1;
+         if (odd) {
+-            tmp0 += (1 << ps);
++            tmp0 += MAKE_64BIT_MASK(ps, 1);
+         }
+     } else {
+         /* 0:64bit, 1:128bit, 2:192bit, 3:256bit */
 -- 
 2.31.1
 
