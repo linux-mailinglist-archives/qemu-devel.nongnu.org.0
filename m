@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844A1573AE9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:13:02 +0200 (CEST)
-Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BFB573AFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:17:40 +0200 (CEST)
+Received: from localhost ([::1]:33742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBeyz-0005i0-I0
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35972)
+	id 1oBf3T-0002eU-ED
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:17:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBep5-0002cd-1a
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:02:47 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:35459)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBep3-0003On-2U
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:02:46 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id r186so3632876pgr.2
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 09:02:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=AtyoZplQzYXFZzNVvyapLzGVgaJnQdYMj3OwW5MWIQY=;
- b=QkurS7vkt6tfyux9G898QxJXWJbZ/So24cipXtkh6qD8ratwqNv0irybGbBgwXe7mc
- 9H3gY1hJTiXG+4gBqi4pjMz7+36FCPA6wt6OLnAcS8GG/scHtV64OFtEz2bhHcLinlQu
- ZoCj0lfK+/UmDFxmc4aiZhhZb4kGNtc2KHdVvk0mgDjMGzax5mhXc3NFpyP3hr9OuPtk
- Q7B+Ozojx/IBLcEhZbdcEG9KeejB93ITWMl94FOvcrNaOQuQkCFqKszBL0KbmjVZsMs3
- kBZ9DhDfZZi6vJ53deIc1f0vMzLsplgnid7t0rdxMB2RJzsm5wqa5tGkJu69BxR78VZc
- ac3g==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oBepz-0003Ku-KQ
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:03:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oBepx-00049i-Sn
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:03:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657728218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bQB2iPaNTWCGvdYsCTdcA/Uz3rGA0rxs51Q5VJV5Qpw=;
+ b=D9INkgmsa1u6SE+PCvDIuPdgZqaTP8jLWZf8pWS+WJobx9ivUKveLkioy5K6JtmFR0rEqH
+ Hl2/n54/aEz4zrHcjA6fwnXbTBduDDESBkNfnb/tXfImQWK85wpZMX46+QqQwIM3egYaVS
+ 6L76nLnGZgvj15+1fPswXJh5vBuZAqA=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-156-HrZxspwKM5SJ6tyXEtVXcg-1; Wed, 13 Jul 2022 12:03:37 -0400
+X-MC-Unique: HrZxspwKM5SJ6tyXEtVXcg-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ ay32-20020a056808302000b002f96abff093so7208395oib.23
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 09:03:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=AtyoZplQzYXFZzNVvyapLzGVgaJnQdYMj3OwW5MWIQY=;
- b=b0SOhjKp7rDhZrQ6yJHunH9amSddEyv1l/51g2+o0KneEZRw25ayrs2gCTlCl5jUC9
- 0z7yh9efpmwrLIe0/4Y9RAG1MLmFPdm9yh793WEjtBtWRtnsOfymxgy8N5RRfsuyx0AJ
- vfjhEpHTbPtDjrnD6kGe2GaEpXNDATK/H2OeMvFpWkVWD0PXVfEsjlhdD9hJytAngpJi
- sYAxDPg9+Dgry+tosQVV3OPLEFI/odIdDaBG7Nf6hxigjBAKfwRC+iEuRdMMwQhJB50l
- aB2O5ZVLH9TACJox1mcLaAEbKKwHZ1B2fBYcj7pwcqnLocKDh0LGAVPgzReGu5KyPoqs
- MvCw==
-X-Gm-Message-State: AJIora9L0s44bxbPMY6PRsORWgp+L6ADK76MM+zex78l6cBGbwLT3EDy
- z65D8fJsfLIJb9IkokURMcTckQ==
-X-Google-Smtp-Source: AGRyM1v6YBfMP5f3yZ9IhGN2k7VfgYMcXjOJA8Srwk26EXrAxY/W4HK+NdtiofFS3FT5dsOWzTnM9A==
-X-Received: by 2002:a63:6888:0:b0:3fe:49fc:3be3 with SMTP id
- d130-20020a636888000000b003fe49fc3be3mr3365789pgc.182.1657728163400; 
- Wed, 13 Jul 2022 09:02:43 -0700 (PDT)
-Received: from [192.168.138.227] ([202.124.167.115])
- by smtp.gmail.com with ESMTPSA id
- m12-20020a1709026bcc00b0016c1f05a8fasm9056252plt.182.2022.07.13.09.02.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jul 2022 09:02:42 -0700 (PDT)
-Message-ID: <0bc8a18b-6f34-4313-15b7-26ee2ca01994@linaro.org>
-Date: Wed, 13 Jul 2022 21:32:35 +0530
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bQB2iPaNTWCGvdYsCTdcA/Uz3rGA0rxs51Q5VJV5Qpw=;
+ b=EXVSfeceTft4hr8L5699c6AS3fFBWmoXze5lxgDetACJ/6fGOFNiRrH/J1Vu1UNltp
+ BoDpZSJrOayjFXCJAEbTdzHuo6ChfAmClQK2Oruy6l8kRe5osy8ZffizvWhMQsniRDI6
+ j/X3wpNaEqJj2yW1V3ihUe0UNUZcH9maRu0izdyEvkhUlWE9wYCA8tBBhPMWElxOUTKw
+ p2ME+Ndu8RgdBfyw+fD4tMq+WeOfwUpv+lRlBAt1cqsFEUu+uj8CxrOLP/NGmehFT9Ok
+ VmF+sZJZKCWHFHCGPrMkkhmXcvoCPWhE/raqEE5ia5Oz1TAIwzLWBttMfLX3+labDw+J
+ vp7Q==
+X-Gm-Message-State: AJIora+APiiH9oyb876xH2QIe4QxIHtipNrQ+SIb9iQYypFXqJILM7lM
+ lsSi6mVPCBmKRzdRjkoHDD8YY+XmCKJEA9wqyrUJ0FBkfAH50Qqj89uYd3xLkt/5qEcBcJTSMGx
+ e5hxl3zUFJt3GdFREroHktc/L9lcfRXM=
+X-Received: by 2002:a05:6808:d4f:b0:339:afb0:ccce with SMTP id
+ w15-20020a0568080d4f00b00339afb0cccemr2197154oik.53.1657728216904; 
+ Wed, 13 Jul 2022 09:03:36 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tWOzAd6DaDzU/MPrbmXI8uVsCQyHHG/jcuG40AsI+HUeg8h+orhsw0GXZet3h+nRoWvbxy0634QjsxuT6yEkQ=
+X-Received: by 2002:a05:6808:d4f:b0:339:afb0:ccce with SMTP id
+ w15-20020a0568080d4f00b00339afb0cccemr2197138oik.53.1657728216727; Wed, 13
+ Jul 2022 09:03:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/5] target/loongarch/cpu: Fix cpu_class_by_name function
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
- mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
- peter.maydell@linaro.org
-References: <20220713095036.705102-1-yangxiaojuan@loongson.cn>
- <20220713095036.705102-2-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220713095036.705102-2-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220713130322.25517-1-frankja@linux.ibm.com>
+ <20220713130322.25517-8-frankja@linux.ibm.com>
+In-Reply-To: <20220713130322.25517-8-frankja@linux.ibm.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 13 Jul 2022 20:03:25 +0400
+Message-ID: <CAMxuvaxB==Cg3hkGjNHH8=rm3iJA8+rWACk2rkMz3fZ_zgAMsA@mail.gmail.com>
+Subject: Re: [PATCH v2 07/11] linux header sync
+To: Janosch Frank <frankja@linux.ibm.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
+ mhartmay@linux.ibm.com, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, imbrenda@linux.ibm.com, 
+ Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, "Henderson,
+ Richard" <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,42 +100,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/22 15:20, Xiaojuan Yang wrote:
-> In loongarch_cpu_class_by_name(char *cpu_model) function,
-> the argument cpu_model already has the suffix '-loongarch-cpu',
-> so we should remove the LOONGARCH_CPU_TYPE_NAME(cpu_model) macro.
-> And add the assertion that 'cpu_model' resolves to a class of the
-> appropriate type.
-> 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank <frankja@linux.ibm.com> wrote=
+:
+>
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+
+Please tell which version this update come from. Otherwise, it should be fi=
+ne
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 > ---
->   target/loongarch/cpu.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
-> 
-> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-> index e21715592a..ed26f9beed 100644
-> --- a/target/loongarch/cpu.c
-> +++ b/target/loongarch/cpu.c
-> @@ -571,11 +571,12 @@ static void loongarch_cpu_init(Object *obj)
->   static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
->   {
->       ObjectClass *oc;
-> -    char *typename;
->   
-> -    typename = g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"), cpu_model);
-> -    oc = object_class_by_name(typename);
-> -    g_free(typename);
-> +    oc = object_class_by_name(cpu_model);
-> +    if (!oc || !object_class_dynamic_cast(oc, TYPE_LOONGARCH_CPU) ||
-> +        object_class_is_abstract(oc)) {
-> +        return NULL;
-> +    }
->       return oc;
->   }
->   
+>  linux-headers/linux/kvm.h | 55 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+>
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index 0d05d02ee4..ae5db2e44c 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -1150,6 +1150,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_DISABLE_QUIRKS2 213
+>  /* #define KVM_CAP_VM_TSC_CONTROL 214 */
+>  #define KVM_CAP_SYSTEM_EVENT_DATA 215
+> +#define KVM_CAP_S390_PROTECTED_DUMP 217
+>
+>  #ifdef KVM_CAP_IRQ_ROUTING
+>
+> @@ -1651,6 +1652,55 @@ struct kvm_s390_pv_unp {
+>         __u64 tweak;
+>  };
+>
+> +enum pv_cmd_info_id {
+> +       KVM_PV_INFO_VM,
+> +       KVM_PV_INFO_DUMP,
+> +};
+> +
+> +struct kvm_s390_pv_info_dump {
+> +       __u64 dump_cpu_buffer_len;
+> +       __u64 dump_config_mem_buffer_per_1m;
+> +       __u64 dump_config_finalize_len;
+> +};
+> +
+> +struct kvm_s390_pv_info_vm {
+> +       __u64 inst_calls_list[4];
+> +       __u64 max_cpus;
+> +       __u64 max_guests;
+> +       __u64 max_guest_addr;
+> +       __u64 feature_indication;
+> +};
+> +
+> +struct kvm_s390_pv_info_header {
+> +       __u32 id;
+> +       __u32 len_max;
+> +       __u32 len_written;
+> +       __u32 reserved;
+> +};
+> +
+> +struct kvm_s390_pv_info {
+> +       struct kvm_s390_pv_info_header header;
+> +       union {
+> +               struct kvm_s390_pv_info_dump dump;
+> +               struct kvm_s390_pv_info_vm vm;
+> +       };
+> +};
+> +
+> +enum pv_cmd_dmp_id {
+> +        KVM_PV_DUMP_INIT,
+> +        KVM_PV_DUMP_CONFIG_STATE,
+> +        KVM_PV_DUMP_COMPLETE,
+> +        KVM_PV_DUMP_CPU,
+> +};
+> +
+> +struct kvm_s390_pv_dmp {
+> +        __u64 subcmd;
+> +        __u64 buff_addr;
+> +        __u64 buff_len;
+> +        __u64 gaddr;
+> +        __u64 reserved[4];
+> +};
+> +
+>  enum pv_cmd_id {
+>         KVM_PV_ENABLE,
+>         KVM_PV_DISABLE,
+> @@ -1659,6 +1709,8 @@ enum pv_cmd_id {
+>         KVM_PV_VERIFY,
+>         KVM_PV_PREP_RESET,
+>         KVM_PV_UNSHARE_ALL,
+> +        KVM_PV_INFO,
+> +        KVM_PV_DUMP,
+>  };
+>
+>  struct kvm_pv_cmd {
+> @@ -1733,6 +1785,7 @@ struct kvm_xen_vcpu_attr {
+>  #define KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_DATA   0x4
+>  #define KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST 0x5
+>
+> +
+>  /* Secure Encrypted Virtualization command */
+>  enum sev_cmd_id {
+>         /* Guest initialization commands */
+> @@ -2066,4 +2119,6 @@ struct kvm_stats_desc {
+>  /* Available with KVM_CAP_XSAVE2 */
+>  #define KVM_GET_XSAVE2           _IOR(KVMIO,  0xcf, struct kvm_xsave)
+>
+> +#define KVM_S390_PV_CPU_COMMAND _IOWR(KVMIO, 0xd0, struct kvm_pv_cmd)
+> +
+>  #endif /* __LINUX_KVM_H */
+> --
+> 2.34.1
+>
 
 
