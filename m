@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BFB573AFE
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:17:40 +0200 (CEST)
-Received: from localhost ([::1]:33742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F401573AED
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:13:41 +0200 (CEST)
+Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBf3T-0002eU-ED
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:17:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36188)
+	id 1oBezb-0006E7-WF
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oBepz-0003Ku-KQ
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:03:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oBepx-00049i-Sn
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:03:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657728218;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bQB2iPaNTWCGvdYsCTdcA/Uz3rGA0rxs51Q5VJV5Qpw=;
- b=D9INkgmsa1u6SE+PCvDIuPdgZqaTP8jLWZf8pWS+WJobx9ivUKveLkioy5K6JtmFR0rEqH
- Hl2/n54/aEz4zrHcjA6fwnXbTBduDDESBkNfnb/tXfImQWK85wpZMX46+QqQwIM3egYaVS
- 6L76nLnGZgvj15+1fPswXJh5vBuZAqA=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-HrZxspwKM5SJ6tyXEtVXcg-1; Wed, 13 Jul 2022 12:03:37 -0400
-X-MC-Unique: HrZxspwKM5SJ6tyXEtVXcg-1
-Received: by mail-oi1-f199.google.com with SMTP id
- ay32-20020a056808302000b002f96abff093so7208395oib.23
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 09:03:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oBeqe-0003wu-Kt
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:04:24 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:45608)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oBeqa-00050G-VM
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:04:23 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ q5-20020a17090a304500b001efcc885cc4so4338692pjl.4
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 09:04:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ro+8T8kaynX7HF7OB0HKt8+YpbSwjw/MEWcFiToYUJM=;
+ b=GcWhoe722wn0dnZUGgO1TARZDDeQCBAPI0iwbb2/lgCHq75REcHMzZ4yJ5SHBWOe4C
+ xPQOEpyVTftgNpmDO1lAJ0nHLJrYUTTHAEulytX7lBj1zD2FMH3HK7sw27VZ6W8Qj5DD
+ Y8IX600TIliXlHyr+fdSlDgAv3CH/8fvMsXUya6WaHbwtq5wLiYGgD3jS9AtBxqtq3Z5
+ NkfN5mZpwCVw4pOOMf4d6Ui8/s4Jt6AHHbyhDsxNn9YiE7VsYQUTk2duKDiHg0szXo/w
+ Jo5bUNVw6NWbTbnhsNCfBopyBLC6+bzGyYiQUU9xsIdgHRqR+xMpKyl+g0e2RwhwIPT+
+ aujQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bQB2iPaNTWCGvdYsCTdcA/Uz3rGA0rxs51Q5VJV5Qpw=;
- b=EXVSfeceTft4hr8L5699c6AS3fFBWmoXze5lxgDetACJ/6fGOFNiRrH/J1Vu1UNltp
- BoDpZSJrOayjFXCJAEbTdzHuo6ChfAmClQK2Oruy6l8kRe5osy8ZffizvWhMQsniRDI6
- j/X3wpNaEqJj2yW1V3ihUe0UNUZcH9maRu0izdyEvkhUlWE9wYCA8tBBhPMWElxOUTKw
- p2ME+Ndu8RgdBfyw+fD4tMq+WeOfwUpv+lRlBAt1cqsFEUu+uj8CxrOLP/NGmehFT9Ok
- VmF+sZJZKCWHFHCGPrMkkhmXcvoCPWhE/raqEE5ia5Oz1TAIwzLWBttMfLX3+labDw+J
- vp7Q==
-X-Gm-Message-State: AJIora+APiiH9oyb876xH2QIe4QxIHtipNrQ+SIb9iQYypFXqJILM7lM
- lsSi6mVPCBmKRzdRjkoHDD8YY+XmCKJEA9wqyrUJ0FBkfAH50Qqj89uYd3xLkt/5qEcBcJTSMGx
- e5hxl3zUFJt3GdFREroHktc/L9lcfRXM=
-X-Received: by 2002:a05:6808:d4f:b0:339:afb0:ccce with SMTP id
- w15-20020a0568080d4f00b00339afb0cccemr2197154oik.53.1657728216904; 
- Wed, 13 Jul 2022 09:03:36 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tWOzAd6DaDzU/MPrbmXI8uVsCQyHHG/jcuG40AsI+HUeg8h+orhsw0GXZet3h+nRoWvbxy0634QjsxuT6yEkQ=
-X-Received: by 2002:a05:6808:d4f:b0:339:afb0:ccce with SMTP id
- w15-20020a0568080d4f00b00339afb0cccemr2197138oik.53.1657728216727; Wed, 13
- Jul 2022 09:03:36 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ro+8T8kaynX7HF7OB0HKt8+YpbSwjw/MEWcFiToYUJM=;
+ b=DypLJJoWytPvbBaTrXJvkkigiDlrSMRdegNwkKFR1tm7DKykiJtrK9eZDeLU1LCEYT
+ I1tDGbFGA0zjSyEfD0RobUFKrGEbr6qU3JL3ZcLNVJwEt0Ys6WPGUdDY7kgBisWu1SpC
+ W1BBhirwoS5y47Z0iKlD73xR13/QcEewyz0fAQgJujw/dg4/3QwOlBdp9zKl8DrxGjXz
+ DF5QaPen2EH+hhVvfDFyCybJOjVcBImfWFvnJlDowEXkYxltFfRnuPrtHn+cAJswsGSb
+ v1shhOiDExiVTMp/wkZDAJjr2yxaHXUZSzuj7wlQjnP7owH9ZBF7qr9tiwMyJDZtlCz3
+ MK2g==
+X-Gm-Message-State: AJIora+gQKqBgGQPNnc2wTO9AnIIf4ZpWICX/BeX25Zp9v/68PxGUK5t
+ Yp2QdJSEmHulDl/2+2V0B6+LSw==
+X-Google-Smtp-Source: AGRyM1tQGjnRpzYWfHz13TM+EUxKMi8En8y0kkEanMYqXq930rDm8cFW1lpUGkBYL29haZoWbvgvig==
+X-Received: by 2002:a17:90a:6741:b0:1ef:7f62:6cd1 with SMTP id
+ c1-20020a17090a674100b001ef7f626cd1mr4440868pjm.89.1657728259405; 
+ Wed, 13 Jul 2022 09:04:19 -0700 (PDT)
+Received: from [192.168.138.227] ([202.124.167.115])
+ by smtp.gmail.com with ESMTPSA id
+ n2-20020a170902968200b00165105518f6sm8974957plp.287.2022.07.13.09.04.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jul 2022 09:04:19 -0700 (PDT)
+Message-ID: <b7ca2b86-99f8-2946-5c6d-02c8c893a77f@linaro.org>
+Date: Wed, 13 Jul 2022 21:34:12 +0530
 MIME-Version: 1.0
-References: <20220713130322.25517-1-frankja@linux.ibm.com>
- <20220713130322.25517-8-frankja@linux.ibm.com>
-In-Reply-To: <20220713130322.25517-8-frankja@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 13 Jul 2022 20:03:25 +0400
-Message-ID: <CAMxuvaxB==Cg3hkGjNHH8=rm3iJA8+rWACk2rkMz3fZ_zgAMsA@mail.gmail.com>
-Subject: Re: [PATCH v2 07/11] linux header sync
-To: Janosch Frank <frankja@linux.ibm.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
- mhartmay@linux.ibm.com, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, imbrenda@linux.ibm.com, 
- Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, "Henderson,
- Richard" <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 3/5] target/loongarch/cpu: Fix coverity errors about
+ excp_names
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
+ mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
+ peter.maydell@linaro.org
+References: <20220713095036.705102-1-yangxiaojuan@loongson.cn>
+ <20220713095036.705102-4-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220713095036.705102-4-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,113 +97,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank <frankja@linux.ibm.com> wrote=
-:
->
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-
-Please tell which version this update come from. Otherwise, it should be fi=
-ne
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
+On 7/13/22 15:20, Xiaojuan Yang wrote:
+> Fix out-of-bounds errors when access excp_names[] array. the valid
+> boundary size of excp_names should be 0 to ARRAY_SIZE(excp_names)-1.
+> However, the general code do not consider the max boundary.
+> 
+> Fix coverity CID: 1489758
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 > ---
->  linux-headers/linux/kvm.h | 55 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
->
-> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-> index 0d05d02ee4..ae5db2e44c 100644
-> --- a/linux-headers/linux/kvm.h
-> +++ b/linux-headers/linux/kvm.h
-> @@ -1150,6 +1150,7 @@ struct kvm_ppc_resize_hpt {
->  #define KVM_CAP_DISABLE_QUIRKS2 213
->  /* #define KVM_CAP_VM_TSC_CONTROL 214 */
->  #define KVM_CAP_SYSTEM_EVENT_DATA 215
-> +#define KVM_CAP_S390_PROTECTED_DUMP 217
->
->  #ifdef KVM_CAP_IRQ_ROUTING
->
-> @@ -1651,6 +1652,55 @@ struct kvm_s390_pv_unp {
->         __u64 tweak;
->  };
->
-> +enum pv_cmd_info_id {
-> +       KVM_PV_INFO_VM,
-> +       KVM_PV_INFO_DUMP,
-> +};
-> +
-> +struct kvm_s390_pv_info_dump {
-> +       __u64 dump_cpu_buffer_len;
-> +       __u64 dump_config_mem_buffer_per_1m;
-> +       __u64 dump_config_finalize_len;
-> +};
-> +
-> +struct kvm_s390_pv_info_vm {
-> +       __u64 inst_calls_list[4];
-> +       __u64 max_cpus;
-> +       __u64 max_guests;
-> +       __u64 max_guest_addr;
-> +       __u64 feature_indication;
-> +};
-> +
-> +struct kvm_s390_pv_info_header {
-> +       __u32 id;
-> +       __u32 len_max;
-> +       __u32 len_written;
-> +       __u32 reserved;
-> +};
-> +
-> +struct kvm_s390_pv_info {
-> +       struct kvm_s390_pv_info_header header;
-> +       union {
-> +               struct kvm_s390_pv_info_dump dump;
-> +               struct kvm_s390_pv_info_vm vm;
-> +       };
-> +};
-> +
-> +enum pv_cmd_dmp_id {
-> +        KVM_PV_DUMP_INIT,
-> +        KVM_PV_DUMP_CONFIG_STATE,
-> +        KVM_PV_DUMP_COMPLETE,
-> +        KVM_PV_DUMP_CPU,
-> +};
-> +
-> +struct kvm_s390_pv_dmp {
-> +        __u64 subcmd;
-> +        __u64 buff_addr;
-> +        __u64 buff_len;
-> +        __u64 gaddr;
-> +        __u64 reserved[4];
-> +};
-> +
->  enum pv_cmd_id {
->         KVM_PV_ENABLE,
->         KVM_PV_DISABLE,
-> @@ -1659,6 +1709,8 @@ enum pv_cmd_id {
->         KVM_PV_VERIFY,
->         KVM_PV_PREP_RESET,
->         KVM_PV_UNSHARE_ALL,
-> +        KVM_PV_INFO,
-> +        KVM_PV_DUMP,
->  };
->
->  struct kvm_pv_cmd {
-> @@ -1733,6 +1785,7 @@ struct kvm_xen_vcpu_attr {
->  #define KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_DATA   0x4
->  #define KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST 0x5
->
-> +
->  /* Secure Encrypted Virtualization command */
->  enum sev_cmd_id {
->         /* Guest initialization commands */
-> @@ -2066,4 +2119,6 @@ struct kvm_stats_desc {
->  /* Available with KVM_CAP_XSAVE2 */
->  #define KVM_GET_XSAVE2           _IOR(KVMIO,  0xcf, struct kvm_xsave)
->
-> +#define KVM_S390_PV_CPU_COMMAND _IOWR(KVMIO, 0xd0, struct kvm_pv_cmd)
-> +
->  #endif /* __LINUX_KVM_H */
-> --
-> 2.34.1
->
+>   target/loongarch/cpu.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+
+I gave you a reviewed-by for this patch in v1.
+You must copy those into v2 so that I don't have to do it again.
+
+
+r~
+
+> 
+> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+> index ed26f9beed..89ea971cde 100644
+> --- a/target/loongarch/cpu.c
+> +++ b/target/loongarch/cpu.c
+> @@ -140,7 +140,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
+>   
+>       if (cs->exception_index != EXCCODE_INT) {
+>           if (cs->exception_index < 0 ||
+> -            cs->exception_index > ARRAY_SIZE(excp_names)) {
+> +            cs->exception_index >= ARRAY_SIZE(excp_names)) {
+>               name = "unknown";
+>           } else {
+>               name = excp_names[cs->exception_index];
+> @@ -190,8 +190,8 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
+>           cause = cs->exception_index;
+>           break;
+>       default:
+> -        qemu_log("Error: exception(%d) '%s' has not been supported\n",
+> -                 cs->exception_index, excp_names[cs->exception_index]);
+> +        qemu_log("Error: exception(%d) has not been supported\n",
+> +                 cs->exception_index);
+>           abort();
+>       }
+>   
 
 
