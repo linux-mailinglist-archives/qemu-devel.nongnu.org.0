@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C860573E5A
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:56:37 +0200 (CEST)
-Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1588B573E25
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:49:43 +0200 (CEST)
+Received: from localhost ([::1]:40168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBjPQ-0003g6-Ir
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55916)
+	id 1oBjIj-0002mP-5x
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:49:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@codethink.co.uk>)
- id 1oBg9w-00044N-8M; Wed, 13 Jul 2022 13:28:24 -0400
-Received: from imap5.colo.codethink.co.uk ([78.40.148.171]:53198)
+ id 1oBfwG-0006Ys-IB; Wed, 13 Jul 2022 13:14:16 -0400
+Received: from imap4.hz.codethink.co.uk ([188.40.203.114]:48444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@codethink.co.uk>)
- id 1oBg9u-0006uS-Hi; Wed, 13 Jul 2022 13:28:23 -0400
+ id 1oBfw9-00038p-L3; Wed, 13 Jul 2022 13:14:15 -0400
 Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
  ([86.15.83.122] helo=rainbowdash)
- by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
- id 1oBfdU-003eoU-Hg; Wed, 13 Jul 2022 17:54:51 +0100
+ by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+ id 1oBfdU-003M8q-19; Wed, 13 Jul 2022 17:54:51 +0100
 Received: from ben by rainbowdash with local (Exim 4.96)
- (envelope-from <ben@rainbowdash>) id 1oBfdS-0009kx-1t;
+ (envelope-from <ben@rainbowdash>) id 1oBfdS-0009l1-1y;
  Wed, 13 Jul 2022 17:54:50 +0100
 From: Ben Dooks <ben.dooks@sifive.com>
 To: qemu-devel@nongnu.org
@@ -31,24 +31,25 @@ Cc: qemu-arm@nongnu.org, Jude Onyenegecha <jude.onyenegecha@sifive.com>,
  William Salmon <william.salmon@sifive.com>,
  Adnan Chowdhury <adnan.chowdhury@sifive.com>,
  Ben Dooks <ben.dooks@sifive.com>
-Subject: [PATCH 5/7] pci: designware: move msi to entry 5
-Date: Wed, 13 Jul 2022 17:54:47 +0100
-Message-Id: <20220713165449.37433-6-ben.dooks@sifive.com>
+Subject: [PATCH 6/7] pci: designware: correct host's class_id
+Date: Wed, 13 Jul 2022 17:54:48 +0100
+Message-Id: <20220713165449.37433-7-ben.dooks@sifive.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220713165449.37433-1-ben.dooks@sifive.com>
 References: <20220713165449.37433-1-ben.dooks@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=78.40.148.171; envelope-from=ben@codethink.co.uk;
- helo=imap5.colo.codethink.co.uk
+Received-SPF: pass client-ip=188.40.203.114; envelope-from=ben@codethink.co.uk;
+ helo=imap4.hz.codethink.co.uk
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
 X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 13 Jul 2022 16:45:29 -0400
+X-Mailman-Approved-At: Wed, 13 Jul 2022 16:45:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,42 +64,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The driver should leave irq[0..3] for INT[A..D] but seems to put the
-MSI IRQ at entry 3 which should also be INT_D. Extend the irqs[] array
-to 5 entires and put the MSI at entry irqs[4].
+This is a host to pcie bridge, so use PCI_CLASS_BRIDGE_HOST
+for the class.
 
 Signed-off-by: Ben Dooks <ben.dooks@sifive.com>
 ---
- hw/pci-host/designware.c         | 2 +-
- include/hw/pci-host/designware.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/pci-host/designware.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-index 947547d153..b5d5b2b8a5 100644
+index b5d5b2b8a5..a47ae48071 100644
 --- a/hw/pci-host/designware.c
 +++ b/hw/pci-host/designware.c
-@@ -56,7 +56,7 @@
- #define DESIGNWARE_PCIE_ATU_UPPER_TARGET           0x91C
- #define DESIGNWARE_PCIE_ATU_UPPER_LIMIT            0x924
- 
--#define DESIGNWARE_PCIE_IRQ_MSI                    3
-+#define DESIGNWARE_PCIE_IRQ_MSI                    4
- 
- static DesignwarePCIEHost *
- designware_pcie_root_to_host(DesignwarePCIERoot *root)
-diff --git a/include/hw/pci-host/designware.h b/include/hw/pci-host/designware.h
-index bd4dd49aec..37f90c5000 100644
---- a/include/hw/pci-host/designware.h
-+++ b/include/hw/pci-host/designware.h
-@@ -90,7 +90,7 @@ struct DesignwarePCIEHost {
-         MemoryRegion memory;
-         MemoryRegion io;
- 
--        qemu_irq     irqs[4];
-+        qemu_irq     irqs[5];
-     } pci;
- 
-     MemoryRegion mmio;
+@@ -615,7 +615,7 @@ static void designware_pcie_root_class_init(ObjectClass *klass, void *data)
+     k->vendor_id = PCI_VENDOR_ID_SYNOPSYS;
+     k->device_id = 0xABCD;
+     k->revision = 0;
+-    k->class_id = PCI_CLASS_BRIDGE_PCI;
++    k->class_id = PCI_CLASS_BRIDGE_HOST;
+     k->is_bridge = true;
+     k->exit = pci_bridge_exitfn;
+     k->realize = designware_pcie_root_realize;
 -- 
 2.35.1
 
