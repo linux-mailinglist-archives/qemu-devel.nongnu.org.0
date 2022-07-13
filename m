@@ -2,95 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09E6572DC0
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 07:55:02 +0200 (CEST)
-Received: from localhost ([::1]:40764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAAB572DDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 08:04:38 +0200 (CEST)
+Received: from localhost ([::1]:43618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBVKv-0003E9-Q6
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 01:55:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37762)
+	id 1oBVUD-0005mo-92
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 02:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oBVI3-0001hr-HV
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 01:52:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50756)
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1oBVS1-0004El-Kq
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 02:02:21 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:6083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oBVI0-0005s5-PY
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 01:52:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657691519;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IloaNFRcEAT6V5SqsAHtbCg5xK2ecqDAHsTk7D5DNXE=;
- b=dM3cYuXH1MbUPJgORgeasitcOVpEc6yCzGzPvCKFb2fHLtcQ5GOXz71cPNeQbDi9TTzSAA
- /+i38ptF9cUyXk+BxTTQ3bJLBSY44+DGHCh/BqYbgNm7uPOWNZcQ1iJTLBKjpk4NEiC1Ne
- xLuqhTr/j/krD5gh5P1CGD9TW4d5qsg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-418--6NyBi2ZO6SDCpzzeRpjuA-1; Wed, 13 Jul 2022 01:51:57 -0400
-X-MC-Unique: -6NyBi2ZO6SDCpzzeRpjuA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c17-20020a7bc011000000b003a2bfaf8d3dso5095915wmb.0
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 22:51:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=IloaNFRcEAT6V5SqsAHtbCg5xK2ecqDAHsTk7D5DNXE=;
- b=uTZbRph89ujG85WG5OMFkg6YhwpGcVz+ys+4belO1lTEcG31nESEjz42AQNvq76Jrd
- JYgJwBbtydX2TXDr9XMLJ1bfaSMAntX/yjtzK2zB2CwmGORqIAN+1P8wxrSFJf5omKZB
- pk93Abuxd/JiRurR/yHrtG4328aoh5cr1cJcsfLGt+UoXIvYrwna2clwrMOBWooLMUYM
- ovistouPDadSPTfM+5+ylceRb8k/clxtbB8V/aNmojZ7vYQaTytUvJ1exlJYsRA4HcVH
- F/gyRcsA8l+Ew6A/z+QhDZ3SvA0UGqVUtpQ/VZSoMf/uxyjbnF3NejE2gZ7q++rsl8HL
- UGWQ==
-X-Gm-Message-State: AJIora9GiEvwv2eEXL5IH0yH3SqOx9/WRIIoPX39PUgm95m0oA7yNWv0
- SJG3HODUiTpJJgW8cM+oSVvx/MJwjN7dXm3c45fVbXGrGc35PPIl2rfGsMKMp23l38Ky0ON3/EI
- rMk3xc/nG5rnsWwM=
-X-Received: by 2002:adf:e84c:0:b0:21d:83ed:2ce with SMTP id
- d12-20020adfe84c000000b0021d83ed02cemr1417401wrn.582.1657691516230; 
- Tue, 12 Jul 2022 22:51:56 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tOKd5rTHw7OBVD3wnBWL75ZxEzgC32Oa7Recv+0NVQHWKu2HgLBebIpf5xbU/OkJT6IH/Deg==
-X-Received: by 2002:adf:e84c:0:b0:21d:83ed:2ce with SMTP id
- d12-20020adfe84c000000b0021d83ed02cemr1417380wrn.582.1657691515983; 
- Tue, 12 Jul 2022 22:51:55 -0700 (PDT)
-Received: from redhat.com ([2.52.24.42]) by smtp.gmail.com with ESMTPSA id
- j21-20020a05600c405500b0039c811077d3sm998502wmm.22.2022.07.12.22.51.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jul 2022 22:51:55 -0700 (PDT)
-Date: Wed, 13 Jul 2022 01:51:51 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>,
- Markus Armbruster <armbru@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Eric Blake <eblake@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: Re: [RFC PATCH v9 03/23] vdpa: delay set_vring_ready after DRIVER_OK
-Message-ID: <20220713014746-mutt-send-email-mst@kernel.org>
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-4-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1oBVRy-0006Ks-7S
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 02:02:20 -0400
+Received: from kwepemi500016.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LjRkY2gqlzVfp7;
+ Wed, 13 Jul 2022 13:58:29 +0800 (CST)
+Received: from [10.40.193.166] (10.40.193.166) by
+ kwepemi500016.china.huawei.com (7.221.188.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 13 Jul 2022 14:02:10 +0800
+Subject: Re: [QUESTION] Exception print when enabling GICv4
+To: Marc Zyngier <maz@kernel.org>
+References: <6d6d61fb-6241-4e1e-ddff-8ae8be96f9ff@hisilicon.com>
+ <87bktu1hfj.wl-maz@kernel.org>
+CC: Alex Williamson <alex.williamson@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, chenxiang via <qemu-devel@nongnu.org>, linux-kernel
+ <linux-kernel@vger.kernel.org>
+Message-ID: <13e4fde9-05e9-f492-a2b6-20d567eb2920@hisilicon.com>
+Date: Wed, 13 Jul 2022 14:02:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <87bktu1hfj.wl-maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220706184008.1649478-4-eperezma@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Originating-IP: [10.40.193.166]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi500016.china.huawei.com (7.221.188.220)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=chenxiang66@hisilicon.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,96 +67,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "chenxiang (M)" <chenxiang66@hisilicon.com>
+From:  "chenxiang (M)" via <qemu-devel@nongnu.org>
 
-On Wed, Jul 06, 2022 at 08:39:48PM +0200, Eugenio Pérez wrote:
-> To restore the device in the destination of a live migration we send the
-> commands through control virtqueue. For a device to read CVQ it must
-> have received DRIVER_OK status bit.
-> 
-> However this open a window where the device could start receiving
-> packets in rx queue 0 before it receive the RSS configuration. To avoid
-> that, we will not send vring_enable until all configuration is used by
-> the device.
-> 
-> As a first step, reverse the DRIVER_OK and SET_VRING_ENABLE steps.
-> 
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Hi Marc,
 
-Not a comment on this patch specifically, but generally:
+Thank you for your reply.
 
-You should know that lots of existing drivers are buggy and
-try to poke at the VQs before DRIVER_OK. We are doing our best
-to fix them but it's taking forever. For now it's a good
-idea to support such drivers even if they are out of spec.
-You do that by starting on the first kick in absence of DRIVER_OK.
-Further, adding buffers before DRIVER_OK is actually allowed,
-as long as you don't kick.
+åœ¨ 2022/7/12 23:25, Marc Zyngier å†™é“:
+> Hi Xiang,
+>
+> On Tue, 12 Jul 2022 13:55:16 +0100,
+> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
+>> Hi,
+>> I encounter a issue related to GICv4 enable on ARM64 platform (kernel
+>> 5.19-rc4, qemu 6.2.0):
+>> We have a accelaration module whose VF has 3 MSI interrupts, and we
+>> passthrough it to virtual machine with following steps:
+>>
+>> echo 0000:79:00.1 > /sys/bus/pci/drivers/hisi_hpre/unbind
+>> echo vfio-pci >
+>> /sys/devices/pci0000\:78/0000\:78\:00.0/0000\:79\:00.1/driver_override
+>> echo 0000:79:00.1 > /sys/bus/pci/drivers_probe
+>>
+>> Then we boot VM with "-device vfio-pci,host=79:00.1,id=net0 \".
+>> When insmod the driver which registers 3 PCI MSI interrupts in VM,
+>> some exception print occur as following:
+>>
+>> vfio-pci 0000:3a:00.1: irq bypass producer (token 000000008f08224d)
+>> registration fails: 66311
+>>
+>> I find that bit[6:4] of register PCI_MSI_FLAGS is 2 (4 MSI interrupts)
+>> though we only register 3 PCI MSI interrupt,
+>>
+>> and only 3 MSI interrupt is activated at last.
+>> It allocates 4 vectors in function vfio_msi_enable() (qemu)  as it
+>> reads the register PCI_MSI_FLAGS.
+>> Later it will  call system call VFIO_DEVICE_SET_IRQS to set forwarding
+>> for those interrupts
+>> using function kvm_vgic_v4_set_forrwarding() as GICv4 is enabled. For
+>> interrupt 0~2, it success to set forwarding as they are already
+>> activated,
+>> but for the 4th interrupt, it is not activated, so ite is not found in
+>> function vgic_its_resolve_lpi(), so above printk occurs.
+>>
+>> It seems that we only allocate and activate 3 MSI interrupts in guest
+>> while it tried to set forwarding for 4 MSI interrupts in host.
+>> Do you have any idea about this issue?
+> I have a hunch: QEMU cannot know that the guest is only using 3 MSIs
+> out of the 4 that the device can use, and PCI/Multi-MSI only has a
+> single enable bit for all MSIs. So it probably iterates over all
+> possible MSIs and enable the forwarding. Since the guest has only
+> created 3 mappings in the virtual ITS, the last call fails. I would
+> expect the guest to still work properly though.
 
+Yes, that's the reason of exception print.
+Is it possible for QEMU to get the exact number of interrupts guest is 
+using? It seems not.
 
-> ---
->  hw/virtio/vhost-vdpa.c | 22 ++++++++++++++++------
->  1 file changed, 16 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 66f054a12c..2ee8009594 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -728,13 +728,18 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
->      return idx;
->  }
->  
-> +/**
-> + * Set ready all vring of the device
-> + *
-> + * @dev: Vhost device
-> + */
->  static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
->  {
->      int i;
->      trace_vhost_vdpa_set_vring_ready(dev);
-> -    for (i = 0; i < dev->nvqs; ++i) {
-> +    for (i = 0; i < dev->vq_index_end; ++i) {
->          struct vhost_vring_state state = {
-> -            .index = dev->vq_index + i,
-> +            .index = i,
->              .num = 1,
->          };
->          vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
-> @@ -1097,7 +1102,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->          if (unlikely(!ok)) {
->              return -1;
->          }
-> -        vhost_vdpa_set_vring_ready(dev);
->      } else {
->          ok = vhost_vdpa_svqs_stop(dev);
->          if (unlikely(!ok)) {
-> @@ -1111,16 +1115,22 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->      }
->  
->      if (started) {
-> +        int r;
-> +
->          memory_listener_register(&v->listener, &address_space_memory);
-> -        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-> +        r = vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-> +        if (unlikely(r)) {
-> +            return r;
-> +        }
-> +        vhost_vdpa_set_vring_ready(dev);
->      } else {
->          vhost_vdpa_reset_device(dev);
->          vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->                                     VIRTIO_CONFIG_S_DRIVER);
->          memory_listener_unregister(&v->listener);
-> -
-> -        return 0;
->      }
-> +
-> +    return 0;
->  }
->  
->  static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
-> -- 
-> 2.31.1
+>
+> Thanks,
+>
+> 	M.
+>
 
 
