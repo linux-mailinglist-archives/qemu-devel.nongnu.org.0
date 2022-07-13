@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32DB573D7D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:02:50 +0200 (CEST)
-Received: from localhost ([::1]:44860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B45A9573D90
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:07:18 +0200 (CEST)
+Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBiZN-0001DP-Dv
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:02:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58652)
+	id 1oBidh-0003Cj-MB
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:07:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1oBiWc-0007wg-IC
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 15:59:59 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:43370 helo=mga06.intel.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1oBiWZ-0007e4-V7
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 15:59:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657742395; x=1689278395;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=MtoDHHwGnEDLxzW172rCu6+iTbmmLqErdj6IiNLgq1w=;
- b=hgm8W9lqMt+r0J39YI3SRu/eqAA09IQhohXPggHFv1kgyDnPDYpSL+Ww
- nlMiXkOq9dDGwuI0db2gi8gc6FqZec4tPzzJmpjYmqNPVltJkoO/Pw+8E
- mf/BjRwLNorJm8OYt3eJlR6Uh4u3tguU4JfBvEs3LCcuPF5fAhkrlJQd4
- BMCM+G5nGPyDaKlVCmYB8l6jgP+lTstcPnu6qYT1R1WOCZUF/4L9OZ2c3
- bKTCXczDreb58AALpiteD9MHqxhlqI9yMXfP/PJ1RcIhlW6zJwRmTg0iI
- nvNFChFswpQEo0kDj5z42TD/Yw2mKkf2+e7mJ6tK4mnYSpW7EhI7ZpDqS Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="347014397"
-X-IronPort-AV: E=Sophos;i="5.92,267,1650956400"; d="scan'208";a="347014397"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2022 12:59:49 -0700
-X-IronPort-AV: E=Sophos;i="5.92,267,1650956400"; d="scan'208";a="545987183"
-Received: from dongwonk-mobl.amr.corp.intel.com ([10.121.200.211])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2022 12:59:49 -0700
-Date: Wed, 13 Jul 2022 12:59:47 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, kraxel@redhat.com,
- pbonzini@redhat.com, f4bug@amsat.org, vivek.kasireddy@intel.com
-Subject: Re: [PATCH v4 2/2] ui/gtk: a new array param monitor to specify the
- target displays
-Message-ID: <20220713195947.GA53@dongwonk-MOBL.amr.corp.intel.com>
-References: <20220711233959.32219-1-dongwon.kim@intel.com>
- <20220711233959.32219-3-dongwon.kim@intel.com>
- <87ilo2uagz.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oBicR-0001iS-Fs; Wed, 13 Jul 2022 16:05:59 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:46874)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oBicP-0003Gg-Tr; Wed, 13 Jul 2022 16:05:59 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1013ecaf7e0so15356113fac.13; 
+ Wed, 13 Jul 2022 13:05:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=GAqfgMkKW2nIE0HEh9X9FRtdIUtXgNbZ78b9tJC6tEY=;
+ b=KEGVhvzUPG0wEb7Ai8d45vPc0oX5Ylo6IvLUIviemj6kOcv9E24Q91qfSPPmHrPTPT
+ +uHCGH6ACn2M6CMSq35OuTLntKeI/oIXveRBYvioqJ1ibPz/UHEOW1KCmny+LsOawEIh
+ 737j4HcuN5bXl78ebcV60g2GoQ6vGOq1kVsaEf9OGDYwjI3ieIhPDMh6gBQIWDjE/N5+
+ PhIFTZGwLbWo5wZ/vUKgc+szf0zOpVAl8fHBOBKmDnEf0xUertLprVFQuG7OwohWK5Nl
+ 2MxtS1lPe8SiQlD0jGRFKbBTFZkpkMORSiSqI7aCySr/OCWZEYFCf84rw47AViMworlw
+ XmGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GAqfgMkKW2nIE0HEh9X9FRtdIUtXgNbZ78b9tJC6tEY=;
+ b=g30nMpjbbYGkuqcmG0+SoanIC9q5Tf3mdcM0g/Gwa6z+FCsBGcPS+6blD87O8gIcUr
+ 3azdBGv4cXVnjsuHt6pK8bxdQdcLoZ0C71347i8/KFThmvU3aQdZepMVFI+JO5i08bKC
+ xZ1vsKPn+2fC9IMh//QEmgYmQGGzf2Rzs1BleAj5skBcbZRQ1GWfpsHJnQKnxLA3ll1Q
+ cld6/1b+uXs9iGuuyF/5MTVoBLgLhY9YWGKJHXSR/0l4w3BHz27FE9Is6rTyB/Tx9qW1
+ oPVSQFD3mY1Z0TTWeUFCfAN56xfYER/hUz4ELS0VcFWwN72JPvMPwpD8NxLe2VC6tlfJ
+ BWmA==
+X-Gm-Message-State: AJIora89/0RYb/tZEB9J2K/Oxt4praW5a5g0m8V8yd2NeDc8VlgwTiv4
+ ouwjdOhsdNtw6o4qPIm/wAU=
+X-Google-Smtp-Source: AGRyM1tA3PbIFlUml5bLWzaOW8A+X2GQR1dXlFXsTF55jufg9kooKAAq5hXm081EBIyHbUYu23+1VQ==
+X-Received: by 2002:a05:6870:c10f:b0:10c:f0e:fd2a with SMTP id
+ f15-20020a056870c10f00b0010c0f0efd2amr2736977oad.84.1657742756103; 
+ Wed, 13 Jul 2022 13:05:56 -0700 (PDT)
+Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
+ [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
+ p203-20020acaf1d4000000b0032b99637366sm5629707oih.25.2022.07.13.13.05.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jul 2022 13:05:55 -0700 (PDT)
+Message-ID: <c0324023-1fbb-f7de-f9d3-a8a1722da14e@gmail.com>
+Date: Wed, 13 Jul 2022 17:05:51 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87ilo2uagz.fsf@pond.sub.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.31;
- envelope-from=dongwon.kim@intel.com; helo=mga06.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 2/6] target/ppc: fix exception error value in slbfee
+Content-Language: en-US
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ farosas@linux.ibm.com, laurent@vivier.eu
+References: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
+ <20220627141104.669152-3-matheus.ferst@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220627141104.669152-3-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,82 +95,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 12, 2022 at 08:11:08AM +0200, Markus Armbruster wrote:
-> Dongwon Kim <dongwon.kim@intel.com> writes:
-> 
-> > New integer array parameter, 'monitor' is for specifying the target
-> > monitors where individual GTK windows are placed upon launching.
-> >
-> > Monitor numbers in the array are associated with virtual consoles
-> > in the order of [VC0, VC1, VC2 ... VCn].
-> >
-> > Every GTK window containing each VC will be placed in the region
-> > of corresponding monitors.
-> >
-> > Usage: -display gtk,monitor.<id of VC>=<target monitor>,..
-> >        ex)-display gtk,monitor.0=1,monitor.1=0
-> >
-> > Cc: Daniel P. Berrangé <berrange@redhat.com>
-> > Cc: Markus Armbruster <armbru@redhat.com>
-> > Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-> > ---
-> >  qapi/ui.json    |  9 ++++++++-
-> >  qemu-options.hx |  3 ++-
-> >  ui/gtk.c        | 30 ++++++++++++++++++++++++++++--
-> >  3 files changed, 38 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/qapi/ui.json b/qapi/ui.json
-> > index 413371d5e8..ee0f9244ef 100644
-> > --- a/qapi/ui.json
-> > +++ b/qapi/ui.json
-> > @@ -1195,12 +1195,19 @@
-> >  #               assuming the guest will resize the display to match
-> >  #               the window size then.  Otherwise it defaults to "off".
-> >  #               Since 3.1
-> > +# @monitor:     Array of numbers, each of which represents physical
-> > +#               monitor where GTK window containing a given VC will be
-> > +#               placed. Each monitor number in the array will be
-> > +#               associated with a virtual console starting from VC0.
-> > +#
-> > +#               since 7.1
-> 
-> I dislike repeating the type (here: array of numbers) in the
-> description.
-> 
-> Suggest something like
-> 
->    # @monitor:     List of physical monitor numbers where the GTK windows
->    #               containing the virtual consoles VC0, VC1, ... are to be
->    #               placed.  (Since 7.1)
-> 
-> Missing: what happens when there are more VCs than list elements.  Can
-> you tell us?
 
-    # @monitor:     List of physical monitor numbers where the GTK windows
-    #               containing the virtual consoles VC0, VC1, ... are to be
-    #               placed. If a mapping exists for a VC, then it'd be
-    #               placed on that specific physical monitor; otherwise,
-    #               it'd default to the monitor from where it was launched
-    #               since 7.1
 
-How does this look?
+On 6/27/22 11:11, Matheus Ferst wrote:
+> Testing on a POWER9 DD2.3, we observed that the Linux kernel delivers a
+> signal with si_code ILL_PRVOPC (5) when a userspace application tries to
+> use slbfee. To obtain this behavior on linux-user, we should use
+> POWERPC_EXCP_PRIV with POWERPC_EXCP_PRIV_OPC.
 > 
-> >  #
-> >  # Since: 2.12
-> >  ##
-> >  { 'struct'  : 'DisplayGTK',
-> >    'data'    : { '*grab-on-hover' : 'bool',
-> > -                '*zoom-to-fit'   : 'bool'  } }
-> > +                '*zoom-to-fit'   : 'bool',
-> > +                '*monitor'       : ['uint16']  } }
-> >  
-> >  ##
-> >  # @DisplayEGLHeadless:
+> No functional change is intended for softmmu targets as
+> gen_hvpriv_exception uses the same 'exception' argument
+> (POWERPC_EXCP_HV_EMU) for raise_exception_*, and the powerpc_excp_*
+> methods do not use lower bits of the exception error code when handling
+> POWERPC_EXCP_{INVAL,PRIV}.
 > 
-> [...]
+> Reported-by: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   target/ppc/translate.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 55f34eb490..d7e5670c20 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -5386,12 +5386,12 @@ static void gen_slbmfev(DisasContext *ctx)
+>   static void gen_slbfee_(DisasContext *ctx)
+>   {
+>   #if defined(CONFIG_USER_ONLY)
+> -    gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
+> +    gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
+>   #else
+>       TCGLabel *l1, *l2;
+>   
+>       if (unlikely(ctx->pr)) {
+> -        gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
+> +        gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
+>           return;
+>       }
+>       gen_helper_find_slb_vsid(cpu_gpr[rS(ctx->opcode)], cpu_env,
 
