@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BD0572A78
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 02:54:12 +0200 (CEST)
-Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3334572A7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 02:56:47 +0200 (CEST)
+Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBQdn-000490-FK
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 20:54:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43762)
+	id 1oBQgJ-0005hw-1X
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jul 2022 20:56:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oBQbX-0002e6-Ho; Tue, 12 Jul 2022 20:51:51 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:44953)
+ id 1oBQdr-0004Db-Tn; Tue, 12 Jul 2022 20:54:15 -0400
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:36855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oBQbU-0005c5-Nk; Tue, 12 Jul 2022 20:51:51 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-31d7db3e6e5so67553237b3.11; 
- Tue, 12 Jul 2022 17:51:47 -0700 (PDT)
+ id 1oBQdp-0005s8-Bh; Tue, 12 Jul 2022 20:54:15 -0400
+Received: by mail-yb1-xb30.google.com with SMTP id n74so16834917yba.3;
+ Tue, 12 Jul 2022 17:54:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=oDn8oZLQtWD+zhP9flxjHDDKOTmSVeIN6j+YYetCW7w=;
- b=cWXSGcpa1voHpqis++WlEu8niR4CPZS5U0nvdIshN8zhUIEfnUnaXT08sx2Xhx0tRM
- 0wzEhK7OikrRDzs5zzjXS7LBaKsnkHiUn736S4SAhaWutp1uNqzZVlUqM8BOymtf9v1q
- g14Xoq7QgQUGnn/pqSvtIj0HKhByloUS6jY3UTljDET3MKaiMXW578fjdpHhve/wWY1Y
- dk1yge12fiauhzvn9CDO5hB/x2Lto0FwBfP2iddOqfr1nqvj8oB6ZfliqUzSJNQBT7M7
- gUnIDBZvtUTZSGmBEvo2FitoBgQKoHRffp8tjvPRRlRcGiLMmDNqL2Qj2YceF3YM637C
- iJKw==
+ bh=DABXEWUv91mAU6Fpz8q+d3omiACeIp3TAfjJ81INEFA=;
+ b=MVMxBHV5e+uNIm6o8OCo/2r0yMDnwCkz8/FyAyOX9qdleGM2vFn8fQGWOcXnNvFDJy
+ RQgaV4Z7tecAMyBl+n2577RTlvhFM0HIHgo9hpEbkZEdIeTfZOoQn6AoTJIOeXqBo67q
+ ByMsFnaL/ugEfrLaf43pOzT8jdnHSjyWvQoHRPqcyujYS45e8WiIhucNkHnU0b0UcDmD
+ OXyn93IMnwrlQyn6TgzZZVfAKzyPb+MFm5ttKxbwJ4NrU6waxt8lXeDvL7Xw/6tjDGmU
+ CfZmMMm+3cnk3X8xI5nw2ZdNzuLztNWl7ff6rmOK4xEte7o/apkJwJrsuI9HgDN2nj0/
+ DfIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=oDn8oZLQtWD+zhP9flxjHDDKOTmSVeIN6j+YYetCW7w=;
- b=U5HgsmurikXJZ0eks1YjHgmwgkYZAjCbxazBWNB7jA4nB9fIvrruSHzfOHE8+eAiOe
- dXhiAZlxAC2L7MStx3ym/SjqxPfXLIvygi4v0U9Ccwj1d5N7EQ4blmMKGfXEZ4WHm9pA
- 9lZySrpWMDVW55X2HIcZw6YOW1nWVm3AH4aHzb4im35xd4u9qkn3t7C80T7nEj1BUyZ0
- p+u2CJo8Af68YpbHhAnLbIO9sCy6iTwHnBrXG6XQZEGyePhPPxjr396qkEPHz5aC6BTq
- ZBwS1ltmK1XKrkomZ8Hw4a88c4jVScwNd9Jc2Bk4RCFvb0W/hlXB5RIMd43jhyopwPc0
- QbVA==
-X-Gm-Message-State: AJIora8XzV1BKD3OAMFW2tlV+fUAlkeGoYnTvDak1mXxsAtFzWWdwaCD
- 0etVxdMCMZEJuAt44hf/bxiFA0Twul5NWiBY8g0=
-X-Google-Smtp-Source: AGRyM1sPystkIRO9s0S07YLMMyXJ1b2TLUGP6nQRpxDe8dCacdtD+NO9d1s6beKWIZgcrOPNP1QE+xS+WHQFYKRpaDw=
-X-Received: by 2002:a81:503:0:b0:317:c5d5:16fe with SMTP id
- 3-20020a810503000000b00317c5d516femr1224252ywf.231.1657673506480; Tue, 12 Jul
- 2022 17:51:46 -0700 (PDT)
+ bh=DABXEWUv91mAU6Fpz8q+d3omiACeIp3TAfjJ81INEFA=;
+ b=WeMy7SpJ94/YcntRMybn00UT4n/ELYuMLQ3RtxX4NLIvbVdxTlMaaxukprR8AlW+Bl
+ SYqn7kd6ZxYb7o+nV8fLlVO/gDdfic0E6giSZVoB/P+MhBweirL6i6Dz58MB9MMEkc8Y
+ J/Uc0K9V4fYE3MYDqGV8fvjDQrZiTA4vYJFjx1DwM4LmJiyb7opVm1nERf7ZBLPt8CwL
+ sh2TnvRGnh7gjUpBAy+sTLlPbPFngCkX9iQJ457aTH8Nyb25vxopL18LH5ucbZZWdmvT
+ MUeASnbV9coKuylTYnelHheyVkAJG6L6+xfzP5DBSBn1oxu2oZv4yH+pcd/sAKSBy5Cz
+ wqfA==
+X-Gm-Message-State: AJIora+CKKyXOprxXnhlfkYSaSPrJFF+kV2zq/uNhxZhnXIGaM7uPgZJ
+ Cnm+SJnQXFPCDvTRvW9wYxeZoFmo35L5jyThqio=
+X-Google-Smtp-Source: AGRyM1ulUcU7jof/+bzqF8k09AkUog8c+slrqYfjHcQSStz+Y4BeOc4dR4pcUrwVPZdvUYdRAU7LxBulAMsis4ElLXs=
+X-Received: by 2002:a25:aaa9:0:b0:66e:c6ba:15dd with SMTP id
+ t38-20020a25aaa9000000b0066ec6ba15ddmr1193565ybi.242.1657673651852; Tue, 12
+ Jul 2022 17:54:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220712021345.8530-1-faithilikerun@gmail.com>
  <20220712021345.8530-2-faithilikerun@gmail.com>
- <Ys2YF9iYeicGf8xr@stefanha-x1.localdomain>
-In-Reply-To: <Ys2YF9iYeicGf8xr@stefanha-x1.localdomain>
+ <438019b0-9dd0-9f5f-6c86-bcb248bfe5d2@opensource.wdc.com>
+In-Reply-To: <438019b0-9dd0-9f5f-6c86-bcb248bfe5d2@opensource.wdc.com>
 From: Sam Li <faithilikerun@gmail.com>
-Date: Wed, 13 Jul 2022 08:51:45 +0800
-Message-ID: <CAAAx-8+Hs6MJZ9Z_SDaqX+RKJ2UeSEtTAY7sy2Oit6PUc=muJg@mail.gmail.com>
+Date: Wed, 13 Jul 2022 08:54:15 +0800
+Message-ID: <CAAAx-8Jo48DpKcQ0cyb9-6OEGzdQ64SCsPUruMK9o1ipdqxbTw@mail.gmail.com>
 Subject: Re: [RFC v4 1/9] block: add block layer APIs resembling Linux
  ZonedBlockDevice ioctls.
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, 
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Markus Armbruster <armbru@redhat.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Hanna Reitz <hreitz@redhat.com>, 
- qemu block <qemu-block@nongnu.org>, Eric Blake <eblake@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, 
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ Hanna Reitz <hreitz@redhat.com>, qemu block <qemu-block@nongnu.org>, 
+ Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=faithilikerun@gmail.com; helo=mail-yw1-x1129.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=faithilikerun@gmail.com; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,10 +89,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B47=E6=9C=8812=E6=
-=97=A5=E5=91=A8=E4=BA=8C 23:49=E5=86=99=E9=81=93=EF=BC=9A
+Damien Le Moal <damien.lemoal@opensource.wdc.com> =E4=BA=8E2022=E5=B9=B47=
+=E6=9C=8812=E6=97=A5=E5=91=A8=E4=BA=8C 15:35=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Tue, Jul 12, 2022 at 10:13:37AM +0800, Sam Li wrote:
+> On 7/12/22 11:13, Sam Li wrote:
 > > By adding zone management operations in BlockDriver, storage
 > > controller emulation can use the new block layer APIs including
 > > zone_report and zone_mgmt(open, close, finish, reset).
@@ -120,16 +118,6 @@ Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B47=E6=9C=8812=E6=
 > > + * Send a zone_report command.
 > > + * offset can be any number within the zone size. No alignment for off=
 set.
->
-> I think offset is a byte offset from the start of the device and its
-> range is [0, total_sectors * BDRV_SECTOR_SIZE)?
->
-> "any number within the zone size" gives the impression that the value
-> must be [0, zone_size_in_bytes), which is not right.
->
-> I suggest changing the text to "offset can be any number of bytes from
-> the start of the device" or similar.
->
 > > + * nr_zones represents IN maximum and OUT actual.
 > > + */
 > > +int coroutine_fn blk_co_zone_report(BlockBackend *blk, int64_t offset,
@@ -143,10 +131,6 @@ set.
 > > +    blk_wait_while_drained(blk);
 > > +    ret =3D bdrv_co_zone_report(blk->root->bs, offset, nr_zones, zones=
 );
->
-> The !blk_is_available(blk) case needs to return -ENOMEDIUM before we can
-> safely dereference blk->root->bs (which can also be written as
-> blk_bs(blk)).
 > > +    blk_dec_in_flight(blk);
 > > +    return ret;
 > > +}
@@ -156,14 +140,6 @@ set.
 > > + * Offset is the start of a zone and len is aligned to zones.
 > > + */
 > > +int coroutine_fn blk_co_zone_mgmt(BlockBackend *blk, enum zone_op op,
->
-> Please define typedef enum { ... } BlockZoneOp instead of enum { ... }
-> zone_op and then use a BlockZoneOp op argument instead of enum zone_op.
-> QEMU coding style uses typedefs instead of struct foo or enum foo when
-> possible.
-
-Yes, it must be a type.
-
 > > +        int64_t offset, int64_t len)
 > > +{
 > > +    int ret;
@@ -174,6 +150,13 @@ Yes, it must be a type.
 > > +    ret =3D blk_check_byte_request(blk, offset, len);
 > > +    if (ret < 0) {
 > > +        return ret;
+>
+> You missed adding "blk_dec_in_flight(blk);" before return here. But I
+> think you can move the call to blk_check_byte_request() before
+> blk_inc_in_flight() to avoid having to call blk_dec_in_flight().
+
+Yes, I'll just remove them.
+
 > > +    }
 > > +
 > > +    ret =3D bdrv_co_zone_mgmt(blk->root->bs, op, offset, len);
@@ -209,6 +192,43 @@ Yes, it must be a type.
 > >  #include <sys/syscall.h>
 > >  #include <sys/vfs.h>
 > > +#include <linux/blkzoned.h>
+>
+> You need to conditionally include this because not all kernels provide
+> this file. Old kernels will not have it. So you need something like:
+>
+> #if defined(CONFIG_BLKZONED)
+> #include <linux/blkzoned.h>
+> #endif
+>
+> And adding this to meson.build should do the trick:
+>
+> diff --git a/meson.build b/meson.build
+> index 65a885ea69..31d8852a35 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1869,6 +1869,7 @@ config_host_data.set('CONFIG_REPLICATION',
+> get_option('live_block_migration').al
+>
+>  # has_header
+>  config_host_data.set('CONFIG_EPOLL', cc.has_header('sys/epoll.h'))
+> +config_host_data.set('CONFIG_BLKZONED', cc.has_header('linux/blkzoned.h'=
+))
+>  config_host_data.set('CONFIG_LINUX_MAGIC_H', cc.has_header('linux/magic.=
+h'))
+>  config_host_data.set('CONFIG_VALGRIND_H',
+> cc.has_header('valgrind/valgrind.h'))
+>  config_host_data.set('HAVE_BTRFS_H', cc.has_header('linux/btrfs.h'))
+>
+> Then in build/config-host.h, you will see "#define CONFIG_BLKZONED". You
+> then can use "#if defined(CONFIG_BLKZONED)" to conditionally define the
+> code related to zoned devices.
+>
+> To test all this, temporarily rename your host
+> /usr/include/linux/blkzoned.h file to some other name, configure qemu and
+> see if it compiles.
+
+Thanks!
+
 > >  #include <linux/cdrom.h>
 > >  #include <linux/fd.h>
 > >  #include <linux/fs.h>
@@ -231,11 +251,6 @@ in_off, int out_fd,
 > >  }
 > >  #endif
 > >
->
-> Are the functions below within #ifdef __linux__?
-
-Maybe add them later?
-
 > > +/*
 > > + * parse_zone - Fill a zone descriptor
 > > + */
@@ -255,16 +270,6 @@ Maybe add them later?
 > > +    int64_t *nr_zones =3D aiocb->zone_report.nr_zones;
 > > +    BlockZoneDescriptor *zones =3D aiocb->zone_report.zones;
 > > +    int64_t offset =3D aiocb->aio_offset;
->
-> The code is easier to read if it's clear this value is in sector units:
->
->   int64_t sector =3D aiocb->aio_offset / 512; /* BLKREPORTZONE uses 512B =
-sectors */
->
-> Then there's no confusion about whether 'offset' is bytes or sectors.
-
-I see. It is more readable.
-
 > > +
 > > +    struct blk_zone *blkz;
 > > +    int64_t rep_size, nrz;
@@ -284,33 +289,12 @@ or size is 512 bytes. */
 > > +        memset(rep, 0, rep_size);
 > > +        rep->sector =3D offset;
 > > +        rep->nr_zones =3D nrz;
->
-> After the first time around the while loop zones[] no longer has space
-> for nrz elements. This must be taken into account to avoid overflowing
-> zones[]:
->
->   rep->nr_zones =3D nrz - n;
->
 > > +
 > > +        ret =3D ioctl(fd, BLKREPORTZONE, rep);
 > > +        if (ret !=3D 0) {
->
-> Does this need to retry when ret !=3D 0 && errno =3D=3D EINTR is encounte=
-red?
-> Damien/Hannes/Dmitry might know the answer. See handle_aiocb_rw_vector()
-> for an example of retrying when EINTR is returned from a blocking
-> syscall.
->
 > > +            ret =3D -errno;
 > > +            error_report("%d: ioctl BLKREPORTZONE at %ld failed %d",
 > > +                         fd, offset, errno);
->
-> Please use "... at %" PRId64 " failed ..." instead of %ld for int64_t
-> values. %ld is not portable because sizeof(long) varies on different
-> machines.
-
-Right! I've missed other part than qemuio-cmds to use PRI64.
-
 > > +            return ret;
 > > +        }
 > > +
@@ -347,53 +331,14 @@ ed */
 > > +    g_autofree struct stat *file =3D NULL;
 > > +    file =3D g_new(struct stat, 1);
 > > +    stat(s->filename, file);
->
-> Heap allocation is not needed. It's easier to put the struct stat
-> variable on the stack:
->
->   struct stat st;
->   if (fstat(fd, &st) < 0) {
->       return -errno;
->   }
->
-> fstat(2) is preferred over stat(2) when a file descriptor is available
-> because stat(2) suffers from race conditions when file system paths have
-> changed.
-
-Yes, it was mentioned before. I have included this change in patch 3.
-I'll move them into this patch for better reviewing later.
-
 > > +    zone_size =3D get_sysfs_long_val(fd, file, "chunk_sectors");
->
-> The name "zone_sectors" would be clearer since size doesn't indicate the
-> units (bytes vs sectors).
 > > +    zone_size_mask =3D zone_size - 1;
 > > +    if (offset & zone_size_mask) {
->
-> Bytes and sectors units are being mixed here:
->
->   int64_t offset =3D aiocb->aio_offset; <-- bytes
->
-> I suggest changing it to:
->
->   int64_t sector =3D aiocb->aio_offset / 512; /* BLK*ZONE ioctls use 512B=
- sectors */
-
-I see. I missed considering the difference between sector and byte.
-
 > > +        error_report("offset is not the start of a zone");
 > > +        return -EINVAL;
 > > +    }
 > > +
 > > +    if (len & zone_size_mask) {
->
-> Bytes and sectors are mixed here too. I think len is in bytes:
->
->   int64_t len =3D aiocb->aio_nbytes;
->
-> Maybe change it to:
->
->   int64_t nr_sectors =3D aiocb->aio_nbytes / 512;
 > > +        error_report("len is not aligned to zones");
 > > +        return -EINVAL;
 > > +    }
@@ -464,10 +409,6 @@ _t offset,
 > > +        .bs         =3D bs,
 > > +        .aio_fildes =3D s->fd,
 > > +        .aio_type   =3D QEMU_AIO_IOCTL,
->
-> Please define QEMU_AIO_ZONE_REPORT, QEMU_AIO_ZONE_MGMT, etc values for
-> these new operations instead of reusing QEMU_AIO_IOCTL, which is meant
-> for generic passthrough ioctls.
 > > +        .aio_offset =3D offset,
 > > +        .zone_report    =3D {
 > > +                .nr_zones       =3D nr_zones,
@@ -518,9 +459,6 @@ _t offset,
 > >  #endif
 > >  };
 > >
->
-> #ifdef __linux__
->
 > > +static BlockDriver bdrv_zoned_host_device =3D {
 > > +        .format_name =3D "zoned_host_device",
 > > +        .protocol_name =3D "zoned_host_device",
@@ -528,10 +466,6 @@ _t offset,
 > > +        .bdrv_needs_filename =3D true,
 > > +        .bdrv_probe_device  =3D hdev_probe_device,
 > > +        .bdrv_parse_filename =3D hdev_parse_filename,
->
-> This function hardcodes "host_device:". zoned_host_device needs a
-> separate function that uses "zoned_host_device:".
->
 > > +        .bdrv_file_open     =3D hdev_open,
 > > +        .bdrv_close         =3D raw_close,
 > > +        .bdrv_reopen_prepare =3D raw_reopen_prepare,
@@ -571,9 +505,6 @@ _t offset,
 > > +        .bdrv_co_zone_report =3D raw_co_zone_report,
 > > +        .bdrv_co_zone_mgmt =3D raw_co_zone_mgmt,
 > > +};
->
-> #endif /* __linux__ */
->
 > > +
 > >  #if defined(__linux__) || defined(__FreeBSD__) || defined(__FreeBSD_ke=
 rnel__)
@@ -600,11 +531,6 @@ h
 > >  #include "block/aio.h"
 > >  #include "block/aio-wait.h"
 > >  #include "qemu/iov.h"
->
-> Please avoid making whitespace changes that are unrelated to the patch.
-
-Sorry, I will be more careful.
-
 > > @@ -49,6 +48,48 @@ typedef struct BlockDriver BlockDriver;
 > >  typedef struct BdrvChild BdrvChild;
 > >  typedef struct BdrvChildClass BdrvChildClass;
@@ -615,18 +541,6 @@ Sorry, I will be more careful.
 > > +    zone_finish,
 > > +    zone_reset,
 > > +} zone_op;
->
-> QEMU coding style:
->
->   typedef enum {
->       BLK_ZO_OPEN,
->       BLK_ZO_CLOSE,
->       BLK_ZO_FINISH,
->       BLK_ZO_RESET,
->   } BlockZoneOp;
->
-> Please also reformat the enums below.
->
 > > +
 > > +typedef enum zone_model {
 > > +    BLK_Z_HM,
@@ -691,17 +605,6 @@ bytes.
 ones */
 > > +    uint32_t max_nr_active_zones;
 > > +} zbd_dev;
->
-> This struct isn't use by this patch. Please move this change into the
-> patch that uses struct zbd_dev.
->
-> QEMU coding style naming would be BlockZoneDev instead of zbd_dev.
->
-> I think this struct contains the block limits fields that could be added
-> to QEMU's BlockLimits? A new struct may not be necessary.
-
-Yes! It will in the next patch series.
-
 > >
 > >  struct BlockDriver {
 > >      /*
@@ -719,7 +622,9 @@ one_op op,
 > >      /* removable device specific */
 > >      bool (*bdrv_is_inserted)(BlockDriverState *bs);
 > >      void (*bdrv_eject)(BlockDriverState *bs, bool eject_flag);
-> > --
-> > 2.36.1
-> >
+>
+>
+> --
+> Damien Le Moal
+> Western Digital Research
 
