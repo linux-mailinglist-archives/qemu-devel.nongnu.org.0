@@ -2,68 +2,158 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3DC57342C
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 12:29:43 +0200 (CEST)
-Received: from localhost ([::1]:45110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D8257346F
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 12:39:00 +0200 (CEST)
+Received: from localhost ([::1]:48488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBZck-00063L-Vx
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 06:29:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36506)
+	id 1oBZli-0000Gv-O8
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 06:38:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1oBZSi-00063y-8L
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 06:19:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42916)
+ (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
+ id 1oBZjA-0006x8-BS
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 06:36:20 -0400
+Received: from mail-bn8nam11on2040.outbound.protection.outlook.com
+ ([40.107.236.40]:1664 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1oBZSg-0007fv-9g
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 06:19:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657707557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d6c9Dh6DpJEE7vEzrUk2dji3IV6ZaqsRoo9BP1lAldQ=;
- b=X0xR77XvHbUP3YlKCHPMeizR/vsdVhyCvuz5qifyICVa2S/LxAbK9S5EBweztzafsIwsNL
- U74XEK8LpAaKakFvAf4CZ68Zzbw1VVTMROF6ImWO+oa841XTT78g0SI4t/oIdda8UPs/yw
- 7/i0pSkaDeAkupKqh8GSHsh5mCQ3MzI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-9Tuc5BycMvyNk_hQ3Rmf7w-1; Wed, 13 Jul 2022 06:19:16 -0400
-X-MC-Unique: 9Tuc5BycMvyNk_hQ3Rmf7w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E236E3804061;
- Wed, 13 Jul 2022 10:19:15 +0000 (UTC)
-Received: from kostyanf14nb.redhat.com (unknown [10.40.194.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 02FE71121314;
- Wed, 13 Jul 2022 10:19:14 +0000 (UTC)
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 3/3] qga: add command 'guest-get-cpustats'
-Date: Wed, 13 Jul 2022 13:19:08 +0300
-Message-Id: <20220713101908.2212307-4-kkostiuk@redhat.com>
-In-Reply-To: <20220713101908.2212307-1-kkostiuk@redhat.com>
-References: <20220713101908.2212307-1-kkostiuk@redhat.com>
+ (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
+ id 1oBZj7-0008Mz-9F
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 06:36:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WZk6du3pDuP8eb4YE5IaLPedMTcKeG3wNC/O1qGPmRq3sU4xItirNWDr6P3ZBwKKLSmYv6pxTKfQWw9G9OaxfuvUrv0Ni4ZxzhaXSDi8sUvuojf5qnHT9yxbmrhLVesrsDHsO7TvexgvH1wUfiga0iUGwpifblcTMH99KzFUq2/fY5CQ+uVggNqV9+D0z6TbMp3a7XP6Z0iUW1bNT1JGQq4DXwb54UuNjeJ+8KN1GTJYAvAHDcQ8IaoFv9X2U9adij/WNBYeKwLhdlwfr7vuWRQIouA+IEtfuWeCwsk/mXP8LbQhF5pf4+yDrIHVlDNMx4k+NtTKV9NsBBjhGf/TQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YIMnWCP9hUPDix736g2y6bEJLIcVTXZxzkPSuAU2n0U=;
+ b=d4pB0rBjfmBnB/kNg1/WKGtJ4KWkMorR8IK4PJY9O3hXH6lykmULTQyvfRUmq64dpVtk9x5Rn/BqQOqf3WNCTadTxFFCAFCgRo01lpMGVTmU0YuhrwJ3f9jtTRXLDIaB8JTbmyn64Dnqo5+fXWnccI/FEmVrb+xAywa2/WdLH8ekZMwunL3UK/0jC7o+BZw/OHEZhOVxfaESnIQjz8ITSkuFGRY1V9S27wQkT+lQztGh/xTkGXvV4gTbpO9gAkkuE/AeSgK7rI9/rtqEwBdoCJ2WOYbdunrzKZOii/UIsJAUYcJfERMbf+RyfYNKzcODssnHyQff6jv7r+Z84dHNBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YIMnWCP9hUPDix736g2y6bEJLIcVTXZxzkPSuAU2n0U=;
+ b=ig4cSmBHN6MfLsJ/FQLnV2d+ZuzqHHWlcRyps36nNFl3+e3dDA/HlI0V9OZFlpgZ7B+fm7cCcj/u2Lj05VYRGQ9lIipj4D7j+08CaD3cykJEJhuDVMJ6ZtMkyuV4k1gaPV1Ne1ia1L+5W7WjdnU+WkimNV2JBZ4cMoxlzfxE1ps=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11) by CH2PR12MB4215.namprd12.prod.outlook.com
+ (2603:10b6:610:ab::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.20; Wed, 13 Jul
+ 2022 10:36:13 +0000
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5417.026; Wed, 13 Jul
+ 2022 10:36:13 +0000
+Message-ID: <13d25d2e-ff79-5762-ddb8-87df56f5cbcf@amd.com>
+Date: Wed, 13 Jul 2022 12:35:56 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Content-Language: en-US
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <b1c12a4b-46f7-081b-242f-005a8824aad1@amd.com>
+ <20220713075738.GC2831541@chaop.bj.intel.com>
+From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+In-Reply-To: <20220713075738.GC2831541@chaop.bj.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6PR0202CA0039.eurprd02.prod.outlook.com
+ (2603:10a6:20b:3a::16) To CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 75961db9-8cb0-44ea-3a86-08da64bb819e
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4215:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pto6FnxizdZN0zQfy3S4y2OXuQWc6x6e3/rLXYM4/vXtRAMhxXOiI2//UEWr6s4SANcKp0w/hipiERg3luLyDseUFef4vNAbeGtxvrcZPPl+ugeRNnBI2JCDl64ooa1V4eotGDHMmnfxBcUP3hdshXtRsv+tSlqi6eOJ1OvmkCzSLlHyZwQza8EQS0srK/LDYF5vv76tOCIlpESOf/0YdpPErThUw4Q3UrUSC2apyiQxTO9SZQDgkGUKR9iXGlpfLHp5xNTLZ3zy/ElFCBU0dptWHPT3B7hYjmLhSmXh+swcxCLuxZoNo3b21ZKk9WV8Tmu14l1IGksV0MdxBSMzo1xvht/1H0g3Wn7GSYutxM4MWU9JXW4d4H94R6f9jks4Hqcn3v3LqEqm7g9pKrHCdx67a3+CLD5y/2ruyoAAzgy9EqeQzQlNUkubGzKGTLqKU1pMAgBRAJDC4mML28xswb6ciS6o3EVm2d9riSfm5OkuVHWxcmDwsNKv50t2N/mfSr8WGTgjiPP1ra2KkbU+tDc2Th09UOPu5FFhNqjk7/wxMOVzo3e1S6SKZBBSG7ZR6y+vATJF7Q4B6ZRwhqm5fKwKfBWCJgCDfyaLEfgOovQf8/JBJ3GJveryxVxGJ/IffIEPAfBUYRk3MUDASZPcQ6gE7UufyK2e+cxslNcKL0hc24WAhBXEwCOdrB94OBT2F6LCQdgNYtVH89oBpHnnOXdk82WqLoDteO2DKNgf13auHJUoxSCObe6Vz8ozvRqvVUqKTuVZiyFZ/ei6v7E7FVep0LE2oSpsyIECqLu7+Aupb6QjdVYjecg+oPYxxYZkWk3spT6NJ20c6qnMwx0cfw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR1201MB0181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(39860400002)(366004)(346002)(136003)(376002)(2616005)(31686004)(7406005)(38100700002)(5660300002)(8936002)(7416002)(2906002)(4326008)(66946007)(6916009)(478600001)(41300700001)(6666004)(66556008)(6506007)(54906003)(6486002)(86362001)(36756003)(31696002)(316002)(186003)(66476007)(26005)(6512007)(8676002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c2tybGJJQnA4bzlqaU42bkM4bSsvTitQVGI4QVNZUTZ1Q1k2azZ1dENnZllJ?=
+ =?utf-8?B?VXo3ZGtKT1FxQk9lS3pYSmV5czkxbVJQM1FsZjdUSHQ4b2g1V3ExNkZwYjY3?=
+ =?utf-8?B?QndIY1VnWVJHbjNjdkQ3NWdEQTBJVWlGZVNERFdLSCtCNnc2QVhaY0FXcysx?=
+ =?utf-8?B?S21WekZ1OGM4M2ExdjJYSzdudHNPYlVsRFk3bWZEZUxxZ1RZdG9wbnBEdFVn?=
+ =?utf-8?B?bnNCYVBTQ1ZwckN1RWlTSHhRd0EvZGwwTit4RmFLbXBkTEMrYjBYUm1RanBQ?=
+ =?utf-8?B?TDN2UFZtajFMaWhmYjljZC9JemtxVURCZ1F6VzZaL29JbU1mKzcvQVZtbW1O?=
+ =?utf-8?B?aUIxclR3SG1oZFBYSnhFL1VEVXlUMEU0eExHVEw1RUorcmlWRGJpdk81dzZE?=
+ =?utf-8?B?dVdRV3RsM3pmcERGRmt2MVFLT21XQzNXMm4zVSs1Y3QrZHNOME5IZ1Z3MWJ2?=
+ =?utf-8?B?UUZDVElxcnM5dE8rRmliZGUzUUlNOGNzWmdMNFhwQXFudGdwNTFLL3pDZ1dm?=
+ =?utf-8?B?eVk0cUYraFVJV3VQMVNKUkE1Vys3R1dqRk94QTB2Vk92aC8vS3RHWDdYQ2lU?=
+ =?utf-8?B?NUpGQVB3RnNOVWZYN2FjT09Ha1p1MVJ1QTlURkl3WlUvY1RkU3A1ZWY0YnF4?=
+ =?utf-8?B?cXNlRDMrck5WSHoxQmVPZ3FIbHVubURZcUl6SlM4aHloc282QUUyUlptZFFw?=
+ =?utf-8?B?bVFLSjVVTHFJeGc5YzV6SUV1ZlVqdUFkM24xckJhSG1HekoweXJ1VTJmRU05?=
+ =?utf-8?B?emg1M1U3alZBVFhYQzJ2cHpTOHE3UlQ0R2tzOVVZM1AwcDBqeGdJRm1JZzVv?=
+ =?utf-8?B?TzhPNzVjNDRlZFVDa2pqQVUyYnFwNGJVSkQ4RitDQVhtaTJNcEQ4ODhEa0Vp?=
+ =?utf-8?B?NzBKRGFJY2c1R09WOVpKYWQzL25zcTZIM2lkYTFleVBYR3BVRi94SUlCU0ZV?=
+ =?utf-8?B?UDg3eWpMbkJHVzEyOFB3bmNTSUtCcjR4NUdUdkQxRDhqZjAwTVJJZXFhNUwr?=
+ =?utf-8?B?aEZzR0JHWFc4clpTNW9ZKzRTQnVGVWprQ0Mra2VnMkI1blJabWdwbG1UeFd5?=
+ =?utf-8?B?Zm55S2hkM2xhaUJxVFUyenhNbjArb2h0VFVHT0NraHRKZjJLaitiell0QXNQ?=
+ =?utf-8?B?M1lSMXliSlRFeEtZbU1xWDlSTEUwaW04WU1OMHl5eW5YbXp0bXRDMUdTaFRK?=
+ =?utf-8?B?ZjQ5dnExdERHYk5aa2tHZ3BqenZ3a2d6dzBva3lTRi9aeURJT2tqQjRJWVNF?=
+ =?utf-8?B?TzlZL0ZvcVl4RlpCQ2ZBRGtUc0J5TVBmQXlyQWlvLy8ySDhoSkwrRXc1am0x?=
+ =?utf-8?B?VVVsVDk2a25uMzNTVnI1NzdFU1UwcTJ5bjNEd1dXL2lIUWJnUnlkY1l1UHdS?=
+ =?utf-8?B?QWpxTHMyVU00V3lmZHkxR254dWdwVzlFU09OQWduSHNEYWoxNWt1THZtdUxp?=
+ =?utf-8?B?TW1YQ2FTQlBkdDJCemRNQkRaRkIzNGFqbmtsRmE4VTFuWmc0elcxSzh6SFc0?=
+ =?utf-8?B?QWhiMVRpemM2SmFNbzQ1QnpCRTdCRFhsUFhFYmI0V2ZKa3Q4bHdkWnBERGdy?=
+ =?utf-8?B?NTlsS3dMRXFEVTBGdnZock5sVmxBNzdaTEp5S2Faby96KzNIV2tOdCtQYnYv?=
+ =?utf-8?B?SWk4bzIvVUFtVlhOck4raElWdzNsb2VURVJiQXhadi85TmE4eFdGU0llYUZM?=
+ =?utf-8?B?cGZCV3NoR0NRNzVReEtrbEROeUxKMkF3dzNmWXc3dkk2dStQOXRwZStLQ2lY?=
+ =?utf-8?B?bURrUjF1VmhSaEp5UXNjVzJEbVVaejBJTXZ1Z2JaUktUczl4N1M0RFVWdHA0?=
+ =?utf-8?B?cFFRTGk2dS9Mb3NPeUE4WXVydVZONnY3cmVvMXNlbTdmYythaXBpU1hKVzZz?=
+ =?utf-8?B?NWFneTBFdmlCYmxkNWFIbnhxcXRvZlluWUlCaWhTS2ZxYm1uVUxTUG9BbTk4?=
+ =?utf-8?B?Q0hTRDY4MDNWV05jK3l3MGhnVi96R0txbnhKOGVFTTNNamFmMzVDODRxMnFJ?=
+ =?utf-8?B?a2VKakw2OER2WkU3QlBmVnpOTnc2UTNNZHFVNFE2UVBJcjJJWkNZekJhTTYv?=
+ =?utf-8?B?WldJWW9BQklIRjRHMWZCNnI3WnNRdnV1b0E0dHNBWEJ1Y05qOWVsZHkraHpn?=
+ =?utf-8?Q?cXcrXRs2GaX1ztBAyCjq/rJay?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75961db9-8cb0-44ea-3a86-08da64bb819e
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2022 10:36:12.6232 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ldn4TrdVyo0P6RQ1lHnqEyb23GKXkQLxfIM3Wyroq8WyABTq+sMK0Hdb72+6OJxtvO2V4tNfDWm0BwZO2taYog==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4215
+Received-SPF: softfail client-ip=40.107.236.40;
+ envelope-from=Pankaj.Gupta@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,238 +169,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: zhenwei pi <pizhenwei@bytedance.com>
 
-A vCPU thread always reaches 100% utilization when:
-- guest uses idle=poll
-- disable HLT vm-exit
-- enable MWAIT
+>>> This is the v7 of this series which tries to implement the fd-based KVM
+>>> guest private memory. The patches are based on latest kvm/queue branch
+>>> commit:
+>>>
+>>>     b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
+>>> split_desc_cache only by default capacity
+>>>
+>>> Introduction
+>>> ------------
+>>> In general this patch series introduce fd-based memslot which provides
+>>> guest memory through memory file descriptor fd[offset,size] instead of
+>>> hva/size. The fd can be created from a supported memory filesystem
+>>> like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
+>>
+>> Thinking a bit, As host side fd on tmpfs or shmem will store memory on host
+>> page cache instead of mapping pages into userspace address space. Can we hit
+>> double (un-coordinated) page cache problem with this when guest page cache
+>> is also used?
+> 
+> This is my understanding: in host it will be indeed in page cache (in
+> current shmem implementation) but that's just the way it allocates and
+> provides the physical memory for the guest. In guest, guest OS will not
+> see this fd (absolutely), it only sees guest memory, on top of which it
+> can build its own page cache system for its own file-mapped content but
+> that is unrelated to host page cache.
 
-Add new guest agent command 'guest-get-cpustats' to get guest CPU
-statistics, we can know the guest workload and how busy the CPU is.
+yes. If guest fills its page cache with file backed memory, this at host 
+side(on shmem fd backend) will also fill the host page cache fast. This 
+can have an impact on performance of guest VM's if host goes to memory 
+pressure situation sooner. Or else we end up utilizing way less System 
+RAM.
 
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-Message-Id: <20220707005602.696557-3-pizhenwei@bytedance.com>
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
----
- qga/commands-posix.c | 89 ++++++++++++++++++++++++++++++++++++++++++++
- qga/commands-win32.c |  6 +++
- qga/qapi-schema.json | 81 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 176 insertions(+)
+Thanks,
+Pankaj
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 0469dc409d..f18530d85f 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -2893,6 +2893,90 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-     return guest_get_diskstats(errp);
- }
- 
-+GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
-+{
-+    GuestCpuStatsList *head = NULL, **tail = &head;
-+    const char *cpustats = "/proc/stat";
-+    int clk_tck = sysconf(_SC_CLK_TCK);
-+    FILE *fp;
-+    size_t n;
-+    char *line = NULL;
-+
-+    fp = fopen(cpustats, "r");
-+    if (fp  == NULL) {
-+        error_setg_errno(errp, errno, "open(\"%s\")", cpustats);
-+        return NULL;
-+    }
-+
-+    while (getline(&line, &n, fp) != -1) {
-+        GuestCpuStats *cpustat = NULL;
-+        GuestLinuxCpuStats *linuxcpustat;
-+        int i;
-+        unsigned long user, system, idle, iowait, irq, softirq, steal, guest;
-+        unsigned long nice, guest_nice;
-+        char name[64];
-+
-+        i = sscanf(line, "%s %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu",
-+                   name, &user, &nice, &system, &idle, &iowait, &irq, &softirq,
-+                   &steal, &guest, &guest_nice);
-+
-+        /* drop "cpu 1 2 3 ...", get "cpuX 1 2 3 ..." only */
-+        if ((i == EOF) || strncmp(name, "cpu", 3) || (name[3] == '\0')) {
-+            continue;
-+        }
-+
-+        if (i < 5) {
-+            slog("Parsing cpu stat from %s failed, see \"man proc\"", cpustats);
-+            break;
-+        }
-+
-+        cpustat = g_new0(GuestCpuStats, 1);
-+        cpustat->type = GUEST_CPU_STATS_TYPE_LINUX;
-+
-+        linuxcpustat = &cpustat->u.q_linux;
-+        linuxcpustat->cpu = atoi(&name[3]);
-+        linuxcpustat->user = user * 1000 / clk_tck;
-+        linuxcpustat->nice = nice * 1000 / clk_tck;
-+        linuxcpustat->system = system * 1000 / clk_tck;
-+        linuxcpustat->idle = idle * 1000 / clk_tck;
-+
-+        if (i > 5) {
-+            linuxcpustat->has_iowait = true;
-+            linuxcpustat->iowait = iowait * 1000 / clk_tck;
-+        }
-+
-+        if (i > 6) {
-+            linuxcpustat->has_irq = true;
-+            linuxcpustat->irq = irq * 1000 / clk_tck;
-+            linuxcpustat->has_softirq = true;
-+            linuxcpustat->softirq = softirq * 1000 / clk_tck;
-+        }
-+
-+        if (i > 8) {
-+            linuxcpustat->has_steal = true;
-+            linuxcpustat->steal = steal * 1000 / clk_tck;
-+        }
-+
-+        if (i > 9) {
-+            linuxcpustat->has_guest = true;
-+            linuxcpustat->guest = guest * 1000 / clk_tck;
-+        }
-+
-+        if (i > 10) {
-+            linuxcpustat->has_guest = true;
-+            linuxcpustat->guest = guest * 1000 / clk_tck;
-+            linuxcpustat->has_guestnice = true;
-+            linuxcpustat->guestnice = guest_nice * 1000 / clk_tck;
-+        }
-+
-+        QAPI_LIST_APPEND(tail, cpustat);
-+    }
-+
-+    free(line);
-+    fclose(fp);
-+    return head;
-+}
-+
- #else /* defined(__linux__) */
- 
- void qmp_guest_suspend_disk(Error **errp)
-@@ -3247,6 +3331,11 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-     return NULL;
- }
- 
-+GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
- 
- #endif /* CONFIG_FSFREEZE */
- 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 36f94c0f9c..7ed7664715 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -2543,3 +2543,9 @@ GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-     error_setg(errp, QERR_UNSUPPORTED);
-     return NULL;
- }
-+
-+GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index 9fa20e791b..869399ea1a 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -1576,3 +1576,84 @@
- { 'command': 'guest-get-diskstats',
-   'returns': ['GuestDiskStatsInfo']
- }
-+
-+##
-+# @GuestCpuStatsType:
-+#
-+# An enumeration of OS type
-+#
-+# Since: 7.1
-+##
-+{ 'enum': 'GuestCpuStatsType',
-+  'data': [ 'linux' ] }
-+
-+
-+##
-+# @GuestLinuxCpuStats:
-+#
-+# CPU statistics of Linux
-+#
-+# @cpu: CPU index in guest OS
-+#
-+# @user: Time spent in user mode
-+#
-+# @nice: Time spent in user mode with low priority (nice)
-+#
-+# @system: Time spent in system mode
-+#
-+# @idle: Time spent in the idle task
-+#
-+# @iowait: Time waiting for I/O to complete (since Linux 2.5.41)
-+#
-+# @irq: Time servicing interrupts (since Linux 2.6.0-test4)
-+#
-+# @softirq: Time servicing softirqs (since Linux 2.6.0-test4)
-+#
-+# @steal: Stolen time by host (since Linux 2.6.11)
-+#
-+# @guest: ime spent running a virtual CPU for guest operating systems under
-+#         the  control of the Linux kernel (since Linux 2.6.24)
-+#
-+# @guestnice: Time spent running a niced guest (since Linux 2.6.33)
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'GuestLinuxCpuStats',
-+  'data': {'cpu': 'int',
-+           'user': 'uint64',
-+           'nice': 'uint64',
-+           'system': 'uint64',
-+           'idle': 'uint64',
-+           '*iowait': 'uint64',
-+           '*irq': 'uint64',
-+           '*softirq': 'uint64',
-+           '*steal': 'uint64',
-+           '*guest': 'uint64',
-+           '*guestnice': 'uint64'
-+           } }
-+
-+##
-+# @GuestCpuStats:
-+#
-+# Get statistics of each CPU in millisecond.
-+#
-+# - @linux: Linux style CPU statistics
-+#
-+# Since: 7.1
-+##
-+{ 'union': 'GuestCpuStats',
-+  'base': { 'type': 'GuestCpuStatsType' },
-+  'discriminator': 'type',
-+  'data': { 'linux': 'GuestLinuxCpuStats' } }
-+
-+##
-+# @guest-get-cpustats:
-+#
-+# Retrieve information about CPU stats.
-+# Returns: List of CPU stats of guest.
-+#
-+# Since: 7.1
-+##
-+{ 'command': 'guest-get-cpustats',
-+  'returns': ['GuestCpuStats']
-+}
--- 
-2.25.1
 
 
