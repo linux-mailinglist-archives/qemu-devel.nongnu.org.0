@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA5B5736E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 15:09:55 +0200 (CEST)
-Received: from localhost ([::1]:48278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F393E5736E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 15:09:53 +0200 (CEST)
+Received: from localhost ([::1]:48148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBc7m-0005CB-5X
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 09:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44612)
+	id 1oBc7k-00055O-HM
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 09:09:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oBc50-00082a-5a; Wed, 13 Jul 2022 09:07:02 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23910)
+ id 1oBc4y-00081s-Hp; Wed, 13 Jul 2022 09:07:00 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oBc4x-00069D-IT; Wed, 13 Jul 2022 09:07:01 -0400
+ id 1oBc4w-00069C-06; Wed, 13 Jul 2022 09:07:00 -0400
 Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26DD10gB012410;
- Wed, 13 Jul 2022 13:06:53 GMT
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26DCaAL0012641;
+ Wed, 13 Jul 2022 13:06:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=1FKNutaZiKs7VX6L+hAwV7jTrn62yRPl5SBfG0TVed8=;
- b=D/n+JLhP21HKrxWXmGmYJuiQSc7VI6MwL2vP/hCvzr/rwi/5LyGWBMQ+XKoceWV4zbDZ
- EmFVrUhs3doQDBjdJ++w8AxO7eU9U0q8/x+jutjHBBMuTYErSw0K7C4vKgcE+UmCzbFB
- KWROrea+71Xb8MDDPB8bwrC1HIuMpIMTWcg5ndO6Il/AK3qhOiAL8KwmYAeKVmyjpjeY
- qHrylJo1CSloqPfbxWCoKdFWFWVPn0zDtw2s0jENdwe5ZOyXS6apcOLTO1Jm7Xlk/fF3
- GUCx9jcqcH4pAroHbQnYJcbXzEB8HYql9maNAR0tVezB6ZdTsr6wY50Xi1+O3LvEvE3V DA== 
+ bh=FjW0cGQlPGuTURpPTSXaApInFRDxWt77p4d9SGV7AUQ=;
+ b=rI40S7euTYiuwFERyjYPfKGtNVhaKwbuupDM/WXYQa4SrwagxwiKTohJRdfQ00P6oOI/
+ pIkNgnRgYjuSIc3XqPJmxIpQzXN7KKc06hvKe3REdVN3UhsgMwCNIOlr/ETjRthZumTT
+ odZ4iPM219XYymSmyr5w84V45MU343GQEADn8/CodpgpCJPqRbI/jlPx5tDPxnnk1raF
+ RKdcqyU0TX+wu5pJqy8lhuQmtpi2oTcTmUhiiFdXYJlbNl4Ow3N4EHvTgaIeKUJP3zCN
+ MIV/rgrgJ1HyNvjbkyhe1kdcp2/ggxLhmo30mwXx8S6f64Jf6WtPuUUjldnPWX5PnBdk Dw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9w6aandu-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9w6aane7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Jul 2022 13:06:53 +0000
+ Wed, 13 Jul 2022 13:06:54 +0000
 Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26DBlJEf015951;
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26DBknUr014428;
  Wed, 13 Jul 2022 13:06:53 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9w6aancf-1
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9w6aand1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 13 Jul 2022 13:06:53 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26DCp6U9029727;
- Wed, 13 Jul 2022 13:06:50 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06fra.de.ibm.com with ESMTP id 3h8ncngv36-1
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26DCoIdh009090;
+ Wed, 13 Jul 2022 13:06:51 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3h70xhwqaf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Jul 2022 13:06:50 +0000
+ Wed, 13 Jul 2022 13:06:51 +0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26DD5GMK21954922
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26DD6mqx25166246
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jul 2022 13:05:16 GMT
+ Wed, 13 Jul 2022 13:06:48 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 385D1AE053;
+ by IMSVA (Postfix) with ESMTP id 7683AAE04D;
+ Wed, 13 Jul 2022 13:06:48 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5ED94AE053;
  Wed, 13 Jul 2022 13:06:47 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1F6ADAE04D;
- Wed, 13 Jul 2022 13:06:46 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 13 Jul 2022 13:06:46 +0000 (GMT)
+ Wed, 13 Jul 2022 13:06:47 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
  borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  richard.henderson@linaro.org
-Subject: [PATCH v2 01/11] dump: Cleanup memblock usage
-Date: Wed, 13 Jul 2022 13:03:12 +0000
-Message-Id: <20220713130322.25517-2-frankja@linux.ibm.com>
+Subject: [PATCH v2 02/11] dump: Allocate header
+Date: Wed, 13 Jul 2022 13:03:13 +0000
+Message-Id: <20220713130322.25517-3-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220713130322.25517-1-frankja@linux.ibm.com>
 References: <20220713130322.25517-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 23vGIS19H5_q-_bcYLA3WlHZLAz-5DtB
-X-Proofpoint-ORIG-GUID: NOxumviR4i_bBnx4xUDVJHGW5rF2YMPR
+X-Proofpoint-GUID: MiCdcJMybyml4xQoIObNDeDtsmKcDD8D
+X-Proofpoint-ORIG-GUID: PpRxlzUFLe9jf1G4ZCrKKmQLXhGQYbWH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-13_01,2022-07-13_02,2022-06-22_01
@@ -115,237 +115,203 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The iteration over the memblocks is hard to understand so it's about
-time to clean it up.
-
-struct DumpState's next_block and start members can and should be
-local variables within the iterator.
-
-Instead of manually grabbing the next memblock we can use
-QTAILQ_FOREACH to iterate over all memblocks.
-
-The begin and length fields in the DumpState have been left untouched
-since the qmp arguments share their names.
+Allocating the header lets us write it at a later time and hence also
+allows us to change section and segment table offsets until we
+finally write it.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- dump/dump.c           | 91 +++++++++++--------------------------------
- include/sysemu/dump.h | 47 +++++++++++++++++++---
- 2 files changed, 65 insertions(+), 73 deletions(-)
+ dump/dump.c           | 127 +++++++++++++++++++++---------------------
+ include/sysemu/dump.h |   1 +
+ 2 files changed, 64 insertions(+), 64 deletions(-)
 
 diff --git a/dump/dump.c b/dump/dump.c
-index 4d9658ffa2..6feba3cbfa 100644
+index 6feba3cbfa..16d7474258 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -591,56 +591,27 @@ static void dump_begin(DumpState *s, Error **errp)
-     write_elf_notes(s, errp);
+@@ -98,6 +98,7 @@ static int dump_cleanup(DumpState *s)
+     memory_mapping_list_free(&s->list);
+     close(s->fd);
+     g_free(s->guest_note);
++    g_free(s->elf_header);
+     s->guest_note = NULL;
+     if (s->resume) {
+         if (s->detached) {
+@@ -126,73 +127,49 @@ static int fd_write_vmcore(const void *buf, size_t size, void *opaque)
+     return 0;
  }
  
--static int get_next_block(DumpState *s, GuestPhysBlock *block)
--{
--    while (1) {
--        block = QTAILQ_NEXT(block, next);
--        if (!block) {
--            /* no more block */
--            return 1;
--        }
--
--        s->start = 0;
--        s->next_block = block;
--        if (s->has_filter) {
--            if (block->target_start >= s->begin + s->length ||
--                block->target_end <= s->begin) {
--                /* This block is out of the range */
--                continue;
--            }
--
--            if (s->begin > block->target_start) {
--                s->start = s->begin - block->target_start;
--            }
--        }
--
--        return 0;
--    }
--}
--
- /* write all memory to vmcore */
- static void dump_iterate(DumpState *s, Error **errp)
+-static void write_elf64_header(DumpState *s, Error **errp)
++static void prepare_elf64_header(DumpState *s)
  {
-     ERRP_GUARD();
-     GuestPhysBlock *block;
--    int64_t size;
-+    int64_t memblock_size, memblock_start;
+-    /*
+-     * phnum in the elf header is 16 bit, if we have more segments we
+-     * set phnum to PN_XNUM and write the real number of segments to a
+-     * special section.
+-     */
+-    uint16_t phnum = MIN(s->phdr_num, PN_XNUM);
+-    Elf64_Ehdr elf_header;
+-    int ret;
++    uint16_t phnum = s->phdr_num >= PN_XNUM ? PN_XNUM : s->phdr_num;
++    Elf64_Ehdr *elf_header = s->elf_header;
  
--    do {
--        block = s->next_block;
+-    memset(&elf_header, 0, sizeof(Elf64_Ehdr));
+-    memcpy(&elf_header, ELFMAG, SELFMAG);
+-    elf_header.e_ident[EI_CLASS] = ELFCLASS64;
+-    elf_header.e_ident[EI_DATA] = s->dump_info.d_endian;
+-    elf_header.e_ident[EI_VERSION] = EV_CURRENT;
+-    elf_header.e_type = cpu_to_dump16(s, ET_CORE);
+-    elf_header.e_machine = cpu_to_dump16(s, s->dump_info.d_machine);
+-    elf_header.e_version = cpu_to_dump32(s, EV_CURRENT);
+-    elf_header.e_ehsize = cpu_to_dump16(s, sizeof(elf_header));
+-    elf_header.e_phoff = cpu_to_dump64(s, s->phdr_offset);
+-    elf_header.e_phentsize = cpu_to_dump16(s, sizeof(Elf64_Phdr));
+-    elf_header.e_phnum = cpu_to_dump16(s, phnum);
++    memcpy(elf_header, ELFMAG, SELFMAG);
++    elf_header->e_ident[EI_CLASS] = ELFCLASS64;
++    elf_header->e_ident[EI_DATA] = s->dump_info.d_endian;
++    elf_header->e_ident[EI_VERSION] = EV_CURRENT;
++    elf_header->e_type = cpu_to_dump16(s, ET_CORE);
++    elf_header->e_machine = cpu_to_dump16(s, s->dump_info.d_machine);
++    elf_header->e_version = cpu_to_dump32(s, EV_CURRENT);
++    elf_header->e_ehsize = cpu_to_dump16(s, sizeof(*elf_header));
++    elf_header->e_phoff = cpu_to_dump64(s, s->phdr_offset);
++    elf_header->e_phentsize = cpu_to_dump16(s, sizeof(Elf64_Phdr));
++    elf_header->e_phnum = cpu_to_dump16(s, phnum);
+     if (s->shdr_num) {
+-        elf_header.e_shoff = cpu_to_dump64(s, s->shdr_offset);
+-        elf_header.e_shentsize = cpu_to_dump16(s, sizeof(Elf64_Shdr));
+-        elf_header.e_shnum = cpu_to_dump16(s, s->shdr_num);
+-    }
 -
--        size = block->target_end - block->target_start;
--        if (s->has_filter) {
--            size -= s->start;
--            if (s->begin + s->length < block->target_end) {
--                size -= block->target_end - (s->begin + s->length);
--            }
-+    QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-+        memblock_start = dump_get_memblock_start(block, s->begin, s->length);
-+        if (memblock_start == -1) {
-+            continue;
-         }
--        write_memory(s, block, s->start, size, errp);
-+
-+        memblock_size = dump_get_memblock_size(block, s->begin, s->length);
-+
-+        /* Write the memory to file */
-+        write_memory(s, block, memblock_start, memblock_size, errp);
-         if (*errp) {
-             return;
-         }
+-    ret = fd_write_vmcore(&elf_header, sizeof(elf_header), s);
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "dump: failed to write elf header");
++        elf_header->e_shoff = cpu_to_dump64(s, s->shdr_offset);
++        elf_header->e_shentsize = cpu_to_dump16(s, sizeof(Elf64_Shdr));
++        elf_header->e_shnum = cpu_to_dump16(s, s->shdr_num);
+     }
+ }
+ 
+-static void write_elf32_header(DumpState *s, Error **errp)
++static void prepare_elf32_header(DumpState *s)
+ {
+-    /*
+-     * phnum in the elf header is 16 bit, if we have more segments we
+-     * set phnum to PN_XNUM and write the real number of segments to a
+-     * special section.
+-     */
+-    uint16_t phnum = MIN(s->phdr_num, PN_XNUM);
+-    Elf32_Ehdr elf_header;
+-    int ret;
++    uint16_t phnum = s->phdr_num >= PN_XNUM ? PN_XNUM : s->phdr_num;
++    Elf32_Ehdr *elf_header = s->elf_header;
+ 
+-    memset(&elf_header, 0, sizeof(Elf32_Ehdr));
+-    memcpy(&elf_header, ELFMAG, SELFMAG);
+-    elf_header.e_ident[EI_CLASS] = ELFCLASS32;
+-    elf_header.e_ident[EI_DATA] = s->dump_info.d_endian;
+-    elf_header.e_ident[EI_VERSION] = EV_CURRENT;
+-    elf_header.e_type = cpu_to_dump16(s, ET_CORE);
+-    elf_header.e_machine = cpu_to_dump16(s, s->dump_info.d_machine);
+-    elf_header.e_version = cpu_to_dump32(s, EV_CURRENT);
+-    elf_header.e_ehsize = cpu_to_dump16(s, sizeof(elf_header));
+-    elf_header.e_phoff = cpu_to_dump32(s, s->phdr_offset);
+-    elf_header.e_phentsize = cpu_to_dump16(s, sizeof(Elf32_Phdr));
+-    elf_header.e_phnum = cpu_to_dump16(s, phnum);
++    memcpy(elf_header, ELFMAG, SELFMAG);
++    elf_header->e_ident[EI_CLASS] = ELFCLASS32;
++    elf_header->e_ident[EI_DATA] = s->dump_info.d_endian;
++    elf_header->e_ident[EI_VERSION] = EV_CURRENT;
++    elf_header->e_type = cpu_to_dump16(s, ET_CORE);
++    elf_header->e_machine = cpu_to_dump16(s, s->dump_info.d_machine);
++    elf_header->e_version = cpu_to_dump32(s, EV_CURRENT);
++    elf_header->e_ehsize = cpu_to_dump16(s, sizeof(*elf_header));
++    elf_header->e_phoff = cpu_to_dump32(s, s->phdr_offset);
++    elf_header->e_phentsize = cpu_to_dump16(s, sizeof(Elf32_Phdr));
++    elf_header->e_phnum = cpu_to_dump16(s, phnum);
+     if (s->shdr_num) {
+-        elf_header.e_shoff = cpu_to_dump32(s, s->shdr_offset);
+-        elf_header.e_shentsize = cpu_to_dump16(s, sizeof(Elf32_Shdr));
+-        elf_header.e_shnum = cpu_to_dump16(s, s->shdr_num);
+-    }
 -
--    } while (!get_next_block(s, block));
+-    ret = fd_write_vmcore(&elf_header, sizeof(elf_header), s);
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "dump: failed to write elf header");
++        elf_header->e_shoff = cpu_to_dump32(s, s->shdr_offset);
++        elf_header->e_shentsize = cpu_to_dump16(s, sizeof(Elf32_Shdr));
++        elf_header->e_shnum = cpu_to_dump16(s, s->shdr_num);
+     }
+ }
+ 
+@@ -528,6 +505,26 @@ static void write_elf_notes(DumpState *s, Error **errp)
+     }
+ }
+ 
++static void prepare_elf_header(DumpState *s)
++{
++    if (dump_is_64bit(s)) {
++        prepare_elf64_header(s);
++    } else {
++        prepare_elf32_header(s);
 +    }
- }
- 
- static void create_vmcore(DumpState *s, Error **errp)
-@@ -1490,30 +1461,22 @@ static void create_kdump_vmcore(DumpState *s, Error **errp)
-     }
- }
- 
--static ram_addr_t get_start_block(DumpState *s)
-+static int validate_start_block(DumpState *s)
++}
++
++static void write_elf_header(DumpState *s, Error **errp)
++{
++    size_t size = dump_is_64bit(s) ? sizeof(Elf64_Ehdr) : sizeof(Elf32_Ehdr);
++    int ret;
++
++    ret = fd_write_vmcore(s->elf_header, size, s);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "dump: failed to write elf header");
++    }
++}
++
+ /* write elf header, PT_NOTE and elf note to vmcore. */
+ static void dump_begin(DumpState *s, Error **errp)
  {
-     GuestPhysBlock *block;
+@@ -557,12 +554,11 @@ static void dump_begin(DumpState *s, Error **errp)
+      * vmcore.
+      */
  
-     if (!s->has_filter) {
--        s->next_block = QTAILQ_FIRST(&s->guest_phys_blocks.head);
-         return 0;
-     }
- 
-     QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-+        /* This block is out of the range */
-         if (block->target_start >= s->begin + s->length ||
-             block->target_end <= s->begin) {
--            /* This block is out of the range */
-             continue;
-         }
--
--        s->next_block = block;
--        if (s->begin > block->target_start) {
--            s->start = s->begin - block->target_start;
--        } else {
--            s->start = 0;
--        }
--        return s->start;
+-    /* write elf header to vmcore */
+-    if (dump_is_64bit(s)) {
+-        write_elf64_header(s, errp);
+-    } else {
+-        write_elf32_header(s, errp);
 -    }
-+        return 0;
-+   }
- 
-     return -1;
- }
-@@ -1540,25 +1503,17 @@ bool qemu_system_dump_in_progress(void)
-     return (qatomic_read(&state->status) == DUMP_STATUS_ACTIVE);
- }
- 
--/* calculate total size of memory to be dumped (taking filter into
-- * acoount.) */
-+/*
-+ * calculate total size of memory to be dumped (taking filter into
-+ * account.)
-+ */
- static int64_t dump_calculate_size(DumpState *s)
- {
-     GuestPhysBlock *block;
--    int64_t size = 0, total = 0, left = 0, right = 0;
-+    int64_t total = 0;
- 
-     QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
--        if (s->has_filter) {
--            /* calculate the overlapped region. */
--            left = MAX(s->begin, block->target_start);
--            right = MIN(s->begin + s->length, block->target_end);
--            size = right - left;
--            size = size > 0 ? size : 0;
--        } else {
--            /* count the whole region in */
--            size = (block->target_end - block->target_start);
--        }
--        total += size;
-+        total += dump_get_memblock_size(block, s->begin, s->length);
++    /* Write elf header to buffer */
++    prepare_elf_header(s);
++
++    /* Start to write stuff into files*/
++    write_elf_header(s, errp);
+     if (*errp) {
+         return;
      }
- 
-     return total;
-@@ -1660,8 +1615,8 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+@@ -1642,6 +1638,9 @@ static void dump_init(DumpState *s, int fd, bool has_format,
          goto cleanup;
      }
  
--    s->start = get_start_block(s);
--    if (s->start == -1) {
-+    /* Is the filter filtering everything? */
-+    if (validate_start_block(s) == -1) {
-         error_setg(errp, QERR_INVALID_PARAMETER, "begin");
-         goto cleanup;
-     }
++    s->elf_header = g_malloc0(dump_is_64bit(s) ?
++                              sizeof(Elf64_Ehdr) : sizeof(Elf32_Ehdr));
++
+     /*
+      * The goal of this block is to (a) update the previously guessed
+      * phys_base, (b) copy the guest note out of the guest.
 diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index ffc2ea1072..f3bf98c220 100644
+index f3bf98c220..736f681d01 100644
 --- a/include/sysemu/dump.h
 +++ b/include/sysemu/dump.h
-@@ -166,11 +166,10 @@ typedef struct DumpState {
-     hwaddr memory_offset;
-     int fd;
+@@ -171,6 +171,7 @@ typedef struct DumpState {
+     int64_t begin;             /* Start address of the chunk we want to dump */
+     int64_t length;            /* Length of the dump we want to dump */
  
--    GuestPhysBlock *next_block;
--    ram_addr_t start;
--    bool has_filter;
--    int64_t begin;
--    int64_t length;
-+    /* Guest memory related data */
-+    bool has_filter;           /* Are we dumping parts of the memory? */
-+    int64_t begin;             /* Start address of the chunk we want to dump */
-+    int64_t length;            /* Length of the dump we want to dump */
- 
++    void *elf_header;
      uint8_t *note_buf;          /* buffer for notes */
      size_t note_buf_offset;     /* the writing place in note_buf */
-@@ -203,4 +202,42 @@ typedef struct DumpState {
- uint16_t cpu_to_dump16(DumpState *s, uint16_t val);
- uint32_t cpu_to_dump32(DumpState *s, uint32_t val);
- uint64_t cpu_to_dump64(DumpState *s, uint64_t val);
-+
-+static inline int64_t dump_get_memblock_size(GuestPhysBlock *block, int64_t filter_area_start,
-+                                             int64_t filter_area_length)
-+{
-+    int64_t size, left, right;
-+
-+    /* No filter, return full size */
-+    if (!filter_area_length) {
-+        return block->target_end - block->target_start;
-+    }
-+
-+    /* calculate the overlapped region. */
-+    left = MAX(filter_area_start, block->target_start);
-+    right = MIN(filter_area_start + filter_area_length, block->target_end);
-+    size = right - left;
-+    size = size > 0 ? size : 0;
-+
-+    return size;
-+}
-+
-+static inline int64_t dump_get_memblock_start(GuestPhysBlock *block, int64_t filter_area_start,
-+                                  int64_t filter_area_length)
-+{
-+    if (filter_area_length) {
-+        /*
-+         * Check if block is within guest memory dump area. If not
-+         * go to next one.
-+         */
-+        if (block->target_start >= filter_area_start + filter_area_length ||
-+            block->target_end <= filter_area_start) {
-+            return -1;
-+        }
-+        if (filter_area_start > block->target_start) {
-+            return filter_area_start - block->target_start;
-+        }
-+    }
-+    return block->target_start;
-+}
- #endif
+     uint32_t nr_cpus;           /* number of guest's cpu */
 -- 
 2.34.1
 
