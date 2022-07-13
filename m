@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40C8573E64
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:59:16 +0200 (CEST)
-Received: from localhost ([::1]:57858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B292F574044
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 01:56:44 +0200 (CEST)
+Received: from localhost ([::1]:36438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBjS0-0006rW-0x
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42094)
+	id 1oBmDj-0006nb-8h
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 19:56:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oBjHK-0000WX-1K
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 16:48:14 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:40526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oBjHH-0006l3-Hh
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 16:48:12 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-31d85f82f0bso89435877b3.7
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 13:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VMKou8/cxoyWRj2LXWuE00Uz7Ica0uBvSeyt2xfCBgo=;
- b=cXVZDvfIxNbfqD5V7abnMhIJyJobRb+3iP0w2PCNBSvCfB1r73wyIIKfV/SCTAR4tt
- dCP51nPDA/xYl25/6XZxltdSlqR7/FgtUmD77FBNyuGXCMoi18axEd2j6t3xFSrz4Tja
- IRb9mAuXkUOAu+RAqK1TOCkvKu4X8GvpxG1wo5JVUelhBRaHm+o2/rKCFFtWNO5JKAr7
- SCjUNJPx+I63N5W+2sBWdeys2stngEtn83pQe3R5ORLSsVaoNCxZ/3x6ttDFLSii8LCM
- kQfAxE787Atx/rUjCrWxZTFa60p3WS5xfwUL7cBmtF0v+zW4cb0Y9TNn/ZVdgMgB98uG
- hQ5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VMKou8/cxoyWRj2LXWuE00Uz7Ica0uBvSeyt2xfCBgo=;
- b=zG5HDtQm5KWdJr3Qbjj7VlCwZWPGkwMUDUIgURbqv5GkC/+RnObD0hFNwF/1oFy747
- 1+1FpK+6dfh3l59uCNFcL/sLve2lI6nDfjb3UvSl4NGHHjPY+c66d7BMnSAvaWrBy6rl
- guiXqLysDidRFylgawTiP2rWXDXOMbm87WxLmhJVB4+Wr5QT7P9ZoUL0kyKTC9eriCd8
- 7xAM0M+HRv9deCxq6cFFNyPBYp/B0XUrC3JsFcA42rLK5BQyWrDPZGglQxkqIxey7R0z
- 0QmTRtGdgz89YiLFA94dAgqe3J8ei7L1oEvrMcoKXVdjWyahJLfEFmMFP9GE+fXVYX6t
- 5mZg==
-X-Gm-Message-State: AJIora+t7Y9m9g1Ech06/bMF62dbhlswHy1jMxtmicuQ/qOR4CuVo52c
- v/iOW3mQL1Ac6GJ+pnFYmnMe1TVnF9YrHTl8cOngpQ==
-X-Google-Smtp-Source: AGRyM1s2z6ltzUEj3g2FpX98PPkzhpdgD5XksT+E/OIJbsDdz+iDnq5BlGGcrKPMnMvhg/b9lxxgpHyOQ8ZVxLv4tBU=
-X-Received: by 2002:a81:6a85:0:b0:31c:8624:b065 with SMTP id
- f127-20020a816a85000000b0031c8624b065mr6345164ywc.64.1657745290134; Wed, 13
- Jul 2022 13:48:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oBmAA-00055H-42
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 19:53:02 -0400
+Received: from mga12.intel.com ([192.55.52.136]:19582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oBmA7-0004Rs-9N
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 19:53:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657756379; x=1689292379;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=d4b95Nutiv+fVkeoTmmbeGdels6G19ALZ7QCpFCTTwc=;
+ b=Gy5f1KMcoC3rW0KB7FyywkB0YD/AbAS+QTp1D041LYeZsdXweyOH6YEW
+ 29bgcb+RwfLX165+rE7RnU0s2+8MfMwKWw92xKBqUUTpqPXIgdnWgwEq9
+ 0dn6i2GQLR/5hpxooJRAzao0dG5s8Vi6KrYV/O8mngBS/J8hrSCSRFks6
+ e3yi9D69vF1Q++zRH82UttQ4cOthf6++zpASlB0IHPGWVErCzWtKTXH7d
+ SGzacHnXOExjyi8i/dpi5Hrbd5FV32VRhUc6Z37wt2tlbcpHAlN9t9dM4
+ QgvRexaTjD3QkGJLl2gJQ0x3ecEv929qeSFYdU5BDN+lssLjRbfQf4M69 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="265161939"
+X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; d="scan'208";a="265161939"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2022 16:52:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; d="scan'208";a="593176855"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by orsmga007.jf.intel.com with ESMTP; 13 Jul 2022 16:52:20 -0700
+Date: Thu, 14 Jul 2022 07:49:03 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 04/14] mm/shmem: Support memfile_notifier
+Message-ID: <20220713234903.GA2881285@chaop.bj.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-5-chao.p.peng@linux.intel.com>
+ <c4112b84-9359-d4c8-1852-0057c074607c@amd.com>
+ <20220713074458.GB2831541@chaop.bj.intel.com>
+ <74097857-1908-2ff2-1e54-bf7e658ea6c6@amd.com>
 MIME-Version: 1.0
-References: <20220712180617.1362407-1-hreitz@redhat.com>
-In-Reply-To: <20220712180617.1362407-1-hreitz@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 13 Jul 2022 21:47:31 +0100
-Message-ID: <CAFEAcA_sCoCm7pt0ojSQbrWPvDQzXfdNO0XKzZOwuHusBDm0wA@mail.gmail.com>
-Subject: Re: [PULL 00/35] Block patches
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <74097857-1908-2ff2-1e54-bf7e658ea6c6@amd.com>
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,42 +100,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Jul 2022 at 19:10, Hanna Reitz <hreitz@redhat.com> wrote:
->
-> The following changes since commit 9548cbeffffd4253e38570d29b8cff0bf77c998f:
->
->   iotests/copy-before-write: specify required_fmts (2022-07-12 13:21:02 +0530)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/hreitz/qemu.git tags/pull-block-2022-07-12
->
-> for you to fetch changes up to 85c4bf8aa6c93c24876e8870ae7cf8ab2e5a96cf:
->
->   vl: Unlink absolute PID file path (2022-07-12 14:31:15 +0200)
->
-> ----------------------------------------------------------------
-> Block patches:
-> - Refactoring for non-coroutine variants of bdrv/blk_co_* functions:
->   Auto-generate more of them with the block coroutine wrapper generator
->   script
-> - iotest fixes
-> - Both for the storage daemon and the system emulator: Fix PID file
->   handling when daemonizing (store the absolute path and delete that on
->   exit, which is necessary because daemonizing will change the working
->   directory to /)
->
-> ----------------------------------------------------------------
+On Wed, Jul 13, 2022 at 12:01:13PM +0200, Gupta, Pankaj wrote:
+> 
+> > > > +#ifdef CONFIG_MIGRATION
+> > > > +static int shmem_migrate_page(struct address_space *mapping,
+> > > > +			      struct page *newpage, struct page *page,
+> > > > +			      enum migrate_mode mode)
+> > > > +{
+> > > > +	struct inode *inode = mapping->host;
+> > > > +	struct shmem_inode_info *info = SHMEM_I(inode);
+> > > > +
+> > > > +	if (info->memfile_node.flags & MEMFILE_F_UNMOVABLE)
+> > > > +		return -EOPNOTSUPP;
+> > > > +	return migrate_page(mapping, newpage, page, mode);
+> > > 
+> > > Wondering how well page migrate would work for private pages
+> > > on shmem memfd based backend?
+> > 
+> >  From high level:
+> >    - KVM unset MEMFILE_F_UNMOVABLE bit to indicate it capable of
+> >      migrating a page.
+> >    - Introduce new 'migrate' callback(s) to memfile_notifier_ops for KVM
+> >      to register.
+> >    - The callback is hooked to migrate_page() here.
+> >    - Once page migration requested, shmem calls into the 'migrate'
+> >      callback(s) to perform additional steps for encrypted memory (For
+> >      TDX we will call TDH.MEM.PAGE.RELOCATE).
+> 
+> Yes, that would require additional (protocol specific) handling for private
+> pages. Was trying to find where "MEMFILE_F_UNMOVABLE" flag is set currently?
 
+It's set with memfile_register_notifier() in patch 13.
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
-
--- PMM
+> 
+> Thanks,
+> Pankaj
 
