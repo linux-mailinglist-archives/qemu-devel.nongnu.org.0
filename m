@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA39573159
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:41:26 +0200 (CEST)
-Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ABE757303D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:13:10 +0200 (CEST)
+Received: from localhost ([::1]:44590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBXvx-0006wu-6X
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:41:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33152)
+	id 1oBXUb-00007s-3u
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXBy-0008IT-AN; Wed, 13 Jul 2022 03:53:54 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:33587
+ id 1oBXC2-0008OD-Qu; Wed, 13 Jul 2022 03:53:58 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:46751
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXBw-0002d0-Lp; Wed, 13 Jul 2022 03:53:54 -0400
+ id 1oBXBz-0002dU-LS; Wed, 13 Jul 2022 03:53:57 -0400
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVHf1tNtz4ySl;
- Wed, 13 Jul 2022 17:53:50 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVHj22mLz4ySc;
+ Wed, 13 Jul 2022 17:53:53 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVHc1N1pz4ySW;
- Wed, 13 Jul 2022 17:53:47 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVHf5ZMXz4ySW;
+ Wed, 13 Jul 2022 17:53:50 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Peter Delevoryas <peter@pjd.dev>,
+ Peter Delevoryas <peter@pjd.dev>, Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 17/19] qtest/aspeed_gpio: Add input pin modification test
-Date: Wed, 13 Jul 2022 09:52:53 +0200
-Message-Id: <20220713075255.2248923-18-clg@kaod.org>
+Subject: [PULL 18/19] hw/gpio/aspeed: Don't let guests modify input pins
+Date: Wed, 13 Jul 2022 09:52:54 +0200
+Message-Id: <20220713075255.2248923-19-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220713075255.2248923-1-clg@kaod.org>
 References: <20220713075255.2248923-1-clg@kaod.org>
@@ -69,69 +69,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <peter@pjd.dev>
 
-Verify the current behavior, which is that input pins can be modified by
-guest OS register writes.
+Up until now, guests could modify input pins by overwriting the data
+value register. The guest OS should only be allowed to modify output pin
+values, and the QOM property setter should only be permitted to modify
+input pins.
 
+This change also updates the gpio input pin test to match this
+expectation.
+
+Andrew suggested this particularly refactoring here:
+
+    https://lore.kernel.org/qemu-devel/23523aa1-ba81-412b-92cc-8174faba3612@www.fastmail.com/
+
+Suggested-by: Andrew Jeffery <andrew@aj.id.au>
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220712023219.41065-2-peter@pjd.dev>
+Message-Id: <20220712023219.41065-3-peter@pjd.dev>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- tests/qtest/aspeed_gpio-test.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ hw/gpio/aspeed_gpio.c          | 15 ++++++++-------
+ tests/qtest/aspeed_gpio-test.c |  2 +-
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
-index bac63e8742f4..8f524540998d 100644
---- a/tests/qtest/aspeed_gpio-test.c
-+++ b/tests/qtest/aspeed_gpio-test.c
-@@ -28,6 +28,11 @@
- #include "qapi/qmp/qdict.h"
- #include "libqtest-single.h"
- 
-+#define AST2600_GPIO_BASE 0x1E780000
-+
-+#define GPIO_ABCD_DATA_VALUE 0x000
-+#define GPIO_ABCD_DIRECTION  0x004
-+
- static void test_set_colocated_pins(const void *data)
- {
-     QTestState *s = (QTestState *)data;
-@@ -46,6 +51,27 @@ static void test_set_colocated_pins(const void *data)
-     g_assert(!qtest_qom_get_bool(s, "/machine/soc/gpio", "gpioV7"));
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index a62a673857c2..1e267dd48203 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -268,7 +268,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState *s, GPIOSets *regs)
  }
  
-+static void test_set_input_pins(const void *data)
-+{
-+    QTestState *s = (QTestState *)data;
-+    char name[16];
-+    uint32_t value;
-+
-+    qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DIRECTION, 0x00000000);
-+    for (char c = 'A'; c <= 'D'; c++) {
-+        for (int i = 0; i < 8; i++) {
-+            sprintf(name, "gpio%c%d", c, i);
-+            qtest_qom_set_bool(s, "/machine/soc/gpio", name, true);
-+        }
-+    }
-+    value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
-+    g_assert_cmphex(value, ==, 0xffffffff);
-+
-+    qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE, 0x00000000);
-+    value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
-+    g_assert_cmphex(value, ==, 0x00000000);
-+}
-+
- int main(int argc, char **argv)
+ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+-                               uint32_t value)
++                               uint32_t value, uint32_t mode_mask)
  {
-     QTestState *s;
-@@ -56,6 +82,7 @@ int main(int argc, char **argv)
-     s = qtest_init("-machine ast2600-evb");
-     qtest_add_data_func("/ast2600/gpio/set_colocated_pins", s,
-                         test_set_colocated_pins);
-+    qtest_add_data_func("/ast2600/gpio/set_input_pins", s, test_set_input_pins);
-     r = g_test_run();
-     qtest_quit(s);
+     uint32_t input_mask = regs->input_mask;
+     uint32_t direction = regs->direction;
+@@ -277,7 +277,8 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+     uint32_t diff;
+     int gpio;
  
+-    diff = old ^ new;
++    diff = (old ^ new);
++    diff &= mode_mask;
+     if (diff) {
+         for (gpio = 0; gpio < ASPEED_GPIOS_PER_SET; gpio++) {
+             uint32_t mask = 1 << gpio;
+@@ -339,7 +340,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
+         value &= ~pin_mask;
+     }
+ 
+-    aspeed_gpio_update(s, &s->sets[set_idx], value);
++    aspeed_gpio_update(s, &s->sets[set_idx], value, ~s->sets[set_idx].direction);
+ }
+ 
+ /*
+@@ -653,7 +654,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
+         reg_value = update_value_control_source(set, set->data_value,
+                                                 reg_value);
+         set->data_read = reg_value;
+-        aspeed_gpio_update(s, set, reg_value);
++        aspeed_gpio_update(s, set, reg_value, set->direction);
+         return;
+     case gpio_reg_idx_direction:
+         reg_value = set->direction;
+@@ -753,7 +754,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
+             __func__, offset, data, reg_idx_type);
+         return;
+     }
+-    aspeed_gpio_update(s, set, set->data_value);
++    aspeed_gpio_update(s, set, set->data_value, UINT32_MAX);
+     return;
+ }
+ 
+@@ -799,7 +800,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+         data &= props->output;
+         data = update_value_control_source(set, set->data_value, data);
+         set->data_read = data;
+-        aspeed_gpio_update(s, set, data);
++        aspeed_gpio_update(s, set, data, set->direction);
+         return;
+     case gpio_reg_direction:
+         /*
+@@ -875,7 +876,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+                       PRIx64"\n", __func__, offset);
+         return;
+     }
+-    aspeed_gpio_update(s, set, set->data_value);
++    aspeed_gpio_update(s, set, set->data_value, UINT32_MAX);
+     return;
+ }
+ 
+diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
+index 8f524540998d..d38f51d71908 100644
+--- a/tests/qtest/aspeed_gpio-test.c
++++ b/tests/qtest/aspeed_gpio-test.c
+@@ -69,7 +69,7 @@ static void test_set_input_pins(const void *data)
+ 
+     qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE, 0x00000000);
+     value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
+-    g_assert_cmphex(value, ==, 0x00000000);
++    g_assert_cmphex(value, ==, 0xffffffff);
+ }
+ 
+ int main(int argc, char **argv)
 -- 
 2.35.3
 
