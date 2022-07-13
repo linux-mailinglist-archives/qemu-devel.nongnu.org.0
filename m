@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E6D5730E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:22:26 +0200 (CEST)
-Received: from localhost ([::1]:59676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57536573141
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:37:14 +0200 (CEST)
+Received: from localhost ([::1]:54594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBXdY-0002Ag-I6
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33090)
+	id 1oBXrt-0001UR-Dk
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXBq-0008Ae-RS; Wed, 13 Jul 2022 03:53:46 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:52951
+ id 1oBXBs-0008Bw-An; Wed, 13 Jul 2022 03:53:49 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:60413
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXBo-0002bb-Jz; Wed, 13 Jul 2022 03:53:46 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVHV1kl6z4ySg;
- Wed, 13 Jul 2022 17:53:42 +1000 (AEST)
+ id 1oBXBq-0002b7-1x; Wed, 13 Jul 2022 03:53:48 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVHY0ghfz4ySZ;
+ Wed, 13 Jul 2022 17:53:45 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVHS32vpz4ySW;
- Wed, 13 Jul 2022 17:53:40 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVHV5Ps8z4ySW;
+ Wed, 13 Jul 2022 17:53:42 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
+ Iris Chen <irischenlj@fb.com>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 14/19] test/avocado/machine_aspeed.py: Add SDK tests
-Date: Wed, 13 Jul 2022 09:52:50 +0200
-Message-Id: <20220713075255.2248923-15-clg@kaod.org>
+Subject: [PULL 15/19] hw: m25p80: Add Block Protect and Top Bottom bits for
+ write protect
+Date: Wed, 13 Jul 2022 09:52:51 +0200
+Message-Id: <20220713075255.2248923-16-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220713075255.2248923-1-clg@kaod.org>
 References: <20220713075255.2248923-1-clg@kaod.org>
@@ -67,95 +69,195 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Aspeed SDK kernel usually includes support for the lastest HW
-features. This is interesting to exercise QEMU and discover the gaps
-in the models.
+From: Iris Chen <irischenlj@fb.com>
 
-Add extra I2C tests for the AST2600 EVB machine to check the new
-register interface.
-
-Message-Id: <20220707091239.1029561-1-clg@kaod.org>
+Signed-off-by: Iris Chen <irischenlj@fb.com>
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Message-Id: <20220708164552.3462620-1-irischenlj@fb.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- tests/avocado/machine_aspeed.py | 68 +++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+ hw/block/m25p80.c | 102 ++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 90 insertions(+), 12 deletions(-)
 
-diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-index 3b8f784a57b6..b4e35a3d0743 100644
---- a/tests/avocado/machine_aspeed.py
-+++ b/tests/avocado/machine_aspeed.py
-@@ -170,3 +170,71 @@ def test_arm_ast2600_evb_builroot(self):
-         exec_command_and_wait_for_pattern(self, 'hwclock -f /dev/rtc1', year);
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 3045dda53b81..7879f7399ac6 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -36,21 +36,19 @@
+ #include "trace.h"
+ #include "qom/object.h"
  
-         self.do_test_arm_aspeed_buidroot_poweroff()
+-/* Fields for FlashPartInfo->flags */
+-
+-/* erase capabilities */
+-#define ER_4K 1
+-#define ER_32K 2
+-/* set to allow the page program command to write 0s back to 1. Useful for
+- * modelling EEPROM with SPI flash command set
+- */
+-#define EEPROM 0x100
+-
+ /* 16 MiB max in 3 byte address mode */
+ #define MAX_3BYTES_SIZE 0x1000000
+-
+ #define SPI_NOR_MAX_ID_LEN 6
+ 
++/* Fields for FlashPartInfo->flags */
++enum spi_flash_option_flags {
++    ER_4K                  = BIT(0),
++    ER_32K                 = BIT(1),
++    EEPROM                 = BIT(2),
++    HAS_SR_TB              = BIT(3),
++    HAS_SR_BP3_BIT6        = BIT(4),
++};
 +
+ typedef struct FlashPartInfo {
+     const char *part_name;
+     /*
+@@ -251,7 +249,8 @@ static const FlashPartInfo known_devices[] = {
+     { INFO("n25q512a11",  0x20bb20,      0,  64 << 10, 1024, ER_4K) },
+     { INFO("n25q512a13",  0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+     { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
+-    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512, ER_4K) },
++    { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512,
++           ER_4K | HAS_SR_BP3_BIT6 | HAS_SR_TB) },
+     { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
+     { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
+     { INFO("mt25ql512ab", 0x20ba20, 0x1044, 64 << 10, 1024, ER_4K | ER_32K) },
+@@ -478,6 +477,11 @@ struct Flash {
+     bool reset_enable;
+     bool quad_enable;
+     bool aai_enable;
++    bool block_protect0;
++    bool block_protect1;
++    bool block_protect2;
++    bool block_protect3;
++    bool top_bottom_bit;
+     bool status_register_write_disabled;
+     uint8_t ear;
+ 
+@@ -623,12 +627,36 @@ void flash_write8(Flash *s, uint32_t addr, uint8_t data)
+ {
+     uint32_t page = addr / s->pi->page_size;
+     uint8_t prev = s->storage[s->cur_addr];
++    uint32_t block_protect_value = (s->block_protect3 << 3) |
++                                   (s->block_protect2 << 2) |
++                                   (s->block_protect1 << 1) |
++                                   (s->block_protect0 << 0);
+ 
+     if (!s->write_enable) {
+         qemu_log_mask(LOG_GUEST_ERROR, "M25P80: write with write protect!\n");
+         return;
+     }
+ 
++    if (block_protect_value > 0) {
++        uint32_t num_protected_sectors = 1 << (block_protect_value - 1);
++        uint32_t sector = addr / s->pi->sector_size;
 +
-+    def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
-+        self.vm.set_console()
-+        self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
-+                         '-net', 'nic', '-net', 'user')
-+        self.vm.launch()
++        /* top_bottom_bit == 0 means TOP */
++        if (!s->top_bottom_bit) {
++            if (s->pi->n_sectors <= sector + num_protected_sectors) {
++                qemu_log_mask(LOG_GUEST_ERROR,
++                              "M25P80: write with write protect!\n");
++                return;
++            }
++        } else {
++            if (sector < num_protected_sectors) {
++                qemu_log_mask(LOG_GUEST_ERROR,
++                              "M25P80: write with write protect!\n");
++                return;
++            }
++        }
++    }
 +
-+        self.wait_for_console_pattern('U-Boot 2019.04')
-+        self.wait_for_console_pattern('## Loading kernel from FIT Image')
-+        self.wait_for_console_pattern('Starting kernel ...')
-+        self.wait_for_console_pattern('Booting Linux on physical CPU ' + cpu_id)
+     if ((prev ^ data) & data) {
+         trace_m25p80_programming_zero_to_one(s, addr, prev, data);
+     }
+@@ -726,6 +754,15 @@ static void complete_collecting_data(Flash *s)
+         break;
+     case WRSR:
+         s->status_register_write_disabled = extract32(s->data[0], 7, 1);
++        s->block_protect0 = extract32(s->data[0], 2, 1);
++        s->block_protect1 = extract32(s->data[0], 3, 1);
++        s->block_protect2 = extract32(s->data[0], 4, 1);
++        if (s->pi->flags & HAS_SR_TB) {
++            s->top_bottom_bit = extract32(s->data[0], 5, 1);
++        }
++        if (s->pi->flags & HAS_SR_BP3_BIT6) {
++            s->block_protect3 = extract32(s->data[0], 6, 1);
++        }
+ 
+         switch (get_man(s)) {
+         case MAN_SPANSION:
+@@ -1212,6 +1249,15 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+     case RDSR:
+         s->data[0] = (!!s->write_enable) << 1;
+         s->data[0] |= (!!s->status_register_write_disabled) << 7;
++        s->data[0] |= (!!s->block_protect0) << 2;
++        s->data[0] |= (!!s->block_protect1) << 3;
++        s->data[0] |= (!!s->block_protect2) << 4;
++        if (s->pi->flags & HAS_SR_TB) {
++            s->data[0] |= (!!s->top_bottom_bit) << 5;
++        }
++        if (s->pi->flags & HAS_SR_BP3_BIT6) {
++            s->data[0] |= (!!s->block_protect3) << 6;
++        }
+ 
+         if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
+             s->data[0] |= (!!s->quad_enable) << 6;
+@@ -1552,6 +1598,11 @@ static void m25p80_reset(DeviceState *d)
+ 
+     s->wp_level = true;
+     s->status_register_write_disabled = false;
++    s->block_protect0 = false;
++    s->block_protect1 = false;
++    s->block_protect2 = false;
++    s->block_protect3 = false;
++    s->top_bottom_bit = false;
+ 
+     reset_memory(s);
+ }
+@@ -1638,6 +1689,32 @@ static const VMStateDescription vmstate_m25p80_write_protect = {
+     }
+ };
+ 
++static bool m25p80_block_protect_needed(void *opaque)
++{
++    Flash *s = (Flash *)opaque;
 +
-+    def test_arm_ast2500_evb_sdk(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:ast2500-evb
-+        """
++    return s->block_protect0 ||
++           s->block_protect1 ||
++           s->block_protect2 ||
++           s->block_protect3 ||
++           s->top_bottom_bit;
++}
 +
-+        image_url = ('https://github.com/AspeedTech-BMC/openbmc/releases/'
-+                     'download/v08.01/ast2500-default-obmc.tar.gz')
-+        image_hash = ('5375f82b4c43a79427909342a1e18b4e48bd663e38466862145d27bb358796fd')
-+        image_path = self.fetch_asset(image_url, asset_hash=image_hash,
-+                                      algorithm='sha256')
-+        archive.extract(image_path, self.workdir)
++static const VMStateDescription vmstate_m25p80_block_protect = {
++    .name = "m25p80/block_protect",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = m25p80_block_protect_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_BOOL(block_protect0, Flash),
++        VMSTATE_BOOL(block_protect1, Flash),
++        VMSTATE_BOOL(block_protect2, Flash),
++        VMSTATE_BOOL(block_protect3, Flash),
++        VMSTATE_BOOL(top_bottom_bit, Flash),
++        VMSTATE_END_OF_LIST()
++    }
++};
 +
-+        self.do_test_arm_aspeed_sdk_start(
-+            self.workdir + '/ast2500-default/image-bmc', '0x0')
-+        self.wait_for_console_pattern('ast2500-default login:')
-+
-+    def test_arm_ast2600_evb_sdk(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:ast2600-evb
-+        """
-+
-+        image_url = ('https://github.com/AspeedTech-BMC/openbmc/releases/'
-+                     'download/v08.01/ast2600-default-obmc.tar.gz')
-+        image_hash = ('f12ef15e8c1f03a214df3b91c814515c5e2b2f56119021398c1dbdd626817d15')
-+        image_path = self.fetch_asset(image_url, asset_hash=image_hash,
-+                                      algorithm='sha256')
-+        archive.extract(image_path, self.workdir)
-+
-+        self.vm.add_args('-device',
-+                         'tmp105,bus=aspeed.i2c.bus.5,address=0x4d,id=tmp-test');
-+        self.vm.add_args('-device',
-+                         'ds1338,bus=aspeed.i2c.bus.5,address=0x32');
-+        self.do_test_arm_aspeed_sdk_start(
-+            self.workdir + '/ast2600-default/image-bmc', '0xf00')
-+        self.wait_for_console_pattern('ast2600-default login:')
-+        exec_command_and_wait_for_pattern(self, 'root', 'Password:')
-+        exec_command_and_wait_for_pattern(self, '0penBmc', 'root@ast2600-default:~#')
-+
-+        exec_command_and_wait_for_pattern(self,
-+             'echo lm75 0x4d > /sys/class/i2c-dev/i2c-5/device/new_device',
-+             'i2c i2c-5: new_device: Instantiated device lm75 at 0x4d');
-+        exec_command_and_wait_for_pattern(self,
-+                             'cat /sys/class/hwmon/hwmon19/temp1_input', '0')
-+        self.vm.command('qom-set', path='/machine/peripheral/tmp-test',
-+                        property='temperature', value=18000);
-+        exec_command_and_wait_for_pattern(self,
-+                             'cat /sys/class/hwmon/hwmon19/temp1_input', '18000')
-+
-+        exec_command_and_wait_for_pattern(self,
-+             'echo ds1307 0x32 > /sys/class/i2c-dev/i2c-5/device/new_device',
-+             'i2c i2c-5: new_device: Instantiated device ds1307 at 0x32');
-+        year = time.strftime("%Y")
-+        exec_command_and_wait_for_pattern(self, 'hwclock -f /dev/rtc1', year);
+ static const VMStateDescription vmstate_m25p80 = {
+     .name = "m25p80",
+     .version_id = 0,
+@@ -1670,6 +1747,7 @@ static const VMStateDescription vmstate_m25p80 = {
+         &vmstate_m25p80_data_read_loop,
+         &vmstate_m25p80_aai_enable,
+         &vmstate_m25p80_write_protect,
++        &vmstate_m25p80_block_protect,
+         NULL
+     }
+ };
 -- 
 2.35.3
 
