@@ -2,153 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E72573901
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 16:38:43 +0200 (CEST)
-Received: from localhost ([::1]:44452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6CB573966
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 16:58:08 +0200 (CEST)
+Received: from localhost ([::1]:55550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBdVi-0004t6-9R
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 10:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43238)
+	id 1oBdoV-0005wq-DI
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 10:58:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1oBdTm-0002KD-Kn
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 10:36:42 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:40134)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oBdly-0003iQ-KV; Wed, 13 Jul 2022 10:55:32 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1oBdTg-0004oI-5c
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 10:36:41 -0400
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26D76ul6023422;
- Wed, 13 Jul 2022 07:36:31 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oBdlu-0001MX-24; Wed, 13 Jul 2022 10:55:29 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26DEMpgU023466;
+ Wed, 13 Jul 2022 14:55:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=lrnwZKSjGR1PZyt+ZaQG5iDORTuk2rHyuRD+zaNcPoY=;
- b=MVSXfUtWl4nUMkCYjLpE4YajyPert8HKpgnExxxIhTmYDSUD0GbauYRTjaj7iR5jvzF3
- BGt/DsRhStI90xDHqp7arEncQEf6wL02V5nOM3jTovCgPT12IQfAqyGUrWfa+eMpmKdj
- WQNxzNhJzEXxtC6oBadhTUnkpToslQQ/TLU43wynU/7AQ5uhYXsHLUq6DUQRYtmE++Fr
- cPGP10YZs3utk6AUmkYcPKRyvFXnOconejP9qQxECeS1IkErW+iRZQs54GGqXRTIMmLH
- nU09tSQwCuf3aqlHyGjLfhOmh3WZM1jv07iA3oe0nhi/cUKbjTI18DHP7d9W4i0uXg7k Zw== 
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3h79778fnp-1
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=UxE9pMoOvEdcGj9Rp/zJ3f4FOQSF77pl7kkpvbksTac=;
+ b=TIiaeN+bOfG1x9I8rYJDUM25FCKRs5HrMt86fjg75ncZfiOu/ebb8DZRYGYeMCDwZInV
+ Lg4HYK9C0S/apPCFmTEpZXDY8sW0RbmFDiPyeHdumHjuZ0x+Cyg1YKQZcbYpac6mzF+M
+ CiH3OlEJe/kENAA4IEWJhJMLt2Hn8ai3MrBj3u/ujm+Ldk2QT3MJciNDtzYaQ1/lVMO+
+ k7CzOkT2Rm+Xd6JbAabCiTj1x4V1i/FEdSlWdklrKiz63wd5pvLErOsK60dg4jC8upmw
+ pYUnz8ZzC6me0OyH5pDc/b4j1yKI/0m+ZVnzq16SfGmLxK5y3KFuGSlM+ijHxdmSz4pj eA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9yrx0rwu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Jul 2022 07:36:31 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WolhZDMd8GzQ8F7jp1YZ9XwCxh4UTYmk1UuxgiDntXXUBrR2qKaB2otIC0HWJ0Ftqps5//lktIs1uOPso0pykCH7t4px78/8d4odc8410lGIX86v9Lg2mdzgecCPnG/inpvwYAu7ZSCmdpllNicWhK7b0A7rXWnFOm2fG2aAjJtnIkFg9a4J5jZNDwLiAowqyyLQ2KU4hsxI7VPCa1QlyfmCKCHKwNH/1QKpVunvOSgVUMjxKjzHz2iu8Hz99ZFJujl41Joo847wGzzMQZggA1+n4x1FOKRoXbpEaz1DP2+kOtJt3v0Vbx5L8E0teE259ZkDHuo8arTtLtzLZ8hlGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lrnwZKSjGR1PZyt+ZaQG5iDORTuk2rHyuRD+zaNcPoY=;
- b=kTkvGp9kNF0u0IxMk74rIa2dlaYIubJXF08yqhimXtaZ9M7vgGSaEhqNlKuSe0cFLYU2HLIixxvNWIs0I5DcxmutgjyJT0VXWyTvEHJYMh7+Cx/G8dJYmaRGvuW8BeLTZ8UQZU+8fen6Cl1vkADlh3ZUugpNeVvh6XEx6KUdqPdhDOSUo3utJzkw+I2ULVN5j5Abo7QDELh9i3buIUJLac3B8L1LJmfv4cCj/lPX/TNaxZVxWRobNf/+rdpljlznr2/bWnq8eKS3EbI1GsVvu4+L025X39m7YNBxqafaSre2LQZb4jgVEKeMg8y7G4DACbPryml8e37NnDL3PiZ8pQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BYAPR02MB4343.namprd02.prod.outlook.com (2603:10b6:a03:57::18)
- by BL0PR02MB4450.namprd02.prod.outlook.com (2603:10b6:208:44::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.12; Wed, 13 Jul
- 2022 14:36:28 +0000
-Received: from BYAPR02MB4343.namprd02.prod.outlook.com
- ([fe80::1493:404b:3242:8e0f]) by BYAPR02MB4343.namprd02.prod.outlook.com
- ([fe80::1493:404b:3242:8e0f%5]) with mapi id 15.20.5417.026; Wed, 13 Jul 2022
- 14:36:28 +0000
-Message-ID: <0237886b-b7b0-65a4-8431-c9ed62018b8a@nutanix.com>
-Date: Wed, 13 Jul 2022 20:06:17 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH 2/4] Adding multi-interface support for multi-FD on
- destination side
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com, pbonzini@redhat.com,
- berrange@redhat.com, armbru@redhat.com, eblake@redhat.com,
- Manish Mishra <manish.mishra@nutanix.com>
-References: <20220609073305.142515-1-het.gala@nutanix.com>
- <20220609073305.142515-3-het.gala@nutanix.com> <Yqt5I1sP7YxcU3TK@work-vm>
-From: Het Gala <het.gala@nutanix.com>
-In-Reply-To: <Yqt5I1sP7YxcU3TK@work-vm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MAXPR0101CA0048.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:d::34) To BYAPR02MB4343.namprd02.prod.outlook.com
- (2603:10b6:a03:57::18)
+ Wed, 13 Jul 2022 14:55:22 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26DEcrwu024405;
+ Wed, 13 Jul 2022 14:55:21 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9yrx0rvw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Jul 2022 14:55:21 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26DEoP54023995;
+ Wed, 13 Jul 2022 14:55:19 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma01fra.de.ibm.com with ESMTP id 3h71a8w3yr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Jul 2022 14:55:19 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26DEtFU220709642
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 Jul 2022 14:55:15 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C25F2AE04D;
+ Wed, 13 Jul 2022 14:55:15 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AEBF9AE059;
+ Wed, 13 Jul 2022 14:55:14 +0000 (GMT)
+Received: from [9.171.80.107] (unknown [9.171.80.107])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 13 Jul 2022 14:55:14 +0000 (GMT)
+Message-ID: <5215ca74-e71c-73df-69c9-d2522e082706@linux.ibm.com>
+Date: Wed, 13 Jul 2022 16:59:57 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2e2a0aff-1711-4ce8-a56b-08da64dd1211
-X-MS-TrafficTypeDiagnostic: BL0PR02MB4450:EE_
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DppoKe8b8YJuqvW3ExE4L9lH4AIQjk/wcgLA3VvPcgaUy/eJSs3UR/xIz58bd+CUNSjyGInKjHiy4djSHxqUP5+QJbnlG0ge6HEgh5NEvjYI6Ukwm6h+2eg9wY5S++yTSsbNSXm8TTjMFVz8Ppgg3T++YEJWY6/k3VVEERbPc6BFhKUL+KzntV0ivV0E/FVqVTsgPWIHUjjedQHDdoxH4kY0cHWIilxAiARBLYFeuMpu37+2dn/ciuhRZ6q11pmm/KGkZTQHIY7gJpTnWd/4BSSNxaM/LjL6MjFWQ1mV1fQvB2oPLoPowBZ1O3VdHKczJbWWTY0Y/Wg7ZAHEirkL+d97AW0+xedQfWfR6cwpc3lgIWvfyDALMuchFU7Zm3WxJYUpwCcZeSJBoyUa/VdNJMShECXUKilie4l0zPB3gNSwmWH1k9rygg5sv6pTBK2/VQMhYtpBn9nANQUpL1wYe5Mn4fD5LExi7QKZA5IgeMlVXK1aqxAIjp5cSVWv426vgfiS/9KWNGvplVeVsVzw+/CvvxLwEOOYMGkTALlCkVJGmE1rpygf6iK5qPMCHDzkeeRQb6xhffY6ycouw12ujFmhyIQmnZJ0ZdNmlrb4F/NzyWHqMHzKaE+HMlFPfYcmCBrWFu+a220LydNfWEayAm+AfJEHblGvrFcIU7jYV3z1A0Kv+Cqg4XqH5KQVe452WRN1QjNiTYVzYFXKyCGcW1VitgCz8ThUz6GW4aRQ8lbD2Z5KEHeOjPTiMXm3i7nb+MhYuW6daGb6AvnRh/ez6mh7QDhfqdDgsp0fNtgVmedNyDSEEez1v+q5ZBulA5NNCzbHq+COZYkbmkuYajKTMrp9GOdWLeR90BoPnuaVzzv06jy8Tu50zSHLFVSFXxrYBcV/QXZRbeGKdXHut28nHg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4343.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(136003)(396003)(346002)(376002)(39860400002)(366004)(83380400001)(31696002)(86362001)(38350700002)(38100700002)(8936002)(5660300002)(478600001)(6486002)(2906002)(41300700001)(30864003)(6916009)(44832011)(6666004)(316002)(4326008)(8676002)(52116002)(66476007)(31686004)(66946007)(107886003)(186003)(66556008)(53546011)(6512007)(36756003)(26005)(2616005)(6506007)(43740500002)(45980500001)(309714004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2t4Y0g5OEpBTDEweUNHZWM4QjVBbEN4UW5EMFNTZTk3SUlYQnFOMDZ6OEcw?=
- =?utf-8?B?M000M09sNElHb2k1bWVXTHBVM0paZGhuQXk2VHNKOTlFZnRQZ0ZhQXE1K1No?=
- =?utf-8?B?a29QaThQUktOTU1pTEFsSjEzK2VFekJoVDBtYVZHeXdwTjM3UU1YK3dhekxD?=
- =?utf-8?B?cG12OVBhR1VoREc4VHduNXVqVjNZZ1RHVGp4UEs2TTg4ZmVybVZkZVdDQmFR?=
- =?utf-8?B?eWIvWU51RmN4TStLU21kNk9hclZOeDBGOEFBUHhXSFJ5cm5HMmsyc1lMZHda?=
- =?utf-8?B?K1NNemU5S0NhSWdiblF6Qy9PZ3FMZ21ocG9PY2o0WTdrenhlNGNLeUZncGh1?=
- =?utf-8?B?dmpBWXl0SDUybzd6c1lPTTcwNUdzTnI3V3pSQTFRcmMwWWRPOEJZM1Joalo1?=
- =?utf-8?B?aWNIQm85WGttVTViVTJIay9JQlpGWUc1VmIyMXg3dWhUOUJFdWRBS0k0STZw?=
- =?utf-8?B?STZnVTRUaXlOLzRzMUpNS0s4Wi9wTXpaSi8vNkczU1d1dTRUQit5UUdvWTVS?=
- =?utf-8?B?eFpTOXBQS2IvbThkQklmVGxQVktWWk8vaktYTE1VdkJFdG0vRWNPSXJxVmV3?=
- =?utf-8?B?cjJTZU93UHVwbmVMUGdqN1RMNVMwWnpJa3A4U2QxLzhTWUFHd293S3J4QlhK?=
- =?utf-8?B?Vk9CNjQ2VTV4TVJ4QkVBWFdsRGdxblYvd21DdVFGZ0xNMDJrUWd6ZDdUdXF0?=
- =?utf-8?B?QUlvdTIwOHRwU0srSEpwZG9USTR0am04TFl6OUxSdFVOM0ZMRnpmbHY5dVlX?=
- =?utf-8?B?U2UvTStwUWNYdi96WDI5NW5IM2M4VG1VSEtYZkVPSnNEWG13V2QxTkNZNTY0?=
- =?utf-8?B?enFrbmg5WW9mNVVxWHd1MHRiUGtUTjBFcnhxWmpibVo5ZlYwQUswakZaVDJr?=
- =?utf-8?B?Qk1oRE5NT0ZNYzR6SmhLRWFMTjQ4aWdXUGhwODNRNllLdVpVaW4zbnRWN01H?=
- =?utf-8?B?MWoxMHRxTUd2aWUyeElOYkovTExRMDJZb1d5MDVoZ3NVbTJZU0Fqak5mU0c4?=
- =?utf-8?B?Q1RJa25meUhqRnhrTXV6TVNtUXRUdEhIWjYvVmc3RFNLaWtPZVN0T08yamY5?=
- =?utf-8?B?SDViM3BMckhkUUNOcE5jdlNPMFF4WStTbzNhbFI3T1ZFRXpoWkl0SFhjZ0p4?=
- =?utf-8?B?eWpWWi9ydkZ4TWZrcnlwcHFMbzd5UVRJV2V0Q3Q3K1NkRS9XVjYwZzJCdTQ2?=
- =?utf-8?B?TGtFMW9nMzB3WU9uVm9lZUFsL213WXAvaCtMMjFvekF6V0RZRVlSUnRGdWJR?=
- =?utf-8?B?OHJ2ZXNrSExMZVJYQitaR0ltdTJwNVA3U1g1aXk1N0N2cUphQktjYm9ZdkxK?=
- =?utf-8?B?NTZiWkFKSk5BNTBoS2xDUU55Z0tZMjhUL0E5TUYyWGdScW90Z2VLVnNvK29J?=
- =?utf-8?B?Qmg5WWFHc1FzY0FrK1l5L3NKSWlQM2dsL3BHMy9jaHliQ3JFUmxydVZkQ1hF?=
- =?utf-8?B?cGtqc2VabWpHSFpFQXFManp6T2VLV3BXY0F2TzBtY3I3SFhNRDlHbFNOV05p?=
- =?utf-8?B?YTR3T1JMS2lpbk83akEyN1Jwc0xxVWdKZzRUWVdjdUJ5OWlEUFhGdmRPczZz?=
- =?utf-8?B?aU5Sc2U3cWI2bzA2N0hRcnVqamNhVFlIbURrUzZhNTVDUDFvNmw3OSs2amxV?=
- =?utf-8?B?eXplQmlMYlU1NFJMaVFtQTBGdmJkY281MXppRUdHNkFLbFlaSDE5VHZkVE04?=
- =?utf-8?B?MG9VRlFtK2VEbEh2M2J3NHFpSEdIa1BGdGdBTG9TNWhmekJHUmdLWGtCcnkz?=
- =?utf-8?B?Q1BaSndVWit0RDErc1g4QWRLdHllMXUyN0lEdllmTjlYVllSVHRheGRDOWhi?=
- =?utf-8?B?Tld1bTJ0b2ZwREplSkRsMjhYc1huNDEyVURINldadytqUVV6enI4VmNQS0hJ?=
- =?utf-8?B?VXd6YmVLWUErTFRhODJFMnFwb3lzQWVQWEQ3TlJDc0h4ZjJzdXB5QWJYRlpk?=
- =?utf-8?B?ZVR3NlJteitiend2TUtkVEYzd09pYWNWWmJYWDQrMThZRzQ5bTdoS0R1QzJH?=
- =?utf-8?B?YmFKYXpjeDBQTXI1bTlaSk5xS2FMQ0NsZWgxTUVySVVhMVZ2VGRSWTJtWlIz?=
- =?utf-8?B?OVRaNTFwczF1Rms4MnR5S1NEOE1Na25MVUhudVI3Y1hXc1dZb2xac0NBbEh2?=
- =?utf-8?Q?G1dZTsqOujmLLHFCGbGlG4f3w?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e2a0aff-1711-4ce8-a56b-08da64dd1211
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4343.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2022 14:36:28.3636 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xxJHnhG9LqhzrXUtaM9KmVqrVqXDaC3g+QFZMNT9nWmL0y07KTAebEYL4bmrgcAhRKCT35Vy+iQrPUvUoOERbA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB4450
-X-Proofpoint-ORIG-GUID: Hu0DiqwZt1_V2N13QC3HGrO5UnMQ5y2_
-X-Proofpoint-GUID: Hu0DiqwZt1_V2N13QC3HGrO5UnMQ5y2_
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v8 02/12] s390x/cpu_topology: CPU topology objects and
+ structures
+Content-Language: en-US
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220620140352.39398-1-pmorel@linux.ibm.com>
+ <20220620140352.39398-3-pmorel@linux.ibm.com>
+ <de92ef17-3a17-df44-97aa-19e67d1d5b3d@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <de92ef17-3a17-df44-97aa-19e67d1d5b3d@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: YJdfLVBVaO-GUR5KJOVGh0oIzazQ24wZ
+X-Proofpoint-ORIG-GUID: VAGAEV1MJLse3WJzp454elAdFLofdcO4
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-13_03,2022-07-13_03,2022-06-22_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12; envelope-from=het.gala@nutanix.com;
- helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 adultscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
+ bulkscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207130059
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -166,643 +124,833 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 17/06/22 12:10 am, Dr. David Alan Gilbert wrote:
-> * Het Gala (het.gala@nutanix.com) wrote:
->> i) Modified the format of qemu monitor command: ‘migrate-incoming’ by adding
->>     a list, each element in the list is to open listeners with a given number
->>     of multiFD channels.
+
+On 7/12/22 17:40, Janis Schoetterl-Glausch wrote:
+> On 6/20/22 16:03, Pierre Morel wrote:
+>> We use new objects to have a dynamic administration of the CPU topology.
+>> The highest level object in this implementation is the s390 book and
+>> in this first implementation of CPU topology for S390 we have a single
+>> book.
+>> The book is built as a SYSBUS bridge during the CPU initialization.
+>> Other objects, sockets and core will be built after the parsing
+>> of the QEMU -smp argument.
 >>
->> ii) Qemu starts with -incoming flag defer and -multi-fd-incoming defer to
->>      allow the modified 'migrate-incoming' command to be used.
+>> Every object under this single book will be build dynamically
+>> immediately after a CPU has be realized if it is needed.
+>> The CPU will fill the sockets once after the other, according to the
+>> number of core per socket defined during the smp parsing.
 >>
->> iii) Format for -multi-fd-incoming flag as a comma separated string has been
->>       added with each substring containing listener socket address and number
->>       of sockets to open.
+>> Each CPU inside a socket will be represented by a bit in a 64bit
+>> unsigned long. Set on plug and clear on unplug of a CPU.
 >>
->> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
->> Signed-off-by: Het Gala <het.gala@nutanix.com>
+>> For the S390 CPU topology, thread and cores are merged into
+>> topology cores and the number of topology cores is the multiplication
+>> of cores by the numbers of threads.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 >> ---
->>   include/qapi/util.h   |   1 +
->>   migration/migration.c | 149 ++++++++++++++++++++++++++++++++++++------
->>   migration/migration.h |   2 +
->>   migration/socket.c    |  11 ++--
->>   migration/socket.h    |   3 +-
->>   monitor/hmp-cmds.c    |  42 ++++--------
->>   qapi/migration.json   |  43 ++++++++++--
->>   qapi/qapi-util.c      |  27 ++++++++
->>   qemu-options.hx       |  18 +++++
->>   softmmu/vl.c          |  30 ++++++++-
->>   10 files changed, 265 insertions(+), 61 deletions(-)
+>>   hw/s390x/cpu-topology.c         | 391 ++++++++++++++++++++++++++++++++
+>>   hw/s390x/meson.build            |   1 +
+>>   hw/s390x/s390-virtio-ccw.c      |   6 +
+>>   include/hw/s390x/cpu-topology.h |  74 ++++++
+>>   target/s390x/cpu.h              |  47 ++++
+>>   5 files changed, 519 insertions(+)
+>>   create mode 100644 hw/s390x/cpu-topology.c
+>>   create mode 100644 include/hw/s390x/cpu-topology.h
 >>
->> diff --git a/include/qapi/util.h b/include/qapi/util.h
->> index 3041feb3d9..88fb2270db 100644
->> --- a/include/qapi/util.h
->> +++ b/include/qapi/util.h
->> @@ -29,6 +29,7 @@ bool qapi_bool_parse(const char *name, const char *value, bool *obj,
->>                        Error **errp);
->>   
->>   int parse_qapi_name(const char *name, bool complete);
->> +struct strList *strList_from_string(const char *in, char c);
->>   
->>   /*
->>    * For any GenericList @list, insert @element at the front.
->> diff --git a/migration/migration.c b/migration/migration.c
->> index c408175aeb..9b0ad732e7 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -477,28 +477,39 @@ void migrate_add_address(SocketAddress *address)
->>                         QAPI_CLONE(SocketAddress, address));
->>   }
->>   
->> -static void qemu_start_incoming_migration(const char *uri, Error **errp)
->> +static void qemu_start_incoming_migration(const char *uri, uint8_t number,
->> +                                          int idx, Error **errp)
->>   {
->>       const char *p = NULL;
->>   
->> -    migrate_protocol_allow_multi_channels(false); /* reset it anyway */
->> -    qapi_event_send_migration(MIGRATION_STATUS_SETUP);
->> -    if (strstart(uri, "tcp:", &p) ||
->> -        strstart(uri, "unix:", NULL) ||
->> -        strstart(uri, "vsock:", NULL)) {
->> -        migrate_protocol_allow_multi_channels(true);
->> -        socket_start_incoming_migration(p ? p : uri, errp);
->> -#ifdef CONFIG_RDMA
->> -    } else if (strstart(uri, "rdma:", &p)) {
->> -        rdma_start_incoming_migration(p, errp);
->> -#endif
->> -    } else if (strstart(uri, "exec:", &p)) {
->> -        exec_start_incoming_migration(p, errp);
->> -    } else if (strstart(uri, "fd:", &p)) {
->> -        fd_start_incoming_migration(p, errp);
->> +    if (number ==  0) {
->> +        migrate_protocol_allow_multi_channels(false); /* reset it anyway */
->> +        qapi_event_send_migration(MIGRATION_STATUS_SETUP);
->> +        if (strstart(uri, "tcp:", &p) ||
->> +            strstart(uri, "unix:", NULL) ||
->> +            strstart(uri, "vsock:", NULL)) {
->> +            migrate_protocol_allow_multi_channels(true);
->> +    #ifdef CONFIG_RDMA
->> +        } else if (strstart(uri, "rdma:", &p)) {
->> +            rdma_start_incoming_migration(p, errp);
->> +    #endif
->> +        } else if (strstart(uri, "exec:", &p)) {
->> +            exec_start_incoming_migration(p, errp);
->> +        } else if (strstart(uri, "fd:", &p)) {
->> +            fd_start_incoming_migration(p, errp);
->> +        } else {
->> +            error_setg(errp, "unknown migration protocol: %s", uri);
->> +        }
->>       } else {
->> -        error_setg(errp, "unknown migration protocol: %s", uri);
->> +        /* multi-FD parameters only support tcp network protocols */
->> +        if (!strstart(uri, "tcp:", &p)) {
->> +            error_setg(errp, "multifd-destination uri supports "
->> +                                "tcp protocol only");
->> +            return;
->> +        }
->> +        store_multifd_migration_params(p ? p : uri, NULL, number, idx, errp);
->>       }
->> +    socket_start_incoming_migration(p ? p : uri, number, errp);
->>   }
->>   
->>   static void process_incoming_migration_bh(void *opaque)
->> @@ -2140,7 +2151,17 @@ void migrate_del_blocker(Error *reason)
->>       migration_blockers = g_slist_remove(migration_blockers, reason);
->>   }
->>   
->> -void qmp_migrate_incoming(const char *uri, Error **errp)
->> +static inline int incoming_multi_fd_uri_parse(const char *str, char delim)
->> +{
->> +    int count = 0;
->> +    for (int i = 0; i < strlen(str); i++) {
->> +        count += (str[i] == delim);
->> +    }
->> +    return count;
->> +}
-> That's a bit more general little helper function; I guess it could go in
-> util/ somewhere (something like qemu_string_count_delim ???)
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> new file mode 100644
+>> index 0000000000..0fd6f08084
+>> --- /dev/null
+>> +++ b/hw/s390x/cpu-topology.c
+>> @@ -0,0 +1,391 @@
+>> +/*
+>> + * CPU Topology
+>> + *
+>> + * Copyright 2022 IBM Corp.
+> 
+> Should be Copyright IBM Corp. 2022, and maybe even have a year range.
 
- > Yes David, I will include this helper function in util folder, in the 
-same patch
+OK
 
-with all other helper functions I am trying to include.
-
->
->> +/* migrate_incoming comes from -incoming flag in qemu process */
->> +void migrate_incoming(const char *uri, Error **errp)
->>   {
->>       Error *local_err = NULL;
->>       static bool once = true;
->> @@ -2154,11 +2175,99 @@ void qmp_migrate_incoming(const char *uri, Error **errp)
->>           return;
->>       }
->>   
->> +    qemu_start_incoming_migration(uri, 0, 0, &local_err);
+> 
+>> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
 >> +
->>       if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
->>           return;
->>       }
->>   
->> -    qemu_start_incoming_migration(uri, &local_err);
->> +    if (local_err) {
->> +        yank_unregister_instance(MIGRATION_YANK_INSTANCE);
->> +        error_propagate(errp, local_err);
->> +        return;
->> +    }
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+>> + * your option) any later version. See the COPYING file in the top-level
+>> + * directory.
+>> + */
 >> +
->> +    once = false;
-> Can you explain what this change is for?
-
- > Sorry David, its just small confusion here. the upstream function 
-migrate_incoming
-
-was divided into 3 different functions, because of which it has created 
-this confusion.
-
-I will definitely clear this out in the v2 version of patches.
-
->> +}
->> +
->> +/* multi_fd_migrate_incoming comes from -multi-fd-migrate-incoming flag in qemu process */
->> +void multi_fd_migrate_incoming(const char *uri, Error **errp)
->> +{
->> +    Error *local_err = NULL;
->> +    static bool once = true;
->> +
->> +    if (!once) {
->> +        error_setg(errp, "The incoming migration has already been started");
->> +        return;
->> +    }
->> +    if (!runstate_check(RUN_STATE_INMIGRATE)) {
->> +        error_setg(errp, "'-multi-fd-incoming' was not specified on the command line");
->> +        return;
->> +    }
->> +
->> +    strList *st = strList_from_string(uri, ',');
->> +    strList *r = st;
->> +    int length = QAPI_LIST_LENGTH(st);
->> +    init_multifd_array(length);
->> +
->> +    for (int i = 0; i < length; i++) {
->> +        const char *uri = NULL, *ret = NULL;
->> +        const char *str = r->value;
->> +        uint8_t multifd_channels = DEFAULT_MIGRATE_MULTIFD_CHANNELS;
->> +        int parse_count = incoming_multi_fd_uri_parse(str, ':');
->> +        if (parse_count < 2 || parse_count > 3) {
->> +            error_setg(errp, "Invalid format of string-id %d in "
->> +                             "'-multi-fd-incoming' flag", i);
->> +            return;
->> +        }
->> +        if (parse_count == 3) {
->> +            ret = strrchr(str, ':');
->> +            uri = g_strndup(str, strlen(str) - strlen(ret));
->> +            multifd_channels = atoi(ret + 1);
->> +        }
->> +        qemu_start_incoming_migration(parse_count == 2 ? str : uri,
->> +                                      multifd_channels, i, &local_err);
->> +        r = r->next;
->> +    }
->> +
->> +    if (local_err) {
->> +        yank_unregister_instance(MIGRATION_YANK_INSTANCE);
->> +        error_propagate(errp, local_err);
->> +        return;
->> +    }
->> +
->> +    once = false;
->> +}
->> +
->> +/* qmp_migrate_incoming comes from qemu qmp monitor command */
->> +void qmp_migrate_incoming(const char *uri, bool has_multi_fd_uri_list,
->> +                          MigrateIncomingUriList *cap, Error **errp)
->> +{
->> +    Error *local_err = NULL;
->> +    static bool once = true;
->> +
->> +    if (!once) {
->> +        error_setg(errp, "The incoming migration has already been started");
->> +        return;
->> +    }
->> +
->> +    if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
->> +        return;
->> +    }
->> +
->> +    /* For migration thread */
->> +    qemu_start_incoming_migration(uri, 0, 0, &local_err);
->> +
->> +    /* For Multi-FD */
->> +    int length = QAPI_LIST_LENGTH(cap);
->> +    init_multifd_array(length);
->> +    for (int i = 0; i < length; i++) {
->> +        const char *multifd_dst_uri = cap->value->destination_uri;
->> +        uint8_t multifd_channels = cap->value->multifd_channels;
->> +        qemu_start_incoming_migration(multifd_dst_uri, multifd_channels,
->> +                                      i, &local_err);
->> +        cap = cap->next;
->> +    }
->>   
->>       if (local_err) {
->>           yank_unregister_instance(MIGRATION_YANK_INSTANCE);
->> @@ -2194,7 +2303,7 @@ void qmp_migrate_recover(const char *uri, Error **errp)
->>        * only re-setup the migration stream and poke existing migration
->>        * to continue using that newly established channel.
->>        */
->> -    qemu_start_incoming_migration(uri, errp);
->> +    qemu_start_incoming_migration(uri, 0, 0, errp);
->>   }
->>   
->>   void qmp_migrate_pause(Error **errp)
->> diff --git a/migration/migration.h b/migration/migration.h
->> index 485d58b95f..fa8717ec9e 100644
->> --- a/migration/migration.h
->> +++ b/migration/migration.h
->> @@ -353,6 +353,8 @@ bool migration_is_setup_or_active(int state);
->>   bool migration_is_running(int state);
->>   
->>   void migrate_init(MigrationState *s);
->> +void migrate_incoming(const char *uri, Error **errp);
->> +void multi_fd_migrate_incoming(const char *uri_str, Error **errp);
->>   bool migration_is_blocked(Error **errp);
->>   /* True if outgoing migration has entered postcopy phase */
->>   bool migration_in_postcopy(void);
->> diff --git a/migration/socket.c b/migration/socket.c
->> index 7ca6af8cca..21e0983df2 100644
->> --- a/migration/socket.c
->> +++ b/migration/socket.c
->> @@ -202,17 +202,17 @@ socket_incoming_migration_end(void *opaque)
->>   
->>   static void
->>   socket_start_incoming_migration_internal(SocketAddress *saddr,
->> -                                         Error **errp)
->> +                                         uint8_t number, Error **errp)
->>   {
->>       QIONetListener *listener = qio_net_listener_new();
->>       MigrationIncomingState *mis = migration_incoming_get_current();
->>       size_t i;
->> -    int num = 1;
->> +    uint8_t num = 1;
->>   
->>       qio_net_listener_set_name(listener, "migration-socket-listener");
->>   
->>       if (migrate_use_multifd()) {
->> -        num = migrate_multifd_channels();
->> +        num = number;
-> That's a strange line - it suggests you need a better name for both
-> parameters!
- > Sure David. will change the parameter names for both.
->
->>       }
->>   
->>       if (qio_net_listener_open_sync(listener, saddr, num, errp) < 0) {
->> @@ -239,12 +239,13 @@ socket_start_incoming_migration_internal(SocketAddress *saddr,
->>       }
->>   }
->>   
->> -void socket_start_incoming_migration(const char *str, Error **errp)
->> +void socket_start_incoming_migration(const char *str,
->> +                                     uint8_t number, Error **errp)
->>   {
->>       Error *err = NULL;
->>       SocketAddress *saddr = socket_parse(str, &err);
->>       if (!err) {
->> -        socket_start_incoming_migration_internal(saddr, &err);
->> +        socket_start_incoming_migration_internal(saddr, number, &err);
->>       }
->>       qapi_free_SocketAddress(saddr);
->>       error_propagate(errp, err);
->> diff --git a/migration/socket.h b/migration/socket.h
->> index bba7f177fe..b9e3699167 100644
->> --- a/migration/socket.h
->> +++ b/migration/socket.h
->> @@ -30,7 +30,8 @@ struct SrcDestAddr {
->>   void socket_send_channel_create(QIOTaskFunc f, void *data);
->>   int socket_send_channel_destroy(QIOChannel *send);
->>   
->> -void socket_start_incoming_migration(const char *str, Error **errp);
->> +void socket_start_incoming_migration(const char *str, uint8_t number,
->> +                                     Error **errp);
->>   
->>   void socket_start_outgoing_migration(MigrationState *s, const char *dst_str,
->>                                        Error **errp);
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index 2db539016a..32a6b67d5f 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -42,6 +42,7 @@
->>   #include "qapi/qapi-commands-run-state.h"
->>   #include "qapi/qapi-commands-tpm.h"
->>   #include "qapi/qapi-commands-ui.h"
->> +#include "qapi/util.h"
->>   #include "qapi/qapi-visit-net.h"
->>   #include "qapi/qapi-visit-migration.h"
->>   #include "qapi/qmp/qdict.h"
->> @@ -72,32 +73,6 @@ bool hmp_handle_error(Monitor *mon, Error *err)
->>       return false;
->>   }
->>   
->> -/*
->> - * Produce a strList from a comma separated list.
->> - * A NULL or empty input string return NULL.
->> - */
->> -static strList *strList_from_comma_list(const char *in)
->> -{
->> -    strList *res = NULL;
->> -    strList **tail = &res;
->> -
->> -    while (in && in[0]) {
->> -        char *comma = strchr(in, ',');
->> -        char *value;
->> -
->> -        if (comma) {
->> -            value = g_strndup(in, comma - in);
->> -            in = comma + 1; /* skip the , */
->> -        } else {
->> -            value = g_strdup(in);
->> -            in = NULL;
->> -        }
->> -        QAPI_LIST_APPEND(tail, value);
->> -    }
->> -
->> -    return res;
->> -}
->> -
->>   void hmp_info_name(Monitor *mon, const QDict *qdict)
->>   {
->>       NameInfo *info;
->> @@ -1117,7 +1092,7 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
->>                                               migrate_announce_params());
->>   
->>       qapi_free_strList(params->interfaces);
->> -    params->interfaces = strList_from_comma_list(interfaces_str);
->> +    params->interfaces = strList_from_string(interfaces_str, ',');
->>       params->has_interfaces = params->interfaces != NULL;
->>       params->id = g_strdup(id);
->>       params->has_id = !!params->id;
->> @@ -1147,8 +1122,19 @@ void hmp_migrate_incoming(Monitor *mon, const QDict *qdict)
->>   {
->>       Error *err = NULL;
->>       const char *uri = qdict_get_str(qdict, "uri");
->> +    const char *dst_uri = qdict_get_str(qdict, "destination-uri");
->> +    uint8_t multifd_channels = qdict_get_try_int(qdict, "multifd-channels",
->> +                                        DEFAULT_MIGRATE_MULTIFD_CHANNELS);
->> +    MigrateIncomingUriList *caps = NULL;
->> +    MigrateIncomingUri *value;
->> +
->> +    value = g_malloc0(sizeof(*value));
->> +    value->destination_uri = (char *)dst_uri;
->> +    value->multifd_channels = multifd_channels;
->> +    QAPI_LIST_PREPEND(caps, value);
->>   
->> -    qmp_migrate_incoming(uri, &err);
->> +    qmp_migrate_incoming(uri, !!caps, caps, &err);
->> +    qapi_free_MigrateIncomingUriList(caps);
->>   
->>       hmp_handle_error(mon, err);
->>   }
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index fb259d626b..62a7b22d19 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -1527,15 +1527,37 @@
->>     'data': {'uri': 'str', '*multi-fd-uri-list': ['MigrateUriParameter'], '*blk': 'bool',
->>              '*inc': 'bool', '*detach': 'bool', '*resume': 'bool' } }
->>   
->> +##
->> +# @MigrateIncomingUri:
->> +#
->> +# Information regarding which destination listening interface to be connected
->> +# and number of multifd channels over that interface.
->> +#
->> +# @destination-uri: the Uniform Resource Identifier of the destination VM
->> +#
->> +# @multifd-channels: number of channels used to migrate data in parallel for
->> +#                    for specific source-uri and destination-uri.
->> +#                    Default value in this case is 2 (Since 4.0)
->> +#
->> +##
->> +{ 'struct' : 'MigrateIncomingUri',
->> +  'data' : { 'destination-uri' : 'str',
->> +           '*multifd-channels' : 'uint8'} }
->> +
->>   ##
->>   # @migrate-incoming:
->>   #
->>   # Start an incoming migration, the qemu must have been started
->> -# with -incoming defer
->> +# with -incoming defer. qemu can also be started with optional
->> +# -multi-fd-incoming defer for opening multifd listening sockets
->>   #
->>   # @uri: The Uniform Resource Identifier identifying the source or
->>   #       address to listen on
->>   #
->> +# @multi-fd-uri-list: list of pair of source and destination VM Uniform
->> +#                     Resource Identifiers with number of multifd-channels
->> +#                     for each pair
->> +#
->>   # Returns: nothing on success
->>   #
->>   # Since: 2.3
->> @@ -1546,19 +1568,30 @@
->>   #    compatible with -incoming and the format of the uri is already exposed
->>   #    above libvirt.
->>   #
->> -# 2. QEMU must be started with -incoming defer to allow migrate-incoming to
->> +# 2. multi-fd-uri-list will have list of destination uri as listening sockets
->> +#    and multi-fd number of channels on each listening socket.
->> +#
->> +# 3. QEMU must be started with -incoming defer to allow migrate-incoming to
->>   #    be used.
->>   #
->> -# 3. The uri format is the same as for -incoming
->> +# 4. multi-fd-uri-list format is not the same as for -multi-fd-incoming flag.
->> +#    For -multi-fd-incoming flag, it is a comma separated list of listener
->> +#    sockets with multifd channels.
->> +#    Example: -multi-fd-incoming "tcp::6900:4,tcp:11.0.0.0:7789:5".
-> Why bother with -multi-fd-incoming ?  Just insist on people using
-> -incoming defer    - I think we'd like to do away with the other forms
-> of -incoming, it simplifies stuff a lot that way rather than having two
-> schemes.
-
- > Our idea here behind introducing -multi-fd-incoming was just that if
-
-some user wanted to open the multifd listening sockets before migration
-
-process starts, he could able todo it, just like -incoming flag. But if you
-
-think, it should only be via qmp monitor command, we could discard this
-
-change.
-
->
->
->>   # Example:
->>   #
->>   # -> { "execute": "migrate-incoming",
->> -#      "arguments": { "uri": "tcp::4446" } }
->> +#      "arguments": {"uri": "tcp::6789",
->> +#                    "multi-fd-uri-list" : [ {"destination-uri" : "tcp::6900",
->> +#                                             "multifd-channels": 4},
->> +#                                            {"destination-uri" : "tcp:11.0.0.0:7789",
->> +#                                             "multifd-channels": 5} ] } }
->>   # <- { "return": {} }
->>   #
->>   ##
->> -{ 'command': 'migrate-incoming', 'data': {'uri': 'str' } }
->> +{ 'command': 'migrate-incoming',
->> +  'data': {'uri': 'str', '*multi-fd-uri-list': ['MigrateIncomingUri'] } }
->>   
->>   ##
->>   # @xen-save-devices-state:
->> diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
->> index 63596e11c5..9cc43ebcd3 100644
->> --- a/qapi/qapi-util.c
->> +++ b/qapi/qapi-util.c
->> @@ -15,6 +15,7 @@
->>   #include "qapi/error.h"
->>   #include "qemu/ctype.h"
->>   #include "qapi/qmp/qerror.h"
->> +#include "qapi/qapi-builtin-types.h"
->>   
->>   CompatPolicy compat_policy;
->>   
->> @@ -152,3 +153,29 @@ int parse_qapi_name(const char *str, bool complete)
->>       }
->>       return p - str;
->>   }
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>> +#include "qemu/error-report.h"
+>> +#include "hw/sysbus.h"
+>> +#include "hw/s390x/cpu-topology.h"
+>> +#include "hw/qdev-properties.h"
+>> +#include "hw/boards.h"
+>> +#include "qemu/typedefs.h"
+>> +#include "target/s390x/cpu.h"
+>> +#include "hw/s390x/s390-virtio-ccw.h"
 >> +
 >> +/*
->> + * Produce a strList from a delimiter separated list.
->> + * A NULL or empty input string return NULL.
+>> + * s390_create_cores:
+>> + * @ms: Machine state
+>> + * @socket: the socket on which to create the core set
+>> + * @origin: the origin offset of the first core of the set
+>> + * @errp: Error pointer
+>> + *
+>> + * returns a pointer to the created S390TopologyCores structure
+>> + *
+>> + * On error: return NULL
 >> + */
->> +strList *strList_from_string(const char *in, char c)
+>> +static S390TopologyCores *s390_create_cores(MachineState *ms,
+>> +                                            S390TopologySocket *socket,
+>> +                                            int origin, Error **errp)
 >> +{
->> +    strList *res = NULL;
->> +    strList **tail = &res;
+>> +    DeviceState *dev;
+>> +    S390TopologyCores *cores;
 >> +
->> +    while (in && in[0]) {
->> +        char *ch = strchr(in, c);
->> +        char *value;
->> +
->> +        if (ch) {
->> +            value = g_strndup(in, ch - in);
->> +            in = ch + 1; /* skip the , */
->> +        } else {
->> +            value = g_strdup(in);
->> +            in = NULL;
->> +        }
->> +        QAPI_LIST_APPEND(tail, value);
+>> +    if (socket->bus->num_children >= ms->smp.cores * ms->smp.threads) {
+>> +        error_setg(errp, "Unable to create more cores.");
+>> +        return NULL;
 >> +    }
+> 
+> Why/How can this happen?
+> The "location" of the CPU is a function of core_id and the same CPU should not be added twice.
+> If it's to enforce a limit on the smp arguments that should happen earlier in my opinion.
+> If it's necessary, you could also make the message more verbose and add ", maximum number reached".
+
+should not happen.
+
 >> +
->> +    return res;
+>> +    dev = qdev_new(TYPE_S390_TOPOLOGY_CORES);
+>> +    qdev_realize_and_unref(dev, socket->bus, &error_fatal);
+> 
+> As a result of this, the order of cores in the socket bus is the creation order, correct?
+> So newest first and not ordered by the origin (since we can hot plug CPUs), correct?
+
+yes
+
+>> +
+>> +    cores = S390_TOPOLOGY_CORES(dev);
+>> +    cores->origin = origin;
+> 
+> I must admit that I haven't fully grokked the qemu object model, yet, but I'd be more comfortable
+> if you unref'ed cores after you set the origin.
+> Does the socket bus own the object after you unref it? Does it then make sense to return cores
+> after unref'ing it?
+
+AFAIU yes the bus owns it.
+
+> But then we don't support CPU unplug, so the object shouldn't just vanish.
+> 
+>> +    socket->cnt += 1;
+> 
+> cnt++ to be consistent with create_socket below.
+
+OK
+
+>> +
+>> +    return cores;
 >> +}
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index 60cf188da4..2e82e41dd5 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -4480,6 +4480,24 @@ SRST
->>       to issuing the migrate\_incoming to allow the migration to begin.
->>   ERST
->>   
->> +DEF("multi-fd-incoming", HAS_ARG, QEMU_OPTION_multi_fd_incoming, \
->> +    "-multi-fd-incoming tcp:[host]:port[:channel][,to=maxport][,ipv4=on|off][,ipv6=on|off]\n" \
->> +    "-multi-fd-incoming defer\n" \
->> +    "                wait for the URI to be specified via\n" \
->> +    "                multi_fd_migrate_incoming\n",
->> +    QEMU_ARCH_ALL)
->> +SRST
->> +``-multi-fd-incoming tcp:[host]:port[:channel][,to=maxport][,ipv4=on|off][,ipv6=on|off]``
->> +    Prepare for multi-fd incoming migration, with multi-fd listening sockets
->> +    on that connection. Default number of multi-fd channels is 2.
 >> +
->> +``-multi-fd-incoming defer``
->> +    Wait for the URI to be specified via multi_fd_migrate\_incoming. The
->> +    monitor can be used to change settings (such as migration parameters)
->> +    prior to issuing the multi_fd_migrate\_incoming to allow the migration
->> +    to begin.
->> +ERST
+>> +/*
+>> + * s390_create_socket:
+>> + * @ms: Machine state
+>> + * @book: the book on which to create the socket
+>> + * @id: the socket id
+>> + * @errp: Error pointer
+>> + *
+>> + * returns a pointer to the created S390TopologySocket structure
+>> + *
+>> + * On error: return NULL
+>> + */
+>> +static S390TopologySocket *s390_create_socket(MachineState *ms,
+>> +                                              S390TopologyBook *book,
+>> +                                              int id, Error **errp)
+>> +{
+> 
+> Same questions/comments as above.
+
+Same answer, should not happen.
+I will remove the check.
+
+> 
+>> +    DeviceState *dev;
+>> +    S390TopologySocket *socket;
 >> +
->>   DEF("only-migratable", 0, QEMU_OPTION_only_migratable, \
->>       "-only-migratable     allow only migratable devices\n", QEMU_ARCH_ALL)
->>   SRST
->> diff --git a/softmmu/vl.c b/softmmu/vl.c
->> index 4c1e94b00e..2f5cf18eff 100644
->> --- a/softmmu/vl.c
->> +++ b/softmmu/vl.c
->> @@ -45,7 +45,7 @@
->>   #include "sysemu/seccomp.h"
->>   #include "sysemu/tcg.h"
->>   #include "sysemu/xen.h"
->> -
->> +#include "migration/migration.h"
->>   #include "qemu/error-report.h"
->>   #include "qemu/sockets.h"
->>   #include "qemu/accel.h"
->> @@ -167,6 +167,7 @@ typedef struct DeviceOption {
->>   static const char *cpu_option;
->>   static const char *mem_path;
->>   static const char *incoming;
->> +static const char *multi_fd_incoming;
->>   static const char *loadvm;
->>   static const char *accelerators;
->>   static bool have_custom_ram_size;
->> @@ -2349,6 +2350,11 @@ static void qemu_validate_options(const QDict *machine_opts)
->>           error_report("'preconfig' supports '-incoming defer' only");
->>           exit(EXIT_FAILURE);
->>       }
->> +    if (multi_fd_incoming && preconfig_requested &&
->> +        strcmp(multi_fd_incoming, "defer") != 0) {
->> +        error_report("'preconfig' supports '-multi-fd-incoming defer' only");
->> +        exit(EXIT_FAILURE);
+>> +    if (book->bus->num_children >= ms->smp.sockets) {
+>> +        error_setg(errp, "Unable to create more sockets.");
+>> +        return NULL;
 >> +    }
->>   
->>   #ifdef CONFIG_CURSES
->>       if (is_daemonized() && dpy.type == DISPLAY_TYPE_CURSES) {
->> @@ -2621,7 +2627,7 @@ void qmp_x_exit_preconfig(Error **errp)
->>       if (incoming) {
->>           Error *local_err = NULL;
->>           if (strcmp(incoming, "defer") != 0) {
->> -            qmp_migrate_incoming(incoming, &local_err);
->> +            migrate_incoming(incoming, &local_err);
->>               if (local_err) {
->>                   error_reportf_err(local_err, "-incoming %s: ", incoming);
->>                   exit(1);
->> @@ -2630,6 +2636,20 @@ void qmp_x_exit_preconfig(Error **errp)
->>       } else if (autostart) {
->>           qmp_cont(NULL);
->>       }
 >> +
->> +    if (multi_fd_incoming) {
->> +        Error *local_err = NULL;
->> +        if (strcmp(multi_fd_incoming, "defer") != 0) {
->> +            multi_fd_migrate_incoming(multi_fd_incoming, &local_err);
->> +            if (local_err) {
->> +                error_reportf_err(local_err, "-multi-fd-incoming %s: ",
->> +                                multi_fd_incoming);
->> +                exit(1);
->> +            }
+>> +    dev = qdev_new(TYPE_S390_TOPOLOGY_SOCKET);
+>> +    qdev_realize_and_unref(dev, book->bus, &error_fatal);
+>> +
+>> +    socket = S390_TOPOLOGY_SOCKET(dev);
+>> +    socket->socket_id = id;
+>> +    book->cnt++;
+>> +
+>> +    return socket;
+>> +}
+>> +
+>> +/*
+>> + * s390_get_cores:
+>> + * @ms: Machine state
+>> + * @socket: the socket to search into
+>> + * @origin: the origin specified for the S390TopologyCores
+>> + * @errp: Error pointer
+>> + *
+>> + * returns a pointer to a S390TopologyCores structure within a socket having
+>> + * the specified origin.
+>> + * First search if the socket is already containing the S390TopologyCores
+>> + * structure and if not create one with this origin.
+>> + */
+>> +static S390TopologyCores *s390_get_cores(MachineState *ms,
+>> +                                         S390TopologySocket *socket,
+>> +                                         int origin, Error **errp)
+>> +{
+>> +    S390TopologyCores *cores;
+>> +    BusChild *kid;
+>> +
+>> +    QTAILQ_FOREACH(kid, &socket->bus->children, sibling) {
+>> +        cores = S390_TOPOLOGY_CORES(kid->child);
+>> +        if (cores->origin == origin) {
+>> +            return cores;
 >> +        }
->> +    } else if (autostart) {
->> +        qmp_cont(NULL);
 >> +    }
->>   }
+>> +    return s390_create_cores(ms, socket, origin, errp);
+> 
+> I think calling create here is unintuative.
+> You only use get_cores once when creating a new cpu, I think doing
+> 
+>      cores = s390_get_cores(ms, socket, origin, errp);
+>      if (!cores) {
+>          cores = s390_create_cores(...);
+>      ]
+>      if (!cores) {
+>          return false;
+>      }
+> 
+> is more straight forward and readable.
+
+I will keep it so as the creation can not fail.
+As it was in the first series, I made this change later, and it was not 
+a good idea.
+
+>> +}
+>> +
+>> +/*
+>> + * s390_get_socket:
+>> + * @ms: Machine state
+>> + * @book: The book to search into
+>> + * @socket_id: the identifier of the socket to search for
+>> + * @errp: Error pointer
+>> + *
+>> + * returns a pointer to a S390TopologySocket structure within a book having
+>> + * the specified socket_id.
+>> + * First search if the book is already containing the S390TopologySocket
+>> + * structure and if not create one with this socket_id.
+>> + */
+>> +static S390TopologySocket *s390_get_socket(MachineState *ms,
+>> +                                           S390TopologyBook *book,
+>> +                                           int socket_id, Error **errp)
+>> +{
+>> +    S390TopologySocket *socket;
+>> +    BusChild *kid;
+>> +
+>> +    QTAILQ_FOREACH(kid, &book->bus->children, sibling) {
+>> +        socket = S390_TOPOLOGY_SOCKET(kid->child);
+>> +        if (socket->socket_id == socket_id) {
+>> +            return socket;
+>> +        }
+>> +    }
+>> +    return s390_create_socket(ms, book, socket_id, errp);
+> 
+> As above.
+> 
+>> +}
+>> +
+>> +/*
+>> + * s390_topology_new_cpu:
+>> + * @core_id: the core ID is machine wide
+>> + *
+>> + * We have a single book returned by s390_get_topology(),
+>> + * then we build the hierarchy on demand.
+>> + * Note that we do not destroy the hierarchy on error creating
+>> + * an entry in the topology, we just keep it empty.
+>> + * We do not need to worry about not finding a topology level
+>> + * entry this would have been caught during smp parsing.
+>> + */
+>> +bool s390_topology_new_cpu(MachineState *ms, int core_id, Error **errp)
+>> +{
+>> +    S390TopologyBook *book;
+>> +    S390TopologySocket *socket;
+>> +    S390TopologyCores *cores;
+>> +    int nb_cores_per_socket;
+> 
+> num_cores_per_socket instead?
+> 
+>> +    int origin, bit;
+>> +
+>> +    book = s390_get_topology();
+>> +
+>> +    nb_cores_per_socket = ms->smp.cores * ms->smp.threads;
+> 
+> We don't support the multithreading facility, do we?
+> So, I think we should assert smp.threads == 1 somewhere.
+> In any case I think the correct expression would round the threads up to the next power of 2,
+> because the core_id has the thread id in the lower bits, but threads per core doesn't need to be
+> a power of 2 according to the architecture.
+
+That is right.
+I will add that.
+
+
+> 
+>> +
+>> +    socket = s390_get_socket(ms, book, core_id / nb_cores_per_socket, errp);
+>> +    if (!socket) {
+>> +        return false;
+>> +    }
+>> +
+>> +    /*
+>> +     * At the core level, each CPU is represented by a bit in a 64bit
+>> +     * unsigned long. Set on plug and clear on unplug of a CPU.
+>> +     * The firmware assume that all CPU in the core description have the same
+>> +     * type, polarization and are all dedicated or shared.
+>> +     * In the case a socket contains CPU with different type, polarization
+>> +     * or dedication then they will be defined in different CPU containers.
+>> +     * Currently we assume all CPU are identical and the only reason to have
+>> +     * several S390TopologyCores inside a socket is to have more than 64 CPUs
+>> +     * in that case the origin field, representing the offset of the first CPU
+>> +     * in the CPU container allows to represent up to the maximal number of
+>> +     * CPU inside several CPU containers inside the socket container.
+>> +     */
+>> +    origin = 64 * (core_id / 64);
+>> +
+>> +    cores = s390_get_cores(ms, socket, origin, errp);
+>> +    if (!cores) {
+>> +        return false;
+>> +    }
+>> +
+>> +    bit = 63 - (core_id - origin);
+>> +    set_bit(bit, &cores->mask);
+>> +    cores->origin = origin;
+> 
+> This is redundant, origin is already set.
+
+right
+
+> Also I think you should generally pass the core_id and not the origin.
+> Then on construction you can also set the bit.
+
+OK
+
+> 
+>> +
+>> +    return true;
+>> +}
+>> +
+>> +/*
+>> + * Setting the first topology: 1 book, 1 socket
+>> + * This is enough for 64 cores if the topology is flat (single socket)
+>> + */
+>> +void s390_topology_setup(MachineState *ms)
+>> +{
+>> +    DeviceState *dev;
+>> +
+>> +    /* Create BOOK bridge device */
+>> +    dev = qdev_new(TYPE_S390_TOPOLOGY_BOOK);
+>> +    object_property_add_child(qdev_get_machine(),
+>> +                              TYPE_S390_TOPOLOGY_BOOK, OBJECT(dev));
+> 
+> Why add it to the machine instead of directly using a static?
+
+For my opinion it is a characteristic of the machine.
+
+> So it's visible to the user via info qtree or something?
+
+It is already visible to the user on info qtree.
+
+> Would that even be the appropriate location to show that?
+
+That is a very good question and I really appreciate if we discuss on 
+the design before diving into details.
+
+The idea is to have the architecture details being on qtree as object so 
+we can plug new drawers/books/socket/cores and in the future when the 
+infrastructure allows it unplug them.
+
+There is a info numa (info cpus does not give a lot info) to give 
+information on nodes but AFAIU, a node is more a theoritical that can be 
+used above the virtual architecture, sockets/cores, to specify 
+characteristics like distance and associated memory.
+
+As I understand it can be used above socket and for us above books or 
+drawers too like in:
+
+-numa cpu,node-id=0,socket-id=0
+
+All cores in socket 0 belong to node 0
+
+or
+-numa cpu,node-id=1,drawer-id=1
+
+all cores from all sockets of drawer 1 belong to node 1
+
+
+As there is no info socket, I think that for now we do not need an info 
+book/drawer we have everything in qtree.
+
+
+> 
+>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>> +}
+>> +
+>> +S390TopologyBook *s390_get_topology(void)
+>> +{
+>> +    static S390TopologyBook *book;
+>> +
+>> +    if (!book) {
+>> +        book = S390_TOPOLOGY_BOOK(
+>> +            object_resolve_path(TYPE_S390_TOPOLOGY_BOOK, NULL));
+>> +        assert(book != NULL);
+>> +    }
+>> +
+>> +    return book;
+>> +}
+>> +
+>> +/* --- CORES Definitions --- */
+>> +
+>> +static Property s390_topology_cores_properties[] = {
+>> +    DEFINE_PROP_BOOL("dedicated", S390TopologyCores, dedicated, false),
+>> +    DEFINE_PROP_UINT8("polarity", S390TopologyCores, polarity,
+>> +                      S390_TOPOLOGY_POLARITY_H),
+>> +    DEFINE_PROP_UINT8("cputype", S390TopologyCores, cputype,
+>> +                      S390_TOPOLOGY_CPU_TYPE),
+>> +    DEFINE_PROP_UINT16("origin", S390TopologyCores, origin, 0),
+>> +    DEFINE_PROP_UINT64("mask", S390TopologyCores, mask, 0),
+>> +    DEFINE_PROP_END_OF_LIST(),
+>> +};
+>> +
+>> +static void cpu_cores_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>> +    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
+>> +
+>> +    device_class_set_props(dc, s390_topology_cores_properties);
+>> +    hc->unplug = qdev_simple_device_unplug_cb;
+>> +    dc->bus_type = TYPE_S390_TOPOLOGY_SOCKET_BUS;
+>> +    dc->desc = "topology cpu entry";
+>> +}
+>> +
+>> +static const TypeInfo cpu_cores_info = {
+>> +    .name          = TYPE_S390_TOPOLOGY_CORES,
+>> +    .parent        = TYPE_DEVICE,
+>> +    .instance_size = sizeof(S390TopologyCores),
+>> +    .class_init    = cpu_cores_class_init,
+>> +    .interfaces = (InterfaceInfo[]) {
+>> +        { TYPE_HOTPLUG_HANDLER },
+> 
+> Why implement the hotplug interface? That is not actually supported, is it?
+
+exact, no need.
+
+>> +        { }
+>> +    }
+>> +};
+>> +
+>> +static char *socket_bus_get_dev_path(DeviceState *dev)
+>> +{
+>> +    S390TopologySocket *socket = S390_TOPOLOGY_SOCKET(dev);
+>> +    DeviceState *book = dev->parent_bus->parent;
+>> +    char *id = qdev_get_dev_path(book);
+>> +    char *ret;
+>> +
+>> +    if (id) {
+>> +        ret = g_strdup_printf("%s:%02d", id, socket->socket_id);
+>> +        g_free(id);
+>> +    } else {
+>> +        ret = g_strdup_printf("_:%02d", socket->socket_id);
+> 
+> How can this case occur? Sockets get attached to the book bus immediately after creation, correct?
+
+yes
+
+> 
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +static void socket_bus_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    BusClass *k = BUS_CLASS(oc);
+>> +
+>> +    k->get_dev_path = socket_bus_get_dev_path;
+>> +    k->max_dev = S390_MAX_SOCKETS;
+> 
+> This is the bus the cores are attached to, correct?
+> Is this constant badly named, or should this be MAX_CORES (which doesn't exist)?
+> How does this limit get enforced?
+> Why is there a limit in the first place? I don't see one defined by STSI, other than having to fit in a u8.
+
+I will suppress this, it was intended to be an architecture dependant 
+value. for Example, could be 3 for Z16, 5 for Z17 but I am not sure it 
+is worth.
+
+>> +}
+>> +
+>> +static const TypeInfo socket_bus_info = {
+>> +    .name = TYPE_S390_TOPOLOGY_SOCKET_BUS,
+>> +    .parent = TYPE_BUS,
+>> +    .instance_size = 0,
+> 
+> After a bit of grepping it seems to me that omitting that field is more common that setting it to 0.
+
+right
+
+> 
+>> +    .class_init = socket_bus_class_init,
+>> +};
+>> +
+>> +static void s390_socket_device_realize(DeviceState *dev, Error **errp)
+>> +{
+>> +    S390TopologySocket *socket = S390_TOPOLOGY_SOCKET(dev);
+>> +    BusState *bus;
+>> +
+>> +    bus = qbus_new(TYPE_S390_TOPOLOGY_SOCKET_BUS, dev,
+>> +                   TYPE_S390_TOPOLOGY_SOCKET_BUS);
+>> +    qbus_set_hotplug_handler(bus, OBJECT(dev));
+>> +    socket->bus = bus;
+>> +}
+>> +
+>> +static void socket_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>> +    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
+>> +
+>> +    hc->unplug = qdev_simple_device_unplug_cb;
+>> +    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>> +    dc->bus_type = TYPE_S390_TOPOLOGY_BOOK_BUS;
+>> +    dc->realize = s390_socket_device_realize;
+>> +    dc->desc = "topology socket";
+>> +}
+>> +
+>> +static const TypeInfo socket_info = {
+>> +    .name          = TYPE_S390_TOPOLOGY_SOCKET,
+>> +    .parent        = TYPE_DEVICE,
+>> +    .instance_size = sizeof(S390TopologySocket),
+>> +    .class_init    = socket_class_init,
+>> +    .interfaces = (InterfaceInfo[]) {
+>> +        { TYPE_HOTPLUG_HANDLER },
+>> +        { }
+>> +    }
+>> +};
+>> +
+>> +static char *book_bus_get_dev_path(DeviceState *dev)
+>> +{
+>> +    return g_strdup("00");
+>> +}
+>> +
+>> +static void book_bus_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    BusClass *k = BUS_CLASS(oc);
+>> +
+>> +    k->get_dev_path = book_bus_get_dev_path;
+>> +    k->max_dev = S390_MAX_BOOKS;
+> 
+> Same question as for socket_bus_class_init here.
+> 
+>> +}
+>> +
+>> +static const TypeInfo book_bus_info = {
+>> +    .name = TYPE_S390_TOPOLOGY_BOOK_BUS,
+>> +    .parent = TYPE_BUS,
+>> +    .instance_size = 0,
+>> +    .class_init = book_bus_class_init,
+>> +};
+>> +
+>> +static void s390_book_device_realize(DeviceState *dev, Error **errp)
+>> +{
+>> +    S390TopologyBook *book = S390_TOPOLOGY_BOOK(dev);
+>> +    BusState *bus;
+>> +
+>> +    bus = qbus_new(TYPE_S390_TOPOLOGY_BOOK_BUS, dev,
+>> +                   TYPE_S390_TOPOLOGY_BOOK_BUS);
+>> +    qbus_set_hotplug_handler(bus, OBJECT(dev));
+>> +    book->bus = bus;
+>> +}
+>> +
+>> +static void book_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>> +    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
+>> +
+>> +    hc->unplug = qdev_simple_device_unplug_cb;
+>> +    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>> +    dc->realize = s390_book_device_realize;
+>> +    dc->desc = "topology book";
+>> +}
+>> +
+>> +static const TypeInfo book_info = {
+>> +    .name          = TYPE_S390_TOPOLOGY_BOOK,
+>> +    .parent        = TYPE_SYS_BUS_DEVICE,
+>> +    .instance_size = sizeof(S390TopologyBook),
+>> +    .class_init    = book_class_init,
+>> +    .interfaces = (InterfaceInfo[]) {
+>> +        { TYPE_HOTPLUG_HANDLER },
+>> +        { }
+>> +    }
+>> +};
+>> +
+>> +static void topology_register(void)
+>> +{
+>> +    type_register_static(&cpu_cores_info);
+>> +    type_register_static(&socket_bus_info);
+>> +    type_register_static(&socket_info);
+>> +    type_register_static(&book_bus_info);
+>> +    type_register_static(&book_info);
+>> +}
+>> +
+>> +type_init(topology_register);
+>> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+>> index feefe0717e..3592fa952b 100644
+>> --- a/hw/s390x/meson.build
+>> +++ b/hw/s390x/meson.build
+>> @@ -2,6 +2,7 @@ s390x_ss = ss.source_set()
+>>   s390x_ss.add(files(
+>>     'ap-bridge.c',
+>>     'ap-device.c',
+>> +  'cpu-topology.c',
+>>     'ccw-device.c',
+>>     'css-bridge.c',
+>>     'css.c',
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index cc3097bfee..a586875b24 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -43,6 +43,7 @@
+>>   #include "sysemu/sysemu.h"
+>>   #include "hw/s390x/pv.h"
+>>   #include "migration/blocker.h"
+>> +#include "hw/s390x/cpu-topology.h"
 >>   
->>   void qemu_init(int argc, char **argv, char **envp)
->> @@ -3355,6 +3375,12 @@ void qemu_init(int argc, char **argv, char **envp)
->>                   }
->>                   incoming = optarg;
->>                   break;
->> +            case QEMU_OPTION_multi_fd_incoming:
->> +                if (!multi_fd_incoming) {
->> +                    runstate_set(RUN_STATE_INMIGRATE);
->> +                }
->> +                multi_fd_incoming = optarg;
->> +                break;
->>               case QEMU_OPTION_only_migratable:
->>                   only_migratable = 1;
->>                   break;
->> -- 
->> 2.22.3
->>
+>>   static Error *pv_mig_blocker;
+>>   
+>> @@ -89,6 +90,7 @@ static void s390_init_cpus(MachineState *machine)
+>>       /* initialize possible_cpus */
+>>       mc->possible_cpu_arch_ids(machine);
+>>   
+>> +    s390_topology_setup(machine);
+>>       for (i = 0; i < machine->smp.cpus; i++) {
+>>           s390x_new_cpu(machine->cpu_type, i, &error_fatal);
+>>       }
+>> @@ -306,6 +308,10 @@ static void s390_cpu_plug(HotplugHandler *hotplug_dev,
+>>       g_assert(!ms->possible_cpus->cpus[cpu->env.core_id].cpu);
+>>       ms->possible_cpus->cpus[cpu->env.core_id].cpu = OBJECT(dev);
+>>   
+>> +    if (!s390_topology_new_cpu(ms, cpu->env.core_id, errp)) {
+>> +        return;
+>> +    }
+>> +
+>>       if (dev->hotplugged) {
+>>           raise_irq_cpu_hotplug();
+>>       }
+>> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+>> new file mode 100644
+>> index 0000000000..beec61706c
+>> --- /dev/null
+>> +++ b/include/hw/s390x/cpu-topology.h
+>> @@ -0,0 +1,74 @@
+>> +/*
+>> + * CPU Topology
+>> + *
+>> + * Copyright 2022 IBM Corp.
+> 
+> Same issue as with .c copyright notice.
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+>> + * your option) any later version. See the COPYING file in the top-level
+>> + * directory.
+>> + */
+>> +#ifndef HW_S390X_CPU_TOPOLOGY_H
+>> +#define HW_S390X_CPU_TOPOLOGY_H
+>> +
+>> +#include "hw/qdev-core.h"
+>> +#include "qom/object.h"
+>> +
+>> +#define S390_TOPOLOGY_CPU_TYPE    0x03
+> 
+> This is the IFL type, right? If so the name should reflect it.
+
+OK
+
+>> +
+>> +#define S390_TOPOLOGY_POLARITY_H  0x00
+>> +#define S390_TOPOLOGY_POLARITY_VL 0x01
+>> +#define S390_TOPOLOGY_POLARITY_VM 0x02
+>> +#define S390_TOPOLOGY_POLARITY_VH 0x03
+> 
+> Why not use an enum?
+
+these are bits inside a bitfield, not a count, so I prefer a direct 
+definition.
+
+>> +
+>> +#define TYPE_S390_TOPOLOGY_CORES "topology cores"
+> 
+> Seems to me that using a - instead of a space is the usual way of doing things.
+
+right
+
+>> +    /*
+>> +     * Each CPU inside a socket will be represented by a bit in a 64bit
+>> +     * unsigned long. Set on plug and clear on unplug of a CPU.
+>> +     * All CPU inside a mask share the same dedicated, polarity and
+>> +     * cputype values.
+>> +     * The origin is the offset of the first CPU in a mask.
+>> +     */
+>> +struct S390TopologyCores {
+>> +    DeviceState parent_obj;
+>> +    int id;
+>> +    bool dedicated;
+>> +    uint8_t polarity;
+>> +    uint8_t cputype;
+> 
+> Why not snake_case for cpu type?
+
+I do not understand what you mean.
+
+> 
+>> +    uint16_t origin;
+>> +    uint64_t mask;
+>> +    int cnt;
+> 
+> num_cores instead ?
+
+I suppress this it is unused
+
+> 
+>> +};
+>> +typedef struct S390TopologyCores S390TopologyCores;
+>> +OBJECT_DECLARE_SIMPLE_TYPE(S390TopologyCores, S390_TOPOLOGY_CORES)
+>> +
+>> +#define TYPE_S390_TOPOLOGY_SOCKET "topology socket"
+>> +#define TYPE_S390_TOPOLOGY_SOCKET_BUS "socket-bus"
+>> +struct S390TopologySocket {
+>> +    DeviceState parent_obj;
+>> +    BusState *bus;
+>> +    int socket_id;
+>> +    int cnt;
+>> +};
+>> +typedef struct S390TopologySocket S390TopologySocket;
+>> +OBJECT_DECLARE_SIMPLE_TYPE(S390TopologySocket, S390_TOPOLOGY_SOCKET)
+>> +#define S390_MAX_SOCKETS 4
+>> +
+>> +#define TYPE_S390_TOPOLOGY_BOOK "topology book"
+>> +#define TYPE_S390_TOPOLOGY_BOOK_BUS "book-bus"
+>> +struct S390TopologyBook {
+>> +    SysBusDevice parent_obj;
+>> +    BusState *bus;
+>> +    int book_id;
+>> +    int cnt;
+>> +};
+>> +typedef struct S390TopologyBook S390TopologyBook;
+>> +OBJECT_DECLARE_SIMPLE_TYPE(S390TopologyBook, S390_TOPOLOGY_BOOK)
+>> +#define S390_MAX_BOOKS 1
+>> +
+>> +S390TopologyBook *s390_init_topology(void);
+>> +
+>> +S390TopologyBook *s390_get_topology(void);
+>> +void s390_topology_setup(MachineState *ms);
+>> +bool s390_topology_new_cpu(MachineState *ms, int core_id, Error **errp);
+>> +
+>> +#endif
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index 7d6d01325b..216adfde26 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+> 
+> I think these definitions should be moved to the STSI patch since they're not used in this one.
+
+right
+
+> 
+>> @@ -565,6 +565,53 @@ typedef union SysIB {
+>>   } SysIB;
+>>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+>>   
+>> +/* CPU type Topology List Entry */
+>> +typedef struct SysIBTl_cpu {
+>> +        uint8_t nl;
+>> +        uint8_t reserved0[3];
+>> +        uint8_t reserved1:5;
+>> +        uint8_t dedicated:1;
+>> +        uint8_t polarity:2;
+>> +        uint8_t type;
+>> +        uint16_t origin;
+>> +        uint64_t mask;
+>> +} SysIBTl_cpu;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
+>> +
+>> +/* Container type Topology List Entry */
+>> +typedef struct SysIBTl_container {
+>> +        uint8_t nl;
+>> +        uint8_t reserved[6];
+>> +        uint8_t id;
+>> +} QEMU_PACKED SysIBTl_container;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+>> +
+>> +/* Generic Topology List Entry */
+>> +typedef union SysIBTl_entry {
+>> +        uint8_t nl;
+>> +        SysIBTl_container container;
+>> +        SysIBTl_cpu cpu;
+>> +} SysIBTl_entry;
+> 
+> I don't like this union, it's only used in SysIB_151x below and that's misleading,
+> because the entries are packed without padding, but the union members have different
+> sizes.
+
+the entries have different sizes 64bits and 128bits.
+I do not understand why they should be padded.
+
+However, the union here is useless. will remove it.
+
+> 
+>> +
+>> +#define TOPOLOGY_NR_MAG  6
+>> +#define TOPOLOGY_NR_MAG6 0
+>> +#define TOPOLOGY_NR_MAG5 1
+>> +#define TOPOLOGY_NR_MAG4 2
+>> +#define TOPOLOGY_NR_MAG3 3
+>> +#define TOPOLOGY_NR_MAG2 4
+>> +#define TOPOLOGY_NR_MAG1 5
+>> +/* Configuration topology */
+>> +typedef struct SysIB_151x {
+>> +    uint8_t  res0[2];
+>> +    uint16_t length;
+>> +    uint8_t  mag[TOPOLOGY_NR_MAG];
+>> +    uint8_t  res1;
+>> +    uint8_t  mnest;
+>> +    uint32_t res2;
+>> +    SysIBTl_entry tle[0];
+> 
+> I think this should just be a uint64_t[] or uint64_t[0], whichever is QEMU style.
+
+ok
+
+>> +} SysIB_151x;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
+>> +
+>>   /* MMU defines */
+>>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
+>>   #define ASCE_SUBSPACE         0x200       /* subspace group control           */
+> 
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
