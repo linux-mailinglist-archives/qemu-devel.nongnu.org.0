@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BFB573BA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:59:27 +0200 (CEST)
-Received: from localhost ([::1]:39454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08AE1573BA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:59:29 +0200 (CEST)
+Received: from localhost ([::1]:39604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBfht-0000Qo-PC
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
+	id 1oBfhw-0000WT-3N
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oBfeX-0003Iq-QB; Wed, 13 Jul 2022 12:55:57 -0400
+ id 1oBfeZ-0003KD-UN; Wed, 13 Jul 2022 12:55:59 -0400
 Received: from [200.168.210.66] (port=34335 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oBfeV-00039g-Vd; Wed, 13 Jul 2022 12:55:57 -0400
+ id 1oBfeY-00039g-Jx; Wed, 13 Jul 2022 12:55:59 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 13 Jul 2022 13:55:51 -0300
+ Wed, 13 Jul 2022 13:55:52 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 0BD3D8001C2;
- Wed, 13 Jul 2022 13:55:51 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 805608001C2;
+ Wed, 13 Jul 2022 13:55:52 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
@@ -30,15 +30,18 @@ Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  victor.colombo@eldorado.org.br, mst@redhat.com, cohuck@redhat.com,
  pbonzini@redhat.com, farosas@linux.ibm.com
-Subject: [RFC PATCH v3 0/3] Implement Power ISA 3.1B hash insns
-Date: Wed, 13 Jul 2022 13:54:55 -0300
-Message-Id: <20220713165458.58807-1-victor.colombo@eldorado.org.br>
+Subject: [RFC PATCH v3 1/3] linux-headers/asm-powerpc/kvm.h: Add HASHKEYR and
+ HASHPKEYR in headers
+Date: Wed, 13 Jul 2022 13:54:56 -0300
+Message-Id: <20220713165458.58807-2-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220713165458.58807-1-victor.colombo@eldorado.org.br>
+References: <20220713165458.58807-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 13 Jul 2022 16:55:51.0512 (UTC)
- FILETIME=[68A4A580:01D896D9]
+X-OriginalArrivalTime: 13 Jul 2022 16:55:52.0965 (UTC)
+ FILETIME=[69825B50:01D896D9]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,61 +66,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series implements the 4 instructions added in Power ISA
-3.1B:
+Linux KVM currently does not export these registers. Create
+placeholders for them to allow implementing hashchk(p) and
+hashst(p) instructions from PowerISA 3.1B.
 
-- hashchk
-- hashst
-- hashchkp
-- hashstp
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+---
+ linux-headers/asm-powerpc/kvm.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-To build it, you need to apply the following patches on top of master:
-<20220701133507.740619-2-lucas.coutinho@eldorado.org.br>
-<20220701133507.740619-3-lucas.coutinho@eldorado.org.br>
-<20220712193741.59134-2-leandro.lupori@eldorado.org.br>
-<20220712193741.59134-3-leandro.lupori@eldorado.org.br>
-
-Working branch for ease of use can be found here:
-https://github.com/PPC64/qemu/tree/vccolombo-hash-to-send-v3
-
-What do you think about the choice to implement the hash algorithm
-from the ground up, following the SIMON-like algorithm presented in
-Power ISA? IIUC, this algorithm is not the same as the original[1].
-Other options would be to use other algorithm already implemented
-in QEMU, or even make this instruction a nop for all Power versions.
-
-Also, I was thinking about using the call to spr_register_kvm() in
-init_proc_POWER10 to initialize the registers with a random value.
-I'm not sure what is the behavior here, I would expect that is the job
-of the OS to set the regs, but looks like KVM is not exporting them,
-so they are always 0 (?). Does anyone have any insight on this?
-
-v1->v2:
-- Split the patch in 2
-- Rebase to master
-
-v2->v3:
-- Split patches in 3
-    - the new patch (patch 1) is separating the kvm header 
-      changes [Cornelia]
-
-[1] https://eprint.iacr.org/2013/404.pdf
-
-Víctor Colombo (3):
-  linux-headers/asm-powerpc/kvm.h: Add HASHKEYR and HASHPKEYR in headers
-  target/ppc: Implement hashst and hashchk
-  target/ppc: Implement hashstp and hashchkp
-
- linux-headers/asm-powerpc/kvm.h            |  3 +
- target/ppc/cpu.h                           |  2 +
- target/ppc/cpu_init.c                      |  7 ++
- target/ppc/excp_helper.c                   | 82 ++++++++++++++++++++++
- target/ppc/helper.h                        |  4 ++
- target/ppc/insn32.decode                   | 10 +++
- target/ppc/translate.c                     |  5 ++
- target/ppc/translate/fixedpoint-impl.c.inc | 34 +++++++++
- 8 files changed, 147 insertions(+)
-
+diff --git a/linux-headers/asm-powerpc/kvm.h b/linux-headers/asm-powerpc/kvm.h
+index 9f18fa090f..4ae4718143 100644
+--- a/linux-headers/asm-powerpc/kvm.h
++++ b/linux-headers/asm-powerpc/kvm.h
+@@ -646,6 +646,9 @@ struct kvm_ppc_cpu_char {
+ #define KVM_REG_PPC_SIER3	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc3)
+ #define KVM_REG_PPC_DAWR1	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc4)
+ #define KVM_REG_PPC_DAWRX1	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc5)
++/* FIXME: KVM hasn't exposed these registers yet */
++#define KVM_REG_PPC_HASHKEYR    (KVM_REG_PPC | KVM_REG_SIZE_U64 | 0x00)
++#define KVM_REG_PPC_HASHPKEYR   (KVM_REG_PPC | KVM_REG_SIZE_U64 | 0x00)
+ 
+ /* Transactional Memory checkpointed state:
+  * This is all GPRs, all VSX regs and a subset of SPRs
 -- 
 2.25.1
 
