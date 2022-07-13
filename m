@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A1E573E32
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:52:29 +0200 (CEST)
-Received: from localhost ([::1]:44938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78238573E5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:56:37 +0200 (CEST)
+Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBjLQ-0006GH-4y
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:52:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53058)
+	id 1oBjPQ-0003gP-K4
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@codethink.co.uk>)
- id 1oBfwT-0006dl-6R; Wed, 13 Jul 2022 13:14:29 -0400
-Received: from imap4.hz.codethink.co.uk ([188.40.203.114]:38714)
+ id 1oBfwW-0006fD-68; Wed, 13 Jul 2022 13:14:32 -0400
+Received: from imap4.hz.codethink.co.uk ([188.40.203.114]:38716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@codethink.co.uk>)
- id 1oBfwR-0003CY-Lk; Wed, 13 Jul 2022 13:14:28 -0400
+ id 1oBfwU-0003DM-OB; Wed, 13 Jul 2022 13:14:31 -0400
 Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
  ([86.15.83.122] helo=rainbowdash)
  by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
- id 1oBfdU-003M8o-18; Wed, 13 Jul 2022 17:54:51 +0100
+ id 1oBfdU-003M8p-1I; Wed, 13 Jul 2022 17:54:51 +0100
 Received: from ben by rainbowdash with local (Exim 4.96)
- (envelope-from <ben@rainbowdash>) id 1oBfdS-0009kn-1k;
+ (envelope-from <ben@rainbowdash>) id 1oBfdS-0009kt-1o;
  Wed, 13 Jul 2022 17:54:50 +0100
 From: Ben Dooks <ben.dooks@sifive.com>
 To: qemu-devel@nongnu.org
@@ -31,9 +31,9 @@ Cc: qemu-arm@nongnu.org, Jude Onyenegecha <jude.onyenegecha@sifive.com>,
  William Salmon <william.salmon@sifive.com>,
  Adnan Chowdhury <adnan.chowdhury@sifive.com>,
  Ben Dooks <ben.dooks@sifive.com>
-Subject: [PATCH 3/7] pci: designware: clamp viewport index
-Date: Wed, 13 Jul 2022 17:54:45 +0100
-Message-Id: <20220713165449.37433-4-ben.dooks@sifive.com>
+Subject: [PATCH 4/7] pci: designware: ignore new bits in ATU CR1
+Date: Wed, 13 Jul 2022 17:54:46 +0100
+Message-Id: <20220713165449.37433-5-ben.dooks@sifive.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220713165449.37433-1-ben.dooks@sifive.com>
 References: <20220713165449.37433-1-ben.dooks@sifive.com>
@@ -63,33 +63,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current Linux driver for this assumes it can write the 255 into
-this register and then read back the value to work out how many
-viewports are supported.
-
-Clamp the value so that the probe works and does not cause memory
-corruption as the value is not well clamped elsewhere in the driver.
+In version 4 and anver ATU CR1 has more bits in it than just the
+viewport type. Make a guess at masking these out to avoid issues
+where Linux writes these bits and fails to enable memory ATUs.
 
 Signed-off-by: Ben Dooks <ben.dooks@sifive.com>
 ---
- hw/pci-host/designware.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/pci-host/designware.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-index d213d7324c..6403416634 100644
+index 6403416634..947547d153 100644
 --- a/hw/pci-host/designware.c
 +++ b/hw/pci-host/designware.c
-@@ -345,6 +345,10 @@ static void designware_pcie_root_config_write(PCIDevice *d, uint32_t address,
-         break;
+@@ -276,10 +276,10 @@ static void designware_pcie_update_viewport(DesignwarePCIERoot *root,
+     const uint64_t base   = viewport->base;
+     const uint64_t size   = viewport->limit - base + 1;
+     const bool enabled    = viewport->cr[1] & DESIGNWARE_PCIE_ATU_ENABLE;
+-
++    uint32_t cr0          = viewport->cr[0];
+     MemoryRegion *current, *other;
  
-     case DESIGNWARE_PCIE_ATU_VIEWPORT:
-+        /* clamp this value, linux uses it to calculate the
-+         * available number of viewports */
-+        if (val >= DESIGNWARE_PCIE_NUM_VIEWPORTS)
-+            val = DESIGNWARE_PCIE_NUM_VIEWPORTS-1;
-         root->atu_viewport = val;
-         break;
- 
+-    if (viewport->cr[0] == DESIGNWARE_PCIE_ATU_TYPE_MEM) {
++    if ((cr0 & 0xFF) == DESIGNWARE_PCIE_ATU_TYPE_MEM) {
+         current = &viewport->mem;
+         other   = &viewport->cfg;
+         memory_region_set_alias_offset(current, target);
 -- 
 2.35.1
 
