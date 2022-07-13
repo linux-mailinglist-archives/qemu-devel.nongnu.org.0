@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC32457300B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:05:31 +0200 (CEST)
-Received: from localhost ([::1]:37398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FDC5730AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:15:13 +0200 (CEST)
+Received: from localhost ([::1]:47540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBXN3-0003Hi-V0
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:05:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32842)
+	id 1oBXWZ-00027m-N2
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:15:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXBN-0007rn-Ld; Wed, 13 Jul 2022 03:53:17 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:56575)
+ id 1oBXBU-000806-11; Wed, 13 Jul 2022 03:53:27 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:49635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXBL-0002XP-Rm; Wed, 13 Jul 2022 03:53:17 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVGw4HBBz4ySl;
- Wed, 13 Jul 2022 17:53:12 +1000 (AEST)
+ id 1oBXBO-0002Xv-SG; Wed, 13 Jul 2022 03:53:23 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVGz3FLwz4yTF;
+ Wed, 13 Jul 2022 17:53:15 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVGt1wlJz4ySW;
- Wed, 13 Jul 2022 17:53:10 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVGx0rG4z4ySW;
+ Wed, 13 Jul 2022 17:53:12 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -33,9 +34,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Peter Delevoryas <pdel@fb.com>, Titus Rwantare <titusr@google.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 03/19] hw/sensor: Add IC_DEVICE_ID to ISL voltage regulators
-Date: Wed, 13 Jul 2022 09:52:39 +0200
-Message-Id: <20220713075255.2248923-4-clg@kaod.org>
+Subject: [PULL 04/19] hw/sensor: Add Renesas ISL69259 device model
+Date: Wed, 13 Jul 2022 09:52:40 +0200
+Message-Id: <20220713075255.2248923-5-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220713075255.2248923-1-clg@kaod.org>
 References: <20220713075255.2248923-1-clg@kaod.org>
@@ -67,70 +68,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-This commit adds a passthrough for PMBUS_IC_DEVICE_ID to allow Renesas
-voltage regulators to return the integrated circuit device ID if they
-would like to.
-
-The behavior is very device specific, so it hasn't been added to the
-general PMBUS model. Additionally, if the device ID hasn't been set,
-then the voltage regulator will respond with the error byte value.  The
-guest error message will change slightly for IC_DEVICE_ID with this
-commit.
+This adds the ISL69259, using all the same functionality as the existing
+ISL69260 but overriding the IC_DEVICE_ID.
 
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
 Reviewed-by: Titus Rwantare <titusr@google.com>
-Message-Id: <20220701000626.77395-3-me@pjd.dev>
+Message-Id: <20220701000626.77395-4-me@pjd.dev>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/sensor/isl_pmbus_vr.h |  5 +++++
- hw/sensor/isl_pmbus_vr.c         | 12 ++++++++++++
- 2 files changed, 17 insertions(+)
+ hw/sensor/isl_pmbus_vr.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/include/hw/sensor/isl_pmbus_vr.h b/include/hw/sensor/isl_pmbus_vr.h
-index 3e47ff7e48d8..aa2c2767df90 100644
---- a/include/hw/sensor/isl_pmbus_vr.h
-+++ b/include/hw/sensor/isl_pmbus_vr.h
-@@ -12,12 +12,17 @@
- #include "hw/i2c/pmbus_device.h"
- #include "qom/object.h"
- 
-+#define TYPE_ISL69259   "isl69259"
- #define TYPE_ISL69260   "isl69260"
- #define TYPE_RAA228000  "raa228000"
- #define TYPE_RAA229004  "raa229004"
-+#define ISL_MAX_IC_DEVICE_ID_LEN 16
- 
- struct ISLState {
-     PMBusDevice parent;
-+
-+    uint8_t ic_device_id[ISL_MAX_IC_DEVICE_ID_LEN];
-+    uint8_t ic_device_id_len;
- };
- 
- OBJECT_DECLARE_SIMPLE_TYPE(ISLState, ISL69260)
 diff --git a/hw/sensor/isl_pmbus_vr.c b/hw/sensor/isl_pmbus_vr.c
-index e11e0288840d..799ea9d89edb 100644
+index 799ea9d89edb..eb344dd5a9d5 100644
 --- a/hw/sensor/isl_pmbus_vr.c
 +++ b/hw/sensor/isl_pmbus_vr.c
-@@ -15,6 +15,18 @@
+@@ -119,6 +119,18 @@ static void raa228000_exit_reset(Object *obj)
+     pmdev->pages[0].read_temperature_3 = 0;
+ }
  
- static uint8_t isl_pmbus_vr_read_byte(PMBusDevice *pmdev)
++static void isl69259_exit_reset(Object *obj)
++{
++    ISLState *s = ISL69260(obj);
++    static const uint8_t ic_device_id[] = {0x04, 0x00, 0x81, 0xD2, 0x49, 0x3c};
++    g_assert(sizeof(ic_device_id) <= sizeof(s->ic_device_id));
++
++    isl_pmbus_vr_exit_reset(obj);
++
++    s->ic_device_id_len = sizeof(ic_device_id);
++    memcpy(s->ic_device_id, ic_device_id, sizeof(ic_device_id));
++}
++
+ static void isl_pmbus_vr_add_props(Object *obj, uint64_t *flags, uint8_t pages)
  {
-+    ISLState *s = ISL69260(pmdev);
+     PMBusDevice *pmdev = PMBUS_DEVICE(obj);
+@@ -257,6 +269,21 @@ static void raa229004_class_init(ObjectClass *klass, void *data)
+     isl_pmbus_vr_class_init(klass, data, 2);
+ }
+ 
++static void isl69259_class_init(ObjectClass *klass, void *data)
++{
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    dc->desc = "Renesas ISL69259 Digital Multiphase Voltage Regulator";
++    rc->phases.exit = isl69259_exit_reset;
++    isl_pmbus_vr_class_init(klass, data, 2);
++}
 +
-+    switch (pmdev->code) {
-+    case PMBUS_IC_DEVICE_ID:
-+        if (!s->ic_device_id_len) {
-+            break;
-+        }
-+        pmbus_send(pmdev, s->ic_device_id, s->ic_device_id_len);
-+        pmbus_idle(pmdev);
-+        return 0;
-+    }
++static const TypeInfo isl69259_info = {
++    .name = TYPE_ISL69259,
++    .parent = TYPE_ISL69260,
++    .class_init = isl69259_class_init,
++};
 +
-     qemu_log_mask(LOG_GUEST_ERROR,
-                   "%s: reading from unsupported register: 0x%02x\n",
-                   __func__, pmdev->code);
+ static const TypeInfo isl69260_info = {
+     .name = TYPE_ISL69260,
+     .parent = TYPE_PMBUS_DEVICE,
+@@ -283,6 +310,7 @@ static const TypeInfo raa228000_info = {
+ 
+ static void isl_pmbus_vr_register_types(void)
+ {
++    type_register_static(&isl69259_info);
+     type_register_static(&isl69260_info);
+     type_register_static(&raa228000_info);
+     type_register_static(&raa229004_info);
 -- 
 2.35.3
 
