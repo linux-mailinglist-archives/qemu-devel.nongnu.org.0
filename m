@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45A9573D90
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:07:18 +0200 (CEST)
-Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D153573D97
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:09:56 +0200 (CEST)
+Received: from localhost ([::1]:49908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBidh-0003Cj-MB
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:07:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60038)
+	id 1oBigF-0004th-J2
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oBicR-0001iS-Fs; Wed, 13 Jul 2022 16:05:59 -0400
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:46874)
+ id 1oBie5-0003IV-Jz; Wed, 13 Jul 2022 16:07:41 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:38621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oBicP-0003Gg-Tr; Wed, 13 Jul 2022 16:05:59 -0400
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1013ecaf7e0so15356113fac.13; 
- Wed, 13 Jul 2022 13:05:57 -0700 (PDT)
+ id 1oBidv-0003Tk-5A; Wed, 13 Jul 2022 16:07:41 -0400
+Received: by mail-oi1-x235.google.com with SMTP id s204so15727792oif.5;
+ Wed, 13 Jul 2022 13:07:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=GAqfgMkKW2nIE0HEh9X9FRtdIUtXgNbZ78b9tJC6tEY=;
- b=KEGVhvzUPG0wEb7Ai8d45vPc0oX5Ylo6IvLUIviemj6kOcv9E24Q91qfSPPmHrPTPT
- +uHCGH6ACn2M6CMSq35OuTLntKeI/oIXveRBYvioqJ1ibPz/UHEOW1KCmny+LsOawEIh
- 737j4HcuN5bXl78ebcV60g2GoQ6vGOq1kVsaEf9OGDYwjI3ieIhPDMh6gBQIWDjE/N5+
- PhIFTZGwLbWo5wZ/vUKgc+szf0zOpVAl8fHBOBKmDnEf0xUertLprVFQuG7OwohWK5Nl
- 2MxtS1lPe8SiQlD0jGRFKbBTFZkpkMORSiSqI7aCySr/OCWZEYFCf84rw47AViMworlw
- XmGQ==
+ bh=VpbqJ8EclG1blWLNhilQF7J03wL/qMCnoQ5RiH8413U=;
+ b=APs3C3NGgbA+8fldRwcqRVTVv0RLXcsmlXZ3r4i+CE7dRrRKEaQCcfQD8sjT7pfuei
+ Kf/4FeLyPZexUn7eXkA94/DUIhnKRjyR26uym6ew4D3AcWHgoeRqYISeLuFz2NlzSSLe
+ iZICZdvEeT8NOIzAond91H9fM+uAhpKXvQ18hpI4Fz6cGyjy+N/Iy3UIh2V93NwJTF4J
+ I9bKbXWU+waZUWl4WyVJ3RaUmxNVB7VdJsnCbFh8ro+NIm7IyT33SbvGAoefJC33tQ8E
+ RtOg+8sUEYhL0VXH/vywvtS5OXtbReP8xikRQ83RqIo1huEZ9P1iXTG9WB5Gc1Q0/yKW
+ 4Rlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=GAqfgMkKW2nIE0HEh9X9FRtdIUtXgNbZ78b9tJC6tEY=;
- b=g30nMpjbbYGkuqcmG0+SoanIC9q5Tf3mdcM0g/Gwa6z+FCsBGcPS+6blD87O8gIcUr
- 3azdBGv4cXVnjsuHt6pK8bxdQdcLoZ0C71347i8/KFThmvU3aQdZepMVFI+JO5i08bKC
- xZ1vsKPn+2fC9IMh//QEmgYmQGGzf2Rzs1BleAj5skBcbZRQ1GWfpsHJnQKnxLA3ll1Q
- cld6/1b+uXs9iGuuyF/5MTVoBLgLhY9YWGKJHXSR/0l4w3BHz27FE9Is6rTyB/Tx9qW1
- oPVSQFD3mY1Z0TTWeUFCfAN56xfYER/hUz4ELS0VcFWwN72JPvMPwpD8NxLe2VC6tlfJ
- BWmA==
-X-Gm-Message-State: AJIora89/0RYb/tZEB9J2K/Oxt4praW5a5g0m8V8yd2NeDc8VlgwTiv4
- ouwjdOhsdNtw6o4qPIm/wAU=
-X-Google-Smtp-Source: AGRyM1tA3PbIFlUml5bLWzaOW8A+X2GQR1dXlFXsTF55jufg9kooKAAq5hXm081EBIyHbUYu23+1VQ==
-X-Received: by 2002:a05:6870:c10f:b0:10c:f0e:fd2a with SMTP id
- f15-20020a056870c10f00b0010c0f0efd2amr2736977oad.84.1657742756103; 
- Wed, 13 Jul 2022 13:05:56 -0700 (PDT)
+ bh=VpbqJ8EclG1blWLNhilQF7J03wL/qMCnoQ5RiH8413U=;
+ b=wU7fs/l8aETiG9WKZKB9c+42ACrpIxKK/0KLb9HsVRuIavmvd3tggJeuFGngrilDKy
+ nLqFUivQhBB6kPpenxcGPXsABY5gCZeMqMeWHRbHvHo/Mow8RrUXVAQsDEPlSSPR9Owq
+ Pb/9Dqhzzy9kCAUXlssYjsrUcIxO7VQEK0I2CyYDeZVjp+Eyo2QkGC1gqqqNhsn0j7D0
+ Sv5uixdIuY5Qn7ZtlyF16ml0nKKAw/klgQBjaCn8eEMvA/Iy7KKzIXqhhhuXdWB8hZBS
+ QBr8ik5lU2zls+uATM6XcJJaqpbsSAiYAkf9tU0T/zCO22PSFMJxiwtG8zX+H5L/U+G5
+ GG2g==
+X-Gm-Message-State: AJIora+KzoAttE/sIJxBdZjqX8Rfg0zqTjVbD2NG/J2kwiVlt5JcOJzi
+ 9HtFLljyshrwbQbSL5lJSR8=
+X-Google-Smtp-Source: AGRyM1uHvbmJASpC8YcV7NyoOSq6UQsfybnxNVFFdt318UzImrC9yvbFbAkWIx+yEwb6CJDSoIyuGQ==
+X-Received: by 2002:a05:6808:180d:b0:33a:3a7:1fd with SMTP id
+ bh13-20020a056808180d00b0033a03a701fdmr2609946oib.169.1657742849695; 
+ Wed, 13 Jul 2022 13:07:29 -0700 (PDT)
 Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- p203-20020acaf1d4000000b0032b99637366sm5629707oih.25.2022.07.13.13.05.53
+ 30-20020a9d0621000000b00618ca32d858sm5170274otn.25.2022.07.13.13.07.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jul 2022 13:05:55 -0700 (PDT)
-Message-ID: <c0324023-1fbb-f7de-f9d3-a8a1722da14e@gmail.com>
-Date: Wed, 13 Jul 2022 17:05:51 -0300
+ Wed, 13 Jul 2022 13:07:29 -0700 (PDT)
+Message-ID: <cfd5142c-9f98-eff4-1d24-30a1dba45ed7@gmail.com>
+Date: Wed, 13 Jul 2022 17:07:25 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 2/6] target/ppc: fix exception error value in slbfee
+Subject: Re: [PATCH 4/6] target/ppc: fix exception error code in
+ helper_{load,store}_dcr
 Content-Language: en-US
 To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
  farosas@linux.ibm.com, laurent@vivier.eu
 References: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
- <20220627141104.669152-3-matheus.ferst@eldorado.org.br>
+ <20220627141104.669152-5-matheus.ferst@eldorado.org.br>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220627141104.669152-3-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220627141104.669152-5-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::31;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x235.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,43 +98,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 6/27/22 11:11, Matheus Ferst wrote:
-> Testing on a POWER9 DD2.3, we observed that the Linux kernel delivers a
-> signal with si_code ILL_PRVOPC (5) when a userspace application tries to
-> use slbfee. To obtain this behavior on linux-user, we should use
-> POWERPC_EXCP_PRIV with POWERPC_EXCP_PRIV_OPC.
+> POWERPC_EXCP_INVAL should only be or-ed with other constants prefixed
+> with POWERPC_EXCP_INVAL_. Also, take the opportunity to move both
+> helpers under #if !defined(CONFIG_USER_ONLY) as the instructions that
+> use them are privileged.
 > 
-> No functional change is intended for softmmu targets as
-> gen_hvpriv_exception uses the same 'exception' argument
-> (POWERPC_EXCP_HV_EMU) for raise_exception_*, and the powerpc_excp_*
-> methods do not use lower bits of the exception error code when handling
-> POWERPC_EXCP_{INVAL,PRIV}.
+> No functional change is intended, the lower 4 bits of the error code are
+> ignored by all powerpc_excp_* methods on POWERPC_EXCP_INVAL exceptions.
 > 
 > Reported-by: Laurent Vivier <laurent@vivier.eu>
 > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > ---
+>   target/ppc/helper.h          | 2 +-
+>   target/ppc/timebase_helper.c | 6 +++---
+>   2 files changed, 4 insertions(+), 4 deletions(-)
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   target/ppc/translate.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 55f34eb490..d7e5670c20 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -5386,12 +5386,12 @@ static void gen_slbmfev(DisasContext *ctx)
->   static void gen_slbfee_(DisasContext *ctx)
->   {
->   #if defined(CONFIG_USER_ONLY)
-> -    gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
-> +    gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
->   #else
->       TCGLabel *l1, *l2;
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index 6233e28d85..c6895f2f99 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -684,10 +684,10 @@ DEF_HELPER_2(book3s_msgclr, void, env, tl)
+>   DEF_HELPER_4(dlmzb, tl, env, tl, tl, i32)
+>   #if !defined(CONFIG_USER_ONLY)
+>   DEF_HELPER_2(rac, tl, env, tl)
+> -#endif
 >   
->       if (unlikely(ctx->pr)) {
-> -        gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
-> +        gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
->           return;
+>   DEF_HELPER_2(load_dcr, tl, env, tl)
+>   DEF_HELPER_3(store_dcr, void, env, tl, tl)
+> +#endif
+>   
+>   DEF_HELPER_2(load_dump_spr, void, env, i32)
+>   DEF_HELPER_2(store_dump_spr, void, env, i32)
+> diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
+> index 86d01d6e4e..b80f56af7e 100644
+> --- a/target/ppc/timebase_helper.c
+> +++ b/target/ppc/timebase_helper.c
+> @@ -143,7 +143,6 @@ void helper_store_booke_tsr(CPUPPCState *env, target_ulong val)
+>   {
+>       store_booke_tsr(env, val);
+>   }
+> -#endif
+>   
+>   /*****************************************************************************/
+>   /* Embedded PowerPC specific helpers */
+> @@ -169,7 +168,7 @@ target_ulong helper_load_dcr(CPUPPCState *env, target_ulong dcrn)
+>                             (uint32_t)dcrn, (uint32_t)dcrn);
+>               raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+>                                      POWERPC_EXCP_INVAL |
+> -                                   POWERPC_EXCP_PRIV_REG, GETPC());
+> +                                   POWERPC_EXCP_INVAL_INVAL, GETPC());
+>           }
 >       }
->       gen_helper_find_slb_vsid(cpu_gpr[rS(ctx->opcode)], cpu_env,
+>       return val;
+> @@ -192,7 +191,8 @@ void helper_store_dcr(CPUPPCState *env, target_ulong dcrn, target_ulong val)
+>                             (uint32_t)dcrn, (uint32_t)dcrn);
+>               raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+>                                      POWERPC_EXCP_INVAL |
+> -                                   POWERPC_EXCP_PRIV_REG, GETPC());
+> +                                   POWERPC_EXCP_INVAL_INVAL, GETPC());
+>           }
+>       }
+>   }
+> +#endif
 
