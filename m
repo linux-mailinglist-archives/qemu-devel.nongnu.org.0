@@ -2,88 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FEEB573A6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 17:47:42 +0200 (CEST)
-Received: from localhost ([::1]:54182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB2C2573A81
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 17:49:18 +0200 (CEST)
+Received: from localhost ([::1]:56390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBeaT-0001pE-85
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 11:47:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59896)
+	id 1oBec1-0003Nn-RI
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 11:49:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBeXm-0000FH-Vk
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:44:55 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:50839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBeXl-0004qq-A6
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:44:54 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id a15so12626039pjs.0
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 08:44:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=PGXwMIOxlkuwaHOfssDlOrMjPJJQhcH9DUH34KfwmCw=;
- b=HmmREVhQRrwSP/zEIQ8BbitU0DeLUBMUyOnbEaRyj6G9JwXOslXp78UxL5Rv8APT7U
- cRw3UzmtNqS28gJfCt1Sp5FbSN2q8i4U3p0eHIvwsMUH5BaLSGPgYQmF9ja/UL7b+PCS
- qQvSeOv9ahczCNw6UvXkDtduSCMBXsbX3yAY2k0dhU4ynMzusuWrcTeB69eTuzYzFH50
- FK1ic6l1SD7aC/8U9fz9eyGqWC9BdyJ4XzI6+l6nIyYqiW9anpc4tSYV+h2ZRQAXbwbh
- L30ykX0igbfNRB8aNEP09rTh8WmE0VAJjhcuhV76W0NkwOlbmALuIEiFzUjV7sz5iftf
- bJ5w==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oBeZX-0001L5-Lk
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:46:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41089)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oBeZL-0005HJ-Ho
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:46:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657727190;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pQND7eI4ykdGnNHkBKjBzIqwG1h476qM+3MM9fBYbgs=;
+ b=DqUyg/NZKx3fMhmvCFvbIYlEYpiarbLswsc7mHlWRREecym6PwpZFlABGLEafI39FODriK
+ mboWil6qYc9jFGj7Gc+9f7PRnPkL5ASdGSMXU/Kdxwh9PhBXN8v1vsf9t3omcoiDUQI3aC
+ Vqj5n30WQYHf4FzUAKWPt5V6yXprUd8=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-625-lMtrPCCvMnaIuZ92Mija1A-1; Wed, 13 Jul 2022 11:46:29 -0400
+X-MC-Unique: lMtrPCCvMnaIuZ92Mija1A-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-f15a7ca913so6003046fac.8
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 08:46:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=PGXwMIOxlkuwaHOfssDlOrMjPJJQhcH9DUH34KfwmCw=;
- b=eoG40V4tFxclA6JulKvXUyPgar7v1g8u2xh+ewT7CQ7hkLxUyyTLw/hiWvZu0yqt4a
- 2sfi723WotcV6dJqywtHKdO6NASZnLmNkixz8hAncFZDoDgPwA4Up6MH3PndEQBnwIFM
- 91wnU6mAj60dtz6saveCHEfdGtEaIoxkEgcY7gXOd7Wp+SnvjVd0zl1LE3HD40dfaOru
- tqaOwRv7R76RhEdLRHat/VlTUI+fPkSfvrH48s7GJ1XMqsIRTy4Qqzn1C9fAG0BI1+EW
- chrLrW1m1H0YHjiB5a+6JuMMuJjd8kU7o9ajaw9lcv0PAFPUI3ULPRGpMkVQFpPlrcP5
- We0g==
-X-Gm-Message-State: AJIora9RzdNYhei+C5TFhPvaEER+pOAs10N2CH6NpplIzlDT6zGt40aT
- tfQn5vSIAq3RN/Vg1qlVu10Uxg==
-X-Google-Smtp-Source: AGRyM1svvTG78ABGyNJOgAEkos1I/pzydze0A8a+PgSwytIREOpOowvkAUz5Ig5uIdHBkUWgR9rfsw==
-X-Received: by 2002:a17:903:245:b0:16b:9b6d:20bc with SMTP id
- j5-20020a170903024500b0016b9b6d20bcmr3594319plh.14.1657727091579; 
- Wed, 13 Jul 2022 08:44:51 -0700 (PDT)
-Received: from [192.168.138.227] ([202.124.167.115])
- by smtp.gmail.com with ESMTPSA id
- e16-20020a631e10000000b00412a3c1efddsm8150885pge.42.2022.07.13.08.44.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jul 2022 08:44:51 -0700 (PDT)
-Message-ID: <3c321cef-b574-1396-237a-d1ac1cf19e01@linaro.org>
-Date: Wed, 13 Jul 2022 21:14:44 +0530
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pQND7eI4ykdGnNHkBKjBzIqwG1h476qM+3MM9fBYbgs=;
+ b=bm3bTgLqrd8FcUCvITivKG62KdgmEDspIoSV/QZUuAmyzYCy8ck2tdLd9zGym0gSmK
+ SuDX5pHQDW61AAxRxRUde6bXl8M6l6/KG86xSzdKE8u50n+h4U6k0VeQG1PqkQe3Wd+O
+ cSxy6CDOMOxJaZ8QC9lwWDRjYS9GowMH8BO5vx8Q59uxk3ClhbG/GObO+BEtnf39gSk1
+ RBFmtfCYeLKxcbSKWIb6qfAjbNED+RaPfhsGxBDOqIkyzv5C1LVUag3rLFIdapEJ4HbN
+ amNTD5+PPWiNOGOeGBcJpdTp5GzC+BzwlJlIcqgq2jM1nBEZnavr611H0tjbrFM258S7
+ WmIw==
+X-Gm-Message-State: AJIora+lTvcY5BBn7fmbJNEHQT1YaMkoYv/fn+i30Y2ps0AH4F0U85Ff
+ BKZKtTl1VQKGqmk5J1e7/q5w7UZX5StezlJRfReqPs55mBpanU1wZdjLHAdWCULZFUuL7qonHO3
+ GoINa1piKn+vTXUUHxQbsvGQDu10JvwQ=
+X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
+ ek39-20020a056870f62700b0010c9be95306mr4996541oab.205.1657727188702; 
+ Wed, 13 Jul 2022 08:46:28 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vnC+1MqKzWXZOQ7iD0z6G8m+7KevKd2O6YAah/tzG7xnEUJtkESDCQb6yODHjDdSfjHmtwkePyoHPkFi4JFRw=
+X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
+ ek39-20020a056870f62700b0010c9be95306mr4996529oab.205.1657727188509; Wed, 13
+ Jul 2022 08:46:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 3/3] tests/tcg/s390x: test signed vfmin/vfmax
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand
- <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220712015717.3602602-1-iii@linux.ibm.com>
- <20220712015717.3602602-4-iii@linux.ibm.com>
- <c7897b91-dbfd-3a32-68c8-d7afa40495ba@linaro.org>
- <c7a32437850ddc70438173ff7f0f0966e5f48384.camel@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <c7a32437850ddc70438173ff7f0f0966e5f48384.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220713130322.25517-1-frankja@linux.ibm.com>
+ <20220713130322.25517-5-frankja@linux.ibm.com>
+In-Reply-To: <20220713130322.25517-5-frankja@linux.ibm.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 13 Jul 2022 19:46:17 +0400
+Message-ID: <CAMxuvawFxNv9pdeaLuTVb1fg5qx_VmSy+zjYxJXKJKCBPh3-BA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/11] dump: Reorder struct DumpState
+To: Janosch Frank <frankja@linux.ibm.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
+ mhartmay@linux.ibm.com, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, imbrenda@linux.ibm.com, 
+ Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, "Henderson,
+ Richard" <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,31 +100,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/22 18:02, Ilya Leoshkevich wrote:
->> This works, of course.  It could be simpler using EXECUTE, to store
->> just the one
->> instruction and not worry about an executable mapped page, but I
->> guess it doesn't matter.
-> 
-> I thought about this too, but EX/EXRL operate only on the second byte,
-> and I need to modify bytes 3-5 here.
+On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank <frankja@linux.ibm.com> wrote=
+:
+>
+> Let's move ELF related members into one block and guest memory related
+> ones into another to improve readability.
+>
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I didn't mean modify the instruction via EX, but something like
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-   static char minmax[6] __attribute__((aligned(2)))
-     = { xx, yy, zz, 0, 0, 0 };
+> ---
+>  include/sysemu/dump.h | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+> index bd49532232..8379e29ef6 100644
+> --- a/include/sysemu/dump.h
+> +++ b/include/sysemu/dump.h
+> @@ -154,15 +154,8 @@ typedef struct DumpState {
+>      GuestPhysBlockList guest_phys_blocks;
+>      ArchDumpInfo dump_info;
+>      MemoryMappingList list;
+> -    uint32_t phdr_num;
+> -    uint32_t shdr_num;
+>      bool resume;
+>      bool detached;
+> -    ssize_t note_size;
+> -    hwaddr shdr_offset;
+> -    hwaddr phdr_offset;
+> -    hwaddr section_offset;
+> -    hwaddr note_offset;
+>      hwaddr memory_offset;
+>      int fd;
+>
+> @@ -171,6 +164,16 @@ typedef struct DumpState {
+>      int64_t begin;             /* Start address of the chunk we want to =
+dump */
+>      int64_t length;            /* Length of the dump we want to dump */
+>
+> +    /* Elf dump related data */
+> +    uint32_t phdr_num;
+> +    uint32_t shdr_num;
+> +    uint32_t sh_info;
+> +    ssize_t note_size;
+> +    hwaddr shdr_offset;
+> +    hwaddr phdr_offset;
+> +    hwaddr note_offset;
+> +    hwaddr section_offset;
+> +
+>      void *elf_header;
+>      void *elf_section_hdrs;
+>      uint64_t elf_section_data_size;
+> --
+> 2.34.1
+>
 
-   minmax[3] = m6 ...
-   minmax[4] = ...
-   minmax[5] = op;
-
-   asm("vl %%v25,0(%1)\n"
-       "vl %%v26,0(%2)\n"
-       "ex 0,0(%3)\n"
-       "vst %%v24,0(%0)"
-       : : "a"(v1), "a"(v2), "a"(v3), "a"(minmax)
-       : "memory", "v24", "v25", "v26);
-
-
-r~
 
