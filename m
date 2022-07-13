@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97462573DA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:12:15 +0200 (CEST)
-Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC8C573DD5
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 22:32:19 +0200 (CEST)
+Received: from localhost ([::1]:57726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBiiU-0006ey-Os
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:12:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60578)
+	id 1oBj1t-00033k-Tf
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 16:32:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oBif2-0003uU-4K; Wed, 13 Jul 2022 16:08:40 -0400
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:44644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oBiez-0003aP-6X; Wed, 13 Jul 2022 16:08:39 -0400
-Received: by mail-oi1-x22b.google.com with SMTP id bb16so908839oib.11;
- Wed, 13 Jul 2022 13:08:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=UEoAVGk6GyP/ekwjkGdtR7H4o/tk7yGUtWyoWmJfuPk=;
- b=ONr4TkbN0B9p1KMDYhrWbxB/A0gWD99WZ+DIwXnkHJFcwKbtJ0+PHNcBMXcyACoHoB
- SBFayXWoIZt5tFbu2FkEiOQecJdKLjNvP57lDpJ4w8PZWp0Qo5GhAdZ1J0CGIV3z5oBY
- R7qPFWow5EMTRpZi9CZqpjrbuwB6LE8jsXe45jFGxScPsTra6eesHl6f0ZdCu+SxMwPO
- haIfrlpE2IrN/9N5+1/+ZcN4EpDQKZtW8+RS2b7ngxjX2JExEHUtAyFyDYbkl7iN0pZ7
- 51Y52HP3o8rNxmsmApgnZNDTqGhjEP3N22aIGbjnt5+hFAaqxTN7idBtGDRPg3O7nl1D
- JxbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UEoAVGk6GyP/ekwjkGdtR7H4o/tk7yGUtWyoWmJfuPk=;
- b=CCWqtpBI+q09KuB6AnL9h9/wEw1bAtW+3GdE+hbeOhPl3V1RocwOaf5q/VIwddNwcV
- hA0qImTp7TUmKO6/tGjUnALpwDvsbZ0grGLTiV1LoIespcjdCEILxA0GKlekFFmNBBNK
- tWCZXbIMWefplKtz0lq/M5rIngUfAQ9cTYba8mwqjWFGUWN7qpdenXHFIvMS2tYHCI8/
- G7xryMw7JSrPDV2/ZhAERUr6z0TO/ycA4NDILO6aYOxRPXSOWGpq3ImvYzeDNYYBZwko
- APde7LSV8gib5j3ThNS/GHf9vYfcAKM18A5n1Xn2SLeBvW2XSdR2sPP4Tedr6G3wjHKY
- yGcg==
-X-Gm-Message-State: AJIora8YXFPOQDrca1lEJPHlPUXLCSWAPpby2ExshmWX6CPqGdNKIM9I
- urGa20amGiphcvVKjNXq87k=
-X-Google-Smtp-Source: AGRyM1vJVviroYtG/rbYfFZTzEW2SO9sEn2UDCFpXN0t2AhgxHFyLi/yBU131yDoOg2WNgASmtIDYQ==
-X-Received: by 2002:a05:6808:1aaf:b0:32e:fec8:b67c with SMTP id
- bm47-20020a0568081aaf00b0032efec8b67cmr5845458oib.118.1657742915740; 
- Wed, 13 Jul 2022 13:08:35 -0700 (PDT)
-Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
- [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- y7-20020a544d87000000b0032f7605d1a3sm5692239oix.31.2022.07.13.13.08.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jul 2022 13:08:35 -0700 (PDT)
-Message-ID: <bd97a38f-0b4a-1ead-d339-b0b8d9170260@gmail.com>
-Date: Wed, 13 Jul 2022 17:08:32 -0300
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oBj0O-0001ZA-J0; Wed, 13 Jul 2022 16:30:46 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43750)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oBj0K-00032o-OX; Wed, 13 Jul 2022 16:30:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+ivPLxjyqqILG86Ints9Qjm2Ik0zE0xwYvNWcQA+NPk=; b=KnVif4LUGkzUTiwxDcGWCvSyvr
+ hVTOAQI6ySvhXRqdlg4KBn2lYR+UaewBYTFLwyNFi6iTiHQAYbhEDj1LwkaKgXSATLpdGUC46GxYc
+ RE6re1/32ofm1J2oxtLZshu261yrM2TPhCV23p11IoZnvfGx9MRjswVL/F56SLtZnVtq3pfNiU3FG
+ kLqbv6qp+Vmko2tQuLQueI8XzxJM1TmouRMp8pPUVvRNyu8I7RhjGJ9KgUCpxp9XsuECntNoyNnS6
+ 5BjxtURCr3kYIxWmjPGQJmuE10CTk9/ezERwF8kgXn+5c0/kSrSr1dVx5AupGWhdLJ+zsO8H/aFy8
+ 0Nk62WVpB0niW6Q3XjdvN8T4TJ+aPP0KZbA6ipTJCdevbhg7LAMYuHfeXUAFCB31J946d5Ko8fwz2
+ fxPew0xGZhVXEZsmV7kM2NFuRO5HTEW3eqT9g1cXtjjkMmZ/bE9k22Pyb/9FpVI2nZVwD4r51QjRK
+ 4CWk4sNwCA/rU39FfZzTpMj0ZPpQXb+W0zdniKmUh5WkA6oknsdQ0I52Tma2yLUjuByedeq7OXOtc
+ Jcgo5e9HSHVfgbaEYHErxnqJDYC67ci8mLo0CLpDIWfOxs1WcGPoei/oKzemPnzMX3nseXABVGmdO
+ ITHKVc9I/4tb5r28pNDB0qcnxOMp3aI+fbZ2MJw4Q=;
+Received: from [2a00:23c4:8ba5:df00:fd7d:1c3a:1dd0:c576]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oBiyq-000571-Rc; Wed, 13 Jul 2022 21:29:12 +0100
+Message-ID: <7b8c62f9-1821-e3ed-ff2c-35a8ed8583f4@ilande.co.uk>
+Date: Wed, 13 Jul 2022 21:30:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 6/6] target/ppc: fix exception error code in
- spr_write_excp_vector
 Content-Language: en-US
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- farosas@linux.ibm.com, laurent@vivier.eu
-References: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
- <20220627141104.669152-7-matheus.ferst@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220627141104.669152-7-matheus.ferst@eldorado.org.br>
+References: <20220630194249.886747-1-danielhb413@gmail.com>
+ <20220630194249.886747-3-danielhb413@gmail.com>
+ <55014e2a-a668-4843-8338-850abeb5ff04@kaod.org>
+ <47277f4f-a6a5-85dc-4806-67df8e2fc153@gmail.com>
+ <6d37b1dc-5dfb-2513-f74e-3f58e84e8117@kaod.org>
+ <1d2cd44f-fd61-4693-ecc0-f71c80131005@ilande.co.uk>
+ <6b5e0e42-973d-19de-4979-7db06941ea19@kaod.org>
+ <13b65b0e-716f-a6e0-fd63-c1e7cfe2a63c@kaod.org>
+ <c08df33f-f6e8-67bb-9159-190a0b9a2dd5@ilande.co.uk>
+ <af1b3289-a9ff-b417-e2dd-ae9801f2c74a@kaod.org>
+ <4ff0668b-02b9-b0dc-99fc-6471d534a404@ilande.co.uk>
+ <7c4a60d8-a112-5d99-3720-ee707efcfb5d@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <7c4a60d8-a112-5d99-3720-ee707efcfb5d@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba5:df00:fd7d:1c3a:1dd0:c576
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 2/9] target/ppc: add errp to kvmppc_read_int_cpu_dt()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,41 +92,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/07/2022 15:54, BALATON Zoltan wrote:
 
-
-On 6/27/22 11:11, Matheus Ferst wrote:
-> The 'error' argument of gen_inval_exception will be or-ed with
-> POWERPC_EXCP_INVAL, so it should always be a constant prefixed with
-> POWERPC_EXCP_INVAL_. No functional change is intended,
-> spr_write_excp_vector is only used by register_BookE_sprs, and
-> powerpc_excp_booke ignores the lower 4 bits of the error code on
-> POWERPC_EXCP_INVAL exceptions.
+> On Tue, 12 Jul 2022, Mark Cave-Ayland wrote:
+>> On 11/07/2022 08:42, Cédric Le Goater wrote:
+>>>>> Anything special I should know ?
+>>>>
+>>>> As I don't have access to a G5 I've never tried that, however the 
+>>>> qemu-system-ppc64 mac99 is wired differently to the qemu-system-ppc mac99 machine 
+>>>> so I wouldn't be surprised if something is broken there.
+>>>>
+>>>> My normal test for MacOS is something like:
+>>>>
+>>>>     qemu-system-ppc -M mac99 -accel kvm -hda macos104.img
+>>>>
+>>>> Can you try qemu-system-ppc and see if it is any better? If not then I can fire 
+>>>> up the G4 and get the git hashes for my last known working configuration.
+>>>
+>>> Same issue with 32bit.
+>>
+>> I've just fired up my G4 to test this again, pulled the latest QEMU git master and 
+>> confirmed that I have a working setup with the details below:
+>>
+>> Host kernel: (5.1.0-rc2+)
+>> commit a3ac7917b73070010c05b4485b8582a6c9cd69b6
+>> Author: Linus Torvalds <torvalds@linux-foundation.org>
+>> Date:   Mon Mar 25 14:49:00 2019 -0700
+>>
+>> Guest kernel: (4.14.0-3-powerpc)
+>> using Debian ports debian-9.0-powerpc-NETINST-1.iso
+>>
+>> Command line:
+>> ./qemu-system-ppc [-M mac99] -accel kvm -cdrom 
+>> /home/mca/images/debian-9.0-powerpc-NETINST-1.iso -boot d -nographic
+>>
+>> However if I switch to using the latest Debian ports 
+>> debian-10.0.0-powerpc-NETINST-1.iso then I get a failure:
+>>
+>> [    0.198565] BUG: Unable to handle kernel data access on read at 0xbb0030d4
 > 
-> Also, take the opportunity to replace printf with qemu_log_mask.
-> 
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
+> What is or should be at this address and why does the kernel access it? By default I 
+> see nothing mapped there. Do you need more RAM? Maybe the default 128 MB is not 
+> enough for newer kernels? I've seen such problem with other OSes before.
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Yeah I've already tried increasing the RAM and it makes no difference. It wouldn't 
+surprise me if it's a kernel issue since Christophe has done a lot of low-level work 
+for 32-bit PPC including moving routines from asm to C and KASAN. I'm away for a few 
+days but I will do a bisect when I get back, unless anyone beats me to it...
 
->   target/ppc/translate.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 30dd524959..da11472877 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -907,9 +907,9 @@ void spr_write_excp_vector(DisasContext *ctx, int sprn, int gprn)
->       } else if (sprn >= SPR_BOOKE_IVOR38 && sprn <= SPR_BOOKE_IVOR42) {
->           sprn_offs = sprn - SPR_BOOKE_IVOR38 + 38;
->       } else {
-> -        printf("Trying to write an unknown exception vector %d %03x\n",
-> -               sprn, sprn);
-> -        gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
-> +        qemu_log_mask(LOG_GUEST_ERROR, "Trying to write an unknown exception"
-> +                      " vector 0x%03x\n", sprn);
-> +        gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
->           return;
->       }
->   
+
+ATB,
+
+Mark.
 
