@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C96B57301A
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:09:46 +0200 (CEST)
-Received: from localhost ([::1]:41466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019F9573076
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:14:10 +0200 (CEST)
+Received: from localhost ([::1]:46172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBXRJ-0006JR-7T
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32918)
+	id 1oBXVZ-0001En-3X
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXBY-00080U-46; Wed, 13 Jul 2022 03:53:30 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:56591
+ id 1oBXBa-00080k-NV; Wed, 13 Jul 2022 03:53:30 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:55085
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXBW-0002Yr-Fi; Wed, 13 Jul 2022 03:53:27 -0400
+ id 1oBXBY-0002ZX-PH; Wed, 13 Jul 2022 03:53:30 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVH764VKz4ySl;
- Wed, 13 Jul 2022 17:53:23 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVHB37ysz4ySc;
+ Wed, 13 Jul 2022 17:53:26 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVH55bBhz4ySW;
- Wed, 13 Jul 2022 17:53:21 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVH82cVLz4ySW;
+ Wed, 13 Jul 2022 17:53:24 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -35,9 +35,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Peter Delevoryas <peter@pjd.dev>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 07/19] aspeed: Make aspeed_board_init_flashes public
-Date: Wed, 13 Jul 2022 09:52:43 +0200
-Message-Id: <20220713075255.2248923-8-clg@kaod.org>
+Subject: [PULL 08/19] aspeed: Add fby35 skeleton
+Date: Wed, 13 Jul 2022 09:52:44 +0200
+Message-Id: <20220713075255.2248923-9-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220713075255.2248923-1-clg@kaod.org>
 References: <20220713075255.2248923-1-clg@kaod.org>
@@ -72,38 +72,86 @@ From: Peter Delevoryas <peter@pjd.dev>
 
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220705191400.41632-5-peter@pjd.dev>
+Message-Id: <20220705191400.41632-6-peter@pjd.dev>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/arm/aspeed_soc.h | 2 ++
- hw/arm/aspeed.c             | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ hw/arm/fby35.c     | 39 +++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS        |  1 +
+ hw/arm/meson.build |  3 ++-
+ 3 files changed, 42 insertions(+), 1 deletion(-)
+ create mode 100644 hw/arm/fby35.c
 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 68e907cd64bb..8389200b2d01 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -184,5 +184,7 @@ void aspeed_mmio_map(AspeedSoCState *s, SysBusDevice *dev, int n, hwaddr addr);
- void aspeed_mmio_map_unimplemented(AspeedSoCState *s, SysBusDevice *dev,
-                                    const char *name, hwaddr addr,
-                                    uint64_t size);
-+void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
-+                               unsigned int count, int unit0);
+diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
+new file mode 100644
+index 000000000000..03b458584c26
+--- /dev/null
++++ b/hw/arm/fby35.c
+@@ -0,0 +1,39 @@
++/*
++ * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
++ *
++ * This code is licensed under the GPL version 2 or later. See the COPYING
++ * file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/boards.h"
++
++#define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
++OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
++
++struct Fby35State {
++    MachineState parent_obj;
++};
++
++static void fby35_init(MachineState *machine)
++{
++}
++
++static void fby35_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    mc->desc = "Meta Platforms fby35";
++    mc->init = fby35_init;
++}
++
++static const TypeInfo fby35_types[] = {
++    {
++        .name = MACHINE_TYPE_NAME("fby35"),
++        .parent = TYPE_MACHINE,
++        .class_init = fby35_class_init,
++        .instance_size = sizeof(Fby35State),
++    },
++};
++
++DEFINE_TYPES(fby35_types);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 450abd025271..fce6161ce506 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1065,6 +1065,7 @@ F: hw/net/ftgmac100.c
+ F: include/hw/net/ftgmac100.h
+ F: docs/system/arm/aspeed.rst
+ F: tests/qtest/*aspeed*
++F: hw/arm/fby35.c
  
- #endif /* ASPEED_SOC_H */
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index e287a76e2843..b4355ee26a45 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -262,7 +262,7 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
-     rom_add_blob_fixed("aspeed.boot_rom", storage, rom_size, addr);
- }
- 
--static void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
-+void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
-                                       unsigned int count, int unit0)
- {
-     int i;
+ NRF51
+ M: Joel Stanley <joel@jms.id.au>
+diff --git a/hw/arm/meson.build b/hw/arm/meson.build
+index 2d8381339c07..92f9f6e000ea 100644
+--- a/hw/arm/meson.build
++++ b/hw/arm/meson.build
+@@ -51,7 +51,8 @@ arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
+   'aspeed_soc.c',
+   'aspeed.c',
+   'aspeed_ast2600.c',
+-  'aspeed_ast10x0.c'))
++  'aspeed_ast10x0.c',
++  'fby35.c'))
+ arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
+ arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
+ arm_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-soc.c'))
 -- 
 2.35.3
 
