@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE2F573144
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:37:52 +0200 (CEST)
-Received: from localhost ([::1]:55956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E36057315A
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:42:04 +0200 (CEST)
+Received: from localhost ([::1]:36032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBXsV-0002Ra-BU
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:37:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38234)
+	id 1oBXwY-0008H6-9X
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oBXZb-0005ew-1E
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 04:18:23 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:33289)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oBXZc-0005f9-0Z
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 04:18:24 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:34785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oBXZZ-0004of-DC
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 04:18:18 -0400
-Received: by mail-ej1-x635.google.com with SMTP id va17so18573488ejb.0
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oBXZa-0004ou-EC
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 04:18:19 -0400
+Received: by mail-ed1-x532.google.com with SMTP id x91so13122298ede.1
  for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 01:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MEInLvpkAW1LEe/0KxYlOVjh1DcOAF8NNEJb3GOJEdQ=;
- b=Vx+mc1tQ8fa+bcTZ0ey9SAPeiICSoqswq0f08YyrwPjYwta3yGtwqrYZc4E6VTDUAP
- 39HI/WPAc7S1xa811V/0oQhqaE8JOpYZ4yvVtWg2VPvdzI+2rlMqPmQZ3fZus7/ck8ko
- yn2oDkbnqayeCHPKcZfVyfXKc6l2BKwL1VS5wCPHpdn1wFdET9ogweFqOeC0WnEAXIsT
- DsAvN1s6bIbaNQ6OihG72QL2Bf9kI3xisz6aWg+vVJKthYZQJX+sNxBKBLhkvbF9oQiJ
- XGacy6YpTEvptnbfgkWFPdPYPv4T9kol1DiAA68cnmk09TA2CtiIRhahPUwJU7vUdj2i
- 6NKg==
+ bh=GM3i7hDr0iR12BzyCLMDFl98+x3kcFBP+2C5xtKOuT8=;
+ b=ihLXEit6rqx4lSO/NBPDpX1jgwmVDY2rhtWMhJ69KIjr6YXEEni6Tn8OTUndQQifnY
+ MfjMqJoRghif7RodT5VIasKlkC/x5UYE/d9ABSG2G6hPpcKtEvZbvsXVbqGnm8ggeLVf
+ J6Ks+geGqtKcue1EhPsIsnLikpjFmkTCUTcUthObUUq5YL+8M/sLJkzRLb1yWhxFuCUp
+ EfBSvJIlycteeeZAz9l6s5ZmUwArz7UOVdFLeeWOoecSXimHz0psC6whJJI25Lfsj3nn
+ HBmC9+qjQHvqdTBz623nPXRWHqmQ+3r0W/QIRJameQQZCCmwpD0UEASLbFgE1GJ7Gh5Z
+ Gmcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MEInLvpkAW1LEe/0KxYlOVjh1DcOAF8NNEJb3GOJEdQ=;
- b=mUQDuWRLHHCS4YGm/y9xIT/rHP/+yWcuoukj9+8lcnwoTuQmUYafvAvVl+343Niv/6
- j4rzEgTVnVSEBiFMcOh+izcShvZmYcRuKKfbCmXYBwUuweIzbllekigdgl5h1adZE8Q8
- glIgoNNB8k683FNK2yL9jZ7B9yGQDqEVsJsObahpefBCje1aBn5fSWcec5Ob8iDUQyY2
- 7ZXhuLKu/Zk5H9TUgaZJIwKz8KhaCRCwEwKYdwnAF8WbiAMi+f7ODMQf+qor7mqS6jB/
- OxXQ2Y/laL9Uemk+YOTfaXjTf4eJ9JqKiqHHZ7392Hv/YGVMSos+JiB9TAKDwiGpETuX
- Kkzw==
-X-Gm-Message-State: AJIora82Qd6Snk9UDXh3uFlnh/dxBx+4tP/NYK7nai85C5NOWtkXtZWM
- 6A79B0QgDgnNlYvmFN+vK3xgB+VrCpU=
-X-Google-Smtp-Source: AGRyM1tQq8YmfvOd/zqjsj/bxWFXbQyPMzUxjk101A+LhGnQFXOLxSH+bztewDrPnZwNzV2bwMJH+Q==
-X-Received: by 2002:a17:906:9b8a:b0:722:e6e0:33d with SMTP id
- dd10-20020a1709069b8a00b00722e6e0033dmr2167218ejc.317.1657700295855; 
- Wed, 13 Jul 2022 01:18:15 -0700 (PDT)
+ bh=GM3i7hDr0iR12BzyCLMDFl98+x3kcFBP+2C5xtKOuT8=;
+ b=XnDBZX2jSxmddpIdeiYZaMwIxDqrOfuA+s3Q3rs9Ucx6paPTuC+n5v/XWeRx1E9t+o
+ fbyEjZkz2Vi8Ic2FoAGD1gd0hCAlkiJsnrY2ixpSH7X8FPz1yQkdLWQztA5SkLp17x3D
+ mu/Pskhh/APxnVsBP0RHkbvA5jIMf8ZkDEbaySTmnrq5wJEDAjI3B0CJodY1nDCcx5gs
+ v0TzPmDEqdEPKhsKxy+3y78m4uhImAGpDRUv9J0h49xoFossuPYS9V56qCAo6/t+kZRY
+ vaU/w+1MxAxs1j92i5ULjYIPtkv3qHrHu5FTFQofs30am//OFFtqXHUycum4aIxWROHO
+ 5Lcw==
+X-Gm-Message-State: AJIora8XkX9pIONOBnIrnuyOImgDYHXjbTHo8Drd2Sq7BkJTcQygwAOF
+ DEYlq0Rx5LAcd/7QLgagHbzeKCirp/E=
+X-Google-Smtp-Source: AGRyM1vmsuSep28aQPVUuFePL8RMoPMou1njCTFqf2M/jXvrFfc6bsDFnHb+FVcDJZS3nYvHDzVNdw==
+X-Received: by 2002:aa7:cdcd:0:b0:43a:31e:114 with SMTP id
+ h13-20020aa7cdcd000000b0043a031e0114mr3141455edw.231.1657700296807; 
+ Wed, 13 Jul 2022 01:18:16 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-183-210-047.77.183.pool.telefonica.de. [77.183.210.47])
  by smtp.gmail.com with ESMTPSA id
  w13-20020aa7dccd000000b00435a62d35b5sm7483431edu.45.2022.07.13.01.18.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jul 2022 01:18:15 -0700 (PDT)
+ Wed, 13 Jul 2022 01:18:16 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
@@ -62,16 +62,16 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 06/11] hw/i386/pc: No need for rtc_state to be an out-parameter
-Date: Wed, 13 Jul 2022 10:17:30 +0200
-Message-Id: <20220713081735.112016-7-shentey@gmail.com>
+Subject: [PATCH 07/11] hw/intc/i8259: Introduce i8259 proxy "isa-pic"
+Date: Wed, 13 Jul 2022 10:17:31 +0200
+Message-Id: <20220713081735.112016-8-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220713081735.112016-1-shentey@gmail.com>
 References: <20220713081735.112016-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,85 +94,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the RTC is created as part of the southbridges it doesn't need
-to be an out-parameter any longer.
+Having an i8259 proxy allows for ISA PICs to be created and wired up in
+southbridges. This is especially interesting for PIIX3 for two reasons:
+First, the southbridge doesn't need to care about the virtualization
+technology used (KVM, TCG, Xen) due to in-IRQs (where devices get
+attached) and out-IRQs (which will trigger the IRQs of the respective
+virtzalization technology) are separated. Second, since the in-IRQs are
+populated with fully initialized qemu_irq's, they can already be wired
+up inside PIIX3.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/i386/pc.c         | 8 ++++----
- hw/i386/pc_piix.c    | 2 +-
- hw/i386/pc_q35.c     | 2 +-
- include/hw/i386/pc.h | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ hw/intc/i8259.c         | 27 +++++++++++++++++++++++++++
+ include/hw/intc/i8259.h | 14 ++++++++++++++
+ 2 files changed, 41 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index eba1c98b5a..886c6b451a 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1128,7 +1128,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl,
+diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
+index cc4e21ffec..531f6cca53 100644
+--- a/hw/intc/i8259.c
++++ b/hw/intc/i8259.c
+@@ -458,9 +458,36 @@ static const TypeInfo i8259_info = {
+     .class_size = sizeof(PICClass),
+ };
  
- void pc_basic_device_init(struct PCMachineState *pcms,
-                           ISABus *isa_bus, qemu_irq *gsi,
--                          ISADevice **rtc_state,
-+                          ISADevice *rtc_state,
-                           bool create_fdctrl,
-                           uint32_t hpet_irqs)
++static void isapic_set_irq(void *opaque, int irq, int level)
++{
++    ISAPICState *s = opaque;
++
++    qemu_set_irq(s->out_irqs[irq], level);
++}
++
++static void isapic_init(Object *obj)
++{
++    ISAPICState *s = ISA_PIC(obj);
++
++    qdev_init_gpio_in(DEVICE(s), isapic_set_irq, ISA_NUM_IRQS);
++    qdev_init_gpio_out(DEVICE(s), s->out_irqs, ISA_NUM_IRQS);
++
++    for (int i = 0; i < ISA_NUM_IRQS; ++i) {
++        s->in_irqs[i] = qdev_get_gpio_in(DEVICE(s), i);
++    }
++}
++
++static const TypeInfo isapic_info = {
++    .name          = TYPE_ISA_PIC,
++    .parent        = TYPE_ISA_DEVICE,
++    .instance_size = sizeof(ISAPICState),
++    .instance_init = isapic_init,
++};
++
+ static void pic_register_types(void)
  {
-@@ -1183,12 +1183,12 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-     }
+     type_register_static(&i8259_info);
++    type_register_static(&isapic_info);
+ }
  
-     if (rtc_irq) {
--        qdev_connect_gpio_out(DEVICE(*rtc_state), 0, rtc_irq);
-+        qdev_connect_gpio_out(DEVICE(rtc_state), 0, rtc_irq);
-     } else {
--        uint32_t irq = object_property_get_uint(OBJECT(*rtc_state),
-+        uint32_t irq = object_property_get_uint(OBJECT(rtc_state),
-                                                 "irq",
-                                                 &error_fatal);
--        isa_connect_gpio_out(*rtc_state, 0, irq);
-+        isa_connect_gpio_out(rtc_state, 0, irq);
-     }
+ type_init(pic_register_types)
+diff --git a/include/hw/intc/i8259.h b/include/hw/intc/i8259.h
+index e2b1e8c59a..0246ab6ac6 100644
+--- a/include/hw/intc/i8259.h
++++ b/include/hw/intc/i8259.h
+@@ -1,6 +1,20 @@
+ #ifndef HW_I8259_H
+ #define HW_I8259_H
  
-     qemu_register_boot_set(pc_boot_set, rtc_state);
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 52c550f8b8..0f6cdc5bc4 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -263,7 +263,7 @@ static void pc_init1(MachineState *machine,
-     }
++#include "qom/object.h"
++#include "hw/isa/isa.h"
++#include "qemu/typedefs.h"
++
++#define TYPE_ISA_PIC "isa-pic"
++OBJECT_DECLARE_SIMPLE_TYPE(ISAPICState, ISA_PIC)
++
++struct ISAPICState {
++    ISADevice parent_obj;
++
++    qemu_irq in_irqs[ISA_NUM_IRQS];
++    qemu_irq out_irqs[ISA_NUM_IRQS];
++};
++
+ /* i8259.c */
  
-     /* init basic PC hardware */
--    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, true,
-+    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, rtc_state, true,
-                          0x4);
- 
-     pc_nic_init(pcmc, isa_bus, pci_bus);
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index d850313180..15b8b814c3 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -284,7 +284,7 @@ static void pc_q35_init(MachineState *machine)
-     }
- 
-     /* init basic PC hardware */
--    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, !mc->no_floppy,
-+    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, rtc_state, !mc->no_floppy,
-                          0xff0104);
- 
-     /* connect pm stuff to lpc */
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index b7735dccfc..d1fd8969a0 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -164,7 +164,7 @@ uint64_t pc_pci_hole64_start(void);
- DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
- void pc_basic_device_init(struct PCMachineState *pcms,
-                           ISABus *isa_bus, qemu_irq *gsi,
--                          ISADevice **rtc_state,
-+                          ISADevice *rtc_state,
-                           bool create_fdctrl,
-                           uint32_t hpet_irqs);
- void pc_cmos_init(PCMachineState *pcms,
+ extern DeviceState *isa_pic;
 -- 
 2.37.1
 
