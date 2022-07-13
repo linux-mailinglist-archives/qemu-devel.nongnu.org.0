@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE3D573195
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:52:52 +0200 (CEST)
-Received: from localhost ([::1]:46840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F911573173
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:47:14 +0200 (CEST)
+Received: from localhost ([::1]:42814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBY72-0007sl-1C
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38304)
+	id 1oBY1Z-0004sv-6p
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:47:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oBXZe-0005fF-VZ
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 04:18:24 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:38910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oBXZd-0004mw-Eg
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 04:18:22 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id fd6so13101247edb.5
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 01:18:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CtEBZbRNGv3Mai7FOzAgJwZ0F0IikxgieiRPuuAt06E=;
- b=dCrbAFU0MTFdebpwFf7Qg9CIM65Sr6ww6TZTSqdz9uaaDNsZ/sHHylf6+FID1GYsZ8
- G+cR9MdqVM+k28x9F0oCaIwiXkHvq3V7ZRrEmpH3fP3ZC0DtvE38NU3lclrDUApKfOpI
- uHAwt9bjIG+REvFnjwHVqd44oG2E9Z611f2iDbS/1ZdFUZ4fZujyWC8daCuTKUZdCQko
- t5MoW8f2VyD5m8g2LTu2ZjOKB6qkWm1dHpWHYwNgE1kbrI8cK5bLmv5HtEGMxEyU6DdP
- f8pr+rVANdmyoO1Jdg5IUXsscMZYBY3jHfGCROA5dHKQwL37IXeCS1l/Jm2/j1b5KdAu
- c3zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CtEBZbRNGv3Mai7FOzAgJwZ0F0IikxgieiRPuuAt06E=;
- b=abNCZNIQh2KjQQYLNRcYQK4eVfC0cJ99ICeUJ9JOcHijrx+j4FpCGNIU1/4swDkBq6
- STfzx2bqQQ2u9OzbSyvZU8RI5/hbbNBRDZK1dyvUfCsEpM1PZwAz3GJt9ZtI/d7GTpoD
- 62gRBiHvP0RyE5O88LNs4sq7ImoNXimsx7y8dL0OQ314+3GH1Tyw2EFzgx+UAiKZQeR1
- XmGWEJMPt3nV5NJM/0B8r3PQfTespySlUlKIdiebjbOAPhbi0jIgAEuQg0RE285wDq+D
- 7X+oULyycySNilHJTk0CIkb7RlExu+Tg910kBQRXUX5TQP4ty9FCYn2rgIigwPwvwo8P
- 4idA==
-X-Gm-Message-State: AJIora/qOOqN3+Cb6JD6u//D+KgiePa917eApQAYFcVIWN4hKQAX3T2S
- DOY27975VSyrqNnXwTb7z9fc2T7TEiw=
-X-Google-Smtp-Source: AGRyM1urcMIuoFLrTB3kI+8KZifwxU0xT+UkW7itnIi3cBSy0Y+QCOzvHh1e4ANWtWpOh06Fl18Kbw==
-X-Received: by 2002:a05:6402:2287:b0:43b:a9d:ab1 with SMTP id
- cw7-20020a056402228700b0043b0a9d0ab1mr3045712edb.325.1657700300682; 
- Wed, 13 Jul 2022 01:18:20 -0700 (PDT)
-Received: from localhost.localdomain
- (dynamic-077-183-210-047.77.183.pool.telefonica.de. [77.183.210.47])
- by smtp.gmail.com with ESMTPSA id
- w13-20020aa7dccd000000b00435a62d35b5sm7483431edu.45.2022.07.13.01.18.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jul 2022 01:18:20 -0700 (PDT)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 11/11] hw/isa/piix3: Remove extra ';' outside of functions
-Date: Wed, 13 Jul 2022 10:17:35 +0200
-Message-Id: <20220713081735.112016-12-shentey@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220713081735.112016-1-shentey@gmail.com>
-References: <20220713081735.112016-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oBXd8-0001qn-8N
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 04:21:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45162)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oBXd4-0005OM-9M
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 04:21:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657700513;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VArjng80BmwglGCJzNqpmAm4I8kiAib0Vm7IaVRRwkE=;
+ b=FPqCo8gYLjE/KKGSKmHLVoGWvCclD6bKaEyXrO7giUtk9Xu+VCUmgedKK+H33c8rg9i+Zs
+ ghG+lMv4IstLIZdEIGOUb702UuKQXxHlnqo9GayVA6K8cbWrzfYWPLP9oRP3xlLfuXAB+K
+ HAr9rT3w0hEIOqYHY07WrFS7JvwbMYM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-135-Gm55YWZcP5mKETa-L5dgaw-1; Wed, 13 Jul 2022 04:21:50 -0400
+X-MC-Unique: Gm55YWZcP5mKETa-L5dgaw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9863A857CEA;
+ Wed, 13 Jul 2022 08:21:49 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 258FEC2812B;
+ Wed, 13 Jul 2022 08:21:47 +0000 (UTC)
+Date: Wed, 13 Jul 2022 09:21:45 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v3 3/9] tests/style: check for mixups of bool constants
+ with int variables
+Message-ID: <Ys6AmQVLxmJBN0Zc@redhat.com>
+References: <20220707163720.1421716-1-berrange@redhat.com>
+ <20220707163720.1421716-4-berrange@redhat.com>
+ <54df7007-6b84-dfeb-950a-55f798d660e3@amsat.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <54df7007-6b84-dfeb-950a-55f798d660e3@amsat.org>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,48 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes the "extra-semi" clang-tidy check.
+On Mon, Jul 11, 2022 at 06:24:22PM +0200, Philippe Mathieu-Daudé wrote:
+> On 7/7/22 18:37, Daniel P. Berrangé wrote:
+> > The 'true' and 'false' constants should only ever be used with the
+> > 'bool' type, never 'int'.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >   tests/style.yml | 5 +++++
+> >   1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/tests/style.yml b/tests/style.yml
+> > index b4e7c6111f..704227d8e9 100644
+> > --- a/tests/style.yml
+> > +++ b/tests/style.yml
+> > @@ -86,3 +86,8 @@
+> >   #        A match added to the front of the regex. Useful when
+> >   #        'terms' is a list of strings and a common prefix is
+> >   #        desired
+> > +
+> > +int_assign_bool:
+> > +  files: \.c$
+> 
+> Why not check .c.inc and .h (for static inlined func)?
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/isa/piix3.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Yes, we should.
 
-diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index 56a741c192..3cfd6eafcd 100644
---- a/hw/isa/piix3.c
-+++ b/hw/isa/piix3.c
-@@ -442,7 +442,7 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
-     pci_bus_irqs(pci_bus, piix3_set_irq, pci_slot_get_pirq,
-                  piix3, PIIX_NUM_PIRQS);
-     pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
--};
-+}
- 
- static void piix3_class_init(ObjectClass *klass, void *data)
- {
-@@ -477,7 +477,7 @@ static void piix3_xen_realize(PCIDevice *dev, Error **errp)
-      */
-     pci_bus_irqs(pci_bus, xen_piix3_set_irq, xen_pci_slot_get_pirq,
-                  piix3, XEN_PIIX_NUM_PIRQS);
--};
-+}
- 
- static void piix3_xen_class_init(ObjectClass *klass, void *data)
- {
-@@ -485,7 +485,7 @@ static void piix3_xen_class_init(ObjectClass *klass, void *data)
- 
-     k->config_write = piix3_write_config_xen;
-     k->realize = piix3_xen_realize;
--};
-+}
- 
- static const TypeInfo piix3_xen_info = {
-     .name          = TYPE_PIIX3_XEN_DEVICE,
+> Regardless:
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> > +  prohibit: \<int\>.*= *(true|false)\b
+> > +  message: use bool type for boolean values
+> 
+
+With regards,
+Daniel
 -- 
-2.37.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
