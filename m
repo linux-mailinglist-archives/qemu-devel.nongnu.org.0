@@ -2,63 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A3EB573C57
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 20:08:13 +0200 (CEST)
-Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31109573C8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 20:31:05 +0200 (CEST)
+Received: from localhost ([::1]:36118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBgmR-0005bN-LW
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 14:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35734)
+	id 1oBh8a-0006wX-Aa
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 14:31:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mauricio@mailbox.org>)
- id 1oBgkt-00045w-0h; Wed, 13 Jul 2022 14:06:35 -0400
-Received: from mout-p-202.mailbox.org ([80.241.56.172]:39152)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <mauricio@mailbox.org>)
- id 1oBgkq-0005ef-W8; Wed, 13 Jul 2022 14:06:34 -0400
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4LjltW2jQ3z9sZG;
- Wed, 13 Jul 2022 20:06:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1657735587;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i3JvM08/p53aTVUIQuKMssiXYn1Eh7CFcXyc1wSl11Q=;
- b=qZAzbhNme9/c7yoR0XX5R5ZesDVN1Zhc9NR+CjT0lq/dVdwx7YgKguJXgsiZV4F6MgxmOP
- SeNxjXrMh89k/dXPhrs9c8kBCnQp3gZfvHVpFpd6EBLJwKKxvgRzkMuI04EudLAQgjAPf0
- WbMkCiMHP1RX+EEwF2rFtFj6AxhvPVAG9vFOxcBDYleYplz6LNovanmL6IKttgqojlr390
- KKVaDsJgtIqKIjwSwMh68uwLTkHMYa1rW4tRZgtMQktKZPHdWrG6zLP4vKO7xpfGjA50LQ
- yqxKGyiNFhbqwIjF95bDsqQyk91bWOsNMDfPlOhq/7oKMOsHa/AYi8axZUUMmA==
-Message-ID: <6d623fbd-65ee-b74f-15f8-9e35ffb3fd0d@mailbox.org>
-Date: Wed, 13 Jul 2022 20:06:26 +0200
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oBh51-0002A4-8r; Wed, 13 Jul 2022 14:27:25 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56572
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oBh4y-0001Rh-Bc; Wed, 13 Jul 2022 14:27:23 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26DIDkBU004591;
+ Wed, 13 Jul 2022 18:27:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=f0Wv61l/2Xv0ELmtIw3CQnnNtI1j7f8brXYA12OMOx8=;
+ b=sxt2nuIR8x1WE2OEthACz1N3FgMeQFjf7SP7fx02tzsPV++6vdbdjDSI340TowwmsRNv
+ q8alNpFJmd3eXJcWuaWAtMOJbC6Hd37Mlgsrv1gChHXSvLlpVxC6MqUgl3GVNwfuWmiZ
+ Do6dfSPKclCtDgWQ3Y2XRkYUkNlrac4fxHVXdnCl+D4povX4QsEowzfUD7yiq7USprn9
+ xc81VgERy7l5849ab+BgntNivE8Xo3ainRzxguBQTExP9W6hyMn18AEi3Z5nnDWtXCam
+ 9fKEd4pVXG+aGxPd/gDvk3hQsjMav5U9DK8rAid3kwZA8iLN4avU0Js9grJpK3VLP8AE 9w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ha35208vg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Jul 2022 18:27:11 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26DINaiN010039;
+ Wed, 13 Jul 2022 18:27:11 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ha35208u9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Jul 2022 18:27:11 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26DHvEpV024410;
+ Wed, 13 Jul 2022 18:26:17 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma02fra.de.ibm.com with ESMTP id 3h71a8naka-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Jul 2022 18:26:17 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26DIQEWr18088404
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 Jul 2022 18:26:14 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2624D42041;
+ Wed, 13 Jul 2022 18:26:14 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7DEDD4203F;
+ Wed, 13 Jul 2022 18:26:13 +0000 (GMT)
+Received: from heavy.lan (unknown [9.171.47.149])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 13 Jul 2022 18:26:13 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v2 0/3] target/s390x: vfmin/vfmax fixes
+Date: Wed, 13 Jul 2022 20:26:09 +0200
+Message-Id: <20220713182612.3780050-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: DY0m1wqYWq-FA2EI4tBCcISr70ZvI5Uf
+X-Proofpoint-GUID: yoWjqqqjWG7v9OIAvsQm7TazeOZPFiuE
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Subject: Re: [PATCH] hw/nvme: Add options to override hardcoded values
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>
-Cc: qemu-devel@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
- qemu-block@nongnu.org
-References: <20220611223509.32280-1-mauricio@mailbox.org>
- <Ys76yHpwdm4eyTbs@kbusch-mbp.dhcp.thefacebook.com>
-From: Mauricio Sandt <mauricio@mailbox.org>
-In-Reply-To: <Ys76yHpwdm4eyTbs@kbusch-mbp.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 64e52221a5ae880332a
-X-MBO-RS-META: o4kdfo6w6yj5qg7zfh3yrgcm37fid1sc
-Received-SPF: pass client-ip=80.241.56.172; envelope-from=mauricio@mailbox.org;
- helo=mout-p-202.mailbox.org
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-13_07,2022-07-13_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=831 adultscore=0
+ mlxscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 phishscore=0 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207130073
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,60 +117,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I want to argue the other way around. Why shouldn't those values
-be tunable by the user? You are right; if misconfigured, it could 
-potentially
-break stuff on the driver side, but unless you manually set values for model
-and firmware, the default is used (just like it is now), so this patch
-wouldn't break any existing setups.
-In my opinion, having more freedom in the values being used for model names
-and similar is much better than hardcoding values. The previously hardcoded
-values should remain the default if no custom value is provided.
-My specific use case that required this patch is a piece of malware that 
-used
-several IOCTLs to read model, firmware, and nqn from the NVMe attached to
-the VM. Modifying that info at the hypervisor level was a much better 
-approach
-than loading an (unsigned) driver into windows to intercept said IOCTLs.
-Having this patch in the official qemu version would help me a lot in my 
-test
-lab, and I'm pretty sure it would also help other people.
+Hi,
 
-I guess there could be a warning about potential problems with drivers 
-in the
-description for model, firmware, and nqn, but I haven't experienced any 
-issues
-when changing the values (for all of them). If you encountered any problems,
-how did they manifest?
+Uli has found an issue with finding maximum of different kinds of 0s; I
+wrote a test and found another one with finding maximum of different
+kinds of NaNs.
 
-On 13/07/2022 19:03, Keith Busch wrote:
-> On Sun, Jun 12, 2022 at 12:35:09AM +0200, Mauricio Sandt wrote:
->> This small patch is the result of some recent malware research I did
->> in a QEMU VM. The malware used multiple ways of querying info from
->> the VM disk and I needed a clean way to change those values from the
->> hypervisor.
->>
->> I believe this functionality could be useful to more people from multiple
->> fields, sometimes you just want to change some default values and having
->> them hardcoded in the sourcecode makes that much harder.
->>
->> This patch adds three config parameters to the nvme device, all of them
->> are optional to not break anything. If any of them are not specified,
->> the previous (before this patch) default is used.
->>
->> -model - This takes a string and sets it as the devices model name.
->> If you don't specify this parameter, the default is "QEMU NVMe Ctrl".
->>
->> -firmware - The firmware version string, max 8 ascii characters.
->> The default is whatever `QEMU_VERSION` evaluates to.
->>
->> -nqn_override - Allows to set a custom nqn on the nvme device.
->> Only used if there is no subsystem. This string should be in the same
->> format as the default "nqn.2019-08.org.qemu:...", but there is no
->> validation for that. Its up to the user to provide a valid string.
-> I guess the nqn can be user tunable just like it is when used with subsystems,
-> but what's the point of messing with model and firmware? That could mess with
-> host drivers' ability to detect what quirks it needs to apply to specific
-> instances of this virtual controller.
+Patches 1 and 2 fix those issues, patch 3 adds a vfmin/vfmax test.
+
+Best regards,
+Ilya
+
+v1: https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01915.html
+v1 -> v2: Drop mmap() in the test (Richard).
+
+Ilya Leoshkevich (3):
+  target/s390x: fix handling of zeroes in vfmin/vfmax
+  target/s390x: fix NaN propagation rules
+  tests/tcg/s390x: test signed vfmin/vfmax
+
+ fpu/softfloat-specialize.c.inc    |   3 +-
+ target/s390x/tcg/vec_fpu_helper.c |   4 +-
+ tests/tcg/s390x/Makefile.target   |   7 +
+ tests/tcg/s390x/vfminmax.c        | 411 ++++++++++++++++++++++++++++++
+ 4 files changed, 422 insertions(+), 3 deletions(-)
+ create mode 100644 tests/tcg/s390x/vfminmax.c
+
+-- 
+2.35.3
 
 
