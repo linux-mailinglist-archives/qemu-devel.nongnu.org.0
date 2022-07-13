@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C525572CE0
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 07:04:02 +0200 (CEST)
-Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3E4572CE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 07:06:41 +0200 (CEST)
+Received: from localhost ([::1]:55008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBUXZ-0005Gz-A4
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 01:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54542)
+	id 1oBUa8-0007nr-7I
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 01:06:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBUSj-0000xd-1i
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 00:59:01 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:41588)
+ id 1oBUSq-0001B5-5v
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 00:59:08 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:36580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBUSh-0006rE-HT
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 00:59:00 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id 23so9451881pgc.8
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 21:58:59 -0700 (PDT)
+ id 1oBUSk-0006rw-2d
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 00:59:07 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ z12-20020a17090a7b8c00b001ef84000b8bso1791419pjc.1
+ for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 21:59:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=adgTAr9VDfDVcGX7dOUKK/5iltOe5AGqwdazS0Dpj50=;
- b=PqX9403U7TMHZ1GrCG2x6F1rPzzkR7rnFAuEeXOCRi2vgmBPFprTI5Wgh2QHvyCO8q
- F5tRyR+DDq4PZxbsoIJTVW1rhNAMM0JSRvlX1JpKdQy1vn7Iwfh4Sb81IZpXeuPwe0k5
- 2KxZNAEZiPkUJPggBgfi3ys9X9/miDHo/wGR7qQ502KcGpIAmc+m2beRIEmM69Zplouz
- +259hy+5EIv9GD2urFg0qjYwDXWZV5zgxNRmFDy48eygsxyO5fQFQvgZ773DrlzxSqa9
- FJAHilhUOzSIbe2bQXAfVWycTdyQd1vmAdDw5mFqeBJGCPCGaOPKDa7UI1QUNM9NaBOk
- hwqg==
+ bh=H0h1mijfb/JBmMIsG1ho4eH5ZlC4TyS0gLWzNfX6jB0=;
+ b=Um2W1PLjch0aH+/d4eDtNA/Xw2OpL6Z6fnYnDEPLyYkGENxcYExIubl6SknSvYwo+Q
+ jZpDWmDw2iZe5/gIbCO2J3eQBXG5hPWqeWC8UZjWIAJ/U5rX7i6xPxrJJA+uWogdwzkH
+ S2fo8Zu1trTE5UVzSGM46Ax8EWi5BsyLtJ9Vkwk/pYslkP6VuMEo8kxniNvYreOIBrsg
+ JINfuxoMahU+jTeKMFUOnSOMfk4A9EmwAoADRS4rm0cCfzpGTr1QRyoGnSDbT0v9hqYq
+ nReQ6TEaE9CnogdI9/fuir68MtEylw7/tMdhvZ5vaygrtkpQv/1tgyjlvV9l7B73R66w
+ F4Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=adgTAr9VDfDVcGX7dOUKK/5iltOe5AGqwdazS0Dpj50=;
- b=mM/qYYGxtgiDzyKJlhCR79rZm/DP9B+tc6Rs6RBK5/DjYkXz1n5BFWVox/nRu2nCHD
- gFTChnEZpO3xm+MXlKBmOOhh2XEu1XQqX0+k6ktquhU0iLuhuY2hFlzt2kxyMBDZm3zL
- vShIjoJYCZDN2ey7e1zLp/18MsaLTndhoA7BcBCTmN8aN6Rf9ZvQ4IpgDGKqNVucQel5
- kxTn93CqJ9mOnWmIl3bkOKFjM51g9vFDRXIebiOd3FSj8UyVUrgQGdp65uNQSu9HIynM
- iPrFllnwKIe5scwy/XyDiU/xIW9wDXOUYLM74sGo/++bRiY6JLFXgCaQf6k1bY+6R+1p
- lC1Q==
-X-Gm-Message-State: AJIora+wbgBQwzvP3lpo2+FN4XGExun21PlDzltagMpOoXXF7zpTc6gZ
- GSqiJqrTQwUHm/18rNhJZ2X3s2jNT6TqtNAB
-X-Google-Smtp-Source: AGRyM1ubvQxye/Ru6/WU37Vudd+eqgvWQD0orpVzVdeNloHSGXPWX1tEMkGcopk8RnnDnSSe8RXZeA==
-X-Received: by 2002:a63:20a:0:b0:411:909f:8ae2 with SMTP id
- 10-20020a63020a000000b00411909f8ae2mr1523086pgc.132.1657688338182; 
- Tue, 12 Jul 2022 21:58:58 -0700 (PDT)
+ bh=H0h1mijfb/JBmMIsG1ho4eH5ZlC4TyS0gLWzNfX6jB0=;
+ b=n4fCpDXitdryae4ncawfyKvEpIvX7hl+pn3sCg0YNPoYOhxq8sxyJ81Fm85UmUyNbB
+ 99a1uV+N7EKisOgm/RQ7BnMdD5ZJjsos3VTIYiKReeI8KFOxcDHmCTpZQYx2hVk3Yuo2
+ xZV4BRcK6Z9akwyTtH425TaQa7s3LkuSWbnXCuEUnC1/VKYM7DuA0Jc1Lt5siuqt5Mc7
+ BGgluzl+TlRRvQPGV6Gb5PVdgAGesF6rpjItKZE10JtLncYsjx8FFWydMkj51CGGJ+Mk
+ SOqZgvLiy3gop7UmZ5E01wmuW8wIM4wlJ0gn+SlkwsBR78C31XzofXyi7/nZuUEcWev7
+ 57jg==
+X-Gm-Message-State: AJIora8XYduMDxbXYAdKGE55MceMrhgj/0UDu0xsrixZ8F/stttXyehm
+ LUEugFbIh0qbvAMtZci21i2L++NaPdlO5vt+
+X-Google-Smtp-Source: AGRyM1t6ZrNmAn/sNVKwxDbG7Eu4hquj24h1tlChErKXa5ufJjvwl6MhkRIKZ7xCe5oEWC3h8ctLCA==
+X-Received: by 2002:a17:903:26c1:b0:16b:df40:e566 with SMTP id
+ jg1-20020a17090326c100b0016bdf40e566mr1435578plb.121.1657688340781; 
+ Tue, 12 Jul 2022 21:59:00 -0700 (PDT)
 Received: from stoup.. ([122.255.60.245]) by smtp.gmail.com with ESMTPSA id
- d194-20020a621dcb000000b00525302fe9c4sm7677047pfd.190.2022.07.12.21.58.55
+ d194-20020a621dcb000000b00525302fe9c4sm7677047pfd.190.2022.07.12.21.58.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jul 2022 21:58:57 -0700 (PDT)
+ Tue, 12 Jul 2022 21:59:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: broonie@kernel.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH 1/2] target/arm: Fill in VL for tbflags when SME enabled and
- SVE disabled
-Date: Wed, 13 Jul 2022 10:28:47 +0530
-Message-Id: <20220713045848.217364-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/2] target/arm: Fix aarch64_sve_change_el for SME
+Date: Wed, 13 Jul 2022 10:28:48 +0530
+Message-Id: <20220713045848.217364-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220713045848.217364-1-richard.henderson@linaro.org>
 References: <20220713045848.217364-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,41 +89,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When PSTATE.SM, VL = SVL even if SVE is disabled.
-This is visible in kselftest ssve-test.
+We were only checking for SVE disabled and not taking into
+account PSTATE.SM to check SME disabled, which resulted in
+vectors being incorrectly truncated.
 
-Reported-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ target/arm/helper.c | 31 +++++++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 6 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index cfcad97ce0..6fff7fc64f 100644
+index 6fff7fc64f..24c45a9bf3 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -10882,13 +10882,19 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+@@ -11228,6 +11228,21 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq)
      }
-     if (cpu_isar_feature(aa64_sme, env_archcpu(env))) {
-         int sme_el = sme_exception_el(env, el);
-+        bool sm = FIELD_EX64(env->svcr, SVCR, SM);
+ }
  
-         DP_TBFLAG_A64(flags, SMEEXC_EL, sme_el);
-         if (sme_el == 0) {
-             /* Similarly, do not compute SVL if SME is disabled. */
--            DP_TBFLAG_A64(flags, SVL, sve_vqm1_for_el_sm(env, el, true));
-+            int svl = sve_vqm1_for_el_sm(env, el, true);
-+            DP_TBFLAG_A64(flags, SVL, svl);
-+            if (sm) {
-+                /* If SVE is disabled, we will not have set VL above. */
-+                DP_TBFLAG_A64(flags, VL, svl);
-+            }
-         }
--        if (FIELD_EX64(env->svcr, SVCR, SM)) {
-+        if (sm) {
-             DP_TBFLAG_A64(flags, PSTATE_SM, 1);
-             DP_TBFLAG_A64(flags, SME_TRAP_NONSTREAMING, !sme_fa64(env, el));
-         }
++static uint32_t sve_vqm1_for_el_sm_ena(CPUARMState *env, int el, bool sm)
++{
++    int exc_el;
++
++    if (sm) {
++        exc_el = sme_exception_el(env, el);
++    } else {
++        exc_el = sve_exception_el(env, el);
++    }
++    if (exc_el) {
++        return 0; /* disabled */
++    }
++    return sve_vqm1_for_el_sm(env, el, sm);
++}
++
+ /*
+  * Notice a change in SVE vector size when changing EL.
+  */
+@@ -11236,7 +11251,7 @@ void aarch64_sve_change_el(CPUARMState *env, int old_el,
+ {
+     ARMCPU *cpu = env_archcpu(env);
+     int old_len, new_len;
+-    bool old_a64, new_a64;
++    bool old_a64, new_a64, sm;
+ 
+     /* Nothing to do if no SVE.  */
+     if (!cpu_isar_feature(aa64_sve, cpu)) {
+@@ -11256,7 +11271,8 @@ void aarch64_sve_change_el(CPUARMState *env, int old_el,
+      * invoke ResetSVEState when taking an exception from, or
+      * returning to, AArch32 state when PSTATE.SM is enabled.
+      */
+-    if (old_a64 != new_a64 && FIELD_EX64(env->svcr, SVCR, SM)) {
++    sm = FIELD_EX64(env->svcr, SVCR, SM);
++    if (old_a64 != new_a64 && sm) {
+         arm_reset_sve_state(env);
+         return;
+     }
+@@ -11273,10 +11289,13 @@ void aarch64_sve_change_el(CPUARMState *env, int old_el,
+      * we already have the correct register contents when encountering the
+      * vq0->vq0 transition between EL0->EL1.
+      */
+-    old_len = (old_a64 && !sve_exception_el(env, old_el)
+-               ? sve_vqm1_for_el(env, old_el) : 0);
+-    new_len = (new_a64 && !sve_exception_el(env, new_el)
+-               ? sve_vqm1_for_el(env, new_el) : 0);
++    old_len = new_len = 0;
++    if (old_a64) {
++        old_len = sve_vqm1_for_el_sm_ena(env, old_el, sm);
++    }
++    if (new_a64) {
++        new_len = sve_vqm1_for_el_sm_ena(env, new_el, sm);
++    }
+ 
+     /* When changing vector length, clear inaccessible state.  */
+     if (new_len < old_len) {
 -- 
 2.34.1
 
