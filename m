@@ -2,84 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7DC573B16
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:23:15 +0200 (CEST)
-Received: from localhost ([::1]:42436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216D6573B20
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:25:13 +0200 (CEST)
+Received: from localhost ([::1]:46946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBf8s-0000So-3R
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37552)
+	id 1oBfAm-0003Ul-8P
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:25:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBeuN-0007JW-L0
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:08:16 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:34356)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oBeuK-0005tD-RC
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:08:14 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id g4so10901422pgc.1
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 09:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6ToSvnA3VkBh4RDdA6w/4EDtbMaa6RcRI/AxbbLVH1M=;
- b=c7HfPpDkr3EjYttNZZ1D7nD3adSN5dW+7xslxRbrmT+eJbp1s6nvJqhyBKKFizcvVs
- A52g0CPEFkfC2K9IE99o3r9oBMLySm5VTfW25UP4Hgk1BZ3f0Ry+4W2u+gqzGESBisDI
- 3ZueRL1Q2UO/GAYjpGhPmjBl+ncb0B9Mkn4ga6RnLkxuOwhiza4LxKUqnjy7HZvHupXM
- CJgZYGDeC7VkGey7mt93VatMucmFSnCsxbO8ZvFaYhbckdaqoNl72rLG+FzS6f3FKkyS
- j90oLD2/Jp0cvu7V3u8yGABBkCDn/4f+SyP69u1WVbnz4swwJjkDWxFFjxFDgTBZ6GdL
- b0zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6ToSvnA3VkBh4RDdA6w/4EDtbMaa6RcRI/AxbbLVH1M=;
- b=XZtQeD6M9OHheHlhW+SBS75y4S+s6/MDf452QjZVHEbdXM+Q8BJdDc+WirtIxzFZXO
- YfTomu8ZGcwykX7pte8qRUPdgvbK5RSTnIfjpJsWu/g+6AbFd95EeFLTd702Jk7gFjY/
- B2CD34WjhaCyMHfVHchSaCelOyWNwFWS0dSxRZSBqL5fdX64xnYq2XifSKHWISb3JKBX
- gZjZMTuiRPblqPa9dE0l9aX4AF7itjTdELVRsHqWfZ0tYBG7DdlKuKFcpEUzuLD466UO
- UniVSpP/vA7kLZLfyOnVNIkgx3AJqJrq44LknStzLITiCsd8gKHivbe+/sf/epFvdc+f
- i/2g==
-X-Gm-Message-State: AJIora+TLTB4NoRjVpgU+7UfdeEpEKBALHRYYPek2B1z9b4MkSx+5h6z
- vPxMduD1UXmB/GXbwBPHEwz28ETUx6ADWvFb
-X-Google-Smtp-Source: AGRyM1sdtLAQJUqmfcH2pKs+O70LKuyzmeZy1Q+3yEGzcgtqQ01Xkiwd7SCJPIAFMSrFUPeYzSiaQQ==
-X-Received: by 2002:a05:6a00:4481:b0:52a:c7b2:4fe with SMTP id
- cu1-20020a056a00448100b0052ac7b204femr3748365pfb.10.1657728491422; 
- Wed, 13 Jul 2022 09:08:11 -0700 (PDT)
-Received: from [192.168.138.227] ([202.124.167.115])
- by smtp.gmail.com with ESMTPSA id
- q89-20020a17090a4fe200b001ef3cec7f47sm1790799pjh.52.2022.07.13.09.08.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jul 2022 09:08:10 -0700 (PDT)
-Message-ID: <5d8a67e9-8009-36e5-d712-0f172809114d@linaro.org>
-Date: Wed, 13 Jul 2022 21:38:03 +0530
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oBf0u-0007VS-Nj; Wed, 13 Jul 2022 12:15:00 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30112
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oBf0s-0007XS-B0; Wed, 13 Jul 2022 12:15:00 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26DG1HNu027499;
+ Wed, 13 Jul 2022 16:14:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=AerugIpz4KveWv+mU/0v5h6YxwL8MT5bK9hdEpomPrw=;
+ b=lJQOCasrQedsGvBmpHAiPitu4DXocnpPMQ/5QFmGMni1lzx/ojH+ouxCND+/ypiuUYhL
+ 48qcaMJjWDSVogfSsCMm4CZC0unUR6qxzg1261eqJ2VOarB6Ojn6nxEEyF0HqrPkPhCw
+ PPymk3fLwG/ZTkZdVY+b2Jbnxy8Wmm+H6pFKvBm4Eaub0t/8zMoQEZvGA6lkwtGltPkx
+ zxbfnYtcmfEmH5GVWnHtmMjtxyPurzgijQXsadB3NR0obsfTMfkAyFIVCQF/oVkQ+boY
+ 0lamxXSvHaspXT/MTmg3jhVwioOX/ZTAPtDHduAlNS1v2vsFfeBKSBoRoyv7h8hrXE5C 5Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ha16w8gen-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Jul 2022 16:14:47 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26DG1uAx030098;
+ Wed, 13 Jul 2022 16:14:47 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ha16w8gdt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Jul 2022 16:14:46 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26DG7Spc014296;
+ Wed, 13 Jul 2022 16:14:45 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 3h70xhwwun-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Jul 2022 16:14:44 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26DGEg6R20251120
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 Jul 2022 16:14:42 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B4410A4051;
+ Wed, 13 Jul 2022 16:14:42 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3A157A4040;
+ Wed, 13 Jul 2022 16:14:42 +0000 (GMT)
+Received: from [9.171.74.220] (unknown [9.171.74.220])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 13 Jul 2022 16:14:42 +0000 (GMT)
+Message-ID: <9ce0270d042b1d4cc011757dafa6ea6a882c49c7.camel@linux.ibm.com>
+Subject: Re: [PATCH 3/3] tests/tcg/s390x: test signed vfmin/vfmax
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
+ <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>, Peter Maydell
+ <peter.maydell@linaro.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, Christian Borntraeger
+ <borntraeger@linux.ibm.com>
+Date: Wed, 13 Jul 2022 18:14:41 +0200
+In-Reply-To: <3c321cef-b574-1396-237a-d1ac1cf19e01@linaro.org>
+References: <20220712015717.3602602-1-iii@linux.ibm.com>
+ <20220712015717.3602602-4-iii@linux.ibm.com>
+ <c7897b91-dbfd-3a32-68c8-d7afa40495ba@linaro.org>
+ <c7a32437850ddc70438173ff7f0f0966e5f48384.camel@linux.ibm.com>
+ <3c321cef-b574-1396-237a-d1ac1cf19e01@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 2/5] hw/intc/loongarch_pch_pic: Fix coverity errors in
- update irq
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
- mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
- peter.maydell@linaro.org
-References: <20220713095036.705102-1-yangxiaojuan@loongson.cn>
- <20220713095036.705102-3-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220713095036.705102-3-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: NoKwa43IJNXtUvL25jz77O3MZxVgrxAN
+X-Proofpoint-GUID: iJwne6P3zyX075oBh-CjhZxhIsQOOYd6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-13_05,2022-07-13_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ spamscore=0 adultscore=0 bulkscore=0 priorityscore=1501 phishscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 mlxlogscore=817
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207130066
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,73 +123,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/22 15:20, Xiaojuan Yang wrote:
-> Fix coverity errors:
-> 1. In find_first_bit function, the 'size' argument need
-> 'unsigned long' type, so we change the 'size' to unsigned
-> long type when use the function.
-> 2. In expression 1ULL << irq, left shifting by more than
-> 63 bits has undefined behavior. And out-of-bounds access
-> error occured when 'irq' >= 64. So we add a condition to
-> avoid this.
-> 3. Use 'MAKE_64BIT_MASK(irq, 1)' to replace '1ULL << shift'.
+On Wed, 2022-07-13 at 21:14 +0530, Richard Henderson wrote:
+> On 7/12/22 18:02, Ilya Leoshkevich wrote:
+> > > This works, of course.  It could be simpler using EXECUTE, to
+> > > store
+> > > just the one
+> > > instruction and not worry about an executable mapped page, but I
+> > > guess it doesn't matter.
+> > 
+> > I thought about this too, but EX/EXRL operate only on the second
+> > byte,
+> > and I need to modify bytes 3-5 here.
 > 
-> Fix coverity CID: 1489761 1489764 1489765
+> I didn't mean modify the instruction via EX, but something like
 > 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> ---
->   hw/intc/loongarch_pch_pic.c | 19 ++++++++++++-------
->   1 file changed, 12 insertions(+), 7 deletions(-)
+>    static char minmax[6] __attribute__((aligned(2)))
+>      = { xx, yy, zz, 0, 0, 0 };
 > 
-> diff --git a/hw/intc/loongarch_pch_pic.c b/hw/intc/loongarch_pch_pic.c
-> index 3c9814a3b4..040b89861c 100644
-> --- a/hw/intc/loongarch_pch_pic.c
-> +++ b/hw/intc/loongarch_pch_pic.c
-> @@ -15,22 +15,27 @@
->   
->   static void pch_pic_update_irq(LoongArchPCHPIC *s, uint64_t mask, int level)
->   {
-> -    unsigned long val;
-> +    unsigned long val, max_irq;
+>    minmax[3] = m6 ...
+>    minmax[4] = ...
+>    minmax[5] = op;
+> 
+>    asm("vl %%v25,0(%1)\n"
+>        "vl %%v26,0(%2)\n"
+>        "ex 0,0(%3)\n"
+>        "vst %%v24,0(%0)"
+>        : : "a"(v1), "a"(v2), "a"(v3), "a"(minmax)
+>        : "memory", "v24", "v25", "v26);
+> 
+> 
+> r~
 
-You did not follow any of my direction from v1.
+Nice trick!
 
-(1) val must be uint64_t.
+This works in qemu, but not natively: EX target must be executable.
+I'd still like to try to find a way to establish an rwx section, and
+send a v2 with this improvement.
 
-(and, generally, any use of 'unsigned long' is probably a bug)
-
-> +            irq = find_first_bit(&val, max_irq);
-
-Use ctz64().
-
-> +            if (irq < max_irq) {
-
-This, really, should be a test of val != 0 before the ctz.
-
-
-> +                s->intisr |= MAKE_64BIT_MASK(irq, 1);
-> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 1);
-> +            }
->           }
->       } else {
->           val = mask & s->intisr;
->           if (val) {
-> -            irq = find_first_bit(&val, 64);
-> -            s->intisr &= ~(0x1ULL << irq);
-> -            qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 0);
-> +            irq = find_first_bit(&val, max_irq);
-> +            if (irq < max_irq) {
-> +                s->intisr &= ~(MAKE_64BIT_MASK(irq, 1));
-> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[irq]], 0);
-
-etc.
-
-
-r~
-
-> +            }
->           }
->       }
->   }
-
+I guess we'll need to fix the access check discrepancy some day.
 
