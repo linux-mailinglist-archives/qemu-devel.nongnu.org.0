@@ -2,49 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C6E573CA9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 20:43:24 +0200 (CEST)
-Received: from localhost ([::1]:44232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9875B573CBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 20:49:59 +0200 (CEST)
+Received: from localhost ([::1]:48254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBhKU-0004Na-QG
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 14:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43096)
+	id 1oBhQs-0007HK-FB
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 14:49:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1oBhGz-0001Uf-KQ; Wed, 13 Jul 2022 14:39:45 -0400
-Received: from [200.168.210.66] (port=4012 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1oBhGx-0007iU-NG; Wed, 13 Jul 2022 14:39:45 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 13 Jul 2022 15:39:39 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id C265C8001C2;
- Wed, 13 Jul 2022 15:39:38 -0300 (-03)
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH v2] target/ppc: check tb_env != 0 before printing TBU/TBL/DECR
-Date: Wed, 13 Jul 2022 15:38:47 -0300
-Message-Id: <20220713183847.41797-1-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1oBhPY-0005mJ-Iz; Wed, 13 Jul 2022 14:48:36 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:57522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1oBhPW-0000kS-S5; Wed, 13 Jul 2022 14:48:36 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1084EB81D5E;
+ Wed, 13 Jul 2022 18:48:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78FD7C34114;
+ Wed, 13 Jul 2022 18:48:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1657738109;
+ bh=9Z0nDyYvjFMFoqFFEogaj4L5udBmRFKf6581MoP/m38=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=E+WdMZStLPdTdWQE1GxWP5wYr1wR9OSQHu3eQAfDlfb3BZ5/dCAkYxLrGLa4T9T9t
+ kkn767a3KEgOO92ZREM/T1H89jLsfo9wlyTyq+jL23qGn09SgpdRHCZQfPoZ7t/n69
+ RI/f8li390KqPJCArZ7BX1o4hdEe/W3f2aumAmpxt1j/xqsV/flc5aF3PdraZ+Qvew
+ V1MXUBWPXmHfJglatG3fWrsRGkTRg3oNLZojDG8R0wnEhiihi3zwOsDzoY91WJS94w
+ 6DdFVbXRuVT25eYvyZnh9Mf4MoLWZxJc6FN6srY3D5IhbvOTFglhkyNBQBUurFTbzP
+ zpktGbPvfqf7w==
+Date: Wed, 13 Jul 2022 12:48:26 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Mauricio Sandt <mauricio@mailbox.org>
+Cc: qemu-devel@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH] hw/nvme: Add options to override hardcoded values
+Message-ID: <Ys8Tel0PFYODk8Rj@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220611223509.32280-1-mauricio@mailbox.org>
+ <Ys76yHpwdm4eyTbs@kbusch-mbp.dhcp.thefacebook.com>
+ <6d623fbd-65ee-b74f-15f8-9e35ffb3fd0d@mailbox.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 13 Jul 2022 18:39:39.0199 (UTC)
- FILETIME=[E8A244F0:01D896E7]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6d623fbd-65ee-b74f-15f8-9e35ffb3fd0d@mailbox.org>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=kbusch@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,88 +72,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using "-machine none", env->tb_env is not allocated, causing the
-segmentation fault reported in issue #85 (launchpad bug #811683). To
-avoid this problem, check if the pointer != NULL before calling the
-methods to print TBU/TBL/DECR.
+On Wed, Jul 13, 2022 at 08:06:26PM +0200, Mauricio Sandt wrote:
+> My specific use case that required this patch is a piece of malware that used
+> several IOCTLs to read model, firmware, and nqn from the NVMe attached to the
+> VM. Modifying that info at the hypervisor level was a much better approach
+> than loading an (unsigned) driver into windows to intercept said IOCTLs.
+> Having this patch in the official qemu version would help me a lot in my test
+> lab, and I'm pretty sure it would also help other people.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/85
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
-v2:
- - Added checks in monitor_get_decr, monitor_get_tbu, and monitor_get_tbl.
- - Link to v1: https://lists.gnu.org/archive/html/qemu-ppc/2022-07/msg00173.html
----
- target/ppc/cpu_init.c | 16 ++++++++--------
- target/ppc/monitor.c  |  9 +++++++++
- 2 files changed, 17 insertions(+), 8 deletions(-)
+I guess I'm missing the bigger picture here. You are supposed to be able to
+retrieve these fields with ioctl's, so not sure what this has to do with
+malware. Why does the firmware revision matter to this program?
+ 
+> I guess there could be a warning about potential problems with drivers in the
+> description for model, firmware, and nqn, but I haven't experienced any
+> issues when changing the values (for all of them). If you encountered any
+> problems, how did they manifest?
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 86ad28466a..7e96baac9f 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -7476,18 +7476,18 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-                  "%08x iidx %d didx %d\n",
-                  env->msr, env->spr[SPR_HID0], env->hflags,
-                  cpu_mmu_index(env, true), cpu_mmu_index(env, false));
--#if !defined(NO_TIMER_DUMP)
--    qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
-+    if (env->tb_env) {
-+        qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
- #if !defined(CONFIG_USER_ONLY)
--                 " DECR " TARGET_FMT_lu
-+                     " DECR " TARGET_FMT_lu
- #endif
--                 "\n",
--                 cpu_ppc_load_tbu(env), cpu_ppc_load_tbl(env)
-+                     "\n",
-+                     cpu_ppc_load_tbu(env), cpu_ppc_load_tbl(env)
- #if !defined(CONFIG_USER_ONLY)
--                 , cpu_ppc_load_decr(env)
--#endif
--        );
-+                     , cpu_ppc_load_decr(env)
- #endif
-+            );
-+    }
-     for (i = 0; i < 32; i++) {
-         if ((i & (RGPL - 1)) == 0) {
-             qemu_fprintf(f, "GPR%02d", i);
-diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
-index 0b805ef6e9..8250b1304e 100644
---- a/target/ppc/monitor.c
-+++ b/target/ppc/monitor.c
-@@ -55,6 +55,9 @@ static target_long monitor_get_decr(Monitor *mon, const struct MonitorDef *md,
-                                     int val)
- {
-     CPUArchState *env = mon_get_cpu_env(mon);
-+    if (!env->tb_env) {
-+        return 0;
-+    }
-     return cpu_ppc_load_decr(env);
- }
- 
-@@ -62,6 +65,9 @@ static target_long monitor_get_tbu(Monitor *mon, const struct MonitorDef *md,
-                                    int val)
- {
-     CPUArchState *env = mon_get_cpu_env(mon);
-+    if (!env->tb_env) {
-+        return 0;
-+    }
-     return cpu_ppc_load_tbu(env);
- }
- 
-@@ -69,6 +75,9 @@ static target_long monitor_get_tbl(Monitor *mon, const struct MonitorDef *md,
-                                    int val)
- {
-     CPUArchState *env = mon_get_cpu_env(mon);
-+    if (!env->tb_env) {
-+        return 0;
-+    }
-     return cpu_ppc_load_tbl(env);
- }
- 
--- 
-2.25.1
-
+Older qemu nvme wasn't reliably generating unique identifiers, so linux quirks
+them to ignore. They are reliable now, so the quirk can be changed to firmware
+specific when the version number updates with the next release.
 
