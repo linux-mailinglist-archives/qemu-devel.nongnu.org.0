@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED9B573ACB
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:06:07 +0200 (CEST)
-Received: from localhost ([::1]:41632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FA7573AFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:17:32 +0200 (CEST)
+Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBesI-0004h5-9s
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34840)
+	id 1oBf3K-0002Gs-QN
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:17:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oBelT-0000Ad-47
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:59:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38639)
+ id 1oBepD-0002fO-47
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:02:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oBelQ-0001Js-01
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:59:01 -0400
+ id 1oBep5-0003PS-OL
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:02:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657727939;
+ s=mimecast20190719; t=1657728167;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cBNDrA0ZX60NKZ4z6R/cRjlYRDriK8tUjn/4yLaMMc8=;
- b=Qx5lEqJay3r3TIcXY5TdtgwhvEW+VZxiw4ttZ/0N2bwm63nIYh40/jI9k+biVp4S83HVaS
- bSSZWqLxdljWz6FInk/t+8p6Eo20WG5HaRMPMuYViohwG0kSJq2JLbEH3EKMmVrwmpLEFF
- AE+nW1bMb7X3hB+/i9BZU9QlafqWGjY=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sZcJIXWUqPV0PV1ZM8E6mPZxLR+z5J+Xdv40q/sUFAA=;
+ b=RB9QluVrL+Erm5jpxu/K0aizpecS/1bpp2lCao8mPI2jaEHYx4N1p2Ay0aC8tpFC1lX79a
+ 7CkReoaXhW+DJh89aJ1fSv+75+ThfRwPp15xy1ijl5EuakVd9/+d0wkTzGG5BPeAXvtc7D
+ kvgp6ytzldpkyY35ma4UK5a0VTKlxzc=
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
+ [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-112-NJR17D5jOfa-3w3V70RHOA-1; Wed, 13 Jul 2022 11:58:57 -0400
-X-MC-Unique: NJR17D5jOfa-3w3V70RHOA-1
-Received: by mail-oi1-f198.google.com with SMTP id
- a9-20020a056808098900b00339f990621cso5636386oic.0
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 08:58:57 -0700 (PDT)
+ us-mta-586-nQZ0DspZPaO4eo5pTZ1YoQ-1; Wed, 13 Jul 2022 12:02:45 -0400
+X-MC-Unique: nQZ0DspZPaO4eo5pTZ1YoQ-1
+Received: by mail-oa1-f69.google.com with SMTP id
+ 586e51a60fabf-10c4f6fd1b6so6147424fac.22
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 09:02:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cBNDrA0ZX60NKZ4z6R/cRjlYRDriK8tUjn/4yLaMMc8=;
- b=ppHk4+EJR0JYoroGbMZfPIOOkbglPlOhjnQCk0h9hCisaLepuFZXOy/4RLqYUAbPup
- l90+6JQi+BSZCskzxf5DFeTzqEZKiGC/1w4wjpp5qiD+ENj/wouPa8F0mRraFbplB9HS
- 6MmEB7zlrdIETQatkwGrfsMuOVWux7fK16LHVyNA4js5kbtuiE62I8rdZgolXDg5vM60
- oBPHuiPImjS9VHxJAy2EFPhh5CchSUfNIsDJQ9Y0ek/NFV2F195N4/1sV+umhlwmfJVv
- R5nPJpgImTS9WZ+0OT3Sgfb+oaPK3+VY4UXw3ZD/rxHD+P5c42EbeTp7DzCWhy3hotJB
- 6Bkw==
-X-Gm-Message-State: AJIora8BSuzlgTAFreRRL+ZbE3xmB98aFNKH3Z4YGfO6Zq0TmD6SG7bb
- vWhJo/H1rnLVDwmFW81o+Rzq++2ojIvqg99++vx3E+3iat9MfjZVYKLJQoEZXTjbyr5cLe6Br4b
- 58sJixAYgpC+uxi1khKAb2N3wP/To/AQ=
+ bh=sZcJIXWUqPV0PV1ZM8E6mPZxLR+z5J+Xdv40q/sUFAA=;
+ b=GRUks0DC3MXvgbxv8Q4XkoTpPaqwjm26kMelkfnvCed5qUvQKACBV7i1kgCmrYdSJh
+ HgJR9iayJzx1i6GlYIlW8WbB4pRk3aDI2lgsqmVBVRDKME7BvXKrvr72gu/9qt1A4RXg
+ WA1oQb+IW6TegvSq56MYFWMzKFWWaVEImx7mHhFFFrHyUet6+ACnmfRciS+eo5Nm9VVq
+ T6P/OndgajC+uyP+nV24ZEBac3BprowaohoiKWZPeYnP7AfjvLUZ6RXO/0IR4nJtQm9Q
+ ieA5urdf/ogPMyRefd/9tmzPy/O8qXngXlCVdvPp8Wcv6ovX3iXKFLa1JHxV9K8dFxuQ
+ s2SA==
+X-Gm-Message-State: AJIora8YaZn5dBHGJ03Rb28Ny8nE2DsRUZnLXwc+LYEdziNpge/NCpbT
+ wd1dJypHVG1jt42Uo9yifs15C5gJfHSNLsYu4cEc7swyET4Da5ZW0Y7lggiw5hyqW7AAxs6rjbR
+ Cz6OLRWFcP/8O9yKeJkcA4Whr8u7Dvp0=
 X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
- ek39-20020a056870f62700b0010c9be95306mr5028594oab.205.1657727937202; 
- Wed, 13 Jul 2022 08:58:57 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vg1us4ICKs9B6VsSoEl2HT1FjVtUgA6uSdmkD3j7RSTKAjMFUvVkO744au8f0tmCb0MBONeZmVKrt2vxX+dxY=
+ ek39-20020a056870f62700b0010c9be95306mr5039505oab.205.1657728164995; 
+ Wed, 13 Jul 2022 09:02:44 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uhTDOXNXtpy24ByLbF29c6Blvj3tfZ/u/e3K2MqD/fxoAVPDbsSPTrUpJUDT0of6S5ehXmJLsGCVCsn9MmJew=
 X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
- ek39-20020a056870f62700b0010c9be95306mr5028571oab.205.1657727936980; Wed, 13
- Jul 2022 08:58:56 -0700 (PDT)
+ ek39-20020a056870f62700b0010c9be95306mr5039486oab.205.1657728164742; Wed, 13
+ Jul 2022 09:02:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220713130322.25517-1-frankja@linux.ibm.com>
- <20220713130322.25517-6-frankja@linux.ibm.com>
-In-Reply-To: <20220713130322.25517-6-frankja@linux.ibm.com>
+ <20220713130322.25517-7-frankja@linux.ibm.com>
+In-Reply-To: <20220713130322.25517-7-frankja@linux.ibm.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 13 Jul 2022 19:58:46 +0400
-Message-ID: <CAMxuvawZehnqK=UN03nKEdtwL7yySKgb6GG5GV1S3CT_d0_iyg@mail.gmail.com>
-Subject: Re: [PATCH v2 05/11] dump/dump: Add section string table support
+Date: Wed, 13 Jul 2022 20:02:34 +0400
+Message-ID: <CAMxuvax9qSs96hq=RGCR2wxdJ7-Nj2nd748pbSj3fq3KTZA4Kw@mail.gmail.com>
+Subject: Re: [PATCH v2 06/11] dump/dump: Add arch section support
 To: Janosch Frank <frankja@linux.ibm.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
  mhartmay@linux.ibm.com, 
@@ -102,217 +102,139 @@ Hi
 
 On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank <frankja@linux.ibm.com> wrote:
 >
-> Time to add a bit more descriptiveness to the dumps.
-
-Please add some more description & motivation to the patch (supposedly
-necessary for next patches), and explain that it currently doesn't
-change the dump (afaict).
-
+> Add hooks which architectures can use to add arbitrary data to custom
+> sections.
 >
 > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  dump/dump.c           | 106 ++++++++++++++++++++++++++++++++++++------
->  include/sysemu/dump.h |   1 +
->  2 files changed, 94 insertions(+), 13 deletions(-)
+>  dump/dump.c                | 21 ++++++++++++++++++---
+>  include/sysemu/dump-arch.h | 27 +++++++++++++++++++++++++++
+>  2 files changed, 45 insertions(+), 3 deletions(-)
 >
 > diff --git a/dump/dump.c b/dump/dump.c
-> index 467d934bc1..31e2a85372 100644
+> index 31e2a85372..02de00b6de 100644
 > --- a/dump/dump.c
 > +++ b/dump/dump.c
-> @@ -99,6 +99,7 @@ static int dump_cleanup(DumpState *s)
->      close(s->fd);
->      g_free(s->guest_note);
->      g_free(s->elf_header);
-> +    g_array_unref(s->string_table_buf);
->      s->guest_note = NULL;
->      if (s->resume) {
->          if (s->detached) {
-> @@ -359,14 +360,47 @@ static size_t write_elf_section_hdr_zero(DumpState *s, void *buff)
->      return dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
->  }
->
-> +static void write_elf_section_hdr_string(DumpState *s, void *buff)
-> +{
-> +    Elf32_Shdr shdr32;
-> +    Elf64_Shdr shdr64;
-> +    int shdr_size;
-> +    void *shdr = buff;
-> +
-> +    if (dump_is_64bit(s)) {
-> +        shdr_size = sizeof(Elf64_Shdr);
-> +        memset(&shdr64, 0, shdr_size);
-> +        shdr64.sh_type = SHT_STRTAB;
-> +        shdr64.sh_offset = s->section_offset + s->elf_section_data_size;
-> +        shdr64.sh_name = s->string_table_buf->len;
-> +        g_array_append_vals(s->string_table_buf, ".strtab", sizeof(".strtab"));
-> +        shdr64.sh_size = s->string_table_buf->len;
-> +        shdr = &shdr64;
-> +    } else {
-> +        shdr_size = sizeof(Elf32_Shdr);
-> +        memset(&shdr32, 0, shdr_size);
-> +        shdr32.sh_type = SHT_STRTAB;
-> +        shdr32.sh_offset = s->section_offset + s->elf_section_data_size;
-> +        shdr32.sh_name = s->string_table_buf->len;
-> +        g_array_append_vals(s->string_table_buf, ".strtab", sizeof(".strtab"));
-> +        shdr32.sh_size = s->string_table_buf->len;
-> +        shdr = &shdr32;
-> +    }
-> +
-> +    memcpy(buff, shdr, shdr_size);
-> +}
-> +
->  static void prepare_elf_section_hdrs(DumpState *s)
->  {
->      uint8_t *buff_hdr;
-> -    size_t len, sizeof_shdr;
-> +    size_t len, size = 0, sizeof_shdr;
-> +    Elf64_Ehdr *hdr64 = s->elf_header;
-> +    Elf32_Ehdr *hdr32 = s->elf_header;
->
+> @@ -400,6 +400,7 @@ static void prepare_elf_section_hdrs(DumpState *s)
 >      /*
 >       * Section ordering:
 >       * - HDR zero (if needed)
-> +     * - String table hdr
+> +     * - Arch section hdrs
+>       * - String table hdr
 >       */
 >      sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
->      len = sizeof_shdr * s->shdr_num;
-> @@ -377,6 +411,22 @@ static void prepare_elf_section_hdrs(DumpState *s)
->      if (s->phdr_num == PN_XNUM) {
->              write_elf_section_hdr_zero(s, buff_hdr);
+> @@ -417,6 +418,9 @@ static void prepare_elf_section_hdrs(DumpState *s)
+>          return;
 >      }
+>
+> +    size = dump_arch_sections_write_hdr(&s->dump_info, s, buff_hdr);
 > +    buff_hdr += size;
 > +
-> +    if (s->shdr_num < 2) {
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * String table needs to be last section since strings are added
-> +     * via arch_sections_write_hdr().
-> +     */
-> +    write_elf_section_hdr_string(s, buff_hdr);
-> +    if (dump_is_64bit(s)) {
-> +        hdr64->e_shstrndx = cpu_to_dump16(s, s->shdr_num - 1);
-> +    } else {
-> +        hdr32->e_shstrndx = cpu_to_dump16(s, s->shdr_num - 1);
-> +    }
->  }
->
->  static void prepare_elf_sections(DumpState *s, Error **errp)
-> @@ -405,11 +455,18 @@ static void write_elf_sections(DumpState *s, Error **errp)
->  {
->      int ret;
->
-> -    /* Write section zero */
-> +    /* Write section zero and arch sections */
->      ret = fd_write_vmcore(s->elf_section_data, s->elf_section_data_size, s);
->      if (ret < 0) {
->          error_setg_errno(errp, -ret, "dump: failed to write section data");
+>      /*
+>       * String table needs to be last section since strings are added
+>       * via arch_sections_write_hdr().
+> @@ -567,14 +571,23 @@ static void get_offset_range(hwaddr phys_addr,
 >      }
-> +
-> +    /* Write string table data */
-> +    ret = fd_write_vmcore(s->string_table_buf->data,
-> +                          s->string_table_buf->len, s);
-> +    if (ret < 0) {
-> +        error_setg_errno(errp, -ret, "dump: failed to write string table data");
-> +    }
 >  }
 >
->  static void write_data(DumpState *s, void *buf, int length, Error **errp)
-> @@ -592,6 +649,9 @@ static void dump_begin(DumpState *s, Error **errp)
->       *   --------------
->       *   |  memory     |
->       *   --------------
-> +     *   |  sectn data |
-> +     *   --------------
+> -static void write_elf_loads(DumpState *s, Error **errp)
+> +static void write_elf_phdr_loads(DumpState *s, Error **errp)
+>  {
+>      ERRP_GUARD();
+>      hwaddr offset, filesz;
+>      MemoryMapping *memory_mapping;
+>      uint32_t phdr_index = 1;
+> +    hwaddr min = 0, max = 0;
+>
+>      QTAILQ_FOREACH(memory_mapping, &s->list.head, next) {
+> +        if (memory_mapping->phys_addr < min) {
+> +            min = memory_mapping->phys_addr;
+> +        }
+> +        if (memory_mapping->phys_addr + memory_mapping->length > max) {
+> +            max = memory_mapping->phys_addr + memory_mapping->length;
+> +        }
 > +
->       *
->       * we only know where the memory is saved after we write elf note into
->       * vmcore.
-> @@ -677,6 +737,7 @@ static void create_vmcore(DumpState *s, Error **errp)
+> +
+
+Extra line & this belongs to a different patch.
+
+>          get_offset_range(memory_mapping->phys_addr,
+>                           memory_mapping->length,
+>                           s, &offset, &filesz);
+> @@ -682,8 +695,8 @@ static void dump_begin(DumpState *s, Error **errp)
 >          return;
 >      }
 >
-> +    /* Iterate over memory and dump it to file */
->      dump_iterate(s, errp);
+> -    /* write all PT_LOAD to vmcore */
+> -    write_elf_loads(s, errp);
+> +    /* write all PT_LOADs to vmcore */
+> +    write_elf_phdr_loads(s, errp);
 >      if (*errp) {
 >          return;
-> @@ -1659,6 +1720,13 @@ static void dump_init(DumpState *s, int fd, bool has_format,
->      s->has_filter = has_filter;
->      s->begin = begin;
->      s->length = length;
-> +    /* First index is 0, it's the special null name */
-> +    s->string_table_buf = g_array_new(FALSE, TRUE, 1);
-> +    /*
-> +     * Allocate the null name, due to the clearing option set to true
-> +     * it will be 0.
-> +     */
-> +    g_array_set_size(s->string_table_buf, 1);
->
->      memory_mapping_list_init(&s->list);
->
-> @@ -1819,19 +1887,31 @@ static void dump_init(DumpState *s, int fd, bool has_format,
->          }
 >      }
->
-> -    if (dump_is_64bit(s)) {
-> -        s->phdr_offset = sizeof(Elf64_Ehdr);
-> -        s->shdr_offset = s->phdr_offset + sizeof(Elf64_Phdr) * s->phdr_num;
-> -        s->note_offset = s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr_num;
-> -        s->memory_offset = s->note_offset + s->note_size;
-> -    } else {
-> -
-> -        s->phdr_offset = sizeof(Elf32_Ehdr);
-> -        s->shdr_offset = s->phdr_offset + sizeof(Elf32_Phdr) * s->phdr_num;
-> -        s->note_offset = s->shdr_offset + sizeof(Elf32_Shdr) * s->shdr_num;
-> -        s->memory_offset = s->note_offset + s->note_size;
-> +    /*
-> +     * calculate shdr_num and elf_section_data_size so we know the offsets and
-> +     * sizes of all parts.
-> +     *
-> +     * If phdr_num overflowed we have at least one section header
-> +     * More sections/hdrs can be added by the architectures
-> +     */
-> +    if (s->shdr_num > 1) {
-> +        /* Reserve the string table */
-> +        s->shdr_num += 1;
+> @@ -723,6 +736,7 @@ static void dump_end(DumpState *s, Error **errp)
+>          return;
 >      }
+>      s->elf_section_data = g_malloc0(s->elf_section_data_size);
+> +    dump_arch_sections_write(&s->dump_info, s, s->elf_section_data);
 >
-> +    tmp = (s->phdr_num == PN_XNUM) ? s->sh_info : s->phdr_num;
-> +    if (dump_is_64bit(s)) {
-> +        s->shdr_offset = sizeof(Elf64_Ehdr);
-> +        s->phdr_offset = s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr_num;
-> +        s->note_offset = s->phdr_offset + sizeof(Elf64_Phdr) * tmp;
-> +    } else {
-> +        s->shdr_offset = sizeof(Elf32_Ehdr);
-> +        s->phdr_offset = s->shdr_offset + sizeof(Elf32_Shdr) * s->shdr_num;
-> +        s->note_offset = s->phdr_offset + sizeof(Elf32_Phdr) * tmp;
+>      /* write sections to vmcore */
+>      write_elf_sections(s, errp);
+> @@ -1894,6 +1908,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+>       * If phdr_num overflowed we have at least one section header
+>       * More sections/hdrs can be added by the architectures
+>       */
+> +    dump_arch_sections_add(&s->dump_info, (void *)s);
+>      if (s->shdr_num > 1) {
+>          /* Reserve the string table */
+>          s->shdr_num += 1;
+> diff --git a/include/sysemu/dump-arch.h b/include/sysemu/dump-arch.h
+> index e25b02e990..de77908424 100644
+> --- a/include/sysemu/dump-arch.h
+> +++ b/include/sysemu/dump-arch.h
+> @@ -21,6 +21,9 @@ typedef struct ArchDumpInfo {
+>      uint32_t page_size;      /* The target's page size. If it's variable and
+>                                * unknown, then this should be the maximum. */
+>      uint64_t phys_base;      /* The target's physmem base. */
+> +    void (*arch_sections_add_fn)(void *opaque);
+> +    uint64_t (*arch_sections_write_hdr_fn)(void *opaque, uint8_t *buff);
+> +    void (*arch_sections_write_fn)(void *opaque, uint8_t *buff);
+>  } ArchDumpInfo;
+>
+>  struct GuestPhysBlockList; /* memory_mapping.h */
+> @@ -28,4 +31,28 @@ int cpu_get_dump_info(ArchDumpInfo *info,
+>                        const struct GuestPhysBlockList *guest_phys_blocks);
+>  ssize_t cpu_get_note_size(int class, int machine, int nr_cpus);
+>
+> +static inline void dump_arch_sections_add(ArchDumpInfo *info, void *opaque)
+> +{
+> +    if (info->arch_sections_add_fn) {
+> +        info->arch_sections_add_fn(opaque);
 > +    }
-> +    s->memory_offset = s->note_offset + s->note_size;
-
-I suggest to split this in a different patch. It's not obvious that
-you can change phdr_offset / shdr_offset, it deserves a comment.
-
-> +    s->section_offset = s->memory_offset + s->total_size;
+> +}
 > +
->      return;
->
->  cleanup:
-> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-> index 8379e29ef6..2c25c7d309 100644
-> --- a/include/sysemu/dump.h
-> +++ b/include/sysemu/dump.h
-> @@ -178,6 +178,7 @@ typedef struct DumpState {
->      void *elf_section_hdrs;
->      uint64_t elf_section_data_size;
->      void *elf_section_data;
-> +    GArray *string_table_buf;  /* String table section */
->
->      uint8_t *note_buf;          /* buffer for notes */
->      size_t note_buf_offset;     /* the writing place in note_buf */
+> +static inline uint64_t dump_arch_sections_write_hdr(ArchDumpInfo *info,
+> +                                                void *opaque, uint8_t *buff)
+> +{
+> +    if (info->arch_sections_write_hdr_fn) {
+> +        return info->arch_sections_write_hdr_fn(opaque, buff);
+> +    }
+> +    return 0;
+> +}
+> +
+> +static inline void dump_arch_sections_write(ArchDumpInfo *info, void *opaque,
+> +                                            uint8_t *buff)
+> +{
+> +    if (info->arch_sections_write_fn) {
+> +        info->arch_sections_write_fn(opaque, buff);
+> +    }
+> +}
+> +
+>  #endif
 > --
 > 2.34.1
 >
+
+otherwise, seems ok to me
 
 
