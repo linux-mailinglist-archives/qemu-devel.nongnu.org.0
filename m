@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019F9573076
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:14:10 +0200 (CEST)
-Received: from localhost ([::1]:46172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80180573105
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:26:45 +0200 (CEST)
+Received: from localhost ([::1]:36896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBXVZ-0001En-3X
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32936)
+	id 1oBXhk-00062X-LB
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:26:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXBa-00080k-NV; Wed, 13 Jul 2022 03:53:30 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:55085
+ id 1oBXBc-00081l-7L; Wed, 13 Jul 2022 03:53:33 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:56591
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXBY-0002ZX-PH; Wed, 13 Jul 2022 03:53:30 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVHB37ysz4ySc;
- Wed, 13 Jul 2022 17:53:26 +1000 (AEST)
+ id 1oBXBZ-0002Yr-Uk; Wed, 13 Jul 2022 03:53:31 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVHF0CcNz4ySg;
+ Wed, 13 Jul 2022 17:53:29 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVH82cVLz4ySW;
- Wed, 13 Jul 2022 17:53:24 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVHB6pCPz4ySW;
+ Wed, 13 Jul 2022 17:53:26 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -35,9 +34,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Peter Delevoryas <peter@pjd.dev>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 08/19] aspeed: Add fby35 skeleton
-Date: Wed, 13 Jul 2022 09:52:44 +0200
-Message-Id: <20220713075255.2248923-9-clg@kaod.org>
+Subject: [PULL 09/19] aspeed: Add AST2600 (BMC) to fby35
+Date: Wed, 13 Jul 2022 09:52:45 +0200
+Message-Id: <20220713075255.2248923-10-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220713075255.2248923-1-clg@kaod.org>
 References: <20220713075255.2248923-1-clg@kaod.org>
@@ -70,88 +69,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <peter@pjd.dev>
 
+You can test booting the BMC with both '-device loader' and '-drive
+file'. This is necessary because of how the fb-openbmc boot sequence
+works (jump to 0x20000000 after U-Boot SPL).
+
+    wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
+    qemu-system-arm -machine fby35 -nographic \
+        -device loader,file=fby35.mtd,addr=0,cpu-num=0 -drive file=fby35.mtd,format=raw,if=mtd
+
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220705191400.41632-6-peter@pjd.dev>
+Message-Id: <20220705191400.41632-7-peter@pjd.dev>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/fby35.c     | 39 +++++++++++++++++++++++++++++++++++++++
- MAINTAINERS        |  1 +
- hw/arm/meson.build |  3 ++-
- 3 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 hw/arm/fby35.c
+ hw/arm/fby35.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
-new file mode 100644
-index 000000000000..03b458584c26
---- /dev/null
+index 03b458584c26..5c5224d37471 100644
+--- a/hw/arm/fby35.c
 +++ b/hw/arm/fby35.c
-@@ -0,0 +1,39 @@
-+/*
-+ * Copyright (c) Meta Platforms, Inc. and affiliates. (http://www.meta.com)
-+ *
-+ * This code is licensed under the GPL version 2 or later. See the COPYING
-+ * file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/boards.h"
-+
-+#define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
-+OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
-+
-+struct Fby35State {
-+    MachineState parent_obj;
-+};
-+
-+static void fby35_init(MachineState *machine)
-+{
-+}
-+
-+static void fby35_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->desc = "Meta Platforms fby35";
-+    mc->init = fby35_init;
-+}
-+
-+static const TypeInfo fby35_types[] = {
-+    {
-+        .name = MACHINE_TYPE_NAME("fby35"),
-+        .parent = TYPE_MACHINE,
-+        .class_init = fby35_class_init,
-+        .instance_size = sizeof(Fby35State),
-+    },
-+};
-+
-+DEFINE_TYPES(fby35_types);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 450abd025271..fce6161ce506 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1065,6 +1065,7 @@ F: hw/net/ftgmac100.c
- F: include/hw/net/ftgmac100.h
- F: docs/system/arm/aspeed.rst
- F: tests/qtest/*aspeed*
-+F: hw/arm/fby35.c
+@@ -6,17 +6,55 @@
+  */
  
- NRF51
- M: Joel Stanley <joel@jms.id.au>
-diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-index 2d8381339c07..92f9f6e000ea 100644
---- a/hw/arm/meson.build
-+++ b/hw/arm/meson.build
-@@ -51,7 +51,8 @@ arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
-   'aspeed_soc.c',
-   'aspeed.c',
-   'aspeed_ast2600.c',
--  'aspeed_ast10x0.c'))
-+  'aspeed_ast10x0.c',
-+  'fby35.c'))
- arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
- arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
- arm_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-soc.c'))
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
++#include "qapi/error.h"
++#include "sysemu/sysemu.h"
+ #include "hw/boards.h"
++#include "hw/arm/aspeed_soc.h"
+ 
+ #define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
+ OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
+ 
+ struct Fby35State {
+     MachineState parent_obj;
++
++    MemoryRegion bmc_memory;
++    MemoryRegion bmc_dram;
++    MemoryRegion bmc_boot_rom;
++
++    AspeedSoCState bmc;
+ };
+ 
++#define FBY35_BMC_RAM_SIZE (2 * GiB)
++
++static void fby35_bmc_init(Fby35State *s)
++{
++    memory_region_init(&s->bmc_memory, OBJECT(s), "bmc-memory", UINT64_MAX);
++    memory_region_init_ram(&s->bmc_dram, OBJECT(s), "bmc-dram",
++                           FBY35_BMC_RAM_SIZE, &error_abort);
++
++    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
++    object_property_set_int(OBJECT(&s->bmc), "ram-size", FBY35_BMC_RAM_SIZE,
++                            &error_abort);
++    object_property_set_link(OBJECT(&s->bmc), "memory", OBJECT(&s->bmc_memory),
++                             &error_abort);
++    object_property_set_link(OBJECT(&s->bmc), "dram", OBJECT(&s->bmc_dram),
++                             &error_abort);
++    object_property_set_int(OBJECT(&s->bmc), "hw-strap1", 0x000000C0,
++                            &error_abort);
++    object_property_set_int(OBJECT(&s->bmc), "hw-strap2", 0x00000003,
++                            &error_abort);
++    aspeed_soc_uart_set_chr(&s->bmc, ASPEED_DEV_UART5, serial_hd(0));
++    qdev_realize(DEVICE(&s->bmc), NULL, &error_abort);
++
++    aspeed_board_init_flashes(&s->bmc.fmc, "n25q00", 2, 0);
++}
++
+ static void fby35_init(MachineState *machine)
+ {
++    Fby35State *s = FBY35(machine);
++
++    fby35_bmc_init(s);
+ }
+ 
+ static void fby35_class_init(ObjectClass *oc, void *data)
+@@ -25,6 +63,9 @@ static void fby35_class_init(ObjectClass *oc, void *data)
+ 
+     mc->desc = "Meta Platforms fby35";
+     mc->init = fby35_init;
++    mc->no_floppy = 1;
++    mc->no_cdrom = 1;
++    mc->min_cpus = mc->max_cpus = mc->default_cpus = 2;
+ }
+ 
+ static const TypeInfo fby35_types[] = {
 -- 
 2.35.3
 
