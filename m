@@ -2,97 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2423573741
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 15:20:05 +0200 (CEST)
-Received: from localhost ([::1]:41152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2236A573719
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 15:17:37 +0200 (CEST)
+Received: from localhost ([::1]:35382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBcHd-0003XC-06
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 09:20:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44706)
+	id 1oBcFE-0007s6-8X
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 09:17:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oBc54-0008GV-0b; Wed, 13 Jul 2022 09:07:06 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58064)
+ id 1oBc55-0008II-3M; Wed, 13 Jul 2022 09:07:07 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6536
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oBc52-0006BP-7e; Wed, 13 Jul 2022 09:07:05 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26DCq0Kr005763;
- Wed, 13 Jul 2022 13:07:02 GMT
+ id 1oBc53-0006Bn-A1; Wed, 13 Jul 2022 09:07:06 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26DCDXBD018096;
+ Wed, 13 Jul 2022 13:07:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=x2KIVRm57N9iE8lz93uS2+n+9pi6rYjnxmQ80l5Ez54=;
- b=CbMiWs9zbcgjTT4nC1Bbm2eTccPgoE4FjjASXuxySOAkAfPhnezHfX5pibxm+evrQdzH
- sdOnmTKaXoDP/XO/zMqYy1U0c376We8bHTAnkSKyNOPxaiR6CaDPphmJvnnXg5ZHVZwe
- XgJOt3U02sUIgUND7Jp6pQRyUYPVC83ONWBrXHHtHO5p/k219JTSM2VtpCD3w9rIKfpX
- OZre/zAD0FLrW6irORqcHW7bxUEy9onLjCDPIkNVvoP5doCQvyuQvmoebDLbZL/3JFga
- 9ZZ9TK+CkoZUEwN8Fm/o9Oh4BgIivZKTSAoFKgLjPGeII5MlvNPtrE5oZyEFXgjzD7Do QQ== 
+ bh=PJBnXQwXsGv0ghdRfXrcAVyadFacy4z53wxMc2Jjv6U=;
+ b=BiixsDeuWtFO0Lz1kkfxkb8oFPZdHFJl99DfvHigdYbiv9kOeaJXWdSOKSolozRoy1X4
+ eGw/K5rY5I6/UzXPyX2rEs9Z5zi8hHrtwUjREu5dCupResVLT6MN8/CppYMbJXPfIefd
+ QLMuUlq7ZeNkz/1RjvspGMHuKz7Z7xZWIjKq8rGBTPVH/aOfrMaWNtTe0lE2qjYEua9v
+ j6NBYfkMl6+1tvC5DNDYfhoKWJXiFZIFQK+as/VorgdMRQld+rVwAqM3epkgk5IIDjNR
+ 7tHp0Rn4Rcc+MR2pj5m/M3q6Cv/3yFJn92xXCTd486AQ+OgHaxW+MkIJqgBIlfvA6/Qy zQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9xeb8cns-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9w02ajss-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Jul 2022 13:07:02 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26DCwPVM000530;
- Wed, 13 Jul 2022 13:07:02 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9xeb8cmu-1
+ Wed, 13 Jul 2022 13:07:03 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26DCpEi8025345;
+ Wed, 13 Jul 2022 13:07:03 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h9w02ajrq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Jul 2022 13:07:02 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26DCoPVf025309;
- Wed, 13 Jul 2022 13:07:00 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma01fra.de.ibm.com with ESMTP id 3h71a8vyrx-1
+ Wed, 13 Jul 2022 13:07:03 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26DCo5r2010324;
+ Wed, 13 Jul 2022 13:07:01 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma04ams.nl.ibm.com with ESMTP id 3h8rrn2m3e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Jul 2022 13:07:00 +0000
+ Wed, 13 Jul 2022 13:07:01 +0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26DD6vQT19136894
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26DD6wfx19661190
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jul 2022 13:06:57 GMT
+ Wed, 13 Jul 2022 13:06:58 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F2893AE04D;
- Wed, 13 Jul 2022 13:06:56 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 339C7AE053;
+ Wed, 13 Jul 2022 13:06:58 +0000 (GMT)
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E37CDAE045;
- Wed, 13 Jul 2022 13:06:55 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 24B62AE045;
+ Wed, 13 Jul 2022 13:06:57 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 13 Jul 2022 13:06:55 +0000 (GMT)
+ Wed, 13 Jul 2022 13:06:57 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
  borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  richard.henderson@linaro.org
-Subject: [PATCH v2 09/11] s390x: Introduce PV query interface
-Date: Wed, 13 Jul 2022 13:03:20 +0000
-Message-Id: <20220713130322.25517-10-frankja@linux.ibm.com>
+Subject: [PATCH v2 10/11] s390x: Add KVM PV dump interface
+Date: Wed, 13 Jul 2022 13:03:21 +0000
+Message-Id: <20220713130322.25517-11-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220713130322.25517-1-frankja@linux.ibm.com>
 References: <20220713130322.25517-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: tmTOQQgWwcq4lcDMtB8OFIHTDrHHZWoj
-X-Proofpoint-ORIG-GUID: 2_f2X3W2HSwckWDqIPDG8oSg1RvU-a9W
+X-Proofpoint-GUID: W96mVH34TSCGrjHZBhMJsT9owqUThuJV
+X-Proofpoint-ORIG-GUID: oOSJ8bzun8MZlNlsVZf1xxLmnKXAWJEj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-13_01,2022-07-13_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 bulkscore=0 mlxscore=0 suspectscore=0 clxscore=1015
- impostorscore=0 phishscore=0 lowpriorityscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2206140000 definitions=main-2207130050
+ priorityscore=1501
+ phishscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 clxscore=1015 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207130050
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -115,151 +116,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce an interface over which we can get information about UV data.
+Let's add a few bits of code which hide the new KVM PV dump API from
+us via new functions.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- hw/s390x/pv.c              | 61 ++++++++++++++++++++++++++++++++++++++
- hw/s390x/s390-virtio-ccw.c |  5 ++++
- include/hw/s390x/pv.h      | 10 +++++++
- 3 files changed, 76 insertions(+)
+ hw/s390x/pv.c         | 51 +++++++++++++++++++++++++++++++++++++++++++
+ include/hw/s390x/pv.h |  8 +++++++
+ 2 files changed, 59 insertions(+)
 
 diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index 401b63d6cb..a5af4ddf46 100644
+index a5af4ddf46..48591c387d 100644
 --- a/hw/s390x/pv.c
 +++ b/hw/s390x/pv.c
-@@ -20,6 +20,11 @@
- #include "exec/confidential-guest-support.h"
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/pv.h"
-+#include "target/s390x/kvm/kvm_s390x.h"
-+
-+static bool info_valid;
-+static struct kvm_s390_pv_info_vm info_vm;
-+static struct kvm_s390_pv_info_dump info_dump;
- 
- static int __s390_pv_cmd(uint32_t cmd, const char *cmdname, void *data)
- {
-@@ -56,6 +61,42 @@ static int __s390_pv_cmd(uint32_t cmd, const char *cmdname, void *data)
-     }                                  \
+@@ -175,6 +175,57 @@ bool kvm_s390_pv_info_basic_valid(void)
+     return info_valid;
  }
  
-+int s390_pv_query_info(void)
++static int s390_pv_dump_cmd(uint64_t subcmd, uint64_t uaddr, uint64_t gaddr,
++                            uint64_t len)
 +{
-+    struct kvm_s390_pv_info info = {
-+        .header.id = KVM_PV_INFO_VM,
-+        .header.len_max = sizeof(info.header) + sizeof(info.vm),
++    struct kvm_s390_pv_dmp dmp = {
++        .subcmd = subcmd,
++        .buff_addr = uaddr,
++        .buff_len = len,
++        .gaddr = gaddr,
 +    };
-+    int rc;
++    int ret;
 +
-+    /* Info API's first user is dump so they are bundled */
-+    if (!kvm_s390_get_protected_dump()) {
-+        return 0;
++    ret = s390_pv_cmd(KVM_PV_DUMP, (void *)&dmp);
++    if (ret) {
++        error_report("KVM DUMP command %ld failed", subcmd);
 +    }
-+
-+    rc = s390_pv_cmd(KVM_PV_INFO, &info);
-+    if (rc) {
-+        error_report("KVM PV INFO cmd %x failed: %s",
-+                     info.header.id, strerror(rc));
-+        return rc;
-+    }
-+    memcpy(&info_vm, &info.vm, sizeof(info.vm));
-+
-+    info.header.id = KVM_PV_INFO_DUMP;
-+    info.header.len_max = sizeof(info.header) + sizeof(info.dump);
-+    rc = s390_pv_cmd(KVM_PV_INFO, &info);
-+    if (rc) {
-+        error_report("KVM PV INFO cmd %x failed: %s",
-+                     info.header.id, strerror(rc));
-+        return rc;
-+    }
-+
-+    memcpy(&info_dump, &info.dump, sizeof(info.dump));
-+    info_valid = true;
-+
-+    return rc;
++    return ret;
 +}
 +
- int s390_pv_vm_enable(void)
- {
-     return s390_pv_cmd(KVM_PV_ENABLE, NULL);
-@@ -114,6 +155,26 @@ void s390_pv_inject_reset_error(CPUState *cs)
-     env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
- }
- 
-+uint64_t kvm_s390_pv_dmp_get_size_cpu(void)
++int kvm_s390_dump_cpu(S390CPU *cpu, void *buff)
 +{
-+    return info_dump.dump_cpu_buffer_len;
++    struct kvm_s390_pv_dmp dmp = {
++        .subcmd = KVM_PV_DUMP_CPU,
++        .buff_addr = (uint64_t)buff,
++        .gaddr = 0,
++        .buff_len = info_dump.dump_cpu_buffer_len,
++    };
++    struct kvm_pv_cmd pv = {
++        .cmd = KVM_PV_DUMP,
++        .data = (uint64_t)&dmp,
++    };
++
++    return kvm_vcpu_ioctl(CPU(cpu), KVM_S390_PV_CPU_COMMAND, &pv);
 +}
 +
-+uint64_t kvm_s390_pv_dmp_get_size_complete(void)
++int kvm_s390_dump_init(void)
 +{
-+    return info_dump.dump_config_finalize_len;
++    return s390_pv_dump_cmd(KVM_PV_DUMP_INIT, 0, 0, 0);
 +}
 +
-+uint64_t kvm_s390_pv_dmp_get_size_mem(void)
++int kvm_s390_dump_mem(uint64_t gaddr, size_t len, void *dest)
 +{
-+    return info_dump.dump_config_mem_buffer_per_1m;
++    return s390_pv_dump_cmd(KVM_PV_DUMP_CONFIG_STATE, (uint64_t)dest,
++                            gaddr, len);
 +}
 +
-+bool kvm_s390_pv_info_basic_valid(void)
++int kvm_s390_dump_finish(void *buff)
 +{
-+    return info_valid;
++    return s390_pv_dump_cmd(KVM_PV_DUMP_COMPLETE, (uint64_t)buff, 0,
++                            info_dump.dump_config_finalize_len);
 +}
 +
  #define TYPE_S390_PV_GUEST "s390-pv-guest"
  OBJECT_DECLARE_SIMPLE_TYPE(S390PVGuest, S390_PV_GUEST)
  
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index cc3097bfee..f9401e392b 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -366,6 +366,11 @@ static int s390_machine_protect(S390CcwMachineState *ms)
- 
-     ms->pv = true;
- 
-+    rc = s390_pv_query_info();
-+    if (rc) {
-+        goto out_err;
-+    }
-+
-     /* Set SE header and unpack */
-     rc = s390_ipl_prepare_pv_header();
-     if (rc) {
 diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
-index 1f1f545bfc..6fa55bf70e 100644
+index 6fa55bf70e..f37021e189 100644
 --- a/include/hw/s390x/pv.h
 +++ b/include/hw/s390x/pv.h
-@@ -38,6 +38,7 @@ static inline bool s390_is_pv(void)
-     return ccw->pv;
- }
- 
-+int s390_pv_query_info(void);
- int s390_pv_vm_enable(void);
- void s390_pv_vm_disable(void);
- int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
-@@ -46,8 +47,13 @@ void s390_pv_prep_reset(void);
- int s390_pv_verify(void);
- void s390_pv_unshare(void);
- void s390_pv_inject_reset_error(CPUState *cs);
-+uint64_t kvm_s390_pv_dmp_get_size_cpu(void);
-+uint64_t kvm_s390_pv_dmp_get_size_mem(void);
-+uint64_t kvm_s390_pv_dmp_get_size_complete(void);
-+bool kvm_s390_pv_info_basic_valid(void);
+@@ -51,6 +51,10 @@ uint64_t kvm_s390_pv_dmp_get_size_cpu(void);
+ uint64_t kvm_s390_pv_dmp_get_size_mem(void);
+ uint64_t kvm_s390_pv_dmp_get_size_complete(void);
+ bool kvm_s390_pv_info_basic_valid(void);
++int kvm_s390_dump_init(void);
++int kvm_s390_dump_cpu(S390CPU *cpu, void *buff);
++int kvm_s390_dump_mem(uint64_t addr, size_t len, void *dest);
++int kvm_s390_dump_finish(void *buff);
  #else /* CONFIG_KVM */
  static inline bool s390_is_pv(void) { return false; }
-+static inline int s390_pv_query_info(void) { return 0; }
- static inline int s390_pv_vm_enable(void) { return 0; }
- static inline void s390_pv_vm_disable(void) {}
- static inline int s390_pv_set_sec_parms(uint64_t origin, uint64_t length) { return 0; }
-@@ -56,6 +62,10 @@ static inline void s390_pv_prep_reset(void) {}
- static inline int s390_pv_verify(void) { return 0; }
- static inline void s390_pv_unshare(void) {}
- static inline void s390_pv_inject_reset_error(CPUState *cs) {};
-+static inline uint64_t kvm_s390_pv_dmp_get_size_cpu(void) { return 0; }
-+static inline uint64_t kvm_s390_pv_dmp_get_size_mem(void) { return 0; }
-+static inline uint64_t kvm_s390_pv_dmp_get_size_complete(void) { return 0; }
-+static inline bool kvm_s390_pv_info_basic_valid(void) { return false; }
+ static inline int s390_pv_query_info(void) { return 0; }
+@@ -66,6 +70,10 @@ static inline uint64_t kvm_s390_pv_dmp_get_size_cpu(void) { return 0; }
+ static inline uint64_t kvm_s390_pv_dmp_get_size_mem(void) { return 0; }
+ static inline uint64_t kvm_s390_pv_dmp_get_size_complete(void) { return 0; }
+ static inline bool kvm_s390_pv_info_basic_valid(void) { return false; }
++static inline int kvm_s390_dump_init(void) { return 0; }
++static inline int kvm_s390_dump_cpu(S390CPU *cpu, void *buff, size_t len) { return 0; }
++static inline int kvm_s390_dump_mem(uint64_t addr, size_t len, void *dest) { return 0; }
++static inline int kvm_s390_dump_finish(void *buff) { return 0; }
  #endif /* CONFIG_KVM */
  
  int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
