@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956E5572E14
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 08:23:59 +0200 (CEST)
-Received: from localhost ([::1]:54778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA2B572E1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 08:24:54 +0200 (CEST)
+Received: from localhost ([::1]:55648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBVmw-0005wU-GE
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 02:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
+	id 1oBVnp-0006Xf-Sg
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 02:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oBVi4-0002UU-Jx
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 02:18:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46462)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBViU-0002xx-A0
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 02:19:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oBVi0-0000HL-W9
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 02:18:54 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oBViR-0000Kl-BN
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 02:19:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657693131;
+ s=mimecast20190719; t=1657693158;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9Ww9buU/UqAx12eXW6nbUL3hZME0KpFt5Bs0Fitdmec=;
- b=gLHxepZVVtyxRSY53plfoQm0UN9GVsnJ7/NjHfstVcnlwwfu+j50JAcJv2nLPJg/ByHN/x
- NRo0USc5RT0pmslQ0SAgzm+POf58QPgwJXP9kSkHY5pAoz7SLNePKH9Q7jGH2AaAxzPmjQ
- Sc82uRIJX2tzvy0NHI2C/l98+AYVQ2w=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=i6hO3KLic+QrBNrWdTsliX6c8j//16cBFP51I5+8fS8=;
+ b=Ky6ZqiJHRj5gTxGMulijFZjjugOhV9oXEihFzYn9bJIN4EVkhS4nwPHxzP74TBBeQy/3kY
+ JzKa2Tn+wtLSBNu5pxsXnJ9vl2c1qFKHtaEjXJ8j7LG3sJrrmJE41dvqB/eMgPZyHMgxof
+ t5C3G8JJufD+1b1Y30BROjJ1uKiELQw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-7Bc6R7KwMXyVNfRkQ9oCGw-1; Wed, 13 Jul 2022 02:18:50 -0400
-X-MC-Unique: 7Bc6R7KwMXyVNfRkQ9oCGw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- x22-20020a05620a259600b006b552a69231so9314107qko.18
- for <qemu-devel@nongnu.org>; Tue, 12 Jul 2022 23:18:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9Ww9buU/UqAx12eXW6nbUL3hZME0KpFt5Bs0Fitdmec=;
- b=hz/nNQfEToXCZgB9H/TX5PSpIHOJ5b3WNPqbcGN8Wlu/ybIb/9LFDtCrB1wgGEJeEO
- zJO7b2UKe/tZUZumSG9OM+4f2ElSqxP0PSZsMD2aHw3Z6rzvWlhTCMdtgK5Dk/DRiFYI
- 8zQd1dbeB3C27jIo/Ey+JqJdUMuayKgaxRQgr2fGjlyrGY7hf69ruYCHpmtohy2kMDj8
- Kx74pnhU4xcfgwpeMBQ5u3BIyPesDKmyQo7NpbanFXmXx3wJQtk8pjJMpwzrNWqEaDIy
- TK0/l8TjcDrrVCikQCQ30a6tl1W7tHIXD/70MAe3zCqspUh84rguKfvJKdBque9cP1cH
- nE3w==
-X-Gm-Message-State: AJIora/UdNeBIKWzE2Des4cwIq4PswBPFwbg/ai35HbmhRQAsty4O6sm
- pluiKt/hHlQE0iKxNp5s+lHsQ8PXETZ+4PQWtBGECrbf/zhTP55QwsxN/srRkzls5ZjAHlvPvqo
- pqe1YHT53ME1gu0S10RFQv51nBGnctpE=
-X-Received: by 2002:a05:6214:628:b0:472:f9df:970f with SMTP id
- a8-20020a056214062800b00472f9df970fmr1473464qvx.64.1657693129566; 
- Tue, 12 Jul 2022 23:18:49 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tBtA1knk6MpwBZHP2FEWEYYOxEhPO4NKuLqcHVlHeHd5GLHeXoBKXtqDi1Vh52LaC1EPhzXBey78ZV+JYmE00=
-X-Received: by 2002:a05:6214:628:b0:472:f9df:970f with SMTP id
- a8-20020a056214062800b00472f9df970fmr1473433qvx.64.1657693129304; Tue, 12 Jul
- 2022 23:18:49 -0700 (PDT)
+ us-mta-90-QZbzmMHEPd2FOCatsaJO9w-1; Wed, 13 Jul 2022 02:19:13 -0400
+X-MC-Unique: QZbzmMHEPd2FOCatsaJO9w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EAF99811E7A;
+ Wed, 13 Jul 2022 06:19:12 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C3B8492CA2;
+ Wed, 13 Jul 2022 06:19:12 +0000 (UTC)
+Date: Wed, 13 Jul 2022 07:19:11 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu block <qemu-block@nongnu.org>,
+ Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.de>
+Subject: Re: [RFC v4 1/9] block: add block layer APIs resembling Linux
+ ZonedBlockDevice ioctls.
+Message-ID: <Ys5j367C315MYk//@stefanha-x1.localdomain>
+References: <20220712021345.8530-1-faithilikerun@gmail.com>
+ <20220712021345.8530-2-faithilikerun@gmail.com>
+ <Ys2YF9iYeicGf8xr@stefanha-x1.localdomain>
+ <CAAAx-8+Hs6MJZ9Z_SDaqX+RKJ2UeSEtTAY7sy2Oit6PUc=muJg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-4-eperezma@redhat.com>
- <20220713014746-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220713014746-mutt-send-email-mst@kernel.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 13 Jul 2022 08:18:13 +0200
-Message-ID: <CAJaqyWdMnGw+j2-4A--YJ1XbpvYaVQERoKBYLfs3_XN2Bpzv_w@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 03/23] vdpa: delay set_vring_ready after DRIVER_OK
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Eric Blake <eblake@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- Cindy Lu <lulu@redhat.com>, Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mcJsfUAf7xDvVoHO"
+Content-Disposition: inline
+In-Reply-To: <CAAAx-8+Hs6MJZ9Z_SDaqX+RKJ2UeSEtTAY7sy2Oit6PUc=muJg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,119 +89,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 13, 2022 at 7:52 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Jul 06, 2022 at 08:39:48PM +0200, Eugenio P=C3=A9rez wrote:
-> > To restore the device in the destination of a live migration we send th=
-e
-> > commands through control virtqueue. For a device to read CVQ it must
-> > have received DRIVER_OK status bit.
-> >
-> > However this open a window where the device could start receiving
-> > packets in rx queue 0 before it receive the RSS configuration. To avoid
-> > that, we will not send vring_enable until all configuration is used by
-> > the device.
-> >
-> > As a first step, reverse the DRIVER_OK and SET_VRING_ENABLE steps.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
->
-> Not a comment on this patch specifically, but generally:
->
-> You should know that lots of existing drivers are buggy and
-> try to poke at the VQs before DRIVER_OK. We are doing our best
-> to fix them but it's taking forever. For now it's a good
-> idea to support such drivers even if they are out of spec.
 
-I think vhost-vdpa should not need to explicitly handle it, since it
-is started after DRIVER_OK. But I think it's a good idea to perform a
-fast test. I think those kicks will go to the device's ioeventfd and
-the specific virtqueue's handle_output callback.
+--mcJsfUAf7xDvVoHO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> You do that by starting on the first kick in absence of DRIVER_OK.
-> Further, adding buffers before DRIVER_OK is actually allowed,
-> as long as you don't kick.
->
-
-SVQ adds all the buffers after the guest's driver_ok and after set
-driver_ok to the device. What it does is to send CVQ buffers before
-enabling the data queues with VHOST_VDPA_SET_VRING_ENABLE. Only CVQ is
-enabled at this point, but DRIVER_OK has already been sent.
-
-Or am I missing something?
-
-Thanks!
-
->
-> > ---
-> >  hw/virtio/vhost-vdpa.c | 22 ++++++++++++++++------
-> >  1 file changed, 16 insertions(+), 6 deletions(-)
+On Wed, Jul 13, 2022 at 08:51:45AM +0800, Sam Li wrote:
+> Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B47=E6=9C=8812=
+=E6=97=A5=E5=91=A8=E4=BA=8C 23:49=E5=86=99=E9=81=93=EF=BC=9A
 > >
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 66f054a12c..2ee8009594 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -728,13 +728,18 @@ static int vhost_vdpa_get_vq_index(struct vhost_d=
-ev *dev, int idx)
-> >      return idx;
-> >  }
+> > On Tue, Jul 12, 2022 at 10:13:37AM +0800, Sam Li wrote:
+> > > diff --git a/block/file-posix.c b/block/file-posix.c
+> > > index 48cd096624..e7523ae2ed 100644
+> > > --- a/block/file-posix.c
+> > > +++ b/block/file-posix.c
+> > > @@ -67,6 +67,7 @@
+> > >  #include <sys/param.h>
+> > >  #include <sys/syscall.h>
+> > >  #include <sys/vfs.h>
+> > > +#include <linux/blkzoned.h>
+> > >  #include <linux/cdrom.h>
+> > >  #include <linux/fd.h>
+> > >  #include <linux/fs.h>
+> > > @@ -216,6 +217,13 @@ typedef struct RawPosixAIOData {
+> > >              PreallocMode prealloc;
+> > >              Error **errp;
+> > >          } truncate;
+> > > +        struct {
+> > > +            int64_t *nr_zones;
+> > > +            BlockZoneDescriptor *zones;
+> > > +        } zone_report;
+> > > +        struct {
+> > > +            zone_op op;
+> > > +        } zone_mgmt;
+> > >      };
+> > >  } RawPosixAIOData;
+> > >
+> > > @@ -1801,6 +1809,130 @@ static off_t copy_file_range(int in_fd, off_t=
+ *in_off, int out_fd,
+> > >  }
+> > >  #endif
+> > >
 > >
-> > +/**
-> > + * Set ready all vring of the device
-> > + *
-> > + * @dev: Vhost device
-> > + */
-> >  static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
-> >  {
-> >      int i;
-> >      trace_vhost_vdpa_set_vring_ready(dev);
-> > -    for (i =3D 0; i < dev->nvqs; ++i) {
-> > +    for (i =3D 0; i < dev->vq_index_end; ++i) {
-> >          struct vhost_vring_state state =3D {
-> > -            .index =3D dev->vq_index + i,
-> > +            .index =3D i,
-> >              .num =3D 1,
-> >          };
-> >          vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
-> > @@ -1097,7 +1102,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev =
-*dev, bool started)
-> >          if (unlikely(!ok)) {
-> >              return -1;
-> >          }
-> > -        vhost_vdpa_set_vring_ready(dev);
-> >      } else {
-> >          ok =3D vhost_vdpa_svqs_stop(dev);
-> >          if (unlikely(!ok)) {
-> > @@ -1111,16 +1115,22 @@ static int vhost_vdpa_dev_start(struct vhost_de=
-v *dev, bool started)
-> >      }
+> > Are the functions below within #ifdef __linux__?
+>=20
+> Maybe add them later?
+
+When using #ifdefs you usually need to apply them consistently to avoid
+compiler errors or warnings.
+
+For example:
+
+  static void foo(void) { ... }
+
+  #ifdef __linux__
+  static BlockDriver ... =3D {
+      .foo =3D foo,
+  };
+  #endif /* __linux__ */
+
+On non-Linux hosts the compiler only sees foo() but it's unused, so it a
+warning about an unused function will be displayed.
+
+And the other way around results in a compiler error:
+
+  #ifdef __linux__
+  static void foo(void) { ... }
+  #endif /* __linux__ */
+
+  static BlockDriver ... =3D {
+      .foo =3D foo,
+  };
+
+On non-Linux hosts the compiler doesn't see the definition of foo() that
+the BlockDriver struct requires and compilation fails with an error.
+
+There will be no errors on your machine if you avoid #ifdefs everywhere,
+but reviewers will be worried about it and Continuous Integration tests
+will fail to build on non-Linux hosts.
+
+I would put the #ifdefs in place from the start.
+
+> > > +static int coroutine_fn raw_co_zone_report(BlockDriverState *bs, int=
+64_t offset,
+> > > +                                           int64_t *nr_zones,
+> > > +                                           BlockZoneDescriptor *zone=
+s) {
+> > > +    BDRVRawState *s =3D bs->opaque;
+> > > +    RawPosixAIOData acb;
+> > > +
+> > > +    acb =3D (RawPosixAIOData) {
+> > > +        .bs         =3D bs,
+> > > +        .aio_fildes =3D s->fd,
+> > > +        .aio_type   =3D QEMU_AIO_IOCTL,
 > >
-> >      if (started) {
-> > +        int r;
-> > +
-> >          memory_listener_register(&v->listener, &address_space_memory);
-> > -        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-> > +        r =3D vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-> > +        if (unlikely(r)) {
-> > +            return r;
-> > +        }
-> > +        vhost_vdpa_set_vring_ready(dev);
-> >      } else {
-> >          vhost_vdpa_reset_device(dev);
-> >          vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> >                                     VIRTIO_CONFIG_S_DRIVER);
-> >          memory_listener_unregister(&v->listener);
-> > -
-> > -        return 0;
-> >      }
-> > +
-> > +    return 0;
-> >  }
-> >
-> >  static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t bas=
-e,
-> > --
-> > 2.31.1
->
+> > Please define QEMU_AIO_ZONE_REPORT, QEMU_AIO_ZONE_MGMT, etc values for
+> > these new operations instead of reusing QEMU_AIO_IOCTL, which is meant
+> > for generic passthrough ioctls.
+
+After looking again I think .aio_type isn't used in this code path. You
+can skip initializing this field if you want and no new enum constants
+are needed.
+
+Stefan
+
+--mcJsfUAf7xDvVoHO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLOY98ACgkQnKSrs4Gr
+c8js/wgAhWmyjgkpHHcC/55KsBjJ3Ca/Tueg3UCc+euODHFYoLO5K8O9OsGl0BSJ
+VlY64sK775Cme6gjQNj6jJ04e/HIrCmiEMMCs+H/a/RRE7A9anG2L6ZEw/CSjdRT
+ZmP7n0RGaKys/AUltyPbAo3frhDZ/8dzB9zqg9f2CKBNOTIVmGQkShfSY4UafZOL
+7zP9v9mjAkeJbHvxoyvFA2nri9/zOzmmkSOB/6eZlRwvtOoubrbUzCSVmM1YM/4K
+UAst2HZg73dcQCXzfqsqtExsBfLWbExLfKR8z9O2bDT0DJDQL4jeaqd/U/rDy8hu
+qdJ+2DyEPIRmFmyB0exJ5eWCDd49WQ==
+=qDWB
+-----END PGP SIGNATURE-----
+
+--mcJsfUAf7xDvVoHO--
 
 
