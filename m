@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FA7573AFD
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:17:32 +0200 (CEST)
-Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844A1573AE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:13:02 +0200 (CEST)
+Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBf3K-0002Gs-QN
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:17:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36006)
+	id 1oBeyz-0005i0-I0
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:13:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oBepD-0002fO-47
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:02:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24261)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oBep5-0003PS-OL
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:02:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657728167;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sZcJIXWUqPV0PV1ZM8E6mPZxLR+z5J+Xdv40q/sUFAA=;
- b=RB9QluVrL+Erm5jpxu/K0aizpecS/1bpp2lCao8mPI2jaEHYx4N1p2Ay0aC8tpFC1lX79a
- 7CkReoaXhW+DJh89aJ1fSv+75+ThfRwPp15xy1ijl5EuakVd9/+d0wkTzGG5BPeAXvtc7D
- kvgp6ytzldpkyY35ma4UK5a0VTKlxzc=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-586-nQZ0DspZPaO4eo5pTZ1YoQ-1; Wed, 13 Jul 2022 12:02:45 -0400
-X-MC-Unique: nQZ0DspZPaO4eo5pTZ1YoQ-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-10c4f6fd1b6so6147424fac.22
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 09:02:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oBep5-0002cd-1a
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:02:47 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:35459)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oBep3-0003On-2U
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:02:46 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id r186so3632876pgr.2
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 09:02:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=AtyoZplQzYXFZzNVvyapLzGVgaJnQdYMj3OwW5MWIQY=;
+ b=QkurS7vkt6tfyux9G898QxJXWJbZ/So24cipXtkh6qD8ratwqNv0irybGbBgwXe7mc
+ 9H3gY1hJTiXG+4gBqi4pjMz7+36FCPA6wt6OLnAcS8GG/scHtV64OFtEz2bhHcLinlQu
+ ZoCj0lfK+/UmDFxmc4aiZhhZb4kGNtc2KHdVvk0mgDjMGzax5mhXc3NFpyP3hr9OuPtk
+ Q7B+Ozojx/IBLcEhZbdcEG9KeejB93ITWMl94FOvcrNaOQuQkCFqKszBL0KbmjVZsMs3
+ kBZ9DhDfZZi6vJ53deIc1f0vMzLsplgnid7t0rdxMB2RJzsm5wqa5tGkJu69BxR78VZc
+ ac3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sZcJIXWUqPV0PV1ZM8E6mPZxLR+z5J+Xdv40q/sUFAA=;
- b=GRUks0DC3MXvgbxv8Q4XkoTpPaqwjm26kMelkfnvCed5qUvQKACBV7i1kgCmrYdSJh
- HgJR9iayJzx1i6GlYIlW8WbB4pRk3aDI2lgsqmVBVRDKME7BvXKrvr72gu/9qt1A4RXg
- WA1oQb+IW6TegvSq56MYFWMzKFWWaVEImx7mHhFFFrHyUet6+ACnmfRciS+eo5Nm9VVq
- T6P/OndgajC+uyP+nV24ZEBac3BprowaohoiKWZPeYnP7AfjvLUZ6RXO/0IR4nJtQm9Q
- ieA5urdf/ogPMyRefd/9tmzPy/O8qXngXlCVdvPp8Wcv6ovX3iXKFLa1JHxV9K8dFxuQ
- s2SA==
-X-Gm-Message-State: AJIora8YaZn5dBHGJ03Rb28Ny8nE2DsRUZnLXwc+LYEdziNpge/NCpbT
- wd1dJypHVG1jt42Uo9yifs15C5gJfHSNLsYu4cEc7swyET4Da5ZW0Y7lggiw5hyqW7AAxs6rjbR
- Cz6OLRWFcP/8O9yKeJkcA4Whr8u7Dvp0=
-X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
- ek39-20020a056870f62700b0010c9be95306mr5039505oab.205.1657728164995; 
- Wed, 13 Jul 2022 09:02:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uhTDOXNXtpy24ByLbF29c6Blvj3tfZ/u/e3K2MqD/fxoAVPDbsSPTrUpJUDT0of6S5ehXmJLsGCVCsn9MmJew=
-X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
- ek39-20020a056870f62700b0010c9be95306mr5039486oab.205.1657728164742; Wed, 13
- Jul 2022 09:02:44 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AtyoZplQzYXFZzNVvyapLzGVgaJnQdYMj3OwW5MWIQY=;
+ b=b0SOhjKp7rDhZrQ6yJHunH9amSddEyv1l/51g2+o0KneEZRw25ayrs2gCTlCl5jUC9
+ 0z7yh9efpmwrLIe0/4Y9RAG1MLmFPdm9yh793WEjtBtWRtnsOfymxgy8N5RRfsuyx0AJ
+ vfjhEpHTbPtDjrnD6kGe2GaEpXNDATK/H2OeMvFpWkVWD0PXVfEsjlhdD9hJytAngpJi
+ sYAxDPg9+Dgry+tosQVV3OPLEFI/odIdDaBG7Nf6hxigjBAKfwRC+iEuRdMMwQhJB50l
+ aB2O5ZVLH9TACJox1mcLaAEbKKwHZ1B2fBYcj7pwcqnLocKDh0LGAVPgzReGu5KyPoqs
+ MvCw==
+X-Gm-Message-State: AJIora9L0s44bxbPMY6PRsORWgp+L6ADK76MM+zex78l6cBGbwLT3EDy
+ z65D8fJsfLIJb9IkokURMcTckQ==
+X-Google-Smtp-Source: AGRyM1v6YBfMP5f3yZ9IhGN2k7VfgYMcXjOJA8Srwk26EXrAxY/W4HK+NdtiofFS3FT5dsOWzTnM9A==
+X-Received: by 2002:a63:6888:0:b0:3fe:49fc:3be3 with SMTP id
+ d130-20020a636888000000b003fe49fc3be3mr3365789pgc.182.1657728163400; 
+ Wed, 13 Jul 2022 09:02:43 -0700 (PDT)
+Received: from [192.168.138.227] ([202.124.167.115])
+ by smtp.gmail.com with ESMTPSA id
+ m12-20020a1709026bcc00b0016c1f05a8fasm9056252plt.182.2022.07.13.09.02.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jul 2022 09:02:42 -0700 (PDT)
+Message-ID: <0bc8a18b-6f34-4313-15b7-26ee2ca01994@linaro.org>
+Date: Wed, 13 Jul 2022 21:32:35 +0530
 MIME-Version: 1.0
-References: <20220713130322.25517-1-frankja@linux.ibm.com>
- <20220713130322.25517-7-frankja@linux.ibm.com>
-In-Reply-To: <20220713130322.25517-7-frankja@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 13 Jul 2022 20:02:34 +0400
-Message-ID: <CAMxuvax9qSs96hq=RGCR2wxdJ7-Nj2nd748pbSj3fq3KTZA4Kw@mail.gmail.com>
-Subject: Re: [PATCH v2 06/11] dump/dump: Add arch section support
-To: Janosch Frank <frankja@linux.ibm.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
- mhartmay@linux.ibm.com, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, imbrenda@linux.ibm.com, 
- Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, "Henderson,
- Richard" <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/5] target/loongarch/cpu: Fix cpu_class_by_name function
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
+ mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
+ peter.maydell@linaro.org
+References: <20220713095036.705102-1-yangxiaojuan@loongson.cn>
+ <20220713095036.705102-2-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220713095036.705102-2-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,143 +95,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank <frankja@linux.ibm.com> wrote:
->
-> Add hooks which architectures can use to add arbitrary data to custom
-> sections.
->
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+On 7/13/22 15:20, Xiaojuan Yang wrote:
+> In loongarch_cpu_class_by_name(char *cpu_model) function,
+> the argument cpu_model already has the suffix '-loongarch-cpu',
+> so we should remove the LOONGARCH_CPU_TYPE_NAME(cpu_model) macro.
+> And add the assertion that 'cpu_model' resolves to a class of the
+> appropriate type.
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 > ---
->  dump/dump.c                | 21 ++++++++++++++++++---
->  include/sysemu/dump-arch.h | 27 +++++++++++++++++++++++++++
->  2 files changed, 45 insertions(+), 3 deletions(-)
->
-> diff --git a/dump/dump.c b/dump/dump.c
-> index 31e2a85372..02de00b6de 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -400,6 +400,7 @@ static void prepare_elf_section_hdrs(DumpState *s)
->      /*
->       * Section ordering:
->       * - HDR zero (if needed)
-> +     * - Arch section hdrs
->       * - String table hdr
->       */
->      sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
-> @@ -417,6 +418,9 @@ static void prepare_elf_section_hdrs(DumpState *s)
->          return;
->      }
->
-> +    size = dump_arch_sections_write_hdr(&s->dump_info, s, buff_hdr);
-> +    buff_hdr += size;
-> +
->      /*
->       * String table needs to be last section since strings are added
->       * via arch_sections_write_hdr().
-> @@ -567,14 +571,23 @@ static void get_offset_range(hwaddr phys_addr,
->      }
->  }
->
-> -static void write_elf_loads(DumpState *s, Error **errp)
-> +static void write_elf_phdr_loads(DumpState *s, Error **errp)
->  {
->      ERRP_GUARD();
->      hwaddr offset, filesz;
->      MemoryMapping *memory_mapping;
->      uint32_t phdr_index = 1;
-> +    hwaddr min = 0, max = 0;
->
->      QTAILQ_FOREACH(memory_mapping, &s->list.head, next) {
-> +        if (memory_mapping->phys_addr < min) {
-> +            min = memory_mapping->phys_addr;
-> +        }
-> +        if (memory_mapping->phys_addr + memory_mapping->length > max) {
-> +            max = memory_mapping->phys_addr + memory_mapping->length;
-> +        }
-> +
-> +
+>   target/loongarch/cpu.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
 
-Extra line & this belongs to a different patch.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
->          get_offset_range(memory_mapping->phys_addr,
->                           memory_mapping->length,
->                           s, &offset, &filesz);
-> @@ -682,8 +695,8 @@ static void dump_begin(DumpState *s, Error **errp)
->          return;
->      }
->
-> -    /* write all PT_LOAD to vmcore */
-> -    write_elf_loads(s, errp);
-> +    /* write all PT_LOADs to vmcore */
-> +    write_elf_phdr_loads(s, errp);
->      if (*errp) {
->          return;
->      }
-> @@ -723,6 +736,7 @@ static void dump_end(DumpState *s, Error **errp)
->          return;
->      }
->      s->elf_section_data = g_malloc0(s->elf_section_data_size);
-> +    dump_arch_sections_write(&s->dump_info, s, s->elf_section_data);
->
->      /* write sections to vmcore */
->      write_elf_sections(s, errp);
-> @@ -1894,6 +1908,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
->       * If phdr_num overflowed we have at least one section header
->       * More sections/hdrs can be added by the architectures
->       */
-> +    dump_arch_sections_add(&s->dump_info, (void *)s);
->      if (s->shdr_num > 1) {
->          /* Reserve the string table */
->          s->shdr_num += 1;
-> diff --git a/include/sysemu/dump-arch.h b/include/sysemu/dump-arch.h
-> index e25b02e990..de77908424 100644
-> --- a/include/sysemu/dump-arch.h
-> +++ b/include/sysemu/dump-arch.h
-> @@ -21,6 +21,9 @@ typedef struct ArchDumpInfo {
->      uint32_t page_size;      /* The target's page size. If it's variable and
->                                * unknown, then this should be the maximum. */
->      uint64_t phys_base;      /* The target's physmem base. */
-> +    void (*arch_sections_add_fn)(void *opaque);
-> +    uint64_t (*arch_sections_write_hdr_fn)(void *opaque, uint8_t *buff);
-> +    void (*arch_sections_write_fn)(void *opaque, uint8_t *buff);
->  } ArchDumpInfo;
->
->  struct GuestPhysBlockList; /* memory_mapping.h */
-> @@ -28,4 +31,28 @@ int cpu_get_dump_info(ArchDumpInfo *info,
->                        const struct GuestPhysBlockList *guest_phys_blocks);
->  ssize_t cpu_get_note_size(int class, int machine, int nr_cpus);
->
-> +static inline void dump_arch_sections_add(ArchDumpInfo *info, void *opaque)
-> +{
-> +    if (info->arch_sections_add_fn) {
-> +        info->arch_sections_add_fn(opaque);
+r~
+> 
+> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+> index e21715592a..ed26f9beed 100644
+> --- a/target/loongarch/cpu.c
+> +++ b/target/loongarch/cpu.c
+> @@ -571,11 +571,12 @@ static void loongarch_cpu_init(Object *obj)
+>   static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
+>   {
+>       ObjectClass *oc;
+> -    char *typename;
+>   
+> -    typename = g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"), cpu_model);
+> -    oc = object_class_by_name(typename);
+> -    g_free(typename);
+> +    oc = object_class_by_name(cpu_model);
+> +    if (!oc || !object_class_dynamic_cast(oc, TYPE_LOONGARCH_CPU) ||
+> +        object_class_is_abstract(oc)) {
+> +        return NULL;
 > +    }
-> +}
-> +
-> +static inline uint64_t dump_arch_sections_write_hdr(ArchDumpInfo *info,
-> +                                                void *opaque, uint8_t *buff)
-> +{
-> +    if (info->arch_sections_write_hdr_fn) {
-> +        return info->arch_sections_write_hdr_fn(opaque, buff);
-> +    }
-> +    return 0;
-> +}
-> +
-> +static inline void dump_arch_sections_write(ArchDumpInfo *info, void *opaque,
-> +                                            uint8_t *buff)
-> +{
-> +    if (info->arch_sections_write_fn) {
-> +        info->arch_sections_write_fn(opaque, buff);
-> +    }
-> +}
-> +
->  #endif
-> --
-> 2.34.1
->
-
-otherwise, seems ok to me
+>       return oc;
+>   }
+>   
 
 
