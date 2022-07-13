@@ -2,89 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2C2573A81
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 17:49:18 +0200 (CEST)
-Received: from localhost ([::1]:56390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5A9573A98
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 17:53:00 +0200 (CEST)
+Received: from localhost ([::1]:58724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBec1-0003Nn-RI
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 11:49:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60290)
+	id 1oBefb-00056M-FP
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 11:52:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oBeZX-0001L5-Lk
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:46:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41089)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1oBee1-0003h2-EL
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:51:21 -0400
+Received: from esa12.hc2706-39.iphmx.com ([216.71.137.82]:34943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oBeZL-0005HJ-Ho
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:46:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657727190;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pQND7eI4ykdGnNHkBKjBzIqwG1h476qM+3MM9fBYbgs=;
- b=DqUyg/NZKx3fMhmvCFvbIYlEYpiarbLswsc7mHlWRREecym6PwpZFlABGLEafI39FODriK
- mboWil6qYc9jFGj7Gc+9f7PRnPkL5ASdGSMXU/Kdxwh9PhBXN8v1vsf9t3omcoiDUQI3aC
- Vqj5n30WQYHf4FzUAKWPt5V6yXprUd8=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-lMtrPCCvMnaIuZ92Mija1A-1; Wed, 13 Jul 2022 11:46:29 -0400
-X-MC-Unique: lMtrPCCvMnaIuZ92Mija1A-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-f15a7ca913so6003046fac.8
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 08:46:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1oBedy-0006Hm-Lk
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:51:20 -0400
+X-IronPort-RemoteIP: 209.85.166.70
+X-IronPort-MID: 210948773
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:byAC0aAK7GczNhVW/6Lhw5YqxClBgxIJ4kV8jS/XYbTApDhw0zdRy
+ jYdDWCAaPuPMWL9KNsnboSy801Vu5WDmNRqTANkpHpgcSl2pJueD7x1DKtR0wB+jCHnZBg6h
+ ynLQoCYdKjYdleF+lH1dOKJQUBUjclkfJKlYAL/En03FFYMpBsJ00o5wbZk2NAw2LBVPivW0
+ T/Mi5yHULOa82MsWo4kw/rrRMRH5amaVJsw5zTSVNgS1LPsvyB94KE3fMldG0DFrrx8RYZWc
+ QpiIIaRpQs19z91Yj+sfy2SnkciG9Y+NiDX4pZatjTLbrGvaUXe345iXMfwZ3u7hB2Vlf1Q9
+ fkQnqCoEzluMauLlNk3fUhhRnQW0a1uoNcrIFC6uM2XikzBKj7inK0oA0YxMokVvO1wBAmi9
+ 9RCcGFLPk3F3rzohu3jIgVvrp1LwM3DNYcPvH165TvES/sqXPgvRo2QvIcJgGdv2Zsm8fD2Z
+ NUcVAd1QAT8cRhLP0cbUZAjssGxiSyqG9FfgBfPzUYt2EDKwQlslbTgLtfRUtqNQ8pTgwCfv
+ G2uwojiKhQTNdjayD3ct3zz3qnAmiT0XI9UH7q9nhJ3vGCuKqUoIEV+fTOGTTOR0CZSh/o3x
+ 5QoxxcT
+IronPort-HdrOrdr: A9a23:nF/s6aNBGJh3IsBcThKjsMiBIKoaSvp037BN7TESdfU1SL36qy
+ nAppomPCHP+UossR0b8+xp1sG7MAvhHbAc2/hqAV6JZniBhIOQRLsSlrcLKVXbalDDH5dmpN
+ 5dmstFaOEYb2IasS+g2njeLz9I+rDum5xA492w855Dd3AUV0gK1WpE42igfnGfhWF9dP8E/B
+ X13Lsimwad
+Received: from mail-io1-f70.google.com ([209.85.166.70])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 13 Jul 2022 11:51:15 -0400
+Received: by mail-io1-f70.google.com with SMTP id
+ i16-20020a5d9350000000b0067bce490d06so37566ioo.14
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 08:51:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=1GOQ5nyP5HY9Owk1I2rAuOdHMa3NtVmRtFzuDQgfqng=;
+ b=PIcjQZWjs69D45HRMvARKMrzNrdumu7WBLqE+KuIsRX16GjNXZvYeFlEagi+re9DBF
+ CA8NJjtDVLBJtz9D1YlnbYI7N29gNRgZmZUuAPsWb9ns/uUOCQBPF2OJeAVHkSRZlyPC
+ oRzcUpjrSAU3iwG2227AMAdpX+deCYnG1ZCdQAXr3rdRkIUkrO9WWkzJOmWTeRTQ8ABi
+ UmQcmKi26h1WFXFKUGXJ8lLbpZzxaAi/OHrMtlZjEtGnyQHpsD/a/VWy6S2sciuNczmN
+ Eg7dT/ZUm2k++ouMSSlT4H5wubrb04QUSzzYa+Ucjk9eW7L9lqU2m8zobB/7wq17R+TK
+ 8aNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pQND7eI4ykdGnNHkBKjBzIqwG1h476qM+3MM9fBYbgs=;
- b=bm3bTgLqrd8FcUCvITivKG62KdgmEDspIoSV/QZUuAmyzYCy8ck2tdLd9zGym0gSmK
- SuDX5pHQDW61AAxRxRUde6bXl8M6l6/KG86xSzdKE8u50n+h4U6k0VeQG1PqkQe3Wd+O
- cSxy6CDOMOxJaZ8QC9lwWDRjYS9GowMH8BO5vx8Q59uxk3ClhbG/GObO+BEtnf39gSk1
- RBFmtfCYeLKxcbSKWIb6qfAjbNED+RaPfhsGxBDOqIkyzv5C1LVUag3rLFIdapEJ4HbN
- amNTD5+PPWiNOGOeGBcJpdTp5GzC+BzwlJlIcqgq2jM1nBEZnavr611H0tjbrFM258S7
- WmIw==
-X-Gm-Message-State: AJIora+lTvcY5BBn7fmbJNEHQT1YaMkoYv/fn+i30Y2ps0AH4F0U85Ff
- BKZKtTl1VQKGqmk5J1e7/q5w7UZX5StezlJRfReqPs55mBpanU1wZdjLHAdWCULZFUuL7qonHO3
- GoINa1piKn+vTXUUHxQbsvGQDu10JvwQ=
-X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
- ek39-20020a056870f62700b0010c9be95306mr4996541oab.205.1657727188702; 
- Wed, 13 Jul 2022 08:46:28 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vnC+1MqKzWXZOQ7iD0z6G8m+7KevKd2O6YAah/tzG7xnEUJtkESDCQb6yODHjDdSfjHmtwkePyoHPkFi4JFRw=
-X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
- ek39-20020a056870f62700b0010c9be95306mr4996529oab.205.1657727188509; Wed, 13
- Jul 2022 08:46:28 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1GOQ5nyP5HY9Owk1I2rAuOdHMa3NtVmRtFzuDQgfqng=;
+ b=a2jdWVzs9ecNXUx+knFyBYWelqKN/e+grMl406h9QmSTnd5TkLYPimI+0aQwqwSnoj
+ F036psAUrwP83HuUTXRJ60brldGzZkpacAAXmtLZJ6E+Cxy+gjsMizcsVB5sMrMptSf7
+ +rNP42cUKXwPFb9jJYKFIz6OA31VY1qeX9ZnJOAGDn/5yY6NUXzQcCugALs2qin8djdY
+ 0u42hCGc3e6KBs1nsZA9YAB8T5NxkX483CfheBJpmaEMM/JmiiOXppp+6dic1lYesYZ/
+ 3k2gL2lvkSTemP18zDhfsuJ2j0LKwGXtMqDPxGeISDsy3VfypGMI3TZhIub7RSBPP57r
+ AQkQ==
+X-Gm-Message-State: AJIora99yDm9s5zoJmDSxKDDlFhCis5/iK6k6Jo00YaOA9rHofmnio3c
+ dLAioskYe3DmpDlXyaVgzuo7vQzjsAEaS9Djp9KmUH65bwVq9S5t4DGaT3kd7A4dSt4LhoYenrt
+ xqFqFuVm8duS86yKbPnlveN3Ic9D74A==
+X-Received: by 2002:a05:6602:29a2:b0:67b:99b9:3aa4 with SMTP id
+ u2-20020a05660229a200b0067b99b93aa4mr2147422ios.167.1657727474306; 
+ Wed, 13 Jul 2022 08:51:14 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tuYZA+a737pHuAf3T7Cbkqhcmk3u4O/0+aTLOobHPzUiZOiAOJAGuAaMoGrXRxg+mD05T/nw==
+X-Received: by 2002:a05:6602:29a2:b0:67b:99b9:3aa4 with SMTP id
+ u2-20020a05660229a200b0067b99b93aa4mr2147406ios.167.1657727474057; 
+ Wed, 13 Jul 2022 08:51:14 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ y5-20020a92c745000000b002dc10fd4b88sm4898518ilp.29.2022.07.13.08.51.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jul 2022 08:51:13 -0700 (PDT)
+Date: Wed, 13 Jul 2022 11:51:08 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH v2] memory: prevent dma-reentracy issues
+Message-ID: <20220713155108.5kgycuvnqdnywjyf@mozz.bu.edu>
+References: <20220609135851.42193-1-alxndr@bu.edu>
+ <CAFEAcA-QOqGWzeeQLLK2pH0WwABzXP2ZjFKxLY7d62bWhGRWxw@mail.gmail.com>
+ <20220621155306.2mvr22dd5xuc6pqm@mozz.bu.edu>
+ <Ys1AOOWLZRBxYNbC@stefanha-x1.localdomain>
 MIME-Version: 1.0
-References: <20220713130322.25517-1-frankja@linux.ibm.com>
- <20220713130322.25517-5-frankja@linux.ibm.com>
-In-Reply-To: <20220713130322.25517-5-frankja@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 13 Jul 2022 19:46:17 +0400
-Message-ID: <CAMxuvawFxNv9pdeaLuTVb1fg5qx_VmSy+zjYxJXKJKCBPh3-BA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/11] dump: Reorder struct DumpState
-To: Janosch Frank <frankja@linux.ibm.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
- mhartmay@linux.ibm.com, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, imbrenda@linux.ibm.com, 
- Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, "Henderson,
- Richard" <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ys1AOOWLZRBxYNbC@stefanha-x1.localdomain>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.137.82; envelope-from=alxndr@bu.edu;
+ helo=esa12.hc2706-39.iphmx.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,61 +131,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank <frankja@linux.ibm.com> wrote=
-:
->
-> Let's move ELF related members into one block and guest memory related
-> ones into another to improve readability.
->
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 220712 1034, Stefan Hajnoczi wrote:
+> On Tue, Jun 21, 2022 at 11:53:06AM -0400, Alexander Bulekov wrote:
+> > On 220621 1630, Peter Maydell wrote:
+> > > On Thu, 9 Jun 2022 at 14:59, Alexander Bulekov <alxndr@bu.edu> wrote:
+> > > > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> > > > index 44dacfa224..ab1ad0f7a8 100644
+> > > > --- a/include/hw/pci/pci.h
+> > > > +++ b/include/hw/pci/pci.h
+> > > > @@ -834,8 +834,17 @@ static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+> > > >                                       void *buf, dma_addr_t len,
+> > > >                                       DMADirection dir, MemTxAttrs attrs)
+> > > >  {
+> > > > -    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+> > > > -                         dir, attrs);
+> > > > +    bool prior_engaged_state;
+> > > > +    MemTxResult result;
+> > > > +
+> > > > +    prior_engaged_state = dev->qdev.engaged_in_io;
+> > > > +
+> > > > +    dev->qdev.engaged_in_io = true;
+> > > > +    result = dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+> > > > +                           dir, attrs);
+> > > > +    dev->qdev.engaged_in_io = prior_engaged_state;
+> > > > +
+> > > > +    return result;
+> > > 
+> > > Why do we need to do something in this pci-specific function ?
+> > > I was expecting this to only need changes at the generic-to-all-devices
+> > > level.
+> > 
+> > Both of these handle the BH->DMA->MMIO case. Unlike MMIO, I don't think
+> > there is any neat way to set the engaged_in_io flag as we enter a BH. So
+> > instead, we try to set it when a device initiates DMA.
+> > 
+> > The pci function lets us do that since we get a glimpse of the dev/qdev
+> > (unlike the dma_memory_...  functions).
+> ...
+> > > > @@ -302,6 +310,10 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
+> > > >          xresidual -= xfer;
+> > > >      }
+> > > >
+> > > > +    if (dev) {
+> > > > +        dev->engaged_in_io = prior_engaged_state;
+> > > > +    }
+> > > 
+> > > Not all DMA goes through dma_buf_rw() -- why does it need changes?
+> > 
+> > This one has the same goal, but accesses the qdev through sg, instead of
+> > PCI.
+> 
+> Should dma_*() APIs take a reentrancy guard argument so that all DMA
+> accesses are systematically covered?
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+That seems like it would be the best option, though it carries the cost
+of needing to tweak a lot of code in hw/. Maybe some refactoring tool
+could help with this.
+-Alex
 
-> ---
->  include/sysemu/dump.h | 17 ++++++++++-------
->  1 file changed, 10 insertions(+), 7 deletions(-)
->
-> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-> index bd49532232..8379e29ef6 100644
-> --- a/include/sysemu/dump.h
-> +++ b/include/sysemu/dump.h
-> @@ -154,15 +154,8 @@ typedef struct DumpState {
->      GuestPhysBlockList guest_phys_blocks;
->      ArchDumpInfo dump_info;
->      MemoryMappingList list;
-> -    uint32_t phdr_num;
-> -    uint32_t shdr_num;
->      bool resume;
->      bool detached;
-> -    ssize_t note_size;
-> -    hwaddr shdr_offset;
-> -    hwaddr phdr_offset;
-> -    hwaddr section_offset;
-> -    hwaddr note_offset;
->      hwaddr memory_offset;
->      int fd;
->
-> @@ -171,6 +164,16 @@ typedef struct DumpState {
->      int64_t begin;             /* Start address of the chunk we want to =
-dump */
->      int64_t length;            /* Length of the dump we want to dump */
->
-> +    /* Elf dump related data */
-> +    uint32_t phdr_num;
-> +    uint32_t shdr_num;
-> +    uint32_t sh_info;
-> +    ssize_t note_size;
-> +    hwaddr shdr_offset;
-> +    hwaddr phdr_offset;
-> +    hwaddr note_offset;
-> +    hwaddr section_offset;
-> +
->      void *elf_header;
->      void *elf_section_hdrs;
->      uint64_t elf_section_data_size;
-> --
-> 2.34.1
->
+> 
+>   /* Define this in the memory API */
+>   typedef struct {
+>       bool engaged_in_io;
+>   } MemReentrancyGuard;
+> 
+>   /* Embed MemReentrancyGuard in DeviceState */
+>   ...
+> 
+>   /* Require it in dma_*() APIs */
+>   static inline MemTxResult dma_memory_rw(AddressSpace *as, dma_addr_t addr,
+>                                           void *buf, dma_addr_t len,
+>                                           DMADirection dir, MemTxAttrs attrs,
+> 					  MemReentrancyGuard *guard);
+> 
+>   /* Call dma_*() APIs like this... */
+>   static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+>                                        void *buf, dma_addr_t len,
+>                                        DMADirection dir, MemTxAttrs attrs)
+>   {
+>       return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+>                            dir, attrs, &dev->qdev.reentrancy_guard);
+>   }
+> 
+> Stefan
+
 
 
