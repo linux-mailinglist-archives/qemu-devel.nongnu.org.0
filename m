@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999895739C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 17:11:32 +0200 (CEST)
-Received: from localhost ([::1]:33462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C91A573A01
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 17:23:09 +0200 (CEST)
+Received: from localhost ([::1]:39776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBe1R-0002Vf-JP
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 11:11:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51408)
+	id 1oBeCh-0007le-OZ
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 11:23:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oBdzv-0000Uh-KO
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:09:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32224)
+ id 1oBeAb-0005gh-Rl
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:20:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oBdzs-0001Xd-9L
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:09:55 -0400
+ id 1oBeAX-0003tH-I5
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:20:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657724988;
+ s=mimecast20190719; t=1657725652;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hjb3qMm9w9lVxKGAjQCUSj7C4daU45mKW67/15uMyOc=;
- b=O/wguW/s8umv4XqgctMB4uAeOtj/KHNFGuAuDF5mPpNdcZyfjA+zXZPbG7FcA/Z9jCb2vh
- xDVw9wQJdmobPGGV5JMVz/E0OYypyuShE9Lec6vC2rRNxELBtrKb1xsq2ofqJVo+gBH+5o
- 4Y2On1dC04/PN3O3553k4pBh7JsgvZ8=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rl4cFWOxh+K5NMS9nkBH5pKk6Hj3126l5v5agZZA9s4=;
+ b=Ro6u5hhptY9XwO2+Z6Z4vK7BfT6w1Ju8aXDMfwtw6oFa5h3kcwtzDDvcHyEwvdnmyPT5bU
+ PSzNt0gerOFluesSKhV/A7EYo6CSyb0XGsZtetQ25ItXHngYM2QWcCLsGryg5Dn4K+uuy6
+ Ry/Xx+NbzgnaFYr4/mkK2X9GWZJDJi0=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-64-KNVysqvDN-6krJvV6vIlaw-1; Wed, 13 Jul 2022 11:09:47 -0400
-X-MC-Unique: KNVysqvDN-6krJvV6vIlaw-1
-Received: by mail-ot1-f72.google.com with SMTP id
- by5-20020a056830608500b00616c152aefbso4573192otb.6
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 08:09:47 -0700 (PDT)
+ us-mta-294-lSYEwrL3Njmrc9kdyD6Qkg-1; Wed, 13 Jul 2022 11:20:51 -0400
+X-MC-Unique: lSYEwrL3Njmrc9kdyD6Qkg-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ ay32-20020a056808302000b002f96abff093so7148079oib.23
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 08:20:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Hjb3qMm9w9lVxKGAjQCUSj7C4daU45mKW67/15uMyOc=;
- b=VLNndiFSxKSkr8BAqSvze0Pdi41XwU6RPbhF0/h2rfMGDqPTL2LLYSHsw8BWNLDT+o
- 0p1eVcSgNvrBtyYIHbF0SeQkMskrf45xcrzpTu+mwzi75EJaAgHLfX/WWRwFBtubPkxq
- W+mSa8oU8XWxsz4FhOXNuK6tNDo1zGccvEhnCPrQXydwZevoZQ+URRhk2vepCa3t/ETk
- MsooKg/yEZIV7kJwMYyEGkg4YlDrivsgzlfZkEKtezUoAzuIFfNcADM6Kk3oC5l/kdgh
- St/ES+iUa+K51tIne0apMH+leHX294dc6Y6xtOnMgLaR1JkS/CY/eqqrhYBAvRby8Mfa
- xeRw==
-X-Gm-Message-State: AJIora+OKcI1vEthjZDt8iu8oH7PaJHsMDFwyQiNyvHPI8+268L6eYyk
- qx2edKPjVwrkZ2RVUdbNP13Xk79UcYOd1En0gPatfHny7Ud80Ib778DDCQu/1Y8Uh/vEUtZuDoo
- P5JEVe0uMT7nuQb0rrShzU4idSTBHCNM=
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rl4cFWOxh+K5NMS9nkBH5pKk6Hj3126l5v5agZZA9s4=;
+ b=vWk3jnCUAqviM0eMs06RBTrPKx7KcesGOSz6Za0+3BttfNKLzaeArIPCY5xN5mgqS5
+ CCvdtqwHSOHu+UxGbiFsoKpZjeusrGxxHQsB0DbdemL/E3p9uer32E0HF3iIPMSAh/jM
+ Dctk8S7tI+A2jUR7WC/fvaceyDF4SRVMawZMhTW8Ij1E8bxw2uxPuoghjq2f7tBOr3ES
+ 2JcIty4l3pQT1gL349nvRwTLgXsgoocW7R/v/xkzBsutXTMbRRn2mdNTku9TG5HQyYBx
+ tcZ+eQOpzBk3fkqX/obl7cz8AmoOicsqwoeJM8qZzlv2zLVoRx9SQkrSFpFy31tNXcJv
+ uWog==
+X-Gm-Message-State: AJIora+vOcszLJTuSka1FZaFthjNoES/CAu36kOJ3D3UfD15AGJjL7Ur
+ wkb0QS+74djFG9w7EB4oG5PvR/UxsK6/g1fjQ1zaTFXF0f+HJH/yX3vrhQhaDdMqj7xYn+lYp3s
+ LidcqVxQY9V2oyQ05jJvPuOQlK3pveXU=
 X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
- ek39-20020a056870f62700b0010c9be95306mr4898086oab.205.1657724986627; 
- Wed, 13 Jul 2022 08:09:46 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uUIxezqF2b9DGoPlWSa5yU10L5nt1c6mbbfsb7dGK7G/9xQXLMgM9Smib8BD3HC/7Q391oXivV8MCMkNrGHa4=
+ ek39-20020a056870f62700b0010c9be95306mr4928883oab.205.1657725650612; 
+ Wed, 13 Jul 2022 08:20:50 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uIV4mFinRF+T/WM8k5FsE+SPvM8o/q0/S1NGybimF00UPuCV3p7yha9NiKflouj5LOAZxlmEhMQwEtLNq3u+Q=
 X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
- ek39-20020a056870f62700b0010c9be95306mr4898066oab.205.1657724986330; Wed, 13
- Jul 2022 08:09:46 -0700 (PDT)
+ ek39-20020a056870f62700b0010c9be95306mr4928866oab.205.1657725650378; Wed, 13
+ Jul 2022 08:20:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220713130322.25517-1-frankja@linux.ibm.com>
- <20220713130322.25517-2-frankja@linux.ibm.com>
-In-Reply-To: <20220713130322.25517-2-frankja@linux.ibm.com>
+ <20220713130322.25517-3-frankja@linux.ibm.com>
+In-Reply-To: <20220713130322.25517-3-frankja@linux.ibm.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 13 Jul 2022 19:09:35 +0400
-Message-ID: <CAMxuvaz=erLFMasq1CK_Y1Ku+dU0ZMR3EPF8ehDnPjQ94R9Rfw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/11] dump: Cleanup memblock usage
+Date: Wed, 13 Jul 2022 19:20:39 +0400
+Message-ID: <CAMxuvayqmUsPc5yn3tbB2ParJSJGyP1s-jCFy41jA=EZqwYwwg@mail.gmail.com>
+Subject: Re: [PATCH v2 02/11] dump: Allocate header
 To: Janosch Frank <frankja@linux.ibm.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
  mhartmay@linux.ibm.com, 
@@ -74,6 +75,7 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
  "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, "Henderson,
  Richard" <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -82,7 +84,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,258 +100,224 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank <frankja@linux.ibm.com> wrote:
+On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank <frankja@linux.ibm.com> wrote=
+:
 >
-> The iteration over the memblocks is hard to understand so it's about
-> time to clean it up.
->
-> struct DumpState's next_block and start members can and should be
-> local variables within the iterator.
->
-> Instead of manually grabbing the next memblock we can use
-> QTAILQ_FOREACH to iterate over all memblocks.
->
-> The begin and length fields in the DumpState have been left untouched
-> since the qmp arguments share their names.
+> Allocating the header lets us write it at a later time and hence also
+> allows us to change section and segment table offsets until we
+> finally write it.
 >
 > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 
-After this patch:
-./qemu-system-x86_64 -monitor stdio -S
-(qemu) dump-guest-memory foo
-Error: dump: failed to save memory: Bad address
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
 > ---
->  dump/dump.c           | 91 +++++++++++--------------------------------
->  include/sysemu/dump.h | 47 +++++++++++++++++++---
->  2 files changed, 65 insertions(+), 73 deletions(-)
+>  dump/dump.c           | 127 +++++++++++++++++++++---------------------
+>  include/sysemu/dump.h |   1 +
+>  2 files changed, 64 insertions(+), 64 deletions(-)
 >
 > diff --git a/dump/dump.c b/dump/dump.c
-> index 4d9658ffa2..6feba3cbfa 100644
+> index 6feba3cbfa..16d7474258 100644
 > --- a/dump/dump.c
 > +++ b/dump/dump.c
-> @@ -591,56 +591,27 @@ static void dump_begin(DumpState *s, Error **errp)
->      write_elf_notes(s, errp);
+> @@ -98,6 +98,7 @@ static int dump_cleanup(DumpState *s)
+>      memory_mapping_list_free(&s->list);
+>      close(s->fd);
+>      g_free(s->guest_note);
+> +    g_free(s->elf_header);
+>      s->guest_note =3D NULL;
+>      if (s->resume) {
+>          if (s->detached) {
+> @@ -126,73 +127,49 @@ static int fd_write_vmcore(const void *buf, size_t =
+size, void *opaque)
+>      return 0;
 >  }
 >
-> -static int get_next_block(DumpState *s, GuestPhysBlock *block)
-> -{
-> -    while (1) {
-> -        block = QTAILQ_NEXT(block, next);
-> -        if (!block) {
-> -            /* no more block */
-> -            return 1;
-> -        }
-> -
-> -        s->start = 0;
-> -        s->next_block = block;
-> -        if (s->has_filter) {
-> -            if (block->target_start >= s->begin + s->length ||
-> -                block->target_end <= s->begin) {
-> -                /* This block is out of the range */
-> -                continue;
-> -            }
-> -
-> -            if (s->begin > block->target_start) {
-> -                s->start = s->begin - block->target_start;
-> -            }
-> -        }
-> -
-> -        return 0;
-> -    }
-> -}
-> -
->  /* write all memory to vmcore */
->  static void dump_iterate(DumpState *s, Error **errp)
+> -static void write_elf64_header(DumpState *s, Error **errp)
+> +static void prepare_elf64_header(DumpState *s)
 >  {
->      ERRP_GUARD();
->      GuestPhysBlock *block;
-> -    int64_t size;
-> +    int64_t memblock_size, memblock_start;
+> -    /*
+> -     * phnum in the elf header is 16 bit, if we have more segments we
+> -     * set phnum to PN_XNUM and write the real number of segments to a
+> -     * special section.
+> -     */
+> -    uint16_t phnum =3D MIN(s->phdr_num, PN_XNUM);
+> -    Elf64_Ehdr elf_header;
+> -    int ret;
+> +    uint16_t phnum =3D s->phdr_num >=3D PN_XNUM ? PN_XNUM : s->phdr_num;
+> +    Elf64_Ehdr *elf_header =3D s->elf_header;
 >
-> -    do {
-> -        block = s->next_block;
+> -    memset(&elf_header, 0, sizeof(Elf64_Ehdr));
+> -    memcpy(&elf_header, ELFMAG, SELFMAG);
+> -    elf_header.e_ident[EI_CLASS] =3D ELFCLASS64;
+> -    elf_header.e_ident[EI_DATA] =3D s->dump_info.d_endian;
+> -    elf_header.e_ident[EI_VERSION] =3D EV_CURRENT;
+> -    elf_header.e_type =3D cpu_to_dump16(s, ET_CORE);
+> -    elf_header.e_machine =3D cpu_to_dump16(s, s->dump_info.d_machine);
+> -    elf_header.e_version =3D cpu_to_dump32(s, EV_CURRENT);
+> -    elf_header.e_ehsize =3D cpu_to_dump16(s, sizeof(elf_header));
+> -    elf_header.e_phoff =3D cpu_to_dump64(s, s->phdr_offset);
+> -    elf_header.e_phentsize =3D cpu_to_dump16(s, sizeof(Elf64_Phdr));
+> -    elf_header.e_phnum =3D cpu_to_dump16(s, phnum);
+> +    memcpy(elf_header, ELFMAG, SELFMAG);
+> +    elf_header->e_ident[EI_CLASS] =3D ELFCLASS64;
+> +    elf_header->e_ident[EI_DATA] =3D s->dump_info.d_endian;
+> +    elf_header->e_ident[EI_VERSION] =3D EV_CURRENT;
+> +    elf_header->e_type =3D cpu_to_dump16(s, ET_CORE);
+> +    elf_header->e_machine =3D cpu_to_dump16(s, s->dump_info.d_machine);
+> +    elf_header->e_version =3D cpu_to_dump32(s, EV_CURRENT);
+> +    elf_header->e_ehsize =3D cpu_to_dump16(s, sizeof(*elf_header));
+> +    elf_header->e_phoff =3D cpu_to_dump64(s, s->phdr_offset);
+> +    elf_header->e_phentsize =3D cpu_to_dump16(s, sizeof(Elf64_Phdr));
+> +    elf_header->e_phnum =3D cpu_to_dump16(s, phnum);
+>      if (s->shdr_num) {
+> -        elf_header.e_shoff =3D cpu_to_dump64(s, s->shdr_offset);
+> -        elf_header.e_shentsize =3D cpu_to_dump16(s, sizeof(Elf64_Shdr));
+> -        elf_header.e_shnum =3D cpu_to_dump16(s, s->shdr_num);
+> -    }
 > -
-> -        size = block->target_end - block->target_start;
-> -        if (s->has_filter) {
-> -            size -= s->start;
-> -            if (s->begin + s->length < block->target_end) {
-> -                size -= block->target_end - (s->begin + s->length);
-> -            }
-> +    QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-> +        memblock_start = dump_get_memblock_start(block, s->begin, s->length);
-> +        if (memblock_start == -1) {
-> +            continue;
->          }
-> -        write_memory(s, block, s->start, size, errp);
-> +
-> +        memblock_size = dump_get_memblock_size(block, s->begin, s->length);
-> +
-> +        /* Write the memory to file */
-> +        write_memory(s, block, memblock_start, memblock_size, errp);
->          if (*errp) {
->              return;
->          }
+> -    ret =3D fd_write_vmcore(&elf_header, sizeof(elf_header), s);
+> -    if (ret < 0) {
+> -        error_setg_errno(errp, -ret, "dump: failed to write elf header")=
+;
+> +        elf_header->e_shoff =3D cpu_to_dump64(s, s->shdr_offset);
+> +        elf_header->e_shentsize =3D cpu_to_dump16(s, sizeof(Elf64_Shdr))=
+;
+> +        elf_header->e_shnum =3D cpu_to_dump16(s, s->shdr_num);
+>      }
+>  }
+>
+> -static void write_elf32_header(DumpState *s, Error **errp)
+> +static void prepare_elf32_header(DumpState *s)
+>  {
+> -    /*
+> -     * phnum in the elf header is 16 bit, if we have more segments we
+> -     * set phnum to PN_XNUM and write the real number of segments to a
+> -     * special section.
+> -     */
+> -    uint16_t phnum =3D MIN(s->phdr_num, PN_XNUM);
+> -    Elf32_Ehdr elf_header;
+> -    int ret;
+> +    uint16_t phnum =3D s->phdr_num >=3D PN_XNUM ? PN_XNUM : s->phdr_num;
+> +    Elf32_Ehdr *elf_header =3D s->elf_header;
+>
+> -    memset(&elf_header, 0, sizeof(Elf32_Ehdr));
+> -    memcpy(&elf_header, ELFMAG, SELFMAG);
+> -    elf_header.e_ident[EI_CLASS] =3D ELFCLASS32;
+> -    elf_header.e_ident[EI_DATA] =3D s->dump_info.d_endian;
+> -    elf_header.e_ident[EI_VERSION] =3D EV_CURRENT;
+> -    elf_header.e_type =3D cpu_to_dump16(s, ET_CORE);
+> -    elf_header.e_machine =3D cpu_to_dump16(s, s->dump_info.d_machine);
+> -    elf_header.e_version =3D cpu_to_dump32(s, EV_CURRENT);
+> -    elf_header.e_ehsize =3D cpu_to_dump16(s, sizeof(elf_header));
+> -    elf_header.e_phoff =3D cpu_to_dump32(s, s->phdr_offset);
+> -    elf_header.e_phentsize =3D cpu_to_dump16(s, sizeof(Elf32_Phdr));
+> -    elf_header.e_phnum =3D cpu_to_dump16(s, phnum);
+> +    memcpy(elf_header, ELFMAG, SELFMAG);
+> +    elf_header->e_ident[EI_CLASS] =3D ELFCLASS32;
+> +    elf_header->e_ident[EI_DATA] =3D s->dump_info.d_endian;
+> +    elf_header->e_ident[EI_VERSION] =3D EV_CURRENT;
+> +    elf_header->e_type =3D cpu_to_dump16(s, ET_CORE);
+> +    elf_header->e_machine =3D cpu_to_dump16(s, s->dump_info.d_machine);
+> +    elf_header->e_version =3D cpu_to_dump32(s, EV_CURRENT);
+> +    elf_header->e_ehsize =3D cpu_to_dump16(s, sizeof(*elf_header));
+> +    elf_header->e_phoff =3D cpu_to_dump32(s, s->phdr_offset);
+> +    elf_header->e_phentsize =3D cpu_to_dump16(s, sizeof(Elf32_Phdr));
+> +    elf_header->e_phnum =3D cpu_to_dump16(s, phnum);
+>      if (s->shdr_num) {
+> -        elf_header.e_shoff =3D cpu_to_dump32(s, s->shdr_offset);
+> -        elf_header.e_shentsize =3D cpu_to_dump16(s, sizeof(Elf32_Shdr));
+> -        elf_header.e_shnum =3D cpu_to_dump16(s, s->shdr_num);
+> -    }
 > -
-> -    } while (!get_next_block(s, block));
+> -    ret =3D fd_write_vmcore(&elf_header, sizeof(elf_header), s);
+> -    if (ret < 0) {
+> -        error_setg_errno(errp, -ret, "dump: failed to write elf header")=
+;
+> +        elf_header->e_shoff =3D cpu_to_dump32(s, s->shdr_offset);
+> +        elf_header->e_shentsize =3D cpu_to_dump16(s, sizeof(Elf32_Shdr))=
+;
+> +        elf_header->e_shnum =3D cpu_to_dump16(s, s->shdr_num);
+>      }
+>  }
+>
+> @@ -528,6 +505,26 @@ static void write_elf_notes(DumpState *s, Error **er=
+rp)
+>      }
+>  }
+>
+> +static void prepare_elf_header(DumpState *s)
+> +{
+> +    if (dump_is_64bit(s)) {
+> +        prepare_elf64_header(s);
+> +    } else {
+> +        prepare_elf32_header(s);
 > +    }
->  }
->
->  static void create_vmcore(DumpState *s, Error **errp)
-> @@ -1490,30 +1461,22 @@ static void create_kdump_vmcore(DumpState *s, Error **errp)
->      }
->  }
->
-> -static ram_addr_t get_start_block(DumpState *s)
-> +static int validate_start_block(DumpState *s)
+> +}
+> +
+> +static void write_elf_header(DumpState *s, Error **errp)
+> +{
+> +    size_t size =3D dump_is_64bit(s) ? sizeof(Elf64_Ehdr) : sizeof(Elf32=
+_Ehdr);
+> +    int ret;
+> +
+> +    ret =3D fd_write_vmcore(s->elf_header, size, s);
+> +    if (ret < 0) {
+> +        error_setg_errno(errp, -ret, "dump: failed to write elf header")=
+;
+> +    }
+> +}
+> +
+>  /* write elf header, PT_NOTE and elf note to vmcore. */
+>  static void dump_begin(DumpState *s, Error **errp)
 >  {
->      GuestPhysBlock *block;
+> @@ -557,12 +554,11 @@ static void dump_begin(DumpState *s, Error **errp)
+>       * vmcore.
+>       */
 >
->      if (!s->has_filter) {
-> -        s->next_block = QTAILQ_FIRST(&s->guest_phys_blocks.head);
->          return 0;
->      }
->
->      QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-> +        /* This block is out of the range */
->          if (block->target_start >= s->begin + s->length ||
->              block->target_end <= s->begin) {
-> -            /* This block is out of the range */
->              continue;
->          }
-> -
-> -        s->next_block = block;
-> -        if (s->begin > block->target_start) {
-> -            s->start = s->begin - block->target_start;
-> -        } else {
-> -            s->start = 0;
-> -        }
-> -        return s->start;
+> -    /* write elf header to vmcore */
+> -    if (dump_is_64bit(s)) {
+> -        write_elf64_header(s, errp);
+> -    } else {
+> -        write_elf32_header(s, errp);
 > -    }
-> +        return 0;
-> +   }
->
->      return -1;
->  }
-> @@ -1540,25 +1503,17 @@ bool qemu_system_dump_in_progress(void)
->      return (qatomic_read(&state->status) == DUMP_STATUS_ACTIVE);
->  }
->
-> -/* calculate total size of memory to be dumped (taking filter into
-> - * acoount.) */
-> +/*
-> + * calculate total size of memory to be dumped (taking filter into
-> + * account.)
+> +    /* Write elf header to buffer */
+> +    prepare_elf_header(s);
+> +
+> +    /* Start to write stuff into files*/
 
-thanks for fixing the typo
+nits: missing space, files->file descriptor/stream ?
 
-> + */
->  static int64_t dump_calculate_size(DumpState *s)
->  {
->      GuestPhysBlock *block;
-> -    int64_t size = 0, total = 0, left = 0, right = 0;
-> +    int64_t total = 0;
->
->      QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-> -        if (s->has_filter) {
-> -            /* calculate the overlapped region. */
-> -            left = MAX(s->begin, block->target_start);
-> -            right = MIN(s->begin + s->length, block->target_end);
-> -            size = right - left;
-> -            size = size > 0 ? size : 0;
-> -        } else {
-> -            /* count the whole region in */
-> -            size = (block->target_end - block->target_start);
-> -        }
-> -        total += size;
-> +        total += dump_get_memblock_size(block, s->begin, s->length);
+
+> +    write_elf_header(s, errp);
+>      if (*errp) {
+>          return;
 >      }
->
->      return total;
-> @@ -1660,8 +1615,8 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+> @@ -1642,6 +1638,9 @@ static void dump_init(DumpState *s, int fd, bool ha=
+s_format,
 >          goto cleanup;
 >      }
 >
-> -    s->start = get_start_block(s);
-> -    if (s->start == -1) {
-> +    /* Is the filter filtering everything? */
-> +    if (validate_start_block(s) == -1) {
->          error_setg(errp, QERR_INVALID_PARAMETER, "begin");
->          goto cleanup;
->      }
+> +    s->elf_header =3D g_malloc0(dump_is_64bit(s) ?
+> +                              sizeof(Elf64_Ehdr) : sizeof(Elf32_Ehdr));
+> +
+>      /*
+>       * The goal of this block is to (a) update the previously guessed
+>       * phys_base, (b) copy the guest note out of the guest.
 > diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-> index ffc2ea1072..f3bf98c220 100644
+> index f3bf98c220..736f681d01 100644
 > --- a/include/sysemu/dump.h
 > +++ b/include/sysemu/dump.h
-> @@ -166,11 +166,10 @@ typedef struct DumpState {
->      hwaddr memory_offset;
->      int fd;
+> @@ -171,6 +171,7 @@ typedef struct DumpState {
+>      int64_t begin;             /* Start address of the chunk we want to =
+dump */
+>      int64_t length;            /* Length of the dump we want to dump */
 >
-> -    GuestPhysBlock *next_block;
-> -    ram_addr_t start;
-> -    bool has_filter;
-> -    int64_t begin;
-> -    int64_t length;
-> +    /* Guest memory related data */
-> +    bool has_filter;           /* Are we dumping parts of the memory? */
-> +    int64_t begin;             /* Start address of the chunk we want to dump */
-> +    int64_t length;            /* Length of the dump we want to dump */
->
+> +    void *elf_header;
 >      uint8_t *note_buf;          /* buffer for notes */
 >      size_t note_buf_offset;     /* the writing place in note_buf */
-> @@ -203,4 +202,42 @@ typedef struct DumpState {
->  uint16_t cpu_to_dump16(DumpState *s, uint16_t val);
->  uint32_t cpu_to_dump32(DumpState *s, uint32_t val);
->  uint64_t cpu_to_dump64(DumpState *s, uint64_t val);
-> +
-> +static inline int64_t dump_get_memblock_size(GuestPhysBlock *block, int64_t filter_area_start,
-> +                                             int64_t filter_area_length)
-> +{
-> +    int64_t size, left, right;
-> +
-> +    /* No filter, return full size */
-> +    if (!filter_area_length) {
-> +        return block->target_end - block->target_start;
-> +    }
-> +
-> +    /* calculate the overlapped region. */
-> +    left = MAX(filter_area_start, block->target_start);
-> +    right = MIN(filter_area_start + filter_area_length, block->target_end);
-> +    size = right - left;
-> +    size = size > 0 ? size : 0;
-> +
-> +    return size;
-> +}
-> +
-> +static inline int64_t dump_get_memblock_start(GuestPhysBlock *block, int64_t filter_area_start,
-> +                                  int64_t filter_area_length)
-> +{
-> +    if (filter_area_length) {
-> +        /*
-> +         * Check if block is within guest memory dump area. If not
-> +         * go to next one.
-> +         */
-
-Or rather "return -1 if the block is not within filter area"
-
-> +        if (block->target_start >= filter_area_start + filter_area_length ||
-> +            block->target_end <= filter_area_start) {
-> +            return -1;
-> +        }
-> +        if (filter_area_start > block->target_start) {
-> +            return filter_area_start - block->target_start;
-> +        }
-> +    }
-> +    return block->target_start;
-
-This used to be 0. Changing that, I think the patch looks good.
-Although it could perhaps be splitted to introduce the two functions.
-
-> +}
->  #endif
+>      uint32_t nr_cpus;           /* number of guest's cpu */
 > --
 > 2.34.1
 >
